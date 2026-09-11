@@ -1,0 +1,74 @@
+// UX & creation-budget lock — base allocations stay independent from Edge.
+
+const uxAttrIds=ruleset.attributes.map(a=>a.id);
+function uxEnsureEdgeAttributes(){
+  state.edgeAttributes=state.edgeAttributes&&typeof state.edgeAttributes==='object'?state.edgeAttributes:{};
+  uxAttrIds.forEach(id=>state.edgeAttributes[id]=Math.max(0,Number(state.edgeAttributes[id]||0)));
+}
+function uxBaseAttrTotal(){return uxAttrIds.reduce((n,id)=>n+Number(state.attributes[id]||0),0)}
+function uxEdgeAttrTotal(){uxEnsureEdgeAttributes();return uxAttrIds.reduce((n,id)=>n+Number(state.edgeAttributes[id]||0),0)}
+function finalAttr(id){uxEnsureEdgeAttributes();return Number(state.attributes[id]||0)+Number(state.edgeAttributes[id]||0)}
+function uxMigrateLegacyEdgeAttributes(){
+  uxEnsureEdgeAttributes();
+  if(!state.edge.attributePack||uxEdgeAttrTotal()>0)return;
+  let excess=Math.max(0,uxBaseAttrTotal()-ruleset.creation.attributes.baseTotal);
+  if(!excess)return;
+  const ordered=[...ruleset.attributes].sort((a,b)=>(state.attributes[b.id]||0)-(state.attributes[a.id]||0));
+  for(const a of ordered){
+    if(excess<=0)break;
+    const movable=Math.min(excess,Math.max(0,Number(state.attributes[a.id]||0)-3));
+    if(!movable)continue;
+    state.attributes[a.id]-=movable;state.edgeAttributes[a.id]+=movable;excess-=movable;
+  }
+}
+uxMigrateLegacyEdgeAttributes();
+
+attrBudget=function(){return ruleset.creation.attributes.baseTotal};
+attrTotal=function(){return uxBaseAttrTotal()};
+
+derived=function(){
+  const a=Object.fromEntries(uxAttrIds.map(id=>[id,finalAttr(id)])),s=allRawSkills();
+  const integrity=Math.max(1,s.force_mentale+s.humanite-(hasDis('integrite_defaillante')?2:0));
+  return {
+    pvMax:2*a.vigueur+s.constitution,
+    death:-(a.vigueur+s.constitution),
+    initiative:a.agilite+s.athletisme-(hasDis('lent_a_reagir')?2:0),
+    passiveDefense:a.agilite+s.esquive,
+    occultDefense:a.volonte+s.force_mentale,
+    movement:5+s.athletisme,
+    integrity,
+    augmentStressMax:a.vigueur+s.humanite,
+    melee:a.vigueur+s.melee,
+    pugilat:a.vigueur+s.pugilat,
+    shooting:a.agilite+s.tir,
+    neurodive:a.volonte+s.neurodive
+  };
+};
+
+stepAttributes=function(){
+  uxEnsureEdgeAttributes();const ok=attrTotal()===ruleset.creation.attributes.baseTotal;
+  const c=wrap('Attributs','Répartir exactement les 22 points de création. Les +2 achetés avec Edge sont attribués uniquement à l’étape Edge.',`<div class="kpi ${ok?'good':'bad'}">${attrTotal()} / 22</div>`);
+  const grid=el('div',{class:'alloc-grid'});
+  ruleset.attributes.forEach(a=>{
+    const base=Number(state.attributes[a.id]),edge=Number(state.edgeAttributes[a.id]||0),final=base+edge;
+    const box=el('div',{class:'alloc'},`<div class="alloc-title"><strong>${a.name}</strong><span>Final ${final}/7</span></div><div class="skill-breakdown">Création ${base} · Edge +${edge}</div><div class="stepper"><button data-dir="-1">−</button><strong>${base}</strong><button data-dir="1">+</button></div>`);
+    box.querySelectorAll('button').forEach(b=>b.onclick=()=>{const dir=Number(b.dataset.dir),nv=Number(state.attributes[a.id])+dir;if(nv<3||nv>7)return;if(dir>0&&(attrTotal()>=22||finalAttr(a.id)>=7))return;state.attributes[a.id]=nv;render()});grid.appendChild(box);
+  });
+  c.appendChild(grid);c.appendChild(el('div',{class:'rulebox'},`<strong>Budget de ce chapitre :</strong> 22 points, minimum 3. L’Edge ne change jamais ce compteur.${state.edge.attributePack?` Vos +2 Edge sont actuellement attribués à ${uxEdgeAttrTotal()}/2.`:''}`));
+};
+
+stepSkills=function(){
+  const st=style();const c=wrap('Compétences libres','Les 5 points fixes de Sphère et les 5 points de Style sont déjà posés. Répartir ici uniquement les 15 points libres.',`<div class="kpi ${totalFreePoints()===15?'good':'bad'}">Libres ${totalFreePoints()} / 15</div>`);
+  if(!st){c.appendChild(el('div',{class:'empty'},'Choisissez d’abord une Sphère et un Style.'));return}
+  c.appendChild(el('div',{class:'rulebox'},`<strong>Déjà acquis :</strong> Sphère 5/5 · Style ${totalStylePoints()}/5${state.edge.skillPacks?` · Edge ${totalEdgeSkillPoints()}/${edgeSkillBudget()} (géré à l’étape Edge)`:''}.`));
+  ruleset.attributes.forEach(a=>{c.appendChild(el('h3',{class:'subhead'},a.name));const grid=el('div',{class:'alloc-grid'});ruleset.skills.filter(s=>s.attribute===a.id).forEach(sk=>{const o=state.skills[sk.id],raw=skillRaw(sk.id);const box=el('div',{class:'alloc'},`<div class="alloc-title"><strong>${sk.name}</strong><span>Brut ${raw}/5</span></div><div class="skill-breakdown">Sphère +${sphereFixed(sk.id)} · Style +${o.style} · Libre +${o.free} · Edge +${o.edge}</div><div class="inline" style="margin-top:8px"><span class="tag">Libre</span><div class="stepper"><button data-dir="-1">−</button><strong>${o.free}</strong><button data-dir="1">+</button></div></div>`);box.querySelectorAll('button').forEach(b=>b.onclick=()=>{const dir=Number(b.dataset.dir),nv=o.free+dir;if(nv<0)return;if(totalFreePoints()+dir<0||totalFreePoints()+dir>15)return;if(skillRaw(sk.id)+dir>5)return;o.free=nv;render()});grid.appendChild(box)});c.appendChild(grid)});
+};
+
+function renderEdgeAttributeAllocator(c){
+  uxEnsureEdgeAttributes();if(!state.edge.attributePack)return;const budget=ruleset.creation.attributes.edgePackPoints,used=uxEdgeAttrTotal();
+  c.appendChild(el('div',{class:'section-title reality-subtitle'},`<div><h3>Attribuer les +2 Attributs</h3><p>Ces points sont séparés des 22 points du chapitre Attributs.</p></div><div class="kpi ${used===budget?'good':'bad'}">${used}/${budget}</div>`));
+  const grid=el('div',{class:'alloc-grid'});ruleset.attributes.forEach(a=>{const edge=Number(state.edgeAttributes[a.id]||0),final=finalAttr(a.id),box=el('div',{class:'alloc'},`<div class="alloc-title"><strong>${a.name}</strong><span>Final ${final}/7</span></div><div class="skill-breakdown">Création ${state.attributes[a.id]} · Edge +${edge}</div><div class="stepper"><button data-dir="-1">−</button><strong>${edge}</strong><button data-dir="1">+</button></div>`);box.querySelectorAll('button').forEach(b=>b.onclick=()=>{const dir=Number(b.dataset.dir),nv=edge+dir;if(nv<0)return;if(dir>0&&(uxEdgeAttrTotal()>=budget||finalAttr(a.id)>=7))return;state.edgeAttributes[a.id]=nv;render()});grid.appendChild(box)});c.appendChild(grid);
+}
+
+function uxEsc(v=''){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function uxInfo(text){const x=el('span',{class:'ux-info',tabIndex:0},'ⓘ');x.dataset.tip=String(text||'Aucune description.');x.setAttribute('aria-label',String(text||'Aucune description.'));return x}
