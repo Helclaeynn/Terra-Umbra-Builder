@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Terra Umbra — Preview créateur complet</title>
+  <style>
+    html,body{margin:0;min-height:100%;background:#0b0f12;color:#eaf0f4;font-family:Inter,Segoe UI,Arial,sans-serif}
+    #boot{max-width:900px;margin:60px auto;padding:24px;border:1px solid #25313d;border-radius:16px;background:#111820}
+    #boot strong{color:#48d7b1}.boot-error{color:#ff8a96;white-space:pre-wrap}
+  </style>
+</head>
+<body>
+  <div id="boot"><strong>Terra Umbra — Preview du builder complet</strong><p>Chargement de la branche <code>feature/tuc-character-builder-v1</code>…</p></div>
+  <script type="module">
+    const RAW='https://raw.githubusercontent.com/Helclaeynn/Terra-Umbra-Builder/feature/tuc-character-builder-v1/character-builder';
+    const nativeFetch=window.fetch.bind(window);
+    const rawFetch=async path=>{const r=await nativeFetch(`${RAW}/${path}`,{cache:'no-store'});if(!r.ok)throw new Error(`${path}: HTTP ${r.status}`);return r};
+    try{
+      const [css,truthCss]=await Promise.all([(await rawFetch('styles.css')).text(),(await rawFetch('truth.css')).text()]);
+      const style=document.createElement('style');style.textContent=`${css}\n${truthCss}`;document.head.append(style);
+      document.body.innerHTML=`
+        <div class="shell">
+          <header class="topbar">
+            <div>
+              <div class="eyebrow">TERRA UMBRA / CALIFORNIA · PREVIEW DE BRANCHE</div>
+              <h1>Créateur de personnage</h1>
+              <p class="subtitle">Builder complet de test · Réalité V12/V9 + Vérité V5 · aucune fusion dans le builder historique</p>
+            </div>
+            <div class="header-actions">
+              <a class="ghost" href="truth-preview.html" style="text-decoration:none">Preview Vérité</a>
+              <button id="saveBtn" class="ghost">Sauvegarder</button>
+              <button id="loadBtn" class="ghost">Charger JSON</button>
+              <button id="exportBtn" class="primary">Exporter JSON</button>
+              <input id="fileInput" type="file" accept="application/json" hidden />
+            </div>
+          </header>
+          <div class="layout">
+            <aside class="sidebar">
+              <div class="status-card">
+                <div class="status-title">État de la création</div>
+                <div class="meter"><div id="progressBar" class="meter-fill"></div></div>
+                <div id="progressText" class="muted small">0 / 11 étapes valides</div>
+              </div>
+              <nav id="stepNav" class="step-nav"></nav>
+              <div class="sidebar-note"><strong>Preview</strong><span>Cette page exécute directement la branche de la PR #1. Les changements apparaissent ici sans merger le builder historique.</span></div>
+            </aside>
+            <main class="main">
+              <div id="globalAlerts"></div>
+              <section id="stepContent" class="panel"></section>
+              <div class="step-actions"><button id="prevBtn" class="ghost">← Précédent</button><button id="nextBtn" class="primary">Suivant →</button></div>
+            </main>
+            <aside class="summary"><div class="summary-card sticky"><div class="summary-head"><span>Résumé vivant</span><span id="validBadge" class="badge bad">À compléter</span></div><div id="summaryContent"></div></div></aside>
+          </div>
+        </div>`;
+
+      window.fetch=(input,init)=>{
+        const url=typeof input==='string'?input:input?.url;
+        if(typeof url==='string'&&url.startsWith('./rulesets/')) return nativeFetch(`${RAW}/${url.slice(2)}`,{...init,cache:'no-store'});
+        return nativeFetch(input,init);
+      };
+
+      const names=['01.txt','02.txt','03.txt','04.txt','05.txt','06.txt'];
+      const chunks=await Promise.all(names.map(async n=>(await rawFetch(`app.parts/${n}`)).text()));
+      const moduleUrl=URL.createObjectURL(new Blob([chunks.join('')],{type:'text/javascript'}));
+      try{await import(moduleUrl)}finally{URL.revokeObjectURL(moduleUrl)}
+    }catch(err){
+      document.body.innerHTML=`<div id="boot"><strong>Échec du chargement de la preview</strong><p class="boot-error"></p></div>`;
+      document.querySelector('.boot-error').textContent=err?.stack||String(err);
+      console.error(err);
+    }
+  </script>
+</body>
+</html>
