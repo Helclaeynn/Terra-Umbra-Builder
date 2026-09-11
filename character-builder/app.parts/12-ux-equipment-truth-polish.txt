@@ -1,0 +1,139 @@
+// UX/equipment/truth polish — accessible-first catalog, smart duplicates, merged Gen1/Gen2, expandable help.
+
+// Keep hover help, but also expose a click/tap friendly expandable description.
+uxTalentChoiceCard=function(t,checked,name,onSelect){
+  const row=el('label',{class:`ux-choice ${checked?'selected':''}`});
+  const input=el('input',{type:'radio',name,checked});input.onchange=()=>onSelect(t.id);
+  const main=el('span',{class:'ux-choice-main'},`<strong>${uxEsc(t.name)}</strong>`);main.appendChild(uxInfo(t.effect));
+  const detail=el('details',{class:'ux-inline-detail'});detail.appendChild(el('summary',{},'Description'));detail.appendChild(el('p',{},uxEsc(t.effect||'Aucune description.')));
+  main.appendChild(detail);row.append(input,main);return row;
+};
+uxTalentSection=function(title,subtitle,items,value,onSelect,name,open=true){
+  const d=el('details',{class:'ux-group',open:true});
+  d.appendChild(el('summary',{},`<span><strong>${uxEsc(title)}</strong>${subtitle?`<small>${uxEsc(subtitle)}</small>`:''}</span><span class="badge">${items.length}</span>`));
+  const body=el('div',{class:'ux-choice-grid'});items.forEach(t=>body.appendChild(uxTalentChoiceCard(t,value===t.id,name,onSelect)));d.appendChild(body);return d;
+};
+uxDisSection=function(title,subtitle,items){
+  const selected=items.filter(d=>state.disadvantages.includes(d.id)).length,d=el('details',{class:'ux-group',open:true});
+  d.appendChild(el('summary',{},`<span><strong>${uxEsc(title)}</strong>${subtitle?`<small>${uxEsc(subtitle)}</small>`:''}</span><span class="badge ${selected?'good':''}">${selected}/${items.length}</span>`));
+  const body=el('div',{class:'ux-choice-grid'});
+  items.forEach(dis=>{const chk=state.disadvantages.includes(dis.id),row=el('label',{class:`ux-choice ${chk?'selected':''}`});const input=el('input',{type:'checkbox',checked:chk});input.onchange=e=>{if(e.target.checked){if(state.disadvantages.length<3)state.disadvantages.push(dis.id)}else state.disadvantages=state.disadvantages.filter(x=>x!==dis.id);render()};const main=el('span',{class:'ux-choice-main'},`<strong>${uxEsc(dis.name)}</strong>`);main.appendChild(uxInfo(dis.effect));const detail=el('details',{class:'ux-inline-detail'});detail.appendChild(el('summary',{},'Description'));detail.appendChild(el('p',{},uxEsc(dis.effect||'Aucune description.')));main.appendChild(detail);row.append(input,main);body.appendChild(row)});d.appendChild(body);return d;
+};
+
+// Correct complete-catalog labels for the newly imported Vampire/Garou data.
+const ux12BaseTruthTalentVisible=truthTalentVisible;
+truthTalentVisible=function(t){
+  const g=normText(t.group||'');
+  if(state.truth.nature==='vampire'&&(g.includes('vampire commun')||g.includes('talents communs de vampire')))return true;
+  if(state.truth.nature==='garou'&&(g.includes('garou commun')||g.includes('talents communs de garou')||g.includes('maitrise d un sang')||g.includes('eveiller d autres sangs')))return true;
+  return ux12BaseTruthTalentVisible(t);
+};
+
+// California default: English native language. Migrate the old automatic French default once, but never fight a later user choice.
+const ux12BaseEnsureLanguages=ensureLanguages;
+ensureLanguages=function(){
+  ux12BaseEnsureLanguages();
+  state.reality=state.reality||{};
+  if(!state.reality.nativeLanguageDefaultMigrated){
+    if(!state.social.languages?.[0]||normText(state.social.languages[0])==='francais')state.social.languages[0]='Anglais';
+    state.reality.nativeLanguageDefaultMigrated=true;
+  }
+};
+ensureLanguages();
+
+function eqxPureCosmetic(item){
+  const fam=augmentationFamilies(item),s=normText(`${item.name||''} ${item.category||''} ${item.effect||''}`),effect=normText(item.effect||'');
+  if(!fam.includes('aesthetic'))return false;
+  if(!effect)return true;
+  const cosmetic=/aucun effet|sans effet|cosmet|esthet|decoratif|decoration|apparence|teinte|couleur|tatouage|capillaire/.test(s);
+  const mechanical=/\b(dgt|armure|defense|initiative|charge|stress|bonus|malus|pa|pv)\b|\+\s*\d|\-\s*\d/.test(effect);
+  return cosmetic&&!mechanical;
+}
+const eqxBaseStyleAccessCheck=styleAccessCheck;
+styleAccessCheck=function(item,system=null){
+  if(item?.kind==='augmentation'&&eqxPureCosmetic(item)){
+    if(item.generation===2){const systems=Array.from({length:gen2Windows()},(_,i)=>i+1);if(system!==null&&!systems.includes(Number(system)))return {ok:false,reason:'Fenêtre Gen2 inexistante'};return systems.length?{ok:true,systems}:{ok:false,reason:'Aucune fenêtre Gen2'};}
+    return {ok:true};
+  }
+  return eqxBaseStyleAccessCheck(item,system);
+};
+
+function eqxBaseKey(item){return normText(item?.name||'').replace(/\bgen\s*[12]\b/g,'').trim()}
+function eqxMaxCopies(item){
+  if(item?.kind!=='augmentation')return Infinity;
+  const fam=augmentationFamilies(item),n=normText(item.name||'');
+  // Localised/member systems can legitimately exist on two limbs. Heavy/global/central systems remain unique.
+  if(fam.includes('member')&&!fam.includes('heavy'))return 2;
+  if(/\bcyber(bras|jambe|main|pied|oeil)\b/.test(n))return 2;
+  return 1;
+}
+function eqxCopyCount(item){const key=eqxBaseKey(item);return state.reality.augmentations.filter(p=>{const x=purchaseItem(p);return x&&eqxBaseKey(x)===key}).length}
+function eqxDuplicateOK(item){return eqxCopyCount(item)<eqxMaxCopies(item)}
+function eqxDuplicateViolations(){
+  const by=new Map();for(const p of state.reality.augmentations){const x=purchaseItem(p);if(!x)continue;const k=eqxBaseKey(x);if(!by.has(k))by.set(k,{item:x,count:0});by.get(k).count++}
+  return [...by.values()].filter(v=>v.count>eqxMaxCopies(v.item));
+}
+const eqxBaseCanAfford=canAffordPurchase;
+canAffordPurchase=function(kind,item){if(kind==='augmentation'&&!eqxDuplicateOK(item))return false;return eqxBaseCanAfford(kind,item)};
+const eqxBaseAddPurchase=addPurchase;
+addPurchase=function(kind,item){if(kind==='augmentation'&&!eqxDuplicateOK(item))return;eqxBaseAddPurchase(kind,item)};
+const eqxBaseValidations=validations;
+validations=function(){const v=eqxBaseValidations();if(eqxDuplicateViolations().length)v.equipment=false;v.finish=Object.entries(v).filter(([k])=>k!=='finish').every(([,ok])=>ok);return v};
+const eqxBaseErrors=currentErrors;
+currentErrors=function(){const e=eqxBaseErrors(),bad=eqxDuplicateViolations();if(bad.length)e.push(`Augmentations dupliquées au-delà de leur capacité physique : ${bad.map(x=>`${x.item.name} ×${x.count}`).join(', ')}.`);return [...new Set(e)]};
+
+function eqxDisplayCategory(item){if(item?.neuro)return 'Neuroprogrammes';return item?.category||'Divers'}
+function eqxNaturalAccess(item){if(item.kind!=='augmentation')return true;return !!styleAccessCheck(item).ok}
+function eqxVisibleAug(item){return state.reality.mjAccessOverride||eqxNaturalAccess(item)}
+function eqxAugGroupKey(item){return eqxBaseKey(item)}
+function eqxAugGroups(){
+  const map=new Map();
+  for(const item of realityData.augmentations){const k=eqxAugGroupKey(item);if(!map.has(k))map.set(k,{key:k,name:item.name,variants:[]});map.get(k).variants.push(item)}
+  return [...map.values()].map(g=>{g.variants.sort((a,b)=>(eqxNaturalAccess(b)-eqxNaturalAccess(a))||((a.generation||1)-(b.generation||1))||((a.price??1e15)-(b.price??1e15)));return g}).filter(g=>g.variants.some(eqxVisibleAug));
+}
+function eqxChosenVariant(group){
+  state.reality.variantChoice=state.reality.variantChoice||{};
+  const available=group.variants.filter(eqxVisibleAug);
+  const saved=available.find(x=>x.id===state.reality.variantChoice[group.key]);
+  return saved||available[0]||group.variants[0];
+}
+function eqxCategoryList(kind){
+  const vals=new Set();
+  if(kind==='augmentation')for(const g of eqxAugGroups())for(const v of g.variants.filter(eqxVisibleAug))vals.add(eqxDisplayCategory(v));
+  else for(const x of realityData.equipment)vals.add(eqxDisplayCategory(x));
+  return [...vals].filter(Boolean).sort((a,b)=>a.localeCompare(b,'fr'));
+}
+function eqxMatchesCategory(item,category){return !category||eqxDisplayCategory(item)===category}
+function eqxSearch(item,q){return !q||normText(`${item.name} ${eqxDisplayCategory(item)} ${item.effect||''}`).includes(q)}
+function eqxAugGroupCard(group){
+  const variants=group.variants.filter(eqxVisibleAug),chosen=eqxChosenVariant(group),spec=lockPriceSpec(chosen),can=canAffordPurchase('augmentation',chosen),max=eqxMaxCopies(chosen),count=eqxCopyCount(chosen),fam=augmentationFamilies(chosen),card=el('div',{class:'catalog-card'},`<div class="catalog-head"><div><strong>${uxEsc(group.name)}</strong><small>${uxEsc(eqxDisplayCategory(chosen))}</small></div><button class="primary mini" ${can?'':'disabled'}>${count>=max?'Maximum atteint':spec.configurable?'Configurer':'Ajouter'}</button></div>`);
+  if(variants.length>1){const f=el('div',{class:'field compact'},'<label>Génération / version</label>'),sel=el('select');sel.innerHTML=variants.map(v=>{const ps=lockPriceSpec(v);return `<option value="${uxEsc(v.id)}" ${v.id===chosen.id?'selected':''}>${v.generation?`Gen ${v.generation}`:'Version'} · ${uxEsc(ps.label)}</option>`}).join('');sel.onchange=e=>{state.reality.variantChoice[group.key]=e.target.value;render()};f.appendChild(sel);card.appendChild(f)}
+  card.appendChild(el('div',{class:'pillbar'},`${[spec.label,chosen.generation?`Gen ${chosen.generation}`:'',chosen.charge!==null?`Charge ${chosen.charge}`:'',chosen.stress!==null?`Stress ${chosen.stress}`:'',max<Infinity?`${count}/${max} installé(s)`:'' ].filter(Boolean).map(x=>`<span class="pill">${uxEsc(x)}</span>`).join('')}${fam.map(x=>`<span class="pill family">${uxEsc(x)}</span>`).join('')}`));
+  if(chosen.effect)card.appendChild(el('p',{},uxEsc(chosen.effect)));
+  if(eqxPureCosmetic(chosen))card.appendChild(el('div',{class:'skill-meta'},'Esthétique sans effet : accessible à tous les Styles.'));
+  const btn=card.querySelector('button');if(can)btn.onclick=()=>addPurchase('augmentation',chosen);return card;
+}
+
+// Preserve the budget/social UI, but rebuild only the searchable catalog with access-aware categories and merged augmentation versions.
+const eqxBaseStepEquipment=stepEquipment;
+stepEquipment=function(){
+  eqxBaseStepEquipment();if(!style())return;const c=$('#stepContent');if(!c||realityLoadError)return;
+  const tools=c.querySelector('.catalog-tools');if(!tools)return;
+  const selects=tools.querySelectorAll('select'),kindSelect=selects[0],catSelect=selects[1];
+  const kind=state.reality.catalogKind==='augmentations'?'augmentation':'equipment',cats=eqxCategoryList(kind);
+  if(state.reality.catalogCategory&&!cats.includes(state.reality.catalogCategory))state.reality.catalogCategory='';
+  if(catSelect){catSelect.innerHTML='<option value="">Toutes les catégories accessibles</option>'+cats.map(x=>`<option value="${uxEsc(x)}" ${x===state.reality.catalogCategory?'selected':''}>${uxEsc(x)}</option>`).join('');catSelect.onchange=e=>{state.reality.catalogCategory=e.target.value;render()}}
+  c.querySelectorAll('.catalog-count,.catalog-grid').forEach(n=>n.remove());
+  const q=normText(state.reality.catalogQuery),category=state.reality.catalogCategory;
+  if(kind==='augmentation'){
+    let groups=eqxAugGroups().filter(g=>g.variants.some(v=>eqxVisibleAug(v)&&eqxMatchesCategory(v,category)&&eqxSearch(v,q)));
+    groups.sort((a,b)=>{const aa=a.variants.some(eqxNaturalAccess)?0:1,bb=b.variants.some(eqxNaturalAccess)?0:1;return aa-bb||a.name.localeCompare(b.name,'fr')});
+    c.appendChild(el('div',{class:'catalog-count'},`${groups.length} amélioration(s) correspondante(s) · catégories inaccessibles masquées`));const list=el('div',{class:'catalog-grid'});groups.slice(0,120).forEach(g=>list.appendChild(eqxAugGroupCard(g)));c.appendChild(list);
+  }else{
+    let items=realityData.equipment.filter(x=>eqxMatchesCategory(x,category)&&eqxSearch(x,q));items.sort((a,b)=>(a.neuro?0:1)-(b.neuro?0:1)||a.name.localeCompare(b.name,'fr'));
+    c.appendChild(el('div',{class:'catalog-count'},`${items.length} entrée(s) correspondante(s) · Neuroprogrammes réunis dans une catégorie unique`));const list=el('div',{class:'catalog-grid'});items.slice(0,120).forEach(x=>list.appendChild(realityCatalogCard(x,'equipment')));c.appendChild(list);
+  }
+};
+
+const ux12Css=el('style',{},`.ux-inline-detail{margin-top:7px;font-size:12px}.ux-inline-detail>summary{cursor:pointer;color:var(--muted);font-weight:600}.ux-inline-detail p{margin:7px 0 0;line-height:1.45;color:var(--text)}.field.compact{margin:9px 0}.field.compact label{font-size:11px}`);document.head.appendChild(ux12Css);
+render();
