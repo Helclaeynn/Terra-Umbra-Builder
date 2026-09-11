@@ -1,0 +1,19 @@
+// Exact Exile/Extral access filtering from the final V5 extraction metadata.
+const t21bVisibleBase=truthTalentVisible;
+function t21bWhenMatches(t){
+  const when=t?.when;if(!when||typeof when!=='object'||Array.isArray(when))return null;
+  const pairs=Object.entries(when);if(!pairs.length)return null;
+  return pairs.every(([key,want])=>{
+    const got=state.truth.choices?.[key];
+    return Array.isArray(want)?want.includes(got):got===want;
+  });
+}
+truthTalentVisible=function(t){
+  const n=state.truth.nature;
+  if(n==='exile'||n==='extral'){
+    const cost=Number(t.cost||0);if(!(cost>0&&cost<=3))return false;
+    const exact=t21bWhenMatches(t);if(exact!==null)return exact;
+  }
+  return t21bVisibleBase(t);
+};
+sanitizeTruthTalents();
