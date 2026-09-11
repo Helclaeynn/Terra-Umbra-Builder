@@ -3,7 +3,7 @@ import vm from 'node:vm';
 import zlib from 'node:zlib';
 
 const ROOT='character-builder';
-const catalogPath=`${ROOT}/rulesets/terra-umbra/reality/equipment.json.gz.b64`;
+const safeCatalogDir=`${ROOT}/rulesets/terra-umbra/reality/safe`;
 const layer34=fs.readFileSync(`${ROOT}/app.parts/34-equipment-catalog-ux-lore.txt`,'utf8');
 const layer35=fs.readFileSync(`${ROOT}/app.parts/35-equipment-specific-lore.txt`,'utf8');
 const layer37=fs.readFileSync(`${ROOT}/app.parts/37-equipment-recurring-lifestyle-lore.txt`,'utf8');
@@ -66,9 +66,15 @@ function mapped(name,pairs){
   for(const [raw] of pairs){const k=loose(raw);if(k.length>=5&&(n===k||n.includes(k)||k.includes(n)))best=Math.max(best,k.length)}
   return best>0;
 }
+function loadSafeCatalog(name){
+  const manifest=JSON.parse(fs.readFileSync(`${safeCatalogDir}/${name}.manifest.json`,'utf8'));
+  if(!Array.isArray(manifest.chunks)||!manifest.chunks.length)throw new Error(`${name}: missing split-safe chunks`);
+  const joined=manifest.chunks.map(file=>fs.readFileSync(`${safeCatalogDir}/${file}`,'utf8').replace(/\s+/g,'')).join('');
+  if(!/^[A-Za-z0-9+/]*={0,2}$/.test(joined)||joined.length%4!==0)throw new Error(`${name}: invalid reconstructed Base64`);
+  return JSON.parse(zlib.gunzipSync(Buffer.from(joined,'base64')).toString('utf8'));
+}
 
-const packed=fs.readFileSync(catalogPath,'utf8').trim();
-const raw=JSON.parse(zlib.gunzipSync(Buffer.from(packed,'base64')).toString('utf8'));
+const raw=loadSafeCatalog('equipment');
 const rows=collect(raw);
 const items=rows.map((row,i)=>{
   const name=String(field(row,['name','nom','augmentation','equipement','equipment','service','vehicule','vehicle','neuroprogramme','item','designation'])||`Entrée ${i+1}`).trim();
@@ -107,5 +113,5 @@ assert(layer37.includes('const r37LoreBase=r34ItemLore'), 'Layer 37 must preserv
 
 const recurring=items.filter(x=>['monthly','annual'].includes(recurringKind(x)));
 console.log(`Block 10 catalog OK: ${items.length} equipment entries, ${recurring.length} recurring entries (${recurring.filter(x=>recurringKind(x)==='monthly').length} monthly / ${recurring.filter(x=>recurringKind(x)==='annual').length} annual).`);
-console.log(`Required mobility subscriptions present: Pass metro/tram + 4 Bull tiers; MAS and Metro/tram per-use excluded.`);
-console.log(`Concrete lore coverage OK: historical/source/specific lore available for every equipment entry.`);
+console.log('Required mobility subscriptions present: Pass metro/tram + 4 Bull tiers; MAS and Metro/tram per-use excluded.');
+console.log('Concrete lore coverage OK: historical/source/specific lore available for every equipment entry.');
