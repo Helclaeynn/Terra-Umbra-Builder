@@ -40,7 +40,7 @@ function r37SpecificLore(item){
 }
 function r37GenericLore(lore=''){
   const n=normText(lore);
-  return !n||n.includes('equipement de realite un bien ou service du quotidien technologique')||n.includes('est une entree de')&&n.includes('du catalogue terrestre de 2035')||n.includes('consommable ou accessoire d armement')||n.includes('produit de consommation sa valeur est autant sociale')||n.includes('service ou engagement de realite il represente une prestation');
+  return !n||n.includes('equipement de realite un bien ou service du quotidien technologique')||n.includes('est une entree de')&&n.includes('du catalogue terrestre de 2035')||n.includes('consommable ou accessoire d armement')||n.includes('produit de consommation sa valeur est autant sociale')||n.includes('service ou engagement de realite il represente une prestation')||n.includes('materiel technique un outil professionnel ou specialise')||n.includes('protection portee elle est concue pour encaisser')||n.includes('vehicule terrestre ou aerien un bien durable')||n.includes('est un vehicule du catalogue terrestre de 2035')||n.includes('neuroprogramme logiciel specialise')||n.includes('augmentation terrestre un element reellement integre au corps');
 }
 function r37SourceAliasLore(item){
   const appearance=r37DeepText(item,['Apparence','Aspect','Description physique','Présentation']);
@@ -50,7 +50,8 @@ function r37SourceAliasLore(item){
   const usage=r37DeepText(item,['Usage',"Exemples d'usage",'Exemples usage']);if(usage)return `${item.name} est prévu pour ${r37Sentence(usage)}`;
   const fn=r37DeepText(item,['Fonction','Fonction principale']);if(fn)return `${item.name} sert à ${r37Sentence(fn)}`;
   const note=r37DeepText(item,['Notes','Note','Lecture']);if(note)return `${item.name} : ${note}`;
-  const effect=r37DeepText(item,['Effet actuel','Effet abrégé','Effet abrege','Profil / effet']);if(effect)return `${item.name} : ${effect}`;
+  const effect=r37DeepText(item,['Effet','Effet actuel','Effet abrégé','Effet abrege','Profil','Profil / effet'])||String(item.effect||'').trim();if(effect)return `${item.name} : ${effect}`;
+  const type=r37DeepText(item,['Classe','Type']);if(type)return `${item.name} est un ${type.toLowerCase()} du catalogue de 2035, identifié par ce rôle concret plutôt que par une catégorie abstraite.`;
   return '';
 }
 const r37LoreBase=r34ItemLore;
