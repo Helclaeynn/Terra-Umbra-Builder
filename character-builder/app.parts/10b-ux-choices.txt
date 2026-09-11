@@ -1,0 +1,53 @@
+function uxTalentChoiceCard(t,checked,name,onSelect){
+  const row=el('label',{class:`ux-choice ${checked?'selected':''}`});const input=el('input',{type:'radio',name,checked});input.onchange=()=>onSelect(t.id);const main=el('span',{class:'ux-choice-main'},`<strong>${uxEsc(t.name)}</strong>`);main.appendChild(uxInfo(t.effect));row.append(input,main);return row;
+}
+function uxTalentSection(title,subtitle,items,value,onSelect,name,open=true){
+  const d=el('details',{class:'ux-group',open});d.appendChild(el('summary',{},`<span><strong>${uxEsc(title)}</strong>${subtitle?`<small>${uxEsc(subtitle)}</small>`:''}</span><span class="badge">${items.length}</span>`));const body=el('div',{class:'ux-choice-grid'});items.forEach(t=>body.appendChild(uxTalentChoiceCard(t,value===t.id,name,onSelect)));d.appendChild(body);return d;
+}
+
+stepTalents=function(){
+  const c=wrap('Talents de Réalité','Les Talents sont classés par provenance. Survolez ou focalisez ⓘ pour lire leur description.');
+  if(!state.creation.origin||!state.creation.sphere||!style()){c.appendChild(el('div',{class:'empty'},'Choisissez Origine, Sphère et Style avant les Talents.'));return}
+  const exp=ruleset.talents.expertise.filter(t=>style().expertiseFamilies.includes(t.attribute));
+  c.appendChild(uxTalentSection('Origine',origin()?.name||'',ruleset.talents.origin[state.creation.origin],state.talents.origin,v=>{state.talents.origin=v;render()},'talent-origin'));
+  c.appendChild(uxTalentSection('Sphère',sphere()?.name||'',ruleset.talents.sphere[state.creation.sphere],state.talents.sphere,v=>{state.talents.sphere=v;render()},'talent-sphere'));
+  c.appendChild(uxTalentSection('Expertise du Style',style().expertiseFamilies.map(attrName).join(' / '),exp,state.talents.expertise,v=>{state.talents.expertise=v;render()},'talent-expertise'));
+  c.appendChild(uxTalentSection('Communs','Accessibles à tous',ruleset.talents.common,state.talents.common,v=>{state.talents.common=v;render()},'talent-common',false));
+  if(state.edge.talentPacks)c.appendChild(el('div',{class:'rulebox'},`<strong>Talents achetés avec Edge :</strong> ${state.talents.edge.map(id=>talentById(id)?.name||'à choisir').join(' · ')}. Ils se choisissent directement à l’étape Edge.`));
+  if(hasTalent('neurodriver')&&skillRaw('neurodive')<1)c.appendChild(el('div',{class:'rulebox bad'},'Neurodriver exige Neurodive 1+.'));
+};
+
+function uxDisSection(title,subtitle,items){
+  const selected=items.filter(d=>state.disadvantages.includes(d.id)).length,d=el('details',{class:'ux-group',open:selected>0||title!=='Communs'});d.appendChild(el('summary',{},`<span><strong>${uxEsc(title)}</strong>${subtitle?`<small>${uxEsc(subtitle)}</small>`:''}</span><span class="badge ${selected?'good':''}">${selected}/${items.length}</span>`));const body=el('div',{class:'ux-choice-grid'});items.forEach(dis=>{const chk=state.disadvantages.includes(dis.id),row=el('label',{class:`ux-choice ${chk?'selected':''}`});const input=el('input',{type:'checkbox',checked:chk});input.onchange=e=>{if(e.target.checked){if(state.disadvantages.length<3)state.disadvantages.push(dis.id)}else state.disadvantages=state.disadvantages.filter(x=>x!==dis.id);render()};const main=el('span',{class:'ux-choice-main'},`<strong>${uxEsc(dis.name)}</strong>`);main.appendChild(uxInfo(dis.effect));row.append(input,main);body.appendChild(row)});d.appendChild(body);return d;
+}
+stepDisadvantages=function(){
+  const c=wrap('Désavantages','Facultatifs, 0 à 3. Ils sont classés par provenance ; chacun donne +1 Edge.',`<div class="kpi ${state.disadvantages.length<=3?'good':'bad'}">${state.disadvantages.length}/3 · Edge ${edgeTotal()}</div>`);
+  c.appendChild(uxDisSection('Faiblesses d’Attribut','Désavantages liés aux caractéristiques',ruleset.disadvantages.attribute));
+  if(state.creation.sphere)c.appendChild(uxDisSection('Sphère',sphere()?.name||'',ruleset.disadvantages.sphere[state.creation.sphere]||[]));
+  c.appendChild(uxDisSection('Communs','Accessibles quelle que soit l’origine ou la Sphère',ruleset.disadvantages.common));
+};
+
+function uxEdgeTalentGroups(){
+  const excludedBase=new Set([state.talents.origin,state.talents.sphere,state.talents.expertise,state.talents.common].filter(Boolean));
+  const clean=arr=>arr.filter(t=>!excludedBase.has(t.id)&&(t.id!=='neurodriver'||!hasDis('unsinkable')));
+  return [
+    ['Communs','',clean(ruleset.talents.common)],
+    ['Expertise','Toutes familles : la restriction du Style ne concerne que l’Expertise gratuite.',clean(ruleset.talents.expertise)],
+    ['Origine',origin()?.name||'',state.creation.origin?clean(ruleset.talents.origin[state.creation.origin]):[]],
+    ['Sphère',sphere()?.name||'',state.creation.sphere?clean(ruleset.talents.sphere[state.creation.sphere]):[]]
+  ];
+}
+function renderEdgeTalentChoices(c){
+  trimEdgeTalentSlots();if(!state.edge.talentPacks)return;c.appendChild(el('h3',{class:'subhead'},'Choisir immédiatement les Talents achetés'));
+  for(let i=0;i<state.edge.talentPacks;i++){
+    const holder=el('div',{class:'ux-edge-talent-slot'},`<div class="section-title reality-subtitle"><div><h3>Talent Edge ${i+1}</h3><p>${uxEsc(talentById(state.talents.edge[i])?.name||'Aucun Talent choisi')}</p></div></div>`);
+    const others=new Set(state.talents.edge.filter((_,j)=>j!==i).filter(Boolean));
+    uxEdgeTalentGroups().forEach(([title,sub,items])=>{const available=items.filter(t=>!others.has(t.id));if(!available.length)return;holder.appendChild(uxTalentSection(title,sub,available,state.talents.edge[i]||'',v=>{state.talents.edge[i]=v;render()},`edge-talent-${i}`,title==='Communs'))});c.appendChild(holder);
+  }
+}
+
+stepEdge=function(){
+  uxEnsureEdgeAttributes();if(hasDis('inconnu'))state.edge.renownPack=0;trimEdgeTalentSlots();const c=wrap('Edge','Achetez et configurez chaque avantage ici : les budgets de base des chapitres précédents restent inchangés.',`<div class="kpi ${edgeRemaining()>=0?'good':'bad'}">${edgeRemaining()} restant / ${edgeTotal()}</div>`);if(!style())c.appendChild(el('div',{class:'rulebox warn'},'Choisissez un Style pour afficher correctement les valeurs économiques.'));const grid=el('div',{class:'alloc-grid'});grid.append(edgeCounterCard('+2 Attributs','attributePack',1,'1 Edge · +2 à attribuer ici · plafond final 7',state.edge.attributePack?`${uxEdgeAttrTotal()}/2 attribués`:'',()=>uxEdgeAttrTotal()===0),edgeCounterCard('+4 Compétences','skillPacks',3,'1 Edge par tranche · points attribués ici · plafond brut 5',`${totalEdgeSkillPoints()} / ${edgeSkillBudget()} attribués`,()=>totalEdgeSkillPoints()<=(state.edge.skillPacks-1)*4),edgeCounterCard('+1 Talent de Réalité','talentPacks',2,'1 Edge par Talent',`${state.talents.edge.filter(Boolean).length}/${state.edge.talentPacks} choisi(s)`,()=>state.talents.edge.slice(-1)[0]===''||state.talents.edge.length===0),edgeCounterCard('+5 000 $ Compte','cashPacks',3,'1 Edge par tranche',style()?`Compte de départ : ${fmt(style().account)} → ${fmt(startAccount())}`:''),edgeCounterCard('+1 Train de vie','lifestylePack',1,'1 Edge · maximum Aisé par Edge',style()?`Train de vie final actuel : ${lifestyleFinal()}`:'',()=>true,()=>lockLifestyleEdgeUseful()),edgeCounterCard('+5 000 $ Aug. / Gen2','augmentationPacks',2,'1 Edge · +5 000 $ et +1 système Gen2',style()?`Enveloppe ${fmt(economic().envelope)} · ${gen2Windows()} système(s) Gen2`:''),edgeCounterCard('+1 Renommée','renownPack',1,'1 Edge · maximum initial 2',`Renommée actuelle : ${renown()}`,()=>true,()=>!hasDis('inconnu')&&!hasTalent('renomme')));c.appendChild(grid);
+  if(hasDis('inconnu'))c.appendChild(el('div',{class:'rulebox warn'},'<strong>Inconnu :</strong> Renommée initiale 0 et achat de Renommée interdit à la création.'));if(hasTalent('renomme'))c.appendChild(el('div',{class:'rulebox'},'<strong>Renommé :</strong> la Renommée initiale est déjà fixée à 2 ; dépenser un Edge ici serait sans effet.'));
+  renderEdgeAttributeAllocator(c);renderEdgeSkillAllocator(c);renderEdgeTalentChoices(c);c.appendChild(el('div',{class:'rulebox'},`<strong>Rappels :</strong> Edge ne peut jamais acheter de PTV. Compte actuel après les achats d’équipement déjà saisis : <strong>${fmt(economic().account)}</strong>.`));
+};
