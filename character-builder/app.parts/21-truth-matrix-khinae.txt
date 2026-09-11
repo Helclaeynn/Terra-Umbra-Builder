@@ -97,5 +97,5 @@ truthTalentVisible=function(t){
 
 // Re-run dependency normalization for characters already open in localStorage.
 t16RefreshDependentChoices();
-sanitateTruthTalents?.();
+if(typeof sanitizeTruthTalents==='function')sanitizeTruthTalents();
 render();
