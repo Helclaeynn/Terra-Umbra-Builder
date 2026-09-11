@@ -1,0 +1,1 @@
+// Intentionally empty compatibility layer: explanatory hover sentence removed per UX review.
