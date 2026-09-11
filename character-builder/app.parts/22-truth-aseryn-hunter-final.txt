@@ -1,0 +1,62 @@
+// Final Truth V5 loaders — Aseryn + Hunters, plus final visibility normalization for Daemon.
+async function t22LoadSplitFull(manifestName){
+  const mr=await fetch(`${ROOT}/truth/full/${manifestName}`,{cache:'no-store'});if(!mr.ok)throw new Error(`${manifestName}: ${mr.status}`);
+  const manifest=await mr.json(),parts=manifest.parts||[];if(!parts.length)throw new Error(`${manifestName}: aucune partie`);
+  const texts=await Promise.all(parts.map(async name=>{const r=await fetch(`${ROOT}/truth/full/${name}`,{cache:'no-store'});if(!r.ok)throw new Error(`${name}: ${r.status}`);return r.text()}));
+  const raw=await truthFullInflateBase64(texts.join('').replace(/\s+/g,''));
+  const rows=Array.isArray(raw)?raw:(raw?.entries||[]);if(!Array.isArray(rows))throw new Error(`${manifestName}: contenu invalide`);
+  const paid=rows.filter(x=>x&&x.id&&x.name&&Number.isFinite(Number(x.cost))&&Number(x.cost)>0&&Number(x.cost)<=3);
+  if(Number.isInteger(manifest.entries)&&paid.length!==manifest.entries)throw new Error(`${manifestName}: ${paid.length}/${manifest.entries} entrées`);
+  if(new Set(paid.map(x=>x.id)).size!==paid.length)throw new Error(`${manifestName}: IDs dupliqués`);
+  return paid;
+}
+try{
+  const [aserynV5,hunterV5]=await Promise.all([
+    t22LoadSplitFull('aseryn.clean.manifest.json'),
+    t22LoadSplitFull('hunter.final.manifest.json')
+  ]);
+  truthCatalog.aseryn=aserynV5;
+  truthCatalog.humain=hunterV5;
+  globalThis.TUCTruthFullCounts=globalThis.TUCTruthFullCounts||{};
+  globalThis.TUCTruthFullCounts.aseryn=aserynV5.length;
+  globalThis.TUCTruthFullCounts.hunter=hunterV5.length;
+}catch(err){console.error('Chargement final Aseryn/Chasseurs',err);globalThis.TUCTruthFinalLoadError=String(err?.message||err)}
+
+function t22WhenMatches(t){
+  const when=t?.when;if(!when||typeof when!=='object'||Array.isArray(when))return null;
+  const pairs=Object.entries(when);if(!pairs.length)return null;
+  return pairs.every(([key,want])=>{
+    const got=state.truth.choices?.[key];
+    return Array.isArray(want)?want.includes(got):want===got;
+  });
+}
+const t22DivinityNames={alabor:'alabor',astaroth:'astaroth',belial:'belial',diablo:'diablo',lilith:'lilith',mammon:'mammon',mephisto:'mephisto',satan:'satan',lucifer:'lucifer',belzebuth:'belzebuth',abigor:'abigor',baal:'baal',morrighan:'morrighan'};
+const t22FunctionNeedles={oracle:['oracle tentateur'],tourmenteur:['chatiment tourmenteur'],legionnaire:['chevalier legionnaire']};
+const t22VisibleBase=truthTalentVisible;
+truthTalentVisible=function(t){
+  const n=state.truth.nature,g=normText(t.group||''),cost=Number(t.cost||0);if(!(cost>0&&cost<=3))return false;
+  if(n==='humain'){
+    const tr=state.truth.choices?.hunterTradition||'aucune';if(tr==='aucune')return false;
+    const match=t22WhenMatches(t);if(match!==null)return match;
+    return groupHas(g,truthNeedles.humain[tr]);
+  }
+  if(n==='aseryn'){
+    const match=t22WhenMatches(t);if(match!==null)return match;
+    if(g.includes('routes communes aserynes'))return true;
+    return groupHas(g,truthNeedles.aseryn[state.truth.choices?.origin])||groupHas(g,truthNeedles.aseryn[state.truth.choices?.tradition])||groupHas(g,truthNeedles.aseryn[state.truth.choices?.seratheenTradition]);
+  }
+  if(n==='daemon'){
+    if(g.includes('talents communs de nature'))return true;
+    if(g.includes('formation secondaire'))return false;
+    const fn=state.truth.choices?.function,div=state.truth.choices?.divinity;
+    const fnOK=(t22FunctionNeedles[fn]||[]).some(x=>g.includes(normText(x)));
+    const divOK=!!div&&g.includes(normText(t22DivinityNames[div]||div));
+    return fnOK||divOK;
+  }
+  return t22VisibleBase(t);
+};
+function t22PruneTruth(){
+  sanitizeTruthTalents();
+  let changed=true;while(changed){changed=false;const avail=truthAvailableTalents();state.truth.truthTalents=[...(state.truth.truthTalents||[])].filter(id=>{const t=avail.find(x=>x.id===id);if(!t||!truthPrereqSatisfied(t,avail)){changed=true;return false}return true})}
+}
+t16RefreshDependentChoices();t22PruneTruth();render();
