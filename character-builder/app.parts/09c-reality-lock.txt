@@ -1,0 +1,60 @@
+const lockBaseValidations=validations;
+validations=function(){
+  const v=lockBaseValidations();
+  const edgeAllowed=new Set(accessibleEdgeTalents().map(t=>t.id));
+  const edgeTalentOK=state.talents.edge.every(id=>!id||edgeAllowed.has(id))&&new Set(state.talents.edge.filter(Boolean)).size===state.talents.edge.filter(Boolean).length;
+  const fameConflict=hasTalent('renomme')&&hasDis('inconnu');
+  v.talents=v.talents&&edgeTalentOK&&!fameConflict;
+  const pricesOK=[...state.reality.augmentations,...state.reality.equipment].every(lockPriceConfigured);
+  const loadOK=lockLoadedNeuro().length<=lockNeuroCapacity()&&(!hasDis('unsinkable')||lockLoadedNeuro().length===0);
+  const advancedPriceOK=state.reality.augmentations.every(p=>state.reality.mjAdvancedOverride||lockPurchaseCost(p)<=20000);
+  const bioPriceOK=state.reality.augmentations.every(p=>{const item=purchaseItem(p),acc=styleAccess();return !item||state.reality.mjAccessOverride||!isBioAug(item)||!acc.bioCap||lockPurchaseCost(p)<=acc.bioCap});
+  v.equipment=v.equipment&&pricesOK&&loadOK&&advancedPriceOK&&bioPriceOK;
+  const renownMilieuOK=renown()===0||!!String(state.social.renownMilieu||'').trim();
+  v.finish=Object.entries(v).filter(([k])=>k!=='finish').every(([,ok])=>ok)&&renownMilieuOK;
+  return v;
+};
+const lockBaseCurrentErrors=currentErrors;
+currentErrors=function(){
+  const errs=lockBaseCurrentErrors();
+  if(hasTalent('renomme')&&hasDis('inconnu'))errs.push('Renommé et Inconnu sont incompatibles à la création.');
+  const badPrices=[...state.reality.augmentations,...state.reality.equipment].filter(p=>!lockPriceConfigured(p));if(badPrices.length)errs.push(`Prix à confirmer/configurer : ${badPrices.map(p=>purchaseItem(p)?.name||p.itemId).join(', ')}.`);
+  const adv=state.reality.augmentations.filter(p=>lockPurchaseCost(p)>20000);if(adv.length&&!state.reality.mjAdvancedOverride)errs.push(`Augmentation > 20 000 $ sans autorisation MJ : ${adv.map(p=>purchaseItem(p)?.name).join(', ')}.`);
+  const bio=state.reality.augmentations.filter(p=>{const item=purchaseItem(p),acc=styleAccess();return item&&!state.reality.mjAccessOverride&&isBioAug(item)&&acc.bioCap&&lockPurchaseCost(p)>acc.bioCap});if(bio.length)errs.push(`Plafond Biogénétique du Style dépassé : ${bio.map(p=>purchaseItem(p)?.name).join(', ')}.`);
+  if(lockLoadedNeuro().length>lockNeuroCapacity())errs.push(`Neuroprogrammes chargés : ${lockLoadedNeuro().length} / ${lockNeuroCapacity()} slots.`);
+  if(hasDis('unsinkable')&&lockLoadedNeuro().length)errs.push('Unsinkable ne peut charger aucun Neuroprogramme.');
+  if(renown()>0&&!String(state.social.renownMilieu||'').trim())errs.push('Renommée : préciser le milieu dans lequel le personnage est connu.');
+  return [...new Set(errs)];
+};
+
+const lockBaseStepEdge=stepEdge;
+stepEdge=function(){lockBaseStepEdge();const c=$('#stepContent');if(!lockLifestyleEdgeUseful()){const cards=[...c.querySelectorAll('.edge-card')],card=cards.find(x=>x.textContent.includes('+1 Train de vie'));if(card){const plus=card.querySelector('button[data-dir="1"]');if(plus)plus.disabled=true;card.appendChild(el('div',{class:'skill-meta'},'Aucun gain possible : le Train de vie avant Edge est déjà Aisé ou Luxe.'))}}};
+const lockBaseStepEquipment=stepEquipment;
+stepEquipment=function(){lockBaseStepEquipment();if(!style())return;const c=$('#stepContent'),box=el('div',{class:'rulebox neuro-box'},`<strong>Neurodive :</strong> brut ${skillRaw('neurodive')} · Rang ${lockNeuroRank()} · <strong>${lockLoadedNeuro().length}/${lockNeuroCapacity()} Neuroprogramme(s) chargé(s)</strong>${hasTalent('neurodriver')?' · Neurodriver +1 slot':''}${hasDis('unsinkable')?' · Unsinkable : chargement impossible':''}<br><span class="muted">Posséder un Neuroprogramme et le charger sont deux choses distinctes.</span>`);const marker=c.querySelector('.catalog-tools');if(marker)c.insertBefore(box,marker);else c.appendChild(box)};
+const lockBaseStepFinish=stepFinish;
+stepFinish=function(){lockBaseStepFinish();const c=$('#stepContent');c.appendChild(el('div',{class:'rulebox neuro-box'},`<strong>Neuroprogrammes chargés :</strong> ${lockLoadedNeuro().length}/${lockNeuroCapacity()} · Rang ${lockNeuroRank()}${hasTalent('neurodriver')?' · Neurodriver':''}${hasDis('unsinkable')?' · Unsinkable':''}`));if(window.TUCRealitySelfTest)c.appendChild(el('div',{class:`rulebox ${window.TUCRealitySelfTest.ok?'':'bad'}`},`<strong>Auto-test moteur Réalité :</strong> ${window.TUCRealitySelfTest.ok?'OK — moteur verrouillé':'ÉCHEC'} · ${window.TUCRealitySelfTest.passed}/${window.TUCRealitySelfTest.total} contrôles.`))};
+
+const lockBaseRender=render;
+render=function(){lockNormalizeState();lockBaseRender()};
+const lockBaseMergeState=mergeState;
+mergeState=function(obj){lockBaseMergeState(obj);lockNormalizeState()};
+
+function lockLifestylePure(base,heir,edge,miserable){const order=ruleset.creation.lifestyleOrder;let i=order.indexOf(base);if(heir)i=Math.max(order.indexOf('Confortable'),Math.min(order.length-1,i+1));if(edge&&i<order.indexOf('Aisé'))i++;if(miserable)i=Math.max(0,i-1);return order[i]}
+function lockRunSelfTests(){
+  const tests=[];const test=(name,ok,detail='')=>tests.push({name,ok:!!ok,detail});
+  test('25 Compétences',ruleset.skills.length===25,`${ruleset.skills.length}`);
+  test('Accès augmentique pour chaque Style',ruleset.styles.every(s=>styleAugAccess[s.id]),`${ruleset.styles.filter(s=>!styleAugAccess[s.id]).map(s=>s.id).join(', ')}`);
+  test('Rang Neurodive 0',lockNeuroRank(0)===0);test('Rang Neurodive 1-3',lockNeuroRank(1)===1&&lockNeuroRank(3)===1);test('Rang Neurodive 4-6',lockNeuroRank(4)===2&&lockNeuroRank(6)===2);test('Rang Neurodive 7-9',lockNeuroRank(7)===3&&lockNeuroRank(9)===3);test('Rang Neurodive 10+',lockNeuroRank(10)===4&&lockNeuroRank(15)===4);
+  const neuroCount=realityData.equipment.filter(x=>x.sourceType==='neuroprogram').length,vehicleCount=realityData.equipment.filter(x=>x.sourceType==='vehicle').length;test('27+ Neuroprogrammes chargés au catalogue',neuroCount>=27,`${neuroCount}`);test('10+ véhicules chargés au catalogue',vehicleCount>=10,`${vehicleCount}`);
+  const moto=realityData.equipment.find(x=>x.sourceType==='vehicle'&&normText(x.name)==='moto moderne'),motoSpec=moto?lockPriceSpec(moto):null;test('Prix véhicule en fourchette',!!motoSpec&&motoSpec.mode==='range'&&motoSpec.min===5000&&motoSpec.max===20000,motoSpec?JSON.stringify(motoSpec):'absent');
+  const neuro=realityData.equipment.find(x=>x.sourceType==='neuroprogram'),neuroSpec=neuro?lockPriceSpec(neuro):null;test('Prix Neuroprogramme exact',!!neuroSpec&&neuroSpec.mode==='exact'&&neuroSpec.exact!==null,neuroSpec?JSON.stringify(neuroSpec):'absent');
+  const ids=[...realityData.augmentations,...realityData.equipment].map(x=>x.id);test('IDs catalogue uniques',new Set(ids).size===ids.length,`${ids.length-new Set(ids).size} doublon(s)`);
+  test('Fier héritier : Aisé → Luxe sans baisse par Edge',lockLifestylePure('Aisé',true,true,false)==='Luxe');
+  test('Fier héritier + Edge : Standard → Aisé',lockLifestylePure('Standard',true,true,false)==='Aisé');
+  test('Edge ne peut pas acheter de PTV',ruleset.creation.truth.edgeCanBuyPtv===false);
+  test('Caps Edge canoniques',ruleset.creation.attributes.edgePackMax===1&&ruleset.creation.skills.edgePackMax===3&&ruleset.creation.edge.talentMax===2&&ruleset.creation.edge.cashPackMax===3&&ruleset.creation.edge.lifestyleMax===1&&ruleset.creation.edge.augmentationPackMax===2&&ruleset.creation.edge.renownMax===1);
+  const failed=tests.filter(t=>!t.ok),report={ok:failed.length===0,total:tests.length,passed:tests.length-failed.length,failed,tests,counts:{augmentations:realityData.augmentations.length,equipment:realityData.equipment.length,neuroprograms:neuroCount,vehicles:vehicleCount}};window.TUCRealitySelfTest=report;if(report.ok)console.info('TUC Reality self-test',report);else{console.error('TUC Reality self-test FAILED',report);realityLoadError=[realityLoadError,`Auto-test Réalité : ${failed.map(x=>x.name).join(', ')}`].filter(Boolean).join(' · ')}return report
+}
+
+const lockCss=el('style',{},`.purchase-actions input[type=number]{width:130px;background:#0c1217;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:7px}.load-check{display:flex;gap:5px;align-items:center;font-size:12px}.ghost.confirmed{color:var(--good);border-color:#2a6344}.neuro-box{border-color:#38506b}.purchase-main{min-width:220px}.purchase-main strong,.purchase-main span{display:block}`);document.head.appendChild(lockCss);
+lockNormalizeState();lockRunSelfTests();render();
