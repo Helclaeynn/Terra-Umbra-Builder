@@ -7,6 +7,7 @@ const safeCatalogDir=`${ROOT}/rulesets/terra-umbra/reality/safe`;
 const layer34=fs.readFileSync(`${ROOT}/app.parts/34-equipment-catalog-ux-lore.txt`,'utf8');
 const layer35=fs.readFileSync(`${ROOT}/app.parts/35-equipment-specific-lore.txt`,'utf8');
 const layer37=fs.readFileSync(`${ROOT}/app.parts/37-equipment-recurring-lifestyle-lore.txt`,'utf8');
+const layer39=fs.readFileSync(`${ROOT}/app.parts/39-equipment-final-concrete-lore.txt`,'utf8');
 
 function normText(v=''){
   return String(v).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[’']/g,"'").replace(/[^a-z0-9]+/g,' ').trim();
@@ -104,8 +105,9 @@ for(const item of items){
 
 const historical=extractArray(layer34,'r34HistoricalWeaponLore');
 const specific=extractArray(layer35,'r35SpecificLorePairs');
+const finalConcrete=extractArray(layer39,'r39ConcreteLorePairs');
 const sourceLoreFields=['Apparence','Aspect','Description physique','Présentation','Description','Principe','Rôle','Role','Usage',"Exemples d'usage",'Exemples usage','Fonction','Fonction principale','Notes','Note','Lecture','Effet','Effet actuel','Effet abrégé','Effet abrege','Profil','Profil / effet','Classe','Type'];
-const unsupported=items.filter(item=>!mapped(item.name,historical)&&!mapped(item.name,specific)&&!deepField(item.raw,sourceLoreFields));
+const unsupported=items.filter(item=>!mapped(item.name,historical)&&!mapped(item.name,specific)&&!mapped(item.name,finalConcrete)&&!deepField(item.raw,sourceLoreFields));
 assert(unsupported.length===0,`Items without concrete lore source: ${unsupported.map(x=>x.name).join(', ')}`);
 
 assert(layer37.includes('r35LifestyleDetail(p.base'), 'Base Lifestyle lore is not rendered by layer 37');
