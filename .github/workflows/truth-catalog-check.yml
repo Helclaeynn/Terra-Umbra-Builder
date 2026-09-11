@@ -1,0 +1,70 @@
+name: Truth catalog check
+
+on:
+  push:
+    branches: [ feature/tuc-character-builder-v1 ]
+  pull_request:
+    paths:
+      - 'character-builder/rulesets/terra-umbra/truth/**'
+      - '.github/workflows/truth-catalog-check.yml'
+
+jobs:
+  validate-truth-catalogs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Truth manifests and chunks
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+
+          root = Path('character-builder/rulesets/terra-umbra/truth/talents')
+          errors = []
+          checked = 0
+
+          for manifest_path in root.rglob('manifest.json'):
+              checked += 1
+              try:
+                  manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+              except Exception as exc:
+                  errors.append(f'{manifest_path}: invalid manifest JSON: {exc}')
+                  continue
+
+              chunks = manifest.get('chunks') or []
+              if not chunks:
+                  errors.append(f'{manifest_path}: no chunks declared')
+                  continue
+
+              entries = []
+              for chunk_name in chunks:
+                  chunk_path = manifest_path.parent / chunk_name
+                  if not chunk_path.is_file():
+                      errors.append(f'{manifest_path}: missing chunk {chunk_name}')
+                      continue
+                  try:
+                      data = json.loads(chunk_path.read_text(encoding='utf-8'))
+                  except Exception as exc:
+                      errors.append(f'{chunk_path}: invalid JSON: {exc}')
+                      continue
+                  if not isinstance(data, list):
+                      errors.append(f'{chunk_path}: expected an array')
+                      continue
+                  entries.extend(data)
+
+              expected = manifest.get('entries')
+              if isinstance(expected, int) and len(entries) != expected:
+                  errors.append(f'{manifest_path}: expected {expected} entries, loaded {len(entries)}')
+
+              ids = [x.get('id') for x in entries if isinstance(x, dict)]
+              duplicates = sorted({x for x in ids if x and ids.count(x) > 1})
+              if duplicates:
+                  errors.append(f'{manifest_path}: duplicate ids: {duplicates}')
+
+          if checked == 0:
+              errors.append('No Truth manifests found')
+
+          if errors:
+              raise SystemExit('\n'.join(errors))
+
+          print(f'Validated {checked} Truth manifests successfully.')
