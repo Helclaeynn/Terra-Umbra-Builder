@@ -1,0 +1,158 @@
+[
+  {
+    "id": "faveur_de_la_nuit",
+    "name": "Faveur de la nuit",
+    "group": "Vampire — commun",
+    "cost": 1,
+    "access": "R — passif",
+    "effect": "+3 Furtivité dans les ombres ou l’obscurité. Effacement prédateur autorise certaines tentatives ; Faveur de la nuit rend le Vampire meilleur à ces tentatives."
+  },
+  {
+    "id": "sens_du_chasseur",
+    "name": "Sens du chasseur",
+    "group": "Vampire — commun",
+    "cost": 1,
+    "access": "R — passif",
+    "effect": "+3 Perception pour repérer, poursuivre ou retrouver une créature vivante ou blessée. Ne remplace pas les pouvoirs d’analyse du Sang Traqueur."
+  },
+  {
+    "id": "regeneration_de_sang",
+    "name": "Régénération de sang",
+    "group": "Vampire — commun",
+    "cost": 1,
+    "access": "R — passif",
+    "effect": "Lors d’une Prédation sanguine, récupération de2 + DR PVau lieu de 1 + DR, toujours limitée par la vitalité réellement prélevée."
+  },
+  {
+    "id": "insensibilite_amelioree",
+    "name": "Insensibilité améliorée",
+    "group": "Vampire — commun",
+    "cost": 1,
+    "access": "R — passif",
+    "effect": "Le +3 de Physiologie maudite s’applique aussi aux poisons et drogues ; le Vampire peut tenter de résister à certains effets ordinaires qui seraient normalement automatiques."
+  },
+  {
+    "id": "charme_inhumain",
+    "name": "Charme inhumain",
+    "group": "Vampire — commun",
+    "cost": 1,
+    "access": "SR",
+    "effect": "Après une Fascination réussie : +3 aux interactions sociales avec cette cible jusqu’à la fin de la scène, tant que le comportement du Vampire ne brise pas clairement l’emprise."
+  },
+  {
+    "id": "domination",
+    "name": "Domination",
+    "group": "Vampire — commun",
+    "cost": 2,
+    "access": "R — 1 PA",
+    "effect": "Charisme + Autorité contre Volonté + Force Mentale. Imposer un ordre bref et immédiat. Une instruction manifestement suicidaire ou contraire à une conviction fondamentale donne le +3 circonstanciel normal pour résister.",
+    "prerequisite": "charme_inhumain",
+    "prerequisiteName": "Charme inhumain"
+  },
+  {
+    "id": "somnambulisme",
+    "name": "Somnambulisme",
+    "group": "Vampire — commun",
+    "cost": 2,
+    "access": "SR — 2 PA",
+    "effect": "Sur une cible endormie ou inconsciente, implanter une suggestion simple ou provoquer un comportement somnambulique. Opposition mentale si la cible pourrait raisonnablement résister ; l’instruction peut attendre son déclenchement durant le scénario.",
+    "prerequisite": "charme_inhumain",
+    "prerequisiteName": "Charme inhumain"
+  },
+  {
+    "id": "stase_profonde",
+    "name": "Stase profonde",
+    "group": "Vampire — commun",
+    "cost": 1,
+    "access": "R",
+    "effect": "Récupération en Stase :2 PV/heure. Les blessures ordinaires ne peuvent pas spontanément dégrader davantage l’état du Vampire tant qu’il y demeure."
+  },
+  {
+    "id": "dernier_sommeil",
+    "name": "Dernier sommeil",
+    "group": "Vampire — commun",
+    "cost": 3,
+    "access": "R — Réaction | 1/scénario — Prérequis : Stase profonde",
+    "effect": "Lorsqu’une blessure devrait faire franchir le seuil de Mort, le Vampire sombre immédiatement en Stase et reste juste au-dessus de ce seuil. Ne protège pas d’un corps détruit ou d’un effet explicitement annihilant.",
+    "prerequisite": "stase_profonde",
+    "prerequisiteName": "Stase profonde"
+  },
+  {
+    "id": "presence_du_conquerant",
+    "name": "Présence du Conquérant",
+    "group": "Krovni Rytsari — Talents de Cour",
+    "cost": 1,
+    "access": "R — 1 PA",
+    "effect": "Charisme + Autorité contre Volonté + Force Mentale. Une réussite impose une pression prédatrice qui rend la cibleTenduetant qu’elle affronte directement le Krovni. Un DR particulièrement élevé peut justifier Panique si la fiction s’y prête."
+  },
+  {
+    "id": "ordre_imperieux",
+    "name": "Ordre impérieux",
+    "group": "Krovni Rytsari — Talents de Cour",
+    "cost": 2,
+    "access": "R — 1 PA",
+    "effect": "Ordre bref : « Recule », « À genoux », « Lâche ton arme », « Tais-toi ». En cas de réussite, la cible exécute l’ordre immédiatement ou perd1 PAen résistant à l’impulsion.",
+    "prerequisite": "presence_du_conquerant",
+    "prerequisiteName": "Présence du Conquérant"
+  },
+  {
+    "id": "maitre_de_guerre",
+    "name": "Maître de guerre",
+    "group": "Krovni Rytsari — Talents de Cour",
+    "cost": 2,
+    "access": "R — 1/round",
+    "effect": "Lorsqu’un allié pouvant entendre le Krovni agit conformément à une instruction immédiate et claire, il reçoit+2sur le prochain test directement lié à cette instruction."
+  },
+  {
+    "id": "sang_memoriel",
+    "name": "Sang mémoriel",
+    "group": "Alghul Almalakiu — Talents de Cour",
+    "cost": 1,
+    "access": "SR",
+    "effect": "En goûtant le sang d’une créature : Esprit + Perception pour extraire une impression récente forte — peur, douleur, visage, lieu, sensation. Le DR augmente la précision."
+  },
+  {
+    "id": "interroger_les_restes",
+    "name": "Interroger les restes",
+    "group": "Alghul Almalakiu — Talents de Cour",
+    "cost": 2,
+    "access": "R",
+    "effect": "L’Empreinte devient précise. Poser au MJ1 question + 1 par DRsur les dernières heures du défunt, dans la limite de ce que son corps ou son sang peut raisonnablement avoir « connu ».",
+    "prerequisite": "echo_des_morts",
+    "prerequisiteName": "Écho des Morts"
+  },
+  {
+    "id": "sang_preserve",
+    "name": "Sang préservé",
+    "group": "Alghul Almalakiu — Talents de Cour",
+    "cost": 3,
+    "access": "R — rituel",
+    "effect": "Le Vampire sait préparer une quantité de son propre sang afin qu’elle puisse servir d’ancrage à un rituel Alghul de restauration s’il meurt. Le Talent ne ressuscite personne seul : il faut un corps compatible, des praticiens, du temps et les conditions de l’histoire."
+  },
+  {
+    "id": "marche_dans_les_ombres",
+    "name": "Marche dans les ombres",
+    "group": "Oru Ayeraye — Talents de Cour",
+    "cost": 1,
+    "access": "R",
+    "effect": "Tant qu’il demeure dans une zone suffisamment sombre, le Vampire peut se déplacer sans quitter son état d’Enfant des Ténèbres. Il le perd s’il attaque, manifeste un pouvoir évident ou rejoint une zone suffisamment éclairée."
+  },
+  {
+    "id": "ombre_predatrice",
+    "name": "Ombre prédatrice",
+    "group": "Oru Ayeraye — Talents de Cour",
+    "cost": 2,
+    "access": "R",
+    "effect": "Lorsqu’il quitte l’état d’Enfant des Ténèbres pour attaquer une cible qui ne pouvait pas le percevoir, celle-ci est considérée comme Surprise contre cette attaque.",
+    "prerequisite": "marche_dans_les_ombres",
+    "prerequisiteName": "Marche dans les ombres"
+  },
+  {
+    "id": "lien_du_deimon",
+    "name": "Lien du Deimon",
+    "group": "Oru Ayeraye — Talents de Cour",
+    "cost": 2,
+    "access": "R",
+    "effect": "Permet d’établir un lien durable avec un Deimon compatible lié aux traditions de sa Maison. Le Talent ne fournit pas la créature : elle doit être rencontrée ou obtenue dans le récit. Le lien utilise le moteur transversal des Compagnons liés ; le Deimon reste un PNJ réel et ne possède aucun pool de PA indépendant."
+  }
+]
