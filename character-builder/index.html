@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Terra Umbra — Créateur de personnage</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">TERRA UMBRA / CALIFORNIA</div>
+        <h1>Créateur de personnage</h1>
+        <p class="subtitle">Builder statique GitHub Pages · règles de création V12/V9</p>
+      </div>
+      <div class="header-actions">
+        <button id="saveBtn" class="ghost">Sauvegarder</button>
+        <button id="loadBtn" class="ghost">Charger JSON</button>
+        <button id="exportBtn" class="primary">Exporter JSON</button>
+        <input id="fileInput" type="file" accept="application/json" hidden />
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="status-card">
+          <div class="status-title">État de la création</div>
+          <div class="meter"><div id="progressBar" class="meter-fill"></div></div>
+          <div id="progressText" class="muted small">0 / 11 étapes valides</div>
+        </div>
+        <nav id="stepNav" class="step-nav"></nav>
+        <div class="sidebar-note">
+          <strong>Principe</strong>
+          <span>Le builder sépare les valeurs brutes, les bonus de Talents et les ressources de Vérité.</span>
+        </div>
+      </aside>
+
+      <main class="main">
+        <div id="globalAlerts"></div>
+        <section id="stepContent" class="panel"></section>
+        <div class="step-actions">
+          <button id="prevBtn" class="ghost">← Précédent</button>
+          <button id="nextBtn" class="primary">Suivant →</button>
+        </div>
+      </main>
+
+      <aside class="summary">
+        <div class="summary-card sticky">
+          <div class="summary-head">
+            <span>Résumé vivant</span>
+            <span id="validBadge" class="badge bad">À compléter</span>
+          </div>
+          <div id="summaryContent"></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
