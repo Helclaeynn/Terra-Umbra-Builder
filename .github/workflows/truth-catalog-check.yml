@@ -68,14 +68,11 @@ jobs:
                   if len(ids)!=len(set(ids)):errors.append(f'{mp}: duplicate ids')
                   print(f'{label}: {len(paid)} paid V5 entries')
               except Exception as exc:errors.append(f'{full/manifest_name}: invalid split catalog: {exc}')
-          def validate_single(path_name,label,min_entries=1,meta_name=None):
+          def validate_single(path_name,label,min_entries=1):
               try:
                   path=full/path_name;raw=decode_payload(path.read_text(encoding='utf-8'));data=json.loads(raw.decode('utf-8'));rows=data if isinstance(data,list) else data.get('entries',[])
                   paid=[x for x in rows if isinstance(x,dict) and x.get('name') and isinstance(x.get('cost'),(int,float)) and 0<x.get('cost')<=3]
                   if len(paid)<min_entries:errors.append(f'{path}: only {len(paid)} paid entries, expected at least {min_entries}')
-                  if meta_name:
-                      meta=json.loads((full/meta_name).read_text(encoding='utf-8'));exp=meta.get('entries')
-                      if isinstance(exp,int) and len(paid)!=exp:errors.append(f'{path}: expected {exp}, loaded {len(paid)}')
                   ids=[x.get('id') for x in paid if x.get('id')]
                   if len(ids)!=len(set(ids)):errors.append(f'{path}: duplicate ids')
                   print(f'{label}: {len(paid)} paid V5 entries')
@@ -85,8 +82,8 @@ jobs:
           validate_single('angelus.json.gz.b64','angelus',100)
           validate_split('aseryn.clean.manifest.json','aseryn')
           validate_split('hunter.final.manifest.json','hunter')
-          validate_single('exile.v5.json.gz.b64','exile',150,'exile.v5.meta.json')
-          validate_single('extral.v5.json.gz.b64','extral',140,'extral.v5.meta.json')
+          validate_split('exile.final.manifest.json','exile')
+          validate_split('extral.final.manifest.json','extral')
 
           if errors:raise SystemExit('\n'.join(errors))
           print(f'Validated {checked} Truth talent manifests and all final V5 imports successfully.')
