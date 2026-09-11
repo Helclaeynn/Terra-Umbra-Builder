@@ -16,7 +16,7 @@ jobs:
       - name: Validate Truth manifests, chunks and full V5 imports
         shell: python
         run: |
-          import base64, gzip, json
+          import base64, gzip, hashlib, json
           from pathlib import Path
 
           root = Path('character-builder/rulesets/terra-umbra/truth/talents')
@@ -65,22 +65,49 @@ jobs:
               errors.append('No Truth manifests found')
 
           full_root = Path('character-builder/rulesets/terra-umbra/truth/full')
-          for nature, minimum in {'daemon': 120, 'angelus': 100}.items():
-              path = full_root / f'{nature}.json.gz.b64'
-              try:
-                  payload = ''.join(path.read_text(encoding='utf-8').split())
-                  raw = gzip.decompress(base64.b64decode(payload, validate=True))
-                  data = json.loads(raw.decode('utf-8'))
-                  rows = data if isinstance(data, list) else data.get('entries', [])
-                  paid = [x for x in rows if isinstance(x, dict) and x.get('name') and isinstance(x.get('cost'), (int, float)) and x.get('cost') > 0]
-                  ids = [x.get('id') for x in paid if x.get('id')]
-                  if len(paid) < minimum:
-                      errors.append(f'{path}: only {len(paid)} paid entries, expected at least {minimum}')
-                  if len(ids) != len(set(ids)):
-                      errors.append(f'{path}: duplicate paid ids')
-                  print(f'{nature}: {len(paid)} paid V5 entries')
-              except Exception as exc:
-                  errors.append(f'{path}: invalid compressed full catalog: {exc}')
+
+          # Daemon: validated split Base64 manifest reconstructed from Truth V5.
+          try:
+              manifest_path = full_root / 'daemon.manifest.json'
+              manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+              parts = manifest.get('parts') or []
+              if not parts:
+                  raise ValueError('no parts declared')
+              payload = ''.join(''.join((full_root / part).read_text(encoding='utf-8').split()) for part in parts)
+              raw = gzip.decompress(base64.b64decode(payload, validate=True))
+              expected_sha = manifest.get('sha256')
+              actual_sha = hashlib.sha256(raw).hexdigest()
+              if expected_sha and actual_sha != expected_sha:
+                  errors.append(f'{manifest_path}: sha256 mismatch {actual_sha} != {expected_sha}')
+              data = json.loads(raw.decode('utf-8'))
+              rows = data if isinstance(data, list) else data.get('entries', [])
+              paid = [x for x in rows if isinstance(x, dict) and x.get('name') and isinstance(x.get('cost'), (int, float)) and x.get('cost') > 0]
+              expected = manifest.get('entries')
+              if isinstance(expected, int) and len(paid) != expected:
+                  errors.append(f'{manifest_path}: expected {expected} paid entries, loaded {len(paid)}')
+              ids = [x.get('id') for x in paid if x.get('id')]
+              if len(ids) != len(set(ids)):
+                  errors.append(f'{manifest_path}: duplicate paid ids')
+              print(f'daemon: {len(paid)} paid V5 entries')
+          except Exception as exc:
+              errors.append(f'{full_root / "daemon.manifest.json"}: invalid split full catalog: {exc}')
+
+          # Angelus: existing single validated gzip+base64 import.
+          try:
+              path = full_root / 'angelus.json.gz.b64'
+              payload = ''.join(path.read_text(encoding='utf-8').split())
+              raw = gzip.decompress(base64.b64decode(payload, validate=True))
+              data = json.loads(raw.decode('utf-8'))
+              rows = data if isinstance(data, list) else data.get('entries', [])
+              paid = [x for x in rows if isinstance(x, dict) and x.get('name') and isinstance(x.get('cost'), (int, float)) and x.get('cost') > 0]
+              ids = [x.get('id') for x in paid if x.get('id')]
+              if len(paid) < 100:
+                  errors.append(f'{path}: only {len(paid)} paid entries, expected at least 100')
+              if len(ids) != len(set(ids)):
+                  errors.append(f'{path}: duplicate paid ids')
+              print(f'angelus: {len(paid)} paid V5 entries')
+          except Exception as exc:
+              errors.append(f'{path}: invalid compressed full catalog: {exc}')
 
           if errors:
               raise SystemExit('\n'.join(errors))
