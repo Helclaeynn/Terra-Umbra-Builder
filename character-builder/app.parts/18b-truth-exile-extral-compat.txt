@@ -1,0 +1,5 @@
+// Compatibility shim for Exile/Extral dependent-choice refresh.
+// Loaded before part 19 so existing/localStorage sheets can migrate safely.
+function t19RefreshDependentChoices(){
+  return t16RefreshDependentChoices();
+}
