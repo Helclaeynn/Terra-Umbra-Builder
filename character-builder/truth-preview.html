@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Terra Umbra — Test Vérité</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .truth-shell{max-width:1500px;margin:auto;padding:24px}.truth-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:20px}.truth-head h1{margin:.15rem 0;font-size:36px}.truth-layout{display:grid;grid-template-columns:320px minmax(0,1fr) 300px;gap:18px}.truth-box{background:rgba(17,24,32,.96);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}.truth-sticky{position:sticky;top:18px}.nature-list{display:grid;gap:8px}.nature-btn{width:100%;text-align:left;padding:12px;border:1px solid var(--line);border-radius:12px;background:#0e151b;color:var(--text);cursor:pointer}.nature-btn:hover{border-color:#46616e}.nature-btn.selected{border-color:var(--accent);background:#10201f;box-shadow:inset 0 0 0 1px var(--accent)}.nature-btn strong{display:block}.nature-btn span{display:block;color:var(--muted);font-size:12px;margin-top:3px}.truth-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0}.choice-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:14px 0}.trait-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:9px}.trait{padding:11px;border:1px solid #28414a;border-radius:11px;background:#0e1a1d}.trait-head{display:flex;justify-content:space-between;gap:10px}.trait p{margin:6px 0 0;color:var(--muted);font-size:12px}.ptv-card{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:14px;border:1px solid #315f58;border-radius:13px;background:#0e211e;margin:14px 0}.ptv-num{font-size:28px;font-weight:900}.truth-toolbar{display:flex;gap:8px;align-items:center;margin:16px 0}.truth-toolbar input{flex:1;background:#0c1217;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:10px}.truth-group{border:1px solid var(--line);border-radius:12px;margin:9px 0;overflow:hidden}.truth-group summary{cursor:pointer;padding:11px 13px;background:#111a22;font-weight:800}.truth-list{display:grid;gap:7px;padding:9px}.truth-talent{display:grid;grid-template-columns:26px 1fr auto;gap:10px;padding:10px;border:1px solid #25313d;border-radius:10px;background:#0c1318;align-items:start}.truth-talent.locked{opacity:.55}.truth-talent input{margin-top:4px}.truth-talent strong{display:block}.truth-talent .desc{display:block;color:var(--muted);font-size:12px;margin-top:4px}.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}.chip{font-size:10px;border:1px solid #34414b;border-radius:999px;padding:2px 6px;color:#b7c7d0}.chip.cost{color:var(--accent);border-color:#286453}.chip.lock{color:var(--warn);border-color:#6e5b25}.side-line{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-bottom:1px solid #202b35}.side-line:last-child{border:0}.owned{margin-top:12px}.owned-item{padding:8px;border:1px solid var(--line);border-radius:9px;margin:6px 0;background:#0d141a}.owned-item small{display:block;color:var(--muted)}.status-ok{color:var(--good)}.status-bad{color:var(--danger)}.notice{padding:10px 12px;border:1px solid #5b4c25;background:#1a1710;border-radius:10px;color:#ffe2a0;margin:10px 0}.back{color:var(--accent);text-decoration:none}@media(max-width:1000px){.truth-layout{grid-template-columns:1fr}.truth-sticky{position:static}.truth-controls{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="truth-shell">
+    <header class="truth-head">
+      <div><div class="eyebrow">TERRA UMBRA / CALIFORNIA</div><h1>Vérité — aperçu testable</h1><p class="subtitle">Nature → héritage/tradition → dons gratuits → dépenses PTV</p></div>
+      <a class="back" href="index.html">← Builder complet</a>
+    </header>
+    <div id="loadError"></div>
+    <div class="truth-layout">
+      <aside class="truth-box truth-sticky"><h3>Natures</h3><div id="natureList" class="nature-list"></div></aside>
+      <main class="truth-box"><div id="truthMain"></div></main>
+      <aside class="truth-box truth-sticky"><h3>Résumé</h3><div id="truthSummary"></div></aside>
+    </div>
+  </div>
+  <script type="module" src="truth-preview.js"></script>
+</body>
+</html>
