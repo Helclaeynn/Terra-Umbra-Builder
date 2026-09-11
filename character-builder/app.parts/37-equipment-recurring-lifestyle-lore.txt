@@ -1,0 +1,180 @@
+// Block 10 hardening — recurring costs, persistent Lifestyle lore and source-derived item lore.
+// Canon basis: TUC Reality V9 cross-audit. One-off purchases and per-use services stay out of Fixed Charges.
+
+function r37DeepText(item,names){
+  const v=r15DeepField(item,names);
+  return v===null||v===undefined?'':String(v).trim();
+}
+function r37PriceText(item){
+  return r37DeepText(item,['Prix','Price','Coût','Cout','Tarif','Prix indicatif','Prix de reference','Prix de référence','Fourchette indicative','Prix / accès','Prix / acces']);
+}
+function r37Sentence(v=''){
+  let s=String(v||'').trim().replace(/\s+/g,' ');if(!s)return '';
+  s=s.charAt(0).toLowerCase()+s.slice(1);return /[.!?]$/.test(s)?s:`${s}.`;
+}
+
+// Final lore must be concrete. If V9 exposes a useful field that older layers did not know by name,
+// use it; if the source truly has no description, do not hide the gap behind a category platitude.
+const r37ExtraLorePairs=[
+  ['CeltX','Application de communication textuelle, vocale et neuronale facturée à l’année : un service de messagerie persistant plutôt qu’un achat matériel.'],
+  ['Shelov','Service musical Tuatha sur abonnement annuel, utilisé comme bibliothèque et réseau culturel spécialisé.'],
+  ['LadyDolla','Service bancaire sur abonnement annuel qui centralise gestion, alertes et suivi financier personnel.'],
+  ['Media Holonet / reseaux','Accès récurrent à des contenus, réseaux et services médiatiques du Holonet, depuis l’offre gratuite jusqu’aux abonnements spécialisés.'],
+  ['Stockage / box / atelier','Location mensuelle d’un petit espace servant au stockage, au bricolage ou comme local technique distinct du logement principal.'],
+  ['CareForce Bronze','Contrat annuel d’urgences privées CareForce au niveau Bronze : une couverture de base qui complète les secours publics.'],
+  ['CareForce Silver','Contrat annuel CareForce offrant priorité et couverture supérieures pour les urgences privées.'],
+  ['CareForce Golden','Contrat annuel CareForce premium, avec forte priorité et niveau de couverture élevé.'],
+  ['Pass metro/tram','Abonnement mensuel de transport public destiné à un usage quotidien du métro et du tram sans paiement trajet par trajet.'],
+  ['Bull Basic','Abonnement mensuel Bullmotors d’entrée de gamme donnant accès à une mobilité autonome simple sans posséder le véhicule.'],
+  ['Bull Standard','Abonnement mensuel Bullmotors courant, pensé pour une mobilité urbaine régulière avec davantage de disponibilité que l’offre Basic.'],
+  ['Bull Premium','Abonnement mensuel Bullmotors haut de gamme, où confort et disponibilité deviennent une vraie composante du service.'],
+  ['Bull Executive','Abonnement mensuel Bullmotors destiné aux cadres et clients aisés, capable de remplacer au quotidien une voiture personnelle.']
+];
+const r37ExtraLore=new Map(r37ExtraLorePairs.map(([name,lore])=>[r34Loose(name),lore]));
+function r37SpecificLore(item){
+  const n=r34Loose(item?.name||'');if(!n)return '';
+  if(r37ExtraLore.has(n))return r37ExtraLore.get(n);
+  let best='',bestLen=0;
+  for(const [k,v] of r37ExtraLore){if(k.length<5)continue;if((n.includes(k)||k.includes(n))&&k.length>bestLen){best=v;bestLen=k.length}}
+  return best;
+}
+function r37GenericLore(lore=''){
+  const n=normText(lore);
+  return !n||n.includes('equipement de realite un bien ou service du quotidien technologique')||n.includes('est une entree de')&&n.includes('du catalogue terrestre de 2035')||n.includes('consommable ou accessoire d armement')||n.includes('produit de consommation sa valeur est autant sociale')||n.includes('service ou engagement de realite il represente une prestation');
+}
+function r37SourceAliasLore(item){
+  const appearance=r37DeepText(item,['Apparence','Aspect','Description physique','Présentation']);
+  if(appearance)return `${item.name} se présente comme ${r37Sentence(appearance)}`;
+  const desc=r37DeepText(item,['Description','Principe']);if(desc)return desc;
+  const role=r37DeepText(item,['Rôle','Role']);if(role)return `${item.name} est conçu comme ${r37Sentence(role)}`;
+  const usage=r37DeepText(item,['Usage',"Exemples d'usage",'Exemples usage']);if(usage)return `${item.name} est prévu pour ${r37Sentence(usage)}`;
+  const fn=r37DeepText(item,['Fonction','Fonction principale']);if(fn)return `${item.name} sert à ${r37Sentence(fn)}`;
+  const note=r37DeepText(item,['Notes','Note','Lecture']);if(note)return `${item.name} : ${note}`;
+  const effect=r37DeepText(item,['Effet actuel','Effet abrégé','Effet abrege','Profil / effet']);if(effect)return `${item.name} : ${effect}`;
+  return '';
+}
+function r37ItemLore(item){
+  if(!item)return '';
+  const extra=r37SpecificLore(item);if(extra)return extra;
+  const current=typeof r35SourceLore==='function'?r35SourceLore(item):r34ItemLore(item);
+  if(current&&!r37GenericLore(current))return current;
+  const source=r37SourceAliasLore(item);if(source)return source;
+  return '';
+}
+r34ItemLore=function(item){return r37ItemLore(item)};
+
+function r37RecurringKind(item){
+  if(!item)return 'one_off';
+  const n=normText(item.name||''),key=r34Loose(item.name||''),cat=normText(`${item.category||''} ${r37DeepText(item,['Type','Section','Famille'])}`),price=normText(r37PriceText(item));
+  const context=normText(`${n} ${cat} ${r37DeepText(item,['Fréquence','Frequence','Périodicité','Periodicite','Facturation'])}`);
+
+  // A vehicle line is the purchase of the vehicle. Its Entretien/mois field is handled automatically elsewhere.
+  if(item.vehicle)return 'durable_purchase';
+
+  // Explicit per-use/session billing must win over broad service/category matches.
+  if(/par trajet|\/\s*trajet|par intervention|\/\s*intervention|par seance|\/\s*seance|par heure|\/\s*h\b|par jour|\/\s*jour|par verre|\/\s*verre|par tasse|\/\s*tasse/.test(price)||key==='metro tram'||/^mas (court trajet|trajet long urbain)$/.test(key))return 'per_use';
+
+  if(/par an|\/\s*an\b|annuel|annuelle|annuels|annuelles/.test(price)||/abonnement annuel/.test(context))return 'annual';
+  if(/par mois|\/\s*mois\b|mensuel|mensuelle|mensuels|mensuelles/.test(price)||/abonnement mensuel|dette mensuelle|pension mensuelle|loyer|leasing/.test(context))return 'monthly';
+
+  // V9 treats housing and hideouts as durable monthly commitments even when a zero-cost row omits “/mois”.
+  if(/logement|planque/.test(cat)||/dortoir ouvrier|vladic micro logement|vladic studio|studio urbain ancien|appartement connecte|vladic familial|vladic grand|residence de cadre|penthouse|villa/.test(n)||/cache improvisee|piece box squat discret|studio garage anonyme|planque dediee|planque securisee|reseau de planques/.test(n))return 'monthly';
+
+  // Canonical mobility and insurance subscriptions whose recurrence is semantic as well as textual.
+  if(key==='pass metro tram'||/^bull (basic|standard|premium|executive)$/.test(key))return 'monthly';
+  if(/^careforce (bronze|silver|golden)$/.test(key))return 'annual';
+  if(/stockage box atelier|media holonet reseaux/.test(key))return 'monthly';
+
+  if(/abonnement|assurance|careforce/.test(context))return price.includes('an')?'annual':price.includes('mois')?'monthly':'one_off';
+  if(/vehicule|arme|armure|augmentation|materiel|objet/.test(cat))return 'durable_purchase';
+  return 'one_off';
+}
+function r37RecurringCatalogItem(item){const k=r37RecurringKind(item);return k==='monthly'||k==='annual'}
+r15RecurringCatalogItem=function(item){return r37RecurringCatalogItem(item)};
+
+function r37MonthlyAmount(item){
+  const kind=r37RecurringKind(item),cost=Math.max(0,Number(item?.price)||0);
+  return kind==='annual'?cost/12:kind==='monthly'?cost:0;
+}
+function r37RecurringGroup(item){
+  const n=normText(item?.name||''),cat=normText(item?.category||'');
+  if(/planque/.test(cat)||/cache improvisee|piece box squat discret|studio garage anonyme|planque/.test(n))return 'Planque';
+  if(/logement/.test(cat)||/dortoir|micro logement|vladic studio|studio urbain|appartement|residence|penthouse|villa/.test(n))return 'Logement';
+  if(/transport|mobilite/.test(cat)||/^pass metro tram$/.test(n)||/^bull (basic|standard|premium|executive)$/.test(n))return 'Mobilité';
+  if(/careforce|assurance|soin|sante/.test(`${n} ${cat}`))return 'Assurance & soins';
+  if(/application|service|loisir|holonet|stockage|abonnement/.test(`${n} ${cat}`))return 'Abonnements & services';
+  return 'Autres engagements';
+}
+function r37RecurringItems(){
+  return realityData.equipment.filter(r37RecurringCatalogItem).sort((a,b)=>r37RecurringGroup(a).localeCompare(r37RecurringGroup(b),'fr')||a.name.localeCompare(b.name,'fr'));
+}
+r18RecurringItems=function(){return r37RecurringItems()};
+r18RecurringGroups=function(){
+  const order=['Logement','Planque','Mobilité','Assurance & soins','Abonnements & services','Autres engagements'],map=new Map(order.map(x=>[x,[]]));
+  for(const item of r37RecurringItems()){const g=r37RecurringGroup(item);if(!map.has(g))map.set(g,[]);map.get(g).push(item)}
+  return [...map.entries()].filter(([,items])=>items.length).map(([label,items])=>({label,items}));
+};
+
+function r37NormalizeLegacyRecurring(){
+  r15EnsureCharges();let changed=false;
+  for(const charge of state.reality.fixedChargeItems){
+    if(!charge.sourceItemId)continue;
+    const item=realityData.equipment.find(x=>x.id===charge.sourceItemId);if(!item||!r37RecurringCatalogItem(item))continue;
+    const monthly=r37MonthlyAmount(item);if(Number(charge.monthly)!==monthly){charge.monthly=monthly;changed=true}
+  }
+  const keep=[];
+  for(const purchase of state.reality.equipment){
+    const item=purchaseItem(purchase);
+    if(item&&r37RecurringCatalogItem(item)){
+      if(!state.reality.fixedChargeItems.some(x=>x.sourceItemId===item.id))state.reality.fixedChargeItems.push({uid:`fc-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,6)}`,name:item.name,monthly:r37MonthlyAmount(item),sourceItemId:item.id});
+      changed=true;
+    }else keep.push(purchase);
+  }
+  if(keep.length!==state.reality.equipment.length)state.reality.equipment=keep;
+  if(changed&&typeof persist==='function')persist();
+}
+
+function r37BillingLabel(item){
+  const kind=r37RecurringKind(item),price=r37PriceText(item),monthly=r37MonthlyAmount(item);
+  if(kind==='annual')return `${price||fmt(item.price)+'/an'} · retenu ${fmt(monthly)}/mois`;
+  if(kind==='monthly')return `${price||fmt(item.price)+'/mois'} · retenu ${fmt(monthly)}/mois`;
+  if(kind==='per_use')return `${price||'coût par usage'} · dépense ponctuelle`;
+  return `${price||lockPriceSpec(item).label} · achat ponctuel`;
+}
+function r37ChargeChoiceDetail(item){
+  if(!item)return el('div',{class:'r35-charge-detail empty'},'Choisissez une entrée pour afficher son usage, sa périodicité et la charge mensuelle retenue avant de l’ajouter.');
+  const lore=r34ItemLore(item),group=r37RecurringGroup(item);return el('div',{class:'r35-charge-detail'},`<strong>${uxEsc(item.name)}</strong><span class="r37-charge-kind">${uxEsc(group)} · ${uxEsc(r37RecurringKind(item)==='annual'?'abonnement annuel':'charge mensuelle')}</span>${lore?`<em>${uxEsc(lore)}</em>`:''}<p><strong>Tarif :</strong> ${uxEsc(r37BillingLabel(item))}</p>`);
+}
+function r37HasCatalogCharge(item){return !!item&&state.reality.fixedChargeItems.some(x=>x.sourceItemId===item.id)}
+
+r34FixedChargePanel=function(){
+  r15EnsureCharges();const p=r15ChargePressure(),access=r18LifestyleAccess[p.base]||r18LifestyleAccess.Standard,box=el('div',{class:'r15-fixed-box'},`<div class="section-title reality-subtitle"><div><h3>Train de vie & Charges fixes</h3><p>Un achat comptant ou un trajet payé à l’unité n’est pas une Charge fixe. Ici entrent les loyers, remboursements, leasings, abonnements, assurances et autres engagements récurrents.</p></div><div class="kpi ${p.deficit?'bad':'good'}">${uxEsc(p.base)} → ${uxEsc(p.effective)}</div></div><div class="rulebox"><strong>Référence ${uxEsc(p.base)} :</strong> ${fmt(p.ref)}/mois · Charges comptabilisées : <strong>${fmt(p.total)}/mois</strong> · ${p.drops} tranche(s) complète(s).${p.deficit?` <strong>Déficit structurel : ${fmt(p.deficit)}/mois au-delà de Survie.</strong>`:''}</div>`);
+
+  // Lifestyle lore is rendered directly on every pass, never left only in a tooltip/hover state.
+  box.appendChild(r35LifestyleDetail(p.base,'Train de vie de base'));
+  if(p.effective!==p.base)box.appendChild(r35LifestyleDetail(p.effective,'Train de vie effectif après Charges'));
+  box.appendChild(el('div',{class:'r18-access-grid'},`<div><strong>Logement normalement accessible</strong><span>${uxEsc(access.housing)}</span></div><div><strong>Mobilité normalement accessible</strong><span>${uxEsc(access.mobility)}</span></div><div><strong>Planque/refuge normalement accessible</strong><span>${uxEsc(access.hideout)}</span></div>`));
+  box.appendChild(el('div',{class:'rulebox'},`<strong>Calcul automatique :</strong> entretien augmentique ${fmt(r18AugMaintenance())}/mois · entretien des véhicules possédés ${fmt(r18VehicleMaintenance())}/mois. Ces montants sont intégrés sans saisie supplémentaire.`));
+
+  const groups=r18RecurringGroups(),pickField=el('div',{class:'field'},'<label>Ajouter un logement, abonnement ou engagement du catalogue</label>'),pick=el('select');
+  pick.appendChild(el('option',{value:''},'— Choisir dans le catalogue —'));
+  groups.forEach(g=>{const og=el('optgroup',{label:g.label});g.items.forEach(x=>{const o=el('option',{value:x.id},`${x.name} · ${r37BillingLabel(x)}`);if(r37HasCatalogCharge(x))o.disabled=true;og.appendChild(o)});pick.appendChild(og)});
+  pickField.appendChild(pick);box.appendChild(pickField);
+
+  let detail=r37ChargeChoiceDetail(null);box.appendChild(detail);
+  const addCatalog=el('button',{class:'primary mini',disabled:true},'Ajouter aux Charges fixes');box.appendChild(addCatalog);
+  const refreshChoice=()=>{const x=realityData.equipment.find(y=>y.id===pick.value),next=r37ChargeChoiceDetail(x);detail.replaceWith(next);detail=next;addCatalog.disabled=!x||r37HasCatalogCharge(x)};
+  pick.onchange=refreshChoice;
+  addCatalog.onclick=()=>{const x=realityData.equipment.find(y=>y.id===pick.value);if(!x||r37HasCatalogCharge(x))return;r18AddCatalogCharge(x,r37MonthlyAmount(x))};
+
+  const custom=el('div',{class:'grid2 r18-custom'}),name=el('div',{class:'field'},'<label>Autre Charge fixe / engagement</label>'),nameInput=el('input',{placeholder:'Ex. pension, dette, remboursement, service récurrent…'}),amt=el('div',{class:'field'},'<label>Montant mensuel</label>'),amtInput=el('input',{type:'number',min:0,step:25,placeholder:'0'});name.appendChild(nameInput);amt.appendChild(amtInput);custom.append(name,amt);box.appendChild(custom);
+  const add=el('button',{class:'ghost mini'},'Ajouter une Charge personnalisée');add.onclick=()=>{const label=nameInput.value.trim();if(!label)return;state.reality.fixedChargeItems.push({uid:`fc-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,6)}`,name:label,monthly:Math.max(0,Number(amtInput.value)||0)});render()};box.appendChild(add);
+
+  const list=el('div',{class:'u14-picked-list'});state.reality.fixedChargeItems.forEach(x=>{const source=x.sourceItemId?realityData.equipment.find(y=>y.id===x.sourceItemId):null,billing=source?` · ${r37RecurringKind(source)==='annual'?'annualisé':'mensuel'}`:'',row=el('div',{class:'u14-picked-row'},`<div><strong>${uxEsc(x.name)}</strong><span>${fmt(x.monthly)}/mois${billing}${x.monthly===0?' · pris en charge / sans coût':''}</span>${source&&r34ItemLore(source)?`<em class="r34-item-lore">${uxEsc(r34ItemLore(source))}</em>`:''}</div>`),rm=el('button',{class:'danger-btn mini'},'Retirer');rm.onclick=()=>{state.reality.fixedChargeItems=state.reality.fixedChargeItems.filter(y=>y.uid!==x.uid);render()};row.appendChild(rm);list.appendChild(row)});box.appendChild(list);
+  return box;
+};
+
+r37NormalizeLegacyRecurring();
+
+const r37Css=el('style',{},`.r35-life-detail{display:grid;gap:5px;margin:9px 0;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.025)}.r35-life-detail em{display:block;color:var(--muted);font-size:12px;line-height:1.55}.r37-charge-kind{display:block;margin-top:3px;font-size:11px;color:var(--muted);text-transform:none}.r35-charge-detail{margin:8px 0 10px;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.02)}.r35-charge-detail em{display:block;margin:6px 0;color:var(--muted);font-size:12px;line-height:1.5}.r35-charge-detail p{margin:6px 0 0}.r35-charge-detail.empty{color:var(--muted);font-size:12px}`);document.head.appendChild(r37Css);
+render();
