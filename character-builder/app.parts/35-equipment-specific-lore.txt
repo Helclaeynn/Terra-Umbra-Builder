@@ -1,0 +1,268 @@
+// UX pass — Block 10 specific lore. Removes generic category fallbacks and exposes selected Lifestyle/charge lore.
+// Source basis: TUC Reality V9 cross-audit + historical equipment descriptions where V9 keeps only stat lines.
+
+const r35SpecificLorePairs=[
+  // Heavy and specialised weapons (V9 role/profile).
+  ['Bastion','Mitrailleuse lourde d’appui : une arme encombrante faite pour soutenir une position ou saturer un axe avec un volume de feu que les armes individuelles ne peuvent pas maintenir.'],
+  ['Manticore','Arme lourde de neutralisation conçue pour frapper les cibles technologiques : sa charge EMP vise autant les systèmes, capteurs et interfaces que la protection matérielle.'],
+  ['Hellstorm','Gatling lourde à très grande réserve de munitions, destinée au feu soutenu et à la saturation plutôt qu’à la discrétion ou au portage individuel léger.'],
+  ['Doorbell','Lance-grenades lourd dont le rôle dépend de la munition chargée : fragmentation, EMP, flash ou fumigène transforment la même plateforme en outil de zone très différent.'],
+  ['Breacher','Lance-roquette de brèche : une arme lourde conçue pour ouvrir une protection, un véhicule ou une structure plutôt que pour un échange de tirs ordinaire.'],
+  ['Wasp','Missile guidé lourd capable d’exploiter un Verrouillage : il recherche une trajectoire plausible vers une cible suivie, sans transformer pour autant le tir en touche automatique.'],
+  ['Wallbreaker','Arme anti-matériel et anti-fortification : sa forte pénétration est pensée pour les blindages, structures et positions durcies plus que pour le combat d’infanterie courant.'],
+  ['Salamander','Projecteur incendiaire lourd à courte portée : son cône de feu sert à traiter une zone, un couvert combustible ou une cible que la chaleur peut réellement compromettre.'],
+  ['Purifier','Projecteur chimique lourd dérivé de technologies industrielles de décontamination et de corrosion ; il transforme un procédé technique en arme de zone contre matière et protections exposées.'],
+
+  // Weapon accessories.
+  ['Silencieux','Modérateur fixé à une arme à feu pour réduire fortement sa signature sonore. Il rend le tir plus difficile à entendre et localiser, sans jamais le rendre réellement silencieux.'],
+  ['Optique de precision','Lunette ou système optique destiné au tir posé à longue distance ; il permet d’exploiter pleinement une action de Visée lorsque la portée devient le principal problème.'],
+  ['Chargeur etendu','Chargeur de plus grande capacité : davantage de coups avant rechargement, au prix d’un volume qui rend l’arme plus difficile à dissimuler.'],
+  ['Bipied','Appui déployable pour stabiliser une arme lourde ou encombrante lorsqu’elle est utilisée depuis une position fixe et correctement calée.'],
+  ['Smartlink','Interface de ciblage reliant l’arme à un système compatible. Elle sert surtout à acquérir et maintenir un Verrouillage plutôt qu’à remplacer l’adresse réelle du tireur.'],
+  ['FaceCaster DFL','Projecteur d’apparence porté : seul, il falsifie surtout visage et vêtements ; couplé à une Holo’Rmor, il peut participer à une simulation corporelle complète.'],
+
+  // Ammunition and explosives.
+  ['Raven Flash','Munition Raven produisant un effet visuel agressif à l’impact ; elle sert autant à désorganiser une cible exposée qu’à lui infliger le profil normal du tir.'],
+  ['Raven Volto','Munition électrique Raven pensée pour perturber le corps ou la technologie d’une cible et créer une ouverture par immobilisation ou perte de rythme.'],
+  ['Raven Drill','Munition Raven à pénétration renforcée, conçue pour conserver davantage d’efficacité face à une protection matérielle.'],
+  ['Raven Night','Munition Raven extrêmement agressive tirée coup par coup : elle pousse l’arme au-delà de son emploi normal et peut sévèrement la malmener en cas d’incident.'],
+  ['Phoenix Pyro','Munition Phoenix incendiaire : elle transforme le projectile en vecteur de feu et permet surtout de créer des conséquences thermiques cohérentes dans la scène.'],
+  ['Phoenix Hack','Munition électrique Phoenix destinée aux cibles connectées ou augmentées, où l’impact peut ouvrir une vulnérabilité Neuro temporaire.'],
+  ['Phoenix Blast','Munition Phoenix à onde de choc, utile pour repousser, renverser ou désorganiser une cible en plus de l’impact principal.'],
+  ['Owl Venom','Munition Owl toxique : moins traumatique à l’impact, mais capable d’introduire un poison lorsqu’un projectile pénètre réellement une cible biologique.'],
+  ['Owl Liquid','Projectile Owl conçu pour se liquéfier dans la blessure, compliquant le soin et permettant des conséquences localisées qui exigent une vraie extraction.'],
+  ['Owl Rust','Munition électrique anti-cyber Owl, pensée pour atteindre une fonction augmentique exposée plutôt que seulement blesser le porteur.'],
+  ['Grenade fragmentation Doorbell','Grenade explosive classique du système Doorbell, destinée à saturer une petite zone de fragments létaux.'],
+  ['Grenade EMP Doorbell','Grenade Doorbell de neutralisation électronique : son explosion est moins meurtrière qu’une fragmentation, mais elle menace directement les systèmes technologiques dans la zone.'],
+  ['Grenade Flash Doorbell','Grenade Doorbell de désorientation visuelle, conçue pour dégrader brièvement l’efficacité de personnes exposées plutôt que les détruire.'],
+  ['Grenade fumigene Doorbell','Grenade Doorbell produisant un écran opaque : elle casse les lignes de vue sans créer un véritable couvert physique.'],
+  ['Roquette Breacher','Munition de brèche lourde pour le lance-roquette Breacher, faite pour combiner forte puissance, pénétration et effet de zone contre une structure.'],
+  ['Missile Wasp','Missile unitaire très coûteux du Wasp, doté d’un guidage capable d’exploiter un Verrouillage maintenu.'],
+  ['Munition Wallbreaker','Projectile anti-matériel massif du Wallbreaker, conçu avant tout pour traverser une forte protection ou endommager une structure.'],
+  ['Reservoir Salamander','Réservoir de produit incendiaire alimentant le Salamander pour plusieurs projections de cône à courte portée.'],
+  ['Reservoir Purifier','Réservoir chimique du Purifier, issu de produits industriels suffisamment agressifs pour être employés comme vecteur de corrosion ou contamination.'],
+
+  // Armour and protection.
+  ['Raven Black Feathers','Gilet Raven fin et dissimulable : une protection légère dont les couches ablatives encaissent quelques impacts avant de perdre leur efficacité.'],
+  ['Owl Bullets Fear','Gilet Owl plus épais et plus protecteur que les modèles discrets, mais dont la réserve ablative s’use plus rapidement.'],
+  ['Phoenix Sun Shield','Protection Phoenix légère orientée contre les lames et agressions de contact, plus proche d’un vêtement technique renforcé que d’un gilet balistique lourd.'],
+  ['Byron Punk Life','Protection voyante de culture néopunk, mêlant style de rue et renforts légers contre coupures et impacts.'],
+  ['Raven Black Dog','Tenue de sécurité et de police Raven : une protection polyvalente destinée aux agents exposés à la fois aux projectiles, armes de contact et chocs.'],
+  ['Phoenix Silver Knight','Tenue Phoenix renforcée qui privilégie une protection équilibrée avec une attention particulière aux agressions de mêlée.'],
+  ['Owl New Guard','Protection Owl polyvalente, sans spécialisation extrême, pensée comme équipement robuste de sécurité ou d’intervention légère.'],
+  ['Byron King Worker VII','Harnais de chantier Byron fait pour encaisser les chocs du travail lourd et recevoir outils ou augmentations industrielles compatibles.'],
+  ['Raven Gallowglass II legere','Armure de combat Raven légère mais déjà fortement blindée, durcie contre les EMP pour rester exploitable dans un environnement technologique hostile.'],
+  ['Phoenix Skylord III','Armure de combat Phoenix équilibrée dont la protection thermique peut réagir lors d’un contact violent ou d’une situation où la chaleur devient pertinente.'],
+  ['Owl Night Guard','Armure Owl privilégiant la défense contre les menaces de contact et une signature réduite en obscurité plutôt qu’un blindage maximal.'],
+  ['Raven Gallowglass II lourde','Armure Raven militaire lourde : une masse de protection terrestre très élevée, durcie contre les EMP et clairement destinée aux engagements les plus violents.'],
+  ['Phoenix Sun King','Armure lourde Phoenix très équilibrée, avec protection thermique réactive et couverture sérieuse contre plusieurs formes de violence physique.'],
+  ['Owl Moon Guard','Armure lourde Owl à faible signature en obscurité, privilégiant particulièrement la résistance aux attaques de mêlée.'],
+  ['BridgeElectrics No-Fire','Tenue de pompier et technicien destinée au travail au milieu de la chaleur, du feu et de l’électricité plutôt qu’au combat militaire classique.'],
+  ['Ocean Master Free Fly','Équipement de respiration et de compensation destiné au vol, au vent violent et aux situations où orientation et équilibre deviennent difficiles.'],
+  ['Icecorps Santa Clothes','Tenue extrêmement épaisse pour le froid sévère : excellente contre l’environnement et les chocs, mais peu adaptée aux gestes fins et à la mobilité légère.'],
+  ['Biosun Medicarmor','Combinaison médicale étanche avec filtres, conçue pour permettre le travail en environnement chimique ou viral tant que son intégrité n’est pas rompue.'],
+  ['Sunways Desert Survivor','Tenue de survie désertique intégrant recyclage des fluides, protection thermique, recharge solaire lente et réduction de signature thermique.'],
+  ['Anti-EMP','Module d’armure qui durcit son électronique contre les impulsions électromagnétiques ; il protège le matériel de l’armure, pas automatiquement tout le porteur.'],
+  ['Anti-hack','Module de cybersécurité embarqué qui renforce la défense Neuro lorsque quelqu’un attaque directement l’électronique de l’armure.'],
+  ['Etanche','Module de scellement destiné à rendre une armure compatible avec un environnement où liquides, gaz ou contaminants doivent rester à l’extérieur.'],
+  ['Respirateur','Réserve d’air et circuit respiratoire pour armure fermée, permettant de rester environ deux heures sans dépendre de l’atmosphère extérieure.'],
+  ['Thermique','Isolation active ajoutée à une armure pour résister plus efficacement aux chaleurs et froids dangereux.'],
+  ['Electrique','Isolation électrique renforcée pour le porteur ; elle protège contre l’électricité sans remplacer un véritable durcissement Anti-EMP de l’électronique.'],
+  ['Suite capteurs','Ensemble de capteurs intégrés à l’armure, utile lorsque la situation peut réellement être mieux lue par ses instruments.'],
+  ['Interface de ciblage','Interface intégrée à l’armure pour dialoguer avec les armes Smartlink et gérer un Verrouillage sans fournir à elle seule un bonus de tir.'],
+  ['Exosquelette leger','Assistance mécanique légère montée sur l’armure pour le portage, l’effort et la manipulation d’équipement lourd.'],
+  ['Compensation mobilite','Système motorisé qui compense les contraintes de mouvement dues à une armure lourde ou encombrante.'],
+  ['Camo adaptatif','Revêtement d’armure capable d’adapter son apparence au décor pour réduire sa visibilité sans rendre le porteur réellement invisible.'],
+
+  // Everyday and technical equipment.
+  ['N-Sta','Patch ou dose de stabilisation courante chez les augmentés : pendant environ une heure, il aide le corps et l’esprit à mieux supporter la surcharge augmentique.'],
+  ['Holophone','Terminal personnel de 2035 : téléphone, accès Holonet, applications, banque, communication et NavIA réunis dans l’objet connecté le plus banal du quotidien.'],
+  ['Hololentilles','Lentilles de réalité augmentée qui projettent temporairement informations et interfaces dans le champ visuel sans imposer un implant permanent.'],
+  ['IDpass','Support d’identité et d’autorisation autonome, utile pour prouver une présence ou un droit d’accès sans dépendre d’un Holophone.'],
+  ['Byron Zippo','Briquet autorégénérant Byron, petit objet de prestige autant que source de flamme réutilisable dans les usages ordinaires.'],
+  ['Projecteur holographique','Petit projecteur capable de créer une image holographique locale, utilisé autant pour la présentation que comme support de certains systèmes DFL.'],
+  ['Essaim de microbots','Nuée de micro-machines spécialisées dans l’inspection, la petite manipulation et les opérations de maintenance de précision.'],
+  ['Drone civil','Drone non militaire configuré selon le modèle pour observation, petit transport ou assistance ; il reste un appareil autonome, pas une source de PA supplémentaires.'],
+  ['Serrure intelligente','Contrôle d’accès connecté pour porte, local ou coffre, dont la vraie sécurité dépend autant de l’installation que de l’électronique elle-même.'],
+  ['Relais Holonet portable','Relais transportable permettant d’étendre ou d’établir un accès Holonet local là où l’infrastructure normale est mauvaise ou absente.'],
+  ['Scanner portable','Plateforme de capteurs de terrain : elle donne les mesures que ses instruments peuvent physiquement prendre, sans transformer l’appareil en détecteur universel.'],
+  ['Imprimante polymere','Imprimante de fabrication pour produire des pièces simples à partir d’un plan et de matière compatible ; utile en atelier ou en dépannage, pas magique.'],
+  ['Scanner 3D','Scanner de forme destiné à acquérir un objet ou une pièce pour la modélisation, la reproduction ou la préparation d’une fabrication.'],
+  ['Kit medical','Sac ou mallette regroupant le matériel nécessaire aux premiers soins et à une Stabilisation correcte sur le terrain.'],
+  ['Kit technique','Ensemble d’outillage courant pour maintenance, démontage et réparation de matériel lorsque travailler à mains nues ne suffit pas.'],
+  ['Cyberconsole Neurodive','Console externe portable qui permet à un Neurodiver de charger et employer des Neuroprogrammes sans implant neural, au prix d’un matériel visible et transporté.'],
+  ['Kit hardline','Jeu de câbles et adaptateurs permettant une connexion physique directe à un système lorsque son matériel offre réellement un point d’accès compatible.'],
+  ['Puce de sante citoyenne','Élément de l’identité civique capable de transmettre localisation et données vitales afin qu’un réseau médical puisse détecter certaines urgences et organiser une réponse.'],
+  ['IA personnelle du Holophone','Assistant logiciel quotidien qui gère agenda, achats, banque, informations, maison connectée et habitudes sans constituer pour autant un bonus universel de compétence.'],
+
+  // Clothing.
+  ['Recuperation / sans-abri','Vêtements de récupération assemblés pour obtenir chaleur et décence au moindre coût ; leur état raconte immédiatement une vie sans marge économique.'],
+  ['Provocante / rue','Tenue de rue construite autour d’un code social ou d’une présentation volontairement marquée plutôt que d’un standing institutionnel.'],
+  ['Neopunk','Vêtements associés aux scènes underground et néopunk, où la tenue sert autant à être reconnu par les siens qu’à afficher une opposition culturelle.'],
+  ['Citoyen','Tenue quotidienne connectée et banale pour un habitant ordinaire de la Californie de 2035.'],
+  ['Ouvrier','Vêtements de travail intégrant la sécurité de base attendue sur un chantier, en atelier ou dans une installation industrielle.'],
+  ['Detective / rue','Tenue pratique faite pour circuler, observer et transporter quelques outils sans adopter l’apparence d’un uniforme professionnel lourd.'],
+  ['Neurodiver','Vêtements connectés appréciés des opérateurs Holonet ; ils accompagnent le matériel de plongée sans remplacer une vraie interface Neurodive.'],
+  ['Techfighter / biker','Tenue robuste de route ou de combat de rue, choisie pour résister à l’usage plus que pour respecter un code formel.'],
+  ['Meditech','Vêtement professionnel combinant poches, protections légères et place pour du petit matériel de soin ou d’atelier.'],
+  ['Cadre','Tenue formelle de bonne qualité, adaptée aux environnements où la présentation professionnelle reste une partie du langage social.'],
+  ['Cyber expert','Tenue technique connectée pour spécialiste cyber, conçue pour intégrer proprement interfaces, appareils et accessoires de travail.'],
+  ['Haut cadre','Vêtement sur mesure de haute représentation : la coupe, les matériaux et la finition signalent immédiatement un statut supérieur.'],
+
+  // Food and drinks.
+  ['Ration / synthetique','Alimentation minimale de grande production : dense, stable et nutritive, elle garantit de quoi tenir sans prétendre offrir variété, fraîcheur ou plaisir.'],
+  ['Mick&Go / alternative','Repas très bon marché et rapide, typique du bas de gamme urbain où la qualité peut varier autant que l’origine exacte des ingrédients.'],
+  ["Mac'Yellow",'Fast-food populaire et standardisé : assez bon marché pour appartenir au quotidien sans descendre jusqu’à la simple ration de survie.'],
+  ['Famileat','Repas courant de restauration familiale, représentant le niveau où manger dehors reste normal plutôt qu’un luxe ou une nécessité de survie.'],
+  ['Artisan / bon restaurant','Cuisine où qualité, préparation et cadre social comptent réellement ; on paie autant l’expérience et le savoir-faire que les calories.'],
+  ["Oldo'",'Cuisine d’élite centrée sur des aliments plus rares, une préparation soignée et un service qui commence à signaler nettement le statut.'],
+  ['Luxe / vraie production','Repas issu de produits traditionnels, terroirs ou élevages réels : en 2035, la rareté vient souvent du mode de production plus que de l’ingrédient lui-même.'],
+  ['Eau reconditionnee','Eau traitée et recyclée, sûre et omniprésente : la boisson la plus banale d’une société qui a appris à fermer ses cycles de ressources.'],
+  ['Soda','Boisson industrielle courante, bon marché et facilement disponible dans les réseaux de restauration populaire.'],
+  ["Biere/fermentation d'algues",'Boisson fermentée populaire produite à partir d’algues ou de substrats industriels, équivalent quotidien d’une bière accessible.'],
+  ['Alcool industriel','Spiritueux ou alcool de grande production : accessible, standardisé et très éloigné du prestige des productions traditionnelles.'],
+  ['Alcool traditionnel','Vin, bière ou spiritueux produit selon des méthodes et matières premières traditionnelles, dont la rareté peut faire grimper le prix très vite.'],
+  ['Cafe synthetique','Substitut caféiné synthétique reproduisant l’usage quotidien du café à bas coût, sans prétendre restituer toute la qualité du produit d’origine.'],
+  ['Cafe clone/cellulaire','Café produit par culture cellulaire ou procédé contrôlé : plus proche du goût réel que le synthétique, mais encore industriel.'],
+  ['Vrai cafe','Café issu d’une culture agricole réelle ; sa rareté en fait une petite consommation de prestige plutôt qu’un réflexe banal.'],
+
+  // Drugs.
+  ['Kick','Stimulant de rue pris avant l’action pour accélérer le démarrage du corps ; l’avantage immédiat se paie par un risque de crash et de fatigue.'],
+  ['Velvet','Anxiolytique récréatif qui émousse temporairement la pression psychologique, au prix d’une vigilance et d’une réactivité nettement diminuées.'],
+  ['Prism','Hallucinogène sensoriel qui déforme fortement les perceptions ; recherché pour l’expérience artistique ou sociale, dangereux lorsque la scène exige de rester ancré.'],
+  ['Redline','Stimulant de performance pour pousser le corps dans un effort exceptionnel préparé, avec une fatigue et un risque physiologique à la hauteur de l’excès.'],
+  ['Bloom','Empathogène recherché pour la chaleur sociale et l’intimité, mais qui rend aussi plus vulnérable à la manipulation, à la dépendance et au mauvais jugement.'],
+  ['Fleshfire','Produit augmentique et sensoriel qui surcharge volontairement sensations et implants organiques, avec des effets dépendant directement du corps modifié qui le reçoit.'],
+  ['Dreamrush','Drogue virtuelle vécue à travers une expérience sensorielle Neuro ; un mauvais retour peut laisser l’utilisateur Tendu, Paniqué ou franchement désorienté.'],
+  ['Crashware','Logiciel-drogue de Neurodive qui overclocke le fonctionnement neuronal : puissant pour ceux qui le recherchent, mais il ajoute une vraie surcharge augmentique temporaire.'],
+
+  // Services and medicine.
+  ['Flashmergencies','Service public d’urgence médicale pour citoyens : la prise en charge est institutionnelle, mais le délai réel dépend fortement de la zone et de la situation.'],
+  ['CareForce Bronze','Contrat privé d’urgence d’entrée de gamme : il achète surtout un réseau d’intervention privé lorsque le système public n’offre pas assez de garanties.'],
+  ['CareForce Silver','Assurance d’urgence privée avec priorité et couverture supérieures, assez reconnue pour constituer un véritable avantage chez certains Crawlers.'],
+  ['CareForce Golden','Couverture CareForce premium : priorité forte, réseau plus disponible et niveau de prise en charge réservé aux clients capables de payer cette redondance.'],
+  ['Clinique courante','Consultation ou soin médical banal hors urgence publique, pour les actes qui exigent un professionnel et du matériel sans mobiliser un hôpital complet.'],
+  ['Chirurgie / hospitalisation','Prise en charge lourde dont le coût dépend de la gravité, de la technologie utilisée, de la durée et surtout de ce que l’assurance accepte réellement de couvrir.'],
+  ['Black Clinic','Clinique clandestine pour ceux qui ont besoin d’anonymat, de pièces douteuses ou d’un acte qu’un circuit légal refuserait ; le risque compte autant que la technique.'],
+  ['Formation courte / adulte','Module de remise à niveau, certification ou formation professionnelle courte destiné à acquérir une qualification précise sans reprendre un cursus complet.'],
+  ['Expertise technique/medicale','Intervention ponctuelle d’un spécialiste payé pour diagnostiquer, analyser, rédiger un rapport ou exécuter une procédure que l’équipe ne maîtrise pas.'],
+  ['Reparation courante','Passage chez un réparateur pour du matériel standard et des pièces ordinaires, lorsque l’entretien dépasse ce qu’un kit de terrain peut raisonnablement régler.'],
+  ['Reparation lourde / augmentique','Travail d’atelier ou de clinique exigeant calibration, chirurgie ou pièce spécifique ; on ne répare plus ici avec un tournevis au bord de la route.'],
+  ['Faux document / identite','Fabrication ou acquisition d’une identité falsifiée dont la valeur dépend surtout du niveau de contrôle qu’elle doit réussir et du réseau qui la garantit.'],
+  ['Service juridique','Temps d’un juriste pour conseiller, négocier ou représenter quelqu’un face à une procédure ; les institutions sérieuses fournissent souvent ce service à leurs membres.'],
+  ['Securite privee','Prestation de garde, escorte ou intervention dont le prix varie selon durée, risque, armement et niveau professionnel attendu.'],
+  ['Stockage / box / atelier','Location d’un petit espace pour entreposer du matériel, travailler discrètement ou disposer d’un local technique hors du logement principal.'],
+  ['Media Holonet / reseaux','Accès à des contenus, réseaux et services médiatiques du Holonet, allant du gratuit financé autrement aux abonnements spécialisés.'],
+  ['Bar, club, sortie populaire','Sortie urbaine ordinaire : boire, danser, voir du monde ou simplement passer la soirée ailleurs sans entrer dans le registre du luxe.'],
+  ['Concert, spectacle, sport','Billet pour une expérience culturelle ou sportive organisée : concerts holo, arènes, Deathball et autres spectacles de masse entrent dans cette échelle.'],
+  ['Immersion / experience premium','Loisir haut de gamme où infrastructure, réalité augmentée, immersion sensorielle ou service personnalisé deviennent une partie essentielle de l’expérience.'],
+  ['Evenement luxe / VIP','Accès à un événement où exclusivité, emplacement, service et présence sociale comptent davantage que le simple spectacle.'],
+  ['Compagnie sociale courte','Temps rémunéré de présence, accompagnement ou sociabilité, dans un cadre où l’on achète d’abord disponibilité et attention.'],
+  ['Compagnie intime/prostitution legale','Service intime légal et encadré dont le prix varie avec durée, lieu, standing et niveau de discrétion demandé.'],
+
+  // Housing and safehouses.
+  ['Squat / zone abandonnee','Espace occupé dans une zone délaissée : presque gratuit, mais sans connectivité fiable ni sécurité sur laquelle compter.'],
+  ['Dortoir ouvrier','Logement dense et basique destiné à héberger beaucoup de travailleurs à faible coût, avec une sécurité collective limitée.'],
+  ['Vladic micro-logement','Très petit logement bon marché dans un réseau Vladic, où le faible prix s’accompagne d’une forte dépendance au territoire et aux relations locales.'],
+  ['Vladic studio','Studio lié au réseau Vladic : abordable, relativement stable, mais avec le suivi social implicite d’un quartier où tout le monde connaît les appartenances.'],
+  ['Studio urbain ancien','Petit logement dans un bâti plus ancien, encore parfaitement habitable mais dont la sécurité connectée varie beaucoup selon l’entretien et le quartier.'],
+  ['Vladic familial','Logement plus grand protégé par la structure sociale du territoire Vladic, adapté à une vie familiale plutôt qu’à l’anonymat.'],
+  ['Appartement connecte','Appartement moderne doté de domotique, alertes et services connectés ; il achète surtout de la prévisibilité et du confort quotidien.'],
+  ['Vladic grand/protege','Grand logement bénéficiant de la protection sociale et territoriale du réseau Vladic sans transformer cette protection en bonus de combat personnel.'],
+  ['Residence de cadre securisee','Résidence pour cadres avec contrôle d’accès, services et quartier choisi : le coût paie autant la tranquillité que la surface habitable.'],
+  ['Penthouse / villa','Habitat de luxe où standing, espace, sécurité et services premium s’additionnent pour réduire presque toutes les incertitudes du quotidien.'],
+  ['Cache improvisee','Endroit oublié, abandonné ou bricolé servant à disparaître quelques heures ou quelques jours ; sa force est l’oubli, pas la sécurité.'],
+  ['Piece/box/squat discret','Petit espace loué ou occupé pour un usage court et une faible empreinte administrative, avec peu de moyens de défense réels.'],
+  ['Studio/garage anonyme','Lieu loué sous une identité ou à une adresse choisie, suffisamment stable pour stocker du matériel tout en restant moins lié au domicile principal.'],
+  ['Planque dediee','Refuge réellement préparé avec serrures, caméras et connectivité volontairement choisie — ou au contraire isolée — pour survivre à une recherche sérieuse.'],
+  ['Planque securisee','Planque conçue autour de l’anonymat, de la contre-surveillance et de plusieurs accès plutôt que du simple confort.'],
+  ['Reseau de planques premium','Ensemble de sites, identités et solutions logistiques permettant de changer de refuge au lieu de parier toute sa sécurité sur une seule adresse.'],
+
+  // Mobility subscriptions and vehicles.
+  ['Metro / tram','Transport collectif urbain de base : peu cher, prévisible et omniprésent dans les zones encore correctement desservies.'],
+  ['Pass metro/tram','Abonnement mensuel de transport public pour ceux qui utilisent quotidiennement métro et tram sans posséder leur propre véhicule.'],
+  ['MAS - court trajet','Mobilité autonome à la demande pour un déplacement urbain court : on paie le service et le véhicule se conduit lui-même.'],
+  ['MAS - trajet long urbain','Version plus coûteuse d’un trajet MAS traversant une part importante de l’agglomération sans exiger de véhicule personnel.'],
+  ['Bull Basic','Abonnement Bullmotors d’entrée de gamme donnant un accès régulier à une mobilité autonome simple plutôt qu’à la propriété d’un véhicule.'],
+  ['Bull Standard','Formule Bullmotors courante offrant davantage de disponibilité et de confort que l’offre Basic pour un usage urbain régulier.'],
+  ['Bull Premium','Abonnement de mobilité haut de gamme où disponibilité, qualité du véhicule et souplesse du service deviennent réellement confortables.'],
+  ['Bull Executive','Service de mobilité destiné aux cadres et clients aisés, avec une disponibilité et un niveau de prestation qui remplacent facilement une voiture personnelle.'],
+  ['Moto moderne','Deux-roues moderne très exposé mais agile, souvent assisté ou partiellement autonome selon le modèle ; peu de blindage et peu de masse pour encaisser un choc.'],
+  ['Vieille voiture manuelle','Automobile d’avant la généralisation des VAP : moins connectée et donc moins piratable à distance, mais taxée, coûteuse à entretenir et dépendante d’un conducteur.'],
+  ['CityPod Bullmotors','Petit VAP urbain à deux places, bon marché et autonome ; populaire justement parce qu’il simplifie la mobilité, mais sa sécurité réseau reste médiocre.'],
+  ['VAP familial','Véhicule autonome civil courant de quatre à six places, conçu pour la mobilité familiale plutôt que pour la protection ou les opérations dangereuses.'],
+  ['Horntruck','Utilitaire Bullmotors avec espace cargo et structure plus robuste qu’une voiture civile, destiné au transport de matériel plutôt qu’au luxe.'],
+  ['Gundriver modifie','Véhicule volontairement bricolé, manuel et parfois presque déconnecté : moins confortable, mais plus difficile à tracer ou détourner à distance.'],
+  ['Nymphrover Executive','VAP premium destiné aux cadres : structure renforcée, meilleur réseau, meilleur autopilote et sécurité supérieure à celle des modèles grand public.'],
+  ['Nymphrover Security','Transport corporatif protégé combinant blindage sérieux, réseau durci et conduite autonome pour déplacer des personnes importantes dans un environnement hostile.'],
+  ['Tactical Rover','Véhicule opérationnel ou mercenaire à forte structure et blindage, fait pour entrer dans une zone dangereuse plutôt que simplement traverser la ville.'],
+  ['APC leger','Blindé militaire léger de plusieurs tonnes : forte capacité, blindage massif et accès fortement restreint, sans commune mesure avec une automobile civile.']
+];
+
+const r35SpecificLore=new Map(r35SpecificLorePairs.map(([name,lore])=>[r34Loose(name),lore]));
+function r35SpecificByName(item){
+  const n=r34Loose(item?.name||'');if(!n)return '';
+  if(r35SpecificLore.has(n))return r35SpecificLore.get(n);
+  let best='',bestLen=0;
+  for(const [k,v] of r35SpecificLore){if(k.length<5)continue;if((n.includes(k)||k.includes(n))&&k.length>bestLen){best=v;bestLen=k.length}}
+  return best;
+}
+function r35Sentence(v=''){
+  let s=String(v||'').trim().replace(/\s+/g,' ');if(!s)return '';
+  s=s.charAt(0).toLowerCase()+s.slice(1);return /[.!?]$/.test(s)?s:`${s}.`;
+}
+function r35SourceLore(item){
+  if(!item)return '';
+  const historical=typeof r34HistoricalWeapon==='function'?r34HistoricalWeapon(item):'';if(historical)return historical;
+  const named=r35SpecificByName(item);if(named)return named;
+  const note=r34DeepText(item,['Notes','Note']),lecture=r34DeepText(item,['Lecture']),examples=r34DeepText(item,["Exemples d'usage",'Exemples usage']),appearance=r34DeepText(item,['Apparence','Aspect','Description physique','Présentation']),desc=r34DeepText(item,['Description','Principe']),usage=r34DeepText(item,['Usage']),fn=r34DeepText(item,['Fonction']),role=r34DeepText(item,['Rôle','Role']),type=r34DeepText(item,['Classe','Type']);
+  if(appearance&&normText(appearance)!==normText(item.effect||''))return `${item.name} se présente comme ${r35Sentence(appearance)}`;
+  if(desc&&normText(desc)!==normText(item.effect||''))return desc;
+  if(note)return `${item.name} : ${note}`;
+  if(lecture)return `${item.name} correspond à ${r35Sentence(lecture)}`;
+  if(examples)return `${item.name} est une tenue ou un équipement associé à ${r35Sentence(examples)}`;
+  if(role)return `${item.name} est un${/^[aeiouyh]/i.test(type)?'n':''} ${type||'équipement'} destiné à ${r35Sentence(role)}`;
+  if(usage&&normText(usage)!==normText(item.effect||''))return `${item.name} est prévu pour ${r35Sentence(usage)}`;
+  if(fn&&normText(fn)!==normText(item.effect||''))return `${item.name} fournit ${r35Sentence(fn)}`;
+  const effect=String(item.effect||'').trim();
+  if(item.neuro&&effect)return `Neuroprogramme « ${item.name} » : un outil logiciel spécialisé dont l’usage en plongée consiste à ${r35Sentence(effect)}`;
+  if(item.vehicle)return `${item.name} est un véhicule du catalogue terrestre de 2035 ; son profil de Structure, Blindage, sécurité réseau et pilotage autonome indique concrètement ce qu’il peut encaisser et dans quel environnement il est censé circuler.`;
+  if(type&&effect)return `${item.name} est un ${type.toLowerCase()} dont l’usage concret est de ${r35Sentence(effect)}`;
+  if(effect)return `${item.name} existe pour un usage précis dans le monde de 2035 : ${r35Sentence(effect)}`;
+  const cat=String(eqxDisplayCategory(item)||item.category||'équipement').toLowerCase();
+  return `${item.name} est une entrée de ${cat} du catalogue terrestre de 2035 ; son prix et sa disponibilité représentent un bien ou un service concret que le personnage doit réellement pouvoir obtenir dans la fiction.`;
+}
+r34ItemLore=function(item){return r35SourceLore(item)};
+
+const r35LifestyleLore={
+  Survie:'Le quotidien est réduit au minimum garanti : ration ou synthétique, récupération, déplacements les moins chers et presque aucun loisir. Le personnage vit avec très peu de marge lorsqu’un imprévu survient.',
+  Modeste:'Vie populaire avec achats surveillés et quelques sorties bon marché. Dortoir, micro-logement ou vieux studio sont plausibles ; transports publics et petits abonnements dominent la mobilité.',
+  Standard:'Quotidien confortable normal : nourriture et services usuels ne demandent pas de calcul permanent. Un studio correct, une vieille voiture ou moto, voire un CityPod financé, deviennent crédibles.',
+  Confortable:'La qualité peut être choisie plus souvent : bon appartement connecté, sorties et services réguliers, mobilité souple et possibilité d’entretenir une petite planque dédiée.',
+  'Aisé':'Consommation premium, vraie nourriture plus fréquente, résidence sécurisée et plusieurs solutions de mobilité. Le personnage achète surtout de la prévisibilité et peut maintenir un second lieu sûr.',
+  Luxe:'Standing élevé, restauration haut de gamme, villa ou penthouse, véhicules multiples, sécurité et services disponibles sur demande. La richesse achète ici de la redondance autant que du confort.'
+};
+function r35LifestyleDetail(level,label='Train de vie'){
+  const lore=r35LifestyleLore[level]||'';return el('div',{class:'r35-life-detail'},`<strong>${uxEsc(label)} : ${uxEsc(level)}</strong>${lore?`<em>${uxEsc(lore)}</em>`:''}`);
+}
+function r35ChargeChoiceDetail(item){
+  if(!item)return el('div',{class:'r35-charge-detail empty'},'Choisissez une entrée pour afficher ce qu’elle représente avant de l’ajouter aux Charges fixes.');
+  const sp=lockPriceSpec(item),lore=r34ItemLore(item);return el('div',{class:'r35-charge-detail'},`<strong>${uxEsc(item.name)}</strong>${lore?`<em>${uxEsc(lore)}</em>`:''}<p><strong>Coût / règle :</strong> ${uxEsc(sp.label)}</p>`);
+}
+
+r34FixedChargePanel=function(){
+  r15EnsureCharges();const p=r15ChargePressure(),access=r18LifestyleAccess[p.base]||r18LifestyleAccess.Standard,box=el('div',{class:'r15-fixed-box'},`<div class="section-title reality-subtitle"><div><h3>Train de vie & Charges fixes</h3><p>Le moteur convertit automatiquement logement, leasing, assurances, entretien et autres engagements mensuels en pression sur le Train de vie.</p></div><div class="kpi ${p.deficit?'bad':'good'}">${uxEsc(p.base)} → ${uxEsc(p.effective)}</div></div><div class="rulebox"><strong>Référence ${uxEsc(p.base)} :</strong> ${fmt(p.ref)}/mois · Charges comptabilisées : <strong>${fmt(p.total)}/mois</strong> · ${p.drops} tranche(s) complète(s).${p.deficit?` <strong>Déficit structurel : ${fmt(p.deficit)}/mois au-delà de Survie.</strong>`:''}</div>`);
+  box.appendChild(r35LifestyleDetail(p.base,'Train de vie de base'));
+  if(p.effective!==p.base)box.appendChild(r35LifestyleDetail(p.effective,'Train de vie effectif après Charges'));
+  box.appendChild(el('div',{class:'r18-access-grid'},`<div><strong>Logement normalement accessible</strong><span>${uxEsc(access.housing)}</span></div><div><strong>Mobilité normalement accessible</strong><span>${uxEsc(access.mobility)}</span></div><div><strong>Planque/refuge normalement accessible</strong><span>${uxEsc(access.hideout)}</span></div>`));
+  box.appendChild(el('div',{class:'rulebox'},`<strong>Calcul automatique :</strong> entretien augmentique ${fmt(r18AugMaintenance())}/mois · entretien des véhicules possédés ${fmt(r18VehicleMaintenance())}/mois. Ces montants sont intégrés sans saisie supplémentaire.`));
+  const groups=r18RecurringGroups(),pickField=el('div',{class:'field'},'<label>Ajouter un logement, service ou engagement du catalogue</label>'),pick=el('select');pick.appendChild(el('option',{value:''},'— Choisir dans le catalogue —'));groups.forEach(g=>{const og=el('optgroup',{label:g.label});g.items.forEach(x=>{const sp=lockPriceSpec(x),o=el('option',{value:x.id,title:`${r34ItemLore(x)}\n\nMécanique / coût : ${sp.label}`},`${x.name} · ${sp.label}`);og.appendChild(o)});pick.appendChild(og)});pickField.appendChild(pick);box.appendChild(pickField);
+  let detail=r35ChargeChoiceDetail(null);box.appendChild(detail);
+  pick.onchange=()=>{const x=realityData.equipment.find(y=>y.id===pick.value),fresh=r35ChargeChoiceDetail(x||null);detail.replaceWith(fresh);detail=fresh};
+  const addCatalog=el('button',{class:'primary mini'},'Ajouter aux Charges fixes');addCatalog.onclick=()=>{const x=realityData.equipment.find(y=>y.id===pick.value);if(!x)return;const sp=lockPriceSpec(x),rawMonthly=sp.defaultCost ?? r18Money(r15DeepField(x,['Entretien/mois','Entretien mensuel','Prix','Price'])),monthly=Math.max(0,Number(rawMonthly)||0);r18AddCatalogCharge(x,monthly)};box.appendChild(addCatalog);
+  const custom=el('div',{class:'grid2 r18-custom'}),name=el('div',{class:'field'},'<label>Autre Charge fixe / actif</label>'),nameInput=el('input',{placeholder:'Ex. pension, dette, service récurrent…'}),amt=el('div',{class:'field'},'<label>Montant mensuel</label>'),amtInput=el('input',{type:'number',min:0,step:25,placeholder:'0'});name.appendChild(nameInput);amt.appendChild(amtInput);custom.append(name,amt);box.appendChild(custom);const add=el('button',{class:'ghost mini'},'Ajouter une Charge personnalisée');add.onclick=()=>{const label=nameInput.value.trim();if(!label)return;state.reality.fixedChargeItems.push({uid:`fc-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,6)}`,name:label,monthly:Math.max(0,Number(amtInput.value)||0)});render()};box.appendChild(add);
+  const list=el('div',{class:'u14-picked-list'});state.reality.fixedChargeItems.forEach(x=>{const source=x.sourceItemId?realityData.equipment.find(y=>y.id===x.sourceItemId):null,lore=source?r34ItemLore(source):'',row=el('div',{class:'u14-picked-row r35-charge-row'},`<div><strong>${uxEsc(x.name)}</strong>${lore?`<em>${uxEsc(lore)}</em>`:''}<span>${fmt(x.monthly)}/mois${x.monthly===0?' · pris en charge / dotation':''}</span></div>`),rm=el('button',{class:'danger-btn mini'},'Retirer');rm.onclick=()=>{state.reality.fixedChargeItems=state.reality.fixedChargeItems.filter(y=>y.uid!==x.uid);render()};row.appendChild(rm);list.appendChild(row)});box.appendChild(list);return box;
+};
+
+const r35Css=el('style',{},`.r35-life-detail,.r35-charge-detail{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:8px 0;background:rgba(255,255,255,.02)}.r35-life-detail strong,.r35-life-detail em,.r35-charge-detail strong,.r35-charge-detail em{display:block}.r35-life-detail em,.r35-charge-detail em,.r35-charge-row em{font-size:12px;line-height:1.5;color:var(--muted);margin-top:5px}.r35-charge-detail p{margin:7px 0 0;font-size:12px}.r35-charge-row>div{display:grid;gap:3px}.r35-charge-row em{max-width:760px}`);document.head.appendChild(r35Css);
+render();
