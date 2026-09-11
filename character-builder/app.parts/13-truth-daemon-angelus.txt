@@ -1,0 +1,62 @@
+// Daemon & Angelus completion — free Function/Nature and Divinity/Sephirah imprints from Truth V5.
+const daFree={
+  daemon:{
+    function:{
+      oracle:{name:'Télépathie',access:'SR/R',effect:'Communiquer mentalement avec une créature consentante perçue à environ 30 m. La cible peut répondre ; aucun accès gratuit à ses pensées.'},
+      tourmenteur:{name:'Affliction',access:'R · 1 PA · contact',effect:'Volonté + Maîtrise spirituelle contre Défense occulte : douleur, nausée, faiblesse, vertige ou spasme ; −3 à une famille cohérente d’actions jusqu’à la fin du prochain round.'},
+      legionnaire:{name:'Lame infernale',access:'R · 1 PA',effect:'Sacrifier 1 à 3 PV irréductibles : Lame divine DGT 7/9/11, de mêlée ou de tir, liée au Chevalier. Les PV sacrifiés réduisent aussi le maximum tant que la Lame existe.'}
+    },
+    divinity:{
+      alabor:{name:'Corps des Profondeurs',access:'R',effect:'Respirer sous l’eau ; noyade et pression hydraulique ordinaires ne peuvent tuer le Daemon. Les manipulations insignifiantes de liquide sont triviales.'},
+      astaroth:{name:'Mémoire des Écrits',access:'SR/R',effect:'En touchant un document et en se concentrant, assimiler rapidement son contenu lisible, même dans une langue inconnue ; cela ne transmet ni expérience pratique ni Compétence.'},
+      belial:{name:'Feu de la Reine',access:'R',effect:'Produire et manipuler feu et chaleur à proximité ; le feu ordinaire ne peut à lui seul faire passer le Daemon sous 1 PV.'},
+      diablo:{name:'Rémanence nocturne',access:'SR/R',effect:'Lorsqu’un Vampire ou une Ombre utilise directement un pouvoir surnaturel contre le Daemon, conserver un Écho utilisable une fois dans la scène sous une forme limitée.'},
+      lilith:{name:'Grâce de Lilith',access:'SR/R',effect:'Une créature éprouvant réellement attirance, désir, amour ou affection doit réussir Volonté + Force Mentale 15 pour achever volontairement le Daemon.'},
+      mammon:{name:'Permission de mourir',access:'R',effect:'Au seuil de Mort, l’âme ne quitte pas immédiatement le corps tant que Mammon ne l’autorise pas ; le corps reste incapable d’agir sans effet spécifique.'},
+      mephisto:{name:'Spectre de Mageius',access:'R',effect:'Choisir une Affinité à la création ; usages Initiale/Mineure avec Volonté + Maîtrise spirituelle selon le moteur magique.'},
+      satan:{name:'Jugement',access:'SR/R',effect:'Face à une accusation précise, discerner si l’âme de la cible porte réellement la responsabilité de l’acte ; ne détecte jamais le Bien ou le Mal abstrait.'},
+      lucifer:{name:'Radiance originelle',access:'SR/R',effect:'Les pouvoirs offensifs divins de Lucifer comptent comme solaires et gagnent leur avantage contre les créatures intrinsèquement vulnérables au solaire.'},
+      belzebuth:{name:'Vies offertes',access:'SR/R',effect:'Lorsqu’il devrait mourir, le Daemon peut sacrifier 1 Vigueur pour le reste de l’incarnation et revenir immédiatement à 1 PV ; Vigueur ne peut descendre sous 1.'},
+      abigor:{name:'Souffle du Ciel',access:'R',effect:'Pas de besoin normal de respirer ; les substances inhalées ordinaires ne peuvent tuer ou empoisonner le Daemon.'},
+      baal:{name:'Instinct de Guerre',access:'SR/R',effect:'En SR : +1 aux tests de Mêlée, Pugilat et Tir ; en R : +2 à ces mêmes tests.'},
+      morrighan:{name:'Forme spirituelle',access:'R',effect:'Le serviteur possède une forme animale ou végétale symbolique et peut l’adopter en 1 PA, avec ses propriétés naturelles évidentes.'}
+    }
+  },
+  angelus:{
+    nature:{
+      trone:{name:'Télépathie céleste',access:'SR/R · 1 PA · 1 Aura',effect:'Communication mentale bidirectionnelle avec une cible consentante perçue pour la scène ; le sens général traverse les langues, sans lecture de pensées.'},
+      vertu:{name:'Purification',access:'SR/R · 1 PA',effect:'Absorber peur, rage, honte, haine, désir incontrôlable ou obsession ; peut aussi lutter contre un effet émotionnel surnaturel. Les deux premières Purifications significatives de la scène peuvent rendre chacune 1 Aura.'},
+      domination:{name:'Lame céleste',access:'R · 1 PA',effect:'Sacrifier 1 à 3 PV et 1 Aura : arme divine DGT 7/9/11 pour la scène. Les PV sacrifiés réduisent le maximum et ne peuvent être soignés tant que la Lame existe.'}
+    },
+    sephirah:{
+      kether:{name:'Nœud de conscience',access:'SR/R · 1 PA · 1 Aura',effect:'Relier jusqu’à trois participants consentants à environ 100 m : position approximative, état général et intentions volontairement partagées.'},
+      hokhma:{name:'Essence pure',access:'Passif · SR/R',effect:'+3 contre corruption surnaturelle, possession et altération hostile de l’âme.'},
+      bina:{name:'Schéma causal',access:'SR/R · 1 PA · 1 Aura',effect:'Après examen d’une situation concrète, demander au MJ quel est le facteur limitant le plus évident qu’un observateur exceptionnel pourrait déduire.'},
+      hesed:{name:'Main miséricordieuse',access:'SR/R · 1 PA · 1 Aura',effect:'Au contact : stabiliser automatiquement, supprimer une douleur incapacitante simple jusqu’au prochain round ou rendre 1 PV.'},
+      gueburah:{name:'Impact de Gueburah',access:'R',effect:'1/round après une attaque physique réussie, dépenser 1 Aura pour +2 DGT ou un renversement/une projection significative.'},
+      tiphereth:{name:'Dévotion céleste',access:'Passif · V/SR/R',effect:'Choisir une personne, communauté, cause ou principe : +3 pour résister aux effets cherchant directement à forcer sa trahison ou son abandon.'},
+      nesah:{name:'Élan du succès',access:'SR/R · 1/scène',effect:'Après un échec de 2 points ou moins, dépenser 1 Aura pour transformer le résultat en réussite simple DR 0 ; jamais sur Échec narratif.'},
+      hod:{name:'Illumination',access:'SR/R · 1 PA · 1 Aura',effect:'1/scène, +3 à un test intellectuel, scientifique ou technique dans lequel l’Angelus possède au moins 1 point de Compétence.'},
+      yessod:{name:'Image pensée',access:'SR/R · 1 PA · 1 Aura',effect:'Créer pour la scène une illusion visuelle et/ou sonore simple, statique ou répétitive, dans un volume d’environ 2 m.'},
+      malkhouth:{name:'Ancrage du Royaume',access:'SR/R · Réaction · 1 Aura',effect:'+3 contre déplacement surnaturel forcé, téléportation hostile, bannissement ou déphasage imposé.'}
+    }
+  }
+};
+function daSelectedFreeTraits(){
+  const out=[],n=state.truth.nature,ch=state.truth.choices||{};
+  if(n==='daemon'){
+    const f=daFree.daemon.function[ch.function];if(f)out.push({...f,source:'Empreinte gratuite de Fonction'});
+    const d=daFree.daemon.divinity[ch.divinity];if(d)out.push({...d,source:'Empreinte gratuite de Divinité'});
+  }
+  if(n==='angelus'){
+    const a=daFree.angelus.nature[ch.angelNature];if(a)out.push({...a,source:'Pouvoir fondamental gratuit de Nature'});
+    const s=daFree.angelus.sephirah[ch.sephirah];if(s)out.push({...s,source:'Don fondamental gratuit du Sephirah'});
+  }
+  return out;
+}
+const daBaseStepTruth=stepTruth;
+stepTruth=function(){
+  daBaseStepTruth();const traits=daSelectedFreeTraits();if(!traits.length)return;const c=$('#stepContent');if(!c)return;
+  const section=el('div',{class:'da-free-traits'});section.appendChild(el('h3',{class:'subhead'},'Empreintes & dons gratuits liés aux choix'));
+  const grid=el('div',{class:'trait-grid'});traits.forEach(t=>grid.appendChild(el('div',{class:'trait'},`<div class="trait-head"><strong>${uxEsc(t.name)}</strong><span class="chip">${uxEsc(t.access)}</span></div><div class="skill-meta">${uxEsc(t.source)} · 0 PTV</div><p>${uxEsc(t.effect)}</p>`)));section.appendChild(grid);c.insertBefore(section,c.querySelector('.truth-list')||null);
+};
