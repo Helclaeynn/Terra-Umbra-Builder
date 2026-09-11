@@ -8,7 +8,12 @@
   "talents": {"origin": "", "sphere": "", "expertise": "", "common": "", "edge": []},
   "disadvantages": [],
   "edge": {"attributePack": 0, "skillPacks": 0, "talentPacks": 0, "cashPacks": 0, "lifestylePack": 0, "augmentationPacks": 0, "renownPack": 0},
-  "truth": {"nature": "humain", "consciousness": "profane", "revelation": "voile", "ptvSpent": 0, "truthTalents": []},
+  "truth": {
+    "nature": "humain",
+    "consciousness": "profane",
+    "choices": {"hunterTradition": "aucune"},
+    "truthTalents": []
+  },
   "spending": {"augmentations": 0, "equipment": 0, "vehicle": 0},
   "social": {"languages": ["Français"], "contacts": [], "reputation": ""}
 }
