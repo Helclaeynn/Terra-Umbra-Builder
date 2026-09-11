@@ -1,0 +1,92 @@
+// UX pass — Sphere + Style + useful Skill descriptions. Source: TUC Creation V12 + final engine.
+
+const p25SphereLore={
+  corporatiste:'Les corporations ont reconstruit, nourri, équipé et employé une immense part de la population. Certaines fonctionnent presque comme des sociétés miniatures : elles apportent stabilité, technologie et services, au prix d’une vie de plus en plus liée au contrat de travail.',
+  gouvernementale:'La Californie a reconstruit un État assez puissant pour ne pas devenir une simple propriété corporative. Police, armée, secours, administration et renseignement donnent de vrais moyens — avec une hiérarchie, des procédures, un mandat et des comptes à rendre.',
+  mafieuse:'La Pègre moderne mêle familles, territoires, entreprises légales, réseaux clandestins et influence politique. Elle fournit protection, crédit, travail et marchandises là où l’État s’efface ; dans ce monde, un nom ou une dette peut peser davantage qu’un contrat écrit.',
+  crawler:'Les Crawlers vivent entre les systèmes : mercenaires, Neurodivers, Meditechs, fixers, pilotes, récupérateurs ou artistes. Ils travaillent par contrat, réputation et relations ; leur liberté est réelle, mais lorsqu’une situation s’effondre ils ont rarement une institution derrière eux.',
+  religieuse:'Les crises ont rendu aux religions une forte fonction sociale : accueil, soins, aide, communauté, éducation, protection et parfois forces armées. Cette Sphère dépasse largement le clergé et inclut aussi médecins, logisticiens, spécialistes du Holonet, administrateurs et combattants.'
+};
+const p25StyleLore={
+  manucorpo:'Professionnel de l’industrie, de l’ingénierie et de la production : vous faites fonctionner ateliers, chaînes, machines, infrastructures et logistique technique.',
+  biocorpo:'Spécialiste du biomédical, de la génétique et des biotechnologies : votre quotidien se joue entre organismes vivants, diagnostics, protocoles et laboratoire.',
+  cybercorpo:'Spécialiste cyber, neuro, IA ou cybersécurité : vous travaillez là où les réseaux, les augmentations et l’information deviennent une même infrastructure.',
+  armacorpo:'Agent de sécurité ou de combat corporatif : protection de sites, escorte, intervention et usage professionnel de la force font partie du métier.',
+  servicorpo:'Professionnel des services, des affaires, de la clientèle ou du management : vous savez faire circuler personnes, informations, contrats et décisions.',
+  forces_armees:'Soldat, marin ou pilote militaire : votre formation privilégie discipline collective, engagement armé, mobilité et chaîne de commandement.',
+  agent_gouvernemental:'Policier, enquêteur, agent de renseignement ou d’agence : vous combinez procédure, collecte d’information, surveillance et capacité d’intervention.',
+  net_corps:'Opérateur de cybercombat et de guerre électronique : votre champ de bataille est autant le Holonet que les systèmes connectés d’un théâtre d’opérations.',
+  service_public:'Professionnel de santé, du secours ou d’un service technique : vous maintenez les personnes et les infrastructures lorsque la situation cesse d’être confortable.',
+  diplomate_administrateur:'Diplomate ou haut administrateur : négociation, représentation, langues, droit pratique et fonctionnement institutionnel structurent votre travail.',
+  soldato:'Homme de main, garde ou combattant de la Pègre : vous protégez des intérêts, faites respecter des décisions et survivez aux guerres entre organisations.',
+  tueur_a_gages:'Professionnel de l’assassinat, de l’infiltration et de la traque : repérer, approcher et frapper sans offrir de seconde chance constitue votre savoir-faire.',
+  hacker:'Cybercriminel spécialisé dans les données, l’intrusion, le vol et le chantage : l’information est pour vous une cible, une arme et une monnaie.',
+  charcudoc:'Médecin clandestin et technicien d’implants : vous soignez, modifiez et réparez loin des circuits propres, souvent avec des patients qui ne peuvent pas poser de questions.',
+  affairiste_bookmaker:'Intermédiaire de finance, paris, corruption et blanchiment : vous transformez relations, argent gris et information en leviers utilisables.',
+  deathrunner_merc:'Mercenaire habitué aux contrats violents : quand la négociation échoue ou n’a jamais été prévue, vous êtes payé pour terminer le travail.',
+  neurodiver:'Intrus du Holonet et spécialiste de l’information : vous ouvrez des systèmes, explorez leurs défenses et revenez avec ce que quelqu’un voulait garder caché.',
+  meditech:'Soignant-technicien de terrain et des Black Clinics : vous mêlez médecine, mécanique et augmentique dans des conditions rarement idéales.',
+  gundriver:'Pilote de route, convoyeur et transporteur sous risque : le véhicule est votre outil principal, votre protection et souvent une partie de votre réputation.',
+  neopunk:'Agitateur, artiste et organisateur de réseau : vous faites circuler idées, images, contacts et contestation dans l’Underlife comme sur le Holonet.',
+  ordre_arme:'Soldat ou garde d’une institution religieuse : votre fonction est de protéger personnes, lieux, convois ou intérêts confessionnels lorsque la foi seule ne suffit plus.',
+  clerc_holonet:'Spécialiste de communication, doctrine numérique et réseaux : vous portez la parole d’une institution dans les espaces connectés et savez y défendre sa présence.',
+  ministeriel:'Professionnel des ressources, de la santé, des sciences ou des infrastructures d’une institution religieuse : vous êtes le bras technique et logistique de son action.',
+  clerc_administrateur:'Prédicateur, responsable communautaire ou administrateur : vous entretenez la cohésion, la parole publique et le fonctionnement quotidien de l’institution.',
+  missionnaire:'Agent de terrain, d’assistance et d’implantation : vous allez là où l’institution est faible ou absente, avec assez de polyvalence pour y rester.'
+};
+const p25SkillHelp={
+  athletisme:'Course, saut, escalade et effort physique soutenu. Athlétisme entre directement dans l’Initiative avec l’Agilité et dans le Déplacement : 5 + Athlétisme mètres par PA.',
+  pugilat:'Combat à mains nues, coups, prises et techniques corporelles. Une attaque de Pugilat utilise Vigueur + Pugilat + 1d10e.',
+  humanite:'Continuité du moi, libre arbitre et capacité à rester soi malgré transformations et altérations du corps. Humanité entre dans l’Intégrité avec Force Mentale et fixe aussi, avec Vigueur, le Stress augmentique maximum.',
+  melee:'Usage offensif des armes de contact : lames, matraques et autres armes de mêlée. Une attaque utilise Vigueur + Mêlée + 1d10e.',
+  constitution:'Endurance organique, récupération et résistance générale du corps. Constitution augmente les PV maximum, repousse le seuil de mort et détermine les PV récupérés par jour de repos normal.',
+  tir:'Usage des armes à distance et maîtrise du tir sous pression. Une attaque de Tir utilise Agilité + Tir + 1d10e avant les règles propres à l’arme, au couvert et à la visée.',
+  pilotage:'Conduire et manœuvrer véhicules terrestres, aériens ou autres engins lorsqu’un véritable test est nécessaire : vitesse, poursuite, manœuvre risquée ou terrain difficile.',
+  furtivite:'Se déplacer, agir et se positionner sans être repéré ; exploiter ombres, bruit ambiant, couvert et timing pour éviter l’attention.',
+  esquive:'Éviter physiquement une attaque ou un danger immédiat. Esquive construit la Défense passive avec Agilité et sert aussi à la Défense active lorsqu’elle est utilisée.',
+  larcin:'Vol discret, pickpocket, manipulation clandestine d’objets, serrures et petites techniques de cambriolage ou de fraude matérielle.',
+  mecanique:'Diagnostiquer, réparer, modifier et comprendre machines, véhicules, systèmes techniques et une partie de l’augmentique lorsqu’une intervention matérielle est nécessaire.',
+  langages_argot:'Langues, jargons, codes sociaux et argots spécialisés. À la création, chaque point permet de connaître une langue supplémentaire en plus de la langue native.',
+  savoirs:'Connaissances théoriques, culture générale et domaines spécialisés : droit, sciences, institutions, histoire, religions, secteurs techniques ou corporatifs selon le contexte.',
+  soin:'Premiers secours, diagnostic et pratique médicale. Les premiers soins utilisent Esprit + Soin ; en réussite standard, ils peuvent rendre 1 + DR PV selon les règles de Santé.',
+  investigation:'Chercher méthodiquement des indices, recouper des informations, inspecter une scène et reconstruire ce qui s’est passé à partir de traces exploitables.',
+  neurodive:'Accès, intrusion et navigation active dans le Holonet et les systèmes connectés. Les Neuroprogrammes fournissent les outils spécialisés ; le Rang de Neurodive détermine aussi combien peuvent être chargés.',
+  perception:'Repérer détails, mouvements, sons, changements et menaces dans l’environnement ; remarquer ce qui pourrait passer inaperçu sans une attention volontaire.',
+  maitrise_spirituelle:'Garder le contrôle de soi sous Stress, peur, surcharge ou crise. Elle intervient notamment avec Volonté dans les tests de Stress et plusieurs sorties de Frénésie.',
+  survie:'S’orienter, trouver un abri ou des ressources, gérer les contraintes du terrain et continuer à fonctionner loin d’un environnement sûr ou familier.',
+  force_mentale:'Résister à la pression mentale et aux attaques occultes. Avec Volonté elle forme la Défense occulte passive — également Défense Neuro passive dans le Holonet — et avec Humanité elle détermine l’Intégrité.',
+  seduction:'Créer ou exploiter une attraction personnelle, lire le registre du désir et établir une proximité lorsque cette approche est réellement pertinente à la scène.',
+  diplomatie:'Négocier, désamorcer un conflit, trouver un compromis et manier les codes relationnels d’un milieu sans simplement imposer son autorité.',
+  commerce:'Évaluer, négocier, acheter, vendre et comprendre les pratiques d’un marché, y compris lorsqu’il faut marchander ou sentir qu’une transaction cache autre chose.',
+  representation:'Jouer un rôle, se produire, maîtriser son image et son comportement public : scène, média, apparence professionnelle ou performance sociale selon le contexte.',
+  autorite:'Commander, obtenir l’obéissance, poser un cadre et faire peser son statut ou sa présence lorsqu’une relation hiérarchique ou un rapport de force social le permet.'
+};
+function p25SkillTotal(id){return typeof p20SkillFinal==='function'?p20SkillFinal(id):skillRaw(id)}
+function p25ResetStylePoints(){Object.values(state.skills).forEach(v=>v.style=0)}
+function p25SphereCards(){return Object.entries(ruleset.spheres).map(([id,s])=>({id,name:s.name,lore:p25SphereLore[id]||'',meta:`<strong>5 points fixes :</strong> ${s.fixedSkills.map(x=>`${uxEsc(skillName(x))} +1`).join(' · ')}<br><strong>Appui :</strong> ${uxEsc(s.support||'—')}`}))}
+function p25StyleCards(){return ruleset.styles.filter(s=>s.sphere===state.creation.sphere).map(s=>({id:s.id,name:s.name,lore:p25StyleLore[s.id]||'',meta:`<strong>Train de vie :</strong> ${uxEsc(s.lifestyle)} · <strong>Compte :</strong> ${fmt(s.account)} · <strong>Aug. :</strong> ${fmt(s.augmentationEnvelope)}${s.vehicleCapital?` · <strong>Capital véhicule :</strong> ${fmt(s.vehicleCapital)}`:''}<br><strong>Compétences :</strong> ${s.skills.map(skillName).map(uxEsc).join(' · ')}<br><strong>Expertise :</strong> ${s.expertiseFamilies.map(attrName).map(uxEsc).join(' / ')}`}))}
+function p25StyleAllocator(c){
+  const st=style();if(!st)return;const used=totalStylePoints();
+  c.appendChild(el('div',{class:'section-title reality-subtitle'},`<div><h3>Répartir les 5 points du Style</h3><p>Ces points représentent la pratique professionnelle ou opérationnelle de départ. Répartissez exactement 5 points entre les cinq Compétences du Style, avec un maximum de +2 dans une même Compétence.</p></div><div class="kpi ${used===5?'good':'bad'}">${used}/5</div>`));
+  const grid=el('div',{class:'p25-style-allocator'});st.skills.forEach(id=>{const sk=ruleset.skills.find(x=>x.id===id),o=state.skills[id],total=p25SkillTotal(id),raw=skillRaw(id),box=el('div',{class:'alloc p25-skill-mini'},`<div class="alloc-title"><strong>${uxEsc(sk?.name||id)}</strong><span>Total ${total}</span></div><div class="p25-mini-help">${uxEsc(p25SkillHelp[id]||'')}</div><div class="stepper"><button data-dir="-1">−</button><strong>${o.style}</strong><button data-dir="1">+</button></div>`);box.querySelectorAll('button').forEach(b=>b.onclick=()=>{const dir=Number(b.dataset.dir),nv=Number(o.style||0)+dir;if(nv<0||nv>2)return;if(dir>0&&(totalStylePoints()>=5||raw>=5))return;o.style=nv;render()});grid.appendChild(box)});c.appendChild(grid)
+}
+stepSphere=function(){
+  const c=wrap('Sphère actuelle & Style','Cette étape se lit comme un ensemble. La Sphère décrit le milieu, l’institution ou le réseau qui structure votre vie actuelle et pose immédiatement 5 points fixes de Compétence. Le Style décrit ce que vous savez faire au départ : il ajoute 5 points guidés à répartir ici, ouvre deux familles d’Expertise et fixe votre situation économique et augmentique avant les points libres.');
+  c.appendChild(el('div',{class:'rulebox'},'<strong>Sphère ≠ Origine :</strong> l’Origine raconte d’où vous venez ; la Sphère raconte où vous vivez et travaillez aujourd’hui. <strong>Style ≠ classe :</strong> il décrit votre pratique de départ mais ne vous enferme pas dans une progression. L’Enveloppe augmentique indiquée par le Style n’est pas de l’argent liquide : elle représente ce qui a déjà pu être investi dans le corps avant le scénario 1.'));
+  c.appendChild(p25ChoiceGrid(p25SphereCards(),state.creation.sphere,id=>{if(state.creation.sphere!==id){state.creation.sphere=id;state.creation.style='';state.talents.sphere='';state.talents.expertise='';p25ResetStylePoints()}render()}));
+  if(!state.creation.sphere)return;
+  const sp=sphere();c.appendChild(el('div',{class:'p25-fixed-reminder'},`<strong>Points de Sphère déjà posés :</strong> ${sp.fixedSkills.map(id=>`${uxEsc(skillName(id))} +1`).join(' · ')}`));
+  c.appendChild(el('h3',{class:'subhead'},'Choisir le Style'));
+  c.appendChild(p25ChoiceGrid(p25StyleCards(),state.creation.style,id=>{if(state.creation.style!==id){state.creation.style=id;state.talents.expertise='';p25ResetStylePoints()}render()}));
+  if(style()){p25StyleAllocator(c);c.appendChild(el('div',{class:'rulebox'},`<strong>Appui de Sphère :</strong> ${uxEsc(sp.support||'—')}<br><strong>Expertise gratuite plus tard :</strong> une Expertise appartenant à ${style().expertiseFamilies.map(attrName).map(uxEsc).join(' ou ')}.`))}
+};
+
+stepSkills=function(){
+  const st=style(),ok=totalFreePoints()===15;const c=wrap('Compétences libres','Les 5 points de Sphère et les 5 points de Style sont déjà intégrés à vos valeurs. Répartissez ici uniquement les 15 points libres. Le Total affiché est la valeur actuelle de la Compétence ; le plafond de création reste 5 avant les éventuels bonus explicitement accordés par un Talent.',`<div class="kpi ${ok?'good':'bad'}">Libres ${totalFreePoints()} / 15</div>`);
+  if(!st){c.appendChild(el('div',{class:'empty'},'Choisissez d’abord une Sphère et un Style.'));return}
+  if(totalStylePoints()!==5)c.appendChild(el('div',{class:'rulebox warn'},`Le Style n’est pas encore complètement réparti : ${totalStylePoints()}/5. Revenez au bloc Sphère & Style pour terminer ces points avant les points libres.`));
+  ruleset.attributes.forEach(a=>{c.appendChild(el('h3',{class:'subhead'},a.name));const grid=el('div',{class:'alloc-grid p25-skill-grid'});ruleset.skills.filter(s=>s.attribute===a.id).forEach(sk=>{const o=state.skills[sk.id],raw=skillRaw(sk.id),total=p25SkillTotal(sk.id),box=el('div',{class:'alloc p25-skill-card'},`<div class="alloc-title"><strong>${uxEsc(sk.name)}</strong><span>Total ${total}</span></div><div class="p25-skill-help">${uxEsc(p25SkillHelp[sk.id]||'Compétence utilisée avec son Attribut de référence dans les situations correspondantes.')}</div>${total!==raw?'<div class="p25-bonus-note">Bonus permanent de Talent déjà inclus dans le Total.</div>':''}<div class="inline p25-free-line"><span class="tag">Points libres</span><div class="stepper"><button data-dir="-1">−</button><strong>${o.free}</strong><button data-dir="1">+</button></div></div>`);box.querySelectorAll('button').forEach(b=>b.onclick=()=>{const dir=Number(b.dataset.dir),nv=Number(o.free||0)+dir;if(nv<0)return;if(totalFreePoints()+dir<0||totalFreePoints()+dir>15)return;if(raw+dir>5)return;o.free=nv;render()});grid.appendChild(box)});c.appendChild(grid)});
+};
+
+const p25bCss=el('style',{},`.p25-fixed-reminder{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:12px 0;color:var(--text);font-size:12px;background:rgba(255,255,255,.02)}.p25-style-allocator{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:10px 0 18px}.p25-skill-mini .p25-mini-help{font-size:10px;line-height:1.35;color:var(--muted);min-height:40px;margin:6px 0}.p25-skill-card{align-items:stretch}.p25-skill-help{font-size:11px;line-height:1.45;color:var(--muted);min-height:64px;margin:7px 0 9px}.p25-bonus-note{font-size:10px;color:var(--good);margin:-4px 0 7px}.p25-free-line{justify-content:space-between;margin-top:auto;padding-top:6px;border-top:1px solid rgba(255,255,255,.05)}.p25-skill-grid .alloc{display:flex;flex-direction:column}.p25-choice-card .p25-card-meta strong{color:var(--text)}@media(max-width:650px){.p25-skill-help{min-height:0}}`);document.head.appendChild(p25bCss);
+render();
