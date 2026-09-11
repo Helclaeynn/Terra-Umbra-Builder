@@ -11,6 +11,18 @@
         state.truth.choices=state.truth.choices||{};
         state.truth.choices[ch.key]=v;
         sanitizeTruthTalents();
+        let changed=true;
+        while(changed){
+          changed=false;
+          const current=truthAvailableTalents();
+          for(const id of [...state.truth.truthTalents]){
+            const owned=truthTalentById(id);
+            if(!owned||!truthPrereqSatisfied(owned,current)){
+              state.truth.truthTalents=state.truth.truthTalents.filter(x=>x!==id);
+              changed=true;
+            }
+          }
+        }
         render();
       },ch.optional?'— Aucun —':'— Choisir —'));
       choices.appendChild(f);
@@ -49,8 +61,21 @@
         if(e.target.checked){
           const current=truthPtvSpent();
           if(current+t.cost>ruleset.truth.ptvInitial||!truthPrereqSatisfied(t,available))return;
-          state.truth.truthTalents.push(t.id);
-        }else state.truth.truthTalents=state.truth.truthTalents.filter(id=>id!==t.id);
+          if(!state.truth.truthTalents.includes(t.id))state.truth.truthTalents.push(t.id);
+        }else{
+          state.truth.truthTalents=state.truth.truthTalents.filter(id=>id!==t.id);
+          let changed=true;
+          while(changed){
+            changed=false;
+            for(const id of [...state.truth.truthTalents]){
+              const owned=truthTalentById(id);
+              if(!owned||!truthPrereqSatisfied(owned,available)){
+                state.truth.truthTalents=state.truth.truthTalents.filter(x=>x!==id);
+                changed=true;
+              }
+            }
+          }
+        }
         render();
       };
       body.appendChild(row);
