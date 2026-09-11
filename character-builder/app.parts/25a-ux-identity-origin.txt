@@ -1,0 +1,107 @@
+// UX pass — Identity + Origin. Source: TUC Creation V12 final.
+
+function p25EnsureIdentity(){
+  state.identity=state.identity||{};
+  for(const k of ['name','alias','age','activity','sex','height','weight','concept','objective','notes','portraitDataUrl','portraitName']) if(state.identity[k]===undefined||state.identity[k]===null) state.identity[k]='';
+}
+p25EnsureIdentity();
+
+function p25LiveField(key,label,help,{required=false,placeholder='',textarea=false}={}){
+  const f=el('div',{class:'field p25-field'}),lab=el('label',{},`${uxEsc(label)}${required?' <span class="p25-required">obligatoire</span>':' <span class="p25-optional">optionnel</span>'}`);
+  f.appendChild(lab);
+  const input=textarea?el('textarea',{rows:4,placeholder}):el('input',{type:'text',placeholder});
+  input.value=state.identity[key]||'';
+  input.oninput=e=>{state.identity[key]=e.target.value;renderSummary();renderProgress();persist()};
+  f.appendChild(input);if(help)f.appendChild(el('div',{class:'p25-help'},uxEsc(help)));return f;
+}
+function p25ResizePortrait(file){
+  return new Promise((resolve,reject)=>{
+    if(!file?.type?.startsWith('image/')){reject(new Error('Le fichier choisi n’est pas une image.'));return}
+    if(file.size>12*1024*1024){reject(new Error('Image trop lourde (12 Mo maximum avant redimensionnement).'));return}
+    const reader=new FileReader();reader.onerror=()=>reject(new Error('Lecture de l’image impossible.'));reader.onload=()=>{
+      const img=new Image();img.onerror=()=>reject(new Error('Format d’image illisible.'));img.onload=()=>{
+        const max=640,ratio=Math.min(1,max/Math.max(img.naturalWidth||1,img.naturalHeight||1)),w=Math.max(1,Math.round(img.naturalWidth*ratio)),h=Math.max(1,Math.round(img.naturalHeight*ratio)),canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,w,h);
+        let data=canvas.toDataURL('image/webp',.82);if(!data.startsWith('data:image/webp'))data=canvas.toDataURL('image/jpeg',.84);resolve(data);
+      };img.src=String(reader.result||'');
+    };reader.readAsDataURL(file);
+  });
+}
+async function p25SetPortrait(file){try{state.identity.portraitDataUrl=await p25ResizePortrait(file);state.identity.portraitName=file.name||'';render()}catch(err){alert(err?.message||String(err))}}
+
+stepIdentity=function(){
+  p25EnsureIdentity();
+  const c=wrap('Concept et identité','Commencez par la personne, avant les chiffres. Le V12 propose de définir son identité, son âge approximatif, son activité, son apparence et ce qui le pousse à agir. Ici, seuls le nom et l’âge sont nécessaires pour valider l’étape ; le reste sert à donner prise au personnage dans le monde.');
+  const layout=el('div',{class:'p25-identity-layout'}),portrait=el('aside',{class:'p25-portrait-card'}),frame=el('div',{class:`p25-portrait-frame ${state.identity.portraitDataUrl?'has-image':''}`});
+  if(state.identity.portraitDataUrl){const img=el('img',{alt:`Portrait de ${state.identity.name||'personnage'}`});img.src=state.identity.portraitDataUrl;frame.appendChild(img)}else frame.appendChild(el('div',{class:'p25-portrait-empty'},'<strong>Portrait</strong><span>Ajoutez une image pour incarner visuellement le personnage.</span>'));
+  portrait.appendChild(frame);
+  const upload=el('label',{class:'ghost p25-upload'},state.identity.portraitDataUrl?'Changer le portrait':'Choisir une image'),file=el('input',{type:'file',accept:'image/*'});file.hidden=true;file.onchange=e=>{const f=e.target.files?.[0];if(f)p25SetPortrait(f)};upload.appendChild(file);portrait.appendChild(upload);
+  if(state.identity.portraitDataUrl){const rm=el('button',{class:'danger-btn mini'},'Retirer le portrait');rm.onclick=()=>{state.identity.portraitDataUrl='';state.identity.portraitName='';render()};portrait.appendChild(rm)}
+  portrait.appendChild(el('div',{class:'p25-help'},'Le portrait est redimensionné avant sauvegarde. Il sera repris dans la Finalisation puis, plus tard, dans la fiche exportée.'));
+  const fields=el('div',{class:'p25-identity-fields'}),top=el('div',{class:'grid2'});
+  top.append(
+    p25LiveField('name','Nom','Le nom principal sous lequel le personnage est identifié dans sa vie quotidienne.',{required:true,placeholder:'Nom du personnage'}),
+    p25LiveField('age','Âge','Âge réel, légal ou simplement apparent si cela a du sens pour le concept.',{required:true,placeholder:'Ex. 34 ans'}),
+    p25LiveField('alias','Alias / nom de scène','Un surnom, indicatif, nom d’artiste, pseudonyme de réseau ou identité utilisée dans certains milieux.',{placeholder:'Ex. Ghost, Dr. Vale…'}),
+    p25LiveField('activity','Métier / activité actuelle','Ce que le personnage fait aujourd’hui. La Sphère précisera son milieu actuel et le Style sa pratique de départ.',{placeholder:'Ex. journaliste indépendant, garde du corps…'}),
+    p25LiveField('sex','Sexe / genre','Information descriptive sans conséquence mécanique.',{placeholder:'Ex. femme, homme, non-binaire…'}),
+    p25LiveField('height','Taille','Information descriptive sans conséquence mécanique ; vous pouvez garder l’unité qui vous convient.',{placeholder:'Ex. 1,78 m'}),
+    p25LiveField('weight','Poids','Information descriptive sans conséquence mécanique.',{placeholder:'Ex. 72 kg'})
+  );fields.appendChild(top);
+  const narrative=el('div',{class:'p25-narrative-grid'});
+  narrative.append(
+    p25LiveField('concept','Concept','Une phrase qui résume l’idée du personnage : rôle, tempérament, contradiction ou image forte.',{placeholder:'Ex. ancienne enquêtrice devenue fixer pour l’Underlife'}),
+    p25LiveField('objective','Objectif','Ce que le personnage veut concrètement aujourd’hui : retrouver quelqu’un, gagner une place, payer une dette, comprendre un secret…',{placeholder:'Ex. retrouver son frère disparu'}),
+    p25LiveField('notes','Notes / background','Quelques éléments de caractère, d’apparence, de relations ou d’histoire. Inutile d’écrire une biographie complète avant la première scène.',{textarea:true,placeholder:'Caractère, apparence, personnes importantes, événement marquant…'})
+  );fields.appendChild(narrative);layout.append(portrait,fields);c.appendChild(layout);
+  c.appendChild(el('div',{class:'rulebox'},'<strong>Repère de jeu :</strong> le personnage n’a pas besoin d’être entièrement écrit pour commencer. Une identité claire et quelques prises sur le monde suffisent ; les détails peuvent émerger en campagne.'));
+};
+
+const p25OriginLore={
+  corporatiste:'Vous avez grandi dans un environnement où école, logement, soins, carrière et réputation pouvaient dépendre d’une corporation ou de son écosystème.',
+  gouvernementale:'Votre éducation s’est faite au contact des institutions, des services publics, des procédures et de l’idée qu’une fonction officielle implique aussi des responsabilités.',
+  mafieuse:'Vous avez grandi dans un milieu où les liens, les dettes, la réputation et les règles non écrites pouvaient compter davantage qu’un texte de loi.',
+  religieuse:'Votre enfance ou votre formation s’est structurée autour d’une communauté de foi, de ses rites, de son entraide et de ses institutions.',
+  crawler:'Vous avez appris à vivre dans les marges, les zones oubliées ou l’Underlife, en comptant davantage sur la débrouille et les relations que sur une institution stable.'
+};
+const p25OriginTalentFlavour={
+ codes_corporatifs:'Très tôt, vous avez appris qu’un titre oublié, une formule maladroite ou le mauvais niveau de langage peut fermer une porte avant même la négociation.',
+ formation_calibree:'Votre cursus a été pensé comme un investissement : on vous a donné tôt une compétence dans laquelle devenir utile.',
+ culture_produit:'Les marques, acteurs et habitudes d’un secteur ont fait partie de votre environnement presque comme une culture familiale.',
+ reseau_scolaire:'Un ancien camarade, formateur ou proche du milieu professionnel est resté dans votre carnet d’adresses.',
+ toujours_presentable:'Vous avez appris à ajuster tenue, registre et comportement avant même de franchir la porte.',
+ education_civique:'Les institutions n’étaient pas abstraites : on vous a appris leur vocabulaire, leurs règles et la façon dont elles sont censées fonctionner.',
+ procedures_administratives:'Vous avez vu assez de formulaires, services et guichets pour savoir où commence le bon chemin.',
+ famille_de_fonctionnaires:'Quelqu’un de votre entourage porte encore un badge, un uniforme ou travaille derrière un bureau officiel.',
+ formation_publique:'Une école, un programme ou une structure publique vous a transmis une spécialité concrète.',
+ dossier_propre:'Votre trace administrative raconte une vie cohérente, sans angle mort majeur qui fasse immédiatement lever un sourcil.',
+ codes_du_milieu:'Vous avez appris qui saluer, quand vous taire et à quel moment une plaisanterie devient une offense.',
+ omerta_familiale:'On vous a appris que certaines choses ne se disent pas, même lorsque quelqu’un sait exactement où appuyer.',
+ enfant_du_quartier:'Vous connaissez encore les raccourcis, les visages et les portes qui n’ont jamais eu besoin d’adresse.',
+ vieilles_frequentations:'Un ancien du quartier ou du milieu décroche encore lorsque votre nom s’affiche.',
+ petites_combines:'Vous avez grandi avec les petits arrangements, les marges et les objets qui changent discrètement de propriétaire.',
+ education_doctrinale:'Les textes, rites et débats de votre tradition ont fait partie de votre éducation ordinaire.',
+ vie_communautaire:'Vous savez parler à ceux qui partagent les mêmes références, habitudes et façons de faire communauté.',
+ discipline_de_foi:'Prière, méditation ou discipline rituelle vous ont appris à retrouver un centre lorsque la pression monte.',
+ communaute_dorigine:'Quelqu’un dans votre ancienne communauté se souvient encore de vous, de votre famille ou de ce que vous y avez fait.',
+ education_caritative:'Vous avez appris à aider concrètement : soigner, orienter, expliquer et rester présent quand quelqu’un est dans le besoin.',
+ debrouille:'Vous avez appris à faire beaucoup avec presque rien et à ne pas attendre qu’une institution vienne vous sauver.',
+ codes_de_rue:'Tags, gestes, surnoms et expressions de l’Underlife forment pour vous une seconde grammaire.',
+ enfant_des_zones_mortes:'Vous avez grandi là où les plans officiels cessent d’être vraiment utiles.',
+ on_connait_quelquun:'Dans les marges, survivre signifie souvent savoir qui appeler avant de savoir quoi faire.',
+ recuperateur:'Là où d’autres voient des déchets, vous voyez encore des pièces, des usages et des opportunités.'
+};
+function p25ChoiceGrid(items,selected,onSelect){
+  const grid=el('div',{class:'p25-choice-grid'});items.forEach(it=>{const card=el('div',{class:`p25-choice-card ${selected===it.id?'selected':''}`,tabIndex:0,role:'button'},`<h3>${uxEsc(it.name)}</h3>${it.lore?`<p>${uxEsc(it.lore)}</p>`:''}${it.meta?`<div class="p25-card-meta">${it.meta}</div>`:''}`);card.onclick=()=>onSelect(it.id);card.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();onSelect(it.id)}};grid.appendChild(card)});return grid;
+}
+stepOrigin=function(){
+  const c=wrap('Origine sociale','L’Origine décrit le milieu dans lequel le personnage a grandi ou reçu l’essentiel de son éducation. Elle ne dit pas ce qu’il fait aujourd’hui : un enfant de corporation peut être devenu Crawler, un enfant de fonctionnaires travailler pour la Pègre, et inversement.');
+  c.appendChild(el('div',{class:'rulebox'},'<strong>Ce que ce choix représente :</strong> des habitudes, des codes et un acquis durable de l’enfance ou de la formation initiale. Le Talent d’Origine choisi n’est pas perdu si le personnage change ensuite de métier, de Sphère ou de loyauté.'));
+  const items=Object.entries(ruleset.origins).map(([id,o])=>({id,name:o.name,lore:p25OriginLore[id]||''}));
+  c.appendChild(p25ChoiceGrid(items,state.creation.origin,id=>{if(state.creation.origin!==id){state.creation.origin=id;state.talents.origin=''}render()}));
+  if(!state.creation.origin)return;
+  const talents=ruleset.talents.origin[state.creation.origin]||[],field=el('div',{class:'field p25-origin-talent'},'<label>Talent d’Origine gratuit</label>'),select=el('select');select.innerHTML='<option value="">— Choisir un acquis de votre Origine —</option>'+talents.map(t=>`<option value="${uxEsc(t.id)}" ${state.talents.origin===t.id?'selected':''}>${uxEsc(t.name)}</option>`).join('');select.onchange=e=>{state.talents.origin=e.target.value;render()};field.appendChild(select);c.appendChild(field);
+  const t=talents.find(x=>x.id===state.talents.origin);if(t){const detail=el('div',{class:'p25-talent-detail'},`<strong>${uxEsc(t.name)}</strong><p>${uxEsc(t.effect||'')}</p><em>${uxEsc(p25OriginTalentFlavour[t.id]||'Cet acquis raconte quelque chose de concret de votre éducation et de la manière dont elle vous accompagne encore.')}</em>`);c.appendChild(detail)}
+};
+
+const p25aCss=el('style',{},`.p25-identity-layout{display:grid;grid-template-columns:minmax(190px,240px) minmax(0,1fr);gap:18px;align-items:start}.p25-portrait-card{border:1px solid var(--line);border-radius:14px;padding:12px;background:rgba(255,255,255,.02);display:grid;gap:9px}.p25-portrait-frame{aspect-ratio:4/5;border:1px dashed #465561;border-radius:12px;overflow:hidden;background:#080e13;display:grid;place-items:center}.p25-portrait-frame img{width:100%;height:100%;object-fit:cover}.p25-portrait-empty{padding:18px;text-align:center;color:var(--muted);display:grid;gap:8px}.p25-portrait-empty strong{color:var(--text);font-size:18px}.p25-upload{display:block;text-align:center;cursor:pointer}.p25-identity-fields{display:grid;gap:12px}.p25-narrative-grid{display:grid;gap:10px}.p25-field label{display:flex;justify-content:space-between;gap:8px;align-items:center}.p25-required,.p25-optional{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}.p25-required{color:var(--accent)}.p25-optional{color:var(--muted)}.p25-help{font-size:11px;line-height:1.4;color:var(--muted);margin-top:4px}.p25-choice-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:14px 0}.p25-choice-card{flex:0 1 calc(33.333% - 12px);min-width:220px;border:1px solid var(--line);border-radius:13px;padding:14px;background:rgba(255,255,255,.02);cursor:pointer;transition:border-color .12s,transform .12s,background .12s}.p25-choice-card:hover,.p25-choice-card:focus{border-color:#526575;outline:none;transform:translateY(-1px)}.p25-choice-card.selected{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);background:rgba(70,210,170,.06)}.p25-choice-card h3{margin:0 0 7px}.p25-choice-card p{font-size:12px;line-height:1.45;color:var(--muted);margin:0}.p25-card-meta{font-size:11px;line-height:1.4;margin-top:9px;padding-top:8px;border-top:1px solid rgba(255,255,255,.06)}.p25-origin-talent{max-width:760px;margin-top:20px}.p25-talent-detail{max-width:760px;border:1px solid var(--line);border-radius:12px;padding:13px;background:rgba(255,255,255,.025)}.p25-talent-detail p{margin:7px 0;font-size:13px}.p25-talent-detail em{display:block;color:var(--muted);font-size:12px;line-height:1.45}@media(max-width:850px){.p25-identity-layout{grid-template-columns:1fr}.p25-portrait-card{max-width:260px;margin:auto}.p25-choice-card{flex-basis:calc(50% - 12px)}}@media(max-width:560px){.p25-choice-card{flex-basis:100%;min-width:0}}`);document.head.appendChild(p25aCss);
+render();
