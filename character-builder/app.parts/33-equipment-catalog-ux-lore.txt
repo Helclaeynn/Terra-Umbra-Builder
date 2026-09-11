@@ -1,0 +1,166 @@
+// UX pass — Block 10 equipment. Mechanics stay on the V9/final Reality catalogs;
+// descriptive weapon identity is restored from the historical equipment corpus where available.
+
+function r33EnsureState(){
+  state.reality=state.reality||{};
+  for(const [k,v] of Object.entries({augCatalogQuery:'',augCatalogCategory:'',equipCatalogQuery:'',equipCatalogCategory:'',augCatalogOpen:false,equipCatalogOpen:false})){
+    if(state.reality[k]===undefined||state.reality[k]===null)state.reality[k]=v;
+  }
+}
+r33EnsureState();
+
+function r33Loose(v=''){return normText(String(v)).replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim()}
+const r33HistoricalWeaponLore=[
+ ['Couteau de combat','Simple couteau de combat : une lame conventionnelle, rapide à mettre en œuvre et bon marché, qui mise sur la simplicité plutôt que sur la haute technologie.'],
+ ['Owl KA-73 Last Encounter','Katana Owl réputé pour sa robustesse et la tenue de son tranchant, pensé comme une arme durable plutôt qu’un gadget fragile.'],
+ ['Phoenix PCK-08 Feather','Couteau de combat Phoenix dont le tranchant activé génère un champ surchauffé : une petite lame technologique conçue pour mieux pénétrer et cautériser.'],
+ ['Phoenix BA-037 Sun Axe','Hache Phoenix reposant sur le même principe de tranchant plasmatique incandescent que la Feather, mais avec la masse et l’allonge d’une arme plus lourde.'],
+ ['Raven CL-038 Claymore','Grande lame lourde d’inspiration claymore, équipée d’un champ électrique destiné à perturber les systèmes technologiques frappés.'],
+ ['Raven SP-016 Raven Spear','Longue lance Raven, élancée et à lame monofilament, combinant davantage d’allonge avec un champ électrique de la même famille que la Claymore.'],
+ ['Raven TM-028 Riot Control','Matraque-taser Raven destinée au maintien de l’ordre et à la sécurité, capable de frapper un adversaire tout en menaçant ses systèmes électroniques.'],
+ ['Owl TS-009 Sun Wukong','Bâton télescopique robuste : une arme longue, simple à transporter une fois repliée et pensée pour le combat de contact.'],
+ ['Phoenix PW-026 Vampire Killer','Fouet plasmatique expérimental : une arme flexible dont chaque impact porte une décharge thermique, spectaculaire mais exigeante à manier.'],
+ ['Raven MC-025 Hitman','Câble monofilament d’assassin, conçu pour concentrer toute sa létalité sur une ligne de coupe extrêmement fine.'],
+ ['Owl LC-014 Chasseur','Arbalète de poing compacte : une arme de trait discrète, à un coup, qui échange cadence contre simplicité et pouvoir de pénétration.'],
+ ['SeaWares HL-02 Poseidon','Lance-harpon conçu pour rester fonctionnel en environnement aquatique, là où une arme terrestre classique devient vite maladroite.'],
+ ['Raven JL-014 Cuchulainn','Javelot électrique Raven : une arme de jet qui combine une pointe perforante avec une capacité de perturbation EMP.'],
+ ['Tala TH-029 Tomahawk','Tomahawk utilisable aussi bien lancé qu’au corps à corps, robuste et suffisamment compact pour rester une arme polyvalente.'],
+ ['Owl MB-014 Bolas monofilament','Bolas dont les liens monofilament transforment une arme d’entrave traditionnelle en menace réellement coupante.'],
+ ['Owl LT-015 Incapaciteur','Taser léger, pensé avant tout pour neutraliser à courte portée plutôt que pour produire la létalité d’une arme à feu.'],
+ ['Raven HT-014 Immobilisateur','Taser lourd Raven : plus brutal et moins capacitaire, destiné aux cibles qu’un modèle léger peine à arrêter.'],
+ ['Owl PP-014 Old Colt','Pistolet de poche à barillet : une arme compacte et volontairement simple, facile à dissimuler mais limitée en capacité et portée.'],
+ ['Raven PP-012 Defender','Revolver de poche Raven : très compact, peu capacitaire et destiné à offrir une vraie arme de défense dans un encombrement minimal.'],
+ ['Owl LP-019 Acceptable','Pistolet léger conventionnel : le modèle sans sophistication particulière qui sert de référence simple dans sa catégorie.'],
+ ['Raven LP-004 Sturdy','Pistolet léger Raven plus massif et plus puissant que la moyenne de sa classe, privilégiant robustesse et fiabilité.'],
+ ['Phoenix LP-028 Sun Blast','Pistolet léger Phoenix conçu autour d’une interface de visée intégrée compatible avec les systèmes oculaires augmentés.'],
+ ['Owl HP-104 Deputy','Pistolet lourd à barillet au style volontairement « cowboy » : massif, fiable et résistant, avec une faible capacité assumée.'],
+ ['Raven HP-014 Pacificateur','Pistolet lourd à barillet Raven, très puissant, dont l’esthétique plus moderne accompagne un système de ciblage intégré.'],
+ ['Raven HP-067 Gardien','Revolver haut de gamme Raven à grande capacité pour sa classe, intégrant une interface de ciblage compatible avec les yeux bioniques.'],
+ ['Phoenix HP-028 Violator','Revolver haut de gamme Phoenix équipé d’une liaison de ciblage augmentique, pensé comme une arme de poing lourde technologiquement assistée.'],
+ ['Phoenix HP-092 Depliant','Revolver pliant Phoenix : une fois son chargeur retiré, l’arme se replie pour devenir beaucoup plus facile à dissimuler dans un petit espace.'],
+ ['Owl MGP-062 Suppressor','Pistolet-mitrailleur compact à grande capacité, conçu pour fournir beaucoup de feu à courte portée sans mécanique sophistiquée.'],
+ ['Raven MGP-072 Military','Pistolet-mitrailleur Raven plus puissant et fiable, développé comme une arme de dotation militaire plutôt qu’un simple modèle civil.'],
+ ['Phoenix MGP-042 Equalizer','Pistolet-mitrailleur Phoenix à visée intégrée, mariant forte capacité et assistance électronique au tir.'],
+ ['Owl LMG-092 Gladius','Mitraillette standard et directe : une arme automatique compacte qui mise surtout sur sa cadence et sa capacité.'],
+ ['Phoenix LMG-018 Urban','Mitraillette Phoenix pensée pour le combat urbain, avec assistance de visée intégrée et format compact.'],
+ ['Raven LMG-027 Executionner','Mitraillette Raven puissante et fiable, plus brutale que les PM mais encore adaptée aux engagements rapprochés.'],
+ ['Raven LMG-072 Neo-Executionner','Évolution connectée de l’Executionner : même logique de mitraillette puissante et fiable, complétée par une interface de ciblage.'],
+ ['Phoenix AR-124 Mutilator','Fusil d’assaut automatique conventionnel : une arme de ligne destinée à offrir portée, cadence et puissance sans spécialisation exotique.'],
+ ['Raven AR-027 Rampager','Fusil d’assaut Raven orienté contre les cibles technologiques, avec munitions ou systèmes EMP en plus de sa puissance balistique.'],
+ ['Owl AR-071 Howling','Fusil d’assaut Owl orienté pénétration, destiné aux adversaires protégés plutôt qu’à la sophistication électronique.'],
+ ['Phoenix AR-124 Sunlight','Fusil d’assaut Phoenix connecté, combinant Smartlink et munition/effet Flash pour gêner une cible autant que la blesser.'],
+ ['Owl SR-017 Big Game Hunter','Fusil de précision de chasse : une arme longue et simple, prévue pour les tirs posés à distance plutôt que pour la cadence.'],
+ ['Owl SR-029 Hoot','Fusil de précision Owl renforcé pour mieux traiter les protections, avec davantage de portée et de pénétration.'],
+ ['Raven SR-029 Deathbringer','Fusil de précision Raven à très longue portée, associant forte puissance et capacité EMP contre des cibles technologiques.'],
+ ['Phoenix SR-034 Phantom','Fusil de précision Phoenix silencieux et assisté par Smartlink, conçu pour le tireur qui privilégie discrétion et acquisition de cible.'],
+ ['Raven SG-025 Riot Control','Shotgun Raven de maintien de l’ordre : portée courte, dispersion marquée et composante électrique pour neutraliser ou perturber.'],
+ ['Raven SG-039 Croaker','Shotgun Raven extrêmement puissant conçu pour traiter les augmentés et protections lourdes à très courte portée.'],
+ ['Owl SG-016 Boss','Shotgun Owl stable et à forte capacité, moins exotique que ses concurrents mais capable d’enchaîner davantage de tirs.'],
+ ['Phoenix SG-042 Fire Rain','Shotgun Phoenix incendiaire : une arme de très courte portée dont la décharge apporte une composante thermique explicite.']
+];
+
+function r33HistoricalWeapon(item){
+  const n=r33Loose(item?.name||'');if(!n)return '';
+  const hit=r33HistoricalWeaponLore.find(([name])=>{const k=r33Loose(name);return n===k||n.includes(k)||k.includes(n)});
+  return hit?.[1]||'';
+}
+function r33DeepText(item,names){const v=r15DeepField(item,names);return v===null||v===undefined?'':String(v).trim()}
+function r33CategoryContext(item){
+  const s=r33Loose(`${item?.category||''} ${r33DeepText(item,['Type'])}`),n=r33Loose(item?.name||'');
+  if(item?.kind==='augmentation'){
+    if(/esthet|cosmet|apparence|dermique decor/.test(s))return 'Modification corporelle surtout esthétique : elle change la présentation du corps sans transformer automatiquement ses performances.';
+    if(/neuro|neural/.test(s)||/cablage neuronal|analyseur chimique|bloqueur de douleur|booster d adrenaline|ports d interface|defense electronique/.test(n))return 'NeuroWare : l’augmentation travaille au plus près de l’interface cerveau-machine. Ces systèmes sont puissants, modulaires et particulièrement concernés par le Stress augmentique et les attaques Neuro.';
+    if(/optique|ocul|cyberoeil/.test(s+n))return 'CyberOptique : support ou module intégré à la vision. Selon le modèle, il remplace, complète ou instrumente directement ce que l’œil perçoit.';
+    if(/audio|audit|cyberaudio/.test(s+n))return 'CyberAudio : support ou module lié à l’audition, aux communications et au traitement sonore directement dans le corps.';
+    if(/interne|organe|cardio|respir|digest/.test(s+n))return 'Augmentation interne : l’appareil est intégré au fonctionnement organique du corps plutôt qu’ajouté comme simple équipement porté.';
+    if(/derm|externe|peau|armure/.test(s+n))return 'Augmentation dermique ou externe : sa fonction passe par la peau, la protection corporelle ou une structure visible à la surface du corps.';
+    if(/membre|bras|jambe|main|pied/.test(s+n))return 'Augmentation de membre : elle remplace ou transforme directement un bras, une jambe, une main ou un pied et dépend souvent d’un support adapté.';
+    if(/cyborg|lourd/.test(s+n))return 'Cyborg lourd : système invasif et structurel réservé aux transformations corporelles les plus massives ; il dépasse largement la logique d’un petit module isolé.';
+    if(/bio|genet|biogen/.test(s+n))return 'Biogénétique terrestre : le résultat recherché est obtenu par transformation biologique plutôt que par chrome apparent, généralement avec moins de Stress mais moins de modularité.';
+    return 'Augmentation terrestre : un élément réellement intégré au corps, avec son prix, sa Charge, son Stress et éventuellement un support ou des Slots à respecter.';
+  }
+  if(item?.neuro)return 'Neuroprogramme : logiciel spécialisé que le personnage peut posséder sans nécessairement le charger. Son utilisation réelle dépend du Rang de Neurodive et des emplacements disponibles.';
+  if(item?.vehicle)return 'Véhicule terrestre ou aérien : un bien durable dont le prix d’achat, la structure, le blindage, les places et l’entretien comptent autant que la simple vitesse.';
+  if(/armure|protection|gallow|holor/.test(s+n))return 'Protection portée : elle est conçue pour encaisser un type de menace déterminé et doit être lue avec ses valeurs de protection plutôt qu’avec son seul prix.';
+  if(/munition|chargeur|grenade|accessoire/.test(s+n))return 'Consommable ou accessoire d’armement : il modifie la manière d’employer une arme existante plutôt que de constituer une arme complète à lui seul.';
+  if(/service|soin|clinique|divert|assurance|abonnement|hotel|logement|planque/.test(s+n))return 'Service ou engagement de Réalité : il représente une prestation, un accès ou une dépense de vie concrète, pas un objet que le personnage transporte nécessairement sur lui.';
+  if(/drogue|boisson|nourrit|repas|alcool/.test(s+n))return 'Produit de consommation : sa valeur est autant sociale et fictionnelle que technique, et les dépenses ordinaires peuvent être absorbées par le Train de vie.';
+  if(/outil|materiel|kit|scanner|drone|terminal|communication/.test(s+n))return 'Matériel technique : un outil professionnel ou spécialisé destiné à donner au personnage une capacité concrète qu’un simple objet quotidien ne fournirait pas.';
+  return 'Équipement de Réalité : un bien ou service du quotidien technologique de 2035, à replacer dans son usage concret plutôt que de le lire comme une simple ligne de statistiques.';
+}
+function r33ItemLore(item){
+  if(!item)return '';
+  const old=r33HistoricalWeapon(item);if(old)return old;
+  const role=r33DeepText(item,['Rôle','Role']),type=r33DeepText(item,['Classe','Type']),appearance=r33DeepText(item,['Apparence','Aspect','Description physique','Présentation']),desc=r33DeepText(item,['Description','Principe']);
+  if(appearance&&normText(appearance)!==normText(item.effect||''))return appearance;
+  if(desc&&normText(desc)!==normText(item.effect||''))return desc;
+  if(role)return `${type?`${type}. `:''}${role}. ${r33CategoryContext(item)}`;
+  if(type&&!normText(item.category||'').includes(normText(type)))return `${type}. ${r33CategoryContext(item)}`;
+  return r33CategoryContext(item);
+}
+function r33LoreLine(item){const lore=r33ItemLore(item);return lore?el('em',{class:'r33-item-lore'},uxEsc(lore)):null}
+
+function r33AugCard(group){
+  const chosen=eqxChosenVariant(group),card=eqxAugGroupCard(group),head=card.querySelector('.catalog-head'),lore=r33LoreLine(chosen);if(lore)head?.after(lore);return card;
+}
+function r33EquipmentCard(item){
+  const card=realityCatalogCard(item,'equipment'),head=card.querySelector('.catalog-head'),lore=r33LoreLine(item);if(lore)head?.after(lore);return card;
+}
+function r33PurchasedList(kind,title){
+  const box=purchasedList(kind,title),rows=[...box.querySelectorAll('.purchase-row')],arr=purchaseArray(kind);
+  rows.forEach((row,i)=>{const item=purchaseItem(arr[i]);if(!item)return;const main=row.querySelector('.purchase-main')||row.firstElementChild,lore=r33LoreLine(item);if(lore)main?.appendChild(lore)});return box;
+}
+function r33Categories(kind){return eqxCategoryList(kind).sort((a,b)=>a.localeCompare(b,'fr'))}
+function r33Tools(kind){
+  const isAug=kind==='augmentation',qKey=isAug?'augCatalogQuery':'equipCatalogQuery',catKey=isAug?'augCatalogCategory':'equipCatalogCategory',tools=el('div',{class:'catalog-tools r33-tools'});
+  const cat=el('select');cat.innerHTML='<option value="">Toutes les catégories</option>'+r33Categories(kind).map(x=>`<option value="${uxEsc(x)}" ${x===state.reality[catKey]?'selected':''}>${uxEsc(x)}</option>`).join('');cat.onchange=e=>{state.reality[catKey]=e.target.value;render()};tools.appendChild(cat);
+  const search=el('input',{placeholder:isAug?'Rechercher une augmentation…':'Rechercher équipement, service ou véhicule…',value:state.reality[qKey]||''});search.oninput=e=>{state.reality[qKey]=e.target.value;render()};tools.appendChild(search);return tools;
+}
+function r33GroupCards(entries,getCategory,getCard){
+  const by=new Map();for(const x of entries){const cat=getCategory(x)||'Divers';if(!by.has(cat))by.set(cat,[]);by.get(cat).push(x)}
+  const frag=el('div',{class:'r33-category-stack'});[...by.entries()].sort((a,b)=>a[0].localeCompare(b[0],'fr')).forEach(([cat,items])=>{
+    const section=el('section',{class:'r33-catalog-category'});section.appendChild(el('h4',{},`${uxEsc(cat)} <span class="badge">${items.length}</span>`));const grid=el('div',{class:'catalog-grid'});items.forEach(x=>grid.appendChild(getCard(x)));section.appendChild(grid);frag.appendChild(section);
+  });return frag;
+}
+function r33AugSelector(){
+  const d=el('details',{class:'r33-catalog-selector',open:!!state.reality.augCatalogOpen});d.ontoggle=()=>{state.reality.augCatalogOpen=d.open;persist()};d.appendChild(el('summary',{},`<span><strong>Choisir des augmentations</strong><small>Catalogue trié par famille · versions Gen1/Gen2 regroupées</small></span><span class="badge">${eqxAugGroups().length}</span>`));
+  const body=el('div',{class:'r33-selector-body'});body.appendChild(r33Tools('augmentation'));if(realityLoadError){body.appendChild(el('div',{class:'alert'},`Catalogue impossible à charger : ${uxEsc(realityLoadError)}`));d.appendChild(body);return d}
+  const q=normText(state.reality.augCatalogQuery||''),cat=state.reality.augCatalogCategory||'';let groups=eqxAugGroups().filter(g=>g.variants.some(v=>eqxVisibleAug(v)&&eqxMatchesCategory(v,cat)&&eqxSearch(v,q)));
+  groups.sort((a,b)=>{const ca=eqxDisplayCategory(eqxChosenVariant(a)),cb=eqxDisplayCategory(eqxChosenVariant(b));return ca.localeCompare(cb,'fr')||a.name.localeCompare(b.name,'fr')});body.appendChild(el('div',{class:'catalog-count'},`${groups.length} augmentation(s) correspondante(s)`));body.appendChild(r33GroupCards(groups,g=>eqxDisplayCategory(eqxChosenVariant(g)),r33AugCard));d.appendChild(body);return d;
+}
+function r33EquipSelector(){
+  const d=el('details',{class:'r33-catalog-selector',open:!!state.reality.equipCatalogOpen});d.ontoggle=()=>{state.reality.equipCatalogOpen=d.open;persist()};d.appendChild(el('summary',{},`<span><strong>Choisir équipement, services & véhicules</strong><small>Armes, protections, outils, consommables, Neuroprogrammes, services et mobilité</small></span><span class="badge">${realityData.equipment.length}</span>`));
+  const body=el('div',{class:'r33-selector-body'});body.appendChild(r33Tools('equipment'));if(realityLoadError){body.appendChild(el('div',{class:'alert'},`Catalogue impossible à charger : ${uxEsc(realityLoadError)}`));d.appendChild(body);return d}
+  const q=normText(state.reality.equipCatalogQuery||''),cat=state.reality.equipCatalogCategory||'';let items=realityData.equipment.filter(x=>!r15RecurringCatalogItem(x)&&eqxMatchesCategory(x,cat)&&eqxSearch(x,q));items.sort((a,b)=>eqxDisplayCategory(a).localeCompare(eqxDisplayCategory(b),'fr')||a.name.localeCompare(b.name,'fr'));
+  body.appendChild(el('div',{class:'catalog-count'},`${items.length} entrée(s) correspondante(s)`));body.appendChild(r33GroupCards(items,eqxDisplayCategory,r33EquipmentCard));d.appendChild(body);return d;
+}
+
+function r33FixedChargePanel(){
+  r15EnsureCharges();const p=r15ChargePressure(),access=r18LifestyleAccess[p.base]||r18LifestyleAccess.Standard,box=el('div',{class:'r15-fixed-box'},`<div class="section-title reality-subtitle"><div><h3>Train de vie & Charges fixes</h3><p>Le moteur convertit automatiquement logement, leasing, assurances, entretien et autres engagements mensuels en pression sur le Train de vie.</p></div><div class="kpi ${p.deficit?'bad':'good'}">${uxEsc(p.base)} → ${uxEsc(p.effective)}</div></div><div class="rulebox"><strong>Référence ${uxEsc(p.base)} :</strong> ${fmt(p.ref)}/mois · Charges comptabilisées : <strong>${fmt(p.total)}/mois</strong> · ${p.drops} tranche(s) complète(s).${p.deficit?` <strong>Déficit structurel : ${fmt(p.deficit)}/mois au-delà de Survie.</strong>`:''}</div>`);
+  box.appendChild(el('div',{class:'r18-access-grid'},`<div><strong>Logement normalement accessible</strong><span>${uxEsc(access.housing)}</span></div><div><strong>Mobilité normalement accessible</strong><span>${uxEsc(access.mobility)}</span></div><div><strong>Planque/refuge normalement accessible</strong><span>${uxEsc(access.hideout)}</span></div>`));
+  box.appendChild(el('div',{class:'rulebox'},`<strong>Calcul automatique :</strong> entretien augmentique ${fmt(r18AugMaintenance())}/mois · entretien des véhicules possédés ${fmt(r18VehicleMaintenance())}/mois. Ces montants sont intégrés sans saisie supplémentaire.`));
+  const groups=r18RecurringGroups(),pickField=el('div',{class:'field'},'<label>Ajouter un logement, service ou engagement du catalogue</label>'),pick=el('select');pick.appendChild(el('option',{value:''},'— Choisir dans le catalogue —'));groups.forEach(g=>{const og=el('optgroup',{label:g.label});g.items.forEach(x=>{const sp=lockPriceSpec(x),o=el('option',{value:x.id,title:`${r33ItemLore(x)}\n\nMécanique / coût : ${sp.label}`},`${x.name} · ${sp.label}`);og.appendChild(o)});pick.appendChild(og)});pickField.appendChild(pick);box.appendChild(pickField);
+  const addCatalog=el('button',{class:'primary mini'},'Ajouter aux Charges fixes');addCatalog.onclick=()=>{const x=realityData.equipment.find(y=>y.id===pick.value);if(!x)return;const sp=lockPriceSpec(x),monthly=Math.max(0,Number(sp.defaultCost??r18Money(r15DeepField(x,['Entretien/mois','Entretien mensuel','Prix','Price']))||0));r18AddCatalogCharge(x,monthly)};box.appendChild(addCatalog);
+  const custom=el('div',{class:'grid2 r18-custom'}),name=el('div',{class:'field'},'<label>Autre Charge fixe / actif</label>'),nameInput=el('input',{placeholder:'Ex. pension, dette, service récurrent…'}),amt=el('div',{class:'field'},'<label>Montant mensuel</label>'),amtInput=el('input',{type:'number',min:0,step:25,placeholder:'0'});name.appendChild(nameInput);amt.appendChild(amtInput);custom.append(name,amt);box.appendChild(custom);const add=el('button',{class:'ghost mini'},'Ajouter une Charge personnalisée');add.onclick=()=>{const label=nameInput.value.trim();if(!label)return;state.reality.fixedChargeItems.push({uid:`fc-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,6)}`,name:label,monthly:Math.max(0,Number(amtInput.value)||0)});render()};box.appendChild(add);
+  const list=el('div',{class:'u14-picked-list'});state.reality.fixedChargeItems.forEach(x=>{const row=el('div',{class:'u14-picked-row'},`<div><strong>${uxEsc(x.name)}</strong><span>${fmt(x.monthly)}/mois${x.monthly===0?' · pris en charge / dotation':''}</span></div>`),rm=el('button',{class:'danger-btn mini'},'Retirer');rm.onclick=()=>{state.reality.fixedChargeItems=state.reality.fixedChargeItems.filter(y=>y.uid!==x.uid);render()};row.appendChild(rm);list.appendChild(row)});box.appendChild(list);return box;
+}
+
+stepEquipment=function(){
+  r33EnsureState();const eco=economic(),load=augmentationLoad(),d=derived(),c=wrap('Augmentations, équipement & patrimoine','Finalisez ici ce que le personnage possède réellement au début du jeu. Les catalogues sont volontairement séparés et repliés afin de garder les acquis lisibles.',`<div class="kpi ${eco.account>=0?'good':'bad'}">Compte restant ${fmt(eco.account)}</div>`);
+  if(!style()){c.appendChild(el('div',{class:'empty'},'Choisissez un Style pour obtenir le package économique.'));return}
+  c.appendChild(el('div',{class:'budget-grid'},`<div class="budget-card"><span>Compte départ</span><strong>${fmt(startAccount())}</strong><small>${fmt(style().account)} Style + ${fmt(state.edge.cashPacks*5000)} Edge</small></div><div class="budget-card"><span>Compte restant</span><strong class="${eco.account<0?'bad-text':''}">${fmt(eco.account)}</strong><small>Équipement et compléments inclus</small></div><div class="budget-card"><span>Enveloppe Aug.</span><strong>${fmt(eco.augSpend)} / ${fmt(eco.envelope)}</strong><small>${gen2Windows()} système(s) Gen2</small></div><div class="budget-card"><span>Capital véhicule</span><strong>${fmt(eco.vehSpend)} / ${fmt(eco.vehicleCapital)}</strong><small>${style().vehicleCapital?'Gundriver':'Aucun capital dédié'}</small></div><div class="budget-card"><span>Charge</span><strong class="${load.charge>d.integrity?'bad-text':''}">${load.charge} / ${d.integrity}</strong><small>maximum normal = Intégrité</small></div><div class="budget-card"><span>Stress Aug.</span><strong class="${load.stress>d.augmentStressMax?'bad-text':''}">${load.stress} / ${d.augmentStressMax}</strong><small>${hasTalent('stabilite_augmentique')&&load.rawStress!==load.stress?`Brut ${load.rawStress}, Stabilité −1`:'maximum de base'}</small></div>`));
+  c.appendChild(el('div',{class:'rulebox'},`L’Enveloppe inutilisée (${fmt(eco.augUnused)}) devient ${fmt(eco.augUnused*.5)} de Compte. Le Capital véhicule inutilisé (${fmt(eco.vehUnused)}) devient ${fmt(eco.vehUnused*.5)}. Le Compte complète les dépassements à 1:1. Une fenêtre Gen2 couvre un système : support + modules compatibles, ou une augmentation Gen2 autonome.`));
+  const ov=el('label',{class:'override-check'},`<input type="checkbox" ${state.reality.mjAdvancedOverride?'checked':''}> Autorisation MJ : permettre les augmentations terrestres avancées > 20 000 $ à l’unité`);ov.querySelector('input').onchange=e=>{state.reality.mjAdvancedOverride=e.target.checked;render()};c.appendChild(ov);
+
+  c.appendChild(r33PurchasedList('augmentation','Augmentations acquises'));
+  c.appendChild(r33AugSelector());
+  c.appendChild(el('div',{class:'hr'}));
+  c.appendChild(r33PurchasedList('equipment','Équipement, services & véhicules acquis'));
+  c.appendChild(r33EquipSelector());
+  c.appendChild(el('div',{class:'hr'}));
+  c.appendChild(el('div',{class:'rulebox neuro-box'},`<strong>Neurodive :</strong> brut ${skillRaw('neurodive')} · Rang ${lockNeuroRank()} · <strong>${lockLoadedNeuro().length}/${lockNeuroCapacity()} Neuroprogramme(s) chargé(s)</strong>${hasTalent('neurodriver')?' · Neurodriver +1 slot':''}${hasDis('unsinkable')?' · Unsinkable : chargement impossible':''}<br><span class="muted">Un Neuroprogramme peut être acheté et possédé sans être chargé. Le chargement représente les outils réellement prêts à être employés lors d’une plongée.</span>`));
+  c.appendChild(r33FixedChargePanel());
+};
+
+const r33Css=el('style',{},`.r33-catalog-selector{margin:12px 0 18px;border:1px solid var(--line);border-radius:12px;background:#0d141a;overflow:visible}.r33-catalog-selector>summary{cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px;list-style:none}.r33-catalog-selector>summary::-webkit-details-marker{display:none}.r33-catalog-selector>summary span:first-child{display:grid;gap:3px}.r33-catalog-selector>summary small{font-weight:400;color:var(--muted)}.r33-selector-body{padding:0 12px 14px}.r33-tools{grid-template-columns:minmax(180px,280px) minmax(240px,1fr)}.r33-category-stack{display:grid;gap:18px}.r33-catalog-category>h4{display:flex;align-items:center;gap:8px;margin:10px 0 7px}.r33-item-lore{display:block;color:var(--muted);font-size:12px;line-height:1.5;margin:8px 0 4px}.purchase-main .r33-item-lore{max-width:760px;margin-top:5px}.catalog-card .r33-item-lore{padding-right:4px}.r33-catalog-category .catalog-grid{margin-top:0}@media(max-width:760px){.r33-tools{grid-template-columns:1fr}}`);document.head.appendChild(r33Css);
+render();
