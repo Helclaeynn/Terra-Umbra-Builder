@@ -14,7 +14,7 @@ const spent=()=>S.truthTalents.reduce((a,id)=>a+(talent(id)?.cost||0),0);
 const remaining=()=>core.ptvInitial-spent();
 
 async function loadCatalog(id){
-  S.truthTalents=[];catalog=[];
+  catalog=[];
   const mono=await getOptional(`talents/${id}.json`);
   if(Array.isArray(mono)) catalog=mono;
   else{
@@ -24,6 +24,7 @@ async function loadCatalog(id){
       catalog=chunks.flat();
     }
   }
+  pruneInvalid();
   render();
 }
 
@@ -116,4 +117,4 @@ try{
   Object.assign(S,saved);
   if(!S.choices)S.choices={};if(!Array.isArray(S.truthTalents))S.truthTalents=[];
 }catch{}
-try{await loadCatalog(S.nature);pruneInvalid();render()}catch(e){$('#loadError').innerHTML=`<div class="alert">Erreur de chargement : ${esc(e.message)}</div>`;render()}
+try{await loadCatalog(S.nature)}catch(e){$('#loadError').innerHTML=`<div class="alert">Erreur de chargement : ${esc(e.message)}</div>`;render()}
