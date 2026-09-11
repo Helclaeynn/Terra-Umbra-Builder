@@ -19,7 +19,8 @@ function lockPriceSpec(item){
     else if(lockFinite(item?.price)!==null)mode='exact';
     else mode='manual';
   }
-  if(['fixed','reference','prix de reference'].includes(mode))mode='exact';
+  if(['fixed','prix de reference'].includes(mode))mode='exact';
+  if(mode==='reference')mode=(exact!==null||lockFinite(item?.price)!==null)?'exact':'manual';
   if(['min','minimum plus','at least'].includes(mode))mode='minimum';
   if(['variable','custom','unknown','indicatif'].includes(mode))mode='manual';
   if(['free','gratuit','included','inclus'].includes(mode))mode='included';
