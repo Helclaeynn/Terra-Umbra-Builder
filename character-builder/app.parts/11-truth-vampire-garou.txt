@@ -1,0 +1,46 @@
+// Vampire & Garou completion layer — free Court/Pelage traits and special native rules.
+const vgFreeChoiceTraits={
+  vampire:{
+    court:{
+      krovni_rytsari:{name:'Prédateur de guerre',access:'R',effect:'Tant qu’il n’est pas Surpris, le Vampire gagne +3 à sa Défense passive et active contre les attaques physiques.'},
+      alghul_almalakiu:{name:'Écho des Morts',access:'R',effect:'En touchant un cadavre ou une quantité significative de sang, le Vampire perçoit des traces utiles laissées par la mort : cause probable, violence, émotion finale, présence marquante, etc.'},
+      oru_ayeraye:{name:'Enfant des Ténèbres',access:'R · 1 PA',effect:'Dans une zone suffisamment obscure, le Vampire fait un avec l’ombre. Tant que l’effet s’applique, il n’est pas vu et ne peut être directement ciblé ; ce n’est pas un Couvert matériel et aucun capteur profane ne le contourne.'},
+      ihuito_meztzi:{name:'Cycle du Sang',access:'R',effect:'Une fois par scène, après une Prédation sanguine réussie, le prochain Talent de Sang utilisé avant la fin du round coûte 1 PA de moins, minimum 0.'},
+      shi_hun_zhe:{name:'Équilibre dérobé',access:'R',effect:'Après s’être nourri, une fois par scène, le Vampire peut consumer le Hun/Yang absorbé pour obtenir une résistance contre une faiblesse ou un effet surnaturel auquel sa Nature ne lui permettrait normalement pas de résister.'}
+    }
+  },
+  garou:{
+    pelage:{
+      pelages_gris:{name:'Gardien de la Meute',access:'R · Réaction 1 PA',effect:'Lorsqu’un allié situé à moins d’un Déplacement est ciblé par une attaque physique et que l’interposition est possible, le Gris peut immédiatement se déplacer jusqu’à lui et devenir la cible de l’attaque.'},
+      pelages_noirs:{name:'Territoire de la Meute',access:'R',effect:'Après avoir parcouru et instinctivement marqué un site cohérent, le Garou le considère comme son territoire jusqu’à ce qu’il en choisisse un autre. Une créature vivante qui s’y introduit ne peut pas le Surprendre sans vaincre son instinct dans une opposition appropriée.'},
+      pelages_blancs:{name:'Discipline de Fenrir',access:'R',effect:'À la fin d’un round, le Garou peut conserver 1 PA inutilisé jusqu’au début de son round suivant. Ce PA ne peut servir qu’à une Réaction : Défense active, déplacement d’urgence ou Talent explicitement utilisable en Réaction.'},
+      pelages_roux:{name:'Mue partielle',access:'R · 1 PA',effect:'Sous forme humaine révélée, le Roux manifeste jusqu’à la fin du round une propriété morphologique de sa forme animale ou hybride. La Mue partielle ne donne jamais l’Armure corporelle 2, le +1 PA ou la régénération de combat complète de l’hybride.'},
+      pelages_bruns:{name:'Accord des Kami',access:'SR',effect:'Le Garou perçoit les esprits/Keltas suffisamment présents et peut tenter de communiquer avec eux. Une fois par scène, dans un lieu spirituellement marqué, il peut obtenir une impression simple : danger, violence passée, perturbation surnaturelle, émotion dominante…'},
+      pelages_dores:{name:'Trace dévorée',access:'R',effect:'Après avoir mangé une quantité significative de chair ou un organe d’une créature surnaturelle récemment morte, le Garou conserve jusqu’à son prochain repos une seule Trace de sa nature. Une nouvelle Trace remplace l’ancienne ; elle ne copie jamais un sort complet, une mémoire, une Compétence ou un pouvoir unique.'}
+    },
+    blood:{
+      sang_enchaine:{name:'Corps Enchaîné',access:'R',effect:'+2 Vigueur, +2 Agilité, +1 PA par round et Déplacement environ ×2. Le Garou conserve mains, armes, armures, véhicules, augmentations et toutes les possibilités d’un corps humain. En contrepartie : pas d’Armure corporelle 2, pas de DGT 5 gratuit, pas de régénération de combat 2 PV/round et aucune Mue hybride.'}
+    }
+  }
+};
+function vgSelectedFreeTraits(){
+  const nature=state.truth.nature,traits=[];
+  if(nature==='vampire'){
+    const t=vgFreeChoiceTraits.vampire.court[state.truth.choices?.court];if(t)traits.push({...t,source:'Empreinte gratuite de Cour'});
+  }
+  if(nature==='garou'){
+    const p=vgFreeChoiceTraits.garou.pelage[state.truth.choices?.pelage];if(p)traits.push({...p,source:'Tradition gratuite de Pelage'});
+    const b=vgFreeChoiceTraits.garou.blood[state.truth.choices?.blood];if(b)traits.push({...b,source:'Règle native du Sang vif'});
+  }
+  return traits;
+}
+const vgBaseStepTruth=stepTruth;
+stepTruth=function(){
+  vgBaseStepTruth();
+  const traits=vgSelectedFreeTraits();if(!traits.length)return;
+  const c=$('#stepContent');if(!c)return;
+  const section=el('div',{class:'vg-free-traits'});section.appendChild(el('h3',{class:'subhead'},'Capacités gratuites liées aux choix'));
+  const grid=el('div',{class:'trait-grid'});
+  traits.forEach(t=>grid.appendChild(el('div',{class:'trait'},`<div class="trait-head"><strong>${t.name}</strong><span class="chip">${t.access}</span></div><div class="skill-meta">${t.source} · 0 PTV</div><p>${t.effect}</p>`)));
+  section.appendChild(grid);c.insertBefore(section,c.querySelector('.truth-list')||null);
+};
