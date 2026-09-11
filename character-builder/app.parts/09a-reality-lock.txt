@@ -1,6 +1,6 @@
 // Reality lock layer — final QA fixes, non-scalar prices, Neuroprogram loadout and vehicle catalogs.
 
-function lockFinite(v){const n=Number(v);return Number.isFinite(n)?n:null}
+function lockFinite(v){if(v===null||v===undefined||v==='')return null;const n=Number(v);return Number.isFinite(n)?n:null}
 function lockRaw(obj,key){return obj&&Object.prototype.hasOwnProperty.call(obj,key)?obj[key]:null}
 function lockPriceSpec(item){
   const raw=item?.raw||{};
