@@ -1,0 +1,93 @@
+// Truth UX — selected structural lore below dropdowns + specific, non-repeated Talent flavour.
+
+// Structural Truth choices: hover helps BEFORE selection; once selected, show the lore directly below.
+function t30TruthChoiceSelect(ch){
+  const value=state.truth.choices?.[ch.key]||'';
+  const field=el('div',{class:'field t30-truth-choice'}),lab=el('label',{},`${ch.label}${ch.optional?' · optionnel':''}`),select=el('select');
+  select.appendChild(el('option',{value:''},ch.optional?'— Aucun —':'— Choisir —'));
+  (ch.options||[]).forEach(o=>{
+    const attrs={value:o.id};
+    // The selected value is explained below instead of relying on a tooltip.
+    if(o.id!==value && o.description)attrs.title=o.description;
+    const opt=el('option',attrs,uxEsc(o.name));if(o.id===value)opt.selected=true;select.appendChild(opt);
+  });
+  select.onchange=e=>t16ChoiceChanged(ch.key,e.target.value);field.append(lab,select);
+  const picked=(ch.options||[]).find(o=>o.id===value);
+  if(picked?.description){
+    const detail=el('div',{class:'t30-choice-detail'},`<strong>${uxEsc(picked.name)}</strong><em>${uxEsc(picked.description)}</em>`);
+    field.appendChild(detail);
+  }
+  return field;
+}
+t16RenderChoicePanel=function(){
+  const n=truthNature(),old=$('#stepContent .truth-nature-card')?.nextElementSibling;if(!n?.choices?.length)return;
+  const panel=el('div',{class:'t16-choice-stack t30-choice-stack'});n.choices.forEach(ch=>panel.appendChild(t30TruthChoiceSelect(ch)));
+  if(old?.classList?.contains('grid2')||old?.classList?.contains('t16-choice-stack'))old.replaceWith(panel);else $('#stepContent .truth-nature-card')?.after(panel);
+};
+
+// Daemon V7: each common / Function Talent gets its own narrative line.
+const t30DaemonLore={
+  'memoire des ages':'Plusieurs existences laissent des strates de mémoire : certains noms, lieux et savoirs reviennent à l’Élu avec la netteté troublante d’un souvenir personnel.',
+  'ancrage de l elu':'Son âme a déjà été arrachée au Cycle et reforgée par un Dieu ; elle ne se laisse plus saisir, bannir ou déplacer comme une âme mortelle ordinaire.',
+  'regard du heraut':'Les âmes ne sont jamais complètement silencieuses pour un Héraut attentif : derrière la première lecture, une cicatrice, une marque ou une vérité spirituelle supplémentaire finit par apparaître.',
+  'resonance profonde':'Dans un lieu saturé des valeurs de sa Divinité, l’Élu sent sa Cour presque à portée de main et peut solliciter plus profondément la faveur qui l’y relie.',
+  'lecture superficielle':'L’Oracle effleure la surface de l’esprit comme on écoute une conversation derrière une porte : émotion dominante, intention immédiate et pensée présente deviennent perceptibles.',
+  'lecture profonde':'L’Oracle ne se contente plus d’entendre le bruit de l’esprit ; il cherche volontairement un souvenir ou une information précise dans les couches que la cible préférerait garder fermées.',
+  'fantasmagorie':'Le Tentateur impose à l’esprit une perception qui n’existe que pour sa victime, assez cohérente pour devenir momentanément plus convaincante que le monde réel.',
+  'songe obsedant':'Une illusion ne s’arrête plus avec la scène : un fragment s’accroche à la victime et attend son sommeil pour revenir sous forme de rêve, d’image ou de message.',
+  'charme daemoniaque':'L’Oracle apprend à repérer le langage émotionnel auquel son interlocuteur réagira vraiment, puis à parler exactement sur cette fréquence sans lui voler sa volonté.',
+  'appel du prophete':'Certaines âmes résonnent trop fortement avec un principe divin pour passer inaperçues ; l’Oracle apprend à reconnaître cette cicatrice sans prétendre en connaître immédiatement le nom.',
+  'affliction persistante':'La souffrance imposée par le Tourmenteur cesse d’être un spasme fugitif : elle s’installe dans le corps et refuse de partir tant que la victime ne parvient pas à la briser.',
+  'maladie sacree':'Le Châtiment transforme sa connaissance de la souffrance en pathologie véritable : le corps devient le terrain où sa sentence prend une forme clinique et tangible.',
+  'terreur':'Le Tourmenteur ne montre pas nécessairement un monstre ; il touche directement le réflexe qui dit à l’âme qu’elle est en présence de quelque chose qu’elle devrait fuir.',
+  'hantise du condamne':'La peur laisse une marque. Après avoir brisé un instant la contenance d’une victime, le Châtiment peut encore sentir son âme et laisser sa présence contaminer ses cauchemars.',
+  'destruction daemoniaque':'Le Tourmenteur apprend à frapper non plus seulement le corps ou l’esprit, mais l’accès même à une capacité de Vérité active — au prix d’exposer volontairement l’une des siennes.',
+  'briseur de heraut':'À distance, le Châtiment sacrifie une part de sa propre puissance pour arracher temporairement à un autre Héraut l’accès à l’une de ses armes surnaturelles.',
+  'arme changeante':'La Lame infernale n’est plus prisonnière d’une silhouette : elle suit l’intention martiale du Chevalier et adopte l’arme dont la bataille a besoin.',
+  'armure infernale':'Le Légionnaire transforme sa propre vitalité en rempart visible ou invisible ; ce qui aurait dû être du sang devient une protection liée à son âme.',
+  'garde du heraut':'Protéger un autre Élu devient un réflexe de guerre : le Chevalier traverse l’espace disponible pour prendre sur lui l’attaque qui visait son allié.',
+  'devotion infernale':'La douleur, la peur et la blessure cessent temporairement de dicter le rythme du combat ; le Chevalier continue parce que son service compte davantage que ce que son corps réclame.',
+  'bastion daemoniaque':'L’Armure infernale déborde de son porteur : un allié placé dans son ombre peut réellement combattre derrière lui comme derrière un rempart vivant.',
+  'arme exaltee':'La Lame reçoit une intention supplémentaire — percer, terrasser ou entraver — et cesse d’être seulement une arme puissante pour devenir un outil de doctrine martiale.',
+  'dernier rempart':'Même une blessure mortelle ne met pas immédiatement fin au devoir : pendant quelques secondes impossibles, le Chevalier reste debout uniquement parce qu’il lui reste encore quelque chose à accomplir.'
+};
+
+const t30DivinityDomains={
+  alabor:'les Eaux primordiales',astaroth:'la Civilisation, le savoir et la création',belial:'le Feu royal, la Domination et la destruction',diablo:'la Nuit, la peur et la dévoration de la lumière',lilith:'le désir, le plaisir, l’attachement et la fertilité',mammon:'la mort, la vieillesse et l’Inéluctable',mephisto:'l’Occulte, la parole et le hasard',satan:'le Jugement, la sentence et l’ordre',lucifer:'le Soleil, le cycle, la vie et le courage',belzebuth:'la Vie, l’évolution, la maladie et la mutation',abigor:'le ciel violent, le vent et l’orage',baal:'la Guerre',morrighan:'la guerre, la frénésie, les présages, la mort et la royauté'
+};
+function t30DaemonDivinity(t){const g=normText(t.group||'');return Object.keys(t30DivinityDomains).find(k=>g.includes(normText(k)))||''}
+function t30EffectLore(t){
+  const name=t.name||'Ce Talent',effect=normText(t.effect||''),group=t.group||'';
+  if(effect.includes('souvenir')||effect.includes('savoir')||effect.includes('information'))return `« ${name} » transforme une connaissance en instinct de Vérité : ce que le personnage a appris cesse d’être seulement théorique et devient immédiatement exploitable lorsque la situation l’exige.`;
+  if(effect.includes('soin')||effect.includes('recuper')||effect.includes('pv'))return `« ${name} » donne à la puissance surnaturelle une fonction de survie : chair, âme ou énergie sont forcées de tenir là où un corps ordinaire commencerait à céder.`;
+  if(effect.includes('defense')||effect.includes('armure')||effect.includes('protection'))return `« ${name} » matérialise une volonté de ne pas céder : la Vérité du personnage devient rempart, détourne l’impact ou impose à l’agression une résistance qu’elle n’attendait pas.`;
+  if(effect.includes('peur')||effect.includes('tendu')||effect.includes('panique'))return `« ${name} » agit sur l’instant où l’instinct comprend le danger avant la raison : la présence surnaturelle devient une menace que le corps de la cible croit avant même de l’expliquer.`;
+  if(effect.includes('ordre')||effect.includes('autorite')||effect.includes('social'))return `« ${name} » donne du poids surnaturel à une parole, un statut ou une intention ; l’influence ne vient plus seulement du charisme, mais de ce que la Vérité fait résonner derrière les mots.`;
+  if(effect.includes('illusion')||effect.includes('perception')||effect.includes('vision'))return `« ${name} » travaille la frontière entre ce qui existe et ce qui est perçu : les sens reçoivent une information que la Réalité seule n’aurait jamais pu fournir.`;
+  if(effect.includes('deplacement')||effect.includes('mouvement')||effect.includes('teleport')||effect.includes('poursu'))return `« ${name} » transforme le déplacement en expression de Nature : distance, trajectoire ou poursuite cessent d’obéir tout à fait aux limitations ordinaires du corps.`;
+  if(effect.includes('dgt')||effect.includes('attaque')||effect.includes('degat'))return `« ${name} » donne une forme offensive directe à la Vérité du personnage : ce qui n’était jusque-là qu’un héritage ou une affinité devient une menace tangible sur le champ de bataille.`;
+  if(effect.includes('zone')||effect.includes('rayon'))return `« ${name} » cesse d’être une manifestation intime : le pouvoir déborde du porteur et impose temporairement sa logique à tout un espace autour de lui.`;
+  if(effect.includes('prerequis'))return `« ${name} » représente un degré de maîtrise qui ne peut apparaître qu’après avoir appris à contrôler la forme plus simple dont il procède.`;
+  return `« ${name} » est une pratique distincte de ${group||'Vérité'} : son apprentissage marque une manière précise dont le personnage a appris à faire passer sa Nature dans le monde.`;
+}
+
+// Replace only the repetitive generic lore; keep all hand-authored Hunter lore from V7.
+const t30LoreBase=t28TruthLore;
+t28TruthLore=function(t){
+  const n=state.truth.nature,key=normText(t.name||'');
+  if(n==='daemon'){
+    if(t30DaemonLore[key])return t30DaemonLore[key];
+    const god=t30DaemonDivinity(t);if(god){
+      const domain=t30DivinityDomains[god];
+      const effectLore=t30EffectLore(t);
+      return `${effectLore} Chez un Élu de ${god.charAt(0).toUpperCase()+god.slice(1)}, cette expression reste enracinée dans ${domain}.`;
+    }
+    return t30EffectLore(t);
+  }
+  const old=t30LoreBase(t),generic=old?.startsWith(`« ${t.name||''} »`);
+  return generic?t30EffectLore(t):old;
+};
+
+const t30Css=el('style',{},`.t30-truth-choice{max-width:760px}.t30-choice-detail{margin-top:7px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.025);display:grid;gap:5px}.t30-choice-detail strong{font-size:13px}.t30-choice-detail em{color:var(--muted);line-height:1.45}.t30-choice-stack{gap:12px}`);document.head.appendChild(t30Css);
+
+render();
