@@ -1,0 +1,20 @@
+// Safe final Exile/Extral V5 loader. Replaces the legacy truncated single-blob imports used by part 19.
+async function t19bLoadSplit(name,expected){
+  const mr=await fetch(`${ROOT}/truth/full/${name}.final.manifest.json`,{cache:'no-store'});if(!mr.ok)throw new Error(`${name} final manifest: ${mr.status}`);
+  const manifest=await mr.json(),parts=manifest.parts||[];if(!parts.length)throw new Error(`${name} final manifest sans parties`);
+  const texts=await Promise.all(parts.map(async part=>{const r=await fetch(`${ROOT}/truth/full/${part}`,{cache:'no-store'});if(!r.ok)throw new Error(`${part}: ${r.status}`);return r.text()}));
+  const raw=await truthFullInflateBase64(texts.join('').replace(/\s+/g,''));
+  const rows=Array.isArray(raw)?raw:(raw?.entries||[]);
+  const clean=rows.filter(x=>x&&x.id&&x.name&&Number.isFinite(Number(x.cost))&&Number(x.cost)>0&&Number(x.cost)<=3);
+  const wanted=Number(manifest.entries)||expected;
+  if(clean.length!==wanted||clean.length!==expected)throw new Error(`${name}: ${clean.length} Talents, ${expected} attendus`);
+  if(new Set(clean.map(x=>x.id)).size!==clean.length)throw new Error(`${name}: IDs dupliqués`);
+  return clean;
+}
+try{
+  const [exileFinal,extralFinal]=await Promise.all([t19bLoadSplit('exile',184),t19bLoadSplit('extral',161)]);
+  truthCatalog.exile=exileFinal;truthCatalog.extral=extralFinal;
+  globalThis.TUCTruthFullCounts=globalThis.TUCTruthFullCounts||{};
+  globalThis.TUCTruthFullCounts.exile=exileFinal.length;globalThis.TUCTruthFullCounts.extral=extralFinal.length;
+  delete globalThis.TUCTruthExileExtralError;
+}catch(err){console.error('Catalogues finaux Exilés/Extrals',err);globalThis.TUCTruthExileExtralError=String(err?.message||err)}
