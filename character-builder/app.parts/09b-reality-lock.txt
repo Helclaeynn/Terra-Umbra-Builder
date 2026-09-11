@@ -1,0 +1,62 @@
+function lockCostAllowed(kind,item,cost){
+  const eco=economic(),p=Math.max(0,Number(cost)||0);
+  if(kind==='equipment'&&!item.vehicle)return eco.account-p>=0;
+  if(kind==='augmentation'){
+    const oldOver=Math.max(0,eco.augSpend-eco.envelope),newOver=Math.max(0,eco.augSpend+p-eco.envelope),oldUnused=Math.max(0,eco.envelope-eco.augSpend),newUnused=Math.max(0,eco.envelope-eco.augSpend-p);
+    return eco.account-(newOver-oldOver)+(newUnused-oldUnused)*.5>=0;
+  }
+  if(kind==='equipment'&&item.vehicle){
+    const oldOver=Math.max(0,eco.vehSpend-eco.vehicleCapital),newOver=Math.max(0,eco.vehSpend+p-eco.vehicleCapital),oldUnused=Math.max(0,eco.vehicleCapital-eco.vehSpend),newUnused=Math.max(0,eco.vehicleCapital-eco.vehSpend-p);
+    return eco.account-(newOver-oldOver)+(newUnused-oldUnused)*.5>=0;
+  }
+  return true;
+}
+canAffordPurchase=function(kind,item){
+  const spec=lockPriceSpec(item),estimate=spec.defaultCost??0;
+  if(kind==='augmentation'){
+    if(estimate>20000&&!state.reality.mjAdvancedOverride)return false;
+    if(!state.reality.mjAccessOverride&&!styleAccessCheck(item).ok)return false;
+    if(item.generation===2&&gen2Windows()<1)return false;
+  }
+  return lockCostAllowed(kind,item,estimate);
+};
+addPurchase=function(kind,item){
+  const spec=lockPriceSpec(item),estimate=spec.defaultCost??0;
+  if(kind==='augmentation'){
+    if(estimate>20000&&!state.reality.mjAdvancedOverride)return;
+    const access=state.reality.mjAccessOverride?{ok:true,systems:Array.from({length:gen2Windows()},(_,i)=>i+1)}:styleAccessCheck(item);
+    if(!access.ok)return;if(item.generation===2&&!(access.systems||[]).length)return;
+  }
+  if(!lockCostAllowed(kind,item,estimate)&&spec.defaultCost!==null)return;
+  const p={uid:`${Date.now().toString(36)}-${Math.random().toString(36).slice(2,8)}`,itemId:item.id,kind,selectedPrice:spec.defaultCost,priceConfirmed:!spec.configurable};
+  if(kind==='augmentation'&&item.generation===2){const access=state.reality.mjAccessOverride?Array.from({length:gen2Windows()},(_,i)=>i+1):allowedGen2Systems(item);p.gen2System=access[0]||1}
+  if(kind==='equipment'&&item.neuro)p.loaded=!hasDis('unsinkable')&&lockLoadedNeuro().length<lockNeuroCapacity();
+  purchaseArray(kind).push(p);render();
+};
+function lockItemDetails(item){
+  const d=item.details||item.raw?.data;if(!d||typeof d!=='object')return '';
+  const keys=['Places','Str.','Blind.','Sec.','Auto.','Entretien/mois'];
+  const vals=keys.filter(k=>d[k]!==undefined).map(k=>`${k} ${d[k]}`);return vals.join(' · ');
+}
+realityCatalogCard=function(item,kind){
+  const spec=lockPriceSpec(item),access=kind==='augmentation'?styleAccessCheck(item):{ok:true},can=canAffordPurchase(kind,item);
+  const meta=[spec.label,item.generation?`Gen ${item.generation}`:'',item.charge!==null?`Charge ${item.charge}`:'',item.stress!==null?`Stress ${item.stress}`:'',item.slots!==null&&item.slots!==undefined?`Slots ${item.slots}`:''].filter(Boolean);
+  let reason='';
+  if(kind==='augmentation'&&(spec.defaultCost??0)>20000&&!state.reality.mjAdvancedOverride)reason='Accord MJ requis (> 20 000 $ à l’unité)';
+  else if(kind==='augmentation'&&!access.ok&&!state.reality.mjAccessOverride)reason=access.reason;
+  else if(kind==='augmentation'&&item.generation===2&&gen2Windows()<1)reason='Aucune fenêtre Gen2';
+  else if(!can&&spec.defaultCost!==null)reason='Budget insuffisant';
+  const fam=kind==='augmentation'?augmentationFamilies(item):[],details=lockItemDetails(item),unsink=item.neuro&&hasDis('unsinkable');
+  const card=el('div',{class:`catalog-card ${access.ok||state.reality.mjAccessOverride?'':'access-locked'}`},`<div class="catalog-head"><div><strong>${item.name}</strong><small>${item.category}</small></div><button class="primary mini" ${can?'':'disabled'}>${spec.configurable?'Configurer':'Ajouter'}</button></div><div class="pillbar">${meta.map(x=>`<span class="pill">${x}</span>`).join('')}${fam.map(x=>`<span class="pill family">${x}</span>`).join('')}</div>${details?`<div class="skill-meta">${details}</div>`:''}${item.effect?`<p>${item.effect}</p>`:''}${unsink?'<div class="catalog-lock">Unsinkable peut posséder ce programme mais ne peut ni le charger ni l’employer.</div>':''}${reason?`<div class="catalog-lock">${reason}</div>`:''}`);
+  const btn=card.querySelector('button');if(can)btn.onclick=()=>addPurchase(kind,item);return card;
+};
+purchasedList=function(kind,title){
+  const arr=purchaseArray(kind),box=el('div',{class:'purchased-block'});box.appendChild(el('h3',{class:'subhead'},title));if(!arr.length){box.appendChild(el('div',{class:'empty'},'Aucun achat.'));return box}
+  const list=el('div',{class:'purchase-list'});arr.forEach(p=>{const item=purchaseItem(p);if(!item)return;const spec=lockPriceSpec(item),cost=lockPurchaseCost(p),access=kind==='augmentation'?styleAccessCheck(item,p.gen2System):{ok:true};
+    const row=el('div',{class:`purchase-row ${!access.ok&&!state.reality.mjAccessOverride?'access-locked':''}`},`<div class="purchase-main"><strong>${item.name}</strong><span>${spec.label}${item.generation?` · Gen ${item.generation}`:''}${item.charge!==null?` · Charge ${item.charge}`:''}${item.stress!==null?` · Stress ${item.stress}`:''}${!access.ok&&!state.reality.mjAccessOverride?` · ⚠ ${access.reason}`:''}</span>${lockItemDetails(item)?`<span>${lockItemDetails(item)}</span>`:''}</div><div class="purchase-actions"></div>`),actions=row.querySelector('.purchase-actions');
+    if(spec.configurable){const price=el('input',{type:'number',min:spec.mode==='range'||spec.mode==='minimum'?spec.min??0:1,max:spec.mode==='range'?spec.max??undefined:undefined,step:1,value:Number.isFinite(Number(p.selectedPrice))?Number(p.selectedPrice):''});price.title=spec.label;price.oninput=e=>{p.selectedPrice=e.target.value===''?null:Math.max(0,Number(e.target.value)||0);p.priceConfirmed=false;persist()};actions.appendChild(price);const confirm=el('button',{class:`ghost mini ${p.priceConfirmed?'confirmed':''}`},p.priceConfirmed?'Prix confirmé ✓':'Confirmer prix');confirm.onclick=()=>{const val=Number(p.selectedPrice),ok=Number.isFinite(val)&&(spec.mode!=='range'||(val>=spec.min&&val<=spec.max))&&(spec.mode!=='minimum'||val>=spec.min)&&(!['manual','multiplier'].includes(spec.mode)||val>0);if(!ok)return;p.priceConfirmed=true;render()};actions.appendChild(confirm)}else actions.appendChild(el('span',{class:'money'},fmt(cost)));
+    if(kind==='augmentation'&&item.generation===2){const allowed=state.reality.mjAccessOverride?Array.from({length:gen2Windows()},(_,i)=>i+1):allowedGen2Systems(item),sel=el('select');sel.innerHTML=allowed.map(n=>`<option value="${n}" ${Number(p.gen2System)===n?'selected':''}>Système Gen2 ${n}${n<=baseGen2Count()?' · Style':' · Edge'}</option>`).join('');if(!allowed.length)sel.innerHTML='<option>Incompatible</option>';sel.disabled=!allowed.length;sel.onchange=e=>{p.gen2System=Number(e.target.value);render()};actions.appendChild(sel)}
+    if(kind==='equipment'&&item.neuro){const lab=el('label',{class:'load-check'},`<input type="checkbox" ${p.loaded?'checked':''}> Chargé`),cb=lab.querySelector('input');cb.disabled=hasDis('unsinkable')||(!p.loaded&&lockLoadedNeuro().length>=lockNeuroCapacity());cb.onchange=e=>{p.loaded=e.target.checked;lockNormalizeNeuroLoadout();render()};actions.appendChild(lab)}
+    const rm=el('button',{class:'danger-btn mini'},'Retirer');rm.onclick=()=>removePurchase(kind,p.uid);actions.appendChild(rm);list.appendChild(row)});box.appendChild(list);return box;
+};
+
