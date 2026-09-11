@@ -1,0 +1,36 @@
+// Block 10 final concrete lore pass — entries that have no prose field in the normalized equipment catalog.
+const r39ConcreteLorePairs=[
+  ['Soda','Boisson gazeuse industrielle bon marché, aromatisée et sucrée avec des ingrédients de synthèse ; un produit banal de distributeur, bar ou restauration rapide.'],
+
+  ['Pistolet leger / PM — Raven','Munitions standard destinées aux pistolets légers et pistolets-mitrailleurs Raven ; elles représentent l’approvisionnement courant des armes de cette famille chez le fabricant.'],
+  ['Pistolet leger / PM — Phoenix','Munitions standard destinées aux pistolets légers et pistolets-mitrailleurs Phoenix ; elles constituent les cartouches courantes prévues pour cette famille d’armes.'],
+  ['Pistolet leger / PM — Owl','Munitions standard destinées aux pistolets légers et pistolets-mitrailleurs Owl ; elles correspondent à l’approvisionnement ordinaire de cette famille d’armes.'],
+
+  ['Pistolet lourd — Raven','Munitions de pistolet lourd au standard Raven, conçues pour les armes de poing plus puissantes de la marque et vendues comme leur approvisionnement courant.'],
+  ['Pistolet lourd — Phoenix','Munitions de pistolet lourd au standard Phoenix, prévues pour alimenter les armes de poing lourdes de la marque.'],
+  ['Pistolet lourd — Owl','Munitions de pistolet lourd au standard Owl, destinées aux armes de poing lourdes correspondantes et à leur usage courant.'],
+
+  ['Mitraillette — Raven','Munitions standard pour mitraillettes Raven, conditionnées comme l’approvisionnement normal des armes automatiques compactes de cette famille.'],
+  ['Mitraillette — Phoenix','Munitions standard pour mitraillettes Phoenix, prévues pour l’alimentation régulière des armes automatiques compactes de la marque.'],
+  ['Mitraillette — Owl','Munitions standard pour mitraillettes Owl, utilisées comme cartouches courantes des armes automatiques compactes de cette famille.'],
+
+  ["Fusil d'assaut — Raven","Munitions standard pour fusils d’assaut Raven, destinées à l’approvisionnement courant des armes longues militaires ou tactiques de cette famille."],
+  ["Fusil d'assaut — Phoenix","Munitions standard pour fusils d’assaut Phoenix, prévues pour les armes longues de combat correspondantes et leur dotation régulière."],
+  ["Fusil d'assaut — Owl","Munitions standard pour fusils d’assaut Owl, utilisées comme approvisionnement ordinaire des armes longues de combat de cette famille."],
+
+  ['Precision — Raven','Munitions destinées aux armes de précision Raven, vendues comme l’approvisionnement adapté aux fusils dont la portée et la régularité du tir sont prioritaires.'],
+  ['Precision — Phoenix','Munitions destinées aux armes de précision Phoenix, prévues pour les fusils où la constance et le tir à longue distance comptent davantage que le volume de feu.'],
+  ['Precision — Owl','Munitions destinées aux armes de précision Owl, adaptées aux fusils de tir lointain et à un approvisionnement privilégiant la régularité.'],
+
+  ['Shotgun — Raven','Cartouches standard pour fusils à pompe et shotguns Raven, représentant l’approvisionnement courant de cette famille d’armes à courte portée.'],
+  ['Shotgun — Phoenix','Cartouches standard pour shotguns Phoenix, destinées aux armes lisses ou assimilées de la marque et à leur usage courant.'],
+  ['Shotgun — Owl','Cartouches standard pour shotguns Owl, utilisées comme approvisionnement ordinaire des armes à courte portée de cette famille.']
+];
+const r39ConcreteLore=new Map(r39ConcreteLorePairs.map(([name,lore])=>[r34Loose(name),lore]));
+const r39LoreBase=r34ItemLore;
+r34ItemLore=function(item){
+  const key=r34Loose(item?.name||'');
+  if(r39ConcreteLore.has(key))return r39ConcreteLore.get(key);
+  return r39LoreBase(item);
+};
+render();
