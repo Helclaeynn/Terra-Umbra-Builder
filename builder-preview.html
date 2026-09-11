@@ -43,7 +43,7 @@
                 <div id="progressText" class="muted small">0 / 11 étapes valides</div>
               </div>
               <nav id="stepNav" class="step-nav"></nav>
-              <div class="sidebar-note"><strong>Preview</strong><span>Cette page exécute directement la branche de la PR #1, y compris les couches Réalité finales.</span></div>
+              <div class="sidebar-note"><strong>Preview</strong><span>Cette page exécute directement la branche de la PR #1, y compris Réalité et les catalogues Vérité complets en cours d’intégration.</span></div>
             </aside>
             <main class="main">
               <div id="globalAlerts"></div>
@@ -60,7 +60,7 @@
         return nativeFetch(input,init);
       };
 
-      const names=['01.txt','02.txt','03.txt','04.txt','05.txt','06.txt','06b-reality-safe-fetch.txt','07-reality.txt','08-reality-access.txt','09a-reality-lock.txt','09b-reality-lock.txt','09c-reality-lock.txt','10a-ux-budget.txt','10b-ux-choices.txt','10c-ux-validation-reset.txt'];
+      const names=['00-truth-full-daemon-angelus.txt','01.txt','02.txt','03.txt','04.txt','05.txt','06.txt','06b-reality-safe-fetch.txt','07-reality.txt','08-reality-access.txt','09a-reality-lock.txt','09b-reality-lock.txt','09c-reality-lock.txt','10a-ux-budget.txt','10b-ux-choices.txt','10c-ux-validation-reset.txt','11-truth-vampire-garou.txt','12-ux-equipment-truth-polish.txt','13-truth-daemon-angelus.txt'];
       const chunks=await Promise.all(names.map(async n=>(await rawFetch(`app.parts/${n}`)).text()));
       const moduleUrl=URL.createObjectURL(new Blob([chunks.join('\n')],{type:'text/javascript'}));
       try{await import(moduleUrl)}finally{URL.revokeObjectURL(moduleUrl)}
