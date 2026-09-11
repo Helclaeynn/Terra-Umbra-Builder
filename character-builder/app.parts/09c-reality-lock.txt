@@ -38,6 +38,7 @@ const lockBaseRender=render;
 render=function(){lockNormalizeState();lockBaseRender()};
 const lockBaseMergeState=mergeState;
 mergeState=function(obj){lockBaseMergeState(obj);lockNormalizeState()};
+function lockRestoreLatestStorage(){try{if(typeof localStorage==='undefined')return;const raw=localStorage.getItem('tuc-character-builder-v1');if(raw)mergeState(JSON.parse(raw))}catch(err){console.warn('Reality final restore',err)}}
 
 function lockLifestylePure(base,heir,edge,miserable){const order=ruleset.creation.lifestyleOrder;let i=order.indexOf(base);if(heir)i=Math.max(order.indexOf('Confortable'),Math.min(order.length-1,i+1));if(edge&&i<order.indexOf('Aisé'))i++;if(miserable)i=Math.max(0,i-1);return order[i]}
 function lockRunSelfTests(){
@@ -58,4 +59,4 @@ function lockRunSelfTests(){
 }
 
 const lockCss=el('style',{},`.purchase-actions input[type=number]{width:130px;background:#0c1217;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:7px}.load-check{display:flex;gap:5px;align-items:center;font-size:12px}.ghost.confirmed{color:var(--good);border-color:#2a6344}.neuro-box{border-color:#38506b}.purchase-main{min-width:220px}.purchase-main strong,.purchase-main span{display:block}`);document.head.appendChild(lockCss);
-lockNormalizeState();lockRunSelfTests();render();
+lockRestoreLatestStorage();lockNormalizeState();lockRunSelfTests();render();
