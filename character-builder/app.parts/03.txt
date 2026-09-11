@@ -1,0 +1,66 @@
+    neurodive:a.volonte+s.neurodive
+  }
+}
+
+function validations(){
+  const v={};
+  v.identity=!!state.identity.name.trim() && !!state.identity.concept.trim();
+  v.origin=!!state.creation.origin && !!state.talents.origin;
+  v.sphere=!!state.creation.sphere && !!state.creation.style;
+  v.attributes=attrTotal()===attrBudget() && Object.values(state.attributes).every(x=>x>=3&&x<=7);
+  const st=style();
+  const styleOK=st && totalStylePoints()===5 && Object.entries(state.skills).every(([id,o])=>o.style>=0&&o.style<=2&&(!o.style||st.skills.includes(id)));
+  const rawOK=ruleset.skills.every(s=>skillRaw(s.id)<=5);
+  v.skills=!!styleOK && totalFreePoints()===skillFreeBudget() && rawOK;
+  const expert=talentById(state.talents.expertise);
+  const expertFamilyOK=!expert || st?.expertiseFamilies.includes(expert.attribute);
+  const neuroOK=!hasTalent('neurodriver') || (skillRaw('neurodive')>=1 && !hasDis('unsinkable'));
+  v.talents=!!state.talents.sphere && !!state.talents.expertise && !!state.talents.common && state.talents.edge.length===state.edge.talentPacks && expertFamilyOK && neuroOK;
+  v.truth=!!state.truth.nature && !!state.truth.consciousness && truthChoicesValid() && truthPtvSpent()<=ruleset.truth.ptvInitial;
+  const directCancel=(hasTalent('resistance_a_la_chaleur')&&hasDis('sensible_a_la_chaleur'))||(hasTalent('resistance_au_froid')&&hasDis('sensible_au_froid'))||(hasTalent('brave')&&hasDis('lache'));
+  v.disadvantages=state.disadvantages.length<=3 && !directCancel && neuroOK;
+  v.edge=edgeRemaining()>=0 && state.edge.attributePack<=1 && state.edge.skillPacks<=3 && state.edge.talentPacks<=2 && state.edge.cashPacks<=3 && state.edge.lifestylePack<=1 && state.edge.augmentationPacks<=2 && state.edge.renownPack<=1;
+  const eco=economic(); v.equipment=eco.account>=0;
+  v.finish=Object.entries(v).filter(([k])=>k!=='finish').every(([,ok])=>ok);
+  return v;
+}
+
+function currentErrors(){
+  const errs=[]; const st=style();
+  if(attrTotal()!==attrBudget()) errs.push(`Attributs : ${attrTotal()} / ${attrBudget()} points.`);
+  if(totalStylePoints()!==5) errs.push(`Style : ${totalStylePoints()} / 5 points guidés.`);
+  if(totalFreePoints()!==skillFreeBudget()) errs.push(`Compétences libres : ${totalFreePoints()} / ${skillFreeBudget()} points.`);
+  const over=ruleset.skills.filter(s=>skillRaw(s.id)>5); if(over.length) errs.push(`Plafond brut 5 dépassé : ${over.map(s=>s.name).join(', ')}.`);
+  if(edgeRemaining()<0) errs.push(`Edge dépensé au-delà du disponible : ${-edgeRemaining()} en trop.`);
+  if(hasTalent('neurodriver')&&skillRaw('neurodive')<1) errs.push('Neurodriver exige Neurodive 1+.');
+  if(hasTalent('neurodriver')&&hasDis('unsinkable')) errs.push('Unsinkable est incompatible avec Neurodriver.');
+  if(hasTalent('resistance_a_la_chaleur')&&hasDis('sensible_a_la_chaleur')) errs.push('Résistance à la chaleur et Sensible à la chaleur s’annulent artificiellement.');
+  if(hasTalent('resistance_au_froid')&&hasDis('sensible_au_froid')) errs.push('Résistance au froid et Sensible au froid s’annulent artificiellement.');
+  if(hasTalent('brave')&&hasDis('lache')) errs.push('Brave et Lâche se neutralisent sur le même champ.');
+  if(economic().account<0) errs.push(`Compte négatif : ${fmt(economic().account)}.`);
+  if(!truthChoicesValid()) errs.push('Vérité : certains choix structurants obligatoires de la Nature ne sont pas renseignés.');
+  if(truthPtvSpent()>ruleset.truth.ptvInitial) errs.push(`Vérité : ${truthPtvSpent()} / ${ruleset.truth.ptvInitial} PTV dépensés.`);
+  if(st && state.talents.expertise){const t=talentById(state.talents.expertise); if(t && !st.expertiseFamilies.includes(t.attribute)) errs.push('Le Talent d’Expertise gratuit doit appartenir à une famille autorisée par le Style.');}
+  return errs;
+}
+
+function render(){renderNav();renderStep();renderSummary();renderProgress();persist();}
+function renderNav(){
+  const nav=$('#stepNav'); nav.innerHTML=''; const v=validations();
+  STEPS.forEach(([id,label],i)=>{const b=el('button',{class:`step-link ${i===stepIndex?'active':''} ${v[id]?'done':''}`},`<span class="dot"></span><span class="step-label">${i+1}. ${label}</span>`);b.onclick=()=>{stepIndex=i;render()};nav.appendChild(b)});
+}
+function renderProgress(){const v=validations();const done=STEPS.filter(([id])=>v[id]).length;$('#progressBar').style.width=(done/STEPS.length*100)+'%';$('#progressText').textContent=`${done} / ${STEPS.length} étapes valides`;$('#prevBtn').disabled=stepIndex===0;$('#nextBtn').textContent=stepIndex===STEPS.length-1?'Terminé': 'Suivant →';$('#nextBtn').disabled=stepIndex===STEPS.length-1;}
+function wrap(title,desc,kpi=''){const c=$('#stepContent');c.innerHTML='';c.appendChild(el('div',{class:'section-title'},`<div><h2>${title}</h2><p>${desc}</p></div>${kpi}`));return c}
+function selectCards(items,selected,onSelect,descKey='description'){
+  const grid=el('div',{class:'cards'});items.forEach(it=>{const card=el('div',{class:`choice-card ${selected===it.id?'selected':''}`},`<h3>${it.name}</h3>${it[descKey]?`<p>${it[descKey]}</p>`:''}`);card.onclick=()=>onSelect(it.id);grid.appendChild(card)});return grid;
+}
+function makeSelect(options,value,onchange,placeholder='— Choisir —'){
+  const s=el('select'); s.innerHTML=`<option value="">${placeholder}</option>`+options.map(o=>`<option value="${o.id}" ${o.id===value?'selected':''}>${o.name}</option>`).join('');s.onchange=e=>onchange(e.target.value);return s;
+}
+
+function renderStep(){
+  const id=STEPS[stepIndex][0];
+  ({identity:stepIdentity,origin:stepOrigin,sphere:stepSphere,attributes:stepAttributes,skills:stepSkills,talents:stepTalents,truth:stepTruth,disadvantages:stepDisadvantages,edge:stepEdge,equipment:stepEquipment,finish:stepFinish}[id])();
+}
+function stepIdentity(){const c=wrap('Concept et identité','Définir la personne avant de distribuer les chiffres.');const g=el('div',{class:'grid2'});[['name','Nom'],['alias','Alias / nom de scène'],['age','Âge'],['concept','Concept'],['objective','Objectif']].forEach(([k,l])=>{const f=el('div',{class:'field'},`<label>${l}</label>`);const inp=el('input',{value:state.identity[k]||''});inp.oninput=e=>{state.identity[k]=e.target.value;renderSummary();renderProgress()};f.appendChild(inp);g.appendChild(f)});const f=el('div',{class:'field'},'<label>Notes / background</label>');const t=el('textarea');t.value=state.identity.notes;t.oninput=e=>{state.identity.notes=e.target.value};f.appendChild(t);g.appendChild(f);c.appendChild(g)}
+function stepOrigin(){const c=wrap('Origine sociale','Le milieu d’éducation initial. Il n’est pas votre métier actuel.');const items=Object.entries(ruleset.origins).map(([id,o])=>({id,name:o.name}));c.appendChild(selectCards(items,state.creation.origin,id=>{state.creation.origin=id;state.talents.origin='';render()}));if(state.creation.origin){c.appendChild(el('h3',{class:'subhead'},'Talent d’Origine gratuit'));const list=el('div',{class:'talent-list'});ruleset.talents.origin[state.creation.origin].forEach(t=>{const row=el('label',{class:'talent-row'},`<input type="radio" name="originTalent" ${state.talents.origin===t.id?'checked':''}><div><strong>${t.name}</strong><span>${t.effect}</span></div>`);row.querySelector('input').onchange=()=>{state.talents.origin=t.id;render()};list.appendChild(row)});c.appendChild(list)}}
