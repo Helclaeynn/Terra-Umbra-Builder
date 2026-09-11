@@ -7,7 +7,15 @@ const statusLabel=s=>manifest?.statusLabels?.[s]||s||'';
 function routeTo(x){location.hash=x.startsWith('#')?x:'#'+x}
 function articleMeta(id){return manifest.articles.find(a=>a.id===id)}
 async function loadPacked(file){const r=await fetch(`data/${file}`);if(!r.ok)throw new Error(file);const b64=(await r.text()).trim();const bin=atob(b64),bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);if(!('DecompressionStream' in window))throw new Error('Ce navigateur ne prend pas en charge la décompression du Compendium.');const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));return JSON.parse(await new Response(stream).text())}
-async function loadFile(file){if(fileCache.has(file))return fileCache.get(file);const p=loadPacked(file);fileCache.set(file,p);const data=await p;data.forEach(a=>articleCache.set(a.id,a));return data}
+const bundleForFile=new Map([
+  ...['verite-1.json.gz.b64','crawlers.json.gz.b64','agences.json.gz.b64','bestiaire-2.json.gz.b64'].map(x=>[x,1]),
+  ...['verite-2.json.gz.b64','extraterrestres.json.gz.b64','fleaux.json.gz.b64','moteur.json.gz.b64'].map(x=>[x,2]),
+  ...['bestiaire-1.json.gz.b64','surnaturels.json.gz.b64','police.json.gz.b64','verite-3.json.gz.b64'].map(x=>[x,3]),
+  ...['pegre.json.gz.b64','realite.json.gz.b64','corporations.json.gz.b64','gouvernement.json.gz.b64'].map(x=>[x,4])
+]);
+const bundleCache=new Map();
+async function loadBundle(n){if(bundleCache.has(n))return bundleCache.get(n);const p=loadPacked(`bundle-${n}.json.gz.b64`);bundleCache.set(n,p);return p}
+async function loadFile(file){if(fileCache.has(file))return fileCache.get(file);const p=(async()=>{const n=bundleForFile.get(file);if(!n)throw new Error(`Dataset non mappé : ${file}`);const bundle=await loadBundle(n),data=bundle[file];if(!Array.isArray(data))throw new Error(`Dataset absent : ${file}`);data.forEach(a=>articleCache.set(a.id,a));return data})();fileCache.set(file,p);return p}
 async function loadArticle(id){if(articleCache.has(id))return articleCache.get(id);const m=articleMeta(id);if(!m)return null;await loadFile(m.file);return articleCache.get(id)||null}
 async function loadAll(){await Promise.all(Object.values(manifest.sets).flat().map(loadFile));return [...articleCache.values()]}
 function renderNav(active=''){const counts={};manifest.articles.forEach(a=>counts[a.category]=(counts[a.category]||0)+1);nav.innerHTML=`<a href="#/home" class="${active==='home'?'active':''}">Accueil</a><hr>${manifest.categories.map(c=>`<a href="#/category/${encodeURIComponent(c)}" class="${active===c?'active':''}"><span>${esc(c)}</span><span class="count">${counts[c]||0}</span></a>`).join('')}<hr><a href="#/search" class="${active==='search'?'active':''}">Recherche globale</a>`}
