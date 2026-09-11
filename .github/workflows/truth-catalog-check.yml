@@ -1,0 +1,89 @@
+name: Truth catalog check
+
+on:
+  push:
+    branches: [ feature/tuc-character-builder-v1 ]
+  pull_request:
+    paths:
+      - 'character-builder/rulesets/terra-umbra/truth/**'
+      - '.github/workflows/truth-catalog-check.yml'
+
+jobs:
+  validate-truth-catalogs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Truth manifests and final V5 imports
+        shell: python
+        run: |
+          import base64, gzip, hashlib, json
+          from pathlib import Path
+
+          errors=[]
+          root=Path('character-builder/rulesets/terra-umbra/truth/talents')
+          checked=0
+          for manifest_path in root.rglob('manifest.json'):
+              checked+=1
+              try:
+                  manifest=json.loads(manifest_path.read_text(encoding='utf-8'))
+              except Exception as exc:
+                  errors.append(f'{manifest_path}: invalid manifest JSON: {exc}')
+                  continue
+              chunks=manifest.get('chunks') or []
+              if not chunks:
+                  print(f'skip legacy empty manifest: {manifest_path}')
+                  continue
+              entries=[]
+              for chunk_name in chunks:
+                  chunk_path=manifest_path.parent/chunk_name
+                  if not chunk_path.is_file():
+                      errors.append(f'{manifest_path}: missing chunk {chunk_name}')
+                      continue
+                  try:data=json.loads(chunk_path.read_text(encoding='utf-8'))
+                  except Exception as exc:
+                      errors.append(f'{chunk_path}: invalid JSON: {exc}');continue
+                  if not isinstance(data,list):errors.append(f'{chunk_path}: expected array');continue
+                  entries.extend(data)
+              expected=manifest.get('entries')
+              if isinstance(expected,int) and len(entries)!=expected:errors.append(f'{manifest_path}: expected {expected}, loaded {len(entries)}')
+              ids=[x.get('id') for x in entries if isinstance(x,dict) and x.get('id')]
+              if len(ids)!=len(set(ids)):errors.append(f'{manifest_path}: duplicate ids')
+
+          full=Path('character-builder/rulesets/terra-umbra/truth/full')
+          def decode_payload(text):
+              payload=''.join(text.split())
+              return gzip.decompress(base64.b64decode(payload,validate=True))
+          def validate_split(manifest_name,label):
+              try:
+                  mp=full/manifest_name;m=json.loads(mp.read_text(encoding='utf-8'));parts=m.get('parts') or []
+                  if not parts:raise ValueError('no parts declared')
+                  raw=decode_payload(''.join((full/p).read_text(encoding='utf-8') for p in parts))
+                  sha=m.get('sha256');actual=hashlib.sha256(raw).hexdigest()
+                  if sha and sha!=actual:errors.append(f'{mp}: sha256 mismatch {actual} != {sha}')
+                  data=json.loads(raw.decode('utf-8'));rows=data if isinstance(data,list) else data.get('entries',[])
+                  paid=[x for x in rows if isinstance(x,dict) and x.get('name') and isinstance(x.get('cost'),(int,float)) and 0<x.get('cost')<=3]
+                  exp=m.get('entries')
+                  if isinstance(exp,int) and len(paid)!=exp:errors.append(f'{mp}: expected {exp} paid entries, loaded {len(paid)}')
+                  ids=[x.get('id') for x in paid if x.get('id')]
+                  if len(ids)!=len(set(ids)):errors.append(f'{mp}: duplicate ids')
+                  print(f'{label}: {len(paid)} paid V5 entries')
+              except Exception as exc:errors.append(f'{full/manifest_name}: invalid split catalog: {exc}')
+          def validate_single(path_name,label,min_entries=1):
+              try:
+                  path=full/path_name;raw=decode_payload(path.read_text(encoding='utf-8'));data=json.loads(raw.decode('utf-8'));rows=data if isinstance(data,list) else data.get('entries',[])
+                  paid=[x for x in rows if isinstance(x,dict) and x.get('name') and isinstance(x.get('cost'),(int,float)) and 0<x.get('cost')<=3]
+                  if len(paid)<min_entries:errors.append(f'{path}: only {len(paid)} paid entries, expected at least {min_entries}')
+                  ids=[x.get('id') for x in paid if x.get('id')]
+                  if len(ids)!=len(set(ids)):errors.append(f'{path}: duplicate ids')
+                  print(f'{label}: {len(paid)} paid V5 entries')
+              except Exception as exc:errors.append(f'{full/path_name}: invalid compressed catalog: {exc}')
+
+          validate_split('daemon.manifest.json','daemon')
+          validate_single('angelus.json.gz.b64','angelus',100)
+          validate_split('aseryn.clean.manifest.json','aseryn')
+          validate_split('hunter.final.manifest.json','hunter')
+          validate_split('exile.final.manifest.json','exile')
+          validate_split('extral.final.manifest.json','extral')
+
+          if errors:raise SystemExit('\n'.join(errors))
+          print(f'Validated {checked} Truth talent manifests and all final V5 imports successfully.')

@@ -1,0 +1,85 @@
+// UX pass — Edge harmonisation + Identity compact layout.
+
+// Block 1 — remove current activity from the player-facing form and organise the six short fields in three columns.
+stepIdentity=function(){
+  p25EnsureIdentity();
+  const c=wrap('Concept et identité','Commencez par la personne, avant les chiffres. Ici, seuls le nom et l’âge sont nécessaires pour valider l’étape ; les autres champs servent à donner une apparence, une voix et des motivations au personnage.');
+  const layout=el('div',{class:'p25-identity-layout'}),portrait=el('aside',{class:'p25-portrait-card'}),frame=el('div',{class:`p25-portrait-frame ${state.identity.portraitDataUrl?'has-image':''}`});
+  if(state.identity.portraitDataUrl){const img=el('img',{alt:`Portrait de ${state.identity.name||'personnage'}`});img.src=state.identity.portraitDataUrl;frame.appendChild(img)}else frame.appendChild(el('div',{class:'p25-portrait-empty'},'<strong>Portrait</strong><span>Ajoutez une image pour incarner visuellement le personnage.</span>'));
+  portrait.appendChild(frame);
+  const upload=el('label',{class:'ghost p25-upload'},state.identity.portraitDataUrl?'Changer le portrait':'Choisir une image'),file=el('input',{type:'file',accept:'image/*'});file.hidden=true;file.onchange=e=>{const f=e.target.files?.[0];if(f)p25SetPortrait(f)};upload.appendChild(file);portrait.appendChild(upload);
+  if(state.identity.portraitDataUrl){const rm=el('button',{class:'danger-btn mini'},'Retirer le portrait');rm.onclick=()=>{state.identity.portraitDataUrl='';state.identity.portraitName='';render()};portrait.appendChild(rm)}
+  portrait.appendChild(el('div',{class:'p25-help'},'Le portrait est redimensionné avant sauvegarde. Il sera repris dans la Finalisation puis dans la fiche exportée.'));
+  const fields=el('div',{class:'p25-identity-fields'}),short=el('div',{class:'p32-identity-short'});
+  const pairs=[
+    [p25LiveField('name','Nom','Le nom principal sous lequel le personnage est identifié.',{required:true,placeholder:'Nom du personnage'}),p25LiveField('age','Âge','Âge réel, légal ou apparent si cela a du sens pour le concept.',{required:true,placeholder:'Ex. 34 ans'})],
+    [p25LiveField('alias','Alias','Surnom, indicatif, nom de scène ou pseudonyme utilisé dans certains milieux.',{placeholder:'Ex. Ghost, Dr. Vale…'}),p25LiveField('sex','Sexe / genre','Information descriptive sans conséquence mécanique.',{placeholder:'Ex. femme, homme, non-binaire…'})],
+    [p25LiveField('height','Taille','Information descriptive sans conséquence mécanique.',{placeholder:'Ex. 1,78 m'}),p25LiveField('weight','Poids','Information descriptive sans conséquence mécanique.',{placeholder:'Ex. 72 kg'})]
+  ];
+  pairs.forEach(pair=>{const col=el('div',{class:'p32-id-pair'});col.append(...pair);short.appendChild(col)});fields.appendChild(short);
+  const narrative=el('div',{class:'p25-narrative-grid'});narrative.append(
+    p25LiveField('concept','Concept','Une phrase qui résume l’idée du personnage : rôle, tempérament, contradiction ou image forte.',{placeholder:'Ex. ancienne enquêtrice devenue fixer pour l’Underlife'}),
+    p25LiveField('objective','Objectif','Ce que le personnage veut concrètement aujourd’hui : retrouver quelqu’un, gagner une place, payer une dette, comprendre un secret…',{placeholder:'Ex. retrouver son frère disparu'}),
+    p25LiveField('notes','Notes / background','Quelques éléments de caractère, d’apparence, de relations ou d’histoire. Inutile d’écrire une biographie complète avant la première scène.',{textarea:true,placeholder:'Caractère, apparence, personnes importantes, événement marquant…'})
+  );fields.appendChild(narrative);layout.append(portrait,fields);c.appendChild(layout);
+  c.appendChild(el('div',{class:'rulebox'},'<strong>Repère de jeu :</strong> une identité claire et quelques prises sur le monde suffisent pour commencer ; les détails peuvent émerger en campagne.'));
+};
+
+const p32EdgeSpend={
+  attributePack:{lore:'Le personnage révèle un potentiel physique, mental ou social supérieur à ce que sa répartition initiale laissait encore apparaître.',mechanic:'1 Edge · +2 points d’Attribut à répartir ici · maximum 1 fois · plafond final 7.'},
+  skillPacks:{lore:'Une formation supplémentaire, des années de pratique ou un domaine travaillé plus sérieusement donnent au personnage davantage de savoir-faire dès le départ.',mechanic:'1 Edge · +4 points de Compétence à répartir ici · maximum 3 fois · plafond 5.'},
+  talentPacks:{lore:'Une expérience, une disposition rare ou un apprentissage marquant ajoute un Talent de Réalité au bagage initial du personnage.',mechanic:'1 Edge · +1 Talent de Réalité · maximum 2 fois. Commun, Expertise, Origine ou Sphère si l’accès reste cohérent.'},
+  cashPacks:{lore:'Épargne, prime, héritage liquide, vente récente ou réserve professionnelle donnent au personnage davantage de moyens immédiatement mobilisables.',mechanic:'1 Edge · +5 000 $ au Compte · maximum 3 fois.'},
+  lifestylePack:{lore:'Le personnage dispose d’une situation matérielle plus confortable et durable que son seul Style ne le laisserait supposer.',mechanic:'1 Edge · +1 cran de Train de vie · maximum 1 fois · maximum Aisé par Edge.'},
+  augmentationPacks:{lore:'Une meilleure couverture médicale, un sponsor ou un investissement antérieur a permis davantage d’augmentations et l’accès à une technologie Gen2 supplémentaire.',mechanic:'1 Edge · +5 000 $ d’Enveloppe augmentique et +1 fenêtre Gen2 · maximum 2 fois.'},
+  renownPack:{lore:'Le personnage arrive déjà avec un nom qui circule dans un milieu précis : réputation professionnelle, exploits, œuvre publique ou notoriété locale.',mechanic:'1 Edge · +1 Renommée de départ · maximum 1 fois · Renommée initiale maximum 2.'}
+};
+function p32EdgeSpendCard(label,key,max,extra='',canMinus=()=>true,canPlus=()=>true){
+  const val=Number(state.edge[key]||0),txt=p32EdgeSpend[key]||{lore:'',mechanic:''},card=el('div',{class:'alloc edge-card p32-edge-spend'},`<div class="alloc-title"><strong>${uxEsc(label)}</strong><span>${val}/${max}</span></div><em>${uxEsc(txt.lore)}</em><p>${uxEsc(txt.mechanic)}</p>${extra?`<div class="edge-result">${extra}</div>`:''}<div class="stepper"><button data-dir="-1">−</button><strong>${val}</strong><button data-dir="1">+</button></div>`);
+  const [minus,plus]=card.querySelectorAll('button');minus.disabled=val<=0||!canMinus();plus.disabled=val>=max||edgeRemaining()<=0||!canPlus();
+  minus.onclick=()=>{if(val<=0||!canMinus())return;state.edge[key]=val-1;if(key==='talentPacks')trimEdgeTalentSlots();render()};
+  plus.onclick=()=>{if(val>=max||edgeRemaining()<=0||!canPlus())return;state.edge[key]=val+1;if(key==='talentPacks')trimEdgeTalentSlots();render()};return card;
+}
+
+renderEdgeAttributeAllocator=function(c){
+  uxEnsureEdgeAttributes();if(!state.edge.attributePack)return;const budget=ruleset.creation.attributes.edgePackPoints,used=uxEdgeAttrTotal();
+  c.appendChild(el('div',{class:'section-title reality-subtitle'},`<div><h3>Attribuer les +2 Attributs</h3><p>Répartissez immédiatement les deux points achetés. Ils s’ajoutent aux valeurs de création sans modifier le budget de 22 points.</p></div><div class="kpi ${used===budget?'good':'bad'}">${used}/${budget}</div>`));
+  const grid=el('div',{class:'p32-five-grid'});ruleset.attributes.forEach(a=>{const edge=Number(state.edgeAttributes[a.id]||0),fin=finalAttr(a.id),box=el('div',{class:'alloc p32-edge-attr'},`<div class="alloc-title"><strong>${uxEsc(a.name)}</strong><span>${fin}/7</span></div><div class="p26-card-help">${uxEsc(p26AttributeHelp[a.id]||'')}</div><div class="stepper"><button data-dir="-1">−</button><strong>+${edge}</strong><button data-dir="1">+</button></div>`);box.querySelectorAll('button').forEach(b=>b.onclick=()=>{const dir=Number(b.dataset.dir),nv=edge+dir;if(nv<0)return;if(dir>0&&(uxEdgeAttrTotal()>=budget||finalAttr(a.id)>=7))return;state.edgeAttributes[a.id]=nv;render()});grid.appendChild(box)});c.appendChild(grid);
+};
+
+renderEdgeSkillAllocator=function(c){
+  if(!state.edge.skillPacks)return;const budget=edgeSkillBudget(),used=totalEdgeSkillPoints();
+  c.appendChild(el('div',{class:'section-title reality-subtitle'},`<div><h3>Attribuer les points de Compétence Edge</h3><p>${state.edge.skillPacks} achat(s) donnent ${budget} points. Répartissez-les ici sans dépasser 5 dans une Compétence.</p></div><div class="kpi ${used===budget?'good':'bad'}">${used}/${budget}</div>`));
+  ruleset.attributes.forEach(a=>{const eligible=ruleset.skills.filter(s=>s.attribute===a.id&&(state.skills[s.id].edge>0||skillRaw(s.id)<5));if(!eligible.length)return;const selected=eligible.some(s=>state.skills[s.id].edge>0),d=el('details',{class:'ux-group p32-edge-skill-group',open:selected});d.appendChild(el('summary',{},`<span><strong>${uxEsc(a.name)}</strong><small>Compétences liées à cet Attribut</small></span><span class="badge ${selected?'good':''}">${eligible.reduce((n,s)=>n+Number(state.skills[s.id].edge||0),0)} Edge</span>`));const grid=el('div',{class:'p32-five-grid'});eligible.forEach(sk=>{const o=state.skills[sk.id],total=typeof p25SkillTotal==='function'?p25SkillTotal(sk.id):skillRaw(sk.id),box=el('div',{class:'alloc p32-edge-skill'},`<div class="alloc-title"><strong>${uxEsc(sk.name)}</strong><span>${total}/5</span></div><div class="p26-card-help">${uxEsc(p25SkillHelp?.[sk.id]||'')}</div><div class="stepper"><button data-dir="-1">−</button><strong>+${o.edge}</strong><button data-dir="1">+</button></div>`);box.querySelectorAll('button').forEach(b=>b.onclick=()=>{const dir=Number(b.dataset.dir),nv=o.edge+dir;if(nv<0)return;if(dir>0&&(totalEdgeSkillPoints()>=budget||skillRaw(sk.id)>=5))return;o.edge=nv;render()});grid.appendChild(box)});d.appendChild(grid);c.appendChild(d)});
+};
+
+function p32EdgeTalentSelect(i){
+  const groups=uxEdgeTalentGroups().map(([label,sub,items])=>({label:sub?`${label} — ${sub}`:label,items})),others=new Set(state.talents.edge.filter((_,j)=>j!==i).filter(Boolean));groups.forEach(g=>g.items=g.items.filter(t=>!others.has(t.id)));
+  const field=el('section',{class:'p27-talent-section p32-edge-talent'}),value=state.talents.edge[i]||'',shell=el('div',{class:'field p27-select-field'});shell.appendChild(el('label',{},`Talent Edge ${i+1}`));const row=el('div',{class:'p27-select-shell'}),sel=el('select');sel.appendChild(el('option',{value:''},'— Choisir un Talent —'));
+  groups.filter(g=>g.items.length).forEach(g=>{const og=el('optgroup',{label:g.label.toUpperCase()});g.items.forEach(t=>{const lore=p26TalentNarrative(t),tip=`Ambiance : ${lore}\nMécanique : ${t.effect||'—'}`,o=el('option',{value:t.id,title:tip},uxEsc(t.name));if(t.id===value)o.selected=true;og.appendChild(o)});sel.appendChild(og)});sel.onchange=e=>{state.talents.edge[i]=e.target.value;render()};row.appendChild(sel);const chosen=groups.flatMap(g=>g.items).find(t=>t.id===value)||talentById(value);if(chosen){const info=uxInfo(`Ambiance : ${p26TalentNarrative(chosen)}\nMécanique : ${chosen.effect||'—'}`);info.classList.add('p27-select-info');row.appendChild(info)}shell.appendChild(row);field.appendChild(shell);if(chosen)field.appendChild(p26TalentDetail(chosen));return field;
+}
+renderEdgeTalentChoices=function(c){trimEdgeTalentSlots();if(!state.edge.talentPacks)return;c.appendChild(el('div',{class:'section-title reality-subtitle'},'<div><h3>Choisir les Talents achetés avec Edge</h3><p>Le choix est effectué ici immédiatement. Le Talent d’Expertise acheté par Edge n’est pas limité aux deux familles du Style.</p></div>'));for(let i=0;i<state.edge.talentPacks;i++)c.appendChild(p32EdgeTalentSelect(i));};
+
+stepEdge=function(){
+  uxEnsureEdgeAttributes();if(hasDis('inconnu'))state.edge.renownPack=0;trimEdgeTalentSlots();const c=wrap('Edge','L’Edge représente la part de chance, de potentiel ou de ressources exceptionnelles qui distingue le personnage. Vous commencez avec 5 Edge, plus 1 par Désavantage ; ce qui n’est pas dépensé à la création reste disponible en jeu.',`<div class="kpi ${edgeRemaining()>=0?'good':'bad'}">${edgeRemaining()} restant / ${edgeTotal()}</div>`);
+  if(!style())c.appendChild(el('div',{class:'rulebox warn'},'Choisissez un Style pour afficher correctement les valeurs économiques.'));
+  const grid=el('div',{class:'p32-edge-spend-grid'});grid.append(
+    p32EdgeSpendCard('+2 Attributs','attributePack',1,state.edge.attributePack?`${uxEdgeAttrTotal()}/2 points attribués`:'',()=>uxEdgeAttrTotal()===0),
+    p32EdgeSpendCard('+4 Compétences','skillPacks',3,`${totalEdgeSkillPoints()} / ${edgeSkillBudget()} points attribués`,()=>totalEdgeSkillPoints()<=(state.edge.skillPacks-1)*4),
+    p32EdgeSpendCard('+1 Talent de Réalité','talentPacks',2,`${state.talents.edge.filter(Boolean).length}/${state.edge.talentPacks} Talent(s) choisi(s)`,()=>state.talents.edge.slice(-1)[0]===''||state.talents.edge.length===0),
+    p32EdgeSpendCard('+5 000 $ Compte','cashPacks',3,style()?`Compte de départ : ${fmt(style().account)} → ${fmt(startAccount())}`:''),
+    p32EdgeSpendCard('+1 Train de vie','lifestylePack',1,style()?`Train de vie final actuel : ${lifestyleFinal()}`:'',()=>true,()=>lockLifestyleEdgeUseful()),
+    p32EdgeSpendCard('+5 000 $ Aug. / Gen2','augmentationPacks',2,style()?`Enveloppe ${fmt(economic().envelope)} · ${gen2Windows()} fenêtre(s) Gen2`:''),
+    p32EdgeSpendCard('+1 Renommée','renownPack',1,`Renommée actuelle : ${renown()}`,()=>true,()=>!hasDis('inconnu')&&!hasTalent('renomme'))
+  );c.appendChild(grid);
+  if(hasDis('inconnu'))c.appendChild(el('div',{class:'rulebox warn'},'<strong>Inconnu :</strong> Renommée initiale 0 et achat de Renommée interdit à la création.'));if(hasTalent('renomme'))c.appendChild(el('div',{class:'rulebox'},'<strong>Renommé :</strong> la Renommée initiale est déjà fixée à 2 ; dépenser un Edge ici serait sans effet.'));
+  renderEdgeAttributeAllocator(c);renderEdgeSkillAllocator(c);renderEdgeTalentChoices(c);
+  c.appendChild(el('div',{class:'rulebox'},`<strong>Edge conservé :</strong> ${edgeRemaining()} Edge restera disponible en jeu. Il peut notamment servir à Forcer le Destin ou Échapper au Destin. <strong>Edge ne peut jamais acheter de PTV.</strong><br><strong>Compte actuel après les achats déjà saisis :</strong> ${fmt(economic().account)}.`));
+};
+
+const p32Css=el('style',{},`
+.p32-identity-short{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.p32-id-pair{display:grid;gap:10px}
+.p32-edge-spend-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:14px 0}.p32-edge-spend{flex:0 1 calc(33.333% - 12px);min-width:250px;display:flex;flex-direction:column;gap:8px}.p32-edge-spend em{color:var(--muted);line-height:1.45}.p32-edge-spend p{margin:0;font-size:12px;line-height:1.45}.p32-edge-spend .stepper{margin-top:auto}.p32-five-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;padding:10px}.p32-five-grid>.alloc{flex:0 1 calc(33.333% - 10px);min-width:220px}.p32-edge-skill-group{margin:10px 0}.p32-edge-talent{margin:12px 0}.p32-edge-talent .p26-talent-detail{margin-top:7px}
+@media(max-width:900px){.p32-identity-short{grid-template-columns:1fr}.p32-edge-spend{flex-basis:calc(50% - 12px)}.p32-five-grid>.alloc{flex-basis:calc(50% - 10px)}}@media(max-width:600px){.p32-edge-spend,.p32-five-grid>.alloc{flex-basis:100%}}
+`);document.head.appendChild(p32Css);
+render();

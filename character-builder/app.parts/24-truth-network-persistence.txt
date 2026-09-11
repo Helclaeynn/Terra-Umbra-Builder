@@ -1,0 +1,39 @@
+// Final guard for Exile/Extral network persistence.
+// Exile traditions and Extral networks share the same state key (`network`).
+// Older normalizers validated that key against BOTH matrices, so a valid Exile
+// tradition could be cleared by the Extral pass (and vice versa).
+
+const t24RefreshBase=t16RefreshDependentChoices;
+t16RefreshDependentChoices=function(){
+  const n=state.truth.nature;
+  const c=state.truth.choices=state.truth.choices||{};
+  const previousNetwork=c.network||'aucune';
+
+  t24RefreshBase();
+
+  if(n==='exile'){
+    const people=c.people||'';
+    const nat=t16Nature('exile');
+    const choice=nat?.choices?.find(x=>x.key==='network');
+    if(choice){
+      choice.options=t21PickOptions(t19ExileNetworks,t21ExileMatrix[people]||['aucune']);
+      const allowed=new Set(choice.options.map(x=>x.id));
+      c.network=allowed.has(previousNetwork)?previousNetwork:(allowed.has(c.network)?c.network:'aucune');
+    }
+  }else if(n==='extral'){
+    const profile=c.species||'';
+    const nat=t16Nature('extral');
+    const choice=nat?.choices?.find(x=>x.key==='network');
+    if(choice){
+      const ids=t21ExtralMatrix[profile]||['aucune'];
+      choice.options=t19ExtralNetworks.filter(x=>ids.includes(x.id)).map(x=>t16Opt(x.id,x.name,x.description));
+      const allowed=new Set(choice.options.map(x=>x.id));
+      c.network=allowed.has(previousNetwork)?previousNetwork:(allowed.has(c.network)?c.network:'aucune');
+    }
+  }
+};
+
+// Re-normalize an already-open/localStorage sheet with the active Nature only.
+t16RefreshDependentChoices();
+if(typeof sanitizeTruthTalents==='function')sanitizeTruthTalents();
+render();

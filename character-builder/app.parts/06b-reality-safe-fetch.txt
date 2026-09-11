@@ -1,0 +1,27 @@
+// Safe split-catalog fetch shim — avoids oversized/corrupted single Base64 blobs.
+const __tucCatalogFetch = globalThis.fetch.bind(globalThis);
+globalThis.fetch = async function(input, init){
+  const url = typeof input === 'string' ? input : input?.url;
+  const match = typeof url === 'string' && url.match(/\/reality\/(equipment|neuroprograms|vehicles)\.json\.gz\.b64(?:\?.*)?$/);
+  if(!match) return __tucCatalogFetch(input, init);
+  const name = match[1];
+  const manifestUrl = url.replace(`${name}.json.gz.b64`, `safe/${name}.manifest.json`);
+  try{
+    const mr = await __tucCatalogFetch(manifestUrl, init);
+    if(!mr.ok) return __tucCatalogFetch(input, init);
+    const manifest = await mr.json();
+    if(!Array.isArray(manifest.chunks) || !manifest.chunks.length) return __tucCatalogFetch(input, init);
+    const base = manifestUrl.slice(0, manifestUrl.lastIndexOf('/') + 1);
+    const parts = await Promise.all(manifest.chunks.map(async file => {
+      const r = await __tucCatalogFetch(base + file, init);
+      if(!r.ok) throw new Error(`${file}: ${r.status}`);
+      return (await r.text()).replace(/\s+/g,'');
+    }));
+    const joined = parts.join('');
+    if(!/^[A-Za-z0-9+/]*={0,2}$/.test(joined) || joined.length % 4 !== 0) throw new Error(`${name}: Base64 reconstruit invalide`);
+    return new Response(joined,{status:200,headers:{'Content-Type':'text/plain; charset=utf-8','X-TUC-Catalog':'split-safe'}});
+  }catch(err){
+    console.error('TUC split catalog',name,err);
+    return __tucCatalogFetch(input, init);
+  }
+};

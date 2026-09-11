@@ -1,0 +1,82 @@
+// UX/canon fix — cosmetic augmentations must not inherit false hardware supports; remove generic augmentation lore fallbacks.
+// Source: TUC Reality V9 / Augmentations terrestres V1 final.
+
+function r36Loose(v=''){return normText(String(v||'')).replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim()}
+
+function r36SupportlessCosmetic(item){
+  if(item?.kind!=='augmentation')return false;
+  const n=r36Loose(item.name),type=r36Loose(r34DeepText(item,['Type'])),cat=r36Loose(item.category);
+  if(n.includes('cheveux artificiels'))return true;
+  if(typeof eqxPureCosmetic==='function'&&eqxPureCosmetic(item))return true;
+  return /cosmetique/.test(type)&&!/fonctionnel|utilitaire/.test(type)&&!/support/.test(cat);
+}
+
+const r36SupportAlternativesBase=r15SupportAlternatives;
+r15SupportAlternatives=function(item){
+  if(r36SupportlessCosmetic(item))return [];
+  return r36SupportAlternativesBase(item);
+};
+const r36SupportLabelBase=r15SupportLabel;
+r15SupportLabel=function(item){
+  if(r36SupportlessCosmetic(item))return '';
+  return r36SupportLabelBase(item);
+};
+
+const r36AugLorePairs=[
+  ['Modification de la teinte dermique','Une couche technodermique implantée dans la peau permet d’en modifier volontairement la pigmentation, jusqu’à des teintes manifestement artificielles, sans constituer un camouflage adaptatif.'],
+  ['Lentilles polychromes','Des lentilles cosmétiques avancées modifient à volonté la couleur ou les motifs de l’iris sans remplacer l’œil ni améliorer la vision.'],
+  ['Tatouage lumineux','Un réseau de LED ou de fibres sous-cutanées dessine des motifs lumineux activables, animables et reconfigurables directement sur la peau.'],
+  ['Cheveux artificiels','Des fibres synthétiques ou optiques remplacent la chevelure naturelle ; couleur, coiffure, longueur et effets lumineux peuvent être modulés dans les limites du modèle.'],
+  ['Maillage dermique','De fins fils métalliques ou conducteurs sont implantés sous la peau pour former des motifs de circuits visibles : une esthétique d’augmenté sans protection physique ou électronique supplémentaire.'],
+  ['Afficheur sous-cutane','Un microafficheur implanté sous la peau de l’avant-bras ou du poignet présente heure, notifications et informations simples, éventuellement synchronisées avec l’Holophone.'],
+  ['Montre sous cutanee','Un microafficheur implanté sous la peau de l’avant-bras ou du poignet présente heure, notifications et informations simples, éventuellement synchronisées avec l’Holophone.'],
+  ['Implants mammaires modulaires','Des implants corporels permettent de modifier volontairement le volume mammaire dans les limites prévues par le dispositif, sans bonus social automatique.'],
+  ['Implants sexuels','Des implants cybernétiques permettent de remplacer, modifier ou compléter les organes génitaux selon la configuration choisie ; leur fonction de base n’accorde aucun avantage social automatique.'],
+  ['Contraceptif','Un dispositif contraceptif implanté assure une contraception durable et contrôlable sans demander la gestion quotidienne d’un traitement externe.'],
+  ['SyntheDerm','Un revêtement dermique artificiel reproduit l’aspect et le toucher d’une peau naturelle afin de masquer ou habiller une zone augmentée sans fournir à lui seul une armure.'],
+  ['Cablage neuronal','Un réseau d’interfaces implantées relie directement le système nerveux aux modules NeuroWare compatibles et sert de véritable colonne vertébrale aux augmentations neurales.'],
+  ['Cyberoeil','Un œil cybernétique remplace ou complète l’œil biologique et sert de support physique aux modules de CyberOptique compatibles.'],
+  ['Cyberaudio','Un système auditif cybernétique remplace ou complète l’audition biologique et sert de support aux modules de traitement sonore et de communication intégrés.'],
+  ['Cyberbras','Un bras cybernétique remplace le membre biologique par une structure artificielle motorisée pouvant recevoir des modules compatibles.'],
+  ['Cyberjambe','Une jambe cybernétique remplace le membre biologique par une structure artificielle motorisée pouvant recevoir des modules de mobilité ou de renforcement compatibles.'],
+  ['Cybermain','Une main cybernétique remplace la main biologique et fournit une plateforme artificielle aux outils et modules prévus pour cette extrémité.'],
+  ['Cyberpied','Un pied cybernétique remplace l’extrémité biologique et sert de support à des modules spécialisés de mobilité, d’adhérence ou de terrain.']
+];
+function r36NamedAugLore(item){
+  const n=r36Loose(item?.name);if(!n)return '';
+  const hit=r36AugLorePairs.find(([name])=>{const k=r36Loose(name);return n===k||n.includes(k)||k.includes(n)});
+  return hit?.[1]||'';
+}
+function r36CleanEffect(v=''){
+  return String(v||'').trim().replace(/\s+/g,' ').replace(/^[•·\-–—]\s*/,'');
+}
+function r36AugmentationLore(item){
+  if(!item)return '';
+  const explicit=typeof r35SpecificByName==='function'?r35SpecificByName(item):'';if(explicit)return explicit;
+  const named=r36NamedAugLore(item);if(named)return named;
+  const desc=r34DeepText(item,['Description','Principe']),appearance=r34DeepText(item,['Apparence','Aspect','Description physique','Présentation']),usage=r34DeepText(item,['Usage']),fn=r34DeepText(item,['Fonction']),type=r34DeepText(item,['Type']),emplacement=r34DeepText(item,['Emplacement']),effect=r36CleanEffect(item.effect),fam=typeof augmentationFamilies==='function'?augmentationFamilies(item):[],n=r36Loose(item.name);
+  if(desc&&normText(desc)!==normText(item.effect||''))return desc;
+  if(appearance&&normText(appearance)!==normText(item.effect||''))return appearance;
+  if(usage&&normText(usage)!==normText(item.effect||''))return `${item.name} est conçu pour ${r35Sentence(usage)}`;
+  if(fn&&normText(fn)!==normText(item.effect||''))return `${item.name} intègre directement ${r35Sentence(fn)}`;
+
+  const where=emplacement?` au niveau ${emplacement.toLowerCase()}`:'';
+  if(r36SupportlessCosmetic(item))return `Modification corporelle cosmétique${where} : elle change concrètement l’apparence du personnage sans exiger de support cybernétique ni améliorer automatiquement ses performances.${effect?` Le dispositif permet notamment ${r35Sentence(effect)}`:''}`;
+  if(fam.includes('neural')||/neuro|neural/.test(r36Loose(`${item.category} ${type}`)))return `Module NeuroWare${where}, relié au système nerveux ou à son support d’interface ; sa fonction concrète est ${effect?r35Sentence(effect):'d’étendre une fonction neurale ou l’interface cerveau-machine.'}`;
+  if(fam.includes('optical')||/optique|ocul/.test(r36Loose(`${item.category} ${type}`)))return `Module de CyberOptique${where}, intégré à la chaîne visuelle plutôt que porté comme un appareil externe ; il sert à ${effect?r35Sentence(effect):'modifier ou instrumenter directement la perception visuelle.'}`;
+  if(fam.includes('audio')||/audio|audit/.test(r36Loose(`${item.category} ${type}`)))return `Module de CyberAudio${where}, intégré au système auditif et aux communications corporelles ; il sert à ${effect?r35Sentence(effect):'traiter ou étendre directement l’audition.'}`;
+  if(fam.includes('member')||/membre|bras|jambe|main|pied/.test(r36Loose(`${item.category} ${type}`)))return `Module installé dans un membre cybernétique${where} ; il transforme ce membre pour ${effect?r35Sentence(effect):'remplir une fonction spécialisée au-delà d’un simple remplacement anatomique.'}`;
+  if(fam.includes('heavy')||/cyborg lourd|structurel/.test(r36Loose(`${item.category} ${type}`)))return `Transformation cybernétique lourde${where} : elle modifie la structure même du corps et sert à ${effect?r35Sentence(effect):'supporter une fonction normalement hors de portée d’un petit implant isolé.'}`;
+  if(fam.includes('bio')||/bio|genet/.test(r36Loose(`${item.category} ${type}`)))return `Modification biogénétique${where} : le corps est altéré biologiquement plutôt que remplacé par une pièce mécanique afin de ${effect?r35Sentence(effect):'produire une adaptation durable.'}`;
+  if(/interne|organe|cardio|respir|digest/.test(r36Loose(`${item.category} ${type} ${n}`)))return `Implant interne${where}, intégré au fonctionnement organique du porteur ; il sert à ${effect?r35Sentence(effect):'renforcer ou remplacer une fonction physiologique précise.'}`;
+  if(/derm|peau|externe/.test(r36Loose(`${item.category} ${type} ${n}`)))return `Augmentation dermique ou externe${where}, implantée au contact de la peau ou de la surface corporelle ; elle sert à ${effect?r35Sentence(effect):'modifier directement la protection ou la fonction de cette zone.'}`;
+  return `${type||'Augmentation corporelle'}${where} : le dispositif est intégré au corps et ${effect?`sert concrètement à ${r35Sentence(effect)}`:'remplit une fonction spécifique définie par son modèle.'}`;
+}
+
+const r36LoreBase=r34ItemLore;
+r34ItemLore=function(item){
+  if(item?.kind==='augmentation')return r36AugmentationLore(item);
+  return r36LoreBase(item);
+};
+
+render();

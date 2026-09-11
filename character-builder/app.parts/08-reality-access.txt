@@ -1,0 +1,115 @@
+// Reality access layer — Style-specific augmentation families from TUC Creation V12.
+const styleAugAccess={
+  manucorpo:{text:'Gen1 : Neural, Optique/Audio, membres utilitaires. 1 système Gen2 Optique/Audio ou utilitaire.',gen1:['neural','optical','audio','utility'],gen2:['optical','audio','utility']},
+  biocorpo:{text:'Biogénétique ≤15k + Gen1 médical/interne. 1 système Gen2 médical ou dermique.',gen1:['medical','internal'],gen2:['medical','dermal'],bio:['medical','civil','sensorial'],bioCap:15000},
+  cybercorpo:{text:'Gen1 Neural et Optique/Audio. 1 système Gen2 Neural ou Optique/Audio.',gen1:['neural','optical','audio'],gen2:['neural','optical','audio']},
+  armacorpo:{text:'Gen1 combat : Neural, Optique, membres. 1 système Gen2 combat ou sensoriel.',gen1:['combat','neural','optical','member'],gen2:['combat','sensorial']},
+  servicorpo:{text:'Bio civile, esthétique et sensoriel. 1 système Gen2 civil/sensoriel ; pas de combatware Gen2.',gen1:['aesthetic','civil','sensorial'],gen2:['civil','sensorial'],bio:['civil','aesthetic','sensorial']},
+  forces_armees:{text:'Gen1 combat, membres, optiques. 1 système Gen2 militaire ou sensoriel.',gen1:['combat','member','optical'],gen2:['combat','defensive','sensorial','member']},
+  agent_gouvernemental:{text:'Gen1 Neural, Optique/Audio, infiltration. 1 système Gen2 Neural ou sensoriel.',gen1:['neural','optical','audio','infiltration'],gen2:['neural','sensorial']},
+  net_corps:{text:'Gen1 Neural/Optique. 1 système Gen2 Neural.',gen1:['neural','optical'],gen2:['neural']},
+  service_public:{text:'Médical, assistif, sensoriel, Bio ≤10k. 1 système Gen2 non offensif.',gen1:['medical','utility','sensorial','defensive'],gen2:['medical','utility','sensorial','defensive','civil'],bio:['medical','civil','sensorial'],bioCap:10000},
+  diplomate_administrateur:{text:'Esthétique, bio civile, sensoriel. 1 système Gen2 civil.',gen1:['aesthetic','civil','sensorial'],gen2:['civil'],bio:['civil','aesthetic','sensorial']},
+  soldato:{text:'Gen1 combat et membres. Pas de Gen2 par défaut.',gen1:['combat','member'],gen2:[]},
+  tueur_a_gages:{text:'Gen1 combat/infiltration. 1 système Gen2 dissimulé ou sensoriel.',gen1:['combat','infiltration'],gen2:['infiltration','sensorial']},
+  hacker:{text:'Gen1 Neural. 1 système Gen2 Neural.',gen1:['neural'],gen2:['neural']},
+  charcudoc:{text:'Gen1 très large, Bio ≤15k. 1 système Gen2 médical ou utilitaire.',gen1:['all'],gen2:['medical','utility'],bio:['all'],bioCap:15000},
+  affairiste_bookmaker:{text:'Bio civile, esthétique, sensoriel. Gen2 civil uniquement.',gen1:['aesthetic','civil','sensorial'],gen2:['civil'],bio:['civil','aesthetic','sensorial']},
+  deathrunner_merc:{text:'Gen1 combat très large. Pas de Gen2 par défaut.',gen1:['combat','member','neural','optical','audio','internal','dermal'],gen2:[]},
+  neurodiver:{text:'Gen1 Neural. 1 système Gen2 Neural.',gen1:['neural'],gen2:['neural']},
+  meditech:{text:'Gen1 médical, membres, interne ; Bio ≤10k. 1 système Gen2 médical/utilitaire.',gen1:['medical','member','internal','utility'],gen2:['medical','utility'],bio:['medical','civil'],bioCap:10000},
+  gundriver:{text:'Gen1 membres/sensoriel/utilitaire ; pas de Gen2. +10 000 $ de Capital véhicule.',gen1:['member','sensorial','utility'],gen2:[]},
+  neopunk:{text:'Esthétique, Neural/Audio Gen1. 1 système Gen2 Neural ou sensoriel.',gen1:['aesthetic','neural','audio'],gen2:['neural','sensorial']},
+  ordre_arme:{text:'Gen1 combat. 1 système Gen2 défensif ou sensoriel.',gen1:['combat'],gen2:['defensive','sensorial']},
+  clerc_holonet:{text:'Gen1 Neural/Optique-Audio. 1 système Gen2 Neural ou sensoriel.',gen1:['neural','optical','audio'],gen2:['neural','sensorial']},
+  ministeriel:{text:'Médical/interne, Bio ≤15k. 1 système Gen2 médical ou utilitaire.',gen1:['medical','internal'],gen2:['medical','utility'],bio:['medical','civil'],bioCap:15000},
+  clerc_administrateur:{text:'Bio civile, esthétique, sensoriel ; Gen2 civil.',gen1:['aesthetic','civil','sensorial'],gen2:['civil'],bio:['civil','aesthetic','sensorial']},
+  missionnaire:{text:'Médical/utilitaire Gen1, Bio ≤10k. Pas de Gen2 par défaut.',gen1:['medical','utility'],gen2:[],bio:['medical','civil'],bioCap:10000}
+};
+function augmentationFamilies(item){
+  const s=normText(`${item.category||''} ${item.name||''} ${item.effect||''}`),f=new Set();
+  const has=(...xs)=>xs.some(x=>s.includes(normText(x)));
+  if(has('biogenetique','bio tatouage','bioarme','bioware','pheromone','photosynthese','rein ameliore','regeneration passive','temps de reaction surhumain','systeme immunitaire amplifie','yeux parfaits','articulations elastiques','metabolisme propre','pigmentation dermique'))f.add('bio');
+  if(has('neural','neuronal','neuro','cablage','adrenaline','bloqueur de douleur','analyseur chimique','processeur mathematique','systeme d orientation','defense electronique','ports d interface'))f.add('neural');
+  if(has('cyberoeil','optique','oculaire','vision','uv','infrarouge','radiation','camera','zoom','eblouissement','lampes oculaires'))f.add('optical');
+  if(has('cyberaudio','audio','auditif','auditive','oreille','echolocation','traducteur','stress vocal','brouilleur','gyroscopique','radio integree'))f.add('audio');
+  if(has('cyberbras','cyberjambe','cybermain','cyberpied','membre','grappin','doigts-outils','scanner meditech','scanner technique','gecko','jambes renforcees','palmes cybernetiques','pistolet integre','lame cachee','lame retractable','monofilament','griffes','ongles','poings renforces','poings blindes','ergot'))f.add('member');
+  if(has('anticorps','audiovox','filtre a toxines','maillage squelettique','poumon cybernetique','branchies cybernetiques','estomac blinde','autoinjecteur'))f.add('internal');
+  if(has('dermique','synthederm','systeme magnetique','poche dermique','peau'))f.add('dermal');
+  if(has('support de membres surnumeraires','support multioptique','support multisenseur','support de capteurs'))f.add('heavy');
+  if(has('teinte dermique','lentilles polychromes','tatouage lumineux','cheveux artificiels','maillage dermique decoratif','montre sous-cutanee','implants mammaires','implant sexuel','implant contraceptif','bio tatouage','croissance capillaire','pigmentation dermique'))f.add('aesthetic');
+  if(f.has('optical')||f.has('audio')||has('radar','sonar','capteur','spectre visuel','spectre auditif','ouie amelioree','yeux parfaits','sensibilite tactile'))f.add('sensorial');
+  if(has('medical','meditech','anticorps','toxine','poumon','branchies','rein','immunitaire','digestion','regeneration','hormon','remplacement','organe','bloqueur de douleur','autoinjecteur'))f.add('medical');
+  if(has('grappin','doigts-outils','scanner','gecko','orientation','processeur','palmes','interface')||f.has('aesthetic'))f.add('utility');
+  if(has('pistolet','lame','monofilament','griffes','ongles','poings','ergot','audiovox','armure','camouflage','adrenaline','defense electronique','maillage squelettique','bioarme','electrochoc','venin'))f.add('combat');
+  if(has('armure','protection','defense','anti-eblouissement','protection auditive','isolation electrique','maillage squelettique','peau de cuir'))f.add('defensive');
+  if(has('camouflage','poche dermique','dissimule','cachee','ongles carbone','synthederm','enregistreur','filtrage','traceur','zoom','camera'))f.add('infiltration');
+  if(f.has('aesthetic')||f.has('medical')||f.has('utility')||(!f.has('combat')&&!f.has('heavy')))f.add('civil');
+  return [...f];
+}
+function isBioAug(item){return augmentationFamilies(item).includes('bio')}
+function styleAccess(){return styleAugAccess[state.creation.style]||{text:'Accès augmentique non documenté.',gen1:[],gen2:[]}}
+function tagAllowed(item,tags){const fam=augmentationFamilies(item);return tags.includes('all')||fam.some(x=>tags.includes(x))}
+function baseGen2Count(){return style()?.gen2SlotsBase||0}
+function allowedGen2Systems(item){
+  if(item.generation!==2)return [];
+  const acc=styleAccess(),out=[];
+  for(let n=1;n<=gen2Windows();n++){
+    const tags=n<=baseGen2Count()?acc.gen2:acc.gen1;
+    if(tagAllowed(item,tags))out.push(n);
+  }
+  return out;
+}
+function styleAccessCheck(item,system=null){
+  if(!style())return {ok:false,reason:'Style non choisi'};
+  if(item.kind!=='augmentation')return {ok:true};
+  const acc=styleAccess(),fam=augmentationFamilies(item);
+  if(isBioAug(item)){
+    if(!acc.bio?.length)return {ok:false,reason:'Biogénétique hors package de Style'};
+    if(acc.bioCap&&item.price>acc.bioCap)return {ok:false,reason:`Biogénétique limitée à ${fmt(acc.bioCap)} par le Style`};
+    if(!tagAllowed(item,acc.bio))return {ok:false,reason:'Type de Biogénétique hors accès du Style'};
+    return {ok:true};
+  }
+  if(item.generation===1||!item.generation){
+    if(tagAllowed(item,acc.gen1))return {ok:true};
+    return {ok:false,reason:`Famille Gen1 hors package (${fam.join(', ')||'non classée'})`};
+  }
+  if(item.generation===2){
+    const allowed=allowedGen2Systems(item);
+    if(system!==null&&!allowed.includes(Number(system)))return {ok:false,reason:`Ce système Gen2 n’ouvre pas cette famille`};
+    if(!allowed.length)return {ok:false,reason:'Aucune fenêtre Gen2 compatible avec cette famille'};
+    return {ok:true,systems:allowed};
+  }
+  return {ok:true};
+}
+state.reality.mjAccessOverride=!!state.reality.mjAccessOverride;
+realityData.augmentations.forEach(x=>x.families=augmentationFamilies(x));
+
+const baseCanAffordStyle=canAffordPurchase;
+canAffordPurchase=function(kind,item){if(kind==='augmentation'&&!state.reality.mjAccessOverride&&!styleAccessCheck(item).ok)return false;return baseCanAffordStyle(kind,item)};
+const baseAddPurchaseStyle=addPurchase;
+addPurchase=function(kind,item){
+  if(kind==='augmentation'&&!state.reality.mjAccessOverride){const check=styleAccessCheck(item);if(!check.ok)return;if(item.generation===2){if(!canAffordPurchase(kind,item))return;const p={uid:`${Date.now().toString(36)}-${Math.random().toString(36).slice(2,8)}`,itemId:item.id,kind,gen2System:check.systems[0]};purchaseArray(kind).push(p);render();return}}
+  baseAddPurchaseStyle(kind,item);
+};
+realityCatalogCard=function(item,kind){
+  const access=kind==='augmentation'?styleAccessCheck(item):{ok:true},can=canAffordPurchase(kind,item),meta=[item.price!==null?fmt(item.price):'Prix non exploitable',item.generation?`Gen ${item.generation}`:'',item.charge!==null?`Charge ${item.charge}`:'',item.stress!==null?`Stress ${item.stress}`:'',item.slots!==null&&item.slots!==undefined?`Slots ${item.slots}`:''].filter(Boolean);let reason='';if(item.price===null)reason='Prix absent/non numérique dans le catalogue final';else if(item.price>20000&&!state.reality.mjAdvancedOverride)reason='Accord MJ requis (> 20 000 $)';else if(kind==='augmentation'&&!access.ok&&!state.reality.mjAccessOverride)reason=access.reason;else if(kind==='augmentation'&&item.generation===2&&gen2Windows()<1)reason='Aucune fenêtre Gen2';else if(kind==='equipment'&&item.neuro&&hasDis('unsinkable'))reason='Unsinkable';else if(!can)reason='Budget insuffisant';const fam=kind==='augmentation'?augmentationFamilies(item):[];const card=el('div',{class:`catalog-card ${access.ok||state.reality.mjAccessOverride?'':'access-locked'}`},`<div class="catalog-head"><div><strong>${item.name}</strong><small>${item.category}</small></div><button class="primary mini" ${can?'':'disabled'}>Ajouter</button></div><div class="pillbar">${meta.map(x=>`<span class="pill">${x}</span>`).join('')}${fam.map(x=>`<span class="pill family">${x}</span>`).join('')}</div>${item.effect?`<p>${item.effect}</p>`:''}${reason?`<div class="catalog-lock">${reason}</div>`:''}`);const btn=card.querySelector('button');if(can)btn.onclick=()=>addPurchase(kind,item);return card;
+};
+purchasedList=function(kind,title){
+  const arr=purchaseArray(kind),box=el('div',{class:'purchased-block'});box.appendChild(el('h3',{class:'subhead'},title));if(!arr.length){box.appendChild(el('div',{class:'empty'},'Aucun achat.'));return box}const list=el('div',{class:'purchase-list'});arr.forEach(p=>{const item=purchaseItem(p);if(!item)return;const access=kind==='augmentation'?styleAccessCheck(item,p.gen2System):{ok:true};const row=el('div',{class:`purchase-row ${!access.ok&&!state.reality.mjAccessOverride?'access-locked':''}`},`<div><strong>${item.name}</strong><span>${fmt(item.price||0)}${item.generation?` · Gen ${item.generation}`:''}${item.charge!==null?` · Charge ${item.charge}`:''}${item.stress!==null?` · Stress ${item.stress}`:''}${!access.ok&&!state.reality.mjAccessOverride?` · ⚠ ${access.reason}`:''}</span></div><div class="purchase-actions"></div>`),actions=row.querySelector('.purchase-actions');if(kind==='augmentation'&&item.generation===2){const allowed=state.reality.mjAccessOverride?Array.from({length:gen2Windows()},(_,i)=>i+1):allowedGen2Systems(item);const sel=el('select');sel.innerHTML=allowed.map(n=>`<option value="${n}" ${Number(p.gen2System)===n?'selected':''}>Système Gen2 ${n}${n<=baseGen2Count()?' · Style':' · Edge'}</option>`).join('');if(!allowed.length)sel.innerHTML='<option>Incompatible</option>';sel.disabled=!allowed.length;sel.onchange=e=>{p.gen2System=Number(e.target.value);render()};actions.appendChild(sel)}const rm=el('button',{class:'danger-btn mini'},'Retirer');rm.onclick=()=>removePurchase(kind,p.uid);actions.appendChild(rm);list.appendChild(row)});box.appendChild(list);return box;
+};
+
+const baseStepSphereStyleAccess=stepSphere;
+stepSphere=function(){baseStepSphereStyleAccess();if(!style())return;const c=$('#stepContent'),note=el('div',{class:'rulebox access-box'},`<strong>Accès augmentique du Style</strong><br>${styleAccess().text}<br><span class="muted">Les achats précis seront filtrés à l’étape Équipement. Les systèmes Gen2 supplémentaires achetés avec Edge peuvent ouvrir une famille déjà accessible en Gen1.</span>`);c.appendChild(note)};
+let catalogSearchTimer=0;
+const baseStepEquipmentStyleAccess=stepEquipment;
+stepEquipment=function(){
+  baseStepEquipmentStyleAccess();if(!style())return;const c=$('#stepContent'),note=el('div',{class:'rulebox access-box'},`<strong>Accès du Style : ${style().name}</strong><br>${styleAccess().text}<br><span class="muted">Fenêtres Gen2 de Style : ${baseGen2Count()} · fenêtres supplémentaires Edge : ${state.edge.augmentationPacks}.</span>`),advanced=c.querySelector('.override-check');if(advanced)c.insertBefore(note,advanced);else c.insertBefore(note,c.children[1]||null);const accessOverride=el('label',{class:'override-check'},`<input type="checkbox" ${state.reality.mjAccessOverride?'checked':''}> Autorisation MJ : ignorer exceptionnellement les familles d’accès augmentique du Style`);accessOverride.querySelector('input').onchange=e=>{state.reality.mjAccessOverride=e.target.checked;render()};if(advanced)c.insertBefore(accessOverride,advanced);else c.insertBefore(accessOverride,note.nextSibling);const search=c.querySelector('.catalog-tools input');if(search){search.oninput=e=>{state.reality.catalogQuery=e.target.value;const pos=e.target.selectionStart??e.target.value.length;clearTimeout(catalogSearchTimer);catalogSearchTimer=setTimeout(()=>{render();requestAnimationFrame(()=>{const n=$('#stepContent .catalog-tools input');if(n){n.focus();n.setSelectionRange(Math.min(pos,n.value.length),Math.min(pos,n.value.length))}})},180)}}
+};
+const baseValidationsStyleAccess=validations;
+validations=function(){const v=baseValidationsStyleAccess();const accessOK=state.reality.augmentations.every(p=>{const x=purchaseItem(p);return !x||state.reality.mjAccessOverride||styleAccessCheck(x,p.gen2System).ok});v.equipment=v.equipment&&accessOK;v.finish=Object.entries(v).filter(([k])=>k!=='finish').every(([,ok])=>ok)&&v.finish;return v};
+const baseCurrentErrorsStyleAccess=currentErrors;
+currentErrors=function(){const errs=baseCurrentErrorsStyleAccess();if(!state.reality.mjAccessOverride){const bad=state.reality.augmentations.map(p=>({p,x:purchaseItem(p)})).filter(({p,x})=>x&&!styleAccessCheck(x,p.gen2System).ok);if(bad.length)errs.push(`Accès augmentique du Style non respecté : ${bad.map(({x})=>x.name).join(', ')}.`)}return [...new Set(errs)]};
+
+const accessCss=el('style',{},`.access-box{border-color:#385f64;background:#0d1b1d}.access-locked{border-color:#684550!important;opacity:.82}.pill.family{color:#9fc6ff;border:1px solid #304a68}.catalog-card.access-locked .primary{opacity:.3}`);document.head.appendChild(accessCss);
+render();

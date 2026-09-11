@@ -1,0 +1,92 @@
+    top.appendChild(f);
+  });
+  c.appendChild(top);
+  c.appendChild(el('div',{class:'truth-nature-card'},`<div><span class="eyebrow">NATURE</span><h3>${n.name}</h3><p>${n.description||''}</p></div><div class="truth-budget"><strong>${remaining}</strong><span>PTV en réserve</span></div>`));
+  if(n.choices?.length){
+    const choices=el('div',{class:'grid2'});
+    n.choices.forEach(ch=>{
+      const f=el('div',{class:'field'},`<label>${ch.label}${ch.optional?' · optionnel':''}</label>`);
+      const opts=ch.optional?[{id:'',name:'— Aucun —'},...ch.options]:ch.options;
+      f.appendChild(makeSelect(opts,state.truth.choices?.[ch.key]||'',v=>{
+        state.truth.choices=state.truth.choices||{};
+        state.truth.choices[ch.key]=v;
+        sanitizeTruthTalents();
+        let changed=true;
+        while(changed){
+          changed=false;
+          const current=truthAvailableTalents();
+          for(const id of [...state.truth.truthTalents]){
+            const owned=truthTalentById(id);
+            if(!owned||!truthPrereqSatisfied(owned,current)){
+              state.truth.truthTalents=state.truth.truthTalents.filter(x=>x!==id);
+              changed=true;
+            }
+          }
+        }
+        render();
+      },ch.optional?'— Aucun —':'— Choisir —'));
+      choices.appendChild(f);
+    });
+    c.appendChild(choices);
+  }
+  if(n.freeTraits?.length){
+    c.appendChild(el('h3',{class:'subhead'},'Traits gratuits de Nature'));
+    const free=el('div',{class:'truth-free-grid'});
+    n.freeTraits.forEach(t=>free.appendChild(el('div',{class:'truth-free'},`<div class="talent-top"><strong>${t.name}</strong><span class="truth-access">${t.access||'—'}</span></div><p>${t.effect||''}</p>`)));
+    c.appendChild(free);
+  }
+  c.appendChild(el('div',{class:'hr'}));
+  const title=el('div',{class:'truth-toolbar'},`<div><h3>Talents, Voies & Traditions accessibles</h3><p class="muted">${available.length} entrées du corpus V5 correspondent actuellement à cette branche.</p></div><div class="truth-search"><input id="truthSearch" placeholder="Filtrer les capacités…"></div>`);
+  c.appendChild(title);
+  if(!available.length){
+    c.appendChild(el('div',{class:'empty'},state.truth.nature==='humain'&&state.truth.choices?.hunterTradition==='aucune'?'Un Humain profane conserve ses 5 PTV en Réserve de Vérité. Choisissez une tradition lorsqu’il en acquiert réellement une.':'Aucun Talent PTV n’est disponible avec les choix actuels.'));
+    return;
+  }
+  const groups=new Map();
+  available.forEach(t=>{const g=t.group||'Talents';if(!groups.has(g))groups.set(g,[]);groups.get(g).push(t)});
+  const list=el('div',{class:'truth-groups'});
+  groups.forEach((arr,g)=>{
+    const section=el('details',{class:'truth-group',open:true},`<summary><span>${g}</span><span class="muted">${arr.length}</span></summary>`);
+    const body=el('div',{class:'truth-talent-list'});
+    arr.sort((a,b)=>a.cost-b.cost||a.name.localeCompare(b.name,'fr')).forEach(t=>{
+      const checked=state.truth.truthTalents.includes(t.id),prOK=truthPrereqSatisfied(t,available),canBuy=checked||(prOK&&remaining>=t.cost);
+      const row=el('label',{class:`truth-talent ${checked?'selected':''} ${!canBuy?'locked':''}`, 'data-search':normText(`${t.name} ${t.group} ${t.effect} ${t.prerequisiteName||''}`)},`
+        <input type="checkbox" ${checked?'checked':''} ${!canBuy?'disabled':''}>
+        <div class="truth-talent-main">
+          <div class="talent-top"><strong>${t.name}</strong><div class="pillbar"><span class="truth-cost">${t.cost} PTV</span><span class="truth-access">${t.access||'—'}</span>${checked?`<span class="badge good">Acheté</span>`:''}</div></div>
+          ${t.prerequisiteName?`<div class="truth-prereq ${prOK?'ok':'bad'}">Prérequis : ${t.prerequisiteName}${prOK?'':' · non satisfait'}</div>`:''}
+          <p>${t.effect}</p>
+        </div>`);
+      row.querySelector('input').onchange=e=>{
+        if(e.target.checked){
+          const current=truthPtvSpent();
+          if(current+t.cost>ruleset.truth.ptvInitial||!truthPrereqSatisfied(t,available))return;
+          if(!state.truth.truthTalents.includes(t.id))state.truth.truthTalents.push(t.id);
+        }else{
+          state.truth.truthTalents=state.truth.truthTalents.filter(id=>id!==t.id);
+          let changed=true;
+          while(changed){
+            changed=false;
+            for(const id of [...state.truth.truthTalents]){
+              const owned=truthTalentById(id);
+              if(!owned||!truthPrereqSatisfied(owned,available)){
+                state.truth.truthTalents=state.truth.truthTalents.filter(x=>x!==id);
+                changed=true;
+              }
+            }
+          }
+        }
+        render();
+      };
+      body.appendChild(row);
+    });
+    section.appendChild(body);list.appendChild(section);
+  });
+  c.appendChild(list);
+  const search=c.querySelector('#truthSearch');
+  search.oninput=e=>{const q=normText(e.target.value);c.querySelectorAll('.truth-talent').forEach(r=>r.style.display=!q||r.dataset.search.includes(q)?'grid':'none');c.querySelectorAll('.truth-group').forEach(d=>{d.style.display=[...d.querySelectorAll('.truth-talent')].some(r=>r.style.display!=='none')?'block':'none'})};
+}
+function availableDisadvantages(){let arr=[...ruleset.disadvantages.common,...ruleset.disadvantages.attribute];if(state.creation.sphere)arr.push(...ruleset.disadvantages.sphere[state.creation.sphere]);return arr}
+function stepDisadvantages(){const c=wrap('Désavantages','Facultatifs, 0 à 3. Chacun donne +1 Edge.',`<div class="kpi ${state.disadvantages.length<=3?'good':'bad'}">${state.disadvantages.length}/3 · Edge ${edgeTotal()}</div>`);const list=el('div',{class:'dis-list'});availableDisadvantages().forEach(d=>{const chk=state.disadvantages.includes(d.id);const row=el('label',{class:'dis-row'},`<input type="checkbox" ${chk?'checked':''}><div><strong>${d.name}</strong><span>${d.effect}</span></div>`);row.querySelector('input').onchange=e=>{if(e.target.checked){if(state.disadvantages.length<3)state.disadvantages.push(d.id)}else state.disadvantages=state.disadvantages.filter(x=>x!==d.id);render()};list.appendChild(row)});c.appendChild(list)}
+function edgeInput(label,key,max,desc){const box=el('div',{class:'alloc'},`<div class="alloc-title"><strong>${label}</strong><span>${state.edge[key]}/${max}</span></div><div class="stepper"><button data-dir="-1">−</button><strong>${state.edge[key]}</strong><button data-dir="1">+</button></div><div class="skill-meta">${desc}</div>`);box.querySelectorAll('button').forEach(b=>b.onclick=()=>{const nv=state.edge[key]+Number(b.dataset.dir);if(nv<0||nv>max)return;state.edge[key]=nv;if(key==='talentPacks')state.talents.edge=state.talents.edge.slice(0,nv);render()});return box}
+function stepEdge(){const c=wrap('Edge','5 Edge de base +1 par Désavantage. Le reliquat reste disponible en jeu.',`<div class="kpi ${edgeRemaining()>=0?'good':'bad'}">${edgeRemaining()} restant / ${edgeTotal()}</div>`);const grid=el('div',{class:'alloc-grid'});grid.append(edgeInput('+2 Attributs','attributePack',1,'1 Edge · plafond 7'),edgeInput('+4 Compétences','skillPacks',3,'1 Edge par achat · plafond brut 5'),edgeInput('+1 Talent de Réalité','talentPacks',2,'1 Edge par Talent'),edgeInput('+5 000 $ Compte','cashPacks',3,'1 Edge par tranche'),edgeInput('+1 Train de vie','lifestylePack',1,'maximum Aisé via Edge'),edgeInput('+5 000 $ Aug. / Gen2','augmentationPacks',2,'ouvre/améliore une fenêtre Gen2'),edgeInput('+1 Renommée','renownPack',1,'Renommée initiale maximum 2'));c.appendChild(grid);if(edgeRemaining()<0)c.appendChild(el('div',{class:'rulebox bad'},`Vous avez dépensé ${-edgeRemaining()} Edge de trop.`));c.appendChild(el('div',{class:'rulebox'},'<strong>PTV :</strong> impossibles à acheter avec Edge. Les Talents achetés ici peuvent être Communs, d’Expertise, d’Origine ou de Sphère si accès/prérequis cohérents.'))}

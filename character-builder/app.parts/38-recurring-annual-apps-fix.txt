@@ -1,0 +1,10 @@
+// Block 10 semantic recurrence fix — some normalized catalog rows no longer retain the source period label.
+// Canon: CeltX, Shelov and LadyDolla are annual application subscriptions in Reality V9.
+const r38RecurringKindBase=r37RecurringKind;
+r37RecurringKind=function(item){
+  const key=r34Loose(item?.name||'');
+  if(/^(celtx|shelov|ladydolla)$/.test(key))return 'annual';
+  return r38RecurringKindBase(item);
+};
+r37NormalizeLegacyRecurring();
+render();

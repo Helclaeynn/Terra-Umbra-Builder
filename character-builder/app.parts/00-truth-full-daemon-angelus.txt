@@ -1,0 +1,45 @@
+// Early Truth loader shim: serve the complete V5 Daemon/Angelus catalogs from validated compressed imports.
+const truthFullNativeFetch=globalThis.fetch.bind(globalThis);
+async function truthFullInflateBase64(b64){
+  const clean=String(b64||'').replace(/\s+/g,'');
+  const bytes=Uint8Array.from(atob(clean),c=>c.charCodeAt(0));
+  if(typeof DecompressionStream==='undefined')throw new Error('DecompressionStream indisponible');
+  const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
+  return JSON.parse(await new Response(stream).text());
+}
+async function truthFullLoadDaemon(url,init){
+  const manifestUrl=url.replace('truth/talents/daemon.json','truth/full/daemon.manifest.json');
+  const mr=await truthFullNativeFetch(manifestUrl,{...init,cache:'no-store'});if(!mr.ok)throw new Error(`daemon manifest: ${mr.status}`);
+  const manifest=await mr.json();if(!Array.isArray(manifest.parts)||!manifest.parts.length)throw new Error('daemon manifest sans parties');
+  const root=manifestUrl.replace(/daemon\.manifest\.json(?:\?.*)?$/,'');
+  const texts=await Promise.all(manifest.parts.map(async part=>{const r=await truthFullNativeFetch(`${root}${part}`,{...init,cache:'no-store'});if(!r.ok)throw new Error(`${part}: ${r.status}`);return r.text()}));
+  const raw=await truthFullInflateBase64(texts.join(''));
+  return {raw,expected:Number(manifest.entries)||null};
+}
+async function truthFullLoadAngelus(url,init){
+  const fullUrl=url.replace('truth/talents/angelus.json','truth/full/angelus.json.gz.b64');
+  const r=await truthFullNativeFetch(fullUrl,{...init,cache:'no-store'});if(!r.ok)throw new Error(`angelus full: ${r.status}`);
+  return {raw:await truthFullInflateBase64(await r.text()),expected:null};
+}
+function truthFullPaidRows(raw){
+  const rows=(Array.isArray(raw)?raw:(raw?.entries||[])).filter(x=>x&&x.name&&Number.isFinite(Number(x.cost))&&Number(x.cost)>0);
+  const seen=new Set(),clean=[];
+  for(const x of rows){const key=x.id||`${x.group||''}:${x.name}`;if(seen.has(key))continue;seen.add(key);clean.push(x)}
+  return clean;
+}
+globalThis.fetch=async function(input,init){
+  const url=typeof input==='string'?input:input?.url;
+  const m=typeof url==='string'?url.match(/truth\/talents\/(daemon|angelus)\.json(?:\?.*)?$/):null;
+  if(!m)return truthFullNativeFetch(input,init);
+  const id=m[1];
+  try{
+    const loaded=id==='daemon'?await truthFullLoadDaemon(url,init):await truthFullLoadAngelus(url,init);
+    const clean=truthFullPaidRows(loaded.raw);
+    if(loaded.expected!==null&&clean.length!==loaded.expected)throw new Error(`${id}: ${clean.length} entrées PTV chargées, ${loaded.expected} attendues`);
+    globalThis.TUCTruthFullCounts=globalThis.TUCTruthFullCounts||{};globalThis.TUCTruthFullCounts[id]=clean.length;
+    return new Response(JSON.stringify(clean),{status:200,headers:{'Content-Type':'application/json','X-TUC-Truth-Source':'full-v5'}});
+  }catch(err){
+    console.warn(`Catalogue complet ${id} indisponible, repli monolithique`,err);
+    return truthFullNativeFetch(input,init);
+  }
+};

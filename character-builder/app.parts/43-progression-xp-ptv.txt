@@ -1,0 +1,181 @@
+// Block 12 — post-creation XP / PTV progression ledger and spending UI.
+// Progression is deliberately separate from creation validation and from money / Edge.
+
+if(!STEPS.some(([id])=>id==='progression'))STEPS.push(['progression','Dépense XP & PTV']);
+
+function p43EnsureProgression(){
+  const old=state.progression&&typeof state.progression==='object'?state.progression:{};
+  state.progression={
+    xpEarned:Math.max(0,Number(old.xpEarned)||0),
+    ptvEarned:Math.max(0,Number(old.ptvEarned)||0),
+    skillRanks:old.skillRanks&&typeof old.skillRanks==='object'?old.skillRanks:{},
+    attributeRanks:old.attributeRanks&&typeof old.attributeRanks==='object'?old.attributeRanks:{},
+    realityTalents:Array.isArray(old.realityTalents)?old.realityTalents:[],
+    truthTalents:Array.isArray(old.truthTalents)?old.truthTalents:[],
+    flashUses:Array.isArray(old.flashUses)?old.flashUses:[],
+    flashReady:old.flashReady!==false,
+    flashArmed:!!old.flashArmed
+  };
+  ruleset.skills.forEach(s=>state.progression.skillRanks[s.id]=Math.max(0,Math.floor(Number(state.progression.skillRanks[s.id])||0)));
+  ruleset.attributes.forEach(a=>state.progression.attributeRanks[a.id]=Math.max(0,Math.floor(Number(state.progression.attributeRanks[a.id])||0)));
+}
+p43EnsureProgression();
+
+const p43MergeBase=mergeState;
+mergeState=function(obj){
+  p43MergeBase(obj);
+  if(obj?.progression)state.progression=structuredClone(obj.progression);
+  p43EnsureProgression();
+};
+try{const raw=localStorage.getItem('tuc-character-builder-v1');if(raw){const saved=JSON.parse(raw);if(saved?.progression){state.progression=structuredClone(saved.progression);p43EnsureProgression()}}}catch(err){console.warn('Progression restore',err)}
+
+function p43SkillBase(id){return Number(skillRaw(id)||0)}
+function p43SkillRanks(id){return Math.max(0,Number(state.progression.skillRanks[id])||0)}
+function p43SkillRaw(id){return p43SkillBase(id)+p43SkillRanks(id)}
+function p43AttributeBase(id){return Number(finalAttr(id)||0)}
+function p43AttributeRanks(id){return Math.max(0,Number(state.progression.attributeRanks[id])||0)}
+function p43AttributeValue(id){return p43AttributeBase(id)+p43AttributeRanks(id)}
+function p43FlashKey(id,step){return `${id}:${step}`}
+function p43OwnRealityTalent(id){return hasTalent(id)||(state.progression.realityTalents||[]).includes(id)}
+function p43SkillStepBaseCost(id,step){const from=p43SkillBase(id)+step-1;return from===0?3:from+1}
+function p43SkillStepCost(id,step){const base=p43SkillStepBaseCost(id,step);return state.progression.flashUses.includes(p43FlashKey(id,step))?Math.max(1,base-2):base}
+function p43SkillSpent(id){let n=0;for(let i=1;i<=p43SkillRanks(id);i++)n+=p43SkillStepCost(id,i);return n}
+function p43AttributeStepCost(id,step){return 3*(p43AttributeBase(id)+step)}
+function p43AttributeSpent(id){let n=0;for(let i=1;i<=p43AttributeRanks(id);i++)n+=p43AttributeStepCost(id,i);return n}
+function p43XpSpent(){return ruleset.skills.reduce((n,s)=>n+p43SkillSpent(s.id),0)+ruleset.attributes.reduce((n,a)=>n+p43AttributeSpent(a.id),0)+(state.progression.realityTalents||[]).length*10}
+function p43XpRemaining(){return Math.max(0,Number(state.progression.xpEarned)||0)-p43XpSpent()}
+function p43PtvSpent(){return (state.progression.truthTalents||[]).reduce((n,id)=>n+(truthTalentById(id)?.cost||0),0)}
+function p43CreationPtvReserve(){return Math.max(0,truthPtvRemaining())}
+function p43PtvRemaining(){return p43CreationPtvReserve()+Math.max(0,Number(state.progression.ptvEarned)||0)-p43PtvSpent()}
+function p43CanSpendXp(cost){return p43XpRemaining()>=cost}
+function p43CanSpendPtv(cost){return p43PtvRemaining()>=cost}
+function p43ProgressTalentBonus(skillId){return (state.progression.realityTalents||[]).reduce((n,id)=>n+(p20SkillTalentMap?.[id]===skillId?1:0),0)}
+function p43SkillFinal(id){return p43SkillRaw(id)+(typeof p20SkillTalentBonus==='function'?p20SkillTalentBonus(id):0)+p43ProgressTalentBonus(id)}
+
+function p43SpendSkill(id){
+  const ranks=p43SkillRanks(id);if(p43SkillBase(id)+ranks>=15)return;
+  const step=ranks+1,key=p43FlashKey(id,step),baseCost=p43SkillStepBaseCost(id,step),useFlash=p43OwnRealityTalent('apprentissage_fulgurant')&&state.progression.flashReady&&state.progression.flashArmed;
+  const cost=useFlash?Math.max(1,baseCost-2):baseCost;if(!p43CanSpendXp(cost))return;
+  state.progression.skillRanks[id]=step;
+  if(useFlash){state.progression.flashUses.push(key);state.progression.flashReady=false;state.progression.flashArmed=false}
+  render();
+}
+function p43RefundSkill(id){
+  const ranks=p43SkillRanks(id);if(!ranks)return;const key=p43FlashKey(id,ranks);
+  state.progression.skillRanks[id]=ranks-1;
+  if(state.progression.flashUses.includes(key)){state.progression.flashUses=state.progression.flashUses.filter(x=>x!==key);state.progression.flashReady=true}
+  render();
+}
+function p43SpendAttribute(id){const ranks=p43AttributeRanks(id);if(p43AttributeBase(id)+ranks>=10)return;const cost=p43AttributeStepCost(id,ranks+1);if(!p43CanSpendXp(cost))return;state.progression.attributeRanks[id]=ranks+1;render()}
+function p43RefundAttribute(id){const ranks=p43AttributeRanks(id);if(!ranks)return;state.progression.attributeRanks[id]=ranks-1;render()}
+
+function p43CreationRealityIds(){return new Set([state.talents.origin,state.talents.sphere,state.talents.expertise,state.talents.common,...(state.talents.edge||[])].filter(Boolean))}
+function p43RealityTalentAllowed(t){
+  if(!t)return {ok:false,reason:'Talent introuvable'};
+  if(p43CreationRealityIds().has(t.id)||(state.progression.realityTalents||[]).includes(t.id))return {ok:false,reason:'Déjà acquis'};
+  if(t.id==='neurodriver'&&(p43SkillRaw('neurodive')<1||hasDis('unsinkable')))return {ok:false,reason:'Neurodive 1+ requis et incompatible avec Unsinkable'};
+  if(t.id==='brave'&&hasDis('lache'))return {ok:false,reason:'Incompatible avec Lâche'};
+  if(t.id==='resistance_a_la_chaleur'&&hasDis('sensible_a_la_chaleur'))return {ok:false,reason:'Incompatible avec Sensible à la chaleur'};
+  if(t.id==='resistance_au_froid'&&hasDis('sensible_au_froid'))return {ok:false,reason:'Incompatible avec Sensible au froid'};
+  return {ok:true};
+}
+function p43RealityTalentGroups(){
+  const owned=p43CreationRealityIds(),learned=new Set(state.progression.realityTalents||[]),st=style(),groups=[];
+  const common=(ruleset.talents.common||[]).filter(t=>!owned.has(t.id)&&!learned.has(t.id));if(common.length)groups.push({label:'Talents communs',help:'Aptitudes générales acquises par expérience, entraînement ou évolution personnelle.',items:common});
+  const expertise=(ruleset.talents.expertise||[]).filter(t=>!owned.has(t.id)&&!learned.has(t.id)&&st?.expertiseFamilies?.includes(t.attribute));if(expertise.length)groups.push({label:'Talents d’Expertise',help:`Après création, l’Expertise reste limitée aux familles de votre Style : ${(st?.expertiseFamilies||[]).map(attrName).join(' / ')||'—'}.`,items:expertise});
+  const sphereItems=(ruleset.talents.sphere?.[state.creation.sphere]||[]).filter(t=>!owned.has(t.id)&&!learned.has(t.id));if(sphereItems.length)groups.push({label:`Talents de Sphère — ${sphere()?.name||'Sphère actuelle'}`,help:'Ils supposent un accès réel au réseau, à la fonction ou à l’institution correspondante. Une nouvelle Sphère ne redonne jamais son package de création.',items:sphereItems});
+  return groups;
+}
+function p43BuyRealityTalent(id){const t=talentById(id),a=p43RealityTalentAllowed(t);if(!a.ok||!p43CanSpendXp(10))return;state.progression.realityTalents.push(id);render()}
+function p43RefundRealityTalent(id){state.progression.realityTalents=state.progression.realityTalents.filter(x=>x!==id);render()}
+
+function p43TruthOwned(){return new Set([...(state.truth.truthTalents||[]),...(state.progression.truthTalents||[])])}
+function p43TruthPrereqSatisfied(t,available){const req=truthPrereqMatches(t,available);if(!req.length)return true;const owned=p43TruthOwned();return req.every(id=>owned.has(id))}
+function p43BuyTruthTalent(id){const t=truthTalentById(id),available=truthAvailableTalents();if(!t||p43TruthOwned().has(id)||!p43TruthPrereqSatisfied(t,available)||!p43CanSpendPtv(t.cost||0))return;state.progression.truthTalents.push(id);render()}
+function p43RefundTruthTalent(id){
+  state.progression.truthTalents=state.progression.truthTalents.filter(x=>x!==id);
+  let changed=true;while(changed){changed=false;const available=truthAvailableTalents();for(const ownedId of [...state.progression.truthTalents]){const t=truthTalentById(ownedId);if(t&&!p43TruthPrereqSatisfied(t,available)){state.progression.truthTalents=state.progression.truthTalents.filter(x=>x!==ownedId);changed=true}}}
+  render();
+}
+
+function p43PoolCard(title,value,sub,cls=''){return `<div class="p43-pool ${cls}"><span>${uxEsc(title)}</span><strong>${uxEsc(String(value))}</strong><small>${uxEsc(sub)}</small></div>`}
+function p43SessionCard(title,xp,lore){const card=el('div',{class:'alloc p43-session-card'},`<div class="alloc-title"><strong>${uxEsc(title)}</strong><span>+${xp} XP</span></div><div class="p26-card-help">${uxEsc(lore)}</div>`),b=el('button',{class:'ghost mini'},`Ajouter +${xp} XP`);b.onclick=()=>{state.progression.xpEarned+=xp;render()};card.appendChild(b);return card}
+
+function p43RenderPools(c){
+  const pools=el('div',{class:'p43-pools'},p43PoolCard('XP reçus',state.progression.xpEarned,'Depuis la création')+p43PoolCard('XP dépensés',p43XpSpent(),'Compétences, Attributs et Talents de Réalité')+p43PoolCard('XP disponibles',p43XpRemaining(),'Réserve actuelle',p43XpRemaining()<0?'bad':'good')+p43PoolCard('PTV de création',p43CreationPtvReserve(),'Réserve non dépensée')+p43PoolCard('PTV attribués',state.progression.ptvEarned,'Gagnés en campagne')+p43PoolCard('PTV disponibles',p43PtvRemaining(),'Après achats de Vérité',p43PtvRemaining()<0?'bad':'good'));c.appendChild(pools);
+  const edit=el('div',{class:'grid2 p43-ledger-inputs'}),xp=el('div',{class:'field'},'<label>XP reçus depuis la création</label><div class="p40-field-lore">Valeur cumulée. Les boutons de séance ci-dessous l’incrémentent automatiquement.</div>'),xi=el('input',{type:'number',min:p43XpSpent(),step:1,value:state.progression.xpEarned});xi.onchange=e=>{state.progression.xpEarned=Math.max(p43XpSpent(),Number(e.target.value)||0);render()};xp.appendChild(xi);const ptv=el('div',{class:'field'},'<label>PTV attribués depuis la création</label><div class="p40-field-lore">Les PTV n’ont pas de cadence automatique : inscrivez seulement ceux réellement accordés par le MJ.</div>'),pi=el('input',{type:'number',min:Math.max(0,p43PtvSpent()-p43CreationPtvReserve()),step:1,value:state.progression.ptvEarned});pi.onchange=e=>{state.progression.ptvEarned=Math.max(Math.max(0,p43PtvSpent()-p43CreationPtvReserve()),Number(e.target.value)||0);render()};ptv.appendChild(pi);edit.append(xp,ptv);c.appendChild(edit);
+}
+
+function p43RenderSessions(c){
+  c.appendChild(el('div',{class:'section-title reality-subtitle'},'<div><h3>Gain d’XP</h3><p>Le gain est collectif et dépend de l’importance réelle de la séance, pas du nombre d’ennemis vaincus ni d’une comptabilité individuelle des réussites.</p></div>'));
+  const grid=el('div',{class:'p26-five-grid'});grid.append(p43SessionCard('Courte / transition',2,'Séance brève, passage entre deux arcs, préparation ou transition où la progression reste volontairement légère.'),p43SessionCard('Normale',3,'Référence habituelle pour une séance complète : assez d’action, de décisions et de conséquences pour faire progresser le groupe.'),p43SessionCard('Finale / événement majeur',4,'Conclusion d’arc, événement décisif ou séance dont les enjeux et les conséquences dépassent clairement la norme.'));c.appendChild(grid);
+}
+
+function p43RenderAttributes(c){
+  const d=el('details',{class:'p43-group',open:Object.values(state.progression.attributeRanks).some(Number)});d.appendChild(el('summary',{},'<span><strong>Augmenter les Attributs</strong><small>+1 coûte 3 × la nouvelle valeur · maximum brut 10</small></span><span class="badge">ouvrir / replier</span>'));const grid=el('div',{class:'p26-five-grid p43-inner-grid'});
+  ruleset.attributes.forEach(a=>{const base=p43AttributeBase(a.id),r=p43AttributeRanks(a.id),cur=base+r,next=cur+1,cost=cur<10?p43AttributeStepCost(a.id,r+1):null,card=el('div',{class:'alloc p43-progress-card'},`<div class="alloc-title"><strong>${uxEsc(a.name)}</strong><span>${cur}/10</span></div><div class="p26-card-help">${uxEsc(p26AttributeHelp[a.id]||'')}</div><div class="p43-progression-meta"><span>Création ${base}</span><span>${r?`+${r} en campagne`:'aucune hausse'}</span></div>`),actions=el('div',{class:'p43-actions'});const minus=el('button',{class:'ghost mini'},'− 1');minus.disabled=!r;minus.onclick=()=>p43RefundAttribute(a.id);const plus=el('button',{class:'primary mini'},cur>=10?'Maximum':`Passer à ${next} · ${cost} XP`);plus.disabled=cur>=10||!p43CanSpendXp(cost||Infinity);plus.onclick=()=>p43SpendAttribute(a.id);actions.append(minus,plus);card.appendChild(actions);grid.appendChild(card)});d.appendChild(grid);c.appendChild(d);
+}
+
+function p43RenderSkills(c){
+  const any=Object.values(state.progression.skillRanks).some(Number),d=el('details',{class:'p43-group',open:any});d.appendChild(el('summary',{},'<span><strong>Augmenter les Compétences</strong><small>0→1 = 3 XP ; ensuite la nouvelle valeur · maximum brut 15</small></span><span class="badge">ouvrir / replier</span>'));
+  ruleset.attributes.forEach(a=>{const sec=el('details',{class:'p26-skill-group p43-skill-section',open:ruleset.skills.filter(s=>s.attribute===a.id).some(s=>p43SkillRanks(s.id)>0)});sec.appendChild(el('summary',{},`<span><strong>${uxEsc(a.name)}</strong><small>Compétences liées</small></span><span class="badge">ouvrir / replier</span>`));const grid=el('div',{class:'p26-five-grid p26-skill-group-grid'});ruleset.skills.filter(s=>s.attribute===a.id).forEach(sk=>{const base=p43SkillBase(sk.id),r=p43SkillRanks(sk.id),cur=base+r,step=r+1,baseCost=cur<15?p43SkillStepBaseCost(sk.id,step):null,useFlash=p43OwnRealityTalent('apprentissage_fulgurant')&&state.progression.flashReady&&state.progression.flashArmed,cost=baseCost===null?null:(useFlash?Math.max(1,baseCost-2):baseCost),final=p43SkillFinal(sk.id),card=el('div',{class:'alloc p43-progress-card'},`<div class="alloc-title"><strong>${uxEsc(sk.name)}</strong><span>Brut ${cur}/15${final!==cur?` · Final ${final}`:''}</span></div><div class="p26-card-help">${uxEsc(p25SkillHelp?.[sk.id]||'')}</div><div class="p43-progression-meta"><span>Création ${base}</span><span>${r?`+${r} en campagne`:'aucune hausse'}</span></div>`),actions=el('div',{class:'p43-actions'}),minus=el('button',{class:'ghost mini'},'− 1');minus.disabled=!r;minus.onclick=()=>p43RefundSkill(sk.id);const plus=el('button',{class:'primary mini'},cur>=15?'Maximum':`Passer à ${cur+1} · ${cost} XP${useFlash?' ⚡':''}`);plus.disabled=cur>=15||!p43CanSpendXp(cost||Infinity);plus.onclick=()=>p43SpendSkill(sk.id);actions.append(minus,plus);card.appendChild(actions);grid.appendChild(card)});sec.appendChild(grid);d.appendChild(sec)});c.appendChild(d);
+}
+
+function p43RenderFlash(c){if(!p43OwnRealityTalent('apprentissage_fulgurant'))return;const box=el('div',{class:'p43-flash-box'},`<div><strong>Apprentissage fulgurant</strong><span>Une fois par scénario, une hausse de Compétence réellement pratiquée coûte 2 XP de moins, minimum 1. La réduction peut aussi s’appliquer à 0→1.</span></div>`),actions=el('div',{class:'p43-actions'}),arm=el('button',{class:state.progression.flashArmed?'primary mini':'ghost mini'},state.progression.flashReady?(state.progression.flashArmed?'Réduction armée ✓':'Utiliser sur la prochaine hausse'):'Déjà utilisé ce scénario');arm.disabled=!state.progression.flashReady;arm.onclick=()=>{state.progression.flashArmed=!state.progression.flashArmed;render()};const reset=el('button',{class:'ghost mini'},'Nouveau scénario · réinitialiser');reset.onclick=()=>{state.progression.flashReady=true;state.progression.flashArmed=false;render()};actions.append(arm,reset);box.appendChild(actions);c.appendChild(box)}
+
+function p43RealityTalentCard(t){const a=p43RealityTalentAllowed(t),can=a.ok&&p43CanSpendXp(10),card=el('div',{class:`p43-talent-card ${a.ok?'':'locked'}`},`<div class="p43-talent-head"><div><strong>${uxEsc(t.name)}</strong><small>10 XP</small></div></div><em>${uxEsc(p26TalentNarrative(t))}</em><p><strong>Effet mécanique :</strong> ${uxEsc(t.effect||'—')}</p>${a.ok?'':`<div class="catalog-lock">${uxEsc(a.reason)}</div>`}`),b=el('button',{class:'primary mini'},'Apprendre · 10 XP');b.disabled=!can;b.onclick=()=>p43BuyRealityTalent(t.id);card.appendChild(b);return card}
+function p43RenderRealityTalents(c){
+  const d=el('details',{class:'p43-group',open:(state.progression.realityTalents||[]).length>0});d.appendChild(el('summary',{},'<span><strong>Apprendre un Talent de Réalité</strong><small>10 XP · prérequis et accès fictionnels applicables</small></span><span class="badge">ouvrir / replier</span>'));
+  d.appendChild(el('div',{class:'p43-rule-note'},'<strong>Cadre :</strong> les Talents communs s’apprennent lorsque la fiction le permet. Les Talents d’Expertise restent limités aux familles du Style. Les Talents de Sphère demandent un accès réel. Les Talents d’Origine restent normalement réservés à la création.'));
+  const owned=(state.progression.realityTalents||[]).map(talentById).filter(Boolean);if(owned.length){const list=el('div',{class:'p43-owned-list'});owned.forEach(t=>{const row=el('div',{class:'p43-owned-row'},`<div><strong>${uxEsc(t.name)}</strong><span>Talent de Réalité · 10 XP</span></div>`),rm=el('button',{class:'danger-btn mini'},'Retirer');rm.onclick=()=>p43RefundRealityTalent(t.id);row.appendChild(rm);list.appendChild(row)});d.appendChild(list)}
+  p43RealityTalentGroups().forEach(g=>{const sec=el('details',{class:'p43-subgroup'});sec.appendChild(el('summary',{},`<span><strong>${uxEsc(g.label)}</strong><small>${uxEsc(g.help)}</small></span><span class="badge">${g.items.length}</span>`));const grid=el('div',{class:'p43-talent-grid'});g.items.forEach(t=>grid.appendChild(p43RealityTalentCard(t)));sec.appendChild(grid);d.appendChild(sec)});c.appendChild(d);
+}
+
+function p43TruthTalentCard(t,available){const prOK=p43TruthPrereqSatisfied(t,available),can=prOK&&p43CanSpendPtv(t.cost||0),lore=typeof t28TruthLore==='function'?t28TruthLore(t):'',card=el('div',{class:`p43-talent-card ${prOK?'':'locked'}`,'data-search':normText(`${t.name} ${t.group} ${t.effect} ${lore} ${t.prerequisiteName||''}`)},`<div class="p43-talent-head"><div><strong>${uxEsc(t.name)}</strong><small>${t.cost} PTV · ${uxEsc(t.group||'Vérité')}</small></div><span class="pill">Disponibilité ${uxEsc(t.access||'—')}</span></div>${lore?`<em>${uxEsc(lore)}</em>`:''}${t.prerequisiteName?`<div class="r15-prereq ${prOK?'ok':'bad'}"><strong>Prérequis :</strong> ${uxEsc(t.prerequisiteName)}${prOK?'':' · non acquis'}</div>`:''}<p><strong>Effet mécanique :</strong> ${uxEsc(t.effect||'—')}</p>`),b=el('button',{class:'primary mini'},`Apprendre · ${t.cost} PTV`);b.disabled=!can;b.onclick=()=>p43BuyTruthTalent(t.id);card.appendChild(b);return card}
+function p43RenderTruth(c){
+  const d=el('details',{class:'p43-group',open:true});d.appendChild(el('summary',{},'<span><strong>Dépenser des PTV</strong><small>La Vérité progresse par les PTV, jamais par l’XP</small></span><span class="badge">ouvrir / replier</span>'));
+  d.appendChild(el('div',{class:'p43-rule-note'},'<strong>Règle :</strong> 1 PTV correspond normalement à une signature utile ou une ouverture spécialisée ; 2 PTV à un effet puissant ou une règle modifiée ; 3 PTV à un effet majeur, rare ou ouvrant une nouvelle dimension d’action. Les coûts affichés ci-dessous sont ceux du catalogue canonique. N/O/R d’acquisition et les prérequis biologiques, initiatiques, matériels ou fictionnels restent applicables ; la mention V/SR/R d’un Talent décrit sa disponibilité en jeu, pas un achat supplémentaire.'));
+  const owned=(state.progression.truthTalents||[]).map(truthTalentById).filter(Boolean);if(owned.length){const list=el('div',{class:'p43-owned-list'});owned.forEach(t=>{const row=el('div',{class:'p43-owned-row'},`<div><strong>${uxEsc(t.name)}</strong><span>${t.cost} PTV · ${uxEsc(t.group||'Vérité')}</span></div>`),rm=el('button',{class:'danger-btn mini'},'Retirer');rm.onclick=()=>p43RefundTruthTalent(t.id);row.appendChild(rm);list.appendChild(row)});d.appendChild(list)}
+  const available=truthAvailableTalents(),ownedSet=p43TruthOwned(),buyable=available.filter(t=>!ownedSet.has(t.id));
+  if(!buyable.length){d.appendChild(el('div',{class:'empty'},'Aucun nouveau Talent n’est déductible automatiquement de la branche de Vérité actuellement inscrite. Les PTV peuvent rester en réserve ; un nouvel accès de doctrine, tradition ou cross-training doit d’abord exister dans la fiction.'));c.appendChild(d);return}
+  const search=el('div',{class:'field p43-search'},'<label>Rechercher dans les Talents accessibles</label>'),inp=el('input',{placeholder:'Nom, voie, effet…'});search.appendChild(inp);d.appendChild(search);const groups=new Map();buyable.forEach(t=>{const g=t.group||'Talents';if(!groups.has(g))groups.set(g,[]);groups.get(g).push(t)});const host=el('div',{class:'p43-truth-groups'});groups.forEach((items,label)=>{const sec=el('details',{class:'p43-subgroup'});sec.appendChild(el('summary',{},`<span><strong>${uxEsc(label)}</strong><small>Talents de la branche actuellement accessible</small></span><span class="badge">${items.length}</span>`));const grid=el('div',{class:'p43-talent-grid'});items.sort((a,b)=>(a.cost||0)-(b.cost||0)||a.name.localeCompare(b.name,'fr')).forEach(t=>grid.appendChild(p43TruthTalentCard(t,available)));sec.appendChild(grid);host.appendChild(sec)});d.appendChild(host);inp.oninput=e=>{const q=normText(e.target.value);host.querySelectorAll('.p43-talent-card').forEach(card=>card.style.display=!q||card.dataset.search.includes(q)?'flex':'none');host.querySelectorAll('.p43-subgroup').forEach(sec=>sec.style.display=[...sec.querySelectorAll('.p43-talent-card')].some(x=>x.style.display!=='none')?'block':'none')};c.appendChild(d);
+}
+
+function stepProgression(){
+  p43EnsureProgression();const c=wrap("Dépense d’expérience et de PTV",'Après la création, le personnage progresse sur plusieurs axes séparés. L’XP développe les capacités profanes ; les PTV développent la Vérité. Argent, accès, Renommée, relations et Edge continuent de suivre leurs propres règles.',`<div class="kpi good">XP ${p43XpRemaining()} · PTV ${p43PtvRemaining()}</div>`);
+  c.appendChild(el('div',{class:'p43-principles'},'<div><strong>XP</strong><span>Attributs, Compétences et Talents de Réalité.</span></div><div><strong>PTV</strong><span>Nature, pouvoirs, traditions et doctrines de Vérité.</span></div><div><strong>Argent & accès</strong><span>Matériel, augmentations, véhicules et services : jamais achetés avec XP ou PTV sans règle explicite.</span></div><div><strong>Fiction</strong><span>Renommée, Contacts, Réseaux, Statuts, Patrimoine, Dettes et nouvelles autorisations d’apprentissage.</span></div>'));
+  p43RenderPools(c);p43RenderSessions(c);p43RenderFlash(c);
+  c.appendChild(el('div',{class:'section-title reality-subtitle'},'<div><h3>Dépenser l’XP</h3><p>L’XP paie la progression, mais la fiction l’autorise : pratique, formation, mentor, expérience ou ellipse doivent rendre l’acquisition crédible.</p></div></div>'));
+  p43RenderAttributes(c);p43RenderSkills(c);p43RenderRealityTalents(c);
+  c.appendChild(el('div',{class:'section-title reality-subtitle'},'<div><h3>Dépenser les PTV</h3><p>Les PTV sont une progression permanente de Vérité. Ils ne servent jamais de mana et ne créent ni équipement, ni vendeur, ni réseau absent.</p></div></div>'));
+  p43RenderTruth(c);
+}
+
+const p43RenderStepBase=renderStep;
+renderStep=function(){const id=STEPS[stepIndex]?.[0];if(id==='progression')return stepProgression();return p43RenderStepBase()};
+
+// Post-creation progression is never a creation gate.
+const p43ValidBase=validations;
+validations=function(){const v=p43ValidBase();v.progression=true;return v};
+
+// Finalisation remains an 11-step creation audit; Block 12 is intentionally excluded.
+p40ValidationPanel=function(){
+  const v=validations(),box=el('section',{class:'p40-validation-panel'},'<div class="section-title reality-subtitle"><div><h3>Contrôle de validation</h3><p>Ces voyants contrôlent uniquement la création. La progression en campagne vient ensuite et ne peut pas invalider rétroactivement la fiche de départ.</p></div></div>'),grid=el('div',{class:'p40-validation-grid'});
+  STEPS.filter(([id])=>id!=='progression').forEach(([id,label],i)=>{const ok=!!v[id],row=el('button',{class:`p40-validation-switch ${ok?'ok':'bad'}`,type:'button'},`<span class="p40-switch-dot"></span><span><strong>${i+1}. ${uxEsc(label)}</strong><small>${uxEsc(p40ValidationReason(id,ok))}</small></span>`);row.onclick=()=>{stepIndex=STEPS.findIndex(([sid])=>sid===id);render()};grid.appendChild(row)});box.appendChild(grid);return box;
+};
+
+const p43SummaryBase=renderSummary;
+renderSummary=function(){p43SummaryBase();const s=$('#summaryContent');if(!s)return;const resources=[...s.querySelectorAll('.summary-section')].find(x=>(x.querySelector('h4')?.textContent||'').trim()==='Ressources');if(resources){const ptv=[...resources.querySelectorAll('.summary-line')].find(x=>(x.firstElementChild?.textContent||'').trim()==='PTV réserve');if(ptv?.lastElementChild)ptv.lastElementChild.textContent=String(p43PtvRemaining());let xp=[...resources.querySelectorAll('.summary-line')].find(x=>(x.firstElementChild?.textContent||'').trim()==='XP');if(!xp){xp=el('div',{class:'summary-line'},`<span>XP</span><span>${p43XpRemaining()}</span>`);resources.appendChild(xp)}else if(xp.lastElementChild)xp.lastElementChild.textContent=String(p43XpRemaining())}}
+
+const p43BuildExportBase=buildExport;
+buildExport=function(){const out=p43BuildExportBase();out.progression=structuredClone(state.progression);out.progressionSnapshot={xpSpent:p43XpSpent(),xpRemaining:p43XpRemaining(),ptvCreationReserve:p43CreationPtvReserve(),ptvSpent:p43PtvSpent(),ptvRemaining:p43PtvRemaining(),attributes:Object.fromEntries(ruleset.attributes.map(a=>[a.id,{creation:p43AttributeBase(a.id),campaign:p43AttributeRanks(a.id),current:p43AttributeValue(a.id)}])),skills:Object.fromEntries(ruleset.skills.map(s=>[s.id,{creationRaw:p43SkillBase(s.id),campaign:p43SkillRanks(s.id),currentRaw:p43SkillRaw(s.id),currentFinal:p43SkillFinal(s.id)}]))};return out};
+
+const p43Css=el('style',{},`
+.p43-principles{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:12px 0 18px}.p43-principles>div{flex:0 1 calc(50% - 12px);min-width:260px;border:1px solid var(--line);border-radius:11px;padding:12px;background:rgba(255,255,255,.02)}.p43-principles strong,.p43-principles span{display:block}.p43-principles span{font-size:12px;line-height:1.45;color:var(--muted);margin-top:3px}
+.p43-pools{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:14px 0}.p43-pool{flex:0 1 calc(33.333% - 10px);min-width:190px;border:1px solid var(--line);border-radius:11px;padding:11px 12px;background:#0d141a;display:grid;gap:2px}.p43-pool>span{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}.p43-pool>strong{font-size:22px}.p43-pool>small{font-size:11px;color:var(--muted)}.p43-pool.good>strong{color:var(--good)}.p43-pool.bad>strong{color:var(--danger)}.p43-ledger-inputs{margin:12px 0 18px}
+.p43-session-card{display:flex;flex-direction:column}.p43-session-card button{margin-top:auto}.p43-group{border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.015);margin:12px 0;overflow:hidden}.p43-group>summary,.p43-subgroup>summary{cursor:pointer;display:flex;justify-content:space-between;gap:12px;align-items:center;list-style:none}.p43-group>summary{padding:13px 14px}.p43-subgroup>summary{padding:11px 12px}.p43-group>summary::-webkit-details-marker,.p43-subgroup>summary::-webkit-details-marker{display:none}.p43-group>summary span:first-child,.p43-subgroup>summary span:first-child{display:flex;flex-direction:column}.p43-group>summary small,.p43-subgroup>summary small{color:var(--muted);font-weight:400;margin-top:2px}.p43-inner-grid{padding:0 12px 12px}
+.p43-progress-card{display:flex;flex-direction:column}.p43-progression-meta{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:11px;border-top:1px solid rgba(255,255,255,.06);padding-top:8px}.p43-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.p43-progress-card>.p43-actions{margin-top:auto;padding-top:10px}.p43-progress-card .primary{flex:1}.p43-flash-box{display:flex;justify-content:space-between;align-items:center;gap:14px;border:1px solid #66572b;border-radius:12px;padding:12px 14px;background:rgba(255,204,102,.045);margin:12px 0}.p43-flash-box>div:first-child{display:grid;gap:3px}.p43-flash-box span{font-size:12px;line-height:1.45;color:var(--muted)}
+.p43-rule-note{margin:0 12px 12px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.02);font-size:12px;line-height:1.5;color:var(--muted)}.p43-rule-note strong{color:var(--text)}.p43-subgroup{border-top:1px solid rgba(255,255,255,.07)}.p43-talent-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;padding:0 12px 12px}.p43-talent-card{flex:0 1 calc(33.333% - 12px);min-width:240px;border:1px solid var(--line);border-radius:11px;padding:12px;background:#0c1318;display:flex;flex-direction:column;gap:8px}.p43-talent-card.locked{opacity:.72}.p43-talent-card em{color:#c6d0d7;font-size:12px;line-height:1.5}.p43-talent-card p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}.p43-talent-card p strong{color:var(--text)}.p43-talent-card>.primary{margin-top:auto}.p43-talent-head{display:flex;justify-content:space-between;gap:8px}.p43-talent-head>div{display:grid;gap:2px}.p43-talent-head small{color:var(--muted)}.p43-owned-list{display:grid;gap:7px;margin:0 12px 12px}.p43-owned-row{display:flex;justify-content:space-between;gap:12px;align-items:center;border:1px solid var(--line);border-radius:9px;padding:9px 10px}.p43-owned-row>div{display:grid}.p43-owned-row span{font-size:11px;color:var(--muted)}.p43-search{margin:0 12px 12px}
+@media(max-width:980px){.p43-pool,.p43-talent-card{flex-basis:calc(50% - 12px)}.p43-principles>div{flex-basis:calc(50% - 12px)}}@media(max-width:650px){.p43-principles>div,.p43-pool,.p43-talent-card{flex-basis:100%;min-width:0}.p43-flash-box{align-items:stretch;flex-direction:column}.p43-flash-box .p43-actions{width:100%}.p43-flash-box button{flex:1}.p43-progression-meta{flex-direction:column}}
+`);document.head.appendChild(p43Css);
+render();

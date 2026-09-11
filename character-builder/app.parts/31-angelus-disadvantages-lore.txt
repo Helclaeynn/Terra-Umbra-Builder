@@ -1,0 +1,177 @@
+// Angelus structural lore + Disadvantage narrative UX.
+
+const t31ArchangelLore={
+  remiel:"Remiel incarne une autorité de Kether tournée vers les forces premières du ciel. Son lien apprend à l’Angelus à traiter vent, eau ou foudre comme une expression ordonnée de la Transcendance plutôt que comme une magie improvisée.",
+  metatron:"Metatron est un Archange renégat de Kether associé à la Création. Son héritage pousse l’Angelus à considérer l’ordre céleste comme quelque chose qui peut être bâti, organisé ou réécrit, ce qui explique autant sa grandeur que la méfiance qu’il inspire.",
+  gabrielle:"Gabrielle porte dans Hokhma la parole qui éclaire et transmet. Ses Angelus sont souvent médiateurs, messagers ou orateurs : leur devoir n’est pas seulement de parler, mais de rendre un sens compréhensible sans transformer le dialogue en domination mentale.",
+  manakielle:"Manakielle est un Archange renégat de Hokhma lié à la Connaissance. Son école valorise l’apprentissage, la compréhension et l’accès direct à ce qui doit être su, parfois au prix d’une indépendance intellectuelle difficile à concilier avec une hiérarchie céleste stricte.",
+  barachiel:"Barachiel exprime Bina par la bénédiction, la préparation et l’aide donnée au bon moment. Ses Angelus voient souvent leur mission comme l’art de rendre possible l’action d’autrui plutôt que de monopoliser eux-mêmes l’accomplissement.",
+  razielle:"Razielle est un Archange renégat de Bina lié aux Secrets. Son héritage enseigne que comprendre le destin ou une architecture cachée exige parfois de conserver une information, d’attendre son heure et de distinguer ce qui peut être révélé de ce qui ne le doit pas encore.",
+  raphael:"Raphael incarne la miséricorde active de Hesed : restaurer, soigner et ramener un être vers son intégrité. Ses Angelus sont marqués par l’idée que sauver quelqu’un signifie souvent réparer plus que ses seuls points de vie.",
+  tsadqiel:"Tsadqiel est un Archange renégat de Hesed associé au Pardon. Son enseignement considère que la miséricorde n’est pas l’oubli de la faute, mais la possibilité réelle de ne pas réduire définitivement un être à ce qu’il a commis.",
+  michel:"Michel porte Gueburah comme courage, guerre juste et refus de céder devant la terreur. Ses Angelus sont des gardiens combattants pour qui la force n’a de sens que lorsqu’elle permet de tenir là où d’autres seraient forcés de fuir.",
+  selaphielle:"Selaphielle est un Archange renégat de Gueburah lié au Devoir. Son école pousse l’Angelus à poursuivre la mission malgré peur, douleur ou doute, parfois jusqu’à la frontière dangereuse où la fidélité au devoir commence à écraser l’individu.",
+  zophielle:"Zophielle exprime Tiph’Ereth par la Splendeur, la présence et la capacité à rendre un idéal sensible aux autres. Ses Angelus impressionnent moins par l’autorité brute que par la conviction qu’ils donnent momentanément à une cause, une parole ou une présence.",
+  sachielle:"Sachielle est un Archange renégat de Tiph’Ereth associé à la Charité. Son héritage place le don, le sacrifice et l’aide désintéressée au cœur de la mission, quitte à entrer en conflit avec une conception plus hiérarchique ou punitive du service céleste.",
+  azazel:"Azazel porte Nesah comme protection des limites et défense de ce qui doit rester intact. Ses Angelus pensent volontiers en termes de frontières, de sanctuaires et d’espaces qu’aucune violence ne devrait franchir sans rencontrer une résistance.",
+  hanaelle:"Hanaelle est un Archange renégat de Nesah lié à la Sexualité, au désir et à l’intimité. Son école traite ces forces comme des dimensions humaines et spirituelles véritables plutôt que comme des faiblesses qu’un ordre céleste devrait simplement réprimer.",
+  urielle:"Urielle exprime Hod par une lumière ardente qui éclaire autant qu’elle consume. Ses Angelus associent volontiers savoir, révélation, grandeur et feu purificateur, avec une vision du Ciel où comprendre et rayonner sont deux aspects d’un même devoir.",
+  sandalphon:"Sandalphon est un Archange renégat de Hod associé à la Grandeur. Son héritage enseigne la persistance de l’œuvre, l’élévation et la volonté de laisser derrière soi quelque chose qui dépasse la personne qui l’a accompli.",
+  camaelle:"Camaelle porte Yessod comme impulsion, émotion et colère brusquement transformées en action. Ses Angelus savent que l’imagination et l’affect peuvent déclencher un mouvement décisif avant que la raison ait fini de peser toutes les conséquences.",
+  mebahel:"Mebahel est un Archange renégat de Yessod lié à la Vérité. Son école cherche à déchirer les récits confortables, les mensonges conscients et les illusions qui déforment le réel, même lorsque la vérité ainsi révélée dérange l’ordre établi.",
+  azrael:"Azrael incarne Malkhouth dans son rapport au poids du monde, à la mort et au passage de l’âme. Ses Angelus ne sont pas de simples tueurs : ils travaillent à la frontière où une existence corporelle cesse et où ce qui demeure doit encore être jugé ou protégé.",
+  muriel:"Muriel est un Archange renégat de Malkhouth associé à la Destruction. Son héritage rappelle que le monde physique possède aussi une fin et que détruire peut devenir une fonction céleste lorsqu’une structure, un corps ou un lien ne doit plus subsister."
+};
+
+const t31SeraphLore={
+  purim:"L’école de Purim, dite du Jugement dernier, enseigne que les fautes réelles laissent un poids spirituel. Ses élèves apprennent à reconnaître ce moment où un acte grave cesse d’être une abstraction morale et devient une marque exploitable.",
+  ochotiel:"Ochotiel transmet une tradition de Pesanteur : faute, décision et présence peuvent acquérir un poids presque physique. Ses Angelus ralentissent ce qui a déjà cédé spirituellement, comme si l’âme elle-même devenait plus lourde.",
+  belohim:"Belohim enseigne la Volonté comme continuité de l’action. Son école valorise ceux qui déclarent ce qu’ils vont accomplir et continuent malgré peur, douleur ou agitation tant que leur corps en reste réellement capable.",
+  arathim:"Arathim représente la Loi comprise comme qualification précise des actes. Ses élèves cherchent d’abord la règle, le serment ou l’engagement réellement applicable avant d’intervenir au nom de l’ordre céleste.",
+  assim:"Assim transmet une culture de Planification. Prévoir un événement, préparer une réponse simple et faire agir la bonne personne au bon moment y comptent davantage que l’improvisation spectaculaire.",
+  razael:"Razael enseigne la Sagesse de Bina : observer avant d’agir, replacer un détail dans une structure plus vaste et accepter qu’une bonne décision dépende parfois davantage de compréhension que de puissance.",
+  hazel:"Hazel porte une tradition de Sel et de Larmes. Sa Maisonnée associe guérison, purification et mémoire de la souffrance : ce qui a été blessé peut être restauré sans que la douleur traversée soit niée.",
+  sobronielle:"Sobronielle transmet la Créativité comme forme de miséricorde. Ses élèves cherchent des solutions que la procédure céleste n’avait pas prévues, persuadés que sauver exige parfois d’inventer plutôt que d’appliquer.",
+  esdrael:"Esdrael enseigne le Sang comme signe de vie, de blessure et d’engagement. Sa tradition de Gueburah rappelle que toute bataille a un coût concret porté par des corps réels.",
+  graphiel:"Graphiel est l’école de l’Épée de Dieu : précision, décision et violence assumée lorsqu’elle devient nécessaire. Ses élèves cherchent à être l’arme tenue avec discernement plutôt que la colère qui frappe sans cible.",
+  georah:"Georah travaille la Passion comme moteur de foi et d’action. Ses Angelus apprennent à reconnaître ce qui peut captiver, émouvoir ou pousser un être à dépasser l’indifférence.",
+  thirielle:"Thirielle enseigne le Charme comme présence et relation plutôt que comme simple beauté. Sa Maisonnée valorise la manière dont une personne devient difficile à ignorer sans retirer aux autres leur libre arbitre.",
+  nehemiel:"Nehemiel transmet une école de Haine dirigée contre ce qui menace ou profane. Cette tradition dangereuse apprend à transformer l’aversion en frontière défensive sans prétendre que toute colère est automatiquement juste.",
+  hassiel:"Hassiel est une Maisonnée de Défense : tenir une limite, couvrir autrui et faire de la protection un acte volontaire. Ses élèves pensent en termes de position, de refuge et de menace à arrêter.",
+  danael:"Danael porte les Flammes comme expression de lumière active. Son école voit le feu céleste à la fois comme illumination, purification et arme lorsque la corruption ou l’obscurité refusent de céder.",
+  agriel:"Agriel enseigne la Lumière céleste comme révélation et présence. Ses Angelus cherchent à rendre visible ce qui se cache et à opposer au mensonge une clarté qui ne dépend pas seulement des sens ordinaires.",
+  jachim:"Jachim transmet l’Orage : tension accumulée, mouvement soudain et puissance libérée au moment critique. Ses élèves préfèrent la décision fulgurante à l’hésitation lorsque la scène exige d’agir maintenant.",
+  sabbathiel:"Sabbathiel enseigne la Colère comme énergie qu’il faut savoir reconnaître et orienter. Sa tradition ne glorifie pas la perte de contrôle ; elle cherche le moment où l’indignation devient une action choisie.",
+  barabbiel:"Barabbiel est une école des Âmes. Ses Angelus observent moins le corps que ce qui l’habite, protègent les passages spirituels et traitent une existence comme davantage que sa seule enveloppe matérielle.",
+  pithormim:"Pithormim, la Clé des Enfers, transmet une tradition des seuils entre monde physique, mort et captivité spirituelle. Ses élèves apprennent qu’ouvrir, fermer ou garder une porte peut décider du destin d’une âme.",
+  aralim:"Aralim prolonge la Création de Metatron par la Construction. Sa Maisonnée valorise structures, ouvrages et choses destinées à durer après leur concepteur.",
+  siloelle:"Siloelle enseigne l’Énergie sous l’héritage de Manakielle. Ses élèves cherchent les flux, les réserves et les transformations qui se cachent derrière les manifestations visibles.",
+  jessim:"Jessim transmet une voie Mystique de Razielle, faite de symboles, d’intuition et de secrets difficiles à réduire à une procédure rationnelle unique.",
+  rubiel:"Rubiel porte la Pureté selon Tsadqiel : non comme obsession de perfection, mais comme effort pour débarrasser une personne ou une situation de ce qui la déforme réellement.",
+  bethel:"Bethel enseigne le Métal dans la tradition du Devoir de Selaphielle : solidité, discipline et capacité à tenir une forme malgré la pression.",
+  chiloel:"Chiloel transmet la Résignation au sens de Sachielle : accepter une perte ou une limite lorsqu’aucune violence supplémentaire ne peut la réparer, sans confondre acceptation et indifférence.",
+  phanaelle:"Phanaelle enseigne la Prudence dans la lignée de Hanaelle. Son école valorise les limites, le consentement et la lecture attentive des conséquences avant d’agir sur des forces intimes.",
+  pergamin:"Pergamin transmet la Persévérance de Sandalphon : continuer une œuvre longue, supporter l’usure et donner du temps à ce qui ne peut être accompli en un seul geste.",
+  henael:"Henael enseigne l’Avertissement sous Mebahel : reconnaître le mensonge ou le danger assez tôt pour que la vérité serve encore à prévenir plutôt qu’à constater après coup.",
+  osael:"Osael porte la Colère de Muriel comme impulsion destructrice encadrée. Son école apprend à distinguer ce qui doit réellement être brisé de ce qui provoque simplement la frustration."
+};
+
+// Enrich Angelus dropdown options with separate lore and mechanics.
+const t31RefreshBase=t16RefreshDependentChoices;
+t16RefreshDependentChoices=function(){
+  t31RefreshBase();
+  if(state.truth.nature!=='angelus')return;
+  const nat=t16Nature('angelus'),arch=nat?.choices.find(x=>x.key==='archangel'),ser=nat?.choices.find(x=>x.key==='seraph');
+  if(arch){for(const o of arch.options||[]){o.lore=t31ArchangelLore[o.id]||'';o.mechanics=(typeof t17Archangel!=='undefined'&&t17Archangel[o.id])||o.description||''}}
+  if(ser){for(const o of ser.options||[]){o.lore=t31SeraphLore[o.id]||'';o.mechanics=(typeof t17Seraph!=='undefined'&&t17Seraph[o.id])||o.description||''}}
+};
+
+// Structural dropdowns: lore then mechanics once selected; hover contains both before selection.
+t30TruthChoiceSelect=function(ch){
+  const value=state.truth.choices?.[ch.key]||'';
+  const field=el('div',{class:'field t30-truth-choice'}),lab=el('label',{},`${ch.label}${ch.optional?' · optionnel':''}`),select=el('select');
+  select.appendChild(el('option',{value:''},ch.optional?'— Aucun —':'— Choisir —'));
+  (ch.options||[]).forEach(o=>{
+    const lore=o.lore||o.description||'',mech=o.mechanics||'';
+    const attrs={value:o.id};
+    if(o.id!==value){const tip=[lore?`Ambiance : ${lore}`:'',mech?`Mécanique : ${mech}`:''].filter(Boolean).join('\n');if(tip)attrs.title=tip}
+    const opt=el('option',attrs,uxEsc(o.name));if(o.id===value)opt.selected=true;select.appendChild(opt);
+  });
+  select.onchange=e=>t16ChoiceChanged(ch.key,e.target.value);field.append(lab,select);
+  const picked=(ch.options||[]).find(o=>o.id===value);
+  if(picked){const lore=picked.lore||picked.description||'',mech=picked.mechanics||'';if(lore||mech){const detail=el('div',{class:'t30-choice-detail'},`<strong>${uxEsc(picked.name)}</strong>`);if(lore)detail.appendChild(el('em',{},uxEsc(lore)));if(mech)detail.appendChild(el('p',{class:'t31-choice-mechanics'},uxEsc(mech)));field.appendChild(detail)}}
+  return field;
+};
+
+const t31DisLore={
+  sensible_a_la_chaleur:"Votre organisme supporte mal les températures élevées : chaleur sèche, humidité lourde et déshydratation vous épuisent plus vite que la plupart des gens.",
+  sensible_au_froid:"Le froid mord rapidement jusqu’aux os ; votre corps perd plus vite son efficacité lorsque la température chute.",
+  miserable_endette:"Votre situation quotidienne est déjà mangée par une dette, un créancier ou des charges qui ne vous laissent jamais vraiment respirer financièrement.",
+  guerison_lente:"Les blessures se referment chez vous avec une lenteur frustrante ; chaque coup sérieux laisse une trace plus longtemps que prévu.",
+  scrupuleux:"Vous possédez une limite morale que vous prenez réellement au sérieux ; la franchir n’est jamais un simple choix tactique oublié à la scène suivante.",
+  impulsif:"L’action vous attire avant que toutes les conséquences soient pesées ; face à l’occasion immédiate, réfléchir devient parfois l’effort le plus difficile.",
+  violent:"L’humiliation ou la menace réveillent chez vous une réponse agressive difficile à contenir ; partir ou frapper peut sembler plus naturel que laisser couler.",
+  obsede:"Une idée, une personne, une quête ou un besoin occupe trop de place dans votre esprit pour rester toujours raisonnable.",
+  hypocrite:"Vous défendez publiquement une image ou une valeur que vos propres actes ne respectent pas toujours ; le vrai danger commence lorsque quelqu’un peut le prouver.",
+  dependance:"Une substance, une pratique ou un comportement a pris une place dont votre équilibre dépend désormais réellement.",
+  unsinkable:"Votre système nerveux refuse ou ne supporte pas l’interface Neuro : dans un monde saturé de guidage et de Neuroprogrammes, vous restez définitivement à l’extérieur de cette couche technologique.",
+  integrite_defaillante:"L’augmentique et les agressions de l’esprit trouvent chez vous un équilibre intérieur déjà fragile ; votre sentiment d’intégrité se fissure plus facilement.",
+  inconnu:"Vous n’avez pas encore de nom qui ouvre des portes : personne ne vous attend, personne ne vous recommande, et votre réputation reste à construire entièrement.",
+  lent_a_reagir:"Il vous faut un instant de plus pour passer de la compréhension à l’action ; dans une situation brutale, cet instant peut compter.",
+  traumatise:"Une expérience passée a laissé un déclencheur précis capable de ramener immédiatement une partie de la peur, de la douleur ou de l’impuissance vécue.",
+  frele:"Faiblesse de Vigueur : votre corps manque de puissance brute et les charges lourdes deviennent rapidement un problème concret.",
+  maladif:"Faiblesse de Vigueur : infections, maladies et complications physiologiques vous atteignent plus facilement que la moyenne.",
+  neurocompatibilite_nulle:"Faiblesse de Vigueur : votre organisme tolère particulièrement mal le Stress augmentique dès que les implants cessent d’être purement neutres.",
+  malhabile:"Faiblesse d’Agilité : vos gestes fins manquent de précision lorsque rapidité et dextérité doivent fonctionner ensemble.",
+  pataud:"Faiblesse d’Agilité : votre corps trahit plus facilement votre présence par le mouvement, le bruit ou une mauvaise gestion de l’espace.",
+  mauvais_tireur:"Faiblesse d’Agilité : toucher reste possible, mais placer exactement le tir là où vous le souhaitez vous demande davantage de marge.",
+  obtus:"Faiblesse d’Esprit : les idées entièrement nouvelles mettent du temps à trouver leur place, surtout lorsqu’aucune expérience concrète ne vous permet de les raccrocher à quelque chose de connu.",
+  traumatisme_22:"Faiblesse d’Esprit : le Bond technologique a laissé une partie de vos réflexes culturels derrière lui et certaines évidences de 2035 ne le sont toujours pas pour vous.",
+  mauvais_fouilleur:"Faiblesse d’Esprit : vous pouvez comprendre une enquête sans être celui qui remarque la petite trace physique cachée au mauvais endroit.",
+  lache:"Faiblesse de Volonté : lorsque le danger devient physique, immédiat et clairement mortel, votre instinct cherche d’abord une sortie.",
+  sensible_au_stress:"Faiblesse de Volonté : sous une pression psychologique brutale, votre équilibre peut basculer beaucoup plus vite que vous ne le voudriez.",
+  esprit_ouvert:"Faiblesse de Volonté : votre esprit est plus perméable aux intrusions et aux manipulations directes qui cherchent à entrer plutôt qu’à convaincre.",
+  presence_rebutante:"Faiblesse de Charisme : quelque chose dans votre apparence, votre attitude ou votre réputation provoque un recul immédiat lorsqu’une relation de séduction est en jeu.",
+  mal_a_laise:"Faiblesse de Charisme : face à des inconnus et aux codes sociaux formels, créer rapidement une relation fluide vous demande un effort réel.",
+  voix_ingrate:"Faiblesse de Charisme : votre voix dessert les situations où cadence, timbre et présence vocale comptent autant que les mots.",
+  'corporatiste:contrat_leonin':"La corporation ne vous emploie pas seulement : elle possède sur vous une dette, un contrat ou un investissement assez important pour peser sur vos décisions.",
+  'corporatiste:sous_surveillance':"Quelqu’un dans la hiérarchie a décidé que votre activité méritait un regard particulier ; utiliser les ressources de l’entreprise laisse donc plus de traces que vous ne le souhaiteriez.",
+  'corporatiste:placardise':"Votre dossier interne vous suit d’étage en étage : on vous confie encore ce qu’on doit vous confier, rarement ce qui pourrait réellement vous faire progresser.",
+  'corporatiste:rival_interne':"Un autre employé transforme votre carrière en partie à somme nulle et dispose de raisons très concrètes de souhaiter votre échec.",
+  'corporatiste:profil_sous_condition':"Votre Logifate vous maintient tout juste dans la bonne case ; la prochaine mauvaise évaluation peut suffire à faire basculer votre statut.",
+  'crawler:mauvaise_reputation':"Dans l’Underlife, les histoires voyagent plus vite que les dossiers officiels : un contrat raté ou une trahison supposée suffit à fermer des portes avant même votre arrivée.",
+  'crawler:traque':"Quelqu’un vous cherche réellement, avec assez de moyens ou de motivation pour que changer de quartier ne règle pas le problème.",
+  'crawler:anomaly_under_system':"Les systèmes qui classent les citoyens vous considèrent comme une anomalie, un Hors Système ou un risque ; parfois, la machine vous repère avant l’humain.",
+  'crawler:grille_sur_le_fixweb':"Votre pseudo circule avec les mauvais commentaires : quand un fixer voit votre nom, il commence par se demander ce qui va mal tourner.",
+  'crawler:dette_de_la_blanchisserie':"La Blanchisserie — ou un réseau équivalent — vous a déjà rendu un service dont le prix n’est pas encore soldé.",
+  'gouvernementale:dossier_disciplinaire':"Votre administration possède déjà une version écrite de vos erreurs ; chaque demande de confiance supplémentaire peut rouvrir ce dossier.",
+  'gouvernementale:sous_enquete_interne':"Inspection, hiérarchie ou agence vous observe de plus près que vos collègues et attend peut-être simplement l’élément qui confirmera ses soupçons.",
+  'gouvernementale:habilitation_restreinte':"Votre fonction promet plus d’accès que votre badge n’en autorise réellement ; certains dossiers restent derrière une porte que votre poste devrait pourtant ouvrir.",
+  'gouvernementale:devoir_de_reserve':"Votre vie publique engage l’institution : une opinion, une vidéo ou un scandale privé peut devenir une faute professionnelle.",
+  'gouvernementale:ennemi_administratif':"Votre adversaire n’a pas besoin d’envoyer des tueurs ; formulaires, contrôles, décisions et procédures suffisent à rendre votre vie beaucoup plus compliquée.",
+  'mafieuse:dette_envers_la_famille':"La Famille vous a avancé argent, protection ou service, et dans ce milieu une dette n’est jamais seulement une ligne comptable.",
+  'mafieuse:dette_de_sang':"Quelqu’un n’attend plus une compensation financière mais une réparation personnelle pour ce que vous avez fait à l’un des siens.",
+  'mafieuse:marque_du_milieu':"Votre appartenance se lit sur vous pour qui connaît les signes : tatouage, augmentation, accent, cicatrice ou manière de vous présenter raconte déjà une histoire criminelle.",
+  'mafieuse:rival_interne':"Un autre membre de l’organisation veut votre place, vos affaires ou vos contacts et connaît suffisamment le milieu pour vous frapper sans sortir de ses règles.",
+  'mafieuse:sous_surveillance_policiere':"Votre nom existe déjà dans un dossier actif ; la prochaine erreur ne commencera donc pas par une enquête, mais par des gens qui savent déjà où regarder.",
+  'religieuse:scandale':"Une affaire embarrassante s’est attachée à votre nom et affaiblit chaque fois que vous prétendez incarner une autorité morale ou institutionnelle.",
+  'religieuse:heterodoxe':"Votre foi ou votre doctrine diverge assez de la ligne officielle pour que certains supérieurs se demandent si vous êtes encore des leurs.",
+  'religieuse:devoir_pastoral':"Des personnes comptent réellement sur vous : partir en mission ou poursuivre vos propres objectifs signifie parfois laisser derrière vous une communauté vulnérable.",
+  'religieuse:sous_surveillance_ecclesiastique':"Un supérieur ou un conseil religieux doute de votre orthodoxie, de vos méthodes ou de votre fiabilité et garde désormais un œil sur vos actes.",
+  'religieuse:vu_interdit':"Vous avez choisi une règle de vie assez importante pour que la violer soit une rupture intérieure, pas un simple détail de comportement."
+};
+
+function t31DisNarrative(d){
+  const keyed=d?.sphere?`${d.sphere}:${d.id}`:'';
+  return t31DisLore[keyed]||t31DisLore[d?.id]||`Ce Désavantage fait partie de l’histoire réelle du personnage : ${d?.name||'cette faiblesse'} doit pouvoir apparaître en jeu et compliquer ses choix.`;
+}
+function t31DisHover(d){return `Ambiance : ${t31DisNarrative(d)}\nMécanique : ${d.effect||'Aucun effet mécanique renseigné.'}`}
+function t31DisDetail(d,origin=''){
+  const box=el('div',{class:'t31-dis-detail'},`<div class="t31-dis-head"><strong>${uxEsc(d.name)}</strong>${origin?`<span>${uxEsc(origin)}</span>`:''}</div>`);
+  box.appendChild(el('em',{},uxEsc(t31DisNarrative(d))));
+  box.appendChild(el('p',{},uxEsc(d.effect||'')));
+  return box;
+}
+
+stepDisadvantages=function(){
+  state.reality=state.reality||{};const cats=u14DisCategoryOptions();
+  if(!cats.some(x=>x.id===state.reality.disadvantageCategory))state.reality.disadvantageCategory='common';
+  const c=wrap('Désavantages','Facultatifs, 0 à 3. Choisissez d’abord une famille, puis un Désavantage.',`<div class="kpi ${state.disadvantages.length<=3?'good':'bad'}">${state.disadvantages.length}/3 · Edge ${edgeTotal()}</div>`);
+  const chooser=el('div',{class:'grid2 u14-dis-chooser'}),cat=el('div',{class:'field'},'<label>Famille de Désavantage</label>'),catSel=el('select');
+  catSel.innerHTML=cats.map(x=>`<option value="${uxEsc(x.id)}" ${x.id===state.reality.disadvantageCategory?'selected':''}>${uxEsc(x.name)}</option>`).join('');
+  catSel.onchange=e=>{state.reality.disadvantageCategory=e.target.value;state.reality.pendingDisadvantage='';render()};cat.appendChild(catSel);
+  const items=u14DisItems(state.reality.disadvantageCategory).filter(d=>!state.disadvantages.includes(d.id)),pick=el('div',{class:'field'},'<label>Désavantage</label>'),shell=el('div',{class:'t31-dis-select-shell'}),pickSel=el('select');
+  pickSel.appendChild(el('option',{value:''},'— Choisir —'));
+  items.forEach(d=>{const o=el('option',{value:d.id,title:t31DisHover(d)},uxEsc(d.name));if(d.id===state.reality.pendingDisadvantage)o.selected=true;pickSel.appendChild(o)});
+  pickSel.onchange=e=>{state.reality.pendingDisadvantage=e.target.value;render()};shell.appendChild(pickSel);
+  const pending=items.find(d=>d.id===state.reality.pendingDisadvantage);if(pending)shell.appendChild(uxInfo(t31DisHover(pending)));pick.appendChild(shell);chooser.append(cat,pick);c.appendChild(chooser);
+  if(pending)c.appendChild(t31DisDetail(pending,u14DisOrigin(pending)));
+  const add=el('button',{class:'primary mini',disabled:state.disadvantages.length>=3||!pending},'Ajouter le Désavantage');
+  add.onclick=()=>{if(!pending||state.disadvantages.length>=3)return;state.disadvantages.push(pending.id);state.reality.pendingDisadvantage='';render()};c.appendChild(add);
+  const chosen=el('div',{class:'t31-dis-picked'});if(!state.disadvantages.length)chosen.appendChild(el('div',{class:'empty'},'Aucun Désavantage sélectionné.'));
+  state.disadvantages.forEach(id=>{const d=disById(id);if(!d)return;const row=el('div',{class:'t31-dis-picked-row'});row.appendChild(t31DisDetail(d,u14DisOrigin(d)));const rm=el('button',{class:'danger-btn mini'},'Retirer');rm.onclick=()=>{state.disadvantages=state.disadvantages.filter(x=>x!==id);render()};row.appendChild(rm);chosen.appendChild(row)});c.appendChild(chosen);
+};
+
+const t31Css=el('style',{},`.t31-choice-mechanics{margin:2px 0 0;color:var(--text);line-height:1.45}.t31-dis-select-shell{display:flex;gap:8px;align-items:center}.t31-dis-select-shell select{flex:1}.t31-dis-detail{margin:8px 0 10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.025);display:grid;gap:6px}.t31-dis-head{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.t31-dis-head span{font-size:12px;color:var(--muted)}.t31-dis-detail em{color:var(--muted);line-height:1.45}.t31-dis-detail p{margin:0;line-height:1.45}.t31-dis-picked{display:grid;gap:10px;margin-top:14px}.t31-dis-picked-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start}.t31-dis-picked-row .t31-dis-detail{margin:0}.ux-info::after{white-space:pre-line}`);document.head.appendChild(t31Css);
+
+t16RefreshDependentChoices();render();

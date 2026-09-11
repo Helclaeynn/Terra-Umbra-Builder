@@ -1,0 +1,32 @@
+name: Builder syntax check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check concatenated builder module
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const cp = require('child_process');
+          const loader = fs.readFileSync('character-builder/app-loader.js', 'utf8');
+          const match = loader.match(/const\s+parts\s*=\s*\[(.*?)\];/s);
+          if (!match) throw new Error('Unable to read parts list from app-loader.js');
+          const parts = JSON.parse(`[${match[1]}]`);
+          const source = parts.map(name => fs.readFileSync(`character-builder/app.parts/${name}`, 'utf8')).join('\n');
+          const tmp = '/tmp/tuc-builder-check.mjs';
+          fs.writeFileSync(tmp, source);
+          cp.execFileSync(process.execPath, ['--check', tmp], { stdio: 'inherit' });
+          console.log(`Syntax OK: ${parts.length} builder parts`);
+          NODE
+      - name: Check Block 10 catalog semantics
+        run: node character-builder/tests/block10-catalog-check.mjs

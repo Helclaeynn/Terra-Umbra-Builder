@@ -1,0 +1,172 @@
+// UX review pass 2 — blocks 2 to 6.
+// Keeps mechanics intact while making the player-facing presentation consistent.
+
+const p26AttributeHelp={
+  vigueur:'Puissance physique, robustesse et capacité du corps à encaisser l’effort. La Vigueur participe notamment aux PV maximum, au seuil de mort, au Stress augmentique maximum et aux attaques de Mêlée ou de Pugilat.',
+  agilite:'Coordination, vitesse d’exécution et précision corporelle. L’Agilité participe à l’Initiative, à la Défense, au Tir et à de nombreuses actions demandant réflexes ou contrôle fin.',
+  esprit:'Analyse, mémoire, raisonnement et maîtrise technique. L’Esprit soutient les savoirs, l’enquête, la médecine, la mécanique et la compréhension méthodique d’un problème.',
+  volonte:'Concentration, stabilité intérieure et capacité à continuer d’agir sous pression. La Volonté intervient dans le Neurodive, la Défense occulte et de nombreuses résistances mentales ou spirituelles.',
+  charisme:'Présence, aisance relationnelle et capacité à influencer directement autrui. Le Charisme porte la négociation, l’autorité, la représentation, le commerce et les interactions fondées sur l’impact personnel.'
+};
+
+const p26TalentFlavour={
+  // Common.
+  sommeil_leger:`Même endormi, vous ne cessez jamais complètement de surveiller votre environnement.`,
+  resistance_a_la_chaleur:`Votre organisme et vos habitudes vous permettent de continuer à fonctionner lorsque la chaleur épuise les autres.`,
+  resistance_au_froid:`Le froid vous ralentit moins que la plupart des gens et vous savez préserver votre efficacité malgré l’exposition.`,
+  sante_de_fer:`Vous tombez rarement malade et votre corps récupère avec une régularité presque agaçante.`,
+  insensibilite_a_la_douleur:`La douleur vous informe qu’un problème existe, mais elle commande beaucoup moins facilement vos gestes.`,
+  nageur:`Dans l’eau, vous êtes dans un élément familier plutôt que dans un environnement hostile.`,
+  ambidextre:`Vos deux mains sont de vrais outils de travail et vous changez naturellement de côté sans perdre vos repères.`,
+  brave:`La peur existe, mais elle vous pousse moins facilement à renoncer face à un danger concret.`,
+  fier_heritier:`Un patrimoine, une rente ou des ressources familiales durables vous placent matériellement au-dessus de ce que votre seul métier laisserait supposer.`,
+  renomme:`Dans un milieu précis, votre nom vous précède déjà et certaines personnes savent qui vous êtes avant les présentations.`,
+  presence_remarquable:`Quelque chose chez vous attire immédiatement le regard : beauté, voix, allure, carrure, style ou autre trait impossible à ignorer.`,
+  apprentissage_fulgurant:`Vous transformez très vite une expérience réellement vécue en compétence exploitable et durable.`,
+  // Expertise.
+  athlete:`Votre corps a été entraîné jusqu’à faire des efforts difficiles une pratique maîtrisée plutôt qu’une improvisation.`,
+  poings_de_fer:`Vous savez réellement frapper : placement, transfert de poids et impact rendent vos mains dangereuses sans arme.`,
+  stabilite_augmentique:`Votre identité et votre corps acceptent les transformations techniques avec une stabilité inhabituelle.`,
+  maitre_des_lames:`Une lame entre vos mains devient un prolongement précis de vos gestes plutôt qu’un simple morceau de métal.`,
+  resistance_aux_toxines:`Votre organisme encaisse drogues, poisons et substances agressives avec une résistance peu commune.`,
+  tireur_de_precision:`Vous avez appris à choisir un point précis et à construire votre tir autour de cette intention.`,
+  pilote_emerite:`Vous sentez les réactions d’un véhicule assez tôt pour transformer contrôle et anticipation en avantage réel.`,
+  ombre_vivante:`Vous savez profiter d’une rupture de regard pour cesser presque immédiatement d’être une cible identifiable.`,
+  reflexes_defensifs:`Votre corps réagit avant que la réflexion consciente ne soit complètement terminée.`,
+  mains_lestes:`Vos doigts savent prendre, déplacer ou cacher un petit objet sans attirer l’attention sur le geste.`,
+  linguiste_emerite:`Vous entendez les parentés entre les langues et reconstruisez du sens là où d’autres n’entendent qu’un parler inconnu.`,
+  puits_de_savoir:`Un grand domaine de connaissance est devenu pour vous un territoire familier dans lequel vous savez réellement chercher.`,
+  doc_de_choc:`Vous savez intervenir vite, proprement et utilement lorsque quelqu’un saigne et que le temps manque.`,
+  mecano_de_pointe:`Face à une machine ouverte, vous comprenez rapidement ce qui travaille, ce qui casse et ce qui peut être sauvé.`,
+  detective:`Vous avez le réflexe de chercher le détail qui ne colle pas et de relier les traces avant de tirer une conclusion.`,
+  stable:`Vous avez appris à conserver un centre mental lorsque la situation cherche précisément à vous le faire perdre.`,
+  sens_accru_x:`L’un de vos sens a été affûté jusqu’à devenir une source d’informations que la plupart des gens ne remarquent même pas.`,
+  maitre_de_la_survie:`Vous savez lire un environnement hostile en termes de ressources, d’abri, de trajet et de temps disponible.`,
+  mental_dacier:`Pression, intimidation et usure psychologique trouvent chez vous une résistance volontairement entraînée.`,
+  neurodriver:`Le Holonet n’est pas seulement un outil que vous utilisez : vous avez développé les réflexes mentaux d’un véritable opérateur Neurodive.`,
+  seducteur_seductrice:`Vous savez reconnaître et employer les signes d’attirance sans confondre désir sincère, jeu social et intérêt calculé.`,
+  diplomate:`Vous écoutez une négociation pour comprendre où se trouve réellement le verrou avant d’essayer de le déplacer.`,
+  maitre_du_troc:`Vous savez où se trouve la petite marge qui transforme une transaction correcte en bonne affaire.`,
+  artiste:`Votre performance laisse une impression assez forte pour continuer à influencer ceux qui l’ont vue ou entendue.`,
+  autorite_naturelle:`Lorsque votre légitimité est reconnue, votre manière de donner une consigne pousse naturellement les autres à l’exécuter.`
+};
+
+function p26SphereTalentFlavour(t){
+  const id=normText(t?.id||''),sp=sphere()?.name||'votre organisation';
+  if(/dotation|materiel|equipement/.test(id))return `Votre fonction implique que ${sp} vous confie réellement les outils nécessaires pour travailler.`;
+  if(/assurance|couverture|juridique/.test(id))return `Votre appartenance ne disparaît pas quand un problème survient : une structure est censée vous couvrir dans son domaine.`;
+  if(/badge|habilitation|registre|acces/.test(id))return `Votre fonction ouvre des portes, fichiers ou circuits qui restent normalement fermés à un simple extérieur.`;
+  if(/reseau|contact/.test(id))return `Votre place dans ${sp} vous a donné des relations concrètes au-delà de votre équipe immédiate.`;
+  if(/procedure|priorite|requisition/.test(id))return `Vous savez faire fonctionner les procédures de ${sp} suffisamment bien pour obtenir rapidement ce qu’une mission justifie.`;
+  if(/appui|extraction|renfort/.test(id))return `Quand une situation professionnelle devient sérieuse, vous savez à qui demander de véritables moyens plutôt que de rester seul.`;
+  if(/profil|dossier/.test(id))return `Votre identité professionnelle est assez cohérente et reconnue pour résister à un examen ordinaire de votre position.`;
+  if(/compte|avantage|fournisseur|service/.test(id))return `Votre appartenance à ${sp} se traduit aussi par des avantages matériels ou des services auxquels tout le monde n’a pas accès.`;
+  if(/autorite/.test(id))return `Dans le cadre où votre fonction est reconnue, votre parole porte le poids réel de l’institution ou du milieu derrière vous.`;
+  return `Ce Talent représente un avantage concret acquis par votre place dans ${sp} : il existe dans la fiction avant d’exister dans les chiffres.`;
+}
+function p26TalentNarrative(t){
+  if(!t)return '';
+  return p25OriginTalentFlavour?.[t.id]||p26TalentFlavour[t.id]||(t.category==='sphere'?p26SphereTalentFlavour(t):`« ${t.name} » décrit une capacité ou un acquis réellement visible dans la manière dont votre personnage agit et vit.`);
+}
+function p26TalentDetail(t){
+  if(!t)return null;
+  return el('div',{class:'p26-talent-detail'},`<strong>${uxEsc(t.name)}</strong><em>${uxEsc(p26TalentNarrative(t))}</em><p><strong>Effet mécanique :</strong> ${uxEsc(t.effect||'—')}</p>`);
+}
+function p26TalentPickGrid(items,value,onSelect,{gridClass='p26-talent-pick-grid'}={}){
+  const grid=el('div',{class:gridClass});
+  items.forEach(t=>{
+    const selected=value===t.id,card=el('label',{class:`p26-talent-pick ${selected?'selected':''}`}),radio=el('input',{type:'radio',checked:selected});
+    radio.onchange=()=>onSelect(t.id);
+    const main=el('span',{class:'p26-talent-pick-main'},`<strong>${uxEsc(t.name)}</strong>`);
+    if(!selected)main.appendChild(uxInfo(t.effect||'Aucun effet mécanique renseigné.'));
+    card.append(radio,main);grid.appendChild(card);
+  });
+  return grid;
+}
+
+// Block 2 — keep 3/2 Origin cards, add hover while choosing the Origin Talent, then lore before mechanics.
+stepOrigin=function(){
+  const c=wrap('Origine sociale','L’Origine décrit le milieu dans lequel le personnage a grandi ou reçu l’essentiel de son éducation. Elle ne dit pas ce qu’il fait aujourd’hui : un enfant de corporation peut être devenu Crawler, un enfant de fonctionnaires travailler pour la Pègre, et inversement.');
+  c.appendChild(el('div',{class:'rulebox'},'<strong>Ce que ce choix représente :</strong> des habitudes, des codes et un acquis durable de l’enfance ou de la formation initiale. Le Talent d’Origine choisi n’est pas perdu si le personnage change ensuite de métier, de Sphère ou de loyauté.'));
+  const items=Object.entries(ruleset.origins).map(([id,o])=>({id,name:o.name,lore:p25OriginLore[id]||''}));
+  c.appendChild(p25ChoiceGrid(items,state.creation.origin,id=>{if(state.creation.origin!==id){state.creation.origin=id;state.talents.origin=''}render()}));
+  if(!state.creation.origin)return;
+  c.appendChild(el('h3',{class:'subhead'},'Talent d’Origine gratuit'));
+  const talents=ruleset.talents.origin[state.creation.origin]||[];
+  c.appendChild(p26TalentPickGrid(talents,state.talents.origin,id=>{state.talents.origin=id;render()},{gridClass:'p26-five-grid'}));
+  const t=talents.find(x=>x.id===state.talents.origin);if(t)c.appendChild(p26TalentDetail(t));
+};
+
+function p26StyleAllocator(c){
+  const st=style();if(!st)return;const used=totalStylePoints();
+  c.appendChild(el('div',{class:'section-title reality-subtitle'},`<div><h3>Répartir les 5 points du Style</h3><p>Ces points représentent votre pratique professionnelle ou opérationnelle de départ. Répartissez exactement 5 points entre les cinq Compétences du Style, avec un maximum de +2 dans une même Compétence.</p></div><div class="kpi ${used===5?'good':'bad'}">${used}/5</div>`));
+  const grid=el('div',{class:'p26-five-grid'});
+  st.skills.forEach(id=>{
+    const sk=ruleset.skills.find(x=>x.id===id),o=state.skills[id],total=p25SkillTotal(id),raw=skillRaw(id),box=el('div',{class:'alloc p26-skill-card'},`<div class="alloc-title"><strong>${uxEsc(sk?.name||id)}</strong><span>${total}/5</span></div><div class="p26-card-help">${uxEsc(p25SkillHelp[id]||'')}</div><div class="stepper"><button data-dir="-1">−</button><strong>${o.style}</strong><button data-dir="1">+</button></div>`);
+    box.querySelectorAll('button').forEach(b=>b.onclick=()=>{const dir=Number(b.dataset.dir),nv=Number(o.style||0)+dir;if(nv<0||nv>2)return;if(dir>0&&(totalStylePoints()>=5||raw>=5))return;o.style=nv;render()});grid.appendChild(box);
+  });c.appendChild(grid);
+}
+
+// Block 3 — Sphere/Style cards stay 3/2; Style skills now use the same 3/2 visual language and x/5 scale.
+stepSphere=function(){
+  const c=wrap('Sphère actuelle & Style','Cette étape se lit comme un ensemble. La Sphère décrit le milieu, l’institution ou le réseau qui structure votre vie actuelle et pose immédiatement 5 points fixes de Compétence. Le Style décrit ce que vous savez faire au départ : il ajoute 5 points guidés à répartir ici, ouvre deux familles d’Expertise et fixe votre situation économique et augmentique avant les points libres.');
+  c.appendChild(el('div',{class:'rulebox'},'<strong>Sphère ≠ Origine :</strong> l’Origine raconte d’où vous venez ; la Sphère raconte où vous vivez et travaillez aujourd’hui. <strong>Style ≠ classe :</strong> il décrit votre pratique de départ mais ne vous enferme pas dans une progression. L’Enveloppe augmentique indiquée par le Style n’est pas de l’argent liquide : elle représente ce qui a déjà pu être investi dans le corps avant le scénario 1.'));
+  c.appendChild(p25ChoiceGrid(p25SphereCards(),state.creation.sphere,id=>{if(state.creation.sphere!==id){state.creation.sphere=id;state.creation.style='';state.talents.sphere='';state.talents.expertise='';p25ResetStylePoints()}render()}));
+  if(!state.creation.sphere)return;
+  const sp=sphere();c.appendChild(el('div',{class:'p25-fixed-reminder'},`<strong>Points de Sphère déjà posés :</strong> ${sp.fixedSkills.map(id=>`${uxEsc(skillName(id))} +1`).join(' · ')}`));
+  c.appendChild(el('h3',{class:'subhead'},'Choisir le Style'));
+  c.appendChild(p25ChoiceGrid(p25StyleCards(),state.creation.style,id=>{if(state.creation.style!==id){state.creation.style=id;state.talents.expertise='';p25ResetStylePoints()}render()}));
+  if(style())p26StyleAllocator(c);
+};
+
+// Block 4 — 3/2 Attributes, x/7 only, useful description instead of allocation provenance.
+stepAttributes=function(){
+  uxEnsureEdgeAttributes();const ok=attrTotal()===ruleset.creation.attributes.baseTotal,c=wrap('Attributs','Répartissez exactement 22 points entre les cinq Attributs. Ils décrivent les grandes capacités du personnage ; chacun commence au minimum à 3 et ne peut pas dépasser 7 à la création.',`<div class="kpi ${ok?'good':'bad'}">${attrTotal()} / 22</div>`),grid=el('div',{class:'p26-five-grid'});
+  ruleset.attributes.forEach(a=>{
+    const base=Number(state.attributes[a.id]),box=el('div',{class:'alloc p26-attribute-card'},`<div class="alloc-title"><strong>${uxEsc(a.name)}</strong><span>${finalAttr(a.id)}/7</span></div><div class="p26-card-help">${uxEsc(p26AttributeHelp[a.id]||'')}</div><div class="stepper"><button data-dir="-1">−</button><strong>${base}</strong><button data-dir="1">+</button></div>`);
+    box.querySelectorAll('button').forEach(b=>b.onclick=()=>{const dir=Number(b.dataset.dir),nv=Number(state.attributes[a.id])+dir;if(nv<3||nv>7)return;if(dir>0&&(attrTotal()>=22||finalAttr(a.id)>=7))return;state.attributes[a.id]=nv;render()});grid.appendChild(box);
+  });c.appendChild(grid);
+};
+
+function p26SkillGroup(a,index){
+  const owned=ruleset.skills.filter(s=>s.attribute===a.id).some(s=>Number(state.skills[s.id]?.free||0)>0),d=el('details',{class:'p26-skill-group',open:index===0||owned});
+  d.appendChild(el('summary',{},`<span><strong>${uxEsc(a.name)}</strong><small>5 Compétences</small></span><span class="badge">ouvrir / replier</span>`));
+  const grid=el('div',{class:'p26-five-grid p26-skill-group-grid'});
+  ruleset.skills.filter(s=>s.attribute===a.id).forEach(sk=>{
+    const o=state.skills[sk.id],total=p25SkillTotal(sk.id),box=el('div',{class:'alloc p26-skill-card'},`<div class="alloc-title"><strong>${uxEsc(sk.name)}</strong><span>${total}/5</span></div><div class="p26-card-help">${uxEsc(p25SkillHelp[sk.id]||'')}</div><div class="inline p26-skill-step"><span class="tag">Points libres</span><div class="stepper"><button data-dir="-1">−</button><strong>${o.free}</strong><button data-dir="1">+</button></div></div>`);
+    box.querySelectorAll('button').forEach(b=>b.onclick=()=>{const dir=Number(b.dataset.dir),nv=Number(o.free||0)+dir;if(nv<0)return;if(totalFreePoints()+dir<0||totalFreePoints()+dir>15)return;if(skillRaw(sk.id)+dir>5)return;o.free=nv;render()});grid.appendChild(box);
+  });d.appendChild(grid);return d;
+}
+
+// Block 5 — collapsible Attribute groups, each five-skill set is 3/2 and uses x/5.
+stepSkills=function(){
+  const st=style(),c=wrap('Compétences libres','Les 5 points fixes de Sphère et les 5 points de Style sont déjà posés. Répartissez ici uniquement les 15 points libres, sans dépasser 5 dans une Compétence.',`<div class="kpi ${totalFreePoints()===15?'good':'bad'}">Libres ${totalFreePoints()} / 15</div>`);
+  if(!st){c.appendChild(el('div',{class:'empty'},'Choisissez d’abord une Sphère et un Style.'));return}
+  ruleset.attributes.forEach((a,i)=>c.appendChild(p26SkillGroup(a,i)));
+};
+
+function p26TalentSection(title,subtitle,items,value,onSelect,name,open=true){
+  const d=el('details',{class:'ux-group p26-talent-section',open});
+  d.appendChild(el('summary',{},`<span><strong>${uxEsc(title)}</strong>${subtitle?`<small>${uxEsc(subtitle)}</small>`:''}</span><span class="badge">${items.length}</span>`));
+  d.appendChild(p26TalentPickGrid(items,value,onSelect));
+  const chosen=items.find(x=>x.id===value);if(chosen)d.appendChild(p26TalentDetail(chosen));return d;
+}
+
+// Block 6 — hover while choosing, direct narrative then mechanics once selected.
+stepTalents=function(){
+  const c=wrap('Talents de Réalité','Choisissez vos quatre Talents gratuits. Le survol ⓘ aide à comparer les effets pendant la sélection ; une fois un Talent choisi, son sens narratif puis son effet mécanique sont affichés directement.');
+  if(!state.creation.origin||!state.creation.sphere||!style()){c.appendChild(el('div',{class:'empty'},'Choisissez Origine, Sphère et Style avant les Talents.'));return}
+  const exp=ruleset.talents.expertise.filter(t=>style().expertiseFamilies.includes(t.attribute));
+  c.appendChild(p26TalentSection('Origine',origin()?.name||'',ruleset.talents.origin[state.creation.origin],state.talents.origin,v=>{state.talents.origin=v;render()},'talent-origin'));
+  c.appendChild(p26TalentSection('Sphère',sphere()?.name||'',ruleset.talents.sphere[state.creation.sphere],state.talents.sphere,v=>{state.talents.sphere=v;render()},'talent-sphere'));
+  c.appendChild(p26TalentSection('Expertise du Style',style().expertiseFamilies.map(attrName).join(' / '),exp,state.talents.expertise,v=>{state.talents.expertise=v;render()},'talent-expertise'));
+  c.appendChild(p26TalentSection('Communs','Accessibles à tous',ruleset.talents.common,state.talents.common,v=>{state.talents.common=v;render()},'talent-common',false));
+  if(state.edge.talentPacks)c.appendChild(el('div',{class:'rulebox'},`<strong>Talents achetés avec Edge :</strong> ${state.talents.edge.map(id=>talentById(id)?.name||'à choisir').join(' · ')}. Ils se choisissent directement à l’étape Edge.`));
+  if(hasTalent('neurodriver')&&skillRaw('neurodive')<1)c.appendChild(el('div',{class:'rulebox bad'},'Neurodriver exige Neurodive 1+.'));
+};
+
+const p26Css=el('style',{},`
+.p26-five-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:12px 0}.p26-five-grid>.alloc,.p26-five-grid>.p26-talent-pick{flex:0 1 calc(33.333% - 12px);min-width:220px;box-sizing:border-box}.p26-card-help{font-size:12px;line-height:1.45;color:var(--muted);min-height:52px;margin:8px 0 12px}.p26-attribute-card,.p26-skill-card{display:flex;flex-direction:column}.p26-attribute-card .stepper,.p26-skill-card>.stepper{margin-top:auto}.p26-skill-group{border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.015);margin:10px 0;overflow:hidden}.p26-skill-group>summary{cursor:pointer;display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 14px;list-style:none}.p26-skill-group>summary::-webkit-details-marker{display:none}.p26-skill-group>summary span:first-child{display:flex;flex-direction:column}.p26-skill-group>summary small{color:var(--muted);font-weight:400;margin-top:2px}.p26-skill-group-grid{padding:0 12px 12px}.p26-skill-step{margin-top:auto;padding-top:8px}.p26-talent-pick-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:0 10px 10px}.p26-talent-pick{display:flex;gap:9px;align-items:center;border:1px solid var(--line);border-radius:9px;background:#0a1116;padding:10px;cursor:pointer;min-height:44px;box-sizing:border-box}.p26-talent-pick.selected{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}.p26-talent-pick-main{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-width:0}.p26-talent-pick-main strong{font-size:12px;line-height:1.3}.p26-talent-detail{margin:0 10px 12px;padding:12px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.025);display:grid;gap:7px}.p26-talent-detail>strong{font-size:14px}.p26-talent-detail em{display:block;color:#c8d2d8;line-height:1.45}.p26-talent-detail p{margin:0;color:var(--muted);line-height:1.45}.p26-talent-detail p strong{color:var(--text)}
+@media(max-width:980px){.p26-five-grid>.alloc,.p26-five-grid>.p26-talent-pick{flex-basis:calc(50% - 12px)}.p26-talent-pick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:650px){.p26-five-grid>.alloc,.p26-five-grid>.p26-talent-pick{flex-basis:100%;min-width:0}.p26-talent-pick-grid{grid-template-columns:1fr}.p26-card-help{min-height:0}}
+`);document.head.appendChild(p26Css);
+render();

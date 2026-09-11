@@ -1,0 +1,130 @@
+// Truth V7 audit — awareness, transversal Hunter access, Khinae common Nature and prerequisites.
+
+// Reality Talent hover: two explicit lines, narrative first, mechanics second.
+p27TalentSelect=function(label,groups,value,onChange,placeholder='— Choisir —'){
+  const field=el('div',{class:'field p27-select-field'}),lab=el('label',{},uxEsc(label)),shell=el('div',{class:'p27-select-shell'}),select=el('select');
+  select.appendChild(el('option',{value:''},uxEsc(placeholder)));
+  const hoverText=t=>`Ambiance : ${p26TalentNarrative(t)}\nMécanique : ${t.effect||t.description||'Aucun effet mécanique renseigné.'}`;
+  groups.filter(g=>g.items?.length).forEach(g=>{
+    const parent=g.label?el('optgroup',{label:String(g.label).toUpperCase()}):select;
+    g.items.forEach(t=>{
+      const option=el('option',{value:t.id,title:hoverText(t)},uxEsc(t.name));
+      if(t.id===value)option.selected=true;parent.appendChild(option);
+    });
+    if(parent!==select)select.appendChild(parent);
+  });
+  select.onchange=e=>onChange(e.target.value);shell.appendChild(select);
+  const selected=groups.flatMap(g=>g.items||[]).find(t=>t.id===value);
+  if(selected){const info=uxInfo(hoverText(selected));info.classList.add('p27-select-info');shell.appendChild(info)}
+  field.append(lab,shell);return field;
+};
+
+// V7 keeps Profane / Éveillé / Initié as lore vocabulary, but creation uses the two states that matter mechanically here.
+ruleset.truth.consciousness=[{id:'profane',name:'Profane'},{id:'initie',name:'Initié'}];
+if(state.truth.consciousness==='eveille')state.truth.consciousness='initie';
+if(!['profane','initie'].includes(state.truth.consciousness))state.truth.consciousness='profane';
+
+const t28HunterLore={
+  aucune:'Aucune tradition de Chasse : le personnage ne suit pas de doctrine structurée et conserve ses PTV tant qu’il reste Profane.',
+  doctrine_commune:'Le socle partagé des vrais Chasseurs : identifier avant de frapper, conserver la poursuite et exploiter une faiblesse réellement comprise.',
+  lavandiere:'Vampires indépendants spécialisés dans la chasse des Vampires dangereux, des Moroï et des Strygoï ; leur tradition se greffe sur une progression vampirique normale.',
+  catholique:'Trois ordres secrets partagent une liturgie de terrain : Arianwen pour la traque, Ephraïm pour l’exorcisme et Magdalena pour le jugement et le scellement.',
+  khalsa:'Une tradition de guerriers Chasseurs fondée sur le serment, la protection d’autrui et le refus des emprises surnaturelles.',
+  taoiste:'Les Gu et Shimazu recherchent l’équilibre du Yin et du Yang ; les secrets Shi travaillent au contraire avec un contact méthodique au Néant.',
+  kabbale:'Des initiés exploitent les dix Sephiroth comme principes occultes sans devenir pour autant des Angelus.',
+  nizarite:'Les Nizarites associent les Arts du Djinn à une doctrine de Chasse fondée sur la marque, la poursuite et l’ancrage de la proie.',
+  onmyoji:'Des Chasseurs shinto spécialisés dans les Shikigami, les sceaux, les noms et les pactes spirituels.',
+  neopaien:'Des pratiques modernes et syncrétiques autour des morts, de la terre, des seuils, des présages et des serments.',
+  chasse_fantastique:'Ancienne armée punitive elfique de la Guerre de la Magie devenue Vénerie surnaturelle : poursuite, chevauchée, coordination et Tempête anti-magique.',
+  lueurs_azmenor:'Une petite tradition issue d’un héritage azménorien : ses visions viennent réellement du Néant, mais leur interprétation peut être erronée.',
+  xenoshield:'Une organisation experte en xénobiologie hostile, confinement et contre-technologie, mais profondément biaisée contre les Extrals — et infiltrée par certains d’entre eux.',
+  independant:'Des Chasseurs sans uniforme ni doctrine unique, souvent construits autour d’un traumatisme, d’un secret familial ou d’une proie particulière.',
+  table_ronde:'Les descendants des chevaliers choisis par Merlin perpétuent des lignées de Chasse et des armes uniques qui restent des objets de fiction, jamais des achats PTV.'
+};
+function t28HunterOpt(id,name){return t16Opt(id,name,t28HunterLore[id]||'Tradition de Chasse.')}
+const t28HumanHunterNames={
+  aucune:'Aucune / profane',doctrine_commune:'Doctrine commune de Chasse',lavandiere:'Lavandière (Vampire)',catholique:'Chasseurs catholiques',khalsa:'Khālsā',taoiste:'Taoïstes',kabbale:'Kabbale',nizarite:'Nizarites / Asāsīyūn',onmyoji:'Onmyoji',neopaien:'Néopaïens',chasse_fantastique:'Chasse Fantastique — Vénerie surnaturelle',lueurs_azmenor:'Lueurs d’Azménor',xenoshield:'Xenoshield',independant:'Chasseur indépendant',table_ronde:'Table Ronde'
+};
+function t28HunterOptions(ids){return ids.map(id=>t28HunterOpt(id,t28HumanHunterNames[id]||id))}
+function t28HunterChoice(natureId){return t16Nature(natureId)?.choices?.find(c=>c.key==='hunterTradition')||null}
+function t28EnsureHunterChoice(natureId,label='Tradition de Chasse'){
+  const n=t16Nature(natureId);if(!n)return null;let ch=t28HunterChoice(natureId);
+  if(!ch){ch={key:'hunterTradition',label,optional:true,options:[]};n.choices=n.choices||[];n.choices.push(ch)}
+  ch.optional=true;ch.label=label;return ch;
+}
+function t28PatchHunterChoices(){
+  const human=t28EnsureHunterChoice('humain','Voie / tradition de Chasse');
+  if(human)human.options=t28HunterOptions(['aucune','doctrine_commune','lavandiere','catholique','khalsa','taoiste','kabbale','nizarite','onmyoji','neopaien','chasse_fantastique','lueurs_azmenor','xenoshield','independant','table_ronde']);
+  const vampire=t28EnsureHunterChoice('vampire');if(vampire)vampire.options=t28HunterOptions(['aucune','lavandiere']);
+  const exile=t28EnsureHunterChoice('exile');if(exile){const ids=['aucune','chasse_fantastique'];if(state.truth.choices?.people==='azmenorien')ids.push('lueurs_azmenor');exile.options=t28HunterOptions(ids)}
+  const extral=t28EnsureHunterChoice('extral');if(extral)extral.options=t28HunterOptions(['aucune','xenoshield']);
+  if(['humain','vampire','exile','extral'].includes(state.truth.nature)){
+    const ch=t28HunterChoice(state.truth.nature),valid=new Set((ch?.options||[]).map(o=>o.id));
+    if(!state.truth.choices?.hunterTradition||!valid.has(state.truth.choices.hunterTradition))state.truth.choices.hunterTradition='aucune';
+  }
+}
+t28PatchHunterChoices();
+
+// Latest V7: non-lupine Khinae share Cycle, slow regeneration, lineage instinct, war-body and Khinae rhythm.
+// Explicitly NOT universal: Appel de la Meute, Hiérarchie instinctive, Bravoure lupine and Pelage traditions.
+const t28Khinae=t16Nature('khinae');
+if(t28Khinae)t28Khinae.freeTraits=[
+  {name:'Âme du Cycle',access:'—',effect:'À sa mort véritable, le descendant de Khinae rejoint normalement le Cycle des âmes.'},
+  {name:'Régénération lente',access:'R · humain révélé / animal',effect:'Récupère 1 PV par heure hors combat.'},
+  {name:'Instinct de Lignée',access:'SR/R',effect:'La Frénésie et les perceptions instinctives prennent l’animal de la Lignée comme référence ; elles ne donnent ni Appel de la Meute ni Hiérarchie lupine par défaut.'},
+  {name:'Corps de guerre',access:'R · hybride',effect:'En hybride : +3 aux tests de Pugilat et Régénération de 2 PV au début de chaque round tant que le personnage reste vivant et maintient la forme.'},
+  {name:'Rythme Khinae',access:'R · hybride',effect:'À partir du round suivant l’achèvement de la Mue hybride : +1 PA à chaque round, au-delà du maximum normal.'}
+];
+
+const t28RefreshBase=t16RefreshDependentChoices;
+t16RefreshDependentChoices=function(){t28RefreshBase();t28PatchHunterChoices()};
+
+// Known V7 Hunter prerequisite that previously appeared as satisfied when its prerequisite was not in the visible set.
+const t28HunterCatalog=truthCatalog.humain||[];
+for(const t of t28HunterCatalog){if(normText(t.name)==='tueur de l impossible')t.prerequisiteName='Mise à mort préparée'}
+
+function t28HunterWhenMatch(t,tradition){
+  const want=t?.when?.hunterTradition;
+  if(want){if(Array.isArray(want))return want.includes(tradition);return want===tradition}
+  const needles=truthNeedles.humain?.[tradition]||[];return groupHas(t.group||'',needles);
+}
+function t28IsDoctrine(t){const g=normText(t.group||''),n=normText(t.name||'');return g.includes('doctrine commune de chasse')||['rompu aux horreurs','fenetre de chasse','frapper la faiblesse','mise a mort preparee'].includes(n)}
+function t28ActiveHunterTradition(){return state.truth.choices?.hunterTradition||'aucune'}
+
+const t28TalentByIdBase=truthTalentById;
+truthTalentById=function(id){
+  const native=t28TalentByIdBase(id);if(native)return native;
+  const tr=t28ActiveHunterTradition();if(tr!=='aucune')return t28HunterCatalog.find(t=>t.id===id)||null;
+  return null;
+};
+
+const t28AvailableBase=truthAvailableTalents;
+truthAvailableTalents=function(){
+  if(state.truth.consciousness==='profane')return [];
+  let arr=t28AvailableBase();const tr=t28ActiveHunterTradition();
+  if(['humain','vampire','exile','extral'].includes(state.truth.nature)&&tr!=='aucune'){
+    const hunter=t28HunterCatalog.filter(t=>t28IsDoctrine(t)||t28HunterWhenMatch(t,tr));arr=[...arr,...hunter];
+  }
+  const uniq=new Map();arr.forEach(t=>uniq.set(t.id,t));return [...uniq.values()];
+};
+
+const t28SanitizeBase=sanitizeTruthTalents;
+sanitizeTruthTalents=function(){
+  if(state.truth.consciousness==='profane'){state.truth.truthTalents=[];return}
+  t28SanitizeBase();
+};
+
+function t28FreePrereqNames(){
+  const list=[...(truthNature()?.freeTraits||[])];
+  if(typeof daSelectedFreeTraits==='function')list.push(...daSelectedFreeTraits());
+  return list.map(x=>normText(x.name||'')).filter(Boolean);
+}
+truthPrereqSatisfied=function(t,available=truthAvailableTalents()){
+  if(!t.prerequisiteName)return true;
+  const req=truthPrereqMatches(t,available);if(req.length)return req.every(id=>state.truth.truthTalents.includes(id));
+  const p=normText(t.prerequisiteName),free=t28FreePrereqNames();
+  if(free.some(name=>p.includes(name)))return true;
+  return false;
+};
+
+t16RefreshDependentChoices();sanitizeTruthTalents();

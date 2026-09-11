@@ -1,0 +1,52 @@
+// UX review pass 3 — restore dropdown selection for Origin and Reality Talents.
+// Hover help belongs to the dropdown; selected Talent gets a permanent lore + mechanics block below.
+
+function p27TalentSelect(label,groups,value,onChange,placeholder='— Choisir —'){
+  const field=el('div',{class:'field p27-select-field'}),lab=el('label',{},uxEsc(label)),shell=el('div',{class:'p27-select-shell'}),select=el('select');
+  select.appendChild(el('option',{value:''},uxEsc(placeholder)));
+  groups.filter(g=>g.items?.length).forEach(g=>{
+    const parent=g.label?el('optgroup',{label:String(g.label).toUpperCase()}):select;
+    g.items.forEach(t=>{
+      const option=el('option',{value:t.id,title:t.effect||t.description||''},uxEsc(t.name));
+      if(t.id===value)option.selected=true;parent.appendChild(option);
+    });
+    if(parent!==select)select.appendChild(parent);
+  });
+  select.onchange=e=>onChange(e.target.value);shell.appendChild(select);
+  const selected=groups.flatMap(g=>g.items||[]).find(t=>t.id===value);
+  if(selected){const info=uxInfo(selected.effect||selected.description||'Aucun effet mécanique renseigné.');info.classList.add('p27-select-info');shell.appendChild(info)}
+  field.append(lab,shell);return field;
+}
+
+// Block 2 — one compact dropdown, hover while choosing, then lore before mechanics once selected.
+stepOrigin=function(){
+  const c=wrap('Origine sociale','L’Origine décrit le milieu dans lequel le personnage a grandi ou reçu l’essentiel de son éducation. Elle ne dit pas ce qu’il fait aujourd’hui : un enfant de corporation peut être devenu Crawler, un enfant de fonctionnaires travailler pour la Pègre, et inversement.');
+  c.appendChild(el('div',{class:'rulebox'},'<strong>Ce que ce choix représente :</strong> des habitudes, des codes et un acquis durable de l’enfance ou de la formation initiale. Le Talent d’Origine choisi n’est pas perdu si le personnage change ensuite de métier, de Sphère ou de loyauté.'));
+  const items=Object.entries(ruleset.origins).map(([id,o])=>({id,name:o.name,lore:p25OriginLore[id]||''}));
+  c.appendChild(p25ChoiceGrid(items,state.creation.origin,id=>{if(state.creation.origin!==id){state.creation.origin=id;state.talents.origin=''}render()}));
+  if(!state.creation.origin)return;
+  const talents=ruleset.talents.origin[state.creation.origin]||[];
+  c.appendChild(p27TalentSelect('Talent d’Origine gratuit',[{label:'Origine',items:talents}],state.talents.origin,v=>{state.talents.origin=v;render()},'— Choisir un acquis de votre Origine —'));
+  const selected=talents.find(t=>t.id===state.talents.origin);if(selected)c.appendChild(p26TalentDetail(selected));
+};
+
+// Block 6 — all four creation Talents return to dropdowns. Expertise keeps the two allowed Attribute groups visible.
+stepTalents=function(){
+  const c=wrap('Talents de Réalité','Choisissez un Talent gratuit pour chacune des quatre provenances de création : Origine, Sphère, Expertise du Style et Communs.');
+  if(!state.creation.origin||!state.creation.sphere||!style()){c.appendChild(el('div',{class:'empty'},'Choisissez Origine, Sphère et Style avant les Talents.'));return}
+  const p=u14TalentPools(),sections=[
+    {label:'Talent d’Origine',groups:[{label:`Origine — ${origin()?.name||''}`,items:p.origin}],key:'origin',placeholder:'— Choisir le Talent d’Origine —'},
+    {label:'Talent de Sphère',groups:[{label:`Sphère — ${sphere()?.name||''}`,items:p.sphere}],key:'sphere',placeholder:'— Choisir le Talent de Sphère —'},
+    {label:'Talent d’Expertise',groups:style().expertiseFamilies.map(a=>({label:attrName(a),items:p.expertise.filter(t=>t.attribute===a)})),key:'expertise',placeholder:'— Choisir une Expertise —'},
+    {label:'Talent Commun',groups:[{label:'Communs',items:p.common}],key:'common',placeholder:'— Choisir un Talent Commun —'}
+  ];
+  sections.forEach(sec=>{
+    const box=el('section',{class:'p27-talent-section'});box.appendChild(p27TalentSelect(sec.label,sec.groups,state.talents[sec.key]||'',v=>{state.talents[sec.key]=v;render()},sec.placeholder));
+    const chosen=sec.groups.flatMap(g=>g.items||[]).find(t=>t.id===state.talents[sec.key]);if(chosen)box.appendChild(p26TalentDetail(chosen));c.appendChild(box);
+  });
+  if(state.edge.talentPacks)c.appendChild(el('div',{class:'rulebox'},`<strong>Talents Edge :</strong> ${state.talents.edge.map(id=>talentById(id)?.name||'à choisir').join(' · ')} — configuration directement à l’étape Edge.`));
+  if(hasTalent('neurodriver')&&skillRaw('neurodive')<1)c.appendChild(el('div',{class:'rulebox bad'},'Neurodriver exige Neurodive 1+.'));
+};
+
+const p27Css=el('style',{},`.p27-select-field{max-width:760px}.p27-select-shell{position:relative;display:flex;align-items:center}.p27-select-shell select{width:100%;padding-right:42px}.p27-select-info{position:absolute;right:12px;top:50%;transform:translateY(-50%);z-index:2}.p27-talent-section{margin:0 0 16px}.p27-talent-section .p26-talent-detail{margin-top:6px}`);document.head.appendChild(p27Css);
+render();
