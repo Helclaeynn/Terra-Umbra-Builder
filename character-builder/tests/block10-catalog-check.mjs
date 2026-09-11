@@ -46,6 +46,7 @@ function recurringKind(item){
   const n=normText(item.name||''),key=loose(item.name||''),cat=normText(`${item.category||''} ${deepField(item.raw,['Type','Section','Famille'])||''}`),price=normText(priceText(item));
   const context=normText(`${n} ${cat} ${deepField(item.raw,['Fréquence','Frequence','Périodicité','Periodicite','Facturation'])||''}`);
   if(item.vehicle)return 'durable_purchase';
+  if(/^(celtx|shelov|ladydolla)$/.test(key))return 'annual';
   if(/\btrajet\b|\bintervention\b|\bseance\b|\bheure\b|\bheures\b|\bh\b|\bjour\b|\bverre\b|\btasse\b/.test(price)||key==='metro tram'||/^mas (court trajet|trajet long urbain)$/.test(key))return 'per_use';
   if(/\ban\b|annuel|annuelle|annuels|annuelles/.test(price)||/abonnement annuel/.test(context))return 'annual';
   if(/\bmois\b|mensuel|mensuelle|mensuels|mensuelles/.test(price)||/abonnement mensuel|dette mensuelle|pension mensuelle|loyer|leasing/.test(context))return 'monthly';
