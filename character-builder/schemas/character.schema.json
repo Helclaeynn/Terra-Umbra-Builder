@@ -14,7 +14,30 @@
     "talents": {"type": "object"},
     "disadvantages": {"type": "array", "maxItems": 3},
     "edge": {"type": "object"},
-    "truth": {"type": "object"},
+    "truth": {
+      "type": "object",
+      "required": ["nature", "consciousness", "choices", "truthTalents"],
+      "properties": {
+        "nature": {
+          "type": "string",
+          "enum": ["humain", "vampire", "garou", "khinae", "mage", "daemon", "angelus", "aseryn", "exile", "extral"]
+        },
+        "consciousness": {
+          "type": "string",
+          "enum": ["profane", "eveille", "initie"]
+        },
+        "choices": {
+          "type": "object",
+          "additionalProperties": {"type": "string"}
+        },
+        "truthTalents": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
     "spending": {"type": "object"},
     "social": {"type": "object"},
     "derived": {"type": "object"},
