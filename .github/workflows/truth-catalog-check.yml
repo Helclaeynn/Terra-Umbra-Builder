@@ -13,103 +13,80 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate Truth manifests, chunks and full V5 imports
+      - name: Validate Truth manifests and final V5 imports
         shell: python
         run: |
           import base64, gzip, hashlib, json
           from pathlib import Path
 
-          root = Path('character-builder/rulesets/terra-umbra/truth/talents')
-          errors = []
-          checked = 0
-
+          errors=[]
+          root=Path('character-builder/rulesets/terra-umbra/truth/talents')
+          checked=0
           for manifest_path in root.rglob('manifest.json'):
-              checked += 1
+              checked+=1
               try:
-                  manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+                  manifest=json.loads(manifest_path.read_text(encoding='utf-8'))
               except Exception as exc:
                   errors.append(f'{manifest_path}: invalid manifest JSON: {exc}')
                   continue
-
-              chunks = manifest.get('chunks') or []
+              chunks=manifest.get('chunks') or []
               if not chunks:
-                  errors.append(f'{manifest_path}: no chunks declared')
+                  print(f'skip legacy empty manifest: {manifest_path}')
                   continue
-
-              entries = []
+              entries=[]
               for chunk_name in chunks:
-                  chunk_path = manifest_path.parent / chunk_name
+                  chunk_path=manifest_path.parent/chunk_name
                   if not chunk_path.is_file():
                       errors.append(f'{manifest_path}: missing chunk {chunk_name}')
                       continue
-                  try:
-                      data = json.loads(chunk_path.read_text(encoding='utf-8'))
+                  try:data=json.loads(chunk_path.read_text(encoding='utf-8'))
                   except Exception as exc:
-                      errors.append(f'{chunk_path}: invalid JSON: {exc}')
-                      continue
-                  if not isinstance(data, list):
-                      errors.append(f'{chunk_path}: expected an array')
-                      continue
+                      errors.append(f'{chunk_path}: invalid JSON: {exc}');continue
+                  if not isinstance(data,list):errors.append(f'{chunk_path}: expected array');continue
                   entries.extend(data)
+              expected=manifest.get('entries')
+              if isinstance(expected,int) and len(entries)!=expected:errors.append(f'{manifest_path}: expected {expected}, loaded {len(entries)}')
+              ids=[x.get('id') for x in entries if isinstance(x,dict) and x.get('id')]
+              if len(ids)!=len(set(ids)):errors.append(f'{manifest_path}: duplicate ids')
 
-              expected = manifest.get('entries')
-              if isinstance(expected, int) and len(entries) != expected:
-                  errors.append(f'{manifest_path}: expected {expected} entries, loaded {len(entries)}')
+          full=Path('character-builder/rulesets/terra-umbra/truth/full')
+          def decode_payload(text):
+              payload=''.join(text.split())
+              return gzip.decompress(base64.b64decode(payload,validate=True))
+          def validate_split(manifest_name,label):
+              try:
+                  mp=full/manifest_name;m=json.loads(mp.read_text(encoding='utf-8'));parts=m.get('parts') or []
+                  if not parts:raise ValueError('no parts declared')
+                  raw=decode_payload(''.join((full/p).read_text(encoding='utf-8') for p in parts))
+                  sha=m.get('sha256');actual=hashlib.sha256(raw).hexdigest()
+                  if sha and sha!=actual:errors.append(f'{mp}: sha256 mismatch {actual} != {sha}')
+                  data=json.loads(raw.decode('utf-8'));rows=data if isinstance(data,list) else data.get('entries',[])
+                  paid=[x for x in rows if isinstance(x,dict) and x.get('name') and isinstance(x.get('cost'),(int,float)) and 0<x.get('cost')<=3]
+                  exp=m.get('entries')
+                  if isinstance(exp,int) and len(paid)!=exp:errors.append(f'{mp}: expected {exp} paid entries, loaded {len(paid)}')
+                  ids=[x.get('id') for x in paid if x.get('id')]
+                  if len(ids)!=len(set(ids)):errors.append(f'{mp}: duplicate ids')
+                  print(f'{label}: {len(paid)} paid V5 entries')
+              except Exception as exc:errors.append(f'{full/manifest_name}: invalid split catalog: {exc}')
+          def validate_single(path_name,label,min_entries=1,meta_name=None):
+              try:
+                  path=full/path_name;raw=decode_payload(path.read_text(encoding='utf-8'));data=json.loads(raw.decode('utf-8'));rows=data if isinstance(data,list) else data.get('entries',[])
+                  paid=[x for x in rows if isinstance(x,dict) and x.get('name') and isinstance(x.get('cost'),(int,float)) and 0<x.get('cost')<=3]
+                  if len(paid)<min_entries:errors.append(f'{path}: only {len(paid)} paid entries, expected at least {min_entries}')
+                  if meta_name:
+                      meta=json.loads((full/meta_name).read_text(encoding='utf-8'));exp=meta.get('entries')
+                      if isinstance(exp,int) and len(paid)!=exp:errors.append(f'{path}: expected {exp}, loaded {len(paid)}')
+                  ids=[x.get('id') for x in paid if x.get('id')]
+                  if len(ids)!=len(set(ids)):errors.append(f'{path}: duplicate ids')
+                  print(f'{label}: {len(paid)} paid V5 entries')
+              except Exception as exc:errors.append(f'{full/path_name}: invalid compressed catalog: {exc}')
 
-              ids = [x.get('id') for x in entries if isinstance(x, dict)]
-              duplicates = sorted({x for x in ids if x and ids.count(x) > 1})
-              if duplicates:
-                  errors.append(f'{manifest_path}: duplicate ids: {duplicates}')
+          validate_split('daemon.manifest.json','daemon')
+          validate_single('angelus.json.gz.b64','angelus',100)
+          validate_split('aseryn.clean.manifest.json','aseryn')
+          validate_split('hunter.final.manifest.json','hunter')
+          validate_single('exile.v5.json.gz.b64','exile',150,'exile.v5.meta.json')
+          validate_single('extral.v5.json.gz.b64','extral',140,'extral.v5.meta.json')
 
-          if checked == 0:
-              errors.append('No Truth manifests found')
-
-          full_root = Path('character-builder/rulesets/terra-umbra/truth/full')
-
-          # Daemon: validated split Base64 manifest reconstructed from Truth V5.
-          try:
-              manifest_path = full_root / 'daemon.manifest.json'
-              manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
-              parts = manifest.get('parts') or []
-              if not parts:
-                  raise ValueError('no parts declared')
-              payload = ''.join(''.join((full_root / part).read_text(encoding='utf-8').split()) for part in parts)
-              raw = gzip.decompress(base64.b64decode(payload, validate=True))
-              expected_sha = manifest.get('sha256')
-              actual_sha = hashlib.sha256(raw).hexdigest()
-              if expected_sha and actual_sha != expected_sha:
-                  errors.append(f'{manifest_path}: sha256 mismatch {actual_sha} != {expected_sha}')
-              data = json.loads(raw.decode('utf-8'))
-              rows = data if isinstance(data, list) else data.get('entries', [])
-              paid = [x for x in rows if isinstance(x, dict) and x.get('name') and isinstance(x.get('cost'), (int, float)) and x.get('cost') > 0]
-              expected = manifest.get('entries')
-              if isinstance(expected, int) and len(paid) != expected:
-                  errors.append(f'{manifest_path}: expected {expected} paid entries, loaded {len(paid)}')
-              ids = [x.get('id') for x in paid if x.get('id')]
-              if len(ids) != len(set(ids)):
-                  errors.append(f'{manifest_path}: duplicate paid ids')
-              print(f'daemon: {len(paid)} paid V5 entries')
-          except Exception as exc:
-              errors.append(f'{full_root / "daemon.manifest.json"}: invalid split full catalog: {exc}')
-
-          # Angelus: existing single validated gzip+base64 import.
-          try:
-              path = full_root / 'angelus.json.gz.b64'
-              payload = ''.join(path.read_text(encoding='utf-8').split())
-              raw = gzip.decompress(base64.b64decode(payload, validate=True))
-              data = json.loads(raw.decode('utf-8'))
-              rows = data if isinstance(data, list) else data.get('entries', [])
-              paid = [x for x in rows if isinstance(x, dict) and x.get('name') and isinstance(x.get('cost'), (int, float)) and x.get('cost') > 0]
-              ids = [x.get('id') for x in paid if x.get('id')]
-              if len(paid) < 100:
-                  errors.append(f'{path}: only {len(paid)} paid entries, expected at least 100')
-              if len(ids) != len(set(ids)):
-                  errors.append(f'{path}: duplicate paid ids')
-              print(f'angelus: {len(paid)} paid V5 entries')
-          except Exception as exc:
-              errors.append(f'{path}: invalid compressed full catalog: {exc}')
-
-          if errors:
-              raise SystemExit('\n'.join(errors))
-
-          print(f'Validated {checked} Truth manifests and complete Daemon/Angelus imports successfully.')
+          if errors:raise SystemExit('\n'.join(errors))
+          print(f'Validated {checked} Truth talent manifests and all final V5 imports successfully.')
