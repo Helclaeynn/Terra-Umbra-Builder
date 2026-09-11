@@ -25,7 +25,7 @@
             <div>
               <div class="eyebrow">TERRA UMBRA / CALIFORNIA · PREVIEW DE BRANCHE</div>
               <h1>Créateur de personnage</h1>
-              <p class="subtitle">Builder complet de test · Réalité V12/V9 + Vérité V5 · futur point d’entrée principal</p>
+              <p class="subtitle">Builder complet de test · Réalité V12/V9 + Vérité V7 · futur point d’entrée principal</p>
             </div>
             <div class="header-actions">
               <a class="ghost" href="truth-preview.html" style="text-decoration:none">Preview Vérité</a>
@@ -43,7 +43,7 @@
                 <div id="progressText" class="muted small">0 / 11 étapes valides</div>
               </div>
               <nav id="stepNav" class="step-nav"></nav>
-              <div class="sidebar-note"><strong>Preview</strong><span>Cette page exécute directement la branche de la PR #1, avec la passe Réalité complète et les catalogues Vérité V5 finaux.</span></div>
+              <div class="sidebar-note"><strong>Preview</strong><span>Cette page exécute directement la branche de la PR #1 et lit automatiquement la liste des fragments depuis son app-loader.js.</span></div>
             </aside>
             <main class="main">
               <div id="globalAlerts"></div>
@@ -58,7 +58,10 @@
         if(typeof url==='string'&&url.startsWith('./rulesets/')) return nativeFetch(`${RAW}/${url.slice(2)}`,{...init,cache:'no-store'});
         return nativeFetch(input,init);
       };
-      const names=['00-truth-full-daemon-angelus.txt','01.txt','02.txt','03.txt','04.txt','05.txt','06.txt','06b-reality-safe-fetch.txt','07-reality.txt','08-reality-access.txt','09a-reality-lock.txt','09b-reality-lock.txt','09c-reality-lock.txt','10a-ux-budget.txt','10b-ux-choices.txt','10c-ux-validation-reset.txt','11-truth-vampire-garou.txt','12-ux-equipment-truth-polish.txt','13-truth-daemon-angelus.txt','14-ux-dropdowns.txt','15-reality-prereqs-lifestyle.txt','16-truth-structure-mage-khinae.txt','17-truth-choice-details.txt','18-lifestyle-assets.txt','18b-truth-exile-extral-compat.txt','19-truth-exile-extral.txt','19b-truth-exile-extral-safe.txt','20-reality-daemon-polish.txt','21-truth-matrix-khinae.txt','21b-truth-exile-extral-when.txt','22-truth-aseryn-hunter-final.txt','23-final-summary.txt','24-truth-network-persistence.txt','25a-ux-identity-origin.txt','25b-ux-sphere-skills.txt','25c-validation-review-final.txt','26-ux-blocks-2-6.txt','27-ux-talent-selects.txt'];
+      const loaderSource=await (await rawFetch('app-loader.js')).text();
+      const match=loaderSource.match(/const\s+parts\s*=\s*(\[[\s\S]*?\]);/);
+      if(!match)throw new Error('app-loader.js: liste des fragments introuvable');
+      const names=JSON.parse(match[1]);
       const chunks=await Promise.all(names.map(async n=>(await rawFetch(`app.parts/${n}`)).text()));
       const moduleUrl=URL.createObjectURL(new Blob([chunks.join('\n')],{type:'text/javascript'}));
       try{await import(moduleUrl)}finally{URL.revokeObjectURL(moduleUrl)}
