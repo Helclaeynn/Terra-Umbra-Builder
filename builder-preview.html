@@ -25,7 +25,7 @@
             <div>
               <div class="eyebrow">TERRA UMBRA / CALIFORNIA · PREVIEW DE BRANCHE</div>
               <h1>Créateur de personnage</h1>
-              <p class="subtitle">Builder complet de test · Réalité V12/V9 + Vérité V5 · aucune fusion dans le builder historique</p>
+              <p class="subtitle">Builder complet de test · Réalité V12/V9 + Vérité V5 · futur point d’entrée principal</p>
             </div>
             <div class="header-actions">
               <a class="ghost" href="truth-preview.html" style="text-decoration:none">Preview Vérité</a>
@@ -43,7 +43,7 @@
                 <div id="progressText" class="muted small">0 / 11 étapes valides</div>
               </div>
               <nav id="stepNav" class="step-nav"></nav>
-              <div class="sidebar-note"><strong>Preview</strong><span>Cette page exécute directement la branche de la PR #1. Les changements apparaissent ici sans merger le builder historique.</span></div>
+              <div class="sidebar-note"><strong>Preview</strong><span>Cette page exécute directement la branche de la PR #1, y compris les couches Réalité finales.</span></div>
             </aside>
             <main class="main">
               <div id="globalAlerts"></div>
@@ -60,9 +60,9 @@
         return nativeFetch(input,init);
       };
 
-      const names=['01.txt','02.txt','03.txt','04.txt','05.txt','06.txt'];
+      const names=['01.txt','02.txt','03.txt','04.txt','05.txt','06.txt','07-reality.txt','08-reality-access.txt'];
       const chunks=await Promise.all(names.map(async n=>(await rawFetch(`app.parts/${n}`)).text()));
-      const moduleUrl=URL.createObjectURL(new Blob([chunks.join('')],{type:'text/javascript'}));
+      const moduleUrl=URL.createObjectURL(new Blob([chunks.join('\n')],{type:'text/javascript'}));
       try{await import(moduleUrl)}finally{URL.revokeObjectURL(moduleUrl)}
     }catch(err){
       document.body.innerHTML=`<div id="boot"><strong>Échec du chargement de la preview</strong><p class="boot-error"></p></div>`;
