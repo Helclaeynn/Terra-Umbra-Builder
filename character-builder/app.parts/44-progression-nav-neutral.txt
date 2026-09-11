@@ -1,0 +1,10 @@
+// Block 12 is post-creation and must stay visually neutral in the step navigation.
+const p44RenderNavBase=renderNav;
+renderNav=function(){
+  p44RenderNavBase();
+  const i=STEPS.findIndex(([id])=>id==='progression');
+  if(i<0)return;
+  const b=$('#stepNav')?.querySelectorAll('.step-link')?.[i];
+  if(b)b.classList.remove('done');
+};
+renderNav();
