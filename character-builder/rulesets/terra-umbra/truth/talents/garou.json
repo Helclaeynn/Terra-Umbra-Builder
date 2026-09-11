@@ -1,10 +1,1 @@
-[
-  {"id":"grand_instinct","name":"Grand instinct","cost":1,"access":"SR · 1/scène","effect":"Face à une créature directement perçue, demander au MJ si l’instinct du Garou la ressent essentiellement comme proie, rival ou prédateur."},
-  {"id":"aura_effacee","name":"Aura effacée","cost":1,"access":"R · passif","effect":"+3 Furtivité lorsqu’il suit, approche ou contourne une proie."},
-  {"id":"terreur_du_predateur","name":"Terreur du prédateur","cost":2,"access":"R · 1 PA","prerequisite":"aura_effacee","effect":"Charisme + Autorité contre Volonté + Force Mentale. Réussite : cible Tendue tant qu’elle lui fait directement face ; un DR important peut justifier Panique."},
-  {"id":"deplacement_agile","name":"Déplacement agile","cost":1,"access":"R · Animal/Hybride","effect":"Murs irréguliers, bonds, clôtures, véhicules et obstacles cessent de demander un test lorsqu’ils restent manifestement dans les possibilités du corps."},
-  {"id":"furie_de_survie","name":"Furie de survie","cost":1,"access":"R","effect":"La première fois dans la scène que le Garou passe sous 50 % PV, puis sous 25 % PV, il gagne +3 à son prochain test physique avant la fin du round suivant."},
-  {"id":"regeneration_acharne","name":"Régénération acharnée","cost":2,"access":"R","effect":"Régénération hybride : 3 PV/round au lieu de 2. La récupération humaine/animale et la reconstruction hors combat sont également accélérées."},
-  {"id":"metabolisme_de_khinae","name":"Métabolisme de Khinae","cost":2,"access":"R · 1/scénario","effect":"Une transformation hybride supplémentaire est traitée comme la première depuis le repos : aucun test d’épuisement pour cette Mue."},
-  {"id":"traque_infatigable","name":"Traque infatigable","cost":1,"access":"SR","effect":"Une piste déjà acquise reste suivable malgré temps, fatigue et perturbations ordinaires ; +3 aux tests lorsqu’elle est réellement difficile à conserver."}
-]
+{"useManifest":true,"catalog":"Garou V5 complet","entries":68}
