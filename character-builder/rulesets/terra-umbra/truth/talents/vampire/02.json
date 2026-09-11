@@ -1,0 +1,162 @@
+[
+  {
+    "id": "sang_exalte",
+    "name": "Sang exalté",
+    "group": "Ihuito Meztzi — Talents de Cour",
+    "cost": 1,
+    "access": "R",
+    "effect": "Après s’être nourri, le Vampire peut renoncer à une partie de la récupération obtenue afin de recevoir+3 sur le prochain jet lié à un Talent de Sangdurant la scène."
+  },
+  {
+    "id": "offrande_sanglante",
+    "name": "Offrande sanglante",
+    "group": "Ihuito Meztzi — Talents de Cour",
+    "cost": 2,
+    "access": "R",
+    "effect": "Lors de la préparation d’un Talent de Sang, le Vampire peut payer de sa propre vitalité :2 PV remplacent 1 PA, une seule fois par activation."
+  },
+  {
+    "id": "sang_du_dieu",
+    "name": "Sang du Dieu",
+    "group": "Ihuito Meztzi — Talents de Cour",
+    "cost": 3,
+    "access": "R — 1/scénario",
+    "effect": "Après avoir bu une quantité significative de sang d’une créature surnaturelle, conserver jusqu’à la fin de la scène unepropriété physique simplede cette créature, choisie avec le MJ parmi celles réellement présentes dans sa nature. Talent rare et fortement encadré."
+  },
+  {
+    "id": "souffle_du_yang",
+    "name": "Souffle du Yang",
+    "group": "Shi Hun Zhe — Talents de Cour",
+    "cost": 1,
+    "access": "R",
+    "effect": "Après s’être nourri, le Vampire peut consumer l’équilibre volé pourignorer jusqu’à la fin du roundles effets d’une faiblesse vampirique choisie."
+  },
+  {
+    "id": "harmonie_impossible",
+    "name": "Harmonie impossible",
+    "group": "Shi Hun Zhe — Talents de Cour",
+    "cost": 2,
+    "access": "R — 1/scène",
+    "effect": "Jusqu’à la fin de la scène, une faiblesse choisie est fortement réduite : les dégâts qu’elle inflige sont divisés par deux (arrondi au supérieur) et un effet normalement automatique autorise un test de résistance approprié.",
+    "prerequisite": "souffle_du_yang",
+    "prerequisiteName": "Souffle du Yang"
+  },
+  {
+    "id": "union_du_hun_et_du_po",
+    "name": "Union du Hun et du Po",
+    "group": "Shi Hun Zhe — Talents de Cour",
+    "cost": 3,
+    "access": "R — 1/scénario",
+    "effect": "Le Vampire atteint momentanément un équilibre que sa Nature ne devrait pas permettre.Une malédiction vampirique choisie cesse complètement de s’appliquer jusqu’à la fin de la scène.Le soleil peut être choisi.",
+    "prerequisite": "harmonie_impossible",
+    "prerequisiteName": "Harmonie impossible"
+  },
+  {
+    "id": "vision_du_sang",
+    "name": "Vision du Sang",
+    "group": "Sang Écarlate — Anya",
+    "cost": 1,
+    "access": "SR",
+    "effect": "Perçoit le sang frais et la circulation des êtres vivants ; peut distinguer ces signatures malgré une faible obscuration ou un obstacle mince."
+  },
+  {
+    "id": "traque_hematique",
+    "name": "Traque hématique",
+    "group": "Sang Écarlate — Anya",
+    "cost": 2,
+    "access": "SR",
+    "effect": "Reconnaît un sang précis, le distingue des autres et peut suivre sa trace malgré une dissimulation ordinaire.",
+    "prerequisite": "vision_du_sang",
+    "prerequisiteName": "Vision du Sang"
+  },
+  {
+    "id": "deferlement_ecarlate",
+    "name": "Déferlement écarlate",
+    "group": "Sang Écarlate — Anya",
+    "cost": 1,
+    "access": "R — 1 PA",
+    "effect": "+3 au prochain test physique effectué avant la fin du round."
+  },
+  {
+    "id": "surregime",
+    "name": "Surrégime",
+    "group": "Sang Écarlate — Anya",
+    "cost": 2,
+    "access": "R — 1/scène",
+    "effect": "Gagne immédiatement1 PA supplémentaire, même au-delà du maximum normal, à utiliser durant le round courant.",
+    "prerequisite": "deferlement_ecarlate",
+    "prerequisiteName": "Déferlement écarlate"
+  },
+  {
+    "id": "forme_animale",
+    "name": "Forme animale",
+    "group": "Sang Primal — Lyssa",
+    "cost": 1,
+    "access": "R — 1 PA",
+    "effect": "Prend la forme d’un animal naturel maîtrisé. Les aptitudes corporelles évidentes de cette forme deviennent utilisables ; l’équipement ordinaire ne s’adapte pas automatiquement."
+  },
+  {
+    "id": "menagerie",
+    "name": "Ménagerie",
+    "group": "Sang Primal — Lyssa",
+    "cost": 2,
+    "access": "R",
+    "effect": "Maîtrise plusieurs formes animales et peut choisir celle adaptée à la scène.",
+    "prerequisite": "forme_animale",
+    "prerequisiteName": "Forme animale"
+  },
+  {
+    "id": "corps_de_brume",
+    "name": "Corps de brume",
+    "group": "Sang Primal — Lyssa",
+    "cost": 1,
+    "access": "R — Réaction 1 PA",
+    "effect": "Se dissout brièvement en brume pour laisser traverser une agression physique ; les effets capables d’atteindre une forme immatérielle restent applicables."
+  },
+  {
+    "id": "brume_etouffante",
+    "name": "Brume étouffante",
+    "group": "Sang Primal — Lyssa",
+    "cost": 2,
+    "access": "R — 2 PA, maintien",
+    "effect": "Étend sa brume à une petite zone, gênant vision, respiration et déplacements selon la scène. Maintien normal : 1 PA/round.",
+    "prerequisite": "corps_de_brume",
+    "prerequisiteName": "Corps de brume"
+  },
+  {
+    "id": "double_tenebreux",
+    "name": "Double ténébreux",
+    "group": "Sang Hypocrite — Briaerus",
+    "cost": 1,
+    "access": "SR — 1 PA, maintien",
+    "effect": "Crée un double crédible mais immatériel, capable de tromper la perception ordinaire."
+  },
+  {
+    "id": "double_autonome",
+    "name": "Double autonome",
+    "group": "Sang Hypocrite — Briaerus",
+    "cost": 2,
+    "access": "R",
+    "effect": "Le double peut se déplacer indépendamment pour distraire, feinter ou attirer l’attention ; il n’inflige pas de dégâts par lui-même. Il ne possède aucun pool de PA : toute action tactiquement significative accomplie par le double utilise les PA du Vampire.",
+    "prerequisite": "double_tenebreux",
+    "prerequisiteName": "Double ténébreux"
+  },
+  {
+    "id": "fantasmagorie",
+    "name": "Fantasmagorie",
+    "group": "Sang Hypocrite — Briaerus",
+    "cost": 1,
+    "access": "SR — 1 PA, maintien",
+    "effect": "Crée une illusion locale simple. Une cible qui a une vraie raison de douter peut tenter une opposition appropriée."
+  },
+  {
+    "id": "grande_illusion",
+    "name": "Grande illusion",
+    "group": "Sang Hypocrite — Briaerus",
+    "cost": 2,
+    "access": "R — 2 PA, maintien",
+    "effect": "Illusion multisensorielle couvrant une scène ou un environnement important.",
+    "prerequisite": "fantasmagorie",
+    "prerequisiteName": "Fantasmagorie"
+  }
+]
