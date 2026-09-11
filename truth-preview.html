@@ -12,6 +12,7 @@
 const RAW='https://raw.githubusercontent.com/Helclaeynn/Terra-Umbra-Builder/feature/tuc-character-builder-v1/character-builder/rulesets/terra-umbra/truth';
 const get=async p=>{const r=await fetch(`${RAW}/${p}`,{cache:'no-store'});if(!r.ok)throw new Error(`${p}: ${r.status}`);return r.json()};
 const maybe=async p=>{try{return await get(p)}catch{return null}};
+const loadCatalog=async id=>{const mono=await maybe(`talents/${id}.json`);if(mono)return mono;const manifest=await maybe(`talents/${id}/manifest.json`);if(!manifest?.chunks)return[];const parts=await Promise.all(manifest.chunks.map(n=>get(`talents/${id}/${n}`)));return parts.flat()};
 const core=await get('core.json');
 const defaultCon=[{id:'profane',name:'Profane'},{id:'eveille',name:'Éveillé'},{id:'initie',name:'Initié'}];
 const S={nature:'humain',consciousness:'profane',choices:{hunterTradition:'doctrine_commune'},talents:[],search:''};let catalog=[];
@@ -23,7 +24,7 @@ function needles(){return(nature().choices||[]).map(c=>norm(selectedName(c.key).
 function visible(t){const q=norm(S.search);if(q&&!norm(`${t.name} ${t.group||''} ${t.effect||''}`).includes(q))return false;if(!needles().length||S.nature==='mage')return true;const g=norm(`${t.group||''} ${t.name||''}`);if(g.includes('commun')||g.includes('nature')||g.includes('progression')||g.includes('maitrise')||g.includes('route commune'))return true;return needles().some(n=>g.includes(n))}
 function prereqId(t){if(t.prerequisite&&catalog.some(x=>x.id===t.prerequisite))return t.prerequisite;const raw=t.prerequisiteName||'';if(!raw)return'';const n=norm(raw.replace(/^prerequis\s*:?/i,''));return catalog.find(x=>norm(x.name)===n)?.id||''}
 function locked(t){const p=prereqId(t);return !!p&&!bought(p)}
-async function load(id){S.nature=id;S.talents=[];S.search='';S.choices={};for(const c of nature().choices||[]){if(!c.optional&&c.options?.length)S.choices[c.key]=c.options[0].id}catalog=(await maybe(`talents/${id}.json`))||[];render()}
+async function load(id){S.nature=id;S.talents=[];S.search='';S.choices={};for(const c of nature().choices||[]){if(!c.optional&&c.options?.length)S.choices[c.key]=c.options[0].id}catalog=await loadCatalog(id);render()}
 function selectField(label,items,val,cb,ph='— Choisir —'){const d=document.createElement('div');d.className='field';d.innerHTML=`<label>${esc(label)}</label>`;const s=document.createElement('select');s.innerHTML=`<option value="">${esc(ph)}</option>`+items.map(x=>`<option value="${esc(x.id)}" ${x.id===val?'selected':''}>${esc(x.name)}</option>`).join('');s.onchange=e=>cb(e.target.value);d.append(s);return d}
 function render(){renderNatures();renderMain();renderSummary()}
 function renderNatures(){const n=$('#natures');n.innerHTML='';for(const x of core.natures){const b=document.createElement('button');b.className=`nature ${x.id===S.nature?'selected':''}`;b.innerHTML=`<strong>${esc(x.name)}</strong><span>${esc(x.description||'')}</span>`;b.onclick=()=>load(x.id);n.append(b)}}
