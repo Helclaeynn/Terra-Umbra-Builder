@@ -64,7 +64,7 @@ ruleset.reality=realityData;
 
 function lockPurchaseCost(p){
   const item=purchaseItem(p);if(!item)return 0;const spec=lockPriceSpec(item);
-  if(Number.isFinite(Number(p.selectedPrice)))return Number(p.selectedPrice);
+  const selected=lockFinite(p.selectedPrice);if(selected!==null)return selected;
   return Number.isFinite(Number(spec.defaultCost))?Number(spec.defaultCost):0;
 }
 function lockPriceConfigured(p){
@@ -79,7 +79,7 @@ function lockPriceConfigured(p){
 function lockNormalizePurchasePrice(p){
   const item=purchaseItem(p);if(!item)return;const spec=lockPriceSpec(item);
   if(spec.mode==='exact'||spec.mode==='included'){p.selectedPrice=spec.defaultCost??0;p.priceConfirmed=true;return}
-  if((spec.mode==='range'||spec.mode==='minimum')&&!Number.isFinite(Number(p.selectedPrice)))p.selectedPrice=spec.defaultCost??0;
+  if((spec.mode==='range'||spec.mode==='minimum')&&lockFinite(p.selectedPrice)===null)p.selectedPrice=spec.defaultCost??0;
   if(!Object.prototype.hasOwnProperty.call(p,'priceConfirmed'))p.priceConfirmed=false;
 }
 function lockNormalizePurchasePrices(){state.reality.augmentations.forEach(lockNormalizePurchasePrice);state.reality.equipment.forEach(lockNormalizePurchasePrice)}
