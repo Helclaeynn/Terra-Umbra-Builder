@@ -72,10 +72,10 @@ function r37RecurringKind(item){
   if(item.vehicle)return 'durable_purchase';
 
   // Explicit per-use/session billing must win over broad service/category matches.
-  if(/par trajet|\/\s*trajet|par intervention|\/\s*intervention|par seance|\/\s*seance|par heure|\/\s*h\b|par jour|\/\s*jour|par verre|\/\s*verre|par tasse|\/\s*tasse/.test(price)||key==='metro tram'||/^mas (court trajet|trajet long urbain)$/.test(key))return 'per_use';
+  if(/\btrajet\b|\bintervention\b|\bseance\b|\bheure\b|\bheures\b|\bh\b|\bjour\b|\bverre\b|\btasse\b/.test(price)||key==='metro tram'||/^mas (court trajet|trajet long urbain)$/.test(key))return 'per_use';
 
-  if(/par an|\/\s*an\b|annuel|annuelle|annuels|annuelles/.test(price)||/abonnement annuel/.test(context))return 'annual';
-  if(/par mois|\/\s*mois\b|mensuel|mensuelle|mensuels|mensuelles/.test(price)||/abonnement mensuel|dette mensuelle|pension mensuelle|loyer|leasing/.test(context))return 'monthly';
+  if(/\ban\b|annuel|annuelle|annuels|annuelles/.test(price)||/abonnement annuel/.test(context))return 'annual';
+  if(/\bmois\b|mensuel|mensuelle|mensuels|mensuelles/.test(price)||/abonnement mensuel|dette mensuelle|pension mensuelle|loyer|leasing/.test(context))return 'monthly';
 
   // V9 treats housing and hideouts as durable monthly commitments even when a zero-cost row omits “/mois”.
   if(/logement|planque/.test(cat)||/dortoir ouvrier|vladic micro logement|vladic studio|studio urbain ancien|appartement connecte|vladic familial|vladic grand|residence de cadre|penthouse|villa/.test(n)||/cache improvisee|piece box squat discret|studio garage anonyme|planque dediee|planque securisee|reseau de planques/.test(n))return 'monthly';
@@ -85,7 +85,7 @@ function r37RecurringKind(item){
   if(/^careforce (bronze|silver|golden)$/.test(key))return 'annual';
   if(/stockage box atelier|media holonet reseaux/.test(key))return 'monthly';
 
-  if(/abonnement|assurance|careforce/.test(context))return price.includes('an')?'annual':price.includes('mois')?'monthly':'one_off';
+  if(/abonnement|assurance|careforce/.test(context))return /\ban\b/.test(price)?'annual':/\bmois\b/.test(price)?'monthly':'one_off';
   if(/vehicule|arme|armure|augmentation|materiel|objet/.test(cat))return 'durable_purchase';
   return 'one_off';
 }
