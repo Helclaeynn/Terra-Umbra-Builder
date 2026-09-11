@@ -1,0 +1,51 @@
+// Block 11 follow-up — fix field spacing, live validation feedback and 3/2 recap layout.
+
+function p41RefreshValidationUI(){
+  const c=$('#stepContent');if(!c)return;const v=validations();
+
+  // Keep the global navigation and summary badge in sync without rerendering the form itself.
+  renderNav();renderProgress();renderSummary();
+
+  const switches=[...c.querySelectorAll('.p40-validation-switch')];
+  STEPS.forEach(([id,label],i)=>{
+    const row=switches[i];if(!row)return;const ok=!!v[id];
+    row.classList.toggle('ok',ok);row.classList.toggle('bad',!ok);
+    const small=row.querySelector('small');if(small)small.textContent=p40ValidationReason(id,ok);
+  });
+
+  // The two visible Finalisation badges must react to typing as well.
+  const topKpi=c.querySelector(':scope > .section-title .kpi');
+  if(topKpi){topKpi.classList.toggle('good',!!v.finish);topKpi.classList.toggle('bad',!v.finish);topKpi.textContent=v.finish?'Fiche valide':'À corriger'}
+  const sheetKpi=c.querySelector('.final-sheet-head .kpi');
+  if(sheetKpi){sheetKpi.classList.toggle('good',!!v.finish);sheetKpi.classList.toggle('bad',!v.finish);sheetKpi.textContent=v.finish?'Création valide':'À vérifier'}
+}
+
+function p41TagFinalisationGrids(c){
+  const languageLore=c.querySelector('.p40-lore-box');
+  const languageGrid=languageLore?.nextElementSibling;
+  if(languageGrid?.classList.contains('grid3'))languageGrid.classList.add('p41-language-grid');
+  const relationsGrid=languageGrid?.nextElementSibling;
+  if(relationsGrid?.classList.contains('grid2'))relationsGrid.classList.add('p41-relations-grid');
+}
+
+const p41FinishBase=stepFinish;
+stepFinish=function(){
+  p41FinishBase();const c=$('#stepContent');if(!c)return;
+  p41TagFinalisationGrids(c);
+  // Child handlers update state first; bubbling then refreshes every red/green control without stealing focus.
+  c.oninput=()=>p41RefreshValidationUI();
+  c.onchange=()=>p41RefreshValidationUI();
+};
+
+const p41Css=el('style',{},`
+/* Give the language row and the following relations row enough vertical air. */
+.p41-language-grid{row-gap:18px;margin:12px 0 26px}.p41-relations-grid{margin-top:0;row-gap:18px}
+
+/* Final recap follows the same centred 3/2 language as Block 4 Attributes. */
+.final-sheet .final-grid,.final-sheet .final-skills{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:14px 0}
+.final-sheet .final-grid>.final-card,.final-sheet .final-skills>.final-skill-group{flex:0 1 calc(33.333% - 12px);min-width:240px;box-sizing:border-box}
+.final-sheet .final-card{height:auto}.final-sheet .final-skill-group{height:auto}
+@media(max-width:980px){.final-sheet .final-grid>.final-card,.final-sheet .final-skills>.final-skill-group{flex-basis:calc(50% - 12px)}}
+@media(max-width:650px){.p41-language-grid{margin-bottom:20px}.final-sheet .final-grid>.final-card,.final-sheet .final-skills>.final-skill-group{flex-basis:100%;min-width:0}}
+`);document.head.appendChild(p41Css);
+render();
