@@ -13,10 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate Truth manifests and chunks
+      - name: Validate Truth manifests, chunks and full V5 imports
         shell: python
         run: |
-          import json
+          import base64, gzip, json
           from pathlib import Path
 
           root = Path('character-builder/rulesets/terra-umbra/truth/talents')
@@ -64,7 +64,25 @@ jobs:
           if checked == 0:
               errors.append('No Truth manifests found')
 
+          full_root = Path('character-builder/rulesets/terra-umbra/truth/full')
+          for nature, minimum in {'daemon': 120, 'angelus': 100}.items():
+              path = full_root / f'{nature}.json.gz.b64'
+              try:
+                  payload = ''.join(path.read_text(encoding='utf-8').split())
+                  raw = gzip.decompress(base64.b64decode(payload, validate=True))
+                  data = json.loads(raw.decode('utf-8'))
+                  rows = data if isinstance(data, list) else data.get('entries', [])
+                  paid = [x for x in rows if isinstance(x, dict) and x.get('name') and isinstance(x.get('cost'), (int, float)) and x.get('cost') > 0]
+                  ids = [x.get('id') for x in paid if x.get('id')]
+                  if len(paid) < minimum:
+                      errors.append(f'{path}: only {len(paid)} paid entries, expected at least {minimum}')
+                  if len(ids) != len(set(ids)):
+                      errors.append(f'{path}: duplicate paid ids')
+                  print(f'{nature}: {len(paid)} paid V5 entries')
+              except Exception as exc:
+                  errors.append(f'{path}: invalid compressed full catalog: {exc}')
+
           if errors:
               raise SystemExit('\n'.join(errors))
 
-          print(f'Validated {checked} Truth manifests successfully.')
+          print(f'Validated {checked} Truth manifests and complete Daemon/Angelus imports successfully.')
