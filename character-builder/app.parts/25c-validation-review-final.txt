@@ -1,0 +1,70 @@
+// UX pass — explicit review of optional stages + final portrait / identity recap.
+
+function p25EnsureReview(){state.reality=state.reality||{};state.reality.stepReview=state.reality.stepReview&&typeof state.reality.stepReview==='object'?state.reality.stepReview:{};for(const id of ['truth','disadvantages','edge','equipment'])state.reality.stepReview[id]=!!state.reality.stepReview[id]}
+p25EnsureReview();
+function p25TruthHasContent(){
+  const c=state.truth.choices||{},meaningfulChoices=Object.values(c).some(v=>v&&v!=='aucune');
+  return state.truth.nature!=='humain'||state.truth.consciousness!=='profane'||(state.truth.truthTalents||[]).length>0||meaningfulChoices;
+}
+function p25DisHasContent(){return (state.disadvantages||[]).length>0}
+function p25EdgeHasContent(){return edgeSpent()>0}
+function p25EquipmentHasContent(){
+  const r=state.reality||{};if((r.augmentations||[]).length||(r.equipment||[]).length||(r.fixedChargeItems||[]).length)return true;
+  return ['fixedCharges','possessionsNotes','patrimony','debts','sphereSupportDetail','networks','statuses'].some(k=>String(r[k]||'').trim());
+}
+function p25HasContent(id){return id==='truth'?p25TruthHasContent():id==='disadvantages'?p25DisHasContent():id==='edge'?p25EdgeHasContent():id==='equipment'?p25EquipmentHasContent():false}
+const p25ReviewLabels={truth:'Vérité',disadvantages:'Désavantages',edge:'Edge',equipment:'Équipement'};
+const p25ReviewHelp={
+ truth:'Un Humain profane peut conserver ses 5 PTV en réserve. Si vous ne souhaitez rien définir de plus à la création, confirmez volontairement ce choix.',
+ disadvantages:'Prendre 0 Désavantage est parfaitement valide. Confirmez simplement que vous avez volontairement laissé cette étape vide.',
+ edge:'Vous pouvez conserver de l’Edge non dépensé. Confirmez volontairement que vous ne souhaitez rien acheter ici pour l’instant.',
+ equipment:'Un personnage peut commencer sans achat supplémentaire ni Charge fixe choisie. Confirmez volontairement que vous avez vérifié cette étape.'
+};
+function p25ReviewGate(id){
+  const c=$('#stepContent');if(!c)return;const has=p25HasContent(id),done=state.reality.stepReview[id];
+  if(has){const box=el('div',{class:'p25-review-box filled'},`<div><strong>Étape renseignée</strong><span>Des choix ont été effectués dans ${uxEsc(p25ReviewLabels[id])}.</span></div>`);c.appendChild(box);return}
+  const box=el('div',{class:`p25-review-box ${done?'done':'pending'}`},`<div><strong>${done?'Étape volontairement passée':'Étape encore à confirmer'}</strong><span>${uxEsc(p25ReviewHelp[id])}</span></div>`),b=el('button',{class:done?'ghost mini':'primary mini'},done?'Annuler la validation':'Passer volontairement cette étape');b.onclick=()=>{state.reality.stepReview[id]=!done;render()};box.appendChild(b);c.appendChild(box)
+}
+
+const p25ValidBase=validations;
+validations=function(){
+  p25EnsureIdentity();p25EnsureReview();const v=p25ValidBase(),st=style();
+  v.identity=!!String(state.identity.name||'').trim()&&!!String(state.identity.age||'').trim();
+  v.sphere=!!state.creation.sphere&&!!state.creation.style&&totalStylePoints()===5;
+  v.truth=!!v.truth&&(p25TruthHasContent()||state.reality.stepReview.truth);
+  v.disadvantages=!!v.disadvantages&&(p25DisHasContent()||state.reality.stepReview.disadvantages);
+  v.edge=!!v.edge&&(p25EdgeHasContent()||state.reality.stepReview.edge);
+  v.equipment=!!v.equipment&&(p25EquipmentHasContent()||state.reality.stepReview.equipment);
+  const langCount=1+skillRaw('langages_argot'),languagesOK=Array.isArray(state.social.languages)&&state.social.languages.length===langCount&&state.social.languages.every(x=>String(x).trim()),crawlerContact=state.creation.sphere!=='crawler'||(state.social.contacts||[]).some(x=>String(x).trim()),corpoSupport=state.creation.sphere!=='corporatiste'||!!String(state.reality.sphereSupportDetail||'').trim(),renownMilieuOK=renown()===0||!!String(state.social.renownMilieu||'').trim();
+  v.finish=Object.entries(v).filter(([k])=>k!=='finish').every(([,ok])=>!!ok)&&languagesOK&&crawlerContact&&corpoSupport&&renownMilieuOK;
+  return v;
+};
+const p25ErrorsBase=currentErrors;
+currentErrors=function(){
+  const errs=p25ErrorsBase().filter(x=>!x.includes('Concept'));const here=STEPS[stepIndex]?.[0];
+  if(!String(state.identity.name||'').trim())errs.push('Identité : renseigner le nom du personnage.');
+  if(!String(state.identity.age||'').trim())errs.push('Identité : renseigner son âge, même approximatif ou apparent.');
+  if(here==='finish')for(const id of ['truth','disadvantages','edge','equipment'])if(!p25HasContent(id)&&!state.reality.stepReview[id])errs.push(`${p25ReviewLabels[id]} : étape vide non confirmée. Remplissez-la ou passez-la volontairement.`);
+  return [...new Set(errs)];
+};
+
+const p25TruthStepBase=stepTruth;stepTruth=function(){p25TruthStepBase();p25ReviewGate('truth')};
+const p25DisStepBase=stepDisadvantages;stepDisadvantages=function(){p25DisStepBase();p25ReviewGate('disadvantages')};
+const p25EdgeStepBase=stepEdge;stepEdge=function(){p25EdgeStepBase();p25ReviewGate('edge')};
+const p25EquipmentStepBase=stepEquipment;stepEquipment=function(){p25EquipmentStepBase();p25ReviewGate('equipment')};
+
+const p25MergeBase=mergeState;
+mergeState=function(obj){p25MergeBase(obj);p25EnsureIdentity();p25EnsureReview();if(obj?.reality?.stepReview)for(const id of ['truth','disadvantages','edge','equipment'])if(Object.prototype.hasOwnProperty.call(obj.reality.stepReview,id))state.reality.stepReview[id]=!!obj.reality.stepReview[id]};
+try{const raw=localStorage.getItem('tuc-character-builder-v1');if(raw){const saved=JSON.parse(raw);if(saved?.reality?.stepReview){p25EnsureReview();Object.assign(state.reality.stepReview,saved.reality.stepReview)}}}catch(err){console.warn('Review-state restore',err)}
+
+const p25FinishBase=stepFinish;
+stepFinish=function(){
+  p25FinishBase();p25EnsureIdentity();const sheet=document.querySelector('.final-sheet');if(!sheet)return;
+  const head=sheet.querySelector('.final-sheet-head');if(head&&state.identity.portraitDataUrl){const p=el('div',{class:'p25-final-portrait'}),img=el('img',{alt:`Portrait de ${state.identity.name||'personnage'}`});img.src=state.identity.portraitDataUrl;p.appendChild(img);head.insertBefore(p,head.firstChild)}
+  const identityRows=[['Nom',state.identity.name],['Âge',state.identity.age],['Alias',state.identity.alias],['Activité',state.identity.activity],['Sexe / genre',state.identity.sex],['Taille',state.identity.height],['Poids',state.identity.weight],['Concept',state.identity.concept],['Objectif',state.identity.objective]].filter(([,v])=>String(v||'').trim());
+  const card=el('section',{class:'final-card p25-final-identity'},`<h3>Identité & incarnation</h3>${identityRows.map(([k,v])=>`<div class="p25-final-line"><strong>${uxEsc(k)}</strong><span>${uxEsc(v)}</span></div>`).join('')||'<div class="muted">Aucune information descriptive supplémentaire.</div>'}`),grid=sheet.querySelector('.final-grid');if(grid)grid.insertBefore(card,grid.firstChild);else sheet.appendChild(card);
+  sheet.querySelectorAll('.final-skill small').forEach(x=>{if(/^brut\s/i.test(x.textContent||''))x.textContent=x.textContent.replace(/^brut\s/i,'base ')})
+};
+
+const p25cCss=el('style',{},`.p25-review-box{display:flex;justify-content:space-between;align-items:center;gap:14px;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:18px}.p25-review-box>div{display:grid;gap:3px}.p25-review-box span{font-size:12px;line-height:1.4;color:var(--muted)}.p25-review-box.pending{border-color:#745f35;background:rgba(180,135,55,.07)}.p25-review-box.done,.p25-review-box.filled{border-color:#315e4c;background:rgba(60,160,115,.06)}.p25-final-portrait{width:130px;height:165px;border:1px solid var(--line);border-radius:12px;overflow:hidden;flex:0 0 auto}.p25-final-portrait img{width:100%;height:100%;object-fit:cover}.p25-final-identity{grid-column:auto}.p25-final-line{display:flex;justify-content:space-between;gap:16px;border-bottom:1px solid rgba(255,255,255,.05);padding:5px 0}.p25-final-line span{text-align:right;color:var(--muted)}@media(max-width:650px){.p25-review-box{align-items:stretch;flex-direction:column}.p25-review-box button{width:100%}.p25-final-portrait{width:100px;height:125px}}`);document.head.appendChild(p25cCss);
+render();
