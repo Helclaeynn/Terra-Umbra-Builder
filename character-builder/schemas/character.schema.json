@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://helclaeynn.github.io/Terra-Umbra-Builder/character-builder/schemas/character.schema.json",
+  "title": "Terra Umbra California Character",
+  "type": "object",
+  "required": ["schemaVersion", "rulesetId", "identity", "creation", "attributes", "skills", "talents", "disadvantages", "edge", "truth", "spending", "social"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "rulesetId": {"const": "terra-umbra"},
+    "identity": {"type": "object"},
+    "creation": {"type": "object"},
+    "attributes": {"type": "object"},
+    "skills": {"type": "object"},
+    "talents": {"type": "object"},
+    "disadvantages": {"type": "array", "maxItems": 3},
+    "edge": {"type": "object"},
+    "truth": {"type": "object"},
+    "spending": {"type": "object"},
+    "social": {"type": "object"},
+    "derived": {"type": "object"},
+    "economy": {"type": "object"},
+    "validation": {"type": "object"}
+  },
+  "additionalProperties": true
+}
