@@ -1,0 +1,186 @@
+// Truth V7 / Creation V12 — richer structural-choice lore and final Hunter eligibility guard.
+
+const t29NatureLore={
+  humain:"L’Humanité n’est pas extérieure à la Vérité. Un Humain peut rester totalement Profane, devenir Initié, rejoindre la Chasse, apprendre une tradition occulte ou martiale et utiliser des technologies qui dépassent la Réalité ordinaire. Il ne possède pas d’arbre racial : ce qu’il acquiert vient de sa formation, de ses alliances et de ce qu’il a réellement découvert.",
+  vampire:"Descendant de l’héritage Khinae corrompu par les Fléaux, le Vampire est un prédateur surnaturel vivant plutôt qu’un cadavre animé. Les Sang-purs existent mais restent rares ; la majorité des Vampires de 2035 sont des Transformés, parfois très jeunes malgré l’existence d’anciens ayant perdu des décennies ou des siècles en torpeur. Cour d’origine, Maison, Sang noir et fidélités sont des axes distincts, tandis que la mort véritable condamne l’âme vampirique au Néant.",
+  garou:"Le Garou est un descendant lupin de Khinae resté lié au Cycle des âmes. Sa Nature vient d’un lignage ancien, jamais d’une morsure, et peut dormir plusieurs générations avant de s’éveiller. L’Appel de la Meute, les sens, la régénération et la Mue structurent sa vie ; le Pelage est une tradition culturelle, tandis que le Sang vif exprime une potentialité plus profonde de l’héritage Khinae.",
+  khinae:"Les descendants non lupins de Khinae regroupent des lignées prédatrices très différentes : canidés errants, renards, félins, rapaces, requins, serpents, Boudas, Berserkirs ou crocodiliens. Leur héritage rejoint normalement le Cycle et autorise transformation, régénération et forme hybride, mais les instincts proprement lupins — Meute, Hiérarchie et Pelages — ne sont pas universels. Chaque Lignée conserve donc sa propre morphologie et sa propre logique sociale.",
+  mage:"Un Mage est un Humain lié à un Mageius, structure magique quasi autonome qui lui permet d’imposer sa volonté au réel. Sa magie n’est pas une liste fermée de sorts : elle dépend d’Affinités, de Maîtrise, d’Amplitude et surtout de ce que le personnage comprend réellement du phénomène qu’il veut modifier. Le Mageius peut aussi porter des Échos de porteurs plus anciens sans remplacer l’identité actuelle du Mage.",
+  aseryn:"Les Aseryns sont un peuple terrestre créé par Serathè avant les civilisations humaines historiques. Leur physiologie extrêmement rapide, leur sens électromagnétique et leur potentiel lié à la Foudre ne résument pas une civilisation ancienne, dispersée et politiquement diverse. Origine ou diaspora et Tradition des Treize sont des héritages culturels distincts, jamais des castes biologiques.",
+  exile:"Elyë, Whurten, Ashyll, Thulkar et Azménoriens sont les principales communautés venues d’Aèr. Beaucoup vivent sur Terre depuis bien avant l’Hologramme et y sont nés depuis de nombreuses générations : être Exilé ne signifie donc pas nécessairement être un voyageur récemment arrivé. Le peuple décrit une physiologie et un héritage ; réseaux, métiers, factions et traditions restent des choix séparés.",
+  extral:"Talass, Mo’sen, Baséanh, Rocréens et Thalsios appartiennent à des civilisations galactiques dont l’implantation terrestre est récente et très diverse. S’y ajoutent des cas rares comme les Ad’rak et les Humains galactiques de l’AIDH, dont certains programmes produisent les exceptionnels Homo Superior. Une espèce ou un profil biologique ne détermine jamais automatiquement le réseau, la doctrine ou l’équipement du personnage.",
+  angelus:"Les Angelus descendent de créatures artificielles d’Aèr transcendées par Elynea jusqu’à devenir des individus reliés à l’Arbre de Vie. Leur incarnation terrestre constitue une vraie vie : famille, métier et convictions ne disparaissent pas lorsque reviennent des souvenirs célestes plus anciens. Nature angélique, Sephirah, Archange lié et école séraphique sont des couches distinctes d’une Transcendance qui n’impose ni obéissance automatique des religions humaines ni personnalité unique.",
+  daemon:"Un Daemon n’est pas une espèce mais une âme morte choisie par une ancienne Divinité, retirée du Cycle puis reforgée comme Élu et porte de sa puissance. Chaque incarnation ajoute une vraie vie à cette histoire antérieure. La Divinité marque l’âme en profondeur, la Fonction est un rôle appris dans sa Cour et la Maisonnée une culture de service ; les anciens dieux ne se réduisent pas à une incarnation abstraite du Mal malgré leur démonisation après la victoire d’Elynea."
+};
+
+const t29CourtLore={
+  krovni_rytsari:"Grande tradition occidentale de la noblesse vampirique, la Krovni organise le pouvoir autour du rang, du serment, du commandement et de la guerre. Ses structures féodales se sont adaptées aux holdings, sociétés de sécurité, réseaux politiques ou criminels modernes : l’honneur y est réel, mais l’intrigue et la stratégie à très long terme le sont tout autant.",
+  alghul_almalakiu:"Issue des premières civilisations mésopotamiennes, l’Alghul considère l’ancienneté comme une accumulation irremplaçable de savoirs, de langues, de rites et de souvenirs. Sa culture de conservation s’étend aux morts, au sang, aux restes et désormais aux archives numériques : détruire un ancien peut équivaloir à brûler une bibliothèque unique.",
+  oru_ayeraye:"L’Oru réunit l’héritage de plusieurs anciennes Cours africaines marquées par les guerres de lignées, les puissances d’ombre et les alliances avec des Deimons. La maîtrise des Ténèbres et la relation aux créatures liées aux Maisons y comptent souvent autant que le lignage lui-même, selon des rapports allant du partenariat à l’exploitation réciproque.",
+  ihuito_meztzi:"L’Ihuito a prospéré dans les Amériques sous l’ombre de Quetzalcoatl. Le sang y est à la fois nourriture, héritage, puissance et continuité sacrée ; la Cour assume frontalement la prédation et conserve une histoire où religion, autorité et condition vampirique se sont longtemps confondues.",
+  shi_hun_zhe:"Le Shi Hun Zhe rassemble d’anciennes lignées d’Extrême-Orient autour de l’œuvre de Xinya et d’une lecture du Vampire comme être fondamentalement déséquilibré entre Yin, Yang, Hun et Po. Sa culture a conservé une architecture administrative quasi impériale — ministères, justice, finances, diplomatie, sécurité — adaptée au monde de 2035."
+};
+const t29VampBloodLore={
+  sang_ecarlate:"Sang d’Anya centré sur la force, la vitesse et la perception hématique. Il transforme la lecture du sang en avantage de chasse puis permet au Vampire de pousser brutalement son corps au-delà de son régime ordinaire.",
+  sang_primal:"Sang de Lyssa consacré à la métamorphose animale et à la dissolution en brume. Il permet d’adopter des formes naturelles puis de traiter le corps vampirique comme une matière plus fluide, capable d’échapper aux contraintes physiques ordinaires.",
+  sang_hypocrite:"Sang de Briaerus fondé sur le mensonge visuel, les doubles et l’illusion. Sa progression va de leurres locaux à des mises en scène multisensorielles capables de fausser toute une situation sans créer de matière réelle.",
+  sang_venimeux:"Sang d’Huitzitia mêlant perception thermique et production de toxines biologiques. Le Vampire apprend à façonner ses propres fluides en venins spécialisés puis à contaminer son environnement proche.",
+  sang_masque:"Sang de Kazuo dédié à l’infiltration et à l’imitation. Presque entièrement utilisable en Semi-Révélation, il copie visage, voix et morphologie sans transmettre les souvenirs, compétences ou secrets de la personne imitée.",
+  sang_aveugle:"Sang d’Ashream tourné vers les perceptions non visuelles et le plan astral. Écholocation et vision astrale élargissent d’abord les sens, avant de permettre au Vampire de projeter sa conscience hors d’un corps laissé vulnérable.",
+  sang_traqueur:"Sang de Go’Ndai centré sur l’analyse anatomique et la manipulation hématique. Il lit le corps comme un réseau vivant, repère ses défaillances puis apprend à transformer le sang en outil, membre ou arme surnaturelle.",
+  sang_glacial:"Sang de Vjärmod fondé sur le drain de chaleur et le gel surnaturel. Sa puissance commence au contact puis s’étend jusqu’à transformer une zone entière en environnement hostile par le froid.",
+  sang_ardent:"Sang de Larisha consacré à la chaleur, la brûlure et l’embrasement. Il peut marquer une cible au contact, enflammer la matière réellement combustible et finir par saturer l’environnement de chaleur surnaturelle.",
+  sang_orageux:"Sang de Branimir fondé sur l’électricité biologique et la conduction. Il surcharge d’abord les nerfs au contact, puis transforme l’espace proche en milieu conducteur où ses décharges peuvent se propager.",
+  sang_revelateur:"Sang de Zhi Xia consacré à la pensée, au dévoilement et à la destruction des mensonges surnaturels. Il lit d’abord l’esprit et les impressions présentes, puis confronte illusions, transformations ou pouvoirs actifs à une Vérité plus difficile à falsifier.",
+  sang_condamne:"Sang d’Ashelia lié à la dévoration magique et au remplacement du corps. Sa faim peut absorber vitalité ou manifestations surnaturelles et conduit, à son extrême, à l’abandon d’une enveloppe condamnée pour une autre — au prix de conséquences monstrueuses."
+};
+
+const t29PelageLore={
+  pelages_gris:"Culture historiquement occidentale plaçant la protection directe de la Meute au centre de l’identité garoue. Protéger peut signifier s’interposer, organiser la défense ou détruire la menace avant qu’elle n’atteigne les siens ; cette responsabilité produit aussi bien des gardiens altruistes que des lignées très autoritaires.",
+  pelages_noirs:"Tradition territoriale issue de nombreuses lignées natives de l’Ouest américain. Le lieu, les trajets, les frontières et la chasse collective forment un réseau vivant pour la Meute ; les Noirs excellent à défendre une zone, mais leurs conflits de territoire peuvent devenir particulièrement violents.",
+  pelages_blancs:"Héritage septentrional ayant fait de la discipline martiale, de la mémoire et de la coordination une véritable culture. Une Meute Blanche fonctionne volontiers comme une unité entraînée à agir ensemble depuis des années, avec toute l’efficacité — et tous les dangers — d’une organisation qui valorise l’obéissance.",
+  pelages_roux:"Tradition historiquement liée à des lignées de l’Est américain et à une maîtrise extrêmement fine de la Mue. Pour les Roux, se transformer n’est pas seulement devenir hybride : c’est employer exactement la part de Nature nécessaire, comme un langage corporel et un outil d’adaptation.",
+  pelages_bruns:"Tradition apparue en Extrême-Orient, plus proche des esprits, des Kami et de certaines puissances locales. Son idéal n’est pas d’étouffer la Bête mais de comprendre suffisamment l’instinct pour négocier avec lui ; pacte, respect du lieu et maîtrise intérieure comptent autant que la force brute.",
+  pelages_dores:"Tradition née entre Moyen-Orient et Asie, souvent la plus inquiétante aux yeux des autres Garous. Les Dorés conservent des méthodes de dévoration occulte permettant d’acquérir Traces, souvenirs ou propriétés surnaturelles, brouillant volontairement la frontière entre transmission, prédation et tabou."
+};
+const t29LivingBloodLore={
+  sang_naturel:"Sang vif de Vortigern lié aux éléments et à l’accord primordial. Il exprime une relation instinctive à des forces naturelles que le Khinae apprend progressivement à canaliser plutôt qu’à simplement subir.",
+  sang_alpha:"Sang d’Ohtana consacré à la dominance et à la cohésion. Chez un Loup il s’exprime naturellement autour de la Meute ; chez un autre descendant de Khinae, il suit la logique sociale propre à sa Lignée plutôt que d’inventer artificiellement une hiérarchie lupine.",
+  sang_revelateur:"Sang de Ceallachán lié à la pensée et à la destruction des mensonges surnaturels. Il pousse l’héritage Khinae vers la lecture de ce qui se cache derrière l’apparence et la confrontation directe aux tromperies occultes.",
+  sang_ecarlate:"Sang de Keyna centré sur la puissance physique et la perception du sang. Il fait du corps et de la chasse hématique une même spécialisation, plus brutale que la plupart des Sangs de perception.",
+  sang_sculpteur:"Sang de Svenn consacré au modelage de matière et de chair. Il traite le corps et certaines structures physiques comme des formes susceptibles d’être altérées par un héritage Khinae particulièrement plastique.",
+  sang_funeste:"Sang de Verica lié à la mort, aux spectres et à la violence immatérielle. Il rapproche le prédateur du monde des morts sans faire de lui un nécromancien universel.",
+  sang_primal:"Sang de Khuyildar fondé sur l’assimilation animale et la brume. Il explore la plasticité prédatrice de Khinae en ajoutant d’autres propriétés animales et des expressions corporelles plus fluides.",
+  sang_chasseur:"Sang de Thorkel consacré à la traque absolue et à la disparition. Il pousse l’instinct de poursuite jusqu’à faire du porteur un prédateur spécialisé dans la conservation du contact et l’effacement de sa propre présence.",
+  sang_de_sagesse:"Sang de Tomoko centré sur la mémoire et l’assimilation des savoirs. Sa prédation s’exprime moins par la force que par la capacité à conserver, incorporer et réutiliser ce qui a été appris.",
+  sang_enrage:"Sang d’Asulf consacré à la Frénésie volontaire. Il permet de traiter la rage prédatrice non comme un accident subi, mais comme un état dangereux que le porteur apprend à ouvrir, orienter puis refermer.",
+  sang_enchaine:"Sang de Jayanti qui remplace la forme hybride par un véritable corps de guerre humain révélé. Il conserve mains, armes et précision technique tout en développant une puissance surhumaine, mais interdit la Mue hybride selon les règles du Sang.",
+  sang_vengeur:"Sang d’Astaphium lié aux plaies, à la douleur et à la violence de la Mue. Il transforme les blessures et la souffrance du corps en vecteurs de riposte plutôt qu’en simple coût à encaisser."
+};
+
+const t29DaemonFunctionLore={
+  oracle:"Fonction tournée vers les âmes, les pensées, les rêves et l’influence. L’Oracle — ou Tentateur — comprend comment une volonté se forme et comment l’atteindre, mais sa Fonction reste un métier appris : sa Divinité demeure l’empreinte métaphysique la plus profonde.",
+  tourmenteur:"Fonction du Châtiment : peur, souffrance, maladie et affliction du corps ou de l’esprit. Le Tourmenteur apprend à imposer ou exploiter ces états comme instruments, sans que cela fixe à lui seul sa morale ou les domaines de sa Divinité.",
+  legionnaire:"Fonction martiale des Cours daemoniaques. Le Chevalier ou Légionnaire est formé pour porter la puissance de sa Cour dans l’affrontement, mais deux Chevaliers de Divinités différentes peuvent incarner des forces et des méthodes radicalement opposées."
+};
+const t29DivinityLore={
+  alabor:"Alabor porte les Eaux primordiales : profondeur, pression, mouvement et fécondité. Sa puissance évoque moins une simple magie de l’eau qu’une force antérieure aux formes stables, capable d’engloutir, porter ou remodeler ce qui s’y abandonne.",
+  astaroth:"Astaroth porte la Civilisation, le savoir et la création. Ses Daemons héritent d’un rapport aux œuvres construites, aux techniques et à l’accumulation de connaissance : faire, comprendre et transmettre peuvent être aussi sacrés que combattre.",
+  belial:"Belial porte le Feu, la Domination et la royauté. Sa marque mêle puissance, autorité et chaleur destructrice ; elle peut produire grandeur, ambition et ordre aussi naturellement que tyrannie ou incendie.",
+  diablo:"Diablo porte la Nuit et la peur. Ses domaines concernent ce qui se cache, ce que l’obscurité laisse imaginer et la manière dont la peur transforme le comportement ; la Nuit n’est pas automatiquement mensonge, mais elle refuse la sécurité de la pleine lumière.",
+  lilith:"Lilith porte désir, plaisir, attachement et fertilité. Son domaine touche aux liens intimes et au corps vivant, capables de produire amour, création et autonomie autant qu’obsession ou dépendance ; le désir n’y est jamais réductible à une simple séduction.",
+  mammon:"Mammon porte la mort, la vieillesse et l’Inéluctable. Sa puissance parle de fin, d’usure et de passage : elle peut achever, accélérer ou rappeler que toute chose se termine, mais aussi offrir le repos lorsque prolonger la souffrance n’a plus de sens.",
+  mephisto:"Méphisto porte l’Occulte, la parole et le hasard. Ses Daemons travaillent volontiers sur les structures cachées, les mots qui changent une situation et les opportunités imprévisibles ; comprendre une règle secrète compte souvent autant que la puissance brute.",
+  satan:"Satan porte le Jugement, la sentence et l’ordre. Sa marque demande d’identifier une responsabilité avant de trancher et distingue idéalement preuve, culpabilité et punition — même si ses serviteurs peuvent transformer cette exigence en autoritarisme implacable.",
+  lucifer:"Lucifer conserve le Soleil, le cycle, la vie et le courage malgré sa place dans les récits de chute. Sa puissance est rayonnante, vitale et cyclique : elle peut inspirer, brûler, protéger ou exiger que l’on affronte ce qui terrifie plutôt que de s’y soumettre.",
+  belzebuth:"Belzébuth porte la Vie jusque dans l’évolution, la maladie et la mutation. Guérison et infection appartiennent donc au même domaine : sa marque considère le vivant comme un système capable de croître, s’adapter, proliférer ou devenir monstrueusement autre.",
+  abigor:"Abigor est le Ciel violent : vent, orage et tempête. Sa marque privilégie mouvement, pression atmosphérique et puissance soudaine ; il est la force d’un ciel qui cesse d’être décor pour devenir acteur.",
+  baal:"Baal incarne la Guerre. Son domaine ne se limite pas au goût du combat : stratégie, meurtre, blessure, discipline, courage et coût humain de la violence sont autant de facettes possibles de la même puissance.",
+  morrighan:"Morrighan occupe une place singulière autour de la guerre, de la frénésie, des présages, de la mort et de la royauté. Sa marque associe le champ de bataille à ce qui l’annonce, à ceux qui y règnent et à ce qui subsiste lorsque la violence est passée."
+};
+
+const t29AngelNatureLore={
+  trone:"Le Trône est juge, chasseur et enquêteur spirituel. Il observe, poursuit, identifie et marque avant de condamner : ses pouvoirs privilégient la lecture de l’âme, la traque et la vulnérabilisation d’une cible plutôt que sa destruction immédiate.",
+  vertu:"La Vertu agit sur passions, vices, blessures intérieures et purification. Elle peut apaiser, absorber, soigner ou réinjecter ce qu’elle a contenu ; cette Nature angélique est volontairement ambiguë, car la même maîtrise des émotions peut devenir secours ou arme.",
+  domination:"La Domination est l’exécuteur céleste. Plus prédateur ciblé que guerrier de ligne, elle identifie une proie, crée sa fenêtre d’attaque puis concentre sa Transcendance sur l’élimination rapide d’une menace précise."
+};
+const t29SephirahLore={
+  kether:"Kether, la Couronne, porte domination, conscience et unité. Sa Transcendance relie volontés et perceptions autour d’un centre commun : commander, partager et faire agir plusieurs êtres comme un ensemble sont ses grands motifs.",
+  hokhma:"Hokhma, la Sagesse, porte sagesse, pureté et magie. Elle colore l’Angelus d’une recherche de clarté et de résistance à ce qui corrompt ou déforme l’âme, avec une affinité particulière pour la compréhension des puissances spirituelles.",
+  bina:"Bina, la Compréhension, porte intellect, structure et destin. Elle pousse l’Angelus à voir les limites, les causes et les formes qui organisent une situation plutôt qu’à seulement réagir à ses effets visibles.",
+  hesed:"Hesed, la Miséricorde, porte guérison, créativité et grâce. Sa puissance cherche l’issue qui restaure, protège ou offre une seconde chance, sans pour autant interdire la fermeté lorsque sauver exige d’agir.",
+  gueburah:"Gueburah, la Force, porte justice et guerre. Sa Transcendance transforme la puissance physique ou spirituelle en acte décisif : frapper, tenir, imposer une limite ou défendre ce qui a été jugé digne de l’être.",
+  tiphereth:"Tiph’Ereth porte foi, dévotion et sacrifice. Elle donne du poids aux engagements et à ce que l’Angelus accepte réellement d’offrir de lui-même, jusqu’à faire de la fidélité à une personne, une cause ou un principe une force métaphysique.",
+  nesah:"Nesah porte amour, succès et sexualité. Sa Transcendance touche au désir d’aboutir, aux liens qui poussent à continuer et à la capacité d’entraîner une réussite au-delà de l’individu isolé.",
+  hod:"Hod porte savoir, science et grandeur. Elle favorise compréhension, méthode et illumination intellectuelle : l’Angelus ne reçoit pas gratuitement toute réponse, mais sa relation à la connaissance devient elle-même une voie de puissance.",
+  yessod:"Yessod porte rêves, illusion et imagination. Sa Transcendance agit sur les images mentales et les formes perçues, non pour transformer toute chose en mensonge mais pour donner une réalité opératoire à ce qui naît d’abord dans l’esprit.",
+  malkhouth:"Malkhouth porte mort, monde physique et poids. Elle ancre la Transcendance dans ce qui est matériel, présent et difficile à déplacer : incarnation, gravité, frontières et continuité du corps deviennent ses grands thèmes."
+};
+
+const t29MageiusLore={
+  kaharal:"Mageius de Matière. Kaharal travaille la structure du monde physique par Architétramancie, Morphomancie et Alchimie : bâtir, transformer ou recomposer exige de comprendre ce que la matière est réellement.",
+  meldir:"Mageius d’Énergie. Meldir s’exprime par Photomancie, Acratomancie et Médéomancie : lumière, états énergétiques et restauration sont traités comme des phénomènes à manipuler plutôt que comme des effets abstraits.",
+  elinaeth:"Mageius de Réalité. Elinaeth couvre Télékinésie, Divination et Chronomancie : forces, information et continuum deviennent manipulables, mais les effets les plus ambitieux demandent maîtrise, connaissance et précision.",
+  mestherak:"Mageius de l’axe spectral. Spectromancie, Hématomancie et Nécromancie travaillent âme, sang, mort et essence vitale ; ce Mageius est particulièrement puissant dès qu’il faut comprendre ce qui persiste derrière le corps.",
+  discella:"Mageius de l’Ombre et de l’Esprit. Skiamancie, Pseudomancie et Pathomancie agissent sur l’Ombre surnaturelle, la perception et les malédictions, trois domaines proches en apparence mais métaphysiquement distincts."
+};
+
+const t29LineageLore={
+  canides_errants:"Coyotes, chacals, lycaons, dholes et dingos sont les descendants de Khinae ayant connu le plus de succès après les Loups. Sans société comparable aux Pelages, ils ont construit leur survie autour de la poursuite, de l’endurance et de la capacité à vivre sans territoire stable.",
+  renards:"Les Renards Khinae libres sont rares : beaucoup de leurs anciennes lignées ont cédé à V’Aagor. Leur ruse surnaturelle n’est pas une illusion universelle ; elle agit surtout sur les traces laissées derrière eux — odeurs, sons, pistes et fausses directions.",
+  grands_felins:"Tigres, Lions, Panthères, Jaguars et Pumas comptent parmi les Khinae les plus redoutables individuellement et les moins enclins à bâtir de grandes sociétés. Leur Nature privilégie embuscade, bond, discrétion et domination physique d’une proie isolée.",
+  chats:"Les petits Félins ont survécu moins par puissance brute que par curiosité, diplomatie et capacité à vivre au voisinage d’êtres beaucoup plus dangereux. Un Chat peut devenir intermédiaire entre monstres sans jamais accepter d’être le familier ou le serviteur de qui que ce soit.",
+  rapaces:"Aigles, Faucons, Hiboux et Vautours sont des Khinae construits autour des hauteurs, de la perception et du mouvement aérien. Leur forme animale ouvre une géographie inaccessible aux lignées terrestres, mais leur corps et leur équipement restent soumis aux limites réelles de leur morphologie.",
+  requins:"Les Requins sont des prédateurs Khinae marins dont la vie sociale et la chasse s’organisent autour de littoraux, ports, profondeurs et installations aquatiques. Vitesse, pression, sang et électroréception remplacent les repères territoriaux d’un prédateur terrestre.",
+  serpents:"Les Serpents regroupent lignées venimeuses, constrictrices et furtives. Leur variante morphologique détermine l’arme biologique principale et leur rapport à l’attente, à la chaleur et à l’économie de mouvement diffère profondément de celui des mammifères Khinae.",
+  boudas:"Les Boudas sont des Hommes-Hyènes sociaux, organisés autour de Bandes plutôt que de Meutes lupines. Leur cohésion est réelle mais suit ses propres codes, et leurs lignées combinent robustesse, charognage et agressivité collective sans acquérir gratuitement les traditions de Pelage.",
+  berserkirs:"Les Berserkirs sont des Hommes-Ours massifs issus d’anciennes lignées autrefois proches des Ulfhednars. Leur héritage privilégie masse, endurance et puissance immédiate ; la forme animale choisie nuance ensuite froid, nage, grimpe ou gabarit.",
+  crocodiliens:"Les Crocodiliens sont une branche lourde de Khinae spécialisée dans l’embuscade aquatique et la patience prédatrice. Armure naturelle, puissance de saisie et adaptation au milieu dominent leur Nature, avec des variantes allant du grand crocodile au caïman plus compact."
+};
+
+const t29AserynOriginLore={
+  aerilien:"Héritiers des populations d’Aèr et de la continuité néo-atlante, les Aériliens portent la mémoire de centres très anciens de la civilisation aseryne. Leur origine décrit une diaspora et une culture, pas un degré supérieur de pureté biologique.",
+  mulien:"Les Mûliens viennent d’une autre grande continuité historique aseryne, façonnée par des territoires, des migrations et des réponses politiques propres. Cette origine colore les références culturelles du personnage sans enfermer sa Tradition des Treize.",
+  hyperboreen:"Les Hyperboréens représentent une diaspora ancienne dont la mémoire s’est construite loin des premiers centres atlantes. Leur héritage reste pleinement aseryn tout en portant des traditions régionales et politiques distinctes.",
+  lemurian:"Les Lémurians appartiennent à une branche historique séparée de la civilisation aseryne, avec ses propres survivances et adaptations. Le choix décrit d’où vient le personnage, pas quelle fonction des Treize il doit suivre.",
+  seratheen:"Les Serathéens sont une diaspora aseryne, pas une sous-espèce ni une caste. En Amérique du Nord, certains suivent le Conseil de la Foudre, mais cette tradition locale ne définit jamais tous les Serathéens."
+};
+const t29AserynTradLore={
+  athegos:"Tradition du Seigneur : responsabilité, direction et pouvoir organisé. Elle enseigne à tenir une structure et répondre de ce qu’elle devient, plutôt qu’à revendiquer automatiquement une noblesse.",
+  sundosia:"Tradition de l’Aventurière : mobilité, découverte et action au-delà des cadres établis. Elle valorise ceux qui vont là où les cartes culturelles ou politiques cessent d’être sûres.",
+  caendis:"Tradition du Protecteur : défense des personnes, lieux et continuités jugées dignes d’être préservées. Sa force vient de l’engagement envers ce qui doit survivre.",
+  cairiah:"Tradition de l’Architecte : concevoir, organiser et donner une forme durable aux systèmes. Elle peut s’exprimer dans les structures matérielles comme sociales ou techniques.",
+  eydreas:"Tradition du Chercheur : comprendre avant d’utiliser. Elle privilégie méthode, enquête et production de savoir au sein d’une civilisation où l’ancienneté ne dispense jamais de vérifier.",
+  seryn:"Tradition de l’Artisan : savoir-faire, précision et création maîtrisée. Elle considère la qualité de l’œuvre comme une forme de continuité culturelle.",
+  natyel:"Tradition du Nourricier : entretenir ce qui permet à une communauté de vivre et de durer. La fonction dépasse la nourriture et touche aux ressources, aux soins et à la continuité quotidienne.",
+  erith:"Tradition de la Sentinelle : veille, vigilance et réaction aux menaces. Elle forme ceux qui remarquent ce qui change avant que le danger n’ait déjà franchi la porte.",
+  lisirast:"Tradition de l’Archiviste : conserver mémoire, preuves et continuité. Dans une civilisation millénaire, perdre une information peut être une catastrophe aussi grave que perdre un territoire.",
+  lisithas:"Tradition du Juge : peser, arbitrer et trancher selon un cadre compris. Elle n’accorde pas une morale automatique mais une responsabilité face aux décisions qui engagent les autres.",
+  selerias:"Tradition de l’Aimante : lien, attraction et cohésion. Elle explore ce qui rapproche réellement les personnes plutôt qu’une simple capacité de charme social.",
+  theana:"Tradition de la Guérisseuse : restaurer corps, fonction et continuité. Elle traite le soin comme un savoir exigeant plutôt que comme une bénédiction abstraite.",
+  dratyn:"Tradition de la Maîtresse de la Foudre : canaliser l’héritage électromagnétique aseryn avec une discipline spécifique. Elle ne transforme pas tous les Aseryns en utilisateurs automatiques de la Foudre."
+};
+
+const t29ExilePeopleLore={
+  elye:"Les Elyë sont les descendants des peuples elfiques d’Aèr installés sur Terre, porteurs de traditions anciennes mais pleinement capables d’être nés et socialisés dans le monde moderne. Leur physiologie et leur sensibilité au Flux ne dictent ni faction ni métier.",
+  whurten:"Les Whurten sont les héritiers nains d’Aèr : corps denses, endurance et cultures techniques anciennes ont façonné leurs communautés. Runes, clans et réseaux contemporains sont des traditions distinctes que tous les Whurten ne partagent pas automatiquement.",
+  ashyll:"Les Ashyll sont les héritiers gobelins d’Aèr, réputés pour l’adaptation, l’inventivité et la survie dans les interstices des grandes structures. Leur culture réelle dépasse largement la caricature du bricolage et se décline en réseaux très différents.",
+  thulkar:"Les Thulkar sont les héritiers orques d’Aèr, physiquement puissants et porteurs de traditions communautaires variées. Horde, syndicat ou autre appartenance est un choix social : aucune organisation ne définit biologiquement le peuple entier.",
+  azmenorien:"Les Azménoriens héritent d’une civilisation de technomagie avancée et d’une relation ancienne au Néant. Leur peuple ne se confond ni avec les Servants de Pluton ni avec une profession de technomage : ces voies sont des formations ou des réseaux supplémentaires."
+};
+const t29ExtralSpeciesLore={
+  talass:"Les Talass appartiennent à une civilisation extrale dont la physiologie, la culture et les technologies se sont développées hors de l’histoire terrestre. Leur présence sur Terre est récente : leur espèce ne décide pas automatiquement du réseau politique ou professionnel qu’ils rejoignent.",
+  mosen:"Les Mo’sen sont une autre population galactique à part entière, avec ses propres adaptations biologiques et références culturelles. Les traiter comme une simple variante esthétique d’Humain effacerait précisément ce que leur origine extrale change dans leur rapport au monde.",
+  baseanh:"Les Baséanh appartiennent aux civilisations galactiques implantées récemment sur Terre. Leur culture dispose de ses propres institutions et réseaux, tandis que leurs choix personnels peuvent les conduire loin des organisations traditionnellement associées à leur peuple.",
+  rocreen:"Les Rocréens sont un peuple extral dont la physiologie et les traditions se sont développées dans un environnement galactique différent de la Terre. Réseau, doctrine et profession restent des couches acquises, jamais des conséquences automatiques de l’espèce.",
+  thalsios:"Les Thalsios appartiennent aux communautés galactiques arrivées dans l’espace terrestre avec leurs technologies et leur histoire propres. Leur identité de peuple ne doit pas être confondue avec les organisations par lesquelles certains d’entre eux transitent ou travaillent.",
+  homo_superior:"Les Homo Superior sont des Humains galactiques extrêmement rares issus de programmes de l’AIDH, pas une espèce extraterrestre. Leur puissance et leur formation peuvent être exceptionnelles, mais l’AIDH, ses doctrines et ses services restent des affiliations distinctes.",
+  adrak:"Les Ad’rak sont une population galactique rare et physiquement formidable : environ 2,60 m pour un mâle adulte et 2,20 m pour une femelle, avec une puissance brute capable de rivaliser avec certaines grandes Natures de Vérité. Ils ne sont pas de simples Humains surdimensionnés ; leurs Arts de Nel et réseaux éventuels restent des apprentissages séparés."
+};
+
+function t29SetChoiceLore(natureId,key,map){
+  const n=t16Nature(natureId),ch=n?.choices?.find(c=>c.key===key);if(!ch)return;
+  ch.options=(ch.options||[]).map(o=>map[o.id]?{...o,description:map[o.id]}:o);
+}
+function t29ApplyRichLore(){
+  for(const [id,description] of Object.entries(t29NatureLore)){const n=t16Nature(id);if(n)n.description=description}
+  t29SetChoiceLore('vampire','court',t29CourtLore);t29SetChoiceLore('vampire','blood',t29VampBloodLore);
+  t29SetChoiceLore('garou','pelage',t29PelageLore);t29SetChoiceLore('garou','blood',t29LivingBloodLore);
+  t29SetChoiceLore('khinae','lineage',t29LineageLore);t29SetChoiceLore('khinae','blood',t29LivingBloodLore);
+  t29SetChoiceLore('mage','mageiusType',t29MageiusLore);
+  t29SetChoiceLore('daemon','function',t29DaemonFunctionLore);t29SetChoiceLore('daemon','divinity',t29DivinityLore);
+  t29SetChoiceLore('angelus','angelNature',t29AngelNatureLore);t29SetChoiceLore('angelus','sephirah',t29SephirahLore);
+  t29SetChoiceLore('aseryn','origin',t29AserynOriginLore);t29SetChoiceLore('aseryn','tradition',t29AserynTradLore);
+  t29SetChoiceLore('exile','people',t29ExilePeopleLore);t29SetChoiceLore('extral','species',t29ExtralSpeciesLore);
+}
+function t29EnforceHunterEligibility(){
+  const human=t28HunterChoice('humain');if(human)human.options=(human.options||[]).filter(o=>o.id!=='lavandiere');
+  if(state.truth.nature==='humain'&&state.truth.choices?.hunterTradition==='lavandiere')state.truth.choices.hunterTradition='aucune';
+}
+
+const t29PatchHunterBase=t28PatchHunterChoices;
+t28PatchHunterChoices=function(){t29PatchHunterBase();t29EnforceHunterEligibility();t29ApplyRichLore()};
+const t29RefreshBase=t16RefreshDependentChoices;
+t16RefreshDependentChoices=function(){t29RefreshBase();t29EnforceHunterEligibility();t29ApplyRichLore()};
+
+t29EnforceHunterEligibility();t29ApplyRichLore();sanitizeTruthTalents();render();
