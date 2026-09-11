@@ -1,0 +1,21 @@
+// Early Truth loader shim: serve the complete V5 Daemon/Angelus catalogs from compressed full imports.
+const truthFullNativeFetch=globalThis.fetch.bind(globalThis);
+globalThis.fetch=async function(input,init){
+  const url=typeof input==='string'?input:input?.url;
+  const m=typeof url==='string'?url.match(/truth\/talents\/(daemon|angelus)\.json(?:\?.*)?$/):null;
+  if(!m)return truthFullNativeFetch(input,init);
+  const id=m[1];
+  try{
+    const fullUrl=url.replace(`truth/talents/${id}.json`,`truth/full/${id}.json.gz.b64`);
+    const r=await truthFullNativeFetch(fullUrl,{...init,cache:'no-store'});if(!r.ok)throw new Error(`${id} full: ${r.status}`);
+    const b64=(await r.text()).replace(/\s+/g,'');
+    const bytes=Uint8Array.from(atob(b64),c=>c.charCodeAt(0));
+    if(typeof DecompressionStream==='undefined')throw new Error('DecompressionStream indisponible');
+    const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
+    const raw=JSON.parse(await new Response(stream).text());
+    const rows=(Array.isArray(raw)?raw:(raw?.entries||[])).filter(x=>x&&x.name&&Number.isFinite(Number(x.cost))&&Number(x.cost)>0);
+    const seen=new Set(),clean=[];for(const x of rows){const key=x.id||`${x.group||''}:${x.name}`;if(seen.has(key))continue;seen.add(key);clean.push(x)}
+    globalThis.TUCTruthFullCounts=globalThis.TUCTruthFullCounts||{};globalThis.TUCTruthFullCounts[id]=clean.length;
+    return new Response(JSON.stringify(clean),{status:200,headers:{'Content-Type':'application/json','X-TUC-Truth-Source':'full-v5'}});
+  }catch(err){console.warn(`Catalogue complet ${id} indisponible, repli monolithique`,err);return truthFullNativeFetch(input,init)}
+};
