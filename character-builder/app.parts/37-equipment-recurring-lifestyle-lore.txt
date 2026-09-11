@@ -53,10 +53,11 @@ function r37SourceAliasLore(item){
   const effect=r37DeepText(item,['Effet actuel','Effet abrégé','Effet abrege','Profil / effet']);if(effect)return `${item.name} : ${effect}`;
   return '';
 }
+const r37LoreBase=r34ItemLore;
 function r37ItemLore(item){
   if(!item)return '';
   const extra=r37SpecificLore(item);if(extra)return extra;
-  const current=typeof r35SourceLore==='function'?r35SourceLore(item):r34ItemLore(item);
+  const current=r37LoreBase(item);
   if(current&&!r37GenericLore(current))return current;
   const source=r37SourceAliasLore(item);if(source)return source;
   return '';
