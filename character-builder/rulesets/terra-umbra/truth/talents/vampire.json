@@ -1,0 +1,11 @@
+[
+  {"id":"faveur_de_la_nuit","name":"Faveur de la nuit","cost":1,"access":"R","effect":"+3 Furtivité dans les ombres ou l’obscurité."},
+  {"id":"sens_du_chasseur","name":"Sens du chasseur","cost":1,"access":"R","effect":"+3 Perception pour repérer, poursuivre ou retrouver une créature vivante ou blessée."},
+  {"id":"regeneration_de_sang","name":"Régénération de sang","cost":1,"access":"R","effect":"Lors d’une Prédation sanguine, récupération de 2 + DR PV au lieu de 1 + DR, limitée par la vitalité réellement prélevée."},
+  {"id":"insensibilite_amelioree","name":"Insensibilité améliorée","cost":1,"access":"R","effect":"Le +3 de Physiologie maudite s’applique aussi aux poisons et drogues."},
+  {"id":"charme_inhumain","name":"Charme inhumain","cost":1,"access":"SR","effect":"Après une Fascination réussie : +3 aux interactions sociales avec cette cible jusqu’à la fin de la scène, tant que l’emprise n’est pas brisée."},
+  {"id":"domination","name":"Domination","cost":2,"access":"R · 1 PA","prerequisite":"charme_inhumain","effect":"Charisme + Autorité contre Volonté + Force Mentale. Imposer un ordre bref et immédiat."},
+  {"id":"somnambulisme","name":"Somnambulisme","cost":2,"access":"SR · 2 PA","prerequisite":"charme_inhumain","effect":"Sur une cible endormie ou inconsciente, implanter une suggestion simple ou provoquer un comportement somnambulique."},
+  {"id":"stase_profonde","name":"Stase profonde","cost":1,"access":"R","effect":"Récupération en Stase : 2 PV/heure. Les blessures ordinaires ne peuvent pas spontanément dégrader davantage l’état du Vampire."},
+  {"id":"dernier_sommeil","name":"Dernier sommeil","cost":3,"access":"R · Réaction · 1/scénario","prerequisite":"stase_profonde","effect":"Lorsqu’une blessure devrait faire franchir le seuil de Mort, le Vampire sombre immédiatement en Stase et reste juste au-dessus de ce seuil."}
+]
