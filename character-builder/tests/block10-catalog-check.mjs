@@ -65,7 +65,7 @@ function extractArray(source,name){
 }
 function mapped(name,pairs){
   const n=loose(name);let best=0;
-  for(const [raw] of pairs){const k=loose(raw);if(k.length>=5&&(n===k||n.includes(k)||k.includes(n)))best=Math.max(best,k.length)}
+  for(const [raw] of pairs){const k=loose(raw);if(n===k)return true;if(k.length>=5&&(n.includes(k)||k.includes(n)))best=Math.max(best,k.length)}
   return best>0;
 }
 function loadSafeCatalog(name){
