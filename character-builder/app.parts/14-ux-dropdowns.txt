@@ -1,0 +1,94 @@
+// Compact dropdown UX for Reality Talents / Disadvantages / Edge.
+// Replaces the previous card/accordion presentation while preserving hover help.
+
+function u14Info(text){return text?uxInfo(text):document.createTextNode('')}
+function u14ChoiceDetail(item,prefix=''){
+  if(!item)return el('div',{class:'u14-choice-detail muted'},'Aucun choix.');
+  const d=el('div',{class:'u14-choice-detail'},`<strong>${uxEsc(item.name)}</strong>${prefix?`<span>${uxEsc(prefix)}</span>`:''}`);
+  if(item.effect)d.appendChild(el('p',{},uxEsc(item.effect)));
+  return d;
+}
+function u14Select(label,groups,value,onChange,placeholder='— Choisir —'){
+  const f=el('div',{class:'field u14-select-field'},`<label>${uxEsc(label)}</label>`),s=el('select');
+  s.appendChild(el('option',{value:''},uxEsc(placeholder)));
+  groups.filter(g=>g.items?.length).forEach(g=>{
+    const parent=g.label?el('optgroup',{label:g.label.toUpperCase()}):s;
+    g.items.forEach(item=>{const o=el('option',{value:item.id,title:item.effect||item.description||''},uxEsc(item.name));if(item.id===value)o.selected=true;parent.appendChild(o)});
+    if(parent!==s)s.appendChild(parent);
+  });
+  s.onchange=e=>onChange(e.target.value);f.appendChild(s);
+  const selected=groups.flatMap(g=>g.items||[]).find(x=>x.id===value);if(selected){const line=el('div',{class:'u14-selected-line'});line.appendChild(el('span',{},`Sélection : <strong>${uxEsc(selected.name)}</strong>`));line.appendChild(u14Info(selected.effect||selected.description||''));f.appendChild(line)}
+  return f;
+}
+function u14TalentPools(){
+  const exp=ruleset.talents.expertise.filter(t=>style()?.expertiseFamilies?.includes(t.attribute));
+  return {
+    origin:state.creation.origin?(ruleset.talents.origin[state.creation.origin]||[]):[],
+    sphere:state.creation.sphere?(ruleset.talents.sphere[state.creation.sphere]||[]):[],
+    expertise:exp,
+    common:ruleset.talents.common
+  };
+}
+stepTalents=function(){
+  const c=wrap('Talents de Réalité','Un Talent gratuit par provenance. Les choix sont compacts ; survolez ⓘ pour le détail.');
+  if(!state.creation.origin||!state.creation.sphere||!style()){c.appendChild(el('div',{class:'empty'},'Choisissez Origine, Sphère et Style avant les Talents.'));return}
+  const p=u14TalentPools();
+  c.appendChild(u14Select('Talent d’Origine',[{label:'Origine',items:p.origin}],state.talents.origin,v=>{state.talents.origin=v;render()}));
+  c.appendChild(u14Select('Talent de Sphère',[{label:'Sphère',items:p.sphere}],state.talents.sphere,v=>{state.talents.sphere=v;render()}));
+  const expGroups=style().expertiseFamilies.map(a=>({label:attrName(a),items:p.expertise.filter(t=>t.attribute===a)}));
+  c.appendChild(u14Select('Talent d’Expertise',expGroups,state.talents.expertise,v=>{state.talents.expertise=v;render()},'— Choisir une Expertise —'));
+  c.appendChild(u14Select('Talent Commun',[{label:'Communs',items:p.common}],state.talents.common,v=>{state.talents.common=v;render()}));
+  if(state.edge.talentPacks)c.appendChild(el('div',{class:'rulebox'},`<strong>Talents Edge :</strong> ${state.talents.edge.map(id=>talentById(id)?.name||'à choisir').join(' · ')} — configuration directement à l’étape Edge.`));
+  if(hasTalent('neurodriver')&&skillRaw('neurodive')<1)c.appendChild(el('div',{class:'rulebox bad'},'Neurodriver exige Neurodive 1+.'));
+};
+
+function u14EdgeGroups(){
+  const excluded=new Set([state.talents.origin,state.talents.sphere,state.talents.expertise,state.talents.common].filter(Boolean));
+  const ok=t=>!excluded.has(t.id)&&(t.id!=='neurodriver'||!hasDis('unsinkable'));
+  const groups=[{label:'Communs',items:ruleset.talents.common.filter(ok)}];
+  ruleset.attributes.forEach(a=>groups.push({label:`Expertise — ${a.name}`,items:ruleset.talents.expertise.filter(t=>t.attribute===a.id&&ok(t))}));
+  if(state.creation.origin)groups.push({label:`Origine — ${origin()?.name||''}`,items:(ruleset.talents.origin[state.creation.origin]||[]).filter(ok)});
+  if(state.creation.sphere)groups.push({label:`Sphère — ${sphere()?.name||''}`,items:(ruleset.talents.sphere[state.creation.sphere]||[]).filter(ok)});
+  return groups;
+}
+renderEdgeTalentChoices=function(c){
+  trimEdgeTalentSlots();if(!state.edge.talentPacks)return;
+  c.appendChild(el('h3',{class:'subhead'},'Talents achetés avec Edge'));
+  for(let i=0;i<state.edge.talentPacks;i++){
+    const others=new Set(state.talents.edge.filter((_,j)=>j!==i).filter(Boolean));
+    const groups=u14EdgeGroups().map(g=>({...g,items:g.items.filter(t=>!others.has(t.id))}));
+    c.appendChild(u14Select(`Talent Edge ${i+1}`,groups,state.talents.edge[i]||'',v=>{state.talents.edge[i]=v;render()},'— Choisir le Talent —'));
+  }
+};
+
+function u14DisCategoryOptions(){
+  const out=[{id:'common',name:'Communs'}];
+  if(state.creation.sphere)out.push({id:'sphere',name:`Sphère — ${sphere()?.name||''}`});
+  ruleset.attributes.forEach(a=>out.push({id:`attr:${a.id}`,name:`Faiblesse de ${a.name}`}));
+  return out;
+}
+function u14DisItems(category){
+  if(category==='common')return ruleset.disadvantages.common;
+  if(category==='sphere')return state.creation.sphere?(ruleset.disadvantages.sphere[state.creation.sphere]||[]):[];
+  if(category?.startsWith('attr:')){const a=category.slice(5);return ruleset.disadvantages.attribute.filter(d=>d.attribute===a)}
+  return [];
+}
+function u14DisOrigin(d){
+  if(d.category==='attribute')return `Faiblesse de ${attrName(d.attribute)}`;
+  if((ruleset.disadvantages.sphere[state.creation.sphere]||[]).some(x=>x.id===d.id))return `Sphère — ${sphere()?.name||''}`;
+  return 'Commun';
+}
+stepDisadvantages=function(){
+  state.reality=state.reality||{};const cats=u14DisCategoryOptions();
+  if(!cats.some(x=>x.id===state.reality.disadvantageCategory))state.reality.disadvantageCategory='common';
+  const c=wrap('Désavantages','Facultatifs, 0 à 3. Choisissez d’abord une famille, puis le Désavantage.',`<div class="kpi ${state.disadvantages.length<=3?'good':'bad'}">${state.disadvantages.length}/3 · Edge ${edgeTotal()}</div>`);
+  const chooser=el('div',{class:'grid2 u14-dis-chooser'}),cat=el('div',{class:'field'},'<label>Famille de Désavantage</label>'),catSel=el('select');
+  catSel.innerHTML=cats.map(x=>`<option value="${uxEsc(x.id)}" ${x.id===state.reality.disadvantageCategory?'selected':''}>${uxEsc(x.name)}</option>`).join('');catSel.onchange=e=>{state.reality.disadvantageCategory=e.target.value;render()};cat.appendChild(catSel);
+  const items=u14DisItems(state.reality.disadvantageCategory).filter(d=>!state.disadvantages.includes(d.id)),pick=el('div',{class:'field'},'<label>Désavantage</label>'),pickSel=el('select');pickSel.innerHTML='<option value="">— Choisir —</option>'+items.map(d=>`<option value="${uxEsc(d.id)}" title="${uxEsc(d.effect||'')}">${uxEsc(d.name)}</option>`).join('');pick.appendChild(pickSel);chooser.append(cat,pick);c.appendChild(chooser);
+  const add=el('button',{class:'primary mini',disabled:state.disadvantages.length>=3},'Ajouter le Désavantage');add.onclick=()=>{if(!pickSel.value||state.disadvantages.length>=3)return;state.disadvantages.push(pickSel.value);render()};c.appendChild(add);
+  const chosen=el('div',{class:'u14-picked-list'});if(!state.disadvantages.length)chosen.appendChild(el('div',{class:'empty'},'Aucun Désavantage sélectionné.'));
+  state.disadvantages.forEach(id=>{const d=disById(id);if(!d)return;const row=el('div',{class:'u14-picked-row'},`<div><strong>${uxEsc(d.name)}</strong><span>${uxEsc(u14DisOrigin(d))}</span></div>`);row.firstChild.appendChild(u14Info(d.effect));const rm=el('button',{class:'danger-btn mini'},'Retirer');rm.onclick=()=>{state.disadvantages=state.disadvantages.filter(x=>x!==id);render()};row.appendChild(rm);chosen.appendChild(row)});c.appendChild(chosen);
+};
+
+const u14Css=el('style',{},`.u14-select-field{max-width:760px}.u14-selected-line{display:flex;gap:8px;align-items:center;margin-top:6px;font-size:12px;color:var(--muted)}.u14-picked-list{display:grid;gap:8px;margin-top:14px}.u14-picked-row{display:flex;justify-content:space-between;align-items:center;gap:12px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:rgba(255,255,255,.02)}.u14-picked-row>div{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.u14-picked-row span{font-size:12px;color:var(--muted)}.u14-dis-chooser{margin-bottom:8px}`);document.head.appendChild(u14Css);
+render();

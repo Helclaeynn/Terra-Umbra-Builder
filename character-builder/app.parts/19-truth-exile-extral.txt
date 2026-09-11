@@ -1,0 +1,134 @@
+// Exiles + Extrals — clean V5 catalogs, structural choices, free traits and access filtering.
+async function t19LoadV5Full(name,expected){
+  const r=await fetch(`${ROOT}/truth/full/${name}.v5.json.gz.b64`,{cache:'no-store'});if(!r.ok)throw new Error(`${name} V5: ${r.status}`);
+  const raw=await truthFullInflateBase64(await r.text());
+  if(!Array.isArray(raw))throw new Error(`${name} V5: catalogue invalide`);
+  const clean=raw.filter(x=>x&&x.id&&x.name&&Number.isFinite(Number(x.cost))&&Number(x.cost)>0&&Number(x.cost)<=3);
+  if(clean.length!==expected)throw new Error(`${name} V5: ${clean.length} Talents, ${expected} attendus`);
+  if(new Set(clean.map(x=>x.id)).size!==clean.length)throw new Error(`${name} V5: IDs dupliqués`);
+  return clean;
+}
+try{
+  const [t19ExileCatalog,t19ExtralCatalog]=await Promise.all([t19LoadV5Full('exile',184),t19LoadV5Full('extral',161)]);
+  truthCatalog.exile=t19ExileCatalog;truthCatalog.extral=t19ExtralCatalog;
+  globalThis.TUCTruthFullCounts=globalThis.TUCTruthFullCounts||{};globalThis.TUCTruthFullCounts.exile=184;globalThis.TUCTruthFullCounts.extral=161;
+}catch(err){console.error('Chargement V5 Exilés/Extrals',err);globalThis.TUCTruthExileExtralError=String(err?.message||err)}
+
+const t19ExilePeople=[
+ t16Opt('elye','Elyë — Elfes','SR +1 Agilité ; R +1 Agilité, +1 Esprit, +1 Charisme. Longévité, ambidextrie naturelle et affinité magique ; peuple ≠ tradition.'),
+ t16Opt('whurten','Whurten — Nains','SR +1 Vigueur ; R +1 Vigueur, +2 Volonté. Robustesse, artisanat et sens magnétique ; peuple ≠ clan ou faction.'),
+ t16Opt('ashyll','Ashyll — Gobelins','SR +1 Agilité ; R +2 Agilité, +1 Esprit. Petite morphologie, ouïe remarquable et culture d’improvisation.'),
+ t16Opt('thulkar','Thulkar — Orques','Puissance corporelle et présence marquées en Vérité. Les Hordes portent une grande part du développement culturel ; elles ne définissent pas biologiquement le peuple.'),
+ t16Opt('azmenorien','Azménorien','SR +1 Esprit ; R +1 Vigueur, +1 Esprit, +1 Charisme. Ailes sombres et accès naturel aux traditions magiques compatibles.')
+];
+const t19ExileNetworks=[
+ t16Opt('aucune','Aucune tradition sélectionnée','Conserve les PTV disponibles ; les Talents raciaux du peuple restent accessibles.'),
+ t16Opt('protocoles_continuite','Protocoles de Continuité — Silcenters','Formation commune de continuité et de gestion V/SR/R ; n’est pas une espèce ni une faction biologique.'),
+ t16Opt('hds','HDS — Hologram Distorsion Skill','Cursus spécialisé lié à la Distorsion de l’Hologramme.'),
+ t16Opt('faucon_malachite','Croix d’Emphyrra — Faucon de Malachite','Branche de terrain : autonomie, rupture de l’Artifice et maîtrise du terrain.'),
+ t16Opt('serpentaire_citrine','Croix d’Emphyrra — Serpentaire de Citrine','Branche d’ascendant, d’exigence et de Haute Magie de Citrine.'),
+ t16Opt('aigle_larvikite','Croix d’Emphyrra — Aigle de Larvikite','Branche d’intransigeance et de rites des anciens dieux.'),
+ t16Opt('hibou_onyx','Croix d’Emphyrra — Hibou d’Onyx','Branche de science des Ombres et de symbiose d’Onyx.'),
+ t16Opt('runes_whurten','Runes whurtennes','Tradition whurtenne de runes. L’accès relève de la tradition, pas automatiquement de la biologie.'),
+ t16Opt('atelier_clans','Atelier des Clans','Tradition whurtenne d’atelier, d’ingénierie et de transmission.'),
+ t16Opt('iron_law','Iron Law','Tradition whurtenne structurée autour de la loi, de l’engagement et de la discipline.'),
+ t16Opt('green_union','Green Union','Organisation ashyll sans arbre PTV propre : statut, réseau et fiction, pas achat de capacités.'),
+ t16Opt('quatre_empereurs','Ligue des Quatre Empereurs','Réseau ashyll : doctrine du levier et empire invisible.'),
+ t16Opt('syndicat_jade','Syndicat de Jade','Réseau ashyll : contrebande, courtage occulte, garde et réseau de Jade.'),
+ t16Opt('horde_commune','Formation de Horde — commune','Formation thulkar commune aux Hordes.'),
+ t16Opt('horde_divine','Horde Divine','Doctrine d’Ashorn.'),t16Opt('horde_marais','Horde des Marais','Doctrine de la Réussite.'),
+ t16Opt('horde_fantome','Horde Fantôme','Doctrine de l’Intégration.'),t16Opt('horde_cendres','Horde des Cendres','Doctrine du Chantier.'),
+ t16Opt('horde_rose','Horde de la Rose','Doctrine de la Polyvalence.'),
+ t16Opt('servants_pluton','Servants de Pluton','Héritage azménorien : ingénierie xéno et Silence de Pluton.'),
+ t16Opt('technomagie_azmenor','Technomagie azménorienne moderne','Tradition avancée mêlant lois naturelles et magiques ; les PTV donnent des techniques, jamais l’équipement lui-même.')
+];
+const t19ExtralProfiles=[
+ t16Opt('talass','Talass','SR +1 Esprit ; R +2 Esprit, +1 Agilité. Anatomie segmentaire, bonds, adhérence, soie conductrice et affinité Talwa’Etax.'),
+ t16Opt('mosen','Mo’sen','SR +1 Vigueur ; R +2 Vigueur, +1 Agilité. Cuirasse corporelle 1, griffes/dentition DGT 2, digestion absolue et thermotolérance.'),
+ t16Opt('baseanh','Baséanh','SR +1 Volonté ; R +1 Esprit, +1 Volonté, +1 Charisme. Tardollas, quatre bras, immunité adaptative et stabilité manuelle ; aucun PA ou attaque supplémentaire gratuit.'),
+ t16Opt('rocreen','Rocréen','SR +1 Charisme ; R +2 Charisme, +1 Esprit. Amphibie, Noyau rocréen, quadrimanie et résonance psychique.'),
+ t16Opt('thalsios','Thalsios','SR +1 Volonté ; R +2 Volonté, +1 Vigueur. Amphibie, charpente cartilagineuse et toucher thalsios.'),
+ t16Opt('homo_superior','Homo Superior — Humain AIDH','Ce n’est pas une espèce extrale : c’est un Humain AIDH durablement optimisé. SR +1 Vigueur ; R +1 Vigueur, +1 Agilité, +1 Volonté.'),
+ t16Opt('adrak','Ad’rak — origine restreinte','Véritable Extral. SR +1 Vigueur ; R +3 Vigueur. Environ 2,60 m homme / 2,20 m femme ; puissance brute du même ordre qu’un Vampire, petit Garou ou Homo Superior. Loyaliste de l’Armée noire : pas trajectoire PJ normale.')
+];
+const t19ExtralNetworks=[
+ {id:'aucune',name:'Aucun réseau / doctrine',description:'Le personnage conserve son arbre de profil uniquement.',allow:()=>true},
+ {id:'gaac',name:'GAAC',description:'Représentation et intégration légale. Aucun arbre PTV propre ; principale voie légale vers les Protocoles de Continuité.',allow:p=>p!=='homo_superior'},
+ {id:'continuite',name:'Protocoles de Continuité',description:'Formation commune V/SR/R ; reconnue dans les communautés Extrals et naturelle dans plusieurs parcours AIDH.',allow:()=>true},
+ {id:'ctu',name:'CTU — Californian Talasses Union',description:'Ingénierie de transition et diffusion technologique. Talass/Thalsios : accès naturel ; autres profils : accès organisé selon parcours.',allow:()=>true},
+ {id:'croix_verte',name:'Croix Verte / Ligue Baséanne',description:'Xénobiologie, acclimatation et survie interespèce. Biobars, laboratoires et stocks restent des ressources réelles, jamais des achats PTV.',allow:()=>true},
+ {id:'reptile',name:'REPTILE',description:'Doctrine d’infiltration institutionnelle. Mo’sen : accès naturel ; autres profils : recrutement réel ; Homo Superior : restreint.',allow:()=>true},
+ {id:'shaediri',name:'Mafia Shaediri',description:'Frontière noire, marché xéno et réseau Shaekori. Rocréen : accès naturel ; autres profils via intégration réelle.',allow:()=>true},
+ {id:'hydroguard',name:'Hydroguard / THDF',description:'Combat hydrostatique et sauvetage abyssal. Thalsios/Rocréen : accès naturel ; autres profils selon recrutement.',allow:()=>true},
+ {id:'smrc',name:'SMRC / AGI — Orgienétique',description:'Maîtrise des architectures biologiques. Les PTV donnent le savoir-faire, jamais la greffe ou l’augmentation elle-même.',allow:()=>true},
+ {id:'sra',name:'SRA — Shadow Research Agency',description:'Aucun arbre PTV propre : laboratoires, dossiers, missions et accès à l’information.',allow:()=>true},
+ {id:'emeraude',name:'Émeraude Sanglante',description:'Faction militaire Talass radicalisée. Accès R Talass/Thalsios, exceptionnel pour d’autres espèces ; Ad’rak exclu en création normale. Les Talents exigent une vraie armure.',allow:p=>!['adrak','homo_superior'].includes(p)},
+ {id:'nelakna',name:'Arts de Nel’Akna',description:'Tradition sacerdotale martiale Ad’rak distincte de l’Armée noire.',allow:p=>p==='adrak'},
+ {id:'aidh_intervention',name:'Doctrine d’Intervention AIDH',description:'Doctrine indépendante de la physiologie Homo Superior. Homo Superior : accès naturel ; auxiliaire Extral : admission restreinte puis formation.',allow:()=>true},
+ {id:'aidh_coherence',name:'Protocoles de Cohérence AIDH',description:'Formation sensible liée à l’Hologramme et aux systèmes invariants ; exige matériel AIDH/compatible, jamais fourni par les PTV.',allow:()=>true}
+];
+const t19ExileNeedles={
+ protocoles_continuite:'silcenters et hds › protocoles de continuite',hds:'silcenters et hds › hds',faucon_malachite:"croix d'emphyrra › faucon de malachite",serpentaire_citrine:"croix d'emphyrra › serpentaire de citrine",aigle_larvikite:"croix d'emphyrra › aigle de larvikite",hibou_onyx:"croix d'emphyrra › hibou d'onyx",runes_whurten:'heritages whurtens › runes whurtennes',atelier_clans:'heritages whurtens › atelier des clans',iron_law:'heritages whurtens › iron law',quatre_empereurs:'reseaux ashylls et syndicat de jade › ligue des quatre empereurs',syndicat_jade:'reseaux ashylls et syndicat de jade › syndicat de jade',horde_commune:'hordes thulkars › formation de horde',horde_divine:'hordes thulkars › horde divine',horde_marais:'hordes thulkars › horde des marais',horde_fantome:'hordes thulkars › horde fantome',horde_cendres:'hordes thulkars › horde des cendres',horde_rose:'hordes thulkars › horde de la rose',servants_pluton:'heritages azmenoriens › servants de pluton',technomagie_azmenor:'heritages azmenoriens › technomagie azmenorienne moderne'};
+const t19ExtralNeedles={continuite:'protocoles de continuite',ctu:'organisations extrals › ctu',croix_verte:'organisations extrals › croix verte',reptile:'organisations extrals › reptile',shaediri:'organisations extrals › mafia shaediri',hydroguard:'organisations extrals › hydroguard',smrc:'organisations extrals › smrc',emeraude:'organisations extrals › emeraude sanglante',aidh_intervention:"doctrines aidh › doctrine d'intervention",aidh_coherence:'doctrines aidh › protocoles de coherence'};
+function t19Starts(group,needle){return normText(group||'').startsWith(normText(needle||''))}
+function t19Contains(group,needle){return normText(group||'').includes(normText(needle||''))}
+function t19ConfigureNatures(){
+ const ex=t16Nature('exile');if(ex)ex.choices=[{key:'people',label:'Peuple exilé',optional:false,options:t19ExilePeople},{key:'network',label:'Tradition / réseau',optional:true,options:t19ExileNetworks}];
+ const xt=t16Nature('extral');if(xt)xt.choices=[{key:'species',label:'Profil / peuple',optional:false,options:t19ExtralProfiles},{key:'network',label:'Réseau / doctrine',optional:true,options:[]}];
+}
+t19ConfigureNatures();
+const t19RefreshBase=t16RefreshDependentChoices;
+t16RefreshDependentChoices=function(){
+ t19RefreshBase();t19ConfigureNatures();
+ const profile=state.truth.choices?.species||'';const xt=t16Nature('extral'),choice=xt?.choices?.find(c=>c.key==='network');
+ if(choice){choice.options=t19ExtralNetworks.filter(x=>x.allow(profile)).map(x=>t16Opt(x.id,x.name,x.description));const allowed=new Set(choice.options.map(x=>x.id));if(!allowed.has(state.truth.choices?.network))state.truth.choices.network='aucune'}
+};
+const t19VisibleBase=truthTalentVisible;
+truthTalentVisible=function(t){
+ const n=state.truth.nature,g=normText(t.group||'');
+ if(n==='exile'){
+  const p=state.truth.choices?.people||'',net=state.truth.choices?.network||'aucune';
+  const peopleMap={elye:'les cinq profils raciaux › elye',whurten:'les cinq profils raciaux › whurten',ashyll:'les cinq profils raciaux › ashyll',thulkar:'les cinq profils raciaux › thulkar',azmenorien:'les cinq profils raciaux › azmenorien'};
+  if(peopleMap[p]&&t19Starts(g,peopleMap[p]))return true;
+  if(net==='green_union'||net==='aucune')return false;
+  const needle=t19ExileNeedles[net];return !!needle&&t19Starts(g,needle);
+ }
+ if(n==='extral'){
+  const p=state.truth.choices?.species||'',net=state.truth.choices?.network||'aucune';
+  const profileMap={talass:'talass ›',mosen:'mo sen ›',baseanh:'baseanh ›',rocreen:'rocreen ›',thalsios:'thalsios ›',homo_superior:'homo superior humain aidh ›',adrak:'ad rak origine restreinte ›'};
+  if(profileMap[p]&&t19Starts(g,profileMap[p])){
+   if(p==='adrak'&&t19Contains(g,"arts de nel akna"))return net==='nelakna';
+   return true;
+  }
+  if(p==='homo_superior'&&(t19Starts(g,'protocoles de continuite')||t19Starts(g,"doctrines aidh › doctrine d'intervention")))return true;
+  if(net==='gaac')return t19Starts(g,'protocoles de continuite');
+  if(['aucune','sra','nelakna'].includes(net))return false;
+  const needle=t19ExtralNeedles[net];return !!needle&&t19Starts(g,needle);
+ }
+ return t19VisibleBase(t);
+};
+const t19FreeBase=daSelectedFreeTraits;
+daSelectedFreeTraits=function(){
+ const base=t19FreeBase();
+ if(state.truth.nature==='exile'){
+  const map={elye:[['Ambidextrie naturelle','SR/R : aucune pénalité due au seul usage de la main non dominante ; aucune attaque supplémentaire.'],['Affinité elfique à la Magie','Trait d’accès aux traditions magiques compatibles ; aucun sort gratuit.'],['Longévité','Trait narratif de longévité elyë.']],whurten:[['Sens magnétique','V/SR/R : connaît instinctivement le nord magnétique et ressent les anomalies importantes ; Esprit + Perception affine direction/intensité/source.']],ashyll:[['Ouïe ashyll','V/SR/R : circonstances favorables (+3) aux perceptions auditives quand un son réel est suffisamment présent.'],['Petite morphologie','Fiction : accès aux espaces et couverts compatibles ; aucun bonus chiffré automatique.']],thulkar:[],azmenorien:[['Ailes sombres','R : immenses sauts, franchissement vertical et amortissement des chutes ; pas de vol libre.'],['Don magique azménorien','Trait d’accès aux traditions magiques compatibles ; aucun sort gratuit.']]};
+  return [...base,...(map[state.truth.choices?.people]||[]).map(([name,effect],i)=>({id:`free-exile-${state.truth.choices?.people}-${i}`,name,effect}))];
+ }
+ if(state.truth.nature==='extral'){
+  const map={talass:[['Anatomie segmentaire','Physiologie segmentaire talass.'],['Bond talass','Morphologie adaptée aux bonds et changements d’appui.'],['Adhérence naturelle','Adhérence physiologique talass.'],['Soie conductrice','Production de soie conductrice.'],["Affinité Talwa’Etax",'Affinité psychique naturelle au Talwa’Etax.']],mosen:[["Cuirasse mo’senne",'Armure corporelle 1 ; se cumule avec une armure portée réellement compatible.'],['Griffes et dentition','Pugilat DGT 2.'],['Digestion absolue','Physiologie digestive mo’senne.'],['Thermotolérance','Tolérance thermique naturelle.']],baseanh:[['Tardollas','Capacité biologique de culture ; normalement 2 préparations actives à la fois.'],['Quatre bras','Deux paires de bras ; aucun PA, Attaque, Défense active ou Réaction supplémentaire par défaut.'],['Immunité adaptative','+3 aux résistances contre maladies, poisons, toxines et contamination biologique.'],['Stabilité manuelle','Stabilité naturelle de la quadrimanie baséanne.']],rocreen:[['Amphibie','Physiologie amphibie rocréenne.'],['Noyau rocréen','Noyau biologique central de la physiologie et de la régénération rocréennes.'],['Quadrimanie rocréenne','Morphologie quadrimanuelle rocréenne.'],['Résonance psychique','Résonance psychique naturelle rocréenne.']],thalsios:[['Amphibie thalsios','Physiologie amphibie thalsiosse.'],['Charpente cartilagineuse','+3 contre fracture, bris osseux ou trauma squelettique.'],['Toucher thalsios','Sensibilité tactile naturelle thalsiosse.']],homo_superior:[['Essaim nanitique AIDH','Population nanitique durable intégrée ; substrat des Talents Homo Superior, pas équipement interchangeable.'],['Homéostasie assistée','Connaît automatiquement son état physiologique général sans identifier automatiquement cause ou traitement.'],['Hémostase nanitique','Un Saignement ordinaire s’arrête automatiquement à la fin du round ; ne soigne pas et ne Stabilise pas.'],['Organisme optimisé','+3 aux tests exclusivement destinés à résister aux effets physiologiques d’un environnement naturel hostile ; pas aux impossibilités biologiques.'],['Métabolisme de campagne','Peut fonctionner quelques jours avec sommeil réduit, repas irréguliers et effort prolongé sans pénalité notable.']],adrak:[["Gabarit Ad’rak",'R : allonge et masse considérables ; contraintes réelles de véhicule, mobilier, passage et armure. Une arme humaine à deux mains peut souvent être maniée à une main si l’ergonomie le permet ; aucune attaque supplémentaire.'],["Force Ad’rak",'Peut tenter normalement des actions de force hors échelle humaine ; pas de jet quand l’issue n’est réellement pas incertaine.'],["Pugilat Ad’rak",'SR : DGT 2 ; R : DGT 3.'],['Compatibilité terrestre','Physiologie proche de l’Humain pour respiration, eau, grande partie de l’alimentation et environnements ordinaires.']]};
+  return [...base,...(map[state.truth.choices?.species]||[]).map(([name,effect],i)=>({id:`free-extral-${state.truth.choices?.species}-${i}`,name,effect}))];
+ }
+ return base;
+};
+const t19PrereqBase=truthPrereqSatisfied;
+truthPrereqSatisfied=function(t,available=truthAvailableTalents()){
+ if(!['exile','extral'].includes(state.truth.nature)||!t.prerequisiteName)return t19PrereqBase(t,available);
+ const raw=normText(t.prerequisiteName),matches=available.filter(x=>x.id!==t.id&&raw.includes(normText(x.name))).map(x=>x.id),owned=new Set(state.truth.truthTalents||[]);
+ if(!matches.length)return true;
+ if(raw.includes('deux talents parmi'))return matches.filter(id=>owned.has(id)).length>=2;
+ if(/\bou\b/.test(raw)&&!raw.includes(' et '))return matches.some(id=>owned.has(id));
+ return matches.every(id=>owned.has(id));
+};
+const t19MergeBase=mergeState;
+mergeState=function(obj){t19MergeBase(obj);t19RefreshDependentChoices();sanitizeTruthTalents()};
+t19RefreshDependentChoices();sanitizeTruthTalents();render();

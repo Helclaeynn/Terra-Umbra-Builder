@@ -1,0 +1,101 @@
+// Reality/Daemon polish: final Talent bonuses, Daemon branches, equipment details, mobility and Holonet wording.
+
+const p20SkillTalentMap={
+  athlete:'athletisme',poings_de_fer:'pugilat',stabilite_augmentique:'humanite',
+  tireur_de_precision:'tir',pilote_emerite:'pilotage',ombre_vivante:'furtivite',reflexes_defensifs:'esquive',mains_lestes:'larcin',
+  linguiste_emerite:'langages_argot',puits_de_savoir:'savoirs',doc_de_choc:'soin',mecano_de_pointe:'mecanique',detective:'investigation',
+  maitre_de_la_survie:'survie',mental_dacier:'force_mentale',neurodriver:'neurodive',
+  seducteur_seductrice:'seduction',diplomate:'diplomatie',maitre_du_troc:'commerce',artiste:'representation',autorite_naturelle:'autorite'
+};
+function p20RealityTalents(){return [state.talents.origin,state.talents.sphere,state.talents.expertise,state.talents.common,...(state.talents.edge||[])].map(talentById).filter(Boolean)}
+function p20SkillTalentBonus(skillId){return p20RealityTalents().reduce((n,t)=>n+(p20SkillTalentMap[t.id]===skillId?1:0),0)}
+function p20SkillFinal(skillId){return skillRaw(skillId)+p20SkillTalentBonus(skillId)}
+
+// Derived values use unconditional Talent bonuses, while raw creation caps remain unchanged.
+derived=function(){
+  const a=Object.fromEntries(uxAttrIds.map(id=>[id,finalAttr(id)])),s=Object.fromEntries(ruleset.skills.map(sk=>[sk.id,p20SkillFinal(sk.id)]));
+  const integrity=Math.max(1,s.force_mentale+s.humanite-(hasDis('integrite_defaillante')?2:0));
+  return {pvMax:2*a.vigueur+s.constitution,death:-(a.vigueur+s.constitution),initiative:a.agilite+s.athletisme-(hasDis('lent_a_reagir')?2:0),passiveDefense:a.agilite+s.esquive,occultDefense:a.volonte+s.force_mentale,movement:5+s.athletisme,integrity,augmentStressMax:a.vigueur+s.humanite,melee:a.vigueur+s.melee,pugilat:a.vigueur+s.pugilat,shooting:a.agilite+s.tir,neurodive:a.volonte+s.neurodive};
+};
+stepSkills=function(){
+  const st=style(),c=wrap('Compétences libres','Les 5 points fixes de Sphère et les 5 points de Style sont déjà posés. Répartir ici uniquement les 15 points libres.',`<div class="kpi ${totalFreePoints()===15?'good':'bad'}">Libres ${totalFreePoints()} / 15</div>`);
+  if(!st){c.appendChild(el('div',{class:'empty'},'Choisissez d’abord une Sphère et un Style.'));return}
+  c.appendChild(el('div',{class:'rulebox'},`<strong>Déjà acquis :</strong> Sphère 5/5 · Style ${totalStylePoints()}/5${state.edge.skillPacks?` · Edge ${totalEdgeSkillPoints()}/${edgeSkillBudget()} (géré à l’étape Edge)`:''}. Les bonus de Talents sont affichés séparément et ne consomment pas le plafond brut de création.`));
+  ruleset.attributes.forEach(a=>{c.appendChild(el('h3',{class:'subhead'},a.name));const grid=el('div',{class:'alloc-grid'});ruleset.skills.filter(s=>s.attribute===a.id).forEach(sk=>{const o=state.skills[sk.id],raw=skillRaw(sk.id),tb=p20SkillTalentBonus(sk.id),fin=raw+tb;const box=el('div',{class:'alloc'},`<div class="alloc-title"><strong>${sk.name}</strong><span>Brut ${raw}/5${tb?` · Final ${fin}`:''}</span></div><div class="skill-breakdown">Sphère +${sphereFixed(sk.id)} · Style +${o.style} · Libre +${o.free} · Edge +${o.edge}${tb?` · Talent +${tb}`:''}</div><div class="inline" style="margin-top:8px"><span class="tag">Libre</span><div class="stepper"><button data-dir="-1">−</button><strong>${o.free}</strong><button data-dir="1">+</button></div></div>`);box.querySelectorAll('button').forEach(b=>b.onclick=()=>{const dir=Number(b.dataset.dir),nv=o.free+dir;if(nv<0)return;if(totalFreePoints()+dir<0||totalFreePoints()+dir>15)return;if(skillRaw(sk.id)+dir>5)return;o.free=nv;render()});grid.appendChild(box)});c.appendChild(grid)});
+};
+const p20BuildExportBase=buildExport;
+buildExport=function(){const out=p20BuildExportBase();out.skills=Object.fromEntries(ruleset.skills.map(s=>[s.id,{raw:skillRaw(s.id),sphere:sphereFixed(s.id),style:state.skills[s.id].style,free:state.skills[s.id].free,edge:Number(state.skills[s.id].edge||0),talentBonus:p20SkillTalentBonus(s.id),final:p20SkillFinal(s.id)}]));out.derived=derived();return out};
+
+// Daemon: replace any incomplete Function/common entries with the clean V5 Function package.
+const p20DaemonClean=[
+{"id":"daemon_clean_talents_communs_de_nature_memoire_des_ages","name":"Mémoire des âges","cost":1,"access":"V/SR/R","prerequisiteName":"","group":"Talents communs de Nature","effect":"+3 à un test de Savoirs lorsqu’il s’agit de rappeler une information que le Daemon a personnellement vécue ou apprise dans une ancienne vie ou dans une Cour divine. Aucun jet si le souvenir est évident et incontestable."},
+{"id":"daemon_clean_talents_communs_de_nature_ancrage_de_l_elu","name":"Ancrage de l’Élu","cost":1,"access":"SR/R","prerequisiteName":"","group":"Talents communs de Nature","effect":"+3 aux résistances contre possession, bannissement, capture, altération ou déplacement forcé de l’âme."},
+{"id":"daemon_clean_talents_communs_de_nature_regard_du_heraut","name":"Regard du Héraut","cost":1,"access":"SR/R","prerequisiteName":"","group":"Talents communs de Nature","effect":"Après une réussite de Vision des âmes, obtient une information spirituelle supplémentaire pertinente par rapport à ce que le DR aurait normalement donné."},
+{"id":"daemon_clean_talents_communs_de_nature_resonance_profonde","name":"Résonance profonde","cost":1,"access":"SR/R","prerequisiteName":"","group":"Talents communs de Nature","effect":"Dans un Lieu de Résonance, Faveur divine peut être utilisée deux fois par scène, jamais deux fois sur le même test."},
+{"id":"daemon_clean_oracle_tentateur_lecture_mentale_lecture_superficielle","name":"Lecture superficielle","cost":1,"access":"SR","prerequisiteName":"","group":"Oracle / Tentateur › Lecture mentale","effect":"1 PA. Volonté + Maîtrise spirituelle contre Défense occulte. Saisir l’émotion dominante, l’intention immédiate ou le sujet auquel la cible pense activement. Aucun accès aux souvenirs profonds."},
+{"id":"daemon_clean_oracle_tentateur_lecture_mentale_lecture_profonde","name":"Lecture profonde","cost":2,"access":"SR/R","prerequisiteName":"Lecture superficielle","group":"Oracle / Tentateur › Lecture mentale","effect":"2 PA. Rechercher une information ou un souvenir précis dans l’esprit d’une cible. Le DR détermine la précision ; pas de téléchargement intégral des secrets."},
+{"id":"daemon_clean_oracle_tentateur_fantasmagorie_fantasmagorie","name":"Fantasmagorie","cost":1,"access":"SR/R","prerequisiteName":"","group":"Oracle / Tentateur › Fantasmagorie","effect":"1 PA. Imposer une perception illusoire simple et multisensorielle à une cible. Volonté + Maîtrise spirituelle contre Défense occulte. L’illusion est mentale et n’est normalement pas filmée."},
+{"id":"daemon_clean_oracle_tentateur_fantasmagorie_songe_obsedant","name":"Songe obsédant","cost":2,"access":"SR/R","prerequisiteName":"Fantasmagorie","group":"Oracle / Tentateur › Fantasmagorie","effect":"Une cible affectée par Fantasmagorie peut emporter un fragment de l’illusion dans son prochain vrai sommeil : idée, image, émotion ou message simple."},
+{"id":"daemon_clean_oracle_tentateur_influence_prophetie_charme_daemoniaque","name":"Charme daemoniaque","cost":1,"access":"SR/R","prerequisiteName":"","group":"Oracle / Tentateur › Influence & prophétie","effect":"1 PA. Observer un interlocuteur permet de comprendre quel registre affectif ou comportemental lui parlera le mieux. Pour la scène, +3 à une action sociale cohérente contre cette personne."},
+{"id":"daemon_clean_oracle_tentateur_influence_prophetie_appel_du_prophete","name":"Appel du Prophète","cost":2,"access":"SR/R","prerequisiteName":"Charme daemoniaque","group":"Oracle / Tentateur › Influence & prophétie","effect":"En concentrant Vision des âmes sur une personne, détecter une résonance exceptionnellement forte avec un principe divin ou une cicatrice d’ancien Attribut, sans donner automatiquement son nom précis."},
+{"id":"daemon_clean_chatiment_tourmenteur_affliction_affliction_persistante","name":"Affliction persistante","cost":1,"access":"R","prerequisiteName":"","group":"Châtiment / Tourmenteur › Affliction","effect":"Une Affliction réussie peut durer jusqu’à la fin de la scène. La cible peut tenter Volonté + Force Mentale, difficulté 15, à la fin de chacun de ses rounds ; une réussite y met fin."},
+{"id":"daemon_clean_chatiment_tourmenteur_affliction_maladie_sacree","name":"Maladie sacrée","cost":2,"access":"R","prerequisiteName":"Affliction persistante","group":"Châtiment / Tourmenteur › Affliction","effect":"2 PA, contact. Produire une véritable pathologie cohérente. Une application anatomique ou médicale très précise exige le savoir approprié."},
+{"id":"daemon_clean_chatiment_tourmenteur_terreur_terreur","name":"Terreur","cost":1,"access":"SR/R","prerequisiteName":"","group":"Châtiment / Tourmenteur › Terreur","effect":"1 PA. Volonté + Maîtrise spirituelle contre Défense occulte. Sur réussite, la cible est considérée Tendue par la peur jusqu’à la fin de son prochain round."},
+{"id":"daemon_clean_chatiment_tourmenteur_terreur_hantise_du_condamne","name":"Hantise du condamné","cost":2,"access":"SR/R","prerequisiteName":"Terreur","group":"Châtiment / Tourmenteur › Terreur","effect":"Une victime ayant succombé à Terreur peut être marquée jusqu’à la fin du scénario ; le Châtiment reconnaît son âme et ressent approximativement sa direction lorsqu’elle est relativement proche."},
+{"id":"daemon_clean_chatiment_tourmenteur_destruction_destruction_daemoniaque","name":"Destruction daemoniaque","cost":2,"access":"R","prerequisiteName":"","group":"Châtiment / Tourmenteur › Destruction","effect":"1 PA, contact. Neutraliser pour la scène un Talent actif de Vérité du Châtiment et un Talent angélique ou daemoniaque actif et identifiable de la cible. Ne supprime jamais une Nature entière ou une Empreinte."},
+{"id":"daemon_clean_chatiment_tourmenteur_destruction_briseur_de_heraut","name":"Briseur de Héraut","cost":3,"access":"R","prerequisiteName":"Destruction daemoniaque","group":"Châtiment / Tourmenteur › Destruction","effect":"1/scène. Utiliser Destruction daemoniaque à 10 m ; sur DR 2+, le Talent sacrifié du Châtiment revient au début de son prochain round, celui de la cible reste supprimé jusqu’à la fin de la scène."},
+{"id":"daemon_clean_chevalier_legionnaire_lame_infernale_arme_changeante","name":"Arme changeante","cost":1,"access":"R","prerequisiteName":"","group":"Chevalier / Légionnaire › Lame infernale","effect":"1/round gratuitement, changer la forme de la Lame infernale : épée, lance, fusil, arc… Le DGT ne change pas ; la Compétence suit la nouvelle forme."},
+{"id":"daemon_clean_chevalier_legionnaire_lame_infernale_arme_exaltee","name":"Arme exaltée","cost":2,"access":"R","prerequisiteName":"Arme changeante","group":"Chevalier / Légionnaire › Lame infernale","effect":"À la manifestation de la Lame, choisir pour la scène Perforante, Terrassante ou Entravante selon les effets définis."},
+{"id":"daemon_clean_chevalier_legionnaire_armure_infernale_armure_infernale","name":"Armure infernale","cost":1,"access":"R","prerequisiteName":"","group":"Chevalier / Légionnaire › Armure infernale","effect":"1 PA. Sacrifier 1 à 3 PV irréductibles : Armure corporelle 2/4/6. Les PV sacrifiés réduisent le maximum et ne peuvent être soignés tant que l’Armure existe."},
+{"id":"daemon_clean_chevalier_legionnaire_armure_infernale_bastion_daemoniaque","name":"Bastion daemoniaque","cost":2,"access":"R","prerequisiteName":"Armure infernale","group":"Chevalier / Légionnaire › Armure infernale","effect":"Tant que l’Armure infernale est active, un allié au contact ou immédiatement derrière reçoit +3 Défense physique contre les attaques provenant approximativement du côté protégé."},
+{"id":"daemon_clean_chevalier_legionnaire_garde_devotion_garde_du_heraut","name":"Garde du Héraut","cost":1,"access":"R","prerequisiteName":"","group":"Chevalier / Légionnaire › Garde & dévotion","effect":"Réaction 1 PA. Lorsqu’un allié à portée de Déplacement est ciblé par une attaque physique, se déplacer immédiatement jusqu’à lui et devenir la cible si le trajet est réellement possible."},
+{"id":"daemon_clean_chevalier_legionnaire_garde_devotion_devotion_infernale","name":"Dévotion infernale","cost":2,"access":"R","prerequisiteName":"Garde du Héraut","group":"Chevalier / Légionnaire › Garde & dévotion","effect":"1 PA, 1/scène. Pour le reste de la scène, ignorer les conséquences mécaniques de Tendu et Paniqué dues aux blessures ainsi que les malus provenant de la douleur."},
+{"id":"daemon_clean_chevalier_legionnaire_garde_devotion_dernier_rempart","name":"Dernier Rempart","cost":3,"access":"R","prerequisiteName":"Dévotion infernale","group":"Chevalier / Légionnaire › Garde & dévotion","effect":"1/scénario. Lorsqu’une attaque devrait amener le Chevalier à son seuil de Mort, il reste vivant et capable d’agir jusqu’à la fin de son prochain round ; s’il n’est pas sauvé, il meurt ensuite normalement."},
+{"id":"daemon_clean_fonctions_daemoniaques_formation_secondaire_formation_secondaire","name":"Formation secondaire","cost":3,"access":"Option avancée","prerequisiteName":"","group":"Fonctions daemoniaques › Formation secondaire","effect":"Après mentor, temps narratif et justification dans la Cour, apprendre une deuxième Fonction et obtenir son Empreinte gratuite ; ses Talents doivent ensuite être achetés normalement."}
+];
+const p20DaemonNames=new Set(p20DaemonClean.map(x=>normText(x.name)));
+truthCatalog.daemon=truthCatalog.daemon.filter(x=>!p20DaemonNames.has(normText(x.name))).concat(p20DaemonClean);
+
+// Equipment: canonical armor aliases, richer hover descriptions.
+const p20StatsBase=r15EquipmentStats;
+r15EquipmentStats=function(item){
+  const base=p20StatsBase(item),map=new Map(base.map(x=>[x[0],x[1]])),cat=normText(`${item?.category||''} ${item?.name||''}`);
+  const first=(names)=>r15DeepField(item,names);
+  if(/armure|protection|gilet|holo rmor|ghillie/.test(cat)){
+    const bal=first(['Armure','Bal.','Bal','Balistique']);if(bal!==null&&bal!==undefined&&String(bal).trim()!=='')map.set('Armure',String(bal).replace(/^Balistique\s*/i,'').trim());
+    const mel=first(['Mel.','Mel','Mêlée','Melee','Réduction Mêlée','Reduction Melee']);if(mel!==null&&mel!==undefined&&String(mel).trim()!=='')map.set('Réduction Mêlée',String(mel).replace(/^M[eê]l[eé]e\s*/i,'').trim());
+    const ant=first(['Ant.','Ant','Antichoc','Réduction Antichoc','Reduction Antichoc']);if(ant!==null&&ant!==undefined&&String(ant).trim()!=='')map.set('Réduction Antichoc',String(ant).replace(/^Antichoc\s*/i,'').trim());
+    const prot=first(['Protection','Profil']);if(prot){const v=String(prot).replace(/\bBalistique\s*(\d+)/ig,'Armure $1').replace(/\bBal\.\s*(\d+)/ig,'Armure $1').replace(/\bMel\.\s*(\d+)/ig,'Réduction [Mêlée] $1').replace(/\bAnt\.\s*(\d+)/ig,'Réduction [Antichoc] $1');map.set('Profil',v);map.delete('Protection')}
+  }
+  return [...map.entries()];
+};
+function p20ItemDescription(item){const vals=[];for(const names of [['Notes'],['Fonction','Fonction principale'],['Usage'],['Description'],['Effet','Effet actuel'],['Profil / effet']]){const v=r15DeepField(item,names);if(v&&String(v).trim()&&!vals.includes(String(v).trim()))vals.push(String(v).trim())}if(item?.effect&&String(item.effect).trim()&&!vals.includes(String(item.effect).trim()))vals.push(String(item.effect).trim());return vals.join(' · ')}
+const p20CatalogCardBase=realityCatalogCard;
+realityCatalogCard=function(item,kind){const card=p20CatalogCardBase(item,kind),desc=p20ItemDescription(item),title=card.querySelector('.catalog-head strong');if(title&&desc)title.after(uxInfo(desc));return card};
+const p20AugCardBase=eqxAugGroupCard;
+eqxAugGroupCard=function(group){const card=p20AugCardBase(group),chosen=eqxChosenVariant(group),desc=p20ItemDescription(chosen),title=card.querySelector('.catalog-head strong');if(title&&desc)title.after(uxInfo(desc));return card};
+
+// Fixed-charge mobility: recurring subscriptions/financing belong with Lifestyle pressure, not ordinary Account purchases.
+const p20Mobility=[
+ {id:'pass_metro',name:'Pass métro / tram',label:'60–100 $ / mois',min:60,max:100,def:80},
+ {id:'bull_basic',name:'Bull Basic',label:'150 $ / mois',min:150,max:150,def:150},
+ {id:'bull_standard',name:'Bull Standard',label:'300 $ / mois',min:300,max:300,def:300},
+ {id:'bull_premium',name:'Bull Premium',label:'750 $ / mois',min:750,max:750,def:750},
+ {id:'bull_executive',name:'Bull Executive',label:'1 500 $ / mois',min:1500,max:1500,def:1500},
+ {id:'leasing_vehicle',name:'Leasing / financement d’un véhicule personnel',label:'Montant mensuel réel',min:0,max:null,def:0}
+];
+const p20FixedPanelBase=r15FixedChargePanel;
+r15FixedChargePanel=function(){
+  const box=p20FixedPanelBase(),sec=el('div',{class:'p20-mobility'});sec.appendChild(el('h4',{},'Mobilité récurrente'));
+  sec.appendChild(el('p',{class:'muted'},'Les transports usuels cohérents avec le Train de vie restent absorbés par celui-ci. Les abonnements, leasing et solutions haut de gamme réellement payés chaque mois deviennent des Charges fixes.'));
+  const grid=el('div',{class:'grid2'}),f=el('div',{class:'field'},'<label>Abonnement / financement</label>'),sel=el('select');sel.innerHTML='<option value="">— Choisir —</option>'+p20Mobility.map(x=>`<option value="${x.id}">${uxEsc(x.name)} · ${uxEsc(x.label)}</option>`).join('');f.appendChild(sel);const cf=el('div',{class:'field'},'<label>Montant réellement payé / mois</label>'),cost=el('input',{type:'number',min:0,step:10,placeholder:'0'});cf.appendChild(cost);sel.onchange=()=>{const x=p20Mobility.find(y=>y.id===sel.value);cost.value=x?.def||''};grid.append(f,cf);sec.appendChild(grid);const add=el('button',{class:'primary mini'},'Ajouter la mobilité aux Charges fixes');add.onclick=()=>{const x=p20Mobility.find(y=>y.id===sel.value);if(!x)return;const n=Math.max(0,Number(cost.value)||0);if(!n)return;state.reality.fixedChargeItems.push({uid:`fc-mob-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,6)}`,name:x.name,monthly:n,kind:'mobility'});render()};sec.appendChild(add);box.appendChild(sec);return box;
+};
+
+// Final labels: Occult passive defense is also passive Neuro/Holonet defense.
+const p20FinishBase=stepFinish;
+stepFinish=function(){p20FinishBase();const c=$('#stepContent');if(!c)return;for(const td of c.querySelectorAll('td'))if(td.textContent.trim()==='Défense occulte passive')td.textContent='Défense occulte passive / Défense Neuro (Holonet)';c.appendChild(el('div',{class:'rulebox'},'<strong>Holonet / Neurocombat :</strong> la Défense Neuro passive est la même valeur que la Défense occulte passive : Volonté + Force Mentale. Une Défense Neuro active coûte 1 PA, exige un programme défensif chargé et ajoute 1d10e.'))};
+const p20SummaryBase=renderSummary;
+renderSummary=function(){p20SummaryBase();const s=$('#summaryContent');for(const line of s.querySelectorAll('.summary-line')){const first=line.firstElementChild;if(first?.textContent.trim()==='Déf. occ.')first.textContent='Déf. occ./Neuro'}};
+
+const p20Css=el('style',{},`.u14-selected-line{font-size:14px!important;color:var(--text)!important;padding:7px 10px;border-left:3px solid var(--accent);background:rgba(255,255,255,.025);border-radius:6px}.u14-selected-line strong{font-size:16px}.catalog-head strong+.ux-info{margin-left:7px}.p20-mobility{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}.p20-mobility h4{margin:0 0 4px}`);document.head.appendChild(p20Css);
+sanitizeTruthTalents();render();

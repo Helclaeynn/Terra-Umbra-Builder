@@ -1,0 +1,86 @@
+// Truth V7 audit — Angelus Nature branches, lore-first Talent rows and collapsed groups.
+
+const t28AngelBranchByTalent={
+  'lecture superficielle':'Nature — Trône · Branche Lecture céleste','lecture profonde':'Nature — Trône · Branche Lecture céleste',
+  'marque du trone':'Nature — Trône · Branche Marque & condamnation','anatheme':'Nature — Trône · Branche Marque & condamnation','heresie condamnee':'Nature — Trône · Branche Marque & condamnation',
+  'justice veritable':'Nature — Trône · Branche Justice',
+  'apaisement profond':'Nature — Vertu · Branche Purification','purification de l ame':'Nature — Vertu · Branche Purification',
+  'fardeau partage':'Nature — Vertu · Branche Soutien & soin','soin de l ame':'Nature — Vertu · Branche Soutien & soin',
+  'chatiment capital':'Nature — Vertu · Branche Châtiment',
+  'arme de l executeur':'Nature — Domination · Branche Lame céleste',
+  'vision du mal':'Nature — Domination · Branche Traque','marque de l assassin':'Nature — Domination · Branche Traque','poursuite celeste':'Nature — Domination · Branche Traque',
+  'misericorde':'Nature — Domination · Branche Exécution','mise a mort':'Nature — Domination · Branche Exécution'
+};
+const t28bAvailableBase=truthAvailableTalents;
+truthAvailableTalents=function(){
+  const arr=t28bAvailableBase();if(state.truth.nature!=='angelus')return arr;
+  return arr.map(t=>{const g=t28AngelBranchByTalent[normText(t.name||'')];return g?{...t,group:g}:t});
+};
+
+function t28TruthLore(t){
+  const n=state.truth.nature,g=normText(t.group||''),name=t.name||'ce Talent';
+  if(t28IsDoctrine(t))return 'Ce savoir appartient au socle de terrain qui distingue un Chasseur formé d’un simple témoin armé.';
+  if(g.includes('lavandiere'))return 'La Lavandière apprend à poursuivre les prédateurs de son propre sang sans confondre automatiquement Nature vampirique et culpabilité.';
+  if(g.includes('arianwen'))return 'Arianwen traite la chasse comme une traque coordonnée : identifier, fermer les issues et tenir la proie jusqu’au geste décisif.';
+  if(g.includes('ephraim'))return 'Ephraïm apprend à séparer l’hôte de ce qui l’occupe, puis à contenir ou renvoyer la présence étrangère.';
+  if(g.includes('magdalena'))return 'Magdalena observe les marques, les pactes et les influences avant de juger ce qui doit être scellé, confisqué ou rompu.';
+  if(g.includes('khalsa'))return 'Le serment transforme ici la protection et le refus de l’emprise en discipline de Chasse concrète.';
+  if(g.includes('taoiste')||g.includes('yin')||g.includes('yang')||g.includes('shi'))return 'Le pratiquant agit sur les circulations qu’il a appris à reconnaître, en respectant l’équilibre — ou l’interstice du Néant chez les Shi.';
+  if(g.includes('kabbale'))return 'Le Kabbaliste applique un principe séphirotique comme une méthode de Vérité, sans porter lui-même la Transcendance d’un Angelus.';
+  if(g.includes('nizar')||g.includes('asasiy'))return 'Le Nizarite associe pacte réel, compagnon et doctrine de poursuite : aucun Talent ne remplace le Djinn qu’il faut réellement avoir rencontré.';
+  if(g.includes('onmyoji'))return 'L’Onmyoji prépare le support, le nom ou le pacte qui permettra ensuite d’agir proprement sur la présence spirituelle.';
+  if(g.includes('neopa'))return 'Cette pratique donne une portée réelle à des symboles, seuils, morts, présages ou serments déjà cohérents avec le Mystère suivi.';
+  if(g.includes('chasse fantastique'))return 'La Vénerie surnaturelle poursuit une proie comme une ancienne armée en mouvement : piste, monture, coordination et rupture de Magie.';
+  if(g.includes("lueurs d'azmenor")||g.includes('lueurs d azmenor'))return 'Le Lueur reçoit du Néant une information authentique mais incomplète ; survivre consiste aussi à ne pas confondre vision et interprétation.';
+  if(g.includes('xenoshield'))return 'Xenoshield transforme observation matérielle, confinement et contre-technologie en outils efficaces — sans que son préjugé rende ses conclusions morales fiables.';
+  if(n==='vampire')return `« ${name} » exprime un apprentissage de Cour, de Sang ou de prédation qui s’ajoute à la malédiction vampirique sans la résumer.`;
+  if(n==='garou')return `« ${name} » affine l’instinct, la Mue, le Pelage ou le Sang vif sans effacer ce qui fait du Garou un descendant lupin de Khinae.`;
+  if(n==='khinae')return `« ${name} » donne une forme entraînée à l’héritage de la Lignée ; son expression suit toujours la morphologie réelle du personnage.`;
+  if(n==='mage')return `« ${name} » représente une manière plus sûre, plus ample ou plus spécialisée de laisser le Mageius agir à travers le Mage.`;
+  if(n==='daemon')return `« ${name} » traduit la Fonction, la Divinité ou la Maisonnée du Daemon dans sa manière concrète d’agir sur le monde.`;
+  if(n==='angelus')return `« ${name} » est une expression apprise de la Transcendance : Nature, Sephirah et liens célestes restent des couches distinctes de l’Angelus.`;
+  if(n==='aseryn')return `« ${name} » prolonge un héritage, une route ou une Tradition aseryne que le personnage a réellement apprise à pratiquer.`;
+  if(n==='exile')return `« ${name} » vient d’un héritage de peuple ou d’une tradition réellement transmise dans les communautés exilées.`;
+  if(n==='extral')return `« ${name} » transforme une physiologie, une doctrine ou un réseau galactique réel en savoir exploitable par le personnage.`;
+  return `« ${name} » est une pratique de Vérité que le personnage a réellement apprise, pas un simple bonus abstrait.`;
+}
+
+const t28OpenTruthGroups=new Set();
+const t28StepTruthBase=stepTruth;
+stepTruth=function(){
+  t16RefreshDependentChoices();sanitizeTruthTalents();t28StepTruthBase();const c=$('#stepContent');if(!c)return;
+
+  if(state.truth.consciousness==='profane'){
+    const note=el('div',{class:'rulebox warn t28-awareness-note'},'<strong>Profane :</strong> le personnage conserve ses 5 PTV en réserve mais ne peut en dépenser aucun à la création. Passez à <strong>Initié</strong> lorsqu’il possède une culture de Vérité suffisamment structurée pour apprendre ces voies.');
+    const toolbar=c.querySelector('.truth-toolbar');if(toolbar)c.insertBefore(note,toolbar);else c.appendChild(note);
+  }
+
+  const tr=t28ActiveHunterTradition();
+  if(tr!=='aucune'&&t28HunterLore[tr]){
+    const lore=el('div',{class:'rulebox t28-hunter-lore'},`<strong>${uxEsc(t28HumanHunterNames[tr]||tr)}</strong><br><em>${uxEsc(t28HunterLore[tr])}</em>${state.truth.consciousness==='initie'?'<br><span class="muted">La Doctrine commune de Chasse est également accessible.</span>':''}`);
+    const choiceStack=c.querySelector('.t16-choice-stack');if(choiceStack)choiceStack.after(lore);else c.querySelector('.truth-nature-card')?.after(lore);
+  }
+
+  const available=truthAvailableTalents();
+  c.querySelectorAll('.truth-group').forEach(section=>{
+    const groupName=section.querySelector('summary span')?.textContent?.trim()||'Talents';
+    section.open=t28OpenTruthGroups.has(groupName);
+    section.addEventListener('toggle',()=>{if(section.open)t28OpenTruthGroups.add(groupName);else t28OpenTruthGroups.delete(groupName)});
+    section.querySelectorAll('.truth-talent').forEach(row=>{
+      const name=row.querySelector('.talent-top strong')?.textContent?.trim()||'';
+      const talent=available.find(t=>t.name===name&&String(t.group||'')===groupName)||available.find(t=>t.name===name);if(!talent)return;
+      const main=row.querySelector('.truth-talent-main');if(!main||main.querySelector('.t28-truth-lore'))return;
+      const lore=el('em',{class:'t28-truth-lore'},uxEsc(t28TruthLore(talent)));
+      const prereq=main.querySelector('.truth-prereq'),effect=main.querySelector('p');
+      if(prereq)main.insertBefore(lore,prereq);else if(effect)main.insertBefore(lore,effect);else main.appendChild(lore);
+    });
+  });
+
+  const search=c.querySelector('#truthSearch');if(search)search.addEventListener('input',()=>{
+    const q=normText(search.value);c.querySelectorAll('.truth-group').forEach(d=>{if(q&&d.style.display!=='none')d.open=true;else if(!q)d.open=t28OpenTruthGroups.has(d.querySelector('summary span')?.textContent?.trim()||'')});
+  });
+};
+
+const t28bCss=el('style',{},`.ux-info::after{white-space:pre-line}.t28-truth-lore{display:block;margin:7px 0 6px;color:var(--muted);font-style:italic;line-height:1.42}.t28-hunter-lore em{display:inline-block;margin-top:5px}.t28-awareness-note{margin:12px 0}`);document.head.appendChild(t28bCss);
+
+sanitizeTruthTalents();render();

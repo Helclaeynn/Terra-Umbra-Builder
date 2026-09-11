@@ -1,0 +1,63 @@
+// Finalisation — complete character recap for table use and QA.
+function t23AttrFinal(id){return typeof finalAttr==='function'?finalAttr(id):Number(state.attributes[id]||0)}
+function t23SkillFinal(id){return typeof p20SkillFinal==='function'?p20SkillFinal(id):skillRaw(id)}
+function t23RealityTalentRows(){
+  const slots=[['Origine',state.talents.origin],['Sphère',state.talents.sphere],['Expertise',state.talents.expertise],['Commun',state.talents.common]];
+  (state.talents.edge||[]).forEach((id,i)=>slots.push([`Edge ${i+1}`,id]));
+  return slots.map(([source,id])=>({source,t:talentById(id)})).filter(x=>x.t);
+}
+function t23TruthTraits(){
+  const out=[...(truthNature()?.freeTraits||[]).map(x=>({...x,source:'Nature'}))];
+  if(typeof daSelectedFreeTraits==='function')out.push(...daSelectedFreeTraits());
+  return out;
+}
+function t23List(items,empty='—'){return items.length?`<ul class="final-list">${items.map(x=>`<li>${x}</li>`).join('')}</ul>`:`<div class="muted">${empty}</div>`}
+function t23Card(title,body){return `<section class="final-card"><h3>${title}</h3>${body}</section>`}
+function t23ChoiceRows(){
+  const n=truthNature();return (n?.choices||[]).map(ch=>{const v=state.truth.choices?.[ch.key];if(!v)return null;const o=(ch.options||[]).find(x=>x.id===v);return `<div><strong>${uxEsc(ch.label||ch.key)} :</strong> ${uxEsc(o?.name||v)}</div>`}).filter(Boolean).join('');
+}
+function t23Purchases(kind){
+  const arr=kind==='augmentation'?state.reality?.augmentations||[]:state.reality?.equipment||[];
+  return arr.map(p=>{const it=purchaseItem(p);if(!it)return null;const cost=typeof lockPurchaseCost==='function'?lockPurchaseCost(p):(it.price||0);return `${uxEsc(it.name)}${it.generation?` · Gen ${it.generation}`:''} · ${fmt(cost)}`}).filter(Boolean);
+}
+const t23FinishBase=stepFinish;
+stepFinish=function(){
+  t23FinishBase();const c=$('#stepContent');if(!c)return;
+  const d=derived(),eco=economic(),load=typeof augmentationLoad==='function'?augmentationLoad():{charge:0,stress:0};
+  const attrs=ruleset.attributes.map(a=>`<div class="final-stat"><span>${uxEsc(a.name)}</span><strong>${t23AttrFinal(a.id)}</strong></div>`).join('');
+  const skills=ruleset.attributes.map(a=>{
+    const rows=ruleset.skills.filter(s=>s.attribute===a.id).map(s=>{const raw=skillRaw(s.id),fin=t23SkillFinal(s.id);return `<div class="final-skill"><span>${uxEsc(s.name)}</span><strong>${fin}</strong>${fin!==raw?`<small>brut ${raw}</small>`:''}</div>`}).join('');
+    return `<div class="final-skill-group"><h4>${uxEsc(a.name)}</h4>${rows}</div>`;
+  }).join('');
+  const rt=t23RealityTalentRows();
+  const truthOwned=(state.truth.truthTalents||[]).map(id=>truthTalentById(id)).filter(Boolean);
+  const dis=(state.disadvantages||[]).map(disById).filter(Boolean);
+  const truthTraits=t23TruthTraits();
+  const contacts=(state.social?.contacts||[]).filter(x=>String(x).trim()).map(x=>uxEsc(String(x)));
+  const langs=(state.social?.languages||[]).filter(x=>String(x).trim()).map(x=>uxEsc(String(x)));
+  const html=el('div',{class:'final-sheet'},
+    `<div class="final-sheet-head"><div><div class="eyebrow">FICHE RÉCAPITULATIVE</div><h2>${uxEsc(state.identity.name||'Personnage sans nom')}</h2><p>${uxEsc(state.identity.concept||'')} ${state.identity.alias?`· ${uxEsc(state.identity.alias)}`:''}</p></div><div class="kpi good">${validations().finish?'Création valide':'À vérifier'}</div></div>`+
+    `<div class="final-grid">`+
+    t23Card('Parcours',`<div><strong>Origine :</strong> ${uxEsc(origin()?.name||'—')}</div><div><strong>Sphère :</strong> ${uxEsc(sphere()?.name||'—')}</div><div><strong>Style :</strong> ${uxEsc(style()?.name||'—')}</div><div><strong>Train de vie :</strong> ${uxEsc(lifestyleFinal())}</div><div><strong>Renommée :</strong> ${renown()}</div>`)+
+    t23Card('Attributs',`<div class="final-stats">${attrs}</div>`)+
+    t23Card('Dérivés',`<div class="final-stats"><div class="final-stat"><span>PV</span><strong>${d.pvMax}</strong></div><div class="final-stat"><span>Seuil de mort</span><strong>${d.death}</strong></div><div class="final-stat"><span>Initiative</span><strong>${d.initiative}</strong></div><div class="final-stat"><span>Défense passive</span><strong>${d.passiveDefense}</strong></div><div class="final-stat"><span>Défense occulte / Neuro passive (Holonet)</span><strong>${d.occultDefense}</strong></div><div class="final-stat"><span>Déplacement</span><strong>${d.movement}</strong></div><div class="final-stat"><span>Intégrité</span><strong>${d.integrity}</strong></div><div class="final-stat"><span>Stress aug. max</span><strong>${d.augmentStressMax}</strong></div></div>`)+
+    t23Card('Edge',`<div><strong>Disponible :</strong> ${edgeTotal()} · <strong>Dépensé :</strong> ${edgeSpent()} · <strong>Reste :</strong> ${edgeRemaining()}</div><div class="skill-meta">Attribut +2 : ${state.edge.attributePack||0} · Compétences +4 : ${state.edge.skillPacks||0} · Talents : ${state.edge.talentPacks||0} · Compte +5 000 $ : ${state.edge.cashPacks||0} · Train de vie : ${state.edge.lifestylePack||0} · Augmentation/Gen2 : ${state.edge.augmentationPacks||0} · Renommée : ${state.edge.renownPack||0}</div>`)+
+    `</div>`+
+    `<h3 class="subhead">Compétences</h3><div class="final-skills">${skills}</div>`+
+    `<div class="final-grid">`+
+    t23Card('Talents de Réalité',t23List(rt.map(x=>`<strong>${uxEsc(x.source)}</strong> — ${uxEsc(x.t.name)}${x.t.effect?`<br><small>${uxEsc(x.t.effect)}</small>`:''}`),'Aucun Talent'))+
+    t23Card('Désavantages',t23List(dis.map(x=>`${uxEsc(x.name)}${x.effect?`<br><small>${uxEsc(x.effect)}</small>`:''}`),'Aucun Désavantage'))+
+    t23Card('Vérité',`<div><strong>Nature :</strong> ${uxEsc(truthNature()?.name||state.truth.nature)}</div><div><strong>Conscience :</strong> ${uxEsc(ruleset.truth.consciousness?.find(x=>x.id===state.truth.consciousness)?.name||state.truth.consciousness)}</div>${t23ChoiceRows()}<div><strong>PTV :</strong> ${truthPtvSpent()} / ${ruleset.truth.ptvInitial} · réserve ${truthPtvRemaining()}</div>`)+
+    t23Card('Traits gratuits de Vérité',t23List(truthTraits.map(x=>`${uxEsc(x.name)}${x.source?` <small>(${uxEsc(x.source)})</small>`:''}${x.effect?`<br><small>${uxEsc(x.effect)}</small>`:''}`),'Aucun trait gratuit'))+
+    t23Card('Talents de Vérité achetés',t23List(truthOwned.map(x=>`${uxEsc(x.name)} · ${x.cost} PTV${x.group?`<br><small>${uxEsc(x.group)}</small>`:''}${x.effect?`<br><small>${uxEsc(x.effect)}</small>`:''}`),'Aucun achat PTV'))+
+    t23Card('Économie',`<div><strong>Compte restant :</strong> ${fmt(eco.account)}</div><div><strong>Enveloppe augmentique :</strong> ${fmt(eco.envelope||0)} · dépensé ${fmt(eco.augSpend||0)}</div><div><strong>Capital véhicule :</strong> ${fmt(eco.vehicleCapital||0)} · dépensé ${fmt(eco.vehSpend||0)}</div><div><strong>Charge :</strong> ${load.charge}/${d.integrity} · <strong>Stress :</strong> ${load.stress}/${d.augmentStressMax}</div>`)+
+    t23Card('Augmentations',t23List(t23Purchases('augmentation'),'Aucune augmentation'))+
+    t23Card('Équipement & véhicules',t23List(t23Purchases('equipment'),'Aucun achat'))+
+    t23Card('Langues',t23List(langs,'Aucune langue renseignée'))+
+    t23Card('Contacts & réputation',`${t23List(contacts,'Aucun contact')}<div style="margin-top:8px"><strong>Milieu de renommée :</strong> ${uxEsc(state.social?.renownMilieu||'—')}</div><div><strong>Réputation :</strong> ${uxEsc(state.social?.reputation||'—')}</div>`)+
+    `</div>`+
+    `${state.identity.notes?`<div class="rulebox"><strong>Notes :</strong><br>${uxEsc(state.identity.notes).replace(/\n/g,'<br>')}</div>`:''}`
+  );
+  c.appendChild(html);
+};
+const t23Css=el('style',{},`.final-sheet{margin-top:24px}.final-sheet-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;border-top:1px solid var(--line);padding-top:24px}.final-sheet-head h2{margin:4px 0}.final-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:14px 0}.final-card{border:1px solid var(--line);border-radius:12px;padding:14px;background:rgba(255,255,255,.02)}.final-card h3{margin:0 0 10px}.final-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.final-stat,.final-skill{display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid rgba(255,255,255,.06);padding:5px 0}.final-stat small,.final-skill small{color:var(--muted);margin-left:6px}.final-skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}.final-skill-group{border:1px solid var(--line);border-radius:10px;padding:10px}.final-skill-group h4{margin:0 0 6px}.final-list{margin:0;padding-left:18px}.final-list li{margin:6px 0}.final-list small{color:var(--muted)}`);document.head.appendChild(t23Css);

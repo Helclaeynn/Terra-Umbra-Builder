@@ -1,0 +1,109 @@
+  daemon:{oracle:['oracle tentateur'],tourmenteur:['chatiment tourmenteur'],legionnaire:['chevalier legionnaire'],alabor:['alabor'],astaroth:['astaroth'],belial:['belial'],diablo:['diablo'],lilith:['lilith'],mammon:['mammon'],mephisto:['mephisto'],satan:['satan'],lucifer:['lucifer'],belzebuth:['belzebuth'],abigor:['abigor'],baal:['baal'],morrighan:['morrighan']},
+  angelus:{trone:['nature trone'],vertu:['nature vertu'],domination:['nature domination'],kether:['kether'],hokhma:['hokhma'],bina:['bina'],hesed:['hesed'],gueburah:['gueburah'],tiphereth:['tiph ereth','tiphereth'],nesah:['nesah'],hod:['hod'],yessod:['yessod'],malkhouth:['malkhouth']},
+  aseryn:{aerilien:['aerilien neo atlante'],mulien:['mulien'],hyperboreen:['hyperboreen'],lemurian:['lemurian'],seratheen:['seratheen'],athegos:['athegos'],sundosia:['sundosia'],caendis:['caendis'],cairiah:['cairiah'],eydreas:['eydreas'],seryn:['seryn'],natyel:['natyel'],erith:['erith'],lisirast:['lisirast'],lisithas:['lisithas'],selerias:['selerias'],theana:['theana'],dratyn:['dratyn'],conseil_foudre:['conseil de la foudre']},
+  exile:{elye:['elye elfes'],whurten:['whurten nains'],ashyll:['ashyll gobelins'],thulkar:['thulkar orques'],azmenorien:['azmenorien'],silcenter:['silcenters et hds'],croix_emphyrra:["croix d'emphyrra"],runes_whurten:['runes whurtennes'],atelier_clans:['atelier des clans'],iron_law:['iron law'],green_union:['green union'],quatre_empereurs:['ligue des quatre empereurs'],syndicat_jade:['syndicat de jade'],horde_divine:['horde divine'],horde_marais:['horde des marais'],horde_fantome:['horde fantome'],horde_cendres:['horde des cendres'],horde_rose:['horde de la rose'],servants_pluton:['servants de pluton'],technomagie_azmenor:['technomagie azmenorienne']},
+  extral:{talass:['talass'],mosen:["mo sen"],baseanh:['baseanh'],rocreen:['rocreen'],thalsios:['thalsios'],homo_superior:['homo superior'],adrak:['ad rak'],gaac:['gaac'],ctu:['ctu'],croix_verte:['croix verte','ligue baseanne'],reptile:['reptile'],shaediri:['mafia shaediri'],hydroguard:['hydroguard','thdf'],smrc:['smrc','agi'],sra:['sra'],emeraude:['emeraude sanglante'],aidh_intervention:["doctrine d intervention aidh"],aidh_coherence:['protocoles de coherence aidh']}
+};
+function groupHas(group,needles){const g=normText(group);return needles?.some(n=>g.includes(normText(n)))}
+function truthTalentVisible(t){
+  const n=state.truth.nature,g=normText(t.group);
+  if(n==='mage')return true;
+  if(n==='humain'){
+    const tr=state.truth.choices?.hunterTradition||'aucune';
+    if(tr==='aucune')return false;
+    return groupHas(g,truthNeedles.humain[tr]);
+  }
+  if(n==='vampire'){
+    if(g.includes('talents communs de vampire'))return true;
+    return groupHas(g,truthNeedles.vampire[state.truth.choices?.court])||groupHas(g,truthNeedles.vampire[state.truth.choices?.blood]);
+  }
+  if(n==='garou'){
+    if(g.includes('talents communs de garou')||g.includes('maitrise d un sang')||g.includes('eveiller d autres sangs'))return true;
+    return groupHas(g,truthNeedles.garou[state.truth.choices?.pelage])||groupHas(g,truthNeedles.garou[state.truth.choices?.blood]);
+  }
+  if(n==='khinae')return groupHas(g,truthNeedles.khinae[state.truth.choices?.lineage]);
+  if(n==='daemon'){
+    if(g.includes('talents communs de nature')||g.includes('origine de l elu'))return true;
+    return groupHas(g,truthNeedles.daemon[state.truth.choices?.function])||groupHas(g,truthNeedles.daemon[state.truth.choices?.divinity]);
+  }
+  if(n==='angelus'){
+    if(g.includes('talents communs')||g.includes('progression de transcendance'))return true;
+    return groupHas(g,truthNeedles.angelus[state.truth.choices?.angelNature])||groupHas(g,truthNeedles.angelus[state.truth.choices?.sephirah]);
+  }
+  if(n==='aseryn'){
+    if(g.includes('routes communes aserynes'))return true;
+    return groupHas(g,truthNeedles.aseryn[state.truth.choices?.origin])||groupHas(g,truthNeedles.aseryn[state.truth.choices?.tradition])||groupHas(g,truthNeedles.aseryn[state.truth.choices?.seratheenTradition]);
+  }
+  if(n==='exile'){
+    return groupHas(g,truthNeedles.exile[state.truth.choices?.people])||groupHas(g,truthNeedles.exile[state.truth.choices?.network]);
+  }
+  if(n==='extral'){
+    return groupHas(g,truthNeedles.extral[state.truth.choices?.species])||groupHas(g,truthNeedles.extral[state.truth.choices?.network]);
+  }
+  return true;
+}
+function truthAvailableTalents(){return (truthCatalog[state.truth.nature]||[]).filter(truthTalentVisible)}
+function truthChoicesValid(){
+  const n=truthNature();
+  return (n.choices||[]).every(ch=>ch.optional||!!state.truth.choices?.[ch.key]);
+}
+function truthPrereqMatches(t,available=truthAvailableTalents()){
+  if(!t.prerequisiteName)return [];
+  const p=normText(t.prerequisiteName);
+  return available.filter(x=>x.id!==t.id&&p.includes(normText(x.name))).map(x=>x.id);
+}
+function truthPrereqSatisfied(t,available=truthAvailableTalents()){
+  const req=truthPrereqMatches(t,available);
+  return !req.length||req.every(id=>state.truth.truthTalents.includes(id));
+}
+function sanitizeTruthTalents(){
+  const avail=new Set(truthAvailableTalents().map(t=>t.id));
+  state.truth.truthTalents=(state.truth.truthTalents||[]).filter(id=>avail.has(id));
+}
+function talentById(id){
+  if(!id)return null;
+  const pools=[ruleset.talents.common,ruleset.talents.expertise,...Object.values(ruleset.talents.origin),...Object.values(ruleset.talents.sphere)];
+  return pools.flat().find(t=>t.id===id)||null;
+}
+function disById(id){
+  const pools=[ruleset.disadvantages.common,ruleset.disadvantages.attribute,...Object.values(ruleset.disadvantages.sphere)];
+  return pools.flat().find(d=>d.id===id)||null;
+}
+function lifestyleFinal(){
+  const order=ruleset.creation.lifestyleOrder; let base=style()?.lifestyle||'Standard'; let i=order.indexOf(base);
+  if(hasTalent('fier_heritier')) i=Math.max(order.indexOf('Confortable'),Math.min(order.length-1,i+1));
+  if(state.edge.lifestylePack) i=Math.min(order.indexOf('Aisé'),i+1);
+  if(hasDis('miserable_endette')) i=Math.max(0,i-1);
+  return order[i];
+}
+function economic(){
+  const st=style(); if(!st)return {account:0,envelope:0,vehicleCapital:0,gen2:0};
+  const envelope=st.augmentationEnvelope+state.edge.augmentationPacks*ruleset.creation.edge.augmentationPack;
+  const vehicleCapital=st.vehicleCapital||0;
+  const augOverflow=Math.max(0,state.spending.augmentations-envelope);
+  const augUnused=Math.max(0,envelope-state.spending.augmentations);
+  const vehOverflow=Math.max(0,state.spending.vehicle-vehicleCapital);
+  const vehUnused=Math.max(0,vehicleCapital-state.spending.vehicle);
+  const account=st.account + state.edge.cashPacks*ruleset.creation.edge.cashPack - state.spending.equipment - augOverflow - vehOverflow + augUnused*.5 + vehUnused*.5;
+  return {account,envelope,vehicleCapital,gen2:(st.gen2SlotsBase||0)+state.edge.augmentationPacks,augUnused,vehUnused,augOverflow,vehOverflow};
+}
+function renown(){
+  if(hasDis('inconnu')) return 0;
+  if(hasTalent('renomme')||state.edge.renownPack) return 2;
+  return 1;
+}
+function derived(){
+  const a=state.attributes,s=allRawSkills();
+  let integrity=Math.max(1,s.force_mentale+s.humanite-(hasDis('integrite_defaillante')?2:0));
+  return {
+    pvMax:2*a.vigueur+s.constitution,
+    death:-(a.vigueur+s.constitution),
+    initiative:a.agilite+s.athletisme-(hasDis('lent_a_reagir')?2:0),
+    passiveDefense:a.agilite+s.esquive,
+    occultDefense:a.volonte+s.force_mentale,
+    movement:5+s.athletisme,
+    integrity,
+    augmentStressMax:a.vigueur+s.humanite,
+    melee:a.vigueur+s.melee,
+    pugilat:a.vigueur+s.pugilat,
+    shooting:a.agilite+s.tir,

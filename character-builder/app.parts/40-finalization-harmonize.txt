@@ -1,0 +1,106 @@
+// Block 11 — Finalisation harmonisation, visible lore, validation cleanup.
+// Keeps canonical mechanics and removes redundant free-text fields already handled by Block 10.
+
+// Hidden legacy text must never validate Equipment by itself.
+p25EquipmentHasContent=function(){
+  const r=state.reality||{};
+  return !!((r.augmentations||[]).length||(r.equipment||[]).length||(r.fixedChargeItems||[]).length);
+};
+
+function p40Field(label,help,value,oninput,placeholder=''){
+  const f=el('div',{class:'field p40-final-field'},`<label>${uxEsc(label)}</label><div class="p40-field-lore">${uxEsc(help)}</div>`),inp=el('input',{value:value||'',placeholder});
+  inp.oninput=e=>oninput(e.target.value);f.appendChild(inp);return f;
+}
+function p40Textarea(label,help,value,oninput,placeholder=''){
+  const f=el('div',{class:'field p40-final-field'},`<label>${uxEsc(label)}</label><div class="p40-field-lore">${uxEsc(help)}</div>`),t=el('textarea',{placeholder});
+  t.value=value||'';t.oninput=e=>oninput(e.target.value);f.appendChild(t);return f;
+}
+
+// Finalisation only keeps information that still belongs here.
+renderSocialFinalisation=function(c){
+  ensureLanguages();
+  c.appendChild(el('div',{class:'p40-final-intro'},'<strong>Derniers repères de personnage</strong><span>La Finalisation ne redemande plus les éléments économiques déjà gérés dans Équipement. Ici restent seulement les informations sociales ou linguistiques qui doivent être précisées pour que la fiche soit jouable.</span>'));
+  c.appendChild(el('h3',{class:'subhead'},'Renommée, langues & relations'));
+
+  const top=el('div',{class:'grid2'});
+  top.append(
+    p40Field('Milieu de Renommée · score '+renown(),'La Renommée n’est jamais universelle : précisez le milieu dans lequel le nom du personnage circule réellement.',state.social.renownMilieu,v=>{state.social.renownMilieu=v;persist();renderProgress()},'Ex. Underlife de Los Angeles, sécurité corporatiste…'),
+    p40Field('Réputation importante','Ce champ décrit ce que les autres racontent du personnage. Il donne du contexte à la Renommée sans créer un bonus mécanique automatique.',state.social.reputation,v=>{state.social.reputation=v;persist()},'Ex. fiable sous pression, brutal mais loyal…')
+  );
+  c.appendChild(top);
+
+  const lc=1+skillRaw('langages_argot');
+  c.appendChild(el('div',{class:'p40-lore-box'},`<strong>Langues</strong><span>Chaque personnage possède une langue native. <em>Langages & Argot</em> ajoute ensuite une langue connue par point brut : votre personnage doit donc en renseigner <strong>${lc}</strong>.</span>`));
+  const lg=el('div',{class:'grid3'});
+  state.social.languages.forEach((v,i)=>{
+    const f=el('div',{class:'field p40-final-field'},`<label>${i===0?'Langue native':`Langue supplémentaire ${i}`}</label><div class="p40-field-lore">Une langue réellement pratiquée par le personnage, pas un simple bonus abstrait.</div>`),inp=el('input',{value:v||'',placeholder:i===0?'Ex. Français':'Ex. Espagnol, Russe, Argot Underlife…'});
+    inp.oninput=e=>{state.social.languages[i]=e.target.value;persist();renderProgress()};f.appendChild(inp);lg.appendChild(f);
+  });
+  c.appendChild(lg);
+
+  const g=el('div',{class:'grid2'});
+  g.append(
+    p40Textarea('Contacts · un par ligne','Un contact est une personne ou un relais concret : indiquez qui il est, ce qu’il peut faire ou savoir, et le lien qui l’unit au personnage.',state.social.contacts.join('\n'),v=>{state.social.contacts=v.split(/\n+/).map(x=>x.trim()).filter(Boolean);persist();renderProgress()},'Nom — rôle — ce qu’il sait / peut faire — Fiable / de Renom si pertinent'),
+    p40Textarea('Appui de Sphère · précision','Certaines Sphères fournissent un appui institutionnel ou relationnel. Décrivez ici sa forme concrète ; pour un Corporatiste, cette précision fait partie de la validation de création.',state.reality.sphereSupportDetail,v=>{state.reality.sphereSupportDetail=v;persist();renderProgress()},sphere()?.support||'')
+  );
+  c.appendChild(g);
+};
+
+function p40ValidationReason(id,ok){
+  if(ok)return 'Validé';
+  const map={
+    identity:'Nom et âge requis.',origin:'Origine et Talent d’Origine requis.',sphere:'Sphère, Style et 5 points guidés requis.',attributes:'Budget d’Attributs à terminer.',skills:'Répartition des Compétences à terminer.',talents:'Choix de Talents ou prérequis à corriger.',truth:'Choix de Vérité incomplet ou étape vide non confirmée.',disadvantages:'Désavantages à corriger ou étape vide non confirmée.',edge:'Dépenses/attributions Edge à corriger ou étape vide non confirmée.',equipment:'Équipement à corriger ou étape vide non confirmée.',finish:'Finalisation sociale ou validation globale incomplète.'
+  };
+  return map[id]||'À compléter';
+}
+function p40ValidationPanel(){
+  const v=validations(),box=el('section',{class:'p40-validation-panel'},'<div class="section-title reality-subtitle"><div><h3>Contrôle de validation</h3><p>Chaque voyant reprend exactement la logique utilisée par le builder pour déclarer la fiche valide.</p></div></div>'),grid=el('div',{class:'p40-validation-grid'});
+  STEPS.forEach(([id,label],i)=>{const ok=!!v[id],row=el('button',{class:`p40-validation-switch ${ok?'ok':'bad'}`,type:'button'},`<span class="p40-switch-dot"></span><span><strong>${i+1}. ${uxEsc(label)}</strong><small>${uxEsc(p40ValidationReason(id,ok))}</small></span>`);row.onclick=()=>{stepIndex=i;render()};grid.appendChild(row)});
+  box.appendChild(grid);return box;
+}
+
+const p40FinishBase=stepFinish;
+stepFinish=function(){
+  p40FinishBase();const c=$('#stepContent');if(!c)return;
+
+  // Internal self-tests remain active but are not player-facing content.
+  [...c.querySelectorAll('.rulebox')].forEach(x=>{if((x.textContent||'').includes('Auto-test moteur Réalité'))x.remove()});
+
+  // Put the actual validation state before the long recap.
+  const sheet=c.querySelector('.final-sheet');const panel=p40ValidationPanel();if(sheet)c.insertBefore(panel,sheet);else c.appendChild(panel);
+
+  // Persistent lore on final cards instead of hover-only/generic presentation.
+  const cardLore={
+    'Identité & incarnation':'Qui est le personnage dans la fiction : apparence, nom, objectif et prises immédiates pour le jeu.',
+    'Parcours':'Origine, Sphère et Style décrivent trois couches différentes : milieu d’enfance, monde social actuel et manière de vivre ou d’agir.',
+    'Attributs':'Les cinq capacités fondamentales du personnage avant les spécialisations de Compétence.',
+    'Dérivés':'Valeurs calculées automatiquement à partir des Attributs, Compétences, Talents et Désavantages déjà choisis.',
+    'Edge':'La réserve exceptionnelle du personnage. L’Edge non dépensé à la création reste disponible en jeu.',
+    'Talents de Réalité':'Expériences, formations ou avantages particuliers qui distinguent le personnage dans la Réalité.',
+    'Désavantages':'Faiblesses ou complications choisies ; elles donnent de l’Edge mais doivent réellement pouvoir peser dans la fiction.',
+    'Vérité':'Nature surnaturelle ou profane, niveau de conscience et branche de Vérité réellement accessible au personnage.',
+    'Traits gratuits de Vérité':'Capacités accordées automatiquement par la Nature ou ses choix structurants, sans dépense de PTV.',
+    'Talents de Vérité achetés':'Pouvoirs, Voies ou Traditions acquis avec les PTV de création.',
+    'Économie':'État final des ressources de création après achats, conversions et enveloppes dédiées.',
+    'Augmentations':'Modifications réellement intégrées au corps du personnage et déjà payées à la création.',
+    'Équipement & véhicules':'Biens durables effectivement possédés au début de la campagne.',
+    'Langues':'Langues que le personnage sait réellement employer au début du jeu.',
+    'Contacts & réputation':'Personnes, milieux et réputation qui relient immédiatement le personnage au monde.'
+  };
+  c.querySelectorAll('.final-card').forEach(card=>{const h=card.querySelector('h3');if(!h)return;const lore=cardLore[(h.textContent||'').trim()];if(lore&&!card.querySelector('.p40-card-lore'))h.insertAdjacentHTML('afterend',`<p class="p40-card-lore">${uxEsc(lore)}</p>`)});
+
+  // Add concrete lore for the selected social path when the source exposes it.
+  const parcours=[...c.querySelectorAll('.final-card')].find(x=>(x.querySelector('h3')?.textContent||'').trim()==='Parcours');
+  if(parcours&&!parcours.querySelector('.p40-path-lore')){
+    const rows=[];
+    const o=origin(),sp=sphere(),st=style();
+    if(o?.description)rows.push(`<div><strong>${uxEsc(o.name)} :</strong> ${uxEsc(o.description)}</div>`);
+    if(sp?.description)rows.push(`<div><strong>${uxEsc(sp.name)} :</strong> ${uxEsc(sp.description)}</div>`);
+    if(st?.description)rows.push(`<div><strong>${uxEsc(st.name)} :</strong> ${uxEsc(st.description)}</div>`);
+    const life=typeof r35LifestyleLore==='object'?r35LifestyleLore[lifestyleFinal()]:'';if(life)rows.push(`<div><strong>${uxEsc(lifestyleFinal())} :</strong> ${uxEsc(life)}</div>`);
+    if(rows.length)parcours.insertAdjacentHTML('beforeend',`<div class="p40-path-lore">${rows.join('')}</div>`);
+  }
+};
+
+const p40Css=el('style',{},`.p40-final-intro,.p40-lore-box{display:grid;gap:5px;border:1px solid var(--line);border-radius:12px;padding:13px 14px;margin:12px 0;background:rgba(255,255,255,.025)}.p40-final-intro span,.p40-lore-box span,.p40-field-lore,.p40-card-lore{color:var(--muted);font-size:12px;line-height:1.5}.p40-field-lore{margin:3px 0 7px}.p40-validation-panel{margin:18px 0}.p40-validation-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:8px}.p40-validation-switch{display:flex;align-items:center;gap:10px;text-align:left;border:1px solid var(--line);border-radius:10px;padding:10px 11px;background:#0d141a;color:var(--text);cursor:pointer}.p40-validation-switch>span:last-child{display:grid;gap:2px}.p40-validation-switch small{color:var(--muted);font-size:11px}.p40-switch-dot{width:12px;height:12px;border-radius:999px;flex:0 0 auto}.p40-validation-switch.ok{border-color:#315e4c}.p40-validation-switch.ok .p40-switch-dot{background:var(--good)}.p40-validation-switch.bad{border-color:#70404a}.p40-validation-switch.bad .p40-switch-dot{background:var(--danger)}.p40-card-lore{margin:-4px 0 10px;font-style:italic}.p40-path-lore{display:grid;gap:7px;border-top:1px solid rgba(255,255,255,.07);margin-top:10px;padding-top:10px;font-size:12px;line-height:1.45;color:var(--muted)}.p40-path-lore strong{color:var(--text)}@media(max-width:650px){.p40-validation-grid{grid-template-columns:1fr}}`);document.head.appendChild(p40Css);
+render();

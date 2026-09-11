@@ -1,0 +1,35 @@
+const uxBaseValidations=validations;
+validations=function(){
+  const v=uxBaseValidations(),st=style();
+  v.attributes=attrTotal()===22&&uxAttrIds.every(id=>Number(state.attributes[id])>=3&&Number(state.attributes[id])<=7&&finalAttr(id)<=7);
+  const styleOK=st&&totalStylePoints()===5&&Object.entries(state.skills).every(([id,o])=>o.style>=0&&o.style<=2&&(!o.style||st.skills.includes(id)));
+  v.skills=!!styleOK&&totalFreePoints()===15&&ruleset.skills.every(s=>skillRaw(s.id)<=5);
+  const expert=talentById(state.talents.expertise),expertFamilyOK=!expert||st?.expertiseFamilies.includes(expert.attribute),neuroOK=!hasTalent('neurodriver')||(skillRaw('neurodive')>=1&&!hasDis('unsinkable'));
+  v.talents=!!state.talents.origin&&!!state.talents.sphere&&!!state.talents.expertise&&!!state.talents.common&&expertFamilyOK&&neuroOK;
+  const attrEdgeOK=!state.edge.attributePack||uxEdgeAttrTotal()===ruleset.creation.attributes.edgePackPoints;
+  const skillEdgeOK=totalEdgeSkillPoints()===edgeSkillBudget(),talentEdgeOK=state.talents.edge.length===state.edge.talentPacks&&state.talents.edge.every(Boolean);
+  v.edge=edgeRemaining()>=0&&state.edge.attributePack<=1&&state.edge.skillPacks<=3&&state.edge.talentPacks<=2&&state.edge.cashPacks<=3&&state.edge.lifestylePack<=1&&state.edge.augmentationPacks<=2&&state.edge.renownPack<=1&&attrEdgeOK&&skillEdgeOK&&talentEdgeOK;
+  const langCount=1+skillRaw('langages_argot'),languagesOK=state.social.languages.length===langCount&&state.social.languages.every(x=>String(x).trim()),crawlerContact=state.creation.sphere!=='crawler'||state.social.contacts.some(x=>String(x).trim()),corpoSupport=state.creation.sphere!=='corporatiste'||!!state.reality.sphereSupportDetail.trim(),renownMilieuOK=renown()===0||!!String(state.social.renownMilieu||'').trim();
+  v.finish=Object.entries(v).filter(([k])=>k!=='finish').every(([,ok])=>ok)&&languagesOK&&crawlerContact&&corpoSupport&&renownMilieuOK;
+  return v;
+};
+const uxBaseCurrentErrors=currentErrors;
+currentErrors=function(){
+  let errs=uxBaseCurrentErrors().filter(x=>!x.startsWith('Attributs :')&&!x.startsWith('Compétences libres :')&&!x.startsWith('Compétences Edge :'));
+  if(attrTotal()!==22)errs.push(`Attributs de création : ${attrTotal()} / 22 points.`);if(totalFreePoints()!==15)errs.push(`Compétences libres : ${totalFreePoints()} / 15 points.`);
+  const here=STEPS[stepIndex]?.[0];if(here==='edge'||here==='finish'){if(state.edge.attributePack&&uxEdgeAttrTotal()!==2)errs.push(`Attributs Edge : ${uxEdgeAttrTotal()} / 2 points attribués.`);if(totalEdgeSkillPoints()!==edgeSkillBudget())errs.push(`Compétences Edge : ${totalEdgeSkillPoints()} / ${edgeSkillBudget()} points attribués.`);if(state.talents.edge.filter(Boolean).length!==state.edge.talentPacks)errs.push(`Talents Edge : ${state.talents.edge.filter(Boolean).length} / ${state.edge.talentPacks} choisi(s).`)}
+  return [...new Set(errs)];
+};
+
+const uxBaseMergeState=mergeState;
+mergeState=function(obj){uxBaseMergeState(obj);if(obj?.edgeAttributes)state.edgeAttributes=structuredClone(obj.edgeAttributes);else if(obj?.attributesEdge)state.edgeAttributes=structuredClone(obj.attributesEdge);uxMigrateLegacyEdgeAttributes()};
+const uxBaseBuildExport=buildExport;
+buildExport=function(){const out=uxBaseBuildExport();out.attributesBase=structuredClone(state.attributes);out.attributesEdge=structuredClone(state.edgeAttributes);out.attributesFinal=Object.fromEntries(uxAttrIds.map(id=>[id,finalAttr(id)]));return out};
+
+function uxInstallReset(){const host=document.querySelector('.header-actions');if(!host||document.querySelector('#newCharacterBtn'))return;const b=el('button',{id:'newCharacterBtn',class:'ghost'},'Nouveau personnage');b.onclick=()=>{if(!confirm('Créer un nouveau personnage ? La sauvegarde locale actuelle sera réinitialisée. Exportez-la en JSON si vous souhaitez la conserver.'))return;localStorage.removeItem('tuc-character-builder-v1');location.reload()};host.insertBefore(b,host.firstChild)}
+uxInstallReset();
+
+const uxCss=el('style',{},`.ux-group{border:1px solid var(--line);border-radius:12px;background:#0d141a;margin:10px 0;overflow:visible}.ux-group>summary{cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;list-style:none}.ux-group>summary::-webkit-details-marker{display:none}.ux-group>summary span:first-child{display:flex;flex-direction:column}.ux-group>summary small{color:var(--muted);font-weight:400;margin-top:2px}.ux-choice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:7px;padding:0 10px 10px}.ux-choice{display:flex;gap:9px;align-items:center;border:1px solid var(--line);border-radius:9px;background:#0a1116;padding:9px 10px;cursor:pointer;min-height:42px}.ux-choice.selected{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}.ux-choice input{flex:0 0 auto}.ux-choice-main{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-width:0}.ux-choice-main strong{font-size:12px;line-height:1.25}.ux-info{position:relative;display:inline-grid;place-items:center;width:20px;height:20px;border:1px solid var(--line);border-radius:50%;color:var(--accent);font-size:12px;cursor:help;flex:0 0 auto}.ux-info::after{content:attr(data-tip);position:absolute;z-index:1000;left:50%;bottom:calc(100% + 9px);transform:translateX(-50%);width:min(340px,70vw);padding:10px 11px;border:1px solid #40505e;border-radius:9px;background:#071016;color:var(--text);font-size:12px;line-height:1.4;box-shadow:0 10px 30px #0008;opacity:0;pointer-events:none;transition:opacity .12s}.ux-info:hover::after,.ux-info:focus::after{opacity:1}.ux-edge-talent-slot{border-left:2px solid var(--line);padding-left:10px;margin:16px 0}.ux-edge-talent-slot .ux-group{margin:6px 0}@media(max-width:600px){.ux-choice-grid{grid-template-columns:1fr}.ux-info::after{left:auto;right:-8px;transform:none}}`);document.head.appendChild(uxCss);
+
+try{const uxStored=localStorage.getItem('tuc-character-builder-v1');if(uxStored)mergeState(JSON.parse(uxStored))}catch(err){console.warn('UX final restore',err)}
+render();

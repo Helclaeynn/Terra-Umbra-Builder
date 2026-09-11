@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "rulesetId": "terra-umbra",
+  "identity": {"name": "", "alias": "", "age": "", "concept": "", "objective": "", "notes": ""},
+  "creation": {"origin": "", "sphere": "", "style": ""},
+  "attributes": {"vigueur": 3, "agilite": 3, "esprit": 3, "volonte": 3, "charisme": 3},
+  "skills": {},
+  "talents": {"origin": "", "sphere": "", "expertise": "", "common": "", "edge": []},
+  "disadvantages": [],
+  "edge": {"attributePack": 0, "skillPacks": 0, "talentPacks": 0, "cashPacks": 0, "lifestylePack": 0, "augmentationPacks": 0, "renownPack": 0},
+  "truth": {
+    "nature": "humain",
+    "consciousness": "profane",
+    "choices": {"hunterTradition": "aucune"},
+    "truthTalents": []
+  },
+  "spending": {"augmentations": 0, "equipment": 0, "vehicle": 0},
+  "social": {"languages": ["Français"], "contacts": [], "reputation": ""}
+}

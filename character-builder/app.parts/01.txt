@@ -1,0 +1,84 @@
+const ROOT='./rulesets/terra-umbra';
+const IDS=['corporatiste','gouvernementale','mafieuse','crawler','religieuse'];
+const TRUTH_IDS=['humain','vampire','garou','khinae','mage','daemon','angelus','aseryn','exile','extral'];
+const get=async p=>{const r=await fetch(`${ROOT}/${p}`);if(!r.ok)throw new Error(`${p}: ${r.status}`);return r.json()};
+const getOptional=async p=>{try{const r=await fetch(`${ROOT}/${p}`);if(!r.ok)return null;return r.json()}catch{return null}};
+const getTruthCatalog=async id=>{
+  const mono=await getOptional(`truth/talents/${id}.json`);
+  if(Array.isArray(mono))return mono;
+  const manifest=await getOptional(`truth/talents/${id}/manifest.json`);
+  if(!manifest?.chunks)return [];
+  const parts=await Promise.all(manifest.chunks.map(n=>get(`truth/talents/${id}/${n}`)));
+  return parts.flat();
+};
+const [core,common,expertise,dCommon,dAttribute,...packs]=await Promise.all([
+  get('core.json'),get('talents/common.json'),get('talents/expertise.json'),get('disadvantages/common.json'),get('disadvantages/attribute.json'),
+  ...IDS.flatMap(id=>[get(`talents/origin/${id}.json`),get(`talents/sphere/${id}.json`),get(`disadvantages/sphere/${id}.json`)])
+]);
+const originTalents={},sphereTalents={},sphereDis={};
+IDS.forEach((id,i)=>{originTalents[id]=packs[i*3];sphereTalents[id]=packs[i*3+1];sphereDis[id]=packs[i*3+2]});
+const [truthCore,...truthPacks]=await Promise.all([
+  get('truth/core.json'),
+  ...TRUTH_IDS.map(getTruthCatalog)
+]);
+const truthCatalog=Object.fromEntries(TRUTH_IDS.map((id,i)=>[id,truthPacks[i]]));
+const ruleset={...core,talents:{common,expertise,origin:originTalents,sphere:sphereTalents},disadvantages:{common:dCommon,attribute:dAttribute,sphere:sphereDis},truth:{...(core.truth||{}),...truthCore}};
+
+const STEPS = [
+  ['identity','Identité'],['origin','Origine'],['sphere','Sphère & Style'],['attributes','Attributs'],['skills','Compétences'],['talents','Talents'],['truth','Vérité'],['disadvantages','Désavantages'],['edge','Edge'],['equipment','Équipement'],['finish','Finalisation']
+];
+
+const defaultSkills = Object.fromEntries(ruleset.skills.map(s => [s.id,{style:0,free:0}]));
+const state = {
+  schemaVersion:1,rulesetId:'terra-umbra',
+  identity:{name:'',alias:'',age:'',concept:'',objective:'',notes:''},
+  creation:{origin:'',sphere:'',style:''},
+  attributes:{vigueur:3,agilite:3,esprit:3,volonte:3,charisme:3},
+  skills:structuredClone(defaultSkills),
+  talents:{origin:'',sphere:'',expertise:'',common:'',edge:[]},
+  disadvantages:[],
+  edge:{attributePack:0,skillPacks:0,talentPacks:0,cashPacks:0,lifestylePack:0,augmentationPacks:0,renownPack:0},
+  truth:{nature:'humain',consciousness:'profane',choices:{hunterTradition:'aucune'},truthTalents:[]},
+  equipment:[],
+  social:{languages:['Français'],contacts:[],reputation:''},
+  spending:{augmentations:0,equipment:0,vehicle:0}
+};
+let stepIndex=0;
+
+const $=sel=>document.querySelector(sel);
+const el=(tag,attrs={},html='')=>{const n=document.createElement(tag);Object.entries(attrs).forEach(([k,v])=>{if(k==='class')n.className=v;else if(k.startsWith('data-'))n.setAttribute(k,v);else n[k]=v});n.innerHTML=html;return n};
+const fmt=n=>new Intl.NumberFormat('fr-FR').format(Math.round(n))+' $';
+const attrName=id=>ruleset.attributes.find(a=>a.id===id)?.name||id;
+const skillName=id=>ruleset.skills.find(s=>s.id===id)?.name||id;
+const style=()=>ruleset.styles.find(s=>s.id===state.creation.style);
+const sphere=()=>ruleset.spheres[state.creation.sphere];
+const origin=()=>ruleset.origins[state.creation.origin];
+
+function sphereFixed(skillId){return sphere()?.fixedSkills.includes(skillId)?1:0}
+function skillRaw(skillId){return sphereFixed(skillId)+(state.skills[skillId]?.style||0)+(state.skills[skillId]?.free||0)}
+function allRawSkills(){return Object.fromEntries(ruleset.skills.map(s=>[s.id,skillRaw(s.id)]))}
+function totalStylePoints(){return Object.values(state.skills).reduce((a,v)=>a+v.style,0)}
+function totalFreePoints(){return Object.values(state.skills).reduce((a,v)=>a+v.free,0)}
+function attrBudget(){return ruleset.creation.attributes.baseTotal + (state.edge.attributePack?ruleset.creation.attributes.edgePackPoints:0)}
+function attrTotal(){return Object.values(state.attributes).reduce((a,b)=>a+b,0)}
+function skillFreeBudget(){return ruleset.creation.skills.freePoints + state.edge.skillPacks*ruleset.creation.skills.edgePackPoints}
+function edgeTotal(){return ruleset.creation.edge.base + state.disadvantages.length}
+function edgeSpent(){return Object.values(state.edge).reduce((a,b)=>a+Number(b||0),0)}
+function edgeRemaining(){return edgeTotal()-edgeSpent()}
+function hasTalent(id){return [state.talents.origin,state.talents.sphere,state.talents.expertise,state.talents.common,...state.talents.edge].includes(id)}
+function hasDis(id){return state.disadvantages.includes(id)}
+
+function normText(v=''){return v.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[’']/g,"'").replace(/[^a-z0-9]+/g,' ').trim()}
+function truthNature(){return ruleset.truth.natures.find(n=>n.id===state.truth.nature)||ruleset.truth.natures[0]}
+function truthTalentById(id){return (truthCatalog[state.truth.nature]||[]).find(t=>t.id===id)||null}
+function truthPtvSpent(){return state.truth.truthTalents.reduce((sum,id)=>sum+(truthTalentById(id)?.cost||0),0)}
+function truthPtvRemaining(){return ruleset.truth.ptvInitial-truthPtvSpent()}
+function truthChoiceName(key){
+  const ch=truthNature()?.choices?.find(c=>c.key===key), val=state.truth.choices?.[key];
+  return ch?.options?.find(o=>o.id===val)?.name||'';
+}
+const truthNeedles={
+  humain:{doctrine_commune:['doctrine commune de chasse'],lavandiere:['lavandieres'],catholique:['chasseurs catholiques'],khalsa:['khalsa'],taoiste:['taoistes'],kabbale:['kabbale'],nizarite:['nizarites','asasiyun'],onmyoji:['onmyoji'],neopaien:['neopaiens'],chasse_fantastique:['chasse fantastique'],lueurs_azmenor:["lueurs d'azmenor"],xenoshield:['xenoshield'],independant:['chasseurs independants'],table_ronde:['table ronde']},
+  vampire:{krovni_rytsari:['krovni rytsari'],alghul_almalakiu:['alghul almalakiu'],oru_ayeraye:['oru ayeraye'],ihuito_meztzi:['ihuito meztzi'],shi_hun_zhe:['shi hun zhe'],sang_ecarlate:['sang ecarlate'],sang_primal:['sang primal'],sang_hypocrite:['sang hypocrite'],sang_venimeux:['sang venimeux'],sang_masque:['sang masque'],sang_aveugle:['sang aveugle'],sang_traqueur:['sang traqueur'],sang_glacial:['sang glacial'],sang_ardent:['sang ardent'],sang_orageux:['sang orageux'],sang_revelateur:['sang revelateur'],sang_condamne:['sang condamne']},
+  garou:{pelages_gris:['pelages gris'],pelages_noirs:['pelages noirs'],pelages_blancs:['pelages blancs'],pelages_roux:['pelages roux'],pelages_bruns:['pelages bruns'],pelages_dores:['pelages dores'],sang_naturel:['sang naturel'],sang_alpha:['sang alpha'],sang_revelateur:['sang revelateur'],sang_ecarlate:['sang ecarlate'],sang_sculpteur:['sang sculpteur'],sang_funeste:['sang funeste'],sang_primal:['sang primal'],sang_chasseur:['sang chasseur'],sang_de_sagesse:['sang de sagesse'],sang_enrage:['sang enrage'],sang_enchaine:['sang enchaine'],sang_vengeur:['sang vengeur']},
+  khinae:{canides_errants:['canides errants'],renards:['renards'],grands_felins:['grands felins'],chats:['chats'],rapaces:['rapaces'],requins:['requins'],serpents:['serpents'],boudas:['boudas'],berserkirs:['berserkirs'],crocodiliens:['crocodiliens']},

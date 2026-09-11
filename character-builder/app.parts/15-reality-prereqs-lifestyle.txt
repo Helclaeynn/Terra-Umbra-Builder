@@ -1,0 +1,100 @@
+// Final Reality detail layer — augmentation supports, equipment profiles and fixed-charge Lifestyle economy.
+
+const r15LifestyleRefs={Survie:200,Modeste:400,Standard:650,Confortable:1200,'Aisé':2500,Luxe:5000};
+function r15DeepField(item,names){
+  const pools=[item?.raw,item?.raw?.data,item?.details].filter(x=>x&&typeof x==='object');
+  for(const p of pools){const v=realityField(p,names);if(v!==null&&v!==undefined&&v!=='')return v}return null;
+}
+function r15SupportRaw(item){return String(r15DeepField(item,['Support','Support requis','Support nécessaire','Support necessaire'])||'').trim()}
+function r15PrereqRaw(item){return String(r15DeepField(item,['Prérequis','Prerequis','Prerequisite','Condition','Conditions'])||'').trim()}
+function r15IsSupport(item){const n=normText(item?.name||''),t=normText(`${item?.category||''} ${r15DeepField(item,['Type'])||''}`);return t.includes('support')||/cablage neuronal|cyberoeil|cyberaudio|cyberbras|cyberjambe|cybermain|cyberpied|support de membres|support multi/.test(n)}
+function r15SupportAlternatives(item){
+  if(item?.kind!=='augmentation'||r15IsSupport(item))return [];
+  const explicit=normText(r15SupportRaw(item)),n=normText(item.name||''),fam=augmentationFamilies(item),alts=[];
+  const add=(...xs)=>{const a=xs.filter(Boolean);if(a.length)alts.push(a)};
+  if(explicit){
+    if(explicit.includes('cablage neuronal'))add('cablage neuronal');
+    if(explicit.includes('cyberoeil'))add('cyberoeil');
+    if(explicit.includes('cyberaudio'))add('cyberaudio');
+    if(explicit.includes('cybermain')||explicit.includes('cyberbras'))add(...[explicit.includes('cybermain')?'cybermain':null,explicit.includes('cyberbras')?'cyberbras':null]);
+    if(explicit.includes('cyberpied')||explicit.includes('cyberjambe'))add(...[explicit.includes('cyberpied')?'cyberpied':null,explicit.includes('cyberjambe')?'cyberjambe':null]);
+  }
+  if(!alts.length){
+    if(fam.includes('neural'))add('cablage neuronal');
+    else if(fam.includes('optical'))add('cyberoeil');
+    else if(fam.includes('audio'))add('cyberaudio');
+    else if(fam.includes('member')){
+      if(/jambe|pied|palme/.test(n))add('cyberjambe','cyberpied');
+      else add('cyberbras','cybermain');
+    }
+  }
+  return alts;
+}
+function r15InstalledAugNames(){return state.reality.augmentations.map(p=>purchaseItem(p)).filter(Boolean).map(x=>normText(x.name||''))}
+function r15SupportSatisfied(item){
+  const reqs=r15SupportAlternatives(item);if(!reqs.length)return true;const installed=r15InstalledAugNames();
+  return reqs.every(group=>group.some(needle=>installed.some(name=>name.includes(needle))));
+}
+function r15SupportLabel(item){
+  const raw=r15SupportRaw(item);if(raw)return raw;
+  const req=r15SupportAlternatives(item);if(!req.length)return '';
+  return req.map(g=>g.map(x=>x.replace(/\b\w/g,c=>c.toUpperCase())).join(' ou ')).join(' + ');
+}
+const r15CanAffordBase=canAffordPurchase;
+canAffordPurchase=function(kind,item){if(kind==='augmentation'&&!r15SupportSatisfied(item))return false;return r15CanAffordBase(kind,item)};
+const r15ValidBase=validations;
+validations=function(){const v=r15ValidBase();const supportOK=state.reality.augmentations.every(p=>{const x=purchaseItem(p);return !x||r15SupportSatisfied(x)});v.equipment=v.equipment&&supportOK;v.finish=Object.entries(v).filter(([k])=>k!=='finish').every(([,ok])=>ok);return v};
+const r15ErrorsBase=currentErrors;
+currentErrors=function(){const e=r15ErrorsBase(),bad=state.reality.augmentations.map(p=>purchaseItem(p)).filter(x=>x&&!r15SupportSatisfied(x));if(bad.length)e.push(`Supports augmentiques manquants : ${bad.map(x=>`${x.name} → ${r15SupportLabel(x)}`).join(', ')}.`);return [...new Set(e)]};
+
+function r15EquipmentStats(item){
+  const specs=[
+    ['DGT',['DGT','Dégâts','Degats']],['Portée',['Portée','Portee']],['Capacité',['Capacité','Capacite','Coups','Chargeur']],['Propriétés',['Propriétés','Proprietes','Spéciaux','Speciaux']],
+    ['Armure',['Armure','Valeur d’Armure','Valeur Armure']],['Balistique',['Balistique']],['Énergie',['Énergie','Energie']],['Protection',['Protection']],
+    ['Blindage',['Blindage','Blind.']],['Structure',['Structure','Str.']],['Places',['Places']],['Vitesse',['Vitesse']],['Autonomie',['Autonomie']],['Entretien/mois',['Entretien/mois','Entretien mensuel']]
+  ],out=[];
+  for(const [label,names] of specs){const v=r15DeepField(item,names);if(v!==null&&v!==undefined&&String(v).trim()!=='')out.push([label,String(v).trim()])}
+  return out;
+}
+function r15StatsBar(item){const stats=r15EquipmentStats(item);if(!stats.length)return null;return el('div',{class:'r15-statbar'},stats.map(([k,v])=>`<span><strong>${uxEsc(k)}</strong> ${uxEsc(v)}</span>`).join(''))}
+
+// Rebuild the merged augmentation card with prerequisite/support information.
+eqxAugGroupCard=function(group){
+  const variants=group.variants.filter(eqxVisibleAug),chosen=eqxChosenVariant(group),spec=lockPriceSpec(chosen),supportOK=r15SupportSatisfied(chosen),can=canAffordPurchase('augmentation',chosen),max=eqxMaxCopies(chosen),count=eqxCopyCount(chosen),fam=augmentationFamilies(chosen),card=el('div',{class:`catalog-card ${supportOK?'':'access-locked'}`},`<div class="catalog-head"><div><strong>${uxEsc(group.name)}</strong><small>${uxEsc(eqxDisplayCategory(chosen))}</small></div><button class="primary mini" ${can?'':'disabled'}>${count>=max?'Maximum atteint':spec.configurable?'Configurer':'Ajouter'}</button></div>`);
+  if(variants.length>1){const f=el('div',{class:'field compact'},'<label>Génération / version</label>'),sel=el('select');sel.innerHTML=variants.map(v=>{const ps=lockPriceSpec(v);return `<option value="${uxEsc(v.id)}" ${v.id===chosen.id?'selected':''}>${v.generation?`Gen ${v.generation}`:'Version'} · ${uxEsc(ps.label)}</option>`}).join('');sel.onchange=e=>{state.reality.variantChoice=state.reality.variantChoice||{};state.reality.variantChoice[group.key]=e.target.value;render()};f.appendChild(sel);card.appendChild(f)}
+  card.appendChild(el('div',{class:'pillbar'},`${[spec.label,chosen.generation?`Gen ${chosen.generation}`:'',chosen.charge!==null?`Charge ${chosen.charge}`:'',chosen.stress!==null?`Stress ${chosen.stress}`:'',chosen.slots!==null&&chosen.slots!==undefined?`Slots ${chosen.slots}`:'',max<Infinity?`${count}/${max} installé(s)`:'' ].filter(Boolean).map(x=>`<span class="pill">${uxEsc(x)}</span>`).join('')}${fam.map(x=>`<span class="pill family">${uxEsc(x)}</span>`).join('')}`));
+  const support=r15SupportLabel(chosen),prereq=r15PrereqRaw(chosen);if(support)card.appendChild(el('div',{class:`r15-prereq ${supportOK?'ok':'bad'}`},`<strong>Support requis :</strong> ${uxEsc(support)}${supportOK?' · installé':' · manquant'}`));if(prereq)card.appendChild(el('div',{class:'r15-prereq'},`<strong>Prérequis :</strong> ${uxEsc(prereq)}`));
+  if(chosen.effect)card.appendChild(el('p',{},uxEsc(chosen.effect)));if(eqxPureCosmetic(chosen))card.appendChild(el('div',{class:'skill-meta'},'Esthétique sans effet mécanique : accessible à tous les Styles.'));
+  const btn=card.querySelector('button');if(can)btn.onclick=()=>addPurchase('augmentation',chosen);return card;
+};
+
+// Equipment cards surface weapon/armor/vehicle statistics stored in the final catalog.
+realityCatalogCard=function(item,kind){
+  const spec=lockPriceSpec(item),can=canAffordPurchase(kind,item),card=el('div',{class:'catalog-card'},`<div class="catalog-head"><div><strong>${uxEsc(item.name)}</strong><small>${uxEsc(eqxDisplayCategory(item))}</small></div><button class="primary mini" ${can?'':'disabled'}>${spec.configurable?'Configurer':'Ajouter'}</button></div>`);
+  card.appendChild(el('div',{class:'pillbar'},[spec.label,item.generation?`Gen ${item.generation}`:''].filter(Boolean).map(x=>`<span class="pill">${uxEsc(x)}</span>`).join('')));
+  const stats=r15StatsBar(item);if(stats)card.appendChild(stats);if(item.effect)card.appendChild(el('p',{},uxEsc(item.effect)));if(item.neuro)card.appendChild(el('div',{class:'skill-meta'},`Neuroprogramme · chargement selon Rang Neurodive (${lockLoadedNeuro().length}/${lockNeuroCapacity()})`));
+  const btn=card.querySelector('button');if(can)btn.onclick=()=>addPurchase(kind,item);return card;
+};
+
+function r15RecurringCatalogItem(item){
+  const s=normText(`${item?.category||''} ${item?.name||''}`);
+  return /logement|loyer|planque|second logement|leasing|assurance|careforce|abonnement.*mensuel|entretien augmentique|pension|dette mensuelle/.test(s);
+}
+const r15EqxSearchBase=eqxSearch;
+eqxSearch=function(item,q){if(item?.kind==='equipment'&&r15RecurringCatalogItem(item))return false;return r15EqxSearchBase(item,q)};
+function r15EnsureCharges(){state.reality.fixedChargeItems=Array.isArray(state.reality.fixedChargeItems)?state.reality.fixedChargeItems:[]}
+function r15MonthlyCharges(){r15EnsureCharges();return state.reality.fixedChargeItems.reduce((s,x)=>s+Math.max(0,Number(x.monthly)||0),0)}
+const r15LifestyleBaseFn=lifestyleFinal;
+function r15LifestyleBase(){return r15LifestyleBaseFn()}
+function r15LifestyleEffective(){const order=ruleset.creation.lifestyleOrder,base=r15LifestyleBase(),i=order.indexOf(base),ref=r15LifestyleRefs[base]||200,drops=Math.floor(r15MonthlyCharges()/ref);return order[Math.max(0,i-drops)]}
+lifestyleFinal=function(){return r15LifestyleEffective()};
+function r15ChargePressure(){const base=r15LifestyleBase(),ref=r15LifestyleRefs[base]||200,total=r15MonthlyCharges(),drops=Math.floor(total/ref),maxDrops=ruleset.creation.lifestyleOrder.indexOf(base);return {base,ref,total,drops,effective:r15LifestyleEffective(),deficit:Math.max(0,drops-maxDrops)*ref}}
+function r15FixedChargePanel(){
+  r15EnsureCharges();const p=r15ChargePressure(),box=el('div',{class:'r15-fixed-box'},`<div class="section-title reality-subtitle"><div><h3>Train de vie & Charges fixes</h3><p>Logement, leasing, assurances, entretien augmentique et engagements mensuels ne sont pas débités du Compte comme des achats comptants.</p></div><div class="kpi ${p.deficit?'bad':'good'}">${uxEsc(p.base)} → ${uxEsc(p.effective)}</div></div><div class="rulebox"><strong>Référence ${uxEsc(p.base)} :</strong> ${fmt(p.ref)}/mois · Charges actuelles : <strong>${fmt(p.total)}/mois</strong> · ${p.drops} tranche(s) complète(s).${p.deficit?` <strong>Déficit structurel : ${fmt(p.deficit)}/mois au-delà de Survie.</strong>`:''}</div>`),grid=el('div',{class:'grid2'}),name=el('div',{class:'field'},'<label>Charge fixe / actif</label>'),nameInput=el('input',{placeholder:'Ex. loyer, leasing, assurance…'}),amt=el('div',{class:'field'},'<label>Reste réellement payé / mois</label>'),amtInput=el('input',{type:'number',min:0,step:25,placeholder:'0'});name.appendChild(nameInput);amt.appendChild(amtInput);grid.append(name,amt);box.appendChild(grid);const add=el('button',{class:'primary mini'},'Ajouter la Charge fixe');add.onclick=()=>{const label=nameInput.value.trim(),monthly=Math.max(0,Number(amtInput.value)||0);if(!label||!monthly)return;state.reality.fixedChargeItems.push({uid:`fc-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,6)}`,name:label,monthly});render()};box.appendChild(add);
+  const list=el('div',{class:'u14-picked-list'});state.reality.fixedChargeItems.forEach(x=>{const row=el('div',{class:'u14-picked-row'},`<div><strong>${uxEsc(x.name)}</strong><span>${fmt(x.monthly)}/mois</span></div>`),rm=el('button',{class:'danger-btn mini'},'Retirer');rm.onclick=()=>{state.reality.fixedChargeItems=state.reality.fixedChargeItems.filter(y=>y.uid!==x.uid);render()};row.appendChild(rm);list.appendChild(row)});box.appendChild(list);return box;
+}
+const r15StepEquipmentBase=stepEquipment;
+stepEquipment=function(){r15StepEquipmentBase();const c=$('#stepContent');if(!c||!style())return;c.insertBefore(r15FixedChargePanel(),c.querySelector('.catalog-tools')||null)};
+
+const r15Css=el('style',{},`.r15-prereq{font-size:12px;margin:7px 0;padding:7px 9px;border-radius:8px;background:rgba(255,255,255,.03)}.r15-prereq.ok{color:var(--good)}.r15-prereq.bad{color:var(--bad);border:1px solid rgba(255,100,100,.25)}.r15-statbar{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0}.r15-statbar span{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:4px 8px}.r15-fixed-box{margin:14px 0 20px;padding:14px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02)}`);document.head.appendChild(r15Css);
+render();

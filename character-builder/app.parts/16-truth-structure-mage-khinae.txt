@@ -1,0 +1,156 @@
+// Truth structural completion: contextual dropdowns, Angelus/Daemon hierarchy, Mageius/Affinities and non-lupine Khinae.
+
+function t16Opt(id,name,description=''){return {id,name,description}}
+const t16Bloods=[
+  t16Opt('sang_naturel','Sang Naturel — Vortigern','Éléments et accord primordial.'),t16Opt('sang_alpha','Sang Alpha — Ohtana','Dominance et cohésion ; chez un non-loup, s’exprime selon sa propre logique sociale.'),t16Opt('sang_revelateur','Sang Révélateur — Ceallachán','Pensées et destruction des mensonges surnaturels.'),t16Opt('sang_ecarlate','Sang Écarlate — Keyna','Puissance physique et perception du sang.'),t16Opt('sang_sculpteur','Sang Sculpteur — Svenn','Modelage de matière et de chair.'),t16Opt('sang_funeste','Sang Funeste — Verica','Mort, spectres et violence immatérielle.'),t16Opt('sang_primal','Sang Primal — Khuyildar','Assimilation animale et brume.'),t16Opt('sang_chasseur','Sang Chasseur — Thorkel','Traque absolue et disparition.'),t16Opt('sang_de_sagesse','Sang de Sagesse — Tomoko','Mémoire et assimilation des savoirs.'),t16Opt('sang_enrage','Sang Enragé — Asulf','Frénésie volontaire et contamination de la rage.'),t16Opt('sang_enchaine','Sang Enchaîné — Jayanti','Corps de guerre humain révélé ; interdit la forme hybride.'),t16Opt('sang_vengeur','Sang Vengeur — Astaphium','Plaies, douleur et violence de la Mue.')
+];
+const t16VampireBloods=[
+ t16Opt('sang_ecarlate','Sang Écarlate — Anya','Force, vitesse et perception hématique.'),t16Opt('sang_primal','Sang Primal — Lyssa','Métamorphose animale et dissolution en brume.'),t16Opt('sang_hypocrite','Sang Hypocrite — Briaerus','Mensonge visuel, doubles et illusions.'),t16Opt('sang_venimeux','Sang Venimeux — Huitzitia','Toxines biologiques et perception thermique.'),t16Opt('sang_masque','Sang Masqué — Kazuo','Infiltration, imitation du visage et de la voix ; Sang particulièrement subtil.'),t16Opt('sang_aveugle','Sang Aveugle — Ashream','Perceptions non visuelles et accès astral.'),t16Opt('sang_traqueur','Sang Traqueur — Go’Ndai','Analyse anatomique et manipulation hématique.'),t16Opt('sang_glacial','Sang Glacial — Vjärmod','Drain de chaleur et gel surnaturel.'),t16Opt('sang_ardent','Sang Ardent — Larisha','Chaleur, brûlure et embrasement.'),t16Opt('sang_orageux','Sang Orageux — Branimir','Électricité biologique et conduction.'),t16Opt('sang_revelateur','Sang Révélateur — Zhi Xia','Pensée, dévoilement et destruction des mensonges surnaturels.'),t16Opt('sang_condamne','Sang Condamné — Ashelia','Dévoration magique et remplacement du corps.')
+];
+const t16Courts=[
+ t16Opt('krovni_rytsari','Krovni Rytsari','Grande tradition occidentale : noblesse, serment, commandement, guerre et obsession du rang.'),t16Opt('alghul_almalakiu','Alghul Almalakiu','Tradition mésopotamienne du Savoir accumulé, de la mort, des restes et de la mémoire.'),t16Opt('oru_ayeraye','Oru Ayeraye','Anciennes Cours africaines : Ténèbres, lignées et relations avec les Deimons.'),t16Opt('ihuito_meztzi','Ihuito Meztzi','Cour américaine du Sang : prédation, héritage, religion et continuité sacrée.'),t16Opt('shi_hun_zhe','Shi Hun Zhe','Cour des Anciens : déséquilibre Yin/Yang/Hun/Po, discipline et administration impériale adaptée à 2035.')
+];
+const t16Pelages=[
+ t16Opt('pelages_gris','Pelages Gris','Protection directe et responsabilité envers les siens.'),t16Opt('pelages_noirs','Pelages Noirs','Territoire et chasse collective.'),t16Opt('pelages_blancs','Pelages Blancs','Discipline et coordination martiale.'),t16Opt('pelages_roux','Pelages Roux','Exploitation fine de la transformation et de la Mue.'),t16Opt('pelages_bruns','Pelages Bruns','Relation aux esprits et contrôle de l’instinct.'),t16Opt('pelages_dores','Pelages Dorés','Dévoration occulte, acquisition de Traces et traditions inquiétantes.')
+];
+const t16MageTypes={
+ kaharal:{name:'Kaharal',description:'Mageius de Matière : Architétramancie, Morphomancie, Alchimie.',aff:[['architetramancie','Architétramancie'],['morphomancie','Morphomancie'],['alchimie','Alchimie']]},
+ meldir:{name:'Meldir',description:'Mageius d’Énergie : Photomancie, Acratomancie, Médéomancie.',aff:[['photomancie','Photomancie'],['acratomancie','Acratomancie'],['medeomancie','Médéomancie']]},
+ elinaeth:{name:'Elinaeth',description:'Mageius de Réalité : Télékinésie, Divination, Chronomancie.',aff:[['telekinesie','Télékinésie'],['divination','Divination'],['chronomancie','Chronomancie']]},
+ mestherak:{name:'Mestherak',description:'Mageius de l’axe spectral : Spectromancie, Hématomancie, Nécromancie.',aff:[['spectromancie','Spectromancie'],['hematomancie','Hématomancie'],['necromancie','Nécromancie']]},
+ discella:{name:'Discella',description:'Mageius de l’Ombre/Esprit : Skiamancie, Pseudomancie, Pathomancie.',aff:[['skiamancie','Skiamancie'],['pseudomancie','Pseudomancie'],['pathomancie','Pathomancie']]}
+};
+const t16Lineages={
+ canides_errants:{name:'Canidés errants',description:'Coyotes, chacals, lycaons, dholes et dingos : poursuite, endurance et survie sans Pelage.',variants:[['coyote','Coyote','Gabarit compact ; milieux urbains encombrés comme terrain adapté.'],['chacal_dhole','Chacal / Dhole','Charognard robuste ; distingue sang frais et charogne récente.'],['lycaon','Lycaon','Coureur de fond, particulièrement adapté à la poursuite continue.'],['dingo','Dingo','Aridophile, tolère chaleur et manque d’eau.']]},
+ renards:{name:'Renards',description:'Survivants libres : ruse surnaturelle centrée sur odeurs, sons, pistes et fausses directions.',variants:[['roux','Roux','Profil équilibré, lisières et zones humaines peu denses.'],['fennec','Fennec','Physiologie désertique et écoute exceptionnelle.'],['arctique','Arctique','Adapté au froid intense et au camouflage neige/glace.'],['gris_forestier','Gris / forestier','Grimpe et progression en terrain boisé/accidenté.']]},
+ grands_felins:{name:'Grands félins',description:'Prédateurs d’embuscade puissants, souvent solitaires.',variants:[['tigre','Tigre','Profil de référence ; excellent nageur.'],['lion','Lion','Plus massif ; peut reconnaître une petite troupe durable sans mécanique de Meute.'],['panthere','Panthère','Plus agile, escalade et progression nocturne.'],['jaguar','Jaguar','À l’aise dans l’eau et la végétation dense.'],['puma','Puma','Agile en terrain montagneux et changements d’élévation.']]},
+ chats:{name:'Chats',description:'Petits félins indépendants, curieux et capables de côtoyer les monstres.',variants:[['domestique','Domestique','Forme animale crédible comme chat ordinaire.'],['sauvage','Sauvage','Plus robuste, moins facile à banaliser.'],['nocturne','Nocturne','Perception et déplacement naturels en faible lumière.'],['grimpeur','Grimpeur','Griffes et articulations adaptées aux surfaces verticales.']]},
+ rapaces:{name:'Rapaces',description:'Aigles, faucons, hiboux et vautours : bonds ailés et contrôle des hauteurs, sans vol stationnaire tactique.',variants:[['aigle','Aigle','Puissant, vision longue portée.'],['faucon','Faucon','Très agile, vitesse horizontale.'],['hibou','Hibou','Nocturne et silencieux.'],['vautour','Vautour','Endurant et adapté aux charognes.']]},
+ requins:{name:'Requins',description:'Khinae marins indépendants : vitesse aquatique, pression et perception du sang.',variants:[['requin_blanc','Requin blanc','Profil de référence, froid et grandes profondeurs.'],['bouledogue','Bouledogue','Eau douce/salée et transitions de milieu.'],['requin_tigre','Requin tigre','Digestion robuste et régime opportuniste.'],['requin_marteau','Requin marteau','Électroréception fine et grande agilité.'],['requin_baleine','Requin baleine','Très grand gabarit, moins prédateur.']]},
+ serpents:{name:'Serpents',description:'Venimeux, constricteurs ou furtifs ; la Variante détermine l’arme corporelle principale.',variants:[['vipere','Vipère — hémotoxique','Venin hémotoxique.'],['cobra','Cobra — neurotoxique','Venin neurotoxique.'],['constricteur','Python / Boa — constricteur','Plus puissant, sans venin, spécialisé en constriction.'],['furtif','Couleuvre / petite lignée furtive','Petit gabarit et très grande agilité.']]},
+ boudas:{name:'Boudas',description:'Hommes-Hyènes sociaux en Bandes, sans Meute lupine.',variants:[['tachetee','Hyène tachetée','Plus massive et puissante.'],['rayee','Hyène rayée','Plus mobile et discrète.'],['brune','Hyène brune','Tolérance aux charognes et milieux arides.']]},
+ berserkirs:{name:'Berserkirs',description:'Hommes-Ours massifs, anciens alliés des Ulfhednars.',variants:[['brun_grizzly','Brun / Grizzly','Masse, puissance et robustesse.'],['polaire','Polaire','Froid extrême, nage et immersion glaciale.'],['ours_noir','Ours noir','Plus mobile et meilleur grimpeur.']]},
+ crocodiliens:{name:'Crocodiliens',description:'Branche lourde d’embuscade aquatique, armure naturelle importante.',variants:[['nil_marin','Crocodile du Nil / marin','Grand gabarit, eau libre.'],['alligator','Alligator','Plus mobile à terre.'],['caiman','Caïman','Gabarit réduit, zones encombrées.'],['gavial','Gavial','Moins blindé, capture aquatique rapide.']]}
+};
+const t16GodInfo={alabor:'Eaux primordiales, flots, pression et fécondité.',astaroth:'Civilisation, savoir et création.',belial:'Feu, domination et royauté.',diablo:'Nuit et peur.',lilith:'Désir, plaisir, attachement et fertilité.',mammon:'Mort, vieillesse et Inéluctable.',mephisto:'Occulte, parole et hasard.',satan:'Jugement, sentence et ordre.',lucifer:'Soleil, cycle, vie et courage.',belzebuth:'Vie, évolution, maladie et mutation.',abigor:'Ciel violent, vent, orage et tempête.',baal:'Guerre.',morrighan:'Guerre, frénésie, présages, mort et royauté.'};
+const t16Patrons={
+ belial:[['marchosias','Marchosias — Victoire','Courage, loyauté, persévérance ; Faveur : Victoire arrachée.'],['demona','Demona — Destruction','Pragmatisme et efficacité ; Faveur : Démolition méthodique.']],
+ lilith:[['meririm','Meririm — Charme','Liberté, plaisir et absence de honte.'],['babalon','Babalon — Fertilité','Corps souverain et biologie comme puissance.'],['gusoyn','Gusoyn — Connaissance du corps','Observation et compréhension physiologique.'],['sytry','Sytry — Désir','Lecture sociale du désir et de l’attachement.']],
+ alabor:[['vephar','Vephar — Brumes','Ambiguïté, patience, approche indirecte ; Faveur : Brume de Scylla.'],['forneus','Forneus — Vagues','Ténacité, avancer, encaisser puis revenir.'],['zagan','Zagan — Transformation','Adaptation et changement fluide.'],['shax','Shax — Marées','Rythme, retrait et retour.']],
+ mammon:[['alastor','Alastor — Mort','Accepter la fin et la rendre utile.'],['abrahel','Abrahel — Vieillesse','Patience, usure et temps long.'],['apollyon','Apollyon — Inéluctable','Avancer vers ce qui ne peut être évité.'],['eurynome','Eurynome — Passage','Accompagner et reconnaître les fins.']],
+ diablo:[['xezbeth','Xezbeth — Secret','Dissimulation et angles morts.'],['balam','Balam — Peur','Comprendre et exploiter la peur.'],['amon','Amon — Nuit','Silence, patience et obscurité.'],['anammalech','Anammalech — Ombres','Présence indirecte et disparition.']],
+ astaroth:[['ardat_lili','Ardat-Lili — Arts','Création, beauté et inspiration ; Faveur : Inspiration contagieuse.'],['byleth','Byleth — Civilisation','Institutions et mémoire sociale.'],['asmodee','Asmodée — Jeu','Ruse, compétition et lecture des règles.'],['morax','Morax — Savoir','Étude, méthode et érudition.'],['alocer','Alocer — Technique','Compréhension des systèmes construits.']],
+ satan:[['samael','Samael — Sentence','Trancher et assumer une décision.'],['cali','Cali — Vérité judiciaire','Faire apparaître ce qui compte pour le jugement.'],['barbatos','Barbatos — Loi','Procédure, preuve et légitimité.'],['acham','Acham — Ordre','Structure et chaîne de responsabilité.']],
+ mephisto:[['crocell','Crocell — Parole','Rhétorique, répartie et influence publique ; Faveur : Répartie de Crocell.'],['abrasax','Abrasax — Occulte','Symboles, mystères et correspondances.'],['paimon','Paimon — Hasard','Opportunité, risque et timing.'],['vinea','Vinea — Secrets','Recherche indirecte et information cachée.']],
+ abigor:[['astarte','Astarté — Lune','Espionnage mondain, cycles et pouvoir indirect ; Faveur : Clarté lunaire.'],['furfur','Furfur — Orage','Impulsion, vitesse et violence météorique.']],
+ baal:[['ereshkigal','Ereshkigal — Guerre froide','Stratégie, autorité et conquête.'],['leraje','Leraje — Tir','Précision, chasse et distance.'],['focalor','Focalor — Bataille','Mouvement et contrôle du champ de bataille.']],
+ belzebuth:[['persephone','Perséphone — Régénération','Médecine et préservation de la vie ; Faveur : Deuxième printemps.'],['baphomet','Baphomet — Évolution','Adaptation, transgression et expérimentation ; Faveur : Sélection immédiate.']],
+ lucifer:[['adramalech','Adramalech — Rayonnement','Gloire, héroïsme et présence étendue ; Faveur : Rayonnement.'],['abalim','Abalim — Splendeur','Majesté et beauté solaire ; Faveur : Splendeur du Soleil.']],
+ morrighan:[['nemain','Nemain — Frénésie','Fureur contrôlée et instinct du champ de bataille.'],['huginn','Huginn — Pensée','Observation, stratégie et intelligence accélérée.'],['ibn_al_berih','Ibn al-Berih — Malheur','Attendre l’erreur et laisser le destin trébucher.'],['nankilslas','Nankil’slas — Tromperie','Plans indirects et fausses identités.'],['rhiannon','Rhiannon — Colère','Répondre à l’agression et ne jamais oublier une offense.'],['cuchulainn','Cúchulainn — Courage','Héroïsme frontal et protection des siens.']]
+};
+const t16Archangels=[
+ ['remiel','Remiel','kether','Don : Essence des Cieux.'],['metatron','Metatron','kether','Archange renégat ; Don : Création.'],['gabrielle','Gabrielle','hokhma','Don : Parole céleste.'],['manakielle','Manakielle','hokhma','Archange renégat ; Don : Connaissance.'],['barachiel','Barachiel','bina','Don : Bénédiction.'],['razielle','Razielle','bina','Archange renégat ; Don : Secrets.'],['raphael','Raphael','hesed','Don : Restauration parfaite.'],['tsadqiel','Tsadqiel','hesed','Archange renégat ; Don : Pardon.'],['michel','Michel','gueburah','Don : Rien à craindre.'],['selaphielle','Selaphielle','gueburah','Archange renégat ; Don : Devoir.'],['zophielle','Zophielle','tiphereth','Don : Regard de Splendeur.'],['sachielle','Sachielle','tiphereth','Archange renégat ; Don : Charité.'],['azazel','Azazel','nesah','Don : Frontière céleste.'],['hanaelle','Hanaelle','nesah','Archange renégat ; Don : Sexualité.'],['urielle','Urielle','hod','Don : Lumière du Phénix.'],['sandalphon','Sandalphon','hod','Archange renégat ; Don : Grandeur.'],['camaelle','Camaelle','yessod','Don : Éclair de colère.'],['mebahel','Mebahel','yessod','Archange renégat ; Don : Vérité.'],['azrael','Azrael','malkhouth','Don : Blessure de l’âme.'],['muriel','Muriel','malkhouth','Archange renégat ; Don : Destruction.']
+];
+const t16Seraphs={
+ remiel:[['purim','Purim — Jugement dernier'],['ochotiel','Ochotiel — Pesanteur']],gabrielle:[['belohim','Belohim — Volonté'],['arathim','Arathim — Loi']],barachiel:[['assim','Assim — Planification'],['razael','Razael — Sagesse']],raphael:[['hazel','Hazel — Sel / Larmes'],['sobronielle','Sobronielle — Créativité']],michel:[['esdrael','Esdrael — Sang'],['graphiel','Graphiel — Épée de Dieu']],zophielle:[['georah','Georah — Passion'],['thirielle','Thirielle — Charme']],azazel:[['nehemiel','Nehemiel — Haine'],['hassiel','Hassiel — Défense']],urielle:[['danael','Danael — Flammes'],['agriel','Agriel — Lumière céleste']],camaelle:[['jachim','Jachim — Orage'],['sabbathiel','Sabbathiel — Colère']],azrael:[['barabbiel','Barabbiel — Âmes'],['pithormim','Pithormim — Clé des Enfers']],metatron:[['aralim','Aralim — Construction']],manakielle:[['siloelle','Siloelle — Énergie']],razielle:[['jessim','Jessim — Mystique']],tsadqiel:[['rubiel','Rubiel — Pureté']],selaphielle:[['bethel','Bethel — Métal']],sachielle:[['chiloel','Chiloel — Résignation']],hanaelle:[['phanaelle','Phanaelle — Prudence']],sandalphon:[['pergamin','Pergamin — Persévérance']],mebahel:[['henael','Henael — Avertissement']],muriel:[['osael','Osael — Colère']]
+};
+const t16AngelNatureInfo={trone:'Juge, chasseur et enquêteur spirituel : trouve, comprend et marque la cible.',vertu:'Travaille passions, vices, blessures intérieures et purification.',domination:'Exécuteur céleste : destruction ciblée et élimination de proies identifiées.'};
+const t16SephInfo={kether:'Couronne : domination, conscience et unité.',hokhma:'Sagesse : sagesse, pureté et magie.',bina:'Compréhension : intellect et destin.',hesed:'Miséricorde : guérison et créativité.',gueburah:'Force : justice et guerre.',tiphereth:'Beauté : foi, dévotion et sacrifice.',nesah:'Victoire : amour, succès et sexualité.',hod:'Gloire : savoir, science et grandeur.',yessod:'Fondation : rêves, illusion et imagination.',malkhouth:'Royaume : mort, monde physique et poids.'};
+
+function t16Nature(id){return ruleset.truth.natures.find(n=>n.id===id)}
+function t16Choice(key,label,options,optional=false){return {key,label,optional,options}}
+function t16PatchCore(){
+  const v=t16Nature('vampire');if(v)v.choices=[t16Choice('court','Cour d’origine',t16Courts),t16Choice('blood','Sang noir',t16VampireBloods)];
+  const g=t16Nature('garou');if(g)g.choices=[t16Choice('pelage','Pelage',t16Pelages),t16Choice('blood','Sang vif',t16Bloods,true)];
+  const m=t16Nature('mage');if(m)m.choices=[t16Choice('mageiusType','Type de Mageius',Object.entries(t16MageTypes).map(([id,x])=>t16Opt(id,x.name,x.description))),t16Choice('dominantAffinity','Affinité dominante',[])];
+  const k=t16Nature('khinae');if(k)k.choices=[t16Choice('lineage','Lignée',Object.entries(t16Lineages).map(([id,x])=>t16Opt(id,x.name,x.description))),t16Choice('variant','Variante morphologique',[]),t16Choice('blood','Sang vif',t16Bloods,true)];
+  const d=t16Nature('daemon');if(d)d.choices=[t16Choice('function','Fonction principale',[t16Opt('oracle','Oracle / Tentateur','Âmes, pensées, rêves et influence.'),t16Opt('tourmenteur','Châtiment / Tourmenteur','Peur, souffrance, maladie et affliction du corps ou de l’esprit.'),t16Opt('legionnaire','Chevalier / Légionnaire','Fonction martiale de la Cour daemoniaque.')]),t16Choice('divinity','Divinité',Object.entries(t16GodInfo).map(([id,description])=>t16Opt(id,(d.choices?.find(c=>c.key==='divinity')?.options||[]).find(o=>o.id===id)?.name||id,description))),t16Choice('patron','Maisonnée / Patron',[])];
+  const a=t16Nature('angelus');if(a)a.choices=[t16Choice('angelNature','Nature angélique',[t16Opt('trone','Trône',t16AngelNatureInfo.trone),t16Opt('vertu','Vertu',t16AngelNatureInfo.vertu),t16Opt('domination','Domination',t16AngelNatureInfo.domination)]),t16Choice('sephirah','Sephirah',Object.entries(t16SephInfo).map(([id,description])=>t16Opt(id,(a.choices?.find(c=>c.key==='sephirah')?.options||[]).find(o=>o.id===id)?.name||id,description))),t16Choice('archangel','Archange lié',[]),t16Choice('seraph','Séraphin patron',[])];
+}
+t16PatchCore();
+
+function t16RefreshDependentChoices(){
+  const c=state.truth.choices=state.truth.choices||{},n=state.truth.nature;
+  if(n==='mage'){
+    if(c.affinity&&t16MageTypes[c.affinity]&&!c.mageiusType)c.mageiusType=c.affinity;
+    const type=t16MageTypes[c.mageiusType],nat=t16Nature('mage');if(nat){const ch=nat.choices.find(x=>x.key==='dominantAffinity');ch.options=(type?.aff||[]).map(([id,name])=>t16Opt(id,name,`Affinité native de ${type.name}. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure.`));if(c.dominantAffinity&&!ch.options.some(x=>x.id===c.dominantAffinity))c.dominantAffinity=''}
+  }
+  if(n==='khinae'){
+    const lin=t16Lineages[c.lineage],nat=t16Nature('khinae'),ch=nat?.choices.find(x=>x.key==='variant');if(ch){ch.options=(lin?.variants||[]).map(([id,name,description])=>t16Opt(id,name,description));if(c.variant&&!ch.options.some(x=>x.id===c.variant))c.variant=''}
+  }
+  if(n==='daemon'){
+    const nat=t16Nature('daemon'),ch=nat?.choices.find(x=>x.key==='patron');if(ch){ch.options=(t16Patrons[c.divinity]||[]).map(([id,name,description])=>t16Opt(id,name,description));if(c.patron&&!ch.options.some(x=>x.id===c.patron))c.patron=''}
+  }
+  if(n==='angelus'){
+    const nat=t16Nature('angelus'),ach=nat?.choices.find(x=>x.key==='archangel'),sch=nat?.choices.find(x=>x.key==='seraph');if(ach){ach.options=t16Archangels.filter(x=>x[2]===c.sephirah).map(([id,name,,description])=>t16Opt(id,name,description));if(c.archangel&&!ach.options.some(x=>x.id===c.archangel))c.archangel=''}if(sch){sch.options=(t16Seraphs[c.archangel]||[]).map(([id,name])=>t16Opt(id,name,'Séraphin patron : école personnelle / Maisonnée ; transmet une Faveur active.'));if(c.seraph&&!sch.options.some(x=>x.id===c.seraph))c.seraph=''}
+  }
+}
+
+// Reuse the Garou Sang-vif trees for non-lupine Khinae exactly as required by V5.
+const t16BloodNeedles=t16Bloods.map(x=>normText(x.name.replace(/—.*/,'')));
+if(!truthCatalog.khinae.some(x=>String(x.id).startsWith('khinae_blood_'))){
+  const copies=truthCatalog.garou.filter(t=>t16BloodNeedles.some(n=>normText(t.group||'').includes(n))).map(t=>({...t,id:`khinae_blood_${t.id}`}));truthCatalog.khinae.push(...copies);
+}
+
+const t16MageOriginal=[...truthCatalog.mage];
+const t16MageCommon=t16MageOriginal.filter(x=>!['maitrise','amplitude'].some(k=>normText(x.group||'').includes(k)));
+function t16MageTemplate(name){return t16MageOriginal.find(x=>normText(x.name)===normText(name))}
+function t16MageProgress(affId,affName){
+  const defs=[['mastery_affinee','Maîtrise Affinée',1,''],['mastery_superieure','Maîtrise Supérieure',2,`Maîtrise Affinée — ${affName}`],['mastery_magistrale','Maîtrise Magistrale',3,`Maîtrise Supérieure — ${affName}`],['amplitude_significative','Amplitude Significative',1,''],['amplitude_majeure','Amplitude Majeure',2,`Amplitude Significative — ${affName}`],['amplitude_cataclysmique','Amplitude Cataclysmique',3,`Amplitude Majeure — ${affName}`]];
+  return defs.map(([suffix,label,cost,prerequisiteName])=>{const tpl=t16MageTemplate(label);return {id:`mage_${affId}_${suffix}`,name:`${label} — ${affName}`,cost,access:'Progression',prerequisiteName,group:`Affinité — ${affName}`,effect:tpl?.effect||`Progression de ${affName}.`,mageAffinity:affId,mageProgress:true}})
+}
+function t16MageNative(){const t=t16MageTypes[state.truth.choices?.mageiusType];return (t?.aff||[]).map(([id,name])=>({id,name}))}
+function t16MageOwnedAff(){const d=state.truth.choices?.dominantAffinity,out=new Set(d?[d]:[]);for(const id of state.truth.truthTalents||[]){const m=id.match(/^mage_awaken_(.+)$/);if(m)out.add(m[1])}return out}
+function t16MageAll(){
+  const native=t16MageNative(),dominant=state.truth.choices?.dominantAffinity,entries=[...t16MageCommon];
+  native.forEach(a=>{if(a.id!==dominant)entries.push({id:`mage_awaken_${a.id}`,name:`Éveiller ${a.name}`,cost:1,access:'Progression',prerequisiteName:'Progression préalable dans une Affinité native',group:'Affinités natives supplémentaires',effect:`Ouvre ${a.name} au niveau Maîtrise Initiale / Amplitude Mineure.`,mageAwaken:a.id});entries.push(...t16MageProgress(a.id,a.name))});return entries;
+}
+const t16TalentByIdBase=truthTalentById;
+truthTalentById=function(id){if(state.truth.nature==='mage')return t16MageAll().find(x=>x.id===id)||null;return t16TalentByIdBase(id)};
+const t16VisibleBase=truthTalentVisible;
+truthTalentVisible=function(t){
+  if(state.truth.nature==='khinae'){
+    const g=normText(t.group||''),line=truthNeedles.khinae[state.truth.choices?.lineage],blood=truthNeedles.garou[state.truth.choices?.blood];return groupHas(g,line)||groupHas(g,blood);
+  }
+  return t16VisibleBase(t);
+};
+const t16AvailBase=truthAvailableTalents;
+truthAvailableTalents=function(){
+  if(state.truth.nature!=='mage')return t16AvailBase();
+  const c=state.truth.choices||{};if(!c.mageiusType||!c.dominantAffinity)return [];
+  const owned=t16MageOwnedAff();return t16MageAll().filter(t=>!t.mageProgress||owned.has(t.mageAffinity));
+};
+const t16PrereqBase=truthPrereqSatisfied;
+truthPrereqSatisfied=function(t,available=truthAvailableTalents()){
+  if(state.truth.nature==='mage'&&t?.mageAwaken){
+    const owned=t16MageOwnedAff(),progressed=[...owned].filter(a=>(state.truth.truthTalents||[]).some(id=>id.startsWith(`mage_${a}_`)&&!id.startsWith('mage_awaken_')));return owned.size<=1?progressed.length>=1:progressed.length>=2;
+  }
+  if(state.truth.nature==='mage'&&normText(t?.name||'')==='oeuvre personnelle'){
+    const a=state.truth.choices?.dominantAffinity;return !!a&&(state.truth.truthTalents||[]).includes(`mage_${a}_mastery_magistrale`)&&(state.truth.truthTalents||[]).includes(`mage_${a}_amplitude_majeure`);
+  }
+  return t16PrereqBase(t,available);
+};
+
+const t16Signature={canides_errants:{name:'Piste nomade',access:'SR',effect:'Après identification directe d’une odeur, la distingue du bruit olfactif ordinaire pour la scène tant qu’une trace physique existe.'},renards:{name:'Odeur mouvante',access:'SR',effect:'Peut atténuer, accentuer ou déformer sa propre odeur naturelle sans imiter encore parfaitement un individu précis.'},grands_felins:{name:'Silence du grand fauve',access:'SR',effect:'Ses déplacements naturels ne suffisent pas à révéler sa position lorsqu’il possède déjà un couvert ou une dissimulation crédible.'},chats:{name:'Inoffensif par nature',access:'SR',effect:'Un instinct surnaturel de prédation ne le classe pas automatiquement comme menace majeure tant qu’il ne manifeste pas d’hostilité.'},rapaces:{name:'Bond ailé',access:'R · Animal/Hybride',effect:'Un Déplacement peut devenir un grand bond soutenu par les ailes ; pas de vol stationnaire.'},requins:{name:'Sang qui refuse l’abysse',access:'SR/R',effect:'1/scène, peut relancer une exposition biologique directe à la Corruption de Thul.'},serpents:{name:'Corps ophidien',access:'R · Animal/Hybride',effect:'Locomotion sans membres, enroulement et compression corporelle impossibles pour un humain.'},boudas:{name:'Bande de ricanement',access:'SR/R',effect:'Au début d’une scène/chasse, reconnaît jusqu’à trois consentants comme sa Bande pour les Talents de Lignée.'},berserkirs:{name:'Masse ursine',access:'R · Hybride',effect:'Une force humaine ordinaire ne peut normalement pas le renverser, pousser ou soulever.'},crocodiliens:{name:'Fossile de vase',access:'R · Animal/Hybride',effect:'Peut rester presque parfaitement immobile et ralentir ses fonctions ; le mouvement seul ne suffit plus à le détecter.'}};
+const t16FreeBase=daSelectedFreeTraits;
+daSelectedFreeTraits=function(){
+  const out=t16FreeBase(),n=state.truth.nature,c=state.truth.choices||{};
+  if(n==='mage'&&c.dominantAffinity){const a=t16MageNative().find(x=>x.id===c.dominantAffinity);if(a)out.push({name:`Affinité dominante — ${a.name}`,access:'Gratuit',source:'Mageius',effect:'Commence en Maîtrise Initiale / Amplitude Mineure. Résonance dominante : 1/scène, relancer le d10e d’un test utilisant directement cette Affinité et conserver le second résultat.'})}
+  if(n==='khinae'){const s=t16Signature[c.lineage];if(s)out.push({...s,source:'Signature gratuite de Lignée'});const lin=t16Lineages[c.lineage],v=lin?.variants?.find(x=>x[0]===c.variant);if(v)out.push({name:`Variante — ${v[1]}`,access:'Gratuit',source:'Biologie Khinae',effect:v[2]})}
+  if(n==='daemon'&&c.patron){const p=(t16Patrons[c.divinity]||[]).find(x=>x[0]===c.patron);if(p)out.push({name:`Faveur de Maisonnée — ${p[1]}`,access:'Gratuit',source:'Patron daemoniaque',effect:p[2]})}
+  if(n==='angelus'&&c.archangel){const a=t16Archangels.find(x=>x[0]===c.archangel);if(a)out.push({name:`Archange lié — ${a[1]}`,access:'Gratuit',source:'Don archangélique',effect:a[3]});const s=(t16Seraphs[c.archangel]||[]).find(x=>x[0]===c.seraph);if(s)out.push({name:`Séraphin patron — ${s[1]}`,access:'Gratuit',source:'Faveur séraphique',effect:'Faveur active de l’école / Maisonnée séraphique choisie ; une seule Faveur active à la fois.'})}
+  return out;
+};
+
+function t16ChoiceChanged(key,value){state.truth.choices=state.truth.choices||{};state.truth.choices[key]=value;t16RefreshDependentChoices();sanitizeTruthTalents();let changed=true;while(changed){changed=false;const avail=truthAvailableTalents();for(const id of [...state.truth.truthTalents]){const t=truthTalentById(id);if(!t||!truthPrereqSatisfied(t,avail)){state.truth.truthTalents=state.truth.truthTalents.filter(x=>x!==id);changed=true}}}render()}
+function t16RenderChoicePanel(){
+  const n=truthNature(),old=$('#stepContent .truth-nature-card')?.nextElementSibling;if(!n?.choices?.length)return;
+  const panel=el('div',{class:'t16-choice-stack'});n.choices.forEach(ch=>{const groups=[{label:ch.label,items:ch.options||[]}],value=state.truth.choices?.[ch.key]||'';panel.appendChild(u14Select(`${ch.label}${ch.optional?' · optionnel':''}`,groups,value,v=>t16ChoiceChanged(ch.key,v),ch.optional?'— Aucun —':'— Choisir —'))});
+  if(old?.classList?.contains('grid2'))old.replaceWith(panel);else $('#stepContent .truth-nature-card')?.after(panel);
+}
+const t16StepTruthBase=stepTruth;
+stepTruth=function(){t16RefreshDependentChoices();t16StepTruthBase();t16RenderChoicePanel()};
+
+const t16MergeBase=mergeState;
+mergeState=function(obj){t16MergeBase(obj);t16RefreshDependentChoices();sanitizeTruthTalents()};
+t16RefreshDependentChoices();sanitizeTruthTalents();render();

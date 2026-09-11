@@ -1,0 +1,101 @@
+// Truth access matrix corrections: Exiles/Extrals selectable paths + Khinae lineage talents.
+// Only player-selectable N/O creation paths are proposed by default; restricted/X paths stay out of ordinary lists.
+
+const t21ExileMatrix={
+  elye:['aucune','protocoles_continuite','hds','faucon_malachite','serpentaire_citrine','aigle_larvikite','hibou_onyx'],
+  whurten:['aucune','protocoles_continuite','hds','runes_whurten','atelier_clans','iron_law'],
+  ashyll:['aucune','protocoles_continuite','hds','green_union','quatre_empereurs','syndicat_jade'],
+  thulkar:['aucune','protocoles_continuite','hds','horde_commune','horde_divine','horde_marais','horde_fantome','horde_cendres','horde_rose','syndicat_jade'],
+  azmenorien:['aucune','protocoles_continuite','hds','servants_pluton','technomagie_azmenor']
+};
+const t21ExtralMatrix={
+  talass:['aucune','continuite','ctu','croix_verte','reptile','shaediri','hydroguard'],
+  mosen:['aucune','continuite','ctu','croix_verte','reptile','shaediri','smrc'],
+  baseanh:['aucune','continuite','ctu','croix_verte','reptile','shaediri','hydroguard','smrc'],
+  rocreen:['aucune','continuite','ctu','croix_verte','reptile','shaediri','hydroguard','smrc'],
+  thalsios:['aucune','continuite','ctu','croix_verte','reptile','shaediri','hydroguard','smrc'],
+  homo_superior:['aucune','continuite','ctu','croix_verte','hydroguard','aidh_intervention','aidh_coherence'],
+  adrak:['aucune','continuite','ctu','croix_verte','reptile','shaediri','hydroguard','smrc','nelakna']
+};
+const t21ExileRacialNames={
+  elye:['Pas leger','Effacement elfique','Reflexe de grace','Souvenir ordonne','Lecture des etres','Expérience accumulee','Sens du Flux','Empreinte du Flux','Suivre le Flux','Accord instinctif'],
+  whurten:['Endurance obstinee','Masse enracinee','Insensible à la peine','Encore debout','Volonté incompressible','Ancrage whurten','Ame refractaire','Inalterable','Boussole intérieure','Lecture du champ','Mémoire des profondeurs','Point fixe'],
+  ashyll:['Ca devrait marcher','Diagnostic sauvage','Bricolage de fortune','Rien ne se perd','Impossible ? Non. Mal préparé.','Faufiler','Oreille du terrier','Passage de rat','Toujours une sortie','Même pas peur','Profiter du flottement','Rebondir',"Faire avec ce qu'on’a"],
+  thulkar:['Poigne thulkar','Mains de guerre','Force de rupture','Peau épaisse','Douleur familiere','Encaisser','Toujours dangereux','Masse imposante','Ne pas detourner le regard','Monter au défi'],
+  azmenorien:['Insister','Hyperfocalisation','Pousser la limite',"jusqu'à la rupture",'Canalisation naturelle','Correction instinctive','Maintien naturel','Incantation fulgurante']
+};
+const t21ExtralRacialPrefixes={
+  talass:'talass',mosen:'mo sen',baseanh:'baseanh',rocreen:'rocreen',thalsios:'thalsios',
+  homo_superior:'homo superior - humain aidh',adrak:"ad'rak - origine restreinte"
+};
+function t21NormSet(values){return new Set((values||[]).map(normText))}
+const t21ExileRacialSets=Object.fromEntries(Object.entries(t21ExileRacialNames).map(([k,v])=>[k,t21NormSet(v)]));
+function t21PickOptions(all,ids){const allowed=new Set(ids||[]);return all.filter(o=>allowed.has(o.id))}
+
+const t21RefreshBase=t16RefreshDependentChoices;
+t16RefreshDependentChoices=function(){
+  t21RefreshBase();
+  const ex=t16Nature('exile'),people=state.truth.choices?.people||'';
+  const exNetwork=ex?.choices?.find(c=>c.key==='network');
+  if(exNetwork){
+    exNetwork.options=t21PickOptions(t19ExileNetworks,t21ExileMatrix[people]||['aucune']);
+    const allowed=new Set(exNetwork.options.map(x=>x.id));
+    if(!allowed.has(state.truth.choices?.network))state.truth.choices.network='aucune';
+  }
+  const xt=t16Nature('extral'),profile=state.truth.choices?.species||'';
+  const xtNetwork=xt?.choices?.find(c=>c.key==='network');
+  if(xtNetwork){
+    const ids=t21ExtralMatrix[profile]||['aucune'];
+    xtNetwork.options=t19ExtralNetworks.filter(x=>ids.includes(x.id)).map(x=>t16Opt(x.id,x.name,x.description));
+    const allowed=new Set(xtNetwork.options.map(x=>x.id));
+    if(!allowed.has(state.truth.choices?.network))state.truth.choices.network='aucune';
+  }
+};
+
+function t21ExileRacialVisible(t,people){
+  const g=normText(t.group||''),names=t21ExileRacialSets[people];
+  if(!names||!names.has(normText(t.name)))return false;
+  return g.includes('cinq profils raciaux')||g.includes(normText(people));
+}
+function t21ExileNetworkVisible(t,network){
+  if(!network||network==='aucune'||network==='green_union')return false;
+  const needle=t19ExileNeedles[network];
+  return !!needle&&t19Contains(t.group||'',needle);
+}
+function t21ExtralRacialVisible(t,profile,network){
+  const g=normText(t.group||''),prefix=t21ExtralRacialPrefixes[profile];
+  if(!prefix||!g.startsWith(normText(prefix)))return false;
+  if(profile==='adrak'&&g.includes('arts de nel'))return network==='nelakna';
+  return true;
+}
+function t21ExtralNetworkVisible(t,network){
+  if(!network||network==='aucune')return false;
+  if(network==='nelakna')return normText(t.group||'').includes('arts de nel');
+  const needle=t19ExtralNeedles[network];
+  return !!needle&&t19Contains(t.group||'',needle);
+}
+
+const t21VisibleBase=truthTalentVisible;
+truthTalentVisible=function(t){
+  const n=state.truth.nature,cost=Number(t.cost||0);
+  if(n==='exile'){
+    if(!(cost>0&&cost<=3))return false;
+    const people=state.truth.choices?.people||'',network=state.truth.choices?.network||'aucune';
+    return t21ExileRacialVisible(t,people)||t21ExileNetworkVisible(t,network);
+  }
+  if(n==='extral'){
+    if(!(cost>0&&cost<=3))return false;
+    const profile=state.truth.choices?.species||'',network=state.truth.choices?.network||'aucune';
+    return t21ExtralRacialVisible(t,profile,network)||t21ExtralNetworkVisible(t,network);
+  }
+  if(n==='khinae'){
+    const lineage=state.truth.choices?.lineage||'',info=t16Lineages[lineage],g=normText(t.group||'');
+    if(info&&g.includes('talents de lignee')&&g.startsWith(normText(info.name)))return true;
+  }
+  return t21VisibleBase(t);
+};
+
+// Re-run dependency normalization for characters already open in localStorage.
+t16RefreshDependentChoices();
+if(typeof sanitizeTruthTalents==='function')sanitizeTruthTalents();
+render();
