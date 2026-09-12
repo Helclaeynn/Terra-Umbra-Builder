@@ -71,6 +71,26 @@
         "lore-108-organisations-crawlers-03"
       ],
       "addIds": []
+    },
+    {
+      "id": "crawlers-core-rest-wave8",
+      "prefix": "v3-overlay-crawlers-rest",
+      "parts": 29,
+      "count": 9,
+      "sha256": "0cefce731feb7f61d4ea4d4ac0e92d48a6c573277c6f5f28c0e118768aaf8178",
+      "overlay": true,
+      "replaceIds": [
+        "lore-109-organisations-crawlers-04",
+        "lore-110-organisations-crawlers-05",
+        "lore-111-organisations-crawlers-06",
+        "lore-112-organisations-crawlers-07",
+        "lore-113-organisations-crawlers-08",
+        "lore-114-organisations-crawlers-09",
+        "lore-115-organisations-crawlers-10",
+        "lore-116-organisations-crawlers-11",
+        "lore-117-organisations-crawlers-12"
+      ],
+      "addIds": []
     }
   ],
   "expectedTotal": 519
