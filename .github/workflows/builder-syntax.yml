@@ -28,5 +28,10 @@ jobs:
           cp.execFileSync(process.execPath, ['--check', tmp], { stdio: 'inherit' });
           console.log(`Syntax OK: ${parts.length} builder parts`);
           NODE
+      - name: Check Compendium JavaScript syntax
+        run: |
+          node --check compendium/app.js
+          node --check compendium/pnj.js
+          node --check compendium/source-extensions.js
       - name: Check Block 10 catalog semantics
         run: node character-builder/tests/block10-catalog-check.mjs
