@@ -28,14 +28,18 @@ jobs:
       - name: Check V3 runtime syntax
         run: |
           node --check compendium/app-v3.js
+          node --check compendium/app-v3-editor.js
           node --check compendium/editor-runtime.js
           node --check compendium/draft-manager.js
           node --check compendium/media-draft-runtime.js
           node --check compendium/editor/override-engine.js
+          node --check compendium/editor/native-overrides.js
           node --check compendium/editor/corpus-loader.js
           node --check compendium/editor/media-draft-store.js
       - name: Validate editor override engine
-        run: node compendium/tests/editor-overrides-check.mjs
+        run: |
+          node compendium/tests/editor-overrides-check.mjs
+          node compendium/tests/native-overrides-check.mjs
       - name: Validate committed manual overrides
         run: node compendium/tests/manual-overrides-check.mjs
       - name: Validate V3 corpus and active runtime
