@@ -1,0 +1,1 @@
+This preview directory contains an isolated snapshot of the Compendium editor feature. Production compendium files are not replaced by this preview.
