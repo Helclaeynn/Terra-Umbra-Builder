@@ -20,12 +20,14 @@ async function refreshPcPicker(block){
   try{if(path.startsWith('images/'))draft=await getMediaDraft(path);}catch{}
   const fallback=path?path.split('/').pop()||path:'';
   const displayName=draft?.originalName||fallback;
-
-  panel.classList.toggle('has-file',Boolean(path));
-  button.textContent=path?'Remplacer l’image depuis le PC':'Sélectionner une image depuis le PC';
-  filename.textContent=displayName
+  const buttonText=path?'Remplacer l’image depuis le PC':'Sélectionner une image depuis le PC';
+  const fileText=displayName
     ? `${draft?.originalName?'Fichier sélectionné':'Image actuelle'} : ${displayName}`
     : 'Aucun fichier sélectionné';
+
+  panel.classList.toggle('has-file',Boolean(path));
+  if(button.textContent!==buttonText)button.textContent=buttonText;
+  if(filename.textContent!==fileText)filename.textContent=fileText;
 }
 
 function enhancePcPicker(block){
@@ -84,11 +86,7 @@ function enhancePcPicker(block){
 function enhance(root=document){for(const block of mediaBlocks(root))enhancePcPicker(block);}
 
 const observer=new MutationObserver(records=>{
-  for(const record of records){
-    for(const node of record.addedNodes){if(node instanceof Element)enhance(node);}
-    const block=record.target instanceof Element?record.target.closest?.('.editor-block[data-inline-media-editor="1"]'):null;
-    if(block&&block.dataset.inlineMediaPcPicker)refreshPcPicker(block).catch(console.error);
-  }
+  for(const record of records)for(const node of record.addedNodes){if(node instanceof Element)enhance(node);}
 });
 observer.observe(document.body,{childList:true,subtree:true});
 enhance();
