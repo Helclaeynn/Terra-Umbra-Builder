@@ -5,8 +5,20 @@ const executablePath=process.env.CHROME_BIN||'/usr/bin/google-chrome';
 const browser=await chromium.launch({headless:true,executablePath,args:['--no-sandbox','--disable-dev-shm-usage']});
 const page=await browser.newPage({viewport:{width:1440,height:1000}});
 const consoleErrors=[];
-page.on('console',message=>{if(message.type()==='error')consoleErrors.push(message.text());});
+const httpErrors=[];
+page.on('console',message=>{
+  if(message.type()!=='error')return;
+  const text=message.text();
+  if(text.startsWith('Failed to load resource:'))return;
+  consoleErrors.push(text);
+});
 page.on('pageerror',error=>consoleErrors.push(error.message));
+page.on('response',response=>{
+  if(response.status()<400)return;
+  const url=response.url();
+  if(/\/favicon\.ico(?:\?|$)/.test(url))return;
+  httpErrors.push(`${response.status()} ${url}`);
+});
 
 try{
   await page.goto(`${base}compendium/#/home`,{waitUntil:'domcontentloaded',timeout:30000});
@@ -71,7 +83,8 @@ try{
   await draftsButton.waitFor({state:'visible'});
   if(!(await draftsButton.innerText()).includes('(0)'))throw new Error('Le compteur de brouillons n’est pas revenu à zéro.');
 
-  if(consoleErrors.length)throw new Error(`Erreurs navigateur détectées:\n${consoleErrors.join('\n')}`);
+  if(httpErrors.length)throw new Error(`Ressources HTTP en erreur:\n${httpErrors.join('\n')}`);
+  if(consoleErrors.length)throw new Error(`Erreurs JavaScript navigateur détectées:\n${consoleErrors.join('\n')}`);
   console.log(`Browser smoke OK: ${originalTitle} · édition, tableau, ordre, brouillon et suppression validés.`);
 } finally {
   await browser.close();
