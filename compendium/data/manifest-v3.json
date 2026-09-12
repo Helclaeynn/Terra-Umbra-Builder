@@ -57,6 +57,20 @@
       "parts": 1,
       "count": 163,
       "sha256": "d3f6006f971147d1af1c10dc025443a8db9761801f14336b42899e12d457c652"
+    },
+    {
+      "id": "crawlers-pilot-wave8",
+      "prefix": "v3-overlay-crawlers-pilot",
+      "parts": 18,
+      "count": 3,
+      "sha256": "9e7e82a5856abadb5ef42e8cc20a5ee40053a586eed0fbcd37f99dd6648c1a0e",
+      "overlay": true,
+      "replaceIds": [
+        "lore-106-organisations-crawlers-01",
+        "lore-107-organisations-crawlers-02",
+        "lore-108-organisations-crawlers-03"
+      ],
+      "addIds": []
     }
   ],
   "expectedTotal": 519
