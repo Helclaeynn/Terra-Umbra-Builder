@@ -1,0 +1,50 @@
+name: Compendium editor browser smoke
+
+on:
+  push:
+    branches:
+      - feature/tuc-compendium-editor
+    paths:
+      - 'compendium/**'
+      - '.github/workflows/compendium-editor-browser-smoke.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'compendium/**'
+      - '.github/workflows/compendium-editor-browser-smoke.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  browser-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install browser driver
+        run: npm install --no-save --package-lock=false playwright-core@1.55.0
+      - name: Smoke test editor in Chrome
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/tuc-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:8765/compendium/ >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          CHROME_BIN="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
+          if [ -z "$CHROME_BIN" ]; then
+            echo 'Chrome/Chromium introuvable sur le runner.' >&2
+            exit 1
+          fi
+          echo "Using browser: $CHROME_BIN"
+          TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node compendium/tests/editor-browser-smoke.mjs
