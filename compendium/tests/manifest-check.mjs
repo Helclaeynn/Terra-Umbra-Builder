@@ -7,18 +7,20 @@ const manifestPath=`${DATA}/manifest-v3.json`;
 const manifest=JSON.parse(fs.readFileSync(manifestPath,'utf8'));
 
 if(manifest.version!==3) throw new Error(`Manifest: version ${manifest.version}, attendu 3`);
-if(manifest.expectedTotal!==519) throw new Error(`Manifest: expectedTotal ${manifest.expectedTotal}, attendu 519`);
-if(!Array.isArray(manifest.datasets)||manifest.datasets.length!==6) throw new Error('Manifest: six datasets V3 attendus');
+if(!Number.isInteger(manifest.expectedTotal)||manifest.expectedTotal<1) throw new Error('Manifest: expectedTotal invalide');
+if(!Array.isArray(manifest.datasets)||manifest.datasets.length<6) throw new Error('Manifest: au moins six datasets V3 attendus');
 
-const expectedCounts={moteur:5,realite:39,verite:63,bestiaire:20,lore:229,pnj:163};
-const seen=new Set();
-let total=0;
+const coreExpected={moteur:5,realite:39,verite:63,bestiaire:20,lore:229,pnj:163};
+const baseSeen=new Set();
+const finalById=new Map();
+let baseTotal=0;
+let overlayRows=0;
 
 for(const spec of manifest.datasets){
-  if(!(spec.id in expectedCounts)) throw new Error(`Dataset V3 inattendu: ${spec.id}`);
-  if(spec.count!==expectedCounts[spec.id]) throw new Error(`${spec.id}: count manifeste ${spec.count}, attendu ${expectedCounts[spec.id]}`);
+  const isOverlay=spec.overlay===true;
   if(!String(spec.prefix||'').startsWith('v3-')) throw new Error(`${spec.id}: préfixe non V3`);
   if(!Number.isInteger(spec.parts)||spec.parts<1) throw new Error(`${spec.id}: parts invalide`);
+  if(!Number.isInteger(spec.count)||spec.count<0) throw new Error(`${spec.id}: count invalide`);
 
   let b64='';
   for(let i=0;i<spec.parts;i++){
@@ -37,17 +39,44 @@ for(const spec of manifest.datasets){
   if(!Array.isArray(rows)) throw new Error(`${spec.id}: racine non tabulaire`);
   if(rows.length!==spec.count) throw new Error(`${spec.id}: ${rows.length} entrées, attendu ${spec.count}`);
 
+  if(!isOverlay){
+    if(!(spec.id in coreExpected)) throw new Error(`Dataset de base V3 inattendu: ${spec.id}`);
+    if(spec.count!==coreExpected[spec.id]) throw new Error(`${spec.id}: count manifeste ${spec.count}, attendu ${coreExpected[spec.id]}`);
+    for(const [i,row] of rows.entries()){
+      if(!row?.id||!row?.title||!row?.category) throw new Error(`${spec.id}[${i}]: id/titre/catégorie absent`);
+      if(baseSeen.has(row.id)) throw new Error(`ID V3 de base dupliqué: ${row.id}`);
+      baseSeen.add(row.id);
+      finalById.set(row.id,row);
+    }
+    baseTotal+=rows.length;
+    console.log(`OK base ${spec.id}: ${rows.length} entrées · SHA ${sha.slice(0,12)}…`);
+    continue;
+  }
+
+  const replaceIds=Array.isArray(spec.replaceIds)?spec.replaceIds:[];
+  const addIds=Array.isArray(spec.addIds)?spec.addIds:[];
+  const declared=[...replaceIds,...addIds];
+  if(new Set(declared).size!==declared.length) throw new Error(`${spec.id}: ID déclaré deux fois dans replaceIds/addIds`);
+  if(declared.length!==rows.length) throw new Error(`${spec.id}: ${declared.length} IDs déclarés pour ${rows.length} lignes`);
+  const rowIds=new Set();
   for(const [i,row] of rows.entries()){
     if(!row?.id||!row?.title||!row?.category) throw new Error(`${spec.id}[${i}]: id/titre/catégorie absent`);
-    if(seen.has(row.id)) throw new Error(`ID V3 dupliqué: ${row.id}`);
-    seen.add(row.id);
+    if(rowIds.has(row.id)) throw new Error(`${spec.id}: ID overlay dupliqué ${row.id}`);
+    rowIds.add(row.id);
+    const isReplace=replaceIds.includes(row.id),isAdd=addIds.includes(row.id);
+    if(!isReplace&&!isAdd) throw new Error(`${spec.id}: ${row.id} non déclaré dans replaceIds/addIds`);
+    if(isReplace&&!finalById.has(row.id)) throw new Error(`${spec.id}: remplacement sans cible ${row.id}`);
+    if(isAdd&&finalById.has(row.id)) throw new Error(`${spec.id}: ajout collisionne avec un ID existant ${row.id}`);
+    finalById.set(row.id,row);
   }
-  total+=rows.length;
-  console.log(`OK ${spec.id}: ${rows.length} entrées · SHA ${sha.slice(0,12)}…`);
+  overlayRows+=rows.length;
+  console.log(`OK overlay ${spec.id}: ${rows.length} entrées (${replaceIds.length} remplacements, ${addIds.length} ajouts) · SHA ${sha.slice(0,12)}…`);
 }
 
-if(total!==manifest.expectedTotal) throw new Error(`Corpus V3: ${total}, attendu ${manifest.expectedTotal}`);
-if(seen.size!==manifest.expectedTotal) throw new Error(`Corpus V3: ${seen.size} IDs uniques, attendu ${manifest.expectedTotal}`);
+const expectedBase=Object.values(coreExpected).reduce((a,b)=>a+b,0);
+if(baseTotal!==expectedBase) throw new Error(`Corpus V3 de base: ${baseTotal}, attendu ${expectedBase}`);
+if(baseSeen.size!==expectedBase) throw new Error(`Corpus V3 de base: ${baseSeen.size} IDs uniques, attendu ${expectedBase}`);
+if(finalById.size!==manifest.expectedTotal) throw new Error(`Corpus V3 final: ${finalById.size}, attendu ${manifest.expectedTotal}`);
 
 const activeFiles=['compendium/index.html','compendium/app-v3.js'];
 const legacy=[
@@ -67,5 +96,6 @@ const index=fs.readFileSync('compendium/index.html','utf8');
 if(!/src=["']app-v3\.js(?:\?[^"']*)?["']/.test(index)) throw new Error('index.html: app-v3.js non chargé');
 if(/src=["']app\.js(?:\?[^"']*)?["']/.test(index)) throw new Error('index.html: ancien app.js encore chargé');
 
-console.log(`OK corpus V3: ${total} entrées, ${seen.size} IDs uniques.`);
+console.log(`OK corpus V3 de base: ${baseTotal} entrées, ${baseSeen.size} IDs uniques.`);
+console.log(`OK overlays: ${overlayRows} lignes appliquées ; corpus final ${finalById.size} entrées.`);
 console.log('OK runtime V3: aucune référence legacy active dans index.html / app-v3.js.');
