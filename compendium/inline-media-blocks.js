@@ -102,19 +102,21 @@ function standardTextBlockHtml(){
   return `<div class="editor-block" data-original-index="-1" data-type="p"><div class="editor-block-head"><strong>Paragraphe</strong><select data-field="block-style"><option value="">Normal</option><option value="list">Liste</option><option value="callout">Encadré</option><option value="lore">Lore</option></select><button type="button" data-action="remove-block">Supprimer</button></div><textarea data-field="block-text" rows="5"></textarea></div>`;
 }
 function mediaEditorFields(meta){
-  return `<div class="editor-inline-media-fields"><div class="editor-inline-media-grid"><label>Type<select data-inline-media-kind><option value="image" ${meta.kind==='image'?'selected':''}>Image</option><option value="portrait" ${meta.kind==='portrait'?'selected':''}>Portrait</option></select></label><label class="wide">Chemin<input data-inline-media-src value="${esc(meta.src)}" placeholder="images/... ou URL"></label><label>Texte alternatif<input data-inline-media-alt value="${esc(meta.alt)}"></label><label>Légende<input data-inline-media-caption value="${esc(meta.caption)}"></label></div><div class="editor-inline-media-actions"><button type="button" data-inline-media-pick>Choisir une image du PC</button><input type="file" accept="image/*" data-inline-media-file hidden><span data-inline-media-status></span></div><div class="editor-inline-media-preview"></div></div>`;
+  return `<div class="editor-inline-media-fields"><div class="editor-inline-media-grid"><label class="wide">Chemin<input data-inline-media-src value="${esc(meta.src)}" placeholder="images/... ou URL"></label><label>Texte alternatif<input data-inline-media-alt value="${esc(meta.alt)}"></label><label>Légende<input data-inline-media-caption value="${esc(meta.caption)}"></label></div><div class="editor-inline-media-actions"><button type="button" data-inline-media-pick>Choisir une image du PC</button><input type="file" accept="image/*" data-inline-media-file hidden><span data-inline-media-status></span></div><div class="editor-inline-media-preview"></div></div>`;
 }
 function syncEditorMedia(block){
   const text=block.querySelector('[data-field="block-text"]');if(!text)return null;
   const current=decodeMedia(text.value)||{};
   const meta={
-    kind:block.querySelector('[data-inline-media-kind]')?.value==='portrait'?'portrait':'image',
+    kind:block.dataset.inlineMediaKindBlock==='portrait'?'portrait':'image',
     src:block.querySelector('[data-inline-media-src]')?.value.trim()||'',
     alt:block.querySelector('[data-inline-media-alt]')?.value.trim()||'',
     caption:block.querySelector('[data-inline-media-caption]')?.value.trim()||'',
     slot:current.slot||block.dataset.inlineMediaSlot||newSlot()
   };
-  block.dataset.inlineMediaSlot=meta.slot;text.value=encodeMedia(meta);
+  block.dataset.inlineMediaSlot=meta.slot;
+  block.dataset.inlineMediaKindBlock=meta.kind;
+  text.value=encodeMedia(meta);
   const preview=block.querySelector('.editor-inline-media-preview');
   if(preview){
     preview.innerHTML=figureHtml(meta,true);
@@ -135,7 +137,7 @@ async function handleMediaFile(block,file){
   const path=targetPath(meta.kind,meta.slot);
   await putMediaDraft({path,blob:optimized.blob,articleId:currentArticleId(),originalName:file.name,width:optimized.width,height:optimized.height});
   block.querySelector('[data-inline-media-src]').value=path;
-  meta=syncEditorMedia(block);
+  syncEditorMedia(block);
   await refreshMediaStatus(block);
 }
 function enhanceMediaEditorBlock(block,meta=null){
@@ -143,7 +145,9 @@ function enhanceMediaEditorBlock(block,meta=null){
   const text=block.querySelector('[data-field="block-text"]');
   meta=meta||decodeMedia(text?.value);if(!meta)return;
   if(!meta.slot)meta.slot=newSlot();
-  block.dataset.inlineMediaEditor='1';block.dataset.inlineMediaSlot=meta.slot;
+  block.dataset.inlineMediaEditor='1';
+  block.dataset.inlineMediaSlot=meta.slot;
+  block.dataset.inlineMediaKindBlock=meta.kind==='portrait'?'portrait':'image';
   const head=block.querySelector('.editor-block-head');
   if(head){const strong=head.querySelector('strong');if(strong)strong.textContent=meta.kind==='portrait'?'Portrait':'Image';}
   const style=block.querySelector('[data-field="block-style"]');if(style)style.hidden=true;
@@ -158,9 +162,6 @@ function enhanceMediaEditorBlock(block,meta=null){
     if(event.target.closest('[data-inline-media-fields]'))syncEditorMedia(block);
   });
   block.addEventListener('change',event=>{
-    if(event.target.matches('[data-inline-media-kind]')){
-      const strong=head?.querySelector('strong');if(strong)strong.textContent=event.target.value==='portrait'?'Portrait':'Image';
-    }
     if(event.target.closest('[data-inline-media-fields]'))refreshMediaStatus(block).catch(console.error);
   });
   refreshMediaStatus(block).catch(console.error);
@@ -172,30 +173,36 @@ function createMediaBlock(kind){
   block.querySelector('[data-field="block-text"]').value=encodeMedia(meta);
   enhanceMediaEditorBlock(block,meta);return block;
 }
-function enhanceAddControl(section){
-  const button=section.querySelector(':scope > [data-action="add-paragraph"]');
-  if(!button||button.dataset.inlineMediaAddEnhanced)return;
-  button.dataset.inlineMediaAddEnhanced='1';
-  const select=document.createElement('select');
-  select.className='editor-inline-add-type';select.dataset.inlineAddType='1';
-  select.innerHTML='<option value="text">Texte</option><option value="image">Image</option><option value="portrait">Portrait</option>';
-  button.insertAdjacentElement('beforebegin',select);
+function enhanceAddControls(section){
+  if(!(section instanceof Element)||!section.matches('.editor-section'))return;
+  const paragraphButton=section.querySelector(':scope > [data-action="add-paragraph"]');
+  if(!paragraphButton)return;
+  paragraphButton.textContent='+ Texte';
+  if(section.querySelector(':scope > [data-inline-add-kind="image"]'))return;
+  const image=document.createElement('button');
+  image.type='button';image.dataset.inlineAddKind='image';image.textContent='+ Image';
+  const portrait=document.createElement('button');
+  portrait.type='button';portrait.dataset.inlineAddKind='portrait';portrait.textContent='+ Portrait';
+  paragraphButton.insertAdjacentElement('afterend',portrait);
+  paragraphButton.insertAdjacentElement('afterend',image);
 }
 function enhanceEditor(root=document){
+  if(root.matches?.('.editor-section')){
+    enhanceAddControls(root);
+    root.querySelectorAll('.editor-block').forEach(block=>enhanceMediaEditorBlock(block));
+  }
   root.querySelectorAll?.('.editor-section').forEach(section=>{
-    enhanceAddControl(section);
+    enhanceAddControls(section);
     section.querySelectorAll('.editor-block').forEach(block=>enhanceMediaEditorBlock(block));
   });
 }
 
 document.addEventListener('click',event=>{
-  const add=event.target.closest('[data-action="add-paragraph"]');
-  if(!add)return;
-  const section=add.closest('.editor-section'),kind=section?.querySelector(':scope > [data-inline-add-type]')?.value||'text';
-  if(kind==='text')return;
+  const button=event.target.closest('[data-inline-add-kind]');if(!button)return;
   event.preventDefault();event.stopImmediatePropagation();
+  const section=button.closest('.editor-section');
   const blocks=section?.querySelector(':scope > .editor-blocks');if(!blocks)return;
-  blocks.appendChild(createMediaBlock(kind));
+  blocks.appendChild(createMediaBlock(button.dataset.inlineAddKind));
 },true);
 
 function collectMediaPaths(value,refs=new Set()){
