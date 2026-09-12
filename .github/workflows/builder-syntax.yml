@@ -30,10 +30,8 @@ jobs:
           NODE
       - name: Check Compendium JavaScript syntax
         run: |
-          node --check compendium/app.js
-          node --check compendium/app-v2.js
-          node --check compendium/pnj.js
-          node --check compendium/source-extensions.js
+          node --check compendium/app-v3.js
+          node --check compendium/media-enhancer.js
           node --check compendium/toc-enhancer.js
       - name: Check Compendium manifest and datasets
         run: node compendium/tests/manifest-check.mjs
