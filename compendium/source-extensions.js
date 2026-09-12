@@ -10,6 +10,17 @@ async function loadChunked(prefix,count){
   return JSON.parse(await new Response(stream).text());
 }
 
+const ORG_WAVES=[
+  {prefix:'wave2-org',count:8,id:'wave2'},
+  {prefix:'wave3-mini-org',count:5,id:'wave3'},
+  {prefix:'wave4-org',count:1,id:'wave4'}
+];
+const PNJ_WAVES=[
+  {prefix:'wave2-pnj',count:2,id:'wave2'},
+  {prefix:'wave3-mini-pnj',count:1,id:'wave3'},
+  {prefix:'wave4-pnj',count:1,id:'wave4'}
+];
+
 function normalizeRows(rows,known,prefix){
   const articles=[];
   for(const row of rows||[]){
@@ -22,17 +33,26 @@ function normalizeRows(rows,known,prefix){
 
 export async function loadSourceExtensions(existingMeta=[]){
   const known=new Set(existingMeta.map(a=>norm(a.title))),articles=[],errors=[];
-  for(const spec of [{prefix:'wave2-org',count:8,id:'wave2'},{prefix:'wave3-mini-org',count:5,id:'wave3'}]){
-    try{articles.push(...normalizeRows(await loadChunked(spec.prefix,spec.count),known,spec.id))}
-    catch(error){console.warn(`Extension documentaire ${spec.id} indisponible`,error);errors.push(error)}
+  const results=await Promise.all(ORG_WAVES.map(async spec=>{
+    try{return {spec,rows:await loadChunked(spec.prefix,spec.count)}}
+    catch(error){console.warn(`Extension documentaire ${spec.id} indisponible`,error);return {spec,error}}
+  }));
+  for(const result of results){
+    if(result.error){errors.push(result.error);continue}
+    articles.push(...normalizeRows(result.rows,known,result.spec.id));
   }
   return {articles,error:errors.length?errors:null};
 }
 
-export async function loadPnjWave2(){
-  try{return await loadChunked('wave2-pnj',2)}catch(error){console.warn('PNJ wave2 indisponibles',error);return []}
+export async function loadPnjWaves(){
+  const results=await Promise.all(PNJ_WAVES.map(async spec=>{
+    try{return {id:spec.id,rows:await loadChunked(spec.prefix,spec.count)}}
+    catch(error){console.warn(`PNJ ${spec.id} indisponibles`,error);return {id:spec.id,rows:[],error}}
+  }));
+  return results;
 }
 
-export async function loadPnjWave3(){
-  try{return await loadChunked('wave3-mini-pnj',1)}catch(error){console.warn('PNJ wave3 indisponibles',error);return []}
-}
+// Compatibilité temporaire avec les appels historiques.
+export async function loadPnjWave2(){const all=await loadPnjWaves();return all.find(x=>x.id==='wave2')?.rows||[]}
+export async function loadPnjWave3(){const all=await loadPnjWaves();return all.find(x=>x.id==='wave3')?.rows||[]}
+export async function loadPnjWave4(){const all=await loadPnjWaves();return all.find(x=>x.id==='wave4')?.rows||[]}
