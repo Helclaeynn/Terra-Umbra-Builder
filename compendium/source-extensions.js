@@ -13,7 +13,8 @@ async function loadChunked(prefix,count){
 const ORG_WAVES=[
   {prefix:'wave2-org',count:8,id:'wave2'},
   {prefix:'wave3-mini-org',count:5,id:'wave3'},
-  {prefix:'wave4-org',count:1,id:'wave4'}
+  {prefix:'wave4-org',count:1,id:'wave4'},
+  {prefix:'wave5-verite',count:1,id:'wave5'}
 ];
 const PNJ_WAVES=[
   {prefix:'wave2-pnj',count:2,id:'wave2'},
@@ -52,7 +53,6 @@ export async function loadPnjWaves(){
   return results;
 }
 
-// Compatibilité temporaire avec les appels historiques.
 export async function loadPnjWave2(){const all=await loadPnjWaves();return all.find(x=>x.id==='wave2')?.rows||[]}
 export async function loadPnjWave3(){const all=await loadPnjWaves();return all.find(x=>x.id==='wave3')?.rows||[]}
 export async function loadPnjWave4(){const all=await loadPnjWaves();return all.find(x=>x.id==='wave4')?.rows||[]}
