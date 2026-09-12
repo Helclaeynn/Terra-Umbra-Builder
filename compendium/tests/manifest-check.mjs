@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import path from 'node:path';
 import zlib from 'node:zlib';
 import crypto from 'node:crypto';
 
@@ -25,9 +26,9 @@ for(const spec of manifest.datasets){
   let b64='';
   for(let i=0;i<spec.parts;i++){
     const file=`${spec.prefix}-${String(i).padStart(2,'0')}.b64part`;
-    const path=`${DATA}/${file}`;
-    if(!fs.existsSync(path)) throw new Error(`${spec.id}: segment manquant ${file}`);
-    b64+=fs.readFileSync(path,'utf8').replace(/\s+/g,'');
+    const filePath=`${DATA}/${file}`;
+    if(!fs.existsSync(filePath)) throw new Error(`${spec.id}: segment manquant ${file}`);
+    b64+=fs.readFileSync(filePath,'utf8').replace(/\s+/g,'');
   }
 
   const sha=crypto.createHash('sha256').update(b64).digest('hex');
@@ -78,6 +79,33 @@ if(baseTotal!==expectedBase) throw new Error(`Corpus V3 de base: ${baseTotal}, a
 if(baseSeen.size!==expectedBase) throw new Error(`Corpus V3 de base: ${baseSeen.size} IDs uniques, attendu ${expectedBase}`);
 if(finalById.size!==manifest.expectedTotal) throw new Error(`Corpus V3 final: ${finalById.size}, attendu ${manifest.expectedTotal}`);
 
+function assetRef(value){
+  if(typeof value==='string') return value.trim();
+  if(value&&typeof value==='object'&&typeof value.src==='string') return value.src.trim();
+  return '';
+}
+function validateLocalAsset(ref,label){
+  if(!ref)return;
+  if(/^(?:[a-z]+:)?\/\//i.test(ref)||path.posix.isAbsolute(ref)) throw new Error(`${label}: ressource distante/absolue interdite (${ref})`);
+  const normalized=path.posix.normalize(ref.replace(/\\/g,'/'));
+  if(normalized==='..'||normalized.startsWith('../')) throw new Error(`${label}: chemin sortant du Compendium (${ref})`);
+  const full=path.join('compendium',...normalized.split('/'));
+  if(!fs.existsSync(full)||!fs.statSync(full).isFile()) throw new Error(`${label}: fichier image absent (${ref})`);
+}
+let imageRefs=0;
+for(const row of finalById.values()){
+  const refs=[
+    ['portrait',assetRef(row?.pnj?.portrait)],
+    ['image',assetRef(row?.image)],
+    ['illustration',assetRef(row?.illustration)]
+  ];
+  for(const [kind,ref] of refs){
+    if(!ref)continue;
+    validateLocalAsset(ref,`${row.id}.${kind}`);
+    imageRefs++;
+  }
+}
+
 const activeFiles=['compendium/index.html','compendium/app-v3.js'];
 const legacy=[
   ['ancien manifeste',/manifest\.json\.gz\.b64/i],
@@ -98,4 +126,5 @@ if(/src=["']app\.js(?:\?[^"']*)?["']/.test(index)) throw new Error('index.html: 
 
 console.log(`OK corpus V3 de base: ${baseTotal} entrées, ${baseSeen.size} IDs uniques.`);
 console.log(`OK overlays: ${overlayRows} lignes appliquées ; corpus final ${finalById.size} entrées.`);
+console.log(`OK images: ${imageRefs} référence(s) locale(s) résolue(s).`);
 console.log('OK runtime V3: aucune référence legacy active dans index.html / app-v3.js.');
