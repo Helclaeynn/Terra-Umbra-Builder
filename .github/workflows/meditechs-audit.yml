@@ -39,15 +39,8 @@ jobs:
           }
           const rows = order.map(id => final.get(id));
           const names = [
-            'Taishara Jibson',
-            'Phoebe Edgar',
-            'Elizabeth Mircalla Karnstein',
-            'Lenny Falk',
-            'Dushane Murray',
-            'Narako Austin',
-            'Aisha White',
-            'Arnstein Gill',
-            'Mi-Yeon Ryong'
+            'Taishara Jibson','Phoebe Edgar','Elizabeth Mircalla Karnstein','Lenny Falk','Dushane Murray',
+            'Narako Austin','Aisha White','Arnstein Gill','Mi-Yeon Ryong'
           ];
           const norm = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
           console.log(`FINAL_COUNT=${rows.length}`);
@@ -60,5 +53,9 @@ jobs:
             for (const row of exact) console.log(JSON.stringify(row));
             console.log(`MENTIONS=${mention.length}`);
             for (const row of mention) console.log(`MENTION ${row.id} | ${row.title} | ${row.category}`);
+          }
+          console.log('\n### SCHEMA SAMPLES');
+          for (const id of ['pnj-149-kane-riley','pnj-064-dragoslav-memic','pnj-177-tia-reynolds','pnj-035-daft-vador-kaine-reid']) {
+            if (final.has(id)) console.log(JSON.stringify(final.get(id)));
           }
           NODE
