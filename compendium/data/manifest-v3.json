@@ -59,6 +59,11 @@
       "id":"crawlers-portraits-fixers-wave8","prefix":"v3-overlay-crawlers-portraits-fixers","parts":14,"count":10,
       "sha256":"d8dec93751622414ebe985e0b4b58c89fd02c5992616532f9a3a7b95d5ee70bd","overlay":true,
       "replaceIds":["pnj-033-stella-hardin","pnj-164-veronica-silver","pnj-165-ryan-isaiah-burton","pnj-166-adam-nevine","pnj-167-brittany-smith-cavaletty","pnj-168-shuren-shi","pnj-169-zeeka-steele","pnj-170-jacob-delisle","pnj-171-henry-edwards","pnj-172-josefin-drescher"],"addIds":[]
+    },
+    {
+      "id":"media-vhodhal-wave8","prefix":"v3-overlay-media-vhodhal","parts":2,"count":1,
+      "sha256":"52997684ba72d16cf06620b99b5b165ed29d20340340dcd08c834b40f7ac4a7c","overlay":true,"media":true,
+      "replaceIds":["lore-188-verite-les-creatures-focus-sur-les-fleaux-06"],"addIds":[]
     }
   ],
   "expectedTotal":544
