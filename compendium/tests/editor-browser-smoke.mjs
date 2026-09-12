@@ -26,11 +26,20 @@ try{
   await section.getByRole('button',{name:'+ Image',exact:true}).click();
   const block=section.locator('.editor-block[data-inline-media-editor="1"][data-inline-media-kind-block="image"]').last();
   await block.waitFor({timeout:10000});
-  await block.getByRole('button',{name:'Choisir une image du PC'}).waitFor();
+
+  const pcPicker=block.locator('[data-inline-media-pc-picker]');
+  await pcPicker.waitFor({state:'visible',timeout:10000});
+  await pcPicker.getByText('Image locale',{exact:true}).waitFor();
+  const initialPick=pcPicker.getByRole('button',{name:'Sélectionner une image depuis le PC'});
+  await initialPick.waitFor({state:'visible'});
+  if(await block.locator('[data-inline-media-src]').isVisible())throw new Error('Le chemin technique du média est encore visible au lieu du sélecteur PC.');
 
   const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAQAAAAGCAYAAADkOT91AAAAFklEQVR4nGOsCDjxnwEJMDGgAWoIAAAAZwKbcqkHXQAAAABJRU5ErkJggg==','base64');
   await block.locator('[data-inline-media-file]').setInputFiles({name:'smoke-image.png',mimeType:'image/png',buffer:png});
   await block.locator('[data-inline-media-status]').filter({hasText:'WebP local prêt'}).waitFor({timeout:15000});
+  await pcPicker.getByRole('button',{name:'Remplacer l’image depuis le PC'}).waitFor({timeout:10000});
+  await pcPicker.getByText('Fichier sélectionné : smoke-image.png',{exact:true}).waitFor({timeout:10000});
+
   const storedPath=await block.locator('[data-inline-media-src]').inputValue();
   if(!/^images\/manual\/.*-image-.*\.webp$/.test(storedPath))throw new Error(`Chemin WebP inattendu: ${storedPath}`);
   await block.locator('[data-inline-media-alt]').fill('Image de smoke test');
@@ -61,7 +70,11 @@ try{
   const reopened=page.locator('dialog.editor-dialog');await reopened.waitFor({state:'visible'});
   const reopenedBlock=reopened.locator('.editor-block[data-inline-media-editor="1"][data-inline-media-kind-block="image"]').last();
   await reopenedBlock.waitFor({timeout:10000});
-  await reopenedBlock.getByRole('button',{name:'Choisir une image du PC'}).waitFor();
+  const reopenedPicker=reopenedBlock.locator('[data-inline-media-pc-picker]');
+  await reopenedPicker.waitFor({state:'visible',timeout:10000});
+  await reopenedPicker.getByRole('button',{name:'Remplacer l’image depuis le PC'}).waitFor({timeout:10000});
+  await reopenedPicker.getByText('Fichier sélectionné : smoke-image.png',{exact:true}).waitFor({timeout:10000});
+  if(await reopenedBlock.locator('[data-inline-media-src]').isVisible())throw new Error('Le chemin technique réapparaît à la réouverture.');
   if(await reopenedBlock.locator('[data-inline-media-src]').inputValue()!==storedPath)throw new Error('Chemin média perdu à la réouverture.');
   if(await reopenedBlock.locator('[data-inline-media-caption]').inputValue()!=='Image intégrée de test')throw new Error('Légende média perdue à la réouverture.');
   if(await reopenedBlock.locator('[data-field="block-text"]').isVisible())throw new Error('Le bloc Image redevient visuellement un paragraphe.');
@@ -69,5 +82,5 @@ try{
   await reopened.locator('[data-action="discard"]').click();await reopened.waitFor({state:'detached'});
   await page.waitForFunction(expected=>document.querySelector('#main .page-head h1')?.textContent?.trim()===expected,originalTitle,{timeout:10000});
   if(consoleErrors.length)throw new Error(`Erreurs navigateur: ${consoleErrors.join(' | ')}`);
-  console.log(`Browser smoke OK: ${originalTitle} · + Image dédié, fichier PC, WebP, sauvegarde, rendu et réouverture validés.`);
+  console.log(`Browser smoke OK: ${originalTitle} · bloc Image avec sélecteur PC dédié, WebP, sauvegarde, rendu et réouverture validés.`);
 } finally {await browser.close();}
