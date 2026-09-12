@@ -29,7 +29,9 @@ jobs:
         run: |
           node --check compendium/app-v3.js
           node --check compendium/editor-runtime.js
+          node --check compendium/draft-manager.js
           node --check compendium/editor/override-engine.js
+          node --check compendium/editor/corpus-loader.js
       - name: Validate editor override engine
         run: node compendium/tests/editor-overrides-check.mjs
       - name: Validate V3 corpus and active runtime
