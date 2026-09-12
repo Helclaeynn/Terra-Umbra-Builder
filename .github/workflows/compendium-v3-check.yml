@@ -32,6 +32,7 @@ jobs:
           node --check compendium/editor-runtime.js
           node --check compendium/editor-runtime-native.js
           node --check compendium/draft-manager.js
+          node --check compendium/draft-manager-v2.js
           node --check compendium/media-draft-runtime.js
           node --check compendium/editor/override-engine.js
           node --check compendium/editor/native-overrides.js
