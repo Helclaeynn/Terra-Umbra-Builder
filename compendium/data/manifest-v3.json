@@ -49,6 +49,11 @@
       "sha256":"956fd55d4b4e27af5c068ce1e33642c9eb3d6a491aba177551c7ee8160f6c78b","overlay":true,
       "replaceIds":["pnj-149-kane-riley","pnj-064-dragoslav-memic","pnj-030-dan-shelong"],
       "addIds":["pnj-183-casey-vaughn","pnj-184-rayne-carter","pnj-185-domingo-valerio","pnj-186-ashuna-kimble","pnj-187-khristina-yaroslavovna","pnj-188-zemirah-sherah"]
+    },
+    {
+      "id":"crawlers-image-pilot-wave8","prefix":"v3-overlay-images-pilot","parts":2,"count":1,
+      "sha256":"917593564574c4d335f25cc58057c5cf3aa43e40f22498943477310aea92f7e8","overlay":true,
+      "replaceIds":["pnj-179-kiandra-price"],"addIds":[]
     }
   ],
   "expectedTotal":544
