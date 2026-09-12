@@ -2,12 +2,10 @@ import fs from 'node:fs';
 import zlib from 'node:zlib';
 
 const DATA='compendium/data';
-// Exact mirror of the local datasets currently activated by source-extensions.js / pnj.js.
+// Exact mirror of the local datasets currently activated by source-extensions.js.
 // Legacy/corrupted and prepared-but-inactive waves are intentionally excluded.
 const specs=[
   ['wave3-mini-org',5],
-  ['wave4-org',1],
-  ['wave4-pnj',1],
   ['wave5-verite',1],
   ['wave6-gangs',3]
 ];
@@ -50,4 +48,4 @@ if(fs.existsSync(seedPath)){
 }
 
 console.log(`Compendium actif: ${total} entrées locales validées hors ancien stockage.`);
-console.log('Les overlays préparés mais non encore branchés sont volontairement hors de ce contrôle actif.');
+console.log('Les vagues corrompues ou préparées mais non branchées sont hors du chemin critique.');
