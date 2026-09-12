@@ -19,7 +19,6 @@ const ORG_WAVES=[
   {prefix:'wave5-verite',count:1,id:'wave5'}
 ];
 const PNJ_WAVES=[
-  {prefix:'wave3-mini-pnj',count:1,id:'wave3'},
   {prefix:'wave4-pnj',count:1,id:'wave4'}
 ];
 
@@ -62,5 +61,5 @@ export async function loadPnjWaves(){
 }
 
 export async function loadPnjWave2(){return []}
-export async function loadPnjWave3(){const all=await loadPnjWaves();return all.find(x=>x.id==='wave3')?.rows||[]}
+export async function loadPnjWave3(){return []}
 export async function loadPnjWave4(){const all=await loadPnjWaves();return all.find(x=>x.id==='wave4')?.rows||[]}
