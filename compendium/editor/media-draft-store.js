@@ -34,6 +34,16 @@ export async function putMediaDraft({path,blob,articleId,originalName,width,heig
 export async function getMediaDraft(path){return txRequest('readonly',store=>store.get(path));}
 export async function deleteMediaDraft(path){return txRequest('readwrite',store=>store.delete(path));}
 export async function listMediaDrafts(){return txRequest('readonly',store=>store.getAll()).then(rows=>rows||[]);}
+export async function cleanupMediaDrafts(referencedPaths=[]){
+  const keep=new Set([...referencedPaths].filter(path=>typeof path==='string'&&path.startsWith('images/')));
+  const rows=await listMediaDrafts();
+  const removed=[];
+  for(const row of rows){
+    if(!row?.path||keep.has(row.path))continue;
+    await deleteMediaDraft(row.path);removed.push(row.path);
+  }
+  return removed;
+}
 
 export async function optimizeImageFile(file,{maxDimension=1600,quality=.86}={}){
   if(!(file instanceof File)||!file.type.startsWith('image/'))throw new Error('Sélectionne un fichier image valide.');
