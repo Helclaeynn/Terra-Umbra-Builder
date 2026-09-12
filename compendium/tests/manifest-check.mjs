@@ -2,6 +2,8 @@ import fs from 'node:fs';
 import zlib from 'node:zlib';
 
 const DATA='compendium/data';
+// Only validate datasets currently loaded by source-extensions.js / pnj.js.
+// Prepared but inactive overlays are validated separately before activation.
 const specs=[
   ['wave2-org',8],
   ['wave2-pnj',2],
@@ -10,10 +12,7 @@ const specs=[
   ['wave4-org',1],
   ['wave4-pnj',1],
   ['wave5-verite',1],
-  ['wave6-gangs',3],
-  ['wave6-moteur',1],
-  ['wave6-realite',1],
-  ['wave6-verite-core',1]
+  ['wave6-gangs',3]
 ];
 
 function readWave(prefix,count){
@@ -53,5 +52,5 @@ if(fs.existsSync(seedPath)){
   console.log(`OK pnj-source-seed: ${seeds.length} entrées`);
 }
 
-console.log(`Compendium V2 actif: ${total} entrées validées hors anciens bundles/pack-*.`);
-console.log('Les anciens bundle-* sont volontairement exclus du chemin critique V2.');
+console.log(`Compendium actif: ${total} entrées locales validées hors ancien stockage.`);
+console.log('Les overlays préparés mais non encore branchés sont volontairement hors de ce contrôle actif.');
