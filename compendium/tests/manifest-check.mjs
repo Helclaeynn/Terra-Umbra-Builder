@@ -2,11 +2,9 @@ import fs from 'node:fs';
 import zlib from 'node:zlib';
 
 const DATA='compendium/data';
-// Only validate datasets currently loaded by source-extensions.js / pnj.js.
-// Prepared but inactive overlays are validated separately before activation.
+// Exact mirror of the local datasets currently activated by source-extensions.js / pnj.js.
+// Legacy/corrupted and prepared-but-inactive waves are intentionally excluded.
 const specs=[
-  ['wave2-org',8],
-  ['wave2-pnj',2],
   ['wave3-mini-org',5],
   ['wave3-mini-pnj',1],
   ['wave4-org',1],
