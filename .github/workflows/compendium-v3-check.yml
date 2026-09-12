@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - feature/tuc-compendium-v3-transfer-final
+      - feature/tuc-compendium-editor
     paths:
       - 'compendium/**'
       - '.github/workflows/compendium-v3-check.yml'
