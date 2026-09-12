@@ -34,5 +34,7 @@ jobs:
           node --check compendium/editor/corpus-loader.js
       - name: Validate editor override engine
         run: node compendium/tests/editor-overrides-check.mjs
+      - name: Validate committed manual overrides
+        run: node compendium/tests/manual-overrides-check.mjs
       - name: Validate V3 corpus and active runtime
         run: node compendium/tests/manifest-check.mjs
