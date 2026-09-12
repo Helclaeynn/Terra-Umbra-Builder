@@ -35,6 +35,7 @@ jobs:
           node --check compendium/media-draft-runtime.js
           node --check compendium/media-draft-cleanup.js
           node --check compendium/inline-media-blocks.js
+          node --check compendium/inline-media-dynamic-sections.js
           node --check compendium/editor/override-engine.js
           node --check compendium/editor/native-overrides.js
           node --check compendium/editor/corpus-loader.js
