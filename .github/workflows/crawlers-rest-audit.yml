@@ -33,8 +33,12 @@ jobs:
             const mentions=rows.filter(a=>!exact.includes(a)&&norm(JSON.stringify(a)).includes(n));
             console.log(`\n=== ${name} ===`);
             console.log('EXACT='+exact.length);
-            for(const a of exact) console.log(JSON.stringify({id:a.id,title:a.title,source:a.source,status:a.status,pnj:a.pnj,stats:a.stats,sections:(a.sections||[]).map(s=>({title:s.title,audience:s.audience,blocks:(s.blocks||[]).slice(0,2)}))},null,2));
+            for(const a of exact) console.log(JSON.stringify({id:a.id,title:a.title,source:a.source,status:a.status,pnj:a.pnj,stats:a.stats,sections:a.sections},null,2));
             console.log('MENTIONS='+mentions.length);
             for(const a of mentions.slice(0,8)) console.log(`MENTION ${a.id} | ${a.title} | ${a.source||''}`);
+          }
+          for(const id of ['pnj-032-ogshaata-otto','pnj-034-yong-gi-mangjol']){
+            console.log(`\n=== DIRECT ${id} ===`);
+            console.log(JSON.stringify(byId.get(id),null,2));
           }
           NODE
