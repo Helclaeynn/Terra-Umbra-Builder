@@ -1,0 +1,30 @@
+name: Compendium V3 gate
+
+on:
+  push:
+    branches:
+      - main
+      - feature/tuc-compendium-v3-transfer-final
+    paths:
+      - 'compendium/**'
+      - '.github/workflows/compendium-v3-check.yml'
+  pull_request:
+    paths:
+      - 'compendium/**'
+      - '.github/workflows/compendium-v3-check.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-v3:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check V3 runtime syntax
+        run: node --check compendium/app-v3.js
+      - name: Validate V3 corpus and active runtime
+        run: node compendium/tests/manifest-check.mjs

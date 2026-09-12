@@ -1,0 +1,63 @@
+{
+  "version": 3,
+  "generated": "2026-09-12",
+  "categories": [
+    "Règles",
+    "Réalité",
+    "Vérité",
+    "Organisations",
+    "Personnages",
+    "Bestiaire"
+  ],
+  "statusLabels": {
+    "canon_recent": "Canon récent",
+    "canon_enrichi": "Canon enrichi",
+    "source_detaillee": "Lore détaillé",
+    "obsolete": "Obsolète"
+  },
+  "datasets": [
+    {
+      "id": "moteur",
+      "prefix": "v3-moteur",
+      "parts": 1,
+      "count": 5,
+      "sha256": "76064dc233fba8565fc8faef2b2b78afd5c12a36cb99f7656e1d37a0e6e9e8e6"
+    },
+    {
+      "id": "realite",
+      "prefix": "v3-realite",
+      "parts": 1,
+      "count": 39,
+      "sha256": "1dfa17c463e08bcdf836c516685e712d2f26b419d240c98f5e9145afeae07489"
+    },
+    {
+      "id": "verite",
+      "prefix": "v3-verite",
+      "parts": 1,
+      "count": 63,
+      "sha256": "ba9f95fff951607512f205682e91de64ce939656a9a95d20eeee80e7aceecd95"
+    },
+    {
+      "id": "bestiaire",
+      "prefix": "v3-bestiaire",
+      "parts": 1,
+      "count": 20,
+      "sha256": "9643736a1666b7ad6402d464cbd5cb14e5cdbd36bd71623be875f28c1332af55"
+    },
+    {
+      "id": "lore",
+      "prefix": "v3-lore",
+      "parts": 1,
+      "count": 229,
+      "sha256": "6b20a3653056e5d355ddd9febcef3c7e86fe848c373a273267a6acb5768a9ab3"
+    },
+    {
+      "id": "pnj",
+      "prefix": "v3-pnj",
+      "parts": 1,
+      "count": 163,
+      "sha256": "d3f6006f971147d1af1c10dc025443a8db9761801f14336b42899e12d457c652"
+    }
+  ],
+  "expectedTotal": 519
+}
