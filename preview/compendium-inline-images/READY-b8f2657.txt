@@ -1,0 +1,3 @@
+Preview source: feature/tuc-compendium-inline-images
+Validated head: b8f26573383381b7f2a983e105ac4dd27d756f4d
+Dedicated + Image / + Portrait blocks; real PC upload smoke green.
