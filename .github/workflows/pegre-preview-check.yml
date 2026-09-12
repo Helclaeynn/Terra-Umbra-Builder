@@ -1,0 +1,21 @@
+name: Pègre preview integrity
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'compendium/pegre-preview*'
+      - 'scripts/check-pegre-preview.mjs'
+      - '.github/workflows/pegre-preview-check.yml'
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Validate packed preview
+        run: node scripts/check-pegre-preview.mjs
