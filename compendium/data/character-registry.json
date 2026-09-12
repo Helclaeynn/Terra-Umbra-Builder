@@ -1,0 +1,346 @@
+{
+  "version": 1,
+  "updated": "2026-09-12",
+  "description": "Registre éditorial progressif des personnages TUC. Les sources restent autoritaires ; ce registre sert au pilotage des audits, fusions et validations.",
+  "characters": [
+    {
+      "canonicalId": "character-189-taishara-jibson",
+      "name": "Taishara JIBSON",
+      "aliases": [
+        "La reine de la casse"
+      ],
+      "truthNames": [],
+      "type": "PNJ",
+      "sources": [
+        "TUC_organisations_crawlers_V2.docx"
+      ],
+      "sourceOccurrences": [
+        {
+          "source": "TUC_organisations_crawlers_V2.docx",
+          "context": "Profil Meditechs / Cyppers"
+        }
+      ],
+      "compendiumId": "pnj-189-taishara-jibson",
+      "alreadyIntegrated": true,
+      "portraitCandidates": [
+        {
+          "source": "TUC_organisations_crawlers_V2.docx",
+          "embeddedMedia": "word/media/image32.png",
+          "sha256": "f7b5278a577edd6a06c74bcd9a698e461beaa82aee1a9dbe848ad720b9993979"
+        }
+      ],
+      "selectedPortrait": "images/pnj/crawlers/taishara-jibson.webp",
+      "conflicts": [],
+      "status": "integrated",
+      "userValidated": false,
+      "selectedPortraitSha256": "c84205c169a249f9f125df98abe6560e3d7fcdabe231a4e05d0008c515b5111c"
+    },
+    {
+      "canonicalId": "character-190-phoebe-edgar",
+      "name": "Phoebe EDGAR",
+      "aliases": [
+        "Le piment"
+      ],
+      "truthNames": [],
+      "type": "PNJ",
+      "sources": [
+        "TUC_organisations_crawlers_V2.docx",
+        "TUC_organisations_corporations (inachevé).docx",
+        "BG divers TUC.docx"
+      ],
+      "sourceOccurrences": [
+        {
+          "source": "TUC_organisations_crawlers_V2.docx",
+          "context": "Profil Meditechs"
+        },
+        {
+          "source": "TUC_organisations_corporations (inachevé).docx",
+          "context": "Eversor Motors"
+        },
+        {
+          "source": "BG divers TUC.docx",
+          "context": "Mécanicienne / PDG d’Eversor Motors"
+        }
+      ],
+      "compendiumId": "pnj-190-phoebe-edgar",
+      "alreadyIntegrated": true,
+      "portraitCandidates": [
+        {
+          "source": "TUC_organisations_crawlers_V2.docx",
+          "embeddedMedia": "word/media/image33.jpeg",
+          "sha256": "29e5fc3ab5b4d50c31eb95d60e3a73bb7368d53067a0ca5b7612683a46d815c8"
+        }
+      ],
+      "selectedPortrait": "images/pnj/crawlers/phoebe-edgar.webp",
+      "conflicts": [],
+      "status": "integrated",
+      "userValidated": false,
+      "selectedPortraitSha256": "cf503f70166badb9e0d1f35df727b81a1a46e63cfb360e104671628b0bbce792"
+    },
+    {
+      "canonicalId": "character-191-elizabeth-mircalla-karnstein",
+      "name": "Elizabeth Mircalla KARNSTEIN",
+      "aliases": [
+        "La stryge de Los Angeles"
+      ],
+      "truthNames": [
+        "Mircalla Karnstein"
+      ],
+      "type": "PNJ",
+      "sources": [
+        "TUC_organisations_crawlers_V2.docx",
+        "TUC_Vérité_ les espèces  surnaturelles.docx",
+        "Factions_Les cours vampiriques.pdf",
+        "factions_Temples Daemoniaques.pdf"
+      ],
+      "sourceOccurrences": [
+        {
+          "source": "TUC_organisations_crawlers_V2.docx",
+          "context": "Profil Meditechs — Réalité"
+        },
+        {
+          "source": "TUC_Vérité_ les espèces  surnaturelles.docx",
+          "context": "Profil Vampire — Mircalla Karnstein"
+        },
+        {
+          "source": "Factions_Les cours vampiriques.pdf",
+          "context": "Cinquième concubine — Maison Karnstein"
+        },
+        {
+          "source": "factions_Temples Daemoniaques.pdf",
+          "context": "Ludovic Yersin / Morax employé de sa clinique"
+        }
+      ],
+      "compendiumId": "pnj-191-elizabeth-mircalla-karnstein",
+      "alreadyIntegrated": true,
+      "portraitCandidates": [
+        {
+          "source": "TUC_organisations_crawlers_V2.docx",
+          "embeddedMedia": "word/media/image34.jpeg",
+          "sha256": "209b8f334566ee489bdddf2902f82d536f5d8750b0f1583b728265e4ee898371"
+        }
+      ],
+      "selectedPortrait": "images/pnj/crawlers/elizabeth-mircalla-karnstein.webp",
+      "conflicts": [
+        {
+          "type": "chronologie_realite",
+          "note": "Le dossier des Cours vampiriques attribue à Elizabeth une carrière chez Sunways avant sa chute, tandis que le dossier Crawlers détaille une relation avec Rabbitechnologies/Hannes Senefelder. Ces deux récits de Réalité ne sont pas fusionnés en une chronologie unique ; la fiche conserve le récit Crawlers et n’intègre du dossier vampirique que les éléments de Vérité compatibles."
+        }
+      ],
+      "status": "integrated",
+      "userValidated": false,
+      "selectedPortraitSha256": "f825f3bc45ce58936621a69e3afb16cd0b39188d63c3f4c97482d8431c54899c"
+    },
+    {
+      "canonicalId": "character-192-lenny-falk",
+      "name": "Lenny FALK",
+      "aliases": [
+        "Le bossu de notre Tech."
+      ],
+      "truthNames": [],
+      "type": "PNJ",
+      "sources": [
+        "TUC_organisations_crawlers_V2.docx"
+      ],
+      "sourceOccurrences": [
+        {
+          "source": "TUC_organisations_crawlers_V2.docx",
+          "context": "Profil Meditechs / Cyppers"
+        },
+        {
+          "source": "Compendium",
+          "context": "Déjà mentionné dans la fiche de Tia Reynolds"
+        }
+      ],
+      "compendiumId": "pnj-192-lenny-falk",
+      "alreadyIntegrated": true,
+      "portraitCandidates": [
+        {
+          "source": "TUC_organisations_crawlers_V2.docx",
+          "embeddedMedia": "word/media/image35.jpeg",
+          "sha256": "157b697dafed133d8ad2cf31d051b3a0ceaae639d6a886ac9818814cd4d88351"
+        }
+      ],
+      "selectedPortrait": "images/pnj/crawlers/lenny-falk.webp",
+      "conflicts": [],
+      "status": "integrated",
+      "userValidated": false,
+      "selectedPortraitSha256": "12b2f4a3218723d92b84be95cbe0113eeeef747c5ccd7bacee4de08b07ecca1e"
+    },
+    {
+      "canonicalId": "character-193-dushane-murray",
+      "name": "Dushane MURRAY",
+      "aliases": [
+        "Le dealer de titane"
+      ],
+      "truthNames": [],
+      "type": "PNJ",
+      "sources": [
+        "TUC_organisations_crawlers_V2.docx"
+      ],
+      "sourceOccurrences": [
+        {
+          "source": "TUC_organisations_crawlers_V2.docx",
+          "context": "Profil Meditechs / Cyppers"
+        }
+      ],
+      "compendiumId": "pnj-193-dushane-murray",
+      "alreadyIntegrated": true,
+      "portraitCandidates": [
+        {
+          "source": "TUC_organisations_crawlers_V2.docx",
+          "embeddedMedia": "word/media/image36.jpeg",
+          "sha256": "78ea1a9980a657f62c0b7f90c44609189073c36eb30c44948c22146c5d0cdf31"
+        }
+      ],
+      "selectedPortrait": "images/pnj/crawlers/dushane-murray.webp",
+      "conflicts": [],
+      "status": "integrated",
+      "userValidated": false,
+      "selectedPortraitSha256": "4c0d463781f33b6b6c204dfa4221933fda48dcee23d9294a2c81ec0e9d41f520"
+    },
+    {
+      "canonicalId": "character-194-narako-austin",
+      "name": "Narako AUSTIN",
+      "aliases": [
+        "La pyrotechnicienne"
+      ],
+      "truthNames": [],
+      "type": "PNJ",
+      "sources": [
+        "TUC_organisations_crawlers_V2.docx"
+      ],
+      "sourceOccurrences": [
+        {
+          "source": "TUC_organisations_crawlers_V2.docx",
+          "context": "Profil Meditechs"
+        }
+      ],
+      "compendiumId": "pnj-194-narako-austin",
+      "alreadyIntegrated": true,
+      "portraitCandidates": [
+        {
+          "source": "TUC_organisations_crawlers_V2.docx",
+          "embeddedMedia": "word/media/image37.png",
+          "sha256": "e2ed64a832593e4f7f7acfb5858a8e3bcde56d76823faa47777bb44884af616b"
+        }
+      ],
+      "selectedPortrait": "images/pnj/crawlers/narako-austin.webp",
+      "conflicts": [],
+      "status": "integrated",
+      "userValidated": false,
+      "selectedPortraitSha256": "a66fc00a60349525056dadcc23be15172933fdcc65ba1eddcbab6b568b0054de"
+    },
+    {
+      "canonicalId": "character-195-aisha-white",
+      "name": "Aisha WHITE",
+      "aliases": [
+        "La création parfaite"
+      ],
+      "truthNames": [],
+      "type": "PNJ",
+      "sources": [
+        "TUC_organisations_crawlers_V2.docx",
+        "TUC_Vérité_ les espèces  surnaturelles.docx"
+      ],
+      "sourceOccurrences": [
+        {
+          "source": "TUC_organisations_crawlers_V2.docx",
+          "context": "Profil Meditechs / Venomers — Réalité"
+        },
+        {
+          "source": "TUC_Vérité_ les espèces  surnaturelles.docx",
+          "context": "Création de Faust — Homoncule"
+        }
+      ],
+      "compendiumId": "pnj-195-aisha-white",
+      "alreadyIntegrated": true,
+      "portraitCandidates": [
+        {
+          "source": "TUC_organisations_crawlers_V2.docx",
+          "embeddedMedia": "word/media/image38.png",
+          "sha256": "7896f90e9ed6b8693ed854466f081a28a6d3eb8175daa275fc1afaf2f90950ec"
+        }
+      ],
+      "selectedPortrait": "images/pnj/crawlers/aisha-white.webp",
+      "conflicts": [],
+      "status": "integrated",
+      "userValidated": false,
+      "selectedPortraitSha256": "60ffdc1a667ca5bb6effde6bf3deee8f500abc918919b98864fa6d1ec277d0f1"
+    },
+    {
+      "canonicalId": "character-196-arnstein-gill",
+      "name": "Arnstein GILL",
+      "aliases": [
+        "Le magicien des chairs"
+      ],
+      "truthNames": [],
+      "type": "PNJ",
+      "sources": [
+        "TUC_organisations_crawlers_V2.docx"
+      ],
+      "sourceOccurrences": [
+        {
+          "source": "TUC_organisations_crawlers_V2.docx",
+          "context": "Profil Meditechs / Venomers"
+        }
+      ],
+      "compendiumId": "pnj-196-arnstein-gill",
+      "alreadyIntegrated": true,
+      "portraitCandidates": [
+        {
+          "source": "TUC_organisations_crawlers_V2.docx",
+          "embeddedMedia": "word/media/image39.jpeg",
+          "sha256": "30fb015c84a56d4a6b2262adfac936e8f7e0070527818a6dfb91ef9fc7586f60"
+        }
+      ],
+      "selectedPortrait": "images/pnj/crawlers/arnstein-gill.webp",
+      "conflicts": [],
+      "status": "integrated",
+      "userValidated": false,
+      "selectedPortraitSha256": "31e80ae32c9a8f69208662f4c857946f86414b9ece7ad0485a39c94cfc18b3d1"
+    },
+    {
+      "canonicalId": "character-031-mi-yeon-ryong",
+      "name": "Mi-Yeon RYONG",
+      "aliases": [
+        "Le monstre de Yungcheon"
+      ],
+      "truthNames": [],
+      "type": "PNJ",
+      "sources": [
+        "TUC_organisations_crawlers_V2.docx",
+        "TUC_organisations_gouvernement.docx"
+      ],
+      "sourceOccurrences": [
+        {
+          "source": "TUC_organisations_crawlers_V2.docx",
+          "context": "Profil Meditechs / Venomers"
+        },
+        {
+          "source": "TUC_organisations_gouvernement.docx",
+          "context": "Occurrence possible sous la graphie « Mi-Yen RYONG » ; non fusionnée automatiquement"
+        }
+      ],
+      "compendiumId": "pnj-031-mi-yeon-ryong",
+      "alreadyIntegrated": true,
+      "portraitCandidates": [
+        {
+          "source": "TUC_organisations_crawlers_V2.docx",
+          "embeddedMedia": "word/media/image40.jpeg",
+          "sha256": "454bf10c6b5b4ec7ee5cbbbe4c07a476553cf45ddfed6a4728495c0456bb37be"
+        }
+      ],
+      "selectedPortrait": "images/pnj/crawlers/mi-yeon-ryong.webp",
+      "conflicts": [
+        {
+          "type": "identite_possible",
+          "note": "TUC_organisations_gouvernement.docx mentionne « Mi-Yen RYONG » comme sœur aînée de Ji-Mi, réputée dans le médical. Correspondance probable avec Mi-Yeon, mais pas assez explicite pour créer un alias canonique sans validation."
+        }
+      ],
+      "status": "integrated",
+      "userValidated": false,
+      "selectedPortraitSha256": "0a49fe22e651a0744a64e3ee367b6f1b728c83905a02c8c7dfecda291484cf64"
+    }
+  ]
+}
