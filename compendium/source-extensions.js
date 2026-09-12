@@ -15,12 +15,9 @@ async function loadChunked(prefix,count){
 const ORG_WAVES=[
   {prefix:'wave6-gangs',count:3,id:'wave6'},
   {prefix:'wave3-mini-org',count:5,id:'wave3'},
-  {prefix:'wave4-org',count:1,id:'wave4'},
   {prefix:'wave5-verite',count:1,id:'wave5'}
 ];
-const PNJ_WAVES=[
-  {prefix:'wave4-pnj',count:1,id:'wave4'}
-];
+const PNJ_WAVES=[];
 
 function removeExistingByTitle(existingMeta,key){
   for(let i=(existingMeta?.length||0)-1;i>=0;i--)if(norm(existingMeta[i]?.title)===key)existingMeta.splice(i,1);
@@ -52,14 +49,7 @@ export async function loadSourceExtensions(existingMeta=[]){
   return {articles,error:errors.length?errors:null};
 }
 
-export async function loadPnjWaves(){
-  const results=await Promise.all(PNJ_WAVES.map(async spec=>{
-    try{return {id:spec.id,rows:await loadChunked(spec.prefix,spec.count)}}
-    catch(error){console.warn(`PNJ ${spec.id} indisponibles`,error);return {id:spec.id,rows:[],error}}
-  }));
-  return results;
-}
-
+export async function loadPnjWaves(){return []}
 export async function loadPnjWave2(){return []}
 export async function loadPnjWave3(){return []}
-export async function loadPnjWave4(){const all=await loadPnjWaves();return all.find(x=>x.id==='wave4')?.rows||[]}
+export async function loadPnjWave4(){return []}
