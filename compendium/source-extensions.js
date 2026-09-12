@@ -11,6 +11,7 @@ async function loadChunked(prefix,count){
 }
 
 const ORG_WAVES=[
+  {prefix:'wave6-gangs',count:3,id:'wave6'},
   {prefix:'wave2-org',count:8,id:'wave2'},
   {prefix:'wave3-mini-org',count:5,id:'wave3'},
   {prefix:'wave4-org',count:1,id:'wave4'},
@@ -22,10 +23,16 @@ const PNJ_WAVES=[
   {prefix:'wave4-pnj',count:1,id:'wave4'}
 ];
 
-function normalizeRows(rows,known,prefix){
+function removeExistingByTitle(existingMeta,key){
+  for(let i=(existingMeta?.length||0)-1;i>=0;i--)if(norm(existingMeta[i]?.title)===key)existingMeta.splice(i,1);
+}
+
+function normalizeRows(rows,known,prefix,existingMeta){
   const articles=[];
   for(const row of rows||[]){
-    const key=norm(row.title);if(!key||known.has(key))continue;
+    const key=norm(row.title);if(!key)continue;
+    if(row.replaceExisting){removeExistingByTitle(existingMeta,key);known.delete(key)}
+    if(known.has(key))continue;
     known.add(key);
     articles.push({...row,id:row.id||`${prefix}-${slugify(row.title)}`,status:row.status||'source_detaillee',audience:row.audience||'player',tags:[...(row.tags||[]),'Source détaillée']});
   }
@@ -40,7 +47,7 @@ export async function loadSourceExtensions(existingMeta=[]){
   }));
   for(const result of results){
     if(result.error){errors.push(result.error);continue}
-    articles.push(...normalizeRows(result.rows,known,result.spec.id));
+    articles.push(...normalizeRows(result.rows,known,result.spec.id,existingMeta));
   }
   return {articles,error:errors.length?errors:null};
 }
