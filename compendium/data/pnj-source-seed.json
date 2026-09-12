@@ -1,125 +1,1 @@
-[
-  {
-    "title": "Alicia Starrogue",
-    "source": "TUC_VÃ©ritÃ©_ les espÃ¨ces extraterrestres.docx",
-    "status": "source_detaillee",
-    "audience": "player",
-    "tags": [
-      "Crawlers",
-      "Slice",
-      "intervante de l'Bschool"
-    ],
-    "pnj": {
-      "completeness": "detailed",
-      "age": "Â«28 ansÂ» - 28 ans",
-      "origine": "Californienne",
-      "statut": "intervante de l'Bschool",
-      "statutVerite": "Slice",
-      "relations": [
-        "Assenae MACKAY: amie",
-        "Aston RÃ‰YESZ  admirateur discret"
-      ],
-      "truthName": "",
-      "race": "Slice"
-    },
-    "sections": [
-      {
-        "id": "informations-realite",
-        "title": "Informations RÃ©alitÃ©",
-        "level": 2,
-        "audience": "player",
-        "blocks": [
-          {
-            "type": "p",
-            "text": "Alicia est nÃ©e Ã  Eureka en Californie."
-          },
-          {
-            "type": "p",
-            "text": "Elle a toujours grandi proche de la nature et aime la ville ou les aniacx qui vivent au rithme des vents, les fumeÃ©s des forÃªts de sapin et de l'Ã‰meraude."
-          },
-          {
-            "type": "p",
-            "text": "Elle fit des Ã©tudes humanitaire et suivit le cursus de l'Bschool par curiositÃ©, les premiers mois Ã©tant dÃ©stanilisant mais avanÃ§ant ve toujours mieux comprendre l'humaine."
-          },
-          {
-            "type": "p",
-            "text": "Elle acquit vite une immense popularitÃ© pour sa gentillesse et sa douceur, toujours attentive aux autres, elle est une professeure trÃ¨s apprÃ©ciÃ©e, jÃ©drant et conseillant les jeunes membres de l'Bschool."
-          },
-          {
-            "type": "p",
-            "text": "Elle a prise sous son aile Assenae MACKAY, une Ã©lÃ¨ve de deuxÃ¨Ã¨me annÃ©e, elle considÃ¨re la jeune fille comme l'une de ses plus belles success de hauser l'humane."
-          }
-        ]
-      },
-      {
-        "id": "informations-verite",
-        "title": "Informations VÃ©ritÃ©",
-        "level": 2,
-        "audience": "mj",
-        "blocks": [
-          {
-            "type": "p",
-            "text": "Alicia est une Slice dÃ©rivÃ©e des Humains, elle a Ã©tÃ© envoyÃ©e sur Terre pour Ã©tudier les Humains de Terra et notamment le contact avec les Extrals."
-          },
-          {
-            "type": "p",
-            "text": "Elle a donc intÃ©grÃ© l'Bschool comme professeure, Ã©tudiant les humains au quotidien."
-          },
-          {
-            "type": "p",
-            "text": "Elle est dÃ©ja dÃ©finitivement attachÃ©e aux humains et parait Ãªve refuser de quitter la Terre."
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "title": "Alkiwa",
-    "source": "Les humains galactiques.docx",
-    "status": "source_detaillee",
-    "audience": "player",
-    "tags": [
-      "PNJ",
-      "Joker"
-    ],
-    "pnj": {
-      "completeness": "stub",
-      "statut": "Joker"
-    },
-    "sections": [
-      {
-        "id": "etat-source",
-        "title": "Ã‰tat de la source",
-        "level": 2,
-        "blocks": [
-          {
-            "type": "p",
-            "text": "Alkiwa est citÃ© dans le dossier Â« Les humains galactiques.docx Â» comme Joker. Sa fiche dÃ©taillÃ©e reste Ã  consolider depuis les autres sources."
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "title": "Alladava Kjoll",
-    "source": "Les humains galactiques.docx",
-    "status": "source_detaillee",
-    "audience": "player",
-    "tags": [
-      "PNJ",
-      "Officier spÃ©cial (783Ã¨me)"
-    ],
-    "pnj": {
-      "completeness": "stub",
-      "statut": "Officier spÃ©cial (783Ã¨me)"
-    },
-    "sections": [
-      {
-        "id": "etat-source",
-        "title": "Ã‰tat de la source",
-        "level": 2,
-        "blocks": [
-          {
-            "type": "p",
-            "text": "Alladava Kjoll est citÃ© dans le dossier Â« Les humains galactiques.docx Â»ÛÛ[YHÙ™šXÚY\ˆÜ0êXÚX[
-ÎğêYJKˆØHšXÚH0ê]Z[0êYH™\İH0èÛÛœÛÛY\ˆ\Z\È\È]]™\ÈÛİ\˜Ù\Ëˆ‚ˆBˆBˆBˆBˆKˆÂˆ]Hˆ[IØ S[YXXÈ‹ˆœÛİ\˜ÙHˆ•P×Õ°ê\š]0êWÈ\ÈÜ°êX]\™\×Ù›Øİ\Èİ\ˆ\È›0êX]^™ØŞ‹ˆœİ]\ÈˆœÛİ\˜ÙWÙ]Z[YH‹ˆ˜]YY[˜ÙHˆ›Zˆ‹ˆYÜÈˆÂˆ”°êYXØ]]\ˆ‹ˆX›ÛZ[˜][Ûˆ‹ˆ”°êYXØ]]\ˆH\›šY\ˆ›İ\ˆ‚ˆKˆœšˆˆÂˆ˜ÛÛ\][™\ÜÈˆ™]Z[Y‹ˆ˜YÙHˆ°ªÈÍ[œğ®ÈHÍ[œÈ‹ˆ›ÜšYÚ[™HˆYœš\]YHHİY‹ˆœİ]]ˆ”°êYXØ]]\ˆH\›šY\ˆ›İ\ˆ‹ˆœİ]]™\š]Hˆ\ÈZ[š\İ0ê\ˆ0¨X›ÛZ[˜][Ûˆ‹ˆœ™[][ÛœÈˆÂˆ°ªÈğê]š[ˆ0®ÈXX×ÑÕÑS‚ŸBŸ
+[{"title":"Tia Reynolds","source":"BG divers TUC.docx","tags":["Crawler","Chasseuse","Ushkoll","Portland","Los Angeles"],"pnj":{"completeness":"detailed","age":"32 ans","taille":"1m78","statut":"Chasseuse / Crawler / agente dâ€™Ushkoll"},"sections":[{"id":"caractere","title":"CaractÃ¨re","level":2,"blocks":[{"type":"p","text":"Tia est calme, posÃ©e, rÃ©servÃ©e et discrÃ¨te. Consciencieuse et mÃ©ticuleuse, elle attire peu lâ€™attention et conserve peu de relations hors des missions."}]},{"id":"background","title":"Background","level":2,"blocks":[{"type":"p","text":"NÃ©e Ã  Portland, Tia est marquÃ©e enfant par un combat entre crÃ©atures rÃ©vÃ©lÃ©es que lâ€™Hologramme nâ€™efface pas correctement. Elle rejoint ensuite lâ€™armÃ©e et sert en CorÃ©e."},{"type":"p","text":"En 2026, une crÃ©ature massacre son escouade. Le stress et ses expÃ©riences antÃ©rieures Ã©veillent des perceptions de mÃ©dium qui lui permettent finalement de lâ€™abattre. DÃ©mobilisÃ©e, elle devient Crawler puis Chasseuse, Ã©tudie les crÃ©atures et se fait poser des implants oculaires pour mieux percevoir les semi-rÃ©vÃ©lÃ©es."},{"type":"p","text":"En 2032, un ancien contact de lâ€™armÃ©e devenu cadre chez Ushkoll lui propose de travailler comme contractuelle. Elle sâ€™installe Ã  Los Angeles et rejoint les rÃ©seaux de Chasseurs locaux."}]}]},{"title":"Jakeline Bates","source":"BG divers TUC.docx","tags":["Crawler"],"pnj":{"completeness":"stub","statut":"Crawleuse"},"sections":[{"id":"etat-source","title":"Ã‰tat de la source","level":2,"blocks":[{"type":"p","text":"Jakeline Bates est nommÃ© dans BG divers TUC.docx ; le dossier source laisse encore son mini-BG Ã  complÃ©ter."}]}]},{"title":"Phoebe Edgar","source":"BG divers TUC.docx","tags":["Eversor Motors","Corporatiste"],"pnj":{"completeness":"stub","statut":"MÃ©canicienne / PDG dâ€™Eversor Motors"},"sections":[{"id":"etat-source","title":"Ã‰tat de la source","level":2,"blocks":[{"type":"p","text":"Phoebe Edgar est nommÃ© dans BG divers TUC.docx ; le dossier source laisse encore son mini-BG Ã  complÃ©ter."}]}]},{"title":"Siham Atlasi","source":"BG divers TUC.docx","tags":["Police"],"pnj":{"completeness":"stub","statut":"PoliciÃ¨re"},"sections":[{"id":"etat-source","title":"Ã‰tat de la source","level":2,"blocks":[{"type":"p","text":"Siham Atlasi est nommÃ© dans BG divers TUC.docx ; le dossier source laisse encore son mini-BG Ã  complÃ©ter."}]}]},{"title":"Lisa EredhÃ¨s","source":"BG divers TUC.docx","tags":["AIDH","Extrals"],"pnj":{"completeness":"stub","statut":"SecrÃ©taire gÃ©nÃ©rale de lâ€™AIDH","statutVerite":"Ã€ statuer"},"sections":[{"id":"etat-source","title":"Ã‰tat de la source","level":2,"blocks":[{"type":"p","text":"Lisa EredhÃ¨s est nommÃ© dans BG divers TUC.docx ; le dossier source laisse encore son mini-BG Ã  complÃ©ter."}]}]},{"title":"Elynea","source":"BG divers TUC.docx","tags":["MÃ©dia","VÃ©ritÃ©"],"pnj":{"completeness":"stub","statut":"PrÃ©sentatrice","statutVerite":"Â« Dieu Â» â€” Ã  statuer"},"sections":[{"id":"etat-source","title":"Ã‰tat de la source","level":2,"blocks":[{"type":"p","text":"Elynea est nommÃ© dans BG divers TUC.docx ; le dossier source laisse encore son mini-BG Ã  complÃ©ter."}]}]},{"title":"Silâ€™Elaith","source":"BG divers TUC.docx","tags":["Vala","Corporatiste"],"pnj":{"completeness":"stub","statut":"PDG â€” corporation Ã  prÃ©ciser","statutVerite":"Vala antique"},"sections":[{"id":"etat-source","title":"Ã‰tat de la source","level":2,"blocks":[{"type":"p","text":"Silâ€™Elaith est nommÃ© dans BG divers TUC.docx ; le dossier source laisse encore son mini-BG Ã  complÃ©ter."}]}]},{"title":"Lilith","source":"BG divers TUC.docx","tags":["Red Wheels","DÃ©esse"],"pnj":{"completeness":"stub","statut":"PDG de Red Wheels","statutVerite":"DÃ©esse"},"sections":[{"id":"etat-source","title":"Ã‰tat de la source","level":2,"blocks":[{"type":"p","text":"Lilith est nommÃ© dans BG divers TUC.docx ; le dossier source laisse encore son mini-BG Ã  complÃ©ter."}]}]},{"title":"Erea","source":"BG divers TUC.docx","tags":["Musique","DÃ©esse"],"pnj":{"completeness":"stub","statut":"Barmaid / chanteuse","statutVerite":"DÃ©esse"},"sections":[{"id":"etat-source","title":"Ã‰tat de la source","level":2,"blocks":[{"type":"p","text":"Erea est nommÃ© dans BG divers TUC.docx ; le dossier source laisse encore son mini-BG Ã  complÃ©ter."}]}]},{"title":"Darilen","source":"BG divers TUC.docx","tags":["The Void","Musique underground"],"pnj":{"completeness":"stub","statut":"Chanteuse underground / leader de The Void"},"sections":[{"id":"etat-source","title":"Ã‰tat de la source","level":2,"blocks":[{"type":"p","text":"Darilen est nommÃ© dans BG divers TUC.docx ; le dossier source laisse encore son mini-BG Ã  complÃ©ter."}]}]},{"title":"Malriel","source":"BG divers TUC.docx","tags":["The Darkness","Musique underground"],"pnj":{"completeness":"stub","statut":"Chanteuse underground / leader de The Darkness"},"sections":[{"id":"etat-source","title":"Ã‰tat de la source","level":2,"blocks":[{"type":"p","text":"Malriel est nommÃ© dans BG divers TUC.docx ; le dossier source laisse encore son mini-BG Ã  complÃ©ter."}]}]},{"title":"Kerys","source":"BG divers TUC.docx","tags":["Crawler","Combat underground","Dragon"],"pnj":{"completeness":"stub","statut":"Crawler / combattante underground","statutVerite":"Dragonne antique"},"sections":[{"id":"etat-source","title":"Ã‰tat de la source","level":2,"blocks":[{"type":"p","text":"Kerys est nommÃ© dans BG divers TUC.docx ; le dossier source laisse encore son mini-BG Ã  complÃ©ter."}]}]}]
