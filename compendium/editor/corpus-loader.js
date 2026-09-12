@@ -2,10 +2,11 @@ import {deepClone} from './override-engine.js';
 
 let manifestPromise=null;
 let articlesPromise=null;
+const dataUrl=path=>new URL(`../data/${path}`,import.meta.url);
 
 export async function loadEditorManifest(){
   if(!manifestPromise)manifestPromise=(async()=>{
-    const response=await fetch('../data/manifest-v3.json',{cache:'no-cache'});
+    const response=await fetch(dataUrl('manifest-v3.json'),{cache:'no-cache'});
     if(!response.ok)throw new Error(`manifest-v3.json · HTTP ${response.status}`);
     const manifest=await response.json();
     if(!Array.isArray(manifest.datasets))throw new Error('Manifest V3 invalide');
@@ -17,7 +18,7 @@ export async function loadEditorManifest(){
 async function loadDataset(spec){
   const texts=await Promise.all(Array.from({length:spec.parts},async(_,index)=>{
     const file=`${spec.prefix}-${String(index).padStart(2,'0')}.b64part`;
-    const response=await fetch(`../data/${file}`,{cache:'force-cache'});
+    const response=await fetch(dataUrl(file),{cache:'force-cache'});
     if(!response.ok)throw new Error(`${file} · HTTP ${response.status}`);
     return response.text();
   }));
