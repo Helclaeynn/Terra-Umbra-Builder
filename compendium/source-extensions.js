@@ -10,15 +10,15 @@ async function loadChunked(prefix,count){
   return JSON.parse(await new Response(stream).text());
 }
 
+// Only local datasets that have passed the structural check are activated here.
+// Corrupted legacy waves remain in the repository for history but never block startup.
 const ORG_WAVES=[
   {prefix:'wave6-gangs',count:3,id:'wave6'},
-  {prefix:'wave2-org',count:8,id:'wave2'},
   {prefix:'wave3-mini-org',count:5,id:'wave3'},
   {prefix:'wave4-org',count:1,id:'wave4'},
   {prefix:'wave5-verite',count:1,id:'wave5'}
 ];
 const PNJ_WAVES=[
-  {prefix:'wave2-pnj',count:2,id:'wave2'},
   {prefix:'wave3-mini-pnj',count:1,id:'wave3'},
   {prefix:'wave4-pnj',count:1,id:'wave4'}
 ];
@@ -61,6 +61,6 @@ export async function loadPnjWaves(){
   return results;
 }
 
-export async function loadPnjWave2(){const all=await loadPnjWaves();return all.find(x=>x.id==='wave2')?.rows||[]}
+export async function loadPnjWave2(){return []}
 export async function loadPnjWave3(){const all=await loadPnjWaves();return all.find(x=>x.id==='wave3')?.rows||[]}
 export async function loadPnjWave4(){const all=await loadPnjWaves();return all.find(x=>x.id==='wave4')?.rows||[]}
