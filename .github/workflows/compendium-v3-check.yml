@@ -41,6 +41,7 @@ jobs:
         run: |
           node compendium/tests/editor-overrides-check.mjs
           node compendium/tests/native-overrides-check.mjs
+          node compendium/tests/native-runtime-index-check.mjs
       - name: Validate committed manual overrides
         run: node compendium/tests/manual-overrides-check.mjs
       - name: Validate V3 corpus and active runtime
