@@ -1,9 +1,10 @@
 name: Assemble Compendium V3 datasets
 
 on:
+  workflow_dispatch:
   push:
     branches:
-      - feature/tuc-compendium-v3-transfer-clean
+      - feature/tuc-compendium-v3-transfer-final
     paths:
       - compendium/data/_v3transport/READY
 
