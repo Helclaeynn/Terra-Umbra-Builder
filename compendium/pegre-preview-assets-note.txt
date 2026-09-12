@@ -1,0 +1,1 @@
+Preview assets are stored on this preview branch only. Binary review thumbnails are added as Git blobs in the next commit.
