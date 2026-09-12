@@ -1,5 +1,6 @@
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const visualSrc=v=>String(v??'').replace('assets/gouvernement-preview/grande-californie.jpg','assets/gouvernement-preview/grande-californie.webp');
 let DB=null;
 const slugFromHash=()=>decodeURIComponent(location.hash.replace(/^#\/?/,''))||'gouvernement-grande-californie';
 async function loadDB(){
@@ -20,7 +21,7 @@ function render(){
   document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('active',a.dataset.id===p.id));
   const flags=(p.flags||[]).map(x=>`<div class="flag-box"><strong>À statuer avant intégration</strong><br>${esc(x)}</div>`).join('');
   const canon=(p.canon||[]).map(x=>`<div class="canon-box"><strong>Arbitrage / confirmation récente</strong><br>${esc(x)}</div>`).join('');
-  const visuals=p.visuals?.length?`<div class="preview-visuals${p.visualKind==='map'?' maps':''}">${p.visuals.map((v,i)=>`<img loading="lazy" src="${esc(v)}" alt="Illustration source ${i+1} — ${esc(p.title)}">`).join('')}</div>`:'';
+  const visuals=p.visuals?.length?`<div class="preview-visuals${p.visualKind==='map'?' maps':''}">${p.visuals.map((v,i)=>`<img loading="lazy" src="${esc(visualSrc(v))}" alt="Illustration source ${i+1} — ${esc(p.title)}">`).join('')}</div>`:'';
   const scheme=p.structure?.length?`<section class="scheme"><h2>Structure · synthèse documentaire</h2><div class="scheme-flow">${p.structure.map(n=>`<div class="scheme-node level-${n.level??1}"><strong>${esc(n.label)}</strong><span>${esc(n.note||'')}</span></div>`).join('')}</div></section>`:'';
   const sections=(p.sections||[]).map(s=>`<section class="preview-section section"><h2>${esc(s.title)}</h2>${(s.blocks||[]).map(b=>`<p class="body-p${b.type==='list'?' list':''}">${esc(b.text)}</p>`).join('')}</section>`).join('');
   $('#content').innerHTML=`<header class="page-head preview-hero"><div class="eyebrow">${esc(p.group)} · preview recette</div><h1>${esc(p.title)}</h1><p>${esc(p.summary)}</p><div class="preview-meta"><span class="badge source">${esc(p.source)}</span><span class="badge">${esc(p.target)}</span><span class="badge canon">Lore non-personnage</span></div></header>${visuals}${canon}${flags}${scheme}${sections}<div class="preview-foot">Source principale : ${esc(DB.source)} · Arbitrage : ${esc(DB.arbitration)} · ${DB.excludedProfiles} profils individuels détectés et volontairement exclus du chantier Lore.</div>`;
