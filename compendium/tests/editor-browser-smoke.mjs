@@ -59,7 +59,7 @@ try{
   await mediaBlock.waitFor({timeout:10000});
   await mediaBlock.getByRole('button',{name:'Choisir une image du PC'}).waitFor({timeout:10000});
 
-  const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAADCAIAAAD91JpzAAAAF0lEQVR42mNkYGBgYGBgYGBg+A8EAQEAAP//AwCwAQP6JHhMAAAAAElFTkSuQmCC','base64');
+  const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAQAAAAGCAYAAADkOT91AAAAFklEQVR4nGOsCDjxnwEJMDGgAWoIAAAAZwKbcqkHXQAAAABJRU5ErkJggg==','base64');
   await mediaBlock.locator('[data-inline-media-file]').setInputFiles({name:'smoke-image.png',mimeType:'image/png',buffer:png});
   await mediaBlock.locator('[data-inline-media-status]').filter({hasText:'WebP local prêt'}).waitFor({timeout:15000});
   const storedPath=await mediaBlock.locator('[data-inline-media-src]').inputValue();
