@@ -1,0 +1,2 @@
+Pègre lore preview recipe — additive GitHub Pages deployment marker.
+18 candidate pages; no V3 runtime dataset modified.
