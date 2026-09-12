@@ -6,7 +6,6 @@ const DATA='compendium/data';
 // Legacy/corrupted and prepared-but-inactive waves are intentionally excluded.
 const specs=[
   ['wave3-mini-org',5],
-  ['wave3-mini-pnj',1],
   ['wave4-org',1],
   ['wave4-pnj',1],
   ['wave5-verite',1],
