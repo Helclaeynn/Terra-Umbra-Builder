@@ -31,7 +31,7 @@
       ],
       "selectedPortrait": "images/pnj/crawlers/taishara-jibson.webp",
       "conflicts": [],
-      "status": "integrated",
+      "status": "ci_green",
       "userValidated": false,
       "selectedPortraitSha256": "c84205c169a249f9f125df98abe6560e3d7fcdabe231a4e05d0008c515b5111c"
     },
@@ -73,7 +73,7 @@
       ],
       "selectedPortrait": "images/pnj/crawlers/phoebe-edgar.webp",
       "conflicts": [],
-      "status": "integrated",
+      "status": "ci_green",
       "userValidated": false,
       "selectedPortraitSha256": "cf503f70166badb9e0d1f35df727b81a1a46e63cfb360e104671628b0bbce792"
     },
@@ -127,7 +127,7 @@
           "note": "Le dossier des Cours vampiriques attribue à Elizabeth une carrière chez Sunways avant sa chute, tandis que le dossier Crawlers détaille une relation avec Rabbitechnologies/Hannes Senefelder. Ces deux récits de Réalité ne sont pas fusionnés en une chronologie unique ; la fiche conserve le récit Crawlers et n’intègre du dossier vampirique que les éléments de Vérité compatibles."
         }
       ],
-      "status": "integrated",
+      "status": "ci_green",
       "userValidated": false,
       "selectedPortraitSha256": "f825f3bc45ce58936621a69e3afb16cd0b39188d63c3f4c97482d8431c54899c"
     },
@@ -163,7 +163,7 @@
       ],
       "selectedPortrait": "images/pnj/crawlers/lenny-falk.webp",
       "conflicts": [],
-      "status": "integrated",
+      "status": "ci_green",
       "userValidated": false,
       "selectedPortraitSha256": "12b2f4a3218723d92b84be95cbe0113eeeef747c5ccd7bacee4de08b07ecca1e"
     },
@@ -195,7 +195,7 @@
       ],
       "selectedPortrait": "images/pnj/crawlers/dushane-murray.webp",
       "conflicts": [],
-      "status": "integrated",
+      "status": "ci_green",
       "userValidated": false,
       "selectedPortraitSha256": "4c0d463781f33b6b6c204dfa4221933fda48dcee23d9294a2c81ec0e9d41f520"
     },
@@ -227,7 +227,7 @@
       ],
       "selectedPortrait": "images/pnj/crawlers/narako-austin.webp",
       "conflicts": [],
-      "status": "integrated",
+      "status": "ci_green",
       "userValidated": false,
       "selectedPortraitSha256": "a66fc00a60349525056dadcc23be15172933fdcc65ba1eddcbab6b568b0054de"
     },
@@ -264,7 +264,7 @@
       ],
       "selectedPortrait": "images/pnj/crawlers/aisha-white.webp",
       "conflicts": [],
-      "status": "integrated",
+      "status": "ci_green",
       "userValidated": false,
       "selectedPortraitSha256": "60ffdc1a667ca5bb6effde6bf3deee8f500abc918919b98864fa6d1ec277d0f1"
     },
@@ -296,7 +296,7 @@
       ],
       "selectedPortrait": "images/pnj/crawlers/arnstein-gill.webp",
       "conflicts": [],
-      "status": "integrated",
+      "status": "ci_green",
       "userValidated": false,
       "selectedPortraitSha256": "31e80ae32c9a8f69208662f4c857946f86414b9ece7ad0485a39c94cfc18b3d1"
     },
@@ -338,7 +338,7 @@
           "note": "TUC_organisations_gouvernement.docx mentionne « Mi-Yen RYONG » comme sœur aînée de Ji-Mi, réputée dans le médical. Correspondance probable avec Mi-Yeon, mais pas assez explicite pour créer un alias canonique sans validation."
         }
       ],
-      "status": "integrated",
+      "status": "ci_green",
       "userValidated": false,
       "selectedPortraitSha256": "0a49fe22e651a0744a64e3ee367b6f1b728c83905a02c8c7dfecda291484cf64"
     }
