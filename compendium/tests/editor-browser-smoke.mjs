@@ -40,7 +40,6 @@ try{
   const dialog=page.locator('dialog.editor-dialog');
   await dialog.waitFor({state:'visible',timeout:30000});
   await dialog.locator('input[name="pnj_age"]').waitFor();
-  await dialog.getByRole('button',{name:'Choisir une image du PC'}).waitFor({timeout:10000});
 
   const titleInput=dialog.locator('input[name="title"]');
   if((await titleInput.inputValue()).trim()!==originalTitle)throw new Error('Le titre initial n’est pas chargé dans l’éditeur.');
@@ -53,17 +52,20 @@ try{
   await addedSection.getByRole('button',{name:'+ Tableau'}).click();
   await addedSection.locator('.editor-block[data-type="table"]').waitFor();
 
-  const addType=addedSection.locator('[data-inline-add-type]');
-  await addType.waitFor({timeout:10000});
-  await addType.selectOption('portrait');
-  await addedSection.getByRole('button',{name:'+ Paragraphe'}).click();
-  const mediaBlock=addedSection.locator('.editor-block[data-inline-media-editor="1"]').last();
+  await addedSection.getByRole('button',{name:'+ Image',exact:true}).waitFor({timeout:10000});
+  await addedSection.getByRole('button',{name:'+ Portrait',exact:true}).waitFor({timeout:10000});
+  await addedSection.getByRole('button',{name:'+ Image',exact:true}).click();
+  const mediaBlock=addedSection.locator('.editor-block[data-inline-media-editor="1"][data-inline-media-kind-block="image"]').last();
   await mediaBlock.waitFor({timeout:10000});
-  if(await mediaBlock.locator('[data-inline-media-kind]').inputValue()!=='portrait')throw new Error('Le nouveau bloc média n’est pas de type Portrait.');
-  const smokeImage='data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2212%22%20height=%2216%22%3E%3Crect%20width=%2212%22%20height=%2216%22%20fill=%22%23999%22/%3E%3C/svg%3E';
-  await mediaBlock.locator('[data-inline-media-src]').fill(smokeImage);
-  await mediaBlock.locator('[data-inline-media-alt]').fill('Portrait de smoke test');
-  await mediaBlock.locator('[data-inline-media-caption]').fill('Portrait intégré de test');
+  await mediaBlock.getByRole('button',{name:'Choisir une image du PC'}).waitFor({timeout:10000});
+
+  const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAADCAIAAAD91JpzAAAAF0lEQVR42mNkYGBgYGBgYGBg+A8EAQEAAP//AwCwAQP6JHhMAAAAAElFTkSuQmCC','base64');
+  await mediaBlock.locator('[data-inline-media-file]').setInputFiles({name:'smoke-image.png',mimeType:'image/png',buffer:png});
+  await mediaBlock.locator('[data-inline-media-status]').filter({hasText:'WebP local prêt'}).waitFor({timeout:15000});
+  const storedPath=await mediaBlock.locator('[data-inline-media-src]').inputValue();
+  if(!/^images\/manual\/.*-image-.*\.webp$/.test(storedPath))throw new Error(`Le fichier PC n’a pas produit un chemin WebP de bloc Image : ${storedPath}`);
+  await mediaBlock.locator('[data-inline-media-alt]').fill('Image de smoke test');
+  await mediaBlock.locator('[data-inline-media-caption]').fill('Image intégrée de test');
 
   if(beforeSections>0){
     await addedSection.locator('[data-order-kind="section"][data-order-direction="up"]').click();
@@ -77,18 +79,23 @@ try{
   await dialog.waitFor({state:'detached',timeout:10000});
   await page.locator('.editor-state-badge').filter({hasText:'Brouillon local'}).waitFor({timeout:10000});
   if((await page.locator('#main .page-head h1').innerText()).trim()!==smokeTitle)throw new Error('La prévisualisation du brouillon ne reflète pas le nouveau titre.');
-  const renderedPortrait=page.locator('#main .content-inline-media.portrait').filter({hasText:'Portrait intégré de test'});
-  await renderedPortrait.waitFor({timeout:10000});
-  if((await renderedPortrait.locator('img').getAttribute('alt'))!=='Portrait de smoke test')throw new Error('Le texte alternatif du portrait intégré n’est pas rendu.');
+  const renderedImage=page.locator('#main .content-inline-media.image').filter({hasText:'Image intégrée de test'});
+  await renderedImage.waitFor({timeout:10000});
+  if((await renderedImage.locator('img').getAttribute('alt'))!=='Image de smoke test')throw new Error('Le texte alternatif du bloc Image n’est pas rendu.');
+  const renderedSrc=await renderedImage.locator('img').getAttribute('src');
+  if(!renderedSrc?.startsWith('blob:'))throw new Error(`Le WebP local du bloc Image n’est pas résolu dans la prévisualisation : ${renderedSrc}`);
 
   await editButton.click();
   const reopened=page.locator('dialog.editor-dialog');
   await reopened.waitFor({state:'visible',timeout:30000});
   if((await reopened.locator('input[name="title"]').inputValue()).trim()!==smokeTitle)throw new Error('Le brouillon n’est pas rechargé dans l’éditeur.');
-  const reopenedMedia=reopened.locator('.editor-block[data-inline-media-editor="1"]').last();
+  const reopenedMedia=reopened.locator('.editor-block[data-inline-media-editor="1"][data-inline-media-kind-block="image"]').last();
   await reopenedMedia.waitFor({timeout:10000});
-  if(await reopenedMedia.locator('[data-inline-media-kind]').inputValue()!=='portrait')throw new Error('Le type Portrait n’est pas conservé à la réouverture.');
-  if(await reopenedMedia.locator('[data-inline-media-caption]').inputValue()!=='Portrait intégré de test')throw new Error('La légende du bloc Portrait n’est pas conservée.');
+  await reopenedMedia.getByRole('button',{name:'Choisir une image du PC'}).waitFor({timeout:10000});
+  if(await reopenedMedia.locator('[data-inline-media-src]').inputValue()!==storedPath)throw new Error('Le chemin du bloc Image n’est pas conservé à la réouverture.');
+  if(await reopenedMedia.locator('[data-inline-media-caption]').inputValue()!=='Image intégrée de test')throw new Error('La légende du bloc Image n’est pas conservée.');
+  if(await reopenedMedia.locator('[data-field="block-text"]').isVisible())throw new Error('Le bloc Image redevient visuellement un paragraphe après réouverture.');
+
   await reopened.locator('[data-action="discard"]').click();
   await reopened.waitFor({state:'detached',timeout:10000});
   await page.waitForFunction(expected=>document.querySelector('#main .page-head h1')?.textContent?.trim()===expected,originalTitle,{timeout:10000});
@@ -104,7 +111,7 @@ try{
 
   if(httpErrors.length)throw new Error(`Ressources HTTP en erreur:\n${httpErrors.join('\n')}`);
   if(consoleErrors.length)throw new Error(`Erreurs JavaScript navigateur détectées:\n${consoleErrors.join('\n')}`);
-  console.log(`Browser smoke OK: ${originalTitle} · édition, tableau, ordre, bloc Portrait, brouillon et suppression validés.`);
+  console.log(`Browser smoke OK: ${originalTitle} · boutons Image/Portrait dédiés, vrai fichier PC, WebP local, sauvegarde, rendu, réouverture et suppression validés.`);
 } finally {
   await browser.close();
 }
