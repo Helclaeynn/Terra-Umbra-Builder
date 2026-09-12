@@ -10,10 +10,24 @@ async function loadChunked(prefix,count){
   return JSON.parse(await new Response(stream).text());
 }
 
-function normalizeRows(rows,known,prefix){
+// Only local datasets that have passed the structural check are activated here.
+// Corrupted legacy waves remain in the repository for history but never block startup.
+const ORG_WAVES=[
+  {prefix:'wave6-gangs',count:3,id:'wave6'},
+  {prefix:'wave3-mini-org',count:5,id:'wave3'}
+];
+
+function removeExistingByTitle(existingMeta,key){
+  for(let i=(existingMeta?.length||0)-1;i>=0;i--)if(norm(existingMeta[i]?.title)===key)existingMeta.splice(i,1);
+}
+
+function normalizeRows(rows,known,prefix,existingMeta){
   const articles=[];
   for(const row of rows||[]){
-    const key=norm(row.title);if(!key||known.has(key))continue;
+    const key=norm(row.title);if(!key)continue;
+    const replace=row.replaceExisting||prefix==='wave6';
+    if(replace){removeExistingByTitle(existingMeta,key);known.delete(key)}
+    if(known.has(key))continue;
     known.add(key);
     articles.push({...row,id:row.id||`${prefix}-${slugify(row.title)}`,status:row.status||'source_detaillee',audience:row.audience||'player',tags:[...(row.tags||[]),'Source détaillée']});
   }
@@ -22,17 +36,18 @@ function normalizeRows(rows,known,prefix){
 
 export async function loadSourceExtensions(existingMeta=[]){
   const known=new Set(existingMeta.map(a=>norm(a.title))),articles=[],errors=[];
-  for(const spec of [{prefix:'wave2-org',count:8,id:'wave2'},{prefix:'wave3-mini-org',count:5,id:'wave3'}]){
-    try{articles.push(...normalizeRows(await loadChunked(spec.prefix,spec.count),known,spec.id))}
-    catch(error){console.warn(`Extension documentaire ${spec.id} indisponible`,error);errors.push(error)}
+  const results=await Promise.all(ORG_WAVES.map(async spec=>{
+    try{return {spec,rows:await loadChunked(spec.prefix,spec.count)}}
+    catch(error){console.warn(`Extension documentaire ${spec.id} indisponible`,error);return {spec,error}}
+  }));
+  for(const result of results){
+    if(result.error){errors.push(result.error);continue}
+    articles.push(...normalizeRows(result.rows,known,result.spec.id,existingMeta));
   }
   return {articles,error:errors.length?errors:null};
 }
 
-export async function loadPnjWave2(){
-  try{return await loadChunked('wave2-pnj',2)}catch(error){console.warn('PNJ wave2 indisponibles',error);return []}
-}
-
-export async function loadPnjWave3(){
-  try{return await loadChunked('wave3-mini-pnj',1)}catch(error){console.warn('PNJ wave3 indisponibles',error);return []}
-}
+export async function loadPnjWaves(){return []}
+export async function loadPnjWave2(){return []}
+export async function loadPnjWave3(){return []}
+export async function loadPnjWave4(){return []}

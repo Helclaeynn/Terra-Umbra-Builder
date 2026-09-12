@@ -1,4 +1,4 @@
-import {loadSourceExtensions,loadPnjWave2,loadPnjWave3} from './source-extensions.js';
+import {loadSourceExtensions,loadPnjWaves} from './source-extensions.js';
 const INDEX_URL='/TUC-Index-PNJ/static/contentIndex.json';
 const RAW_BASE='https://raw.githubusercontent.com/Helclaeynn/TUC-Index-PNJ/main/content/';
 const norm=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
@@ -35,15 +35,14 @@ function articleFromIndex(slug,d){
   return {id:`pnj-index-${slugify(slug)}`,title,category:'Personnages',source:'TUC-Index-PNJ',status:'source_detaillee',audience:'player',tags:[...(d.tags||[]),'PNJ','Index PNJ'],sections:[{id:'description',title:'Description',level:2,blocks:[{type:'p',text:d.content||'Fiche PNJ publiée dans l’index historique.'}]}],pnj:{completeness:(d.content||'').trim().length>80?'mini_bg':'stub',externalPath:filePath,indexSlug:slug}}
 }
 
-// Conservé pour la future migration locale de l'ancien Index PNJ.
-// IMPORTANT : cette source distante ne doit jamais bloquer l'ouverture du Compendium.
+// Source complémentaire historique : jamais utilisée dans le chemin critique de démarrage.
 async function loadIndex(existingTitles,{timeoutMs=1200}={}){
   const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),timeoutMs);
   try{
     const r=await fetch(INDEX_URL,{cache:'no-cache',signal:controller.signal});if(!r.ok)throw new Error(`HTTP ${r.status}`);const data=await r.json();const articles=[];const duplicates=new Map();
     for(const [slug,d] of Object.entries(data)){const path=String(d.filePath||slug);if(!/(^|\/)PNJ\//i.test(path)&&!/^PNJ\//i.test(slug))continue;const a=articleFromIndex(slug,d),key=norm(a.title);if(existingTitles.has(key)){duplicates.set(key,a);continue}existingTitles.add(key);articles.push(a)}
     return {articles,duplicates,error:null};
-  }catch(error){console.warn('Index PNJ distant ignoré au démarrage',error);return {articles:[],duplicates:new Map(),error}}
+  }catch(error){console.warn('Index PNJ distant indisponible',error);return {articles:[],duplicates:new Map(),error}}
   finally{clearTimeout(timer)}
 }
 
@@ -54,21 +53,24 @@ function normalizeWavePnj(rows,existingTitles,prefix='pnj-wave'){const articles=
 
 export async function loadPnjExtensions(existingMeta=[]){
   const titles=new Set(existingMeta.map(a=>norm(a.title)));
-  // Toutes les extensions locales partent en parallèle : aucune cascade de requêtes au démarrage.
-  const [sourceExt,wave2Rows,wave3Rows]=await Promise.all([
+  const [sourceExt,waveResults,seeds]=await Promise.all([
     loadSourceExtensions(existingMeta),
-    loadPnjWave2(),
-    loadPnjWave3()
+    loadPnjWaves(),
+    loadSeeds(new Set(titles))
   ]);
   for(const a of sourceExt.articles)titles.add(norm(a.title));
-  const wave2=normalizeWavePnj(wave2Rows,titles,'pnj-wave2');
-  const wave3=normalizeWavePnj(wave3Rows,titles,'pnj-wave3');
-  const seeds=await loadSeeds(titles);
+  const waves=[];
+  for(const result of waveResults){waves.push(...normalizeWavePnj(result.rows,titles,`pnj-${result.id}`))}
+  const filteredSeeds=[];
+  for(const a of seeds){const key=norm(a.title);if(titles.has(key))continue;titles.add(key);filteredSeeds.push(a)}
 
-  // L'ancien Index PNJ est volontairement NON BLOQUANT. S'il ne répond pas très vite,
-  // on ouvre quand même le Compendium avec tout le corpus local déjà intégré.
-  const idx=await loadIndex(new Set(titles),{timeoutMs:1200});
-  return {articles:[...sourceExt.articles,...seeds,...wave2,...wave3,...idx.articles],duplicates:idx.duplicates,indexError:idx.error,sourceError:sourceExt.error};
+  // L'ancien Index PNJ n'est plus attendu ici : démarrage 100 % local.
+  return {articles:[...sourceExt.articles,...filteredSeeds,...waves],duplicates:new Map(),indexError:null,sourceError:sourceExt.error};
+}
+
+export async function loadLegacyIndexExtras(existingMeta=[]){
+  const titles=new Set(existingMeta.map(a=>norm(a.title)));
+  return loadIndex(titles,{timeoutMs:1200});
 }
 
 export async function hydratePnjArticle(article){
