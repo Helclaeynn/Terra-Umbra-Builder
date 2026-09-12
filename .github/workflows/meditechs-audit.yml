@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feature/tuc-compendium-characters-meditechs
+  pull_request:
   workflow_dispatch:
 
 jobs:
