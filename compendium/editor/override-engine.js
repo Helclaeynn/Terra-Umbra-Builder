@@ -134,13 +134,17 @@ export function buildArticleOperations(base,edited){
     if(op)operations.push(op);
   }
   if(base.pnj||edited.pnj){
-    const portrait=edited.pnj?.portrait;
-    const op=opForPath(base,'/pnj/portrait',portrait||undefined);
+    const op=opForPath(base,'/pnj',edited.pnj||undefined);
     if(op)operations.push(op);
   }else{
-    const media=edited.image??edited.illustration;
-    const currentPath=hasOwn(base,'image')?'/image':hasOwn(base,'illustration')?'/illustration':'/image';
-    const op=opForPath(base,currentPath,media||undefined);
+    const basePath=hasOwn(base,'image')?'/image':hasOwn(base,'illustration')?'/illustration':'/image';
+    const editedPath=hasOwn(edited,'image')?'/image':hasOwn(edited,'illustration')?'/illustration':basePath;
+    if(basePath!==editedPath&&hasOwn(base,basePath.slice(1))){
+      const remove=opForPath(base,basePath,undefined);
+      if(remove)operations.push(remove);
+    }
+    const media=edited[editedPath.slice(1)];
+    const op=opForPath(base,editedPath,media===undefined?undefined:media);
     if(op)operations.push(op);
   }
   return operations;
