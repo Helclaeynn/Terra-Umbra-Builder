@@ -6,7 +6,6 @@ const DATA='compendium/data';
 // Legacy/corrupted and prepared-but-inactive waves are intentionally excluded.
 const specs=[
   ['wave3-mini-org',5],
-  ['wave5-verite',1],
   ['wave6-gangs',3]
 ];
 
