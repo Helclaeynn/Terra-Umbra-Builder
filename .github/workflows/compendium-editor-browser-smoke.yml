@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feature/tuc-compendium-editor
+      - feature/tuc-compendium-inline-images
     paths:
       - 'compendium/**'
       - '.github/workflows/compendium-editor-browser-smoke.yml'
