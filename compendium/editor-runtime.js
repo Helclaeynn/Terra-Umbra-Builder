@@ -7,6 +7,7 @@ const state={manual:null};
 const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const cleanLines=value=>String(value??'').split(/\r?\n/).map(line=>line.trim()).filter(Boolean);
 const setOptional=(obj,key,value)=>{const text=String(value??'').trim();if(text)obj[key]=text;else delete obj[key];};
+const nativeCommitted=()=>Boolean(window.__TUC_NATIVE_OVERRIDES__);
 
 const currentArticleId=()=>{
   const raw=location.hash.slice(1);
@@ -59,6 +60,8 @@ function waitForArticleDom(id,attempt=0){
 function clearPreview(){
   document.querySelectorAll('[data-editor-preview]').forEach(node=>node.remove());
   document.querySelectorAll('[data-editor-hidden]').forEach(node=>{node.hidden=false;node.removeAttribute('data-editor-hidden');});
+  document.querySelectorAll('[data-editor-original-text]').forEach(node=>{node.textContent=node.dataset.editorOriginalText||'';node.removeAttribute('data-editor-original-text');});
+  document.querySelectorAll('[data-editor-original-html]').forEach(node=>{node.innerHTML=node.dataset.editorOriginalHtml||'';node.removeAttribute('data-editor-original-html');});
   document.querySelectorAll('.editor-state-badge').forEach(node=>node.remove());
 }
 function blockPreview(block){
@@ -103,15 +106,15 @@ function renderPreview(article,{draft,committed,conflicts}={}){
   if(!main)return;
   const head=main.querySelector('.page-head');
   const title=head?.querySelector('h1');
-  if(title)title.textContent=article.title||'';
-  if(head&&(draft||committed?.length||conflicts?.length)){
+  if(title){title.dataset.editorOriginalText=title.textContent||'';title.textContent=article.title||'';}
+  if(head&&(draft||(!nativeCommitted()&&committed?.length)||conflicts?.length)){
     const badge=document.createElement('div');
     badge.className='editor-state-badge';
     badge.innerHTML=conflicts?.length?'<span class="badge obsolete">Override à revoir</span>':draft?'<span class="badge source">Brouillon local</span>':'<span class="badge canon">Override éditorial</span>';
     head.appendChild(badge);
   }
   const source=main.querySelector('.source-box');
-  if(source)source.innerHTML=`<strong>Source :</strong> ${esc(article.source||'')}<br><span class="editor-preview-note">Vue avec corrections éditoriales appliquées.</span>`;
+  if(source){source.dataset.editorOriginalHtml=source.innerHTML;source.innerHTML=`<strong>Source :</strong> ${esc(article.source||'')}<br><span class="editor-preview-note">Vue avec corrections éditoriales appliquées.</span>`;}
   for(const node of main.querySelectorAll(':scope > .section, :scope > .mj-block:not(.pnj-mj)')){
     node.hidden=true;node.setAttribute('data-editor-hidden','1');
   }
@@ -127,6 +130,7 @@ function renderPreview(article,{draft,committed,conflicts}={}){
     }
     head?.insertAdjacentHTML('afterend',pnjPreviewHtml(article,main));
   }else{
+    for(const node of main.querySelectorAll(':scope > .article-media')){node.hidden=true;node.setAttribute('data-editor-hidden','1');}
     const html=mediaPreviewHtml(article);
     if(html)head?.insertAdjacentHTML('afterend',html);
   }
@@ -135,8 +139,10 @@ async function refreshPreview(){
   const id=currentArticleId();
   toggleEditButton(Boolean(id));
   if(!id){clearPreview();return;}
+  const draft=getDraft(id);
   const manual=await loadManual();
-  if(!getDraft(id)&&!(manual.entries||[]).some(entry=>entry.articleId===id)){clearPreview();return;}
+  const hasCommitted=(manual.entries||[]).some(entry=>entry.articleId===id);
+  if(!draft&&(nativeCommitted()||!hasCommitted)){clearPreview();return;}
   try{
     const data=await effectiveArticle(id);
     if(await waitForArticleDom(id))renderPreview(data.article,data);

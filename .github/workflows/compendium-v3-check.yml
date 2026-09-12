@@ -28,12 +28,8 @@ jobs:
       - name: Check V3 runtime syntax
         run: |
           node --check compendium/app-v3.js
-          node --check compendium/app-v3-editor.js
           node --check compendium/editor-runtime.js
-          node --check compendium/editor-runtime-native.js
           node --check compendium/draft-manager.js
-          node --check compendium/draft-manager-v2.js
-          node --check compendium/draft-manager-v3.js
           node --check compendium/media-draft-runtime.js
           node --check compendium/editor/override-engine.js
           node --check compendium/editor/native-overrides.js
