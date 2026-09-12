@@ -1,21 +1,125 @@
 [
   {
-    "title":"Tia Reynolds",
-    "source":"BG divers TUC.docx",
-    "tags":["Crawler","Chasseuse","Ushkoll","Portland","Los Angeles"],
-    "pnj":{"completeness":"detailed","age":"32 ans","taille":"1m78","statut":"Chasseuse / Crawler / agente dâ€™Ushkoll"},
-    "sections":[
-      {"id":"caractere","title":"CaractÃ¨re","level":2,"blocks":[{"type":"p","text":"Tia est dâ€™un naturel calme et posÃ©, assez rÃ©servÃ©e et discrÃ¨te. Elle attire peu lâ€™attention sur elle-mÃªme et fait de son mieux pour rester sous le radar. En mission pour Ushkoll ou comme Crawler, elle sait se montrer sociable mais conserve peu de relations durables. Consciencieuse et mÃ©ticuleuse, elle reste fataliste face aux menaces quâ€™elle combat."}]},
-      {"id":"background","title":"Background","level":2,"blocks":[{"type":"p","text":"NÃ©e Ã  Portland dans une famille de classe moyenne relativement pauvre, Tia vit une enfance normale jusquâ€™au soir oÃ¹ elle assiste, depuis sa chambre, au combat de deux crÃ©atures rÃ©vÃ©lÃ©es dont un Garou. Lâ€™Hologramme nâ€™efface pas correctement le souvenir et lâ€™expÃ©rience la traumatise durablement."},{"type":"p","text":"Ã€ lâ€™adolescence elle apprend Ã  vivre avec ces souvenirs, rejoint ensuite lâ€™armÃ©e et sert en CorÃ©e. En 2026, une crÃ©ature inconnue traque et massacre son escouade. Le stress et ses expÃ©riences antÃ©rieures Ã©veillent chez elle des perceptions de mÃ©dium qui lui permettent finalement de discerner puis dâ€™abattre la crÃ©ature, mais trop tard pour sauver ses hommes."},{"type":"p","text":"DÃ©mobilisÃ©e avec un diagnostic de stress post-traumatique, elle rentre aux Ã‰tats-Unis au pire de la crise. Elle survit grÃ¢ce Ã  sa pension et Ã  divers petits boulots, devient Crawler, Ã©tudie les lÃ©gendes et lâ€™Holonet puis rejoint les rÃ©seaux de Chasseurs de Portland. Elle se fait poser des implants oculaires capables de lâ€™aider Ã  percevoir les crÃ©atures semi-rÃ©vÃ©lÃ©es."},{"type":"p","text":"En 2032, un ancien contact de lâ€™armÃ©e devenu cadre chez Ushkoll lui propose de travailler comme contractuelle. Tia sâ€™installe alors Ã  Los Angeles, conserve une grande libertÃ© dâ€™action et se rapproche des Chasseurs locaux alors que lâ€™activitÃ© surnaturelle semble croÃ®tre en Californie."}]}
+    "title": "Alicia Starrogue",
+    "source": "TUC_VÃ©ritÃ©_ les espÃ¨ces extraterrestres.docx",
+    "status": "source_detaillee",
+    "audience": "player",
+    "tags": [
+      "Crawlers",
+      "Slice",
+      "intervante de l'Bschool"
+    ],
+    "pnj": {
+      "completeness": "detailed",
+      "age": "Â«28 ansÂ» - 28 ans",
+      "origine": "Californienne",
+      "statut": "intervante de l'Bschool",
+      "statutVerite": "Slice",
+      "relations": [
+        "Assenae MACKAY: amie",
+        "Aston RÃ‰YESZ  admirateur discret"
+      ],
+      "truthName": "",
+      "race": "Slice"
+    },
+    "sections": [
+      {
+        "id": "informations-realite",
+        "title": "Informations RÃ©alitÃ©",
+        "level": 2,
+        "audience": "player",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Alicia est nÃ©e Ã  Eureka en Californie."
+          },
+          {
+            "type": "p",
+            "text": "Elle a toujours grandi proche de la nature et aime la ville ou les aniacx qui vivent au rithme des vents, les fumeÃ©s des forÃªts de sapin et de l'Ã‰meraude."
+          },
+          {
+            "type": "p",
+            "text": "Elle fit des Ã©tudes humanitaire et suivit le cursus de l'Bschool par curiositÃ©, les premiers mois Ã©tant dÃ©stanilisant mais avanÃ§ant ve toujours mieux comprendre l'humaine."
+          },
+          {
+            "type": "p",
+            "text": "Elle acquit vite une immense popularitÃ© pour sa gentillesse et sa douceur, toujours attentive aux autres, elle est une professeure trÃ¨s apprÃ©ciÃ©e, jÃ©drant et conseillant les jeunes membres de l'Bschool."
+          },
+          {
+            "type": "p",
+            "text": "Elle a prise sous son aile Assenae MACKAY, une Ã©lÃ¨ve de deuxÃ¨Ã¨me annÃ©e, elle considÃ¨re la jeune fille comme l'une de ses plus belles success de hauser l'humane."
+          }
+        ]
+      },
+      {
+        "id": "informations-verite",
+        "title": "Informations VÃ©ritÃ©",
+        "level": 2,
+        "audience": "mj",
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Alicia est une Slice dÃ©rivÃ©e des Humains, elle a Ã©tÃ© envoyÃ©e sur Terre pour Ã©tudier les Humains de Terra et notamment le contact avec les Extrals."
+          },
+          {
+            "type": "p",
+            "text": "Elle a donc intÃ©grÃ© l'Bschool comme professeure, Ã©tudiant les humains au quotidien."
+          },
+          {
+            "type": "p",
+            "text": "Elle est dÃ©ja dÃ©finitivement attachÃ©e aux humains et parait Ãªve refuser de quitter la Terre."
+          }
+        ]
+      }
+    ]
   },
-  {"title":"Jakeline Bates","source":"BG divers TUC.docx","tags":["Crawler"],"pnj":{"completeness":"stub","statut":"Crawleuse"},"sections":[{"id":"etat-source","title":"Ã‰tat de la source","level":2,"blocks":[{"type":"p","text":"Le dossier source nomme Jakeline Bates comme Crawleuse mais son mini-BG reste encore Ã  rÃ©diger."}]}]},
-  {"title":"Phoebe Edgar","source":"BG divers TUC.docx","tags":["Eversor Motors","Corporatiste"],"pnj":{"completeness":"stub","statut":"MÃ©canicienne / PDG dâ€™Eversor Motors"},"sections":[{"id":"etat-source","title":"Ã‰tat de la source","level":2,"blocks":[{"type":"p","text":"Le dossier source identifie Phoebe Edgar comme mÃ©canicienne et PDG dâ€™Eversor Motors ; le reste de sa fiche est encore Ã  dÃ©velopper."}]}]},
-  {"title":"Siham Atlasi","source":"BG divers TUC.docx","tags":["Police"],"pnj":{"completeness":"stub","statut":"PoliciÃ¨re"},"sections":[{"id":"etat-source","title":"Ã‰tat de la source","level":2,"blocks":[{"type":"p","text":"Le dossier source identifie Siham Atlasi comme policiÃ¨re ; son mini-BG reste Ã  complÃ©ter."}]}]},
-  {"title":"Lisa EredhÃ¨s","source":"BG divers TUC.docx","tags":["AIDH","Extrals"],"pnj":{"completeness":"stub","statut":"SecrÃ©taire gÃ©nÃ©rale de lâ€™AIDH"},"sections":[{"id":"etat-source","title":"Ã‰tat de la source","level":2,"blocks":[{"type":"p","text":"Le dossier source cite Lisa EredhÃ¨s comme secrÃ©taire gÃ©nÃ©rale de lâ€™AIDH. Sa nature ou son statut de VÃ©ritÃ© y restent explicitement non rÃ©solus."}]}]},
-  {"title":"Elynea","source":"BG divers TUC.docx","tags":["MÃ©dia","VÃ©ritÃ©"],"pnj":{"completeness":"stub","statut":"PrÃ©sentatrice","statutVerite":"Â« Dieu Â» â€” Ã  statuer"},"sections":[{"id":"etat-source","title":"Ã‰tat de la source","level":2,"blocks":[{"type":"p","text":"Elynea est listÃ©e comme prÃ©sentatrice et comme entitÃ© divine potentielle. Le dÃ©tail de son statut de VÃ©ritÃ© doit encore Ãªtre statuÃ©."}]}]},
-  {"title":"Silâ€™Elaith","source":"BG divers TUC.docx","tags":["Vala","Corporatiste"],"pnj":{"completeness":"stub","statut":"PDG â€” corporation Ã  prÃ©ciser","statutVerite":"Vala antique"},"sections":[{"id":"etat-source","title":"Ã‰tat de la source","level":2,"blocks":[{"type":"p","text":"Silâ€™Elaith est identifiÃ© comme un Vala antique occupant une fonction de PDG ; la corporation nâ€™est pas prÃ©cisÃ©e dans cette note de travail."}]}]},
-  {"title":"Lilith","source":"BG divers TUC.docx","tags":["Red Wheels","DÃ©esse"],"pnj":{"completeness":"stub","statut":"PDG de Red Wheels","statutVerite":"DÃ©esse"},"sections":[{"id":"etat-source","title":"Ã‰tat de la source","level":2,"blocks":[{"type":"p","text":"Lilith est citÃ©e comme PDG de Red Wheels et dÃ©esse. Cette entrÃ©e sert de point dâ€™ancrage en attendant son dossier dÃ©taillÃ©."}]}]},
-  {"title":"Erea","source":"BG divers TUC.docx","tags":["Musique","DÃ©esse"],"pnj":{"completeness":"stub","statut":"Barmaid / chanteuse","statutVerite":"DÃ©esse"},"sections":[{"id":"etat-source","title":"Ã‰tat de la source","level":2,"blocks":[{"type":"p","text":"Erea est citÃ©e comme barmaid, chanteuse et dÃ©esse. Son historique dÃ©taillÃ© doit encore Ãªtre rattachÃ© depuis les autres sources."}]}]},
-  {"title":"Darilen","source":"BG divers TUC.docx","tags":["The Void","Musique underground"],"pnj":{"completeness":"stub","statut":"Chanteuse underground / leader de The Void"},"sections":[{"id":"etat-source","title":"Ã‰tat de la source","level":2,"blocks":[{"type":"p","text":"Darilen est nommÃ©e comme chanteuse underground et leader de The Void ; sa fiche reste Ã  dÃ©velopper."}]}]},
-  {"title":"Malriel","source":"BG divers TUC.docx","tags":["The Darkness","Musique underground"],"pnj":{"completeness":"stub","statut":"Chanteuse underground / leader de The Darkness"},"sections":[{"id":"etat-source","title":"Ã‰tat de la source","level":2,"blocks":[{"type":"p","text":"Malriel est nommÃ©e comme chanteuse underground et leader de The Darkness ; sa fiche reste Ã  dÃ©velopper."}]}]},
-  {"title":"Kerys","source":"BG divers TUC.docx","tags":["Crawler","Combat underground","Dragon"],"pnj":{"completeness":"stub","statut":"Crawler / combattante underground","statutVerite":"Dragonne antique"},"sections":[{"id":"etat-source","title":"Ã‰tat de la source","level":2,"blocks":[{"type":"p","text":"Kerys est citÃ©e comme Crawler, combattante underground et dragonne antique. Lâ€™entrÃ©e sera enrichie depuis les autres dossiers oÃ¹ elle apparaÃ®t."}]}]}
+  {
+    "title": "Alkiwa",
+    "source": "Les humains galactiques.docx",
+    "status": "source_detaillee",
+    "audience": "player",
+    "tags": [
+      "PNJ",
+      "Joker"
+    ],
+    "pnj": {
+      "completeness": "stub",
+      "statut": "Joker"
+    },
+    "sections": [
+      {
+        "id": "etat-source",
+        "title": "Ã‰tat de la source",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Alkiwa est citÃ© dans le dossier Â« Les humains galactiques.docx Â» comme Joker. Sa fiche dÃ©taillÃ©e reste Ã  consolider depuis les autres sources."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Alladava Kjoll",
+    "source": "Les humains galactiques.docx",
+    "status": "source_detaillee",
+    "audience": "player",
+    "tags": [
+      "PNJ",
+      "Officier spÃ©cial (783Ã¨me)"
+    ],
+    "pnj": {
+      "completeness": "stub",
+      "statut": "Officier spÃ©cial (783Ã¨me)"
+    },
+    "sections": [
+      {
+        "id": "etat-source",
+        "title": "Ã‰tat de la source",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Alladava Kjoll est citÃ© dans le dossier Â« Les humains galactiques.docx Â»ÛÛ[YHÙ™šXÚY\ˆÜ0êXÚX[
+ÎğêYJKˆØHšXÚH0ê]Z[0êYH™\İH0èÛÛœÛÛY\ˆ\Z\È\È]]™\ÈÛİ\˜Ù\Ëˆ‚ˆBˆBˆBˆBˆKˆÂˆ]Hˆ[IØ S[YXXÈ‹ˆœÛİ\˜ÙHˆ•P×Õ°ê\š]0êWÈ\ÈÜ°êX]\™\×Ù›Øİ\Èİ\ˆ\È›0êX]^™ØŞ‹ˆœİ]\ÈˆœÛİ\˜ÙWÙ]Z[YH‹ˆ˜]YY[˜ÙHˆ›Zˆ‹ˆYÜÈˆÂˆ”°êYXØ]]\ˆ‹ˆX›ÛZ[˜][Ûˆ‹ˆ”°êYXØ]]\ˆH\›šY\ˆ›İ\ˆ‚ˆKˆœšˆˆÂˆ˜ÛÛ\][™\ÜÈˆ™]Z[Y‹ˆ˜YÙHˆ°ªÈÍ[œğ®ÈHÍ[œÈ‹ˆ›ÜšYÚ[™HˆYœš\]YHHİY‹ˆœİ]]ˆ”°êYXØ]]\ˆH\›šY\ˆ›İ\ˆ‹ˆœİ]]™\š]Hˆ\ÈZ[š\İ0ê\ˆ0¨X›ÛZ[˜][Ûˆ‹ˆœ™[][ÛœÈˆÂˆ°ªÈğê]š[ˆ0®ÈXX×ÑÕÑS‚ŸBŸ
