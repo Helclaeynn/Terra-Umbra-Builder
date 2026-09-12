@@ -49,7 +49,14 @@ for(const spec of manifest.datasets){
 if(total!==manifest.expectedTotal) throw new Error(`Corpus V3: ${total}, attendu ${manifest.expectedTotal}`);
 if(seen.size!==manifest.expectedTotal) throw new Error(`Corpus V3: ${seen.size} IDs uniques, attendu ${manifest.expectedTotal}`);
 
-const activeFiles=['compendium/index.html','compendium/app-v3.js'];
+const indexPath='compendium/index.html';
+const index=fs.readFileSync(indexPath,'utf8');
+const runtimeMatches=[...index.matchAll(/src=["'](app-v3(?:-editor)?\.js)(?:\?[^"']*)?["']/g)].map(match=>match[1]);
+if(runtimeMatches.length!==1) throw new Error(`index.html: un seul runtime V3 actif attendu, trouvé ${runtimeMatches.length}`);
+const activeRuntime=`compendium/${runtimeMatches[0]}`;
+if(!fs.existsSync(activeRuntime)) throw new Error(`index.html: runtime actif introuvable (${activeRuntime})`);
+
+const activeFiles=[indexPath,activeRuntime];
 const legacy=[
   ['ancien manifeste',/manifest\.json\.gz\.b64/i],
   ['pack legacy',/pack-/i],
@@ -63,9 +70,7 @@ for(const file of activeFiles){
   for(const [label,re] of legacy) if(re.test(text)) throw new Error(`${file}: référence ${label} encore active`);
 }
 
-const index=fs.readFileSync('compendium/index.html','utf8');
-if(!/src=["']app-v3\.js(?:\?[^"']*)?["']/.test(index)) throw new Error('index.html: app-v3.js non chargé');
 if(/src=["']app\.js(?:\?[^"']*)?["']/.test(index)) throw new Error('index.html: ancien app.js encore chargé');
 
 console.log(`OK corpus V3: ${total} entrées, ${seen.size} IDs uniques.`);
-console.log('OK runtime V3: aucune référence legacy active dans index.html / app-v3.js.');
+console.log(`OK runtime V3: ${runtimeMatches[0]} actif, aucune référence legacy dans l’index ou le runtime.`);
