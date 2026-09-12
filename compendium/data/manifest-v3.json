@@ -1,0 +1,58 @@
+{
+  "version": "3.0.0",
+  "generated": "2026-09-12",
+  "categories": [
+    "Règles",
+    "Réalité",
+    "Vérité",
+    "Organisations",
+    "Personnages",
+    "Bestiaire"
+  ],
+  "statusLabels": {
+    "source_detaillee": "Lore détaillé",
+    "canon_recent": "Canon récent",
+    "canon_enrichi": "Canon enrichi",
+    "obsolete": "Obsolète",
+    "a_statuer": "À statuer"
+  },
+  "expectedTotal": 519,
+  "datasets": [
+    {
+      "id": "lore",
+      "prefix": "v3-lore",
+      "parts": 7,
+      "count": 229
+    },
+    {
+      "id": "pnj",
+      "prefix": "v3-pnj",
+      "parts": 5,
+      "count": 163
+    },
+    {
+      "id": "moteur",
+      "prefix": "v3-moteur",
+      "parts": 1,
+      "count": 5
+    },
+    {
+      "id": "realite",
+      "prefix": "v3-realite",
+      "parts": 2,
+      "count": 39
+    },
+    {
+      "id": "verite",
+      "prefix": "v3-verite",
+      "parts": 3,
+      "count": 63
+    },
+    {
+      "id": "bestiaire",
+      "prefix": "v3-bestiaire",
+      "parts": 1,
+      "count": 20
+    }
+  ]
+}
