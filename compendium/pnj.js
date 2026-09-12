@@ -1,4 +1,4 @@
-import {loadSourceExtensions,loadPnjWave2} from './source-extensions.js';
+import {loadSourceExtensions,loadPnjWave2,loadPnjWave3} from './source-extensions.js';
 const INDEX_URL='/TUC-Index-PNJ/static/contentIndex.json';
 const RAW_BASE='https://raw.githubusercontent.com/Helclaeynn/TUC-Index-PNJ/main/content/';
 const norm=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
@@ -46,15 +46,16 @@ async function loadIndex(existingTitles){
 async function loadSeeds(existingTitles){
   try{const r=await fetch('data/pnj-source-seed.json');if(!r.ok)throw new Error(`HTTP ${r.status}`);const rows=await r.json(),articles=[];for(const row of rows){const key=norm(row.title);if(existingTitles.has(key))continue;existingTitles.add(key);articles.push({...row,id:row.id||`pnj-source-${slugify(row.title)}`,category:'Personnages',status:row.status||'source_detaillee',audience:row.audience||'player',tags:[...(row.tags||[]),'PNJ'],pnj:{...(row.pnj||{}),completeness:row.pnj?.completeness||'stub'}})}return articles}catch(error){console.warn('Seeds PNJ indisponibles',error);return []}}
 
-function normalizeWavePnj(rows,existingTitles){const articles=[];for(const row of rows||[]){const key=norm(row.title);if(!key||existingTitles.has(key))continue;existingTitles.add(key);articles.push({...row,id:row.id||`pnj-wave2-${slugify(row.title)}`,category:'Personnages',status:row.status||'source_detaillee',audience:row.audience||'player',tags:[...(row.tags||[]),'PNJ','Source détaillée'],pnj:{...(row.pnj||{}),completeness:row.pnj?.completeness||'mini_bg'}})}return articles}
+function normalizeWavePnj(rows,existingTitles,prefix='pnj-wave'){const articles=[];for(const row of rows||[]){const key=norm(row.title);if(!key||existingTitles.has(key))continue;existingTitles.add(key);articles.push({...row,id:row.id||`${prefix}-${slugify(row.title)}`,category:'Personnages',status:row.status||'source_detaillee',audience:row.audience||'player',tags:[...(row.tags||[]),'PNJ','Source détaillée'],pnj:{...(row.pnj||{}),completeness:row.pnj?.completeness||'mini_bg'}})}return articles}
 
 export async function loadPnjExtensions(existingMeta=[]){
   const titles=new Set(existingMeta.map(a=>norm(a.title)));
   const sourceExt=await loadSourceExtensions(existingMeta);for(const a of sourceExt.articles)titles.add(norm(a.title));
   const seeds=await loadSeeds(titles);
-  const wave2=normalizeWavePnj(await loadPnjWave2(),titles);
+  const wave2=normalizeWavePnj(await loadPnjWave2(),titles,'pnj-wave2');
+  const wave3=normalizeWavePnj(await loadPnjWave3(),titles,'pnj-wave3');
   const idx=await loadIndex(titles);
-  return {articles:[...sourceExt.articles,...seeds,...wave2,...idx.articles],duplicates:idx.duplicates,indexError:idx.error,sourceError:sourceExt.error};
+  return {articles:[...sourceExt.articles,...seeds,...wave2,...wave3,...idx.articles],duplicates:idx.duplicates,indexError:idx.error,sourceError:sourceExt.error};
 }
 
 export async function hydratePnjArticle(article){
