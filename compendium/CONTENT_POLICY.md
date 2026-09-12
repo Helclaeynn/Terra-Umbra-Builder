@@ -46,6 +46,29 @@ Les livres récents peuvent et doivent alimenter pleinement le Compendium pour l
 
 Ces contenus doivent être reliés aux pages de lore correspondantes sans remplacer leur matière encyclopédique.
 
+## Découpage encyclopédique et hiérarchie
+
+Le Compendium doit **découper les sujets même lorsque toutes les sous-pages n'ont pas encore la même profondeur**.
+
+Une page-mère explique un phénomène général et sert de carrefour ; ses sous-pages traitent séparément chaque élément identifiable. Exemple canonique :
+
+- `Pègre`
+  - `Gangs`
+    - `Bloods`
+    - `Crips`
+    - `18th Street`
+    - `MS-13`
+    - `Sons of Samoa`
+    - `Reapers Incorporated Power`
+
+La page `Gangs` doit expliquer ce qu'est un gang en Grande Californie, sa place dans la Pègre et l'Underlife, puis renvoyer vers les gangs individuels. Les pages filles conservent leur propre histoire, organisation, territoires, dirigeants, relations et éventuelles données de jeu.
+
+Une sous-page n'est pas supprimée ou fusionnée artificiellement au seul motif qu'elle est encore courte. Si la source ne fournit pour l'instant qu'une phrase ou un fait, la page existe comme **stub `À compléter`**, reste recherchable et peut recevoir des interliens. Elle sera enrichie lors d'une passe ultérieure.
+
+À l'inverse, une page-mère ne doit pas absorber tout le contenu de ses enfants au point de rendre leur existence inutile : elle synthétise et oriente ; les détails spécifiques restent sur les sous-pages.
+
+Cette logique vaut pour tous les ensembles structurés : corporations → corporations individuelles, agences → agences individuelles, Pègre → mafias/cartels/gangs, Crawlers → familles et groupes, Cours vampiriques → Cours, Exilés → espèces/traditions/réseaux, Extrals → espèces/fonctions/réseaux, lieux → établissements/territoires, Bestiaire → familles/créatures, etc.
+
 ## Règles de fusion
 
 - **Compatible** : conserver toute la profondeur du dossier source et ajouter les précisions récentes utiles.
@@ -62,7 +85,7 @@ Une page publiée comme article documentaire ne doit pas être un simple fragmen
 
 Les imports doivent conserver les paragraphes complets et les sous-sections pertinentes. Une entrée très courte n'est acceptable que si la source elle-même ne fournit réellement qu'une information minimale ; dans ce cas elle doit être marquée `À compléter` et ne pas être présentée comme une page encyclopédique achevée.
 
-Le sommaire doit prioriser les pages réellement renseignées. Les stubs et entrées à compléter peuvent rester recherchables ou apparaître dans des index spécialisés, mais ne doivent pas noyer la navigation principale.
+Le sommaire principal doit mettre en avant les ensembles et pages réellement renseignés, tout en laissant apparaître leurs sous-pages courtes dans leur hiérarchie naturelle. Les stubs ne doivent pas noyer le premier niveau de navigation, mais ils ne doivent pas disparaître du wiki.
 
 ## Statuts de bloc
 
@@ -83,4 +106,4 @@ Ce masquage est éditorial et non une mesure de sécurité : le contenu demeure 
 
 ## Objectif éditorial
 
-Le Compendium doit devenir une encyclopédie dense et exploitable : matière détaillée, sommaire thématique, recherche, interliens, PNJ, organisations, lieux, règles, catalogues et profils de jeu. Les sources récentes complètent et sécurisent le canon ; elles ne réduisent pas la richesse des dossiers qui ont servi à construire le monde.
+Le Compendium doit devenir une encyclopédie dense et exploitable : matière détaillée, sommaire thématique et hiérarchique, recherche, interliens, PNJ, organisations, lieux, règles, catalogues et profils de jeu. Les sources récentes complètent et sécurisent le canon ; elles ne réduisent pas la richesse des dossiers qui ont servi à construire le monde.
