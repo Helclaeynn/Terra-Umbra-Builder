@@ -1,0 +1,1 @@
+window.AGENCES_PREVIEW=JSON.parse(window.AGENCES_PREVIEW_JSON||'{}');delete window.AGENCES_PREVIEW_JSON;
