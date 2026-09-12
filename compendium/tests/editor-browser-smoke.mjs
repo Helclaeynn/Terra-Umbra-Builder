@@ -53,6 +53,18 @@ try{
   await addedSection.getByRole('button',{name:'+ Tableau'}).click();
   await addedSection.locator('.editor-block[data-type="table"]').waitFor();
 
+  const addType=addedSection.locator('[data-inline-add-type]');
+  await addType.waitFor({timeout:10000});
+  await addType.selectOption('portrait');
+  await addedSection.getByRole('button',{name:'+ Paragraphe'}).click();
+  const mediaBlock=addedSection.locator('.editor-block[data-inline-media-editor="1"]').last();
+  await mediaBlock.waitFor({timeout:10000});
+  if(await mediaBlock.locator('[data-inline-media-kind]').inputValue()!=='portrait')throw new Error('Le nouveau bloc média n’est pas de type Portrait.');
+  const smokeImage='data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%2212%22%20height=%2216%22%3E%3Crect%20width=%2212%22%20height=%2216%22%20fill=%22%23999%22/%3E%3C/svg%3E';
+  await mediaBlock.locator('[data-inline-media-src]').fill(smokeImage);
+  await mediaBlock.locator('[data-inline-media-alt]').fill('Portrait de smoke test');
+  await mediaBlock.locator('[data-inline-media-caption]').fill('Portrait intégré de test');
+
   if(beforeSections>0){
     await addedSection.locator('[data-order-kind="section"][data-order-direction="up"]').click();
     const sectionTitles=await dialog.locator('.editor-section [data-field="section-title"]').evaluateAll(nodes=>nodes.map(node=>node.value));
@@ -65,11 +77,18 @@ try{
   await dialog.waitFor({state:'detached',timeout:10000});
   await page.locator('.editor-state-badge').filter({hasText:'Brouillon local'}).waitFor({timeout:10000});
   if((await page.locator('#main .page-head h1').innerText()).trim()!==smokeTitle)throw new Error('La prévisualisation du brouillon ne reflète pas le nouveau titre.');
+  const renderedPortrait=page.locator('#main .content-inline-media.portrait').filter({hasText:'Portrait intégré de test'});
+  await renderedPortrait.waitFor({timeout:10000});
+  if((await renderedPortrait.locator('img').getAttribute('alt'))!=='Portrait de smoke test')throw new Error('Le texte alternatif du portrait intégré n’est pas rendu.');
 
   await editButton.click();
   const reopened=page.locator('dialog.editor-dialog');
   await reopened.waitFor({state:'visible',timeout:30000});
   if((await reopened.locator('input[name="title"]').inputValue()).trim()!==smokeTitle)throw new Error('Le brouillon n’est pas rechargé dans l’éditeur.');
+  const reopenedMedia=reopened.locator('.editor-block[data-inline-media-editor="1"]').filter({has:reopened.locator('[data-inline-media-caption]')}).last();
+  await reopenedMedia.waitFor({timeout:10000});
+  if(await reopenedMedia.locator('[data-inline-media-kind]').inputValue()!=='portrait')throw new Error('Le type Portrait n’est pas conservé à la réouverture.');
+  if(await reopenedMedia.locator('[data-inline-media-caption]').inputValue()!=='Portrait intégré de test')throw new Error('La légende du bloc Portrait n’est pas conservée.');
   await reopened.locator('[data-action="discard"]').click();
   await reopened.waitFor({state:'detached',timeout:10000});
   await page.waitForFunction(expected=>document.querySelector('#main .page-head h1')?.textContent?.trim()===expected,originalTitle,{timeout:10000});
@@ -85,7 +104,7 @@ try{
 
   if(httpErrors.length)throw new Error(`Ressources HTTP en erreur:\n${httpErrors.join('\n')}`);
   if(consoleErrors.length)throw new Error(`Erreurs JavaScript navigateur détectées:\n${consoleErrors.join('\n')}`);
-  console.log(`Browser smoke OK: ${originalTitle} · édition, tableau, ordre, brouillon et suppression validés.`);
+  console.log(`Browser smoke OK: ${originalTitle} · édition, tableau, ordre, bloc Portrait, brouillon et suppression validés.`);
 } finally {
   await browser.close();
 }
