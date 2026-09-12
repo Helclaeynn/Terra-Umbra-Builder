@@ -35,12 +35,16 @@ function articleFromIndex(slug,d){
   return {id:`pnj-index-${slugify(slug)}`,title,category:'Personnages',source:'TUC-Index-PNJ',status:'source_detaillee',audience:'player',tags:[...(d.tags||[]),'PNJ','Index PNJ'],sections:[{id:'description',title:'Description',level:2,blocks:[{type:'p',text:d.content||'Fiche PNJ publiée dans l’index historique.'}]}],pnj:{completeness:(d.content||'').trim().length>80?'mini_bg':'stub',externalPath:filePath,indexSlug:slug}}
 }
 
-async function loadIndex(existingTitles){
+// Conservé pour la future migration locale de l'ancien Index PNJ.
+// IMPORTANT : cette source distante ne doit jamais bloquer l'ouverture du Compendium.
+async function loadIndex(existingTitles,{timeoutMs=1200}={}){
+  const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),timeoutMs);
   try{
-    const r=await fetch(INDEX_URL,{cache:'no-cache'});if(!r.ok)throw new Error(`HTTP ${r.status}`);const data=await r.json();const articles=[];const duplicates=new Map();
+    const r=await fetch(INDEX_URL,{cache:'no-cache',signal:controller.signal});if(!r.ok)throw new Error(`HTTP ${r.status}`);const data=await r.json();const articles=[];const duplicates=new Map();
     for(const [slug,d] of Object.entries(data)){const path=String(d.filePath||slug);if(!/(^|\/)PNJ\//i.test(path)&&!/^PNJ\//i.test(slug))continue;const a=articleFromIndex(slug,d),key=norm(a.title);if(existingTitles.has(key)){duplicates.set(key,a);continue}existingTitles.add(key);articles.push(a)}
     return {articles,duplicates,error:null};
-  }catch(error){console.warn('Index PNJ externe indisponible',error);return {articles:[],duplicates:new Map(),error}}
+  }catch(error){console.warn('Index PNJ distant ignoré au démarrage',error);return {articles:[],duplicates:new Map(),error}}
+  finally{clearTimeout(timer)}
 }
 
 async function loadSeeds(existingTitles){
@@ -50,11 +54,20 @@ function normalizeWavePnj(rows,existingTitles,prefix='pnj-wave'){const articles=
 
 export async function loadPnjExtensions(existingMeta=[]){
   const titles=new Set(existingMeta.map(a=>norm(a.title)));
-  const sourceExt=await loadSourceExtensions(existingMeta);for(const a of sourceExt.articles)titles.add(norm(a.title));
+  // Toutes les extensions locales partent en parallèle : aucune cascade de requêtes au démarrage.
+  const [sourceExt,wave2Rows,wave3Rows]=await Promise.all([
+    loadSourceExtensions(existingMeta),
+    loadPnjWave2(),
+    loadPnjWave3()
+  ]);
+  for(const a of sourceExt.articles)titles.add(norm(a.title));
+  const wave2=normalizeWavePnj(wave2Rows,titles,'pnj-wave2');
+  const wave3=normalizeWavePnj(wave3Rows,titles,'pnj-wave3');
   const seeds=await loadSeeds(titles);
-  const wave2=normalizeWavePnj(await loadPnjWave2(),titles,'pnj-wave2');
-  const wave3=normalizeWavePnj(await loadPnjWave3(),titles,'pnj-wave3');
-  const idx=await loadIndex(titles);
+
+  // L'ancien Index PNJ est volontairement NON BLOQUANT. S'il ne répond pas très vite,
+  // on ouvre quand même le Compendium avec tout le corpus local déjà intégré.
+  const idx=await loadIndex(new Set(titles),{timeoutMs:1200});
   return {articles:[...sourceExt.articles,...seeds,...wave2,...wave3,...idx.articles],duplicates:idx.duplicates,indexError:idx.error,sourceError:sourceExt.error};
 }
 
