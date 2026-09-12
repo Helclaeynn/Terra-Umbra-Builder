@@ -20,5 +20,5 @@ export async function loadSourceExtensions(existingMeta=[]){
 }
 
 export async function loadPnjWave2(){
-  try{return await loadChunked('wave2-pnj',10)}catch(error){console.warn('PNJ wave2 indisponibles',error);return []}
+  try{return await loadChunked('wave2-pnj',2)}catch(error){console.warn('PNJ wave2 indisponibles',error);return []}
 }
