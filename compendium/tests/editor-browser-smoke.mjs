@@ -85,7 +85,7 @@ try{
   const reopened=page.locator('dialog.editor-dialog');
   await reopened.waitFor({state:'visible',timeout:30000});
   if((await reopened.locator('input[name="title"]').inputValue()).trim()!==smokeTitle)throw new Error('Le brouillon n’est pas rechargé dans l’éditeur.');
-  const reopenedMedia=reopened.locator('.editor-block[data-inline-media-editor="1"]').filter({has:reopened.locator('[data-inline-media-caption]')}).last();
+  const reopenedMedia=reopened.locator('.editor-block[data-inline-media-editor="1"]').last();
   await reopenedMedia.waitFor({timeout:10000});
   if(await reopenedMedia.locator('[data-inline-media-kind]').inputValue()!=='portrait')throw new Error('Le type Portrait n’est pas conservé à la réouverture.');
   if(await reopenedMedia.locator('[data-inline-media-caption]').inputValue()!=='Portrait intégré de test')throw new Error('La légende du bloc Portrait n’est pas conservée.');
