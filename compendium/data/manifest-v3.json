@@ -91,7 +91,29 @@
         "lore-117-organisations-crawlers-12"
       ],
       "addIds": []
+    },
+    {
+      "id": "crawlers-pnj-tranche1-wave8",
+      "prefix": "v3-overlay-crawlers-pnj1",
+      "parts": 15,
+      "count": 10,
+      "sha256": "67628c6057ac35e3047ed2789095d10c2cf0353dbd4d02413005edd531180468",
+      "overlay": true,
+      "replaceIds": [
+        "pnj-033-stella-hardin"
+      ],
+      "addIds": [
+        "pnj-164-veronica-silver",
+        "pnj-165-ryan-isaiah-burton",
+        "pnj-166-adam-nevine",
+        "pnj-167-brittany-smith-cavaletty",
+        "pnj-168-shuren-shi",
+        "pnj-169-zeeka-steele",
+        "pnj-170-jacob-delisle",
+        "pnj-171-henry-edwards",
+        "pnj-172-josefin-drescher"
+      ]
     }
   ],
-  "expectedTotal": 519
+  "expectedTotal": 528
 }
