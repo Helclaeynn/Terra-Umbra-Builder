@@ -6,6 +6,7 @@ on:
       - main
       - feature/tuc-compendium-v3-transfer-final
       - feature/tuc-compendium-editor
+      - feature/tuc-compendium-inline-images
     paths:
       - 'compendium/**'
       - '.github/workflows/compendium-v3-check.yml'
@@ -33,6 +34,7 @@ jobs:
           node --check compendium/draft-manager.js
           node --check compendium/media-draft-runtime.js
           node --check compendium/media-draft-cleanup.js
+          node --check compendium/inline-media-blocks.js
           node --check compendium/editor/override-engine.js
           node --check compendium/editor/native-overrides.js
           node --check compendium/editor/corpus-loader.js
