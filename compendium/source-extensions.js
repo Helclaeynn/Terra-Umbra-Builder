@@ -31,7 +31,8 @@ function normalizeRows(rows,known,prefix,existingMeta){
   const articles=[];
   for(const row of rows||[]){
     const key=norm(row.title);if(!key)continue;
-    if(row.replaceExisting){removeExistingByTitle(existingMeta,key);known.delete(key)}
+    const replace=row.replaceExisting||prefix==='wave6';
+    if(replace){removeExistingByTitle(existingMeta,key);known.delete(key)}
     if(known.has(key))continue;
     known.add(key);
     articles.push({...row,id:row.id||`${prefix}-${slugify(row.title)}`,status:row.status||'source_detaillee',audience:row.audience||'player',tags:[...(row.tags||[]),'Source détaillée']});
