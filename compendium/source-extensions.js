@@ -14,10 +14,8 @@ async function loadChunked(prefix,count){
 // Corrupted legacy waves remain in the repository for history but never block startup.
 const ORG_WAVES=[
   {prefix:'wave6-gangs',count:3,id:'wave6'},
-  {prefix:'wave3-mini-org',count:5,id:'wave3'},
-  {prefix:'wave5-verite',count:1,id:'wave5'}
+  {prefix:'wave3-mini-org',count:5,id:'wave3'}
 ];
-const PNJ_WAVES=[];
 
 function removeExistingByTitle(existingMeta,key){
   for(let i=(existingMeta?.length||0)-1;i>=0;i--)if(norm(existingMeta[i]?.title)===key)existingMeta.splice(i,1);
