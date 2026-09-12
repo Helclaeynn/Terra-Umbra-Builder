@@ -26,6 +26,11 @@ jobs:
         with:
           node-version: 22
       - name: Check V3 runtime syntax
-        run: node --check compendium/app-v3.js
+        run: |
+          node --check compendium/app-v3.js
+          node --check compendium/editor-runtime.js
+          node --check compendium/editor/override-engine.js
+      - name: Validate editor override engine
+        run: node compendium/tests/editor-overrides-check.mjs
       - name: Validate V3 corpus and active runtime
         run: node compendium/tests/manifest-check.mjs
