@@ -26,3 +26,4 @@ jobs:
           compression-level: 0
 
 # Temporary audit snapshot trigger: 2026-09-13 final payload audit
+# Temporary audit snapshot trigger: 2026-09-14 post-1db82263 final snapshot
