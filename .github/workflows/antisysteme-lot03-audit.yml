@@ -24,15 +24,7 @@ jobs:
             for(const row of rows) if(row?.id) byId.set(row.id,row);
           }
           const norm=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
-          const names=[
-            'Calvin Barron','Stephany Lorn','Lana Jackson','Xander Lucas',
-            'Luther Pierce','Daldea Fann','Addison Fockell','Solomon Blackburn',
-            'Miguel Gonzalez','Carl Thomson','Adalyn Owens','Aelyniel','Encarnacion Miralles','Mercedes Cadaval','Kyle Simmons','Kurik Simgrnin',
-            'Raghnaid Peutan','Eamonn Mac Cearain','Rike Kuechler','Cannon Mullins',
-            'Zaketa Harris','Baron moteur','Annushka Lyninka Maxinovna','LeMaun Cross','Toxicity Norton','Roshielle',
-            'Honda Daisuke','Miyashiro Kamiko','Bune','Hojo Masako','Shitomada Kiyoemon','Yokoyama Shinobu','Yo Jin-Joo',
-            'Wenona','Ciara MacFarlane','Ciara McFarlane','Meilir Yarwood','Munin','Zack LittleBear'
-          ];
+          const names=['Calvin Barron','Stephany Lorn','Lana Jackson','Xander Lucas','Luther Pierce','Daldea Fann','Addison Fockell','Solomon Blackburn','Miguel Gonzalez','Carl Thomson','Adalyn Owens','Aelyniel','Encarnacion Miralles','Mercedes Cadaval','Kyle Simmons','Kurik Simgrnin','Raghnaid Peutan','Eamonn Mac Cearain','Rike Kuechler','Cannon Mullins','Zaketa Harris','Baron moteur','Annushka Lyninka Maxinovna','LeMaun Cross','Toxicity Norton','Roshielle','Honda Daisuke','Miyashiro Kamiko','Bune','Hojo Masako','Shitomada Kiyoemon','Yokoyama Shinobu','Yo Jin-Joo','Wenona','Ciara MacFarlane','Ciara McFarlane','Meilir Yarwood','Munin','Zack LittleBear'];
           const rows=[...byId.values()];
           console.log('FINAL_COUNT='+rows.length);
           for(const name of names){
@@ -46,3 +38,8 @@ jobs:
             for(const a of mentions.slice(0,20)) console.log(`MENTION ${a.id} | ${a.title} | ${a.source||''}`);
           }
           NODE
+      - name: Registry snapshot
+        run: |
+          echo REGISTRY_GZ_B64_BEGIN
+          gzip -c compendium/data/character-registry.json | base64 -w 76
+          echo REGISTRY_GZ_B64_END
