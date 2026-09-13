@@ -26,6 +26,7 @@ jobs:
           for i in $(seq 1 9); do
             git show 81f334a9f837150ab21e1ccf152e41a4a9ba6840:compendium/supernatural-species-preview-data-$i.js > audit-history/supernatural/supernatural-species-preview-data-$i.js
           done
+          git bundle create audit-history/preview-lore-history.bundle HEAD
           tar -czf lore-preview-bundle.tar.gz compendium audit-history
           test -s lore-preview-bundle.tar.gz
       - uses: actions/upload-artifact@v4
@@ -36,4 +37,4 @@ jobs:
 
 # Temporary audit snapshot trigger: 2026-09-13 final payload audit
 # Temporary audit snapshot trigger: 2026-09-14 post-1db82263 final snapshot
-# Temporary diagnostic bundle: historical literal payload candidates
+# Temporary diagnostic bundle: historical literal payload candidates + branch history
