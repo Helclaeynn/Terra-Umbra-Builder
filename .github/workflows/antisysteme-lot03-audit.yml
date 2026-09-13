@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - feature/tuc-compendium-characters-antisysteme-03
+permissions:
+  contents: write
 jobs:
   audit:
     runs-on: ubuntu-latest
@@ -11,7 +13,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Audit 28 remaining biker PNJ
+      - name: Audit current corpus
         run: |
           node <<'NODE'
           const fs=require('fs'),zlib=require('zlib');
@@ -23,23 +25,60 @@ jobs:
             const rows=JSON.parse(zlib.gunzipSync(Buffer.from(b64,'base64')).toString('utf8'));
             for(const row of rows) if(row?.id) byId.set(row.id,row);
           }
-          const norm=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
-          const names=['Calvin Barron','Stephany Lorn','Lana Jackson','Xander Lucas','Luther Pierce','Daldea Fann','Addison Fockell','Solomon Blackburn','Miguel Gonzalez','Carl Thomson','Adalyn Owens','Aelyniel','Encarnacion Miralles','Mercedes Cadaval','Kyle Simmons','Kurik Simgrnin','Raghnaid Peutan','Eamonn Mac Cearain','Rike Kuechler','Cannon Mullins','Zaketa Harris','Baron moteur','Annushka Lyninka Maxinovna','LeMaun Cross','Toxicity Norton','Roshielle','Honda Daisuke','Miyashiro Kamiko','Bune','Hojo Masako','Shitomada Kiyoemon','Yokoyama Shinobu','Yo Jin-Joo','Wenona','Ciara MacFarlane','Ciara McFarlane','Meilir Yarwood','Munin','Zack LittleBear'];
-          const rows=[...byId.values()];
-          console.log('FINAL_COUNT='+rows.length);
-          for(const name of names){
-            const n=norm(name);
-            const exact=rows.filter(a=>norm(a.title)===n||norm(a.pnj?.nom_verite)===n||(a.pnj?.aliases||[]).some(x=>norm(x)===n)||(a.tags||[]).some(x=>norm(x)===n));
-            const mentions=rows.filter(a=>!exact.includes(a)&&norm(JSON.stringify(a)).includes(n));
-            console.log(`\n=== ${name} ===`);
-            console.log('EXACT='+exact.length);
-            for(const a of exact) console.log(JSON.stringify({id:a.id,title:a.title,source:a.source,status:a.status,pnj:a.pnj,sections:a.sections},null,2));
-            console.log('MENTIONS='+mentions.length);
-            for(const a of mentions.slice(0,20)) console.log(`MENTION ${a.id} | ${a.title} | ${a.source||''}`);
+          console.log('CURRENT_COUNT='+byId.size);
+          for(const name of ['Calvin Barron','Daldea Fann','Ciara McFarlane']) {
+            const norm=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+            console.log(name, [...byId.values()].filter(a=>norm(a.title)===norm(name)).map(a=>a.id));
           }
           NODE
-      - name: Registry snapshot
+      - name: Finalize transferred lot 03
         run: |
-          echo REGISTRY_GZ_B64_BEGIN
-          gzip -c compendium/data/character-registry.json | base64 -w 76
-          echo REGISTRY_GZ_B64_END
+          if [ ! -f compendium/data/_transfer_lot03_00.b64part ]; then
+            echo "No transfer payload on this push."
+            exit 0
+          fi
+          test "$(ls compendium/data/_transfer_lot03_*.b64part | wc -l)" -eq 13
+          cat compendium/data/_transfer_lot03_*.b64part | tr -d '\n\r ' | base64 -d > /tmp/lot03-payload.tar.gz
+          echo "55a83d228f8a9bc97170a991b1c12b0eaceb5d07f752dcf8c17d97444ef0eb15  /tmp/lot03-payload.tar.gz" | sha256sum -c -
+          tar -xzf /tmp/lot03-payload.tar.gz -C .
+          node <<'NODE'
+          const fs=require('fs'),zlib=require('zlib'),crypto=require('crypto');
+          const manifestPath='compendium/data/manifest-v3.json';
+          const specPath='compendium/data/lot03-manifest-spec.json';
+          const updatesPath='compendium/data/character-registry-lot03.json';
+          const manifest=JSON.parse(fs.readFileSync(manifestPath,'utf8'));
+          const spec=JSON.parse(fs.readFileSync(specPath,'utf8'));
+          let b64='';
+          for(let i=0;i<spec.parts;i++) b64+=fs.readFileSync(`compendium/data/${spec.prefix}-${String(i).padStart(2,'0')}.b64part`,'utf8').replace(/\s+/g,'');
+          const sha=crypto.createHash('sha256').update(b64).digest('hex');
+          if(sha!==spec.sha256) throw new Error(`lot03 SHA mismatch ${sha} != ${spec.sha256}`);
+          const rows=JSON.parse(zlib.gunzipSync(Buffer.from(b64,'base64')).toString('utf8'));
+          if(rows.length!==spec.count) throw new Error(`lot03 count ${rows.length} != ${spec.count}`);
+          if(new Set(rows.map(r=>r.id)).size!==rows.length) throw new Error('duplicate IDs inside lot03');
+          const idx=manifest.datasets.findIndex(d=>d.id===spec.id);
+          if(idx>=0) manifest.datasets[idx]=spec; else manifest.datasets.push(spec);
+          manifest.expectedTotal=627;
+          manifest.generated='2026-09-13';
+          fs.writeFileSync(manifestPath,JSON.stringify(manifest));
+          const registry=JSON.parse(fs.readFileSync('compendium/data/character-registry.json','utf8'));
+          const updates=JSON.parse(fs.readFileSync(updatesPath,'utf8'));
+          registry.updated='2026-09-13';
+          registry.characters=registry.characters||[];
+          for(const u of updates){
+            const i=registry.characters.findIndex(x=>x.compendiumId===u.compendiumId||x.canonicalId===u.canonicalId);
+            if(i>=0) registry.characters[i]=u; else registry.characters.push(u);
+          }
+          fs.writeFileSync('compendium/data/character-registry.json',JSON.stringify(registry));
+          fs.unlinkSync(specPath); fs.unlinkSync(updatesPath);
+          console.log(`LOT03_ROWS=${rows.length} REGISTRY_UPDATES=${updates.length} EXPECTED_TOTAL=${manifest.expectedTotal}`);
+          NODE
+          rm -f compendium/data/_transfer_lot03_*.b64part
+          git config user.name "Helclaeynn"
+          git config user.email "malekith51@hotmail.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Nothing to commit."
+          else
+            git commit -m "feat(compendium): integrate anti-system biker PNJ lot 03"
+            git push
+          fi
