@@ -24,3 +24,5 @@ jobs:
           name: lore-preview-bundle
           path: lore-preview-bundle.tar.gz
           compression-level: 0
+
+# Temporary audit snapshot trigger: 2026-09-13
