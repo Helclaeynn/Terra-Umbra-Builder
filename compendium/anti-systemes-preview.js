@@ -1,7 +1,7 @@
 (()=>{
   const $=s=>document.querySelector(s);
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  let DB={pages:[]};
+  const DB={pages:Array.isArray(window.ANTISYSTEMES_PREVIEW_PAGES)?window.ANTISYSTEMES_PREVIEW_PAGES:[]};
   const current=()=>decodeURIComponent(location.hash.replace(/^#\/?/,''))||DB.pages[0]?.id||'';
   function nav(){
     const n=$('#nav'); n.innerHTML=''; let g='';
@@ -23,15 +23,9 @@
     const q=$('#filter').value.trim().toLowerCase();
     document.querySelectorAll('#nav a').forEach(a=>{const p=DB.pages.find(x=>x.id===a.dataset.id);a.classList.toggle('hidden-nav',!!q&&!`${p.title} ${p.group}`.toLowerCase().includes(q))})
   }
-  async function decode(){
-    const b=atob(window.ANTISYSTEMES_PREVIEW_GZ||''),bytes=Uint8Array.from(b,c=>c.charCodeAt(0));
-    const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
-    return JSON.parse(await new Response(stream).text());
-  }
-  async function boot(){
+  function boot(){
     try{
-      DB=await decode();
-      if(!Array.isArray(DB.pages)||DB.pages.length!==34)throw new Error(`Preview invalide : ${DB.pages?.length??0} pages chargées au lieu de 34.`);
+      if(DB.pages.length!==34)throw new Error(`Preview invalide : ${DB.pages.length} pages chargées au lieu de 34.`);
       nav();render();$('#filter').addEventListener('input',filter);window.addEventListener('hashchange',render);
     }catch(e){console.error(e);$('#content').innerHTML=`<div class="notice">Impossible de charger la preview Anti-systèmes : ${esc(e.message||e)}</div>`}
   }
