@@ -1,0 +1,26 @@
+name: Lore preview bundle
+
+on:
+  push:
+    branches:
+      - preview/lore
+    paths:
+      - '.github/workflows/lore-preview-bundle.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build preview bundle
+        run: |
+          tar -czf lore-preview-bundle.tar.gz compendium/*preview* compendium/styles.css compendium/agences-preview.css 2>/dev/null || true
+          test -s lore-preview-bundle.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lore-preview-bundle
+          path: lore-preview-bundle.tar.gz
+          compression-level: 0
