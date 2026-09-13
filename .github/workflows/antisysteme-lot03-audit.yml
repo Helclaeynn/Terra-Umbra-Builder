@@ -1,0 +1,48 @@
+name: Anti-systeme PNJ lot 03 audit
+on:
+  push:
+    branches:
+      - feature/tuc-compendium-characters-antisysteme-03
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Audit 28 remaining biker PNJ
+        run: |
+          node <<'NODE'
+          const fs=require('fs'),zlib=require('zlib');
+          const manifest=JSON.parse(fs.readFileSync('compendium/data/manifest-v3.json','utf8'));
+          const byId=new Map();
+          for(const spec of manifest.datasets){
+            let b64='';
+            for(let i=0;i<spec.parts;i++) b64+=fs.readFileSync(`compendium/data/${spec.prefix}-${String(i).padStart(2,'0')}.b64part`,'utf8').replace(/\s+/g,'');
+            const rows=JSON.parse(zlib.gunzipSync(Buffer.from(b64,'base64')).toString('utf8'));
+            for(const row of rows) if(row?.id) byId.set(row.id,row);
+          }
+          const norm=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+          const names=[
+            'Calvin Barron','Stephany Lorn','Lana Jackson','Xander Lucas',
+            'Luther Pierce','Daldea Fann','Addison Fockell','Solomon Blackburn',
+            'Miguel Gonzalez','Carl Thomson','Adalyn Owens','Aelyniel','Encarnacion Miralles','Mercedes Cadaval','Kyle Simmons','Kurik Simgrnin',
+            'Raghnaid Peutan','Eamonn Mac Cearain','Rike Kuechler','Cannon Mullins',
+            'Zaketa Harris','Baron moteur','Annushka Lyninka Maxinovna','LeMaun Cross','Toxicity Norton','Roshielle',
+            'Honda Daisuke','Miyashiro Kamiko','Bune','Hojo Masako','Shitomada Kiyoemon','Yokoyama Shinobu','Yo Jin-Joo',
+            'Wenona','Ciara MacFarlane','Ciara McFarlane','Meilir Yarwood','Munin','Zack LittleBear'
+          ];
+          const rows=[...byId.values()];
+          console.log('FINAL_COUNT='+rows.length);
+          for(const name of names){
+            const n=norm(name);
+            const exact=rows.filter(a=>norm(a.title)===n||norm(a.pnj?.nom_verite)===n||(a.pnj?.aliases||[]).some(x=>norm(x)===n)||(a.tags||[]).some(x=>norm(x)===n));
+            const mentions=rows.filter(a=>!exact.includes(a)&&norm(JSON.stringify(a)).includes(n));
+            console.log(`\n=== ${name} ===`);
+            console.log('EXACT='+exact.length);
+            for(const a of exact) console.log(JSON.stringify({id:a.id,title:a.title,source:a.source,status:a.status,pnj:a.pnj,sections:a.sections},null,2));
+            console.log('MENTIONS='+mentions.length);
+            for(const a of mentions.slice(0,20)) console.log(`MENTION ${a.id} | ${a.title} | ${a.source||''}`);
+          }
+          NODE
