@@ -1,31 +1,8 @@
-name: Anti-systeme PNJ lot 04 audit
+name: Anti-systeme PNJ lot 04 staging
 on:
-  push:
-    branches:
-      - feature/tuc-compendium-characters-antisysteme-04
+  workflow_dispatch:
 jobs:
-  audit:
+  staging:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - name: Audit Enders lot 04 PNJ
-        run: |
-          node <<'NODE'
-          const fs=require('fs'),zlib=require('zlib');
-          const manifest=JSON.parse(fs.readFileSync('compendium/data/manifest-v3.json','utf8'));
-          const byId=new Map();
-          for(const spec of manifest.datasets){
-            let b64='';
-            for(let i=0;i<spec.parts;i++) b64+=fs.readFileSync(`compendium/data/${spec.prefix}-${String(i).padStart(2,'0')}.b64part`,'utf8');
-            const rows=JSON.parse(zlib.gunzipSync(Buffer.from(b64.replace(/\s+/g,''),'base64')).toString('utf8'));
-            for(const row of rows) if(row?.id) byId.set(row.id,row);
-          }
-          console.log('FINAL_COUNT='+byId.size);
-          console.log('=== SCHEMA PNJ RECENT ===');
-          console.log(JSON.stringify(byId.get('pnj-270-meilir-yarwood'),null,2));
-          console.log('=== SCHEMA PNJ VERITE ===');
-          console.log(JSON.stringify(byId.get('pnj-226-alayna-daewynn'),null,2));
-          NODE
+      - run: echo "Lot 04 staging only"
