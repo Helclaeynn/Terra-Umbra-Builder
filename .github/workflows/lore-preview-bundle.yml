@@ -15,9 +15,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Build preview bundle
         run: |
-          tar -czf lore-preview-bundle.tar.gz compendium
+          mkdir -p audit-history/supernatural
+          git show 418c0872525c445849fae2f8c640ca26865fdc5e:compendium/agences-preview-data.js > audit-history/agences-preview-data.js
+          git show da2c98553dcfa43be41057d914871450c3e18597:compendium/gouvernement-preview-data-8.js > audit-history/gouvernement-preview-data-8.js
+          git show 27ef56e6664820e9c022e51f4833e6011d41946a:compendium/vie-quotidienne-preview-data.js > audit-history/vie-quotidienne-preview-data.js
+          for i in $(seq 1 9); do
+            git show 81f334a9f837150ab21e1ccf152e41a4a9ba6840:compendium/supernatural-species-preview-data-$i.js > audit-history/supernatural/supernatural-species-preview-data-$i.js
+          done
+          tar -czf lore-preview-bundle.tar.gz compendium audit-history
           test -s lore-preview-bundle.tar.gz
       - uses: actions/upload-artifact@v4
         with:
@@ -27,3 +36,4 @@ jobs:
 
 # Temporary audit snapshot trigger: 2026-09-13 final payload audit
 # Temporary audit snapshot trigger: 2026-09-14 post-1db82263 final snapshot
+# Temporary diagnostic bundle: historical literal payload candidates
