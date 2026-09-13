@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build preview bundle
         run: |
-          tar -czf lore-preview-bundle.tar.gz compendium/*preview* compendium/styles.css compendium/agences-preview.css 2>/dev/null || true
+          tar -czf lore-preview-bundle.tar.gz compendium
           test -s lore-preview-bundle.tar.gz
       - uses: actions/upload-artifact@v4
         with:
