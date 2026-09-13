@@ -1,4 +1,4 @@
-name: Anti-systeme PNJ lot 03 audit
+name: Anti-systeme PNJ lot 03 finalize
 on:
   push:
     branches:
@@ -6,41 +6,19 @@ on:
 permissions:
   contents: write
 jobs:
-  audit:
+  finalize:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Audit current corpus
+      - name: Finalize lot 03 when staged
         run: |
-          node <<'NODE'
-          const fs=require('fs'),zlib=require('zlib');
-          const manifest=JSON.parse(fs.readFileSync('compendium/data/manifest-v3.json','utf8'));
-          const byId=new Map();
-          for(const spec of manifest.datasets){
-            let b64='';
-            for(let i=0;i<spec.parts;i++) b64+=fs.readFileSync(`compendium/data/${spec.prefix}-${String(i).padStart(2,'0')}.b64part`,'utf8').replace(/\s+/g,'');
-            const rows=JSON.parse(zlib.gunzipSync(Buffer.from(b64,'base64')).toString('utf8'));
-            for(const row of rows) if(row?.id) byId.set(row.id,row);
-          }
-          console.log('CURRENT_COUNT='+byId.size);
-          for(const name of ['Calvin Barron','Daldea Fann','Ciara McFarlane']) {
-            const norm=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
-            console.log(name, [...byId.values()].filter(a=>norm(a.title)===norm(name)).map(a=>a.id));
-          }
-          NODE
-      - name: Finalize transferred lot 03
-        run: |
-          if [ ! -f compendium/data/_transfer_lot03_00.b64part ]; then
-            echo "No transfer payload on this push."
+          if [ ! -f compendium/data/lot03-manifest-spec.json ]; then
+            echo "No staged lot 03 helper files on this push."
             exit 0
           fi
-          test "$(ls compendium/data/_transfer_lot03_*.b64part | wc -l)" -eq 13
-          cat compendium/data/_transfer_lot03_*.b64part | tr -d '\n\r ' | base64 -d > /tmp/lot03-payload.tar.gz
-          echo "55a83d228f8a9bc97170a991b1c12b0eaceb5d07f752dcf8c17d97444ef0eb15  /tmp/lot03-payload.tar.gz" | sha256sum -c -
-          tar -xzf /tmp/lot03-payload.tar.gz -C .
           node <<'NODE'
           const fs=require('fs'),zlib=require('zlib'),crypto=require('crypto');
           const manifestPath='compendium/data/manifest-v3.json';
@@ -69,16 +47,13 @@ jobs:
             if(i>=0) registry.characters[i]=u; else registry.characters.push(u);
           }
           fs.writeFileSync('compendium/data/character-registry.json',JSON.stringify(registry));
-          fs.unlinkSync(specPath); fs.unlinkSync(updatesPath);
+          fs.unlinkSync(specPath);
+          fs.unlinkSync(updatesPath);
           console.log(`LOT03_ROWS=${rows.length} REGISTRY_UPDATES=${updates.length} EXPECTED_TOTAL=${manifest.expectedTotal}`);
           NODE
-          rm -f compendium/data/_transfer_lot03_*.b64part
+          rm -f .github/workflows/antisysteme-lot03-audit.yml
           git config user.name "Helclaeynn"
           git config user.email "malekith51@hotmail.com"
           git add -A
-          if git diff --cached --quiet; then
-            echo "Nothing to commit."
-          else
-            git commit -m "feat(compendium): integrate anti-system biker PNJ lot 03"
-            git push
-          fi
+          git commit -m "feat(compendium): integrate anti-system biker PNJ lot 03"
+          git push
