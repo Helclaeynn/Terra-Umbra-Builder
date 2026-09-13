@@ -15,11 +15,12 @@ jobs:
           node-version: 22
       - name: Finalize lot 03 when staged
         run: |
-          if [ ! -f compendium/data/lot03-text-payload.b64 ]; then
+          if [ ! -f compendium/data/lot03-text-payload-00.b64part ]; then
             echo "No staged lot 03 payload on this push."
             exit 0
           fi
-          tr -d '\n\r ' < compendium/data/lot03-text-payload.b64 | base64 -d > /tmp/lot03-text-payload.tar.gz
+          test "$(ls compendium/data/lot03-text-payload-*.b64part | wc -l)" -eq 6
+          cat compendium/data/lot03-text-payload-*.b64part | tr -d '\n\r ' | base64 -d > /tmp/lot03-text-payload.tar.gz
           echo "40b3cda99697803b4ad9cede5f83ea46e610ce6f2fbfb9a90b40e867299ad9c5  /tmp/lot03-text-payload.tar.gz" | sha256sum -c -
           tar -xzf /tmp/lot03-text-payload.tar.gz -C .
           node <<'NODE'
@@ -54,7 +55,7 @@ jobs:
           fs.unlinkSync(updatesPath);
           console.log(`LOT03_ROWS=${rows.length} REGISTRY_UPDATES=${updates.length} EXPECTED_TOTAL=${manifest.expectedTotal}`);
           NODE
-          rm -f compendium/data/lot03-text-payload.b64 .github/workflows/antisysteme-lot03-audit.yml
+          rm -f compendium/data/lot03-text-payload-*.b64part .github/workflows/antisysteme-lot03-audit.yml
           git config user.name "Helclaeynn"
           git config user.email "malekith51@hotmail.com"
           git add -A
