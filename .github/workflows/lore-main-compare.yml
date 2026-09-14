@@ -65,9 +65,10 @@ jobs:
             await frame.locator('#nav,.nav').first().waitFor({state:'attached',timeout:15000});
             const items=await frame.locator('#nav [data-id],.nav [data-id]').evaluateAll(nodes=>nodes.map(n=>({id:n.dataset.id||'',href:n.getAttribute('href')||'',label:n.textContent.trim()})).filter(x=>x.id));
             for(const item of items){
-              await frame.locator(`[data-id="${CSS.escape(item.id)}"]`).first().click();
+              const pageLink=frame.locator(`[data-id="${item.id}"]`).first();
+              await pageLink.click();
               await frame.locator('h1').first().waitFor({state:'attached',timeout:10000});
-              await frame.locator(`[data-id="${CSS.escape(item.id)}"]`).first().waitFor({state:'attached',timeout:10000});
+              await pageLink.waitFor({state:'attached',timeout:10000});
               const data=await frame.locator('#content,.content').first().evaluate((root,pageId)=>{
                 const h1=root.querySelector('h1');
                 const title=h1?.textContent?.trim()||'';
