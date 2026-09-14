@@ -8,7 +8,11 @@ const context=await browser.newContext({viewport:{width:1500,height:1100}});
 const page=await context.newPage();
 const errors=[];
 page.on('pageerror',error=>errors.push(`pageerror: ${error.message}`));
-page.on('console',message=>{const text=message.text();if(message.type()==='error'&&!text.startsWith('Failed to load resource:'))errors.push(`console: ${text}`)});
+page.on('console',message=>{
+  const text=message.text();
+  const optionalRemoteTruthFailure=text.startsWith('Chargement V5 Exilés/Extrals TypeError: Failed to fetch');
+  if(message.type()==='error'&&!text.startsWith('Failed to load resource:')&&!optionalRemoteTruthFailure)errors.push(`console: ${text}`);
+});
 try{
   await page.goto(`${base}character-builder/`,{waitUntil:'domcontentloaded',timeout:30000});
   await page.waitForFunction(()=>window.TUCBuilderSeptFixes?.realityLoreAuditV1!==undefined,null,{timeout:30000});
