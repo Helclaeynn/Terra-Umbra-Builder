@@ -1,0 +1,90 @@
+// Final lore/summary cleanup after visual review.
+// 1) Truth flavour text must read as in-world lore, never as commentary about rules/Talents.
+// 2) The sidebar Compte is the live campaign balance after creation.
+
+const t51SpecificLore={
+  'corps souverain':'Chez les Élus de Lilith, le corps n’est plus une mécanique opaque qu’il faudrait subir. Respiration, cycles hormonaux, désir, fertilité et réponse sexuelle peuvent être réglés consciemment avec la même intimité qu’un mouvement volontaire ; cette souveraineté ne change pas ce que l’Élu désire, elle lui rend simplement la maîtrise de sa propre chair.',
+  'chair feconde':'La bénédiction de Lilith peut franchir la frontière de sa propre incarnation. Sous un contact accepté — ou après avoir imposé sa volonté à une âme qui résiste — l’Élu peut infléchir les cycles hormonaux et reproductifs d’un autre corps, accélérer, suspendre ou rétablir des fonctions que la biologie ordinaire traite comme involontaires.',
+  'fecondite divine':'Pour Lilith, la fécondité n’est ni une récompense morale ni un simple hasard biologique : c’est une puissance de continuité. L’Élu peut rendre fertile ce qui pouvait l’être, préserver une conception fragile ou faire d’un corps vivant un terrain extraordinairement favorable à la naissance, sans créer une vie à partir de rien ni effacer la volonté des personnes concernées.'
+};
+
+const t51MetaLorePattern=/(ce Talent correspond|effet mécanique|décrit le résultat|pratique identifiable|limites précises décrites|permission occulte précise|marque une manière précise|son apprentissage|l’apprentissage donne|acquérir signifie|la règle devient|doctrine de violence précise|modifie le tempo plutôt que|la tradition ne remplace pas|représente un degré de maîtrise)/i;
+
+function t51FacetName(t){
+  const parts=String(t?.group||'').split('›').map(x=>x.trim()).filter(Boolean),last=parts.at(-1)||'';
+  return last.replace(/^Facette\s*:\s*/i,'').trim();
+}
+function t51InWorldFallback(t,nature=state.truth.nature){
+  const name=String(t?.name||'Cette pratique'),e=normText(t?.effect||''),facet=t51FacetName(t),g=normText(t?.group||'');
+  const key=normText(name);if(t51SpecificLore[key])return t51SpecificLore[key];
+
+  // Daemon facets: anchor the prose in the actual divine domain before using the effect family.
+  if(nature==='daemon'){
+    if(/fertilit|chair|reproduct|hormon|sexuel/.test(`${normText(facet)} ${e}`))return `Sous l’empreinte de Lilith, ${name} traite la chair comme une matière vivante dont les rythmes profonds peuvent devenir conscients. Ce qui relève normalement des hormones, des cycles ou de la reproduction répond alors à la volonté divine avec une précision que la médecine ordinaire ne peut qu’observer après coup.`;
+    if(/evolution|mutation|adapt/.test(`${normText(facet)} ${e}`))return `Belzébuth considère toute forme vivante comme provisoire. Avec ${name}, l’Élu pousse cette logique jusque dans sa propre chair : la forme utile supplante momentanément la forme héritée, comme si l’évolution recevait enfin une direction au lieu d’attendre des générations.`;
+    if(/maladie|patholog|infection|tox|venin/.test(`${normText(facet)} ${e}`))return `Pour Belzébuth, maladie et santé appartiennent au même foisonnement du vivant. ${name} permet à l’Élu d’intervenir sur cette frontière, en faisant croître, dépérir ou dévier un processus biologique jusqu’à ce que le corps concerné adopte le nouvel équilibre imposé.`;
+    if(/parole|voix|mot|lang|mensong/.test(`${normText(facet)} ${e}`))return `Méphisto enseigne que les mots ne décrivent pas seulement le monde : certains l’entaillent. ${name} fait de la parole un acte occulte, dont le poids vient autant de l’intention que du son réellement prononcé.`;
+    if(/hasard|chance|probab|destin/.test(`${normText(facet)} ${e}`))return `Autour de Méphisto, les coïncidences ont parfois l’air de se souvenir de qui les a appelées. ${name} ne garantit jamais un destin parfait ; il incline brièvement l’incertain jusqu’à faire surgir l’issue improbable au moment où elle compte.`;
+    if(/vieill|age|temps|decrepit/.test(`${normText(facet)} ${e}`))return `Mammon règne aussi sur l’usure qui précède la fin. ${name} rend perceptible cette dette du temps et permet à l’Élu d’en accélérer ou d’en suspendre momentanément certains signes, comme si chaque année vécue devenait une monnaie que l’Inéluctable savait compter.`;
+    if(/orage|foudre|eclair|tonner/.test(`${normText(facet)} ${e}`))return `Chez Abigor, le ciel n’est jamais un plafond silencieux. ${name} appelle la violence accumulée dans l’air — charge, tonnerre, pression et mouvement — jusqu’à ce que l’atmosphère elle-même prenne parti dans la scène.`;
+    if(/presage|augure|corneill|avenir/.test(`${normText(facet)} ${e}`))return `La Morrighan a toujours marché avant les armées autant qu’après elles. ${name} se manifeste par ces signes qui précèdent la rupture : silhouettes, cris, coïncidences et certitudes froides dont le sens n’apparaît pleinement qu’au moment où le sang commence à couler.`;
+    if(/royaute|roi|reine|command|serment/.test(`${normText(facet)} ${e}`))return `La royauté de la Morrighan n’a rien d’un titre décoratif. ${name} fait sentir le poids d’une souveraineté ancienne : présence, serment et commandement prennent une densité que même ceux qui refusent d’obéir ne peuvent complètement ignorer.`;
+    if(/courage|brav|peur/.test(`${normText(facet)} ${e}`))return `Le Soleil de Lucifer n’efface pas la peur ; il rend possible d’avancer malgré elle. ${name} fait remonter cette chaleur intérieure qui transforme l’hésitation en mouvement et rappelle au corps qu’il peut encore choisir de se dresser.`;
+  }
+
+  if(/hormon|reproduct|fertil|chair|organ|biolog/.test(e))return `Avec ${name}, le corps cesse d’être entièrement involontaire. Des fonctions profondes deviennent sensibles à la volonté, et la chair répond comme un système vivant que le personnage connaît de l’intérieur plutôt que comme une machine étrangère.`;
+  if(/soin|pv|regener|restaur|gueri|stabilis/.test(e))return `${name} apparaît lorsque la puissance cachée du personnage se tourne vers ce qui refuse de mourir. La chair se referme, une fonction repart ou une blessure cesse de gagner du terrain, avec cette impression troublante que le corps se souvient soudain de la forme qu’il devrait avoir.`;
+  if(/furtiv|invisib|dissimul|ombre/.test(e))return `${name} agit d’abord sur la présence : mouvements, silhouette et attention cessent de coïncider comme ils le devraient. Les témoins continuent de regarder au bon endroit et trouvent pourtant de moins en moins de raisons d’y voir quelqu’un.`;
+  if(/perception|detect|voir|vision|sentir|lecture|trace/.test(e))return `${name} ouvre un sens qui n’existe pas dans l’expérience ordinaire. Des traces jusque-là muettes — dans une âme, une aura, un corps ou un lieu — deviennent aussi lisibles qu’une expression ou une odeur pour celui qui sait désormais les reconnaître.`;
+  if(/dgt|attaque|frapp|degat|arme|pugilat|morsure|griffe/.test(e))return `${name} donne une forme de guerre à la Nature du personnage. Au moment de frapper, quelque chose de plus ancien que sa simple force physique traverse le geste et transforme une attaque maîtrisée en manifestation réellement surnaturelle.`;
+  if(/defense|armure|protection|resist|immun/.test(e))return `${name} se révèle au moment où quelque chose devrait passer. Corps, âme ou présence se referment comme une porte tenue de l’intérieur, opposant à l’agression une résistance qui ne vient pas d’un matériau porté mais de ce que le personnage est devenu.`;
+  if(/pa|initiative|deplacement|bond|vitesse|reaction|teleport/.test(e))return `${name} change la relation du personnage au temps et à l’espace immédiats. Un pas arrive trop tôt, une distance paraît plus courte qu’elle ne devrait l’être, et l’action juste surgit avant que les témoins aient réellement compris que la situation avait changé.`;
+  if(/social|charisme|diplom|influence|autorite|convain|desir/.test(e))return `${name} donne à la présence du personnage une gravité difficile à réduire au charme ordinaire. Les mots restent les siens et la cible conserve sa volonté, mais l’émotion, le désir ou l’autorité déjà présents dans la scène deviennent soudain beaucoup plus difficiles à ignorer.`;
+  if(/savoir|memoire|connaissance|information|question|souvenir/.test(e))return `${name} transforme une connaissance en quelque chose de presque instinctif. Souvenirs, signes et relations reviennent au premier plan avec une netteté anormale, comme si l’esprit disposait enfin d’un chemin direct vers ce qu’il avait réellement appris.`;
+  if(/terreur|panique|frenesie|rage|peur/.test(e))return `${name} touche l’endroit où la pensée cède la première place à l’instinct. Peur, rage ou pulsion cessent d’être de simples émotions et deviennent une force que la Nature du personnage peut provoquer, contenir ou chevaucher.`;
+  if(/rituel|magie|aura|spectr|occulte|voile|hologram|ame|spirit/.test(e))return `${name} rend tangible une structure cachée du monde. Ce qui n’était jusque-là qu’une intuition spirituelle ou occulte acquiert des contours assez nets pour être saisi, déplacé, renforcé ou contrarié par la volonté.`;
+
+  const place=facet||String(t?.group||'').split('›').map(x=>x.trim()).filter(Boolean).at(-1)||'cette voie';
+  return `${name} est connu dans ${place} comme une expression rare mais reconnaissable de la Vérité : lorsqu’elle se manifeste, les témoins comprennent que le personnage ne se contente plus d’agir selon les possibilités ordinaires de son corps ou de son esprit.`;
+}
+
+const t51LoreBase=t28TruthLore;
+t28TruthLore=function(t){
+  const key=normText(t?.name||'');
+  if(t51SpecificLore[key])return t51SpecificLore[key];
+  const old=t51LoreBase(t);
+  return !old||t51MetaLorePattern.test(old)?t51InWorldFallback(t):old;
+};
+
+function t51LoreAudit(){
+  const saved=state.truth.nature,problems=[];
+  try{
+    for(const [nature,rows] of Object.entries(truthCatalog||{})){
+      if(!Array.isArray(rows))continue;state.truth.nature=nature;
+      for(const t of rows){const lore=t28TruthLore(t)||'';if(t51MetaLorePattern.test(lore))problems.push({nature,name:t.name,group:t.group,lore})}
+    }
+  }finally{state.truth.nature=saved}
+  return problems;
+}
+
+// The sidebar's Compte is the money the character can actually spend now.
+// Keep the creation ledger in state/export; avoid displaying two contradictory balances.
+const t51SummaryBase=renderSummary;
+renderSummary=function(){
+  t51SummaryBase();const s=$('#summaryContent');if(!s)return;
+  const resources=[...s.querySelectorAll('.summary-section')].find(x=>(x.querySelector('h4')?.textContent||'').trim()==='Ressources');if(!resources)return;
+  const rows=[...resources.querySelectorAll('.summary-line')];
+  const account=rows.find(x=>(x.firstElementChild?.textContent||'').trim()==='Compte');
+  if(account?.lastElementChild)account.lastElementChild.textContent=fmt(p45Cash());
+  const campaign=rows.find(x=>(x.firstElementChild?.textContent||'').trim()==='Solde campagne');
+  campaign?.remove();
+};
+
+const t51BuildExportBase=buildExport;
+buildExport=function(){const out=t51BuildExportBase();out.progressionSnapshot=out.progressionSnapshot||{};out.progressionSnapshot.cashCurrent=p45Cash();out.progressionSnapshot.cashAfterCreation=p45CashBase();return out};
+
+window.TUCBuilderSeptFixes=window.TUCBuilderSeptFixes||{};
+window.TUCBuilderSeptFixes.truthLoreMetaProblems=t51LoreAudit;
+window.TUCBuilderSeptFixes.summaryCash=()=>{const s=$('#summaryContent');const resources=s?[...s.querySelectorAll('.summary-section')].find(x=>(x.querySelector('h4')?.textContent||'').trim()==='Ressources'):null;const row=resources?[...resources.querySelectorAll('.summary-line')].find(x=>(x.firstElementChild?.textContent||'').trim()==='Compte'):null;return row?.lastElementChild?.textContent||''};
+
+render();
