@@ -1,0 +1,118 @@
+// Truth lore editorial pass — Mage and Vampire entries flagged by the similarity audit.
+// Static prose only: no rule-family or effect-family fallback.
+
+const t54MageLore={
+  'capacites_et_talents_communs_talents_communs_ancrage_du_mageius':'Le lien entre le Mage et son Mageius cesse d’être une simple proximité spirituelle. Même lorsqu’une force extérieure tente de séparer, déplacer ou corrompre cette présence, quelque chose dans leur histoire commune refuse de se laisser dénouer.',
+  'capacites_et_talents_communs_talents_communs_decharge_controlee':'Le Mage apprend à ouvrir une issue avant que la pression accumulée n’explose d’elle-même. La magie excédentaire s’évacue par un geste, un souffle ou un signe maîtrisé, au prix d’un bref effort de concentration.',
+  'capacites_et_talents_communs_talents_communs_heritage_familial':'Certaines familles ont transmis des pratiques assez longtemps pour qu’elles deviennent plus qu’un style personnel. Le Mage reçoit cette tradition comme on reçoit une langue ancienne : avec ses gestes, ses interdits et ses raccourcis propres.',
+  'capacites_et_talents_communs_talents_communs_resonance_heritee':'Le Mageius conserve parfois des empreintes laissées par ceux qui l’ont porté avant cette incarnation. En apprenant à écouter cette mémoire étrangère, le Mage peut réveiller un Écho sans le confondre avec ses propres souvenirs.',
+  'capacites_et_talents_communs_talents_communs_equilibrage_du_flux':'Changer d’Affinité n’est plus une rupture brutale. Le Mage laisse le premier courant se vider proprement avant d’en accueillir un autre, comme un musicien qui sait faire mourir une note avant d’attaquer la suivante.',
+  'capacites_et_talents_communs_talents_communs_uvre_personnelle':'À ce niveau, la magie porte une signature qu’aucun manuel ne pouvait fournir. Des années de pratique, d’erreurs et de compréhension produisent une technique qui n’existe réellement que parce que ce Mage-là l’a pensée.',
+  'progression_par_points_de_verite_amplitude_cataclysmique':'La magie cesse de concerner une scène et commence à marquer un territoire. À cette échelle, un phénomène peut remodeler un quartier ou laisser derrière lui un événement dont témoins et archives parleront encore longtemps.',
+  'progression_par_points_de_verite_amplitude_majeure':'Le Mage pense désormais en bâtiments, en foules et en phénomènes assez vastes pour modifier tout un lieu. La difficulté n’est plus seulement de produire l’effet, mais d’en comprendre les conséquences à cette échelle.',
+  'progression_par_points_de_verite_amplitude_significative':'L’Affinité dépasse le geste individuel et prend assez d’ampleur pour englober une pièce, un véhicule ou plusieurs personnes. Le Mage apprend à conserver une intention cohérente lorsqu’elle s’étend au-delà d’une cible unique.',
+  'progression_par_points_de_verite_maitrise_affinee':'La magie devient précise plutôt que simplement plus forte. Formes complexes, contours choisis et divisions simples apparaissent parce que le Mage commence à comprendre où son Affinité peut être sculptée sans perdre sa cohérence.',
+  'progression_par_points_de_verite_maitrise_magistrale':'Le concept magique est assez profondément compris pour être poussé jusqu’à ses conséquences les moins évidentes. Le Mage ne se contente plus d’appliquer une Affinité : il commence à découvrir ce qu’elle permet que personne ne lui avait encore enseigné.',
+  'progression_par_points_de_verite_maitrise_superieure':'Plusieurs paramètres peuvent désormais rester présents dans le même raisonnement magique. L’effet devient capable de réagir, de contourner ou de combiner des comportements sans que le Mage perde le fil de ce qu’il impose au réel.'
+};
+
+const t54VampireLore={
+  'interroger_les_restes':'Chez les Alghul, un cadavre n’est pas immédiatement muet. Sang, tissus et dernières tensions du corps conservent des impressions que le Vampire sait lire comme les pages déchirées d’un témoignage incapable de mentir mais aussi incapable d’expliquer ce qu’il n’a jamais perçu.',
+  'sang_memoriel':'Une gorgée de sang peut porter l’écho d’une émotion récente. Peur, douleur, lieu ou visage remontent sans ordre parfait, fragments sensoriels que l’Alghul doit assembler sans les confondre avec un souvenir complet de la victime.',
+  'sang_preserve':'L’Alghul traite son propre sang comme une archive biologique de lui-même. Préparé selon les rites de Cour, il peut devenir l’ancrage autour duquel d’autres tenteront un jour de reconstruire ce qui aurait normalement été perdu avec sa mort.',
+  'offrande_sanglante':'L’Ihuito ne sépare jamais complètement puissance et sacrifice. Lorsque le temps manque, le Vampire peut verser sa propre vitalité dans la préparation d’un pouvoir de Sang, payant avec sa chair ce qu’il n’a pas le loisir d’accomplir patiemment.',
+  'sang_du_dieu':'Après avoir bu une créature surnaturelle, l’Ihuito peut conserver brièvement l’une de ses évidences corporelles. Ce n’est ni une copie d’âme ni un vol de pouvoir complet : seulement une qualité physique que le sang a appris à reproduire.',
+  'sang_exalte':'Le sang fraîchement pris ne sert pas uniquement à réparer le corps. L’Ihuito peut retenir une part de cette vigueur et la faire circuler dans un pouvoir hématique précis, préférant l’exaltation immédiate à la récupération.',
+  'maitre_de_guerre':'La tradition Krovni transforme le commandement en réflexe partagé. Un ordre bref venant d’un chef reconnu clarifie immédiatement la priorité du combattant qui l’entend, comme si l’escouade entière avait répété ce mouvement bien avant la bataille.',
+  'ordre_imperieux':'La voix du Krovni prend l’ascendant brutal d’un prédateur habitué à être obéi. L’injonction est courte, physique, presque impossible à ignorer sans perdre un instant à lutter contre l’impulsion qu’elle dépose dans le corps.',
+  'presence_du_conquerant':'Le Krovni laisse affleurer la certitude froide de celui qui se considère déjà maître du terrain. Face à lui, la cible ressent moins un charme qu’une pression de prédation organisée, comme si toute résistance devait d’abord convaincre le Vampire qu’elle mérite d’exister.',
+  'lien_du_deimon':'Dans l’Oru, un Deimon lié n’est ni un objet ni une invocation jetable. Le pacte reconnaît une créature réelle, avec sa volonté et son histoire, puis tisse entre les deux partenaires une proximité assez profonde pour survivre aux scènes où ils sont séparés.',
+  'marche_dans_les_ombres':'Le Vampire apprend à demeurer dans l’effacement tant que l’obscurité lui offre une continuité. Il glisse d’une zone sombre à l’autre sans rompre la discrétion surnaturelle, jusqu’au moment où violence ou lumière le force à redevenir pleinement présent.',
+  'ombre_predatrice':'L’Oru transforme la sortie des ténèbres en instant de chasse. Lorsque l’ennemi ne savait même pas où regarder, la première attaque surgit avant que son instinct ait eu le temps de replacer le prédateur dans le monde visible.',
+
+  'embrasement':'Le Sang de Larisha transmet sa chaleur à ce qui peut réellement brûler. Le Vampire n’invente pas un combustible : il trouve dans la matière la promesse d’une flamme et la pousse soudain jusqu’à l’incendie.',
+  'fournaise':'La chaleur ardente cesse de rester au contact du Vampire. Air, surfaces et souffle deviennent hostiles autour de lui, comme si la pièce entière avait été rapprochée d’un foyer trop vaste pour être contenu.',
+  'marque_incandescente':'La brûlure de Larisha refuse de s’éteindre avec le geste qui l’a créée. Une chaleur rouge demeure dans la chair ou la matière atteinte, rappel persistant du contact vampirique longtemps après que la main s’est retirée.',
+  'toucher_ardent':'Sous les doigts du Vampire, la chaleur cesse d’être une sensation et devient une agression. Le Sang ardent concentre la brûlure au point de contact, laissant douleur et trace avant même qu’une flamme visible soit nécessaire.',
+
+  'projection_astrale':'Ashream permet à la conscience de se détacher d’un corps devenu silencieux. Le Vampire traverse alors le plan astral comme une présence sans chair, sachant que son enveloppe laissée derrière lui demeure vulnérable à tout ce qui arrivera pendant son absence.',
+  'sonar_predateur':'L’écho cesse de décrire seulement la pièce immédiate. Le Vampire apprend à lire le retour des ultrasons avec une finesse prédatrice, distinguant mouvements et présences même lorsque de minces obstacles devraient les cacher à une vue ordinaire.',
+  'vision_astrale':'Le regard d’Ashream se décale vers ce qui n’appartient pas entièrement au monde matériel. Présences, silhouettes et phénomènes du plan astral prennent une forme lisible sans que le Vampire ait besoin d’abandonner son propre corps.',
+  'echolocation':'La lumière devient accessoire. Claquements, souffle ou ultrasons bâtissent dans l’esprit une géométrie de volumes et de mouvements où murs, corps et reliefs existent par la manière dont ils renvoient le son.',
+
+  'changement_de_corps':'Ashelia pousse la malédiction jusqu’à traiter le corps comme une enveloppe remplaçable. Le Vampire abandonne une chair condamnée pour s’ancrer ailleurs, laissant derrière lui quelque chose qui ne meurt pas proprement et peut engendrer un monstre autonome.',
+  'faim_condamnee':'La faim d’Ashelia apprend à atteindre ce qui nourrit sans exiger le contact des crocs. Vitalité ou énergie sont tirées à distance vers le Vampire, comme si son organisme refusait d’attendre que la proie soit déjà entre ses mains.',
+  'faim_magique':'Une manifestation hostile peut devenir nourriture plutôt que blessure. Le Vampire ouvre sa faim sur le pouvoir qui arrive et tente d’en dévorer la substance avant qu’elle ne se referme sur lui.',
+
+  'devorer_la_chaleur':'Vjärmod ne produit pas d’abord du froid : il retire la chaleur. Autour du Vampire, l’énergie thermique disparaît progressivement, laissant air et surfaces tomber vers un silence glacé que le corps vivant reconnaît immédiatement comme dangereux.',
+  'gel_brutal':'Le froid se concentre assez vite pour figer matière ou chair avant qu’elles aient le temps de s’adapter. Ce qui est touché devient cassant, engourdi ou raide selon sa nature, marqué par une chute de température presque instantanée.',
+  'hiver_noir':'Le Sang glacial étend son absence de chaleur jusqu’à transformer une zone entière. Givre, souffle blanc et surfaces durcies installent un hiver local qui ne dépend ni de la saison ni du climat extérieur.',
+  'toucher_glacial':'Au contact, le Vampire aspire assez de chaleur pour faire hésiter nerfs et muscles. L’engourdissement peut devenir paralysie brève, sensation de chair étrangère laissée par une main plus froide que le milieu qui l’entoure.',
+
+  'double_autonome':'Le double de Briaerus cesse de suivre son créateur comme un reflet docile. Il peut attirer un regard, prendre un couloir ou feindre une intention ailleurs, illusion mobile dont chaque initiative reste néanmoins soutenue par l’attention réelle du Vampire.',
+  'double_tenebreux':'Briaerus donne au Vampire un second corps qui ne possède ni poids ni chair. Assez crédible pour tromper les sens ordinaires, il emprunte apparence et mouvement sans jamais devenir une personne capable de saisir le monde.',
+  'fantasmagorie':'Une scène simple peut être falsifiée par quelques détails bien choisis : silhouette, bruit, objet ou mouvement qui n’existe pas. L’illusion tient tant que rien ne pousse réellement l’observateur à demander au monde une preuve plus solide.',
+  'grande_illusion':'Le Sang hypocrite ne se contente plus d’un leurre isolé. Sons, volumes, textures et ambiance peuvent composer un environnement mensonger assez vaste pour que plusieurs témoins partagent la même fausse scène.',
+
+  'mimetisme_parfait':'Kazuo fait de la voix un masque jusque dans ses accidents minuscules. Souffle, hésitations, accent et micro-intonations deviennent assez fidèles pour tromper l’oreille intime comme la biométrie, sans offrir au Vampire les souvenirs qui expliqueraient quoi dire.',
+  'mue_complete':'Le masque gagne le reste du corps. Taille, proportions et particularités visibles peuvent rejoindre le visage déjà volé, produisant une imitation physique convaincante tant qu’aucun détail caché ou savoir personnel n’est exigé.',
+  'visage_vole':'Le sang bu sert de mémoire morphologique. Les traits d’une ancienne proie remontent dans la chair du Vampire et remplacent son visage par une copie dont la crédibilité vient précisément de cette proximité hématique passée.',
+  'voix_volee':'Une voix entendue de l’intérieur par le sang peut être reproduite bien au-delà d’une simple imitation. Timbre et cadence reviennent avec une fidélité surnaturelle, même lorsque le Vampire n’a jamais appris à parler comme cette personne.',
+
+  'arc_orageux':'Branimir laisse la décharge chercher d’autres chemins après le premier impact. Dans un milieu rendu conducteur, l’électricité bondit vers les corps proches comme si chacun devenait momentanément un morceau du même circuit vivant.',
+  'brume_electrostatique':'Autour du Vampire, l’air se charge et picote sur la peau. Cette brume conductrice prépare des chemins invisibles à ses décharges, rapprochant électriquement des cibles que quelques mètres séparent encore physiquement.',
+  'decharge_orageuse':'Le contact libère une violence électrique capable de brouiller nerfs et muscles. Le Sang orageux ne se contente pas de brûler : il impose au corps adverse un signal brutal qui concurrence un instant ses propres commandes.',
+  'surcharge_nerveuse':'Branimir pousse l’intrusion électrique jusqu’aux fonctions les plus fragiles. Une décharge particulièrement réussie peut faire plus qu’engourdir : rythme cardiaque, coordination et conscience deviennent des systèmes susceptibles d’être momentanément débordés.',
+
+  'brume_etouffante':'Lyssa étend sa forme diffuse jusqu’à remplir l’espace. La brume s’accroche aux yeux, au souffle et aux trajectoires, donnant au Vampire une présence partout à la fois sans lui rendre pour autant un corps solide à cet endroit.',
+  'corps_de_brume':'La chair se défait juste assez longtemps pour qu’un coup ordinaire traverse une masse sans organes ni os. Le Vampire existe toujours dans cette vapeur, mais seules les attaques capables de toucher l’immatériel peuvent réellement le traiter comme avant.',
+  'forme_animale':'Le Sang primal rappelle au corps une autre anatomie naturelle et la rend complète. Griffes, ailes, nage ou odorat suivent alors les capacités évidentes de l’animal choisi, tandis que vêtements et outils restent les problèmes d’un corps humain qu’il vient de quitter.',
+  'menagerie':'Lyssa ne limite plus le Vampire à une seule réponse animale. Plusieurs morphologies sont mémorisées dans le Sang, chacune gardée comme une solution possible à ressortir lorsque terrain, fuite ou chasse réclament un autre corps.',
+
+  'dissipation_revelatrice':'Zhi Xia pousse la Vérité au-delà de l’apparence et attaque la manifestation active elle-même. Le Vampire peut faire taire temporairement un pouvoir présent sur quelqu’un sans pour autant déchirer le Voile ni révéler de force ce que le monde protège.',
+  'lecture_profonde':'L’esprit observé cesse d’être seulement une surface d’émotions. Souvenirs, motivations et indices enfouis remontent sous forme d’images, de sensations et de mots partiels que le Vampire doit encore interpréter plutôt que recevoir comme un dossier parfaitement classé.',
+  'lecture_superficielle':'Zhi Xia ouvre une fenêtre étroite sur le présent mental. Pensées immédiates et émotion dominante deviennent perceptibles, assez pour comprendre ce qui occupe quelqu’un maintenant mais pas pour fouiller automatiquement son histoire.',
+  'sang_de_verite':'Le sang du Vampire devient un révélateur hostile aux faux-semblants surnaturels. Au contact d’une illusion ou d’une transformation, il force l’apparence à confronter sa cohérence à quelque chose qui se souvient obstinément du réel.',
+
+  'anatomie_fatale':'Go’Ndai transforme l’observation du corps en violence précise. Après avoir compris où la cible est vulnérable, le Vampire frappe directement l’articulation, l’organe ou la structure dont la défaillance changera réellement la suite du combat.',
+  'arme_hematique':'Le sang quitte sa fonction de fluide pour devenir outil de prédation. Lame, fouet ou projectile prennent forme à partir d’une matière qui reste liée au Vampire et se comporte comme une extension armée de sa circulation.',
+  'diagnostic_predateur':'Pour Go’Ndai, un organisme est un réseau lisible de flux, tensions et ruptures. Le Vampire voit hémorragie, fracture ou organe en difficulté sans confondre cette lecture physiologique avec la connaissance de la cause occulte ou extraterrestre qui l’a provoquée.',
+  'sang_anime':'Le sang répandu se comporte comme un membre détaché mais encore obéissant. Il peut ramper, saisir ou déplacer de petites choses, prolongement rouge de la volonté du Vampire là où ses mains ne se trouvent pas.',
+
+  'effluves_toxiques':'Huitzitia ne garde plus son venin dans le corps. Une exhalaison, une brume ou des fluides dispersés rendent l’espace proche dangereux, transformant la proximité du Vampire en exposition plutôt que le seul contact direct.',
+  'venin_noir':'Les fluides du Vampire deviennent eux-mêmes une arme biologique. Sang, salive ou sécrétion peuvent porter une toxicité que l’organisme adverse doit reconnaître et combattre après une exposition suffisamment réelle.',
+  'venins_faconnes':'Le Sang venimeux apprend à choisir ce qu’il veut faire au corps plutôt qu’à produire une toxine unique. Sommeil, douleur ou paralysie deviennent des profils biologiques distincts, préparés selon l’effet recherché avant la sécrétion.',
+  'vision_thermique':'Huitzitia ajoute la chaleur au vocabulaire des formes visibles. Corps, moteurs et surfaces récemment touchées se détachent par leur température, révélant des présences que couleur et lumière ordinaire auraient pu dissimuler.',
+
+  'deferlement_ecarlate':'Le Sang d’Anya libère une poussée de puissance immédiatement utilisable par le corps. Muscles, coordination ou vitesse reçoivent ensemble cette brève montée hématique, comme si la circulation venait d’ouvrir toutes ses réserves au même instant.',
+  'surregime':'Le Vampire force son organisme à trouver encore un geste dans un round déjà saturé. Tout s’accélère — perception, décision, mouvement — au prix de faire fonctionner la prédation à un régime que le corps ordinaire ne pourrait soutenir.',
+  'traque_hematique':'Un sang connu possède pour Anya une signature impossible à confondre avec une autre. Une goutte, une trace nettoyée trop vite ou une piste mêlée à d’autres reste identifiable comme le passage précis de la proie recherchée.',
+  'vision_du_sang':'La circulation vivante devient visible derrière peau et faible obstacle. Pulsations, masses chaudes de sang et blessures fraîches composent une cartographie de la vie qui persiste même lorsque l’éclairage ordinaire ne suffit plus.',
+
+  'harmonie_impossible':'Le Shi Hun Zhe atteint un équilibre que sa malédiction refuse normalement. Une faiblesse demeure présente mais cesse un temps d’être absolue, comme si Hun et Po avaient trouvé une position provisoire où aucun des deux ne laissait l’autre entraîner le Vampire vers sa chute.',
+  'souffle_du_yang':'Le sang fraîchement volé apporte assez de Yang pour soutenir momentanément ce que la condition vampirique rejette. Le Vampire consume cette réserve comme un souffle emprunté, protégeant brièvement son équilibre face à une faiblesse choisie.',
+  'union_du_hun_et_du_po':'Pendant quelques instants, les deux principes que la malédiction maintient en conflit cessent de se déchirer. Le Vampire atteint une cohérence presque impossible où même l’une de ses grandes condamnations peut perdre entièrement prise sur lui.',
+
+  'charme_inhumain':'Après avoir déjà ouvert une brèche par la Fascination, le Vampire sait rester exactement dans l’angle où la cible veut encore l’écouter. Sa prédation sociale devient plus fluide tant qu’il ne commet rien qui oblige l’autre à reconnaître brutalement l’emprise.',
+  'dernier_sommeil':'Lorsque la destruction approche trop près, la malédiction préfère parfois éteindre le Vampire plutôt que le laisser franchir le dernier seuil. Il s’effondre dans une Stase de survie, fragile refuge qui ne sauve rien si le corps lui-même cesse d’exister.',
+  'domination':'La voix vampirique transforme un ordre simple en impulsion difficile à séparer de sa propre volonté. Les convictions profondes peuvent encore résister, mais quelques mots suffisent parfois à détourner le prochain geste avant que la cible comprenne qu’elle a été poussée.',
+  'faveur_de_la_nuit':'L’ombre accepte le Vampire avec une facilité prédatrice. Silhouette, mouvement et respiration se fondent mieux dans l’obscurité, non parce qu’il devient invisible mais parce que la nuit paraît naturellement cacher ce qui chasse en elle.',
+  'insensibilite_amelioree':'La physiologie maudite cesse de réagir comme celle d’un vivant ordinaire à de nombreuses substances. Poisons et drogues rencontrent un organisme ralenti, étrange, capable de résister là où leur chimie supposait des fonctions plus humaines.',
+  'regeneration_de_sang':'La prédation nourrit directement la réparation. Le sang arraché à la proie ne se contente pas d’apaiser la faim : il devient matière de reconstruction, refermant les blessures avec une efficacité proportionnelle à la vitalité réellement prise.',
+  'sens_du_chasseur':'Blessure, chaleur, odeur et comportement de fuite composent pour le Vampire une piste instinctive. Ce sens ne lui explique pas l’anatomie de sa proie ; il lui dit où chercher lorsqu’un être vivant tente de disparaître.',
+  'somnambulisme':'Dans un esprit endormi, la suggestion trouve moins de portes fermées. Le Vampire dépose une instruction simple parmi les rêves et laisse la cible l’accomplir plus tard comme une idée qui semblait déjà l’attendre au réveil.',
+  'stase_profonde':'La Stase devient une véritable chambre de réparation plutôt qu’une simple immobilité. Le corps maudit se ferme aux dégradations ordinaires et travaille lentement à se reconstruire tant que rien ne vient le détruire de l’extérieur.'
+};
+
+const t54LoreBase=t28TruthLore;
+t28TruthLore=function(t){
+  const n=state.truth.nature,id=t?.id||'';
+  if(n==='mage'&&t54MageLore[id])return t54MageLore[id];
+  if(n==='vampire'&&t54VampireLore[id])return t54VampireLore[id];
+  return t54LoreBase(t);
+};
+
+window.TUCBuilderSeptFixes=window.TUCBuilderSeptFixes||{};
+window.TUCBuilderSeptFixes.mageSpecificLoreCount=Object.keys(t54MageLore).length;
+window.TUCBuilderSeptFixes.vampireSpecificLoreCount=Object.keys(t54VampireLore).length;
+render();

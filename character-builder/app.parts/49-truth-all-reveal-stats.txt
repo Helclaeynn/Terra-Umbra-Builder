@@ -1,0 +1,112 @@
+// Truth revelation stat audit — all playable Natures and selected subprofiles.
+// Numeric values follow the V7 cross-audit / V5 unified Truth corpus.
+
+const t49AngelusStats={
+  kether:{sr:'+1 Volonté · +1 Charisme',r:'+2 Volonté · +1 Charisme'},
+  hokhma:{sr:'+1 Esprit · +1 Volonté',r:'+2 Esprit · +1 Volonté'},
+  bina:{sr:'+1 Esprit · +1 Volonté',r:'+2 Esprit · +1 Volonté'},
+  hesed:{sr:'+1 Volonté · +1 Charisme',r:'+1 Volonté · +2 Charisme'},
+  gueburah:{sr:'+1 Vigueur · +1 Volonté',r:'+2 Vigueur · +1 Volonté'},
+  tiphereth:{sr:'+1 Charisme · +1 Volonté',r:'+2 Charisme · +1 Volonté'},
+  nesah:{sr:'+1 Charisme · +1 Agilité',r:'+2 Charisme · +1 Agilité'},
+  hod:{sr:'+1 Esprit · +1 Charisme',r:'+2 Esprit · +1 Charisme'},
+  yessod:{sr:'+1 Esprit · +1 Charisme',r:'+2 Esprit · +1 Charisme'},
+  malkhouth:{sr:'+1 Vigueur · +1 Volonté',r:'+2 Vigueur · +1 Volonté'}
+};
+const t49AserynStats={
+  aerilien:{sr:'+1 Agilité · +1 Volonté',r:'+2 Agilité · +1 Volonté'},
+  mulien:{sr:'+1 Agilité · +1 Esprit',r:'+2 Agilité · +1 Esprit'},
+  hyperboreen:{sr:'+1 Agilité · +1 Vigueur',r:'+2 Agilité · +1 Vigueur'},
+  lemurian:{sr:'+1 Agilité · +1 Volonté',r:'+2 Agilité · +1 Volonté'},
+  seratheen:{sr:'+1 Agilité',r:'+2 Agilité'}
+};
+const t49ExileStats={
+  elye:{sr:'+1 Agilité',r:'+1 Agilité · +1 Esprit · +1 Charisme'},
+  whurten:{sr:'+1 Vigueur',r:'+1 Vigueur · +2 Volonté'},
+  ashyll:{sr:'+1 Agilité',r:'+2 Agilité · +1 Esprit'},
+  thulkar:{sr:'+1 Vigueur',r:'+2 Vigueur · +1 Charisme'},
+  azmenorien:{sr:'+1 Esprit',r:'+1 Vigueur · +1 Esprit · +1 Charisme'}
+};
+const t49ExtralStats={
+  talass:{sr:'+1 Esprit',r:'+2 Esprit · +1 Agilité'},
+  mosen:{sr:'+1 Vigueur',r:'+2 Vigueur · +1 Agilité'},
+  baseanh:{sr:'+1 Volonté',r:'+1 Esprit · +1 Volonté · +1 Charisme'},
+  rocreen:{sr:'+1 Charisme',r:'+2 Charisme · +1 Esprit'},
+  thalsios:{sr:'+1 Volonté',r:'+2 Volonté · +1 Vigueur'},
+  homo_superior:{sr:'+1 Vigueur',r:'+1 Vigueur · +1 Agilité · +1 Volonté'},
+  adrak:{sr:'+1 Vigueur',r:'+3 Vigueur'}
+};
+const t49KhinaeBase={
+  canides_errants:{animal:'+2 Agilité',hybrid:'+3 Vigueur · +2 Agilité'},
+  renards:{animal:'+3 Agilité',hybrid:'+2 Vigueur · +3 Agilité'},
+  grands_felins:{animal:'+2 Vigueur · +2 Agilité',hybrid:'+4 Vigueur · +2 Agilité'},
+  chats:{animal:'+4 Agilité',hybrid:'+1 Vigueur · +4 Agilité'},
+  rapaces:{animal:'+3 Agilité',hybrid:'+2 Vigueur · +3 Agilité'},
+  requins:{animal:'Dans l’eau : +2 Agilité',hybrid:'Dans l’eau : +4 Vigueur · +2 Agilité · sur terre le bonus d’Agilité est perdu'},
+  serpents:{animal:'+3 Agilité',hybrid:'+2 Vigueur · +3 Agilité'},
+  boudas:{animal:'+2 Vigueur · +2 Agilité',hybrid:'+3 Vigueur · +2 Agilité'},
+  berserkirs:{animal:'+3 Vigueur',hybrid:'+5 Vigueur'},
+  crocodiliens:{animal:'+3 Vigueur',hybrid:'+5 Vigueur · +2 Agilité dans l’eau · aucun bonus d’Agilité à terre'}
+};
+const t49KhinaeVariant={
+  grands_felins:{lion:'+4 Vigueur · +1 Agilité',panthere:'+3 Vigueur · +3 Agilité',puma:'+3 Vigueur · +3 Agilité'},
+  chats:{sauvage:'+2 Vigueur · +3 Agilité'},
+  rapaces:{aigle:'+3 Vigueur · +2 Agilité',faucon:'+1 Vigueur · +4 Agilité',hibou:'+1 Vigueur · +3 Agilité',vautour:'+2 Vigueur · +2 Agilité'},
+  requins:{bouledogue:'+3 Vigueur · +2 Agilité dans l’eau',requin_marteau:'+3 Vigueur · +3 Agilité dans l’eau',requin_baleine:'+5 Vigueur · +1 Agilité dans l’eau'},
+  serpents:{cobra:'+2 Vigueur · +2 Agilité',constricteur:'+4 Vigueur · +1 Agilité',furtif:'+1 Vigueur · +4 Agilité'},
+  boudas:{tachetee:'+4 Vigueur · +1 Agilité',rayee:'+2 Vigueur · +3 Agilité'},
+  berserkirs:{ours_noir:'+4 Vigueur · +1 Agilité'},
+  crocodiliens:{alligator:'+4 Vigueur · +1 Agilité à terre · +2 Agilité dans l’eau',caiman:'+4 Vigueur · +1 Agilité',gavial:'+3 Vigueur · +2 Agilité dans l’eau'}
+};
+function t49ChoiceLabel(key){
+  const c=truthNature()?.choices?.find(x=>x.key===key),id=state.truth.choices?.[key];
+  return c?.options?.find(x=>x.id===id)?.name||'';
+}
+function t49StatsForNature(){
+  const n=state.truth.nature,c=state.truth.choices||{};
+  if(n==='humain')return {label:'Humain',v:'Aucun bonus de Nature',sr:'Aucun bonus racial : être Initié n’est pas une transformation physique',r:'Aucun bonus racial : un Humain ne possède pas de forme Révélée propre'};
+  if(n==='vampire')return {label:'Nature Vampire',v:'Aucun bonus de Nature',sr:'+1 Vigueur · +1 Volonté',r:'+2 Vigueur · +1 Agilité · +1 Volonté'};
+  if(n==='mage')return {label:'Mageius ouvert',v:'Aucune modification',sr:'+1 Esprit · +1 Volonté',r:'+1 Esprit · +2 Volonté'};
+  if(n==='daemon'){const x=t46DaemonRevealStats[c.divinity];return {label:t49ChoiceLabel('divinity')||'Divinité à choisir',v:'Aucun bonus daemoniaque d’Attribut',sr:x?.sr||'Choisir une Divinité',r:x?.r||'Choisir une Divinité'};}
+  if(n==='angelus'){const x=t49AngelusStats[c.sephirah];return {label:t49ChoiceLabel('sephirah')||'Sephirah à choisir',v:'Aucun bonus céleste d’Attribut',sr:x?.sr||'Choisir une Sephirah',r:x?.r||'Choisir une Sephirah'};}
+  if(n==='aseryn'){const x=t49AserynStats[c.origin];return {label:t49ChoiceLabel('origin')||'Origine aseryne à choisir',v:'Aucun modificateur racial commun',sr:x?.sr||'+1 Agilité commun, puis empreinte de l’Origine',r:x?.r||'+2 Agilité commun, puis empreinte de l’Origine'};}
+  if(n==='exile'){const x=t49ExileStats[c.people];return {label:t49ChoiceLabel('people')||'Peuple exilé à choisir',v:'Traduction humaine/plausible · aucun bonus racial',sr:x?.sr||'Choisir un peuple',r:x?.r||'Choisir un peuple'};}
+  if(n==='extral'){const x=t49ExtralStats[c.species];return {label:t49ChoiceLabel('species')||'Profil extral à choisir',v:'Traduction humaine/plausible · aucun bonus racial',sr:x?.sr||'Choisir un profil',r:x?.r||'Choisir un profil'};}
+  if(n==='garou'){
+    if(c.blood==='sang_enchaine')return {label:'Garou · Sang Enchaîné',v:'Aucun bonus de Nature',sr:'Aucun bonus d’Attribut automatique · instincts/sens SR',r:'+2 Vigueur · +2 Agilité · +1 PA/round · forme hybride interdite'};
+    return {label:'Garou',v:'Aucun bonus de Nature',sr:'Aucun bonus d’Attribut automatique · instincts/sens SR',r:'Humain révélé : aucun gros bonus automatique · Loup : +2 Agilité · Hybride : +3 Vigueur · +2 Agilité · +1 PA/round'};
+  }
+  if(n==='khinae'){
+    const base=t49KhinaeBase[c.lineage],variant=t49KhinaeVariant[c.lineage]?.[c.variant],suffix=variant?` · Variante hybride sélectionnée : ${variant}`:'';
+    return {label:[t49ChoiceLabel('lineage'),t49ChoiceLabel('variant')].filter(Boolean).join(' · ')||'Lignée à choisir',v:'Aucun bonus de Nature',sr:'Aucun bonus d’Attribut commun · instincts/perceptions SR de Lignée',r:base?`Humain révélé : aucun bonus d’Attribut automatique · Animal : ${base.animal} · Hybride : ${base.hybrid}${suffix}`:'Choisir une Lignée'};
+  }
+  return {label:truthNature()?.name||'Nature',v:'Aucun bonus chiffré renseigné',sr:'Voir capacités SR',r:'Voir capacités R'};
+}
+
+t46RevealPanel=function(){
+  const nature=state.truth.nature;if(!nature)return null;
+  const stats=t49StatsForNature(),box=el('section',{class:'t46-reveal-panel'});
+  box.appendChild(el('div',{class:'section-title reality-subtitle'},'<div><h3>Voile & Révélation</h3><p>Les valeurs ci-dessous sont les modifications effectives liées à l’état choisi. Le profil R remplace toujours SR : les deux ne se cumulent jamais.</p></div>'));
+  box.appendChild(el('div',{class:'rulebox good'},`<strong>${uxEsc(stats.label)} :</strong> les modificateurs indiqués s’appliquent tant que cet état ou cette forme est réellement matérialisé.`));
+  const body={
+    humain:{v:'Le personnage reste un Humain : Profane/Initié décrit sa connaissance de la Vérité, pas une seconde physiologie.',sr:'Un Humain Initié peut employer les traditions qu’il a réellement apprises, sans acquérir de bonus racial.',r:'Il n’existe pas de corps Révélé humain distinct : seuls les Talents, rites, équipements ou autres sources explicites modifient ses statistiques.'},
+    vampire:{v:'Corps humain sous le Voile ; vieillissement et limites biologiques humaines.',sr:'La physiologie prédatrice affleure : sens surnaturels et capacités subtiles deviennent accessibles.',r:'Le corps prédateur est pleinement présent : prédation, régénération, stase, Empreinte de Cour et Talents R.'},
+    mage:{v:'Le Mageius reste refermé : pas de lancement direct par le Mageius.',sr:'Le Mageius affleure ; Vision du Voile, Perception magique et Protection du Mageius sont accessibles, avec Amplitude Mineure.',r:'Le Mageius est pleinement ouvert ; toutes les Affinités, Maîtrises et Amplitudes réellement acquises deviennent disponibles.'},
+    daemon:{v:'Incarnation mortelle maintenue par l’Hologramme ; seuls les effets explicitement V restent disponibles.',sr:'La Marque et les capacités SR de l’Élu transparaissent.',r:'La forme exaltée s’impose et les capacités R deviennent utilisables.'},
+    angelus:{v:'Incarnation mortelle ; les pouvoirs célestes ne fonctionnent que s’ils portent explicitement V.',sr:'La Transcendance affleure : Auréole, Yeux célestes et pouvoirs SR deviennent accessibles.',r:'La forme angélique véritable, les ailes d’énergie et les capacités R se matérialisent.'},
+    aseryn:{v:'Le Voile maintient l’expression compatible avec la Réalité et aucun modificateur racial de Révélation ne s’applique.',sr:'La vitesse neuromusculaire aseryne et l’Empreinte de l’Origine commencent à s’exprimer.',r:'La physiologie véritable de l’Origine aseryne s’exprime pleinement.'},
+    exile:{v:'Le Voile produit une traduction humaine plausible de la physiologie d’Aèr.',sr:'Une partie des propriétés raciales du peuple devient physiquement réelle.',r:'La physiologie véritable du peuple est matérialisée et ses capacités R deviennent accessibles.'},
+    extral:{v:'L’Hologramme traduit le corps extraterrestre en silhouette humaine/plausible.',sr:'Une partie de la physiologie réelle du profil traverse le Voile.',r:'Le véritable corps extral est matérialisé avec ses traits physiques et ses capacités R.'},
+    garou:{v:'Corps humain complet, sans régénération surnaturelle ni transformation.',sr:'Toujours humain extérieurement ; instincts, sens et Talents SR percent le Voile.',r:'La Révélation ouvre l’humain révélé puis les formes animale et hybride ; chaque forme possède son propre profil.'},
+    khinae:{v:'Corps humain complet, sans expression physique de la Lignée.',sr:'Toujours humain extérieurement ; instincts, perceptions et signatures SR commencent à s’exprimer.',r:'Humain révélé, animal ou hybride : les propriétés exactes dépendent de la Lignée et de la Variante morphologique.'}
+  }[nature]||{v:'État voilé.',sr:'État semi-révélé.',r:'État révélé.'};
+  box.appendChild(el('div',{class:'t46-stage-grid'},
+    t46StageCard('V','Voilé',body.v,stats.v,t46FreeTraitsFor('v'))+
+    t46StageCard('SR','Semi-Révélé',body.sr,stats.sr,t46FreeTraitsFor('sr'))+
+    t46StageCard('R','Révélé',body.r,stats.r,t46FreeTraitsFor('r'))
+  ));
+  if(/[Vv]igueur/.test(`${stats.sr} ${stats.r}`))box.appendChild(el('div',{class:'rulebox'},'<strong>Vigueur et PV :</strong> lorsqu’un état ou une forme modifie la Vigueur, le maximum et les PV actuels varient immédiatement de 2 × cette variation. Changer de forme ne soigne jamais des blessures déjà subies.'));
+  return box;
+};
+
+render();

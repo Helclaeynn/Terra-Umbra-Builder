@@ -1,0 +1,65 @@
+name: Builder browser smoke
+
+on:
+  push:
+    paths:
+      - 'character-builder/**'
+      - '.github/workflows/builder-browser-smoke.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'character-builder/**'
+      - '.github/workflows/builder-browser-smoke.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  browser-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install browser driver
+        run: npm install --no-save --package-lock=false playwright-core@1.55.0
+      - name: Smoke test Builder in Chrome
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/tuc-builder-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:8765/character-builder/ >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          CHROME_BIN="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
+          if [ -z "$CHROME_BIN" ]; then
+            echo 'Chrome/Chromium introuvable sur le runner.' >&2
+            exit 1
+          fi
+          echo "Using browser: $CHROME_BIN"
+          TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node character-builder/tests/browser-smoke.mjs
+          TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node character-builder/tests/truth-lore-audit.mjs
+          TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node character-builder/tests/reality-lore-audit.mjs
+      - name: Upload Truth lore audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: truth-lore-audit-report
+          path: /tmp/truth-lore-audit.json
+          if-no-files-found: ignore
+          retention-days: 1
+      - name: Upload Reality lore audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reality-lore-audit-report
+          path: /tmp/reality-lore-audit.json
+          if-no-files-found: ignore
+          retention-days: 1
