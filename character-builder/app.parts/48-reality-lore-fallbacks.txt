@@ -1,0 +1,35 @@
+// Final general lore pass — replace the last generic Reality Talent/Sphere fallbacks.
+// Mechanics remain entirely sourced from the existing Talent effect fields.
+
+function p48EffectNarrative(t,context='votre parcours'){
+  const e=normText(t?.effect||t?.description||''),name=t?.name||'Ce Talent';
+  if(/contact|reseau/.test(e))return `${name} ne représente pas un nom abstrait dans un carnet : ${context} vous a laissé une personne identifiable, avec sa propre position, ses limites et une raison concrète de vous répondre.`;
+  if(/equipement|materiel|dotation|vehicule|local|requisition/.test(e))return `${context} vous donne accès à des moyens matériels parce qu’ils sont nécessaires à une fonction réelle. Ils restent liés à cette légitimité : ce n’est ni une réserve d’argent ni un stock personnel sans contrôle.`;
+  if(/registre|donnee|fichier|acces|habilitation|administr/.test(e))return `Vous connaissez assez bien les circuits de ${context} pour atteindre légalement des informations ou des espaces qui restent fermés au public ; l’avantage vient autant de votre légitimité que de savoir quelle porte ouvrir.`;
+  if(/autorite|ordre|influence|diplom/.test(e))return `${name} repose sur une place reconnue dans ${context}. Quand cette place est pertinente, votre parole arrive avec des codes, une réputation ou une autorité que votre seul Charisme ne suffirait pas à fabriquer.`;
+  if(/commerce|prix|achat|vente|fournisseur|marche/.test(e))return `${context} vous a appris à lire une transaction : qui a besoin de vendre, où se trouve la marge, ce qui vaut réellement quelque chose et à quel moment une bonne affaire devient surtout un risque.`;
+  if(/investigation|trouver|chercher|identifier|information/.test(e))return `${name} vient d’une habitude de terrain : ne pas chercher partout, mais savoir quels signes, quelles personnes ou quelles sources ont une chance réelle de conduire à la bonne information.`;
+  if(/survie|quartier|zone|orient|circul/.test(e))return `Vous avez assez pratiqué les environnements liés à ${context} pour y lire des repères que les étrangers ignorent : passages, horaires, dangers, ressources et règles tacites deviennent des informations directement exploitables.`;
+  if(/soin|medic|diagnostic/.test(e))return `${name} vient d’une pratique concrète de l’aide et du soin : reconnaître ce qui exige une intervention immédiate, utiliser les moyens disponibles et ne pas confondre bonne volonté avec compétence médicale.`;
+  if(/savoir|esprit|connaissance|culture/.test(e))return `${context} vous a donné une vraie formation plutôt qu’un vernis culturel. ${name} représente ce domaine assimilé assez tôt pour être encore mobilisable lorsque la situation exige autre chose qu’une recherche improvisée.`;
+  if(/furtiv|larcin|dissim|discret/.test(e))return `${name} s’est construit dans les moments où être remarqué coûtait plus cher que d’attendre. Vous avez appris à réduire les gestes inutiles, utiliser les angles morts et ne pas attirer l’attention sur ce qui compte vraiment.`;
+  if(/volonte|maitrise|peur|stress|pression/.test(e))return `${context} vous a imposé assez de discipline pour que ${name} soit devenu un réflexe mental : reconnaître la pression, continuer à fonctionner et retrouver volontairement un comportement utile.`;
+  if(/\+\s*\d|bonus|circonstance|favorable/.test(String(t?.effect||'')))return `${name} n’est pas une aptitude universelle : ${context} vous a appris une méthode ou un code précis qui devient un avantage seulement lorsque la situation correspond réellement à ce que vous avez pratiqué.`;
+  return `${name} correspond à quelque chose que votre personnage a réellement appris, pratiqué ou obtenu dans ${context}. L’effet mécanique en fixe la portée exacte ; en fiction, il doit rester identifiable dans sa manière d’agir et dans les relations qui rendent cet avantage possible.`;
+}
+
+const p48SphereBase=p26SphereTalentFlavour;
+p26SphereTalentFlavour=function(t){
+  const old=p48SphereBase(t);
+  if(old&&!old.startsWith('Ce Talent représente un avantage concret'))return old;
+  return p48EffectNarrative(t,sphere()?.name||'votre Sphère');
+};
+const p48NarrativeBase=p26TalentNarrative;
+p26TalentNarrative=function(t){
+  const old=p48NarrativeBase(t);
+  if(old&&!/^« .* » décrit une capacité ou un acquis/.test(old))return old;
+  const ctx=t?.category==='origin'?(origin()?.name||'votre Origine'):t?.category==='sphere'?(sphere()?.name||'votre Sphère'):'votre expérience';
+  return p48EffectNarrative(t,ctx);
+};
+
+render();
