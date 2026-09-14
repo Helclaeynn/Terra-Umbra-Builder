@@ -11,9 +11,9 @@
   </style>
 </head>
 <body>
-  <div id="boot"><strong>Terra Umbra — Preview du builder complet</strong><p>Chargement de la branche <code>feature/tuc-character-builder-v1</code>…</p></div>
+  <div id="boot"><strong>Terra Umbra — Preview du builder complet</strong><p>Chargement de la branche <code>feature/block10-search-focus</code> (PR #18)…</p></div>
   <script type="module">
-    const RAW='https://raw.githubusercontent.com/Helclaeynn/Terra-Umbra-Builder/feature/tuc-character-builder-v1/character-builder';
+    const RAW='https://raw.githubusercontent.com/Helclaeynn/Terra-Umbra-Builder/feature/block10-search-focus/character-builder';
     const nativeFetch=window.fetch.bind(window);
     const rawFetch=async path=>{const r=await nativeFetch(`${RAW}/${path}`,{cache:'no-store'});if(!r.ok)throw new Error(`${path}: HTTP ${r.status}`);return r};
     try{
@@ -23,9 +23,9 @@
         <div class="shell">
           <header class="topbar">
             <div>
-              <div class="eyebrow">TERRA UMBRA / CALIFORNIA · PREVIEW DE BRANCHE</div>
+              <div class="eyebrow">TERRA UMBRA / CALIFORNIA · PREVIEW PR #18</div>
               <h1>Créateur de personnage</h1>
-              <p class="subtitle">Builder complet de test · Réalité V12/V9 + Vérité V7 · futur point d’entrée principal</p>
+              <p class="subtitle">Preview du correctif de recherche du bloc 10 · branche feature/block10-search-focus</p>
             </div>
             <div class="header-actions">
               <a class="ghost" href="truth-preview.html" style="text-decoration:none">Preview Vérité</a>
@@ -43,7 +43,7 @@
                 <div id="progressText" class="muted small">0 / 11 étapes valides</div>
               </div>
               <nav id="stepNav" class="step-nav"></nav>
-              <div class="sidebar-note"><strong>Preview</strong><span>Cette page exécute directement la branche de la PR #1 et lit automatiquement la liste des fragments depuis son app-loader.js.</span></div>
+              <div class="sidebar-note"><strong>Preview</strong><span>Cette page exécute directement la branche de la PR #18 et lit automatiquement la liste des fragments depuis son app-loader.js.</span></div>
             </aside>
             <main class="main">
               <div id="globalAlerts"></div>
