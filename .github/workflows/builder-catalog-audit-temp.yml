@@ -16,8 +16,16 @@ jobs:
         shell: bash
         run: |
           node <<'NODE'
-          const fs=require('fs'),zlib=require('zlib');
-          function load(name){const p=`character-builder/rulesets/terra-umbra/reality/${name}.json.gz.b64`;return JSON.parse(zlib.gunzipSync(Buffer.from(fs.readFileSync(p,'utf8').replace(/\s+/g,''),'base64')).toString('utf8'))}
+          const fs=require('fs'),zlib=require('zlib'),base='character-builder/rulesets/terra-umbra/reality';
+          function payload(name){
+            const mp=`${base}/safe/${name}.manifest.json`;
+            if(fs.existsSync(mp)){
+              const m=JSON.parse(fs.readFileSync(mp,'utf8'));
+              return m.chunks.map(f=>fs.readFileSync(`${base}/safe/${f}`,'utf8').replace(/\s+/g,'')).join('');
+            }
+            return fs.readFileSync(`${base}/${name}.json.gz.b64`,'utf8').replace(/\s+/g,'');
+          }
+          function load(name){return JSON.parse(zlib.gunzipSync(Buffer.from(payload(name),'base64')).toString('utf8'))}
           for(const name of ['equipment','augmentations']){
             const rows=load(name); console.log(`=== ${name.toUpperCase()} COUNT ${rows.length} ===`);
             for(const x of rows){
@@ -28,5 +36,5 @@ jobs:
           }
           const talentFiles=['corporatiste','gouvernementale','mafieuse','crawler','religieuse'];
           console.log('=== TALENTS WITH CHOICE ===');
-          for(const family of ['origin','sphere'])for(const id of talentFiles){const p=`character-builder/rulesets/terra-umbra/talents/${family}/${id}.json`;for(const t of JSON.parse(fs.readFileSync(p,'utf8'))){if(/choisir|choix|au choix/i.test(`${t.effect||''} ${t.description||''}`))console.log(JSON.stringify({family,id:t.id,name:t.name,effect:t.effect||t.description||''}))}}
+          for(const family of ['origin','sphere'])for(const origin of talentFiles){const p=`character-builder/rulesets/terra-umbra/talents/${family}/${origin}.json`;for(const t of JSON.parse(fs.readFileSync(p,'utf8'))){if(/choisir|choix|au choix/i.test(`${t.effect||''} ${t.description||''}`))console.log(JSON.stringify({family,origin,id:t.id,name:t.name,effect:t.effect||t.description||''}))}}
           NODE
