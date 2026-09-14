@@ -12,29 +12,43 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: {node-version: 22}
-      - name: Decode and report catalogs
+      - name: Decode and normalize catalogs
         shell: bash
         run: |
           node <<'NODE'
           const fs=require('fs'),zlib=require('zlib'),base='character-builder/rulesets/terra-umbra/reality';
+          const norm=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
           function payload(name){
             const mp=`${base}/safe/${name}.manifest.json`;
-            if(fs.existsSync(mp)){
-              const m=JSON.parse(fs.readFileSync(mp,'utf8'));
-              return m.chunks.map(f=>fs.readFileSync(`${base}/safe/${f}`,'utf8').replace(/\s+/g,'')).join('');
-            }
+            if(fs.existsSync(mp)){const m=JSON.parse(fs.readFileSync(mp,'utf8'));return m.chunks.map(f=>fs.readFileSync(`${base}/safe/${f}`,'utf8').replace(/\s+/g,'')).join('')}
             return fs.readFileSync(`${base}/${name}.json.gz.b64`,'utf8').replace(/\s+/g,'');
           }
           function load(name){return JSON.parse(zlib.gunzipSync(Buffer.from(payload(name),'base64')).toString('utf8'))}
-          for(const name of ['equipment','augmentations']){
-            const rows=load(name); console.log(`=== ${name.toUpperCase()} COUNT ${rows.length} ===`);
-            for(const x of rows){
-              const deep=(o,k)=>{if(!o||typeof o!=='object')return '';for(const [a,v] of Object.entries(o)){if(a.toLowerCase()===k.toLowerCase())return v;if(v&&typeof v==='object'){const r=deep(v,k);if(r!==''&&r!=null)return r}}return ''};
-              const price=deep(x,'Prix')||deep(x,'Prix indicatif')||deep(x,'Fourchette indicative')||x.price||'';
-              console.log(JSON.stringify({id:x.id,name:x.name,category:x.category||'',price,gen:x.generation??'',charge:x.charge??'',stress:x.stress??'',keys:Object.keys(x)}));
-            }
+          function collect(node,path=[],out=[]){
+            if(Array.isArray(node)){node.forEach((v,i)=>collect(v,path.concat(i),out));return out}
+            if(!node||typeof node!=='object')return out;
+            const keys=Object.keys(node).map(norm),hasName=keys.some(k=>['name','nom','augmentation','equipement','equipment','service','vehicule','vehicle','neuroprogramme','item','designation'].includes(k)),hasUseful=keys.some(k=>['prix','price','cout','cost','generation','gen','charge','stress','effet','effect','usage','fonction','fonction principale','description','dgt','degats'].includes(k));
+            if(hasName&&hasUseful){out.push({...node,_path:path.join(' / ')});return out}
+            for(const [k,v] of Object.entries(node))if(v&&typeof v==='object')collect(v,path.concat(k),out);return out;
           }
-          const talentFiles=['corporatiste','gouvernementale','mafieuse','crawler','religieuse'];
-          console.log('=== TALENTS WITH CHOICE ===');
-          for(const family of ['origin','sphere'])for(const origin of talentFiles){const p=`character-builder/rulesets/terra-umbra/talents/${family}/${origin}.json`;for(const t of JSON.parse(fs.readFileSync(p,'utf8'))){if(/choisir|choix|au choix/i.test(`${t.effect||''} ${t.description||''}`))console.log(JSON.stringify({family,origin,id:t.id,name:t.name,effect:t.effect||t.description||''}))}}
+          function field(row,names){for(const wanted of names){const hit=Object.entries(row||{}).find(([k])=>norm(k)===norm(wanted));if(hit&&hit[1]!==undefined&&hit[1]!==null&&hit[1]!=='')return hit[1]}return null}
+          const result={};
+          for(const name of ['equipment','augmentations']){
+            result[name]=collect(load(name)).map((row,i)=>({
+              name:String(field(row,['name','nom','augmentation','equipement','equipment','service','vehicule','vehicle','neuroprogramme','item','designation'])||`Entrée ${i+1}`).trim(),
+              category:String(field(row,['category','categorie','catégorie','section','family','famille','type','groupe'])||row._path||'').trim(),
+              price:field(row,['Prix','Prix indicatif','Prix de reference','Prix de référence','Fourchette indicative','price','cout','coût']),
+              generation:field(row,['generation','génération','gen']),charge:field(row,['charge']),stress:field(row,['stress']),raw:row
+            })).filter(x=>x.name&&!/^Entrée \d+$/.test(x.name));
+          }
+          const talentFiles=['corporatiste','gouvernementale','mafieuse','crawler','religieuse'];result.talentChoices=[];
+          for(const family of ['origin','sphere'])for(const origin of talentFiles){const p=`character-builder/rulesets/terra-umbra/talents/${family}/${origin}.json`;for(const t of JSON.parse(fs.readFileSync(p,'utf8'))){if(/choisir|choix|au choix/i.test(`${t.effect||''} ${t.description||''}`))result.talentChoices.push({family,origin,id:t.id,name:t.name,effect:t.effect||t.description||''})}}
+          fs.writeFileSync('/tmp/builder-catalog-audit.json',JSON.stringify(result,null,2));
+          console.log(`equipment=${result.equipment.length} augmentations=${result.augmentations.length} talentChoices=${result.talentChoices.length}`);
+          console.log(result.talentChoices);
           NODE
+      - uses: actions/upload-artifact@v4
+        with:
+          name: builder-catalog-audit
+          path: /tmp/builder-catalog-audit.json
+          if-no-files-found: error
