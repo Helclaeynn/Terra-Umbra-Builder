@@ -15,26 +15,37 @@ page.on('console',message=>{
 
 async function nav(label){
   const b=page.locator('#stepNav button').filter({hasText:label}).first();
-  await b.waitFor({state:'visible',timeout:15000});await b.click();
-  await page.waitForTimeout(80);
+  await b.waitFor({state:'visible',timeout:15000});await b.click();await page.waitForTimeout(100);
 }
 async function selectContaining(value){
   const sel=page.locator(`#stepContent select:has(option[value="${value}"])`).first();
-  await sel.waitFor({state:'visible',timeout:10000});await sel.selectOption(value);await page.waitForTimeout(100);return sel;
+  await sel.waitFor({state:'visible',timeout:10000});await sel.selectOption(value);await page.waitForTimeout(120);return sel;
+}
+async function assertReveal(expected,label){
+  const reveal=page.locator('#stepContent .t46-reveal-panel');await reveal.waitFor({state:'visible',timeout:10000});
+  const text=(await reveal.textContent())||'';
+  for(const needle of expected)if(!text.includes(needle))throw new Error(`${label}: panneau Révélation incomplet, manque « ${needle} »\n${text}`);
+  if(!/remplace/i.test(text)||!/ne se cumulent/i.test(text))throw new Error(`${label}: règle de remplacement SR/R non explicite\n${text}`);
 }
 
 try{
   await page.goto(`${base}character-builder/`,{waitUntil:'domcontentloaded',timeout:30000});
-  await page.waitForFunction(()=>window.TUCRealitySelfTest!==undefined,null,{timeout:30000});
+  await page.waitForFunction(()=>window.TUCRealitySelfTest!==undefined&&window.TUCV9ReconciledAugmentations!==undefined,null,{timeout:30000});
   await page.waitForTimeout(250);
-  const startup=await page.evaluate(()=>({self:window.TUCRealitySelfTest,reconciled:window.TUCV9ReconciledAugmentations||null}));
+  const startup=await page.evaluate(()=>({self:window.TUCRealitySelfTest,reconciled:window.TUCV9ReconciledAugmentations}));
   if(errors.length)throw new Error(`Erreurs navigateur au chargement: ${errors.join(' | ')} · diagnostics ${JSON.stringify(startup)}`);
-  const self=startup.self;
-  if(!startup.reconciled)throw new Error(`Couche V9 de réconciliation non exécutée: ${JSON.stringify(startup)}`);
-  if(startup.reconciled.installed!==14||startup.reconciled.total<146)throw new Error(`Réconciliation V9 incomplète: ${JSON.stringify(startup.reconciled)}`);
+  const self=startup.self,rec=startup.reconciled;
+  if(rec.installed!==14||rec.total<146)throw new Error(`Réconciliation V9 incomplète: ${JSON.stringify(rec)}`);
+  const expectedPrices={
+    'augmentation-v9-booster-sensoriel-g1':3000,'augmentation-v9-booster-sensoriel-g2':6000,'augmentation-v9-radar-sonar-g2':7500,
+    'augmentation-v9-estomac-blinde-g2':4500,'augmentation-v9-autoinjecteur-g2':2500,'augmentation-v9-cybermain-g1':4000,
+    'augmentation-v9-cybermain-g2':10000,'augmentation-v9-scanner-technique-g2':4500,'augmentation-v9-main-gecko-g2':3000,
+    'augmentation-v9-cyberpied-g1':4000,'augmentation-v9-cyberpied-g2':10000,'augmentation-v9-ergot-griffes-g1':3500,
+    'augmentation-v9-ergot-griffes-g2':5000,'augmentation-v9-pied-gecko-g2':3000
+  };
+  for(const [id,price] of Object.entries(expectedPrices))if(rec.prices?.[id]!==price)throw new Error(`Prix V9 inattendu ${id}: ${rec.prices?.[id]} au lieu de ${price}`);
   if(!self?.ok)throw new Error(`Auto-test Réalité en échec: ${JSON.stringify(self?.failed||self)}`);
-  if((self?.counts?.augmentations||0)<146)throw new Error(`Auto-test non rafraîchi après réconciliation: ${self?.counts?.augmentations} · ${JSON.stringify(startup.reconciled)}`);
-  if((self?.counts?.equipment||0)<261)throw new Error(`Catalogue équipement régressé: ${self?.counts?.equipment}`);
+  if((self?.counts?.augmentations||0)<146||(self?.counts?.equipment||0)<261)throw new Error(`Comptages catalogues régressés: ${JSON.stringify(self?.counts)}`);
 
   const navText=await page.locator('#stepNav').innerText();
   for(const expected of ['Vérité','Équipement','Dépense XP & PTV'])if(!navText.includes(expected))throw new Error(`Étape absente: ${expected}`);
@@ -45,35 +56,32 @@ try{
   await government.waitFor({state:'visible',timeout:10000});await government.click();
   const originTalent=page.locator('#stepContent select').filter({has:page.locator('option[value="formation_publique"]')}).first();
   await originTalent.waitFor({state:'visible',timeout:10000});await originTalent.selectOption('formation_publique');
-  const secondary=page.locator('#stepContent .p45-talent-choice select').first();
-  await secondary.waitFor({state:'visible',timeout:10000});
-  const secondaryOptions=await secondary.locator('option').allTextContents();
-  if(!secondaryOptions.some(x=>/Savoirs/i.test(x)))throw new Error(`Formation publique ne propose pas Savoirs: ${secondaryOptions.join(' | ')}`);
+  const secondary=page.locator('#stepContent .p45-talent-choice select').first();await secondary.waitFor({state:'visible',timeout:10000});
+  if(!(await secondary.locator('option').allTextContents()).some(x=>/Savoirs/i.test(x)))throw new Error('Formation publique ne propose pas Savoirs.');
 
-  // Truth: choose Initié, Daemon and Alabor, then verify explicit V/SR/R stat consequences and distinct lore.
   await nav('Vérité');
-  const initie=page.locator('#stepContent select:has(option[value="initie"])').first();
-  if(await initie.count())await initie.selectOption('initie');
-  await selectContaining('daemon');
-  await selectContaining('alabor');
-  const reveal=page.locator('#stepContent .t46-reveal-panel');
-  await reveal.waitFor({state:'visible',timeout:10000});
-  const revealText=await reveal.innerText();
-  for(const expected of ['Voilé','Semi-Révélé','Révélé','+1 Vigueur · +1 Agilité','+2 Vigueur · +1 Agilité'])if(!revealText.includes(expected))throw new Error(`Panneau Révélation incomplet, manque: ${expected}\n${revealText}`);
-  if(!/remplace/i.test(revealText)||!/ne se cumulent/i.test(revealText))throw new Error(`Le non-cumul SR/R n'est pas explicite: ${revealText}`);
-  await page.getByText('Main des Eaux',{exact:true}).first().waitFor({state:'visible',timeout:10000});
-  const truthText=await page.locator('#stepContent').innerText();
-  if(!truthText.includes('l’eau n’est jamais un décor inerte'))throw new Error('Lore spécifique de Main des Eaux absent : fallback Daemon générique encore actif.');
+  const initie=page.locator('#stepContent select:has(option[value="initie"])').first();if(await initie.count())await initie.selectOption('initie');
 
-  // Progression: campaign economy is rendered with the agreed Commerce scale.
+  await selectContaining('vampire');await assertReveal(['+1 Vigueur · +1 Volonté','+2 Vigueur · +1 Agilité · +1 Volonté'],'Vampire');
+  await selectContaining('mage');await assertReveal(['+1 Esprit · +1 Volonté','+1 Esprit · +2 Volonté'],'Mage');
+  await selectContaining('angelus');await selectContaining('kether');await assertReveal(['+1 Volonté · +1 Charisme','+2 Volonté · +1 Charisme'],'Angelus/Kether');
+  await selectContaining('aseryn');await selectContaining('hyperboreen');await assertReveal(['+1 Agilité · +1 Vigueur','+2 Agilité · +1 Vigueur'],'Aseryn/Hyperboréen');
+  await selectContaining('exile');await selectContaining('thulkar');await assertReveal(['+1 Vigueur','+2 Vigueur · +1 Charisme'],'Exilé/Thulkar');
+  await selectContaining('extral');await selectContaining('talass');await assertReveal(['+1 Esprit','+2 Esprit · +1 Agilité'],'Extral/Talass');
+  await selectContaining('garou');await assertReveal(['Aucun bonus d’Attribut automatique','Loup : +2 Agilité','Hybride : +3 Vigueur · +2 Agilité'],'Garou');
+  await selectContaining('khinae');await selectContaining('renards');await assertReveal(['Animal : +3 Agilité','Hybride : +2 Vigueur · +3 Agilité'],'Khinae/Renard');
+  await selectContaining('humain');await assertReveal(['Aucun bonus racial','Humain ne possède pas de forme Révélée propre'],'Humain');
+
+  // Daemon: explicit Divinity stats plus unique, non-template lore even inside a collapsed details group.
+  await selectContaining('daemon');await selectContaining('alabor');await assertReveal(['+1 Vigueur · +1 Agilité','+2 Vigueur · +1 Agilité'],'Daemon/Alabor');
+  const truthText=(await page.locator('#stepContent').textContent())||'';
+  if(!truthText.includes('Main des Eaux')||!truthText.includes('l’eau n’est jamais un décor inerte'))throw new Error('Lore spécifique de Main des Eaux absent : fallback Daemon générique encore actif.');
+
   await nav('Dépense XP & PTV');
-  const economy=page.locator('#stepContent').getByText('Argent, achats & revente',{exact:true});
-  await economy.waitFor({state:'visible',timeout:10000});
+  await page.locator('#stepContent').getByText('Argent, achats & revente',{exact:true}).waitFor({state:'visible',timeout:10000});
   const progressionText=await page.locator('#stepContent').innerText();
   if(!progressionText.includes('50 %')||!progressionText.includes('75 %'))throw new Error('Barème Commerce achat/revente absent de la progression.');
 
   if(errors.length)throw new Error(`Erreurs navigateur: ${errors.join(' | ')}`);
-  console.log(`Builder browser smoke OK — ${self.counts.augmentations} augmentations, ${self.counts.equipment} équipements, Formation publique/Savoirs, Daemon Alabor SR/R, lore spécifique et économie campagne validés.`);
-} finally {
-  await context.close();await browser.close();
-}
+  console.log(`Builder browser smoke OK — ${self.counts.augmentations} augmentations, ${self.counts.equipment} équipements, 14 prix V9, Formation publique/Savoirs, profils SR/R de toutes les Natures, lore Daemon et économie campagne validés.`);
+} finally {await context.close();await browser.close();}
