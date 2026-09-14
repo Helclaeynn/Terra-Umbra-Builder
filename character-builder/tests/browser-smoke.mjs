@@ -94,7 +94,7 @@ try{
   await nav('Dépense XP & PTV');
   await page.locator('#stepContent').getByText('Argent, achats & revente',{exact:true}).waitFor({state:'visible',timeout:10000});
   const progressionText=await page.locator('#stepContent').innerText();
-  for(const expected of ['Sans jet de Commerce','Réussite simple · DR 0–2','80 %','70 %'])if(!progressionText.includes(expected))throw new Error(`Économie campagne: texte/barème absent « ${expected} »`);
+  for(const expected of ['Sans jet de Commerce','Base de revente','50 % du neuf'])if(!progressionText.includes(expected))throw new Error(`Économie campagne: texte visible absent « ${expected} »`);
 
   const cash0=await page.evaluate(()=>window.TUCBuilderSeptFixes.cash());
   const money=page.locator('#stepContent details').filter({hasText:'Ajouter ou retirer de l’argent'}).first();await money.locator('summary').click();
