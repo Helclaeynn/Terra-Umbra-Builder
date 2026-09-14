@@ -1,0 +1,41 @@
+// V9 augmentation reconciliation — entries present in the current book but absent from the runtime catalog.
+// Prices below are aligned with the existing terrestrial V9 price ladder and its closest direct analogues.
+
+function r47Aug(id,name,category,generation,price,charge,stress,slots,effect,raw={}){
+  return {id:`augmentation-v9-${id}`,kind:'augmentation',name,category,generation,price,charge,stress,slots,effect,vehicle:false,neuro:false,raw:{...raw,priceBasis:'V9 reconciliation — priced against closest existing catalogue analogues'}};
+}
+const r47MissingAugmentations=[
+  r47Aug('booster-sensoriel-g1','Booster sensoriel','Neural',1,3000,0,1,1,'Accélère le traitement des informations sensorielles déjà disponibles : +3 Perception lorsqu’il faut détecter un stimulus bref, soudain ou particulièrement difficile à suivre. N’ajoute aucun nouveau spectre sensoriel.',{Support:'Câblage neuronal',Type:'NeuroWare',Reconstruction:'Oui — titre historique, mécanique V9 reconstruite',Prix_reference:'Entre Analyseur chimique et modules neuraux spécialisés'}),
+  r47Aug('booster-sensoriel-g2','Booster sensoriel','Neural',2,6000,0,0,1,'Version Gen 2 : +2 Perception pour les stimuli fugaces ou les réactions sensorielles rapides. Elle améliore le traitement cérébral, pas les capteurs eux-mêmes.',{Support:'Câblage neuronal',Type:'NeuroWare',Reconstruction:'Oui — titre historique, mécanique V9 reconstruite',Prix_reference:'Doublement Gen 2 cohérent avec les NeuroWare comparables'}),
+  r47Aug('radar-sonar-g2','Implant radar/sonar','Interne',2,7500,1,1,null,'Capteur actif à courte portée : lorsqu’il est activé, cartographie volumes, obstacles et masses mobiles à environ 15 m, même sans lumière. Avec un Détecteur écho-radar CyberAudio compatible, +2 Perception pour interpréter la carte. Ne voit pas à travers les murs et n’identifie ni magie ni êtres vivants par nature.',{Type:'Implant sensoriel [Capteur]',Emplacement:'Thoracique / crânien ; peut aussi occuper une Baie de Capteur compatible',Reconstruction:'Oui',Prix_reference:'Au-dessus du Détecteur écholocation 4 000 $ car implant autonome Charge 1 / Stress 1 ; sous Poumon cybernétique 8 000 $'}),
+  r47Aug('estomac-blinde-g2','Estomac blindé','Interne',2,4500,1,1,null,'Protection 3 contre les dégâts causés spécifiquement à l’intérieur du système digestif par une substance corrosive, extrêmement chaude, coupante ou mécaniquement dangereuse. Permet d’avaler sans blessure de petits objets non tranchants compatibles ; ne neutralise pas les poisons.',{Type:'Implant digestif',Emplacement:'Digestif',Reconstruction:'Oui',Prix_reference:'Protection interne très spécialisée, sous Filtre à toxines 6 000 $'}),
+  r47Aug('autoinjecteur-g2','Autoinjecteur','Interne',2,2500,0,0,null,'Réservoir implanté de 3 doses. Une injection peut être déclenchée sans manipulation d’objet, au maximum une fois par round, ou automatiquement selon des paramètres simples si les capteurs le permettent. Les substances doivent être achetées et chargées séparément.',{Type:'Réservoir implanté',Emplacement:'Sous-cutané / circulatoire',Reconstruction:'Oui',Prix_reference:'Même palier que Poche dermique 2 500 $ ; les consommables restent séparés'}),
+  r47Aug('cybermain-g1','Cybermain','Membres cybernétiques',1,4000,1,2,1,'Remplace uniquement une main, restaure son usage humain normal et fournit 1 Slot pour les modules compatibles. Aucun bonus intrinsèque de Vigueur ou d’Agilité.',{Type:'Support',Emplacement:'Main gauche ou droite',Prix_reference:'Support partiel sous Cyberbras Gen 1 6 000 $'}),
+  r47Aug('cybermain-g2','Cybermain','Membres cybernétiques',2,10000,1,1,2,'Remplacement discret d’une main, compatible SynthéDerm : usage humain normal et 2 Slots de modules. Aucun bonus physique gratuit.',{Type:'Support',Emplacement:'Main gauche ou droite',Prix_reference:'Support partiel sous Cyberbras Gen 2 15 000 $'}),
+  r47Aug('scanner-technique-g2','Scanner technique','Membres cybernétiques',2,4500,0,0,1,'+2 Mécanique pour diagnostiquer une machine, arme, drone, véhicule, augmentation ou système électronique accessible. Fournit des mesures ; ne répare rien automatiquement.',{Support:'Cybermain ou Cyberbras',Type:'Module de membre',Reconstruction:'Oui',Prix_reference:'Miroir direct du Scanner MédiTech Gen 2 à 4 500 $'}),
+  r47Aug('main-gecko-g2','Main Gecko','Membres cybernétiques',2,3000,0,0,1,'+2 Athlétisme lorsque l’adhérence manuelle directe est pertinente pour escalader ou conserver une prise. Permet d’exploiter verre, pierre lisse, plastique et composites ; exige un vrai contact de surface.',{Support:'Cybermain ou Cyberbras',Type:'Module de membre',Reconstruction:'Oui',Prix_reference:'Module utilitaire +2 très circonstanciel, sous Doigts-outils 4 000 $'}),
+  r47Aug('cyberpied-g1','Cyberpied','Membres cybernétiques',1,4000,1,2,1,'Remplace uniquement un pied, restaure son usage humain normal et fournit 1 Slot. Ne donne aucun bonus de course par lui-même.',{Type:'Support',Emplacement:'Pied gauche ou droit',Prix_reference:'Support partiel sous Cyberjambe Gen 1 7 000 $'}),
+  r47Aug('cyberpied-g2','Cyberpied','Membres cybernétiques',2,10000,1,1,2,'Remplacement discret d’un pied : usage humain normal, 2 Slots de modules compatibles, aucun bonus de course intrinsèque.',{Type:'Support',Emplacement:'Pied gauche ou droit',Prix_reference:'Support partiel sous Cyberjambe Gen 2 17 000 $'}),
+  r47Aug('ergot-griffes-g1','Ergot / Griffes de pied','Membres cybernétiques',1,3500,0,1,1,'Ergot visible ou longues griffes mécaniques. Une attaque utilisant réellement la jambe ou le pied se résout en Pugilat et inflige DGT 4.',{Support:'Cyberpied ou Cyberjambe',Type:'Arme intégrée',Prix_reference:'Profil mécanique identique aux Griffes / ongles Gen 1 à 3 500 $'}),
+  r47Aug('ergot-griffes-g2','Ergot / Griffes de pied','Membres cybernétiques',2,5000,0,0,1,'Version rétractable et dissimulable. Une attaque utilisant réellement la jambe ou le pied se résout en Pugilat et inflige DGT 2.',{Support:'Cyberpied ou Cyberjambe',Type:'Arme intégrée',Prix_reference:'Profil mécanique identique aux Griffes / ongles Gen 2 à 5 000 $'}),
+  r47Aug('pied-gecko-g2','Pied Gecko','Membres cybernétiques',2,3000,0,0,1,'+2 Athlétisme lorsque l’adhérence des pieds est directement utile : escalade, surface très glissante ou maintien sur support incliné. Deux pieds Gecko permettent des pentes extrêmes ; un mur vertical exige encore des prises manuelles ou un autre dispositif.',{Support:'Cyberpied ou Cyberjambe',Type:'Module de membre',Reconstruction:'Oui',Prix_reference:'Même palier que Main Gecko ; bénéfice +2 très circonstanciel'})
+];
+const r47Installed=[];
+(function r47InstallMissing(){
+  const key=x=>`${normText(x.name)}|${x.generation??'x'}`,have=new Set(realityData.augmentations.map(key));
+  for(const item of r47MissingAugmentations){const k=key(item);if(!have.has(k)){have.add(k);realityData.augmentations.push(item);r47Installed.push(item.id)}}
+  ruleset.reality=realityData;
+  window.TUCV9ReconciledAugmentations={attempted:r47MissingAugmentations.length,installed:r47Installed.length,total:realityData.augmentations.length,ids:[...r47Installed],prices:Object.fromEntries(r47MissingAugmentations.map(x=>[x.id,x.price]))};
+})();
+
+const r47LoreBase=r34ItemLore;
+r34ItemLore=function(item){
+  if(item?.id?.startsWith('augmentation-v9-')){
+    const rebuilt=String(item.raw?.Reconstruction||'').startsWith('Oui');
+    return `${item.effect}${rebuilt?' Cette entrée est explicitement une reconstruction canonisée dans le livre actuel à partir d’un intitulé historique incomplet.':''}`;
+  }
+  return r47LoreBase(item);
+};
+
+if(typeof lockRunSelfTests==='function')lockRunSelfTests();
+render();

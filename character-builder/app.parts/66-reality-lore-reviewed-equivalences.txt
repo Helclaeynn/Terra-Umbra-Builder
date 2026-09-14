@@ -1,0 +1,39 @@
+// Reality lore audit final review — explicit canonical duplicates only.
+// Gen1/Gen2 variants share the same fiction when they are the exact same augmentation concept;
+// FaceCaster DFL is duplicated by the source catalog under two equipment sections but is one object.
+const r66LoreBase=r34ItemLore;
+r34ItemLore=function(item){
+  if(item?.kind==='augmentation'){
+    const key=r34Loose(item?.name||'');
+    if(key==='dispositif de visee')return 'Le dispositif échange directement les données de visée et l’alignement avec une arme intelligente compatible. Il améliore l’usage d’un Smartgun relié au porteur, sans modifier les tirs réalisés avec une arme qui ne dialogue pas avec cette interface.';
+    if(key==='griffes ongles')return 'Des lames courtes intégrées aux doigts ou aux ongles font des mains une arme naturelle augmentique. Elles accompagnent le mouvement de Pugilat et donnent au coup un tranchant réel lorsque ces lames sont effectivement employées.';
+  }
+  return r66LoreBase(item);
+};
+function r66SameGenerationConcept(pair){
+  const a=pair?.a,b=pair?.b;if(!a||!b)return false;
+  const ga=String(a.id||'').match(/(?:^|[-_])g([12])$/i),gb=String(b.id||'').match(/(?:^|[-_])g([12])$/i);
+  if(!ga||!gb||ga[1]===gb[1])return false;
+  return r34Loose(a.name||'')===r34Loose(b.name||'')&&r34Loose(a.group||'')===r34Loose(b.group||'')&&t52Plain(a.lore||'')===t52Plain(b.lore||'');
+}
+function r66SameFaceCaster(pair){
+  const ids=new Set([pair?.a?.id,pair?.b?.id]);
+  return ids.has('accessoires-d-armes-facecaster-dfl')&&ids.has('objets-usuels-neurodive-facecaster-dfl')&&t52Plain(pair?.a?.lore||'')===t52Plain(pair?.b?.lore||'');
+}
+const r66AuditBase=window.TUCBuilderSeptFixes.realityLoreAuditV1;
+window.TUCBuilderSeptFixes.realityLoreAuditV1=function(threshold=.60){
+  const report=r66AuditBase(threshold);
+  const equipmentAllowed=report.equipment.pairs.filter(r66SameFaceCaster);
+  const augmentationAllowed=report.augmentations.pairs.filter(r66SameGenerationConcept);
+  report.equipment.allowedPairs=equipmentAllowed;
+  report.augmentations.allowedPairs=augmentationAllowed;
+  report.equipment.pairs=report.equipment.pairs.filter(p=>!r66SameFaceCaster(p));
+  report.augmentations.pairs=report.augmentations.pairs.filter(p=>!r66SameGenerationConcept(p));
+  report.counts.equipmentAllowedPairs=equipmentAllowed.length;
+  report.counts.augmentationAllowedPairs=augmentationAllowed.length;
+  report.counts.equipmentPairs=report.equipment.pairs.length;
+  report.counts.augmentationPairs=report.augmentations.pairs.length;
+  return report;
+};
+window.TUCBuilderSeptFixes.realityLoreReviewedEquivalences={equipment:['FaceCaster DFL'],augmentationRule:'same name + category + lore, Gen1/Gen2 only'};
+render();

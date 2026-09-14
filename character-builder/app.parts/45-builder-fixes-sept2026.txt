@@ -1,0 +1,217 @@
+// September 2026 Builder fixes — configurable Origin Talents, recurring-cost pricing,
+// campaign initiation and money/equipment progression. Loaded after block 44.
+
+// ---------------------------------------------------------------------------
+// 1. Talents with a secondary choice
+// ---------------------------------------------------------------------------
+function p45EnsureTalentChoices(){
+  state.talentChoices=state.talentChoices&&typeof state.talentChoices==='object'?state.talentChoices:{};
+}
+p45EnsureTalentChoices();
+
+const p45TalentChoiceSpecs={
+  formation_publique:{kind:'skill',label:'Compétence d’Esprit choisie',skills:()=>ruleset.skills.filter(s=>s.attribute==='esprit').map(s=>s.id),bonus:1,contextual:false},
+  formation_calibree:{kind:'skill',label:'Compétence d’Esprit choisie',skills:()=>ruleset.skills.filter(s=>s.attribute==='esprit').map(s=>s.id),bonus:1,contextual:false},
+  petites_combines:{kind:'skill',label:'Compétence choisie',skills:()=>['commerce','larcin'],bonus:2,contextual:true},
+  education_caritative:{kind:'skill',label:'Compétence choisie',skills:()=>['soin','diplomatie','savoirs'],bonus:2,contextual:true},
+  culture_produit:{kind:'text',label:'Secteur corporatif maîtrisé',placeholder:'Ex. armement, biotech, transport, médias…',contextual:true}
+};
+function p45TalentChoiceSpec(id){return p45TalentChoiceSpecs[id]||null}
+function p45TalentChoiceValue(id){p45EnsureTalentChoices();return state.talentChoices[id]??''}
+function p45TalentChoiceValid(id){const spec=p45TalentChoiceSpec(id);return !spec||String(p45TalentChoiceValue(id)||'').trim()!==''}
+function p45TalentChoiceField(talent){
+  const spec=p45TalentChoiceSpec(talent?.id);if(!spec)return null;p45EnsureTalentChoices();
+  const field=el('div',{class:'field p45-talent-choice'}),help=spec.contextual
+    ?`Ce choix précise le domaine du Talent. Le bonus de +${spec.bonus||2} reste circonstanciel et n’augmente pas la valeur permanente de la Compétence.`
+    :`Ce choix applique réellement +${spec.bonus||1} à la Compétence choisie.`;
+  field.appendChild(el('label',{},uxEsc(spec.label)));
+  if(spec.kind==='skill'){
+    const sel=el('select');sel.appendChild(el('option',{value:''},'— Choisir —'));
+    for(const id of spec.skills()){const o=el('option',{value:id},uxEsc(skillName(id)));if(id===p45TalentChoiceValue(talent.id))o.selected=true;sel.appendChild(o)}
+    sel.onchange=e=>{state.talentChoices[talent.id]=e.target.value;render()};field.appendChild(sel);
+  }else{
+    const input=el('input',{value:p45TalentChoiceValue(talent.id),placeholder:spec.placeholder||''});
+    input.onchange=e=>{state.talentChoices[talent.id]=e.target.value.trim();render()};field.appendChild(input);
+  }
+  field.appendChild(el('div',{class:'p40-field-lore'},uxEsc(help)));return field;
+}
+
+function p45AppendTalentChoice(host,talent){const field=p45TalentChoiceField(talent);if(field)host.appendChild(field)}
+
+// Rebuild the two late Talent screens so the secondary selector is visible at the exact point of choice.
+stepOrigin=function(){
+  const c=wrap('Origine sociale','L’Origine décrit le milieu dans lequel le personnage a grandi ou reçu l’essentiel de son éducation. Elle ne dit pas ce qu’il fait aujourd’hui : un enfant de corporation peut être devenu Crawler, un enfant de fonctionnaires travailler pour la Pègre, et inversement.');
+  c.appendChild(el('div',{class:'rulebox'},'<strong>Ce que ce choix représente :</strong> des habitudes, des codes et un acquis durable de l’enfance ou de la formation initiale. Le Talent d’Origine choisi n’est pas perdu si le personnage change ensuite de métier, de Sphère ou de loyauté.'));
+  const items=Object.entries(ruleset.origins).map(([id,o])=>({id,name:o.name,lore:p25OriginLore[id]||''}));
+  c.appendChild(p25ChoiceGrid(items,state.creation.origin,id=>{if(state.creation.origin!==id){state.creation.origin=id;state.talents.origin=''}render()}));
+  if(!state.creation.origin)return;
+  const talents=ruleset.talents.origin[state.creation.origin]||[];
+  c.appendChild(p27TalentSelect('Talent d’Origine gratuit',[{label:'Origine',items:talents}],state.talents.origin,v=>{state.talents.origin=v;render()},'— Choisir un acquis de votre Origine —'));
+  const selected=talents.find(t=>t.id===state.talents.origin);if(selected){p45AppendTalentChoice(c,selected);c.appendChild(p26TalentDetail(selected))}
+};
+
+stepTalents=function(){
+  const c=wrap('Talents de Réalité','Choisissez un Talent gratuit pour chacune des quatre provenances de création : Origine, Sphère, Expertise du Style et Communs.');
+  if(!state.creation.origin||!state.creation.sphere||!style()){c.appendChild(el('div',{class:'empty'},'Choisissez Origine, Sphère et Style avant les Talents.'));return}
+  const p=u14TalentPools(),sections=[
+    {label:'Talent d’Origine',groups:[{label:`Origine — ${origin()?.name||''}`,items:p.origin}],key:'origin',placeholder:'— Choisir le Talent d’Origine —'},
+    {label:'Talent de Sphère',groups:[{label:`Sphère — ${sphere()?.name||''}`,items:p.sphere}],key:'sphere',placeholder:'— Choisir le Talent de Sphère —'},
+    {label:'Talent d’Expertise',groups:style().expertiseFamilies.map(a=>({label:attrName(a),items:p.expertise.filter(t=>t.attribute===a)})),key:'expertise',placeholder:'— Choisir une Expertise —'},
+    {label:'Talent Commun',groups:[{label:'Communs',items:p.common}],key:'common',placeholder:'— Choisir un Talent Commun —'}
+  ];
+  sections.forEach(sec=>{
+    const box=el('section',{class:'p27-talent-section'});box.appendChild(p27TalentSelect(sec.label,sec.groups,state.talents[sec.key]||'',v=>{state.talents[sec.key]=v;render()},sec.placeholder));
+    const chosen=sec.groups.flatMap(g=>g.items||[]).find(t=>t.id===state.talents[sec.key]);if(chosen){p45AppendTalentChoice(box,chosen);box.appendChild(p26TalentDetail(chosen))}c.appendChild(box);
+  });
+  if(state.edge.talentPacks)c.appendChild(el('div',{class:'rulebox'},`<strong>Talents Edge :</strong> ${state.talents.edge.map(id=>talentById(id)?.name||'à choisir').join(' · ')} — configuration directement à l’étape Edge.`));
+  if(hasTalent('neurodriver')&&skillRaw('neurodive')<1)c.appendChild(el('div',{class:'rulebox bad'},'Neurodriver exige Neurodive 1+.'));
+};
+
+const p45TalentBonusBase=p20SkillTalentBonus;
+p20SkillTalentBonus=function(skillId){
+  let total=p45TalentBonusBase(skillId);p45EnsureTalentChoices();
+  for(const t of p20RealityTalents()){
+    const spec=p45TalentChoiceSpec(t.id),choice=p45TalentChoiceValue(t.id);
+    if(spec?.kind==='skill'&&!spec.contextual&&choice===skillId)total+=Number(spec.bonus||0);
+  }
+  return total;
+};
+const p45ValidationBase=validations;
+validations=function(){const v=p45ValidationBase();const selected=[state.talents.origin,state.talents.sphere,state.talents.expertise,state.talents.common,...(state.talents.edge||[])].filter(Boolean),ok=selected.every(p45TalentChoiceValid);if(!p45TalentChoiceValid(state.talents.origin))v.origin=false;if(!ok)v.talents=false;v.finish=Object.entries(v).filter(([k])=>k!=='finish'&&k!=='progression').every(([,x])=>x);if(Object.prototype.hasOwnProperty.call(v,'progression'))v.progression=true;return v};
+const p45ErrorsBase=currentErrors;
+currentErrors=function(){const out=p45ErrorsBase();for(const id of [state.talents.origin,state.talents.sphere,state.talents.expertise,state.talents.common,...(state.talents.edge||[])].filter(Boolean)){if(!p45TalentChoiceValid(id)){const t=talentById(id);out.push(`${t?.name||id} : choix secondaire requis.`)}}return [...new Set(out)]};
+const p45MergeStateBase=mergeState;
+mergeState=function(obj){p45MergeStateBase(obj);if(obj?.talentChoices&&typeof obj.talentChoices==='object')state.talentChoices=structuredClone(obj.talentChoices);p45EnsureTalentChoices()};
+const p45BuildExportBase=buildExport;
+buildExport=function(){const out=p45BuildExportBase();out.talentChoices=structuredClone(state.talentChoices||{});return out};
+
+// ---------------------------------------------------------------------------
+// 2. Recurring catalog costs / Lifestyle impact
+// ---------------------------------------------------------------------------
+function p45RecurringPriceText(item){
+  const raw=r15DeepField(item,['Prix','Prix indicatif','Prix de référence','Prix de reference','Fourchette indicative','Tarif','Coût mensuel','Cout mensuel']);
+  if(raw!==null&&raw!==undefined&&String(raw).trim()!=='')return String(raw).trim();
+  const spec=lockPriceSpec(item);if(spec?.label&&spec.label!=='Prix à définir')return String(spec.label);
+  return item?.price!==null&&item?.price!==undefined?fmt(item.price):'';
+}
+function p45MoneyNumbers(text){
+  const matches=String(text||'').replace(/\u00a0/g,' ').match(/\d[\d\s]*(?:[.,]\d+)?/g)||[];
+  return matches.map(x=>Number(x.replace(/\s/g,'').replace(',','.'))).filter(Number.isFinite);
+}
+function p45RecurringPriceInfo(item){
+  const label=p45RecurringPriceText(item),nums=p45MoneyNumbers(label);let min=nums[0]??(Number.isFinite(Number(item?.price))?Number(item.price):0),max=nums[1]??min;
+  const annual=/\/\s*(?:an|année|annee)|\bannuel|\bpar an\b/i.test(label);if(annual){min/=12;max/=12}
+  min=Math.max(0,min||0);max=Math.max(min,max||min);const monthly=Math.round(((min+max)/2)/5)*5;
+  return {label,minMonthly:min,maxMonthly:max,monthly,annual};
+}
+r37MonthlyAmount=function(item){return p45RecurringPriceInfo(item).monthly};
+r37BillingLabel=function(item){const p=p45RecurringPriceInfo(item);return p.label?`${p.label}${p.annual?` · ≈ ${fmt(p.monthly)}/mois`:(p.maxMonthly!==p.minMonthly?` · ≈ ${fmt(p.monthly)}/mois retenus`:'')}`:`${fmt(p.monthly)}/mois`};
+
+const p45LifestyleMinimum=[
+  [/squat \/ zone abandonnee|squat \/ zone abandonnée|cache improvisee|cache improvisée/,'Survie'],
+  [/dortoir ouvrier|vladic micro|vladic studio|studio urbain ancien|piece\/box\/squat|pièce\/box\/squat/,'Modeste'],
+  [/vladic familial|appartement connecte|appartement connecté|studio\/garage anonyme/,'Standard'],
+  [/vladic grand|planque dediee|planque dédiée/,'Confortable'],
+  [/residence de cadre|résidence de cadre|planque securisee|planque sécurisée/,'Aisé'],
+  [/penthouse|villa|reseau de planques premium|réseau de planques premium/,'Luxe']
+];
+function p45MinLifestyle(item){const n=normText(item?.name||'');for(const [re,tier] of p45LifestyleMinimum)if(re.test(n))return tier;return null}
+function p45LifestyleImpact(item){
+  const p=r15ChargePressure(),order=ruleset.creation.lifestyleOrder,amount=r37MonthlyAmount(item),newDrops=Math.floor((p.total+amount)/p.ref),baseIndex=order.indexOf(p.base),effective=order[Math.max(0,baseIndex-newDrops)],min=p45MinLifestyle(item),above=min&&order.indexOf(min)>baseIndex,drop=order.indexOf(effective)<order.indexOf(p.effective);
+  return {amount,min,above,drop,effective,current:p.effective,status:above?'above':drop?'drop':'ok'};
+}
+const p45RecurringGroupsBase=r18RecurringGroups;
+r18RecurringGroups=function(){
+  const rows=r18RecurringItems().map(item=>({item,impact:p45LifestyleImpact(item)})),rank={ok:0,drop:1,above:2},labels={ok:'✓ Accessible sans baisse',drop:'▼ Fait baisser le Train de vie',above:'⚠ Au-dessus du Train de vie normal'},groups=new Map();
+  rows.sort((a,b)=>rank[a.impact.status]-rank[b.impact.status]||r37RecurringGroup(a.item).localeCompare(r37RecurringGroup(b.item),'fr')||a.item.name.localeCompare(b.item.name,'fr'));
+  for(const row of rows){const key=`${labels[row.impact.status]} — ${r37RecurringGroup(row.item)}`;if(!groups.has(key))groups.set(key,[]);groups.get(key).push(row.item)}
+  return [...groups.entries()].map(([label,items])=>({label,items}));
+};
+r37ChargeChoiceDetail=function(item){
+  if(!item)return el('div',{class:'r35-charge-detail empty'},'Choisissez une entrée pour afficher son usage, sa périodicité, son accès normal et son impact sur le Train de vie.');
+  const lore=r34ItemLore(item),group=r37RecurringGroup(item),impact=p45LifestyleImpact(item),p=p45RecurringPriceInfo(item),labels={ok:'Accessible sans baisse',drop:`Abaisse ${impact.current} → ${impact.effective}`,above:`Normalement ${impact.min} ou plus`};
+  return el('div',{class:`r35-charge-detail p45-impact-${impact.status}`},`<strong>${uxEsc(item.name)}</strong><span class="r37-charge-kind">${uxEsc(group)} · ${uxEsc(r37RecurringKind(item)==='annual'?'abonnement annuel':'charge mensuelle')}</span><span class="p45-impact-badge">${uxEsc(labels[impact.status])}</span>${lore?`<em>${uxEsc(lore)}</em>`:''}<p><strong>Tarif source :</strong> ${uxEsc(p.label||'—')}<br><strong>Charge mensuelle retenue :</strong> ${fmt(p.monthly)}/mois</p>`);
+};
+
+// ---------------------------------------------------------------------------
+// 3. Profane -> Initié in campaign
+// ---------------------------------------------------------------------------
+const p45RenderTruthBase=p43RenderTruth;
+p43RenderTruth=function(c){
+  if(state.truth.consciousness==='profane'){
+    const box=el('div',{class:'p45-initiation'},'<div><strong>Passer de Profane à Initié</strong><span>Une initiation acquise en campagne est un changement fictionnel permanent. Elle ne coûte pas automatiquement d’XP ni de PTV ; le MJ doit avoir validé l’accès à la Vérité.</span></div>'),b=el('button',{class:'primary'},'Devenir Initié');
+    b.onclick=()=>{if(confirm('Confirmer que le personnage a été initié à la Vérité en campagne ?')){state.truth.consciousness='initie';render()}};box.appendChild(b);c.appendChild(box);
+  }
+  p45RenderTruthBase(c);
+};
+
+// ---------------------------------------------------------------------------
+// 4. Campaign money / purchase / resale
+// ---------------------------------------------------------------------------
+const p45ProgressEnsureBase=p43EnsureProgression;
+p43EnsureProgression=function(){
+  p45ProgressEnsureBase();const p=state.progression;
+  p.cashBase=Number.isFinite(Number(p.cashBase))?Number(p.cashBase):null;
+  p.cashTransactions=Array.isArray(p.cashTransactions)?p.cashTransactions:[];
+};
+p43EnsureProgression();
+
+// Purchases made after creation are real possessions, but must not retroactively consume the creation envelopes/account.
+purchaseSum=function(kind){return purchaseArray(kind).reduce((sum,p)=>sum+(p.acquiredInCampaign?0:lockPurchaseCost(p)),0)};
+vehiclePurchaseSum=function(){return state.reality.equipment.reduce((sum,p)=>{const it=purchaseItem(p);return sum+(it?.vehicle&&!p.acquiredInCampaign?lockPurchaseCost(p):0)},0)};
+ordinaryEquipmentSum=function(){return state.reality.equipment.reduce((sum,p)=>{const it=purchaseItem(p);return sum+(!it?.vehicle&&!p.acquiredInCampaign?lockPurchaseCost(p):0)},0)};
+
+const p45CommerceDegrees=[
+  {id:0,label:'Réussite simple · DR 0–2',sale:.50,buy:1.00},
+  {id:1,label:'Réussite solide · DR 3–5',sale:.55,buy:.95},
+  {id:2,label:'Réussite forte · DR 6–8',sale:.60,buy:.90},
+  {id:3,label:'Réussite majeure · DR 9–11',sale:.65,buy:.85},
+  {id:4,label:'Réussite exceptionnelle · DR 12–14',sale:.70,buy:.80},
+  {id:5,label:'Réussite légendaire · DR 15+',sale:.75,buy:.75}
+];
+function p45CashBase(){p43EnsureProgression();return state.progression.cashBase===null?Math.max(0,economic().account):state.progression.cashBase}
+function p45FreezeCashBase(){p43EnsureProgression();if(state.progression.cashBase===null)state.progression.cashBase=Math.max(0,economic().account);return state.progression.cashBase}
+function p45Cash(){return p45CashBase()+state.progression.cashTransactions.reduce((n,x)=>n+Number(x.amount||0),0)}
+function p45MoneyTxn(amount,label,type='manual'){p45FreezeCashBase();const n=Math.round(Number(amount)||0);if(!n)return;state.progression.cashTransactions.push({uid:`tx-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,6)}`,amount:n,label:String(label||'Mouvement d’argent'),type,at:new Date().toISOString()})}
+function p45ListPrice(item){const s=lockPriceSpec(item);if(s.mode==='exact'||s.mode==='included')return Number(s.defaultCost||0);if(s.mode==='range'&&s.min!==null)return Math.round(((Number(s.min)||0)+(Number(s.max??s.min)||0))/2);if(s.mode==='minimum'&&s.min!==null)return Number(s.min);return Number.isFinite(Number(item?.price))?Number(item.price):null}
+function p45CampaignPurchase(kind,item,listPrice,degreeIndex){
+  const list=Math.max(0,Math.round(Number(listPrice)||0)),deg=p45CommerceDegrees[Math.max(0,Math.min(5,Number(degreeIndex)||0))],cost=Math.round(list*deg.buy);
+  if(!item||!list)throw new Error('Prix catalogue à renseigner.');if(cost>p45Cash())throw new Error('Solde insuffisant.');
+  if(kind==='augmentation'&&typeof r15SupportSatisfied==='function'&&!r15SupportSatisfied(item))throw new Error(`Support requis manquant : ${r15SupportLabel(item)}`);
+  if(kind==='augmentation'&&item.generation===2&&gen2Windows()<1)throw new Error('Aucune fenêtre Gen2 disponible pour cette augmentation.');
+  p45FreezeCashBase();const p={uid:`camp-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,7)}`,itemId:item.id,kind,selectedPrice:cost,priceConfirmed:true,acquiredInCampaign:true,campaignCatalogPrice:list,campaignCommerceDegree:deg.id};
+  if(kind==='augmentation'&&item.generation===2)p.gen2System=1;purchaseArray(kind).push(p);p45MoneyTxn(-cost,`Achat · ${item.name}`,'purchase');render();
+}
+function p45CampaignSale(purchase,degreeIndex){
+  const item=purchaseItem(purchase);if(!item)return;const deg=p45CommerceDegrees[Math.max(0,Math.min(5,Number(degreeIndex)||0))],newPrice=Math.max(0,Number(purchase.campaignCatalogPrice??lockPurchaseCost(purchase))||0),sale=Math.round(newPrice*deg.sale);
+  p45FreezeCashBase();const arr=purchaseArray(purchase.kind),i=arr.findIndex(x=>x.uid===purchase.uid);if(i>=0)arr.splice(i,1);p45MoneyTxn(sale,`Revente · ${item.name}`,'sale');render();
+}
+function p45DegreeSelect(selected=0){const s=el('select');p45CommerceDegrees.forEach(d=>{const o=el('option',{value:d.id},d.label);if(d.id===selected)o.selected=true;s.appendChild(o)});return s}
+
+function p45CampaignEconomyPanel(){
+  p43EnsureProgression();const box=el('section',{class:'p45-economy'});box.appendChild(el('div',{class:'section-title reality-subtitle'},`<div><h3>Argent, achats & revente</h3><p>L’argent reste séparé de l’XP et des PTV. Les transactions de campagne partent du Compte restant à la fin de la création, puis sont inscrites ici.</p></div><div class="kpi good">${fmt(p45Cash())}</div>`));
+  box.appendChild(el('div',{class:'rulebox'},'<strong>Commerce :</strong> à la revente, base 50 % du prix neuf puis +5 points par degré de réussite, jusqu’à 75 %. À l’achat, le même degré fait passer le prix de 100 % à 75 % du tarif retenu. Le jet ne crée jamais un vendeur, un accès légal ou une disponibilité inexistante.'));
+
+  const move=el('details',{class:'p43-group'});move.appendChild(el('summary',{},'<span><strong>Ajouter ou retirer de l’argent</strong><small>Prime, salaire, récompense, dépense hors catalogue, dette réglée…</small></span><span class="badge">ouvrir</span>'));const mg=el('div',{class:'grid2 p45-money-move'}),labelF=el('div',{class:'field'},'<label>Libellé</label>'),label=el('input',{placeholder:'Ex. prime de mission'}),amountF=el('div',{class:'field'},'<label>Montant</label>'),amount=el('input',{type:'number',min:0,step:50,placeholder:'0'}),type=el('select');type.append(el('option',{value:'gain'},'Gain / entrée d’argent'),el('option',{value:'expense'},'Dépense / sortie d’argent'));labelF.appendChild(label);amountF.append(type,amount);mg.append(labelF,amountF);move.appendChild(mg);const add=el('button',{class:'primary mini'},'Enregistrer le mouvement');add.onclick=()=>{const n=Math.max(0,Number(amount.value)||0);if(!n)return;p45MoneyTxn(type.value==='expense'?-n:n,label.value|| (type.value==='expense'?'Dépense':'Gain'));render()};move.appendChild(add);box.appendChild(move);
+
+  const buy=el('details',{class:'p43-group',open:true});buy.appendChild(el('summary',{},'<span><strong>Acheter en campagne</strong><small>Équipement ou augmentation du catalogue, payé avec le solde courant</small></span><span class="badge">ouvrir / replier</span>'));const bg=el('div',{class:'p45-buy-grid'}),kindF=el('div',{class:'field'},'<label>Catalogue</label>'),kind=el('select');kind.append(el('option',{value:'equipment'},'Équipement'),el('option',{value:'augmentation'},'Augmentations'));kindF.appendChild(kind);const searchF=el('div',{class:'field'},'<label>Rechercher</label>'),search=el('input',{placeholder:'Nom ou catégorie…'});searchF.appendChild(search);const itemF=el('div',{class:'field p45-buy-item'},'<label>Article</label>'),itemSel=el('select');itemF.appendChild(itemSel);const priceF=el('div',{class:'field'},'<label>Prix catalogue retenu</label>'),price=el('input',{type:'number',min:0,step:25});priceF.appendChild(price);const degreeF=el('div',{class:'field'},'<label>Jet de Commerce</label>'),degree=p45DegreeSelect(0);degreeF.appendChild(degree);bg.append(kindF,searchF,itemF,priceF,degreeF);buy.appendChild(bg);const preview=el('div',{class:'p45-trade-preview'}),buyBtn=el('button',{class:'primary'},'Acheter');buy.append(preview,buyBtn);
+  const refill=()=>{const q=normText(search.value),rows=purchaseCatalog(kind.value).filter(x=>!q||normText(`${x.name} ${x.category}`).includes(q)).sort((a,b)=>a.name.localeCompare(b.name,'fr')).slice(0,300);itemSel.innerHTML='';itemSel.appendChild(el('option',{value:''},'— Choisir —'));rows.forEach(x=>itemSel.appendChild(el('option',{value:x.id},`${x.name} · ${lockPriceSpec(x).label}`)));refresh()};
+  const refresh=()=>{const item=purchaseCatalog(kind.value).find(x=>x.id===itemSel.value),list=item?(p45ListPrice(item)??0):0;if(item&&(!price.value||Number(price.dataset.itemChanged)!==0)){price.value=list||''}price.dataset.itemChanged='0';const deg=p45CommerceDegrees[Number(degree.value)||0],base=Math.max(0,Number(price.value)||0),final=Math.round(base*deg.buy);preview.innerHTML=item?`<strong>${uxEsc(item.name)}</strong><span>Tarif retenu ${fmt(base)} · Commerce : ${Math.round(deg.buy*100)} % · <strong>à payer ${fmt(final)}</strong></span><small>${uxEsc(item.effect||r34ItemLore(item)||'')}</small>`:'Choisissez un article.';buyBtn.disabled=!item||!base||final>p45Cash()};
+  kind.onchange=refill;search.oninput=refill;itemSel.onchange=()=>{price.dataset.itemChanged='1';const item=purchaseCatalog(kind.value).find(x=>x.id===itemSel.value);price.value=item?(p45ListPrice(item)??''):'';refresh()};price.oninput=refresh;degree.onchange=refresh;buyBtn.onclick=()=>{const item=purchaseCatalog(kind.value).find(x=>x.id===itemSel.value);try{p45CampaignPurchase(kind.value,item,price.value,degree.value)}catch(err){alert(err.message)}};refill();box.appendChild(buy);
+
+  const sell=el('details',{class:'p43-group'});sell.appendChild(el('summary',{},'<span><strong>Revendre un équipement</strong><small>50 % du neuf +5 points par degré de réussite en Commerce</small></span><span class="badge">ouvrir</span>'));const owned=state.reality.equipment.map(p=>({p,item:purchaseItem(p)})).filter(x=>x.item);if(!owned.length)sell.appendChild(el('div',{class:'empty'},'Aucun équipement revendable enregistré.'));else{const sg=el('div',{class:'grid2'}),itemF2=el('div',{class:'field'},'<label>Équipement possédé</label>'),sel=el('select');owned.forEach(({p,item})=>sel.appendChild(el('option',{value:p.uid},`${item.name} · neuf ${fmt(Number(p.campaignCatalogPrice??lockPurchaseCost(p))||0)}`)));itemF2.appendChild(sel);const degreeF2=el('div',{class:'field'},'<label>Jet de Commerce</label>'),degSel=p45DegreeSelect(0);degreeF2.appendChild(degSel);sg.append(itemF2,degreeF2);sell.appendChild(sg);const pv=el('div',{class:'p45-trade-preview'}),btn=el('button',{class:'danger-btn'},'Revendre');const refreshSale=()=>{const row=owned.find(x=>x.p.uid===sel.value),deg=p45CommerceDegrees[Number(degSel.value)||0],base=Number(row?.p.campaignCatalogPrice??(row?lockPurchaseCost(row.p):0))||0,sale=Math.round(base*deg.sale);pv.innerHTML=row?`<strong>${uxEsc(row.item.name)}</strong><span>Valeur neuve ${fmt(base)} · revente ${Math.round(deg.sale*100)} % · <strong>${fmt(sale)}</strong></span>`:''};sel.onchange=refreshSale;degSel.onchange=refreshSale;btn.onclick=()=>{const row=owned.find(x=>x.p.uid===sel.value);if(row&&confirm(`Revendre ${row.item.name} ?`))p45CampaignSale(row.p,degSel.value)};refreshSale();sell.append(pv,btn)}box.appendChild(sell);
+
+  const tx=state.progression.cashTransactions;if(tx.length){const list=el('details',{class:'p43-group'});list.appendChild(el('summary',{},`<span><strong>Journal d’argent</strong><small>${tx.length} mouvement(s)</small></span><span class="badge">ouvrir</span>`));const rows=el('div',{class:'p43-owned-list'});[...tx].reverse().forEach(x=>rows.appendChild(el('div',{class:'p43-owned-row'},`<div><strong>${uxEsc(x.label)}</strong><span>${x.amount>=0?'+':''}${fmt(x.amount)}</span></div>`)));list.appendChild(rows);box.appendChild(list)}
+  return box;
+}
+const p45StepProgressionBase=stepProgression;
+stepProgression=function(){p45StepProgressionBase();const c=$('#stepContent');if(c)c.appendChild(p45CampaignEconomyPanel())};
+
+const p45Css=el('style',{},`
+.p45-talent-choice{max-width:760px;margin:8px 0 12px;padding:10px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.025)}
+.p45-impact-badge{display:inline-block;margin:7px 0;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:800}.p45-impact-ok{border-color:rgba(81,190,139,.5)!important}.p45-impact-ok .p45-impact-badge{background:rgba(81,190,139,.14);color:var(--good)}.p45-impact-drop{border-color:rgba(255,181,71,.55)!important}.p45-impact-drop .p45-impact-badge{background:rgba(255,181,71,.14);color:#ffd28b}.p45-impact-above{border-color:rgba(255,100,100,.5)!important}.p45-impact-above .p45-impact-badge{background:rgba(255,100,100,.14);color:var(--bad)}
+.p45-initiation{display:flex;align-items:center;gap:16px;justify-content:space-between;border:1px solid #6e5a2d;background:rgba(180,135,40,.10);border-radius:12px;padding:13px 14px;margin:12px 0}.p45-initiation div{display:grid;gap:4px}.p45-initiation span{font-size:12px;color:var(--muted)}
+.p45-economy{margin-top:22px;border-top:1px solid var(--line);padding-top:16px}.p45-buy-grid{display:grid;grid-template-columns:140px minmax(180px,1fr) minmax(260px,2fr) 180px minmax(220px,1fr);gap:9px;padding:12px}.p45-trade-preview{display:grid;gap:4px;margin:8px 12px 12px;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.025)}.p45-trade-preview span,.p45-trade-preview small{color:var(--muted)}.p45-money-move{padding:12px}
+@media(max-width:1000px){.p45-buy-grid{grid-template-columns:1fr 1fr}.p45-buy-item{grid-column:1/-1}}@media(max-width:700px){.p45-initiation{align-items:stretch;flex-direction:column}.p45-buy-grid{grid-template-columns:1fr}}
+`);document.head.appendChild(p45Css);
+render();

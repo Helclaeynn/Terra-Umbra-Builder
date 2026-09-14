@@ -1,0 +1,178 @@
+// Final regression pass after visual playtest — permanent Hunter/Faith bonuses,
+// corrected Vampire/Garou revelation readout, persistent campaign cash and roomier trade UI.
+
+// ---------------------------------------------------------------------------
+// 1. Permanent Reality / Hunter bonuses actually applied to the sheet
+// ---------------------------------------------------------------------------
+p20SkillTalentMap.discipline_de_foi='maitrise_spirituelle';
+
+function p50HunterMemoryActive(){
+  return state.truth.nature==='humain'&&state.truth.consciousness==='initie'&&(state.truth.choices?.hunterTradition||'aucune')!=='aucune';
+}
+const p50FinalAttrBase=finalAttr;
+finalAttr=function(id){return p50FinalAttrBase(id)+(id==='volonte'&&p50HunterMemoryActive()?1:0)};
+
+// Keep the revelation panel honest about permanent Hunter Volonté, normalize the
+// Vampire R package to the same +3 total pattern as the other standard profiles,
+// and show the Garou war body's offensive package as well as its Attributes.
+const p50StatsForNatureBase=t49StatsForNature;
+t49StatsForNature=function(){
+  const n=state.truth.nature;
+  if(n==='humain'){
+    if(p50HunterMemoryActive())return {label:'Humain Chasseur · mémoire du Voile',v:'+1 Volonté permanent',sr:'+1 Volonté permanent · aucun bonus SR supplémentaire',r:'+1 Volonté permanent · aucun bonus R supplémentaire'};
+    return {label:'Humain',v:'Aucun bonus de Nature',sr:'Aucun bonus racial',r:'Aucun bonus racial'};
+  }
+  if(n==='vampire')return {label:'Nature Vampire',v:'Aucun bonus de Nature',sr:'+1 Vigueur · +1 Volonté',r:'+2 Vigueur · +1 Volonté'};
+  if(n==='garou'){
+    if(state.truth.choices?.blood==='sang_enchaine')return {label:'Garou · Sang Enchaîné',v:'Aucun bonus de Nature',sr:'Aucun bonus d’Attribut automatique · instincts/sens SR',r:'+2 Vigueur · +2 Agilité · +3 Pugilat · +1 PA/round · forme hybride interdite'};
+    return {label:'Garou',v:'Aucun bonus de Nature',sr:'Aucun bonus d’Attribut automatique · instincts/sens SR',r:'Humain révélé : aucun gros bonus automatique · Loup : +2 Agilité · morsure DGT 3 · Hybride : +3 Vigueur · +2 Agilité · +3 Pugilat · griffes/crocs DGT 5 · Armure 2 · Régénération 2 PV/round · +1 PA/round'};
+  }
+  return p50StatsForNatureBase();
+};
+const p50RevealPanelBase=t46RevealPanel;
+t46RevealPanel=function(){
+  const box=p50RevealPanelBase();
+  if(box&&state.truth.nature==='humain'&&p50HunterMemoryActive()){
+    const cards=[...box.querySelectorAll('.t46-stage')];
+    if(cards[0]?.querySelector('p'))cards[0].querySelector('p').textContent='Le Chasseur reste humain, mais sa mémoire a franchi le seuil : le +1 Volonté est permanent, même Voilé.';
+    if(cards[1]?.querySelector('p'))cards[1].querySelector('p').textContent='Toujours humain. Les capacités SR de sa tradition peuvent s’exprimer ; le +1 Volonté permanent reste inclus et aucun second bonus racial ne s’ajoute.';
+    if(cards[2]?.querySelector('p'))cards[2].querySelector('p').textContent='Toujours humain d’apparence. Sa condition de Chasseur est pleinement lisible aux perceptions adaptées ; le +1 Volonté permanent reste son seul modificateur commun.';
+  }
+  return box;
+};
+
+// ---------------------------------------------------------------------------
+// 2. Campaign cash persistence — preserve ledger through p43 reconstruction
+// ---------------------------------------------------------------------------
+const p50EnsureProgressionBase=p43EnsureProgression;
+p43EnsureProgression=function(){
+  const before=state.progression&&typeof state.progression==='object'?state.progression:{};
+  const cashBase=before.cashBase;
+  const cashTransactions=before.cashTransactions;
+  p50EnsureProgressionBase();
+  if(cashBase===null||Number.isFinite(Number(cashBase)))state.progression.cashBase=cashBase===null?null:Number(cashBase);
+  if(Array.isArray(cashTransactions))state.progression.cashTransactions=cashTransactions;
+  if(!Array.isArray(state.progression.cashTransactions))state.progression.cashTransactions=[];
+};
+p43EnsureProgression();
+
+// A successful Commerce roll always changes the price by at least 5 points.
+// No roll means the ordinary purchase price / 50% resale baseline.
+p45CommerceDegrees.splice(0,p45CommerceDegrees.length,
+  {id:0,label:'Sans jet de Commerce',sale:.50,buy:1.00,delta:0},
+  {id:1,label:'Réussite simple · DR 0–2',sale:.55,buy:.95,delta:5},
+  {id:2,label:'Réussite solide · DR 3–5',sale:.60,buy:.90,delta:10},
+  {id:3,label:'Réussite forte · DR 6–8',sale:.65,buy:.85,delta:15},
+  {id:4,label:'Réussite majeure · DR 9–11',sale:.70,buy:.80,delta:20},
+  {id:5,label:'Réussite exceptionnelle · DR 12–14',sale:.75,buy:.75,delta:25},
+  {id:6,label:'Réussite légendaire · DR 15+',sale:.80,buy:.70,delta:30}
+);
+function p50CommerceDegree(index){return p45CommerceDegrees[Math.max(0,Math.min(p45CommerceDegrees.length-1,Number(index)||0))]}
+function p50PurchaseKind(purchase){
+  if(purchase?.kind==='augmentation'||purchase?.kind==='equipment')return purchase.kind;
+  if((state.reality.augmentations||[]).includes(purchase))return 'augmentation';
+  return 'equipment';
+}
+p45CampaignPurchase=function(kind,item,listPrice,degreeIndex){
+  const list=Math.max(0,Math.round(Number(listPrice)||0)),deg=p50CommerceDegree(degreeIndex),cost=Math.round(list*deg.buy);
+  if(!item||!list)throw new Error('Prix catalogue à renseigner.');
+  if(cost>p45Cash())throw new Error('Solde insuffisant.');
+  if(kind==='augmentation'&&typeof r15SupportSatisfied==='function'&&!r15SupportSatisfied(item))throw new Error(`Support requis manquant : ${r15SupportLabel(item)}`);
+  if(kind==='augmentation'&&item.generation===2&&gen2Windows()<1)throw new Error('Aucune fenêtre Gen2 disponible pour cette augmentation.');
+  p45FreezeCashBase();
+  const purchase={uid:`camp-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,7)}`,itemId:item.id,kind,selectedPrice:cost,priceConfirmed:true,acquiredInCampaign:true,campaignCatalogPrice:list,campaignCommerceDegree:deg.id};
+  if(kind==='augmentation'&&item.generation===2)purchase.gen2System=1;
+  purchaseArray(kind).push(purchase);
+  p45MoneyTxn(-cost,`Achat · ${item.name}`,'purchase');
+  render();
+};
+p45CampaignSale=function(purchase,degreeIndex,kindOverride){
+  const item=purchaseItem(purchase);if(!item)return;
+  const kind=kindOverride||p50PurchaseKind(purchase),deg=p50CommerceDegree(degreeIndex),newPrice=Math.max(0,Number(purchase.campaignCatalogPrice??lockPurchaseCost(purchase))||0),sale=Math.round(newPrice*deg.sale);
+  p45FreezeCashBase();
+  const arr=purchaseArray(kind),i=arr.findIndex(x=>x===purchase||(purchase.uid&&x.uid===purchase.uid));if(i<0)return;
+  arr.splice(i,1);p45MoneyTxn(sale,`Revente · ${item.name}`,'sale');render();
+};
+p45DegreeSelect=function(selected=0){const s=el('select');p45CommerceDegrees.forEach(d=>{const o=el('option',{value:d.id},d.label);if(d.id===Number(selected))o.selected=true;s.appendChild(o)});return s};
+
+// ---------------------------------------------------------------------------
+// 3. Roomier campaign trade interface + equipment AND augmentation resale
+// ---------------------------------------------------------------------------
+function p50TradePreview(item,base,deg,mode){
+  if(!item)return '<div class="p50-trade-empty">Choisissez un article pour afficher le calcul et son effet.</div>';
+  const factor=mode==='buy'?deg.buy:deg.sale,final=Math.round(base*factor),verb=mode==='buy'?'À payer':'À récupérer',commerce=deg.id===0?'Sans jet':`${deg.label} · ${deg.delta} %`;
+  return `<div class="p50-trade-title"><strong>${uxEsc(item.name)}</strong><span>${mode==='buy'?'ACHAT':'REVENTE'}</span></div><div class="p50-trade-numbers"><div><small>Prix de référence</small><strong>${fmt(base)}</strong></div><div><small>Commerce</small><strong>${uxEsc(commerce)}</strong></div><div class="p50-trade-total"><small>${verb}</small><strong>${fmt(final)}</strong></div></div><p>${uxEsc(item.effect||r34ItemLore(item)||'')}</p>`;
+}
+function p50OwnedForSale(){
+  return [
+    ...(state.reality.equipment||[]).map(p=>({p,item:purchaseItem(p),kind:'equipment',kindLabel:'Équipement'})),
+    ...(state.reality.augmentations||[]).map(p=>({p,item:purchaseItem(p),kind:'augmentation',kindLabel:'Augmentation'}))
+  ].filter(x=>x.item);
+}
+p45CampaignEconomyPanel=function(){
+  p43EnsureProgression();const box=el('section',{class:'p45-economy p50-economy'});
+  box.appendChild(el('div',{class:'section-title reality-subtitle'},`<div><h3>Argent, achats & revente</h3><p>Le solde de campagne part du Compte restant après création. Chaque achat, revente ou mouvement manuel modifie réellement cette réserve.</p></div><div class="p50-cash"><small>Solde courant</small><strong>${fmt(p45Cash())}</strong></div>`));
+  box.appendChild(el('div',{class:'rulebox'},'<strong>Commerce :</strong> sans jet, achat à 100 % et revente à 50 % du prix neuf. Une réussite simple améliore déjà le prix de 5 points ; chaque degré supérieur ajoute encore 5 points, jusqu’à −30 % à l’achat / 80 % à la revente sur une réussite légendaire.'));
+
+  const move=el('details',{class:'p43-group'});move.appendChild(el('summary',{},'<span><strong>Ajouter ou retirer de l’argent</strong><small>Prime, salaire, récompense, dépense libre, dette réglée…</small></span><span class="badge">ouvrir</span>'));
+  const mg=el('div',{class:'p50-money-grid'}),labelF=el('div',{class:'field'},'<label>Libellé</label>'),label=el('input',{placeholder:'Ex. prime de mission'}),typeF=el('div',{class:'field'},'<label>Nature du mouvement</label>'),type=el('select'),amountF=el('div',{class:'field'},'<label>Montant</label>'),amount=el('input',{type:'number',min:0,step:50,placeholder:'0'});
+  type.append(el('option',{value:'gain'},'Gain / entrée d’argent'),el('option',{value:'expense'},'Dépense / sortie d’argent'));labelF.appendChild(label);typeF.appendChild(type);amountF.appendChild(amount);mg.append(labelF,typeF,amountF);move.appendChild(mg);
+  const add=el('button',{class:'primary mini p50-action'},'Enregistrer le mouvement');add.onclick=()=>{const n=Math.max(0,Number(amount.value)||0);if(!n)return;p45MoneyTxn(type.value==='expense'?-n:n,label.value||(type.value==='expense'?'Dépense':'Gain'));render()};move.appendChild(add);box.appendChild(move);
+
+  const buy=el('details',{class:'p43-group p50-trade-group',open:true});buy.appendChild(el('summary',{},'<span><strong>Acheter en campagne</strong><small>Équipement ou augmentation · débit immédiat du solde</small></span><span class="badge">ouvrir / replier</span>'));
+  const toolbar=el('div',{class:'p50-trade-toolbar'}),kindF=el('div',{class:'field'},'<label>Catalogue</label>'),kind=el('select');kind.append(el('option',{value:'equipment'},'Équipement'),el('option',{value:'augmentation'},'Augmentations'));kindF.appendChild(kind);const searchF=el('div',{class:'field'},'<label>Rechercher</label>'),search=el('input',{placeholder:'Nom, catégorie…'});searchF.appendChild(search);toolbar.append(kindF,searchF);buy.appendChild(toolbar);
+  const itemF=el('div',{class:'field p50-item-field'},'<label>Article</label>'),itemSel=el('select');itemF.appendChild(itemSel);buy.appendChild(itemF);
+  const terms=el('div',{class:'p50-trade-terms'}),priceF=el('div',{class:'field'},'<label>Prix catalogue retenu</label>'),price=el('input',{type:'number',min:0,step:25}),degreeF=el('div',{class:'field'},'<label>Jet de Commerce</label>'),degree=p45DegreeSelect(0);priceF.appendChild(price);degreeF.appendChild(degree);terms.append(priceF,degreeF);buy.appendChild(terms);
+  const preview=el('div',{class:'p45-trade-preview p50-trade-preview'}),buyActions=el('div',{class:'p50-trade-actions'}),buyBtn=el('button',{class:'primary'},'Acheter et débiter le solde');buyActions.appendChild(buyBtn);buy.append(preview,buyActions);
+  const refreshBuy=()=>{const item=purchaseCatalog(kind.value).find(x=>x.id===itemSel.value),base=Math.max(0,Number(price.value)||0),deg=p50CommerceDegree(degree.value),final=Math.round(base*deg.buy);preview.innerHTML=p50TradePreview(item,base,deg,'buy');buyBtn.disabled=!item||!base||final>p45Cash();buyBtn.textContent=item?`Acheter · ${fmt(final)}`:'Acheter'};
+  const refill=()=>{const q=normText(search.value),rows=purchaseCatalog(kind.value).filter(x=>!q||normText(`${x.name} ${x.category}`).includes(q)).sort((a,b)=>a.name.localeCompare(b.name,'fr')).slice(0,300);itemSel.innerHTML='';itemSel.appendChild(el('option',{value:''},'— Choisir un article —'));rows.forEach(x=>itemSel.appendChild(el('option',{value:x.id},`${x.name} · ${lockPriceSpec(x).label}`)));price.value='';refreshBuy()};
+  kind.onchange=refill;search.oninput=refill;itemSel.onchange=()=>{const item=purchaseCatalog(kind.value).find(x=>x.id===itemSel.value);price.value=item?(p45ListPrice(item)??''):'';refreshBuy()};price.oninput=refreshBuy;degree.onchange=refreshBuy;buyBtn.onclick=()=>{const item=purchaseCatalog(kind.value).find(x=>x.id===itemSel.value);try{p45CampaignPurchase(kind.value,item,price.value,degree.value)}catch(err){alert(err.message)}};refill();box.appendChild(buy);
+
+  const sell=el('details',{class:'p43-group p50-trade-group'});sell.appendChild(el('summary',{},'<span><strong>Revendre</strong><small>Équipement ou augmentation · crédit immédiat du solde</small></span><span class="badge">ouvrir</span>'));
+  const owned=p50OwnedForSale();
+  if(!owned.length)sell.appendChild(el('div',{class:'empty'},'Aucun équipement ni augmentation revendable enregistré.'));
+  else{
+    const itemF2=el('div',{class:'field p50-item-field'},'<label>Possession à revendre</label>'),sel=el('select');
+    ['equipment','augmentation'].forEach(k=>{const rows=owned.filter(x=>x.kind===k);if(!rows.length)return;const group=el('optgroup',{label:k==='equipment'?'ÉQUIPEMENT':'AUGMENTATIONS'});rows.forEach(({p,item,kindLabel})=>group.appendChild(el('option',{value:`${k}:${p.uid}`},`${item.name} · ${kindLabel} · neuf ${fmt(Number(p.campaignCatalogPrice??lockPurchaseCost(p))||0)}`)));sel.appendChild(group)});itemF2.appendChild(sel);sell.appendChild(itemF2);
+    const saleTerms=el('div',{class:'p50-trade-terms'}),degreeF2=el('div',{class:'field'},'<label>Jet de Commerce</label>'),degSel=p45DegreeSelect(0);degreeF2.appendChild(degSel);const rule=el('div',{class:'p50-sale-rule'},'<small>Base de revente</small><strong>50 % du neuf</strong><span>+5 points minimum en cas de réussite</span>');saleTerms.append(degreeF2,rule);sell.appendChild(saleTerms);
+    const pv=el('div',{class:'p45-trade-preview p50-trade-preview'}),actions=el('div',{class:'p50-trade-actions'}),btn=el('button',{class:'danger-btn'},'Revendre');actions.appendChild(btn);sell.append(pv,actions);
+    const selectedRow=()=>{const [k,uid]=String(sel.value||'').split(':');return owned.find(x=>x.kind===k&&String(x.p.uid)===uid)};
+    const refreshSale=()=>{const row=selectedRow(),deg=p50CommerceDegree(degSel.value),base=Number(row?.p.campaignCatalogPrice??(row?lockPurchaseCost(row.p):0))||0,sale=Math.round(base*deg.sale);pv.innerHTML=p50TradePreview(row?.item,base,deg,'sell');btn.disabled=!row||!base;btn.textContent=row?`Revendre · +${fmt(sale)}`:'Revendre'};
+    sel.onchange=refreshSale;degSel.onchange=refreshSale;btn.onclick=()=>{const row=selectedRow();if(row&&confirm(`Revendre ${row.item.name} pour ${fmt(Math.round((Number(row.p.campaignCatalogPrice??lockPurchaseCost(row.p))||0)*p50CommerceDegree(degSel.value).sale))} ?`))p45CampaignSale(row.p,degSel.value,row.kind)};refreshSale();
+  }
+  box.appendChild(sell);
+
+  const tx=state.progression.cashTransactions;if(tx.length){const list=el('details',{class:'p43-group'});list.appendChild(el('summary',{},`<span><strong>Journal d’argent</strong><small>${tx.length} mouvement(s) · solde ${fmt(p45Cash())}</small></span><span class="badge">ouvrir</span>`));const rows=el('div',{class:'p43-owned-list'});[...tx].reverse().forEach(x=>rows.appendChild(el('div',{class:'p43-owned-row'},`<div><strong>${uxEsc(x.label)}</strong><span>${x.amount>=0?'+':''}${fmt(x.amount)}</span></div>`)));list.appendChild(rows);box.appendChild(list)}
+  return box;
+};
+
+// Campaign cash in the final sheet/export as a distinct post-creation value.
+const p50SummaryBase=renderSummary;
+renderSummary=function(){
+  p50SummaryBase();const s=$('#summaryContent');if(!s)return;
+  const resources=[...s.querySelectorAll('.summary-section')].find(x=>(x.querySelector('h4')?.textContent||'').trim()==='Ressources');if(!resources)return;
+  let row=[...resources.querySelectorAll('.summary-line')].find(x=>(x.firstElementChild?.textContent||'').trim()==='Solde campagne');
+  if(!row){row=el('div',{class:'summary-line'},'<span>Solde campagne</span><span></span>');resources.appendChild(row)}if(row.lastElementChild)row.lastElementChild.textContent=fmt(p45Cash());
+};
+const p50BuildExportBase=buildExport;
+buildExport=function(){const out=p50BuildExportBase();out.progressionSnapshot=out.progressionSnapshot||{};out.progressionSnapshot.cashCurrent=p45Cash();return out};
+
+// Diagnostics are read-only and used by the browser regression suite.
+window.TUCBuilderSeptFixes={
+  hunterMemoryActive:p50HunterMemoryActive,
+  hunterVolonteBonus:()=>finalAttr('volonte')-p50FinalAttrBase('volonte'),
+  skillTalentBonus:id=>p20SkillTalentBonus(id),
+  cash:()=>p45Cash(),
+  commerce:()=>p45CommerceDegrees.map(x=>({...x})),
+  resaleCounts:()=>({equipment:(state.reality.equipment||[]).length,augmentations:(state.reality.augmentations||[]).length})
+};
+
+const p50Css=el('style',{},`
+.p50-economy{margin-top:26px}.p50-cash{display:grid;gap:2px;min-width:170px;padding:10px 14px;border:1px solid rgba(74,208,170,.38);border-radius:12px;background:rgba(74,208,170,.08);text-align:right}.p50-cash small{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}.p50-cash strong{font-size:22px;color:var(--good)}
+.p50-money-grid{display:grid;grid-template-columns:minmax(260px,2fr) minmax(210px,1fr) minmax(170px,1fr);gap:12px;padding:16px}.p50-action{margin:0 16px 16px}
+.p50-trade-group>[class*=p45-buy-grid]{display:none!important}.p50-trade-toolbar{display:grid;grid-template-columns:minmax(180px,.7fr) minmax(320px,1.3fr);gap:12px;padding:16px 16px 8px}.p50-item-field{padding:0 16px 8px}.p50-item-field select{width:100%}.p50-trade-terms{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px 8px}.p50-sale-rule{display:grid;align-content:center;gap:3px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.02)}.p50-sale-rule small,.p50-sale-rule span{color:var(--muted);font-size:11px}.p50-sale-rule strong{font-size:16px}
+.p50-trade-preview{margin:8px 16px 10px;padding:14px 16px;gap:10px}.p50-trade-title{display:flex;justify-content:space-between;gap:12px;align-items:center}.p50-trade-title>strong{font-size:16px}.p50-trade-title>span{font-size:10px;font-weight:900;letter-spacing:.1em;color:var(--muted)}.p50-trade-numbers{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.p50-trade-numbers>div{display:grid;gap:3px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.025)}.p50-trade-numbers small{font-size:10px;text-transform:uppercase;letter-spacing:.06em}.p50-trade-numbers strong{font-size:15px;color:var(--text)}.p50-trade-numbers .p50-trade-total{border-color:rgba(74,208,170,.38);background:rgba(74,208,170,.06)}.p50-trade-numbers .p50-trade-total strong{color:var(--good);font-size:18px}.p50-trade-preview p{margin:0;color:var(--muted);line-height:1.45}.p50-trade-actions{display:flex;justify-content:flex-end;padding:0 16px 16px}.p50-trade-actions button{min-width:220px}.p50-trade-empty{color:var(--muted);padding:4px 0}
+@media(max-width:900px){.p50-money-grid{grid-template-columns:1fr}.p50-trade-toolbar,.p50-trade-terms{grid-template-columns:1fr}.p50-trade-numbers{grid-template-columns:1fr}.p50-cash{text-align:left;min-width:0}.p50-trade-actions button{width:100%}}
+`);document.head.appendChild(p50Css);
+
+render();
