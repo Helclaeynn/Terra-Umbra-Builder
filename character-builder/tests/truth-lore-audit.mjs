@@ -1,4 +1,5 @@
 import {chromium} from 'playwright-core';
+import {writeFileSync} from 'node:fs';
 
 const base=process.env.TUC_SMOKE_BASE_URL||'http://127.0.0.1:8765/';
 const executablePath=process.env.CHROME_BIN||'/usr/bin/google-chrome';
@@ -23,6 +24,7 @@ try{
   if(browserErrors.length)throw new Error(`Erreurs navigateur au chargement: ${browserErrors.join(' | ')}`);
 
   const report=await page.evaluate(()=>window.TUCBuilderSeptFixes.truthLoreAuditV2(.60));
+  writeFileSync('/tmp/truth-lore-audit.json',JSON.stringify(report,null,2),'utf8');
   console.log(`Truth lore audit — ${report.counts.entries} entrées · ${report.counts.meta} méta · ${report.counts.semantic} incohérences de Divinité · ${report.counts.pairs} paires >= 60%.`);
 
   for(const row of report.meta.slice(0,15))annotation(`Lore méta — ${row.name}`,`${row.nature} | ${row.group} | ${row.lore}`);
