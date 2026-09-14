@@ -40,8 +40,19 @@ jobs:
           const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_BIN,args:['--no-sandbox']});
           const page=await browser.newPage();
           const browserErrors=[];
-          page.on('console',msg=>{if(msg.type()==='error')browserErrors.push(msg.text());});
+          page.on('console',msg=>{if(msg.type()==='error'&&!msg.text().includes('Failed to load resource'))browserErrors.push(msg.text());});
           page.on('pageerror',error=>browserErrors.push(error.message));
+          const assertMedia=async(frame,selector)=>{
+            const img=frame.locator(selector);
+            await img.waitFor({state:'attached',timeout:15000});
+            await img.evaluate(el=>el.scrollIntoView({block:'center'}));
+            const metrics=await img.evaluate(async el=>{
+              for(let i=0;i<100&&el.naturalWidth===0;i+=1)await new Promise(resolve=>setTimeout(resolve,100));
+              const figure=el.closest('figure'),rect=figure?.getBoundingClientRect(),style=figure?getComputedStyle(figure):null;
+              return {naturalWidth:el.naturalWidth,naturalHeight:el.naturalHeight,width:rect?.width||0,height:rect?.height||0,display:style?.display||'',visibility:style?.visibility||''};
+            });
+            if(!metrics.naturalWidth||!metrics.naturalHeight||!metrics.width||!metrics.height||metrics.display==='none'||metrics.visibility==='hidden')throw new Error(`Média non rendu: ${JSON.stringify(metrics)}`);
+          };
           await fs.writeFile('/tmp/pixel.png',Buffer.from('iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAK0lEQVR42u3OIQEAAAwEoetfeovxBoGnq1tKQEBAQEBAQEBAQEBAQEBgHXhUDfhqeP5ugAAAAABJRU5ErkJggg==','base64'));
           await page.goto('http://127.0.0.1:8765/compendium/lore-unified-preview.html',{waitUntil:'domcontentloaded'});
           await page.waitForSelector('#tucEditPage:not([hidden])',{timeout:15000});
@@ -58,13 +69,13 @@ jobs:
           }
           await page.locator('.editor-dialog button[type="submit"]').click();
           let frame=page.frameLocator('#previewFrame');
-          await frame.locator('.content-inline-media.image img[alt="Logo de test"]').waitFor({timeout:15000});
-          await frame.locator('.content-inline-media.portrait img[alt="Portrait de test"]').waitFor({timeout:15000});
+          await assertMedia(frame,'.content-inline-media.image img[alt="Logo de test"]');
+          await assertMedia(frame,'.content-inline-media.portrait img[alt="Portrait de test"]');
           await page.reload({waitUntil:'domcontentloaded'});
           await page.waitForSelector('#tucEditPage:not([hidden])',{timeout:15000});
           frame=page.frameLocator('#previewFrame');
-          await frame.locator('.content-inline-media.image img[alt="Logo de test"]').waitFor({timeout:15000});
-          await frame.locator('.content-inline-media.portrait img[alt="Portrait de test"]').waitFor({timeout:15000});
+          await assertMedia(frame,'.content-inline-media.image img[alt="Logo de test"]');
+          await assertMedia(frame,'.content-inline-media.portrait img[alt="Portrait de test"]');
           await page.click('#tucEditPage');
           await page.waitForSelector('.editor-dialog[open]');
           if(await page.locator('.editor-block[data-type="media"]').count()<2)throw new Error('Les médias ne sont pas revenus dans le brouillon.');
