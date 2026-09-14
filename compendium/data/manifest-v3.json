@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generated": "2026-09-12",
+  "generated": "2026-09-14",
   "categories": [
     "Règles",
     "Réalité",
@@ -48,8 +48,8 @@
       "id": "lore",
       "prefix": "v3-lore",
       "parts": 1,
-      "count": 229,
-      "sha256": "6b20a3653056e5d355ddd9febcef3c7e86fe848c373a273267a6acb5768a9ab3"
+      "count": 397,
+      "sha256": "855c1326e568c4b4f790d1e616fd21737a773040c7154134327622b52dc00902"
     },
     {
       "id": "pnj",
@@ -59,5 +59,5 @@
       "sha256": "d3f6006f971147d1af1c10dc025443a8db9761801f14336b42899e12d457c652"
     }
   ],
-  "expectedTotal": 519
+  "expectedTotal": 687
 }
