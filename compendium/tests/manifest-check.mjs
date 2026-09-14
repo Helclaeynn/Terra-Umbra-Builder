@@ -55,7 +55,7 @@ for(const spec of manifest.datasets){
       if(!description?.blocks?.some(block=>String(block.text||'').trim())) throw new Error(`bestiaire[${i}]: description publique absente`);
       if(description.audience==='mj') throw new Error(`bestiaire[${i}]: description marquée MJ`);
       if(dossierMj?.audience!=='mj'||!dossierMj.blocks?.length) throw new Error(`bestiaire[${i}]: dossier MJ absent`);
-      if(!(row.tags||[]).includes(row.bestiary.chapter)||(row.bestiary.subfamily&&!(row.tags||[]).includes(row.bestiary.subfamily)) throw new Error(`bestiaire[${i}]: tags chapitre/sous-famille incomplets`);
+      if(!(row.tags||[]).includes(row.bestiary.chapter)||(row.bestiary.subfamily&&!(row.tags||[]).includes(row.bestiary.subfamily))) throw new Error(`bestiaire[${i}]: tags chapitre/sous-famille incomplets`);
     }
   }
   total+=rows.length;
