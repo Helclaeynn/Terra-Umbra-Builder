@@ -2,7 +2,20 @@ import {deepClone} from './override-engine.js';
 
 let manifestPromise=null;
 let articlesPromise=null;
-const dataUrl=path=>new URL(`../data/${path}`,import.meta.url);
+
+function corpusAssetUrl(relativePath){
+  const clean=String(relativePath||'').replace(/^\.?\//,'');
+  if(location.hostname==='raw.githack.com'||location.hostname==='rawcdn.githack.com'){
+    const match=location.pathname.match(/^\/([^/]+)\/([^/]+)\/([^/]+)\//);
+    if(match){
+      const [,owner,repo,ref]=match;
+      return `https://cdn.jsdelivr.net/gh/${owner}/${repo}@${ref}/compendium/${clean}`;
+    }
+  }
+  return new URL(`../${clean}`,import.meta.url).href;
+}
+
+const dataUrl=path=>corpusAssetUrl(`data/${path}`);
 
 export async function loadEditorManifest(){
   if(!manifestPromise)manifestPromise=(async()=>{

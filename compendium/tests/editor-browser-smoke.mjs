@@ -3,19 +3,57 @@ import {chromium} from 'playwright-core';
 const base=process.env.TUC_SMOKE_BASE_URL||'http://127.0.0.1:8765/';
 const executablePath=process.env.CHROME_BIN||'/usr/bin/google-chrome';
 const browser=await chromium.launch({headless:true,executablePath,args:['--no-sandbox','--disable-dev-shm-usage']});
-const page=await browser.newPage({viewport:{width:1440,height:1000}});
+const context=await browser.newContext({viewport:{width:1440,height:1000}});
+await context.route('https://api.github.com/**',async route=>{
+  const url=new URL(route.request().url());
+  const headers={'content-type':'application/json; charset=utf-8'};
+  if(url.pathname==='/user')return route.fulfill({status:200,headers,body:JSON.stringify({login:'Helclaeynn'})});
+  if(url.pathname==='/repos/Helclaeynn/Terra-Umbra-Builder')return route.fulfill({status:200,headers,body:JSON.stringify({permissions:{push:true}})});
+  return route.fulfill({status:404,headers,body:JSON.stringify({message:'Smoke route not mocked'})});
+});
+const page=await context.newPage();
 const consoleErrors=[];
 page.on('console',message=>{if(message.type()==='error'&&!message.text().startsWith('Failed to load resource:'))consoleErrors.push(message.text());});
 page.on('pageerror',error=>consoleErrors.push(error.message));
 
+async function seedOwnerAuth(){
+  await page.evaluate(async()=>{
+    const db=await new Promise((resolve,reject)=>{
+      const request=indexedDB.open('tuc-compendium-auth',1);
+      request.onupgradeneeded=()=>{if(!request.result.objectStoreNames.contains('github'))request.result.createObjectStore('github');};
+      request.onsuccess=()=>resolve(request.result);
+      request.onerror=()=>reject(request.error);
+    });
+    await new Promise((resolve,reject)=>{
+      const tx=db.transaction('github','readwrite');
+      tx.objectStore('github').put({
+        accessToken:'smoke-owner-token',refreshToken:'',expiresAt:Date.now()+60*60*1000,refreshExpiresAt:0,tokenType:'bearer',savedAt:new Date().toISOString()
+      },'owner-session');
+      tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);
+    });
+    db.close();
+  });
+}
+
 try{
-  await page.goto(`${base}compendium/#/category/${encodeURIComponent('Personnages')}`,{waitUntil:'domcontentloaded',timeout:30000});
-  const firstCard=page.locator('.article-card').first();
+  const target=`${base}compendium/#/category/${encodeURIComponent('Personnages')}`;
+  await page.goto(target,{waitUntil:'domcontentloaded',timeout:30000});
+  let firstCard=page.locator('.article-card').first();
   await firstCard.waitFor({timeout:30000});await firstCard.click();
   await page.locator('#main .page-head h1').waitFor({timeout:30000});
-  const originalTitle=(await page.locator('#main .page-head h1').innerText()).trim();
 
-  const editButton=page.locator('#tucEditPage');await editButton.waitFor({state:'visible'});await editButton.click();
+  let editButton=page.locator('#tucEditPage');
+  await editButton.waitFor({state:'attached',timeout:30000});
+  if(await editButton.isVisible())throw new Error('Le bouton Éditer est visible sans authentification propriétaire.');
+
+  await seedOwnerAuth();
+  await page.reload({waitUntil:'domcontentloaded',timeout:30000});
+  await page.waitForFunction(()=>document.body.classList.contains('tuc-editor-authorized'),null,{timeout:10000});
+  await page.locator('#main .page-head h1').waitFor({timeout:30000});
+  const originalTitle=(await page.locator('#main .page-head h1').innerText()).trim();
+  editButton=page.locator('#tucEditPage');
+  await editButton.waitFor({state:'visible',timeout:10000});await editButton.click();
+
   const dialog=page.locator('dialog.editor-dialog');await dialog.waitFor({state:'visible'});
   const beforeSections=await dialog.locator('.editor-section').count();
   await dialog.getByRole('button',{name:'+ Ajouter une section'}).click();
@@ -82,5 +120,5 @@ try{
   await reopened.locator('[data-action="discard"]').click();await reopened.waitFor({state:'detached'});
   await page.waitForFunction(expected=>document.querySelector('#main .page-head h1')?.textContent?.trim()===expected,originalTitle,{timeout:10000});
   if(consoleErrors.length)throw new Error(`Erreurs navigateur: ${consoleErrors.join(' | ')}`);
-  console.log(`Browser smoke OK: ${originalTitle} · bloc Image avec sélecteur PC dédié, WebP, sauvegarde, rendu et réouverture validés.`);
-} finally {await browser.close();}
+  console.log(`Browser smoke OK: ${originalTitle} · lecture publique verrouillée + session propriétaire GitHub + bloc Image avec sélecteur PC dédié, WebP, sauvegarde, rendu et réouverture validés.`);
+} finally {await context.close();await browser.close();}

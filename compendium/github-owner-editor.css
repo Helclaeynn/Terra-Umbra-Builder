@@ -1,0 +1,22 @@
+body:not(.tuc-editor-authorized) .editor-floating-button,
+body:not(.tuc-editor-authorized) .editor-drafts-button{display:none!important}
+.tuc-github-auth-button{position:fixed;right:18px;bottom:18px;z-index:60;border:1px solid #304451;background:#13202a;color:#d8e4ea;border-radius:10px;padding:10px 13px;font:600 12px/1.2 inherit;box-shadow:0 10px 28px #0007;cursor:pointer}
+body.tuc-editor-authorized .editor-drafts-button{right:18px!important;bottom:66px!important}
+body.tuc-editor-authorized .editor-floating-button{right:18px!important;bottom:114px!important}
+.tuc-github-auth-button.is-connected{border-color:#44d6bd;color:#8af2df}
+.tuc-github-auth-button.is-error{border-color:#82444a;color:#ffb8bf}
+.tuc-github-dialog{max-width:640px}
+.tuc-github-dialog .tuc-device-code{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid #304451;background:#0d171e;border-radius:10px;padding:14px 16px;margin:12px 0}
+.tuc-github-dialog .tuc-device-code code{font-size:24px;letter-spacing:.12em;color:#8af2df}
+.tuc-github-dialog .tuc-auth-status{font-size:13px;color:#9eb1bc}
+.tuc-github-dialog .tuc-auth-error{border:1px solid #82444a;background:#2a1518;color:#ffb8bf;border-radius:8px;padding:10px 12px}
+.tuc-publish-main{border-color:#44d6bd!important;color:#8af2df!important}
+.tuc-publish-main[disabled]{opacity:.55;cursor:wait}
+.editor-draft-actions [data-action="publication"]{display:none!important}
+.tuc-publish-state{font-size:12px;color:#8af2df;margin-top:5px}
+@media(max-width:760px){
+  .tuc-github-auth-button{right:12px;bottom:12px}
+  body.tuc-editor-authorized .editor-drafts-button{right:12px!important;bottom:60px!important}
+  body.tuc-editor-authorized .editor-floating-button{right:12px!important;bottom:108px!important}
+  .tuc-github-dialog .tuc-device-code{align-items:flex-start;flex-direction:column}
+}

@@ -1,0 +1,45 @@
+name: Compendium page overrides sync
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'compendium/data/page-overrides/**'
+      - 'compendium/data/manual-overrides-base.json'
+      - 'scripts/sync-page-overrides.mjs'
+      - '.github/workflows/compendium-page-overrides-sync.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: compendium-page-overrides-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Rebuild committed override aggregate
+        run: node scripts/sync-page-overrides.mjs
+      - name: Validate rebuilt aggregate
+        run: node compendium/tests/manual-overrides-check.mjs
+      - name: Commit generated aggregate
+        shell: bash
+        run: |
+          if git diff --quiet -- compendium/data/manual-overrides.json; then
+            echo 'manual-overrides.json already synchronized.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add compendium/data/manual-overrides.json
+          git commit -m 'chore(compendium): sync approved page overrides'
+          git push origin HEAD:main
