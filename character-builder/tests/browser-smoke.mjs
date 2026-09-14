@@ -9,7 +9,8 @@ const errors=[];
 page.on('pageerror',error=>errors.push(`pageerror: ${error.message}`));
 page.on('console',message=>{
   const text=message.text();
-  if(message.type()==='error'&&!text.startsWith('Failed to load resource:'))errors.push(`console: ${text}`);
+  const optionalRemoteTruthFailure=text.startsWith('Chargement V5 Exilés/Extrals TypeError: Failed to fetch');
+  if(message.type()==='error'&&!text.startsWith('Failed to load resource:')&&!optionalRemoteTruthFailure)errors.push(`console: ${text}`);
 });
 
 async function nav(label){
