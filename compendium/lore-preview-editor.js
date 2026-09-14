@@ -10,9 +10,17 @@ import {applyDraft,normalizeDraft,pageIdentity,pageRoot} from './lore-preview-ed
   const editButton=document.createElement('button');editButton.id='tucEditPage';editButton.className='editor-floating-button';editButton.type='button';editButton.textContent='Éditer la page';editButton.hidden=true;document.body.appendChild(editButton);
 
   function current(){
-    try{const doc=frame.contentDocument;if(!doc||!pageRoot(doc))return null;const key=pageIdentity(frame,doc);activePageKey=key;return {doc,key,draft:normalizeDraft(readDrafts()[key]||null)};}catch{return null;}
+    try{
+      const doc=frame.contentDocument,root=doc&&pageRoot(doc);
+      if(!doc||!root||!root.querySelector('.page-head h1,.preview-hero h1,h1'))return null;
+      const key=pageIdentity(frame,doc);
+      return {doc,key,draft:normalizeDraft(readDrafts()[key]||null)};
+    }catch{return null;}
   }
-  function refresh(){const state=current();editButton.hidden=!state;if(state)applyDraft(state.doc,state.draft);}
+  function refresh(){
+    const state=current();editButton.hidden=!state;
+    if(state){activePageKey=state.key;applyDraft(state.doc,state.draft);}
+  }
   editButton.addEventListener('click',()=>{const state=current();if(state)openLoreEditor({state,readDrafts,writeDrafts,refresh});});
   function attachFrameEvents(){
     try{
