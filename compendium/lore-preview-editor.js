@@ -1,4 +1,5 @@
 import {openLoreEditor} from './lore-preview-editor-dialog.js';
+import {applyLoreEnrichment} from './lore-preview-enrichment.js';
 import {revokeAllMediaUrls} from './lore-preview-media.js';
 import {applyDraft,normalizeDraft,pageIdentity,pageRoot} from './lore-preview-editor-view.js';
 
@@ -19,7 +20,11 @@ import {applyDraft,normalizeDraft,pageIdentity,pageRoot} from './lore-preview-ed
   }
   function refresh(){
     const state=current();editButton.hidden=!state;
-    if(state){activePageKey=state.key;applyDraft(state.doc,state.draft);}
+    if(state){
+      activePageKey=state.key;
+      applyLoreEnrichment(state.doc,state.key);
+      applyDraft(state.doc,state.draft);
+    }
   }
   editButton.addEventListener('click',()=>{const state=current();if(state)openLoreEditor({state,readDrafts,writeDrafts,refresh});});
   function attachFrameEvents(){
