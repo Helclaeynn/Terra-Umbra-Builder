@@ -31,10 +31,11 @@ const r47MissingAugmentations=[
 const r47LoreBase=r34ItemLore;
 r34ItemLore=function(item){
   if(item?.id?.startsWith('augmentation-v9-')){
-    const rebuilt=item.raw?.Reconstruction==='Oui';
+    const rebuilt=String(item.raw?.Reconstruction||'').startsWith('Oui');
     return `${item.effect}${rebuilt?' Cette entrée est explicitement une reconstruction canonisée dans le livre actuel à partir d’un intitulé historique incomplet.':''}`;
   }
   return r47LoreBase(item);
 };
 
+if(typeof lockRunSelfTests==='function')lockRunSelfTests();
 render();
