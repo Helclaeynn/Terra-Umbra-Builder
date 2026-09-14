@@ -28,12 +28,13 @@ async function assertReveal(expected,label,forbidden=[]){
   for(const needle of forbidden)if(text.includes(needle))throw new Error(`${label}: valeur obsolète encore présente « ${needle} »\n${text}`);
   if(!/remplace/i.test(text)||!/ne se cumulent/i.test(text))throw new Error(`${label}: règle de remplacement SR/R non explicite\n${text}`);
 }
+const moneyNumber=text=>Number(String(text||'').replace(/[^\d-]/g,''))||0;
 
 try{
   await page.goto(`${base}character-builder/`,{waitUntil:'domcontentloaded',timeout:30000});
-  await page.waitForFunction(()=>window.TUCRealitySelfTest!==undefined&&window.TUCV9ReconciledAugmentations!==undefined&&window.TUCBuilderSeptFixes!==undefined,null,{timeout:30000});
+  await page.waitForFunction(()=>window.TUCRealitySelfTest!==undefined&&window.TUCV9ReconciledAugmentations!==undefined&&window.TUCBuilderSeptFixes?.truthLoreMetaProblems!==undefined,null,{timeout:30000});
   await page.waitForTimeout(250);
-  const startup=await page.evaluate(()=>({self:window.TUCRealitySelfTest,reconciled:window.TUCV9ReconciledAugmentations,commerce:window.TUCBuilderSeptFixes.commerce()}));
+  const startup=await page.evaluate(()=>({self:window.TUCRealitySelfTest,reconciled:window.TUCV9ReconciledAugmentations,commerce:window.TUCBuilderSeptFixes.commerce(),loreProblems:window.TUCBuilderSeptFixes.truthLoreMetaProblems()}));
   if(errors.length)throw new Error(`Erreurs navigateur au chargement: ${errors.join(' | ')} · diagnostics ${JSON.stringify(startup)}`);
   const self=startup.self,rec=startup.reconciled;
   if(rec.installed!==14||rec.total<146)throw new Error(`Réconciliation V9 incomplète: ${JSON.stringify(rec)}`);
@@ -48,6 +49,7 @@ try{
   if(!self?.ok)throw new Error(`Auto-test Réalité en échec: ${JSON.stringify(self?.failed||self)}`);
   if((self?.counts?.augmentations||0)<146||(self?.counts?.equipment||0)<261)throw new Error(`Comptages catalogues régressés: ${JSON.stringify(self?.counts)}`);
   if(startup.commerce.length!==7||startup.commerce[0].buy!==1||startup.commerce[0].sale!==.5||startup.commerce[1].buy!==.95||startup.commerce[1].sale!==.55||startup.commerce[6].buy!==.70||startup.commerce[6].sale!==.80)throw new Error(`Barème Commerce incorrect: ${JSON.stringify(startup.commerce)}`);
+  if(startup.loreProblems.length)throw new Error(`Lore Vérité méta encore présent: ${JSON.stringify(startup.loreProblems.slice(0,12))}`);
 
   const navText=await page.locator('#stepNav').innerText();
   for(const expected of ['Vérité','Équipement','Dépense XP & PTV'])if(!navText.includes(expected))throw new Error(`Étape absente: ${expected}`);
@@ -84,13 +86,16 @@ try{
   const hunterDiag=await page.evaluate(()=>({active:window.TUCBuilderSeptFixes.hunterMemoryActive(),bonus:window.TUCBuilderSeptFixes.hunterVolonteBonus()}));
   if(!hunterDiag.active||hunterDiag.bonus!==1)throw new Error(`Bonus permanent du Chasseur non appliqué: ${JSON.stringify(hunterDiag)}`);
 
-  // Daemon: explicit Divinity stats plus unique, non-template lore even inside a collapsed details group.
+  // Daemon: explicit Divinity stats plus unique lore. Lilith's Fertility & Flesh branch must not fall back to rules commentary.
   await selectContaining('daemon');await selectContaining('alabor');await assertReveal(['+1 Vigueur · +1 Agilité','+2 Vigueur · +1 Agilité'],'Daemon/Alabor');
-  const truthText=(await page.locator('#stepContent').textContent())||'';
+  let truthText=(await page.locator('#stepContent').textContent())||'';
   if(!truthText.includes('Main des Eaux')||!truthText.includes('l’eau n’est jamais un décor inerte'))throw new Error('Lore spécifique de Main des Eaux absent : fallback Daemon générique encore actif.');
+  await selectContaining('lilith');await page.waitForTimeout(120);truthText=(await page.locator('#stepContent').textContent())||'';
+  for(const expected of ['Corps souverain','le corps n’est plus une mécanique opaque','Chair féconde','La bénédiction de Lilith peut franchir','Fécondité divine','la fécondité n’est ni une récompense morale'])if(!truthText.includes(expected))throw new Error(`Lore Lilith/Fertilité incomplet: manque « ${expected} »`);
+  for(const forbidden of ['ce Talent correspond','effet mécanique décrit','fournit une réponse surnaturelle ou doctrinale'])if(truthText.includes(forbidden))throw new Error(`Lore méta encore visible dans Lilith: « ${forbidden} »`);
 
   // Campaign economy: no roll = base price, simple success = 5%, ledger survives render,
-  // an augmentation can be purchased and resold and both operations modify cash.
+  // an augmentation can be purchased and resold and both operations modify cash AND the sidebar Compte.
   await nav('Dépense XP & PTV');
   await page.locator('#stepContent').getByText('Argent, achats & revente',{exact:true}).waitFor({state:'visible',timeout:10000});
   const progressionText=await page.locator('#stepContent').innerText();
@@ -101,8 +106,8 @@ try{
   await money.locator('input[placeholder="Ex. prime de mission"]').fill('Prime smoke test');
   await money.locator('input[type="number"]').fill('100000');
   await money.getByRole('button',{name:'Enregistrer le mouvement'}).click();await page.waitForTimeout(180);
-  const cashFunded=await page.evaluate(()=>window.TUCBuilderSeptFixes.cash());
-  if(cashFunded!==cash0+100000)throw new Error(`Le mouvement d'argent ne persiste pas après render: ${cash0} -> ${cashFunded}`);
+  const funded=await page.evaluate(()=>({cash:window.TUCBuilderSeptFixes.cash(),summary:window.TUCBuilderSeptFixes.summaryCash()}));
+  if(funded.cash!==cash0+100000||moneyNumber(funded.summary)!==funded.cash)throw new Error(`Le mouvement d'argent / résumé ne persiste pas: ${JSON.stringify({cash0,funded})}`);
 
   const beforeCounts=await page.evaluate(()=>window.TUCBuilderSeptFixes.resaleCounts());
   const buy=page.locator('#stepContent details').filter({hasText:'Acheter en campagne'}).first();
@@ -111,8 +116,8 @@ try{
   const article=buy.locator('.p50-item-field select');await article.selectOption('augmentation-v9-cybermain-g1');await page.waitForTimeout(80);
   const buyCashBefore=await page.evaluate(()=>window.TUCBuilderSeptFixes.cash());
   await buy.getByRole('button',{name:/Acheter ·/}).click();await page.waitForTimeout(180);
-  const afterBuy=await page.evaluate(()=>({cash:window.TUCBuilderSeptFixes.cash(),counts:window.TUCBuilderSeptFixes.resaleCounts()}));
-  if(afterBuy.cash!==buyCashBefore-4000||afterBuy.counts.augmentations!==beforeCounts.augmentations+1)throw new Error(`Achat augmentation non comptabilisé: ${JSON.stringify({buyCashBefore,beforeCounts,afterBuy})}`);
+  const afterBuy=await page.evaluate(()=>({cash:window.TUCBuilderSeptFixes.cash(),summary:window.TUCBuilderSeptFixes.summaryCash(),counts:window.TUCBuilderSeptFixes.resaleCounts()}));
+  if(afterBuy.cash!==buyCashBefore-4000||moneyNumber(afterBuy.summary)!==afterBuy.cash||afterBuy.counts.augmentations!==beforeCounts.augmentations+1)throw new Error(`Achat augmentation / résumé non comptabilisé: ${JSON.stringify({buyCashBefore,beforeCounts,afterBuy})}`);
 
   const sell=page.locator('#stepContent details').filter({hasText:'Revendre'}).first();await sell.locator('summary').click();await page.waitForTimeout(60);
   const saleSelect=sell.locator('.p50-item-field select');
@@ -120,9 +125,9 @@ try{
   if(!cyberOption)throw new Error('Cybermain achetée absente de la liste de revente des augmentations.');
   await saleSelect.selectOption(cyberOption.value);await page.waitForTimeout(60);page.once('dialog',d=>d.accept());
   await sell.getByRole('button',{name:/Revendre ·/}).click();await page.waitForTimeout(180);
-  const afterSale=await page.evaluate(()=>({cash:window.TUCBuilderSeptFixes.cash(),counts:window.TUCBuilderSeptFixes.resaleCounts()}));
-  if(afterSale.cash!==buyCashBefore-2000||afterSale.counts.augmentations!==beforeCounts.augmentations)throw new Error(`Revente augmentation non comptabilisée: ${JSON.stringify({buyCashBefore,beforeCounts,afterSale})}`);
+  const afterSale=await page.evaluate(()=>({cash:window.TUCBuilderSeptFixes.cash(),summary:window.TUCBuilderSeptFixes.summaryCash(),counts:window.TUCBuilderSeptFixes.resaleCounts()}));
+  if(afterSale.cash!==buyCashBefore-2000||moneyNumber(afterSale.summary)!==afterSale.cash||afterSale.counts.augmentations!==beforeCounts.augmentations)throw new Error(`Revente augmentation / résumé non comptabilisée: ${JSON.stringify({buyCashBefore,beforeCounts,afterSale})}`);
 
   if(errors.length)throw new Error(`Erreurs navigateur: ${errors.join(' | ')}`);
-  console.log(`Builder browser smoke OK — ${self.counts.augmentations} augmentations, ${self.counts.equipment} équipements, bonus Chasseur/Discipline, Vampire/Garou, Commerce 0→30 %, cash persistant et revente d'augmentation validés.`);
+  console.log(`Builder browser smoke OK — ${self.counts.augmentations} augmentations, ${self.counts.equipment} équipements, lore Vérité sans meta-fallback, Lilith/Fertilité spécifique, résumé Compte live, bonus Chasseur/Discipline, Vampire/Garou, Commerce, cash et revente d'augmentation validés.`);
 } finally {await context.close();await browser.close();}
