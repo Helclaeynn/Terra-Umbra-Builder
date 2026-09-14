@@ -5,6 +5,11 @@ on:
     branches:
       - preview/lore
     paths:
+      - 'compendium/lore-preview-editor.js'
+      - 'compendium/lore-preview-editor-view.js'
+      - 'compendium/lore-preview-editor-dialog.js'
+      - 'compendium/lore-preview-media.js'
+      - 'compendium/lore-unified-preview.html'
       - '.github/workflows/lore-editor-smoke.yml'
 
 permissions:
