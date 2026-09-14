@@ -24,8 +24,21 @@ try{
   if(browserErrors.length)throw new Error(`Erreurs navigateur au chargement: ${browserErrors.join(' | ')}`);
 
   const report=await page.evaluate(()=>window.TUCBuilderSeptFixes.truthLoreAuditV2(.60));
+  report.sourceDiagnostics=await page.evaluate(()=>{
+    const out={keyCounts:{},stringFieldCounts:{},samples:[]};
+    for(const [nature,rows] of Object.entries(truthCatalog||{})){
+      if(!Array.isArray(rows))continue;
+      for(const t of rows){
+        for(const k of Object.keys(t||{}))out.keyCounts[k]=(out.keyCounts[k]||0)+1;
+        for(const [k,v] of Object.entries(t||{}))if(typeof v==='string'&&v.trim())out.stringFieldCounts[k]=(out.stringFieldCounts[k]||0)+1;
+        if(['parole fixée','serment écrit','convergence des savoirs','eaux nourricières'].includes(String(t?.name||'').toLowerCase()))out.samples.push({nature,...t});
+      }
+    }
+    return out;
+  });
   writeFileSync('/tmp/truth-lore-audit.json',JSON.stringify(report,null,2),'utf8');
   console.log(`Truth lore audit — ${report.counts.entries} entrées · ${report.counts.meta} méta · ${report.counts.semantic} incohérences de Divinité · ${report.counts.pairs} paires >= 60%.`);
+  console.log(`Champs source Truth: ${JSON.stringify(report.sourceDiagnostics.stringFieldCounts)}`);
 
   for(const row of report.meta.slice(0,15))annotation(`Lore méta — ${row.name}`,`${row.nature} | ${row.group} | ${row.lore}`);
   for(const row of report.semantic.slice(0,25))annotation(`Divinité incohérente — ${row.name}`,`attendu=${row.expectedGod}; trouvé=${row.wrongGods.join(', ')} | ${row.group} | effet=${row.effect} | lore=${row.lore}`);
