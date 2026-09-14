@@ -1,5 +1,53 @@
 {
   "version": 1,
-  "updated": "2026-09-12",
-  "entries": []
+  "updated": "2026-09-14",
+  "entries": [
+    {
+      "articleId": "lore-vie-quotidienne-alimentation-base",
+      "baseHash": "da5caf25d4f1962dad89ba24bcaf3cd8ddbd3665d550c6959ddf06bf018b4318",
+      "updatedAt": "2026-09-14T15:29:25.960Z",
+      "note": "",
+      "operations": [
+        {
+          "op": "replace",
+          "path": "/sections",
+          "value": [
+            {
+              "id": "la-ration-universelle-1",
+              "title": "La ration universelle",
+              "level": 2,
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Toutes les vitamines, protéines, lipides, sucres et autres sels minéraux sont combinés dans une barre de fibres afin de fournir la dose quotidienne moyenne nécessaire pour un bon fonctionnement d’un être humain.(barres différentes selon les tranches d’âges)Bon marché et difficile à mâcher, elle est la base de la base et a été développée pour se prémunir des famines, produite en quantité constantes."
+                }
+              ]
+            },
+            {
+              "id": "les-cereales-2",
+              "title": "Les céréales",
+              "level": 2,
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "Cultures céréalières telles que le blé, le riz ou encore le soja sont intensément produits pour fournir une alimentation moins complète mais plus satisfaisante, les moyens de produits sont similaires mais dans des quantités supérieures."
+                }
+              ]
+            },
+            {
+              "id": "les-insectes-3",
+              "title": "Les insectes",
+              "level": 2,
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "La production d’insectes est massive, elle permet de fournir des protéines en énorme quantité, des vitamines et des nutriments sans lipides tout en recyclant des masses biologiques tels que les détritus végétaux ou bien encore les déjections qui n’auraient pas servi aussi bien. Reconditionnée sous forme de purée, la production d’insecte sert à d’innombrables produits, elle peut aussi bien servir aux rations universelle qu’à des aliments plus élaborés, bien qu’on ne les consomme pas sous leur forme basique."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
