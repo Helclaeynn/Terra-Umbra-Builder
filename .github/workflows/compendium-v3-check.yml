@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - preview/lore
       - feature/tuc-compendium-v3-transfer-final
       - feature/tuc-compendium-editor
       - feature/tuc-compendium-inline-images
@@ -50,4 +51,6 @@ jobs:
       - name: Validate committed manual overrides
         run: node compendium/tests/manual-overrides-check.mjs
       - name: Validate V3 corpus and active runtime
-        run: node compendium/tests/manifest-check.mjs
+        run: |
+          node compendium/tests/manifest-check.mjs
+          node compendium/tests/bestiary-v15-check.mjs
