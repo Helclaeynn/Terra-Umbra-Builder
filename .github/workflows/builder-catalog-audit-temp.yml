@@ -2,6 +2,8 @@ name: Builder catalog audit temp
 on:
   push:
     branches: [feature/builder-fixes-sept2026]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 jobs:
   audit:
@@ -24,4 +26,7 @@ jobs:
               console.log(JSON.stringify({id:x.id,name:x.name,category:x.category||'',price,gen:x.generation??'',charge:x.charge??'',stress:x.stress??'',keys:Object.keys(x)}));
             }
           }
+          const talentFiles=['corporatiste','gouvernementale','mafieuse','crawler','religieuse'];
+          console.log('=== TALENTS WITH CHOICE ===');
+          for(const family of ['origin','sphere'])for(const id of talentFiles){const p=`character-builder/rulesets/terra-umbra/talents/${family}/${id}.json`;for(const t of JSON.parse(fs.readFileSync(p,'utf8'))){if(/choisir|choix|au choix/i.test(`${t.effect||''} ${t.description||''}`))console.log(JSON.stringify({family,id:t.id,name:t.name,effect:t.effect||t.description||''}))}}
           NODE
