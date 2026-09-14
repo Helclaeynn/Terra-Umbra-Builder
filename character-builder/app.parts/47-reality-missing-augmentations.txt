@@ -21,10 +21,12 @@ const r47MissingAugmentations=[
   r47Aug('ergot-griffes-g2','Ergot / Griffes de pied','Membres cybernétiques',2,0,0,1,'Version rétractable et dissimulable. Une attaque utilisant réellement la jambe ou le pied se résout en Pugilat et inflige DGT 2.',{Support:'Cyberpied ou Cyberjambe',Type:'Arme intégrée'}),
   r47Aug('pied-gecko-g2','Pied Gecko','Membres cybernétiques',2,0,0,1,'+2 Athlétisme lorsque l’adhérence des pieds est directement utile : escalade, surface très glissante ou maintien sur support incliné. Deux pieds Gecko permettent des pentes extrêmes ; un mur vertical exige encore des prises manuelles ou un autre dispositif.',{Support:'Cyberpied ou Cyberjambe',Type:'Module de membre',Reconstruction:'Oui'})
 ];
+const r47Installed=[];
 (function r47InstallMissing(){
   const key=x=>`${normText(x.name)}|${x.generation??'x'}`,have=new Set(realityData.augmentations.map(key));
-  for(const item of r47MissingAugmentations){const k=key(item);if(!have.has(k)){have.add(k);realityData.augmentations.push(item)}}
+  for(const item of r47MissingAugmentations){const k=key(item);if(!have.has(k)){have.add(k);realityData.augmentations.push(item);r47Installed.push(item.id)}}
   ruleset.reality=realityData;
+  window.TUCV9ReconciledAugmentations={attempted:r47MissingAugmentations.length,installed:r47Installed.length,total:realityData.augmentations.length,ids:[...r47Installed]};
 })();
 
 // Surface the reason why these entries do not show a fabricated dollar value.
