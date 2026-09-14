@@ -2,8 +2,12 @@ import {createMediaFigure,decodeMedia} from './lore-preview-media.js';
 
 export function pageIdentity(frame,doc){
   const url=new URL(frame.src||'',location.href),docId=url.pathname.split('/').pop()?.replace(/-preview\.html$/,'')||'lore';
-  const hash=doc.defaultView?.location?.hash||'',route=decodeURIComponent(hash.replace(/^#\/?/,''))||doc.querySelector('#content h1,.content h1')?.textContent?.trim()||'page';
-  return `${docId}::${route}`;
+  const hash=decodeURIComponent((doc.defaultView?.location?.hash||'').replace(/^#\/?/,''));
+  const active=doc.querySelector('#nav [data-id].active,.nav [data-id].active,#nav a.active,.nav a.active');
+  const activeId=active?.dataset?.id||decodeURIComponent((active?.getAttribute?.('href')||'').replace(/^#\/?/,''));
+  const heading=doc.querySelector('#content h1,.content h1');
+  const stableTitle=heading?.getAttribute('data-lore-editor-original')||heading?.textContent?.trim()||'';
+  return `${docId}::${hash||activeId||stableTitle||'page'}`;
 }
 export function pageRoot(doc){return doc.querySelector('#content,.content')||doc.body;}
 export function snapshot(doc){
