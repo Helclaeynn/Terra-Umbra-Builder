@@ -1,0 +1,11 @@
+.lore-editor-add-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+.lore-editor-add-row [data-action="add-media"]{background:#123026;border-color:#315f51}
+.editor-block-actions{display:flex;align-items:center;gap:6px}
+.editor-block-actions button{padding:5px 8px;font-size:12px}
+.editor-block[data-type="media"]{border-left-color:#4f796e}
+.editor-block[data-inline-media-kind="portrait"]{border-left-color:#77629b}
+.editor-inline-media-preview .content-inline-media{margin:12px auto}
+.editor-inline-media-preview .content-inline-media img{max-height:360px}
+.editor-inline-media-preview .content-inline-media.portrait{max-width:300px}
+.editor-inline-media-preview .content-inline-media-empty{min-height:100px;display:grid;place-items:center}
+@media(max-width:760px){.editor-block-head{align-items:flex-start;flex-wrap:wrap}.editor-block-actions{width:100%}.lore-editor-add-row button{flex:1}}

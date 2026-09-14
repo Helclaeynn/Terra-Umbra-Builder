@@ -1,28 +1,89 @@
-name: Lore preview bundle
+name: Lore preview editor smoke
 
 on:
   push:
     branches:
       - preview/lore
     paths:
+      - 'compendium/lore-preview-editor.js'
+      - 'compendium/lore-preview-editor-dialog.js'
+      - 'compendium/lore-preview-editor-view.js'
+      - 'compendium/lore-preview-media.js'
+      - 'compendium/lore-preview-editor.css'
+      - 'compendium/lore-unified-preview.html'
       - '.github/workflows/lore-preview-bundle.yml'
 
 permissions:
   contents: read
 
 jobs:
-  bundle:
+  browser-smoke:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Build preview bundle
-        run: |
-          tar -czf lore-preview-bundle.tar.gz compendium
-          test -s lore-preview-bundle.tar.gz
-      - uses: actions/upload-artifact@v4
+      - uses: actions/setup-node@v4
         with:
-          name: lore-preview-bundle
-          path: lore-preview-bundle.tar.gz
-          compression-level: 0
-
-# Final post-payload audit snapshot: 2026-09-14
+          node-version: 22
+      - name: Check module syntax
+        run: node --input-type=module --check < compendium/lore-preview-editor.js
+      - name: Install browser driver
+        run: npm install --no-save --package-lock=false playwright-core@1.55.0
+      - name: Smoke test Lore Image / Portrait editor
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/tuc-lore-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:8765/compendium/lore-unified-preview.html >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          CHROME_BIN="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
+          test -n "$CHROME_BIN" || { echo 'Chrome/Chromium introuvable.' >&2; exit 1; }
+          cat > /tmp/lore-editor-smoke.mjs <<'NODE'
+          import { chromium } from 'playwright-core';
+          import fs from 'node:fs/promises';
+          const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_BIN,args:['--no-sandbox']});
+          const page=await browser.newPage();
+          const errors=[];
+          page.on('console',msg=>{if(msg.type()==='error')errors.push(msg.text());});
+          page.on('pageerror',error=>errors.push(error.message));
+          await fs.writeFile('/tmp/pixel.png',Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFElEQVR42mNkYGD4z8DAwMDAxAADAAQBAAGoBHsAAAAASUVORK5CYII=','base64'));
+          await page.goto('http://127.0.0.1:8765/compendium/lore-unified-preview.html#/agences',{waitUntil:'domcontentloaded'});
+          await page.waitForSelector('#tucEditPage:not([hidden])',{timeout:15000});
+          await page.click('#tucEditPage');
+          await page.waitForSelector('.editor-dialog[open]');
+          const imageChooser=page.waitForEvent('filechooser');
+          await page.locator('.editor-section [data-action="add-media"][data-kind="image"]').first().click();
+          await (await imageChooser).setFiles('/tmp/pixel.png');
+          const imageBlock=page.locator('.editor-block[data-inline-media-kind="image"]').last();
+          await imageBlock.locator('[data-inline-media-alt]').fill('Logo de test');
+          await imageBlock.locator('[data-inline-media-caption]').fill('Légende image');
+          await imageBlock.locator('[data-inline-media-status]').filter({hasText:'WebP local prêt'}).waitFor({timeout:15000});
+          const portraitChooser=page.waitForEvent('filechooser');
+          await page.locator('.editor-section [data-action="add-media"][data-kind="portrait"]').first().click();
+          await (await portraitChooser).setFiles('/tmp/pixel.png');
+          const portraitBlock=page.locator('.editor-block[data-inline-media-kind="portrait"]').last();
+          await portraitBlock.locator('[data-inline-media-alt]').fill('Portrait de test');
+          await portraitBlock.locator('[data-inline-media-caption]').fill('Légende portrait');
+          await portraitBlock.locator('[data-inline-media-status]').filter({hasText:'WebP local prêt'}).waitFor({timeout:15000});
+          await page.locator('.editor-dialog button[type="submit"]').click();
+          const frame=page.frameLocator('#previewFrame');
+          await frame.locator('.content-inline-media.image img[alt="Logo de test"]').waitFor({timeout:15000});
+          await frame.locator('.content-inline-media.portrait img[alt="Portrait de test"]').waitFor({timeout:15000});
+          await page.reload({waitUntil:'domcontentloaded'});
+          await page.waitForSelector('#tucEditPage:not([hidden])',{timeout:15000});
+          await frame.locator('.content-inline-media.image img[alt="Logo de test"]').waitFor({timeout:15000});
+          await frame.locator('.content-inline-media.portrait img[alt="Portrait de test"]').waitFor({timeout:15000});
+          await page.click('#tucEditPage');
+          await page.waitForSelector('.editor-dialog[open]');
+          if(await page.locator('.editor-block[data-type="media"]').count()<2)throw new Error('Les médias ne sont pas revenus dans le brouillon.');
+          if(errors.length)throw new Error(`Erreurs navigateur: ${errors.join(' | ')}`);
+          await browser.close();
+          console.log('Lore Image/Portrait browser smoke: OK');
+          NODE
+          CHROME_BIN="$CHROME_BIN" node /tmp/lore-editor-smoke.mjs
