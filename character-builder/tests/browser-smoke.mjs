@@ -25,9 +25,14 @@ async function selectContaining(value){
 try{
   await page.goto(`${base}character-builder/`,{waitUntil:'domcontentloaded',timeout:30000});
   await page.waitForFunction(()=>window.TUCRealitySelfTest!==undefined,null,{timeout:30000});
-  const self=await page.evaluate(()=>window.TUCRealitySelfTest);
+  await page.waitForTimeout(250);
+  const startup=await page.evaluate(()=>({self:window.TUCRealitySelfTest,reconciled:window.TUCV9ReconciledAugmentations||null}));
+  if(errors.length)throw new Error(`Erreurs navigateur au chargement: ${errors.join(' | ')} · diagnostics ${JSON.stringify(startup)}`);
+  const self=startup.self;
+  if(!startup.reconciled)throw new Error(`Couche V9 de réconciliation non exécutée: ${JSON.stringify(startup)}`);
+  if(startup.reconciled.installed!==14||startup.reconciled.total<146)throw new Error(`Réconciliation V9 incomplète: ${JSON.stringify(startup.reconciled)}`);
   if(!self?.ok)throw new Error(`Auto-test Réalité en échec: ${JSON.stringify(self?.failed||self)}`);
-  if((self?.counts?.augmentations||0)<146)throw new Error(`Catalogue augmentations incomplet après réconciliation: ${self?.counts?.augmentations}`);
+  if((self?.counts?.augmentations||0)<146)throw new Error(`Auto-test non rafraîchi après réconciliation: ${self?.counts?.augmentations} · ${JSON.stringify(startup.reconciled)}`);
   if((self?.counts?.equipment||0)<261)throw new Error(`Catalogue équipement régressé: ${self?.counts?.equipment}`);
 
   const navText=await page.locator('#stepNav').innerText();
@@ -59,16 +64,7 @@ try{
   const truthText=await page.locator('#stepContent').innerText();
   if(!truthText.includes('l’eau n’est jamais un décor inerte'))throw new Error('Lore spécifique de Main des Eaux absent : fallback Daemon générique encore actif.');
 
-  // Equipment: the restored book entries must exist in the runtime catalog and carry canonical mechanics.
-  const aug=await page.evaluate(()=>{
-    const names=['Booster sensoriel','Implant radar/sonar','Estomac blindé','Autoinjecteur','Cybermain','Scanner technique','Main Gecko','Cyberpied','Ergot / Griffes de pied','Pied Gecko'];
-    const rows=window.TUCRealitySelfTest?.counts||{};
-    // Catalog itself is module-scoped; inspect rendered source through the public self-test count here.
-    return {rows,names};
-  });
-  if((aug.rows?.augmentations||0)<146)throw new Error('Les augmentations V9 restaurées ne sont pas chargées.');
-
-  // Progression: Profane can become Initié and campaign economy is rendered.
+  // Progression: campaign economy is rendered with the agreed Commerce scale.
   await nav('Dépense XP & PTV');
   const economy=page.locator('#stepContent').getByText('Argent, achats & revente',{exact:true});
   await economy.waitFor({state:'visible',timeout:10000});
