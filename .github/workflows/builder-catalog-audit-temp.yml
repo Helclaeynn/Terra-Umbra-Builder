@@ -1,0 +1,27 @@
+name: Builder catalog audit temp
+on:
+  push:
+    branches: [feature/builder-fixes-sept2026]
+  workflow_dispatch:
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - name: Decode and report catalogs
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs=require('fs'),zlib=require('zlib');
+          function load(name){const p=`character-builder/rulesets/terra-umbra/reality/${name}.json.gz.b64`;return JSON.parse(zlib.gunzipSync(Buffer.from(fs.readFileSync(p,'utf8').replace(/\s+/g,''),'base64')).toString('utf8'))}
+          for(const name of ['equipment','augmentations']){
+            const rows=load(name); console.log(`=== ${name.toUpperCase()} COUNT ${rows.length} ===`);
+            for(const x of rows){
+              const deep=(o,k)=>{if(!o||typeof o!=='object')return '';for(const [a,v] of Object.entries(o)){if(a.toLowerCase()===k.toLowerCase())return v;if(v&&typeof v==='object'){const r=deep(v,k);if(r!==''&&r!=null)return r}}return ''};
+              const price=deep(x,'Prix')||deep(x,'Prix indicatif')||deep(x,'Fourchette indicative')||x.price||'';
+              console.log(JSON.stringify({id:x.id,name:x.name,category:x.category||'',price,gen:x.generation??'',charge:x.charge??'',stress:x.stress??'',keys:Object.keys(x)}));
+            }
+          }
+          NODE
