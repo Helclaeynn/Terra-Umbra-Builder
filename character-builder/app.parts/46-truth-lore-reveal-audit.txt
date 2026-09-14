@@ -1,0 +1,160 @@
+// Truth lore/revelation audit — September 2026.
+// Replaces repetitive flavour fallbacks and makes V / SR / R consequences visible at selection time.
+
+// The automatic audit found exactly three creation Talents that require a secondary choice.
+// Remove two speculative entries from the previous hotfix layer.
+delete p45TalentChoiceSpecs.petites_combines;
+delete p45TalentChoiceSpecs.education_caritative;
+
+// ---------------------------------------------------------------------------
+// Revelation states — visible where the Truth structure is chosen.
+// ---------------------------------------------------------------------------
+const t46DaemonRevealStats={
+  alabor:{sr:'+1 Vigueur · +1 Agilité',r:'+2 Vigueur · +1 Agilité'},
+  astaroth:{sr:'+1 Esprit · +1 Volonté',r:'+2 Esprit · +1 Volonté'},
+  belial:{sr:'+1 Vigueur · +1 Volonté',r:'+2 Vigueur · +1 Volonté'},
+  diablo:{sr:'+1 Agilité · +1 Volonté',r:'+1 Agilité · +2 Volonté'},
+  lilith:{sr:'+1 Charisme · +1 Volonté',r:'+2 Charisme · +1 Volonté'},
+  mammon:{sr:'+1 Vigueur · +1 Volonté',r:'+1 Vigueur · +2 Volonté'},
+  mephisto:{sr:'+1 Esprit · +1 Charisme',r:'+2 Esprit · +1 Charisme'},
+  satan:{sr:'+1 Esprit · +1 Volonté',r:'+1 Esprit · +2 Volonté'},
+  lucifer:{sr:'+1 Vigueur · +1 Volonté',r:'+2 Vigueur · +1 Volonté'},
+  belzebuth:{sr:'+1 Vigueur · +1 Esprit',r:'+2 Vigueur · +1 Esprit'},
+  abigor:{sr:'+1 Agilité · +1 Volonté',r:'+2 Agilité · +1 Volonté'},
+  baal:{sr:'+1 Vigueur · +1 Agilité',r:'+2 Vigueur · +1 Agilité'},
+  morrighan:{sr:'+1 Agilité · +1 Volonté',r:'+2 Agilité · +1 Volonté'}
+};
+function t46AccessNames(access){
+  const a=String(access||'').toUpperCase();return {v:a.includes('V'),sr:a.includes('SR'),r:a.includes('R')};
+}
+function t46FreeTraitsFor(stage){
+  const list=[...(truthNature()?.freeTraits||[])];
+  if(typeof daSelectedFreeTraits==='function')list.push(...daSelectedFreeTraits());
+  return list.filter(x=>t46AccessNames(x.access)[stage]).map(x=>x.name);
+}
+function t46StageCard(code,title,body,stats='',traits=[]){
+  return `<div class="t46-stage"><div class="t46-stage-head"><strong>${uxEsc(title)}</strong><span>${code}</span></div>${stats?`<div class="t46-stats">${uxEsc(stats)}</div>`:''}<p>${uxEsc(body)}</p>${traits.length?`<small><b>Capacités de Nature accessibles :</b> ${uxEsc(traits.join(' · '))}</small>`:''}</div>`;
+}
+function t46RevealPanel(){
+  const nature=state.truth.nature;if(!nature)return null;
+  const box=el('section',{class:'t46-reveal-panel'});box.appendChild(el('div',{class:'section-title reality-subtitle'},'<div><h3>Voile & Révélation</h3><p>Ce ne sont pas des costumes : chaque état détermine ce que la Nature matérialise réellement et quelles capacités peuvent fonctionner.</p></div>'));
+  if(nature==='daemon'){
+    const god=state.truth.choices?.divinity||'',stats=t46DaemonRevealStats[god]||null,godName=(t16Nature('daemon')?.choices?.find(c=>c.key==='divinity')?.options||[]).find(o=>o.id===god)?.name||'';
+    if(!stats)box.appendChild(el('div',{class:'rulebox'},'<strong>Choisissez une Divinité :</strong> ses bonus d’Attributs Semi-Révélé et Révélé apparaîtront ici immédiatement.'));
+    else box.appendChild(el('div',{class:'rulebox good'},`<strong>${uxEsc(godName)} :</strong> le bonus Révélé <b>remplace</b> le bonus Semi-Révélé ; ils ne se cumulent jamais.`));
+    box.appendChild(el('div',{class:'t46-stage-grid'},
+      t46StageCard('V','Voilé','Incarnation mortelle maintenue par l’Hologramme. Aucun pouvoir daemoniaque n’est disponible sauf mention explicite V.','Aucun bonus daemoniaque d’Attribut',t46FreeTraitsFor('v'))+
+      t46StageCard('SR','Semi-Révélé','La Marque transparaît sans abandonner complètement la lecture humaine du corps. Vision des âmes, prières et capacités SR deviennent accessibles.',stats?.sr||'Bonus déterminé par la Divinité',t46FreeTraitsFor('sr'))+
+      t46StageCard('R','Révélé','La forme exaltée s’impose. Le bonus R de la Divinité remplace SR et toutes les capacités marquées R peuvent être utilisées.',stats?.r||'Bonus déterminé par la Divinité',t46FreeTraitsFor('r'))
+    ));
+  }else{
+    const special=nature==='khinae'
+      ?{sr:'Instincts, perceptions et Talents SR de Lignée.',r:'Humain révélé : Régénération lente et Talents R ; animal/hybride selon la Lignée. L’hybride apporte Corps de guerre et Rythme Khinae.'}
+      :nature==='garou'
+        ?{sr:'Les sens, instincts et capacités SR deviennent actifs.',r:'La physiologie et les capacités Révélées deviennent pleinement matérielles ; la forme exacte dépend du Garou, du Pelage et du Sang.'}
+        :nature==='vampire'
+          ?{sr:'Les sens prédateurs et capacités SR s’expriment sans Révélation complète.',r:'La physiologie maudite, la prédation et les capacités R deviennent pleinement actives, avec leurs vulnérabilités associées.'}
+          :nature==='angelus'
+            ?{sr:'La Transcendance commence à traverser l’incarnation : capacités SR et signes angéliques accessibles.',r:'La forme transcendée s’exprime pleinement, notamment les capacités R et les Ailes transcendées.'}
+            :{sr:'Les capacités portant la mention SR deviennent accessibles lorsque la Nature peut les exprimer.',r:'Les capacités R deviennent accessibles et la Nature peut manifester sa forme ou ses propriétés complètes.'};
+    box.appendChild(el('div',{class:'t46-stage-grid'},
+      t46StageCard('V','Voilé','L’Hologramme maintient la traduction compatible avec la Réalité. Seules les capacités explicitement marquées V fonctionnent.', '',t46FreeTraitsFor('v'))+
+      t46StageCard('SR','Semi-Révélé',special.sr,'',t46FreeTraitsFor('sr'))+
+      t46StageCard('R','Révélé',special.r,'',t46FreeTraitsFor('r'))
+    ));
+  }
+  return box;
+}
+const t46ChoicePanelBase=t16RenderChoicePanel;
+t16RenderChoicePanel=function(){
+  t46ChoicePanelBase();const host=$('#stepContent');if(!host)return;
+  host.querySelector('.t46-reveal-panel')?.remove();const panel=t46RevealPanel();if(!panel)return;
+  const choices=host.querySelector('.t30-choice-stack,.t16-choice-stack');if(choices)choices.after(panel);else host.querySelector('.truth-nature-card')?.after(panel);
+};
+
+// ---------------------------------------------------------------------------
+// Daemon lore — every current Daemon Talent receives its own text.
+// No "same sentence + changed god/name" fallback for the 36 canonical entries.
+// ---------------------------------------------------------------------------
+const t46DaemonLore={
+  'memoire des ages':'Une Cour divine ne forme pas seulement des serviteurs : elle accumule des vies. Certains souvenirs remontent avec la précision d’une expérience vécue, y compris lorsque l’incarnation présente n’a jamais approché le lieu, la langue ou l’époque concernés.',
+  'ancrage de l elu':'La Divinité a déjà retiré cette âme du Cycle pour la reforger. Ce lien ancien lui donne une inertie spirituelle inhabituelle : l’arracher à son corps, la déplacer ou la posséder revient à lutter contre la marque même qui l’a faite Héraut.',
+  'regard du heraut':'Vision des âmes cesse d’être une simple classification. L’Élu apprend à remarquer la cicatrice qui trahit un pacte, l’empreinte d’une puissance, une contradiction spirituelle ou le détail qui explique pourquoi cette âme n’est pas exactement ce qu’elle semblait être.',
+  'resonance profonde':'Dans un lieu où les valeurs de sa Divinité ont laissé assez de traces, le Daemon n’a plus l’impression de prier à distance. La Cour paraît se rapprocher et la Faveur divine répond avec une insistance normalement impossible dans le monde ordinaire.',
+  'lecture superficielle':'L’Oracle n’ouvre pas l’esprit comme un dossier. Il en effleure la surface : l’émotion qui domine, l’intention qui se forme et la pensée que la cible est déjà en train de tenir deviennent aussi perceptibles qu’une expression du visage.',
+  'lecture profonde':'Cette fois l’Oracle entre avec une question. Il suit associations, images et résistances jusqu’au souvenir recherché, mais reste tributaire de ce qu’il sait demander : fouiller sans but ne transforme jamais une conscience en archive téléchargeable.',
+  'affliction persistante':'Le Tourmenteur apprend à laisser sa sentence dans le corps. La douleur n’est plus l’éclair d’un instant : muscles, nerfs ou souffle continuent de reproduire l’ordre reçu jusqu’à ce que la victime parvienne enfin à briser l’emprise.',
+  'maladie sacree':'La punition prend une forme que même un médecin peut observer. Fièvre, inflammation, paralysie ou détresse respiratoire deviennent des réalités biologiques ; plus le Daemon veut être précis, plus il doit réellement comprendre l’organisme qu’il condamne.',
+  'arme changeante':'La Lame infernale répond à une doctrine de guerre plutôt qu’à une forge. Elle devient lance pour tenir un passage, arme de tir pour couvrir une distance ou lame courte dans un espace confiné, sans jamais cesser d’être la même projection de l’âme du Chevalier.',
+  'armure infernale':'Le Légionnaire paie son rempart avec quelque chose que l’ennemi aurait voulu lui prendre : sa propre vitalité. Les PV sacrifiés deviennent une cuirasse spirituelle et rappellent visiblement que servir sa Cour peut signifier convertir sa chair en fortification.',
+  'main des eaux':'Pour un Héraut d’Alabor, l’eau n’est jamais un décor inerte. Une masse liquide proche répond comme un membre immense : elle frappe, renverse ou change brutalement de direction sous l’autorité des Eaux primordiales.',
+  'etreinte liquide':'Alabor enseigne aussi que l’eau gagne souvent sans frapper. Elle se referme autour d’un corps, remplit l’espace disponible et transforme un élément fluide en prison mouvante dont chaque tentative d’évasion nourrit la lutte.',
+  'rappel absolu':'Astaroth ne confond pas érudition et omniscience. Ce que l’Élu a réellement étudié, lui, peut toutefois être conservé sans l’érosion ordinaire de la mémoire : textes, formules et détails deviennent les briques stables d’une civilisation intérieure.',
+  'comprehension universelle':'La Civilisation a produit des méthodes avant de produire des réponses. Après assez de lecture, le Daemon sait reconstruire la grammaire d’un domaine inconnu et commencer à raisonner comme un novice formé, sans prétendre posséder l’expérience pratique qui lui manque.',
+  'flamme souveraine':'Le feu de Belial n’est pas un incendie accidentel : il arrive comme un ordre. La Flamme souveraine désigne une cible et projette contre elle une chaleur divine dont l’apparition a autant du décret royal que de la combustion.',
+  'feu inexorable':'Une fois reconnu par la Reine, ce feu refuse de mourir comme une flamme ordinaire. L’étouffer, le refroidir ou lui opposer une protection thermique devient une négociation perdue d’avance avec une manifestation qui se considère légitime.',
+  'enfant de l inconnu':'Diablo apprend à ses Hérauts que l’obscurité est un territoire, pas une absence. Là où l’œil humain perd ses repères, le Daemon retrouve au contraire des contours nets et une manière de se déplacer que la lumière rendrait presque maladroite.',
+  'pas dans la nuit':'Deux ombres assez profondes peuvent devenir les bords d’un même passage. Le Daemon s’efface de l’une et ressort de l’autre sans traverser visiblement l’espace intermédiaire, comme si la Nuit avait momentanément replié sa propre géographie.',
+  'voir le desir':'Lilith ne donne pas accès à une liste de secrets ; elle rend lisible la tension qui attire réellement une personne. Faim de reconnaissance, plaisir, affection ou envie immédiate se dessinent alors derrière les mots sans devenir pour autant une confession forcée.',
+  'eveiller le desir':'Le Héraut ne crée pas une personnalité qui n’existait pas. Il souffle sur une braise réelle : un désir déjà possible prend assez de place pour peser sur les décisions de la scène, tout en laissant à la cible ses limites, son orientation et sa volonté.',
+  'sens du dernier souffle':'Mammon fait sentir la différence entre souffrir, agoniser et être déjà passé de l’autre côté. Le Daemon reconnaît l’approche de la fin comme d’autres reconnaissent une odeur, sans avoir besoin d’un diagnostic médical pour savoir qu’un souffle est presque le dernier.',
+  'main du trepas':'Ce geste ne cherche pas à traverser une armure. Il rapproche directement une âme vivante de la frontière que Mammon représente ; métal, kevlar ou plaque céramique deviennent hors sujet face à une attaque qui s’adresse à la possibilité même de rester en vie.',
+  'spectre affine':'Méphisto ouvre au Daemon une compréhension plus précise du Spectre de Mageius. Les phénomènes magiques cessent d’être seulement des forces à convoquer : ils deviennent des structures dont les nuances peuvent être choisies et contrôlées avec une finesse supérieure.',
+  'spectre amplifie':'Après la finesse vient l’ampleur. Le même langage spectral peut désormais porter une manifestation assez vaste pour changer réellement la scène, preuve que l’Occulte de Méphisto ne sépare jamais connaissance et capacité à imposer cette connaissance au monde.',
+  'poids de la faute':'Satan ne frappe pas parce qu’une cible est détestée, mais parce qu’un acte peut lui être imputé. La sentence trouve d’autant mieux sa prise que la culpabilité est réelle ; face à un innocent de l’accusation formulée, le pouvoir n’a simplement rien à juger.',
+  'chaines du coupable':'Le jugement devient matière. Plus la responsabilité est lourde et établie, plus les chaînes ont de raison d’exister ; elles immobilisent le condamné comme si sa propre faute fournissait le poids nécessaire à sa détention.',
+  'trait solaire':'Lucifer concentre sa mémoire du Soleil en une violence blanche et immédiate. Pour la plupart des créatures c’est déjà une attaque divine ; pour celles dont la nature porte une faiblesse solaire, c’est la rencontre brutale avec quelque chose que leur corps reconnaît comme un ennemi primordial.',
+  'halo du jour':'Le Daemon ne lance plus seulement de la lumière : il installe autour de lui un petit territoire de jour. Les ténèbres surnaturelles mineures reculent et les prédateurs nocturnes doivent agir sous un ciel qui, pendant quelques instants, ne leur appartient plus.',
+  'seve vitale':'Belzébuth ne soigne pas par compassion abstraite mais parce que la Vie cherche à continuer. Sous la main du Héraut, tissus et fonctions reprennent assez vite pour refermer une partie de la blessure, jusqu’à ce que la saturation impose enfin une limite à cette insistance.',
+  'reconstruction':'Là où Sève vitale maintient, Reconstruction rebâtit. Fracture, organe ou tissu détruit redevient un problème de croissance dirigée : la Vie remonte son propre plan et force le corps à reprendre une architecture qu’il n’aurait jamais pu restaurer seul.',
+  'main du vent':'Abigor transforme l’air en acteur de la scène. Un courant se resserre, change de sens ou devient brusquement assez dense pour pousser un corps, amortir une chute ou projeter une cible comme si le ciel lui-même avait donné un coup d’épaule.',
+  'pas du ciel':'Le Héraut cesse de penser le mouvement uniquement depuis le sol. Les courants portent ses bonds, ses franchissements et ses changements d’altitude ; ce n’est pas un vol stationnaire, mais une manière de traiter l’espace vertical comme une route ouverte par le Ciel.',
+  'arme consacree':'Pour Baal, l’arme importe parce qu’elle est déjà entre les mains de quelqu’un prêt à s’en servir. La consécration ne remplace ni technique ni courage : elle fait simplement de l’objet choisi une véritable extension de la Guerre pour la durée de l’affrontement.',
+  'arme de guerre':'La consécration atteint un degré où l’arme reçoit une intention tactique. Percer une ligne, terrasser une masse ou entraver un adversaire devient une propriété de la manifestation divine elle-même, comme si Baal avait choisi le rôle que cet outil doit jouer dans la bataille.',
+  'fureur de la corneille':'La Morrighan ne traite pas la Frénésie comme une perte honteuse de contrôle. Le Daemon peut ouvrir volontairement la porte à la fureur guerrière et laisser son corps suivre quelques instants le rythme brutal des anciens champs de bataille.',
+  'sang du champ de bataille':'La chute d’un ennemi change immédiatement la température de la bataille pour un Héraut de la Corneille. Cet instant où une ligne cède, où le sang touche le sol et où les autres comprennent qu’ils peuvent tomber devient l’élan de sa prochaine action.'
+};
+
+function t46TruthActionLore(t){
+  const e=normText(t.effect||''),g=String(t.group||''),tail=(g.split('›').map(x=>x.trim()).filter(Boolean).slice(-1)[0]||g||'cette tradition');
+  if(/soin|pv|regener|restaur|gueri/.test(e))return `L’apprentissage donne à ${tail} une manière concrète de préserver ce qui devrait céder : la récupération décrite par la règle devient un geste, un réflexe ou une discipline reconnaissable dans sa tradition.`;
+  if(/furtiv|invisib|dissimul|ombre/.test(e))return `La technique enseigne à disparaître de l’attention avant de disparaître du regard. Dans ${tail}, posture, rythme et pouvoir se combinent jusqu’à rendre l’approche surnaturellement difficile à suivre.`;
+  if(/perception|detect|voir|vision|sentir|lecture/.test(e))return `Ce Talent change ce que le personnage considère comme une information évidente. ${tail} lui apprend à remarquer un signal que d’autres ne possèdent simplement pas les sens, l’instinct ou la formation nécessaires pour lire.`;
+  if(/dgt|attaque|frapp|degat|arme|pugilat/.test(e))return `Ici, ${tail} devient une doctrine de violence précise : le personnage n’est pas seulement plus dangereux, il sait exactement dans quelles conditions sa Nature peut transformer une attaque ordinaire en manifestation de Vérité.`;
+  if(/defense|armure|protection|resist/.test(e))return `Ce savoir est né de situations où survivre exige davantage qu’encaisser. ${tail} fournit une réponse surnaturelle ou doctrinale à l’agression, avec les limites précises décrites par l’effet mécanique.`;
+  if(/pa|initiative|deplacement|bond|vitesse|reaction/.test(e))return `Le Talent modifie le tempo plutôt que la puissance brute. Dans ${tail}, agir au bon instant, franchir l’espace ou conserver l’initiative fait partie de la maîtrise elle-même.`;
+  if(/social|charisme|diplom|influence|autorite|convain/.test(e))return `La tradition ne remplace pas la personnalité du personnage : elle lui apprend quel poids sa Nature peut donner à une présence, une parole ou un lien lorsque la scène sociale correspond réellement à son enseignement.`;
+  if(/savoir|memoire|connaissance|information|question|mj/.test(e))return `Ce Talent transforme l’expérience accumulée par ${tail} en méthode fiable. Il ne donne pas l’omniscience : il rend accessible un type précis de connaissance que le personnage a appris à chercher, conserver ou interpréter.`;
+  if(/peur|terreur|panique|frenesie|rage/.test(e))return `L’enseignement travaille directement avec les réflexes les plus anciens : peur, rage ou instinct. ${tail} apprend au personnage à provoquer, contenir ou chevaucher cette impulsion sans la confondre avec une simple émotion ordinaire.`;
+  if(/rituel|magie|aura|spectr|occulte|voile|hologram/.test(e))return `Le personnage apprend où ${tail} touche réellement aux lois cachées du monde. Le Talent matérialise cette compréhension par une permission occulte précise plutôt que par une magie vague et universelle.`;
+  return `Dans ${tail}, ce Talent correspond à une pratique identifiable, transmise et exercée. Son effet mécanique décrit le résultat ; en fiction, l’acquérir signifie que le personnage a réellement intégré cette manière particulière d’exprimer sa Vérité.`;
+}
+function t46TruthNatureLead(t){
+  const g=String(t.group||''),n=state.truth.nature;
+  const first=g.split('›').map(x=>x.trim()).filter(Boolean)[0]||'';
+  if(n==='vampire')return first&&first!=='Vampire — commun'?`Ce savoir porte la marque de ${first}. `:'Les prédateurs qui survivent assez longtemps finissent par transformer leur malédiction en technique. ';
+  if(n==='garou')return first&&first!=='Garou — commun'?`${first} transmet cette manière particulière de laisser parler l’instinct sans perdre toute discipline. `:'Chez un Garou, l’instinct n’est pas une métaphore : ce Talent apprend à l’utiliser consciemment. ';
+  if(n==='khinae')return first?`${first} ne combat ni ne perçoit exactement comme les autres descendants de Khinae. `:'La Lignée donne au corps une logique que l’entraînement humain ne peut pas reproduire seul. ';
+  if(n==='mage')return 'Le Mage ne collectionne pas des « sorts » indépendants : chaque progrès élargit ce que son Mageius lui permet réellement de comprendre, façonner ou soutenir. ';
+  if(n==='angelus')return first?`${first} décrit une manière précise dont la Transcendance se manifeste à travers une incarnation encore capable de vivre parmi les mortels. `:'La puissance angélique reste une relation entre l’incarnation, l’Arbre de Vie et ce que l’âme accepte d’en laisser passer. ';
+  if(n==='aseryn')return first?`${first} est une tradition vécue, pas une caste imposée à la naissance. `:'L’héritage aseryn devient réellement distinct lorsqu’il est transformé en pratique. ';
+  if(n==='exile')return first?`${first} a survécu à Aèr, à l’exil ou aux siècles terrestres parce que ses membres ont continué à transmettre des pratiques concrètes. `:'Chez les Exilés, un héritage utile est presque toujours le résultat d’une mémoire culturelle entretenue. ';
+  if(n==='extral')return first?`${first} vient d’une biologie, d’une technologie ou d’une doctrine qui n’a pas été conçue selon les limites humaines terrestres. `:'La Vérité extrale n’est pas du folklore occulte : elle prolonge des espèces et des civilisations réellement étrangères à la Terre. ';
+  return '';
+}
+const t46LoreBase=t28TruthLore;
+t28TruthLore=function(t){
+  const key=normText(t?.name||'');
+  if(state.truth.nature==='daemon')return t46DaemonLore[key]||t30DaemonLore?.[key]||t46TruthActionLore(t);
+  const old=t46LoreBase(t);
+  // Hunter lore already comes from the dedicated V7 corpus and is intentionally preserved.
+  if(state.truth.nature==='humain'&&old&&!old.startsWith(`« ${t.name||''} »`))return old;
+  return `${t46TruthNatureLead(t)}${t46TruthActionLore(t)}`.trim();
+};
+
+const t46Css=el('style',{},`
+.t46-reveal-panel{margin:12px 0 18px;padding:14px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.018)}
+.t46-stage-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.t46-stage{padding:12px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.025);display:grid;align-content:start;gap:7px}.t46-stage-head{display:flex;justify-content:space-between;gap:8px;align-items:center}.t46-stage-head span{font-weight:900;font-size:11px;border:1px solid var(--line);border-radius:999px;padding:3px 7px}.t46-stage p{margin:0;line-height:1.45;color:var(--muted)}.t46-stage small{line-height:1.4;color:var(--muted)}.t46-stats{font-weight:850;color:var(--good);padding:6px 8px;border-radius:8px;background:rgba(75,190,135,.09)}
+@media(max-width:850px){.t46-stage-grid{grid-template-columns:1fr}}
+`);document.head.appendChild(t46Css);
+render();
