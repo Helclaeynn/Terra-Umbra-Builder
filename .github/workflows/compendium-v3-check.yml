@@ -11,11 +11,13 @@ on:
     paths:
       - 'compendium/**'
       - 'scripts/sync-page-overrides.mjs'
+      - 'tools/github-oauth-proxy-worker.js'
       - '.github/workflows/compendium-v3-check.yml'
   pull_request:
     paths:
       - 'compendium/**'
       - 'scripts/sync-page-overrides.mjs'
+      - 'tools/github-oauth-proxy-worker.js'
       - '.github/workflows/compendium-v3-check.yml'
 
 permissions:
@@ -39,7 +41,9 @@ jobs:
           node --check compendium/media-draft-cleanup.js
           node --check compendium/inline-media-blocks.js
           node --check compendium/inline-media-dynamic-sections.js
-          node --check compendium/github-pr-publisher.js
+          node --check compendium/github-editor-config.js
+          node --check compendium/github-owner-editor.js
+          node --check tools/github-oauth-proxy-worker.js
           node --check compendium/editor/override-engine.js
           node --check compendium/editor/native-overrides.js
           node --check compendium/editor/corpus-loader.js
@@ -56,5 +60,11 @@ jobs:
         run: |
           node scripts/sync-page-overrides.mjs
           node compendium/tests/manual-overrides-check.mjs
+      - name: Validate owner auth safety
+        run: |
+          if grep -RniE 'client_secret|private_key|github_pat_' compendium/github-editor-config.js compendium/github-owner-editor.js; then
+            echo 'A GitHub secret must never be shipped in the Compendium.' >&2
+            exit 1
+          fi
       - name: Validate V3 corpus and active runtime
         run: node compendium/tests/manifest-check.mjs
