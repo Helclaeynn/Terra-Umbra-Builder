@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Compendium enrichi — Preview Lore TUC</title>
+<meta name="description" content="Projection du Compendium Terra Umbra California après intégration du corpus Lore restructuré.">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="enrichment.css">
+<link rel="stylesheet" href="inline-media-blocks.css">
+<link rel="stylesheet" href="lore-compendium-preview.css">
+</head>
+<body class="lore-compendium-demo">
+<div class="app-shell">
+<header class="topbar">
+  <div class="brand"><a class="home-link" href="../">TERRA UMBRA / CALIFORNIA</a><strong>COMPENDIUM · PROJECTION LORE</strong></div>
+  <form id="globalSearch" class="searchbar" role="search"><input id="searchInput" type="search" placeholder="Rechercher Bloods, Belial, CBII, Hyperborée…" autocomplete="off"><button>Rechercher</button></form>
+  <div class="portal-actions"><a class="builder-link" href="lore-unified-preview.html">Preview documentaire</a><a class="builder-link" href="./">Compendium main</a></div>
+</header>
+<div class="integration-ribbon"><strong>PREVIEW DE CUT-OVER</strong><span>Projection visuelle : 196 anciennes entrées Lore remplacées par 364 pages structurées · `main` reste inchangée.</span></div>
+<div class="layout">
+<aside class="sidebar">
+  <nav id="mainNav" class="nav"></nav>
+  <div class="sidebar-note"><strong>Projection</strong><span>Cette vue reprend l’interface du Compendium V3 et simule l’intégration du corpus Lore. Les catégories non concernées restent affichées avec leurs comptes actuels.</span></div>
+</aside>
+<main id="main" class="content"><div class="loading">Préparation de la projection du Compendium…</div></main>
+<aside class="toc"><div class="sticky"><div id="tocBox"></div></div></aside>
+</div>
+</div>
+<iframe id="loreSourceFrame" class="lore-source-frame" title="Source Lore" aria-hidden="true"></iframe>
+<script type="module" src="lore-compendium-preview.js"></script>
+</body>
+</html>
