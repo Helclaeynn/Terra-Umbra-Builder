@@ -1,0 +1,11 @@
+// Equipment lore routing hardening — names of ammunition/subscriptions must not inherit prose from a substring match.
+r34HistoricalWeapon=function(item){
+  const n=r34Loose(item?.name||'');if(!n)return '';
+  const hit=r34HistoricalWeaponLore.find(([name])=>r34Loose(name)===n);
+  return hit?.[1]||'';
+};
+r37SpecificLore=function(item){
+  const n=r34Loose(item?.name||'');if(!n)return '';
+  return r37ExtraLore.get(n)||'';
+};
+render();
