@@ -17,17 +17,40 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Recover prepared blobs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p audit-blobs
+          for sha in \
+            3cc18e152e5c8edd4be8bab7b62ec438eca4f09d \
+            9fe5f26bdb43e67cebd5fe170875fc1cd1346ebd \
+            ff53a971f80b43054391b2c6bd317e1b0b05b5e0 \
+            3d88eeb93959a1647b820897e0dd708dd5f3f748 \
+            5d0e0bca384c839a2d664a3089f7be63930633a3 \
+            d193f5d3061ae9001605d201ee3fb1b3c7f27633 \
+            b5ac28d151b269f85504186b36046b6f02266459 \
+            d1aa7d96f401ed8413c6d134d9d285d49460a874 \
+            012f85fb4b90eae8e72a40871a7d25c6b83277a1 \
+            6dac852a692b3a7a100d01b52a247bc5e26e3fb1 \
+            37e4cb9ad295b8b2f14c77f7ecb60d8f75934bb8 \
+            1c69739aa5aca60071ff04f7e27f6d1a6deedae8 \
+            79f9798987df082664deee82fe3c2971fd17fe28 \
+            b048b04e26caf28efbe5c0410e47761b4c62724d \
+            e9ba7e9430c4cb48647cd0feb042a2ff09b29dcf \
+            f970a8dbe5eff85e70c1cd23b0f8721ac78b0725 \
+            22ac2985c5ae8f875c6e9e4780537387f4cee9fa \
+            7c95e24ae6f0a47027cf0e13191dd86291c9763d \
+            28dff743d949de98b62c516cf470959960cc1eb1 \
+            e81942dc9f9e344e233912b0ac7714a8b3b27214 \
+            4433eac40b159ec866f7701e5d41190151bf7a6f \
+            a3cd0aca4c1e099b6143e17cb5898ff0da18a0b1; do
+            gh api repos/${{ github.repository }}/git/blobs/$sha --jq .content | tr -d '\n' | base64 -d > audit-blobs/$sha
+            test "$(git hash-object audit-blobs/$sha)" = "$sha"
+          done
       - name: Build preview bundle
         run: |
-          mkdir -p audit-history/supernatural
-          git show 418c0872525c445849fae2f8c640ca26865fdc5e:compendium/agences-preview-data.js > audit-history/agences-preview-data.js
-          git show da2c98553dcfa43be41057d914871450c3e18597:compendium/gouvernement-preview-data-8.js > audit-history/gouvernement-preview-data-8.js
-          git show 27ef56e6664820e9c022e51f4833e6011d41946a:compendium/vie-quotidienne-preview-data.js > audit-history/vie-quotidienne-preview-data.js
-          for i in $(seq 1 9); do
-            git show 81f334a9f837150ab21e1ccf152e41a4a9ba6840:compendium/supernatural-species-preview-data-$i.js > audit-history/supernatural/supernatural-species-preview-data-$i.js
-          done
-          git bundle create audit-history/preview-lore-history.bundle HEAD
-          tar -czf lore-preview-bundle.tar.gz compendium audit-history
+          tar -czf lore-preview-bundle.tar.gz compendium audit-blobs
           test -s lore-preview-bundle.tar.gz
       - uses: actions/upload-artifact@v4
         with:
@@ -35,6 +58,4 @@ jobs:
           path: lore-preview-bundle.tar.gz
           compression-level: 0
 
-# Temporary audit snapshot trigger: 2026-09-13 final payload audit
-# Temporary audit snapshot trigger: 2026-09-14 post-1db82263 final snapshot
-# Temporary diagnostic bundle: historical literal payload candidates + branch history
+# Temporary audit snapshot trigger: prepared payload blob recovery
