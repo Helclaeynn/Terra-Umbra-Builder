@@ -15,7 +15,15 @@ try{
   await page.locator('#main .page-head h1').waitFor({timeout:30000});
   const originalTitle=(await page.locator('#main .page-head h1').innerText()).trim();
 
-  const editButton=page.locator('#tucEditPage');await editButton.waitFor({state:'visible'});await editButton.click();
+  const editButton=page.locator('#tucEditPage');
+  await editButton.waitFor({state:'attached',timeout:30000});
+  if(await editButton.isVisible())throw new Error('Le bouton Éditer est visible sans authentification propriétaire.');
+  await page.evaluate(()=>{
+    document.body.classList.add('tuc-editor-authorized');
+    window.__TUC_EDITOR_AUTHORIZED__=true;
+    window.dispatchEvent(new CustomEvent('tuc:github-auth-changed',{detail:{status:'authorized',login:'Helclaeynn'}}));
+  });
+  await editButton.waitFor({state:'visible',timeout:10000});await editButton.click();
   const dialog=page.locator('dialog.editor-dialog');await dialog.waitFor({state:'visible'});
   const beforeSections=await dialog.locator('.editor-section').count();
   await dialog.getByRole('button',{name:'+ Ajouter une section'}).click();
@@ -82,5 +90,5 @@ try{
   await reopened.locator('[data-action="discard"]').click();await reopened.waitFor({state:'detached'});
   await page.waitForFunction(expected=>document.querySelector('#main .page-head h1')?.textContent?.trim()===expected,originalTitle,{timeout:10000});
   if(consoleErrors.length)throw new Error(`Erreurs navigateur: ${consoleErrors.join(' | ')}`);
-  console.log(`Browser smoke OK: ${originalTitle} · bloc Image avec sélecteur PC dédié, WebP, sauvegarde, rendu et réouverture validés.`);
+  console.log(`Browser smoke OK: ${originalTitle} · verrou propriétaire + bloc Image avec sélecteur PC dédié, WebP, sauvegarde, rendu et réouverture validés.`);
 } finally {await browser.close();}
