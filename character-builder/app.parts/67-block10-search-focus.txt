@@ -1,0 +1,39 @@
+// Block 10 catalog search focus fix.
+// Search/category changes refresh only catalog results instead of rebuilding the whole Builder.
+
+function r67CatalogResultNodes(kind){
+  const isAug=kind==='augmentation';
+  if(realityLoadError)return [el('div',{class:'alert'},`Catalogue impossible à charger : ${uxEsc(realityLoadError)}`)];
+  if(isAug){
+    const q=normText(state.reality.augCatalogQuery||''),cat=state.reality.augCatalogCategory||'';
+    let groups=eqxAugGroups().filter(g=>g.variants.some(v=>eqxVisibleAug(v)&&eqxMatchesCategory(v,cat)&&eqxSearch(v,q)));
+    groups.sort((a,b)=>{const ca=eqxDisplayCategory(eqxChosenVariant(a)),cb=eqxDisplayCategory(eqxChosenVariant(b));return ca.localeCompare(cb,'fr')||a.name.localeCompare(b.name,'fr')});
+    return [el('div',{class:'catalog-count'},`${groups.length} augmentation(s) correspondante(s)`),r34GroupCards(groups,g=>eqxDisplayCategory(eqxChosenVariant(g)),r34AugCard)];
+  }
+  const q=normText(state.reality.equipCatalogQuery||''),cat=state.reality.equipCatalogCategory||'';
+  let items=realityData.equipment.filter(x=>!r15RecurringCatalogItem(x)&&eqxMatchesCategory(x,cat)&&eqxSearch(x,q));
+  items.sort((a,b)=>eqxDisplayCategory(a).localeCompare(eqxDisplayCategory(b),'fr')||a.name.localeCompare(b.name,'fr'));
+  return [el('div',{class:'catalog-count'},`${items.length} entrée(s) correspondante(s)`),r34GroupCards(items,eqxDisplayCategory,r34EquipmentCard)];
+}
+
+function r67RefreshCatalog(kind,tools){
+  const body=tools?.parentElement;if(!body)return;
+  let node=tools.nextSibling;
+  while(node){const next=node.nextSibling;node.remove();node=next}
+  for(const result of r67CatalogResultNodes(kind))body.appendChild(result);
+}
+
+r34Tools=function(kind){
+  const isAug=kind==='augmentation',qKey=isAug?'augCatalogQuery':'equipCatalogQuery',catKey=isAug?'augCatalogCategory':'equipCatalogCategory',tools=el('div',{class:'catalog-tools r34-tools'});
+  const cat=el('select');
+  cat.innerHTML='<option value="">Toutes les catégories</option>'+r34Categories(kind).map(x=>`<option value="${uxEsc(x)}" ${x===state.reality[catKey]?'selected':''}>${uxEsc(x)}</option>`).join('');
+  cat.onchange=e=>{state.reality[catKey]=e.target.value;persist();r67RefreshCatalog(kind,tools)};
+  tools.appendChild(cat);
+  const search=el('input',{placeholder:isAug?'Rechercher une augmentation…':'Rechercher équipement, service ou véhicule…',value:state.reality[qKey]||''});
+  search.oninput=e=>{state.reality[qKey]=e.target.value;persist();r67RefreshCatalog(kind,tools)};
+  tools.appendChild(search);
+  return tools;
+};
+
+window.TUCBuilderSeptFixes=window.TUCBuilderSeptFixes||{};
+window.TUCBuilderSeptFixes.block10SearchFocusFix=true;
