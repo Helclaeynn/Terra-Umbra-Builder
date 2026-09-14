@@ -42,7 +42,7 @@ jobs:
           const browserErrors=[];
           page.on('console',msg=>{if(msg.type()==='error')browserErrors.push(msg.text());});
           page.on('pageerror',error=>browserErrors.push(error.message));
-          await fs.writeFile('/tmp/pixel.png',Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M/wHwAF/gL+QnI8WQAAAABJRU5ErkJggg==','base64'));
+          await fs.writeFile('/tmp/pixel.png',Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGP4z8DwHwAFAAH/iZk9HQAAAABJRU5ErkJggg==','base64'));
           await page.goto('http://127.0.0.1:8765/compendium/lore-unified-preview.html',{waitUntil:'domcontentloaded'});
           await page.waitForSelector('#tucEditPage:not([hidden])',{timeout:15000});
           await page.click('#tucEditPage');
