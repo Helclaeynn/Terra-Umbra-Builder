@@ -1,0 +1,56 @@
+// Reality lore audit — Talents, equipment and augmentations. Diagnostic first; CI enforcement follows editorial review.
+const r61MetaPattern=/\b(?:effet mecanique|effet mécanique|ce talent represente|ce talent représente|ce talent correspond|la regle|la règle|dans les chiffres|bonus abstrait|portee exacte|portée exacte)\b/i;
+
+function r61TalentWalk(node,path=[],out=[]){
+  if(Array.isArray(node)){
+    for(const item of node){
+      if(item&&typeof item==='object'&&(item.id||item.name||item.nom)&&(item.effect||item.effet||item.description||item.category))out.push({talent:item,path:[...path]});
+      else if(item&&typeof item==='object')r61TalentWalk(item,path,out);
+    }
+    return out;
+  }
+  if(!node||typeof node!=='object')return out;
+  for(const [key,value] of Object.entries(node))if(value&&typeof value==='object')r61TalentWalk(value,path.concat(key),out);
+  return out;
+}
+function r61TalentLoreEntries(){
+  const savedOrigin=state.creation.origin,savedSphere=state.creation.sphere,seen=new Set(),rows=[];
+  try{
+    for(const row of r61TalentWalk(ruleset?.talents||{})){
+      const t=row.talent;if(!t||!t.name||!t.id)continue;
+      const path=row.path.map(String),originIndex=path.indexOf('origin'),sphereIndex=path.indexOf('sphere');
+      if(originIndex>=0&&path[originIndex+1])state.creation.origin=path[originIndex+1];
+      if(sphereIndex>=0&&path[sphereIndex+1])state.creation.sphere=path[sphereIndex+1];
+      const key=`${path.join('/')}:${t.id}`;if(seen.has(key))continue;seen.add(key);
+      const lore=String(p26TalentNarrative(t)||'').trim();
+      rows.push({domain:'talent',id:t.id,name:t.name||'',group:path.join(' › ')||t.category||'',effect:t.effect||'',lore});
+    }
+  }finally{state.creation.origin=savedOrigin;state.creation.sphere=savedSphere}
+  return rows;
+}
+function r61ItemLoreEntries(){
+  const rows=[];
+  for(const item of realityData?.augmentations||[])rows.push({domain:'augmentation',id:item.id||'',name:item.name||'',group:item.category||'',effect:item.effect||'',lore:String(r34ItemLore(item)||'').trim()});
+  for(const item of realityData?.equipment||[])rows.push({domain:'equipment',id:item.id||'',name:item.name||'',group:item.category||'',effect:item.effect||'',lore:String(r34ItemLore(item)||'').trim()});
+  return rows;
+}
+function r61Pair(a,b,sim){return {score:Number(sim.score.toFixed(4)),bag:Number(sim.bag.toFixed(4)),lcs:Number(sim.lcs.toFixed(4)),a,b}}
+function r61AuditDomain(entries,threshold=.60){
+  const prepared=entries.map(x=>({...x,tokens:t52Tokens(x.lore,x.name)})),meta=[],pairs=[];
+  for(const row of prepared)if(r61MetaPattern.test(t52Plain(row.lore)))meta.push({...row,tokens:undefined});
+  for(let i=0;i<prepared.length;i++)for(let j=i+1;j<prepared.length;j++){
+    const a=prepared[i],b=prepared[j];if(a.tokens.length<10||b.tokens.length<10)continue;
+    const sim=t52Similarity(a.tokens,b.tokens);if(sim.score+1e-9<threshold)continue;
+    pairs.push(r61Pair({...a,tokens:undefined},{...b,tokens:undefined},sim));
+  }
+  pairs.sort((x,y)=>y.score-x.score||x.a.name.localeCompare(y.a.name,'fr'));
+  return {entries:entries.length,meta,pairs};
+}
+function r61RealityLoreAudit(threshold=.60){
+  const talents=r61TalentLoreEntries(),items=r61ItemLoreEntries();
+  const talentAudit=r61AuditDomain(talents,threshold),equipmentAudit=r61AuditDomain(items.filter(x=>x.domain==='equipment'),threshold),augmentationAudit=r61AuditDomain(items.filter(x=>x.domain==='augmentation'),threshold);
+  return {threshold,counts:{talents:talentAudit.entries,equipment:equipmentAudit.entries,augmentations:augmentationAudit.entries,talentMeta:talentAudit.meta.length,equipmentMeta:equipmentAudit.meta.length,augmentationMeta:augmentationAudit.meta.length,talentPairs:talentAudit.pairs.length,equipmentPairs:equipmentAudit.pairs.length,augmentationPairs:augmentationAudit.pairs.length},talents:talentAudit,equipment:equipmentAudit,augmentations:augmentationAudit};
+}
+window.TUCBuilderSeptFixes=window.TUCBuilderSeptFixes||{};
+window.TUCBuilderSeptFixes.realityLoreAuditV1=r61RealityLoreAudit;
+window.TUCBuilderSeptFixes.realityLoreEntries=()=>({talents:r61TalentLoreEntries(),items:r61ItemLoreEntries()});
