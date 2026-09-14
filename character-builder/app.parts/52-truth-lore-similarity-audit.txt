@@ -8,57 +8,37 @@ const t52GodNames=[
   ['abigor','Abigor'],['baal','Baal'],['morrighan','Morrighan']
 ];
 
-function t52Plain(value){
-  return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-}
+function t52Plain(value){return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()}
 function t52NormalizedLore(lore,name=''){
   let out=t52Plain(lore).replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();
   const own=t52Plain(name).replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();
   if(own)out=out.split(own).join(' ').replace(/\s+/g,' ').trim();
   return out;
 }
-function t52Tokens(lore,name=''){
-  const n=t52NormalizedLore(lore,name);return n?n.split(' ').filter(Boolean):[];
-}
+function t52Tokens(lore,name=''){const n=t52NormalizedLore(lore,name);return n?n.split(' ').filter(Boolean):[]}
 function t52BagDice(a,b){
   if(!a.length||!b.length)return 0;
   const ca=new Map(),cb=new Map();for(const x of a)ca.set(x,(ca.get(x)||0)+1);for(const x of b)cb.set(x,(cb.get(x)||0)+1);
-  let common=0;for(const [x,n] of ca)common+=Math.min(n,cb.get(x)||0);
-  return (2*common)/(a.length+b.length);
+  let common=0;for(const [x,n] of ca)common+=Math.min(n,cb.get(x)||0);return(2*common)/(a.length+b.length)
 }
 function t52LcsRatio(a,b){
   if(!a.length||!b.length)return 0;
   const prev=new Uint16Array(b.length+1),cur=new Uint16Array(b.length+1);
-  for(let i=1;i<=a.length;i++){
-    cur.fill(0);
-    for(let j=1;j<=b.length;j++)cur[j]=a[i-1]===b[j-1]?prev[j-1]+1:Math.max(prev[j],cur[j-1]);
-    prev.set(cur);
-  }
-  return (2*prev[b.length])/(a.length+b.length);
+  for(let i=1;i<=a.length;i++){cur.fill(0);for(let j=1;j<=b.length;j++)cur[j]=a[i-1]===b[j-1]?prev[j-1]+1:Math.max(prev[j],cur[j-1]);prev.set(cur)}
+  return(2*prev[b.length])/(a.length+b.length)
 }
-function t52Similarity(a,b){
-  const bag=t52BagDice(a,b);if(bag<.48)return {score:bag,bag,lcs:0};
-  const lcs=t52LcsRatio(a,b),score=Math.max(lcs,.55*lcs+.45*bag);
-  return {score,bag,lcs};
-}
-function t52ExpectedGod(group){
-  const g=t52Plain(group);return t52GodNames.find(([id])=>new RegExp(`(^|[^a-z])${id}([^a-z]|$)`).test(g))?.[0]||'';
-}
-function t52LoreGodMentions(lore){
-  const s=t52Plain(lore);return t52GodNames.filter(([id])=>new RegExp(`(^|[^a-z])${id}([^a-z]|$)`).test(s)).map(([id])=>id);
-}
+function t52Similarity(a,b){const bag=t52BagDice(a,b);if(bag<.48)return{score:bag,bag,lcs:0};const lcs=t52LcsRatio(a,b),score=Math.max(lcs,.55*lcs+.45*bag);return{score,bag,lcs}}
+function t52ExpectedGod(group){const g=t52Plain(group);return t52GodNames.find(([id])=>new RegExp(`(^|[^a-z])${id}([^a-z]|$)`).test(g))?.[0]||''}
+function t52LoreGodMentions(lore){const s=t52Plain(lore);return t52GodNames.filter(([id])=>new RegExp(`(^|[^a-z])${id}([^a-z]|$)`).test(s)).map(([id])=>id)}
 function t52CollectTruthLore(){
   const saved=state.truth.nature,rows=[];
   try{
     for(const [nature,list] of Object.entries(truthCatalog||{})){
       if(!Array.isArray(list))continue;state.truth.nature=nature;
-      for(const t of list){
-        const lore=String(t28TruthLore(t)||'').trim();
-        rows.push({id:t.id||'',nature,name:t.name||'',group:t.group||'',effect:t.effect||'',lore,tokens:t52Tokens(lore,t.name||'')});
-      }
+      for(const t of list){const lore=String(t28TruthLore(t)||'').trim();rows.push({id:t.id||'',nature,name:t.name||'',group:t.group||'',effect:t.effect||'',lore,tokens:t52Tokens(lore,t.name||'')})}
     }
   }finally{state.truth.nature=saved}
-  return rows;
+  return rows
 }
 function t52SourceDiagnostics(){
   const keyCounts={},stringFieldCounts={},samples=[];
@@ -70,10 +50,15 @@ function t52SourceDiagnostics(){
       if(['parole fixée','serment écrit','convergence des savoirs','eaux nourricières'].includes(String(t?.name||'').toLowerCase()))samples.push({nature,...t});
     }
   }
-  return {keyCounts,stringFieldCounts,samples};
+  return{keyCounts,stringFieldCounts,samples}
 }
+function t52CanonicalEquivalent(a,b){
+  const natures=new Set([a.nature,b.nature]);
+  return natures.size===2&&natures.has('garou')&&natures.has('khinae')&&a.name===b.name&&a.group===b.group&&a.effect===b.effect;
+}
+function t52Pair(a,b,sim){return{score:Number(sim.score.toFixed(4)),bag:Number(sim.bag.toFixed(4)),lcs:Number(sim.lcs.toFixed(4)),a:{id:a.id,nature:a.nature,name:a.name,group:a.group,effect:a.effect,lore:a.lore},b:{id:b.id,nature:b.nature,name:b.name,group:b.group,effect:b.effect,lore:b.lore}}}
 function t52TruthLoreAudit(threshold=.60){
-  const entries=t52CollectTruthLore(),meta=[],semantic=[],pairs=[];
+  const entries=t52CollectTruthLore(),meta=[],semantic=[],pairs=[],allowedPairs=[];
   for(const row of entries){
     if(t51MetaLorePattern?.test?.(row.lore))meta.push({...row,tokens:undefined});
     if(row.nature==='daemon'){
@@ -84,10 +69,12 @@ function t52TruthLoreAudit(threshold=.60){
   for(let i=0;i<entries.length;i++)for(let j=i+1;j<entries.length;j++){
     const a=entries[i],b=entries[j];if(a.tokens.length<12||b.tokens.length<12)continue;
     const sim=t52Similarity(a.tokens,b.tokens);if(sim.score+1e-9<threshold)continue;
-    pairs.push({score:Number(sim.score.toFixed(4)),bag:Number(sim.bag.toFixed(4)),lcs:Number(sim.lcs.toFixed(4)),a:{id:a.id,nature:a.nature,name:a.name,group:a.group,effect:a.effect,lore:a.lore},b:{id:b.id,nature:b.nature,name:b.name,group:b.group,effect:b.effect,lore:b.lore}});
+    const pair=t52Pair(a,b,sim);
+    if(t52CanonicalEquivalent(a,b))allowedPairs.push({...pair,reason:'Même Talent de Sang canonique partagé Garou / Khinae'});else pairs.push(pair);
   }
   pairs.sort((x,y)=>y.score-x.score||x.a.name.localeCompare(y.a.name,'fr'));
-  return {threshold,counts:{entries:entries.length,meta:meta.length,semantic:semantic.length,pairs:pairs.length},meta,semantic,pairs};
+  allowedPairs.sort((x,y)=>x.a.name.localeCompare(y.a.name,'fr'));
+  return{threshold,counts:{entries:entries.length,meta:meta.length,semantic:semantic.length,pairs:pairs.length,allowedPairs:allowedPairs.length},meta,semantic,allowedPairs,pairs};
 }
 
 window.TUCBuilderSeptFixes=window.TUCBuilderSeptFixes||{};
