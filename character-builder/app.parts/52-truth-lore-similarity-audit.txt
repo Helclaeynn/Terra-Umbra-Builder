@@ -60,6 +60,18 @@ function t52CollectTruthLore(){
   }finally{state.truth.nature=saved}
   return rows;
 }
+function t52SourceDiagnostics(){
+  const keyCounts={},stringFieldCounts={},samples=[];
+  for(const [nature,rows] of Object.entries(truthCatalog||{})){
+    if(!Array.isArray(rows))continue;
+    for(const t of rows){
+      for(const k of Object.keys(t||{}))keyCounts[k]=(keyCounts[k]||0)+1;
+      for(const [k,v] of Object.entries(t||{}))if(typeof v==='string'&&v.trim())stringFieldCounts[k]=(stringFieldCounts[k]||0)+1;
+      if(['parole fixée','serment écrit','convergence des savoirs','eaux nourricières'].includes(String(t?.name||'').toLowerCase()))samples.push({nature,...t});
+    }
+  }
+  return {keyCounts,stringFieldCounts,samples};
+}
 function t52TruthLoreAudit(threshold=.60){
   const entries=t52CollectTruthLore(),meta=[],semantic=[],pairs=[];
   for(const row of entries){
@@ -81,3 +93,4 @@ function t52TruthLoreAudit(threshold=.60){
 window.TUCBuilderSeptFixes=window.TUCBuilderSeptFixes||{};
 window.TUCBuilderSeptFixes.truthLoreAuditV2=t52TruthLoreAudit;
 window.TUCBuilderSeptFixes.truthLoreEntries=()=>t52CollectTruthLore().map(({tokens,...x})=>x);
+window.TUCBuilderSeptFixes.truthLoreSourceDiagnostics=t52SourceDiagnostics;
