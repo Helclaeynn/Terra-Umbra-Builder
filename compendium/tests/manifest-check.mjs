@@ -30,15 +30,12 @@ for(const spec of manifest.datasets){
     b64+=fs.readFileSync(path,'utf8').replace(/\s+/g,'');
   }
 
-  let raw;
-  let rows;
-  try{
-    raw=zlib.gunzipSync(Buffer.from(b64,'base64'));
-    rows=JSON.parse(raw.toString('utf8'));
-  }catch(error){throw new Error(`${spec.id}: paquet invalide (${error.message})`)}
-
-  const sha=crypto.createHash('sha256').update(raw).digest('hex');
+  const sha=crypto.createHash('sha256').update(b64).digest('hex');
   if(sha!==spec.sha256) throw new Error(`${spec.id}: SHA-256 invalide ${sha} != ${spec.sha256}`);
+
+  let rows;
+  try{rows=JSON.parse(zlib.gunzipSync(Buffer.from(b64,'base64')).toString('utf8'))}
+  catch(error){throw new Error(`${spec.id}: paquet invalide (${error.message})`)}
   if(!Array.isArray(rows)) throw new Error(`${spec.id}: racine non tabulaire`);
   if(rows.length!==spec.count) throw new Error(`${spec.id}: ${rows.length} entrées, attendu ${spec.count}`);
 
