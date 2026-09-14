@@ -5,5 +5,5 @@ export const GITHUB_EDITOR_CONFIG={
   baseBranch:'main',
   allowedLogin:'Helclaeynn',
   clientId:'Iv23li5jsFHb19k5TavH',
-  oauthProxy:''
+  oauthProxy:'https://tuc-github-oauth.malekith51.workers.dev'
 };
