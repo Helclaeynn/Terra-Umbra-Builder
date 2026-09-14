@@ -45,3 +45,4 @@ jobs:
           fi
           echo "Using browser: $CHROME_BIN"
           TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node character-builder/tests/browser-smoke.mjs
+          TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node character-builder/tests/truth-lore-audit.mjs
