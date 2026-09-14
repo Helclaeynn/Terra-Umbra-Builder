@@ -14,7 +14,7 @@ const statusLabel=s=>manifest?.statusLabels?.[s]||s||'';
 
 function corpusAssetUrl(relativePath){
   const clean=String(relativePath||'').replace(/^\.?\//,'');
-  if(location.hostname==='raw.githack.com'){
+  if(location.hostname==='raw.githack.com'||location.hostname==='rawcdn.githack.com'){
     const match=location.pathname.match(/^\/([^/]+)\/([^/]+)\/([^/]+)\//);
     if(match){
       const [,owner,repo,ref]=match;
