@@ -20,12 +20,16 @@ try{
   if(errors.length)throw new Error(errors.join(' | '));
   const report=await page.evaluate(()=>window.TUCBuilderSeptFixes.realityLoreAuditV1(.60));
   writeFileSync('/tmp/reality-lore-audit.json',JSON.stringify(report,null,2),'utf8');
-  console.log(`Reality lore diagnostic — talents=${report.counts.talents}, equipment=${report.counts.equipment}, augmentations=${report.counts.augmentations}`);
+  console.log(`Reality lore audit — talents=${report.counts.talents}, equipment=${report.counts.equipment}, augmentations=${report.counts.augmentations}`);
   console.log(`Meta — talents=${report.counts.talentMeta}, equipment=${report.counts.equipmentMeta}, augmentations=${report.counts.augmentationMeta}`);
   console.log(`Pairs >=60% — talents=${report.counts.talentPairs}, equipment=${report.counts.equipmentPairs}, augmentations=${report.counts.augmentationPairs}`);
+  console.log(`Reviewed equivalents — equipment=${report.counts.equipmentAllowedPairs||0}, augmentations=${report.counts.augmentationAllowedPairs||0}`);
   for(const [label,block] of [['Talent',report.talents],['Equipment',report.equipment],['Augmentation',report.augmentations]]){
     for(const row of block.meta.slice(0,8))console.log(`META ${label}: ${row.name} | ${row.group} | ${row.lore}`);
     for(const pair of block.pairs.slice(0,12))console.log(`PAIR ${label} ${(pair.score*100).toFixed(1)}%: ${pair.a.name} <> ${pair.b.name}`);
   }
-  // Diagnostic phase: findings are expected and are not yet CI-blocking.
+  const metaCount=report.counts.talentMeta+report.counts.equipmentMeta+report.counts.augmentationMeta;
+  const pairCount=report.counts.talentPairs+report.counts.equipmentPairs+report.counts.augmentationPairs;
+  if(metaCount||pairCount)throw new Error(`Reality lore audit failed — ${metaCount} marqueur(s) méta, ${pairCount} paire(s) suspecte(s) >= 60%.`);
+  console.log('Reality lore audit OK — aucun marqueur méta et aucune paire suspecte >= 60% hors équivalences revues.');
 } finally {await context.close();await browser.close()}
