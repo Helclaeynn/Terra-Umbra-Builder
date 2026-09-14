@@ -24,6 +24,16 @@ async function typeAndKeepFocus(input,text,label){
 try{
   await page.goto(`${base}character-builder/`,{waitUntil:'domcontentloaded',timeout:30000});
   await page.waitForFunction(()=>window.TUCBuilderSeptFixes?.block10SearchFocusFix===true,null,{timeout:30000});
+
+  // Block 10 only exposes its catalogs once a Style exists. Pick a minimal valid Sphere/Style pair.
+  const sphereNav=page.locator('#stepNav button').filter({hasText:'Sphère'}).first();
+  await sphereNav.waitFor({state:'visible',timeout:15000});await sphereNav.click();await page.waitForTimeout(120);
+  const sphereCards=page.locator('#stepContent .p25-choice-card');
+  await sphereCards.first().waitFor({state:'visible',timeout:10000});await sphereCards.first().click();await page.waitForTimeout(120);
+  const cardsWithStyles=page.locator('#stepContent .p25-choice-card');
+  if(await cardsWithStyles.count()<6)throw new Error('Précondition du test: aucun Style disponible après le choix de Sphère.');
+  await cardsWithStyles.last().click();await page.waitForTimeout(120);
+
   const equipmentNav=page.locator('#stepNav button').filter({hasText:'Équipement'}).first();
   await equipmentNav.waitFor({state:'visible',timeout:15000});await equipmentNav.click();await page.waitForTimeout(150);
 
