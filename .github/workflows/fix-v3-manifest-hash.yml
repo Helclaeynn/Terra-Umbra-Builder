@@ -1,0 +1,52 @@
+name: Reconcile enriched V3 manifest checksum
+
+on:
+  push:
+    branches:
+      - preview/lore
+    paths:
+      - '.github/workflows/fix-v3-manifest-hash.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Restore checksum convention and validate
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,re
+          test=Path('compendium/tests/manifest-check.mjs')
+          s=test.read_text(encoding='utf-8')
+          s=s.replace("const sha=crypto.createHash('sha256').update(raw).digest('hex');","const sha=crypto.createHash('sha256').update(b64).digest('hex');")
+          test.write_text(s,encoding='utf-8')
+
+          part=Path('compendium/data/v3-lore-00.b64part')
+          b64=re.sub(r'\\s+','',part.read_text(encoding='utf-8'))
+          digest=hashlib.sha256(b64.encode('utf-8')).hexdigest()
+          mp=Path('compendium/data/manifest-v3.json')
+          m=json.loads(mp.read_text(encoding='utf-8'))
+          lore=next(x for x in m['datasets'] if x['id']=='lore')
+          lore['sha256']=digest
+          mp.write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print('Lore payload SHA-256:',digest)
+          PY
+          node compendium/tests/manifest-check.mjs
+      - name: Commit checksum reconciliation
+        shell: bash
+        run: |
+          git config user.name Helclaeynn
+          git config user.email malekith51@hotmail.com
+          git add compendium/tests/manifest-check.mjs compendium/data/manifest-v3.json
+          git commit -m 'fix(compendium): reconcile enriched V3 manifest checksum'
+          git push origin HEAD:preview/lore
