@@ -26,31 +26,20 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          p=Path('compendium/app-v3.js')
-          s=p.read_text(encoding='utf-8')
-          marker="const statusLabel=s=>manifest?.statusLabels?.[s]||s||'';\n"
-          helper="""
-
-function corpusAssetUrl(relativePath){
-  const clean=String(relativePath||'').replace(/^\\.?\\//,'');
-  if(location.hostname==='raw.githack.com'){
-    const match=location.pathname.match(/^\\/([^/]+)\\/([^/]+)\\/([^/]+)\\//);
-    if(match){
-      const [,owner,repo,ref]=match;
-      return `https://cdn.jsdelivr.net/gh/${owner}/${repo}@${ref}/compendium/${clean}`;
-    }
-  }
-  return clean;
-}
-"""
+          p = Path('compendium/app-v3.js')
+          s = p.read_text(encoding='utf-8')
+          marker = "const statusLabel=s=>manifest?.statusLabels?.[s]||s||'';\n"
+          helper = "\nfunction corpusAssetUrl(relativePath){\n  const clean=String(relativePath||'').replace(/^\\.?\\//,'');\n  if(location.hostname==='raw.githack.com'){\n    const match=location.pathname.match(/^\\/([^/]+)\\/([^/]+)\\/([^/]+)\\//);\n    if(match){\n      const [,owner,repo,ref]=match;\n      return `https://cdn.jsdelivr.net/gh/${owner}/${repo}@${ref}/compendium/${clean}`;\n    }\n  }\n  return clean;\n}\n"
           if 'function corpusAssetUrl(relativePath)' not in s:
-              if marker not in s: raise SystemExit('Insertion marker not found')
-              s=s.replace(marker,marker+helper,1)
-          old="const r=await fetch(`data/${file}`,{cache:'force-cache'});"
-          new="const r=await fetch(corpusAssetUrl(`data/${file}`),{cache:'force-cache'});"
-          if old not in s and new not in s: raise SystemExit('Dataset fetch pattern not found')
-          s=s.replace(old,new)
-          p.write_text(s,encoding='utf-8')
+              if marker not in s:
+                  raise SystemExit('Insertion marker not found')
+              s = s.replace(marker, marker + helper, 1)
+          old = "const r=await fetch(`data/${file}`,{cache:'force-cache'});"
+          new = "const r=await fetch(corpusAssetUrl(`data/${file}`),{cache:'force-cache'});"
+          if old not in s and new not in s:
+              raise SystemExit('Dataset fetch pattern not found')
+          s = s.replace(old, new)
+          p.write_text(s, encoding='utf-8')
           PY
           node --input-type=module --check < compendium/app-v3.js
       - name: Commit loader fix
@@ -70,32 +59,32 @@ function corpusAssetUrl(relativePath){
           SHA="$(git rev-parse HEAD)"
           URL="https://raw.githack.com/Helclaeynn/Terra-Umbra-Builder/${SHA}/compendium/index.html"
           for attempt in {1..30}; do
-            if curl -L --fail --silent --show-error "$URL" >/tmp/public-index.html; then break; fi
+            if curl -L --fail --silent --show-error "$URL" >/tmp/public-index.html; then
+              break
+            fi
             sleep 2
           done
           curl -L --fail --silent --show-error "https://cdn.jsdelivr.net/gh/Helclaeynn/Terra-Umbra-Builder@${SHA}/compendium/data/v3-lore-00.b64part" >/tmp/lore-payload.b64part
           test -s /tmp/lore-payload.b64part
           CHROME_BIN="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
           test -n "$CHROME_BIN"
-          cat > .public-preview-smoke.mjs <<'NODE'
-          import { chromium } from 'playwright-core';
-          const url=process.env.PUBLIC_URL;
-          const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_BIN,args:['--no-sandbox']});
-          const page=await browser.newPage();
-          const pageErrors=[];
-          const rawGithub=[];
-          page.on('pageerror',e=>pageErrors.push(String(e)));
-          page.on('request',r=>{if(r.url().includes('raw.githubusercontent.com'))rawGithub.push(r.url())});
-          await page.goto(url,{waitUntil:'domcontentloaded',timeout:30000});
-          await page.waitForFunction(()=>document.querySelector('#main')?.textContent?.includes('687 entrées'),null,{timeout:30000});
-          await page.evaluate(()=>{location.hash='#/article/lore-anti-systemes-hell-angels'});
-          await page.waitForFunction(()=>document.querySelector('#main h1')?.textContent?.includes('Hell Angels'),null,{timeout:15000});
-          const text=(await page.locator('#main').innerText()).toLowerCase();
-          if(text.length<500)throw new Error('Hell Angels incomplet dans la preview publique');
-          if(rawGithub.length)throw new Error(`Requête raw.githubusercontent restante: ${rawGithub.join(', ')}`);
-          if(pageErrors.length)throw new Error(pageErrors.join('\n'));
-          console.log('Public RawGitHack V3 smoke OK:',url);
-          await browser.close();
-          NODE
+          printf '%s\n' \
+            "import { chromium } from 'playwright-core';" \
+            "const url=process.env.PUBLIC_URL;" \
+            "const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_BIN,args:['--no-sandbox']});" \
+            "const page=await browser.newPage();" \
+            "const pageErrors=[]; const rawGithub=[];" \
+            "page.on('pageerror',e=>pageErrors.push(String(e)));" \
+            "page.on('request',r=>{if(r.url().includes('raw.githubusercontent.com'))rawGithub.push(r.url())});" \
+            "await page.goto(url,{waitUntil:'domcontentloaded',timeout:30000});" \
+            "await page.waitForFunction(()=>document.querySelector('#main')?.textContent?.includes('687 entrées'),null,{timeout:30000});" \
+            "await page.evaluate(()=>{location.hash='#/article/lore-anti-systemes-hell-angels'});" \
+            "await page.waitForFunction(()=>document.querySelector('#main h1')?.textContent?.includes('Hell Angels'),null,{timeout:15000});" \
+            "const text=(await page.locator('#main').innerText()).toLowerCase();" \
+            "if(text.length<500)throw new Error('Hell Angels incomplet dans la preview publique');" \
+            "if(rawGithub.length)throw new Error('raw.githubusercontent encore utilisé: '+rawGithub.join(', '));" \
+            "if(pageErrors.length)throw new Error(pageErrors.join('\\n'));" \
+            "console.log('Public RawGitHack V3 smoke OK');" \
+            "await browser.close();" > .public-preview-smoke.mjs
           PUBLIC_URL="$URL" CHROME_BIN="$CHROME_BIN" node .public-preview-smoke.mjs
           rm -f .public-preview-smoke.mjs
