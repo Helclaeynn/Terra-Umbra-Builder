@@ -34,6 +34,7 @@ on:
       - 'scripts/audit-truth-final-cleanup.mjs'
       - 'scripts/capture-truth-final-preservation-v1.mjs'
       - 'scripts/apply-truth-final-preservation-v1.mjs'
+      - 'scripts/sanitize-truth-editorial-meta-v1.mjs'
       - 'scripts/apply-truth-v6-mechanics.mjs'
       - 'scripts/clean-truth-lore-mechanics.mjs'
       - 'scripts/integrate-truth-lore-priority-v1.mjs'
@@ -110,6 +111,8 @@ jobs:
         run: node scripts/consolidate-truth-final-v1.mjs
       - name: Reapply preserved Truth material
         run: node scripts/apply-truth-final-preservation-v1.mjs
+      - name: Remove editorial meta noise from Truth lore
+        run: node scripts/sanitize-truth-editorial-meta-v1.mjs
       - name: Build hierarchical category navigation
         run: node scripts/build-compendium-navigation.mjs
       - name: Validate V3 manifest
