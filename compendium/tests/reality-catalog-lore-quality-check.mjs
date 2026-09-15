@@ -82,6 +82,7 @@ function containment(a,b){
 
 const pages=[];
 let sparseCount=0;
+let sourceEmptySparseCount=0;
 for(const id of IDS){
   const spec=manifest.datasets.find(item=>item.id===id);
   if(!spec)throw new Error(`${id}: dataset absent`);
@@ -104,8 +105,13 @@ for(const id of IDS){
       throw new Error(`${page.title}: marqué detailed sans propriété de lore exploitable`);
     }
     const loreNorm=norm(text),values=groundingValues(page);
-    if(!values.length)throw new Error(`${page.title}: aucune donnée propre à l’entrée pour ancrer le contexte`);
-    if(!values.some(value=>value.length>=2&&loreNorm.includes(value)))throw new Error(`${page.title}: contexte non ancré dans ses propriétés propres`);
+    if(!values.length){
+      if(grounding!=='sparse')throw new Error(`${page.title}: aucune donnée propre à l’entrée pour ancrer le contexte détaillé`);
+      if(!/aucun effet ni usage special|sans propriete additionnelle|aucune propriete/i.test(loreNorm))throw new Error(`${page.title}: source vide sans signalement explicite dans le contexte`);
+      sourceEmptySparseCount++;
+    }else if(!values.some(value=>value.length>=2&&loreNorm.includes(value))){
+      throw new Error(`${page.title}: contexte non ancré dans ses propriétés propres`);
+    }
     pages.push({page,set:shingleSet(page),grounding});
   }
 }
@@ -122,4 +128,4 @@ const bastion=pages.find(entry=>norm(entry.page.title)==='bastion');
 if(!bastion)throw new Error('Bastion absent du contrôle de qualité Réalité');
 if(bastion.grounding!=='sparse')throw new Error(`Bastion: grounding attendu sparse, obtenu ${bastion.grounding}`);
 console.log(`Bastion QA — ${contextBlocks(bastion.page).map(block=>block.text).join(' || ')}`);
-console.log(`Lore Réalité V2 OK — ${pages.length} pages · ${sparseCount} entrées sobres faute de propriétés supplémentaires · similarité détaillée max ${(worst.ratio*100).toFixed(1)}% (${worst.a} / ${worst.b}) · remplissage générique interdit.`);
+console.log(`Lore Réalité V2 OK — ${pages.length} pages · ${sparseCount} entrées sobres faute de propriétés supplémentaires (${sourceEmptySparseCount} sans donnée autre que le nom) · similarité détaillée max ${(worst.ratio*100).toFixed(1)}% (${worst.a} / ${worst.b}) · remplissage générique interdit.`);
