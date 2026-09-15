@@ -37,7 +37,7 @@ for(const id of IDS){
     for(const re of forbidden)if(re.test(text))problems.push(`reformulation technique/générique interdite (${re})`);
     const extra=extraVocabulary(page,text);if(extra.size<10)problems.push(`moins de 10 termes substantifs absents du tableau (${[...extra].join(', ')})`);
     if(blocks.length===2){const psets=blocks.map(b=>shingleSet(b.text,page.title));if(jaccard(psets[0],psets[1])>LIMIT)problems.push('paragraphes internes trop similaires');}
-    if(!['book','curated','book-context','neuro-book','derived','augmentation'].includes(grounding))problems.push(`loreGrounding V3 invalide (${grounding})`);
+    if(!['book','curated','book-context','neuro-book','derived','augmentation','augmentation-book'].includes(grounding))problems.push(`loreGrounding V3 invalide (${grounding})`);
     if(problems.length)pageErrors.push(`${id}:${page.title} — ${problems.join(' ; ')}`);
     if(grounding==='derived')derived++;else if(grounding==='augmentation')augmentations++;else sourceDriven++;
     const item={page,set:shingleSet(text,page.title)};all.push(item);byTitle.set(norm(page.title),page);
