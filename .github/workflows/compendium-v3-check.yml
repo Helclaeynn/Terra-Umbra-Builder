@@ -15,6 +15,7 @@ on:
       - 'character-builder/rulesets/terra-umbra/reality/safe/equipment.manifest.json'
       - 'character-builder/rulesets/terra-umbra/reality/safe/equipment.part*.b64'
       - 'scripts/build-compendium-catalog-pages.mjs'
+      - 'scripts/enrich-compendium-augmentation-generations.mjs'
       - 'scripts/prepare-builder-reality-catalogs.mjs'
       - 'scripts/sync-page-overrides.mjs'
       - 'tools/github-oauth-proxy-worker.js'
@@ -26,6 +27,7 @@ on:
       - 'character-builder/rulesets/terra-umbra/reality/safe/equipment.manifest.json'
       - 'character-builder/rulesets/terra-umbra/reality/safe/equipment.part*.b64'
       - 'scripts/build-compendium-catalog-pages.mjs'
+      - 'scripts/enrich-compendium-augmentation-generations.mjs'
       - 'scripts/prepare-builder-reality-catalogs.mjs'
       - 'scripts/sync-page-overrides.mjs'
       - 'tools/github-oauth-proxy-worker.js'
@@ -62,8 +64,11 @@ jobs:
           node --check compendium/editor/zip-bundle.js
           node --check scripts/sync-page-overrides.mjs
           node --check scripts/build-compendium-catalog-pages.mjs
+          node --check scripts/enrich-compendium-augmentation-generations.mjs
           node --check scripts/prepare-builder-reality-catalogs.mjs
           node --check compendium/tests/catalog-pages-check.mjs
+          node --check compendium/tests/catalog-pages-semantic-check.mjs
+          node --check compendium/tests/catalog-runtime-browser-smoke.mjs
       - name: Validate editor override engine
         run: |
           node compendium/tests/editor-overrides-check.mjs
