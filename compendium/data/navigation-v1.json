@@ -3846,17 +3846,6 @@
       "displayTitle": "Autres descendants de Khinae"
     },
     {
-      "id": "verite-049-13-mages",
-      "dataset": "verite",
-      "category": "Vérité",
-      "group": "Natures, peuples & traditions",
-      "groupOrder": 20,
-      "subgroup": "Mages",
-      "subgroupOrder": 13,
-      "pageOrder": 13,
-      "displayTitle": "Mages"
-    },
-    {
       "id": "verite-050-14-daemons",
       "dataset": "verite",
       "category": "Vérité",
@@ -4009,17 +3998,6 @@
       "subgroupOrder": 14,
       "pageOrder": 100,
       "displayTitle": "Satan"
-    },
-    {
-      "id": "verite-051-15-angelus",
-      "dataset": "verite",
-      "category": "Vérité",
-      "group": "Natures, peuples & traditions",
-      "groupOrder": 20,
-      "subgroup": "Angelus",
-      "subgroupOrder": 15,
-      "pageOrder": 15,
-      "displayTitle": "Angelus"
     },
     {
       "id": "verite-052-16-aseryns",
@@ -4196,6 +4174,28 @@
       "subgroupOrder": 21,
       "pageOrder": 90,
       "displayTitle": "Pelage Doré"
+    },
+    {
+      "id": "verite-049-13-mages",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Mages",
+      "subgroupOrder": 30,
+      "pageOrder": 10,
+      "displayTitle": "Mages"
+    },
+    {
+      "id": "verite-051-15-angelus",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Angelus",
+      "subgroupOrder": 50,
+      "pageOrder": 10,
+      "displayTitle": "Angelus"
     },
     {
       "id": "lore-supernatural-species-vampires",
