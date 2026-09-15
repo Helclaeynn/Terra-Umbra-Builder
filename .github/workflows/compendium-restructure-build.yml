@@ -6,12 +6,15 @@ on:
       - preview/compendium-restructure
     paths:
       - 'compendium/source/reality-rules-v1.json.gz.b64'
+      - 'compendium/source/truth-mechanics-v6-fixed.manifest.json'
+      - 'compendium/source/truth-mechanics-v6-fixed.part*.b64'
       - 'character-builder/rulesets/terra-umbra/talents/**'
       - 'character-builder/rulesets/terra-umbra/disadvantages/**'
       - 'character-builder/rulesets/terra-umbra/truth/core.json'
       - 'character-builder/rulesets/terra-umbra/truth/talents/**'
       - 'scripts/restructure-compendium-mechanics-v2.mjs'
       - 'scripts/refine-reality-talent-page-granularity.mjs'
+      - 'scripts/audit-truth-v6-mechanics-overlap.mjs'
       - 'compendium/tests/restructure-rules-check.mjs'
       - 'compendium/tests/reality-talent-granularity-check.mjs'
       - 'compendium/tests/manifest-check.mjs'
@@ -31,6 +34,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Audit Truth V6 mechanics source and Builder overlap
+        run: node scripts/audit-truth-v6-mechanics-overlap.mjs
       - name: Build grouped mechanics pages
         run: node scripts/restructure-compendium-mechanics-v2.mjs
       - name: Refine Reality talent page granularity
