@@ -183,15 +183,25 @@ function classifyRules(page) {
       return { group: 'Réalité — Talents & désavantages', groupOrder: GROUP_ORDER['Réalité — Talents & désavantages'], subgroup, subgroupOrder, pageOrder: pageOrder(page, 100) };
     }
 
-    if (tagIncludes(page, 'LIVRE II') || /augment/i.test(`${source} ${title}`)) {
-      return { group: 'Réalité — Augmentations', groupOrder: GROUP_ORDER['Réalité — Augmentations'], subgroup: 'Intégration augmentique', subgroupOrder: 10, pageOrder: pageOrder(page, 100) };
-    }
-    if (tagIncludes(page, 'LIVRE III') || /neurodive/i.test(source) || /neurocombat|intrusion|neurodive|connexion, plongée|rang de neurodive|corruption de programmes|ia de sécurité/i.test(title)) {
+    // Le Neurodive est identifié par son contenu avant toute provenance de fichier.
+    // Les imports historiques regroupaient parfois plusieurs livres dans un même source,
+    // ce qui rendait une détection générique sur "augment" trop large.
+    if (
+      tagIncludes(page, 'LIVRE III') ||
+      /neurodive/i.test(source) ||
+      /principes du neurodive|connexion, plongée et équipement|rang de neurodive et chargement|actions de neurodive|intrusion, sécurité, trace et contrôle|neurocombat|corruption de programmes et matériel|ia de sécurité|exemple complet d['’]intrusion|référence rapide/i.test(title)
+    ) {
       return { group: 'Réalité — Neurodive', groupOrder: GROUP_ORDER['Réalité — Neurodive'], subgroup: 'Règles de Neurodive', subgroupOrder: 10, pageOrder: pageOrder(page, 100) };
     }
-    if (tagIncludes(page, 'LIVRE IV') || /économie|train de vie|équipement|marché noir|crawler/i.test(title)) {
+
+    if (/intégration augmentique/i.test(title) || (tagIncludes(page, 'LIVRE II') && /augment|charge|stress|frénésie/i.test(title))) {
+      return { group: 'Réalité — Augmentations', groupOrder: GROUP_ORDER['Réalité — Augmentations'], subgroup: 'Intégration augmentique', subgroupOrder: 10, pageOrder: pageOrder(page, 100) };
+    }
+
+    if (tagIncludes(page, 'LIVRE IV') || /économie|train de vie|règles communes d['’]équipement|crédit, marché noir et économie crawler/i.test(title)) {
       return { group: 'Réalité — Économie & équipement', groupOrder: GROUP_ORDER['Réalité — Économie & équipement'], subgroup: 'Économie et accès matériel', subgroupOrder: 10, pageOrder: pageOrder(page, 100) };
     }
+
     if (tagIncludes(page, 'LIVRE I') || /création et progression/i.test(title)) {
       return { group: 'Réalité — Création & progression', groupOrder: GROUP_ORDER['Réalité — Création & progression'], subgroup: 'Création de personnage', subgroupOrder: 10, pageOrder: pageOrder(page, 100) };
     }
