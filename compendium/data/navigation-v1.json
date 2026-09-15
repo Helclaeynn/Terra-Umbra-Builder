@@ -4275,17 +4275,6 @@
       "displayTitle": "Ad’rak"
     },
     {
-      "id": "lore-supernatural-species-vampires",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Peuples & Natures",
-      "groupOrder": 20,
-      "subgroup": "Vampires",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vampires"
-    },
-    {
       "id": "lore-therianthropes-autres-canides",
       "dataset": "lore",
       "category": "Vérité",
@@ -4341,17 +4330,6 @@
       "displayTitle": "Les autres thérianthropes"
     },
     {
-      "id": "lore-supernatural-species-loups-garous",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Peuples & Natures",
-      "groupOrder": 20,
-      "subgroup": "Garous & descendants de Khinae",
-      "subgroupOrder": 20,
-      "pageOrder": 500,
-      "displayTitle": "Loups-garous"
-    },
-    {
       "id": "lore-therianthropes-oiseaux-dinosaures",
       "dataset": "lore",
       "category": "Vérité",
@@ -4383,39 +4361,6 @@
       "subgroupOrder": 20,
       "pageOrder": 500,
       "displayTitle": "Serpents"
-    },
-    {
-      "id": "lore-supernatural-species-mages",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Peuples & Natures",
-      "groupOrder": 20,
-      "subgroup": "Mages",
-      "subgroupOrder": 30,
-      "pageOrder": 500,
-      "displayTitle": "Mages"
-    },
-    {
-      "id": "lore-supernatural-species-daemons",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Peuples & Natures",
-      "groupOrder": 20,
-      "subgroup": "Daemons",
-      "subgroupOrder": 40,
-      "pageOrder": 500,
-      "displayTitle": "Daemons"
-    },
-    {
-      "id": "lore-supernatural-species-angelus",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Peuples & Natures",
-      "groupOrder": 20,
-      "subgroup": "Angelus",
-      "subgroupOrder": 50,
-      "pageOrder": 500,
-      "displayTitle": "Angelus"
     },
     {
       "id": "lore-supernatural-species-atlantes",
