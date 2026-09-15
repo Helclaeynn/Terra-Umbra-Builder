@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "categories": [
     "Règles",
     "Réalité",
@@ -8,6 +8,7 @@
   "entries": [
     {
       "id": "realite-002-1-reperes-sociaux-de-realite",
+      "dataset": "realite",
       "category": "Réalité",
       "group": "Grande Californie & quotidien",
       "groupOrder": 10,
@@ -18,6 +19,7 @@
     },
     {
       "id": "realite-001-chapitre-vivre-en-grande-californie",
+      "dataset": "realite",
       "category": "Réalité",
       "group": "Grande Californie & quotidien",
       "groupOrder": 10,
@@ -27,7 +29,118 @@
       "displayTitle": "VIVRE EN GRANDE CALIFORNIE"
     },
     {
+      "id": "lore-vie-quotidienne-alimentation-base",
+      "dataset": "lore",
+      "category": "Réalité",
+      "group": "Grande Californie & société",
+      "groupOrder": 10,
+      "subgroup": "Société & quotidien",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Alimentation — ration, céréales et insectes"
+    },
+    {
+      "id": "lore-vie-quotidienne-alimentation",
+      "dataset": "lore",
+      "category": "Réalité",
+      "group": "Grande Californie & société",
+      "groupOrder": 10,
+      "subgroup": "Société & quotidien",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Alimentation — synthèse, clonage et produits classiques"
+    },
+    {
+      "id": "lore-vie-quotidienne-cinema-jeux-sport",
+      "dataset": "lore",
+      "category": "Réalité",
+      "group": "Grande Californie & société",
+      "groupOrder": 10,
+      "subgroup": "Société & quotidien",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Cinéma, jeux vidéo et sport"
+    },
+    {
+      "id": "lore-vie-quotidienne-logement-robotique",
+      "dataset": "lore",
+      "category": "Réalité",
+      "group": "Grande Californie & société",
+      "groupOrder": 10,
+      "subgroup": "Société & quotidien",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Logement et robotique"
+    },
+    {
+      "id": "lore-vie-quotidienne-materiaux",
+      "dataset": "lore",
+      "category": "Réalité",
+      "group": "Grande Californie & société",
+      "groupOrder": 10,
+      "subgroup": "Société & quotidien",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Matériaux du quotidien"
+    },
+    {
+      "id": "lore-vie-quotidienne-medias-drogues",
+      "dataset": "lore",
+      "category": "Réalité",
+      "group": "Grande Californie & société",
+      "groupOrder": 10,
+      "subgroup": "Société & quotidien",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Médias et drogues"
+    },
+    {
+      "id": "lore-vie-quotidienne-musique-mode",
+      "dataset": "lore",
+      "category": "Réalité",
+      "group": "Grande Californie & société",
+      "groupOrder": 10,
+      "subgroup": "Société & quotidien",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Musique et mode"
+    },
+    {
+      "id": "lore-vie-quotidienne-sante",
+      "dataset": "lore",
+      "category": "Réalité",
+      "group": "Grande Californie & société",
+      "groupOrder": 10,
+      "subgroup": "Société & quotidien",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Santé"
+    },
+    {
+      "id": "lore-vie-quotidienne-sexualite",
+      "dataset": "lore",
+      "category": "Réalité",
+      "group": "Grande Californie & société",
+      "groupOrder": 10,
+      "subgroup": "Société & quotidien",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Sexualité"
+    },
+    {
+      "id": "lore-vie-quotidienne-urbanisme-strates",
+      "dataset": "lore",
+      "category": "Réalité",
+      "group": "Grande Californie & société",
+      "groupOrder": 10,
+      "subgroup": "Société & quotidien",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Urbanisme — les trois strates"
+    },
+    {
       "id": "realite-007-i-augmentations-esthetiques",
+      "dataset": "realite",
       "category": "Réalité",
       "group": "Augmentations",
       "groupOrder": 20,
@@ -38,6 +151,7 @@
     },
     {
       "id": "realite-008-ii-neuroware",
+      "dataset": "realite",
       "category": "Réalité",
       "group": "Augmentations",
       "groupOrder": 20,
@@ -48,6 +162,7 @@
     },
     {
       "id": "realite-009-iii-cyberoptique",
+      "dataset": "realite",
       "category": "Réalité",
       "group": "Augmentations",
       "groupOrder": 20,
@@ -58,6 +173,7 @@
     },
     {
       "id": "realite-010-iv-cyberaudio",
+      "dataset": "realite",
       "category": "Réalité",
       "group": "Augmentations",
       "groupOrder": 20,
@@ -68,6 +184,7 @@
     },
     {
       "id": "realite-011-v-augmentations-internes",
+      "dataset": "realite",
       "category": "Réalité",
       "group": "Augmentations",
       "groupOrder": 20,
@@ -78,6 +195,7 @@
     },
     {
       "id": "realite-012-vi-augmentations-dermiques-et-externes",
+      "dataset": "realite",
       "category": "Réalité",
       "group": "Augmentations",
       "groupOrder": 20,
@@ -88,6 +206,7 @@
     },
     {
       "id": "realite-013-vii-membres-cybernetiques",
+      "dataset": "realite",
       "category": "Réalité",
       "group": "Augmentations",
       "groupOrder": 20,
@@ -98,6 +217,7 @@
     },
     {
       "id": "realite-014-viii-cyborg-lourd",
+      "dataset": "realite",
       "category": "Réalité",
       "group": "Augmentations",
       "groupOrder": 20,
@@ -108,6 +228,7 @@
     },
     {
       "id": "realite-015-ix-biogenetique-terrestre",
+      "dataset": "realite",
       "category": "Réalité",
       "group": "Augmentations",
       "groupOrder": 20,
@@ -118,6 +239,7 @@
     },
     {
       "id": "realite-023-8-applications-holonet",
+      "dataset": "realite",
       "category": "Réalité",
       "group": "Neurodive",
       "groupOrder": 30,
@@ -128,6 +250,7 @@
     },
     {
       "id": "realite-024-9-catalogue-des-neuroprogrammes",
+      "dataset": "realite",
       "category": "Réalité",
       "group": "Neurodive",
       "groupOrder": 30,
@@ -138,6 +261,7 @@
     },
     {
       "id": "realite-031-4-armement-terrestre",
+      "dataset": "realite",
       "category": "Réalité",
       "group": "Économie, équipement & services",
       "groupOrder": 40,
@@ -148,6 +272,7 @@
     },
     {
       "id": "realite-032-5-munitions-et-accessoires",
+      "dataset": "realite",
       "category": "Réalité",
       "group": "Économie, équipement & services",
       "groupOrder": 40,
@@ -158,6 +283,7 @@
     },
     {
       "id": "realite-033-6-armures-et-protections",
+      "dataset": "realite",
       "category": "Réalité",
       "group": "Économie, équipement & services",
       "groupOrder": 40,
@@ -168,6 +294,7 @@
     },
     {
       "id": "realite-034-7-objets-usuels-et-materiel-technique",
+      "dataset": "realite",
       "category": "Réalité",
       "group": "Économie, équipement & services",
       "groupOrder": 40,
@@ -178,6 +305,7 @@
     },
     {
       "id": "realite-035-8-nourriture-boissons-et-drogues",
+      "dataset": "realite",
       "category": "Réalité",
       "group": "Économie, équipement & services",
       "groupOrder": 40,
@@ -188,6 +316,7 @@
     },
     {
       "id": "realite-036-9-services-soins-et-divertissements",
+      "dataset": "realite",
       "category": "Réalité",
       "group": "Économie, équipement & services",
       "groupOrder": 40,
@@ -198,6 +327,7 @@
     },
     {
       "id": "realite-037-10-logements-planques-et-securite",
+      "dataset": "realite",
       "category": "Réalité",
       "group": "Économie, équipement & services",
       "groupOrder": 40,
@@ -208,6 +338,7 @@
     },
     {
       "id": "realite-038-11-vehicules-et-transports",
+      "dataset": "realite",
       "category": "Réalité",
       "group": "Économie, équipement & services",
       "groupOrder": 40,
@@ -217,7 +348,96 @@
       "displayTitle": "Véhicules et transports"
     },
     {
+      "id": "lore-vie-quotidienne-augmentations-cyber",
+      "dataset": "lore",
+      "category": "Réalité",
+      "group": "Technologie & infrastructures",
+      "groupOrder": 50,
+      "subgroup": "Technologies & infrastructures",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Augmentations cybermécaniques"
+    },
+    {
+      "id": "lore-vie-quotidienne-augmentations-organiques",
+      "dataset": "lore",
+      "category": "Réalité",
+      "group": "Technologie & infrastructures",
+      "groupOrder": 50,
+      "subgroup": "Technologies & infrastructures",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Augmentations organiques"
+    },
+    {
+      "id": "lore-vie-quotidienne-energie",
+      "dataset": "lore",
+      "category": "Réalité",
+      "group": "Technologie & infrastructures",
+      "groupOrder": 50,
+      "subgroup": "Technologies & infrastructures",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Énergie"
+    },
+    {
+      "id": "lore-vie-quotidienne-realite-augmentee-ia",
+      "dataset": "lore",
+      "category": "Réalité",
+      "group": "Technologie & infrastructures",
+      "groupOrder": 50,
+      "subgroup": "Technologies & infrastructures",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Réalité augmentée, IA et holophones"
+    },
+    {
+      "id": "lore-vie-quotidienne-transports-longue-distance",
+      "dataset": "lore",
+      "category": "Réalité",
+      "group": "Technologie & infrastructures",
+      "groupOrder": 50,
+      "subgroup": "Technologies & infrastructures",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Transports longue distance"
+    },
+    {
+      "id": "lore-vie-quotidienne-transports-urbains",
+      "dataset": "lore",
+      "category": "Réalité",
+      "group": "Technologie & infrastructures",
+      "groupOrder": 50,
+      "subgroup": "Technologies & infrastructures",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Transports urbains"
+    },
+    {
+      "id": "lore-vie-quotidienne-troubles-augmentiques",
+      "dataset": "lore",
+      "category": "Réalité",
+      "group": "Technologie & infrastructures",
+      "groupOrder": 50,
+      "subgroup": "Technologies & infrastructures",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Troubles associés aux augmentations"
+    },
+    {
+      "id": "lore-vie-quotidienne-holonet",
+      "dataset": "lore",
+      "category": "Réalité",
+      "group": "Technologie & infrastructures",
+      "groupOrder": 50,
+      "subgroup": "Holonet & Neurodive",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Holonet et vie connectée"
+    },
+    {
       "id": "moteur-001-1-resolution-generale",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Moteur commun",
       "groupOrder": 10,
@@ -228,6 +448,7 @@
     },
     {
       "id": "moteur-002-2-profil-derive-statut",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Moteur commun",
       "groupOrder": 10,
@@ -238,6 +459,7 @@
     },
     {
       "id": "moteur-003-3-combat",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Moteur commun",
       "groupOrder": 10,
@@ -248,6 +470,7 @@
     },
     {
       "id": "moteur-004-4-sante-soins-et-recuperation",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Moteur commun",
       "groupOrder": 10,
@@ -258,6 +481,7 @@
     },
     {
       "id": "moteur-005-5-stress-et-etats-psychologiques",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Moteur commun",
       "groupOrder": 10,
@@ -268,6 +492,7 @@
     },
     {
       "id": "realite-005-4-creation-et-progression",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Création & progression",
       "groupOrder": 20,
@@ -278,6 +503,7 @@
     },
     {
       "id": "realite-004-3-desavantages-de-realite",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Talents & désavantages",
       "groupOrder": 30,
@@ -288,6 +514,7 @@
     },
     {
       "id": "realite-003-2-talents-de-realite",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Talents & désavantages",
       "groupOrder": 30,
@@ -298,6 +525,7 @@
     },
     {
       "id": "regles-realite-talents-communs",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Talents & désavantages",
       "groupOrder": 30,
@@ -308,6 +536,7 @@
     },
     {
       "id": "regles-realite-talents-expertise-agilite",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Talents & désavantages",
       "groupOrder": 30,
@@ -318,6 +547,7 @@
     },
     {
       "id": "regles-realite-talents-expertise-charisme",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Talents & désavantages",
       "groupOrder": 30,
@@ -328,6 +558,7 @@
     },
     {
       "id": "regles-realite-talents-expertise-esprit",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Talents & désavantages",
       "groupOrder": 30,
@@ -338,6 +569,7 @@
     },
     {
       "id": "regles-realite-talents-expertise-vigueur",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Talents & désavantages",
       "groupOrder": 30,
@@ -348,6 +580,7 @@
     },
     {
       "id": "regles-realite-talents-expertise-volonte",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Talents & désavantages",
       "groupOrder": 30,
@@ -358,6 +591,7 @@
     },
     {
       "id": "regles-realite-talents-origine-origine-corporatiste",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Talents & désavantages",
       "groupOrder": 30,
@@ -368,6 +602,7 @@
     },
     {
       "id": "regles-realite-talents-origine-origine-crawler",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Talents & désavantages",
       "groupOrder": 30,
@@ -378,6 +613,7 @@
     },
     {
       "id": "regles-realite-talents-origine-origine-gouvernementale",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Talents & désavantages",
       "groupOrder": 30,
@@ -388,6 +624,7 @@
     },
     {
       "id": "regles-realite-talents-origine-origine-mafieuse",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Talents & désavantages",
       "groupOrder": 30,
@@ -398,6 +635,7 @@
     },
     {
       "id": "regles-realite-talents-origine-origine-religieuse",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Talents & désavantages",
       "groupOrder": 30,
@@ -408,6 +646,7 @@
     },
     {
       "id": "regles-realite-talents-sphere-corporatiste",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Talents & désavantages",
       "groupOrder": 30,
@@ -418,6 +657,7 @@
     },
     {
       "id": "regles-realite-talents-sphere-crawler",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Talents & désavantages",
       "groupOrder": 30,
@@ -428,6 +668,7 @@
     },
     {
       "id": "regles-realite-talents-sphere-gouvernemental",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Talents & désavantages",
       "groupOrder": 30,
@@ -438,6 +679,7 @@
     },
     {
       "id": "regles-realite-talents-sphere-pegre",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Talents & désavantages",
       "groupOrder": 30,
@@ -448,6 +690,7 @@
     },
     {
       "id": "regles-realite-talents-sphere-religieux",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Talents & désavantages",
       "groupOrder": 30,
@@ -458,6 +701,7 @@
     },
     {
       "id": "regles-realite-desavantages-communs",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Talents & désavantages",
       "groupOrder": 30,
@@ -468,6 +712,7 @@
     },
     {
       "id": "regles-realite-desavantages-attributs",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Talents & désavantages",
       "groupOrder": 30,
@@ -478,6 +723,7 @@
     },
     {
       "id": "regles-realite-desavantages-sphere",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Talents & désavantages",
       "groupOrder": 30,
@@ -488,6 +734,7 @@
     },
     {
       "id": "realite-006-1-integration-augmentique-charge-stress-et-frenesie",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Augmentations",
       "groupOrder": 40,
@@ -498,6 +745,7 @@
     },
     {
       "id": "realite-016-1-principes-du-neurodive",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Neurodive",
       "groupOrder": 50,
@@ -508,6 +756,7 @@
     },
     {
       "id": "realite-017-2-connexion-plongee-et-equipement",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Neurodive",
       "groupOrder": 50,
@@ -518,6 +767,7 @@
     },
     {
       "id": "realite-018-3-rang-de-neurodive-et-chargement",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Neurodive",
       "groupOrder": 50,
@@ -528,6 +778,7 @@
     },
     {
       "id": "realite-019-4-actions-de-neurodive",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Neurodive",
       "groupOrder": 50,
@@ -538,6 +789,7 @@
     },
     {
       "id": "realite-020-5-intrusion-securite-trace-et-controle",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Neurodive",
       "groupOrder": 50,
@@ -548,6 +800,7 @@
     },
     {
       "id": "realite-021-6-neurocombat",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Neurodive",
       "groupOrder": 50,
@@ -558,6 +811,7 @@
     },
     {
       "id": "realite-025-10-ia-de-securite-profils-mj",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Neurodive",
       "groupOrder": 50,
@@ -568,6 +822,7 @@
     },
     {
       "id": "realite-026-11-exemple-complet-d-intrusion",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Neurodive",
       "groupOrder": 50,
@@ -578,6 +833,7 @@
     },
     {
       "id": "realite-027-12-reference-rapide",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Neurodive",
       "groupOrder": 50,
@@ -588,6 +844,7 @@
     },
     {
       "id": "realite-028-1-economie-et-pouvoir-dachat",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Économie & équipement",
       "groupOrder": 60,
@@ -598,6 +855,7 @@
     },
     {
       "id": "realite-029-2-train-de-vie-charges-fixes-et-acces-materiel",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Économie & équipement",
       "groupOrder": 60,
@@ -608,6 +866,7 @@
     },
     {
       "id": "realite-030-3-regles-communes-dequipement",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Économie & équipement",
       "groupOrder": 60,
@@ -618,6 +877,7 @@
     },
     {
       "id": "realite-039-12-credit-marche-noir-et-economie-crawler",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Réalité — Économie & équipement",
       "groupOrder": 60,
@@ -628,6 +888,7 @@
     },
     {
       "id": "verite-037-1-architecture-de-la-verite",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Règles communes",
       "groupOrder": 70,
@@ -638,6 +899,7 @@
     },
     {
       "id": "verite-038-2-points-de-verite-acces-et-conception-des-talents",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Règles communes",
       "groupOrder": 70,
@@ -648,6 +910,7 @@
     },
     {
       "id": "verite-039-3-pa-reactions-durees-et-non-cumul",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Règles communes",
       "groupOrder": 70,
@@ -658,6 +921,7 @@
     },
     {
       "id": "verite-040-4-defense-occulte-et-puissance-des-effets",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Règles communes",
       "groupOrder": 70,
@@ -668,6 +932,7 @@
     },
     {
       "id": "verite-041-5-hologramme-voile-semi-revelation-et-revelation",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Règles communes",
       "groupOrder": 70,
@@ -678,6 +943,7 @@
     },
     {
       "id": "verite-042-6-continuite-corporelle-objets-et-mobilite-ailee",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Règles communes",
       "groupOrder": 70,
@@ -688,6 +954,7 @@
     },
     {
       "id": "verite-043-7-humains-chasseurs-reconnus-humanite-et-integrite",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Règles communes",
       "groupOrder": 70,
@@ -698,6 +965,7 @@
     },
     {
       "id": "verite-044-8-compagnons-lies-et-reseaux-de-verite",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Règles communes",
       "groupOrder": 70,
@@ -708,6 +976,7 @@
     },
     {
       "id": "verite-045-9-equipement-de-verite-principe-commun",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Règles communes",
       "groupOrder": 70,
@@ -718,6 +987,7 @@
     },
     {
       "id": "regles-verite-nature-humain",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -728,6 +998,7 @@
     },
     {
       "id": "regles-verite-chasseur-doctrine-commune-de-chasse",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -738,6 +1009,7 @@
     },
     {
       "id": "regles-verite-garou-sang-chasseur-thorkel",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -748,6 +1020,7 @@
     },
     {
       "id": "regles-verite-nature-vampire",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -758,6 +1031,7 @@
     },
     {
       "id": "regles-verite-vampire-commun",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -768,6 +1042,7 @@
     },
     {
       "id": "regles-verite-vampire-cour-alghul-almalakiu",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -778,6 +1053,7 @@
     },
     {
       "id": "regles-verite-vampire-cour-ihuito-meztzi",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -788,6 +1064,7 @@
     },
     {
       "id": "regles-verite-vampire-cour-krovni-rytsari",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -798,6 +1075,7 @@
     },
     {
       "id": "regles-verite-vampire-cour-oru-ayeraye",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -808,6 +1086,7 @@
     },
     {
       "id": "regles-verite-vampire-sang-ardent-larisha",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -818,6 +1097,7 @@
     },
     {
       "id": "regles-verite-vampire-sang-aveugle-ashream",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -828,6 +1108,7 @@
     },
     {
       "id": "regles-verite-vampire-sang-condamne-ashelia",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -838,6 +1119,7 @@
     },
     {
       "id": "regles-verite-vampire-sang-ecarlate-anya",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -848,6 +1130,7 @@
     },
     {
       "id": "regles-verite-vampire-sang-glacial-vjarmod",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -858,6 +1141,7 @@
     },
     {
       "id": "regles-verite-vampire-sang-hypocrite-briaerus",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -868,6 +1152,7 @@
     },
     {
       "id": "regles-verite-vampire-sang-masque-kazuo",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -878,6 +1163,7 @@
     },
     {
       "id": "regles-verite-vampire-sang-orageux-branimir",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -888,6 +1174,7 @@
     },
     {
       "id": "regles-verite-vampire-sang-primal-lyssa",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -898,6 +1185,7 @@
     },
     {
       "id": "regles-verite-vampire-sang-revelateur-zhi-xia",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -908,6 +1196,7 @@
     },
     {
       "id": "regles-verite-vampire-sang-traqueur-go-ndai",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -918,6 +1207,7 @@
     },
     {
       "id": "regles-verite-vampire-sang-venimeux-huitzitia",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -928,6 +1218,7 @@
     },
     {
       "id": "regles-verite-vampire-cour-shi-hun-zhe",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -938,6 +1229,7 @@
     },
     {
       "id": "regles-verite-nature-garou",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -948,6 +1240,7 @@
     },
     {
       "id": "regles-verite-garou-garou-commun",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -958,6 +1251,7 @@
     },
     {
       "id": "regles-verite-garou-pelages-blancs-discipline-de-fenrir",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -968,6 +1262,7 @@
     },
     {
       "id": "regles-verite-garou-pelages-bruns-accord-des-kami",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -978,6 +1273,7 @@
     },
     {
       "id": "regles-verite-garou-pelages-dores-devoration-occulte",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -988,6 +1284,7 @@
     },
     {
       "id": "regles-verite-garou-pelages-gris-gardien-de-la-meute",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -998,6 +1295,7 @@
     },
     {
       "id": "regles-verite-garou-pelages-noirs-territoire-de-la-meute",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1008,6 +1306,7 @@
     },
     {
       "id": "regles-verite-garou-pelages-roux-mue-partielle",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1018,6 +1317,7 @@
     },
     {
       "id": "regles-verite-garou-sang-alpha-ohtana",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1028,6 +1328,7 @@
     },
     {
       "id": "regles-verite-garou-sang-de-sagesse-tomoko",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1038,6 +1339,7 @@
     },
     {
       "id": "regles-verite-garou-sang-ecarlate-keyna",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1048,6 +1350,7 @@
     },
     {
       "id": "regles-verite-garou-sang-enchaine-jayanti",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1058,6 +1361,7 @@
     },
     {
       "id": "regles-verite-garou-sang-enrage-asulf",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1068,6 +1372,7 @@
     },
     {
       "id": "regles-verite-garou-sang-funeste-verica",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1078,6 +1383,7 @@
     },
     {
       "id": "regles-verite-garou-sang-naturel-vortigern",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1088,6 +1394,7 @@
     },
     {
       "id": "regles-verite-garou-sang-primal-khuyildar",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1098,6 +1405,7 @@
     },
     {
       "id": "regles-verite-garou-sang-revelateur-ceallachan",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1108,6 +1416,7 @@
     },
     {
       "id": "regles-verite-garou-sang-sculpteur-svenn",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1118,6 +1427,7 @@
     },
     {
       "id": "regles-verite-garou-sang-vengeur-astaphium",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1128,6 +1438,7 @@
     },
     {
       "id": "regles-verite-nature-khinae",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1138,6 +1449,7 @@
     },
     {
       "id": "regles-verite-khinae-berserkirs-hommes-ours",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1148,6 +1460,7 @@
     },
     {
       "id": "regles-verite-khinae-boudas-hommes-hyenes",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1158,6 +1471,7 @@
     },
     {
       "id": "regles-verite-khinae-canides-errants-coyote-chacal-lycaon-dhole-et-dingo",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1168,6 +1482,7 @@
     },
     {
       "id": "regles-verite-khinae-chats-les-familiers-de-personne",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1178,6 +1493,7 @@
     },
     {
       "id": "regles-verite-khinae-crocodiliens-les-fossiles-d-embuscade",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1188,6 +1504,7 @@
     },
     {
       "id": "regles-verite-khinae-grands-felins-tigres-et-lignees-apparentees",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1198,6 +1515,7 @@
     },
     {
       "id": "regles-verite-khinae-rapaces-aigles-faucons-hiboux-et-vautours",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1208,6 +1526,7 @@
     },
     {
       "id": "regles-verite-khinae-renards-les-survivants-libres",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1218,6 +1537,7 @@
     },
     {
       "id": "regles-verite-khinae-requins-les-independants-des-abysses",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1228,6 +1548,7 @@
     },
     {
       "id": "regles-verite-khinae-serpents-venimeux-constricteurs-et-lignees-furtives",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1238,6 +1559,7 @@
     },
     {
       "id": "regles-verite-nature-mage",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1248,6 +1570,7 @@
     },
     {
       "id": "regles-verite-mage-communs",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1258,6 +1581,7 @@
     },
     {
       "id": "regles-verite-mage-progression",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1268,6 +1592,7 @@
     },
     {
       "id": "regles-verite-v6-mage-affinite-acratomancie-magie-des-sceaux",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1278,6 +1603,7 @@
     },
     {
       "id": "regles-verite-v6-mage-affinite-alchimie-magie-des-atomes",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1288,6 +1614,7 @@
     },
     {
       "id": "regles-verite-v6-mage-affinite-architetramancie-magie-des-elements",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1298,6 +1625,7 @@
     },
     {
       "id": "regles-verite-v6-mage-affinite-chronomancie-magie-du-temps",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1308,6 +1636,7 @@
     },
     {
       "id": "regles-verite-v6-mage-affinite-divination-magie-de-l-information-et-des-possibles",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1318,6 +1647,7 @@
     },
     {
       "id": "regles-verite-v6-mage-affinite-hematomancie-magie-du-sang",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1328,6 +1658,7 @@
     },
     {
       "id": "regles-verite-v6-mage-lancement-tension-revers",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1338,6 +1669,7 @@
     },
     {
       "id": "regles-verite-v6-mage-affinite-medeomancie-magie-de-guerison",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1348,6 +1680,7 @@
     },
     {
       "id": "regles-verite-v6-mage-affinite-morphomancie-magie-du-modelage",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1358,6 +1691,7 @@
     },
     {
       "id": "regles-verite-v6-mage-affinite-necromancie-magie-de-la-mort",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1368,6 +1702,7 @@
     },
     {
       "id": "regles-verite-v6-mage-affinite-pathomancie-magie-des-maledictions",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1378,6 +1713,7 @@
     },
     {
       "id": "regles-verite-v6-mage-affinite-photomancie-magie-de-la-lumiere",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1388,6 +1724,7 @@
     },
     {
       "id": "regles-verite-v6-mage-affinite-pseudomancie-magie-des-illusions",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1398,6 +1735,7 @@
     },
     {
       "id": "regles-verite-v6-mage-nature-revelation-mageius",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1408,6 +1746,7 @@
     },
     {
       "id": "regles-verite-v6-mage-affinite-skiamancie-magie-des-ombres",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1418,6 +1757,7 @@
     },
     {
       "id": "regles-verite-v6-mage-affinite-spectromancie-magie-spectrale",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1428,6 +1768,7 @@
     },
     {
       "id": "regles-verite-v6-mage-affinite-telekinesie-magie-des-forces",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1438,6 +1779,7 @@
     },
     {
       "id": "regles-verite-nature-daemon",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1448,6 +1790,7 @@
     },
     {
       "id": "regles-verite-daemon-communs",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1458,6 +1801,7 @@
     },
     {
       "id": "regles-verite-daemon-divinite-abigor-le-ciel-qui-frappe-d-en-haut-facette-vent-ciel",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1468,6 +1812,7 @@
     },
     {
       "id": "regles-verite-daemon-divinite-alabor-les-eaux-primordiales-facette-flots",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1478,6 +1823,7 @@
     },
     {
       "id": "regles-verite-daemon-divinite-astaroth-la-civilisation-facette-savoir",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1488,6 +1834,7 @@
     },
     {
       "id": "regles-verite-daemon-divinite-baal-la-guerre-elle-meme-facette-armes",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1498,6 +1845,7 @@
     },
     {
       "id": "regles-verite-daemon-divinite-belial-la-reine-des-dieux-facette-feu-royal",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1508,6 +1856,7 @@
     },
     {
       "id": "regles-verite-daemon-divinite-belzebuth-la-vie-sans-jugement-moral-facette-regeneration",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1518,6 +1867,7 @@
     },
     {
       "id": "regles-verite-daemon-fonction-chatiment-tourmenteur",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1528,6 +1878,7 @@
     },
     {
       "id": "regles-verite-daemon-fonction-chevalier-legionnaire",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1538,6 +1889,7 @@
     },
     {
       "id": "regles-verite-v6-daemon-patron-abigor",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1548,6 +1900,7 @@
     },
     {
       "id": "regles-verite-v6-daemon-patron-alabor",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1558,6 +1911,7 @@
     },
     {
       "id": "regles-verite-v6-daemon-patron-astaroth",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1568,6 +1922,7 @@
     },
     {
       "id": "regles-verite-v6-daemon-patron-baal",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1578,6 +1933,7 @@
     },
     {
       "id": "regles-verite-v6-daemon-patron-belial",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1588,6 +1944,7 @@
     },
     {
       "id": "regles-verite-v6-daemon-patron-belzebuth",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1598,6 +1955,7 @@
     },
     {
       "id": "regles-verite-v6-daemon-patron-diablo",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1608,6 +1966,7 @@
     },
     {
       "id": "regles-verite-v6-daemon-patron-lilith",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1618,6 +1977,7 @@
     },
     {
       "id": "regles-verite-v6-daemon-patron-lucifer",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1628,6 +1988,7 @@
     },
     {
       "id": "regles-verite-v6-daemon-patron-mammon",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1638,6 +1999,7 @@
     },
     {
       "id": "regles-verite-v6-daemon-patron-mephisto",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1648,6 +2010,7 @@
     },
     {
       "id": "regles-verite-v6-daemon-patron-morrighan",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1658,6 +2021,7 @@
     },
     {
       "id": "regles-verite-v6-daemon-origine-elu",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1668,6 +2032,7 @@
     },
     {
       "id": "regles-verite-v6-daemon-patron-satan",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1678,6 +2043,7 @@
     },
     {
       "id": "regles-verite-daemon-divinite-diablo-la-nuit-qui-regarde-facette-nuit",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1688,6 +2054,7 @@
     },
     {
       "id": "regles-verite-daemon-divinite-lilith-desir-sexe-plaisir-et-attachement-facette-desir-plaisir",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1698,6 +2065,7 @@
     },
     {
       "id": "regles-verite-daemon-divinite-lucifer-le-soleil-dechu-facette-soleil",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1708,6 +2076,7 @@
     },
     {
       "id": "regles-verite-daemon-divinite-mammon-l-ineluctable-facette-mort",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1718,6 +2087,7 @@
     },
     {
       "id": "regles-verite-daemon-divinite-mephisto-l-occulte-la-parole-et-le-hasard-facette-magie",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1728,6 +2098,7 @@
     },
     {
       "id": "regles-verite-daemon-divinite-morrighan-la-corneille-etrangere-facette-guerre-frenesie",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1738,6 +2109,7 @@
     },
     {
       "id": "regles-verite-daemon-fonction-oracle-tentateur",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1748,6 +2120,7 @@
     },
     {
       "id": "regles-verite-daemon-divinite-satan-le-juge-facette-sentence",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1758,6 +2131,7 @@
     },
     {
       "id": "regles-verite-nature-angelus",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1768,6 +2142,7 @@
     },
     {
       "id": "regles-verite-angelus-communs",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1778,6 +2153,7 @@
     },
     {
       "id": "regles-verite-v6-angelus-progression-de-transcendance",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1788,6 +2164,7 @@
     },
     {
       "id": "regles-verite-v6-angelus-aura-aureole-et-arbre-de-vie",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1798,6 +2175,7 @@
     },
     {
       "id": "regles-verite-angelus-nature-domination",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1808,6 +2186,7 @@
     },
     {
       "id": "regles-verite-angelus-nature-trone",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1818,6 +2197,7 @@
     },
     {
       "id": "regles-verite-angelus-nature-vertu",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1828,6 +2208,7 @@
     },
     {
       "id": "regles-verite-angelus-sephirah-bina-la-comprehension",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1838,6 +2219,7 @@
     },
     {
       "id": "regles-verite-angelus-sephirah-gueburah-la-force",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1848,6 +2230,7 @@
     },
     {
       "id": "regles-verite-angelus-sephirah-hesed-la-misericorde",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1858,6 +2241,7 @@
     },
     {
       "id": "regles-verite-angelus-sephirah-hod-la-gloire",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1868,6 +2252,7 @@
     },
     {
       "id": "regles-verite-angelus-sephirah-hokhma-la-sagesse",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1878,6 +2263,7 @@
     },
     {
       "id": "regles-verite-angelus-sephirah-kether-la-couronne",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1888,6 +2274,7 @@
     },
     {
       "id": "regles-verite-angelus-sephirah-malkhouth-le-royaume",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1898,6 +2285,7 @@
     },
     {
       "id": "regles-verite-angelus-sephirah-nesah-la-victoire",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1908,6 +2296,7 @@
     },
     {
       "id": "regles-verite-angelus-sephirah-tiph-ereth-la-beaute",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1918,6 +2307,7 @@
     },
     {
       "id": "regles-verite-angelus-sephirah-yessod-la-fondation",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1928,6 +2318,7 @@
     },
     {
       "id": "regles-verite-nature-aseryn",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1938,6 +2329,7 @@
     },
     {
       "id": "regles-verite-aseryn-origine-aerilien-neo-atlante",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1948,6 +2340,7 @@
     },
     {
       "id": "regles-verite-aseryn-route-esprit-fulgurant",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1958,6 +2351,7 @@
     },
     {
       "id": "regles-verite-aseryn-route-perception-electromagnetique",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1968,6 +2362,7 @@
     },
     {
       "id": "regles-verite-aseryn-route-vivacite-aseryne",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1978,6 +2373,7 @@
     },
     {
       "id": "regles-verite-aseryn-tradition-athegos-le-seigneur",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1988,6 +2384,7 @@
     },
     {
       "id": "regles-verite-aseryn-tradition-caendis-le-protecteur",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -1998,6 +2395,7 @@
     },
     {
       "id": "regles-verite-aseryn-tradition-cairiah-l-architecte",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2008,6 +2406,7 @@
     },
     {
       "id": "regles-verite-aseryn-conseil-foudre",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2018,6 +2417,7 @@
     },
     {
       "id": "regles-verite-aseryn-dratyn",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2028,6 +2428,7 @@
     },
     {
       "id": "regles-verite-aseryn-tradition-erith-la-sentinelle",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2038,6 +2439,7 @@
     },
     {
       "id": "regles-verite-aseryn-tradition-eydreas-le-chercheur",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2048,6 +2450,7 @@
     },
     {
       "id": "regles-verite-aseryn-origine-hyperboreen",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2058,6 +2461,7 @@
     },
     {
       "id": "regles-verite-aseryn-origine-lemurian",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2068,6 +2472,7 @@
     },
     {
       "id": "regles-verite-aseryn-tradition-lisirast-l-archiviste",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2078,6 +2483,7 @@
     },
     {
       "id": "regles-verite-aseryn-tradition-lisithas-le-juge",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2088,6 +2494,7 @@
     },
     {
       "id": "regles-verite-aseryn-origine-mulien",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2098,6 +2505,7 @@
     },
     {
       "id": "regles-verite-aseryn-tradition-natyel-le-nourricier",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2108,6 +2516,7 @@
     },
     {
       "id": "regles-verite-aseryn-tradition-selerias-l-aimante",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2118,6 +2527,7 @@
     },
     {
       "id": "regles-verite-aseryn-origine-seratheen",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2128,6 +2538,7 @@
     },
     {
       "id": "regles-verite-aseryn-tradition-sundosia-l-aventuriere",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2138,6 +2549,7 @@
     },
     {
       "id": "regles-verite-aseryn-tradition-theana-la-guerisseuse",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2148,6 +2560,7 @@
     },
     {
       "id": "regles-verite-nature-exile",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2158,6 +2571,7 @@
     },
     {
       "id": "regles-verite-v6-exile-formation-de-horde-commune",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2168,6 +2582,7 @@
     },
     {
       "id": "regles-verite-exile-atelier-des-clans",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2178,6 +2593,7 @@
     },
     {
       "id": "regles-verite-v6-exile-aigle-de-larvikite",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2188,6 +2604,7 @@
     },
     {
       "id": "regles-verite-v6-exile-ashyll-gobelins",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2198,6 +2615,7 @@
     },
     {
       "id": "regles-verite-v6-exile-azmenorien",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2208,6 +2626,7 @@
     },
     {
       "id": "regles-verite-v6-exile-elye-elfes",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2218,6 +2637,7 @@
     },
     {
       "id": "regles-verite-v6-exile-hds-hologram-distorsion-skill",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2228,6 +2648,7 @@
     },
     {
       "id": "regles-verite-v6-exile-hibou-d-onyx",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2238,6 +2659,7 @@
     },
     {
       "id": "regles-verite-v6-exile-protocoles-de-continuite",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2248,6 +2670,7 @@
     },
     {
       "id": "regles-verite-v6-exile-serpentaire-de-citrine",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2258,6 +2681,7 @@
     },
     {
       "id": "regles-verite-v6-exile-syndicat-de-jade",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2268,6 +2692,7 @@
     },
     {
       "id": "regles-verite-v6-exile-thulkar-orques",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2278,6 +2703,7 @@
     },
     {
       "id": "regles-verite-v6-exile-whurten-nains",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2288,6 +2714,7 @@
     },
     {
       "id": "regles-verite-exile-faucon-de-malachite",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2298,6 +2725,7 @@
     },
     {
       "id": "regles-verite-exile-heritages-azmenoriens",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2308,6 +2736,7 @@
     },
     {
       "id": "regles-verite-exile-heritages-whurtens",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2318,6 +2747,7 @@
     },
     {
       "id": "regles-verite-exile-horde-de-la-rose-doctrine-de-la-polyvalence",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2328,6 +2758,7 @@
     },
     {
       "id": "regles-verite-exile-horde-des-cendres-doctrine-du-chantier",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2338,6 +2769,7 @@
     },
     {
       "id": "regles-verite-exile-horde-des-marais-doctrine-de-la-reussite",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2348,6 +2780,7 @@
     },
     {
       "id": "regles-verite-exile-horde-divine-doctrine-d-ashorn",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2358,6 +2791,7 @@
     },
     {
       "id": "regles-verite-exile-horde-fantome-doctrine-de-l-integration",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2368,6 +2802,7 @@
     },
     {
       "id": "regles-verite-exile-iron-law",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2378,6 +2813,7 @@
     },
     {
       "id": "regles-verite-exile-ligue-des-quatre-empereurs",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2388,6 +2824,7 @@
     },
     {
       "id": "regles-verite-exile-reseaux-ashylls-et-syndicat-de-jade",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2398,6 +2835,7 @@
     },
     {
       "id": "regles-verite-exile-runes-whurtennes",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2408,6 +2846,7 @@
     },
     {
       "id": "regles-verite-exile-servants-de-pluton",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2418,6 +2857,7 @@
     },
     {
       "id": "regles-verite-exile-technomagie-azmenorienne-moderne",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2428,6 +2868,7 @@
     },
     {
       "id": "regles-verite-nature-extral",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2438,6 +2879,7 @@
     },
     {
       "id": "regles-verite-extral-ad-rak-origine-restreinte",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2448,6 +2890,7 @@
     },
     {
       "id": "regles-verite-extral-baseanh",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2458,6 +2901,7 @@
     },
     {
       "id": "regles-verite-extral-croix-verte-ligue-baseanne",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2468,6 +2912,7 @@
     },
     {
       "id": "regles-verite-extral-doctrine-d-intervention-aidh",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2478,6 +2923,7 @@
     },
     {
       "id": "regles-verite-extral-doctrines-aidh",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2488,6 +2934,7 @@
     },
     {
       "id": "regles-verite-extral-emeraude-sanglante",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2498,6 +2945,7 @@
     },
     {
       "id": "regles-verite-extral-homo-superior-humain-aidh",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2508,6 +2956,7 @@
     },
     {
       "id": "regles-verite-extral-hydroguard-thdf",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2518,6 +2967,7 @@
     },
     {
       "id": "regles-verite-extral-mafia-shaediri",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2528,6 +2978,7 @@
     },
     {
       "id": "regles-verite-extral-mo-sen",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2538,6 +2989,7 @@
     },
     {
       "id": "regles-verite-extral-organisations-extrals",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2548,6 +3000,7 @@
     },
     {
       "id": "regles-verite-extral-protocoles-de-coherence-aidh",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2558,6 +3011,7 @@
     },
     {
       "id": "regles-verite-extral-rocreen",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2568,6 +3022,7 @@
     },
     {
       "id": "regles-verite-extral-smrc-agi-orgienetique",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2578,6 +3033,7 @@
     },
     {
       "id": "regles-verite-extral-talass",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2588,6 +3044,7 @@
     },
     {
       "id": "regles-verite-extral-thalsios",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Natures & capacités",
       "groupOrder": 80,
@@ -2598,6 +3055,7 @@
     },
     {
       "id": "realite-022-7-corruption-de-programmes-et-materiel",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Corruption & Fléaux",
       "groupOrder": 90,
@@ -2608,6 +3066,7 @@
     },
     {
       "id": "regles-verite-v6-corruption",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Corruption & Fléaux",
       "groupOrder": 90,
@@ -2618,6 +3077,7 @@
     },
     {
       "id": "regles-verite-v6-fleaux-cadre-commun",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Corruption & Fléaux",
       "groupOrder": 90,
@@ -2628,6 +3088,7 @@
     },
     {
       "id": "regles-verite-v6-fleau-c-thath-vhadhi-la-metastase",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Corruption & Fléaux",
       "groupOrder": 90,
@@ -2638,6 +3099,7 @@
     },
     {
       "id": "regles-verite-v6-fleau-gajh-shaoggith-la-germination",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Corruption & Fléaux",
       "groupOrder": 90,
@@ -2648,6 +3110,7 @@
     },
     {
       "id": "regles-verite-v6-fleau-thul-la-fixation",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Corruption & Fléaux",
       "groupOrder": 90,
@@ -2658,6 +3121,7 @@
     },
     {
       "id": "regles-verite-v6-fleau-ux-sharith-bellatheis-la-division",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Corruption & Fléaux",
       "groupOrder": 90,
@@ -2668,6 +3132,7 @@
     },
     {
       "id": "regles-verite-v6-fleau-v-aagor-la-sombre-verite",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Corruption & Fléaux",
       "groupOrder": 90,
@@ -2678,6 +3143,7 @@
     },
     {
       "id": "regles-verite-v6-fleau-vhodhal-la-famine-blanche",
+      "dataset": "moteur",
       "category": "Règles",
       "group": "Vérité — Corruption & Fléaux",
       "groupOrder": 90,
@@ -2687,7 +3153,239 @@
       "displayTitle": "Vhodhal — la Famine Blanche"
     },
     {
+      "id": "lore-humans-galaxy-aidh",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Voile, histoire & cosmologie",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "AIDH"
+    },
+    {
+      "id": "lore-humans-galaxy-autres-humains-galactiques",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Voile, histoire & cosmologie",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Autres factions humaines galactiques"
+    },
+    {
+      "id": "lore-extraterrestrial-species-contexte-general",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Voile, histoire & cosmologie",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Contexte général"
+    },
+    {
+      "id": "lore-humans-galaxy-g-corporations",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Voile, histoire & cosmologie",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "G-corporations"
+    },
+    {
+      "id": "lore-humans-galaxy-humains-galactiques",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Voile, histoire & cosmologie",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Les humains de la Galaxie"
+    },
+    {
+      "id": "lore-081-points-de-rencontre-01",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Voile, histoire & cosmologie",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Points de rencontre — Partie 1"
+    },
+    {
+      "id": "lore-082-points-de-rencontre-02",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Voile, histoire & cosmologie",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Points de rencontre — Partie 2"
+    },
+    {
+      "id": "lore-083-points-de-rencontre-03",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Voile, histoire & cosmologie",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Points de rencontre — Partie 3"
+    },
+    {
+      "id": "lore-084-points-de-rencontre-04",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Voile, histoire & cosmologie",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Points de rencontre — Partie 4"
+    },
+    {
+      "id": "lore-085-points-de-rencontre-05",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Voile, histoire & cosmologie",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Points de rencontre — Partie 5"
+    },
+    {
+      "id": "lore-086-points-de-rencontre-06",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Voile, histoire & cosmologie",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Points de rencontre — Partie 6"
+    },
+    {
+      "id": "lore-087-points-de-rencontre-07",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Voile, histoire & cosmologie",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Points de rencontre — Partie 7"
+    },
+    {
+      "id": "lore-088-shichiba-no-hana-01",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Voile, histoire & cosmologie",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Shichiba no Hana"
+    },
+    {
+      "id": "lore-207-verite-les-especes-fantastiques-03",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Voile, histoire & cosmologie",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les espèces fantastiques — Beatrix Krüger"
+    },
+    {
+      "id": "lore-205-verite-les-especes-fantastiques-01",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Voile, histoire & cosmologie",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les espèces fantastiques — CONTEXTE GENERAL"
+    },
+    {
+      "id": "lore-210-verite-les-especes-fantastiques-06",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Voile, histoire & cosmologie",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les espèces fantastiques — Grim"
+    },
+    {
+      "id": "lore-211-verite-les-especes-fantastiques-07",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Voile, histoire & cosmologie",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les espèces fantastiques — Jay Bentley"
+    },
+    {
+      "id": "lore-213-verite-les-especes-fantastiques-09",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Voile, histoire & cosmologie",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les espèces fantastiques — Kain Ferno"
+    },
+    {
+      "id": "lore-209-verite-les-especes-fantastiques-05",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Voile, histoire & cosmologie",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les espèces fantastiques — Lidira"
+    },
+    {
+      "id": "lore-206-verite-les-especes-fantastiques-02",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Voile, histoire & cosmologie",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les espèces fantastiques — Neals Corvo"
+    },
+    {
+      "id": "lore-212-verite-les-especes-fantastiques-08",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Voile, histoire & cosmologie",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les espèces fantastiques — Personnages notables"
+    },
+    {
       "id": "verite-015-apprendre-trop-peu-apprendre-trop-vite",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2698,6 +3396,7 @@
     },
     {
       "id": "verite-028-aucune-capitale-du-monde-cache",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2708,6 +3407,7 @@
     },
     {
       "id": "verite-004-ce-que-l-hologramme-cherche-a-preserver",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2718,6 +3418,7 @@
     },
     {
       "id": "verite-021-ce-que-l-hologramme-ne-protege-pas",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2728,6 +3429,7 @@
     },
     {
       "id": "verite-008-comment-les-profanes-vivent-l-impossible",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2738,6 +3440,7 @@
     },
     {
       "id": "verite-030-entrer-dans-la-verite-savoir-n-est-pas-voir",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2748,6 +3451,7 @@
     },
     {
       "id": "verite-013-habiter-la-verite",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2758,6 +3462,7 @@
     },
     {
       "id": "verite-035-identites-doubles-identites-entieres",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2768,6 +3473,7 @@
     },
     {
       "id": "verite-023-l-ombremonde-le-reste-du-monde",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2778,6 +3484,7 @@
     },
     {
       "id": "verite-032-la-grande-uvre-et-ses-auteurs-incomplets",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2788,6 +3495,7 @@
     },
     {
       "id": "verite-029-la-limite-la-plus-importante-le-monde-doit-rester-jouable",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2798,6 +3506,7 @@
     },
     {
       "id": "verite-022-la-verite-et-les-lieux",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2808,6 +3517,7 @@
     },
     {
       "id": "verite-001-la-verite-n-est-pas-un-second-monde",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2818,6 +3528,7 @@
     },
     {
       "id": "verite-033-le-cycle-le-neant-et-ce-que-la-mort-revele",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2828,6 +3539,7 @@
     },
     {
       "id": "verite-034-le-monde-visible-fabrique-lui-meme-du-camouflage",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2838,6 +3550,7 @@
     },
     {
       "id": "verite-002-le-voile-et-l-hologramme",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2848,6 +3561,7 @@
     },
     {
       "id": "verite-012-les-endroits-ou-le-monde-tient-moins-bien",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2858,6 +3572,7 @@
     },
     {
       "id": "verite-025-les-institutions-qui-ne-savent-pas-tout",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2868,6 +3583,7 @@
     },
     {
       "id": "verite-036-les-limites-de-la-connaissance-ce-que-meme-ce-livre-ne-rend-pas-banal",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2878,6 +3594,7 @@
     },
     {
       "id": "verite-010-les-limites-du-voile",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2888,6 +3605,7 @@
     },
     {
       "id": "verite-009-memoire-preuves-et-mensonges-sinceres",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2898,6 +3616,7 @@
     },
     {
       "id": "verite-020-quand-le-monde-refuse-une-preuve",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2908,6 +3627,7 @@
     },
     {
       "id": "verite-016-religions-mythes-et-souvenirs-deformes",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2918,6 +3638,7 @@
     },
     {
       "id": "verite-027-religions-mythes-et-souvenirs-mal-classes",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2928,6 +3649,7 @@
     },
     {
       "id": "verite-031-reveler-sa-nature-est-un-acte-personnel",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2938,6 +3660,7 @@
     },
     {
       "id": "verite-024-science-magie-et-technologie-sous-le-voile",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2948,6 +3671,7 @@
     },
     {
       "id": "verite-007-se-reveler-n-est-pas-s-eveiller",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2958,6 +3682,7 @@
     },
     {
       "id": "verite-014-secret-politique-et-pouvoir",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2968,6 +3693,7 @@
     },
     {
       "id": "verite-017-une-journee-derriere-le-monde-visible",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2978,6 +3704,7 @@
     },
     {
       "id": "verite-003-une-uvre-de-plusieurs-mondes",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2988,6 +3715,7 @@
     },
     {
       "id": "verite-011-une-relation-pas-seulement-un-masque",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -2998,6 +3726,7 @@
     },
     {
       "id": "verite-026-verite-droit-et-culpabilite",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -3008,6 +3737,7 @@
     },
     {
       "id": "verite-018-vivre-sous-une-traduction-permanente",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -3018,6 +3748,7 @@
     },
     {
       "id": "verite-006-voile-semi-revele-revele",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -3028,6 +3759,7 @@
     },
     {
       "id": "verite-019-voir-n-est-pas-reveler",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -3038,6 +3770,7 @@
     },
     {
       "id": "verite-005-voir-sans-faire-apparaitre",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Entrer dans la Vérité",
       "groupOrder": 10,
@@ -3048,6 +3781,7 @@
     },
     {
       "id": "verite-046-10-vampires",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Natures, peuples & traditions",
       "groupOrder": 20,
@@ -3058,6 +3792,7 @@
     },
     {
       "id": "verite-047-11-garous-loups-descendants-de-khinae",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Natures, peuples & traditions",
       "groupOrder": 20,
@@ -3068,6 +3803,7 @@
     },
     {
       "id": "verite-048-12-autres-descendants-de-khinae",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Natures, peuples & traditions",
       "groupOrder": 20,
@@ -3078,6 +3814,7 @@
     },
     {
       "id": "verite-049-13-mages",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Natures, peuples & traditions",
       "groupOrder": 20,
@@ -3088,6 +3825,7 @@
     },
     {
       "id": "verite-050-14-daemons",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Natures, peuples & traditions",
       "groupOrder": 20,
@@ -3098,6 +3836,7 @@
     },
     {
       "id": "verite-051-15-angelus",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Natures, peuples & traditions",
       "groupOrder": 20,
@@ -3108,6 +3847,7 @@
     },
     {
       "id": "verite-052-16-aseryns",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Natures, peuples & traditions",
       "groupOrder": 20,
@@ -3118,6 +3858,7 @@
     },
     {
       "id": "verite-053-17-exiles-peuples-fonctions-et-traditions",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Natures, peuples & traditions",
       "groupOrder": 20,
@@ -3128,6 +3869,7 @@
     },
     {
       "id": "verite-054-18-extrals-homo-superior-et-adrak",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Natures, peuples & traditions",
       "groupOrder": 20,
@@ -3137,7 +3879,294 @@
       "displayTitle": "Extrals, Homo Superior et Ad’rak"
     },
     {
+      "id": "lore-supernatural-species-vampires",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Vampires",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vampires"
+    },
+    {
+      "id": "lore-therianthropes-autres-canides",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Garous & descendants de Khinae",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Autres Canidés"
+    },
+    {
+      "id": "lore-supernatural-species-contexte-general",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Garous & descendants de Khinae",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Contexte général & Khinae"
+    },
+    {
+      "id": "lore-therianthropes-felides",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Garous & descendants de Khinae",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Félidés"
+    },
+    {
+      "id": "lore-therianthropes-autres-lignees",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Garous & descendants de Khinae",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Hyènes, Ours, Crocodiles et autres lignées"
+    },
+    {
+      "id": "lore-therianthropes-therianthropes-general",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Garous & descendants de Khinae",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Les autres thérianthropes"
+    },
+    {
+      "id": "lore-supernatural-species-loups-garous",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Garous & descendants de Khinae",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Loups-garous"
+    },
+    {
+      "id": "lore-therianthropes-oiseaux-dinosaures",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Garous & descendants de Khinae",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Oiseaux (ou) Dinosaures"
+    },
+    {
+      "id": "lore-therianthropes-requins",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Garous & descendants de Khinae",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Requins"
+    },
+    {
+      "id": "lore-therianthropes-serpents",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Garous & descendants de Khinae",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Serpents"
+    },
+    {
+      "id": "lore-supernatural-species-mages",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Mages",
+      "subgroupOrder": 30,
+      "pageOrder": 500,
+      "displayTitle": "Mages"
+    },
+    {
+      "id": "lore-supernatural-species-daemons",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Daemons",
+      "subgroupOrder": 40,
+      "pageOrder": 500,
+      "displayTitle": "Daemons"
+    },
+    {
+      "id": "lore-supernatural-species-angelus",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Angelus",
+      "subgroupOrder": 50,
+      "pageOrder": 500,
+      "displayTitle": "Angelus"
+    },
+    {
+      "id": "lore-supernatural-species-atlantes",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 60,
+      "pageOrder": 500,
+      "displayTitle": "Atlantes / Aseryns"
+    },
+    {
+      "id": "lore-aseryn-continents-continent-hyperboree",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 60,
+      "pageOrder": 500,
+      "displayTitle": "Le continent de Hyperboree"
+    },
+    {
+      "id": "lore-aseryn-continents-continent-atlantide",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 60,
+      "pageOrder": 500,
+      "displayTitle": "Le continent de l’Atlandide"
+    },
+    {
+      "id": "lore-aseryn-continents-continent-lemurie",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 60,
+      "pageOrder": 500,
+      "displayTitle": "Le continent de Lemurie"
+    },
+    {
+      "id": "lore-aseryn-continents-continent-mu",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 60,
+      "pageOrder": 500,
+      "displayTitle": "Le continent de Mû"
+    },
+    {
+      "id": "lore-aseryn-continents-diaspora-aseryne",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 60,
+      "pageOrder": 500,
+      "displayTitle": "Les Aseryns de la Diaspora"
+    },
+    {
+      "id": "lore-aseryn-continents-terres-aserynes",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 60,
+      "pageOrder": 500,
+      "displayTitle": "Les terres Aserynes"
+    },
+    {
+      "id": "lore-208-verite-les-especes-fantastiques-04",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Exilés",
+      "subgroupOrder": 70,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les espèces fantastiques — GOBELINS (ASHYLL)"
+    },
+    {
+      "id": "lore-extraterrestrial-species-baseanhs",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Extrals & lignées associées",
+      "subgroupOrder": 80,
+      "pageOrder": 500,
+      "displayTitle": "Baseanhs"
+    },
+    {
+      "id": "lore-extraterrestrial-species-mosens",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Extrals & lignées associées",
+      "subgroupOrder": 80,
+      "pageOrder": 500,
+      "displayTitle": "Mo’sens"
+    },
+    {
+      "id": "lore-extraterrestrial-species-rocreens",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Extrals & lignées associées",
+      "subgroupOrder": 80,
+      "pageOrder": 500,
+      "displayTitle": "Rocreens"
+    },
+    {
+      "id": "lore-extraterrestrial-species-talass",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Extrals & lignées associées",
+      "subgroupOrder": 80,
+      "pageOrder": 500,
+      "displayTitle": "Talass"
+    },
+    {
+      "id": "lore-extraterrestrial-species-thalsios",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Peuples & Natures",
+      "groupOrder": 20,
+      "subgroup": "Extrals & lignées associées",
+      "subgroupOrder": 80,
+      "pageOrder": 500,
+      "displayTitle": "Thalsios"
+    },
+    {
       "id": "verite-055-19-formation-et-doctrine-de-chasseur",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Chasseurs",
       "groupOrder": 30,
@@ -3148,6 +4177,7 @@
     },
     {
       "id": "verite-056-20-corruption",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Corruption & Fléaux",
       "groupOrder": 40,
@@ -3158,6 +4188,7 @@
     },
     {
       "id": "verite-057-21-les-six-fleaux-et-le-faux-septieme",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Corruption & Fléaux",
       "groupOrder": 40,
@@ -3167,7 +4198,195 @@
       "displayTitle": "Les six Fléaux et le faux Septième"
     },
     {
+      "id": "lore-humans-galaxy-inquisition-galactique",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Chasseurs",
+      "groupOrder": 50,
+      "subgroup": "Ordres, doctrine & réseaux",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "L’Inquisition galactique"
+    },
+    {
+      "id": "lore-173-verite-les-chasseurs-07",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Chasseurs",
+      "groupOrder": 50,
+      "subgroup": "Ordres, doctrine & réseaux",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les chasseurs — ?"
+    },
+    {
+      "id": "lore-177-verite-les-chasseurs-11",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Chasseurs",
+      "groupOrder": 50,
+      "subgroup": "Ordres, doctrine & réseaux",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les chasseurs — Charunee Sawasdipon"
+    },
+    {
+      "id": "lore-167-verite-les-chasseurs-01",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Chasseurs",
+      "groupOrder": 50,
+      "subgroup": "Ordres, doctrine & réseaux",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les chasseurs — CONTEXTE GENERAL"
+    },
+    {
+      "id": "lore-179-verite-les-chasseurs-13",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Chasseurs",
+      "groupOrder": 50,
+      "subgroup": "Ordres, doctrine & réseaux",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les chasseurs — Fonctionnement"
+    },
+    {
+      "id": "lore-169-verite-les-chasseurs-03",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Chasseurs",
+      "groupOrder": 50,
+      "subgroup": "Ordres, doctrine & réseaux",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les chasseurs — Le chevalier"
+    },
+    {
+      "id": "lore-168-verite-les-chasseurs-02",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Chasseurs",
+      "groupOrder": 50,
+      "subgroup": "Ordres, doctrine & réseaux",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les chasseurs — Le porteur de Lumière"
+    },
+    {
+      "id": "lore-170-verite-les-chasseurs-04",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Chasseurs",
+      "groupOrder": 50,
+      "subgroup": "Ordres, doctrine & réseaux",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les chasseurs — Le xenoshield"
+    },
+    {
+      "id": "lore-178-verite-les-chasseurs-12",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Chasseurs",
+      "groupOrder": 50,
+      "subgroup": "Ordres, doctrine & réseaux",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les chasseurs — Levanah Uriel"
+    },
+    {
+      "id": "lore-171-verite-les-chasseurs-05",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Chasseurs",
+      "groupOrder": 50,
+      "subgroup": "Ordres, doctrine & réseaux",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les chasseurs — Magyar Vilmos"
+    },
+    {
+      "id": "lore-174-verite-les-chasseurs-08",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Chasseurs",
+      "groupOrder": 50,
+      "subgroup": "Ordres, doctrine & réseaux",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les chasseurs — Personnages notables"
+    },
+    {
+      "id": "lore-180-verite-les-chasseurs-14",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Chasseurs",
+      "groupOrder": 50,
+      "subgroup": "Ordres, doctrine & réseaux",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les chasseurs — Personnages notables — Partie 14"
+    },
+    {
+      "id": "lore-181-verite-les-chasseurs-15",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Chasseurs",
+      "groupOrder": 50,
+      "subgroup": "Ordres, doctrine & réseaux",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les chasseurs — Personnages notables — Partie 15"
+    },
+    {
+      "id": "lore-182-verite-les-chasseurs-16",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Chasseurs",
+      "groupOrder": 50,
+      "subgroup": "Ordres, doctrine & réseaux",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les chasseurs — Personnages notables — Partie 16"
+    },
+    {
+      "id": "lore-172-verite-les-chasseurs-06",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Chasseurs",
+      "groupOrder": 50,
+      "subgroup": "Ordres, doctrine & réseaux",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les chasseurs — Portée"
+    },
+    {
+      "id": "lore-175-verite-les-chasseurs-09",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Chasseurs",
+      "groupOrder": 50,
+      "subgroup": "Ordres, doctrine & réseaux",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les chasseurs — Portée — Partie 9"
+    },
+    {
+      "id": "lore-176-verite-les-chasseurs-10",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Chasseurs",
+      "groupOrder": 50,
+      "subgroup": "Ordres, doctrine & réseaux",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Vérité les chasseurs — Portée — Partie 10"
+    },
+    {
       "id": "verite-058-22-proprietes-communes-des-equipements-de-verite",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Équipement & marchés de Vérité",
       "groupOrder": 50,
@@ -3178,6 +4397,7 @@
     },
     {
       "id": "verite-059-23-equipement-de-chasse",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Équipement & marchés de Vérité",
       "groupOrder": 50,
@@ -3188,6 +4408,7 @@
     },
     {
       "id": "verite-060-24-marche-de-verite-des-exiles",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Équipement & marchés de Vérité",
       "groupOrder": 50,
@@ -3198,6 +4419,7 @@
     },
     {
       "id": "verite-061-25-marche-xeno",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Équipement & marchés de Vérité",
       "groupOrder": 50,
@@ -3208,6 +4430,7 @@
     },
     {
       "id": "verite-062-26-arsenal-aidh-moderne-et-doctrine-terra-umbra",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Équipement & marchés de Vérité",
       "groupOrder": 50,
@@ -3218,6 +4441,7 @@
     },
     {
       "id": "verite-063-27-equipement-corrompu-et-calamitechnologie",
+      "dataset": "verite",
       "category": "Vérité",
       "group": "Équipement & marchés de Vérité",
       "groupOrder": 50,
@@ -3225,6 +4449,116 @@
       "subgroupOrder": 10,
       "pageOrder": 27,
       "displayTitle": "Équipement corrompu et Calamitechnologie"
+    },
+    {
+      "id": "lore-plagues-cthath-vhadhi",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 60,
+      "subgroup": "Les six Fléaux",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "C'thath vhadhi"
+    },
+    {
+      "id": "lore-plagues-contexte",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 60,
+      "subgroup": "Les six Fléaux",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Contexte"
+    },
+    {
+      "id": "lore-plagues-delanial",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 60,
+      "subgroup": "Les six Fléaux",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Delanial"
+    },
+    {
+      "id": "lore-plagues-gajh-shaoggith",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 60,
+      "subgroup": "Les six Fléaux",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Gajh’ shaoggith"
+    },
+    {
+      "id": "lore-plagues-kthuhuthlul",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 60,
+      "subgroup": "Les six Fléaux",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "K'thuhuth'lul"
+    },
+    {
+      "id": "lore-plagues-mloxol-vaagor",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 60,
+      "subgroup": "Les six Fléaux",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Mloxol v'aagor"
+    },
+    {
+      "id": "lore-plagues-uxsharith-bellatheis",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 60,
+      "subgroup": "Les six Fléaux",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Ux'sharith Bellatheis"
+    },
+    {
+      "id": "lore-plagues-vhodhal-nactru",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 60,
+      "subgroup": "Les six Fléaux",
+      "subgroupOrder": 20,
+      "pageOrder": 500,
+      "displayTitle": "Vhodhal’nact'ru"
+    },
+    {
+      "id": "lore-extraterrestrial-species-autres-creatures",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Créatures & phénomènes",
+      "groupOrder": 70,
+      "subgroup": "Créatures & manifestations",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Autres créatures"
+    },
+    {
+      "id": "lore-supernatural-species-autres-creatures",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Créatures & phénomènes",
+      "groupOrder": 70,
+      "subgroup": "Créatures & manifestations",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Autres créatures"
     }
   ]
 }
