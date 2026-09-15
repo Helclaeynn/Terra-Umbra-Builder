@@ -14,6 +14,7 @@ on:
       - 'compendium/source/truth-lore-mages-angelus-v1/*.json'
       - 'compendium/source/truth-lore-peoples-v1/*.json'
       - 'compendium/source/truth-lore-khinae-hunters-v1/*.json'
+      - 'compendium/source/truth-lore-corruption-fleaux-v1/*.json'
       - 'compendium/navigation-schema.js'
       - 'compendium/navigation-schema-v2.js'
       - 'compendium/category-navigation.js'
@@ -35,6 +36,7 @@ on:
       - 'scripts/integrate-truth-lore-mages-angelus-v1.mjs'
       - 'scripts/integrate-truth-lore-peoples-v1.mjs'
       - 'scripts/integrate-truth-lore-khinae-hunters-v1.mjs'
+      - 'scripts/integrate-truth-lore-corruption-fleaux-v1.mjs'
       - 'scripts/build-compendium-navigation.mjs'
       - 'compendium/tests/restructure-rules-check.mjs'
       - 'compendium/tests/reality-talent-granularity-check.mjs'
@@ -45,6 +47,7 @@ on:
       - 'compendium/tests/truth-lore-mages-angelus-check.mjs'
       - 'compendium/tests/truth-lore-peoples-check.mjs'
       - 'compendium/tests/truth-lore-khinae-hunters-check.mjs'
+      - 'compendium/tests/truth-lore-corruption-fleaux-check.mjs'
       - 'compendium/tests/navigation-check.mjs'
       - 'compendium/tests/manifest-check.mjs'
       - '.github/workflows/compendium-restructure-build.yml'
@@ -87,6 +90,8 @@ jobs:
         run: node scripts/integrate-truth-lore-peoples-v1.mjs
       - name: Integrate Truth V6 Khinae/Hunters lore
         run: node scripts/integrate-truth-lore-khinae-hunters-v1.mjs
+      - name: Integrate Truth V6 Corruption/Six Fléaux lore
+        run: node scripts/integrate-truth-lore-corruption-fleaux-v1.mjs
       - name: Build hierarchical category navigation
         run: node scripts/build-compendium-navigation.mjs
       - name: Validate V3 manifest
@@ -109,6 +114,8 @@ jobs:
         run: node compendium/tests/truth-lore-peoples-check.mjs
       - name: Validate Truth Khinae/Hunters lore
         run: node compendium/tests/truth-lore-khinae-hunters-check.mjs
+      - name: Validate Truth Corruption/Six Fléaux lore
+        run: node compendium/tests/truth-lore-corruption-fleaux-check.mjs
       - name: Validate hierarchical navigation
         run: node compendium/tests/navigation-check.mjs
       - name: Commit generated mechanics, lore and navigation datasets
