@@ -154,15 +154,17 @@ function sparseEquipment(page,rows,category,price){
   return {paragraphs:[ensureLength(p1,page,category,rows),ensureLength(p2,page,category,rows)],grounding:'sparse'};
 }
 function equipmentLore(page){
-  const rows=rowsOf(page),category=categoryOf(page,rows),price=priceOf(rows),effect=effectOf(rows),facts=factsOf(rows),variant=stableVariant(`equipment|${page.title}|${category}`);
+  const rows=rowsOf(page),category=categoryOf(page,rows),price=priceOf(rows),effect=effectOf(rows),facts=factsOf(rows);
   if(!effect&&!facts.length)return sparseEquipment(page,rows,category,price);
-  const p1=[identitySentence(page,category,variant)];
-  if(effect)p1.push(effectSentence(page,effect,variant));
-  else p1.push(factSentence(facts,2,variant));
+  const key=`equipment|${page.title}|${category}`;
+  const identityV=stableVariant(`identity|${key}`),effectV=stableVariant(`effect|${key}`),factV=stableVariant(`fact|${key}`),priceV=stableVariant(`price|${key}`),tailFactV=stableVariant(`tail-fact|${key}`);
+  const p1=[identitySentence(page,category,identityV)];
+  if(effect)p1.push(effectSentence(page,effect,effectV));
+  else p1.push(factSentence(facts,2,factV));
   const p2=[];
   const remaining=effect?facts:facts.slice(2);
-  if(remaining.length)p2.push(factSentence(remaining,3,(variant+1)%4));
-  if(price)p2.push(priceSentence(page,price,(variant+2)%4));
+  if(remaining.length)p2.push(factSentence(remaining,3,tailFactV));
+  if(price)p2.push(priceSentence(page,price,priceV));
   if(!p2.length)p2.push(`${page.title} ne reçoit aucune autre propriété distincte dans les données établies pour cette référence.`);
   return {paragraphs:[ensureLength(p1.join(' '),page,category,rows),ensureLength(p2.join(' '),page,category,rows)],grounding:'detailed'};
 }
@@ -174,14 +176,15 @@ function augmentationLore(page){
   const facts=factsOf(rows);
   const generations=[...new Set((page.catalog?.generations||[]).map(Number).filter(Number.isFinite))].sort((a,b)=>a-b);
   const prices=[...new Set(sections.map(section=>priceOf((section.blocks||[]).filter(block=>block.type==='table').flatMap(block=>block.rows||[]))).filter(Boolean))];
-  const variant=stableVariant(`augmentation|${page.title}|${category}`);
+  const key=`augmentation|${page.title}|${category}`;
+  const identityV=stableVariant(`identity|${key}`),effectV=stableVariant(`effect|${key}`),factV=stableVariant(`fact|${key}`),generationV=stableVariant(`generation|${key}`),priceV=stableVariant(`price|${key}`),tailFactV=stableVariant(`tail-fact|${key}`),sparseV=stableVariant(`sparse|${key}`);
   if(!effects.length&&!facts.length){
     const p1=[
       `${page.title} est classée parmi les augmentations de la famille « ${category} ».`,
       `La famille « ${category} » comprend l’augmentation ${page.title}.`,
       `${page.title} relève des augmentations rattachées à « ${category} ».`,
       `Parmi « ${category} », ${page.title} constitue une augmentation distincte.`
-    ][variant];
+    ][sparseV];
     const known=[];
     if(generations.length)known.push(generations.map(g=>`génération ${g}`).join(' et '));
     if(prices.length===1)known.push(`un prix de référence de ${prices[0]}`);
@@ -196,35 +199,35 @@ function augmentationLore(page){
     `Dans la famille « ${category} », ${page.title} est répertoriée comme une augmentation.`,
     `${page.title} appartient à « ${category} » en tant qu’augmentation.`,
     `La famille « ${category} » inclut ${page.title}, une augmentation.`
-  ][variant];
+  ][identityV];
   const firstParts=[p1];
   if(effects.length===1)firstParts.push([
     `Son effet propre est le suivant : ${finish(effects[0])}`,
     `La propriété distinctive indiquée est : ${finish(effects[0])}`,
     `Son fonctionnement est décrit ainsi : ${finish(effects[0])}`,
     `L’effet associé à ${page.title} est : ${finish(effects[0])}`
-  ][variant]);
+  ][effectV]);
   else if(effects.length>1)firstParts.push([
     `Ses variantes possèdent plusieurs effets distincts : ${effects.slice(0,3).map(finish).join(' ')}`,
     `Plusieurs effets sont documentés selon la variante : ${effects.slice(0,3).map(finish).join(' ')}`,
     `Les variantes se distinguent par plusieurs effets : ${effects.slice(0,3).map(finish).join(' ')}`,
     `Pour ${page.title}, les effets varient selon la version : ${effects.slice(0,3).map(finish).join(' ')}`
-  ][variant]);
-  else firstParts.push(factSentence(facts,2,variant));
+  ][effectV]);
+  else firstParts.push(factSentence(facts,2,factV));
   const p2=[];
   if(generations.length)p2.push([
     `Elle existe ici en ${generations.map(g=>`génération ${g}`).join(' et ')}.`,
     `Les générations documentées sont ${generations.join(' et ')}.`,
     `Cette augmentation est présente en ${generations.map(g=>`génération ${g}`).join(' et ')}.`,
     `Pour ${page.title}, les générations retenues sont ${generations.join(' et ')}.`
-  ][variant]);
-  if(facts.length)p2.push(factSentence(facts,3,(variant+1)%4));
+  ][generationV]);
+  if(facts.length)p2.push(factSentence(facts,3,tailFactV));
   if(prices.length===1)p2.push([
     `Son prix de référence est ${finish(prices[0])}`,
     `La tarification indiquée est ${finish(prices[0])}`,
     `Le montant de référence retenu est ${finish(prices[0])}`,
     `Le prix associé à ${page.title} est ${finish(prices[0])}`
-  ][variant]);
+  ][priceV]);
   else if(prices.length>1)p2.push(`Selon la variante, ses prix de référence sont ${prices.slice(0,4).join(', ')}.`);
   if(!p2.length)p2.push(`${page.title} ne reçoit aucune autre propriété distincte dans les données établies pour cette augmentation.`);
   return {paragraphs:[ensureLength(firstParts.join(' '),page,category,rows),ensureLength(p2.join(' '),page,category,rows)],grounding:'detailed'};
