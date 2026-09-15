@@ -36,8 +36,10 @@ for(const [pageTitle,sectionTitle] of preserved){const page=findPage(truth,pageT
 
 const truth20=findPage(truth,'20. Corruption');
 const corruptionBlocks=(truth20.sections||[]).flatMap(section=>section.blocks||[]);
-if(corruptionBlocks.length!==1||corruptionBlocks[0].type!=='p'||!/L.Intégrité mesure jusqu.où/i.test(String(corruptionBlocks[0].text||'')))throw new Error('20. Corruption: le seul bloc conceptuel attendu n’est pas conservé');
+const corruptionText=flat(truth20);
+if(!/Humanité/i.test(corruptionText)||!/Intégrité/i.test(corruptionText))throw new Error('20. Corruption: socle conceptuel Humanité/Intégrité perdu');
 if(corruptionBlocks.some(block=>block.type==='table'))throw new Error('20. Corruption: table mécanique encore présente');
+if(/\bPTV\b|\bDGT\b|\b\d+\s*PA\b|\b1d10e\b|\bdifficult[eé]\s*\d+|TUC Talent|\bProfil\s*:/i.test(corruptionText))throw new Error('20. Corruption: mécanique résiduelle détectée');
 
 const targetTruth=truth.filter(page=>/^(10\.|11\.|12\.|13\.|14\.|15\.|16\.|17\.|18\.|19\.|20\.|21\.)/.test(page.title||''));
 for(const page of targetTruth){for(const section of page.sections||[]){if(/\bPTV\b/i.test(section.title||''))throw new Error(`${page.title}: titre PTV encore présent`);for(const block of section.blocks||[])if(/TUC Talent/i.test(String(block.style||'')))throw new Error(`${page.title}: style TUC Talent encore présent`)}}
