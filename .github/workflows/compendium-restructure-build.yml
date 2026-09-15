@@ -10,6 +10,7 @@ on:
       - 'compendium/source/truth-mechanics-v6-fixed.part*.b64'
       - 'compendium/source/truth-lore-priority-v1.json'
       - 'compendium/navigation-schema.js'
+      - 'compendium/navigation-schema-v2.js'
       - 'compendium/category-navigation.js'
       - 'compendium/index.html'
       - 'compendium/styles.css'
@@ -78,12 +79,13 @@ jobs:
       - name: Commit generated mechanics, lore and navigation datasets
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email "4189828+github-actions[bot]@users.noreply.github.com"
           git add compendium/data/manifest-v3.json \
             compendium/data/navigation-v1.json \
             compendium/data/v3-regles-v5-*.b64part \
             compendium/data/v3-verite-lore-clean-v1-*.b64part \
-            compendium/data/v3-verite-lore-v2-*.b64part
+            compendium/data/v3-verite-lore-v2-*.b64part \
+            compendium/data/v3-lore-v2-*.b64part
           if git diff --cached --quiet; then
             echo "No generated mechanics/lore/navigation changes."
             exit 0
