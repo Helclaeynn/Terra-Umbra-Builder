@@ -21,12 +21,23 @@
       "id": "realite-001-chapitre-vivre-en-grande-californie",
       "dataset": "realite",
       "category": "Réalité",
-      "group": "Grande Californie & quotidien",
+      "group": "Grande Californie & société",
       "groupOrder": 10,
-      "subgroup": "Cadre de vie",
+      "subgroup": "Cadre général",
       "subgroupOrder": 10,
-      "pageOrder": 100,
-      "displayTitle": "VIVRE EN GRANDE CALIFORNIE"
+      "pageOrder": 10,
+      "displayTitle": "Grande Californie — quinze années de bascule"
+    },
+    {
+      "id": "realite-lore-gouvernement-institutions",
+      "dataset": "realite",
+      "category": "Réalité",
+      "group": "Grande Californie & société",
+      "groupOrder": 10,
+      "subgroup": "Institutions publiques",
+      "subgroupOrder": 20,
+      "pageOrder": 10,
+      "displayTitle": "Gouvernement et institutions de Grande Californie"
     },
     {
       "id": "lore-vie-quotidienne-alimentation-base",
@@ -137,6 +148,83 @@
       "subgroupOrder": 20,
       "pageOrder": 500,
       "displayTitle": "Urbanisme — les trois strates"
+    },
+    {
+      "id": "realite-lore-laus-securite",
+      "dataset": "realite",
+      "category": "Réalité",
+      "group": "Grande Californie & société",
+      "groupOrder": 10,
+      "subgroup": "Sécurité & juridictions",
+      "subgroupOrder": 30,
+      "pageOrder": 10,
+      "displayTitle": "LAUS, Los Angeles et sécurité publique"
+    },
+    {
+      "id": "realite-lore-corporations",
+      "dataset": "realite",
+      "category": "Réalité",
+      "group": "Grande Californie & société",
+      "groupOrder": 10,
+      "subgroup": "Pouvoirs privés",
+      "subgroupOrder": 40,
+      "pageOrder": 10,
+      "displayTitle": "Corporations — entreprises devenues territoires"
+    },
+    {
+      "id": "realite-lore-pegre",
+      "dataset": "realite",
+      "category": "Réalité",
+      "group": "Grande Californie & société",
+      "groupOrder": 10,
+      "subgroup": "Pouvoirs privés",
+      "subgroupOrder": 40,
+      "pageOrder": 20,
+      "displayTitle": "Pègre — empires nés dans les vides"
+    },
+    {
+      "id": "realite-lore-religions",
+      "dataset": "realite",
+      "category": "Réalité",
+      "group": "Grande Californie & société",
+      "groupOrder": 10,
+      "subgroup": "Société & communautés",
+      "subgroupOrder": 50,
+      "pageOrder": 10,
+      "displayTitle": "Religions et communautés en 2035"
+    },
+    {
+      "id": "realite-lore-crawlers-underlife",
+      "dataset": "realite",
+      "category": "Réalité",
+      "group": "Grande Californie & société",
+      "groupOrder": 10,
+      "subgroup": "Société & communautés",
+      "subgroupOrder": 50,
+      "pageOrder": 20,
+      "displayTitle": "Crawlers et Underlife"
+    },
+    {
+      "id": "realite-lore-vie-materielle-2035",
+      "dataset": "realite",
+      "category": "Réalité",
+      "group": "Grande Californie & société",
+      "groupOrder": 10,
+      "subgroup": "Vie quotidienne",
+      "subgroupOrder": 60,
+      "pageOrder": 10,
+      "displayTitle": "Vie matérielle en 2035"
+    },
+    {
+      "id": "realite-lore-identite-culture-information",
+      "dataset": "realite",
+      "category": "Réalité",
+      "group": "Grande Californie & société",
+      "groupOrder": 10,
+      "subgroup": "Vie quotidienne",
+      "subgroupOrder": 60,
+      "pageOrder": 20,
+      "displayTitle": "Corps, identité, culture et information"
     },
     {
       "id": "realite-007-i-augmentations-esthetiques",
