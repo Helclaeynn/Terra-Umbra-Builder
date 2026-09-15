@@ -117,15 +117,16 @@ function generationLore(item){
 }
 function loreParagraphs(item){
   const [context,users,meaning]=item.kind==='augmentation'?augmentationProfile(item):equipmentProfile(item);
-  const v=stableVariant(`${item.name}|${item.category}`);
+  const v=stableVariant(`${item.name}|${item.category}|${item.generation??''}`);
+  const identity=item.kind==='augmentation'&&item.generation!==null?`${item.name} de génération ${item.generation}`:item.name;
   const first=[
-    `Dans la Grande Californie, ${item.name} appartient à ${context}. Son nom circule surtout chez ${users}.`,
-    `${item.name} s’inscrit dans ${context}. On le rencontre principalement chez ${users}.`,
-    `Autour de ${item.name} s’est développé tout un usage lié à ${context}. Il intéresse d’abord ${users}.`,
-    `Dans les vitrines, ateliers et réseaux spécialisés de la Grande Californie, ${item.name} relève de ${context}. Il est surtout recherché par ${users}.`
+    `Dans la Grande Californie, ${identity} appartient à ${context}. Son nom circule surtout chez ${users}.`,
+    `${identity} s’inscrit dans ${context}. On le rencontre principalement chez ${users}.`,
+    `Autour de ${identity} s’est développé tout un usage lié à ${context}. Il intéresse d’abord ${users}.`,
+    `Dans les vitrines, ateliers et réseaux spécialisés de la Grande Californie, ${identity} relève de ${context}. Il est surtout recherché par ${users}.`
   ][v];
   const second=item.kind==='augmentation'
-    ? `${priceLore(item.price)} ${generationLore(item)} Pour ${item.name}, une pose sérieuse suppose suivi, entretien et acceptation des contraintes propres à ce type d’implant.`.replace(/\s+/g,' ').trim()
+    ? `${priceLore(item.price)} ${generationLore(item)} Pour ${identity}, une pose sérieuse suppose suivi, entretien et acceptation des contraintes propres à ce type d’implant.`.replace(/\s+/g,' ').trim()
     : `${priceLore(item.price)} Pour ${item.name}, dans la famille « ${item.category} », ${meaning}.`;
   return [first,second];
 }
@@ -162,17 +163,18 @@ function mechanicsRows(item){
 function articleFor(item,index){
   const category=item.kind==='augmentation'?'Augmentations':'Équipement';
   const prefix=item.kind==='augmentation'?'augmentation':'equipement';
+  const displayTitle=item.kind==='augmentation'&&item.generation!==null?`${item.name} — Génération ${item.generation}`:item.name;
   const [p1,p2]=loreParagraphs(item);
   const tags=['Réalité',category,item.category].filter(Boolean);
   if(item.kind==='augmentation'&&item.generation!==null)tags.push(`Génération ${item.generation}`);
   return {
     id:`${prefix}-${String(index+1).padStart(3,'0')}-${slug(item.name)}`,
-    title:item.name,
+    title:displayTitle,
     category,
     status:'canon_recent',
     source:'Catalogue Réalité du Builder',
     tags:[...new Set(tags)],
-    illustration:{src:item.kind==='augmentation'?'assets/augmentation-placeholder.svg':'assets/equipment-placeholder.svg',alt:`Illustration de ${item.name}`,caption:'Illustration à venir'},
+    illustration:{src:item.kind==='augmentation'?'assets/augmentation-placeholder.svg':'assets/equipment-placeholder.svg',alt:`Illustration de ${displayTitle}`,caption:'Illustration à venir'},
     catalog:{kind:item.kind,id:item.catalogId,category:item.category,generation:item.generation,price:item.price},
     sections:[
       {id:'contexte',title:'Dans la Grande Californie',level:2,blocks:[{type:'p',style:'lore',text:p1},{type:'p',style:'lore',text:p2}]},
