@@ -38,6 +38,12 @@ async function filterCategory(text){
   await input.fill(text);
   await page.waitForTimeout(100);
 }
+async function exactTitleCard(title){
+  const heading=page.locator('.article-card:visible h3').filter({hasText:new RegExp(`^${title.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}$`)});
+  const count=await heading.count();
+  if(count!==1)throw new Error(`${title}: ${count} titre(s) exact(s) visible(s), attendu 1`);
+  return heading.first().locator('..');
+}
 async function assertArticleBasics(label){
   await page.waitForSelector('#main .article-media img',{timeout:10000});
   const media=page.locator('#main .article-media img');
@@ -86,9 +92,8 @@ try{
 
   await gotoCategory('Équipement');
   await filterCategory('Bastion');
-  const bastionCards=visibleCards();
-  if(await bastionCards.count()!==1)throw new Error(`Bastion: ${await bastionCards.count()} cartes visibles, attendu 1`);
-  await bastionCards.first().click();
+  const bastionCard=await exactTitleCard('Bastion');
+  await bastionCard.click();
   await assertArticleBasics('Bastion');
   if(await page.locator('#main .doc-table').count()<1)throw new Error('Bastion: tableau mécanique non rendu');
   const bastionText=(await page.locator('#main section#contexte .body-p.lore').allTextContents()).join(' ');
@@ -105,7 +110,7 @@ try{
   if(await page.locator('#main .doc-table').count()<1)throw new Error('Neuroprogramme: tableau mécanique non rendu');
 
   if(errors.length)throw new Error(`Erreurs navigateur:\n${errors.join('\n')}`);
-  console.log(`Browser smoke OK — ${augmentationCount} pages d’augmentations groupées · Cybermain Gen.1+Gen.2 · FaceCaster unique · Bastion sans remplissage générique · ${neuroCount} Neuroprogrammes · aucun asset jsDelivr.`);
+  console.log(`Browser smoke OK — ${augmentationCount} pages d’augmentations groupées · Cybermain Gen.1+Gen.2 · FaceCaster unique · Bastion exact sans remplissage générique · ${neuroCount} Neuroprogrammes · aucun asset jsDelivr.`);
 }finally{
   await browser.close();
 }
