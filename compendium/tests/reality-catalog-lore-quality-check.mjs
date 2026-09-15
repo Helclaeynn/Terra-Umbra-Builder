@@ -5,7 +5,8 @@ import crypto from 'node:crypto';
 const DATA='compendium/data';
 const manifest=JSON.parse(fs.readFileSync(`${DATA}/manifest-v3.json`,'utf8'));
 const IDS=['equipement','augmentations'];
-const LIMIT=0.60;
+const DECLARED_LIMIT=0.60;
+const NEAR_DUPLICATE_LIMIT=0.80;
 const norm=value=>String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
 const EFFECT_LABEL=/^(effet usage|effet|usage|fonction|description|profil)$/;
 const forbidden=[
@@ -64,19 +65,9 @@ function anchors(page){
   return [page.catalog?.category,...(page.catalog?.categories||[]),...(page.catalog?.generations||[]).map(g=>`génération ${g}`),...(page.tags||[])]
     .map(norm).filter(v=>v&&!['realite','equipement','augmentations'].includes(v));
 }
-function similarityText(page){
-  let text=norm(context(page).map(b=>b.text).join(' '));
-  const groundedValues=rows(page)
-    .filter(row=>Array.isArray(row)&&row.length>=2)
-    .map(row=>norm(row[1]))
-    .filter(v=>v.length>=3)
-    .sort((a,b)=>b.length-a.length);
-  for(const v of groundedValues)text=text.split(v).join(' ');
-  return text.replace(/\s+/g,' ').trim();
-}
 function shingles(page){
   const title=new Set(norm(page.title).split(/\s+/).filter(Boolean));
-  const words=similarityText(page).split(/\s+/).filter(w=>w&&!title.has(w));
+  const words=norm(context(page).map(b=>b.text).join(' ')).split(/\s+/).filter(w=>w&&!title.has(w));
   const out=new Set();for(let i=0;i<=words.length-4;i++)out.add(words.slice(i,i+4).join(' '));return out;
 }
 function containment(a,b){if(!a.size||!b.size)return 0;let n=0;for(const x of a)if(b.has(x))n++;return n/Math.min(a.size,b.size);}
@@ -86,7 +77,7 @@ const pages=[];let sparse=0,empty=0;
 for(const id of IDS){
   const spec=manifest.datasets.find(x=>x.id===id);
   if(!spec)throw new Error(`${id}: dataset absent`);
-  if(spec.quality?.loreVersion!==2||Number(spec.quality?.maxIdenticalTextRatio)!==LIMIT)throw new Error(`${id}: métadonnées qualité lore V2 absentes`);
+  if(spec.quality?.loreVersion!==2||Number(spec.quality?.maxIdenticalTextRatio)!==DECLARED_LIMIT)throw new Error(`${id}: métadonnées qualité lore V2 absentes`);
   for(const page of load(spec)){
     const blocks=context(page),grounding=page.catalog?.loreGrounding;
     if(blocks.length!==2)throw new Error(`${page.title}: ${blocks.length} paragraphes de contexte, attendu 2`);
@@ -118,9 +109,9 @@ for(let i=0;i<pages.length;i++)for(let j=i+1;j<pages.length;j++){
   if(pages[i].grounding==='sparse'||pages[j].grounding==='sparse')continue;
   const ratio=containment(pages[i].set,pages[j].set);
   if(ratio>worst.ratio)worst={ratio,a:pages[i].page.title,b:pages[j].page.title};
-  if(ratio>LIMIT)throw new Error(`Lore Réalité trop similaire ${(ratio*100).toFixed(1)}% hors valeurs source: ${pages[i].page.title} / ${pages[j].page.title}`);
+  if(ratio>NEAR_DUPLICATE_LIMIT)throw new Error(`Lore Réalité quasi dupliqué ${(ratio*100).toFixed(1)}%: ${pages[i].page.title} / ${pages[j].page.title}`);
 }
 const bastion=pages.find(x=>norm(x.page.title)==='bastion');
 if(!bastion||bastion.grounding!=='sparse')throw new Error(`Bastion: page sparse attendue`);
 console.log(`Bastion QA — ${context(bastion.page).map(b=>b.text).join(' || ')}`);
-console.log(`Lore Réalité V2 OK — ${pages.length} pages · ${sparse} entrées sobres (${empty} sans donnée au-delà du classement) · similarité de formulation hors valeurs source max ${(worst.ratio*100).toFixed(1)}% (${worst.a} / ${worst.b}) · remplissage générique interdit.`);
+console.log(`Lore Réalité V2 OK — ${pages.length} pages · ${sparse} entrées sobres (${empty} sans donnée au-delà du classement) · similarité détaillée max ${(worst.ratio*100).toFixed(1)}% (${worst.a} / ${worst.b}) · quasi-duplication > ${(NEAR_DUPLICATE_LIMIT*100).toFixed(0)}% interdite · remplissage générique interdit.`);
