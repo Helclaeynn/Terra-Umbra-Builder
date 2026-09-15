@@ -7,7 +7,9 @@
     "Vérité",
     "Organisations",
     "Personnages",
-    "Bestiaire"
+    "Bestiaire",
+    "Équipement",
+    "Augmentations"
   ],
   "statusLabels": {
     "canon_recent": "Canon récent",
@@ -29,6 +31,20 @@
       "parts": 1,
       "count": 39,
       "sha256": "1dfa17c463e08bcdf836c516685e712d2f26b419d240c98f5e9145afeae07489"
+    },
+    {
+      "id": "equipement",
+      "prefix": "v3-equipement-builder-v1",
+      "parts": 5,
+      "count": 261,
+      "sha256": "e98cc74a1b1ee48ed4fe5828aae1cf316cad8a566d3215c09da5b8141992497b"
+    },
+    {
+      "id": "augmentations",
+      "prefix": "v3-augmentations-builder-v1",
+      "parts": 3,
+      "count": 132,
+      "sha256": "d1771f3a49b3b3e8cd411000d841abb3c765e3cf19b9660100a4cbd64a0a6776"
     },
     {
       "id": "verite",
@@ -59,5 +75,5 @@
       "sha256": "d3f6006f971147d1af1c10dc025443a8db9761801f14336b42899e12d457c652"
     }
   ],
-  "expectedTotal": 930
+  "expectedTotal": 1323
 }
