@@ -16,6 +16,7 @@ function loadDataset(id){
 const rows=[...loadDataset('moteur'),...loadDataset('realite'),...loadDataset('verite')]
   .filter(page=>isHierarchicalCategory(page.category));
 
+const catchAll=/^(?:autre(?:s)?(?:\s+règle(?:s)?)?|divers|misc(?:ellaneous)?)$/i;
 const entries=[];
 const failures=[];
 for(const page of rows){
@@ -24,7 +25,7 @@ for(const page of rows){
     failures.push(`${page.category} | ${page.id} | ${page.title}`);
     continue;
   }
-  if(/^(autre|autres|divers|misc)/i.test(nav.group)||/^(autre|autres|divers|misc)/i.test(nav.subgroup)){
+  if(catchAll.test(nav.group.trim())||catchAll.test(nav.subgroup.trim())){
     failures.push(`FOURRE-TOUT INTERDIT | ${page.category} | ${page.id} | ${nav.group} > ${nav.subgroup}`);
     continue;
   }
