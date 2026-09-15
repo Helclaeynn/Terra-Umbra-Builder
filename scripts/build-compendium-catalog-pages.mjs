@@ -125,8 +125,8 @@ function loreParagraphs(item){
     `Dans les vitrines, ateliers et réseaux spécialisés de la Grande Californie, ${item.name} relève de ${context}. Il est surtout recherché par ${users}.`
   ][v];
   const second=item.kind==='augmentation'
-    ? `${priceLore(item.price)} ${generationLore(item)} Une pose sérieuse suppose cependant suivi, entretien et acceptation des contraintes propres à l’augmentation du corps.`.replace(/\s+/g,' ').trim()
-    : `${priceLore(item.price)} ${meaning.charAt(0).toUpperCase()+meaning.slice(1)}.`;
+    ? `${priceLore(item.price)} ${generationLore(item)} Pour ${item.name}, une pose sérieuse suppose suivi, entretien et acceptation des contraintes propres à ce type d’implant.`.replace(/\s+/g,' ').trim()
+    : `${priceLore(item.price)} Pour ${item.name}, dans la famille « ${item.category} », ${meaning}.`;
   return [first,second];
 }
 function displayValue(value){

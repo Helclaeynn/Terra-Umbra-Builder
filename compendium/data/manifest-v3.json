@@ -37,14 +37,14 @@
       "prefix": "v3-equipement-builder-v1",
       "parts": 5,
       "count": 261,
-      "sha256": "e98cc74a1b1ee48ed4fe5828aae1cf316cad8a566d3215c09da5b8141992497b"
+      "sha256": "8064f2571f0ca86b876af679d29d1790982bad08f18d9fbb8cade628ac0b00c8"
     },
     {
       "id": "augmentations",
       "prefix": "v3-augmentations-builder-v1",
       "parts": 3,
       "count": 132,
-      "sha256": "d1771f3a49b3b3e8cd411000d841abb3c765e3cf19b9660100a4cbd64a0a6776"
+      "sha256": "5e7a24cafab611f342d5a2d291bfd9178657c3ed117d0a076754bdccec637b6e"
     },
     {
       "id": "verite",
