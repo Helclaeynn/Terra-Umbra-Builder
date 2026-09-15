@@ -64,8 +64,11 @@ function groundingValues(page){
     .filter(row=>Array.isArray(row)&&row.length>=2&&!['source','path','chemin','id','pricemode'].includes(norm(row[0])))
     .map(row=>norm(row[1])).filter(value=>value.length>=2);
   if(tableFallback.length)return tableFallback;
-  const catalogFallback=[page.catalog?.category,...(Array.isArray(page.catalog?.categories)?page.catalog.categories:[])]
-    .map(norm).filter(value=>value.length>=2);
+  const catalogFallback=[
+    page.catalog?.category,
+    ...(Array.isArray(page.catalog?.categories)?page.catalog.categories:[]),
+    ...(Array.isArray(page.catalog?.generations)?page.catalog.generations.map(g=>`génération ${g}`):[])
+  ].map(norm).filter(value=>value.length>=2);
   if(catalogFallback.length)return catalogFallback;
   return (page.tags||[]).map(norm).filter(value=>value.length>=2&&!['realite','equipement','augmentations'].includes(value));
 }
