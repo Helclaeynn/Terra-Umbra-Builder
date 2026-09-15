@@ -212,6 +212,40 @@ function articleFor(item,index){
     ]
   };
 }
+function dedupeFaceCaster(items){
+  const hits=items.map((item,index)=>({item,index})).filter(({item})=>normText(item.name)==='facecaster dfl');
+  if(hits.length!==2)throw new Error(`FaceCaster DFL: ${hits.length} occurrences runtime avant dédoublonnage, attendu 2`);
+  const preferred=hits.find(({item})=>/neuro|objet usuel|materiel technique/.test(normText(`${item.category} ${item.sourceType||''}`)))||hits[0];
+  const filtered=items.filter((item,index)=>normText(item.name)!=='facecaster dfl'||index===preferred.index);
+  if(filtered.filter(item=>normText(item.name)==='facecaster dfl').length!==1)throw new Error('FaceCaster DFL: dédoublonnage invalide');
+  return {items:filtered,sourceCount:hits.length,removed:hits.length-1,kept:preferred.item};
+}
+function groupAugmentations(items){
+  const groups=new Map();
+  for(const item of items){const key=normText(item.name);if(!groups.has(key))groups.set(key,{name:item.name,variants:[]});groups.get(key).variants.push(item);}
+  const rows=[...groups.values()];
+  for(const group of rows)group.variants.sort((a,b)=>(a.generation??999)-(b.generation??999)||normText(a.category).localeCompare(normText(b.category))||a.catalogId.localeCompare(b.catalogId));
+  return rows.sort((a,b)=>normText(a.name).localeCompare(normText(b.name),'fr'));
+}
+function augmentationArticleFor(group,index){
+  const variants=group.variants,categories=[...new Set(variants.map(x=>x.category).filter(Boolean))],generations=[...new Set(variants.map(x=>x.generation).filter(x=>x!==null&&x!==undefined))].sort((a,b)=>a-b);
+  const representative={...variants[0],name:group.name,category:categories.join(' · ')||'Augmentations',generation:null,price:null,effect:variants.map(x=>x.effect).filter(Boolean).join(' ')};
+  const [p1,p2]=loreParagraphs(representative),generationCounts=new Map();
+  for(const variant of variants){const key=variant.generation??'x';generationCounts.set(key,(generationCounts.get(key)||0)+1);}
+  const sections=[{id:'contexte',title:'Dans la Grande Californie',level:2,blocks:[{type:'p',style:'lore',text:p1},{type:'p',style:'lore',text:p2}]}];
+  variants.forEach((variant,i)=>{
+    const gKey=variant.generation??'x',base=variant.generation!==null&&variant.generation!==undefined?`Génération ${variant.generation}`:'Propriétés';
+    const title=(generationCounts.get(gKey)||0)>1?`${base} — ${variant.category}`:base;
+    sections.push({id:`proprietes-${variant.generation??'x'}-${String(i+1).padStart(2,'0')}-${slug(variant.category)}`,title,level:2,blocks:[{type:'table',rows:mechanicsRows(variant)}]});
+  });
+  const tags=['Réalité','Augmentations',...categories,...generations.map(g=>`Génération ${g}`)];
+  return {
+    id:`augmentation-${String(index+1).padStart(3,'0')}-${slug(group.name)}`,title:group.name,category:'Augmentations',status:'canon_recent',source:'Catalogue Réalité du Builder',tags:[...new Set(tags.filter(Boolean))],
+    illustration:{src:'assets/augmentation-placeholder.svg',alt:`Illustration de ${group.name}`,caption:'Illustration à venir'},
+    catalog:{kind:'augmentation',id:`augmentation-${slug(group.name)}`,category:categories[0]||'Augmentations',categories,generation:null,generations,price:null,variants:variants.map(v=>({id:v.catalogId,category:v.category,generation:v.generation,price:v.price,sourceType:v.sourceType||null}))},
+    sections
+  };
+}
 function writeDataset(id,prefix,rows){
   for(const file of fs.readdirSync(DATA))if(file.startsWith(`${prefix}-`)&&file.endsWith('.b64part'))fs.unlinkSync(path.join(DATA,file));
   const payload=JSON.stringify(rows),b64=zlib.gzipSync(Buffer.from(payload,'utf8'),{level:9}).toString('base64'),parts=Math.ceil(b64.length/FRAGMENT_SIZE);
@@ -222,19 +256,29 @@ function placeholder(title,subtitle){return `<svg xmlns="http://www.w3.org/2000/
 
 fs.mkdirSync(DATA,{recursive:true});fs.mkdirSync(ASSETS,{recursive:true});
 const augRaw=loadCompressed(`${ROOT}/augmentations.json.gz.b64`),equipSafe=loadSafe('equipment'),neuroSafe=loadSafe('neuroprograms'),vehicleSafe=loadSafe('vehicles');
-const augItems=normalizeCatalog(augRaw,'augmentation'),equipItems=normalizeCatalog(equipSafe.raw,'equipment');
+const augItems=normalizeCatalog(augRaw,'augmentation'),equipRuntimeItems=normalizeCatalog(equipSafe.raw,'equipment');
 const installedR47=appendR47(augItems);
-appendUniqueEquipment(equipItems,structuredEquipment(neuroSafe.raw,'neuroprogram'));
-appendUniqueEquipment(equipItems,structuredEquipment(vehicleSafe.raw,'vehicle'));
+appendUniqueEquipment(equipRuntimeItems,structuredEquipment(neuroSafe.raw,'neuroprogram'));
+appendUniqueEquipment(equipRuntimeItems,structuredEquipment(vehicleSafe.raw,'vehicle'));
 
-const expectedEquipment=Number(equipSafe.manifest.entries||0)+Number(neuroSafe.manifest.entries||0)+Number(vehicleSafe.manifest.entries||0);
-if(equipItems.length!==expectedEquipment)throw new Error(`Parité Builder équipement: ${equipItems.length}, attendu ${expectedEquipment}`);
-if(installedR47!==14||augItems.length!==146)throw new Error(`Parité Builder augmentations: ${augItems.length}, réconciliation V9 installée ${installedR47}/14`);
-const faceCasters=equipItems.filter(x=>normText(x.name)==='facecaster dfl');
-if(faceCasters.length!==1)throw new Error(`FaceCaster DFL: ${faceCasters.length} occurrences dans la source runtime safe`);
-assignDisplayTitles(equipItems);assignDisplayTitles(augItems);
+const expectedEquipmentRuntime=Number(equipSafe.manifest.entries||0)+Number(neuroSafe.manifest.entries||0)+Number(vehicleSafe.manifest.entries||0);
+if(equipRuntimeItems.length!==expectedEquipmentRuntime)throw new Error(`Parité Builder équipement runtime: ${equipRuntimeItems.length}, attendu ${expectedEquipmentRuntime}`);
+if(installedR47!==14||augItems.length!==146)throw new Error(`Parité Builder augmentations runtime: ${augItems.length}, réconciliation V9 installée ${installedR47}/14`);
 
-const augRows=augItems.map(articleFor),equipRows=equipItems.map(articleFor),allRows=[...augRows,...equipRows];
+const faceCasterResult=dedupeFaceCaster(equipRuntimeItems),equipItems=faceCasterResult.items;
+if(equipItems.length!==expectedEquipmentRuntime-1)throw new Error(`Équipement visible après FaceCaster: ${equipItems.length}, attendu ${expectedEquipmentRuntime-1}`);
+assignDisplayTitles(equipItems);
+
+const augGroups=groupAugmentations(augItems);
+if(augGroups.length!==64)throw new Error(`Pages d’augmentations groupées: ${augGroups.length}, attendu 64`);
+const nestedVariantCount=augGroups.reduce((sum,g)=>sum+g.variants.length,0);
+if(nestedVariantCount!==146)throw new Error(`Variantes d’augmentations après regroupement: ${nestedVariantCount}, attendu 146`);
+
+for(const id of ['senseurs-sonars-gen-1','senseurs-sonars-gen-2','senseurs-toucher-gen-1','senseurs-toucher-gen-2']){
+  if(augItems.filter(x=>x.catalogId===id).length!==1)throw new Error(`Variante augmentation runtime absente ou dupliquée: ${id}`);
+}
+
+const augRows=augGroups.map(augmentationArticleFor),equipRows=equipItems.map(articleFor),allRows=[...augRows,...equipRows];
 if(new Set(allRows.map(x=>x.id)).size!==allRows.length)throw new Error('IDs de pages catalogue dupliqués');
 if(new Set(allRows.map(x=>`${x.category}|${normText(x.title)}`)).size!==allRows.length)throw new Error('Titres de pages catalogue dupliqués');
 
@@ -248,7 +292,8 @@ manifest.datasets=manifest.datasets.filter(x=>!['equipement','augmentations'].in
 const realityIndex=manifest.datasets.findIndex(x=>x.id==='realite');manifest.datasets.splice(realityIndex>=0?realityIndex+1:manifest.datasets.length,0,equipSpec,augSpec);
 manifest.expectedTotal=manifest.datasets.reduce((sum,x)=>sum+Number(x.count||0),0);fs.writeFileSync(MANIFEST,JSON.stringify(manifest,null,2)+'\n');
 
-console.log(`Catalogue Compendium généré — ${equipRows.length} équipements · ${augRows.length} augmentations · total V3 ${manifest.expectedTotal}`);
-console.log(`Sources runtime — base équipement ${equipSafe.manifest.entries} + Neuro ${neuroSafe.manifest.entries} + véhicules ${vehicleSafe.manifest.entries} · augmentations base ${augItems.length-installedR47} + V9 ${installedR47}`);
-console.log(`FaceCaster DFL — ${faceCasters.length} entrée runtime.`);
+console.log(`Catalogue Compendium généré — ${equipRows.length} équipements · ${augRows.length} augmentations (${nestedVariantCount} variantes runtime) · total V3 ${manifest.expectedTotal}`);
+console.log(`Sources runtime — base équipement ${equipSafe.manifest.entries} + Neuro ${neuroSafe.manifest.entries} + véhicules ${vehicleSafe.manifest.entries} = ${expectedEquipmentRuntime} · augmentations base ${augItems.length-installedR47} + V9 ${installedR47} = ${augItems.length}`);
+console.log(`FaceCaster DFL — ${faceCasterResult.sourceCount} entrées runtime, ${faceCasterResult.removed} retirée, 1 page visible (${faceCasterResult.kept.category}).`);
+console.log(`Augmentations — ${augItems.length} variantes regroupées en ${augRows.length} pages.`);
 console.log(`Équipement SHA ${equipSpec.sha256}`);console.log(`Augmentations SHA ${augSpec.sha256}`);
