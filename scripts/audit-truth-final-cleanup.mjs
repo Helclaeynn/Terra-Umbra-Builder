@@ -7,8 +7,8 @@ const manifest=JSON.parse(fs.readFileSync(`${DATA}/manifest-v3.json`,'utf8'));
 function norm(value){return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[’‘`]/g,"'").replace(/^\s*\d+\.?\s*/,'').replace(/[^a-z0-9]+/g,' ').trim()}
 function load(id){const spec=manifest.datasets.find(d=>d.id===id);if(!spec)throw new Error(`Dataset absent: ${id}`);let b64='';for(let i=0;i<spec.parts;i++)b64+=fs.readFileSync(`${DATA}/${spec.prefix}-${String(i).padStart(2,'0')}.b64part`,'utf8').replace(/\s+/g,'');return JSON.parse(zlib.gunzipSync(Buffer.from(b64,'base64')).toString('utf8'))}
 function textOfBlock(block){if(!block)return '';if(block.type==='table')return (block.rows||[]).flat().join(' | ');return String(block.text||'')}
-function textOfSection(section){return (section?.blocks||[]).map(textOfBlock).join(' ').replace(/\s+/g,' ').trim()}
-function pageText(page){return (page.sections||[]).map(textOfSection).join(' ')}
+function textOfSection(section){return [section?.title||'',...(section?.blocks||[]).map(textOfBlock)].join(' ').replace(/\s+/g,' ').trim()}
+function pageText(page){return [page?.title||'',...(page.sections||[]).map(textOfSection)].join(' ').replace(/\s+/g,' ').trim()}
 function isBookFirst(page){return Boolean(page.loreBook)||Boolean((page.tags||[]).some(tag=>/^Lore V6/i.test(tag)))}
 function snippet(value,n=280){const s=String(value||'').replace(/\s+/g,' ').trim();return s.length>n?`${s.slice(0,n)}…`:s}
 
@@ -19,6 +19,7 @@ const catalogue=load('verite-catalogue');
 const pnjByTitle=new Map(pnj.map(page=>[norm(page.title),page]));
 const catalogueTitles=new Set(catalogue.map(page=>norm(page.title)));
 const legacy=lore.filter(page=>page.category==='Vérité'&&!isBookFirst(page));
+const visibleTruth=[...truth,...lore.filter(page=>page.category==='Vérité')];
 
 const mechPatterns=[
   ['PTV',/\bPTV\b/ig],['DGT',/\bDGT\b/ig],['PA',/\b\d+\s*PA\b/ig],['1d10e',/\b1d10e\b/ig],['difficulté',/difficult[eé]\s*[:=]?\s*\d+/ig],['bonus',/\+\s*\d+/g],['profil',/\bprofil\s*:/ig],['table',/./g]
@@ -51,3 +52,18 @@ for(const page of transitory){
     console.log(`  SECTION | ${title||'—'} | catalogueTitle=${catMatch?'yes':'no'} | tableRows=${tableRows} | ${snippet(textOfSection(section),220)}`);
   }
 }
+
+const metaPatterns=[
+  ['V6',/\bV6\b/i],
+  ['contenu-dossier',/\bContenu du dossier\b/i],
+  ['informations-generales',/\bINFORMATIONS GENERALES\b/i],
+  ['informations-verite',/\bInformations Vérité\s*:/i],
+  ['statut-contenu',/\bStatut du contenu\b/i],
+  ['surcouche-recente',/\bSurcouche récente\b/i],
+  ['matiere-encyclopedique',/\bmatière encyclopédique\b/i],
+  ['arbitrages-recents',/\barbitrages récents priment\b/i],
+];
+const metaHits=[];
+for(const page of visibleTruth){const text=pageText(page);const hits=metaPatterns.filter(([,re])=>re.test(text)).map(([name])=>name);if(hits.length)metaHits.push({page,hits});}
+console.log(`META_NOISE ${metaHits.length}`);
+for(const {page,hits} of metaHits)console.log(`  META | ${hits.join(',')} | ${page.id} | ${page.title} | ${snippet(pageText(page),360)}`);
