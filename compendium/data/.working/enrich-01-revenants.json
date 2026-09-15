@@ -1,0 +1,158 @@
+{
+  "bestiaire-v15-spectre-commun": {
+    "append": [
+      "Avec le temps, un Spectre cesse souvent de se souvenir de sa vie comme d'une suite cohérente. Les émotions qui entourent son Ancre deviennent plus nettes que les visages ou les dates : une promesse trahie, une peur, un nom ou le bruit d'une porte peuvent compter davantage que des décennies entières. C'est pourquoi deux morts issus d'un même lieu peuvent hanter celui-ci de façons radicalement différentes.",
+      "Les Spectres les plus lucides apprennent à ménager les vivants. Ils savent qu'un témoin capable de comprendre leur histoire vaut parfois mieux qu'une victime terrorisée, et certains entretiennent pendant des années une relation avec une famille, un gardien de cimetière ou un médium. D'autres, au contraire, finissent par réduire tout être vivant à un intrus dans le territoire de leur mort."
+    ]
+  },
+  "bestiaire-v15-dame-blanche": {
+    "append": [
+      "Une Dame blanche s'attache moins à la pierre d'un lieu qu'à l'événement qui l'a marquée. Une route peut être déplacée, un pont reconstruit ou une maison rasée sans rompre la hantise si le passage, le danger ou la mémoire demeurent. Certaines apparaissent ainsi plusieurs générations après leur mort sur un tracé moderne qui suit à peine l'ancien chemin.",
+      "Leur comportement oscille entre avertissement et répétition. Une Dame blanche peut sauver un voyageur d'un accident qu'elle connaît trop bien, puis provoquer la mort du suivant parce qu'un détail lui rappelle son meurtrier. Chaque rencontre révèle donc une part de son histoire, mais aussi l'état dans lequel cette histoire a laissé son esprit."
+    ]
+  },
+  "bestiaire-v15-sluagh": {
+    "append": [
+      "Les Sluaghs suivent les endroits où la mort se concentre sans recevoir de véritable repos. Hôpitaux abandonnés, fosses improvisées, tunnels d'évacuation et quartiers frappés par une catastrophe peuvent attirer plusieurs noyaux qui finissent par se déplacer ensemble. Leur arrivée se trahit souvent par une chute de température et une agitation anormale des mourants avant que les silhouettes ne deviennent visibles.",
+      "Une nuée n'est pas une communauté. Les Sluaghs se tolèrent tant qu'il y a assez de proies, puis se déchirent pour l'ectoplasme et l'énergie des mêmes victimes. Un chasseur patient peut exploiter cette avidité, mais provoquer leur concurrence au mauvais moment transforme vite une poursuite en carnage."
+    ]
+  },
+  "bestiaire-v15-lemure": {
+    "append": [
+      "Là où un Spectre possède une Ancre, un Lémure bâtit peu à peu un domaine. Il imprègne les murs, les objets transmis et les habitudes d'une famille jusqu'à ce que l'on ne puisse plus isoler un seul point à détruire. Une maison hantée depuis trois générations peut ainsi continuer à lui appartenir après plusieurs rénovations, simplement parce que les descendants perpétuent les mêmes gestes et conservent les mêmes reliques.",
+      "Cette extension le rend puissant mais aussi dépendant de son histoire. Briser les liens entre ses différents ancrages, disperser une collection, rendre un nom oublié à ses morts ou contraindre les héritiers à abandonner un rituel peut l'affaiblir davantage qu'une attaque directe. Les Lémures le savent et protègent jalousement les récits qui justifient leur présence."
+    ]
+  },
+  "bestiaire-v15-skinwalker": {
+    "append": [
+      "Chaque peau portée laisse une empreinte sur le Skinwalker. Les gestes et instincts physiques viennent facilement, mais les souvenirs profonds demeurent hors de sa portée : il peut reproduire une démarche ou l'odeur d'un animal, pas l'affection qu'une victime portait à son enfant. Les proches attentifs repèrent donc souvent la substitution avant les étrangers.",
+      "Les crânes conservés ne sont pas de simples trophées. Ils servent de points de rappel et de prises sur les identités volées, si bien qu'un Skinwalker ancien transporte rarement toute sa collection avec lui. Retrouver la cache où il les protège revient à découvrir la carte de ses anciennes vies et parfois les noms de personnes que tout le monde croyait encore vivantes."
+    ]
+  },
+  "bestiaire-v15-vetala": {
+    "append": [
+      "Un Vetâla choisit ses corps avec soin. Une dépouille fraîche lui offre mobilité et apparence, un cadavre ancien peut lui donner accès à un tombeau ou à une famille, et un corps préparé à l'avance devient une retraite quand sa première enveloppe est détruite. Cette prudence explique pourquoi certaines chasses se poursuivent bien après une victoire apparemment définitive.",
+      "La vengeance qu'il poursuit n'est pas toujours la sienne. En habitant un mort, le Vetâla reçoit des sensations, des peurs et parfois des fragments d'obsession laissés dans les chairs. Un esprit déjà haineux peut alors se charger de querelles successives jusqu'à ne plus savoir quelle offense l'a fait revenir en premier."
+    ]
+  },
+  "bestiaire-v15-holowraith-frag": {
+    "append": [
+      "Les premiers jours d'un Holowraith sont souvent consacrés à une question simple : prouver qu'il est encore la personne qu'il prétend être. Comptes, messages, habitudes de navigation et souvenirs privés deviennent ses seuls moyens d'établir une continuité avec le mort. Plus il se fragmente, plus ces preuves se contredisent et plus ses différentes copies peuvent revendiquer la même identité.",
+      "Un Holowraith ancien n'habite pas nécessairement un seul réseau. Il disperse des Frags dans des objets, des serveurs et des implants, puis les rappelle lorsque la connexion le permet. Détruire un terminal ne suffit donc pas toujours ; il faut comprendre quelles parties de lui pensent encore ensemble et lesquelles ont déjà commencé une existence séparée."
+    ]
+  },
+  "bestiaire-v15-pat": {
+    "append": [
+      "Un PAT reconnaît parfois des lieux qui n'ont jamais été construits, appelle des inconnus par des noms qu'ils n'ont jamais portés et se souvient d'enfants qui ne sont jamais nés. Ces incohérences ne sont pas des mensonges : elles sont les traces d'une histoire qui a réellement été la sienne avant d'être remplacée.",
+      "À proximité d'un PAT, le temps tend à hésiter plutôt qu'à reculer. Une phrase recommence, une caméra répète quelques secondes, une horloge saute une minute ou deux personnes gardent des souvenirs différents du même instant. Plus le Paradoxe lutte pour imposer son ancienne existence, plus ces accidents deviennent fréquents."
+    ]
+  },
+  "bestiaire-v15-la-llorona": {
+    "replace": [
+      "La Llorona est une morte dont les lamentations précèdent souvent l'apparition. On la rencontre près des routes désertes, des ponts, des canaux et des rivières, sous l'apparence d'une femme qui cherche quelqu'un qu'elle a perdu ou que la mort lui a arraché. Le nom recouvre plusieurs hantises semblables : certaines pleurent leurs enfants, d'autres un amant, une famille ou leur propre disparition.",
+      "L'eau conserve particulièrement bien son souvenir. Là où elle revient nuit après nuit, les sons portent trop loin, les reflets montrent parfois une silhouette absente de la berge et ceux qui répondent à ses pleurs peuvent se retrouver entraînés vers le lieu exact du drame. Comprendre qui elle appelle reste le moyen le plus sûr de distinguer une supplique d'un piège."
+    ]
+  },
+  "bestiaire-v15-churel-chudail": {
+    "replace": [
+      "La Churel est le retour d'une femme morte au terme d'une grossesse, d'un accouchement ou d'une violence qui a laissé sa mort sans réparation. Elle rôde autour des carrefours, des lieux funéraires et des familles qu'elle tient pour responsables. Son apparence oscille entre une beauté presque irréelle et un visage ravagé ; des pieds retournés ou une démarche impossible trahissent parfois ce que le regard voudrait prendre pour une vivante.",
+      "Toutes ne cherchent pas indistinctement des victimes. Certaines s'acharnent sur une lignée précise, d'autres protègent férocement un enfant ou un lieu lié à leur mort. Une Churel apaisée n'oublie pas nécessairement ce qui lui est arrivé, mais elle peut cesser de confondre vengeance et survie."
+    ]
+  },
+  "bestiaire-v15-yurei": {
+    "replace": [
+      "Un Yūrei demeure parmi les vivants parce qu'un attachement, une rancœur ou un rite funéraire inachevé refuse de se dénouer. Sa forme visible dépend moins d'un vêtement précis que du souvenir qu'il conserve de lui-même : certains apparaissent comme au moment de leur mort, d'autres sous l'image qu'ils avaient lorsqu'ils se croyaient encore heureux.",
+      "Les Yūrei sont particulièrement sensibles aux obligations qui les liaient de leur vivant. Une dette, un nom transmis, une promesse de mariage ou un objet rendu à la mauvaise personne peut les retenir aussi sûrement qu'un tombeau. Les rites n'ont de sens que s'ils répondent à cette relation ; reproduire un geste vide face à un mort qui attend autre chose ne fait souvent qu'attirer son attention."
+    ]
+  },
+  "bestiaire-v15-rusalka": {
+    "replace": [
+      "La Rusalka est une morte que l'eau a gardée. Étang, rivière, marais ou rive deviennent son territoire lorsque sa mort fut prématurée, lorsque son corps ne reçut pas les rites attendus ou lorsqu'un attachement puissant resta prisonnier du lieu. Elle attire volontiers les vivants par la voix, le mouvement ou une apparence familière avant de les conduire là où elle a elle-même disparu.",
+      "Certaines Rusalki ne haïssent pas les hommes ; elles haïssent le geste qui les a condamnées. Elles peuvent ignorer des voyageurs respectueux et s'acharner sur un meurtrier, une famille ou ceux qui reproduisent la même violence. D'autres ont depuis longtemps perdu cette distinction et ne reconnaissent plus qu'une chose : la rive d'un côté, les noyés de l'autre."
+    ]
+  },
+  "bestiaire-v15-duppy": {
+    "replace": [
+      "Un Duppy est l'esprit d'un mort resté assez proche des vivants pour peser encore sur leurs nuits, leurs maisons et leur chance. Certains veillent sur une famille, avertissent d'un danger ou réclament simplement que leur nom ne soit pas oublié. D'autres deviennent jaloux, malveillants ou franchement prédateurs et s'attachent à une personne jusqu'à épuiser sa santé et son courage.",
+      "La frontière entre ancêtre et persécuteur tient souvent à une relation. Offrandes, respect des morts et mémoire familiale peuvent maintenir une présence paisible pendant des générations ; une offense grave peut transformer cette proximité en harcèlement. Un Duppy hostile connaît alors mieux sa victime que beaucoup de monstres, parce qu'il a parfois partagé sa maison avant même sa naissance."
+    ]
+  },
+  "bestiaire-v15-pocong": {
+    "replace": [
+      "Le Pocong naît lorsqu'un mort demeure prisonnier de ce qui devait accompagner son départ. Le linceul blanc, les liens funéraires et les gestes qui entourent l'inhumation deviennent alors les signes visibles d'une séparation inachevée. L'esprit revient dans l'apparence de la dépouille enveloppée, contraint par des attaches qui n'auraient jamais dû subsister.",
+      "Sa présence est souvent plus obstinée que meurtrière. Il revient vers la tombe, la famille ou la personne qui a manqué le dernier rite jusqu'à ce que quelque chose soit corrigé. Mais un esprit longtemps retenu peut finir par associer tout vivant au refus de le laisser partir, et la hantise se change alors en violence."
+    ]
+  },
+  "bestiaire-v15-squelette-anime": {
+    "append": [
+      "L'absence de chair trompe souvent sur ce qu'un Squelette peut percevoir. Il n'a besoin ni d'yeux ni d'oreilles si la force qui l'anime lui indique où frapper ; l'obscurité et la fumée le gênent donc peu. En revanche, rompre le lien avec son animateur ou perturber l'énergie qui tient les os ensemble peut le faire s'effondrer d'un seul coup.",
+      "Les os ne sont pas toujours ceux d'un seul mort. Certains nécromants assemblent plusieurs dépouilles pour remplacer une pièce manquante, tandis qu'un esprit attaché à ses propres restes peut refuser tout os étranger. Un squelette composite obéit comme un outil ; un mort revenu dans son véritable corps reconnaît encore parfois ses bijoux, ses armes et les lieux de sa vie."
+    ]
+  },
+  "bestiaire-v15-zombie": {
+    "append": [
+      "La manière dont un Zombie a été relevé détermine beaucoup de ses instincts. Une animation brutale laisse souvent une créature attirée par les stimuli les plus simples, tandis qu'un cadavre entretenu par un rite précis peut répéter une garde, une tâche ou un trajet pendant des années. Dans les deux cas, la décomposition finit par gagner si aucune énergie ne restaure les tissus.",
+      "Les foyers de Zombies deviennent surtout dangereux quand une logique extérieure les organise. Un sorcier, une présence d'Ombre ou un signal artificiel peut transformer une foule lente en force coordonnée, capable de contourner une barricade ou d'attendre dans le noir. Lorsque cette direction disparaît, la horde retombe généralement dans ses impulsions individuelles."
+    ]
+  },
+  "bestiaire-v15-holombie": {
+    "append": [
+      "Une Holombie peut conserver des réflexes sociaux assez convaincants pour rentrer chez elle, prendre les transports ou chercher son travail. Ce sont les absences qui la trahissent : elle connaît une procédure mais pas la raison de l'appliquer, reconnaît une voix sans éprouver l'attachement attendu, répète une phrase parce qu'elle appartenait aux habitudes du cerveau qu'elle occupe.",
+      "L'entourage vit souvent sa présence comme un deuil impossible. Le corps est chaud, la voix familière et certains souvenirs semblent intacts, mais la continuité intérieure a disparu. Les cas les plus troublants ne sont pas ceux qui deviennent violents, mais ceux qui apprennent et construisent peu à peu une personnalité nouvelle dans une enveloppe que tout le monde réclame encore."
+    ]
+  },
+  "bestiaire-v15-strygoi": {
+    "append": [
+      "Le Strygoï conserve juste assez de l'héritage vampirique pour rendre sa faim dangereuse. Sa force, sa résistance et ses sens peuvent rappeler ceux d'un véritable Vampire, mais sans la maîtrise sociale qui transforme la prédation en rituel de Cour. Beaucoup sont utilisés comme gardiens, chiens de guerre ou serviteurs par des maîtres qui savent les nourrir et les enfermer.",
+      "L'origine d'un Strygoï n'est pas toujours la même. Certains se relèvent après l'échec d'une transformation vampirique ; d'autres sont des Vampires ayant régressé sous une corruption qui a dévoré leur volonté. Cette différence compte pour ceux qui cherchent à les comprendre, car derrière l'un peut subsister un reste d'identité que l'autre n'a jamais possédé."
+    ]
+  },
+  "bestiaire-v15-moroi": {
+    "append": [
+      "Parce qu'il pense encore clairement, le Moroï trouve plus facilement une place dans les sociétés vampiriques que le Strygoï. On le rencontre comme serviteur, gardien de crypte, intendant ou auxiliaire occulte, parfois lié pendant des décennies au même maître. Certaines Cours renforcent leurs Moroï par des enchantements qui prolongent leur existence tant que perdure celui qui les a créés.",
+      "Cette intelligence nourrit aussi leur ressentiment. Un Moroï sait ce qu'il est devenu, comprend la hiérarchie qui le tient au-dessous des Vampires et peut patienter très longtemps avant de trahir. Les plus anciens accumulent des secrets de maisons et de lignées que leurs maîtres auraient préféré voir disparaître avec les morts."
+    ]
+  },
+  "bestiaire-v15-pishtaco": {
+    "append": [
+      "À mesure qu'il se nourrit, le Pishtaco devient moins humain jusque dans sa manière de se déplacer. Le bois qui remplace ses os craque, sa peau distendue retient mal l'huile qu'il produit et son odeur finit par annoncer sa présence avant qu'on le voie. Les plus anciens aménagent des caches fraîches et sombres où ils peuvent stocker graisse, vêtements et restes sans attirer immédiatement l'attention.",
+      "Le feu est une menace autant qu'une tentation autour de lui. L'huile qu'il laisse sur les murs, les sols et ses victimes peut transformer un lieu de chasse en brasier à la moindre étincelle. Certains Pishtacos l'apprennent et utilisent volontairement cette propriété pour effacer leurs traces, au risque de se retrouver eux-mêmes enfermés dans l'incendie."
+    ]
+  },
+  "bestiaire-v15-alan": {
+    "append": [
+      "L'Alan ne recherche pas seulement de quoi se nourrir : il cherche à reconstruire une continuité qu'il considère comme volée à sa lignée. Ses rejetons sont donc protégés avec une férocité extrême et rassemblés dans des nids où se mêlent tissus volés, souvenirs familiaux et objets récupérés dans l'ancienne maison du mort.",
+      "Son illusion de beauté sert d'abord à approcher ceux dont il a besoin, pas à vivre durablement parmi les humains. Elle résiste mal à la proximité, aux blessures et aux regards prolongés. Ceux qui survivent à une rencontre se souviennent souvent moins du visage séduisant que d'un détail impossible aperçu trop tard : une articulation inversée, une aile repliée ou l'ombre d'un corps qui ne correspondait pas à la personne devant eux."
+    ]
+  },
+  "bestiaire-v15-strzyga-strzygon": {
+    "replace": [
+      "La Strzyga naît d'un mort dont l'existence semblait déjà divisée avant le décès : deux souffles, deux cœurs, deux âmes ou simplement la conviction qu'une part de lui ne pouvait pas partir avec l'autre. Lorsque le corps est enterré, l'une de ces parts suit le chemin des morts tandis que l'autre demeure attachée à la chair et recommence à agir.",
+      "Cette dualité rend la créature déroutante. Elle peut conserver des habitudes, des affections et même une peur sincère de ce qu'elle devient, puis basculer dans une faim qui paraît appartenir à quelqu'un d'autre. Les familles qui connaissent le phénomène cherchent parfois moins à détruire le revenant qu'à réunir ce qui a été séparé lors de la mort."
+    ]
+  },
+  "bestiaire-v15-momie": {
+    "append": [
+      "Le réseau qui soutient une Momie peut traverser un tombeau entier. Vases canopes, bijoux, inscriptions, effigies, fragments de corps et objets consacrés forment autant de nœuds entre lesquels l'âme répartit sa présence. Déplacer l'un d'eux peut réveiller le mort sans le vouloir ; en réunir plusieurs peut au contraire lui rendre une mémoire qu'il avait perdue.",
+      "Une Momie ancienne n'est pas condamnée à rester dans sa sépulture. Une fois réveillée, elle peut apprendre une langue moderne, négocier et reprendre des projets interrompus depuis des siècles. Son étrangeté vient alors moins de son apparence que de ses fidélités : elle se considère encore liée à des serments, des titres et des ennemis dont le monde contemporain ignore jusqu'au nom."
+    ]
+  },
+  "bestiaire-v15-draugar": {
+    "append": [
+      "Le devoir du Draugar survit souvent mieux que ses souvenirs personnels. Il peut avoir oublié le visage de sa famille tout en sachant exactement quelle porte garder, quel tertre interdire ou quelle lame ne doit pas être emportée. Plus le serment était précis, plus son comportement paraît mécanique ; un gardien lié à une notion vague comme l'honneur d'un clan possède beaucoup plus de marge pour interpréter sa mission.",
+      "Sa masse croît avec les années passées dans le lieu qu'il protège. Terre, froid et énergie funéraire semblent s'accumuler dans la dépouille jusqu'à en faire une présence trop lourde pour un cadavre ordinaire. Sorti de force de sa sépulture, il perd une partie de cette puissance et cherche presque toujours à revenir au centre de son obligation."
+    ]
+  },
+  "bestiaire-v15-jiangshi": {
+    "append": [
+      "Le Jiangshi perçoit la vitalité comme une chaleur que les vivants transportent avec eux. Dans l'obscurité, un groupe épuisé ou blessé brille pour lui davantage qu'une personne calme et en pleine santé, ce qui explique pourquoi il s'acharne souvent sur ceux qui fuient le plus difficilement.",
+      "Les talismans efficaces ne sont pas de simples morceaux de papier. Ils imposent une relation, un nom ou un ordre que l'écho resté dans le corps reconnaît encore. Un sceau mal préparé peut ralentir le revenant quelques secondes ; un rite qui correspond réellement à son histoire peut le tenir immobile le temps d'accomplir ce qui aurait dû permettre à l'âme de partir."
+    ]
+  },
+  "bestiaire-v15-liche-faucheuse": {
+    "append": [
+      "Une Liche prépare rarement un seul phylactère comme on cache une clef sous une pierre. Elle entoure ce cœur d'immortalité de faux objets, de serviteurs, de serments et de mensonges historiques afin que ses ennemis ne sachent jamais s'ils ont trouvé la véritable prise. Certaines déplacent même leur phylactère au fil des siècles, abandonnant derrière elles des tombes qui ne sont plus que des pièges.",
+      "Le temps déforme leurs ambitions sans forcément les abolir. Une vengeance peut devenir doctrine, une recherche devenir institution et un amour perdu devenir la protection obsessionnelle d'une lignée entière. Rencontrer une Faucheuse revient souvent à entrer dans une histoire commencée bien avant la naissance de tous les protagonistes encore vivants."
+    ]
+  }
+}
