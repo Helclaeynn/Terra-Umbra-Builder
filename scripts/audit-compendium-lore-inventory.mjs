@@ -15,11 +15,16 @@ function flat(page){
 }
 function words(text){return String(text||'').trim()?String(text).trim().split(/\s+/).length:0}
 const ids=['realite','verite','lore'];
+const inventory={generated:new Date().toISOString(),datasets:{}};
 for(const id of ids){
   const pages=load(id);
-  console.log(`DATASET | ${id} | ${pages.length}`);
-  for(const page of pages){
+  inventory.datasets[id]=pages.map(page=>{
     const text=flat(page);
-    console.log(`PAGE | ${id} | ${page.id} | ${page.title} | words=${words(text)} | sections=${(page.sections||[]).length} | tags=${(page.tags||[]).join('>')}`);
-  }
+    return {id:page.id,title:page.title,category:page.category,tags:page.tags||[],source:page.source||'',status:page.status||'',words:words(text),sections:(page.sections||[]).length,text};
+  });
+  console.log(`DATASET | ${id} | ${pages.length}`);
+  for(const page of inventory.datasets[id]) console.log(`PAGE | ${id} | ${page.id} | ${page.title} | words=${page.words} | sections=${page.sections} | tags=${page.tags.join('>')}`);
 }
+fs.mkdirSync('compendium/audits',{recursive:true});
+fs.writeFileSync('compendium/audits/lore-inventory.json',`${JSON.stringify(inventory,null,2)}\n`,'utf8');
+console.log('Lore inventory written: compendium/audits/lore-inventory.json');
