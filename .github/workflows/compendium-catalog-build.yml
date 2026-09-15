@@ -10,11 +10,13 @@ on:
       - 'scripts/apply-compendium-augmentation-lore.mjs'
       - 'scripts/apply-compendium-firearms-lore.mjs'
       - 'scripts/sanitize-compendium-reality-derived-lore.mjs'
+      - 'scripts/apply-compendium-final-reality-lore.mjs'
       - 'scripts/audit-reality-lore-gaps.mjs'
       - 'compendium/source/reality-lore-v3-sparse.json'
       - 'compendium/source/reality-lore-v3-neuro.json'
       - 'compendium/source/reality-lore-v3-augmentations.json'
       - 'compendium/source/reality-lore-v3-firearms.json'
+      - 'compendium/source/reality-lore-v3-final-eight.json'
       - 'compendium/tests/catalog-pages-check.mjs'
       - 'compendium/tests/catalog-pages-semantic-check.mjs'
       - 'compendium/tests/reality-catalog-lore-quality-check.mjs'
@@ -43,7 +45,7 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          { node scripts/build-compendium-catalog-pages.mjs; node scripts/enrich-compendium-augmentation-generations.mjs; node scripts/apply-compendium-augmentation-lore.mjs; node scripts/apply-compendium-firearms-lore.mjs; node scripts/sanitize-compendium-reality-derived-lore.mjs; node scripts/audit-reality-lore-gaps.mjs; } 2>&1 | tee /tmp/compendium-catalog-build.log
+          { node scripts/build-compendium-catalog-pages.mjs; node scripts/enrich-compendium-augmentation-generations.mjs; node scripts/apply-compendium-augmentation-lore.mjs; node scripts/apply-compendium-firearms-lore.mjs; node scripts/sanitize-compendium-reality-derived-lore.mjs; node scripts/apply-compendium-final-reality-lore.mjs; node scripts/audit-reality-lore-gaps.mjs; } 2>&1 | tee /tmp/compendium-catalog-build.log
       - name: Upload catalog build log
         if: always()
         uses: actions/upload-artifact@v4
