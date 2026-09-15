@@ -43,7 +43,7 @@ jobs:
           node --check compendium/editor/media-draft-store.js
           node --check compendium/editor/zip-bundle.js
           node --check compendium/tests/manifest-check.mjs
-          node --check compendium/tests/bestiary-v15-check.mjs
+          node --check compendium/tests/bestiary-v16-check.mjs
       - name: Validate editor override engine
         run: |
           node compendium/tests/editor-overrides-check.mjs
@@ -55,4 +55,4 @@ jobs:
       - name: Validate V3 corpus and active runtime
         run: |
           node compendium/tests/manifest-check.mjs
-          node compendium/tests/bestiary-v15-check.mjs
+          node compendium/tests/bestiary-v16-check.mjs
