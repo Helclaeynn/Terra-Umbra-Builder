@@ -21,17 +21,17 @@
   "datasets": [
     {
       "id": "moteur",
-      "prefix": "v3-moteur",
-      "parts": 1,
-      "count": 5,
-      "sha256": "76064dc233fba8565fc8faef2b2b78afd5c12a36cb99f7656e1d37a0e6e9e8e6"
+      "prefix": "v3-regles-v2",
+      "parts": 6,
+      "count": 209,
+      "sha256": "57598784249561752918baca302e6ef97ae811d652586776b09fb55e637c4f1b"
     },
     {
       "id": "realite",
-      "prefix": "v3-realite",
-      "parts": 1,
-      "count": 39,
-      "sha256": "1dfa17c463e08bcdf836c516685e712d2f26b419d240c98f5e9145afeae07489"
+      "prefix": "v3-realite-v2",
+      "parts": 2,
+      "count": 21,
+      "sha256": "f6a056570578e708427474d23047141e6a69c970c7d57013154b91c1b151a575"
     },
     {
       "id": "equipement",
@@ -59,10 +59,10 @@
     },
     {
       "id": "verite",
-      "prefix": "v3-verite",
-      "parts": 1,
-      "count": 63,
-      "sha256": "ba9f95fff951607512f205682e91de64ce939656a9a95d20eeee80e7aceecd95"
+      "prefix": "v3-verite-v2",
+      "parts": 4,
+      "count": 54,
+      "sha256": "c0e7b5277c287dce34d9d741b372ded98cce9aa87cdcd163667ab845b6ecdaca"
     },
     {
       "id": "verite-catalogue",
@@ -97,5 +97,5 @@
       "sha256": "d3f6006f971147d1af1c10dc025443a8db9761801f14336b42899e12d457c652"
     }
   ],
-  "expectedTotal": 1567
+  "expectedTotal": 1744
 }
