@@ -23,6 +23,7 @@ const nav=JSON.parse(fs.readFileSync(navPath,'utf8'));
 if(nav.version!==1||!Array.isArray(nav.entries)) throw new Error('navigation-v1.json invalide');
 if(nav.entries.length!==expectedTotal) throw new Error(`navigation-v1.json: ${nav.entries.length} entrées, attendu ${expectedTotal}`);
 
+const catchAll=/^(?:autre(?:s)?(?:\s+règle(?:s)?)?|divers|misc(?:ellaneous)?)$/i;
 const pageById=new Map(pages.map(page=>[page.id,page]));
 const seen=new Set();
 for(const entry of nav.entries){
@@ -33,7 +34,7 @@ for(const entry of nav.entries){
   if(entry.category!==page.category) throw new Error(`Navigation: catégorie incohérente ${entry.id}`);
   const classified=classifyNavigation(page);
   if(!classified) throw new Error(`Navigation: page non classée ${page.category} | ${page.title}`);
-  for(const key of ['group','subgroup']) if(!entry[key]||/^(autre|autres|divers|misc)/i.test(entry[key])) throw new Error(`Navigation: groupe interdit ${entry.id} | ${entry[key]}`);
+  for(const key of ['group','subgroup']) if(!entry[key]||catchAll.test(entry[key].trim())) throw new Error(`Navigation: groupe interdit ${entry.id} | ${entry[key]}`);
   for(const key of ['groupOrder','subgroupOrder','pageOrder']) if(!Number.isFinite(entry[key])) throw new Error(`Navigation: ordre invalide ${entry.id} | ${key}`);
   if(entry.displayTitle!==navigationDisplayTitle(page.title)) throw new Error(`Navigation: displayTitle incohérent ${entry.id}`);
   for(const key of ['group','subgroup','groupOrder','subgroupOrder','pageOrder']) if(entry[key]!==classified[key]) throw new Error(`Navigation: dérive ${entry.id} | ${key}: ${entry[key]} != ${classified[key]}`);
@@ -59,6 +60,7 @@ expect('1. Principes du Neurodive','Réalité — Neurodive','Règles de Neurodi
 expect('1. Architecture de la Vérité','Vérité — Règles communes','Cadre commun');
 expect('20. Corruption','Corruption & Fléaux','Corruption');
 expect('23. Équipement de Chasse','Équipement & marchés de Vérité','Pages transitoires à auditer');
+expect('12. Autres descendants de Khinae','Natures, peuples & traditions','Autres descendants de Khinae');
 
 const vampireNature=nav.entries.find(entry=>entry.id==='regles-verite-nature-vampire');
 if(!vampireNature||vampireNature.group!=='Vérité — Natures & capacités'||vampireNature.subgroup!=='Vampires') throw new Error('Nature Vampire mal classée');
