@@ -3,10 +3,13 @@ import zlib from 'node:zlib';
 import crypto from 'node:crypto';
 
 const DATA='compendium/data';
-const SOURCE='compendium/source/reality-book-v8-setting-v1.json.gz.b64';
+const SOURCE_PREFIX='compendium/source/reality-book-v8-setting-v1.part';
+const SOURCE_PARTS=6;
 const manifestPath=`${DATA}/manifest-v3.json`;
 const manifest=JSON.parse(fs.readFileSync(manifestPath,'utf8'));
-const source=JSON.parse(zlib.gunzipSync(Buffer.from(fs.readFileSync(SOURCE,'utf8').replace(/\s+/g,''),'base64')).toString('utf8'));
+let sourceB64='';
+for(let i=0;i<SOURCE_PARTS;i++)sourceB64+=fs.readFileSync(`${SOURCE_PREFIX}${i}.b64`,'utf8').replace(/\s+/g,'');
+const source=JSON.parse(zlib.gunzipSync(Buffer.from(sourceB64,'base64')).toString('utf8'));
 const targetPrefix='v3-realite-v3';
 const batch='reality-setting-v1';
 
