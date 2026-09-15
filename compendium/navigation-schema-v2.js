@@ -79,6 +79,7 @@ function classifyTruthLore(page){
 
 export function classifyNavigation(page){
   if(!page||!isHierarchicalCategory(page.category))return null;
+  if(page?.nav?.group)return classifyBase(page);
   if(page.dataset==='lore'){
     if(page.category==='Réalité')return classifyRealityLore(page);
     if(page.category==='Vérité')return classifyTruthLore(page);
