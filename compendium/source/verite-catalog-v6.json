@@ -1,1 +1,7 @@
-PLACEHOLDER
+{
+  "schemaVersion": 1,
+  "encoding": "gzip+base64",
+  "file": "verite-catalog-v6.json.gz.b64",
+  "entryCount": 229,
+  "sourceDocument": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx"
+}
