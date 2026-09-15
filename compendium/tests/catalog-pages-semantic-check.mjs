@@ -97,6 +97,7 @@ for(const page of neuro){
 const variantIds=new Set();
 let variantCount=0;
 let generationLoreCount=0;
+let illustrationSlotCount=0;
 let gen1Count=0;
 let gen2Count=0;
 let groupedGen12=0;
@@ -118,6 +119,9 @@ for(const page of augmentations){
     const generationLore=loreBlocks(section).filter(block=>String(block.style||'').includes('generation-lore'));
     assertPublicLore(`${page.title} / ${section.title}`,generationLore,1);
     generationLoreCount+=generationLore.length;
+    const illustrationSlot=(section.blocks||[]).find(block=>block.type==='p'&&String(block.style||'').includes('illustration-placeholder'));
+    if(!illustrationSlot||!norm(illustrationSlot.text).includes('illustration a venir'))throw new Error(`${page.title} / ${section.title}: emplacement d’illustration visible absent`);
+    illustrationSlotCount++;
     const table=tableIn(section);
     if(!Array.isArray(table?.rows)||!table.rows.length)throw new Error(`${page.title} / ${section.title}: tableau mécanique absent`);
     const text=norm(generationLore.map(block=>block.text).join(' '));
@@ -133,6 +137,7 @@ for(const page of augmentations){
 
 if(variantCount!==augmentationRuntime)throw new Error(`Variantes d’augmentations conservées: ${variantCount}/${augmentationRuntime}`);
 if(generationLoreCount!==variantCount)throw new Error(`Lore spécifique de variante: ${generationLoreCount}/${variantCount}`);
+if(illustrationSlotCount!==variantCount)throw new Error(`Emplacements d’illustration de variante: ${illustrationSlotCount}/${variantCount}`);
 if(!gen1Count||!gen2Count||!groupedGen12)throw new Error(`Contrôle générations insuffisant: Gen.1 ${gen1Count}, Gen.2 ${gen2Count}, pages Gen.1+2 ${groupedGen12}`);
 for(const id of ['augmentation-v9-cybermain-g1','augmentation-v9-cybermain-g2'])if(!variantIds.has(id))throw new Error(`Variante V9 absente: ${id}`);
 const cybermain=augmentations.find(page=>['augmentation-v9-cybermain-g1','augmentation-v9-cybermain-g2'].every(id=>(page.catalog?.variants||[]).some(variant=>variant.id===id)));
@@ -145,5 +150,5 @@ if(!fs.existsSync('compendium/assets/equipment-placeholder.svg')||!fs.existsSync
 
 console.log(`OK Équipement — ${equipmentRuntime} sources -> ${equipment.length} pages · FaceCaster unique · ${neuro.length} Neuroprogrammes · ${vehicles.length} véhicules.`);
 console.log(`OK Augmentations — ${augmentationRuntime} variantes -> ${augmentations.length} pages · ${variantCount} variantes conservées · ${groupedGen12} pages avec Gen.1+Gen.2.`);
-console.log(`OK Contenu — 2 paragraphes communs par page · ${generationLoreCount} paragraphes spécifiques de variante · tableau + illustration validés partout.`);
+console.log(`OK Contenu — 2 paragraphes communs par page · ${generationLoreCount} paragraphes spécifiques · ${illustrationSlotCount} emplacements d’illustration de variante · tableau validé partout.`);
 console.log(`OK Compendium — ${visibleTotal} pages catalogue visibles · total V3 ${manifest.expectedTotal}.`);
