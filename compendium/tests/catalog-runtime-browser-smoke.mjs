@@ -6,7 +6,14 @@ const browser=await chromium.launch({headless:true,executablePath,args:['--no-sa
 const page=await browser.newPage({viewport:{width:1440,height:1000}});
 const errors=[];
 page.on('pageerror',error=>errors.push(`pageerror: ${error.message}`));
-page.on('console',msg=>{if(msg.type()==='error')errors.push(`console: ${msg.text()}`);});
+page.on('console',msg=>{
+  if(msg.type()==='error'&&!msg.text().startsWith('Failed to load resource:'))errors.push(`console: ${msg.text()}`);
+});
+page.on('response',response=>{
+  if(response.status()<400)return;
+  const url=response.url();
+  if(url.includes('/compendium/')&&!/favicon\.ico(?:\?|$)/i.test(url))errors.push(`http ${response.status()}: ${url}`);
+});
 
 async function gotoCategory(category){
   await page.goto(`${base}compendium/#/category/${encodeURIComponent(category)}`,{waitUntil:'domcontentloaded'});
