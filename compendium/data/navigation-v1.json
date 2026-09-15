@@ -4523,8 +4523,8 @@
       "group": "Corruption & Fléaux",
       "groupOrder": 40,
       "subgroup": "Corruption",
-      "subgroupOrder": 20,
-      "pageOrder": 20,
+      "subgroupOrder": 10,
+      "pageOrder": 10,
       "displayTitle": "Corruption"
     },
     {
@@ -4533,10 +4533,98 @@
       "category": "Vérité",
       "group": "Corruption & Fléaux",
       "groupOrder": 40,
-      "subgroup": "Fléaux",
-      "subgroupOrder": 21,
-      "pageOrder": 21,
+      "subgroup": "Les six Fléaux",
+      "subgroupOrder": 20,
+      "pageOrder": 0,
       "displayTitle": "Les six Fléaux et le faux Septième"
+    },
+    {
+      "id": "lore-plagues-vhodhal-nactru",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 40,
+      "subgroup": "Les six Fléaux",
+      "subgroupOrder": 20,
+      "pageOrder": 10,
+      "displayTitle": "Vhodhal — la Famine Blanche"
+    },
+    {
+      "id": "lore-plagues-mloxol-vaagor",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 40,
+      "subgroup": "Les six Fléaux",
+      "subgroupOrder": 20,
+      "pageOrder": 20,
+      "displayTitle": "V’Aagor — la Sombre-Vérité"
+    },
+    {
+      "id": "lore-plagues-uxsharith-bellatheis",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 40,
+      "subgroup": "Les six Fléaux",
+      "subgroupOrder": 20,
+      "pageOrder": 30,
+      "displayTitle": "Ux’Sharith Bellatheis — la Division"
+    },
+    {
+      "id": "lore-plagues-cthath-vhadhi",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 40,
+      "subgroup": "Les six Fléaux",
+      "subgroupOrder": 20,
+      "pageOrder": 40,
+      "displayTitle": "C’Thath Vhadhi — la Métastase"
+    },
+    {
+      "id": "lore-plagues-gajh-shaoggith",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 40,
+      "subgroup": "Les six Fléaux",
+      "subgroupOrder": 20,
+      "pageOrder": 50,
+      "displayTitle": "Gajh’Shaoggith — la Germination"
+    },
+    {
+      "id": "lore-plagues-kthuhuthlul",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 40,
+      "subgroup": "Les six Fléaux",
+      "subgroupOrder": 20,
+      "pageOrder": 60,
+      "displayTitle": "Thul — la Fixation"
+    },
+    {
+      "id": "lore-plagues-contexte",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 40,
+      "subgroup": "Cultes, Ruptures & manifestations",
+      "subgroupOrder": 30,
+      "pageOrder": 0,
+      "displayTitle": "Cultes, Ruptures et manifestations"
+    },
+    {
+      "id": "lore-plagues-delanial",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 40,
+      "subgroup": "Puissances hors classification",
+      "subgroupOrder": 40,
+      "pageOrder": 10,
+      "displayTitle": "Delanial — Légionnaire des Puissances"
     },
     {
       "id": "lore-humans-galaxy-inquisition-galactique",
@@ -4790,94 +4878,6 @@
       "subgroupOrder": 10,
       "pageOrder": 27,
       "displayTitle": "Équipement corrompu et Calamitechnologie"
-    },
-    {
-      "id": "lore-plagues-cthath-vhadhi",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Corruption & Fléaux",
-      "groupOrder": 60,
-      "subgroup": "Les six Fléaux",
-      "subgroupOrder": 20,
-      "pageOrder": 500,
-      "displayTitle": "C'thath vhadhi"
-    },
-    {
-      "id": "lore-plagues-contexte",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Corruption & Fléaux",
-      "groupOrder": 60,
-      "subgroup": "Les six Fléaux",
-      "subgroupOrder": 20,
-      "pageOrder": 500,
-      "displayTitle": "Contexte"
-    },
-    {
-      "id": "lore-plagues-delanial",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Corruption & Fléaux",
-      "groupOrder": 60,
-      "subgroup": "Les six Fléaux",
-      "subgroupOrder": 20,
-      "pageOrder": 500,
-      "displayTitle": "Delanial"
-    },
-    {
-      "id": "lore-plagues-gajh-shaoggith",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Corruption & Fléaux",
-      "groupOrder": 60,
-      "subgroup": "Les six Fléaux",
-      "subgroupOrder": 20,
-      "pageOrder": 500,
-      "displayTitle": "Gajh’ shaoggith"
-    },
-    {
-      "id": "lore-plagues-kthuhuthlul",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Corruption & Fléaux",
-      "groupOrder": 60,
-      "subgroup": "Les six Fléaux",
-      "subgroupOrder": 20,
-      "pageOrder": 500,
-      "displayTitle": "K'thuhuth'lul"
-    },
-    {
-      "id": "lore-plagues-mloxol-vaagor",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Corruption & Fléaux",
-      "groupOrder": 60,
-      "subgroup": "Les six Fléaux",
-      "subgroupOrder": 20,
-      "pageOrder": 500,
-      "displayTitle": "Mloxol v'aagor"
-    },
-    {
-      "id": "lore-plagues-uxsharith-bellatheis",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Corruption & Fléaux",
-      "groupOrder": 60,
-      "subgroup": "Les six Fléaux",
-      "subgroupOrder": 20,
-      "pageOrder": 500,
-      "displayTitle": "Ux'sharith Bellatheis"
-    },
-    {
-      "id": "lore-plagues-vhodhal-nactru",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Corruption & Fléaux",
-      "groupOrder": 60,
-      "subgroup": "Les six Fléaux",
-      "subgroupOrder": 20,
-      "pageOrder": 500,
-      "displayTitle": "Vhodhal’nact'ru"
     },
     {
       "id": "lore-extraterrestrial-species-autres-creatures",
