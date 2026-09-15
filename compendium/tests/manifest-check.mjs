@@ -8,9 +8,12 @@ const manifest=JSON.parse(fs.readFileSync(manifestPath,'utf8'));
 
 if(manifest.version!==3) throw new Error(`Manifest: version ${manifest.version}, attendu 3`);
 
-const fixedCounts={moteur:5,realite:39,verite:63,bestiaire:263,lore:397,pnj:163};
+// Ces datasets sont désormais reconstruits pendant la remise à plat du Compendium :
+// leur nombre de pages est validé par des tests sémantiques dédiés, pas figé ici.
+const mutableMinimums={moteur:5,realite:1,verite:1};
+const fixedCounts={bestiaire:263,lore:397,pnj:163};
 const catalogIds=new Set(['equipement','augmentations','verite-catalogue']);
-const expectedIds=new Set([...Object.keys(fixedCounts),...catalogIds]);
+const expectedIds=new Set([...Object.keys(mutableMinimums),...Object.keys(fixedCounts),...catalogIds]);
 if(!Array.isArray(manifest.datasets)||manifest.datasets.length!==expectedIds.size) throw new Error(`Manifest: ${expectedIds.size} datasets V3 attendus, trouvé ${manifest.datasets?.length??0}`);
 const manifestTotal=manifest.datasets.reduce((sum,spec)=>sum+Number(spec.count||0),0);
 if(manifest.expectedTotal!==manifestTotal) throw new Error(`Manifest: expectedTotal ${manifest.expectedTotal}, somme des datasets ${manifestTotal}`);
@@ -24,6 +27,7 @@ for(const spec of manifest.datasets){
   if(seenDatasets.has(spec.id)) throw new Error(`Dataset V3 dupliqué: ${spec.id}`);
   seenDatasets.add(spec.id);
   if(spec.id in fixedCounts && spec.count!==fixedCounts[spec.id]) throw new Error(`${spec.id}: count manifeste ${spec.count}, attendu ${fixedCounts[spec.id]}`);
+  if(spec.id in mutableMinimums && (!Number.isInteger(spec.count)||spec.count<mutableMinimums[spec.id])) throw new Error(`${spec.id}: count restructuré invalide (${spec.count})`);
   if(catalogIds.has(spec.id) && (!Number.isInteger(spec.count)||spec.count<1)) throw new Error(`${spec.id}: count catalogue invalide (${spec.count})`);
   if(!String(spec.prefix||'').startsWith('v3-')) throw new Error(`${spec.id}: préfixe non V3`);
   if(!Number.isInteger(spec.parts)||spec.parts<1) throw new Error(`${spec.id}: parts invalide`);
