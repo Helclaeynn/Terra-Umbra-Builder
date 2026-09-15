@@ -1,0 +1,3230 @@
+{
+  "version": 1,
+  "categories": [
+    "Règles",
+    "Réalité",
+    "Vérité"
+  ],
+  "entries": [
+    {
+      "id": "realite-002-1-reperes-sociaux-de-realite",
+      "category": "Réalité",
+      "group": "Grande Californie & quotidien",
+      "groupOrder": 10,
+      "subgroup": "Cadre de vie",
+      "subgroupOrder": 10,
+      "pageOrder": 1,
+      "displayTitle": "Repères sociaux de Réalité"
+    },
+    {
+      "id": "realite-001-chapitre-vivre-en-grande-californie",
+      "category": "Réalité",
+      "group": "Grande Californie & quotidien",
+      "groupOrder": 10,
+      "subgroup": "Cadre de vie",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "VIVRE EN GRANDE CALIFORNIE"
+    },
+    {
+      "id": "realite-007-i-augmentations-esthetiques",
+      "category": "Réalité",
+      "group": "Augmentations",
+      "groupOrder": 20,
+      "subgroup": "Familles augmentiques",
+      "subgroupOrder": 10,
+      "pageOrder": 1,
+      "displayTitle": "AUGMENTATIONS ESTHÉTIQUES"
+    },
+    {
+      "id": "realite-008-ii-neuroware",
+      "category": "Réalité",
+      "group": "Augmentations",
+      "groupOrder": 20,
+      "subgroup": "Familles augmentiques",
+      "subgroupOrder": 10,
+      "pageOrder": 2,
+      "displayTitle": "NEUROWARE"
+    },
+    {
+      "id": "realite-009-iii-cyberoptique",
+      "category": "Réalité",
+      "group": "Augmentations",
+      "groupOrder": 20,
+      "subgroup": "Familles augmentiques",
+      "subgroupOrder": 10,
+      "pageOrder": 3,
+      "displayTitle": "CYBEROPTIQUE"
+    },
+    {
+      "id": "realite-010-iv-cyberaudio",
+      "category": "Réalité",
+      "group": "Augmentations",
+      "groupOrder": 20,
+      "subgroup": "Familles augmentiques",
+      "subgroupOrder": 10,
+      "pageOrder": 4,
+      "displayTitle": "CYBERAUDIO"
+    },
+    {
+      "id": "realite-011-v-augmentations-internes",
+      "category": "Réalité",
+      "group": "Augmentations",
+      "groupOrder": 20,
+      "subgroup": "Familles augmentiques",
+      "subgroupOrder": 10,
+      "pageOrder": 5,
+      "displayTitle": "AUGMENTATIONS INTERNES"
+    },
+    {
+      "id": "realite-012-vi-augmentations-dermiques-et-externes",
+      "category": "Réalité",
+      "group": "Augmentations",
+      "groupOrder": 20,
+      "subgroup": "Familles augmentiques",
+      "subgroupOrder": 10,
+      "pageOrder": 6,
+      "displayTitle": "AUGMENTATIONS DERMIQUES ET EXTERNES"
+    },
+    {
+      "id": "realite-013-vii-membres-cybernetiques",
+      "category": "Réalité",
+      "group": "Augmentations",
+      "groupOrder": 20,
+      "subgroup": "Familles augmentiques",
+      "subgroupOrder": 10,
+      "pageOrder": 7,
+      "displayTitle": "MEMBRES CYBERNÉTIQUES"
+    },
+    {
+      "id": "realite-014-viii-cyborg-lourd",
+      "category": "Réalité",
+      "group": "Augmentations",
+      "groupOrder": 20,
+      "subgroup": "Familles augmentiques",
+      "subgroupOrder": 10,
+      "pageOrder": 8,
+      "displayTitle": "CYBORG LOURD"
+    },
+    {
+      "id": "realite-015-ix-biogenetique-terrestre",
+      "category": "Réalité",
+      "group": "Augmentations",
+      "groupOrder": 20,
+      "subgroup": "Familles augmentiques",
+      "subgroupOrder": 10,
+      "pageOrder": 9,
+      "displayTitle": "BIOGÉNÉTIQUE TERRESTRE"
+    },
+    {
+      "id": "realite-023-8-applications-holonet",
+      "category": "Réalité",
+      "group": "Neurodive",
+      "groupOrder": 30,
+      "subgroup": "Réseau & logiciels",
+      "subgroupOrder": 10,
+      "pageOrder": 8,
+      "displayTitle": "Applications Holonet"
+    },
+    {
+      "id": "realite-024-9-catalogue-des-neuroprogrammes",
+      "category": "Réalité",
+      "group": "Neurodive",
+      "groupOrder": 30,
+      "subgroup": "Réseau & logiciels",
+      "subgroupOrder": 10,
+      "pageOrder": 9,
+      "displayTitle": "Catalogue des Neuroprogrammes"
+    },
+    {
+      "id": "realite-031-4-armement-terrestre",
+      "category": "Réalité",
+      "group": "Économie, équipement & services",
+      "groupOrder": 40,
+      "subgroup": "Catalogues & vie matérielle",
+      "subgroupOrder": 10,
+      "pageOrder": 4,
+      "displayTitle": "Armement terrestre"
+    },
+    {
+      "id": "realite-032-5-munitions-et-accessoires",
+      "category": "Réalité",
+      "group": "Économie, équipement & services",
+      "groupOrder": 40,
+      "subgroup": "Catalogues & vie matérielle",
+      "subgroupOrder": 10,
+      "pageOrder": 5,
+      "displayTitle": "Munitions et accessoires"
+    },
+    {
+      "id": "realite-033-6-armures-et-protections",
+      "category": "Réalité",
+      "group": "Économie, équipement & services",
+      "groupOrder": 40,
+      "subgroup": "Catalogues & vie matérielle",
+      "subgroupOrder": 10,
+      "pageOrder": 6,
+      "displayTitle": "Armures et protections"
+    },
+    {
+      "id": "realite-034-7-objets-usuels-et-materiel-technique",
+      "category": "Réalité",
+      "group": "Économie, équipement & services",
+      "groupOrder": 40,
+      "subgroup": "Catalogues & vie matérielle",
+      "subgroupOrder": 10,
+      "pageOrder": 7,
+      "displayTitle": "Objets usuels et matériel technique"
+    },
+    {
+      "id": "realite-035-8-nourriture-boissons-et-drogues",
+      "category": "Réalité",
+      "group": "Économie, équipement & services",
+      "groupOrder": 40,
+      "subgroup": "Catalogues & vie matérielle",
+      "subgroupOrder": 10,
+      "pageOrder": 8,
+      "displayTitle": "Nourriture, boissons et drogues"
+    },
+    {
+      "id": "realite-036-9-services-soins-et-divertissements",
+      "category": "Réalité",
+      "group": "Économie, équipement & services",
+      "groupOrder": 40,
+      "subgroup": "Catalogues & vie matérielle",
+      "subgroupOrder": 10,
+      "pageOrder": 9,
+      "displayTitle": "Services, soins et divertissements"
+    },
+    {
+      "id": "realite-037-10-logements-planques-et-securite",
+      "category": "Réalité",
+      "group": "Économie, équipement & services",
+      "groupOrder": 40,
+      "subgroup": "Catalogues & vie matérielle",
+      "subgroupOrder": 10,
+      "pageOrder": 10,
+      "displayTitle": "Logements, planques et sécurité"
+    },
+    {
+      "id": "realite-038-11-vehicules-et-transports",
+      "category": "Réalité",
+      "group": "Économie, équipement & services",
+      "groupOrder": 40,
+      "subgroup": "Catalogues & vie matérielle",
+      "subgroupOrder": 10,
+      "pageOrder": 11,
+      "displayTitle": "Véhicules et transports"
+    },
+    {
+      "id": "moteur-001-1-resolution-generale",
+      "category": "Règles",
+      "group": "Moteur commun",
+      "groupOrder": 10,
+      "subgroup": "Règles fondamentales",
+      "subgroupOrder": 10,
+      "pageOrder": 1,
+      "displayTitle": "Résolution générale"
+    },
+    {
+      "id": "moteur-002-2-profil-derive-statut",
+      "category": "Règles",
+      "group": "Moteur commun",
+      "groupOrder": 10,
+      "subgroup": "Règles fondamentales",
+      "subgroupOrder": 10,
+      "pageOrder": 2,
+      "displayTitle": "Profil dérivé & statut"
+    },
+    {
+      "id": "moteur-003-3-combat",
+      "category": "Règles",
+      "group": "Moteur commun",
+      "groupOrder": 10,
+      "subgroup": "Règles fondamentales",
+      "subgroupOrder": 10,
+      "pageOrder": 3,
+      "displayTitle": "Combat"
+    },
+    {
+      "id": "moteur-004-4-sante-soins-et-recuperation",
+      "category": "Règles",
+      "group": "Moteur commun",
+      "groupOrder": 10,
+      "subgroup": "Règles fondamentales",
+      "subgroupOrder": 10,
+      "pageOrder": 4,
+      "displayTitle": "Santé, soins et récupération"
+    },
+    {
+      "id": "moteur-005-5-stress-et-etats-psychologiques",
+      "category": "Règles",
+      "group": "Moteur commun",
+      "groupOrder": 10,
+      "subgroup": "Règles fondamentales",
+      "subgroupOrder": 10,
+      "pageOrder": 5,
+      "displayTitle": "Stress et états psychologiques"
+    },
+    {
+      "id": "realite-005-4-creation-et-progression",
+      "category": "Règles",
+      "group": "Réalité — Création & progression",
+      "groupOrder": 20,
+      "subgroup": "Création de personnage",
+      "subgroupOrder": 10,
+      "pageOrder": 4,
+      "displayTitle": "Création et progression"
+    },
+    {
+      "id": "realite-004-3-desavantages-de-realite",
+      "category": "Règles",
+      "group": "Réalité — Talents & désavantages",
+      "groupOrder": 30,
+      "subgroup": "Principes généraux",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Désavantages de Réalité — règles générales"
+    },
+    {
+      "id": "realite-003-2-talents-de-realite",
+      "category": "Règles",
+      "group": "Réalité — Talents & désavantages",
+      "groupOrder": 30,
+      "subgroup": "Principes généraux",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Talents de Réalité — règles générales"
+    },
+    {
+      "id": "regles-realite-talents-communs",
+      "category": "Règles",
+      "group": "Réalité — Talents & désavantages",
+      "groupOrder": 30,
+      "subgroup": "Talents communs",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Talents communs de Réalité"
+    },
+    {
+      "id": "regles-realite-talents-expertise-agilite",
+      "category": "Règles",
+      "group": "Réalité — Talents & désavantages",
+      "groupOrder": 30,
+      "subgroup": "Talents d’expertise",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Talents d’expertise — Agilité"
+    },
+    {
+      "id": "regles-realite-talents-expertise-charisme",
+      "category": "Règles",
+      "group": "Réalité — Talents & désavantages",
+      "groupOrder": 30,
+      "subgroup": "Talents d’expertise",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Talents d’expertise — Charisme"
+    },
+    {
+      "id": "regles-realite-talents-expertise-esprit",
+      "category": "Règles",
+      "group": "Réalité — Talents & désavantages",
+      "groupOrder": 30,
+      "subgroup": "Talents d’expertise",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Talents d’expertise — Esprit"
+    },
+    {
+      "id": "regles-realite-talents-expertise-vigueur",
+      "category": "Règles",
+      "group": "Réalité — Talents & désavantages",
+      "groupOrder": 30,
+      "subgroup": "Talents d’expertise",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Talents d’expertise — Vigueur"
+    },
+    {
+      "id": "regles-realite-talents-expertise-volonte",
+      "category": "Règles",
+      "group": "Réalité — Talents & désavantages",
+      "groupOrder": 30,
+      "subgroup": "Talents d’expertise",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Talents d’expertise — Volonté"
+    },
+    {
+      "id": "regles-realite-talents-origine-origine-corporatiste",
+      "category": "Règles",
+      "group": "Réalité — Talents & désavantages",
+      "groupOrder": 30,
+      "subgroup": "Talents d’Origine",
+      "subgroupOrder": 40,
+      "pageOrder": 100,
+      "displayTitle": "Talents d’Origine — corporatiste"
+    },
+    {
+      "id": "regles-realite-talents-origine-origine-crawler",
+      "category": "Règles",
+      "group": "Réalité — Talents & désavantages",
+      "groupOrder": 30,
+      "subgroup": "Talents d’Origine",
+      "subgroupOrder": 40,
+      "pageOrder": 100,
+      "displayTitle": "Talents d’Origine — Crawler"
+    },
+    {
+      "id": "regles-realite-talents-origine-origine-gouvernementale",
+      "category": "Règles",
+      "group": "Réalité — Talents & désavantages",
+      "groupOrder": 30,
+      "subgroup": "Talents d’Origine",
+      "subgroupOrder": 40,
+      "pageOrder": 100,
+      "displayTitle": "Talents d’Origine — gouvernementale"
+    },
+    {
+      "id": "regles-realite-talents-origine-origine-mafieuse",
+      "category": "Règles",
+      "group": "Réalité — Talents & désavantages",
+      "groupOrder": 30,
+      "subgroup": "Talents d’Origine",
+      "subgroupOrder": 40,
+      "pageOrder": 100,
+      "displayTitle": "Talents d’Origine — mafieuse"
+    },
+    {
+      "id": "regles-realite-talents-origine-origine-religieuse",
+      "category": "Règles",
+      "group": "Réalité — Talents & désavantages",
+      "groupOrder": 30,
+      "subgroup": "Talents d’Origine",
+      "subgroupOrder": 40,
+      "pageOrder": 100,
+      "displayTitle": "Talents d’Origine — religieuse"
+    },
+    {
+      "id": "regles-realite-talents-sphere-corporatiste",
+      "category": "Règles",
+      "group": "Réalité — Talents & désavantages",
+      "groupOrder": 30,
+      "subgroup": "Talents de Sphère",
+      "subgroupOrder": 50,
+      "pageOrder": 100,
+      "displayTitle": "Talents de Sphère — Corporatiste"
+    },
+    {
+      "id": "regles-realite-talents-sphere-crawler",
+      "category": "Règles",
+      "group": "Réalité — Talents & désavantages",
+      "groupOrder": 30,
+      "subgroup": "Talents de Sphère",
+      "subgroupOrder": 50,
+      "pageOrder": 100,
+      "displayTitle": "Talents de Sphère — Crawler"
+    },
+    {
+      "id": "regles-realite-talents-sphere-gouvernemental",
+      "category": "Règles",
+      "group": "Réalité — Talents & désavantages",
+      "groupOrder": 30,
+      "subgroup": "Talents de Sphère",
+      "subgroupOrder": 50,
+      "pageOrder": 100,
+      "displayTitle": "Talents de Sphère — Gouvernemental"
+    },
+    {
+      "id": "regles-realite-talents-sphere-pegre",
+      "category": "Règles",
+      "group": "Réalité — Talents & désavantages",
+      "groupOrder": 30,
+      "subgroup": "Talents de Sphère",
+      "subgroupOrder": 50,
+      "pageOrder": 100,
+      "displayTitle": "Talents de Sphère — Pègre"
+    },
+    {
+      "id": "regles-realite-talents-sphere-religieux",
+      "category": "Règles",
+      "group": "Réalité — Talents & désavantages",
+      "groupOrder": 30,
+      "subgroup": "Talents de Sphère",
+      "subgroupOrder": 50,
+      "pageOrder": 100,
+      "displayTitle": "Talents de Sphère — Religieux"
+    },
+    {
+      "id": "regles-realite-desavantages-communs",
+      "category": "Règles",
+      "group": "Réalité — Talents & désavantages",
+      "groupOrder": 30,
+      "subgroup": "Désavantages communs",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "Désavantages communs de Réalité"
+    },
+    {
+      "id": "regles-realite-desavantages-attributs",
+      "category": "Règles",
+      "group": "Réalité — Talents & désavantages",
+      "groupOrder": 30,
+      "subgroup": "Désavantages liés aux Attributs",
+      "subgroupOrder": 70,
+      "pageOrder": 100,
+      "displayTitle": "Désavantages liés aux Attributs"
+    },
+    {
+      "id": "regles-realite-desavantages-sphere",
+      "category": "Règles",
+      "group": "Réalité — Talents & désavantages",
+      "groupOrder": 30,
+      "subgroup": "Désavantages de Sphère",
+      "subgroupOrder": 80,
+      "pageOrder": 100,
+      "displayTitle": "Désavantages de Sphère"
+    },
+    {
+      "id": "realite-006-1-integration-augmentique-charge-stress-et-frenesie",
+      "category": "Règles",
+      "group": "Réalité — Augmentations",
+      "groupOrder": 40,
+      "subgroup": "Intégration augmentique",
+      "subgroupOrder": 10,
+      "pageOrder": 1,
+      "displayTitle": "Intégration augmentique : Charge, Stress et Frénésie"
+    },
+    {
+      "id": "realite-016-1-principes-du-neurodive",
+      "category": "Règles",
+      "group": "Réalité — Neurodive",
+      "groupOrder": 50,
+      "subgroup": "Règles de Neurodive",
+      "subgroupOrder": 10,
+      "pageOrder": 1,
+      "displayTitle": "Principes du Neurodive"
+    },
+    {
+      "id": "realite-017-2-connexion-plongee-et-equipement",
+      "category": "Règles",
+      "group": "Réalité — Neurodive",
+      "groupOrder": 50,
+      "subgroup": "Règles de Neurodive",
+      "subgroupOrder": 10,
+      "pageOrder": 2,
+      "displayTitle": "Connexion, plongée et équipement"
+    },
+    {
+      "id": "realite-018-3-rang-de-neurodive-et-chargement",
+      "category": "Règles",
+      "group": "Réalité — Neurodive",
+      "groupOrder": 50,
+      "subgroup": "Règles de Neurodive",
+      "subgroupOrder": 10,
+      "pageOrder": 3,
+      "displayTitle": "Rang de Neurodive et chargement"
+    },
+    {
+      "id": "realite-019-4-actions-de-neurodive",
+      "category": "Règles",
+      "group": "Réalité — Neurodive",
+      "groupOrder": 50,
+      "subgroup": "Règles de Neurodive",
+      "subgroupOrder": 10,
+      "pageOrder": 4,
+      "displayTitle": "Actions de Neurodive"
+    },
+    {
+      "id": "realite-020-5-intrusion-securite-trace-et-controle",
+      "category": "Règles",
+      "group": "Réalité — Neurodive",
+      "groupOrder": 50,
+      "subgroup": "Règles de Neurodive",
+      "subgroupOrder": 10,
+      "pageOrder": 5,
+      "displayTitle": "Intrusion, sécurité, trace et contrôle"
+    },
+    {
+      "id": "realite-021-6-neurocombat",
+      "category": "Règles",
+      "group": "Réalité — Neurodive",
+      "groupOrder": 50,
+      "subgroup": "Règles de Neurodive",
+      "subgroupOrder": 10,
+      "pageOrder": 6,
+      "displayTitle": "Neurocombat"
+    },
+    {
+      "id": "realite-025-10-ia-de-securite-profils-mj",
+      "category": "Règles",
+      "group": "Réalité — Neurodive",
+      "groupOrder": 50,
+      "subgroup": "Règles de Neurodive",
+      "subgroupOrder": 10,
+      "pageOrder": 10,
+      "displayTitle": "IA de sécurité — profils MJ"
+    },
+    {
+      "id": "realite-026-11-exemple-complet-d-intrusion",
+      "category": "Règles",
+      "group": "Réalité — Neurodive",
+      "groupOrder": 50,
+      "subgroup": "Règles de Neurodive",
+      "subgroupOrder": 10,
+      "pageOrder": 11,
+      "displayTitle": "Exemple complet d'intrusion"
+    },
+    {
+      "id": "realite-027-12-reference-rapide",
+      "category": "Règles",
+      "group": "Réalité — Neurodive",
+      "groupOrder": 50,
+      "subgroup": "Règles de Neurodive",
+      "subgroupOrder": 10,
+      "pageOrder": 12,
+      "displayTitle": "Référence rapide"
+    },
+    {
+      "id": "realite-028-1-economie-et-pouvoir-dachat",
+      "category": "Règles",
+      "group": "Réalité — Économie & équipement",
+      "groupOrder": 60,
+      "subgroup": "Économie et accès matériel",
+      "subgroupOrder": 10,
+      "pageOrder": 1,
+      "displayTitle": "Économie et pouvoir d’achat"
+    },
+    {
+      "id": "realite-029-2-train-de-vie-charges-fixes-et-acces-materiel",
+      "category": "Règles",
+      "group": "Réalité — Économie & équipement",
+      "groupOrder": 60,
+      "subgroup": "Économie et accès matériel",
+      "subgroupOrder": 10,
+      "pageOrder": 2,
+      "displayTitle": "Train de vie, charges fixes et accès matériel"
+    },
+    {
+      "id": "realite-030-3-regles-communes-dequipement",
+      "category": "Règles",
+      "group": "Réalité — Économie & équipement",
+      "groupOrder": 60,
+      "subgroup": "Économie et accès matériel",
+      "subgroupOrder": 10,
+      "pageOrder": 3,
+      "displayTitle": "Règles communes d’équipement"
+    },
+    {
+      "id": "realite-039-12-credit-marche-noir-et-economie-crawler",
+      "category": "Règles",
+      "group": "Réalité — Économie & équipement",
+      "groupOrder": 60,
+      "subgroup": "Économie et accès matériel",
+      "subgroupOrder": 10,
+      "pageOrder": 12,
+      "displayTitle": "Crédit, marché noir et économie Crawler"
+    },
+    {
+      "id": "verite-037-1-architecture-de-la-verite",
+      "category": "Règles",
+      "group": "Vérité — Règles communes",
+      "groupOrder": 70,
+      "subgroup": "Cadre commun",
+      "subgroupOrder": 10,
+      "pageOrder": 1,
+      "displayTitle": "Architecture de la Vérité"
+    },
+    {
+      "id": "verite-038-2-points-de-verite-acces-et-conception-des-talents",
+      "category": "Règles",
+      "group": "Vérité — Règles communes",
+      "groupOrder": 70,
+      "subgroup": "Cadre commun",
+      "subgroupOrder": 10,
+      "pageOrder": 2,
+      "displayTitle": "Points de Vérité, accès et conception des Talents"
+    },
+    {
+      "id": "verite-039-3-pa-reactions-durees-et-non-cumul",
+      "category": "Règles",
+      "group": "Vérité — Règles communes",
+      "groupOrder": 70,
+      "subgroup": "Cadre commun",
+      "subgroupOrder": 10,
+      "pageOrder": 3,
+      "displayTitle": "PA, Réactions, durées et non-cumul"
+    },
+    {
+      "id": "verite-040-4-defense-occulte-et-puissance-des-effets",
+      "category": "Règles",
+      "group": "Vérité — Règles communes",
+      "groupOrder": 70,
+      "subgroup": "Cadre commun",
+      "subgroupOrder": 10,
+      "pageOrder": 4,
+      "displayTitle": "Défense occulte et Puissance des effets"
+    },
+    {
+      "id": "verite-041-5-hologramme-voile-semi-revelation-et-revelation",
+      "category": "Règles",
+      "group": "Vérité — Règles communes",
+      "groupOrder": 70,
+      "subgroup": "Cadre commun",
+      "subgroupOrder": 10,
+      "pageOrder": 5,
+      "displayTitle": "Hologramme, Voile, Semi-Révélation et Révélation"
+    },
+    {
+      "id": "verite-042-6-continuite-corporelle-objets-et-mobilite-ailee",
+      "category": "Règles",
+      "group": "Vérité — Règles communes",
+      "groupOrder": 70,
+      "subgroup": "Cadre commun",
+      "subgroupOrder": 10,
+      "pageOrder": 6,
+      "displayTitle": "Continuité corporelle, objets et Mobilité ailée"
+    },
+    {
+      "id": "verite-043-7-humains-chasseurs-reconnus-humanite-et-integrite",
+      "category": "Règles",
+      "group": "Vérité — Règles communes",
+      "groupOrder": 70,
+      "subgroup": "Cadre commun",
+      "subgroupOrder": 10,
+      "pageOrder": 7,
+      "displayTitle": "Humains, Chasseurs reconnus, Humanité et Intégrité"
+    },
+    {
+      "id": "verite-044-8-compagnons-lies-et-reseaux-de-verite",
+      "category": "Règles",
+      "group": "Vérité — Règles communes",
+      "groupOrder": 70,
+      "subgroup": "Cadre commun",
+      "subgroupOrder": 10,
+      "pageOrder": 8,
+      "displayTitle": "Compagnons liés et réseaux de Vérité"
+    },
+    {
+      "id": "verite-045-9-equipement-de-verite-principe-commun",
+      "category": "Règles",
+      "group": "Vérité — Règles communes",
+      "groupOrder": 70,
+      "subgroup": "Cadre commun",
+      "subgroupOrder": 10,
+      "pageOrder": 9,
+      "displayTitle": "Équipement de Vérité — principe commun"
+    },
+    {
+      "id": "regles-verite-nature-humain",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Humains & Chasseurs",
+      "subgroupOrder": 10,
+      "pageOrder": 0,
+      "displayTitle": "Humain / Chasseur — règles de Nature"
+    },
+    {
+      "id": "regles-verite-chasseur-doctrine-commune-de-chasse",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Humains & Chasseurs",
+      "subgroupOrder": 10,
+      "pageOrder": 10,
+      "displayTitle": "Doctrine commune de Chasse"
+    },
+    {
+      "id": "regles-verite-garou-sang-chasseur-thorkel",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Humains & Chasseurs",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Sang Chasseur — Thorkel"
+    },
+    {
+      "id": "regles-verite-nature-vampire",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Vampires",
+      "subgroupOrder": 20,
+      "pageOrder": 0,
+      "displayTitle": "Vampire — règles de Nature"
+    },
+    {
+      "id": "regles-verite-vampire-commun",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Vampires",
+      "subgroupOrder": 20,
+      "pageOrder": 10,
+      "displayTitle": "Vampire — Talents communs"
+    },
+    {
+      "id": "regles-verite-vampire-cour-alghul-almalakiu",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Vampires",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Alghul Almalakiu"
+    },
+    {
+      "id": "regles-verite-vampire-cour-ihuito-meztzi",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Vampires",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Ihuito Meztzi"
+    },
+    {
+      "id": "regles-verite-vampire-cour-krovni-rytsari",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Vampires",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Krovni Rytsari"
+    },
+    {
+      "id": "regles-verite-vampire-cour-oru-ayeraye",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Vampires",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Oru Ayeraye"
+    },
+    {
+      "id": "regles-verite-vampire-sang-ardent-larisha",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Vampires",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Sang Ardent — Larisha"
+    },
+    {
+      "id": "regles-verite-vampire-sang-aveugle-ashream",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Vampires",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Sang Aveugle — Ashream"
+    },
+    {
+      "id": "regles-verite-vampire-sang-condamne-ashelia",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Vampires",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Sang Condamné — Ashelia"
+    },
+    {
+      "id": "regles-verite-vampire-sang-ecarlate-anya",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Vampires",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Sang Écarlate — Anya"
+    },
+    {
+      "id": "regles-verite-vampire-sang-glacial-vjarmod",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Vampires",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Sang Glacial — Vjärmod"
+    },
+    {
+      "id": "regles-verite-vampire-sang-hypocrite-briaerus",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Vampires",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Sang Hypocrite — Briaerus"
+    },
+    {
+      "id": "regles-verite-vampire-sang-masque-kazuo",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Vampires",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Sang Masqué — Kazuo"
+    },
+    {
+      "id": "regles-verite-vampire-sang-orageux-branimir",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Vampires",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Sang Orageux — Branimir"
+    },
+    {
+      "id": "regles-verite-vampire-sang-primal-lyssa",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Vampires",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Sang Primal — Lyssa"
+    },
+    {
+      "id": "regles-verite-vampire-sang-revelateur-zhi-xia",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Vampires",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Sang Révélateur — Zhi Xia"
+    },
+    {
+      "id": "regles-verite-vampire-sang-traqueur-go-ndai",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Vampires",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Sang Traqueur — Go’Ndai"
+    },
+    {
+      "id": "regles-verite-vampire-sang-venimeux-huitzitia",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Vampires",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Sang Venimeux — Huitzitia"
+    },
+    {
+      "id": "regles-verite-vampire-cour-shi-hun-zhe",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Vampires",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Shi Hun Zhe"
+    },
+    {
+      "id": "regles-verite-nature-garou",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Garous",
+      "subgroupOrder": 30,
+      "pageOrder": 0,
+      "displayTitle": "Garou — règles de Nature"
+    },
+    {
+      "id": "regles-verite-garou-garou-commun",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Garous",
+      "subgroupOrder": 30,
+      "pageOrder": 10,
+      "displayTitle": "Garou — Talents communs"
+    },
+    {
+      "id": "regles-verite-garou-pelages-blancs-discipline-de-fenrir",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Garous",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Pelages Blancs — Discipline de Fenrir"
+    },
+    {
+      "id": "regles-verite-garou-pelages-bruns-accord-des-kami",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Garous",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Pelages Bruns — Accord des Kami"
+    },
+    {
+      "id": "regles-verite-garou-pelages-dores-devoration-occulte",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Garous",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Pelages Dorés — Dévoration occulte"
+    },
+    {
+      "id": "regles-verite-garou-pelages-gris-gardien-de-la-meute",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Garous",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Pelages Gris — Gardien de la Meute"
+    },
+    {
+      "id": "regles-verite-garou-pelages-noirs-territoire-de-la-meute",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Garous",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Pelages Noirs — Territoire de la Meute"
+    },
+    {
+      "id": "regles-verite-garou-pelages-roux-mue-partielle",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Garous",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Pelages Roux — Mue partielle"
+    },
+    {
+      "id": "regles-verite-garou-sang-alpha-ohtana",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Garous",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Sang Alpha — Ohtana"
+    },
+    {
+      "id": "regles-verite-garou-sang-de-sagesse-tomoko",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Garous",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Sang de Sagesse — Tomoko"
+    },
+    {
+      "id": "regles-verite-garou-sang-ecarlate-keyna",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Garous",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Sang Écarlate — Keyna"
+    },
+    {
+      "id": "regles-verite-garou-sang-enchaine-jayanti",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Garous",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Sang Enchaîné — Jayanti"
+    },
+    {
+      "id": "regles-verite-garou-sang-enrage-asulf",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Garous",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Sang Enragé — Asulf"
+    },
+    {
+      "id": "regles-verite-garou-sang-funeste-verica",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Garous",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Sang Funeste — Verica"
+    },
+    {
+      "id": "regles-verite-garou-sang-naturel-vortigern",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Garous",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Sang Naturel — Vortigern"
+    },
+    {
+      "id": "regles-verite-garou-sang-primal-khuyildar",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Garous",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Sang Primal — Khuyildar"
+    },
+    {
+      "id": "regles-verite-garou-sang-revelateur-ceallachan",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Garous",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Sang Révélateur — Ceallachán"
+    },
+    {
+      "id": "regles-verite-garou-sang-sculpteur-svenn",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Garous",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Sang Sculpteur — Svenn"
+    },
+    {
+      "id": "regles-verite-garou-sang-vengeur-astaphium",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Garous",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Sang Vengeur — Astaphium"
+    },
+    {
+      "id": "regles-verite-nature-khinae",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Descendants de Khinae",
+      "subgroupOrder": 40,
+      "pageOrder": 0,
+      "displayTitle": "Descendant de Khinae — règles de Nature"
+    },
+    {
+      "id": "regles-verite-khinae-berserkirs-hommes-ours",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Descendants de Khinae",
+      "subgroupOrder": 40,
+      "pageOrder": 100,
+      "displayTitle": "Berserkirs — Hommes-Ours"
+    },
+    {
+      "id": "regles-verite-khinae-boudas-hommes-hyenes",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Descendants de Khinae",
+      "subgroupOrder": 40,
+      "pageOrder": 100,
+      "displayTitle": "Boudas — Hommes-Hyènes"
+    },
+    {
+      "id": "regles-verite-khinae-canides-errants-coyote-chacal-lycaon-dhole-et-dingo",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Descendants de Khinae",
+      "subgroupOrder": 40,
+      "pageOrder": 100,
+      "displayTitle": "Canidés errants — Coyote, Chacal, Lycaon, Dhole et Dingo"
+    },
+    {
+      "id": "regles-verite-khinae-chats-les-familiers-de-personne",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Descendants de Khinae",
+      "subgroupOrder": 40,
+      "pageOrder": 100,
+      "displayTitle": "Chats — les familiers de personne"
+    },
+    {
+      "id": "regles-verite-khinae-crocodiliens-les-fossiles-d-embuscade",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Descendants de Khinae",
+      "subgroupOrder": 40,
+      "pageOrder": 100,
+      "displayTitle": "Crocodiliens — les fossiles d’embuscade"
+    },
+    {
+      "id": "regles-verite-khinae-grands-felins-tigres-et-lignees-apparentees",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Descendants de Khinae",
+      "subgroupOrder": 40,
+      "pageOrder": 100,
+      "displayTitle": "Grands Félins — Tigres et lignées apparentées"
+    },
+    {
+      "id": "regles-verite-khinae-rapaces-aigles-faucons-hiboux-et-vautours",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Descendants de Khinae",
+      "subgroupOrder": 40,
+      "pageOrder": 100,
+      "displayTitle": "Rapaces — Aigles, Faucons, Hiboux et Vautours"
+    },
+    {
+      "id": "regles-verite-khinae-renards-les-survivants-libres",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Descendants de Khinae",
+      "subgroupOrder": 40,
+      "pageOrder": 100,
+      "displayTitle": "Renards — les survivants libres"
+    },
+    {
+      "id": "regles-verite-khinae-requins-les-independants-des-abysses",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Descendants de Khinae",
+      "subgroupOrder": 40,
+      "pageOrder": 100,
+      "displayTitle": "Requins — les indépendants des abysses"
+    },
+    {
+      "id": "regles-verite-khinae-serpents-venimeux-constricteurs-et-lignees-furtives",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Descendants de Khinae",
+      "subgroupOrder": 40,
+      "pageOrder": 100,
+      "displayTitle": "Serpents — venimeux, constricteurs et lignées furtives"
+    },
+    {
+      "id": "regles-verite-nature-mage",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Mages",
+      "subgroupOrder": 50,
+      "pageOrder": 0,
+      "displayTitle": "Mage — règles de Nature"
+    },
+    {
+      "id": "regles-verite-mage-communs",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Mages",
+      "subgroupOrder": 50,
+      "pageOrder": 10,
+      "displayTitle": "Mage — Talents communs"
+    },
+    {
+      "id": "regles-verite-mage-progression",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Mages",
+      "subgroupOrder": 50,
+      "pageOrder": 20,
+      "displayTitle": "Mage — progression par Points de Vérité"
+    },
+    {
+      "id": "regles-verite-v6-mage-affinite-acratomancie-magie-des-sceaux",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Mages",
+      "subgroupOrder": 50,
+      "pageOrder": 100,
+      "displayTitle": "Mage — Acratomancie — magie des Sceaux"
+    },
+    {
+      "id": "regles-verite-v6-mage-affinite-alchimie-magie-des-atomes",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Mages",
+      "subgroupOrder": 50,
+      "pageOrder": 100,
+      "displayTitle": "Mage — Alchimie — magie des atomes"
+    },
+    {
+      "id": "regles-verite-v6-mage-affinite-architetramancie-magie-des-elements",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Mages",
+      "subgroupOrder": 50,
+      "pageOrder": 100,
+      "displayTitle": "Mage — Architétramancie — magie des éléments"
+    },
+    {
+      "id": "regles-verite-v6-mage-affinite-chronomancie-magie-du-temps",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Mages",
+      "subgroupOrder": 50,
+      "pageOrder": 100,
+      "displayTitle": "Mage — Chronomancie — magie du temps"
+    },
+    {
+      "id": "regles-verite-v6-mage-affinite-divination-magie-de-l-information-et-des-possibles",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Mages",
+      "subgroupOrder": 50,
+      "pageOrder": 100,
+      "displayTitle": "Mage — Divination — magie de l’information et des possibles"
+    },
+    {
+      "id": "regles-verite-v6-mage-affinite-hematomancie-magie-du-sang",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Mages",
+      "subgroupOrder": 50,
+      "pageOrder": 100,
+      "displayTitle": "Mage — Hématomancie — magie du Sang"
+    },
+    {
+      "id": "regles-verite-v6-mage-lancement-tension-revers",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Mages",
+      "subgroupOrder": 50,
+      "pageOrder": 100,
+      "displayTitle": "Mage — lancement, Tension et Revers"
+    },
+    {
+      "id": "regles-verite-v6-mage-affinite-medeomancie-magie-de-guerison",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Mages",
+      "subgroupOrder": 50,
+      "pageOrder": 100,
+      "displayTitle": "Mage — Médéomancie — magie de Guérison"
+    },
+    {
+      "id": "regles-verite-v6-mage-affinite-morphomancie-magie-du-modelage",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Mages",
+      "subgroupOrder": 50,
+      "pageOrder": 100,
+      "displayTitle": "Mage — Morphomancie — magie du Modelage"
+    },
+    {
+      "id": "regles-verite-v6-mage-affinite-necromancie-magie-de-la-mort",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Mages",
+      "subgroupOrder": 50,
+      "pageOrder": 100,
+      "displayTitle": "Mage — Nécromancie — magie de la Mort"
+    },
+    {
+      "id": "regles-verite-v6-mage-affinite-pathomancie-magie-des-maledictions",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Mages",
+      "subgroupOrder": 50,
+      "pageOrder": 100,
+      "displayTitle": "Mage — Pathomancie — magie des Malédictions"
+    },
+    {
+      "id": "regles-verite-v6-mage-affinite-photomancie-magie-de-la-lumiere",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Mages",
+      "subgroupOrder": 50,
+      "pageOrder": 100,
+      "displayTitle": "Mage — Photomancie — magie de la Lumière"
+    },
+    {
+      "id": "regles-verite-v6-mage-affinite-pseudomancie-magie-des-illusions",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Mages",
+      "subgroupOrder": 50,
+      "pageOrder": 100,
+      "displayTitle": "Mage — Pseudomancie — magie des Illusions"
+    },
+    {
+      "id": "regles-verite-v6-mage-nature-revelation-mageius",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Mages",
+      "subgroupOrder": 50,
+      "pageOrder": 100,
+      "displayTitle": "Mage — Révélation et Mageius"
+    },
+    {
+      "id": "regles-verite-v6-mage-affinite-skiamancie-magie-des-ombres",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Mages",
+      "subgroupOrder": 50,
+      "pageOrder": 100,
+      "displayTitle": "Mage — Skiamancie — magie des Ombres"
+    },
+    {
+      "id": "regles-verite-v6-mage-affinite-spectromancie-magie-spectrale",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Mages",
+      "subgroupOrder": 50,
+      "pageOrder": 100,
+      "displayTitle": "Mage — Spectromancie — magie spectrale"
+    },
+    {
+      "id": "regles-verite-v6-mage-affinite-telekinesie-magie-des-forces",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Mages",
+      "subgroupOrder": 50,
+      "pageOrder": 100,
+      "displayTitle": "Mage — Télékinésie — magie des forces"
+    },
+    {
+      "id": "regles-verite-nature-daemon",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 0,
+      "displayTitle": "Daemon — règles de Nature"
+    },
+    {
+      "id": "regles-verite-daemon-communs",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 10,
+      "displayTitle": "Daemon — Talents communs"
+    },
+    {
+      "id": "regles-verite-daemon-divinite-abigor-le-ciel-qui-frappe-d-en-haut-facette-vent-ciel",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "ABIGOR — Le Ciel qui frappe d’en haut — Vent & Ciel"
+    },
+    {
+      "id": "regles-verite-daemon-divinite-alabor-les-eaux-primordiales-facette-flots",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "ALABOR — Les Eaux primordiales — Flots"
+    },
+    {
+      "id": "regles-verite-daemon-divinite-astaroth-la-civilisation-facette-savoir",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "ASTAROTH — La Civilisation — Savoir"
+    },
+    {
+      "id": "regles-verite-daemon-divinite-baal-la-guerre-elle-meme-facette-armes",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "BAAL — La Guerre elle-même — Armes"
+    },
+    {
+      "id": "regles-verite-daemon-divinite-belial-la-reine-des-dieux-facette-feu-royal",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "BELIAL — La Reine des Dieux — Feu royal"
+    },
+    {
+      "id": "regles-verite-daemon-divinite-belzebuth-la-vie-sans-jugement-moral-facette-regeneration",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "BELZÉBUTH — La Vie sans jugement moral — Régénération"
+    },
+    {
+      "id": "regles-verite-daemon-fonction-chatiment-tourmenteur",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "Châtiment / Tourmenteur"
+    },
+    {
+      "id": "regles-verite-daemon-fonction-chevalier-legionnaire",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "Chevalier / Légionnaire"
+    },
+    {
+      "id": "regles-verite-v6-daemon-patron-abigor",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "Daemon — Abigor : Maisonnées et Faveurs"
+    },
+    {
+      "id": "regles-verite-v6-daemon-patron-alabor",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "Daemon — Alabor : Maisonnées et Faveurs"
+    },
+    {
+      "id": "regles-verite-v6-daemon-patron-astaroth",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "Daemon — Astaroth : Maisonnées et Faveurs"
+    },
+    {
+      "id": "regles-verite-v6-daemon-patron-baal",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "Daemon — Baal : Maisonnées et Faveurs"
+    },
+    {
+      "id": "regles-verite-v6-daemon-patron-belial",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "Daemon — Belial : Maisonnées et Faveurs"
+    },
+    {
+      "id": "regles-verite-v6-daemon-patron-belzebuth",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "Daemon — Belzébuth : Maisonnées et Faveurs"
+    },
+    {
+      "id": "regles-verite-v6-daemon-patron-diablo",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "Daemon — Diablo : Maisonnées et Faveurs"
+    },
+    {
+      "id": "regles-verite-v6-daemon-patron-lilith",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "Daemon — Lilith : Maisonnées et Faveurs"
+    },
+    {
+      "id": "regles-verite-v6-daemon-patron-lucifer",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "Daemon — Lucifer : Maisonnées et Faveurs"
+    },
+    {
+      "id": "regles-verite-v6-daemon-patron-mammon",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "Daemon — Mammon : Maisonnées et Faveurs"
+    },
+    {
+      "id": "regles-verite-v6-daemon-patron-mephisto",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "Daemon — Méphisto : Maisonnées et Faveurs"
+    },
+    {
+      "id": "regles-verite-v6-daemon-patron-morrighan",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "Daemon — Morrighan : Maisonnées et Faveurs"
+    },
+    {
+      "id": "regles-verite-v6-daemon-origine-elu",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "Daemon — origine de l’Élu"
+    },
+    {
+      "id": "regles-verite-v6-daemon-patron-satan",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "Daemon — Satan : Maisonnées et Faveurs"
+    },
+    {
+      "id": "regles-verite-daemon-divinite-diablo-la-nuit-qui-regarde-facette-nuit",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "DIABLO — La Nuit qui regarde — Nuit"
+    },
+    {
+      "id": "regles-verite-daemon-divinite-lilith-desir-sexe-plaisir-et-attachement-facette-desir-plaisir",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "LILITH — Désir, Sexe, Plaisir et Attachement — Désir & Plaisir"
+    },
+    {
+      "id": "regles-verite-daemon-divinite-lucifer-le-soleil-dechu-facette-soleil",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "LUCIFER — Le Soleil déchu — Soleil"
+    },
+    {
+      "id": "regles-verite-daemon-divinite-mammon-l-ineluctable-facette-mort",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "MAMMON — L’Inéluctable — Mort"
+    },
+    {
+      "id": "regles-verite-daemon-divinite-mephisto-l-occulte-la-parole-et-le-hasard-facette-magie",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "MÉPHISTO — L’Occulte, la Parole et le Hasard — Magie"
+    },
+    {
+      "id": "regles-verite-daemon-divinite-morrighan-la-corneille-etrangere-facette-guerre-frenesie",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "MORRIGHAN — La Corneille étrangère — Guerre & Frénésie"
+    },
+    {
+      "id": "regles-verite-daemon-fonction-oracle-tentateur",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "Oracle / Tentateur"
+    },
+    {
+      "id": "regles-verite-daemon-divinite-satan-le-juge-facette-sentence",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Daemons",
+      "subgroupOrder": 60,
+      "pageOrder": 100,
+      "displayTitle": "SATAN — Le Juge — Sentence"
+    },
+    {
+      "id": "regles-verite-nature-angelus",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Angelus",
+      "subgroupOrder": 70,
+      "pageOrder": 0,
+      "displayTitle": "Angelus — règles de Nature"
+    },
+    {
+      "id": "regles-verite-angelus-communs",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Angelus",
+      "subgroupOrder": 70,
+      "pageOrder": 10,
+      "displayTitle": "Angelus — Talents communs"
+    },
+    {
+      "id": "regles-verite-v6-angelus-progression-de-transcendance",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Angelus",
+      "subgroupOrder": 70,
+      "pageOrder": 20,
+      "displayTitle": "Angelus — Progression de Transcendance"
+    },
+    {
+      "id": "regles-verite-v6-angelus-aura-aureole-et-arbre-de-vie",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Angelus",
+      "subgroupOrder": 70,
+      "pageOrder": 100,
+      "displayTitle": "Angelus — Aura, Auréole et Arbre de Vie"
+    },
+    {
+      "id": "regles-verite-angelus-nature-domination",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Angelus",
+      "subgroupOrder": 70,
+      "pageOrder": 100,
+      "displayTitle": "Angelus — Domination"
+    },
+    {
+      "id": "regles-verite-angelus-nature-trone",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Angelus",
+      "subgroupOrder": 70,
+      "pageOrder": 100,
+      "displayTitle": "Angelus — Trône"
+    },
+    {
+      "id": "regles-verite-angelus-nature-vertu",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Angelus",
+      "subgroupOrder": 70,
+      "pageOrder": 100,
+      "displayTitle": "Angelus — Vertu"
+    },
+    {
+      "id": "regles-verite-angelus-sephirah-bina-la-comprehension",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Angelus",
+      "subgroupOrder": 70,
+      "pageOrder": 100,
+      "displayTitle": "Bina — La Compréhension"
+    },
+    {
+      "id": "regles-verite-angelus-sephirah-gueburah-la-force",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Angelus",
+      "subgroupOrder": 70,
+      "pageOrder": 100,
+      "displayTitle": "Gueburah — La Force"
+    },
+    {
+      "id": "regles-verite-angelus-sephirah-hesed-la-misericorde",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Angelus",
+      "subgroupOrder": 70,
+      "pageOrder": 100,
+      "displayTitle": "Hesed — La Miséricorde"
+    },
+    {
+      "id": "regles-verite-angelus-sephirah-hod-la-gloire",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Angelus",
+      "subgroupOrder": 70,
+      "pageOrder": 100,
+      "displayTitle": "Hod — La Gloire"
+    },
+    {
+      "id": "regles-verite-angelus-sephirah-hokhma-la-sagesse",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Angelus",
+      "subgroupOrder": 70,
+      "pageOrder": 100,
+      "displayTitle": "Hokhma — La Sagesse"
+    },
+    {
+      "id": "regles-verite-angelus-sephirah-kether-la-couronne",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Angelus",
+      "subgroupOrder": 70,
+      "pageOrder": 100,
+      "displayTitle": "Kether — La Couronne"
+    },
+    {
+      "id": "regles-verite-angelus-sephirah-malkhouth-le-royaume",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Angelus",
+      "subgroupOrder": 70,
+      "pageOrder": 100,
+      "displayTitle": "Malkhouth — Le Royaume"
+    },
+    {
+      "id": "regles-verite-angelus-sephirah-nesah-la-victoire",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Angelus",
+      "subgroupOrder": 70,
+      "pageOrder": 100,
+      "displayTitle": "Nesah — Là Victoire"
+    },
+    {
+      "id": "regles-verite-angelus-sephirah-tiph-ereth-la-beaute",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Angelus",
+      "subgroupOrder": 70,
+      "pageOrder": 100,
+      "displayTitle": "Tiph'Ereth — La Beauté"
+    },
+    {
+      "id": "regles-verite-angelus-sephirah-yessod-la-fondation",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Angelus",
+      "subgroupOrder": 70,
+      "pageOrder": 100,
+      "displayTitle": "Yessod — La Fondation"
+    },
+    {
+      "id": "regles-verite-nature-aseryn",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 80,
+      "pageOrder": 0,
+      "displayTitle": "Aseryn — règles de Nature"
+    },
+    {
+      "id": "regles-verite-aseryn-origine-aerilien-neo-atlante",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 80,
+      "pageOrder": 100,
+      "displayTitle": "Aérilien / Néo-Atlante"
+    },
+    {
+      "id": "regles-verite-aseryn-route-esprit-fulgurant",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 80,
+      "pageOrder": 100,
+      "displayTitle": "Aseryn — Esprit fulgurant"
+    },
+    {
+      "id": "regles-verite-aseryn-route-perception-electromagnetique",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 80,
+      "pageOrder": 100,
+      "displayTitle": "Aseryn — Perception électromagnétique"
+    },
+    {
+      "id": "regles-verite-aseryn-route-vivacite-aseryne",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 80,
+      "pageOrder": 100,
+      "displayTitle": "Aseryn — Vivacité aseryne"
+    },
+    {
+      "id": "regles-verite-aseryn-tradition-athegos-le-seigneur",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 80,
+      "pageOrder": 100,
+      "displayTitle": "Athegos — le Seigneur"
+    },
+    {
+      "id": "regles-verite-aseryn-tradition-caendis-le-protecteur",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 80,
+      "pageOrder": 100,
+      "displayTitle": "Caendis — le Protecteur"
+    },
+    {
+      "id": "regles-verite-aseryn-tradition-cairiah-l-architecte",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 80,
+      "pageOrder": 100,
+      "displayTitle": "Cairiah — l’Architecte"
+    },
+    {
+      "id": "regles-verite-aseryn-conseil-foudre",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 80,
+      "pageOrder": 100,
+      "displayTitle": "Conseil de la Foudre"
+    },
+    {
+      "id": "regles-verite-aseryn-dratyn",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 80,
+      "pageOrder": 100,
+      "displayTitle": "Dratyn — la Maîtresse de la Foudre"
+    },
+    {
+      "id": "regles-verite-aseryn-tradition-erith-la-sentinelle",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 80,
+      "pageOrder": 100,
+      "displayTitle": "Erith — la Sentinelle"
+    },
+    {
+      "id": "regles-verite-aseryn-tradition-eydreas-le-chercheur",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 80,
+      "pageOrder": 100,
+      "displayTitle": "Eydreas — le Chercheur"
+    },
+    {
+      "id": "regles-verite-aseryn-origine-hyperboreen",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 80,
+      "pageOrder": 100,
+      "displayTitle": "Hyperboréen"
+    },
+    {
+      "id": "regles-verite-aseryn-origine-lemurian",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 80,
+      "pageOrder": 100,
+      "displayTitle": "Lémurian"
+    },
+    {
+      "id": "regles-verite-aseryn-tradition-lisirast-l-archiviste",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 80,
+      "pageOrder": 100,
+      "displayTitle": "Lisirast — l’Archiviste"
+    },
+    {
+      "id": "regles-verite-aseryn-tradition-lisithas-le-juge",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 80,
+      "pageOrder": 100,
+      "displayTitle": "Lisithas — le Juge"
+    },
+    {
+      "id": "regles-verite-aseryn-origine-mulien",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 80,
+      "pageOrder": 100,
+      "displayTitle": "Mûlien"
+    },
+    {
+      "id": "regles-verite-aseryn-tradition-natyel-le-nourricier",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 80,
+      "pageOrder": 100,
+      "displayTitle": "Natyel — le Nourricier"
+    },
+    {
+      "id": "regles-verite-aseryn-tradition-selerias-l-aimante",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 80,
+      "pageOrder": 100,
+      "displayTitle": "Selerias — l’Aimante"
+    },
+    {
+      "id": "regles-verite-aseryn-origine-seratheen",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 80,
+      "pageOrder": 100,
+      "displayTitle": "Serathèen"
+    },
+    {
+      "id": "regles-verite-aseryn-tradition-sundosia-l-aventuriere",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 80,
+      "pageOrder": 100,
+      "displayTitle": "Sundosia — l’Aventurière"
+    },
+    {
+      "id": "regles-verite-aseryn-tradition-theana-la-guerisseuse",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 80,
+      "pageOrder": 100,
+      "displayTitle": "Theana — la Guérisseuse"
+    },
+    {
+      "id": "regles-verite-nature-exile",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 0,
+      "displayTitle": "Exilé — règles de Nature"
+    },
+    {
+      "id": "regles-verite-v6-exile-formation-de-horde-commune",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 10,
+      "displayTitle": "Exilé — Formation de Horde — commune"
+    },
+    {
+      "id": "regles-verite-exile-atelier-des-clans",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Atelier des Clans"
+    },
+    {
+      "id": "regles-verite-v6-exile-aigle-de-larvikite",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Exilé — Aigle de Larvikite"
+    },
+    {
+      "id": "regles-verite-v6-exile-ashyll-gobelins",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Exilé — Ashyll — Gobelins"
+    },
+    {
+      "id": "regles-verite-v6-exile-azmenorien",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Exilé — Azménorien"
+    },
+    {
+      "id": "regles-verite-v6-exile-elye-elfes",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Exilé — Elyë — Elfes"
+    },
+    {
+      "id": "regles-verite-v6-exile-hds-hologram-distorsion-skill",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Exilé — HDS — Hologram Distorsion Skill"
+    },
+    {
+      "id": "regles-verite-v6-exile-hibou-d-onyx",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Exilé — Hibou d'Onyx"
+    },
+    {
+      "id": "regles-verite-v6-exile-protocoles-de-continuite",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Exilé — Protocoles de Continuité"
+    },
+    {
+      "id": "regles-verite-v6-exile-serpentaire-de-citrine",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Exilé — Serpentaire de Citrine"
+    },
+    {
+      "id": "regles-verite-v6-exile-syndicat-de-jade",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Exilé — Syndicat de Jade"
+    },
+    {
+      "id": "regles-verite-v6-exile-thulkar-orques",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Exilé — Thulkar — Orques"
+    },
+    {
+      "id": "regles-verite-v6-exile-whurten-nains",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Exilé — Whurten — Nains"
+    },
+    {
+      "id": "regles-verite-exile-faucon-de-malachite",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Faucon de Malachite"
+    },
+    {
+      "id": "regles-verite-exile-heritages-azmenoriens",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Héritages azménoriens"
+    },
+    {
+      "id": "regles-verite-exile-heritages-whurtens",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Héritages whurtens"
+    },
+    {
+      "id": "regles-verite-exile-horde-de-la-rose-doctrine-de-la-polyvalence",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Horde de la Rose — Doctrine de la Polyvalence"
+    },
+    {
+      "id": "regles-verite-exile-horde-des-cendres-doctrine-du-chantier",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Horde des Cendres — Doctrine du Chantier"
+    },
+    {
+      "id": "regles-verite-exile-horde-des-marais-doctrine-de-la-reussite",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Horde des Marais — Doctrine de la Réussite"
+    },
+    {
+      "id": "regles-verite-exile-horde-divine-doctrine-d-ashorn",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Horde Divine — Doctrine d'Ashorn"
+    },
+    {
+      "id": "regles-verite-exile-horde-fantome-doctrine-de-l-integration",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Horde Fantome — Doctrine de l'Intégration"
+    },
+    {
+      "id": "regles-verite-exile-iron-law",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Iron Law"
+    },
+    {
+      "id": "regles-verite-exile-ligue-des-quatre-empereurs",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Ligue des Quatre Empereurs"
+    },
+    {
+      "id": "regles-verite-exile-reseaux-ashylls-et-syndicat-de-jade",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Réseaux ashylls et Syndicat de Jade"
+    },
+    {
+      "id": "regles-verite-exile-runes-whurtennes",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Runes whurtennes"
+    },
+    {
+      "id": "regles-verite-exile-servants-de-pluton",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Servants de Pluton"
+    },
+    {
+      "id": "regles-verite-exile-technomagie-azmenorienne-moderne",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Exilés",
+      "subgroupOrder": 90,
+      "pageOrder": 100,
+      "displayTitle": "Technomagie azmenorienne moderne"
+    },
+    {
+      "id": "regles-verite-nature-extral",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Extrals",
+      "subgroupOrder": 100,
+      "pageOrder": 0,
+      "displayTitle": "Extral / Humain galactique — règles de Nature"
+    },
+    {
+      "id": "regles-verite-extral-ad-rak-origine-restreinte",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Extrals",
+      "subgroupOrder": 100,
+      "pageOrder": 100,
+      "displayTitle": "Ad’rak — origine restreinte"
+    },
+    {
+      "id": "regles-verite-extral-baseanh",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Extrals",
+      "subgroupOrder": 100,
+      "pageOrder": 100,
+      "displayTitle": "Baséanh"
+    },
+    {
+      "id": "regles-verite-extral-croix-verte-ligue-baseanne",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Extrals",
+      "subgroupOrder": 100,
+      "pageOrder": 100,
+      "displayTitle": "Croix Verte / Ligue Baséanne"
+    },
+    {
+      "id": "regles-verite-extral-doctrine-d-intervention-aidh",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Extrals",
+      "subgroupOrder": 100,
+      "pageOrder": 100,
+      "displayTitle": "Doctrine d’Intervention AIDH"
+    },
+    {
+      "id": "regles-verite-extral-doctrines-aidh",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Extrals",
+      "subgroupOrder": 100,
+      "pageOrder": 100,
+      "displayTitle": "Doctrines AIDH"
+    },
+    {
+      "id": "regles-verite-extral-emeraude-sanglante",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Extrals",
+      "subgroupOrder": 100,
+      "pageOrder": 100,
+      "displayTitle": "Émeraude Sanglante"
+    },
+    {
+      "id": "regles-verite-extral-homo-superior-humain-aidh",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Extrals",
+      "subgroupOrder": 100,
+      "pageOrder": 100,
+      "displayTitle": "Homo Superior — Humain AIDH"
+    },
+    {
+      "id": "regles-verite-extral-hydroguard-thdf",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Extrals",
+      "subgroupOrder": 100,
+      "pageOrder": 100,
+      "displayTitle": "Hydroguard / THDF"
+    },
+    {
+      "id": "regles-verite-extral-mafia-shaediri",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Extrals",
+      "subgroupOrder": 100,
+      "pageOrder": 100,
+      "displayTitle": "Mafia Shaediri"
+    },
+    {
+      "id": "regles-verite-extral-mo-sen",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Extrals",
+      "subgroupOrder": 100,
+      "pageOrder": 100,
+      "displayTitle": "Mo’sen"
+    },
+    {
+      "id": "regles-verite-extral-organisations-extrals",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Extrals",
+      "subgroupOrder": 100,
+      "pageOrder": 100,
+      "displayTitle": "Organisations Extrals"
+    },
+    {
+      "id": "regles-verite-extral-protocoles-de-coherence-aidh",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Extrals",
+      "subgroupOrder": 100,
+      "pageOrder": 100,
+      "displayTitle": "Protocoles de Cohérence AIDH"
+    },
+    {
+      "id": "regles-verite-extral-rocreen",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Extrals",
+      "subgroupOrder": 100,
+      "pageOrder": 100,
+      "displayTitle": "Rocréen"
+    },
+    {
+      "id": "regles-verite-extral-smrc-agi-orgienetique",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Extrals",
+      "subgroupOrder": 100,
+      "pageOrder": 100,
+      "displayTitle": "SMRC / AGI — Orgienétique"
+    },
+    {
+      "id": "regles-verite-extral-talass",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Extrals",
+      "subgroupOrder": 100,
+      "pageOrder": 100,
+      "displayTitle": "Talass"
+    },
+    {
+      "id": "regles-verite-extral-thalsios",
+      "category": "Règles",
+      "group": "Vérité — Natures & capacités",
+      "groupOrder": 80,
+      "subgroup": "Extrals",
+      "subgroupOrder": 100,
+      "pageOrder": 100,
+      "displayTitle": "Thalsios"
+    },
+    {
+      "id": "realite-022-7-corruption-de-programmes-et-materiel",
+      "category": "Règles",
+      "group": "Vérité — Corruption & Fléaux",
+      "groupOrder": 90,
+      "subgroup": "Corruption",
+      "subgroupOrder": 10,
+      "pageOrder": 7,
+      "displayTitle": "Corruption de programmes et matériel"
+    },
+    {
+      "id": "regles-verite-v6-corruption",
+      "category": "Règles",
+      "group": "Vérité — Corruption & Fléaux",
+      "groupOrder": 90,
+      "subgroup": "Corruption",
+      "subgroupOrder": 10,
+      "pageOrder": 20,
+      "displayTitle": "Corruption — règles et progression"
+    },
+    {
+      "id": "regles-verite-v6-fleaux-cadre-commun",
+      "category": "Règles",
+      "group": "Vérité — Corruption & Fléaux",
+      "groupOrder": 90,
+      "subgroup": "Les six Fléaux",
+      "subgroupOrder": 20,
+      "pageOrder": 10,
+      "displayTitle": "Fléaux — cadre commun"
+    },
+    {
+      "id": "regles-verite-v6-fleau-c-thath-vhadhi-la-metastase",
+      "category": "Règles",
+      "group": "Vérité — Corruption & Fléaux",
+      "groupOrder": 90,
+      "subgroup": "Les six Fléaux",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "C’Thath Vhadhi — la Métastase"
+    },
+    {
+      "id": "regles-verite-v6-fleau-gajh-shaoggith-la-germination",
+      "category": "Règles",
+      "group": "Vérité — Corruption & Fléaux",
+      "groupOrder": 90,
+      "subgroup": "Les six Fléaux",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Gajh’Shaoggith — la Germination"
+    },
+    {
+      "id": "regles-verite-v6-fleau-thul-la-fixation",
+      "category": "Règles",
+      "group": "Vérité — Corruption & Fléaux",
+      "groupOrder": 90,
+      "subgroup": "Les six Fléaux",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Thul — la Fixation"
+    },
+    {
+      "id": "regles-verite-v6-fleau-ux-sharith-bellatheis-la-division",
+      "category": "Règles",
+      "group": "Vérité — Corruption & Fléaux",
+      "groupOrder": 90,
+      "subgroup": "Les six Fléaux",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Ux’Sharith Bellatheis — la Division"
+    },
+    {
+      "id": "regles-verite-v6-fleau-v-aagor-la-sombre-verite",
+      "category": "Règles",
+      "group": "Vérité — Corruption & Fléaux",
+      "groupOrder": 90,
+      "subgroup": "Les six Fléaux",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "V’Aagor — la Sombre-Vérité"
+    },
+    {
+      "id": "regles-verite-v6-fleau-vhodhal-la-famine-blanche",
+      "category": "Règles",
+      "group": "Vérité — Corruption & Fléaux",
+      "groupOrder": 90,
+      "subgroup": "Les six Fléaux",
+      "subgroupOrder": 20,
+      "pageOrder": 100,
+      "displayTitle": "Vhodhal — la Famine Blanche"
+    },
+    {
+      "id": "verite-015-apprendre-trop-peu-apprendre-trop-vite",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Apprendre trop peu, apprendre trop vite"
+    },
+    {
+      "id": "verite-028-aucune-capitale-du-monde-cache",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Aucune capitale du monde caché"
+    },
+    {
+      "id": "verite-004-ce-que-l-hologramme-cherche-a-preserver",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Ce que l'Hologramme cherche à préserver"
+    },
+    {
+      "id": "verite-021-ce-que-l-hologramme-ne-protege-pas",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Ce que l'Hologramme ne protège pas"
+    },
+    {
+      "id": "verite-008-comment-les-profanes-vivent-l-impossible",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Comment les profanes vivent l'impossible"
+    },
+    {
+      "id": "verite-030-entrer-dans-la-verite-savoir-n-est-pas-voir",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Entrer dans la Vérité : savoir n'est pas voir"
+    },
+    {
+      "id": "verite-013-habiter-la-verite",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Habiter la Vérité"
+    },
+    {
+      "id": "verite-035-identites-doubles-identites-entieres",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Identités doubles, identités entières"
+    },
+    {
+      "id": "verite-023-l-ombremonde-le-reste-du-monde",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "L'Ombremonde, le reste du monde"
+    },
+    {
+      "id": "verite-032-la-grande-uvre-et-ses-auteurs-incomplets",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "La grande œuvre et ses auteurs incomplets"
+    },
+    {
+      "id": "verite-029-la-limite-la-plus-importante-le-monde-doit-rester-jouable",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "La limite la plus importante : le monde doit rester jouable"
+    },
+    {
+      "id": "verite-022-la-verite-et-les-lieux",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "La Vérité et les lieux"
+    },
+    {
+      "id": "verite-001-la-verite-n-est-pas-un-second-monde",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "La Vérité n'est pas un second monde"
+    },
+    {
+      "id": "verite-033-le-cycle-le-neant-et-ce-que-la-mort-revele",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Le Cycle, le Néant et ce que la mort révèle"
+    },
+    {
+      "id": "verite-034-le-monde-visible-fabrique-lui-meme-du-camouflage",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Le monde visible fabrique lui-même du camouflage"
+    },
+    {
+      "id": "verite-002-le-voile-et-l-hologramme",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Le Voile et l'Hologramme"
+    },
+    {
+      "id": "verite-012-les-endroits-ou-le-monde-tient-moins-bien",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Les endroits où le monde tient moins bien"
+    },
+    {
+      "id": "verite-025-les-institutions-qui-ne-savent-pas-tout",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Les institutions qui ne savent pas tout"
+    },
+    {
+      "id": "verite-036-les-limites-de-la-connaissance-ce-que-meme-ce-livre-ne-rend-pas-banal",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Les limites de la connaissance : ce que même ce livre ne rend pas banal"
+    },
+    {
+      "id": "verite-010-les-limites-du-voile",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Les limites du Voile"
+    },
+    {
+      "id": "verite-009-memoire-preuves-et-mensonges-sinceres",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Mémoire, preuves et mensonges sincères"
+    },
+    {
+      "id": "verite-020-quand-le-monde-refuse-une-preuve",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Quand le monde refuse une preuve"
+    },
+    {
+      "id": "verite-016-religions-mythes-et-souvenirs-deformes",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Religions, mythes et souvenirs déformés"
+    },
+    {
+      "id": "verite-027-religions-mythes-et-souvenirs-mal-classes",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Religions, mythes et souvenirs mal classés"
+    },
+    {
+      "id": "verite-031-reveler-sa-nature-est-un-acte-personnel",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Révéler sa Nature est un acte personnel"
+    },
+    {
+      "id": "verite-024-science-magie-et-technologie-sous-le-voile",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Science, Magie et technologie sous le Voile"
+    },
+    {
+      "id": "verite-007-se-reveler-n-est-pas-s-eveiller",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Se révéler n'est pas s'éveiller"
+    },
+    {
+      "id": "verite-014-secret-politique-et-pouvoir",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Secret, politique et pouvoir"
+    },
+    {
+      "id": "verite-017-une-journee-derriere-le-monde-visible",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Une journée derrière le monde visible"
+    },
+    {
+      "id": "verite-003-une-uvre-de-plusieurs-mondes",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Une œuvre de plusieurs mondes"
+    },
+    {
+      "id": "verite-011-une-relation-pas-seulement-un-masque",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Une relation, pas seulement un masque"
+    },
+    {
+      "id": "verite-026-verite-droit-et-culpabilite",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Vérité, droit et culpabilité"
+    },
+    {
+      "id": "verite-018-vivre-sous-une-traduction-permanente",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Vivre sous une traduction permanente"
+    },
+    {
+      "id": "verite-006-voile-semi-revele-revele",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Voilé, Semi-Révélé, Révélé"
+    },
+    {
+      "id": "verite-019-voir-n-est-pas-reveler",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Voir n'est pas Révéler"
+    },
+    {
+      "id": "verite-005-voir-sans-faire-apparaitre",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 10,
+      "subgroup": "Comprendre le monde caché",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Voir sans faire apparaître"
+    },
+    {
+      "id": "verite-046-10-vampires",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Vampires",
+      "subgroupOrder": 10,
+      "pageOrder": 10,
+      "displayTitle": "Vampires"
+    },
+    {
+      "id": "verite-047-11-garous-loups-descendants-de-khinae",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Garous — Loups descendants de Khinae",
+      "subgroupOrder": 11,
+      "pageOrder": 11,
+      "displayTitle": "Garous — Loups descendants de Khinae"
+    },
+    {
+      "id": "verite-048-12-autres-descendants-de-khinae",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Autres descendants de Khinae",
+      "subgroupOrder": 12,
+      "pageOrder": 12,
+      "displayTitle": "Autres descendants de Khinae"
+    },
+    {
+      "id": "verite-049-13-mages",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Mages",
+      "subgroupOrder": 13,
+      "pageOrder": 13,
+      "displayTitle": "Mages"
+    },
+    {
+      "id": "verite-050-14-daemons",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Daemons",
+      "subgroupOrder": 14,
+      "pageOrder": 14,
+      "displayTitle": "Daemons"
+    },
+    {
+      "id": "verite-051-15-angelus",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Angelus",
+      "subgroupOrder": 15,
+      "pageOrder": 15,
+      "displayTitle": "Angelus"
+    },
+    {
+      "id": "verite-052-16-aseryns",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 16,
+      "pageOrder": 16,
+      "displayTitle": "Aseryns"
+    },
+    {
+      "id": "verite-053-17-exiles-peuples-fonctions-et-traditions",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Exilés — peuples, fonctions et traditions",
+      "subgroupOrder": 17,
+      "pageOrder": 17,
+      "displayTitle": "Exilés — peuples, fonctions et traditions"
+    },
+    {
+      "id": "verite-054-18-extrals-homo-superior-et-adrak",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Extrals, Homo Superior et Ad’rak",
+      "subgroupOrder": 18,
+      "pageOrder": 18,
+      "displayTitle": "Extrals, Homo Superior et Ad’rak"
+    },
+    {
+      "id": "verite-055-19-formation-et-doctrine-de-chasseur",
+      "category": "Vérité",
+      "group": "Chasseurs",
+      "groupOrder": 30,
+      "subgroup": "Formation & doctrine",
+      "subgroupOrder": 10,
+      "pageOrder": 19,
+      "displayTitle": "Formation et doctrine de Chasseur"
+    },
+    {
+      "id": "verite-056-20-corruption",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 40,
+      "subgroup": "Corruption",
+      "subgroupOrder": 20,
+      "pageOrder": 20,
+      "displayTitle": "Corruption"
+    },
+    {
+      "id": "verite-057-21-les-six-fleaux-et-le-faux-septieme",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 40,
+      "subgroup": "Fléaux",
+      "subgroupOrder": 21,
+      "pageOrder": 21,
+      "displayTitle": "Les six Fléaux et le faux Septième"
+    },
+    {
+      "id": "verite-058-22-proprietes-communes-des-equipements-de-verite",
+      "category": "Vérité",
+      "group": "Équipement & marchés de Vérité",
+      "groupOrder": 50,
+      "subgroup": "Pages transitoires à auditer",
+      "subgroupOrder": 10,
+      "pageOrder": 22,
+      "displayTitle": "Propriétés communes des équipements de Vérité"
+    },
+    {
+      "id": "verite-059-23-equipement-de-chasse",
+      "category": "Vérité",
+      "group": "Équipement & marchés de Vérité",
+      "groupOrder": 50,
+      "subgroup": "Pages transitoires à auditer",
+      "subgroupOrder": 10,
+      "pageOrder": 23,
+      "displayTitle": "Équipement de Chasse"
+    },
+    {
+      "id": "verite-060-24-marche-de-verite-des-exiles",
+      "category": "Vérité",
+      "group": "Équipement & marchés de Vérité",
+      "groupOrder": 50,
+      "subgroup": "Pages transitoires à auditer",
+      "subgroupOrder": 10,
+      "pageOrder": 24,
+      "displayTitle": "Marché de Vérité des Exilés"
+    },
+    {
+      "id": "verite-061-25-marche-xeno",
+      "category": "Vérité",
+      "group": "Équipement & marchés de Vérité",
+      "groupOrder": 50,
+      "subgroup": "Pages transitoires à auditer",
+      "subgroupOrder": 10,
+      "pageOrder": 25,
+      "displayTitle": "Marché xéno"
+    },
+    {
+      "id": "verite-062-26-arsenal-aidh-moderne-et-doctrine-terra-umbra",
+      "category": "Vérité",
+      "group": "Équipement & marchés de Vérité",
+      "groupOrder": 50,
+      "subgroup": "Pages transitoires à auditer",
+      "subgroupOrder": 10,
+      "pageOrder": 26,
+      "displayTitle": "Arsenal AIDH moderne et doctrine Terra Umbra"
+    },
+    {
+      "id": "verite-063-27-equipement-corrompu-et-calamitechnologie",
+      "category": "Vérité",
+      "group": "Équipement & marchés de Vérité",
+      "groupOrder": 50,
+      "subgroup": "Pages transitoires à auditer",
+      "subgroupOrder": 10,
+      "pageOrder": 27,
+      "displayTitle": "Équipement corrompu et Calamitechnologie"
+    }
+  ]
+}
