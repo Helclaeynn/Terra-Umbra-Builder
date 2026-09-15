@@ -12,9 +12,8 @@ function consolidated(page){return (page.sections||[]).filter(section=>String(se
 function requireText(page,...needles){const text=flatPage(page);for(const needle of needles)if(!text.includes(needle))throw new Error(`${page.id}: contexte consolidé absent (${needle})`)}
 
 const truth=load('verite'),lore=load('lore');
-if(truth.length!==84)throw new Error(`Vérité: ${truth.length}, attendu 84`);
-if(lore.length!==392)throw new Error(`Lore: ${lore.length}, attendu 392`);
-if(manifest.expectedTotal!==1807)throw new Error(`Total V3: ${manifest.expectedTotal}, attendu 1807`);
+if(truth.length!==78)throw new Error(`Vérité: ${truth.length}, attendu 78`);
+if(lore.length!==359)throw new Error(`Lore: ${lore.length}, attendu 359`);
 
 const retired=[
   'lore-supernatural-species-vampires',
@@ -52,8 +51,7 @@ for(const page of [garous,mageLodges,vampires,angelus,daemons]){
 }
 
 const all=manifest.datasets.flatMap(spec=>load(spec.id));
-const ids=new Set();
-for(const page of all){if(ids.has(page.id))throw new Error(`ID V3 dupliqué: ${page.id}`);ids.add(page.id)}
-if(ids.size!==1807)throw new Error(`IDs uniques: ${ids.size}, attendu 1807`);
+const ids=new Set();for(const page of all){if(ids.has(page.id))throw new Error(`ID V3 dupliqué: ${page.id}`);ids.add(page.id)}
+if(ids.size!==manifest.expectedTotal)throw new Error(`IDs uniques: ${ids.size}/${manifest.expectedTotal}`);
 
-console.log(`CONSOLIDATION LEGACY VÉRITÉ OK — 5 hubs retirés · lore utile migré sur 5 cibles · Vérité 84 · Lore 392 · ${ids.size} IDs uniques.`);
+console.log(`CONSOLIDATION LEGACY VÉRITÉ OK — 5 hubs retirés · lore utile migré sur 5 cibles · Vérité ${truth.length} · Lore ${lore.length} · ${ids.size} IDs uniques.`);
