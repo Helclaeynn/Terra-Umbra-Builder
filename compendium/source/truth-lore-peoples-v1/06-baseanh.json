@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "sourceDocument": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx",
+  "page": {
+    "id": "verite-lore-baseanh",
+    "title": "Baséanh",
+    "order": 60,
+    "aliases": ["Baseanh", "Baséanhs", "Baseanhs"],
+    "evidence": ["V6 pp.164–166"],
+    "sections": [
+      {"title":"La biologie comme laboratoire","paragraphs":["Les Baséanhs possèdent quatre bras, six yeux et des Tardollas capables de maintenir différents milieux cellulaires. Leur propre organisme peut ainsi devenir une infrastructure de culture biologique au lieu de séparer nettement corps et outil."]},
+      {"title":"Une civilisation de biologie appliquée","paragraphs":["Cette capacité a donné une place majeure à la pharmacologie, à l’acclimatation et à la biologie appliquée. Une préparation est comprise comme le résultat d’un milieu vivant entretenu, maîtrisé et capable de produire des composés aux effets connus, non comme une substance mystérieuse détachée de sa fabrication."]},
+      {"title":"Médecine xénobiologique","paragraphs":["Sur Terre, les Baséanhs sont particulièrement précieux lorsque la médecine humaine doit traiter un organisme pour lequel elle ne possède ni protocoles ni ressources adaptées. Ils excellent à construire des ponts temporaires entre métabolismes incompatibles."]},
+      {"title":"Croix Verte et habitats adaptés","paragraphs":["La Croix Verte, aussi appelée Ligue Baséanne, prolonge cette philosophie : plutôt que transformer toute la planète pour chaque visiteur, elle adapte localement l’air, l’humidité, la nourriture, les soins et les microclimats. Les Biobars et autres infrastructures spécialisées deviennent ainsi des points d’ancrage d’une vie extrale durable."]}
+    ]
+  }
+}
