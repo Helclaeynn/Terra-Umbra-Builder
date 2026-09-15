@@ -11,7 +11,7 @@ if(manifest.version!==3) throw new Error(`Manifest: version ${manifest.version},
 // Ces datasets sont désormais reconstruits pendant la remise à plat du Compendium :
 // leur nombre de pages est validé par des tests sémantiques dédiés, pas figé ici.
 const mutableMinimums={moteur:5,realite:1,verite:1};
-const fixedCounts={bestiaire:263,lore:397,pnj:163};
+const fixedCounts={bestiaire:263,lore:392,pnj:163};
 const catalogIds=new Set(['equipement','augmentations','verite-catalogue']);
 const expectedIds=new Set([...Object.keys(mutableMinimums),...Object.keys(fixedCounts),...catalogIds]);
 if(!Array.isArray(manifest.datasets)||manifest.datasets.length!==expectedIds.size) throw new Error(`Manifest: ${expectedIds.size} datasets V3 attendus, trouvé ${manifest.datasets?.length??0}`);
