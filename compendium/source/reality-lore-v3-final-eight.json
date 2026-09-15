@@ -9,6 +9,20 @@
         "Rafale, tir automatique et mécanique Fiable en font une arme d’appui et de suppression conçue pour maintenir un feu soutenu sous pression. Sa bande dédiée fournit l’autonomie nécessaire à ce rôle, tandis que son gabarit Encombrant impose un portage adapté."
       ]
     },
+    "Pistolet lourd — Raven": {
+      "source": "Réalité V9 CROSSAUDIT — 5.2 Munitions classiques",
+      "paragraphs": [
+        "Pistolet lourd — Raven désigne le conditionnement Raven de munitions classiques destiné à la famille des pistolets lourds. Le lot contient 40 cartouches, soit la quantité standard retenue pour cette gamme de consommables.",
+        "Il s’agit de munitions conventionnelles sans effet spécial ajouté : leur rôle est d’alimenter les armes compatibles de cette famille. La réserve de quarante coups en fait un achat d’approvisionnement courant plutôt qu’une munition spécialisée à usage ponctuel."
+      ]
+    },
+    "Precision — Owl": {
+      "source": "Réalité V9 CROSSAUDIT — 5.2 Munitions classiques",
+      "paragraphs": [
+        "Precision — Owl désigne le conditionnement Owl de munitions classiques pour les armes de précision. Le lot contient 25 cartouches, un format plus resserré que les conditionnements Raven ou Phoenix de la même section.",
+        "Ces cartouches n’apportent aucun effet spécial par elles-mêmes : elles constituent l’alimentation conventionnelle d’une arme compatible. Le conditionnement de vingt-cinq coups correspond donc à une réserve dédiée au tir de précision plutôt qu’à un volume de saturation."
+      ]
+    },
     "IA personnelle du Holophone": {
       "source": "Réalité V8 — 7.1 Équipement civique et domestique",
       "paragraphs": [
