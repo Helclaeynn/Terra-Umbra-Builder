@@ -3846,17 +3846,6 @@
       "displayTitle": "Autres descendants de Khinae"
     },
     {
-      "id": "verite-050-14-daemons",
-      "dataset": "verite",
-      "category": "Vérité",
-      "group": "Natures, peuples & traditions",
-      "groupOrder": 20,
-      "subgroup": "Daemons",
-      "subgroupOrder": 14,
-      "pageOrder": 14,
-      "displayTitle": "Daemons"
-    },
-    {
       "id": "verite-lore-divinite-abigor",
       "dataset": "verite",
       "category": "Vérité",
@@ -4000,17 +3989,6 @@
       "displayTitle": "Satan"
     },
     {
-      "id": "verite-052-16-aseryns",
-      "dataset": "verite",
-      "category": "Vérité",
-      "group": "Natures, peuples & traditions",
-      "groupOrder": 20,
-      "subgroup": "Aseryns",
-      "subgroupOrder": 16,
-      "pageOrder": 16,
-      "displayTitle": "Aseryns"
-    },
-    {
       "id": "verite-053-17-exiles-peuples-fonctions-et-traditions",
       "dataset": "verite",
       "category": "Vérité",
@@ -4086,17 +4064,6 @@
       "subgroupOrder": 18,
       "pageOrder": 70,
       "displayTitle": "Silcenters"
-    },
-    {
-      "id": "verite-054-18-extrals-homo-superior-et-adrak",
-      "dataset": "verite",
-      "category": "Vérité",
-      "group": "Natures, peuples & traditions",
-      "groupOrder": 20,
-      "subgroup": "Extrals, Homo Superior et Ad’rak",
-      "subgroupOrder": 18,
-      "pageOrder": 18,
-      "displayTitle": "Extrals, Homo Superior et Ad’rak"
     },
     {
       "id": "verite-047-11-garous-loups-descendants-de-khinae",
@@ -4187,6 +4154,17 @@
       "displayTitle": "Mages"
     },
     {
+      "id": "verite-050-14-daemons",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Daemons",
+      "subgroupOrder": 40,
+      "pageOrder": 10,
+      "displayTitle": "Daemons"
+    },
+    {
       "id": "verite-051-15-angelus",
       "dataset": "verite",
       "category": "Vérité",
@@ -4196,6 +4174,105 @@
       "subgroupOrder": 50,
       "pageOrder": 10,
       "displayTitle": "Angelus"
+    },
+    {
+      "id": "verite-052-16-aseryns",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Aseryns",
+      "subgroupOrder": 60,
+      "pageOrder": 10,
+      "displayTitle": "Aseryns"
+    },
+    {
+      "id": "verite-054-18-extrals-homo-superior-et-adrak",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Extrals",
+      "subgroupOrder": 80,
+      "pageOrder": 10,
+      "displayTitle": "Extrals, Homo Superior et Ad’rak"
+    },
+    {
+      "id": "lore-extraterrestrial-species-talass",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Extrals — peuples & profils",
+      "subgroupOrder": 81,
+      "pageOrder": 40,
+      "displayTitle": "Talass"
+    },
+    {
+      "id": "lore-extraterrestrial-species-mosens",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Extrals — peuples & profils",
+      "subgroupOrder": 81,
+      "pageOrder": 50,
+      "displayTitle": "Mo’sen"
+    },
+    {
+      "id": "lore-extraterrestrial-species-baseanhs",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Extrals — peuples & profils",
+      "subgroupOrder": 81,
+      "pageOrder": 60,
+      "displayTitle": "Baséanh"
+    },
+    {
+      "id": "lore-extraterrestrial-species-rocreens",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Extrals — peuples & profils",
+      "subgroupOrder": 81,
+      "pageOrder": 70,
+      "displayTitle": "Rocréen"
+    },
+    {
+      "id": "lore-extraterrestrial-species-thalsios",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Extrals — peuples & profils",
+      "subgroupOrder": 81,
+      "pageOrder": 80,
+      "displayTitle": "Thalsios"
+    },
+    {
+      "id": "verite-lore-homo-superior",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Extrals — peuples & profils",
+      "subgroupOrder": 81,
+      "pageOrder": 90,
+      "displayTitle": "Homo Superior"
+    },
+    {
+      "id": "verite-lore-adrak",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Extrals — peuples & profils",
+      "subgroupOrder": 81,
+      "pageOrder": 100,
+      "displayTitle": "Ad’rak"
     },
     {
       "id": "lore-supernatural-species-vampires",
@@ -4427,61 +4504,6 @@
       "subgroupOrder": 70,
       "pageOrder": 500,
       "displayTitle": "Vérité les espèces fantastiques — GOBELINS (ASHYLL)"
-    },
-    {
-      "id": "lore-extraterrestrial-species-baseanhs",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Peuples & Natures",
-      "groupOrder": 20,
-      "subgroup": "Extrals & lignées associées",
-      "subgroupOrder": 80,
-      "pageOrder": 500,
-      "displayTitle": "Baseanhs"
-    },
-    {
-      "id": "lore-extraterrestrial-species-mosens",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Peuples & Natures",
-      "groupOrder": 20,
-      "subgroup": "Extrals & lignées associées",
-      "subgroupOrder": 80,
-      "pageOrder": 500,
-      "displayTitle": "Mo’sens"
-    },
-    {
-      "id": "lore-extraterrestrial-species-rocreens",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Peuples & Natures",
-      "groupOrder": 20,
-      "subgroup": "Extrals & lignées associées",
-      "subgroupOrder": 80,
-      "pageOrder": 500,
-      "displayTitle": "Rocreens"
-    },
-    {
-      "id": "lore-extraterrestrial-species-talass",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Peuples & Natures",
-      "groupOrder": 20,
-      "subgroup": "Extrals & lignées associées",
-      "subgroupOrder": 80,
-      "pageOrder": 500,
-      "displayTitle": "Talass"
-    },
-    {
-      "id": "lore-extraterrestrial-species-thalsios",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Peuples & Natures",
-      "groupOrder": 20,
-      "subgroup": "Extrals & lignées associées",
-      "subgroupOrder": 80,
-      "pageOrder": 500,
-      "displayTitle": "Thalsios"
     },
     {
       "id": "verite-055-19-formation-et-doctrine-de-chasseur",
