@@ -36,25 +36,25 @@
     {
       "id": "equipement",
       "prefix": "v3-equipement-builder-v1",
-      "parts": 5,
+      "parts": 9,
       "count": 297,
-      "sha256": "a9eb1a5ecc81174d752eba0e7e22a783752246487769ebb64b6d3506c2a5238b",
+      "sha256": "6a5384a3e6b231215d9a94b58373efa8b022869415e571792e1ae946e6fcb334",
       "quality": {
-        "loreVersion": 2,
+        "loreVersion": 3,
         "maxIdenticalTextRatio": 0.6,
-        "method": "source-grounded-context"
+        "method": "reality-book-semantic-lore"
       }
     },
     {
       "id": "augmentations",
       "prefix": "v3-augmentations-builder-v1",
-      "parts": 4,
+      "parts": 6,
       "count": 111,
-      "sha256": "645b0e737aa03bf26d13cbe095a75292b633a56c2ab52f553289d097a0da69f0",
+      "sha256": "6e9e0a7ca2dd92dab0679a85270cca01e63cf7c835f02bcb85f34331c63ceed2",
       "quality": {
-        "loreVersion": 2,
+        "loreVersion": 3,
         "maxIdenticalTextRatio": 0.6,
-        "method": "source-grounded-context"
+        "method": "reality-book-semantic-lore"
       }
     },
     {
