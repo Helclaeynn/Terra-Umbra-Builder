@@ -10,7 +10,7 @@ on:
       - 'compendium/source/truth-mechanics-v6-fixed.part*.b64'
       - 'compendium/source/truth-lore-priority-v1.json'
       - 'compendium/source/truth-lore-exiles-v1.json'
-      - 'compendium/source/truth-lore-predators-v1.json.gz.b64'
+      - 'compendium/source/truth-lore-predators-v1/*.json'
       - 'compendium/navigation-schema.js'
       - 'compendium/navigation-schema-v2.js'
       - 'compendium/category-navigation.js'
