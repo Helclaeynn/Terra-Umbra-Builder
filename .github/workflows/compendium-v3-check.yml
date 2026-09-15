@@ -16,6 +16,8 @@ on:
       - 'character-builder/rulesets/terra-umbra/reality/safe/equipment.part*.b64'
       - 'scripts/build-compendium-catalog-pages.mjs'
       - 'scripts/enrich-compendium-augmentation-generations.mjs'
+      - 'scripts/build-compendium-truth-catalog.mjs'
+      - 'scripts/enrich-compendium-truth-lore.mjs'
       - 'scripts/prepare-builder-reality-catalogs.mjs'
       - 'scripts/sync-page-overrides.mjs'
       - 'tools/github-oauth-proxy-worker.js'
@@ -28,6 +30,8 @@ on:
       - 'character-builder/rulesets/terra-umbra/reality/safe/equipment.part*.b64'
       - 'scripts/build-compendium-catalog-pages.mjs'
       - 'scripts/enrich-compendium-augmentation-generations.mjs'
+      - 'scripts/build-compendium-truth-catalog.mjs'
+      - 'scripts/enrich-compendium-truth-lore.mjs'
       - 'scripts/prepare-builder-reality-catalogs.mjs'
       - 'scripts/sync-page-overrides.mjs'
       - 'tools/github-oauth-proxy-worker.js'
@@ -65,10 +69,14 @@ jobs:
           node --check scripts/sync-page-overrides.mjs
           node --check scripts/build-compendium-catalog-pages.mjs
           node --check scripts/enrich-compendium-augmentation-generations.mjs
+          node --check scripts/build-compendium-truth-catalog.mjs
+          node --check scripts/enrich-compendium-truth-lore.mjs
           node --check scripts/prepare-builder-reality-catalogs.mjs
           node --check compendium/tests/catalog-pages-check.mjs
           node --check compendium/tests/catalog-pages-semantic-check.mjs
           node --check compendium/tests/catalog-runtime-browser-smoke.mjs
+          node --check compendium/tests/truth-catalog-pages-check.mjs
+          node --check compendium/tests/truth-catalog-runtime-browser-smoke.mjs
       - name: Validate editor override engine
         run: |
           node compendium/tests/editor-overrides-check.mjs
@@ -90,3 +98,4 @@ jobs:
           node compendium/tests/manifest-check.mjs
           node compendium/tests/bestiary-v16-check.mjs
           node compendium/tests/catalog-pages-check.mjs
+          node compendium/tests/truth-catalog-pages-check.mjs
