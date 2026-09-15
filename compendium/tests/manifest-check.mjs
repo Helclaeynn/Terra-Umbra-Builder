@@ -7,19 +7,22 @@ const manifestPath=`${DATA}/manifest-v3.json`;
 const manifest=JSON.parse(fs.readFileSync(manifestPath,'utf8'));
 
 if(manifest.version!==3) throw new Error(`Manifest: version ${manifest.version}, attendu 3`);
-if(!Array.isArray(manifest.datasets)||manifest.datasets.length!==8) throw new Error('Manifest: huit datasets V3 attendus');
 
 const fixedCounts={moteur:5,realite:39,verite:63,bestiaire:263,lore:397,pnj:163};
-const catalogIds=new Set(['equipement','augmentations']);
+const catalogIds=new Set(['equipement','augmentations','verite-catalogue']);
 const expectedIds=new Set([...Object.keys(fixedCounts),...catalogIds]);
+if(!Array.isArray(manifest.datasets)||manifest.datasets.length!==expectedIds.size) throw new Error(`Manifest: ${expectedIds.size} datasets V3 attendus, trouvé ${manifest.datasets?.length??0}`);
 const manifestTotal=manifest.datasets.reduce((sum,spec)=>sum+Number(spec.count||0),0);
 if(manifest.expectedTotal!==manifestTotal) throw new Error(`Manifest: expectedTotal ${manifest.expectedTotal}, somme des datasets ${manifestTotal}`);
 
 const seen=new Set();
+const seenDatasets=new Set();
 let total=0;
 
 for(const spec of manifest.datasets){
   if(!expectedIds.has(spec.id)) throw new Error(`Dataset V3 inattendu: ${spec.id}`);
+  if(seenDatasets.has(spec.id)) throw new Error(`Dataset V3 dupliqué: ${spec.id}`);
+  seenDatasets.add(spec.id);
   if(spec.id in fixedCounts && spec.count!==fixedCounts[spec.id]) throw new Error(`${spec.id}: count manifeste ${spec.count}, attendu ${fixedCounts[spec.id]}`);
   if(catalogIds.has(spec.id) && (!Number.isInteger(spec.count)||spec.count<1)) throw new Error(`${spec.id}: count catalogue invalide (${spec.count})`);
   if(!String(spec.prefix||'').startsWith('v3-')) throw new Error(`${spec.id}: préfixe non V3`);
@@ -51,6 +54,7 @@ for(const spec of manifest.datasets){
   console.log(`OK ${spec.id}: ${rows.length} entrées · SHA ${sha.slice(0,12)}…`);
 }
 
+for(const id of expectedIds) if(!seenDatasets.has(id)) throw new Error(`Dataset V3 attendu absent: ${id}`);
 if(total!==manifest.expectedTotal) throw new Error(`Corpus V3: ${total}, attendu ${manifest.expectedTotal}`);
 if(seen.size!==manifest.expectedTotal) throw new Error(`Corpus V3: ${seen.size} IDs uniques, attendu ${manifest.expectedTotal}`);
 
@@ -77,5 +81,5 @@ for(const file of activeFiles){
 
 if(/src=["']app\.js(?:\?[^"']*)?["']/.test(index)) throw new Error('index.html: ancien app.js encore chargé');
 
-console.log(`OK corpus V3: ${total} entrées, ${seen.size} IDs uniques.`);
+console.log(`OK corpus V3: ${total} entrées, ${seen.size} IDs uniques, ${seenDatasets.size} datasets.`);
 console.log(`OK runtime V3: ${runtimeMatches[0]} actif, aucune référence legacy dans l’index ou le runtime.`);
