@@ -31,10 +31,20 @@ removedSections+=removeSections(findPage(truth,'18. Extrals, Homo Superior et Ad
 const corruption=findPage(truth,'20. Corruption');
 const integrity=(corruption.sections||[]).find(section=>normalize(section.title)===normalize('Humanité et Intégrité'));
 if(!integrity)throw new Error('Section Humanité et Intégrité absente de Vérité / Corruption');
-const beforeIntegrity=(integrity.blocks||[]).length;
-integrity.blocks=(integrity.blocks||[]).filter(block=>/L.Intégrité mesure jusqu.où un individu peut être transformé/i.test(blockText(block)));
-removedBlocks+=beforeIntegrity-integrity.blocks.length;
-if(integrity.blocks.length!==1)throw new Error(`Corruption: ${integrity.blocks.length} bloc conceptuel conservé, attendu 1`);
+
+// Compatibilité avec les deux formes possibles du hub au moment du nettoyage :
+// - ancien hub minimal : on isole l'unique paragraphe conceptuel parmi les blocs mécaniques ;
+// - hub book-first : l'intégrateur Corruption/Fléaux l'a déjà enrichi et ses paragraphes
+//   narratifs ont été validés sans mécanique. Il ne faut donc surtout pas les réduire à un bloc.
+if(corruption.loreBook?.batch!=='corruption-fleaux-v1'){
+  const beforeIntegrity=(integrity.blocks||[]).length;
+  integrity.blocks=(integrity.blocks||[]).filter(block=>/L.Intégrité mesure jusqu.où un individu peut être transformé/i.test(blockText(block)));
+  removedBlocks+=beforeIntegrity-integrity.blocks.length;
+  if(integrity.blocks.length!==1)throw new Error(`Corruption legacy: ${integrity.blocks.length} bloc conceptuel conservé, attendu 1`);
+}else{
+  if(!(integrity.blocks||[]).length)throw new Error('Corruption book-first: section Humanité et Intégrité vide');
+  if((integrity.blocks||[]).some(block=>block.type==='table'))throw new Error('Corruption book-first: table mécanique dans Humanité et Intégrité');
+}
 removedSections+=removeSections(corruption,['Stress augmentique','Variations permanentes d’Intégrité']);
 
 removedSections+=removeSections(findPage(truth,'21. Les six Fléaux et le faux Septième'),['Dons de Famine Blanche']);
