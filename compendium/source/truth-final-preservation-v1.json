@@ -1,0 +1,1172 @@
+{
+  "schemaVersion": 1,
+  "batch": "truth-final-preservation-v1",
+  "capturedFrom": "2026-09-15",
+  "description": "Matière utile extraite des conteneurs Vérité legacy et des pages transitoires 22–27 avant leur suppression définitive. Cette source rend la reconstruction idempotente.",
+  "pageRecords": [
+    {
+      "dataset": "verite",
+      "targetId": "verite-052-16-aseryns",
+      "sections": [
+        {
+          "id": "legacy-final-aseryn-organisation",
+          "title": "Organisation terrestre — héritage détaillé",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Les Aseryns possèdent plusieurs organisations :"
+            },
+            {
+              "type": "p",
+              "text": "Le grand royaume Atlante, encore en vigueur en 2035, est constitué de :"
+            },
+            {
+              "type": "p",
+              "text": "La famille Royale Athegos, dirigée par Lorinae Athegos."
+            },
+            {
+              "type": "p",
+              "text": "Le duché de Shiren, dirigé par le duc Ineleron Eydreas."
+            },
+            {
+              "type": "p",
+              "text": "Le duché de Shael, dirigé par la duchesse Kyleane Natyel."
+            },
+            {
+              "type": "p",
+              "text": "Le duché de Relaïa, dirigé par le duc Laetheas Sundosia."
+            },
+            {
+              "type": "p",
+              "text": "Le duché de Sharaith, dirigé par la duchesse Ileanna Lisirast."
+            },
+            {
+              "type": "p",
+              "text": "Le duché d'Elisiel, dirigé par la duchesse Kelrana Nateas."
+            },
+            {
+              "type": "p",
+              "text": "Le duché de Laenadur, dirigé par le duc Jesaen Seryn."
+            },
+            {
+              "type": "p",
+              "text": "Le duché de Caliel, dirigé par le duc Erlaris Selerias."
+            },
+            {
+              "type": "p",
+              "text": "Le duché d'Ilassa, dirigé par le duc Melsaen Lisathas."
+            },
+            {
+              "type": "p",
+              "text": "Le duché de Sondassa, dirigé par la duchesse Aeril Theanai."
+            },
+            {
+              "type": "p",
+              "text": "Le duché de Lassira, dirigé par la duchesse Naleyn Cairiah."
+            },
+            {
+              "type": "p",
+              "text": "Le duché d'Ilast, dirigé par le duc Keelean Erith."
+            },
+            {
+              "type": "p",
+              "text": "Le royaume est situé sur le continent invisible de l’Atlantide, masqué par l’Hologramme, il n’est pas accessible par la Réalité à moins de posséder un navire spécifiquement dédié à cette tâche."
+            },
+            {
+              "type": "p",
+              "text": "Cependant, tous les Aseryns n’ont pas fui pour revenir sur l’Atlantide, le désastre antique a été violent et ce fut un génocide tant il y eu de victimes."
+            },
+            {
+              "type": "p",
+              "text": "La grande majorité des Aseryn que l’on peut trouver en Californie, en 2035 sont les descendants des survivants, de ceux qui n’ont pas été broyés par les flots ni ne se sont noyés."
+            },
+            {
+              "type": "p",
+              "text": "Les Aseryns pouvant se métisser aux humains, une très grande part de ces « atlantes » sont des « Humaseryns », c’est-à-dire qu’ils tiennent plutôt de l’humain avec quelques rares compétences aseryn qu’autre chose."
+            },
+            {
+              "type": "p",
+              "text": "Il existe toutefois une faction qui s’est bien moins métissée, Il s’agit des « Muliens », du continent de Mu, un continent artificiel que les Aseryn survivants mirent des millénaires à faire jaillir des flots dans le Pacifique, comme nouvelle Atlantide."
+            },
+            {
+              "type": "p",
+              "text": "Les Muliens sont des Aseryns, ils appellent « Atlantes » les ancêtres qui vivaient sur le continent de l’Atlantide et les « Portaliens » ceux qui ont fui pour revenir."
+            },
+            {
+              "type": "p",
+              "text": "Tout comme les « neo-Atlantes », les Muliens possèdent des duchés :"
+            },
+            {
+              "type": "p",
+              "text": "La famille Royale Athegos, dirigée par Kyriak Zenos"
+            },
+            {
+              "type": "p",
+              "text": "Le duché d’Amrica dirigé par le duc Sagarion Nagilia"
+            },
+            {
+              "type": "p",
+              "text": "Le duché d’Austilia dirigé par la duchesse Cassia Seryn"
+            },
+            {
+              "type": "p",
+              "text": "Le duché d’Asiria dirigé par le duc Phrosias Erith"
+            },
+            {
+              "type": "p",
+              "text": "Le duché d’Antarca dirigé par la duchesse Aloria Dratyn"
+            },
+            {
+              "type": "p",
+              "text": "Contrairement aux « Portaliens », les Muliens interagissent prodigieusement avec les humains, chaque duché désigné une région du monde, Amrica est évidemment l’Amérique, Austilia, l’autrsalie, Asiria, l’Asie, et Antarca, l’antarctique, où ils possèdent des souterrains et des mines de stroethil."
+            },
+            {
+              "type": "p",
+              "text": "S’il n’y a pas de guerre entre Mu et Atlantide, on ne peut pas dire que Muliens et Portaliens ne s’apprécient, en effet, le roi Mulien se réclamant descendre des Athegos, son père étant un cousin de Kalira Athegos, il n’accepte pas la légitimité de Lorinae, bien que désignée par l’héritier légitime."
+            },
+            {
+              "type": "p",
+              "text": "Ainsi, peu après le retour de l’Atlantide, les liens ont été rompus faute de dialogue."
+            },
+            {
+              "type": "p",
+              "text": "Pour les aseryn californiens, à 60% des « humaseryns, » 38% des « muliens et 2% des « Portaliens », ces considérations n’existent pas, les simples citoyens cherchent juste à vivre sans plus de soucis."
+            },
+            {
+              "type": "p",
+              "text": "Ceux qui sont Muliens ou portaliens savent prendre les navires pour trouver des îles aserynes dans le pacifique ou pour l’atlantide. « l’Accelyr », la façon de parler si rapide qu’aucun humain ne la comprend est une façon aux Aseryns de se reconnaitre et de reconnaitre ceux en ayant le sang."
+            }
+          ]
+        },
+        {
+          "id": "legacy-final-aseryn-recurrences",
+          "title": "Présence et récurrences dans le monde moderne",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "En grande Californie, les aseryns travaillent absolument dans tous les corps de métier, sans distinction aucune dans leurs préférences."
+            },
+            {
+              "type": "p",
+              "text": "Les Muliens seront plutôt de la coté ouest des Etats-unis, plus nombreux, alors que les Portaliens sont plus sur la cote-est des Etats-Unis, en général, les Aseryns cherchent des cités portuaires, ils n’aiment pas vivre trop dans les terres."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset": "verite",
+      "targetId": "verite-048-12-autres-descendants-de-khinae",
+      "sections": [
+        {
+          "id": "legacy-final-khinae-heritage",
+          "title": "Khinae — mémoire des lignées anciennes",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Les Khinaes sont une espèce importante de la Terre, un peu comme les dragons d’Aèr, ce sont des prédateurs, semi-quadrupèdes pouvant se dresser sur leurs pattes arrière, ils possèdent une mâchoire extrêmement puissante et deux yeux perçant. La singularité du Khinae est qu’on ne peut mieux les décrire car pour les autres détails, ils sont variables."
+            },
+            {
+              "type": "p",
+              "text": "En effet, le khinae sont métamorphes, à la base ils empruntaient des caractéristiques d’autres prédateurs pour être encore plus efficaces, pouvant se couvrir de plumes, d’écailles ou de pelage. Cette polymorphie leur permettait de s’associaient à des espèces plus conventionnelles, toutefois comme ils étaient peu nombreux et solitaires, ils s’hybridèrent avec ces espèces assez souvent, incorporant leur génome."
+            },
+            {
+              "type": "p",
+              "text": "Petit à petit, ils donnèrent des espèces descendantes des Khinae et d’autres races mélangeant les génomes pour façonner quelque chose d’unique tels que des hommes-lion, des hommes-ibis ou bien des chimères en tout genre qu’on peut voir dans les mythologies."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset": "verite",
+      "targetId": "verite-053-17-exiles-peuples-fonctions-et-traditions",
+      "sections": [
+        {
+          "id": "legacy-final-exiles-organisations",
+          "title": "Grandes organisations des Exilés sur Terre",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Les Expatriés d’Aèr sont des communautés restreintes ayant su se dissimuler durant des millénaires, afin de vivre éloignés des humains ou parmi eux parfois.",
+              "style": "Normal"
+            }
+          ]
+        },
+        {
+          "id": "legacy-final-exiles-conseil",
+          "title": "Le Conseil des Anciens",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Fondé par Sil’Elaith à une époque reculée, le conseil des anciens regroupait les principaux dirigeants non-humains à l’origine, qui régnaient sur de vastes communautés.",
+              "style": "Normal"
+            },
+            {
+              "type": "p",
+              "text": "Il comprenait :",
+              "style": "Normal"
+            },
+            {
+              "type": "p",
+              "text": "Le siège des elfes sylvain",
+              "style": "List Paragraph"
+            },
+            {
+              "type": "p",
+              "text": "Le siège des beaux elfes",
+              "style": "List Paragraph"
+            },
+            {
+              "type": "p",
+              "text": "Le siège des elfes noirs",
+              "style": "List Paragraph"
+            },
+            {
+              "type": "p",
+              "text": "Le siège des azménoriens",
+              "style": "List Paragraph"
+            },
+            {
+              "type": "p",
+              "text": "Le siège des nains de l’est",
+              "style": "List Paragraph"
+            },
+            {
+              "type": "p",
+              "text": "Le siège des nains d’ouest",
+              "style": "List Paragraph"
+            },
+            {
+              "type": "p",
+              "text": "Le siège des nains intérieurs",
+              "style": "List Paragraph"
+            },
+            {
+              "type": "p",
+              "text": "Le siège des élémentaires",
+              "style": "List Paragraph"
+            }
+          ]
+        },
+        {
+          "id": "legacy-final-exiles-conseil-2035",
+          "title": "Le Conseil des Anciens en 2035",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Le temps s’est écoulé depuis, la sagesse et la noblesse d’âme de Sil n’a jamais été à prouver et sur Terre, elle a créé le conseil des Anciens elle-même pour administrer posément l’immigration. Le conseil est un outil à son service de fait. Le conseil est présidé par Oberon Vadel, cependant, il en répond des décisions prises directement à Sil. La Guide dirige, ses propres décisions priment sur celles du conseil, elle peut donc à tout moment refuser une mesure et en instaurer une autre sans consulter le conseil, cependant, elle dispose d’assez peu de temps, étant très occupée, elle ne gère donc ni les discussions ni les décisions généralement, ne se présentant que pour les moments décisifs et importants.",
+              "style": "Normal"
+            }
+          ]
+        },
+        {
+          "id": "legacy-final-exiles-market",
+          "title": "Marchés, Jadecenters et ateliers whurtens",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Jadecenters / Palameta : marché noir magique orco-gobelin, intermédiaires, revente, matériel volé, protections, composants et commandes discrètes.",
+              "style": "List Bullet"
+            },
+            {
+              "type": "p",
+              "text": "Ateliers whurtens : runes, supports préparés, réparation et objets stabilisés ; l’accès dépend davantage de la relation et de la tradition que d’une boutique publique.",
+              "style": "List Bullet"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset": "verite",
+      "targetId": "verite-lore-whurtens",
+      "sections": [
+        {
+          "id": "legacy-final-whurtens-nibelungen-duergars",
+          "title": "Nibelungen et Duergars sur Terre",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "style": "lore",
+              "text": "Sur Terre, les descendants des clans Belentrin, Farar et Valik ont longtemps refusé de fusionner avec les Gilordin, Kilmorel et Vonrim. De cette division sont nées les appellations Nibelungen pour les Whurtens vivant à la surface et Duergars pour les lignées troglodytes."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset": "verite",
+      "targetId": "verite-054-18-extrals-homo-superior-et-adrak",
+      "sections": [
+        {
+          "id": "legacy-final-xeno-market",
+          "title": "Marchés xénos en Grande Californie",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Shaediri : marché de survie et de contrebande xéno à Los Demonos. Le réseau vend, adapte, répare et importe ; il fonctionne volontiers par points de crédit et dettes de service plutôt qu’en monnaie galactique.",
+              "style": "List Bullet"
+            },
+            {
+              "type": "p",
+              "text": "Feeshri : filière de très haut niveau, reliée aux G-corporations et parfois aux Roesis. L’accès est politique, social et dangereux ; une grande partie de leur armement est psychique ou biométriquement verrouillée.",
+              "style": "List Bullet"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset": "verite",
+      "targetId": "verite-056-20-corruption",
+      "sections": [
+        {
+          "id": "legacy-final-corruption-equipment",
+          "title": "Objets corrompus et Calamitechnologie — usages",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Une relique de Fléau doit être assez utile pour qu’un personnage raisonnable envisage de l’employer malgré la Souillure. Une Calamitechnologie va plus loin : elle ne se contente pas d’enfermer une horreur, elle construit une machine autour d’un principe de Fléau. L’AIDH connaît le concept et le juge potentiellement plus dangereux encore que la Magitech.",
+              "style": "Normal"
+            },
+            {
+              "type": "p",
+              "text": "Pas de DON gratuit. Un objet fournit uniquement les propriétés écrites sur sa fiche.",
+              "style": "List Bullet"
+            },
+            {
+              "type": "p",
+              "text": "Souillure. Un objet actif indique sa difficulté propre. Transporter un objet correctement confiné ne provoque pas de test ; activation, fuite ou manipulation dangereuse oui.",
+              "style": "List Bullet"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "fullLorePages": [
+    {
+      "id": "verite-lore-points-de-rencontre",
+      "title": "Points de rencontre du monde caché",
+      "category": "Vérité",
+      "source": "Points de rencontre.pdf",
+      "status": "source_detaillee",
+      "tags": [
+        "Vérité",
+        "Lore détaillé",
+        "Points de rencontre",
+        "Monde caché"
+      ],
+      "nav": {
+        "group": "Entrer dans la Vérité",
+        "groupOrder": 15,
+        "subgroup": "Lieux et réseaux du monde caché",
+        "subgroupOrder": 30,
+        "pageOrder": 10
+      },
+      "legacyConsolidation": {
+        "batch": "truth-final-v1",
+        "sources": [
+          "lore-081-points-de-rencontre-01",
+          "lore-082-points-de-rencontre-02",
+          "lore-083-points-de-rencontre-03",
+          "lore-084-points-de-rencontre-04",
+          "lore-085-points-de-rencontre-05",
+          "lore-086-points-de-rencontre-06",
+          "lore-087-points-de-rencontre-07"
+        ]
+      },
+      "sections": [
+        {
+          "id": "reseau-des-points-de-rencontre",
+          "title": "Le réseau des points de rencontre",
+          "level": 2,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Les points de rencontre Ls points de rencontre sont des lieus aussi lambda d’apparence qu’ils ne sont importants pour les communautés qu’ils représentent.",
+              "style": "PDF"
+            },
+            {
+              "type": "p",
+              "text": "Généralement, ces lieux sont assez accessibles, les humains normaux n’ont juste aucun moyen de savoir la vérité caché derrière les clients réguliers.",
+              "style": "PDF"
+            },
+            {
+              "type": "p",
+              "text": "Points de rencontre -Mages La loge de Los Angeles : La tour d’or Description Située dans le quartier des affaires, la « Tour dorée » est un bijou d’architecture, visuellement dorée, elle est un véritable phare la nuit.",
+              "style": "PDF"
+            },
+            {
+              "type": "p",
+              "text": "C’est le siège d’une association de grande ampleur, qui cherche à prôner l’éducation et l’amélioration des méthodes corporatiste, la tour dorée est, de fait, un institut académique indépendant.",
+              "style": "PDF"
+            },
+            {
+              "type": "p",
+              "text": "Tenu par Jcube, un séraphin de Zophielle, c’est aussi un bar d’hôtes, de grand standing, probablement nettement au-dessus du First Flame en termes de produits, meilleurs alcools, marbre véritable, de l’or sur les tables, ce que le Sugar Eden n’a pas en discrétion et confort, il le compense en luxe pur, ostensible et inutile.",
+              "style": "PDF"
+            },
+            {
+              "type": "p",
+              "text": "Malgré la rivalité assumée, les deux bars n’ont pas totalement la même clientèle sans même parler des clients inhumains.",
+              "style": "PDF"
+            },
+            {
+              "type": "p",
+              "text": "ne lui laisserait aucune chance, mais elle te tua, lui et tous ses acolytes. Bien que vivante, elle fut traumatisée par cette attaque, et chercha à se cacher dans une communauté de nonne. C’est là qu’elle fut possédée par Erianel, une séraphine qui se fit soumettre par l’assassine. Désormais les deux âmes ont fusionné et l’ancienne maitresse de Los antrax (la section meurtre du cartel du sinaloa) est activement encore cherchée par ses anciens subordonnés. Elle profite du garage Ashford, où elle vend",
+              "style": "PDF"
+            },
+            {
+              "type": "p",
+              "text": "des armes customisées et des conseils pour les utiliser. En tant qu’Erianel, ancienne séraphine de Metatron, elle a peu d’affinité avec les archanges, étant renégate, mais aidera autant que possible les angelus qui viendront quand même demander de l’aide afin de regagner quelques points.",
+              "style": "PDF"
+            },
+            {
+              "type": "p",
+              "text": "Points de rencontre -Daemons Tous : le club « Purple Embers »",
+              "style": "PDF"
+            },
+            {
+              "type": "p",
+              "text": "Corneille de Morrighan et fille de Ibn al-berih (Ishaa), elle est une Observatrice de l’Association également.",
+              "style": "PDF"
+            },
+            {
+              "type": "p",
+              "text": "Même si Hashem n’est pas de l’Association, elle s’occupe de lui régulièrement quand elle n’est pas au « Night Feathers ». Elle fait bien partie des chasseurs musulmans mais sa seule foi va à Morrighan étant une de ses corneilles. Derrière son voile, elle cache une beauté rare et un corps plus qu’athlétique. C’est une assassine et une combattante assez brutale et farouche. Au bar, elle n’aime pas aider les chasseurs ou les daemons trop intellectuels ou séducteurs, elle cherche des gens purs et volontaires, peut-être des",
+              "style": "PDF"
+            },
+            {
+              "type": "p",
+              "text": "gens plus stupides mais ayant du cœur à revendre plus que du cul.",
+              "style": "PDF"
+            },
+            {
+              "type": "p",
+              "text": "Morrighan: Le temple - « Raven corporation HQ »",
+              "style": "PDF"
+            },
+            {
+              "type": "p",
+              "text": "Description La corporation de la raven industries a pour siège un immense building noir surnommé « Black Tower » ou « Raven tower ».",
+              "style": "PDF"
+            },
+            {
+              "type": "p",
+              "text": "Les garous viennent pour échanger du matos plus qu’autre chose, des prisonniers aussi. Les « ulfhednars » n’hésitent pas à bouffer les Alphas et Meneurs d’autres factions quand ils les capturent et qu’ils ont fait du mal à leurs meutes.",
+              "style": "PDF"
+            },
+            {
+              "type": "p",
+              "text": "Gardiens Nom de la Réalité : Murton Keens Age : «45 ans », ????",
+              "style": "PDF"
+            },
+            {
+              "type": "p",
+              "text": "Affiliations : Crawlers : gundrivers (hell angels) Nationalité d’origine : Américaine Ethnie réelle : Loups-garous Grand meneur : Thorrunn Pouvoir du sang : sang primal Statut : Meneur de clan Murton Keens est un biker et un criminel endurci. Enfant, il était moqué et malmené par un certain Jason qui lui rappelait qu’il était roux, moche, puant, sans âme et gros et qu’il n’avait même pas de père. Après le déménagement de New-York pour San Francisco, pendant 6 ans, Murton muscla et fit du karaté. A 16 ans, il retourna à New-York, après avoir volé une moto, sauta la mère de Jason puis",
+              "style": "PDF"
+            },
+            {
+              "type": "p",
+              "text": "Judy est une coach sportive d’Ushkoll corporation. C’est une ancienne mercenaire assez farouche qui a été gravement blessée pendant la guerre. Elle entraine donc dans le Green Health. Après la guerre elle fit quelques années de pharma et quelques formations d’infirmière afin de compléter son profil. Meditech quand elle ne travaille pas au centre de santé, elle est un soutien médical pour les crawlers avec qui elle bosse, son camion médical contenant des caisses d’analgésiques, de dopant et de différents produits",
+              "style": "PDF"
+            },
+            {
+              "type": "p",
+              "text": "utiles. C’est évidemment une orque, une Thulkar et elle est à la gestion du green health center. Elle cherche toujours plus à former les siens, même si le GHC n’est pas un haut lieu de l’information, les réseaux du syndicat de Jade son très étendu et forcément, une thulkare d’importance n’est pas étrangère au syndicat, elle en fait partie et aura rapidement des réponses.",
+              "style": "PDF"
+            },
+            {
+              "type": "p",
+              "text": "prenant de vitesse tous les gouvernement ayant en tête cela depuis des années.",
+              "style": "PDF"
+            },
+            {
+              "type": "p",
+              "text": "Elle est le seigneur-général de la XXX armée de l’AIDH.",
+              "style": "PDF"
+            },
+            {
+              "type": "p",
+              "text": "Elle accepte de déléguer au GAAC unrôle administratif, mais elle s’assure que la Terre reste un monde humain qui suit son développement normal de technologie, la guerre de 22-28 a été un grave crime de la part de factions dissidentes d’Extrals dont l‘émeraude sanglante.",
+              "style": "PDF"
+            },
+            {
+              "type": "p",
+              "text": "Nom de la Réalité : Kirstyn Kjoll Nom de la Vérité : Khir’stae’Elynn Age : « 30 ans » - Affiliations : corportation : SFU Nationalité d’origine : Mexicaine Ethnie réelle : Serysse Statut : impératrice du système Elynnium Sœur d’Alladava Kjoll, Kirtsyn est une administratrice d’importance de la corporation.",
+              "style": "PDF"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "verite-lore-traditions-chasseurs-detaillees",
+      "title": "Traditions et réseaux de Chasseurs",
+      "category": "Vérité",
+      "source": "TUC_Vérité_ les chasseurs.docx",
+      "status": "source_detaillee",
+      "tags": [
+        "Vérité",
+        "Chasseurs",
+        "Traditions",
+        "Lore détaillé"
+      ],
+      "nav": {
+        "group": "Chasseurs & traditions",
+        "groupOrder": 30,
+        "subgroup": "Traditions et réseaux",
+        "subgroupOrder": 20,
+        "pageOrder": 20
+      },
+      "legacyConsolidation": {
+        "batch": "truth-final-v1",
+        "sources": [
+          "lore-167-verite-les-chasseurs-01",
+          "lore-168-verite-les-chasseurs-02",
+          "lore-169-verite-les-chasseurs-03",
+          "lore-170-verite-les-chasseurs-04",
+          "lore-171-verite-les-chasseurs-05",
+          "lore-172-verite-les-chasseurs-06",
+          "lore-173-verite-les-chasseurs-07",
+          "lore-174-verite-les-chasseurs-08",
+          "lore-175-verite-les-chasseurs-09",
+          "lore-176-verite-les-chasseurs-10",
+          "lore-177-verite-les-chasseurs-11",
+          "lore-178-verite-les-chasseurs-12",
+          "lore-179-verite-les-chasseurs-13",
+          "lore-180-verite-les-chasseurs-14",
+          "lore-181-verite-les-chasseurs-15",
+          "lore-182-verite-les-chasseurs-16"
+        ]
+      },
+      "sections": [
+        {
+          "id": "archive-association-des-chasseurs-histoire-et-portee",
+          "title": "Association des Chasseurs — histoire et portée",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "L’Association est parfois également appelée « Loge de la Chasse » ou plus rarement « Armée du Clan », évidemment, il ne s’agit en rien d’une armée.",
+              "style": "Normal"
+            },
+            {
+              "type": "p",
+              "text": "Ses origines remontent à loin, les humains sont des victimes parfaites pour des créatures plus fortes mais moins nombreuses, des « monstres » essentiellement. Les héros mythologiques sont bien souvent des tueurs de monstres et c’est avec eux que débutent l’Histoire de l’Association, bien avant qu’elle ne prenne son nom.",
+              "style": "Normal"
+            },
+            {
+              "type": "p",
+              "text": "Depuis Mary Morgan, le fonctionnement n’a jamais profondément changé.",
+              "style": "Normal"
+            },
+            {
+              "type": "p",
+              "text": "L’Association est une entité tentaculaire.",
+              "style": "Normal"
+            }
+          ]
+        },
+        {
+          "id": "archive-xenoshield-histoire",
+          "title": "Xenoshield — histoire",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Le Xenochield est une organisation internationale.",
+              "style": "Normal"
+            }
+          ]
+        },
+        {
+          "id": "archive-apocalyptistes-et-chasseurs-monastiques",
+          "title": "Apocalyptistes et chasseurs monastiques",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "La face plus sombre des moines Apocalyptistes est évidente, ils n’enquêtent pas vraiment, quand ils sont déployés, c’est pour le combat, ils ne se soucient ni des dégâts matériels ni des raisons qu’auraient la créature pour avoir tué ou corrompu un humain. Ces moines tuent les « bêtes » en raison de leur seule nature, ils ne font pas vraiment cas de « gentils » loups-garous menant une existence sereine, s’ils en ont repéré un, ils l’éliminent afin de supprimer l’ignominie que son existence représente, son âme étant perdue.",
+              "style": "Normal"
+            },
+            {
+              "type": "p",
+              "text": "L’ordre de Magdalena",
+              "style": "Subtitle"
+            },
+            {
+              "type": "p",
+              "text": "L’ordre de l’Inquisition est un ordre secret, héritier de l’inquisition médiévale, bien que très différente dans sa structure et son fonctionnement.",
+              "style": "Normal"
+            }
+          ]
+        },
+        {
+          "id": "archive-assassins-accords-et-reseaux",
+          "title": "Assassins — accords et réseaux",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "On peut noter que les Assassins, de fait, sont parfois chasser par les autres chasseurs, cependant, ils ont su se rapprocher de communautés vampiriques ou de serviteurs de fléaux par d’anciens accords, ce qui les rend assez atypiques comme chasseurs.",
+              "style": "Normal"
+            }
+          ]
+        },
+        {
+          "id": "archive-traditions-hindoues-de-chasse",
+          "title": "Traditions hindoues de Chasse",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "L’hindouisme actuel s’est énormément modernisé, les brahmanes, la caste à laquelle appartenait les chasseurs, a énormément changée avec les grandes migrations vers les Etats-Unis à la suite des innombrables catastrophes écologiques que l’Inde a subies.",
+              "style": "Normal"
+            },
+            {
+              "type": "p",
+              "text": "Il faut toutefois mentionner que cette caste a toujours joué un rôle dans la religion, évidemment mais aussi dans l’éducation : les enseignants étant de cette caste. Ils ont aussi toujours été des hommes de loi, avocats ou juges par exemple mais c’est surtout dans le milieu politique que les brahmanes se retrouvent le plus quand ils ne sont pas dans la religion.",
+              "style": "Normal"
+            },
+            {
+              "type": "p",
+              "text": "Dès lors, on comprend aisément pourquoi, avec l’exposition de leur nombre en Grande Californie, la quasi-totalité des politiques d’origine Indienne sont des brahmanes en 2035.",
+              "style": "Normal"
+            }
+          ]
+        },
+        {
+          "id": "archive-shientaisme-et-traditions-chinoises",
+          "title": "Shientaïsme et traditions chinoises",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "« Ren » « ’Humanité » : l’ensemble des caractéristiques élevant l’Humain, définissant l’Humain, caractérisant sa dignité et son respect.",
+              "style": "List Paragraph"
+            },
+            {
+              "type": "p",
+              "text": "« Li » « Récompense » : C’est la notion de gain qu’a l’Humain a vivre en groupe, de profit supérieur à vivre en société qu’individuellement",
+              "style": "List Paragraph"
+            },
+            {
+              "type": "p",
+              "text": "« Yi » « Justice » : C’est la notion de correction, d’être capable de sentir le bien et le mal et d’agir forcément de manière vertueuse. C’est la morale dans son caractère actif, sa présence sincère dans les actes.",
+              "style": "List Paragraph"
+            },
+            {
+              "type": "p",
+              "text": "«Zhi » « Sagesse » : C’est la capacité à savoir les choses de manière juste. Une capacité d’analyse dépourvue d’erreur ou de souillure. C’est la morale dans son caractère passif, sa présence dans la pensée profonde.",
+              "style": "List Paragraph"
+            },
+            {
+              "type": "p",
+              "text": "Les shientaïstes sont peu unifiés, il est impossible de vraiment tirer une tendance pour leur influence.",
+              "style": "Normal"
+            }
+          ]
+        },
+        {
+          "id": "archive-lignees-familiales-et-kabbalistes",
+          "title": "Lignées familiales et Kabbalistes",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "La famille a souvent combattu les influences Confucianiste et Bouddhistes en Chine, elle a toujours cherché à posséder des représentants dévoués aux rois et dirigeants pour protéger le clan. Hélas, la prophétie de l’élu, un être capable de tout absorbé et de tout vaincre a changé petit à petit ce clan uni en un nid de vipères s’affrontant sans cesse pour faire enfin émerger cet élu.",
+              "style": "Normal"
+            },
+            {
+              "type": "p",
+              "text": "En 1881, naquit celui qui semblait être l’élu de la prophétie. D’une stature anormalement grande pour un fils de paysan, d’une santé improbable, Xuegang se montra rapidement un incroyable maitre du taoïsme et des pouvoirs associés. Il se montra capable de tout dévorer, de tout annihiler et aucun esprit, aucun monstre ne le blessa jamais jusqu’en 1998.",
+              "style": "Normal"
+            },
+            {
+              "type": "p",
+              "text": "Les chasseurs hébraïques n’existent plus vraiment, ils ne restent en 2035 que des chasseurs Kabbalistes.",
+              "style": "Normal"
+            }
+          ]
+        },
+        {
+          "id": "archive-traditions-bibliques-de-chasse",
+          "title": "Traditions bibliques de Chasse",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "L’influence Biblique",
+              "style": "Subtitle"
+            },
+            {
+              "type": "p",
+              "text": "La bible est un corpus de légendes qui ont été réinterprétées et assimilées par les israélites, empruntant à d’autres croyances et peuples leurs propres légendes.",
+              "style": "Normal"
+            },
+            {
+              "type": "p",
+              "text": "Au fur et à mesure que la chrétienté et l’Islam ont progressé, ces religions ont assimilé de nouvelles croyances et en ont rejeté d’anciennes. Ainsi, comme énoncé dans le chapitre des Chasseurs Chrétiens, ils y eu de lourdes purges de ces confréries non reconnues. Beaucoup de saints ordres de chasseurs ont été ainsi rejetés.",
+              "style": "Normal"
+            },
+            {
+              "type": "p",
+              "text": "« Le saint Ordre des Sauroctones », « l’ordre des Saintes lagunes », « L’ordre du Vain Sanctuaire », « L’ordre de Longinus », « l’ordre du saint crépuscule » sont autant d’exemples de confréries que l’Eglise chrétienne ne reconnait plus du tout.",
+              "style": "Normal"
+            },
+            {
+              "type": "p",
+              "text": "Tant d’autres",
+              "style": "Subtitle"
+            },
+            {
+              "type": "p",
+              "text": "Peu importe quelle tradition ou histoire possède chaque confrérie, presque toutes fonctionnent de la même manière.",
+              "style": "Normal"
+            }
+          ]
+        },
+        {
+          "id": "archive-chasseurs-xenos-et-reseaux-galactiques",
+          "title": "Chasseurs xénos et réseaux galactiques",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Pourtant c’est une réalité. Bien qu’ils adoptent des méthodes extrêmement nocives et néfastes, ils traquent essentiellement les ressortissants aliens issus d’espèces très souvent invasives comme les Ad’rak, les Xewens , les Chezh’ons, Menomahs, kelxards ou les Greys. Ils empiètent fortement sur les autorisations données par l’AIDH ou le GAAC. Dès qu’un représentant d’une de ces espèces est repéré., quand bien même il serait pacifique voire très utile, « l’émeraude sanglante » déploie ses assassins, des Talass génétiquement altérés ou en bioarmure qui possèdent des exosquelettes de combat dernière génération. C’est un groupe paramilitaire terroriste, mais dont le réseau d’observation n’est pas à négliger quand on traque un alien.",
+              "style": "Normal"
+            }
+          ]
+        },
+        {
+          "id": "archive-sons-of-night-et-protection-des-exiles",
+          "title": "Sons of Night et protection des Exilés",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Les « SoN » assurent une surveillance des individus les plus anciens ou singuliers, ils veillent à ce qu’aucun chasseur humain ou aucune créature surnaturelle ne cible un citoyen des exilés.",
+              "style": "Normal"
+            },
+            {
+              "type": "p",
+              "text": "Quand un exilé est pris pour cible, les « SoN » déploient un protocole de sécurité, une part d’entre eux sert à défendre, une autre à supprimer la menace à sa source.",
+              "style": "Normal"
+            },
+            {
+              "type": "p",
+              "text": "Contrairement à « la chasse fantastique », ils sont d’une discrétion totale, le but étant de protéger, cela implique le secret et la sécurité des exilés, c’est donc avec une précaution toujours plus grande qu’ils agissent.",
+              "style": "Normal"
+            },
+            {
+              "type": "p",
+              "text": "Les filles de Kaeria",
+              "style": "Subtitle"
+            },
+            {
+              "type": "p",
+              "text": "« Les filles de Kaeria», est une organisation qui vise à détruire préventivement les menaces.",
+              "style": "Normal"
+            }
+          ]
+        },
+        {
+          "id": "archive-les-lavandieres",
+          "title": "Les Lavandières",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Les chasseurs humains ignorent ce que sont les « Lavandières », le terme ne semble pas effrayant, mais tous les vampires les craignent, ces chasseurs buvant le sang des autres vampires et en acquérant les pouvoirs d’une part, d’autre part, ils n’appartiennent à aucune faction vampirique, tout comme les « Veilleurs », même s’ils ont des amitiés assumées avec des grands noms de certaines factions.",
+              "style": "Normal"
+            },
+            {
+              "type": "p",
+              "text": "Les chasseurs Garous",
+              "style": "Subtitle"
+            },
+            {
+              "type": "p",
+              "text": "Les garous sont tous des chasseurs d’humains et d’autres animaux dont ils peuvent se nourrir de la chair.",
+              "style": "Normal"
+            },
+            {
+              "type": "p",
+              "text": "Il existe cinq grandes factions historiques chez les loups-garous :",
+              "style": "Normal"
+            },
+            {
+              "type": "p",
+              "text": "« Pelages gris »",
+              "style": "List Paragraph"
+            },
+            {
+              "type": "p",
+              "text": "« Pelages sombres »",
+              "style": "List Paragraph"
+            },
+            {
+              "type": "p",
+              "text": "« Pelages roux »",
+              "style": "List Paragraph"
+            },
+            {
+              "type": "p",
+              "text": "« Pelages blanc »",
+              "style": "List Paragraph"
+            },
+            {
+              "type": "p",
+              "text": "« Pelages bruns »",
+              "style": "List Paragraph"
+            },
+            {
+              "type": "p",
+              "text": "« Pelages dorés »",
+              "style": "List Paragraph"
+            },
+            {
+              "type": "p",
+              "text": "Pour résumer, chaque faction correspond à une origine ethnique lointaine, à savoir européenne, asiatique et amérindienne, là où les loups et les hommes se sont le plus côtoyé.",
+              "style": "Normal"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "rulePages": [
+    {
+      "id": "rules-truth-equipment-properties",
+      "title": "Équipement de Vérité — propriétés communes",
+      "category": "Règles",
+      "source": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx",
+      "status": "canon_recent",
+      "tags": [
+        "Règles",
+        "Vérité",
+        "Équipement de Vérité"
+      ],
+      "nav": {
+        "group": "Vérité — Règles communes",
+        "groupOrder": 70,
+        "subgroup": "Équipement de Vérité",
+        "subgroupOrder": 30,
+        "pageOrder": 100
+      },
+      "truthFinalCleanup": {
+        "batch": "truth-final-v1"
+      },
+      "sections": [
+        {
+          "id": "details",
+          "title": "Détails",
+          "level": 2,
+          "blocks": [
+            {
+              "type": "table",
+              "rows": [
+                [
+                  "Propriété",
+                  "Règle"
+                ],
+                [
+                  "Perforant X",
+                  "ignore X Armure matérielle seulement"
+                ],
+                [
+                  "Sacré",
+                  "consécration réelle ; vulnérabilités/Talents seulement"
+                ],
+                [
+                  "Angélique",
+                  "Sacré céleste ; divin si pertinent"
+                ],
+                [
+                  "Solaire",
+                  "effet surnaturel de Soleil ; UV ≠ Soleil"
+                ],
+                [
+                  "Incendiaire",
+                  "Feu ; Altération appropriée peut Enflammer"
+                ],
+                [
+                  "EMP / Ion",
+                  "affecte systèmes technologiques exposés"
+                ],
+                [
+                  "Invariant",
+                  "résiste aux corrections ordinaires ; ne voit rien de plus que son capteur"
+                ],
+                [
+                  "Calibré",
+                  "préparé contre une signature connue ; jamais universel"
+                ],
+                [
+                  "Surchauffe",
+                  "refroidissement après usage intensif selon profil"
+                ],
+                [
+                  "Verrouillé",
+                  "autorisation bio/psychique/nanitique/crypto requise"
+                ]
+              ]
+            },
+            {
+              "type": "p",
+              "text": "Tous les catalogues utilisent la même loi : objet réel, disponibilité réelle, acquisition fictionnelle. Les réseaux ouvrent des voies d’accès ; ils ne créent pas la marchandise.",
+              "style": "TUC Rule"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rules-truth-hunter-equipment-reference",
+      "title": "Équipement de Chasse — références et propriétés",
+      "category": "Règles",
+      "source": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx",
+      "status": "canon_recent",
+      "tags": [
+        "Règles",
+        "Vérité",
+        "Équipement de Vérité"
+      ],
+      "nav": {
+        "group": "Vérité — Règles communes",
+        "groupOrder": 70,
+        "subgroup": "Équipement de Vérité",
+        "subgroupOrder": 30,
+        "pageOrder": 110
+      },
+      "truthFinalCleanup": {
+        "batch": "truth-final-v1"
+      },
+      "sections": [
+        {
+          "id": "details",
+          "title": "Détails",
+          "level": 2,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Ce chapitre ne remplace pas le catalogue d’armement général de Réalité. Lorsqu’un équipement terrestre existe dans les deux corpus, son profil numérique, ses propriétés profanes et son prix de base sont ceux du catalogue Réalité unifié ; le présent Livre n’ajoute que les propriétés de Vérité, usages de Chasse, statuts et modifications explicitement indiqués. Les PTV ne fournissent jamais automatiquement un objet.",
+              "style": "Normal"
+            }
+          ]
+        },
+        {
+          "id": "armes-existantes-utiles-a-la-chasse",
+          "title": "Armes existantes utiles à la Chasse",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "table",
+              "rows": [
+                [
+                  "Arme",
+                  "Profil de Chasse"
+                ],
+                [
+                  "Phoenix PCK-08 « Feather »",
+                  "DGT 4 ; Perforant 1 ; chaleur."
+                ],
+                [
+                  "Phoenix BA-037 « Sun Axe »",
+                  "DGT 7 ; Perforant 1 ; chaleur."
+                ],
+                [
+                  "Raven CL-038 « Claymore »",
+                  "DGT 8 ; EMP."
+                ],
+                [
+                  "Raven SP-016 « Raven Spear »",
+                  "DGT 6 ; allonge 1,5 m ; Perforant 1 ; EMP."
+                ],
+                [
+                  "Phoenix PW-026 « Vampire Killer »",
+                  "DGT 7 ; allonge 3,5 m ; Perforant 1 ; chaleur. Le nom est commercial, pas une propriété anti-Vampire."
+                ],
+                [
+                  "Raven MC-025 « Hitman »",
+                  "DGT 5 ; allonge 1,5 m ; Perforant 2."
+                ],
+                [
+                  "Owl LC-014 « Chasseur »",
+                  "Arbalète ; DGT 7 ; portée 25 m ; Perforant 1."
+                ],
+                [
+                  "Raven HT-014 « Immobilisateur »",
+                  "Taser lourd ; DGT 6 ; portée 15 m."
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "id": "raven-drill",
+          "title": "Raven Drill",
+          "level": 5,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "A — 5 munitions pour le prix d’une boîte normale du calibre. Propriété Perforant 1.",
+              "style": "Normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rules-truth-aidh-arsenal-reference",
+      "title": "Arsenal AIDH — doctrine matérielle et références",
+      "category": "Règles",
+      "source": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx",
+      "status": "canon_recent",
+      "tags": [
+        "Règles",
+        "Vérité",
+        "Équipement de Vérité"
+      ],
+      "nav": {
+        "group": "Vérité — Règles communes",
+        "groupOrder": 70,
+        "subgroup": "Équipement de Vérité",
+        "subgroupOrder": 30,
+        "pageOrder": 120
+      },
+      "truthFinalCleanup": {
+        "batch": "truth-final-v1"
+      },
+      "sections": [
+        {
+          "id": "utiliser-le-catalogue",
+          "title": "Utiliser le catalogue",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Ce catalogue distingue trois couches technologiques. Le matériel générique est celui qu'une force AIDH pourrait employer sur presque n'importe quel monde. L'arsenal et les armures sont le standard militaire moderne, largement supérieur aux équivalents terrestres. Enfin, les dispositifs TUC ont été conçus spécifiquement pour l'Hologramme, la Révélation, l'enregistrement invariant et les menaces surnaturelles locales.",
+              "style": "Normal"
+            },
+            {
+              "type": "p",
+              "text": "Les équipements décrits ici ne sont pas des Talents de Vérité. Un Talent peut exiger un dispositif AIDH particulier, mais les PTV représentent la maîtrise, jamais la propriété du matériel.",
+              "style": "Normal"
+            }
+          ]
+        },
+        {
+          "id": "dotation-et-acces",
+          "title": "Dotation et accès",
+          "level": 5,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "On n'utilise plus les anciens points de réquisition. Le niveau de dotation est une information narrative : une mission autorise ce dont elle a besoin, et la perte d'un matériel sensible peut déclencher une récupération prioritaire de l'AIDH.",
+              "style": "Normal"
+            }
+          ]
+        },
+        {
+          "id": "conventions-techniques",
+          "title": "Conventions techniques",
+          "level": 5,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Verrouillé : un matériel AIDH reconnaît normalement un utilisateur autorisé, une signature nanitique ou une habilitation temporaire. Le contourner demande une véritable intrusion technique ; voler l’objet ne suffit pas.",
+              "style": "List Bullet"
+            }
+          ]
+        },
+        {
+          "id": "armes-individuelles",
+          "title": "Armes individuelles",
+          "level": 5,
+          "blocks": [
+            {
+              "type": "p",
+              "text": "Defensor [Arme de service · D]",
+              "style": "Normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rules-truth-corrupted-equipment-reference",
+      "title": "Équipement corrompu et Calamitechnologie — référence",
+      "category": "Règles",
+      "source": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx",
+      "status": "canon_recent",
+      "tags": [
+        "Règles",
+        "Vérité",
+        "Équipement de Vérité"
+      ],
+      "nav": {
+        "group": "Vérité — Règles communes",
+        "groupOrder": 70,
+        "subgroup": "Équipement de Vérité",
+        "subgroupOrder": 30,
+        "pageOrder": 130
+      },
+      "truthFinalCleanup": {
+        "batch": "truth-final-v1"
+      },
+      "sections": [
+        {
+          "id": "equipement-corrompu-et-calamitechnologie",
+          "title": "Équipement corrompu et Calamitechnologie",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "table",
+              "rows": [
+                [
+                  "Nature",
+                  "Définition",
+                  "Disponibilité"
+                ],
+                [
+                  "Objet souillé",
+                  "Objet ordinaire ayant absorbé accidentellement une Source.",
+                  "Trouvaille, marché noir, récupération."
+                ],
+                [
+                  "Relique de culte",
+                  "Objet conçu rituellement pour canaliser un Fléau.",
+                  "Culte, prise de guerre, marché occulte."
+                ],
+                [
+                  "Calamitechnologie",
+                  "Dispositif technologique utilisant un noyau de Source réel ou un phénomène équivalent.",
+                  "Prototype, laboratoire noir, scénario."
+                ],
+                [
+                  "Artefact cosmique",
+                  "Fragment majeur/unique d’une entité ou objet irremplaçable.",
+                  "Unique ; aucun prix normal."
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
