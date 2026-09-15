@@ -1,5 +1,6 @@
 import {chromium} from 'playwright-core';
 
+// This smoke runs against the committed corpus as well as freshly generated catalog artifacts.
 const base=process.env.TUC_SMOKE_BASE_URL||'http://127.0.0.1:8765/';
 const executablePath=process.env.CHROME_BIN||'/usr/bin/google-chrome';
 const browser=await chromium.launch({headless:true,executablePath,args:['--no-sandbox','--disable-dev-shm-usage']});
