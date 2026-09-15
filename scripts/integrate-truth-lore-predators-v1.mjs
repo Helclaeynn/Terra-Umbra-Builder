@@ -3,7 +3,8 @@ import zlib from 'node:zlib';
 import crypto from 'node:crypto';
 
 const DATA='compendium/data';
-const SOURCE='compendium/source/truth-lore-predators-v1.json.gz.b64';
+const SOURCE_DIR='compendium/source/truth-lore-predators-v1';
+const SOURCE_DOCUMENT='TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx';
 const manifestPath=`${DATA}/manifest-v3.json`;
 const manifest=JSON.parse(fs.readFileSync(manifestPath,'utf8'));
 
@@ -32,20 +33,38 @@ function tagsFor(item){
   if(item.title==='10. Vampires'||item.title==='Sangs noirs vampiriques')return ['Vérité','Vampires','Lore V6','Lore book-first'];
   return ['Vérité','Garous','Lore V6','Lore book-first'];
 }
+function loadSources(){
+  if(!fs.existsSync(SOURCE_DIR))throw new Error(`Dossier source absent: ${SOURCE_DIR}`);
+  const files=fs.readdirSync(SOURCE_DIR).filter(name=>name.endsWith('.json')).sort();
+  if(files.length!==9)throw new Error(`9 sources JSON prédateurs attendues, ${files.length}`);
+  const pages=[];
+  const ids=new Set(),titles=new Set();
+  for(const file of files){
+    const wrapper=JSON.parse(fs.readFileSync(`${SOURCE_DIR}/${file}`,'utf8'));
+    if(wrapper.schemaVersion!==1||wrapper.sourceDocument!==SOURCE_DOCUMENT||!wrapper.page)throw new Error(`${file}: source V6 invalide`);
+    const item=wrapper.page;
+    if(!item.id||!item.title||!Array.isArray(item.sections)||!item.sections.length)throw new Error(`${file}: page source incomplète`);
+    if(ids.has(item.id))throw new Error(`${file}: ID source dupliqué ${item.id}`);
+    if(titles.has(norm(item.title)))throw new Error(`${file}: titre source dupliqué ${item.title}`);
+    ids.add(item.id);titles.add(norm(item.title));pages.push(item);
+  }
+  const expected=[
+    '10. Vampires','Sangs noirs vampiriques','11. Garous — Loups descendants de Khinae',
+    'Pelage Gris','Pelage Noir','Pelage Blanc','Pelage Roux','Pelage Brun','Pelage Doré'
+  ];
+  for(const title of expected)if(!pages.some(item=>item.title===title))throw new Error(`Source prédatrice absente: ${title}`);
+  return pages;
+}
 
-const sourceB64=fs.readFileSync(SOURCE,'utf8').replace(/\s+/g,'');
-const source=JSON.parse(zlib.gunzipSync(Buffer.from(sourceB64,'base64')).toString('utf8'));
-if(source.schemaVersion!==1||source.sourceDocument!=='TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx'||!Array.isArray(source.pages)||source.pages.length!==9)throw new Error('Source Vampires/Garous V6 invalide');
-
+const sourcePages=loadSources();
 const truth=loadDataset('verite');
 const legacy=loadDataset('lore');
 const originalLegacyCount=legacy.length;
-const sourceLabel=source.sourceDocument;
 let added=0,replaced=0;
 
-for(const item of source.pages){
+for(const item of sourcePages){
   const canonical={
-    id:item.id,title:item.title,category:'Vérité',source:sourceLabel,status:'canon_recent',
+    id:item.id,title:item.title,category:'Vérité',source:SOURCE_DOCUMENT,status:'canon_recent',
     tags:tagsFor(item),nav:navFor(item),loreEvidence:{chapter:item.title.startsWith('10.')||item.title.includes('Sangs')?'10. Vampires':'11. Garous — Loups descendants de Khinae',paragraphs:item.evidence||[]},
     loreBook:{source:'Vérité V6',batch:'predators-v1'},sections:(item.sections||[]).map(paragraphSection)
   };
@@ -79,5 +98,5 @@ const written=writeDataset('verite',truth,'v3-verite-lore-v4');
 removePrefix('v3-verite-lore-v3');
 manifest.expectedTotal=manifest.datasets.reduce((sum,d)=>sum+Number(d.count||0),0);
 fs.writeFileSync(manifestPath,`${JSON.stringify(manifest,null,2)}\n`,'utf8');
-console.log(`LORE PRÉDATEURS V6 — 9 pages book-first · ${added} nouvelles · ${replaced} hubs remplacés.`);
+console.log(`LORE PRÉDATEURS V6 — 9 sources JSON lisibles · ${added} nouvelles · ${replaced} hubs remplacés.`);
 console.log(`VÉRITÉ — ${truth.length} pages · ${written.parts} fragments · LORE legacy inchangé ${legacy.length} · total V3 ${manifest.expectedTotal}.`);
