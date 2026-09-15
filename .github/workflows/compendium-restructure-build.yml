@@ -8,6 +8,7 @@ on:
       - 'compendium/source/reality-rules-v1.json.gz.b64'
       - 'compendium/source/truth-mechanics-v6-fixed.manifest.json'
       - 'compendium/source/truth-mechanics-v6-fixed.part*.b64'
+      - 'compendium/source/truth-lore-priority-v1.json'
       - 'compendium/navigation-schema.js'
       - 'compendium/category-navigation.js'
       - 'compendium/index.html'
@@ -22,10 +23,12 @@ on:
       - 'scripts/audit-truth-v6-mechanics-overlap.mjs'
       - 'scripts/apply-truth-v6-mechanics.mjs'
       - 'scripts/clean-truth-lore-mechanics.mjs'
+      - 'scripts/integrate-truth-lore-priority-v1.mjs'
       - 'scripts/build-compendium-navigation.mjs'
       - 'compendium/tests/restructure-rules-check.mjs'
       - 'compendium/tests/reality-talent-granularity-check.mjs'
       - 'compendium/tests/truth-lore-mechanics-clean-check.mjs'
+      - 'compendium/tests/truth-lore-priority-check.mjs'
       - 'compendium/tests/navigation-check.mjs'
       - 'compendium/tests/manifest-check.mjs'
       - '.github/workflows/compendium-restructure-build.yml'
@@ -56,6 +59,8 @@ jobs:
         run: node scripts/apply-truth-v6-mechanics.mjs
       - name: Clean residual mechanics from Truth lore
         run: node scripts/clean-truth-lore-mechanics.mjs
+      - name: Integrate priority Truth V6 lore
+        run: node scripts/integrate-truth-lore-priority-v1.mjs
       - name: Build hierarchical category navigation
         run: node scripts/build-compendium-navigation.mjs
       - name: Validate V3 manifest
@@ -66,19 +71,22 @@ jobs:
         run: node compendium/tests/reality-talent-granularity-check.mjs
       - name: Validate Truth lore mechanics cleanup
         run: node compendium/tests/truth-lore-mechanics-clean-check.mjs
+      - name: Validate priority Truth lore
+        run: node compendium/tests/truth-lore-priority-check.mjs
       - name: Validate hierarchical navigation
         run: node compendium/tests/navigation-check.mjs
-      - name: Commit generated mechanics and navigation datasets
+      - name: Commit generated mechanics, lore and navigation datasets
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add compendium/data/manifest-v3.json \
             compendium/data/navigation-v1.json \
             compendium/data/v3-regles-v5-*.b64part \
-            compendium/data/v3-verite-lore-clean-v1-*.b64part
+            compendium/data/v3-verite-lore-clean-v1-*.b64part \
+            compendium/data/v3-verite-lore-v2-*.b64part
           if git diff --cached --quiet; then
-            echo "No generated mechanics/navigation changes."
+            echo "No generated mechanics/lore/navigation changes."
             exit 0
           fi
-          git commit -m "chore(compendium): sync hierarchical navigation"
+          git commit -m "chore(compendium): sync priority Truth lore"
           git push origin HEAD:preview/compendium-restructure
