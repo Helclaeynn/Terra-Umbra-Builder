@@ -1,0 +1,108 @@
+name: Prepare Bestiary enrichment audit
+
+on:
+  push:
+    branches:
+      - preview/lore
+    paths:
+      - '.github/workflows/bestiary-enrichment-prep.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Decode Bestiary and cross-reference Compendium
+        shell: bash
+        run: |
+          mkdir -p compendium/data/.working
+          cat > /tmp/bestiary-enrichment-audit.mjs <<'NODE'
+          import fs from 'node:fs';
+          import zlib from 'node:zlib';
+
+          const DATA='compendium/data';
+          const manifest=JSON.parse(fs.readFileSync(`${DATA}/manifest-v3.json`,'utf8'));
+          function decode(spec){
+            let b64='';
+            for(let i=0;i<spec.parts;i++) b64+=fs.readFileSync(`${DATA}/${spec.prefix}-${String(i).padStart(2,'0')}.b64part`,'utf8').replace(/\s+/g,'');
+            return JSON.parse(zlib.gunzipSync(Buffer.from(b64,'base64')).toString('utf8'));
+          }
+          function strings(value,out=[]){
+            if(typeof value==='string'){out.push(value);return out}
+            if(Array.isArray(value)){for(const x of value)strings(x,out);return out}
+            if(value&&typeof value==='object'){for(const x of Object.values(value))strings(x,out)}
+            return out;
+          }
+          const norm=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
+          const esc=s=>String(s??'').replace(/\t/g,' ').replace(/\r?\n/g,'\\n');
+          const datasets=new Map(manifest.datasets.map(spec=>[spec.id,decode(spec)]));
+          const bestiary=datasets.get('bestiaire');
+          if(!Array.isArray(bestiary))throw new Error('Bestiaire absent');
+          fs.writeFileSync(`${DATA}/.working/bestiary-decoded.json`,JSON.stringify(bestiary,null,2)+'\n');
+
+          const audit=['index\tid\ttitle\tchapter\tfamily\tsubfamily\tdescription_blocks\tdescription_chars\tdescription'];
+          for(let i=0;i<bestiary.length;i++){
+            const row=bestiary[i];
+            const desc=(row.sections||[]).find(s=>s.id==='description');
+            const texts=(desc?.blocks||[]).map(b=>String(b.text||'').trim()).filter(Boolean);
+            audit.push([i,row.id,row.title,row.bestiary?.chapter||'',row.bestiary?.family||'',row.bestiary?.subfamily||'',texts.length,texts.join('\n\n').length,esc(texts.join('\n\n'))].map(esc).join('\t'));
+          }
+          fs.writeFileSync(`${DATA}/.working/bestiary-lore-audit.tsv`,audit.join('\n')+'\n');
+
+          const dives=[];
+          for(const [dataset,rows] of datasets){
+            for(const row of rows){
+              const ss=strings(row,[]);
+              for(const text of ss){
+                if(/(^|[^\p{L}])dives?([^\p{L}]|$)/iu.test(text)){
+                  dives.push({dataset,id:row.id,title:row.title,text});
+                }
+              }
+            }
+          }
+          fs.writeFileSync(`${DATA}/.working/dives-context.json`,JSON.stringify(dives,null,2)+'\n');
+
+          const external=[];
+          for(const [dataset,rows] of datasets){
+            if(dataset==='bestiaire')continue;
+            for(const row of rows){external.push({dataset,id:row.id,title:row.title,text:strings(row,[]).join('\n')})}
+          }
+          const refs=['index\tid\ttitle\tref_count\treferences'];
+          for(let i=0;i<bestiary.length;i++){
+            const row=bestiary[i], needle=norm(row.title);
+            if(needle.length<4){refs.push([i,row.id,row.title,0,''].join('\t'));continue}
+            const found=[];
+            for(const ext of external){
+              const ntext=norm(ext.text);
+              const pos=ntext.indexOf(needle);
+              if(pos<0)continue;
+              const raw=ext.text.replace(/\s+/g,' ');
+              const rawNorm=norm(raw);
+              const rawPos=rawNorm.indexOf(needle);
+              const start=Math.max(0,rawPos-220),end=Math.min(raw.length,rawPos+needle.length+420);
+              found.push(`${ext.dataset} :: ${ext.title} :: ${raw.slice(start,end)}`);
+              if(found.length>=8)break;
+            }
+            refs.push([i,row.id,row.title,found.length,esc(found.join(' || '))].map(esc).join('\t'));
+          }
+          fs.writeFileSync(`${DATA}/.working/bestiary-crossrefs.tsv`,refs.join('\n')+'\n');
+          console.log(`AUDIT READY — ${bestiary.length} Bestiary rows · ${dives.length} Dive mentions`);
+          NODE
+          node /tmp/bestiary-enrichment-audit.mjs
+      - name: Commit working audit
+        shell: bash
+        run: |
+          git config user.name Helclaeynn
+          git config user.email malekith51@hotmail.com
+          git add compendium/data/.working/
+          git commit -m 'chore(lore): prepare bestiary enrichment audit'
+          git push origin HEAD:preview/lore
