@@ -1,6 +1,7 @@
 {
   "schemaVersion": 1,
-  "encoding": "gzip+base64-chunks",
+  "encoding": "gzip+base64",
+  "file": "verite-catalog-v6.json.gz.b64",
   "chunks": [
     "verite-catalog-v6-00.b64part",
     "verite-catalog-v6-01.b64part",
