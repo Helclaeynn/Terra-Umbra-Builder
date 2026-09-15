@@ -28,6 +28,7 @@ on:
       - 'scripts/restructure-compendium-mechanics-v2.mjs'
       - 'scripts/refine-reality-talent-page-granularity.mjs'
       - 'scripts/audit-truth-v6-mechanics-overlap.mjs'
+      - 'scripts/audit-truth-legacy-relics.mjs'
       - 'scripts/apply-truth-v6-mechanics.mjs'
       - 'scripts/clean-truth-lore-mechanics.mjs'
       - 'scripts/integrate-truth-lore-priority-v1.mjs'
@@ -118,6 +119,8 @@ jobs:
         run: node compendium/tests/truth-lore-corruption-fleaux-check.mjs
       - name: Validate hierarchical navigation
         run: node compendium/tests/navigation-check.mjs
+      - name: Audit Truth legacy relic candidates
+        run: node scripts/audit-truth-legacy-relics.mjs
       - name: Commit generated mechanics, lore and navigation datasets
         run: |
           git config user.name "github-actions[bot]"
