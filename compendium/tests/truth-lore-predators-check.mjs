@@ -15,7 +15,12 @@ const touched=truth.filter(page=>page.loreBook?.batch==='predators-v1');
 if(touched.length!==9)throw new Error(`9 pages prédateurs attendues, ${touched.length}`);
 const byTitle=new Map(truth.map(page=>[norm(page.title),page]));
 function need(title,minSections){const page=byTitle.get(norm(title));if(!page)throw new Error(`Page absente: ${title}`);if((page.sections||[]).length<minSections)throw new Error(`${title}: ${(page.sections||[]).length} sections, attendu >= ${minSections}`);return page}
-need('10. Vampires',12);
+const vampires=need('10. Vampires',12);
+const vampireText=textOf(vampires);
+for(const needle of ['Krovni','Alghul','Ihuito','Oru','Shi Hun Zhe','Néant','équilibre instable'])if(!vampireText.includes(needle))throw new Error(`10. Vampires: couverture culturelle V6 manquante (${needle})`);
+const shi=(vampires.sections||[]).find(section=>section.title==='Shi Hun Zhe — la Cour des Anciens');
+const shiText=(shi?.blocks||[]).map(block=>block.text||'').join(' ');
+if(!/Néant/i.test(shiText))throw new Error('Shi Hun Zhe: lien canonique au Néant absent');
 const sangs=need('Sangs noirs vampiriques',14);
 for(const name of ['Sang Écarlate — Anya','Sang Primal — Lyssa','Sang Hypocrite — Briaerus','Sang Venimeux — Huitzitia','Sang Masqué — Kazuo','Sang Aveugle — Ashream','Sang Traqueur — Go’Ndai','Sang Glacial — Vjärmod','Sang Ardent — Larisha','Sang Orageux — Branimir','Sang Révélateur — Zhi Xia','Sang Condamné — Ashelia'])if(!(sangs.sections||[]).some(section=>section.title===name))throw new Error(`Sang noir absent: ${name}`);
 need('11. Garous — Loups descendants de Khinae',12);
@@ -25,4 +30,4 @@ for(const page of touched){if(forbidden.test(textOf(page)))throw new Error(`${pa
 for(const title of ['Elynea','Elyë','Baal','Abigor'])if(![...truth,...legacy].some(page=>norm(page.title)===norm(title)))throw new Error(`Lore précédent perdu: ${title}`);
 const all=[...truth,...legacy.filter(page=>page.category==='Vérité')];for(const title of ['Sangs noirs vampiriques','Pelage Gris','Pelage Noir','Pelage Blanc','Pelage Roux','Pelage Brun','Pelage Doré']){const matches=all.filter(page=>norm(page.title)===norm(title));if(matches.length!==1)throw new Error(`${title}: ${matches.length} pages visibles`)}
 const ids=new Set();for(const page of truth){if(ids.has(page.id))throw new Error(`ID Vérité dupliqué: ${page.id}`);ids.add(page.id)}
-console.log(`LORE PRÉDATEURS V6 OK — socle 82 préservé, corpus actuel ${truth.length} pages Vérité · hubs Vampire/Garou reconstruits · Sangs noirs + 6 Pelages book-first · legacy inchangé.`);
+console.log(`LORE PRÉDATEURS V6 OK — socle 82 préservé, corpus actuel ${truth.length} pages Vérité · hubs Vampire/Garou reconstruits · cultures vampiriques + Sangs noirs + 6 Pelages book-first · legacy inchangé.`);
