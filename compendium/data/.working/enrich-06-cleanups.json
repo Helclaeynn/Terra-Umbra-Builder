@@ -1,0 +1,30 @@
+{
+  "bestiaire-v15-cyclope-egam": {
+    "replace": [
+      "Le Cyclope, que certaines traditions nomment Egam, naît lorsqu'un Dive ou un autre porteur de Mageius bascule sous l'emprise de la Famine Blanche. Vhodhal ne ronge pas seulement la chair : il décompose le lien entre l'être et le Mageius jusqu'à faire de sa perception magique un organe de prédation. La créature cherche alors les structures actives de Vérité, les sorts et les pouvoirs qu'elle comprend assez pour les consommer.",
+      "Chez les Dives, la Rupture produit souvent une disproportion visible : le corps se tasse autour d'une perception devenue unique, immense et affamée, comme si toute la relation au Mageius avait été concentrée dans un seul organe. L'œil de l'Egam ne regarde pas seulement la matière ; il suit les structures occultes, les sorts actifs et les êtres dont la puissance pourrait le nourrir.",
+      "Cette faim fait de lui un prédateur particulièrement redouté des autres Voyageurs. Une protection magique peut attirer son attention au lieu de le repousser, et un effet spectaculaire devient une odeur de nourriture. Les anciens récits de Cyclopes gardant des forges ou des passages pourraient venir de créatures qui avaient appris à entourer leur faim de sources de puissance contrôlées."
+    ]
+  },
+  "bestiaire-v15-delanial-le-faux-septieme-fleau": {
+    "replace": [
+      "Delanial porte des titres que des siècles de peur ont fini par confondre avec ceux d'un Fléau : Septième Fléau, Père de l'Ombre, Seigneur de l'Ombremonde. Il est pourtant d'une autre nature, un Légionnaire des Puissances si ancien et si puissant que son refuge dans l'Ombre-Monde a suffi à donner l'illusion d'une puissance primordiale comparable aux grandes corruptions.",
+      "Bien avant que les savants modernes cherchent à lui donner un nom unique, Delanial avait déjà reçu des titres divins. Des Dives le vénérèrent comme le Démiurge Obscur et le Père de l'Ombre, et des Deimons préférèrent son culte à celui des Dieux Anciens. Cette religion survécut par fragments, dissimulée dans des mythes où l'Ombre n'était pas décrite comme une corruption mais comme une origine.",
+      "Delanial enseigna des savoirs dont certains furent ensuite retournés contre les créatures de l'Ombremonde. Cette contradiction nourrit encore les sectes qui se réclament de lui : pour les unes, il est le maître qui donna aux mortels les moyens de comprendre les ténèbres ; pour les autres, il a simplement appris à ses futurs ennemis comment entrer chez lui."
+    ]
+  },
+  "bestiaire-v15-porteur-de-nahfr": {
+    "replace": [
+      "Un porteur de Nahfr ne revêt pas une armure au sens ordinaire : il accepte sur lui une peau de Tiamat liée à Shaoggith, encore capable de réagir, de se contracter et de modifier sa relation à la chair qu'elle recouvre. La protection paraît apprendre les menaces à mesure qu'elles surviennent et transforme chaque blessure en occasion de s'intégrer davantage.",
+      "Nahfr épouse la chair avec une intimité qu'aucune armure forgée ne pourrait reproduire. Elle se contracte avant l'impact, ouvre des pores pour respirer un environnement hostile et referme autour d'une blessure une matière qui ressemble davantage à une cicatrice qu'à une réparation. Le porteur finit par sentir ses réactions comme celles d'un second corps.",
+      "Cette proximité a un prix difficile à mesurer. Plus Nahfr protège quelqu'un, plus elle apprend ce que ce corps considère comme une menace, et plus ses réponses deviennent spontanées. La question n'est alors plus seulement de savoir ce que la relique peut faire, mais quelle part de ces décisions appartient encore à celui qui la porte."
+    ]
+  },
+  "bestiaire-v15-mue-de-rulfam": {
+    "replace": [
+      "La Mue de Rulfam est une enveloppe vivante abandonnée par une ancienne transformation de Shaoggith. Elle conserve une aptitude à reconnaître la Germination et à pousser un organisme vers de nouvelles formes, comme si le Cycle qui l'avait produite n'avait jamais entièrement pris fin.",
+      "La Mue ressemble au premier regard à une enveloppe sèche et inerte. La chaleur d'un corps ou la proximité d'une forte Germination suffit pourtant à réveiller des mouvements minuscules le long de ses membranes. Elle ne cherche pas n'importe quel porteur : certaines chairs provoquent un rejet violent, d'autres semblent reconnues presque immédiatement.",
+      "Ceux qui l'ont portée décrivent une sensation de croissance interrompue. La relique pousse le corps vers des adaptations qu'il n'aurait jamais choisies seul, puis les laisse parfois inachevées jusqu'à la prochaine crise. Avec le temps, le porteur cesse de savoir si la Mue transforme son organisme ou si elle utilise simplement celui-ci pour poursuivre son propre Cycle."
+    ]
+  }
+}
