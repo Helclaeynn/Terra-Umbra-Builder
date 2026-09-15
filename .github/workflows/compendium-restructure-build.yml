@@ -11,7 +11,9 @@ on:
       - 'character-builder/rulesets/terra-umbra/truth/core.json'
       - 'character-builder/rulesets/terra-umbra/truth/talents/**'
       - 'scripts/restructure-compendium-mechanics-v2.mjs'
+      - 'scripts/refine-reality-talent-page-granularity.mjs'
       - 'compendium/tests/restructure-rules-check.mjs'
+      - 'compendium/tests/reality-talent-granularity-check.mjs'
       - 'compendium/tests/manifest-check.mjs'
       - '.github/workflows/compendium-restructure-build.yml'
 
@@ -31,19 +33,23 @@ jobs:
           node-version: 22
       - name: Build grouped mechanics pages
         run: node scripts/restructure-compendium-mechanics-v2.mjs
+      - name: Refine Reality talent page granularity
+        run: node scripts/refine-reality-talent-page-granularity.mjs
       - name: Validate V3 manifest
         run: node compendium/tests/manifest-check.mjs
       - name: Validate grouped Rules structure
         run: node compendium/tests/restructure-rules-check.mjs
+      - name: Validate Reality talent granularity
+        run: node compendium/tests/reality-talent-granularity-check.mjs
       - name: Commit generated mechanics dataset
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add compendium/data/manifest-v3.json \
-            compendium/data/v3-regles-v3-*.b64part
+            compendium/data/v3-regles-v4-*.b64part
           if git diff --cached --quiet; then
             echo "No generated mechanics changes."
             exit 0
           fi
-          git commit -m "chore(compendium): apply grouped mechanics restructure"
+          git commit -m "chore(compendium): apply refined mechanics restructure"
           git push origin HEAD:preview/compendium-restructure
