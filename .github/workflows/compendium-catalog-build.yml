@@ -7,6 +7,7 @@ on:
     paths:
       - 'scripts/build-compendium-catalog-pages.mjs'
       - 'scripts/prepare-builder-reality-catalogs.mjs'
+      - 'scripts/patch-compendium-catalog-runtime.mjs'
       - '.github/workflows/compendium-catalog-build.yml'
   workflow_dispatch:
 
@@ -28,14 +29,16 @@ jobs:
         run: node scripts/prepare-builder-reality-catalogs.mjs
       - name: Generate Compendium equipment and augmentation pages
         run: node scripts/build-compendium-catalog-pages.mjs
+      - name: Wire catalog categories into Compendium runtime
+        run: node scripts/patch-compendium-catalog-runtime.mjs
       - name: Commit generated catalog pages
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add compendium/data/manifest-v3.json compendium/data/v3-equipement-builder-v1-*.b64part compendium/data/v3-augmentations-builder-v1-*.b64part compendium/assets/equipment-placeholder.svg compendium/assets/augmentation-placeholder.svg
+          git add compendium/app-v3.js compendium/data/manifest-v3.json compendium/data/v3-equipement-builder-v1-*.b64part compendium/data/v3-augmentations-builder-v1-*.b64part compendium/assets/equipment-placeholder.svg compendium/assets/augmentation-placeholder.svg
           if git diff --cached --quiet; then
             echo "No generated changes."
             exit 0
           fi
-          git commit -m "feat(compendium): generate equipment and augmentation pages"
+          git commit -m "feat(compendium): wire equipment and augmentation pages"
           git push origin HEAD:preview/lore
