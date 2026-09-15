@@ -7,6 +7,7 @@ on:
       - 'scripts/build-compendium-catalog-pages.mjs'
       - 'scripts/enrich-compendium-augmentation-generations.mjs'
       - 'scripts/enrich-compendium-reality-lore.mjs'
+      - 'scripts/audit-reality-lore-gaps.mjs'
       - 'compendium/tests/catalog-pages-check.mjs'
       - 'compendium/tests/catalog-pages-semantic-check.mjs'
       - 'compendium/tests/reality-catalog-lore-quality-check.mjs'
@@ -35,7 +36,7 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          { node scripts/build-compendium-catalog-pages.mjs; node scripts/enrich-compendium-augmentation-generations.mjs; node scripts/enrich-compendium-reality-lore.mjs; } 2>&1 | tee /tmp/compendium-catalog-build.log
+          { node scripts/build-compendium-catalog-pages.mjs; node scripts/enrich-compendium-augmentation-generations.mjs; node scripts/enrich-compendium-reality-lore.mjs; node scripts/audit-reality-lore-gaps.mjs; } 2>&1 | tee /tmp/compendium-catalog-build.log
       - name: Upload catalog build log
         if: always()
         uses: actions/upload-artifact@v4
