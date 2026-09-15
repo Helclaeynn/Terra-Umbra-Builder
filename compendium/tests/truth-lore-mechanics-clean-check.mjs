@@ -26,7 +26,6 @@ for(const [pageTitle,titles] of forbidden){const page=findPage(truth,pageTitle),
 const preserved=[
   ['12. Autres descendants de Khinae','Une famille beaucoup plus vaste'],
   ['13. Mages','Le Mageius'],
-  ['13. Mages','Affinité dominante'],
   ['16. Aseryns','Les Treize'],
   ['17. Exilés — peuples, fonctions et traditions','Des peuples d’autres mondes devenus terrestres'],
   ['18. Extrals, Homo Superior et Ad’rak','Des peuples de l’Histoire galactique'],
