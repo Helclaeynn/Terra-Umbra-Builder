@@ -5,6 +5,7 @@ on:
     branches: ['preview/lore']
     paths:
       - 'scripts/build-compendium-catalog-pages.mjs'
+      - 'scripts/debug-facecaster.mjs'
       - 'compendium/tests/catalog-pages-check.mjs'
       - 'character-builder/app.parts/47-reality-missing-augmentations.txt'
       - 'character-builder/rulesets/terra-umbra/reality/augmentations.json.gz.b64'
@@ -30,7 +31,7 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          node scripts/build-compendium-catalog-pages.mjs 2>&1 | tee /tmp/compendium-catalog-build.log
+          { node scripts/debug-facecaster.mjs; node scripts/build-compendium-catalog-pages.mjs; } 2>&1 | tee /tmp/compendium-catalog-build.log
       - name: Upload catalog build log
         if: always()
         uses: actions/upload-artifact@v4
