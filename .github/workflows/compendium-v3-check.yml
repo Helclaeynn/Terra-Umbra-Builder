@@ -67,4 +67,6 @@ jobs:
             exit 1
           fi
       - name: Validate V3 corpus and active runtime
-        run: node compendium/tests/manifest-check.mjs
+        run: |
+          node compendium/tests/manifest-check.mjs
+          node compendium/tests/bestiary-v16-check.mjs
