@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - preview/lore
       - feature/tuc-compendium-v3-transfer-final
       - feature/tuc-compendium-editor
       - feature/tuc-compendium-inline-images
@@ -50,6 +51,7 @@ jobs:
           node --check compendium/editor/media-draft-store.js
           node --check compendium/editor/zip-bundle.js
           node --check scripts/sync-page-overrides.mjs
+          node --check compendium/tests/catalog-pages-check.mjs
       - name: Validate editor override engine
         run: |
           node compendium/tests/editor-overrides-check.mjs
@@ -70,3 +72,4 @@ jobs:
         run: |
           node compendium/tests/manifest-check.mjs
           node compendium/tests/bestiary-v16-check.mjs
+          node compendium/tests/catalog-pages-check.mjs
