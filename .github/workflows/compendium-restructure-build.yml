@@ -6,6 +6,7 @@ on:
       - preview/compendium-restructure
     paths:
       - 'compendium/source/reality-rules-v1.json.gz.b64'
+      - 'compendium/source/reality-book-v8-setting-v1.json.gz.b64'
       - 'compendium/source/truth-mechanics-v6-fixed.manifest.json'
       - 'compendium/source/truth-mechanics-v6-fixed.part*.b64'
       - 'compendium/source/truth-lore-priority-v1.json'
@@ -29,6 +30,8 @@ on:
       - 'scripts/reset-generated-truth-v6-pages.mjs'
       - 'scripts/restructure-compendium-mechanics-v2.mjs'
       - 'scripts/refine-reality-talent-page-granularity.mjs'
+      - 'scripts/integrate-reality-book-v8-setting-v1.mjs'
+      - 'scripts/audit-reality-v8-legacy.mjs'
       - 'scripts/audit-truth-v6-mechanics-overlap.mjs'
       - 'scripts/audit-truth-legacy-relics.mjs'
       - 'scripts/audit-truth-final-cleanup.mjs'
@@ -49,6 +52,7 @@ on:
       - 'scripts/build-compendium-navigation.mjs'
       - 'compendium/tests/restructure-rules-check.mjs'
       - 'compendium/tests/reality-talent-granularity-check.mjs'
+      - 'compendium/tests/reality-book-v8-setting-check.mjs'
       - 'compendium/tests/truth-lore-mechanics-clean-check.mjs'
       - 'compendium/tests/truth-lore-priority-check.mjs'
       - 'compendium/tests/truth-lore-exiles-check.mjs'
@@ -113,6 +117,8 @@ jobs:
         run: node scripts/apply-truth-final-preservation-v1.mjs
       - name: Remove editorial meta noise from Truth lore
         run: node scripts/sanitize-truth-editorial-meta-v1.mjs
+      - name: Integrate Reality V8 setting book-first
+        run: node scripts/integrate-reality-book-v8-setting-v1.mjs
       - name: Build hierarchical category navigation
         run: node scripts/build-compendium-navigation.mjs
       - name: Validate V3 manifest
@@ -121,6 +127,8 @@ jobs:
         run: node compendium/tests/restructure-rules-check.mjs
       - name: Validate Reality talent granularity
         run: node compendium/tests/reality-talent-granularity-check.mjs
+      - name: Validate Reality V8 setting lore
+        run: node compendium/tests/reality-book-v8-setting-check.mjs
       - name: Validate Truth lore mechanics cleanup
         run: node compendium/tests/truth-lore-mechanics-clean-check.mjs
       - name: Validate priority Truth lore
@@ -143,18 +151,20 @@ jobs:
         run: node compendium/tests/truth-final-cleanup-check.mjs
       - name: Validate hierarchical navigation
         run: node compendium/tests/navigation-check.mjs
+      - name: Audit Reality V8 legacy overlap
+        run: node scripts/audit-reality-v8-legacy.mjs
       - name: Audit Truth legacy relic candidates
         run: node scripts/audit-truth-legacy-relics.mjs
       - name: Audit final Truth cleanup details
         run: node scripts/audit-truth-final-cleanup.mjs
-      - name: Commit generated mechanics, lore and navigation datasets
+      - name: Commit generated book-first datasets
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A compendium/data compendium/source/truth-final-preservation-v1.json
           if git diff --cached --quiet; then
-            echo "No generated Truth changes."
+            echo "No generated compendium changes."
             exit 0
           fi
-          git commit -m "chore(compendium): sync Truth lore"
+          git commit -m "chore(compendium): sync book-first datasets"
           git push origin HEAD:preview/compendium-restructure
