@@ -986,6 +986,50 @@
       "displayTitle": "Équipement de Vérité — principe commun"
     },
     {
+      "id": "rules-truth-equipment-properties",
+      "dataset": "moteur",
+      "category": "Règles",
+      "group": "Vérité — Règles communes",
+      "groupOrder": 70,
+      "subgroup": "Équipement de Vérité",
+      "subgroupOrder": 30,
+      "pageOrder": 100,
+      "displayTitle": "Équipement de Vérité — propriétés communes"
+    },
+    {
+      "id": "rules-truth-hunter-equipment-reference",
+      "dataset": "moteur",
+      "category": "Règles",
+      "group": "Vérité — Règles communes",
+      "groupOrder": 70,
+      "subgroup": "Équipement de Vérité",
+      "subgroupOrder": 30,
+      "pageOrder": 110,
+      "displayTitle": "Équipement de Chasse — références et propriétés"
+    },
+    {
+      "id": "rules-truth-aidh-arsenal-reference",
+      "dataset": "moteur",
+      "category": "Règles",
+      "group": "Vérité — Règles communes",
+      "groupOrder": 70,
+      "subgroup": "Équipement de Vérité",
+      "subgroupOrder": 30,
+      "pageOrder": 120,
+      "displayTitle": "Arsenal AIDH — doctrine matérielle et références"
+    },
+    {
+      "id": "rules-truth-corrupted-equipment-reference",
+      "dataset": "moteur",
+      "category": "Règles",
+      "group": "Vérité — Règles communes",
+      "groupOrder": 70,
+      "subgroup": "Équipement de Vérité",
+      "subgroupOrder": 30,
+      "pageOrder": 130,
+      "displayTitle": "Équipement corrompu et Calamitechnologie — référence"
+    },
+    {
       "id": "regles-verite-nature-humain",
       "dataset": "moteur",
       "category": "Règles",
@@ -3208,17 +3252,6 @@
       "displayTitle": "Autres factions humaines galactiques"
     },
     {
-      "id": "lore-extraterrestrial-species-contexte-general",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Cosmologie & histoire cachée",
-      "groupOrder": 10,
-      "subgroup": "Voile, histoire & cosmologie",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Contexte général"
-    },
-    {
       "id": "lore-humans-galaxy-g-corporations",
       "dataset": "lore",
       "category": "Vérité",
@@ -3241,83 +3274,6 @@
       "displayTitle": "Les humains de la Galaxie"
     },
     {
-      "id": "lore-081-points-de-rencontre-01",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Cosmologie & histoire cachée",
-      "groupOrder": 10,
-      "subgroup": "Voile, histoire & cosmologie",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Points de rencontre — Partie 1"
-    },
-    {
-      "id": "lore-082-points-de-rencontre-02",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Cosmologie & histoire cachée",
-      "groupOrder": 10,
-      "subgroup": "Voile, histoire & cosmologie",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Points de rencontre — Partie 2"
-    },
-    {
-      "id": "lore-083-points-de-rencontre-03",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Cosmologie & histoire cachée",
-      "groupOrder": 10,
-      "subgroup": "Voile, histoire & cosmologie",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Points de rencontre — Partie 3"
-    },
-    {
-      "id": "lore-084-points-de-rencontre-04",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Cosmologie & histoire cachée",
-      "groupOrder": 10,
-      "subgroup": "Voile, histoire & cosmologie",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Points de rencontre — Partie 4"
-    },
-    {
-      "id": "lore-085-points-de-rencontre-05",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Cosmologie & histoire cachée",
-      "groupOrder": 10,
-      "subgroup": "Voile, histoire & cosmologie",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Points de rencontre — Partie 5"
-    },
-    {
-      "id": "lore-086-points-de-rencontre-06",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Cosmologie & histoire cachée",
-      "groupOrder": 10,
-      "subgroup": "Voile, histoire & cosmologie",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Points de rencontre — Partie 6"
-    },
-    {
-      "id": "lore-087-points-de-rencontre-07",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Cosmologie & histoire cachée",
-      "groupOrder": 10,
-      "subgroup": "Voile, histoire & cosmologie",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Points de rencontre — Partie 7"
-    },
-    {
       "id": "lore-088-shichiba-no-hana-01",
       "dataset": "lore",
       "category": "Vérité",
@@ -3327,94 +3283,6 @@
       "subgroupOrder": 10,
       "pageOrder": 500,
       "displayTitle": "Shichiba no Hana"
-    },
-    {
-      "id": "lore-207-verite-les-especes-fantastiques-03",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Cosmologie & histoire cachée",
-      "groupOrder": 10,
-      "subgroup": "Voile, histoire & cosmologie",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les espèces fantastiques — Beatrix Krüger"
-    },
-    {
-      "id": "lore-205-verite-les-especes-fantastiques-01",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Cosmologie & histoire cachée",
-      "groupOrder": 10,
-      "subgroup": "Voile, histoire & cosmologie",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les espèces fantastiques — CONTEXTE GENERAL"
-    },
-    {
-      "id": "lore-210-verite-les-especes-fantastiques-06",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Cosmologie & histoire cachée",
-      "groupOrder": 10,
-      "subgroup": "Voile, histoire & cosmologie",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les espèces fantastiques — Grim"
-    },
-    {
-      "id": "lore-211-verite-les-especes-fantastiques-07",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Cosmologie & histoire cachée",
-      "groupOrder": 10,
-      "subgroup": "Voile, histoire & cosmologie",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les espèces fantastiques — Jay Bentley"
-    },
-    {
-      "id": "lore-213-verite-les-especes-fantastiques-09",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Cosmologie & histoire cachée",
-      "groupOrder": 10,
-      "subgroup": "Voile, histoire & cosmologie",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les espèces fantastiques — Kain Ferno"
-    },
-    {
-      "id": "lore-209-verite-les-especes-fantastiques-05",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Cosmologie & histoire cachée",
-      "groupOrder": 10,
-      "subgroup": "Voile, histoire & cosmologie",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les espèces fantastiques — Lidira"
-    },
-    {
-      "id": "lore-206-verite-les-especes-fantastiques-02",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Cosmologie & histoire cachée",
-      "groupOrder": 10,
-      "subgroup": "Voile, histoire & cosmologie",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les espèces fantastiques — Neals Corvo"
-    },
-    {
-      "id": "lore-212-verite-les-especes-fantastiques-08",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Cosmologie & histoire cachée",
-      "groupOrder": 10,
-      "subgroup": "Voile, histoire & cosmologie",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les espèces fantastiques — Personnages notables"
     },
     {
       "id": "verite-015-apprendre-trop-peu-apprendre-trop-vite",
@@ -3811,6 +3679,17 @@
       "subgroupOrder": 10,
       "pageOrder": 100,
       "displayTitle": "Voir sans faire apparaître"
+    },
+    {
+      "id": "verite-lore-points-de-rencontre",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Entrer dans la Vérité",
+      "groupOrder": 15,
+      "subgroup": "Lieux et réseaux du monde caché",
+      "subgroupOrder": 30,
+      "pageOrder": 10,
+      "displayTitle": "Points de rencontre du monde caché"
     },
     {
       "id": "verite-046-10-vampires",
@@ -4286,17 +4165,6 @@
       "displayTitle": "Autres Canidés"
     },
     {
-      "id": "lore-supernatural-species-contexte-general",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Peuples & Natures",
-      "groupOrder": 20,
-      "subgroup": "Garous & descendants de Khinae",
-      "subgroupOrder": 20,
-      "pageOrder": 500,
-      "displayTitle": "Contexte général & Khinae"
-    },
-    {
       "id": "lore-therianthropes-felides",
       "dataset": "lore",
       "category": "Vérité",
@@ -4361,17 +4229,6 @@
       "subgroupOrder": 20,
       "pageOrder": 500,
       "displayTitle": "Serpents"
-    },
-    {
-      "id": "lore-supernatural-species-atlantes",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Peuples & Natures",
-      "groupOrder": 20,
-      "subgroup": "Aseryns",
-      "subgroupOrder": 60,
-      "pageOrder": 500,
-      "displayTitle": "Atlantes / Aseryns"
     },
     {
       "id": "lore-aseryn-continents-continent-hyperboree",
@@ -4440,17 +4297,6 @@
       "displayTitle": "Les terres Aserynes"
     },
     {
-      "id": "lore-208-verite-les-especes-fantastiques-04",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Peuples & Natures",
-      "groupOrder": 20,
-      "subgroup": "Exilés",
-      "subgroupOrder": 70,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les espèces fantastiques — GOBELINS (ASHYLL)"
-    },
-    {
       "id": "verite-055-19-formation-et-doctrine-de-chasseur",
       "dataset": "verite",
       "category": "Vérité",
@@ -4460,6 +4306,17 @@
       "subgroupOrder": 10,
       "pageOrder": 10,
       "displayTitle": "Formation et doctrine de Chasseur"
+    },
+    {
+      "id": "verite-lore-traditions-chasseurs-detaillees",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Chasseurs & traditions",
+      "groupOrder": 30,
+      "subgroup": "Traditions et réseaux",
+      "subgroupOrder": 20,
+      "pageOrder": 20,
+      "displayTitle": "Traditions et réseaux de Chasseurs"
     },
     {
       "id": "verite-056-20-corruption",
@@ -4581,248 +4438,6 @@
       "subgroupOrder": 10,
       "pageOrder": 500,
       "displayTitle": "L’Inquisition galactique"
-    },
-    {
-      "id": "lore-173-verite-les-chasseurs-07",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs",
-      "groupOrder": 50,
-      "subgroup": "Ordres, doctrine & réseaux",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les chasseurs — ?"
-    },
-    {
-      "id": "lore-177-verite-les-chasseurs-11",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs",
-      "groupOrder": 50,
-      "subgroup": "Ordres, doctrine & réseaux",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les chasseurs — Charunee Sawasdipon"
-    },
-    {
-      "id": "lore-167-verite-les-chasseurs-01",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs",
-      "groupOrder": 50,
-      "subgroup": "Ordres, doctrine & réseaux",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les chasseurs — CONTEXTE GENERAL"
-    },
-    {
-      "id": "lore-179-verite-les-chasseurs-13",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs",
-      "groupOrder": 50,
-      "subgroup": "Ordres, doctrine & réseaux",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les chasseurs — Fonctionnement"
-    },
-    {
-      "id": "lore-169-verite-les-chasseurs-03",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs",
-      "groupOrder": 50,
-      "subgroup": "Ordres, doctrine & réseaux",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les chasseurs — Le chevalier"
-    },
-    {
-      "id": "lore-168-verite-les-chasseurs-02",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs",
-      "groupOrder": 50,
-      "subgroup": "Ordres, doctrine & réseaux",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les chasseurs — Le porteur de Lumière"
-    },
-    {
-      "id": "lore-170-verite-les-chasseurs-04",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs",
-      "groupOrder": 50,
-      "subgroup": "Ordres, doctrine & réseaux",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les chasseurs — Le xenoshield"
-    },
-    {
-      "id": "lore-178-verite-les-chasseurs-12",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs",
-      "groupOrder": 50,
-      "subgroup": "Ordres, doctrine & réseaux",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les chasseurs — Levanah Uriel"
-    },
-    {
-      "id": "lore-171-verite-les-chasseurs-05",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs",
-      "groupOrder": 50,
-      "subgroup": "Ordres, doctrine & réseaux",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les chasseurs — Magyar Vilmos"
-    },
-    {
-      "id": "lore-174-verite-les-chasseurs-08",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs",
-      "groupOrder": 50,
-      "subgroup": "Ordres, doctrine & réseaux",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les chasseurs — Personnages notables"
-    },
-    {
-      "id": "lore-180-verite-les-chasseurs-14",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs",
-      "groupOrder": 50,
-      "subgroup": "Ordres, doctrine & réseaux",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les chasseurs — Personnages notables — Partie 14"
-    },
-    {
-      "id": "lore-181-verite-les-chasseurs-15",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs",
-      "groupOrder": 50,
-      "subgroup": "Ordres, doctrine & réseaux",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les chasseurs — Personnages notables — Partie 15"
-    },
-    {
-      "id": "lore-182-verite-les-chasseurs-16",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs",
-      "groupOrder": 50,
-      "subgroup": "Ordres, doctrine & réseaux",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les chasseurs — Personnages notables — Partie 16"
-    },
-    {
-      "id": "lore-172-verite-les-chasseurs-06",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs",
-      "groupOrder": 50,
-      "subgroup": "Ordres, doctrine & réseaux",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les chasseurs — Portée"
-    },
-    {
-      "id": "lore-175-verite-les-chasseurs-09",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs",
-      "groupOrder": 50,
-      "subgroup": "Ordres, doctrine & réseaux",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les chasseurs — Portée — Partie 9"
-    },
-    {
-      "id": "lore-176-verite-les-chasseurs-10",
-      "dataset": "lore",
-      "category": "Vérité",
-      "group": "Chasseurs",
-      "groupOrder": 50,
-      "subgroup": "Ordres, doctrine & réseaux",
-      "subgroupOrder": 10,
-      "pageOrder": 500,
-      "displayTitle": "Vérité les chasseurs — Portée — Partie 10"
-    },
-    {
-      "id": "verite-058-22-proprietes-communes-des-equipements-de-verite",
-      "dataset": "verite",
-      "category": "Vérité",
-      "group": "Équipement & marchés de Vérité",
-      "groupOrder": 50,
-      "subgroup": "Pages transitoires à auditer",
-      "subgroupOrder": 10,
-      "pageOrder": 22,
-      "displayTitle": "Propriétés communes des équipements de Vérité"
-    },
-    {
-      "id": "verite-059-23-equipement-de-chasse",
-      "dataset": "verite",
-      "category": "Vérité",
-      "group": "Équipement & marchés de Vérité",
-      "groupOrder": 50,
-      "subgroup": "Pages transitoires à auditer",
-      "subgroupOrder": 10,
-      "pageOrder": 23,
-      "displayTitle": "Équipement de Chasse"
-    },
-    {
-      "id": "verite-060-24-marche-de-verite-des-exiles",
-      "dataset": "verite",
-      "category": "Vérité",
-      "group": "Équipement & marchés de Vérité",
-      "groupOrder": 50,
-      "subgroup": "Pages transitoires à auditer",
-      "subgroupOrder": 10,
-      "pageOrder": 24,
-      "displayTitle": "Marché de Vérité des Exilés"
-    },
-    {
-      "id": "verite-061-25-marche-xeno",
-      "dataset": "verite",
-      "category": "Vérité",
-      "group": "Équipement & marchés de Vérité",
-      "groupOrder": 50,
-      "subgroup": "Pages transitoires à auditer",
-      "subgroupOrder": 10,
-      "pageOrder": 25,
-      "displayTitle": "Marché xéno"
-    },
-    {
-      "id": "verite-062-26-arsenal-aidh-moderne-et-doctrine-terra-umbra",
-      "dataset": "verite",
-      "category": "Vérité",
-      "group": "Équipement & marchés de Vérité",
-      "groupOrder": 50,
-      "subgroup": "Pages transitoires à auditer",
-      "subgroupOrder": 10,
-      "pageOrder": 26,
-      "displayTitle": "Arsenal AIDH moderne et doctrine Terra Umbra"
-    },
-    {
-      "id": "verite-063-27-equipement-corrompu-et-calamitechnologie",
-      "dataset": "verite",
-      "category": "Vérité",
-      "group": "Équipement & marchés de Vérité",
-      "groupOrder": 50,
-      "subgroup": "Pages transitoires à auditer",
-      "subgroupOrder": 10,
-      "pageOrder": 27,
-      "displayTitle": "Équipement corrompu et Calamitechnologie"
     },
     {
       "id": "lore-extraterrestrial-species-autres-creatures",

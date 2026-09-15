@@ -21,10 +21,10 @@
   "datasets": [
     {
       "id": "moteur",
-      "prefix": "v3-regles-v5",
+      "prefix": "v3-regles-v6",
       "parts": 20,
-      "count": 247,
-      "sha256": "46dc7fce53aa25eb60c5d27f32a61e5cb9158975ef81533cc8bdf1c6b6377ecc"
+      "count": 251,
+      "sha256": "4ca1b908ca9f459159c6709cee9d99ed70205bbba04d0cfd0f7c9169ccc805db"
     },
     {
       "id": "realite",
@@ -59,10 +59,10 @@
     },
     {
       "id": "verite",
-      "prefix": "v3-verite-lore-v9",
+      "prefix": "v3-verite-lore-v10",
       "parts": 11,
-      "count": 84,
-      "sha256": "b123b0f351788af18597fbfaca6e1b09dc48f0874a8120eab4be480a3facb8ae"
+      "count": 78,
+      "sha256": "556304b38de944af68304b12d6dd21be3a35a421ffe971871a1e8f857200952d"
     },
     {
       "id": "verite-catalogue",
@@ -84,18 +84,18 @@
     },
     {
       "id": "lore",
-      "prefix": "v3-lore-v6",
-      "parts": 94,
-      "count": 392,
-      "sha256": "872d3aed5061b61981b42e33180c5ff94d2ff31b0c9f9505876dff964ea162c7"
+      "prefix": "v3-lore-v7",
+      "parts": 92,
+      "count": 359,
+      "sha256": "80f0038a84d0067a7bbb8091f95496b6680424c50f910b2684aa850d3fe8c02d"
     },
     {
       "id": "pnj",
-      "prefix": "v3-pnj",
-      "parts": 1,
-      "count": 163,
-      "sha256": "d3f6006f971147d1af1c10dc025443a8db9761801f14336b42899e12d457c652"
+      "prefix": "v3-pnj-v2",
+      "parts": 13,
+      "count": 223,
+      "sha256": "a6371b223bbde189b4d2cdaed752554562910aef2d6738729afac4338f7dd18b"
     }
   ],
-  "expectedTotal": 1807
+  "expectedTotal": 1832
 }
