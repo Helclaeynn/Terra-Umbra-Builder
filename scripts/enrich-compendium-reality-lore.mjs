@@ -136,6 +136,18 @@ function augmentationLore(page){
   const generations=[...new Set((page.catalog?.generations||[]).map(Number).filter(Number.isFinite))].sort((a,b)=>a-b);
   const prices=[...new Set(sections.map(section=>priceDisplay((section.blocks||[]).filter(block=>block.type==='table').flatMap(block=>block.rows||[]))).filter(Boolean))];
   const facts=concreteRows(rows);
+  if(!effects.length&&!facts.length){
+    const p1=`${page.title} est classée parmi les augmentations de la famille « ${category} ».`;
+    const known=[];
+    if(generations.length)known.push(`les ${generations.map(g=>`générations ${g}`).join(' et ')}`);
+    if(prices.length===1)known.push(`un prix de référence de ${prices[0]}`);
+    else if(prices.length>1)known.push(`des prix de référence de ${prices.slice(0,4).join(', ')}`);
+    const p2=known.length
+      ? `Aucun effet propre supplémentaire n’est documenté pour ${page.title} ; les données disponibles se limitent à ${known.join(' et ')}.`
+      : `Aucun effet propre supplémentaire n’est documenté pour ${page.title} ; seule sa classification d’augmentation est renseignée.`;
+    return {paragraphs:[ensureConcreteLength(p1,page,category,rows),ensureConcreteLength(p2,page,category,rows)],grounding:'sparse'};
+  }
+
   const p1=[`${page.title} est une augmentation de la famille « ${category} ».`];
   if(effects.length===1)p1.push(`Sa fonction est décrite ainsi : « ${punctuate(effects[0]).replace(/[.]$/,'')} ».`);
   else if(effects.length>1)p1.push(`Ses variantes couvrent plusieurs effets distincts : ${effects.slice(0,3).map(x=>`« ${punctuate(x).replace(/[.]$/,'')} »`).join(' ; ')}.`);
@@ -146,7 +158,7 @@ function augmentationLore(page){
   if(facts.length)p2.push(factSentence(facts,3));
   if(prices.length===1)p2.push(`Son prix de référence est fixé à ${punctuate(prices[0])}`);
   else if(prices.length>1)p2.push(`Selon la variante, ses prix de référence sont ${prices.slice(0,4).join(', ')}.`);
-  if(!p2.length)p2.push(`${page.title} conserve la même fonction générale dans les configurations techniques listées pour cette augmentation.`);
+  if(!p2.length)p2.push(`${page.title} conserve les caractéristiques propres à sa famille d’augmentation sans autre effet distinctif documenté.`);
   return {paragraphs:[ensureConcreteLength(p1.join(' '),page,category,rows),ensureConcreteLength(p2.join(' '),page,category,rows)],grounding:'detailed'};
 }
 function replaceContext(page,paragraphs,grounding){
