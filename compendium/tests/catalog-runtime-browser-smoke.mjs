@@ -5,6 +5,19 @@ const executablePath=process.env.CHROME_BIN||'/usr/bin/google-chrome';
 const browser=await chromium.launch({headless:true,executablePath,args:['--no-sandbox','--disable-dev-shm-usage']});
 const page=await browser.newPage({viewport:{width:1440,height:1000}});
 const errors=[];
+const oldRealityFiller=[
+  /dans les vitrines, ateliers et réseaux spécialisés/i,
+  /il est surtout recherché par/i,
+  /sa présence dit autant du niveau de risque/i,
+  /du milieu dans lequel son porteur évolue/i,
+  /l’investissement devient suffisamment important pour être réfléchi/i
+];
+page.on('request',request=>{
+  try{
+    const url=new URL(request.url());
+    if(url.hostname==='cdn.jsdelivr.net')errors.push(`asset CDN interdit: ${request.url()}`);
+  }catch{}
+});
 page.on('pageerror',error=>errors.push(`pageerror: ${error.message}`));
 page.on('console',msg=>{
   if(msg.type()==='error'&&!msg.text().startsWith('Failed to load resource:'))errors.push(`console: ${msg.text()}`);
@@ -72,6 +85,17 @@ try{
   if(await page.locator('#main .doc-table').count()<1)throw new Error('FaceCaster DFL: tableau mécanique non rendu');
 
   await gotoCategory('Équipement');
+  await filterCategory('Bastion');
+  const bastionCards=visibleCards();
+  if(await bastionCards.count()!==1)throw new Error(`Bastion: ${await bastionCards.count()} cartes visibles, attendu 1`);
+  await bastionCards.first().click();
+  await assertArticleBasics('Bastion');
+  if(await page.locator('#main .doc-table').count()<1)throw new Error('Bastion: tableau mécanique non rendu');
+  const bastionText=(await page.locator('#main section#contexte .body-p.lore').allTextContents()).join(' ');
+  for(const re of oldRealityFiller)if(re.test(bastionText))throw new Error(`Bastion: ancien remplissage générique encore rendu (${re})`);
+  if(bastionText.length<100)throw new Error(`Bastion: contexte trop pauvre (${bastionText.length} caractères)`);
+
+  await gotoCategory('Équipement');
   await filterCategory('Neuroprogramme');
   const neuroCards=visibleCards();
   const neuroCount=await neuroCards.count();
@@ -81,7 +105,7 @@ try{
   if(await page.locator('#main .doc-table').count()<1)throw new Error('Neuroprogramme: tableau mécanique non rendu');
 
   if(errors.length)throw new Error(`Erreurs navigateur:\n${errors.join('\n')}`);
-  console.log(`Browser smoke OK — ${augmentationCount} pages d’augmentations groupées · Cybermain Gen.1+Gen.2 avec lore/table/illustration · FaceCaster unique · ${neuroCount} Neuroprogrammes.`);
+  console.log(`Browser smoke OK — ${augmentationCount} pages d’augmentations groupées · Cybermain Gen.1+Gen.2 · FaceCaster unique · Bastion sans remplissage générique · ${neuroCount} Neuroprogrammes · aucun asset jsDelivr.`);
 }finally{
   await browser.close();
 }
