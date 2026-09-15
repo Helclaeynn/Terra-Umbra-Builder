@@ -41,7 +41,7 @@ removedSections+=removeSections(findPage(truth,'21. Les six Fléaux et le faux S
 
 const expectedClean=[
   ['12. Autres descendants de Khinae',['Une famille beaucoup plus vaste','Canidés errants : vivre sans une civilisation de Pelages']],
-  ['13. Mages',['Le Mageius','Avant les sociétés humaines','Affinité dominante']],
+  ['13. Mages',['Le Mageius','Avant les sociétés humaines']],
   ['16. Aseryns',['Les enfants de Serathè','Les Treize']],
   ['17. Exilés — peuples, fonctions et traditions',['Des peuples d’autres mondes devenus terrestres']],
   ['18. Extrals, Homo Superior et Ad’rak',['Des peuples de l’Histoire galactique','Profils rares']],
