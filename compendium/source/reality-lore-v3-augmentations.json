@@ -1,0 +1,230 @@
+{
+  "schemaVersion": 1,
+  "source": "TUC Réalité V8 / Augmentations terrestres V1",
+  "entries": {
+    "Articulations elastiques": [
+      "Articulations élastiques restructure ligaments, cartilages et amplitudes articulaires afin de donner au corps une souplesse qu’un humain ordinaire supporterait mal. La modification reste anatomiquement humaine, mais autorise des angles articulaires inhabituellement extrêmes.",
+      "Cette mobilité sert surtout à la contorsion, au passage dans des espaces étroits et à la libération d’une contrainte physique par le mouvement du corps. Elle ne transforme pas le bénéficiaire en organisme invertébré et conserve donc des limites articulaires réelles."
+    ],
+    "Bio tatouage": [
+      "Le Bio-tatouage est un dessin vivant formé directement par des cellules pigmentaires modifiées dans la peau. Le motif peut changer de teinte ou passer entre plusieurs configurations préparées, avec une transition qui prend de quelques secondes à quelques minutes.",
+      "Il s’agit d’une modification esthétique organique et non d’un camouflage tactique : le tatouage anime ou transforme son apparence, mais n’efface ni silhouette ni présence. Sa particularité vient précisément de ce pigment vivant intégré aux tissus plutôt que d’un affichage posé sur la peau."
+    ],
+    "Bioarme - crocs": [
+      "Les crocs de BioArmement renforcent la dentition et développent des canines spécialisées capables d’être employées volontairement au corps à corps. Cette fonction offensive est cultivée dans l’anatomie elle-même plutôt qu’ajoutée comme une pièce mécanique.",
+      "Leur intérêt augmente fortement lorsqu’ils sont reliés à une glande à venin : la morsure devient alors un vecteur naturel d’injection. Sans ce complément, ils restent une arme biologique létale intégrée à la mâchoire, toujours disponible tant que le porteur peut mordre."
+    ],
+    "Bioarme - decharge electrique": [
+      "La Décharge électrique de BioArmement repose sur de volumineux organes électrogènes capables d’accumuler une impulsion bien plus forte que l’Électrochoc dermique. Le corps devient ainsi la source d’une véritable attaque électrique de combat au contact.",
+      "Après une décharge, les organes doivent reconstituer leur potentiel avant de pouvoir recommencer, ce qui empêche un enchaînement continu. La distinction est nette : l’Électrochoc reste un dispositif léger et défensif, tandis que cette modification est une fonction offensive non humaine."
+    ],
+    "Bioarme - epines": [
+      "Les épines sont des structures osseuses ou cornées cultivées pour se déployer depuis les avant-bras, le dos ou d’autres zones prévues lors de la procédure. Elles transforment ces parties du corps en surfaces dangereuses sans ajouter d’électronique.",
+      "Elles peuvent rester utilisables même lorsqu’un adversaire maintient le porteur en saisie si la zone épineuse est engagée. Leur simple présence ne blesse cependant personne automatiquement : il faut une action offensive ou une conséquence physique cohérente avec le contact."
+    ],
+    "Bioarme - griffes": [
+      "Les griffes biogénétiques sont des lames osseuses ou cornées rétractables cultivées directement dans les mains. Elles sont intégrées au schéma moteur, se déploient volontairement et rendent les attaques de contact réellement tranchantes.",
+      "Contrairement aux énormes griffes mécaniques de première génération, elles sont biologiques, auto-cicatrisantes et ne présentent aucune électronique détectable ou piratable. Elles dépassent en revanche la discrétion et la simplicité des petits ongles carbone en assumant une vraie fonction de BioArmement."
+    ],
+    "Bioware membre": [
+      "Un membre Bioware est un bras, une jambe, une main, un pied ou un autre segment cultivé à partir de l’ADN du bénéficiaire. Une fois greffé, il est biologiquement le sien et restaure la fonction humaine normale comme un tissu vivant.",
+      "Cette solution n’est pas une prothèse modulaire : elle n’offre ni emplacements pour accessoires cybernétiques ni surface de Neuro-hack. Elle cicatrise et se soigne comme le reste du corps, ce qui la distingue radicalement d’un membre cybernétique conçu comme support de modules."
+    ],
+    "Branchies": [
+      "Les branchies biogénétiques sont des tissus respiratoires cultivés au niveau du cou ou du thorax. Elles extraient l’oxygène d’une eau correctement oxygénée et permettent ainsi au porteur de rester immergé sans dépendre d’une réserve d’air.",
+      "Elles ne transforment pas l’humain en créature aquatique complète : elles n’améliorent ni la vision sous l’eau, ni la vitesse de nage, ni la résistance au froid ou à la pression. Leur avantage est une respiration biologique, sans interface mécanique ni électronique."
+    ],
+    "Branchies cybernetiques": [
+      "Les branchies cybernétiques sont installées au cou et dans le système respiratoire pour extraire suffisamment d’oxygène d’une eau respirable. Elles empêchent la noyade due à une immersion prolongée sans imposer de remonter simplement pour respirer.",
+      "Le reste du corps demeure humain : ces branchies n’apportent ni sonar, ni vision sous-marine, ni adaptation au froid, à la pression ou aux eaux toxiques et anoxiques. Elles résolvent la respiration, pas l’ensemble des contraintes du milieu aquatique."
+    ],
+    "Cable monofilament": [
+      "Le câble monofilament est un fil de combat déployé depuis la paume d’un Cyberbras. Sa longueur permet de manier une lame souple à courte distance tout en conservant le dispositif entièrement intégré au membre hors usage.",
+      "La version terrestre repose sur une technologie Raven volontairement moins avancée que les monofilaments xéno les plus extrêmes. Elle reste néanmoins conçue pour entamer des protections grâce à son fil très fin, au prix d’un maniement qui relève d’une vraie arme de mêlée."
+    ],
+    "Cheveux artificiels": [
+      "Les cheveux artificiels remplacent la chevelure par des fibres synthétiques ou optiques implantées sur le cuir chevelu. Selon le modèle, leur couleur, leur coiffure et une partie de leur longueur peuvent être modifiées sans repousse biologique.",
+      "Des fibres optiques peuvent également produire des effets lumineux manifestement artificiels. L’objectif est esthétique et contrôlable : le porteur choisit son apparence capillaire dans les possibilités du système au lieu d’attendre croissance, teinture ou coiffage conventionnel."
+    ],
+    "Cyberbras": [
+      "Le Cyberbras de première génération est une prothèse industrielle aux pistons et à l’hydraulique visibles, tandis que la deuxième génération devient parfaitement articulée, compacte et compatible avec un habillage SynthéDerm. Les deux restaurent d’abord l’usage normal du bras et de la main.",
+      "Le membre sert surtout de plateforme : la première génération accueille des modules anciens dans une architecture robuste et apparente, la seconde offre davantage d’espace interne et accepte les modules des deux générations. La force supplémentaire n’est donc jamais gratuite ; elle dépend de ce qui est réellement installé."
+    ],
+    "Cyberjambe": [
+      "La Cyberjambe remplace une jambe perdue et restaure ses capacités humaines normales avant toute amélioration supplémentaire. Les premières générations sont des supports mécaniques lourds, alors que les versions récentes réduisent fortement l’impact visuel et physiologique de la prothèse.",
+      "La deuxième génération dispose de davantage d’espace interne et peut recevoir du SynthéDerm pour retrouver une apparence biologique crédible. Course, saut, adhérence ou nage améliorés viennent ensuite de modules dédiés : le simple fait d’avoir une jambe métallique ne crée pas ces performances."
+    ],
+    "Digestion efficace": [
+      "Digestion efficace modifie la flore, les enzymes et le fonctionnement digestif afin d’extraire davantage de nutriments d’une alimentation pauvre. Le bénéficiaire peut ainsi tirer plus de valeur d’une nourriture médiocre et supporte mieux les désagréments digestifs ordinaires.",
+      "Cette optimisation ne remplace pas un filtre médical spécialisé : un poison administré volontairement reste un poison et n’est pas automatiquement neutralisé. La modification concerne l’efficacité de la digestion humaine, pas une immunité générale à tout ce qui traverse l’estomac."
+    ],
+    "Doigts-outils": [
+      "Les Doigts-outils intègrent dans une Cybermain ou un Cyberbras un ensemble de petits instruments escamotables : laser fin, scalpel, tournevis, pinces, micromanipulateurs ou sondes selon la configuration choisie.",
+      "Le porteur dispose ainsi en permanence de l’équivalent d’un petit kit pour les manipulations médicales ou mécaniques de précision. Ces instruments facilitent le travail fin, mais ne remplacent ni un atelier complet ni l’équipement d’une salle d’opération."
+    ],
+    "Electrochoc": [
+      "L’Électrochoc biogénétique répartit des organes électrogènes sous la peau et le long de certains groupes musculaires. Au contact, le porteur peut libérer une impulsion destinée à provoquer douleur, choc et spasmes plutôt qu’à projeter de l’électricité à distance.",
+      "Le système se recharge naturellement après l’usage et n’est pas conçu pour être déchargé en continu. Il constitue la variante légère et défensive de cette famille, distincte du BioArmement de Décharge électrique dont les organes plus volumineux sont construits pour le combat."
+    ],
+    "Filtre a toxines": [
+      "Le Filtre à toxines est un implant digestif artificiel spécialisé dans les poisons et substances nocives ingérés. Il intervient dans le trajet digestif et peut également accélérer la récupération lorsque l’intoxication a déjà réussi à produire ses effets.",
+      "Sa spécialisation est stricte : injection, morsure, inhalation, contact cutané ou toxine sans vecteur digestif contournent son domaine. Contrairement à une adaptation biologique native, cet organe cybernétique peut être endommagé, retiré ou nécessiter une maintenance appropriée."
+    ],
+    "Glande a venin": [
+      "La Glande à venin est un nouvel organe cultivé pour produire une neurotoxine de combat. Elle doit être reliée à un véritable vecteur d’injection — crocs, griffes creuses, épine spécialisée ou autre canal prévu lors de la conception.",
+      "Elle conserve seulement une petite réserve et reconstitue ses doses progressivement sur plusieurs heures. Le venin standard reste une toxine terrestre connue et médicalement traitable : il affaiblit sa cible, mais n’est pas une substance alien impossible à analyser."
+    ],
+    "Glandes chimiques": [
+      "Les Glandes chimiques ajoutent un organe producteur spécialisé capable de sécréter régulièrement de petites quantités d’une substance utilitaire choisie lors de la conception. Il peut s’agir d’antiseptique, de lubrifiant biologique, de marqueur odorant, de coagulant, de mucus protecteur ou de répulsif léger.",
+      "Cette famille reste volontairement non offensive. Dès qu’une sécrétion devient corrosive, neurotoxique ou pensée pour le combat, elle quitte la simple adaptation physiologique et relève du BioArmement, avec les contraintes d’une nouvelle fonction corporelle dangereuse."
+    ],
+    "Grappin": [
+      "Le Grappin de première génération associe un crochet massif à un treuil motorisé capable de hisser automatiquement son porteur après fixation. Il sert à gagner une hauteur ou franchir un obstacle plutôt qu’à improviser une arme de tir.",
+      "Les versions récentes réduisent la portée mais intègrent entièrement le mécanisme dans l’avant-bras, ce qui rend le dispositif beaucoup moins encombrant. Une surface évidente et immobile se traite comme un ancrage normal ; les points difficiles exigent réellement de viser."
+    ],
+    "Griffes / ongles": [
+      "Les premières griffes cybernétiques sont de longues lames mécaniques qui sortent entre les phalanges et rendent immédiatement la modification visible une fois déployée. Elles privilégient la lacération et l’impact létal au détriment de la discrétion sociale.",
+      "Les ongles carbone récents suivent la logique inverse : ils ressemblent à des ongles ordinaires avant de se déployer en petites griffes d’environ trois centimètres. Leur puissance est plus modeste, mais ils conservent une arme corporelle dissimulable sous une apparence presque normale."
+    ],
+    "Implant contraceptif": [
+      "L’implant contraceptif est un dispositif autonome léger placé dans l’appareil reproductif. Tant qu’il fonctionne normalement, il assure une contraception pratiquement totale sans transformer le reste du corps ni demander de système cybernétique lourd.",
+      "Il appartient aux augmentations fonctionnelles de la vie quotidienne plutôt qu’au chrome de performance. Son intérêt est la continuité d’une fonction contraceptive implantée ; il n’apporte ni capacité physique, ni avantage social, ni plateforme pour d’autres modules."
+    ],
+    "Implant sexuel": [
+      "Les implants sexuels permettent de remplacer, modifier ou ajouter des organes génitaux cybernétiques selon le modèle retenu. La technologie peut donc servir à une reconstruction, à une modification anatomique ou à un changement volontaire de configuration sexuelle.",
+      "Cette entrée décrit une fonction corporelle et esthétique, pas un bonus de séduction ou de Charisme. Toute capacité augmentée supplémentaire exige son propre dispositif spécialisé : l’implant de base ne transforme pas automatiquement l’intimité en avantage mécanique."
+    ],
+    "Injection hormonale": [
+      "L’Injection hormonale modifie les glandes endocrines afin qu’elles puissent libérer sur commande un cocktail physiologique extrêmement rapide. Le corps produit lui-même cette poussée aiguë au lieu de dépendre d’un injecteur ou d’une réserve externe.",
+      "La transformation est suffisamment intégrée pour ne pas imposer une tension chronique, mais forcer brutalement l’organisme au-delà de son régime normal crée malgré tout un coût aigu. Cette logique biologique la distingue du booster d’adrénaline cybernétique orienté vers l’économie d’action."
+    ],
+    "Isolation electrique": [
+      "Isolation électrique réorganise la conductivité corporelle et développe des tissus capables de mieux isoler l’organisme. Elle vise les courants qui traverseraient normalement muscles, nerfs et organes plutôt qu’une protection générale contre toute attaque énergétique.",
+      "Cette adaptation aide aussi à résister aux perturbations physiologiques purement électriques. Elle ne protège ni de la chaleur ni du souffle d’une explosion sous prétexte que le phénomène d’origine comporte de l’électricité : seule la composante électrique est réellement isolée."
+    ],
+    "Jambes renforcees": [
+      "Les Jambes renforcées installent dans deux Cyberjambes une motorisation et une transmission de puissance dédiées à la course et au saut. La première génération emploie une hydraulique et des moteurs renforcés, conçus pour des impulsions franchement brutales.",
+      "La deuxième génération obtient un résultat moins spectaculaire mais beaucoup plus discret et intégré. Dans les deux cas, le système n’aide que lorsque les jambes fournissent réellement l’impulsion : il ne se convertit pas artificiellement en avantage de nage ou de reptation."
+    ],
+    "Lame cachee": [
+      "La Lame cachée correspond à une lame rétractable logée dans le Cyberbras et pensée comme une arme toujours portée. En première génération, une longue lame massive se déploie le long de l’avant-bras et reste manifestement mécanique une fois sortie.",
+      "La deuxième génération réduit fortement le mécanisme : une lame thermique compacte, inspirée du principe du Feather, se rétracte dans une intégration beaucoup plus discrète. Le dispositif conserve son propre profil d’implant au lieu de reproduire littéralement une longue arme externe."
+    ],
+    "Lentilles polychromes": [
+      "Les Lentilles polychromes sont des dispositifs oculaires cosmétiques permettant de modifier à volonté la couleur de l’iris. Les modèles compatibles peuvent également afficher des motifs ou des teintes artificielles impossibles à obtenir naturellement.",
+      "Elles transforment l’apparence du regard sans toucher aux capacités visuelles du porteur. Aucun zoom, spectre supplémentaire ou meilleure perception ne se cache derrière la couleur : leur fonction est esthétique, externe et volontairement distincte d’un CyberŒil."
+    ],
+    "Maillage dermique decoratif": [
+      "Le Maillage dermique décoratif implante sous la peau de fins conducteurs ou fils métalliques formant des motifs de circuits visibles. Il donne au corps une esthétique technologique permanente sans exiger une fonction cybernétique lourde.",
+      "Dans sa version standard, le maillage est purement décoratif : il ne protège ni le corps ni les systèmes électroniques et ne fournit aucun blindage. L’ancien usage social du dispositif était précisément de paraître augmenté sans devoir porter un véritable chrome de performance."
+    ],
+    "Mains/pieds palmes": [
+      "Les mains et pieds palmés développent des membranes biologiques entre doigts et orteils, permanentes ou rétractables selon la culture. Elles augmentent directement la surface utilisée pour pousser l’eau sans ajouter de mécanisme dans les membres.",
+      "Cette adaptation améliore la nage mais reste moins rapide que les grandes palmes cybernétiques de première génération. En échange, elle fonctionne comme un tissu vivant, sans moteur, sans déploiement mécanique et sans la contrainte physiologique d’une prothèse lourde."
+    ],
+    "Membrane oculaire": [
+      "La Membrane oculaire ajoute une véritable membrane nictitante biologique capable de couvrir l’œil. Elle permet de garder les yeux ouverts sous l’eau et protège la surface oculaire contre poussières, sable, petits débris et irritants ordinaires.",
+      "Cette protection reste physique : elle aide lorsque des particules ou une irritation menacent directement l’œil, mais n’absorbe pas un flash lumineux ou un laser. La membrane protège l’organe exposé sans le transformer en capteur militaire."
+    ],
+    "Memoire amplifiee": [
+      "Mémoire amplifiée optimise les structures mnésiques et contrôle la neurogenèse afin de rendre les souvenirs réellement acquis beaucoup plus précis. Le bénéficiaire peut restituer avec finesse une information qu’il a effectivement apprise ou perçue.",
+      "Cette fidélité n’est ni de l’omniscience ni une compétence importée dans le cerveau : elle n’enseigne rien de nouveau, ne donne pas la compréhension d’une théorie simplement lue et ne recrée pas magiquement un souvenir qui a réellement été détruit."
+    ],
+    "Metabolisme propre": [
+      "Métabolisme propre optimise les glandes cutanées et certains sous-produits du métabolisme. Le corps produit beaucoup moins d’odeurs désagréables, régule mieux la transpiration et garde naturellement peau et cheveux moins gras.",
+      "Il s’agit d’une amélioration d’hygiène physiologique, pas d’une suppression des besoins corporels. Le bénéficiaire doit toujours boire, manger, se laver et assurer les fonctions ordinaires ; la modification rend simplement son propre métabolisme moins contraignant au quotidien."
+    ],
+    "Montre sous-cutanee": [
+      "La Montre sous-cutanée est un microafficheur implanté sous la peau de l’avant-bras ou du poignet. Il peut montrer l’heure, des notifications et des informations simples sans imposer au porteur un écran ou un terminal tenu en main.",
+      "L’afficheur peut se synchroniser avec un Holophone ou un autre système compatible pour relayer les données utiles. Sa fonction reste celle d’une interface discrète de consultation : il ne remplace ni ordinateur complet ni système de réalité augmentée."
+    ],
+    "Organes reproducteurs": [
+      "Les organes reproducteurs biogénétiques sont cultivés sur mesure pour le bénéficiaire. Ils peuvent remplacer un organe perdu, restaurer certaines fonctions reproductives ou participer à une modification anatomique choisie dans le cadre du projet médical.",
+      "Selon la conception, la procédure peut aussi permettre une anatomie différente compatible avec le traitement retenu. La modification reste médicale et corporelle : son apparence et ses fonctions ne produisent aucun avantage social automatique."
+    ],
+    "Ouie amelioree": [
+      "Ouïe améliorée optimise directement l’appareil auditif humain pour entendre plus loin et distinguer des sons faibles avec davantage de finesse. Le résultat se rapproche d’un amplificateur CyberAudio récent sans ajouter d’électronique visible.",
+      "Cette solution biologique est beaucoup moins modulaire qu’un système cybernétique, mais elle ne crée pas de surface électronique à pirater et reste difficile à identifier sans examen. Elle perfectionne l’audition humaine existante plutôt que d’ajouter de nouveaux spectres."
+    ],
+    "Palmes cybernetiques": [
+      "Les Palmes cybernétiques de première génération sont de grandes surfaces mécaniques déployables montées sur les Cyberjambes ou Cyberpieds. Elles privilégient la propulsion aquatique brute et restent visiblement conçues autour d’un mécanisme spécialisé.",
+      "La deuxième génération remplace cette masse par des membranes métalliques intégrées et repliables, moins puissantes mais beaucoup plus discrètes. Les deux versions servent uniquement à allonger la progression en nage ; elles ne rendent pas le porteur meilleur dans tous les usages de l’Athlétisme."
+    ],
+    "Peau de cuir": [
+      "Peau de cuir épaissit la peau et renforce profondément fibres dermiques et collagène afin de transformer les tissus eux-mêmes en protection. Le blindage obtenu reste vivant, se soigne avec le corps et ne comporte aucune électronique.",
+      "Cette solution biologique remplit un rôle comparable à une bonne armure dermique cybernétique tout en évitant le piratage et la tension d’un implant mécanique. En contrepartie, le tissu renforcé n’est pas une plaque que l’on remplace facilement après dommage."
+    ],
+    "Photosynthese": [
+      "Photosynthèse ajoute à la peau et au métabolisme des tissus capables de convertir une partie de l’énergie lumineuse en ressources utilisables par l’organisme. Plusieurs heures de lumière solaire suffisante réduisent donc fortement la quantité de calories qu’il faut obtenir par l’alimentation.",
+      "Cette adaptation ne remplace cependant ni eau, ni protéines, ni sels minéraux, ni vitamines et ne fournit pas d’oxygène illimité. Elle complète le métabolisme humain au lieu de transformer le porteur en organisme capable de survivre durablement avec de la lumière seule."
+    ],
+    "Pigmentation dermique": [
+      "Pigmentation dermique modifie mélanocytes et chromatophores afin que la peau puisse faire évoluer progressivement sa teinte. Le bénéficiaire peut ajuster la couleur générale, l’intensité de certaines marques pigmentaires et quelques motifs simples.",
+      "Les transitions prennent des minutes et ne suivent pas automatiquement l’environnement. Cette biologie modulable reste donc une modification d’apparence, pas un camouflage tactique : le système cybernétique dédié conserve l’avantage lorsqu’il faut réellement disparaître visuellement."
+    ],
+    "Poche dermique": [
+      "La Poche dermique aménage dans un membre ou le torse un compartiment interne dissimulé d’environ dix sur huit sur cinq centimètres. Fermée, elle échappe généralement à une inspection visuelle ou une palpation ordinaire.",
+      "Un scanner corporel adapté peut néanmoins révéler le volume caché : il s’agit d’une cache anatomique, pas d’un espace invisible. L’ouverture et la fermeture restent des manipulations simples du porteur lorsqu’il doit réellement accéder à ce qu’il transporte."
+    ],
+    "Poings renforces": [
+      "Les Poings renforcés correspondent aux poings blindés installés dans une Cybermain ou un Cyberbras. La première génération assume de lourdes masses métalliques destinées à l’impact et à l’écrasement plutôt qu’à la lacération.",
+      "Les versions récentes réduisent fortement la puissance brute mais peuvent disparaître sous un habillage SynthéDerm. Leur logique reste opposée à celle des griffes : elles concentrent la masse et le choc dans le poing, là où une griffe cherche surtout à trancher."
+    ],
+    "Poumon cybernetique": [
+      "Le Poumon cybernétique remplace ou assiste un ou plusieurs poumons par un système filtrant spécialisé dans les fumées, gaz et poisons respiratoires. Il intervient avant que la substance inhalée n’atteigne pleinement l’organisme et aide ensuite la récupération de la composante respiratoire.",
+      "Le dispositif ne crée pas une respiration universelle : il ne fournit pas d’oxygène dans le vide ou une atmosphère anoxique, ne permet pas de respirer sous l’eau et n’arrête pas les agents qui traversent le filtre ou agissent par contact. Des cartouches spécialisées peuvent compléter sa filtration."
+    ],
+    "Radio integree": [
+      "La Radio intégrée est un petit module CyberAudio qui envoie directement le son dans le système auditif du porteur. Elle réunit réception radio, lecture de musique ou fichiers audio et écoute de flux transmis par un appareil connecté.",
+      "L’écoute reste privée et mains libres, sans devoir porter d’écouteurs externes. Cette fonction légère suppose toutefois un support auditif compatible : elle enrichit le CyberAudio existant au lieu de constituer un appareil autonome implantable n’importe où."
+    ],
+    "Scanner Meditech": [
+      "Le Scanner MédiTech est installé dans la paume d’une Cybermain ou d’un Cyberbras pour examiner rapidement un patient au contact. Ses capteurs relèvent température, pulsation, oxygénation, anomalies physiologiques grossières et lésions qu’ils peuvent réellement détecter.",
+      "Le dispositif aide à établir un diagnostic lorsque le scan corporel est pertinent, mais ne remplace ni connaissances médicales ni jugement clinique. Il met des mesures fiables dans la main de l’utilisateur ; il ne transforme pas automatiquement celui-ci en médecin."
+    ],
+    "Sensibilite tactile": [
+      "Sensibilité tactile augmente fortement la densité et la qualité des récepteurs du toucher. La peau devient capable de distinguer vibrations légères, textures, reliefs extrêmement fins et petits changements thermiques au contact.",
+      "Cette précision sensorielle fournit de l’information au porteur mais n’ajoute pas les instruments d’un technicien ou d’un chirurgien. Les Doigts-outils restent plus adaptés au travail mécanique ou médical, tandis que cette modification perfectionne le sens du toucher lui-même."
+    ],
+    "Spectre auditif": [
+      "Le Spectre auditif CyberAudio étend l’audition aux infrasons et ultrasons accessibles au dispositif. Des signaux d’animaux, détecteurs ultrasonores, appareils industriels ou certaines communications deviennent perceptibles alors qu’un humain ordinaire ne les entendrait pas.",
+      "Le module ajoute surtout une permission sensorielle plutôt qu’un amplificateur universel : il permet d’écouter ces fréquences et d’y appliquer normalement l’attention du porteur. Il nécessite un support CyberAudio et reste un capteur électronique spécialisé."
+    ],
+    "Spectre auditif etendu": [
+      "Le Spectre auditif étendu biogénétique repose sur une structure cochléaire cultivée pour dépasser la plage humaine normale. Le porteur peut entendre infrasons et ultrasons dans les limites physiologiques fixées lors de la conception.",
+      "Cette nouvelle plage ne rend pas automatiquement chaque son plus facile à identifier : l’intérêt vient d’abord de percevoir ce qui était auparavant inaudible. Contrairement au module CyberAudio, la capacité est intégrée au tissu vivant et ne peut pas être remplacée comme un capteur."
+    ],
+    "Spectre visuel": [
+      "Le Spectre visuel biogénétique diversifie les photorécepteurs de l’œil afin de percevoir certaines fréquences ultraviolettes et du proche infrarouge. Il peut également conserver une vision exploitable dans une obscurité très faible sur une courte distance.",
+      "Cette extension ne transforme pas l’œil en caméra militaire : elle n’offre ni thermique complète ni cartographie infrarouge de l’environnement. Un CyberŒil spécialisé reste supérieur en instrumentation, tandis que cette modification élargit biologiquement la vision du porteur."
+    ],
+    "Spectre vocal": [
+      "Le Spectre vocal ajoute aux voies vocales des cordes et résonateurs supplémentaires capables de produire volontairement infrasons, ultrasons et fréquences normalement inaccessibles à une voix humaine.",
+      "Cette capacité sert surtout à la signalisation, à la communication avec certains dispositifs ou animaux et à l’interaction avec des systèmes de détection. Elle n’est pas une attaque sonique : obtenir un effet offensif exige un véritable BioArmement ou un dispositif cybernétique dédié."
+    ],
+    "Support multisenseur": [
+      "Le Support multisenseur est une architecture crânienne lourde qui crée deux baies destinées à recevoir des capteurs spécialisés. Chaque baie peut physiquement regrouper plusieurs petits senseurs, mais elle reste un seul ensemble fonctionnel prévu pour un module compatible.",
+      "Caméra, radiation, UV/IR, zoom, amplification auditive, écho-radar, enregistreur, traceur, extension spectrale ou radar-sonar peuvent y prendre place selon le montage. Le support lui-même n’améliore aucune perception : l’information vient toujours du capteur effectivement installé."
+    ],
+    "SynthéDerm de couverture": [
+      "Le SynthéDerm de couverture est un revêtement synthétique appliqué sur une augmentation compatible de deuxième génération afin de lui rendre une apparence biologique crédible. Une prothèse correctement habillée peut ainsi cesser d’être immédiatement visible.",
+      "Le revêtement ne modifie pourtant aucune performance de l’implant et ne le rend pas indétectable. Une inspection médicale ou technique et certains scanners peuvent toujours révéler la structure artificielle dissimulée sous cette peau synthétique."
+    ],
+    "Teinte dermique modulable": [
+      "La Teinte dermique modulable emploie une couche technodermique capable de changer à volonté la pigmentation de la peau, sur tout le corps ou seulement certaines zones. Les réglages peuvent produire des transitions progressives, instantanées ou des couleurs manifestement artificielles.",
+      "Le système sert à choisir et modifier une apparence corporelle plutôt qu’à analyser le décor. Il ne constitue donc pas un camouflage adaptatif : aucune teinte ne se recalcule automatiquement pour faire disparaître le porteur dans son environnement."
+    ],
+    "Temps de reaction surhumain": [
+      "Temps de réaction surhumain optimise transmission nerveuse, myélinisation et traitement réflexe tout en conservant un système nerveux humain. Le bénéficiaire réagit ainsi nettement plus vite aux événements sans ajouter de processeur cybernétique externe.",
+      "L’amélioration porte sur la vitesse de réaction elle-même et ne crée pas une action gratuite permanente. Une meilleure initiative peut naturellement modifier le rythme auquel le corps agit, mais la biologie n’ajoute pas directement une réserve indépendante de gestes ou de décisions."
+    ],
+    "Volume respiratoire etendu": [
+      "Volume respiratoire étendu optimise les poumons, la cage thoracique et les échanges gazeux pour stocker et utiliser l’oxygène plus efficacement. L’apnée devient beaucoup plus longue et le corps tolère mieux hypoxie et efforts dominés par la capacité respiratoire.",
+      "Cette amélioration reste celle d’un système humain fonctionnant avec de l’oxygène disponible. Elle n’autorise pas à respirer une atmosphère anoxique et ne remplace ni branchies, ni réserve d’air, ni protection contre un gaz toxique."
+    ],
+    "Yeux parfaits": [
+      "Yeux parfaits corrige et optimise biologiquement l’œil humain jusqu’à une qualité visuelle exceptionnelle. Myopie, hypermétropie, astigmatisme et défauts ordinaires sont corrigés, tandis que l’accommodation et la lecture des détails fins deviennent particulièrement précises.",
+      "Le résultat reste volontairement humain : aucun zoom mécanique, ultraviolet, infrarouge ou véritable vision nocturne n’apparaît gratuitement. Les yeux atteignent leur optimum biologique sans devenir l’équivalent organique d’un CyberŒil chargé de capteurs."
+    ]
+  }
+}
