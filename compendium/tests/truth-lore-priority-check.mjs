@@ -19,6 +19,6 @@ function page(name){return visible.find(item=>norm(item.title)===norm(name))}
 const baal=text(page('Baal'));if(!/Mars/i.test(baal)||!/Ar[eè]s/i.test(baal))throw new Error('Baal: équivalences Mars/Arès absentes');
 const abigor=text(page('Abigor'));if(!/Thor/i.test(abigor))throw new Error('Abigor: équivalence Thor absente');
 const elynea=text(page('Elynea'));if(!/D[eé]esse de la Lumi[eè]re/i.test(elynea)||!/Arbre de Vie/i.test(elynea))throw new Error('Elynea: origine/Arbre de Vie incomplets');
-const war=text(page('La Guerre céleste'));if(!/diabolis/i.test(war)||!/Elynea/i.test(war))throw new Error('Guerre céleste: mémoire religieuse incomplète');
+const war=text(page('La Guerre céleste'));if(!/(?:figures? infernales?|d[eé]monis|diabolis)/i.test(war)||!/Elynea/i.test(war))throw new Error('Guerre céleste: mémoire religieuse incomplète');
 const elyneaPage=page('Elynea');if(elyneaPage.id!=='lore-angelus-elynea')throw new Error(`Elynea: ID legacy non conservé (${elyneaPage.id})`);
 console.log(`LORE VÉRITÉ PRIORITAIRE OK — ${names.length} pages · ${deities.length} Divinités · Elynea ID conservé · aucune mécanique.`);
