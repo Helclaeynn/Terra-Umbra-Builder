@@ -9,7 +9,7 @@ function norm(value){return String(value||'').normalize('NFD').replace(/[\u0300-
 function textOf(page){return (page.sections||[]).flatMap(section=>(section.blocks||[]).flatMap(block=>block.type==='table'?(block.rows||[]).flat():[block.text||''])).join(' ')}
 
 const truth=load('verite'),legacy=load('lore');
-if(truth.length!==82)throw new Error(`Vérité: ${truth.length} pages, attendu 82`);
+if(truth.length<82)throw new Error(`Vérité: régression sous le socle prédateurs 82 (${truth.length})`);
 if(legacy.length!==397)throw new Error(`Lore legacy: ${legacy.length}, attendu 397`);
 const touched=truth.filter(page=>page.loreBook?.batch==='predators-v1');
 if(touched.length!==9)throw new Error(`9 pages prédateurs attendues, ${touched.length}`);
@@ -25,4 +25,4 @@ for(const page of touched){if(forbidden.test(textOf(page)))throw new Error(`${pa
 for(const title of ['Elynea','Elyë','Baal','Abigor'])if(![...truth,...legacy].some(page=>norm(page.title)===norm(title)))throw new Error(`Lore précédent perdu: ${title}`);
 const all=[...truth,...legacy.filter(page=>page.category==='Vérité')];for(const title of ['Sangs noirs vampiriques','Pelage Gris','Pelage Noir','Pelage Blanc','Pelage Roux','Pelage Brun','Pelage Doré']){const matches=all.filter(page=>norm(page.title)===norm(title));if(matches.length!==1)throw new Error(`${title}: ${matches.length} pages visibles`)}
 const ids=new Set();for(const page of truth){if(ids.has(page.id))throw new Error(`ID Vérité dupliqué: ${page.id}`);ids.add(page.id)}
-console.log('LORE PRÉDATEURS V6 OK — 82 pages Vérité · hubs Vampire/Garou reconstruits · Sangs noirs + 6 Pelages book-first · legacy inchangé.');
+console.log(`LORE PRÉDATEURS V6 OK — socle 82 préservé, corpus actuel ${truth.length} pages Vérité · hubs Vampire/Garou reconstruits · Sangs noirs + 6 Pelages book-first · legacy inchangé.`);
