@@ -3153,6 +3153,39 @@
       "displayTitle": "Vhodhal — la Famine Blanche"
     },
     {
+      "id": "lore-angelus-elynea",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Guerre céleste & puissances divines",
+      "subgroupOrder": 10,
+      "pageOrder": 10,
+      "displayTitle": "Elynea"
+    },
+    {
+      "id": "verite-lore-guerre-celeste",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Guerre céleste & puissances divines",
+      "subgroupOrder": 10,
+      "pageOrder": 20,
+      "displayTitle": "La Guerre céleste"
+    },
+    {
+      "id": "verite-lore-anciennes-divinites",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Cosmologie & histoire cachée",
+      "groupOrder": 10,
+      "subgroup": "Guerre céleste & puissances divines",
+      "subgroupOrder": 10,
+      "pageOrder": 30,
+      "displayTitle": "Les anciennes Divinités"
+    },
+    {
       "id": "lore-humans-galaxy-aidh",
       "dataset": "lore",
       "category": "Vérité",
@@ -3833,6 +3866,149 @@
       "subgroupOrder": 14,
       "pageOrder": 14,
       "displayTitle": "Daemons"
+    },
+    {
+      "id": "verite-lore-divinite-abigor",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Daemons — Divinités",
+      "subgroupOrder": 14,
+      "pageOrder": 100,
+      "displayTitle": "Abigor"
+    },
+    {
+      "id": "verite-lore-divinite-alabor",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Daemons — Divinités",
+      "subgroupOrder": 14,
+      "pageOrder": 100,
+      "displayTitle": "Alabor"
+    },
+    {
+      "id": "verite-lore-divinite-astaroth",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Daemons — Divinités",
+      "subgroupOrder": 14,
+      "pageOrder": 100,
+      "displayTitle": "Astaroth"
+    },
+    {
+      "id": "verite-lore-divinite-baal",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Daemons — Divinités",
+      "subgroupOrder": 14,
+      "pageOrder": 100,
+      "displayTitle": "Baal"
+    },
+    {
+      "id": "verite-lore-divinite-belial",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Daemons — Divinités",
+      "subgroupOrder": 14,
+      "pageOrder": 100,
+      "displayTitle": "Belial"
+    },
+    {
+      "id": "verite-lore-divinite-belzebuth",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Daemons — Divinités",
+      "subgroupOrder": 14,
+      "pageOrder": 100,
+      "displayTitle": "Belzébuth"
+    },
+    {
+      "id": "verite-lore-divinite-diablo",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Daemons — Divinités",
+      "subgroupOrder": 14,
+      "pageOrder": 100,
+      "displayTitle": "Diablo"
+    },
+    {
+      "id": "verite-lore-divinite-lilith",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Daemons — Divinités",
+      "subgroupOrder": 14,
+      "pageOrder": 100,
+      "displayTitle": "Lilith"
+    },
+    {
+      "id": "verite-lore-divinite-lucifer",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Daemons — Divinités",
+      "subgroupOrder": 14,
+      "pageOrder": 100,
+      "displayTitle": "Lucifer"
+    },
+    {
+      "id": "verite-lore-divinite-mammon",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Daemons — Divinités",
+      "subgroupOrder": 14,
+      "pageOrder": 100,
+      "displayTitle": "Mammon"
+    },
+    {
+      "id": "verite-lore-divinite-mephisto",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Daemons — Divinités",
+      "subgroupOrder": 14,
+      "pageOrder": 100,
+      "displayTitle": "Méphisto"
+    },
+    {
+      "id": "verite-lore-divinite-morrighan",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Daemons — Divinités",
+      "subgroupOrder": 14,
+      "pageOrder": 100,
+      "displayTitle": "Morrighan"
+    },
+    {
+      "id": "verite-lore-divinite-satan",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Daemons — Divinités",
+      "subgroupOrder": 14,
+      "pageOrder": 100,
+      "displayTitle": "Satan"
     },
     {
       "id": "verite-051-15-angelus",
