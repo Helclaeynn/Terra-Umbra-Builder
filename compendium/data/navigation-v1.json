@@ -3824,15 +3824,15 @@
       "displayTitle": "Vampires"
     },
     {
-      "id": "verite-047-11-garous-loups-descendants-de-khinae",
+      "id": "verite-lore-sangs-noirs-vampiriques",
       "dataset": "verite",
       "category": "Vérité",
       "group": "Natures, peuples & traditions",
       "groupOrder": 20,
-      "subgroup": "Garous — Loups descendants de Khinae",
+      "subgroup": "Vampires — Sangs noirs",
       "subgroupOrder": 11,
-      "pageOrder": 11,
-      "displayTitle": "Garous — Loups descendants de Khinae"
+      "pageOrder": 20,
+      "displayTitle": "Sangs noirs vampiriques"
     },
     {
       "id": "verite-048-12-autres-descendants-de-khinae",
@@ -4119,6 +4119,83 @@
       "subgroupOrder": 18,
       "pageOrder": 18,
       "displayTitle": "Extrals, Homo Superior et Ad’rak"
+    },
+    {
+      "id": "verite-047-11-garous-loups-descendants-de-khinae",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Garous",
+      "subgroupOrder": 20,
+      "pageOrder": 10,
+      "displayTitle": "Garous — Loups descendants de Khinae"
+    },
+    {
+      "id": "verite-lore-pelage-gris",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Garous — Pelages",
+      "subgroupOrder": 21,
+      "pageOrder": 40,
+      "displayTitle": "Pelage Gris"
+    },
+    {
+      "id": "verite-lore-pelage-noir",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Garous — Pelages",
+      "subgroupOrder": 21,
+      "pageOrder": 50,
+      "displayTitle": "Pelage Noir"
+    },
+    {
+      "id": "verite-lore-pelage-blanc",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Garous — Pelages",
+      "subgroupOrder": 21,
+      "pageOrder": 60,
+      "displayTitle": "Pelage Blanc"
+    },
+    {
+      "id": "verite-lore-pelage-roux",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Garous — Pelages",
+      "subgroupOrder": 21,
+      "pageOrder": 70,
+      "displayTitle": "Pelage Roux"
+    },
+    {
+      "id": "verite-lore-pelage-brun",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Garous — Pelages",
+      "subgroupOrder": 21,
+      "pageOrder": 80,
+      "displayTitle": "Pelage Brun"
+    },
+    {
+      "id": "verite-lore-pelage-dore",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Garous — Pelages",
+      "subgroupOrder": 21,
+      "pageOrder": 90,
+      "displayTitle": "Pelage Doré"
     },
     {
       "id": "lore-supernatural-species-vampires",
