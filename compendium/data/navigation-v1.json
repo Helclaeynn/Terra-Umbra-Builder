@@ -3835,17 +3835,6 @@
       "displayTitle": "Sangs noirs vampiriques"
     },
     {
-      "id": "verite-048-12-autres-descendants-de-khinae",
-      "dataset": "verite",
-      "category": "Vérité",
-      "group": "Natures, peuples & traditions",
-      "groupOrder": 20,
-      "subgroup": "Autres descendants de Khinae",
-      "subgroupOrder": 12,
-      "pageOrder": 12,
-      "displayTitle": "Autres descendants de Khinae"
-    },
-    {
       "id": "verite-lore-divinite-abigor",
       "dataset": "verite",
       "category": "Vérité",
@@ -4141,6 +4130,17 @@
       "subgroupOrder": 21,
       "pageOrder": 90,
       "displayTitle": "Pelage Doré"
+    },
+    {
+      "id": "verite-048-12-autres-descendants-de-khinae",
+      "dataset": "verite",
+      "category": "Vérité",
+      "group": "Natures, peuples & traditions",
+      "groupOrder": 20,
+      "subgroup": "Khinae — autres lignées",
+      "subgroupOrder": 22,
+      "pageOrder": 10,
+      "displayTitle": "Autres descendants de Khinae"
     },
     {
       "id": "verite-049-13-mages",
@@ -4509,11 +4509,11 @@
       "id": "verite-055-19-formation-et-doctrine-de-chasseur",
       "dataset": "verite",
       "category": "Vérité",
-      "group": "Chasseurs",
+      "group": "Chasseurs & traditions",
       "groupOrder": 30,
       "subgroup": "Formation & doctrine",
       "subgroupOrder": 10,
-      "pageOrder": 19,
+      "pageOrder": 10,
       "displayTitle": "Formation et doctrine de Chasseur"
     },
     {
