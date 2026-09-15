@@ -13,15 +13,7 @@ const statusClass=s=>['canon_recent','canon_enrichi'].includes(s)?'canon':s==='s
 const statusLabel=s=>manifest?.statusLabels?.[s]||s||'';
 
 function corpusAssetUrl(relativePath){
-  const clean=String(relativePath||'').replace(/^\.?\//,'');
-  if(location.hostname==='raw.githack.com'||location.hostname==='rawcdn.githack.com'){
-    const match=location.pathname.match(/^\/([^/]+)\/([^/]+)\/([^/]+)\//);
-    if(match){
-      const [,owner,repo,ref]=match;
-      return `https://cdn.jsdelivr.net/gh/${owner}/${repo}@${ref}/compendium/${clean}`;
-    }
-  }
-  return clean;
+  return String(relativePath||'').replace(/^\.?\//,'');
 }
 
 function routeTo(x){location.hash=x.startsWith('#')?x:'#'+x}
@@ -49,7 +41,7 @@ async function loadCommittedOverrides(){
 async function loadDataset(spec){
   const key=spec.id||spec.prefix;if(datasetCache.has(key))return datasetCache.get(key);
   const p=(async()=>{
-    const texts=await Promise.all(Array.from({length:spec.parts},async(_,i)=>{const file=`${spec.prefix}-${String(i).padStart(2,'0')}.b64part`;const r=await fetch(corpusAssetUrl(`data/${file}`),{cache:'force-cache'});if(!r.ok)throw new Error(`${file} · HTTP ${r.status}`);return r.text()}));
+    const texts=await Promise.all(Array.from({length:spec.parts},async(_,i)=>{const file=`${spec.prefix}-${String(i).padStart(2,'0')}.b64part`;const r=await fetch(corpusAssetUrl(`data/${file}`),{cache:'no-cache'});if(!r.ok)throw new Error(`${file} · HTTP ${r.status}`);return r.text()}));
     const b64=texts.join('').replace(/\s+/g,'');
     let bin;try{bin=atob(b64)}catch{throw new Error(`${key} · Base64 invalide`)}
     const bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
