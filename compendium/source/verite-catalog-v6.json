@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "encoding": "gzip+base64",
+  "file": "verite-catalog-v6.json.gz.b64",
+  "chunks": [
+    "verite-catalog-v6-00.b64part",
+    "verite-catalog-v6-01.b64part",
+    "verite-catalog-v6-02.b64part",
+    "verite-catalog-v6-03.b64part",
+    "verite-catalog-v6-04.b64part",
+    "verite-catalog-v6-05.b64part",
+    "verite-catalog-v6-06.b64part"
+  ],
+  "entryCount": 229,
+  "sourceDocument": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx"
+}

@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "source": "TUC Réalité V9 CROSSAUDIT / Livre Réalité V8",
+  "entries": {
+    "Hellstorm": {
+      "source": "Réalité V8 — 4.5 Armes lourdes et spécialisées",
+      "paragraphs": [
+        "Hellstorm est une Gatling lourde alimentée par une bande de 200 coups. Sa cadence et son volume de feu lui permettent de saturer durablement un secteur à moyenne portée plutôt que de rechercher la discrétion ou la mobilité légère.",
+        "Rafale, tir automatique et mécanique Fiable en font une arme d’appui et de suppression conçue pour maintenir un feu soutenu sous pression. Sa bande dédiée fournit l’autonomie nécessaire à ce rôle, tandis que son gabarit Encombrant impose un portage adapté."
+      ]
+    },
+    "Pistolet lourd — Raven": {
+      "source": "Réalité V9 CROSSAUDIT — 5.2 Munitions classiques",
+      "paragraphs": [
+        "Pistolet lourd — Raven désigne le conditionnement Raven de munitions classiques destiné à la famille des pistolets lourds. Le lot contient 40 cartouches, soit la quantité standard retenue pour cette gamme de consommables.",
+        "Il s’agit de munitions conventionnelles sans effet spécial ajouté : leur rôle est d’alimenter les armes compatibles de cette famille. La réserve de quarante coups en fait un achat d’approvisionnement courant plutôt qu’une munition spécialisée à usage ponctuel."
+      ]
+    },
+    "Precision — Owl": {
+      "source": "Réalité V9 CROSSAUDIT — 5.2 Munitions classiques",
+      "paragraphs": [
+        "Precision — Owl désigne le conditionnement Owl de munitions classiques pour les armes de précision. Le lot contient 25 cartouches, un format plus resserré que les conditionnements Raven ou Phoenix de la même section.",
+        "Ces cartouches n’apportent aucun effet spécial par elles-mêmes : elles constituent l’alimentation conventionnelle d’une arme compatible. Le conditionnement de vingt-cinq coups correspond donc à une réserve dédiée au tir de précision plutôt qu’à un volume de saturation."
+      ]
+    },
+    "IA personnelle du Holophone": {
+      "source": "Réalité V8 — 7.1 Équipement civique et domestique",
+      "paragraphs": [
+        "L’IA personnelle du Holophone accompagne les usages civiques courants de son propriétaire. Elle gère l’agenda, les achats usuels, les opérations bancaires, la recherche d’informations et les habitudes de consommation depuis l’écosystème Holophone/NavIA.",
+        "Elle peut également coordonner les fonctions de la maison connectée lorsque le logement le permet. Cette automatisation relève du confort quotidien et de l’organisation personnelle : elle ne confère aucun bonus numérique universel aux actions de son utilisateur."
+      ]
+    },
+    "Redline": {
+      "source": "Réalité V9 CROSSAUDIT — 8. Drogues",
+      "paragraphs": [
+        "Redline est un stimulant de performance destiné aux situations où l’utilisateur cherche à soutenir un effort physique exceptionnel. Son intérêt se situe dans cet usage précis et préparé, plutôt que dans l’octroi d’un avantage permanent ou polyvalent.",
+        "La contrepartie est une forte fatigue accompagnée d’un risque physiologique réel. Les conséquences de Redline se traitent donc selon la scène et l’effort demandé : les circonstances favorables éventuelles ne valent que lorsque l’usage concret du stimulant les justifie."
+      ]
+    },
+    "Flashmergencies": {
+      "source": "Réalité V9 CROSSAUDIT — 9.1 Soins et assurances",
+      "paragraphs": [
+        "Flashmergencies désigne le dispositif d’urgences publiques accessible aux citoyens. Il fournit une prise en charge réelle plutôt qu’un bonus abstrait : son rôle est de faire intervenir les secours lorsqu’une urgence médicale exige effectivement leur présence.",
+        "La disponibilité du service et son délai d’intervention dépendent directement de la zone et de la situation. Deux appels identiques peuvent donc recevoir des réponses très différentes selon l’endroit, la saturation locale et les circonstances de l’urgence."
+      ]
+    },
+    "CareForce Silver": {
+      "source": "Réalité V9 CROSSAUDIT — 9.1 Soins et assurances",
+      "paragraphs": [
+        "CareForce Silver est un niveau de couverture médicale CareForce offrant une priorité et une couverture supérieures aux formules d’entrée de gamme. Il représente une prise en charge organisée et durable, et non un bonus automatique appliqué à chaque problème de santé.",
+        "Pour les Crawlers, cette couverture correspond directement au Talent Assurance Silver. Son intérêt concret est donc l’accès au niveau de service prévu par cette assurance lorsque des soins ou une intervention doivent réellement être obtenus."
+      ]
+    },
+    "Clinique courante": {
+      "source": "Réalité V9 CROSSAUDIT — 9.1 Soins et assurances",
+      "paragraphs": [
+        "Une clinique courante assure les consultations et les soins ordinaires qui ne relèvent pas d’une urgence publique. Elle couvre les actes médicaux banals dont la nature dépend du problème présenté, plutôt qu’une prestation unique identique pour tous les patients.",
+        "Le service médical acheté correspond à une prise en charge réelle par la clinique. Il n’accorde pas de bonus abstrait par lui-même : ce qui compte est l’acte effectivement pratiqué, avec ses besoins, son suivi et les moyens médicaux mobilisés."
+      ]
+    },
+    "Black Clinic": {
+      "source": "Réalité V9 CROSSAUDIT — 9.1 Soins et assurances / Talents Crawler",
+      "paragraphs": [
+        "Une Black Clinic fournit un accès médical clandestin lorsque la filière officielle n’est pas adaptée ou souhaitée. L’accès lui-même suppose un réseau crédible : le Talent Crawler Black Clinic représente précisément une entrée auprès d’au moins une clinique noire ou d’un réseau Meditech.",
+        "Les conditions varient surtout avec le risque, la provenance des pièces nécessaires et le niveau d’anonymat recherché. La clandestinité est donc au cœur de la prestation : disponibilité et conditions dépendent du réseau mobilisé plutôt que d’un service public standardisé."
+      ]
+    },
+    "Faux document / identite": {
+      "source": "Réalité V9 CROSSAUDIT — 9.2 Formation, expertise et services",
+      "paragraphs": [
+        "Un faux document ou une fausse identité est une prestation dont la crédibilité dépend du niveau de contrôle auquel elle doit résister. La même couverture n’a donc pas la même valeur selon qu’elle doit seulement passer un examen ordinaire ou affronter une vérification plus exigeante.",
+        "Le réseau disponible compte autant que le document lui-même. La qualité de la filière, l’accès aux bonnes ressources et le contrôle attendu déterminent ce que le service peut réellement fournir ; il ne crée pas à lui seul une réussite automatique face à n’importe quelle vérification."
+      ]
+    },
+    "Service juridique": {
+      "source": "Réalité V9 CROSSAUDIT — 9.2 Formation, expertise et services / Talents Corporatistes",
+      "paragraphs": [
+        "Un service juridique fournit du conseil et de la représentation dans une affaire réelle. Il s’agit d’une compétence professionnelle mobilisée pour une situation précise, souvent fournie ou organisée par une institution plutôt que d’un avantage générique attaché au personnage.",
+        "Dans un cadre corporatiste, l’avantage Service juridique donne une assistance légale pour les affaires relevant réellement du travail. L’étendue de l’aide dépend donc du dossier, du cadre institutionnel et du domaine dans lequel la représentation est effectivement assurée."
+      ]
+    }
+  }
+}

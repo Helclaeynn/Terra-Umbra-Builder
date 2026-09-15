@@ -4,18 +4,37 @@ on:
   push:
     branches:
       - main
+      - preview/lore
       - feature/tuc-compendium-v3-transfer-final
       - feature/tuc-compendium-editor
       - feature/tuc-compendium-inline-images
       - feature/compendium-page-pr-persistence
     paths:
       - 'compendium/**'
+      - 'character-builder/rulesets/terra-umbra/reality/augmentations.json.gz.b64'
+      - 'character-builder/rulesets/terra-umbra/reality/safe/equipment.manifest.json'
+      - 'character-builder/rulesets/terra-umbra/reality/safe/equipment.part*.b64'
+      - 'scripts/build-compendium-catalog-pages.mjs'
+      - 'scripts/enrich-compendium-augmentation-generations.mjs'
+      - 'scripts/enrich-compendium-reality-lore.mjs'
+      - 'scripts/build-compendium-truth-catalog.mjs'
+      - 'scripts/enrich-compendium-truth-lore.mjs'
+      - 'scripts/prepare-builder-reality-catalogs.mjs'
       - 'scripts/sync-page-overrides.mjs'
       - 'tools/github-oauth-proxy-worker.js'
       - '.github/workflows/compendium-v3-check.yml'
   pull_request:
     paths:
       - 'compendium/**'
+      - 'character-builder/rulesets/terra-umbra/reality/augmentations.json.gz.b64'
+      - 'character-builder/rulesets/terra-umbra/reality/safe/equipment.manifest.json'
+      - 'character-builder/rulesets/terra-umbra/reality/safe/equipment.part*.b64'
+      - 'scripts/build-compendium-catalog-pages.mjs'
+      - 'scripts/enrich-compendium-augmentation-generations.mjs'
+      - 'scripts/enrich-compendium-reality-lore.mjs'
+      - 'scripts/build-compendium-truth-catalog.mjs'
+      - 'scripts/enrich-compendium-truth-lore.mjs'
+      - 'scripts/prepare-builder-reality-catalogs.mjs'
       - 'scripts/sync-page-overrides.mjs'
       - 'tools/github-oauth-proxy-worker.js'
       - '.github/workflows/compendium-v3-check.yml'
@@ -50,6 +69,18 @@ jobs:
           node --check compendium/editor/media-draft-store.js
           node --check compendium/editor/zip-bundle.js
           node --check scripts/sync-page-overrides.mjs
+          node --check scripts/build-compendium-catalog-pages.mjs
+          node --check scripts/enrich-compendium-augmentation-generations.mjs
+          node --check scripts/enrich-compendium-reality-lore.mjs
+          node --check scripts/build-compendium-truth-catalog.mjs
+          node --check scripts/enrich-compendium-truth-lore.mjs
+          node --check scripts/prepare-builder-reality-catalogs.mjs
+          node --check compendium/tests/catalog-pages-check.mjs
+          node --check compendium/tests/catalog-pages-semantic-check.mjs
+          node --check compendium/tests/reality-catalog-lore-quality-check.mjs
+          node --check compendium/tests/catalog-runtime-browser-smoke.mjs
+          node --check compendium/tests/truth-catalog-pages-check.mjs
+          node --check compendium/tests/truth-catalog-runtime-browser-smoke.mjs
       - name: Validate editor override engine
         run: |
           node compendium/tests/editor-overrides-check.mjs
@@ -70,3 +101,50 @@ jobs:
         run: |
           node compendium/tests/manifest-check.mjs
           node compendium/tests/bestiary-v16-check.mjs
+          node compendium/tests/catalog-pages-check.mjs
+          node compendium/tests/reality-catalog-lore-quality-check.mjs
+          node compendium/tests/truth-catalog-pages-check.mjs
+      - name: Validate RawGitHack external delivery
+        shell: bash
+        env:
+          IMMUTABLE_BASE: https://raw.githack.com/Helclaeynn/Terra-Umbra-Builder/${{ github.sha }}/compendium
+          PREVIEW_BASE: https://raw.githack.com/Helclaeynn/Terra-Umbra-Builder/preview/lore/compendium
+        run: |
+          set -euo pipefail
+          CURL=(curl --fail --silent --show-error --location --retry 6 --retry-delay 2 --retry-all-errors)
+
+          echo "Checking immutable RawGitHack page: ${IMMUTABLE_BASE}/index.html"
+          "${CURL[@]}" "${IMMUTABLE_BASE}/index.html" -o /tmp/rawgithack-index.html
+          grep -qi 'Terra Umbra' /tmp/rawgithack-index.html
+
+          echo "Checking preview/lore RawGitHack page with cache-buster"
+          "${CURL[@]}" "${PREVIEW_BASE}/index.html?v=${GITHUB_SHA}" -o /tmp/rawgithack-preview-index.html
+          grep -qi 'Terra Umbra' /tmp/rawgithack-preview-index.html
+
+          "${CURL[@]}" "${IMMUTABLE_BASE}/data/manifest-v3.json" -o /tmp/rawgithack-manifest-v3.json
+          node <<'NODE' > /tmp/rawgithack-fragments.txt
+          const fs = require('fs');
+          const manifest = JSON.parse(fs.readFileSync('/tmp/rawgithack-manifest-v3.json', 'utf8'));
+          const expected = manifest.datasets.reduce((sum, dataset) => sum + Number(dataset.count || 0), 0);
+          if (expected !== Number(manifest.expectedTotal)) {
+            throw new Error(`Manifest total mismatch: datasets=${expected}, expectedTotal=${manifest.expectedTotal}`);
+          }
+          for (const dataset of manifest.datasets) {
+            if (!dataset.prefix || !Number.isInteger(dataset.parts) || dataset.parts < 1) {
+              throw new Error(`Invalid dataset manifest entry: ${JSON.stringify(dataset)}`);
+            }
+            for (let i = 0; i < dataset.parts; i += 1) {
+              process.stdout.write(`${dataset.prefix}-${String(i).padStart(2, '0')}.b64part\n`);
+            }
+          }
+          NODE
+
+          checked=0
+          while IFS= read -r fragment; do
+            [ -n "$fragment" ] || continue
+            "${CURL[@]}" "${IMMUTABLE_BASE}/data/${fragment}" -o /tmp/rawgithack-fragment
+            [ -s /tmp/rawgithack-fragment ]
+            checked=$((checked + 1))
+          done < /tmp/rawgithack-fragments.txt
+
+          echo "RawGitHack external delivery OK — ${checked} fragments + manifest + immutable/preview HTML; no HTTP 404."

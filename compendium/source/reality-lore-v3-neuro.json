@@ -1,0 +1,293 @@
+{
+  "schemaVersion": 1,
+  "source": "TUC Réalité V8 — NeuroDrive",
+  "entries": {
+    "D-Fence": {
+      "section": "9.1 Défensifs",
+      "meta": "Aces • Défensif • 500 $",
+      "flavor": "Pare-feu d'entrée de gamme, simple et robuste.",
+      "details": [
+        "Permet une Défense Neuro active.",
+        "+1 au test de Défense Neuro active.",
+        "Une Défense Neuro active n’emploie qu’un seul programme défensif à la fois."
+      ]
+    },
+    "Shieldic": {
+      "section": "9.1 Défensifs",
+      "meta": "ArcaNetwork • Défensif • 550 $",
+      "flavor": "Bouclier lumineux réactif qui renvoie une partie du choc.",
+      "details": [
+        "Permet une Défense Neuro active.",
+        "+1 au test de Défense Neuro active.",
+        "Si l'attaque inflige malgré tout au moins 1 PV neural, l'assaillant subit 1 PV neural."
+      ]
+    },
+    "MyWall": {
+      "section": "9.1 Défensifs",
+      "meta": "Monarch System • Défensif • 550 $",
+      "flavor": "Mur de données conçu pour absorber frontalement la pression.",
+      "details": [
+        "Permet une Défense Neuro active.",
+        "+2 au test de Défense Neuro active.",
+        "Une Défense Neuro active n’emploie qu’un seul programme défensif à la fois."
+      ]
+    },
+    "2-Fence": {
+      "section": "9.1 Défensifs",
+      "meta": "Aces • Défensif • 1 000 $",
+      "flavor": "Deux agents humanoïdes interceptent successivement les attaques.",
+      "details": [
+        "Permet une Défense Neuro active.",
+        "+1 au test tant qu'au moins une Interception reste.",
+        "Deux fois avant restauration, après avoir raté une Défense active, le Neurodiver peut sacrifier une Interception pour annuler entièrement les dégâts de cette Neuroattaque.",
+        "Quand les deux Interceptions sont dépensées, le programme permet toujours la Défense active mais perd son +1. Les Interceptions ne reviennent pas par simple déchargement/rechargement : restauration hors pression, environ 10 minutes de réinitialisation sûre."
+      ]
+    },
+    "Omnithorns": {
+      "section": "9.1 Défensifs",
+      "meta": "ArcaNetwork • Défensif • 1 250 $",
+      "flavor": "Une couronne de formes acérées contre-attaque chaque intrusion qui réussit à traverser.",
+      "details": [
+        "Permet une Défense Neuro active.",
+        "+1 au test de Défense Neuro active.",
+        "Si l'attaque inflige des PV, l'assaillant subit 2 PV neuronaux."
+      ]
+    },
+    "Castland": {
+      "section": "9.1 Défensifs",
+      "meta": "Monarch System • Défensif • 1 250 $",
+      "flavor": "Forteresse logicielle dédiée à la pure résistance.",
+      "details": [
+        "Permet une Défense Neuro active.",
+        "+3 au test de Défense Neuro active.",
+        "Une Défense Neuro active n’emploie qu’un seul programme défensif à la fois."
+      ]
+    },
+    "Datablast": {
+      "section": "9.2 Offensifs",
+      "meta": "ArcaNetwork • Offensif • 600 $",
+      "flavor": "Nébuleuse de données agressive, conçue pour désorganiser autant que blesser.",
+      "details": [
+        "Permet une Neuroattaque.",
+        "Dégâts : marge.",
+        "Sur marge 6+, la cible subit −3 à son prochain test de Neurodive avant la fin de sa prochaine activation."
+      ]
+    },
+    "Dark Holes": {
+      "section": "9.2 Offensifs",
+      "meta": "Monarch System • Offensif • 800 $",
+      "flavor": "Trous noirs de données : aucune finesse, uniquement de la puissance.",
+      "details": [
+        "Permet une Neuroattaque.",
+        "Dégâts : marge +1 PV.",
+        "Dans la gamme offensive, Dark Holes se distingue de Datablast, qui désorganise, et de Darksword, qui ouvre une brèche exploitable : il ne détourne rien vers un effet secondaire et concentre son usage sur la violence de la Neuroattaque."
+      ]
+    },
+    "Darksword": {
+      "section": "9.2 Offensifs",
+      "meta": "Aces • Offensif • 800 $",
+      "flavor": "Une lame logique qui découpe la défense et ouvre immédiatement une brèche exploitable.",
+      "details": [
+        "Permet une Neuroattaque.",
+        "Dégâts : marge.",
+        "Sur marge 6+, après les dégâts, effectuer immédiatement une Intrusion ou un Contrôle contre le même système sans PA supplémentaire.",
+        "Maximum 1 fois par round."
+      ]
+    },
+    "Langoliers": {
+      "section": "9.2 Offensifs",
+      "meta": "ArcaNetwork • Offensif • 2 500 $",
+      "flavor": "Nuée prédatrice qui dévore l'agent adverse et récupère ce qu'il transportait.",
+      "details": [
+        "Permet une Neuroattaque.",
+        "Dégâts : marge +1 PV contre une cible vivante.",
+        "Quand Langoliers Désactive ou Détruit une IA ou un programme, le Neurodiver peut récupérer un fragment de donnée réellement accessible à cette cible : journal, mémoire récente, clé, identifiant ou morceau de fichier."
+      ]
+    },
+    "Calamities Reign": {
+      "section": "9.2 Offensifs",
+      "meta": "Monarch System • Offensif • 2 500 $",
+      "flavor": "Programme de destruction massive : puissant, mais dangereux à rater.",
+      "details": [
+        "Permet une Neuroattaque.",
+        "Dégâts : marge +3 PV.",
+        "En cas d'échec, la prochaine Neuroattaque hostile contre l'utilisateur avant sa prochaine activation bénéficie de circonstances favorables (+3)."
+      ]
+    },
+    "Darkalibur": {
+      "section": "9.2 Offensifs",
+      "meta": "Aces • Offensif • 2 500 $",
+      "flavor": "Lame double capable de frapper deux présences distinctes dans la même séquence.",
+      "details": [
+        "1 PA : effectuer un seul jet de Neuroattaque contre jusqu'à deux cibles connectées distinctes.",
+        "Chaque cible compare séparément le résultat à sa Défense et subit sa propre marge en PV.",
+        "Contre une seule cible, Darkalibur ne frappe qu'une fois."
+      ]
+    },
+    "OverLoad IV": {
+      "section": "9.3 Contrôle offensif",
+      "meta": "ArcaNetwork • Offensif / contrôle • 750 $",
+      "flavor": "Surcharge de tâches et de données destinée à provoquer le Hardlag.",
+      "details": [
+        "Neuroattaque spécialisée ; aucun dégât de PV.",
+        "Marge 1–5 : −3 au prochain test Neurodive de la cible.",
+        "Marge 6–10 : même effet et perte de la plus haute passe future encore disponible du round.",
+        "Marge 11+ : la cible ne peut effectuer aucune action Neurodive jusqu'à la fin de sa prochaine activation."
+      ]
+    },
+    "King Crash": {
+      "section": "9.3 Contrôle offensif",
+      "meta": "Monarch System • Offensif / contrôle • 1 250 $",
+      "flavor": "Attaque inverse des protocoles de connexion visant à arracher brutalement la cible au réseau.",
+      "details": [
+        "Neuroattaque spécialisée ; aucun dégât direct.",
+        "Marge 1–5 : connexion instable, −3 à la prochaine Défense contre King Crash.",
+        "Marge 6+ : déconnexion forcée.",
+        "Marge 11+ : déconnexion brutale ; si la cible utilise une interface neurale ou augmentique concernée, +1 Stress augmentique temporaire."
+      ]
+    },
+    "Ace-BurnX": {
+      "section": "9.3 Contrôle offensif",
+      "meta": "Aces • Offensif / contrôle • 750 $",
+      "flavor": "Micro-commandes parasites envoyées aux augmentations pour provoquer une surchauffe et une surcharge corporelle.",
+      "details": [
+        "Cible : utilisateur possédant des augmentations accessibles via sa connexion.",
+        "Neuroattaque spécialisée ; aucun PV direct.",
+        "Réussite : +1 Stress augmentique temporaire.",
+        "Marge 6+ : +2 Stress augmentique temporaire au lieu de +1.",
+        "Maximum +3 Stress temporaire simultané provenant d'Ace-BurnX sur une même cible.",
+        "Sans augmentation accessible et compatible, aucun effet."
+      ]
+    },
+    "Zero K": {
+      "section": "9.4 Défense spécialisée et fuite",
+      "meta": "ArcaNetwork • Défensif / fuite • 1 550 $",
+      "flavor": "Maintient la cohérence de la connexion et fournit une sortie d'urgence.",
+      "details": [
+        "Permet une Défense active contre les attaques visant explicitement la connexion.",
+        "+3 à une Défense active contre King Crash ou un effet visant une déconnexion forcée.",
+        "Évacuation d'urgence : 1 PA, test de Neurodive contre le verrouillage ou l'effet pertinent. En réussite, la connexion est rompue proprement."
+      ]
+    },
+    "Icewall": {
+      "section": "9.4 Défense spécialisée et fuite",
+      "meta": "Monarch System • Défensif / garde • 1 050 $",
+      "flavor": "Protège la connexion neurale d'un autre utilisateur et intercepte les attaques qui la visent.",
+      "details": [
+        "Désigner une cible connectée surveillée. Changer de cible est libre hors pression et coûte 1 PA sous pression.",
+        "Si elle subit King Crash, Ace-BurnX ou une attaque visant explicitement ses augmentations neurales, l'utilisateur d'Icewall peut dépenser 1 PA en Réaction.",
+        "Il effectue alors sa propre Défense Neuro active à la place de la cible.",
+        "Cette intervention engage clairement le protecteur dans le Neurocombat."
+      ]
+    },
+    "Data-Shield": {
+      "section": "9.5 Intrusion, masquage et défense d'environnement",
+      "meta": "Aces • Utilitaire / sentinelle • 650 $",
+      "flavor": "Sentinelle dédiée à un ensemble de données ou un environnement privé.",
+      "details": [
+        "Choisir l'environnement ou les données protégées.",
+        "La Difficulté d'Intrusion augmente de +2, maximum 25.",
+        "En cas d'échec d'Intrusion, le propriétaire est automatiquement averti si une connexion existe.",
+        "L'intrus laisse une trace exploitable tant qu'il ne la masque pas.",
+        "Data-Shield ne se cumule pas avec un autre effet qui augmente directement la Difficulté de sécurité : utiliser le meilleur."
+      ]
+    },
+    "Stealthy Timmy": {
+      "section": "9.5 Intrusion, masquage et défense d'environnement",
+      "meta": "ArcaNetwork • Utilitaire / masquage • 550 $",
+      "flavor": "Agent de nettoyage des traces et falsification de provenance.",
+      "details": [
+        "Permet Masquage sous pression : 1 PA, Volonté + Neurodive contre la sécurité actuelle.",
+        "Réussite : efface les traces exploitables laissées par l’utilisateur dans les nœuds qu’il peut réellement atteindre. Les sauvegardes isolées, copies déjà exportées ou systèmes hors de portée ne sont pas effacés.",
+        "Marge 6+ : peut laisser à la place une piste cohérente vers une fausse origine ou une fausse identité numérique.",
+        "Échec : les traces restent.",
+        "Échec narratif : le nettoyage peut lui-même attirer l'attention ou corrompre Stealthy Timmy."
+      ]
+    },
+    "Jorgmunworm": {
+      "section": "9.5 Intrusion, masquage et défense d'environnement",
+      "meta": "Monarch System • Utilitaire / intrusion • 550 $",
+      "flavor": "Crée et entretient une multitude de micro-failles pour faciliter la pénétration.",
+      "details": [
+        "+2 aux tests d'Intrusion contre une sécurité numérique.",
+        "Le bonus ne s'applique ni au Contrôle, ni à la Neuroattaque, ni au Masquage."
+      ]
+    },
+    "Nanaruto": {
+      "section": "9.5 Intrusion, masquage et défense d'environnement",
+      "meta": "Aces • Utilitaire / leurre • 650 $",
+      "flavor": "Duplique en continu l'avatar afin de tromper les IA automatisées.",
+      "details": [
+        "Contre une attaque automatisée d'IA, permet une Défense active pour 1 PA en utilisant Volonté + Neurodive + 1d10e à la place de Volonté + Force Mentale.",
+        "Ne fonctionne pas automatiquement contre un Neurodiver humain ou une IA capable d'identifier autrement la vraie cible."
+      ]
+    },
+    "Swampro": {
+      "section": "9.5 Intrusion, masquage et défense d'environnement",
+      "meta": "ArcaNetwork • Utilitaire / défense • 450 $",
+      "flavor": "Enlise les actions hostiles dans un environnement précis.",
+      "details": [
+        "Choisir un environnement protégé. L’effet cesse si le programme personnel est déchargé, sauf copie d’infrastructure dédiée.",
+        "Les actions Neurodive hostiles visant directement cet environnement subissent −2.",
+        "Plusieurs Swampro ne se cumulent pas."
+      ]
+    },
+    "Sutr": {
+      "section": "9.5 Intrusion, masquage et défense d'environnement",
+      "meta": "Monarch System • Utilitaire / sécurité • 2 550 $",
+      "flavor": "Gardien de dossier sensible, représenté par un géant de feu dans l'environnement holo.",
+      "details": [
+        "Tant qu'il protège un environnement et que l’instance est maintenue, sa Difficulté de sécurité augmente d'un niveau : 12→15→18→21→25, jamais au-delà de 25. Une copie d’infrastructure dédiée peut maintenir cet effet sans occuper le loadout personnel.",
+        "En cas d'échec narratif d'une action hostile dans cet environnement, Sutr détecte l'intrus et l'expulse automatiquement de cette zone du système.",
+        "Sutr ne se cumule pas avec Data-Shield pour augmenter la Difficulté : utiliser la meilleure augmentation."
+      ]
+    },
+    "Neurald": {
+      "section": "9.6 Automatisation, sabotage et copie",
+      "meta": "Aces • Utilitaire / automatisation • 450 $",
+      "flavor": "Multi-IA qui poursuit une tâche routinière après que le Neurodiver l'a lancée.",
+      "details": [
+        "Après démarrage d’une tâche routinière, une instance de Neurald peut poursuivre une seule tâche sans PA du personnage.",
+        "Exemples : recherche, tri, téléchargement, surveillance, copie ordinaire.",
+        "Neurald s'arrête dès qu'apparaît une nouvelle sécurité, une opposition, un choix inattendu, une nouvelle Intrusion/Contrôle ou une décision tactique.",
+        "Neurald ne fournit jamais de PA de combat supplémentaires."
+      ]
+    },
+    "Sicarius": {
+      "section": "9.6 Automatisation, sabotage et copie",
+      "meta": "ArcaNetwork • Utilitaire / sabotage • 1 550 $",
+      "flavor": "Agent de déconstruction lente destiné à rendre une IA ou un programme inutilisable.",
+      "details": [
+        "Une fois la cible atteinte, test de Neurodive contre sa sécurité pour y insérer Sicarius.",
+        "En réussite, la déconstruction se poursuit de manière autonome.",
+        "DR 0 : 1 h ; DR 1 : 30 min ; DR 2 : 10 min ; DR 3+ : 1 min.",
+        "Au terme, l'IA ou le programme est inutilisable jusqu'à restauration/réparation.",
+        "Sicarius peut être découvert et retiré avant la fin. Une copie de Sicarius ne peut maintenir qu’une insertion active à la fois ; une nouvelle insertion avec cette copie remplace l’ancienne."
+      ]
+    },
+    "Groundswell": {
+      "section": "9.6 Automatisation, sabotage et copie",
+      "meta": "Monarch System • Utilitaire / guerre • 3 550 $",
+      "flavor": "Amplificateur de conflit qui rend tout l'environnement plus agressif.",
+      "details": [
+        "Tant que Groundswell est actif dans un environnement et maintenu par le programme chargé — ou par une copie d’infrastructure dédiée — +2 aux tests offensifs de Neurodive effectués dans cet environnement.",
+        "Le bonus bénéficie à tous les utilisateurs, propriétaire compris et ennemis compris.",
+        "Il ne modifie ni Intrusion, ni Analyse, ni Masquage, ni Défense.",
+        "Si un autre Neuroprogramme apporte un bonus numérique direct au même test offensif, utiliser le meilleur bonus ; les effets secondaires du programme offensif restent applicables."
+      ]
+    },
+    "Duppli'cat": {
+      "section": "9.6 Automatisation, sabotage et copie",
+      "meta": "Aces • Utilitaire / copie • 450 $",
+      "flavor": "Copie IA, programmes et informations complexes, en laissant volontairement une petite faille derrière elle.",
+      "details": [
+        "Peut copier programme, IA, base de données complexe ou architecture logicielle accessible.",
+        "Si la source est protégée : test de Neurodive contre sa sécurité.",
+        "La copie ne contourne pas le matériel spécifique, les licences, les clés physiques, les prérequis ou une architecture incompatible.",
+        "Après la copie, Duppli’cat laisse un « Cat » dans la source. Un même Neurodiver ne peut maintenir qu’un Cat exploitable par source ; les Cats ne se cumulent pas.",
+        "Le Cat peut être nettoyé avec un programme de Masquage ; sinon il donne +3 à la prochaine Intrusion contre cette même source, puis disparaît.",
+        "Tant qu'il existe, le Cat constitue une trace détectable."
+      ]
+    }
+  }
+}

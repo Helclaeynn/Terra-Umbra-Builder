@@ -7,7 +7,10 @@
     "Vérité",
     "Organisations",
     "Personnages",
-    "Bestiaire"
+    "Bestiaire",
+    "Équipement",
+    "Augmentations",
+    "Catalogue Vérité"
   ],
   "statusLabels": {
     "canon_recent": "Canon récent",
@@ -31,11 +34,46 @@
       "sha256": "1dfa17c463e08bcdf836c516685e712d2f26b419d240c98f5e9145afeae07489"
     },
     {
+      "id": "equipement",
+      "prefix": "v3-equipement-builder-v1",
+      "parts": 9,
+      "count": 297,
+      "sha256": "6a5384a3e6b231215d9a94b58373efa8b022869415e571792e1ae946e6fcb334",
+      "quality": {
+        "loreVersion": 3,
+        "maxIdenticalTextRatio": 0.6,
+        "method": "reality-book-semantic-lore"
+      }
+    },
+    {
+      "id": "augmentations",
+      "prefix": "v3-augmentations-builder-v1",
+      "parts": 6,
+      "count": 111,
+      "sha256": "6e9e0a7ca2dd92dab0679a85270cca01e63cf7c835f02bcb85f34331c63ceed2",
+      "quality": {
+        "loreVersion": 3,
+        "maxIdenticalTextRatio": 0.6,
+        "method": "reality-book-semantic-lore"
+      }
+    },
+    {
       "id": "verite",
       "prefix": "v3-verite",
       "parts": 1,
       "count": 63,
       "sha256": "ba9f95fff951607512f205682e91de64ce939656a9a95d20eeee80e7aceecd95"
+    },
+    {
+      "id": "verite-catalogue",
+      "prefix": "v3-verite-catalogue-v6",
+      "parts": 12,
+      "count": 229,
+      "sha256": "8c5e742b585d7e16ef401ad823645aa869b4311d27d147848282caf8ad614ec2",
+      "quality": {
+        "loreVersion": 2,
+        "maxIdenticalTextRatio": 0.6
+      }
     },
     {
       "id": "bestiaire",
@@ -59,5 +97,5 @@
       "sha256": "d3f6006f971147d1af1c10dc025443a8db9761801f14336b42899e12d457c652"
     }
   ],
-  "expectedTotal": 930
+  "expectedTotal": 1567
 }
