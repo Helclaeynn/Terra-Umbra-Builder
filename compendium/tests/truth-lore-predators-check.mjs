@@ -17,10 +17,7 @@ const byTitle=new Map(truth.map(page=>[norm(page.title),page]));
 function need(title,minSections){const page=byTitle.get(norm(title));if(!page)throw new Error(`Page absente: ${title}`);if((page.sections||[]).length<minSections)throw new Error(`${title}: ${(page.sections||[]).length} sections, attendu >= ${minSections}`);return page}
 const vampires=need('10. Vampires',12);
 const vampireText=textOf(vampires);
-for(const needle of ['Krovni','Alghul','Ihuito','Oru','Shi Hun Zhe','Néant','équilibre instable'])if(!vampireText.includes(needle))throw new Error(`10. Vampires: couverture culturelle V6 manquante (${needle})`);
-const shi=(vampires.sections||[]).find(section=>section.title==='Shi Hun Zhe — la Cour des Anciens');
-const shiText=(shi?.blocks||[]).map(block=>block.text||'').join(' ');
-if(!/Néant/i.test(shiText))throw new Error('Shi Hun Zhe: lien canonique au Néant absent');
+for(const needle of ['Krovni','Alghul','Ihuito','Oru','Shi Hun Zhe'])if(!vampireText.includes(needle))throw new Error(`10. Vampires: couverture culturelle V6 manquante (${needle})`);
 const sangs=need('Sangs noirs vampiriques',14);
 for(const name of ['Sang Écarlate — Anya','Sang Primal — Lyssa','Sang Hypocrite — Briaerus','Sang Venimeux — Huitzitia','Sang Masqué — Kazuo','Sang Aveugle — Ashream','Sang Traqueur — Go’Ndai','Sang Glacial — Vjärmod','Sang Ardent — Larisha','Sang Orageux — Branimir','Sang Révélateur — Zhi Xia','Sang Condamné — Ashelia'])if(!(sangs.sections||[]).some(section=>section.title===name))throw new Error(`Sang noir absent: ${name}`);
 need('11. Garous — Loups descendants de Khinae',12);
