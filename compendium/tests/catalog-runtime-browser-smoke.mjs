@@ -19,10 +19,11 @@ async function filterCategory(text){
   await page.waitForTimeout(100);
 }
 async function assertArticleBasics(label){
-  await page.waitForSelector('#main .page-head h1',{timeout:10000});
+  await page.waitForSelector('#main .article-media img',{timeout:10000});
   const media=page.locator('#main .article-media img');
   if(await media.count()!==1)throw new Error(`${label}: emplacement d’illustration principal non rendu`);
   const context=page.locator('#main section#contexte .body-p.lore');
+  await context.first().waitFor({state:'visible',timeout:10000});
   if(await context.count()<2)throw new Error(`${label}: deux paragraphes de lore communs non rendus`);
 }
 
