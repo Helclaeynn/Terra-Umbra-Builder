@@ -2,10 +2,12 @@ const norm=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLo
 const slug=s=>norm(s).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'section';
 const $=s=>document.querySelector(s);
 
+// Règles, Réalité et Vérité sont désormais pilotées exclusivement par
+// data/navigation-v1.json via category-navigation.js. Ne jamais les faire
+// retomber dans les anciens regroupements heuristiques de ce fichier.
+const MANIFEST_NAV_CATEGORIES=new Set(['Règles','Réalité','Vérité']);
+
 const TOP_ORDER={
-  'Règles':['Résolution & profil','Combat','Santé & états','Progression & ressources','Création de personnage','Autres règles'],
-  'Réalité':['Grande Californie & société','Gouvernement & institutions','Sécurité publique','Corporations & économie','Technologie & Neurodive','Équipement & véhicules','Autres éléments de Réalité'],
-  'Vérité':['Voile & cosmologie','Peuples & Natures','Vampires & Garous','Mages & traditions','Exilés','Extrals','Chasseurs','Fléaux & Abominations','Ombremonde & lieux','Autres éléments de Vérité'],
   'Organisations':['Gouvernement','Corporations','Pègre','Crawlers & Underlife','Vampires','Exilés','Extrals','Chasseurs','Autres organisations'],
   'Personnages':['Gouvernement & institutions','Sécurité publique','Corporations','Pègre','Crawlers & Underlife','Vampires & Cours','Exilés','Extrals','Chasseurs','Fléaux & secrets','Index PNJ historique','Autres personnages'],
   'Bestiaire':['Profils de Réalité','Revenants','Vampires & Garous','Mages & occultistes','Exilés & Extrals','Fléaux & Abominations','Figures uniques & scénarios','Autres profils']
@@ -19,36 +21,7 @@ const SUB_ORDER={
 
 function textFor(card){return norm(`${card.querySelector('h3')?.textContent||''} ${card.querySelector('p')?.textContent||''} ${card.dataset.filter||''}`)}
 function pathFor(category,card){
-  const t=textFor(card),title=norm(card.querySelector('h3')?.textContent||'');
-  if(category==='Règles'){
-    if(/resolution|profil derive|statut/.test(t))return['Résolution & profil'];
-    if(/combat|tir|initiative|defense/.test(t))return['Combat'];
-    if(/sante|soins|stress|raison|corruption|etat/.test(t))return['Santé & états'];
-    if(/progression|experience|ptv|edge|ressource/.test(t))return['Progression & ressources'];
-    if(/creation/.test(t))return['Création de personnage'];
-    return['Autres règles'];
-  }
-  if(category==='Réalité'){
-    if(/laus|police|securite publique/.test(t))return['Sécurité publique'];
-    if(/gouvernement|agence|cnad|cbii|inata|cbac|cchs|nrmd|eio|csco|stab/.test(t))return['Gouvernement & institutions'];
-    if(/corporation|economie|train de vie|finance/.test(t))return['Corporations & économie'];
-    if(/neuro|technolog|augment|implant|holonet/.test(t))return['Technologie & Neurodive'];
-    if(/equipement|arme|armure|vehicule/.test(t))return['Équipement & véhicules'];
-    if(/californ|societe|quotidien|geographie/.test(t))return['Grande Californie & société'];
-    return['Autres éléments de Réalité'];
-  }
-  if(category==='Vérité'){
-    if(/voile|hologramme|cosmolog|verite/.test(t))return['Voile & cosmologie'];
-    if(/vampir|garou|pelage/.test(t))return['Vampires & Garous'];
-    if(/mage|sorcier|thaum|loge/.test(t))return['Mages & traditions'];
-    if(/exile|azmen|ashyll|thulkar|whurten|silcenter/.test(t))return['Exilés'];
-    if(/extral|humain galact|slice|aidh/.test(t))return['Extrals'];
-    if(/chasseur/.test(t))return['Chasseurs'];
-    if(/fleau|abomination|predicateur|rupture/.test(t))return['Fléaux & Abominations'];
-    if(/ombre|lieu|sanctuaire|point de rencontre/.test(t))return['Ombremonde & lieux'];
-    if(/nature|peuple|espece|angelus|daemon|aseryn/.test(t))return['Peuples & Natures'];
-    return['Autres éléments de Vérité'];
-  }
+  const t=textFor(card);
   if(category==='Organisations'){
     if(/laus|police|securite publique/.test(t))return['Gouvernement','Sécurité publique & LAUS'];
     if(/agence|cnad|cbii|cpp|inata|cbac|cchs|nrmd|eio|csco|stab/.test(t))return['Gouvernement','Agences gouvernementales'];
@@ -103,8 +76,10 @@ function bindLocalToc(root){root.querySelectorAll('[data-local-anchor]').forEach
 function groupCategory(){
   const main=$('#main'),toc=$('#tocBox');if(!main||!toc)return false;
   const eyebrow=main.querySelector('.page-head .eyebrow')?.textContent||'';if(!eyebrow.startsWith('COMPENDIUM ·'))return false;
-  const category=main.querySelector('.page-head h1')?.textContent?.trim();const list=main.querySelector(':scope > .article-list:not([data-topic-source])');
-  if(!category||!list)return false;
+  const category=main.querySelector('.page-head h1')?.textContent?.trim();
+  if(MANIFEST_NAV_CATEGORIES.has(category)) return true;
+  const list=main.querySelector(':scope > .article-list:not([data-topic-source])');
+  if(!category||!list||!TOP_ORDER[category])return false;
   const cards=[...list.querySelectorAll(':scope > .article-card')];if(!cards.length)return false;
   const tree=new Map();
   for(const card of cards){const [top,sub]=pathFor(category,card);if(!tree.has(top))tree.set(top,new Map());const subkey=sub||'';if(!tree.get(top).has(subkey))tree.get(top).set(subkey,[]);tree.get(top).get(subkey).push(card)}
