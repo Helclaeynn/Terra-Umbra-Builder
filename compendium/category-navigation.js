@@ -22,12 +22,13 @@ function categoryFromHash(){
 
 function pageIdFromCard(card){
   const href=card.getAttribute('href')||'';
-  const match=href.match(/^#\/page\/(.+)$/);
+  const match=href.match(/^#\/article\/(.+)$/);
   if(!match) return null;
   try{return decodeURIComponent(match[1])}catch{return match[1]}
 }
 
 function visibleCard(card){return !card.hidden&&card.style.display!=='none'}
+function slug(value){return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'section'}
 
 function refreshEmptyGroups(root){
   if(!root) return;
@@ -41,13 +42,35 @@ function refreshEmptyGroups(root){
   }
 }
 
+function renderCategoryToc(groups){
+  const toc=document.querySelector('#tocBox');
+  if(!toc) return;
+  let html='<div class="toc-title">Dans cette rubrique</div><div class="toc-links toc-topics">';
+  for(const group of groups){
+    const groupId=`nav-${slug(group.name)}`;
+    const total=[...group.subgroups.values()].reduce((sum,sub)=>sum+sub.rows.length,0);
+    html+=`<a href="#${groupId}" data-nav-anchor="${groupId}"><span>${group.name}</span><small>${total}</small></a>`;
+    for(const subgroup of [...group.subgroups.values()].sort((a,b)=>a.order-b.order||a.name.localeCompare(b.name,'fr'))){
+      const subgroupId=`${groupId}-${slug(subgroup.name)}`;
+      html+=`<a class="toc-level-3" href="#${subgroupId}" data-nav-anchor="${subgroupId}"><span>${subgroup.name}</span><small>${subgroup.rows.length}</small></a>`;
+    }
+  }
+  html+='</div>';
+  toc.innerHTML=html;
+  toc.querySelectorAll('[data-nav-anchor]').forEach(link=>link.addEventListener('click',event=>{
+    event.preventDefault();
+    document.getElementById(link.dataset.navAnchor)?.scrollIntoView({behavior:'smooth',block:'start'});
+  }));
+}
+
 async function enhanceCurrentCategory(){
   const category=categoryFromHash();
   if(!SUPPORTED.has(category)) return;
-  const root=document.querySelector('#category-list');
+  const main=document.querySelector('#main');
+  const root=main?.querySelector(':scope > .article-list');
   if(!root||root.dataset.hierarchicalNavigation==='1') return;
 
-  const cards=[...root.querySelectorAll('.article-card')];
+  const cards=[...root.querySelectorAll(':scope > .article-card')];
   if(!cards.length) return;
   const navigation=await loadNavigation();
   if(categoryFromHash()!==category) return;
@@ -75,25 +98,31 @@ async function enhanceCurrentCategory(){
     group.subgroups.get(skey).rows.push(row);
   }
 
-  root.innerHTML='';
-  root.classList.add('hierarchical-category-list');
-  for(const group of [...groups.values()].sort((a,b)=>a.order-b.order||a.name.localeCompare(b.name,'fr'))){
+  const orderedGroups=[...groups.values()].sort((a,b)=>a.order-b.order||a.name.localeCompare(b.name,'fr'));
+  const wrap=document.createElement('div');
+  wrap.className='article-list hierarchical-category-list';
+  wrap.dataset.hierarchicalNavigation='1';
+
+  for(const group of orderedGroups){
     const groupSection=document.createElement('section');
     groupSection.className='nav-group';
+    groupSection.id=`nav-${slug(group.name)}`;
     const groupTitle=document.createElement('h2');
     groupTitle.className='nav-group-title';
-    groupTitle.textContent=group.name;
+    const total=[...group.subgroups.values()].reduce((sum,sub)=>sum+sub.rows.length,0);
+    groupTitle.innerHTML=`<span>${group.name}</span><small>${total}</small>`;
     groupSection.append(groupTitle);
 
     for(const subgroup of [...group.subgroups.values()].sort((a,b)=>a.order-b.order||a.name.localeCompare(b.name,'fr'))){
       const subgroupSection=document.createElement('div');
       subgroupSection.className='nav-subgroup';
+      subgroupSection.id=`${groupSection.id}-${slug(subgroup.name)}`;
       const subgroupTitle=document.createElement('h3');
       subgroupTitle.className='nav-subgroup-title';
-      subgroupTitle.textContent=subgroup.name;
+      subgroupTitle.innerHTML=`<span>${subgroup.name}</span><small>${subgroup.rows.length}</small>`;
       subgroupSection.append(subgroupTitle);
       const grid=document.createElement('div');
-      grid.className='section-grid nav-card-grid';
+      grid.className='article-list nav-card-grid';
       subgroup.rows.sort((a,b)=>a.meta.pageOrder-b.meta.pageOrder||a.meta.displayTitle.localeCompare(b.meta.displayTitle,'fr',{numeric:true,sensitivity:'base'}));
       for(const {card,meta} of subgroup.rows){
         const heading=card.querySelector('h3');
@@ -105,16 +134,18 @@ async function enhanceCurrentCategory(){
       subgroupSection.append(grid);
       groupSection.append(subgroupSection);
     }
-    root.append(groupSection);
+    wrap.append(groupSection);
   }
-  root.dataset.hierarchicalNavigation='1';
+
+  root.replaceWith(wrap);
+  renderCategoryToc(orderedGroups);
 
   const filter=document.querySelector('#categoryFilter');
   if(filter&&!filter.dataset.navVisibilityBound){
     filter.dataset.navVisibilityBound='1';
-    filter.addEventListener('input',()=>setTimeout(()=>refreshEmptyGroups(root),0));
+    filter.addEventListener('input',()=>setTimeout(()=>refreshEmptyGroups(wrap),0));
   }
-  refreshEmptyGroups(root);
+  refreshEmptyGroups(wrap);
 }
 
 let scheduled=false;
