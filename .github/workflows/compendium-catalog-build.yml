@@ -1,6 +1,15 @@
 name: Compendium catalog build
 
 on:
+  push:
+    branches: ['preview/lore']
+    paths:
+      - 'scripts/build-compendium-catalog-pages.mjs'
+      - 'compendium/tests/catalog-pages-check.mjs'
+      - 'character-builder/app.parts/47-reality-missing-augmentations.txt'
+      - 'character-builder/rulesets/terra-umbra/reality/augmentations.json.gz.b64'
+      - 'character-builder/rulesets/terra-umbra/reality/safe/**'
+      - '.github/workflows/compendium-catalog-build.yml'
   workflow_dispatch:
 
 permissions:
