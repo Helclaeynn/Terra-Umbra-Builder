@@ -61,7 +61,9 @@ function concreteRows(rows){
 }
 function effectValue(rows){
   const row=firstRow(rows,/^(effet usage|effet|usage|fonction|description|profil)$/);
-  return row?rowValue(row):'';
+  if(!row)return '';
+  const value=rowValue(row);
+  return norm(value)?value:'';
 }
 function priceValue(rows){const row=firstRow(rows,/^(prix|price|cout|cost)$/);return row?rowValue(row):'';}
 function priceDisplay(rows){
