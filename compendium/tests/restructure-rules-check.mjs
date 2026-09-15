@@ -27,24 +27,21 @@ if(reality.some(page=>page.category==='Règles'))throw new Error('Une page Règl
 if(truth.some(page=>page.category==='Règles'))throw new Error('Une page Règles reste dans Vérité');
 if(rules.some(page=>/^regles-realite-talent-|^regles-realite-desavantage-/.test(page.id||'')))throw new Error('Des fiches atomiques Talent/Désavantage subsistent');
 
-const exactRealityGroups=[
-  ['Talents communs de Réalité',12],
-  ['Désavantages communs de Réalité',15],['Désavantages liés aux Attributs',15],['Désavantages de Sphère',25],
-];
-for(const [title,count] of exactRealityGroups){const page=rules.find(p=>p.title===title);if(!page)throw new Error(`Page regroupée absente: ${title}`);const rows=tableDataRows(page);if(rows.length!==count)throw new Error(`${title}: ${rows.length} entrées, attendu ${count}`)}
-const expertisePages=rules.filter(page=>String(page.id||'').startsWith('regles-realite-talents-expertise-'));
-const originPages=rules.filter(page=>String(page.id||'').startsWith('regles-realite-talents-origine-'));
-const spherePages=rules.filter(page=>String(page.id||'').startsWith('regles-realite-talents-sphere-'));
-if(expertisePages.length!==5||expertisePages.reduce((sum,page)=>sum+tableDataRows(page).length,0)!==25)throw new Error('Expertise: 5 pages / 25 talents attendus');
-if(originPages.length!==5||originPages.reduce((sum,page)=>sum+tableDataRows(page).length,0)!==25)throw new Error('Origine: 5 pages / 25 talents attendus');
-if(spherePages.length!==5||spherePages.reduce((sum,page)=>sum+tableDataRows(page).length,0)!==60)throw new Error('Sphère: 5 pages / 60 talents attendus');
-if(rules.some(page=>['Talents d’expertise','Talents d’Origine','Talents de Sphère'].includes(page.title)))throw new Error('Une ancienne page Talent trop compacte subsiste');
-
+const commonTalents=rules.find(page=>page.title==='Talents communs de Réalité');
+if(!commonTalents||tableDataRows(commonTalents).length!==12)throw new Error('Talents communs de Réalité: 12 entrées attendues');
+const expertisePages=rules.filter(page=>page.id?.startsWith('regles-realite-talents-expertise-'));
+const originPages=rules.filter(page=>page.id?.startsWith('regles-realite-talents-origine-'));
+const spherePages=rules.filter(page=>page.id?.startsWith('regles-realite-talents-sphere-'));
+if(expertisePages.length!==5||expertisePages.flatMap(tableDataRows).length!==25)throw new Error(`Expertise: ${expertisePages.length} pages / ${expertisePages.flatMap(tableDataRows).length} Talents, attendu 5 / 25`);
+if(originPages.length!==5||originPages.flatMap(tableDataRows).length!==25)throw new Error(`Origine: ${originPages.length} pages / ${originPages.flatMap(tableDataRows).length} Talents, attendu 5 / 25`);
+if(spherePages.length!==5||spherePages.flatMap(tableDataRows).length!==60)throw new Error(`Sphère: ${spherePages.length} pages / ${spherePages.flatMap(tableDataRows).length} Talents, attendu 5 / 60`);
+for(const title of ['Désavantages communs de Réalité','Désavantages liés aux Attributs','Désavantages de Sphère'])if(!rules.some(page=>page.title===title))throw new Error(`Page Désavantages absente: ${title}`);
+const disadvantageCount=['Désavantages communs de Réalité','Désavantages liés aux Attributs','Désavantages de Sphère'].flatMap(title=>tableDataRows(rules.find(page=>page.title===title))).length;
+if(disadvantageCount!==55)throw new Error(`Désavantages: ${disadvantageCount}, attendu 55`);
 const talentHub=rules.find(page=>page.title==='Talents de Réalité — règles générales');
 const disadvantageHub=rules.find(page=>page.title==='Désavantages de Réalité — règles générales');
 if(!talentHub||!disadvantageHub)throw new Error('Hubs Talents/Désavantages absents');
-if(!/une page par type d.Expertise/i.test(flat(talentHub))||!/une page par Origine/i.test(flat(talentHub))||!/une page par Sphère/i.test(flat(talentHub))||!/trois pages/i.test(flat(disadvantageHub)))throw new Error('Les hubs décrivent une granularité obsolète');
-const commonTalents=rules.find(page=>page.title==='Talents communs de Réalité');
+if(!/pages/i.test(flat(talentHub))||!/trois pages/i.test(flat(disadvantageHub)))throw new Error('Les hubs ne décrivent pas la structure regroupée');
 if(!/minimum Confortable/i.test(flat(commonTalents))||!/Aisé à Luxe/i.test(flat(commonTalents)))throw new Error('Fier héritier ne porte pas l’arbitrage canonique récent');
 if(!/Apprentissage fulgurant/i.test(flat(commonTalents))||!/2 XP/i.test(flat(commonTalents))||!/scénario/i.test(flat(commonTalents)))throw new Error('Apprentissage fulgurant n’est pas consolidé');
 
@@ -79,5 +76,5 @@ for(const title of truthCommonRules){if(!rules.some(page=>page.title===title&&ta
 
 const ids=new Set();for(const page of [...rules,...reality,...truth]){if(ids.has(page.id))throw new Error(`ID dupliqué: ${page.id}`);ids.add(page.id)}
 console.log(`RESTRUCTURE MÉCANIQUE OK — Règles ${rules.length} · Réalité ${reality.length} · Vérité ${truth.length}.`);
-console.log(`Réalité — 1 page commune · ${expertisePages.length} Expertise · ${originPages.length} Origine · ${spherePages.length} Sphère · 3 groupes de Désavantages, 177 entrées couvertes.`);
+console.log('Réalité — 1 page commune · 5 Expertise · 5 Origine · 5 Sphère · 55 Désavantages couverts.');
 console.log(`Vérité Builder — ${truthPages.length} sous-ensembles · ${actualRows.length}/347 capacités · ${naturePages.length} Natures.`);
