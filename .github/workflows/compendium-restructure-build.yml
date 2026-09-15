@@ -12,12 +12,15 @@ on:
       - 'character-builder/rulesets/terra-umbra/disadvantages/**'
       - 'character-builder/rulesets/terra-umbra/truth/core.json'
       - 'character-builder/rulesets/terra-umbra/truth/talents/**'
+      - 'scripts/reset-generated-truth-v6-pages.mjs'
       - 'scripts/restructure-compendium-mechanics-v2.mjs'
       - 'scripts/refine-reality-talent-page-granularity.mjs'
       - 'scripts/audit-truth-v6-mechanics-overlap.mjs'
       - 'scripts/apply-truth-v6-mechanics.mjs'
+      - 'scripts/clean-truth-lore-mechanics.mjs'
       - 'compendium/tests/restructure-rules-check.mjs'
       - 'compendium/tests/reality-talent-granularity-check.mjs'
+      - 'compendium/tests/truth-lore-mechanics-clean-check.mjs'
       - 'compendium/tests/manifest-check.mjs'
       - '.github/workflows/compendium-restructure-build.yml'
 
@@ -37,27 +40,34 @@ jobs:
           node-version: 22
       - name: Audit Truth V6 mechanics source and Builder overlap
         run: node scripts/audit-truth-v6-mechanics-overlap.mjs
+      - name: Reset generated Truth V6 pages
+        run: node scripts/reset-generated-truth-v6-pages.mjs
       - name: Build grouped mechanics pages
         run: node scripts/restructure-compendium-mechanics-v2.mjs
       - name: Refine Reality talent page granularity
         run: node scripts/refine-reality-talent-page-granularity.mjs
       - name: Integrate exhaustive Truth V6 mechanics
         run: node scripts/apply-truth-v6-mechanics.mjs
+      - name: Clean residual mechanics from Truth lore
+        run: node scripts/clean-truth-lore-mechanics.mjs
       - name: Validate V3 manifest
         run: node compendium/tests/manifest-check.mjs
       - name: Validate grouped Rules structure
         run: node compendium/tests/restructure-rules-check.mjs
       - name: Validate Reality talent granularity
         run: node compendium/tests/reality-talent-granularity-check.mjs
+      - name: Validate Truth lore mechanics cleanup
+        run: node compendium/tests/truth-lore-mechanics-clean-check.mjs
       - name: Commit generated mechanics dataset
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add compendium/data/manifest-v3.json \
-            compendium/data/v3-regles-v5-*.b64part
+            compendium/data/v3-regles-v5-*.b64part \
+            compendium/data/v3-verite-lore-clean-v1-*.b64part
           if git diff --cached --quiet; then
             echo "No generated mechanics changes."
             exit 0
           fi
-          git commit -m "chore(compendium): integrate exhaustive Truth V6 mechanics"
+          git commit -m "chore(compendium): clean Truth mechanics from lore"
           git push origin HEAD:preview/compendium-restructure
