@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "sourceDocument": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx",
+  "page": {
+    "id": "verite-lore-pelage-roux",
+    "title": "Pelage Roux",
+    "order": 70,
+    "evidence": ["V6 p.45"],
+    "sections": [
+      {
+        "title": "Un héritage culturel, pas une couleur",
+        "paragraphs": ["Le nom Roux décrit une tradition et non la teinte réelle du loup. Ses premières lignées furent fortement liées aux peuples natifs de l’Est américain."]
+      },
+      {
+        "title": "Une maîtrise fine de la Mue",
+        "paragraphs": ["Les Roux ont développé une maîtrise particulièrement fine de la transformation. Pour eux, la Mue n’est pas seulement le passage spectaculaire d’un corps à un autre."]
+      },
+      {
+        "title": "La transformation comme langage et outil",
+        "paragraphs": ["La transformation peut devenir langage, outil et adaptation. Cette culture valorise ceux qui emploient exactement la part de leur Nature nécessaire au lieu de considérer la forme hybride comme l’unique expression accomplie du Garou."]
+      }
+    ]
+  }
+}
