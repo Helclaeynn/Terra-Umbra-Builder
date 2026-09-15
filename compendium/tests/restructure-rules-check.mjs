@@ -27,15 +27,23 @@ if(reality.some(page=>page.category==='Règles'))throw new Error('Une page Règl
 if(truth.some(page=>page.category==='Règles'))throw new Error('Une page Règles reste dans Vérité');
 if(rules.some(page=>/^regles-realite-talent-|^regles-realite-desavantage-/.test(page.id||'')))throw new Error('Des fiches atomiques Talent/Désavantage subsistent');
 
-const realityGroups=[
-  ['Talents communs de Réalité',12],['Talents d’expertise',25],['Talents d’Origine',25],['Talents de Sphère',60],
+const exactRealityGroups=[
+  ['Talents communs de Réalité',12],
   ['Désavantages communs de Réalité',15],['Désavantages liés aux Attributs',15],['Désavantages de Sphère',25],
 ];
-for(const [title,count] of realityGroups){const page=rules.find(p=>p.title===title);if(!page)throw new Error(`Page regroupée absente: ${title}`);const rows=tableDataRows(page);if(rows.length!==count)throw new Error(`${title}: ${rows.length} entrées, attendu ${count}`)}
+for(const [title,count] of exactRealityGroups){const page=rules.find(p=>p.title===title);if(!page)throw new Error(`Page regroupée absente: ${title}`);const rows=tableDataRows(page);if(rows.length!==count)throw new Error(`${title}: ${rows.length} entrées, attendu ${count}`)}
+const expertisePages=rules.filter(page=>String(page.id||'').startsWith('regles-realite-talents-expertise-'));
+const originPages=rules.filter(page=>String(page.id||'').startsWith('regles-realite-talents-origine-'));
+const spherePages=rules.filter(page=>String(page.id||'').startsWith('regles-realite-talents-sphere-'));
+if(expertisePages.length!==5||expertisePages.reduce((sum,page)=>sum+tableDataRows(page).length,0)!==25)throw new Error('Expertise: 5 pages / 25 talents attendus');
+if(originPages.length!==5||originPages.reduce((sum,page)=>sum+tableDataRows(page).length,0)!==25)throw new Error('Origine: 5 pages / 25 talents attendus');
+if(spherePages.length!==5||spherePages.reduce((sum,page)=>sum+tableDataRows(page).length,0)!==60)throw new Error('Sphère: 5 pages / 60 talents attendus');
+if(rules.some(page=>['Talents d’expertise','Talents d’Origine','Talents de Sphère'].includes(page.title)))throw new Error('Une ancienne page Talent trop compacte subsiste');
+
 const talentHub=rules.find(page=>page.title==='Talents de Réalité — règles générales');
 const disadvantageHub=rules.find(page=>page.title==='Désavantages de Réalité — règles générales');
 if(!talentHub||!disadvantageHub)throw new Error('Hubs Talents/Désavantages absents');
-if(!/quatre pages/i.test(flat(talentHub))||!/trois pages/i.test(flat(disadvantageHub)))throw new Error('Les hubs décrivent encore l’ancienne atomisation');
+if(!/une page par type d.Expertise/i.test(flat(talentHub))||!/une page par Origine/i.test(flat(talentHub))||!/une page par Sphère/i.test(flat(talentHub))||!/trois pages/i.test(flat(disadvantageHub)))throw new Error('Les hubs décrivent une granularité obsolète');
 const commonTalents=rules.find(page=>page.title==='Talents communs de Réalité');
 if(!/minimum Confortable/i.test(flat(commonTalents))||!/Aisé à Luxe/i.test(flat(commonTalents)))throw new Error('Fier héritier ne porte pas l’arbitrage canonique récent');
 if(!/Apprentissage fulgurant/i.test(flat(commonTalents))||!/2 XP/i.test(flat(commonTalents))||!/scénario/i.test(flat(commonTalents)))throw new Error('Apprentissage fulgurant n’est pas consolidé');
@@ -71,5 +79,5 @@ for(const title of truthCommonRules){if(!rules.some(page=>page.title===title&&ta
 
 const ids=new Set();for(const page of [...rules,...reality,...truth]){if(ids.has(page.id))throw new Error(`ID dupliqué: ${page.id}`);ids.add(page.id)}
 console.log(`RESTRUCTURE MÉCANIQUE OK — Règles ${rules.length} · Réalité ${reality.length} · Vérité ${truth.length}.`);
-console.log('Réalité — 4 groupes de Talents / 3 groupes de Désavantages, 177 entrées couvertes.');
+console.log(`Réalité — 1 page commune · ${expertisePages.length} Expertise · ${originPages.length} Origine · ${spherePages.length} Sphère · 3 groupes de Désavantages, 177 entrées couvertes.`);
 console.log(`Vérité Builder — ${truthPages.length} sous-ensembles · ${actualRows.length}/347 capacités · ${naturePages.length} Natures.`);
