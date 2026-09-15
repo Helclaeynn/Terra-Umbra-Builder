@@ -59,10 +59,10 @@
     },
     {
       "id": "verite",
-      "prefix": "v3-verite-lore-v10",
+      "prefix": "v3-verite-lore-v11",
       "parts": 11,
       "count": 78,
-      "sha256": "556304b38de944af68304b12d6dd21be3a35a421ffe971871a1e8f857200952d"
+      "sha256": "d644eac53c31cd77db8ad77646fc06d57ed8075c7ac5cbe48144446048c0fd9a"
     },
     {
       "id": "verite-catalogue",
@@ -84,10 +84,10 @@
     },
     {
       "id": "lore",
-      "prefix": "v3-lore-v7",
+      "prefix": "v3-lore-v8",
       "parts": 92,
       "count": 359,
-      "sha256": "80f0038a84d0067a7bbb8091f95496b6680424c50f910b2684aa850d3fe8c02d"
+      "sha256": "74fde5fd72c887de0305a35b5e553d5c0ef8e9cb0bee0222818ca83dad6aa7d7"
     },
     {
       "id": "pnj",
