@@ -1,0 +1,710 @@
+[
+  {
+    "id": "bestiaire-v15-spectre-commun",
+    "title": "Spectre commun",
+    "category": "Bestiaire",
+    "source": "TUC Bestiaire V15 finalisé — 11 septembre 2026",
+    "status": "canon_recent",
+    "audience": "player",
+    "tags": [
+      "2.1 Revenants",
+      "Fantômes et entités spectrales",
+      "VÉRITÉ",
+      "REVENANT",
+      "FANTÔME"
+    ],
+    "illustration": {
+      "src": "assets/bestiary-placeholder.svg",
+      "alt": "Illustration à venir — Spectre commun",
+      "caption": "Illustration à venir"
+    },
+    "bestiary": {
+      "chapter": "2.1 Revenants",
+      "family": "Fantômes et entités spectrales",
+      "subfamily": "",
+      "role": "VÉRITÉ • REVENANT • FANTÔME",
+      "hook": "Excellent adversaire d’enquête : comprendre qui il était et ce qui le retient doit être aussi important que réussir à le disperser."
+    },
+    "sections": [
+      {
+        "id": "description",
+        "title": "Description",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Un Spectre est ce qui subsiste d'un mort lorsque son âme, ses souvenirs ou une part suffisamment forte de sa volonté reste attachée au monde. Certains répètent un instant de leur mort ; d'autres conservent intelligence et rancune. Leur influence est généralement centrée sur un objet, des restes ou un lieu qui sert de point d'ancrage."
+          }
+        ]
+      },
+      {
+        "id": "dossier-mj",
+        "title": "Dossier MJ · Profil, hook & informations",
+        "level": 2,
+        "audience": "mj",
+        "blocks": [
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "CLASSIFICATION — 2.1 Revenants › Fantômes et entités spectrales"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "RÔLE — VÉRITÉ • REVENANT • FANTÔME"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "MOUVEMENT 8 m • traverse la matière  •  ACTIONS 2 PA  •  INITIATIVE 1d10e + 7"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "PERCEPTION 1d10e + 9  •  MAÎTRISE 1d10e + 10"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "DÉF. PHYSIQUE - (immatériel)  •  DÉF. OCCULTE 9 (+1d10e active)  •  PV 10  •  ARMURE 0"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "ATTAQUE — Hantise — 1d10e + 9 vs Déf. occulte • en réussite : Test de Stress difficulté 15"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "ATTAQUE — Passage spectral — 1d10e + 8 vs Déf. occulte • DGT 3 occulte"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "CAPACITÉ / INFO MJ — Immatériel — Les attaques physiques ordinaires n'affectent pas le Spectre tant qu'il reste intangible. Il peut se manifester brièvement pour manipuler un objet léger ou devenir visible."
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "CAPACITÉ / INFO MJ — Possession — Sur une cible affaiblie, consentante ou déjà profondément hantée, une tentative de possession utilise 1d10e + 9 contre Défense occulte."
+          },
+          {
+            "type": "p",
+            "style": "callout",
+            "text": "FAIBLESSE / LIMITE — Ancre — À 0 PV, le Spectre est dispersé. S'il possède encore son Ancre, il peut revenir ; traiter l'Ancre ou résoudre ce qui le retient permet le repos définitif."
+          },
+          {
+            "type": "p",
+            "style": "callout",
+            "text": "FAIBLESSE / LIMITE — Barrières spirituelles — Talismans, lieux consacrés et rites adaptés peuvent bloquer ou réduire sa zone d'influence selon leur puissance."
+          },
+          {
+            "type": "p",
+            "style": "callout",
+            "text": "HOOK MJ — Excellent adversaire d’enquête : comprendre qui il était et ce qui le retient doit être aussi important que réussir à le disperser."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bestiaire-v15-liche-faucheuse",
+    "title": "Liche / Faucheuse",
+    "category": "Bestiaire",
+    "source": "TUC Bestiaire V15 finalisé — 11 septembre 2026",
+    "status": "canon_recent",
+    "audience": "player",
+    "tags": [
+      "2.1 Revenants",
+      "Revenants supérieurs et hybrides",
+      "VÉRITÉ",
+      "REVENANT EXCEPTIONNEL",
+      "SORCIER ÉTERNEL"
+    ],
+    "illustration": {
+      "src": "assets/bestiary-placeholder.svg",
+      "alt": "Illustration à venir — Liche / Faucheuse",
+      "caption": "Illustration à venir"
+    },
+    "bestiary": {
+      "chapter": "2.1 Revenants",
+      "family": "Revenants supérieurs et hybrides",
+      "subfamily": "",
+      "role": "VÉRITÉ • REVENANT EXCEPTIONNEL • SORCIER ÉTERNEL",
+      "hook": "Entité exceptionnelle. Son bloc sert pour une confrontation, mais le scénario doit surtout porter sur la découverte de ce qui la rend immortelle."
+    },
+    "sections": [
+      {
+        "id": "description",
+        "title": "Description",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La Liche est un sorcier qui a organisé sa propre survie au-delà de la mort. Son âme n'est plus maintenue par son corps mais par un phylactère volontairement créé, ce qui lui permet de reconstruire une enveloppe et de poursuivre ses projets sur des siècles. Les Exilés parlent parfois de Faucheuses ; une Liche n'est jamais un adversaire anonyme ou rencontré au hasard."
+          }
+        ]
+      },
+      {
+        "id": "dossier-mj",
+        "title": "Dossier MJ · Profil, hook & informations",
+        "level": 2,
+        "audience": "mj",
+        "blocks": [
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "CLASSIFICATION — 2.1 Revenants › Revenants supérieurs et hybrides"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "RÔLE — VÉRITÉ • REVENANT EXCEPTIONNEL • SORCIER ÉTERNEL"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "MOUVEMENT 7 m  •  ACTIONS 3 PA  •  INITIATIVE 1d10e + 11"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "PERCEPTION 1d10e + 12  •  MAÎTRISE 1d10e + 15"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "DÉF. PHYSIQUE 9 (+1d10e active)  •  DÉF. OCCULTE 14 (+1d10e active)  •  PV 28  •  ARMURE 4"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "ATTAQUE — Attaque magique — 1d10e + 13 vs Défense appropriée • Amplitude significative par défaut"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "ATTAQUE — Poigne morte — 1d10e + 10 • DGT 5 • Contact"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "TESTS UTILES — Savoirs +13 • Investigation +11 • Perception +12"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "CAPACITÉ / INFO MJ — Sorcier majeur — Choisir avant la scène 3 à 5 effets magiques cohérents avec son histoire. Ils utilisent les règles normales de Magie et ses valeurs de profil, pas une liste de sorts infinie."
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "CAPACITÉ / INFO MJ — Reconstitution — Détruire son corps à 0 PV ne détruit pas la Liche tant que son phylactère subsiste. Son retour demande du temps et une fiction crédible, mais il est attendu."
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "CAPACITÉ / INFO MJ — Volonté intacte — N'est ni stupide ni automatiquement hostile. Une Liche peut négocier, anticiper, mentir et abandonner un combat perdu si son projet l'exige."
+          },
+          {
+            "type": "p",
+            "style": "callout",
+            "text": "FAIBLESSE / LIMITE — Phylactère — Détruire le phylactère rompt son immortalité et la réduit à un puissant Spectre qu'il faut encore disperser ou exorciser."
+          },
+          {
+            "type": "p",
+            "style": "callout",
+            "text": "FAIBLESSE / LIMITE — Préparation indispensable — Une Liche est une menace de scénario. Le MJ doit définir à l'avance son phylactère, ses protections, son domaine magique et ce qu'elle veut réellement."
+          },
+          {
+            "type": "p",
+            "style": "callout",
+            "text": "HOOK MJ — Entité exceptionnelle. Son bloc sert pour une confrontation, mais le scénario doit surtout porter sur la découverte de ce qui la rend immortelle."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bestiaire-v15-kochtchei",
+    "title": "Kochtcheï",
+    "category": "Bestiaire",
+    "source": "TUC Bestiaire V15 finalisé — 11 septembre 2026",
+    "status": "canon_recent",
+    "audience": "player",
+    "tags": [
+      "2.2 Ombres et entités de l’Ombremonde",
+      "Voyageurs",
+      "VÉRITÉ",
+      "OMBRE",
+      "VOYAGEUR SUPÉRIEUR"
+    ],
+    "illustration": {
+      "src": "assets/bestiary-placeholder.svg",
+      "alt": "Illustration à venir — Kochtcheï",
+      "caption": "Illustration à venir"
+    },
+    "bestiary": {
+      "chapter": "2.2 Ombres et entités de l’Ombremonde",
+      "family": "Voyageurs",
+      "subfamily": "",
+      "role": "VÉRITÉ • OMBRE • VOYAGEUR SUPÉRIEUR",
+      "hook": "Entité de négociation et de scénario. Son bloc de combat existe surtout pour les conséquences d’un échec diplomatique."
+    },
+    "sections": [
+      {
+        "id": "description",
+        "title": "Description",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Kochtcheï prennent souvent une apparence humaine banale, mais évitent presque toujours de marcher : ils se laissent porter par l'air et les vents. Lorsqu'ils se montrent menaçants, les récits les décrivent comme des cavaliers squelettiques d'une puissance ancienne. Ils savent énormément de choses, voyagent entre les plans et supportent très mal qu'on tente de leur prendre ce qu'ils considèrent comme leur propriété."
+          }
+        ]
+      },
+      {
+        "id": "dossier-mj",
+        "title": "Dossier MJ · Profil, hook & informations",
+        "level": 2,
+        "audience": "mj",
+        "blocks": [
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "CLASSIFICATION — 2.2 Ombres et entités de l’Ombremonde › Voyageurs"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "RÔLE — VÉRITÉ • OMBRE • VOYAGEUR SUPÉRIEUR"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "MOUVEMENT 14 m • vol/vent  •  ACTIONS 3 PA  •  INITIATIVE 1d10e + 14"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "PERCEPTION 1d10e + 15  •  MAÎTRISE 1d10e + 16"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "DÉF. PHYSIQUE 11 (+1d10e active)  •  DÉF. OCCULTE 16 (+1d10e active)  •  PV 30  •  ARMURE 3"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "ATTAQUE — Lame de vent — 1d10e + 13 • DGT 7 • portée 20 m"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "ATTAQUE — Pouvoir de Voyageur — 1d10e + 14 vs Défense appropriée • amplitude significative par défaut"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "TESTS UTILES — Savoirs +15 • Perception +15 • Diplomatie +12"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "CAPACITÉ / INFO MJ — Voyage des plans — Peut franchir une frontière planaire lorsqu'il dispose de la condition ou du passage nécessaire. Ce déplacement est un outil de scénario et ne donne pas une téléportation tactique gratuite à chaque PA."
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "CAPACITÉ / INFO MJ — Oreille du vent — Dans un espace où l'air circule, il peut entendre des paroles lointaines ou suivre une conversation portée par le vent lorsque le MJ juge la connexion crédible."
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "CAPACITÉ / INFO MJ — Immortalité conditionnelle — Le réduire à 0 PV détruit sa manifestation locale mais ne le tue pas tant que sa graine de mortalité pour ce plan subsiste."
+          },
+          {
+            "type": "p",
+            "style": "callout",
+            "text": "FAIBLESSE / LIMITE — Graine de mortalité — Pour s'établir dans un plan, le Kochtcheï y dépose une part de sa mortalité. Celui qui trouve cette graine peut le priver de son immortalité locale, le contraindre ou rendre sa mort possible selon la scène."
+          },
+          {
+            "type": "p",
+            "style": "callout",
+            "text": "FAIBLESSE / LIMITE — Possessivité — Menacer un bien qu'il considère comme sien peut le faire agir de manière beaucoup moins sage qu'à l'ordinaire."
+          },
+          {
+            "type": "p",
+            "style": "callout",
+            "text": "FAIBLESSE / LIMITE — Savoir incomplet — Un mortel capable de lui apprendre quelque chose de réellement nouveau peut gagner son attention, voire une forme de protection ; ce n'est pas un automatisme, mais un levier social important."
+          },
+          {
+            "type": "p",
+            "style": "callout",
+            "text": "HOOK MJ — Entité de négociation et de scénario. Son bloc de combat existe surtout pour les conséquences d’un échec diplomatique."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bestiaire-v15-gorgone",
+    "title": "Gorgone",
+    "category": "Bestiaire",
+    "source": "TUC Bestiaire V15 finalisé — 11 septembre 2026",
+    "status": "canon_recent",
+    "audience": "player",
+    "tags": [
+      "2.2 Ombres et entités de l’Ombremonde",
+      "Voyageurs",
+      "VÉRITÉ",
+      "OMBRE",
+      "VOYAGEUSE CHTONIENNE"
+    ],
+    "illustration": {
+      "src": "assets/bestiary-placeholder.svg",
+      "alt": "Illustration à venir — Gorgone",
+      "caption": "Illustration à venir"
+    },
+    "bestiary": {
+      "chapter": "2.2 Ombres et entités de l’Ombremonde",
+      "family": "Voyageurs",
+      "subfamily": "",
+      "role": "VÉRITÉ • OMBRE • VOYAGEUSE CHTONIENNE",
+      "hook": "Voyageuse dangereuse mais pas automatiquement hostile. La lumière et la verticalité doivent structurer l’affrontement ou la négociation."
+    },
+    "sections": [
+      {
+        "id": "description",
+        "title": "Description",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Gorgones sont des Voyageuses venues de profondeurs chtoniennes : grandes ailes membraneuses, serpents à la place des cheveux, mains métalliques et yeux dont la lumière perturbe l'âme. Elles évitent généralement les humains et cherchent surtout à rejoindre d'autres membres de leur espèce, mais leur apparence et leurs anciens liens avec des puissances divines suffisent à provoquer des affrontements."
+          }
+        ]
+      },
+      {
+        "id": "dossier-mj",
+        "title": "Dossier MJ · Profil, hook & informations",
+        "level": 2,
+        "audience": "mj",
+        "blocks": [
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "CLASSIFICATION — 2.2 Ombres et entités de l’Ombremonde › Voyageurs"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "RÔLE — VÉRITÉ • OMBRE • VOYAGEUSE CHTONIENNE"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "MOUVEMENT 8 m • vol 14 m  •  ACTIONS 3 PA  •  INITIATIVE 1d10e + 12"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "PERCEPTION 1d10e + 12  •  MAÎTRISE 1d10e + 13"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "DÉF. PHYSIQUE 10 (+1d10e active)  •  DÉF. OCCULTE 13 (+1d10e active)  •  PV 22  •  ARMURE 3"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "ATTAQUE — Griffes métalliques — 1d10e + 12 • DGT 6 • Contact"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "ATTAQUE — Regard chtonien — 1d10e + 12 vs Déf. occulte • réussite : Test de Stress difficulté 18"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "TESTS UTILES — Perception +12 • Survie souterraine +12"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "CAPACITÉ / INFO MJ — Vol vertical — Ignore les difficultés ordinaires de déplacement dues aux puits, falaises et galeries verticales lorsqu'elle peut déployer ses ailes."
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "CAPACITÉ / INFO MJ — Arrêt bref — 2 PA, 1/scène : une cible proche défend contre 1d10e + 12 en Défense occulte. En cas d'échec, elle ne peut agir jusqu'au début de sa prochaine activation ; le temps autour d'elle semble s'être figé."
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "CAPACITÉ / INFO MJ — Griffes de pierre — Peut escalader une paroi rocheuse ou minérale en y enfonçant ses mains sans test dans des conditions normales."
+          },
+          {
+            "type": "p",
+            "style": "callout",
+            "text": "FAIBLESSE / LIMITE — Lumière intense — Le plein soleil et les projecteurs très puissants blessent ses yeux et sa peau. Tant qu'elle reste exposée sans protection, elle subit la circonstance défavorable normale (-3) aux actions reposant sur la vue et cherche rapidement l'ombre."
+          },
+          {
+            "type": "p",
+            "style": "callout",
+            "text": "FAIBLESSE / LIMITE — Mortelle — Une Gorgone vieillit très lentement et résiste à de nombreuses maladies, mais elle peut être tuée physiquement ; elle n'a pas l'immortalité conditionnelle du Kochtcheï."
+          },
+          {
+            "type": "p",
+            "style": "callout",
+            "text": "FAIBLESSE / LIMITE — Crainte sociale — Les Gorgones connaissent mal les sociétés humaines modernes et peuvent fuir une situation qu'elles interprètent comme une tentative de capture plutôt que chercher à exterminer les témoins."
+          },
+          {
+            "type": "p",
+            "style": "callout",
+            "text": "HOOK MJ — Voyageuse dangereuse mais pas automatiquement hostile. La lumière et la verticalité doivent structurer l’affrontement ou la négociation."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bestiaire-v15-wendigo",
+    "title": "Wendigo",
+    "category": "Bestiaire",
+    "source": "TUC Bestiaire V15 finalisé — 11 septembre 2026",
+    "status": "canon_recent",
+    "audience": "player",
+    "tags": [
+      "2.10 Fléaux, Ruptures et Abominations",
+      "Vhodhal — la Famine Blanche",
+      "VÉRITÉ",
+      "FLÉAU",
+      "VHODHAL",
+      "RUPTURE",
+      "BRUTE / PRÉDATEUR"
+    ],
+    "illustration": {
+      "src": "assets/bestiary-placeholder.svg",
+      "alt": "Illustration à venir — Wendigo",
+      "caption": "Illustration à venir"
+    },
+    "bestiary": {
+      "chapter": "2.10 Fléaux, Ruptures et Abominations",
+      "family": "Vhodhal — la Famine Blanche",
+      "subfamily": "",
+      "role": "VÉRITÉ • FLÉAU • VHODHAL • RUPTURE • BRUTE / PRÉDATEUR",
+      "hook": "Brute de Rupture lente mais monstrueuse. Il faut pouvoir la ralentir, la contenir ou la détourner : l’affronter de face revient à accepter un échange très défavorable."
+    },
+    "sections": [
+      {
+        "id": "description",
+        "title": "Description",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Le Wendigo est une Rupture avancée de Vhodhal chez l’Humain et de nombreuses Natures proches. La faim n’est plus un besoin mais une fonction centrale : chair, matière et énergie deviennent des prises possibles. À mesure que la Corruption progresse, le corps s’alourdit et se densifie jusqu’à produire une créature moins vive qu’une Bête Faramine, mais beaucoup plus difficile à arrêter lorsqu’elle a choisi sa proie."
+          }
+        ]
+      },
+      {
+        "id": "dossier-mj",
+        "title": "Dossier MJ · Profil, hook & informations",
+        "level": 2,
+        "audience": "mj",
+        "blocks": [
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "CLASSIFICATION — 2.10 Fléaux, Ruptures et Abominations › Vhodhal — la Famine Blanche"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "RÔLE — VÉRITÉ • FLÉAU • VHODHAL • RUPTURE • BRUTE / PRÉDATEUR"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "MOUVEMENT 6 m  •  ACTIONS 2 PA  •  INITIATIVE 1d10e + 8"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "PERCEPTION 1d10e + 12  •  MAÎTRISE 1d10e + 8"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "DÉF. PHYSIQUE 13 (+1d10e active)  •  DÉF. OCCULTE 12 (+1d10e active)  •  PV 34  •  ARMURE 6"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "ATTAQUE — Morsure — 1d10e + 16 • DGT 8 • Contact"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "ATTAQUE — Griffes — 1d10e + 14 • DGT 6 • Contact"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "TESTS UTILES — Perception +12 • Athlétisme +13 • Survie +13"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "CAPACITÉ / INFO MJ — Dévorer la vie — Une Morsure qui inflige au moins 1 PV réel lui rend 2 PV, maximum une fois par round."
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "CAPACITÉ / INFO MJ — Dévorer la matière — 1 PA au contact : détruit ou avale un petit volume de matière non vivante ordinaire, assez pour ouvrir une serrure, rompre une chaîne ou creuser une plaque mince."
+          },
+          {
+            "type": "p",
+            "style": "callout",
+            "text": "EXPOSITION - Écume blanche — Si son écume, son sang ou sa salive entre réellement dans une blessure ou est ingérée : Vigueur + Constitution difficulté 15 ; échec +1 Corruption Vhodhal, échec narratif +2."
+          },
+          {
+            "type": "p",
+            "style": "callout",
+            "text": "FAIBLESSE / LIMITE — Faim devenue identité — Un Wendigo négocie mal avec ce qu’il considère comme nourriture. Une source abondante de biomasse ou d’énergie peut néanmoins le détourner momentanément d’une cible plus difficile."
+          },
+          {
+            "type": "p",
+            "style": "callout",
+            "text": "HOOK MJ — Brute de Rupture lente mais monstrueuse. Il faut pouvoir la ralentir, la contenir ou la détourner : l’affronter de face revient à accepter un échange très défavorable."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bestiaire-v15-cyclope-egam",
+    "title": "Cyclope / Egam",
+    "category": "Bestiaire",
+    "source": "TUC Bestiaire V15 finalisé — 11 septembre 2026",
+    "status": "canon_recent",
+    "audience": "player",
+    "tags": [
+      "2.10 Fléaux, Ruptures et Abominations",
+      "Vhodhal — la Famine Blanche",
+      "VÉRITÉ",
+      "FLÉAU",
+      "VHODHAL",
+      "RUPTURE MAGEIUS",
+      "CONTRÔLEUR"
+    ],
+    "illustration": {
+      "src": "assets/bestiary-placeholder.svg",
+      "alt": "Illustration à venir — Cyclope / Egam",
+      "caption": "Illustration à venir"
+    },
+    "bestiary": {
+      "chapter": "2.10 Fléaux, Ruptures et Abominations",
+      "family": "Vhodhal — la Famine Blanche",
+      "subfamily": "",
+      "role": "VÉRITÉ • FLÉAU • VHODHAL • RUPTURE MAGEIUS • CONTRÔLEUR",
+      "hook": "Utiliser l’Egam pour faire de la dépense de pouvoirs un choix tactique, pas pour interdire arbitrairement la magie."
+    },
+    "sections": [
+      {
+        "id": "description",
+        "title": "Description",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les dossiers emploient Cyclope ou Egam pour certaines Ruptures de Dive et de porteurs de Mageius. La Famine ne se contente plus de ronger le corps : elle décompose la relation au Mageius et transforme la perception magique en organe de prédation. L’Egam cherche d’abord les structures actives de Vérité, les sorts et les pouvoirs qu’il peut comprendre assez pour les consommer."
+          }
+        ]
+      },
+      {
+        "id": "dossier-mj",
+        "title": "Dossier MJ · Profil, hook & informations",
+        "level": 2,
+        "audience": "mj",
+        "blocks": [
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "CLASSIFICATION — 2.10 Fléaux, Ruptures et Abominations › Vhodhal — la Famine Blanche"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "RÔLE — VÉRITÉ • FLÉAU • VHODHAL • RUPTURE MAGEIUS • CONTRÔLEUR"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "MOUVEMENT 7 m  •  ACTIONS 3 PA  •  INITIATIVE 1d10e + 10"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "PERCEPTION 1d10e + 14  •  MAÎTRISE 1d10e + 14"
+          },
+          {
+            "type": "p",
+            "style": "spec",
+            "text": "DÉF. PHYSIQUE 8 (+1d10e active)  •  DÉF. OCCULTE 15 (+1d10e active)  •  PV 20  •  ARMURE 2"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "ATTAQUE — Regard de Famine — 1d10e + 14 vs Déf. occulte • DGT 6 surnaturel • portée 20 m"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "ATTAQUE — Poigne déformée — 1d10e + 10 • DGT 4 • Contact"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "TESTS UTILES — Perception +14 • Savoirs +13 • Investigation +12"
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "CAPACITÉ / INFO MJ — Voir ce qui nourrit — Les manifestations magiques ou occultes actives sont évidentes pour lui à courte portée, sans lui révéler automatiquement Talent, école ou faiblesse."
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "CAPACITÉ / INFO MJ — Dévorer le pouvoir — Réaction 1 PA, 1/scène : après avoir résisté à un Talent actif précis, il en dévore la rémanence ; la même Source ne peut réemployer exactement ce Talent contre lui jusqu’à la fin de sa prochaine activation."
+          },
+          {
+            "type": "p",
+            "style": "list",
+            "text": "CAPACITÉ / INFO MJ — Goût du Mageius — Lorsqu’un Mage ou une structure Mageius produit un effet visible, l’Egam peut reconnaître sa famille générale de fonction après une activation d’observation, sans apprendre ses secrets complets."
+          },
+          {
+            "type": "p",
+            "style": "callout",
+            "text": "FAIBLESSE / LIMITE — Prédateur de magie — Une forte manifestation surnaturelle peut le détourner d’une cible physiquement plus proche. Son comportement est très lisible dès qu’une source de pouvoir importante s’active."
+          },
+          {
+            "type": "p",
+            "style": "callout",
+            "text": "HOOK MJ — Utiliser l’Egam pour faire de la dépense de pouvoirs un choix tactique, pas pour interdire arbitrairement la magie."
+          }
+        ]
+      }
+    ]
+  }
+]
