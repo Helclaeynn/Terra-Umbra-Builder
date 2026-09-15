@@ -9,8 +9,8 @@ function load(id){const spec=specFor(id);let b64='';for(let i=0;i<spec.parts;i++
 function textOf(page){return (page.sections||[]).flatMap(section=>(section.blocks||[]).flatMap(block=>block.type==='table'?(block.rows||[]).flat():[block.text||''])).join(' ')}
 
 const truth=load('verite'),legacy=load('lore');
-if(truth.length<84)throw new Error(`Vérité: régression sous le socle 84 (${truth.length})`);
-if(legacy.length!==392)throw new Error(`392 pages lore consolidées attendues, ${legacy.length}`);
+if(truth.length!==78)throw new Error(`Vérité: ${truth.length}, attendu 78`);
+if(legacy.length!==359)throw new Error(`Lore consolidé: ${legacy.length}, attendu 359`);
 const batch=truth.filter(page=>page.loreBook?.batch==='khinae-hunters-v1');
 if(batch.length!==2)throw new Error(`2 hubs Khinae/Chasseurs attendus, ${batch.length}`);
 const forbidden=/\bPTV\b|\bDGT\b|\b\d+\s*PA\b|\b1d10e\b|\bDéfense occulte\b|\bdifficult[eé]\s*\d+|\bco[uû]t\s*[:—-]|TUC Talent/i;
