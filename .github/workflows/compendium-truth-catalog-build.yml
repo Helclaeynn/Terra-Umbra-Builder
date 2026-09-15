@@ -1,0 +1,61 @@
+name: Compendium Truth catalog build
+
+on:
+  push:
+    branches: ['preview/lore']
+    paths:
+      - 'compendium/source/verite-catalog-v6.json'
+      - 'compendium/source/verite-catalog-v6.json.gz.b64'
+      - 'scripts/build-compendium-truth-catalog.mjs'
+      - 'compendium/tests/truth-catalog-pages-check.mjs'
+      - 'compendium/tests/truth-catalog-runtime-browser-smoke.mjs'
+      - '.github/workflows/compendium-truth-catalog-build.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-truth-catalog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: preview/lore
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Generate Truth catalog pages from Vérité V6 source
+        run: node scripts/build-compendium-truth-catalog.mjs
+      - name: Validate Truth catalog pages
+        run: node compendium/tests/truth-catalog-pages-check.mjs
+      - name: Install browser driver
+        run: npm install --no-save --package-lock=false playwright-core@1.55.0
+      - name: Smoke test Truth catalog in Chrome
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/tuc-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:8765/compendium/ >/dev/null; then break; fi
+            sleep 1
+          done
+          CHROME_BIN="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
+          test -n "$CHROME_BIN" || { echo 'Chrome/Chromium introuvable.' >&2; exit 1; }
+          TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node compendium/tests/truth-catalog-runtime-browser-smoke.mjs
+      - name: Commit generated Truth catalog artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A compendium/data compendium/assets/truth-catalog-placeholder.svg compendium/assets/truth-artifact-placeholder.svg
+          if git diff --cached --quiet; then
+            echo 'No generated Truth catalog changes.'
+            exit 0
+          fi
+          git commit -m 'build(compendium): sync Truth catalog from Vérité V6'
+          git push origin HEAD:preview/lore
