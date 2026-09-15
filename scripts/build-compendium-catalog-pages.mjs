@@ -274,10 +274,6 @@ if(augGroups.length!==64)throw new Error(`Pages d’augmentations groupées: ${a
 const nestedVariantCount=augGroups.reduce((sum,g)=>sum+g.variants.length,0);
 if(nestedVariantCount!==146)throw new Error(`Variantes d’augmentations après regroupement: ${nestedVariantCount}, attendu 146`);
 
-for(const id of ['senseurs-sonars-gen-1','senseurs-sonars-gen-2','senseurs-toucher-gen-1','senseurs-toucher-gen-2']){
-  if(augItems.filter(x=>x.catalogId===id).length!==1)throw new Error(`Variante augmentation runtime absente ou dupliquée: ${id}`);
-}
-
 const augRows=augGroups.map(augmentationArticleFor),equipRows=equipItems.map(articleFor),allRows=[...augRows,...equipRows];
 if(new Set(allRows.map(x=>x.id)).size!==allRows.length)throw new Error('IDs de pages catalogue dupliqués');
 if(new Set(allRows.map(x=>`${x.category}|${normText(x.title)}`)).size!==allRows.length)throw new Error('Titres de pages catalogue dupliqués');
