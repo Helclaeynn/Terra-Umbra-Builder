@@ -21,10 +21,10 @@
   "datasets": [
     {
       "id": "moteur",
-      "prefix": "v3-regles-v2",
-      "parts": 6,
-      "count": 209,
-      "sha256": "57598784249561752918baca302e6ef97ae811d652586776b09fb55e637c4f1b"
+      "prefix": "v3-regles-v3",
+      "parts": 12,
+      "count": 182,
+      "sha256": "a14ac737ec9f41217b5aa89f67ebe14ef2a72c739511a7b0eb64edc1ff82a8e1"
     },
     {
       "id": "realite",
@@ -97,5 +97,5 @@
       "sha256": "d3f6006f971147d1af1c10dc025443a8db9761801f14336b42899e12d457c652"
     }
   ],
-  "expectedTotal": 1744
+  "expectedTotal": 1717
 }
