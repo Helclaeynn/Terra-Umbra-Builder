@@ -59,10 +59,10 @@
     },
     {
       "id": "verite",
-      "prefix": "v3-verite-lore-v6",
-      "parts": 9,
+      "prefix": "v3-verite-lore-v7",
+      "parts": 10,
       "count": 84,
-      "sha256": "759b2786529a2c4fa6f8b2dd0a24da59f891481bd72c4e342450fc5fb7f05d2d"
+      "sha256": "2512534475566293314d27f4004730841bc4560c0e30e38d607ea5faa0fac4c0"
     },
     {
       "id": "verite-catalogue",
