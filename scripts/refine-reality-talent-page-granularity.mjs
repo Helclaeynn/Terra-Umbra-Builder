@@ -59,7 +59,7 @@ rules.push(...expertisePages,...originPages,...spherePages);
 
 const talentHub=rules.find(page=>page.title==='Talents de Réalité — règles générales');
 if(talentHub){
-  const sentence='Les Talents sont regroupés en seize pages de catalogue : une page de Talents communs, cinq pages d’Expertise, cinq pages d’Origine et cinq pages de Sphère.';
+  const sentence='Les Talents sont regroupés en seize pages de catalogue : une page de Talents communs, une page par type d’Expertise (cinq pages), une page par Origine (cinq pages) et une page par Sphère (cinq pages).';
   const paragraphs=(talentHub.sections||[]).flatMap(section=>(section.blocks||[]).filter(block=>block.type==='p'));
   const existing=paragraphs.find(block=>/Les Talents sont regroupés/i.test(String(block.text||'')));
   if(existing) existing.text=sentence;
