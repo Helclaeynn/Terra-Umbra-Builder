@@ -16,6 +16,7 @@ on:
       - 'compendium/source/truth-lore-khinae-hunters-v1/*.json'
       - 'compendium/source/truth-lore-corruption-fleaux-v1/*.json'
       - 'compendium/source/truth-legacy-consolidation-v1.json'
+      - 'compendium/source/truth-final-preservation-v1.json'
       - 'compendium/navigation-schema.js'
       - 'compendium/navigation-schema-v2.js'
       - 'compendium/category-navigation.js'
@@ -31,6 +32,7 @@ on:
       - 'scripts/audit-truth-v6-mechanics-overlap.mjs'
       - 'scripts/audit-truth-legacy-relics.mjs'
       - 'scripts/audit-truth-final-cleanup.mjs'
+      - 'scripts/capture-truth-final-preservation-v1.mjs'
       - 'scripts/apply-truth-v6-mechanics.mjs'
       - 'scripts/clean-truth-lore-mechanics.mjs'
       - 'scripts/integrate-truth-lore-priority-v1.mjs'
@@ -73,6 +75,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Capture final Truth preservation source
+        run: node scripts/capture-truth-final-preservation-v1.mjs
       - name: Audit Truth V6 mechanics source and Builder overlap
         run: node scripts/audit-truth-v6-mechanics-overlap.mjs
       - name: Reset generated Truth V6 pages
@@ -141,9 +145,9 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A compendium/data
+          git add -A compendium/data compendium/source/truth-final-preservation-v1.json
           if git diff --cached --quiet; then
-            echo "No generated mechanics/lore/navigation changes."
+            echo "No generated Truth changes."
             exit 0
           fi
           git commit -m "chore(compendium): sync Truth lore"
