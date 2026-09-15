@@ -37,10 +37,8 @@ function asObject(card,columns){
   for(let i=0;i<card.length;i++) out[String(columns?.[i]??i)]=card[i];
   return out;
 }
-function firstString(obj,keys){
-  for(const key of keys){const value=obj?.[key];if(typeof value==='string'&&value.trim()) return value.trim()}
-  return '';
-}
+function clean(value){return value==null?'':String(value).trim()}
+function inc(map,key,n=1){map.set(key,(map.get(key)||0)+n)}
 
 const manifest=JSON.parse(fs.readFileSync(MANIFEST,'utf8'));
 if(manifest.encoding!=='gzip+base64-parts') throw new Error(`Encodage V6 inattendu: ${manifest.encoding}`);
@@ -63,46 +61,44 @@ if(!Array.isArray(rawCards)) throw new Error('Impossible de localiser les cartes
 if(rawCards.length!==882||rawCards.length!==manifest.entries) throw new Error(`Cartes V6: ${rawCards.length}, attendu 882`);
 const columns=Array.isArray(decoded?.columns)?decoded.columns:[];
 const cards=rawCards.map(card=>asObject(card,columns));
-
-const rootKeys=decoded&&typeof decoded==='object'&&!Array.isArray(decoded)?Object.keys(decoded):[];
-console.log(`ROOT — object · keys ${rootKeys.join(', ')||'—'} · chemin ${located.path}`);
-console.log(`COLUMNS — ${JSON.stringify(columns)}`);
+if(!columns.includes('chapter')||!columns.includes('heading3')||!columns.includes('heading4')||!columns.includes('title')||!columns.includes('text')) throw new Error(`Colonnes V6 inattendues: ${JSON.stringify(columns)}`);
 
 const builder=walkArrays(BUILDER_ROOT);
 if(builder.length!==347) throw new Error(`Builder Vérité: ${builder.length}, attendu 347`);
 const builderByName=new Map();
 for(const row of builder){const key=normalize(row.name);if(!builderByName.has(key))builderByName.set(key,[]);builderByName.get(key).push(row)}
 
-const titleKeys=['name','title','talent','ability','capacity','heading','label','nom','Nom','4'];
-const chapterKeys=['chapter','chapitre','domain','nature','category','0'];
-const sectionKeys=['section','family','group','1'];
-const subgroupKeys=['subsection','subgroup','path','2'];
-const candidates=cards.map((card,index)=>({
-  index,card,
-  title:firstString(card,titleKeys),
-  chapter:firstString(card,chapterKeys),
-  section:firstString(card,sectionKeys),
-  subgroup:firstString(card,subgroupKeys),
-}));
-const named=candidates.filter(row=>row.title);
-const exact=named.filter(row=>builderByName.has(normalize(row.title)));
-const exactUnique=new Set(exact.map(row=>normalize(row.title)));
-const chapterCounts=new Map(),sectionCounts=new Map();
-for(const row of candidates){
-  chapterCounts.set(row.chapter||'(sans chapitre)',(chapterCounts.get(row.chapter||'(sans chapitre)')||0)+1);
-  const section=`${row.chapter||'—'} · ${row.section||'—'}`;sectionCounts.set(section,(sectionCounts.get(section)||0)+1);
+const rows=cards.map((card,index)=>{
+  const title=clean(card.title),chapter=clean(card.chapter),h3=clean(card.heading3),h4=clean(card.heading4),h5=clean(card.heading5),text=clean(card.text);
+  const matches=builderByName.get(normalize(title))||[];
+  return {index:index+1,title,chapter,h3,h4,h5,text,matches,exact:matches.length>0};
+});
+if(rows.some(row=>!row.title)) throw new Error('Une carte V6 au moins ne possède pas de titre');
+
+const chapterStats=new Map(),headingStats=new Map();
+for(const row of rows){
+  if(!chapterStats.has(row.chapter)) chapterStats.set(row.chapter,{total:0,exact:0,unmatched:0,titles:new Set()});
+  const stat=chapterStats.get(row.chapter);stat.total++;stat.titles.add(normalize(row.title));if(row.exact)stat.exact++;else stat.unmatched++;
+  const pathKey=[row.chapter,row.h3||'—',row.h4||'—',row.h5||'—'].join(' › ');
+  if(!headingStats.has(pathKey)) headingStats.set(pathKey,{total:0,exact:0,unmatched:0});
+  const hs=headingStats.get(pathKey);hs.total++;if(row.exact)hs.exact++;else hs.unmatched++;
 }
+const exact=rows.filter(row=>row.exact),unmatched=rows.filter(row=>!row.exact);
+const exactNames=new Set(exact.map(row=>normalize(row.title)));
+const v6NameCounts=new Map();for(const row of rows)inc(v6NameCounts,normalize(row.title));
+const duplicateV6Names=[...v6NameCounts.entries()].filter(([,count])=>count>1).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0],'fr'));
 
-console.log(`TRUTH V6 SOURCE — ${cards.length} cartes · 8 fragments · SHA ${hashMode} validé.`);
-console.log(`TITLE CANDIDATES — ${named.length}/${cards.length}`);
-for(const row of candidates.slice(0,8)) console.log(`SAMPLE ${row.index+1} | chapitre=${row.chapter} | section=${row.section} | sous=${row.subgroup} | nom=${row.title}`);
+console.log(`TRUTH V6 SOURCE — ${rows.length} cartes · 8 fragments · SHA ${hashMode} validé.`);
+console.log(`COLUMNS — ${JSON.stringify(columns)}`);
 console.log(`BUILDER — ${builder.length} capacités · ${builderByName.size} noms normalisés.`);
-console.log(`OVERLAP EXACT TITLE — ${exact.length} cartes / ${exactUnique.size} noms Builder distincts.`);
-console.log('CHAPTER COUNTS');
-for(const [chapter,count] of [...chapterCounts.entries()].sort((a,b)=>String(a[0]).localeCompare(String(b[0]),'fr'))) console.log(`  ${chapter}: ${count}`);
-console.log('TOP SECTIONS');
-for(const [section,count] of [...sectionCounts.entries()].sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0],'fr')).slice(0,40)) console.log(`  ${section}: ${count}`);
-
-const unmatched=named.filter(row=>!builderByName.has(normalize(row.title)));
-console.log(`UNMATCHED NAMED — ${unmatched.length}`);
-for(const row of unmatched.slice(0,80)) console.log(`  ${row.index+1} | ch.${row.chapter||'—'} | ${row.section||'—'} | ${row.subgroup||'—'} | ${row.title}`);
+console.log(`OVERLAP EXACT TITLE — ${exact.length} cartes / ${exactNames.size} noms Builder distincts.`);
+console.log(`V6 EXACT-TITLE UNMATCHED — ${unmatched.length} cartes.`);
+console.log(`V6 DUPLICATE TITLES — ${duplicateV6Names.length} noms répétés.`);
+console.log('CHAPTER COVERAGE');
+for(const [chapter,stat] of [...chapterStats.entries()].sort((a,b)=>Number(a[0])-Number(b[0]))) console.log(`  ch.${chapter}: ${stat.total} cartes · exact Builder ${stat.exact} · hors exact ${stat.unmatched} · ${stat.titles.size} titres distincts`);
+console.log('HEADING GROUPS');
+for(const [group,stat] of [...headingStats.entries()].sort((a,b)=>Number(a[0].split(' › ')[0])-Number(b[0].split(' › ')[0])||a[0].localeCompare(b[0],'fr'))) console.log(`  ${group}: ${stat.total} · exact ${stat.exact} · hors exact ${stat.unmatched}`);
+console.log('DUPLICATE TITLES — TOP 30');
+for(const [title,count] of duplicateV6Names.slice(0,30)) console.log(`  ${title}: ${count}`);
+console.log('UNMATCHED — FIRST 120');
+for(const row of unmatched.slice(0,120)) console.log(`  ${row.index} | ch.${row.chapter} | ${row.h3||'—'} | ${row.h4||'—'} | ${row.h5||'—'} | ${row.title}`);
