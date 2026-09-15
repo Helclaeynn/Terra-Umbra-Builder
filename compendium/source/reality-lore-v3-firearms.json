@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "source": "TUC Réalité V8 — Livre IV, sections 4.3–4.4",
+  "entries": {
+    "Owl MGP-062 Suppressor": [
+      "L’Owl MGP-062 Suppressor est un pistolet-mitrailleur compact destiné aux engagements rapprochés et aux déplacements dans des espaces urbains. Son magasin de trente cartouches lui donne assez d’autonomie pour accompagner une progression sans transformer l’arme en fusil d’assaut.",
+      "Rafale et fonctionnement automatique permettent surtout de maintenir la pression à courte distance ou de couvrir un mouvement. Sa portée nominale de trente mètres le place clairement dans le combat de proximité, où compacité et volume de feu comptent davantage que la précision lointaine."
+    ],
+    "Raven MGP-072 Military": [
+      "Le Raven MGP-072 Military est un pistolet-mitrailleur de combat rapproché construit autour d’un fonctionnement robuste. Sa réserve de vingt coups est plus limitée que celle de certains concurrents, mais l’ensemble privilégie la continuité d’usage dans un échange violent.",
+      "Il peut tirer en rafale ou en automatique pour fixer une cible et soutenir un déplacement à courte portée. La propriété Fiable traduit une conception pensée pour continuer à fonctionner sous contrainte plutôt que pour multiplier les fonctions électroniques annexes."
+    ],
+    "Phoenix MGP-042 Equalizer": [
+      "Le Phoenix MGP-042 Equalizer est un pistolet-mitrailleur compact doté d’une interface Smartlink. Il conserve une réserve de trente cartouches pour les affrontements rapprochés tout en reliant sa solution de tir à un système de ciblage compatible.",
+      "À courte portée, rafales et tir automatique assurent le volume de feu ; le Smartlink ajoute la possibilité de suivre une cible et de conserver un Verrouillage lorsqu’une interface appropriée est disponible. L’arme combine donc compacité et assistance électronique plutôt qu’une portée de fusil."
+    ],
+    "Owl LMG-092 Gladius": [
+      "L’Owl LMG-092 Gladius est une mitraillette de trente coups conçue pour pousser plus loin que le pistolet-mitrailleur compact tout en restant une arme d’épaule maniable. Sa portée de quarante-cinq mètres l’installe dans les échanges urbains courts à moyens.",
+      "Son intérêt tient au volume de feu simple : rafales et fonctionnement automatique permettent d’arroser un axe, soutenir une avancée ou imposer une suppression sans dépendre d’un Smartlink ou d’un effet spécialisé. C’est une plateforme directe de combat mobile."
+    ],
+    "Phoenix LMG-018 Urban": [
+      "Le Phoenix LMG-018 Urban est une mitraillette pensée pour les distances resserrées de la ville. Son chargeur de trente coups soutient un usage automatique fréquent, tandis que le Smartlink relie l’arme aux outils modernes de suivi de cible.",
+      "Dans un couloir, une rue courte ou un intérieur vaste, rafale et automatique fournissent la pression immédiate attendue d’une SMG. L’assistance Smartlink permet en plus de conserver un Verrouillage compatible, ce qui distingue l’Urban d’une mitraillette purement mécanique."
+    ],
+    "Raven LMG-027 Executionner": [
+      "Le Raven LMG-027 Executionner est une mitraillette compacte dont la réserve de vingt coups s’accompagne d’une mécanique Fiable. Il vise le combat rapproché où l’arme doit rester disponible malgré manipulations rapides, chocs et échanges soutenus.",
+      "Rafale et automatique lui permettent de saturer brièvement un secteur ou de protéger un déplacement. Sa philosophie reste volontairement simple : une arme courte et robuste, centrée sur la continuité de feu plutôt que sur le guidage ou les effets électroniques."
+    ],
+    "Raven LMG-072 Neo-Executionner": [
+      "Le Raven LMG-072 Neo-Executionner reprend le format de mitraillette compacte et robuste de la famille Executionner, avec une réserve de vingt coups. Cette version ajoute une liaison Smartlink à une mécanique déjà conçue pour rester Fiable sous pression.",
+      "Le tireur conserve ainsi rafales et automatique pour le combat rapproché tout en pouvant exploiter suivi de cible et Verrouillage via une interface compatible. Le modèle associe donc la rusticité Raven à une couche de ciblage électronique intégrée."
+    ],
+    "Phoenix AR-124 Mutilator": [
+      "Le Phoenix AR-124 Mutilator est un fusil d’assaut polyvalent destiné au combat mobile à moyenne portée. Son magasin de trente-six cartouches fournit une réserve confortable pour enchaîner les échanges sans interrompre immédiatement la progression pour recharger.",
+      "Rafale et automatique en font une arme d’épaule adaptée aussi bien au tir rapide qu’à la suppression d’un axe. Sa portée de soixante mètres le place au-dessus des armes compactes sans chercher la spécialisation d’un fusil de précision."
+    ],
+    "Raven AR-027 Rampager": [
+      "Le Raven AR-027 Rampager est un fusil d’assaut robuste équipé pour traiter autant un adversaire que son environnement technologique. Son magasin de vingt-quatre coups accompagne une portée de soixante mètres et une mécanique Fiable conçue pour durer dans un engagement soutenu.",
+      "Ses munitions ou systèmes EMP peuvent perturber capteurs, interfaces et équipements lorsque l’impact le permet. Rafale et automatique conservent en parallèle le rôle classique d’un fusil d’assaut : pression, couverture et feu mobile à moyenne distance."
+    ],
+    "Owl AR-071 Howling": [
+      "L’Owl AR-071 Howling est un fusil d’assaut orienté vers la pénétration des protections à courte et moyenne portée. Sa réserve de trente-six cartouches lui permet de soutenir un rythme de combat élevé sans abandonner le rôle généraliste d’une arme d’épaule.",
+      "Rafale et automatique servent à couvrir une progression ou maintenir la pression, tandis que son pouvoir Perforant vise les protections matérielles qu’une munition plus ordinaire entamerait moins bien. Sa portée de quarante-cinq mètres favorise les affrontements urbains directs."
+    ],
+    "Phoenix AR-124 Sunlight": [
+      "Le Phoenix AR-124 Sunlight est un fusil d’assaut de trente-six coups combinant ciblage Smartlink et effet Flash. Il reste une arme d’épaule automatique, mais ajoute des fonctions de contrôle et d’assistance électronique à son volume de feu.",
+      "Le Smartlink peut conserver un Verrouillage grâce à une interface compatible, tandis que l’effet Flash sert à désorienter ou aveugler temporairement lorsque l’impact le justifie. À quarante-cinq mètres, le Sunlight privilégie ainsi la polyvalence tactique plutôt que la portée extrême."
+    ],
+    "Owl SR-017 Big Game Hunter": [
+      "L’Owl SR-017 Big Game Hunter est un fusil de précision simple à cinq coups, destiné aux tirs préparés plutôt qu’au volume de feu. Sa portée de cent vingt mètres l’éloigne nettement des armes urbaines compactes et impose une logique de positionnement avant l’engagement.",
+      "Aucun système spécial ne remplace ici la qualité de la solution de tir : le modèle sert à identifier une cible, prendre le temps de viser puis délivrer un coup précis. Sa faible réserve souligne ce rôle de tir choisi plutôt que d’échange automatique."
+    ],
+    "Owl SR-029 Hoot": [
+      "L’Owl SR-029 Hoot est un fusil de précision à six coups conçu pour travailler à longue distance contre des cibles protégées. Sa portée de deux cents mètres réclame une position et une visée préparées plutôt qu’un combat mobile de proximité.",
+      "Sa mécanique Fiable favorise la continuité d’usage, tandis que le pouvoir Perforant aide à entamer une protection matérielle lorsque le tir trouve son but. Le Hoot privilégie donc la régularité et la pénétration plutôt qu’une cadence élevée."
+    ],
+    "Raven SR-029 Deathbringer": [
+      "Le Raven SR-029 Deathbringer est un fusil de précision de très longue portée, avec quatre coups disponibles avant rechargement. Sa portée de trois cents mètres le destine à un tireur installé qui choisit sa cible et prépare son tir bien avant le contact rapproché.",
+      "Le modèle associe une mécanique Fiable à un effet EMP, ce qui lui permet de menacer aussi l’électronique et les systèmes exposés d’une cible. Chaque coup a donc vocation à compter : ce n’est ni une arme de suppression ni un fusil d’assaut à grande portée."
+    ],
+    "Phoenix SR-034 Phantom": [
+      "Le Phoenix SR-034 Phantom est un fusil de précision à cinq coups conçu pour le tir discret et assisté à longue distance. Sa portée de deux cent cinquante mètres s’accompagne d’un silencieux et d’une interface Smartlink intégrés au rôle de tireur préparé.",
+      "Le silencieux réduit la signature acoustique et rend le départ du coup plus difficile à localiser sans le rendre inaudible. Le Smartlink peut en parallèle conserver un Verrouillage via une interface compatible, donnant au Phantom une vraie vocation d’engagement précis et discret."
+    ],
+    "Raven SG-025 Riot Control": [
+      "Le Raven SG-025 Riot Control est un shotgun électrique à huit coups destiné à la neutralisation rapprochée. Sa gerbe couvre efficacement les distances courtes, là où la dispersion devient rapidement un handicap dès que la cible s’éloigne.",
+      "L’effet électrique permet de traiter une personne ou certains systèmes sensibles sans réduire l’arme à un simple impact balistique. Avec une portée nominale de quinze mètres, le Riot Control reste un outil d’intervention de proximité et non une solution de tir lointain."
+    ],
+    "Raven SG-039 Croaker": [
+      "Le Raven SG-039 Croaker est un shotgun lourd à six coups destiné aux cibles difficiles à arrêter à courte distance. Sa large dispersion favorise le combat rapproché, tandis que sa conception Fiable vise à conserver une arme disponible dans les situations les plus brutales.",
+      "EMP et pouvoir Perforant ajoutent deux réponses aux protections et à l’électronique exposée. Le Croaker reste pourtant limité par la logique du shotgun : à quinze mètres il est redoutable, mais sa gerbe et sa spécialisation cessent d’être pertinentes lorsque la distance s’allonge."
+    ],
+    "Owl SG-016 Boss": [
+      "L’Owl SG-016 Boss est un shotgun de combat rapproché doté d’une réserve inhabituelle de douze coups. Cette autonomie permet de rester plus longtemps dans un échange de proximité sans interrompre immédiatement l’action pour recharger.",
+      "Sa mécanique Fiable et sa dispersion importante en font une arme prévue pour des espaces resserrés, des portes, des couloirs ou des distances de quelques mètres. Il privilégie continuité et puissance de proximité plutôt que précision ou portée."
+    ],
+    "Phoenix SG-042 Fire Rain": [
+      "Le Phoenix SG-042 Fire Rain est un shotgun incendiaire à cinq coups conçu pour projeter une gerbe dangereuse à très courte distance. Son effet Feu fait du décor combustible une partie du problème dès qu’une Altération ou la fiction permet réellement de l’enflammer.",
+      "Sa forte dispersion rend l’arme spectaculaire mais la condamne aux engagements proches : au-delà d’une quinzaine de mètres, la gerbe perd rapidement son intérêt. Le Fire Rain sert donc à briser un contact ou embraser un espace, pas à remplacer un fusil de précision."
+    ]
+  }
+}
