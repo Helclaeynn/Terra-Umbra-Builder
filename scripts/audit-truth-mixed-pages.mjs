@@ -11,10 +11,11 @@ function load(id){
 }
 const truth=load('verite');
 const mixed=/^(10\. Vampires|11\. Garous|12\.|13\. Mages|14\. Daemons|15\. Angelus|16\. Aseryns|17\. Exilés|18\. Extrals|19\.|20\. Corruption|21\. Les six Fléaux)/;
+const detail=/^(12\.|13\. Mages|16\. Aseryns|17\. Exilés|18\. Extrals|20\. Corruption|21\. Les six Fléaux)/;
 const mechanicSignal=/\b(?:PTV|PA|PV|DR|1d10e|Réaction|Difficulté|Réduction|Armure|Talent|Talents|Compétence|Compétences|test|Jet)\b|(?:^|\s)[+-]\d+|\d+\s*\/\s*Scène/i;
 for(const page of truth.filter(p=>mixed.test(p.title||''))){
   const styleCounts=new Map();
-  let blocks=0, tech=0, ptv=0;
+  let blocks=0,tech=0,ptv=0;
   const suspects=[];
   for(const section of page.sections||[]){
     for(let index=0;index<(section.blocks||[]).length;index++){
@@ -26,6 +27,7 @@ for(const page of truth.filter(p=>mixed.test(p.title||''))){
       if(/tech/i.test(style))tech++;
       if(/\bPTV\b/.test(text))ptv++;
       if(explicitStyle||mechanicSignal.test(text))suspects.push({section:section.title,style,index,type:block.type,text});
+      if(detail.test(page.title||''))console.log(`DETAIL | ${page.title} | ${section.title} | #${index} | ${block.type} | ${style} | ${text.replace(/\s+/g,' ').slice(0,1400)}`);
     }
   }
   console.log(`MIXED_PAGE | ${page.title} | sections=${page.sections?.length||0} | blocks=${blocks} | tech=${tech} | ptvBlocks=${ptv} | suspects=${suspects.length}`);
