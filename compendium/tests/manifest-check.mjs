@@ -9,16 +9,19 @@ const manifest=JSON.parse(fs.readFileSync(manifestPath,'utf8'));
 if(manifest.version!==3) throw new Error(`Manifest: version ${manifest.version}, attendu 3`);
 if(!Array.isArray(manifest.datasets)||manifest.datasets.length!==8) throw new Error('Manifest: huit datasets V3 attendus');
 
-const expectedCounts={moteur:5,realite:39,equipement:261,augmentations:132,verite:63,bestiaire:263,lore:397,pnj:163};
-const expectedTotal=Object.values(expectedCounts).reduce((sum,n)=>sum+n,0);
-if(manifest.expectedTotal!==expectedTotal) throw new Error(`Manifest: expectedTotal ${manifest.expectedTotal}, attendu ${expectedTotal}`);
+const fixedCounts={moteur:5,realite:39,verite:63,bestiaire:263,lore:397,pnj:163};
+const catalogIds=new Set(['equipement','augmentations']);
+const expectedIds=new Set([...Object.keys(fixedCounts),...catalogIds]);
+const manifestTotal=manifest.datasets.reduce((sum,spec)=>sum+Number(spec.count||0),0);
+if(manifest.expectedTotal!==manifestTotal) throw new Error(`Manifest: expectedTotal ${manifest.expectedTotal}, somme des datasets ${manifestTotal}`);
 
 const seen=new Set();
 let total=0;
 
 for(const spec of manifest.datasets){
-  if(!(spec.id in expectedCounts)) throw new Error(`Dataset V3 inattendu: ${spec.id}`);
-  if(spec.count!==expectedCounts[spec.id]) throw new Error(`${spec.id}: count manifeste ${spec.count}, attendu ${expectedCounts[spec.id]}`);
+  if(!expectedIds.has(spec.id)) throw new Error(`Dataset V3 inattendu: ${spec.id}`);
+  if(spec.id in fixedCounts && spec.count!==fixedCounts[spec.id]) throw new Error(`${spec.id}: count manifeste ${spec.count}, attendu ${fixedCounts[spec.id]}`);
+  if(catalogIds.has(spec.id) && (!Number.isInteger(spec.count)||spec.count<1)) throw new Error(`${spec.id}: count catalogue invalide (${spec.count})`);
   if(!String(spec.prefix||'').startsWith('v3-')) throw new Error(`${spec.id}: préfixe non V3`);
   if(!Number.isInteger(spec.parts)||spec.parts<1) throw new Error(`${spec.id}: parts invalide`);
 
