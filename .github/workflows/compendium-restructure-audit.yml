@@ -46,8 +46,10 @@ jobs:
         run: node scripts/audit-truth-full-catalogs.mjs
       - name: Inventory Reality Truth lore pages
         run: node scripts/audit-compendium-lore-inventory.mjs
-      - name: Upload restructure baseline
+      - name: Upload restructure audit data
         uses: actions/upload-artifact@v4
         with:
           name: compendium-restructure-baseline
-          path: compendium/audits/restructure-baseline.json
+          path: |
+            compendium/audits/restructure-baseline.json
+            compendium/audits/lore-inventory.json
