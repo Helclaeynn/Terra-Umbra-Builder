@@ -9,7 +9,8 @@
     "Personnages",
     "Bestiaire",
     "Équipement",
-    "Augmentations"
+    "Augmentations",
+    "Catalogue Vérité"
   ],
   "statusLabels": {
     "canon_recent": "Canon récent",
@@ -54,6 +55,13 @@
       "sha256": "ba9f95fff951607512f205682e91de64ce939656a9a95d20eeee80e7aceecd95"
     },
     {
+      "id": "verite-catalogue",
+      "prefix": "v3-verite-catalogue-v6",
+      "parts": 9,
+      "count": 229,
+      "sha256": "5be18008292b479eafb5f1a8baa969d82ca7cfc94ce9225508746a76502cd863"
+    },
+    {
       "id": "bestiaire",
       "prefix": "v3-bestiaire-v16-enriched-263",
       "parts": 30,
@@ -75,5 +83,5 @@
       "sha256": "d3f6006f971147d1af1c10dc025443a8db9761801f14336b42899e12d457c652"
     }
   ],
-  "expectedTotal": 1338
+  "expectedTotal": 1567
 }
