@@ -56,9 +56,10 @@ assertContains(byTitle.get('2 fence'),['deux agents humanoides','interception','
 assertContains(byTitle.get('hellstorm'),['gatling','200','suppression']);
 assertContains(byTitle.get('bull executive'),['train de vie aise','abonnement','mobilite']);
 
-let worst={ratio:0,a:'',b:''};
+let worst={ratio:0,a:'',b:''};const similarityErrors=[];
 for(let i=0;i<all.length;i++)for(let j=i+1;j<all.length;j++){
   const ratio=jaccard(all[i].set,all[j].set);if(ratio>worst.ratio)worst={ratio,a:all[i].page.title,b:all[j].page.title};
-  if(ratio>LIMIT)throw new Error(`Lore Réalité >60% similaire (Jaccard ${(ratio*100).toFixed(1)}%): ${all[i].page.title} / ${all[j].page.title}`);
+  if(ratio>LIMIT)similarityErrors.push(`${(ratio*100).toFixed(1)}% ${all[i].page.title} / ${all[j].page.title}`);
 }
+if(similarityErrors.length)throw new Error(`Lore Réalité >60% similaire (${similarityErrors.length} paires) — ${similarityErrors.join(' | ')}`);
 console.log(`Lore Réalité V3 OK — ${all.length} pages · ${sourceDriven} source/book · ${derived} dérivées · ${augmentations} augmentations · max ${(worst.ratio*100).toFixed(1)}% (${worst.a} / ${worst.b}) · chaque page apporte du vocabulaire absent de son tableau.`);
