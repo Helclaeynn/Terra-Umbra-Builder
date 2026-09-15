@@ -10,7 +10,7 @@ function textOf(page){return (page.sections||[]).flatMap(section=>(section.block
 
 const truth=load('verite'),legacy=load('lore');
 if(truth.length<84)throw new Error(`Vérité: régression sous le socle 84 (${truth.length})`);
-if(legacy.length!==397)throw new Error(`397 pages legacy attendues, ${legacy.length}`);
+if(legacy.length!==392)throw new Error(`392 pages lore consolidées attendues, ${legacy.length}`);
 const batch=truth.filter(page=>page.loreBook?.batch==='khinae-hunters-v1');
 if(batch.length!==2)throw new Error(`2 hubs Khinae/Chasseurs attendus, ${batch.length}`);
 const forbidden=/\bPTV\b|\bDGT\b|\b\d+\s*PA\b|\b1d10e\b|\bDéfense occulte\b|\bdifficult[eé]\s*\d+|\bco[uû]t\s*[:—-]|TUC Talent/i;
@@ -26,4 +26,4 @@ for(const phrase of ['Morrighan','Arianwen','Ephraïm','Magdalena','Gu et Shimaz
 if(!/Shi[^.]{0,180}Néant/s.test(hunterText))throw new Error('Chasseurs: connexion Shi → Néant non conservée');
 const khinaeText=textOf(khinae);for(const phrase of ['Coyotes','Tigres','Requins','Boudas','Ulfhednars'])if(!khinaeText.includes(phrase))throw new Error(`Khinae: repère absent ${phrase}`);
 const ids=new Set();for(const page of [...truth,...legacy]){if(ids.has(page.id))throw new Error(`ID global dupliqué: ${page.id}`);ids.add(page.id)}
-console.log(`LORE KHINAE/CHASSEURS V6 OK — 2 hubs denses · Vérité ${truth.length} · legacy ${legacy.length} · aucune mécanique.`);
+console.log(`LORE KHINAE/CHASSEURS V6 OK — 2 hubs denses · Vérité ${truth.length} · lore consolidé ${legacy.length} · aucune mécanique.`);
