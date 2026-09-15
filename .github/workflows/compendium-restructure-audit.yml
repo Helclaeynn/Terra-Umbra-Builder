@@ -13,15 +13,23 @@ on:
       - 'scripts/audit-builder-truth-groups.mjs'
       - 'scripts/audit-truth-full-catalogs.mjs'
       - '.github/workflows/compendium-restructure-audit.yml'
+  workflow_run:
+    workflows:
+      - Compendium restructure build
+    types:
+      - completed
 
 permissions:
   contents: read
 
 jobs:
   audit:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: preview/compendium-restructure
       - uses: actions/setup-node@v4
         with:
           node-version: 22
