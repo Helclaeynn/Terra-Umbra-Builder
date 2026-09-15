@@ -48,11 +48,15 @@ for(const [id,rule] of Object.entries(expected)){
   if(spec.count!==rule.count)throw new Error(`${id}: ${spec.count} entrées, attendu ${rule.count}`);
   const rows=load(spec);
   if(rows.length!==rule.count)throw new Error(`${id}: ${rows.length} pages décodées, attendu ${rule.count}`);
+  const titles=new Set();
   for(const row of rows){
     if(!row.id||allIds.has(row.id))throw new Error(`${id}: ID absent ou dupliqué (${row.id})`);
     allIds.add(row.id);
+    if(!row.title||titles.has(row.title))throw new Error(`${id}: titre absent ou dupliqué (${row.title})`);
+    titles.add(row.title);
     if(row.category!==rule.category)throw new Error(`${row.title}: catégorie ${row.category}`);
     if(row.illustration?.src!==rule.image)throw new Error(`${row.title}: encart image absent ou incorrect`);
+    if(id==='augmentations'&&row.catalog?.generation!==null&&row.catalog?.generation!==undefined&&!row.title.includes(`Génération ${row.catalog.generation}`))throw new Error(`${row.title}: génération absente du titre`);
     const lore=(row.sections||[]).find(s=>s.id==='contexte');
     const paragraphs=(lore?.blocks||[]).filter(b=>b.type==='p'&&String(b.text||'').trim());
     if(paragraphs.length<2)throw new Error(`${row.title}: deux paragraphes de lore attendus`);
@@ -73,4 +77,4 @@ for(const [id,rule] of Object.entries(expected)){
 if(total!==393)throw new Error(`Catalogues: ${total} pages, attendu 393`);
 if(!fs.existsSync('compendium/assets/equipment-placeholder.svg')||!fs.existsSync('compendium/assets/augmentation-placeholder.svg'))throw new Error('Placeholders image absents');
 console.log(`Sources Builder OK — ${equipManifest.entries} équipements · ${augSourceCount} augmentations.`);
-console.log(`Catalogues Compendium OK — ${total} pages · lore unique + image + propriétés mécaniques validés.`);
+console.log(`Catalogues Compendium OK — ${total} pages · titres, lore unique, images et propriétés mécaniques validés.`);
