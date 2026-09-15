@@ -35,16 +35,16 @@
     {
       "id": "equipement",
       "prefix": "v3-equipement-builder-v1",
-      "parts": 5,
-      "count": 261,
-      "sha256": "9665764636e77f037129c295c0e41c5495936f7d8ab38eae51f668553caa9d49"
+      "parts": 6,
+      "count": 297,
+      "sha256": "55d5afab43911b04c45f243011d2b289d81a2d82803d23b349de1a59fe11534a"
     },
     {
       "id": "augmentations",
       "prefix": "v3-augmentations-builder-v1",
-      "parts": 3,
-      "count": 132,
-      "sha256": "5ca10140d7d48dcb5d9111c7325550ea83942d7549884c70740c0741c7f7caf9"
+      "parts": 4,
+      "count": 111,
+      "sha256": "384ed4f4c9d13156f1014cf78e873479d9b3fdb1171c08e54eeaca5037e05a3a"
     },
     {
       "id": "verite",
@@ -75,5 +75,5 @@
       "sha256": "d3f6006f971147d1af1c10dc025443a8db9761801f14336b42899e12d457c652"
     }
   ],
-  "expectedTotal": 1323
+  "expectedTotal": 1338
 }
