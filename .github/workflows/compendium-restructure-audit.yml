@@ -13,6 +13,7 @@ on:
       - 'scripts/audit-builder-truth-groups.mjs'
       - 'scripts/audit-truth-full-catalogs.mjs'
       - 'scripts/audit-compendium-lore-inventory.mjs'
+      - 'scripts/audit-compendium-navigation.mjs'
       - '.github/workflows/compendium-restructure-audit.yml'
   workflow_run:
     workflows:
@@ -46,6 +47,8 @@ jobs:
         run: node scripts/audit-truth-full-catalogs.mjs
       - name: Inventory Reality Truth lore pages
         run: node scripts/audit-compendium-lore-inventory.mjs
+      - name: Inventory navigation classification inputs
+        run: node scripts/audit-compendium-navigation.mjs
       - name: Upload restructure audit data
         uses: actions/upload-artifact@v4
         with:
