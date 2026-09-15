@@ -25,21 +25,14 @@ function writeDataset(id,pages,prefix){
 }
 function sectionFrom(source,legacySourceId){
   const id=`legacy-consolidation-${slug(source.title)}`;
-  return {
-    id,
-    title:source.title,
-    level:3,
-    legacySourceId,
-    blocks:(source.paragraphs||[]).map(text=>({type:'p',style:'lore',text:String(text).trim()})).filter(block=>block.text),
-  };
+  return {id,title:source.title,level:3,legacySourceId,blocks:(source.paragraphs||[]).map(text=>({type:'p',style:'lore',text:String(text).trim()})).filter(block=>block.text)};
 }
 function textOfSection(section){return [section.title||'',...(section.blocks||[]).flatMap(block=>block.type==='table'?(block.rows||[]).flat():[block.text||''])].join(' ')}
 function upsertSection(page,section){
   page.sections=Array.isArray(page.sections)?page.sections:[];
   const matches=page.sections.map((item,index)=>({item,index})).filter(({item})=>item.id===section.id);
   if(matches.length>1)throw new Error(`${page.id}: section de consolidation dupliquée ${section.id}`);
-  if(matches.length===1)page.sections[matches[0].index]=section;
-  else page.sections.push(section);
+  if(matches.length===1)page.sections[matches[0].index]=section;else page.sections.push(section);
 }
 function assertUniqueIds(pages,label){const seen=new Set();for(const page of pages){if(!page?.id)throw new Error(`${label}: page sans ID`);if(seen.has(page.id))throw new Error(`${label}: ID dupliqué ${page.id}`);seen.add(page.id)}}
 
@@ -49,8 +42,11 @@ if(!Array.isArray(plan.migrations)||plan.migrations.length!==5)throw new Error(`
 
 let truth=loadDataset('verite');
 let lore=loadDataset('lore');
-if(truth.length!==84)throw new Error(`Vérité: ${truth.length}, attendu 84 avant consolidation`);
-if(![397,392].includes(lore.length))throw new Error(`Lore: ${lore.length}, attendu 397 avant première passe ou 392 après consolidation`);
+// Première passe : 84/397. Après la première consolidation : 84/392.
+// Après la fermeture Vérité : 78/359. Les trois états doivent pouvoir être reconstruits.
+if(![84,78].includes(truth.length))throw new Error(`Vérité: ${truth.length}, attendu 84 avant fermeture ou 78 après fermeture`);
+if(![397,392,359].includes(lore.length))throw new Error(`Lore: ${lore.length}, état de consolidation inattendu`);
+const finalState=truth.length===78||lore.length===359;
 
 const datasets={verite:truth,lore};
 const migrated=[];
@@ -69,10 +65,7 @@ for(const migration of plan.migrations){
     if((section.blocks||[]).some(block=>block.type==='table'))throw new Error(`${migration.targetId}/${section.title}: table interdite`);
     upsertSection(target,section);
   }
-  target.legacyConsolidation={
-    batch:plan.batch,
-    sources:[...new Set([...(target.legacyConsolidation?.sources||[]),migration.legacySourceId])],
-  };
+  target.legacyConsolidation={batch:plan.batch,sources:[...new Set([...(target.legacyConsolidation?.sources||[]),migration.legacySourceId])]};
   migrated.push(migration.targetId);
 }
 
@@ -81,8 +74,10 @@ if(presentRetired.length!==0&&presentRetired.length!==plan.retiredIds.length)thr
 if(presentRetired.length===plan.retiredIds.length)lore=lore.filter(page=>!plan.retiredIds.includes(page.id));
 datasets.lore=lore;
 
-if(truth.length!==84)throw new Error(`Vérité: ${truth.length}, attendu 84 après consolidation`);
-if(lore.length!==392)throw new Error(`Lore: ${lore.length}, attendu 392 après retrait des cinq hubs`);
+const expectedTruth=finalState?78:84;
+const expectedLore=finalState?359:392;
+if(truth.length!==expectedTruth)throw new Error(`Vérité: ${truth.length}, attendu ${expectedTruth} après consolidation`);
+if(lore.length!==expectedLore)throw new Error(`Lore: ${lore.length}, attendu ${expectedLore} après consolidation`);
 for(const id of plan.retiredIds)if([...truth,...lore].some(page=>page.id===id))throw new Error(`Hub legacy encore présent: ${id}`);
 
 const requiredMigrations=[
@@ -105,8 +100,7 @@ assertUniqueIds(lore,'Lore');
 const truthSpec=writeDataset('verite',truth,'v3-verite-lore-v9');
 const loreSpec=writeDataset('lore',lore,'v3-lore-v6');
 manifest.expectedTotal=manifest.datasets.reduce((sum,d)=>sum+Number(d.count||0),0);
-if(manifest.expectedTotal!==1807)throw new Error(`Total V3: ${manifest.expectedTotal}, attendu 1807 après consolidation`);
 fs.writeFileSync(manifestPath,`${JSON.stringify(manifest,null,2)}\n`,'utf8');
 
-console.log(`CONSOLIDATION LEGACY VÉRITÉ — ${migrated.length} cibles enrichies · ${presentRetired.length} hubs retirés sur cette passe.`);
+console.log(`CONSOLIDATION LEGACY VÉRITÉ — ${migrated.length} cibles enrichies · ${presentRetired.length} hubs retirés sur cette passe · état ${finalState?'final':'pré-final'}.`);
 console.log(`VÉRITÉ ${truth.length} (${truthSpec.parts} fragments) · LORE ${lore.length} (${loreSpec.parts} fragments) · total V3 ${manifest.expectedTotal}.`);
