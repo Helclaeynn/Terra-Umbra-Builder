@@ -7,6 +7,7 @@ on:
     paths:
       - 'compendium/**'
       - 'scripts/audit-compendium-restructure.mjs'
+      - 'scripts/inspect-compendium-restructure.mjs'
       - '.github/workflows/compendium-restructure-audit.yml'
 
 permissions:
@@ -22,6 +23,8 @@ jobs:
           node-version: 22
       - name: Audit rules vs lore placement
         run: node scripts/audit-compendium-restructure.mjs
+      - name: Inspect V3 page schema
+        run: node scripts/inspect-compendium-restructure.mjs
       - name: Upload restructure baseline
         uses: actions/upload-artifact@v4
         with:
