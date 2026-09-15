@@ -82,6 +82,9 @@ function containment(a,b){
   let common=0;for(const item of a)if(b.has(item))common++;
   return common/Math.min(a.size,b.size);
 }
+function diagnostic(id,page,text,grounding){
+  return JSON.stringify({dataset:id,title:page.title,grounding,catalog:page.catalog,tags:page.tags,rows:tableRows(page),context:text});
+}
 
 const pages=[];
 let sparseCount=0;
@@ -103,17 +106,17 @@ for(const id of IDS){
     const facts=publicFacts(page),effects=effectRows(page);
     if(grounding==='sparse'){
       sparseCount++;
-      if(facts.length||effects.length)throw new Error(`${page.title}: marqué sparse malgré des propriétés de lore exploitables`);
+      if(facts.length||effects.length)throw new Error(`${page.title}: marqué sparse malgré des propriétés de lore exploitables — ${diagnostic(id,page,text,grounding)}`);
     }else if(id==='equipement'&&!facts.length&&!effects.length){
-      throw new Error(`${page.title}: marqué detailed sans propriété de lore exploitable`);
+      throw new Error(`${page.title}: marqué detailed sans propriété de lore exploitable — ${diagnostic(id,page,text,grounding)}`);
     }
     const loreNorm=norm(text),values=groundingValues(page);
     if(!values.length){
-      if(grounding!=='sparse')throw new Error(`${page.title}: aucune donnée propre à l’entrée pour ancrer le contexte détaillé`);
-      if(!/aucun effet ni usage special|sans propriete additionnelle|aucune propriete/i.test(loreNorm))throw new Error(`${page.title}: source vide sans signalement explicite dans le contexte`);
+      if(grounding!=='sparse')throw new Error(`${page.title}: aucune donnée propre à l’entrée pour ancrer le contexte détaillé — ${diagnostic(id,page,text,grounding)}`);
+      if(!/aucun effet ni usage special|sans propriete additionnelle|aucune propriete/i.test(loreNorm))throw new Error(`${page.title}: source vide sans signalement explicite dans le contexte — ${diagnostic(id,page,text,grounding)}`);
       sourceEmptySparseCount++;
     }else if(!values.some(value=>value.length>=2&&loreNorm.includes(value))){
-      throw new Error(`${page.title}: contexte non ancré dans ses propriétés propres`);
+      throw new Error(`${page.title}: contexte non ancré dans ses propriétés propres — valeurs=${JSON.stringify(values)} — ${diagnostic(id,page,text,grounding)}`);
     }
     pages.push({page,set:shingleSet(page),grounding});
   }
