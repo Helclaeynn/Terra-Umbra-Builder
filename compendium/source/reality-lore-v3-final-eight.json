@@ -2,6 +2,13 @@
   "schemaVersion": 1,
   "source": "TUC Réalité V9 CROSSAUDIT / Livre Réalité V8",
   "entries": {
+    "Hellstorm": {
+      "source": "Réalité V8 — 4.5 Armes lourdes et spécialisées",
+      "paragraphs": [
+        "Hellstorm est une Gatling lourde alimentée par une bande de 200 coups. Sa cadence et son volume de feu lui permettent de saturer durablement un secteur à moyenne portée plutôt que de rechercher la discrétion ou la mobilité légère.",
+        "Rafale, tir automatique et mécanique Fiable en font une arme d’appui et de suppression conçue pour maintenir un feu soutenu sous pression. Sa bande dédiée fournit l’autonomie nécessaire à ce rôle, tandis que son gabarit Encombrant impose un portage adapté."
+      ]
+    },
     "IA personnelle du Holophone": {
       "source": "Réalité V8 — 7.1 Équipement civique et domestique",
       "paragraphs": [
