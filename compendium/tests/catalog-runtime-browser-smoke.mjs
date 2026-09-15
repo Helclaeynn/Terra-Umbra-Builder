@@ -12,7 +12,7 @@ async function gotoCategory(category){
   await page.goto(`${base}compendium/#/category/${encodeURIComponent(category)}`,{waitUntil:'domcontentloaded'});
   await page.waitForSelector('.article-card',{timeout:20000});
 }
-async function visibleCards(){return page.locator('.article-card:visible');}
+function visibleCards(){return page.locator('.article-card:visible');}
 async function filterCategory(text){
   const input=page.locator('#categoryFilter');
   await input.fill(text);
@@ -31,7 +31,7 @@ try{
   const augmentationCount=await visibleCards().count();
   if(!augmentationCount||augmentationCount>=146)throw new Error(`Augmentations: ${augmentationCount} pages visibles pour 146 variantes runtime`);
   await filterCategory('Cybermain');
-  const cyberCards=await visibleCards();
+  const cyberCards=visibleCards();
   if(await cyberCards.count()!==1)throw new Error(`Cybermain: ${await cyberCards.count()} cartes visibles, attendu 1`);
   await cyberCards.first().click();
   await assertArticleBasics('Cybermain');
@@ -53,7 +53,7 @@ try{
 
   await gotoCategory('Équipement');
   await filterCategory('FaceCaster DFL');
-  const faceCards=await visibleCards();
+  const faceCards=visibleCards();
   if(await faceCards.count()!==1)throw new Error(`FaceCaster DFL: ${await faceCards.count()} cartes visibles, attendu 1`);
   await faceCards.first().click();
   await assertArticleBasics('FaceCaster DFL');
@@ -61,7 +61,7 @@ try{
 
   await gotoCategory('Équipement');
   await filterCategory('Neuroprogramme');
-  const neuroCards=await visibleCards();
+  const neuroCards=visibleCards();
   const neuroCount=await neuroCards.count();
   if(neuroCount!==27)throw new Error(`Neuroprogrammes: ${neuroCount} cartes visibles, attendu 27`);
   await neuroCards.first().click();
