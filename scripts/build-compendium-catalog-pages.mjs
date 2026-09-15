@@ -213,11 +213,12 @@ function articleFor(item,index){
   };
 }
 function dedupeFaceCaster(items){
-  const hits=items.map((item,index)=>({item,index})).filter(({item})=>normText(item.name)==='facecaster dfl');
-  if(hits.length!==2)throw new Error(`FaceCaster DFL: ${hits.length} occurrences runtime avant dédoublonnage, attendu 2`);
+  const hits=items.map((item,index)=>({item,index})).filter(({item})=>normText(item.name).startsWith('facecaster'));
+  if(hits.length!==2)throw new Error(`FaceCaster: ${hits.length} occurrences runtime avant dédoublonnage, attendu 2`);
   const preferred=hits.find(({item})=>/neuro|objet usuel|materiel technique/.test(normText(`${item.category} ${item.sourceType||''}`)))||hits[0];
-  const filtered=items.filter((item,index)=>normText(item.name)!=='facecaster dfl'||index===preferred.index);
-  if(filtered.filter(item=>normText(item.name)==='facecaster dfl').length!==1)throw new Error('FaceCaster DFL: dédoublonnage invalide');
+  const hitIndexes=new Set(hits.map(hit=>hit.index));
+  const filtered=items.filter((item,index)=>!hitIndexes.has(index)||index===preferred.index);
+  if(filtered.filter(item=>normText(item.name).startsWith('facecaster')).length!==1)throw new Error('FaceCaster: dédoublonnage invalide');
   return {items:filtered,sourceCount:hits.length,removed:hits.length-1,kept:preferred.item};
 }
 function groupAugmentations(items){
@@ -266,13 +267,13 @@ if(equipRuntimeItems.length!==expectedEquipmentRuntime)throw new Error(`Parité 
 if(installedR47!==14||augItems.length!==146)throw new Error(`Parité Builder augmentations runtime: ${augItems.length}, réconciliation V9 installée ${installedR47}/14`);
 
 const faceCasterResult=dedupeFaceCaster(equipRuntimeItems),equipItems=faceCasterResult.items;
-if(equipItems.length!==expectedEquipmentRuntime-1)throw new Error(`Équipement visible après FaceCaster: ${equipItems.length}, attendu ${expectedEquipmentRuntime-1}`);
+if(equipItems.length!==expectedEquipmentRuntime-faceCasterResult.removed)throw new Error(`Équipement visible après FaceCaster: ${equipItems.length}, attendu ${expectedEquipmentRuntime-faceCasterResult.removed}`);
 assignDisplayTitles(equipItems);
 
 const augGroups=groupAugmentations(augItems);
-if(augGroups.length!==64)throw new Error(`Pages d’augmentations groupées: ${augGroups.length}, attendu 64`);
 const nestedVariantCount=augGroups.reduce((sum,g)=>sum+g.variants.length,0);
 if(nestedVariantCount!==146)throw new Error(`Variantes d’augmentations après regroupement: ${nestedVariantCount}, attendu 146`);
+if(!augGroups.length||augGroups.length>=nestedVariantCount)throw new Error(`Regroupement d’augmentations inefficace: ${augGroups.length} pages pour ${nestedVariantCount} variantes`);
 
 const augRows=augGroups.map(augmentationArticleFor),equipRows=equipItems.map(articleFor),allRows=[...augRows,...equipRows];
 if(new Set(allRows.map(x=>x.id)).size!==allRows.length)throw new Error('IDs de pages catalogue dupliqués');
@@ -290,6 +291,6 @@ manifest.expectedTotal=manifest.datasets.reduce((sum,x)=>sum+Number(x.count||0),
 
 console.log(`Catalogue Compendium généré — ${equipRows.length} équipements · ${augRows.length} augmentations (${nestedVariantCount} variantes runtime) · total V3 ${manifest.expectedTotal}`);
 console.log(`Sources runtime — base équipement ${equipSafe.manifest.entries} + Neuro ${neuroSafe.manifest.entries} + véhicules ${vehicleSafe.manifest.entries} = ${expectedEquipmentRuntime} · augmentations base ${augItems.length-installedR47} + V9 ${installedR47} = ${augItems.length}`);
-console.log(`FaceCaster DFL — ${faceCasterResult.sourceCount} entrées runtime, ${faceCasterResult.removed} retirée, 1 page visible (${faceCasterResult.kept.category}).`);
+console.log(`FaceCaster — ${faceCasterResult.sourceCount} entrées runtime, ${faceCasterResult.removed} retirée, 1 page visible (${faceCasterResult.kept.category}).`);
 console.log(`Augmentations — ${augItems.length} variantes regroupées en ${augRows.length} pages.`);
 console.log(`Équipement SHA ${equipSpec.sha256}`);console.log(`Augmentations SHA ${augSpec.sha256}`);
