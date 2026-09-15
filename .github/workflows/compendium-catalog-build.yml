@@ -27,7 +27,18 @@ jobs:
         with:
           node-version: 22
       - name: Generate Compendium catalog pages from Builder runtime sources
-        run: node scripts/build-compendium-catalog-pages.mjs
+        shell: bash
+        run: |
+          set -o pipefail
+          node scripts/build-compendium-catalog-pages.mjs 2>&1 | tee /tmp/compendium-catalog-build.log
+      - name: Upload catalog build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: compendium-catalog-build-log
+          path: /tmp/compendium-catalog-build.log
+          if-no-files-found: ignore
+          retention-days: 1
       - name: Validate generated catalogs
         run: node compendium/tests/catalog-pages-check.mjs
       - name: Commit generated catalog artifacts
@@ -36,11 +47,7 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add compendium/data/manifest-v3.json \
-                  compendium/data/v3-equipement-builder-v1-*.b64part \
-                  compendium/data/v3-augmentations-builder-v1-*.b64part \
-                  compendium/assets/equipment-placeholder.svg \
-                  compendium/assets/augmentation-placeholder.svg
+          git add -A compendium/data compendium/assets/equipment-placeholder.svg compendium/assets/augmentation-placeholder.svg
           if git diff --cached --quiet; then
             echo 'No generated catalog changes.'
             exit 0
