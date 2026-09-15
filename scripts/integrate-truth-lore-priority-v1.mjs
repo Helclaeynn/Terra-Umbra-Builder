@@ -22,6 +22,21 @@ function writeDataset(id,pages,prefix){
 function paragraphSection(section){return {id:slug(section.title),title:section.title,level:3,blocks:(section.paragraphs||[]).map(text=>({type:'p',style:'lore',text:String(text).trim()})).filter(block=>block.text)}}
 function union(...groups){return [...new Set(groups.flat().filter(Boolean))]}
 function mechanicsText(page){return (page.sections||[]).flatMap(section=>(section.blocks||[]).map(block=>String(block.text||''))).join(' ')}
+function indexByTitles(pages){const map=new Map();for(const page of pages){const key=normalize(page.title);if(!map.has(key))map.set(key,[]);map.get(key).push(page)}return map}
+function matchingPages(index,canonical){const keys=union([canonical.title],canonical.aliases).map(normalize);return union(...keys.map(key=>(index.get(key)||[]).map(page=>page.id))).map(id=>[...truth,...legacy].find(page=>page.id===id)).filter(Boolean)}
+function enrichPage(page,canonical){
+  const replacementTitles=new Set(canonical.sections.map(section=>normalize(section.title)));
+  const preserved=(page.sections||[]).filter(section=>!replacementTitles.has(normalize(section.title)));
+  page.title=canonical.title;
+  page.category='Vérité';
+  page.source=sourceLabel;
+  page.status=page.status==='source_detaillee'?'canon_enrichi':'canon_recent';
+  page.tags=union(page.tags||[],canonical.tags);
+  page.nav=canonical.nav;
+  page.loreEvidence=canonical.loreEvidence;
+  page.sections=[...canonical.sections,...preserved];
+  return page;
+}
 
 if(source.schemaVersion!==1||source.sourceDocument!=='TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx')throw new Error('Source lore Vérité V6 prioritaire invalide');
 if(!Array.isArray(source.cosmology)||source.cosmology.length!==3)throw new Error(`3 pages cosmologiques attendues, ${source.cosmology?.length||0}`);
@@ -30,11 +45,10 @@ if(!Array.isArray(source.deities)||source.deities.length!==13)throw new Error(`1
 const truth=loadDataset('verite');
 const legacy=loadDataset('lore');
 const originalTruthCount=truth.length;
-const legacyIndex=new Map();
-for(const page of legacy){for(const key of [page.title]){const n=normalize(key);if(!legacyIndex.has(n))legacyIndex.set(n,[]);legacyIndex.get(n).push(page)}}
-
+const originalLegacyCount=legacy.length;
 const sourceLabel='TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx';
 const canonicalPages=[];
+
 for(const item of source.cosmology){
   canonicalPages.push({
     id:item.id,title:item.title,aliases:item.aliases||[],category:'Vérité',source:sourceLabel,status:'canon_recent',tags:item.tags||[],
@@ -54,35 +68,32 @@ for(const item of source.deities){
 }
 
 const ids=new Set([...truth,...legacy].map(page=>page.id));
-const titleIndex=new Map();
-for(const page of truth){const n=normalize(page.title);if(!titleIndex.has(n))titleIndex.set(n,[]);titleIndex.get(n).push(page)}
-let added=0,updated=0;
+let truthIndex=indexByTitles(truth),legacyIndex=indexByTitles(legacy);
+let added=0,updatedTruth=0,enrichedLegacy=0;
 for(const canonical of canonicalPages){
-  const keys=union([canonical.title],canonical.aliases).map(normalize);
-  const legacyMatches=union(...keys.map(key=>(legacyIndex.get(key)||[]).map(page=>page.id)));
-  if(legacyMatches.length)throw new Error(`${canonical.title}: page legacy homonyme à migrer explicitement avant intégration (${legacyMatches.join(', ')})`);
-  const matches=union(...keys.map(key=>(titleIndex.get(key)||[]).map(page=>page.id))).map(id=>truth.find(page=>page.id===id));
-  if(matches.length>1)throw new Error(`${canonical.title}: plusieurs pages Vérité correspondent (${matches.map(page=>page.id).join(', ')})`);
-  if(matches.length===1){
-    const page=matches[0];
-    const replacementTitles=new Set(canonical.sections.map(section=>normalize(section.title)));
-    const preserved=(page.sections||[]).filter(section=>!replacementTitles.has(normalize(section.title)));
-    page.title=canonical.title;page.category='Vérité';page.source=sourceLabel;page.status='canon_enrichi';page.tags=union(page.tags||[],canonical.tags);page.nav=canonical.nav;page.loreEvidence=canonical.loreEvidence;
-    page.sections=[...canonical.sections,...preserved];updated++;
-  }else{
+  const inTruth=matchingPages(truthIndex,canonical).filter(page=>truth.includes(page));
+  const inLegacy=matchingPages(legacyIndex,canonical).filter(page=>legacy.includes(page));
+  if(inTruth.length+inLegacy.length>1)throw new Error(`${canonical.title}: plusieurs pages existantes correspondent (${[...inTruth,...inLegacy].map(page=>page.id).join(', ')})`);
+  if(inTruth.length===1){enrichPage(inTruth[0],canonical);updatedTruth++;}
+  else if(inLegacy.length===1){enrichPage(inLegacy[0],canonical);enrichedLegacy++;}
+  else{
     if(ids.has(canonical.id))throw new Error(`${canonical.title}: ID déjà utilisé ${canonical.id}`);
     const page={...canonical};delete page.aliases;truth.push(page);ids.add(page.id);added++;
-    const n=normalize(page.title);if(!titleIndex.has(n))titleIndex.set(n,[]);titleIndex.get(n).push(page);
   }
+  truthIndex=indexByTitles(truth);legacyIndex=indexByTitles(legacy);
 }
 
+const visible=[...truth,...legacy.filter(page=>page.category==='Vérité')];
 const targetTitles=new Set(canonicalPages.map(page=>normalize(page.title)));
-for(const title of targetTitles){const matches=truth.filter(page=>normalize(page.title)===title);if(matches.length!==1)throw new Error(`Lore V6: ${title} apparaît ${matches.length} fois dans Vérité`)}
+for(const title of targetTitles){const matches=visible.filter(page=>normalize(page.title)===title);if(matches.length!==1)throw new Error(`Lore V6: ${title} apparaît ${matches.length} fois dans Vérité visible`)}
 const forbidden=/\bPTV\b|\bDGT\b|\b\d+\s*PA\b|\bdifficult[eé]\s*\d+|\b1\s*\/\s*(?:sc[eè]ne|sc[eé]nario)\b|\+\d+\s*(?:Armure|Protection|DGT)|\bD[eé]fense occulte\b/i;
-for(const page of truth.filter(page=>(page.tags||[]).includes('Lore V6'))){const text=mechanicsText(page);if(forbidden.test(text))throw new Error(`${page.title}: mécanique détectée dans le lore prioritaire`);if((page.sections||[]).some(section=>(section.blocks||[]).some(block=>block.type==='table')))throw new Error(`${page.title}: table mécanique interdite dans le lore prioritaire`)}
+for(const page of visible.filter(page=>(page.tags||[]).includes('Lore V6'))){const text=mechanicsText(page);if(forbidden.test(text))throw new Error(`${page.title}: mécanique détectée dans le lore prioritaire`);if((page.sections||[]).some(section=>(section.blocks||[]).some(block=>block.type==='table')))throw new Error(`${page.title}: table mécanique interdite dans le lore prioritaire`)}
 
-const written=writeDataset('verite',truth,'v3-verite-lore-v2');
+const writtenTruth=writeDataset('verite',truth,'v3-verite-lore-v2');
+const writtenLegacy=writeDataset('lore',legacy,'v3-lore-v2');
+if(legacy.length!==originalLegacyCount)throw new Error(`Le dataset lore doit conserver ${originalLegacyCount} pages, ${legacy.length}`);
 manifest.expectedTotal=manifest.datasets.reduce((sum,dataset)=>sum+Number(dataset.count||0),0);
 fs.writeFileSync(manifestPath,`${JSON.stringify(manifest,null,2)}\n`,'utf8');
-console.log(`LORE VÉRITÉ PRIORITAIRE — ${canonicalPages.length} pages canoniques · ${added} ajoutées · ${updated} enrichies.`);
-console.log(`VÉRITÉ — ${originalTruthCount} -> ${truth.length} pages · ${written.parts} fragments · total V3 ${manifest.expectedTotal}.`);
+console.log(`LORE VÉRITÉ PRIORITAIRE — ${canonicalPages.length} pages canoniques · ${added} ajoutées · ${updatedTruth} Vérité enrichies · ${enrichedLegacy} IDs legacy conservés.`);
+console.log(`VÉRITÉ — ${originalTruthCount} -> ${truth.length} pages · ${writtenTruth.parts} fragments.`);
+console.log(`LORE LEGACY — ${legacy.length} pages · ${writtenLegacy.parts} fragments · total V3 ${manifest.expectedTotal}.`);
