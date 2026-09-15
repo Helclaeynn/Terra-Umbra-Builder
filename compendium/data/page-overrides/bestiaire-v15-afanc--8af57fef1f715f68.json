@@ -1,0 +1,129 @@
+{
+  "version": 1,
+  "updated": "2026-09-15",
+  "entries": [
+    {
+      "articleId": "bestiaire-v15-afanc",
+      "baseHash": "552fa99524f901f0072c2de4c921ae651e8cad3a5b9910127b9ad1e35678bc0a",
+      "updatedAt": "2026-09-15T07:48:01.172Z",
+      "note": "",
+      "operations": [
+        {
+          "op": "replace",
+          "path": "/sections",
+          "value": [
+            {
+              "id": "description",
+              "title": "Description",
+              "level": 2,
+              "blocks": [
+                {
+                  "type": "p",
+                  "style": "lore",
+                  "text": "L'Afanc est un esprit des eaux profondes qui se gorge de vase, de boue et d'eau lorsqu'il veut prendre corps. Les traditions lui donnent des silhouettes de serpent, de dragon, de morse ou de bête préhistorique ; aucune n'est vraiment correcte. Il défend généralement un point d'eau unique et nourrit chez les témoins une obsession qui les pousse à revenir encore et encore sur les lieux."
+                },
+                {
+                  "type": "p",
+                  "style": "lore",
+                  "text": "L'Afanc n'a pas un corps unique : il emprunte au bassin qui l'abrite la matière nécessaire à sa manifestation. Vase noire, algues, galets et eau prennent la forme que les témoins sauront ensuite décrire comme un serpent, un dragon ou une bête inconnue. Blesser cette masse ne revient donc pas toujours à atteindre ce qui pense à l'intérieur."
+                },
+                {
+                  "type": "p",
+                  "style": "lore",
+                  "text": "Son territoire agit sur les esprits avant que la créature ne se montre. Les curieux rêvent du rivage, trouvent des excuses pour revenir et finissent par considérer le lieu comme quelque chose qu'ils doivent comprendre seuls. Cette obsession protège mieux l'Afanc qu'une clôture : elle lui amène des témoins isolés et transforme les survivants en gardiens involontaires de son secret."
+                }
+              ]
+            },
+            {
+              "id": "dossier-mj",
+              "title": "Dossier MJ · Profil, hook & informations",
+              "level": 2,
+              "audience": "mj",
+              "blocks": [
+                {
+                  "type": "p",
+                  "text": "CLASSIFICATION — 2.2 Ombres et entités de l’Ombremonde › Deimons"
+                },
+                {
+                  "type": "p",
+                  "text": "RÔLE — VÉRITÉ • OMBRE • DEIMON LACUSTRE"
+                },
+                {
+                  "type": "p",
+                  "text": "MOUVEMENT 6 m • nage 12 m  •  ACTIONS 2 PA  •  INITIATIVE 1d10e + 8"
+                },
+                {
+                  "type": "p",
+                  "text": "PERCEPTION 1d10e + 10  •  MAÎTRISE 1d10e + 11"
+                },
+                {
+                  "type": "p",
+                  "text": "DÉF. PHYSIQUE 8 (+1d10e active)  •  DÉF. OCCULTE 11 (+1d10e active)  •  PV 26  •  ARMURE 4"
+                },
+                {
+                  "type": "p",
+                  "style": "list",
+                  "text": "ATTAQUE — Morsure massive — 1d10e + 11 • DGT 7 • Contact"
+                },
+                {
+                  "type": "p",
+                  "style": "list",
+                  "text": "ATTAQUE — Traction vers l’eau — 1d10e + 10 vs Déf. physique • sur réussite, déplace la cible de quelques mètres vers l’eau"
+                },
+                {
+                  "type": "p",
+                  "style": "list",
+                  "text": "TESTS UTILES — Perception +10 • Survie aquatique +12"
+                },
+                {
+                  "type": "p",
+                  "style": "list",
+                  "text": "CAPACITÉ / INFO MJ — Corps de vase — Hors de l'eau, son corps est une masse de liquide, algues et sédiments : poison, saignement et atteintes d'organes n'ont aucun sens contre lui."
+                },
+                {
+                  "type": "p",
+                  "style": "list",
+                  "text": "CAPACITÉ / INFO MJ — Fond intangible — Lorsqu'il rejoint les profondeurs de son propre lac, il peut redevenir intangible et ne peut plus être capturé par des moyens physiques ordinaires."
+                },
+                {
+                  "type": "p",
+                  "style": "list",
+                  "text": "CAPACITÉ / INFO MJ — Eau noire — Une personne qui boit volontairement ou accidentellement une grande quantité de son eau contaminée peut être observée à distance par l'Afanc ; une possession exige ensuite une véritable attaque occulte."
+                },
+                {
+                  "type": "p",
+                  "style": "callout",
+                  "text": "FAIBLESSE / LIMITE — Dépendance au lac — Assécher durablement ou rendre inhabitable son point d'eau détruit son ancrage et peut l'anéantir."
+                },
+                {
+                  "type": "p",
+                  "style": "callout",
+                  "text": "FAIBLESSE / LIMITE — Cupidité rituelle — Il accepte facilement offrandes et trésors, parfois au point de se laisser attirer ou piéger par une proposition qu'il croit avantageuse."
+                },
+                {
+                  "type": "p",
+                  "style": "callout",
+                  "text": "FAIBLESSE / LIMITE — Territoire — Il devient beaucoup moins dangereux dès qu'une scène l'oblige à s'éloigner de son eau."
+                },
+                {
+                  "type": "p",
+                  "style": "callout",
+                  "text": "HOOK MJ — Boss de lieu. Le lac, ses rives et les victimes obsédées comptent autant que le bloc de combat."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "op": "replace",
+          "path": "/illustration",
+          "value": {
+            "src": "images/manual/bestiaire-v15-afanc.webp",
+            "alt": "Illustration à venir — Afanc",
+            "caption": "Illustration à venir"
+          }
+        }
+      ]
+    }
+  ]
+}
