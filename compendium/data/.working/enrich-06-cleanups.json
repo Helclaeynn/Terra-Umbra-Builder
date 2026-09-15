@@ -26,5 +26,12 @@
       "La Mue ressemble au premier regard à une enveloppe sèche et inerte. La chaleur d'un corps ou la proximité d'une forte Germination suffit pourtant à réveiller des mouvements minuscules le long de ses membranes. Elle ne cherche pas n'importe quel porteur : certaines chairs provoquent un rejet violent, d'autres semblent reconnues presque immédiatement.",
       "Ceux qui l'ont portée décrivent une sensation de croissance interrompue. La relique pousse le corps vers des adaptations qu'il n'aurait jamais choisies seul, puis les laisse parfois inachevées jusqu'à la prochaine crise. Avec le temps, le porteur cesse de savoir si la Mue transforme son organisme ou si elle utilise simplement celui-ci pour poursuivre son propre Cycle."
     ]
+  },
+  "bestiaire-v15-psycolor": {
+    "replace": [
+      "Les Psycolors forment de rares lignées dont l'héritage remonte à d'anciens fragments de Sharith. Leur pouvoir se manifeste sous une couleur propre à la lignée et peut renforcer aussi bien la chair que l'esprit, comme si l'énergie de la Division avait trouvé une manière stable de se transmettre sans provoquer immédiatement une Rupture.",
+      "La couleur d'un Psycolor n'est pas un simple effet visuel. Elle imprègne ses perceptions, ses émotions et la manière dont son énergie renforce le corps ou l'esprit. Deux membres d'une même lignée peuvent partager une teinte tout en l'exprimant différemment : halo autour des veines, éclats dans les yeux, ombre colorée ou lumière qui apparaît seulement lorsqu'un pouvoir est sollicité.",
+      "Les familles qui connaissent leur héritage le protègent comme un secret de sang. Un enfant peut manifester les premiers signes sans comprendre leur origine, puis attirer l'attention de parents éloignés ou d'ennemis qui reconnaissent la couleur avant lui. Chez les lignées anciennes, la généalogie compte autant que l'apprentissage."
+    ]
   }
 }
