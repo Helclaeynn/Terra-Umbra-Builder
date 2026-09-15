@@ -10,6 +10,7 @@ const DATASETS=['equipement','augmentations'];
 const norm=value=>String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
 const punctuate=value=>{const s=String(value??'').trim().replace(/\s+/g,' ');return !s?'':/[.!?…]$/.test(s)?s:`${s}.`;};
 const lowerFirst=value=>{const s=String(value??'').trim();return s?s[0].toLowerCase()+s.slice(1):s;};
+const PUBLIC_META_LABEL=/^(categorie|category|famille|family|type|prix|price|cout|cost|generation|source|path|chemin|id|pricemode|pricelabel)$/;
 
 function loadDataset(spec){
   let b64='';
@@ -50,11 +51,10 @@ function uniqueRows(rows){
   return out;
 }
 function concreteRows(rows){
-  const ignored=/^(categorie|prix|generation|source|path|chemin|id)$/;
   const effect=/^(effet usage|effet|usage|fonction|description|profil)$/;
   return uniqueRows(rows).filter(([label,value])=>{
     const n=norm(label);
-    if(ignored.test(n)||effect.test(n))return false;
+    if(PUBLIC_META_LABEL.test(n)||effect.test(n))return false;
     if(/^illustration/.test(n))return false;
     return norm(value)!=='';
   });
@@ -64,6 +64,10 @@ function effectValue(rows){
   return row?rowValue(row):'';
 }
 function priceValue(rows){const row=firstRow(rows,/^(prix|price|cout|cost)$/);return row?rowValue(row):'';}
+function priceDisplay(rows){
+  const label=firstRow(rows,/^(pricelabel)$/);
+  return label?rowValue(label):priceValue(rows);
+}
 function categoryValue(page,rows){
   const row=firstRow(rows,/^(categorie|category|famille|family|type)$/);
   return row?rowValue(row):String(page.catalog?.category||page.tags?.find(tag=>!['Réalité','Équipement','Augmentations'].includes(tag))||'').trim();
@@ -96,28 +100,33 @@ function factSentence(facts,limit=3){
 function ensureConcreteLength(text,page,category,rows){
   let out=String(text||'').replace(/\s+/g,' ').trim();
   if(out.length>=45)return out;
-  const candidates=uniqueRows(rows).filter(([label])=>!/^id$/i.test(norm(label)));
+  const candidates=uniqueRows(rows).filter(([label])=>!PUBLIC_META_LABEL.test(norm(label))&&!/^illustration/.test(norm(label)));
   const extra=candidates.find(([label,value])=>!norm(out).includes(norm(value))&&!norm(out).includes(norm(label)));
   if(extra)out=`${out} Pour ${page.title}, « ${extra[0]} » est indiqué à ${extra[1]}.`.trim();
   if(out.length<45&&category)out=`${out} Cette référence appartient à la catégorie « ${category} ».`.trim();
   return out;
 }
+function sparseEquipmentLore(page,category,displayPrice,rows){
+  const p1=displayPrice
+    ? `${page.title} est classé dans « ${category||'Équipement'} », avec un prix de référence de ${displayPrice}.`
+    : `${page.title} appartient à la catégorie « ${category||'Équipement'} » de Réalité.`;
+  const p2=`Aucun effet ni usage spécial propre n’est associé à ${page.title} : cette référence est définie par son classement${displayPrice?` et son tarif de ${displayPrice}`:''}, sans propriété additionnelle attribuée.`;
+  return [ensureConcreteLength(p1,page,category,rows),ensureConcreteLength(p2,page,category,rows)];
+}
 function equipmentLore(page){
-  const rows=allTableRows(page),category=categoryValue(page,rows),effect=effectValue(rows),price=priceValue(rows),facts=concreteRows(rows);
+  const rows=allTableRows(page),category=categoryValue(page,rows),effect=effectValue(rows),displayPrice=priceDisplay(rows),facts=concreteRows(rows);
+  if(!effect&&!facts.length)return {paragraphs:sparseEquipmentLore(page,category,displayPrice,rows),grounding:'sparse'};
   const p1=[describeIdentity(page,category)];
   if(effect)p1.push(`Sa fonction ou son usage est décrit ainsi : « ${punctuate(effect).replace(/[.]$/,'')} ».`);
-  else if(facts.length)p1.push(factSentence(facts,2));
+  else p1.push(factSentence(facts,2));
 
   const remaining=effect?facts:facts.slice(2);
   const p2=[];
   if(remaining.length)p2.push(factSentence(remaining,3));
-  if(price)p2.push(`Dans la catégorie « ${category||'Équipement'} », le prix de référence de ${page.title} est fixé à ${punctuate(price)}`);
+  if(displayPrice)p2.push(`Son prix de référence est fixé à ${punctuate(displayPrice)}`);
   if(!p2.length&&facts.length)p2.push(factSentence(facts,3));
-  if(!p2.length)p2.push(`${page.title} ne dispose pas d’autre propriété chiffrée que celles associées à sa classification « ${category||'Équipement'} ».`);
-  return [
-    ensureConcreteLength(p1.join(' '),page,category,rows),
-    ensureConcreteLength(p2.join(' '),page,category,rows)
-  ];
+  if(!p2.length)p2.push(`${page.title} conserve les caractéristiques propres à « ${category||'Équipement'} » sans autre effet distinctif.`);
+  return {paragraphs:[ensureConcreteLength(p1.join(' '),page,category,rows),ensureConcreteLength(p2.join(' '),page,category,rows)],grounding:'detailed'};
 }
 function augmentationLore(page){
   const sections=(page.sections||[]).filter(section=>section.id!=='contexte');
@@ -125,7 +134,7 @@ function augmentationLore(page){
   const category=String((page.catalog?.categories||[]).join(' · ')||page.catalog?.category||'Augmentations');
   const effects=[...new Set(sections.map(section=>effectValue((section.blocks||[]).filter(block=>block.type==='table').flatMap(block=>block.rows||[]))).filter(Boolean))];
   const generations=[...new Set((page.catalog?.generations||[]).map(Number).filter(Number.isFinite))].sort((a,b)=>a-b);
-  const prices=[...new Set(sections.map(section=>priceValue((section.blocks||[]).filter(block=>block.type==='table').flatMap(block=>block.rows||[]))).filter(Boolean))];
+  const prices=[...new Set(sections.map(section=>priceDisplay((section.blocks||[]).filter(block=>block.type==='table').flatMap(block=>block.rows||[]))).filter(Boolean))];
   const facts=concreteRows(rows);
   const p1=[`${page.title} est une augmentation de la famille « ${category} ».`];
   if(effects.length===1)p1.push(`Sa fonction est décrite ainsi : « ${punctuate(effects[0]).replace(/[.]$/,'')} ».`);
@@ -135,20 +144,17 @@ function augmentationLore(page){
   const p2=[];
   if(generations.length)p2.push(`Elle existe ici en ${generations.map(g=>`génération ${g}`).join(' et ')}.`);
   if(facts.length)p2.push(factSentence(facts,3));
-  if(prices.length===1)p2.push(`Le prix de référence de ${page.title} est fixé à ${punctuate(prices[0])}`);
+  if(prices.length===1)p2.push(`Son prix de référence est fixé à ${punctuate(prices[0])}`);
   else if(prices.length>1)p2.push(`Selon la variante, ses prix de référence sont ${prices.slice(0,4).join(', ')}.`);
   if(!p2.length)p2.push(`${page.title} conserve la même fonction générale dans les configurations techniques listées pour cette augmentation.`);
-  return [
-    ensureConcreteLength(p1.join(' '),page,category,rows),
-    ensureConcreteLength(p2.join(' '),page,category,rows)
-  ];
+  return {paragraphs:[ensureConcreteLength(p1.join(' '),page,category,rows),ensureConcreteLength(p2.join(' '),page,category,rows)],grounding:'detailed'};
 }
-function replaceContext(page,paragraphs){
+function replaceContext(page,paragraphs,grounding){
   const section=(page.sections||[]).find(section=>section.id==='contexte');
   if(!section)throw new Error(`${page.title}: section contexte absente`);
   section.title='Description et usage';
   section.blocks=paragraphs.map(text=>({type:'p',style:'lore source-grounded',text}));
-  page.catalog={...(page.catalog||{}),loreVersion:2,loreMethod:'source-grounded-context'};
+  page.catalog={...(page.catalog||{}),loreVersion:2,loreMethod:'source-grounded-context',loreGrounding:grounding};
 }
 
 const manifest=JSON.parse(fs.readFileSync(MANIFEST,'utf8'));
@@ -159,16 +165,16 @@ for(const id of DATASETS){
   if(!spec)throw new Error(`Dataset ${id} absent du manifeste`);
   const pages=loadDataset(spec);
   for(const page of pages){
-    const paragraphs=id==='equipement'?equipmentLore(page):augmentationLore(page);
-    if(paragraphs.some(text=>text.length<45))throw new Error(`${page.title}: lore Réalité trop court`);
-    replaceContext(page,paragraphs);
-    if(id==='equipement'&&norm(page.title)==='bastion')bastionTrace={paragraphs,rows:allTableRows(page)};
+    const result=id==='equipement'?equipmentLore(page):augmentationLore(page);
+    if(result.paragraphs.some(text=>text.length<45))throw new Error(`${page.title}: lore Réalité trop court`);
+    replaceContext(page,result.paragraphs,result.grounding);
+    if(id==='equipement'&&norm(page.title)==='bastion')bastionTrace={...result,rows:allTableRows(page)};
   }
   writeDataset(spec,pages);total+=pages.length;
   console.log(`Lore Réalité V2 enrichi — ${id}: ${pages.length} pages · SHA ${spec.sha256}`);
 }
 if(!bastionTrace)throw new Error('Bastion: page introuvable après enrichissement');
-console.log(`Bastion contrôle — ${bastionTrace.paragraphs.join(' || ')}`);
+console.log(`Bastion contrôle [${bastionTrace.grounding}] — ${bastionTrace.paragraphs.join(' || ')}`);
 console.log(`Bastion propriétés — ${bastionTrace.rows.map(row=>`${rowLabel(row)}=${rowValue(row)}`).join(' · ')}`);
 manifest.expectedTotal=manifest.datasets.reduce((sum,item)=>sum+Number(item.count||0),0);
 fs.writeFileSync(MANIFEST,JSON.stringify(manifest,null,2)+'\n');
