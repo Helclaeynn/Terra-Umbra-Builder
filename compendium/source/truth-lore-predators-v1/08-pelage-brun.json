@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "sourceDocument": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx",
+  "page": {
+    "id": "verite-lore-pelage-brun",
+    "title": "Pelage Brun",
+    "order": 80,
+    "evidence": ["V6 p.45"],
+    "sections": [
+      {
+        "title": "Un héritage culturel, pas une couleur",
+        "paragraphs": ["Le Pelage Brun est une tradition culturelle historiquement apparue en Extrême-Orient ; son nom n’impose aucune couleur de fourrure particulière."]
+      },
+      {
+        "title": "Esprits et traditions locales",
+        "paragraphs": ["Les Bruns ont entretenu des relations plus étroites avec les esprits et certaines traditions locales. Leur proximité avec les Kami et d’autres puissances donne un poids particulier au pacte, au respect du lieu et aux relations spirituelles."]
+      },
+      {
+        "title": "Comprendre l’instinct",
+        "paragraphs": ["Leur idéal est moins celui d’une Bête mieux réprimée que celui d’un instinct suffisamment compris pour ne plus devoir être combattu à chaque instant. La maîtrise intérieure peut y compter autant que la force brute."]
+      }
+    ]
+  }
+}
