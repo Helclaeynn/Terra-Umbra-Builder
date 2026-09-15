@@ -12,6 +12,7 @@ const clean=value=>String(value??'').trim().replace(/\s+/g,' ');
 const lowerFirst=value=>{const s=clean(value);return s?s[0].toLowerCase()+s.slice(1):s;};
 const finish=value=>{const s=clean(value);return !s?'':/[.!?…]$/.test(s)?s:`${s}.`;};
 const EFFECT_LABEL=/^(effet usage|effet|usage|fonction|description|profil)$/;
+const stableVariant=(key,count=4)=>crypto.createHash('sha1').update(String(key)).digest()[0]%count;
 
 function isPriceMeta(label){return /^(price|prix|cout|cost)(?: ?(?:mode|label|min|max|minimum|maximum))?$/.test(label);}
 function isMetaLabel(label){
@@ -78,12 +79,25 @@ function priceOf(rows){
   if(min&&max)return `${value(min)} - ${value(max)} $`;
   return min?`à partir de ${value(min)} $`:max?`jusqu’à ${value(max)} $`:'';
 }
-function factSentence(facts,limit=3){
+function factSentence(facts,limit=3,variant=0){
   const picked=facts.slice(0,limit);
   if(!picked.length)return '';
-  if(picked.length===1)return `Sa caractéristique « ${picked[0][0]} » vaut ${picked[0][1]}.`;
-  const rendered=picked.map(([l,v])=>`${lowerFirst(l)} : ${v}`);
-  return `Ses caractéristiques associent ${rendered.slice(0,-1).join(', ')} et ${rendered.at(-1)}.`;
+  if(picked.length===1){
+    const [l,v]=picked[0];
+    return [
+      `Sa caractéristique « ${l} » vaut ${v}.`,
+      `Pour « ${l} », la valeur indiquée est ${v}.`,
+      `La donnée « ${l} » est fixée à ${v}.`,
+      `« ${l} » est renseigné à ${v}.`
+    ][variant%4];
+  }
+  const rendered=picked.map(([l,v])=>`${lowerFirst(l)} : ${v}`),joined=`${rendered.slice(0,-1).join(', ')} et ${rendered.at(-1)}`;
+  return [
+    `Ses caractéristiques associent ${joined}.`,
+    `Les données propres à cette référence donnent ${joined}.`,
+    `Le profil indiqué réunit ${joined}.`,
+    `Les valeurs documentées sont ${joined}.`
+  ][variant%4];
 }
 function itemKind(page,category){
   const s=norm(`${category} ${page.title}`);
@@ -96,6 +110,31 @@ function itemKind(page,category){
   if(/medical|soin|medkit|pharma|chirurg/.test(s))return 'un matériel médical';
   if(/outil|kit|atelier|maintenance|reparation/.test(s))return 'un équipement technique';
   return 'un équipement';
+}
+function identitySentence(page,category,variant){
+  const cat=category||'Équipement',kind=itemKind(page,category);
+  return [
+    `${page.title} est ${kind} classé dans « ${cat} ».`,
+    `Dans « ${cat} », ${page.title} est répertorié comme ${kind}.`,
+    `${page.title} relève de « ${cat} » et correspond à ${kind}.`,
+    `La famille « ${cat} » comprend ${page.title}, ${kind}.`
+  ][variant%4];
+}
+function effectSentence(page,effect,variant){
+  return [
+    `Son usage ou son effet propre est le suivant : ${finish(effect)}`,
+    `Cette référence se distingue par l’effet suivant : ${finish(effect)}`,
+    `Le fonctionnement associé à cette référence est décrit ainsi : ${finish(effect)}`,
+    `L’effet documenté pour ${page.title} est le suivant : ${finish(effect)}`
+  ][variant%4];
+}
+function priceSentence(page,price,variant){
+  return [
+    `Son prix de référence est ${finish(price)}`,
+    `La tarification indiquée est ${finish(price)}`,
+    `Le montant de référence retenu est ${finish(price)}`,
+    `Le prix associé à ${page.title} est ${finish(price)}`
+  ][variant%4];
 }
 function ensureLength(text,page,category,rows){
   let out=clean(text);
@@ -115,15 +154,15 @@ function sparseEquipment(page,rows,category,price){
   return {paragraphs:[ensureLength(p1,page,category,rows),ensureLength(p2,page,category,rows)],grounding:'sparse'};
 }
 function equipmentLore(page){
-  const rows=rowsOf(page),category=categoryOf(page,rows),price=priceOf(rows),effect=effectOf(rows),facts=factsOf(rows);
+  const rows=rowsOf(page),category=categoryOf(page,rows),price=priceOf(rows),effect=effectOf(rows),facts=factsOf(rows),variant=stableVariant(`equipment|${page.title}|${category}`);
   if(!effect&&!facts.length)return sparseEquipment(page,rows,category,price);
-  const p1=[`${page.title} est ${itemKind(page,category)} classé dans « ${category||'Équipement'} ».`];
-  if(effect)p1.push(`Son usage ou son effet propre est le suivant : ${finish(effect)}`);
-  else p1.push(factSentence(facts,2));
+  const p1=[identitySentence(page,category,variant)];
+  if(effect)p1.push(effectSentence(page,effect,variant));
+  else p1.push(factSentence(facts,2,variant));
   const p2=[];
   const remaining=effect?facts:facts.slice(2);
-  if(remaining.length)p2.push(factSentence(remaining,3));
-  if(price)p2.push(`Son prix de référence est ${finish(price)}`);
+  if(remaining.length)p2.push(factSentence(remaining,3,(variant+1)%4));
+  if(price)p2.push(priceSentence(page,price,(variant+2)%4));
   if(!p2.length)p2.push(`${page.title} ne reçoit aucune autre propriété distincte dans les données établies pour cette référence.`);
   return {paragraphs:[ensureLength(p1.join(' '),page,category,rows),ensureLength(p2.join(' '),page,category,rows)],grounding:'detailed'};
 }
@@ -135,8 +174,14 @@ function augmentationLore(page){
   const facts=factsOf(rows);
   const generations=[...new Set((page.catalog?.generations||[]).map(Number).filter(Number.isFinite))].sort((a,b)=>a-b);
   const prices=[...new Set(sections.map(section=>priceOf((section.blocks||[]).filter(block=>block.type==='table').flatMap(block=>block.rows||[]))).filter(Boolean))];
+  const variant=stableVariant(`augmentation|${page.title}|${category}`);
   if(!effects.length&&!facts.length){
-    const p1=`${page.title} est classée parmi les augmentations de la famille « ${category} ».`;
+    const p1=[
+      `${page.title} est classée parmi les augmentations de la famille « ${category} ».`,
+      `La famille « ${category} » comprend l’augmentation ${page.title}.`,
+      `${page.title} relève des augmentations rattachées à « ${category} ».`,
+      `Parmi « ${category} », ${page.title} constitue une augmentation distincte.`
+    ][variant];
     const known=[];
     if(generations.length)known.push(generations.map(g=>`génération ${g}`).join(' et '));
     if(prices.length===1)known.push(`un prix de référence de ${prices[0]}`);
@@ -146,17 +191,43 @@ function augmentationLore(page){
       :`Aucun effet supplémentaire n’est attribué à ${page.title} au-delà de son classement parmi les augmentations.`;
     return {paragraphs:[ensureLength(p1,page,category,rows),ensureLength(p2,page,category,rows)],grounding:'sparse'};
   }
-  const p1=[`${page.title} est une augmentation de la famille « ${category} ».`];
-  if(effects.length===1)p1.push(`Son effet propre est le suivant : ${finish(effects[0])}`);
-  else if(effects.length>1)p1.push(`Ses variantes possèdent plusieurs effets distincts : ${effects.slice(0,3).map(finish).join(' ')}`);
-  else p1.push(factSentence(facts,2));
+  const p1=[
+    `${page.title} est une augmentation de la famille « ${category} ».`,
+    `Dans la famille « ${category} », ${page.title} est répertoriée comme une augmentation.`,
+    `${page.title} appartient à « ${category} » en tant qu’augmentation.`,
+    `La famille « ${category} » inclut ${page.title}, une augmentation.`
+  ][variant];
+  const firstParts=[p1];
+  if(effects.length===1)firstParts.push([
+    `Son effet propre est le suivant : ${finish(effects[0])}`,
+    `La propriété distinctive indiquée est : ${finish(effects[0])}`,
+    `Son fonctionnement est décrit ainsi : ${finish(effects[0])}`,
+    `L’effet associé à ${page.title} est : ${finish(effects[0])}`
+  ][variant]);
+  else if(effects.length>1)firstParts.push([
+    `Ses variantes possèdent plusieurs effets distincts : ${effects.slice(0,3).map(finish).join(' ')}`,
+    `Plusieurs effets sont documentés selon la variante : ${effects.slice(0,3).map(finish).join(' ')}`,
+    `Les variantes se distinguent par plusieurs effets : ${effects.slice(0,3).map(finish).join(' ')}`,
+    `Pour ${page.title}, les effets varient selon la version : ${effects.slice(0,3).map(finish).join(' ')}`
+  ][variant]);
+  else firstParts.push(factSentence(facts,2,variant));
   const p2=[];
-  if(generations.length)p2.push(`Elle existe ici en ${generations.map(g=>`génération ${g}`).join(' et ')}.`);
-  if(facts.length)p2.push(factSentence(facts,3));
-  if(prices.length===1)p2.push(`Son prix de référence est ${finish(prices[0])}`);
+  if(generations.length)p2.push([
+    `Elle existe ici en ${generations.map(g=>`génération ${g}`).join(' et ')}.`,
+    `Les générations documentées sont ${generations.join(' et ')}.`,
+    `Cette augmentation est présente en ${generations.map(g=>`génération ${g}`).join(' et ')}.`,
+    `Pour ${page.title}, les générations retenues sont ${generations.join(' et ')}.`
+  ][variant]);
+  if(facts.length)p2.push(factSentence(facts,3,(variant+1)%4));
+  if(prices.length===1)p2.push([
+    `Son prix de référence est ${finish(prices[0])}`,
+    `La tarification indiquée est ${finish(prices[0])}`,
+    `Le montant de référence retenu est ${finish(prices[0])}`,
+    `Le prix associé à ${page.title} est ${finish(prices[0])}`
+  ][variant]);
   else if(prices.length>1)p2.push(`Selon la variante, ses prix de référence sont ${prices.slice(0,4).join(', ')}.`);
   if(!p2.length)p2.push(`${page.title} ne reçoit aucune autre propriété distincte dans les données établies pour cette augmentation.`);
-  return {paragraphs:[ensureLength(p1.join(' '),page,category,rows),ensureLength(p2.join(' '),page,category,rows)],grounding:'detailed'};
+  return {paragraphs:[ensureLength(firstParts.join(' '),page,category,rows),ensureLength(p2.join(' '),page,category,rows)],grounding:'detailed'};
 }
 function replaceContext(page,result){
   const section=(page.sections||[]).find(section=>section.id==='contexte');
