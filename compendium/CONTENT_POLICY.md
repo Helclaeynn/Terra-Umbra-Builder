@@ -87,6 +87,14 @@ Les imports doivent conserver les paragraphes complets et les sous-sections pert
 
 Le sommaire principal doit mettre en avant les ensembles et pages réellement renseignés, tout en laissant apparaître leurs sous-pages courtes dans leur hiérarchie naturelle. Les stubs ne doivent pas noyer le premier niveau de navigation, mais ils ne doivent pas disparaître du wiki.
 
+### Catalogues Réalité
+
+Les pages publiques des catalogues Équipement et Augmentations doivent conserver leurs données techniques dans les tableaux, sans recopier dans le lore les prix ni les champs internes de génération. Chaque page possède deux paragraphes de contexte suffisamment substantiels pour apporter une information d'usage absente du tableau.
+
+Les enrichissements automatiques ne doivent pas fabriquer de propriétés nouvelles : ils peuvent expliciter le rôle, l'environnement d'emploi, les contraintes pratiques et les différences documentées entre variantes. Les entrées disposant d'une source détaillée ou d'un arbitrage récent utilisent cette matière en priorité.
+
+Le contrôle de qualité compare également les textes entre pages. Deux entrées ne doivent pas dépasser 60 % de similarité selon le contrôle Jaccard à quatre mots utilisé par le gate Réalité ; une famille de produits proche doit donc rester identifiable sans devenir une série de paragraphes clonés.
+
 ## Statuts de bloc
 
 Chaque bloc documentaire peut porter un statut :
