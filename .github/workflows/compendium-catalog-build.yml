@@ -8,6 +8,8 @@ on:
       - 'scripts/enrich-compendium-augmentation-generations.mjs'
       - 'scripts/enrich-compendium-reality-lore.mjs'
       - 'scripts/audit-reality-lore-gaps.mjs'
+      - 'compendium/source/reality-lore-v3-sparse.json'
+      - 'compendium/source/reality-lore-v3-neuro.json'
       - 'compendium/tests/catalog-pages-check.mjs'
       - 'compendium/tests/catalog-pages-semantic-check.mjs'
       - 'compendium/tests/reality-catalog-lore-quality-check.mjs'
@@ -83,5 +85,5 @@ jobs:
             echo 'No generated catalog changes.'
             exit 0
           fi
-          git commit -m 'build(compendium): sync Reality catalogs with source-grounded lore'
+          git commit -m 'build(compendium): sync Reality catalogs with V8 semantic lore'
           git push origin HEAD:preview/lore
