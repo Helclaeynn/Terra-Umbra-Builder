@@ -35,6 +35,11 @@ function generationLore(page,variant){
   return `${name} existe ici sous une configuration technique propre.${category} son apparence et son degré d’intégration dépendent surtout de la clinique, de la qualité de la pose et des contraintes anatomiques du porteur.`;
 }
 
+function illustrationLabel(page,variant){
+  const suffix=variant.generation!==null&&variant.generation!==undefined?` — Génération ${variant.generation}`:'';
+  return `Illustration à venir : ${page.title}${suffix}`;
+}
+
 function writeDataset(spec,rows){
   for(const file of fs.readdirSync(DATA)){
     if(file.startsWith(`${spec.prefix}-`)&&file.endsWith('.b64part'))fs.unlinkSync(`${DATA}/${file}`);
@@ -64,8 +69,12 @@ for(const page of pages){
   mechanics.forEach((section,index)=>{
     const variant=variants[index];
     const blocks=Array.isArray(section.blocks)?section.blocks:[];
-    const kept=blocks.filter(block=>!(block.type==='p'&&String(block.style||'').includes('generation-lore')));
-    section.blocks=[{type:'p',style:'lore generation-lore',text:generationLore(page,variant)},...kept];
+    const kept=blocks.filter(block=>!(block.type==='p'&&(String(block.style||'').includes('generation-lore')||String(block.style||'').includes('illustration-placeholder'))));
+    section.blocks=[
+      {type:'p',style:'lore generation-lore',text:generationLore(page,variant)},
+      {type:'p',style:'callout illustration-placeholder',text:illustrationLabel(page,variant)},
+      ...kept
+    ];
     variant.illustration={src:'assets/augmentation-placeholder.svg',alt:`Illustration de ${page.title}${variant.generation!==null&&variant.generation!==undefined?` — Génération ${variant.generation}`:''}`,caption:'Illustration à venir'};
     enriched++;
     if(Number(variant.generation)===1)gen1++;
@@ -78,4 +87,4 @@ manifest.expectedTotal=manifest.datasets.reduce((sum,item)=>sum+Number(item.coun
 fs.writeFileSync(MANIFEST,JSON.stringify(manifest,null,2)+'\n');
 
 if(!gen1||!gen2)throw new Error(`Lore génération incomplet: Gen.1 ${gen1}, Gen.2 ${gen2}`);
-console.log(`Lore augmentations enrichi — ${pages.length} pages · ${enriched} variantes · Gen.1 ${gen1} · Gen.2 ${gen2}.`);
+console.log(`Lore augmentations enrichi — ${pages.length} pages · ${enriched} variantes · Gen.1 ${gen1} · Gen.2 ${gen2} · ${enriched} emplacements d’illustration.`);
