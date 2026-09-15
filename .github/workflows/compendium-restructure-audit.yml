@@ -6,10 +6,12 @@ on:
       - preview/compendium-restructure
     paths:
       - 'compendium/**'
+      - 'character-builder/rulesets/terra-umbra/truth/full/**'
       - 'scripts/audit-compendium-restructure.mjs'
       - 'scripts/inspect-compendium-restructure.mjs'
       - 'scripts/audit-truth-mixed-pages.mjs'
       - 'scripts/audit-builder-truth-groups.mjs'
+      - 'scripts/audit-truth-full-catalogs.mjs'
       - '.github/workflows/compendium-restructure-audit.yml'
 
 permissions:
@@ -31,6 +33,8 @@ jobs:
         run: node scripts/audit-truth-mixed-pages.mjs
       - name: Audit canonical Truth groups
         run: node scripts/audit-builder-truth-groups.mjs
+      - name: Audit full Truth mechanics catalogs
+        run: node scripts/audit-truth-full-catalogs.mjs
       - name: Upload restructure baseline
         uses: actions/upload-artifact@v4
         with:
