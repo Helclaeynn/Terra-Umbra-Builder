@@ -84,7 +84,8 @@ function chooseBuilder(sourceEntry, index) {
   if (matches.length === 1) return matches[0];
   if (matches.length > 1) {
     const family = normalize(sourceEntry.family);
-    const familyMatch = matches.find(match => normalize(`${match.__file} ${match.family || ''} ${match.sphere || ''} ${match.origin || ''} ${match.attribute || ''}`).includes(family));
+    const builderFamily = family === 'pegre' ? 'mafieuse' : family;
+    const familyMatch = matches.find(match => normalize(`${match.__file} ${match.family || ''} ${match.sphere || ''} ${match.origin || ''} ${match.attribute || ''}`).includes(builderFamily));
     if (familyMatch) return familyMatch;
   }
   return null;
