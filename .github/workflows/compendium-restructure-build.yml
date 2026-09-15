@@ -41,6 +41,7 @@ on:
       - 'scripts/integrate-truth-lore-khinae-hunters-v1.mjs'
       - 'scripts/integrate-truth-lore-corruption-fleaux-v1.mjs'
       - 'scripts/consolidate-truth-legacy-hubs-v1.mjs'
+      - 'scripts/consolidate-truth-final-v1.mjs'
       - 'scripts/build-compendium-navigation.mjs'
       - 'compendium/tests/restructure-rules-check.mjs'
       - 'compendium/tests/reality-talent-granularity-check.mjs'
@@ -53,6 +54,7 @@ on:
       - 'compendium/tests/truth-lore-khinae-hunters-check.mjs'
       - 'compendium/tests/truth-lore-corruption-fleaux-check.mjs'
       - 'compendium/tests/truth-legacy-consolidation-check.mjs'
+      - 'compendium/tests/truth-final-cleanup-check.mjs'
       - 'compendium/tests/navigation-check.mjs'
       - 'compendium/tests/manifest-check.mjs'
       - '.github/workflows/compendium-restructure-build.yml'
@@ -99,6 +101,8 @@ jobs:
         run: node scripts/integrate-truth-lore-corruption-fleaux-v1.mjs
       - name: Consolidate retired Truth legacy hubs
         run: node scripts/consolidate-truth-legacy-hubs-v1.mjs
+      - name: Consolidate final Truth legacy scoria
+        run: node scripts/consolidate-truth-final-v1.mjs
       - name: Build hierarchical category navigation
         run: node scripts/build-compendium-navigation.mjs
       - name: Validate V3 manifest
@@ -125,6 +129,8 @@ jobs:
         run: node compendium/tests/truth-lore-corruption-fleaux-check.mjs
       - name: Validate Truth legacy consolidation
         run: node compendium/tests/truth-legacy-consolidation-check.mjs
+      - name: Validate final Truth cleanup
+        run: node compendium/tests/truth-final-cleanup-check.mjs
       - name: Validate hierarchical navigation
         run: node compendium/tests/navigation-check.mjs
       - name: Audit Truth legacy relic candidates
