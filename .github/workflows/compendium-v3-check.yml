@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - preview/lore
+      - preview/compendium-restructure
       - feature/tuc-compendium-v3-transfer-final
       - feature/tuc-compendium-editor
       - feature/tuc-compendium-inline-images
@@ -109,6 +110,7 @@ jobs:
         env:
           IMMUTABLE_BASE: https://raw.githack.com/Helclaeynn/Terra-Umbra-Builder/${{ github.sha }}/compendium
           PREVIEW_BASE: https://raw.githack.com/Helclaeynn/Terra-Umbra-Builder/preview/lore/compendium
+          RESTRUCTURE_BASE: https://raw.githack.com/Helclaeynn/Terra-Umbra-Builder/preview/compendium-restructure/compendium
         run: |
           set -euo pipefail
           CURL=(curl --fail --silent --show-error --location --retry 6 --retry-delay 2 --retry-all-errors)
@@ -120,6 +122,10 @@ jobs:
           echo "Checking preview/lore RawGitHack page with cache-buster"
           "${CURL[@]}" "${PREVIEW_BASE}/index.html?v=${GITHUB_SHA}" -o /tmp/rawgithack-preview-index.html
           grep -qi 'Terra Umbra' /tmp/rawgithack-preview-index.html
+
+          echo "Checking preview/compendium-restructure RawGitHack page with cache-buster"
+          "${CURL[@]}" "${RESTRUCTURE_BASE}/index.html?v=${GITHUB_SHA}" -o /tmp/rawgithack-restructure-index.html
+          grep -qi 'Terra Umbra' /tmp/rawgithack-restructure-index.html
 
           "${CURL[@]}" "${IMMUTABLE_BASE}/data/manifest-v3.json" -o /tmp/rawgithack-manifest-v3.json
           node <<'NODE' > /tmp/rawgithack-fragments.txt
@@ -147,4 +153,4 @@ jobs:
             checked=$((checked + 1))
           done < /tmp/rawgithack-fragments.txt
 
-          echo "RawGitHack external delivery OK — ${checked} fragments + manifest + immutable/preview HTML; no HTTP 404."
+          echo "RawGitHack external delivery OK — ${checked} fragments + manifest + immutable/preview/restructure HTML; no HTTP 404."
