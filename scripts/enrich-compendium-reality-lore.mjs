@@ -290,6 +290,10 @@ function augmentationNature(page,category){
   return `une augmentation corporelle destinée à remplacer, renforcer ou étendre une fonction biologique précise`;
 }
 function augmentationLore(page){
+  const key=norm(page.title);
+  if(key==='anticorps robotiques')return {grounding:'augmentation-book',source:'Réalité V8 / Augmentations terrestres V1',paragraphs:[
+    `Anticorps robotiques est un implant nanitique autonome de deuxième génération installé dans le système circulatoire et immunitaire. Des nanites médicales spécialisées circulent dans l’organisme, reconnaissent les agents infectieux connus et assistent la réponse immunitaire du porteur.`,
+    `Lorsqu’une infection est détectée, le système peut la signaler à un dispositif médical compatible et accélère nettement la récupération, sans rendre le porteur immunisé. Il ne soigne pas les blessures, ne régénère pas les tissus et ne neutralise pas automatiquement un agent inconnu ; cette biomaintenance ciblée reste distincte des nanites AIDH de Vérité.`]};
   const sections=(page.sections||[]).filter(s=>s.id!=='contexte'),rows=sections.flatMap(s=>(s.blocks||[]).filter(b=>b.type==='table').flatMap(b=>b.rows||[]));
   const category=clean(page.catalog?.categories?.join(' · ')||page.catalog?.category||'Augmentations'),nature=augmentationNature(page,category);
   const effects=[...new Set(sections.map(s=>effectOf((s.blocks||[]).filter(b=>b.type==='table').flatMap(b=>b.rows||[]))).filter(Boolean))];
@@ -314,15 +318,16 @@ function equipmentLore(page){
 
 const manifest=JSON.parse(fs.readFileSync(MANIFEST,'utf8'));
 let total=0,bookCount=0,neuroCount=0,derivedCount=0,augCount=0;const samples={};
+const loreFailures=[];
 for(const id of DATASETS){
   const spec=manifest.datasets.find(x=>x.id===id);if(!spec)throw new Error(`Dataset ${id} absent du manifeste`);
   const pages=loadDataset(spec);
   for(const page of pages){
     const result=id==='equipement'?equipmentLore(page):augmentationLore(page);
-    if(result.paragraphs.length!==2||result.paragraphs.some(t=>clean(t).length<70))throw new Error(`${page.title}: lore V3 insuffisant`);
+    if(result.paragraphs.length!==2||result.paragraphs.some(t=>clean(t).length<70))loreFailures.push(`${id}:${page.title}`);
     replaceContext(page,result);
     if(result.grounding==='neuro-book')neuroCount++;else if(result.grounding==='derived')derivedCount++;else if(result.grounding==='augmentation')augCount++;else bookCount++;
-    if(['Bastion','Bande Bastion','2-Fence','Silencieux','Vrai cafe','Bull Executive'].includes(page.title))samples[page.title]=result.paragraphs;
+    if(['Bastion','Bande Bastion','2-Fence','Silencieux','Vrai cafe','Bull Executive','Anticorps robotiques'].includes(page.title))samples[page.title]=result.paragraphs;
   }
   writeDataset(spec,pages);total+=pages.length;
   console.log(`Lore Réalité V3 — ${id}: ${pages.length} pages · SHA ${spec.sha256}`);
@@ -331,3 +336,4 @@ manifest.expectedTotal=manifest.datasets.reduce((sum,item)=>sum+Number(item.coun
 fs.writeFileSync(MANIFEST,JSON.stringify(manifest,null,2)+'\n');
 for(const [title,p] of Object.entries(samples))console.log(`V3 SAMPLE ${title} — ${p.join(' || ')}`);
 console.log(`Lore Réalité V3 — ${total} pages · ${bookCount} book/curated · ${neuroCount} neuro · ${derivedCount} derived · ${augCount} augmentations.`);
+if(loreFailures.length)throw new Error(`Lore V3 insuffisant (${loreFailures.length}) — ${loreFailures.join(' | ')}`);
