@@ -12,8 +12,9 @@ function normalize(value){return String(value||'').normalize('NFD').replace(/[\u
 function slug(value){return normalize(value).replace(/\s+/g,'-')||'section'}
 function specFor(id){const spec=manifest.datasets.find(dataset=>dataset.id===id);if(!spec)throw new Error(`Dataset absent: ${id}`);return spec}
 function loadDataset(id){const spec=specFor(id);let b64='';for(let i=0;i<spec.parts;i++)b64+=fs.readFileSync(`${DATA}/${spec.prefix}-${String(i).padStart(2,'0')}.b64part`,'utf8').replace(/\s+/g,'');return JSON.parse(zlib.gunzipSync(Buffer.from(b64,'base64')).toString('utf8'))}
+function removePrefix(prefix){for(const file of fs.readdirSync(DATA))if(file.startsWith(`${prefix}-`)&&file.endsWith('.b64part'))fs.unlinkSync(`${DATA}/${file}`)}
 function writeDataset(id,pages,prefix){
-  for(const file of fs.readdirSync(DATA))if(file.startsWith(`${prefix}-`)&&file.endsWith('.b64part'))fs.unlinkSync(`${DATA}/${file}`);
+  removePrefix(prefix);
   const b64=zlib.gzipSync(Buffer.from(JSON.stringify(pages),'utf8'),{level:9,mtime:0}).toString('base64');
   const size=8000,parts=Math.ceil(b64.length/size);
   for(let i=0;i<parts;i++)fs.writeFileSync(`${DATA}/${prefix}-${String(i).padStart(2,'0')}.b64part`,`${b64.slice(i*size,(i+1)*size)}\n`,'utf8');
@@ -97,6 +98,7 @@ if(legacy.length!==originalLegacyCount)throw new Error(`Le dataset lore doit res
 
 const writtenTruth=writeDataset('verite',truth,'v3-verite-lore-v3');
 const writtenLegacy=writeDataset('lore',legacy,'v3-lore-v3');
+for(const prefix of ['v3-verite-lore-v2','v3-lore-v2'])removePrefix(prefix);
 manifest.expectedTotal=manifest.datasets.reduce((sum,dataset)=>sum+Number(dataset.count||0),0);
 fs.writeFileSync(manifestPath,`${JSON.stringify(manifest,null,2)}\n`,'utf8');
 console.log(`LORE EXILÉS V6 — 7 pages · ${added} ajoutées · ${enrichedTruth} Vérité enrichies · ${enrichedLegacy} IDs legacy conservés.`);
