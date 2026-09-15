@@ -11,7 +11,7 @@ function textOf(page){return (page.sections||[]).flatMap(section=>(section.block
 const truth=load('verite');
 const legacy=load('lore');
 if(truth.length<82)throw new Error(`Vérité: régression sous le socle 82 (${truth.length})`);
-if(legacy.length!==397)throw new Error(`397 pages legacy attendues, ${legacy.length}`);
+if(legacy.length!==392)throw new Error(`392 pages lore consolidées attendues, ${legacy.length}`);
 const visible=[...truth,...legacy.filter(page=>page.category==='Vérité')];
 const expected=['14. Daemons','16. Aseryns','18. Extrals, Homo Superior et Ad’rak','Talass','Mo’sen','Baséanh','Rocréen','Thalsios','Homo Superior','Ad’rak'];
 const batch=visible.filter(page=>page.loreBook?.batch==='peoples-v1');
@@ -49,4 +49,4 @@ const adrak=textOf(page('Ad’rak'));if(!/2[,.]60\s*m/i.test(adrak)||!/2[,.]20\s
 const homo=textOf(page('Homo Superior'));if(!/restent? Humains?/i.test(homo)||!/AIDH/i.test(homo))throw new Error('Homo Superior: nature humaine/AIDH incomplète');
 const extralSpecies=['Talass','Mo’sen','Baséanh','Rocréen','Thalsios'];for(const title of extralSpecies)if(!(page(title).tags||[]).includes('Extrals'))throw new Error(`${title}: tag Extrals absent`);
 const ids=new Set();for(const item of [...truth,...legacy]){if(ids.has(item.id))throw new Error(`ID global dupliqué: ${item.id}`);ids.add(item.id)}
-console.log(`LORE PEUPLES V6 OK — 10 pages book-first · Vérité ${truth.length} · legacy ${legacy.length} · couverture organisations Extrals verrouillée · aucun doublon ni mécanique.`);
+console.log(`LORE PEUPLES V6 OK — 10 pages book-first · Vérité ${truth.length} · lore consolidé ${legacy.length} · couverture organisations Extrals verrouillée · aucun doublon ni mécanique.`);
