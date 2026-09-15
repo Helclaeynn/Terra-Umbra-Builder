@@ -7,8 +7,11 @@ on:
       - 'compendium/source/verite-catalog-v6.json'
       - 'compendium/source/verite-catalog-v6.json.gz.b64'
       - 'compendium/source/verite-catalog-v6-*.b64part'
+      - 'compendium/source/truth-lore-v2.manifest.json'
+      - 'compendium/source/truth-lore-v2/*.b64part'
       - 'scripts/assemble-compendium-truth-source.mjs'
       - 'scripts/build-compendium-truth-catalog.mjs'
+      - 'scripts/enrich-compendium-truth-lore.mjs'
       - 'compendium/tests/truth-catalog-pages-check.mjs'
       - 'compendium/tests/truth-catalog-runtime-browser-smoke.mjs'
       - '.github/workflows/compendium-truth-catalog-build.yml'
@@ -32,7 +35,9 @@ jobs:
         run: node scripts/assemble-compendium-truth-source.mjs
       - name: Generate Truth catalog pages from Vérité V6 source
         run: node scripts/build-compendium-truth-catalog.mjs
-      - name: Validate Truth catalog pages
+      - name: Enrich Truth catalog with curated lore V2
+        run: node scripts/enrich-compendium-truth-lore.mjs
+      - name: Validate Truth catalog pages and lore uniqueness
         run: node compendium/tests/truth-catalog-pages-check.mjs
       - name: Install browser driver
         run: npm install --no-save --package-lock=false playwright-core@1.55.0
@@ -61,5 +66,5 @@ jobs:
             echo 'No generated Truth catalog changes.'
             exit 0
           fi
-          git commit -m 'build(compendium): sync Truth catalog from Vérité V6'
+          git commit -m 'build(compendium): sync Truth catalog with curated lore V2'
           git push origin HEAD:preview/lore
