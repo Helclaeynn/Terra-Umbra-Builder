@@ -16,6 +16,7 @@ function flat(page){
 }
 function tagged(page,tag){return (page.tags||[]).includes(tag)}
 function tableDataRows(page){return (page.sections||[]).flatMap(section=>(section.blocks||[]).filter(block=>block.type==='table').flatMap(block=>(block.rows||[]).slice(1)))}
+function builderTruthRows(page){return (page.sections||[]).flatMap(section=>(section.blocks||[]).filter(block=>block.type==='table'&&block.rows?.[0]?.[0]==='Talent / capacité').flatMap(block=>(block.rows||[]).slice(1)))}
 function walkArrays(root){
   const rows=[];function walk(dir){for(const entry of fs.readdirSync(dir,{withFileTypes:true})){const full=path.join(dir,entry.name);if(entry.isDirectory())walk(full);else if(entry.isFile()&&entry.name.endsWith('.json')){const parsed=JSON.parse(fs.readFileSync(full,'utf8'));if(Array.isArray(parsed))for(const item of parsed)if(item&&item.name)rows.push({...item,__file:full.replaceAll('\\','/')})}}}walk(root);return rows;
 }
@@ -47,14 +48,14 @@ if(!/Apprentissage fulgurant/i.test(flat(commonTalents))||!/2 XP/i.test(flat(com
 
 const truthSource=walkArrays('character-builder/rulesets/terra-umbra/truth/talents');
 const truthPages=rules.filter(page=>tagged(page,'Talent de Vérité'));
-const actualRows=truthPages.flatMap(tableDataRows);
+const actualRows=truthPages.flatMap(builderTruthRows);
 if(truthSource.length!==347)throw new Error(`Source Builder Vérité inattendue: ${truthSource.length} entrées, 347 attendues`);
-if(actualRows.length!==truthSource.length)throw new Error(`Couverture Vérité: ${actualRows.length} lignes pour ${truthSource.length} capacités Builder`);
+if(actualRows.length!==truthSource.length)throw new Error(`Couverture Vérité Builder: ${actualRows.length} lignes pour ${truthSource.length} capacités Builder`);
 const expectedMultiset=new Map(),actualMultiset=new Map();
 for(const item of truthSource){const key=tuple(item);expectedMultiset.set(key,(expectedMultiset.get(key)||0)+1)}
 for(const row of actualRows){const key=JSON.stringify(row.slice(0,5).map(value=>String(value)));actualMultiset.set(key,(actualMultiset.get(key)||0)+1)}
 for(const [key,count] of expectedMultiset){if(actualMultiset.get(key)!==count)throw new Error(`Capacité Vérité absente ou dupliquée: ${key} · attendu ${count}, trouvé ${actualMultiset.get(key)||0}`)}
-if(actualMultiset.size!==expectedMultiset.size)throw new Error('Des lignes mécaniques Vérité non canoniques ont été générées');
+if(actualMultiset.size!==expectedMultiset.size)throw new Error('Des lignes Builder Vérité non canoniques ont été générées');
 
 const representative=[
   ['Sang Écarlate — Anya',['Vision du Sang','Traque hématique','Déferlement écarlate','Surrégime']],
