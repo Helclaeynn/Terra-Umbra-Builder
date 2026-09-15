@@ -6,6 +6,7 @@ on:
     paths:
       - 'scripts/build-compendium-catalog-pages.mjs'
       - 'scripts/enrich-compendium-augmentation-generations.mjs'
+      - 'scripts/enrich-compendium-reality-lore.mjs'
       - 'compendium/tests/catalog-pages-check.mjs'
       - 'compendium/tests/catalog-pages-semantic-check.mjs'
       - 'compendium/tests/catalog-runtime-browser-smoke.mjs'
@@ -33,7 +34,7 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          { node scripts/build-compendium-catalog-pages.mjs; node scripts/enrich-compendium-augmentation-generations.mjs; } 2>&1 | tee /tmp/compendium-catalog-build.log
+          { node scripts/build-compendium-catalog-pages.mjs; node scripts/enrich-compendium-augmentation-generations.mjs; node scripts/enrich-compendium-reality-lore.mjs; } 2>&1 | tee /tmp/compendium-catalog-build.log
       - name: Upload catalog build log
         if: always()
         uses: actions/upload-artifact@v4
@@ -43,7 +44,9 @@ jobs:
           if-no-files-found: ignore
           retention-days: 1
       - name: Validate generated catalogs
-        run: node compendium/tests/catalog-pages-check.mjs
+        run: |
+          node compendium/tests/catalog-pages-check.mjs
+          node compendium/tests/catalog-pages-semantic-check.mjs
       - name: Install browser driver
         run: npm install --no-save --package-lock=false playwright-core@1.55.0
       - name: Smoke test generated catalogs in Chrome
@@ -77,5 +80,5 @@ jobs:
             echo 'No generated catalog changes.'
             exit 0
           fi
-          git commit -m 'build(compendium): sync reality catalogs from builder runtime'
+          git commit -m 'build(compendium): sync Reality catalogs with source-grounded lore'
           git push origin HEAD:preview/lore
