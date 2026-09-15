@@ -11,12 +11,22 @@ on:
       - feature/compendium-page-pr-persistence
     paths:
       - 'compendium/**'
+      - 'character-builder/rulesets/terra-umbra/reality/augmentations.json.gz.b64'
+      - 'character-builder/rulesets/terra-umbra/reality/safe/equipment.manifest.json'
+      - 'character-builder/rulesets/terra-umbra/reality/safe/equipment.part*.b64'
+      - 'scripts/build-compendium-catalog-pages.mjs'
+      - 'scripts/prepare-builder-reality-catalogs.mjs'
       - 'scripts/sync-page-overrides.mjs'
       - 'tools/github-oauth-proxy-worker.js'
       - '.github/workflows/compendium-v3-check.yml'
   pull_request:
     paths:
       - 'compendium/**'
+      - 'character-builder/rulesets/terra-umbra/reality/augmentations.json.gz.b64'
+      - 'character-builder/rulesets/terra-umbra/reality/safe/equipment.manifest.json'
+      - 'character-builder/rulesets/terra-umbra/reality/safe/equipment.part*.b64'
+      - 'scripts/build-compendium-catalog-pages.mjs'
+      - 'scripts/prepare-builder-reality-catalogs.mjs'
       - 'scripts/sync-page-overrides.mjs'
       - 'tools/github-oauth-proxy-worker.js'
       - '.github/workflows/compendium-v3-check.yml'
@@ -51,6 +61,8 @@ jobs:
           node --check compendium/editor/media-draft-store.js
           node --check compendium/editor/zip-bundle.js
           node --check scripts/sync-page-overrides.mjs
+          node --check scripts/build-compendium-catalog-pages.mjs
+          node --check scripts/prepare-builder-reality-catalogs.mjs
           node --check compendium/tests/catalog-pages-check.mjs
       - name: Validate editor override engine
         run: |
