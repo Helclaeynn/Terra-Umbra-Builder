@@ -36,16 +36,26 @@
     {
       "id": "equipement",
       "prefix": "v3-equipement-builder-v1",
-      "parts": 6,
+      "parts": 5,
       "count": 297,
-      "sha256": "55d5afab43911b04c45f243011d2b289d81a2d82803d23b349de1a59fe11534a"
+      "sha256": "a9eb1a5ecc81174d752eba0e7e22a783752246487769ebb64b6d3506c2a5238b",
+      "quality": {
+        "loreVersion": 2,
+        "maxIdenticalTextRatio": 0.6,
+        "method": "source-grounded-context"
+      }
     },
     {
       "id": "augmentations",
       "prefix": "v3-augmentations-builder-v1",
       "parts": 4,
       "count": 111,
-      "sha256": "384ed4f4c9d13156f1014cf78e873479d9b3fdb1171c08e54eeaca5037e05a3a"
+      "sha256": "645b0e737aa03bf26d13cbe095a75292b633a56c2ab52f553289d097a0da69f0",
+      "quality": {
+        "loreVersion": 2,
+        "maxIdenticalTextRatio": 0.6,
+        "method": "source-grounded-context"
+      }
     },
     {
       "id": "verite",
