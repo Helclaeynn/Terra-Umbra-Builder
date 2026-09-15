@@ -10,7 +10,7 @@ function findPage(pages,title){const page=pages.find(item=>normalize(item.title)
 function sectionTitles(page){return new Set((page.sections||[]).map(section=>normalize(section.title)))}
 
 const truth=load('verite'),rules=load('moteur');
-if(truth.length!==54)throw new Error(`Vérité: ${truth.length} pages, attendu 54`);
+if(truth.length<54)throw new Error(`Vérité: régression du socle lore (${truth.length} pages, minimum 54)`);
 
 const forbidden=new Map([
   ['12. Autres descendants de Khinae',['Relais de chasse — 1 PTV','Piste sous les pistes — 2 PTV','Approche d’angle mort — 2 PTV','Arme ophidienne perfectionnée — 2 PTV']],
@@ -54,4 +54,4 @@ const requiredRules=[
 ];
 for(const [title,needle] of requiredRules){const page=findPage(rules,title);if(!flat(page).includes(needle))throw new Error(`${title}: mécanique attendue absente (${needle})`)}
 
-console.log('VÉRITÉ LORE CLEAN OK — chapitres 10–21 sans stubs mécaniques ciblés, contexte narratif conservé.');
+console.log(`VÉRITÉ LORE CLEAN OK — socle 54 préservé, corpus actuel ${truth.length} pages, chapitres 10–21 sans stubs mécaniques ciblés.`);
