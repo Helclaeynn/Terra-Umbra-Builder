@@ -9,7 +9,7 @@ function textOf(page){return (page.sections||[]).flatMap(section=>(section.block
 
 const truth=loadDataset('verite');
 const legacy=loadDataset('lore');
-if(truth.length!==82)throw new Error(`82 pages Vérité attendues, ${truth.length}`);
+if(truth.length<82)throw new Error(`Vérité: régression sous le socle Mage/Angelus 82 (${truth.length})`);
 if(legacy.length!==397)throw new Error(`397 pages lore legacy attendues, ${legacy.length}`);
 const pages=truth.filter(page=>page.loreBook?.batch==='mages-angelus-v1');
 if(pages.length!==2)throw new Error(`2 hubs Mages/Angelus book-first attendus, ${pages.length}`);
@@ -30,4 +30,4 @@ const mage=pages.find(page=>page.title==='13. Mages');
 for(const heading of ['Le Mageius','La Guerre de la Magie','La Roue magique et ses cinq portes','Les Loges','La technologie comme nouvel alphabet magique'])if(!(mage.sections||[]).some(section=>section.title===heading))throw new Error(`Mage: section manquante ${heading}`);
 const angelus=pages.find(page=>page.title==='15. Angelus');
 for(const heading of ['Des créations d’Aèr','La Guerre céleste et la religion humaine','L’Arbre de Vie','Les dix Sephiroth','Archanges, Séraphins et dissidences'])if(!(angelus.sections||[]).some(section=>section.title===heading))throw new Error(`Angelus: section manquante ${heading}`);
-console.log(`LORE MAGES/ANGELUS V6 OK — 2 hubs denses · Vérité ${truth.length} · legacy ${legacy.length} · aucune mécanique.`);
+console.log(`LORE MAGES/ANGELUS V6 OK — 2 hubs denses · socle 82 préservé · corpus actuel ${truth.length} · legacy ${legacy.length} · aucune mécanique.`);
