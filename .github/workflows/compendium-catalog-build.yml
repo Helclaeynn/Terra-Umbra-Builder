@@ -5,8 +5,10 @@ on:
     branches: ['preview/lore']
     paths:
       - 'scripts/build-compendium-catalog-pages.mjs'
-      - 'scripts/debug-facecaster.mjs'
+      - 'scripts/enrich-compendium-augmentation-generations.mjs'
       - 'compendium/tests/catalog-pages-check.mjs'
+      - 'compendium/tests/catalog-pages-semantic-check.mjs'
+      - 'compendium/tests/catalog-runtime-browser-smoke.mjs'
       - 'character-builder/app.parts/47-reality-missing-augmentations.txt'
       - 'character-builder/rulesets/terra-umbra/reality/augmentations.json.gz.b64'
       - 'character-builder/rulesets/terra-umbra/reality/safe/**'
@@ -31,7 +33,7 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          { node scripts/debug-facecaster.mjs; node scripts/build-compendium-catalog-pages.mjs; } 2>&1 | tee /tmp/compendium-catalog-build.log
+          { node scripts/build-compendium-catalog-pages.mjs; node scripts/enrich-compendium-augmentation-generations.mjs; } 2>&1 | tee /tmp/compendium-catalog-build.log
       - name: Upload catalog build log
         if: always()
         uses: actions/upload-artifact@v4
@@ -42,6 +44,28 @@ jobs:
           retention-days: 1
       - name: Validate generated catalogs
         run: node compendium/tests/catalog-pages-check.mjs
+      - name: Install browser driver
+        run: npm install --no-save --package-lock=false playwright-core@1.55.0
+      - name: Smoke test generated catalogs in Chrome
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/tuc-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:8765/compendium/ >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          CHROME_BIN="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
+          if [ -z "$CHROME_BIN" ]; then
+            echo 'Chrome/Chromium introuvable sur le runner.' >&2
+            exit 1
+          fi
+          echo "Using browser: $CHROME_BIN"
+          TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node compendium/tests/catalog-runtime-browser-smoke.mjs
       - name: Commit generated catalog artifacts
         shell: bash
         run: |
