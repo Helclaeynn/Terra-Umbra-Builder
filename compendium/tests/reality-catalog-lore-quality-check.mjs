@@ -70,7 +70,11 @@ function shingles(page){
   const words=norm(context(page).map(b=>b.text).join(' ')).split(/\s+/).filter(w=>w&&!title.has(w));
   const out=new Set();for(let i=0;i<=words.length-4;i++)out.add(words.slice(i,i+4).join(' '));return out;
 }
-function containment(a,b){if(!a.size||!b.size)return 0;let n=0;for(const x of a)if(b.has(x))n++;return n/Math.min(a.size,b.size);}
+function jaccard(a,b){
+  if(!a.size||!b.size)return 0;
+  let common=0;for(const x of a)if(b.has(x))common++;
+  return common/(a.size+b.size-common);
+}
 function diag(id,page,text){return JSON.stringify({dataset:id,title:page.title,grounding:page.catalog?.loreGrounding,catalog:page.catalog,tags:page.tags,rows:rows(page),context:text});}
 
 const pages=[];let sparse=0,empty=0;
@@ -107,11 +111,11 @@ for(const id of IDS){
 let worst={ratio:0,a:'',b:''};
 for(let i=0;i<pages.length;i++)for(let j=i+1;j<pages.length;j++){
   if(pages[i].grounding==='sparse'||pages[j].grounding==='sparse')continue;
-  const ratio=containment(pages[i].set,pages[j].set);
+  const ratio=jaccard(pages[i].set,pages[j].set);
   if(ratio>worst.ratio)worst={ratio,a:pages[i].page.title,b:pages[j].page.title};
-  if(ratio>NEAR_DUPLICATE_LIMIT)throw new Error(`Lore Réalité quasi dupliqué ${(ratio*100).toFixed(1)}%: ${pages[i].page.title} / ${pages[j].page.title}`);
+  if(ratio>NEAR_DUPLICATE_LIMIT)throw new Error(`Lore Réalité quasi dupliqué (Jaccard ${(ratio*100).toFixed(1)}%): ${pages[i].page.title} / ${pages[j].page.title}`);
 }
 const bastion=pages.find(x=>norm(x.page.title)==='bastion');
 if(!bastion||bastion.grounding!=='sparse')throw new Error(`Bastion: page sparse attendue`);
 console.log(`Bastion QA — ${context(bastion.page).map(b=>b.text).join(' || ')}`);
-console.log(`Lore Réalité V2 OK — ${pages.length} pages · ${sparse} entrées sobres (${empty} sans donnée au-delà du classement) · similarité détaillée max ${(worst.ratio*100).toFixed(1)}% (${worst.a} / ${worst.b}) · quasi-duplication > ${(NEAR_DUPLICATE_LIMIT*100).toFixed(0)}% interdite · remplissage générique interdit.`);
+console.log(`Lore Réalité V2 OK — ${pages.length} pages · ${sparse} entrées sobres (${empty} sans donnée au-delà du classement) · similarité Jaccard max ${(worst.ratio*100).toFixed(1)}% (${worst.a} / ${worst.b}) · quasi-duplication > ${(NEAR_DUPLICATE_LIMIT*100).toFixed(0)}% interdite · remplissage générique interdit.`);
