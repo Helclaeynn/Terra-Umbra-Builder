@@ -72,6 +72,8 @@ if(!/category-navigation\.js/.test(index)) throw new Error('index.html ne charge
 const runtime=fs.readFileSync('compendium/category-navigation.js','utf8');
 if(!/navigation-v1\.json/.test(runtime)||!/hierarchical-category-list/.test(runtime)) throw new Error('Runtime navigation hiérarchique incomplet');
 
+await import('./category-navigation-runtime-check.mjs');
+
 console.log(`NAVIGATION OK — ${nav.entries.length}/${expectedTotal} pages classées sans fourre-tout.`);
 for(const category of ['Règles','Réalité','Vérité']){
   const groups=[...new Set(nav.entries.filter(entry=>entry.category===category).map(entry=>entry.group))];
