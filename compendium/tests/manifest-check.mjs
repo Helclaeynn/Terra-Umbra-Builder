@@ -9,7 +9,7 @@ const manifest=JSON.parse(fs.readFileSync(manifestPath,'utf8'));
 if(manifest.version!==3) throw new Error(`Manifest: version ${manifest.version}, attendu 3`);
 if(!Array.isArray(manifest.datasets)||manifest.datasets.length!==6) throw new Error('Manifest: six datasets V3 attendus');
 
-const expectedCounts={moteur:5,realite:39,verite:63,bestiaire:20,lore:397,pnj:163};
+const expectedCounts={moteur:5,realite:39,verite:63,bestiaire:263,lore:397,pnj:163};
 const expectedTotal=Object.values(expectedCounts).reduce((sum,n)=>sum+n,0);
 if(manifest.expectedTotal!==expectedTotal) throw new Error(`Manifest: expectedTotal ${manifest.expectedTotal}, attendu ${expectedTotal}`);
 
