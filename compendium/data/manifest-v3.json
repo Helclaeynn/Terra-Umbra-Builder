@@ -59,10 +59,10 @@
     },
     {
       "id": "verite",
-      "prefix": "v3-verite-lore-v8",
+      "prefix": "v3-verite-lore-v9",
       "parts": 11,
       "count": 84,
-      "sha256": "b025daabd9b41e93ec6198d0793fa1b2b48c415251dd563e5a3482ccd5c684da"
+      "sha256": "b123b0f351788af18597fbfaca6e1b09dc48f0874a8120eab4be480a3facb8ae"
     },
     {
       "id": "verite-catalogue",
@@ -84,10 +84,10 @@
     },
     {
       "id": "lore",
-      "prefix": "v3-lore-v5",
-      "parts": 99,
-      "count": 397,
-      "sha256": "fadf967ec6ab9826f5398c9eae50ea8d0c9c94f8a9baf03a77182e8fa5dbf65d"
+      "prefix": "v3-lore-v6",
+      "parts": 94,
+      "count": 392,
+      "sha256": "872d3aed5061b61981b42e33180c5ff94d2ff31b0c9f9505876dff964ea162c7"
     },
     {
       "id": "pnj",
@@ -97,5 +97,5 @@
       "sha256": "d3f6006f971147d1af1c10dc025443a8db9761801f14336b42899e12d457c652"
     }
   ],
-  "expectedTotal": 1812
+  "expectedTotal": 1807
 }
