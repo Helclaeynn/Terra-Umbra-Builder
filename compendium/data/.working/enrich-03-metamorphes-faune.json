@@ -1,0 +1,170 @@
+{
+  "bestiaire-v15-aswang-metamorphe": {
+    "replace": [
+      "L'Aswang métamorphe vit assez près des humains pour connaître leurs horaires, leurs habitudes et la manière dont une disparition sera expliquée. Sous une apparence ordinaire, il peut appartenir à une famille, travailler et entretenir des relations pendant des années avant de prendre une forme animale ou monstrueuse pour chasser. Cette double vie est souvent plus importante pour lui que la prédation elle-même.",
+      "Le nom d'Aswang recouvre plusieurs réalités, et les créatures elles-mêmes ne se reconnaissent pas nécessairement comme parentes. Certaines transmettent leur condition dans une lignée, d'autres semblent isolées. Confondre deux êtres différents parce que les humains leur donnent le même nom est une erreur dont les plus rusés profitent volontiers."
+    ]
+  },
+  "bestiaire-v15-kishi": {
+    "replace": [
+      "Le Kishi se présente de face comme un homme séduisant ou simplement rassurant. Derrière cette apparence se cache une seconde gueule, souvent bestiale et proche de la hyène, qui n'apparaît qu'au moment où la proie ne peut plus s'échapper. Il chasse donc moins par poursuite que par proximité, conversation et confiance gagnée.",
+      "Cette anatomie double impose au Kishi une manière particulière de vivre parmi les hommes. Il évite les miroirs placés derrière lui, les coiffures ou vêtements qui découvriraient sa nuque et toute situation où quelqu'un pourrait l'observer pendant qu'il mange. Les survivants décrivent souvent le moment où une voix familière a continué de parler tandis qu'une autre bouche s'ouvrait dans leur dos."
+    ]
+  },
+  "bestiaire-v15-jorogumo": {
+    "replace": [
+      "La Jorōgumo est une araignée ancienne capable de prendre une apparence humaine et de construire autour de ses victimes un piège aussi social que physique. Elle séduit, distrait ou rassure jusqu'à ce que les fils soient déjà placés, puis transforme une pièce, une maison ou un sous-sol en toile de chasse. Les plus patientes entretiennent plusieurs identités et ne tuent jamais assez vite pour attirer immédiatement l'attention.",
+      "Son rapport aux araignées ordinaires varie d'un individu à l'autre. Certaines les utilisent comme sentinelles et semblent percevoir les vibrations de dizaines de toiles à la fois ; d'autres vivent presque comme des solitaires humaines jusqu'au moment de chasser. Une cascade, un gouffre ou un ancien sanctuaire peut également abriter une présence portant le même nom sans partager cette nature prédatrice."
+    ]
+  },
+  "bestiaire-v15-rokurokubi-nukekubi": {
+    "replace": [
+      "Le Rokurokubi paraît humain tant que son corps respecte ses proportions ordinaires. La nuit, son cou peut s'allonger sur plusieurs mètres, franchir une fenêtre ou contourner une porte sans que le reste du corps se déplace. Chez le Nukekubi, la séparation va plus loin encore : la tête quitte entièrement les épaules et voyage seule pendant que le corps demeure inerte.",
+      "Tous ne contrôlent pas parfaitement cette transformation. Certains découvrent leur condition par les traces laissées au réveil, les témoignages terrifiés de proches ou la fatigue d'un corps qui a passé la nuit sans sa tête. D'autres l'emploient consciemment pour espionner, voler ou chasser, en prenant soin de cacher l'enveloppe vulnérable qu'ils abandonnent derrière eux."
+    ]
+  },
+  "bestiaire-v15-soucouyant": {
+    "replace": [
+      "La Soucouyant mène le jour une existence humaine assez discrète pour ne pas attirer l'attention. À la nuit tombée, elle se débarrasse de sa peau et prend la forme d'une lueur ardente capable de se glisser par une ouverture minuscule pour boire le sang ou l'énergie d'un dormeur. Avant l'aube, elle doit retrouver l'enveloppe laissée dans sa cache.",
+      "Cette peau est à la fois déguisement et faiblesse. La déplacer, l'endommager ou rendre impossible son retour force la créature à choisir entre une fuite désespérée et une confrontation qu'elle évite d'ordinaire. Les Soucouyants anciennes protègent donc leur cache avec autant de soin qu'un Vampire protège un refuge diurne."
+    ]
+  },
+  "bestiaire-v15-adze": {
+    "replace": [
+      "L'Adze voyage volontiers sous la forme d'une petite lumière ou d'un insecte que personne ne remarque avant qu'il soit déjà dans la maison. Il se nourrit de sang, de vitalité et de la faiblesse qu'il laisse derrière lui, provoquant des maladies que l'on attribue longtemps à une cause naturelle. Lorsqu'il est forcé de se montrer, sa présence devient beaucoup moins innocente que la luciole qu'il imitait.",
+      "Certains Adzes vivent liés à un sorcier ou à un hôte humain qui les nourrit, les dirige ou partage leur faim. Ce lien n'est jamais parfaitement sûr : la créature peut servir pendant des années puis commencer à prélever sur la famille de son maître. Déterminer si l'on poursuit l'Adze ou celui qui l'entretient change complètement la chasse."
+    ]
+  },
+  "bestiaire-v15-manananggal": {
+    "replace": [
+      "Le Manananggal possède un corps qui se sépare réellement. Lorsque vient le moment de chasser, le torse supérieur arrache son autonomie au reste de l'organisme, déploie ses ailes et part chercher une proie tandis que les jambes et le bassin demeurent cachés. Cette division lui donne une mobilité terrifiante mais transforme la moitié abandonnée en point de vulnérabilité.",
+      "Les plus prudents choisissent leur refuge avant leur victime. Toit inaccessible, pièce murée ou complice humain protègent la partie inférieure jusqu'au retour. Si l'aube approche et que la jonction reste impossible, le prédateur cesse souvent toute chasse et prend des risques considérables pour récupérer son corps."
+    ]
+  },
+  "bestiaire-v15-krasue": {
+    "replace": [
+      "La Krasue se manifeste comme une tête de femme flottant dans la nuit, ses viscères pendant sous elle comme une traîne vivante. Une lueur diffuse accompagne parfois son déplacement, donnant de loin l'impression d'un feu follet avant que l'on distingue la forme véritable. Elle recherche sang, chair fraîche et déchets organiques avec une discrétion que son anatomie rend pourtant difficile à maintenir.",
+      "Au repos, certaines Krasues semblent capables de reprendre une existence plus proche de l'humain, tandis que d'autres restent presque entièrement nocturnes. Leur plus grand avantage est la capacité à atteindre des lieux que personne n'imaginerait accessibles à un corps entier : fenêtre haute, toiture, ouverture de ventilation ou espace entre deux bâtiments."
+    ]
+  },
+  "bestiaire-v15-penanggalan": {
+    "replace": [
+      "La Penanggalan quitte son corps sous la forme d'une tête entraînant avec elle poumons, estomac et intestins. Elle vole ainsi dans la nuit à la recherche de sang et de tissus frais, puis revient avant le jour réintégrer l'enveloppe qu'elle a soigneusement dissimulée. Les viscères gonflés après un repas rendent parfois ce retour difficile.",
+      "Sa cache constitue le centre réel de son existence. Elle peut changer de territoire, de victimes et même d'identité tant que personne ne découvre le corps immobile auquel elle doit revenir. Les chasseurs qui suivent seulement la tête se condamnent à recommencer la poursuite chaque nuit ; ceux qui trouvent l'autre moitié peuvent enfin l'obliger à venir à eux."
+    ]
+  },
+  "bestiaire-v15-mapinguari": {
+    "replace": [
+      "Le Mapinguari est une masse de muscle, de cuir et de fourrure capable de traverser une végétation dense comme si elle n'existait pas. Son odeur précède souvent son arrivée et suffit parfois à faire fuir les animaux. Les témoins parlent d'un œil unique, d'une gueule placée trop bas sur le corps ou d'autres anatomies contradictoires, comme si plusieurs lignées avaient été confondues sous le même nom.",
+      "Il chasse rarement sur de longues distances. Le Mapinguari préfère un territoire qu'il connaît et où sa force compense sa lenteur : ravins, forêts serrées, berges boueuses et pistes où les véhicules ne peuvent pas manœuvrer. Le pousser en terrain ouvert réduit une partie de son avantage, sans pour autant rendre sa peau plus facile à traverser."
+    ]
+  },
+  "bestiaire-v15-bunyip": {
+    "replace": [
+      "Le Bunyip vit dans les billabongs, les marais et les trous d'eau où une grande créature peut demeurer invisible sous quelques mètres d'une eau opaque. Sa silhouette varie énormément : museau allongé, corps massif, fourrure humide ou peau lisse apparaissent selon les individus et les lieux. Ce qui demeure constant est sa capacité à frapper depuis un milieu que les hommes voient mal et connaissent encore moins.",
+      "Certains êtres appelés Bunyips ne se comportent pourtant pas comme des prédateurs. Dans des lieux anciens, le même nom peut désigner un gardien dont l'agressivité répond à la profanation d'un point d'eau ou à la violation d'une règle locale. Les habitants capables de distinguer les deux savent qu'une bête affamée et un esprit offensé ne se calment pas de la même manière."
+    ]
+  },
+  "bestiaire-v15-chupacabra": {
+    "replace": [
+      "Le Chupacabra est un petit prédateur nocturne spécialisé dans les animaux domestiques. Il approche sans bruit, frappe vite et laisse derrière lui des carcasses dont la perte de sang nourrit toutes les rumeurs. Sa taille modeste lui permet de se cacher dans des friches, des conduites, des bâtiments agricoles et des zones périurbaines où personne ne pense chercher une créature de Vérité.",
+      "Les individus isolés sont prudents, mais un territoire riche en élevages peut attirer plusieurs bêtes. Les attaques deviennent alors régulières, les chiens cessent de s'approcher de certaines clôtures et les habitants commencent à monter la garde. Ce changement de comportement humain finit souvent par rendre le Chupacabra plus dangereux que lorsqu'il pouvait se contenter de chèvres et de volailles."
+    ]
+  },
+  "bestiaire-v15-manticore": {
+    "replace": [
+      "La Manticore combine la masse et la détente d'un grand félin avec un visage trop humain pour que sa présence puisse être prise pour celle d'un animal ordinaire. Sa queue porte des dards ou un aiguillon capables de frapper au-delà de la portée de ses griffes. Elle chasse avec intelligence, choisissant volontiers un point élevé ou un passage étroit d'où elle peut harceler avant de bondir.",
+      "Le visage n'implique pas une pensée humaine. Une Manticore comprend le piège, la patience et parfois quelques mots appris, mais raisonne d'abord comme un prédateur territorial. Les plus anciennes reconnaissent les armes, les véhicules et les tactiques qui les ont déjà blessées, ce qui rend une seconde chasse beaucoup moins simple que la première."
+    ]
+  },
+  "bestiaire-v15-toyol-tuyul": {
+    "replace": [
+      "Le Toyol est un petit esprit entretenu par un propriétaire qui attend de lui vols, sabotages et enrichissement clandestin. Il se comporte souvent comme un enfant capricieux : curieux, joueur, jaloux de l'attention qu'on lui retire et parfaitement capable de transformer une mission simple en problème si on le néglige. Le service qu'il rend n'est jamais gratuit, même lorsque le prix n'est pas immédiatement visible.",
+      "Plus un maître s'appuie sur son Toyol, plus la relation devient difficile à rompre. L'esprit apprend les secrets de la maison, les cachettes et les habitudes de tous ceux qui y vivent. S'en débarrasser après des années revient donc à libérer une créature vexée qui sait exactement où frapper pour être regrettée."
+    ]
+  },
+  "bestiaire-v15-tokoloshe": {
+    "replace": [
+      "Le Tokoloshe se glisse dans les maisons comme une présence envoyée contre quelqu'un. Il provoque peur, maladie, cauchemars et agressions qui semblent d'abord sans auteur, puis laisse assez de signes pour que la victime comprenne qu'elle a été visée. Sa petite taille et sa capacité à disparaître dans l'obscurité lui permettent d'être proche bien avant d'être vu.",
+      "Certains agissent seuls, d'autres répondent à une personne qui les a appelés ou nourris. Dans ce second cas, la créature est autant message qu'arme : elle rappelle à la victime qu'un ennemi connaît son nom, sa maison et ses proches. Briser le lien avec l'expéditeur peut être plus durable que chasser chaque manifestation l'une après l'autre."
+    ]
+  },
+  "bestiaire-v15-impundulu-oiseau-foudre": {
+    "replace": [
+      "L'Impundulu est un grand oiseau noir et blanc dont l'arrivée accompagne l'orage et la foudre. Son cri se confond avec le tonnerre, et ceux qui l'ont vu de près parlent d'un prédateur attiré autant par le sang que par l'énergie des tempêtes. Certaines lignées de sorciers entretiennent avec lui un lien transmis de génération en génération.",
+      "Sous forme humaine, il peut circuler là où ses ailes attireraient immédiatement l'attention, mais l'orage semble toujours le suivre d'un peu trop près. Les familiers héréditaires connaissent les secrets de plusieurs générations et ne considèrent pas nécessairement le nouvel héritier comme leur maître légitime."
+    ]
+  },
+  "bestiaire-v15-inugami": {
+    "replace": [
+      "L'Inugami s'attache moins à un animal qu'à une lignée humaine. Il accompagne richesse, rancune, possession et maladie comme une présence familiale que certains héritiers reçoivent sans l'avoir désirée. Les maisons réputées liées à un Inugami peuvent ainsi être craintes bien avant qu'un esprit ne se manifeste ouvertement.",
+      "Le lien donne protection et influence, mais il exige aussi une place dans la famille. Un Inugami ignoré peut s'attaquer aux proches, provoquer des crises de possession ou rappeler violemment une ancienne dette. Ceux qui cherchent à rompre la relation découvrent souvent qu'elle a été nourrie par plusieurs générations de secrets et de services réciproques."
+    ]
+  },
+  "bestiaire-v15-tsukumogami": {
+    "replace": [
+      "Un Tsukumogami naît lorsqu'un objet ancien cesse d'être seulement une chose et développe une volonté propre. Parapluie, instrument, masque, théière ou outil portent alors les marques de décennies d'usage, d'abandon et de souvenirs humains. Leur caractère dépend autant de ce qu'ils étaient que de la manière dont on les a traités.",
+      "Un objet aimé peut devenir protecteur, un outil jeté après une vie de service rancunier, un instrument transmis dans une famille jaloux de celui qui l'a vendu. Deux Tsukumogami n'ont donc en commun que l'éveil : leurs désirs, leurs moyens d'agir et leur rapport aux humains suivent l'histoire matérielle qui les a précédés."
+    ]
+  },
+  "bestiaire-v15-mula-sem-cabeca": {
+    "replace": [
+      "La Mula-sem-cabeça est une personne condamnée à devenir, certaines nuits, une mule monstrueuse dont la tête disparaît dans un jaillissement de feu. La transformation emporte raison et voix, ne laissant qu'une course furieuse ponctuée de ruades, de flammes et du fracas du mors de fer qui accompagne la malédiction.",
+      "La faute que les hommes attribuent à la victime n'est pas forcément la cause réelle de la transformation. Malédiction familiale, vengeance occulte, pacte rompu ou condamnation imposée par un tiers peuvent produire le même monstre. Retirer le frein, comprendre celui qui a prononcé la peine ou reconstituer la première nuit de la métamorphose offre parfois une issue que la simple violence ne donne pas."
+    ]
+  },
+  "bestiaire-v15-la-patasola": {
+    "replace": [
+      "La Patasola attire les voyageurs isolés sous une apparence séduisante avant de révéler un corps monstrueux porté par une seule jambe d'une puissance étonnante. Elle connaît les chemins forestiers, les chantiers reculés et les habitudes de ceux qui travaillent loin des villes. Sa vitesse et son équilibre rendent trompeuse l'idée qu'une jambe unique la handicaperait.",
+      "Certaines Patasolas sont des victimes transformées qui répètent une violence qu'elles ont elles-mêmes subie. D'autres semblent davantage liées au territoire et s'attaquent surtout à ceux qui exploitent la forêt sans mesure. Les deux peuvent se ressembler assez pour que les premiers témoignages conduisent les chasseurs sur une fausse piste."
+    ]
+  },
+  "bestiaire-v15-basilic": {
+    "replace": [
+      "Le Basilic est un serpent de Vérité dont la seule présence impose aux autres animaux une distance instinctive. Son regard charge l'âme d'une violence presque tangible tandis que son souffle et son venin peuvent achever ceux qui résistent à cette première atteinte. Les vieux individus occupent souvent des ruines ou des galeries où les cadavres de petites bêtes dessinent un silence anormal autour de leur repaire.",
+      "Il n'a pas besoin de fixer longtemps sa victime. Un bref croisement de regards suffit à transmettre l'attaque, ce qui rend les espaces ouverts particulièrement dangereux. Miroirs, caméras et protections visuelles peuvent aider à éviter le contact direct, mais aucun dispositif ne change le fait qu'il reste un prédateur capable de se déplacer et de mordre."
+    ]
+  },
+  "bestiaire-v15-cocatrix": {
+    "replace": [
+      "Le Cocatrix mêle des traits de reptile et d'oiseau dans une anatomie que les anciens récits ont souvent confondue avec celle du Basilic. Plus mobile et nerveux, il attaque par bonds, battements d'ailes et coups de bec avant de laisser sa véritable marque : une altération qui raidit lentement les chairs et les transforme en matière minérale.",
+      "La pétrification n'est pas instantanée, ce qui rend les premiers symptômes trompeurs. Engourdissement, peau froide, perte de souplesse puis plaques dures progressent tant que l'effet n'est pas interrompu. Une victime sauvée à temps peut conserver longtemps une cicatrice de pierre rappelant que le Cocatrix n'a besoin que de quelques secondes pour condamner quelqu'un qui ignore ce qui lui arrive."
+    ]
+  },
+  "bestiaire-v15-ver-galactique-juvenile": {
+    "append": [
+      "Le juvénile se nourrit surtout de minéraux, de chaleur et de composés présents dans les sols qu'il traverse. Il ne chasse pas l'homme par nature, mais une rame de métro, une conduite chaude ou les fondations d'un bâtiment peuvent l'attirer exactement là où sa croissance devient catastrophique.",
+      "Sa taille n'est qu'un état temporaire. Tant qu'il trouve matière et énergie, le Ver ajoute des couches à son corps minéralisé et élargit ses galeries. L'urgence consiste donc moins à tuer un monstre qu'à empêcher une infestation locale de devenir un organisme que la ville elle-même ne pourra plus contenir."
+    ]
+  },
+  "bestiaire-v15-traqueur-de-soute": {
+    "append": [
+      "Le Traqueur mémorise rapidement la géométrie d'un vaisseau ou d'un entrepôt. Les conduites lui servent de pistes, les vibrations de pas de repères et les zones techniques de refuges où les hommes hésitent à tirer. Une meute installée depuis plusieurs semaines connaît parfois le bâtiment mieux que son personnel.",
+      "Il supporte mal l'isolement. Un individu séparé devient nerveux, prend davantage de risques et cherche en priorité à rejoindre les appels chimiques ou sonores des autres. Cette dépendance permet de déplacer une infestation, mais elle peut aussi attirer toute la meute vers celui qui essaie de l'imiter."
+    ]
+  },
+  "bestiaire-v15-fouisseur-siliceux": {
+    "append": [
+      "La carapace du Fouisseur reflète la géologie de son territoire. Dans un sol riche en fer elle prend des teintes sombres et métalliques ; près de certains chantiers, verre pilé, céramique et béton finissent intégrés aux plaques. Les biologistes reconnaissent ainsi parfois l'itinéraire d'un individu simplement en examinant un fragment de mue.",
+      "Ses œufs sont le vrai danger d'une infestation. Ils paraissent inertes, supportent dessiccation et transport, puis éclosent lorsque humidité et chaleur deviennent favorables. Détruire les adultes sans identifier le matériau contaminé ne fait souvent que repousser le problème de quelques semaines."
+    ]
+  },
+  "bestiaire-v15-planeur-de-brume": {
+    "append": [
+      "Le Planeur chasse en lisant les mouvements de l'air. Vapeur industrielle, brouillard côtier et pollution épaisse lui offrent à la fois camouflage et carte sensorielle des choses qui s'y déplacent. Une silhouette qui court dans la brume lui est parfois plus facile à suivre qu'à un humain qui la regarde directement.",
+      "À la lumière franche, ses membranes deviennent presque transparentes et révèlent des réseaux de vaisseaux colorés. Les colonies évitent donc les espaces secs et très éclairés, préférant les toits humides, les tours de refroidissement et les infrastructures où la condensation leur donne un véritable ciel intérieur."
+    ]
+  },
+  "bestiaire-v15-tique-de-coque": {
+    "append": [
+      "Une colonie commence par quelques organismes plats presque impossibles à distinguer d'un dépôt sur la coque. En se multipliant, ils forment des plaques reliées qui partagent chaleur et signaux d'alerte. Ce réseau se contracte lorsqu'on l'attaque, arrachant parfois avec lui câbles, isolants ou morceaux du support auquel il s'est soudé.",
+      "Les infestations anciennes modifient le fonctionnement du véhicule qu'elles occupent. Batteries qui se vident trop vite, conduites anormalement froides et capteurs dont les relevés dérivent sont souvent les premiers signes. Attendre que les parasites commencent à défendre leur colonie signifie généralement qu'ils se sont déjà installés beaucoup plus loin qu'on ne le pensait."
+    ]
+  },
+  "bestiaire-v15-leviathan-de-bassin": {
+    "append": [
+      "Un Léviathan élevé en captivité apprend vite les horaires de nourrissage, les vibrations des pompes et les bruits associés au personnel. Une fois libre, ces mêmes habitudes le conduisent vers les installations humaines : prises d'eau, moteurs, quais et bassins techniques deviennent pour lui des repères familiers plutôt que des obstacles.",
+      "Sa croissance dépend fortement de l'espace et de la nourriture disponibles. Dans un bassin fermé il reste gérable ; dans un estuaire ou un réseau portuaire, il peut atteindre une taille que ses premiers soigneurs n'avaient jamais observée. Les traces qu'il laisse alors ressemblent moins à celles d'un animal échappé qu'aux dégâts d'un véhicule sous-marin."
+    ]
+  }
+}
