@@ -2,11 +2,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
 import crypto from 'node:crypto';
+import vm from 'node:vm';
 
 const ROOT='character-builder/rulesets/terra-umbra/reality';
 const DATA='compendium/data';
 const ASSETS='compendium/assets';
 const MANIFEST=`${DATA}/manifest-v3.json`;
+const R47='character-builder/app.parts/47-reality-missing-augmentations.txt';
 const FRAGMENT_SIZE=8000;
 
 const NAME_KEYS=['name','nom','augmentation','equipement','equipment','service','vehicule','vehicle','neuroprogramme','item','designation'];
@@ -17,19 +19,15 @@ const CHARGE_KEYS=['charge'];
 const STRESS_KEYS=['stress'];
 const SLOT_KEYS=['slots','slot','emplacements','emplacement'];
 const EFFECT_KEYS=['effect','effet','fonction principale','fonction','usage','description','profil','speciaux','spéciaux'];
+const USEFUL_KEYS=['prix','price','cout','cost','generation','gen','charge','stress','effet','effect','usage','fonction','fonction principale','description','dgt','degats'];
 const CANONICAL_SKIP=new Set([...NAME_KEYS,...CATEGORY_KEYS,...GENERATION_KEYS,...PRICE_KEYS,...CHARGE_KEYS,...STRESS_KEYS,...SLOT_KEYS,...EFFECT_KEYS,'id','_path'].map(normText));
 
-function normText(value){
-  return String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
-}
-function slug(value){
-  return normText(value).replace(/\s+/g,'-').replace(/^-+|-+$/g,'')||'item';
-}
+function normText(value){return String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();}
+function slug(value){return normText(value).replace(/\s+/g,'-').replace(/^-+|-+$/g,'')||'item';}
 function field(obj,names){
   const entries=Object.entries(obj||{});
   for(const wanted of names){
-    const n=normText(wanted);
-    const hit=entries.find(([k])=>normText(k)===n);
+    const n=normText(wanted),hit=entries.find(([k])=>normText(k)===n);
     if(hit&&hit[1]!==undefined&&hit[1]!==null&&hit[1]!=='')return hit[1];
   }
   return null;
@@ -37,48 +35,84 @@ function field(obj,names){
 function numberValue(v){
   if(typeof v==='number')return Number.isFinite(v)?v:null;
   if(v===null||v===undefined)return null;
-  const m=String(v).replace(/\u00a0/g,' ').match(/-?\d[\d\s.,]*/);
-  if(!m)return null;
-  const n=Number(m[0].replace(/\s/g,'').replace(',','.'));
-  return Number.isFinite(n)?n:null;
+  const m=String(v).replace(/\u00a0/g,' ').match(/-?\d[\d\s.,]*/);if(!m)return null;
+  const n=Number(m[0].replace(/\s/g,'').replace(',','.'));return Number.isFinite(n)?n:null;
 }
 function collect(node,pathParts=[],out=[]){
   if(Array.isArray(node)){node.forEach((v,i)=>collect(v,pathParts.concat(i),out));return out;}
   if(!node||typeof node!=='object')return out;
-  const keys=Object.keys(node).map(normText);
-  const hasName=keys.some(k=>NAME_KEYS.map(normText).includes(k));
-  const hasUseful=keys.some(k=>['prix','price','cout','cost','generation','gen','charge','stress','effet','effect','usage','fonction','fonction principale','description','dgt','degats'].includes(k));
+  const keys=Object.keys(node).map(normText),nameKeys=NAME_KEYS.map(normText);
+  const hasName=keys.some(k=>nameKeys.includes(k)),hasUseful=keys.some(k=>USEFUL_KEYS.includes(k));
   if(hasName&&hasUseful){out.push({...node,_path:pathParts.join(' / ')});return out;}
   for(const [k,v] of Object.entries(node))if(v&&typeof v==='object')collect(v,pathParts.concat(k),out);
   return out;
 }
-function loadCompressed(file){
-  const b64=fs.readFileSync(file,'utf8').replace(/\s+/g,'');
-  const json=zlib.gunzipSync(Buffer.from(b64,'base64')).toString('utf8');
-  return JSON.parse(json);
+function decodeBase64Gzip(b64,label){
+  const clean=String(b64).replace(/^\uFEFF/,'').replace(/\s+/g,'');
+  if(!/^[A-Za-z0-9+/]*={0,2}$/.test(clean)||clean.length%4!==0)throw new Error(`${label}: Base64 invalide`);
+  return JSON.parse(zlib.gunzipSync(Buffer.from(clean,'base64')).toString('utf8'));
+}
+function loadCompressed(file){return decodeBase64Gzip(fs.readFileSync(file,'utf8'),file);}
+function loadSafe(name){
+  const safeDir=path.join(ROOT,'safe'),manifestPath=path.join(safeDir,`${name}.manifest.json`);
+  const manifest=JSON.parse(fs.readFileSync(manifestPath,'utf8'));
+  if(!Array.isArray(manifest.chunks)||!manifest.chunks.length)throw new Error(`${name}: manifeste safe sans fragments`);
+  const b64=manifest.chunks.map(file=>fs.readFileSync(path.join(safeDir,file),'utf8').replace(/\s+/g,'')).join('');
+  return {raw:decodeBase64Gzip(b64,`${name} safe`),manifest};
 }
 function normalizeCatalog(raw,kind){
-  const rows=collect(raw);
-  const seen=new Map();
+  const rows=collect(raw),seen=new Map();
   return rows.map((row,i)=>{
     const name=String(field(row,NAME_KEYS)||`Entrée ${i+1}`).trim();
     const category=String(field(row,CATEGORY_KEYS)||row._path||(kind==='augmentation'?'Augmentations':'Équipement')).trim();
-    const generation=numberValue(field(row,GENERATION_KEYS));
-    const price=numberValue(field(row,PRICE_KEYS));
-    const charge=numberValue(field(row,CHARGE_KEYS));
-    const stress=numberValue(field(row,STRESS_KEYS));
-    const slots=field(row,SLOT_KEYS);
-    const effect=String(field(row,EFFECT_KEYS)||'').trim();
-    const base=slug(`${kind}-${category}-${name}-${generation||0}-${price??'x'}`);
+    const generation=numberValue(field(row,GENERATION_KEYS)),price=numberValue(field(row,PRICE_KEYS));
+    const charge=numberValue(field(row,CHARGE_KEYS)),stress=numberValue(field(row,STRESS_KEYS));
+    const slots=field(row,SLOT_KEYS),effect=String(field(row,EFFECT_KEYS)||'').trim();
+    const base=String(field(row,['id'])||slug(`${kind}-${category}-${name}-${generation||0}-${price??'x'}`));
     const n=(seen.get(base)||0)+1;seen.set(base,n);
     const catalogId=n===1?base:`${base}-${n}`;
-    return {catalogId,kind,name,category,generation,price,charge,stress,slots,effect,raw:row};
+    return {catalogId,kind,name,category,generation,price,charge,stress,slots,effect,raw:row,sourceType:null};
   }).filter(x=>x.name&&!/^entree \d+$/i.test(normText(x.name)));
 }
-function stableVariant(text,count=4){
-  const h=crypto.createHash('sha1').update(text).digest();
-  return h[0]%count;
+function structuredEquipment(raw,sourceType){
+  const rows=Array.isArray(raw?.entries)?raw.entries:[];
+  return rows.map((row,i)=>{
+    const name=String(row.name||`Entrée ${i+1}`).trim(),mode=normText(String(row.priceMode||''));
+    const price=mode==='exact'?numberValue(row.price):numberValue(row.priceMin);
+    return {
+      catalogId:`${sourceType}-${row.id||slug(name)}`,kind:'equipment',name,
+      category:sourceType==='vehicle'?'Véhicules':`Neuroprogramme — ${row.category||'Divers'}`,
+      generation:null,price,charge:null,stress:null,slots:null,effect:String(row.effect||'').trim(),
+      raw:row,sourceType
+    };
+  });
 }
+function appendUniqueEquipment(target,items){
+  const existing=new Set(target.map(x=>normText(`${x.name}|${x.category}`)));
+  for(const item of items){const key=normText(`${item.name}|${item.category}`);if(existing.has(key))continue;existing.add(key);target.push(item);}
+}
+function r47Aug(id,name,category,generation,price,charge,stress,slots,effect,raw={}){
+  return {catalogId:`augmentation-v9-${id}`,kind:'augmentation',name,category,generation,price,charge,stress,slots,effect,sourceType:'v9-reconciliation',raw:{name,category,generation,price,charge,stress,slots,effect,...raw}};
+}
+function loadR47(){
+  const source=fs.readFileSync(R47,'utf8'),marker='const r47MissingAugmentations=';
+  const start=source.indexOf(marker);if(start<0)throw new Error('Réconciliation V9: liste r47 introuvable');
+  const exprStart=start+marker.length,end=source.indexOf(';\nconst r47Installed',exprStart);
+  if(end<0)throw new Error('Réconciliation V9: fin de liste r47 introuvable');
+  const expression=source.slice(exprStart,end).trim();
+  const rows=vm.runInNewContext(expression,{r47Aug},{timeout:1000});
+  if(!Array.isArray(rows))throw new Error('Réconciliation V9: liste invalide');
+  return rows;
+}
+function appendR47(target){
+  const existing=new Set(target.map(x=>`${normText(x.name)}|${x.generation??'x'}`));let installed=0;
+  for(const item of loadR47()){
+    const key=`${normText(item.name)}|${item.generation??'x'}`;
+    if(existing.has(key))continue;existing.add(key);target.push(item);installed++;
+  }
+  return installed;
+}
+function stableVariant(text,count=4){const h=crypto.createHash('sha1').update(text).digest();return h[0]%count;}
 function equipmentProfile(item){
   const s=normText(`${item.category} ${item.name} ${item.effect}`);
   if(/arme|pistolet|fusil|carabine|shotgun|mitrail|munition|lame|couteau|matraque|taser/.test(s))return ['l’armement civil, professionnel ou de sécurité','les personnels armés, convoyeurs, agents de sécurité et particuliers qui privilégient un matériel éprouvé','sa présence dit autant du niveau de risque accepté que du milieu dans lequel son porteur évolue'];
@@ -116,8 +150,7 @@ function generationLore(item){
   return 'Cette génération appartient aux technologies augmentiques éprouvées, largement comprises par les cliniques capables de les poser et de les entretenir.';
 }
 function loreParagraphs(item){
-  const [context,users,meaning]=item.kind==='augmentation'?augmentationProfile(item):equipmentProfile(item);
-  const v=stableVariant(`${item.name}|${item.category}|${item.generation??''}`);
+  const [context,users,meaning]=item.kind==='augmentation'?augmentationProfile(item):equipmentProfile(item),v=stableVariant(`${item.name}|${item.category}|${item.generation??''}`);
   const identity=item.kind==='augmentation'&&item.generation!==null?`${item.name} de génération ${item.generation}`:item.name;
   const first=[
     `Dans la Grande Californie, ${identity} appartient à ${context}. Son nom circule surtout chez ${users}.`,
@@ -126,8 +159,8 @@ function loreParagraphs(item){
     `Dans les vitrines, ateliers et réseaux spécialisés de la Grande Californie, ${identity} relève de ${context}. Il est surtout recherché par ${users}.`
   ][v];
   const second=item.kind==='augmentation'
-    ? `${priceLore(item.price)} ${generationLore(item)} Pour ${identity}, une pose sérieuse suppose suivi, entretien et acceptation des contraintes propres à ce type d’implant.`.replace(/\s+/g,' ').trim()
-    : `${priceLore(item.price)} Pour ${item.name}, dans la famille « ${item.category} », ${meaning}.`;
+    ?`${priceLore(item.price)} ${generationLore(item)} Pour ${identity}, une pose sérieuse suppose suivi, entretien et acceptation des contraintes propres à ce type d’implant.`.replace(/\s+/g,' ').trim()
+    :`${priceLore(item.price)} Pour ${item.name}, dans la famille « ${item.category} », ${meaning}.`;
   return [first,second];
 }
 function displayValue(value){
@@ -137,87 +170,85 @@ function displayValue(value){
   if(typeof value==='boolean')return value?'Oui':'Non';
   return String(value).trim();
 }
-function labelKey(key){
-  return String(key).replace(/[_-]+/g,' ').replace(/\b\w/g,m=>m.toUpperCase());
-}
+function labelKey(key){return String(key).replace(/[_-]+/g,' ').replace(/\b\w/g,m=>m.toUpperCase());}
 function mechanicsRows(item){
-  const rows=[];
-  const add=(label,value)=>{const s=displayValue(value);if(s)rows.push([label,s]);};
-  add('Catégorie',item.category);
-  add('Prix',field(item.raw,PRICE_KEYS));
+  const rows=[],add=(label,value)=>{const s=displayValue(value);if(s)rows.push([label,s]);};
+  add('Catégorie',item.category);add('Prix',field(item.raw,PRICE_KEYS));
   if(item.kind==='augmentation')add('Génération',field(item.raw,GENERATION_KEYS));
-  add('Charge',field(item.raw,CHARGE_KEYS));
-  add('Stress',field(item.raw,STRESS_KEYS));
-  add('Emplacements',field(item.raw,SLOT_KEYS));
-  add('Effet / usage',field(item.raw,EFFECT_KEYS));
-  for(const [key,value] of Object.entries(item.raw)){
+  add('Charge',field(item.raw,CHARGE_KEYS));add('Stress',field(item.raw,STRESS_KEYS));add('Emplacements',field(item.raw,SLOT_KEYS));add('Effet / usage',field(item.raw,EFFECT_KEYS));
+  for(const [key,value] of Object.entries(item.raw||{})){
     if(CANONICAL_SKIP.has(normText(key)))continue;
     if(value&&typeof value==='object'&&!Array.isArray(value))continue;
-    const shown=displayValue(value);if(!shown)continue;
-    rows.push([labelKey(key),shown]);
+    const shown=displayValue(value);if(shown)rows.push([labelKey(key),shown]);
   }
-  const uniq=[];const seen=new Set();
-  for(const row of rows){const k=`${normText(row[0])}|${row[1]}`;if(seen.has(k))continue;seen.add(k);uniq.push(row);}
-  return uniq;
+  const uniq=[],seen=new Set();for(const row of rows){const k=`${normText(row[0])}|${row[1]}`;if(seen.has(k))continue;seen.add(k);uniq.push(row);}return uniq;
+}
+function baseTitle(item){return item.kind==='augmentation'&&item.generation!==null?`${item.name} — Génération ${item.generation}`:item.name;}
+function assignDisplayTitles(items){
+  const groups=new Map();for(const item of items){const key=normText(baseTitle(item));if(!groups.has(key))groups.set(key,[]);groups.get(key).push(item);}
+  for(const group of groups.values()){
+    if(group.length===1){group[0].displayTitle=baseTitle(group[0]);continue;}
+    let candidates=group.map(item=>`${baseTitle(item)} — ${item.category}`);
+    const counts=new Map();for(const t of candidates)counts.set(normText(t),(counts.get(normText(t))||0)+1);
+    candidates=candidates.map((t,i)=>counts.get(normText(t))===1?t:`${t} — ${group[i].price!==null?`${group[i].price} $`:String(field(group[i].raw,PRICE_KEYS)||'prix distinct')}`);
+    const seen=new Set();for(let i=0;i<group.length;i++){
+      const key=normText(candidates[i]);
+      if(seen.has(key))throw new Error(`Collision réelle non résolue: ${baseTitle(group[i])} (${group[i].category})`);
+      seen.add(key);group[i].displayTitle=candidates[i];
+    }
+  }
 }
 function articleFor(item,index){
-  const category=item.kind==='augmentation'?'Augmentations':'Équipement';
-  const prefix=item.kind==='augmentation'?'augmentation':'equipement';
-  const displayTitle=item.kind==='augmentation'&&item.generation!==null?`${item.name} — Génération ${item.generation}`:item.name;
-  const [p1,p2]=loreParagraphs(item);
-  const tags=['Réalité',category,item.category].filter(Boolean);
+  const category=item.kind==='augmentation'?'Augmentations':'Équipement',prefix=item.kind==='augmentation'?'augmentation':'equipement';
+  const displayTitle=item.displayTitle||baseTitle(item),[p1,p2]=loreParagraphs(item),tags=['Réalité',category,item.category].filter(Boolean);
   if(item.kind==='augmentation'&&item.generation!==null)tags.push(`Génération ${item.generation}`);
   return {
-    id:`${prefix}-${String(index+1).padStart(3,'0')}-${slug(item.name)}`,
-    title:displayTitle,
-    category,
-    status:'canon_recent',
-    source:'Catalogue Réalité du Builder',
-    tags:[...new Set(tags)],
+    id:`${prefix}-${String(index+1).padStart(3,'0')}-${slug(item.name)}`,title:displayTitle,category,status:'canon_recent',source:'Catalogue Réalité du Builder',tags:[...new Set(tags)],
     illustration:{src:item.kind==='augmentation'?'assets/augmentation-placeholder.svg':'assets/equipment-placeholder.svg',alt:`Illustration de ${displayTitle}`,caption:'Illustration à venir'},
-    catalog:{kind:item.kind,id:item.catalogId,category:item.category,generation:item.generation,price:item.price},
+    catalog:{kind:item.kind,id:item.catalogId,category:item.category,generation:item.generation,price:item.price,sourceType:item.sourceType||null},
     sections:[
       {id:'contexte',title:'Dans la Grande Californie',level:2,blocks:[{type:'p',style:'lore',text:p1},{type:'p',style:'lore',text:p2}]},
-      {id:'proprietes',title:'Propriétés mécaniques',level:2,blocks:[{type:'table',rows:mechanicsRows(item)}]}
+      {id:'proprietes',title:'Propriétés',level:2,blocks:[{type:'table',rows:mechanicsRows(item)}]}
     ]
   };
 }
 function writeDataset(id,prefix,rows){
   for(const file of fs.readdirSync(DATA))if(file.startsWith(`${prefix}-`)&&file.endsWith('.b64part'))fs.unlinkSync(path.join(DATA,file));
-  const payload=JSON.stringify(rows);
-  const b64=zlib.gzipSync(Buffer.from(payload,'utf8'),{level:9}).toString('base64');
-  const parts=Math.ceil(b64.length/FRAGMENT_SIZE);
+  const payload=JSON.stringify(rows),b64=zlib.gzipSync(Buffer.from(payload,'utf8'),{level:9}).toString('base64'),parts=Math.ceil(b64.length/FRAGMENT_SIZE);
   for(let i=0;i<parts;i++)fs.writeFileSync(path.join(DATA,`${prefix}-${String(i).padStart(2,'0')}.b64part`),b64.slice(i*FRAGMENT_SIZE,(i+1)*FRAGMENT_SIZE));
   return {id,prefix,parts,count:rows.length,sha256:crypto.createHash('sha256').update(b64).digest('hex')};
 }
-function placeholder(title,subtitle){
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675"><rect width="1200" height="675" fill="#101820"/><rect x="36" y="36" width="1128" height="603" rx="24" fill="none" stroke="#63717b" stroke-width="3" stroke-dasharray="14 12"/><text x="600" y="315" text-anchor="middle" fill="#d6dde2" font-family="Arial,sans-serif" font-size="48">${title}</text><text x="600" y="370" text-anchor="middle" fill="#8d9aa3" font-family="Arial,sans-serif" font-size="24">${subtitle}</text></svg>`;
-}
+function placeholder(title,subtitle){return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675"><rect width="1200" height="675" fill="#101820"/><rect x="36" y="36" width="1128" height="603" rx="24" fill="none" stroke="#63717b" stroke-width="3" stroke-dasharray="14 12"/><text x="600" y="315" text-anchor="middle" fill="#d6dde2" font-family="Arial,sans-serif" font-size="48">${title}</text><text x="600" y="370" text-anchor="middle" fill="#8d9aa3" font-family="Arial,sans-serif" font-size="24">${subtitle}</text></svg>`;}
 
 fs.mkdirSync(DATA,{recursive:true});fs.mkdirSync(ASSETS,{recursive:true});
-const augRaw=loadCompressed(`${ROOT}/augmentations.json.gz.b64`);
-const equipRaw=loadCompressed(`${ROOT}/equipment.json.gz.b64`);
-const augItems=normalizeCatalog(augRaw,'augmentation');
-const equipItems=normalizeCatalog(equipRaw,'equipment');
-if(!augItems.length||!equipItems.length)throw new Error(`Catalogues vides: augmentations=${augItems.length}, équipement=${equipItems.length}`);
-const augRows=augItems.map(articleFor);
-const equipRows=equipItems.map(articleFor);
-if(new Set([...augRows,...equipRows].map(x=>x.id)).size!==augRows.length+equipRows.length)throw new Error('IDs de pages catalogue dupliqués');
+const augRaw=loadCompressed(`${ROOT}/augmentations.json.gz.b64`),equipSafe=loadSafe('equipment'),neuroSafe=loadSafe('neuroprograms'),vehicleSafe=loadSafe('vehicles');
+const augItems=normalizeCatalog(augRaw,'augmentation'),equipItems=normalizeCatalog(equipSafe.raw,'equipment');
+const installedR47=appendR47(augItems);
+appendUniqueEquipment(equipItems,structuredEquipment(neuroSafe.raw,'neuroprogram'));
+appendUniqueEquipment(equipItems,structuredEquipment(vehicleSafe.raw,'vehicle'));
 
-const equipSpec=writeDataset('equipement','v3-equipement-builder-v1',equipRows);
-const augSpec=writeDataset('augmentations','v3-augmentations-builder-v1',augRows);
+const expectedEquipment=Number(equipSafe.manifest.entries||0)+Number(neuroSafe.manifest.entries||0)+Number(vehicleSafe.manifest.entries||0);
+if(equipItems.length!==expectedEquipment)throw new Error(`Parité Builder équipement: ${equipItems.length}, attendu ${expectedEquipment}`);
+if(installedR47!==14||augItems.length!==146)throw new Error(`Parité Builder augmentations: ${augItems.length}, réconciliation V9 installée ${installedR47}/14`);
+const faceCasters=equipItems.filter(x=>normText(x.name)==='facecaster dfl');
+if(faceCasters.length!==1)throw new Error(`FaceCaster DFL: ${faceCasters.length} occurrences dans la source runtime safe`);
+assignDisplayTitles(equipItems);assignDisplayTitles(augItems);
+
+const augRows=augItems.map(articleFor),equipRows=equipItems.map(articleFor),allRows=[...augRows,...equipRows];
+if(new Set(allRows.map(x=>x.id)).size!==allRows.length)throw new Error('IDs de pages catalogue dupliqués');
+if(new Set(allRows.map(x=>`${x.category}|${normText(x.title)}`)).size!==allRows.length)throw new Error('Titres de pages catalogue dupliqués');
+
+const equipSpec=writeDataset('equipement','v3-equipement-builder-v1',equipRows),augSpec=writeDataset('augmentations','v3-augmentations-builder-v1',augRows);
 fs.writeFileSync(`${ASSETS}/equipment-placeholder.svg`,placeholder('Illustration à venir','Équipement · Terra Umbra California'));
 fs.writeFileSync(`${ASSETS}/augmentation-placeholder.svg`,placeholder('Illustration à venir','Augmentation · Terra Umbra California'));
 
-const manifest=JSON.parse(fs.readFileSync(MANIFEST,'utf8'));
-manifest.generated=new Date().toISOString().slice(0,10);
+const manifest=JSON.parse(fs.readFileSync(MANIFEST,'utf8'));manifest.generated=new Date().toISOString().slice(0,10);
 for(const cat of ['Équipement','Augmentations'])if(!manifest.categories.includes(cat))manifest.categories.push(cat);
 manifest.datasets=manifest.datasets.filter(x=>!['equipement','augmentations'].includes(x.id));
-const realityIndex=manifest.datasets.findIndex(x=>x.id==='realite');
-manifest.datasets.splice(realityIndex>=0?realityIndex+1:manifest.datasets.length,0,equipSpec,augSpec);
-manifest.expectedTotal=manifest.datasets.reduce((sum,x)=>sum+Number(x.count||0),0);
-fs.writeFileSync(MANIFEST,JSON.stringify(manifest,null,2)+'\n');
+const realityIndex=manifest.datasets.findIndex(x=>x.id==='realite');manifest.datasets.splice(realityIndex>=0?realityIndex+1:manifest.datasets.length,0,equipSpec,augSpec);
+manifest.expectedTotal=manifest.datasets.reduce((sum,x)=>sum+Number(x.count||0),0);fs.writeFileSync(MANIFEST,JSON.stringify(manifest,null,2)+'\n');
 
 console.log(`Catalogue Compendium généré — ${equipRows.length} équipements · ${augRows.length} augmentations · total V3 ${manifest.expectedTotal}`);
-console.log(`Équipement SHA ${equipSpec.sha256}`);
-console.log(`Augmentations SHA ${augSpec.sha256}`);
+console.log(`Sources runtime — base équipement ${equipSafe.manifest.entries} + Neuro ${neuroSafe.manifest.entries} + véhicules ${vehicleSafe.manifest.entries} · augmentations base ${augItems.length-installedR47} + V9 ${installedR47}`);
+console.log(`FaceCaster DFL — ${faceCasters.length} entrée runtime.`);
+console.log(`Équipement SHA ${equipSpec.sha256}`);console.log(`Augmentations SHA ${augSpec.sha256}`);
