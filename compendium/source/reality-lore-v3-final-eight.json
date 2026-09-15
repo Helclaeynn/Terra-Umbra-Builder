@@ -27,7 +27,7 @@
       "source": "Réalité V9 CROSSAUDIT — 9.1 Soins et assurances",
       "paragraphs": [
         "CareForce Silver est un niveau de couverture médicale CareForce offrant une priorité et une couverture supérieures aux formules d’entrée de gamme. Il représente une prise en charge organisée et durable, et non un bonus automatique appliqué à chaque problème de santé.",
-        "Dans le corpus Crawler, cette couverture correspond directement au Talent Assurance Silver. Son intérêt concret est donc l’accès au niveau de service prévu par cette assurance lorsque des soins ou une intervention doivent réellement être obtenus."
+        "Pour les Crawlers, cette couverture correspond directement au Talent Assurance Silver. Son intérêt concret est donc l’accès au niveau de service prévu par cette assurance lorsque des soins ou une intervention doivent réellement être obtenus."
       ]
     },
     "Clinique courante": {
@@ -55,7 +55,7 @@
       "source": "Réalité V9 CROSSAUDIT — 9.2 Formation, expertise et services / Talents Corporatistes",
       "paragraphs": [
         "Un service juridique fournit du conseil et de la représentation dans une affaire réelle. Il s’agit d’une compétence professionnelle mobilisée pour une situation précise, souvent fournie ou organisée par une institution plutôt que d’un avantage générique attaché au personnage.",
-        "Le corpus corporatiste montre cette logique directement : l’avantage Service juridique donne une assistance légale pour les affaires relevant réellement du travail. L’étendue de l’aide dépend donc du dossier, du cadre institutionnel et du domaine dans lequel la représentation est effectivement assurée."
+        "Dans un cadre corporatiste, l’avantage Service juridique donne une assistance légale pour les affaires relevant réellement du travail. L’étendue de l’aide dépend donc du dossier, du cadre institutionnel et du domaine dans lequel la représentation est effectivement assurée."
       ]
     }
   }
