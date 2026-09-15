@@ -32,10 +32,21 @@ function page(title){return visible.find(item=>norm(item.title)===norm(title))}
 function requireSections(title,names){const sections=new Set((page(title).sections||[]).map(section=>section.title));for(const name of names)if(!sections.has(name))throw new Error(`${title}: section manquante ${name}`)}
 requireSections('14. Daemons',['Une âme choisie','Les Temples anciens','Après la Guerre céleste','Les Daemons en 2035']);
 requireSections('16. Aseryns',['Les Treize','Atlantide, catastrophes et diasporas','Accelyr : une culture à la vitesse du corps','Les Aseryns en 2035']);
-requireSections('18. Extrals, Homo Superior et Ad’rak',['Des peuples de l’Histoire galactique','Le GAAC et les communautés terrestres','L’AIDH et Ichéi','Une culture terrestre extrale en train de naître']);
+requireSections('18. Extrals, Homo Superior et Ad’rak',[
+  'Des peuples de l’Histoire galactique',
+  'Le GAAC et les communautés terrestres',
+  'L’AIDH et Ichéi',
+  'Hydroguard et THDF — vivre là où l’environnement tue avant l’ennemi',
+  'SMRC et AGI — rendre les corps compatibles',
+  'SRA — chercher sans transformer chaque réponse en pouvoir',
+  'Émeraude Sanglante — une réponse radicale à l’Armée noire',
+  'Une culture terrestre extrale en train de naître'
+]);
+const extrals=textOf(page('18. Extrals, Homo Superior et Ad’rak'));
+for(const needle of ['THDF','SMRC','AGI','Shadow Research Agency','Émeraude Sanglante','Armée noire'])if(!extrals.includes(needle))throw new Error(`Extrals: couverture V6 manquante (${needle})`);
 for(const title of ['Talass','Mo’sen','Baséanh','Rocréen','Thalsios','Homo Superior','Ad’rak'])if((page(title).sections||[]).length<3)throw new Error(`${title}: fiche trop mince`);
 const adrak=textOf(page('Ad’rak'));if(!/2[,.]60\s*m/i.test(adrak)||!/2[,.]20\s*m/i.test(adrak)||!/Arm[eé]e noire/i.test(adrak))throw new Error('Ad’rak: taille ou contexte Armée noire incomplet');
 const homo=textOf(page('Homo Superior'));if(!/restent? Humains?/i.test(homo)||!/AIDH/i.test(homo))throw new Error('Homo Superior: nature humaine/AIDH incomplète');
 const extralSpecies=['Talass','Mo’sen','Baséanh','Rocréen','Thalsios'];for(const title of extralSpecies)if(!(page(title).tags||[]).includes('Extrals'))throw new Error(`${title}: tag Extrals absent`);
 const ids=new Set();for(const item of [...truth,...legacy]){if(ids.has(item.id))throw new Error(`ID global dupliqué: ${item.id}`);ids.add(item.id)}
-console.log(`LORE PEUPLES V6 OK — 10 pages book-first · Vérité ${truth.length} · legacy ${legacy.length} · aucun doublon ni mécanique.`);
+console.log(`LORE PEUPLES V6 OK — 10 pages book-first · Vérité ${truth.length} · legacy ${legacy.length} · couverture organisations Extrals verrouillée · aucun doublon ni mécanique.`);
