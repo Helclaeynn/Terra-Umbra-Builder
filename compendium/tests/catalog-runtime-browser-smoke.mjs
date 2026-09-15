@@ -21,7 +21,7 @@ async function filterCategory(text){
 async function assertArticleBasics(label){
   await page.waitForSelector('#main .page-head h1',{timeout:10000});
   const media=page.locator('#main .article-media img');
-  if(await media.count()!==1)throw new Error(`${label}: emplacement d’illustration non rendu`);
+  if(await media.count()!==1)throw new Error(`${label}: emplacement d’illustration principal non rendu`);
   const context=page.locator('#main section#contexte .body-p.lore');
   if(await context.count()<2)throw new Error(`${label}: deux paragraphes de lore communs non rendus`);
 }
@@ -40,16 +40,20 @@ try{
   const generationSections=page.locator('#main .section').filter({has:page.locator('h2')});
   let generationLoreSeen=0;
   let tablesSeen=0;
+  let illustrationSlotsSeen=0;
   for(let i=0;i<await generationSections.count();i++){
     const section=generationSections.nth(i);
     const heading=(await section.locator('h2').textContent()||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
     if(!heading.includes('generation '))continue;
     if(await section.locator('.body-p.lore').count()<1)throw new Error(`Cybermain / ${heading}: lore spécifique non rendu`);
     if(await section.locator('.doc-table').count()<1)throw new Error(`Cybermain / ${heading}: tableau mécanique non rendu`);
+    const illustration=section.locator('.body-p.callout').filter({hasText:'Illustration à venir'});
+    if(await illustration.count()<1)throw new Error(`Cybermain / ${heading}: emplacement d’illustration de génération non rendu`);
     generationLoreSeen++;
     tablesSeen++;
+    illustrationSlotsSeen++;
   }
-  if(generationLoreSeen<2||tablesSeen<2)throw new Error('Cybermain: sections génération incomplètes');
+  if(generationLoreSeen<2||tablesSeen<2||illustrationSlotsSeen<2)throw new Error('Cybermain: sections génération incomplètes');
 
   await gotoCategory('Équipement');
   await filterCategory('FaceCaster DFL');
@@ -69,7 +73,7 @@ try{
   if(await page.locator('#main .doc-table').count()<1)throw new Error('Neuroprogramme: tableau mécanique non rendu');
 
   if(errors.length)throw new Error(`Erreurs navigateur:\n${errors.join('\n')}`);
-  console.log(`Browser smoke OK — ${augmentationCount} pages d’augmentations groupées · Cybermain Gen.1+Gen.2 · FaceCaster unique · ${neuroCount} Neuroprogrammes.`);
+  console.log(`Browser smoke OK — ${augmentationCount} pages d’augmentations groupées · Cybermain Gen.1+Gen.2 avec lore/table/illustration · FaceCaster unique · ${neuroCount} Neuroprogrammes.`);
 }finally{
   await browser.close();
 }
