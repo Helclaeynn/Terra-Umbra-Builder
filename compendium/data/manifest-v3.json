@@ -57,9 +57,13 @@
     {
       "id": "verite-catalogue",
       "prefix": "v3-verite-catalogue-v6",
-      "parts": 9,
+      "parts": 12,
       "count": 229,
-      "sha256": "5be18008292b479eafb5f1a8baa969d82ca7cfc94ce9225508746a76502cd863"
+      "sha256": "8c5e742b585d7e16ef401ad823645aa869b4311d27d147848282caf8ad614ec2",
+      "quality": {
+        "loreVersion": 2,
+        "maxIdenticalTextRatio": 0.6
+      }
     },
     {
       "id": "bestiaire",
