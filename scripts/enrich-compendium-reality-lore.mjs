@@ -89,23 +89,35 @@ function describeIdentity(page,category){
 function factSentence(facts,limit=3){
   const picked=facts.slice(0,limit);
   if(!picked.length)return '';
-  if(picked.length===1)return `Son profil indique ${compactFact(picked[0])}.`;
+  if(picked.length===1)return `Sa caractéristique « ${picked[0][0]} » est donnée à ${picked[0][1]}.`;
   const rendered=picked.map(compactFact);
-  return `Son profil combine ${rendered.slice(0,-1).join(', ')} et ${rendered.at(-1)}.`;
+  return `Ses caractéristiques associent ${rendered.slice(0,-1).join(', ')} et ${rendered.at(-1)}.`;
+}
+function ensureConcreteLength(text,page,category,rows){
+  let out=String(text||'').replace(/\s+/g,' ').trim();
+  if(out.length>=45)return out;
+  const candidates=uniqueRows(rows).filter(([label])=>!/^id$/i.test(norm(label)));
+  const extra=candidates.find(([label,value])=>!norm(out).includes(norm(value))&&!norm(out).includes(norm(label)));
+  if(extra)out=`${out} Pour ${page.title}, « ${extra[0]} » est indiqué à ${extra[1]}.`.trim();
+  if(out.length<45&&category)out=`${out} Cette référence appartient à la catégorie « ${category} ».`.trim();
+  return out;
 }
 function equipmentLore(page){
   const rows=allTableRows(page),category=categoryValue(page,rows),effect=effectValue(rows),price=priceValue(rows),facts=concreteRows(rows);
   const p1=[describeIdentity(page,category)];
-  if(effect)p1.push(`Sa fonction ou son usage est explicitement décrit ainsi : « ${punctuate(effect).replace(/[.]$/,'')} ».`);
+  if(effect)p1.push(`Sa fonction ou son usage est décrit ainsi : « ${punctuate(effect).replace(/[.]$/,'')} ».`);
   else if(facts.length)p1.push(factSentence(facts,2));
 
   const remaining=effect?facts:facts.slice(2);
   const p2=[];
   if(remaining.length)p2.push(factSentence(remaining,3));
-  if(price)p2.push(`Le prix indiqué pour ce modèle est ${punctuate(price)}`);
+  if(price)p2.push(`Dans la catégorie « ${category||'Équipement'} », le prix de référence de ${page.title} est fixé à ${punctuate(price)}`);
   if(!p2.length&&facts.length)p2.push(factSentence(facts,3));
-  if(!p2.length)p2.push(`La classification « ${category||'Équipement'} » constitue son principal élément distinctif actuellement documenté.`);
-  return [p1.join(' ').replace(/\s+/g,' ').trim(),p2.join(' ').replace(/\s+/g,' ').trim()];
+  if(!p2.length)p2.push(`${page.title} ne dispose pas d’autre propriété chiffrée que celles associées à sa classification « ${category||'Équipement'} ».`);
+  return [
+    ensureConcreteLength(p1.join(' '),page,category,rows),
+    ensureConcreteLength(p2.join(' '),page,category,rows)
+  ];
 }
 function augmentationLore(page){
   const sections=(page.sections||[]).filter(section=>section.id!=='contexte');
@@ -117,16 +129,19 @@ function augmentationLore(page){
   const facts=concreteRows(rows);
   const p1=[`${page.title} est une augmentation de la famille « ${category} ».`];
   if(effects.length===1)p1.push(`Sa fonction est décrite ainsi : « ${punctuate(effects[0]).replace(/[.]$/,'')} ».`);
-  else if(effects.length>1)p1.push(`Ses variantes couvrent plusieurs effets documentés : ${effects.slice(0,3).map(x=>`« ${punctuate(x).replace(/[.]$/,'')} »`).join(' ; ')}.`);
+  else if(effects.length>1)p1.push(`Ses variantes couvrent plusieurs effets distincts : ${effects.slice(0,3).map(x=>`« ${punctuate(x).replace(/[.]$/,'')} »`).join(' ; ')}.`);
   else if(facts.length)p1.push(factSentence(facts,2));
 
   const p2=[];
   if(generations.length)p2.push(`Elle existe ici en ${generations.map(g=>`génération ${g}`).join(' et ')}.`);
   if(facts.length)p2.push(factSentence(facts,3));
-  if(prices.length===1)p2.push(`Le prix indiqué est ${punctuate(prices[0])}`);
-  else if(prices.length>1)p2.push(`Selon la variante, les prix indiqués sont ${prices.slice(0,4).join(', ')}.`);
-  if(!p2.length)p2.push(`Ses variantes documentées relèvent toutes de la même fonction générale, avec des implantations distinctes selon la génération.`);
-  return [p1.join(' ').replace(/\s+/g,' ').trim(),p2.join(' ').replace(/\s+/g,' ').trim()];
+  if(prices.length===1)p2.push(`Le prix de référence de ${page.title} est fixé à ${punctuate(prices[0])}`);
+  else if(prices.length>1)p2.push(`Selon la variante, ses prix de référence sont ${prices.slice(0,4).join(', ')}.`);
+  if(!p2.length)p2.push(`${page.title} conserve la même fonction générale dans les configurations techniques listées pour cette augmentation.`);
+  return [
+    ensureConcreteLength(p1.join(' '),page,category,rows),
+    ensureConcreteLength(p2.join(' '),page,category,rows)
+  ];
 }
 function replaceContext(page,paragraphs){
   const section=(page.sections||[]).find(section=>section.id==='contexte');
@@ -138,6 +153,7 @@ function replaceContext(page,paragraphs){
 
 const manifest=JSON.parse(fs.readFileSync(MANIFEST,'utf8'));
 let total=0;
+let bastionTrace=null;
 for(const id of DATASETS){
   const spec=manifest.datasets.find(item=>item.id===id);
   if(!spec)throw new Error(`Dataset ${id} absent du manifeste`);
@@ -146,10 +162,14 @@ for(const id of DATASETS){
     const paragraphs=id==='equipement'?equipmentLore(page):augmentationLore(page);
     if(paragraphs.some(text=>text.length<45))throw new Error(`${page.title}: lore Réalité trop court`);
     replaceContext(page,paragraphs);
+    if(id==='equipement'&&norm(page.title)==='bastion')bastionTrace={paragraphs,rows:allTableRows(page)};
   }
   writeDataset(spec,pages);total+=pages.length;
   console.log(`Lore Réalité V2 enrichi — ${id}: ${pages.length} pages · SHA ${spec.sha256}`);
 }
+if(!bastionTrace)throw new Error('Bastion: page introuvable après enrichissement');
+console.log(`Bastion contrôle — ${bastionTrace.paragraphs.join(' || ')}`);
+console.log(`Bastion propriétés — ${bastionTrace.rows.map(row=>`${rowLabel(row)}=${rowValue(row)}`).join(' · ')}`);
 manifest.expectedTotal=manifest.datasets.reduce((sum,item)=>sum+Number(item.count||0),0);
 fs.writeFileSync(MANIFEST,JSON.stringify(manifest,null,2)+'\n');
 console.log(`Lore Réalité V2 — ${total} pages réécrites depuis leurs propriétés documentées.`);
