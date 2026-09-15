@@ -6,6 +6,8 @@ on:
     paths:
       - 'compendium/source/verite-catalog-v6.json'
       - 'compendium/source/verite-catalog-v6.json.gz.b64'
+      - 'compendium/source/verite-catalog-v6-*.b64part'
+      - 'scripts/assemble-compendium-truth-source.mjs'
       - 'scripts/build-compendium-truth-catalog.mjs'
       - 'compendium/tests/truth-catalog-pages-check.mjs'
       - 'compendium/tests/truth-catalog-runtime-browser-smoke.mjs'
@@ -26,6 +28,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Assemble and verify Vérité V6 source
+        run: node scripts/assemble-compendium-truth-source.mjs
       - name: Generate Truth catalog pages from Vérité V6 source
         run: node scripts/build-compendium-truth-catalog.mjs
       - name: Validate Truth catalog pages
@@ -52,7 +56,7 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -A compendium/data compendium/assets/truth-catalog-placeholder.svg compendium/assets/truth-artifact-placeholder.svg
+          git add -A compendium/data compendium/assets/truth-catalog-placeholder.svg compendium/assets/truth-artifact-placeholder.svg compendium/source/verite-catalog-v6.json.gz.b64
           if git diff --cached --quiet; then
             echo 'No generated Truth catalog changes.'
             exit 0
