@@ -6,6 +6,7 @@ on:
       - preview/lore
     paths:
       - 'scripts/build-compendium-catalog-pages.mjs'
+      - 'scripts/normalize-augmentation-gzip.mjs'
       - '.github/workflows/compendium-catalog-build.yml'
   workflow_dispatch:
 
@@ -23,6 +24,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Normalize legacy augmentation package
+        run: node scripts/normalize-augmentation-gzip.mjs
       - name: Generate Compendium equipment and augmentation pages
         run: node scripts/build-compendium-catalog-pages.mjs
       - name: Commit generated catalog pages
