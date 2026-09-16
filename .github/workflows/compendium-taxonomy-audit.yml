@@ -7,6 +7,7 @@ on:
     paths:
       - 'scripts/audit-rules-legacy-scoria-v1.mjs'
       - 'scripts/audit-large-dataset-taxonomy-v1.mjs'
+      - 'scripts/audit-organisations-personnages-taxonomy-v1.mjs'
       - '.github/workflows/compendium-taxonomy-audit.yml'
       - 'compendium/data/**'
 
@@ -25,3 +26,5 @@ jobs:
         run: node scripts/audit-rules-legacy-scoria-v1.mjs
       - name: Audit large dataset taxonomy
         run: node scripts/audit-large-dataset-taxonomy-v1.mjs
+      - name: Audit Organisations and Personnages taxonomy
+        run: node scripts/audit-organisations-personnages-taxonomy-v1.mjs
