@@ -1,0 +1,167 @@
+{
+  "source": "TUC Réalité V8 — armes automatiques, de précision, shotguns et armes lourdes ; reprise manuelle complète",
+  "entries": {
+    "Owl MGP-062 Suppressor": {
+      "paragraphs": [
+        "L’Owl MGP-062 Suppressor est un pistolet-mitrailleur conçu pour les espaces où une arme d’épaule longue devient davantage une gêne qu’un avantage. Owl reste fidèle à une approche pragmatique : une plateforme compacte, une réserve généreuse et peu de fonctions qui exigeraient un écosystème électronique spécifique.",
+        "On l’imagine facilement auprès d’équipes de sécurité, de convoyeurs ou d’opérateurs urbains qui travaillent dans des couloirs, parkings et véhicules. Le nom Suppressor renvoie au volume de feu qu’il peut imposer, pas à un silencieux intégré ni à une capacité spéciale de neutralisation discrète."
+      ]
+    },
+    "Raven MGP-072 Military": {
+      "paragraphs": [
+        "Le Raven MGP-072 Military annonce sans détour son marché : une arme compacte conçue comme matériel professionnel plutôt que comme produit civil élégant. Sa mécanique robuste correspond à la tendance Raven à privilégier continuité de service, simplicité d’entretien et comportement prévisible sous contrainte.",
+        "Sa réserve moins généreuse que certains concurrents n’est pas nécessairement un défaut de conception ; elle accompagne une plateforme qui mise sur la fiabilité et un port raisonnable dans un environnement militaire ou de sécurité. Le Military sert d’abord à rester disponible au moment critique, pas à empiler les accessoires."
+      ]
+    },
+    "Phoenix MGP-042 Equalizer": {
+      "paragraphs": [
+        "Le Phoenix MGP-042 Equalizer est un pistolet-mitrailleur compact déjà pensé pour dialoguer avec une interface de ciblage. Phoenix traite ici l’arme comme un nœud d’un équipement personnel connecté : la mécanique de tir reste conventionnelle, mais le Smartlink lui permet de partager suivi et solution de tir avec le porteur.",
+        "Le modèle intéresse surtout les professionnels équipés pour exploiter cette couche numérique, là où un utilisateur sans interface paierait une sophistication qu’il utilise peu. L’Equalizer ne transforme donc pas un mauvais tireur en expert ; il récompense une chaîne de matériel cohérente et correctement entretenue."
+      ]
+    },
+    "Owl LMG-092 Gladius": {
+      "paragraphs": [
+        "L’Owl LMG-092 Gladius occupe la zone intermédiaire entre arme compacte et véritable fusil d’assaut. Son identité tient à une formule simple : assez de volume de feu pour soutenir un déplacement, mais sans les dimensions et la logistique d’une arme lourde ou d’une plateforme bardée d’électronique.",
+        "Cette sobriété correspond aux utilisateurs qui veulent une arme d’épaule mobile pour la sécurité, l’autodéfense organisée ou des interventions urbaines courtes. Owl vend ici une continuité d’emploi plus qu’une fonction vedette : le Gladius n’a pas besoin d’un réseau de ciblage pour remplir son rôle."
+      ]
+    },
+    "Phoenix LMG-018 Urban": {
+      "paragraphs": [
+        "Le Phoenix LMG-018 Urban a été nommé pour son environnement naturel : rues courtes, intérieurs vastes, parkings et structures où le tireur change constamment d’angle et de distance. Sa compacité se combine à un Smartlink qui permet de conserver le bénéfice d’un équipement connecté sans passer au format d’un fusil plus long.",
+        "Phoenix vise ainsi les unités et professionnels qui veulent une arme de mobilité moderne plutôt qu’un simple tuyau à balles. Le ciblage assisté reste un outil : il dépend d’une interface compatible, n’efface pas les couverts et ne rend pas les rafales plus sûres pour les personnes autour de la cible."
+      ]
+    },
+    "Raven LMG-027 Executionner": {
+      "paragraphs": [
+        "Le Raven LMG-027 Executionner est une mitraillette compacte qui privilégie la robustesse et la simplicité. Son nom brutal est presque plus démonstratif que sa technologie : derrière l’image commerciale, Raven propose surtout une arme courte conçue pour supporter les chocs, les manipulations rapides et les conditions de service difficiles.",
+        "L’Executionner paraît particulièrement à sa place dans des mains professionnelles qui préfèrent connaître parfaitement une plateforme dépouillée plutôt que dépendre de multiples aides numériques. Sa réserve impose de gérer les séquences de feu, mais cette contrainte participe à une arme pensée pour des engagements rapprochés et contrôlés."
+      ]
+    },
+    "Raven LMG-072 Neo-Executionner": {
+      "paragraphs": [
+        "Le LMG-072 Neo-Executionner reprend la base robuste de la famille Executionner et lui ajoute la couche électronique que Raven réserve à ses versions modernisées. Le résultat conserve une mécanique destinée au service intensif tout en permettant au tireur équipé d’intégrer l’arme à une solution Smartlink.",
+        "Le préfixe Neo ne signifie donc pas que Raven a abandonné sa philosophie de fiabilité ; il indique plutôt une évolution de plateforme. Pour les unités déjà dotées d’interfaces, c’est un moyen de conserver les habitudes de l’Executionner tout en entrant dans une chaîne de ciblage contemporaine."
+      ]
+    },
+    "Phoenix AR-124 Mutilator": {
+      "paragraphs": [
+        "Le Phoenix AR-124 Mutilator est le fusil d’assaut généraliste de ceux qui veulent une grande réserve et une arme capable d’accompagner une progression sans spécialisation excessive. Contrairement à plusieurs modèles Phoenix plus électroniques, son identité repose surtout sur une plateforme balistique moderne et agressivement nommée.",
+        "Le Mutilator se prête aux unités mobiles, mercenaires et agents de sécurité lourdement équipés qui veulent une arme d’épaule unique pour l’essentiel d’un engagement. Son nom promet la violence, pas une propriété cachée : sa valeur vient du compromis entre autonomie, portée et cadence d’un vrai fusil de service."
+      ]
+    },
+    "Raven AR-027 Rampager": {
+      "paragraphs": [
+        "Le Raven AR-027 Rampager combine deux tendances fortes du fabricant : une mécanique pensée pour continuer à fonctionner et une capacité à rester pertinente dans un environnement saturé d’électronique. C’est un fusil d’assaut de terrain, moins intéressé par l’élégance que par la possibilité de traiter combattant, capteurs et équipements dans le même engagement.",
+        "Cette orientation explique son intérêt pour les unités d’intervention ou de sécurité qui affrontent drones, augmentations et systèmes intelligents aussi souvent que des armes ordinaires. L’EMP ne change pourtant pas la nature du fusil : ce qui n’est pas électronique ne devient pas vulnérable par simple présence du logo Raven."
+      ]
+    },
+    "Owl AR-071 Howling": {
+      "paragraphs": [
+        "L’Owl AR-071 Howling est un fusil d’assaut orienté vers les cibles protégées, tout en conservant la simplicité d’une arme d’épaule conventionnelle. Owl privilégie ici une réponse matérielle à un problème matériel : si les protections deviennent plus courantes, la munition et la plateforme doivent être capables de les travailler proprement.",
+        "Le Howling trouve donc sa place chez les professionnels qui attendent davantage qu’un pistolet-mitrailleur sans vouloir une arme lourde spécialisée. Sa capacité de pénétration n’est pas une autorisation d’ignorer les armures ; elle fait du modèle un choix cohérent lorsqu’on sait que la cible risque d’être équipée."
+      ]
+    },
+    "Phoenix AR-124 Sunlight": {
+      "paragraphs": [
+        "Le Phoenix AR-124 Sunlight transforme le fusil d’assaut en plateforme de contrôle autant que de tir. Smartlink et technologie Flash correspondent à la tendance Phoenix à ajouter une couche de capteurs et d’effets spécialisés à une arme qui doit pourtant rester utilisable comme fusil de service ordinaire.",
+        "Le nom Sunlight entretient une esthétique lumineuse cohérente avec la gamme sans lui donner de vertu solaire surnaturelle. Son effet de désorientation reste une technologie de Réalité : utile contre des sens exposés dans les bonnes conditions, mais sans rapport automatique avec les faiblesses occultes décrites en Vérité."
+      ]
+    },
+    "Owl SR-017 Big Game Hunter": {
+      "paragraphs": [
+        "L’Owl SR-017 Big Game Hunter est un fusil de précision volontairement dépouillé. Il s’adresse à ceux qui préfèrent une bonne mécanique, une position correcte et une solution de tir patiente plutôt qu’un système qui promet de compenser chaque erreur par des capteurs supplémentaires.",
+        "Son nom emprunte à la chasse sportive et au tir sur cible difficile, ce qui lui donne une image plus civile que certains fusils militaires. Dans les faits, la plateforme reste une arme longue sérieuse dont la faible cadence favorise la préparation, l’observation et le choix d’un coup plutôt que l’échange soutenu."
+      ]
+    },
+    "Owl SR-029 Hoot": {
+      "paragraphs": [
+        "L’Owl SR-029 Hoot représente une montée en gamme vers le tir de précision contre des protections plus sérieuses. Owl conserve sa recherche de fiabilité, mais la plateforme est clairement destinée au tireur qui prépare un poste et attend d’un petit nombre de coups qu’ils restent efficaces sur une cible difficile.",
+        "Le Hoot parle donc davantage aux professionnels, chasseurs de matériel ou tireurs de sécurité qu’au propriétaire occasionnel. Sa capacité de pénétration récompense une cible correctement identifiée et atteinte ; elle ne remplace ni l’observation, ni la connaissance de ce qui se trouve derrière une protection."
+      ]
+    },
+    "Raven SR-029 Deathbringer": {
+      "paragraphs": [
+        "Le Raven SR-029 Deathbringer est un fusil de précision lourd dans son intention : longue distance, peu de coups disponibles et une conception qui privilégie la fiabilité lorsque le tireur ne peut pas se permettre une panne après s’être installé. Son nom commercial assume pleinement la réputation intimidante recherchée par Raven.",
+        "La présence d’une composante EMP lui donne une seconde lecture dans le monde de 2035 : un tir peut viser un opérateur, mais aussi l’électronique exposée d’un équipement important. Cette polyvalence reste ciblée ; le Deathbringer n’est ni une arme de suppression ni un détecteur de vulnérabilités technologiques."
+      ]
+    },
+    "Phoenix SR-034 Phantom": {
+      "paragraphs": [
+        "Le Phoenix SR-034 Phantom est un fusil de précision construit autour de la discrétion relative et de l’assistance numérique. Un modérateur acoustique et un Smartlink s’intègrent à une plateforme longue pour réduire les indices laissés par le tireur et faciliter le suivi d’une cible compatible.",
+        "Le nom Phantom décrit une ambition, pas une invisibilité. Le coup reste audible dans les bonnes conditions, le tireur reste visible s’il se place mal et l’électronique peut elle-même devenir une signature. Le modèle récompense donc surtout une doctrine où position, masque et information sont préparés ensemble."
+      ]
+    },
+    "Raven SG-025 Riot Control": {
+      "paragraphs": [
+        "Le Raven SG-025 Riot Control est un shotgun d’intervention dont la vocation dépasse l’impact balistique ordinaire. Sa composante électrique le place naturellement dans les équipements de police et de sécurité qui doivent pouvoir neutraliser rapidement une personne ou perturber du matériel à quelques mètres.",
+        "Son nom institutionnel ne rend pas son usage bénin : à courte distance, un shotgun reste une arme dangereuse et la décharge n’annule pas les conséquences physiques du tir. Raven vend ici un outil de contrôle lourd pour des équipes formées, pas un substitut sans risque au taser compact."
+      ]
+    },
+    "Raven SG-039 Croaker": {
+      "paragraphs": [
+        "Le Raven SG-039 Croaker est la réponse de la marque aux cibles que l’on veut arrêter brutalement à courte distance. Fiabilité, pénétration matérielle et capacité à perturber l’électronique en font une plateforme d’assaut spécialisée, beaucoup plus proche d’un outil de brèche que d’un fusil de chasse civil.",
+        "Le Croaker paraît destiné aux équipes qui savent pourquoi elles acceptent son poids et sa violence : intervention lourde, sécurité de site ou opérations dans un environnement très équipé. Sa polyvalence disparaît vite avec la distance, et ses effets techniques ne remplacent jamais le choix de la bonne munition ou du bon angle."
+      ]
+    },
+    "Owl SG-016 Boss": {
+      "paragraphs": [
+        "L’Owl SG-016 Boss est un shotgun de proximité qui mise surtout sur l’autonomie et la robustesse. Owl évite les effets annexes spectaculaires pour proposer une arme capable de rester longtemps disponible dans un environnement resserré où chaque rechargement peut coûter cher.",
+        "Le Boss convient aux utilisateurs qui veulent une présence immédiate derrière une porte, dans un couloir ou autour d’un véhicule. Sa grande réserve n’en fait pas une arme de moyenne portée : la philosophie du modèle reste celle d’un shotgun fiable, efficace tant qu’on accepte son domaine d’emploi très rapproché."
+      ]
+    },
+    "Phoenix SG-042 Fire Rain": {
+      "paragraphs": [
+        "Le Phoenix SG-042 Fire Rain pousse le shotgun vers une fonction incendiaire assumée. La gerbe ne cherche pas seulement à frapper une cible : elle peut faire de l’environnement combustible une seconde menace, ce qui explique autant l’attrait du modèle que les réticences à l’employer dans un espace urbain mal contrôlé.",
+        "Phoenix vend ici une arme spectaculaire dont l’usage exige pourtant beaucoup de discipline. Le feu n’obéit pas au propriétaire de l’arme et ne connaît pas la différence entre un couvert ennemi, une canalisation ou un appartement voisin ; le Fire Rain est donc un outil spécialisé, pas une amélioration universelle du shotgun."
+      ]
+    },
+    "Bastion": {
+      "paragraphs": [
+        "Bastion est une mitrailleuse lourde d’appui conçue pour transformer une position en point d’ancrage. Bande volumineuse, masse importante et cadence soutenue la placent dans une logique de groupe : on prépare son transport, son emplacement et son alimentation avant de profiter réellement de ce que l’arme peut fournir.",
+        "Dans une équipe professionnelle, Bastion sert à tenir un axe, couvrir un déplacement ou interdire une zone plutôt qu’à suivre discrètement son porteur toute la journée. Son nom résume bien sa fonction sociale et tactique : ce n’est pas une arme personnelle prestigieuse, c’est une infrastructure de feu portable."
+      ]
+    },
+    "Manticore": {
+      "paragraphs": [
+        "Manticore est une arme lourde de neutralisation qui applique la logique EMP à l’échelle d’un matériel d’appui. Là où un fusil Raven peut opportunément perturber un système, Manticore est choisie précisément parce que drones, capteurs, interfaces ou machines constituent une partie centrale du problème.",
+        "Son encombrement et ses munitions spécialisées en font un outil d’équipe que l’on sort pour une mission connue, pas une arme polyvalente portée par habitude. Une Manticore peut bouleverser un dispositif électronique exposé, mais elle ne résout rien contre une menace dont la nature n’est pas technologique."
+      ]
+    },
+    "Doorbell": {
+      "paragraphs": [
+        "Doorbell est un lance-grenades lourd à barillet dont l’identité dépend moins du tube que de ce que l’équipe décide d’y charger. Fragmentation, EMP, flash ou fumigène transforment la même plateforme en outil de destruction, de perturbation, de désorientation ou de couverture.",
+        "Cette polyvalence favorise les unités qui préparent réellement leur mission et savent identifier les effets qu’elles veulent produire avant d’ouvrir le feu. Le surnom Doorbell reflète l’idée d’annoncer brutalement son arrivée ; la plateforme reste toutefois aussi bonne ou mauvaise que la sélection de grenades emportée."
+      ]
+    },
+    "Breacher": {
+      "paragraphs": [
+        "Breacher est un lance-roquette monocoup conçu autour d’une tâche simple : faire céder un point dur. Porte renforcée, couverture, mur léger ou position préparée justifient une arme dont la munition est trop encombrante et trop coûteuse pour être gaspillée comme projectile généraliste.",
+        "Son emploi impose donc une petite logistique de brèche : transporter les roquettes, choisir l’angle, protéger le tireur pendant la préparation et accepter les conséquences autour du point d’impact. Breacher appartient à l’outillage violent d’une équipe d’assaut davantage qu’à l’armement personnel."
+      ]
+    },
+    "Wasp": {
+      "paragraphs": [
+        "Wasp est un lance-missile guidé destiné aux situations où atteindre la cible compte autant que la puissance de la charge. Son électronique peut exploiter une désignation compatible et une trajectoire plausible, ce qui transforme le lancement en opération coordonnée plutôt qu’en simple tir d’un projectile lourd.",
+        "Une équipe qui emploie Wasp doit donc penser en termes de capteurs, de verrouillage, d’espace de vol et de munitions dédiées. Le guidage ne rend rien inévitable : brouillage, défense, mauvais repérage ou trajectoire impossible restent des problèmes que le missile ne peut pas corriger par magie."
+      ]
+    },
+    "Wallbreaker": {
+      "paragraphs": [
+        "Wallbreaker est une arme lourde anti-matériel qui privilégie la pénétration et le tir préparé plutôt que la zone ou la cadence. Son rôle naturel est de traiter une couverture, une structure, un équipement protégé ou une cible dont l’armure justifie un projectile spécialisé.",
+        "Le modèle intéresse les équipes de sécurité lourde, mercenaires et intervenants capables d’assumer son encombrement et la visibilité de son emploi. Son nom ne doit pas faire oublier que toute structure a sa propre résistance : Wallbreaker est un outil puissant, pas une permission narrative de traverser n’importe quel mur."
+      ]
+    },
+    "Salamander": {
+      "paragraphs": [
+        "Salamander est un projecteur incendiaire lourd conçu pour imposer le feu comme problème de terrain. Son intérêt apparaît surtout dans les espaces où combustible, couvert et circulation des personnes peuvent être bouleversés par une projection à courte portée plutôt que par un simple impact ponctuel.",
+        "C’est aussi une arme politiquement et pratiquement difficile à employer proprement en ville : le porteur transporte son propre consommable inflammable et le décor peut continuer à brûler après son action. Les utilisateurs professionnels le traitent donc comme matériel spécialisé, rarement comme arme de routine."
+      ]
+    },
+    "Purifier": {
+      "paragraphs": [
+        "Purifier est un projecteur chimique lourd issu d’une logique industrielle de décontamination et de corrosion détournée vers le terrain. Plutôt que de compter sur une balle, il répand un agent dont l’intérêt dépend directement des matériaux, des protections et de l’environnement qu’il rencontre.",
+        "Le nom Purifier possède évidemment une ironie sinistre lorsque l’appareil est utilisé comme arme. Masques, étanchéité et procédures de manipulation comptent autant que le projecteur lui-même, car une fuite, un mauvais vent ou une surface incompatible peut transformer le dispositif en problème pour sa propre équipe."
+      ]
+    }
+  }
+}
