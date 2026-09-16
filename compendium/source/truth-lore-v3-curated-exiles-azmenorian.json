@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "source": "TUC Vérité V6 — Livre V, chapitre 24 Exilés ; technomagie azménorienne et Arsenal de Rupture ; reprise manuelle",
+  "entries": {
+    "Capteur biphysique portatif": {
+      "paragraphs": [
+        "Le Capteur biphysique portatif est l’un des objets qui résument le mieux la technomagie azménorienne : partir d’un scanner ou d’une caméra reconnaissable, puis étendre ce que l’instrument peut considérer comme un phénomène réel. Il ne se contente donc plus des spectres physiques ordinaires et peut signaler des manifestations magiques, des perturbations du Flux, de l’immatériel présent ou une anomalie dimensionnelle locale.",
+        "Les Azménoriens ont néanmoins conservé une distinction essentielle entre détection et interprétation. Le capteur peut dire qu’il se passe quelque chose là où l’électronique terrestre resterait muette, mais pas fournir spontanément le nom d’une entité, l’auteur d’un sort ou la liste de ses pouvoirs. Sur le terrain, sa meilleure fonction est souvent de confirmer que le problème a changé de catégorie."
+      ]
+    },
+    "Relais de déclenchement croisé": {
+      "paragraphs": [
+        "Le Relais de déclenchement croisé est une pièce d’interface entre deux mondes techniques : un capteur biphysique reconnaît un événement surnaturel, puis le relais traduit cette détection en commande pour un dispositif parfaitement banal. Fermer une porte, lancer un enregistrement, couper un circuit ou déclencher une alarme devient ainsi la conséquence matérielle d’un phénomène que l’installation normale n’aurait jamais su percevoir.",
+        "Cette architecture explique pourquoi le relais n’est pas une tourelle occulte déguisée. Il transmet une condition à une fonction technologique préparée ; il ne prend pas lui-même la décision d’attaquer une créature. Les ateliers azménoriens l’emploient beaucoup dans les laboratoires et planques parce qu’il permet d’automatiser des précautions sans prétendre automatiser le jugement nécessaire face à l’inconnu."
+      ]
+    },
+    "Convertisseur biphysique de secours": {
+      "paragraphs": [
+        "Le Convertisseur biphysique de secours vient d’un problème très concret des prototypes azménoriens : une machine hybride peut dépendre d’une source que le réseau électrique local ne sait ni produire ni comprendre. Le boîtier permet alors de convertir brièvement une charge magique déjà préparée en alimentation exploitable par un appareil portatif compatible, ou de servir d’interface de travail à un technomage formé à cette conversion.",
+        "Son nom de secours doit être pris au sérieux. L’appareil n’est pas un réacteur capable de faire fonctionner une usine, un véhicule lourd ou une arme énergétique sans logistique ; il offre une fenêtre de continuité lorsqu’une fonction essentielle doit survivre à l’absence de sa source habituelle. Chez les Azménoriens, c’est moins une révolution énergétique qu’un adaptateur d’urgence entre deux économies de puissance incompatibles."
+      ]
+    },
+    "Relais discontinu": {
+      "paragraphs": [
+        "Le Relais discontinu exploite la Fracture à une échelle volontairement minuscule : deux extrémités séparées par un mur ou un blindage peuvent établir une liaison comme si la distance matérielle qui les sépare avait été brièvement raccourcie. Cette propriété en fait un outil de maintenance, d’intrusion physique ou de récupération de données particulièrement précieux dans des lieux où percer la paroi serait trop lent ou trop visible.",
+        "La discontinuité ne transforme cependant pas le relais en pirate universel. Une fois le chemin établi, l’appareil distant reste lui-même : il peut être éteint, chiffré, verrouillé ou demander une authentification que le relais ne possède pas. La technomagie contourne ici quelques centimètres de matière, pas les décisions de sécurité prises de l’autre côté."
+      ]
+    },
+    "Optique de phase": {
+      "paragraphs": [
+        "L’Optique de phase crée un chemin sensoriel très étroit à travers une épaisseur de matière, donnant à une caméra ou un scanner la possibilité d’observer depuis un point où aucune ligne de vue physique n’existe. Dans les ateliers azménoriens, on l’emploie autant pour inspecter un mécanisme fermé que pour vérifier une pièce avant d’y entrer, ce qui explique sa valeur bien au-delà de l’espionnage.",
+        "Ce chemin ne rend pas le capteur plus intelligent. Une caméra continue de voir comme une caméra, un analyseur mesure seulement les grandeurs qu’il possède et une cible hors de son champ reste invisible. L’Optique de phase déplace la position depuis laquelle les données sont prises ; elle ne transforme pas cette petite fenêtre spatiale en connaissance omnisciente de ce qui se trouve derrière le mur."
+      ]
+    },
+    "Module de trajectoire décalée": {
+      "paragraphs": [
+        "Le Module de trajectoire décalée est l’une des applications les plus inquiétantes de la Fracture parce qu’il s’intègre à une arme sans modifier sa munition. Le projecteur déplace brièvement le point de sortie d’un tir, permettant à une trajectoire de contourner un bord, un angle ou une portion de couvert au lieu de suivre entièrement la géométrie attendue par la cible.",
+        "Les utilisateurs découvrent vite que déplacer une trajectoire ne remplace pas le fait de savoir où tirer. Sans perception réelle, capteur déporté ou données suffisamment précises sur la cible, le module ne crée aucune solution de visée. L’arme conserve également sa puissance ordinaire : la sophistication se trouve dans le chemin emprunté, pas dans un projectile rendu plus rapide ou plus destructeur."
+      ]
+    },
+    "Kit Microbrèche": {
+      "paragraphs": [
+        "Le Kit Microbrèche est une installation portative de Fracture assez puissante pour ouvrir une petite fenêtre entre deux espaces séparés par une épaisseur limitée de matière. Son ouverture d’environ vingt centimètres suffit pour faire passer lumière, son, signaux, câbles, outils, petits objets ou projectiles, ce qui peut transformer une paroi fermée en interface temporaire sans créer un véritable passage humain.",
+        "Les interdictions de conception sont aussi importantes que l’ouverture elle-même. La Microbrèche n’accepte ni personne ni membre vivant, n’est jamais créée à l’intérieur d’un organisme et sa fermeture n’est pas une lame spatiale improvisée. Le dispositif est rare parce qu’il rend une impossibilité locale extrêmement utile tout en restant volontairement trop étroit pour devenir une méthode portable de téléportation."
+      ]
+    },
+    "Optique de Vérité": {
+      "paragraphs": [
+        "L’Optique de Vérité est un appareil technomagique extrêmement surveillé parce qu’il agit sur l’une des protections fondamentales de Terra Umbra : la représentation imposée par le Voile. Sous la forme d’une lunette, d’une caméra, d’un viseur ou d’un scanner, elle peut montrer la nature et la morphologie réellement présentes dans son champ lorsque la cible se trouve dans un état accessible à cette lecture.",
+        "Voir ne signifie pourtant ni Révéler ni comprendre. La cible conserve son état et tout ce qui en découle ; l’opérateur reçoit une apparence vraie, pas un dossier donnant nom, espèce, intentions et faiblesses. Une contre-mesure adaptée peut encore gêner la lecture. Sur le marché de Vérité, ce prix conceptuel explique autant la surveillance de l’objet que son prix financier."
+      ]
+    },
+    "Enregistreur invariant": {
+      "paragraphs": [
+        "L’Enregistreur invariant répond à une faiblesse plus insidieuse que la mauvaise caméra : sur Terra Umbra, des données correctement captées peuvent ensuite devenir cohérentes avec une correction de l’Hologramme. Le stockage technomagique cherche donc à préserver la version effectivement reçue par ses capteurs et à empêcher qu’une réinterprétation ordinaire n’efface tranquillement la contradiction après l’événement.",
+        "Il ne fabrique aucune vérité que le système d’acquisition n’a pas pu voir. Couplé à une Optique de Vérité, il peut conserver une morphologie vraie ; relié à un capteur ordinaire, il protège seulement ce que celui-ci a réellement enregistré. Comme tout support physique, il reste également vulnérable à la destruction, au vol, à l’intrusion ou à une contre-mesure conçue précisément contre son principe."
+      ]
+    },
+    "Scanner de Signature de Vérité": {
+      "paragraphs": [
+        "Le Scanner de Signature de Vérité part d’un individu déjà observé sous une Optique de Vérité et cherche à enregistrer une continuité plutôt qu’une simple apparence. Quelques minutes de calibration permettent de construire une signature suffisamment stable pour reconnaître ensuite la même personne lorsqu’elle repasse réellement dans le champ du capteur, même si son aspect ou son état a changé.",
+        "Cette capacité est précieuse contre les identités plastiques, mais elle reste locale. Le scanner ne sait pas où se trouve sa cible à distance et ne transforme pas une signature en balise universelle ; il répond seulement à la question de savoir si l’individu actuellement observé correspond à celui qui a servi de référence. Le premier contact fiable reste donc la partie la plus difficile de la procédure."
+      ]
+    },
+    "Fenêtre de Vérité": {
+      "paragraphs": [
+        "La Fenêtre de Vérité est ce qui arrive lorsque l’Optique cesse d’être un instrument individuel et devient une installation de pièce. Plusieurs capteurs et écrans partagent une interprétation technomagique locale afin que les opérateurs reliés voient la scène sous le Voile sans devoir faire circuler un unique viseur entre eux. Laboratoires, chambres d’observation et salles de confinement sont ses environnements naturels.",
+        "L’installation ne crée pourtant pas une zone débarrassée de l’Hologramme. Elle représente la scène véritable pour ses systèmes compatibles sans modifier l’état de ceux qui s’y trouvent et sans forcer qui que ce soit à se Révéler. La différence paraît subtile, mais elle est fondamentale : la Fenêtre change ce que l’instrument montre, pas ce que le monde impose aux autres observateurs."
+      ]
+    },
+    "Module d’Interférence": {
+      "paragraphs": [
+        "Le Module d’Interférence est une adaptation d’arme conçue pour que le même impact soit reconnu par la matière et par certaines manifestations immatérielles. Plutôt que créer une munition différente pour chaque type d’arme, les Azménoriens ont développé une interface qui accompagne la fonction physique du support et lui permet d’atteindre Ombres, entités déphasées et autres phénomènes explicitement intangibles accessibles.",
+        "Cette polyvalence ne change ni la qualité du tireur ni les performances propres de l’arme. Le module ne détecte aucune cible, n’augmente pas la portée et ne traverse pas une protection spirituelle par principe ; il rend seulement possible une interaction qui, sans lui, n’aurait pas lieu. C’est précisément pourquoi il sert de base à plusieurs pièces plus spécialisées de l’Arsenal de Rupture."
+      ]
+    },
+    "Ancre d’Ombre": {
+      "paragraphs": [
+        "L’Ancre d’Ombre est un générateur de stabilité locale destiné à compliquer les formes d’évasion qui reposent sur le fait de quitter la matière, le plan ou l’ancrage actuel. Une fois déployé, son petit rayon devient moins une cage physique qu’un endroit où la continuité est suffisamment contrainte pour qu’une manifestation immatérielle doive réellement lutter pour s’en extraire.",
+        "Le dispositif ne s’oppose pas à une sortie parfaitement matérielle. Une créature capable d’ouvrir une porte, de courir hors de la zone ou de déplacer physiquement le générateur n’est pas retenue par le simple mot Ancre. Cette limite raconte bien la logique azménorienne : résoudre précisément un comportement surnaturel identifié sans prétendre que la technomagie remplace murs, gardes et procédures de confinement."
+      ]
+    },
+    "Cage de Vérité": {
+      "paragraphs": [
+        "La Cage de Vérité transforme le principe de l’Ancre d’Ombre en véritable installation de contention. Structure matérielle et champ technomagique sont pensés ensemble afin qu’une cible ne puisse pas simplement abandonner la géométrie de la cellule par déphasage, immatérialité, changement de plan ou rupture de son ancrage surnaturel.",
+        "Le nom peut donner une impression d’absolu que les technomages eux-mêmes évitent. Une cage dont la porte est ouverte, les parois détruites ou le générateur neutralisé reste une installation compromise ; la contrainte surnaturelle n’abolit pas les solutions physiques. Son coût et sa rareté viennent donc d’une architecture à deux couches : contenir le phénomène sans oublier qu’il faut encore construire une vraie cellule autour."
+      ]
+    },
+    "Module de Désancrage": {
+      "paragraphs": [
+        "Le Module de Désancrage est une extension offensive extrêmement rare des armes d’Interférence. Lorsqu’une cible repose réellement sur un ancrage surnaturel — forme immatérielle, support, hôte ou relation comparable — le dispositif cherche après l’impact à verrouiller temporairement cette continuité, empêchant la manifestation de simplement reprendre son état de fuite habituel.",
+        "Sa spécialisation explique pourquoi il ne s’agit pas d’un amplificateur universel. Une créature qui ne dépend d’aucun ancrage de ce type n’offre rien au module sur quoi travailler, et l’arme conserve autrement son fonctionnement normal. Sur le marché de Vérité, c’est typiquement le genre de pièce dont l’acheteur doit déjà savoir exactement quel problème il veut résoudre avant de justifier son prix et sa rareté."
+      ]
+    }
+  }
+}
