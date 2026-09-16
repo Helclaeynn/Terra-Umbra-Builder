@@ -4,6 +4,7 @@ import { classifyNavigation, isHierarchicalCategory, navigationDisplayTitle } fr
 
 const DATA='compendium/data';
 const manifest=JSON.parse(fs.readFileSync(`${DATA}/manifest-v3.json`,'utf8'));
+const catalogTitleDatasets=new Set(['equipement','augmentations','verite-catalogue']);
 
 function loadDataset(spec){
   let b64='';
@@ -12,6 +13,7 @@ function loadDataset(spec){
   return rows.map(page=>({...page,dataset:page.dataset||spec.id}));
 }
 function norm(value){return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()}
+function displayTitle(page){return catalogTitleDatasets.has(page.dataset)?String(page.title||'').trim():navigationDisplayTitle(page.title)}
 function displayCategory(page,nav){
   if(['Équipement','Augmentations','Catalogue Vérité'].includes(page.category))return 'Équipement & Objets';
   if(page.category==='Organisations'){
@@ -65,7 +67,7 @@ for(const page of rows){
     subgroup:nav.subgroup,
     subgroupOrder:nav.subgroupOrder,
     pageOrder:nav.pageOrder,
-    displayTitle:navigationDisplayTitle(page.title),
+    displayTitle:displayTitle(page),
   });
 }
 
