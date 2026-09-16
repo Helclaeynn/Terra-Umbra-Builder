@@ -1,3 +1,4 @@
+// Canonical V3 navigation guard: keep this file in the Compendium gate path set.
 import fs from 'node:fs';
 import zlib from 'node:zlib';
 import { classifyNavigation, isHierarchicalCategory, navigationDisplayTitle } from '../navigation-schema-v3.js';
