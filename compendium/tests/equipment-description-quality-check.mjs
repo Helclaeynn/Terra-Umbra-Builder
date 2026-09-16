@@ -95,9 +95,13 @@ for(const page of pages){
 }
 if(errors.length)throw new Error(`Descriptions équipement invalides (${errors.length}) — ${errors.slice(0,80).join(' | ')}`);
 
-for(const [title,needle] of [['vladic grand protege','protection de quartier'],['cache improvisee','dissimulation par abandon oubli']]){
+for(const [title,needles] of [
+  ['vladic grand protege',['protection de quartier','pas un bonus de combat']],
+  ['cache improvisee',['abandon ou par oubli','peu de securite']]
+]){
   const page=byTitle.get(title);if(!page)throw new Error(`Page de contrôle absente: ${title}`);
-  const text=norm(context(page).map(block=>block.text).join(' '));if(!text.includes(needle))throw new Error(`${page.title}: usage source attendu absent (${needle})`);
+  const text=norm(context(page).map(block=>block.text).join(' '));
+  for(const needle of needles)if(!text.includes(needle))throw new Error(`${page.title}: usage source attendu absent (${needle})`);
   if(page.catalog?.loreGrounding!=='book-context'||page.catalog?.loreMethod!=='reality-book-semantic-lore')throw new Error(`${page.title}: devrait être curaté manuellement, trouvé ${page.catalog?.loreGrounding}/${page.catalog?.loreMethod}`);
 }
 
