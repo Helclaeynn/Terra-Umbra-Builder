@@ -9,7 +9,8 @@ const SOURCES=[
   'compendium/source/truth-lore-v3-curated-aidh-tuc.json',
   'compendium/source/truth-lore-v3-curated-hunters-arsenal.json',
   'compendium/source/truth-lore-v3-curated-hunters-ritual-investigation.json',
-  'compendium/source/truth-lore-v3-curated-hunters-reference.json'
+  'compendium/source/truth-lore-v3-curated-hunters-reference.json',
+  'compendium/source/truth-lore-v3-curated-hunters-polish.json'
 ];
 const FRAGMENT_SIZE=8000;
 const clean=value=>String(value??'').trim().replace(/\s+/g,' ');
@@ -39,14 +40,19 @@ function mechanicalSnapshot(page){
   return JSON.stringify(clone);
 }
 
-const curated=[],seen=new Set();
+const curated=[],indexByKey=new Map();
 for(const sourcePath of SOURCES){
   const source=JSON.parse(fs.readFileSync(sourcePath,'utf8'));
   for(const [title,entry] of Object.entries(source.entries||{})){
     const key=norm(title);
-    if(seen.has(key))throw new Error(`Titre Vérité curaté dupliqué: ${title}`);
-    seen.add(key);
-    curated.push({title,entry,source:clean(entry.source||source.source||sourcePath)});
+    const record={title,entry,source:clean(entry.source||source.source||sourcePath)};
+    if(indexByKey.has(key)){
+      if(entry.override!==true)throw new Error(`Titre Vérité curaté dupliqué sans override explicite: ${title}`);
+      curated[indexByKey.get(key)]=record;
+      continue;
+    }
+    indexByKey.set(key,curated.length);
+    curated.push(record);
   }
 }
 
