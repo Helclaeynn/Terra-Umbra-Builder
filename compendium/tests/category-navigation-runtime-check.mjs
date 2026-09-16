@@ -21,7 +21,7 @@ if(nav.includes('#\\/page\\/'))fail('Ancienne route #/page réintroduite.');
 for(const category of hierarchical)if(!toc.includes(`'${category}'`))fail(`${category} absent du verrou MANIFEST_NAV_CATEGORIES.`);
 if(!toc.includes('MANIFEST_NAV_CATEGORIES.has(category)'))fail('toc-enhancer.js ne désactive plus le regroupement legacy.');
 if(toc.includes("return['Autres règles']"))fail('Fallback « Autres règles » encore actif.');
-if(!index.includes('category-navigation.js?v=20260916-nav5'))fail('Cache-buster nav5 absent pour category-navigation.js.');
+if(!index.includes('category-navigation.js?v=20260916-nav7'))fail('Cache-buster nav7 absent pour category-navigation.js.');
 if(!index.includes('toc-enhancer.js?v=20260916-nav5'))fail('Cache-buster nav5 absent pour toc-enhancer.js.');
 if(navigation?.version!==2||!Array.isArray(navigation.entries))fail('navigation-v1.json n’est pas en version 2.');
 for(const category of hierarchical){
