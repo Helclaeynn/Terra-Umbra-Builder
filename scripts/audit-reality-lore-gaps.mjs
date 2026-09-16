@@ -12,12 +12,16 @@ function load(spec){
 }
 function rows(page){return (page.sections||[]).flatMap(s=>(s.blocks||[]).filter(b=>b.type==='table').flatMap(b=>b.rows||[]));}
 function cat(page){const r=rows(page).find(r=>/^(categorie|category|famille|family|type)$/.test(norm(r?.[0])));return clean(r?.[1]||page.catalog?.category||'');}
+function rowText(page){return rows(page).map(x=>`${clean(x?.[0])}=${clean(x?.[1])}`).filter(Boolean).join(' | ');}
 for(const id of ['equipement','augmentations']){
   const spec=manifest.datasets.find(d=>d.id===id);if(!spec)continue;
   const pages=load(spec),gaps=pages.filter(p=>p.catalog?.loreGrounding==='sparse');
   console.log(`AUDIT ${id.toUpperCase()} — ${gaps.length} pages sparse`);
-  for(const page of gaps){
-    const r=rows(page).map(x=>`${clean(x?.[0])}=${clean(x?.[1])}`).filter(Boolean).join(' | ');
-    console.log(`SPARSE | ${page.title} | ${cat(page)} | ${r}`);
+  for(const page of gaps)console.log(`SPARSE | ${page.title} | ${cat(page)} | ${rowText(page)}`);
+
+  if(id==='equipement'){
+    const facts=pages.filter(p=>p.catalog?.loreGrounding==='catalogue-facts');
+    console.log(`AUDIT EQUIPEMENT FACTS-ONLY — ${facts.length} pages`);
+    for(const page of facts)console.log(`FACTS | ${page.title} | ${cat(page)} | ${rowText(page)}`);
   }
 }
