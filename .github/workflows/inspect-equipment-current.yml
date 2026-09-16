@@ -1,0 +1,23 @@
+name: Inspect current equipment catalog
+
+on:
+  push:
+    branches:
+      - feature/compendium-equipment-images-batch2
+    paths:
+      - 'scripts/inspect-equipment-current.mjs'
+      - '.github/workflows/inspect-equipment-current.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Print matching current equipment entries
+        run: node scripts/inspect-equipment-current.mjs
