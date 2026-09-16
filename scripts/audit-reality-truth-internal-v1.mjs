@@ -34,6 +34,16 @@ function flatten(page){
   }
   return norm(bits.join(' '));
 }
+function paragraphRows(page){
+  const out=[];
+  for(const section of page.sections||[])for(const block of section?.blocks||[]){
+    if(block?.type!=='p')continue;
+    const raw=String(block.text||'').replace(/\s+/g,' ').trim(),text=norm(raw);
+    if(text.length<120||text.split(' ').length<18)continue;
+    out.push({text,raw:raw.slice(0,260)});
+  }
+  return out;
+}
 function shingles(text,n=5){
   const words=text.split(' ').filter(Boolean);const set=new Set();
   for(let i=0;i<=words.length-n;i++)set.add(words.slice(i,i+n).join(' '));
@@ -44,32 +54,36 @@ function hash(text){return crypto.createHash('sha256').update(text).digest('hex'
 
 const pages=manifest.datasets.flatMap(loadDataset).filter(page=>['Réalité','Vérité'].includes(displayCategory(page)));
 const byCategory=new Map([['Réalité',[]],['Vérité',[]]]);
-for(const page of pages){page.virtualCategory=displayCategory(page);page._text=flatten(page);page._shingles=shingles(page._text);byCategory.get(page.virtualCategory).push(page)}
+for(const page of pages){page.virtualCategory=displayCategory(page);page._text=flatten(page);page._shingles=shingles(page._text);page._paragraphs=paragraphRows(page);byCategory.get(page.virtualCategory).push(page)}
 
 const report={generated:new Date().toISOString(),categories:{},genericOrganisations:[]};
 for(const category of ['Réalité','Vérité']){
   const rows=byCategory.get(category);
-  const titleMap=new Map(),contentMap=new Map(),similar=[];
+  const titleMap=new Map(),contentMap=new Map(),paragraphMap=new Map(),similar=[];
   for(const page of rows){
     const nt=norm(page.title);if(nt){if(!titleMap.has(nt))titleMap.set(nt,[]);titleMap.get(nt).push(page)}
     if(page._text.length>=80){const h=hash(page._text);if(!contentMap.has(h))contentMap.set(h,[]);contentMap.get(h).push(page)}
+    for(const paragraph of page._paragraphs){if(!paragraphMap.has(paragraph.text))paragraphMap.set(paragraph.text,{raw:paragraph.raw,pages:[]});paragraphMap.get(paragraph.text).pages.push(page)}
   }
   for(let i=0;i<rows.length;i++)for(let j=i+1;j<rows.length;j++){
     const a=rows[i],b=rows[j];if(a._text.length<180||b._text.length<180)continue;
     const score=jaccard(a._shingles,b._shingles);
-    if(score>=0.45)similar.push({score:Number(score.toFixed(3)),a:{id:a.id,title:a.title,sourceCategory:a.sourceCategory},b:{id:b.id,title:b.title,sourceCategory:b.sourceCategory}});
+    if(score>=0.25)similar.push({score:Number(score.toFixed(3)),a:{id:a.id,title:a.title,sourceCategory:a.sourceCategory},b:{id:b.id,title:b.title,sourceCategory:b.sourceCategory}});
   }
   similar.sort((a,b)=>b.score-a.score);
   const titleDuplicates=[...titleMap.entries()].filter(([,items])=>items.length>1).map(([title,items])=>({title,items:items.map(p=>({id:p.id,title:p.title,sourceCategory:p.sourceCategory}))}));
   const contentDuplicates=[...contentMap.entries()].filter(([,items])=>items.length>1).map(([fingerprint,items])=>({fingerprint,items:items.map(p=>({id:p.id,title:p.title,sourceCategory:p.sourceCategory}))}));
-  report.categories[category]={pages:rows.length,titleDuplicates,contentDuplicates,highOverlap:similar.slice(0,80)};
+  const paragraphDuplicates=[...paragraphMap.values()].filter(item=>new Set(item.pages.map(p=>p.id)).size>1).map(item=>({excerpt:item.raw,pages:[...new Map(item.pages.map(p=>[p.id,{id:p.id,title:p.title,sourceCategory:p.sourceCategory}])).values()]})).sort((a,b)=>b.pages.length-a.pages.length||a.excerpt.localeCompare(b.excerpt,'fr'));
+  report.categories[category]={pages:rows.length,titleDuplicates,contentDuplicates,paragraphDuplicates,highOverlap:similar.slice(0,120)};
   console.log(`\n${category.toUpperCase()} — ${rows.length} pages virtuelles`);
   console.log(`  Titres dupliqués: ${titleDuplicates.length}`);
   console.log(`  Contenus identiques: ${contentDuplicates.length}`);
-  console.log(`  Recouvrements >= 0.45: ${similar.length}`);
-  for(const pair of similar.slice(0,30))console.log(`  OVERLAP ${pair.score} | ${pair.a.id} :: ${pair.a.title} <-> ${pair.b.id} :: ${pair.b.title}`);
+  console.log(`  Paragraphes identiques inter-pages: ${paragraphDuplicates.length}`);
+  console.log(`  Recouvrements >= 0.25: ${similar.length}`);
+  for(const pair of similar.slice(0,40))console.log(`  OVERLAP ${pair.score} | ${pair.a.id} :: ${pair.a.title} <-> ${pair.b.id} :: ${pair.b.title}`);
   for(const dup of titleDuplicates)console.log(`  TITLE DUP | ${dup.items.map(x=>`${x.id} :: ${x.title}`).join(' <-> ')}`);
   for(const dup of contentDuplicates)console.log(`  CONTENT DUP | ${dup.items.map(x=>`${x.id} :: ${x.title}`).join(' <-> ')}`);
+  for(const dup of paragraphDuplicates.slice(0,50))console.log(`  PARAGRAPH DUP x${dup.pages.length} | ${dup.pages.map(x=>`${x.id} :: ${x.title}`).join(' <-> ')} | ${dup.excerpt}`);
 }
 
 const organisations=pages.filter(page=>page.sourceCategory==='Organisations');
