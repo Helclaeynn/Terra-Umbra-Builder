@@ -6,7 +6,8 @@ const DATA='compendium/data';
 const MANIFEST=`${DATA}/manifest-v3.json`;
 const SOURCES=[
   'compendium/source/reality-lore-v3-augmentations.json',
-  'compendium/source/reality-lore-v3-augmentations-curated-sensory-neural.json'
+  'compendium/source/reality-lore-v3-augmentations-curated-sensory-neural.json',
+  'compendium/source/reality-lore-v3-augmentations-curated-body-systems.json'
 ];
 const FRAGMENT_SIZE=8000;
 
