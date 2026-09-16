@@ -17,6 +17,7 @@ const SOURCES=[
   'compendium/source/truth-lore-v3-curated-exiles-market.json',
   'compendium/source/truth-lore-v3-curated-xeno-market.json',
   'compendium/source/truth-lore-v3-curated-xeno-cultures.json',
+  'compendium/source/truth-lore-v3-curated-xeno-polish.json',
   'compendium/source/truth-lore-v3-curated-corruption-vhodhal-vaagor-sharith.json',
   'compendium/source/truth-lore-v3-curated-corruption-vhadhi-shaoggith-thul.json',
   'compendium/source/truth-lore-v3-curated-corruption-artifacts.json'
