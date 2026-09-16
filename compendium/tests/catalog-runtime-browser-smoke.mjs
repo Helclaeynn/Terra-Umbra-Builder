@@ -34,11 +34,11 @@ try{
   const headings=(await page.locator('#main .section h2').allTextContents()).map(text=>text.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase());
   if(!headings.some(text=>text.includes('generation 1'))||!headings.some(text=>text.includes('generation 2')))throw new Error('Cybermain: Gen.1 et Gen.2 absentes');
 
-  await openExact('Bastion',['mitrailleuse lourde','60 cartouches','bande bastion','appui']);
-  await openExact('Bande Bastion',['60 cartouches','mitrailleuse lourde bastion','alimentation']);
-  await openExact('2-Fence',['deux agents humanoides','interception','dix minutes','reinitialisation']);
+  await openExact('Bastion',['mitrailleuse lourde d’appui','point d’ancrage','tenir un axe','infrastructure de feu portable']);
+  await openExact('Bande Bastion',['alimentation lourde','mitrailleuse d’appui','ressource logistique']);
+  await openExact('2-Fence',['deux agents humanoides','lecture intuitive','intervention d’un agent','se reconstruire']);
   await openExact('Hellstorm',['gatling lourde','200 coups','suppression']);
-  await openExact('Bull Executive',['train de vie aise','abonnement','mobilite']);
+  await openExact('Bull Executive',['clientele aisee','service permanent','reseau bull']);
   await openExact('Vrai cafe',['grains reellement cultives','rare','statut']);
   await openExact('FaceCaster DFL',['projecteur','holographique','holo']);
   await openExact('Vladic grand/protege',['protection de quartier','pas un bonus de combat']);
@@ -46,5 +46,5 @@ try{
 
   await gotoCategory(CATALOG_CATEGORY);await filterCategory('Neuroprogramme');const neuroCount=await visibleCards('equipement').count();if(neuroCount!==27)throw new Error(`Neuroprogrammes: ${neuroCount} cartes Réalité, attendu 27`);
   if(errors.length)throw new Error(`Erreurs navigateur:\n${errors.join('\n')}`);
-  console.log(`Browser smoke Réalité V3 OK — rubrique unifiée Équipement & Objets · ${augmentationCount} pages d’augmentations Réalité · routes canoniques équipement validées · 2-Fence conservé · Vladic/Cache curatés manuellement · ${neuroCount} Neuroprogrammes · aucun asset jsDelivr.`);
+  console.log(`Browser smoke Réalité V3 OK — rubrique unifiée Équipement & Objets · ${augmentationCount} pages d’augmentations Réalité · routes canoniques équipement validées · corpus manuel 297/297 · 2-Fence conservé · Vladic/Cache curatés manuellement · ${neuroCount} Neuroprogrammes · aucun asset jsDelivr.`);
 }finally{await browser.close();}
