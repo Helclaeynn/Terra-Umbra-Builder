@@ -23,5 +23,11 @@ for(const id of ['equipement','augmentations']){
     const facts=pages.filter(p=>p.catalog?.loreGrounding==='catalogue-facts');
     console.log(`AUDIT EQUIPEMENT FACTS-ONLY — ${facts.length} pages`);
     for(const page of facts)console.log(`FACTS | ${page.title} | ${cat(page)} | ${rowText(page)}`);
+
+    const manual=pages.filter(p=>p.catalog?.loreMethod==='reality-book-semantic-lore');
+    const pending=pages.filter(p=>p.catalog?.loreMethod!=='reality-book-semantic-lore');
+    console.log(`AUDIT EQUIPEMENT MANUAL V3 — ${manual.length}/${pages.length} pages`);
+    console.log(`AUDIT EQUIPEMENT A REPRENDRE — ${pending.length} pages`);
+    for(const page of pending)console.log(`PENDING | ${page.title} | ${cat(page)} | ${rowText(page)}`);
   }
 }
