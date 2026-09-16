@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import zlib from 'node:zlib';
-import {classifyNavigation,navigationDisplayTitle} from '../compendium/navigation-schema-v2.js';
+import {classifyNavigation,navigationDisplayTitle} from '../compendium/navigation-schema-v3.js';
 
 const DATA='compendium/data';
 const manifest=JSON.parse(fs.readFileSync(`${DATA}/manifest-v3.json`,'utf8'));
@@ -29,7 +29,8 @@ for(const rows of bodyDup)console.log(`  BODY | ${rows.map(p=>`${p.id} :: ${p.ti
 
 const obsolete=rules.filter(page=>page.status==='obsolete'||(page.sections||[]).some(s=>s.status==='obsolete'));
 console.log(`OBSOLETE STATUS ${obsolete.length}`);for(const page of obsolete)console.log(`  OBSOLETE | ${page.id} | ${page.title}`);
-const metaRe=/\b(?:legacy|transitoire|a auditer|à auditer|todo|obsolete|obsolète|ancienne version|ancienne regle|ancienne règle|migration|placeholder|stub)\b/i;
+// Ne pas prendre le vocabulaire mécanique normal (« acclimatation transitoire ») pour une note de migration.
+const metaRe=/\b(?:legacy|page transitoire|contenu transitoire|a auditer|à auditer|todo|obsolete|obsolète|ancienne version|ancienne regle|ancienne règle|migration technique|placeholder|stub)\b/i;
 const meta=rules.filter(page=>metaRe.test(flat(page)));
 console.log(`EDITORIAL OR LEGACY MARKERS ${meta.length}`);for(const page of meta)console.log(`  META | ${page.id} | ${page.title}`);
 
