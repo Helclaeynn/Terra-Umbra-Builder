@@ -10,7 +10,10 @@ const SOURCES=[
   'compendium/source/truth-lore-v3-curated-hunters-arsenal.json',
   'compendium/source/truth-lore-v3-curated-hunters-ritual-investigation.json',
   'compendium/source/truth-lore-v3-curated-hunters-reference.json',
-  'compendium/source/truth-lore-v3-curated-hunters-polish.json'
+  'compendium/source/truth-lore-v3-curated-hunters-polish.json',
+  'compendium/source/truth-lore-v3-curated-exiles-runic.json',
+  'compendium/source/truth-lore-v3-curated-exiles-azmenorian.json',
+  'compendium/source/truth-lore-v3-curated-exiles-market.json'
 ];
 const FRAGMENT_SIZE=8000;
 const clean=value=>String(value??'').trim().replace(/\s+/g,' ');
