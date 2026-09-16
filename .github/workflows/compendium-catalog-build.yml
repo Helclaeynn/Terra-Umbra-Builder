@@ -26,6 +26,7 @@ on:
       - 'compendium/source/reality-lore-v3-curated-drugs-services.json'
       - 'compendium/source/reality-lore-v3-curated-vehicles.json'
       - 'compendium/source/reality-lore-v3-curated-armor.json'
+      - 'compendium/source/reality-lore-v3-curated-armor-modules.json'
       - 'compendium/tests/catalog-pages-check.mjs'
       - 'compendium/tests/catalog-pages-semantic-check.mjs'
       - 'compendium/tests/reality-catalog-lore-quality-check.mjs'
