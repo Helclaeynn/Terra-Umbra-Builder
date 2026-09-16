@@ -22,6 +22,7 @@ on:
       - 'compendium/source/reality-lore-v3-curated-holonet.json'
       - 'compendium/source/reality-lore-v3-curated-civic.json'
       - 'compendium/source/reality-lore-v3-curated-housing.json'
+      - 'compendium/source/reality-lore-v3-curated-daily-life.json'
       - 'compendium/tests/catalog-pages-check.mjs'
       - 'compendium/tests/catalog-pages-semantic-check.mjs'
       - 'compendium/tests/reality-catalog-lore-quality-check.mjs'
