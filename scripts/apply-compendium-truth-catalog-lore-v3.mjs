@@ -14,7 +14,12 @@ const SOURCES=[
   'compendium/source/truth-lore-v3-curated-hunters-polish.json',
   'compendium/source/truth-lore-v3-curated-exiles-runic.json',
   'compendium/source/truth-lore-v3-curated-exiles-azmenorian.json',
-  'compendium/source/truth-lore-v3-curated-exiles-market.json'
+  'compendium/source/truth-lore-v3-curated-exiles-market.json',
+  'compendium/source/truth-lore-v3-curated-xeno-market.json',
+  'compendium/source/truth-lore-v3-curated-xeno-cultures.json',
+  'compendium/source/truth-lore-v3-curated-corruption-vhodhal-vaagor-sharith.json',
+  'compendium/source/truth-lore-v3-curated-corruption-vhadhi-shaoggith-thul.json',
+  'compendium/source/truth-lore-v3-curated-corruption-artifacts.json'
 ];
 const FRAGMENT_SIZE=8000;
 const clean=value=>String(value??'').trim().replace(/\s+/g,' ');
@@ -63,6 +68,7 @@ for(const sourcePath of SOURCES){
 const manifest=JSON.parse(fs.readFileSync(MANIFEST,'utf8'));
 const spec=manifest.datasets.find(item=>item.id==='verite-catalogue');if(!spec)throw new Error('Dataset verite-catalogue absent');
 const pages=load(spec),byTitle=new Map(pages.map(page=>[norm(page.title),page]));
+if(curated.length!==pages.length)throw new Error(`Couverture manuelle Vérité incomplète: ${curated.length}/${pages.length}`);
 const before=new Map(pages.map(page=>[norm(page.title),mechanicalSnapshot(page)]));
 let applied=0;
 for(const {title,entry,source} of curated){
@@ -84,4 +90,4 @@ write(spec,pages);
 spec.quality={...(spec.quality||{}),loreVersion:3,method:'truth-book-manual-lore'};
 manifest.expectedTotal=manifest.datasets.reduce((sum,item)=>sum+Number(item.count||0),0);
 fs.writeFileSync(MANIFEST,JSON.stringify(manifest,null,2)+'\n');
-console.log(`Lore Vérité V3 manuel — ${applied} pages surchargées depuis ${SOURCES.length} corpus · propriétés inchangées · SHA ${spec.sha256}.`);
+console.log(`Lore Vérité V3 manuel — ${applied} pages surchargées depuis ${SOURCES.length} corpus · couverture complète · propriétés inchangées · SHA ${spec.sha256}.`);
