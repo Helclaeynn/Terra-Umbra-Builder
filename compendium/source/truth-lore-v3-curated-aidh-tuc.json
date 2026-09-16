@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "source": "TUC Vérité V6 — Livre V, dispositifs Terra Umbra et doctrine AIDH ; reprise manuelle",
+  "entries": {
+    "ARGUS-T": {
+      "paragraphs": [
+        "ARGUS-T est né du constat que l’Hologramme ne laisse pas toujours une image fausse simple à photographier : il produit surtout des incohérences entre mesures qui devraient normalement raconter la même réalité. La visière compare donc plusieurs capteurs simultanément et cherche les ruptures de conservation, les désaccords instrumentaux et les zones où le Voile paraît artificiellement sollicité.",
+        "L’AIDH l’emploie comme instrument de diagnostic, pas comme détecteur d’espèces occultes. Un opérateur entraîné peut reconnaître qu’une zone vient d’être Révélée, contrainte ou stabilisée, mais l’écran n’écrit pas « vampire » ou « daemon » au-dessus d’une silhouette. ARGUS-T indique qu’une réalité mesurable ne se comporte pas correctement ; comprendre pourquoi reste un travail d’enquête, d’expertise et de comparaison avec les autres outils TUC."
+      ]
+    },
+    "Mnemosyne": {
+      "paragraphs": [
+        "Mnemosyne répond à un problème plus dérangeant encore que l’erreur de mesure : une donnée correcte peut devenir fausse après coup lorsque l’Hologramme réorganise ce qui doit avoir été vu. Le noyau associe donc capteur, journal matériel et stockage technomagique afin que ce qu’il a réellement enregistré ne soit pas automatiquement réécrit avec la mémoire ordinaire du monde.",
+        "Cette résistance n’améliore pas le regard initial. Si la caméra ne percevait qu’une apparence Voilée, elle conserve fidèlement cette apparence ; si IRIS-0 ou un autre dispositif lui fournit une observation réelle, elle peut en préserver la trace. C’est précisément ce qui rend Mnemosyne précieux pour l’AIDH : il ne prétend pas savoir la Vérité, il offre un point fixe auquel comparer les versions successives de ce qui a été observé."
+      ]
+    },
+    "STATOR": {
+      "paragraphs": [
+        "STATOR est une ancre de cohérence conçue pour empêcher une transition imposée de devenir un fait accompli avant même que l’équipe comprenne ce qui se passe. Selon la mission, il prend la forme d’un tripode, d’un brassard ou d’un module intégré à une armure, mais son principe reste celui d’une référence externe maintenue en liaison avec une cible consentante.",
+        "L’appareil ne choisit pas l’état de la cible à sa place. Il sert à opposer une résistance technique à une modification forcée du rapport au Voile, tandis qu’un changement volontaire reste possible. Cette nuance résume la doctrine AIDH autour de STATOR : stabiliser n’est pas révéler, contraindre un phénomène n’est pas posséder l’individu, et un dispositif de cohérence ne remplace ni une HDS ni une véritable vision de Vérité."
+      ]
+    },
+    "CLEARSKY": {
+      "paragraphs": [
+        "CLEARSKY crée autour de ses capteurs une petite fenêtre instrumentale où les observations ont le temps d’être mesurées avant que l’Hologramme ne les rende immédiatement cohérentes avec sa version du monde. La caisse lourde et son trépied ne cherchent donc pas à supprimer le Voile ; ils offrent quelques instants de stabilité à une chaîne d’instruments préparée pour regarder quelque chose d’anormal.",
+        "Son intérêt apparaît surtout lorsqu’il travaille avec Mnemosyne : une mesure provisoirement stable peut être transférée dans un support qui conservera ensuite ce qui a réellement été enregistré. CLEARSKY ne transforme pourtant pas les personnes Voilées en êtres Révélés et ne montre pas spontanément leur forme véritable. Il stabilise les données d’une observation possible ; la capacité de voir ce qui se cache derrière la traduction reste une question séparée."
+      ]
+    },
+    "IRIS-0": {
+      "paragraphs": [
+        "IRIS-0 est l’un des rares dispositifs AIDH qui s’attaque directement à la traduction visuelle de l’Hologramme. L’optique cherche moins une signature biologique qu’un écart entre ce qui existe et la représentation que le Voile impose à l’observateur, jusqu’à rendre localement visible la morphologie réellement présente lorsque rien ne bloque spécifiquement cette lecture.",
+        "Cette capacité explique sa rareté institutionnelle : voir sous le Voile n’est pas simplement disposer d’un meilleur zoom. IRIS-0 ne donne ni nom, ni espèce, ni faiblesse, ni intention ; il montre une forme là où l’œil ordinaire recevrait une traduction acceptable. Couplé à Mnemosyne, il permet en revanche de conserver cette observation sans modifier l’état de la cible, ce qui en fait autant un outil de preuve qu’un dispositif de perception."
+      ]
+    },
+    "TRIAD-R": {
+      "paragraphs": [
+        "TRIAD-R utilise trois microcapteurs suffisamment petits pour se fondre dans une pièce, un couloir ou un périmètre discret. Leur intérêt ne vient pas d’un capteur individuel extraordinaire, mais de la comparaison géométrique de trois points distincts lorsqu’une Révélation ou une transition suffisamment forte perturbe réellement le volume qu’ils encadrent.",
+        "L’alerte est volontairement modeste : heure, direction générale, secteur et intensité permettent de savoir qu’un événement a eu lieu sans prétendre identifier son auteur. Dans une enquête, cette pauvreté apparente est une force, car le système enregistre quelque chose que l’Hologramme peut ensuite rendre socialement banal. TRIAD-R produit un témoin instrumental de la transition ; poursuivre la cible reste le travail des agents."
+      ]
+    },
+    "TwinKey": {
+      "paragraphs": [
+        "TwinKey part d’une idée presque paranoïaque : si une seule chaîne de mesure peut être réinterprétée, il faut en faire fonctionner deux qui ne dépendent pas exactement des mêmes composants, chemins de stockage ou principes instrumentaux. Tant que leurs historiques racontent une histoire compatible, rien d’anormal n’est certain ; lorsqu’ils deviennent causalement incompatibles, l’écart devient lui-même une donnée.",
+        "Le système est donc particulièrement précieux après l’événement, quand tout paraît de nouveau normal. Il conserve l’instant où les deux récits ont divergé et permet aux analystes de chercher ce qui a été corrigé. TwinKey ne décide pourtant jamais lequel des deux souvenirs instrumentaux est vrai ni ce qui a provoqué la rupture. Sa fonction est plus sobre : prouver que la cohérence du passé a été touchée."
+      ]
+    },
+    "Q-Lock": {
+      "paragraphs": [
+        "Q-Lock transforme une chambre, un laboratoire provisoire ou une scène sensible en périmètre dont l’activité peut être reconstruite ensuite. Entrées et sorties physiques, échanges réseau autorisés et anomalies majeures de cohérence sont consignés dans une même chronologie, tandis que les émissions non prévues peuvent être coupées pour réduire ce qui quitte la zone pendant l’examen.",
+        "L’AIDH l’emploie autant pour protéger la preuve que pour comprendre une contamination. Un journal peut être dupliqué vers Ghostbox ou Mnemosyne selon ce que l’équipe soupçonne. Rien dans le dispositif ne constitue cependant une prison occulte : quelqu’un qui peut franchir physiquement la porte peut toujours sortir si aucune autre mesure ne l’en empêche. Q-Lock rend cette sortie beaucoup plus difficile à faire disparaître des traces."
+      ]
+    },
+    "Needle-T": {
+      "paragraphs": [
+        "Needle-T est le drone que l’AIDH envoie lorsqu’elle veut d’abord perdre une machine plutôt qu’un agent. Petit, sacrifiable et dense en capteurs, il combine une version simplifiée d’ARGUS-T avec lidar, analyses chimiques, biologiques, radiologiques et thermiques, puis sauvegarde ses propres observations dans un noyau dérivé de Mnemosyne.",
+        "Sa doctrine d’emploi est celle du premier regard : cartographier, prélever, observer et transmettre assez d’informations pour décider si une présence humaine est justifiée. La destruction du noyau en cas de capture complète cette logique de consommable sensible. Needle-T ne possède pourtant aucune intuition surnaturelle ; chaque capteur garde les limites de sa version portable, et l’assemblage de plusieurs instruments ne devient pas une identification magique universelle."
+      ]
+    },
+    "JANUS-B": {
+      "paragraphs": [
+        "JANUS-B est la réponse AIDH au moment frustrant où un phénomène est bien détecté mais reste impossible à saisir parce qu’il n’est pas complètement matériel. Le module projette sur un outil prévu à cet effet une interface biphysique temporaire : pince, capteur, cadre, contenant ou accessoire d’arme peut alors agir sur ce qui partage réellement cette frontière entre matière et manifestation.",
+        "Cette capacité reste volontairement attachée au dispositif couplé. Activer JANUS-B sur une pince ne rend pas soudain tout le corps de l’opérateur capable de frapper n’importe quelle âme, et le module ne révèle pas de lui-même ce qui demeure invisible. L’AIDH l’utilise comme une interface technique entre deux régimes d’existence : une fois la cible localisée et comprise, l’outil peut enfin la mesurer, la déplacer ou la confiner."
+      ]
+    },
+    "ARK-6": {
+      "paragraphs": [
+        "ARK-6 est un conteneur pour tout ce qu’une équipe de Vérité refuse de placer dans une simple caisse : tissus anormaux, reliques, fragments contaminés, objets xénos instables ou organismes dont personne ne connaît encore les exigences. Réseau, pression, alimentation et environnement internes peuvent être isolés du monde extérieur, de sorte que chaque échantillon voyage dans une petite infrastructure autonome plutôt que dans un emballage renforcé.",
+        "Les versions adaptées reçoivent également JANUS-B lorsqu’une partie du contenu n’est pas entièrement matérielle, et tout changement interne alimente une chaîne d’événements locale. Cette sophistication ne fait pas de l’ARK-6 une prison absolue. Un artefact cosmique ou une entité majeure reste capable de dépasser ce pour quoi la cage a été construite ; le conteneur fournit une procédure de confinement sérieuse, pas une garantie métaphysique."
+      ]
+    },
+    "SENTINEL-N": {
+      "paragraphs": [
+        "SENTINEL-N surveille en continu ce qui fait qu’un agent AIDH est encore reconnu comme lui-même : schémas neuronaux, motricité, signatures nanitiques et habitudes d’authentification. Une rupture brutale et étrangère ne permet pas au module de savoir quel esprit, programme ou phénomène en est responsable, mais elle suffit à considérer que les privilèges du corps ne doivent plus être accordés sans contrôle.",
+        "Sa réponse vise donc les conséquences d’une prise de contrôle plutôt que son impossibilité. Armes stratégiques, véhicules et réseaux sensibles peuvent être verrouillés pendant que l’escouade reçoit l’alerte. Le porteur peut toujours être dominé, possédé ou manipulé ; SENTINEL-N cherche à empêcher l’intrus de transformer immédiatement ce succès en accès institutionnel complet. Pour l’AIDH, perdre momentanément un agent ne doit pas signifier lui remettre toutes ses clés."
+      ]
+    },
+    "WAKE-3": {
+      "paragraphs": [
+        "WAKE-3 est un dispositif médical que personne n’emploie par confort. Il provoque une rupture neurochimique et nanitique violente afin de briser, quelques instants, la continuité dont dépend un contrôle directement accroché à l’activité cérébrale. Le geste ressemble davantage à redémarrer un organisme en urgence qu’à administrer un simple stimulant.",
+        "Cette brutalité explique que l’on réserve l’injecteur à soi-même, à une cible consentante ou déjà immobilisée : le contrecoup est réel même lorsque la tentative réussit. WAKE-3 n’a en revanche aucune prise particulière sur ce qui ne passe pas par le système nerveux. Pacte, malédiction, emprise spirituelle ou phénomène dont le mécanisme est ailleurs restent exactement aussi problématiques après l’injection qu’avant."
+      ]
+    },
+    "HDS-4 Veil Lock": {
+      "paragraphs": [
+        "HDS-4 Veil Lock est une technologie de contrainte du Voile plutôt qu’un appareil de vision. Une cible qui se trouve encore dans un état Voilé peut être maintenue dans cette cohérence locale, l’AIDH cherchant à empêcher la progression vers une manifestation plus ouverte avant que l’environnement, les civils ou l’équipe ne puissent l’absorber correctement.",
+        "Cette logique ne fonctionne pas à l’envers comme un bouton universel. Une créature déjà pleinement Révélée n’est pas automatiquement repoussée derrière l’Hologramme, et les autres présences de la zone ne deviennent pas visibles pour l’opérateur. HDS-4 est donc surtout une technologie de contrôle de transition : elle ferme temporairement une porte précise, elle ne réécrit pas le statut métaphysique de tout ce qui se trouve autour d’elle."
+      ]
+    },
+    "CALIBAN-S": {
+      "paragraphs": [
+        "CALIBAN-S est employé après que les enquêteurs ont déjà de bonnes raisons de soupçonner une exposition à une Source de Fléau ou à une Calamitechnologie. Le spectromètre compare matière, tissus et résidus à ce que l’AIDH connaît d’une physique, d’une biologie ou d’une technologie normales, puis cherche une anomalie stable qui ne s’explique plus par ces références.",
+        "Avec un échantillon correctement documenté, l’appareil peut ensuite dire qu’une nouvelle trace appartient vraisemblablement à la même famille de contamination, ce qui en fait un excellent compagnon d’ARK-6 et Q-Lock. Il ne nomme cependant pas le Fléau à partir du néant et ne lit aucune corruption intérieure comme une jauge. CALIBAN-S analyse une souillure matérielle observable ; l’interprétation occulte reste une expertise distincte."
+      ]
+    },
+    "Calamitechnologie": {
+      "paragraphs": [
+        "L’AIDH réserve le terme Calamitechnologie aux dispositifs qui ne se contentent pas d’étudier un Fléau, mais exploitent directement l’un de ses principes. C’est précisément ce qui les rend plus inquiétants qu’une simple arme exotique : le fonctionnement peut introduire dans une chaîne industrielle, un laboratoire ou un corps humain la logique même d’une puissance que l’organisation cherche normalement à contenir.",
+        "Ces pièces n’appartiennent donc jamais à la dotation ordinaire. Elles viennent de programmes noirs, de laboratoires dissidents, d’Armée 0 ou de saisies assez importantes pour justifier leur conservation, avec des protocoles de Souillure et de confinement propres à chaque cas. Parler d’un « modèle AIDH » serait trompeur : la Calamitechnologie est d’abord un risque étudié sous contrôle, parfois retourné contre son origine, jamais une gamme commerciale parallèle."
+      ]
+    },
+    "Dotation et accès AIDH": {
+      "paragraphs": [
+        "L’AIDH ne classe pas son matériel comme un catalogue marchand allant simplement du moins cher au plus prestigieux. Les niveaux d’accès décrivent surtout qui peut justifier une pièce et dans quel cadre : ce qu’un agent garde sur lui tous les jours n’obéit pas aux mêmes procédures qu’une exoarmure lourde, un dispositif TUC rare ou une ogive stratégique.",
+        "Cette organisation crée une culture matérielle très différente de celle d’un mercenaire terrestre. Posséder physiquement un objet ne suffit pas à en faire une dotation légitime ; autorisations, mission, signatures et chaîne de responsabilité restent attachées à l’équipement. Plus la lettre d’accès monte vers le lourd, le spécial ou l’expérimental, plus la question devient moins « peut-on l’emporter ? » que « qui répond de son usage et pourquoi était-il nécessaire ? »."
+      ]
+    },
+    "Conventions techniques AIDH": {
+      "paragraphs": [
+        "Le matériel AIDH paraît parfois miraculeux à un observateur terrestre parce que plusieurs technologies déjà banales pour l’organisation se superposent : authentification nanitique, réserves de matière, intégration réseau, effets ioniques et générateurs miniaturisés. Pris séparément, chacun répond pourtant à une logique matérielle précise et conserve des limites que les opérateurs apprennent dès leur formation.",
+        "Cette culture technique explique aussi pourquoi l’AIDH ne confond pas compatibilité et omnipotence. Une arme verrouillée reste une machine à pirater, un projectile généré consomme une réserve, un EMP agit sur l’électronique exposée et une interface nanitique ne fournit aucune compétence gratuitement. Surtout, le simple fait qu’un capteur soit AIDH ne lui donne aucune vision de Vérité : l’Hologramme exige un dispositif explicitement conçu pour le problème qu’il pose."
+      ]
+    },
+    "Protocoles de Cohérence — compatibilité matérielle": {
+      "paragraphs": [
+        "Les Protocoles de Cohérence ne sont pas des pouvoirs abstraits que n’importe quel terminal AIDH pourrait exécuter. Chacun est né autour d’une fonction matérielle précise : ARGUS-T mesure les contradictions, Mnemosyne préserve une trace, STATOR oppose une référence stable, CLEARSKY ouvre une fenêtre instrumentale, IRIS-0 regarde sous la traduction et HDS-4 contraint une transition.",
+        "Cette dépendance au matériel empêche la boîte à outils TUC de devenir un ensemble de réponses interchangeables. Une équipe doit savoir ce qu’elle cherche à faire avant de choisir son équipement : observer n’est pas conserver, conserver n’est pas révéler, révéler n’est pas contenir. L’efficacité de l’AIDH vient justement de cette spécialisation assumée et de la manière dont plusieurs appareils peuvent former ensemble une chaîne cohérente."
+      ]
+    },
+    "Dotations types AIDH": {
+      "paragraphs": [
+        "Une escouade AIDH n’est pas équipée selon une liste fixe attachée à son uniforme. Le commandement compose plutôt un ensemble autour du mandat, du besoin de discrétion, de la distance au soutien et de la menace estimée : un agent discret, une équipe de confinement ou une unité en Bastion partent avec des problèmes à résoudre très différents.",
+        "Les configurations courantes servent donc surtout de langage logistique partagé. Dire « reconnaissance TUC » ou « cellule de Cohérence » évoque immédiatement un noyau de matériel compatible, sans interdire d’ajouter ou retirer une pièce selon les renseignements disponibles. Cette souplesse évite de transporter toute l’armurerie à chaque sortie et rappelle qu’un équipement exceptionnel n’est pas un droit permanent attaché à l’agent qui l’a déjà utilisé une fois."
+      ]
+    }
+  }
+}
