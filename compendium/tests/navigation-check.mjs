@@ -5,11 +5,13 @@ import { classifyNavigation, navigationDisplayTitle } from '../navigation-schema
 const DATA='compendium/data';
 const manifest=JSON.parse(fs.readFileSync(`${DATA}/manifest-v3.json`,'utf8'));
 const hierarchical=['Règles','Réalité','Équipement','Augmentations','Vérité','Catalogue Vérité','Organisations','Personnages','Bestiaire'];
+const catalogTitleDatasets=new Set(['equipement','augmentations','verite-catalogue']);
 function load(spec){
   let b64='';
   for(let i=0;i<spec.parts;i++)b64+=fs.readFileSync(`${DATA}/${spec.prefix}-${String(i).padStart(2,'0')}.b64part`,'utf8').replace(/\s+/g,'');
   return JSON.parse(zlib.gunzipSync(Buffer.from(b64,'base64')).toString('utf8')).map(page=>({...page,dataset:page.dataset||spec.id}));
 }
+function expectedDisplayTitle(page){return catalogTitleDatasets.has(page.dataset)?String(page.title||'').trim():navigationDisplayTitle(page.title)}
 const pages=manifest.datasets.flatMap(load).filter(page=>hierarchical.includes(page.category));
 const expectedCounts=Object.fromEntries(hierarchical.map(category=>[category,pages.filter(page=>page.category===category).length]));
 const expectedTotal=pages.length;
@@ -33,7 +35,7 @@ for(const entry of nav.entries){
   const classified=classifyNavigation(page);if(!classified)throw new Error(`Navigation: page non classée ${page.category} | ${page.dataset} | ${page.title}`);
   for(const key of ['group','subgroup'])if(!entry[key]||catchAll.test(entry[key].trim()))throw new Error(`Navigation: groupe interdit ${entry.id} | ${entry[key]}`);
   for(const key of ['groupOrder','subgroupOrder','pageOrder'])if(!Number.isFinite(entry[key]))throw new Error(`Navigation: ordre invalide ${entry.id} | ${key}`);
-  if(entry.displayTitle!==navigationDisplayTitle(page.title))throw new Error(`Navigation: displayTitle incohérent ${entry.id}`);
+  if(entry.displayTitle!==expectedDisplayTitle(page))throw new Error(`Navigation: displayTitle incohérent ${entry.id}: ${entry.displayTitle} != ${expectedDisplayTitle(page)}`);
   for(const key of ['group','subgroup','groupOrder','subgroupOrder','pageOrder'])if(entry[key]!==classified[key])throw new Error(`Navigation: dérive ${entry.id} | ${key}: ${entry[key]} != ${classified[key]}`);
 }
 for(const page of pages)if(!seen.has(page.id))throw new Error(`Navigation: page oubliée ${page.id}`);
@@ -41,6 +43,8 @@ for(const [category,count] of Object.entries(expectedCounts)){
   const actual=nav.entries.filter(entry=>entry.category===category).length;
   if(actual!==count)throw new Error(`${category}: ${actual} entrées navigation, attendu ${count}`);
 }
+const twoFence=nav.entries.find(entry=>entry.id==='equipement-264-2-fence');
+if(!twoFence||twoFence.displayTitle!=='2-Fence')throw new Error(`2-Fence: titre de navigation altéré (${twoFence?.displayTitle||'absent'})`);
 
 function expectId(id,group,subgroup){
   const page=pageById.get(id);if(!page)throw new Error(`Page témoin absente: ${id}`);
