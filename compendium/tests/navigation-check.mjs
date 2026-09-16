@@ -22,7 +22,7 @@ for(const [category,count] of Object.entries(fixedCounts))if(expectedCounts[cate
 const navPath=`${DATA}/navigation-v1.json`;
 if(!fs.existsSync(navPath))throw new Error('navigation-v1.json absent');
 const nav=JSON.parse(fs.readFileSync(navPath,'utf8'));
-if(nav.version!==3||!Array.isArray(nav.entries))throw new Error(`navigation-v1.json invalide/version ${nav.version}`);
+if(nav.version!==2||!Array.isArray(nav.entries))throw new Error(`navigation-v1.json invalide/version ${nav.version}`);
 if(nav.entries.length!==expectedTotal)throw new Error(`navigation-v1.json: ${nav.entries.length} entrées, attendu ${expectedTotal}`);
 
 const catchAll=/^(?:autre(?:s)?(?:\s+règle(?:s)?)?|divers|misc(?:ellaneous)?)$/i;
