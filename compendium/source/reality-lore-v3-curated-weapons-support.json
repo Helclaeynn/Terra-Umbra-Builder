@@ -1,0 +1,89 @@
+{
+  "source": "TUC Réalité V8 — accessoires d’armes et consommables lourds ; reprise manuelle complète",
+  "entries": {
+    "Silencieux": {
+      "paragraphs": [
+        "Le Silencieux moderne est avant tout un modérateur de signature : il réduit le bruit et rend l’origine d’un tir plus difficile à localiser, mais ne transforme jamais une détonation en geste inaudible. Munition, longueur de canon, environnement et distance continuent de compter autant que l’accessoire lui-même.",
+        "Dans une ville saturée de micros, capteurs et témoins, sa valeur tient souvent à quelques secondes d’incertitude supplémentaires plutôt qu’à une disparition miraculeuse. Professionnels et criminels l’emploient donc comme une couche de discrétion parmi d’autres, avec l’entretien et l’encombrement que son montage impose."
+      ]
+    },
+    "Optique de precision": {
+      "paragraphs": [
+        "L’Optique de précision regroupe les systèmes de visée conçus pour tirer parti d’une arme au-delà de la distance où l’œil nu suffit confortablement. Grossissement, repères et stabilisation visuelle servent surtout à identifier correctement une cible et à conserver une solution de tir préparée.",
+        "Ce type d’optique équipe chasseurs, tireurs professionnels et unités de sécurité sans transformer pour autant une arme courte en fusil de précision. Il aide à exploiter une plateforme adaptée ; qualité du canon, position, atmosphère et compétence du tireur restent les limites réelles de l’ensemble."
+      ]
+    },
+    "Chargeur etendu": {
+      "paragraphs": [
+        "Le Chargeur étendu est l’une des modifications les plus simples à comprendre : davantage de munitions dans l’arme avant de devoir interrompre l’action. Cette réserve supplémentaire implique un magasin plus long ou plus volumineux, donc une modification immédiatement perceptible de la silhouette et de l’équilibre.",
+        "Les unités qui anticipent un échange prolongé apprécient ce compromis, tandis que les utilisateurs cherchant la discrétion ou le port sous vêtement préfèrent souvent le magasin standard. Un chargeur étendu ne rend pas l’arme plus puissante ; il déplace seulement le problème du rechargement vers celui du volume et du poids."
+      ]
+    },
+    "Bipied": {
+      "paragraphs": [
+        "Le Bipied transforme une surface stable en troisième point d’appui pour l’arme. Sur une mitrailleuse, un fusil lourd ou une plateforme anti-matériel, ce simple dispositif permet au tireur de laisser le sol reprendre une partie de la masse et des efforts qui pèseraient autrement sur ses bras et ses épaules.",
+        "Son intérêt explique aussi sa limite : un bipied n’aide réellement que lorsqu’on peut s’installer. Les équipes d’appui choisissent donc leurs positions en pensant à la hauteur, au champ de tir et à la stabilité du support ; dans un déplacement précipité, les deux pieds repliés deviennent surtout du métal supplémentaire."
+      ]
+    },
+    "Smartlink": {
+      "paragraphs": [
+        "Le Smartlink est moins un viseur qu’un langage commun entre l’arme et l’équipement de ciblage de son porteur. Il transmet position, orientation et données de tir à une interface compatible, ce qui permet à plusieurs éléments techniques de fonctionner comme un ensemble plutôt que comme des accessoires indépendants.",
+        "Cette intégration explique pourquoi le Smartlink est particulièrement présent sur les gammes Phoenix et certains Raven modernes. Sans interface capable de recevoir la liaison, l’accessoire perd une grande partie de son intérêt ; un Unsinkable peut utiliser l’arme elle-même, mais pas la couche neuroassistée qui fait la spécificité du système."
+      ]
+    },
+    "Bande Bastion": {
+      "paragraphs": [
+        "La Bande Bastion est une alimentation lourde pensée pour accompagner une mitrailleuse d’appui pendant une vraie séquence de feu. Sa longueur, son conditionnement et son poids rappellent que l’autonomie d’une arme comme Bastion n’existe jamais gratuitement : quelqu’un doit transporter, protéger et présenter correctement les munitions.",
+        "Dans une équipe organisée, les bandes deviennent donc une ressource logistique presque aussi importante que l’arme. Les charger, les répartir entre porteurs et éviter leur contamination par poussière ou débris font partie du travail invisible qui sépare une mitrailleuse opérationnelle d’un gros morceau de métal inutilisable."
+      ]
+    },
+    "Charge Manticore": {
+      "paragraphs": [
+        "La Charge Manticore rassemble les munitions spécialisées nécessaires à l’arme lourde EMP du même nom. Leur fabrication privilégie la décharge et la perturbation de systèmes plutôt qu’un simple effet balistique, ce qui les rend plus coûteuses et plus dépendantes d’un stockage correct qu’une munition conventionnelle.",
+        "Une équipe qui emporte Manticore choisit donc ses cibles avant même de choisir son nombre de charges : drones, capteurs, interfaces ou véhicules peuvent justifier ce consommable, là où une menace purement organique en exploite mal la valeur. La munition reste un outil ciblé, pas une cartouche universelle."
+      ]
+    },
+    "Bande Hellstorm": {
+      "paragraphs": [
+        "La Bande Hellstorm existe pour nourrir une arme dont la raison d’être est la cadence. Son volume et sa masse font immédiatement comprendre pourquoi une Gatling lourde ne se résume jamais au porteur : alimentation, transport et remplacement des bandes deviennent une petite chaîne logistique à eux seuls.",
+        "Les équipes qui utilisent Hellstorm prévoient donc généralement plusieurs porteurs, un véhicule ou une position préparée. Une bande complète donne du temps de saturation ; plusieurs bandes changent le poids de la mission. Cette réalité matérielle est précisément ce qui empêche l’arme de devenir une source de feu illimitée."
+      ]
+    },
+    "Roquette Breacher": {
+      "paragraphs": [
+        "La Roquette Breacher est un projectile de brèche spécialisé, conçu pour concentrer une énergie importante sur une structure ou une position durcie. Son emballage, sa sécurité et son transport reflètent une munition que l’on ne manipule pas comme une boîte de cartouches de service ordinaires.",
+        "Chaque roquette représente un choix de mission : ouvrir ce point précis, neutraliser cette couverture ou frapper cette position. Les équipes compétentes résistent donc à la tentation de l’utiliser sur la première cible visible ; la valeur du Breacher vient autant du bon diagnostic du problème que de la violence du projectile."
+      ]
+    },
+    "Missile Wasp": {
+      "paragraphs": [
+        "Le Missile Wasp est un consommable guidé qui embarque une part importante de la sophistication du système d’arme. Capteurs, guidage et charge doivent survivre au stockage puis fonctionner ensemble au moment du lancement, ce qui rend chaque projectile nettement plus précieux qu’une munition lourde purement balistique.",
+        "Cette valeur explique pourquoi les opérateurs sérieux préparent désignation et trajectoire avant le tir. Perdre un Wasp sur une cible mal identifiée coûte autant en capacité future qu’en argent ; le missile est donc traité comme une ressource d’appui rare, pas comme une roquette que l’on peut gaspiller pour intimider."
+      ]
+    },
+    "Munition Wallbreaker": {
+      "paragraphs": [
+        "La Munition Wallbreaker est un projectile anti-matériel conçu autour de la pénétration d’une cible dure. Sa place n’est pas dans les chargeurs d’infanterie ordinaire : elle accompagne une arme lourde dont le canon, la chambre et le tireur sont préparés à encaisser une munition destinée aux protections et aux structures.",
+        "Les professionnels l’emploient lorsque la couverture elle-même fait partie de la cible. Cette spécialisation impose aussi de savoir ce qui se trouve derrière : une munition capable de traverser davantage de matière augmente la responsabilité du tireur autant que son efficacité contre une position fortifiée."
+      ]
+    },
+    "Reservoir Salamander": {
+      "paragraphs": [
+        "Le Réservoir Salamander contient le consommable inflammable qui donne au projecteur son autonomie de terrain. Plus qu’une simple recharge, c’est un contenant pressurisé ou protégé que l’équipe doit transporter sans fuite, choc majeur ni exposition inutile à la chaleur.",
+        "Cette contrainte fait du porteur de Salamander quelqu’un que ses alliés protègent autant qu’ils exploitent sa puissance. Un réservoir de rechange augmente la durée d’emploi du projecteur, mais aussi la quantité de produit dangereux présente dans l’équipe ; stockage et sécurité deviennent donc une partie du choix tactique."
+      ]
+    },
+    "Reservoir Purifier": {
+      "paragraphs": [
+        "Le Réservoir Purifier contient l’agent chimique utilisé par le projecteur lourd du même nom. Le conditionnement doit rester compatible avec un produit suffisamment agressif pour corroder ou contaminer, ce qui fait de la recharge un matériel technique plutôt qu’un simple bidon interchangeable.",
+        "Transport, étanchéité et procédure de remplacement comptent autant que le contenu. Les équipes qui travaillent avec Purifier traitent ses réservoirs comme des produits dangereux : une fuite dans un véhicule ou une planque peut créer un incident bien avant que l’arme ne soit utilisée contre qui que ce soit."
+      ]
+    },
+    "FaceCaster DFL": {
+      "paragraphs": [
+        "Le FaceCaster DFL est un projecteur porté qui falsifie l’apparence visible du visage et des vêtements plutôt que le corps lui-même. Il appartient à la même culture technique que les dispositifs holographiques de consommation, mais pousse leur précision vers l’infiltration, le spectacle ou la protection d’identité.",
+        "Employé seul, le DFL doit composer avec la silhouette réelle, le toucher, les capteurs non visuels et les erreurs de perspective. Couplé à une Holo’Rmor, il peut contribuer à un déguisement beaucoup plus complet ; même alors, il produit une apparence cohérente, jamais une transformation physique du porteur."
+      ]
+    }
+  }
+}
