@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generated": "2026-09-15",
+  "generated": "2026-09-16",
   "categories": [
     "Règles",
     "Réalité",
@@ -36,9 +36,9 @@
     {
       "id": "equipement",
       "prefix": "v3-equipement-builder-v1",
-      "parts": 9,
+      "parts": 7,
       "count": 297,
-      "sha256": "6a5384a3e6b231215d9a94b58373efa8b022869415e571792e1ae946e6fcb334",
+      "sha256": "1e21112112cb5bd3d6257cb4ebd409795e6a9ece74f139e441c98de89f6cbd9c",
       "quality": {
         "loreVersion": 3,
         "maxIdenticalTextRatio": 0.6,
@@ -50,7 +50,7 @@
       "prefix": "v3-augmentations-builder-v1",
       "parts": 6,
       "count": 111,
-      "sha256": "6e9e0a7ca2dd92dab0679a85270cca01e63cf7c835f02bcb85f34331c63ceed2",
+      "sha256": "acea9a94aca8400e513a11c80aeedec42bf413eec798b48481e492dff0865382",
       "quality": {
         "loreVersion": 3,
         "maxIdenticalTextRatio": 0.6,
