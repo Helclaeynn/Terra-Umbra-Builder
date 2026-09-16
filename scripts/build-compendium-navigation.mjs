@@ -65,7 +65,7 @@ for(const entry of entries){
   counts[entry.category].groups[entry.group].subgroups[entry.subgroup]=(counts[entry.category].groups[entry.group].subgroups[entry.subgroup]||0)+1;
 }
 
-const categories=['Règles','Réalité','Équipement','Augmentations','Vérité','Catalogue Vérité','Bestiaire'];
+const categories=['Règles','Réalité','Équipement','Augmentations','Vérité','Catalogue Vérité','Organisations','Personnages','Bestiaire'];
 const output={version:2,categories,entries};
 fs.writeFileSync(`${DATA}/navigation-v1.json`,`${JSON.stringify(output,null,2)}\n`,'utf8');
 
