@@ -48,9 +48,9 @@
     {
       "id": "augmentations",
       "prefix": "v3-augmentations-builder-v1",
-      "parts": 6,
+      "parts": 7,
       "count": 111,
-      "sha256": "acea9a94aca8400e513a11c80aeedec42bf413eec798b48481e492dff0865382",
+      "sha256": "2d158b5bbd06139ceaf939da48766e3e983055a3f8ee5a5d8daf29e69d971802",
       "quality": {
         "loreVersion": 3,
         "maxIdenticalTextRatio": 0.6,
