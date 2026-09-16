@@ -29,6 +29,8 @@ for(const page of [material,identity]){
   if((page.realityLegacyConsolidation?.sources||[]).length!==18)throw new Error(`${page.id}: sources legacy incomplètes`);
 }
 
+const food=sectionById(material,'legacy-reality-alimentation-base-editee');
+for(const needle of ['ration universelle','céréales','insectes','famines'])if(!text(food).includes(needle))throw new Error(`Alimentation éditée: repère absent ${needle}`);
 const intimacy=sectionById(identity,'legacy-reality-intimite-sexualite');
 for(const needle of ['prostitution','Holonet','sexbots','mariage'])if(!text(intimacy).includes(needle))throw new Error(`Intimité: repère absent ${needle}`);
 const drugs=sectionById(material,'legacy-reality-drogues-regulation');
@@ -39,7 +41,7 @@ const troubles=sectionById(identity,'legacy-reality-troubles-augmentiques');
 for(const needle of ['Stress augmentique','Frénésie augmentique','dépendance','ne signifient pas','automatiquement'])if(!text(troubles).includes(needle))throw new Error(`Troubles augmentiques: repère absent ${needle}`);
 
 const forbidden=/\bPTV\b|\bDGT\b|\b\d+\s*PA\b|\b1d10e\b|\bdifficult[eé]\s*\d+/i;
-for(const section of [intimacy,drugs,culture,troubles]){
+for(const section of [food,intimacy,drugs,culture,troubles]){
   if(forbidden.test(text(section)))throw new Error(`${section.id}: mécanique chiffrée détectée`);
   if((section.blocks||[]).some(block=>block.type==='table'))throw new Error(`${section.id}: table interdite`);
 }
@@ -48,4 +50,4 @@ const all=manifest.datasets.flatMap(d=>load(d.id));
 const ids=new Set();for(const page of all){if(ids.has(page.id))throw new Error(`ID dupliqué: ${page.id}`);ids.add(page.id)}
 if(ids.size!==manifest.expectedTotal)throw new Error(`IDs uniques ${ids.size}/${manifest.expectedTotal}`);
 if(manifest.expectedTotal!==1802)throw new Error(`Total V3 ${manifest.expectedTotal}, attendu 1802 après consolidation finale Réalité`);
-console.log(`CONSOLIDATION RÉALITÉ V8 OK — 18 pages legacy retirées · 4 thèmes fusionnés · ${ids.size} IDs uniques.`);
+console.log(`CONSOLIDATION RÉALITÉ V8 OK — 18 pages legacy retirées · 5 thèmes fusionnés · ${ids.size} IDs uniques.`);
