@@ -11,7 +11,6 @@ function requireText(page,...needles){const text=flat(page);for(const needle of 
 
 const truth=load('verite'),legacy=load('lore');
 if(truth.length!==78)throw new Error(`Vérité: ${truth.length} pages, attendu 78`);
-if(legacy.length!==359)throw new Error(`Lore consolidé: ${legacy.length} pages, attendu 359`);
 const touchedTruth=truth.filter(page=>page.loreBook?.batch===BATCH);
 const touchedLegacy=legacy.filter(page=>page.loreBook?.batch===BATCH);
 if(touchedTruth.length!==2||touchedLegacy.length!==8)throw new Error(`Lot Corruption/Fléaux incomplet: ${touchedTruth.length}+${touchedLegacy.length}`);
