@@ -143,7 +143,7 @@ jobs:
           node <<'NODE'
           const fs = require('fs');
           const nav = JSON.parse(fs.readFileSync('/tmp/rawgithack-navigation-v1.json', 'utf8'));
-          if (nav.version !== 2 || !Array.isArray(nav.entries) || nav.entries.length < 300) {
+          if (nav.version !== 3 || !Array.isArray(nav.entries) || nav.entries.length < 300) {
             throw new Error(`Navigation externe invalide: version=${nav.version}, entries=${nav.entries?.length ?? 'aucune'}`);
           }
           for (const category of ['Règles','Réalité','Équipement','Augmentations','Vérité','Catalogue Vérité','Organisations','Personnages','Bestiaire']) {
@@ -170,4 +170,4 @@ jobs:
             checked=$((checked + 1))
           done < /tmp/rawgithack-fragments.txt
 
-          echo "RawGitHack external delivery OK — ${checked} fragments + manifest + navigation v2 + immutable/preview/restructure HTML; no HTTP 404."
+          echo "RawGitHack external delivery OK — ${checked} fragments + manifest + navigation v3 + immutable/preview/restructure HTML; no HTTP 404."
