@@ -22,9 +22,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Audit Organisations and Personnages taxonomy
+        run: node scripts/audit-organisations-personnages-taxonomy-v1.mjs
       - name: Audit Rules scoria
         run: node scripts/audit-rules-legacy-scoria-v1.mjs
       - name: Audit large dataset taxonomy
         run: node scripts/audit-large-dataset-taxonomy-v1.mjs
-      - name: Audit Organisations and Personnages taxonomy
-        run: node scripts/audit-organisations-personnages-taxonomy-v1.mjs
