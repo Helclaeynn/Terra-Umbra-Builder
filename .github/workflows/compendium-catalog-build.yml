@@ -2,7 +2,7 @@ name: Compendium catalog build
 
 on:
   push:
-    branches: ['preview/lore']
+    branches: ['preview/compendium-restructure']
     paths:
       - 'scripts/build-compendium-catalog-pages.mjs'
       - 'scripts/enrich-compendium-augmentation-generations.mjs'
@@ -11,7 +11,7 @@ on:
       - 'scripts/apply-compendium-firearms-lore.mjs'
       - 'scripts/sanitize-compendium-reality-derived-lore.mjs'
       - 'scripts/apply-compendium-final-reality-lore.mjs'
-      - 'scripts/diversify-compendium-reality-lore-v2.mjs'
+      - 'scripts/clean-compendium-equipment-derived-prose-v1.mjs'
       - 'scripts/audit-reality-lore-gaps.mjs'
       - 'compendium/source/reality-lore-v3-sparse.json'
       - 'compendium/source/reality-lore-v3-neuro.json'
@@ -21,6 +21,7 @@ on:
       - 'compendium/tests/catalog-pages-check.mjs'
       - 'compendium/tests/catalog-pages-semantic-check.mjs'
       - 'compendium/tests/reality-catalog-lore-quality-check.mjs'
+      - 'compendium/tests/equipment-description-quality-check.mjs'
       - 'compendium/tests/catalog-runtime-browser-smoke.mjs'
       - 'character-builder/app.parts/47-reality-missing-augmentations.txt'
       - 'character-builder/rulesets/terra-umbra/reality/augmentations.json.gz.b64'
@@ -38,7 +39,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: preview/lore
+          ref: preview/compendium-restructure
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -46,7 +47,7 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          { node scripts/build-compendium-catalog-pages.mjs; node scripts/enrich-compendium-augmentation-generations.mjs; node scripts/apply-compendium-augmentation-lore.mjs; node scripts/apply-compendium-firearms-lore.mjs; node scripts/sanitize-compendium-reality-derived-lore.mjs; node scripts/apply-compendium-final-reality-lore.mjs; node scripts/diversify-compendium-reality-lore-v2.mjs; node scripts/audit-reality-lore-gaps.mjs; } 2>&1 | tee /tmp/compendium-catalog-build.log
+          { node scripts/build-compendium-catalog-pages.mjs; node scripts/enrich-compendium-augmentation-generations.mjs; node scripts/apply-compendium-augmentation-lore.mjs; node scripts/apply-compendium-firearms-lore.mjs; node scripts/sanitize-compendium-reality-derived-lore.mjs; node scripts/apply-compendium-final-reality-lore.mjs; node scripts/clean-compendium-equipment-derived-prose-v1.mjs; node scripts/audit-reality-lore-gaps.mjs; } 2>&1 | tee /tmp/compendium-catalog-build.log
       - name: Upload catalog build log
         if: always()
         uses: actions/upload-artifact@v4
@@ -93,5 +94,5 @@ jobs:
             echo 'No generated catalog changes.'
             exit 0
           fi
-          git commit -m 'build(compendium): sync Reality catalogs with V8 semantic lore'
-          git push origin HEAD:preview/lore
+          git commit -m 'build(compendium): sync source-first Reality catalog descriptions'
+          git push origin HEAD:preview/compendium-restructure
