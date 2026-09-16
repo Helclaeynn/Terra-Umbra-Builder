@@ -2,7 +2,7 @@ name: Compendium Truth catalog build
 
 on:
   push:
-    branches: ['preview/lore']
+    branches: ['preview/compendium-restructure']
     paths:
       - 'compendium/source/verite-catalog-v6.json'
       - 'compendium/source/verite-catalog-v6.json.gz.b64'
@@ -12,6 +12,7 @@ on:
       - 'scripts/assemble-compendium-truth-source.mjs'
       - 'scripts/build-compendium-truth-catalog.mjs'
       - 'scripts/enrich-compendium-truth-lore.mjs'
+      - 'scripts/audit-truth-catalog-source-families.mjs'
       - 'compendium/tests/truth-catalog-pages-check.mjs'
       - 'compendium/tests/truth-catalog-runtime-browser-smoke.mjs'
       - '.github/workflows/compendium-truth-catalog-build.yml'
@@ -27,12 +28,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: preview/lore
+          ref: preview/compendium-restructure
       - uses: actions/setup-node@v4
         with:
           node-version: 22
       - name: Assemble and verify Vérité V6 source
         run: node scripts/assemble-compendium-truth-source.mjs
+      - name: Audit AIDH and Shi source families
+        run: node scripts/audit-truth-catalog-source-families.mjs
       - name: Generate Truth catalog pages from Vérité V6 source
         run: node scripts/build-compendium-truth-catalog.mjs
       - name: Enrich Truth catalog with curated lore V2
@@ -67,4 +70,4 @@ jobs:
             exit 0
           fi
           git commit -m 'build(compendium): sync Truth catalog with curated lore V2'
-          git push origin HEAD:preview/lore
+          git push origin HEAD:preview/compendium-restructure
