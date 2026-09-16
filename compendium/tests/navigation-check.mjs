@@ -1,17 +1,21 @@
 import fs from 'node:fs';
 import zlib from 'node:zlib';
-import { classifyNavigation, navigationDisplayTitle } from '../navigation-schema-v2.js';
+import { classifyNavigation, navigationDisplayTitle } from '../navigation-schema-v3.js';
 
 const DATA='compendium/data';
 const manifest=JSON.parse(fs.readFileSync(`${DATA}/manifest-v3.json`,'utf8'));
+const hierarchical=['Règles','Réalité','Équipement','Augmentations','Vérité','Catalogue Vérité','Bestiaire'];
 function load(spec){
   let b64='';
   for(let i=0;i<spec.parts;i++)b64+=fs.readFileSync(`${DATA}/${spec.prefix}-${String(i).padStart(2,'0')}.b64part`,'utf8').replace(/\s+/g,'');
   return JSON.parse(zlib.gunzipSync(Buffer.from(b64,'base64')).toString('utf8')).map(page=>({...page,dataset:page.dataset||spec.id}));
 }
-const pages=manifest.datasets.flatMap(load).filter(page=>['Règles','Réalité','Vérité'].includes(page.category));
-const expectedCounts=Object.fromEntries(['Règles','Réalité','Vérité'].map(category=>[category,pages.filter(page=>page.category===category).length]));
+const pages=manifest.datasets.flatMap(load).filter(page=>hierarchical.includes(page.category));
+const expectedCounts=Object.fromEntries(hierarchical.map(category=>[category,pages.filter(page=>page.category===category).length]));
 const expectedTotal=pages.length;
+
+const fixedCounts={'Règles':251,'Réalité':9,'Équipement':297,'Augmentations':111,'Catalogue Vérité':229,'Bestiaire':263};
+for(const [category,count] of Object.entries(fixedCounts))if(expectedCounts[category]!==count)throw new Error(`${category}: ${expectedCounts[category]}, attendu ${count} — aucune entrée ne doit disparaître pendant la restructuration`);
 
 const navPath=`${DATA}/navigation-v1.json`;
 if(!fs.existsSync(navPath))throw new Error('navigation-v1.json absent');
@@ -38,17 +42,22 @@ for(const [category,count] of Object.entries(expectedCounts)){
   if(actual!==count)throw new Error(`${category}: ${actual} entrées navigation, attendu ${count}`);
 }
 
-const byTitle=new Map(pages.map(page=>[page.title,page]));
-function expect(title,group,subgroup){
-  const page=byTitle.get(title);if(!page)throw new Error(`Page témoin absente: ${title}`);
-  const entry=nav.entries.find(row=>row.id===page.id);if(!entry)throw new Error(`Navigation témoin absente: ${title}`);
-  if(entry.group!==group||entry.subgroup!==subgroup)throw new Error(`${title}: ${entry.group} > ${entry.subgroup}, attendu ${group} > ${subgroup}`);
+function expectId(id,group,subgroup){
+  const page=pageById.get(id);if(!page)throw new Error(`Page témoin absente: ${id}`);
+  const entry=nav.entries.find(row=>row.id===id);if(!entry)throw new Error(`Navigation témoin absente: ${id}`);
+  if(entry.group!==group||entry.subgroup!==subgroup)throw new Error(`${id}: ${entry.group} > ${entry.subgroup}, attendu ${group} > ${subgroup}`);
 }
-expect('1. Résolution générale','Moteur commun','Règles fondamentales');
-expect('Talents de Réalité — règles générales','Réalité — Talents & désavantages','Principes généraux');
-expect('1. Principes du Neurodive','Réalité — Neurodive','Règles de Neurodive');
-expect('1. Architecture de la Vérité','Vérité — Règles communes','Cadre commun');
-expect('20. Corruption','Corruption & Fléaux','Corruption');
+expectId('moteur-001-1-resolution-generale','Moteur commun','Règles fondamentales');
+expectId('realite-003-2-talents-de-realite','Réalité — Talents & désavantages','Principes généraux');
+expectId('realite-016-1-principes-du-neurodive','Réalité — Neurodive','Règles de Neurodive');
+expectId('realite-022-7-corruption-de-programmes-et-materiel','Réalité — Neurodive','Règles de Neurodive');
+expectId('verite-037-1-architecture-de-la-verite','Vérité — Règles communes','Cadre commun');
+expectId('regles-verite-v6-corruption','Vérité — Corruption & Fléaux','Corruption');
+expectId('equipement-001-couteau-de-combat','Armement','Mêlée');
+expectId('augmentation-001-amplificateur-interne','Cybernétique','Audio');
+expectId('augmentation-010-bio-tatouage','Biogénétique','Biogénétique');
+expectId('bestiaire-v15-civil-ordinaire','PNJ de Réalité','Rue, civils et bandes');
+expectId('verite-catalogue-002-phoenix-pck-08-feather','Équipement de Chasse','Armes existantes utiles à la Chasse');
 
 const index=fs.readFileSync('compendium/index.html','utf8');
 if(!/category-navigation\.js/.test(index))throw new Error('index.html ne charge pas category-navigation.js');
@@ -57,7 +66,7 @@ if(!/navigation-v1\.json/.test(runtime)||!/cloneNode\(true\)/.test(runtime)||!/h
 await import('./category-navigation-runtime-check.mjs');
 
 console.log(`NAVIGATION OK — ${nav.entries.length}/${expectedTotal} pages visibles classées sans fourre-tout.`);
-for(const category of ['Règles','Réalité','Vérité']){
+for(const category of hierarchical){
   const groups=[...new Set(nav.entries.filter(entry=>entry.category===category).map(entry=>entry.group))];
   console.log(`${category}: ${expectedCounts[category]} pages · ${groups.length} groupes · ${groups.join(' · ')}`);
 }
