@@ -67,9 +67,9 @@
     {
       "id": "verite-catalogue",
       "prefix": "v3-verite-catalogue-v6",
-      "parts": 14,
+      "parts": 16,
       "count": 229,
-      "sha256": "8d2a85b2f074a79f9a3f592494957044df3340f0c637a15e77991eb1c76ac5f3",
+      "sha256": "2202b9a5f832d35c71fbe7b54ef631d290a7337da4379af5d09166af9e8a6728",
       "quality": {
         "loreVersion": 3,
         "maxIdenticalTextRatio": 0.6,
