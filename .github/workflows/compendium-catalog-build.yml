@@ -19,6 +19,7 @@ on:
       - 'compendium/source/reality-lore-v3-sparse.json'
       - 'compendium/source/reality-lore-v3-neuro.json'
       - 'compendium/source/reality-lore-v3-augmentations.json'
+      - 'compendium/source/reality-lore-v3-augmentations-curated-sensory-neural.json'
       - 'compendium/source/reality-lore-v3-firearms.json'
       - 'compendium/source/reality-lore-v3-final-eight.json'
       - 'compendium/source/reality-lore-v3-curated-holonet.json'
