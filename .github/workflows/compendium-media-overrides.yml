@@ -1,0 +1,38 @@
+name: Compendium media overrides
+
+on:
+  push:
+    branches:
+      - feature/compendium-corporation-logos
+    paths:
+      - 'compendium/data/media-overrides-v1.json'
+      - 'compendium/images/manual/equipement-*.webp'
+      - 'compendium/media-overrides-runtime.js'
+      - 'compendium/navigation.css'
+      - 'compendium/index.html'
+      - 'compendium/tests/media-overrides-check.mjs'
+      - '.github/workflows/compendium-media-overrides.yml'
+  pull_request:
+    paths:
+      - 'compendium/data/media-overrides-v1.json'
+      - 'compendium/images/manual/equipement-*.webp'
+      - 'compendium/media-overrides-runtime.js'
+      - 'compendium/navigation.css'
+      - 'compendium/index.html'
+      - 'compendium/tests/media-overrides-check.mjs'
+
+permissions:
+  contents: read
+
+jobs:
+  media-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate equipment media files and mapping
+        run: node compendium/tests/media-overrides-check.mjs
+      - name: Syntax check media runtime
+        run: node --check compendium/media-overrides-runtime.js
