@@ -5,6 +5,7 @@ import crypto from 'node:crypto';
 const DATA='compendium/data';
 const MANIFEST=`${DATA}/manifest-v3.json`;
 const SOURCES=[
+  'compendium/source/truth-lore-v3-curated-truth-conventions.json',
   'compendium/source/truth-lore-v3-curated-aidh-field.json',
   'compendium/source/truth-lore-v3-curated-aidh-tuc.json',
   'compendium/source/truth-lore-v3-curated-hunters-arsenal.json',
