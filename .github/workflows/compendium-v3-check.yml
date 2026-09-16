@@ -58,6 +58,7 @@ jobs:
           node --check compendium/app-v3.js
           node --check compendium/navigation-schema.js
           node --check compendium/navigation-schema-v2.js
+          node --check compendium/navigation-schema-v3.js
           node --check compendium/category-navigation.js
           node --check compendium/editor-runtime.js
           node --check compendium/editor-ordering.js
@@ -127,7 +128,7 @@ jobs:
           echo "Checking immutable RawGitHack page: ${IMMUTABLE_BASE}/index.html"
           "${CURL[@]}" "${IMMUTABLE_BASE}/index.html" -o /tmp/rawgithack-index.html
           grep -qi 'Terra Umbra' /tmp/rawgithack-index.html
-          grep -q 'category-navigation.js?v=20260915-nav3' /tmp/rawgithack-index.html
+          grep -q 'category-navigation.js?v=20260916-nav4' /tmp/rawgithack-index.html
 
           echo "Checking preview/lore RawGitHack page with cache-buster"
           "${CURL[@]}" "${PREVIEW_BASE}/index.html?v=${GITHUB_SHA}" -o /tmp/rawgithack-preview-index.html
@@ -145,7 +146,7 @@ jobs:
           if (nav.version !== 2 || !Array.isArray(nav.entries) || nav.entries.length < 300) {
             throw new Error(`Navigation externe invalide: version=${nav.version}, entries=${nav.entries?.length ?? 'aucune'}`);
           }
-          for (const category of ['Règles','Réalité','Vérité']) {
+          for (const category of ['Règles','Réalité','Équipement','Augmentations','Vérité','Catalogue Vérité','Bestiaire']) {
             if (!nav.entries.some(entry => entry.category === category)) throw new Error(`Navigation externe: catégorie absente ${category}`);
           }
           NODE
