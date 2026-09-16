@@ -11,6 +11,33 @@ function loadDataset(spec){
   const rows=JSON.parse(zlib.gunzipSync(Buffer.from(b64,'base64')).toString('utf8'));
   return rows.map(page=>({...page,dataset:page.dataset||spec.id}));
 }
+function norm(value){return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()}
+function displayCategory(page,nav){
+  if(['Équipement','Augmentations','Catalogue Vérité'].includes(page.category))return 'Équipement & Objets';
+  if(page.category==='Organisations'){
+    const tags=(page.tags||[]).map(norm);
+    if(tags.includes('verite'))return 'Vérité';
+    if(tags.includes('realite'))return 'Réalité';
+    if(/faction|vampir|garou|mage|daemon|angelus|aseryn|exile|extral|chasseur|fleau/.test(norm(`${nav?.group||''} ${nav?.subgroup||''}`)))return 'Vérité';
+    return 'Réalité';
+  }
+  return page.category;
+}
+function presentationNavigation(page,nav,targetCategory){
+  if(targetCategory!=='Équipement & Objets')return nav;
+  const [group,groupOrder]=page.category==='Équipement'
+    ?['Équipement de Réalité',10]
+    :page.category==='Augmentations'
+      ?['Augmentations',20]
+      :['Objets de Vérité',30];
+  return {
+    ...nav,
+    group,
+    groupOrder,
+    subgroup:[nav.group,nav.subgroup].filter(Boolean).join(' — ')||'Références',
+    subgroupOrder:(Number(nav.groupOrder)||0)*1000+(Number(nav.subgroupOrder)||0),
+  };
+}
 
 const rows=manifest.datasets.flatMap(loadDataset).filter(page=>isHierarchicalCategory(page.category));
 
@@ -18,19 +45,21 @@ const catchAll=/^(?:autre(?:s)?(?:\s+règle(?:s)?)?|divers|misc(?:ellaneous)?)$/
 const entries=[];
 const failures=[];
 for(const page of rows){
-  const nav=classifyNavigation(page);
-  if(!nav?.group||!nav?.subgroup||!Number.isFinite(nav.groupOrder)||!Number.isFinite(nav.subgroupOrder)||!Number.isFinite(nav.pageOrder)){
+  const classified=classifyNavigation(page);
+  if(!classified?.group||!classified?.subgroup||!Number.isFinite(classified.groupOrder)||!Number.isFinite(classified.subgroupOrder)||!Number.isFinite(classified.pageOrder)){
     failures.push(`${page.category} | ${page.dataset} | ${page.id} | ${page.title}`);
     continue;
   }
-  if(catchAll.test(nav.group.trim())||catchAll.test(nav.subgroup.trim())){
-    failures.push(`FOURRE-TOUT INTERDIT | ${page.category} | ${page.id} | ${nav.group} > ${nav.subgroup}`);
+  if(catchAll.test(classified.group.trim())||catchAll.test(classified.subgroup.trim())){
+    failures.push(`FOURRE-TOUT INTERDIT | ${page.category} | ${page.id} | ${classified.group} > ${classified.subgroup}`);
     continue;
   }
+  const category=displayCategory(page,classified);
+  const nav=presentationNavigation(page,classified,category);
   entries.push({
     id:page.id,
     dataset:page.dataset,
-    category:page.category,
+    category,
     group:nav.group,
     groupOrder:nav.groupOrder,
     subgroup:nav.subgroup,
@@ -65,8 +94,8 @@ for(const entry of entries){
   counts[entry.category].groups[entry.group].subgroups[entry.subgroup]=(counts[entry.category].groups[entry.group].subgroups[entry.subgroup]||0)+1;
 }
 
-const categories=['Règles','Réalité','Équipement','Augmentations','Vérité','Catalogue Vérité','Organisations','Personnages','Bestiaire'];
-const output={version:2,categories,entries};
+const categories=['Règles','Réalité','Vérité','Équipement & Objets','Personnages','Bestiaire'];
+const output={version:3,categories,entries};
 fs.writeFileSync(`${DATA}/navigation-v1.json`,`${JSON.stringify(output,null,2)}\n`,'utf8');
 
 console.log(`NAVIGATION V3 — ${entries.length}/${rows.length} pages visibles classées.`);
