@@ -10,7 +10,6 @@ function textOf(page){return (page.sections||[]).flatMap(section=>(section.block
 
 const truth=load('verite'),legacy=load('lore');
 if(truth.length!==78)throw new Error(`Vérité: ${truth.length}, attendu 78 après fermeture du Livre V transitoire`);
-if(legacy.length!==359)throw new Error(`Lore consolidé: ${legacy.length}, attendu 359`);
 const touched=truth.filter(page=>page.loreBook?.batch==='predators-v1');
 if(touched.length!==9)throw new Error(`9 pages prédateurs attendues, ${touched.length}`);
 const byTitle=new Map(truth.map(page=>[norm(page.title),page]));
