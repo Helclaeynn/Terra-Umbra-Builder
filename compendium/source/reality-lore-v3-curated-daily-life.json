@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "source": "Catalogue Réalité du Builder — Vêtements & Nourriture",
+  "entries": {
+    "Recuperation / sans-abri": {
+      "paragraphs": [
+        "Les vêtements de récupération ou de sans-abri répondent d’abord à une nécessité immédiate : conserver un minimum de chaleur avec ce qui peut être trouvé, récupéré ou maintenu en état. Leur qualité, leur coupe et leur homogénéité varient donc fortement d’un ensemble à l’autre.",
+        "Dans l’espace social, cette tenue signale un faible standing bien avant de constituer un choix esthétique neutre. Elle peut suffire pour se couvrir et traverser le quotidien, mais elle n’offre ni les codes de présentation ni les garanties pratiques d’un équipement professionnel ou spécialisé."
+      ]
+    },
+    "Provocante / rue": {
+      "paragraphs": [
+        "Une tenue provocante ou de rue s’appuie sur des codes sociaux précis : manière de se présenter, degré d’exposition, références de quartier ou de scène et façon d’assumer sa présence dans l’espace public. Son sens dépend donc fortement du milieu dans lequel elle est portée.",
+        "Elle peut aider quelqu’un à être immédiatement identifié comme familier d’un certain registre social, mais elle ne produit aucun bonus universel. Dans un autre contexte, les mêmes codes peuvent attirer l’attention, être mal compris ou simplement ne rien signifier pour les personnes présentes."
+      ]
+    },
+    "Neopunk": {
+      "paragraphs": [
+        "La tenue Neopunk appartient à une scène underground dont l’habillement fait partie de l’identité visible. Porter ce style revient à afficher une proximité culturelle avec ce milieu plutôt qu’à choisir une simple variante de vêtements urbains ordinaires.",
+        "Cette reconnaissance reste sociale, pas mécanique. Une apparence Neopunk peut rendre l’appartenance supposée plus lisible dans les lieux où ces codes sont connus, mais elle ne remplace ni les relations, ni la réputation, ni la connaissance réelle de la scène."
+      ]
+    },
+    "Citoyen": {
+      "paragraphs": [
+        "La tenue citoyenne représente l’habillement urbain courant d’une population habituée aux services connectés. Elle est pensée pour s’intégrer sans difficulté au quotidien moderne plutôt que pour répondre à un métier, une scène culturelle ou une activité à risque particulière.",
+        "Son caractère connecté reste celui d’un vêtement de tous les jours : il accompagne l’environnement numérique ordinaire sans devenir une interface spécialisée. Pour travailler sous contrainte, plonger dans le Neurodive ou affronter des conditions dangereuses, un équipement dédié reste nécessaire."
+      ]
+    },
+    "Ouvrier": {
+      "paragraphs": [
+        "La tenue d’ouvrier privilégie le travail et la sécurité de base. Elle est conçue pour supporter un usage professionnel régulier et pour fournir les protections ordinaires attendues sur un poste de travail, sans prétendre remplacer les équipements spécialisés d’un environnement réellement dangereux.",
+        "Elle reste donc distincte d’une armure ou d’une combinaison technique lourde. Sa fonction est de rendre le travail quotidien plus sûr et plus praticable ; dès qu’une tâche implique chaleur extrême, produits dangereux, combat ou exposition spécialisée, il faut un équipement adapté à ce risque."
+      ]
+    },
+    "Lingerie": {
+      "paragraphs": [
+        "La lingerie courante désigne des pièces de qualité ordinaire destinées au confort, à l’intimité et à la présentation personnelle. Elle appartient au marché quotidien et n’implique ni fabrication exceptionnelle ni statut particulier par sa seule présence.",
+        "Son rôle reste celui d’un vêtement : coupe, goût et contexte peuvent compter socialement, mais aucune propriété spéciale ne lui est attachée. Les différences avec les gammes plus prestigieuses tiennent surtout à la qualité, au travail de fabrication et au niveau de finition."
+      ]
+    },
+    "Detective / rue": {
+      "paragraphs": [
+        "La tenue détective ou de rue combine une présentation capable de passer dans l’environnement urbain avec les besoins pratiques d’un travail de terrain. Elle privilégie l’accès aux petits outils et aux effets utiles plutôt qu’une apparence purement formelle ou représentative.",
+        "Elle ne fournit pas un équipement d’enquête complet par elle-même : elle est surtout pensée pour porter et utiliser ce que son propriétaire a réellement avec lui. Son intérêt tient à cette praticité discrète, adaptée à quelqu’un qui doit circuler, observer et travailler sans uniforme spécialisé."
+      ]
+    },
+    "Neurodiver": {
+      "paragraphs": [
+        "Les vêtements de Neurodiver sont conçus pour accompagner un utilisateur dont l’activité quotidienne implique des équipements connectés et des interfaces numériques. Ils facilitent cette coexistence matérielle sans transformer le vêtement lui-même en système d’immersion profonde.",
+        "Ils ne remplacent donc jamais un Neuromaster. Porter cette tenue peut être pratique autour d’un poste de Neurodive, d’une cyberconsole ou d’autres périphériques, mais les capacités d’immersion, de protection neuronale et de Rang restent celles du matériel et de l’utilisateur."
+      ]
+    },
+    "Techfighter / biker": {
+      "paragraphs": [
+        "La tenue Techfighter ou biker est d’abord robuste. Elle est choisie pour supporter les déplacements, les manipulations répétées et un usage plus rude qu’un vêtement urbain ordinaire, ce qui en fait un choix naturel autour des motos, ateliers et activités physiques de terrain.",
+        "Cette robustesse ne doit pas être confondue avec une protection d’armure. Le vêtement encaisse mieux l’usure quotidienne et accompagne une activité exigeante, mais les impacts de combat, les risques spécialisés et les protections techniques relèvent toujours d’un équipement prévu pour cela."
+      ]
+    },
+    "Meditech": {
+      "paragraphs": [
+        "La tenue Meditech est organisée autour des besoins d’un soignant ou d’un technicien médical travaillant avec du matériel léger. Elle permet de garder à portée les petits instruments et consommables adaptés à une intervention ordinaire sans transformer son porteur en unité médicale autonome.",
+        "Elle complète donc un environnement de soin ou un kit approprié plutôt qu’elle ne le remplace. Les actes qui réclament un équipement lourd, une chirurgie, une protection biologique ou un véritable atelier médical dépassent ce que peut fournir une simple tenue professionnelle."
+      ]
+    },
+    "Cadre": {
+      "paragraphs": [
+        "La tenue de cadre est un habillement formel de qualité destiné aux environnements professionnels où présentation et crédibilité sociale comptent. Elle marque une attention réelle à la coupe, à l’état du vêtement et aux conventions du milieu corporatiste ou administratif.",
+        "Elle aide surtout à ne pas détonner dans ces espaces. Une bonne tenue peut rendre une présence cohérente avec le rôle affiché, mais elle ne crée ni fonction, ni autorité, ni accès : les personnes qui connaissent le milieu peuvent toujours distinguer l’apparence de la position réelle."
+      ]
+    },
+    "Grande lingerie": {
+      "paragraphs": [
+        "La grande lingerie se situe dans le haut de gamme : qualité des matières, coupe et finition sont traitées comme des éléments de luxe plutôt que comme de simples nécessités vestimentaires. Le produit vise autant le plaisir personnel que la présentation dans un cadre intime.",
+        "Cette catégorie reste cependant un vêtement, pas un marqueur social automatique. La qualité se voit surtout dans la confection et l’attention portée au détail ; son importance en scène dépend de la personne qui la porte, de celle qui la voit et du contexte où elle devient pertinente."
+      ]
+    },
+    "Cyber expert": {
+      "paragraphs": [
+        "La tenue de Cyber expert combine vêtements techniques et intégration à un environnement connecté. Elle est pensée pour quelqu’un qui manipule régulièrement systèmes, périphériques et outils numériques, avec une organisation adaptée à ce travail plutôt qu’à la représentation formelle.",
+        "Elle ne fournit pas de compétence informatique ni de capacité de Neurodive supplémentaire. Sa fonction est matérielle : rendre le travail avec des équipements connectés plus pratique et cohérent, tandis que les interfaces, logiciels et protections réellement utilisés restent des objets distincts."
+      ]
+    },
+    "Haut cadre": {
+      "paragraphs": [
+        "La tenue de haut cadre relève du sur-mesure et de la haute représentation. Elle est conçue pour des environnements où l’apparence participe directement à la lecture du rang social, du sérieux professionnel et du niveau de ressources de la personne qui la porte.",
+        "Sa force tient à l’ajustement et à la qualité de présentation, pas à un pouvoir social automatique. Elle peut rendre crédible l’image d’une personne habituée aux cercles dirigeants, mais titre, réputation, relations et autorité restent indépendants du vêtement."
+      ]
+    },
+    "Ration / synthetique": {
+      "paragraphs": [
+        "La ration ou nourriture synthétique est pensée pour nourrir de manière fiable avec une production de masse. Elle répond aux besoins de survie et d’alimentation quotidienne avant de rechercher le plaisir, la variété ou l’origine prestigieuse des ingrédients.",
+        "Sa banalité vient précisément de cette efficacité industrielle : conservation, disponibilité et régularité comptent davantage que le terroir ou l’expérience du repas. On peut vivre avec ce type d’alimentation, mais il se situe à l’opposé des produits rares ou réellement traditionnels."
+      ]
+    },
+    "Mick&Go / alternative": {
+      "paragraphs": [
+        "Mick&Go et les alternatives comparables occupent le bas de gamme de la restauration rapide. Le repas est accessible et immédiatement disponible, mais la qualité des ingrédients et de la préparation peut être très variable, jusqu’à devenir franchement douteuse selon l’établissement ou le produit.",
+        "Ce niveau répond surtout à la faim et au manque de temps. Il ne signifie pas qu’un repas sera forcément dangereux, mais l’économie réalisée se retrouve dans la régularité, la qualité perçue et le soin accordé à ce qui est servi."
+      ]
+    },
+    "Mac'Yellow": {
+      "paragraphs": [
+        "Mac'Yellow représente le fast-food populaire : une restauration standardisée, connue et suffisamment répandue pour constituer un choix ordinaire plutôt qu’une expérience particulière. L’intérêt tient à la facilité d’accès et à la prévisibilité du repas.",
+        "La chaîne se situe au-dessus de l’alimentation de survie sans chercher la cuisine de qualité. On y mange normalement et rapidement, dans un cadre familier à une large partie de la population urbaine, mais sans les attentes d’un restaurant artisanal ou haut de gamme."
+      ]
+    },
+    "Famileat": {
+      "paragraphs": [
+        "Famileat correspond au repas normal du quotidien : suffisamment complet et correct pour constituer une vraie alimentation courante, sans être défini par la rareté, le prestige ou la restauration d’exception. C’est le niveau où manger cesse d’être seulement une contrainte de survie.",
+        "Ce type de repas peut être partagé, commandé ou consommé dans un cadre familial ordinaire. Sa valeur vient de sa normalité même : qualité acceptable, diversité suffisante et place sociale du repas, sans prétendre à l’expérience d’un bon restaurant."
+      ]
+    },
+    "Artisan / bon restaurant": {
+      "paragraphs": [
+        "Un produit artisanal ou un bon restaurant met la qualité et la préparation au centre du repas. Les ingrédients, le savoir-faire et le cadre comptent davantage que dans la restauration standardisée, ce qui en fait aussi un choix pertinent pour recevoir ou marquer une occasion.",
+        "La dimension sociale devient donc partie intégrante de l’expérience. On ne paie pas seulement pour être nourri, mais pour mieux manger et pour disposer d’un cadre où le repas peut avoir du poids dans une rencontre, sans atteindre encore les codes de la cuisine d’élite."
+      ]
+    },
+    "Oldo'": {
+      "paragraphs": [
+        "Oldo' appartient à la cuisine d’élite et travaille avec des aliments rares. Le repas n’est plus seulement jugé sur sa qualité immédiate : disponibilité des produits, sélection et caractère exceptionnel de ce qui est servi participent directement à l’expérience.",
+        "Fréquenter ce niveau de restauration signifie entrer dans un univers où la rareté elle-même a de la valeur. Le cadre convient aux occasions où prestige et qualité doivent être perceptibles, mais la table ne confère évidemment aucun statut durable à quelqu’un qui y est simplement invité."
+      ]
+    },
+    "Luxe / vraie production": {
+      "paragraphs": [
+        "La catégorie Luxe / vraie production regroupe les aliments issus d’une production traditionnelle réelle, avec origine, terroir et méthodes de fabrication qui comptent autant que le produit final. Dans une économie largement capable de fournir du synthétique, cette authenticité devient une forme de rareté.",
+        "Le service qui accompagne ces produits appartient lui aussi au haut de gamme. Provenance, fraîcheur, saison, préparation et présentation deviennent des critères distinctifs : on ne cherche plus simplement à reproduire un goût, mais à consommer quelque chose dont l’origine matérielle fait partie de la valeur."
+      ]
+    }
+  }
+}
