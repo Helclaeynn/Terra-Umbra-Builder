@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "source": "Catalogue Réalité du Builder — Modules d'armure ; enrichissement manuel par usage, intégration et contexte",
+  "entries": {
+    "Renfort balistique": {
+      "paragraphs": [
+        "Le renfort balistique ajoute à une armure des couches ou inserts destinés spécifiquement aux projectiles : fibres supplémentaires, plaques locales ou panneaux interchangeables selon la structure de départ. C'est un retrofit courant pour une tenue qui doit rester en service tout en étant adaptée à un environnement où les armes à feu deviennent une menace plus probable.",
+        "Le module augmente de +1 la protection contre le Tir, sans transformer pour autant toute l'armure en modèle lourd. Son intérêt tient à cette spécialisation : on renforce les zones les plus exposées aux impacts balistiques, mais le même ajout n'est pas automatiquement une meilleure réponse aux coups de mêlée ou aux autres formes de dommage."
+      ]
+    },
+    "Renfort melee": {
+      "paragraphs": [
+        "Le renfort mêlée protège les parties d'une tenue qui souffrent particulièrement dans un corps-à-corps : avant-bras, épaules, flancs, articulations et zones où une lame ou une arme contondante peut trouver prise. Sur une armure de sécurité ou d'intervention, ces pièces donnent souvent une silhouette plus segmentée et plus apte à encaisser les contacts rapprochés.",
+        "Il apporte +1 de protection contre la Mêlée et reste volontairement spécialisé. Les matériaux, formes et zones renforcées sont choisis pour dévier, amortir ou répartir un coup porté à courte distance ; cela ne lui confère pas par défaut l'efficacité d'un renfort balistique contre un projectile lancé à grande vitesse."
+      ]
+    },
+    "Renfort antichoc": {
+      "paragraphs": [
+        "Le renfort antichoc travaille moins sur la pénétration que sur la manière dont une violence brutale se transmet au corps. Mousses techniques, structures déformables et couches de répartition peuvent être placées sous les parties rigides de l'armure afin d'éviter qu'un choc, une chute ou un impact contondant concentre toute son énergie au même endroit.",
+        "Le module fournit +1 de protection contre l'Antichoc. On le retrouve logiquement sur du matériel d'intervention, de maintien de l'ordre, de travail en hauteur ou toute tenue destinée à subir des collisions ; sa fonction n'est pas de rendre l'armure universellement plus résistante, mais de mieux gérer cette famille précise de traumatismes."
+      ]
+    },
+    "Plaques ablatives": {
+      "paragraphs": [
+        "Les plaques ablatives sont des éléments sacrificiels montés à l'extérieur d'une armure pour prendre les premiers impacts à la place de la structure principale. Leur apparence peut aller de petits carreaux superposés à de larges panneaux remplaçables, mais leur logique reste la même : accepter d'être fissurées, arrachées ou déformées afin de préserver ce qu'elles recouvrent.",
+        "Le système est Ablatif 2 : il ajoute +1 de protection sur les deux premiers impacts applicables, après quoi les éléments utiles sont considérés comme consommés ou trop endommagés. Une armure revenue d'une mission peut donc rester parfaitement fonctionnelle tout en portant très visiblement les logements vides ou les restes des plaques qui ont fait leur travail."
+      ]
+    },
+    "Anti-EMP": {
+      "paragraphs": [
+        "Un module Anti-EMP durcit l'électronique propre de l'armure contre les impulsions électromagnétiques ordinaires. Blindage de câbles, isolation de circuits, composants moins sensibles et chemins électriques protégés permettent aux fonctions intégrées de continuer à répondre là où une tenue connectée non préparée risquerait de perdre capteurs, assistance ou contrôle local.",
+        "Cette protection concerne l'électronique de l'armure contre un EMP standard ; elle n'étend pas automatiquement son bénéfice à tous les implants, armes ou appareils que porte l'utilisateur. Dans une tenue moderne très dépendante de ses systèmes, l'Anti-EMP ressemble donc moins à un luxe qu'à une assurance contre la perte soudaine de fonctions essentielles."
+      ]
+    },
+    "Anti-hack": {
+      "paragraphs": [
+        "L'Anti-hack traite l'armure comme ce qu'elle est devenue : un petit réseau informatique porté sur le corps. Contrôleurs séparés, authentification renforcée, segmentation des fonctions et surveillance des accès compliquent la prise de contrôle directe d'un casque, d'un servomoteur, d'une suite de capteurs ou d'un autre élément connecté de la tenue.",
+        "Le module apporte +3 en Défense Neuro contre une attaque dirigée directement contre l'électronique de l'armure. Il ne constitue pas un pare-feu universel pour le porteur ou son matériel extérieur : il durcit précisément les systèmes intégrés à la tenue, ceux dont une compromission pourrait rendre l'équipement lui-même dangereux ou inutilisable."
+      ]
+    },
+    "Etanche": {
+      "paragraphs": [
+        "Le module Étanche transforme les ouvertures d'une armure compatible en véritable enveloppe fermée : joints aux articulations, fermetures protégées, raccords de casque et passages de câbles sont revus afin que l'eau ou les contaminants ne disposent plus d'un chemin évident vers l'intérieur. Sur une tenue déjà presque close, la différence tient souvent à ces détails invisibles.",
+        "Le profil ne devient étanche que lorsque sa structure permet réellement d'être fermée. Un gilet ouvert ou une tenue qui laisse volontairement le visage et les membres exposés ne se change donc pas par magie en scaphandre ; ce module est surtout la dernière étape qui fait d'une armure compatible une enveloppe continue."
+      ]
+    },
+    "Respirateur": {
+      "paragraphs": [
+        "Le respirateur ajoute à une armure fermée une réserve et une circulation d'air indépendantes de l'atmosphère immédiate. Masque ou casque, régulation, filtres et petite alimentation respiratoire forment un ensemble destiné aux fumées, atmosphères dangereuses ou passages temporaires dans un milieu où respirer directement serait une mauvaise idée.",
+        "L'autonomie est d'environ deux heures et exige une armure close pour être réellement exploitable. Ce n'est donc pas un système de survie indéfini : son utilisateur dispose d'une fenêtre opérationnelle mesurable, suffisante pour intervenir ou traverser une zone contaminée, mais qui impose ensuite recharge, remplacement ou retour à une atmosphère sûre."
+      ]
+    },
+    "Thermique": {
+      "paragraphs": [
+        "Le module thermique combine isolation et gestion des échanges de chaleur afin que l'armure protège mieux son occupant aussi bien d'un froid agressif que d'une exposition au feu. Selon le support, cela peut prendre la forme de couches isolantes, de matériaux réfractaires ou de circuits répartissant une partie de la chaleur loin des zones les plus vulnérables.",
+        "Il fournit une Réduction 3 contre le Feu et le Froid. Cette spécialisation explique qu'on le retrouve aussi bien sur des tenues industrielles que sur des équipements de terrain extrême ; elle ne doit pas être confondue avec une protection électrique ou EMP, qui répond à des contraintes physiques complètement différentes."
+      ]
+    },
+    "Electrique": {
+      "paragraphs": [
+        "Le module électrique vise les décharges qui traverseraient normalement la tenue et le corps : matériaux diélectriques, chemins de dérivation et isolation des zones conductrices limitent la quantité d'énergie qui atteint directement l'occupant. Il est particulièrement logique sur des armures de technicien, d'intervention industrielle ou destinées à affronter des armes électriques.",
+        "Il apporte une Réduction 3 contre l'Électricité, mais ne vaut pas Anti-EMP. Protéger un humain d'une décharge et préserver des circuits d'une impulsion électromagnétique sont deux problèmes distincts ; une armure très bien isolée électriquement peut donc encore voir ses propres systèmes électroniques perturbés si elle n'est pas durcie pour cela."
+      ]
+    },
+    "Suite capteurs": {
+      "paragraphs": [
+        "Une suite capteurs transforme casque et armure en plateforme d'observation : optiques spécialisées, télémétrie, capteurs environnementaux ou autres instruments peuvent être combinés selon la mission. L'intérêt n'est pas d'afficher davantage d'informations en permanence, mais de fournir au porteur une mesure qu'un œil ou une oreille seuls ne pourraient pas obtenir aussi proprement.",
+        "Le module accorde +2 en Perception lorsque les capteurs intégrés sont précisément pertinents pour ce que l'utilisateur cherche à détecter. Cette condition est essentielle : une caméra thermique aide si la chaleur est l'indice utile, un autre capteur dans une autre situation, mais aucune suite ne remplace automatiquement tous les sens ni toute forme d'enquête."
+      ]
+    },
+    "Interface de ciblage": {
+      "paragraphs": [
+        "L'interface de ciblage relie l'armure aux armes et systèmes compatibles afin que données de visée, identification et Verrouillage puissent être affichés là où le porteur en a besoin. Viseur de casque, liaison de données et contrôleur local forment ainsi une couche commune entre la tenue et un Smartlink sans obliger chaque arme à fournir sa propre interface visuelle complète.",
+        "Le module est compatible Smartlink et Verrouillage, mais n'accorde aucun +3 par lui-même. Pour un Unsinkable, il peut toujours servir d'affichage ou d'électronique ordinaire, mais pas de guidage neural : l'interface transmet les informations disponibles sans créer une connexion cérébrale que l'utilisateur ne possède pas."
+      ]
+    },
+    "Exosquelette leger": {
+      "paragraphs": [
+        "L'exosquelette léger ajoute une ossature motorisée ou assistée le long des principaux segments de l'armure. Il ne transforme pas son porteur en machine de guerre : sa vocation est de reprendre une partie du poids, soutenir les efforts répétés et permettre à une tenue chargée d'équipement de rester exploitable pendant un travail physique exigeant.",
+        "Le module fournit Exo 1 pour le portage, l'effort, l'équipement lourd et les prérequis de force explicitement concernés. Sur le terrain, cela correspond à une assistance de manutention et de maintien plutôt qu'à une augmentation générale de toutes les actions physiques ; l'exosquelette aide là où sa structure peut réellement reprendre la charge."
+      ]
+    },
+    "Compensation mobilite": {
+      "paragraphs": [
+        "La compensation de mobilité équipe une armure encombrante de servos, articulations assistées ou mécanismes de rappel calibrés sur son propre poids. Le but est simple : empêcher la protection elle-même de lutter contre son utilisateur à chaque pas, rotation du torse ou changement de position, surtout lorsque plusieurs couches rigides doivent se déplacer ensemble.",
+        "Le module annule les pénalités de mobilité explicitement causées par l'armure. Il ne rend donc pas le porteur plus rapide ou plus agile qu'il ne le serait sans cette charge ; il compense le handicap créé par la tenue afin qu'une protection lourde puisse être manipulée avec une liberté de mouvement plus proche de la normale."
+      ]
+    },
+    "Camo adaptatif": {
+      "paragraphs": [
+        "Le camouflage adaptatif applique à une armure ordinaire une surface capable de modifier partiellement son apparence en fonction du décor. Ce retrofit reste plus simple que les systèmes conçus dès l'origine autour de la furtivité : il travaille surtout les couleurs, motifs et ruptures de silhouette accessibles depuis la couche extérieure de la tenue.",
+        "Le module fournit Camo 1 et ne peut pas être installé sur une armure qui possède déjà Camo. Cette impossibilité reflète bien sa nature : c'est une couche de camouflage ajoutée à une plateforme qui n'en avait pas, pas un multiplicateur que l'on empile sur une Squid Skin, une Ninja ou une autre architecture de furtivité déjà spécialisée."
+      ]
+    }
+  }
+}
