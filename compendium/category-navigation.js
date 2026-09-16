@@ -25,6 +25,50 @@ function adaptNavigationEntry(entry){
   return entry;
 }
 
+function resultFrom(entry,category,group,groupOrder,subgroup,subgroupOrder){return{...entry,category,group,groupOrder,subgroup,subgroupOrder}}
+function truthDomain(text){
+  if(/vampir|krovni|alghul|ihuito|cour du sang|couronne de sang/.test(text))return['Vampires',10];
+  if(/garou|pelage|loup|khinae/.test(text))return['Garous & descendants de Khinae',20];
+  if(/mage|mageius|loge|thaum|sorcier/.test(text))return['Mages',30];
+  if(/daemon|demon|belial|baal|abigor|astaroth|lilith|lucifer|mammon|mephisto|morrighan|satan/.test(text))return['Daemons',40];
+  if(/angelus|sephir|cherubin|seraphin|arbre de vie/.test(text))return['Angelus',50];
+  if(/aseryn|atlante|aerilien|lemurian|hyperboreen|seratheen|mulien|treize/.test(text))return['Aseryns',60];
+  if(/exile|elye|whurten|ashyll|thulkar|azmen|silcenter/.test(text))return['Exilés',70];
+  if(/extral|talass|mo sen|basean|rocreen|thalsios|ad rak|adrak|homo superior|aidh|galact/.test(text))return['Extrals & lignées associées',80];
+  return null;
+}
+function canonicalizeReality(entry,card){
+  const text=norm(`${entry.group||''} ${entry.subgroup||''} ${entry.displayTitle||''} ${card?.dataset?.filter||''}`);
+  if(/laus|police|securite publique/.test(text))return resultFrom(entry,'Réalité','Institutions & sécurité',20,'Sécurité publique & LAUS',30);
+  if(/gouvernement|institution|agence gouvernementale|cnad|cbii|cpp|inata|cbac|cchs|nrmd|eio|csco|stab|justice|senat|assemblee|cabinet|ministere/.test(text))return resultFrom(entry,'Réalité','Institutions & sécurité',20,/agence|cnad|cbii|cpp|inata|cbac|cchs|nrmd|eio|csco|stab/.test(text)?'Agences gouvernementales':'Institutions & gouvernement',/agence|cnad|cbii|cpp|inata|cbac|cchs|nrmd|eio|csco|stab/.test(text)?20:10);
+  if(/corporation|corporatiste|entreprise|industrie|banque|finance|holding|groupe industriel|multinationale/.test(text))return resultFrom(entry,'Réalité','Corporations & économie',30,'Corporations & acteurs privés',10);
+  if(/crawler|underlife|deathrunner|gundriver|neopunk|fixer|anti systeme|insurge/.test(text))return resultFrom(entry,'Réalité','Pègre, Crawlers & Underlife',40,'Crawlers & Underlife',30);
+  if(/gang|bloods|crips|18th street|18st|ms 13|mara salvatrucha|sons of samoa|reapers/.test(text))return resultFrom(entry,'Réalité','Pègre, Crawlers & Underlife',40,'Gangs',20);
+  if(/pegre|mafia|triade|yakuza|cartel|bratva|vladivost|menorah|oglaigh|milieu|sinaloa|vingt deux dragons|french connection/.test(text))return resultFrom(entry,'Réalité','Pègre, Crawlers & Underlife',40,'Mafias & cartels',10);
+  if(/holonet|neurodive|technolog|infrastructure|transport|energie|communication|reseau|robot|ia |intelligence artificielle|augment|implant/.test(text))return resultFrom(entry,'Réalité','Technologie & infrastructures',50,/holonet|neurodive/.test(text)?'Holonet & Neurodive':'Technologies & infrastructures',/holonet|neurodive/.test(text)?20:10);
+  if(/religion|eglise|culte|neoreligion|spirituel|mosquee|temple|vatican/.test(text))return resultFrom(entry,'Réalité','Grande Californie & société',10,'Religions & néoreligions',30);
+  if(/media|musique|cinema|jeu|sport|culture|art|presse|information/.test(text))return resultFrom(entry,'Réalité','Grande Californie & société',10,'Culture, médias & information',40);
+  if(/los angeles|grande californie|geograph|ville|district|quartier|territoire/.test(text))return resultFrom(entry,'Réalité','Grande Californie & société',10,'Territoires & géographie',10);
+  return resultFrom(entry,'Réalité','Grande Californie & société',10,'Société, réseaux & quotidien',20);
+}
+function canonicalizeTruth(entry,card){
+  const text=norm(`${entry.group||''} ${entry.subgroup||''} ${entry.displayTitle||''} ${card?.dataset?.filter||''}`);
+  if(/entrer dans la verite/.test(norm(entry.group)))return resultFrom(entry,'Vérité','Entrer dans la Vérité',20,entry.subgroup||'Repères & accès',Number(entry.subgroupOrder)||10);
+  if(/fleau|vhodhal|v aagor|ux sharith|c thath|gajh|corruption|rupture/.test(text))return resultFrom(entry,'Vérité','Corruption & Fléaux',60,/corruption/.test(text)?'Corruption & contamination':'Fléaux, Ruptures & serviteurs',/corruption/.test(text)?10:20);
+  if(/chasseur|inquisition|ordre de chasse|hunter|clan shi|shimazu|famille gu/.test(text))return resultFrom(entry,'Vérité','Chasseurs & traditions',50,'Ordres, clans & doctrine de Chasse',10);
+  const domain=truthDomain(text);
+  if(domain)return resultFrom(entry,'Vérité','Natures, peuples & traditions',30,domain[0],domain[1]);
+  if(/ombremonde|sanctuaire|lieu occulte|territoire occulte|cite|royaume|plan|monde cache|monde cach/.test(text))return resultFrom(entry,'Vérité','Lieux & Ombremonde',40,'Lieux, plans & territoires occultes',10);
+  if(/revenant|spectre|zombie|squelette|liche|momie|abomination|creature|monstre|fee|esprit|metamorphe/.test(text))return resultFrom(entry,'Vérité','Créatures & phénomènes',70,'Créatures & manifestations',10);
+  if(/cosmolog|histoire cachee|voile|hologramme|neant|elynea|guerre celeste|khinae/.test(text))return resultFrom(entry,'Vérité','Cosmologie & histoire cachée',10,'Voile, mondes & histoire occulte',10);
+  return resultFrom(entry,'Vérité','Organisations occultes & cultes',40,'Sociétés, cultes & réseaux occultes',20);
+}
+function canonicalizeForRoute(entry,category,card){
+  if(category==='Réalité')return canonicalizeReality(entry,card);
+  if(category==='Vérité')return canonicalizeTruth(entry,card);
+  return {...entry,category};
+}
+
 async function loadNavigation(){
   if(!indexPromise){
     indexPromise=fetch('data/navigation-v1.json',{cache:'no-cache'}).then(response=>{
@@ -87,8 +131,9 @@ async function enhanceCurrentCategory(){
 
   const missing=[],classified=[];
   for(const original of originals){
-    const id=pageIdFromCard(original),meta=id?navigation.get(id):null;
-    if(!id||!meta||meta.category!==category){missing.push(id||original.textContent.trim());continue}
+    const id=pageIdFromCard(original),baseMeta=id?navigation.get(id):null;
+    if(!id||!baseMeta){missing.push(id||original.textContent.trim());continue}
+    const meta=canonicalizeForRoute(baseMeta,category,original);
     classified.push({original,meta});
   }
   if(missing.length){
