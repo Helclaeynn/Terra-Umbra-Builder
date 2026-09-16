@@ -13,6 +13,7 @@ on:
       - 'scripts/apply-compendium-final-reality-lore.mjs'
       - 'scripts/clean-compendium-equipment-derived-prose-v1.mjs'
       - 'scripts/audit-reality-lore-gaps.mjs'
+      - 'scripts/audit-catalog-editorial-coverage.mjs'
       - 'scripts/sync-compendium-catalog-navigation-titles.mjs'
       - 'compendium/source/reality-lore-v3-sparse.json'
       - 'compendium/source/reality-lore-v3-neuro.json'
@@ -58,7 +59,7 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          { node scripts/build-compendium-catalog-pages.mjs; node scripts/enrich-compendium-augmentation-generations.mjs; node scripts/apply-compendium-augmentation-lore.mjs; node scripts/apply-compendium-firearms-lore.mjs; node scripts/sanitize-compendium-reality-derived-lore.mjs; node scripts/apply-compendium-final-reality-lore.mjs; node scripts/clean-compendium-equipment-derived-prose-v1.mjs; node scripts/audit-reality-lore-gaps.mjs; node scripts/sync-compendium-catalog-navigation-titles.mjs; } 2>&1 | tee /tmp/compendium-catalog-build.log
+          { node scripts/build-compendium-catalog-pages.mjs; node scripts/enrich-compendium-augmentation-generations.mjs; node scripts/apply-compendium-augmentation-lore.mjs; node scripts/apply-compendium-firearms-lore.mjs; node scripts/sanitize-compendium-reality-derived-lore.mjs; node scripts/apply-compendium-final-reality-lore.mjs; node scripts/clean-compendium-equipment-derived-prose-v1.mjs; node scripts/audit-reality-lore-gaps.mjs; node scripts/audit-catalog-editorial-coverage.mjs; node scripts/sync-compendium-catalog-navigation-titles.mjs; } 2>&1 | tee /tmp/compendium-catalog-build.log
       - name: Upload catalog build log
         if: always()
         uses: actions/upload-artifact@v4
