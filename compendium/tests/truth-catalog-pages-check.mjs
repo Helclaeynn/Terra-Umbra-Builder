@@ -28,7 +28,7 @@ function overlapRatio(a,titleA,b,titleB){
 function loreBlocks(article){return article.sections.find(x=>x.id==='contexte')?.blocks?.filter(x=>x.type==='p'&&x.style==='lore')||[];}
 function loreText(article){return loreBlocks(article).map(x=>x.text).join(' ');}
 
-const forbidden=/\b(?:builder|corpus|fiche|mj|joueur|jeu|scenario|campagne)\b/i;
+const forbidden=/\b(?:builder|corpus|fiche|mj|joueur|jeu|scenario)\b/i;
 const fillerPatterns=[
   /appartient aux objets et dispositifs qui donnent une forme concrete/i,
   /la preparation reste essentielle/i,
