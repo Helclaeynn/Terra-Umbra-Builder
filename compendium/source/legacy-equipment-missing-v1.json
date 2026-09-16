@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "count": 70,
+  "count": 63,
   "entries": [
     {
       "document": "armes_Arbalètes arcs et arbalètes sous-marines(3).docx",
@@ -873,65 +873,6 @@
       ]
     },
     {
-      "document": "armures_protections Spéciales(1).docx",
-      "legacyName": "SPC Santa cloth",
-      "candidates": [
-        {
-          "name": "Icecorps Santa Clothes",
-          "category": "Armures — Spécialisées",
-          "score": 0.4
-        }
-      ]
-    },
-    {
-      "document": "armures_protections Spéciales(1).docx",
-      "legacyName": "SPC Muad Dib",
-      "candidates": []
-    },
-    {
-      "document": "armures_protections Spéciales(1).docx",
-      "legacyName": "SPC Cthulhu killer",
-      "candidates": [
-        {
-          "name": "Phoenix PW-026 Vampire Killer",
-          "category": "Armes — Mêlée",
-          "score": 0.286
-        }
-      ]
-    },
-    {
-      "document": "armures_protections basiques(1).docx",
-      "legacyName": "BPV Bullet Fear",
-      "candidates": [
-        {
-          "name": "Owl Bullets Fear",
-          "category": "Armures — Basiques",
-          "score": 0.4
-        }
-      ]
-    },
-    {
-      "document": "armures_protections basiques(1).docx",
-      "legacyName": "BPV SunShield",
-      "candidates": []
-    },
-    {
-      "document": "armures_protections basiques(1).docx",
-      "legacyName": "LBA Gallowglass II",
-      "candidates": [
-        {
-          "name": "Raven Gallowglass II legere",
-          "category": "Armures — Combat",
-          "score": 0.667
-        },
-        {
-          "name": "Raven Gallowglass II lourde",
-          "category": "Armures — Combat",
-          "score": 0.667
-        }
-      ]
-    },
-    {
       "document": "armures_protections basiques(1).docx",
       "legacyName": "LBA Soldier",
       "candidates": []
@@ -955,11 +896,6 @@
     {
       "document": "armures_protections basiques(1).docx",
       "legacyName": "HBA heavy soldier",
-      "candidates": []
-    },
-    {
-      "document": "armures_protections basiques(1).docx",
-      "legacyName": "HBA Sunking",
       "candidates": []
     }
   ]

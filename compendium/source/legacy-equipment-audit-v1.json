@@ -1062,9 +1062,9 @@
   ],
   "summary": {
     "total": 124,
-    "existing": 12,
+    "existing": 19,
     "likelyExisting": 42,
-    "missing": 70
+    "missing": 63
   },
   "results": [
     {
@@ -3588,10 +3588,13 @@
     {
       "document": "armures_protections Spéciales(1).docx",
       "legacyName": "SPC Santa cloth",
-      "status": "missing",
-      "confidence": "none",
-      "confirmedAlias": null,
-      "match": null,
+      "status": "existing",
+      "confidence": "confirmed-alias",
+      "confirmedAlias": "Icecorps Santa Clothes",
+      "match": {
+        "name": "Icecorps Santa Clothes",
+        "category": "Armures — Spécialisées"
+      },
       "candidates": [
         {
           "name": "Icecorps Santa Clothes",
@@ -3599,7 +3602,15 @@
           "score": 0.4
         }
       ],
-      "matchedRaw": null
+      "matchedRaw": {
+        "id": "armures-specialisees-icecorps-santa-clothes",
+        "name": "Icecorps Santa Clothes",
+        "category": "Armures — Spécialisées",
+        "priceMode": "exact",
+        "price": 900,
+        "priceLabel": "900 $",
+        "effect": "Tres epaisse ; peut etre defavorable pour actions demandant finesse/mobilite."
+      }
     },
     {
       "document": "armures_protections Spéciales(1).docx",
@@ -3631,20 +3642,34 @@
     {
       "document": "armures_protections Spéciales(1).docx",
       "legacyName": "SPC Muad Dib",
-      "status": "missing",
-      "confidence": "none",
-      "confirmedAlias": null,
-      "match": null,
+      "status": "existing",
+      "confidence": "confirmed-alias",
+      "confirmedAlias": "Sunways Desert Survivor",
+      "match": {
+        "name": "Sunways Desert Survivor",
+        "category": "Armures — Spécialisées"
+      },
       "candidates": [],
-      "matchedRaw": null
+      "matchedRaw": {
+        "id": "armures-specialisees-sunways-desert-survivor",
+        "name": "Sunways Desert Survivor",
+        "category": "Armures — Spécialisées",
+        "priceMode": "exact",
+        "price": 2500,
+        "priceLabel": "2 500 $",
+        "effect": "Recyclage fluides, charge solaire lente, signature thermique reduite, survie desertique."
+      }
     },
     {
       "document": "armures_protections Spéciales(1).docx",
       "legacyName": "SPC Cthulhu killer",
-      "status": "missing",
-      "confidence": "none",
-      "confirmedAlias": null,
-      "match": null,
+      "status": "existing",
+      "confidence": "confirmed-alias",
+      "confirmedAlias": "Seawares Scaph IV",
+      "match": {
+        "name": "Seawares Scaph IV",
+        "category": "Armures — Spécialisées"
+      },
       "candidates": [
         {
           "name": "Phoenix PW-026 Vampire Killer",
@@ -3652,7 +3677,15 @@
           "score": 0.286
         }
       ],
-      "matchedRaw": null
+      "matchedRaw": {
+        "id": "armures-specialisees-seawares-scaph-iv",
+        "name": "Seawares Scaph IV",
+        "category": "Armures — Spécialisées",
+        "priceMode": "exact",
+        "price": 3500,
+        "priceLabel": "3 500 $",
+        "effect": "Etanche, air, isolation ; tres encombrant et defavorable hors milieu adapte."
+      }
     },
     {
       "document": "armures_protections Spéciales(1).docx",
@@ -3859,10 +3892,13 @@
     {
       "document": "armures_protections basiques(1).docx",
       "legacyName": "BPV Bullet Fear",
-      "status": "missing",
-      "confidence": "none",
-      "confirmedAlias": null,
-      "match": null,
+      "status": "existing",
+      "confidence": "confirmed-alias",
+      "confirmedAlias": "Owl Bullets Fear",
+      "match": {
+        "name": "Owl Bullets Fear",
+        "category": "Armures — Basiques"
+      },
       "candidates": [
         {
           "name": "Owl Bullets Fear",
@@ -3870,7 +3906,15 @@
           "score": 0.4
         }
       ],
-      "matchedRaw": null
+      "matchedRaw": {
+        "id": "armures-basiques-owl-bullets-fear",
+        "name": "Owl Bullets Fear",
+        "category": "Armures — Basiques",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": "Gilet epais."
+      }
     },
     {
       "document": "armures_protections basiques(1).docx",
@@ -4018,12 +4062,23 @@
     {
       "document": "armures_protections basiques(1).docx",
       "legacyName": "BPV SunShield",
-      "status": "missing",
-      "confidence": "none",
-      "confirmedAlias": null,
-      "match": null,
+      "status": "existing",
+      "confidence": "confirmed-alias",
+      "confirmedAlias": "Phoenix Sun Shield",
+      "match": {
+        "name": "Phoenix Sun Shield",
+        "category": "Armures — Basiques"
+      },
       "candidates": [],
-      "matchedRaw": null
+      "matchedRaw": {
+        "id": "armures-basiques-phoenix-sun-shield",
+        "name": "Phoenix Sun Shield",
+        "category": "Armures — Basiques",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": "Anti-tranchant leger."
+      }
     },
     {
       "document": "armures_protections basiques(1).docx",
@@ -4139,10 +4194,13 @@
     {
       "document": "armures_protections basiques(1).docx",
       "legacyName": "LBA Gallowglass II",
-      "status": "missing",
-      "confidence": "none",
-      "confirmedAlias": null,
-      "match": null,
+      "status": "existing",
+      "confidence": "confirmed-alias",
+      "confirmedAlias": "Raven Gallowglass II legere",
+      "match": {
+        "name": "Raven Gallowglass II legere",
+        "category": "Armures — Combat"
+      },
       "candidates": [
         {
           "name": "Raven Gallowglass II legere",
@@ -4155,7 +4213,15 @@
           "score": 0.667
         }
       ],
-      "matchedRaw": null
+      "matchedRaw": {
+        "id": "armures-combat-raven-gallowglass-ii-legere",
+        "name": "Raven Gallowglass II legere",
+        "category": "Armures — Combat",
+        "priceMode": "exact",
+        "price": 1450,
+        "priceLabel": "1 450 $",
+        "effect": "Anti-EMP"
+      }
     },
     {
       "document": "armures_protections basiques(1).docx",
@@ -4270,12 +4336,23 @@
     {
       "document": "armures_protections basiques(1).docx",
       "legacyName": "HBA Sunking",
-      "status": "missing",
-      "confidence": "none",
-      "confirmedAlias": null,
-      "match": null,
+      "status": "existing",
+      "confidence": "confirmed-alias",
+      "confirmedAlias": "Phoenix Sun King",
+      "match": {
+        "name": "Phoenix Sun King",
+        "category": "Armures — Combat"
+      },
       "candidates": [],
-      "matchedRaw": null
+      "matchedRaw": {
+        "id": "armures-combat-phoenix-sun-king",
+        "name": "Phoenix Sun King",
+        "category": "Armures — Combat",
+        "priceMode": "exact",
+        "price": 5000,
+        "priceLabel": "5 000 $",
+        "effect": "Protection thermique reactive"
+      }
     }
   ]
 }
