@@ -42,7 +42,7 @@ try{
   await openExact('Vrai cafe',['grains reellement cultives','rare','statut']);
   await openExact('FaceCaster DFL',['projecteur','holographique','holo']);
   await openExact('Vladic grand/protege',['protection de quartier','pas un bonus de combat']);
-  await openExact('Cache improvisee',['dissimulation par abandon ou par oubli','peu de securite']);
+  await openExact('Cache improvisee',['abandon ou par oubli','peu de securite']);
 
   await gotoCategory(CATALOG_CATEGORY);await filterCategory('Neuroprogramme');const neuroCount=await visibleCards('equipement').count();if(neuroCount!==27)throw new Error(`Neuroprogrammes: ${neuroCount} cartes Réalité, attendu 27`);
   if(errors.length)throw new Error(`Erreurs navigateur:\n${errors.join('\n')}`);
