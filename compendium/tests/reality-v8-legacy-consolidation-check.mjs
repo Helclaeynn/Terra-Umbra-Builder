@@ -10,7 +10,7 @@ function sectionById(page,id){const section=(page.sections||[]).find(s=>s.id===i
 function text(section){return [section.title||'',...(section.blocks||[]).map(block=>block.text||'')].join(' ')}
 
 const reality=load('realite'),lore=load('lore');
-if(reality.length!==29)throw new Error(`Réalité: ${reality.length}, attendu 29`);
+if(reality.length!==9)throw new Error(`Réalité finale: ${reality.length}, attendu 9`);
 if(lore.length!==341)throw new Error(`Lore consolidé: ${lore.length}, attendu 341 après retrait des 18 pages quotidiennes`);
 
 const retired=[
@@ -47,5 +47,5 @@ for(const section of [intimacy,drugs,culture,troubles]){
 const all=manifest.datasets.flatMap(d=>load(d.id));
 const ids=new Set();for(const page of all){if(ids.has(page.id))throw new Error(`ID dupliqué: ${page.id}`);ids.add(page.id)}
 if(ids.size!==manifest.expectedTotal)throw new Error(`IDs uniques ${ids.size}/${manifest.expectedTotal}`);
-if(manifest.expectedTotal!==1822)throw new Error(`Total V3 ${manifest.expectedTotal}, attendu 1822 après consolidation Réalité`);
+if(manifest.expectedTotal!==1802)throw new Error(`Total V3 ${manifest.expectedTotal}, attendu 1802 après consolidation finale Réalité`);
 console.log(`CONSOLIDATION RÉALITÉ V8 OK — 18 pages legacy retirées · 4 thèmes fusionnés · ${ids.size} IDs uniques.`);
