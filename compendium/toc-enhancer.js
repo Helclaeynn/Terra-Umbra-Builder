@@ -2,15 +2,14 @@ const norm=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLo
 const slug=s=>norm(s).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'section';
 const $=s=>document.querySelector(s);
 
-// Règles, Réalité et Vérité sont désormais pilotées exclusivement par
-// data/navigation-v1.json via category-navigation.js. Ne jamais les faire
-// retomber dans les anciens regroupements heuristiques de ce fichier.
-const MANIFEST_NAV_CATEGORIES=new Set(['Règles','Réalité','Vérité']);
+// Ces catégories sont pilotées exclusivement par data/navigation-v1.json via
+// category-navigation.js. Ne jamais les faire retomber dans les anciens
+// regroupements heuristiques de ce fichier.
+const MANIFEST_NAV_CATEGORIES=new Set(['Règles','Réalité','Vérité','Équipement','Augmentations','Bestiaire','Catalogue Vérité']);
 
 const TOP_ORDER={
   'Organisations':['Gouvernement','Corporations','Pègre','Crawlers & Underlife','Vampires','Exilés','Extrals','Chasseurs','Autres organisations'],
   'Personnages':['Gouvernement & institutions','Sécurité publique','Corporations','Pègre','Crawlers & Underlife','Vampires & Cours','Exilés','Extrals','Chasseurs','Fléaux & secrets','Index PNJ historique','Autres personnages'],
-  'Bestiaire':['Profils de Réalité','Revenants','Vampires & Garous','Mages & occultistes','Exilés & Extrals','Fléaux & Abominations','Figures uniques & scénarios','Autres profils']
 };
 const SUB_ORDER={
   'Organisations|Gouvernement':['Institutions','Agences gouvernementales','Sécurité publique & LAUS'],
@@ -50,16 +49,6 @@ function pathFor(category,card){
     if(/laus|police|securite/.test(t))return['Sécurité publique'];
     if(/gouvernement|agence|cnad|cbii|inata|cbac|cchs|nrmd|eio|csco|stab/.test(t))return['Gouvernement & institutions'];
     return['Autres personnages'];
-  }
-  if(category==='Bestiaire'){
-    if(/revenant|spectre|zombie|squelette|liche|momie|jiangshi|draugar/.test(t))return['Revenants'];
-    if(/vampir|garou/.test(t))return['Vampires & Garous'];
-    if(/mage|occult/.test(t))return['Mages & occultistes'];
-    if(/exile|extral/.test(t))return['Exilés & Extrals'];
-    if(/fleau|abomination|wendigo|rupture/.test(t))return['Fléaux & Abominations'];
-    if(/scenario|unique|figure|artefact/.test(t))return['Figures uniques & scénarios'];
-    if(/realite|humain|soldat|police|corporat/.test(t))return['Profils de Réalité'];
-    return['Autres profils'];
   }
   return['Autres'];
 }
