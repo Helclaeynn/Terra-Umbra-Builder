@@ -8,22 +8,39 @@ const errors=[];
 page.on('pageerror',e=>errors.push(`pageerror: ${e.message}`));
 page.on('console',m=>{if(m.type()==='error'&&!m.text().startsWith('Failed to load resource:'))errors.push(`console: ${m.text()}`);});
 page.on('response',r=>{if(r.status()>=400&&r.url().includes('/compendium/')&&!/favicon\.ico/i.test(r.url()))errors.push(`http ${r.status()}: ${r.url()}`);});
-async function gotoCategory(){await page.goto(`${base}compendium/#/category/${encodeURIComponent('Catalogue Vérité')}`,{waitUntil:'domcontentloaded'});await page.waitForSelector('.article-card',{timeout:20000});}
+
+const CATALOG_CATEGORY='Équipement & Objets';
+async function gotoCategory(){
+  await page.goto(`${base}compendium/#/category/${encodeURIComponent(CATALOG_CATEGORY)}`,{waitUntil:'domcontentloaded'});
+  await page.waitForSelector('.article-card[href^="#/article/verite-catalogue-"]',{timeout:20000});
+}
+async function filterCategory(text){const input=page.locator('#categoryFilter');await input.fill(text);await page.waitForTimeout(120);}
+async function exactTruthCard(title){
+  const escaped=title.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const heading=page.locator('.article-card[href^="#/article/verite-catalogue-"]:visible h3').filter({hasText:new RegExp(`^${escaped}$`)});
+  const count=await heading.count();
+  if(count!==1)throw new Error(`${title}: ${count} titre(s) Vérité exact(s), attendu 1`);
+  return heading.first().locator('..');
+}
 async function openByTitle(title,needles=[]){
-  const input=page.locator('#categoryFilter');await input.fill(title);await page.waitForTimeout(120);
-  const cards=page.locator('.article-card:visible');if(await cards.count()!==1)throw new Error(`${title}: ${await cards.count()} cartes`);
-  await cards.first().click();await page.waitForSelector('#main .article-media img',{timeout:10000});
-  const lore=page.locator('#main section#contexte .body-p.lore');if(await lore.count()!==2)throw new Error(`${title}: lore ${await lore.count()}`);
+  await gotoCategory();await filterCategory(title);
+  const card=await exactTruthCard(title),href=await card.getAttribute('href');
+  if(!href?.startsWith('#/article/verite-catalogue-'))throw new Error(`${title}: route canonique Vérité absente`);
+  await card.click();await page.waitForSelector('#main .article-media img',{timeout:10000});
+  const lore=page.locator('#main section#contexte .body-p.lore');await lore.first().waitFor({state:'visible',timeout:10000});
+  if(await lore.count()!==2)throw new Error(`${title}: lore ${await lore.count()}`);
   if(await page.locator('#main .doc-table').count()<1)throw new Error(`${title}: tableau absent`);
+  const hash=await page.evaluate(()=>location.hash);if(hash!==href)throw new Error(`${title}: route ouverte ${hash}, attendu ${href}`);
   const loreText=(await lore.allTextContents()).join(' ').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
   for(const needle of needles){const n=needle.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();if(!loreText.includes(n))throw new Error(`${title}: détail lore non rendu (${needle})`);}
 }
 try{
-  await gotoCategory();const count=await page.locator('.article-card:visible').count();if(count!==229)throw new Error(`Catalogue Vérité: ${count} cartes, attendu 229`);
+  await gotoCategory();await filterCategory('');
+  const count=await page.locator('.article-card[href^="#/article/verite-catalogue-"]:visible').count();if(count!==229)throw new Error(`Catalogue Vérité: ${count} cartes, attendu 229`);
   await openByTitle('Defensor',['générateur de projectiles','cartouche-source']);
-  await gotoCategory();await openByTitle('Raven Null Cage',['dizaine de minutes','mauvais diagnostic']);
-  await gotoCategory();await openByTitle('Grande Orbe',['Bellatheis','Sharith','ascendances']);
+  await openByTitle('Raven Null Cage',['dizaine de minutes','mauvais diagnostic']);
+  await openByTitle('Grande Orbe',['Bellatheis','Sharith','ascendances']);
   const body=(await page.locator('#main').innerText()).toLowerCase();if(!body.includes('unique'))throw new Error('Grande Orbe: statut unique non rendu');
   if(errors.length)throw new Error(errors.join('\n'));
-  console.log(`Browser smoke Vérité OK — ${count} pages · lore source-spécifique rendu sur Defensor, Null Cage et Grande Orbe.`);
+  console.log(`Browser smoke Vérité OK — ${count} pages dans Équipement & Objets / Objets de Vérité · routes canoniques et lore source-spécifique validés.`);
 }finally{await browser.close();}
