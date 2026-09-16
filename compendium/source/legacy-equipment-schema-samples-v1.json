@@ -121,6 +121,98 @@
           "Fonction": "Tenue pompier/technicien, chaleur et electricite."
         }
       }
+    },
+    {
+      "name": "Raven Gallowglass II legere",
+      "category": "Armures — Combat",
+      "path": [
+        "entries",
+        91
+      ],
+      "raw": {
+        "id": "armures-combat-raven-gallowglass-ii-legere",
+        "name": "Raven Gallowglass II legere",
+        "category": "Armures — Combat",
+        "priceMode": "exact",
+        "price": 1450,
+        "priceLabel": "1 450 $",
+        "effect": "Anti-EMP",
+        "data": {
+          "Bal.": "Balistique 5",
+          "Mel.": "Melee 3",
+          "Ant.": "Antichoc 4",
+          "Notes": "Anti-EMP"
+        }
+      }
+    },
+    {
+      "name": "Raven Gallowglass II lourde",
+      "category": "Armures — Combat",
+      "path": [
+        "entries",
+        94
+      ],
+      "raw": {
+        "id": "armures-combat-raven-gallowglass-ii-lourde",
+        "name": "Raven Gallowglass II lourde",
+        "category": "Armures — Combat",
+        "priceMode": "exact",
+        "price": 5500,
+        "priceLabel": "5 500 $",
+        "effect": "Anti-EMP ; militaire lourd",
+        "data": {
+          "Bal.": "Balistique 9",
+          "Mel.": "Melee 4",
+          "Ant.": "Antichoc 6",
+          "Notes": "Anti-EMP ; militaire lourd"
+        }
+      }
+    },
+    {
+      "name": "Phoenix Sun King",
+      "category": "Armures — Combat",
+      "path": [
+        "entries",
+        95
+      ],
+      "raw": {
+        "id": "armures-combat-phoenix-sun-king",
+        "name": "Phoenix Sun King",
+        "category": "Armures — Combat",
+        "priceMode": "exact",
+        "price": 5000,
+        "priceLabel": "5 000 $",
+        "effect": "Protection thermique reactive",
+        "data": {
+          "Bal.": "Balistique 5",
+          "Mel.": "Melee 5",
+          "Ant.": "Antichoc 5",
+          "Notes": "Protection thermique reactive"
+        }
+      }
+    },
+    {
+      "name": "Owl Moon Guard",
+      "category": "Armures — Combat",
+      "path": [
+        "entries",
+        96
+      ],
+      "raw": {
+        "id": "armures-combat-owl-moon-guard",
+        "name": "Owl Moon Guard",
+        "category": "Armures — Combat",
+        "priceMode": "exact",
+        "price": 4550,
+        "priceLabel": "4 550 $",
+        "effect": "Faible signature en obscurite",
+        "data": {
+          "Bal.": "Balistique 4",
+          "Mel.": "Melee 7",
+          "Ant.": "Antichoc 4",
+          "Notes": "Faible signature en obscurite"
+        }
+      }
     }
   ]
 }
