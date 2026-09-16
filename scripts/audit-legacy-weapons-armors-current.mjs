@@ -39,3 +39,6 @@ for(const old of legacy){
   console.log(JSON.stringify({legacy:old,canonical:canonical||null,exact:exact?{id:exact.id,name:exact.name,category:exact.category,price:exact.price??null,data:exact.data??{}}:null,candidates:ranked},null,0));
 }
 console.error(`AUDIT ${legacy.length} legacy labels against ${rows.length} current Builder entries.`);
+console.log('CURRENT_RELEVANT_BEGIN');
+for(const row of rows.filter(r=>/^Armes|^Armures/.test(String(r.category||'')))) console.log(JSON.stringify({id:row.id,name:row.name,category:row.category,priceMode:row.priceMode,price:row.price??null,priceLabel:row.priceLabel??null,effect:row.effect??'',data:row.data??{}}));
+console.log('CURRENT_RELEVANT_END');
