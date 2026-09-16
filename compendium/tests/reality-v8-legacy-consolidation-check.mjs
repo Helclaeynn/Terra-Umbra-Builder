@@ -36,7 +36,7 @@ for(const needle of ['psychotropes','augmentations organiques','virtuelles','Cra
 const culture=sectionById(identity,'legacy-reality-cyber-bio-culture');
 for(const needle of ['Cybermécanique','biogénétique','modularité','patrimoine du bénéficiaire'])if(!text(culture).includes(needle))throw new Error(`Cyber/Bio: repère absent ${needle}`);
 const troubles=sectionById(identity,'legacy-reality-troubles-augmentiques');
-for(const needle of ['Stress augmentique','Frénésie augmentique','dépendance','ne signifie pas'])if(!text(troubles).includes(needle))throw new Error(`Troubles augmentiques: repère absent ${needle}`);
+for(const needle of ['Stress augmentique','Frénésie augmentique','dépendance','ne signifient pas','automatiquement'])if(!text(troubles).includes(needle))throw new Error(`Troubles augmentiques: repère absent ${needle}`);
 
 const forbidden=/\bPTV\b|\bDGT\b|\b\d+\s*PA\b|\b1d10e\b|\bdifficult[eé]\s*\d+/i;
 for(const section of [intimacy,drugs,culture,troubles]){
