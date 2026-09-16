@@ -33,6 +33,7 @@ on:
       - 'scripts/integrate-reality-book-v8-setting-v1.mjs'
       - 'scripts/consolidate-reality-v8-legacy-v1.mjs'
       - 'scripts/audit-reality-v8-legacy.mjs'
+      - 'scripts/audit-reality-v8-dataset-v1.mjs'
       - 'scripts/audit-truth-v6-mechanics-overlap.mjs'
       - 'scripts/audit-truth-legacy-relics.mjs'
       - 'scripts/audit-truth-final-cleanup.mjs'
@@ -159,6 +160,8 @@ jobs:
         run: node compendium/tests/navigation-check.mjs
       - name: Audit Reality V8 legacy overlap
         run: node scripts/audit-reality-v8-legacy.mjs
+      - name: Audit residual Reality dataset pages
+        run: node scripts/audit-reality-v8-dataset-v1.mjs
       - name: Audit Truth legacy relic candidates
         run: node scripts/audit-truth-legacy-relics.mjs
       - name: Audit final Truth cleanup details
