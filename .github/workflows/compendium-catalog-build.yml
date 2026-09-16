@@ -19,6 +19,7 @@ on:
       - 'compendium/source/reality-lore-v3-augmentations.json'
       - 'compendium/source/reality-lore-v3-firearms.json'
       - 'compendium/source/reality-lore-v3-final-eight.json'
+      - 'compendium/source/reality-lore-v3-curated-holonet.json'
       - 'compendium/tests/catalog-pages-check.mjs'
       - 'compendium/tests/catalog-pages-semantic-check.mjs'
       - 'compendium/tests/reality-catalog-lore-quality-check.mjs'
