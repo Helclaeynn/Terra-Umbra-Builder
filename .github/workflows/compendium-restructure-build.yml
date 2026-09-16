@@ -38,6 +38,7 @@ on:
       - 'scripts/audit-reality-v8-legacy.mjs'
       - 'scripts/audit-reality-v8-dataset-v1.mjs'
       - 'scripts/audit-reality-v8-catalog-coverage-v1.mjs'
+      - 'scripts/audit-rules-legacy-scoria-v1.mjs'
       - 'scripts/audit-truth-v6-mechanics-overlap.mjs'
       - 'scripts/audit-truth-legacy-relics.mjs'
       - 'scripts/audit-truth-final-cleanup.mjs'
@@ -168,6 +169,8 @@ jobs:
         run: node compendium/tests/truth-final-cleanup-check.mjs
       - name: Validate hierarchical navigation
         run: node compendium/tests/navigation-check.mjs
+      - name: Audit Rules legacy scoria
+        run: node scripts/audit-rules-legacy-scoria-v1.mjs
       - name: Audit Reality V8 legacy overlap
         run: node scripts/audit-reality-v8-legacy.mjs
       - name: Audit residual Reality dataset pages
