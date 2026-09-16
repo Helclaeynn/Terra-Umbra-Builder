@@ -36,9 +36,9 @@
     {
       "id": "equipement",
       "prefix": "v3-equipement-builder-v1",
-      "parts": 8,
+      "parts": 9,
       "count": 297,
-      "sha256": "a75f0fbcc5582f15e6ba653a03bd0d98186572dca2121920b25094cd7dc440d9",
+      "sha256": "cbc84d30b023acbf0b0286e4477fda2842df1a5dfdc7a88b4c71bed6a3107192",
       "quality": {
         "loreVersion": 3,
         "maxIdenticalTextRatio": 0.6,
