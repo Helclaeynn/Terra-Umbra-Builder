@@ -61,6 +61,16 @@ for(const page of [material,identity]){
   page.realityLegacyConsolidation={batch:BATCH,sources:legacyIds,sourceDocuments:['TUC_Realite_V8_LIVRE_JDR_PAO_RESPIRATION_TOC_2026-09-09.docx','TUC_vie quotidienne.docx']};
 }
 
+// Cette matière provient d'une édition manuelle qui ciblait l'ancienne page
+// lore-vie-quotidienne-alimentation-base. La page ayant été retirée après
+// consolidation, son contenu utile est pérennisé ici au lieu de conserver
+// un override orphelin.
+upsertSection(material,'legacy-reality-alimentation-base-editee','Alimentation de base et production de masse',[
+  'La ration universelle combine vitamines, protéines, lipides, sucres, sels minéraux et fibres afin de fournir l’essentiel de la dose quotidienne nécessaire à un être humain moyen. Il existe des variantes adaptées aux grandes tranches d’âge. Bon marché, compacte et volontairement peu séduisante, elle a été conçue comme assurance contre les famines et produite en quantités constantes.',
+  'Les céréales — blé, riz, soja et autres cultures de masse — restent intensivement produites. Elles offrent une alimentation moins complète qu’une ration universelle mais beaucoup plus satisfaisante au quotidien et servent de base à une part considérable de l’industrie alimentaire.',
+  'L’élevage d’insectes fournit des protéines, vitamines et autres nutriments en très grande quantité tout en valorisant des masses biologiques qui seraient autrement perdues, notamment des déchets végétaux. La matière obtenue est généralement reconditionnée en farines, pâtes ou purées utilisées dans d’innombrables préparations ; la consommation de l’insecte entier reste beaucoup moins courante.'
+]);
+
 upsertSection(identity,'legacy-reality-intimite-sexualite','Intimité, sexualité et présence à distance',[
   'La sexualité de 2035 reste d’abord une pratique sociale ordinaire, mais les augmentations, l’Holonet, la réalité virtuelle et les hologrammes ont élargi les manières d’habiter l’intimité. Une apparence peut être modifiée rapidement, des interfaces sensorielles peuvent transmettre des sensations à distance et certains dispositifs physiques peuvent être pilotés ou scénarisés par le réseau. Le couple, le mariage, la fidélité, la jalousie et l’attachement n’ont pas disparu pour autant : les technologies ont multiplié les pratiques sans remplacer les relations humaines.',
   'La compagnie intime et la prostitution sont légales et encadrées en Grande Californie. Réservation, paiement et identité professionnelle passent souvent par l’Holonet ; une partie du secteur descend de réseaux autrefois mafieux qui se sont transformés en entreprises déclarées. L’encadrement vise notamment à limiter l’exploitation et l’esclavage sexuel plutôt qu’à prétendre que le marché n’existe pas.',
@@ -97,5 +107,5 @@ writeDataset('realite',reality,'v3-realite-v4');
 writeDataset('lore',lore,'v3-lore-v9');
 manifest.expectedTotal=manifest.datasets.reduce((sum,d)=>sum+Number(d.count||0),0);
 fs.writeFileSync(manifestPath,`${JSON.stringify(manifest,null,2)}\n`,'utf8');
-console.log(`CONSOLIDATION RÉALITÉ V8 — ${present.length} pages legacy retirées · 4 thèmes utiles fusionnés dans 2 pages book-first.`);
+console.log(`CONSOLIDATION RÉALITÉ V8 — ${present.length} pages legacy retirées · 5 thèmes utiles fusionnés dans 2 pages book-first.`);
 console.log(`RÉALITÉ ${beforeReality} -> ${reality.length} · LORE ${beforeLore} -> ${lore.length} · total V3 ${manifest.expectedTotal}.`);
