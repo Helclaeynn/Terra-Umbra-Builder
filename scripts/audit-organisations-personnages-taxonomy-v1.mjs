@@ -12,48 +12,40 @@ function load(id){
   return JSON.parse(zlib.gunzipSync(Buffer.from(b64,'base64')).toString('utf8')).map(page=>({...page,dataset:page.dataset||id}));
 }
 function inc(map,key){key=String(key??'—').trim()||'—';map.set(key,(map.get(key)||0)+1)}
-function printMap(label,map,limit=120){
+function printMap(label,map){
   console.log(label);
-  for(const [key,count] of [...map.entries()].sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0],'fr')).slice(0,limit))console.log(`  ${count} | ${key}`);
+  for(const [key,count] of [...map.entries()].sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0],'fr')))console.log(`  ${count} | ${key}`);
 }
-function scalarShape(obj,prefix='',out=[]){
-  if(!obj||typeof obj!=='object'||Array.isArray(obj))return out;
-  for(const [key,value] of Object.entries(obj)){
-    const path=prefix?`${prefix}.${key}`:key;
-    if(value==null||['string','number','boolean'].includes(typeof value))out.push([path,String(value)]);
-    else if(!Array.isArray(value)&&typeof value==='object')scalarShape(value,path,out);
-  }
-  return out;
+function realm(page){
+  const tags=(page.tags||[]).map(String);
+  if(tags.includes('Réalité'))return 'Réalité';
+  if(tags.includes('Vérité'))return 'Vérité';
+  return 'Sans domaine';
 }
-function audit(label,pages){
-  console.log(`\n=== ${label.toUpperCase()} ${pages.length} ===`);
-  const datasets=new Map(),sources=new Map(),tags=new Map(),tagCombos=new Map(),shapes=new Map(),scalarValues=new Map(),nav=new Map();
-  for(const page of pages){
-    inc(datasets,page.dataset);
-    inc(sources,page.source||'—');
-    const list=(page.tags||[]).map(String);for(const tag of list)inc(tags,tag);inc(tagCombos,list.join(' > ')||'—');
-    inc(shapes,Object.keys(page).sort().join(','));
-    if(page.nav)inc(nav,`${page.nav.group||'—'} > ${page.nav.subgroup||'—'}`);
-    for(const [key,value] of scalarShape(page).filter(([key])=>!['id','title','source','status','category','illustration'].includes(key)&&!key.startsWith('sections.')))inc(scalarValues,`${key} = ${value}`);
-  }
-  printMap('DATASETS',datasets,20);
-  printMap('SOURCES',sources,60);
-  printMap('TOP TAGS',tags,120);
-  printMap('TAG COMBINATIONS',tagCombos,120);
-  printMap('TOP-LEVEL SHAPES',shapes,30);
-  if(nav.size)printMap('EXPLICIT NAV',nav,120);
-  printMap('SCALAR METADATA',scalarValues,200);
-  console.log('SAMPLES');
-  for(const page of pages.slice(0,60))console.log(`  ${page.dataset} | ${page.id} | ${page.title} | tags=${(page.tags||[]).join(' > ')} | source=${page.source||'—'} | nav=${page.nav?JSON.stringify(page.nav):'—'}`);
-}
+function cleanTags(page){return (page.tags||[]).map(String).filter(tag=>!['PNJ','Organisation','Organisations','Réalité','Vérité','Majeur','Secondaire','Mineur'].includes(tag))}
 
 const all=manifest.datasets.flatMap(dataset=>load(dataset.id));
 const organisations=all.filter(page=>page.category==='Organisations');
 const personnages=all.filter(page=>page.category==='Personnages');
-
-audit('Organisations',organisations);
-audit('Personnages',personnages);
-
 if(!organisations.length)throw new Error('Aucune page Organisations trouvée');
 if(!personnages.length)throw new Error('Aucune page Personnages trouvée');
-console.log(`\nTAXONOMY TARGETS OK — Organisations ${organisations.length} · Personnages ${personnages.length}.`);
+
+console.log(`ORGANISATIONS ${organisations.length}`);
+const orgRealm=new Map(),orgTags=new Map(),orgSources=new Map();
+for(const page of organisations){inc(orgRealm,realm(page));for(const tag of cleanTags(page))inc(orgTags,tag);inc(orgSources,page.source||'—')}
+printMap('ORG DOMAINES',orgRealm);printMap('ORG TAGS UTILES',orgTags);printMap('ORG SOURCES',orgSources);
+console.log('ORG INVENTAIRE');
+for(const page of [...organisations].sort((a,b)=>realm(a).localeCompare(realm(b),'fr')||a.title.localeCompare(b.title,'fr')))console.log(`  ${realm(page)} | ${page.id} | ${page.title} | tags=${cleanTags(page).join(' > ')||'—'} | source=${page.source||'—'}`);
+
+console.log(`PERSONNAGES ${personnages.length}`);
+const pnjRealm=new Map(),affiliations=new Map(),importance=new Map(),locations=new Map();
+for(const page of personnages){
+  const r=realm(page);inc(pnjRealm,r);inc(affiliations,`${r} | ${page.affiliation||'—'}`);inc(importance,page.importance||'—');inc(locations,page.location||'—');
+}
+printMap('PNJ DOMAINES',pnjRealm);printMap('PNJ AFFILIATIONS PAR DOMAINE',affiliations);printMap('PNJ IMPORTANCE',importance);printMap('PNJ LOCALISATIONS',locations);
+console.log('PNJ SANS DOMAINE');
+for(const page of personnages.filter(page=>realm(page)==='Sans domaine'))console.log(`  ${page.id} | ${page.title} | affiliation=${page.affiliation||'—'} | tags=${(page.tags||[]).join(' > ')}`);
+console.log('PNJ SANS AFFILIATION');
+for(const page of personnages.filter(page=>!String(page.affiliation||'').trim()))console.log(`  ${realm(page)} | ${page.id} | ${page.title} | tags=${cleanTags(page).join(' > ')||'—'}`);
+
+console.log(`TAXONOMY TARGETS OK — Organisations ${organisations.length} · Personnages ${personnages.length}.`);
