@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import zlib from 'node:zlib';
-import { classifyNavigation, isHierarchicalCategory, navigationDisplayTitle } from '../compendium/navigation-schema-v2.js';
+import { classifyNavigation, isHierarchicalCategory, navigationDisplayTitle } from '../compendium/navigation-schema-v3.js';
 
 const DATA='compendium/data';
 const manifest=JSON.parse(fs.readFileSync(`${DATA}/manifest-v3.json`,'utf8'));
@@ -65,10 +65,11 @@ for(const entry of entries){
   counts[entry.category].groups[entry.group].subgroups[entry.subgroup]=(counts[entry.category].groups[entry.group].subgroups[entry.subgroup]||0)+1;
 }
 
-const output={version:2,categories:['Règles','Réalité','Vérité'],entries};
+const categories=['Règles','Réalité','Équipement','Augmentations','Vérité','Catalogue Vérité','Bestiaire'];
+const output={version:2,categories,entries};
 fs.writeFileSync(`${DATA}/navigation-v1.json`,`${JSON.stringify(output,null,2)}\n`,'utf8');
 
-console.log(`NAVIGATION V2 — ${entries.length}/${rows.length} pages visibles classées.`);
+console.log(`NAVIGATION V3 — ${entries.length}/${rows.length} pages visibles classées.`);
 for(const category of output.categories){
   const info=counts[category];
   console.log(`${category.toUpperCase()} — ${info?.pages||0} pages`);
