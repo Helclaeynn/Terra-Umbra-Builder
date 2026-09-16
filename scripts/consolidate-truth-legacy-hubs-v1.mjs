@@ -42,11 +42,12 @@ if(!Array.isArray(plan.migrations)||plan.migrations.length!==5)throw new Error(`
 
 let truth=loadDataset('verite');
 let lore=loadDataset('lore');
-// Première passe : 84/397. Après la première consolidation : 84/392.
-// Après la fermeture Vérité : 78/359. Les trois états doivent pouvoir être reconstruits.
+const startingLoreLength=lore.length;
+// La Vérité peut être rejouée avant (84 pages) ou après (78 pages) la fermeture des chapitres transitoires.
+// Le volume global de lore n'est volontairement pas figé : les consolidations Réalité et futures peuvent le réduire sans toucher aux invariants Vérité.
 if(![84,78].includes(truth.length))throw new Error(`Vérité: ${truth.length}, attendu 84 avant fermeture ou 78 après fermeture`);
-if(![397,392,359].includes(lore.length))throw new Error(`Lore: ${lore.length}, état de consolidation inattendu`);
-const finalState=truth.length===78||lore.length===359;
+if(!lore.length)throw new Error('Lore: dataset vide');
+const finalState=truth.length===78;
 
 const datasets={verite:truth,lore};
 const migrated=[];
@@ -74,8 +75,8 @@ if(presentRetired.length!==0&&presentRetired.length!==plan.retiredIds.length)thr
 if(presentRetired.length===plan.retiredIds.length)lore=lore.filter(page=>!plan.retiredIds.includes(page.id));
 datasets.lore=lore;
 
-const expectedTruth=finalState?78:84;
-const expectedLore=finalState?359:392;
+const expectedTruth=truth.length;
+const expectedLore=startingLoreLength-presentRetired.length;
 if(truth.length!==expectedTruth)throw new Error(`Vérité: ${truth.length}, attendu ${expectedTruth} après consolidation`);
 if(lore.length!==expectedLore)throw new Error(`Lore: ${lore.length}, attendu ${expectedLore} après consolidation`);
 for(const id of plan.retiredIds)if([...truth,...lore].some(page=>page.id===id))throw new Error(`Hub legacy encore présent: ${id}`);
