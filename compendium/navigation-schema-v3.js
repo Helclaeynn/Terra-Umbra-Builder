@@ -9,14 +9,22 @@ function norm(value){return String(value||'').normalize('NFD').replace(/[\u0300-
 function result(group,groupOrder,subgroup,subgroupOrder=10,pageOrder=500){return{group,groupOrder,subgroup,subgroupOrder,pageOrder}}
 function numericIdOrder(page){const match=String(page?.id||'').match(/-(\d{3})(?:-|$)/);return match?Number(match[1]):500}
 
-const EQUIPMENT_GROUP_ORDER={
-  'Armement':10,
-  'Munitions & consommables':20,
-  'Armures & protections':30,
-  'Holonet & Neurodive':40,
-  'Habitat & mobilité':50,
-  'Vie quotidienne & services':60,
-};
+const TRUTH_PRESENTATION_ORDER=new Map([
+  ['Cosmologie & histoire cachée',10],
+  ['Entrer dans la Vérité',20],
+  ['Natures, peuples & traditions',30],
+  ['Peuples & Natures',40],
+  ['Chasseurs & traditions',50],
+  ['Chasseurs',60],
+  ['Corruption & Fléaux',70],
+  ['Créatures & phénomènes',80],
+]);
+function normalizeExistingNavigation(page,nav){
+  if(!nav)return null;
+  if(page.category==='Vérité'&&TRUTH_PRESENTATION_ORDER.has(nav.group))return {...nav,groupOrder:TRUTH_PRESENTATION_ORDER.get(nav.group)};
+  return nav;
+}
+
 function classifyEquipment(page){
   const category=String(page?.catalog?.category||(page?.tags||[])[2]||'').trim();
   const n=norm(category),order=numericIdOrder(page);
@@ -99,7 +107,7 @@ export function classifyNavigation(page){
   if(page.category==='Catalogue Vérité')return classifyTruthCatalog(page);
   // Le mot « Corruption » existe aussi dans le vocabulaire Neurodive : ne jamais l’envoyer chez les Fléaux.
   if(page.category==='Règles'&&page.id==='realite-022-7-corruption-de-programmes-et-materiel')return result('Réalité — Neurodive',50,'Règles de Neurodive',10,7);
-  return classifyV2(page);
+  return normalizeExistingNavigation(page,classifyV2(page));
 }
 
 export function isHierarchicalCategory(category){return SUPPORTED_CATEGORIES.has(category)}
