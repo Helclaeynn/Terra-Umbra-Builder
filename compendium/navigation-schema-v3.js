@@ -3,11 +3,23 @@ import {
   navigationDisplayTitle,
 } from './navigation-schema-v2.js';
 
-const SUPPORTED_CATEGORIES=new Set(['Règles','Réalité','Vérité','Équipement','Augmentations','Bestiaire','Catalogue Vérité']);
+const SUPPORTED_CATEGORIES=new Set(['Règles','Réalité','Vérité','Équipement','Augmentations','Organisations','Personnages','Bestiaire','Catalogue Vérité']);
 
 function norm(value){return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[’‘`]/g,"'").replace(/[^a-z0-9]+/g,' ').trim()}
 function result(group,groupOrder,subgroup,subgroupOrder=10,pageOrder=500){return{group,groupOrder,subgroup,subgroupOrder,pageOrder}}
 function numericIdOrder(page){const match=String(page?.id||'').match(/-(\d{3})(?:-|$)/);return match?Number(match[1]):500}
+function pageText(page){
+  const bits=[page?.title,page?.source,...(page?.tags||[])];
+  if(page?.pnj)bits.push(page.pnj.nom_verite,page.pnj.race,page.pnj.age,page.pnj.origine,page.pnj.statut,page.pnj.statut_verite,...(page.pnj.relations||[]));
+  for(const section of page?.sections||[]){
+    bits.push(section?.title);
+    for(const block of section?.blocks||[]){
+      if(block?.type==='p')bits.push(block.text);
+      else if(block?.type==='table')for(const row of block.rows||[])bits.push(...row);
+    }
+  }
+  return norm(bits.filter(Boolean).join(' '));
+}
 
 const TRUTH_PRESENTATION_ORDER=new Map([
   ['Cosmologie & histoire cachée',10],
@@ -59,6 +71,76 @@ function classifyAugmentation(page){
   return null;
 }
 
+const ORGANISATION_FAMILIES=new Map([
+  ['gouvernement',['Institutions & sécurité',10,'Gouvernement',10]],
+  ['agences gouvernementales',['Institutions & sécurité',10,'Agences gouvernementales',20]],
+  ['police de los angeles',['Institutions & sécurité',10,'Police de Los Angeles',30]],
+  ['corporations',['Corporations & économie',20,'Corporations',10]],
+  ['pegre de los angeles',['Pègre, Crawlers & anti-systèmes',30,'Pègre de Los Angeles',10]],
+  ['crawlers',['Pègre, Crawlers & anti-systèmes',30,'Crawlers',20]],
+  ['crawlers anti systemes',['Pègre, Crawlers & anti-systèmes',30,'Anti-systèmes',30]],
+  ['religions et neoreligions',['Religions & néoreligions',40,'Religions & néoreligions',10]],
+  ['cours vampiriques',['Factions de Vérité',50,'Cours vampiriques',10]],
+  ['pelages loups garous',['Factions de Vérité',50,'Pelages / Loups-garous',20]],
+  ['loges des mages',['Factions de Vérité',50,'Loges des Mages',30]],
+  ['temples daemoniaques',['Factions de Vérité',50,'Temples Daemoniaques',40]],
+  ['arbre de vie angelus',['Factions de Vérité',50,'Arbre de Vie & Angelus',50]],
+  ['temples aseryns',['Factions de Vérité',50,'Temples Aseryns',60]],
+  ['grands exiles',['Factions de Vérité',50,'Grands Exilés',70]],
+  ['groupes d extrals',['Factions de Vérité',50,'Groupes d’Extrals',80]],
+]);
+function classifyOrganisation(page){
+  const order=numericIdOrder(page);
+  for(const tag of page?.tags||[]){
+    const spec=ORGANISATION_FAMILIES.get(norm(tag));
+    if(spec)return result(spec[0],spec[1],spec[2],spec[3],order);
+  }
+  return null;
+}
+
+function classifyPersonnage(page){
+  const text=pageText(page),order=numericIdOrder(page);
+  const tags=(page?.tags||[]).map(norm);
+  const has=pattern=>pattern.test(text);
+  const tagged=pattern=>tags.some(tag=>pattern.test(tag));
+
+  // Les 60 fiches issues du vieux lore Vérité n'ont pas d'affiliation structurée :
+  // on les garde ensemble plutôt que d'inventer une appartenance à partir d'un nom.
+  if(tagged(/lore legacy migre/))return result('Figures de Vérité',70,'Dossiers migrés du lore Vérité',90,order);
+
+  // Priorité à l'affiliation sociale explicite des dossiers PNJ détaillés.
+  if(tagged(/police|laus/))return result('Institutions & sécurité',10,'Police & sécurité publique',20,order);
+  if(tagged(/gouvernement|agence gouvernementale|armee/))return result('Institutions & sécurité',10,'Gouvernement & agences',10,order);
+  if(tagged(/corporat/))return result('Corporations',20,'Corporatistes & acteurs privés',10,order);
+  if(tagged(/pegre|mafia|cartel|yakuza|triade|bratva|oglaigh|menorah|milieu|sinaloa|vingt deux dragons/))return result('Pègre & réseaux criminels',30,'Pègre, mafias & cartels',10,order);
+  if(tagged(/crawler|neurokiller|venomer|gunwatcher|mandealer|voidrunner|ender|gundriver|neopunk|fixer|insurge/))return result('Crawlers & Underlife',40,'Crawlers & réseaux Underlife',10,order);
+  if(tagged(/religieu|religion/)&&!tagged(/chasseur/))return result('Religions & cultes',50,'Religions & réseaux spirituels',10,order);
+  if(tagged(/chasseur/))return result('Chasseurs',60,'Chasseurs & réseaux de Chasse',10,order);
+
+  // Menaces explicites avant la Nature d'origine : une Abomination reste classée avec les menaces.
+  if(tagged(/fleau/))return result('Corruption & menaces',80,'Fléaux & figures de Rupture',10,order);
+  if(tagged(/abomination/))return result('Corruption & menaces',80,'Abominations',20,order);
+  if(tagged(/creature/)&&!tagged(/vampire|mage|daemon|angelus|loup|garou|atlante|aseryn|elfe|nain|orque|gobelin|mosen|thal|rocreen|basean|adrak/))return result('Corruption & menaces',80,'Créatures & anomalies nommées',30,order);
+
+  const peoples=[
+    [/vampire/,'Vampires',10],
+    [/loup|garou/,'Garous',20],
+    [/mage/,'Mages',30],
+    [/daemon/,'Daemons',40],
+    [/angelus/,'Angelus',50],
+    [/atlante|aseryn/,'Aseryns',60],
+    [/elfe|nain|orque|gobelin|azmenor|exile/,'Exilés',70],
+    [/mo senn?|talass|thalsios|rocreen|basean|ad rak|adrak|greys|serys|eons/,'Extrals & lignées associées',80],
+  ];
+  for(const [pattern,subgroup,subgroupOrder] of peoples)if(tagged(pattern))return result('Figures de Vérité',70,subgroup,subgroupOrder,order);
+
+  // Quelques fiches très anciennes ont des tags vides. Le texte peut révéler une fonction sans
+  // qu'elle soit canonisée comme affiliation ; on ne l'utilise que pour des catégories très larges.
+  if(has(/\bchasseur(?:s)?\b/))return result('Chasseurs',60,'Chasseurs & réseaux de Chasse',10,order);
+  if(has(/\babomination(?:s)?\b|\bfleau(?:x)?\b/))return result('Corruption & menaces',80,'Figures occultes dangereuses',40,order);
+  return result('Figures indépendantes',90,'Dossiers sans affiliation explicite',10,order);
+}
+
 const BESTIARY_CHAPTERS=new Map([
   ['1.1 PNJ Réalité',['PNJ de Réalité',10]],
   ['1.2 PNJ Vérité',['PNJ de Vérité',20]],
@@ -103,6 +185,8 @@ export function classifyNavigation(page){
   if(!page||!SUPPORTED_CATEGORIES.has(page.category))return null;
   if(page.category==='Équipement')return classifyEquipment(page);
   if(page.category==='Augmentations')return classifyAugmentation(page);
+  if(page.category==='Organisations')return classifyOrganisation(page);
+  if(page.category==='Personnages')return classifyPersonnage(page);
   if(page.category==='Bestiaire')return classifyBestiary(page);
   if(page.category==='Catalogue Vérité')return classifyTruthCatalog(page);
   // Le mot « Corruption » existe aussi dans le vocabulaire Neurodive : ne jamais l’envoyer chez les Fléaux.
