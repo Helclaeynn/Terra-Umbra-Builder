@@ -1,0 +1,161 @@
+{
+  "source": "Vérité V6 · chapitre 25 · marché xéno et armement galactique transversal",
+  "entries": {
+    "Pistolet laser": {
+      "paragraphs": [
+        "Le pistolet laser est l’un des plus petits dénominateurs communs du commerce d’armes galactique : compact, propre à transporter et compatible avec des cellules énergétiques faciles à standardiser. Sur Terre, les exemplaires qui circulent viennent surtout de cargaisons Shaediri, de diasporas ou de lots militaires déclassés plutôt que d’une fabrication locale régulière.",
+        "Son intérêt tient moins à une puissance exotique qu’à sa logistique et à son comportement prévisible. Le faisceau ne transforme pas l’arme en outil silencieux ou invisible, et une cible surnaturelle reste soumise exactement aux protections qui lui sont normalement applicables ; c’est une arme xéno courante, pas un passe-droit contre la Vérité."
+      ]
+    },
+    "Pistolet laser lourd": {
+      "paragraphs": [
+        "Le pistolet laser lourd pousse la même technologie vers un émetteur plus massif, une cellule plus sollicitée et une architecture davantage pensée pour le service armé que pour la discrétion. Dans les filières terrestres, il accompagne volontiers gardes de cargaison, mercenaires xénos et clients qui veulent une arme de poing sans descendre vers des systèmes militaires longs.",
+        "Sa silhouette et sa dissipation thermique rappellent rapidement qu’il ne s’agit pas d’un simple pistolet humain amélioré. Il reste néanmoins un laser conventionnel : aucune interaction automatique avec l’Hologramme, les esprits ou les protections occultes, et aucun avantage social particulier ne découle du simple fait de porter une arme extraterrestre."
+      ]
+    },
+    "Fusil laser": {
+      "paragraphs": [
+        "Le fusil laser est un standard de sécurité, de milice et d’infanterie sur de nombreux marchés secondaires où la simplicité énergétique importe davantage qu’une doctrine nationale précise. Sa grande réserve pratique explique qu’on en retrouve jusque dans des communautés xénos pauvres en munitions conventionnelles mais capables d’entretenir des cellules et des optiques.",
+        "Sur Terre, les armuriers Shaediri apprécient surtout les modèles dont la connectique peut être convertie sans ouvrir le générateur. Les versions réellement étrangères peuvent toutefois conserver des commandes, crosses ou sécurités pensées pour d’autres morphologies ; la technologie du faisceau est banale à l’échelle galactique, son ergonomie ne l’est pas toujours."
+      ]
+    },
+    "Fusil laser de précision": {
+      "paragraphs": [
+        "Le fusil laser de précision est moins une simple version longue qu’un ensemble où optique, stabilisation et gestion thermique sont réglées comme une seule chaîne. Les exemplaires qui atteignent le marché terrestre ont donc davantage de valeur pour leur calibration intacte que pour le principe du laser lui-même, largement connu des trafiquants xénos.",
+        "Une pièce mal entretenue peut encore tirer tout en ayant perdu ce qui justifiait son emploi à longue distance. Les intermédiaires sérieux vendent ainsi l’historique d’alignement et les diagnostics avec l’arme ; ceux qui ne le font pas écoulent souvent un fusil prestigieux dont seule la portée théorique a survécu au voyage."
+      ]
+    },
+    "Pistolet à ions": {
+      "paragraphs": [
+        "Le pistolet à ions appartient à une famille conçue d’abord pour faire cesser une machine plutôt que pour impressionner par ses dégâts bruts. On le rencontre chez des techniciens armés, des équipes d’abordage et des contrebandiers qui veulent disposer d’une réponse compacte aux drones, serrures actives, interfaces ou augmentations exposées.",
+        "Cette spécialisation explique aussi ses limites : le champ ionique vise l’électronique réellement accessible, pas la magie, l’âme ou une biologie purement organique. Sur Terre, sa réputation d’arme anti-technologie attire parfois des acheteurs qui lui prêtent des vertus universelles qu’aucun revendeur compétent ne garantit."
+      ]
+    },
+    "Fusil à ions": {
+      "paragraphs": [
+        "Le fusil à ions transpose la neutralisation électronique à une distance et une énergie adaptées à l’intervention. Il intéresse particulièrement les récupérateurs, les équipes de capture et les opérateurs qui préfèrent immobiliser un système coûteux plutôt que le réduire en morceaux avec du plasma ou des projectiles perforants.",
+        "Sa faible réserve comparée à un laser rappelle que chaque décharge sollicite fortement le système. Dans les circuits Shaediri, les cellules saines valent presque autant que l’arme elle-même ; un fusil récupéré sans alimentation compatible peut devenir un objet de troc impressionnant mais inutilisable jusqu’à adaptation correcte."
+      ]
+    },
+    "Pistolet à plasma": {
+      "paragraphs": [
+        "Le pistolet à plasma est une arme militaire compacte dont la technologie sacrifie une partie de la discrétion et de l’endurance à une décharge thermique violente. Même parmi les communautés xénos habituées aux armes énergétiques, son emploi en espace clos impose une attention particulière à la chaleur, aux matériaux proches et à la ventilation.",
+        "Sur Terre, un plasma visible attire vite l’attention et marque presque toujours un accès à une filière étrangère sérieuse. La surchauffe n’est pas un détail cosmétique : elle fait partie de la manière de combattre avec l’arme, et aucun bricolage de marché ne la transforme honnêtement en laser propre et continu."
+      ]
+    },
+    "Fusil à plasma": {
+      "paragraphs": [
+        "Le fusil à plasma représente le niveau auquel une arme galactique cesse d’être un simple objet exotique pour devenir un matériel d’intervention lourdement surveillé. Son générateur, son confinement et sa dissipation exigent un entretien que peu d’ateliers terrestres maîtrisent sans pièces importées ou technicien xéno expérimenté.",
+        "La combinaison de chaleur et de pénétration le rend recherché contre protections matérielles, mais son fonctionnement reste physique. Une créature intangible, une barrière spirituelle ou une défense explicitement non matérielle ne deviennent pas vulnérables parce que le projectile est du plasma ; la puissance technologique ne remplace pas le bon paradigme."
+      ]
+    },
+    "Sniper plasma": {
+      "paragraphs": [
+        "Le sniper plasma est une pièce de spécialiste où confinement, optique et refroidissement sont poussés assez loin pour conserver une décharge cohérente à grande distance. Les modèles complets sont rares sur Terre, car transporter l’arme sans son banc de maintenance, ses cellules compatibles et ses diagnostics revient souvent à acheter une future panne très chère.",
+        "Les filières sérieuses les réservent à des clients déjà connus, capables d’expliquer l’usage prévu et d’assumer les conséquences d’une signature thermique aussi remarquable. Sa précision et son pouvoir de perforation restent ceux du profil technique ; le prestige de l’objet ne lui confère ni visée surnaturelle ni capacité à voir sous le Voile."
+      ]
+    },
+    "Grenade plasma": {
+      "paragraphs": [
+        "La grenade plasma enferme pour quelques instants un problème de confinement que les armes longues gèrent normalement avec une architecture beaucoup plus vaste. C’est précisément ce qui en fait un consommable coûteux, apprécié pour les brèches et les engagements contre cibles matérielles regroupées, mais peu aimé des transporteurs prudents.",
+        "Dans les caches terrestres, elle est généralement stockée à part des munitions ordinaires et accompagnée de procédures d’inspection simples. Son rayon thermique est réel, pas sélectif : murs, équipements, alliés et atmosphère locale ne deviennent pas inoffensifs parce que l’engin vient d’une technologie plus avancée."
+      ]
+    },
+    "Fusil projectile galactique": {
+      "paragraphs": [
+        "Le fusil à projectile galactique rappelle qu’une civilisation avancée n’abandonne pas forcément une solution robuste lorsqu’elle fonctionne. Matériaux modernes, chambre renforcée et munitions compactes peuvent faire d’une arme balistique un outil fiable, facilement réparable et moins dépendant d’un réseau énergétique spécialisé qu’un laser ou un plasma.",
+        "Cette banalité technologique facilite sa circulation sur Terre : les ateliers peuvent souvent comprendre la mécanique même lorsqu’ils ne savent pas reproduire tous les alliages. Pour un contrebandier, c’est parfois l’arme xéno la plus raisonnable à posséder, précisément parce qu’elle reste un fusil plutôt qu’un laboratoire énergétique portatif."
+      ]
+    },
+    "Sniper projectile galactique": {
+      "paragraphs": [
+        "Le sniper à projectile galactique exploite des tolérances, optiques et matériaux plus avancés sans renoncer au principe balistique. Il plaît aux tireurs qui veulent une arme compréhensible, capable d’être entretenue loin d’une infrastructure xéno, tout en bénéficiant d’une conception pensée pour de longues distances et des protections modernes.",
+        "Les munitions compatibles deviennent alors le véritable goulot d’étranglement. Un propriétaire peut conserver le fusil durant des années mais hésiter à dépenser un projectile dont le lot d’origine ne sera jamais remplacé ; sur le marché noir, les boîtes intactes ont donc une valeur disproportionnée par rapport à leur apparence."
+      ]
+    },
+    "Couteau de survie vibrant": {
+      "paragraphs": [
+        "Le couteau de survie vibrant est d’abord un outil de terrain : couper un composite, dégager une sangle, ouvrir une gaine ou préparer un abri compte autant que son usage en mêlée. Sa vibration assistée explique qu’on en trouve dans des équipements civils, d’exploration ou de maintenance sans qu’il soit considéré partout comme une arme prestigieuse.",
+        "Les modèles importés sur Terre demandent surtout une cellule compatible et une géométrie de poignée utilisable par une main humaine. Son pouvoir de pénétration reste matériel : la lame ne devient ni sacrée ni biphysique, et un problème surnaturel demande toujours autre chose qu’un moteur vibrant bien entretenu."
+      ]
+    },
+    "Dague mono-filament": {
+      "paragraphs": [
+        "La dague mono-filament concentre son intérêt dans un tranchant extrêmement fin et une architecture qui protège ce tranchant lorsqu’il n’est pas utilisé. Elle circule dans les milieux où discrétion, sabotage et capacité à attaquer des matériaux résistants valent davantage qu’une arme de mêlée robuste et tolérante aux mauvais traitements.",
+        "Cette finesse impose aussi des contraintes d’entretien que les copies de rue masquent volontiers. Un mono-filament endommagé n’est pas une lame ordinaire légèrement émoussée : il faut un atelier capable de contrôler tension, alignement et sécurité avant de le remettre en service sans danger pour son propriétaire."
+      ]
+    },
+    "Spectrale S40": {
+      "paragraphs": [
+        "La Spectrale S40 associe une lame vibrante à un occulteur visuel technologique, combinaison appréciée pour les approches discrètes et les opérations où révéler l’arme trop tôt est un problème. L’occultation travaille sur ce qui est vu, pas sur la masse réelle de la lame ni sur tous les autres moyens de la détecter.",
+        "Un capteur thermique, un contact, une vibration, une analyse active ou une perception surnaturelle pertinente peuvent donc continuer à trahir sa présence. Cette limite est connue des utilisateurs professionnels ; la légende d’une lame réellement invisible vient surtout de démonstrations commerciales et de récits de contrebande."
+      ]
+    },
+    "Hache mono-filament": {
+      "paragraphs": [
+        "La hache mono-filament applique un tranchant de très haute technologie à une géométrie volontairement lourde, pensée pour transmettre de l’énergie à une cible matérielle résistante. On la retrouve davantage chez des récupérateurs industriels, troupes de brèche ou espèces capables d’assumer son encombrement que dans les arsenaux de duel.",
+        "Sa capacité à pénétrer une protection ne doit pas être confondue avec une interaction occulte. Même parfaite, la lame travaille sur de la matière ; contre une entité intangible ou une défense qui n’est pas matérielle, elle demeure une hache sophistiquée tant qu’aucun autre dispositif ne change ce rapport."
+      ]
+    },
+    "LC-108X": {
+      "paragraphs": [
+        "Le LC-108X est une arme de contact bâtie autour d’un champ électromagnétique court, utile lorsqu’un opérateur doit frapper directement un drone, une interface ou une armure exposée. Son format en fait un outil de neutralisation rapprochée plus qu’un substitut universel aux armes ioniques à distance.",
+        "Le champ peut perturber un système technologique touché sans acquérir pour autant une autorité sur tout ce qui est surnaturel. Les collectionneurs terriens le décrivent parfois comme une lame anti-machine ; les professionnels savent qu’une électronique blindée, distante ou simplement absente réduit fortement cet avantage."
+      ]
+    },
+    "Cellule universelle Shaediri": {
+      "paragraphs": [
+        "La cellule universelle Shaediri est moins une batterie miraculeuse qu’un pont commercial entre standards incompatibles. Les ateliers du réseau en fabriquent ou reconditionnent des variantes capables d’accepter l’énergie terrestre puis de la restituer selon les tensions, connectiques et protocoles attendus par de nombreux appareils xénos courants.",
+        "Cette universalité s’arrête aux technologies que les Shaediri ont réellement documentées et savent isoler sans les détruire. Un artefact, une source exotique ou un appareil militaire hors norme peut demander un convertisseur dédié ; forcer la connexion reste une excellente manière de transformer un objet rare en déchet coûteux."
+      ]
+    },
+    "Kit d’ergonomie xéno": {
+      "paragraphs": [
+        "Le kit d’ergonomie xéno matérialise tout le travail invisible nécessaire pour qu’un objet conçu pour trois doigts, une autre amplitude d’épaule ou une logique de commande étrangère devienne réellement utilisable par un Humain. Poignées, harnais, butées, traducteurs et interfaces sont choisis après examen de l’objet, pas assemblés au hasard.",
+        "Une bonne adaptation respecte la fonction d’origine au lieu de la réinventer. Elle peut supprimer les difficultés dues à la morphologie ou aux commandes, mais ne casse pas une authentification, n’accorde pas une compétence et ne rend pas compatible une technologie dont le principe exige réellement une biologie ou un lien absent."
+      ]
+    },
+    "Brouilleur de télémétrie": {
+      "paragraphs": [
+        "Le brouilleur de télémétrie répond à un problème très concret de contrebande : beaucoup d’équipements modernes parlent davantage qu’on ne le croit. Diagnostic, localisation, licence, état de cellule ou appel de maintenance peuvent suffire à trahir un objet volé longtemps après son arrivée sur Terre.",
+        "Le dispositif isole les émissions connues au prix des fonctions qui dépendent de cette liaison. Il ne rend pas l’objet invisible aux capteurs, n’efface pas son historique et ne neutralise pas un verrou interne ; il coupe une conversation, ce qui peut être exactement ce qu’un propriétaire clandestin recherche."
+      ]
+    },
+    "Étui de quarantaine énergétique": {
+      "paragraphs": [
+        "L’étui de quarantaine énergétique est un accessoire de passeur et de technicien, construit pour transporter une petite source ou un module actif sans laisser ses émissions radio et électromagnétiques ordinaires contaminer le reste du chargement. Sa valeur est autant forensique que sécuritaire.",
+        "Il n’annule cependant ni chaleur, radiation, magie, Corruption ni phénomène exotique qui n’emprunte pas les vecteurs pour lesquels il a été conçu. Les filières prudentes l’emploient donc comme première couche d’isolement, jamais comme preuve qu’un objet inconnu est devenu sans danger."
+      ]
+    },
+    "Balise de rappel cislunaire": {
+      "paragraphs": [
+        "La balise de rappel cislunaire est un produit typiquement Shaediri : petite, identifiable par leurs réseaux et pensée pour coordonner une récupération sans exiger que le porteur maîtrise lui-même les moyens spatiaux nécessaires. Une filière préparée peut suivre la cargaison et organiser le ramassage lorsque la fenêtre opérationnelle existe.",
+        "La balise ne téléporte rien et ne fait apparaître aucun secours par magie. Elle vaut surtout parce qu’un réseau accepte de répondre à son identifiant ; sans opérateur, relais, véhicule ou dette suffisamment importante derrière elle, ce n’est qu’un excellent émetteur attaché à une cargaison compromise."
+      ]
+    },
+    "Cartouche de matière AIDH ancienne": {
+      "paragraphs": [
+        "Les cartouches de matière des premières générations AIDH sont devenues des consommables de collection et de contrebande depuis que les doctrines et générateurs ont évolué. Elles contiennent un stock préparé selon des tolérances très précises, ce qui les rend bien plus difficile à improviser qu’un simple bloc de métal à introduire dans l’arme.",
+        "Chaque lot pose donc une question de provenance, de vieillissement et de compatibilité. Les Shaediri savent parfois reconditionner une cartouche ou certifier son contenu, mais les pièces réellement intactes restent recherchées parce qu’elles permettent d’utiliser un ancien armement AIDH sans reconstruire toute sa chaîne logistique."
+      ]
+    },
+    "Ce qui n’est pas un achat normal — Marché xéno": {
+      "paragraphs": [
+        "Le marché xéno terrestre est vaste sans être omnipotent. Les objets qui touchent aux infrastructures stratégiques, aux technologies modernes de Cohérence, aux secrets des G-corporations ou à des interfaces psychiques strictement personnelles ne deviennent pas soudain des marchandises parce qu’un acheteur possède assez de Dykal.",
+        "Ces pièces circulent par vol ciblé, dette politique, récupération, héritage ou opération exceptionnelle. La différence est essentielle : rencontrer un intermédiaire capable de parler de l’objet ne signifie pas qu’il peut en livrer un exemplaire, encore moins qu’il acceptera de mettre en danger tout son réseau pour une transaction ordinaire."
+      ]
+    },
+    "Ergonomie étrangère": {
+      "paragraphs": [
+        "Une technologie extraterrestre reste le produit d’un corps, d’une culture et d’une doctrine d’emploi. Nombre de dysfonctionnements attribués à une mauvaise qualité viennent simplement d’une gâchette hors d’atteinte, d’un affichage pensé pour d’autres sens, d’une prise conçue pour une autre force ou d’une interface neurologique qui ne reconnaît pas l’utilisateur.",
+        "L’adaptation sérieuse commence donc par comprendre la fonction avant de déplacer les commandes. Un atelier Shaediri peut souvent convertir une ergonomie inhabituelle, parfois traduire une interface, mais il ne peut pas fabriquer par simple bricolage la biologie, l’autorisation ou le paradigme technologique qui manque réellement au porteur."
+      ]
+    },
+    "Marché xéno — circuits, accès et dettes": {
+      "paragraphs": [
+        "À Los Demonos, le marché xéno repose moins sur une grande bourse clandestine que sur des communautés qui se connaissent, des ateliers capables de garantir une provenance et des intermédiaires qui engagent leur réputation à chaque vente. Les Shaediri occupent une place centrale parce qu’ils relient diasporas, récupérateurs et acheteurs terrestres sans prétendre contrôler tous les circuits.",
+        "L’accès change avec la nature du matériel : une cellule standard peut s’acheter, un plasma militaire demande une introduction, une pièce AIDH ancienne exige parfois une histoire crédible, et un objet Feeshri supérieur peut coûter surtout une dette. Les points de crédit représentent cette économie de services où la confiance et le risque comptent autant que la monnaie."
+      ]
+    }
+  }
+}
