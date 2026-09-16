@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "source": "TUC Réalité V8 — munitions spéciales et consommables lourds",
+  "entries": {
+    "Raven Flash": {
+      "paragraphs": [
+        "La Raven Flash est une munition de contrôle qui transforme l'impact en agression visuelle plutôt qu'en simple supplément de puissance. Elle s'inscrit bien dans la logique Raven des outils d'intervention : neutraliser un avantage adverse, casser une réaction et ouvrir une fenêtre d'action sans prétendre remplacer une arme spécialisée.",
+        "Son effet dépend toutefois d'une exposition visuelle réelle. Sur une Altération, elle peut aveugler ou éblouir la cible pour son activation suivante si le vecteur fonctionne ; un adversaire protégé de la lumière, privé de vision ou hors de l'effet pertinent ne subit pas artificiellement cette conséquence."
+      ]
+    },
+    "Raven Volto": {
+      "paragraphs": [
+        "La Raven Volto est une munition électrique pensée pour faire de l'impact un outil de neutralisation momentanée. Plutôt que d'ajouter une seconde arme au paquetage, elle permet à une plateforme balistique compatible de menacer aussi la motricité, les muscles et certains systèmes sensibles à une décharge.",
+        "L'électricité ne signifie pas immobilisation automatique. Sur une Altération, la Volto peut provoquer une immobilisation ou la perte d'une passe future lorsque la cible et la situation le permettent ; la conséquence reste liée à ce que la décharge peut réellement perturber."
+      ]
+    },
+    "Raven Drill": {
+      "paragraphs": [
+        "La Raven Drill est la réponse la plus directe de la gamme aux protections matérielles : une munition construite pour privilégier la pénétration plutôt qu'un effet secondaire spectaculaire. Elle convient aux situations où le problème n'est pas de désorienter la cible mais de faire travailler le projectile à travers ce qui la protège.",
+        "Son identité tient précisément à cette simplicité. La Drill apporte Perforant 1 et rien de plus : pas de décharge, pas de zone, pas de contrôle additionnel. C'est une cartouche spécialisée dont la valeur vient d'un comportement prévisible face aux protections."
+      ]
+    },
+    "Raven Night": {
+      "paragraphs": [
+        "La Raven Night est une cartouche extrême de la gamme Raven, pensée pour un tir unique où l'arme et la munition sont poussées à leur limite. Elle sacrifie la souplesse d'emploi à un choc initial exceptionnel : ce n'est ni une munition de rafale ni une solution destinée à arroser une zone.",
+        "Après le calcul normal des dégâts du tir, la Night ajoute 5 dégâts qui ne sont jamais doublés. Elle s'emploie uniquement en tir unitaire et reste incompatible avec Rafale ou Suppression ; un échec narratif peut en outre endommager ou désactiver sévèrement l'arme, ce qui matérialise le prix technique de cette surcharge."
+      ]
+    },
+    "Phoenix Pyro": {
+      "paragraphs": [
+        "La Phoenix Pyro transpose dans une cartouche la fascination de Phoenix pour les effets énergétiques visibles et immédiatement exploitables. Le projectile ne cherche pas seulement à blesser : il apporte un vecteur de feu capable de faire entrer matériaux, vêtements, carburants ou décor combustible dans les conséquences de l'impact lorsque la scène s'y prête.",
+        "La Pyro inflige des dégâts de type Feu, mais n'ajoute pas un incendie continu automatique. Les brûlures persistantes, départs de feu ou embrasements restent des conséquences d'Altération et d'environnement ; la munition fournit le vecteur thermique, pas une règle universelle de dégâts dans le temps."
+      ]
+    },
+    "Phoenix Hack": {
+      "paragraphs": [
+        "La Phoenix Hack vise les cibles dont le corps, l'armure ou l'équipement forment déjà une surface numérique attaquable. Sa charge électrique transforme le projectile en point d'entrée temporaire : l'intérêt n'est pas de pirater magiquement une cible à distance, mais de profiter d'un impact pour fragiliser une architecture connectée.",
+        "Elle inflige des dégâts d'Électricité. Sur une Altération contre une cible connectée ou augmentée, elle peut imposer -3 en Défense Neuro jusqu'à la fin de la prochaine activation de cette cible ; sans système pertinent à perturber, la munition ne crée pas artificiellement une vulnérabilité numérique."
+      ]
+    },
+    "Phoenix Blast": {
+      "paragraphs": [
+        "La Phoenix Blast privilégie l'impulsion mécanique : l'impact libère une onde de choc conçue pour déplacer, déstabiliser ou casser un appui plutôt que pour ajouter une perforation classique. Elle est particulièrement utile lorsque faire perdre sa position à une cible compte davantage que simplement traverser sa protection.",
+        "Sur une Altération, la Blast peut provoquer une projection ou un renversement significatif si la masse de la cible, son appui et l'environnement rendent cette conséquence crédible. Elle n'ignore donc ni l'échelle ni la fiction : une onde de choc reste une force appliquée, pas une télékinésie garantie."
+      ]
+    },
+    "Owl Venom": {
+      "paragraphs": [
+        "L'Owl Venom est une munition biologique à effet retardé : le projectile accepte de perdre une part de son pouvoir d'impact pour déposer un toxique dans une blessure réelle. Cette logique correspond bien à Owl, qui multiplie les réponses spécialisées plutôt que de chercher systématiquement la plus grosse énergie à la bouche.",
+        "La cartouche subit -3 dégâts. Si au moins un projectile de la même action inflige 1 PV ou plus à une cible biologique, celle-ci teste Vigueur + Constitution contre 15 ; en cas d'échec, elle subit 2 PV de poison ignorant l'Armure. Un seul test est effectué par action de tir."
+      ]
+    },
+    "Owl Liquid": {
+      "paragraphs": [
+        "L'Owl Liquid est une munition conçue pour compliquer la blessure elle-même. Après pénétration, le projectile se liquéfie et laisse dans les tissus une matière qui ne se traite pas comme un fragment balistique ordinaire ; sa dangerosité vient autant de ce qu'il reste dans la plaie que de l'impact initial.",
+        "Lorsqu'une Altération ou la fiction le justifie, cette présence peut créer une conséquence localisée persistante qui exige extraction ou soin adapté. La Liquid ne donne pas automatiquement une hémorragie ou un malus universel : elle fournit une complication médicale concrète que la blessure doit rendre pertinente."
+      ]
+    },
+    "Owl Rust": {
+      "paragraphs": [
+        "L'Owl Rust est une munition anti-cyber destinée à transformer un impact électrique en panne ciblée. Plutôt que de chercher à neutraliser toute l'électronique environnante comme une impulsion large, elle exploite le contact avec une fonction augmentique accessible pour la perturber directement.",
+        "La Rust est une munition électrique. Sur une Altération, elle peut désactiver une fonction augmentique accessible jusqu'à maintenance ou fin de l'effet prévu ; elle ne permet pas de choisir arbitrairement un implant inaccessible à l'impact ni d'éteindre l'ensemble d'un organisme augmenté d'un seul coup."
+      ]
+    },
+    "Grenade fragmentation Doorbell": {
+      "paragraphs": [
+        "La grenade à fragmentation Doorbell est la charge conventionnelle du lance-grenades lourd : une munition de zone destinée à saturer l'espace autour du point d'impact par des éclats. Elle donne au Doorbell sa fonction la plus directe d'appui, contre un groupe exposé ou une position que l'on ne peut pas traiter efficacement par un seul projectile.",
+        "Elle inflige 12 dégâts dans une zone de 4 mètres. Cette zone représente la dispersion dangereuse de la charge, pas la destruction automatique de tout ce qu'elle contient ; couvert, obstacles et circonstances continuent de déterminer ce que l'explosion peut réellement atteindre."
+      ]
+    },
+    "Grenade EMP Doorbell": {
+      "paragraphs": [
+        "La grenade EMP Doorbell remplace la fragmentation par une impulsion pensée pour saturer l'électronique dans une zone. Elle sert lorsque le lance-grenades doit traiter drones, capteurs, armures ou systèmes connectés sans confondre cette mission avec celle d'une charge purement antipersonnel.",
+        "Elle inflige 8 dégâts dans une zone de 4 mètres et applique l'effet EMP. Les équipements durcis ou protégés conservent leurs protections prévues, et l'impulsion ne devient pas une panne narrative illimitée : elle agit sur les systèmes réellement exposés à l'EMP."
+      ]
+    },
+    "Grenade Flash Doorbell": {
+      "paragraphs": [
+        "La grenade Flash Doorbell est une charge de contrôle de zone destinée à saturer brutalement la perception visuelle d'un secteur. Elle permet au lance-grenades de préparer une entrée, casser une ligne de tir ou désorganiser plusieurs personnes sans demander à la charge de produire les dégâts d'une fragmentation lourde.",
+        "Elle inflige 3 dégâts dans une zone de 5 mètres. Sur une Altération, les cibles réellement exposées peuvent subir -3 aux tests principalement visuels jusqu'à la fin de leur prochaine activation ; protections adaptées, absence de vision ou obstacle pertinent continuent de compter."
+      ]
+    },
+    "Grenade fumigene Doorbell": {
+      "paragraphs": [
+        "La grenade fumigène Doorbell transforme le lance-grenades en outil de masquage et de mouvement. Sa charge n'est pas destinée à vaincre une armure : elle crée rapidement un volume opaque qui coupe les lignes de vue ordinaires, protège une traversée ou oblige un adversaire à changer de position.",
+        "Le nuage couvre une zone de 5 mètres et bloque la vision ordinaire, mais il ne constitue pas un couvert physique. Balles, éclats et personnes peuvent toujours traverser la fumée ; capteurs capables de travailler dans ce milieu restent pertinents selon leurs fonctions réelles."
+      ]
+    }
+  }
+}
