@@ -1090,7 +1090,8 @@
           "category": "Armures — Basiques",
           "score": 0.4
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_Arbalètes arcs et arbalètes sous-marines(3).docx",
@@ -1106,9 +1107,18 @@
         {
           "name": "Owl SR-017 Big Game Hunter",
           "category": "Armes — Précision",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-melee-owl-lc-014-chasseur",
+        "name": "Owl LC-014 Chasseur",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 750,
+        "priceLabel": "750 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_Arbalètes arcs et arbalètes sous-marines(3).docx",
@@ -1117,7 +1127,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_Arbalètes arcs et arbalètes sous-marines(3).docx",
@@ -1133,9 +1144,18 @@
         {
           "name": "Owl SR-017 Big Game Hunter",
           "category": "Armes — Précision",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-melee-owl-lc-014-chasseur",
+        "name": "Owl LC-014 Chasseur",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 750,
+        "priceLabel": "750 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_Arbalètes arcs et arbalètes sous-marines(3).docx",
@@ -1147,7 +1167,16 @@
         "name": "Raven HT-014 Immobilisateur",
         "category": "Armes — Poing & Tasers"
       },
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": {
+        "id": "armes-poing-tasers-raven-ht-014-immobilisateur",
+        "name": "Raven HT-014 Immobilisateur",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_Arbalètes arcs et arbalètes sous-marines(3).docx",
@@ -1159,7 +1188,16 @@
         "name": "Owl LT-015 Incapaciteur",
         "category": "Armes — Poing & Tasers"
       },
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": {
+        "id": "armes-poing-tasers-owl-lt-015-incapaciteur",
+        "name": "Owl LT-015 Incapaciteur",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 250,
+        "priceLabel": "250 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_Arbalètes arcs et arbalètes sous-marines(3).docx",
@@ -1168,7 +1206,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_Arbalètes arcs et arbalètes sous-marines(3).docx",
@@ -1186,7 +1225,16 @@
           "category": "Armes — Mêlée",
           "score": 0.4
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-melee-seawares-hl-02-poseidon",
+        "name": "SeaWares HL-02 Poseidon",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 950,
+        "priceLabel": "950 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_Prototypes(2).docx",
@@ -1195,7 +1243,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_Prototypes(2).docx",
@@ -1213,7 +1262,16 @@
           "category": "Armes — Mêlée",
           "score": 0.4
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-melee-raven-mc-025-hitman",
+        "name": "Raven MC-025 Hitman",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 1100,
+        "priceLabel": "1 100 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_Prototypes(2).docx",
@@ -1222,7 +1280,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_Prototypes(2).docx",
@@ -1238,9 +1297,18 @@
         {
           "name": "Phoenix PW-026 Vampire Killer",
           "category": "Armes — Mêlée",
-          "score": 0.5714285714285714
+          "score": 0.571
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-melee-phoenix-pw-026-vampire-killer",
+        "name": "Phoenix PW-026 Vampire Killer",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 1300,
+        "priceLabel": "1 300 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_Prototypes(2).docx",
@@ -1249,7 +1317,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_Prototypes(2).docx",
@@ -1258,7 +1327,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_Prototypes(2).docx",
@@ -1267,7 +1337,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_Prototypes(2).docx",
@@ -1276,7 +1347,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_armes de jet(2).docx",
@@ -1292,9 +1364,18 @@
         {
           "name": "Phoenix PW-026 Vampire Killer",
           "category": "Armes — Mêlée",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-melee-owl-mb-014-bolas-monofilament",
+        "name": "Owl MB-014 Bolas monofilament",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 1500,
+        "priceLabel": "1 500 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_armes de jet(2).docx",
@@ -1315,9 +1396,18 @@
         {
           "name": "Phoenix PW-026 Vampire Killer",
           "category": "Armes — Mêlée",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-melee-raven-jl-014-cuchulainn",
+        "name": "Raven JL-014 Cuchulainn",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 850,
+        "priceLabel": "850 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_armes de jet(2).docx",
@@ -1338,9 +1428,18 @@
         {
           "name": "Phoenix PW-026 Vampire Killer",
           "category": "Armes — Mêlée",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-melee-tala-th-029-tomahawk",
+        "name": "Tala TH-029 Tomahawk",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 850,
+        "priceLabel": "850 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_armes de jet(2).docx",
@@ -1363,7 +1462,16 @@
           "category": "Armes — Mêlée",
           "score": 0.25
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-melee-phoenix-pck-08-feather",
+        "name": "Phoenix PCK-08 Feather",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_armes de jet(2).docx",
@@ -1376,9 +1484,10 @@
         {
           "name": "Phoenix PW-026 Vampire Killer",
           "category": "Armes — Mêlée",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_armes de jet(2).docx",
@@ -1391,9 +1500,10 @@
         {
           "name": "Phoenix PW-026 Vampire Killer",
           "category": "Armes — Mêlée",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_armes de jet(2).docx",
@@ -1406,9 +1516,10 @@
         {
           "name": "Phoenix PW-026 Vampire Killer",
           "category": "Armes — Mêlée",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_armes de jet(2).docx",
@@ -1421,9 +1532,10 @@
         {
           "name": "Phoenix PW-026 Vampire Killer",
           "category": "Armes — Mêlée",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_armes de jet(2).docx",
@@ -1436,9 +1548,10 @@
         {
           "name": "Phoenix PW-026 Vampire Killer",
           "category": "Armes — Mêlée",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_armes de jet(2).docx",
@@ -1453,7 +1566,8 @@
           "category": "Armes — Mêlée",
           "score": 0.25
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_armes de jet(2).docx",
@@ -1466,9 +1580,10 @@
         {
           "name": "Phoenix PW-026 Vampire Killer",
           "category": "Armes — Mêlée",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_armes de jet(2).docx",
@@ -1477,7 +1592,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_armes de jet(2).docx",
@@ -1490,9 +1606,10 @@
         {
           "name": "Phoenix PW-026 Vampire Killer",
           "category": "Armes — Mêlée",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_armes de jet(2).docx",
@@ -1507,7 +1624,8 @@
           "category": "Armes — Mêlée",
           "score": 0.25
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_armes de jet(2).docx",
@@ -1516,7 +1634,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_armes de jet(2).docx",
@@ -1525,7 +1644,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_contendants et utilitairess(3).docx",
@@ -1541,14 +1661,23 @@
         {
           "name": "Raven SG-025 Riot Control",
           "category": "Armes — Précision",
-          "score": 0.2857142857142857
+          "score": 0.286
         },
         {
           "name": "Raven TM-028 Riot Control",
           "category": "Armes — Mêlée",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-melee-raven-tm-028-riot-control",
+        "name": "Raven TM-028 Riot Control",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 600,
+        "priceLabel": "600 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_contendants et utilitairess(3).docx",
@@ -1560,7 +1689,16 @@
         "name": "Owl TS-009 Sun Wukong",
         "category": "Armes — Mêlée"
       },
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": {
+        "id": "armes-melee-owl-ts-009-sun-wukong",
+        "name": "Owl TS-009 Sun Wukong",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 600,
+        "priceLabel": "600 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_contendants et utilitairess(3).docx",
@@ -1578,9 +1716,10 @@
         {
           "name": "Byron King Worker VII",
           "category": "Armures — Basiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_contendants et utilitairess(3).docx",
@@ -1589,7 +1728,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_contendants et utilitairess(3).docx",
@@ -1598,7 +1738,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_contendants et utilitairess(3).docx",
@@ -1607,7 +1748,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_contendants et utilitairess(3).docx",
@@ -1616,7 +1758,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_contendants et utilitairess(3).docx",
@@ -1625,7 +1768,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_fusils assaut(3).docx",
@@ -1641,24 +1785,33 @@
         {
           "name": "Phoenix AR-124 Mutilator",
           "category": "Armes — Automatiques",
-          "score": 0.6666666666666666
+          "score": 0.667
         },
         {
           "name": "Owl AR-071 Howling",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix AR-124 Sunlight",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven AR-027 Rampager",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-automatiques-phoenix-ar-124-mutilator",
+        "name": "Phoenix AR-124 Mutilator",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 950,
+        "priceLabel": "950 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_fusils assaut(3).docx",
@@ -1674,24 +1827,33 @@
         {
           "name": "Phoenix AR-124 Sunlight",
           "category": "Armes — Automatiques",
-          "score": 0.6666666666666666
+          "score": 0.667
         },
         {
           "name": "Owl AR-071 Howling",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix AR-124 Mutilator",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven AR-027 Rampager",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-automatiques-phoenix-ar-124-sunlight",
+        "name": "Phoenix AR-124 Sunlight",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 2550,
+        "priceLabel": "2 550 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_fusils assaut(3).docx",
@@ -1707,24 +1869,33 @@
         {
           "name": "Owl AR-071 Howling",
           "category": "Armes — Automatiques",
-          "score": 0.6666666666666666
+          "score": 0.667
         },
         {
           "name": "Phoenix AR-124 Mutilator",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix AR-124 Sunlight",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven AR-027 Rampager",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-automatiques-owl-ar-071-howling",
+        "name": "Owl AR-071 Howling",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 1550,
+        "priceLabel": "1 550 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_fusils assaut(3).docx",
@@ -1740,24 +1911,33 @@
         {
           "name": "Raven AR-027 Rampager",
           "category": "Armes — Automatiques",
-          "score": 0.6666666666666666
+          "score": 0.667
         },
         {
           "name": "Owl AR-071 Howling",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix AR-124 Mutilator",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix AR-124 Sunlight",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-automatiques-raven-ar-027-rampager",
+        "name": "Raven AR-027 Rampager",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 2100,
+        "priceLabel": "2 100 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_fusils assaut(3).docx",
@@ -1770,24 +1950,25 @@
         {
           "name": "Owl AR-071 Howling",
           "category": "Armes — Automatiques",
-          "score": 0.2857142857142857
+          "score": 0.286
         },
         {
           "name": "Phoenix AR-124 Mutilator",
           "category": "Armes — Automatiques",
-          "score": 0.2857142857142857
+          "score": 0.286
         },
         {
           "name": "Phoenix AR-124 Sunlight",
           "category": "Armes — Automatiques",
-          "score": 0.2857142857142857
+          "score": 0.286
         },
         {
           "name": "Raven AR-027 Rampager",
           "category": "Armes — Automatiques",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_fusils assaut(3).docx",
@@ -1800,24 +1981,25 @@
         {
           "name": "Owl AR-071 Howling",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix AR-124 Mutilator",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix AR-124 Sunlight",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven AR-027 Rampager",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_fusils assaut(3).docx",
@@ -1830,24 +2012,25 @@
         {
           "name": "Owl AR-071 Howling",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix AR-124 Mutilator",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix AR-124 Sunlight",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven AR-027 Rampager",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_fusils assaut(3).docx",
@@ -1860,24 +2043,25 @@
         {
           "name": "Owl AR-071 Howling",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix AR-124 Mutilator",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix AR-124 Sunlight",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven AR-027 Rampager",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_fusils de précision(3).docx",
@@ -1910,7 +2094,16 @@
           "category": "Armes — Précision",
           "score": 0.25
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-precision-owl-sr-017-big-game-hunter",
+        "name": "Owl SR-017 Big Game Hunter",
+        "category": "Armes — Précision",
+        "priceMode": "exact",
+        "price": 950,
+        "priceLabel": "950 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_fusils de précision(3).docx",
@@ -1926,24 +2119,33 @@
         {
           "name": "Owl SR-029 Hoot",
           "category": "Armes — Précision",
-          "score": 0.6666666666666666
+          "score": 0.667
         },
         {
           "name": "Phoenix SR-034 Phantom",
           "category": "Armes — Précision",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven SR-029 Deathbringer",
           "category": "Armes — Précision",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Owl SR-017 Big Game Hunter",
           "category": "Armes — Précision",
           "score": 0.25
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-precision-owl-sr-029-hoot",
+        "name": "Owl SR-029 Hoot",
+        "category": "Armes — Précision",
+        "priceMode": "exact",
+        "price": 2550,
+        "priceLabel": "2 550 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_fusils de précision(3).docx",
@@ -1959,24 +2161,33 @@
         {
           "name": "Raven SR-029 Deathbringer",
           "category": "Armes — Précision",
-          "score": 0.6666666666666666
+          "score": 0.667
         },
         {
           "name": "Owl SR-029 Hoot",
           "category": "Armes — Précision",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix SR-034 Phantom",
           "category": "Armes — Précision",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Owl SR-017 Big Game Hunter",
           "category": "Armes — Précision",
           "score": 0.25
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-precision-raven-sr-029-deathbringer",
+        "name": "Raven SR-029 Deathbringer",
+        "category": "Armes — Précision",
+        "priceMode": "exact",
+        "price": 4550,
+        "priceLabel": "4 550 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_fusils de précision(3).docx",
@@ -1992,24 +2203,33 @@
         {
           "name": "Phoenix SR-034 Phantom",
           "category": "Armes — Précision",
-          "score": 0.6666666666666666
+          "score": 0.667
         },
         {
           "name": "Owl SR-029 Hoot",
           "category": "Armes — Précision",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven SR-029 Deathbringer",
           "category": "Armes — Précision",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Owl SR-017 Big Game Hunter",
           "category": "Armes — Précision",
           "score": 0.25
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-precision-phoenix-sr-034-phantom",
+        "name": "Phoenix SR-034 Phantom",
+        "category": "Armes — Précision",
+        "priceMode": "exact",
+        "price": 4050,
+        "priceLabel": "4 050 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_fusils de précision(3).docx",
@@ -2022,24 +2242,25 @@
         {
           "name": "Owl SR-029 Hoot",
           "category": "Armes — Précision",
-          "score": 0.2857142857142857
+          "score": 0.286
         },
         {
           "name": "Phoenix SR-034 Phantom",
           "category": "Armes — Précision",
-          "score": 0.2857142857142857
+          "score": 0.286
         },
         {
           "name": "Raven SR-029 Deathbringer",
           "category": "Armes — Précision",
-          "score": 0.2857142857142857
+          "score": 0.286
         },
         {
           "name": "Owl SR-017 Big Game Hunter",
           "category": "Armes — Précision",
-          "score": 0.2222222222222222
+          "score": 0.222
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_fusils de précision(3).docx",
@@ -2052,24 +2273,25 @@
         {
           "name": "Owl SR-029 Hoot",
           "category": "Armes — Précision",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix SR-034 Phantom",
           "category": "Armes — Précision",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven SR-029 Deathbringer",
           "category": "Armes — Précision",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Owl SR-017 Big Game Hunter",
           "category": "Armes — Précision",
           "score": 0.25
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_fusils de précision(3).docx",
@@ -2082,24 +2304,25 @@
         {
           "name": "Owl SR-029 Hoot",
           "category": "Armes — Précision",
-          "score": 0.2857142857142857
+          "score": 0.286
         },
         {
           "name": "Phoenix SR-034 Phantom",
           "category": "Armes — Précision",
-          "score": 0.2857142857142857
+          "score": 0.286
         },
         {
           "name": "Raven SR-029 Deathbringer",
           "category": "Armes — Précision",
-          "score": 0.2857142857142857
+          "score": 0.286
         },
         {
           "name": "Owl SR-017 Big Game Hunter",
           "category": "Armes — Précision",
-          "score": 0.2222222222222222
+          "score": 0.222
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_fusils de précision(3).docx",
@@ -2112,24 +2335,25 @@
         {
           "name": "Owl SR-029 Hoot",
           "category": "Armes — Précision",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix SR-034 Phantom",
           "category": "Armes — Précision",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven SR-029 Deathbringer",
           "category": "Armes — Précision",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Owl SR-017 Big Game Hunter",
           "category": "Armes — Précision",
           "score": 0.25
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_fusils hypodermiques et armédicales(3).docx",
@@ -2138,7 +2362,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_fusils hypodermiques et armédicales(3).docx",
@@ -2147,7 +2372,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_fusils hypodermiques et armédicales(3).docx",
@@ -2156,7 +2382,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_fusils hypodermiques et armédicales(3).docx",
@@ -2165,7 +2392,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_fusils hypodermiques et armédicales(3).docx",
@@ -2174,7 +2402,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_fusils hypodermiques et armédicales(3).docx",
@@ -2183,7 +2412,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_fusils hypodermiques et armédicales(3).docx",
@@ -2192,7 +2422,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_fusils hypodermiques et armédicales(3).docx",
@@ -2205,24 +2436,25 @@
         {
           "name": "Owl AR-071 Howling",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix AR-124 Mutilator",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix AR-124 Sunlight",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven AR-027 Rampager",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_mitraillettes(3).docx",
@@ -2243,24 +2475,33 @@
         {
           "name": "Owl LMG-092 Gladius",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix LMG-018 Urban",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven LMG-027 Executionner",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven LMG-072 Neo-Executionner",
           "category": "Armes — Automatiques",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-automatiques-owl-mgp-062-suppressor",
+        "name": "Owl MGP-062 Suppressor",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 750,
+        "priceLabel": "750 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_mitraillettes(3).docx",
@@ -2281,24 +2522,33 @@
         {
           "name": "Owl LMG-092 Gladius",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix LMG-018 Urban",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven LMG-027 Executionner",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven LMG-072 Neo-Executionner",
           "category": "Armes — Automatiques",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-automatiques-raven-mgp-072-military",
+        "name": "Raven MGP-072 Military",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 1050,
+        "priceLabel": "1 050 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_mitraillettes(3).docx",
@@ -2311,24 +2561,25 @@
         {
           "name": "Owl LMG-092 Gladius",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix LMG-018 Urban",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven LMG-027 Executionner",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven LMG-072 Neo-Executionner",
           "category": "Armes — Automatiques",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_mitraillettes(3).docx",
@@ -2349,24 +2600,33 @@
         {
           "name": "Owl LMG-092 Gladius",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix LMG-018 Urban",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven LMG-027 Executionner",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven LMG-072 Neo-Executionner",
           "category": "Armes — Automatiques",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-automatiques-phoenix-mgp-042-equalizer",
+        "name": "Phoenix MGP-042 Equalizer",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 1250,
+        "priceLabel": "1 250 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_mitraillettes(3).docx",
@@ -2379,24 +2639,25 @@
         {
           "name": "Owl LMG-092 Gladius",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix LMG-018 Urban",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven LMG-027 Executionner",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven LMG-072 Neo-Executionner",
           "category": "Armes — Automatiques",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_mitraillettes(3).docx",
@@ -2409,24 +2670,25 @@
         {
           "name": "Owl LMG-092 Gladius",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix LMG-018 Urban",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven LMG-027 Executionner",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven LMG-072 Neo-Executionner",
           "category": "Armes — Automatiques",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_mitraillettes(3).docx",
@@ -2444,7 +2706,16 @@
           "category": "Armes — Automatiques",
           "score": 0.4
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-automatiques-owl-lmg-092-gladius",
+        "name": "Owl LMG-092 Gladius",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 950,
+        "priceLabel": "950 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_mitraillettes(3).docx",
@@ -2462,7 +2733,16 @@
           "category": "Armes — Automatiques",
           "score": 0.4
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-automatiques-phoenix-lmg-018-urban",
+        "name": "Phoenix LMG-018 Urban",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 1550,
+        "priceLabel": "1 550 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_mitraillettes(3).docx",
@@ -2480,9 +2760,10 @@
         {
           "name": "Raven LMG-072 Neo-Executionner",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_mitraillettes(3).docx",
@@ -2498,14 +2779,23 @@
         {
           "name": "Raven LMG-072 Neo-Executionner",
           "category": "Armes — Automatiques",
-          "score": 0.5714285714285714
+          "score": 0.571
         },
         {
           "name": "Raven LMG-027 Executionner",
           "category": "Armes — Automatiques",
-          "score": 0.3333333333333333
+          "score": 0.333
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-automatiques-raven-lmg-072-neo-executionner",
+        "name": "Raven LMG-072 Neo-Executionner",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 2150,
+        "priceLabel": "2 150 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_mitraillettes(3).docx",
@@ -2514,7 +2804,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_mitraillettes(3).docx",
@@ -2523,7 +2814,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armes_pistolets(4).docx",
@@ -2544,9 +2836,18 @@
         {
           "name": "Raven PP-012 Defender",
           "category": "Armes — Poing & Tasers",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-poing-tasers-owl-pp-014-old-colt",
+        "name": "Owl PP-014 Old Colt",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 300,
+        "priceLabel": "300 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_pistolets(4).docx",
@@ -2562,14 +2863,23 @@
         {
           "name": "Raven PP-012 Defender",
           "category": "Armes — Poing & Tasers",
-          "score": 0.6666666666666666
+          "score": 0.667
         },
         {
           "name": "Owl PP-014 Old Colt",
           "category": "Armes — Poing & Tasers",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-poing-tasers-raven-pp-012-defender",
+        "name": "Raven PP-012 Defender",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_pistolets(4).docx",
@@ -2585,29 +2895,38 @@
         {
           "name": "Owl HP-104 Deputy",
           "category": "Armes — Poing & Tasers",
-          "score": 0.6666666666666666
+          "score": 0.667
         },
         {
           "name": "Phoenix HP-028 Violator",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix HP-092 Depliant",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven HP-014 Pacificateur",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven HP-067 Gardien",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-poing-tasers-owl-hp-104-deputy",
+        "name": "Owl HP-104 Deputy",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 950,
+        "priceLabel": "950 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_pistolets(4).docx",
@@ -2623,29 +2942,38 @@
         {
           "name": "Raven HP-014 Pacificateur",
           "category": "Armes — Poing & Tasers",
-          "score": 0.6666666666666666
+          "score": 0.667
         },
         {
           "name": "Owl HP-104 Deputy",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix HP-028 Violator",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix HP-092 Depliant",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven HP-067 Gardien",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-poing-tasers-raven-hp-014-pacificateur",
+        "name": "Raven HP-014 Pacificateur",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 1250,
+        "priceLabel": "1 250 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_pistolets(4).docx",
@@ -2661,29 +2989,38 @@
         {
           "name": "Raven HP-067 Gardien",
           "category": "Armes — Poing & Tasers",
-          "score": 0.6666666666666666
+          "score": 0.667
         },
         {
           "name": "Owl HP-104 Deputy",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix HP-028 Violator",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix HP-092 Depliant",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven HP-014 Pacificateur",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-poing-tasers-raven-hp-067-gardien",
+        "name": "Raven HP-067 Gardien",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 1650,
+        "priceLabel": "1 650 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_pistolets(4).docx",
@@ -2699,29 +3036,38 @@
         {
           "name": "Phoenix HP-028 Violator",
           "category": "Armes — Poing & Tasers",
-          "score": 0.6666666666666666
+          "score": 0.667
         },
         {
           "name": "Owl HP-104 Deputy",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix HP-092 Depliant",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven HP-014 Pacificateur",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven HP-067 Gardien",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-poing-tasers-phoenix-hp-028-violator",
+        "name": "Phoenix HP-028 Violator",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 1250,
+        "priceLabel": "1 250 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_pistolets(4).docx",
@@ -2734,29 +3080,30 @@
         {
           "name": "Owl HP-104 Deputy",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix HP-028 Violator",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix HP-092 Depliant",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven HP-014 Pacificateur",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven HP-067 Gardien",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_pistolets(4).docx",
@@ -2772,29 +3119,38 @@
         {
           "name": "Phoenix HP-092 Depliant",
           "category": "Armes — Poing & Tasers",
-          "score": 0.6666666666666666
+          "score": 0.667
         },
         {
           "name": "Owl HP-104 Deputy",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix HP-028 Violator",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven HP-014 Pacificateur",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven HP-067 Gardien",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-poing-tasers-phoenix-hp-092-depliant",
+        "name": "Phoenix HP-092 Depliant",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 1250,
+        "priceLabel": "1 250 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_pistolets(4).docx",
@@ -2810,19 +3166,28 @@
         {
           "name": "Owl LP-019 Acceptable",
           "category": "Armes — Poing & Tasers",
-          "score": 0.6666666666666666
+          "score": 0.667
         },
         {
           "name": "Raven LP-004 Sturdy",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix LP-028 Sun Blast",
           "category": "Armes — Poing & Tasers",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-poing-tasers-owl-lp-019-acceptable",
+        "name": "Owl LP-019 Acceptable",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_pistolets(4).docx",
@@ -2838,19 +3203,28 @@
         {
           "name": "Raven LP-004 Sturdy",
           "category": "Armes — Poing & Tasers",
-          "score": 0.6666666666666666
+          "score": 0.667
         },
         {
           "name": "Owl LP-019 Acceptable",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix LP-028 Sun Blast",
           "category": "Armes — Poing & Tasers",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armes-poing-tasers-raven-lp-004-sturdy",
+        "name": "Raven LP-004 Sturdy",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 800,
+        "priceLabel": "800 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_pistolets(4).docx",
@@ -2863,19 +3237,20 @@
         {
           "name": "Owl LP-019 Acceptable",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven LP-004 Sturdy",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix LP-028 Sun Blast",
           "category": "Armes — Poing & Tasers",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_pistolets(4).docx",
@@ -2888,19 +3263,20 @@
         {
           "name": "Owl LP-019 Acceptable",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven LP-004 Sturdy",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix LP-028 Sun Blast",
           "category": "Armes — Poing & Tasers",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_pistolets(4).docx",
@@ -2913,29 +3289,30 @@
         {
           "name": "Owl HP-104 Deputy",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix HP-028 Violator",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix HP-092 Depliant",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven HP-014 Pacificateur",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven HP-067 Gardien",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_pistolets(4).docx",
@@ -2948,29 +3325,30 @@
         {
           "name": "Raven HP-014 Pacificateur",
           "category": "Armes — Poing & Tasers",
-          "score": 0.6666666666666666
+          "score": 0.667
         },
         {
           "name": "Owl HP-104 Deputy",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix HP-028 Violator",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix HP-092 Depliant",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven HP-067 Gardien",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_pistolets(4).docx",
@@ -2983,14 +3361,15 @@
         {
           "name": "Raven PP-012 Defender",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Owl PP-014 Old Colt",
           "category": "Armes — Poing & Tasers",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_pistolets(4).docx",
@@ -3003,14 +3382,15 @@
         {
           "name": "Raven PP-012 Defender",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Owl PP-014 Old Colt",
           "category": "Armes — Poing & Tasers",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_pistolets_prototype 2(2).docx",
@@ -3023,29 +3403,30 @@
         {
           "name": "Owl HP-104 Deputy",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix HP-028 Violator",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix HP-092 Depliant",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven HP-014 Pacificateur",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven HP-067 Gardien",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_pistolets_prototype 2(2).docx",
@@ -3058,29 +3439,30 @@
         {
           "name": "Owl HP-104 Deputy",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix HP-028 Violator",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix HP-092 Depliant",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven HP-014 Pacificateur",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven HP-067 Gardien",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_pistolets_prototype 2(2).docx",
@@ -3093,29 +3475,30 @@
         {
           "name": "Owl HP-104 Deputy",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix HP-028 Violator",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix HP-092 Depliant",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven HP-014 Pacificateur",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven HP-067 Gardien",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armes_pistolets_prototype 2(2).docx",
@@ -3128,19 +3511,20 @@
         {
           "name": "Owl LP-019 Acceptable",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Raven LP-004 Sturdy",
           "category": "Armes — Poing & Tasers",
-          "score": 0.3333333333333333
+          "score": 0.333
         },
         {
           "name": "Phoenix LP-028 Sun Blast",
           "category": "Armes — Poing & Tasers",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armures_protections Spéciales(1).docx",
@@ -3161,9 +3545,18 @@
         {
           "name": "Phoenix SG-042 Fire Rain",
           "category": "Armes — Précision",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armures-specialisees-bridgeelectrics-no-fire",
+        "name": "BridgeElectrics No-Fire",
+        "category": "Armures — Spécialisées",
+        "priceMode": "exact",
+        "price": 1000,
+        "priceLabel": "1 000 $",
+        "effect": "Tenue pompier/technicien, chaleur et electricite."
+      }
     },
     {
       "document": "armures_protections Spéciales(1).docx",
@@ -3179,9 +3572,18 @@
         {
           "name": "Ocean Master Free Fly",
           "category": "Armures — Spécialisées",
-          "score": 0.6666666666666666
+          "score": 0.667
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armures-specialisees-ocean-master-free-fly",
+        "name": "Ocean Master Free Fly",
+        "category": "Armures — Spécialisées",
+        "priceMode": "exact",
+        "price": 1500,
+        "priceLabel": "1 500 $",
+        "effect": "Respirateur/compensateur G ; circonstances favorables (+3) contre desorientation, vent violent ou perte d'equilibre liee au vol."
+      }
     },
     {
       "document": "armures_protections Spéciales(1).docx",
@@ -3196,7 +3598,8 @@
           "category": "Armures — Spécialisées",
           "score": 0.4
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armures_protections Spéciales(1).docx",
@@ -3212,9 +3615,18 @@
         {
           "name": "Biosun Medicarmor",
           "category": "Armures — Spécialisées",
-          "score": 0.6666666666666666
+          "score": 0.667
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armures-specialisees-biosun-medicarmor",
+        "name": "Biosun Medicarmor",
+        "category": "Armures — Spécialisées",
+        "priceMode": "exact",
+        "price": 1500,
+        "priceLabel": "1 500 $",
+        "effect": "Permet de travailler dans environnement chimique/viral ordinaire ; une perforation grave peut rompre l'etancheite."
+      }
     },
     {
       "document": "armures_protections Spéciales(1).docx",
@@ -3223,7 +3635,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armures_protections Spéciales(1).docx",
@@ -3236,9 +3649,10 @@
         {
           "name": "Phoenix PW-026 Vampire Killer",
           "category": "Armes — Mêlée",
-          "score": 0.2857142857142857
+          "score": 0.286
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armures_protections Spéciales(1).docx",
@@ -3266,7 +3680,16 @@
           "category": "Armures — Camouflage",
           "score": 0.4
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armures-camouflage-byron-ghillie-basic",
+        "name": "Byron Ghillie Basic",
+        "category": "Armures — Camouflage",
+        "priceMode": "exact",
+        "price": 550,
+        "priceLabel": "550 $",
+        "effect": "Visuel/textile."
+      }
     },
     {
       "document": "armures_protections Spéciales(1).docx",
@@ -3289,7 +3712,16 @@
           "category": "Armures — Camouflage",
           "score": 0.4
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armures-camouflage-raven-squid-skin",
+        "name": "Raven Squid Skin",
+        "category": "Armures — Camouflage",
+        "priceMode": "exact",
+        "price": 4950,
+        "priceLabel": "4 950 $",
+        "effect": "Reflexion visuelle active ; depend du contraste."
+      }
     },
     {
       "document": "armures_protections Spéciales(1).docx",
@@ -3312,7 +3744,16 @@
           "category": "Armures — Camouflage",
           "score": 0.4
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armures-camouflage-phoenix-dirty-sniper",
+        "name": "Phoenix Dirty Sniper",
+        "category": "Armures — Camouflage",
+        "priceMode": "exact",
+        "price": 4550,
+        "priceLabel": "4 550 $",
+        "effect": "Texture adaptative ; profil visuel/thermique selon environnement."
+      }
     },
     {
       "document": "armures_protections Spéciales(1).docx",
@@ -3350,7 +3791,16 @@
           "category": "Armures — Camouflage",
           "score": 0.4
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armures-camouflage-owl-zero-guard",
+        "name": "Owl Zero Guard",
+        "category": "Armures — Camouflage",
+        "priceMode": "exact",
+        "price": 3550,
+        "priceLabel": "3 550 $",
+        "effect": "Brouillage electronique ; moins efficace contre capteurs biologiques directs."
+      }
     },
     {
       "document": "armures_protections Spéciales(1).docx",
@@ -3368,7 +3818,16 @@
           "category": "Armures — Camouflage",
           "score": 1
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armures-camouflage-sba-ninja",
+        "name": "SBA Ninja",
+        "category": "Armures — Camouflage",
+        "priceMode": "exact",
+        "price": 6500,
+        "priceLabel": "6 500 $",
+        "effect": "Mode spectral haut de gamme ; Camo 3 ne bloque pas un radar/senseur que la combinaison ne masque pas."
+      }
     },
     {
       "document": "armures_protections Spéciales(1).docx",
@@ -3384,9 +3843,18 @@
         {
           "name": "ArcaNetwork Neuromaster",
           "category": "Armures — Spécialisées",
-          "score": 0.6666666666666666
+          "score": 0.667
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armures-specialisees-arcanetwork-neuromaster",
+        "name": "ArcaNetwork Neuromaster",
+        "category": "Armures — Spécialisées",
+        "priceMode": "exact",
+        "price": 3550,
+        "priceLabel": "3 550 $",
+        "effect": "Permet l'immersion profonde ; réduit de 3 les pertes de PV neuronales. Aucun bonus de Rang, slots ou PA. Un Unsinkable ne peut pas utiliser son mode d'immersion."
+      }
     },
     {
       "document": "armures_protections basiques(1).docx",
@@ -3401,7 +3869,8 @@
           "category": "Armures — Basiques",
           "score": 0.4
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armures_protections basiques(1).docx",
@@ -3429,7 +3898,16 @@
           "category": "Armures — Basiques",
           "score": 0.4
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armures-basiques-raven-black-feathers",
+        "name": "Raven Black Feathers",
+        "category": "Armures — Basiques",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": "Gilet fin, dissimulable."
+      }
     },
     {
       "document": "armures_protections basiques(1).docx",
@@ -3462,7 +3940,16 @@
           "category": "Armures — Camouflage",
           "score": 0.4
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armures-basiques-owl-new-guard",
+        "name": "Owl New Guard",
+        "category": "Armures — Basiques",
+        "priceMode": "exact",
+        "price": 850,
+        "priceLabel": "850 $",
+        "effect": "Protection polyvalente."
+      }
     },
     {
       "document": "armures_protections basiques(1).docx",
@@ -3490,7 +3977,16 @@
           "category": "Armures — Basiques",
           "score": 0.4
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armures-basiques-raven-black-dog",
+        "name": "Raven Black Dog",
+        "category": "Armures — Basiques",
+        "priceMode": "exact",
+        "price": 1000,
+        "priceLabel": "1 000 $",
+        "effect": "Tenue de securite/police."
+      }
     },
     {
       "document": "armures_protections basiques(1).docx",
@@ -3508,7 +4004,16 @@
           "category": "Armures — Basiques",
           "score": 0.8
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armures-basiques-byron-punk-life",
+        "name": "Byron Punk Life",
+        "category": "Armures — Basiques",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": "Voyant, style neopunk."
+      }
     },
     {
       "document": "armures_protections basiques(1).docx",
@@ -3517,7 +4022,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armures_protections basiques(1).docx",
@@ -3533,14 +4039,23 @@
         {
           "name": "Byron King Worker VII",
           "category": "Armures — Basiques",
-          "score": 0.6666666666666666
+          "score": 0.667
         },
         {
           "name": "Phoenix Sun King",
           "category": "Armures — Combat",
           "score": 0.4
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armures-basiques-byron-king-worker-vii",
+        "name": "Byron King Worker VII",
+        "category": "Armures — Basiques",
+        "priceMode": "exact",
+        "price": 750,
+        "priceLabel": "750 $",
+        "effect": "Harnais de chantier ; compatible outils/augmentations industrielles."
+      }
     },
     {
       "document": "armures_protections basiques(1).docx",
@@ -3563,7 +4078,16 @@
           "category": "Services médicaux",
           "score": 0.5
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armures-basiques-phoenix-silver-knight",
+        "name": "Phoenix Silver Knight",
+        "category": "Armures — Basiques",
+        "priceMode": "exact",
+        "price": 1000,
+        "priceLabel": "1 000 $",
+        "effect": "Tenue renforcee."
+      }
     },
     {
       "document": "armures_protections basiques(1).docx",
@@ -3601,7 +4125,16 @@
           "category": "Armures — Camouflage",
           "score": 0.4
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armures-combat-owl-night-guard",
+        "name": "Owl Night Guard",
+        "category": "Armures — Combat",
+        "priceMode": "exact",
+        "price": 1450,
+        "priceLabel": "1 450 $",
+        "effect": "Faible signature en obscurite"
+      }
     },
     {
       "document": "armures_protections basiques(1).docx",
@@ -3614,14 +4147,15 @@
         {
           "name": "Raven Gallowglass II legere",
           "category": "Armures — Combat",
-          "score": 0.6666666666666666
+          "score": 0.667
         },
         {
           "name": "Raven Gallowglass II lourde",
           "category": "Armures — Combat",
-          "score": 0.6666666666666666
+          "score": 0.667
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armures_protections basiques(1).docx",
@@ -3630,7 +4164,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armures_protections basiques(1).docx",
@@ -3648,7 +4183,16 @@
           "category": "Armures — Combat",
           "score": 0.5
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armures-combat-phoenix-skylord-iii",
+        "name": "Phoenix Skylord III",
+        "category": "Armures — Combat",
+        "priceMode": "exact",
+        "price": 1450,
+        "priceLabel": "1 450 $",
+        "effect": "Protection thermique reactive en pugilat selon fiction"
+      }
     },
     {
       "document": "armures_protections basiques(1).docx",
@@ -3681,7 +4225,16 @@
           "category": "Armures — Camouflage",
           "score": 0.4
         }
-      ]
+      ],
+      "matchedRaw": {
+        "id": "armures-combat-owl-moon-guard",
+        "name": "Owl Moon Guard",
+        "category": "Armures — Combat",
+        "priceMode": "exact",
+        "price": 4550,
+        "priceLabel": "4 550 $",
+        "effect": "Faible signature en obscurite"
+      }
     },
     {
       "document": "armures_protections basiques(1).docx",
@@ -3701,7 +4254,8 @@
           "category": "Armures — Combat",
           "score": 0.4
         }
-      ]
+      ],
+      "matchedRaw": null
     },
     {
       "document": "armures_protections basiques(1).docx",
@@ -3710,7 +4264,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     },
     {
       "document": "armures_protections basiques(1).docx",
@@ -3719,7 +4274,8 @@
       "confidence": "none",
       "confirmedAlias": null,
       "match": null,
-      "candidates": []
+      "candidates": [],
+      "matchedRaw": null
     }
   ]
 }
