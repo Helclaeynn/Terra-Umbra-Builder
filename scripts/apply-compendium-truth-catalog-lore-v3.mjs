@@ -6,7 +6,10 @@ const DATA='compendium/data';
 const MANIFEST=`${DATA}/manifest-v3.json`;
 const SOURCES=[
   'compendium/source/truth-lore-v3-curated-aidh-field.json',
-  'compendium/source/truth-lore-v3-curated-aidh-tuc.json'
+  'compendium/source/truth-lore-v3-curated-aidh-tuc.json',
+  'compendium/source/truth-lore-v3-curated-hunters-arsenal.json',
+  'compendium/source/truth-lore-v3-curated-hunters-ritual-investigation.json',
+  'compendium/source/truth-lore-v3-curated-hunters-reference.json'
 ];
 const FRAGMENT_SIZE=8000;
 const clean=value=>String(value??'').trim().replace(/\s+/g,' ');
