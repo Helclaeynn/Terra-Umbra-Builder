@@ -28,6 +28,7 @@ on:
       - 'compendium/source/reality-lore-v3-curated-armor.json'
       - 'compendium/source/reality-lore-v3-curated-armor-modules.json'
       - 'compendium/source/reality-lore-v3-curated-ammunition.json'
+      - 'compendium/source/reality-lore-v3-curated-standard-ammunition.json'
       - 'compendium/tests/catalog-pages-check.mjs'
       - 'compendium/tests/catalog-pages-semantic-check.mjs'
       - 'compendium/tests/reality-catalog-lore-quality-check.mjs'
