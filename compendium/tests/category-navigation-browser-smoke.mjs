@@ -4,7 +4,7 @@ import {chromium} from 'playwright-core';
 const base=process.env.TUC_SMOKE_BASE_URL||'http://127.0.0.1:8765/';
 const executablePath=process.env.CHROME_BIN||'/usr/bin/google-chrome';
 const navigation=JSON.parse(fs.readFileSync('compendium/data/navigation-v1.json','utf8'));
-const categories=['Règles','Réalité','Équipement','Augmentations','Vérité','Catalogue Vérité','Bestiaire'];
+const categories=['Règles','Réalité','Équipement','Augmentations','Vérité','Catalogue Vérité','Organisations','Personnages','Bestiaire'];
 const expectedByCategory=new Map(categories.map(category=>[
   category,
   navigation.entries.filter(entry=>entry.category===category).length,
@@ -60,8 +60,22 @@ try{
   const filtered=await page.locator('.hierarchical-category-list .article-card:visible').count();
   if(filtered<1||filtered>=results.get('Équipement').count)throw new Error(`Équipement: filtre couteau incohérent (${filtered})`);
 
+  await page.goto(`${base}compendium/#/category/${encodeURIComponent('Organisations')}`,{waitUntil:'domcontentloaded'});
+  await page.waitForSelector('.hierarchical-category-list .article-card',{timeout:20000});
+  const orgFilter=page.locator('#categoryFilter');
+  await orgFilter.fill('corporation');await page.waitForTimeout(120);
+  const orgFiltered=await page.locator('.hierarchical-category-list .article-card:visible').count();
+  if(orgFiltered<1||orgFiltered>=results.get('Organisations').count)throw new Error(`Organisations: filtre corporation incohérent (${orgFiltered})`);
+
+  await page.goto(`${base}compendium/#/category/${encodeURIComponent('Personnages')}`,{waitUntil:'domcontentloaded'});
+  await page.waitForSelector('.hierarchical-category-list .article-card',{timeout:20000});
+  const pnjFilter=page.locator('#categoryFilter');
+  await pnjFilter.fill('Alessandra');await page.waitForTimeout(120);
+  const pnjFiltered=await page.locator('.hierarchical-category-list .article-card:visible').count();
+  if(pnjFiltered<1||pnjFiltered>=results.get('Personnages').count)throw new Error(`Personnages: filtre Alessandra incohérent (${pnjFiltered})`);
+
   if(errors.length)throw new Error(`Erreurs navigateur:\n${errors.join('\n')}`);
-  console.log(`CATEGORY NAV BROWSER OK — ${categories.map(category=>`${category} ${results.get(category).count}/${results.get(category).groups} groupes`).join(' · ')} · groupes uniques + clic article + filtre validés.`);
+  console.log(`CATEGORY NAV BROWSER OK — ${categories.map(category=>`${category} ${results.get(category).count}/${results.get(category).groups} groupes`).join(' · ')} · groupes uniques + clic article + filtres validés.`);
 }finally{
   await browser.close();
 }
