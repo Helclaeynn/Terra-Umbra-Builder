@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "source": "Catalogue Réalité du Builder — Véhicules",
+  "entries": {
+    "Moto moderne": {
+      "paragraphs": [
+        "La moto moderne reste un véhicule où le conducteur est très exposé, même lorsque le modèle propose des aides de conduite ou un autopilote. Ces assistances peuvent faciliter certains déplacements, mais elles ne changent ni le faible volume du véhicule ni l’absence de carrosserie protectrice autour de son utilisateur.",
+        "Le niveau d’automatisation dépend du modèle : toutes les motos modernes ne disposent donc pas du même degré d’assistance. Quel que soit l’équipement embarqué, elles conservent surtout les avantages et les contraintes d’un moyen de transport léger où la protection repose peu sur la structure du véhicule."
+      ]
+    },
+    "Vieille voiture manuelle": {
+      "paragraphs": [
+        "La vieille voiture manuelle appartient à une génération où la conduite reste directement entre les mains du conducteur. Son caractère ancien lui donne une faible surface de hack par rapport aux véhicules fortement connectés, puisque moins de fonctions essentielles dépendent d’un système autonome accessible à distance.",
+        "Cette simplicité numérique ne la rend pas avantageuse sur tous les plans : elle reste soumise au permis et à la taxation prévus pour ce type de véhicule. Sa faible exposition au piratage vient donc d’une technologie plus manuelle, pas d’un système de cybersécurité particulièrement sophistiqué."
+      ]
+    },
+    "CityPod Bullmotors": {
+      "paragraphs": [
+        "Le CityPod Bullmotors est un VAP urbain conçu pour les déplacements quotidiens en ville. Son fonctionnement connecté et automatisé le rend pratique dans cet environnement, mais la contrepartie documentée est une sécurité numérique faible : le véhicule est facile à hacker.",
+        "Cette vulnérabilité concerne précisément sa dépendance aux systèmes connectés. Le CityPod reste un moyen de transport civil courant, mais quelqu’un qui compte sur lui dans une situation sensible doit considérer qu’un adversaire capable d’atteindre ses systèmes dispose d’une surface d’attaque bien plus intéressante que sur une vieille voiture manuelle."
+      ]
+    },
+    "VAP familial": {
+      "paragraphs": [
+        "Le VAP familial représente le véhicule autonome civil courant destiné aux déplacements d’un foyer. Il privilégie l’usage quotidien et l’autonomie de conduite plutôt qu’une vocation professionnelle, tactique ou prestigieuse particulière.",
+        "Son caractère banal est justement sa principale identité : il appartient au paysage normal de la mobilité civile. Les performances, la sécurité et les équipements précis dépendent du modèle réellement utilisé ; la catégorie garantit surtout un transport familial autonome, pas des capacités spécialisées."
+      ]
+    },
+    "Horntruck": {
+      "paragraphs": [
+        "Le Horntruck est l’utilitaire de la gamme Bullmotors. Il est destiné aux usages où transporter du matériel ou disposer d’un véhicule de travail compte davantage que le confort premium ou la représentation sociale.",
+        "Sa désignation d’utilitaire décrit sa fonction générale sans lui donner automatiquement des équipements spécialisés. Atelier mobile, protections supplémentaires ou aménagements particuliers doivent exister réellement sur le véhicule concerné ; le Horntruck de base fournit avant tout une plateforme Bullmotors destinée au travail et au transport."
+      ]
+    },
+    "Gundriver modifie": {
+      "paragraphs": [
+        "Le Gundriver modifié est un véhicule manuel transformé par rapport à sa configuration d’origine. Ces modifications et son fonctionnement moins dépendant d’une conduite autonome en font un choix adapté à ceux qui veulent garder la main sur la machine plutôt que s’en remettre à un réseau de contrôle permanent.",
+        "Il est aussi souvent peu traçable, sans que cette discrétion soit absolue. Elle dépend de l’histoire du véhicule, de ses identifiants, de ses modifications et de la manière dont il est utilisé ; le terme décrit une tendance de cette catégorie, pas une immunité automatique à toute enquête ou surveillance."
+      ]
+    },
+    "Nymphrover Executive": {
+      "paragraphs": [
+        "Le Nymphrover Executive est un VAP premium où confort de gamme et sécurité supérieure font partie de la proposition du véhicule. Il s’adresse à un usage civil haut de gamme plutôt qu’au simple déplacement fonctionnel d’un véhicule autonome ordinaire.",
+        "Sa sécurité renforcée le distingue notamment des VAP urbains plus faciles à compromettre, mais elle ne doit pas être comprise comme une invulnérabilité. Les protections réellement opposées à une intrusion restent celles du modèle et de sa configuration, simplement à un niveau supérieur à la moyenne civile."
+      ]
+    },
+    "Nymphrover Security": {
+      "paragraphs": [
+        "Le Nymphrover Security est un transport corporatif protégé. Sa conception répond à un besoin où déplacer des personnes sous une protection supérieure compte davantage que l’apparence d’un simple véhicule de fonction ou le confort d’un VAP familial.",
+        "Le véhicule fournit donc une base de transport sécurisée, mais la protection d’un trajet dépend encore de son emploi réel. Escorte, itinéraire, équipage ou dispositifs supplémentaires ne sont pas inclus par principe dans le nom du modèle : ils doivent être présents dans la scène pour compter."
+      ]
+    },
+    "Tactical Rover": {
+      "paragraphs": [
+        "Le Tactical Rover est un véhicule destiné à un emploi mercenaire ou opérationnel. Sa catégorie le place du côté des déplacements préparés pour une mission plutôt que de la mobilité civile quotidienne, ce qui en fait une plateforme cohérente pour une équipe travaillant sur le terrain.",
+        "Cette vocation opérationnelle n’autorise pas à lui attribuer gratuitement un armement ou un équipement particulier. Les capacités exactes dépendent de la configuration réellement retenue ; le véhicule fournit le cadre tactique, tandis que les systèmes embarqués doivent être définis par ce qui est effectivement installé."
+      ]
+    },
+    "APC leger": {
+      "paragraphs": [
+        "L’APC léger est un véhicule militaire ou restreint doté d’un blindage lourd. Il relève donc d’un niveau de protection et d’accès très différent des véhicules civils, sa présence elle-même indiquant un usage institutionnel, militaire ou exceptionnellement autorisé.",
+        "Le blindage constitue sa caractéristique déterminante, mais il ne faut pas lui ajouter automatiquement des armes ou des systèmes qui ne sont pas décrits. Ce que l’APC peut faire au-delà du transport protégé dépend de son profil concret et des équipements réellement montés sur l’exemplaire utilisé."
+      ]
+    }
+  }
+}
