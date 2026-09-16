@@ -20,7 +20,9 @@ on:
       - 'compendium/source/truth-final-preservation-v1.json'
       - 'compendium/navigation-schema.js'
       - 'compendium/navigation-schema-v2.js'
+      - 'compendium/navigation-schema-v3.js'
       - 'compendium/category-navigation.js'
+      - 'compendium/toc-enhancer.js'
       - 'compendium/index.html'
       - 'compendium/styles.css'
       - 'character-builder/rulesets/terra-umbra/talents/**'
@@ -70,6 +72,7 @@ on:
       - 'compendium/tests/truth-legacy-consolidation-check.mjs'
       - 'compendium/tests/truth-final-cleanup-check.mjs'
       - 'compendium/tests/navigation-check.mjs'
+      - 'compendium/tests/category-navigation-runtime-check.mjs'
       - 'compendium/tests/manifest-check.mjs'
       - '.github/workflows/compendium-restructure-build.yml'
 
