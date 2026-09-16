@@ -41,10 +41,10 @@ try{
   await openExact('Bull Executive',['train de vie aise','abonnement','mobilite']);
   await openExact('Vrai cafe',['grains reellement cultives','rare','statut']);
   await openExact('FaceCaster DFL',['projecteur','holographique','holo']);
-  await openExact('Vladic grand/protege',['protection de quartier','pas de bonus de combat']);
-  await openExact('Cache improvisee',['dissimulation par abandon/oubli','peu de securite']);
+  await openExact('Vladic grand/protege',['protection de quartier','pas un bonus de combat']);
+  await openExact('Cache improvisee',['dissimulation par abandon ou par oubli','peu de securite']);
 
   await gotoCategory(CATALOG_CATEGORY);await filterCategory('Neuroprogramme');const neuroCount=await visibleCards('equipement').count();if(neuroCount!==27)throw new Error(`Neuroprogrammes: ${neuroCount} cartes Réalité, attendu 27`);
   if(errors.length)throw new Error(`Erreurs navigateur:\n${errors.join('\n')}`);
-  console.log(`Browser smoke Réalité V3 OK — rubrique unifiée Équipement & Objets · ${augmentationCount} pages d’augmentations Réalité · routes canoniques équipement validées · 2-Fence conservé · Vladic/Cache facts-only · ${neuroCount} Neuroprogrammes · aucun asset jsDelivr.`);
+  console.log(`Browser smoke Réalité V3 OK — rubrique unifiée Équipement & Objets · ${augmentationCount} pages d’augmentations Réalité · routes canoniques équipement validées · 2-Fence conservé · Vladic/Cache curatés manuellement · ${neuroCount} Neuroprogrammes · aucun asset jsDelivr.`);
 }finally{await browser.close();}

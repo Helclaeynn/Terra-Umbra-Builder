@@ -6,7 +6,9 @@ const DATA='compendium/data';
 const MANIFEST=`${DATA}/manifest-v3.json`;
 const SOURCES=[
   'compendium/source/reality-lore-v3-final-eight.json',
-  'compendium/source/reality-lore-v3-curated-holonet.json'
+  'compendium/source/reality-lore-v3-curated-holonet.json',
+  'compendium/source/reality-lore-v3-curated-civic.json',
+  'compendium/source/reality-lore-v3-curated-housing.json'
 ];
 const FRAGMENT_SIZE=8000;
 const clean=value=>String(value??'').trim().replace(/\s+/g,' ');

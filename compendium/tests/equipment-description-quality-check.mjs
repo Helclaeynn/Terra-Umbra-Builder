@@ -98,7 +98,7 @@ if(errors.length)throw new Error(`Descriptions équipement invalides (${errors.l
 for(const [title,needle] of [['vladic grand protege','protection de quartier'],['cache improvisee','dissimulation par abandon oubli']]){
   const page=byTitle.get(title);if(!page)throw new Error(`Page de contrôle absente: ${title}`);
   const text=norm(context(page).map(block=>block.text).join(' '));if(!text.includes(needle))throw new Error(`${page.title}: usage source attendu absent (${needle})`);
-  if(page.catalog?.loreGrounding!=='catalogue-facts')throw new Error(`${page.title}: devrait être facts-only, trouvé ${page.catalog?.loreGrounding}`);
+  if(page.catalog?.loreGrounding!=='book-context'||page.catalog?.loreMethod!=='reality-book-semantic-lore')throw new Error(`${page.title}: devrait être curaté manuellement, trouvé ${page.catalog?.loreGrounding}/${page.catalog?.loreMethod}`);
 }
 
 console.log(`Descriptions équipement OK — ${pages.length} pages · ${factsOnly} facts-only · ${sourceDriven} source-driven · aucun remplissage générique, aucune phrase interne répétée.`);
