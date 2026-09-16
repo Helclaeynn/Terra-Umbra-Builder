@@ -4,7 +4,7 @@ import { classifyNavigation, navigationDisplayTitle } from '../navigation-schema
 
 const DATA='compendium/data';
 const manifest=JSON.parse(fs.readFileSync(`${DATA}/manifest-v3.json`,'utf8'));
-const hierarchical=['Règles','Réalité','Équipement','Augmentations','Vérité','Catalogue Vérité','Bestiaire'];
+const hierarchical=['Règles','Réalité','Équipement','Augmentations','Vérité','Catalogue Vérité','Organisations','Personnages','Bestiaire'];
 function load(spec){
   let b64='';
   for(let i=0;i<spec.parts;i++)b64+=fs.readFileSync(`${DATA}/${spec.prefix}-${String(i).padStart(2,'0')}.b64part`,'utf8').replace(/\s+/g,'');
@@ -14,7 +14,7 @@ const pages=manifest.datasets.flatMap(load).filter(page=>hierarchical.includes(p
 const expectedCounts=Object.fromEntries(hierarchical.map(category=>[category,pages.filter(page=>page.category===category).length]));
 const expectedTotal=pages.length;
 
-const fixedCounts={'Règles':251,'Réalité':9,'Équipement':297,'Augmentations':111,'Catalogue Vérité':229,'Bestiaire':263};
+const fixedCounts={'Règles':251,'Réalité':9,'Équipement':297,'Augmentations':111,'Catalogue Vérité':229,'Organisations':304,'Personnages':223,'Bestiaire':263};
 for(const [category,count] of Object.entries(fixedCounts))if(expectedCounts[category]!==count)throw new Error(`${category}: ${expectedCounts[category]}, attendu ${count} — aucune entrée ne doit disparaître pendant la restructuration`);
 
 const navPath=`${DATA}/navigation-v1.json`;
@@ -56,6 +56,10 @@ expectId('regles-verite-v6-corruption','Vérité — Corruption & Fléaux','Corr
 expectId('equipement-001-couteau-de-combat','Armement','Mêlée');
 expectId('augmentation-001-amplificateur-interne','Cybernétique','Audio');
 expectId('augmentation-010-bio-tatouage','Biogénétique','Biogénétique');
+expectId('lore-gouvernement-congres','Institutions & sécurité','Gouvernement');
+expectId('lore-corporations-aces-corporation','Corporations & économie','Corporations');
+expectId('pnj-044-alessandra-luciano','Pègre & réseaux criminels','Pègre, mafias & cartels');
+expectId('pnj-truth-la-faucheuse-noire','Figures de Vérité','Dossiers migrés du lore Vérité');
 expectId('bestiaire-v15-civil-ordinaire','PNJ de Réalité','Rue, civils et bandes');
 expectId('verite-catalogue-002-phoenix-pck-08-feather','Équipement de Chasse','Armes existantes utiles à la Chasse');
 
