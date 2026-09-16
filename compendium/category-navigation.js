@@ -28,7 +28,7 @@ function adaptNavigationEntry(entry){
 function resultFrom(entry,category,group,groupOrder,subgroup,subgroupOrder){return{...entry,category,group,groupOrder,subgroup,subgroupOrder}}
 function truthDomain(text){
   if(/vampir|krovni|alghul|ihuito|cour du sang|couronne de sang/.test(text))return['Vampires',10];
-  if(/garou|pelage|loup|khinae/.test(text))return['Garous & descendants de Khinae',20];
+  if(/garou|pelage|loup/.test(text))return['Garous & descendants de Khinae',20];
   if(/mage|mageius|loge|thaum|sorcier/.test(text))return['Mages',30];
   if(/daemon|demon|belial|baal|abigor|astaroth|lilith|lucifer|mammon|mephisto|morrighan|satan/.test(text))return['Daemons',40];
   if(/angelus|sephir|cherubin|seraphin|arbre de vie/.test(text))return['Angelus',50];
@@ -45,17 +45,20 @@ function canonicalizeReality(entry,card){
   if(/crawler|underlife|deathrunner|gundriver|neopunk|fixer|anti systeme|insurge/.test(text))return resultFrom(entry,'Réalité','Pègre, Crawlers & Underlife',40,'Crawlers & Underlife',30);
   if(/gang|bloods|crips|18th street|18st|ms 13|mara salvatrucha|sons of samoa|reapers/.test(text))return resultFrom(entry,'Réalité','Pègre, Crawlers & Underlife',40,'Gangs',20);
   if(/pegre|mafia|triade|yakuza|cartel|bratva|vladivost|menorah|oglaigh|milieu|sinaloa|vingt deux dragons|french connection/.test(text))return resultFrom(entry,'Réalité','Pègre, Crawlers & Underlife',40,'Mafias & cartels',10);
-  if(/holonet|neurodive|technolog|infrastructure|transport|energie|communication|reseau|robot|ia |intelligence artificielle|augment|implant/.test(text))return resultFrom(entry,'Réalité','Technologie & infrastructures',50,/holonet|neurodive/.test(text)?'Holonet & Neurodive':'Technologies & infrastructures',/holonet|neurodive/.test(text)?20:10);
+  if(/holonet|neurodive|technolog|infrastructure|transport|energie|communication|reseau|robot|intelligence artificielle|augment|implant/.test(text))return resultFrom(entry,'Réalité','Technologie & infrastructures',50,/holonet|neurodive/.test(text)?'Holonet & Neurodive':'Technologies & infrastructures',/holonet|neurodive/.test(text)?20:10);
   if(/religion|eglise|culte|neoreligion|spirituel|mosquee|temple|vatican/.test(text))return resultFrom(entry,'Réalité','Grande Californie & société',10,'Religions & néoreligions',30);
   if(/media|musique|cinema|jeu|sport|culture|art|presse|information/.test(text))return resultFrom(entry,'Réalité','Grande Californie & société',10,'Culture, médias & information',40);
   if(/los angeles|grande californie|geograph|ville|district|quartier|territoire/.test(text))return resultFrom(entry,'Réalité','Grande Californie & société',10,'Territoires & géographie',10);
   return resultFrom(entry,'Réalité','Grande Californie & société',10,'Société, réseaux & quotidien',20);
 }
 function canonicalizeTruth(entry,card){
-  const text=norm(`${entry.group||''} ${entry.subgroup||''} ${entry.displayTitle||''} ${card?.dataset?.filter||''}`);
-  if(/entrer dans la verite/.test(norm(entry.group)))return resultFrom(entry,'Vérité','Entrer dans la Vérité',20,entry.subgroup||'Repères & accès',Number(entry.subgroupOrder)||10);
-  if(/fleau|vhodhal|v aagor|ux sharith|c thath|gajh|corruption|rupture/.test(text))return resultFrom(entry,'Vérité','Corruption & Fléaux',60,/corruption/.test(text)?'Corruption & contamination':'Fléaux, Ruptures & serviteurs',/corruption/.test(text)?10:20);
-  if(/chasseur|inquisition|ordre de chasse|hunter|clan shi|shimazu|famille gu/.test(text))return resultFrom(entry,'Vérité','Chasseurs & traditions',50,'Ordres, clans & doctrine de Chasse',10);
+  const current=norm(entry.group||''),text=norm(`${entry.group||''} ${entry.subgroup||''} ${entry.displayTitle||''} ${card?.dataset?.filter||''}`);
+  if(/cosmologie|histoire cachee/.test(current))return resultFrom(entry,'Vérité','Cosmologie & histoire cachée',10,'Voile, mondes & histoire occulte',10);
+  if(/entrer dans la verite/.test(current))return resultFrom(entry,'Vérité','Entrer dans la Vérité',20,entry.subgroup||'Repères & accès',Number(entry.subgroupOrder)||10);
+  if(/corruption|fleau/.test(current)||/fleau|vhodhal|v aagor|ux sharith|c thath|gajh|corruption|rupture/.test(text))return resultFrom(entry,'Vérité','Corruption & Fléaux',60,/corruption/.test(text)?'Corruption & contamination':'Fléaux, Ruptures & serviteurs',/corruption/.test(text)?10:20);
+  if(/chasseur/.test(current)||/chasseur|inquisition|ordre de chasse|hunter|clan shi|shimazu|famille gu/.test(text))return resultFrom(entry,'Vérité','Chasseurs & traditions',50,'Ordres, clans & doctrine de Chasse',10);
+  if(/lieux|ombremonde/.test(current))return resultFrom(entry,'Vérité','Lieux & Ombremonde',40,'Lieux, plans & territoires occultes',10);
+  if(/creatures|phenomenes/.test(current))return resultFrom(entry,'Vérité','Créatures & phénomènes',70,'Créatures & manifestations',10);
   const domain=truthDomain(text);
   if(domain)return resultFrom(entry,'Vérité','Natures, peuples & traditions',30,domain[0],domain[1]);
   if(/ombremonde|sanctuaire|lieu occulte|territoire occulte|cite|royaume|plan|monde cache|monde cach/.test(text))return resultFrom(entry,'Vérité','Lieux & Ombremonde',40,'Lieux, plans & territoires occultes',10);
