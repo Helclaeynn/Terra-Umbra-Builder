@@ -23,6 +23,7 @@ function realm(page){
   return 'Sans domaine';
 }
 function cleanTags(page){return (page.tags||[]).map(String).filter(tag=>!['PNJ','Organisation','Organisations','Réalité','Vérité','Majeur','Secondaire','Mineur'].includes(tag))}
+function sectionTitles(page){return (page.sections||[]).map(section=>String(section?.title||'').trim()).filter(Boolean).slice(0,8).join(' > ')}
 
 const all=manifest.datasets.flatMap(dataset=>load(dataset.id));
 const organisations=all.filter(page=>page.category==='Organisations');
@@ -38,13 +39,15 @@ console.log('ORG INVENTAIRE');
 for(const page of [...organisations].sort((a,b)=>realm(a).localeCompare(realm(b),'fr')||a.title.localeCompare(b.title,'fr')))console.log(`  ${realm(page)} | ${page.id} | ${page.title} | tags=${cleanTags(page).join(' > ')||'—'} | source=${page.source||'—'}`);
 
 console.log(`PERSONNAGES ${personnages.length}`);
-const pnjRealm=new Map(),affiliations=new Map(),importance=new Map(),locations=new Map();
+const pnjRealm=new Map(),affiliations=new Map(),importance=new Map(),locations=new Map(),pnjSources=new Map(),pnjDatasets=new Map();
 for(const page of personnages){
-  const r=realm(page);inc(pnjRealm,r);inc(affiliations,`${r} | ${page.affiliation||'—'}`);inc(importance,page.importance||'—');inc(locations,page.location||'—');
+  const r=realm(page);inc(pnjRealm,r);inc(affiliations,`${r} | ${page.affiliation||'—'}`);inc(importance,page.importance||'—');inc(locations,page.location||'—');inc(pnjSources,page.source||'—');inc(pnjDatasets,page.dataset||'—');
 }
-printMap('PNJ DOMAINES',pnjRealm);printMap('PNJ AFFILIATIONS PAR DOMAINE',affiliations);printMap('PNJ IMPORTANCE',importance);printMap('PNJ LOCALISATIONS',locations);
+printMap('PNJ DOMAINES',pnjRealm);printMap('PNJ DATASETS',pnjDatasets);printMap('PNJ SOURCES',pnjSources);printMap('PNJ AFFILIATIONS PAR DOMAINE',affiliations);printMap('PNJ IMPORTANCE',importance);printMap('PNJ LOCALISATIONS',locations);
 console.log('PNJ SANS DOMAINE');
 for(const page of personnages.filter(page=>realm(page)==='Sans domaine'))console.log(`  ${page.id} | ${page.title} | affiliation=${page.affiliation||'—'} | tags=${(page.tags||[]).join(' > ')}`);
+console.log('PNJ VÉRITÉ MIGRÉS');
+for(const page of personnages.filter(page=>realm(page)==='Vérité'))console.log(`  ${page.id} | ${page.title} | source=${page.source||'—'} | sections=${sectionTitles(page)||'—'}`);
 console.log('PNJ SANS AFFILIATION');
 for(const page of personnages.filter(page=>!String(page.affiliation||'').trim()))console.log(`  ${realm(page)} | ${page.id} | ${page.title} | tags=${cleanTags(page).join(' > ')||'—'}`);
 
