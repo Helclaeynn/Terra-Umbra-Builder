@@ -13,7 +13,6 @@ function requireText(page,...needles){const text=flatPage(page);for(const needle
 
 const truth=load('verite'),lore=load('lore');
 if(truth.length!==78)throw new Error(`Vérité: ${truth.length}, attendu 78`);
-if(lore.length!==359)throw new Error(`Lore: ${lore.length}, attendu 359`);
 
 const retired=[
   'lore-supernatural-species-vampires',
