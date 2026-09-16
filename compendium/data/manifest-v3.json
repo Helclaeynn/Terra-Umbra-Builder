@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generated": "2026-09-15",
+  "generated": "2026-09-16",
   "categories": [
     "Règles",
     "Réalité",
@@ -21,24 +21,24 @@
   "datasets": [
     {
       "id": "moteur",
-      "prefix": "v3-moteur",
-      "parts": 1,
-      "count": 5,
-      "sha256": "76064dc233fba8565fc8faef2b2b78afd5c12a36cb99f7656e1d37a0e6e9e8e6"
+      "prefix": "v3-regles-v6",
+      "parts": 20,
+      "count": 251,
+      "sha256": "899fb22af41de27a3a9c953ba60b43de42beeea412d51ab2b28ebcfad0bd7811"
     },
     {
       "id": "realite",
-      "prefix": "v3-realite",
-      "parts": 1,
-      "count": 39,
-      "sha256": "1dfa17c463e08bcdf836c516685e712d2f26b419d240c98f5e9145afeae07489"
+      "prefix": "v3-realite-v5",
+      "parts": 5,
+      "count": 9,
+      "sha256": "db485126b78733fa2017e14b97bc31e40bcc883e328e677743dbe4e58eadc3d9"
     },
     {
       "id": "equipement",
       "prefix": "v3-equipement-builder-v1",
-      "parts": 9,
+      "parts": 15,
       "count": 297,
-      "sha256": "6a5384a3e6b231215d9a94b58373efa8b022869415e571792e1ae946e6fcb334",
+      "sha256": "d23074fbbfc24a8b846c6840726c2fd821708ea37c14e7511fc70801ddb10d3c",
       "quality": {
         "loreVersion": 3,
         "maxIdenticalTextRatio": 0.6,
@@ -48,9 +48,9 @@
     {
       "id": "augmentations",
       "prefix": "v3-augmentations-builder-v1",
-      "parts": 6,
+      "parts": 8,
       "count": 111,
-      "sha256": "6e9e0a7ca2dd92dab0679a85270cca01e63cf7c835f02bcb85f34331c63ceed2",
+      "sha256": "6d5a22d3fd6ccea8b0b4fd4dbf767d527f13b598ff5c2353dcd2e181fbaa8cce",
       "quality": {
         "loreVersion": 3,
         "maxIdenticalTextRatio": 0.6,
@@ -59,20 +59,21 @@
     },
     {
       "id": "verite",
-      "prefix": "v3-verite",
-      "parts": 1,
-      "count": 63,
-      "sha256": "ba9f95fff951607512f205682e91de64ce939656a9a95d20eeee80e7aceecd95"
+      "prefix": "v3-verite-lore-v11",
+      "parts": 11,
+      "count": 78,
+      "sha256": "d644eac53c31cd77db8ad77646fc06d57ed8075c7ac5cbe48144446048c0fd9a"
     },
     {
       "id": "verite-catalogue",
       "prefix": "v3-verite-catalogue-v6",
-      "parts": 12,
+      "parts": 18,
       "count": 229,
-      "sha256": "8c5e742b585d7e16ef401ad823645aa869b4311d27d147848282caf8ad614ec2",
+      "sha256": "e547079015c34a59f0c3fa95f7f6b741b393fec0d0103eca3f5026f19b08d8e2",
       "quality": {
-        "loreVersion": 2,
-        "maxIdenticalTextRatio": 0.6
+        "loreVersion": 3,
+        "maxIdenticalTextRatio": 0.6,
+        "method": "truth-book-manual-lore"
       }
     },
     {
@@ -84,18 +85,18 @@
     },
     {
       "id": "lore",
-      "prefix": "v3-lore",
-      "parts": 1,
-      "count": 397,
-      "sha256": "3c37c1681faaf74981eec771d01db985bde5bf0476c2d3f008bc50584109faf1"
+      "prefix": "v3-lore-v9",
+      "parts": 89,
+      "count": 341,
+      "sha256": "f32209785b0991ebb5f1ac68cd7fe9ecbf3d72e9af4da90a61de1731f5771f4d"
     },
     {
       "id": "pnj",
-      "prefix": "v3-pnj",
-      "parts": 1,
-      "count": 163,
-      "sha256": "d3f6006f971147d1af1c10dc025443a8db9761801f14336b42899e12d457c652"
+      "prefix": "v3-pnj-v2",
+      "parts": 13,
+      "count": 223,
+      "sha256": "a6371b223bbde189b4d2cdaed752554562910aef2d6738729afac4338f7dd18b"
     }
   ],
-  "expectedTotal": 1567
+  "expectedTotal": 1802
 }

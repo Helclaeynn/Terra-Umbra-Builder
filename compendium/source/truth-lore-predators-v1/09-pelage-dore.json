@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "sourceDocument": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx",
+  "page": {
+    "id": "verite-lore-pelage-dore",
+    "title": "Pelage Doré",
+    "order": 90,
+    "evidence": ["V6 p.45"],
+    "sections": [
+      {
+        "title": "Un héritage culturel, pas une couleur",
+        "paragraphs": ["Les Dorés sont issus de traditions développées entre Moyen-Orient et Asie. Leur nom décrit un héritage culturel et spirituel, pas une apparence obligatoire."]
+      },
+      {
+        "title": "La dévoration occulte",
+        "paragraphs": ["Les Dorés portent la tradition la plus inquiétante pour beaucoup d’autres Garous : la dévoration occulte. Leur histoire conserve des méthodes permettant d’acquérir des Traces, des souvenirs ou des propriétés surnaturelles par ingestion."]
+      },
+      {
+        "title": "Traces, prédation et tabou",
+        "paragraphs": ["Cette pratique rappelle l’Héritage dévorant des Grands Meneurs et explique pourquoi les frontières entre transmission, prédation et tabou y sont constamment discutées."]
+      }
+    ]
+  }
+}

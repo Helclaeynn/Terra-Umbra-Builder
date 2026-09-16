@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "sourceDocument": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx",
+  "page": {
+    "id": "verite-lore-homo-superior",
+    "title": "Homo Superior",
+    "order": 90,
+    "aliases": ["Homo Superior — profils AIDH"],
+    "evidence": ["V6 pp.165, 169"],
+    "sections": [
+      {"title":"Des Humains, pas une espèce séparée","paragraphs":["Les Homo Superior restent Humains. Ils sont issus de programmes de l’AIDH combinant génétique, nanites, conditionnement et optimisation neurologique afin de pousser les capacités humaines à un niveau qui peut sembler extraterrestre à un observateur terrestre."]},
+      {"title":"Une doctrine des Mondes Technologiques","paragraphs":["Pour l’AIDH, Homo Superior désigne moins une nouvelle branche de l’évolution qu’un programme, une doctrine et un ensemble de technologies appliquées à l’Humanité. Cette origine les rattache aux Mondes Technologiques et à une culture scientifique pour laquelle l’amélioration du corps peut devenir un projet institutionnel durable."]},
+      {"title":"La frontière entre augmentation et culture du corps","paragraphs":["Leur existence pose une question particulièrement vive dans la société augmentée de 2035 : à partir de quel degré de transformation une amélioration cesse-t-elle d’être seulement un équipement pour devenir une culture du corps entière ?", "Pour les Humains terrestres, la réponse est d’autant plus troublante qu’un Homo Superior appartient toujours à la même espèce malgré des performances qui semblent franchir la frontière intuitive de l’humain ordinaire."]}
+    ]
+  }
+}

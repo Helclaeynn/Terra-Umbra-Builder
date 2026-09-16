@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "encoding": "gzip+base64-parts",
+  "parts": [
+    "truth-mechanics-v6-fixed.part01.b64",
+    "truth-mechanics-v6-fixed.part02.b64",
+    "truth-mechanics-v6-fixed.part03.b64",
+    "truth-mechanics-v6-fixed.part04.b64",
+    "truth-mechanics-v6-fixed.part05.b64",
+    "truth-mechanics-v6-fixed.part06.b64",
+    "truth-mechanics-v6-fixed.part07.b64",
+    "truth-mechanics-v6-fixed.part08.b64"
+  ],
+  "entries": 882,
+  "sha256": "2bd978e86878cda84a45a4e32e6a91cf2d444f081d137b91728241231f100978",
+  "source": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx",
+  "scope": "Chapitres 10 à 21 · paragraphes RPG Tech Card"
+}

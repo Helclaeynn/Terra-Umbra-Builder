@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "source": "Catalogue Réalité du Builder — Objets usuels & Neurodive / Équipement civique",
+  "entries": {
+    "N-Sta": {
+      "paragraphs": [
+        "N-Sta est un consommable destiné à amortir temporairement la pression que les augmentations font peser sur leur utilisateur. Pendant environ une heure, il réduit d’un cran le Stress augmentique effectif et aide à conserver le contrôle face au Stress ou à la Surcharge liés aux implants.",
+        "L’effet reste ponctuel : N-Sta accorde aussi +2 en Maîtrise contre le Stress ou la Surcharge augmentique, mais son usage est limité à une prise par heure. Dépasser ce rythme expose l’organisme et appelle un test de Constitution plutôt qu’un cumul libre des bénéfices."
+      ]
+    },
+    "Puce de santé citoyenne": {
+      "paragraphs": [
+        "La puce de santé citoyenne relie, selon le modèle, des données de localisation et des constantes vitales à l’écosystème sanitaire civique. Elle peut être lue par les portails de santé compatibles et fournir les informations prévues lorsqu’une prise en charge médicale devient nécessaire.",
+        "Elle peut également déclencher une alerte médicale, mais elle ne garantit ni une localisation parfaite ni une intervention immédiate. La précision disponible et la qualité de la réponse dépendent du réseau accessible et de la couverture médicale dont bénéficie réellement le citoyen."
+      ]
+    },
+    "Pack domotique & robots domestiques": {
+      "paragraphs": [
+        "Un pack domotique et robots domestiques regroupe les automatismes d’un logement avec les petites unités qui assurent les tâches courantes. Selon l’installation, l’ensemble prend en charge ménage, cuisine, ravitaillement, petites réparations, surveillance domestique et coordination des appareils connectés.",
+        "Il ne s’agit pas d’un robot unique aux capacités universelles : le contenu du pack dépend du logement et des équipements effectivement installés. Une fonction absente du système domestique ne peut pas être improvisée simplement parce que le logement possède une domotique générale."
+      ]
+    },
+    "Robot / drone de sécurité": {
+      "paragraphs": [
+        "Un robot ou drone de sécurité est une unité mobile de protection dont la résistance physique se traite avec Structure et Blindage, comme pour un véhicule. Les versions civiles et professionnelles peuvent varier fortement ; les modèles armés disposant de profils complets relèvent du Bestiaire.",
+        "Dès qu’il est connecté, l’appareil devient aussi une cible possible de Neurohack. Sa présence n’accorde donc pas une sécurité abstraite au lieu : ce qu’il peut détecter, encaisser ou accomplir dépend de son profil réel, de son équipement et de l’intégrité de sa connexion."
+      ]
+    }
+  }
+}

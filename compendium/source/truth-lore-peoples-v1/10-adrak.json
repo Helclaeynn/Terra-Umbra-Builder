@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "sourceDocument": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx",
+  "page": {
+    "id": "verite-lore-adrak",
+    "title": "Ad’rak",
+    "order": 100,
+    "aliases": ["Ad'rak", "Ad’rak (restreint)", "Ad'rak (restreint)"],
+    "evidence": ["V6 pp.165, 169"],
+    "sections": [
+      {"title":"Des géants extrals","paragraphs":["Les Ad’rak sont une véritable espèce extrale, très grande et capable d’une puissance physique comparable à certaines Natures terrestres parmi les plus dangereuses. Un adulte atteint en moyenne environ 2,60 m chez les hommes et 2,20 m chez les femmes.","Leur présence ne se réduit pourtant pas à la taille : leur corps est construit pour une violence et une contrainte physique que la majorité des espèces n’affronte jamais directement."]},
+      {"title":"L’ombre de l’Armée noire","paragraphs":["Les Ad’rak présents sur Terre sont surtout des réfugiés, dissidents, descendants de communautés libres ou anciens sujets ayant échappé à l’Armée noire. Les loyalistes de cette puissance appartiennent généralement au camp des menaces plutôt qu’à une trajectoire ordinaire de personnage."]},
+      {"title":"Ne pas confondre une espèce et son empire","paragraphs":["La réputation de l’Armée noire pèse lourdement sur les Ad’rak libres. Leur simple présence peut provoquer la peur chez des Extrals connaissant cette histoire bien mieux que la majorité des Humains.","Un Ad’rak libre doit donc souvent construire son identité dans l’ombre d’une puissance qui a façonné la réputation de son peuple sans le résumer tout entier."]},
+      {"title":"Force, discipline et choix","paragraphs":["Les Arts de Nel’Akna montrent qu’une culture guerrière ad’rak peut être discipline, forme et tradition plutôt que brutalité pure. La force est réelle ; ce qu’un individu choisit d’en faire reste une question personnelle et politique."]}
+    ]
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "sourceDocument": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx",
+  "batch": "corruption-fleaux-v1",
+  "page": {
+    "targetDataset": "verite",
+    "targetId": "verite-056-20-corruption",
+    "title": "20. Corruption",
+    "evidence": [
+      "V6 pp.222–227"
+    ],
+    "nav": {
+      "group": "Corruption & Fléaux",
+      "groupOrder": 40,
+      "subgroup": "Corruption",
+      "subgroupOrder": 10,
+      "pageOrder": 10
+    },
+    "tags": [
+      "Vérité",
+      "Corruption",
+      "Fléaux",
+      "Lore V6",
+      "Lore book-first"
+    ],
+    "sections": [
+      {
+        "title": "Humanité et Intégrité",
+        "paragraphs": [
+          "Dans les dossiers de Vérité, l’Humanité ne désigne ni l’espèce ni la ressemblance avec Homo sapiens. Le terme décrit la continuité de l’identité, du libre arbitre et du rapport à son propre corps lorsque quelque chose cherche à le transformer profondément.",
+          "L’Intégrité exprime cette continuité face aux altérations. Elle permet de distinguer ce qu’un être accepte d’intégrer à son histoire de ce qui commence à réécrire cette histoire à sa place."
+        ]
+      },
+      {
+        "title": "Une emprise, pas une maladie",
+        "paragraphs": [
+          "La Corruption n’est pas une infection générique commune à tout le surnaturel. Elle est l’emprise d’une Source précise, c’est-à-dire d’un des six Fléaux, sur un être, un objet ou parfois un système.",
+          "Deux personnes aussi profondément marquées peuvent donc devenir radicalement différentes : la Famine Blanche de Vhodhal n’apprend pas le même monde que la Sombre-Vérité de V’Aagor, la Division de Sharith, la Métastase de Vhadhi, la Germination de Shaoggith ou la Fixation de Thul."
+        ]
+      },
+      {
+        "title": "Une seule Source dominante",
+        "paragraphs": [
+          "Lorsqu’un individu est réellement corrompu, une Source domine son état. Les Fléaux ne s’installent pas paisiblement côte à côte comme des influences indépendantes : ils se disputent ce qu’ils considèrent déjà comme une prise.",
+          "Cette rivalité donne à la Corruption une dimension presque possessive. Une intrusion étrangère peut être rejetée, absorbée ou remplacer l’emprise précédente, mais elle ne produit pas normalement un confortable mélange de plusieurs appartenances."
+        ]
+      },
+      {
+        "title": "Les Fléaux ne se partagent pas leurs jouets",
+        "paragraphs": [
+          "Les archives des Chasseurs décrivent cette concurrence comme une jalousie cosmique. Les principes des six Sources peuvent se croiser dans le monde, mais chacun cherche à reformuler l’être touché selon sa propre logique.",
+          "Ce phénomène explique pourquoi certains cultistes changent brutalement de trajectoire après une rencontre avec une autre Source : le conflit n’est pas seulement religieux ou idéologique, il porte sur la définition même de ce qu’ils deviennent."
+        ]
+      },
+      {
+        "title": "La Souillure comme ouverture",
+        "paragraphs": [
+          "On appelle Souillure le moment où l’influence d’un Fléau trouve une ouverture réelle. Le vecteur varie selon la Source : chair, sécrétion, relique, rite, marque spirituelle, altération de l’identité ou autre contact capable de porter son principe.",
+          "Voir une Abomination ou connaître l’existence d’un culte ne suffit pas en soi. Il faut qu’un phénomène fasse effectivement passer quelque chose de la Source vers la cible."
+        ]
+      },
+      {
+        "title": "Culte et Corruption ne sont pas synonymes",
+        "paragraphs": [
+          "Une personne peut étudier un culte, servir son institution ou même connaître certaines pratiques sans être encore devenue une extension du Fléau. Inversement, une victime peut être corrompue sans jamais avoir adhéré à la moindre religion.",
+          "Cette distinction est essentielle : les cultes sont des constructions sociales, historiques et doctrinales ; la Corruption est une transformation métaphysique. Ils se nourrissent souvent l’un l’autre sans jamais être exactement la même chose."
+        ]
+      },
+      {
+        "title": "Dons, rites et faveurs",
+        "paragraphs": [
+          "Les traditions de Vérité distinguent ce qui vient d’une Corruption déjà installée, ce qui est appris comme pratique de culte et ce qui est accordé de l’extérieur par une puissance, un patron ou un lien.",
+          "Cette différence évite de confondre transformation personnelle, savoir religieux et dépendance à une entité. Un même sanctuaire peut réunir des individus dont la relation au Fléau n’a rien d’identique."
+        ]
+      },
+      {
+        "title": "La profondeur change la manière de penser",
+        "paragraphs": [
+          "À mesure que l’emprise s’approfondit, le danger n’est pas seulement de porter des marques plus visibles. Le principe du Fléau devient une solution de plus en plus évidente aux problèmes du monde.",
+          "La faim finit par faire paraître toute chose consommable ; l’unité rend la séparation intolérable ; la division révèle partout des lignes de coupe ; l’adaptation transforme l’identité en matériau ; la germination traite la chair comme une graine ; la fixation fait du changement lui-même une menace."
+        ]
+      },
+      {
+        "title": "La Rupture",
+        "paragraphs": [
+          "La Rupture est le moment où la Corruption cesse d’être quelque chose que l’individu porte et devient ce qu’il est. À partir de là, la distinction entre personne et principe du Fléau n’est plus suffisante pour décrire l’être obtenu.",
+          "Une Rupture n’efface pas nécessairement toute mémoire ou toute intelligence. Elle signifie surtout que la Source est devenue structurante : le personnage d’avant ne possède plus seul le droit de définir sa propre Nature."
+        ]
+      },
+      {
+        "title": "La Nature d’origine laisse une empreinte",
+        "paragraphs": [
+          "Un même Fléau ne produit pas une espèce terminale unique. La Nature d’origine, les transformations déjà subies, le contexte et le type d’exposition continuent d’influencer la forme prise après Rupture.",
+          "C’est pourquoi Vhodhal peut conduire à des Wendigos, des Bêtes Faramines, des Sangs d’Ivoire ou d’autres formes sans que ces créatures constituent une seule race. Elles partagent une loi de dévoration, pas une biologie commune."
+        ]
+      },
+      {
+        "title": "La purification est exceptionnelle",
+        "paragraphs": [
+          "La Corruption ne disparaît pas simplement parce qu’un individu regrette son culte, s’éloigne de ses anciens compagnons ou retrouve une vie stable. Les récits de véritable purification impliquent des moyens rares, spécifiques et capables d’atteindre la Source elle-même.",
+          "Quitter une organisation peut sauver quelqu’un socialement sans le purifier métaphysiquement ; être purifié peut au contraire laisser intactes des connaissances, des dettes ou des liens extérieurs qui rendent la rechute possible."
+        ]
+      },
+      {
+        "title": "Objets souillés et Calamitechnologie",
+        "paragraphs": [
+          "Les Fléaux peuvent également marquer des reliques, des greffes, des outils ou des dispositifs. Un objet corrompu n’est pas seulement dangereux parce qu’il serait maudit : il peut servir de point de contact durable avec une Source.",
+          "Purifier le porteur ne purifie donc pas automatiquement ce qu’il transporte. Une pièce de Calamitechnologie ou une relique peut continuer à ouvrir la même porte longtemps après la disparition de son ancien utilisateur."
+        ]
+      },
+      {
+        "title": "La Corruption n’est pas une hérédité automatique",
+        "paragraphs": [
+          "Certaines espèces, lignées ou peuples ont été historiquement modifiés par l’action d’un Fléau. Cela ne signifie pas que chacun de leurs descendants naît activement corrompu.",
+          "Les Mo’sen, Xe’wen ou lignées marquées par des catastrophes anciennes peuvent porter un héritage biologique ou culturel sans appartenir aujourd’hui à Shaoggith ; de la même manière, résister historiquement à Thul ne rend pas une lignée immunisée à sa Fixation."
+        ]
+      },
+      {
+        "title": "Pourquoi les Chasseurs redoutent les solutions utiles",
+        "paragraphs": [
+          "Les formes les plus dangereuses de Corruption ne se présentent pas toujours comme des horreurs. Vhadhi peut promettre l’adaptation, V’Aagor la continuité, Sharith la compréhension, Thul la conservation, Shaoggith la création et Vhodhal la possibilité de survivre en consommant ce qui aurait dû être impossible.",
+          "Le piège commun n’est donc pas d’accepter quelque chose d’évidemment monstrueux. C’est de découvrir qu’un principe hostile fonctionne, puis de lui laisser progressivement décider ce qu’est une solution acceptable."
+        ]
+      }
+    ]
+  }
+}

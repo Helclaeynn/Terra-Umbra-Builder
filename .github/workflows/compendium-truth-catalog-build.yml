@@ -2,16 +2,19 @@ name: Compendium Truth catalog build
 
 on:
   push:
-    branches: ['preview/lore']
+    branches: ['preview/compendium-restructure']
     paths:
       - 'compendium/source/verite-catalog-v6.json'
       - 'compendium/source/verite-catalog-v6.json.gz.b64'
       - 'compendium/source/verite-catalog-v6-*.b64part'
       - 'compendium/source/truth-lore-v2.manifest.json'
       - 'compendium/source/truth-lore-v2/*.b64part'
+      - 'compendium/source/truth-lore-v3-curated-*.json'
       - 'scripts/assemble-compendium-truth-source.mjs'
       - 'scripts/build-compendium-truth-catalog.mjs'
       - 'scripts/enrich-compendium-truth-lore.mjs'
+      - 'scripts/apply-compendium-truth-catalog-lore-v3.mjs'
+      - 'scripts/audit-truth-catalog-source-families.mjs'
       - 'compendium/tests/truth-catalog-pages-check.mjs'
       - 'compendium/tests/truth-catalog-runtime-browser-smoke.mjs'
       - '.github/workflows/compendium-truth-catalog-build.yml'
@@ -27,16 +30,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: preview/lore
+          ref: preview/compendium-restructure
       - uses: actions/setup-node@v4
         with:
           node-version: 22
       - name: Assemble and verify Vérité V6 source
         run: node scripts/assemble-compendium-truth-source.mjs
+      - name: Audit AIDH and Shi source families
+        run: node scripts/audit-truth-catalog-source-families.mjs
       - name: Generate Truth catalog pages from Vérité V6 source
         run: node scripts/build-compendium-truth-catalog.mjs
       - name: Enrich Truth catalog with curated lore V2
         run: node scripts/enrich-compendium-truth-lore.mjs
+      - name: Apply guarded manual Truth lore V3
+        run: node scripts/apply-compendium-truth-catalog-lore-v3.mjs
       - name: Validate Truth catalog pages and lore uniqueness
         run: node compendium/tests/truth-catalog-pages-check.mjs
       - name: Install browser driver
@@ -66,5 +73,5 @@ jobs:
             echo 'No generated Truth catalog changes.'
             exit 0
           fi
-          git commit -m 'build(compendium): sync Truth catalog with curated lore V2'
-          git push origin HEAD:preview/lore
+          git commit -m 'build(compendium): sync Truth catalog with manual lore V3'
+          git push origin HEAD:preview/compendium-restructure

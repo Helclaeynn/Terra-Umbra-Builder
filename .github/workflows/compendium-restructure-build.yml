@@ -1,0 +1,192 @@
+name: Compendium restructure build
+
+on:
+  push:
+    branches:
+      - preview/compendium-restructure
+    paths:
+      - 'compendium/source/reality-rules-v1.json.gz.b64'
+      - 'compendium/source/reality-book-v8-setting-v1.part*.b64'
+      - 'compendium/source/truth-mechanics-v6-fixed.manifest.json'
+      - 'compendium/source/truth-mechanics-v6-fixed.part*.b64'
+      - 'compendium/source/truth-lore-priority-v1.json'
+      - 'compendium/source/truth-lore-exiles-v1.json'
+      - 'compendium/source/truth-lore-predators-v1/*.json'
+      - 'compendium/source/truth-lore-mages-angelus-v1/*.json'
+      - 'compendium/source/truth-lore-peoples-v1/*.json'
+      - 'compendium/source/truth-lore-khinae-hunters-v1/*.json'
+      - 'compendium/source/truth-lore-corruption-fleaux-v1/*.json'
+      - 'compendium/source/truth-legacy-consolidation-v1.json'
+      - 'compendium/source/truth-final-preservation-v1.json'
+      - 'compendium/navigation-schema.js'
+      - 'compendium/navigation-schema-v2.js'
+      - 'compendium/navigation-schema-v3.js'
+      - 'compendium/category-navigation.js'
+      - 'compendium/toc-enhancer.js'
+      - 'compendium/index.html'
+      - 'compendium/styles.css'
+      - 'character-builder/rulesets/terra-umbra/talents/**'
+      - 'character-builder/rulesets/terra-umbra/disadvantages/**'
+      - 'character-builder/rulesets/terra-umbra/truth/core.json'
+      - 'character-builder/rulesets/terra-umbra/truth/talents/**'
+      - 'scripts/reset-generated-truth-v6-pages.mjs'
+      - 'scripts/restructure-compendium-mechanics-v2.mjs'
+      - 'scripts/refine-reality-talent-page-granularity.mjs'
+      - 'scripts/integrate-reality-book-v8-setting-v1.mjs'
+      - 'scripts/consolidate-reality-v8-legacy-v1.mjs'
+      - 'scripts/consolidate-reality-v8-dataset-v1.mjs'
+      - 'scripts/audit-reality-v8-legacy.mjs'
+      - 'scripts/audit-reality-v8-dataset-v1.mjs'
+      - 'scripts/audit-reality-v8-catalog-coverage-v1.mjs'
+      - 'scripts/audit-rules-legacy-scoria-v1.mjs'
+      - 'scripts/audit-truth-v6-mechanics-overlap.mjs'
+      - 'scripts/audit-truth-legacy-relics.mjs'
+      - 'scripts/audit-truth-final-cleanup.mjs'
+      - 'scripts/capture-truth-final-preservation-v1.mjs'
+      - 'scripts/apply-truth-final-preservation-v1.mjs'
+      - 'scripts/sanitize-truth-editorial-meta-v1.mjs'
+      - 'scripts/apply-truth-v6-mechanics.mjs'
+      - 'scripts/clean-truth-lore-mechanics.mjs'
+      - 'scripts/integrate-truth-lore-priority-v1.mjs'
+      - 'scripts/integrate-truth-lore-exiles-v1.mjs'
+      - 'scripts/integrate-truth-lore-predators-v1.mjs'
+      - 'scripts/integrate-truth-lore-mages-angelus-v1.mjs'
+      - 'scripts/integrate-truth-lore-peoples-v1.mjs'
+      - 'scripts/integrate-truth-lore-khinae-hunters-v1.mjs'
+      - 'scripts/integrate-truth-lore-corruption-fleaux-v1.mjs'
+      - 'scripts/consolidate-truth-legacy-hubs-v1.mjs'
+      - 'scripts/consolidate-truth-final-v1.mjs'
+      - 'scripts/build-compendium-navigation.mjs'
+      - 'compendium/tests/restructure-rules-check.mjs'
+      - 'compendium/tests/reality-talent-granularity-check.mjs'
+      - 'compendium/tests/reality-book-v8-setting-check.mjs'
+      - 'compendium/tests/reality-v8-legacy-consolidation-check.mjs'
+      - 'compendium/tests/reality-v8-dataset-consolidation-check.mjs'
+      - 'compendium/tests/truth-lore-mechanics-clean-check.mjs'
+      - 'compendium/tests/truth-lore-priority-check.mjs'
+      - 'compendium/tests/truth-lore-exiles-check.mjs'
+      - 'compendium/tests/truth-lore-predators-check.mjs'
+      - 'compendium/tests/truth-lore-mages-angelus-check.mjs'
+      - 'compendium/tests/truth-lore-peoples-check.mjs'
+      - 'compendium/tests/truth-lore-khinae-hunters-check.mjs'
+      - 'compendium/tests/truth-lore-corruption-fleaux-check.mjs'
+      - 'compendium/tests/truth-legacy-consolidation-check.mjs'
+      - 'compendium/tests/truth-final-cleanup-check.mjs'
+      - 'compendium/tests/navigation-check.mjs'
+      - 'compendium/tests/category-navigation-runtime-check.mjs'
+      - 'compendium/tests/manifest-check.mjs'
+      - '.github/workflows/compendium-restructure-build.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: preview/compendium-restructure
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Capture final Truth preservation source
+        run: node scripts/capture-truth-final-preservation-v1.mjs
+      - name: Audit Truth V6 mechanics source and Builder overlap
+        run: node scripts/audit-truth-v6-mechanics-overlap.mjs
+      - name: Reset generated Truth V6 pages
+        run: node scripts/reset-generated-truth-v6-pages.mjs
+      - name: Build grouped mechanics pages
+        run: node scripts/restructure-compendium-mechanics-v2.mjs
+      - name: Refine Reality talent page granularity
+        run: node scripts/refine-reality-talent-page-granularity.mjs
+      - name: Integrate exhaustive Truth V6 mechanics
+        run: node scripts/apply-truth-v6-mechanics.mjs
+      - name: Clean residual mechanics from Truth lore
+        run: node scripts/clean-truth-lore-mechanics.mjs
+      - name: Integrate priority Truth V6 lore
+        run: node scripts/integrate-truth-lore-priority-v1.mjs
+      - name: Integrate Truth V6 Exiles lore
+        run: node scripts/integrate-truth-lore-exiles-v1.mjs
+      - name: Integrate Truth V6 Vampire/Garou lore
+        run: node scripts/integrate-truth-lore-predators-v1.mjs
+      - name: Integrate Truth V6 Mage/Angelus lore
+        run: node scripts/integrate-truth-lore-mages-angelus-v1.mjs
+      - name: Integrate Truth V6 Daemon/Aseryn/Extral lore
+        run: node scripts/integrate-truth-lore-peoples-v1.mjs
+      - name: Integrate Truth V6 Khinae/Hunters lore
+        run: node scripts/integrate-truth-lore-khinae-hunters-v1.mjs
+      - name: Integrate Truth V6 Corruption/Six Fléaux lore
+        run: node scripts/integrate-truth-lore-corruption-fleaux-v1.mjs
+      - name: Consolidate retired Truth legacy hubs
+        run: node scripts/consolidate-truth-legacy-hubs-v1.mjs
+      - name: Consolidate final Truth legacy scoria
+        run: node scripts/consolidate-truth-final-v1.mjs
+      - name: Reapply preserved Truth material
+        run: node scripts/apply-truth-final-preservation-v1.mjs
+      - name: Remove editorial meta noise from Truth lore
+        run: node scripts/sanitize-truth-editorial-meta-v1.mjs
+      - name: Integrate Reality V8 setting book-first
+        run: node scripts/integrate-reality-book-v8-setting-v1.mjs
+      - name: Consolidate Reality V8 legacy daily lore
+        run: node scripts/consolidate-reality-v8-legacy-v1.mjs
+      - name: Consolidate Reality V8 dataset layer
+        run: node scripts/consolidate-reality-v8-dataset-v1.mjs
+      - name: Build hierarchical category navigation
+        run: node scripts/build-compendium-navigation.mjs
+      - name: Validate V3 manifest
+        run: node compendium/tests/manifest-check.mjs
+      - name: Validate grouped Rules structure
+        run: node compendium/tests/restructure-rules-check.mjs
+      - name: Validate Reality talent granularity
+        run: node compendium/tests/reality-talent-granularity-check.mjs
+      - name: Validate Reality V8 setting lore
+        run: node compendium/tests/reality-book-v8-setting-check.mjs
+      - name: Validate Reality V8 legacy consolidation
+        run: node compendium/tests/reality-v8-legacy-consolidation-check.mjs
+      - name: Validate final Reality V8 dataset
+        run: node compendium/tests/reality-v8-dataset-consolidation-check.mjs
+      - name: Validate Truth lore mechanics cleanup
+        run: node compendium/tests/truth-lore-mechanics-clean-check.mjs
+      - name: Validate priority Truth lore
+        run: node compendium/tests/truth-lore-priority-check.mjs
+      - name: Validate Truth Exiles lore
+        run: node compendium/tests/truth-lore-exiles-check.mjs
+      - name: Validate Truth Vampire/Garou lore
+        run: node compendium/tests/truth-lore-predators-check.mjs
+      - name: Validate Truth Mage/Angelus lore
+        run: node compendium/tests/truth-lore-mages-angelus-check.mjs
+      - name: Validate Truth Daemon/Aseryn/Extral lore
+        run: node compendium/tests/truth-lore-peoples-check.mjs
+      - name: Validate Truth Khinae/Hunters lore
+        run: node compendium/tests/truth-lore-khinae-hunters-check.mjs
+      - name: Validate Truth Corruption/Six Fléaux lore
+        run: node compendium/tests/truth-lore-corruption-fleaux-check.mjs
+      - name: Validate Truth legacy consolidation
+        run: node compendium/tests/truth-legacy-consolidation-check.mjs
+      - name: Validate final Truth cleanup
+        run: node compendium/tests/truth-final-cleanup-check.mjs
+      - name: Validate hierarchical navigation
+        run: node compendium/tests/navigation-check.mjs
+      - name: Audit Rules legacy scoria
+        run: node scripts/audit-rules-legacy-scoria-v1.mjs
+      - name: Audit Reality V8 legacy overlap
+        run: node scripts/audit-reality-v8-legacy.mjs
+      - name: Audit residual Reality dataset pages
+        run: node scripts/audit-reality-v8-dataset-v1.mjs
+      - name: Audit Truth legacy relic candidates
+        run: node scripts/audit-truth-legacy-relics.mjs
+      - name: Audit final Truth cleanup details
+        run: node scripts/audit-truth-final-cleanup.mjs
+      - name: Commit generated book-first datasets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A compendium/data compendium/source/truth-final-preservation-v1.json
+          if git diff --cached --quiet; then
+            echo "No generated compendium changes."
+            exit 0
+          fi
+          git commit -m "chore(compendium): sync book-first datasets"
+          git push origin HEAD:preview/compendium-restructure

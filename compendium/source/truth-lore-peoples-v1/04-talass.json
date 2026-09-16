@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "sourceDocument": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx",
+  "page": {
+    "id": "verite-lore-talass",
+    "title": "Talass",
+    "order": 40,
+    "aliases": ["Talasss"],
+    "evidence": ["V6 pp.164–165"],
+    "sections": [
+      {"title":"Une intelligence sans silhouette humaine","paragraphs":["Les Talass sont de petits êtres segmentaires issus de formes fongiformes. Leur anatomie, leur soie extrêmement conductrice, leurs capacités de déplacement et leur rapport au Talwa’Etax rappellent que l’intelligence technologique n’a aucune raison de reproduire la morphologie humaine."]},
+      {"title":"Penser la technique sans aimer la violence","paragraphs":["La culture talass valorise fortement l’intellect et se méfie de la violence. Cette méfiance n’implique pas une incapacité à se défendre : elle exprime plutôt l’idée qu’un conflit évitable par une meilleure structure, une négociation ou une conception plus sûre est déjà un échec lorsqu’il doit finalement être réglé par la force."]},
+      {"title":"De la technique à la politique","paragraphs":["La vie terrestre a poussé certaines communautés vers le débat institutionnel, la diplomatie et l’organisation politique. Négocier avec le GAAC, l’AIDH et les gouvernements humains transforme nécessairement une partie de l’intelligence technique en intelligence institutionnelle."]},
+      {"title":"La CTU et l’Émeraude Sanglante","paragraphs":["La CTU incarne la volonté de rendre les technologies avancées compréhensibles, réparables et reproductibles localement. À l’autre extrême, l’Émeraude Sanglante montre qu’une frange talass peut accepter une militarisation radicale lorsqu’elle estime que refuser de préparer la guerre revient à laisser l’adversaire choisir son moment.","Ces deux trajectoires ne résument pas le peuple, mais montrent l’ampleur du débat talass entre diffusion du savoir, autonomie et nécessité de la force."]}
+    ]
+  }
+}

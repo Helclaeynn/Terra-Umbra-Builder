@@ -1,0 +1,26 @@
+name: Reality Truth internal audit
+
+on:
+  push:
+    branches:
+      - preview/compendium-restructure
+    paths:
+      - 'scripts/audit-reality-truth-internal-v1.mjs'
+      - 'compendium/category-navigation.js'
+      - 'compendium/app-v3.js'
+      - 'compendium/data/navigation-v1.json'
+      - '.github/workflows/reality-truth-internal-audit.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: preview/compendium-restructure
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Audit Reality and Truth internal overlaps
+        run: node scripts/audit-reality-truth-internal-v1.mjs

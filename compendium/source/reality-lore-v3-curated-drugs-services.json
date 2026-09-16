@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "source": "Catalogue Réalité du Builder — Drogues & Services",
+  "entries": {
+    "Kick": {
+      "paragraphs": [
+        "Kick se prend avant une situation où la vitesse de réaction compte. Son effet est immédiat sur l’entrée en action : lorsqu’il est consommé avant le jet, il accorde +2 en Initiative et aide l’utilisateur à partir plus vite lorsque la scène bascule sous pression.",
+        "Ce coup d’accélérateur ne crée jamais de PA supplémentaires une fois le round commencé. Le contrecoup peut au contraire se traduire par un crash ou de la fatigue, ce qui fait de Kick un outil de préparation ponctuel plutôt qu’un moyen de maintenir artificiellement un rythme sans conséquence."
+      ]
+    },
+    "Velvet": {
+      "paragraphs": [
+        "Velvet atténue la manière dont le Stress psychologique pèse sur les emballements les plus graves. Pour déterminer les conséquences d’un explosif ou d’un échec narratif lié à ce Stress, Paniqué compte comme Tendu et Tendu comme Normal tant que l’effet est pertinent.",
+        "Cette distance émotionnelle a un coût : Velvet impose -3 en Initiative et en Perception. Elle ne masque jamais les états provoqués par les blessures physiques, de sorte qu’un corps réellement Tendu ou Paniqué par ses blessures reste soumis à ces états malgré la drogue."
+      ]
+    },
+    "Prism": {
+      "paragraphs": [
+        "Prism provoque une altération forte des sens et de la perception. Dans une scène où cette modification est réellement utile, elle peut ouvrir des possibilités sociales ou artistiques particulières en changeant la façon dont l’utilisateur reçoit et interprète ce qui l’entoure.",
+        "Ce potentiel n’est pas un bonus universel : il n’existe que si la scène justifie l’usage de cette perception altérée. Une mauvaise réaction ou un échec peut au contraire faire basculer l’expérience vers le Stress ou la désorientation et rendre la situation plus difficile à maîtriser."
+      ]
+    },
+    "Bloom": {
+      "paragraphs": [
+        "Bloom facilite la chaleur sociale et l’intimité lorsque le contexte s’y prête. Son intérêt apparaît donc dans les échanges où proximité, confiance et relâchement ont déjà un sens, plutôt que comme une manière automatique de rendre n’importe quel interlocuteur favorable.",
+        "Cette ouverture rend aussi l’utilisateur plus vulnérable. Manipulation, dépendance et perte de jugement font partie des risques associés à Bloom : ce qui rapproche les personnes dans un moment choisi peut devenir dangereux lorsque quelqu’un exploite cet état ou que l’usage cesse d’être maîtrisé."
+      ]
+    },
+    "Fleshfire": {
+      "paragraphs": [
+        "Fleshfire pousse volontairement les sensations et les implants organiques vers la surcharge. L’expérience dépend directement des augmentations présentes chez l’utilisateur : la drogue ne produit donc pas un effet identique chez tous les corps ni avec tous les équipements biologiques.",
+        "Cette recherche d’intensité expose l’organisme à un véritable risque de Constitution ou de Stress. Plus l’effet sollicite fortement les sensations ou une augmentation organique, plus la scène doit tenir compte de ce que le corps est réellement capable d’encaisser au lieu de traiter Fleshfire comme un simple amplificateur sans limite."
+      ]
+    },
+    "Dreamrush": {
+      "paragraphs": [
+        "Dreamrush est une expérience dont le danger se révèle notamment au test d’usage ou de retour. Une mauvaise sortie n’est pas neutre : en cas d’échec, l’utilisateur devient au minimum Tendu ou voit son état de Stress augmenter d’un cran selon sa situation actuelle.",
+        "Un échec narratif rend le retour beaucoup plus brutal et mène à Paniqué. La prise de Dreamrush doit donc être envisagée avec la phase de retour autant qu’avec l’expérience elle-même, car perdre pied au mauvais moment peut laisser l’utilisateur dans un état psychologique immédiatement exploitable par la scène."
+      ]
+    },
+    "Crashware": {
+      "paragraphs": [
+        "Crashware fonctionne comme un overclock neuronal : pendant son effet, le système nerveux est poussé au-delà de son fonctionnement ordinaire afin de soutenir cette accélération artificielle. Cette sollicitation ajoute immédiatement 1 point de Stress augmentique temporaire tant que l’effet dure.",
+        "Le risque devient particulièrement important lorsqu’il se combine au Neurodive, qui sollicite déjà directement l’interface neuronale. Crashware et immersion ne doivent donc pas être considérés comme deux avantages indépendants : leur interaction peut devenir dangereuse précisément parce qu’ils chargent le même système."
+      ]
+    },
+    "CareForce Bronze": {
+      "paragraphs": [
+        "CareForce Bronze est le niveau Bronze des urgences privées CareForce. Il donne accès à cette filière médicale privée lorsqu’une urgence doit être prise en charge, en complément ou à la place des circuits publics auxquels un patient pourrait autrement devoir recourir.",
+        "Bronze reste le niveau d’entrée de cette couverture : il fournit le service prévu par la formule, mais pas la forte priorité des offres supérieures. Son intérêt concret est l’accès réel à une chaîne d’urgence privée, avec les moyens correspondant au niveau de couverture possédé."
+      ]
+    },
+    "CareForce Golden": {
+      "paragraphs": [
+        "CareForce Golden est la couverture haut de gamme du réseau CareForce. Elle associe une prise en charge premium à une priorité forte lorsqu’une intervention médicale relevant du service doit être organisée, ce qui la distingue nettement des niveaux inférieurs.",
+        "Cette priorité ne remplace pas la médecine elle-même : gravité de la blessure, moyens nécessaires et disponibilité locale restent des réalités de la scène. Golden améliore surtout la position du patient dans la chaîne privée de prise en charge et l’accès au niveau de service prévu par cette couverture."
+      ]
+    },
+    "Chirurgie / hospitalisation": {
+      "paragraphs": [
+        "Une chirurgie ou une hospitalisation recouvre des prises en charge dont l’ampleur varie énormément avec la gravité du cas et la technologie nécessaire. Une intervention simple, un séjour prolongé et une opération lourde ne mobilisent ni les mêmes équipes ni les mêmes moyens.",
+        "L’assurance du patient compte également dans la manière dont cette prise en charge est accessible. Le service doit donc être évalué d’après l’acte médical réellement nécessaire, les installations requises et la couverture disponible, plutôt que comme une prestation médicale uniforme."
+      ]
+    },
+    "Formation courte / adulte": {
+      "paragraphs": [
+        "Une formation courte pour adulte sert à remettre à niveau une pratique, obtenir une certification ou suivre un module professionnel ciblé. Elle répond à un besoin défini et limité, sans prétendre remplacer un cursus long ou l’expérience accumulée dans un métier.",
+        "Le résultat dépend du contenu effectivement suivi : certaines formations valident une procédure, d’autres actualisent des connaissances ou ouvrent l’accès à une certification précise. S’inscrire à une session ne transforme donc pas instantanément le participant en expert du domaine entier."
+      ]
+    },
+    "Expertise technique/medicale": {
+      "paragraphs": [
+        "Une expertise technique ou médicale mobilise un spécialiste pour produire un diagnostic, une analyse, un rapport ou une procédure adaptée à un problème précis. Elle permet d’obtenir un regard professionnel lorsque la situation dépasse une simple inspection ou un entretien courant.",
+        "L’expertise reste limitée à son objet et aux moyens disponibles. Un rapport peut identifier une cause sans fournir les pièces nécessaires pour la réparer, comme un diagnostic médical peut déterminer un traitement sans remplacer l’intervention qui devra ensuite être pratiquée."
+      ]
+    },
+    "Reparation courante": {
+      "paragraphs": [
+        "Une réparation courante concerne du matériel standard dont la panne peut être traitée avec un atelier et des pièces ordinaires. Elle couvre l’entretien, le remplacement d’éléments accessibles et la remise en état lorsque l’intervention ne réclame ni composant rare ni procédure exceptionnelle.",
+        "Le service dépend donc autant de la nature de la panne que du matériel concerné. Si le diagnostic révèle une pièce introuvable, une calibration spécialisée ou des dommages structurels importants, l’intervention sort du cadre d’une réparation courante et exige une prise en charge plus lourde."
+      ]
+    },
+    "Reparation lourde / augmentique": {
+      "paragraphs": [
+        "Une réparation lourde ou augmentique intervient lorsque la remise en état réclame un véritable atelier, une calibration précise, une chirurgie ou une pièce spécifique. Elle peut concerner aussi bien un système technique complexe qu’une augmentation intégrée au corps de son utilisateur.",
+        "Ce niveau d’intervention ne se résume pas à disposer d’un tournevis ou d’un kit de terrain. Il faut réunir le lieu, la compétence et les composants adaptés au problème ; dans le cas d’un implant, les contraintes médicales s’ajoutent directement aux exigences purement techniques."
+      ]
+    },
+    "Securite privee": {
+      "paragraphs": [
+        "La sécurité privée peut prendre la forme d’un garde, d’une escorte, d’un dispositif pour un événement ou d’une équipe d’intervention. La prestation doit être définie par la mission demandée : protéger une personne en déplacement n’implique pas les mêmes moyens que tenir un site ou répondre à une alerte.",
+        "L’armement et le niveau d’engagement des agents font partie de cette définition. Engager de la sécurité n’accorde donc pas une protection abstraite : cela met de vraies personnes et de vrais moyens sur une mission, avec les capacités, limites et règles d’intervention correspondant au contrat retenu."
+      ]
+    },
+    "Stockage / box / atelier": {
+      "paragraphs": [
+        "Un stockage, un box ou un petit atelier fournit un local distinct du logement pour entreposer du matériel ou disposer d’un espace technique. La fonction réelle dépend du lieu loué : un simple volume fermé, un espace de travail et un atelier équipé ne répondent pas aux mêmes besoins.",
+        "Il ne faut donc pas supposer automatiquement alimentation renforcée, outils, sécurité élevée ou anonymat. Le service garantit l’espace correspondant à la formule choisie ; équipements, accès, discrétion et possibilités de travail dépendent ensuite des caractéristiques concrètes du local."
+      ]
+    }
+  }
+}
