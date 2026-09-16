@@ -28,10 +28,10 @@
     },
     {
       "id": "realite",
-      "prefix": "v3-realite-v4",
-      "parts": 6,
-      "count": 29,
-      "sha256": "0f3c82898fe93b3ebd08c178877fd05b351a992d66143462c0da8975d82ef53b"
+      "prefix": "v3-realite-v5",
+      "parts": 5,
+      "count": 9,
+      "sha256": "538424486fe93e68a098f9d39728346ac16c0024314bfc6bc28964ee32dafdaa"
     },
     {
       "id": "equipement",
@@ -97,5 +97,5 @@
       "sha256": "a6371b223bbde189b4d2cdaed752554562910aef2d6738729afac4338f7dd18b"
     }
   ],
-  "expectedTotal": 1822
+  "expectedTotal": 1802
 }
