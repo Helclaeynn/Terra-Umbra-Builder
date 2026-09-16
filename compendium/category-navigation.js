@@ -1,4 +1,4 @@
-const SUPPORTED=new Set(['Règles','Réalité','Vérité','Équipement','Augmentations','Organisations','Personnages','Bestiaire','Catalogue Vérité']);
+const SUPPORTED=new Set(['Règles','Réalité','Vérité','Équipement & Objets','Personnages','Bestiaire']);
 let indexPromise=null;
 
 function norm(value){return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()}
@@ -6,14 +6,33 @@ function slug(value){return norm(value).replace(/\s+/g,'-')||'section'}
 function categoryFromHash(){const match=location.hash.match(/^#\/category\/([^/?#]+)/);if(!match)return null;try{return decodeURIComponent(match[1])}catch{return match[1]}}
 function pageIdFromCard(card){const href=card.getAttribute('href')||'';const match=href.match(/^#\/article\/(.+)$/);if(!match)return null;try{return decodeURIComponent(match[1])}catch{return match[1]}}
 
+function adaptNavigationEntry(entry){
+  if(!entry)return entry;
+  if(entry.category==='Équipement & Objets'||SUPPORTED.has(entry.category))return entry;
+  if(entry.category==='Équipement'||entry.category==='Augmentations'||entry.category==='Catalogue Vérité'){
+    const spec=entry.category==='Équipement'
+      ?['Équipement de Réalité',10]
+      :entry.category==='Augmentations'
+        ?['Augmentations',20]
+        :['Objets de Vérité',30];
+    const detail=[entry.group,entry.subgroup].filter(Boolean).join(' — ');
+    return {...entry,category:'Équipement & Objets',group:spec[0],groupOrder:spec[1],subgroup:detail||'Références',subgroupOrder:(Number(entry.groupOrder)||0)*1000+(Number(entry.subgroupOrder)||0)};
+  }
+  if(entry.category==='Organisations'){
+    const truth=/faction|vampir|garou|mage|daemon|angelus|aseryn|exile|extral|chasseur|fleau/i.test(norm(`${entry.group} ${entry.subgroup}`));
+    return {...entry,category:truth?'Vérité':'Réalité'};
+  }
+  return entry;
+}
+
 async function loadNavigation(){
   if(!indexPromise){
     indexPromise=fetch('data/navigation-v1.json',{cache:'no-cache'}).then(response=>{
       if(!response.ok)throw new Error(`navigation-v1.json · HTTP ${response.status}`);
       return response.json();
     }).then(data=>{
-      if(![1,2].includes(data?.version)||!Array.isArray(data.entries))throw new Error('navigation-v1.json invalide');
-      return new Map(data.entries.map(entry=>[entry.id,entry]));
+      if(![1,2,3].includes(data?.version)||!Array.isArray(data.entries))throw new Error('navigation-v1.json invalide');
+      return new Map(data.entries.map(entry=>{const adapted=adaptNavigationEntry(entry);return[adapted.id,adapted]}));
     });
   }
   return indexPromise;
