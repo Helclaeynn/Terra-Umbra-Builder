@@ -10,7 +10,7 @@ function requireText(page,...needles){const text=flat(page);for(const needle of 
 
 const reality=load('realite'),batch=reality.filter(p=>p.realityBook?.batch===BATCH);
 if(batch.length!==9)throw new Error(`Lot Réalité V8 incomplet: ${batch.length}/9`);
-if(reality.length<29)throw new Error(`Réalité: ${reality.length} pages, au moins 29 attendues après le premier lot book-first`);
+if(reality.length!==9)throw new Error(`Réalité: ${reality.length} pages, 9 attendues dans la couche book-first finale`);
 const hub=byId(batch,'realite-001-chapitre-vivre-en-grande-californie');
 requireText(hub,'Quinze années','territoire en strates','mégacorporations','Underlife');
 requireText(byId(batch,'realite-lore-gouvernement-institutions'),'Dina Page','Grande Réserve','Cour suprême californienne');
