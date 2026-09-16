@@ -1,0 +1,143 @@
+{
+  "source": "TUC Réalité V8 — boissons, loisirs et transports ; reprise manuelle complète",
+  "entries": {
+    "Eau reconditionnee": {
+      "paragraphs": [
+        "L’Eau reconditionnée est l’un des produits les plus banals de la Grande Californie : eau récupérée, traitée, contrôlée puis réinjectée dans les circuits de consommation. Dans une mégapole qui ne peut pas se permettre de perdre continuellement ses ressources, le recyclage relève de l’infrastructure quotidienne plutôt que d’un signe de pénurie exceptionnelle.",
+        "Son absence de prestige est précisément ce qui la rend socialement importante. On la trouve partout où l’approvisionnement ordinaire fonctionne, et personne n’attend d’elle une histoire de terroir ou une expérience gustative ; choisir autre chose relève du goût, du confort ou du statut, pas d’un besoin élémentaire différent."
+      ]
+    },
+    "Soda": {
+      "paragraphs": [
+        "Le Soda est un produit industriel parfaitement adapté à l’économie alimentaire de 2035 : eau, sucre ou substitut, arômes et marque suffisent à créer des dizaines d’identités commerciales à partir d’une chaîne de production très standardisée. Distributeurs, fast-foods et lieux de passage en font un réflexe de consommation ordinaire.",
+        "Sa force tient moins à sa qualité qu’à sa disponibilité et à son langage publicitaire. Chaque quartier peut avoir ses marques dominantes ou ses parfums à la mode, mais le produit reste associé au repas rapide, au trajet et au loisir accessible ; personne ne le confond avec une boisson de prestige."
+      ]
+    },
+    "Biere/fermentation d'algues": {
+      "paragraphs": [
+        "La bière ou boisson de fermentation d’algues remplit le rôle social qu’occupait autrefois une grande partie de la bière de céréales. Une biomasse abondante et facile à cultiver fournit une base fermentescible stable, que l’industrie peut ensuite travailler pour obtenir des profils plus ou moins convaincants selon la gamme.",
+        "Dans les bars populaires, l’origine algale ne constitue plus un sujet d’étonnement ; c’est simplement l’alcool courant de ceux qui veulent boire ensemble sans payer le coût agricole d’un produit traditionnel. Les puristes peuvent la mépriser, mais cette attitude en dit souvent plus sur leur statut que sur la fonction réelle de la boisson."
+      ]
+    },
+    "Alcool industriel": {
+      "paragraphs": [
+        "L’Alcool industriel regroupe les spiritueux et mélanges produits à grande échelle à partir de bases fermentaires ou synthétiques standardisées. Arômes, coloration et assemblage permettent de reproduire une grande partie des attentes du consommateur sans dépendre d’une récolte, d’un terroir ou d’un vieillissement long.",
+        "La catégorie couvre aussi bien la bouteille médiocre que le produit correctement maîtrisé vendu sous une marque respectable. Ce qui la distingue de l’alcool traditionnel n’est donc pas nécessairement le goût, mais la chaîne de production : reproductible, massive et relativement indépendante des matières premières historiques."
+      ]
+    },
+    "Alcool traditionnel": {
+      "paragraphs": [
+        "L’Alcool traditionnel vient encore de matières agricoles réelles, de fermentations et de distillations liées à un lieu, une récolte ou un savoir-faire identifiable. Dans un monde où l’industrie sait fabriquer une ivresse et un arôme crédibles à moindre coût, cette origine devient elle-même une partie de la valeur du produit.",
+        "Une bouteille peut donc être achetée pour son goût, son histoire ou ce qu’elle dit de celui qui la sert. Les établissements aisés mettent en avant provenance et méthode comme autrefois on aurait mis en avant une marque ; à très haut niveau, boire traditionnel revient presque à consommer du temps, de la terre et de la rareté."
+      ]
+    },
+    "Cafe synthetique": {
+      "paragraphs": [
+        "Le Café synthétique fournit caféine, amertume et arômes attendus sans utiliser de grains cultivés. C’est le café des bureaux, distributeurs, stations et nuits de travail : un produit conçu d’abord pour être constant, bon marché et disponible quelle que soit la santé des anciennes régions productrices.",
+        "Les consommateurs savent généralement ce qu’ils boivent et n’y voient aucune tromperie particulière. Le synthétique est devenu la référence fonctionnelle ; ce sont les cafés cellulaires ou issus de vrais grains qui doivent désormais justifier leur supplément par une expérience, une origine ou un statut particulier."
+      ]
+    },
+    "Cafe clone/cellulaire": {
+      "paragraphs": [
+        "Le Café clone ou cellulaire cultive en environnement contrôlé des tissus ou composés issus du café afin de retrouver davantage de complexité qu’une simple imitation synthétique. Il occupe un compromis industriel intéressant : se rapprocher du produit agricole sans devoir reproduire toute la plantation qui l’a historiquement rendu possible.",
+        "Cette position intermédiaire lui donne une clientèle régulière chez ceux qui trouvent le synthétique trop plat mais refusent le prix ou le cérémonial du vrai grain. Les cafés qui veulent paraître soignés sans se positionner dans le luxe peuvent en faire un marqueur discret de qualité."
+      ]
+    },
+    "Vrai cafe": {
+      "paragraphs": [
+        "Le Vrai café est préparé à partir de grains réellement cultivés, récoltés puis torréfiés. Cette continuité agricole en fait un produit rare dans une économie où synthèse et culture cellulaire suffisent à l’essentiel de la demande ; origine, millésime et chaîne logistique deviennent donc visibles dans ce qui était autrefois une boisson quotidienne.",
+        "Le servir peut être un plaisir sincère autant qu’un signe de statut. Dans les lieux aisés, on discute provenance, fraîcheur et méthode comme d’un vin ; dans les cercles très riches, la simple garantie qu’un grain vient réellement d’une plantation identifiable peut valoir autant que son profil aromatique."
+      ]
+    },
+    "Media Holonet / reseaux": {
+      "paragraphs": [
+        "Les médias Holonet et réseaux forment la couche continue de la vie connectée : information, divertissement, communauté, musique, vidéo et conversations se mélangent dans des interfaces que chacun personnalise autour de son profil. Pour beaucoup d’habitants, consulter le réseau ne constitue plus une activité séparée mais l’arrière-plan permanent de la journée.",
+        "L’accès de base peut être extrêmement large, tandis que visibilité, archives, flux premium ou communautés fermées créent les véritables différences. Le Holonet ne remplace pas tous les services spécialisés : il est surtout l’espace dans lequel applications, identités et publics se rencontrent, avec les mêmes problèmes de réputation et de traçage que toute vie sociale."
+      ]
+    },
+    "Bar, club, sortie populaire": {
+      "paragraphs": [
+        "Une sortie populaire en bar ou en club reste l’une des manières les plus simples de rencontrer physiquement d’autres personnes dans une société pourtant très connectée. Quartier, musique, clientèle et sécurité donnent au lieu son identité bien plus que la sophistication technique de ses installations.",
+        "Ces établissements forment aussi une géographie sociale très concrète : on sait où sortent les ouvriers d’un secteur, les étudiants, les Neopunks ou les employés d’une corporation voisine. Fréquenter le bon bar peut donc renseigner sur un quartier et ses réseaux, sans pour autant accorder automatiquement contacts ou réputation."
+      ]
+    },
+    "Concert, spectacle, sport": {
+      "paragraphs": [
+        "Concerts, spectacles et compétitions sportives conservent une valeur particulière parce qu’ils rassemblent un public réel autour d’un événement qui n’existe qu’à un moment donné. Le Holonet peut diffuser une performance parfaitement, mais il ne reproduit pas complètement la foule, le déplacement ni la présence partagée dans un même lieu.",
+        "Le prix et l’expérience varient alors surtout avec la place, l’accès et l’importance de l’événement. Pour certains habitants, ces sorties sont des plaisirs occasionnels ; pour d’autres elles constituent un rituel social où l’on retrouve les mêmes groupes, soutient une scène locale ou se montre dans un milieu précis."
+      ]
+    },
+    "Immersion / experience premium": {
+      "paragraphs": [
+        "Une immersion ou expérience premium vend davantage qu’un contenu : environnement sensoriel, mise en scène, encadrement et matériel sont arrangés pour donner au client l’impression d’entrer temporairement dans une autre situation. C’est le segment du loisir où le décor et la technologie deviennent eux-mêmes une prestation.",
+        "La clientèle paie pour la qualité de la simulation, le confort et le soin apporté à l’expérience autant que pour son thème. Ces offres peuvent côtoyer le Neurodive sans s’y confondre : une immersion commerciale n’accorde aucune capacité de Crawler et ne suppose pas nécessairement une connexion neurale profonde."
+      ]
+    },
+    "Evenement luxe / VIP": {
+      "paragraphs": [
+        "Un événement luxe ou VIP repose autant sur le filtrage de l’accès que sur le spectacle proposé. Espace réservé, service individualisé, proximité avec certaines personnes et contrôle de la clientèle créent un environnement où l’on paie pour ne pas vivre l’événement comme tout le monde.",
+        "Dans les milieux aisés, ces espaces servent aussi de lieux de représentation : inviter quelqu’un, être reconnu à l’entrée ou être vu dans une zone réservée peut compter autant que la programmation. Cette valeur sociale reste contextuelle ; posséder un billet VIP ne donne pas à lui seul du statut hors du cercle qui s’y intéresse."
+      ]
+    },
+    "Compagnie sociale courte": {
+      "paragraphs": [
+        "La Compagnie sociale courte est une prestation de présence : accompagner un dîner, tenir une conversation, servir de partenaire lors d’une sortie ou aider quelqu’un à ne pas arriver seul à un événement. Elle professionnalise un besoin social sans impliquer par défaut de relation intime ou sexuelle.",
+        "Le métier demande surtout adaptation, écoute et compréhension du cadre demandé par le client. Selon le milieu, l’accompagnateur peut se rapprocher d’un hôte, d’un partenaire mondain ou d’une présence rassurante ; la prestation reste un contrat de temps et de comportement, pas l’achat d’une relation personnelle authentique."
+      ]
+    },
+    "Compagnie intime/prostitution legale": {
+      "paragraphs": [
+        "La compagnie intime légale appartient au secteur adulte réglementé et peut inclure une relation sexuelle consentie dans les limites du contrat établi. Elle se distingue de la compagnie sociale par la nature explicite de la prestation, mais reste un service professionnel avec ses règles, intermédiaires et conditions de sécurité.",
+        "Établissement, indépendance, contrôle sanitaire, discrétion et standing produisent des expériences très différentes derrière une même catégorie. Dans une grande métropole, la clientèle va du rendez-vous banal au service très haut de gamme ; le prix ne dit jamais à lui seul comment le travail est organisé ni qui le protège."
+      ]
+    },
+    "Metro / tram": {
+      "paragraphs": [
+        "Métro et tram constituent l’ossature visible de la mobilité collective dans les zones denses. Leur force n’est pas la personnalisation mais la capacité à déplacer continuellement de grandes quantités de personnes le long d’axes connus, indépendamment de la possession d’un véhicule ou de la disponibilité d’un service individuel.",
+        "Le réseau dessine aussi la ville sociale : vivre près d’une station change les temps de trajet, certains quartiers respirent au rythme des correspondances et les heures de pointe imposent leurs propres contraintes. Pour les revenus modestes, le transport collectif reste souvent ce qui rend possible un emploi éloigné du logement."
+      ]
+    },
+    "Pass metro/tram": {
+      "paragraphs": [
+        "Le Pass métro/tram transforme le réseau collectif en service continu plutôt qu’en suite de décisions à chaque trajet. Il correspond à la vie de quelqu’un qui se déplace assez régulièrement pour intégrer le transport public à son budget mensuel, au même titre que la connexion ou le logement.",
+        "Cette logique en fait une charge fixe typique des travailleurs et étudiants qui organisent leur quotidien autour du réseau. Le pass achète une facilité d’accès, pas une priorité de circulation ni un confort supérieur ; les mêmes quais, retards et foules restent partagés avec les autres usagers."
+      ]
+    },
+    "MAS - court trajet": {
+      "paragraphs": [
+        "Un MAS de court trajet est un déplacement motorisé à la demande pour les portions de ville que la marche ou le réseau collectif desservent mal. Dans la Grande Californie, ces services ont repris une grande partie du rôle autrefois partagé entre taxi, bus flexible et navette privée.",
+        "Le passager achète le trajet plutôt que le véhicule : conduite, navigation, entretien et stationnement restent à la charge de l’opérateur. C’est particulièrement pratique pour une course ponctuelle, un retour tardif ou le dernier segment entre une station et une destination peu accessible."
+      ]
+    },
+    "MAS - trajet long urbain": {
+      "paragraphs": [
+        "Le MAS longue distance urbaine applique le même principe à une traversée plus importante de la mégapole. Il offre une continuité porte-à-porte que le métro exige souvent de reconstruire par plusieurs correspondances, sans obliger le passager à posséder ou conduire son propre véhicule.",
+        "Ce confort devient vite coûteux lorsqu’il est répété quotidiennement, ce qui explique l’existence des abonnements de mobilité plus structurés. Le MAS reste donc très courant pour les déplacements occasionnels ou contraints, mais moins rationnel comme unique solution permanente pour qui traverse la ville chaque jour."
+      ]
+    },
+    "Bull Basic": {
+      "paragraphs": [
+        "Bull Basic est l’entrée de gamme d’un abonnement de mobilité pensé pour ceux qui veulent une disponibilité régulière sans posséder de voiture. La marque vend moins un véhicule précis qu’une place permanente dans son infrastructure de déplacement, cohérente avec un Train de vie Standard.",
+        "Pour un citadin, l’intérêt est de transformer une succession de courses et de problèmes d’entretien en une dépense prévisible. Basic reste une formule fonctionnelle : elle répond au besoin de se déplacer, sans prétendre offrir le standing ou les garanties de service que Bull réserve à ses niveaux supérieurs."
+      ]
+    },
+    "Bull Standard": {
+      "paragraphs": [
+        "Bull Standard constitue le cœur de la gamme d’abonnements de mobilité de la marque. Il vise la clientèle qui utilise suffisamment souvent le service pour vouloir en faire sa solution normale de déplacement, tout en restant dans les habitudes budgétaires d’un Train de vie Standard.",
+        "La différence avec l’entrée Basic tient à la place plus confortable que le service prend dans le quotidien, pas à la possession d’un véhicule. Le client reste utilisateur d’un réseau : il achète simplicité et disponibilité, tandis que Bull conserve l’entretien, la flotte et l’organisation des trajets."
+      ]
+    },
+    "Bull Premium": {
+      "paragraphs": [
+        "Bull Premium fait passer l’abonnement de mobilité dans le registre Confortable. À ce niveau, le client ne cherche plus seulement à éviter l’achat d’une voiture ; il veut que le service soit suffisamment présent et agréable pour devenir une alternative assumée à un véhicule personnel de bonne qualité.",
+        "Cette position place Premium en concurrence avec d’autres choix de confort comme un VAP familial ou une moto haut de gamme. Le choix devient autant une question de mode de vie que de coût : préférer déléguer conduite et entretien, ou préférer garder un véhicule disponible sous son propre contrôle."
+      ]
+    },
+    "Bull Executive": {
+      "paragraphs": [
+        "Bull Executive est la formule haute de la gamme, destinée à une clientèle Aisée pour laquelle la mobilité doit fonctionner comme un service permanent plutôt qu’une contrainte. L’abonnement se rapproche d’une prestation de déplacement haut de gamme sans transférer au client la propriété ni la maintenance d’un véhicule.",
+        "Chez un cadre, un indépendant prospère ou quelqu’un dont l’image professionnelle dépend de sa ponctualité, cette délégation peut être plus intéressante qu’une voiture personnelle. Executive est donc aussi un choix social : payer pour que le transport disparaisse du champ des problèmes ordinaires, tout en restant dépendant du réseau Bull."
+      ]
+    }
+  }
+}
