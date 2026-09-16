@@ -67,12 +67,13 @@
     {
       "id": "verite-catalogue",
       "prefix": "v3-verite-catalogue-v6",
-      "parts": 12,
+      "parts": 13,
       "count": 229,
-      "sha256": "8c5e742b585d7e16ef401ad823645aa869b4311d27d147848282caf8ad614ec2",
+      "sha256": "90207851ec5fd1cb958f5486d58729ab83b5217118fd18cb9060f12bb901e8ff",
       "quality": {
-        "loreVersion": 2,
-        "maxIdenticalTextRatio": 0.6
+        "loreVersion": 3,
+        "maxIdenticalTextRatio": 0.6,
+        "method": "truth-book-manual-lore"
       }
     },
     {
