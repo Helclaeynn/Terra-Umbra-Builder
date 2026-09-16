@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 1,
+  "source": "TUC Vérité V6 — Livre V, technologie et arsenal AIDH ; reprise manuelle",
+  "entries": {
+    "Pastille d’armement AIDH - 1re génération": {
+      "paragraphs": [
+        "La pastille d’armement de première génération appartient à une époque où l’AIDH expérimentait des solutions beaucoup plus radicales pour faire disparaître la frontière entre équipement porté et arsenal disponible. Reliée au système neural, elle conserve plusieurs architectures d’armes et matérialise autour de la main la configuration choisie, donnant à un seul implant la polyvalence que des agents modernes obtiennent plutôt par une logistique modulaire et contrôlée.",
+        "Sa réputation vient autant de ce qu’elle sait faire que de son statut actuel : l’AIDH moderne n’en distribue plus comme matériel courant. Les exemplaires survivants circulent par récupération, vol, dette ou héritage opérationnel, avec toute l’incertitude liée à une technologie ancienne et verrouillable. Chaque configuration reste une arme réelle avec son propre profil ; la pastille n’est pas une réserve magique de munitions spéciales ni un générateur universel d’armement."
+      ]
+    },
+    "Cipherline C-9": {
+      "paragraphs": [
+        "Le Cipherline C-9 résume bien la manière dont l’AIDH conçoit les communications de terrain : pas un simple émetteur plus puissant, mais un nœud personnel capable de choisir en permanence le chemin le plus propre entre radio, liaison directionnelle et relais disponibles. Son format varie de l’oreillette discrète au brassard ou à l’interface d’armure, afin que la même architecture accompagne aussi bien un agent civilisé qu’une escouade en intervention.",
+        "L’essentiel se trouve dans la confiance accordée au réseau. Chaque unité reconnaît les matériels et signatures autorisés, peut exclure une clé compromise et basculer vers des échanges tactiles ou textuels lorsque parler devient dangereux. Cette sophistication ne supprime pourtant pas la distance : sans relais approprié, même l’AIDH ne transforme pas une oreillette en communicateur interstellaire instantané."
+      ]
+    },
+    "Omnispectre OS-6": {
+      "paragraphs": [
+        "L’Omnispectre OS-6 est moins un détecteur miracle qu’une boîte à mesures extrêmement dense. Thermique, ultraviolet, lidar, champs électromagnétiques, densité, mouvement et spectrométrie simple sont rassemblés dans un appareil assez portable pour suivre une équipe de reconnaissance, un technicien ou un contrôleur de cargaison sans imposer un laboratoire mobile.",
+        "La philosophie AIDH reste volontairement instrumentale : l’OS-6 montre ce qui est mesurable et transmet ses relevés à une armure ou à un drone compatible, mais ne prétend pas comprendre à la place de l’opérateur. Une signature inconnue reste inconnue tant qu’une compétence, une base de référence ou une enquête ne lui donne pas de sens ; même une anomalie surnaturelle n’acquiert pas automatiquement un nom parce qu’elle apparaît sur plusieurs capteurs."
+      ]
+    },
+    "Handshake IU-4": {
+      "paragraphs": [
+        "Le Handshake IU-4 existe parce qu’une organisation présente sur plusieurs mondes ne peut pas supposer que chaque porte, terminal ou machine parle le même langage. C’est un pont physique et logiciel qui reconfigure connectique, alimentation et protocoles autour de normes humaines ou alliées déjà comprises, tout en maintenant le périphérique étranger à distance du réseau personnel de l’agent.",
+        "Sur le terrain, son intérêt est souvent banal mais décisif : alimenter un appareil récupéré, lire un bus industriel local ou présenter une interface exotique sous une forme standardisée. L’IU-4 n’est toutefois ni un passe-partout ni un décodeur omniscient. Une authentification reste une authentification, un protocole totalement inconnu doit être étudié, et une technologie fondée sur un principe étranger peut simplement ne rien avoir à négocier avec lui."
+      ]
+    },
+    "Mantis Field Tool": {
+      "paragraphs": [
+        "Le Mantis Field Tool condense l’atelier de dépannage AIDH dans un outil que l’on peut réellement emporter. Micro-usinage, découpe, soudure, diagnostic et manipulation fine partagent une même plateforme, avec suffisamment de précision pour refaire une petite pièce à partir d’un stock de matière adapté ou effectuer la maintenance prévue d’un équipement sans rentrer à la base.",
+        "Cette polyvalence reflète une logistique pensée pour des équipes isolées loin d’un centre technique. Les fonctions dangereuses restent liées aux habilitations, et la machine ne prétend pas faire naître ce qu’elle ne possède pas : un composant rare, une matière exotique ou un diagnostic complexe exigent toujours la ressource et la compétence correspondantes. Le Mantis réduit la dépendance à l’atelier ; il ne transforme pas chaque agent en ingénieur."
+      ]
+    },
+    "Wisp R-3": {
+      "paragraphs": [
+        "Le Wisp R-3 est un microdrone de reconnaissance conçu pour disparaître dans la logistique personnelle d’un agent jusqu’au moment où un regard déporté devient préférable à une tête passée autour d’un angle. Replié, il tient dans un étui de ceinture ; déployé, il associe imagerie visible, thermique, lidar, microphone directionnel et cartographie locale dans une cellule volontairement silencieuse.",
+        "L’AIDH l’emploie comme éclaireur, relais perceptif et cartographe plutôt que comme second combattant gratuit. Il peut suivre un trajet simple de manière autonome, mais une manœuvre réellement tactique continue d’exiger l’attention ou l’interface prévue de son opérateur. Cette distinction est importante : le Wisp déplace les sens d’une équipe, il ne lui ajoute pas magiquement un membre capable d’agir sans coût."
+      ]
+    },
+    "Nightjar EW-5": {
+      "paragraphs": [
+        "Le Nightjar EW-5 est un brouilleur de guerre électronique conçu pour travailler avec précision plutôt que remplir l’air de bruit. Il peut viser une bande, une signature ou un protocole connu, couper un canal hostile sans condamner tout le spectre voisin et chercher simultanément une voie de communication encore propre pour le réseau ami.",
+        "Cette sélectivité en fait un outil d’escouade aussi utile pour isoler un petit périmètre que pour poursuivre une source active. Elle révèle également très clairement la frontière entre technologie AIDH et occultisme : le Nightjar manipule des supports électromagnétiques compatibles. Une télépathie, un rite, l’Hologramme ou une technologie qui ne communique pas de cette manière ne deviennent pas silencieux simplement parce que l’opérateur allume un brouilleur sophistiqué."
+      ]
+    },
+    "Lattice Cell LC-12": {
+      "paragraphs": [
+        "La Lattice Cell LC-12 est l’un de ces objets peu spectaculaires qui rendent possible tout le reste de l’écosystème AIDH. Cellule énergétique compacte et reconfigurable, elle sert de standard logistique à une grande variété de matériels portables, laissant l’équipement adapter en interne tension, distribution et sécurité au lieu d’imposer à chaque mission une collection de batteries incompatibles.",
+        "Sa conception privilégie également la survie du réseau : une zone endommagée peut être isolée avant qu’un défaut local ne condamne toute la cellule. En revanche, la recharge rapide suppose une infrastructure AIDH ou un convertisseur suffisamment lourd, et l’universalité reste celle d’un standard industriel avancé. Une machine qui réclame une source exotique fondée sur un autre principe énergétique ne devient pas compatible par simple proximité."
+      ]
+    },
+    "Homecall BR-7": {
+      "paragraphs": [
+        "Le Homecall BR-7 est la réponse AIDH à une vérité simple des opérations lointaines : parfois, l’équipement le plus important est celui qui continue à parler après que tout le reste a cessé de fonctionner. La balise est conçue pour survivre à un crash, à l’immersion ou à l’ensevelissement et transmettre identité, position et télémétrie médicale dès qu’un réseau AIDH devient accessible.",
+        "En mode intermittent, elle peut attendre longtemps qu’une fenêtre de communication apparaisse, et son signal de détresse ne se coupe pas facilement sans accès physique ou autorisation supérieure. Cette obstination ne doit pas être confondue avec une extraction automatique : le Homecall dit où récupérer quelqu’un et dans quel état il se trouve. Il faut encore qu’une force amie puisse réellement atteindre l’endroit où la balise appelle."
+      ]
+    },
+    "Aegis Medpack M-8": {
+      "paragraphs": [
+        "L’Aegis Medpack M-8 est une trousse de campagne conçue pour faire gagner du temps entre la blessure et le véritable traitement. Ses capteurs cartographient lésions, constantes, oxygénation et toxines connues pendant que matériaux auto-expansifs, nanites médicales et support compact aident à contrôler les urgences les plus immédiates : saigner, respirer, maintenir une perfusion et conserver une température viable.",
+        "Le système exprime une médecine de terrain très avancée mais pas autonome. Il prépare le blessé, stabilise ce qui peut l’être et fournit au soignant des informations de qualité ; il ne décide pas à sa place et ne remplace pas un bloc opératoire. L’AIDH peut mettre énormément de technologie dans une valise, mais la récupération du patient dépend toujours des soins réellement prodigués et des compétences de celui qui l’utilise."
+      ]
+    },
+    "Farwalker ES-4": {
+      "paragraphs": [
+        "La Farwalker ES-4 est une combinaison environnementale pour ceux qui doivent continuer à travailler lorsque l’atmosphère, l’eau, les poussières biologiques ou la température cessent d’être raisonnablement humaines. Plus légère qu’une armure de combat, elle privilégie l’étanchéité, le recyclage, la thermorégulation et une réserve respiratoire suffisante pour transformer plusieurs heures d’exposition hostile en mission praticable.",
+        "Son nom résume bien sa place dans la doctrine AIDH : permettre d’aller loin sans prétendre abolir l’environnement. Le vide prolongé, le plasma, les radiations massives ou une chimie capable d’attaquer directement la combinaison restent au-delà de ce qu’une tenue légère peut résoudre. La Farwalker élargit fortement l’espace survivable ; elle ne rend pas l’utilisateur indépendant des lois physiques du monde qu’il explore."
+      ]
+    },
+    "Ghostbox D-10": {
+      "paragraphs": [
+        "La Ghostbox D-10 est un coffre-fort de données avant d’être un ordinateur. Son noyau blindé peut être physiquement retiré du réseau, conserve un historique matériel des accès et réclame plusieurs niveaux d’authentification lorsque la mission l’exige. L’objectif est moins d’accumuler de la puissance de calcul que de pouvoir expliquer qui a touché quoi, quand, et de couper proprement la connexion avant qu’une compromission se propage.",
+        "Lorsque la confidentialité l’emporte sur la récupération, l’effacement cryptographique peut rendre les données inutilisables sans nécessairement détruire le support. Cette rigueur ne lui donne pourtant aucune immunité particulière à l’Hologramme : une Ghostbox protège contre l’intrusion et la falsification informatiques ordinaires. Les opérations où la réalité elle-même peut réécrire la trace exigent les dispositifs TUC conçus pour cette menace, notamment Mnemosyne et la Chaîne invariante."
+      ]
+    },
+    "Forgelet F-2": {
+      "paragraphs": [
+        "Le Forgelet F-2 est un fabricateur de terrain destiné à empêcher une mission de s’arrêter pour un joint, un câble, une pièce mécanique ou un consommable conventionnel. À partir d’un stock de matière adapté et d’une bibliothèque de modèles signés, il produit ce qu’une équipe devrait autrement transporter en dizaines de références différentes, depuis l’outil simple jusqu’à certaines munitions ordinaires.",
+        "La bibliothèque est aussi un mécanisme de contrôle : les plans sensibles demandent l’autorisation correspondant à leur usage, et la machine ne fabrique que ce qu’elle sait construire avec la matière disponible. Elle excelle dans la logistique connue, pas dans l’alchimie. Matières exotiques, reliques, Calamitechnologie ou composants fondés sur un principe absent de ses modèles restent hors de sa portée, même si leur forme extérieure paraît simple."
+      ]
+    },
+    "Defensor": {
+      "paragraphs": [
+        "Le Defensor est l’arme de service emblématique de l’AIDH parce qu’il résout la plupart des problèmes ordinaires sans demander à l’agent de transporter une logistique de munitions terrestre. Son générateur de projectiles extrait et condense la matière d’une cartouche-source pour former chaque tir à la demande ; une réserve pratique d’environ 1 000 tirs suffit ainsi à faire oublier le geste répétitif du changement de chargeur lors d’une mission normale.",
+        "Cette autonomie ne signifie pas que l’arme appartient à celui qui la ramasse. Signature nanitique, biométrie et autorisations temporaires l’intègrent au système de confiance AIDH, tandis que sa mécanique est pensée pour rester disponible dans des conditions où une arme civile demanderait davantage d’entretien. Le Defensor est donc autant un terminal sécurisé de l’agent qu’un revolver : robuste, identifiable et difficile à séparer durablement de la chaîne logistique qui l’a délivré."
+      ]
+    },
+    "Praetor C-14": {
+      "paragraphs": [
+        "Le Praetor C-14 occupe l’espace entre l’arme de poing institutionnelle et le fusil d’intervention ouvertement militaire. Replié dans un sac ou une valise, il accompagne une équipe qui veut conserver une apparence relativement discrète jusqu’au moment où le volume de feu d’un Defensor ne suffit plus ; déployé, il devient une véritable carabine automatique de mission.",
+        "L’AIDH a travaillé autant sa signature que sa puissance : mécanique et émission thermique restent faibles pour une arme de ce niveau, ce qui convient aux opérations où la discrétion doit survivre au transport et aux premières minutes d’engagement. Le Praetor ne devient pas invisible pour autant. Une fois ouvert et utilisé, sa fonction militaire ne laisse guère de doute ; sa force est de retarder cette évidence jusqu’au moment choisi."
+      ]
+    },
+    "Custodian AR-9": {
+      "paragraphs": [
+        "Le Custodian AR-9 est le fusil standard d’une unité AIDH opérant sous atmosphère, conçu autour d’un générateur qui modifie le projectile produit plutôt que d’imposer plusieurs familles de chargeurs. Cette architecture donne à l’escouade une arme unique capable de passer d’un régime de feu soutenu à un tir beaucoup plus concentré contre une protection difficile, sans transformer chaque changement de mission en problème de magasinage.",
+        "Le choix du régime reste une décision du tireur, pas une adaptation magique de l’arme après l’impact. L’autonomie élevée provient de la réserve de matière et le mode le plus agressif la consomme davantage, ce qui maintient une logique logistique même lorsque les chargeurs ont disparu. Le Custodian illustre ainsi une constante AIDH : simplifier ce que l’agent transporte sans effacer les décisions tactiques qu’il doit encore prendre."
+      ]
+    },
+    "Long Watch SR-6": {
+      "paragraphs": [
+        "Le Long Watch SR-6 est un fusil de précision conçu pour que la distance ne protège plus automatiquement une cible blindée ou lourdement augmentée. Son optique fusionne thermique, lidar, mouvement, télémétrie et correction atmosphérique afin de fournir au tireur un tableau instrumental extrêmement riche, et peut conserver la signature technologique ou biométrique d’une cible déjà correctement acquise.",
+        "Cette puissance de lecture reste celle de capteurs matériels. Le Long Watch peut suivre ce qu’il sait percevoir, choisir un régime plus discret lorsque l’acoustique compte et préparer un tir dans des conditions où une lunette terrestre atteindrait vite ses limites. Il ne voit cependant pas spontanément au travers de l’Hologramme : contre une cible dont la Vérité est masquée, l’optique doit être complétée par un dispositif TUC approprié comme IRIS-0."
+      ]
+    },
+    "Cerberus HMG-3": {
+      "paragraphs": [
+        "Le Cerberus HMG-3 descend d’une tradition AIDH où l’arme lourde individuelle cesse d’être limitée par le poids de milliers de cartouches physiques. Une cartouche-source et une cellule dédiée alimentent une mitrailleuse capable de soutenir très longtemps un axe, mais l’économie de munitions ne fait pas disparaître la masse, le recul, le refroidissement ni l’encombrement de la plateforme elle-même.",
+        "C’est pourquoi le Cerberus se pense avec une exoarmure, un affût ou un porteur véritablement exceptionnel. Dans cet environnement, il devient une arme mobile et cohérente avec le reste du système AIDH ; hors de lui, il redevient une machine lourde qu’un corps ordinaire ne peut pas simplement traiter comme un fusil. Sa réserve immense change la logistique du feu, pas la physique du tireur."
+      ]
+    },
+    "Helios PR-8": {
+      "paragraphs": [
+        "L’Helios PR-8 représente la voie énergétique lourde de l’arsenal AIDH : un fusil plasma humain de haute technologie, plus compact et plus stable que beaucoup de pièces xénos importées que les équipes peuvent rencontrer sur Terre. Sa cellule scellée remplace toute logique de projectile physique et alimente une décharge pensée pour attaquer directement protections matérielles et cibles résistantes.",
+        "La stabilité n’abolit pas la chaleur. Après un usage intensif, le système doit évacuer l’énergie accumulée avant de retrouver son rythme maximal, ce qui fait du refroidissement une partie visible de la discipline de tir. L’Helios est donc sophistiqué sans être capricieusement exotique : sa technologie donne à l’AIDH un plasma utilisable par une force organisée, mais impose toujours les contraintes thermiques propres à ce qu’elle manipule."
+      ]
+    },
+    "Prometheus PX-2": {
+      "paragraphs": [
+        "Le Prometheus PX-2 n’est pas un fusil que l’on utilise pour choisir une cible parmi une foule. C’est un projecteur de plasma de courte portée destiné aux moments où l’AIDH veut traiter une masse, un essaim biologique ou une fortification dans son ensemble. Sa géométrie de projection et la quantité d’énergie mise en mouvement en font naturellement une pièce d’assaut plutôt qu’un outil de précision.",
+        "Cette brutalité impose une doctrine d’emploi stricte. En environnement confiné, l’espace qui reçoit la chaleur compte presque autant que la cible, et la surchauffe oblige l’équipe à penser en impulsions plutôt qu’en flux continu. Le Prometheus peut ouvrir, brûler ou interdire un volume avec une efficacité impressionnante ; il reste précisément pour cette raison une arme que l’on ne sort pas lorsque la discrétion ou la finesse sont encore des options."
+      ]
+    },
+    "Null Lance IE-4": {
+      "paragraphs": [
+        "La Null Lance IE-4 donne à une escouade AIDH un moyen de neutraliser une machine sans devoir systématiquement la pulvériser. Drones, armures assistées, véhicules légers et augmentations exposées peuvent être attaqués comme des systèmes : capteurs, mobilité, interface ou arme embarquée deviennent des fonctions que l’impact ionique cherche à rendre momentanément indisponibles.",
+        "Un régime réduit permet même de privilégier la perturbation sur la destruction matérielle lorsque récupérer la cible compte davantage que la casser. Cette spécialisation dessine aussi sa frontière : la Null Lance comprend l’électronique et les systèmes exposés, pas les âmes, les pactes ou la biologie pure. Une protection effectivement durcie contre ce vecteur reste une protection à vaincre normalement, pas une exception que le nom de l’arme annule."
+      ]
+    },
+    "Judicator RL-5": {
+      "paragraphs": [
+        "Le Judicator RL-5 appartient à la logistique des opérations où l’adversaire a la taille d’un véhicule, d’une fortification ou d’une créature suffisamment massive pour exiger une réponse dédiée. Son guidage inertiel et sa correction terminale peuvent exploiter une désignation transmise par les capteurs ou drones de l’escouade, faisant du lanceur la dernière étape d’une chaîne d’observation plutôt qu’une arme isolée.",
+        "L’ogive standard privilégie une réponse explosive ou cinétique prévisible ; les charges réellement spécialisées constituent des dotations distinctes et ne naissent pas du lanceur au moment du tir. Cette séparation explique pourquoi le Judicator n’est pas une arme personnelle ordinaire. Le tube peut être transporté par un agent, mais l’employer convenablement suppose une mission, une cible et une autorisation correspondant à la quantité de violence qu’il délivre."
+      ]
+    },
+    "Blackstar GR-1": {
+      "paragraphs": [
+        "La Blackstar GR-1 se situe à la frontière entre arsenal et programme stratégique. Chaque ogive enferme une masse exotique maintenue dans un confinement assez stable pour être transportée puis libérée brièvement à l’impact, créant une anomalie gravitationnelle qui transforme pendant un instant la stabilité d’une zone en variable tactique.",
+        "L’AIDH traite donc chaque charge comme un matériel suivi, stocké et autorisé individuellement plutôt que comme une simple roquette haut de gamme. Le terme Blackstar nourrit facilement des fantasmes de trou noir miniature ; la réalité opérationnelle est plus contrôlée et plus limitée. L’anomalie est brève, reste soumise aux protections et ne fournit aucune prise spéciale sur une entité immatérielle qui n’a pas d’abord été rendue accessible."
+      ]
+    },
+    "Ward M-6": {
+      "paragraphs": [
+        "Le Ward M-6 est le couteau de service d’une civilisation qui considère câbles renforcés, composites et panneaux techniques comme des obstacles ordinaires du terrain. Son fil de coupe est entretenu par un champ actif, ce qui en fait autant un outil de brèche compact qu’une arme de contact et explique sa place dans l’équipement d’équipes qui préfèrent ne pas sortir une machine lourde pour chaque ouverture.",
+        "Le système se désactive hors d’une prise autorisée, limitant le risque qu’une lame perdue conserve toutes ses capacités entre n’importe quelles mains. Malgré sa finesse, le Ward reste profondément matériel : il excelle à séparer de la matière, pas à convaincre une protection spirituelle qu’elle est un composite. Face à l’immatériel ou au surnaturel, il faut toujours un moyen explicitement adapté à ce plan d’interaction."
+      ]
+    },
+    "Breacher B-9": {
+      "paragraphs": [
+        "Le Breacher B-9 est une lame d’assaut conçue pour travailler avec la force d’une armure assistée. Sa masse, son ancrage et son assistance mécanique servent à transmettre dans une porte, une coque ou une protection matérielle un effort qu’un couteau mono-moléculaire ne pourrait pas fournir de la même manière. Entre les mains d’une unité blindée, elle devient un outil d’ouverture aussi naturel qu’une arme de contact.",
+        "Cette relation au porteur est essentielle à son identité. Le Breacher n’est pas une épée extraordinairement légère que n’importe qui peut récupérer et manier à pleine capacité : son profil suppose la servomécanique ou une puissance physique équivalente. L’assistance permet d’accomplir le geste prévu, elle ne crée ni temps supplémentaire ni attaque gratuite ; l’utilisateur doit toujours consacrer son action à ce qu’il frappe ou ouvre."
+      ]
+    },
+    "Second Skin": {
+      "paragraphs": [
+        "Second Skin est l’armure AIDH de ceux qui doivent pouvoir entrer dans une pièce sans annoncer visuellement qu’ils appartiennent à une force capable d’y mener un assaut. La sous-combinaison nanofibrée se porte sous des vêtements ordinaires, épouse le corps et conserve suffisamment de souplesse pour qu’une silhouette civile reste crédible tant que l’équipement extérieur ne la trahit pas.",
+        "Sa construction apporte aussi une première barrière contre gaz, projections biologiques et contamination atmosphérique, avec un auto-colmatage capable de refermer une petite perforation de la tenue. Ce comportement entretient parfois l’illusion d’un vêtement qui répare son porteur ; il ne fait rien de tel. Second Skin maintient l’intégrité de sa propre enveloppe et protège ce qui se trouve dessous, mais une blessure reste une blessure à traiter."
+      ]
+    },
+    "Vesper Recon": {
+      "paragraphs": [
+        "Vesper Recon est une armure d’observation conçue pour rester utile avant le premier tir. Faible signature, articulations silencieuses, refroidissement optimisé et Omnispectre intégré permettent à son porteur de se placer, observer et transmettre sans devoir choisir entre une combinaison de protection et un ensemble de capteurs séparés. La liaison native au Wisp complète naturellement cette logique d’éclaireur distribué.",
+        "Son occultation active travaille avec l’environnement plutôt que contre lui : couleurs, contraste et signature thermique sont ajustés pour rendre une silhouette plus difficile à isoler tant qu’elle reste mesurée dans ses mouvements. Une course brutale ou une action offensive détruit rapidement cette délicatesse, et aucune optimisation de surface ne trompe par principe une perception surnaturelle. Vesper réduit les signatures que l’AIDH sait modéliser ; elle ne produit pas une invisibilité universelle."
+      ]
+    },
+    "Urgent Matter": {
+      "paragraphs": [
+        "Urgent Matter est l’image classique de l’agent AIDH lorsque la discrétion n’est plus la priorité : casque, plastron, membres, gants et bottes forment une enveloppe hermétique et servomotorisée capable d’accompagner un combattant dans un environnement contaminé ou un échange où une tenue civile n’a plus rien à offrir. Hors intervention, l’ensemble se replie dans un conditionnement spécialisé afin de rester transportable jusqu’au point de déploiement.",
+        "La sophistication de la servomécanique évite que la masse de l’armure transforme automatiquement chaque mouvement en lutte contre son propre équipement. Réseau, filtres, réserve d’air et interfaces d’armes font de la combinaison une plateforme complète plutôt qu’un simple empilement de plaques. Cela reste néanmoins une protection matérielle : esprit, Corruption, possession ou attaques qui ignorent explicitement la matière ne sont pas arrêtés parce que le porteur est enfermé dans une excellente armure."
+      ]
+    },
+    "Bastion": {
+      "paragraphs": [
+        "La Bastion AIDH est une exoarmure d’assaut ouverte conçue pour les opérations où l’échelle humaine ordinaire n’est plus une référence suffisante. Sa servomusculature, son alimentation et ses appuis permettent de déplacer et employer des armes qui demanderaient autrement un affût, un équipage ou un porteur exceptionnel, tandis que capteurs, refroidissement et réserve environnementale maintiennent l’opérateur au cœur de la plateforme.",
+        "Cette puissance ne cherche pas à se faire oublier. Bastion est volumineuse, visible et adaptée aux interventions ouvertes ; son verrou inertiel peut même la solidariser à un sol ou une structure préparée lorsque tenir une position compte davantage que bouger. La machine assiste les efforts pour lesquels elle a été construite, notamment l’armement lourd, mais elle ne transforme pas abstraitement toutes les capacités physiques de son porteur en valeurs surhumaines."
+      ]
+    }
+  }
+}
