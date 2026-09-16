@@ -32,8 +32,10 @@ on:
       - 'scripts/refine-reality-talent-page-granularity.mjs'
       - 'scripts/integrate-reality-book-v8-setting-v1.mjs'
       - 'scripts/consolidate-reality-v8-legacy-v1.mjs'
+      - 'scripts/consolidate-reality-v8-dataset-v1.mjs'
       - 'scripts/audit-reality-v8-legacy.mjs'
       - 'scripts/audit-reality-v8-dataset-v1.mjs'
+      - 'scripts/audit-reality-v8-catalog-coverage-v1.mjs'
       - 'scripts/audit-truth-v6-mechanics-overlap.mjs'
       - 'scripts/audit-truth-legacy-relics.mjs'
       - 'scripts/audit-truth-final-cleanup.mjs'
@@ -56,6 +58,7 @@ on:
       - 'compendium/tests/reality-talent-granularity-check.mjs'
       - 'compendium/tests/reality-book-v8-setting-check.mjs'
       - 'compendium/tests/reality-v8-legacy-consolidation-check.mjs'
+      - 'compendium/tests/reality-v8-dataset-consolidation-check.mjs'
       - 'compendium/tests/truth-lore-mechanics-clean-check.mjs'
       - 'compendium/tests/truth-lore-priority-check.mjs'
       - 'compendium/tests/truth-lore-exiles-check.mjs'
@@ -124,6 +127,8 @@ jobs:
         run: node scripts/integrate-reality-book-v8-setting-v1.mjs
       - name: Consolidate Reality V8 legacy daily lore
         run: node scripts/consolidate-reality-v8-legacy-v1.mjs
+      - name: Consolidate Reality V8 dataset layer
+        run: node scripts/consolidate-reality-v8-dataset-v1.mjs
       - name: Build hierarchical category navigation
         run: node scripts/build-compendium-navigation.mjs
       - name: Validate V3 manifest
@@ -136,6 +141,8 @@ jobs:
         run: node compendium/tests/reality-book-v8-setting-check.mjs
       - name: Validate Reality V8 legacy consolidation
         run: node compendium/tests/reality-v8-legacy-consolidation-check.mjs
+      - name: Validate final Reality V8 dataset
+        run: node compendium/tests/reality-v8-dataset-consolidation-check.mjs
       - name: Validate Truth lore mechanics cleanup
         run: node compendium/tests/truth-lore-mechanics-clean-check.mjs
       - name: Validate priority Truth lore
