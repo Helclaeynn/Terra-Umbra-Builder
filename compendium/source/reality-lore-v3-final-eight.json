@@ -78,6 +78,118 @@
         "Un service juridique fournit du conseil et de la représentation dans une affaire réelle. Il s’agit d’une compétence professionnelle mobilisée pour une situation précise, souvent fournie ou organisée par une institution plutôt que d’un avantage générique attaché au personnage.",
         "Dans un cadre corporatiste, l’avantage Service juridique donne une assistance légale pour les affaires relevant réellement du travail. L’étendue de l’aide dépend donc du dossier, du cadre institutionnel et du domaine dans lequel la représentation est effectivement assurée."
       ]
+    },
+    "Holophone": {
+      "source": "Catalogue Réalité du Builder — Objets usuels & Neurodive",
+      "paragraphs": [
+        "Le Holophone est le terminal personnel courant d’accès au Holonet. Il concentre communications, applications et services usuels autour de NavIA, ce qui en fait à la fois un téléphone, un portefeuille de services et une porte d’entrée vers l’environnement numérique quotidien.",
+        "Son intérêt vient surtout de cette centralisation : un même appareil sert à communiquer, consulter le réseau, utiliser ses applications et exploiter les fonctions de navigation associées. Il reste néanmoins un équipement connecté, donc dépendant de l’accès au réseau et exposé aux risques propres aux systèmes numériques."
+      ]
+    },
+    "Hololentilles": {
+      "source": "Catalogue Réalité du Builder — Objets usuels & Neurodive",
+      "paragraphs": [
+        "Les Hololentilles projettent directement des informations et éléments de réalité augmentée dans le champ de vision de l’utilisateur. Elles offrent un affichage optique temporaire sans exiger d’implant permanent et servent autant à consulter des données qu’à superposer une interface à l’environnement réel.",
+        "Cette proximité avec la perception a un revers : usage intensif, surcharge d’informations ou compromission du système peuvent devenir particulièrement gênants. Elles ne remplacent pas les sens naturels ; elles ajoutent une couche visuelle dont la fiabilité dépend du dispositif, de son alimentation et de sa sécurité."
+      ]
+    },
+    "IDpass": {
+      "source": "Catalogue Réalité du Builder — Objets usuels & Neurodive",
+      "paragraphs": [
+        "L’IDpass est un support d’identité et d’autorisation autonome destiné aux situations où un Holophone n’est pas utilisé ou ne doit pas servir de justificatif. Il permet de présenter les informations nécessaires à un contrôle de présence, d’accès ou d’identité sans dépendre du terminal personnel principal.",
+        "Son utilité est donc administrative et pratique plutôt que technique : il matérialise une identité exploitable par les systèmes qui l’acceptent. La possession de l’IDpass ne garantit pas qu’une autorisation soit valide ; elle fournit seulement le support prévu pour la présenter et la vérifier."
+      ]
+    },
+    "Byron Zippo": {
+      "source": "Catalogue Réalité du Builder — Objets usuels & Neurodive",
+      "paragraphs": [
+        "Le Byron Zippo est un briquet autorégénérant conçu pour conserver durablement sa fonction de petite source de flamme. Son intérêt tient moins à la puissance qu’à la disponibilité : allumer, chauffer ponctuellement ou amorcer un matériau combustible reste possible sans dépendre d’un consommable ordinaire immédiatement disponible.",
+        "Il demeure un outil de poche, pas un dispositif incendiaire. Sa flamme sert aux usages qu’un briquet peut réellement accomplir et sa technologie autorégénérante améliore surtout l’endurance de l’objet, sans lui donner la portée ou la puissance d’un équipement spécialisé."
+      ]
+    },
+    "Projecteur holographique": {
+      "source": "Catalogue Réalité du Builder — Objets usuels & Neurodive",
+      "paragraphs": [
+        "Un projecteur holographique crée une projection locale utilisable pour présenter des informations, des modèles ou d’autres contenus visuels dans l’espace proche. Il sert notamment de support aux fichiers et contenus DFL lorsqu’un affichage partagé est préférable à une consultation individuelle.",
+        "La projection reste liée au volume et aux capacités physiques de l’appareil : elle affiche, elle ne transforme pas matériellement l’environnement. Sa valeur vient donc de la visualisation collective, de la préparation et de la lecture de contenus plutôt que d’un effet de dissimulation ou d’illusion universel."
+      ]
+    },
+    "Essaim de microbots": {
+      "source": "Catalogue Réalité du Builder — Objets usuels & Neurodive",
+      "paragraphs": [
+        "Un essaim de microbots rassemble de très petites unités capables d’inspecter des zones difficiles d’accès et d’effectuer des manipulations fines. Selon l’outillage embarqué, il peut soutenir une opération de maintenance, examiner un mécanisme ou intervenir là où des mains ou des outils classiques seraient trop encombrants.",
+        "L’essaim n’est pas un atelier autonome : ses possibilités dépendent directement des outils dont les microbots disposent et de la tâche demandée. Il excelle dans la précision et l’accès, mais ne remplace ni les pièces nécessaires, ni les compétences de diagnostic, ni l’équipement lourd lorsqu’une réparation l’exige."
+      ]
+    },
+    "Drone civil": {
+      "source": "Catalogue Réalité du Builder — Objets usuels & Neurodive",
+      "paragraphs": [
+        "Le drone civil couvre une famille d’appareils autonomes ou téléopérés destinés à l’observation, au transport léger ou à l’assistance. Le rôle exact dépend du modèle : certains privilégient les capteurs, d’autres la manutention ou une présence mobile capable d’accompagner une activité courante.",
+        "Disposer d’un drone ajoute un outil mobile, pas du temps d’action supplémentaire au personnage. Il agit dans les limites de son équipement, de son autonomie et de ses commandes ; lorsqu’une tâche dépasse ses capteurs, sa charge utile ou sa programmation, il ne peut pas la résoudre par simple présence."
+      ]
+    },
+    "Serrure intelligente": {
+      "source": "Catalogue Réalité du Builder — Objets usuels & Neurodive",
+      "paragraphs": [
+        "Une serrure intelligente contrôle l’accès à une porte ou un compartiment au moyen d’un système connecté. Elle peut reconnaître les autorisations prévues par l’installation et s’intégrer à la sécurité d’un logement, d’un local ou d’un équipement plutôt que de fonctionner comme une simple clé mécanique.",
+        "Son niveau de protection dépend pourtant de l’ensemble dans lequel elle est installée : qualité du verrouillage, alimentation, réseau, configuration et sécurité du système comptent tous. Une serrure sophistiquée montée sur un accès faible ou mal administré ne transforme pas à elle seule le lieu en zone sécurisée."
+      ]
+    },
+    "Relais Holonet portable": {
+      "source": "Catalogue Réalité du Builder — Objets usuels & Neurodive",
+      "paragraphs": [
+        "Le relais Holonet portable sert à étendre ou à établir localement un accès au réseau lorsqu’une connexion directe est insuffisante ou mal placée. Il fournit un point de relais transportable autour duquel plusieurs équipements peuvent retrouver une connectivité exploitable.",
+        "Il améliore la couverture locale, pas l’existence d’une infrastructure amont. Si aucun réseau utilisable n’est accessible au relais, celui-ci ne crée pas magiquement une liaison vers le Holonet ; son intérêt est de transporter, redistribuer ou rapprocher une connexion réellement disponible."
+      ]
+    },
+    "Scanner portable": {
+      "source": "Catalogue Réalité du Builder — Objets usuels & Neurodive",
+      "paragraphs": [
+        "Le scanner portable rassemble plusieurs capteurs dans un appareil transportable afin d’examiner un objet, un lieu ou un phénomène. Il fournit des mesures exploitables lorsque ses capteurs correspondent réellement à ce qui doit être observé et permet d’appuyer un diagnostic sur autre chose qu’une simple inspection visuelle.",
+        "Sa polyvalence ne signifie pas qu’il détecte tout. Un test n’est possible que si l’appareil peut physiquement mesurer l’information recherchée et si les conditions permettent une lecture correcte ; l’interprétation des données reste ensuite liée aux compétences et connaissances de l’utilisateur."
+      ]
+    },
+    "Imprimante polymere": {
+      "source": "Catalogue Réalité du Builder — Objets usuels & Neurodive",
+      "paragraphs": [
+        "L’imprimante polymère fabrique des pièces simples à partir d’une matière compatible et d’un plan approprié. Elle est utile pour produire sur place des composants courants, des formes de remplacement ou de petits éléments techniques sans dépendre immédiatement d’une chaîne logistique extérieure.",
+        "Elle ne peut toutefois imprimer que ce que son procédé, sa matière et le plan fourni permettent réellement de fabriquer. Une pièce complexe, un matériau absent ou un mécanisme dépassant ses capacités exige toujours un équipement adapté ; l’imprimante accélère la fabrication simple, elle ne remplace pas un atelier complet."
+      ]
+    },
+    "Scanner 3D": {
+      "source": "Catalogue Réalité du Builder — Objets usuels & Neurodive",
+      "paragraphs": [
+        "Le scanner 3D acquiert la forme d’un objet afin d’en produire une représentation exploitable pour la modélisation ou la fabrication. Il sert à relever des volumes, préparer un modèle ou fournir une base de travail lorsqu’une reproduction ou une adaptation doit partir d’un objet existant.",
+        "Il capture une géométrie, pas automatiquement la fonction complète de ce qu’il observe. Les matériaux, mécanismes internes, tolérances et propriétés invisibles doivent encore être connus ou étudiés séparément avant qu’un modèle puisse devenir une pièce réellement fonctionnelle."
+      ]
+    },
+    "Kit medical": {
+      "source": "Catalogue Réalité du Builder — Objets usuels & Neurodive",
+      "paragraphs": [
+        "Le kit médical regroupe le matériel nécessaire aux gestes de premiers soins et à la stabilisation d’un blessé. Il fournit les consommables et outils adaptés pour traiter une urgence immédiate lorsque la compétence médicale de l’intervenant permet d’agir correctement.",
+        "Il est conçu pour maintenir, protéger et préparer une prise en charge, pas pour remplacer une clinique ou une chirurgie. Les blessures qui demandent une intervention lourde, un suivi ou un matériel spécialisé dépassent ses capacités même si les premiers gestes ont été correctement réalisés."
+      ]
+    },
+    "Kit technique": {
+      "source": "Catalogue Réalité du Builder — Objets usuels & Neurodive",
+      "paragraphs": [
+        "Le kit technique rassemble les outils nécessaires à la maintenance et aux réparations courantes. Il permet d’ouvrir, tester, ajuster ou remettre en état un équipement standard lorsque la panne reste dans le domaine d’un entretien de terrain ou d’atelier léger.",
+        "Le kit ne fournit ni les pièces rares ni les machines spécialisées qu’exige une réparation lourde. Il donne les moyens matériels d’intervenir sur un problème accessible, mais le diagnostic, la qualité de la réparation et les limites de l’équipement restent déterminés par la situation et la compétence du technicien."
+      ]
+    },
+    "Cyberconsole Neurodive": {
+      "source": "Catalogue Réalité du Builder — Objets usuels & Neurodive",
+      "paragraphs": [
+        "La Cyberconsole Neurodive est une interface externe portable permettant de charger et d’employer des Neuroprogrammes sans disposer d’un implant neural dédié. Elle sert de poste de travail pour accéder aux outils logiciels du Neurodive depuis un équipement distinct du corps de l’utilisateur.",
+        "Elle ne confère aucun Rang supplémentaire et ne contourne pas les limites propres à celui qui l’utilise. Un Unsinkable peut s’en servir comme terminal informatique ordinaire, mais son incompatibilité avec l’immersion demeure : la console ne lui permet pas de plonger dans le Neurodive."
+      ]
+    },
+    "Kit hardline": {
+      "source": "Catalogue Réalité du Builder — Objets usuels & Neurodive",
+      "paragraphs": [
+        "Le kit hardline réunit les câbles et adaptateurs nécessaires à une connexion physique directe avec un système compatible. Il devient utile lorsqu’un accès matériel existe réellement et qu’une liaison filaire est préférable ou nécessaire à une connexion sans fil.",
+        "Il ne crée pas un port là où aucun accès matériel n’existe et ne neutralise pas à lui seul la sécurité du système. Son rôle est de rendre possible la liaison physique ; ce qui peut ensuite être fait avec cette connexion dépend de la machine, de ses protections et des compétences de l’utilisateur."
+      ]
     }
   }
 }
