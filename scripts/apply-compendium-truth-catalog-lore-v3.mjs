@@ -5,7 +5,8 @@ import crypto from 'node:crypto';
 const DATA='compendium/data';
 const MANIFEST=`${DATA}/manifest-v3.json`;
 const SOURCES=[
-  'compendium/source/truth-lore-v3-curated-aidh-field.json'
+  'compendium/source/truth-lore-v3-curated-aidh-field.json',
+  'compendium/source/truth-lore-v3-curated-aidh-tuc.json'
 ];
 const FRAGMENT_SIZE=8000;
 const clean=value=>String(value??'').trim().replace(/\s+/g,' ');
