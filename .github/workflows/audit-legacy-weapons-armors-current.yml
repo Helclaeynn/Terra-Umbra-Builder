@@ -1,0 +1,20 @@
+name: Audit legacy weapons and armors
+
+on:
+  push:
+    branches:
+      - feature/reintegrate-legacy-weapons-armors
+    paths:
+      - 'scripts/audit-legacy-weapons-armors-current.mjs'
+      - '.github/workflows/audit-legacy-weapons-armors-current.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Compare legacy labels against current Builder catalog
+        run: node scripts/audit-legacy-weapons-armors-current.mjs
