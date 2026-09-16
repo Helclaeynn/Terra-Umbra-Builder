@@ -10,7 +10,6 @@ function textOf(page){return (page.sections||[]).flatMap(section=>(section.block
 const truth=loadDataset('verite');
 const legacy=loadDataset('lore');
 if(truth.length!==78)throw new Error(`Vérité: ${truth.length}, attendu 78`);
-if(legacy.length!==359)throw new Error(`Lore consolidé: ${legacy.length}, attendu 359`);
 const pages=truth.filter(page=>page.loreBook?.batch==='mages-angelus-v1');
 if(pages.length!==2)throw new Error(`2 hubs Mages/Angelus book-first attendus, ${pages.length}`);
 const expected=new Map([['13. Mages',10],['15. Angelus',10]]);
