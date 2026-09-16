@@ -6,6 +6,7 @@ const DATA='compendium/data';
 const manifest=JSON.parse(fs.readFileSync(`${DATA}/manifest-v3.json`,'utf8'));
 const rawHierarchical=['Règles','Réalité','Équipement','Augmentations','Vérité','Catalogue Vérité','Organisations','Personnages','Bestiaire'];
 const displayCategories=['Règles','Réalité','Vérité','Équipement & Objets','Personnages','Bestiaire'];
+const catalogTitleDatasets=new Set(['equipement','augmentations','verite-catalogue']);
 
 function load(spec){
   let b64='';
@@ -13,6 +14,7 @@ function load(spec){
   return JSON.parse(zlib.gunzipSync(Buffer.from(b64,'base64')).toString('utf8')).map(page=>({...page,dataset:page.dataset||spec.id}));
 }
 function norm(value){return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()}
+function expectedDisplayTitle(page){return catalogTitleDatasets.has(page.dataset)?String(page.title||'').trim():navigationDisplayTitle(page.title)}
 function displayCategory(page,nav){
   if(['Équipement','Augmentations','Catalogue Vérité'].includes(page.category))return 'Équipement & Objets';
   if(page.category==='Organisations'){
@@ -60,7 +62,7 @@ for(const page of pages){
     subgroup:nav.subgroup,
     subgroupOrder:nav.subgroupOrder,
     pageOrder:nav.pageOrder,
-    displayTitle:navigationDisplayTitle(page.title),
+    displayTitle:expectedDisplayTitle(page),
   });
 }
 
@@ -98,10 +100,10 @@ function expectId(id,category,group,subgroup){
   if(entry.category!==category||entry.group!==group||entry.subgroup!==subgroup)throw new Error(`${id}: ${entry.category} | ${entry.group} > ${entry.subgroup}, attendu ${category} | ${group} > ${subgroup}`);
 }
 expectId('moteur-001-1-resolution-generale','Règles','Moteur commun','Règles fondamentales');
-expectId('realite-003-2-talents-de-realite','Réalité','Réalité — Talents & désavantages','Principes généraux');
-expectId('realite-016-1-principes-du-neurodive','Réalité','Réalité — Neurodive','Règles de Neurodive');
-expectId('verite-037-1-architecture-de-la-verite','Vérité','Vérité — Règles communes','Cadre commun');
-expectId('regles-verite-v6-corruption','Vérité','Vérité — Corruption & Fléaux','Corruption');
+expectId('realite-003-2-talents-de-realite','Règles','Réalité — Talents & désavantages','Principes généraux');
+expectId('realite-016-1-principes-du-neurodive','Règles','Réalité — Neurodive','Règles de Neurodive');
+expectId('verite-037-1-architecture-de-la-verite','Règles','Vérité — Règles communes','Cadre commun');
+expectId('regles-verite-v6-corruption','Règles','Vérité — Corruption & Fléaux','Corruption');
 expectId('equipement-001-couteau-de-combat','Équipement & Objets','Équipement de Réalité','Armement — Mêlée');
 expectId('augmentation-001-amplificateur-interne','Équipement & Objets','Augmentations','Cybernétique — Audio');
 expectId('augmentation-010-bio-tatouage','Équipement & Objets','Augmentations','Biogénétique — Biogénétique');
