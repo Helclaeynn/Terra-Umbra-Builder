@@ -1,0 +1,167 @@
+{
+  "source": "TUC Réalité V8 — armes de mêlée, de trait, tasers et armes de poing ; reprise manuelle complète",
+  "entries": {
+    "Couteau de combat": {
+      "paragraphs": [
+        "Le Couteau de combat reste l’une des rares armes dont l’usage ne dépend d’aucune batterie, interface ou munition propriétaire. Sa valeur vient d’une géométrie robuste, d’un étui correct et d’un entretien simple, ce qui en fait autant un outil de terrain qu’une arme de dernier recours.",
+        "Dans la Grande Californie saturée d’électronique, cette simplicité a presque quelque chose de volontairement archaïque. Militaires, agents de sécurité, techniciens et survivalistes peuvent employer des modèles très différents, mais tous recherchent la même chose : une lame disponible immédiatement et compréhensible par n’importe quel utilisateur formé."
+      ]
+    },
+    "Owl KA-73 Last Encounter": {
+      "paragraphs": [
+        "Le KA-73 Last Encounter illustre le goût d’Owl pour les solutions de terrain sobres et endurantes. C’est une arme de contact conçue pour supporter les manipulations brutales, les chocs et le manque d’entretien mieux qu’un modèle plus sophistiqué dont l’électronique deviendrait son premier point faible.",
+        "Son nom de Last Encounter vise clairement le moment où la distance et les options ont disparu. On le retrouve donc naturellement auprès d’utilisateurs qui veulent une arme de secours crédible plutôt qu’un objet de prestige : sécurité privée, opérateurs isolés ou professionnels pour qui la continuité de service compte davantage que l’effet spectaculaire."
+      ]
+    },
+    "Phoenix PCK-08 Feather": {
+      "paragraphs": [
+        "Le PCK-08 Feather appartient à la face la plus technologique de Phoenix : une arme de contact compacte dont le tranchant assisté cherche à conserver une coupe nette malgré un format léger. La silhouette et le nom vendent la finesse, mais l’objet reste un véritable outil offensif qui demande entretien et alimentation adaptés.",
+        "Le Feather trouve sa place auprès d’utilisateurs qui veulent une lame moderne sans porter une arme longue ou ouvertement militaire. Sa technologie améliore le comportement du tranchant contre la matière et limite certaines conséquences physiques de la coupe, mais elle ne transforme ni le geste ni le porteur en combattant surnaturel."
+      ]
+    },
+    "Phoenix BA-037 Sun Axe": {
+      "paragraphs": [
+        "La BA-037 Sun Axe transpose la philosophie Phoenix dans une arme plus lourde : une tête de hache assistée technologiquement, faite pour concentrer l’effort sur une zone de matière réduite. Là où le Feather mise sur la finesse, la Sun Axe assume une silhouette de brèche et une présence impossible à confondre avec un simple outil domestique.",
+        "Ce type d’arme attire autant les amateurs de matériel spectaculaire que les professionnels qui ont réellement besoin de frapper une protection, une porte ou un obstacle à courte distance. Son assistance énergétique reste toutefois une technologie matérielle : elle ne confère aucune propriété mystique au coup porté."
+      ]
+    },
+    "Raven CL-038 Claymore": {
+      "paragraphs": [
+        "La CL-038 Claymore reprend la silhouette volontairement intimidante d’une grande lame et y ajoute la spécialité électronique que Raven décline sur une partie de son matériel d’intervention. Le résultat est une arme de contact pensée autant pour menacer un adversaire que pour rester pertinente face à de l’équipement moderne exposé.",
+        "Dans la gamme Raven, la Claymore évoque moins le duel élégant que l’outil de force destiné à une équipe lourde, un agent de sécurité ou un opérateur qui sait qu’il peut devoir combattre au milieu de drones, capteurs et interfaces. Son caractère EMP reste strictement technologique et ne vaut jamais comme propriété anti-magique."
+      ]
+    },
+    "Raven SP-016 Raven Spear": {
+      "paragraphs": [
+        "La SP-016 Raven Spear exploite l’allonge d’une arme d’hast tout en conservant la logique Raven de perturbation des équipements modernes. Son format tient l’adversaire à distance et donne à la tête de l’arme assez de masse et de structure pour travailler contre des protections ou des dispositifs accessibles.",
+        "C’est une pièce encombrante pour la vie civile mais cohérente dans une unité préparée, un périmètre de sécurité ou une opération où l’on peut assumer le port d’une arme longue. Sa combinaison de pénétration matérielle et d’effet EMP la rend spécialisée contre le monde technique, pas contre toutes les menaces indistinctement."
+      ]
+    },
+    "Raven TM-028 Riot Control": {
+      "paragraphs": [
+        "Le TM-028 Riot Control porte dans son nom sa vocation : un outil Raven destiné aux interventions où la maîtrise d’une personne et de son équipement compte davantage qu’une mise à mort immédiate. Sa conception robuste et sa composante électrique le rapprochent des matériels de police et de sécurité lourde plutôt que des armes de duel.",
+        "Dans une mégapole où un suspect peut porter implants, capteurs et interfaces, une arme de contrôle moderne doit pouvoir perturber plus qu’un corps. Cela explique la place du TM-028 dans la gamme Raven, sans pour autant lui donner une autorité particulière sur un phénomène non électronique ou surnaturel."
+      ]
+    },
+    "Owl TS-009 Sun Wukong": {
+      "paragraphs": [
+        "Le TS-009 Sun Wukong est une arme longue d’Owl qui mise sur l’allonge et la fiabilité plutôt que sur un empilement d’assistances électroniques. Sa présence renvoie à une famille de matériels où la mécanique doit rester lisible, réparable et suffisamment robuste pour supporter un usage physique répété.",
+        "Cette sobriété en fait une arme appréciable dans les environnements où une panne logicielle ou une batterie vide serait plus dangereuse qu’un manque de sophistication. Le nom et la forme donnent au modèle une identité très marquée, mais son efficacité reste celle d’un bon outil de mêlée manié par quelqu’un qui sait l’utiliser."
+      ]
+    },
+    "Phoenix PW-026 Vampire Killer": {
+      "paragraphs": [
+        "La PW-026 Vampire Killer est l’un des meilleurs exemples du marketing agressif de Phoenix : le nom promet une arme presque mythologique, alors que le modèle de Réalité demeure une arme matérielle à tranchant assisté, conçue pour attaquer durement une protection et conserver une coupe propre.",
+        "Le surnom fait vendre auprès d’une clientèle fascinée par les légendes urbaines autant qu’il construit une image de gamme. Sans préparation, matériau ou propriété de Vérité ajoutée ailleurs, une Vampire Killer n’est pas davantage anti-Vampire qu’un autre outil moderne ; son avantage vient de sa conception physique et de sa technologie, pas de son nom."
+      ]
+    },
+    "Raven MC-025 Hitman": {
+      "paragraphs": [
+        "Le MC-025 Hitman est une arme Raven de proximité qui privilégie une attaque concentrée contre la matière plutôt qu’un volume ou un effet de zone. Son format allongé laisse davantage d’espace au geste et au contrôle qu’une simple lame de poche, tout en restant plus portable qu’une arme d’hast complète.",
+        "Le nom vise clairement les professionnels et les acheteurs attirés par une esthétique d’efficacité froide. Dans la pratique, le Hitman reste un outil spécialisé dont l’intérêt tient à sa capacité à travailler une protection matérielle ; il n’accorde ni discrétion automatique ni compétence d’assassin à celui qui le porte."
+      ]
+    },
+    "Owl LC-014 Chasseur": {
+      "paragraphs": [
+        "Le LC-014 Chasseur est un lanceur de trait Owl à tir choisi, conçu pour délivrer un projectile avec peu de complexité électronique. Son architecture intéresse les utilisateurs qui veulent une arme silencieuse par nature mécanique, capable de travailler une protection matérielle sans la signature d’une arme à feu classique.",
+        "Le mot Chasseur appartient ici au nom commercial et à l’imaginaire du modèle. Dans la Réalité, l’arme ne reçoit aucune efficacité surnaturelle intrinsèque ; les usages de Chasse véritables dépendent de projectiles, préparations ou doctrines spécifiques décrites ailleurs, pas du simple fait de posséder ce LC-014."
+      ]
+    },
+    "SeaWares HL-02 Poseidon": {
+      "paragraphs": [
+        "Le HL-02 Poseidon est un lanceur de trait SeaWares pensé dès l’origine pour rester utilisable dans l’eau. Étanchéité, prise en main et fonctionnement mécanique privilégient un milieu où une arme terrestre ordinaire devient vite encombrante, imprécise ou simplement inutilisable.",
+        "Le Poseidon évoque naturellement un lanceur de harpon moderne destiné aux plongeurs, équipes portuaires ou opérations aquatiques spécialisées. Sa capacité à fonctionner sous l’eau ne lui donne aucune supériorité universelle à terre : elle reflète surtout le savoir-faire SeaWares dans un environnement que d’autres fabricants traitent comme une exception."
+      ]
+    },
+    "Raven JL-014 Cuchulainn": {
+      "paragraphs": [
+        "Le JL-014 Cuchulainn est une arme de jet Raven qui associe une forme simple et immédiatement compréhensible à des effets techniques dirigés contre la matière et l’électronique. Cette combinaison en fait un objet inhabituel dans une gamme moderne : le projectile doit être physiquement lancé avant que sa technologie ait la moindre utilité.",
+        "Le choix d’un nom héroïque contraste avec une conception très pragmatique. L’arme intéresse surtout les opérateurs qui acceptent l’entraînement nécessaire à un projectile réutilisable ou spécialisé ; son effet EMP reste lié à ce qu’elle atteint réellement et ne remplace ni une arme à distance classique ni un pouvoir surnaturel."
+      ]
+    },
+    "Tala TH-029 Tomahawk": {
+      "paragraphs": [
+        "Le TH-029 Tomahawk de Tala assume une double identité d’arme de main et de jet. Sa conception robuste lui permet de rester utile après le lancer et de conserver une vraie fonction au contact, ce qui correspond bien à un outil que l’on emporte pour sa polyvalence plutôt que pour une seule séquence idéale.",
+        "Tala mise ici sur une forme culturelle immédiatement reconnaissable sans sacrifier la fabrication moderne. Le modèle attire les utilisateurs qui veulent un projectile récupérable et une arme de mêlée dans le même objet ; sa pénétration reste toutefois une propriété matérielle, non une permission d’ignorer n’importe quelle protection."
+      ]
+    },
+    "Owl MB-014 Bolas monofilament": {
+      "paragraphs": [
+        "Le MB-014 d’Owl reprend le principe ancien des bolas en remplaçant la simple corde par une liaison monofilament beaucoup plus dangereuse. Le projectile cherche d’abord à envelopper ou couper ce qu’il rencontre, ce qui exige une maîtrise réelle du lancer et une conscience aiguë de l’espace autour de la cible.",
+        "C’est une arme spécialisée, difficile à confondre avec un accessoire de maintien de l’ordre ordinaire. Son intérêt vient de la combinaison entre géométrie de lancer et matériau de coupe ; le monofilament n’est pas magique, reste physiquement présent et peut être aussi problématique pour un utilisateur maladroit que pour sa cible."
+      ]
+    },
+    "Owl LT-015 Incapaciteur": {
+      "paragraphs": [
+        "Le LT-015 Incapaciteur représente l’approche Owl de la neutralisation compacte : une arme électrique assez petite pour accompagner un agent, un vigile ou un civil autorisé sans donner l’impression de porter un pistolet lourd. La réserve relativement confortable favorise un usage répété plutôt qu’un unique choc de dernier recours.",
+        "Son rôle social est important : l’Incapaciteur existe pour les situations où l’on veut arrêter, repousser ou maîtriser avant de tuer. La décharge reste pourtant une attaque réelle, sensible aux protections et à la physiologie ; l’étiquette de neutralisation ne garantit jamais une intervention sans risque."
+      ]
+    },
+    "Raven HT-014 Immobilisateur": {
+      "paragraphs": [
+        "Le HT-014 Immobilisateur est la réponse Raven au taser léger : plus massif, moins discret et clairement destiné à une intervention où l’on préfère une décharge lourde à une longue autonomie. Sa silhouette et son nom le rapprochent des équipements professionnels de sécurité et de maintien de l’ordre.",
+        "Raven traite ici la neutralisation comme un problème opérationnel plutôt que comme un gadget civil. Le porteur gagne un outil spécialisé contre une personne ou un équipement sensible à l’électricité, mais doit accepter une arme plus encombrante et une réserve plus limitée que les solutions Owl plus compactes."
+      ]
+    },
+    "Owl PP-014 Old Colt": {
+      "paragraphs": [
+        "Le PP-014 Old Colt joue volontairement avec l’image du petit pistolet traditionnel. Owl conserve un format de poche, une mécanique lisible et une esthétique rassurante pour les acheteurs qui préfèrent un objet familier à une plateforme saturée de capteurs et de liaisons numériques.",
+        "Son faible encombrement en fait surtout une arme de secours ou de défense personnelle. La contrepartie est évidente : un petit magasin et une prise en main compacte imposent de considérer chaque coup, ce qui correspond mieux à une arme que l’on porte beaucoup et utilise rarement qu’à un outil de combat prolongé."
+      ]
+    },
+    "Raven PP-012 Defender": {
+      "paragraphs": [
+        "Le PP-012 Defender est le pistolet de poche selon Raven : peu de sophistication visible, un format réduit et une philosophie centrée sur la disponibilité immédiate. Il vise l’utilisateur qui veut une arme secondaire robuste sous une veste, dans une sacoche ou comme dernier recours professionnel.",
+        "Le nom Defender le place naturellement du côté de la protection personnelle et des gardes rapprochées, mais il ne change pas sa nature de petite arme à feu. Sa réserve modeste et son gabarit rappellent qu’il s’agit d’un compromis de port quotidien, pas d’un substitut discret à un pistolet de service complet."
+      ]
+    },
+    "Owl LP-019 Acceptable": {
+      "paragraphs": [
+        "L’Owl LP-019 Acceptable porte un nom presque ironique pour un pistolet léger de service. Cette modestie correspond bien à un produit conçu pour faire correctement le travail demandé sans promettre une technologie de prestige : ergonomie conventionnelle, entretien simple et comportement prévisible.",
+        "C’est le genre d’arme que l’on peut imaginer dans les holsters de sociétés de sécurité, de personnels autorisés ou de propriétaires qui privilégient la familiarité. L’Acceptable n’essaie pas de résoudre le tir par logiciel ; sa valeur repose sur une plateforme ordinaire que l’entraînement et la maintenance rendent fiable."
+      ]
+    },
+    "Raven LP-004 Sturdy": {
+      "paragraphs": [
+        "Le Raven LP-004 Sturdy est un pistolet léger de service construit autour d’une promesse simple : continuer à fonctionner. Sa mécanique privilégie la robustesse à la multiplication des options, ce qui l’inscrit naturellement dans les usages de sécurité, d’intervention ou de dotation professionnelle.",
+        "Le Sturdy parle à une clientèle qui préfère une arme légèrement austère mais connue à une plateforme plus brillante dont chaque fonction dépend d’une interface. Chez Raven, cette sobriété participe à l’identité de gamme : du matériel que l’on peut malmener, entretenir et remettre rapidement en service."
+      ]
+    },
+    "Phoenix LP-028 Sun Blast": {
+      "paragraphs": [
+        "Le Phoenix LP-028 Sun Blast est un pistolet léger de service qui montre la préférence du fabricant pour une arme déjà pensée comme élément d’un écosystème de ciblage. Son interface Smartlink lui permet de communiquer avec l’équipement compatible du porteur au lieu de rester un mécanisme isolé.",
+        "Cette sophistication le destine aux utilisateurs équipés pour exploiter réellement la liaison : sécurité haut de gamme, professionnels augmentés ou tireurs qui acceptent de maintenir plusieurs composants ensemble. Sans interface correspondante, il reste un pistolet moderne correct, mais une partie de ce qui justifie son identité Phoenix disparaît."
+      ]
+    },
+    "Owl HP-104 Deputy": {
+      "paragraphs": [
+        "Le HP-104 Deputy est le pistolet lourd Owl dans sa forme la plus traditionnelle : une arme de poing puissante, robuste et volontairement peu dépendante de systèmes annexes. Son nom évoque une autorité de terrain plus qu’un arsenal militaire, ce qui correspond à une arme que l’on porte pour imposer une présence autant que pour tirer.",
+        "Sa conception fiable intéresse les agents qui veulent conserver une arme lourde opérationnelle malgré poussière, chocs et entretien imparfait. Le Deputy reste néanmoins une arme de poing : son prestige et sa puissance apparente ne lui donnent ni la stabilité ni la portée pratique d’une véritable arme d’épaule."
+      ]
+    },
+    "Raven HP-014 Pacificateur": {
+      "paragraphs": [
+        "Le HP-014 Pacificateur associe le gabarit d’un pistolet lourd à l’intégration électronique devenue courante dans les gammes professionnelles Raven. Le Smartlink permet à l’arme de rejoindre une chaîne de ciblage moderne, ce qui en fait un choix cohérent pour les personnels déjà équipés d’interfaces compatibles.",
+        "Le nom Pacificateur relève d’un vocabulaire institutionnel assez transparent : il vend l’idée d’un outil qui termine rapidement un affrontement. Dans les faits, il reste une arme lourde exigeante dont l’assistance numérique accompagne le tireur sans remplacer ni son jugement ni sa maîtrise du recul et de la situation."
+      ]
+    },
+    "Raven HP-067 Gardien": {
+      "paragraphs": [
+        "Le HP-067 Gardien pousse le concept Raven du pistolet lourd de service vers une arme destinée à rester longtemps disponible avant rechargement. Son Smartlink l’inscrit dans les dispositifs de protection moderne où arme, viseur et interface personnelle fonctionnent comme plusieurs éléments d’une même chaîne.",
+        "Le Gardien paraît particulièrement cohérent pour la sécurité de site, les escortes et les utilisateurs qui veulent une arme de poing principale plutôt qu’un simple secours. Sa capacité et son électronique n’effacent toutefois pas les contraintes d’un pistolet lourd : masse, recul, entretien et port visible restent des réalités quotidiennes."
+      ]
+    },
+    "Phoenix HP-028 Violator": {
+      "paragraphs": [
+        "Le Phoenix HP-028 Violator est une arme de poing lourde dont le nom et la présentation assument une image agressive. Comme d’autres Phoenix modernes, il intègre le Smartlink dès la conception et vise les utilisateurs qui considèrent l’arme comme un périphérique de leur équipement numérique autant que comme un mécanisme balistique.",
+        "Le modèle attire naturellement une clientèle professionnelle ou fortunée sensible aux solutions de tir assisté. Cette intégration ne le rend pas autonome : sans interface compatible, le Violator perd son avantage de réseau et redevient essentiellement un gros pistolet dont la puissance doit encore être contrôlée par la personne qui le tient."
+      ]
+    },
+    "Phoenix HP-092 Depliant": {
+      "paragraphs": [
+        "Le HP-092 Dépliant cherche à résoudre un problème très concret : transporter une arme de poing lourde sans conserver en permanence tout son volume prêt au tir. Son architecture pliante compresse le profil au rangement, tandis que Phoenix conserve l’intégration Smartlink attendue d’un modèle aussi technologique.",
+        "Cette logique intéresse les gardes du corps, voyageurs et professionnels qui doivent concilier puissance disponible et encombrement de transport. Le mécanisme ajoute cependant des pièces et des articulations à surveiller ; le Dépliant est un produit d’ingénierie sophistiqué, pas une manière gratuite de rendre une arme lourde invisible."
+      ]
+    }
+  }
+}
