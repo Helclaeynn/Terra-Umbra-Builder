@@ -11,9 +11,9 @@ if(!Array.isArray(source.entries)||source.entries.length!==229)throw new Error(`
 
 const norm=value=>String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 const textOf=entry=>[entry.name,entry.section,entry.loreHint,...(entry.tags||[]),...(entry.rows||[]).flat()].map(v=>String(v??'')).join(' ');
-const selected=source.entries.filter(entry=>['22','23','24','26'].includes(String(entry.chapter))||/(?:\bshi\b|jade|tao|ancrage)/i.test(norm(textOf(entry))));
+const selected=source.entries.filter(entry=>['25','27'].includes(String(entry.chapter)));
 
-console.log(`AUDIT VÉRITÉ — ${source.entries.length} entrées · chapitres 22/23/24/26 + ancrages associés ${selected.length}`);
+console.log(`AUDIT VÉRITÉ — ${source.entries.length} entrées · chapitres 25/27 restants ${selected.length}`);
 for(const entry of selected){
   console.log(`\n=== ${entry.name} ===`);
   console.log(`id=${entry.id} | chapter=${entry.chapter} | section=${entry.section||''} | sourceKind=${entry.sourceKind||''} | status=${entry.status||''}`);
