@@ -29,8 +29,11 @@ async function openCategory(category){
   const cards=page.locator('.hierarchical-category-list .article-card');
   const count=await cards.count();
   if(count!==expectedCards)throw new Error(`${category}: ${count} cartes hiérarchiques, attendu ${expectedCards} selon navigation-v1.json`);
-  const groups=await page.locator('.hierarchical-category-list > .nav-group').count();
+  const groupNodes=page.locator('.hierarchical-category-list > .nav-group');
+  const groups=await groupNodes.count();
   if(groups!==expectedGroupCount)throw new Error(`${category}: ${groups} groupes, attendu ${expectedGroupCount} selon navigation-v1.json`);
+  const renderedTitles=(await groupNodes.locator(':scope > .nav-group-title span').allTextContents()).map(value=>value.trim()).filter(Boolean);
+  if(new Set(renderedTitles).size!==renderedTitles.length)throw new Error(`${category}: titre de groupe rendu plusieurs fois (${renderedTitles.join(' · ')})`);
   const href=await cards.first().getAttribute('href');
   if(!href?.startsWith('#/article/'))throw new Error(`${category}: première carte non cliquable (${href})`);
   const visibleText=(await cards.first().innerText()).trim();
@@ -58,7 +61,7 @@ try{
   if(filtered<1||filtered>=results.get('Équipement').count)throw new Error(`Équipement: filtre couteau incohérent (${filtered})`);
 
   if(errors.length)throw new Error(`Erreurs navigateur:\n${errors.join('\n')}`);
-  console.log(`CATEGORY NAV BROWSER OK — ${categories.map(category=>`${category} ${results.get(category).count}/${results.get(category).groups} groupes`).join(' · ')} · clic article + filtre validés.`);
+  console.log(`CATEGORY NAV BROWSER OK — ${categories.map(category=>`${category} ${results.get(category).count}/${results.get(category).groups} groupes`).join(' · ')} · groupes uniques + clic article + filtre validés.`);
 }finally{
   await browser.close();
 }
