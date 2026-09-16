@@ -16,7 +16,12 @@ const FINAL_SOURCES=[
   'compendium/source/reality-lore-v3-curated-armor.json',
   'compendium/source/reality-lore-v3-curated-armor-modules.json',
   'compendium/source/reality-lore-v3-curated-ammunition.json',
-  'compendium/source/reality-lore-v3-curated-standard-ammunition.json'
+  'compendium/source/reality-lore-v3-curated-standard-ammunition.json',
+  'compendium/source/reality-lore-v3-curated-weapons-melee-handguns.json',
+  'compendium/source/reality-lore-v3-curated-weapons-firearms-heavy.json',
+  'compendium/source/reality-lore-v3-curated-weapons-support.json',
+  'compendium/source/reality-lore-v3-curated-lifestyle-services.json',
+  'compendium/source/reality-lore-v3-curated-neuroprograms.json'
 ];
 function load(spec){
   let b64='';
@@ -26,11 +31,14 @@ function load(spec){
 function rows(page){return (page.sections||[]).flatMap(s=>(s.blocks||[]).filter(b=>b.type==='table').flatMap(b=>b.rows||[]));}
 function cat(page){const r=rows(page).find(r=>/^(categorie|category|famille|family|type)$/.test(norm(r?.[0])));return clean(r?.[1]||page.catalog?.category||'');}
 function rowText(page){return rows(page).map(x=>`${clean(x?.[0])}=${clean(x?.[1])}`).filter(Boolean).join(' | ');}
-function loreText(page){return ((page.sections||[]).find(s=>s.id==='contexte')?.blocks||[]).filter(b=>b.type==='p').map(b=>clean(b.text)).join(' || ');}
 const finalTitles=new Set();
 for(const path of FINAL_SOURCES){
   const src=JSON.parse(fs.readFileSync(path,'utf8'));
-  for(const title of Object.keys(src.entries||{}))finalTitles.add(norm(title));
+  for(const title of Object.keys(src.entries||{})){
+    const key=norm(title);
+    if(finalTitles.has(key))throw new Error(`Titre dupliqué dans le corpus manuel final: ${title}`);
+    finalTitles.add(key);
+  }
 }
 for(const id of ['equipement','augmentations']){
   const spec=manifest.datasets.find(d=>d.id===id);if(!spec)continue;
@@ -40,11 +48,10 @@ for(const id of ['equipement','augmentations']){
 
   if(id==='equipement'){
     const facts=pages.filter(p=>p.catalog?.loreGrounding==='catalogue-facts');
-    console.log(`AUDIT EQUIPEMENT FACTS-ONLY — ${facts.length} pages`);
-    for(const page of facts)console.log(`FACTS | ${page.title} | ${cat(page)} | ${rowText(page)}`);
-
     const outside=pages.filter(p=>!finalTitles.has(norm(p.title)));
+    console.log(`AUDIT EQUIPEMENT FACTS-ONLY — ${facts.length} pages`);
+    console.log(`AUDIT EQUIPEMENT CORPUS MANUEL FINAL — ${finalTitles.size}/${pages.length} titres`);
     console.log(`AUDIT EQUIPEMENT HORS CORPUS FINAL MANUEL — ${outside.length} pages`);
-    for(const page of outside)console.log(`REVIEW | ${page.title} | ${cat(page)} | ${rowText(page)} | LORE=${loreText(page)}`);
+    if(finalTitles.size!==pages.length||outside.length)throw new Error(`Couverture manuelle finale incomplète: ${finalTitles.size}/${pages.length}, hors corpus=${outside.length}`);
   }
 }
