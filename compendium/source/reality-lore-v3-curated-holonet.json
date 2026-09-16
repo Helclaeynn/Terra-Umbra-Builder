@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "source": "Catalogue Réalité du Builder — Applications Holonet",
+  "entries": {
+    "NavIA": {
+      "paragraphs": [
+        "NavIA est le socle logiciel courant de l’accès personnel au Holonet. Elle réunit la navigation, le GPS, le profil utilisateur et les fonctions d’achat dans l’environnement qui sert d’interface générale au terminal de son propriétaire.",
+        "Son rôle est d’orchestrer ces services de base plutôt que de remplacer les applications spécialisées. Lorsqu’un usage réclame une communication dédiée, une place de marché, un service bancaire ou un canal sécurisé, NavIA sert surtout de point d’entrée vers l’outil concerné."
+      ]
+    },
+    "CeltX": {
+      "paragraphs": [
+        "CeltX est une application de communication qui rassemble échanges textuels, vocaux et neuronaux. Elle permet donc de conserver un même canal de conversation entre plusieurs modes d’interface, du message classique à la communication exploitant un accès neural compatible.",
+        "Le mode employé dépend du matériel disponible chez les interlocuteurs : l’application fournit le service de communication, mais ne crée pas à elle seule une interface neuronale chez quelqu’un qui n’en possède pas et ne transforme pas un échange ordinaire en canal sécurisé."
+      ]
+    },
+    "Securio": {
+      "paragraphs": [
+        "Securio fournit des canaux de communication sécurisés dont la résistance existe en plusieurs niveaux. Le choix du service correspond donc directement au niveau de protection recherché lorsqu’un échange doit être plus difficile à intercepter ou à compromettre qu’une communication courante.",
+        "Cette sécurité reste mesurable et attaquable : les différents paliers de Securio correspondent à des difficultés croissantes plutôt qu’à une inviolabilité absolue. Un canal plus robuste augmente l’obstacle à franchir, sans rendre son contenu impossible à atteindre par principe."
+      ]
+    },
+    "Shelov": {
+      "paragraphs": [
+        "Shelov est une application musicale consacrée à la musique Tuatha. Elle constitue un point d’accès spécialisé à cette scène plutôt qu’un service Holonet généraliste, et sa raison d’être est précisément de rassembler ce contenu musical sous une même offre.",
+        "L’application n’ajoute aucune fonction technique particulière au terminal qui l’exécute : sa valeur vient de son catalogue et de son orientation culturelle. Pour un utilisateur qui cherche spécifiquement la musique Tuatha, Shelov est l’outil dédié prévu pour cet usage."
+      ]
+    },
+    "BlackFlag": {
+      "paragraphs": [
+        "BlackFlag est le réseau musical associé à la scène Neopunk. Contrairement à une application de musique généraliste, son identité est liée à ce milieu et à la circulation de ses contenus, ce qui en fait un espace numérique identifiable de cette culture underground.",
+        "Son intérêt est donc autant dans le réseau auquel il donne accès que dans la musique elle-même. BlackFlag ne confère aucun statut automatique au sein de la scène : l’application ouvre le réseau musical Neopunk, mais la place d’un utilisateur dans ce milieu reste une affaire de relations et de réputation."
+      ]
+    },
+    "AllBrains": {
+      "paragraphs": [
+        "AllBrains est un outil de modélisation holographique destiné à préparer des formes et modèles exploitables en fabrication 3D. Il fournit l’environnement logiciel nécessaire pour concevoir, visualiser ou ajuster une pièce avant de passer à sa production physique.",
+        "Le logiciel ne remplace pas l’équipement de fabrication : un modèle AllBrains doit encore être compatible avec la machine, les matériaux et les capacités disponibles. Il intervient donc en amont de l’impression, là où se construit et se vérifie la géométrie du projet."
+      ]
+    },
+    "LadyDolla": {
+      "paragraphs": [
+        "LadyDolla est une application de gestion bancaire centrée sur le suivi de l’activité financière et les alertes. Elle permet à son utilisateur de surveiller plus facilement les opérations qui concernent ses services bancaires depuis son environnement Holonet personnel.",
+        "Les alertes servent à signaler une opération ou une situation financière détectée par le service ; elles ne remplacent ni l’autorisation de la banque ni les contrôles qui encadrent réellement une transaction. LadyDolla facilite le suivi, pas le contournement du système bancaire."
+      ]
+    },
+    "Redwish": {
+      "paragraphs": [
+        "Redwish combine réseau social, rencontres et services associés au sein d’une même application. Un profil peut donc servir à nouer des contacts personnels, chercher une rencontre ou accéder aux prestations que la plateforme rattache à cet écosystème social.",
+        "La mise en relation reste une mise en relation : Redwish ne garantit ni l’identité réelle, ni les intentions, ni la compatibilité des personnes rencontrées. Les conséquences sociales dépendent toujours des utilisateurs et du contexte derrière les profils affichés par le réseau."
+      ]
+    },
+    "Boudicca": {
+      "paragraphs": [
+        "Boudicca est la grande place de marché grand public du Holonet. Elle sert à chercher, présenter et mettre en relation l’offre courante accessible aux consommateurs, plutôt qu’à fournir elle-même une catégorie unique de biens ou de services.",
+        "La plateforme organise l’accès au marché, mais la nature d’un achat reste celle de ce qui est effectivement proposé. Disponibilité, qualité, livraison et légalité dépendent donc de l’offre concernée ; être référencé sur Boudicca ne transforme pas tous les vendeurs en source équivalente."
+      ]
+    },
+    "Call'infornia": {
+      "paragraphs": [
+        "Call'infornia est l’interface civique reliant l’identité du citoyen aux services publics numériques. Elle centralise notamment les fonctions d’identité civique, l’accès au vote et les démarches administratives disponibles par le Holonet.",
+        "Son caractère civique la distingue des réseaux sociaux ou marchands : l’application sert d’interface avec les institutions et les services publics. Elle ne remplace pas les droits ou autorisations eux-mêmes, mais fournit le canal numérique par lequel ils sont présentés ou exercés."
+      ]
+    },
+    "Vatican+": {
+      "paragraphs": [
+        "Vatican+ est un réseau Holonet chrétien, distinct des services civiques et des réseaux généralistes. Sa fonction documentée est de fournir un espace numérique identifié à cette communauté religieuse plutôt qu’un outil technique universel.",
+        "L’accès au réseau ne constitue pas en lui-même une autorité religieuse, un statut ecclésiastique ou un effet surnaturel. Vatican+ reste un service numérique de Réalité ; les rôles, croyances et institutions auxquels il peut donner accès existent indépendamment de l’application."
+      ]
+    },
+    "Islamaster": {
+      "paragraphs": [
+        "Islamaster est un réseau Holonet musulman, organisé comme un espace numérique identifié à cette communauté religieuse plutôt qu’à un usage marchand, bancaire ou administratif généraliste.",
+        "Utiliser Islamaster ne confère par lui-même ni autorité religieuse ni effet particulier au personnage. Le réseau appartient au quotidien numérique de Réalité ; les pratiques, responsabilités et relations religieuses auxquelles il peut servir de support restent celles des personnes et institutions concernées."
+      ]
+    },
+    "Rampage X": {
+      "paragraphs": [
+        "Rampage X est une application liée aux réseaux Crawler et à l’Abyss, utilisée notamment pour les contrats et les échanges BBM. Elle appartient donc à un environnement opérationnel bien plus exposé que les applications Holonet grand public ordinaires.",
+        "Lorsqu’elle fonctionne, Rampage X durcit le système qui l’héberge contre les Intrusions hostiles : celles-ci subissent une difficulté accrue de 3. Cette protection ne rend pas la machine inviolable et ne s’applique qu’aussi longtemps que l’application est effectivement active."
+      ]
+    }
+  }
+}

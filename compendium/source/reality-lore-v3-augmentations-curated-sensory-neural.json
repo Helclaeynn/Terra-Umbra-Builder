@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "source": "TUC Réalité V8 — augmentations sensorielles, neurales et interfaces ; reprise manuelle",
+  "entries": {
+    "Amplificateur interne": [
+      "L’Amplificateur interne augmente directement la sensibilité et le traitement de l’audition implantée afin de faire ressortir des sons faibles ou lointains sans recourir à un appareil tenu en main. Il sert surtout à écouter au-delà de la portée confortable d’une audition ordinaire ou à distinguer un signal très discret dans un environnement exploitable.",
+      "La Gen.1 porte plus loin l’amplification, avec un facteur ×4 et un +3 circonstanciel, mais conserve 1 point de Stress ; la Gen.2 fonctionne à ×2 avec +2 et sans Stress. Dans les deux cas, l’implant améliore ce que l’oreille peut effectivement capter : il ne transforme pas un son absent ou totalement bloqué en information exploitable."
+    ],
+    "Analyseur chimique": [
+      "L’Analyseur chimique ajoute au goût une couche d’interprétation instrumentale : une substance réellement mise en contact avec les récepteurs peut être comparée à des signatures connues et fournir des indices utiles à une analyse de Savoirs ou d’Investigation. L’implant est donc un laboratoire miniature de proximité, pas un scanner chimique à distance.",
+      "La Gen.1 apporte un +3 circonstanciel au travail pertinent mais impose 1 point de Stress ; la Gen.2 réduit cet avantage à +2 tout en supprimant ce Stress. Le résultat dépend toujours de l’échantillon et de ce que la base de connaissances permet d’identifier : goûter une matière inconnue ne garantit pas d’en comprendre automatiquement l’origine ou tous les effets."
+    ],
+    "Analyseur de stress vocal": [
+      "L’Analyseur de stress vocal décompose une voix en micro-variations de rythme, tension, souffle et modulation afin de signaler des marqueurs compatibles avec le stress. Il complète l’écoute du porteur par une lecture instrumentale de la manière dont quelqu’un parle, ce qui peut aider à remarquer qu’une situation le met sous pression.",
+      "La version Gen.2 apporte +2 en Perception lorsque ces indices vocaux sont réellement pertinents. Elle ne détecte pas automatiquement le mensonge : une personne peut être stressée en disant vrai, rester calme en mentant ou présenter une voix difficile à interpréter pour d’autres raisons."
+    ],
+    "Anti-eblouissement": [
+      "L’Anti-éblouissement protège une cyberoptique contre une montée lumineuse brutale en fermant ou atténuant automatiquement l’iris et le capteur avant que le flash adapté ne sature la vision. Son rôle est comparable à une protection réflexe intégrée au système visuel plutôt qu’à une paire de lunettes ajoutée après coup.",
+      "La Gen.2 fournit une protection lumineuse lorsque l’agression peut effectivement être détectée et compensée par le capteur. Elle ne rend pas la vision parfaite dans toutes les conditions : obscurité, fumée, capteur masqué ou phénomène extérieur au spectre traité restent des problèmes distincts."
+    ],
+    "Audiovox": [
+      "L’Audiovox modifie la chaîne de vocalisation du porteur pour produire des fréquences que la voix humaine ordinaire n’atteint pas, notamment infrasons et ultrasons. L’augmentation transforme donc le corps en émetteur acoustique spécialisé, utilisable pour communiquer ou produire certains effets lorsque le profil concerné le prévoit.",
+      "Les deux générations permettent cette vocalisation étendue et peuvent servir de base à une attaque sonique lorsque son profil l’autorise. La Gen.1 impose 1 Charge et 3 Stress, contre 1 Charge et 1 Stress en Gen.2 ; aucune portée, puissance ou conséquence supplémentaire n’est présumée en dehors de l’effet réellement défini."
+    ],
+    "Booster sensoriel": [
+      "Le Booster sensoriel n’ajoute aucun nouvel organe et n’ouvre aucun spectre inédit : il accélère le traitement neural des informations que les sens du porteur reçoivent déjà. Son intérêt apparaît surtout lorsqu’un stimulus est bref, soudain ou difficile à suivre, là où quelques fractions de seconde de traitement font la différence.",
+      "La Gen.1 fournit +3 en Perception dans ces situations et impose 1 Stress ; la Gen.2 fournit +2 sans Stress. Un porteur incapable de voir dans l’infrarouge ne gagne pas l’infrarouge grâce à ce booster : pour obtenir une nouvelle modalité sensorielle, il faut toujours le capteur correspondant."
+    ],
+    "Brouilleur / Decrypteur": [
+      "Le Brouilleur / Décrypteur est un module AudioWare consacré aux communications compatibles : il peut travailler sur un signal reçu pour en gêner l’exploitation ou assister son déchiffrement lorsqu’il existe réellement une transmission accessible à traiter. Il s’agit d’un outil spécialisé de guerre électronique légère, pas d’une ouverture universelle de tous les systèmes voisins.",
+      "La Gen.1 occupe 2 emplacements, impose 1 Stress et apporte +3 dans son domaine spécialisé ; la Gen.2 n’occupe plus qu’un emplacement, supprime le Stress et apporte +2. Une communication hors de portée, sur un protocole inaccessible ou protégée par des moyens que l’implant ne sait pas traiter ne devient pas automatiquement lisible."
+    ],
+    "Cablage neuronal": [
+      "Le Câblage neuronal forme l’infrastructure interne sur laquelle viennent se brancher les NeuroWares. Il ne constitue pas lui-même une compétence ou un programme : il aménage les connexions, relais et interfaces nécessaires pour que d’autres augmentations neurales disposent d’un support stable dans le système nerveux du porteur.",
+      "La Gen.1 fournit 2 slots de support pour 1 Charge et 3 Stress ; la Gen.2 porte ce support à 4 slots pour la même Charge avec seulement 1 Stress. Disposer de davantage de slots permet d’installer plus de NeuroWares compatibles, mais n’accorde aucun effet de ces modules tant qu’ils ne sont pas réellement implantés."
+    ],
+    "Camera integree": [
+      "La Caméra intégrée permet à une cyberoptique d’enregistrer directement ce qu’elle reçoit, sans obliger le porteur à sortir un appareil ni à détourner son regard vers un terminal. L’enregistrement suit ainsi naturellement la ligne de vision du système auquel le module est rattaché.",
+      "Gen.1 et Gen.2 assurent toutes deux l’enregistrement visuel, la seconde l’intégrant dans une architecture plus récente sans Stress supplémentaire. Le module ne donne aucun bonus de Perception par lui-même : il conserve une image ou une séquence, il n’améliore ni la résolution d’un autre capteur ni la capacité du porteur à comprendre ce qu’il voit."
+    ],
+    "CyberAudio": [
+      "CyberAudio est le support cybernétique principal des AudioWares : il remplace ou complète la chaîne auditive par une architecture capable d’accueillir filtres, protections, traducteurs, amplificateurs et autres modules spécialisés. Sans ces modules, son intérêt tient d’abord à cette capacité d’intégration plutôt qu’à un bonus auditif gratuit.",
+      "La Gen.1 fournit 2 slots pour 1 Charge et 3 Stress ; la Gen.2 fournit 4 slots pour 1 Charge et 1 Stress. Les capacités concrètes du porteur dépendent ensuite de ce qu’il installe dans ces emplacements : un CyberAudio vide ne possède pas automatiquement amplification, traduction ou écholocation."
+    ],
+    "CyberOeil": [
+      "Le CyberOeil est une plateforme optique implantée destinée à recevoir des fonctions visuelles spécialisées. Il peut remplacer un œil biologique ou servir de base à une configuration cyberoptique plus large, mais son rôle fondamental reste celui d’un support : les véritables capacités viennent des modules installés dans ses emplacements.",
+      "La Gen.1 fournit 2 slots pour 1 Charge et 3 Stress ; la Gen.2 fournit 3 slots pour 1 Charge et 1 Stress. Zoom, UV/infrarouge, caméra, anti-éblouissement ou réalité augmentée doivent toujours être ajoutés séparément : le CyberOeil n’obtient pas gratuitement leurs effets parce qu’il peut les héberger."
+    ],
+    "Detecteur de radiation": [
+      "Le Détecteur de radiation ajoute à une cyberoptique un capteur capable de repérer et mesurer des rayonnements dans son domaine de fonctionnement. Il sert à matérialiser un danger qu’un humain ne percevrait autrement qu’après exposition, ou à comparer plusieurs zones pour déterminer où le niveau mesuré change réellement.",
+      "La Gen.1 apporte +3 circonstanciel en Perception pertinente et impose 1 Stress ; la Gen.2 apporte +2 sans Stress. Le détecteur renseigne sur les radiations qu’il peut mesurer : il ne devient pas un analyseur universel de toxines, de magie ou d’autres menaces invisibles."
+    ],
+    "Detecteur echolocation": [
+      "Le Détecteur écholocation interprète les retours d’une émission compatible pour les convertir en carte mentale exploitable par le porteur. Là où une oreille ordinaire ne recevrait qu’une succession d’échos, le module reconstruit distances relatives, volumes et obstacles à partir du signal réellement disponible.",
+      "La Gen.2 fournit cette carte d’échos et +2 lorsque son interprétation est pertinente. Le module n’est ni un camouflage ni une vision à travers les murs : il dépend d’une écholocation compatible et des retours physiques qu’elle peut effectivement produire dans l’environnement."
+    ],
+    "Dispositif de visee": [
+      "Le Dispositif de visée relie la cyberoptique à une arme intelligente ou à un Smartlink compatible afin d’échanger les informations nécessaires au ciblage. Il permet au porteur de superposer la solution de tir à sa perception et de travailler avec le Verrouillage fourni par l’interface correspondante.",
+      "La Gen.1 occupe 2 emplacements, impose 1 Stress et fournit +3 au Tir Smartgun ; la Gen.2 n’occupe qu’un emplacement, n’impose plus de Stress et fournit +2. Ce bonus ne s’applique pas universellement à n’importe quelle arme : sans liaison Smartlink ou arme intelligente compatible, le dispositif n’a pas de solution de tir à exploiter."
+    ],
+    "Enregistreur audio": [
+      "L’Enregistreur audio conserve directement le flux sonore traité par le système auditif implanté. Il sert à garder une conversation, un bruit de machine, une ambiance ou tout autre signal effectivement capté, sans obliger le porteur à disposer d’un enregistreur externe visible.",
+      "Gen.1 et Gen.2 fournissent toutes deux une fonction d’enregistrement sonore intégrée, sans bonus d’écoute associé. Le module ne rend pas un son plus net ni plus lointain par lui-même : amplification et filtrage relèvent d’autres AudioWares, qui peuvent ensuite améliorer le signal avant ou pendant son enregistrement si la configuration le permet."
+    ],
+    "Enregistreur neural": [
+      "L’Enregistreur neural va au-delà d’une simple caméra ou d’un microphone en capturant des données sensorielles issues directement de l’expérience du porteur. Il constitue ainsi une mémoire enregistrée des perceptions reçues pendant une séquence, avec une richesse qui dépend des systèmes sensoriels réellement connectés au dispositif.",
+      "La version Gen.2 occupe 1 emplacement et impose 1 Stress. Elle permet l’enregistrement sensoriel, mais ne crée pas de sens absent et ne garantit pas une interprétation parfaite après coup : ce qui n’a pas été perçu ou transmis au système ne peut pas être reconstruit arbitrairement par l’enregistreur."
+    ],
+    "Filtrage audio": [
+      "Le Filtrage audio sélectionne une bande, une signature ou une source sonore au sein du flux reçu afin de réduire ce qui la masque. Il est particulièrement utile pour suivre une voix dans un environnement bruyant, isoler un moteur précis ou examiner une fréquence sans augmenter indifféremment tous les sons alentour.",
+      "La Gen.1 apporte +3 circonstanciel et impose 1 Stress ; la Gen.2 apporte +2 sans Stress. Le filtre ne fabrique pas un signal qui n’a jamais atteint le capteur : si le son est totalement couvert, hors portée ou extérieur au spectre disponible, il n’existe rien à isoler."
+    ],
+    "Implant radar/sonar": [
+      "L’Implant radar/sonar est un capteur actif interne capable de sonder un espace proche même sans lumière et d’en reconstruire les volumes, obstacles et masses mobiles. Il fournit ainsi une perception géométrique complémentaire à la vue, particulièrement utile dans l’obscurité ou lorsqu’une lecture purement visuelle devient peu fiable.",
+      "La Gen.2 porte cette cartographie à environ 15 mètres pour 1 Charge et 1 Stress. Avec un Détecteur écho-radar CyberAudio compatible, elle apporte +2 en Perception pour interpréter la carte. Le système ne voit pas à travers les murs et n’identifie par nature ni la magie ni les êtres vivants : il cartographie ce que son émission peut réellement sonder."
+    ],
+    "Lampes oculaires": [
+      "Les Lampes oculaires intègrent une source d’éclairage directement à la cyberoptique, de sorte que le faisceau suit naturellement l’orientation du regard. Elles permettent au porteur d’éclairer sans occuper une main, mais restent une lumière émise : elles peuvent donc aussi révéler sa présence comme n’importe quelle lampe visible.",
+      "La Gen.1 éclaire jusqu’à 30 mètres, tandis que la Gen.2 est donnée pour 15 mètres ; les deux occupent 1 emplacement et n’imposent aucun Stress. Ces valeurs sont conservées telles quelles : aucune portée supplémentaire ni vision nocturne n’est ajoutée au-delà de l’éclairage réellement produit."
+    ],
+    "Ports d'interface": [
+      "Les Ports d’interface offrent une connexion physique directe entre le système neural du porteur et une machine compatible. Ils permettent de travailler sans dépendre d’une liaison distante lorsqu’un accès câblé est disponible, ce qui réduit les intermédiaires entre le Neurodiver et le système effectivement branché.",
+      "Gen.1 comme Gen.2 appliquent +2 en Intrusion/Contrôle au système exactement connecté ; la première impose 1 Stress, la seconde aucun. Un Unsinkable peut utiliser le port comme connectique ordinaire, mais pas pour Neurodive. Le bonus ne se propage pas à tout un réseau simplement parce qu’un câble est branché sur l’un de ses équipements."
+    ],
+    "Processeur mathematique": [
+      "Le Processeur mathématique déporte une partie des calculs et manipulations formelles vers un module neural spécialisé. Il sert aux problèmes où vitesse, précision numérique ou traitement de relations complexes comptent réellement, notamment comme assistance technique théorique lorsque la difficulté relève bien du calcul.",
+      "La Gen.2 occupe 1 emplacement, n’impose aucun Stress et apporte +2 dans ce domaine spécialisé. Elle ne remplace ni une compétence technique pratique ni les données nécessaires au problème : le processeur peut calculer vite, mais il ne sait pas automatiquement quelle formule, hypothèse ou information manque."
+    ],
+    "Protection auditive": [
+      "La Protection auditive surveille le niveau et la nature des sons reçus afin de couper ou atténuer ceux qui deviennent physiquement dangereux pour le système auditif. Son intérêt est d’agir assez vite pour éviter qu’un pic sonore détectable ne soit transmis à pleine puissance au porteur.",
+      "La Gen.2 fournit cette protection acoustique dans un seul emplacement sans Stress. Elle n’est pas une immunité générale à tout phénomène sonique : l’effet doit passer par un son que le système peut effectivement détecter et bloquer, tandis qu’une vibration ou un autre vecteur physique peut relever d’un problème différent."
+    ],
+    "Realite augmentee / Holonet": [
+      "Réalité augmentée / Holonet ajoute à la cyberoptique une couche d’affichage capable de superposer interfaces, informations et services du Holonet au champ de vision. Le porteur peut ainsi consulter des données sans détourner son attention vers un écran externe, comme si l’environnement réel devenait le support de son interface personnelle.",
+      "La Gen.2 occupe 1 emplacement et n’impose aucun Stress. Cette couche affiche des informations ; elle ne modifie pas le corps, ne camoufle pas le porteur et ne transforme pas automatiquement ce qui est affiché en vérité fiable. Les données dépendent toujours des applications, connexions et sources auxquelles l’utilisateur a effectivement accès."
+    ],
+    "Stabilite gyroscopique": [
+      "La Stabilité gyroscopique agit sur les informations d’équilibre issues de l’oreille interne et du système sensoriel pour réduire les pertes de repères provoquées par les mouvements du corps. Elle aide le porteur à conserver une référence stable lorsque rotation, tangage ou changement rapide d’appui brouilleraient normalement ses sensations.",
+      "La Gen.2 occupe 1 emplacement, n’impose aucun Stress et améliore l’équilibre lorsque cette compensation est réellement pertinente. Elle ne crée pas d’adhérence et n’annule pas une force extérieure : sur une surface sans prise ou face à un choc assez violent pour déplacer le corps, savoir où se trouve le haut ne suffit pas à rester en place."
+    ],
+    "Systeme d'orientation": [
+      "Le Système d’orientation entretient une représentation mentale des lieux déjà parcourus et une référence directionnelle constante. Il transforme les déplacements du porteur en carte interne, utile pour revenir sur ses pas, conserver le nord ou comprendre comment plusieurs passages explorés s’articulent entre eux.",
+      "La Gen.2 occupe 1 emplacement et n’impose aucun Stress. Elle offre cette navigation intégrée à partir des lieux effectivement explorés ; elle ne révèle pas une pièce jamais visitée, un passage secret inconnu ni une carte complète d’un bâtiment simplement parce que le porteur y est entré."
+    ],
+    "Traducteur": [
+      "Le Traducteur traite la parole reçue par le système auditif et restitue une traduction lorsque la langue ou le registre fait partie des modèles qu’il connaît. Il rend les échanges ordinaires beaucoup plus accessibles sans obliger le porteur à consulter un terminal distinct à chaque phrase.",
+      "La Gen.1 fournit +3 spécialisé et impose 1 Stress ; la Gen.2 fournit +2 sans Stress. L’implant ne remplace pas Langages & Argot pour les nuances, sous-entendus, codes sociaux ou vocabulaires clandestins : une traduction littérale peut transmettre les mots tout en laissant échapper ce qu’un locuteur initié comprendrait réellement."
+    ],
+    "UV / Infrarouge": [
+      "UV / Infrarouge étend la cyberoptique au-delà du spectre visible humain afin d’exploiter des informations qui resteraient autrement invisibles. Selon le capteur et la scène, cette capacité peut faire ressortir des contrastes thermiques ou des signatures ultraviolettes sans transformer pour autant chaque obscurité en image parfaite.",
+      "La Gen.1 est donnée pour 30 mètres avec +3 lorsque le spectre est pertinent et impose 1 Stress ; la Gen.2 est donnée pour 15 mètres avec +2 sans Stress. L’augmentation montre ce que son spectre peut capter : un obstacle opaque à ce rayonnement, un camouflage adapté ou l’absence de contraste restent pleinement pertinents."
+    ],
+    "Zoom optique": [
+      "Le Zoom optique permet à la cyberoptique d’agrandir une portion du champ visuel sans appareil tenu en main. Il sert à examiner un détail distant, lire une inscription ou mieux suivre une cible éloignée lorsque la qualité du capteur et les conditions de visibilité fournissent encore une image exploitable.",
+      "La Gen.1 fournit un grossissement ×4 et +3 pour l’observation distante ; la Gen.2 fournit ×2 et +2. Le zoom agrandit l’image reçue mais n’ajoute pas de lumière, ne traverse pas les obstacles et ne modifie pas à lui seul la portée mécanique d’une arme dépourvue d’interface ou de capacité correspondante."
+    ]
+  }
+}

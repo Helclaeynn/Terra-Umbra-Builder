@@ -1,0 +1,59 @@
+name: Compendium navigation browser smoke
+
+on:
+  push:
+    branches:
+      - preview/compendium-restructure
+    paths:
+      - 'compendium/app-v3.js'
+      - 'compendium/index.html'
+      - 'compendium/styles.css'
+      - 'compendium/navigation.css'
+      - 'compendium/category-navigation.js'
+      - 'compendium/toc-enhancer.js'
+      - 'compendium/data/navigation-v1.json'
+      - 'compendium/data/manifest-v3.json'
+      - 'compendium/data/*.b64part'
+      - 'compendium/tests/category-navigation-browser-smoke.mjs'
+      - '.github/workflows/compendium-navigation-browser.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  browser-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install browser test runtime
+        run: npm install --no-save --no-package-lock playwright-core@1.55.0
+      - name: Resolve Chrome executable
+        run: |
+          CHROME_BIN="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
+          if [ -z "$CHROME_BIN" ]; then
+            echo 'Chrome/Chromium absent du runner.' >&2
+            exit 1
+          fi
+          echo "CHROME_BIN=$CHROME_BIN" >> "$GITHUB_ENV"
+          echo "Chrome: $CHROME_BIN"
+      - name: Serve Compendium locally
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/tuc-compendium-http.log 2>&1 &
+          echo $! > /tmp/tuc-compendium-http.pid
+          for i in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:8765/compendium/index.html >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/tuc-compendium-http.log
+          exit 1
+      - name: Validate hierarchical navigation in Chromium
+        env:
+          TUC_SMOKE_BASE_URL: http://127.0.0.1:8765/
+        run: node compendium/tests/category-navigation-browser-smoke.mjs
+      - name: Stop local server
+        if: always()
+        run: |
+          if [ -f /tmp/tuc-compendium-http.pid ]; then kill "$(cat /tmp/tuc-compendium-http.pid)" || true; fi

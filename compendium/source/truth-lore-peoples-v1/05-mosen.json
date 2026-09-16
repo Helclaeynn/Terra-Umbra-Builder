@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "sourceDocument": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx",
+  "page": {
+    "id": "verite-lore-mosen",
+    "title": "Mo’sen",
+    "order": 50,
+    "aliases": ["Mo'sen", "Mo’sens", "Mo'sens"],
+    "evidence": ["V6 pp.164–166"],
+    "sections": [
+      {"title":"Une présence reptiloïde","paragraphs":["Les Mo’sens sont de puissants reptiloïdes protégés par une cuirasse naturelle. Leur histoire a été profondément marquée par l’oppression exercée par d’autres branches apparentées et par les alliances qui leur permirent de s’en libérer."]},
+      {"title":"Autonomie avant confort","paragraphs":["Cette mémoire a produit une sensibilité politique forte à la dépendance. Une communauté capable de se nourrir, se défendre et négocier sans tutelle est culturellement plus sûre qu’une communauté confortable dont un acteur extérieur peut fermer l’accès aux ressources essentielles."]},
+      {"title":"REPTILE","paragraphs":["REPTILE représente la réponse la plus controversée à ce problème : influencer ou infiltrer des institutions humaines afin qu’elles protègent les intérêts mo’sens de l’intérieur. L’organisation fournit une origine ironique à certaines théories complotistes, sans pour autant représenter l’ensemble de la société mo’senne.","Beaucoup de Mo’sens rejettent cette stratégie et préfèrent le GAAC, les réseaux scientifiques ou une intégration plus transparente. D’autres branches, comme Brotherhood of Hate ou Saeniaforming Army, sont encore plus radicales et relèvent davantage de la menace que de l’organisation ordinaire."]}
+    ]
+  }
+}

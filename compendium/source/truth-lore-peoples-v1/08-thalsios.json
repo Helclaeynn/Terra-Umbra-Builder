@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "sourceDocument": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx",
+  "page": {
+    "id": "verite-lore-thalsios",
+    "title": "Thalsios",
+    "order": 80,
+    "aliases": ["Thalsioss"],
+    "evidence": ["V6 pp.164, 166–168"],
+    "sections": [
+      {"title":"Résoudre ce qui est devant soi","paragraphs":["Les Thalsios sont des amphibioïdes massifs, sensibles à l’humidité et remarquablement précis de leurs mains. Une longue histoire d’exploitation comme main-d’œuvre a produit une culture dans laquelle réparer, adapter et résoudre concrètement un problème sont des moyens de reprendre du contrôle sur un environnement qui a souvent décidé à leur place."]},
+      {"title":"Quand l’environnement devient politique","paragraphs":["Pour un Thalsios, politique de l’eau, climatisation ou panne d’infrastructure peuvent devenir des questions immédiates de santé. Là où un Humain peut traiter certains paramètres environnementaux comme un débat abstrait, quelques erreurs de gestion peuvent suffire à rendre un lieu réellement invivable."]},
+      {"title":"Hydroguard / THDF","paragraphs":["Hydroguard est née d’une expertise hydrométrique et d’intervention avant de prendre une dimension militaire. Sous l’eau, pression, déplacement et sauvetage rendent chaque erreur potentiellement mortelle, ce qui a rapproché culture de l’extraction et culture du combat.","Abysswatchers, Deepknights, Mermaid Soldiers et Mola Mola représentent différents visages d’une même culture opérationnelle plutôt que quatre organisations indépendantes."]},
+      {"title":"Science appliquée et coopération","paragraphs":["Les Thalsios sont également très présents dans les organisations scientifiques cherchant des solutions transmissibles, notamment la CTU. Leur sens pratique complète naturellement le goût talass pour l’ingénierie plus théorique."]}
+    ]
+  }
+}

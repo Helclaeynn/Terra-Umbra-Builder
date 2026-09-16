@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "batch": "truth-legacy-hubs-v1",
+  "description": "Consolidation sélective de cinq anciens hubs Vérité après comparaison avec les pages book-first V6. Seul le lore compatible et encore utile est migré ; les mécaniques et affirmations contredites par le canon récent sont exclues.",
+  "retiredIds": [
+    "lore-supernatural-species-vampires",
+    "lore-supernatural-species-loups-garous",
+    "lore-supernatural-species-mages",
+    "lore-supernatural-species-daemons",
+    "lore-supernatural-species-angelus"
+  ],
+  "migrations": [
+    {
+      "dataset": "verite",
+      "targetId": "verite-047-11-garous-loups-descendants-de-khinae",
+      "legacySourceId": "lore-supernatural-species-loups-garous",
+      "sections": [
+        {
+          "title": "La Chasse comme activité de Meute",
+          "paragraphs": [
+            "Dans le vocabulaire de certaines Meutes, une Chasse ne désigne pas seulement une traque animale. Le mot peut couvrir toute action collective où le groupe poursuit un objectif : repérage, infiltration, protection, affrontement, compétition sportive ou chasse au sens littéral.",
+            "Ce qui compte est moins la nature de l’objectif que la coordination et l’impression d’agir comme une Meute. Les usages varient selon les familles et les Pelages ; le terme n’impose donc ni une pratique universelle, ni une hiérarchie particulière."
+          ]
+        },
+        {
+          "title": "Latents, partenaires et parenté de Meute",
+          "paragraphs": [
+            "Une Meute peut inclure des descendants de Khinae encore latents et des partenaires qui ne se transforment pas. L’appartenance ne se réduit donc ni au sang, ni au fait d’avoir déjà éveillé sa Nature.",
+            "Dans certaines familles, une personne peut appartenir à la communauté bien avant son premier Éveil, ou y rester sans jamais manifester de forme garoue. Cette réalité renforce l’idée moderne de la Meute comme relation vécue plutôt que comme simple regroupement de combattants métamorphes."
+          ]
+        }
+      ]
+    },
+    {
+      "dataset": "lore",
+      "targetId": "lore-mage-lodges-loges-organisation",
+      "legacySourceId": "lore-supernatural-species-mages",
+      "sections": [
+        {
+          "title": "Rangs de reconnaissance",
+          "paragraphs": [
+            "Certaines Loges ont conservé un vocabulaire de reconnaissance hérité de traditions anciennes : Magister, Référent, Tuteur et Singularis. Ces termes ne forment pas une hiérarchie mondiale uniforme ; leur portée exacte dépend de la Loge, de son histoire et de ses usages.",
+            "Magister désigne généralement un praticien reconnu pour sa maîtrise et sa capacité à transmettre. Référent qualifie un Mage auquel une communauté confie durablement un domaine, un lieu ou une responsabilité. Tuteur insiste sur la relation de formation. Singularis, ou Singulier, désigne dans plusieurs traditions un Mage devenu autonome et qui n’est plus traité comme un apprenti."
+          ]
+        },
+        {
+          "title": "Former les apprentis",
+          "paragraphs": [
+            "L’apprentissage magique repose rarement sur la seule lecture d’archives. Les Loges organisent des cours, laboratoires, ateliers, exercices surveillés et relations de tutorat afin qu’un Mage apprenne à confronter ce qu’il croit comprendre aux conséquences réelles de sa pratique.",
+            "Les formes varient énormément : enseignement collectif, compagnonnage auprès d’un Tuteur, spécialisation dans une bibliothèque ou un laboratoire, échanges entre Loges. La transmission est une fonction sociale des Loges, pas un modèle scolaire unique imposé à tous les Mages."
+          ]
+        }
+      ]
+    },
+    {
+      "dataset": "verite",
+      "targetId": "verite-046-10-vampires",
+      "legacySourceId": "lore-supernatural-species-vampires",
+      "sections": [
+        {
+          "title": "Un vocabulaire féodal dans des structures modernes",
+          "paragraphs": [
+            "Certaines Cours conservent un vocabulaire féodal même lorsqu’elles opèrent depuis des entreprises, administrations, fondations ou réseaux urbains. Une « principauté » peut ainsi désigner un site, une institution ou un ensemble d’intérêts protégés plutôt qu’un fief géographique officiellement reconnu.",
+            "Le mot « serfs » survit lui aussi dans certains milieux comme terme archaïque pour des Humains dépendant d’un réseau vampirique ou placés sous sa protection. Ces mots décrivent un imaginaire politique interne et des relations de dépendance ; ils ne constituent pas des statuts juridiques publics en 2035."
+          ]
+        },
+        {
+          "title": "Cryptes profondes et Veilleurs",
+          "paragraphs": [
+            "Certaines communautés maintiennent des Cryptes profondes, sanctuaires cachés confiés à des Veilleurs et liés à l’Ombre-Monde. Elles servent d’ancrage, de refuge et de continuité à des lignées capables de traverser de très longues périodes de torpeur.",
+            "Le prestige de ces lieux vient autant de leur ancienneté que de leur danger. Leur proximité avec l’Ombre-Monde explique qu’une Crypte profonde puisse être mieux protégée qu’un refuge ordinaire sans jamais devenir un abri parfaitement sûr."
+          ]
+        }
+      ]
+    },
+    {
+      "dataset": "verite",
+      "targetId": "verite-051-15-angelus",
+      "legacySourceId": "lore-supernatural-species-angelus",
+      "sections": [
+        {
+          "title": "Hiérarchie céleste et fonctions anciennes",
+          "paragraphs": [
+            "Les traditions célestes ont conservé les noms de plusieurs Archanges majeurs associés à de grandes fonctions : Azraël à la Mort, Gabriel ou Gabrielle à la Magie, Michael à la Guerre, Raphaël à la Guérison, Uriel à la Lumière et Remiel aux Cieux. D’autres figures comme Azazel, Barachiel, Camael ou Zophiel apparaissent dans des traditions plus spécialisées.",
+            "Sous ces grandes branches, certains textes parlent de Seigneurs angéliques chargés de coordonner Trônes, Vertus et Dominations. Le vocabulaire de « saint » relève encore d’une autre reconnaissance et ne doit pas être confondu avec une Nature, une Sephira ou un rang universel. L’Arbre de Vie possède donc des titres et des fonctions, mais il n’est pas réductible à une seule chaîne de commandement simple."
+          ]
+        },
+        {
+          "title": "Nephilim et restriction des manifestations",
+          "paragraphs": [
+            "Des traditions anciennes attribuent la naissance des Nephilim à une époque où des Angelus demeuraient beaucoup plus directement et durablement sur Terre. Leurs descendants héritaient d’une part de Transcendance sans être de simples incarnations d’Angelus, créant des lignées que l’ordre céleste ne contrôlait pas entièrement.",
+            "Certains Nephilim se rangèrent auprès des puissances daemoniaques ou suivirent leurs propres intérêts. Les conflits qui en découlèrent contribuèrent à justifier des règles plus strictes sur la présence céleste directe et sur la manière dont les Angelus interviennent dans le monde humain."
+          ]
+        }
+      ]
+    },
+    {
+      "dataset": "verite",
+      "targetId": "verite-050-14-daemons",
+      "legacySourceId": "lore-supernatural-species-daemons",
+      "sections": [
+        {
+          "title": "Trois mots souvent confondus",
+          "paragraphs": [
+            "Le vocabulaire humain rapproche des êtres qui n’appartiennent pas à la même catégorie métaphysique. Les Nevaerkal sont les grandes créatures élémentaires de feu et de terre d’Aèr ; les Deimons sont des créatures liées aux Ombres de la Terre ; les Daemons de ce chapitre sont d’anciennes âmes choisies et reforgées par les Divinités terrestres.",
+            "La ressemblance des mots vient de traductions, de religions et de siècles de récits qui ont mélangé des réalités différentes. Employer « démon » sans préciser le contexte peut donc cacher trois histoires et trois natures sans rapport direct."
+          ]
+        },
+        {
+          "title": "Revenir sur Terre",
+          "paragraphs": [
+            "Les traditions daemoniaques décrivent plusieurs manières de revenir agir sur Terre. La réincarnation donne une nouvelle vie complète ; la possession passe par un corps déjà vivant ; l’invocation ouvre une présence limitée depuis un lieu ou un rite ; certaines Cours parlent enfin d’émissaires envoyés directement pour une mission.",
+            "Ces modes de présence ne sont pas interchangeables sur le plan social. Ils changent la relation du Daemon à son identité contemporaine, à son entourage et à sa Cour, et expliquent pourquoi deux serviteurs d’une même Divinité peuvent vivre leur retour dans le monde humain de façons radicalement différentes."
+          ]
+        },
+        {
+          "title": "Fonctions de Cour",
+          "paragraphs": [
+            "Plusieurs Cours emploient un ancien vocabulaire de fonctions : Tentateurs ou Oracles pour ceux qui observent, recrutent et reconnaissent des âmes remarquables ; Tourmenteurs ou Châtiments pour ceux que l’on charge de punir, briser ou perturber ; Légionnaires ou Chevaliers pour les missions où la confrontation directe prime.",
+            "Ces fonctions sont des métiers, traditions et responsabilités appris dans une Cour. Elles ne constituent ni des espèces ni des Natures universelles, et deux Daemons occupant des fonctions comparables peuvent servir des Divinités aux valeurs et aux méthodes opposées."
+          ]
+        },
+        {
+          "title": "Titres de prestige",
+          "paragraphs": [
+            "Certaines traditions emploient aussi les titres de Prophète, Héros ou Éveillé pour distinguer des parcours jugés exemplaires, des figures historiques ou des serviteurs ayant acquis une reconnaissance particulière. Le sens précis de ces titres varie fortement d’une Cour à l’autre.",
+            "Ils décrivent donc davantage une mémoire politique et religieuse interne qu’une échelle universelle. Une Divinité peut valoriser ce qu’une autre méprise, et le prestige daemoniaque reste inséparable de l’histoire du culte qui le reconnaît."
+          ]
+        }
+      ]
+    }
+  ]
+}

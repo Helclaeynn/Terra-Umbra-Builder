@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - preview/lore
+      - preview/compendium-restructure
       - feature/tuc-compendium-v3-transfer-final
       - feature/tuc-compendium-editor
       - feature/tuc-compendium-inline-images
@@ -20,6 +21,7 @@ on:
       - 'scripts/build-compendium-truth-catalog.mjs'
       - 'scripts/enrich-compendium-truth-lore.mjs'
       - 'scripts/prepare-builder-reality-catalogs.mjs'
+      - 'scripts/build-compendium-navigation.mjs'
       - 'scripts/sync-page-overrides.mjs'
       - 'tools/github-oauth-proxy-worker.js'
       - '.github/workflows/compendium-v3-check.yml'
@@ -35,6 +37,7 @@ on:
       - 'scripts/build-compendium-truth-catalog.mjs'
       - 'scripts/enrich-compendium-truth-lore.mjs'
       - 'scripts/prepare-builder-reality-catalogs.mjs'
+      - 'scripts/build-compendium-navigation.mjs'
       - 'scripts/sync-page-overrides.mjs'
       - 'tools/github-oauth-proxy-worker.js'
       - '.github/workflows/compendium-v3-check.yml'
@@ -53,6 +56,10 @@ jobs:
       - name: Check V3 runtime syntax
         run: |
           node --check compendium/app-v3.js
+          node --check compendium/navigation-schema.js
+          node --check compendium/navigation-schema-v2.js
+          node --check compendium/navigation-schema-v3.js
+          node --check compendium/category-navigation.js
           node --check compendium/editor-runtime.js
           node --check compendium/editor-ordering.js
           node --check compendium/draft-manager.js
@@ -69,12 +76,15 @@ jobs:
           node --check compendium/editor/media-draft-store.js
           node --check compendium/editor/zip-bundle.js
           node --check scripts/sync-page-overrides.mjs
+          node --check scripts/build-compendium-navigation.mjs
           node --check scripts/build-compendium-catalog-pages.mjs
           node --check scripts/enrich-compendium-augmentation-generations.mjs
           node --check scripts/enrich-compendium-reality-lore.mjs
           node --check scripts/build-compendium-truth-catalog.mjs
           node --check scripts/enrich-compendium-truth-lore.mjs
           node --check scripts/prepare-builder-reality-catalogs.mjs
+          node --check compendium/tests/navigation-check.mjs
+          node --check compendium/tests/category-navigation-runtime-check.mjs
           node --check compendium/tests/catalog-pages-check.mjs
           node --check compendium/tests/catalog-pages-semantic-check.mjs
           node --check compendium/tests/reality-catalog-lore-quality-check.mjs
@@ -100,6 +110,7 @@ jobs:
       - name: Validate V3 corpus and active runtime
         run: |
           node compendium/tests/manifest-check.mjs
+          node compendium/tests/navigation-check.mjs
           node compendium/tests/bestiary-v16-check.mjs
           node compendium/tests/catalog-pages-check.mjs
           node compendium/tests/reality-catalog-lore-quality-check.mjs
@@ -109,6 +120,7 @@ jobs:
         env:
           IMMUTABLE_BASE: https://raw.githack.com/Helclaeynn/Terra-Umbra-Builder/${{ github.sha }}/compendium
           PREVIEW_BASE: https://raw.githack.com/Helclaeynn/Terra-Umbra-Builder/preview/lore/compendium
+          RESTRUCTURE_BASE: https://raw.githack.com/Helclaeynn/Terra-Umbra-Builder/preview/compendium-restructure/compendium
         run: |
           set -euo pipefail
           CURL=(curl --fail --silent --show-error --location --retry 6 --retry-delay 2 --retry-all-errors)
@@ -116,26 +128,41 @@ jobs:
           echo "Checking immutable RawGitHack page: ${IMMUTABLE_BASE}/index.html"
           "${CURL[@]}" "${IMMUTABLE_BASE}/index.html" -o /tmp/rawgithack-index.html
           grep -qi 'Terra Umbra' /tmp/rawgithack-index.html
+          grep -q 'category-navigation.js?v=' /tmp/rawgithack-index.html
 
           echo "Checking preview/lore RawGitHack page with cache-buster"
           "${CURL[@]}" "${PREVIEW_BASE}/index.html?v=${GITHUB_SHA}" -o /tmp/rawgithack-preview-index.html
           grep -qi 'Terra Umbra' /tmp/rawgithack-preview-index.html
 
+          echo "Checking preview/compendium-restructure RawGitHack page with cache-buster"
+          "${CURL[@]}" "${RESTRUCTURE_BASE}/index.html?v=${GITHUB_SHA}" -o /tmp/rawgithack-restructure-index.html
+          grep -qi 'Terra Umbra' /tmp/rawgithack-restructure-index.html
+
           "${CURL[@]}" "${IMMUTABLE_BASE}/data/manifest-v3.json" -o /tmp/rawgithack-manifest-v3.json
+          "${CURL[@]}" "${IMMUTABLE_BASE}/data/navigation-v1.json" -o /tmp/rawgithack-navigation-v1.json
+          node <<'NODE'
+          const fs = require('fs');
+          const nav = JSON.parse(fs.readFileSync('/tmp/rawgithack-navigation-v1.json', 'utf8'));
+          const expectedCategories = ['Règles','Réalité','Vérité','Équipement & Objets','Personnages','Bestiaire'];
+          if (nav.version !== 3 || !Array.isArray(nav.entries) || nav.entries.length < 300) {
+            throw new Error(`Navigation externe invalide: version=${nav.version}, entries=${nav.entries?.length ?? 'aucune'}`);
+          }
+          if (JSON.stringify(nav.categories) !== JSON.stringify(expectedCategories)) {
+            throw new Error(`Navigation externe: rubriques V3 invalides ${JSON.stringify(nav.categories)}`);
+          }
+          for (const category of expectedCategories) {
+            if (!nav.entries.some(entry => entry.category === category)) throw new Error(`Navigation externe: catégorie absente ${category}`);
+          }
+          NODE
+
           node <<'NODE' > /tmp/rawgithack-fragments.txt
           const fs = require('fs');
           const manifest = JSON.parse(fs.readFileSync('/tmp/rawgithack-manifest-v3.json', 'utf8'));
           const expected = manifest.datasets.reduce((sum, dataset) => sum + Number(dataset.count || 0), 0);
-          if (expected !== Number(manifest.expectedTotal)) {
-            throw new Error(`Manifest total mismatch: datasets=${expected}, expectedTotal=${manifest.expectedTotal}`);
-          }
+          if (expected !== Number(manifest.expectedTotal)) throw new Error(`Manifest total mismatch: datasets=${expected}, expectedTotal=${manifest.expectedTotal}`);
           for (const dataset of manifest.datasets) {
-            if (!dataset.prefix || !Number.isInteger(dataset.parts) || dataset.parts < 1) {
-              throw new Error(`Invalid dataset manifest entry: ${JSON.stringify(dataset)}`);
-            }
-            for (let i = 0; i < dataset.parts; i += 1) {
-              process.stdout.write(`${dataset.prefix}-${String(i).padStart(2, '0')}.b64part\n`);
-            }
+            if (!dataset.prefix || !Number.isInteger(dataset.parts) || dataset.parts < 1) throw new Error(`Invalid dataset manifest entry: ${JSON.stringify(dataset)}`);
+            for (let i = 0; i < dataset.parts; i += 1) process.stdout.write(`${dataset.prefix}-${String(i).padStart(2, '0')}.b64part\n`);
           }
           NODE
 
@@ -147,4 +174,4 @@ jobs:
             checked=$((checked + 1))
           done < /tmp/rawgithack-fragments.txt
 
-          echo "RawGitHack external delivery OK — ${checked} fragments + manifest + immutable/preview HTML; no HTTP 404."
+          echo "RawGitHack external delivery OK — ${checked} fragments + manifest + navigation v3 + immutable/preview/restructure HTML; no HTTP 404."

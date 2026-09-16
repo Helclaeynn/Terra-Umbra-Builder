@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "sourceDocument": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx",
+  "page": {
+    "id": "verite-lore-pelage-gris",
+    "title": "Pelage Gris",
+    "order": 40,
+    "evidence": ["V6 p.45"],
+    "sections": [
+      {
+        "title": "Un héritage culturel, pas une couleur",
+        "paragraphs": ["Le nom du Pelage vient d’anciennes lignées et de régions où certaines couleurs furent historiquement fréquentes, mais il a depuis longtemps dépassé la biologie. En 2035, appartenir aux Gris décrit une tradition apprise, pas la couleur réelle du loup."]
+      },
+      {
+        "title": "Protéger directement la Meute",
+        "paragraphs": ["Les Gris, issus historiquement de lignées occidentales, placent la protection directe de la Meute au centre de leur identité. Protéger peut signifier s’interposer, contre-attaquer ou détruire une menace avant qu’elle n’atteigne les siens."]
+      },
+      {
+        "title": "Des clans aux réponses opposées",
+        "paragraphs": ["Cette culture a produit des clans très différents, depuis des communautés cherchant la sécurité de tous les Garous jusqu’à des lignées autoritaires convaincues que leur propre ordre est la meilleure protection possible."]
+      }
+    ]
+  }
+}

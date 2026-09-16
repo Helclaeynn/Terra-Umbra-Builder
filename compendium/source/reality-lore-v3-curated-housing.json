@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "source": "Catalogue Réalité du Builder — Logements & Planques",
+  "entries": {
+    "Squat / zone abandonnee": {
+      "paragraphs": [
+        "Un squat ou une zone abandonnée offre un abri parce que le lieu est délaissé, pas parce qu’il fournit un véritable service de logement. L’occupation dépend de l’état du bâtiment et de la possibilité d’y rester sans disposer des garanties d’un habitat entretenu.",
+        "La connectivité y est explicitement peu fiable. Holonet, services domestiques et sécurisation ne peuvent donc pas être présumés : confort, accès et protection dépendent de ce qui fonctionne encore réellement sur place."
+      ]
+    },
+    "Dortoir ouvrier": {
+      "paragraphs": [
+        "Le dortoir ouvrier est un logement collectif basique conçu autour de la densité d’occupation. Il fournit un hébergement stable sans rechercher l’espace individuel ou le standing, et représente une solution fonctionnelle avant d’être confortable.",
+        "Sa logique collective implique que le lieu se partage avec de nombreux autres occupants et que l’intimité y reste limitée. Le dortoir donne un toit et une place identifiable, mais pas les avantages d’un logement autonome ou fortement sécurisé."
+      ]
+    },
+    "Vladic micro-logement": {
+      "paragraphs": [
+        "Le micro-logement Vladic constitue le premier échelon du parc immobilier gravitant autour de Vladic et de son réseau mafieux russe. Il faut l’imaginer comme une chambre autonome ou un très petit studio récupéré dans un immeuble du territoire, parfois issu d’un ancien logement subdivisé : peu d’espace, peu de prestige, mais une adresse stable accessible à quelqu’un que le réseau accepte de loger.",
+        "Son faible coût apparent se paie surtout en dépendance sociale. Le propriétaire, le gardien, un voisin ou un commerce proche peut connaître le visage de l’occupant et savoir par qui il est arrivé là ; on n’habite donc pas vraiment anonymement chez Vladic. Le même tissu humain qui facilite l’accès au logement peut rendre rapidement compte d’un loyer en retard, d’un visiteur inhabituel ou d’un locataire qui commence à poser problème."
+      ]
+    },
+    "Vladic studio": {
+      "paragraphs": [
+        "Le studio Vladic marque un cran d’autonomie supplémentaire dans la même économie immobilière de territoire. C’est vraisemblablement un véritable petit appartement plutôt qu’une simple chambre : assez d’espace pour vivre seul sans promiscuité immédiate, dans un bâtiment où plusieurs lots, commerces ou intermédiaires peuvent appartenir directement ou indirectement à la sphère de Vladic.",
+        "Le réseau reste cependant présent en arrière-plan. Un occupant régulier devient un visage connu de l’immeuble et du quartier, et cette familiarité fonctionne dans les deux sens : elle donne accès à un environnement moins indifférent qu’une location anonyme, mais signifie aussi que les habitudes, les visiteurs et les absences se remarquent. La protection éventuelle vient de cette implantation sociale, pas d’une fortification du studio."
+      ]
+    },
+    "Studio urbain ancien": {
+      "paragraphs": [
+        "Le studio urbain ancien appartient au bâti vieillissant de la ville : un logement individuel ordinaire dont les infrastructures ont été adaptées, entretenues ou remplacées de manière très variable au fil du temps.",
+        "La sécurité connectée y est donc inégale. Avant de compter sur une serrure intelligente, une alerte ou une domotique fiable, il faut regarder ce que le logement possède réellement plutôt que supposer qu’un vieux studio dispose du niveau numérique d’une construction récente."
+      ]
+    },
+    "Vladic familial": {
+      "paragraphs": [
+        "Le logement familial Vladic correspond à un appartement capable d’accueillir durablement plusieurs personnes : plusieurs pièces, davantage de rangements et une vraie vie domestique, probablement dans les barres ou ensembles où le réseau dispose déjà d’une implantation solide. Dans la gamme Vladic, ce n’est plus seulement un toit de dépannage mais un logement que l’on peut occuper des années et autour duquel se construit une vie de quartier.",
+        "Cette stabilité renforce aussi l’inscription dans le territoire. Les voisins connaissent les enfants, les commerces connaissent les habitudes et certaines figures locales savent quelles familles relèvent de qui ; pour un officier mafieux, ce maillage vaut souvent mieux qu’une caméra isolée. Il peut rendre une présence étrangère rapidement visible et susciter une réaction locale, sans jamais constituer un bonus de combat pour les habitants eux-mêmes."
+      ]
+    },
+    "Appartement connecte": {
+      "paragraphs": [
+        "L’appartement connecté intègre directement domotique, systèmes d’alerte et services numériques au fonctionnement du logement. Les tâches domestiques et la gestion quotidienne peuvent ainsi s’appuyer sur un ensemble d’équipements reliés plutôt que sur des appareils isolés.",
+        "Le niveau réel de confort ou de sécurité dépend toutefois des fonctions effectivement installées. Un appartement connecté fournit l’infrastructure pour automatiser et surveiller le domicile ; il ne suppose pas que chaque service possible soit présent dans tous les logements de cette catégorie."
+      ]
+    },
+    "Vladic grand/protege": {
+      "paragraphs": [
+        "Le qualificatif « grand/protégé » place ce logement au sommet de la gamme Vladic ordinaire. Il évoque vraisemblablement un T4, un T5 ou un appartement encore plus vaste, autour de la centaine de mètres carrés lorsque le bâti le permet, parfois obtenu en rénovant ou réunissant plusieurs lots d’une barre déjà tenue par le réseau. Ce type d’adresse convient à une famille installée, à un lieutenant utile ou à quelqu’un que Vladic a intérêt à loger correctement plutôt qu’à un locataire de passage.",
+        "Sa véritable protection vient du territoire autant que de la porte d’entrée : gardien qui connaît les résidents, voisins qui remarquent les inconnus, commerces qui voient les véhicules inhabituels et petites mains capables de faire remonter une information vers le réseau. Un intrus qui rôde peut donc devenir un problème collectif avant d’atteindre l’appartement. Cela reste une protection de quartier, sociale et mafieuse, pas un bonus de combat une fois la violence entrée dans le logement."
+      ]
+    },
+    "Residence de cadre securisee": {
+      "paragraphs": [
+        "La résidence de cadre sécurisée combine un logement de bon standing avec un environnement où sécurité, services et qualité du quartier font partie de la prestation. Elle vise une vie quotidienne plus encadrée qu’un simple appartement urbain.",
+        "La protection ne se résume donc pas à une serrure plus solide : elle repose sur l’ensemble formé par le bâtiment, les services disponibles et le secteur où se trouve la résidence. Les moyens précis restent ceux réellement présents sur le site."
+      ]
+    },
+    "Penthouse / villa": {
+      "paragraphs": [
+        "Le penthouse ou la villa représente le sommet du logement privé courant : espace, standing, sécurité et services premium sont réunis dans un habitat pensé autant pour le confort que pour la représentation sociale.",
+        "Cette catégorie décrit un niveau de prestation, pas un plan de sécurité unique. Personnel, contrôle d’accès, domotique ou surveillance peuvent varier d’une propriété à l’autre ; ce qui est garanti est le niveau élevé de standing et de services attendu du lieu."
+      ]
+    },
+    "Cache improvisee": {
+      "paragraphs": [
+        "Une cache improvisée se dissimule surtout par abandon ou par oubli : un recoin, local ou espace que personne ne regarde vraiment et qui peut servir tant qu’il reste hors de l’attention ordinaire. Sa discrétion vient davantage de son insignifiance apparente que d’un dispositif sophistiqué.",
+        "Elle offre peu de sécurité. Il ne faut présumer ni contre-surveillance, ni accès renforcé, ni réseau fiable ; si quelqu’un identifie la cache et vient la chercher, le lieu dispose rarement de moyens propres pour résister à cette découverte."
+      ]
+    },
+    "Piece/box/squat discret": {
+      "paragraphs": [
+        "Une pièce, un box ou un squat discret sert de planque de courte durée en recherchant avant tout une faible empreinte. Le lieu est choisi pour rester banal et peu remarqué plutôt que pour devenir une installation permanente et fortement équipée.",
+        "Cette discrétion fonctionne tant que l’usage reste contenu. Plus on y accumule de matériel, de passages ou de connexions, plus on s’éloigne de ce qui fait sa force : un espace temporaire dont la présence attire peu l’attention."
+      ]
+    },
+    "Studio/garage anonyme": {
+      "paragraphs": [
+        "Le studio ou garage anonyme est une planque stable dont l’identité associée et l’emplacement sont choisis pour ne pas renvoyer directement vers la vie ordinaire de son utilisateur. Le lieu fournit également un espace de stockage exploitable.",
+        "L’anonymat constitue ici la première couche de protection. Il sépare une activité ou du matériel de l’adresse habituelle, mais n’implique pas automatiquement une sécurité physique élevée : celle-ci dépend encore des équipements réellement ajoutés au site."
+      ]
+    },
+    "Planque dediee": {
+      "paragraphs": [
+        "Une planque dédiée est préparée spécifiquement pour cet usage. Serrures, caméras et organisation des accès peuvent y être choisis dès l’installation, avec une connectivité volontairement mise en place ou au contraire un isolement réseau recherché.",
+        "Cette maîtrise de la connectivité compte autant que la fermeture des portes : selon le besoin, la planque peut privilégier l’accès au Holonet ou réduire sa surface numérique. Elle devient ainsi un lieu configuré pour une fonction clandestine précise plutôt qu’un logement détourné."
+      ]
+    },
+    "Planque securisee": {
+      "paragraphs": [
+        "Une planque sécurisée ajoute à l’anonymat des moyens de contre-surveillance et plusieurs accès possibles. Elle est pensée pour limiter la capacité d’un observateur à confirmer qui utilise le lieu et pour éviter qu’une seule entrée ne conditionne tous les déplacements.",
+        "La sécurité repose donc sur la préparation du site autant que sur ses protections physiques. Surveillance adverse, accès compromis ou identité découverte restent des menaces possibles, mais la planque fournit des moyens dédiés pour les détecter, les compliquer ou s’en dégager."
+      ]
+    },
+    "Reseau de planques premium": {
+      "paragraphs": [
+        "Un réseau de planques premium ne repose plus sur une adresse unique : plusieurs sites, identités de couverture, moyens logistiques et dispositifs de sécurité sont maintenus comme un ensemble cohérent. La clandestinité devient une infrastructure plutôt qu’un simple lieu de repli.",
+        "Sa force tient à cette redondance. Un site compromis n’épuise pas nécessairement toutes les solutions disponibles, et la logistique du réseau permet de déplacer personnes ou matériel entre plusieurs points préparés au lieu de dépendre d’une seule cache."
+      ]
+    }
+  }
+}

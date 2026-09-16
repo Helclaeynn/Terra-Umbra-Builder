@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "sourceDocument": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx",
+  "page": {
+    "id": "verite-lore-pelage-blanc",
+    "title": "Pelage Blanc",
+    "order": 60,
+    "evidence": ["V6 p.45"],
+    "sections": [
+      {
+        "title": "Un héritage culturel, pas une couleur",
+        "paragraphs": ["Le Pelage Blanc est une tradition, pas l’obligation d’avoir une fourrure claire. Son nom renvoie à des héritages septentrionaux et à une manière d’organiser la Meute."]
+      },
+      {
+        "title": "La discipline martiale",
+        "paragraphs": ["Les Blancs ont fait de la discipline martiale une culture. Leur idéal valorise une Meute qui a appris à combattre ensemble pendant des années et pour laquelle coordination et continuité de service comptent énormément."]
+      },
+      {
+        "title": "Ulfhednars et continuité",
+        "paragraphs": ["Les anciennes confréries d’Ulfhednars montrent jusqu’où cette logique peut aller : mémoire, fonction guerrière et continuité de service y comptent davantage que la simple domination d’un Alpha, avec le risque que l’obéissance devienne une vertu en soi."]
+      }
+    ]
+  }
+}

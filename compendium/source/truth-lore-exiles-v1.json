@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 1,
+  "sourceDocument": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx",
+  "scope": "Chapitre 17 — Exilés : diaspora terrestre, cinq peuples majeurs et Silcenters",
+  "pages": [
+    {
+      "id": "verite-lore-exiles",
+      "title": "17. Exilés — peuples, fonctions et traditions",
+      "aliases": ["Exilés — peuples, fonctions et traditions", "Exilés", "Les Exilés"],
+      "order": 10,
+      "evidence": [2936, 2938, 2939, 2940, 2943, 2944, 2948, 2949, 2950, 2951, 2952, 2953, 2954, 2955, 3015, 3016, 3017],
+      "sections": [
+        {
+          "title": "Des peuples d’autres mondes devenus terrestres",
+          "paragraphs": [
+            "Le terme Exilé rassemble des peuples arrivés sur Terre par les passages d’Aèr, mais aussi des lignées venues de Gaerras ou de mondes aujourd’hui disparus. Les cinq ensembles les plus visibles sont les Elyë, les Whurtens, les Ashylls, les Thulkars et les Azménoriens. Ils ne partagent ni une biologie unique ni une civilisation commune : leur parenté est historique et cosmologique.",
+            "Beaucoup de communautés exilées sont installées sur Terre depuis bien avant l’époque contemporaine, parfois depuis avant l’Hologramme. En 2035, être Exilé ne signifie donc pas nécessairement avoir quitté soi-même un autre monde. Certains membres de ces peuples sont nés sur Terre depuis de nombreuses générations et n’ont connu leur monde d’origine qu’à travers les récits, les archives ou les traditions familiales."
+          ]
+        },
+        {
+          "title": "Une diaspora transformée par la Terre",
+          "paragraphs": [
+            "Les cultures exilées ne sont pas restées intactes. Langues, rites, solidarités et institutions ont changé au contact des sociétés humaines, de la clandestinité et de l’Hologramme. Les débats sur l’intégration, la mémoire et la transmission traversent chaque peuple différemment.",
+            "Chez les Elyë, par exemple, les effets de l’Hologramme sur l’enfance et le développement ont nourri des controverses durables. Ailleurs, la question centrale peut être la préservation d’un savoir technique, d’une organisation de Horde, de réseaux économiques ou d’une tradition artisanale."
+          ]
+        },
+        {
+          "title": "Une société interconnectée",
+          "paragraphs": [
+            "La société exilée moderne n’est pas un assemblage de cinq musées fermés. Les Silcenters, les réseaux commerciaux, les formations croisées et les organisations communes ont produit des générations capables de circuler entre plusieurs héritages.",
+            "La Terre est devenue un foyer autant qu’un lieu d’exil. Cette réalité n’efface pas les mondes perdus, mais elle empêche de réduire les Exilés à la nostalgie : leurs institutions actuelles sont aussi des réponses aux problèmes de 2035."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "verite-lore-elye",
+      "title": "Elyë",
+      "aliases": ["Elyë — Elfes", "Elyë — les Elfes", "Elfes Elyë"],
+      "order": 20,
+      "evidence": [2961, 2962, 2963, 2964, 2965, 2966, 2967, 2968],
+      "sections": [
+        {
+          "title": "Vivre avec une mémoire longue",
+          "paragraphs": [
+            "La longévité elyë transforme le rapport à la famille, à l’éducation et à la mémoire. Des décisions prises plusieurs décennies auparavant peuvent encore structurer une carrière, une dette, une loyauté ou un traumatisme. Les générations se superposent plus longtemps, ce qui donne un poids particulier aux archives, aux lignages et aux ruptures anciennes.",
+            "Sur Terre, les migrations et les Silcenters ont mêlé des lignées autrefois plus séparées. La pureté d’origine compte moins qu’autrefois dans de nombreux milieux, même si les souvenirs de la Guerre de la Magie et les débats sur l’éducation des enfants sous l’Hologramme continuent de marquer la société elyë."
+          ]
+        },
+        {
+          "title": "Magie, métiers et intégration",
+          "paragraphs": [
+            "L’affinité des Elyë avec la Magie est culturellement importante sans faire de chaque Elyë un Mage. La majorité mène aussi des vies professionnelles ordinaires : administration, recherche, commerce, art, médecine, sécurité ou métiers techniques.",
+            "L’Union Elfique maintient des programmes d’enseignement, des langues, des archives et des outils d’intégration. Elle cherche moins à figer une civilisation perdue qu’à permettre à une population très longue-vivante de conserver ses repères dans un monde humain qui change vite."
+          ]
+        },
+        {
+          "title": "Les Croix d’Emphyrra",
+          "paragraphs": [
+            "Les Croix d’Emphyrra sont des traditions, pas des sous-races. Le Faucon de Malachite privilégie l’autonomie, le terrain et la capacité à briser les artifices adverses. Le Serpentaire de Citrine assume une culture d’exigence, d’ascendant et de haute magie.",
+            "L’Aigle de Larvikite conserve une relation plus intransigeante aux anciens dieux et aux rites anciens. Le Hibou d’Onyx s’inscrit davantage dans les Ombres, la discrétion et les formes de symbiose. Ces courants offrent des cadres de transmission différents à une même population elyë."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "verite-lore-whurtens",
+      "title": "Whurtens",
+      "aliases": ["Whurten", "Whurten — Nains", "Whurtens — Nains", "Nains Whurtens"],
+      "order": 30,
+      "evidence": [2969, 2970, 2971, 2972, 2973, 2974, 2975, 2976, 2977, 2978],
+      "sections": [
+        {
+          "title": "Fiabilité, profondeur et transmission",
+          "paragraphs": [
+            "La culture whurtenne associe fortement artisanat, profondeur, runes et fiabilité. Une technologie est d’autant plus estimée qu’elle peut être comprise, entretenue, restaurée et transmise. Cette préférence produit une relation très concrète aux objets : la robustesse compte davantage que l’effet de nouveauté.",
+            "Les runes et les savoirs de clan participent de cette continuité. Ils ne sont pas seulement des signes anciens, mais des façons d’organiser la mémoire technique et culturelle dans une diaspora qui a dû reconstruire ses repères."
+          ]
+        },
+        {
+          "title": "Courants whurtens",
+          "paragraphs": [
+            "Les Ymirin fournissent une représentation institutionnelle importante aux Whurtens. Les Elegarin sont davantage associés aux échanges, au commerce et à une culture plus ouverte sur les autres communautés. Les Traditionalistes cherchent à préserver runes, clans, anciens dieux, langue et savoirs avec le moins de dilution possible.",
+            "Les Duergar Nidavellin et Vagorrin posent des problèmes d’intégration beaucoup plus lourds et ne représentent pas une trajectoire ordinaire de la société whurtenne de 2035."
+          ]
+        },
+        {
+          "title": "Atelier des Clans et Iron Law",
+          "paragraphs": [
+            "L’Atelier des Clans prolonge une philosophie de maintenance, de restauration et de construction durable. L’Iron Law applique une logique voisine au corps augmenté : une augmentation devrait former une architecture fiable, intégrée à l’individu, plutôt qu’une dépendance fragile impossible à maintenir.",
+            "Cette pensée a dépassé les seuls Whurtens. Elle reste culturellement enracinée chez eux, mais peut être adoptée par d’autres personnes qui partagent la même exigence de robustesse et d’autonomie technique."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "verite-lore-ashylls",
+      "title": "Ashylls",
+      "aliases": ["Ashyll", "Ashyll — Gobelins", "Ashylls — Gobelins", "Gobelins Ashylls"],
+      "order": 40,
+      "evidence": [2979, 2980, 2981, 2982, 2983, 2984, 2985, 2986, 2987, 2988, 2989, 2990, 2991],
+      "sections": [
+        {
+          "title": "L’adaptation comme culture",
+          "paragraphs": [
+            "La culture ashyll valorise la capacité à comprendre comment circule la valeur : argent, information, accès, dette, faveur, marchandise ou service. Cette intelligence des réseaux a trouvé sur Terre un terrain particulièrement favorable, entre juridictions superposées, logistique corporatiste, mafias et Underlife.",
+            "Cette aptitude n’implique pas que les Ashylls soient naturellement criminels. Elle peut aussi nourrir le commerce légal, la médiation, la logistique, l’entrepreneuriat ou le conseil. L’association automatique entre Ashyll et marché noir est un stéréotype que plusieurs institutions ashylles combattent activement."
+          ]
+        },
+        {
+          "title": "Green Union et Ligue des Quatre Empereurs",
+          "paragraphs": [
+            "La Green Union défend une intégration par l’éducation, le travail, l’entreprise et le respect public. Elle cherche à construire une place durable dans la Réalité sans dépendre du marché noir. Ses critiques lui reprochent parfois de pousser trop loin la conformité aux normes humaines.",
+            "La Ligue des Quatre Empereurs représente une autre tradition de pouvoir : préparer l’environnement, disposer des bonnes ressources et faire jouer les leviers économiques avant l’affrontement. Son influence ne relève pas d’une « magie de l’argent », mais d’une culture de la préparation et du contrôle des conditions d’action."
+          ]
+        },
+        {
+          "title": "Le Syndicat de Jade",
+          "paragraphs": [
+            "Le Syndicat de Jade est une infrastructure criminelle de l’Underlife : protection, contrebande, courtage occulte et réseaux distribués. Il est fortement associé aux Ashylls sans être exclusivement ashyll ; des Thulkars et d’autres acteurs de la Vérité y occupent également des places importantes.",
+            "Son existence illustre la différence entre un peuple et l’une de ses organisations. Le Syndicat exploite des compétences très valorisées dans la culture ashyll, mais il ne définit pas l’ensemble des Ashylls."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "verite-lore-thulkars",
+      "title": "Thulkars",
+      "aliases": ["Thulkar", "Thulkar — Orques", "Thulkars — Orques", "Orques Thulkars"],
+      "order": 50,
+      "evidence": [2992, 2993, 2994, 2995, 2996, 2997, 2998, 2999, 3000, 3001, 3002, 3003, 3004, 3005],
+      "sections": [
+        {
+          "title": "La Horde comme culture",
+          "paragraphs": [
+            "Chez les Thulkars, une Horde n’est pas une simple foule de combattants. C’est une culture d’action collective, avec une doctrine, des valeurs, des manières de répartir les rôles et une mémoire commune. La formation partagée vise d’abord la coordination et la confiance entre membres.",
+            "L’anatomie thulkar ne détermine pas cette culture. Les Hordes montrent au contraire combien un même peuple peut produire des doctrines sociales très différentes, loin du stéréotype qui réduit les Thulkars à la force brute."
+          ]
+        },
+        {
+          "title": "Cinq Hordes contemporaines",
+          "paragraphs": [
+            "La Horde Divine s’inscrit dans une tradition tactique liée à Ashorn. La Horde des Marais privilégie l’opportunisme et la capacité à tirer parti d’une situation changeante. La Horde Fantôme développe l’intégration, les identités compartimentées et l’art de disparaître dans la Réalité ; beaucoup de ses membres sont nés sur Terre.",
+            "La Horde des Cendres fait de la construction, de l’infrastructure et de la logistique des formes de puissance stratégique. La Horde de la Rose valorise au contraire la polyvalence, l’éducation, les arts, la représentation et l’entraînement croisé, contestant frontalement l’image du Thulkar limité à la violence."
+          ]
+        },
+        {
+          "title": "Courants sombres",
+          "paragraphs": [
+            "Les traditions Abyssale et Maudite occupent une place plus sombre et ne constituent pas la norme thulkar. La voie Abyssale est notamment plus proche de la corruption de Thul que d’une culture ordinaire de Horde.",
+            "Les inclure dans l’histoire thulkar ne revient donc pas à les présenter comme représentatives : elles existent à la marge d’un ensemble beaucoup plus vaste de communautés et de doctrines."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "verite-lore-azmenoriens",
+      "title": "Azménoriens",
+      "aliases": ["Azménorien", "Azménoriens", "Azmenoriens"],
+      "order": 60,
+      "evidence": [3006, 3007, 3008, 3009, 3010, 3011, 3012, 3013, 3014],
+      "sections": [
+        {
+          "title": "Quand magie et technologie coopèrent",
+          "paragraphs": [
+            "Les Azménoriens entretiennent une relation singulière entre magie et technologie. Leur histoire a démontré que les lois naturelles et leur transgression magique peuvent coopérer à très grande échelle. Le danger de cette tradition ne vient pas de son impossibilité, mais précisément du fait qu’elle fonctionne.",
+            "L’ancienne technomagie azménorienne a produit des passages stables entre mondes, manipulé le Néant et laissé des héritages planétaires comparables, par leur portée, à l’Hologramme. La catastrophe associée à cet âge a profondément marqué la prudence des générations modernes."
+          ]
+        },
+        {
+          "title": "Les Servants de Pluton",
+          "paragraphs": [
+            "Les Servants de Pluton sont des spécialistes des technologies étrangères et de la discrétion stratégique. Pour eux, la Terre est particulièrement dangereuse parce qu’elle combine une magie active avec une croissance technologique très rapide, mélange susceptible d’attirer des attentions qui dépassent la planète.",
+            "Leur rapport aux institutions de défense et aux réseaux comme l’AIDH est donc nécessairement compliqué : coopérer peut être indispensable, mais exposer certains savoirs peut augmenter exactement le risque qu’ils cherchent à contenir."
+          ]
+        },
+        {
+          "title": "Technomagie moderne",
+          "paragraphs": [
+            "La technomagie azménorienne moderne travaille avec des procédures beaucoup plus limitées et contrôlées. Convergence, Fracture et Arsenal de Rupture décrivent des familles de savoir-faire plutôt qu’un retour à la démesure de l’ancien âge.",
+            "Un objet technomagique peut être conçu pour être utilisé par quelqu’un qui n’est pas lui-même technomage : l’expertise principale appartient alors au concepteur et à la fabrication. Les Lueurs d’Azménor orientent une partie de cet héritage vers la Chasse, les Fléaux et les dangers liés au Néant."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "verite-lore-silcenters",
+      "title": "Silcenters",
+      "aliases": ["Silcenters et HDS", "Les Silcenters", "Silcenter"],
+      "order": 70,
+      "evidence": [2943, 2944, 2956, 2957, 2958, 2959, 2960],
+      "sections": [
+        {
+          "title": "Des villes de seconde appartenance",
+          "paragraphs": [
+            "Les Silcenters sont des concentrations urbaines de la Vérité où logements, commerces, écoles et services permettent aux populations exilées de vivre sans réduire toute leur identité au camouflage. Ils ne sont pas de simples refuges : ils offrent une seconde appartenance à des personnes qui sont souvent tout autant terrestres qu’exilées.",
+            "Leur rôle est particulièrement important pour la transmission culturelle. Une langue, une manière de cuisiner, une mémoire familiale ou une pratique communautaire peuvent y rester vivantes sans obliger leurs membres à rompre avec la Réalité."
+          ]
+        },
+        {
+          "title": "Institutions et continuité",
+          "paragraphs": [
+            "Le Conseil des Anciens exerce une fonction politique importante dans les Silcenters sans constituer un État parallèle universel. Son autorité dépend des communautés, des situations et des équilibres locaux.",
+            "Les Protocoles de Continuité et le HDS — Hologram Distorsion Skill — appartiennent au corpus de connaissances développé pour vivre durablement sous l’Hologramme. Leur existence montre que la clandestinité exilée n’est plus seulement une suite d’improvisations : elle est devenue une culture technique transmise."
+          ]
+        }
+      ]
+    }
+  ]
+}

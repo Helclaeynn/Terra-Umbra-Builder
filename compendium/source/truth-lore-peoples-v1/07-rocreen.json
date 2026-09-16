@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "sourceDocument": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx",
+  "page": {
+    "id": "verite-lore-rocreen",
+    "title": "Rocréen",
+    "order": 70,
+    "aliases": ["Rocreen", "Rocréens", "Rocreens"],
+    "evidence": ["V6 pp.164–166"],
+    "sections": [
+      {"title":"Régénérer et rester soi","paragraphs":["Les Rocréens sont des molluscoïdes amphibies dont le Noyau permet une reconstruction biologique remarquable. Cette continuité corporelle accompagne une histoire de prédateurs sociaux et des formes de communication psychique particulièrement développées."]},
+      {"title":"Partager sans disparaître dans le groupe","paragraphs":["Un Rocréen peut être profondément autonome tout en participant à des échanges sensoriels ou informationnels que les Humains associeraient spontanément à l’intimité. Les frontières de la personne ne disparaissent pas ; elles sont négociées dans une culture où partager une perception peut être aussi ordinaire que montrer une image."]},
+      {"title":"Diasporas et réseaux clandestins","paragraphs":["Les diasporas rocréennes ont construit des réseaux clandestins particulièrement solides. La Mafia Shaediri relie marché noir xéno, spatioports illégaux, importations interdites et entraide de diaspora, tout en restant à l’échelle terrestre, orbitale et cislunaire de TUC."]},
+      {"title":"Les Shaekori","paragraphs":["Les Shaekori représentent la dimension fraternelle de cette infrastructure : refuges, extractions, relais et réseau sans centre. Un Rocréen n’a pas besoin d’être criminel pour comprendre pourquoi une diaspora minoritaire valorise les routes capables de continuer à fonctionner lorsque l’administration officielle cesse de répondre."]}
+    ]
+  }
+}

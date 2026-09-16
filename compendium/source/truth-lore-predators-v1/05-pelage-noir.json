@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "sourceDocument": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx",
+  "page": {
+    "id": "verite-lore-pelage-noir",
+    "title": "Pelage Noir",
+    "order": 50,
+    "evidence": ["V6 p.45"],
+    "sections": [
+      {
+        "title": "Un héritage culturel, pas une couleur",
+        "paragraphs": ["Le nom du Pelage est une tradition culturelle et idéologique plutôt qu’un signe biologique. Un membre des Noirs peut avoir n’importe quelle couleur de forme lupine sans contradiction."]
+      },
+      {
+        "title": "Le territoire comme communauté",
+        "paragraphs": ["Les Noirs, héritiers de nombreuses lignées natives de l’Ouest américain, ont développé une relation plus territoriale à la communauté. Le lieu occupé par une Meute, ses trajets, ses frontières et sa capacité à chasser ensemble comptent autant que la hiérarchie formelle."]
+      },
+      {
+        "title": "Frontières et conflits",
+        "paragraphs": ["Le territoire est l’espace dans lequel les sens de plusieurs Garous commencent à fonctionner comme un réseau social vivant. Cette tradition explique leur efficacité à défendre une zone, mais aussi la violence que peuvent produire les conflits de frontières."]
+      }
+    ]
+  }
+}

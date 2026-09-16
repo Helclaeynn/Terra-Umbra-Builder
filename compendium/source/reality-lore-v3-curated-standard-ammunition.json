@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "source": "TUC Réalité V8 — lots de munitions standard par fabricant et calibre",
+  "entries": {
+    "Pistolet leger / PM — Raven": {
+      "paragraphs": [
+        "Les lots Raven pour pistolets légers et pistolets-mitrailleurs représentent la munition de service ordinaire de la marque dans les petits calibres de combat. Ils sont pensés pour alimenter sans particularité exotique les armes compactes Raven et les plateformes compatibles, avec la logique de standardisation attendue d'un fabricant très présent sur les gammes de sécurité et d'intervention.",
+        "Il s'agit bien de munitions standard : aucune propriété EMP, perforante ou de contrôle n'est incluse par défaut. Le nom Raven renseigne surtout sur la filière d'approvisionnement, le conditionnement et la compatibilité du lot ; les effets spéciaux appartiennent aux cartouches dédiées comme Flash, Volto, Drill ou Night."
+      ]
+    },
+    "Pistolet leger / PM — Phoenix": {
+      "paragraphs": [
+        "Les munitions Phoenix pour pistolets légers et PM constituent l'alimentation conventionnelle des armes compactes de la marque. Dans un catalogue où Phoenix associe volontiers ses plateformes à des interfaces Smartlink et à des effets spécialisés, ces cartouches rappellent qu'une grande partie de l'usage quotidien reste fondée sur une munition balistique ordinaire.",
+        "Le lot n'apporte donc ni ciblage électronique ni effet énergétique à lui seul. Les fonctions particulières viennent de l'arme ou d'une munition spéciale distincte ; ici, Phoenix fournit simplement la cartouche courante nécessaire à l'entraînement, au port quotidien et aux échanges où aucun effet spécialisé n'est recherché."
+      ]
+    },
+    "Pistolet leger / PM — Owl": {
+      "paragraphs": [
+        "Les lots Owl pour pistolets légers et PM occupent le versant le plus simple de l'offre de la marque : des cartouches conventionnelles pour armes compactes, destinées à être consommées en quantité sans transformer chaque chargeur en dépense spécialisée. Elles correspondent au caractère pratique et direct de nombreuses armes Owl.",
+        "Aucun poison, effet anti-cyber ou projectile exotique n'est présent dans ce lot standard. Les familles Venom, Liquid ou Rust sont des choix séparés ; cette munition sert au tir courant, à l'entraînement et au ravitaillement de base d'une arme compatible."
+      ]
+    },
+    "Pistolet lourd — Phoenix": {
+      "paragraphs": [
+        "Le lot Phoenix pour pistolet lourd fournit la cartouche conventionnelle des armes de poing les plus puissantes de la marque. Le calibre supérieur impose déjà une munition plus volumineuse que celle des armes légères, mais le produit reste une alimentation ordinaire et ne doit pas être confondu avec une charge Phoenix spécialisée.",
+        "Smartlink, Flash, Feu ou autres propriétés éventuelles appartiennent à l'arme ou à une munition dédiée, pas à cette boîte de cartouches. Le lot sert donc de référence logistique : celui que l'on achète pour maintenir des chargeurs disponibles sans rechercher un comportement particulier à l'impact."
+      ]
+    },
+    "Pistolet lourd — Owl": {
+      "paragraphs": [
+        "Les cartouches Owl pour pistolet lourd sont la munition courante des armes de poing de gros calibre compatibles. Elles fournissent l'impact attendu de la classe d'arme sans ajouter la chimie, l'électricité ou les projectiles transformables qui caractérisent les familles spéciales de la marque.",
+        "Cette distinction est importante dans l'approvisionnement : un chargeur rempli de munitions standard reste prévisible et simple à remplacer. Venom, Liquid et Rust doivent être choisis explicitement lorsqu'on veut leurs contraintes et leurs effets particuliers."
+      ]
+    },
+    "Mitraillette — Raven": {
+      "paragraphs": [
+        "La munition Raven pour mitraillettes est conditionnée pour les armes automatiques compactes qui consomment rapidement leurs réserves en rafale ou en tir soutenu. Dans ce rôle, la valeur du lot tient moins à un effet particulier qu'à la disponibilité d'une alimentation homogène adaptée à un usage répété.",
+        "Chaque cartouche reste conventionnelle et n'hérite pas automatiquement des technologies EMP ou perforantes visibles ailleurs dans le catalogue Raven. L'utilisateur choisit séparément une munition spéciale lorsqu'il accepte son coût, ses contraintes et son comportement spécifique."
+      ]
+    },
+    "Mitraillette — Phoenix": {
+      "paragraphs": [
+        "Le lot Phoenix pour mitraillette alimente les armes automatiques de proximité de la marque sans leur ajouter une fonction supplémentaire. C'est la munition que l'on emporte lorsque cadence, réserve de chargeurs et continuité du ravitaillement comptent davantage qu'un effet énergétique ou électronique particulier.",
+        "Les systèmes Smartlink des armes compatibles fonctionnent avec cette munition comme avec toute cartouche adaptée, mais le projectile lui-même n'est ni guidé ni intelligent. Phoenix sépare ainsi l'électronique de la plateforme et les effets réellement portés par une munition spécialisée."
+      ]
+    },
+    "Mitraillette — Owl": {
+      "paragraphs": [
+        "Les munitions Owl pour mitraillette sont des cartouches de consommation courante destinées aux armes qui privilégient volume de feu et proximité. Leur intérêt logistique est évident : une arme automatique vide ses chargeurs vite, et le lot standard reste la solution normale lorsqu'aucun effet spécialisé n'est nécessaire.",
+        "Le projectile n'intègre ni poison ni charge anti-cyber. Les munitions Owl exotiques forment une couche de spécialisation distincte ; ce lot constitue au contraire le fond de stock simple que l'on peut réserver à l'entraînement, à la suppression ou au combat ordinaire."
+      ]
+    },
+    "Fusil d'assaut — Raven": {
+      "paragraphs": [
+        "Le lot Raven pour fusil d'assaut est l'alimentation conventionnelle des armes d'épaule de la marque et des plateformes compatibles de même calibre. Il correspond au cœur logistique d'une arme de service : des cartouches destinées à remplir des chargeurs complets pour les engagements où la polyvalence du fusil suffit.",
+        "La cartouche standard ne possède pas par défaut l'EMP du Rampager ni le pouvoir perforant de la Drill. Ces propriétés doivent provenir de l'arme ou d'une munition identifiée comme telle ; le lot Raven ordinaire reste volontairement neutre afin de servir de référence stable."
+      ]
+    },
+    "Fusil d'assaut — Phoenix": {
+      "paragraphs": [
+        "Les cartouches Phoenix pour fusil d'assaut forment le ravitaillement de base des armes d'épaule automatiques de la marque. Elles sont destinées aux chargeurs que l'on consomme dans les échanges prolongés, sans transformer chaque tir en usage d'une technologie particulière ou d'une charge coûteuse.",
+        "Le fait qu'un fusil Phoenix puisse disposer d'un Smartlink ou d'un effet Flash ne modifie pas la nature de cette munition. Le lot standard reste balistique et conventionnel ; Pyro, Hack ou Blast sont des choix distincts lorsque l'effet de la cartouche elle-même devient important."
+      ]
+    },
+    "Fusil d'assaut — Owl": {
+      "paragraphs": [
+        "Le lot Owl pour fusil d'assaut fournit les cartouches ordinaires nécessaires aux armes d'épaule de la marque. Il s'inscrit dans une logique de ravitaillement pragmatique : suffisamment de munitions pour soutenir des chargeurs de combat sans dépendre d'un consommable spécialisé à chaque échange.",
+        "Aucune propriété Perforante, toxique ou anti-cyber n'est attachée au lot simplement parce qu'il porte le nom Owl. Le comportement spécial d'un Howling, d'une Venom ou d'une Rust vient de la plateforme ou du type de munition choisi, pas de la marque imprimée sur une boîte standard."
+      ]
+    },
+    "Precision — Raven": {
+      "paragraphs": [
+        "Les munitions Raven de précision sont les cartouches standard prévues pour les fusils à longue portée compatibles. Elles servent aux tirs préparés et au ravitaillement normal d'une arme de précision, sans supposer que chaque projectile reproduise les effets particuliers d'un Deathbringer ou d'une cartouche spécialisée.",
+        "Le lot ne reçoit donc pas automatiquement Fiable, EMP ou Perforant. Ces propriétés restent celles de l'arme ou d'une munition explicitement conçue pour les porter ; la catégorie « précision » indique ici le type d'arme et de calibre auquel le ravitaillement est destiné."
+      ]
+    },
+    "Precision — Phoenix": {
+      "paragraphs": [
+        "Le lot Phoenix de précision alimente les fusils longue distance de la marque avec une cartouche conventionnelle. Il permet de dissocier l'approvisionnement courant des fonctions plus sophistiquées de certaines plateformes Phoenix, notamment les interfaces de ciblage ou les dispositifs destinés à réduire la signature du tir.",
+        "La cartouche standard n'est ni silencieuse ni guidée par elle-même : ces qualités dépendent de l'arme et de ses équipements. Le lot fournit simplement la munition adaptée à la classe de précision, tandis que les effets particuliers doivent rester explicitement identifiés ailleurs."
+      ]
+    },
+    "Shotgun — Raven": {
+      "paragraphs": [
+        "Les cartouches Raven pour shotgun constituent l'alimentation conventionnelle des armes à dispersion de la marque. Elles sont faites pour être chargées et remplacées rapidement dans une arme de proximité, sans présumer l'effet électrique, EMP ou perforant de certains modèles Raven plus spécialisés.",
+        "Le type de dispersion et les propriétés de l'arme restent ceux de la plateforme utilisée. Ce lot ne transforme pas un shotgun ordinaire en Riot Control ou en Croaker ; il représente simplement la réserve de cartouches standard sur laquelle repose l'usage quotidien de cette famille d'armes."
+      ]
+    },
+    "Shotgun — Phoenix": {
+      "paragraphs": [
+        "Le lot Phoenix pour shotgun fournit des cartouches conventionnelles aux armes à dispersion compatibles. Il est destiné aux usages où l'on veut conserver la puissance et la couverture naturelles d'un shotgun sans engager une charge incendiaire ou un autre consommable spécialisé.",
+        "Un Fire Rain doit son effet Feu à son système ou à sa munition identifiée comme telle, pas à n'importe quelle cartouche Phoenix. Le lot standard reste donc la solution de ravitaillement neutre pour entraînement, réserve ou combat de proximité ordinaire."
+      ]
+    },
+    "Shotgun — Owl": {
+      "paragraphs": [
+        "Les munitions Owl pour shotgun forment la réserve ordinaire des armes à dispersion de la marque. Elles privilégient la simplicité d'approvisionnement et la disponibilité de nombreux coups de proximité plutôt qu'une fonction toxique, électrique ou technologique ajoutée au projectile.",
+        "Le lot n'accorde aucune propriété spéciale par lui-même. La fiabilité éventuelle d'un Boss appartient à l'arme, tandis que Venom, Liquid ou Rust restent des munitions distinctes ; ces cartouches représentent donc le choix de base lorsque la dispersion du shotgun suffit au besoin."
+      ]
+    }
+  }
+}

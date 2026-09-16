@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "source": "TUC Réalité V8 — augmentations corporelles, médicales et cyborg ; reprise manuelle",
+  "entries": {
+    "Armure dermique": [
+      "L’Armure dermique renforce la peau et les couches immédiatement sous-cutanées pour faire du corps lui-même la première surface de protection. Les versions anciennes donnent souvent une texture plus dense, des zones légèrement rigides ou des cicatrices d’implantation perceptibles au toucher, tandis que les intégrations récentes cherchent davantage à conserver l’apparence et la mobilité d’une peau ordinaire.",
+      "C’est une augmentation appréciée de ceux qui veulent rester protégés sans porter en permanence une veste ou une coque visible : agents exposés, convoyeurs, mercenaires ou personnes vivant dans des environnements où l’arme est plus facile à cacher que l’armure. Elle ne remplace cependant pas une protection externe spécialisée : le visage, les articulations et les tissus profonds restent soumis aux limites réelles du corps."
+    ],
+    "Autoinjecteur": [
+      "L’Autoinjecteur est un petit système médical implanté sous la peau et relié à la circulation, avec un réservoir rechargeable accessible lors d’une maintenance. Il transforme l’administration d’un médicament ou d’un stimulant en fonction corporelle intégrée : le porteur n’a plus besoin de chercher une seringue ou un inhalateur lorsque quelques secondes comptent.",
+      "On le rencontre autant chez des patients chroniques que chez des professionnels qui préparent à l’avance une réponse d’urgence. L’implant n’invente toutefois aucun produit : chaque dose doit être choisie, achetée, chargée et remplacée comme n’importe quel consommable médical, et une mauvaise programmation reste une mauvaise décision automatisée."
+    ],
+    "Bloqueur de douleur": [
+      "Le Bloqueur de douleur agit sur les voies neurales qui transforment une lésion en sensation consciente. Il ne répare rien : il réduit la place que la douleur prend dans l’attention du porteur, ce qui permet de continuer à fonctionner là où un organisme non modifié serait surtout occupé à signaler qu’il vient d’être sérieusement malmené.",
+      "Cette distinction explique autant son intérêt que son danger culturel. Soldats, travailleurs augmentés ou combattants peuvent le considérer comme un outil de continuité opérationnelle, tandis que les médecins rappellent qu’un corps silencieux peut continuer à se dégrader. Un utilisateur expérimenté apprend donc à surveiller ses blessures au lieu de prendre l’absence de douleur pour une absence de dommages."
+    ],
+    "Booster d'adrenaline": [
+      "Le Booster d’adrénaline relie le système neural aux mécanismes endocriniens d’urgence afin de déclencher volontairement un état que le corps réserve normalement à la peur, au choc ou à la survie. La sensation décrite par les utilisateurs tient moins d’un simple stimulant que d’un organisme entier qui reçoit soudain l’ordre de traiter les prochaines secondes comme critiques.",
+      "Il intéresse naturellement les métiers où une brève pointe de vitesse décisionnelle ou physique peut sauver une vie, mais personne de sérieux ne le considère comme un régime de fonctionnement normal. Après l’impulsion viennent fatigue, tremblements, chaleur et dette physiologique ; les modèles récents cherchent surtout à rendre cette transition plus contrôlable, pas à abolir le prix biologique d’une telle poussée."
+    ],
+    "Camouflage dermique": [
+      "Le Camouflage dermique transforme la peau en surface chromatique active capable d’adapter couleur et motif à l’environnement proche. Il s’agit d’un véritable changement de peau plutôt que d’un vêtement caméléon : à découvert, le porteur peut briser les grandes lignes de sa silhouette en reproduisant une partie des teintes et contrastes autour de lui.",
+      "L’effet reste profondément dépendant de ce qui demeure visible. Cheveux, équipement, vêtements ordinaires, mouvement et éclairage peuvent trahir quelqu’un dont la peau seule se fond dans le décor ; beaucoup d’utilisateurs associent donc l’implant à une tenue adaptée plutôt que de compter sur lui comme sur une invisibilité. Dans la vie civile, la même technologie nourrit aussi une esthétique corporelle volontairement irréelle."
+    ],
+    "Croissance capillaire": [
+      "Croissance capillaire reprogramme les follicules pour accélérer fortement la pousse des cheveux et des poils selon un schéma choisi. Une coupe radicale, une barbe complète ou une modification importante de la chevelure cesse alors d’être un projet de plusieurs mois et devient une transformation planifiée sur une période beaucoup plus courte.",
+      "L’augmentation s’est installée aussi bien dans les cliniques esthétiques que dans les milieux où changer régulièrement d’apparence est utile. Elle reste pourtant une croissance biologique : les cheveux doivent encore être coupés, coiffés, entretenus ou éliminés, et elle ne fabrique pas à elle seule une nouvelle identité crédible si le visage, la voix et les habitudes restent inchangés."
+    ],
+    "Cybermain": [
+      "La Cybermain remplace seulement la main et le poignet, ce qui évite l’amputation plus lourde d’un bras complet tout en donnant accès à une petite architecture modulaire. Pour beaucoup d’utilisateurs, c’est d’abord une prothèse fonctionnelle : préhension fine, retour sensoriel et mouvements quotidiens doivent paraître naturels avant que l’on pense aux outils que la coque peut accueillir.",
+      "Les premières générations assument davantage leur mécanique, alors que les versions récentes peuvent se dissimuler sous des revêtements très proches de la peau. Sa petite taille limite toutefois ce que l’on peut y enfermer : une Cybermain est pratique pour des fonctions compactes, mais les dispositifs exigeant puissance, volume ou ancrage continuent de favoriser un Cyberbras complet."
+    ],
+    "Cyberpied": [
+      "Le Cyberpied applique la même logique au bas de la jambe : remplacer proprement le pied sans convertir toute la jambe en prothèse. L’essentiel du travail d’ingénierie porte sur l’équilibre, la restitution des appuis et l’absorption des irrégularités du sol, car une prothèse incapable de rendre ces informations devient vite plus fatigante qu’un pied biologique.",
+      "Les modèles récents se cachent facilement dans une chaussure ou sous un revêtement SynthéDerm, ce qui les rend courants chez ceux qui souhaitent une reconstruction discrète. Leur format compact en fait aussi une base pour quelques modules spécialisés, mais il ne transforme pas spontanément la course, le saut ou l’escalade : ces usages demandent toujours un équipement conçu pour eux."
+    ],
+    "Defense electronique": [
+      "La Défense électronique est une couche de sécurité implantée au plus près du réseau neural et des bus de données augmentiques. Elle surveille les échanges anormaux, isole certaines requêtes et complique l’accès direct aux systèmes du porteur, comme un pare-feu matériel dont la machine protégée serait le corps lui-même.",
+      "Chez les Neurodivers et les augmentés lourdement connectés, elle fait partie des investissements qui deviennent évidents après le premier incident sérieux. Elle ne remplace ni l’expérience ni les logiciels spécialisés : son rôle est de rendre l’architecture personnelle moins accueillante à une intrusion, pas de transformer automatiquement son propriétaire en expert de cybersécurité ou en meilleur Neurodiver."
+    ],
+    "Ergot / Griffes de pied": [
+      "L’Ergot et les Griffes de pied exploitent l’espace interne d’un Cyberpied ou d’une Cyberjambe pour ajouter une arme là où un adversaire pense rarement la chercher. Les anciens modèles ressemblent volontiers à des pièces mécaniques agressives ou à des serres clairement visibles ; les versions récentes privilégient des lames rétractables capables de disparaître dans la ligne du pied.",
+      "Leur ergonomie impose une manière de combattre particulière : coups de pied, saisies avec la jambe ou attaques depuis une position où la main n’est pas disponible. En dehors d’un affrontement, la discrétion du système compte souvent autant que sa capacité offensive, car franchir un contrôle de sécurité avec des griffes intégrées au pied est une toute autre question que transporter un couteau déclaré."
+    ],
+    "Estomac blindé": [
+      "L’Estomac blindé renforce mécaniquement et chimiquement la paroi digestive afin qu’elle supporte des contenus qui blesseraient un organe ordinaire avant même leur absorption. Les tissus naturels sont complétés par des couches résistantes et des interfaces conçues pour empêcher une petite erreur alimentaire de devenir immédiatement une perforation ou une brûlure interne.",
+      "Cette augmentation a une réputation presque grotesque en dehors des professions qui en ont réellement besoin : récupération d’objets, interventions en milieu extrême ou travail avec des matériaux dangereux. Elle ne transforme pourtant pas le système digestif en incinérateur universel. Ce qui empoisonne chimiquement l’organisme reste un problème distinct de ce qui risque simplement de couper, brûler ou perforer l’estomac."
+    ],
+    "Implants mammaires modulaires": [
+      "Les implants mammaires modulaires remplacent le volume fixe de la chirurgie esthétique classique par une structure dont la forme peut être ajustée dans une plage prévue lors de l’implantation. La technologie sert autant à la reconstruction qu’au choix esthétique, et permet de modifier une silhouette sans repasser systématiquement par une opération complète.",
+      "Dans une société habituée aux corps modifiés, ils appartiennent davantage à la médecine esthétique courante qu’au spectaculaire cyborg. La modularité n’est cependant pas une métamorphose illimitée : la peau, la cage thoracique, les ancrages et le volume de l’implant imposent toujours une enveloppe anatomique crédible que le réglage ne peut pas dépasser sans nouvelle chirurgie."
+    ],
+    "Maillage squelettique": [
+      "Le Maillage squelettique renforce les os et leurs principaux points de contrainte depuis l’intérieur, par revêtement, fibres de consolidation et reprises autour des articulations. C’est une chirurgie beaucoup plus profonde qu’une simple coque sous-cutanée : une grande partie de la charpente du corps devient un assemblage biologique et technique conçu pour mieux encaisser les chocs structurels.",
+      "Le résultat intéresse les métiers soumis aux chutes, aux écrasements ou aux efforts violents, mais il ne rend pas la chair extérieure plus épaisse. Un os renforcé peut rester entouré de muscles, de nerfs et de vaisseaux parfaitement humains ; les utilisateurs apprennent donc vite qu’un squelette difficile à casser n’empêche ni les coupures ni les traumatismes des tissus mous."
+    ],
+    "Main Gecko": [
+      "La Main Gecko couvre les zones de contact d’une Cybermain de microstructures adhésives inspirées des surfaces biologiques capables d’agripper sans colle. Sur verre, composite ou pierre relativement lisse, la paume et les doigts trouvent ainsi des prises là où une main ordinaire n’aurait presque rien à accrocher.",
+      "La technologie est particulièrement appréciée des techniciens de façade, grimpeurs urbains et équipes travaillant sur des structures sans prises traditionnelles. Elle exige toutefois une vraie surface de contact et un entretien soigneux : poussière, graisse ou matériau friable peuvent ruiner l’adhérence, rappelant que le module améliore la prise mais ne suspend pas magiquement son porteur dans le vide."
+    ],
+    "Pheromones optimisees": [
+      "Les Phéromones optimisées modifient certaines glandes afin de produire un signal olfactif et chimique plus cohérent avec l’état émotionnel ou social recherché. À courte distance, l’effet se situe dans cette zone trouble où odeur, familiarité corporelle et réactions inconscientes influencent déjà la manière dont deux personnes se perçoivent.",
+      "Le produit est entouré d’un marketing bien plus spectaculaire que sa réalité biologique. Culture, orientation, contexte, stress, filtres respiratoires et simple préférence individuelle comptent toujours ; personne n’est privé de volonté parce qu’une glande a été optimisée. Les utilisateurs habiles le traitent comme une nuance supplémentaire de présence sociale, pas comme une télécommande humaine."
+    ],
+    "Pied Gecko": [
+      "Le Pied Gecko intègre sous la semelle d’un Cyberpied une surface microstructurée conçue pour adhérer à des matériaux relativement lisses. Il permet de conserver un appui sur des inclinaisons où une chaussure classique glisserait et ouvre des manières d’escalader qui ressemblent davantage à une progression animale qu’à de l’alpinisme traditionnel.",
+      "Comme la Main Gecko, il dépend de la qualité du contact. Boue, poussière épaisse, peinture qui se détache ou support trop irrégulier limitent vite son intérêt, et les pieds seuls ne résolvent pas la question des mains lorsqu’il faut réellement monter un mur. Dans les travaux en hauteur, il sert surtout à rendre chaque appui beaucoup plus fiable."
+    ],
+    "Pistolet integre": [
+      "Le Pistolet intégré transforme une partie du volume d’un Cyberbras en logement d’arme : mécanisme, alimentation et accès de maintenance sont dissimulés sous les plaques ou le revêtement du membre. L’intérêt premier n’est pas de créer une nouvelle catégorie d’arme, mais de faire d’un modèle compatible quelque chose que le porteur ne peut ni oublier dans un tiroir ni perdre lors d’une fouille superficielle.",
+      "Cette discrétion modifie profondément la relation aux contrôles de sécurité. Les scanners sérieux savent ce qu’ils cherchent, les techniciens doivent accéder au mécanisme pour l’entretenir, et munitions comme pièces d’usure restent celles d’une véritable arme à feu. Un bras armé en permanence est pratique pour certains professionnels et socialement inquiétant dans beaucoup d’autres contextes."
+    ],
+    "Realignement spinal": [
+      "Le Réalignement spinal corrige puis optimise la colonne, le bassin et les chaînes musculaires qui organisent la posture. Plutôt que d’ajouter de la puissance brute, il cherche à supprimer une partie des mauvais angles, compensations et pertes de mouvement accumulés par un corps humain ordinaire au fil de sa croissance et de ses blessures.",
+      "Les cliniques le vendent aussi bien à des athlètes qu’à des travailleurs physiques ou à des patients reconstruits après traumatisme. Le changement peut être spectaculaire dans la manière de se tenir et de se déplacer, mais il reste biomécanique : un corps mieux aligné exploite mieux ce qu’il possède déjà, il ne gagne pas soudainement des muscles ou des articulations surnaturelles."
+    ],
+    "Regeneration passive": [
+      "La Régénération passive pousse les mécanismes ordinaires de réparation tissulaire dans une version soigneusement entretenue : meilleure mobilisation cellulaire, cicatrisation accélérée et renouvellement plus efficace lorsque le corps dispose réellement de repos, d’oxygène et de nutriments. Elle fait de la convalescence une spécialité biologique plutôt qu’un miracle visible en quelques secondes.",
+      "Les bénéficiaires récupèrent plus vite des agressions dont un humain peut normalement guérir, ce qui explique sa valeur énorme pour les professionnels régulièrement blessés. Elle ne recrée pourtant ni membre perdu ni masse de chair instantanément et ne remplace pas une chirurgie d’urgence. Plus le dommage exige normalement une intervention médicale, moins il suffit d’attendre que l’implant fasse le travail."
+    ],
+    "Rein ameliore": [
+      "Le Rein amélioré augmente la capacité de filtration et de régulation chimique de l’organisme en renforçant ou remplaçant une partie du travail rénal. Médicaments, drogues et déchets métaboliques sont gérés par un organe conçu pour fonctionner dans un environnement où les citoyens augmentés exposent régulièrement leur corps à des molécules qu’un humain du siècle précédent aurait rencontrées beaucoup plus rarement.",
+      "Cette robustesse intéresse autant la médecine préventive que les métiers exposés aux toxiques, mais elle ne fait pas disparaître ce qui a déjà atteint le cerveau, détruit un tissu ou agit par un mécanisme que le rein ne peut filtrer. Il améliore une étape essentielle de l’élimination, pas l’ensemble de la toxicologie humaine."
+    ],
+    "Scanner technique": [
+      "Le Scanner technique transforme une Cybermain ou un Cyberbras en outil de diagnostic portatif. Capteurs électriques, thermiques et de proximité peuvent examiner une machine accessible pendant que le porteur la manipule, ce qui évite de sortir plusieurs appareils pour vérifier continuité, température, alimentation ou comportement d’un sous-ensemble.",
+      "Chez un mécanicien ou un technicien augmentique, la différence tient surtout à la continuité du travail : la main qui démonte est aussi celle qui mesure. Le scanner fournit toutefois des données, pas du savoir-faire. Un utilisateur peut parfaitement constater qu’un signal est anormal sans connaître la panne, et aucune mesure intégrée ne resserre un boulon ou ne remplace une pièce à sa place."
+    ],
+    "Support de membres surnumeraires": [
+      "Le Support de membres surnuméraires est une transformation de cyborg lourd : le torse, la ceinture scapulaire ou le bassin sont reconstruits pour offrir des points d’ancrage que l’anatomie humaine ne possède pas. Il faut distribuer masse, alimentation, commandes et efforts vers le squelette avant même de connecter les membres supplémentaires eux-mêmes.",
+      "Le résultat dépasse largement la prothèse médicale discrète. Même lorsqu’aucun bras supplémentaire n’est monté, les renforts et interfaces signalent un corps conçu pour sortir du plan humain traditionnel. On le retrouve surtout chez des spécialistes industriels, des opérateurs très augmentés ou ceux qui assument pleinement une identité cyborg ; chaque membre ajouté reste ensuite une prothèse à part entière avec ses propres besoins."
+    ],
+    "Support multioptique": [
+      "Le Support multioptique prépare le crâne et le réseau neural à accueillir plusieurs cyberoptiques au-delà de la paire d’yeux humaine. Orbites secondaires, petits capteurs périphériques ou grappes optiques peuvent alors couvrir des angles différents sans demander au cerveau de traiter chaque flux comme un écran indépendant.",
+      "C’est une augmentation de cyborg assumée : même les intégrations élégantes changent profondément un visage ou une silhouette. Son intérêt apparaît dans la surveillance, l’industrie et les environnements où regarder simultanément dans plusieurs directions a du sens, mais le support seul n’ajoute aucun spectre miraculeux. Chaque œil ou capteur doit encore posséder les modules correspondant à ce que son propriétaire veut percevoir."
+    ],
+    "Systeme immunitaire amplifie": [
+      "Le Système immunitaire amplifié modifie la moelle, certains tissus lymphatiques et la régulation immunitaire pour réagir plus vite aux infections reconnues. Il appartient à la biogénétique médicale la moins spectaculaire visuellement : rien ne trahit forcément l’augmentation, mais les défenses du corps sont préparées comme celles d’un organisme sélectionné pour tomber malade moins facilement et récupérer plus proprement.",
+      "Ce type d’optimisation exige précisément de conserver une régulation fine, car une défense trop agressive peut devenir son propre problème. Les cliniques sérieuses privilégient donc l’équilibre et le suivi plutôt qu’une promesse d’invulnérabilité. Parasites inconnus, agents artificiels ou maladies qui échappent à la réponse immunitaire restent des menaces médicales réelles."
+    ],
+    "Systeme magnetique": [
+      "Le Système magnétique place des éléments électromagnétiques dans les mains, les pieds ou leurs supports cybernétiques afin de créer des points d’accroche sur une structure métallique. Sur une coque de véhicule, une charpente ou une paroi industrielle adaptée, le porteur peut ainsi conserver des appuis que la gravité ou une vibration rendraient autrement très précaires.",
+      "Son usage est né bien davantage du travail technique que de l’escalade sportive : maintenance de structures, chantiers verticaux et interventions sur grandes machines. La spécialisation est aussi sa limite évidente. Béton, verre, composites ou alliages peu réactifs ne deviennent pas adhérents simplement parce que le porteur active ses aimants."
+    ],
+    "Tatouage lumineux": [
+      "Le Tatouage lumineux implante sous la peau un réseau de points ou de lignes électroluminescentes qui dessinent un motif invisible, discret ou éclatant selon la conception. Contrairement au Bio-tatouage vivant, il revendique son caractère technologique : lumière nette, géométrie artificielle et parfois animation simple deviennent directement partie du corps.",
+      "On le retrouve dans la mode urbaine, les clubs, certaines scènes Neopunk et chez ceux qui veulent faire de leur augmentation un signe visible plutôt qu’un secret. La forme et la puissance lumineuse dépendent du réseau implanté ; un tatouage conçu comme un fin liseré ne se transforme pas ensuite en écran corporel complet sans nouvelle intervention."
+    ]
+  }
+}

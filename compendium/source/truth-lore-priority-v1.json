@@ -1,0 +1,275 @@
+{
+  "schemaVersion": 1,
+  "sourceDocument": "TUC_Verite_V6_LIVRE_JDR_PAO_2026-09-10.docx",
+  "scope": "Lore structurel prioritaire : Elynea, Guerre céleste et anciennes Divinités",
+  "cosmology": [
+    {
+      "id": "verite-lore-elynea",
+      "title": "Elynea",
+      "aliases": ["Elynea — Déesse victorieuse", "Elynea et l’Arbre de Vie"],
+      "tags": ["Vérité", "Cosmologie", "Angelus", "Elynea", "Lore V6"],
+      "evidence": [2167, 2170, 2178, 2191, 2210, 2211, 2212, 2214, 2215, 2216, 2219],
+      "sections": [
+        {
+          "title": "Origine divine",
+          "paragraphs": [
+            "Elynea appartient à l’histoire des dieux d’Aèr. Le V6 lui donne deux mères, la Déesse de la Lumière et la Déesse de la Vengeance, ainsi qu’un Éon de Gaerras lié à l’Invincibilité ; cette origine explique que sa tradition mêle lumière, protection, jugement et dureté.",
+            "Les premiers Anges étaient des créations artificielles d’Aèr, proches de golems élémentaires. Elynea déposa une fraction de sa propre essence en eux : la Transcendance leur donna une identité persistante et fit d’eux les ancêtres des Angelus modernes."
+          ]
+        },
+        {
+          "title": "Victoire et mémoire religieuse",
+          "paragraphs": [
+            "Après la Guerre céleste, la victoire d’Elynea fut aussi religieuse. Elle prit la place du Dieu unique dans les grandes traditions monothéistes terrestres, tandis que les anciennes Divinités polythéistes furent progressivement diabolisées, invisibilisées ou absorbées dans le récit de puissances infernales.",
+            "Cette victoire n’a pas transformé les religions humaines en administrations des Angelus. Des millénaires de théologie, de schismes, de droit et d’histoire leur ont donné leurs propres autorités et leurs propres critères de discernement."
+          ]
+        },
+        {
+          "title": "L’Arbre de Vie",
+          "paragraphs": [
+            "La grande œuvre terrestre d’Elynea est l’Arbre de Vie, architecture spirituelle qui organise les Angelus et canalise la Transcendance. Les Angelus ordinaires en forment les racines, Elynea le tronc et les Archanges les grandes branches."
+          ]
+        },
+        {
+          "title": "Une victoire qui n’abolit pas l’autonomie",
+          "paragraphs": [
+            "L’ordre céleste n’est pas unanimement aligné. Des millénaires d’incarnations et d’expériences ont produit des lectures différentes du devoir, de la Guerre céleste et du rapport aux anciennes Divinités.",
+            "Certains Angelus voient encore les Daemons comme des ennemis cosmologiques ; d’autres comme les héritiers d’un adversaire historique, voire comme des individus qui doivent être jugés sur leurs actes. L’alignement avec Elynea n’efface ni la personnalité ni l’expérience accumulée."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "verite-lore-guerre-celeste",
+      "title": "La Guerre céleste",
+      "aliases": ["Guerre céleste", "La Guerre Céleste"],
+      "tags": ["Vérité", "Cosmologie", "Histoire cachée", "Guerre céleste", "Lore V6"],
+      "evidence": [1741, 1742, 1758, 1759, 1764, 1765, 1766, 2170, 2171],
+      "sections": [
+        {
+          "title": "Une guerre devenue récit religieux",
+          "paragraphs": [
+            "Les puissances que les religions monothéistes ont ensuite décrites comme démons, princes ou souverains infernaux étaient auparavant les Divinités de grands panthéons polythéistes. Leur nature n’a pas changé avec leur réputation : plusieurs civilisations ont raconté les mêmes forces sous des noms différents.",
+            "Baal a ainsi été connu comme Mars ou Arès, et Abigor comme Thor. Les mythologies humaines conservent des souvenirs authentiques, mais façonnés par leurs cultures et par les vainqueurs."
+          ]
+        },
+        {
+          "title": "La victoire d’Elynea",
+          "paragraphs": [
+            "La victoire d’Elynea transforma la perception des anciennes Divinités. Les puissances vaincues furent rejetées du sacré légitime et recomposées en figures infernales ; l’opposition moderne entre anges et démons est donc autant une mémoire de guerre qu’une classification cosmologique.",
+            "Les Daemons portent encore cette histoire. Certains voient Elynea comme une conquérante qui a effacé leurs Dieux de la mémoire humaine, tandis que certains Angelus considèrent les anciennes puissances comme les ennemis contre lesquels leur ordre fut construit."
+          ]
+        },
+        {
+          "title": "Après la victoire",
+          "paragraphs": [
+            "La démonisation des vaincus ne les rend ni bons ni simples. Les anciennes Divinités conservent leurs intérêts, leurs exigences et leurs colères ; refuser la propagande du vainqueur ne revient pas à les innocenter.",
+            "Les religions monothéistes modernes ne sont pas davantage de simples relais des Angelus. Elles ont développé leurs propres institutions et peuvent se montrer prudentes ou méfiantes face à toute manifestation céleste."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "verite-lore-anciennes-divinites",
+      "title": "Les anciennes Divinités",
+      "aliases": ["Anciennes Divinités", "Les anciennes divinités"],
+      "tags": ["Vérité", "Cosmologie", "Daemons", "Divinités", "Lore V6"],
+      "evidence": [1755, 1756, 1764, 1765, 1766, 1781],
+      "sections": [
+        {
+          "title": "Des dieux, pas un principe du Mal",
+          "paragraphs": [
+            "Le V6 décrit les patrons des Daemons comme d’anciennes Divinités polythéistes : Alabor, Astaroth, Belial, Diablo, Lilith, Mammon, Méphisto, Satan, Lucifer, Belzébuth, Abigor, Baal et Morrighan. Leurs domaines vont des eaux primordiales à la civilisation, du désir à la mort, du ciel à la guerre.",
+            "Les réduire au Mal confondrait propagande religieuse et métaphysique. Elles peuvent être terribles, ambitieuses et dangereuses, mais leurs domaines dépassent la morale humaine : Belzébuth peut guérir autant qu’il propage une maladie, Mammon mettre fin à une agonie, Lilith nourrir un attachement ou le rendre dévastateur."
+          ]
+        },
+        {
+          "title": "Des noms réécrits par les vainqueurs",
+          "paragraphs": [
+            "Après la Guerre céleste, les identités des anciens dieux furent reclassées dans la grande narration monothéiste. Même de nombreux Daemons utilisent désormais des noms issus de cette relecture : le nom moderne peut être moins une origine qu’une cicatrice laissée par le vainqueur sur l’histoire de l’adversaire."
+          ]
+        },
+        {
+          "title": "Des cultes morts seulement en apparence",
+          "paragraphs": [
+            "Un musée peut exposer la statue d’un dieu dont les serviteurs se réunissent encore à quelques kilomètres. Une religion peut être étudiée comme morte alors que sa puissance continue de choisir des âmes : les Daemons vivent dans cet écart constant entre patrimoine humain et présence divine réelle."
+          ]
+        }
+      ]
+    }
+  ],
+  "deities": [
+    {
+      "id": "verite-lore-divinite-alabor",
+      "name": "Alabor",
+      "epithet": "Les Eaux primordiales",
+      "domains": "les Eaux primordiales",
+      "facets": ["Flots", "Pression", "Pluie & Fécondité"],
+      "houses": [
+        ["Vephar", "Brumes", "Ambiguïté, patience, approche indirecte."],
+        ["Forneus", "Vagues", "Ténacité, avancer, encaisser puis revenir."],
+        ["Zagan", "Pression", "Force contenue, patience écrasante, peu de gestes inutiles."],
+        ["Shax", "Pluie", "Fertilité et cruauté, donner ou retirer l’eau."]
+      ]
+    },
+    {
+      "id": "verite-lore-divinite-astaroth",
+      "name": "Astaroth",
+      "epithet": "La Civilisation",
+      "domains": "la Civilisation, le savoir et la création",
+      "facets": ["Savoir", "Écriture", "Arts & Création"],
+      "houses": [
+        ["Ardat-Lili", "Arts", "Création, beauté, expression, inspiration."],
+        ["Byleth", "Inventivité", "Expérimentation, innovation, « essayons pour voir »."],
+        ["Asmodée", "Mathématiques", "Formaliser, comprendre puis opposer la logique d’un phénomène."],
+        ["Morax", "Médecine", "Science médicale, observation clinique, refus de l’ignorance."],
+        ["Alocer", "Informatique", "Information numérique, architecture, logique et réseaux."]
+      ]
+    },
+    {
+      "id": "verite-lore-divinite-belial",
+      "name": "Belial",
+      "epithet": "La Reine des Dieux",
+      "domains": "le Feu, la Domination, la royauté et la Destruction",
+      "facets": ["Feu royal", "Domination", "Destruction"],
+      "notes": ["Ses Élus ne sont pas de simples pyromanciens : le feu de Belial est présenté comme une puissance divine, distincte d’une simple pyromancie."],
+      "houses": [
+        ["Marchosias", "Victoire", "Courage, loyauté, persévérance, arracher la victoire à une situation presque perdue."],
+        ["Demona", "Destruction", "Pragmatisme, efficacité, savoir ce qu’il faut vraiment casser."],
+        ["Moloch", "Feu", "Entité indépendante née directement de la colère de Belial."],
+        ["Seere", "Nombre de la Bête", "Vieille noblesse, maîtrise de soi, richesse, jeu de rôles et secret du 666."]
+      ]
+    },
+    {
+      "id": "verite-lore-divinite-diablo",
+      "name": "Diablo",
+      "epithet": "La Nuit qui regarde",
+      "domains": "la Nuit, la peur, le cauchemar et la dévoration",
+      "facets": ["Nuit", "Cauchemar", "Dévoration"],
+      "houses": [
+        ["Xezbeth", "Cauchemars", "Renseignement par la peur, mensonges obsédants, patience psychologique."],
+        ["Balam", "Peur", "Faire face au danger, imposer sa présence, chevalerie noire."],
+        ["Amon", "Obscurité", "Absorber ce qui s’oppose à la Nuit, notamment la Lumière."],
+        ["Anammalech", "Nuit", "Discrétion, conseil, présence dans les coulisses du pouvoir."]
+      ]
+    },
+    {
+      "id": "verite-lore-divinite-lilith",
+      "name": "Lilith",
+      "epithet": "Désir, Sexe, Plaisir et Attachement",
+      "domains": "le désir, le sexe, le plaisir, les fantasmes, la tendresse, l’attachement, la fertilité et la dévotion",
+      "facets": ["Désir & Plaisir", "Fertilité & Chair", "Attachement & Sentiments"],
+      "notes": ["Lilith ne se réduit pas à l’amour courtois. Le V6 insiste sur l’étendue de son domaine affectif et charnel, jusqu’à faire du retrait du plaisir ou de l’affect une punition typiquement lilithienne."],
+      "houses": [
+        ["Meririm", "Charme", "Liberté sexuelle, bienveillance, connaissance du plaisir, absence de honte."],
+        ["Babalon", "Fertilité", "Corps souverain, sexualité assumée, biologie comme puissance."],
+        ["Gusoyn", "Manipulation", "Comprendre les rapports humains et utiliser les désirs plutôt que contraindre."],
+        ["Sytry", "Secrets féminins", "Intimité, désir féminin, discrétion, renseignement."]
+      ]
+    },
+    {
+      "id": "verite-lore-divinite-mammon",
+      "name": "Mammon",
+      "epithet": "L’Inéluctable",
+      "domains": "la mort, la vieillesse, le destin et la délivrance",
+      "facets": ["Mort", "Vieillesse", "Destin & Délivrance"],
+      "houses": [
+        ["Alastor", "Souffrance", "La douleur comme mémoire de toute une vie."],
+        ["Abrahel", "Âge", "Tout se dégrade, tout finit, parfois avec compassion."],
+        ["Apollyon", "Destruction", "Ce qui doit mourir doit d’abord pouvoir être brisé."],
+        ["Eurynome", "Repos", "Mort paisible, psychopompie, fin de la souffrance."]
+      ]
+    },
+    {
+      "id": "verite-lore-divinite-mephisto",
+      "name": "Méphisto",
+      "epithet": "L’Occulte, la Parole et le Hasard",
+      "domains": "l’Occulte, la parole, le chant, la fortune et l’illusion",
+      "facets": ["Magie", "Parole & Chant", "Fortune & Illusion"],
+      "houses": [
+        ["Crocell", "Parole", "Rhétorique, répartie, influence publique."],
+        ["Abrasax", "Magie", "Étudier les systèmes occultes et connaître leurs règles."],
+        ["Paimon", "Mensonge", "Un bon mensonge est cohérent, élégant et défendable."],
+        ["Vinea", "Vérité", "La réalité importe, même lorsqu’elle déplaît."]
+      ]
+    },
+    {
+      "id": "verite-lore-divinite-satan",
+      "name": "Satan",
+      "epithet": "Le Juge",
+      "domains": "le Jugement, la sentence, l’ordre, la paix et la vengeance",
+      "facets": ["Sentence", "Ordre & Paix", "Vengeance"],
+      "houses": [
+        ["Samael", "Sentence", "Enquêter avant de condamner ; une sentence doit être juste."],
+        ["Cali", "Vengeance", "La dette doit être payée ; patience, poursuite, représailles ciblées."],
+        ["Barbatos", "Paix", "Refus de la colère, maîtrise de soi, ordre durable."],
+        ["Acham", "Jugement", "Intégrité, preuve, justice morale, incorruptibilité."]
+      ]
+    },
+    {
+      "id": "verite-lore-divinite-lucifer",
+      "name": "Lucifer",
+      "epithet": "Le Soleil déchu",
+      "domains": "le Soleil, le Cycle, la vie et le courage",
+      "facets": ["Soleil", "Cycle & Vie", "Courage"],
+      "notes": ["Lucifer est déchu mais reste profondément loyal à Belial. Le V6 lie sa chute à sa jalousie et à sa culpabilité envers Elynea : il la trompa, la captura, la scella et la tortura à l’insu de Belial ; le retour d’Elynea déclencha la guerre et détruisit une grande partie de sa Cour."],
+      "houses": [
+        ["Adramalech", "Rayonnement", "Gloire, héroïsme, présence qui s’étend au-delà du corps."],
+        ["Abalim", "Splendeur", "Majesté, beauté solaire, présence impossible à ignorer."]
+      ]
+    },
+    {
+      "id": "verite-lore-divinite-belzebuth",
+      "name": "Belzébuth",
+      "epithet": "La Vie sans jugement moral",
+      "domains": "la Vie, la régénération, l’évolution, la maladie et la mutation",
+      "facets": ["Régénération", "Nature & Évolution", "Maladie"],
+      "houses": [
+        ["Perséphone", "Régénération", "Médecine, préserver la vie, réparer avant de remplacer."],
+        ["Baphomet", "Évolution", "Le corps est modifiable ; adaptation, transgression, expérimentation."]
+      ]
+    },
+    {
+      "id": "verite-lore-divinite-abigor",
+      "name": "Abigor",
+      "epithet": "Le Ciel qui frappe d’en haut",
+      "domains": "le ciel, le vent, l’orage et la tempête",
+      "facets": ["Vent & Ciel", "Orage", "Tempête"],
+      "aliases": ["Abigor — Thor", "Abigor / Thor"],
+      "notes": ["Abigor a également été connu comme Thor. Le nom daemoniaque moderne est l’une des couches laissées par la relecture religieuse des anciennes puissances."],
+      "houses": [
+        ["Astarté", "Lune", "Espionnage mondain, cycles, beauté, pouvoir indirect."],
+        ["Furfur", "Typhons", "Mobilité, technologie militaire, frapper brutalement puis disparaître."]
+      ]
+    },
+    {
+      "id": "verite-lore-divinite-baal",
+      "name": "Baal",
+      "epithet": "La Guerre elle-même",
+      "domains": "la Guerre, les armes, la force, la violence, la stratégie et la victoire",
+      "facets": ["Armes", "Force & Violence", "Stratégie & Victoire"],
+      "aliases": ["Baal — Mars-Arès", "Baal / Mars-Arès"],
+      "notes": ["Baal a également été connu comme Mars ou Arès. Ces noms différents renvoient à une même puissance racontée par plusieurs cultures."],
+      "houses": [
+        ["Ereshkigal", "Meurtre", "Neutraliser vite, aucune romance du duel, efficacité létale."],
+        ["Leraje", "Blessures", "Précision, tir, rendre chaque coup réellement coûteux."],
+        ["Focalor", "Dignité", "Tous les mortels ont la même valeur ; insoumission et refus de plier."]
+      ]
+    },
+    {
+      "id": "verite-lore-divinite-morrighan",
+      "name": "Morrighan",
+      "epithet": "La Corneille étrangère",
+      "domains": "la guerre, la frénésie, la mort, les présages, la royauté et la magie",
+      "facets": ["Guerre & Frénésie", "Mort & Présages", "Royauté & Magie"],
+      "houses": [
+        ["Nemain", "Frénésie", "Fureur contrôlée, violence assumée, instinct du champ de bataille."],
+        ["Huginn", "Pensée", "Observation, stratégie, intelligence accélérée."],
+        ["Ibn al-Berih", "Malheur", "Attendre l’erreur et laisser le destin trébucher."],
+        ["Nankil’slas", "Tromperie", "Plans indirects, fausses identités, ne jamais expliquer son vrai objectif."],
+        ["Rhiannon", "Colère", "Répondre à l’agression et ne jamais oublier une offense."],
+        ["Cúchulainn", "Courage", "Héroïsme frontal, protéger les siens, se dresser même quand il faudrait fuir."]
+      ]
+    }
+  ]
+}

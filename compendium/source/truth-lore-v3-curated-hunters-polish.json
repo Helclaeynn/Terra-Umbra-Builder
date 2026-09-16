@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "source": "TUC Vérité V6 — Livre V, chapitre 23 Chasseurs ; polissage manuel",
+  "entries": {
+    "Raven « Black Feathers »": {
+      "override": true,
+      "paragraphs": [
+        "Black Feathers apparaît dans les inventaires de Chasse pour une raison moins spectaculaire que son nom : c’est une protection terrestre suffisamment discrète pour accompagner une surveillance, une filature ou un rendez-vous sans annoncer immédiatement une opération armée. Cette qualité compte beaucoup lorsque la cible vit encore au milieu de civils et que le Voile impose de rester banal jusqu’au dernier moment.",
+        "Son emploi par les Chasseurs ne lui ajoute aucune protection occulte. Un Chasseur qui porte Black Feathers bénéficie du même vêtement que n’importe quel autre utilisateur du catalogue Réalité ; ce sont le renseignement, les munitions préparées et les outils spécialisés qu’il ajoute autour qui transforment la tenue en équipement de Chasse."
+      ]
+    }
+  }
+}

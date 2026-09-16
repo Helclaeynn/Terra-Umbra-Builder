@@ -4,7 +4,7 @@ const $=s=>document.querySelector(s);
 const main=$('#main'),toc=$('#tocBox'),nav=$('#mainNav'),searchInput=$('#searchInput');
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const norm=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
-const CATEGORY_ORDER=['Règles','Réalité','Équipement','Augmentations','Vérité','Organisations','Personnages','Bestiaire'];
+const CATEGORY_ORDER=['Règles','Réalité','Vérité','Équipement & Objets','Personnages','Bestiaire'];
 
 let manifest=null;
 const articleCache=new Map();
@@ -18,6 +18,21 @@ function corpusAssetUrl(relativePath){
 
 function routeTo(x){location.hash=x.startsWith('#')?x:'#'+x}
 function setToc(html=''){toc.innerHTML=html}
+
+function organisationRealm(article){
+  const tags=(article?.tags||[]).map(norm);
+  if(tags.includes('verite'))return 'Vérité';
+  if(tags.includes('realite'))return 'Réalité';
+  const text=norm(`${article?.title||''} ${(article?.tags||[]).join(' ')} ${article?.source||''}`);
+  if(/vampir|garou|loup garou|mage|daemon|angelus|aseryn|atlante|exile|extral|chasseur|fleau|occulte|khinae/.test(text))return 'Vérité';
+  return 'Réalité';
+}
+function displayCategory(article){
+  const source=article?.sourceCategory||article?.category||'';
+  if(source==='Équipement'||source==='Augmentations'||source==='Catalogue Vérité')return 'Équipement & Objets';
+  if(source==='Organisations')return organisationRealm(article);
+  return source;
+}
 
 async function loadManifest(){
   const r=await fetch('data/manifest-v3.json',{cache:'no-cache'});
@@ -59,6 +74,8 @@ async function loadCorpus(){
     for(const article of rows){
       if(!article?.id)continue;
       article.dataset=article.dataset||dataset;
+      article.sourceCategory=article.category;
+      article.category=displayCategory(article);
       articleCache.set(article.id,article);
     }
   }
@@ -70,8 +87,7 @@ function articles(){return [...articleCache.values()]}
 
 function ensureCategories(){
   const found=new Set(articles().map(a=>a.category).filter(Boolean));
-  const base=new Set(manifest.categories||[]);for(const c of found)base.add(c);
-  manifest.categories=[...base].sort((a,b)=>{const ia=CATEGORY_ORDER.indexOf(a),ib=CATEGORY_ORDER.indexOf(b);if(ia<0&&ib<0)return a.localeCompare(b,'fr');if(ia<0)return 1;if(ib<0)return-1;return ia-ib});
+  manifest.categories=CATEGORY_ORDER.filter(category=>found.has(category));
 }
 function renderNav(active=''){
   const counts={};for(const a of articles())counts[a.category]=(counts[a.category]||0)+1;
@@ -85,7 +101,7 @@ function linkify(raw){let out=esc(raw);for(const term of linkTerms){const re=new
 function blockHtml(b){if(b.type==='table')return `<div class="doc-table-wrap"><table class="doc-table"><tbody>${(b.rows||[]).map(r=>`<tr>${r.map(c=>`<td>${linkify(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;const style=(b.style||'').toLowerCase();const cls=style.includes('list')?' list':style.includes('spec')?' spec':style.includes('callout')?' callout':style.includes('lore')?' lore':'';return `<p class="body-p${cls}">${linkify(b.text||'')}</p>`}
 function sectionHtml(s){const lv=Math.min(5,Math.max(2,Number(s.level)||3)),content=(s.blocks||[]).map(blockHtml).join('');if(s.status==='obsolete')return `<section id="${esc(s.id)}" class="section"><div class="obsolete-block"><strong>${esc(s.title)} — source explicitement signalée comme obsolète</strong><div>${content}</div></div></section>`;const inner=`<section id="${esc(s.id)}" class="section"><h${lv}>${esc(s.title)}</h${lv}>${content}</section>`;return s.audience==='mj'?`<details class="mj-block"><summary>${esc(s.title)}</summary><div class="mj-inner">${inner}</div></details>`:inner}
 function articleSnippet(a,limit=220){const t=flattenText(a).replace(/\s+/g,' ').trim();return t.slice(0,limit)+(t.length>limit?'…':'')}
-function categoryDescription(c){return c==='Règles'?'Moteur commun, combat, santé, ressources et progression.':c==='Réalité'?'Grande Californie, société, technologie, économie et vie quotidienne.':c==='Équipement'?'Biens, services et matériels de Réalité, avec contexte d’usage et propriétés mécaniques.':c==='Augmentations'?'Implants et augmentations terrestres, avec contexte clinique, génération et effets mécaniques.':c==='Vérité'?'Voile, peuples, traditions, pouvoirs, lieux et cosmologie cachée.':c==='Organisations'?'Institutions, corporations, Pègre, Crawlers et réseaux de Vérité.':c==='Personnages'?'PNJ issus des dossiers détaillés, structurés sur le modèle de l’Index PNJ.':'Profils de créatures, PNJ génériques et figures de scénario.'}
+function categoryDescription(c){return c==='Règles'?'Moteur commun, combat, santé, ressources et progression.':c==='Réalité'?'Grande Californie, société, technologie, économie, vie quotidienne et organisations visibles.':c==='Vérité'?'Voile, peuples, traditions, factions, pouvoirs, lieux et cosmologie cachée.':c==='Équipement & Objets'?'Équipement de Réalité, augmentations et objets de Vérité réunis dans une même rubrique.':c==='Personnages'?'PNJ issus des dossiers détaillés, structurés sur le modèle de l’Index PNJ.':'Profils de créatures, PNJ génériques et figures de scénario.'}
 function pnjCompletenessLabel(v){return v==='detailed'?'BG détaillé':v==='mini_bg'?'Mini-BG':v==='stub'?'À compléter':'PNJ'}
 function pageMediaHtml(a){
   if(a.category==='Personnages'&&a.pnj)return'';
