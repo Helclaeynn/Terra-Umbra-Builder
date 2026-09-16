@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "source": "TUC Vérité V6 — Livre V, chapitre 24 Exilés ; marchés de Jade, supports préparés et artefacts ; reprise manuelle",
+  "entries": {
+    "Jadehook": {
+      "paragraphs": [
+        "La Jadehook est typique des objets qui naissent sur les marchés de Jade plutôt que dans le catalogue propre d’une grande manufacture. Une arbalète de poing compacte reçoit un rail prévu pour des charges runiques, donnant à l’utilisateur une plateforme discrète où un carreau ordinaire peut être préparé avec une Plaque de Fer ou une Tête de Scellement sans reconstruire toute l’arme autour de la rune.",
+        "Ce mélange de mécanique simple et de consommables occultes correspond bien à la culture des Jadecenters : on assemble des solutions provenant de traditions différentes tant qu’elles restent réparables et compréhensibles par les artisans locaux. La Jadehook ne crée aucun effet runique par elle-même ; sa valeur vient du fait qu’elle a été pensée dès l’origine pour accueillir proprement les charges que le client parvient réellement à obtenir."
+      ]
+    },
+    "Black Nail": {
+      "paragraphs": [
+        "Le Black Nail ressemble à ce que produirait un atelier de Jade lorsqu’un client demande l’équivalent occulte d’un couteau de poche : une lame courte, facile à cacher, dont un module d’Interférence miniaturisé permet au tranchant de rencontrer certaines manifestations immatérielles au lieu de les traverser inutilement. Sa sobriété en fait un objet de secours plus qu’une arme cérémonielle.",
+        "Cette compacité a un avantage social évident dans les milieux Exilés, où tout le monde ne souhaite pas porter une grande arme runique au quotidien. Elle impose aussi des limites claires : pouvoir toucher un spectre ne signifie pas ignorer sa protection spirituelle, et le couteau reste un couteau pour tout le reste. Le Black Nail achète une possibilité d’interaction, pas une victoire automatique contre l’immatériel."
+      ]
+    },
+    "Lanternette biphysique": {
+      "paragraphs": [
+        "La Lanternette biphysique porte une signature très gobeline : un objet quotidien auquel on a greffé juste assez de technologie occulte pour répondre à une question utile. Sa lumière varie lorsqu’une manifestation magique active, immatérielle ou dimensionnelle significative se trouve réellement à courte portée, donnant au porteur un avertissement sans lui imposer le volume ou le prix d’un scanner spécialisé.",
+        "Cette modestie fonctionnelle explique sa diffusion dans les Jadecenters. La lampe ne pointe pas vers la menace, ne lui donne aucun nom et ne permet pas de regarder sous le Voile ; elle signale seulement que l’environnement n’est probablement plus aussi banal qu’il en a l’air. Pour un commerçant, un passeur ou un petit groupe d’Exilés, cette alerte grossière peut être exactement le niveau d’information recherché."
+      ]
+    },
+    "Coffret du passeur": {
+      "paragraphs": [
+        "Le Coffret du passeur est un produit presque parfait de l’économie clandestine de Jade : une valise suffisamment solide pour voyager, renforcée par une Rune de Scellement chargée et dotée d’un compartiment invariant simple pour les données que le porteur ne veut pas voir réécrites après coup. L’objet répond aux besoins de ceux qui déplacent informations, composants ou petits artefacts entre plusieurs réseaux qui ne se font pas entièrement confiance.",
+        "Son surnom dit davantage son usage que son invulnérabilité. Le scellement complique une ouverture forcée ou surnaturelle et le compartiment protège certaines données contre une correction ordinaire de l’Hologramme, mais personne ne prétend que la valise survivra à n’importe quelle destruction physique. Les vrais passeurs protègent donc autant l’itinéraire et la discrétion que le coffret lui-même."
+      ]
+    },
+    "Épée nibelungen runique-ready": {
+      "paragraphs": [
+        "L’épée nibelungen runique-ready est fabriquée dès l’origine pour recevoir une plaque runique sans que l’ajout ressemble à une modification improvisée. Le logement, la robustesse et les surfaces de fixation sont intégrés au dessin de l’arme, ce qui permet à un propriétaire disposant des bonnes charges de changer de préparation sans condamner la lame à une succession de bricolages de fortune.",
+        "Vendue sans rune active, elle reste pourtant une excellente arme matérielle plutôt qu’un artefact incomplet. C’est précisément le principe du marché : séparer le support durable de la fonction occulte que l’acheteur obtiendra selon ses relations avec un atelier. Deux propriétaires de la même épée peuvent donc en faire des outils très différents sans que le métal de base ait jamais changé de nature."
+      ]
+    },
+    "Hache de clan runique-ready": {
+      "paragraphs": [
+        "La Hache de clan runique-ready reprend la même logique dans une forme plus lourde et plus directement associée aux traditions martiales nibelungen. Son logement pour plaque est prévu pour résister aux chocs répétés sans perdre l’alignement nécessaire à la charge runique, ce qui compte davantage sur une hache de terrain que sur un objet destiné à rester exposé dans une salle d’armes.",
+        "Dans les communautés Exilées, le qualificatif de clan lui donne aussi une dimension identitaire : l’arme peut être entretenue, transmise et personnalisée longtemps avant qu’une rune particulière soit choisie pour une opération. La fonction surnaturelle reste néanmoins extérieure au support tant qu’aucune plaque n’est installée ; l’héritage de la hache et la charge du runiste sont deux histoires qui peuvent se rejoindre sans se confondre."
+      ]
+    },
+    "Armure de clan": {
+      "paragraphs": [
+        "L’Armure de clan est une protection nibelungen conçue avec l’entretien runique en tête. Ses plaques offrent une défense matérielle sérieuse tout en prévoyant des emplacements où une Rune de Garde peut être installée proprement, sans devoir fragiliser ou repercer la structure chaque fois que le propriétaire souhaite faire préparer sa tenue par un atelier.",
+        "Cette modularité en fait autant un objet communautaire qu’un équipement de combat. Une armure peut rester dans une famille, une compagnie ou un clan alors que ses charges sont renouvelées par différents runistes au fil des années. Sans rune, elle demeure une armure parfaitement réelle ; avec une préparation adaptée, elle devient le support d’un savoir extérieur qui doit toujours être entretenu séparément."
+      ]
+    },
+    "Manteau de Jade": {
+      "paragraphs": [
+        "Le Manteau de Jade est pensé pour ceux qui vivent suffisamment près des marchés occultes pour avoir besoin de transporter leur matériel sans ressembler à une armurerie ambulante. Protection légère, poches dissimulées et attaches pour consommables permettent de garder sur soi plaques, craies, petites fioles, clés ou composants tout en conservant l’apparence d’un vêtement urbain adapté aux quartiers de Vérité.",
+        "Il n’existe pas un uniforme officiel des Jadecenters derrière ce nom. Les manteaux varient avec l’atelier, le propriétaire et la couverture sociale recherchée ; ce qui les rapproche est l’organisation interne pensée par et pour des gens qui savent qu’un objet de quelques centimètres peut valoir plus que le reste de leur tenue. Leur utilité vient de cette discrétion logistique, pas d’une protection occulte intégrée."
+      ]
+    },
+    "Viseur technomagique neutre": {
+      "paragraphs": [
+        "Le Viseur technomagique neutre est un châssis préparé pour recevoir des modules que l’acheteur n’a pas nécessairement encore les moyens, les contacts ou l’autorisation d’acquérir. Alimentation, montage et chemins de données sont prévus pour un Capteur biphysique ou une Optique de Vérité, évitant de refaire toute l’interface lorsqu’un module rare finit par devenir disponible.",
+        "Cette logique est très courante dans l’économie Exilée : acheter d’abord un support honnête puis compléter l’objet au gré des opportunités. Tant qu’aucun module n’est monté, le viseur ne voit rien de surnaturel et ne mérite pas qu’on lui prête les capacités de l’équipement auquel il est destiné. Il est précieux surtout parce qu’il garantit que la prochaine pièce rare ne sera pas gâchée par une adaptation improvisée."
+      ]
+    },
+    "Batterie de Flux stabilisée": {
+      "paragraphs": [
+        "La Batterie de Flux stabilisée est l’un des composants les moins romantiques et les plus recherchés de la technomagie azménorienne. Plusieurs prototypes exigent une source capable de conserver une alimentation compatible avec leur partie occulte sans que chaque utilisation dépende d’un praticien présent à côté de l’appareil. La batterie transforme cette dépendance en autonomie de terrain limitée mais transportable.",
+        "Elle reste une réserve, pas une source infinie de magie. Un usage intensif la vide rapidement et sa recharge demande l’infrastructure ou le savoir-faire approprié, ce qui explique pourquoi les réseaux sérieux suivent leurs batteries comme du matériel sensible. Sur un marché de Jade, une cellule chargée, vérifiée et d’origine connue peut parfois être plus utile qu’un prototype impressionnant incapable de s’allumer."
+      ]
+    },
+    "Marché de Vérité des Exilés — accès et rareté": {
+      "paragraphs": [
+        "Le marché de Vérité des Exilés n’est pas une boutique unique cachée derrière une porte secrète. Les Jadecenters et Palameta servent d’intermédiaires souples où se croisent revente, matériel volé, commandes et protections ; les ateliers whurtens fonctionnent davantage par tradition et relation ; les réseaux azménoriens assemblent leurs prototypes pièce par pièce, tandis que loges et successions occultes alimentent un autre circuit de reliques et de consommables.",
+        "L’argent ne suffit donc jamais à résumer l’accès. Un client inconnu peut voir une pièce courante sans jamais apprendre qu’un prototype existe, tandis qu’une dette, une recommandation ou une relation ancienne ouvre des portes qu’un gros paiement ne ferait qu’inquiéter. À mesure que la rareté augmente, le prix terrestre cesse d’être le seul coût : provenance, discrétion, faveur et conséquences politiques deviennent une partie normale de la transaction."
+      ]
+    },
+    "Excalibur / Ymir": {
+      "paragraphs": [
+        "Excalibur et Ymir se trouvent dans ce chapitre précisément pour marquer la limite du marché. Ce sont des reliques dont la possession appartient à l’histoire des lignées, aux héritages et aux événements majeurs de la Vérité ; les placer à côté d’un prix et d’un niveau de disponibilité ordinaire reviendrait à traiter leur identité comme une simple caractéristique commerciale.",
+        "On peut hériter de telles armes, les découvrir, les perdre, les voler, les défendre ou être choisi pour les porter, mais pas les commander à un intermédiaire comme une pièce de technomagie rare. Leur absence de prix n’est donc pas un manque d’information : elle indique qu’à ce niveau, la transaction pertinente est narrative, politique ou dynastique avant d’être économique."
+      ]
+    }
+  }
+}
