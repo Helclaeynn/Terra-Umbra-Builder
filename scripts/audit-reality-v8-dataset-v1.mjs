@@ -35,3 +35,5 @@ for(const page of residual){
 }
 const families={};for(const page of residual){const group=page.nav?.group||'sans-navigation';families[group]=(families[group]||0)+1}
 console.log(`FAMILIES ${JSON.stringify(families)}`);
+
+await import('./audit-reality-v8-catalog-coverage-v1.mjs');
