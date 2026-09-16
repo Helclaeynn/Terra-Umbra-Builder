@@ -5,7 +5,7 @@ const $=s=>document.querySelector(s);
 // Ces catégories sont pilotées exclusivement par data/navigation-v1.json via
 // category-navigation.js. Ne jamais les faire retomber dans les anciens
 // regroupements heuristiques de ce fichier.
-const MANIFEST_NAV_CATEGORIES=new Set(['Règles','Réalité','Vérité','Équipement','Augmentations','Bestiaire','Catalogue Vérité']);
+const MANIFEST_NAV_CATEGORIES=new Set(['Règles','Réalité','Vérité','Équipement','Augmentations','Organisations','Personnages','Bestiaire','Catalogue Vérité']);
 
 const TOP_ORDER={
   'Organisations':['Gouvernement','Corporations','Pègre','Crawlers & Underlife','Vampires','Exilés','Extrals','Chasseurs','Autres organisations'],
