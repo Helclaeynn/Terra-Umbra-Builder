@@ -28,7 +28,7 @@ jobs:
       - name: Commit audit report
         shell: bash
         run: |
-          if git diff --quiet -- compendium/source/legacy-equipment-audit-v1.json; then
+          if [ -z "$(git status --porcelain -- compendium/source/legacy-equipment-audit-v1.json)" ]; then
             echo 'Audit report already synchronized.'
             exit 0
           fi
