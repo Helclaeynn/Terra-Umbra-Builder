@@ -14,7 +14,8 @@ const SOURCES=[
   'compendium/source/reality-lore-v3-curated-vehicles.json',
   'compendium/source/reality-lore-v3-curated-armor.json',
   'compendium/source/reality-lore-v3-curated-armor-modules.json',
-  'compendium/source/reality-lore-v3-curated-ammunition.json'
+  'compendium/source/reality-lore-v3-curated-ammunition.json',
+  'compendium/source/reality-lore-v3-curated-standard-ammunition.json'
 ];
 const FRAGMENT_SIZE=8000;
 const clean=value=>String(value??'').trim().replace(/\s+/g,' ');
