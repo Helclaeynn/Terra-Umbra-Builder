@@ -1,4 +1,4 @@
-const SUPPORTED=new Set(['Règles','Réalité','Vérité','Équipement','Augmentations','Bestiaire','Catalogue Vérité']);
+const SUPPORTED=new Set(['Règles','Réalité','Vérité','Équipement','Augmentations','Organisations','Personnages','Bestiaire','Catalogue Vérité']);
 let indexPromise=null;
 
 function norm(value){return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()}
