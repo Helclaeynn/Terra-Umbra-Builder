@@ -5,7 +5,7 @@ on:
     branches:
       - feature/legacy-arsenal-armors-reintegration
     paths:
-      - 'compendium/source/.legacy-equipment-media-bundle.tar.gz'
+      - 'compendium/source/.legacy-equipment-media-bundle.ready'
   workflow_dispatch:
 
 permissions:
@@ -27,14 +27,19 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          BUNDLE='compendium/source/.legacy-equipment-media-bundle.tar.gz'
-          if [[ ! -f "$BUNDLE" ]]; then
+          READY='compendium/source/.legacy-equipment-media-bundle.ready'
+          if [[ ! -f "$READY" ]]; then
             echo 'ready=false' >> "$GITHUB_OUTPUT"
-            echo 'No staging bundle present; nothing to integrate.'
+            echo 'No staging marker present; nothing to integrate.'
             exit 0
           fi
           echo 'ready=true' >> "$GITHUB_OUTPUT"
-          tar -xzf "$BUNDLE"
+          shopt -s nullglob
+          PARTS=(compendium/source/.legacy-equipment-media-bundle.b64.part*)
+          test "${#PARTS[@]}" -gt 0
+          printf '%s\n' "${PARTS[@]}" | sort | xargs cat > /tmp/legacy-equipment-media.b64
+          base64 -d /tmp/legacy-equipment-media.b64 > /tmp/legacy-equipment-media.tar.gz
+          tar -xzf /tmp/legacy-equipment-media.tar.gz
           test -f compendium/source/legacy-equipment-media-v1.json
           node - <<'NODE'
           const fs=require('fs');
@@ -61,7 +66,8 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git rm compendium/source/.legacy-equipment-media-bundle.tar.gz
+          git rm compendium/source/.legacy-equipment-media-bundle.ready \
+            compendium/source/.legacy-equipment-media-bundle.b64.part*
           git add compendium/images/manual/equipment-legacy \
             compendium/source/legacy-equipment-media-v1.json \
             compendium/source/legacy-equipment-media-result-v1.json \
