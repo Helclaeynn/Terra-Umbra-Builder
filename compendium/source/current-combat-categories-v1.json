@@ -38,5 +38,141 @@
       "category": "Armures — Camouflage",
       "count": 6
     }
+  ],
+  "priceModes": [
+    {
+      "mode": "exact",
+      "examples": [
+        {
+          "name": "Couteau de combat",
+          "price": 150,
+          "priceLabel": "150 $"
+        },
+        {
+          "name": "Owl KA-73 Last Encounter",
+          "price": 750,
+          "priceLabel": "750 $"
+        },
+        {
+          "name": "Phoenix PCK-08 Feather",
+          "price": 500,
+          "priceLabel": "500 $"
+        },
+        {
+          "name": "Phoenix BA-037 Sun Axe",
+          "price": 900,
+          "priceLabel": "900 $"
+        }
+      ]
+    },
+    {
+      "mode": "multiplier",
+      "examples": [
+        {
+          "name": "Raven Flash",
+          "priceLabel": "x2 le prix normal / 20"
+        },
+        {
+          "name": "Raven Volto",
+          "priceLabel": "x3 / 10"
+        },
+        {
+          "name": "Raven Drill",
+          "priceLabel": "x1 / 5"
+        },
+        {
+          "name": "Raven Night",
+          "priceLabel": "x4 / 1"
+        }
+      ]
+    },
+    {
+      "mode": "included",
+      "examples": [
+        {
+          "name": "NavIA",
+          "price": 0,
+          "priceLabel": "Incluse / gratuite"
+        },
+        {
+          "name": "BlackFlag",
+          "price": 0,
+          "priceLabel": "Gratuit"
+        },
+        {
+          "name": "Redwish",
+          "price": 0,
+          "priceLabel": "Gratuit"
+        },
+        {
+          "name": "Boudicca",
+          "price": 0,
+          "priceLabel": "Gratuit"
+        }
+      ]
+    },
+    {
+      "mode": "range",
+      "examples": [
+        {
+          "name": "Securio",
+          "priceMin": 500,
+          "priceMax": 2500,
+          "priceLabel": "500 - 2 500 $"
+        },
+        {
+          "name": "Pack domotique & robots domestiques",
+          "priceMin": 500,
+          "priceMax": 2500,
+          "priceLabel": "Souvent inclus Standard+ ; sinon 500–2 500 $"
+        },
+        {
+          "name": "Ration / synthetique",
+          "priceMin": 2,
+          "priceMax": 3,
+          "priceLabel": "2 - 3 $ / jour"
+        },
+        {
+          "name": "Famileat",
+          "priceMin": 20,
+          "priceMax": 30,
+          "priceLabel": "20 - 30 $"
+        }
+      ]
+    },
+    {
+      "mode": "minimum",
+      "examples": [
+        {
+          "name": "Robot / drone de sécurité",
+          "priceMin": 1500,
+          "priceLabel": "1 500 $+ civil ; professionnel selon profil"
+        },
+        {
+          "name": "Haut cadre",
+          "priceMin": 1500,
+          "priceLabel": "1 500 $+"
+        },
+        {
+          "name": "Luxe / vraie production",
+          "priceMin": 250,
+          "priceLabel": "250 $+"
+        },
+        {
+          "name": "Alcool traditionnel",
+          "priceMin": 20,
+          "priceLabel": "20 $ a plusieurs centaines"
+        }
+      ]
+    },
+    {
+      "mode": "reference",
+      "examples": [
+        {
+          "name": "Black Clinic",
+          "priceLabel": "Variable"
+        }
+      ]
+    }
   ]
 }
