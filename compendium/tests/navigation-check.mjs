@@ -93,8 +93,8 @@ for(const category of displayCategories){
   if(actual<1)throw new Error(`${category}: rubrique V3 vide`);
 }
 
-const twoFence=nav.entries.find(entry=>entry.id==='equipement-264-2-fence');
-if(!twoFence||twoFence.displayTitle!=='2-Fence')throw new Error(`2-Fence: titre de navigation altéré (${twoFence?.displayTitle||'absent'})`);
+const twoFence=nav.entries.filter(entry=>entry.displayTitle==='2-Fence');
+if(twoFence.length!==1)throw new Error(`2-Fence: ${twoFence.length} entrée(s) de navigation, attendu 1`);
 
 function expectId(id,category,group,subgroup){
   const entry=nav.entries.find(row=>row.id===id);if(!entry)throw new Error(`Navigation témoin absente: ${id}`);
