@@ -10,6 +10,7 @@ on:
       - 'scripts/apply-compendium-final-reality-lore.mjs'
       - 'compendium/tests/legacy-equipment-reintegration-check.mjs'
       - 'compendium/tests/catalog-pages-semantic-check.mjs'
+      - 'compendium/tests/navigation-check.mjs'
       - '.github/workflows/legacy-equipment-build.yml'
   workflow_dispatch:
 
