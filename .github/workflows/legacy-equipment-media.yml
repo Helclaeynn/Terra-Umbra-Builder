@@ -5,7 +5,7 @@ on:
     branches:
       - feature/legacy-arsenal-armors-reintegration
     paths:
-      - 'compendium/source/.legacy-equipment-media-bundle-v5.ready'
+      - 'compendium/source/.legacy-equipment-media-stage.ready'
   workflow_dispatch:
 
 permissions:
@@ -27,28 +27,37 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          READY='compendium/source/.legacy-equipment-media-bundle-v5.ready'
-          B64='compendium/source/.legacy-equipment-media-bundle-v5.b64'
+          READY='compendium/source/.legacy-equipment-media-stage.ready'
+          STAGE='compendium/source/.legacy-equipment-media-stage'
           if [[ ! -f "$READY" ]]; then
             echo 'ready=false' >> "$GITHUB_OUTPUT"
             echo 'No staging marker present; nothing to integrate.'
             exit 0
           fi
           echo 'ready=true' >> "$GITHUB_OUTPUT"
-          test -f "$B64"
-          base64 -d "$B64" > /tmp/legacy-equipment-media.tar.gz
-          EXPECTED_SHA="$(tr -d '[:space:]' < "$READY")"
-          ACTUAL_SHA="$(sha256sum /tmp/legacy-equipment-media.tar.gz | awk '{print $1}')"
-          test "$EXPECTED_SHA" = "$ACTUAL_SHA"
-          tar -xzf /tmp/legacy-equipment-media.tar.gz
+          test -d "$STAGE"
+          COUNT="$(find "$STAGE" -maxdepth 1 -type f -name '*.webp.b64' | wc -l)"
+          test "$COUNT" -eq 124
+          mkdir -p compendium/images/manual/equipment-legacy
+          for SRC in "$STAGE"/*.webp.b64; do
+            BASE="$(basename "$SRC" .b64)"
+            base64 -d "$SRC" > "compendium/images/manual/equipment-legacy/$BASE"
+          done
           test -f compendium/source/legacy-equipment-media-v1.json
           node - <<'NODE'
           const fs=require('fs');
+          const crypto=require('crypto');
           const m=JSON.parse(fs.readFileSync('compendium/source/legacy-equipment-media-v1.json','utf8'));
           if(m.count!==124||m.installCount!==123||m.entries?.length!==124)throw new Error(`media map ${m.entries?.length||0}/124, install ${m.installCount||0}/123`);
+          for(const e of m.entries){
+            const f=`compendium/${e.image}`;
+            if(!fs.existsSync(f))throw new Error(`missing ${f}`);
+            const b=fs.readFileSync(f);
+            if(b.subarray(0,4).toString('ascii')!=='RIFF'||b.subarray(8,12).toString('ascii')!=='WEBP')throw new Error(`invalid webp ${f}`);
+            const sha=crypto.createHash('sha256').update(b).digest('hex');
+            if(sha!==e.sha256)throw new Error(`sha mismatch ${f}`);
+          }
           NODE
-          COUNT="$(find compendium/images/manual/equipment-legacy -maxdepth 1 -type f -name '*.webp' | wc -l)"
-          test "$COUNT" -eq 124
       - name: Apply media to Compendium pages
         if: steps.restore.outputs.ready == 'true'
         run: node scripts/apply-compendium-legacy-equipment-media.mjs
@@ -67,7 +76,9 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          rm -f compendium/source/.legacy-equipment-media-bundle-v5.ready \
+          rm -rf compendium/source/.legacy-equipment-media-stage
+          rm -f compendium/source/.legacy-equipment-media-stage.ready \
+            compendium/source/.legacy-equipment-media-bundle-v5.ready \
             compendium/source/.legacy-equipment-media-bundle-v5.b64 \
             compendium/source/.legacy-equipment-media-bundle-v4.ready \
             compendium/source/.legacy-equipment-media-bundle-v4.bin.part* \
