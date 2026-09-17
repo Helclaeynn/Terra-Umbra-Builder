@@ -1,0 +1,91 @@
+name: Legacy equipment build
+
+on:
+  push:
+    branches:
+      - feature/legacy-arsenal-armors-reintegration
+    paths:
+      - 'compendium/source/legacy-reintegration-part*-v1.json'
+      - 'scripts/integrate-legacy-equipment-reintegration.mjs'
+      - 'scripts/apply-compendium-final-reality-lore.mjs'
+      - 'compendium/tests/legacy-equipment-reintegration-check.mjs'
+      - '.github/workflows/legacy-equipment-build.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/legacy-arsenal-armors-reintegration
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Integrate source-driven legacy equipment into Builder
+        run: node scripts/integrate-legacy-equipment-reintegration.mjs
+      - name: Rebuild Compendium equipment pages and lore
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/build-compendium-catalog-pages.mjs
+          node scripts/enrich-compendium-augmentation-generations.mjs
+          node scripts/apply-compendium-augmentation-lore.mjs
+          node scripts/apply-compendium-firearms-lore.mjs
+          node scripts/sanitize-compendium-reality-derived-lore.mjs
+          node scripts/apply-compendium-final-reality-lore.mjs
+          node scripts/clean-compendium-equipment-derived-prose-v1.mjs
+          node scripts/build-compendium-navigation.mjs
+      - name: Validate reintegration and generated Compendium
+        run: |
+          node compendium/tests/legacy-equipment-reintegration-check.mjs
+          node compendium/tests/manifest-check.mjs
+          node compendium/tests/catalog-pages-check.mjs
+          node compendium/tests/catalog-pages-semantic-check.mjs
+          node compendium/tests/reality-catalog-lore-quality-check.mjs
+          node compendium/tests/equipment-description-quality-check.mjs
+          node compendium/tests/navigation-check.mjs
+          node compendium/tests/category-navigation-runtime-check.mjs
+          node character-builder/tests/block10-catalog-check.mjs
+      - name: Check Builder and Compendium syntax
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const cp = require('child_process');
+          const loader = fs.readFileSync('character-builder/app-loader.js', 'utf8');
+          const match = loader.match(/const\s+parts\s*=\s*\[(.*?)\];/s);
+          if (!match) throw new Error('Unable to read parts list from app-loader.js');
+          const parts = JSON.parse(`[${match[1]}]`);
+          const source = parts.map(name => fs.readFileSync(`character-builder/app.parts/${name}`, 'utf8')).join('\n');
+          const tmp = '/tmp/tuc-builder-check.mjs';
+          fs.writeFileSync(tmp, source);
+          cp.execFileSync(process.execPath, ['--check', tmp], { stdio: 'inherit' });
+          NODE
+          node --check compendium/app.js
+          node --check compendium/app-v2.js
+          node --check compendium/app-v3.js
+      - name: Commit generated Builder and Compendium artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A \
+            character-builder/rulesets/terra-umbra/reality/safe \
+            character-builder/rulesets/terra-umbra/reality/equipment.json.gz.b64 \
+            compendium/data \
+            compendium/assets/equipment-placeholder.svg \
+            compendium/assets/augmentation-placeholder.svg \
+            compendium/source/reality-lore-v3-curated-legacy-reintegration.json \
+            compendium/source/legacy-reintegration-result-v1.json
+          if git diff --cached --quiet; then
+            echo 'Generated Builder/Compendium artifacts already synchronized.'
+            exit 0
+          fi
+          git commit -m 'build(equipment): integrate missing legacy arsenal and armor'
+          git push origin HEAD:feature/legacy-arsenal-armors-reintegration
