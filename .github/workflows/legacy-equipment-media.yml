@@ -36,28 +36,22 @@ jobs:
           fi
           echo 'ready=true' >> "$GITHUB_OUTPUT"
           test -d "$STAGE"
-          COUNT="$(find "$STAGE" -maxdepth 1 -type f -name '*.webp.b64' | wc -l)"
-          test "$COUNT" -eq 124
+          COUNT="$(find "$STAGE" -maxdepth 1 -type f -name 'chunk-*.tar.gz.b64' | wc -l)"
+          test "$COUNT" -eq 24
+          rm -rf compendium/images/manual/equipment-legacy
           mkdir -p compendium/images/manual/equipment-legacy
-          for SRC in "$STAGE"/*.webp.b64; do
-            BASE="$(basename "$SRC" .b64)"
-            base64 -d "$SRC" > "compendium/images/manual/equipment-legacy/$BASE"
+          for SRC in "$STAGE"/chunk-*.tar.gz.b64; do
+            base64 -d "$SRC" | tar -xzf - -C compendium/images/manual/equipment-legacy
           done
+          MEDIA_COUNT="$(find compendium/images/manual/equipment-legacy -maxdepth 1 -type f -name '*.webp' | wc -l)"
+          test "$MEDIA_COUNT" -eq 124
           node scripts/build-legacy-equipment-media-map.mjs
-          test -f compendium/source/legacy-equipment-media-v1.json
           node - <<'NODE'
           const fs=require('fs');
           const crypto=require('crypto');
           const m=JSON.parse(fs.readFileSync('compendium/source/legacy-equipment-media-v1.json','utf8'));
           if(m.count!==124||m.installCount!==123||m.entries?.length!==124)throw new Error(`media map ${m.entries?.length||0}/124, install ${m.installCount||0}/123`);
-          for(const e of m.entries){
-            const f=`compendium/${e.image}`;
-            if(!fs.existsSync(f))throw new Error(`missing ${f}`);
-            const b=fs.readFileSync(f);
-            if(b.subarray(0,4).toString('ascii')!=='RIFF'||b.subarray(8,12).toString('ascii')!=='WEBP')throw new Error(`invalid webp ${f}`);
-            const sha=crypto.createHash('sha256').update(b).digest('hex');
-            if(sha!==e.sha256)throw new Error(`sha mismatch ${f}`);
-          }
+          for(const e of m.entries){const f=`compendium/${e.image}`;const b=fs.readFileSync(f);if(b.subarray(0,4).toString('ascii')!=='RIFF'||b.subarray(8,12).toString('ascii')!=='WEBP')throw new Error(`invalid webp ${f}`);const sha=crypto.createHash('sha256').update(b).digest('hex');if(sha!==e.sha256)throw new Error(`sha mismatch ${f}`);}
           NODE
       - name: Apply media to Compendium pages
         if: steps.restore.outputs.ready == 'true'
