@@ -36,7 +36,7 @@ jobs:
           echo 'ready=true' >> "$GITHUB_OUTPUT"
           shopt -s nullglob
           PARTS=(compendium/source/.legacy-equipment-media-bundle-v2.b64.part*)
-          test "${#PARTS[@]}" -eq 16
+          test "${#PARTS[@]}" -eq 27
           printf '%s\n' "${PARTS[@]}" | sort | xargs cat > /tmp/legacy-equipment-media.b64
           base64 -d /tmp/legacy-equipment-media.b64 > /tmp/legacy-equipment-media.tar.gz
           EXPECTED_SHA="$(tr -d '[:space:]' < "$READY")"
