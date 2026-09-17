@@ -28,15 +28,17 @@ jobs:
         run: |
           set -euo pipefail
           READY='compendium/source/.legacy-equipment-media-bundle-v2.ready'
-          B64='compendium/source/.legacy-equipment-media-bundle-v2.b64'
           if [[ ! -f "$READY" ]]; then
             echo 'ready=false' >> "$GITHUB_OUTPUT"
             echo 'No staging marker present; nothing to integrate.'
             exit 0
           fi
           echo 'ready=true' >> "$GITHUB_OUTPUT"
-          test -f "$B64"
-          base64 -d "$B64" > /tmp/legacy-equipment-media.tar.gz
+          shopt -s nullglob
+          PARTS=(compendium/source/.legacy-equipment-media-bundle-v2.b64.part*)
+          test "${#PARTS[@]}" -eq 16
+          printf '%s\n' "${PARTS[@]}" | sort | xargs cat > /tmp/legacy-equipment-media.b64
+          base64 -d /tmp/legacy-equipment-media.b64 > /tmp/legacy-equipment-media.tar.gz
           EXPECTED_SHA="$(tr -d '[:space:]' < "$READY")"
           ACTUAL_SHA="$(sha256sum /tmp/legacy-equipment-media.tar.gz | awk '{print $1}')"
           test "$EXPECTED_SHA" = "$ACTUAL_SHA"
@@ -68,7 +70,7 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git rm compendium/source/.legacy-equipment-media-bundle-v2.ready \
-            compendium/source/.legacy-equipment-media-bundle-v2.b64
+            compendium/source/.legacy-equipment-media-bundle-v2.b64.part*
           rm -f compendium/source/.legacy-equipment-media-bundle.b64.part*
           git add -A compendium/source/.legacy-equipment-media-bundle.b64.part* 2>/dev/null || true
           git add compendium/images/manual/equipment-legacy \
