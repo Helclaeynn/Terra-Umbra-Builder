@@ -1,0 +1,57 @@
+name: Legacy equipment media
+
+on:
+  push:
+    branches:
+      - feature/legacy-arsenal-armors-reintegration
+    paths:
+      - 'compendium/source/.legacy-equipment-media-bundle.tar.gz.b64'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/legacy-arsenal-armors-reintegration
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Restore extracted source artwork
+        shell: bash
+        run: |
+          set -euo pipefail
+          BUNDLE='compendium/source/.legacy-equipment-media-bundle.tar.gz.b64'
+          test -f "$BUNDLE"
+          base64 -d "$BUNDLE" > /tmp/legacy-equipment-media.tar.gz
+          tar -xzf /tmp/legacy-equipment-media.tar.gz
+          test -f compendium/source/legacy-equipment-media-v1.json
+          COUNT="$(find compendium/images/manual/equipment-legacy -maxdepth 1 -type f -name '*.webp' | wc -l)"
+          test "$COUNT" -eq 60
+      - name: Apply media to Compendium pages
+        run: node scripts/apply-compendium-legacy-equipment-media.mjs
+      - name: Validate media and Compendium
+        run: |
+          node compendium/tests/legacy-equipment-media-check.mjs
+          node compendium/tests/legacy-equipment-reintegration-check.mjs
+          node compendium/tests/manifest-check.mjs
+          node compendium/tests/catalog-pages-semantic-check.mjs
+          node compendium/tests/navigation-check.mjs
+      - name: Commit source artwork and generated pages
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm compendium/source/.legacy-equipment-media-bundle.tar.gz.b64
+          git add compendium/images/manual/equipment-legacy \
+            compendium/source/legacy-equipment-media-v1.json \
+            compendium/source/legacy-equipment-media-result-v1.json \
+            compendium/data
+          git commit -m 'feat(compendium): integrate legacy weapon and armor artwork'
+          git push origin HEAD:feature/legacy-arsenal-armors-reintegration
