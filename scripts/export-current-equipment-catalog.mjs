@@ -18,5 +18,6 @@ fs.writeFileSync(COMBAT_OUT,JSON.stringify({version:1,count:combat.length,entrie
 for(const file of fs.readdirSync(SOURCE)) if(file.startsWith('current-combat-category-')&&file.endsWith('.json')) fs.unlinkSync(path.join(SOURCE,file));
 const groups=new Map();for(const entry of combat){if(!groups.has(entry.category))groups.set(entry.category,[]);groups.get(entry.category).push(entry);}
 for(const [category,entries] of groups) fs.writeFileSync(`${SOURCE}/current-combat-category-${slug(category)}.json`,JSON.stringify({version:1,category,count:entries.length,entries},null,2)+'\n');
-fs.writeFileSync(`${SOURCE}/current-combat-categories-v1.json`,JSON.stringify({version:1,total:combat.length,categories:[...groups].map(([category,entries])=>({category,count:entries.length}))},null,2)+'\n');
-console.log(`Catalogue actif exporté: ${catalog.entries.length} entrées · combat ${combat.length} · ${groups.size} catégories.`);
+const modes=new Map();for(const entry of catalog.entries){const mode=String(entry.priceMode??'').trim()||'(empty)';if(!modes.has(mode))modes.set(mode,[]);if(modes.get(mode).length<4)modes.get(mode).push({name:entry.name,price:entry.price,priceMin:entry.priceMin,priceMax:entry.priceMax,priceLabel:entry.priceLabel});}
+fs.writeFileSync(`${SOURCE}/current-combat-categories-v1.json`,JSON.stringify({version:1,total:combat.length,categories:[...groups].map(([category,entries])=>({category,count:entries.length})),priceModes:[...modes].map(([mode,examples])=>({mode,examples}))},null,2)+'\n');
+console.log(`Catalogue actif exporté: ${catalog.entries.length} entrées · combat ${combat.length} · ${groups.size} catégories · ${modes.size} modes de prix.`);
