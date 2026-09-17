@@ -5,7 +5,7 @@ on:
     branches:
       - feature/legacy-arsenal-armors-reintegration
     paths:
-      - 'compendium/source/.legacy-equipment-media-bundle.tar.gz.b64'
+      - 'compendium/source/.legacy-equipment-media-bundle.tar.gz'
   workflow_dispatch:
 
 permissions:
@@ -14,7 +14,7 @@ permissions:
 jobs:
   integrate:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
@@ -23,19 +23,31 @@ jobs:
         with:
           node-version: 22
       - name: Restore extracted source artwork
+        id: restore
         shell: bash
         run: |
           set -euo pipefail
-          BUNDLE='compendium/source/.legacy-equipment-media-bundle.tar.gz.b64'
-          test -f "$BUNDLE"
-          base64 -d "$BUNDLE" > /tmp/legacy-equipment-media.tar.gz
-          tar -xzf /tmp/legacy-equipment-media.tar.gz
+          BUNDLE='compendium/source/.legacy-equipment-media-bundle.tar.gz'
+          if [[ ! -f "$BUNDLE" ]]; then
+            echo 'ready=false' >> "$GITHUB_OUTPUT"
+            echo 'No staging bundle present; nothing to integrate.'
+            exit 0
+          fi
+          echo 'ready=true' >> "$GITHUB_OUTPUT"
+          tar -xzf "$BUNDLE"
           test -f compendium/source/legacy-equipment-media-v1.json
+          node - <<'NODE'
+          const fs=require('fs');
+          const m=JSON.parse(fs.readFileSync('compendium/source/legacy-equipment-media-v1.json','utf8'));
+          if(m.count!==124||m.installCount!==123||m.entries?.length!==124)throw new Error(`media map ${m.entries?.length||0}/124, install ${m.installCount||0}/123`);
+          NODE
           COUNT="$(find compendium/images/manual/equipment-legacy -maxdepth 1 -type f -name '*.webp' | wc -l)"
-          test "$COUNT" -eq 60
+          test "$COUNT" -eq 124
       - name: Apply media to Compendium pages
+        if: steps.restore.outputs.ready == 'true'
         run: node scripts/apply-compendium-legacy-equipment-media.mjs
       - name: Validate media and Compendium
+        if: steps.restore.outputs.ready == 'true'
         run: |
           node compendium/tests/legacy-equipment-media-check.mjs
           node compendium/tests/legacy-equipment-reintegration-check.mjs
@@ -43,12 +55,13 @@ jobs:
           node compendium/tests/catalog-pages-semantic-check.mjs
           node compendium/tests/navigation-check.mjs
       - name: Commit source artwork and generated pages
+        if: steps.restore.outputs.ready == 'true'
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git rm compendium/source/.legacy-equipment-media-bundle.tar.gz.b64
+          git rm compendium/source/.legacy-equipment-media-bundle.tar.gz
           git add compendium/images/manual/equipment-legacy \
             compendium/source/legacy-equipment-media-v1.json \
             compendium/source/legacy-equipment-media-result-v1.json \
