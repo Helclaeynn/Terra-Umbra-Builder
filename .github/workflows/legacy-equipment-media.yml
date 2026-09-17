@@ -39,6 +39,9 @@ jobs:
           test "${#PARTS[@]}" -gt 0
           printf '%s\n' "${PARTS[@]}" | sort | xargs cat > /tmp/legacy-equipment-media.b64
           base64 -d /tmp/legacy-equipment-media.b64 > /tmp/legacy-equipment-media.tar.gz
+          EXPECTED_SHA="$(tr -d '[:space:]' < "$READY")"
+          ACTUAL_SHA="$(sha256sum /tmp/legacy-equipment-media.tar.gz | awk '{print $1}')"
+          test "$EXPECTED_SHA" = "$ACTUAL_SHA"
           tar -xzf /tmp/legacy-equipment-media.tar.gz
           test -f compendium/source/legacy-equipment-media-v1.json
           node - <<'NODE'
