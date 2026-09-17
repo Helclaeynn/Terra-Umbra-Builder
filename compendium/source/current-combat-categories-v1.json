@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "total": 82,
+  "categories": [
+    {
+      "category": "Armes — Mêlée",
+      "count": 15
+    },
+    {
+      "category": "Armes — Poing & Tasers",
+      "count": 12
+    },
+    {
+      "category": "Armes — Automatiques",
+      "count": 11
+    },
+    {
+      "category": "Armes — Précision",
+      "count": 8
+    },
+    {
+      "category": "Armes — Lourdes",
+      "count": 9
+    },
+    {
+      "category": "Armures — Basiques",
+      "count": 8
+    },
+    {
+      "category": "Armures — Combat",
+      "count": 6
+    },
+    {
+      "category": "Armures — Spécialisées",
+      "count": 7
+    },
+    {
+      "category": "Armures — Camouflage",
+      "count": 6
+    }
+  ]
+}

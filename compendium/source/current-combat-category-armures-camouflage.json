@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "category": "Armures — Camouflage",
+  "count": 6,
+  "entries": [
+    {
+      "id": "armures-camouflage-byron-ghillie-basic",
+      "name": "Byron Ghillie Basic",
+      "category": "Armures — Camouflage",
+      "priceMode": "exact",
+      "price": 550,
+      "priceLabel": "550 $",
+      "effect": "Visuel/textile.",
+      "data": {
+        "Profil": "Camo 1",
+        "Notes": "Visuel/textile."
+      }
+    },
+    {
+      "id": "armures-camouflage-raven-squid-skin",
+      "name": "Raven Squid Skin",
+      "category": "Armures — Camouflage",
+      "priceMode": "exact",
+      "price": 4950,
+      "priceLabel": "4 950 $",
+      "effect": "Reflexion visuelle active ; depend du contraste.",
+      "data": {
+        "Profil": "Melee 1, Antichoc 1, Camo 2",
+        "Notes": "Reflexion visuelle active ; depend du contraste."
+      }
+    },
+    {
+      "id": "armures-camouflage-phoenix-dirty-sniper",
+      "name": "Phoenix Dirty Sniper",
+      "category": "Armures — Camouflage",
+      "priceMode": "exact",
+      "price": 4550,
+      "priceLabel": "4 550 $",
+      "effect": "Texture adaptative ; profil visuel/thermique selon environnement.",
+      "data": {
+        "Profil": "Melee 2, Antichoc 2, Camo 2",
+        "Notes": "Texture adaptative ; profil visuel/thermique selon environnement."
+      }
+    },
+    {
+      "id": "armures-camouflage-owl-zero-guard",
+      "name": "Owl Zero Guard",
+      "category": "Armures — Camouflage",
+      "priceMode": "exact",
+      "price": 3550,
+      "priceLabel": "3 550 $",
+      "effect": "Brouillage electronique ; moins efficace contre capteurs biologiques directs.",
+      "data": {
+        "Profil": "Camo 1, Electro-trompeur",
+        "Notes": "Brouillage electronique ; moins efficace contre capteurs biologiques directs."
+      }
+    },
+    {
+      "id": "armures-camouflage-arcanetwork-holo-rmor-v2",
+      "name": "ArcaNetwork Holo'Rmor V2",
+      "category": "Armures — Camouflage",
+      "priceMode": "exact",
+      "price": 3550,
+      "priceLabel": "3 550 $",
+      "effect": "Holo-tissage identitaire, pas de Camo generique.",
+      "data": {
+        "Profil": "Melee 1, Antichoc 2",
+        "Notes": "Holo-tissage identitaire, pas de Camo generique."
+      }
+    },
+    {
+      "id": "armures-camouflage-sba-ninja",
+      "name": "SBA Ninja",
+      "category": "Armures — Camouflage",
+      "priceMode": "exact",
+      "price": 6500,
+      "priceLabel": "6 500 $",
+      "effect": "Mode spectral haut de gamme ; Camo 3 ne bloque pas un radar/senseur que la combinaison ne masque pas.",
+      "data": {
+        "Profil": "Camo 3",
+        "Notes": "Mode spectral haut de gamme ; Camo 3 ne bloque pas un radar/senseur que la combinaison ne masque pas."
+      }
+    }
+  ]
+}

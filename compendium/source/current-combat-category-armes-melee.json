@@ -1,0 +1,232 @@
+{
+  "version": 1,
+  "category": "Armes — Mêlée",
+  "count": 15,
+  "entries": [
+    {
+      "id": "armes-melee-couteau-de-combat",
+      "name": "Couteau de combat",
+      "category": "Armes — Mêlée",
+      "priceMode": "exact",
+      "price": 150,
+      "priceLabel": "150 $",
+      "effect": "",
+      "data": {
+        "Type": "Melee",
+        "DGT": "3",
+        "Portee": "Contact",
+        "Proprietes": "-"
+      }
+    },
+    {
+      "id": "armes-melee-owl-ka-73-last-encounter",
+      "name": "Owl KA-73 Last Encounter",
+      "category": "Armes — Mêlée",
+      "priceMode": "exact",
+      "price": 750,
+      "priceLabel": "750 $",
+      "effect": "",
+      "data": {
+        "Type": "Melee",
+        "DGT": "7",
+        "Portee": "Contact",
+        "Proprietes": "Fiable/Robuste en fiction"
+      }
+    },
+    {
+      "id": "armes-melee-phoenix-pck-08-feather",
+      "name": "Phoenix PCK-08 Feather",
+      "category": "Armes — Mêlée",
+      "priceMode": "exact",
+      "price": 500,
+      "priceLabel": "500 $",
+      "effect": "",
+      "data": {
+        "Type": "Melee",
+        "DGT": "4",
+        "Portee": "Contact",
+        "Proprietes": "Perforant 1 ; cauterise"
+      }
+    },
+    {
+      "id": "armes-melee-phoenix-ba-037-sun-axe",
+      "name": "Phoenix BA-037 Sun Axe",
+      "category": "Armes — Mêlée",
+      "priceMode": "exact",
+      "price": 900,
+      "priceLabel": "900 $",
+      "effect": "",
+      "data": {
+        "Type": "Melee",
+        "DGT": "7",
+        "Portee": "Contact",
+        "Proprietes": "Perforant 1 ; cauterise"
+      }
+    },
+    {
+      "id": "armes-melee-raven-cl-038-claymore",
+      "name": "Raven CL-038 Claymore",
+      "category": "Armes — Mêlée",
+      "priceMode": "exact",
+      "price": 750,
+      "priceLabel": "750 $",
+      "effect": "",
+      "data": {
+        "Type": "Melee",
+        "DGT": "8",
+        "Portee": "Contact",
+        "Proprietes": "EMP"
+      }
+    },
+    {
+      "id": "armes-melee-raven-sp-016-raven-spear",
+      "name": "Raven SP-016 Raven Spear",
+      "category": "Armes — Mêlée",
+      "priceMode": "exact",
+      "price": 1100,
+      "priceLabel": "1 100 $",
+      "effect": "",
+      "data": {
+        "Type": "Melee",
+        "DGT": "6",
+        "Portee": "1,5 m",
+        "Proprietes": "EMP ; Perforant 1"
+      }
+    },
+    {
+      "id": "armes-melee-raven-tm-028-riot-control",
+      "name": "Raven TM-028 Riot Control",
+      "category": "Armes — Mêlée",
+      "priceMode": "exact",
+      "price": 600,
+      "priceLabel": "600 $",
+      "effect": "",
+      "data": {
+        "Type": "Melee",
+        "DGT": "4",
+        "Portee": "Contact",
+        "Proprietes": "EMP"
+      }
+    },
+    {
+      "id": "armes-melee-owl-ts-009-sun-wukong",
+      "name": "Owl TS-009 Sun Wukong",
+      "category": "Armes — Mêlée",
+      "priceMode": "exact",
+      "price": 600,
+      "priceLabel": "600 $",
+      "effect": "",
+      "data": {
+        "Type": "Melee",
+        "DGT": "6",
+        "Portee": "1,5 m",
+        "Proprietes": "Fiable/Robuste"
+      }
+    },
+    {
+      "id": "armes-melee-phoenix-pw-026-vampire-killer",
+      "name": "Phoenix PW-026 Vampire Killer",
+      "category": "Armes — Mêlée",
+      "priceMode": "exact",
+      "price": 1300,
+      "priceLabel": "1 300 $",
+      "effect": "",
+      "data": {
+        "Type": "Melee",
+        "DGT": "7",
+        "Portee": "3,5 m",
+        "Proprietes": "Perforant 1 ; cauterise"
+      }
+    },
+    {
+      "id": "armes-melee-raven-mc-025-hitman",
+      "name": "Raven MC-025 Hitman",
+      "category": "Armes — Mêlée",
+      "priceMode": "exact",
+      "price": 1100,
+      "priceLabel": "1 100 $",
+      "effect": "",
+      "data": {
+        "Type": "Melee",
+        "DGT": "5",
+        "Portee": "1,5 m",
+        "Proprietes": "Perforant 2"
+      }
+    },
+    {
+      "id": "armes-melee-owl-lc-014-chasseur",
+      "name": "Owl LC-014 Chasseur",
+      "category": "Armes — Mêlée",
+      "priceMode": "exact",
+      "price": 750,
+      "priceLabel": "750 $",
+      "effect": "",
+      "data": {
+        "Type": "Trait",
+        "DGT": "7",
+        "Portee": "25 m",
+        "Proprietes": "Perforant 1 ; 1 coup"
+      }
+    },
+    {
+      "id": "armes-melee-seawares-hl-02-poseidon",
+      "name": "SeaWares HL-02 Poseidon",
+      "category": "Armes — Mêlée",
+      "priceMode": "exact",
+      "price": 950,
+      "priceLabel": "950 $",
+      "effect": "",
+      "data": {
+        "Type": "Trait",
+        "DGT": "8",
+        "Portee": "25 m",
+        "Proprietes": "Aquatique ; 1 coup"
+      }
+    },
+    {
+      "id": "armes-melee-raven-jl-014-cuchulainn",
+      "name": "Raven JL-014 Cuchulainn",
+      "category": "Armes — Mêlée",
+      "priceMode": "exact",
+      "price": 850,
+      "priceLabel": "850 $",
+      "effect": "",
+      "data": {
+        "Type": "Jet",
+        "DGT": "7",
+        "Portee": "15 m",
+        "Proprietes": "Perforant 1 ; EMP"
+      }
+    },
+    {
+      "id": "armes-melee-tala-th-029-tomahawk",
+      "name": "Tala TH-029 Tomahawk",
+      "category": "Armes — Mêlée",
+      "priceMode": "exact",
+      "price": 850,
+      "priceLabel": "850 $",
+      "effect": "",
+      "data": {
+        "Type": "Jet/Melee",
+        "DGT": "6",
+        "Portee": "15 m",
+        "Proprietes": "Perforant 1 ; Fiable/Robuste"
+      }
+    },
+    {
+      "id": "armes-melee-owl-mb-014-bolas-monofilament",
+      "name": "Owl MB-014 Bolas monofilament",
+      "category": "Armes — Mêlée",
+      "priceMode": "exact",
+      "price": 1500,
+      "priceLabel": "1 500 $",
+      "effect": "",
+      "data": {
+        "Type": "Jet",
+        "DGT": "6",
+        "Portee": "15 m",
+        "Proprietes": "Perforant 1"
+      }
+    }
+  ]
+}
