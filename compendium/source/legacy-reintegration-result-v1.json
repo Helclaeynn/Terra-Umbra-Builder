@@ -1,0 +1,431 @@
+{
+  "version": 1,
+  "sourceCount": 60,
+  "baseCount": 261,
+  "finalCount": 321,
+  "added": 60,
+  "verified": 0,
+  "chunks": 1,
+  "entries": [
+    {
+      "legacyName": "+B Black Arrow",
+      "name": "Black Arrow",
+      "id": "armes-melee-black-arrow",
+      "category": "Armes — Mêlée",
+      "source": "armes_Arbalètes arcs et arbalètes sous-marines(3).docx"
+    },
+    {
+      "legacyName": "CB Championship",
+      "name": "Nextar Championship",
+      "id": "armes-melee-nextar-championship",
+      "category": "Armes — Mêlée",
+      "source": "armes_Arbalètes arcs et arbalètes sous-marines(3).docx"
+    },
+    {
+      "legacyName": "WSG Tethyssette",
+      "name": "Byron Tethyssette",
+      "id": "armes-melee-byron-tethyssette",
+      "category": "Armes — Mêlée",
+      "source": "armes_Arbalètes arcs et arbalètes sous-marines(3).docx"
+    },
+    {
+      "legacyName": "P. Flak Cannon",
+      "name": "Flak Cannon — Prototype",
+      "id": "armes-lourdes-flak-cannon-prototype",
+      "category": "Armes — Lourdes",
+      "source": "armes_Prototypes(2).docx"
+    },
+    {
+      "legacyName": "P. Sheer BlueShell A.",
+      "name": "Sheer BlueShell A. — Prototype",
+      "id": "armes-lourdes-sheer-blueshell-a-prototype",
+      "category": "Armes — Lourdes",
+      "source": "armes_Prototypes(2).docx"
+    },
+    {
+      "legacyName": "P. Charm",
+      "name": "Charm — Prototype",
+      "id": "armes-poing-tasers-charm-prototype",
+      "category": "Armes — Poing & Tasers",
+      "source": "armes_Prototypes(2).docx"
+    },
+    {
+      "legacyName": "P. Armcannon",
+      "name": "Armcannon — Prototype",
+      "id": "armes-lourdes-armcannon-prototype",
+      "category": "Armes — Lourdes",
+      "source": "armes_Prototypes(2).docx"
+    },
+    {
+      "legacyName": "P. Railway to hell",
+      "name": "Raven-Sehdia Railway to Hell — Prototype",
+      "id": "armes-lourdes-raven-sehdia-railway-to-hell-prototype",
+      "category": "Armes — Lourdes",
+      "source": "armes_Prototypes(2).docx"
+    },
+    {
+      "legacyName": "P. Vader",
+      "name": "Phoenix Vader — Prototype",
+      "id": "armes-poing-tasers-phoenix-vader-prototype",
+      "category": "Armes — Poing & Tasers",
+      "source": "armes_Prototypes(2).docx"
+    },
+    {
+      "legacyName": "Pw Ravenegg",
+      "name": "Raven Ravenegg",
+      "id": "armes-melee-raven-ravenegg",
+      "category": "Armes — Mêlée",
+      "source": "armes_armes de jet(2).docx"
+    },
+    {
+      "legacyName": "PW Inferno",
+      "name": "Phoenix Inferno",
+      "id": "armes-melee-phoenix-inferno",
+      "category": "Armes — Mêlée",
+      "source": "armes_armes de jet(2).docx"
+    },
+    {
+      "legacyName": "PW Dripper",
+      "name": "Owl Dripper",
+      "id": "armes-melee-owl-dripper",
+      "category": "Armes — Mêlée",
+      "source": "armes_armes de jet(2).docx"
+    },
+    {
+      "legacyName": "PW heliosII",
+      "name": "Phoenix Helios II",
+      "id": "armes-melee-phoenix-helios-ii",
+      "category": "Armes — Mêlée",
+      "source": "armes_armes de jet(2).docx"
+    },
+    {
+      "legacyName": "PW Superchoc",
+      "name": "Owl Superchoc",
+      "id": "armes-melee-owl-superchoc",
+      "category": "Armes — Mêlée",
+      "source": "armes_armes de jet(2).docx"
+    },
+    {
+      "legacyName": "PW frog egg",
+      "name": "Biosun Frog Egg",
+      "id": "armes-melee-biosun-frog-egg",
+      "category": "Armes — Mêlée",
+      "source": "armes_armes de jet(2).docx"
+    },
+    {
+      "legacyName": "PW Pokeball",
+      "name": "Byron Pokeball",
+      "id": "armes-melee-byron-pokeball",
+      "category": "Armes — Mêlée",
+      "source": "armes_armes de jet(2).docx"
+    },
+    {
+      "legacyName": "GL Vending Machine",
+      "name": "Owl Vending Machine",
+      "id": "armes-lourdes-owl-vending-machine",
+      "category": "Armes — Lourdes",
+      "source": "armes_armes de jet(2).docx"
+    },
+    {
+      "legacyName": "PW Jagi",
+      "name": "Jagi",
+      "id": "armes-melee-jagi",
+      "category": "Armes — Mêlée",
+      "source": "armes_armes de jet(2).docx"
+    },
+    {
+      "legacyName": "PW Shadow gift",
+      "name": "Shadow Gift",
+      "id": "armes-melee-shadow-gift",
+      "category": "Armes — Mêlée",
+      "source": "armes_armes de jet(2).docx"
+    },
+    {
+      "legacyName": "GL Bomberman",
+      "name": "Raven Bomberman",
+      "id": "armes-lourdes-raven-bomberman",
+      "category": "Armes — Lourdes",
+      "source": "armes_armes de jet(2).docx"
+    },
+    {
+      "legacyName": "GL Easter Bunny",
+      "name": "Phoenix Easter Bunny",
+      "id": "armes-lourdes-phoenix-easter-bunny",
+      "category": "Armes — Lourdes",
+      "source": "armes_armes de jet(2).docx"
+    },
+    {
+      "legacyName": "BK King fist",
+      "name": "Phoenix King Fist",
+      "id": "armes-melee-phoenix-king-fist",
+      "category": "Armes — Mêlée",
+      "source": "armes_contendants et utilitairess(3).docx"
+    },
+    {
+      "legacyName": "Bh Ginette",
+      "name": "Byron Ginette",
+      "id": "armes-melee-byron-ginette",
+      "category": "Armes — Mêlée",
+      "source": "armes_contendants et utilitairess(3).docx"
+    },
+    {
+      "legacyName": "?? Antoinette",
+      "name": "Mary-Antoinette",
+      "id": "armes-melee-mary-antoinette",
+      "category": "Armes — Mêlée",
+      "source": "armes_contendants et utilitairess(3).docx"
+    },
+    {
+      "legacyName": "?? Pierrette",
+      "name": "Pierrette",
+      "id": "armes-melee-pierrette",
+      "category": "Armes — Mêlée",
+      "source": "armes_contendants et utilitairess(3).docx"
+    },
+    {
+      "legacyName": "Wm Melinette",
+      "name": "Byron Melinette",
+      "id": "armes-melee-byron-melinette",
+      "category": "Armes — Mêlée",
+      "source": "armes_contendants et utilitairess(3).docx"
+    },
+    {
+      "legacyName": "Cos Stretchy",
+      "name": "Stretchy",
+      "id": "armes-melee-stretchy",
+      "category": "Armes — Mêlée",
+      "source": "armes_contendants et utilitairess(3).docx"
+    },
+    {
+      "legacyName": "AR Sal-in",
+      "name": "Sal-in",
+      "id": "armes-automatiques-sal-in",
+      "category": "Armes — Automatiques",
+      "source": "armes_fusils assaut(3).docx"
+    },
+    {
+      "legacyName": "AR Morissette",
+      "name": "Morissette",
+      "id": "armes-automatiques-morissette",
+      "category": "Armes — Automatiques",
+      "source": "armes_fusils assaut(3).docx"
+    },
+    {
+      "legacyName": "AR Aciditicteeth",
+      "name": "Biosun Aciditicteeth",
+      "id": "armes-automatiques-biosun-aciditicteeth",
+      "category": "Armes — Automatiques",
+      "source": "armes_fusils assaut(3).docx"
+    },
+    {
+      "legacyName": "AR Blastard",
+      "name": "Tortoise Blastard",
+      "id": "armes-automatiques-tortoise-blastard",
+      "category": "Armes — Automatiques",
+      "source": "armes_fusils assaut(3).docx"
+    },
+    {
+      "legacyName": "Sr Song-gos",
+      "name": "Song-gos",
+      "id": "armes-precision-song-gos",
+      "category": "Armes — Précision",
+      "source": "armes_fusils de précision(3).docx"
+    },
+    {
+      "legacyName": "Sr Luzette",
+      "name": "Byron Luzette",
+      "id": "armes-precision-byron-luzette",
+      "category": "Armes — Précision",
+      "source": "armes_fusils de précision(3).docx"
+    },
+    {
+      "legacyName": "sr Abraham Kennedy",
+      "name": "Abraham Kennedy",
+      "id": "armes-precision-abraham-kennedy",
+      "category": "Armes — Précision",
+      "source": "armes_fusils de précision(3).docx"
+    },
+    {
+      "legacyName": "SR Hellrails",
+      "name": "Raven-Sehdia Hellrails",
+      "id": "armes-precision-raven-sehdia-hellrails",
+      "category": "Armes — Précision",
+      "source": "armes_fusils de précision(3).docx"
+    },
+    {
+      "legacyName": "DGR Pandemic",
+      "name": "Biosun Pandemic",
+      "id": "armes-precision-biosun-pandemic",
+      "category": "Armes — Précision",
+      "source": "armes_fusils hypodermiques et armédicales(3).docx"
+    },
+    {
+      "legacyName": "DGR Savior",
+      "name": "Sunways Savior DGR",
+      "id": "armes-precision-sunways-savior-dgr",
+      "category": "Armes — Précision",
+      "source": "armes_fusils hypodermiques et armédicales(3).docx"
+    },
+    {
+      "legacyName": "DG Disease",
+      "name": "Disease",
+      "id": "armes-poing-tasers-disease",
+      "category": "Armes — Poing & Tasers",
+      "source": "armes_fusils hypodermiques et armédicales(3).docx"
+    },
+    {
+      "legacyName": "DG Savior",
+      "name": "Raven-Sunways Savior DG",
+      "id": "armes-poing-tasers-raven-sunways-savior-dg",
+      "category": "Armes — Poing & Tasers",
+      "source": "armes_fusils hypodermiques et armédicales(3).docx"
+    },
+    {
+      "legacyName": "DG RedCrush",
+      "name": "Phoenix RedCrush",
+      "id": "armes-lourdes-phoenix-redcrush",
+      "category": "Armes — Lourdes",
+      "source": "armes_fusils hypodermiques et armédicales(3).docx"
+    },
+    {
+      "legacyName": "DG Painkiller",
+      "name": "Raven Painkiller",
+      "id": "armes-poing-tasers-raven-painkiller",
+      "category": "Armes — Poing & Tasers",
+      "source": "armes_fusils hypodermiques et armédicales(3).docx"
+    },
+    {
+      "legacyName": "BK Hornetouch",
+      "name": "Sunways Hornetouch",
+      "id": "armes-melee-sunways-hornetouch",
+      "category": "Armes — Mêlée",
+      "source": "armes_fusils hypodermiques et armédicales(3).docx"
+    },
+    {
+      "legacyName": "AR Blastard",
+      "name": "Biosun Blastard Injector",
+      "id": "armes-melee-biosun-blastard-injector",
+      "category": "Armes — Mêlée",
+      "source": "armes_fusils hypodermiques et armédicales(3).docx"
+    },
+    {
+      "legacyName": "LMG Bi",
+      "name": "Bi",
+      "id": "armes-automatiques-bi",
+      "category": "Armes — Automatiques",
+      "source": "armes_mitraillettes(3).docx"
+    },
+    {
+      "legacyName": "LMG Nebullar",
+      "name": "SFU Nebullar",
+      "id": "armes-automatiques-sfu-nebullar",
+      "category": "Armes — Automatiques",
+      "source": "armes_mitraillettes(3).docx"
+    },
+    {
+      "legacyName": "LMG Surge",
+      "name": "Monarch Surge",
+      "id": "armes-automatiques-monarch-surge",
+      "category": "Armes — Automatiques",
+      "source": "armes_mitraillettes(3).docx"
+    },
+    {
+      "legacyName": "MG Bibal",
+      "name": "Bibal",
+      "id": "armes-automatiques-bibal",
+      "category": "Armes — Automatiques",
+      "source": "armes_mitraillettes(3).docx"
+    },
+    {
+      "legacyName": "MG Florette",
+      "name": "Byron Florette",
+      "id": "armes-automatiques-byron-florette",
+      "category": "Armes — Automatiques",
+      "source": "armes_mitraillettes(3).docx"
+    },
+    {
+      "legacyName": "HP Apex",
+      "name": "Owl Apex",
+      "id": "armes-poing-tasers-owl-apex",
+      "category": "Armes — Poing & Tasers",
+      "source": "armes_pistolets(4).docx"
+    },
+    {
+      "legacyName": "LP Jeanette",
+      "name": "Byron Jeanette",
+      "id": "armes-poing-tasers-byron-jeanette",
+      "category": "Armes — Poing & Tasers",
+      "source": "armes_pistolets(4).docx"
+    },
+    {
+      "legacyName": "HP Jotkka",
+      "name": "Jotkka",
+      "id": "armes-poing-tasers-jotkka",
+      "category": "Armes — Poing & Tasers",
+      "source": "armes_pistolets(4).docx"
+    },
+    {
+      "legacyName": "HP Pacificateur x",
+      "name": "Raven-Sehdia Pacificateur X",
+      "id": "armes-poing-tasers-raven-sehdia-pacificateur-x",
+      "category": "Armes — Poing & Tasers",
+      "source": "armes_pistolets(4).docx"
+    },
+    {
+      "legacyName": "pP Eolgul-e",
+      "name": "Eolgul-e",
+      "id": "armes-poing-tasers-eolgul-e",
+      "category": "Armes — Poing & Tasers",
+      "source": "armes_pistolets(4).docx"
+    },
+    {
+      "legacyName": "PP Sunnyroshima",
+      "name": "Phoenix Sunnyroshima",
+      "id": "armes-poing-tasers-phoenix-sunnyroshima",
+      "category": "Armes — Poing & Tasers",
+      "source": "armes_pistolets(4).docx"
+    },
+    {
+      "legacyName": "HP Reminiscer",
+      "name": "Reminiscer — Prototype",
+      "id": "armes-poing-tasers-reminiscer-prototype",
+      "category": "Armes — Poing & Tasers",
+      "source": "armes_pistolets_prototype 2(2).docx"
+    },
+    {
+      "legacyName": "HP Oblivion",
+      "name": "Oblivion — Prototype",
+      "id": "armes-poing-tasers-oblivion-prototype",
+      "category": "Armes — Poing & Tasers",
+      "source": "armes_pistolets_prototype 2(2).docx"
+    },
+    {
+      "legacyName": "HP Zeus",
+      "name": "Zeus — Prototype",
+      "id": "armes-poing-tasers-zeus-prototype",
+      "category": "Armes — Poing & Tasers",
+      "source": "armes_pistolets_prototype 2(2).docx"
+    },
+    {
+      "legacyName": "LP Dracula",
+      "name": "Dracula — Prototype",
+      "id": "armes-poing-tasers-dracula-prototype",
+      "category": "Armes — Poing & Tasers",
+      "source": "armes_pistolets_prototype 2(2).docx"
+    },
+    {
+      "legacyName": "LBA Soldier",
+      "name": "Soldier — Armure légère nord-coréenne",
+      "id": "armures-combat-soldier-armure-legere-nord-coreenne",
+      "category": "Armures — Combat",
+      "source": "armures_protections basiques(1).docx"
+    },
+    {
+      "legacyName": "HBA heavy soldier",
+      "name": "Heavy Soldier — Armure lourde nord-coréenne",
+      "id": "armures-combat-heavy-soldier-armure-lourde-nord-coreenne",
+      "category": "Armures — Combat",
+      "source": "armures_protections basiques(1).docx"
+    }
+  ]
+}
