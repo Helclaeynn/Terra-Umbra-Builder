@@ -37,7 +37,7 @@ jobs:
           echo 'ready=true' >> "$GITHUB_OUTPUT"
           test -d "$STAGE"
           COUNT="$(find "$STAGE" -maxdepth 1 -type f -name 'final.b64.part*' | wc -l)"
-          test "$COUNT" -eq 19
+          test "$COUNT" -eq 46
           rm -rf compendium/images/manual/equipment-legacy
           mkdir -p compendium/images/manual/equipment-legacy
           cat "$STAGE"/final.b64.part* > /tmp/legacy-equipment-media.b64
