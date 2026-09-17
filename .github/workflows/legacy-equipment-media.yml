@@ -43,6 +43,7 @@ jobs:
             BASE="$(basename "$SRC" .b64)"
             base64 -d "$SRC" > "compendium/images/manual/equipment-legacy/$BASE"
           done
+          node scripts/build-legacy-equipment-media-map.mjs
           test -f compendium/source/legacy-equipment-media-v1.json
           node - <<'NODE'
           const fs=require('fs');
