@@ -31,7 +31,7 @@ jobs:
       - name: Commit audit report
         shell: bash
         run: |
-          FILES='compendium/source/legacy-equipment-audit-v1.json compendium/source/legacy-equipment-audit-summary-v1.json compendium/source/legacy-equipment-missing-v1.json compendium/source/legacy-equipment-likely-v1.json compendium/source/legacy-equipment-schema-samples-v1.json compendium/source/legacy-equipment-resolution-v1.json compendium/source/current-equipment-catalog-v1.json'
+          FILES='compendium/source/legacy-equipment-audit-v1.json compendium/source/legacy-equipment-audit-summary-v1.json compendium/source/legacy-equipment-missing-v1.json compendium/source/legacy-equipment-likely-v1.json compendium/source/legacy-equipment-schema-samples-v1.json compendium/source/legacy-equipment-resolution-v1.json compendium/source/current-equipment-catalog-v1.json compendium/source/current-combat-catalog-v1.json'
           CHANGED="$(git status --porcelain -- $FILES)"
           if [ -z "$CHANGED" ]; then
             echo 'Audit reports already synchronized.'
