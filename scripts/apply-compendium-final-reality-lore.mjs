@@ -20,9 +20,10 @@ const SOURCES=[
   'compendium/source/reality-lore-v3-curated-weapons-firearms-heavy.json',
   'compendium/source/reality-lore-v3-curated-weapons-support.json',
   'compendium/source/reality-lore-v3-curated-lifestyle-services.json',
-  'compendium/source/reality-lore-v3-curated-neuroprograms.json'
+  'compendium/source/reality-lore-v3-curated-neuroprograms.json',
+  'compendium/source/reality-lore-v3-curated-legacy-reintegration.json'
 ];
-const EXPECTED_PAGES=297;
+const EXPECTED_PAGES=357;
 const FRAGMENT_SIZE=8000;
 const clean=value=>String(value??'').trim().replace(/\s+/g,' ');
 const norm=value=>clean(value).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
