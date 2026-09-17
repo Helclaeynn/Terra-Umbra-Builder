@@ -24,9 +24,9 @@
   "currentUniqueEntries": 261,
   "summary": {
     "total": 124,
-    "existing": 19,
+    "existing": 22,
     "likelyExisting": 42,
-    "missing": 63
+    "missing": 60
   },
   "existing": [
     {
@@ -239,6 +239,44 @@
       }
     },
     {
+      "document": "armes_mitraillettes(3).docx",
+      "legacyName": "MG Executionner",
+      "confidence": "confirmed-alias",
+      "match": {
+        "name": "Raven LMG-027 Executionner",
+        "category": "Armes — Automatiques"
+      },
+      "confirmedAlias": "Raven LMG-027 Executionner",
+      "matchedRaw": {
+        "id": "armes-automatiques-raven-lmg-027-executionner",
+        "name": "Raven LMG-027 Executionner",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 1350,
+        "priceLabel": "1 350 $",
+        "effect": ""
+      }
+    },
+    {
+      "document": "armes_pistolets(4).docx",
+      "legacyName": "LP Sunblast",
+      "confidence": "confirmed-alias",
+      "match": {
+        "name": "Phoenix LP-028 Sun Blast",
+        "category": "Armes — Poing & Tasers"
+      },
+      "confirmedAlias": "Phoenix LP-028 Sun Blast",
+      "matchedRaw": {
+        "id": "armes-poing-tasers-phoenix-lp-028-sun-blast",
+        "name": "Phoenix LP-028 Sun Blast",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 950,
+        "priceLabel": "950 $",
+        "effect": ""
+      }
+    },
+    {
       "document": "armures_protections Spéciales(1).docx",
       "legacyName": "SPC Santa cloth",
       "confidence": "confirmed-alias",
@@ -369,6 +407,25 @@
         "price": 1450,
         "priceLabel": "1 450 $",
         "effect": "Anti-EMP"
+      }
+    },
+    {
+      "document": "armures_protections basiques(1).docx",
+      "legacyName": "HBA Gallowglass V",
+      "confidence": "confirmed-alias",
+      "match": {
+        "name": "Raven Gallowglass II lourde",
+        "category": "Armures — Combat"
+      },
+      "confirmedAlias": "Raven Gallowglass II lourde",
+      "matchedRaw": {
+        "id": "armures-combat-raven-gallowglass-ii-lourde",
+        "name": "Raven Gallowglass II lourde",
+        "category": "Armures — Combat",
+        "priceMode": "exact",
+        "price": 5500,
+        "priceLabel": "5 500 $",
+        "effect": "Anti-EMP ; militaire lourd"
       }
     },
     {
@@ -2449,22 +2506,6 @@
     },
     {
       "document": "armes_mitraillettes(3).docx",
-      "legacyName": "MG Executionner",
-      "candidates": [
-        {
-          "name": "Raven LMG-027 Executionner",
-          "category": "Armes — Automatiques",
-          "score": 0.4
-        },
-        {
-          "name": "Raven LMG-072 Neo-Executionner",
-          "category": "Armes — Automatiques",
-          "score": 0.333
-        }
-      ]
-    },
-    {
-      "document": "armes_mitraillettes(3).docx",
       "legacyName": "MG Bibal",
       "candidates": []
     },
@@ -2507,27 +2548,6 @@
     {
       "document": "armes_pistolets(4).docx",
       "legacyName": "LP Jeanette",
-      "candidates": [
-        {
-          "name": "Owl LP-019 Acceptable",
-          "category": "Armes — Poing & Tasers",
-          "score": 0.333
-        },
-        {
-          "name": "Raven LP-004 Sturdy",
-          "category": "Armes — Poing & Tasers",
-          "score": 0.333
-        },
-        {
-          "name": "Phoenix LP-028 Sun Blast",
-          "category": "Armes — Poing & Tasers",
-          "score": 0.286
-        }
-      ]
-    },
-    {
-      "document": "armes_pistolets(4).docx",
-      "legacyName": "LP Sunblast",
       "candidates": [
         {
           "name": "Owl LP-019 Acceptable",
@@ -2758,22 +2778,6 @@
       "document": "armures_protections basiques(1).docx",
       "legacyName": "LBA Soldier",
       "candidates": []
-    },
-    {
-      "document": "armures_protections basiques(1).docx",
-      "legacyName": "HBA Gallowglass V",
-      "candidates": [
-        {
-          "name": "Raven Gallowglass II legere",
-          "category": "Armures — Combat",
-          "score": 0.4
-        },
-        {
-          "name": "Raven Gallowglass II lourde",
-          "category": "Armures — Combat",
-          "score": 0.4
-        }
-      ]
     },
     {
       "document": "armures_protections basiques(1).docx",

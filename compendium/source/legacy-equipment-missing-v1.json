@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "count": 63,
+  "count": 60,
   "entries": [
     {
       "document": "armes_Arbalètes arcs et arbalètes sous-marines(3).docx",
@@ -567,22 +567,6 @@
     },
     {
       "document": "armes_mitraillettes(3).docx",
-      "legacyName": "MG Executionner",
-      "candidates": [
-        {
-          "name": "Raven LMG-027 Executionner",
-          "category": "Armes — Automatiques",
-          "score": 0.4
-        },
-        {
-          "name": "Raven LMG-072 Neo-Executionner",
-          "category": "Armes — Automatiques",
-          "score": 0.333
-        }
-      ]
-    },
-    {
-      "document": "armes_mitraillettes(3).docx",
       "legacyName": "MG Bibal",
       "candidates": []
     },
@@ -625,27 +609,6 @@
     {
       "document": "armes_pistolets(4).docx",
       "legacyName": "LP Jeanette",
-      "candidates": [
-        {
-          "name": "Owl LP-019 Acceptable",
-          "category": "Armes — Poing & Tasers",
-          "score": 0.333
-        },
-        {
-          "name": "Raven LP-004 Sturdy",
-          "category": "Armes — Poing & Tasers",
-          "score": 0.333
-        },
-        {
-          "name": "Phoenix LP-028 Sun Blast",
-          "category": "Armes — Poing & Tasers",
-          "score": 0.286
-        }
-      ]
-    },
-    {
-      "document": "armes_pistolets(4).docx",
-      "legacyName": "LP Sunblast",
       "candidates": [
         {
           "name": "Owl LP-019 Acceptable",
@@ -876,22 +839,6 @@
       "document": "armures_protections basiques(1).docx",
       "legacyName": "LBA Soldier",
       "candidates": []
-    },
-    {
-      "document": "armures_protections basiques(1).docx",
-      "legacyName": "HBA Gallowglass V",
-      "candidates": [
-        {
-          "name": "Raven Gallowglass II legere",
-          "category": "Armures — Combat",
-          "score": 0.4
-        },
-        {
-          "name": "Raven Gallowglass II lourde",
-          "category": "Armures — Combat",
-          "score": 0.4
-        }
-      ]
     },
     {
       "document": "armures_protections basiques(1).docx",

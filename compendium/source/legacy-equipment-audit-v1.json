@@ -1062,9 +1062,9 @@
   ],
   "summary": {
     "total": 124,
-    "existing": 19,
+    "existing": 22,
     "likelyExisting": 42,
-    "missing": 63
+    "missing": 60
   },
   "results": [
     {
@@ -2747,10 +2747,13 @@
     {
       "document": "armes_mitraillettes(3).docx",
       "legacyName": "MG Executionner",
-      "status": "missing",
-      "confidence": "none",
-      "confirmedAlias": null,
-      "match": null,
+      "status": "existing",
+      "confidence": "confirmed-alias",
+      "confirmedAlias": "Raven LMG-027 Executionner",
+      "match": {
+        "name": "Raven LMG-027 Executionner",
+        "category": "Armes — Automatiques"
+      },
       "candidates": [
         {
           "name": "Raven LMG-027 Executionner",
@@ -2763,7 +2766,15 @@
           "score": 0.333
         }
       ],
-      "matchedRaw": null
+      "matchedRaw": {
+        "id": "armes-automatiques-raven-lmg-027-executionner",
+        "name": "Raven LMG-027 Executionner",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 1350,
+        "priceLabel": "1 350 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_mitraillettes(3).docx",
@@ -3255,10 +3266,13 @@
     {
       "document": "armes_pistolets(4).docx",
       "legacyName": "LP Sunblast",
-      "status": "missing",
-      "confidence": "none",
-      "confirmedAlias": null,
-      "match": null,
+      "status": "existing",
+      "confidence": "confirmed-alias",
+      "confirmedAlias": "Phoenix LP-028 Sun Blast",
+      "match": {
+        "name": "Phoenix LP-028 Sun Blast",
+        "category": "Armes — Poing & Tasers"
+      },
       "candidates": [
         {
           "name": "Owl LP-019 Acceptable",
@@ -3276,7 +3290,15 @@
           "score": 0.286
         }
       ],
-      "matchedRaw": null
+      "matchedRaw": {
+        "id": "armes-poing-tasers-phoenix-lp-028-sun-blast",
+        "name": "Phoenix LP-028 Sun Blast",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 950,
+        "priceLabel": "950 $",
+        "effect": ""
+      }
     },
     {
       "document": "armes_pistolets(4).docx",
@@ -4305,10 +4327,13 @@
     {
       "document": "armures_protections basiques(1).docx",
       "legacyName": "HBA Gallowglass V",
-      "status": "missing",
-      "confidence": "none",
-      "confirmedAlias": null,
-      "match": null,
+      "status": "existing",
+      "confidence": "confirmed-alias",
+      "confirmedAlias": "Raven Gallowglass II lourde",
+      "match": {
+        "name": "Raven Gallowglass II lourde",
+        "category": "Armures — Combat"
+      },
       "candidates": [
         {
           "name": "Raven Gallowglass II legere",
@@ -4321,7 +4346,15 @@
           "score": 0.4
         }
       ],
-      "matchedRaw": null
+      "matchedRaw": {
+        "id": "armures-combat-raven-gallowglass-ii-lourde",
+        "name": "Raven Gallowglass II lourde",
+        "category": "Armures — Combat",
+        "priceMode": "exact",
+        "price": 5500,
+        "priceLabel": "5 500 $",
+        "effect": "Anti-EMP ; militaire lourd"
+      }
     },
     {
       "document": "armures_protections basiques(1).docx",

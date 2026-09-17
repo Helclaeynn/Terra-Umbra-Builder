@@ -2,9 +2,9 @@
   "version": 1,
   "summary": {
     "total": 124,
-    "existing": 19,
+    "existing": 22,
     "likelyExisting": 42,
-    "missing": 63
+    "missing": 60
   },
   "resolved": [
     {
@@ -164,6 +164,12 @@
       "confidence": "title"
     },
     {
+      "legacyName": "MG Executionner",
+      "currentName": "Raven LMG-027 Executionner",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    },
+    {
       "legacyName": "MG Neo-Executionner",
       "currentName": "Raven LMG-072 Neo-Executionner",
       "status": "likely-existing",
@@ -222,6 +228,12 @@
       "currentName": "Raven LP-004 Sturdy",
       "status": "likely-existing",
       "confidence": "title"
+    },
+    {
+      "legacyName": "LP Sunblast",
+      "currentName": "Phoenix LP-028 Sun Blast",
+      "status": "existing",
+      "confidence": "confirmed-alias"
     },
     {
       "legacyName": "SPC No-Fire",
@@ -368,6 +380,12 @@
       "confidence": "title"
     },
     {
+      "legacyName": "HBA Gallowglass V",
+      "currentName": "Raven Gallowglass II lourde",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    },
+    {
       "legacyName": "HBA Sunking",
       "currentName": "Phoenix Sun King",
       "status": "existing",
@@ -421,12 +439,10 @@
     "LMG Bi",
     "LMG Nebullar",
     "LMG Surge",
-    "MG Executionner",
     "MG Bibal",
     "MG Florette",
     "HP Apex",
     "LP Jeanette",
-    "LP Sunblast",
     "HP Jotkka",
     "HP Pacificateur x",
     "pP Eolgul-e",
@@ -436,7 +452,6 @@
     "HP Zeus",
     "LP Dracula",
     "LBA Soldier",
-    "HBA Gallowglass V",
     "HBA heavy soldier"
   ]
 }
