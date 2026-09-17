@@ -8,6 +8,7 @@ const RESULT='compendium/source/legacy-equipment-media-result-v1.json';
 const EXPECTED_SOURCE=124;
 const EXPECTED_INSTALLED=123;
 const EXPECTED_SKIPPED=1;
+const MIN_RENDER_DIMENSION=64;
 const norm=value=>String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
 function load(spec){let b64='';for(let i=0;i<spec.parts;i++)b64+=fs.readFileSync(`${DATA}/${spec.prefix}-${String(i).padStart(2,'0')}.b64part`,'utf8').replace(/\s+/g,'');return JSON.parse(zlib.gunzipSync(Buffer.from(b64,'base64')).toString('utf8'));}
 function webp(file){const b=fs.readFileSync(file);return b.length>=12&&b.subarray(0,4).toString('ascii')==='RIFF'&&b.subarray(8,12).toString('ascii')==='WEBP';}
@@ -24,7 +25,8 @@ for(const item of media.entries){
   if(!fs.existsSync(file)||!webp(file))throw new Error(`WebP absent/invalide: ${file}`);
   const sha=crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
   if(sha!==item.sha256)throw new Error(`SHA média différent: ${item.image}`);
-  if(Number(item.width)<100||Number(item.height)<100)throw new Error(`Dimensions média invalides: ${item.image}`);
+  if(Number(item.width)<MIN_RENDER_DIMENSION||Number(item.height)<MIN_RENDER_DIMENSION)throw new Error(`Dimensions média invalides: ${item.image}`);
+  if(Number(item.sourceWidth)<Number(item.width)||Number(item.sourceHeight)<Number(item.height))throw new Error(`Dimensions source incohérentes: ${item.image}`);
   if(item.install===false){skips++;if(norm(item.legacyName)!==norm('CB Hunter')||norm(item.collisionTarget)!==norm('Owl LC-014 Chasseur'))throw new Error('Collision média inattendue.');}
   else installables++;
 }
