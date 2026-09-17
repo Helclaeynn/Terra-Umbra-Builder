@@ -7,6 +7,7 @@ on:
     paths:
       - 'compendium/source/legacy-equipment-candidates-v1.json'
       - 'scripts/audit-legacy-equipment-reintegration.mjs'
+      - 'scripts/export-current-equipment-catalog.mjs'
       - '.github/workflows/legacy-equipment-reintegration.yml'
       - 'character-builder/rulesets/terra-umbra/reality/safe/**'
 
@@ -24,11 +25,13 @@ jobs:
         with:
           node-version: 22
       - name: Audit legacy equipment against active Builder catalog
-        run: node scripts/audit-legacy-equipment-reintegration.mjs
+        run: |
+          node scripts/audit-legacy-equipment-reintegration.mjs
+          node scripts/export-current-equipment-catalog.mjs
       - name: Commit audit report
         shell: bash
         run: |
-          FILES='compendium/source/legacy-equipment-audit-v1.json compendium/source/legacy-equipment-audit-summary-v1.json compendium/source/legacy-equipment-missing-v1.json compendium/source/legacy-equipment-likely-v1.json compendium/source/legacy-equipment-schema-samples-v1.json compendium/source/legacy-equipment-resolution-v1.json'
+          FILES='compendium/source/legacy-equipment-audit-v1.json compendium/source/legacy-equipment-audit-summary-v1.json compendium/source/legacy-equipment-missing-v1.json compendium/source/legacy-equipment-likely-v1.json compendium/source/legacy-equipment-schema-samples-v1.json compendium/source/legacy-equipment-resolution-v1.json compendium/source/current-equipment-catalog-v1.json'
           CHANGED="$(git status --porcelain -- $FILES)"
           if [ -z "$CHANGED" ]; then
             echo 'Audit reports already synchronized.'
