@@ -45,10 +45,10 @@ function writeCatalog(manifest,catalog){
   return {chunks:chunks.length,b64Length:b64.length};
 }
 function paragraph1(entry){
-  return `${entry.name} provient du catalogue historique « ${entry.source} ». La fiche source le présente comme ${clean(entry.summary)}.`;
+  return `${entry.name} est ${clean(entry.summary)}.`;
 }
 function paragraph2(entry){
-  return `${clean(entry.usage)}. Cette réintégration conserve cette fonction, ses contraintes et son positionnement sans ajouter d’élément de lore absent du document d’origine.`;
+  return `Dans son emploi prévu, ${clean(entry.usage)}.`;
 }
 
 const sources=PARTS.flatMap(file=>{
@@ -89,7 +89,7 @@ const lore={schemaVersion:1,source:'Corpus historique armes/armures TUC fourni p
 for(const entry of sources){
   const paragraphs=[paragraph1(entry),paragraph2(entry)];
   if(paragraphs.some(p=>p.length<70))throw new Error(`${entry.name}: paragraphe lore trop court.`);
-  lore.entries[entry.name]={paragraphs,source:`${entry.source} — fiche historique réintégrée`};
+  lore.entries[entry.name]={paragraphs,source:entry.source};
 }
 fs.writeFileSync(LORE_OUT,JSON.stringify(lore,null,2)+'\n');
 const written=writeCatalog(manifest,catalog);
