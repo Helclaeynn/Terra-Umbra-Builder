@@ -17,7 +17,18 @@ const clean=s=>String(s??'').trim().replace(/\s+/g,' ');
 const norm=s=>clean(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
 const slug=s=>norm(s).replace(/\s+/g,'-').replace(/^-+|-+$/g,'')||'item';
 const cleanB64=s=>String(s).replace(/^\uFEFF/,'').replace(/\s+/g,'');
+const PUBLIC_FORBIDDEN=[/\bcorpus\b/i,/\bbuilder\b/i,/\bfiche\b/i,/\bMJ\b/i,/\bjoueur\b/i,/\bjeu\b/i,/\bsc[ée]nario\b/i,/catalogue\s+(?:source|du)/i,/propri[ée]t[ée]s?\s+m[ée]caniques?/i];
 
+function publicText(value){
+  return clean(value)
+    .replace(/\bla fiche historique\b/gi,'la description d’origine')
+    .replace(/\bfiche historique\b/gi,'description d’origine')
+    .replace(/\bla fiche source\b/gi,'la description d’origine')
+    .replace(/\bfiche source\b/gi,'description d’origine');
+}
+function assertPublic(label,text){
+  for(const re of PUBLIC_FORBIDDEN)if(re.test(text))throw new Error(`${label}: formulation méta interdite dans le lore public (${re})`);
+}
 function loadCatalog(){
   const manifest=JSON.parse(fs.readFileSync(path.join(SAFE,'equipment.manifest.json'),'utf8'));
   if(!Array.isArray(manifest.chunks)||!manifest.chunks.length)throw new Error('Manifeste équipement safe invalide.');
@@ -45,10 +56,10 @@ function writeCatalog(manifest,catalog){
   return {chunks:chunks.length,b64Length:b64.length};
 }
 function paragraph1(entry){
-  return `${entry.name} est ${clean(entry.summary)}.`;
+  return `${entry.name} est ${publicText(entry.summary)}.`;
 }
 function paragraph2(entry){
-  return `Dans son emploi prévu, ${clean(entry.usage)}.`;
+  return `Dans son emploi prévu, ${publicText(entry.usage)}.`;
 }
 
 const sources=PARTS.flatMap(file=>{
@@ -89,6 +100,7 @@ const lore={schemaVersion:1,source:'Corpus historique armes/armures TUC fourni p
 for(const entry of sources){
   const paragraphs=[paragraph1(entry),paragraph2(entry)];
   if(paragraphs.some(p=>p.length<70))throw new Error(`${entry.name}: paragraphe lore trop court.`);
+  paragraphs.forEach((text,index)=>assertPublic(`${entry.name} / paragraphe ${index+1}`,text));
   lore.entries[entry.name]={paragraphs,source:entry.source};
 }
 fs.writeFileSync(LORE_OUT,JSON.stringify(lore,null,2)+'\n');
