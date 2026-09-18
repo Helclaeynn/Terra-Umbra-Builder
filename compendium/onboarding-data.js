@@ -208,3 +208,5 @@ export const WIKI_EXPLICIT_TARGETS = {
 };
 
 export const WIKI_SEARCH_FALLBACKS=['Revenants','Katanja'];
+
+export const WIKI_STRICT_SURFACE_ALIASES=['Voilé','Semi-Révélé','Semi-Révélée','Révélé','Révélée'];
