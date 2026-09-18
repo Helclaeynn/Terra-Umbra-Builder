@@ -21,9 +21,115 @@ const weapons=[
   ['equipement-295-raven-sehdia-hellrails','Raven-Sehdia Hellrails']
 ];
 
+const bulkMediaIds=[
+  "equipement-002-owl-ka-73-last-encounter",
+  "equipement-003-phoenix-pck-08-feather",
+  "equipement-004-phoenix-ba-037-sun-axe",
+  "equipement-005-raven-cl-038-claymore",
+  "equipement-006-raven-sp-016-raven-spear",
+  "equipement-007-raven-tm-028-riot-control",
+  "equipement-008-owl-ts-009-sun-wukong",
+  "equipement-009-phoenix-pw-026-vampire-killer",
+  "equipement-010-raven-mc-025-hitman",
+  "equipement-018-owl-pp-014-old-colt",
+  "equipement-019-raven-pp-012-defender",
+  "equipement-020-owl-lp-019-acceptable",
+  "equipement-021-raven-lp-004-sturdy",
+  "equipement-022-phoenix-lp-028-sun-blast",
+  "equipement-023-owl-hp-104-deputy",
+  "equipement-024-raven-hp-014-pacificateur",
+  "equipement-025-raven-hp-067-gardien",
+  "equipement-026-phoenix-hp-028-violator",
+  "equipement-027-phoenix-hp-092-depliant",
+  "equipement-028-owl-mgp-062-suppressor",
+  "equipement-029-raven-mgp-072-military",
+  "equipement-030-phoenix-mgp-042-equalizer",
+  "equipement-031-owl-lmg-092-gladius",
+  "equipement-032-phoenix-lmg-018-urban",
+  "equipement-033-raven-lmg-027-executionner",
+  "equipement-034-raven-lmg-072-neo-executionner",
+  "equipement-083-raven-black-feathers",
+  "equipement-084-owl-bullets-fear",
+  "equipement-085-phoenix-sun-shield",
+  "equipement-086-byron-punk-life",
+  "equipement-087-raven-black-dog",
+  "equipement-088-phoenix-silver-knight",
+  "equipement-089-owl-new-guard",
+  "equipement-090-byron-king-worker-vii",
+  "equipement-091-raven-gallowglass-ii-legere",
+  "equipement-092-phoenix-skylord-iii",
+  "equipement-093-owl-night-guard",
+  "equipement-094-raven-gallowglass-ii-lourde",
+  "equipement-095-phoenix-sun-king",
+  "equipement-096-owl-moon-guard",
+  "equipement-097-bridgeelectrics-no-fire",
+  "equipement-098-ocean-master-free-fly",
+  "equipement-099-icecorps-santa-clothes",
+  "equipement-100-biosun-medicarmor",
+  "equipement-264-flak-cannon-prototype",
+  "equipement-265-sheer-blueshell-a-prototype",
+  "equipement-266-charm-prototype",
+  "equipement-267-armcannon-prototype",
+  "equipement-268-raven-sehdia-railway-to-hell-prototype",
+  "equipement-269-phoenix-vader-prototype",
+  "equipement-270-raven-ravenegg",
+  "equipement-271-phoenix-inferno",
+  "equipement-272-owl-dripper",
+  "equipement-273-phoenix-helios-ii",
+  "equipement-274-owl-superchoc",
+  "equipement-275-biosun-frog-egg",
+  "equipement-276-byron-pokeball",
+  "equipement-277-owl-vending-machine",
+  "equipement-278-jagi",
+  "equipement-279-shadow-gift",
+  "equipement-280-raven-bomberman",
+  "equipement-281-phoenix-easter-bunny",
+  "equipement-282-phoenix-king-fist",
+  "equipement-284-mary-antoinette",
+  "equipement-285-pierrette",
+  "equipement-286-byron-melinette",
+  "equipement-287-stretchy",
+  "equipement-296-biosun-pandemic",
+  "equipement-297-sunways-savior-dgr",
+  "equipement-298-disease",
+  "equipement-300-phoenix-redcrush",
+  "equipement-301-raven-painkiller",
+  "equipement-302-sunways-hornetouch",
+  "equipement-303-biosun-blastard-injector",
+  "equipement-304-bi",
+  "equipement-305-sfu-nebullar",
+  "equipement-306-monarch-surge",
+  "equipement-307-bibal",
+  "equipement-309-owl-apex",
+  "equipement-310-byron-jeanette",
+  "equipement-311-jotkka",
+  "equipement-312-raven-sehdia-pacificateur-x",
+  "equipement-313-eolgul-e",
+  "equipement-314-phoenix-sunnyroshima",
+  "equipement-315-reminiscer-prototype",
+  "equipement-316-oblivion-prototype",
+  "equipement-317-zeus-prototype",
+  "equipement-318-dracula-prototype"
+];
+
 const browser=await chromium.launch({headless:true,executablePath,args:['--no-sandbox','--disable-dev-shm-usage']});
 const page=await browser.newPage({viewport:{width:1440,height:1000}});
 try{
+  await page.goto(`${base}compendium/index.html`,{waitUntil:'domcontentloaded',timeout:30000});
+  const bulkFailures=await page.evaluate(async ids=>{
+    const mod=await import('./manual-media.js?v=20260918-bulk1');
+    const failures=[];
+    for(const id of ids){
+      const media=mod.manualArticleMedia(id);
+      const expected=`images/manual/${id}.webp`;
+      if(!media?.src?.includes(expected)){failures.push(`${id}: mapping ${media?.src||'absent'}`);continue;}
+      const state=await new Promise(resolve=>{const img=new Image();img.onload=()=>resolve({ok:true,w:img.naturalWidth,h:img.naturalHeight});img.onerror=()=>resolve({ok:false,w:0,h:0});img.src=media.src;});
+      if(!state.ok||state.w<1||state.h<1)failures.push(`${id}: image non décodée ${state.w}x${state.h}`);
+    }
+    return failures;
+  },bulkMediaIds);
+  if(bulkFailures.length)throw new Error(`Bulk manual media failures: ${bulkFailures.join(' | ')}`);
+  console.log(`BULK MEDIA OK — ${bulkMediaIds.length} médias manuels mappés et décodés.`);
   for(const [id,title] of weapons){
     await page.goto(`${base}compendium/index.html#/article/${encodeURIComponent(id)}`,{waitUntil:'domcontentloaded',timeout:30000});
     await page.waitForFunction(expected=>document.querySelector('h1')?.textContent?.includes(expected),title,{timeout:20000});
