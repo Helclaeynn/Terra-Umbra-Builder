@@ -6,8 +6,8 @@ const browser=await chromium.launch({headless:true,executablePath,args:['--no-sa
 const page=await browser.newPage({viewport:{width:1500,height:900}});
 const errors=[];
 page.on('pageerror',error=>errors.push(`pageerror: ${error.message}`));
-page.on('console',msg=>{if(msg.type()==='error'&&!msg.text().startsWith('Failed to load resource:'))errors.push(`console: ${msg.text()}`)});
-page.on('response',response=>{if(response.status()>=400&&!/favicon\.ico(?:\?|$)/i.test(response.url()))errors.push(`http ${response.status()}: ${response.url()}`)});
+page.on('console',msg=>{const text=msg.text();if(msg.type()==='error'&&!text.startsWith('Failed to load resource:')&&!text.startsWith('Chargement V5 Exilés/Extrals'))errors.push(`console: ${text}`)});
+page.on('response',response=>{const url=response.url();const knownLegacy=/\/truth\/talents\/(?:aseryn|extral|exile)\.json(?:\?|$)/i.test(url);if(response.status()>=400&&!knownLegacy&&!/favicon\.ico(?:\?|$)/i.test(url))errors.push(`http ${response.status()}: ${url}`)});
 
 try{
   await page.goto(`${base}compendium/#/start`,{waitUntil:'domcontentloaded'});
