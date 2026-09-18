@@ -128,6 +128,18 @@ export function createWikiLinker(articles,{explicitTargets={},strictSurfaceAlias
     return ranked[0][1];
   }
 
+  function embeddedInCurrentTitle(sourceTokens,index,size,current){
+    const titleTokens=tokensOf(current?.title||'').map(token=>token.key);if(titleTokens.length<2||size>=titleTokens.length)return false;
+    const matched=sourceTokens.slice(index,index+size).map(token=>token.key);
+    for(let pos=0;pos+size<=titleTokens.length;pos++){
+      if(!matched.every((key,i)=>titleTokens[pos+i]===key))continue;
+      const before=pos>0&&index>0&&sourceTokens[index-1].key===titleTokens[pos-1];
+      const after=pos+size<titleTokens.length&&index+size<sourceTokens.length&&sourceTokens[index+size].key===titleTokens[pos+size];
+      if(before||after)return true;
+    }
+    return false;
+  }
+
   function linkify(raw,currentContext=''){
     const source=String(raw??''),current=typeof currentContext==='string'?articleById.get(currentContext)||{id:currentContext}:currentContext||null;
     const tokens=tokensOf(source);if(!tokens.length)return escapeHtml(source);
@@ -138,6 +150,7 @@ export function createWikiLinker(articles,{explicitTargets={},strictSurfaceAlias
         const key=tokens.slice(index,index+size).map(token=>token.key).join(' ');
         const list=aliases.get(key);if(!list?.length)continue;
         const matchedRaw=source.slice(tokens[index].start,tokens[index+size-1].end);const candidate=chooseCandidate(list,source,current,matchedRaw);if(!candidate)continue;
+        if(embeddedInCurrentTitle(tokens,index,size,current))continue;
         found={candidate,size};break;
       }
       if(!found){index++;continue}
