@@ -162,4 +162,15 @@ const bestiaryEquipment={id:'audit-bestiary-equipment',category:'Bestiaire',data
 const weaponStat=linker.linkify('ATTAQUE — Raven SG-025 « Riot Control » — 1d10e + 10 • DGT 12 • Portée 15 m',bestiaryEquipment);
 assert.match(weaponStat,/data-wiki-id="equipement-043-raven-sg-025-riot-control"/,'Une arme nommée dans un profil Bestiaire doit rester liée à sa fiche matériel');
 
+const ordinaryReveal=linker.linkify("Quand l’itinéraire vient de se révéler impraticable, le personnage cherche une autre voie.",truthContext);
+assert.doesNotMatch(ordinaryReveal,/data-wiki-id="verite-007-se-reveler-n-est-pas-s-eveiller"/,'Le verbe ordinaire « se révéler » ne doit pas pointer vers l’Éveil d’une Nature');
+const personalReveal=linker.linkify("Une créature peut choisir de se Révéler à travers le Voile.",truthContext);
+assert.match(personalReveal,/data-wiki-id="verite-007-se-reveler-n-est-pas-s-eveiller"/,'Le terme canonique « se Révéler » doit rester lié');
+
+const genericLorePhrases=linker.linkify("Les autres factions vivent dans de grands ensembles ; un civil ordinaire peut prendre un grand félin pour un animal exotique.",truthContext);
+assert.doesNotMatch(genericLorePhrases,/data-wiki-id="lore-grands-exiles-autres-factions-exiles"/,'« autres factions » est trop générique pour devenir un lien automatique');
+assert.doesNotMatch(genericLorePhrases,/data-wiki-id="lore-corporations-les-grands-ensembles"/,'« grands ensembles » est trop générique pour devenir un lien automatique');
+assert.doesNotMatch(genericLorePhrases,/data-wiki-id="bestiaire-v15-civil-ordinaire"/,'« civil ordinaire » ne doit pas devenir un lien de profil générique');
+assert.doesNotMatch(genericLorePhrases,/data-wiki-id="bestiaire-v15-grand-felin-tigre-de-l-angle-mort"/,'« grand félin » ne doit pas pointer vers un profil précis sans contexte');
+
 console.log(`WIKI CONTEXT AUDIT OK — ${articles.length} articles · ${blocks} blocs audités · ${directLinks} liens directs · destinations: ${[...byCategory.entries()].sort((a,b)=>b[1]-a[1]).map(([k,v])=>`${k} ${v}`).join(' · ')}`);
