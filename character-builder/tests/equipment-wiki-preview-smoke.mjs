@@ -53,5 +53,19 @@ try{
     if(!imgResponse.ok())throw new Error(`Image ${name} inaccessible: HTTP ${imgResponse.status()}`);
     await page.mouse.move(10,10);await page.waitForTimeout(80);
   }
-  console.log('EQUIPMENT WIKI OK — 4 shotguns illustrés: cartes Builder → pages Compendium + image en premier dans le hover.');
+  await page.goto(`${base}compendium/index.html#/article/equipement-045-owl-sg-016-boss`,{waitUntil:'domcontentloaded',timeout:30000});
+  await page.waitForFunction(()=>document.querySelector('#main .page-head h1')?.textContent?.includes('Owl SG-016 Boss'),null,{timeout:30000});
+  const bossImage=page.locator('#main figure.article-media img').first();
+  await bossImage.waitFor({state:'visible',timeout:10000});
+  await page.waitForFunction(()=>{const img=document.querySelector('#main figure.article-media img');return !!img&&img.complete&&img.naturalWidth>0&&img.naturalHeight>0},null,{timeout:10000});
+  const bossImageState=await bossImage.evaluate(img=>({src:img.currentSrc||img.src,width:img.naturalWidth,height:img.naturalHeight}));
+  if(!bossImageState.src.includes('equipement-045-owl-sg-016-boss.webp'))throw new Error(`Image directe Boss incorrecte: ${JSON.stringify(bossImageState)}`);
+
+  const bossText=(await page.locator('#main').innerText()).trim();
+  if(!bossText.includes('Armement — Shotguns'))throw new Error(`Taxonomie Shotguns absente de la fiche Boss:\n${bossText.slice(0,2500)}`);
+  if(bossText.includes('Armes — Précision'))throw new Error(`Ancienne catégorie encore visible dans la fiche Boss:\n${bossText.slice(0,2500)}`);
+  if(!bossText.includes('capacité de munitions supérieure à la moyenne'))throw new Error(`Précision sur la capacité de munitions absente de la fiche Boss:\n${bossText.slice(0,2500)}`);
+  if(bossText.includes('grande réserve'))throw new Error(`Formulation ambiguë « grande réserve » encore visible dans la fiche Boss.`);
+
+  console.log(`EQUIPMENT WIKI OK — 4 shotguns illustrés + fiche Boss directe avec image ${bossImageState.width}×${bossImageState.height}, taxonomie Shotguns et capacité de munitions explicite.`);
 }finally{await browser.close()}
