@@ -68,7 +68,10 @@ try{
   await armaStyle.waitFor({state:'visible',timeout:10000});await armaStyle.click();await page.waitForTimeout(120);
 
   await nav('Équipement');
-  const categorySelect=page.locator('#stepContent .r34-tools select').first();
+  const equipmentDetails=page.locator('#stepContent details.r34-catalog-selector').filter({hasText:'Choisir équipement, services & véhicules'}).first();
+  await equipmentDetails.waitFor({state:'visible',timeout:10000});
+  if(!(await equipmentDetails.evaluate(el=>el.open)))await equipmentDetails.locator('summary').click();
+  const categorySelect=equipmentDetails.locator('.r34-tools select').first();
   await categorySelect.waitFor({state:'visible',timeout:10000});
   const visibleEquipmentCategories=await categorySelect.locator('option').allTextContents();
   for(const expected of ['Armement — Shotguns','Armement — Fusils de précision','Armement — Fusils d’assaut','Armement — Pistolets lourds'])if(!visibleEquipmentCategories.includes(expected))throw new Error(`Famille absente du menu Équipement visible: ${expected} · ${JSON.stringify(visibleEquipmentCategories)}`);
