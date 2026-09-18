@@ -114,15 +114,20 @@ export function createWikiLinker(articles,{explicitTargets={},strictSurfaceAlias
   }
   for(const alias of searchFallbacks||[])offer(alias,{href:searchHref(alias),title:`Rechercher : ${alias}`},20,{search:true,kind:'search'});
 
+  function surfaceAllowed(candidate,matchedRaw){
+    if(candidate.strictSurface&&surfaceKey(candidate.alias)!==surfaceKey(matchedRaw))return false;
+    if(candidate.caseSensitive&&surfaceKeyCase(candidate.alias)!==surfaceKeyCase(matchedRaw))return false;
+    return true;
+  }
   function chooseCandidate(list,raw,current,matchedRaw=''){
-    const viable=(list||[]).filter(candidate=>candidate.id!==current?.id);
+    const viable=(list||[]).filter(candidate=>candidate.id!==current?.id&&surfaceAllowed(candidate,matchedRaw));
     if(!viable.length)return null;
     const explicit=viable.filter(x=>x.explicit);
     if(explicit.length>1&&matchedRaw){
       const exact=explicit.filter(x=>surfaceKey(x.alias)===surfaceKey(matchedRaw));
       if(exact.length===1)return exact[0];
     }
-    if(explicit.length===1){const only=explicit[0];if(only.strictSurface&&surfaceKey(only.alias)!==surfaceKey(matchedRaw))return null;if(only.caseSensitive&&surfaceKeyCase(only.alias)!==surfaceKeyCase(matchedRaw))return null;if(only.id==='verite-056-20-corruption'&&current?.id==='realite-022-7-corruption-de-programmes-et-materiel')return null;return only;}
+    if(explicit.length===1){const only=explicit[0];if(only.id==='verite-056-20-corruption'&&current?.id==='realite-022-7-corruption-de-programmes-et-materiel')return null;return only;}
     const ranked=viable.map(candidate=>[candidateScore(candidate,raw,current),candidate]).sort((a,b)=>b[0]-a[0]||String(a[1].title).localeCompare(String(b[1].title),'fr'));
     if(ranked.length>1&&Math.abs(ranked[0][0]-ranked[1][0])<4&&ranked[0][1].href!==ranked[1][1].href)return null;
     return ranked[0][1];
