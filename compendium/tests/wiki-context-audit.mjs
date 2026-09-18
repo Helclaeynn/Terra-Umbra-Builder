@@ -70,13 +70,13 @@ assert.match(gods,/data-wiki-id="verite-lore-divinite-belial"[^>]*>Belial<\/a>/)
 const temple=linker.linkify('Le Temple de Belial organise ses fidèles.',daemonContext);
 assert.match(temple,/data-wiki-id="lore-daemon-temples-temple-belial"[^>]*>Temple de Belial<\/a>/,'Le titre spécifique doit gagner sur le mot Belial seul');
 
+const truthContext={id:'audit-truth-guide',category:'Vérité',dataset:'guide',group:'Entrer dans la Vérité',subgroup:'Guides du nouveau joueur',title:'Audit'};
 const edgeContext={id:'audit-edge',category:'Règles',dataset:'moteur',group:'Réalité — Création & progression',subgroup:'Edge',title:'Edge'};
 const edgeVerb=linker.linkify('Le personnage révèle un potentiel physique, mental ou social supérieur à ce que sa répartition initiale laissait encore apparaître.',edgeContext);
 assert.doesNotMatch(edgeVerb,/data-wiki-id="verite-006-voile-semi-revele-revele"/,'Le verbe « révèle » ne doit jamais devenir un lien vers l’état Révélé');
 const revealedState=linker.linkify('Un personnage Révélé exprime suffisamment sa Nature pour confronter le monde ordinaire à sa Vérité.',truthContext);
 assert.match(revealedState,/data-wiki-id="verite-006-voile-semi-revele-revele"[^>]*>Révélé<\/a>/,'L’état Révélé doit rester lié');
 
-const truthContext={id:'audit-truth-guide',category:'Vérité',dataset:'guide',group:'Entrer dans la Vérité',subgroup:'Guides du nouveau joueur',title:'Audit'};
 const truthTerms=linker.linkify("Un être Voilé peut devenir Semi-Révélé puis Révélé. La Corruption commence par une Souillure. L'Ombremonde reste distinct.",truthContext);
 assert.match(truthTerms,/data-wiki-id="verite-006-voile-semi-revele-revele"[^>]*>Voilé<\/a>/);
 assert.match(truthTerms,/data-wiki-id="verite-006-voile-semi-revele-revele"[^>]*>Semi-Révélé<\/a>/);
