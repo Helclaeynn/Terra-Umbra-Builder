@@ -157,7 +157,7 @@ function wikiPreviewText(article,limit=360){
   const text=(chunks.join(' ')||articleSnippet(article,limit)).replace(/\s+/g,' ').trim();
   return text.length>limit?text.slice(0,limit).replace(/\s+\S*$/,'')+'…':text;
 }
-const wikiPreview=el('div',{class:'wiki-hover-preview',role:'tooltip','aria-hidden':'true'});document.body.appendChild(wikiPreview);
+const wikiPreview=document.createElement('div');wikiPreview.className='wiki-hover-preview';wikiPreview.setAttribute('role','tooltip');wikiPreview.setAttribute('aria-hidden','true');document.body.appendChild(wikiPreview);
 let wikiPreviewTimer=null,wikiPreviewLink=null;
 function hideWikiPreview(){clearTimeout(wikiPreviewTimer);wikiPreviewLink=null;wikiPreview.classList.remove('visible');wikiPreview.setAttribute('aria-hidden','true')}
 function positionWikiPreview(link){
