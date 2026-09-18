@@ -28,25 +28,30 @@ try{
   if(!(await selector.getAttribute('open')))await selector.locator('summary').click();
 
   const search=selector.locator('input[placeholder*="Rechercher équipement"]').first();
-  await search.fill('Croaker');
-  const card=selector.locator('.catalog-card').filter({hasText:'Raven SG-039 Croaker'}).first();
-  await card.waitFor({state:'visible',timeout:15000});
-  await page.waitForFunction(()=>document.querySelector('.catalog-card[data-wiki-id="equipement-044-raven-sg-039-croaker"]')!==null,null,{timeout:10000});
-
-  const title=card.locator('a.builder-wiki-equipment-title').first();
-  const href=await title.getAttribute('href');
-  if(!href?.includes('../compendium/index.html#/article/equipement-044-raven-sg-039-croaker'))throw new Error(`Croaker pointe vers une mauvaise page: ${href}`);
-
-  await card.hover();
-  await page.waitForSelector('.builder-wiki-preview.visible',{timeout:5000});
-  await page.waitForFunction(()=>document.querySelector('.builder-wiki-preview.visible img.builder-wiki-image')?.getAttribute('src')?.includes('equipement-044-raven-sg-039-croaker.webp'),null,{timeout:15000});
-  const src=await page.locator('.builder-wiki-preview.visible img.builder-wiki-image').getAttribute('src');
-  if(!src?.includes('../compendium/images/manual/equipement-044-raven-sg-039-croaker.webp'))throw new Error(`Image Croaker incorrecte: ${src}`);
-  const preview=(await page.locator('.builder-wiki-preview.visible').innerText()).trim();
-  if(!/Raven SG-039 Croaker/.test(preview)||preview.length<100)throw new Error(`Preview Croaker incomplète: ${preview}`);
-
-  const imgResponse=await page.request.get(new URL(src,page.url()).href);
-  if(!imgResponse.ok())throw new Error(`Image Croaker inaccessible: HTTP ${imgResponse.status()}`);
-
-  console.log('EQUIPMENT WIKI OK — Croaker: carte Builder → page Compendium + image en premier dans le hover.');
+  const illustrated=[
+    ['Riot Control','Raven SG-025 Riot Control','equipement-043-raven-sg-025-riot-control','equipement-043-raven-sg-025-riot-control.webp'],
+    ['Croaker','Raven SG-039 Croaker','equipement-044-raven-sg-039-croaker','equipement-044-raven-sg-039-croaker.webp'],
+    ['Owl SG-016 Boss','Owl SG-016 Boss','equipement-045-owl-sg-016-boss','equipement-045-owl-sg-016-boss.webp'],
+    ['Fire Rain','Phoenix SG-042 Fire Rain','equipement-046-phoenix-sg-042-fire-rain','equipement-046-phoenix-sg-042-fire-rain.webp']
+  ];
+  for(const [query,name,id,image] of illustrated){
+    await search.fill(query);
+    const card=selector.locator('.catalog-card').filter({hasText:name}).first();
+    await card.waitFor({state:'visible',timeout:15000});
+    await page.waitForFunction(id=>document.querySelector(`.catalog-card[data-wiki-id="${id}"]`)!==null,id,{timeout:10000});
+    const title=card.locator('a.builder-wiki-equipment-title').first();
+    const href=await title.getAttribute('href');
+    if(!href?.includes(`../compendium/index.html#/article/${id}`))throw new Error(`${name} pointe vers une mauvaise page: ${href}`);
+    await card.hover();
+    await page.waitForSelector('.builder-wiki-preview.visible',{timeout:5000});
+    await page.waitForFunction(image=>document.querySelector('.builder-wiki-preview.visible img.builder-wiki-image')?.getAttribute('src')?.includes(image),image,{timeout:15000});
+    const src=await page.locator('.builder-wiki-preview.visible img.builder-wiki-image').getAttribute('src');
+    if(!src?.includes(`../compendium/images/manual/${image}`))throw new Error(`Image ${name} incorrecte: ${src}`);
+    const preview=(await page.locator('.builder-wiki-preview.visible').innerText()).trim();
+    if(!preview.includes(name)||preview.length<100)throw new Error(`Preview ${name} incomplète: ${preview}`);
+    const imgResponse=await page.request.get(new URL(src,page.url()).href);
+    if(!imgResponse.ok())throw new Error(`Image ${name} inaccessible: HTTP ${imgResponse.status()}`);
+    await page.mouse.move(10,10);await page.waitForTimeout(80);
+  }
+  console.log('EQUIPMENT WIKI OK — 4 shotguns illustrés: cartes Builder → pages Compendium + image en premier dans le hover.');
 }finally{await browser.close()}
