@@ -77,7 +77,7 @@ assert.match(truthTerms,/data-wiki-id="verite-006-voile-semi-revele-revele"[^>]*
 assert.match(truthTerms,/data-wiki-id="verite-006-voile-semi-revele-revele"[^>]*>Révélé<\/a>/);
 assert.match(truthTerms,/data-wiki-id="verite-056-20-corruption"[^>]*>Corruption<\/a>/);
 assert.match(truthTerms,/data-wiki-id="verite-056-20-corruption"[^>]*>Souillure<\/a>/);
-assert.match(truthTerms,/data-wiki-id="verite-023-l-ombremonde-le-reste-du-monde"[^>]*>L'Ombremonde<\/a>/);
+assert.match(truthTerms,/data-wiki-id="verite-023-l-ombremonde-le-reste-du-monde"[^>]*>L(?:&#39;|’)Ombremonde<\/a>/);
 
 const khinaeTerms=linker.linkify('Les Khinae corrompus partagent une racine avec les Vampires, tandis que les Loups descendants de Khinae forment les Garous.',truthContext);
 assert.match(khinaeTerms,/data-wiki-id="verite-lore-khinae-originels"[^>]*>Khinae corrompus<\/a>/);
