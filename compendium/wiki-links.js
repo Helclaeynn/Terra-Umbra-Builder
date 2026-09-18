@@ -9,7 +9,14 @@ function normalizeToken(value){
 }
 function tokensOf(value){
   const source=String(value??''),tokens=[];TOKEN_RE.lastIndex=0;let match;
-  while((match=TOKEN_RE.exec(source)))tokens.push({start:match.index,end:match.index+match[0].length,key:normalizeToken(match[0])});
+  while((match=TOKEN_RE.exec(source))){
+    const raw=match[0],clitic=raw.match(/^((?:[cdjlmnst]|qu))[’'](.+)$/iu);
+    if(clitic){
+      const cut=raw.search(/[’']/u);
+      tokens.push({start:match.index,end:match.index+cut,key:normalizeToken(clitic[1])});
+      tokens.push({start:match.index+cut+1,end:match.index+raw.length,key:normalizeToken(clitic[2])});
+    }else tokens.push({start:match.index,end:match.index+raw.length,key:normalizeToken(raw)});
+  }
   return tokens;
 }
 function phraseKey(value){return tokensOf(value).map(token=>token.key).filter(Boolean).join(' ')}
