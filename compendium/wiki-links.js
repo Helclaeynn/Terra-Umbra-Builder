@@ -50,7 +50,7 @@ function allowedGeneratedAlias(alias){
   ]).has(key);
 }
 
-export function createWikiLinker(articles,{explicitTargets={}}={}){
+export function createWikiLinker(articles,{explicitTargets={},searchFallbacks=[]}={}){
   const articleById=new Map((articles||[]).map(article=>[article.id,article]));
   const aliases=new Map();
   let maxTokens=1;
@@ -84,6 +84,9 @@ export function createWikiLinker(articles,{explicitTargets={}}={}){
     const article=articleById.get(id);
     if(!article)continue;
     offer(alias,{id,href:`#/article/${encodeURIComponent(id)}`,title:article.title},1000);
+  }
+  for(const alias of searchFallbacks||[]){
+    offer(alias,{href:`#/search?q=${encodeURIComponent(alias)}`,title:`Rechercher : ${alias}`},20);
   }
 
   function linkify(raw,currentArticleId=''){
