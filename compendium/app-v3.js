@@ -1,7 +1,7 @@
 import {applyCommittedOverridesToMap} from './editor/native-overrides.js';
 import {createWikiLinker} from './wiki-links.js';
 import {PLAYER_START,WIKI_EXPLICIT_TARGETS,WIKI_SEARCH_FALLBACKS,WIKI_STRICT_SURFACE_ALIASES,WIKI_CASE_SENSITIVE_ALIASES} from './onboarding-data.js';
-import {manualArticleMedia} from './manual-media.js';
+import {manualArticleMedia} from './manual-media.js?v=20260918-rifles1';
 import {GUIDE_ARTICLES} from './guide-articles.js';
 
 const $=s=>document.querySelector(s);
