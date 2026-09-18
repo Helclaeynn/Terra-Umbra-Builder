@@ -4,11 +4,13 @@ on:
   push:
     paths:
       - 'character-builder/**'
+      - 'compendium/**'
       - '.github/workflows/builder-browser-smoke.yml'
   pull_request:
     branches: [main]
     paths:
       - 'character-builder/**'
+      - 'compendium/**'
       - '.github/workflows/builder-browser-smoke.yml'
 
 permissions:
