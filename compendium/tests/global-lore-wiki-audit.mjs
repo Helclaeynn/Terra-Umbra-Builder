@@ -3,11 +3,12 @@ import path from 'node:path';
 import zlib from 'node:zlib';
 import {createWikiLinker} from '../wiki-links.js';
 import {WIKI_EXPLICIT_TARGETS,WIKI_SEARCH_FALLBACKS} from '../onboarding-data.js';
+import {GUIDE_ARTICLES,GUIDE_NAVIGATION} from '../guide-articles.js';
 
 const root=new URL('../',import.meta.url);
 const manifest=JSON.parse(fs.readFileSync(new URL('data/manifest-v3.json',root),'utf8'));
 const navigation=JSON.parse(fs.readFileSync(new URL('data/navigation-v1.json',root),'utf8'));
-const navEntries=Array.isArray(navigation)?navigation:(navigation.entries||[]);
+const navEntries=[...(Array.isArray(navigation)?navigation:(navigation.entries||[])),...GUIDE_NAVIGATION];
 const navById=new Map(navEntries.map(entry=>[entry.id,entry]));
 
 function loadDataset(spec){
@@ -30,6 +31,7 @@ function context(article,dataset){
 }
 const articles=[];
 for(const spec of manifest.datasets)for(const row of loadDataset(spec))articles.push(context(row,spec.id));
+for(const row of GUIDE_ARTICLES)articles.push(context(structuredClone(row),'guide'));
 const byId=new Map(articles.map(a=>[a.id,a]));
 const linker=createWikiLinker(articles,{explicitTargets:WIKI_EXPLICIT_TARGETS,searchFallbacks:WIKI_SEARCH_FALLBACKS});
 const anchorRe=/<a class="wiki-link"[^>]*data-wiki-id="([^"]+)"[^>]*>([^<]*)<\/a>/g;
@@ -68,7 +70,10 @@ const selectedIds=[
   'verite-046-10-vampires',
   'verite-047-11-garous-loups-descendants-de-khinae',
   'verite-048-12-autres-descendants-de-khinae',
-  'verite-057-21-les-six-fleaux-et-le-faux-septieme'
+  'verite-057-21-les-six-fleaux-et-le-faux-septieme',
+  'guide-realite-nouveau-joueur',
+  'guide-verite-nouveau-joueur',
+  'verite-lore-khinae-originels'
 ];
 const selected=selectedIds.map(id=>{const a=byId.get(id);return a?{id,title:a.title,category:a.category,text:articleText(a)}:{id,missing:true}});
 
