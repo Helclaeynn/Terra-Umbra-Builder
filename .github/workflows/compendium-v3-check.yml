@@ -63,6 +63,7 @@ jobs:
           node --check compendium/category-navigation.js
           node --check compendium/wiki-links.js
           node --check compendium/onboarding-data.js
+          node --check compendium/guide-articles.js
           node --check compendium/editor-runtime.js
           node --check compendium/editor-ordering.js
           node --check compendium/draft-manager.js
