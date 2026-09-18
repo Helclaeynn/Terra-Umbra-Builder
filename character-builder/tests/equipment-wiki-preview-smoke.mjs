@@ -46,7 +46,7 @@ try{
     await page.waitForSelector('.builder-wiki-preview.visible',{timeout:5000});
     await page.waitForFunction(image=>document.querySelector('.builder-wiki-preview.visible img.builder-wiki-image')?.getAttribute('src')?.includes(image),image,{timeout:15000});
     const src=await page.locator('.builder-wiki-preview.visible img.builder-wiki-image').getAttribute('src');
-    if(!src?.includes(`../compendium/images/manual/${image}`))throw new Error(`Image ${name} incorrecte: ${src}`);
+    if(!src?.includes(`/compendium/images/manual/${image}`))throw new Error(`Image ${name} incorrecte: ${src}`);
     const preview=(await page.locator('.builder-wiki-preview.visible').innerText()).trim();
     if(!preview.includes(name)||preview.length<100)throw new Error(`Preview ${name} incomplète: ${preview}`);
     const imgResponse=await page.request.get(new URL(src,page.url()).href);
