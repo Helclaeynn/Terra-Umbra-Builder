@@ -150,11 +150,58 @@ export const GUIDE_ARTICLES=[
         ]
       }
     ]
+  },
+  {
+    id:'verite-lore-aer-monde-et-heritages',
+    dataset:'guide',
+    category:'Vérité',
+    sourceCategory:'Vérité',
+    title:'Aèr — Monde d’origine, passages et héritages',
+    source:'Synthèse du corpus Vérité — V6 et lore consolidé',
+    status:'canon_enrichi',
+    tags:['Vérité','Aèr','Cosmologie','Exilés','Angelus','Aseryns'],
+    sections:[
+      {
+        id:'pas-synonyme-verite',
+        title:'Aèr n’est pas un synonyme de Vérité',
+        level:2,
+        blocks:[
+          {type:'p',text:'Aèr est un monde lié à plusieurs pans très anciens de l’histoire cachée de la Terre, mais toute la Vérité ne vient pas d’Aèr. Les Khinae appartiennent à l’histoire terrestre, les Deimons sont liés aux Ombres de la Terre et les Extrals relèvent d’une histoire galactique distincte. Aèr est donc une origine cosmologique majeure parmi d’autres, pas l’explication unique du surnaturel.'}
+        ]
+      },
+      {
+        id:'passages-et-exiles',
+        title:'Passages et peuples exilés',
+        level:2,
+        blocks:[
+          {type:'p',text:'Une partie des peuples regroupés sous le nom d’Exilés est arrivée sur Terre par les passages d’Aèr. Le terme Exilé est toutefois plus large : certaines lignées viennent de Gaerras ou de mondes aujourd’hui disparus, et beaucoup de leurs descendants vivent sur Terre depuis assez longtemps pour n’avoir jamais connu personnellement leur monde d’origine.'},
+          {type:'p',text:'Cette ancienneté explique que les communautés exilées soient aujourd’hui des sociétés terrestres autant que des héritières d’autres mondes. Leurs langues, traditions, institutions et rapports aux Humains ont évolué au contact de la clandestinité et de l’Hologramme.'}
+        ]
+      },
+      {
+        id:'dieux-anges-magie',
+        title:'Dieux, Anges et Magie d’Aèr',
+        level:2,
+        blocks:[
+          {type:'p',text:'Aèr apparaît aussi dans l’histoire divine. Elynea appartient à l’histoire des dieux d’Aèr, et les premiers Anges y furent des créations artificielles proches de golems élémentaires avant que la Transcendance ne leur donne une identité persistante et n’ouvre la voie aux Angelus modernes.'},
+          {type:'p',text:'Certains héritages aseryns portent également cette marque : les Aériliens puis Néo-Atlantes sont décrits comme fortement influencés par Aèr et sa Magie. Les anciens récits utilisent enfin les dragons d’Aèr comme point de comparaison avec les grands prédateurs que furent les Khinae sur Terre.'}
+        ]
+      },
+      {
+        id:'repere-de-lecture',
+        title:'Pourquoi Aèr compte dans le Compendium',
+        level:2,
+        blocks:[
+          {type:'p',text:'Aèr sert de carrefour entre plusieurs histoires qui restent distinctes. Pour poursuivre, les pages Exilés détaillent les peuples installés sur Terre, Aseryns leurs diasporas, Elynea et la Guerre céleste l’héritage divin et angélique, tandis que Khinae décrit une racine prédatrice propre à la Terre.'}
+        ]
+      }
+    ]
   }
 ];
 
 export const GUIDE_NAVIGATION=[
   {id:'guide-realite-nouveau-joueur',dataset:'guide',category:'Réalité',group:'Grande Californie & société',groupOrder:10,subgroup:'Guides du nouveau joueur',subgroupOrder:1,pageOrder:1,displayTitle:'Réalité — Guide du nouveau joueur'},
   {id:'guide-verite-nouveau-joueur',dataset:'guide',category:'Vérité',group:'Entrer dans la Vérité',groupOrder:20,subgroup:'Guides du nouveau joueur',subgroupOrder:1,pageOrder:1,displayTitle:'Vérité — Guide du nouveau joueur'},
-  {id:'verite-lore-khinae-originels',dataset:'guide',category:'Vérité',group:'Natures, peuples & traditions',groupOrder:30,subgroup:'Garous & descendants de Khinae',subgroupOrder:20,pageOrder:1,displayTitle:'Khinae — Prédateurs originels et lignées changeformes'}
+  {id:'verite-lore-khinae-originels',dataset:'guide',category:'Vérité',group:'Natures, peuples & traditions',groupOrder:30,subgroup:'Garous & descendants de Khinae',subgroupOrder:20,pageOrder:1,displayTitle:'Khinae — Prédateurs originels et lignées changeformes'},
+  {id:'verite-lore-aer-monde-et-heritages',dataset:'guide',category:'Vérité',group:'Cosmologie & histoire cachée',groupOrder:40,subgroup:'Mondes, passages & héritages',subgroupOrder:10,pageOrder:1,displayTitle:'Aèr — Monde d’origine, passages et héritages'}
 ];
