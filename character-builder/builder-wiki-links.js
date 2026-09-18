@@ -32,6 +32,7 @@ async function loadIndex(){
   }));
   linker=createWikiLinker(pseudo,{
     explicitTargets:WIKI_EXPLICIT_TARGETS,
+    strictSurfaceAliases:WIKI_STRICT_SURFACE_ALIASES,
     searchFallbacks:WIKI_SEARCH_FALLBACKS,
     hrefForId:id=>`${COMPENDIUM}index.html#/article/${encodeURIComponent(id)}`,
     searchHref:alias=>`${COMPENDIUM}index.html#/search?q=${encodeURIComponent(alias)}`
