@@ -57,7 +57,7 @@ for(const article of articles){
 const collisions=[...titleGroups.entries()].filter(([,rows])=>rows.length>1).map(([key,rows])=>({key,rows:rows.map(x=>({id:x.id,title:x.title,category:x.category,dataset:x.dataset}))}));
 const zeroOutbound=articles.filter(a=>(outbound.get(a.id)||0)===0).map(a=>({id:a.id,title:a.title,category:a.category,dataset:a.dataset,text:articleText(a).length})).sort((a,b)=>b.text-a.text);
 const zeroInbound=articles.filter(a=>(inbound.get(a.id)||0)===0).map(a=>({id:a.id,title:a.title,category:a.category,dataset:a.dataset}));
-const concepts=['Vérité','Réalité','Voile','Hologramme','Khinae','Fléaux','Corruption','Ombremonde','Neurodive','Crawlers','Chasseurs','Vampires','Garous','Mages','Daemons','Angelus','Aseryns','Exilés','Extrals'];
+const concepts=['Vérité','Réalité','Voile','Hologramme','Révélation','Semi-Révélé','Khinae','Aèr','Fléaux','Corruption','Souillure','Ombremonde','Néant','Cycle','AIDH','Magitech','Calamitechnologie','Neurodive','Crawlers','Chasseurs','Vampires','Garous','Pelages','Mages','Loges des Mages','Daemons','Temples Daemoniaques','Angelus','Aseryns','Exilés','Extrals'];
 const conceptStats=concepts.map(label=>{
   const key=norm(label),mentioning=articles.filter(a=>norm(articleText(a)).includes(key)).length;
   const target=WIKI_EXPLICIT_TARGETS[label]||WIKI_EXPLICIT_TARGETS[label.replace(/s$/,'')]||'';
@@ -82,7 +82,8 @@ const selectedIds=[
   'verite-021-ce-que-l-hologramme-ne-protege-pas',
   'verite-031-reveler-sa-nature-est-un-acte-personnel',
   'verite-041-5-hologramme-voile-semi-revelation-et-revelation',
-  'verite-056-20-corruption'
+  'verite-056-20-corruption',
+  'verite-lore-aer-monde-et-heritages'
 ];
 const selected=selectedIds.map(id=>{const a=byId.get(id);return a?{id,title:a.title,category:a.category,text:articleText(a)}:{id,missing:true}});
 
