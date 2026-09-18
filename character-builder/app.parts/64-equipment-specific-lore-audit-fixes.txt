@@ -61,7 +61,10 @@ const r64EquipmentLore={
 
 'metro tram':'Le métro ou le tram acheté à l’unité représente un trajet payé lorsqu’on en a besoin. Ce coût ponctuel n’est pas l’abonnement mensuel : il correspond simplement au déplacement effectué ce jour-là.',
 'grande lingerie':'La grande lingerie relève du haut de gamme : matières, coupe, marque et finition en font un achat de luxe intime où la valeur sociale et esthétique dépasse largement la seule fonction du vêtement.',
-'lingerie':'La lingerie courante couvre les pièces de qualité ordinaire destinées à l’usage quotidien. Elle peut être soignée ou séduisante sans appartenir pour autant aux maisons et matières du segment de luxe.'
+'lingerie':'La lingerie courante couvre les pièces de qualité ordinaire destinées à l’usage quotidien. Elle peut être soignée ou séduisante sans appartenir pour autant aux maisons et matières du segment de luxe.',
+'bi':'Bi est un pistolet-mitrailleur nord-coréen très bon marché, surnommé « pluie », mais réputé pour ses défauts de fonctionnement. Il offre une solution automatique économique au prix d’une fiabilité inférieure aux modèles corporatistes.',
+'song gos':'Song-gos est un fusil de précision nord-coréen surnommé « la perceuse ». Peu coûteux, il privilégie la pénétration des blindages avec deux coups seulement, au prix d’une fiabilité médiocre et d’un fonctionnement dangereux.',
+'byron luzette':'Byron Luzette est un fusil de précision de la gamme Byron 2035. Sa réserve de deux coups concentre une puissance élevée, un Smartlink et une capacité perforante dans une arme pensée pour l’assistance au tir plutôt que l’endurance de feu.'
 };
 const r64Base=r34ItemLore;
 r34ItemLore=function(item){const hit=r64EquipmentLore.get?r64EquipmentLore.get(r34Loose(item?.name||'')):r64EquipmentLore[r34Loose(item?.name||'')];return hit||r64Base(item)};
