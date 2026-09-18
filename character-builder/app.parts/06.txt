@@ -14,7 +14,8 @@ function buildExport(){return {...structuredClone(state),skills:Object.fromEntri
 function downloadJSON(){const data=JSON.stringify(buildExport(),null,2);const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:'application/json'}));a.download=(state.identity.name?slugClient(state.identity.name):'personnage')+'.tuc.json';a.click();URL.revokeObjectURL(a.href)}
 function slugClient(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
 function persist(){localStorage.setItem('tuc-character-builder-v1',JSON.stringify(state))}
-function restore(){try{const raw=localStorage.getItem('tuc-character-builder-v1');if(!raw)return;mergeState(JSON.parse(raw))}catch(e){console.warn(e)}}
+let startupStoredState=null;
+function restore(){try{const raw=localStorage.getItem('tuc-character-builder-v1');if(!raw)return;startupStoredState=JSON.parse(raw);mergeState(startupStoredState)}catch(e){console.warn(e)}}
 function mergeState(obj){
   for(const k of ['identity','creation','attributes','talents','edge','truth','social','spending']) if(obj[k]) Object.assign(state[k],obj[k]);
   if(obj.skills){ruleset.skills.forEach(s=>{if(obj.skills[s.id]){const x=obj.skills[s.id];state.skills[s.id]={style:Number(x.style||0),free:Number(x.free||0)}}})}
