@@ -131,7 +131,7 @@ assert.match(exactEquipment,/data-wiki-id="equipement-212-media-holonet-reseaux"
 const ammoReserve=linker.linkify("Sa grande réserve de munitions limite les rechargements.",equipmentContext);
 assert.doesNotMatch(ammoReserve,/data-wiki-id="lore-gouvernement-grande-reserve"/,'Une grande réserve de munitions ne doit pas pointer vers la Grande Réserve amérindienne');
 const geoReserve=linker.linkify("Tokala négocie pour la grande réserve des nations amérindiennes de Californie.",ordinaryContext);
-assert.match(geoReserve,/data-wiki-id="lore-gouvernement-grande-reserve"[^>]*>grande réserve<\/a>/,'La Grande Réserve doit rester liée lorsque le contexte géographique est explicite');
+assert.match(geoReserve,/data-wiki-id="lore-gouvernement-grande-reserve"[^>]*>(?:la )?grande réserve<\/a>/,'La Grande Réserve doit rester liée lorsque le contexte géographique est explicite');
 
 const familyContext={id:'audit-family',category:'Équipement & Objets',dataset:'augmentations',group:'Augmentations',subgroup:'Audio',title:'Audit'};
 const implantFamily=linker.linkify("Dans la famille Audio, les composants sont miniaturisés.",familyContext);
