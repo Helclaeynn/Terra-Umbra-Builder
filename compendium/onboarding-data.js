@@ -92,6 +92,12 @@ export const PLAYER_START = {
       note: 'Origine restreinte'
     }
   ],
+  loreHubs: [
+    {id:'verite-lore-khinae-originels',label:'Khinae',summary:'Comprendre les superprédateurs originels, les lignées changeformes et la racine ancienne des Vampires.'},
+    {id:'verite-056-20-corruption',label:'Corruption',summary:'Souillure, Sources, Fléaux et Rupture : comment une influence extérieure réécrit progressivement un être.'},
+    {id:'verite-lore-aer-monde-et-heritages',label:'Aèr',summary:'Relier les passages, les Exilés et plusieurs héritages divins, angéliques et magiques sans confondre Aèr avec toute la Vérité.'},
+    {id:'verite-033-le-cycle-le-neant-et-ce-que-la-mort-revele',label:'Cycle & Néant',summary:'Un repère cosmologique pour comprendre ce que la mort révèle et pourquoi certaines lignées n’ont pas le même destin.'}
+  ],
   categories: [
     {label: 'Règles', href: '#/category/R%C3%A8gles', summary: 'Création, moteur, combat, progression et règles de Nature.'},
     {label: 'Réalité', href: '#/category/R%C3%A9alit%C3%A9', summary: 'Société, institutions, corporations, technologie et vie quotidienne.'},
