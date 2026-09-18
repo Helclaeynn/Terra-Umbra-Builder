@@ -13,6 +13,7 @@ function tokensOf(value){
   return tokens;
 }
 function phraseKey(value){return tokensOf(value).map(token=>token.key).filter(Boolean).join(' ')}
+function surfaceKey(value){return String(value??'').normalize('NFC').toLocaleLowerCase('fr').replace(/[’]/g,"'").replace(/\s+/g,' ').trim()}
 function titleAliases(title){
   const raw=String(title??'').trim();if(!raw)return[];
   const aliases=[{value:raw,priority:120,kind:'title'}];
@@ -103,10 +104,14 @@ export function createWikiLinker(articles,{explicitTargets={},searchFallbacks=[]
   }
   for(const alias of searchFallbacks||[])offer(alias,{href:searchHref(alias),title:`Rechercher : ${alias}`},20,{search:true,kind:'search'});
 
-  function chooseCandidate(list,raw,current){
+  function chooseCandidate(list,raw,current,matchedRaw=''){
     const viable=(list||[]).filter(candidate=>candidate.id!==current?.id);
     if(!viable.length)return null;
     const explicit=viable.filter(x=>x.explicit);
+    if(explicit.length>1&&matchedRaw){
+      const exact=explicit.filter(x=>surfaceKey(x.alias)===surfaceKey(matchedRaw));
+      if(exact.length===1)return exact[0];
+    }
     if(explicit.length===1)return explicit[0];
     const ranked=viable.map(candidate=>[candidateScore(candidate,raw,current),candidate]).sort((a,b)=>b[0]-a[0]||String(a[1].title).localeCompare(String(b[1].title),'fr'));
     if(ranked.length>1&&Math.abs(ranked[0][0]-ranked[1][0])<4&&ranked[0][1].href!==ranked[1][1].href)return null;
@@ -122,7 +127,7 @@ export function createWikiLinker(articles,{explicitTargets={},searchFallbacks=[]
       for(let size=max;size>=1;size--){
         const key=tokens.slice(index,index+size).map(token=>token.key).join(' ');
         const list=aliases.get(key);if(!list?.length)continue;
-        const candidate=chooseCandidate(list,source,current);if(!candidate)continue;
+        const matchedRaw=source.slice(tokens[index].start,tokens[index+size-1].end);const candidate=chooseCandidate(list,source,current,matchedRaw);if(!candidate)continue;
         found={candidate,size};break;
       }
       if(!found){index++;continue}
