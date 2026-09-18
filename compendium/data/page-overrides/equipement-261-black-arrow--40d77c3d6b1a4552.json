@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "updated": "2026-09-18",
+  "entries": [
+    {
+      "articleId": "equipement-261-black-arrow",
+      "baseHash": "bf3e0fc14bdb5bfaf84861c4474420730746143674133e2a89851178afed4be1",
+      "updatedAt": "2026-09-18T10:24:51.430Z",
+      "note": "",
+      "operations": [
+        {
+          "op": "replace",
+          "path": "/sections",
+          "value": [
+            {
+              "id": "contexte",
+              "title": "Description et usage",
+              "level": 2,
+              "blocks": [
+                {
+                  "type": "p",
+                  "style": "lore",
+                  "text": "Black Arrow est une arbalète urbaine très diffusée, appréciée notamment parce que ses carreaux restent peu coûteux."
+                },
+                {
+                  "type": "p",
+                  "style": "lore",
+                  "text": "Dans son emploi prévu, arme de trait à un coup, fiable et capable de mieux travailler les protections qu’une arme de trait ordinaire."
+                }
+              ]
+            },
+            {
+              "id": "proprietes",
+              "title": "Propriétés",
+              "level": 2,
+              "blocks": [
+                {
+                  "type": "table",
+                  "rows": [
+                    [
+                      "Catégorie",
+                      "Armes — Mêlée"
+                    ],
+                    [
+                      "Prix",
+                      "800"
+                    ],
+                    [
+                      "Effet / usage",
+                      "arme de trait à un coup, fiable et capable de mieux travailler les protections qu’une arme de trait ordinaire"
+                    ],
+                    [
+                      "PriceMode",
+                      "exact"
+                    ],
+                    [
+                      "PriceLabel",
+                      "800 $"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "op": "replace",
+          "path": "/illustration",
+          "value": {
+            "src": "images/manual/equipement-261-black-arrow.webp",
+            "alt": "Illustration de Black Arrow",
+            "caption": "Illustration à venir"
+          }
+        }
+      ]
+    }
+  ]
+}
