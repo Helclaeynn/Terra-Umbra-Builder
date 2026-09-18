@@ -233,10 +233,21 @@ async function prepareCommitTree(files,token){
   }
   return tree;
 }
-async function commitPreparedTree(tree,message,token,attempt=0){
+async function mergedAggregateEntry(baseSha,drafts,token){
+  if(!drafts?.length)return null;
+  const file=await githubApi(`/repos/${CONFIG.owner}/${CONFIG.repo}/contents/compendium/data/manual-overrides.json?ref=${encodeURIComponent(baseSha)}`,{token});
+  const payload=JSON.parse(decodeBase64Utf8(file.content||'')),byArticle=new Map((payload.entries||[]).map(entry=>[entry.articleId,entry]));
+  for(const draft of drafts)byArticle.set(draft.articleId,draft);
+  const merged={version:1,updated:new Date().toISOString().slice(0,10),entries:[...byArticle.values()].sort((a,b)=>String(a.articleId).localeCompare(String(b.articleId),'fr'))};
+  const blob=await createBlob(JSON.stringify(merged,null,2)+'\n','utf-8',token);
+  return {path:'compendium/data/manual-overrides.json',mode:'100644',type:'blob',sha:blob.sha};
+}
+async function commitPreparedTree(tree,message,token,attempt=0,drafts=[]){
   const ref=await githubApi(`/repos/${CONFIG.owner}/${CONFIG.repo}/git/ref/heads/${encodeURIComponent(CONFIG.baseBranch)}`,{token});
   const baseSha=ref.object.sha,commit=await githubApi(`/repos/${CONFIG.owner}/${CONFIG.repo}/git/commits/${baseSha}`,{token});
-  const nextTree=await githubApi(`/repos/${CONFIG.owner}/${CONFIG.repo}/git/trees`,{method:'POST',token,body:{base_tree:commit.tree.sha,tree}});
+  const dynamicTree=tree.filter(entry=>entry.path!=='compendium/data/manual-overrides.json');
+  const aggregate=await mergedAggregateEntry(baseSha,drafts,token);if(aggregate)dynamicTree.push(aggregate);
+  const nextTree=await githubApi(`/repos/${CONFIG.owner}/${CONFIG.repo}/git/trees`,{method:'POST',token,body:{base_tree:commit.tree.sha,tree:dynamicTree}});
   const nextCommit=await githubApi(`/repos/${CONFIG.owner}/${CONFIG.repo}/git/commits`,{method:'POST',token,body:{message,tree:nextTree.sha,parents:[baseSha]}});
   try{
     await githubApi(`/repos/${CONFIG.owner}/${CONFIG.repo}/git/refs/heads/${encodeURIComponent(CONFIG.baseBranch)}`,{method:'PATCH',token,body:{sha:nextCommit.sha,force:false}});
@@ -244,14 +255,14 @@ async function commitPreparedTree(tree,message,token,attempt=0){
   }catch(error){
     if(isRefRace(error)&&attempt<7){
       await sleep(Math.min(2400,250*(attempt+1)));
-      return commitPreparedTree(tree,message,token,attempt+1);
+      return commitPreparedTree(tree,message,token,attempt+1,drafts);
     }
     throw error;
   }
 }
-async function commitFiles(files,message,token){
+async function commitFiles(files,message,token,drafts=[]){
   const tree=await prepareCommitTree(files,token);
-  return commitPreparedTree(tree,message,token);
+  return commitPreparedTree(tree,message,token,0,drafts);
 }
 async function publishDraft(articleId){
   const token=await ensureFreshAuth(),item=await inspectDraft(articleId,token),title=item.effective.title||item.raw.title||articleId;
@@ -260,9 +271,9 @@ async function publishDraft(articleId){
   const payload={version:1,updated:new Date().toISOString().slice(0,10),entries:[item.draft]};
   const files=[{path:overrideRepoPath(articleId),text:JSON.stringify(payload,null,2)+'\n'}];
   for(const media of item.media)files.push({path:`compendium/${String(media.path).replace(/^compendium\//,'')}`,blob:media.item.blob});
-  const result=await commitFiles(files,`edit(compendium): ${title}`,token);
-  const publications=readPublications();publications[articleId]={commitSha:result.sha,title,publishedAt:new Date().toISOString(),entryUpdatedAt:item.draft.updatedAt};writePublications(publications);
-  waitForAggregate(articleId,item.draft,token).catch(error=>console.warn('Synchronisation éditoriale encore en attente',error));
+  const result=await commitFiles(files,`edit(compendium): ${title}`,token,[item.draft]);
+  const publishedAt=new Date().toISOString(),publications=readPublications(),drafts=readDrafts();delete drafts[articleId];
+  publications[articleId]={commitSha:result.sha,title,publishedAt,entryUpdatedAt:item.draft.updatedAt,synchronizedAt:publishedAt};writeDrafts(drafts);writePublications(publications);
   return result;
 }
 async function publishAllDrafts(){
@@ -283,15 +294,14 @@ async function publishAllDrafts(){
     }
   }
   for(const [path,blob] of mediaByPath)files.push({path,blob});
-  if(!confirm(`Publier tous les brouillons directement sur main ?\n\nPages : ${items.length}\nOpérations : ${operations}\nMédias : ${mediaByPath.size}\n\nUn seul commit sera créé sur main, puis l’agrégateur synchronisera les overrides.`))return null;
-  const result=await commitFiles(files,`edit(compendium): publish ${items.length} drafts`,token);
-  const publications=readPublications(),publishedAt=new Date().toISOString();
+  if(!confirm(`Publier tous les brouillons directement sur main ?\n\nPages : ${items.length}\nOpérations : ${operations}\nMédias : ${mediaByPath.size}\n\nUn seul commit sera créé sur main avec les pages, médias et overrides déjà synchronisés.`))return null;
+  const result=await commitFiles(files,`edit(compendium): publish ${items.length} drafts`,token,items.map(item=>item.draft));
+  const publications=readPublications(),drafts=readDrafts(),publishedAt=new Date().toISOString();
   for(const item of items){
-    const id=item.draft.articleId,title=item.effective.title||item.raw.title||id;
-    publications[id]={commitSha:result.sha,title,publishedAt,entryUpdatedAt:item.draft.updatedAt};
+    const id=item.draft.articleId,title=item.effective.title||item.raw.title||id;delete drafts[id];
+    publications[id]={commitSha:result.sha,title,publishedAt,entryUpdatedAt:item.draft.updatedAt,synchronizedAt:publishedAt};
   }
-  writePublications(publications);
-  waitForAggregateBatch(items,token).catch(error=>console.warn('Synchronisation éditoriale groupée encore en attente',error));
+  writeDrafts(drafts);writePublications(publications);
   return {commit:result,items,media:mediaByPath.size,operations};
 }
 function decodeBase64Utf8(value){const bin=atob(String(value||'').replace(/\s+/g,'')),bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));return new TextDecoder().decode(bytes);}
@@ -353,7 +363,7 @@ function enhanceDraftManager(root=document){
         const result=await publishAllDrafts();
         if(result){
           button.textContent=`${result.items.length} brouillon(s) publié(s) ✓`;
-          const note=document.createElement('span');note.className='tuc-publish-state';note.textContent=`Commit ${result.commit.sha.slice(0,8)} · synchronisation automatique en cours`;actions.appendChild(note);
+          const note=document.createElement('span');note.className='tuc-publish-state';note.textContent=`Commit ${result.commit.sha.slice(0,8)} · publié et synchronisé`;actions.appendChild(note);
         }else button.textContent=original;
       }catch(error){alert(error.message);button.textContent=original;}finally{button.disabled=false;}
     });
@@ -369,7 +379,7 @@ function enhanceDraftCards(root=document){
     const button=document.createElement('button');button.type='button';button.className='tuc-publish-main';button.dataset.tucPublishMain='1';button.textContent='Publier sur main';
     button.addEventListener('click',async()=>{
       const original=button.textContent;button.disabled=true;button.textContent='Publication…';
-      try{const result=await publishDraft(articleId);if(result){button.textContent='Publié ✓';const note=document.createElement('div');note.className='tuc-publish-state';note.textContent=`Commit ${result.sha.slice(0,8)} · synchronisation automatique en cours`;card.querySelector('.editor-draft-main')?.appendChild(note);}}
+      try{const result=await publishDraft(articleId);if(result){button.textContent='Publié ✓';const note=document.createElement('div');note.className='tuc-publish-state';note.textContent=`Commit ${result.sha.slice(0,8)} · publié et synchronisé`;card.querySelector('.editor-draft-main')?.appendChild(note);}}
       catch(error){alert(error.message);button.textContent=original;}finally{button.disabled=false;}
     });
     deleteButton?.insertAdjacentElement('beforebegin',button);
