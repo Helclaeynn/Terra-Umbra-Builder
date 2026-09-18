@@ -43,10 +43,15 @@ const GENERIC_SINGLE=new Set([
   'terre','commission','gang','gangs','motard','motards','insurge','insurges'
 ]);
 export const WIKI_GENERIC_SINGLE=GENERIC_SINGLE;
+const GENERIC_MULTI=new Set([
+  'autres factions','grands ensembles','les grands ensembles','droits accordes','les droits accordes',
+  'autres creatures','grand felin','chien noir','civil ordinaire'
+]);
 
 function allowedGeneratedAlias(alias,article){
   const tokens=tokensOf(alias);if(!tokens.length||tokens.length>12||String(alias).length>120)return false;
-  if(tokens.length>1)return true;
+  const keyPhrase=tokens.map(token=>token.key).join(' ');
+  if(tokens.length>1)return !GENERIC_MULTI.has(keyPhrase);
   const raw=String(alias).trim(),key=tokens[0].key;
   if(GENERIC_SINGLE.has(key))return false;
   if(/^[A-ZÀ-ÖØ-Þ0-9][A-ZÀ-ÖØ-Þ0-9.'’\-]{2,}$/.test(raw))return true;
@@ -160,6 +165,7 @@ export function createWikiLinker(articles,{explicitTargets={},strictSurfaceAlias
     if(explicit.length===1){
       const only=explicit[0];
       if(only.id==='verite-056-20-corruption'&&!truthCorruptionContext(raw,current))return null;
+      if(only.id==='verite-007-se-reveler-n-est-pas-s-eveiller'&&phraseKey(matchedRaw)==='se reveler'&&!/R(?:é|e)véler/u.test(String(matchedRaw||'')))return null;
       if(only.id==='verite-055-19-formation-et-doctrine-de-chasseur'&&surfaceKeyCase(matchedRaw)==='Chasseur'&&['equipement-011-owl-lc-014-chasseur','verite-catalogue-008-owl-lc-014-chasseur'].includes(String(current?.id||'')))return null;
       return only;
     }
