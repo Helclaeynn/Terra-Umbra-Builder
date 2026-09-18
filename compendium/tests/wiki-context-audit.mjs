@@ -106,6 +106,14 @@ const neuroCorruption={id:'realite-022-7-corruption-de-programmes-et-materiel',c
 const neuroTerms=linker.linkify("Corruption sur échec narratif — le Neuroprogramme devient indisponible.",neuroCorruption);
 assert.doesNotMatch(neuroTerms,/data-wiki-id="verite-056-20-corruption"/,'La Corruption logicielle Neurodive ne doit pas pointer vers les Fléaux');
 
+const pegreContext={id:'regles-realite-talents-sphere-pegre',category:'Règles',dataset:'moteur',group:'Réalité — Talents & désavantages',subgroup:'Sphères',title:'Talents de Sphère — Pègre'};
+const pegreCorruption=linker.linkify('Corruption locale',pegreContext);
+assert.doesNotMatch(pegreCorruption,/data-wiki-id="verite-056-20-corruption"/,'La Corruption locale de la Pègre est une notion ordinaire de Réalité');
+
+const garouContext={id:'verite-047-11-garous-loups-descendants-de-khinae',category:'Vérité',dataset:'verite',group:'Natures, peuples & traditions',subgroup:'Garous & descendants de Khinae',title:'11. Garous — Loups descendants de Khinae'};
+const sangChasseur=linker.linkify('Le Sang Chasseur est l’une des directions de l’héritage de Khinae.',garouContext);
+assert.match(sangChasseur,/data-wiki-id="regles-verite-garou-sang-chasseur-thorkel"[^>]*>Sang Chasseur<\/a>/,'Sang Chasseur doit pointer vers Thorkel, pas vers la doctrine humaine');
+
 const hunterEquipment={id:'equipement-011-owl-lc-014-chasseur',category:'Équipement & Objets',dataset:'equipement',group:'Équipement de Réalité',subgroup:'Armement — Armes de jet & trait',title:'Owl LC-014 Chasseur'};
 const hunterProduct=linker.linkify("Le LC-014 Chasseur est un lanceur de trait ; les Chasseurs de Vérité peuvent néanmoins l'utiliser.",hunterEquipment);
 assert.doesNotMatch(hunterProduct,/data-wiki-id="verite-055-19-formation-et-doctrine-de-chasseur"[^>]*>Chasseur<\/a> est/,'Le nom du produit Chasseur ne doit pas devenir un lien de lore');
