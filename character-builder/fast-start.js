@@ -10,7 +10,11 @@
 
   const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const read=()=>{try{return JSON.parse(localStorage.getItem(STORAGE)||'{}')||{}}catch{return {}}};
-  const identity={name:'',age:'',alias:'',sex:'',height:'',weight:'',concept:'',objective:'',notes:'',...(read().identity||{})};
+  const stored=read();
+  const identity={
+    name:'',alias:'',age:'',sex:'',height:'',weight:'',concept:'',objective:'',notes:'',portraitDataUrl:'',portraitName:'',
+    ...(stored.identity||{})
+  };
   let targetStep=0;
 
   const write=()=>{
@@ -20,80 +24,110 @@
     renderSummary();
   };
 
-  const short=[
-    ['name','Nom','Nom du personnage',true],
-    ['age','Âge','Ex. 34 ans',true],
-    ['alias','Alias','Ex. Ghost, Dr. Vale…',false],
-    ['sex','Sexe / genre','Ex. femme, homme, non-binaire…',false],
-    ['height','Taille','Ex. 1,78 m',false],
-    ['weight','Poids','Ex. 72 kg',false]
-  ];
-  const field=(key,label,placeholder,required=false,textarea=false)=>`
-    <label class="builder-fast-field">
-      <span>${esc(label)} <small>${required?'obligatoire':'optionnel'}</small></span>
-      ${textarea
-        ?`<textarea data-fast-identity="${esc(key)}" rows="3" placeholder="${esc(placeholder)}">${esc(identity[key])}</textarea>`
-        :`<input data-fast-identity="${esc(key)}" value="${esc(identity[key])}" placeholder="${esc(placeholder)}">`}
-    </label>`;
+  const field=(key,label,help,{required=false,placeholder='',textarea=false}={})=>{
+    const requiredHtml=required?'<span class="p25-required">obligatoire</span>':'<span class="p25-optional">optionnel</span>';
+    return `<div class="field p25-field"><label>${esc(label)} ${requiredHtml}</label>${textarea
+      ?`<textarea rows="4" data-fast-identity="${esc(key)}" placeholder="${esc(placeholder)}">${esc(identity[key])}</textarea>`
+      :`<input type="text" data-fast-identity="${esc(key)}" value="${esc(identity[key])}" placeholder="${esc(placeholder)}">`}<div class="p25-help">${esc(help)}</div></div>`;
+  };
+
+  async function resizePortrait(file){
+    if(!file?.type?.startsWith('image/'))throw new Error('Le fichier choisi n’est pas une image.');
+    if(file.size>12*1024*1024)throw new Error('Image trop lourde (12 Mo maximum avant redimensionnement).');
+    const src=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onerror=()=>reject(new Error('Lecture de l’image impossible.'));reader.onload=()=>resolve(String(reader.result||''));reader.readAsDataURL(file)});
+    const img=await new Promise((resolve,reject)=>{const node=new Image();node.onerror=()=>reject(new Error('Format d’image illisible.'));node.onload=()=>resolve(node);node.src=src});
+    const max=640,ratio=Math.min(1,max/Math.max(img.naturalWidth||1,img.naturalHeight||1)),canvas=document.createElement('canvas');
+    canvas.width=Math.max(1,Math.round(img.naturalWidth*ratio));canvas.height=Math.max(1,Math.round(img.naturalHeight*ratio));
+    canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+    let data=canvas.toDataURL('image/webp',.82);if(!data.startsWith('data:image/webp'))data=canvas.toDataURL('image/jpeg',.84);return data;
+  }
 
   function bindIdentity(){
-    stepContent.querySelectorAll('[data-fast-identity]').forEach(input=>{
-      input.addEventListener('input',event=>{
-        identity[event.currentTarget.dataset.fastIdentity]=event.currentTarget.value;
-        write();
-      });
+    stepContent.querySelectorAll('[data-fast-identity]').forEach(input=>input.addEventListener('input',event=>{
+      identity[event.currentTarget.dataset.fastIdentity]=event.currentTarget.value;write();
+    }));
+    const upload=stepContent.querySelector('[data-fast-portrait]');
+    if(upload)upload.addEventListener('change',async event=>{
+      const file=event.currentTarget.files?.[0];if(!file)return;
+      try{identity.portraitDataUrl=await resizePortrait(file);identity.portraitName=file.name||'';write();renderIdentity()}catch(error){alert(error.message||String(error))}
     });
+    stepContent.querySelector('[data-remove-portrait]')?.addEventListener('click',()=>{identity.portraitDataUrl='';identity.portraitName='';write();renderIdentity()});
   }
+
   function renderIdentity(){
     targetStep=0;window.__TUC_FAST_TARGET_STEP__=0;
+    const portrait=identity.portraitDataUrl
+      ?`<div class="p25-portrait-frame has-image"><img alt="Portrait de ${esc(identity.name||'personnage')}" src="${esc(identity.portraitDataUrl)}"></div>`
+      :'<div class="p25-portrait-frame"><div class="p25-portrait-empty"><strong>Portrait</strong><span>Ajoutez une image pour incarner visuellement le personnage.</span></div></div>';
+    const remove=identity.portraitDataUrl?'<button type="button" class="danger-btn mini" data-remove-portrait>Retirer le portrait</button>':'';
     stepContent.innerHTML=`
-      <div class="builder-fast-head">
-        <div><div class="eyebrow">ÉTAPE 1 / IDENTITÉ</div><h2>Concept et identité</h2><p>Commencez normalement : le reste du Builder se charge en arrière-plan sans bloquer cette page.</p></div>
-        <span class="builder-fast-loading">Chargement des autres étapes…</span>
+      <div class="section-title"><div><h2>Concept et identité</h2><p>Commencez par la personne, avant les chiffres. Ici, seuls le nom et l’âge sont nécessaires pour valider l’étape ; les autres champs servent à donner une apparence, une voix et des motivations au personnage.</p></div></div>
+      <div class="p25-identity-layout">
+        <aside class="p25-portrait-card">
+          ${portrait}
+          <label class="ghost p25-upload">${identity.portraitDataUrl?'Changer le portrait':'Choisir une image'}<input data-fast-portrait type="file" accept="image/*" hidden></label>
+          ${remove}
+          <div class="p25-help">Le portrait est redimensionné avant sauvegarde. Il sera repris dans la Finalisation puis dans la fiche exportée.</div>
+        </aside>
+        <div class="p25-identity-fields">
+          <div class="p32-identity-short">
+            <div class="p32-id-pair">
+              ${field('name','Nom','Le nom principal sous lequel le personnage est identifié.',{required:true,placeholder:'Nom du personnage'})}
+              ${field('age','Âge','Âge réel, légal ou apparent si cela a du sens pour le concept.',{required:true,placeholder:'Ex. 34 ans'})}
+            </div>
+            <div class="p32-id-pair">
+              ${field('alias','Alias','Surnom, indicatif, nom de scène ou pseudonyme utilisé dans certains milieux.',{placeholder:'Ex. Ghost, Dr. Vale…'})}
+              ${field('sex','Sexe / genre','Information descriptive sans conséquence mécanique.',{placeholder:'Ex. femme, homme, non-binaire…'})}
+            </div>
+            <div class="p32-id-pair">
+              ${field('height','Taille','Information descriptive sans conséquence mécanique.',{placeholder:'Ex. 1,78 m'})}
+              ${field('weight','Poids','Information descriptive sans conséquence mécanique.',{placeholder:'Ex. 72 kg'})}
+            </div>
+          </div>
+          <div class="p25-narrative-grid">
+            ${field('concept','Concept','Une phrase qui résume l’idée du personnage : rôle, tempérament, contradiction ou image forte.',{placeholder:'Ex. ancienne enquêtrice devenue fixer pour l’Underlife'})}
+            ${field('objective','Objectif','Ce que le personnage veut concrètement aujourd’hui : retrouver quelqu’un, gagner une place, payer une dette, comprendre un secret…',{placeholder:'Ex. retrouver son frère disparu'})}
+            ${field('notes','Notes / background','Quelques éléments de caractère, d’apparence, de relations ou d’histoire. Inutile d’écrire une biographie complète avant la première scène.',{textarea:true,placeholder:'Caractère, apparence, personnes importantes, événement marquant…'})}
+          </div>
+        </div>
       </div>
-      <div class="builder-fast-short">${short.map(x=>field(...x)).join('')}</div>
-      <div class="builder-fast-narrative">
-        ${field('concept','Concept','Ex. ancienne enquêtrice devenue fixer pour l’Underlife')}
-        ${field('objective','Objectif','Ex. retrouver son frère disparu')}
-        ${field('notes','Notes / background','Caractère, apparence, personnes importantes, événement marquant…',false,true)}
-      </div>
-      <div class="builder-fast-note"><strong>Saisie conservée.</strong> Le portrait et les contrôles complets apparaîtront dès que le moteur sera prêt.</div>`;
-    bindIdentity();renderNav();renderActions();
+      <div class="rulebox"><strong>Repère de jeu :</strong> une identité claire et quelques prises sur le monde suffisent pour commencer ; les détails peuvent émerger en campagne.</div>`;
+    bindIdentity();renderNav();renderActions();renderSummary();
   }
+
   function renderWaiting(index){
     targetStep=index;window.__TUC_FAST_TARGET_STEP__=index;
     const label=STEPS[index]?.[1]||'Étape';
-    stepContent.innerHTML=`<div class="builder-fast-step-loading"><div><div class="eyebrow">ÉTAPE ${index+1}</div><h2>${esc(label)}</h2><p>Cette étape utilise encore des règles ou catalogues en cours de chargement. Elle s’ouvrira automatiquement dès que le Builder sera prêt.</p><div class="builder-fast-wait"><strong>L’interface reste disponible.</strong> Vous pouvez revenir à Identité pendant le chargement sans perdre vos saisies.</div></div></div>`;
-    renderNav();renderActions();
+    stepContent.innerHTML=`<div class="section-title"><div><h2>${esc(label)}</h2><p>Les données nécessaires à cette étape terminent leur chargement.</p></div><span class="badge">Chargement…</span></div><div class="empty" style="min-height:420px;display:grid;place-items:center"><div><strong>Cette page sera disponible dans quelques instants.</strong><br><span class="muted">Vous pouvez revenir à Identité sans perdre vos saisies.</span></div></div>`;
+    renderNav();renderActions();renderSummary();
   }
+
   function renderNav(){
     stepNav.innerHTML='';
     STEPS.forEach(([id,label],index)=>{
-      const b=document.createElement('button');
-      b.className=`step-link ${index===targetStep?'active':''}`;
-      b.type='button';b.dataset.fastStep=id;
+      const b=document.createElement('button');b.className=`step-link ${index===targetStep?'active':''}`;b.type='button';b.dataset.fastStep=id;
       b.innerHTML=`<span class="dot"></span><span class="step-label">${index+1}. ${esc(label)}</span>`;
-      b.onclick=()=>index===0?renderIdentity():renderWaiting(index);
-      stepNav.appendChild(b);
+      b.onclick=()=>index===0?renderIdentity():renderWaiting(index);stepNav.appendChild(b);
     });
-    const progress=document.getElementById('progressText');if(progress)progress.textContent=`0 / ${STEPS.length-1} étapes de création valides`;
+    const progress=document.getElementById('progressText');if(progress)progress.textContent=`0 / 11 étapes valides · chargement en cours`;
     const bar=document.getElementById('progressBar');if(bar)bar.style.width='0%';
   }
+
   function renderSummary(){
-    const summary=document.getElementById('summaryContent'),badge=document.getElementById('validBadge');
-    if(badge){badge.className='badge bad';badge.textContent='Chargement'}
-    if(!summary)return;
-    summary.className='builder-fast-summary';
+    const summary=document.getElementById('summaryContent'),badge=document.getElementById('validBadge');if(!summary)return;
+    if(badge){badge.className='badge bad';badge.textContent='À compléter'}
     summary.innerHTML=`
       <div class="summary-section"><h4>Personnage</h4><div class="summary-line"><span>Nom</span><span>${esc(identity.name||'—')}</span></div><div class="summary-line"><span>Concept</span><span>${esc(identity.concept||'—')}</span></div></div>
-      <div class="summary-section"><h4>Création</h4><div class="summary-line"><span>Étape active</span><span>${esc(STEPS[targetStep]?.[1]||'Identité')}</span></div><div class="summary-line"><span>Moteur</span><span>chargement…</span></div></div>
-      <div class="summary-section"><h4>À venir</h4><div class="muted small">Origine, Sphère, Attributs, Vérité, Équipement et ressources apparaîtront ici dès leur chargement.</div></div>`;
+      <div class="summary-section"><h4>Cadre social</h4><div class="summary-line"><span>Origine</span><span>—</span></div><div class="summary-line"><span>Sphère</span><span>—</span></div><div class="summary-line"><span>Style</span><span>—</span></div><div class="summary-line"><span>Train de vie</span><span>—</span></div></div>
+      <div class="summary-section"><h4>Ressources</h4><div class="summary-line"><span>Edge</span><span>—</span></div><div class="summary-line"><span>Compte</span><span>—</span></div><div class="summary-line"><span>PTV réserve</span><span>—</span></div><div class="summary-line"><span>Renommée</span><span>—</span></div></div>
+      <div class="summary-section"><h4>Dérivés</h4><div class="summary-line"><span>PV</span><span>—</span></div><div class="summary-line"><span>Init.</span><span>—</span></div><div class="summary-line"><span>Déf.</span><span>—</span></div><div class="summary-line"><span>Déf. occ.</span><span>—</span></div><div class="summary-line"><span>Intégrité</span><span>—</span></div></div>
+      <div class="summary-section"><h4>Vérité</h4><div class="summary-line"><span>Nature</span><span>—</span></div><div class="summary-line"><span>Conscience</span><span>—</span></div><div class="summary-line"><span>PTV</span><span>—</span></div></div>`;
   }
+
   function renderActions(){
     const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');
     if(prev){prev.disabled=targetStep===0;prev.onclick=()=>targetStep<=1?renderIdentity():renderWaiting(targetStep-1)}
     if(next){next.disabled=false;next.textContent=targetStep===STEPS.length-1?'Chargement…':'Suivant →';next.onclick=()=>{if(targetStep<STEPS.length-1)renderWaiting(targetStep+1)}}
-    renderSummary();
   }
 
   const save=document.getElementById('saveBtn'),load=document.getElementById('loadBtn'),exportBtn=document.getElementById('exportBtn');
@@ -103,10 +137,8 @@
   renderIdentity();
   window.__TUC_FAST_IDENTITY_READY__=true;
   window.__TUC_FAST_IDENTITY__=identity;
-
   window.addEventListener('tuc-builder-ready',()=>{
     for(const button of [load,exportBtn])if(button){button.disabled=false;button.removeAttribute('title')}
-    const target=Number(window.__TUC_FAST_TARGET_STEP__||0);
-    if(target>0)requestAnimationFrame(()=>document.querySelectorAll('#stepNav .step-link')[target]?.click());
+    const target=Number(window.__TUC_FAST_TARGET_STEP__||0);if(target>0)requestAnimationFrame(()=>document.querySelectorAll('#stepNav .step-link')[target]?.click());
   },{once:true});
 })();
