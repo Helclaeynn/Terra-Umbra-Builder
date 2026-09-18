@@ -12,12 +12,12 @@ try{
 
   const sphereNav=page.locator('#stepNav button').filter({hasText:'Sphère & Style'}).first();
   await sphereNav.click();
-  const sphere=page.locator('#stepContent .choice-card').first();
+  const sphere=page.locator('#stepContent .p25-choice-card').first();
   await sphere.waitFor({state:'visible',timeout:10000});await sphere.click();
-  const styleHeading=page.locator('#stepContent h3.subhead').filter({hasText:'Style'}).first();
+  const styleHeading=page.locator('#stepContent h3.subhead').filter({hasText:'Choisir le Style'}).first();
   await styleHeading.waitFor({state:'visible',timeout:10000});
   const styleGrid=styleHeading.locator('xpath=following-sibling::div[contains(@class,"cards")][1]');
-  const style=styleGrid.locator('.choice-card').first();
+  const style=styleGrid.locator('.p25-choice-card').first();
   await style.waitFor({state:'visible',timeout:10000});await style.click();
 
   const nav=page.locator('#stepNav button').filter({hasText:'Équipement'}).first();
