@@ -1,6 +1,6 @@
 import {applyCommittedOverridesToMap} from './editor/native-overrides.js';
 import {createWikiLinker} from './wiki-links.js';
-import {PLAYER_START,WIKI_EXPLICIT_TARGETS,WIKI_SEARCH_FALLBACKS} from './onboarding-data.js';
+import {PLAYER_START,WIKI_EXPLICIT_TARGETS,WIKI_SEARCH_FALLBACKS,WIKI_STRICT_SURFACE_ALIASES} from './onboarding-data.js';
 import {manualArticleMedia} from './manual-media.js';
 import {GUIDE_ARTICLES} from './guide-articles.js';
 
@@ -97,7 +97,7 @@ async function loadCorpus(){
   const summary=await applyCommittedOverridesToMap(articleCache,await loadCommittedOverrides());
   if(summary.conflicts.length)console.warn(`${summary.conflicts.length} override(s) éditorial(aux) ignoré(s) car le corpus source a changé.`,summary.conflicts);
   if(summary.missing.length)console.warn(`${summary.missing.length} override(s) ciblent une page absente.`,summary.missing);
-  wikiLinker=createWikiLinker(articles(),{explicitTargets:WIKI_EXPLICIT_TARGETS,searchFallbacks:WIKI_SEARCH_FALLBACKS});
+  wikiLinker=createWikiLinker(articles(),{explicitTargets:WIKI_EXPLICIT_TARGETS,strictSurfaceAliases:WIKI_STRICT_SURFACE_ALIASES,searchFallbacks:WIKI_SEARCH_FALLBACKS});
   console.info(`Wiki interne : ${wikiLinker.stats.aliases} alias directs, ${wikiLinker.stats.ambiguous} ambigus ignorés.`);
 }
 function articles(){return [...articleCache.values()]}
