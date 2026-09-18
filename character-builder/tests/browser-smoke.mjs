@@ -33,6 +33,9 @@ const moneyNumber=text=>Number(String(text||'').replace(/[^\d-]/g,''))||0;
 try{
   await page.goto(`${base}character-builder/`,{waitUntil:'domcontentloaded',timeout:30000});
   await page.waitForFunction(()=>window.TUCRealitySelfTest!==undefined&&window.TUCV9ReconciledAugmentations!==undefined&&window.TUCBuilderSeptFixes?.truthLoreMetaProblems!==undefined,null,{timeout:30000});
+  await page.waitForFunction(()=>window.__TUC_APP_READY__===true&&window.__TUC_LATE_STATE_READY__===true,null,{timeout:30000});
+  const bootState=await page.evaluate(()=>({booting:document.body.classList.contains('builder-booting'),boot:!!document.getElementById('builderBoot')}));
+  if(bootState.booting||bootState.boot)throw new Error(`Écran bootstrap encore visible après chargement complet: ${JSON.stringify(bootState)}`);
   await page.waitForTimeout(250);
   const startup=await page.evaluate(()=>({self:window.TUCRealitySelfTest,reconciled:window.TUCV9ReconciledAugmentations,commerce:window.TUCBuilderSeptFixes.commerce(),loreProblems:window.TUCBuilderSeptFixes.truthLoreMetaProblems()}));
   if(errors.length)throw new Error(`Erreurs navigateur au chargement: ${errors.join(' | ')} · diagnostics ${JSON.stringify(startup)}`);
