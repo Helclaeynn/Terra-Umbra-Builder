@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import zlib from 'node:zlib';
 import {createWikiLinker} from '../wiki-links.js';
-import {WIKI_EXPLICIT_TARGETS,WIKI_SEARCH_FALLBACKS,WIKI_STRICT_SURFACE_ALIASES} from '../onboarding-data.js';
+import {WIKI_EXPLICIT_TARGETS,WIKI_SEARCH_FALLBACKS,WIKI_STRICT_SURFACE_ALIASES,WIKI_CASE_SENSITIVE_ALIASES} from '../onboarding-data.js';
 import {GUIDE_ARTICLES,GUIDE_NAVIGATION} from '../guide-articles.js';
 
 const root=new URL('../',import.meta.url);
@@ -33,7 +33,7 @@ const articles=[];
 for(const spec of manifest.datasets)for(const row of loadDataset(spec))articles.push(context(row,spec.id));
 for(const row of GUIDE_ARTICLES)articles.push(context(structuredClone(row),'guide'));
 const byId=new Map(articles.map(a=>[a.id,a]));
-const linker=createWikiLinker(articles,{explicitTargets:WIKI_EXPLICIT_TARGETS,strictSurfaceAliases:WIKI_STRICT_SURFACE_ALIASES,searchFallbacks:WIKI_SEARCH_FALLBACKS});
+const linker=createWikiLinker(articles,{explicitTargets:WIKI_EXPLICIT_TARGETS,strictSurfaceAliases:WIKI_STRICT_SURFACE_ALIASES,caseSensitiveAliases:WIKI_CASE_SENSITIVE_ALIASES,searchFallbacks:WIKI_SEARCH_FALLBACKS});
 const explicitByNorm=new Map();
 for(const [alias,id] of Object.entries(WIKI_EXPLICIT_TARGETS)){
   const k=norm(alias);if(!explicitByNorm.has(k))explicitByNorm.set(k,[]);
