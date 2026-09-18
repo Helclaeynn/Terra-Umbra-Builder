@@ -12,6 +12,18 @@ page.on('response',response=>{const url=response.url();const knownLegacy=/\/trut
 try{
   await page.goto(`${base}compendium/#/start`,{waitUntil:'domcontentloaded'});
   await page.waitForSelector('.nature-card',{timeout:90000});
+  const truthGuide=page.locator('.start-card[data-wiki-id="guide-verite-nouveau-joueur"]').first();
+  if(await truthGuide.count()!==1)throw new Error('Guide Vérité absent de l’onboarding.');
+  const aerHub=page.locator('.start-card[data-wiki-id="verite-lore-aer-monde-et-heritages"]').first();
+  if(await aerHub.count()!==1)throw new Error('Hub Aèr absent des repères de lore.');
+  await truthGuide.click();
+  await page.waitForFunction(()=>location.hash.includes('guide-verite-nouveau-joueur'),null,{timeout:10000});
+  await page.waitForSelector('#main .page-head h1',{timeout:10000});
+  const truthBody=(await page.locator('#main').innerText()).replace(/\s+/g,' ');
+  if(!/Voilé/.test(truthBody)||!/Semi-Révélé/.test(truthBody)||!/Révélé/.test(truthBody)||!/simple illusion visuelle/.test(truthBody))throw new Error('Guide Vérité incomplet sur Révélation/Hologramme.');
+  await page.goto(`${base}compendium/#/start`,{waitUntil:'domcontentloaded'});
+  await page.waitForSelector('.nature-card',{timeout:90000});
+
   const garou=page.locator('.nature-card').filter({hasText:'Garou'}).first();
   const lore=garou.locator('a').filter({hasText:'Présentation & lore'}).first();
   await lore.scrollIntoViewIfNeeded();
@@ -50,5 +62,5 @@ try{
   if(!/Khinae/i.test(builderPreview)||builderPreview.length<100)throw new Error(`Aperçu Builder invalide: ${builderPreview}`);
 
   if(errors.length)throw new Error(`Erreurs navigateur:\n${errors.join('\n')}`);
-  console.log('WIKI INTEGRATION OK — scroll article + hover Compendium + Garou→Khinae Builder validés.');
+  console.log('WIKI INTEGRATION OK — onboarding guides/hubs + scroll article + hover Compendium + Garou→Khinae Builder validés.');
 }finally{await browser.close()}
