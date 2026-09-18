@@ -1,5 +1,5 @@
 import {createWikiLinker} from '../compendium/wiki-links.js';
-import {WIKI_EXPLICIT_TARGETS,WIKI_SEARCH_FALLBACKS} from '../compendium/onboarding-data.js';
+import {WIKI_EXPLICIT_TARGETS,WIKI_SEARCH_FALLBACKS,WIKI_STRICT_SURFACE_ALIASES} from '../compendium/onboarding-data.js';
 import {manualArticleMedia} from '../compendium/manual-media.js';
 import {GUIDE_ARTICLES,GUIDE_NAVIGATION} from '../compendium/guide-articles.js';
 
