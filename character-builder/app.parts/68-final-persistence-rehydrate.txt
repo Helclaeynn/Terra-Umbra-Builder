@@ -1,0 +1,14 @@
+// Final persistence rehydration.
+// The base app restores before late modules (Edge allocation, progression, campaign economy)
+// exist. Keep the untouched startup snapshot and replay it once every mergeState wrapper is
+// installed, otherwise the early render() can overwrite localStorage without late fields.
+if(startupStoredState&&typeof startupStoredState==='object'){
+  try{
+    mergeState(structuredClone(startupStoredState));
+    if(typeof uxEnsureEdgeAttributes==='function')uxEnsureEdgeAttributes();
+    if(typeof p43EnsureProgression==='function')p43EnsureProgression();
+    if(typeof p45EnsureTalentChoices==='function')p45EnsureTalentChoices();
+    persist();
+  }catch(error){console.warn('Final startup-state rehydration',error)}
+}
+render();
