@@ -128,4 +128,38 @@ const equipmentContext={id:'audit-equipment',category:'Équipement & Objets',dat
 const exactEquipment=linker.linkify('Media Holonet / reseaux',equipmentContext);
 assert.match(exactEquipment,/data-wiki-id="equipement-212-media-holonet-reseaux"/,'Un titre matériel exact reste cliquable vers son équipement');
 
+const ammoReserve=linker.linkify("Sa grande réserve de munitions limite les rechargements.",equipmentContext);
+assert.doesNotMatch(ammoReserve,/data-wiki-id="lore-gouvernement-grande-reserve"/,'Une grande réserve de munitions ne doit pas pointer vers la Grande Réserve amérindienne');
+const geoReserve=linker.linkify("Tokala négocie pour la grande réserve des nations amérindiennes de Californie.",ordinaryContext);
+assert.match(geoReserve,/data-wiki-id="lore-gouvernement-grande-reserve"[^>]*>grande réserve<\/a>/,'La Grande Réserve doit rester liée lorsque le contexte géographique est explicite');
+
+const familyContext={id:'audit-family',category:'Équipement & Objets',dataset:'augmentations',group:'Augmentations',subgroup:'Audio',title:'Audit'};
+const implantFamily=linker.linkify("Dans la famille Audio, les composants sont miniaturisés.",familyContext);
+assert.doesNotMatch(implantFamily,/data-wiki-id="lore-pegre-la-famille"/,'Une famille d’implants ne doit pas pointer vers la mafia La Famille');
+const mafiaFamily=linker.linkify("La Famille contrôle plusieurs intérêts mafieux.",ordinaryContext);
+assert.match(mafiaFamily,/data-wiki-id="lore-pegre-la-famille"[^>]*>La Famille<\/a>/,'Le nom propre La Famille doit rester lié');
+
+const cbacCorruption=linker.linkify("Californian Bureau of Abuses and Corruption (CBAC)",ordinaryContext);
+assert.doesNotMatch(cbacCorruption,/data-wiki-id="verite-056-20-corruption"/,'La corruption institutionnelle du CBAC ne doit pas pointer vers la Corruption des Fléaux');
+const occultCorruption=linker.linkify("Dans la Vérité, la Corruption par un Fléau commence souvent par une Souillure.",truthContext);
+assert.match(occultCorruption,/data-wiki-id="verite-056-20-corruption"[^>]*>Corruption<\/a>/,'La Corruption surnaturelle doit rester liée');
+
+const religiousAwakening=linker.linkify("Le principe bouddhiste d’éveil reste central dans cette religion.",ordinaryContext);
+assert.doesNotMatch(religiousAwakening,/data-wiki-id="verite-007-se-reveler-n-est-pas-s-eveiller"/,'Un éveil religieux ordinaire ne doit pas pointer vers l’Éveil d’une Nature');
+const supernaturalAwakening=linker.linkify("L’Éveil peut précéder la première Révélation consciente.",truthContext);
+assert.match(supernaturalAwakening,/data-wiki-id="verite-007-se-reveler-n-est-pas-s-eveiller"[^>]*>Éveil<\/a>/,'L’Éveil surnaturel capitalisé doit rester lié');
+
+const ordinaryEarth=linker.linkify("La terre est humide après la pluie.",ordinaryContext);
+assert.doesNotMatch(ordinaryEarth,/data-wiki-id="pnj-060-terre"/,'Le nom commun terre ne doit jamais pointer vers le PNJ Terre');
+
+const genericCatalog=linker.linkify("Le quartier combine sécurité privée, service juridique, réalité augmentée et une zone abandonnée.",ordinaryContext);
+assert.doesNotMatch(genericCatalog,/data-wiki-id="equipement-210-securite-privee"/,'La sécurité privée générique ne doit pas pointer vers une fiche d’achat');
+assert.doesNotMatch(genericCatalog,/data-wiki-id="equipement-209-service-juridique"/,'Le service juridique générique ne doit pas pointer vers une fiche d’achat');
+assert.doesNotMatch(genericCatalog,/data-wiki-id="augmentation-086-realite-augmentee-holonet"/,'La réalité augmentée générique ne doit pas pointer vers une augmentation');
+assert.doesNotMatch(genericCatalog,/data-wiki-id="equipement-219-squat-zone-abandonnee"/,'Une zone abandonnée générique ne doit pas pointer vers une fiche d’achat');
+
+const bestiaryEquipment={id:'audit-bestiary-equipment',category:'Bestiaire',dataset:'bestiaire',group:'PNJ de Réalité',subgroup:'Corporations',title:'Audit'};
+const weaponStat=linker.linkify('ATTAQUE — Raven SG-025 « Riot Control » — 1d10e + 10 • DGT 12 • Portée 15 m',bestiaryEquipment);
+assert.match(weaponStat,/data-wiki-id="equipement-043-raven-sg-025-riot-control"/,'Une arme nommée dans un profil Bestiaire doit rester liée à sa fiche matériel');
+
 console.log(`WIKI CONTEXT AUDIT OK — ${articles.length} articles · ${blocks} blocs audités · ${directLinks} liens directs · destinations: ${[...byCategory.entries()].sort((a,b)=>b[1]-a[1]).map(([k,v])=>`${k} ${v}`).join(' · ')}`);
