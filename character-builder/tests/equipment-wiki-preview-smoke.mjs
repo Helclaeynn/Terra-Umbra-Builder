@@ -16,7 +16,7 @@ try{
   await sphere.waitFor({state:'visible',timeout:10000});await sphere.click();
   const styleHeading=page.locator('#stepContent h3.subhead').filter({hasText:'Choisir le Style'}).first();
   await styleHeading.waitFor({state:'visible',timeout:10000});
-  const styleGrid=styleHeading.locator('xpath=following-sibling::div[contains(@class,"cards")][1]');
+  const styleGrid=page.locator('#stepContent .p25-choice-grid').nth(1);
   const style=styleGrid.locator('.p25-choice-card').first();
   await style.waitFor({state:'visible',timeout:10000});await style.click();
 
