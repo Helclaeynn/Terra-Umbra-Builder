@@ -70,6 +70,20 @@ assert.match(gods,/data-wiki-id="verite-lore-divinite-belial"[^>]*>Belial<\/a>/)
 const temple=linker.linkify('Le Temple de Belial organise ses fidèles.',daemonContext);
 assert.match(temple,/data-wiki-id="lore-daemon-temples-temple-belial"[^>]*>Temple de Belial<\/a>/,'Le titre spécifique doit gagner sur le mot Belial seul');
 
+const truthContext={id:'audit-truth-guide',category:'Vérité',dataset:'guide',group:'Entrer dans la Vérité',subgroup:'Guides du nouveau joueur',title:'Audit'};
+const truthTerms=linker.linkify("Un être Voilé peut devenir Semi-Révélé puis Révélé. La Corruption commence par une Souillure. L'Ombremonde reste distinct.",truthContext);
+assert.match(truthTerms,/data-wiki-id="verite-006-voile-semi-revele-revele"[^>]*>Voilé<\/a>/);
+assert.match(truthTerms,/data-wiki-id="verite-006-voile-semi-revele-revele"[^>]*>Semi-Révélé<\/a>/);
+assert.match(truthTerms,/data-wiki-id="verite-006-voile-semi-revele-revele"[^>]*>Révélé<\/a>/);
+assert.match(truthTerms,/data-wiki-id="verite-056-20-corruption"[^>]*>Corruption<\/a>/);
+assert.match(truthTerms,/data-wiki-id="verite-056-20-corruption"[^>]*>Souillure<\/a>/);
+assert.match(truthTerms,/data-wiki-id="verite-023-l-ombremonde-le-reste-du-monde"[^>]*>L'Ombremonde<\/a>/);
+
+const khinaeTerms=linker.linkify('Les Khinae corrompus partagent une racine avec les Vampires, tandis que les Loups descendants de Khinae forment les Garous.',truthContext);
+assert.match(khinaeTerms,/data-wiki-id="verite-lore-khinae-originels"[^>]*>Khinae corrompus<\/a>/);
+assert.match(khinaeTerms,/data-wiki-id="verite-046-10-vampires"[^>]*>Vampires<\/a>/);
+assert.match(khinaeTerms,/data-wiki-id="verite-047-11-garous-loups-descendants-de-khinae"[^>]*>Loups descendants de Khinae<\/a>/);
+
 const equipmentContext={id:'audit-equipment',category:'Équipement & Objets',dataset:'equipement',group:'Équipement de Réalité',subgroup:'Vie quotidienne',title:'Audit'};
 const exactEquipment=linker.linkify('Media Holonet / reseaux',equipmentContext);
 assert.match(exactEquipment,/data-wiki-id="equipement-212-media-holonet-reseaux"/,'Un titre matériel exact reste cliquable vers son équipement');
