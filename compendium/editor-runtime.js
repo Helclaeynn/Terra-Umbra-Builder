@@ -92,12 +92,13 @@ function pnjPreviewHtml(article,main){
   return `<div class="editor-pnj-preview" data-editor-preview="pnj">${portrait}${factHtml}${relHtml}${truthHtml}</div>`;
 }
 function mediaPreviewHtml(article){
-  const media=article.image??article.illustration;
+  const media=article.illustration??article.image;
   if(!media)return'';
   const src=typeof media==='string'?media:media.src;
   if(!src)return'';
   const alt=typeof media==='object'?(media.alt||article.title):article.title;
-  const caption=typeof media==='object'?media.caption:'';
+  const rawCaption=typeof media==='object'?media.caption||'':'';
+  const caption=!/equipment-placeholder\.svg(?:$|[?#])/i.test(src)&&/^Illustration à venir$/i.test(rawCaption.trim())?'':rawCaption;
   return `<figure class="editor-media-preview" data-editor-preview="media"><img src="${esc(src)}" alt="${esc(alt)}">${caption?`<figcaption>${esc(caption)}</figcaption>`:''}</figure>`;
 }
 function renderPreview(article,{draft,committed,conflicts}={}){
@@ -194,11 +195,12 @@ function pnjFieldsHtml(p={}){
   return `<fieldset class="editor-fieldset"><legend>Fiche structurée du personnage</legend><div class="editor-grid"><label>Âge<input name="pnj_age" value="${esc(p.age||'')}"></label><label>Origine<input name="pnj_origine" value="${esc(p.origine||'')}"></label><label>Statut<input name="pnj_statut" value="${esc(p.statut||'')}"></label><label>Nom / identité de Vérité<input name="pnj_nom_verite" value="${esc(p.nom_verite||'')}"></label><label>Race / nature réelle<input name="pnj_race" value="${esc(p.race||'')}"></label><label>Statut de Vérité<input name="pnj_statut_verite" value="${esc(p.statut_verite||'')}"></label><label class="wide">Relations — une par ligne<textarea name="pnj_relations" rows="4">${esc((p.relations||[]).join('\n'))}</textarea></label><label class="wide">Portrait — chemin ou URL<input name="pnj_portrait" value="${esc(p.portrait||'')}" placeholder="images/... ou https://..."></label><label>Texte alternatif<input name="pnj_portrait_alt" value="${esc(p.portrait_alt||'')}"></label><label>Légende<input name="pnj_portrait_caption" value="${esc(p.portrait_caption||'')}"></label></div></fieldset>`;
 }
 function mediaFieldsHtml(article){
-  const current=article.image??article.illustration;
+  const current=article.illustration??article.image;
   const type=Object.prototype.hasOwnProperty.call(article,'illustration')?'illustration':'image';
   const src=typeof current==='string'?current:current?.src||'';
   const alt=typeof current==='object'?current?.alt||'':'';
-  const caption=typeof current==='object'?current?.caption||'':'';
+  const rawCaption=typeof current==='object'?current?.caption||'':'';
+  const caption=!/equipment-placeholder\.svg(?:$|[?#])/i.test(src)&&/^Illustration à venir$/i.test(rawCaption.trim())?'':rawCaption;
   return `<fieldset class="editor-fieldset"><legend>Média de la page</legend><div class="editor-grid"><label>Type<select name="media_type"><option value="image" ${type==='image'?'selected':''}>Image</option><option value="illustration" ${type==='illustration'?'selected':''}>Illustration</option></select></label><label class="wide">Chemin ou URL<input name="media_src" value="${esc(src)}" placeholder="images/... ou https://..."></label><label>Texte alternatif<input name="media_alt" value="${esc(alt)}"></label><label>Légende<input name="media_caption" value="${esc(caption)}"></label></div></fieldset>`;
 }
 function buildDialog(article,data){
@@ -248,7 +250,8 @@ function editedFromDialog(dialog,article){
     if(src){
       const type=form.elements.media_type.value==='illustration'?'illustration':'image';
       const alt=form.elements.media_alt.value.trim();
-      const caption=form.elements.media_caption.value.trim();
+      const rawCaption=form.elements.media_caption.value.trim();
+      const caption=!/equipment-placeholder\.svg(?:$|[?#])/i.test(src)&&/^Illustration à venir$/i.test(rawCaption)?'':rawCaption;
       edited[type]=alt||caption?{src,...(alt?{alt}:{}),...(caption?{caption}:{})}:src;
     }
   }

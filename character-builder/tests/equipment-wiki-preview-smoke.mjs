@@ -67,5 +67,15 @@ try{
   if(!bossText.includes('capacité de munitions supérieure à la moyenne'))throw new Error(`Précision sur la capacité de munitions absente de la fiche Boss:\n${bossText.slice(0,2500)}`);
   if(bossText.includes('grande réserve'))throw new Error(`Formulation ambiguë « grande réserve » encore visible dans la fiche Boss.`);
 
-  console.log(`EQUIPMENT WIKI OK — 4 shotguns illustrés + fiche Boss directe avec image ${bossImageState.width}×${bossImageState.height}, taxonomie Shotguns et capacité de munitions explicite.`);
+  await page.goto(`${base}compendium/index.html#/article/equipement-012-seawares-hl-02-poseidon`,{waitUntil:'domcontentloaded',timeout:30000});
+  await page.waitForFunction(()=>document.querySelector('#main .page-head h1')?.textContent?.includes('SeaWares HL-02 Poseidon'),null,{timeout:30000});
+  const poseidonImage=page.locator('#main figure.article-media img').first();
+  await poseidonImage.waitFor({state:'visible',timeout:10000});
+  await page.waitForFunction(()=>{const img=document.querySelector('#main figure.article-media img');return !!img&&img.complete&&img.naturalWidth>0&&img.naturalHeight>0},null,{timeout:10000});
+  const poseidonState=await poseidonImage.evaluate(img=>({src:img.currentSrc||img.src,width:img.naturalWidth,height:img.naturalHeight}));
+  if(!poseidonState.src.includes('images/manual/equipement-012-seawares-hl-02-poseidon.webp')||poseidonState.src.includes('equipment-placeholder.svg'))throw new Error(`Poseidon utilise encore le placeholder: ${JSON.stringify(poseidonState)}`);
+  const poseidonCaption=(await page.locator('#main figure.article-media figcaption').allTextContents()).join(' ').trim();
+  if(/Illustration à venir/i.test(poseidonCaption))throw new Error(`Légende placeholder encore visible sur Poseidon: ${poseidonCaption}`);
+
+  console.log(`EQUIPMENT WIKI OK — Boss ${bossImageState.width}×${bossImageState.height} + Poseidon ${poseidonState.width}×${poseidonState.height} sans placeholder.`);
 }finally{await browser.close()}

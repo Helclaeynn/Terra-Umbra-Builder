@@ -171,10 +171,11 @@ function categoryDescription(c){return c==='Règles'?'Moteur commun, combat, san
 function pnjCompletenessLabel(v){return v==='detailed'?'BG détaillé':v==='mini_bg'?'Mini-BG':v==='stub'?'À compléter':'PNJ'}
 function pageMediaHtml(a){
   if(a.category==='Personnages'&&a.pnj)return'';
-  const media=manualArticleMedia(a.id)??a.image??a.illustration;if(!media)return'';
+  const media=a.illustration??manualArticleMedia(a.id)??a.image;if(!media)return'';
   const src=typeof media==='string'?media:media?.src;if(!src)return'';
   const alt=typeof media==='object'&&media.alt?media.alt:a.title;
-  const caption=typeof media==='object'?media.caption||'':'';
+  const rawCaption=typeof media==='object'?media.caption||'':'';
+  const caption=!/equipment-placeholder\.svg(?:$|[?#])/i.test(src)&&/^Illustration à venir$/i.test(rawCaption.trim())?'':rawCaption;
   return `<figure class="editor-media-preview article-media"><img src="${esc(src)}" alt="${esc(alt)}" loading="lazy">${caption?`<figcaption>${esc(caption)}</figcaption>`:''}</figure>`;
 }
 function pnjFactsHtml(a){
