@@ -19,6 +19,14 @@ try{
   await page.waitForTimeout(500);
   if(errors.length)throw new Error(errors.join(' | '));
   const report=await page.evaluate(()=>window.TUCBuilderSeptFixes.realityLoreAuditV1(.60));
+  const semantic=await page.evaluate(()=>{
+    const items=window.TUCBuilderSeptFixes.realityLoreEntries().items;
+    return Object.fromEntries(['Bi','Song-gos','Byron Luzette'].map(name=>[name,items.find(x=>x.name===name)?.lore||'']));
+  });
+  const plain=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+  if(!/pistolet mitrailleur/.test(plain(semantic.Bi)))throw new Error(`Reality lore semantic guard failed — Bi: ${semantic.Bi||'lore absent'}`);
+  if(!/perceuse/.test(plain(semantic['Song-gos']))||!/nord coreen/.test(plain(semantic['Song-gos'])))throw new Error(`Reality lore semantic guard failed — Song-gos: ${semantic['Song-gos']||'lore absent'}`);
+  if(!/byron 2035/.test(plain(semantic['Byron Luzette']))||!/smartlink/.test(plain(semantic['Byron Luzette'])))throw new Error(`Reality lore semantic guard failed — Byron Luzette: ${semantic['Byron Luzette']||'lore absent'}`);
   writeFileSync('/tmp/reality-lore-audit.json',JSON.stringify(report,null,2),'utf8');
   console.log(`Reality lore audit — talents=${report.counts.talents}, equipment=${report.counts.equipment}, augmentations=${report.counts.augmentations}`);
   console.log(`Meta — talents=${report.counts.talentMeta}, equipment=${report.counts.equipmentMeta}, augmentations=${report.counts.augmentationMeta}`);
