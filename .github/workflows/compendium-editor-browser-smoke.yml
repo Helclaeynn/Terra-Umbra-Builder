@@ -3,6 +3,7 @@ name: Compendium editor browser smoke
 on:
   push:
     branches:
+      - main
       - feature/tuc-compendium-editor
       - feature/tuc-compendium-inline-images
     paths:
