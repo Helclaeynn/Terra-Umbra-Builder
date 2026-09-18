@@ -147,5 +147,16 @@ export const WIKI_EXPLICIT_TARGETS = {
   'Méphisto': 'verite-lore-divinite-mephisto',
   'Mephisto': 'verite-lore-divinite-mephisto',
   'Morrighan': 'verite-lore-divinite-morrighan',
-  'Satan': 'verite-lore-divinite-satan'
+  'Satan': 'verite-lore-divinite-satan',
+  'Los Angeles': 'realite-lore-laus-securite',
+  'LAUS': 'realite-lore-laus-securite',
+  'Pègre': 'realite-lore-pegre',
+  'Crawlers': 'realite-lore-crawlers-underlife',
+  'Underlife': 'realite-lore-crawlers-underlife',
+  'Vladivostokskaïa': 'lore-pegre-vladivostokskaia',
+  'Neurodive': 'realite-016-1-principes-du-neurodive',
+  'Ombremonde': 'verite-023-l-ombremonde-le-reste-du-monde',
+  'GAAC': 'lore-extrals-groups-gaac'
 };
+
+export const WIKI_SEARCH_FALLBACKS=['Revenants','Katanja'];
