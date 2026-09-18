@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "updated": "2026-09-18",
+  "entries": [
+    {
+      "articleId": "verite-catalogue-008-owl-lc-014-chasseur",
+      "baseHash": "b2bbd7df050fa2b417f5f8d9533dfa53a3ebac20459b28603e55adfeeb688c01",
+      "updatedAt": "2026-09-18T10:26:19.498Z",
+      "note": "",
+      "operations": [
+        {
+          "op": "replace",
+          "path": "/illustration",
+          "value": {
+            "src": "images/manual/verite-catalogue-008-owl-lc-014-chasseur.webp",
+            "alt": "Illustration de Owl LC-014 « Chasseur »",
+            "caption": "Illustration à venir"
+          }
+        }
+      ]
+    }
+  ]
+}
