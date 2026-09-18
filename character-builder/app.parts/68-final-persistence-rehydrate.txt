@@ -2,12 +2,11 @@
 // The base app restores before late modules (Edge allocation, progression, campaign economy)
 // exist. Keep the untouched startup snapshot and replay it once every mergeState wrapper is
 // installed, then explicitly restore fields that did not exist during the early bootstrap.
-let finalStartupState=startupStoredState;
-try{
-  const liveStored=localStorage.getItem('tuc-character-builder-v1');
-  if(liveStored)finalStartupState=JSON.parse(liveStored);
-}catch(error){console.warn('Final live startup-state read',error)}
-if(finalStartupState&&typeof finalStartupState==='object'){
+let finalStartupState=startupStoredState&&typeof startupStoredState==='object'?structuredClone(startupStoredState):{};
+if(window.__TUC_FAST_IDENTITY__&&typeof window.__TUC_FAST_IDENTITY__==='object'){
+  finalStartupState.identity={...(finalStartupState.identity||{}),...structuredClone(window.__TUC_FAST_IDENTITY__)};
+}
+if(Object.keys(finalStartupState).length){
   try{
     const snapshot=structuredClone(finalStartupState);
     mergeState(snapshot);
