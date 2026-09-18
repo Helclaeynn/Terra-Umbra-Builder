@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "updated": "2026-09-18",
+  "entries": [
+    {
+      "articleId": "equipement-014-tala-th-029-tomahawk",
+      "baseHash": "a8152a40dacf92f161cbbe6467d1ef4d5b05100dff1c56ba49e9c9925b950970",
+      "updatedAt": "2026-09-18T11:06:57.707Z",
+      "note": "",
+      "operations": [
+        {
+          "op": "replace",
+          "path": "/sections",
+          "value": [
+            {
+              "id": "contexte",
+              "title": "Description et usage",
+              "level": 2,
+              "blocks": [
+                {
+                  "type": "p",
+                  "style": "lore",
+                  "text": "Le TH-029 Tomahawk de Tala assume une double identité d’arme de main et de jet. Sa conception robuste lui permet de rester utile après le lancer et de conserver une vraie fonction au contact, ce qui correspond bien à un outil que l’on emporte pour sa polyvalence plutôt que pour une seule séquence idéale."
+                },
+                {
+                  "type": "p",
+                  "style": "lore",
+                  "text": "Tala mise ici sur une forme culturelle immédiatement reconnaissable sans sacrifier la fabrication moderne. Le modèle attire les utilisateurs qui veulent un projectile récupérable et une arme de mêlée dans le même objet ; sa pénétration reste toutefois une propriété matérielle, non une permission d’ignorer n’importe quelle protection."
+                }
+              ]
+            },
+            {
+              "id": "proprietes",
+              "title": "Propriétés",
+              "level": 2,
+              "blocks": [
+                {
+                  "type": "table",
+                  "rows": [
+                    [
+                      "Catégorie",
+                      "Armes — Mêlée"
+                    ],
+                    [
+                      "Prix",
+                      "850"
+                    ],
+                    [
+                      "PriceMode",
+                      "exact"
+                    ],
+                    [
+                      "PriceLabel",
+                      "850 $"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "op": "replace",
+          "path": "/illustration",
+          "value": {
+            "src": "images/manual/equipement-014-tala-th-029-tomahawk.webp",
+            "alt": "Illustration de Tala TH-029 Tomahawk"
+          }
+        }
+      ]
+    }
+  ]
+}
