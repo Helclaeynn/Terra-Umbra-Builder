@@ -194,6 +194,74 @@
       ]
     },
     {
+      "articleId": "equipement-016-owl-lt-015-incapaciteur",
+      "baseHash": "f3079808b298ffbf183c083c06928782567dead1375f72a3101ec817c604eb02",
+      "updatedAt": "2026-09-18T10:28:35.904Z",
+      "note": "",
+      "operations": [
+        {
+          "op": "replace",
+          "path": "/sections",
+          "value": [
+            {
+              "id": "contexte",
+              "title": "Description et usage",
+              "level": 2,
+              "blocks": [
+                {
+                  "type": "p",
+                  "style": "lore",
+                  "text": "Le LT-015 Incapaciteur représente l’approche Owl de la neutralisation compacte : une arme électrique assez petite pour accompagner un agent, un vigile ou un civil autorisé sans donner l’impression de porter un pistolet lourd. La réserve relativement confortable favorise un usage répété plutôt qu’un unique choc de dernier recours."
+                },
+                {
+                  "type": "p",
+                  "style": "lore",
+                  "text": "Son rôle social est important : l’Incapaciteur existe pour les situations où l’on veut arrêter, repousser ou maîtriser avant de tuer. La décharge reste pourtant une attaque réelle, sensible aux protections et à la physiologie ; l’étiquette de neutralisation ne garantit jamais une intervention sans risque."
+                }
+              ]
+            },
+            {
+              "id": "proprietes",
+              "title": "Propriétés",
+              "level": 2,
+              "blocks": [
+                {
+                  "type": "table",
+                  "rows": [
+                    [
+                      "Catégorie",
+                      "Armes — Poing & Tasers"
+                    ],
+                    [
+                      "Prix",
+                      "250"
+                    ],
+                    [
+                      "PriceMode",
+                      "exact"
+                    ],
+                    [
+                      "PriceLabel",
+                      "250 $"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "op": "replace",
+          "path": "/illustration",
+          "value": {
+            "src": "images/manual/equipement-016-owl-lt-015-incapaciteur.webp",
+            "alt": "Illustration de Owl LT-015 Incapaciteur",
+            "caption": "Illustration à venir"
+          }
+        }
+      ]
+    },
+    {
       "articleId": "equipement-017-raven-ht-014-immobilisateur",
       "baseHash": "64fb28c91ddf158aa33317450e558ca4fbe7dbfad71f303073638f9a5b06023c",
       "updatedAt": "2026-09-18T10:28:00.124Z",
