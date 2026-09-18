@@ -61,6 +61,18 @@ try{
   const navText=await page.locator('#stepNav').innerText();
   for(const expected of ['Vérité','Équipement','Dépense XP & PTV'])if(!navText.includes(expected))throw new Error(`Étape absente: ${expected}`);
 
+  await nav('Équipement');
+  const categorySelect=page.locator('#stepContent .r34-tools select').first();
+  await categorySelect.waitFor({state:'visible',timeout:10000});
+  const visibleEquipmentCategories=await categorySelect.locator('option').allTextContents();
+  for(const expected of ['Armement — Shotguns','Armement — Fusils de précision','Armement — Fusils d’assaut','Armement — Pistolets lourds'])if(!visibleEquipmentCategories.includes(expected))throw new Error(`Famille absente du menu Équipement visible: ${expected} · ${JSON.stringify(visibleEquipmentCategories)}`);
+  for(const forbidden of ['Armes — Précision','Armes — Automatiques','Armes — Lourdes'])if(visibleEquipmentCategories.includes(forbidden))throw new Error(`Ancienne famille encore visible dans l'achat d'équipement: ${forbidden}`);
+  await categorySelect.selectOption({label:'Armement — Shotguns'});
+  await page.waitForTimeout(120);
+  const shotgunCards=await page.locator('#stepContent .catalog-card').filter({hasText:/SG-|Croaker|Fire Rain|Riot Control|Boss/}).allTextContents();
+  for(const name of ['Raven SG-025 Riot Control','Raven SG-039 Croaker','Owl SG-016 Boss','Phoenix SG-042 Fire Rain'])if(!shotgunCards.some(text=>text.includes(name)))throw new Error(`Shotgun absent de la famille visible: ${name} · ${JSON.stringify(shotgunCards)}`);
+
+
   // Gouvernementale > Formation publique: real Esprit selector including Savoirs.
   await nav('Origine');
   let originCard=page.locator('#stepContent .p25-choice-card').filter({hasText:'Gouvernementale'}).first();
