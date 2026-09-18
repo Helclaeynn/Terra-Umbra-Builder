@@ -98,6 +98,7 @@ jobs:
           node --check compendium/tests/wiki-links-check.mjs
           node --check compendium/tests/wiki-context-audit.mjs
           node --check compendium/tests/global-lore-wiki-audit.mjs
+          node --check compendium/tests/wiki-context-review.mjs
       - name: Validate editor override engine
         run: |
           node compendium/tests/editor-overrides-check.mjs
@@ -125,6 +126,15 @@ jobs:
           node compendium/tests/wiki-links-check.mjs
           node compendium/tests/wiki-context-audit.mjs
           node compendium/tests/global-lore-wiki-audit.mjs
+          node compendium/tests/wiki-context-review.mjs
+      - name: Upload wiki context review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wiki-context-review
+          path: /tmp/tuc-wiki-context-review.json
+          if-no-files-found: ignore
+          retention-days: 1
       - name: Upload global lore/wiki audit
         if: always()
         uses: actions/upload-artifact@v4
