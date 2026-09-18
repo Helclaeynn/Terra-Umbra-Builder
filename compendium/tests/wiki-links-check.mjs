@@ -2,9 +2,10 @@ import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import {createWikiLinker} from '../wiki-links.js';
 import {PLAYER_START,WIKI_EXPLICIT_TARGETS} from '../onboarding-data.js';
+import {GUIDE_NAVIGATION} from '../guide-articles.js';
 
 const navigation=JSON.parse(fs.readFileSync(new URL('../data/navigation-v1.json',import.meta.url),'utf8'));
-const entries=Array.isArray(navigation)?navigation:(navigation.entries||[]);
+const entries=[...(Array.isArray(navigation)?navigation:(navigation.entries||[])),...GUIDE_NAVIGATION];
 const ids=new Set(entries.map(entry=>entry.id));
 
 const requiredIds=[
