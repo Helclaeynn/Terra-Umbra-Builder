@@ -1,6 +1,7 @@
 import {applyCommittedOverridesToMap} from './editor/native-overrides.js';
 import {createWikiLinker} from './wiki-links.js';
 import {PLAYER_START,WIKI_EXPLICIT_TARGETS,WIKI_SEARCH_FALLBACKS} from './onboarding-data.js';
+import {manualArticleMedia} from './manual-media.js';
 
 const $=s=>document.querySelector(s);
 const main=$('#main'),toc=$('#tocBox'),nav=$('#mainNav'),searchInput=$('#searchInput');
@@ -109,7 +110,7 @@ function categoryDescription(c){return c==='Règles'?'Moteur commun, combat, san
 function pnjCompletenessLabel(v){return v==='detailed'?'BG détaillé':v==='mini_bg'?'Mini-BG':v==='stub'?'À compléter':'PNJ'}
 function pageMediaHtml(a){
   if(a.category==='Personnages'&&a.pnj)return'';
-  const media=a.image??a.illustration;if(!media)return'';
+  const media=manualArticleMedia(a.id)??a.image??a.illustration;if(!media)return'';
   const src=typeof media==='string'?media:media?.src;if(!src)return'';
   const alt=typeof media==='object'&&media.alt?media.alt:a.title;
   const caption=typeof media==='object'?media.caption||'':'';
