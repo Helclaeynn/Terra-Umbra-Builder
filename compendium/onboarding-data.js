@@ -117,6 +117,8 @@ export const WIKI_EXPLICIT_TARGETS = {
   'Entrer dans la Vérité': 'guide-verite-nouveau-joueur',
   'se révéler à la Vérité': 'verite-007-se-reveler-n-est-pas-s-eveiller',
   'Se révéler': 'verite-007-se-reveler-n-est-pas-s-eveiller',
+  'Éveil': 'verite-007-se-reveler-n-est-pas-s-eveiller',
+  'Voir sous le Voile': 'verite-019-voir-n-est-pas-reveler',
   'Voilé': 'verite-006-voile-semi-revele-revele',
   'Semi-Révélé': 'verite-006-voile-semi-revele-revele',
   'Semi-Révélée': 'verite-006-voile-semi-revele-revele',
