@@ -216,4 +216,4 @@ export const WIKI_EXPLICIT_TARGETS = {
 export const WIKI_SEARCH_FALLBACKS=['Revenants','Katanja'];
 
 export const WIKI_STRICT_SURFACE_ALIASES=['Réalité','Vérité','Voilé','Semi-Révélé','Semi-Révélée','Révélé','Révélée','Semi-Révélation','Révélation','Corruption'];
-export const WIKI_CASE_SENSITIVE_ALIASES=['Réalité','Vérité','Voile','Hologramme','Voilé','Semi-Révélé','Semi-Révélée','Révélé','Révélée','Semi-Révélation','Révélation','Corruption','Chasseur','Chasseurs','Fléau','Fléaux'];
+export const WIKI_CASE_SENSITIVE_ALIASES=['Réalité','Vérité','Voile','Hologramme','Voilé','Semi-Révélé','Semi-Révélée','Révélé','Révélée','Semi-Révélation','Révélation','Éveil','Corruption','Chasseur','Chasseurs','Fléau','Fléaux'];
