@@ -37,9 +37,30 @@ function normalizeExistingNavigation(page,nav){
   return nav;
 }
 
+const LEGACY_WEAPON_SUBGROUPS=new Map([
+  ['black arrow',['Arcs, arbalètes & harpons',25]],['nextar championship',['Arcs, arbalètes & harpons',25]],['byron tethyssette',['Arcs, arbalètes & harpons',25]],
+  ['raven ravenegg',['Grenades & explosifs',112]],['phoenix inferno',['Grenades & explosifs',112]],['owl dripper',['Grenades & explosifs',112]],['phoenix helios ii',['Grenades & explosifs',112]],['owl superchoc',['Grenades & explosifs',112]],['biosun frog egg',['Grenades & explosifs',112]],['byron pokeball',['Grenades & explosifs',112]],['jagi',['Grenades & explosifs',112]],['shadow gift',['Grenades & explosifs',112]],
+  ['owl vending machine',['Lance-grenades',118]],['raven bomberman',['Lance-grenades',118]],['phoenix easter bunny',['Lance-grenades',118]],
+  ['phoenix king fist',['Armes de contact & outils',15]],['byron ginette',['Armes de contact & outils',15]],['mary antoinette',['Armes de contact & outils',15]],['pierrette',['Armes de contact & outils',15]],['byron melinette',['Armes de contact & outils',15]],['stretchy',['Armes de contact & outils',15]],
+  ['sunways hornetouch',['Armes de contact hypodermiques',18]],['biosun blastard injector',['Armes de contact hypodermiques',18]],
+  ['sal in',['Fusils d’assaut',90]],['morissette',['Fusils d’assaut',90]],['biosun aciditicteeth',['Fusils d’assaut',90]],['tortoise blastard',['Fusils d’assaut',90]],
+  ['song gos',['Fusils de précision',100]],['byron luzette',['Fusils de précision',100]],['abraham kennedy',['Fusils de précision',100]],['raven sehdia hellrails',['Fusils de précision',100]],
+  ['biosun pandemic',['Fusils hypodermiques',105]],['sunways savior dgr',['Fusils hypodermiques',105]],
+  ['disease',['Pistolets hypodermiques',65]],['raven sunways savior dg',['Pistolets hypodermiques',65]],['raven painkiller',['Pistolets hypodermiques',65]],
+  ['phoenix redcrush',['Lanceurs hypodermiques & chimiques',145]],
+  ['bi',['Pistolets-mitrailleurs (PM)',70]],['sfu nebullar',['Pistolets-mitrailleurs (PM)',70]],['monarch surge',['Pistolets-mitrailleurs (PM)',70]],
+  ['bibal',['SMG',80]],['byron florette',['SMG',80]],
+  ['owl apex',['Pistolets lourds',60]],['jotkka',['Pistolets lourds',60]],['raven sehdia pacificateur x',['Pistolets lourds',60]],
+  ['byron jeanette',['Pistolets légers',50]],['eolgul e',['Pistolets de poche',40]],['phoenix sunnyroshima',['Pistolets de poche',40]],
+  ['reminiscer prototype',['Pistolets prototypes',62]],['oblivion prototype',['Pistolets prototypes',62]],['zeus prototype',['Pistolets prototypes',62]],['dracula prototype',['Pistolets prototypes',62]],['phoenix vader prototype',['Pistolets prototypes',62]],
+  ['flak cannon prototype',['Armes lourdes prototypes',125]],['armcannon prototype',['Armes lourdes prototypes',125]],
+  ['sheer blueshell a prototype',['Drones d’assaut & armes autonomes',135]],['charm prototype',['Dispositifs expérimentaux',165]],
+  ['raven sehdia railway to hell prototype',['Anti-matériel & fortifications',150]]
+]);
 function classifyEquipment(page){
   const category=String(page?.catalog?.category||(page?.tags||[])[2]||'').trim();
   const n=norm(category),order=numericIdOrder(page),weaponClass=norm(page?.catalog?.weaponClass||''),weaponRole=norm(page?.catalog?.weaponRole||''),title=norm(page?.title||'');
+  const legacy=LEGACY_WEAPON_SUBGROUPS.get(title);if(legacy)return result('Armement',10,legacy[0],legacy[1],order);
   if(n==='armes melee'){
     if(/trait|jet/.test(weaponClass))return result('Armement',10,'Armes de jet & trait',20,order);
     return result('Armement',10,'Armes de mêlée',10,order);
