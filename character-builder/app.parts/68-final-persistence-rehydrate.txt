@@ -29,3 +29,4 @@ if(startupStoredState&&typeof startupStoredState==='object'){
   }catch(error){console.warn('Final startup-state rehydration',error)}
 }
 render();
+window.__TUC_LATE_STATE_READY__=true;
