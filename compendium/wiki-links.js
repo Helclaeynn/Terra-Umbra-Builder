@@ -39,7 +39,8 @@ const GENERIC_SINGLE=new Set([
   'principes','principe','territoire','territoires','gouvernement','administration','corporation','corps',
   'identite','information','informations','securite','doctrine','tradition','traditions','equipement',
   'arme','armes','talent','talents','nature','natures','origine','origines','pouvoir','pouvoirs','groupe',
-  'groupes','faction','factions','communaute','communautes','monde','lieu','lieux','regle','regles'
+  'groupes','faction','factions','communaute','communautes','monde','lieu','lieux','regle','regles',
+  'terre','commission','gang','gangs','motard','motards','insurge','insurges'
 ]);
 export const WIKI_GENERIC_SINGLE=GENERIC_SINGLE;
 
@@ -55,6 +56,35 @@ function allowedGeneratedAlias(alias,article){
 function contextText(article){
   return normalizeToken(`${article?.category||''} ${article?.group||''} ${article?.subgroup||''} ${article?.title||''}`);
 }
+function materialContext(raw=''){
+  return /\b(prix|acheter|achat|equipement|arme|armure|implant|augmentation|vehicule|materiel|catalogue|cout|dollar|compte|munition|munitions|chargeur|attaque|dgt|portee|rafale|automatique|smartlink)\b/.test(normalizeToken(raw));
+}
+function truthCorruptionContext(raw='',current=null){
+  const text=normalizeToken(`${raw} ${current?.title||''} ${current?.group||''} ${current?.subgroup||''}`);
+  return /\b(verite|fleau|fleaux|souillure|source|sources|rupture|occulte|surnaturel|calamitechnologie|daemon|vampire|garou|mage|neant|hologramme|voile)\b/.test(text);
+}
+function reserveContext(raw='',matchedRaw='',current=null){
+  const exact=/\b(?:La |la )?Grande R[ÉE]serve\b/u.test(String(matchedRaw||''));
+  if(exact)return true;
+  const text=normalizeToken(`${raw} ${current?.title||''} ${current?.group||''} ${current?.subgroup||''}`);
+  return /\b(amerind|amerindien|amerindiens|native|natives|tokala|tala|nation|nations|indienne|indien|indiens|territoire|territoires|californie)\b/.test(text);
+}
+function generatedCandidateAllowed(candidate,raw,current,matchedRaw=''){
+  const c=candidate?.article||{};
+  if(candidate?.id==='lore-pegre-la-famille'&&surfaceKeyCase(matchedRaw)!=='La Famille')return false;
+  if(candidate?.id==='lore-gouvernement-grande-reserve'&&!reserveContext(raw,matchedRaw,current))return false;
+  if(c.category==='Équipement & Objets'&&current?.category&&current.category!=='Équipement & Objets'){
+    const exactNamed=surfaceKeyCase(candidate.alias)===surfaceKeyCase(matchedRaw)&&/^[A-ZÀ-ÖØ-Þ0-9]/u.test(String(matchedRaw||''));
+    const bestiaryStat=current.category==='Bestiaire'&&/\b(attaque|dgt|portee|armure|anti emp)\b/.test(normalizeToken(raw));
+    if(!materialContext(raw)&&!exactNamed&&!bestiaryStat)return false;
+  }
+  if(c.category==='Bestiaire'&&current?.category&&current.category!=='Bestiaire'&&candidate.tokenCount>1){
+    const surface=String(matchedRaw||'');
+    if(surface===surface.toLocaleLowerCase('fr'))return false;
+  }
+  return true;
+}
+
 function candidateScore(candidate,raw,current){
   let score=Number(candidate.priority||0);
   if(candidate.explicit)score+=10000;
@@ -74,7 +104,7 @@ function candidateScore(candidate,raw,current){
   else if(dataset==='bestiaire')score-=12;
 
   const sentence=normalizeToken(raw);
-  const material=/\b(prix|acheter|achat|equipement|arme|armure|implant|augmentation|vehicule|materiel|catalogue|cout|dollar|compte)\b/.test(sentence);
+  const material=materialContext(raw);
   const rules=/\b(regle|test|jet|talent|cout|ptv|xp|bonus|malus|degat|defense|attribut|competence)\b/.test(sentence);
   const lore=/\b(histoire|culture|peuple|societe|faction|tradition|temple|divinite|dieu|dieux|communaute|origine|descendant|lignage|lignee|reseau|relations)\b/.test(sentence);
   if(material){if(category==='Équipement & Objets')score+=85;if(dataset==='moteur')score+=12}
@@ -129,11 +159,13 @@ export function createWikiLinker(articles,{explicitTargets={},strictSurfaceAlias
     }
     if(explicit.length===1){
       const only=explicit[0];
-      if(only.id==='verite-056-20-corruption'&&/^(?:realite-|regles-realite-)/.test(String(current?.id||'')))return null;
+      if(only.id==='verite-056-20-corruption'&&!truthCorruptionContext(raw,current))return null;
       if(only.id==='verite-055-19-formation-et-doctrine-de-chasseur'&&surfaceKeyCase(matchedRaw)==='Chasseur'&&['equipement-011-owl-lc-014-chasseur','verite-catalogue-008-owl-lc-014-chasseur'].includes(String(current?.id||'')))return null;
       return only;
     }
-    const ranked=viable.map(candidate=>[candidateScore(candidate,raw,current),candidate]).sort((a,b)=>b[0]-a[0]||String(a[1].title).localeCompare(String(b[1].title),'fr'));
+    const contextual=viable.filter(candidate=>generatedCandidateAllowed(candidate,raw,current,matchedRaw));
+    if(!contextual.length)return null;
+    const ranked=contextual.map(candidate=>[candidateScore(candidate,raw,current),candidate]).sort((a,b)=>b[0]-a[0]||String(a[1].title).localeCompare(String(b[1].title),'fr'));
     if(ranked.length>1&&Math.abs(ranked[0][0]-ranked[1][0])<4&&ranked[0][1].href!==ranked[1][1].href)return null;
     return ranked[0][1];
   }
