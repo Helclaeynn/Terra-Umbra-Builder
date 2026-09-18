@@ -86,7 +86,8 @@ function candidateScore(candidate,raw,current){
   return score;
 }
 
-export function createWikiLinker(articles,{explicitTargets={},searchFallbacks=[],hrefForId=id=>`#/article/${encodeURIComponent(id)}`,searchHref=alias=>`#/search?q=${encodeURIComponent(alias)}`}={}){
+export function createWikiLinker(articles,{explicitTargets={},strictSurfaceAliases=[],searchFallbacks=[],hrefForId=id=>`#/article/${encodeURIComponent(id)}`,searchHref=alias=>`#/search?q=${encodeURIComponent(alias)}`}={}){
+  const strictSurfaces=new Set((strictSurfaceAliases||[]).map(surfaceKey));
   const articleById=new Map((articles||[]).map(article=>[article.id,article]));
   const aliases=new Map();let maxTokens=1;
 
@@ -107,7 +108,7 @@ export function createWikiLinker(articles,{explicitTargets={},searchFallbacks=[]
   }
   for(const [alias,id] of Object.entries(explicitTargets||{})){
     const article=articleById.get(id);if(!article)continue;
-    offer(alias,{id,href:hrefForId(id),title:article.title,article},1000,{explicit:true,kind:'explicit'});
+    offer(alias,{id,href:hrefForId(id),title:article.title,article},1000,{explicit:true,kind:'explicit',strictSurface:strictSurfaces.has(surfaceKey(alias))});
   }
   for(const alias of searchFallbacks||[])offer(alias,{href:searchHref(alias),title:`Rechercher : ${alias}`},20,{search:true,kind:'search'});
 
@@ -119,7 +120,7 @@ export function createWikiLinker(articles,{explicitTargets={},searchFallbacks=[]
       const exact=explicit.filter(x=>surfaceKey(x.alias)===surfaceKey(matchedRaw));
       if(exact.length===1)return exact[0];
     }
-    if(explicit.length===1)return explicit[0];
+    if(explicit.length===1){const only=explicit[0];if(only.strictSurface&&surfaceKey(only.alias)!==surfaceKey(matchedRaw))return null;return only;}
     const ranked=viable.map(candidate=>[candidateScore(candidate,raw,current),candidate]).sort((a,b)=>b[0]-a[0]||String(a[1].title).localeCompare(String(b[1].title),'fr'));
     if(ranked.length>1&&Math.abs(ranked[0][0]-ranked[1][0])<4&&ranked[0][1].href!==ranked[1][1].href)return null;
     return ranked[0][1];
