@@ -36,6 +36,11 @@ async function seedOwnerAuth(){
 }
 
 try{
+  const publisherSource=await (await page.request.get(`${base}compendium/github-owner-editor.js`)).text();
+  for(const marker of ['mergedAggregateEntry','compendium/data/manual-overrides.json?ref=','Publier tous sur main','publié et synchronisé']){
+    if(!publisherSource.includes(marker))throw new Error(`Publication atomique absente du runtime éditeur: ${marker}`);
+  }
+
   const target=`${base}compendium/#/category/${encodeURIComponent('Personnages')}`;
   await page.goto(target,{waitUntil:'domcontentloaded',timeout:30000});
   let firstCard=page.locator('.article-card').first();
