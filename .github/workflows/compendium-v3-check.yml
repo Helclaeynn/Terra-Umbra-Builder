@@ -94,7 +94,8 @@ jobs:
           node --check compendium/tests/catalog-runtime-browser-smoke.mjs
           node --check compendium/tests/truth-catalog-pages-check.mjs
           node --check compendium/tests/truth-catalog-runtime-browser-smoke.mjs
-          node --check compendium/tests/wiki-links-check.mjs\n          node --check compendium/tests/wiki-context-audit.mjs
+          node --check compendium/tests/wiki-links-check.mjs
+          node --check compendium/tests/wiki-context-audit.mjs
       - name: Validate editor override engine
         run: |
           node compendium/tests/editor-overrides-check.mjs
@@ -119,7 +120,8 @@ jobs:
           node compendium/tests/catalog-pages-check.mjs
           node compendium/tests/reality-catalog-lore-quality-check.mjs
           node compendium/tests/truth-catalog-pages-check.mjs
-          node compendium/tests/wiki-links-check.mjs\n          node compendium/tests/wiki-context-audit.mjs
+          node compendium/tests/wiki-links-check.mjs
+          node compendium/tests/wiki-context-audit.mjs
       - name: Validate RawGitHack external delivery
         shell: bash
         env:
