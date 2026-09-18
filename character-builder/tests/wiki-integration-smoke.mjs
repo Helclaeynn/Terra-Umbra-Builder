@@ -35,9 +35,10 @@ try{
   await page.waitForSelector('#stepNav button',{timeout:30000});
   await page.locator('#stepNav button').filter({hasText:'Vérité'}).first().click();
   await page.waitForSelector('#stepContent',{timeout:10000});
-  const garouChoice=page.locator('#stepContent').getByText('Garou',{exact:true}).first();
+  const garouChoice=page.locator('#stepContent select:has(option[value="garou"])').first();
   await garouChoice.waitFor({state:'visible',timeout:10000});
-  await garouChoice.click();
+  await garouChoice.selectOption('garou');
+  await page.waitForTimeout(180);
   const khinae=page.locator('#stepContent a.builder-wiki-link[data-wiki-id]').filter({hasText:/Khinae/i}).first();
   await khinae.waitFor({state:'visible',timeout:15000});
   const href=await khinae.getAttribute('href');
