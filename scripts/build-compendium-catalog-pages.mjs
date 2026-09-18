@@ -205,7 +205,7 @@ function articleFor(item,index){
   return {
     id:`${prefix}-${String(index+1).padStart(3,'0')}-${slug(item.name)}`,title:displayTitle,category,status:'canon_recent',source:'Catalogue Réalité du Builder',tags:[...new Set(tags)],
     illustration:{src:item.kind==='augmentation'?'assets/augmentation-placeholder.svg':'assets/equipment-placeholder.svg',alt:`Illustration de ${displayTitle}`,caption:'Illustration à venir'},
-    catalog:{kind:item.kind,id:item.catalogId,category:item.category,generation:item.generation,price:item.price,sourceType:item.sourceType||null},
+    catalog:{kind:item.kind,id:item.catalogId,category:item.category,generation:item.generation,price:item.price,sourceType:item.sourceType||null,weaponClass:item.raw?.data?.Classe||item.raw?.data?.Type||null,weaponRole:item.raw?.data?.Role||null},
     sections:[
       {id:'contexte',title:'Dans la Grande Californie',level:2,blocks:[{type:'p',style:'lore',text:p1},{type:'p',style:'lore',text:p2}]},
       {id:'proprietes',title:'Propriétés',level:2,blocks:[{type:'table',rows:mechanicsRows(item)}]}
