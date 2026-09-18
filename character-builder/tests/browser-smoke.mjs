@@ -61,6 +61,12 @@ try{
   const navText=await page.locator('#stepNav').innerText();
   for(const expected of ['Vérité','Équipement','Dépense XP & PTV'])if(!navText.includes(expected))throw new Error(`Étape absente: ${expected}`);
 
+  await nav('Sphère & Style');
+  const corpoSphere=page.locator('#stepContent .p25-choice-card').filter({hasText:'Corporatiste'}).first();
+  await corpoSphere.waitFor({state:'visible',timeout:10000});await corpoSphere.click();await page.waitForTimeout(100);
+  const armaStyle=page.locator('#stepContent .p25-choice-card').filter({hasText:'Armacorpo'}).first();
+  await armaStyle.waitFor({state:'visible',timeout:10000});await armaStyle.click();await page.waitForTimeout(120);
+
   await nav('Équipement');
   const categorySelect=page.locator('#stepContent .r34-tools select').first();
   await categorySelect.waitFor({state:'visible',timeout:10000});
