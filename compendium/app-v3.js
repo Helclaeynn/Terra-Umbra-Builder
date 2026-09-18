@@ -174,7 +174,7 @@ function categoryDescription(c){return c==='Règles'?'Moteur commun, combat, san
 function pnjCompletenessLabel(v){return v==='detailed'?'BG détaillé':v==='mini_bg'?'Mini-BG':v==='stub'?'À compléter':'PNJ'}
 function pageMediaHtml(a){
   if(a.category==='Personnages'&&a.pnj)return'';
-  const media=a.illustration??manualArticleMedia(a.id)??a.image;if(!media)return'';
+  const editorialMedia=a.__editorialOverride?a.illustration:null;\n  const media=editorialMedia??manualArticleMedia(a.id)??a.illustration??a.image;if(!media)return'';
   const src=typeof media==='string'?media:media?.src;if(!src)return'';
   const alt=typeof media==='object'&&media.alt?media.alt:a.title;
   const rawCaption=typeof media==='object'?media.caption||'':'';
