@@ -217,22 +217,41 @@ async function inspectDraft(articleId,token){
 }
 function base64FromBytes(bytes){let out='';const step=0x8000;for(let i=0;i<bytes.length;i+=step)out+=String.fromCharCode(...bytes.subarray(i,i+step));return btoa(out);}
 async function createBlob(content,encoding,token){return githubApi(`/repos/${CONFIG.owner}/${CONFIG.repo}/git/blobs`,{method:'POST',token,body:{content,encoding}});}
-async function commitFiles(files,message,token,attempt=0){
-  const ref=await githubApi(`/repos/${CONFIG.owner}/${CONFIG.repo}/git/ref/heads/${encodeURIComponent(CONFIG.baseBranch)}`,{token});
-  const baseSha=ref.object.sha,commit=await githubApi(`/repos/${CONFIG.owner}/${CONFIG.repo}/git/commits/${baseSha}`,{token});
+function isRefRace(error){
+  const message=String(error?.message||'').toLowerCase();
+  return [409,422].includes(Number(error?.status))||message.includes('not a fast forward')||message.includes('reference update failed')||message.includes('failed to update ref');
+}
+async function prepareCommitTree(files,token){
+  const unique=new Map();
+  for(const file of files)unique.set(file.path,file);
   const tree=[];
-  for(const file of files){
+  for(const file of unique.values()){
     let blob;
-    if(file.blob){blob=await createBlob(base64FromBytes(new Uint8Array(await file.blob.arrayBuffer())),'base64',token);}
+    if(file.blob)blob=await createBlob(base64FromBytes(new Uint8Array(await file.blob.arrayBuffer())),'base64',token);
     else blob=await createBlob(file.text,'utf-8',token);
     tree.push({path:file.path,mode:'100644',type:'blob',sha:blob.sha});
   }
+  return tree;
+}
+async function commitPreparedTree(tree,message,token,attempt=0){
+  const ref=await githubApi(`/repos/${CONFIG.owner}/${CONFIG.repo}/git/ref/heads/${encodeURIComponent(CONFIG.baseBranch)}`,{token});
+  const baseSha=ref.object.sha,commit=await githubApi(`/repos/${CONFIG.owner}/${CONFIG.repo}/git/commits/${baseSha}`,{token});
   const nextTree=await githubApi(`/repos/${CONFIG.owner}/${CONFIG.repo}/git/trees`,{method:'POST',token,body:{base_tree:commit.tree.sha,tree}});
   const nextCommit=await githubApi(`/repos/${CONFIG.owner}/${CONFIG.repo}/git/commits`,{method:'POST',token,body:{message,tree:nextTree.sha,parents:[baseSha]}});
   try{
     await githubApi(`/repos/${CONFIG.owner}/${CONFIG.repo}/git/refs/heads/${encodeURIComponent(CONFIG.baseBranch)}`,{method:'PATCH',token,body:{sha:nextCommit.sha,force:false}});
     return nextCommit;
-  }catch(error){if(error.status===422&&attempt<2)return commitFiles(files,message,token,attempt+1);throw error;}
+  }catch(error){
+    if(isRefRace(error)&&attempt<7){
+      await sleep(Math.min(2400,250*(attempt+1)));
+      return commitPreparedTree(tree,message,token,attempt+1);
+    }
+    throw error;
+  }
+}
+async function commitFiles(files,message,token){
+  const tree=await prepareCommitTree(files,token);
+  return commitPreparedTree(tree,message,token);
 }
 async function publishDraft(articleId){
   const token=await ensureFreshAuth(),item=await inspectDraft(articleId,token),title=item.effective.title||item.raw.title||articleId;
@@ -246,7 +265,61 @@ async function publishDraft(articleId){
   waitForAggregate(articleId,item.draft,token).catch(error=>console.warn('Synchronisation éditoriale encore en attente',error));
   return result;
 }
+async function publishAllDrafts(){
+  const token=await ensureFreshAuth(),draftMap=readDrafts(),ids=Object.keys(draftMap);
+  if(!ids.length)throw new Error('Aucun brouillon à publier.');
+  const items=[];
+  for(const id of ids){
+    try{items.push(await inspectDraft(id,token));}
+    catch(error){throw new Error(`${id} — ${error.message}`);}
+  }
+  const mediaByPath=new Map(),files=[],operations=items.reduce((sum,item)=>sum+(item.draft.operations?.length||0),0);
+  for(const item of items){
+    const payload={version:1,updated:new Date().toISOString().slice(0,10),entries:[item.draft]};
+    files.push({path:overrideRepoPath(item.draft.articleId),text:JSON.stringify(payload,null,2)+'\n'});
+    for(const media of item.media||[]){
+      const repoPath=`compendium/${String(media.path).replace(/^compendium\//,'')}`;
+      if(!mediaByPath.has(repoPath))mediaByPath.set(repoPath,media.item.blob);
+    }
+  }
+  for(const [path,blob] of mediaByPath)files.push({path,blob});
+  if(!confirm(`Publier tous les brouillons directement sur main ?\n\nPages : ${items.length}\nOpérations : ${operations}\nMédias : ${mediaByPath.size}\n\nUn seul commit sera créé sur main, puis l’agrégateur synchronisera les overrides.`))return null;
+  const result=await commitFiles(files,`edit(compendium): publish ${items.length} drafts`,token);
+  const publications=readPublications(),publishedAt=new Date().toISOString();
+  for(const item of items){
+    const id=item.draft.articleId,title=item.effective.title||item.raw.title||id;
+    publications[id]={commitSha:result.sha,title,publishedAt,entryUpdatedAt:item.draft.updatedAt};
+  }
+  writePublications(publications);
+  waitForAggregateBatch(items,token).catch(error=>console.warn('Synchronisation éditoriale groupée encore en attente',error));
+  return {commit:result,items,media:mediaByPath.size,operations};
+}
 function decodeBase64Utf8(value){const bin=atob(String(value||'').replace(/\s+/g,'')),bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));return new TextDecoder().decode(bytes);}
+function aggregateHasDraft(payload,draft){
+  const entry=(payload.entries||[]).find(row=>row.articleId===draft.articleId);
+  return Boolean(entry&&entry.baseHash===draft.baseHash&&JSON.stringify(entry.operations)===JSON.stringify(draft.operations));
+}
+async function waitForAggregateBatch(items,token){
+  const pending=new Map(items.map(item=>[item.draft.articleId,item.draft]));
+  for(let attempt=0;attempt<36&&pending.size;attempt++){
+    await sleep(attempt?5000:2500);
+    const file=await githubApi(`/repos/${CONFIG.owner}/${CONFIG.repo}/contents/compendium/data/manual-overrides.json?ref=${encodeURIComponent(CONFIG.baseBranch)}`,{token});
+    if(!file?.content)continue;
+    try{
+      const payload=JSON.parse(decodeBase64Utf8(file.content));
+      for(const [id,draft] of pending)if(aggregateHasDraft(payload,draft))pending.delete(id);
+      if(!pending.size){
+        const drafts=readDrafts(),pubs=readPublications(),now=new Date().toISOString();
+        for(const item of items){
+          delete drafts[item.draft.articleId];
+          if(pubs[item.draft.articleId])pubs[item.draft.articleId].synchronizedAt=now;
+        }
+        writeDrafts(drafts);writePublications(pubs);return true;
+      }
+    }catch{}
+  }
+  return false;
+}
 async function waitForAggregate(articleId,draft,token){
   for(let attempt=0;attempt<36;attempt++){
     await sleep(attempt?5000:2500);
@@ -263,8 +336,32 @@ async function waitForAggregate(articleId,draft,token){
   return false;
 }
 
+function enhanceDraftManager(root=document){
+  if(authState.status!=='authorized')return;
+  const scopes=[];
+  if(root instanceof Element&&root.matches?.('.editor-draft-actions'))scopes.push(root);
+  scopes.push(...(root.querySelectorAll?.('.editor-draft-actions')||[]));
+  for(const actions of scopes){
+    if(actions.querySelector('[data-tuc-publish-all-main]'))continue;
+    const button=document.createElement('button');button.type='button';button.className='editor-primary tuc-publish-all-main';button.dataset.tucPublishAllMain='1';
+    button.textContent=`Publier tous sur main (${Object.keys(readDrafts()).length})`;
+    const publication=actions.querySelector('[data-action="publication"]');
+    publication?.insertAdjacentElement('afterend',button);
+    button.addEventListener('click',async()=>{
+      const original=button.textContent;button.disabled=true;button.textContent='Publication groupée…';
+      try{
+        const result=await publishAllDrafts();
+        if(result){
+          button.textContent=`${result.items.length} brouillon(s) publié(s) ✓`;
+          const note=document.createElement('span');note.className='tuc-publish-state';note.textContent=`Commit ${result.commit.sha.slice(0,8)} · synchronisation automatique en cours`;actions.appendChild(note);
+        }else button.textContent=original;
+      }catch(error){alert(error.message);button.textContent=original;}finally{button.disabled=false;}
+    });
+  }
+}
 function enhanceDraftCards(root=document){
   if(authState.status!=='authorized')return;
+  enhanceDraftManager(root);
   for(const card of root.querySelectorAll?.('.editor-draft-card')||[]){
     if(card.querySelector('[data-tuc-publish-main]'))continue;
     const articleId=card.dataset.id;if(!articleId)continue;
@@ -278,9 +375,9 @@ function enhanceDraftCards(root=document){
     deleteButton?.insertAdjacentElement('beforebegin',button);
   }
 }
-const observer=new MutationObserver(records=>{for(const record of records)for(const node of record.addedNodes)if(node instanceof Element)enhanceDraftCards(node);});
+const observer=new MutationObserver(records=>{for(const record of records)for(const node of record.addedNodes)if(node instanceof Element){enhanceDraftManager(node);enhanceDraftCards(node);}});
 observer.observe(document.body,{childList:true,subtree:true});
-window.addEventListener('tuc:github-auth-changed',()=>enhanceDraftCards(document));
+window.addEventListener('tuc:github-auth-changed',()=>{enhanceDraftManager(document);enhanceDraftCards(document);});
 
 document.addEventListener('click',event=>{
   const edit=event.target.closest('#tucEditPage,#tucDraftsButton');
@@ -289,4 +386,4 @@ document.addEventListener('click',event=>{
 },true);
 
 ensureAuthButton();
-restoreAuth().then(()=>enhanceDraftCards(document)).catch(error=>{console.error(error);setAuthState('anonymous');});
+restoreAuth().then(()=>{enhanceDraftManager(document);enhanceDraftCards(document);}).catch(error=>{console.error(error);setAuthState('anonymous');});
