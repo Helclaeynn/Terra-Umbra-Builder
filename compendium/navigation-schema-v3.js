@@ -39,8 +39,35 @@ function normalizeExistingNavigation(page,nav){
 
 function classifyEquipment(page){
   const category=String(page?.catalog?.category||(page?.tags||[])[2]||'').trim();
-  const n=norm(category),order=numericIdOrder(page);
-  if(n.startsWith('armes '))return result('Armement',10,category.replace(/^Armes\s*[—–-]\s*/i,'')||'Armes',10,order);
+  const n=norm(category),order=numericIdOrder(page),weaponClass=norm(page?.catalog?.weaponClass||''),weaponRole=norm(page?.catalog?.weaponRole||''),title=norm(page?.title||'');
+  if(n==='armes melee'){
+    if(/trait|jet/.test(weaponClass))return result('Armement',10,'Armes de jet & trait',20,order);
+    return result('Armement',10,'Armes de mêlée',10,order);
+  }
+  if(n==='armes poing tasers'){
+    if(/taser/.test(weaponClass)||/\b(?:lt|ht) \d/.test(title))return result('Armement',10,'Tasers',30,order);
+    if(weaponClass==='poche'||/\bpp \d/.test(title))return result('Armement',10,'Pistolets de poche',40,order);
+    if(/pistolet leger/.test(weaponClass)||/\blp \d/.test(title))return result('Armement',10,'Pistolets légers',50,order);
+    if(/pistolet lourd/.test(weaponClass)||/\bhp \d/.test(title))return result('Armement',10,'Pistolets lourds',60,order);
+  }
+  if(n==='armes automatiques'){
+    if(weaponClass==='pm'||/\bmgp \d/.test(title))return result('Armement',10,'Pistolets-mitrailleurs (PM)',70,order);
+    if(weaponClass==='smg'||/\blmg \d/.test(title))return result('Armement',10,'SMG',80,order);
+    if(/assaut/.test(weaponClass)||/\bar \d/.test(title))return result('Armement',10,'Fusils d’assaut',90,order);
+  }
+  if(n==='armes precision'){
+    if(/shotgun/.test(weaponClass)||/\bsg \d/.test(title))return result('Armement',10,'Shotguns',110,order);
+    return result('Armement',10,'Fusils de précision',100,order);
+  }
+  if(n==='armes lourdes'){
+    if(/mitrailleuse|gatling/.test(weaponRole)||/bastion|hellstorm/.test(title))return result('Armement',10,'Mitrailleuses lourdes & Gatlings',120,order);
+    if(/neutralisation/.test(weaponRole)||/manticore/.test(title))return result('Armement',10,'Neutralisation lourde',130,order);
+    if(/lance grenades|lance roquette|missile/.test(weaponRole)||/doorbell|breacher|wasp/.test(title))return result('Armement',10,'Lanceurs & missiles',140,order);
+    if(/anti materiel|fortification/.test(weaponRole)||/wallbreaker/.test(title))return result('Armement',10,'Anti-matériel & fortifications',150,order);
+    if(/projecteur/.test(weaponRole)||/salamander|purifier/.test(title))return result('Armement',10,'Projecteurs lourds',160,order);
+    return result('Armement',10,'Armes lourdes',170,order);
+  }
+  if(n.startsWith('armes '))return result('Armement',10,category.replace(/^Armes\s*[—–-]\s*/i,'')||'Armes',180,order);
   if(n==="accessoires d armes")return result('Armement',10,"Accessoires d'armes",20,order);
   if(n==='munitions standard')return result('Munitions & consommables',20,'Munitions standard',10,order);
   if(n==='munitions speciales')return result('Munitions & consommables',20,'Munitions spéciales',20,order);
