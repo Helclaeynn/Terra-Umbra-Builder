@@ -1,6 +1,7 @@
 import {createWikiLinker} from '../compendium/wiki-links.js';
 import {WIKI_EXPLICIT_TARGETS,WIKI_SEARCH_FALLBACKS} from '../compendium/onboarding-data.js';
 import {manualArticleMedia} from '../compendium/manual-media.js';
+import {GUIDE_ARTICLES,GUIDE_NAVIGATION} from '../compendium/guide-articles.js';
 
 const COMPENDIUM='../compendium/';
 const MAX_PREVIEW_PARTS=24;
@@ -17,7 +18,10 @@ async function loadJson(url){
 }
 async function loadIndex(){
   [navigation,manifest]=await Promise.all([loadJson(COMPENDIUM+'data/navigation-v1.json'),loadJson(COMPENDIUM+'data/manifest-v3.json')]);
-  const entries=Array.isArray(navigation)?navigation:(navigation.entries||[]);
+  const baseEntries=Array.isArray(navigation)?navigation:(navigation.entries||[]);
+  const entries=[...baseEntries,...GUIDE_NAVIGATION];
+  navigation={...(Array.isArray(navigation)?{}:navigation),entries};
+  for(const article of GUIDE_ARTICLES)articleCache.set(article.id,structuredClone(article));
   for(const entry of entries){
     if(entry.category==='Équipement & Objets')equipmentByTitle.set(String(entry.displayTitle||entry.title||'').trim().toLocaleLowerCase('fr'),entry);
   }
