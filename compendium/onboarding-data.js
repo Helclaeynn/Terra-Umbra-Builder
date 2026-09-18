@@ -159,7 +159,9 @@ export const WIKI_EXPLICIT_TARGETS = {
   'Aër': 'verite-lore-aer-monde-et-heritages',
   'AIDH': 'lore-humans-galaxy-aidh',
   'Néant': 'verite-033-le-cycle-le-neant-et-ce-que-la-mort-revele',
-  'Cycle': 'verite-033-le-cycle-le-neant-et-ce-que-la-mort-revele',
+  'Cycle & Néant': 'verite-033-le-cycle-le-neant-et-ce-que-la-mort-revele',
+  'Cycle et Néant': 'verite-033-le-cycle-le-neant-et-ce-que-la-mort-revele',
+  'Cycle, le Néant': 'verite-033-le-cycle-le-neant-et-ce-que-la-mort-revele',
   'Magitech': 'verite-024-science-magie-et-technologie-sous-le-voile',
   'Calamitechnologie': 'verite-catalogue-229-equipement-corrompu-et-calamitechnologie-principes',
   'Ad’rak': 'verite-lore-adrak',
@@ -209,4 +211,5 @@ export const WIKI_EXPLICIT_TARGETS = {
 
 export const WIKI_SEARCH_FALLBACKS=['Revenants','Katanja'];
 
-export const WIKI_STRICT_SURFACE_ALIASES=['Voilé','Semi-Révélé','Semi-Révélée','Révélé','Révélée'];
+export const WIKI_STRICT_SURFACE_ALIASES=['Réalité','Vérité','Voilé','Semi-Révélé','Semi-Révélée','Révélé','Révélée','Semi-Révélation','Révélation','Corruption'];
+export const WIKI_CASE_SENSITIVE_ALIASES=['Réalité','Vérité','Voile','Hologramme','Voilé','Semi-Révélé','Semi-Révélée','Révélé','Révélée','Semi-Révélation','Révélation','Corruption','Chasseur','Chasseurs','Fléau','Fléaux'];
