@@ -1,13 +1,30 @@
 // Final persistence rehydration.
 // The base app restores before late modules (Edge allocation, progression, campaign economy)
 // exist. Keep the untouched startup snapshot and replay it once every mergeState wrapper is
-// installed, otherwise the early render() can overwrite localStorage without late fields.
+// installed, then explicitly restore fields that did not exist during the early bootstrap.
 if(startupStoredState&&typeof startupStoredState==='object'){
   try{
-    mergeState(structuredClone(startupStoredState));
+    const snapshot=structuredClone(startupStoredState);
+    mergeState(snapshot);
+
+    if(snapshot.edgeAttributes&&typeof snapshot.edgeAttributes==='object')state.edgeAttributes=structuredClone(snapshot.edgeAttributes);
+    else if(snapshot.attributesEdge&&typeof snapshot.attributesEdge==='object')state.edgeAttributes=structuredClone(snapshot.attributesEdge);
     if(typeof uxEnsureEdgeAttributes==='function')uxEnsureEdgeAttributes();
+
+    if(snapshot.skills&&typeof snapshot.skills==='object'){
+      for(const skill of ruleset.skills){
+        if(snapshot.skills[skill.id]&&Object.prototype.hasOwnProperty.call(snapshot.skills[skill.id],'edge')){
+          state.skills[skill.id].edge=Math.max(0,Number(snapshot.skills[skill.id].edge)||0);
+        }
+      }
+    }
+
+    if(snapshot.progression&&typeof snapshot.progression==='object')state.progression=structuredClone(snapshot.progression);
     if(typeof p43EnsureProgression==='function')p43EnsureProgression();
+
+    if(snapshot.talentChoices&&typeof snapshot.talentChoices==='object')state.talentChoices=structuredClone(snapshot.talentChoices);
     if(typeof p45EnsureTalentChoices==='function')p45EnsureTalentChoices();
+
     persist();
   }catch(error){console.warn('Final startup-state rehydration',error)}
 }
