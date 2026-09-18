@@ -9,6 +9,7 @@ const main=$('#main'),toc=$('#tocBox'),nav=$('#mainNav'),searchInput=$('#searchI
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const norm=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
 const CATEGORY_ORDER=['Règles','Réalité','Vérité','Équipement & Objets','Personnages','Bestiaire'];
+const ARTICLE_TITLE_FIXES={'regles-verite-angelus-sephirah-nesah-la-victoire':'Nesah — La Victoire'};
 if('scrollRestoration' in history)history.scrollRestoration='manual';
 
 let manifest=null;
@@ -80,6 +81,7 @@ async function loadCorpus(){
     for(const article of rows){
       if(!article?.id)continue;
       article.dataset=article.dataset||dataset;
+      article.title=ARTICLE_TITLE_FIXES[article.id]||article.title;
       article.sourceCategory=article.category;
       article.category=displayCategory(article);
       articleCache.set(article.id,article);
