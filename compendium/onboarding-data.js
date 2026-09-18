@@ -1,14 +1,14 @@
 export const PLAYER_START = {
   basics: [
     {
-      id: 'realite-001-chapitre-vivre-en-grande-californie',
-      label: 'La Réalité',
-      summary: 'Découvrir la Grande Californie, son quotidien et le cadre visible dans lequel les personnages vivent.'
+      id: 'guide-realite-nouveau-joueur',
+      label: 'Réalité — Guide du nouveau joueur',
+      summary: 'Comprendre le monde visible, ce qu’un personnage ordinaire connaît et comment la Réalité rencontre la Vérité.'
     },
     {
-      id: 'verite-001-la-verite-n-est-pas-un-second-monde',
-      label: 'La Vérité',
-      summary: 'Comprendre le monde caché et sa relation avec la Réalité.'
+      id: 'guide-verite-nouveau-joueur',
+      label: 'Vérité — Guide du nouveau joueur',
+      summary: 'Comprendre la superposition Réalité/Vérité, la révélation, le Voile et la manière dont le surnaturel agit sur le monde visible.'
     },
     {
       id: 'verite-002-le-voile-et-l-hologramme',
@@ -101,9 +101,15 @@ export const PLAYER_START = {
 };
 
 export const WIKI_EXPLICIT_TARGETS = {
-  'Réalité': 'realite-001-chapitre-vivre-en-grande-californie',
+  'Réalité': 'guide-realite-nouveau-joueur',
+  'Guide de la Réalité': 'guide-realite-nouveau-joueur',
+  'Réalité — Guide du nouveau joueur': 'guide-realite-nouveau-joueur',
   'Grande Californie': 'realite-001-chapitre-vivre-en-grande-californie',
-  'Vérité': 'verite-001-la-verite-n-est-pas-un-second-monde',
+  'Vérité': 'guide-verite-nouveau-joueur',
+  'Guide de la Vérité': 'guide-verite-nouveau-joueur',
+  'Vérité — Guide du nouveau joueur': 'guide-verite-nouveau-joueur',
+  'Entrer dans la Vérité': 'guide-verite-nouveau-joueur',
+  'se révéler à la Vérité': 'guide-verite-nouveau-joueur',
   'Voile': 'verite-002-le-voile-et-l-hologramme',
   'Hologramme': 'verite-002-le-voile-et-l-hologramme',
   'Divinité': 'verite-lore-anciennes-divinites',
@@ -116,7 +122,7 @@ export const WIKI_EXPLICIT_TARGETS = {
   'Loups-garous': 'verite-047-11-garous-loups-descendants-de-khinae',
   'Descendant de Khinae': 'verite-048-12-autres-descendants-de-khinae',
   'Descendants de Khinae': 'verite-048-12-autres-descendants-de-khinae',
-  'Khinae': 'verite-048-12-autres-descendants-de-khinae',
+  'Khinae': 'verite-lore-khinae-originels',
   'Mage': 'verite-049-13-mages',
   'Mages': 'verite-049-13-mages',
   'Daemon': 'verite-050-14-daemons',
