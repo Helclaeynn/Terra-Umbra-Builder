@@ -168,6 +168,7 @@ export const WIKI_EXPLICIT_TARGETS = {
   "Ad'rak": 'verite-lore-adrak',
   'Chasseur': 'verite-055-19-formation-et-doctrine-de-chasseur',
   'Chasseurs': 'verite-055-19-formation-et-doctrine-de-chasseur',
+  'Sang Chasseur': 'regles-verite-garou-sang-chasseur-thorkel',
   'Fléau': 'verite-057-21-les-six-fleaux-et-le-faux-septieme',
   'Fléaux': 'verite-057-21-les-six-fleaux-et-le-faux-septieme',
   'Corruption': 'verite-056-20-corruption',
