@@ -1,0 +1,135 @@
+{
+  "version": 1,
+  "category": "Armes — Précision",
+  "count": 8,
+  "entries": [
+    {
+      "id": "armes-precision-owl-sr-017-big-game-hunter",
+      "name": "Owl SR-017 Big Game Hunter",
+      "category": "Armes — Précision",
+      "priceMode": "exact",
+      "price": 950,
+      "priceLabel": "950 $",
+      "effect": "",
+      "data": {
+        "Classe": "Precision",
+        "DGT": "12",
+        "Portee": "120 m",
+        "Cap.": "5",
+        "Proprietes": "-"
+      }
+    },
+    {
+      "id": "armes-precision-owl-sr-029-hoot",
+      "name": "Owl SR-029 Hoot",
+      "category": "Armes — Précision",
+      "priceMode": "exact",
+      "price": 2550,
+      "priceLabel": "2 550 $",
+      "effect": "",
+      "data": {
+        "Classe": "Precision",
+        "DGT": "13",
+        "Portee": "200 m",
+        "Cap.": "6",
+        "Proprietes": "Fiable, Perforant 1"
+      }
+    },
+    {
+      "id": "armes-precision-raven-sr-029-deathbringer",
+      "name": "Raven SR-029 Deathbringer",
+      "category": "Armes — Précision",
+      "priceMode": "exact",
+      "price": 4550,
+      "priceLabel": "4 550 $",
+      "effect": "",
+      "data": {
+        "Classe": "Precision",
+        "DGT": "14",
+        "Portee": "300 m",
+        "Cap.": "4",
+        "Proprietes": "Fiable, EMP"
+      }
+    },
+    {
+      "id": "armes-precision-phoenix-sr-034-phantom",
+      "name": "Phoenix SR-034 Phantom",
+      "category": "Armes — Précision",
+      "priceMode": "exact",
+      "price": 4050,
+      "priceLabel": "4 050 $",
+      "effect": "",
+      "data": {
+        "Classe": "Precision",
+        "DGT": "13",
+        "Portee": "250 m",
+        "Cap.": "5",
+        "Proprietes": "Smartlink, silencieux"
+      }
+    },
+    {
+      "id": "armes-precision-raven-sg-025-riot-control",
+      "name": "Raven SG-025 Riot Control",
+      "category": "Armes — Précision",
+      "priceMode": "exact",
+      "price": 1250,
+      "priceLabel": "1 250 $",
+      "effect": "",
+      "data": {
+        "Classe": "Shotgun",
+        "DGT": "12",
+        "Portee": "15 m",
+        "Cap.": "8",
+        "Proprietes": "Dispersion 3 ; electrique"
+      }
+    },
+    {
+      "id": "armes-precision-raven-sg-039-croaker",
+      "name": "Raven SG-039 Croaker",
+      "category": "Armes — Précision",
+      "priceMode": "exact",
+      "price": 5550,
+      "priceLabel": "5 550 $",
+      "effect": "",
+      "data": {
+        "Classe": "Shotgun",
+        "DGT": "15",
+        "Portee": "15 m",
+        "Cap.": "6",
+        "Proprietes": "Dispersion 4 ; Fiable ; EMP ; Perforant 1"
+      }
+    },
+    {
+      "id": "armes-precision-owl-sg-016-boss",
+      "name": "Owl SG-016 Boss",
+      "category": "Armes — Précision",
+      "priceMode": "exact",
+      "price": 1550,
+      "priceLabel": "1 550 $",
+      "effect": "",
+      "data": {
+        "Classe": "Shotgun",
+        "DGT": "13",
+        "Portee": "15 m",
+        "Cap.": "12",
+        "Proprietes": "Dispersion 3 ; Fiable"
+      }
+    },
+    {
+      "id": "armes-precision-phoenix-sg-042-fire-rain",
+      "name": "Phoenix SG-042 Fire Rain",
+      "category": "Armes — Précision",
+      "priceMode": "exact",
+      "price": 2050,
+      "priceLabel": "2 050 $",
+      "effect": "",
+      "data": {
+        "Classe": "Shotgun",
+        "DGT": "13",
+        "Portee": "15 m",
+        "Cap.": "5",
+        "Proprietes": "Dispersion 4 ; [Feu]"
+      }
+    }
+  ]
+}

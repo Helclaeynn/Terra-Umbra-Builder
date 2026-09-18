@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "source": "Legacy weapon/armor DOCX corpus supplied by user, September 2026",
+  "rules": {
+    "missing": "Recreate in current Builder catalog, modernize mechanics, add lore, build Compendium page, link source image.",
+    "existing": "Do not duplicate; enrich/link source image to current item.",
+    "confirmedAliases": {
+      "CB Hunter": "Owl LC-014 Chasseur",
+      "+B Hunter": "Owl LC-014 Chasseur",
+      "PW Steel feathers": "Phoenix PCK-08 Feather",
+      "CoS Riot force": "Raven TM-028 Riot Control",
+      "CoS Sunwukong": "Owl TS-009 Sun Wukong",
+      "WSG Poseidon": "SeaWares HL-02 Poseidon",
+      "Pw Cuchulainn": "Raven JL-014 Cuchulainn",
+      "PW Tomahawk": "Tala TH-029 Tomahawk",
+      "PW Superballs": "Owl MB-014 Bolas monofilament",
+      "ESW Inabilitor": "Owl LT-015 Incapaciteur",
+      "ESW Immobilizer": "Raven HT-014 Immobilisateur",
+      "SPC Santa cloth": "Icecorps Santa Clothes",
+      "SPC Muad Dib": "Sunways Desert Survivor",
+      "SPC Cthulhu killer": "Seawares Scaph IV",
+      "BPV Bullet Fear": "Owl Bullets Fear",
+      "BPV SunShield": "Phoenix Sun Shield",
+      "LBA Gallowglass II": "Raven Gallowglass II legere",
+      "HBA Gallowglass V": "Raven Gallowglass II lourde",
+      "HBA Sunking": "Phoenix Sun King",
+      "MG Executionner": "Raven LMG-027 Executionner",
+      "LP Sunblast": "Phoenix LP-028 Sun Blast"
+    }
+  },
+  "documents": {
+    "armes_Arbalètes arcs et arbalètes sous-marines(3).docx": ["+B Black Arrow", "+B Hunter", "CB Championship", "CB Hunter", "ESW Immobilizer", "ESW Inabilitor", "WSG Tethyssette", "WSG Poseidon"],
+    "armes_Prototypes(2).docx": ["P. Flak Cannon", "P. Hitman", "P. Sheer BlueShell A.", "p. Vampire Killer", "P. Charm", "P. Armcannon", "P. Railway to hell", "P. Vader"],
+    "armes_armes de jet(2).docx": ["PW Superballs", "Pw Cuchulainn", "PW Tomahawk", "PW Steel feathers", "Pw Ravenegg", "PW Inferno", "PW Dripper", "PW heliosII", "PW Superchoc", "PW frog egg", "PW Pokeball", "GL Vending Machine", "PW Jagi", "PW Shadow gift", "GL Bomberman", "GL Easter Bunny"],
+    "armes_contendants et utilitairess(3).docx": ["CoS Riot force", "CoS Sunwukong", "BK King fist", "Bh Ginette", "?? Antoinette", "?? Pierrette", "Wm Melinette", "Cos Stretchy"],
+    "armes_fusils assaut(3).docx": ["AR Mutilator", "Ar Sunlight", "AR Howling", "AR Rampager", "AR Sal-in", "AR Morissette", "AR Aciditicteeth", "AR Blastard"],
+    "armes_fusils de précision(3).docx": ["Sr Big Game Hunter", "SR Hoot", "Sr Deathbringer", "SR Phantom", "Sr Song-gos", "Sr Luzette", "sr Abraham Kennedy", "SR Hellrails"],
+    "armes_fusils hypodermiques et armédicales(3).docx": ["DGR Pandemic", "DGR Savior", "DG Disease", "DG Savior", "DG RedCrush", "DG Painkiller", "BK Hornetouch", "AR Blastard"],
+    "armes_mitraillettes(3).docx": ["LMG Suppressor", "LMG Military", "LMG Bi", "LMG Equalizer", "LMG Nebullar", "LMG Surge", "MG Gladius", "MG Urban", "MG Executionner", "MG Neo-Executionner", "MG Bibal", "MG Florette"],
+    "armes_pistolets(4).docx": ["PP old colt", "PP Defender", "HP Deputy", "HP pacificateur", "HP Gardien", "HP Violator", "HP Apex", "HP Depliant", "LP Acceptable", "LP Sturdy", "LP Jeanette", "LP Sunblast", "HP Jotkka", "HP Pacificateur x", "pP Eolgul-e", "PP Sunnyroshima"],
+    "armes_pistolets_prototype 2(2).docx": ["HP Reminiscer", "HP Oblivion", "HP Zeus", "LP Dracula"],
+    "armures_protections Spéciales(1).docx": ["SPC No-Fire", "SPC Free Fly", "SPC Santa cloth", "SPC Medicarmor", "SPC Muad Dib", "SPC Cthulhu killer", "sba Ghillie basic", "SBA Squid Skin", "SBA Dirty Sniper", "SBA Zero Guard", "SBA Ninja", "Spc neuromaster"],
+    "armures_protections basiques(1).docx": ["BPV Bullet Fear", "BPV Black Feathers", "BPV New Guard", "BPV Black Dog", "BPV Punk life", "BPV SunShield", "BPV King Worker", "BPV Silver Knight", "LBA Night Guard", "LBA Gallowglass II", "LBA Soldier", "LBA Skylord", "HBA Moon Guard", "HBA Gallowglass V", "HBA heavy soldier", "HBA Sunking"]
+  }
+}

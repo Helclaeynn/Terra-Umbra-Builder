@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "category": "Armures — Spécialisées",
+  "count": 7,
+  "entries": [
+    {
+      "id": "armures-specialisees-bridgeelectrics-no-fire",
+      "name": "BridgeElectrics No-Fire",
+      "category": "Armures — Spécialisées",
+      "priceMode": "exact",
+      "price": 1000,
+      "priceLabel": "1 000 $",
+      "effect": "Tenue pompier/technicien, chaleur et electricite.",
+      "data": {
+        "Profil": "Bal.1 / Mel.1 / Ant.3 ; Reduction 3 [Feu/Electricite]",
+        "Fonction": "Tenue pompier/technicien, chaleur et electricite."
+      }
+    },
+    {
+      "id": "armures-specialisees-ocean-master-free-fly",
+      "name": "Ocean Master Free Fly",
+      "category": "Armures — Spécialisées",
+      "priceMode": "exact",
+      "price": 1500,
+      "priceLabel": "1 500 $",
+      "effect": "Respirateur/compensateur G ; circonstances favorables (+3) contre desorientation, vent violent ou perte d'equilibre liee au vol.",
+      "data": {
+        "Profil": "Antichoc 1",
+        "Fonction": "Respirateur/compensateur G ; circonstances favorables (+3) contre desorientation, vent violent ou perte d'equilibre liee au vol."
+      }
+    },
+    {
+      "id": "armures-specialisees-icecorps-santa-clothes",
+      "name": "Icecorps Santa Clothes",
+      "category": "Armures — Spécialisées",
+      "priceMode": "exact",
+      "price": 900,
+      "priceLabel": "900 $",
+      "effect": "Tres epaisse ; peut etre defavorable pour actions demandant finesse/mobilite.",
+      "data": {
+        "Profil": "Mel.2 / Ant.4 ; Reduction 3 [Froid]",
+        "Fonction": "Tres epaisse ; peut etre defavorable pour actions demandant finesse/mobilite."
+      }
+    },
+    {
+      "id": "armures-specialisees-biosun-medicarmor",
+      "name": "Biosun Medicarmor",
+      "category": "Armures — Spécialisées",
+      "priceMode": "exact",
+      "price": 1500,
+      "priceLabel": "1 500 $",
+      "effect": "Permet de travailler dans environnement chimique/viral ordinaire ; une perforation grave peut rompre l'etancheite.",
+      "data": {
+        "Profil": "Etanche ; filtres ; protection contamination",
+        "Fonction": "Permet de travailler dans environnement chimique/viral ordinaire ; une perforation grave peut rompre l'etancheite."
+      }
+    },
+    {
+      "id": "armures-specialisees-sunways-desert-survivor",
+      "name": "Sunways Desert Survivor",
+      "category": "Armures — Spécialisées",
+      "priceMode": "exact",
+      "price": 2500,
+      "priceLabel": "2 500 $",
+      "effect": "Recyclage fluides, charge solaire lente, signature thermique reduite, survie desertique.",
+      "data": {
+        "Profil": "Mel.2 / Ant.2 ; Reduction 3 [Chaud/Froid]",
+        "Fonction": "Recyclage fluides, charge solaire lente, signature thermique reduite, survie desertique."
+      }
+    },
+    {
+      "id": "armures-specialisees-seawares-scaph-iv",
+      "name": "Seawares Scaph IV",
+      "category": "Armures — Spécialisées",
+      "priceMode": "exact",
+      "price": 3500,
+      "priceLabel": "3 500 $",
+      "effect": "Etanche, air, isolation ; tres encombrant et defavorable hors milieu adapte.",
+      "data": {
+        "Profil": "Bal.4 / Mel.4 / Ant.4 (6 sous l'eau)",
+        "Fonction": "Etanche, air, isolation ; tres encombrant et defavorable hors milieu adapte."
+      }
+    },
+    {
+      "id": "armures-specialisees-arcanetwork-neuromaster",
+      "name": "ArcaNetwork Neuromaster",
+      "category": "Armures — Spécialisées",
+      "priceMode": "exact",
+      "price": 3550,
+      "priceLabel": "3 550 $",
+      "effect": "Permet l'immersion profonde ; réduit de 3 les pertes de PV neuronales. Aucun bonus de Rang, slots ou PA. Un Unsinkable ne peut pas utiliser son mode d'immersion.",
+      "data": {
+        "Profil": "Réduction 3 [Neuro] ; interface Neurodive complète",
+        "Fonction": "Permet l'immersion profonde ; réduit de 3 les pertes de PV neuronales. Aucun bonus de Rang, slots ou PA. Un Unsinkable ne peut pas utiliser son mode d'immersion."
+      }
+    }
+  ]
+}

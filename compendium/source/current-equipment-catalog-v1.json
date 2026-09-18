@@ -1,0 +1,3463 @@
+{
+  "version": 1,
+  "manifest": {
+    "encoding": "gzip+base64-split",
+    "chunks": [
+      "equipment.part01.b64",
+      "equipment.part02.b64",
+      "equipment.part03.b64",
+      "equipment.part04.b64",
+      "equipment.part05.b64",
+      "equipment.part06.b64"
+    ],
+    "entries": 261,
+    "source": "TUC_Realite_Equipement_Services_V1_final_2026-09-08"
+  },
+  "catalog": {
+    "version": "2026-09-11-rebuilt",
+    "source": "TUC_Realite_Equipement_Services_V1_final_2026-09-08",
+    "entries": [
+      {
+        "id": "armes-melee-couteau-de-combat",
+        "name": "Couteau de combat",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 150,
+        "priceLabel": "150 $",
+        "effect": "",
+        "data": {
+          "Type": "Melee",
+          "DGT": "3",
+          "Portee": "Contact",
+          "Proprietes": "-"
+        }
+      },
+      {
+        "id": "armes-melee-owl-ka-73-last-encounter",
+        "name": "Owl KA-73 Last Encounter",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 750,
+        "priceLabel": "750 $",
+        "effect": "",
+        "data": {
+          "Type": "Melee",
+          "DGT": "7",
+          "Portee": "Contact",
+          "Proprietes": "Fiable/Robuste en fiction"
+        }
+      },
+      {
+        "id": "armes-melee-phoenix-pck-08-feather",
+        "name": "Phoenix PCK-08 Feather",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": "",
+        "data": {
+          "Type": "Melee",
+          "DGT": "4",
+          "Portee": "Contact",
+          "Proprietes": "Perforant 1 ; cauterise"
+        }
+      },
+      {
+        "id": "armes-melee-phoenix-ba-037-sun-axe",
+        "name": "Phoenix BA-037 Sun Axe",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 900,
+        "priceLabel": "900 $",
+        "effect": "",
+        "data": {
+          "Type": "Melee",
+          "DGT": "7",
+          "Portee": "Contact",
+          "Proprietes": "Perforant 1 ; cauterise"
+        }
+      },
+      {
+        "id": "armes-melee-raven-cl-038-claymore",
+        "name": "Raven CL-038 Claymore",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 750,
+        "priceLabel": "750 $",
+        "effect": "",
+        "data": {
+          "Type": "Melee",
+          "DGT": "8",
+          "Portee": "Contact",
+          "Proprietes": "EMP"
+        }
+      },
+      {
+        "id": "armes-melee-raven-sp-016-raven-spear",
+        "name": "Raven SP-016 Raven Spear",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 1100,
+        "priceLabel": "1 100 $",
+        "effect": "",
+        "data": {
+          "Type": "Melee",
+          "DGT": "6",
+          "Portee": "1,5 m",
+          "Proprietes": "EMP ; Perforant 1"
+        }
+      },
+      {
+        "id": "armes-melee-raven-tm-028-riot-control",
+        "name": "Raven TM-028 Riot Control",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 600,
+        "priceLabel": "600 $",
+        "effect": "",
+        "data": {
+          "Type": "Melee",
+          "DGT": "4",
+          "Portee": "Contact",
+          "Proprietes": "EMP"
+        }
+      },
+      {
+        "id": "armes-melee-owl-ts-009-sun-wukong",
+        "name": "Owl TS-009 Sun Wukong",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 600,
+        "priceLabel": "600 $",
+        "effect": "",
+        "data": {
+          "Type": "Melee",
+          "DGT": "6",
+          "Portee": "1,5 m",
+          "Proprietes": "Fiable/Robuste"
+        }
+      },
+      {
+        "id": "armes-melee-phoenix-pw-026-vampire-killer",
+        "name": "Phoenix PW-026 Vampire Killer",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 1300,
+        "priceLabel": "1 300 $",
+        "effect": "",
+        "data": {
+          "Type": "Melee",
+          "DGT": "7",
+          "Portee": "3,5 m",
+          "Proprietes": "Perforant 1 ; cauterise"
+        }
+      },
+      {
+        "id": "armes-melee-raven-mc-025-hitman",
+        "name": "Raven MC-025 Hitman",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 1100,
+        "priceLabel": "1 100 $",
+        "effect": "",
+        "data": {
+          "Type": "Melee",
+          "DGT": "5",
+          "Portee": "1,5 m",
+          "Proprietes": "Perforant 2"
+        }
+      },
+      {
+        "id": "armes-melee-owl-lc-014-chasseur",
+        "name": "Owl LC-014 Chasseur",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 750,
+        "priceLabel": "750 $",
+        "effect": "",
+        "data": {
+          "Type": "Trait",
+          "DGT": "7",
+          "Portee": "25 m",
+          "Proprietes": "Perforant 1 ; 1 coup"
+        }
+      },
+      {
+        "id": "armes-melee-seawares-hl-02-poseidon",
+        "name": "SeaWares HL-02 Poseidon",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 950,
+        "priceLabel": "950 $",
+        "effect": "",
+        "data": {
+          "Type": "Trait",
+          "DGT": "8",
+          "Portee": "25 m",
+          "Proprietes": "Aquatique ; 1 coup"
+        }
+      },
+      {
+        "id": "armes-melee-raven-jl-014-cuchulainn",
+        "name": "Raven JL-014 Cuchulainn",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 850,
+        "priceLabel": "850 $",
+        "effect": "",
+        "data": {
+          "Type": "Jet",
+          "DGT": "7",
+          "Portee": "15 m",
+          "Proprietes": "Perforant 1 ; EMP"
+        }
+      },
+      {
+        "id": "armes-melee-tala-th-029-tomahawk",
+        "name": "Tala TH-029 Tomahawk",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 850,
+        "priceLabel": "850 $",
+        "effect": "",
+        "data": {
+          "Type": "Jet/Melee",
+          "DGT": "6",
+          "Portee": "15 m",
+          "Proprietes": "Perforant 1 ; Fiable/Robuste"
+        }
+      },
+      {
+        "id": "armes-melee-owl-mb-014-bolas-monofilament",
+        "name": "Owl MB-014 Bolas monofilament",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 1500,
+        "priceLabel": "1 500 $",
+        "effect": "",
+        "data": {
+          "Type": "Jet",
+          "DGT": "6",
+          "Portee": "15 m",
+          "Proprietes": "Perforant 1"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-owl-lt-015-incapaciteur",
+        "name": "Owl LT-015 Incapaciteur",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 250,
+        "priceLabel": "250 $",
+        "effect": "",
+        "data": {
+          "Classe": "Taser leger",
+          "DGT": "3",
+          "Portee": "15 m",
+          "Cap.": "10",
+          "Proprietes": "Electrique"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-raven-ht-014-immobilisateur",
+        "name": "Raven HT-014 Immobilisateur",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": "",
+        "data": {
+          "Classe": "Taser lourd",
+          "DGT": "6",
+          "Portee": "15 m",
+          "Cap.": "5",
+          "Proprietes": "Electrique"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-owl-pp-014-old-colt",
+        "name": "Owl PP-014 Old Colt",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 300,
+        "priceLabel": "300 $",
+        "effect": "",
+        "data": {
+          "Classe": "Poche",
+          "DGT": "6",
+          "Portee": "20 m",
+          "Cap.": "5",
+          "Proprietes": "-"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-raven-pp-012-defender",
+        "name": "Raven PP-012 Defender",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": "",
+        "data": {
+          "Classe": "Poche",
+          "DGT": "7",
+          "Portee": "20 m",
+          "Cap.": "4",
+          "Proprietes": "-"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-owl-lp-019-acceptable",
+        "name": "Owl LP-019 Acceptable",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": "",
+        "data": {
+          "Classe": "Pistolet leger",
+          "DGT": "7",
+          "Portee": "35 m",
+          "Cap.": "10",
+          "Proprietes": "-"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-raven-lp-004-sturdy",
+        "name": "Raven LP-004 Sturdy",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 800,
+        "priceLabel": "800 $",
+        "effect": "",
+        "data": {
+          "Classe": "Pistolet leger",
+          "DGT": "8",
+          "Portee": "35 m",
+          "Cap.": "8",
+          "Proprietes": "Fiable"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-phoenix-lp-028-sun-blast",
+        "name": "Phoenix LP-028 Sun Blast",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 950,
+        "priceLabel": "950 $",
+        "effect": "",
+        "data": {
+          "Classe": "Pistolet leger",
+          "DGT": "7",
+          "Portee": "35 m",
+          "Cap.": "10",
+          "Proprietes": "Smartlink"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-owl-hp-104-deputy",
+        "name": "Owl HP-104 Deputy",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 950,
+        "priceLabel": "950 $",
+        "effect": "",
+        "data": {
+          "Classe": "Pistolet lourd",
+          "DGT": "10",
+          "Portee": "45 m",
+          "Cap.": "7",
+          "Proprietes": "Fiable"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-raven-hp-014-pacificateur",
+        "name": "Raven HP-014 Pacificateur",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 1250,
+        "priceLabel": "1 250 $",
+        "effect": "",
+        "data": {
+          "Classe": "Pistolet lourd",
+          "DGT": "11",
+          "Portee": "45 m",
+          "Cap.": "7",
+          "Proprietes": "Smartlink"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-raven-hp-067-gardien",
+        "name": "Raven HP-067 Gardien",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 1650,
+        "priceLabel": "1 650 $",
+        "effect": "",
+        "data": {
+          "Classe": "Pistolet lourd",
+          "DGT": "11",
+          "Portee": "45 m",
+          "Cap.": "12",
+          "Proprietes": "Smartlink"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-phoenix-hp-028-violator",
+        "name": "Phoenix HP-028 Violator",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 1250,
+        "priceLabel": "1 250 $",
+        "effect": "",
+        "data": {
+          "Classe": "Pistolet lourd",
+          "DGT": "10",
+          "Portee": "45 m",
+          "Cap.": "10",
+          "Proprietes": "Smartlink"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-phoenix-hp-092-depliant",
+        "name": "Phoenix HP-092 Depliant",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 1250,
+        "priceLabel": "1 250 $",
+        "effect": "",
+        "data": {
+          "Classe": "Pistolet lourd",
+          "DGT": "10",
+          "Portee": "45 m",
+          "Cap.": "9",
+          "Proprietes": "Smartlink ; pliant"
+        }
+      },
+      {
+        "id": "armes-automatiques-owl-mgp-062-suppressor",
+        "name": "Owl MGP-062 Suppressor",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 750,
+        "priceLabel": "750 $",
+        "effect": "",
+        "data": {
+          "Classe": "PM",
+          "DGT": "7",
+          "Portee": "30 m",
+          "Cap.": "30",
+          "Proprietes": "Rafale, Automatique"
+        }
+      },
+      {
+        "id": "armes-automatiques-raven-mgp-072-military",
+        "name": "Raven MGP-072 Military",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 1050,
+        "priceLabel": "1 050 $",
+        "effect": "",
+        "data": {
+          "Classe": "PM",
+          "DGT": "8",
+          "Portee": "30 m",
+          "Cap.": "20",
+          "Proprietes": "Rafale, Automatique, Fiable"
+        }
+      },
+      {
+        "id": "armes-automatiques-phoenix-mgp-042-equalizer",
+        "name": "Phoenix MGP-042 Equalizer",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 1250,
+        "priceLabel": "1 250 $",
+        "effect": "",
+        "data": {
+          "Classe": "PM",
+          "DGT": "7",
+          "Portee": "30 m",
+          "Cap.": "30",
+          "Proprietes": "Rafale, Automatique, Smartlink"
+        }
+      },
+      {
+        "id": "armes-automatiques-owl-lmg-092-gladius",
+        "name": "Owl LMG-092 Gladius",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 950,
+        "priceLabel": "950 $",
+        "effect": "",
+        "data": {
+          "Classe": "SMG",
+          "DGT": "9",
+          "Portee": "45 m",
+          "Cap.": "30",
+          "Proprietes": "Rafale, Automatique"
+        }
+      },
+      {
+        "id": "armes-automatiques-phoenix-lmg-018-urban",
+        "name": "Phoenix LMG-018 Urban",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 1550,
+        "priceLabel": "1 550 $",
+        "effect": "",
+        "data": {
+          "Classe": "SMG",
+          "DGT": "9",
+          "Portee": "30 m",
+          "Cap.": "30",
+          "Proprietes": "Rafale, Automatique, Smartlink"
+        }
+      },
+      {
+        "id": "armes-automatiques-raven-lmg-027-executionner",
+        "name": "Raven LMG-027 Executionner",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 1350,
+        "priceLabel": "1 350 $",
+        "effect": "",
+        "data": {
+          "Classe": "SMG",
+          "DGT": "10",
+          "Portee": "30 m",
+          "Cap.": "20",
+          "Proprietes": "Rafale, Automatique, Fiable"
+        }
+      },
+      {
+        "id": "armes-automatiques-raven-lmg-072-neo-executionner",
+        "name": "Raven LMG-072 Neo-Executionner",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 2150,
+        "priceLabel": "2 150 $",
+        "effect": "",
+        "data": {
+          "Classe": "SMG",
+          "DGT": "10",
+          "Portee": "30 m",
+          "Cap.": "20",
+          "Proprietes": "Rafale, Automatique, Fiable, Smartlink"
+        }
+      },
+      {
+        "id": "armes-automatiques-phoenix-ar-124-mutilator",
+        "name": "Phoenix AR-124 Mutilator",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 950,
+        "priceLabel": "950 $",
+        "effect": "",
+        "data": {
+          "Classe": "Assaut",
+          "DGT": "11",
+          "Portee": "60 m",
+          "Cap.": "36",
+          "Proprietes": "Rafale, Automatique"
+        }
+      },
+      {
+        "id": "armes-automatiques-raven-ar-027-rampager",
+        "name": "Raven AR-027 Rampager",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 2100,
+        "priceLabel": "2 100 $",
+        "effect": "",
+        "data": {
+          "Classe": "Assaut",
+          "DGT": "12",
+          "Portee": "60 m",
+          "Cap.": "24",
+          "Proprietes": "Rafale, Automatique, Fiable, EMP"
+        }
+      },
+      {
+        "id": "armes-automatiques-owl-ar-071-howling",
+        "name": "Owl AR-071 Howling",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 1550,
+        "priceLabel": "1 550 $",
+        "effect": "",
+        "data": {
+          "Classe": "Assaut",
+          "DGT": "11",
+          "Portee": "45 m",
+          "Cap.": "36",
+          "Proprietes": "Rafale, Automatique, Perforant 1"
+        }
+      },
+      {
+        "id": "armes-automatiques-phoenix-ar-124-sunlight",
+        "name": "Phoenix AR-124 Sunlight",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 2550,
+        "priceLabel": "2 550 $",
+        "effect": "",
+        "data": {
+          "Classe": "Assaut",
+          "DGT": "11",
+          "Portee": "45 m",
+          "Cap.": "36",
+          "Proprietes": "Rafale, Automatique, Smartlink, Flash"
+        }
+      },
+      {
+        "id": "armes-precision-owl-sr-017-big-game-hunter",
+        "name": "Owl SR-017 Big Game Hunter",
+        "category": "Armes — Précision",
+        "priceMode": "exact",
+        "price": 950,
+        "priceLabel": "950 $",
+        "effect": "",
+        "data": {
+          "Classe": "Precision",
+          "DGT": "12",
+          "Portee": "120 m",
+          "Cap.": "5",
+          "Proprietes": "-"
+        }
+      },
+      {
+        "id": "armes-precision-owl-sr-029-hoot",
+        "name": "Owl SR-029 Hoot",
+        "category": "Armes — Précision",
+        "priceMode": "exact",
+        "price": 2550,
+        "priceLabel": "2 550 $",
+        "effect": "",
+        "data": {
+          "Classe": "Precision",
+          "DGT": "13",
+          "Portee": "200 m",
+          "Cap.": "6",
+          "Proprietes": "Fiable, Perforant 1"
+        }
+      },
+      {
+        "id": "armes-precision-raven-sr-029-deathbringer",
+        "name": "Raven SR-029 Deathbringer",
+        "category": "Armes — Précision",
+        "priceMode": "exact",
+        "price": 4550,
+        "priceLabel": "4 550 $",
+        "effect": "",
+        "data": {
+          "Classe": "Precision",
+          "DGT": "14",
+          "Portee": "300 m",
+          "Cap.": "4",
+          "Proprietes": "Fiable, EMP"
+        }
+      },
+      {
+        "id": "armes-precision-phoenix-sr-034-phantom",
+        "name": "Phoenix SR-034 Phantom",
+        "category": "Armes — Précision",
+        "priceMode": "exact",
+        "price": 4050,
+        "priceLabel": "4 050 $",
+        "effect": "",
+        "data": {
+          "Classe": "Precision",
+          "DGT": "13",
+          "Portee": "250 m",
+          "Cap.": "5",
+          "Proprietes": "Smartlink, silencieux"
+        }
+      },
+      {
+        "id": "armes-precision-raven-sg-025-riot-control",
+        "name": "Raven SG-025 Riot Control",
+        "category": "Armes — Précision",
+        "priceMode": "exact",
+        "price": 1250,
+        "priceLabel": "1 250 $",
+        "effect": "",
+        "data": {
+          "Classe": "Shotgun",
+          "DGT": "12",
+          "Portee": "15 m",
+          "Cap.": "8",
+          "Proprietes": "Dispersion 3 ; electrique"
+        }
+      },
+      {
+        "id": "armes-precision-raven-sg-039-croaker",
+        "name": "Raven SG-039 Croaker",
+        "category": "Armes — Précision",
+        "priceMode": "exact",
+        "price": 5550,
+        "priceLabel": "5 550 $",
+        "effect": "",
+        "data": {
+          "Classe": "Shotgun",
+          "DGT": "15",
+          "Portee": "15 m",
+          "Cap.": "6",
+          "Proprietes": "Dispersion 4 ; Fiable ; EMP ; Perforant 1"
+        }
+      },
+      {
+        "id": "armes-precision-owl-sg-016-boss",
+        "name": "Owl SG-016 Boss",
+        "category": "Armes — Précision",
+        "priceMode": "exact",
+        "price": 1550,
+        "priceLabel": "1 550 $",
+        "effect": "",
+        "data": {
+          "Classe": "Shotgun",
+          "DGT": "13",
+          "Portee": "15 m",
+          "Cap.": "12",
+          "Proprietes": "Dispersion 3 ; Fiable"
+        }
+      },
+      {
+        "id": "armes-precision-phoenix-sg-042-fire-rain",
+        "name": "Phoenix SG-042 Fire Rain",
+        "category": "Armes — Précision",
+        "priceMode": "exact",
+        "price": 2050,
+        "priceLabel": "2 050 $",
+        "effect": "",
+        "data": {
+          "Classe": "Shotgun",
+          "DGT": "13",
+          "Portee": "15 m",
+          "Cap.": "5",
+          "Proprietes": "Dispersion 4 ; [Feu]"
+        }
+      },
+      {
+        "id": "armes-lourdes-bastion",
+        "name": "Bastion",
+        "category": "Armes — Lourdes",
+        "priceMode": "exact",
+        "price": 5500,
+        "priceLabel": "5 500 $",
+        "effect": "",
+        "data": {
+          "DGT": "13",
+          "Portee": "80 m",
+          "Cap.": "60",
+          "Role": "Mitrailleuse lourde / appui",
+          "Proprietes": "Rafale, Automatique, Encombrant"
+        }
+      },
+      {
+        "id": "armes-lourdes-manticore",
+        "name": "Manticore",
+        "category": "Armes — Lourdes",
+        "priceMode": "exact",
+        "price": 8500,
+        "priceLabel": "8 500 $",
+        "effect": "",
+        "data": {
+          "DGT": "14",
+          "Portee": "80 m",
+          "Cap.": "6",
+          "Role": "Neutralisation lourde",
+          "Proprietes": "EMP, Encombrant"
+        }
+      },
+      {
+        "id": "armes-lourdes-hellstorm",
+        "name": "Hellstorm",
+        "category": "Armes — Lourdes",
+        "priceMode": "exact",
+        "price": 12000,
+        "priceLabel": "12 000 $",
+        "effect": "",
+        "data": {
+          "DGT": "13",
+          "Portee": "70 m",
+          "Cap.": "200",
+          "Role": "Gatling",
+          "Proprietes": "Rafale, Automatique, Fiable, Encombrant"
+        }
+      },
+      {
+        "id": "armes-lourdes-doorbell",
+        "name": "Doorbell",
+        "category": "Armes — Lourdes",
+        "priceMode": "exact",
+        "price": 3500,
+        "priceLabel": "3 500 $",
+        "effect": "",
+        "data": {
+          "DGT": "variable",
+          "Portee": "60 m",
+          "Cap.": "6",
+          "Role": "Lance-grenades lourd",
+          "Proprietes": "Zone selon grenade, Encombrant"
+        }
+      },
+      {
+        "id": "armes-lourdes-breacher",
+        "name": "Breacher",
+        "category": "Armes — Lourdes",
+        "priceMode": "exact",
+        "price": 5500,
+        "priceLabel": "5 500 $",
+        "effect": "",
+        "data": {
+          "DGT": "18",
+          "Portee": "90 m",
+          "Cap.": "1",
+          "Role": "Lance-roquette de breche",
+          "Proprietes": "Perforant 2, Zone 3 m, Encombrant"
+        }
+      },
+      {
+        "id": "armes-lourdes-wasp",
+        "name": "Wasp",
+        "category": "Armes — Lourdes",
+        "priceMode": "exact",
+        "price": 14000,
+        "priceLabel": "14 000 $",
+        "effect": "",
+        "data": {
+          "DGT": "20",
+          "Portee": "150 m",
+          "Cap.": "1",
+          "Role": "Missile guide",
+          "Proprietes": "Autoguide, Smartlink, Zone 4 m, Encombrant"
+        }
+      },
+      {
+        "id": "armes-lourdes-wallbreaker",
+        "name": "Wallbreaker",
+        "category": "Armes — Lourdes",
+        "priceMode": "exact",
+        "price": 12500,
+        "priceLabel": "12 500 $",
+        "effect": "",
+        "data": {
+          "DGT": "16",
+          "Portee": "200 m",
+          "Cap.": "3",
+          "Role": "Anti-materiel / fortification",
+          "Proprietes": "Perforant 3, Encombrant"
+        }
+      },
+      {
+        "id": "armes-lourdes-salamander",
+        "name": "Salamander",
+        "category": "Armes — Lourdes",
+        "priceMode": "exact",
+        "price": 3500,
+        "priceLabel": "3 500 $",
+        "effect": "",
+        "data": {
+          "DGT": "9",
+          "Portee": "15 m",
+          "Cap.": "6 usages",
+          "Role": "Projecteur incendiaire",
+          "Proprietes": "[Feu], Zone 3 m (cone), Encombrant"
+        }
+      },
+      {
+        "id": "armes-lourdes-purifier",
+        "name": "Purifier",
+        "category": "Armes — Lourdes",
+        "priceMode": "exact",
+        "price": 6500,
+        "priceLabel": "6 500 $",
+        "effect": "",
+        "data": {
+          "DGT": "11",
+          "Portee": "12 m",
+          "Cap.": "5 usages",
+          "Role": "Projecteur chimique lourd",
+          "Proprietes": "[Chimique], Zone 3 m (cone), Encombrant"
+        }
+      },
+      {
+        "id": "accessoires-d-armes-silencieux",
+        "name": "Silencieux",
+        "category": "Accessoires d'armes",
+        "priceMode": "exact",
+        "price": 250,
+        "priceLabel": "250 $",
+        "effect": "Perception pour entendre/localiser le tir : -3 lorsque le silencieux est efficace. Le tir n'est jamais absolument silencieux.",
+        "data": {
+          "Effet": "Perception pour entendre/localiser le tir : -3 lorsque le silencieux est efficace. Le tir n'est jamais absolument silencieux."
+        }
+      },
+      {
+        "id": "accessoires-d-armes-optique-de-precision",
+        "name": "Optique de precision",
+        "category": "Accessoires d'armes",
+        "priceMode": "exact",
+        "price": 400,
+        "priceLabel": "400 $",
+        "effect": "En utilisant Viser, ignore le -3 de longue portee jusqu'a 2 x la portee nominale.",
+        "data": {
+          "Effet": "En utilisant Viser, ignore le -3 de longue portee jusqu'a 2 x la portee nominale."
+        }
+      },
+      {
+        "id": "accessoires-d-armes-chargeur-etendu",
+        "name": "Chargeur etendu",
+        "category": "Accessoires d'armes",
+        "priceMode": "exact",
+        "price": 75,
+        "priceLabel": "75 $",
+        "effect": "+50 % capacite, arrondi au superieur ; plus difficile a dissimuler.",
+        "data": {
+          "Effet": "+50 % capacite, arrondi au superieur ; plus difficile a dissimuler."
+        }
+      },
+      {
+        "id": "accessoires-d-armes-bipied",
+        "name": "Bipied",
+        "category": "Accessoires d'armes",
+        "priceMode": "exact",
+        "price": 150,
+        "priceLabel": "150 $",
+        "effect": "Stationnaire et appuye : ignore les contraintes directement dues a Encombrant/poids pour le tir.",
+        "data": {
+          "Effet": "Stationnaire et appuye : ignore les contraintes directement dues a Encombrant/poids pour le tir."
+        }
+      },
+      {
+        "id": "accessoires-d-armes-smartlink",
+        "name": "Smartlink",
+        "category": "Accessoires d'armes",
+        "priceMode": "exact",
+        "price": 1000,
+        "priceLabel": "1 000 $",
+        "effect": "Donne Smartlink ; avec interface compatible, permet le Verrouillage. Un Unsinkable ne peut pas bénéficier de cette liaison neuroassistée.",
+        "data": {
+          "Effet": "Donne Smartlink ; avec interface compatible, permet le Verrouillage. Un Unsinkable ne peut pas bénéficier de cette liaison neuroassistée."
+        }
+      },
+      {
+        "id": "accessoires-d-armes-facecaster-dfl",
+        "name": "FaceCaster DFL",
+        "category": "Accessoires d'armes",
+        "priceMode": "exact",
+        "price": 750,
+        "priceLabel": "750 $",
+        "effect": "Projecteur porte. Seul : apparence de surface, vetements/visage ; avec Holo'Rmor : simulation corps complet.",
+        "data": {
+          "Effet": "Projecteur porte. Seul : apparence de surface, vetements/visage ; avec Holo'Rmor : simulation corps complet."
+        }
+      },
+      {
+        "id": "munitions-speciales-raven-flash",
+        "name": "Raven Flash",
+        "category": "Munitions spéciales",
+        "priceMode": "multiplier",
+        "priceLabel": "x2 le prix normal / 20",
+        "effect": "A l'Alteration, peut aveugler/eblouir une cible exposee pour son activation suivante si le vecteur visuel fonctionne.",
+        "data": {
+          "Effet actuel": "A l'Alteration, peut aveugler/eblouir une cible exposee pour son activation suivante si le vecteur visuel fonctionne."
+        }
+      },
+      {
+        "id": "munitions-speciales-raven-volto",
+        "name": "Raven Volto",
+        "category": "Munitions spéciales",
+        "priceMode": "multiplier",
+        "priceLabel": "x3 / 10",
+        "effect": "Munition electrique ; a l'Alteration, peut provoquer immobilisation ou perte de passe future selon cible et fiction.",
+        "data": {
+          "Effet actuel": "Munition electrique ; a l'Alteration, peut provoquer immobilisation ou perte de passe future selon cible et fiction."
+        }
+      },
+      {
+        "id": "munitions-speciales-raven-drill",
+        "name": "Raven Drill",
+        "category": "Munitions spéciales",
+        "priceMode": "multiplier",
+        "priceLabel": "x1 / 5",
+        "effect": "Perforant 1.",
+        "data": {
+          "Effet actuel": "Perforant 1."
+        }
+      },
+      {
+        "id": "munitions-speciales-raven-night",
+        "name": "Raven Night",
+        "category": "Munitions spéciales",
+        "priceMode": "multiplier",
+        "priceLabel": "x4 / 1",
+        "effect": "+5 degats apres le calcul normal des degats du tir ; ce +5 n'est jamais double. Tir unitaire uniquement ; incompatible Rafale/Suppression. Un echec narratif peut endommager ou desactiver severement l'arme.",
+        "data": {
+          "Effet actuel": "+5 degats apres le calcul normal des degats du tir ; ce +5 n'est jamais double. Tir unitaire uniquement ; incompatible Rafale/Suppression. Un echec narratif peut endommager ou desactiver severement l'arme."
+        }
+      },
+      {
+        "id": "munitions-speciales-phoenix-pyro",
+        "name": "Phoenix Pyro",
+        "category": "Munitions spéciales",
+        "priceMode": "multiplier",
+        "priceLabel": "x2 / 20",
+        "effect": "Degats [Feu]. N'ajoute pas de DoT generique ; les consequences de feu passent par Alteration/environnement.",
+        "data": {
+          "Effet actuel": "Degats [Feu]. N'ajoute pas de DoT generique ; les consequences de feu passent par Alteration/environnement."
+        }
+      },
+      {
+        "id": "munitions-speciales-phoenix-hack",
+        "name": "Phoenix Hack",
+        "category": "Munitions spéciales",
+        "priceMode": "multiplier",
+        "priceLabel": "x3 / 2",
+        "effect": "[Electricite]. A l'Alteration contre cible connectee/augmentee : -3 Defense Neuro jusqu'a la fin de sa prochaine activation.",
+        "data": {
+          "Effet actuel": "[Electricite]. A l'Alteration contre cible connectee/augmentee : -3 Defense Neuro jusqu'a la fin de sa prochaine activation."
+        }
+      },
+      {
+        "id": "munitions-speciales-phoenix-blast",
+        "name": "Phoenix Blast",
+        "category": "Munitions spéciales",
+        "priceMode": "multiplier",
+        "priceLabel": "x3 / 2",
+        "effect": "Onde de choc ; a l'Alteration, projection/renversement significatif.",
+        "data": {
+          "Effet actuel": "Onde de choc ; a l'Alteration, projection/renversement significatif."
+        }
+      },
+      {
+        "id": "munitions-speciales-owl-venom",
+        "name": "Owl Venom",
+        "category": "Munitions spéciales",
+        "priceMode": "multiplier",
+        "priceLabel": "x2 / 10",
+        "effect": "DGT -3. Si au moins un projectile de la meme action inflige 1 PV ou plus a une cible biologique : Vigueur + Constitution vs 15. Echec : +2 PV de poison ignorant l'Armure. Un seul test par action de tir.",
+        "data": {
+          "Effet actuel": "DGT -3. Si au moins un projectile de la meme action inflige 1 PV ou plus a une cible biologique : Vigueur + Constitution vs 15. Echec : +2 PV de poison ignorant l'Armure. Un seul test par action de tir."
+        }
+      },
+      {
+        "id": "munitions-speciales-owl-liquid",
+        "name": "Owl Liquid",
+        "category": "Munitions spéciales",
+        "priceMode": "multiplier",
+        "priceLabel": "x4 / 2",
+        "effect": "Projectile se liquefiant dans la blessure ; peut creer une consequence localisee persistante exigeant extraction/soin adapte.",
+        "data": {
+          "Effet actuel": "Projectile se liquefiant dans la blessure ; peut creer une consequence localisee persistante exigeant extraction/soin adapte."
+        }
+      },
+      {
+        "id": "munitions-speciales-owl-rust",
+        "name": "Owl Rust",
+        "category": "Munitions spéciales",
+        "priceMode": "multiplier",
+        "priceLabel": "x4 / 1",
+        "effect": "Munition electrique anti-cyber ; a l'Alteration, peut desactiver une fonction augmentique accessible jusqu'a maintenance/fin d'effet.",
+        "data": {
+          "Effet actuel": "Munition electrique anti-cyber ; a l'Alteration, peut desactiver une fonction augmentique accessible jusqu'a maintenance/fin d'effet."
+        }
+      },
+      {
+        "id": "munitions-lourdes-consommables-bande-bastion",
+        "name": "Bande Bastion",
+        "category": "Munitions lourdes & consommables",
+        "priceMode": "exact",
+        "price": 250,
+        "priceLabel": "250 $",
+        "effect": "Munition lourde conventionnelle.",
+        "data": {
+          "Quantite": "60 coups",
+          "Profil / effet": "Munition lourde conventionnelle."
+        }
+      },
+      {
+        "id": "munitions-lourdes-consommables-charge-manticore",
+        "name": "Charge Manticore",
+        "category": "Munitions lourdes & consommables",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": "Munition EMP lourde.",
+        "data": {
+          "Quantite": "6 coups",
+          "Profil / effet": "Munition EMP lourde."
+        }
+      },
+      {
+        "id": "munitions-lourdes-consommables-bande-hellstorm",
+        "name": "Bande Hellstorm",
+        "category": "Munitions lourdes & consommables",
+        "priceMode": "exact",
+        "price": 650,
+        "priceLabel": "650 $",
+        "effect": "Alimentation haute cadence.",
+        "data": {
+          "Quantite": "200 coups",
+          "Profil / effet": "Alimentation haute cadence."
+        }
+      },
+      {
+        "id": "munitions-lourdes-consommables-grenade-fragmentation-doorbell",
+        "name": "Grenade fragmentation Doorbell",
+        "category": "Munitions lourdes & consommables",
+        "priceMode": "exact",
+        "price": 75,
+        "priceLabel": "75 $",
+        "effect": "DGT 12, Zone 4 m.",
+        "data": {
+          "Quantite": "1",
+          "Profil / effet": "DGT 12, Zone 4 m."
+        }
+      },
+      {
+        "id": "munitions-lourdes-consommables-grenade-emp-doorbell",
+        "name": "Grenade EMP Doorbell",
+        "category": "Munitions lourdes & consommables",
+        "priceMode": "exact",
+        "price": 200,
+        "priceLabel": "200 $",
+        "effect": "DGT 8, Zone 4 m, EMP.",
+        "data": {
+          "Quantite": "1",
+          "Profil / effet": "DGT 8, Zone 4 m, EMP."
+        }
+      },
+      {
+        "id": "munitions-lourdes-consommables-grenade-flash-doorbell",
+        "name": "Grenade Flash Doorbell",
+        "category": "Munitions lourdes & consommables",
+        "priceMode": "exact",
+        "price": 150,
+        "priceLabel": "150 $",
+        "effect": "DGT 3, Zone 5 m ; sur Alteration, -3 aux tests surtout visuels jusqu'a la fin de la prochaine activation.",
+        "data": {
+          "Quantite": "1",
+          "Profil / effet": "DGT 3, Zone 5 m ; sur Alteration, -3 aux tests surtout visuels jusqu'a la fin de la prochaine activation."
+        }
+      },
+      {
+        "id": "munitions-lourdes-consommables-grenade-fumigene-doorbell",
+        "name": "Grenade fumigene Doorbell",
+        "category": "Munitions lourdes & consommables",
+        "priceMode": "exact",
+        "price": 100,
+        "priceLabel": "100 $",
+        "effect": "Zone 5 m ; ecran opaque pour la vision ordinaire, sans couvert physique.",
+        "data": {
+          "Quantite": "1",
+          "Profil / effet": "Zone 5 m ; ecran opaque pour la vision ordinaire, sans couvert physique."
+        }
+      },
+      {
+        "id": "munitions-lourdes-consommables-roquette-breacher",
+        "name": "Roquette Breacher",
+        "category": "Munitions lourdes & consommables",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": "DGT 18, Perforant 2, Zone 3 m.",
+        "data": {
+          "Quantite": "1",
+          "Profil / effet": "DGT 18, Perforant 2, Zone 3 m."
+        }
+      },
+      {
+        "id": "munitions-lourdes-consommables-missile-wasp",
+        "name": "Missile Wasp",
+        "category": "Munitions lourdes & consommables",
+        "priceMode": "exact",
+        "price": 2500,
+        "priceLabel": "2 500 $",
+        "effect": "DGT 20, Autoguide, Zone 4 m.",
+        "data": {
+          "Quantite": "1",
+          "Profil / effet": "DGT 20, Autoguide, Zone 4 m."
+        }
+      },
+      {
+        "id": "munitions-lourdes-consommables-munition-wallbreaker",
+        "name": "Munition Wallbreaker",
+        "category": "Munitions lourdes & consommables",
+        "priceMode": "exact",
+        "price": 250,
+        "priceLabel": "250 $",
+        "effect": "DGT 16, Perforant 3.",
+        "data": {
+          "Quantite": "1",
+          "Profil / effet": "DGT 16, Perforant 3."
+        }
+      },
+      {
+        "id": "munitions-lourdes-consommables-reservoir-salamander",
+        "name": "Reservoir Salamander",
+        "category": "Munitions lourdes & consommables",
+        "priceMode": "exact",
+        "price": 150,
+        "priceLabel": "150 $",
+        "effect": "Projecteur [Feu].",
+        "data": {
+          "Quantite": "6 usages",
+          "Profil / effet": "Projecteur [Feu]."
+        }
+      },
+      {
+        "id": "munitions-lourdes-consommables-reservoir-purifier",
+        "name": "Reservoir Purifier",
+        "category": "Munitions lourdes & consommables",
+        "priceMode": "exact",
+        "price": 250,
+        "priceLabel": "250 $",
+        "effect": "Projecteur [Chimique].",
+        "data": {
+          "Quantite": "5 usages",
+          "Profil / effet": "Projecteur [Chimique]."
+        }
+      },
+      {
+        "id": "armures-basiques-raven-black-feathers",
+        "name": "Raven Black Feathers",
+        "category": "Armures — Basiques",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": "Gilet fin, dissimulable.",
+        "data": {
+          "Protection": "Balistique 1 (Ablatif 4)",
+          "Notes": "Gilet fin, dissimulable."
+        }
+      },
+      {
+        "id": "armures-basiques-owl-bullets-fear",
+        "name": "Owl Bullets Fear",
+        "category": "Armures — Basiques",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": "Gilet epais.",
+        "data": {
+          "Protection": "Balistique 2 (Ablatif 2)",
+          "Notes": "Gilet epais."
+        }
+      },
+      {
+        "id": "armures-basiques-phoenix-sun-shield",
+        "name": "Phoenix Sun Shield",
+        "category": "Armures — Basiques",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": "Anti-tranchant leger.",
+        "data": {
+          "Protection": "Melee 1 (Ablatif 4)",
+          "Notes": "Anti-tranchant leger."
+        }
+      },
+      {
+        "id": "armures-basiques-byron-punk-life",
+        "name": "Byron Punk Life",
+        "category": "Armures — Basiques",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": "Voyant, style neopunk.",
+        "data": {
+          "Protection": "Melee 1 (Ablatif 4), Antichoc 1",
+          "Notes": "Voyant, style neopunk."
+        }
+      },
+      {
+        "id": "armures-basiques-raven-black-dog",
+        "name": "Raven Black Dog",
+        "category": "Armures — Basiques",
+        "priceMode": "exact",
+        "price": 1000,
+        "priceLabel": "1 000 $",
+        "effect": "Tenue de securite/police.",
+        "data": {
+          "Protection": "Balistique 3, Melee 2, Antichoc 2",
+          "Notes": "Tenue de securite/police."
+        }
+      },
+      {
+        "id": "armures-basiques-phoenix-silver-knight",
+        "name": "Phoenix Silver Knight",
+        "category": "Armures — Basiques",
+        "priceMode": "exact",
+        "price": 1000,
+        "priceLabel": "1 000 $",
+        "effect": "Tenue renforcee.",
+        "data": {
+          "Protection": "Balistique 2, Melee 3, Antichoc 2",
+          "Notes": "Tenue renforcee."
+        }
+      },
+      {
+        "id": "armures-basiques-owl-new-guard",
+        "name": "Owl New Guard",
+        "category": "Armures — Basiques",
+        "priceMode": "exact",
+        "price": 850,
+        "priceLabel": "850 $",
+        "effect": "Protection polyvalente.",
+        "data": {
+          "Protection": "Balistique 2, Melee 2, Antichoc 2",
+          "Notes": "Protection polyvalente."
+        }
+      },
+      {
+        "id": "armures-basiques-byron-king-worker-vii",
+        "name": "Byron King Worker VII",
+        "category": "Armures — Basiques",
+        "priceMode": "exact",
+        "price": 750,
+        "priceLabel": "750 $",
+        "effect": "Harnais de chantier ; compatible outils/augmentations industrielles.",
+        "data": {
+          "Protection": "Antichoc 4",
+          "Notes": "Harnais de chantier ; compatible outils/augmentations industrielles."
+        }
+      },
+      {
+        "id": "armures-combat-raven-gallowglass-ii-legere",
+        "name": "Raven Gallowglass II legere",
+        "category": "Armures — Combat",
+        "priceMode": "exact",
+        "price": 1450,
+        "priceLabel": "1 450 $",
+        "effect": "Anti-EMP",
+        "data": {
+          "Bal.": "Balistique 5",
+          "Mel.": "Melee 3",
+          "Ant.": "Antichoc 4",
+          "Notes": "Anti-EMP"
+        }
+      },
+      {
+        "id": "armures-combat-phoenix-skylord-iii",
+        "name": "Phoenix Skylord III",
+        "category": "Armures — Combat",
+        "priceMode": "exact",
+        "price": 1450,
+        "priceLabel": "1 450 $",
+        "effect": "Protection thermique reactive en pugilat selon fiction",
+        "data": {
+          "Bal.": "Balistique 4",
+          "Mel.": "Melee 4",
+          "Ant.": "Antichoc 4",
+          "Notes": "Protection thermique reactive en pugilat selon fiction"
+        }
+      },
+      {
+        "id": "armures-combat-owl-night-guard",
+        "name": "Owl Night Guard",
+        "category": "Armures — Combat",
+        "priceMode": "exact",
+        "price": 1450,
+        "priceLabel": "1 450 $",
+        "effect": "Faible signature en obscurite",
+        "data": {
+          "Bal.": "Balistique 3",
+          "Mel.": "Melee 6",
+          "Ant.": "Antichoc 3",
+          "Notes": "Faible signature en obscurite"
+        }
+      },
+      {
+        "id": "armures-combat-raven-gallowglass-ii-lourde",
+        "name": "Raven Gallowglass II lourde",
+        "category": "Armures — Combat",
+        "priceMode": "exact",
+        "price": 5500,
+        "priceLabel": "5 500 $",
+        "effect": "Anti-EMP ; militaire lourd",
+        "data": {
+          "Bal.": "Balistique 9",
+          "Mel.": "Melee 4",
+          "Ant.": "Antichoc 6",
+          "Notes": "Anti-EMP ; militaire lourd"
+        }
+      },
+      {
+        "id": "armures-combat-phoenix-sun-king",
+        "name": "Phoenix Sun King",
+        "category": "Armures — Combat",
+        "priceMode": "exact",
+        "price": 5000,
+        "priceLabel": "5 000 $",
+        "effect": "Protection thermique reactive",
+        "data": {
+          "Bal.": "Balistique 5",
+          "Mel.": "Melee 5",
+          "Ant.": "Antichoc 5",
+          "Notes": "Protection thermique reactive"
+        }
+      },
+      {
+        "id": "armures-combat-owl-moon-guard",
+        "name": "Owl Moon Guard",
+        "category": "Armures — Combat",
+        "priceMode": "exact",
+        "price": 4550,
+        "priceLabel": "4 550 $",
+        "effect": "Faible signature en obscurite",
+        "data": {
+          "Bal.": "Balistique 4",
+          "Mel.": "Melee 7",
+          "Ant.": "Antichoc 4",
+          "Notes": "Faible signature en obscurite"
+        }
+      },
+      {
+        "id": "armures-specialisees-bridgeelectrics-no-fire",
+        "name": "BridgeElectrics No-Fire",
+        "category": "Armures — Spécialisées",
+        "priceMode": "exact",
+        "price": 1000,
+        "priceLabel": "1 000 $",
+        "effect": "Tenue pompier/technicien, chaleur et electricite.",
+        "data": {
+          "Profil": "Bal.1 / Mel.1 / Ant.3 ; Reduction 3 [Feu/Electricite]",
+          "Fonction": "Tenue pompier/technicien, chaleur et electricite."
+        }
+      },
+      {
+        "id": "armures-specialisees-ocean-master-free-fly",
+        "name": "Ocean Master Free Fly",
+        "category": "Armures — Spécialisées",
+        "priceMode": "exact",
+        "price": 1500,
+        "priceLabel": "1 500 $",
+        "effect": "Respirateur/compensateur G ; circonstances favorables (+3) contre desorientation, vent violent ou perte d'equilibre liee au vol.",
+        "data": {
+          "Profil": "Antichoc 1",
+          "Fonction": "Respirateur/compensateur G ; circonstances favorables (+3) contre desorientation, vent violent ou perte d'equilibre liee au vol."
+        }
+      },
+      {
+        "id": "armures-specialisees-icecorps-santa-clothes",
+        "name": "Icecorps Santa Clothes",
+        "category": "Armures — Spécialisées",
+        "priceMode": "exact",
+        "price": 900,
+        "priceLabel": "900 $",
+        "effect": "Tres epaisse ; peut etre defavorable pour actions demandant finesse/mobilite.",
+        "data": {
+          "Profil": "Mel.2 / Ant.4 ; Reduction 3 [Froid]",
+          "Fonction": "Tres epaisse ; peut etre defavorable pour actions demandant finesse/mobilite."
+        }
+      },
+      {
+        "id": "armures-specialisees-biosun-medicarmor",
+        "name": "Biosun Medicarmor",
+        "category": "Armures — Spécialisées",
+        "priceMode": "exact",
+        "price": 1500,
+        "priceLabel": "1 500 $",
+        "effect": "Permet de travailler dans environnement chimique/viral ordinaire ; une perforation grave peut rompre l'etancheite.",
+        "data": {
+          "Profil": "Etanche ; filtres ; protection contamination",
+          "Fonction": "Permet de travailler dans environnement chimique/viral ordinaire ; une perforation grave peut rompre l'etancheite."
+        }
+      },
+      {
+        "id": "armures-specialisees-sunways-desert-survivor",
+        "name": "Sunways Desert Survivor",
+        "category": "Armures — Spécialisées",
+        "priceMode": "exact",
+        "price": 2500,
+        "priceLabel": "2 500 $",
+        "effect": "Recyclage fluides, charge solaire lente, signature thermique reduite, survie desertique.",
+        "data": {
+          "Profil": "Mel.2 / Ant.2 ; Reduction 3 [Chaud/Froid]",
+          "Fonction": "Recyclage fluides, charge solaire lente, signature thermique reduite, survie desertique."
+        }
+      },
+      {
+        "id": "armures-specialisees-seawares-scaph-iv",
+        "name": "Seawares Scaph IV",
+        "category": "Armures — Spécialisées",
+        "priceMode": "exact",
+        "price": 3500,
+        "priceLabel": "3 500 $",
+        "effect": "Etanche, air, isolation ; tres encombrant et defavorable hors milieu adapte.",
+        "data": {
+          "Profil": "Bal.4 / Mel.4 / Ant.4 (6 sous l'eau)",
+          "Fonction": "Etanche, air, isolation ; tres encombrant et defavorable hors milieu adapte."
+        }
+      },
+      {
+        "id": "armures-specialisees-arcanetwork-neuromaster",
+        "name": "ArcaNetwork Neuromaster",
+        "category": "Armures — Spécialisées",
+        "priceMode": "exact",
+        "price": 3550,
+        "priceLabel": "3 550 $",
+        "effect": "Permet l'immersion profonde ; réduit de 3 les pertes de PV neuronales. Aucun bonus de Rang, slots ou PA. Un Unsinkable ne peut pas utiliser son mode d'immersion.",
+        "data": {
+          "Profil": "Réduction 3 [Neuro] ; interface Neurodive complète",
+          "Fonction": "Permet l'immersion profonde ; réduit de 3 les pertes de PV neuronales. Aucun bonus de Rang, slots ou PA. Un Unsinkable ne peut pas utiliser son mode d'immersion."
+        }
+      },
+      {
+        "id": "armures-camouflage-byron-ghillie-basic",
+        "name": "Byron Ghillie Basic",
+        "category": "Armures — Camouflage",
+        "priceMode": "exact",
+        "price": 550,
+        "priceLabel": "550 $",
+        "effect": "Visuel/textile.",
+        "data": {
+          "Profil": "Camo 1",
+          "Notes": "Visuel/textile."
+        }
+      },
+      {
+        "id": "armures-camouflage-raven-squid-skin",
+        "name": "Raven Squid Skin",
+        "category": "Armures — Camouflage",
+        "priceMode": "exact",
+        "price": 4950,
+        "priceLabel": "4 950 $",
+        "effect": "Reflexion visuelle active ; depend du contraste.",
+        "data": {
+          "Profil": "Melee 1, Antichoc 1, Camo 2",
+          "Notes": "Reflexion visuelle active ; depend du contraste."
+        }
+      },
+      {
+        "id": "armures-camouflage-phoenix-dirty-sniper",
+        "name": "Phoenix Dirty Sniper",
+        "category": "Armures — Camouflage",
+        "priceMode": "exact",
+        "price": 4550,
+        "priceLabel": "4 550 $",
+        "effect": "Texture adaptative ; profil visuel/thermique selon environnement.",
+        "data": {
+          "Profil": "Melee 2, Antichoc 2, Camo 2",
+          "Notes": "Texture adaptative ; profil visuel/thermique selon environnement."
+        }
+      },
+      {
+        "id": "armures-camouflage-owl-zero-guard",
+        "name": "Owl Zero Guard",
+        "category": "Armures — Camouflage",
+        "priceMode": "exact",
+        "price": 3550,
+        "priceLabel": "3 550 $",
+        "effect": "Brouillage electronique ; moins efficace contre capteurs biologiques directs.",
+        "data": {
+          "Profil": "Camo 1, Electro-trompeur",
+          "Notes": "Brouillage electronique ; moins efficace contre capteurs biologiques directs."
+        }
+      },
+      {
+        "id": "armures-camouflage-arcanetwork-holo-rmor-v2",
+        "name": "ArcaNetwork Holo'Rmor V2",
+        "category": "Armures — Camouflage",
+        "priceMode": "exact",
+        "price": 3550,
+        "priceLabel": "3 550 $",
+        "effect": "Holo-tissage identitaire, pas de Camo generique.",
+        "data": {
+          "Profil": "Melee 1, Antichoc 2",
+          "Notes": "Holo-tissage identitaire, pas de Camo generique."
+        }
+      },
+      {
+        "id": "armures-camouflage-sba-ninja",
+        "name": "SBA Ninja",
+        "category": "Armures — Camouflage",
+        "priceMode": "exact",
+        "price": 6500,
+        "priceLabel": "6 500 $",
+        "effect": "Mode spectral haut de gamme ; Camo 3 ne bloque pas un radar/senseur que la combinaison ne masque pas.",
+        "data": {
+          "Profil": "Camo 3",
+          "Notes": "Mode spectral haut de gamme ; Camo 3 ne bloque pas un radar/senseur que la combinaison ne masque pas."
+        }
+      },
+      {
+        "id": "modules-d-armure-renfort-balistique",
+        "name": "Renfort balistique",
+        "category": "Modules d'armure",
+        "priceMode": "exact",
+        "price": 1000,
+        "priceLabel": "1 000 $",
+        "effect": "+1 contre Tir.",
+        "data": {
+          "Slots": "1 slot",
+          "Effet": "+1 contre Tir."
+        }
+      },
+      {
+        "id": "modules-d-armure-renfort-melee",
+        "name": "Renfort melee",
+        "category": "Modules d'armure",
+        "priceMode": "exact",
+        "price": 600,
+        "priceLabel": "600 $",
+        "effect": "+1 contre Melee.",
+        "data": {
+          "Slots": "1",
+          "Effet": "+1 contre Melee."
+        }
+      },
+      {
+        "id": "modules-d-armure-renfort-antichoc",
+        "name": "Renfort antichoc",
+        "category": "Modules d'armure",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": "+1 contre Antichoc.",
+        "data": {
+          "Slots": "1",
+          "Effet": "+1 contre Antichoc."
+        }
+      },
+      {
+        "id": "modules-d-armure-plaques-ablatives",
+        "name": "Plaques ablatives",
+        "category": "Modules d'armure",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $ / recharge 250 $",
+        "effect": "Ablatif 2 : +1 protection sur les 2 premiers impacts applicables.",
+        "data": {
+          "Slots": "1",
+          "Effet": "Ablatif 2 : +1 protection sur les 2 premiers impacts applicables."
+        }
+      },
+      {
+        "id": "modules-d-armure-anti-emp",
+        "name": "Anti-EMP",
+        "category": "Modules d'armure",
+        "priceMode": "exact",
+        "price": 750,
+        "priceLabel": "750 $",
+        "effect": "Protege l'electronique de l'armure contre EMP standard.",
+        "data": {
+          "Slots": "1",
+          "Effet": "Protege l'electronique de l'armure contre EMP standard."
+        }
+      },
+      {
+        "id": "modules-d-armure-anti-hack",
+        "name": "Anti-hack",
+        "category": "Modules d'armure",
+        "priceMode": "exact",
+        "price": 1000,
+        "priceLabel": "1 000 $",
+        "effect": "+3 Defense Neuro contre attaque directe de l'electronique de l'armure.",
+        "data": {
+          "Slots": "1",
+          "Effet": "+3 Defense Neuro contre attaque directe de l'electronique de l'armure."
+        }
+      },
+      {
+        "id": "modules-d-armure-etanche",
+        "name": "Etanche",
+        "category": "Modules d'armure",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": "Rend le profil etanche quand la structure le permet.",
+        "data": {
+          "Slots": "1",
+          "Effet": "Rend le profil etanche quand la structure le permet."
+        }
+      },
+      {
+        "id": "modules-d-armure-respirateur",
+        "name": "Respirateur",
+        "category": "Modules d'armure",
+        "priceMode": "exact",
+        "price": 800,
+        "priceLabel": "800 $",
+        "effect": "Environ 2 h d'air ; exige armure fermee.",
+        "data": {
+          "Slots": "1",
+          "Effet": "Environ 2 h d'air ; exige armure fermee."
+        }
+      },
+      {
+        "id": "modules-d-armure-thermique",
+        "name": "Thermique",
+        "category": "Modules d'armure",
+        "priceMode": "exact",
+        "price": 750,
+        "priceLabel": "750 $",
+        "effect": "Reduction 3 [Feu/Froid].",
+        "data": {
+          "Slots": "1",
+          "Effet": "Reduction 3 [Feu/Froid]."
+        }
+      },
+      {
+        "id": "modules-d-armure-electrique",
+        "name": "Electrique",
+        "category": "Modules d'armure",
+        "priceMode": "exact",
+        "price": 750,
+        "priceLabel": "750 $",
+        "effect": "Reduction 3 [Electricite] ; ne vaut pas Anti-EMP.",
+        "data": {
+          "Slots": "1",
+          "Effet": "Reduction 3 [Electricite] ; ne vaut pas Anti-EMP."
+        }
+      },
+      {
+        "id": "modules-d-armure-suite-capteurs",
+        "name": "Suite capteurs",
+        "category": "Modules d'armure",
+        "priceMode": "exact",
+        "price": 1250,
+        "priceLabel": "1 250 $",
+        "effect": "+2 Perception quand les capteurs integres sont precisement pertinents.",
+        "data": {
+          "Slots": "1",
+          "Effet": "+2 Perception quand les capteurs integres sont precisement pertinents."
+        }
+      },
+      {
+        "id": "modules-d-armure-interface-de-ciblage",
+        "name": "Interface de ciblage",
+        "category": "Modules d'armure",
+        "priceMode": "exact",
+        "price": 750,
+        "priceLabel": "750 $",
+        "effect": "Interface compatible Smartlink/Verrouillage ; aucun +3 propre. Inutilisable comme guidage neural par un Unsinkable.",
+        "data": {
+          "Slots": "1",
+          "Effet": "Interface compatible Smartlink/Verrouillage ; aucun +3 propre. Inutilisable comme guidage neural par un Unsinkable."
+        }
+      },
+      {
+        "id": "modules-d-armure-exosquelette-leger",
+        "name": "Exosquelette leger",
+        "category": "Modules d'armure",
+        "priceMode": "exact",
+        "price": 2500,
+        "priceLabel": "2 500 $",
+        "effect": "Exo 1 : portage, effort, equipement lourd et prerequis de force explicitement concernes.",
+        "data": {
+          "Slots": "2",
+          "Effet": "Exo 1 : portage, effort, equipement lourd et prerequis de force explicitement concernes."
+        }
+      },
+      {
+        "id": "modules-d-armure-compensation-mobilite",
+        "name": "Compensation mobilite",
+        "category": "Modules d'armure",
+        "priceMode": "exact",
+        "price": 1500,
+        "priceLabel": "1 500 $",
+        "effect": "Annule les penalites de mobilite explicitement causees par l'armure.",
+        "data": {
+          "Slots": "1",
+          "Effet": "Annule les penalites de mobilite explicitement causees par l'armure."
+        }
+      },
+      {
+        "id": "modules-d-armure-camo-adaptatif",
+        "name": "Camo adaptatif",
+        "category": "Modules d'armure",
+        "priceMode": "exact",
+        "price": 2500,
+        "priceLabel": "2 500 $",
+        "effect": "Camo 1 ; impossible si l'armure possede deja Camo.",
+        "data": {
+          "Slots": "2",
+          "Effet": "Camo 1 ; impossible si l'armure possede deja Camo."
+        }
+      },
+      {
+        "id": "applications-holonet-navia",
+        "name": "NavIA",
+        "category": "Applications Holonet",
+        "priceMode": "included",
+        "price": 0,
+        "priceLabel": "Incluse / gratuite",
+        "effect": "Navigation, profil, achats, GPS, OS Holonet.",
+        "data": {
+          "Fonction": "Navigation, profil, achats, GPS, OS Holonet."
+        }
+      },
+      {
+        "id": "applications-holonet-celtx",
+        "name": "CeltX",
+        "category": "Applications Holonet",
+        "priceMode": "exact",
+        "price": 75,
+        "priceLabel": "75 $/an",
+        "effect": "Communication textuelle, vocale et neuronale.",
+        "data": {
+          "Fonction": "Communication textuelle, vocale et neuronale."
+        }
+      },
+      {
+        "id": "applications-holonet-securio",
+        "name": "Securio",
+        "category": "Applications Holonet",
+        "priceMode": "range",
+        "priceMin": 500,
+        "priceMax": 2500,
+        "priceLabel": "500 - 2 500 $",
+        "effect": "Canal securise diff. 12/15/18/21/25.",
+        "data": {
+          "Fonction": "Canal securise diff. 12/15/18/21/25."
+        }
+      },
+      {
+        "id": "applications-holonet-shelov",
+        "name": "Shelov",
+        "category": "Applications Holonet",
+        "priceMode": "exact",
+        "price": 150,
+        "priceLabel": "150 $/an",
+        "effect": "Musique Tuatha.",
+        "data": {
+          "Fonction": "Musique Tuatha."
+        }
+      },
+      {
+        "id": "applications-holonet-blackflag",
+        "name": "BlackFlag",
+        "category": "Applications Holonet",
+        "priceMode": "included",
+        "price": 0,
+        "priceLabel": "Gratuit",
+        "effect": "Reseau musical Neopunk.",
+        "data": {
+          "Fonction": "Reseau musical Neopunk."
+        }
+      },
+      {
+        "id": "applications-holonet-allbrains",
+        "name": "AllBrains",
+        "category": "Applications Holonet",
+        "priceMode": "exact",
+        "price": 300,
+        "priceLabel": "300 $",
+        "effect": "Modelisation holo / impression 3D.",
+        "data": {
+          "Fonction": "Modelisation holo / impression 3D."
+        }
+      },
+      {
+        "id": "applications-holonet-ladydolla",
+        "name": "LadyDolla",
+        "category": "Applications Holonet",
+        "priceMode": "exact",
+        "price": 250,
+        "priceLabel": "250 $/an",
+        "effect": "Gestion/alertes bancaires.",
+        "data": {
+          "Fonction": "Gestion/alertes bancaires."
+        }
+      },
+      {
+        "id": "applications-holonet-redwish",
+        "name": "Redwish",
+        "category": "Applications Holonet",
+        "priceMode": "included",
+        "price": 0,
+        "priceLabel": "Gratuit",
+        "effect": "Reseau social/rencontre/services associes.",
+        "data": {
+          "Fonction": "Reseau social/rencontre/services associes."
+        }
+      },
+      {
+        "id": "applications-holonet-boudicca",
+        "name": "Boudicca",
+        "category": "Applications Holonet",
+        "priceMode": "included",
+        "price": 0,
+        "priceLabel": "Gratuit",
+        "effect": "Marketplace grand public.",
+        "data": {
+          "Fonction": "Marketplace grand public."
+        }
+      },
+      {
+        "id": "applications-holonet-call-infornia",
+        "name": "Call'infornia",
+        "category": "Applications Holonet",
+        "priceMode": "included",
+        "price": 0,
+        "priceLabel": "Gratuit / obligatoire",
+        "effect": "Identite civique, vote, services publics.",
+        "data": {
+          "Fonction": "Identite civique, vote, services publics."
+        }
+      },
+      {
+        "id": "applications-holonet-vatican",
+        "name": "Vatican+",
+        "category": "Applications Holonet",
+        "priceMode": "included",
+        "price": 0,
+        "priceLabel": "Gratuit",
+        "effect": "Reseau chretien.",
+        "data": {
+          "Fonction": "Reseau chretien."
+        }
+      },
+      {
+        "id": "applications-holonet-islamaster",
+        "name": "Islamaster",
+        "category": "Applications Holonet",
+        "priceMode": "included",
+        "price": 0,
+        "priceLabel": "Gratuit",
+        "effect": "Reseau musulman.",
+        "data": {
+          "Fonction": "Reseau musulman."
+        }
+      },
+      {
+        "id": "applications-holonet-rampage-x",
+        "name": "Rampage X",
+        "category": "Applications Holonet",
+        "priceMode": "included",
+        "price": 0,
+        "priceLabel": "Gratuit",
+        "effect": "Crawler/Abyss ; contrats/BBM ; +3 aux Intrusions hostiles contre le systeme tant que l'app tourne.",
+        "data": {
+          "Fonction": "Crawler/Abyss ; contrats/BBM ; +3 aux Intrusions hostiles contre le systeme tant que l'app tourne."
+        }
+      },
+      {
+        "id": "objets-usuels-neurodive-n-sta",
+        "name": "N-Sta",
+        "category": "Objets usuels & Neurodive",
+        "priceMode": "exact",
+        "price": 25,
+        "priceLabel": "25 $ / 20",
+        "effect": "Environ 1 h : Stress augmentique effectif -1 et +2 Maîtrise contre Stress/Surcharge augmentique. Limite 1/h ; abus -> test Constitution.",
+        "data": {
+          "Usage": "Environ 1 h : Stress augmentique effectif -1 et +2 Maîtrise contre Stress/Surcharge augmentique. Limite 1/h ; abus -> test Constitution."
+        }
+      },
+      {
+        "id": "objets-usuels-neurodive-holophone",
+        "name": "Holophone",
+        "category": "Objets usuels & Neurodive",
+        "priceMode": "exact",
+        "price": 250,
+        "priceLabel": "250 $",
+        "effect": "Holonet, applications, communication, NavIA.",
+        "data": {
+          "Usage": "Holonet, applications, communication, NavIA."
+        }
+      },
+      {
+        "id": "objets-usuels-neurodive-hololentilles",
+        "name": "Hololentilles",
+        "category": "Objets usuels & Neurodive",
+        "priceMode": "exact",
+        "price": 350,
+        "priceLabel": "350 $",
+        "effect": "RA/affichage optique temporaire ; risques en usage intensif/hack.",
+        "data": {
+          "Usage": "RA/affichage optique temporaire ; risques en usage intensif/hack."
+        }
+      },
+      {
+        "id": "objets-usuels-neurodive-idpass",
+        "name": "IDpass",
+        "category": "Objets usuels & Neurodive",
+        "priceMode": "exact",
+        "price": 100,
+        "priceLabel": "100 $",
+        "effect": "Identite/autorisation de presence sans Holophone.",
+        "data": {
+          "Usage": "Identite/autorisation de presence sans Holophone."
+        }
+      },
+      {
+        "id": "objets-usuels-neurodive-byron-zippo",
+        "name": "Byron Zippo",
+        "category": "Objets usuels & Neurodive",
+        "priceMode": "exact",
+        "price": 200,
+        "priceLabel": "200 $",
+        "effect": "Briquet autoregenerant ; petit outil de flamme.",
+        "data": {
+          "Usage": "Briquet autoregenerant ; petit outil de flamme."
+        }
+      },
+      {
+        "id": "objets-usuels-neurodive-projecteur-holographique",
+        "name": "Projecteur holographique",
+        "category": "Objets usuels & Neurodive",
+        "priceMode": "exact",
+        "price": 250,
+        "priceLabel": "250 $",
+        "effect": "Projection locale et support DFL.",
+        "data": {
+          "Usage": "Projection locale et support DFL."
+        }
+      },
+      {
+        "id": "objets-usuels-neurodive-facecaster-dfl",
+        "name": "FaceCaster DFL",
+        "category": "Objets usuels & Neurodive",
+        "priceMode": "exact",
+        "price": 750,
+        "priceLabel": "750 $",
+        "effect": "Projection apparence porte ; complet avec Holo'Rmor.",
+        "data": {
+          "Usage": "Projection apparence porte ; complet avec Holo'Rmor."
+        }
+      },
+      {
+        "id": "objets-usuels-neurodive-essaim-de-microbots",
+        "name": "Essaim de microbots",
+        "category": "Objets usuels & Neurodive",
+        "priceMode": "exact",
+        "price": 600,
+        "priceLabel": "600 $",
+        "effect": "Inspection, petites manipulations et maintenance de precision selon outils.",
+        "data": {
+          "Usage": "Inspection, petites manipulations et maintenance de precision selon outils."
+        }
+      },
+      {
+        "id": "objets-usuels-neurodive-drone-civil",
+        "name": "Drone civil",
+        "category": "Objets usuels & Neurodive",
+        "priceMode": "exact",
+        "price": 1000,
+        "priceLabel": "1 000 $",
+        "effect": "Observation, transport leger ou assistance selon modele ; pas de PA gratuits.",
+        "data": {
+          "Usage": "Observation, transport leger ou assistance selon modele ; pas de PA gratuits."
+        }
+      },
+      {
+        "id": "objets-usuels-neurodive-serrure-intelligente",
+        "name": "Serrure intelligente",
+        "category": "Objets usuels & Neurodive",
+        "priceMode": "exact",
+        "price": 250,
+        "priceLabel": "250 $",
+        "effect": "Controle d'acces connecte ; securite selon installation.",
+        "data": {
+          "Usage": "Controle d'acces connecte ; securite selon installation."
+        }
+      },
+      {
+        "id": "objets-usuels-neurodive-relais-holonet-portable",
+        "name": "Relais Holonet portable",
+        "category": "Objets usuels & Neurodive",
+        "priceMode": "exact",
+        "price": 750,
+        "priceLabel": "750 $",
+        "effect": "Etend/etablit un acces local au reseau.",
+        "data": {
+          "Usage": "Etend/etablit un acces local au reseau."
+        }
+      },
+      {
+        "id": "objets-usuels-neurodive-scanner-portable",
+        "name": "Scanner portable",
+        "category": "Objets usuels & Neurodive",
+        "priceMode": "exact",
+        "price": 750,
+        "priceLabel": "750 $",
+        "effect": "Capteurs multi-usages ; permet les tests qu'il peut physiquement mesurer.",
+        "data": {
+          "Usage": "Capteurs multi-usages ; permet les tests qu'il peut physiquement mesurer."
+        }
+      },
+      {
+        "id": "objets-usuels-neurodive-imprimante-polymere",
+        "name": "Imprimante polymere",
+        "category": "Objets usuels & Neurodive",
+        "priceMode": "exact",
+        "price": 2500,
+        "priceLabel": "2 500 $",
+        "effect": "Fabrication de pieces simples avec matiere/plan approprie.",
+        "data": {
+          "Usage": "Fabrication de pieces simples avec matiere/plan approprie."
+        }
+      },
+      {
+        "id": "objets-usuels-neurodive-scanner-3d",
+        "name": "Scanner 3D",
+        "category": "Objets usuels & Neurodive",
+        "priceMode": "exact",
+        "price": 1200,
+        "priceLabel": "1 200 $",
+        "effect": "Acquisition de forme pour modelisation/fabrication.",
+        "data": {
+          "Usage": "Acquisition de forme pour modelisation/fabrication."
+        }
+      },
+      {
+        "id": "objets-usuels-neurodive-kit-medical",
+        "name": "Kit medical",
+        "category": "Objets usuels & Neurodive",
+        "priceMode": "exact",
+        "price": 150,
+        "priceLabel": "150 $",
+        "effect": "Materiel adapte pour Premiers soins et Stabilisation.",
+        "data": {
+          "Usage": "Materiel adapte pour Premiers soins et Stabilisation."
+        }
+      },
+      {
+        "id": "objets-usuels-neurodive-kit-technique",
+        "name": "Kit technique",
+        "category": "Objets usuels & Neurodive",
+        "priceMode": "exact",
+        "price": 250,
+        "priceLabel": "250 $",
+        "effect": "Outils de maintenance/reparation courante.",
+        "data": {
+          "Usage": "Outils de maintenance/reparation courante."
+        }
+      },
+      {
+        "id": "objets-usuels-neurodive-cyberconsole-neurodive",
+        "name": "Cyberconsole Neurodive",
+        "category": "Objets usuels & Neurodive",
+        "priceMode": "exact",
+        "price": 1000,
+        "priceLabel": "1 000 $",
+        "effect": "Interface externe portable permettant de charger et employer des Neuroprogrammes sans implant neural ; aucun bonus de Rang. Un Unsinkable peut l'utiliser comme terminal ordinaire, jamais pour plonger.",
+        "data": {
+          "Usage": "Interface externe portable permettant de charger et employer des Neuroprogrammes sans implant neural ; aucun bonus de Rang. Un Unsinkable peut l'utiliser comme terminal ordinaire, jamais pour plonger."
+        }
+      },
+      {
+        "id": "objets-usuels-neurodive-kit-hardline",
+        "name": "Kit hardline",
+        "category": "Objets usuels & Neurodive",
+        "priceMode": "exact",
+        "price": 150,
+        "priceLabel": "150 $",
+        "effect": "Câbles/adaptateurs ; permet la Connexion physique directe lorsque l’accès matériel compatible existe réellement.",
+        "data": {
+          "Usage": "Câbles/adaptateurs ; permet la Connexion physique directe lorsque l’accès matériel compatible existe réellement."
+        }
+      },
+      {
+        "id": "equipement-civique-puce-de-sante-citoyenne",
+        "name": "Puce de santé citoyenne",
+        "category": "Équipement civique",
+        "priceMode": "included",
+        "price": 0,
+        "priceLabel": "Incluse avec l’identité civique",
+        "effect": "Localisation et données vitales selon le modèle ; peut déclencher une alerte médicale et être lue par les portails sanitaires. Sa précision et la qualité de l’intervention dépendent du réseau/assurance.",
+        "data": {
+          "Fonction": "Localisation et données vitales selon le modèle ; peut déclencher une alerte médicale et être lue par les portails sanitaires. Sa précision et la qualité de l’intervention dépendent du réseau/assurance."
+        }
+      },
+      {
+        "id": "equipement-civique-ia-personnelle-du-holophone",
+        "name": "IA personnelle du Holophone",
+        "category": "Équipement civique",
+        "priceMode": "included",
+        "price": 0,
+        "priceLabel": "Incluse avec Holophone/NavIA",
+        "effect": "Gère agenda, achats usuels, banque, informations, maison connectée et habitudes de consommation. Fonction de confort : aucun bonus numérique universel.",
+        "data": {
+          "Fonction": "Gère agenda, achats usuels, banque, informations, maison connectée et habitudes de consommation. Fonction de confort : aucun bonus numérique universel."
+        }
+      },
+      {
+        "id": "equipement-civique-pack-domotique-robots-domestiques",
+        "name": "Pack domotique & robots domestiques",
+        "category": "Équipement civique",
+        "priceMode": "range",
+        "priceMin": 500,
+        "priceMax": 2500,
+        "priceLabel": "Souvent inclus Standard+ ; sinon 500–2 500 $",
+        "effect": "Ménage, cuisine, ravitaillement, petites réparations, surveillance domestique et coordination des appareils connectés selon le logement.",
+        "data": {
+          "Fonction": "Ménage, cuisine, ravitaillement, petites réparations, surveillance domestique et coordination des appareils connectés selon le logement."
+        }
+      },
+      {
+        "id": "equipement-civique-robot-drone-de-securite",
+        "name": "Robot / drone de sécurité",
+        "category": "Équipement civique",
+        "priceMode": "minimum",
+        "priceMin": 1500,
+        "priceLabel": "1 500 $+ civil ; professionnel selon profil",
+        "effect": "Utilise Structure + Blindage comme un véhicule et peut être Neurohacké s’il est connecté. Les modèles armés détaillés appartiennent au bestiaire.",
+        "data": {
+          "Fonction": "Utilise Structure + Blindage comme un véhicule et peut être Neurohacké s’il est connecté. Les modèles armés détaillés appartiennent au bestiaire."
+        }
+      },
+      {
+        "id": "vetements-recuperation-sans-abri",
+        "name": "Recuperation / sans-abri",
+        "category": "Vêtements",
+        "priceMode": "exact",
+        "price": 25,
+        "priceLabel": "25 $",
+        "effect": "Chaleur minimale, faible standing.",
+        "data": {
+          "Exemples d'usage": "Chaleur minimale, faible standing."
+        }
+      },
+      {
+        "id": "vetements-provocante-rue",
+        "name": "Provocante / rue",
+        "category": "Vêtements",
+        "priceMode": "exact",
+        "price": 50,
+        "priceLabel": "50 $",
+        "effect": "Code social specifique.",
+        "data": {
+          "Exemples d'usage": "Code social specifique."
+        }
+      },
+      {
+        "id": "vetements-neopunk",
+        "name": "Neopunk",
+        "category": "Vêtements",
+        "priceMode": "exact",
+        "price": 150,
+        "priceLabel": "150 $",
+        "effect": "Scene underground.",
+        "data": {
+          "Exemples d'usage": "Scene underground."
+        }
+      },
+      {
+        "id": "vetements-citoyen",
+        "name": "Citoyen",
+        "category": "Vêtements",
+        "priceMode": "exact",
+        "price": 150,
+        "priceLabel": "150 $",
+        "effect": "Tenue courante connectee.",
+        "data": {
+          "Exemples d'usage": "Tenue courante connectee."
+        }
+      },
+      {
+        "id": "vetements-ouvrier",
+        "name": "Ouvrier",
+        "category": "Vêtements",
+        "priceMode": "exact",
+        "price": 250,
+        "priceLabel": "250 $",
+        "effect": "Travail et securite de base.",
+        "data": {
+          "Exemples d'usage": "Travail et securite de base."
+        }
+      },
+      {
+        "id": "vetements-lingerie",
+        "name": "Lingerie",
+        "category": "Vêtements",
+        "priceMode": "exact",
+        "price": 200,
+        "priceLabel": "200 $",
+        "effect": "Qualite courante.",
+        "data": {
+          "Exemples d'usage": "Qualite courante."
+        }
+      },
+      {
+        "id": "vetements-detective-rue",
+        "name": "Detective / rue",
+        "category": "Vêtements",
+        "priceMode": "exact",
+        "price": 250,
+        "priceLabel": "250 $",
+        "effect": "Codes et outils pratiques.",
+        "data": {
+          "Exemples d'usage": "Codes et outils pratiques."
+        }
+      },
+      {
+        "id": "vetements-neurodiver",
+        "name": "Neurodiver",
+        "category": "Vêtements",
+        "priceMode": "exact",
+        "price": 350,
+        "priceLabel": "350 $",
+        "effect": "Vetements connectes ; ne remplace pas Neuromaster.",
+        "data": {
+          "Exemples d'usage": "Vetements connectes ; ne remplace pas Neuromaster."
+        }
+      },
+      {
+        "id": "vetements-techfighter-biker",
+        "name": "Techfighter / biker",
+        "category": "Vêtements",
+        "priceMode": "exact",
+        "price": 250,
+        "priceLabel": "250 $",
+        "effect": "Tenue robuste.",
+        "data": {
+          "Exemples d'usage": "Tenue robuste."
+        }
+      },
+      {
+        "id": "vetements-meditech",
+        "name": "Meditech",
+        "category": "Vêtements",
+        "priceMode": "exact",
+        "price": 350,
+        "priceLabel": "350 $",
+        "effect": "Materiel de soin/atelier leger.",
+        "data": {
+          "Exemples d'usage": "Materiel de soin/atelier leger."
+        }
+      },
+      {
+        "id": "vetements-cadre",
+        "name": "Cadre",
+        "category": "Vêtements",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": "Formel de qualite.",
+        "data": {
+          "Exemples d'usage": "Formel de qualite."
+        }
+      },
+      {
+        "id": "vetements-grande-lingerie",
+        "name": "Grande lingerie",
+        "category": "Vêtements",
+        "priceMode": "exact",
+        "price": 400,
+        "priceLabel": "400 $",
+        "effect": "Haut de gamme.",
+        "data": {
+          "Exemples d'usage": "Haut de gamme."
+        }
+      },
+      {
+        "id": "vetements-cyber-expert",
+        "name": "Cyber expert",
+        "category": "Vêtements",
+        "priceMode": "exact",
+        "price": 600,
+        "priceLabel": "600 $",
+        "effect": "Tenue technique connectee.",
+        "data": {
+          "Exemples d'usage": "Tenue technique connectee."
+        }
+      },
+      {
+        "id": "vetements-haut-cadre",
+        "name": "Haut cadre",
+        "category": "Vêtements",
+        "priceMode": "minimum",
+        "priceMin": 1500,
+        "priceLabel": "1 500 $+",
+        "effect": "Sur mesure / haute representation.",
+        "data": {
+          "Exemples d'usage": "Sur mesure / haute representation."
+        }
+      },
+      {
+        "id": "nourriture-ration-synthetique",
+        "name": "Ration / synthetique",
+        "category": "Nourriture",
+        "priceMode": "range",
+        "priceMin": 2,
+        "priceMax": 3,
+        "priceLabel": "2 - 3 $ / jour",
+        "effect": "Survie et grande production.",
+        "data": {
+          "Lecture": "Survie et grande production."
+        }
+      },
+      {
+        "id": "nourriture-mick-go-alternative",
+        "name": "Mick&Go / alternative",
+        "category": "Nourriture",
+        "priceMode": "exact",
+        "price": 5,
+        "priceLabel": "5 $",
+        "effect": "Bas de gamme ; qualite douteuse possible.",
+        "data": {
+          "Lecture": "Bas de gamme ; qualite douteuse possible."
+        }
+      },
+      {
+        "id": "nourriture-mac-yellow",
+        "name": "Mac'Yellow",
+        "category": "Nourriture",
+        "priceMode": "exact",
+        "price": 10,
+        "priceLabel": "10 $",
+        "effect": "Fast-food populaire.",
+        "data": {
+          "Lecture": "Fast-food populaire."
+        }
+      },
+      {
+        "id": "nourriture-famileat",
+        "name": "Famileat",
+        "category": "Nourriture",
+        "priceMode": "range",
+        "priceMin": 20,
+        "priceMax": 30,
+        "priceLabel": "20 - 30 $",
+        "effect": "Repas normal.",
+        "data": {
+          "Lecture": "Repas normal."
+        }
+      },
+      {
+        "id": "nourriture-artisan-bon-restaurant",
+        "name": "Artisan / bon restaurant",
+        "category": "Nourriture",
+        "priceMode": "range",
+        "priceMin": 30,
+        "priceMax": 60,
+        "priceLabel": "30 - 60 $",
+        "effect": "Qualite et social.",
+        "data": {
+          "Lecture": "Qualite et social."
+        }
+      },
+      {
+        "id": "nourriture-oldo",
+        "name": "Oldo'",
+        "category": "Nourriture",
+        "priceMode": "range",
+        "priceMin": 100,
+        "priceMax": 150,
+        "priceLabel": "100 - 150 $",
+        "effect": "Cuisine elite / aliments rares.",
+        "data": {
+          "Lecture": "Cuisine elite / aliments rares."
+        }
+      },
+      {
+        "id": "nourriture-luxe-vraie-production",
+        "name": "Luxe / vraie production",
+        "category": "Nourriture",
+        "priceMode": "minimum",
+        "priceMin": 250,
+        "priceLabel": "250 $+",
+        "effect": "Produits traditionnels, terroir, service haut de gamme.",
+        "data": {
+          "Lecture": "Produits traditionnels, terroir, service haut de gamme."
+        }
+      },
+      {
+        "id": "boissons-eau-reconditionnee",
+        "name": "Eau reconditionnee",
+        "category": "Boissons",
+        "priceMode": "exact",
+        "price": 1,
+        "priceLabel": "1 $",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "boissons-soda",
+        "name": "Soda",
+        "category": "Boissons",
+        "priceMode": "range",
+        "priceMin": 2,
+        "priceMax": 4,
+        "priceLabel": "2 - 4 $",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "boissons-biere-fermentation-d-algues",
+        "name": "Biere/fermentation d'algues",
+        "category": "Boissons",
+        "priceMode": "range",
+        "priceMin": 4,
+        "priceMax": 8,
+        "priceLabel": "4 - 8 $",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "boissons-alcool-industriel",
+        "name": "Alcool industriel",
+        "category": "Boissons",
+        "priceMode": "range",
+        "priceMin": 5,
+        "priceMax": 20,
+        "priceLabel": "5 - 20 $ / verre",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "boissons-alcool-traditionnel",
+        "name": "Alcool traditionnel",
+        "category": "Boissons",
+        "priceMode": "minimum",
+        "priceMin": 20,
+        "priceLabel": "20 $ a plusieurs centaines",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "boissons-cafe-synthetique",
+        "name": "Cafe synthetique",
+        "category": "Boissons",
+        "priceMode": "range",
+        "priceMin": 2,
+        "priceMax": 5,
+        "priceLabel": "2 - 5 $",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "boissons-cafe-clone-cellulaire",
+        "name": "Cafe clone/cellulaire",
+        "category": "Boissons",
+        "priceMode": "range",
+        "priceMin": 10,
+        "priceMax": 20,
+        "priceLabel": "10 - 20 $",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "boissons-vrai-cafe",
+        "name": "Vrai cafe",
+        "category": "Boissons",
+        "priceMode": "range",
+        "priceMin": 30,
+        "priceMax": 100,
+        "priceLabel": "30 - 100 $ / tasse",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "drogues-kick",
+        "name": "Kick",
+        "category": "Drogues",
+        "priceMode": "range",
+        "priceMin": 15,
+        "priceMax": 25,
+        "priceLabel": "15 - 25 $",
+        "effect": "+2 Initiative si pris avant le jet. N'accorde jamais de PA en cours de round ; crash/fatigue possibles.",
+        "data": {
+          "Type": "Stimulant",
+          "Profil": "+2 Initiative si pris avant le jet. N'accorde jamais de PA en cours de round ; crash/fatigue possibles."
+        }
+      },
+      {
+        "id": "drogues-velvet",
+        "name": "Velvet",
+        "category": "Drogues",
+        "priceMode": "range",
+        "priceMin": 20,
+        "priceMax": 40,
+        "priceLabel": "20 - 40 $",
+        "effect": "Le Stress psychologique compte un cran plus bas pour explosif/echec narratif (Paniqué->Tendu, Tendu->Normal), sans masquer les etats dus aux blessures. -3 Initiative/Perception.",
+        "data": {
+          "Type": "Anxiolytique/recreatif",
+          "Profil": "Le Stress psychologique compte un cran plus bas pour explosif/echec narratif (Paniqué->Tendu, Tendu->Normal), sans masquer les etats dus aux blessures. -3 Initiative/Perception."
+        }
+      },
+      {
+        "id": "drogues-prism",
+        "name": "Prism",
+        "category": "Drogues",
+        "priceMode": "range",
+        "priceMin": 50,
+        "priceMax": 100,
+        "priceLabel": "50 - 100 $",
+        "effect": "Alteration forte des sens/perceptions ; outils sociaux ou artistiques seulement si la scene le justifie ; echec peut devenir Stress/desorientation.",
+        "data": {
+          "Type": "Hallucinogene sensoriel",
+          "Profil": "Alteration forte des sens/perceptions ; outils sociaux ou artistiques seulement si la scene le justifie ; echec peut devenir Stress/desorientation."
+        }
+      },
+      {
+        "id": "drogues-redline",
+        "name": "Redline",
+        "category": "Drogues",
+        "priceMode": "range",
+        "priceMin": 100,
+        "priceMax": 200,
+        "priceLabel": "100 - 200 $",
+        "effect": "Effort physique exceptionnel mais forte fatigue/risque physiologique ; utiliser circonstances favorables seulement dans l'usage precis prepare.",
+        "data": {
+          "Type": "Stimulant de performance",
+          "Profil": "Effort physique exceptionnel mais forte fatigue/risque physiologique ; utiliser circonstances favorables seulement dans l'usage precis prepare."
+        }
+      },
+      {
+        "id": "drogues-bloom",
+        "name": "Bloom",
+        "category": "Drogues",
+        "priceMode": "range",
+        "priceMin": 75,
+        "priceMax": 150,
+        "priceLabel": "75 - 150 $",
+        "effect": "Facilite chaleur sociale/intimite quand le contexte s'y prete ; expose a manipulation, dependance et perte de jugement.",
+        "data": {
+          "Type": "Empathogene",
+          "Profil": "Facilite chaleur sociale/intimite quand le contexte s'y prete ; expose a manipulation, dependance et perte de jugement."
+        }
+      },
+      {
+        "id": "drogues-fleshfire",
+        "name": "Fleshfire",
+        "category": "Drogues",
+        "priceMode": "range",
+        "priceMin": 150,
+        "priceMax": 300,
+        "priceLabel": "150 - 300 $",
+        "effect": "Surcharge volontaire des sensations/implants organiques ; effet dependant de l'augmentation ; risque Constitution/Stress.",
+        "data": {
+          "Type": "Augmentique/sensoriel",
+          "Profil": "Surcharge volontaire des sensations/implants organiques ; effet dependant de l'augmentation ; risque Constitution/Stress."
+        }
+      },
+      {
+        "id": "drogues-dreamrush",
+        "name": "Dreamrush",
+        "category": "Drogues",
+        "priceMode": "range",
+        "priceMin": 30,
+        "priceMax": 75,
+        "priceLabel": "30 - 75 $",
+        "effect": "En cas d'echec au test d'usage/retour : au minimum Tendu ou +1 cran ; echec narratif : Paniqué.",
+        "data": {
+          "Type": "Virtuelle",
+          "Profil": "En cas d'echec au test d'usage/retour : au minimum Tendu ou +1 cran ; echec narratif : Paniqué."
+        }
+      },
+      {
+        "id": "drogues-crashware",
+        "name": "Crashware",
+        "category": "Drogues",
+        "priceMode": "range",
+        "priceMin": 100,
+        "priceMax": 250,
+        "priceLabel": "100 - 250 $",
+        "effect": "Overclock neuronal ; ajoute 1 Stress augmentique temporaire pendant l'effet et peut interagir dangereusement avec Neurodive.",
+        "data": {
+          "Type": "Logiciel-drogue Neuro",
+          "Profil": "Overclock neuronal ; ajoute 1 Stress augmentique temporaire pendant l'effet et peut interagir dangereusement avec Neurodive."
+        }
+      },
+      {
+        "id": "services-medicaux-flashmergencies",
+        "name": "Flashmergencies",
+        "category": "Services médicaux",
+        "priceMode": "included",
+        "price": 0,
+        "priceLabel": "Gratuit pour citoyen",
+        "effect": "Urgences publiques ; disponibilite et delai dependent de la zone et de la situation.",
+        "data": {
+          "Fonction": "Urgences publiques ; disponibilite et delai dependent de la zone et de la situation."
+        }
+      },
+      {
+        "id": "services-medicaux-careforce-bronze",
+        "name": "CareForce Bronze",
+        "category": "Services médicaux",
+        "priceMode": "exact",
+        "price": 800,
+        "priceLabel": "800 $ / an",
+        "effect": "Urgences privees niveau Bronze.",
+        "data": {
+          "Fonction": "Urgences privees niveau Bronze."
+        }
+      },
+      {
+        "id": "services-medicaux-careforce-silver",
+        "name": "CareForce Silver",
+        "category": "Services médicaux",
+        "priceMode": "exact",
+        "price": 1500,
+        "priceLabel": "1 500 $ / an",
+        "effect": "Priorite et couverture superieures ; correspond au Talent Crawler Assurance Silver.",
+        "data": {
+          "Fonction": "Priorite et couverture superieures ; correspond au Talent Crawler Assurance Silver."
+        }
+      },
+      {
+        "id": "services-medicaux-careforce-golden",
+        "name": "CareForce Golden",
+        "category": "Services médicaux",
+        "priceMode": "exact",
+        "price": 5500,
+        "priceLabel": "5 500 $ / an",
+        "effect": "Couverture premium et priorite forte.",
+        "data": {
+          "Fonction": "Couverture premium et priorite forte."
+        }
+      },
+      {
+        "id": "services-medicaux-clinique-courante",
+        "name": "Clinique courante",
+        "category": "Services médicaux",
+        "priceMode": "range",
+        "priceMin": 50,
+        "priceMax": 300,
+        "priceLabel": "50 - 300 $+",
+        "effect": "Consultation/soin banal hors urgence publique, selon acte.",
+        "data": {
+          "Fonction": "Consultation/soin banal hors urgence publique, selon acte."
+        }
+      },
+      {
+        "id": "services-medicaux-chirurgie-hospitalisation",
+        "name": "Chirurgie / hospitalisation",
+        "category": "Services médicaux",
+        "priceMode": "minimum",
+        "priceMin": 500,
+        "priceLabel": "500 $ a plusieurs milliers",
+        "effect": "Selon gravite, technologie et assurance.",
+        "data": {
+          "Fonction": "Selon gravite, technologie et assurance."
+        }
+      },
+      {
+        "id": "services-medicaux-black-clinic",
+        "name": "Black Clinic",
+        "category": "Services médicaux",
+        "priceMode": "reference",
+        "priceLabel": "Variable",
+        "effect": "Acces clandestin. Le prix depend surtout du risque, de la provenance des pieces et de l'anonymat.",
+        "data": {
+          "Fonction": "Acces clandestin. Le prix depend surtout du risque, de la provenance des pieces et de l'anonymat."
+        }
+      },
+      {
+        "id": "services-professionnels-formation-courte-adulte",
+        "name": "Formation courte / adulte",
+        "category": "Services professionnels",
+        "priceMode": "range",
+        "priceMin": 100,
+        "priceMax": 500,
+        "priceLabel": "100 - 500 $",
+        "effect": "Mise a niveau, certification, module professionnel.",
+        "data": {
+          "Usage": "Mise a niveau, certification, module professionnel."
+        }
+      },
+      {
+        "id": "services-professionnels-expertise-technique-medicale",
+        "name": "Expertise technique/medicale",
+        "category": "Services professionnels",
+        "priceMode": "range",
+        "priceMin": 100,
+        "priceMax": 500,
+        "priceLabel": "100 - 500 $ / intervention",
+        "effect": "Diagnostic, analyse, rapport, procedure specialisee.",
+        "data": {
+          "Usage": "Diagnostic, analyse, rapport, procedure specialisee."
+        }
+      },
+      {
+        "id": "services-professionnels-reparation-courante",
+        "name": "Reparation courante",
+        "category": "Services professionnels",
+        "priceMode": "range",
+        "priceMin": 50,
+        "priceMax": 250,
+        "priceLabel": "50 - 250 $",
+        "effect": "Materiel standard hors pieces rares.",
+        "data": {
+          "Usage": "Materiel standard hors pieces rares."
+        }
+      },
+      {
+        "id": "services-professionnels-reparation-lourde-augmentique",
+        "name": "Reparation lourde / augmentique",
+        "category": "Services professionnels",
+        "priceMode": "range",
+        "priceMin": 250,
+        "priceMax": 2000,
+        "priceLabel": "250 - 2 000 $+",
+        "effect": "Atelier, calibration, chirurgie ou piece specifique.",
+        "data": {
+          "Usage": "Atelier, calibration, chirurgie ou piece specifique."
+        }
+      },
+      {
+        "id": "services-professionnels-faux-document-identite",
+        "name": "Faux document / identite",
+        "category": "Services professionnels",
+        "priceMode": "range",
+        "priceMin": 500,
+        "priceMax": 5000,
+        "priceLabel": "500 - 5 000 $+",
+        "effect": "Depend fortement du niveau de controle attendu et du reseau.",
+        "data": {
+          "Usage": "Depend fortement du niveau de controle attendu et du reseau."
+        }
+      },
+      {
+        "id": "services-professionnels-service-juridique",
+        "name": "Service juridique",
+        "category": "Services professionnels",
+        "priceMode": "range",
+        "priceMin": 100,
+        "priceMax": 500,
+        "priceLabel": "100 - 500 $ / h ou forfait",
+        "effect": "Conseil/representation ; souvent fourni par une institution.",
+        "data": {
+          "Usage": "Conseil/representation ; souvent fourni par une institution."
+        }
+      },
+      {
+        "id": "services-professionnels-securite-privee",
+        "name": "Securite privee",
+        "category": "Services professionnels",
+        "priceMode": "minimum",
+        "priceMin": 250,
+        "priceLabel": "250 $ / jour a plusieurs milliers",
+        "effect": "Garde, escorte, evenement, intervention selon armement.",
+        "data": {
+          "Usage": "Garde, escorte, evenement, intervention selon armement."
+        }
+      },
+      {
+        "id": "services-professionnels-stockage-box-atelier",
+        "name": "Stockage / box / atelier",
+        "category": "Services professionnels",
+        "priceMode": "range",
+        "priceMin": 50,
+        "priceMax": 500,
+        "priceLabel": "50 - 500 $ / mois",
+        "effect": "Petit local, espace technique ou stockage.",
+        "data": {
+          "Usage": "Petit local, espace technique ou stockage."
+        }
+      },
+      {
+        "id": "loisirs-media-holonet-reseaux",
+        "name": "Media Holonet / reseaux",
+        "category": "Loisirs",
+        "priceMode": "range",
+        "priceMin": 0,
+        "priceMax": 20,
+        "priceLabel": "Gratuit a 20 $/mois",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "loisirs-bar-club-sortie-populaire",
+        "name": "Bar, club, sortie populaire",
+        "category": "Loisirs",
+        "priceMode": "range",
+        "priceMin": 10,
+        "priceMax": 50,
+        "priceLabel": "10 - 50 $",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "loisirs-concert-spectacle-sport",
+        "name": "Concert, spectacle, sport",
+        "category": "Loisirs",
+        "priceMode": "range",
+        "priceMin": 25,
+        "priceMax": 150,
+        "priceLabel": "25 - 150 $",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "loisirs-immersion-experience-premium",
+        "name": "Immersion / experience premium",
+        "category": "Loisirs",
+        "priceMode": "range",
+        "priceMin": 100,
+        "priceMax": 500,
+        "priceLabel": "100 - 500 $",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "loisirs-evenement-luxe-vip",
+        "name": "Evenement luxe / VIP",
+        "category": "Loisirs",
+        "priceMode": "minimum",
+        "priceMin": 500,
+        "priceLabel": "500 $+",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "loisirs-compagnie-sociale-courte",
+        "name": "Compagnie sociale courte",
+        "category": "Loisirs",
+        "priceMode": "range",
+        "priceMin": 10,
+        "priceMax": 50,
+        "priceLabel": "10 - 50 $/h",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "loisirs-compagnie-intime-prostitution-legale",
+        "name": "Compagnie intime/prostitution legale",
+        "category": "Loisirs",
+        "priceMode": "range",
+        "priceMin": 50,
+        "priceMax": 150,
+        "priceLabel": "50 - 150 $/h+",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "logements-squat-zone-abandonnee",
+        "name": "Squat / zone abandonnee",
+        "category": "Logements",
+        "priceMode": "exact",
+        "price": 0,
+        "priceLabel": "0 $",
+        "effect": "Aucune connectivite fiable.",
+        "data": {
+          "Securite typique": "12 ou aucun systeme",
+          "Notes": "Aucune connectivite fiable."
+        }
+      },
+      {
+        "id": "logements-dortoir-ouvrier",
+        "name": "Dortoir ouvrier",
+        "category": "Logements",
+        "priceMode": "range",
+        "priceMin": 150,
+        "priceMax": 300,
+        "priceLabel": "150 - 300 $/mois",
+        "effect": "Basique, dense.",
+        "data": {
+          "Securite typique": "12-15",
+          "Notes": "Basique, dense."
+        }
+      },
+      {
+        "id": "logements-vladic-micro-logement",
+        "name": "Vladic micro-logement",
+        "category": "Logements",
+        "priceMode": "range",
+        "priceMin": 150,
+        "priceMax": 250,
+        "priceLabel": "150 - 250 $/mois",
+        "effect": "Bon marche ; forte dependance sociale/turf.",
+        "data": {
+          "Securite typique": "15",
+          "Notes": "Bon marche ; forte dependance sociale/turf."
+        }
+      },
+      {
+        "id": "logements-vladic-studio",
+        "name": "Vladic studio",
+        "category": "Logements",
+        "priceMode": "range",
+        "priceMin": 250,
+        "priceMax": 400,
+        "priceLabel": "250 - 400 $/mois",
+        "effect": "Reseau Vladic, suivi social implicite.",
+        "data": {
+          "Securite typique": "15",
+          "Notes": "Reseau Vladic, suivi social implicite."
+        }
+      },
+      {
+        "id": "logements-studio-urbain-ancien",
+        "name": "Studio urbain ancien",
+        "category": "Logements",
+        "priceMode": "range",
+        "priceMin": 350,
+        "priceMax": 600,
+        "priceLabel": "350 - 600 $/mois",
+        "effect": "Ancien bati, securite connectee variable.",
+        "data": {
+          "Securite typique": "15",
+          "Notes": "Ancien bati, securite connectee variable."
+        }
+      },
+      {
+        "id": "logements-vladic-familial",
+        "name": "Vladic familial",
+        "category": "Logements",
+        "priceMode": "range",
+        "priceMin": 450,
+        "priceMax": 700,
+        "priceLabel": "450 - 700 $/mois",
+        "effect": "Familial/protege par le territoire.",
+        "data": {
+          "Securite typique": "15-18",
+          "Notes": "Familial/protege par le territoire."
+        }
+      },
+      {
+        "id": "logements-appartement-connecte",
+        "name": "Appartement connecte",
+        "category": "Logements",
+        "priceMode": "range",
+        "priceMin": 650,
+        "priceMax": 1000,
+        "priceLabel": "650 - 1 000 $/mois",
+        "effect": "Domotique, alerte, services.",
+        "data": {
+          "Securite typique": "18",
+          "Notes": "Domotique, alerte, services."
+        }
+      },
+      {
+        "id": "logements-vladic-grand-protege",
+        "name": "Vladic grand/protege",
+        "category": "Logements",
+        "priceMode": "range",
+        "priceMin": 800,
+        "priceMax": 1200,
+        "priceLabel": "800 - 1 200 $/mois",
+        "effect": "Protection de quartier, pas bonus de combat.",
+        "data": {
+          "Securite typique": "18",
+          "Notes": "Protection de quartier, pas bonus de combat."
+        }
+      },
+      {
+        "id": "logements-residence-de-cadre-securisee",
+        "name": "Residence de cadre securisee",
+        "category": "Logements",
+        "priceMode": "range",
+        "priceMin": 2000,
+        "priceMax": 5000,
+        "priceLabel": "2 000 - 5 000 $/mois",
+        "effect": "Securite, services et quartier.",
+        "data": {
+          "Securite typique": "18-21",
+          "Notes": "Securite, services et quartier."
+        }
+      },
+      {
+        "id": "logements-penthouse-villa",
+        "name": "Penthouse / villa",
+        "category": "Logements",
+        "priceMode": "range",
+        "priceMin": 5000,
+        "priceMax": 20000,
+        "priceLabel": "5 000 - 20 000 $+/mois",
+        "effect": "Standing, securite et services premium.",
+        "data": {
+          "Securite typique": "21+",
+          "Notes": "Standing, securite et services premium."
+        }
+      },
+      {
+        "id": "planques-cache-improvisee",
+        "name": "Cache improvisee",
+        "category": "Planques",
+        "priceMode": "range",
+        "priceMin": 0,
+        "priceMax": 100,
+        "priceLabel": "0 - 100 $/mois",
+        "effect": "Dissimulation par abandon/oubli ; peu de securite.",
+        "data": {
+          "Securite": "12",
+          "Usage": "Dissimulation par abandon/oubli ; peu de securite."
+        }
+      },
+      {
+        "id": "planques-piece-box-squat-discret",
+        "name": "Piece/box/squat discret",
+        "category": "Planques",
+        "priceMode": "range",
+        "priceMin": 150,
+        "priceMax": 400,
+        "priceLabel": "150 - 400 $/mois",
+        "effect": "Usage court, faible empreinte.",
+        "data": {
+          "Securite": "12-15",
+          "Usage": "Usage court, faible empreinte."
+        }
+      },
+      {
+        "id": "planques-studio-garage-anonyme",
+        "name": "Studio/garage anonyme",
+        "category": "Planques",
+        "priceMode": "range",
+        "priceMin": 400,
+        "priceMax": 800,
+        "priceLabel": "400 - 800 $/mois",
+        "effect": "Identite/location choisie, stockage.",
+        "data": {
+          "Securite": "15",
+          "Usage": "Identite/location choisie, stockage."
+        }
+      },
+      {
+        "id": "planques-planque-dediee",
+        "name": "Planque dediee",
+        "category": "Planques",
+        "priceMode": "range",
+        "priceMin": 800,
+        "priceMax": 2000,
+        "priceLabel": "800 - 2 000 $/mois",
+        "effect": "Serrures, cameras, connectivite choisie ou isolement.",
+        "data": {
+          "Securite": "18",
+          "Usage": "Serrures, cameras, connectivite choisie ou isolement."
+        }
+      },
+      {
+        "id": "planques-planque-securisee",
+        "name": "Planque securisee",
+        "category": "Planques",
+        "priceMode": "range",
+        "priceMin": 2000,
+        "priceMax": 5000,
+        "priceLabel": "2 000 - 5 000 $/mois",
+        "effect": "Anonymat, contre-surveillance, plusieurs acces.",
+        "data": {
+          "Securite": "18-21",
+          "Usage": "Anonymat, contre-surveillance, plusieurs acces."
+        }
+      },
+      {
+        "id": "planques-reseau-de-planques-premium",
+        "name": "Reseau de planques premium",
+        "category": "Planques",
+        "priceMode": "range",
+        "priceMin": 5000,
+        "priceMax": 15000,
+        "priceLabel": "5 000 - 15 000 $+/mois",
+        "effect": "Plusieurs sites, identites, logistique et securite.",
+        "data": {
+          "Securite": "21+",
+          "Usage": "Plusieurs sites, identites, logistique et securite."
+        }
+      },
+      {
+        "id": "transports-metro-tram",
+        "name": "Metro / tram",
+        "category": "Transports",
+        "priceMode": "range",
+        "priceMin": 2,
+        "priceMax": 5,
+        "priceLabel": "2 - 5 $ / trajet",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "transports-pass-metro-tram",
+        "name": "Pass metro/tram",
+        "category": "Transports",
+        "priceMode": "range",
+        "priceMin": 60,
+        "priceMax": 100,
+        "priceLabel": "60 - 100 $ / mois",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "transports-mas-court-trajet",
+        "name": "MAS - court trajet",
+        "category": "Transports",
+        "priceMode": "range",
+        "priceMin": 5,
+        "priceMax": 10,
+        "priceLabel": "5 - 10 $",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "transports-mas-trajet-long-urbain",
+        "name": "MAS - trajet long urbain",
+        "category": "Transports",
+        "priceMode": "range",
+        "priceMin": 10,
+        "priceMax": 25,
+        "priceLabel": "10 - 25 $",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "transports-bull-basic",
+        "name": "Bull Basic",
+        "category": "Transports",
+        "priceMode": "exact",
+        "price": 150,
+        "priceLabel": "150 $ / mois",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "transports-bull-standard",
+        "name": "Bull Standard",
+        "category": "Transports",
+        "priceMode": "exact",
+        "price": 300,
+        "priceLabel": "300 $ / mois",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "transports-bull-premium",
+        "name": "Bull Premium",
+        "category": "Transports",
+        "priceMode": "exact",
+        "price": 750,
+        "priceLabel": "750 $ / mois",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "transports-bull-executive",
+        "name": "Bull Executive",
+        "category": "Transports",
+        "priceMode": "exact",
+        "price": 1500,
+        "priceLabel": "1 500 $ / mois",
+        "effect": "",
+        "data": {}
+      },
+      {
+        "id": "munitions-standard-pistolet-leger-pm-raven",
+        "name": "Pistolet leger / PM — Raven",
+        "category": "Munitions standard",
+        "priceMode": "exact",
+        "price": 50,
+        "priceLabel": "50 $",
+        "effect": "Prix du lot standard indiqué par fabricant/calibre.",
+        "data": {
+          "Famille": "Pistolet leger / PM",
+          "Fabricant": "Raven"
+        }
+      },
+      {
+        "id": "munitions-standard-pistolet-leger-pm-phoenix",
+        "name": "Pistolet leger / PM — Phoenix",
+        "category": "Munitions standard",
+        "priceMode": "exact",
+        "price": 80,
+        "priceLabel": "80 $",
+        "effect": "Prix du lot standard indiqué par fabricant/calibre.",
+        "data": {
+          "Famille": "Pistolet leger / PM",
+          "Fabricant": "Phoenix"
+        }
+      },
+      {
+        "id": "munitions-standard-pistolet-leger-pm-owl",
+        "name": "Pistolet leger / PM — Owl",
+        "category": "Munitions standard",
+        "priceMode": "exact",
+        "price": 30,
+        "priceLabel": "30 $",
+        "effect": "Prix du lot standard indiqué par fabricant/calibre.",
+        "data": {
+          "Famille": "Pistolet leger / PM",
+          "Fabricant": "Owl"
+        }
+      },
+      {
+        "id": "munitions-standard-pistolet-lourd-raven",
+        "name": "Pistolet lourd — Raven",
+        "category": "Munitions standard",
+        "priceMode": "exact",
+        "price": 70,
+        "priceLabel": "70 $",
+        "effect": "Prix du lot standard indiqué par fabricant/calibre.",
+        "data": {
+          "Famille": "Pistolet lourd",
+          "Fabricant": "Raven"
+        }
+      },
+      {
+        "id": "munitions-standard-pistolet-lourd-phoenix",
+        "name": "Pistolet lourd — Phoenix",
+        "category": "Munitions standard",
+        "priceMode": "exact",
+        "price": 110,
+        "priceLabel": "110 $",
+        "effect": "Prix du lot standard indiqué par fabricant/calibre.",
+        "data": {
+          "Famille": "Pistolet lourd",
+          "Fabricant": "Phoenix"
+        }
+      },
+      {
+        "id": "munitions-standard-pistolet-lourd-owl",
+        "name": "Pistolet lourd — Owl",
+        "category": "Munitions standard",
+        "priceMode": "exact",
+        "price": 40,
+        "priceLabel": "40 $",
+        "effect": "Prix du lot standard indiqué par fabricant/calibre.",
+        "data": {
+          "Famille": "Pistolet lourd",
+          "Fabricant": "Owl"
+        }
+      },
+      {
+        "id": "munitions-standard-mitraillette-raven",
+        "name": "Mitraillette — Raven",
+        "category": "Munitions standard",
+        "priceMode": "exact",
+        "price": 75,
+        "priceLabel": "75 $",
+        "effect": "Prix du lot standard indiqué par fabricant/calibre.",
+        "data": {
+          "Famille": "Mitraillette",
+          "Fabricant": "Raven"
+        }
+      },
+      {
+        "id": "munitions-standard-mitraillette-phoenix",
+        "name": "Mitraillette — Phoenix",
+        "category": "Munitions standard",
+        "priceMode": "exact",
+        "price": 118,
+        "priceLabel": "118 $",
+        "effect": "Prix du lot standard indiqué par fabricant/calibre.",
+        "data": {
+          "Famille": "Mitraillette",
+          "Fabricant": "Phoenix"
+        }
+      },
+      {
+        "id": "munitions-standard-mitraillette-owl",
+        "name": "Mitraillette — Owl",
+        "category": "Munitions standard",
+        "priceMode": "exact",
+        "price": 30,
+        "priceLabel": "30 $",
+        "effect": "Prix du lot standard indiqué par fabricant/calibre.",
+        "data": {
+          "Famille": "Mitraillette",
+          "Fabricant": "Owl"
+        }
+      },
+      {
+        "id": "munitions-standard-fusil-d-assaut-raven",
+        "name": "Fusil d'assaut — Raven",
+        "category": "Munitions standard",
+        "priceMode": "exact",
+        "price": 85,
+        "priceLabel": "85 $",
+        "effect": "Prix du lot standard indiqué par fabricant/calibre.",
+        "data": {
+          "Famille": "Fusil d'assaut",
+          "Fabricant": "Raven"
+        }
+      },
+      {
+        "id": "munitions-standard-fusil-d-assaut-phoenix",
+        "name": "Fusil d'assaut — Phoenix",
+        "category": "Munitions standard",
+        "priceMode": "exact",
+        "price": 135,
+        "priceLabel": "135 $",
+        "effect": "Prix du lot standard indiqué par fabricant/calibre.",
+        "data": {
+          "Famille": "Fusil d'assaut",
+          "Fabricant": "Phoenix"
+        }
+      },
+      {
+        "id": "munitions-standard-fusil-d-assaut-owl",
+        "name": "Fusil d'assaut — Owl",
+        "category": "Munitions standard",
+        "priceMode": "exact",
+        "price": 50,
+        "priceLabel": "50 $",
+        "effect": "Prix du lot standard indiqué par fabricant/calibre.",
+        "data": {
+          "Famille": "Fusil d'assaut",
+          "Fabricant": "Owl"
+        }
+      },
+      {
+        "id": "munitions-standard-precision-raven",
+        "name": "Precision — Raven",
+        "category": "Munitions standard",
+        "priceMode": "exact",
+        "price": 90,
+        "priceLabel": "90 $",
+        "effect": "Prix du lot standard indiqué par fabricant/calibre.",
+        "data": {
+          "Famille": "Precision",
+          "Fabricant": "Raven"
+        }
+      },
+      {
+        "id": "munitions-standard-precision-phoenix",
+        "name": "Precision — Phoenix",
+        "category": "Munitions standard",
+        "priceMode": "exact",
+        "price": 140,
+        "priceLabel": "140 $",
+        "effect": "Prix du lot standard indiqué par fabricant/calibre.",
+        "data": {
+          "Famille": "Precision",
+          "Fabricant": "Phoenix"
+        }
+      },
+      {
+        "id": "munitions-standard-precision-owl",
+        "name": "Precision — Owl",
+        "category": "Munitions standard",
+        "priceMode": "exact",
+        "price": 60,
+        "priceLabel": "60 $",
+        "effect": "Prix du lot standard indiqué par fabricant/calibre.",
+        "data": {
+          "Famille": "Precision",
+          "Fabricant": "Owl"
+        }
+      },
+      {
+        "id": "munitions-standard-shotgun-raven",
+        "name": "Shotgun — Raven",
+        "category": "Munitions standard",
+        "priceMode": "exact",
+        "price": 75,
+        "priceLabel": "75 $",
+        "effect": "Prix du lot standard indiqué par fabricant/calibre.",
+        "data": {
+          "Famille": "Shotgun",
+          "Fabricant": "Raven"
+        }
+      },
+      {
+        "id": "munitions-standard-shotgun-phoenix",
+        "name": "Shotgun — Phoenix",
+        "category": "Munitions standard",
+        "priceMode": "exact",
+        "price": 120,
+        "priceLabel": "120 $",
+        "effect": "Prix du lot standard indiqué par fabricant/calibre.",
+        "data": {
+          "Famille": "Shotgun",
+          "Fabricant": "Phoenix"
+        }
+      },
+      {
+        "id": "munitions-standard-shotgun-owl",
+        "name": "Shotgun — Owl",
+        "category": "Munitions standard",
+        "priceMode": "exact",
+        "price": 35,
+        "priceLabel": "35 $",
+        "effect": "Prix du lot standard indiqué par fabricant/calibre.",
+        "data": {
+          "Famille": "Shotgun",
+          "Fabricant": "Owl"
+        }
+      }
+    ]
+  }
+}

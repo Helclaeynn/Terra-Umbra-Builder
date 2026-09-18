@@ -1,0 +1,199 @@
+{
+  "version": 1,
+  "category": "Armes — Poing & Tasers",
+  "count": 12,
+  "entries": [
+    {
+      "id": "armes-poing-tasers-owl-lt-015-incapaciteur",
+      "name": "Owl LT-015 Incapaciteur",
+      "category": "Armes — Poing & Tasers",
+      "priceMode": "exact",
+      "price": 250,
+      "priceLabel": "250 $",
+      "effect": "",
+      "data": {
+        "Classe": "Taser leger",
+        "DGT": "3",
+        "Portee": "15 m",
+        "Cap.": "10",
+        "Proprietes": "Electrique"
+      }
+    },
+    {
+      "id": "armes-poing-tasers-raven-ht-014-immobilisateur",
+      "name": "Raven HT-014 Immobilisateur",
+      "category": "Armes — Poing & Tasers",
+      "priceMode": "exact",
+      "price": 500,
+      "priceLabel": "500 $",
+      "effect": "",
+      "data": {
+        "Classe": "Taser lourd",
+        "DGT": "6",
+        "Portee": "15 m",
+        "Cap.": "5",
+        "Proprietes": "Electrique"
+      }
+    },
+    {
+      "id": "armes-poing-tasers-owl-pp-014-old-colt",
+      "name": "Owl PP-014 Old Colt",
+      "category": "Armes — Poing & Tasers",
+      "priceMode": "exact",
+      "price": 300,
+      "priceLabel": "300 $",
+      "effect": "",
+      "data": {
+        "Classe": "Poche",
+        "DGT": "6",
+        "Portee": "20 m",
+        "Cap.": "5",
+        "Proprietes": "-"
+      }
+    },
+    {
+      "id": "armes-poing-tasers-raven-pp-012-defender",
+      "name": "Raven PP-012 Defender",
+      "category": "Armes — Poing & Tasers",
+      "priceMode": "exact",
+      "price": 500,
+      "priceLabel": "500 $",
+      "effect": "",
+      "data": {
+        "Classe": "Poche",
+        "DGT": "7",
+        "Portee": "20 m",
+        "Cap.": "4",
+        "Proprietes": "-"
+      }
+    },
+    {
+      "id": "armes-poing-tasers-owl-lp-019-acceptable",
+      "name": "Owl LP-019 Acceptable",
+      "category": "Armes — Poing & Tasers",
+      "priceMode": "exact",
+      "price": 500,
+      "priceLabel": "500 $",
+      "effect": "",
+      "data": {
+        "Classe": "Pistolet leger",
+        "DGT": "7",
+        "Portee": "35 m",
+        "Cap.": "10",
+        "Proprietes": "-"
+      }
+    },
+    {
+      "id": "armes-poing-tasers-raven-lp-004-sturdy",
+      "name": "Raven LP-004 Sturdy",
+      "category": "Armes — Poing & Tasers",
+      "priceMode": "exact",
+      "price": 800,
+      "priceLabel": "800 $",
+      "effect": "",
+      "data": {
+        "Classe": "Pistolet leger",
+        "DGT": "8",
+        "Portee": "35 m",
+        "Cap.": "8",
+        "Proprietes": "Fiable"
+      }
+    },
+    {
+      "id": "armes-poing-tasers-phoenix-lp-028-sun-blast",
+      "name": "Phoenix LP-028 Sun Blast",
+      "category": "Armes — Poing & Tasers",
+      "priceMode": "exact",
+      "price": 950,
+      "priceLabel": "950 $",
+      "effect": "",
+      "data": {
+        "Classe": "Pistolet leger",
+        "DGT": "7",
+        "Portee": "35 m",
+        "Cap.": "10",
+        "Proprietes": "Smartlink"
+      }
+    },
+    {
+      "id": "armes-poing-tasers-owl-hp-104-deputy",
+      "name": "Owl HP-104 Deputy",
+      "category": "Armes — Poing & Tasers",
+      "priceMode": "exact",
+      "price": 950,
+      "priceLabel": "950 $",
+      "effect": "",
+      "data": {
+        "Classe": "Pistolet lourd",
+        "DGT": "10",
+        "Portee": "45 m",
+        "Cap.": "7",
+        "Proprietes": "Fiable"
+      }
+    },
+    {
+      "id": "armes-poing-tasers-raven-hp-014-pacificateur",
+      "name": "Raven HP-014 Pacificateur",
+      "category": "Armes — Poing & Tasers",
+      "priceMode": "exact",
+      "price": 1250,
+      "priceLabel": "1 250 $",
+      "effect": "",
+      "data": {
+        "Classe": "Pistolet lourd",
+        "DGT": "11",
+        "Portee": "45 m",
+        "Cap.": "7",
+        "Proprietes": "Smartlink"
+      }
+    },
+    {
+      "id": "armes-poing-tasers-raven-hp-067-gardien",
+      "name": "Raven HP-067 Gardien",
+      "category": "Armes — Poing & Tasers",
+      "priceMode": "exact",
+      "price": 1650,
+      "priceLabel": "1 650 $",
+      "effect": "",
+      "data": {
+        "Classe": "Pistolet lourd",
+        "DGT": "11",
+        "Portee": "45 m",
+        "Cap.": "12",
+        "Proprietes": "Smartlink"
+      }
+    },
+    {
+      "id": "armes-poing-tasers-phoenix-hp-028-violator",
+      "name": "Phoenix HP-028 Violator",
+      "category": "Armes — Poing & Tasers",
+      "priceMode": "exact",
+      "price": 1250,
+      "priceLabel": "1 250 $",
+      "effect": "",
+      "data": {
+        "Classe": "Pistolet lourd",
+        "DGT": "10",
+        "Portee": "45 m",
+        "Cap.": "10",
+        "Proprietes": "Smartlink"
+      }
+    },
+    {
+      "id": "armes-poing-tasers-phoenix-hp-092-depliant",
+      "name": "Phoenix HP-092 Depliant",
+      "category": "Armes — Poing & Tasers",
+      "priceMode": "exact",
+      "price": 1250,
+      "priceLabel": "1 250 $",
+      "effect": "",
+      "data": {
+        "Classe": "Pistolet lourd",
+        "DGT": "10",
+        "Portee": "45 m",
+        "Cap.": "9",
+        "Proprietes": "Smartlink ; pliant"
+      }
+    }
+  ]
+}

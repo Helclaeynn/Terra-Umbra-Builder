@@ -1,0 +1,151 @@
+{
+  "version": 1,
+  "category": "Armes — Lourdes",
+  "count": 9,
+  "entries": [
+    {
+      "id": "armes-lourdes-bastion",
+      "name": "Bastion",
+      "category": "Armes — Lourdes",
+      "priceMode": "exact",
+      "price": 5500,
+      "priceLabel": "5 500 $",
+      "effect": "",
+      "data": {
+        "DGT": "13",
+        "Portee": "80 m",
+        "Cap.": "60",
+        "Role": "Mitrailleuse lourde / appui",
+        "Proprietes": "Rafale, Automatique, Encombrant"
+      }
+    },
+    {
+      "id": "armes-lourdes-manticore",
+      "name": "Manticore",
+      "category": "Armes — Lourdes",
+      "priceMode": "exact",
+      "price": 8500,
+      "priceLabel": "8 500 $",
+      "effect": "",
+      "data": {
+        "DGT": "14",
+        "Portee": "80 m",
+        "Cap.": "6",
+        "Role": "Neutralisation lourde",
+        "Proprietes": "EMP, Encombrant"
+      }
+    },
+    {
+      "id": "armes-lourdes-hellstorm",
+      "name": "Hellstorm",
+      "category": "Armes — Lourdes",
+      "priceMode": "exact",
+      "price": 12000,
+      "priceLabel": "12 000 $",
+      "effect": "",
+      "data": {
+        "DGT": "13",
+        "Portee": "70 m",
+        "Cap.": "200",
+        "Role": "Gatling",
+        "Proprietes": "Rafale, Automatique, Fiable, Encombrant"
+      }
+    },
+    {
+      "id": "armes-lourdes-doorbell",
+      "name": "Doorbell",
+      "category": "Armes — Lourdes",
+      "priceMode": "exact",
+      "price": 3500,
+      "priceLabel": "3 500 $",
+      "effect": "",
+      "data": {
+        "DGT": "variable",
+        "Portee": "60 m",
+        "Cap.": "6",
+        "Role": "Lance-grenades lourd",
+        "Proprietes": "Zone selon grenade, Encombrant"
+      }
+    },
+    {
+      "id": "armes-lourdes-breacher",
+      "name": "Breacher",
+      "category": "Armes — Lourdes",
+      "priceMode": "exact",
+      "price": 5500,
+      "priceLabel": "5 500 $",
+      "effect": "",
+      "data": {
+        "DGT": "18",
+        "Portee": "90 m",
+        "Cap.": "1",
+        "Role": "Lance-roquette de breche",
+        "Proprietes": "Perforant 2, Zone 3 m, Encombrant"
+      }
+    },
+    {
+      "id": "armes-lourdes-wasp",
+      "name": "Wasp",
+      "category": "Armes — Lourdes",
+      "priceMode": "exact",
+      "price": 14000,
+      "priceLabel": "14 000 $",
+      "effect": "",
+      "data": {
+        "DGT": "20",
+        "Portee": "150 m",
+        "Cap.": "1",
+        "Role": "Missile guide",
+        "Proprietes": "Autoguide, Smartlink, Zone 4 m, Encombrant"
+      }
+    },
+    {
+      "id": "armes-lourdes-wallbreaker",
+      "name": "Wallbreaker",
+      "category": "Armes — Lourdes",
+      "priceMode": "exact",
+      "price": 12500,
+      "priceLabel": "12 500 $",
+      "effect": "",
+      "data": {
+        "DGT": "16",
+        "Portee": "200 m",
+        "Cap.": "3",
+        "Role": "Anti-materiel / fortification",
+        "Proprietes": "Perforant 3, Encombrant"
+      }
+    },
+    {
+      "id": "armes-lourdes-salamander",
+      "name": "Salamander",
+      "category": "Armes — Lourdes",
+      "priceMode": "exact",
+      "price": 3500,
+      "priceLabel": "3 500 $",
+      "effect": "",
+      "data": {
+        "DGT": "9",
+        "Portee": "15 m",
+        "Cap.": "6 usages",
+        "Role": "Projecteur incendiaire",
+        "Proprietes": "[Feu], Zone 3 m (cone), Encombrant"
+      }
+    },
+    {
+      "id": "armes-lourdes-purifier",
+      "name": "Purifier",
+      "category": "Armes — Lourdes",
+      "priceMode": "exact",
+      "price": 6500,
+      "priceLabel": "6 500 $",
+      "effect": "",
+      "data": {
+        "DGT": "11",
+        "Portee": "12 m",
+        "Cap.": "5 usages",
+        "Role": "Projecteur chimique lourd",
+        "Proprietes": "[Chimique], Zone 3 m (cone), Encombrant"
+      }
+    }
+  ]
+}

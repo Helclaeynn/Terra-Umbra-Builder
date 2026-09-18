@@ -1,1 +1,8 @@
-{"encoding":"gzip+base64-split","chunks":["equipment.part01.b64","equipment.part02.b64","equipment.part03.b64","equipment.part04.b64","equipment.part05.b64","equipment.part06.b64"],"entries":261,"source":"TUC_Realite_Equipement_Services_V1_final_2026-09-08"}
+{
+  "encoding": "gzip+base64-split",
+  "chunks": [
+    "equipment.part01.b64"
+  ],
+  "entries": 321,
+  "source": "TUC Reality equipment catalog + legacy arsenal/armor reintegration 2026-09-17"
+}

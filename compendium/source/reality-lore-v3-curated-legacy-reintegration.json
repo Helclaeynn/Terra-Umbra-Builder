@@ -1,0 +1,426 @@
+{
+  "schemaVersion": 1,
+  "source": "Corpus historique armes/armures TUC fourni par l’utilisateur — réintégration modernisée sans ajout de canon",
+  "entries": {
+    "Black Arrow": {
+      "paragraphs": [
+        "Black Arrow est une arbalète urbaine très diffusée, appréciée notamment parce que ses carreaux restent peu coûteux.",
+        "Dans son emploi prévu, arme de trait à un coup, fiable et capable de mieux travailler les protections qu’une arme de trait ordinaire."
+      ],
+      "source": "armes_Arbalètes arcs et arbalètes sous-marines(3).docx"
+    },
+    "Nextar Championship": {
+      "paragraphs": [
+        "Nextar Championship est un arc à poulies Nextar puissant et précis, utilisé aussi bien pour la chasse que dans les compétitions où la marque dispose d’une forte présence.",
+        "Dans son emploi prévu, grand arc pliant à un coup dont les dégâts restent liés à la Vigueur du tireur."
+      ],
+      "source": "armes_Arbalètes arcs et arbalètes sous-marines(3).docx"
+    },
+    "Byron Tethyssette": {
+      "paragraphs": [
+        "Byron Tethyssette est un fusil-harpon Byron destiné au combat sous-marin, dont les mini-harpons exploitent des bulles de plasma autour de l’impact.",
+        "Dans son emploi prévu, arme aquatique de courte portée, spécialisée et moins efficace lorsque ses conditions d’emploi idéales ne sont pas réunies."
+      ],
+      "source": "armes_Arbalètes arcs et arbalètes sous-marines(3).docx"
+    },
+    "Flak Cannon — Prototype": {
+      "paragraphs": [
+        "Flak Cannon — Prototype est un quadri-canon portable expérimental, compatible avec plusieurs munitions et entourant les projectiles d’un milieu ionisé qui accentue leur violence.",
+        "Dans son emploi prévu, arme lourde expérimentale à volume de feu élevé ; son statut de prototype impose une disponibilité spéciale plutôt qu’un prix de marché."
+      ],
+      "source": "armes_Prototypes(2).docx"
+    },
+    "Sheer BlueShell A. — Prototype": {
+      "paragraphs": [
+        "Sheer BlueShell A. — Prototype est un robot autonome programmable par Neurodive ou holophone, lancé vers une personne ou un lieu déterminé avant d’exécuter sa mission de façon inexorable.",
+        "Dans son emploi prévu, engin d’assaut autonome à usage unique ou très limité ; il doit être programmé avant emploi et n’est pas une arme personnelle conventionnelle."
+      ],
+      "source": "armes_Prototypes(2).docx"
+    },
+    "Charm — Prototype": {
+      "paragraphs": [
+        "Charm — Prototype est un petit cœur cristallin lévitant contenant un mélange expérimental de phéromones et de protéines diffusé comme agent de contrôle.",
+        "Dans son emploi prévu, dispositif chimique expérimental dont l’effet principal n’est pas balistique et dépend du composé diffusé."
+      ],
+      "source": "armes_Prototypes(2).docx"
+    },
+    "Armcannon — Prototype": {
+      "paragraphs": [
+        "Armcannon — Prototype est un canon de bras expérimental qui ne nécessite pas d’opération et projette des décharges ioniques surchauffées sans munition solide.",
+        "Dans son emploi prévu, arme énergétique de bras à faible autonomie, alimentée par cellules et pensée pour des tirs puissants plutôt que soutenus."
+      ],
+      "source": "armes_Prototypes(2).docx"
+    },
+    "Raven-Sehdia Railway to Hell — Prototype": {
+      "paragraphs": [
+        "Raven-Sehdia Railway to Hell — Prototype est un railgun prototype Raven-Sehdia sans recul dont le projectile supersonique s’entoure d’un plasma ionisé après la charge.",
+        "Dans son emploi prévu, arme anti-matériel expérimentale à très longue portée, extrêmement perforante et limitée par son cycle de charge énergétique."
+      ],
+      "source": "armes_Prototypes(2).docx"
+    },
+    "Phoenix Vader — Prototype": {
+      "paragraphs": [
+        "Phoenix Vader — Prototype est un pistolet-laser Phoenix alimenté par cellule, capable d’attaquer une couche de matière avant que le faisceau poursuive sa course.",
+        "Dans son emploi prévu, arme laser expérimentale à trois tirs par cellule ; sa pénétration est matérielle et son comportement dépend de la dissipation du faisceau."
+      ],
+      "source": "armes_Prototypes(2).docx"
+    },
+    "Raven Ravenegg": {
+      "paragraphs": [
+        "Raven Ravenegg est un lot de grenades Raven combinant charge explosive et décharge électromagnétique.",
+        "Dans son emploi prévu, grenade de zone qui mêle dégâts explosifs et perturbation EMP contre les systèmes électroniques."
+      ],
+      "source": "armes_armes de jet(2).docx"
+    },
+    "Phoenix Inferno": {
+      "paragraphs": [
+        "Phoenix Inferno est un lot de trois grenades Phoenix dont plusieurs liquides se mélangent au déclenchement pour produire une réaction exothermique.",
+        "Dans son emploi prévu, grenade incendiaire de zone ; son intérêt vient de la chaleur et de l’embrasement plus que de la perforation."
+      ],
+      "source": "armes_armes de jet(2).docx"
+    },
+    "Owl Dripper": {
+      "paragraphs": [
+        "Owl Dripper est un lot de grenades Owl libérant un agent acide gazeux qui réagit notamment avec l’humidité des muqueuses et de la peau.",
+        "Dans son emploi prévu, grenade chimique de zone ; les protections étanches et adaptées aux agents corrosifs restent pertinentes."
+      ],
+      "source": "armes_armes de jet(2).docx"
+    },
+    "Phoenix Helios II": {
+      "paragraphs": [
+        "Phoenix Helios II est des grenades flash Phoenix qui causent peu de dégâts directs mais saturent brutalement la vision et pénalisent particulièrement les cibles photosensibles.",
+        "Dans son emploi prévu, grenade de désorientation et d’aveuglement plutôt que munition conçue pour infliger des dégâts lourds."
+      ],
+      "source": "armes_armes de jet(2).docx"
+    },
+    "Owl Superchoc": {
+      "paragraphs": [
+        "Owl Superchoc est un lot de grenades Owl produisant une onde de choc particulièrement brutale dans leur zone d’effet.",
+        "Dans son emploi prévu, grenade de choc lourde visant à neutraliser par la violence de l’onde de pression autant que par les dégâts."
+      ],
+      "source": "armes_armes de jet(2).docx"
+    },
+    "Biosun Frog Egg": {
+      "paragraphs": [
+        "Biosun Frog Egg est six mini-grenades Biosun qui libèrent une colle extrêmement puissante et réagissent aux sources de chaleur.",
+        "Dans son emploi prévu, munition de contrôle de zone et d’immobilisation ; sa charge adhésive compte davantage que son pouvoir destructeur."
+      ],
+      "source": "armes_armes de jet(2).docx"
+    },
+    "Byron Pokeball": {
+      "paragraphs": [
+        "Byron Pokeball est trois grenades Byron à l’apparence volontairement ludique, diffusant un gaz électrique paralysant.",
+        "Dans son emploi prévu, grenade de neutralisation de zone dont la composante électrique vise surtout à interrompre l’action des personnes touchées."
+      ],
+      "source": "armes_armes de jet(2).docx"
+    },
+    "Owl Vending Machine": {
+      "paragraphs": [
+        "Owl Vending Machine est un lance-grenades Owl conçu pour accepter un très large éventail de grenades du marché.",
+        "Dans son emploi prévu, lanceur à un coup privilégiant la compatibilité des munitions plutôt qu’un chargeur volumineux."
+      ],
+      "source": "armes_armes de jet(2).docx"
+    },
+    "Jagi": {
+      "paragraphs": [
+        "Jagi est des grenades nord-coréennes bon marché dont la charge magnétique permet d’adhérer aux surfaces ferreuses.",
+        "Dans son emploi prévu, grenade de zone à fixation magnétique ; le faible coût s’accompagne d’une fiabilité inférieure aux modèles corporatistes."
+      ],
+      "source": "armes_armes de jet(2).docx"
+    },
+    "Shadow Gift": {
+      "paragraphs": [
+        "Shadow Gift est une grenade programmable par holophone ou Neurodive, utilisable aussi comme bombe à retardement.",
+        "Dans son emploi prévu, munition programmable lourde dont le mode bombe sacrifie la simplicité d’emploi au profit d’un effet préparé plus important."
+      ],
+      "source": "armes_armes de jet(2).docx"
+    },
+    "Raven Bomberman": {
+      "paragraphs": [
+        "Raven Bomberman est un lance-grenades Raven compatible avec les grenades et certains projectiles de la marque, conçu pour provoquer l’explosion dès l’impact.",
+        "Dans son emploi prévu, lanceur à trois coups plus puissant et plus spécialisé que les modèles universels."
+      ],
+      "source": "armes_armes de jet(2).docx"
+    },
+    "Phoenix Easter Bunny": {
+      "paragraphs": [
+        "Phoenix Easter Bunny est un lance-grenades Phoenix plus abordable que le modèle Raven et destiné aux munitions de la marque.",
+        "Dans son emploi prévu, lanceur à trois coups simple, pensé comme plateforme de projection pour les grenades Phoenix."
+      ],
+      "source": "armes_armes de jet(2).docx"
+    },
+    "Phoenix King Fist": {
+      "paragraphs": [
+        "Phoenix King Fist est un poing américain Phoenix très simple, dont l’efficacité dépend surtout du combattant qui le manie.",
+        "Dans son emploi prévu, arme de pugilat sans alimentation ni projectile, conçue pour concentrer la force d’un coup."
+      ],
+      "source": "armes_contendants et utilitairess(3).docx"
+    },
+    "Byron Ginette": {
+      "paragraphs": [
+        "Byron Ginette est une arme contondante Byron pensée pour écraser violemment la cible et briser les protections.",
+        "Dans son emploi prévu, arme de contact lourde combinant fort impact et capacité accrue contre les protections."
+      ],
+      "source": "armes_contendants et utilitairess(3).docx"
+    },
+    "Mary-Antoinette": {
+      "paragraphs": [
+        "Mary-Antoinette est un gantelet hydraulique équipé d’une pince de découpe dont la puissance évoque une petite guillotine.",
+        "Dans son emploi prévu, outil industriel détournable en arme de contact, très destructeur mais lourd et dépendant de ses cellules."
+      ],
+      "source": "armes_contendants et utilitairess(3).docx"
+    },
+    "Pierrette": {
+      "paragraphs": [
+        "Pierrette est un marteau hydraulique de chantier dont le manche rétractable et modulable permet d’alterner entre frappe et fonction de marteau-piqueur.",
+        "Dans son emploi prévu, outil industriel de contact à plusieurs modes ; il reste plus encombrant et spécialisé qu’une arme conventionnelle."
+      ],
+      "source": "armes_contendants et utilitairess(3).docx"
+    },
+    "Byron Melinette": {
+      "paragraphs": [
+        "Byron Melinette est un pistolet-soudeur Byron disposant de douze cellules et pouvant fonctionner longtemps comme outil ou délivrer des décharges de très haute température.",
+        "Dans son emploi prévu, outil thermique utilisable au contact ; les décharges offensives consomment sa réserve beaucoup plus vite que le soudage normal."
+      ],
+      "source": "armes_contendants et utilitairess(3).docx"
+    },
+    "Stretchy": {
+      "paragraphs": [
+        "Stretchy est un bâton de combat à longueur variable, capable de se déformer sous courant électrique et de délivrer plusieurs attaques EMP.",
+        "Dans son emploi prévu, arme de contact modulable ; après épuisement de ses quatre décharges EMP elle reste utilisable mais perd sa capacité de repli électrique."
+      ],
+      "source": "armes_contendants et utilitairess(3).docx"
+    },
+    "Sal-in": {
+      "paragraphs": [
+        "Sal-in est un fusil d’assaut nord-coréen très bon marché, employé par des soldats puis des insurgés malgré une conception réputée défaillante et dangereuse.",
+        "Dans son emploi prévu, fusil d’assaut automatique puissant mais peu fiable ; son prix bas ne supprime pas les risques de fonctionnement."
+      ],
+      "source": "armes_fusils assaut(3).docx"
+    },
+    "Morissette": {
+      "paragraphs": [
+        "Morissette est un fusil d’assaut moderne souvent comparé à tort à un jouet, correct et doté d’une forte capacité mais moins puissant que les références haut de gamme.",
+        "Dans son emploi prévu, arme automatique de grande capacité, assistée au ciblage sans atteindre les performances des modèles plus lourds."
+      ],
+      "source": "armes_fusils assaut(3).docx"
+    },
+    "Biosun Aciditicteeth": {
+      "paragraphs": [
+        "Biosun Aciditicteeth est l’unique incursion Biosun dans les armes à feu : un bio-objet qui régénère et produit ses propres projectiles, se rétracte et blesse par un agent acide.",
+        "Dans son emploi prévu, fusil d’assaut organique à munitions régénérées ; son caractère vivant et visqueux implique des contraintes biologiques absentes des armes mécaniques."
+      ],
+      "source": "armes_fusils assaut(3).docx"
+    },
+    "Tortoise Blastard": {
+      "paragraphs": [
+        "Tortoise Blastard est un fusil d’assaut lourd conçu pour Tortoise Security avant le conflit mexicain, dont l’impact est décrit comme capable de déplacer violemment un véhicule léger.",
+        "Dans son emploi prévu, arme automatique lourde à courte portée, spécialisée contre les cibles protégées et technogmentées."
+      ],
+      "source": "armes_fusils assaut(3).docx"
+    },
+    "Song-gos": {
+      "paragraphs": [
+        "Song-gos est un fusil de précision nord-coréen surnommé la perceuse, peu coûteux et efficace contre les blindages malgré une fiabilité médiocre.",
+        "Dans son emploi prévu, fusil de précision à deux coups privilégiant la pénétration au prix d’un fonctionnement moins sûr."
+      ],
+      "source": "armes_fusils de précision(3).docx"
+    },
+    "Byron Luzette": {
+      "paragraphs": [
+        "Byron Luzette est une arme de précision de la gamme Byron 2035, étonnamment puissante malgré une réserve très faible.",
+        "Dans son emploi prévu, fusil de précision à deux coups qui concentre ses performances sur la puissance et l’assistance au tir."
+      ],
+      "source": "armes_fusils de précision(3).docx"
+    },
+    "Abraham Kennedy": {
+      "paragraphs": [
+        "Abraham Kennedy est un fusil de précision de l’insurrection civile conçu pour être imprimé par frittage dans un meditech équipé.",
+        "Dans son emploi prévu, arme de mission distribuée comme modèle reproductible plutôt que produit commercial standard ; la fabrication locale rend la qualité plus variable."
+      ],
+      "source": "armes_fusils de précision(3).docx"
+    },
+    "Raven-Sehdia Hellrails": {
+      "paragraphs": [
+        "Raven-Sehdia Hellrails est un fusil à rampe issu d’une collaboration Sehdia-Raven, sans recul et conçu pour une trajectoire extrêmement rectiligne malgré les conditions extérieures.",
+        "Dans son emploi prévu, railgun de précision à très longue portée, extrêmement perforant et dépendant d’une recharge énergétique."
+      ],
+      "source": "armes_fusils de précision(3).docx"
+    },
+    "Biosun Pandemic": {
+      "paragraphs": [
+        "Biosun Pandemic est un fusil à seringues Biosun doté d’une grande réserve et conçu pour placer avec précision des munitions hypodermiques spécialisées.",
+        "Dans son emploi prévu, arme hypodermique de précision ; le contenu de la seringue détermine l’essentiel de l’effet après impact."
+      ],
+      "source": "armes_fusils hypodermiques et armédicales(3).docx"
+    },
+    "Sunways Savior DGR": {
+      "paragraphs": [
+        "Sunways Savior DGR est un fusil hypodermique Sunways destiné à projeter des fléchettes à une distance inhabituelle pour ce type d’équipement.",
+        "Dans son emploi prévu, arme hypodermique à longue portée et petite réserve ; la munition injectée reste séparée du dommage mécanique de l’impact."
+      ],
+      "source": "armes_fusils hypodermiques et armédicales(3).docx"
+    },
+    "Disease": {
+      "paragraphs": [
+        "Disease est un pistolet à seringues utilisable pour administrer de petites quantités de produit à une cible, qu’il s’agisse de soin ou de sédation.",
+        "Dans son emploi prévu, pistolet hypodermique compact dont l’effet dépend de la substance chargée dans les seringues."
+      ],
+      "source": "armes_fusils hypodermiques et armédicales(3).docx"
+    },
+    "Raven-Sunways Savior DG": {
+      "paragraphs": [
+        "Raven-Sunways Savior DG est un pistolet hypodermique développé par Raven avec Sunways pour inoculer une substance à distance sans s’exposer inutilement.",
+        "Dans son emploi prévu, pistolet hypodermique précis à faible capacité, pensé pour l’administration ciblée."
+      ],
+      "source": "armes_fusils hypodermiques et armédicales(3).docx"
+    },
+    "Phoenix RedCrush": {
+      "paragraphs": [
+        "Phoenix RedCrush est un lanceur Phoenix capable de projeter fioles d’acide, charges gazeuses ou seringues volumineuses.",
+        "Dans son emploi prévu, arme polyvalente de projection chimique ou hypodermique ; le type de charge conditionne son effet de zone ou d’injection."
+      ],
+      "source": "armes_fusils hypodermiques et armédicales(3).docx"
+    },
+    "Raven Painkiller": {
+      "paragraphs": [
+        "Raven Painkiller est un pistolet à seringues Raven dont la précision et l’assistance de tir sont pensées pour faciliter les injections utiles à distance.",
+        "Dans son emploi prévu, pistolet hypodermique fiable ; son intérêt médical dépend évidemment du produit injecté et du contexte de soin."
+      ],
+      "source": "armes_fusils hypodermiques et armédicales(3).docx"
+    },
+    "Sunways Hornetouch": {
+      "paragraphs": [
+        "Sunways Hornetouch est un poing américain Sunways capable de déployer quatre seringues flexibles pour injecter une substance pendant une frappe.",
+        "Dans son emploi prévu, arme de contact hypodermique limitée par ses quatre injections ; le produit chargé détermine l’effet secondaire."
+      ],
+      "source": "armes_fusils hypodermiques et armédicales(3).docx"
+    },
+    "Biosun Blastard Injector": {
+      "paragraphs": [
+        "Biosun Blastard Injector est un couteau de combat Biosun en titane intégrant deux seringues que l’utilisateur peut choisir de déclencher pendant le coup.",
+        "Dans son emploi prévu, arme de contact légère avec deux injections optionnelles ; elle reste utilisable comme lame une fois les seringues consommées."
+      ],
+      "source": "armes_fusils hypodermiques et armédicales(3).docx"
+    },
+    "Bi": {
+      "paragraphs": [
+        "Bi est un pistolet-mitrailleur nord-coréen très bon marché, surnommé pluie, mais réputé pour ses défauts de fonctionnement.",
+        "Dans son emploi prévu, PM automatique économique dont la fiabilité est inférieure à celle des modèles corporatistes."
+      ],
+      "source": "armes_mitraillettes(3).docx"
+    },
+    "SFU Nebullar": {
+      "paragraphs": [
+        "SFU Nebullar est un pistolet-mitrailleur de la SFU conçu pour continuer à fonctionner sous l’eau, dans le vide, dans la boue et sous des températures extrêmes.",
+        "Dans son emploi prévu, PM automatique spécialisé dans la résistance environnementale plutôt que dans l’augmentation brute des dégâts."
+      ],
+      "source": "armes_mitraillettes(3).docx"
+    },
+    "Monarch Surge": {
+      "paragraphs": [
+        "Monarch Surge est une arme Monarch Systems spécialisée contre les Neurodivers, capable d’améliorer le ciblage d’individus Connectés même lorsqu’ils cherchent à se dissimuler.",
+        "Dans son emploi prévu, PM automatique doté d’un ciblage spécialisé ; son avantage concerne les signatures et interfaces connectées, pas toutes les formes de dissimulation."
+      ],
+      "source": "armes_mitraillettes(3).docx"
+    },
+    "Bibal": {
+      "paragraphs": [
+        "Bibal est une mitraillette nord-coréenne bon marché surnommée grêle, vendue au prix d’une fiabilité réduite.",
+        "Dans son emploi prévu, SMG automatique abordable mais défaillant, adapté à ceux qui privilégient coût et volume de feu."
+      ],
+      "source": "armes_mitraillettes(3).docx"
+    },
+    "Byron Florette": {
+      "paragraphs": [
+        "Byron Florette est une mitraillette Byron construite en Biosteel afin de réduire sa détection par les portiques et détecteurs métalliques classiques.",
+        "Dans son emploi prévu, SMG automatique dont l’intérêt particulier est son matériau de construction, pas une invisibilité universelle aux contrôles."
+      ],
+      "source": "armes_mitraillettes(3).docx"
+    },
+    "Owl Apex": {
+      "paragraphs": [
+        "Owl Apex est un revolver lourd Owl haut de gamme conçu comme un véritable pistolet de précision à une main, avec un recul particulièrement faible.",
+        "Dans son emploi prévu, pistolet lourd de longue portée pour sa catégorie, privilégiant la précision plutôt que les dégâts maximaux."
+      ],
+      "source": "armes_pistolets(4).docx"
+    },
+    "Byron Jeanette": {
+      "paragraphs": [
+        "Byron Jeanette est un revolver léger Byron dont le mécanisme permet un tir double et dont l’électronique avertit lorsque l’utilisateur est lui-même ciblé.",
+        "Dans son emploi prévu, pistolet léger à faible capacité combinant tir double et dispositif d’alerte au ciblage."
+      ],
+      "source": "armes_pistolets(4).docx"
+    },
+    "Jotkka": {
+      "paragraphs": [
+        "Jotkka est un revolver lourd nord-coréen très bon marché et réputé défaillant.",
+        "Dans son emploi prévu, pistolet lourd économique dont le prix bas s’accompagne d’un risque de panne supérieur aux modèles industriels modernes."
+      ],
+      "source": "armes_pistolets(4).docx"
+    },
+    "Raven-Sehdia Pacificateur X": {
+      "paragraphs": [
+        "Raven-Sehdia Pacificateur X est une évolution Raven-Sehdia du Pacificateur, extrêmement puissante et capable d’ioniser ses munitions pour produire une décharge EMP.",
+        "Dans son emploi prévu, pistolet lourd d’exception, nettement au-dessus du Pacificateur standard en puissance et en coût."
+      ],
+      "source": "armes_pistolets(4).docx"
+    },
+    "Eolgul-e": {
+      "paragraphs": [
+        "Eolgul-e est un petit revolver nord-coréen extrêmement bon marché, conçu pour être accessible malgré une fiabilité médiocre.",
+        "Dans son emploi prévu, arme de poche à faible puissance et faible coût, dont la défaillance constitue le principal compromis."
+      ],
+      "source": "armes_pistolets(4).docx"
+    },
+    "Phoenix Sunnyroshima": {
+      "paragraphs": [
+        "Phoenix Sunnyroshima est un très petit pistolet Phoenix qui compense sa puissance limitée par un nuage de gaz ardent utile à courte distance.",
+        "Dans son emploi prévu, arme de poche à faible capacité et effet thermique de proximité, pensée pour les engagements très courts."
+      ],
+      "source": "armes_pistolets(4).docx"
+    },
+    "Reminiscer — Prototype": {
+      "paragraphs": [
+        "Reminiscer — Prototype est un pistolet expérimental utilisant des munitions de matière noire qui traversent les obstacles avant de se matérialiser à la distance ou sur la cible programmée.",
+        "Dans son emploi prévu, arme de mission expérimentale dont la munition spéciale exige une programmation et ne se comporte pas comme un projectile conventionnel."
+      ],
+      "source": "armes_pistolets_prototype 2(2).docx"
+    },
+    "Oblivion — Prototype": {
+      "paragraphs": [
+        "Oblivion — Prototype est un pistolet expérimental dont le neurochoc surcharge le cerveau biologique ou augmenté, avec un effet plus marqué sur les cibles sensibles.",
+        "Dans son emploi prévu, arme de mission spécialisée dans la surcharge neuro-sensorielle plutôt que dans la simple pénétration balistique."
+      ],
+      "source": "armes_pistolets_prototype 2(2).docx"
+    },
+    "Zeus — Prototype": {
+      "paragraphs": [
+        "Zeus — Prototype est un pistolet ionique expérimental dont la configuration peut arbitrer entre portée, puissance et nombre d’utilisations de la cellule.",
+        "Dans son emploi prévu, arme de mission modulaire ; la valeur indiquée représente son profil de référence et la reconfiguration ne doit pas cumuler tous les avantages."
+      ],
+      "source": "armes_pistolets_prototype 2(2).docx"
+    },
+    "Dracula — Prototype": {
+      "paragraphs": [
+        "Dracula — Prototype est un pistolet expérimental utilisant des projectiles vibratoires capables de provoquer de graves lésions vasculaires lorsqu’ils frappent un os.",
+        "Dans son emploi prévu, arme de mission spécialisée dans les traumatismes internes ; son effet particulier dépend d’un impact pertinent sur l’anatomie de la cible."
+      ],
+      "source": "armes_pistolets_prototype 2(2).docx"
+    },
+    "Soldier — Armure légère nord-coréenne": {
+      "paragraphs": [
+        "Soldier — Armure légère nord-coréenne est une armure légère nord-coréenne de base, sans système spécialisé mis en avant par la description d’origine.",
+        "Dans son emploi prévu, protection de combat équilibrée et simple, offrant un profil homogène plutôt qu’une spécialisation."
+      ],
+      "source": "armures_protections basiques(1).docx"
+    },
+    "Heavy Soldier — Armure lourde nord-coréenne": {
+      "paragraphs": [
+        "Heavy Soldier — Armure lourde nord-coréenne est une armure lourde portée par l’élite nord-coréenne pendant la guerre de 2022-2028, séduisante sur le papier mais handicapée par une interface défectueuse.",
+        "Dans son emploi prévu, protection lourde équilibrée avec assistance exosquelettique ; la connexion défectueuse constitue une faiblesse réelle et ne doit pas être ignorée."
+      ],
+      "source": "armures_protections basiques(1).docx"
+    }
+  }
+}

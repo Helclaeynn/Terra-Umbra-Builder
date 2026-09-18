@@ -1,0 +1,849 @@
+{
+  "version": 1,
+  "count": 60,
+  "entries": [
+    {
+      "document": "armes_Arbalètes arcs et arbalètes sous-marines(3).docx",
+      "legacyName": "+B Black Arrow",
+      "candidates": [
+        {
+          "name": "Black Clinic",
+          "category": "Services médicaux",
+          "score": 0.5
+        },
+        {
+          "name": "Raven Black Dog",
+          "category": "Armures — Basiques",
+          "score": 0.4
+        },
+        {
+          "name": "Raven Black Feathers",
+          "category": "Armures — Basiques",
+          "score": 0.4
+        }
+      ]
+    },
+    {
+      "document": "armes_Arbalètes arcs et arbalètes sous-marines(3).docx",
+      "legacyName": "CB Championship",
+      "candidates": []
+    },
+    {
+      "document": "armes_Arbalètes arcs et arbalètes sous-marines(3).docx",
+      "legacyName": "WSG Tethyssette",
+      "candidates": []
+    },
+    {
+      "document": "armes_Prototypes(2).docx",
+      "legacyName": "P. Flak Cannon",
+      "candidates": []
+    },
+    {
+      "document": "armes_Prototypes(2).docx",
+      "legacyName": "P. Sheer BlueShell A.",
+      "candidates": []
+    },
+    {
+      "document": "armes_Prototypes(2).docx",
+      "legacyName": "P. Charm",
+      "candidates": []
+    },
+    {
+      "document": "armes_Prototypes(2).docx",
+      "legacyName": "P. Armcannon",
+      "candidates": []
+    },
+    {
+      "document": "armes_Prototypes(2).docx",
+      "legacyName": "P. Railway to hell",
+      "candidates": []
+    },
+    {
+      "document": "armes_Prototypes(2).docx",
+      "legacyName": "P. Vader",
+      "candidates": []
+    },
+    {
+      "document": "armes_armes de jet(2).docx",
+      "legacyName": "Pw Ravenegg",
+      "candidates": [
+        {
+          "name": "Phoenix PW-026 Vampire Killer",
+          "category": "Armes — Mêlée",
+          "score": 0.286
+        }
+      ]
+    },
+    {
+      "document": "armes_armes de jet(2).docx",
+      "legacyName": "PW Inferno",
+      "candidates": [
+        {
+          "name": "Phoenix PW-026 Vampire Killer",
+          "category": "Armes — Mêlée",
+          "score": 0.286
+        }
+      ]
+    },
+    {
+      "document": "armes_armes de jet(2).docx",
+      "legacyName": "PW Dripper",
+      "candidates": [
+        {
+          "name": "Phoenix PW-026 Vampire Killer",
+          "category": "Armes — Mêlée",
+          "score": 0.286
+        }
+      ]
+    },
+    {
+      "document": "armes_armes de jet(2).docx",
+      "legacyName": "PW heliosII",
+      "candidates": [
+        {
+          "name": "Phoenix PW-026 Vampire Killer",
+          "category": "Armes — Mêlée",
+          "score": 0.286
+        }
+      ]
+    },
+    {
+      "document": "armes_armes de jet(2).docx",
+      "legacyName": "PW Superchoc",
+      "candidates": [
+        {
+          "name": "Phoenix PW-026 Vampire Killer",
+          "category": "Armes — Mêlée",
+          "score": 0.286
+        }
+      ]
+    },
+    {
+      "document": "armes_armes de jet(2).docx",
+      "legacyName": "PW frog egg",
+      "candidates": [
+        {
+          "name": "Phoenix PW-026 Vampire Killer",
+          "category": "Armes — Mêlée",
+          "score": 0.25
+        }
+      ]
+    },
+    {
+      "document": "armes_armes de jet(2).docx",
+      "legacyName": "PW Pokeball",
+      "candidates": [
+        {
+          "name": "Phoenix PW-026 Vampire Killer",
+          "category": "Armes — Mêlée",
+          "score": 0.286
+        }
+      ]
+    },
+    {
+      "document": "armes_armes de jet(2).docx",
+      "legacyName": "GL Vending Machine",
+      "candidates": []
+    },
+    {
+      "document": "armes_armes de jet(2).docx",
+      "legacyName": "PW Jagi",
+      "candidates": [
+        {
+          "name": "Phoenix PW-026 Vampire Killer",
+          "category": "Armes — Mêlée",
+          "score": 0.286
+        }
+      ]
+    },
+    {
+      "document": "armes_armes de jet(2).docx",
+      "legacyName": "PW Shadow gift",
+      "candidates": [
+        {
+          "name": "Phoenix PW-026 Vampire Killer",
+          "category": "Armes — Mêlée",
+          "score": 0.25
+        }
+      ]
+    },
+    {
+      "document": "armes_armes de jet(2).docx",
+      "legacyName": "GL Bomberman",
+      "candidates": []
+    },
+    {
+      "document": "armes_armes de jet(2).docx",
+      "legacyName": "GL Easter Bunny",
+      "candidates": []
+    },
+    {
+      "document": "armes_contendants et utilitairess(3).docx",
+      "legacyName": "BK King fist",
+      "candidates": [
+        {
+          "name": "Phoenix Sun King",
+          "category": "Armures — Combat",
+          "score": 0.4
+        },
+        {
+          "name": "Byron King Worker VII",
+          "category": "Armures — Basiques",
+          "score": 0.333
+        }
+      ]
+    },
+    {
+      "document": "armes_contendants et utilitairess(3).docx",
+      "legacyName": "Bh Ginette",
+      "candidates": []
+    },
+    {
+      "document": "armes_contendants et utilitairess(3).docx",
+      "legacyName": "?? Antoinette",
+      "candidates": []
+    },
+    {
+      "document": "armes_contendants et utilitairess(3).docx",
+      "legacyName": "?? Pierrette",
+      "candidates": []
+    },
+    {
+      "document": "armes_contendants et utilitairess(3).docx",
+      "legacyName": "Wm Melinette",
+      "candidates": []
+    },
+    {
+      "document": "armes_contendants et utilitairess(3).docx",
+      "legacyName": "Cos Stretchy",
+      "candidates": []
+    },
+    {
+      "document": "armes_fusils assaut(3).docx",
+      "legacyName": "AR Sal-in",
+      "candidates": [
+        {
+          "name": "Owl AR-071 Howling",
+          "category": "Armes — Automatiques",
+          "score": 0.286
+        },
+        {
+          "name": "Phoenix AR-124 Mutilator",
+          "category": "Armes — Automatiques",
+          "score": 0.286
+        },
+        {
+          "name": "Phoenix AR-124 Sunlight",
+          "category": "Armes — Automatiques",
+          "score": 0.286
+        },
+        {
+          "name": "Raven AR-027 Rampager",
+          "category": "Armes — Automatiques",
+          "score": 0.286
+        }
+      ]
+    },
+    {
+      "document": "armes_fusils assaut(3).docx",
+      "legacyName": "AR Morissette",
+      "candidates": [
+        {
+          "name": "Owl AR-071 Howling",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix AR-124 Mutilator",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix AR-124 Sunlight",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        },
+        {
+          "name": "Raven AR-027 Rampager",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        }
+      ]
+    },
+    {
+      "document": "armes_fusils assaut(3).docx",
+      "legacyName": "AR Aciditicteeth",
+      "candidates": [
+        {
+          "name": "Owl AR-071 Howling",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix AR-124 Mutilator",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix AR-124 Sunlight",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        },
+        {
+          "name": "Raven AR-027 Rampager",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        }
+      ]
+    },
+    {
+      "document": "armes_fusils assaut(3).docx",
+      "legacyName": "AR Blastard",
+      "candidates": [
+        {
+          "name": "Owl AR-071 Howling",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix AR-124 Mutilator",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix AR-124 Sunlight",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        },
+        {
+          "name": "Raven AR-027 Rampager",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        }
+      ]
+    },
+    {
+      "document": "armes_fusils de précision(3).docx",
+      "legacyName": "Sr Song-gos",
+      "candidates": [
+        {
+          "name": "Owl SR-029 Hoot",
+          "category": "Armes — Précision",
+          "score": 0.286
+        },
+        {
+          "name": "Phoenix SR-034 Phantom",
+          "category": "Armes — Précision",
+          "score": 0.286
+        },
+        {
+          "name": "Raven SR-029 Deathbringer",
+          "category": "Armes — Précision",
+          "score": 0.286
+        },
+        {
+          "name": "Owl SR-017 Big Game Hunter",
+          "category": "Armes — Précision",
+          "score": 0.222
+        }
+      ]
+    },
+    {
+      "document": "armes_fusils de précision(3).docx",
+      "legacyName": "Sr Luzette",
+      "candidates": [
+        {
+          "name": "Owl SR-029 Hoot",
+          "category": "Armes — Précision",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix SR-034 Phantom",
+          "category": "Armes — Précision",
+          "score": 0.333
+        },
+        {
+          "name": "Raven SR-029 Deathbringer",
+          "category": "Armes — Précision",
+          "score": 0.333
+        },
+        {
+          "name": "Owl SR-017 Big Game Hunter",
+          "category": "Armes — Précision",
+          "score": 0.25
+        }
+      ]
+    },
+    {
+      "document": "armes_fusils de précision(3).docx",
+      "legacyName": "sr Abraham Kennedy",
+      "candidates": [
+        {
+          "name": "Owl SR-029 Hoot",
+          "category": "Armes — Précision",
+          "score": 0.286
+        },
+        {
+          "name": "Phoenix SR-034 Phantom",
+          "category": "Armes — Précision",
+          "score": 0.286
+        },
+        {
+          "name": "Raven SR-029 Deathbringer",
+          "category": "Armes — Précision",
+          "score": 0.286
+        },
+        {
+          "name": "Owl SR-017 Big Game Hunter",
+          "category": "Armes — Précision",
+          "score": 0.222
+        }
+      ]
+    },
+    {
+      "document": "armes_fusils de précision(3).docx",
+      "legacyName": "SR Hellrails",
+      "candidates": [
+        {
+          "name": "Owl SR-029 Hoot",
+          "category": "Armes — Précision",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix SR-034 Phantom",
+          "category": "Armes — Précision",
+          "score": 0.333
+        },
+        {
+          "name": "Raven SR-029 Deathbringer",
+          "category": "Armes — Précision",
+          "score": 0.333
+        },
+        {
+          "name": "Owl SR-017 Big Game Hunter",
+          "category": "Armes — Précision",
+          "score": 0.25
+        }
+      ]
+    },
+    {
+      "document": "armes_fusils hypodermiques et armédicales(3).docx",
+      "legacyName": "DGR Pandemic",
+      "candidates": []
+    },
+    {
+      "document": "armes_fusils hypodermiques et armédicales(3).docx",
+      "legacyName": "DGR Savior",
+      "candidates": []
+    },
+    {
+      "document": "armes_fusils hypodermiques et armédicales(3).docx",
+      "legacyName": "DG Disease",
+      "candidates": []
+    },
+    {
+      "document": "armes_fusils hypodermiques et armédicales(3).docx",
+      "legacyName": "DG Savior",
+      "candidates": []
+    },
+    {
+      "document": "armes_fusils hypodermiques et armédicales(3).docx",
+      "legacyName": "DG RedCrush",
+      "candidates": []
+    },
+    {
+      "document": "armes_fusils hypodermiques et armédicales(3).docx",
+      "legacyName": "DG Painkiller",
+      "candidates": []
+    },
+    {
+      "document": "armes_fusils hypodermiques et armédicales(3).docx",
+      "legacyName": "BK Hornetouch",
+      "candidates": []
+    },
+    {
+      "document": "armes_fusils hypodermiques et armédicales(3).docx",
+      "legacyName": "AR Blastard",
+      "candidates": [
+        {
+          "name": "Owl AR-071 Howling",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix AR-124 Mutilator",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix AR-124 Sunlight",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        },
+        {
+          "name": "Raven AR-027 Rampager",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        }
+      ]
+    },
+    {
+      "document": "armes_mitraillettes(3).docx",
+      "legacyName": "LMG Bi",
+      "candidates": [
+        {
+          "name": "Owl LMG-092 Gladius",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix LMG-018 Urban",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        },
+        {
+          "name": "Raven LMG-027 Executionner",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        },
+        {
+          "name": "Raven LMG-072 Neo-Executionner",
+          "category": "Armes — Automatiques",
+          "score": 0.286
+        }
+      ]
+    },
+    {
+      "document": "armes_mitraillettes(3).docx",
+      "legacyName": "LMG Nebullar",
+      "candidates": [
+        {
+          "name": "Owl LMG-092 Gladius",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix LMG-018 Urban",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        },
+        {
+          "name": "Raven LMG-027 Executionner",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        },
+        {
+          "name": "Raven LMG-072 Neo-Executionner",
+          "category": "Armes — Automatiques",
+          "score": 0.286
+        }
+      ]
+    },
+    {
+      "document": "armes_mitraillettes(3).docx",
+      "legacyName": "LMG Surge",
+      "candidates": [
+        {
+          "name": "Owl LMG-092 Gladius",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix LMG-018 Urban",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        },
+        {
+          "name": "Raven LMG-027 Executionner",
+          "category": "Armes — Automatiques",
+          "score": 0.333
+        },
+        {
+          "name": "Raven LMG-072 Neo-Executionner",
+          "category": "Armes — Automatiques",
+          "score": 0.286
+        }
+      ]
+    },
+    {
+      "document": "armes_mitraillettes(3).docx",
+      "legacyName": "MG Bibal",
+      "candidates": []
+    },
+    {
+      "document": "armes_mitraillettes(3).docx",
+      "legacyName": "MG Florette",
+      "candidates": []
+    },
+    {
+      "document": "armes_pistolets(4).docx",
+      "legacyName": "HP Apex",
+      "candidates": [
+        {
+          "name": "Owl HP-104 Deputy",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix HP-028 Violator",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix HP-092 Depliant",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Raven HP-014 Pacificateur",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Raven HP-067 Gardien",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        }
+      ]
+    },
+    {
+      "document": "armes_pistolets(4).docx",
+      "legacyName": "LP Jeanette",
+      "candidates": [
+        {
+          "name": "Owl LP-019 Acceptable",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Raven LP-004 Sturdy",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix LP-028 Sun Blast",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.286
+        }
+      ]
+    },
+    {
+      "document": "armes_pistolets(4).docx",
+      "legacyName": "HP Jotkka",
+      "candidates": [
+        {
+          "name": "Owl HP-104 Deputy",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix HP-028 Violator",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix HP-092 Depliant",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Raven HP-014 Pacificateur",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Raven HP-067 Gardien",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        }
+      ]
+    },
+    {
+      "document": "armes_pistolets(4).docx",
+      "legacyName": "HP Pacificateur x",
+      "candidates": [
+        {
+          "name": "Raven HP-014 Pacificateur",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.667
+        },
+        {
+          "name": "Owl HP-104 Deputy",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix HP-028 Violator",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix HP-092 Depliant",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Raven HP-067 Gardien",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        }
+      ]
+    },
+    {
+      "document": "armes_pistolets(4).docx",
+      "legacyName": "pP Eolgul-e",
+      "candidates": [
+        {
+          "name": "Raven PP-012 Defender",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Owl PP-014 Old Colt",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.286
+        }
+      ]
+    },
+    {
+      "document": "armes_pistolets(4).docx",
+      "legacyName": "PP Sunnyroshima",
+      "candidates": [
+        {
+          "name": "Raven PP-012 Defender",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Owl PP-014 Old Colt",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.286
+        }
+      ]
+    },
+    {
+      "document": "armes_pistolets_prototype 2(2).docx",
+      "legacyName": "HP Reminiscer",
+      "candidates": [
+        {
+          "name": "Owl HP-104 Deputy",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix HP-028 Violator",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix HP-092 Depliant",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Raven HP-014 Pacificateur",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Raven HP-067 Gardien",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        }
+      ]
+    },
+    {
+      "document": "armes_pistolets_prototype 2(2).docx",
+      "legacyName": "HP Oblivion",
+      "candidates": [
+        {
+          "name": "Owl HP-104 Deputy",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix HP-028 Violator",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix HP-092 Depliant",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Raven HP-014 Pacificateur",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Raven HP-067 Gardien",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        }
+      ]
+    },
+    {
+      "document": "armes_pistolets_prototype 2(2).docx",
+      "legacyName": "HP Zeus",
+      "candidates": [
+        {
+          "name": "Owl HP-104 Deputy",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix HP-028 Violator",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix HP-092 Depliant",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Raven HP-014 Pacificateur",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Raven HP-067 Gardien",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        }
+      ]
+    },
+    {
+      "document": "armes_pistolets_prototype 2(2).docx",
+      "legacyName": "LP Dracula",
+      "candidates": [
+        {
+          "name": "Owl LP-019 Acceptable",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Raven LP-004 Sturdy",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.333
+        },
+        {
+          "name": "Phoenix LP-028 Sun Blast",
+          "category": "Armes — Poing & Tasers",
+          "score": 0.286
+        }
+      ]
+    },
+    {
+      "document": "armures_protections basiques(1).docx",
+      "legacyName": "LBA Soldier",
+      "candidates": []
+    },
+    {
+      "document": "armures_protections basiques(1).docx",
+      "legacyName": "HBA heavy soldier",
+      "candidates": []
+    }
+  ]
+}

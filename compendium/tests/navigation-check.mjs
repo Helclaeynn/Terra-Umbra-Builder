@@ -46,7 +46,7 @@ function presentationNavigation(page,nav,targetCategory){
 const pages=manifest.datasets.flatMap(load).filter(page=>isHierarchicalCategory(page.category));
 const expectedRawCounts=Object.fromEntries(rawHierarchical.map(category=>[category,pages.filter(page=>page.category===category).length]));
 const expectedTotal=pages.length;
-const fixedCounts={'Règles':251,'Réalité':9,'Équipement':297,'Augmentations':111,'Catalogue Vérité':229,'Organisations':304,'Personnages':223,'Bestiaire':263};
+const fixedCounts={'Règles':251,'Réalité':9,'Équipement':357,'Augmentations':111,'Catalogue Vérité':229,'Organisations':304,'Personnages':223,'Bestiaire':263};
 for(const [category,count] of Object.entries(fixedCounts))if(expectedRawCounts[category]!==count)throw new Error(`${category}: ${expectedRawCounts[category]}, attendu ${count} — aucune entrée ne doit disparaître pendant la restructuration`);
 
 const expectedById=new Map();
@@ -93,8 +93,8 @@ for(const category of displayCategories){
   if(actual<1)throw new Error(`${category}: rubrique V3 vide`);
 }
 
-const twoFence=nav.entries.find(entry=>entry.id==='equipement-264-2-fence');
-if(!twoFence||twoFence.displayTitle!=='2-Fence')throw new Error(`2-Fence: titre de navigation altéré (${twoFence?.displayTitle||'absent'})`);
+const twoFence=nav.entries.filter(entry=>entry.displayTitle==='2-Fence');
+if(twoFence.length!==1)throw new Error(`2-Fence: ${twoFence.length} entrée(s) de navigation, attendu 1`);
 
 function expectId(id,category,group,subgroup){
   const entry=nav.entries.find(row=>row.id===id);if(!entry)throw new Error(`Navigation témoin absente: ${id}`);
