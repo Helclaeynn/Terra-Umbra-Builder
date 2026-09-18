@@ -76,11 +76,11 @@ export const GUIDE_ARTICLES=[
       },
       {
         id:'se-reveler',
-        title:'Entrer dans la Vérité et se révéler',
+        title:'Éveil, Voilé, Semi-Révélé et Révélé',
         level:2,
         blocks:[
-          {type:'p',text:'Pour un nouveau personnage, « entrer dans la Vérité » ou « se révéler à la Vérité » décrit le moment où l’impossible cesse d’être seulement une anomalie. Le personnage comprend qu’il existe des Natures, des peuples, des traditions, des créatures et des forces que la lecture ordinaire du monde ne suffisait pas à expliquer.'},
-          {type:'p',text:'Cette révélation n’ajoute pas à elle seule une mécanique universelle supplémentaire : sa forme dépend du personnage et de la fiction. Elle peut venir de sa propre Nature, d’une rencontre, d’une enquête, d’un héritage, d’une initiation ou d’un événement qui rend impossible le retour à une explication purement ordinaire.'}
+          {type:'p',text:'Découvrir sa Nature et la manifester sont deux choses différentes. L’Éveil est une prise de conscience, une activation ou une maturation propre à la Nature ; la Révélation est l’expression de cette Nature dans le monde. Un personnage peut donc savoir ce qu’il est tout en restant Voilé, ou manifester quelque chose avant d’en comprendre toute l’histoire.'},
+          {type:'p',text:'Les initiés distinguent trois états. Voilé, l’individu reste inscrit dans la cohérence humaine de l’Hologramme. Semi-Révélé, une partie de sa Vérité se matérialise ou devient accessible sans que la traduction soit totalement abandonnée. Révélé, il exprime suffisamment sa Nature pour que le monde ordinaire soit confronté à ce qu’il est réellement. Voir sous le Voile ne force pas quelqu’un à se Révéler : la Révélation est un acte personnel, sauf effet qui l’autorise explicitement.'}
         ]
       },
       {
@@ -88,8 +88,9 @@ export const GUIDE_ARTICLES=[
         title:'Comment la Vérité agit sur la Réalité',
         level:2,
         blocks:[
-          {type:'p',text:'La Vérité agit sur la Réalité parce que ses acteurs vivent et agissent dans le même monde. Les sociétés vampiriques, les Pelages garous, les Loges des Mages, les Temples Daemoniaques, les Chasseurs, les peuples exilés ou extrals et les autres traditions peuvent influencer des personnes, des territoires, des organisations et des conflits visibles.'},
-          {type:'p',text:'La Corruption et les Fléaux rendent cette interaction encore plus directe : ils peuvent transformer des êtres, engendrer des Ruptures ou laisser des conséquences que les acteurs de Réalité subissent même lorsqu’ils n’en comprennent pas l’origine. La Vérité est donc cachée, mais elle n’est ni abstraite ni sans prise sur le monde.'}
+          {type:'p',text:'L’Hologramme n’est pas une simple illusion visuelle : c’est un construct technomagique planétaire capable de traduire physiquement des êtres et phénomènes de Vérité afin de préserver une cohérence humaine. Il peut infléchir la perception, les souvenirs, les traces et jusqu’à la manière dont certaines manifestations prennent place dans la matière.'},
+          {type:'p',text:'Cette traduction n’annule pourtant pas les conséquences ordinaires. Le Voile ne détourne pas une balle, ne ressuscite pas un mort, ne reconstruit pas un immeuble et n’efface pas automatiquement une enquête. Une créature peut rester Voilée tout en provoquant un événement parfaitement réel : les témoins ou institutions peuvent seulement en comprendre la cause autrement.'},
+          {type:'p',text:'Les sociétés vampiriques, les Pelages garous, les Loges des Mages, les Temples Daemoniaques, les Chasseurs, les peuples exilés ou extrals et les autres communautés de Vérité agissent donc sur les mêmes personnes, territoires et organisations que le reste du monde. La Corruption et les Fléaux peuvent aller plus loin encore en transformant durablement des êtres, des objets ou des systèmes.'}
         ]
       },
       {
