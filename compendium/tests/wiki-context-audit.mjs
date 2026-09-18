@@ -79,6 +79,10 @@ assert.match(truthTerms,/data-wiki-id="verite-056-20-corruption"[^>]*>Corruption
 assert.match(truthTerms,/data-wiki-id="verite-056-20-corruption"[^>]*>Souillure<\/a>/);
 assert.match(truthTerms,/data-wiki-id="verite-023-l-ombremonde-le-reste-du-monde"[^>]*>L(?:&#39;|’)Ombremonde<\/a>/);
 
+const elisions=linker.linkify("Les passages d’Aèr et l’Hologramme relient plusieurs couches de l’histoire.",truthContext);
+assert.match(elisions,/data-wiki-id="verite-lore-aer-monde-et-heritages"[^>]*>Aèr<\/a>/,'d’Aèr doit pouvoir lier le nom Aèr malgré l’élision');
+assert.match(elisions,/data-wiki-id="verite-002-le-voile-et-l-hologramme"[^>]*>Hologramme<\/a>/,'l’Hologramme doit pouvoir lier le concept malgré l’élision');
+
 const khinaeTerms=linker.linkify('Les Khinae corrompus partagent une racine avec les Vampires, tandis que les Loups descendants de Khinae forment les Garous.',truthContext);
 assert.match(khinaeTerms,/data-wiki-id="verite-lore-khinae-originels"[^>]*>Khinae corrompus<\/a>/);
 assert.match(khinaeTerms,/data-wiki-id="verite-046-10-vampires"[^>]*>Vampires<\/a>/);
