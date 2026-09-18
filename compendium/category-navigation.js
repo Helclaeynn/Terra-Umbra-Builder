@@ -1,3 +1,4 @@
+import {GUIDE_NAVIGATION} from './guide-articles.js';
 const SUPPORTED=new Set(['Règles','Réalité','Vérité','Équipement & Objets','Personnages','Bestiaire']);
 let indexPromise=null;
 
@@ -28,7 +29,7 @@ function adaptNavigationEntry(entry){
 function resultFrom(entry,category,group,groupOrder,subgroup,subgroupOrder){return{...entry,category,group,groupOrder,subgroup,subgroupOrder}}
 function truthDomain(text){
   if(/vampir|krovni|alghul|ihuito|cour du sang|couronne de sang/.test(text))return['Vampires',10];
-  if(/garou|pelage|loup/.test(text))return['Garous & descendants de Khinae',20];
+  if(/garou|pelage|loup|khinae/.test(text))return['Garous & descendants de Khinae',20];
   if(/mage|mageius|loge|thaum|sorcier/.test(text))return['Mages',30];
   if(/daemon|demon|belial|baal|abigor|astaroth|lilith|lucifer|mammon|mephisto|morrighan|satan/.test(text))return['Daemons',40];
   if(/angelus|sephir|cherubin|seraphin|arbre de vie/.test(text))return['Angelus',50];
@@ -67,6 +68,7 @@ function canonicalizeTruth(entry,card){
   return resultFrom(entry,'Vérité','Organisations occultes & cultes',40,'Sociétés, cultes & réseaux occultes',20);
 }
 function canonicalizeForRoute(entry,category,card){
+  if(String(entry?.dataset||'')==='guide')return {...entry,category};
   if(category==='Réalité')return canonicalizeReality(entry,card);
   if(category==='Vérité')return canonicalizeTruth(entry,card);
   return {...entry,category};
@@ -79,7 +81,7 @@ async function loadNavigation(){
       return response.json();
     }).then(data=>{
       if(![1,2,3].includes(data?.version)||!Array.isArray(data.entries))throw new Error('navigation-v1.json invalide');
-      return new Map(data.entries.map(entry=>{const adapted=adaptNavigationEntry(entry);return[adapted.id,adapted]}));
+      const rows=[...data.entries,...GUIDE_NAVIGATION];return new Map(rows.map(entry=>{const adapted=adaptNavigationEntry(entry);return[adapted.id,adapted]}));
     });
   }
   return indexPromise;
