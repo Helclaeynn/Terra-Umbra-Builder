@@ -94,6 +94,28 @@ assert.match(khinaeTerms,/data-wiki-id="verite-lore-khinae-originels"[^>]*>Khina
 assert.match(khinaeTerms,/data-wiki-id="verite-046-10-vampires"[^>]*>Vampires<\/a>/);
 assert.match(khinaeTerms,/data-wiki-id="verite-047-11-garous-loups-descendants-de-khinae"[^>]*>Loups descendants de Khinae<\/a>/);
 
+const ordinaryContext={id:'audit-ordinary',category:'Réalité',dataset:'realite',group:'Grande Californie & société',subgroup:'Vie quotidienne',title:'Audit'};
+const ordinaryTerms=linker.linkify("La corruption municipale nourrit un cycle économique ; un chasseur de prime porte un voile devant le visage après une révélation divine.",ordinaryContext);
+assert.doesNotMatch(ordinaryTerms,/data-wiki-id="verite-056-20-corruption"/,'La corruption ordinaire ne doit pas pointer vers la Corruption des Fléaux');
+assert.doesNotMatch(ordinaryTerms,/data-wiki-id="verite-033-le-cycle-le-neant-et-ce-que-la-mort-revele"/,'Un cycle ordinaire ne doit pas pointer vers le Cycle cosmologique');
+assert.doesNotMatch(ordinaryTerms,/data-wiki-id="verite-055-19-formation-et-doctrine-de-chasseur"/,'Un chasseur de prime ne doit pas pointer vers les Chasseurs');
+assert.doesNotMatch(ordinaryTerms,/data-wiki-id="verite-002-le-voile-et-l-hologramme"/,'Un voile ordinaire ne doit pas pointer vers le Voile');
+assert.doesNotMatch(ordinaryTerms,/data-wiki-id="verite-006-voile-semi-revele-revele"/,'Une révélation ordinaire ne doit pas pointer vers la Révélation surnaturelle');
+
+const neuroCorruption={id:'realite-022-7-corruption-de-programmes-et-materiel',category:'Règles',dataset:'moteur',group:'Réalité — Neurodive',subgroup:'Règles de Neurodive',title:'7. Corruption de programmes et matériel'};
+const neuroTerms=linker.linkify("Corruption sur échec narratif — le Neuroprogramme devient indisponible.",neuroCorruption);
+assert.doesNotMatch(neuroTerms,/data-wiki-id="verite-056-20-corruption"/,'La Corruption logicielle Neurodive ne doit pas pointer vers les Fléaux');
+
+const hunterEquipment={id:'equipement-011-owl-lc-014-chasseur',category:'Équipement & Objets',dataset:'equipement',group:'Équipement de Réalité',subgroup:'Armement — Armes de jet & trait',title:'Owl LC-014 Chasseur'};
+const hunterProduct=linker.linkify("Le LC-014 Chasseur est un lanceur de trait ; les Chasseurs de Vérité peuvent néanmoins l'utiliser.",hunterEquipment);
+assert.doesNotMatch(hunterProduct,/data-wiki-id="verite-055-19-formation-et-doctrine-de-chasseur"[^>]*>Chasseur<\/a> est/,'Le nom du produit Chasseur ne doit pas devenir un lien de lore');
+assert.match(hunterProduct,/data-wiki-id="verite-055-19-formation-et-doctrine-de-chasseur"[^>]*>Chasseurs<\/a>/,'La mention explicite des Chasseurs reste liée');
+
+const vampireProduct={id:'equipement-009-phoenix-pw-026-vampire-killer',category:'Équipement & Objets',dataset:'equipement',group:'Équipement de Réalité',subgroup:'Armement — Armes de mêlée',title:'Phoenix PW-026 Vampire Killer'};
+const vampireName=linker.linkify("La PW-026 Vampire Killer est un produit marketing ; elle n'est pas automatiquement efficace contre un Vampire.",vampireProduct);
+const vampireLinks=(vampireName.match(/data-wiki-id="verite-046-10-vampires"/g)||[]).length;
+assert.equal(vampireLinks,1,'Vampire Killer ne doit pas lier le mot du nom commercial ; la mention conceptuelle Vampire doit rester liée');
+
 const equipmentContext={id:'audit-equipment',category:'Équipement & Objets',dataset:'equipement',group:'Équipement de Réalité',subgroup:'Vie quotidienne',title:'Audit'};
 const exactEquipment=linker.linkify('Media Holonet / reseaux',equipmentContext);
 assert.match(exactEquipment,/data-wiki-id="equipement-212-media-holonet-reseaux"/,'Un titre matériel exact reste cliquable vers son équipement');
