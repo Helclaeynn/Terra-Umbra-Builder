@@ -32,7 +32,7 @@ try{
     const state=await img.evaluate(el=>({src:el.getAttribute('src')||'',complete:el.complete,naturalWidth:el.naturalWidth,naturalHeight:el.naturalHeight}));
     const expected=`images/manual/${id}.webp`;
     if(!state.src.includes(expected))throw new Error(`${id}: média inattendu ${state.src}, attendu ${expected}`);
-    if(!state.complete||state.naturalWidth<100||state.naturalHeight<80)throw new Error(`${id}: image non décodée ou trop petite ${JSON.stringify(state)}`);
+    if(!state.complete||state.naturalWidth<200||state.naturalHeight<50)throw new Error(`${id}: image non décodée ou trop petite ${JSON.stringify(state)}`);
   }
   console.log(`WEAPON MEDIA OK — ${weapons.length} pages affichent leur WebP manuel.`);
 } finally {await browser.close();}
