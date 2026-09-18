@@ -45,7 +45,7 @@ jobs:
           fi
           echo "Using browser: $CHROME_BIN"
           TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node character-builder/tests/browser-smoke.mjs
-          TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node character-builder/tests/block10-search-focus.mjs\n          TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node character-builder/tests/persistence-smoke.mjs
+          TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node character-builder/tests/block10-search-focus.mjs\n          TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node character-builder/tests/persistence-smoke.mjs\n          TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node character-builder/tests/wiki-integration-smoke.mjs
           TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node character-builder/tests/truth-lore-audit.mjs
           TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node character-builder/tests/reality-lore-audit.mjs
       - name: Upload Truth lore audit report
