@@ -3,11 +3,12 @@ import zlib from 'node:zlib';
 import assert from 'node:assert/strict';
 import {createWikiLinker,WIKI_GENERIC_SINGLE} from '../wiki-links.js';
 import {WIKI_EXPLICIT_TARGETS,WIKI_SEARCH_FALLBACKS} from '../onboarding-data.js';
+import {GUIDE_ARTICLES,GUIDE_NAVIGATION} from '../guide-articles.js';
 
 const root=new URL('../',import.meta.url);
 const manifest=JSON.parse(fs.readFileSync(new URL('data/manifest-v3.json',root),'utf8'));
 const navigation=JSON.parse(fs.readFileSync(new URL('data/navigation-v1.json',root),'utf8'));
-const navEntries=Array.isArray(navigation)?navigation:(navigation.entries||[]);
+const navEntries=[...(Array.isArray(navigation)?navigation:(navigation.entries||[])),...GUIDE_NAVIGATION];
 const navById=new Map(navEntries.map(entry=>[entry.id,entry]));
 
 function loadDataset(spec){
@@ -25,7 +26,9 @@ function articleContext(article,dataset){
 
 const articles=[];
 for(const spec of manifest.datasets)for(const row of loadDataset(spec))articles.push(articleContext(row,spec.id));
-assert.equal(articles.length,manifest.expectedTotal,`Corpus wiki: ${articles.length} articles, attendu ${manifest.expectedTotal}`);
+assert.equal(articles.length,manifest.expectedTotal,`Corpus wiki source: ${articles.length} articles, attendu ${manifest.expectedTotal}`);
+for(const row of GUIDE_ARTICLES)articles.push(articleContext(structuredClone(row),'guide'));
+assert.equal(articles.length,manifest.expectedTotal+GUIDE_ARTICLES.length,`Corpus wiki runtime: guides éditoriaux manquants`);
 const ids=new Set(articles.map(a=>a.id));
 const linker=createWikiLinker(articles,{explicitTargets:WIKI_EXPLICIT_TARGETS,searchFallbacks:WIKI_SEARCH_FALLBACKS});
 const explicitAliases=new Set(Object.keys(WIKI_EXPLICIT_TARGETS).map(normalized));
