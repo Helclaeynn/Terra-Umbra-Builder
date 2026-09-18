@@ -73,7 +73,16 @@ const selectedIds=[
   'verite-057-21-les-six-fleaux-et-le-faux-septieme',
   'guide-realite-nouveau-joueur',
   'guide-verite-nouveau-joueur',
-  'verite-lore-khinae-originels'
+  'verite-lore-khinae-originels',
+  'verite-004-ce-que-l-hologramme-cherche-a-preserver',
+  'verite-006-voile-semi-revele-revele',
+  'verite-007-se-reveler-n-est-pas-s-eveiller',
+  'verite-010-les-limites-du-voile',
+  'verite-019-voir-n-est-pas-reveler',
+  'verite-021-ce-que-l-hologramme-ne-protege-pas',
+  'verite-031-reveler-sa-nature-est-un-acte-personnel',
+  'verite-041-5-hologramme-voile-semi-revelation-et-revelation',
+  'verite-056-20-corruption'
 ];
 const selected=selectedIds.map(id=>{const a=byId.get(id);return a?{id,title:a.title,category:a.category,text:articleText(a)}:{id,missing:true}});
 
