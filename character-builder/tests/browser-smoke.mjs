@@ -37,7 +37,7 @@ try{
   const bootState=await page.evaluate(()=>({booting:document.body.classList.contains('builder-booting'),boot:!!document.getElementById('builderBoot')}));
   if(bootState.booting||bootState.boot)throw new Error(`Écran bootstrap encore visible après chargement complet: ${JSON.stringify(bootState)}`);
   await page.waitForTimeout(250);
-  const startup=await page.evaluate(()=>({self:window.TUCRealitySelfTest,reconciled:window.TUCV9ReconciledAugmentations,commerce:window.TUCBuilderSeptFixes.commerce(),loreProblems:window.TUCBuilderSeptFixes.truthLoreMetaProblems()}));
+  const startup=await page.evaluate(()=>({self:window.TUCRealitySelfTest,reconciled:window.TUCV9ReconciledAugmentations,commerce:window.TUCBuilderSeptFixes.commerce(),loreProblems:window.TUCBuilderSeptFixes.truthLoreMetaProblems(),familyAudit:window.TUCBuilderSeptFixes.equipmentFamilyAudit(),equipmentCategories:window.TUCBuilderSeptFixes.equipmentCategoryList()}));
   if(errors.length)throw new Error(`Erreurs navigateur au chargement: ${errors.join(' | ')} · diagnostics ${JSON.stringify(startup)}`);
   const self=startup.self,rec=startup.reconciled;
   if(rec.installed!==14||rec.total<146)throw new Error(`Réconciliation V9 incomplète: ${JSON.stringify(rec)}`);
@@ -53,6 +53,10 @@ try{
   if((self?.counts?.augmentations||0)<146||(self?.counts?.equipment||0)<261)throw new Error(`Comptages catalogues régressés: ${JSON.stringify(self?.counts)}`);
   if(startup.commerce.length!==7||startup.commerce[0].buy!==1||startup.commerce[0].sale!==.5||startup.commerce[1].buy!==.95||startup.commerce[1].sale!==.55||startup.commerce[6].buy!==.70||startup.commerce[6].sale!==.80)throw new Error(`Barème Commerce incorrect: ${JSON.stringify(startup.commerce)}`);
   if(startup.loreProblems.length)throw new Error(`Lore Vérité méta encore présent: ${JSON.stringify(startup.loreProblems.slice(0,12))}`);
+  if(startup.familyAudit.broad.length)throw new Error(`Familles d'armes anciennes encore actives: ${JSON.stringify(startup.familyAudit.broad.slice(0,20))}`);
+  if(startup.familyAudit.shotguns.length!==4||startup.familyAudit.shotguns.some(x=>x.family!=='Armement — Shotguns'))throw new Error(`Shotguns mal regroupés dans le Builder: ${JSON.stringify(startup.familyAudit.shotguns)}`);
+  for(const expected of ['Armement — Shotguns','Armement — Fusils de précision','Armement — Fusils d’assaut','Armement — Pistolets lourds'])if(!startup.equipmentCategories.includes(expected))throw new Error(`Catégorie Builder absente: ${expected}`);
+
 
   const navText=await page.locator('#stepNav').innerText();
   for(const expected of ['Vérité','Équipement','Dépense XP & PTV'])if(!navText.includes(expected))throw new Error(`Étape absente: ${expected}`);
