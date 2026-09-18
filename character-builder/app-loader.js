@@ -2,4 +2,19 @@ const parts=["00-truth-full-daemon-angelus.txt", "01.txt", "02.txt", "03.txt", "
 const base='./app.parts/';
 const chunks=await Promise.all(parts.map(async n=>{const r=await fetch(base+n);if(!r.ok)throw new Error(`${n}: ${r.status}`);return r.text()}));
 const url=URL.createObjectURL(new Blob([chunks.join('\n')],{type:'text/javascript'}));
-try{await import(url)}finally{URL.revokeObjectURL(url)}
+const boot=document.getElementById('builderBoot');
+try{
+  await import(url);
+  window.__TUC_APP_READY__=true;
+  document.body.classList.remove('builder-booting');
+  document.body.classList.add('builder-ready');
+  boot?.remove();
+  window.dispatchEvent(new CustomEvent('tuc-builder-ready'));
+}catch(error){
+  console.error('Échec du chargement complet du Builder',error);
+  if(boot){
+    boot.innerHTML='<div><strong>Impossible de charger le créateur de personnage.</strong><span>Consultez la console pour le détail de l’erreur.</span></div>';
+    boot.classList.add('failed');
+  }
+  throw error;
+}finally{URL.revokeObjectURL(url)}
