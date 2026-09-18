@@ -29,6 +29,10 @@ try{
 
   const search=selector.locator('input[placeholder*="Rechercher équipement"]').first();
   const illustrated=[
+    ['Poseidon','SeaWares HL-02 Poseidon','equipement-012-seawares-hl-02-poseidon','equipement-012-seawares-hl-02-poseidon.webp'],
+    ['Chasseur','Owl LC-014 Chasseur','equipement-011-owl-lc-014-chasseur','verite-catalogue-008-owl-lc-014-chasseur.webp'],
+    ['Incapaciteur','Owl LT-015 Incapaciteur','equipement-016-owl-lt-015-incapaciteur','equipement-016-owl-lt-015-incapaciteur.webp'],
+    ['Immobilisateur','Raven HT-014 Immobilisateur','equipement-017-raven-ht-014-immobilisateur','equipement-017-raven-ht-014-immobilisateur.webp'],
     ['Riot Control','Raven SG-025 Riot Control','equipement-043-raven-sg-025-riot-control','equipement-043-raven-sg-025-riot-control.webp'],
     ['Croaker','Raven SG-039 Croaker','equipement-044-raven-sg-039-croaker','equipement-044-raven-sg-039-croaker.webp'],
     ['Owl SG-016 Boss','Owl SG-016 Boss','equipement-045-owl-sg-016-boss','equipement-045-owl-sg-016-boss.webp'],
