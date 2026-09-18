@@ -16,7 +16,7 @@ let manifest=null;
 let wikiLinker=null;
 const articleCache=new Map();
 const datasetCache=new Map();
-let corpusPromise=null,corpusReady=false,navigationCounts=null;
+let corpusPromise=null,corpusReady=false,navigationCounts=null,navigationEntries=new Map();
 window.__TUC_CORPUS_READY__=false;
 window.__TUC_START_READY__=false;
 const statusClass=s=>['canon_recent','canon_enrichi'].includes(s)?'canon':s==='source_detaillee'?'source':s==='obsolete'?'obsolete':'';
@@ -55,6 +55,7 @@ async function loadNavigationCounts(){
   try{
     const r=await fetch('data/navigation-v1.json',{cache:'no-cache'});if(!r.ok)return null;
     const data=await r.json(),counts={};
+    navigationEntries=new Map((data.entries||[]).filter(entry=>entry?.id).map(entry=>[entry.id,entry]));
     for(const entry of data.entries||[])counts[entry.category]=(counts[entry.category]||0)+1;
     for(const guide of GUIDE_ARTICLES)counts[guide.category]=(counts[guide.category]||0)+1;
     return counts;
@@ -68,6 +69,36 @@ function installGuideArticles(){
     copy.category=displayCategory(copy);
     articleCache.set(copy.id,copy);
   }
+}
+
+function applyNavigationTaxonomy(article){
+  const navEntry=navigationEntries.get(article?.id);const subgroup=String(navEntry?.subgroup||'').trim();
+  if(!article||article.dataset!=='equipement'||!/^Armement\s+—\s+/i.test(subgroup))return article;
+  if(Array.isArray(article.tags)){
+    let replaced=false;
+    article.tags=article.tags.map(tag=>{if(/^(?:Armes|Armement)\s+—\s+/i.test(String(tag||''))){replaced=true;return subgroup}return tag});
+    if(!replaced)article.tags.push(subgroup);
+  }
+  for(const section of article.sections||[])for(const block of section.blocks||[]){
+    if(block?.type!=='table'||!Array.isArray(block.rows))continue;
+    block.rows=block.rows.map(row=>{
+      if(!Array.isArray(row)||row.length<2||norm(row[0])!=='categorie')return row;
+      const current=String(row[1]||'');if(!/^(?:Armes|Armement)\s+—\s+/i.test(current))return row;
+      const copy=[...row];copy[1]=subgroup;return copy;
+    });
+  }
+  return article;
+}
+function applyTargetedEditorialCorrections(article){
+  if(article?.id!=='equipement-045-owl-sg-016-boss')return article;
+  for(const section of article.sections||[])for(const block of section.blocks||[]){
+    if(block?.type!=='p'||typeof block.text!=='string')continue;
+    block.text=block.text.replace(
+      /Sa grande réserve n[’']en fait pas une arme de moyenne portée\s*:\s*la philosophie du modèle reste celle d[’']un shotgun fiable, efficace tant qu[’']on accepte son domaine d[’']emploi très rapproché\.?/i,
+      'Sa capacité de munitions supérieure à la moyenne limite les rechargements, mais ne change pas son domaine d’emploi : le Boss reste un shotgun fiable, conçu pour le combat à très courte portée.'
+    );
+  }
+  return article;
 }
 
 async function loadCommittedOverrides(){
@@ -113,6 +144,7 @@ async function loadCorpus(){
   const summary=await applyCommittedOverridesToMap(articleCache,await loadCommittedOverrides());
   if(summary.conflicts.length)console.warn(`${summary.conflicts.length} override(s) éditorial(aux) ignoré(s) car le corpus source a changé.`,summary.conflicts);
   if(summary.missing.length)console.warn(`${summary.missing.length} override(s) ciblent une page absente.`,summary.missing);
+  for(const article of articleCache.values()){applyNavigationTaxonomy(article);applyTargetedEditorialCorrections(article)}
   wikiLinker=createWikiLinker(articles(),{explicitTargets:WIKI_EXPLICIT_TARGETS,strictSurfaceAliases:WIKI_STRICT_SURFACE_ALIASES,caseSensitiveAliases:WIKI_CASE_SENSITIVE_ALIASES,searchFallbacks:WIKI_SEARCH_FALLBACKS});
   console.info(`Wiki interne : ${wikiLinker.stats.aliases} alias directs, ${wikiLinker.stats.ambiguous} ambigus ignorés.`);
   corpusReady=true;window.__TUC_CORPUS_READY__=true;
