@@ -1,10 +1,12 @@
 import {createWikiLinker} from '../compendium/wiki-links.js';
 import {WIKI_EXPLICIT_TARGETS,WIKI_SEARCH_FALLBACKS} from '../compendium/onboarding-data.js';
+import {manualArticleMedia} from '../compendium/manual-media.js';
 
 const COMPENDIUM='../compendium/';
 const MAX_PREVIEW_PARTS=24;
 const excludedTags=new Set(['A','BUTTON','INPUT','SELECT','OPTION','TEXTAREA','LABEL','SCRIPT','STYLE','CODE','PRE']);
 let navigation=null,manifest=null,linker=null;
+const equipmentByTitle=new Map();
 const datasetCache=new Map();
 const articleCache=new Map();
 
@@ -16,6 +18,9 @@ async function loadJson(url){
 async function loadIndex(){
   [navigation,manifest]=await Promise.all([loadJson(COMPENDIUM+'data/navigation-v1.json'),loadJson(COMPENDIUM+'data/manifest-v3.json')]);
   const entries=Array.isArray(navigation)?navigation:(navigation.entries||[]);
+  for(const entry of entries){
+    if(entry.category==='Équipement & Objets')equipmentByTitle.set(String(entry.displayTitle||entry.title||'').trim().toLocaleLowerCase('fr'),entry);
+  }
   const pseudo=entries.map(entry=>({
     id:entry.id,title:entry.displayTitle||entry.title||entry.id,dataset:entry.dataset,
     category:entry.category||'',group:entry.group||'',subgroup:entry.subgroup||''
@@ -45,8 +50,23 @@ function processTextNode(node){
   tpl.content.querySelectorAll('a.wiki-link').forEach(a=>{a.classList.add('builder-wiki-link');a.target='_self';a.rel='noopener'});
   node.replaceWith(tpl.content);
 }
+function compendiumHref(id){return `${COMPENDIUM}index.html#/article/${encodeURIComponent(id)}`}
+function decorateEquipmentCards(host){
+  if(!host)return;
+  for(const card of host.querySelectorAll('.catalog-card:not([data-wiki-equipment])')){
+    const strong=card.querySelector('.catalog-head strong');if(!strong)continue;
+    const key=String(strong.textContent||'').trim().toLocaleLowerCase('fr');
+    const entry=equipmentByTitle.get(key);if(!entry?.id)continue;
+    card.dataset.wikiEquipment='1';card.dataset.wikiId=entry.id;card.classList.add('builder-wiki-equipment');
+    if(!strong.querySelector('a')){
+      const a=document.createElement('a');a.className='builder-wiki-equipment-title';a.dataset.wikiId=entry.id;a.href=compendiumHref(entry.id);a.textContent=strong.textContent||entry.displayTitle||entry.title||'Équipement';
+      strong.replaceChildren(a);
+    }
+  }
+}
 function processHost(host){
   if(!host||!linker)return;
+  decorateEquipmentCards(host);
   const walker=document.createTreeWalker(host,NodeFilter.SHOW_TEXT);
   const nodes=[];let node;
   while((node=walker.nextNode()))nodes.push(node);
@@ -92,6 +112,14 @@ function articlePreviewText(article,limit=330){
   if(!text)return'';
   return text.length>limit?text.slice(0,limit).replace(/\s+\S*$/,'')+'…':text;
 }
+function resolvedMedia(id,article){
+  const media=manualArticleMedia(id)??article?.image??article?.illustration;
+  const src=typeof media==='string'?media:media?.src;if(!src||/placeholder/i.test(src))return null;
+  return {
+    src:/^(?:https?:|data:|\/)/i.test(src)?src:COMPENDIUM+src.replace(/^\.\//,''),
+    alt:typeof media==='object'&&media.alt?media.alt:(article?.title||id)
+  };
+}
 async function previewFor(id){
   const nav=navEntry(id);if(!nav)return null;
   if(!articleCache.has(id)&&nav.dataset)await loadDataset(nav.dataset);
@@ -100,7 +128,8 @@ async function previewFor(id){
     title:article?.title||nav.displayTitle||nav.title||id,
     category:nav.category||article?.category||'Compendium',
     context:[nav.group,nav.subgroup].filter(Boolean).join(' · '),
-    text:articlePreviewText(article)
+    text:articlePreviewText(article),
+    media:resolvedMedia(id,article)
   };
 }
 
@@ -121,13 +150,14 @@ async function showPreview(link){
   tip.classList.add('visible');tip.setAttribute('aria-hidden','false');positionPreview(link);
   const preview=await previewFor(id);if(token!==requestToken||activeLink!==link||!preview)return;
   const body=preview.text||preview.context||'Ouvrir l’article pour lire le contenu complet.';
-  tip.innerHTML=`<div class="builder-wiki-kicker">${esc(preview.category)}</div><strong>${esc(preview.title)}</strong>${preview.context?`<small>${esc(preview.context)}</small>`:''}<p>${esc(body)}</p><span>Cliquer pour ouvrir le Compendium →</span>`;
+  tip.innerHTML=`${preview.media?`<img class="builder-wiki-image" src="${esc(preview.media.src)}" alt="${esc(preview.media.alt)}">`:''}<div class="builder-wiki-kicker">${esc(preview.category)}</div><strong>${esc(preview.title)}</strong>${preview.context?`<small>${esc(preview.context)}</small>`:''}<p>${esc(body)}</p><span>Cliquer pour ouvrir le Compendium →</span>`;
   positionPreview(link);
 }
-document.addEventListener('mouseover',e=>{const link=e.target.closest?.('a.builder-wiki-link[data-wiki-id]');if(!link||link===activeLink)return;clearTimeout(timer);timer=setTimeout(()=>showPreview(link),120)});
-document.addEventListener('mouseout',e=>{const link=e.target.closest?.('a.builder-wiki-link[data-wiki-id]');if(link&&!link.contains(e.relatedTarget))hidePreview()});
-document.addEventListener('focusin',e=>{const link=e.target.closest?.('a.builder-wiki-link[data-wiki-id]');if(link)showPreview(link)});
-document.addEventListener('focusout',e=>{if(e.target.closest?.('a.builder-wiki-link[data-wiki-id]'))hidePreview()});
+const wikiHoverSelector='a.builder-wiki-link[data-wiki-id],a.builder-wiki-equipment-title[data-wiki-id],.builder-wiki-equipment[data-wiki-id]';
+document.addEventListener('mouseover',e=>{if(e.target.closest?.('button,input,select,textarea'))return;const link=e.target.closest?.(wikiHoverSelector);if(!link||link===activeLink)return;clearTimeout(timer);timer=setTimeout(()=>showPreview(link),120)});
+document.addEventListener('mouseout',e=>{const link=e.target.closest?.(wikiHoverSelector);if(link&&!link.contains(e.relatedTarget))hidePreview()});
+document.addEventListener('focusin',e=>{const link=e.target.closest?.('a.builder-wiki-link[data-wiki-id],a.builder-wiki-equipment-title[data-wiki-id]');if(link)showPreview(link)});
+document.addEventListener('focusout',e=>{if(e.target.closest?.('a.builder-wiki-link[data-wiki-id],a.builder-wiki-equipment-title[data-wiki-id]'))hidePreview()});
 window.addEventListener('scroll',()=>{if(activeLink)positionPreview(activeLink)},{passive:true});
 window.addEventListener('resize',()=>{if(activeLink)positionPreview(activeLink)});
 
