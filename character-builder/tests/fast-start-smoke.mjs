@@ -22,6 +22,13 @@ try{
   const fastName=page.locator('[data-fast-identity="name"]');
   await fastName.waitFor({state:'visible',timeout:1800});
   const fastElapsed=Date.now()-started;
+  const shellState=await page.evaluate(()=>({
+    shellVisible:getComputedStyle(document.querySelector('.shell')).visibility!=='hidden'&&getComputedStyle(document.querySelector('.shell')).display!=='none',
+    nav:document.querySelectorAll('#stepNav .step-link').length,
+    summaryVisible:!!document.querySelector('.summary-card')&&getComputedStyle(document.querySelector('.summary-card')).display!=='none',
+    active:document.querySelector('#stepNav .step-link.active')?.textContent||''
+  }));
+  if(!shellState.shellVisible||shellState.nav!==12||!shellState.summaryVisible||!/Identité/.test(shellState.active))throw new Error(`UI complète absente pendant le fast-start: ${JSON.stringify(shellState)}`);
   const early=await page.evaluate(()=>({fast:window.__TUC_FAST_IDENTITY_READY__===true,full:window.__TUC_APP_READY__===true,late:window.__TUC_LATE_STATE_READY__===true}));
   if(!early.fast||early.full||early.late)throw new Error(`Fast-start non isolé du chargement lourd: ${JSON.stringify(early)}`);
 
