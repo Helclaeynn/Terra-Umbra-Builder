@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import zlib from 'node:zlib';
 import assert from 'node:assert/strict';
 import {createWikiLinker,WIKI_GENERIC_SINGLE} from '../wiki-links.js';
-import {WIKI_EXPLICIT_TARGETS,WIKI_SEARCH_FALLBACKS} from '../onboarding-data.js';
+import {WIKI_EXPLICIT_TARGETS,WIKI_SEARCH_FALLBACKS,WIKI_STRICT_SURFACE_ALIASES} from '../onboarding-data.js';
 import {GUIDE_ARTICLES,GUIDE_NAVIGATION} from '../guide-articles.js';
 
 const root=new URL('../',import.meta.url);
@@ -30,7 +30,7 @@ assert.equal(articles.length,manifest.expectedTotal,`Corpus wiki source: ${artic
 for(const row of GUIDE_ARTICLES)articles.push(articleContext(structuredClone(row),'guide'));
 assert.equal(articles.length,manifest.expectedTotal+GUIDE_ARTICLES.length,`Corpus wiki runtime: guides éditoriaux manquants`);
 const ids=new Set(articles.map(a=>a.id));
-const linker=createWikiLinker(articles,{explicitTargets:WIKI_EXPLICIT_TARGETS,searchFallbacks:WIKI_SEARCH_FALLBACKS});
+const linker=createWikiLinker(articles,{explicitTargets:WIKI_EXPLICIT_TARGETS,strictSurfaceAliases:WIKI_STRICT_SURFACE_ALIASES,searchFallbacks:WIKI_SEARCH_FALLBACKS});
 const explicitAliases=new Set(Object.keys(WIKI_EXPLICIT_TARGETS).map(normalized));
 const anchorRe=/<a class="wiki-link"[^>]*data-wiki-id="([^"]+)"[^>]*>([^<]*)<\/a>/g;
 let blocks=0,directLinks=0;
