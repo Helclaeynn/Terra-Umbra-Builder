@@ -11,6 +11,10 @@ let navigation=null,manifest=null,linker=null;
 const equipmentByTitle=new Map();
 const datasetCache=new Map();
 const articleCache=new Map();
+const editorialIllustrations=new Map();
+const editorialIllustrationsByTitle=new Map();
+
+const mediaTitleKey=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('fr').replace(/[«»"'’`]/g,' ').replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();
 
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
@@ -18,13 +22,30 @@ async function loadJson(url){
   const r=await fetch(url,{cache:'no-cache'});if(!r.ok)throw new Error(`${url} · HTTP ${r.status}`);return r.json();
 }
 async function loadIndex(){
-  [navigation,manifest]=await Promise.all([loadJson(COMPENDIUM+'data/navigation-v1.json'),loadJson(COMPENDIUM+'data/manifest-v3.json')]);
+  let manualOverrides=null;
+  [navigation,manifest,manualOverrides]=await Promise.all([
+    loadJson(COMPENDIUM+'data/navigation-v1.json'),
+    loadJson(COMPENDIUM+'data/manifest-v3.json'),
+    loadJson(COMPENDIUM+'data/manual-overrides.json').catch(error=>{console.warn('Builder wiki preview overrides',error);return null})
+  ]);
   const baseEntries=Array.isArray(navigation)?navigation:(navigation.entries||[]);
   const entries=[...baseEntries,...GUIDE_NAVIGATION];
   navigation={...(Array.isArray(navigation)?{}:navigation),entries};
   for(const article of GUIDE_ARTICLES)articleCache.set(article.id,structuredClone(article));
+  const entryById=new Map(entries.map(entry=>[entry.id,entry]));
   for(const entry of entries){
     if(entry.category==='Équipement & Objets')equipmentByTitle.set(String(entry.displayTitle||entry.title||'').trim().toLocaleLowerCase('fr'),entry);
+  }
+  for(const override of manualOverrides?.entries||[]){
+    const op=[...(override.operations||[])].reverse().find(x=>x&&x.path==='/illustration'&&(x.op==='replace'||x.op==='add'));
+    if(!op?.value||!override?.articleId)continue;
+    editorialIllustrations.set(override.articleId,op.value);
+    const entry=entryById.get(override.articleId);
+    const key=mediaTitleKey(entry?.displayTitle||entry?.title||'');
+    if(!key)continue;
+    const current=editorialIllustrationsByTitle.get(key);
+    if(current===undefined)editorialIllustrationsByTitle.set(key,op.value);
+    else if(current&&String(current?.src||current)!==String(op.value?.src||op.value))editorialIllustrationsByTitle.set(key,null);
   }
   const pseudo=entries.map(entry=>({
     id:entry.id,title:ARTICLE_TITLE_FIXES[entry.id]||entry.displayTitle||entry.title||entry.id,dataset:entry.dataset,
@@ -120,7 +141,9 @@ function articlePreviewText(article,limit=330){
   return text.length>limit?text.slice(0,limit).replace(/\s+\S*$/,'')+'…':text;
 }
 function resolvedMedia(id,article){
-  const media=manualArticleMedia(id)??article?.image??article?.illustration;
+  const entry=navEntry(id);
+  const titleKey=mediaTitleKey(article?.title||entry?.displayTitle||entry?.title||'');
+  const media=editorialIllustrations.get(id)??editorialIllustrationsByTitle.get(titleKey)??manualArticleMedia(id)??article?.illustration??article?.image;
   const src=typeof media==='string'?media:media?.src;if(!src||/placeholder/i.test(src))return null;
   return {
     src:/^(?:https?:|data:|\/)/i.test(src)?src:COMPENDIUM+src.replace(/^\.\//,''),
