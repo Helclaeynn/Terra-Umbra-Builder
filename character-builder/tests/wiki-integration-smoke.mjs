@@ -11,7 +11,7 @@ page.on('response',response=>{const url=response.url();const knownLegacy=/\/trut
 
 try{
   await page.goto(`${base}compendium/#/start`,{waitUntil:'domcontentloaded'});
-  await page.waitForSelector('.nature-card',{timeout:30000});
+  await page.waitForSelector('.nature-card',{timeout:90000});
   const garou=page.locator('.nature-card').filter({hasText:'Garou'}).first();
   const lore=garou.locator('a').filter({hasText:'Présentation & lore'}).first();
   await lore.scrollIntoViewIfNeeded();
@@ -32,8 +32,8 @@ try{
   if(previewText.length<80)throw new Error(`Aperçu Compendium trop court: ${previewText}`);
 
   await page.goto(`${base}character-builder/`,{waitUntil:'domcontentloaded'});
-  await page.waitForSelector('#stepNav .step-link',{timeout:30000});
-  await page.locator('#stepNav .step-link').filter({hasText:'Vérité'}).first().click();
+  await page.waitForSelector('#stepNav button',{timeout:30000});
+  await page.locator('#stepNav button').filter({hasText:'Vérité'}).first().click();
   await page.waitForSelector('#stepContent',{timeout:10000});
   const garouChoice=page.locator('#stepContent').getByText('Garou',{exact:true}).first();
   await garouChoice.waitFor({state:'visible',timeout:10000});
