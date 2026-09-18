@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "updated": "2026-09-18",
+  "entries": [
+    {
+      "articleId": "equipement-013-raven-jl-014-cuchulainn",
+      "baseHash": "fb99400cf20b9d9e27b2eac109d46770843fb7c529fa8558a9d2e800ba0740d2",
+      "updatedAt": "2026-09-18T11:09:26.809Z",
+      "note": "",
+      "operations": [
+        {
+          "op": "replace",
+          "path": "/sections",
+          "value": [
+            {
+              "id": "contexte",
+              "title": "Description et usage",
+              "level": 2,
+              "blocks": [
+                {
+                  "type": "p",
+                  "style": "lore",
+                  "text": "Le JL-014 Cuchulainn est une arme de jet Raven qui associe une forme simple et immédiatement compréhensible à des effets techniques dirigés contre la matière et l’électronique. Cette combinaison en fait un objet inhabituel dans une gamme moderne : le projectile doit être physiquement lancé avant que sa technologie ait la moindre utilité."
+                },
+                {
+                  "type": "p",
+                  "style": "lore",
+                  "text": "Le choix d’un nom héroïque contraste avec une conception très pragmatique. L’arme intéresse surtout les opérateurs qui acceptent l’entraînement nécessaire à un projectile réutilisable ou spécialisé ; son effet EMP reste lié à ce qu’elle atteint réellement et ne remplace ni une arme à distance classique ni un pouvoir surnaturel."
+                }
+              ]
+            },
+            {
+              "id": "proprietes",
+              "title": "Propriétés",
+              "level": 2,
+              "blocks": [
+                {
+                  "type": "table",
+                  "rows": [
+                    [
+                      "Catégorie",
+                      "Armes — Mêlée"
+                    ],
+                    [
+                      "Prix",
+                      "850"
+                    ],
+                    [
+                      "PriceMode",
+                      "exact"
+                    ],
+                    [
+                      "PriceLabel",
+                      "850 $"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "op": "replace",
+          "path": "/illustration",
+          "value": {
+            "src": "images/manual/equipement-013-raven-jl-014-cuchulainn.webp",
+            "alt": "Illustration de Raven JL-014 Cuchulainn"
+          }
+        }
+      ]
+    }
+  ]
+}
