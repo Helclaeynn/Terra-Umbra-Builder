@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "updated": "2026-09-18",
+  "entries": [
+    {
+      "articleId": "equipement-262-nextar-championship",
+      "baseHash": "da48580089ab9b8a03b96ce45659a866e98bbc0649a866344f1fb354c60ae36c",
+      "updatedAt": "2026-09-18T10:25:21.974Z",
+      "note": "",
+      "operations": [
+        {
+          "op": "replace",
+          "path": "/sections",
+          "value": [
+            {
+              "id": "contexte",
+              "title": "Description et usage",
+              "level": 2,
+              "blocks": [
+                {
+                  "type": "p",
+                  "style": "lore",
+                  "text": "Nextar Championship est un arc à poulies Nextar puissant et précis, utilisé aussi bien pour la chasse que dans les compétitions où la marque dispose d’une forte présence."
+                },
+                {
+                  "type": "p",
+                  "style": "lore",
+                  "text": "Dans son emploi prévu, grand arc pliant à un coup dont les dégâts restent liés à la Vigueur du tireur."
+                }
+              ]
+            },
+            {
+              "id": "proprietes",
+              "title": "Propriétés",
+              "level": 2,
+              "blocks": [
+                {
+                  "type": "table",
+                  "rows": [
+                    [
+                      "Catégorie",
+                      "Armes — Mêlée"
+                    ],
+                    [
+                      "Prix",
+                      "500"
+                    ],
+                    [
+                      "Effet / usage",
+                      "grand arc pliant à un coup dont les dégâts restent liés à la Vigueur du tireur"
+                    ],
+                    [
+                      "PriceMode",
+                      "exact"
+                    ],
+                    [
+                      "PriceLabel",
+                      "500 $"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "op": "replace",
+          "path": "/illustration",
+          "value": {
+            "src": "images/manual/equipement-262-nextar-championship.webp",
+            "alt": "Illustration de Nextar Championship",
+            "caption": "Illustration à venir"
+          }
+        }
+      ]
+    }
+  ]
+}
