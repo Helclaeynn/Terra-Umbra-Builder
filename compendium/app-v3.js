@@ -141,7 +141,7 @@ function startCard(item){
 }
 function natureCard(item){
   const rules=articleCache.get(item.rulesId),lore=articleCache.get(item.loreId);
-  return `<article class="nature-card"><div><strong>${esc(item.label)}</strong>${item.note?`<span class="start-pill">${esc(item.note)}</span>`:''}</div><div class="nature-links">${rules?`<a href="#/article/${encodeURIComponent(rules.id)}">Règles de Nature</a>`:''}${lore?`<a href="#/article/${encodeURIComponent(lore.id)}">Présentation & lore</a>`:''}</div></article>`;
+  return `<article class="nature-card"><div class="nature-copy"><div><strong>${esc(item.label)}</strong>${item.note?`<span class="start-pill">${esc(item.note)}</span>`:''}</div><p>${esc(item.summary||'')}</p></div><div class="nature-links">${rules?`<a href="#/article/${encodeURIComponent(rules.id)}">Règles de Nature</a>`:''}${lore?`<a href="#/article/${encodeURIComponent(lore.id)}">Présentation & lore</a>`:''}</div></article>`;
 }
 async function showStart(){
   renderNav('start');
