@@ -126,6 +126,74 @@
       ]
     },
     {
+      "articleId": "equipement-012-seawares-hl-02-poseidon",
+      "baseHash": "ffe79863b605f099a9f1b365224db5b809fd26d7052125ae39f58f1fff8162e5",
+      "updatedAt": "2026-09-18T10:28:58.752Z",
+      "note": "",
+      "operations": [
+        {
+          "op": "replace",
+          "path": "/sections",
+          "value": [
+            {
+              "id": "contexte",
+              "title": "Description et usage",
+              "level": 2,
+              "blocks": [
+                {
+                  "type": "p",
+                  "style": "lore",
+                  "text": "Le HL-02 Poseidon est un lanceur de trait SeaWares pensé dès l’origine pour rester utilisable dans l’eau. Étanchéité, prise en main et fonctionnement mécanique privilégient un milieu où une arme terrestre ordinaire devient vite encombrante, imprécise ou simplement inutilisable."
+                },
+                {
+                  "type": "p",
+                  "style": "lore",
+                  "text": "Le Poseidon évoque naturellement un lanceur de harpon moderne destiné aux plongeurs, équipes portuaires ou opérations aquatiques spécialisées. Sa capacité à fonctionner sous l’eau ne lui donne aucune supériorité universelle à terre : elle reflète surtout le savoir-faire SeaWares dans un environnement que d’autres fabricants traitent comme une exception."
+                }
+              ]
+            },
+            {
+              "id": "proprietes",
+              "title": "Propriétés",
+              "level": 2,
+              "blocks": [
+                {
+                  "type": "table",
+                  "rows": [
+                    [
+                      "Catégorie",
+                      "Armes — Mêlée"
+                    ],
+                    [
+                      "Prix",
+                      "950"
+                    ],
+                    [
+                      "PriceMode",
+                      "exact"
+                    ],
+                    [
+                      "PriceLabel",
+                      "950 $"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "op": "replace",
+          "path": "/illustration",
+          "value": {
+            "src": "images/manual/equipement-012-seawares-hl-02-poseidon.webp",
+            "alt": "Illustration de SeaWares HL-02 Poseidon",
+            "caption": "Illustration à venir"
+          }
+        }
+      ]
+    },
+    {
       "articleId": "equipement-261-black-arrow",
       "baseHash": "bf3e0fc14bdb5bfaf84861c4474420730746143674133e2a89851178afed4be1",
       "updatedAt": "2026-09-18T10:24:51.430Z",
