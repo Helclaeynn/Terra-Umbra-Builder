@@ -26,9 +26,15 @@ try{
     shellVisible:getComputedStyle(document.querySelector('.shell')).visibility!=='hidden'&&getComputedStyle(document.querySelector('.shell')).display!=='none',
     nav:document.querySelectorAll('#stepNav .step-link').length,
     summaryVisible:!!document.querySelector('.summary-card')&&getComputedStyle(document.querySelector('.summary-card')).display!=='none',
-    active:document.querySelector('#stepNav .step-link.active')?.textContent||''
+    active:document.querySelector('#stepNav .step-link.active')?.textContent||'',
+    identityLayout:!!document.querySelector('#stepContent .p25-identity-layout'),
+    portrait:!!document.querySelector('#stepContent .p25-portrait-card'),
+    bodyBackground:getComputedStyle(document.body).backgroundImage,
+    bodyColor:getComputedStyle(document.body).color,
+    panelBackground:getComputedStyle(document.querySelector('#stepContent')).backgroundColor
   }));
-  if(!shellState.shellVisible||shellState.nav!==12||!shellState.summaryVisible||!/Identité/.test(shellState.active))throw new Error(`UI complète absente pendant le fast-start: ${JSON.stringify(shellState)}`);
+  if(!shellState.shellVisible||shellState.nav!==12||!shellState.summaryVisible||!/Identité/.test(shellState.active)||!shellState.identityLayout||!shellState.portrait)throw new Error(`UI finale absente pendant le fast-start: ${JSON.stringify(shellState)}`);
+  if(!/gradient/i.test(shellState.bodyBackground)||shellState.bodyColor==='rgb(0, 0, 0)'||shellState.panelBackground==='rgba(0, 0, 0, 0)')throw new Error(`Thème Builder incomplet pendant le fast-start: ${JSON.stringify(shellState)}`);
   const early=await page.evaluate(()=>({fast:window.__TUC_FAST_IDENTITY_READY__===true,full:window.__TUC_APP_READY__===true,late:window.__TUC_LATE_STATE_READY__===true}));
   if(!early.fast||early.full||early.late)throw new Error(`Fast-start non isolé du chargement lourd: ${JSON.stringify(early)}`);
 
