@@ -106,7 +106,7 @@ export function createWikiLinker(articles,{explicitTargets={},strictSurfaceAlias
   for(const article of articles||[]){
     if(!article?.id||!article?.title)continue;
     const target={id:article.id,href:hrefForId(article.id),title:article.title,article};
-    for(const alias of titleAliases(article.title))if(allowedGeneratedAlias(alias.value,article))offer(alias.value,target,alias.priority,{kind:alias.kind});
+    for(const alias of titleAliases(article.title))if(allowedGeneratedAlias(alias.value,article))offer(alias.value,target,alias.priority,{kind:alias.kind,strictSurface:strictSurfaces.has(surfaceKey(alias.value)),caseSensitive:caseSensitiveSurfaces.has(surfaceKeyCase(alias.value))});
   }
   for(const [alias,id] of Object.entries(explicitTargets||{})){
     const article=articleById.get(id);if(!article)continue;
@@ -127,7 +127,12 @@ export function createWikiLinker(articles,{explicitTargets={},strictSurfaceAlias
       const exact=explicit.filter(x=>surfaceKey(x.alias)===surfaceKey(matchedRaw));
       if(exact.length===1)return exact[0];
     }
-    if(explicit.length===1){const only=explicit[0];if(only.id==='verite-056-20-corruption'&&current?.id==='realite-022-7-corruption-de-programmes-et-materiel')return null;return only;}
+    if(explicit.length===1){
+      const only=explicit[0];
+      if(only.id==='verite-056-20-corruption'&&/^(?:realite-|regles-realite-)/.test(String(current?.id||'')))return null;
+      if(only.id==='verite-055-19-formation-et-doctrine-de-chasseur'&&surfaceKeyCase(matchedRaw)==='Chasseur'&&['equipement-011-owl-lc-014-chasseur','verite-catalogue-008-owl-lc-014-chasseur'].includes(String(current?.id||'')))return null;
+      return only;
+    }
     const ranked=viable.map(candidate=>[candidateScore(candidate,raw,current),candidate]).sort((a,b)=>b[0]-a[0]||String(a[1].title).localeCompare(String(b[1].title),'fr'));
     if(ranked.length>1&&Math.abs(ranked[0][0]-ranked[1][0])<4&&ranked[0][1].href!==ranked[1][1].href)return null;
     return ranked[0][1];
