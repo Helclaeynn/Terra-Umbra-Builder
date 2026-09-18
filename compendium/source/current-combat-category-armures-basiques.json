@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "category": "Armures — Basiques",
+  "count": 8,
+  "entries": [
+    {
+      "id": "armures-basiques-raven-black-feathers",
+      "name": "Raven Black Feathers",
+      "category": "Armures — Basiques",
+      "priceMode": "exact",
+      "price": 500,
+      "priceLabel": "500 $",
+      "effect": "Gilet fin, dissimulable.",
+      "data": {
+        "Protection": "Balistique 1 (Ablatif 4)",
+        "Notes": "Gilet fin, dissimulable."
+      }
+    },
+    {
+      "id": "armures-basiques-owl-bullets-fear",
+      "name": "Owl Bullets Fear",
+      "category": "Armures — Basiques",
+      "priceMode": "exact",
+      "price": 500,
+      "priceLabel": "500 $",
+      "effect": "Gilet epais.",
+      "data": {
+        "Protection": "Balistique 2 (Ablatif 2)",
+        "Notes": "Gilet epais."
+      }
+    },
+    {
+      "id": "armures-basiques-phoenix-sun-shield",
+      "name": "Phoenix Sun Shield",
+      "category": "Armures — Basiques",
+      "priceMode": "exact",
+      "price": 500,
+      "priceLabel": "500 $",
+      "effect": "Anti-tranchant leger.",
+      "data": {
+        "Protection": "Melee 1 (Ablatif 4)",
+        "Notes": "Anti-tranchant leger."
+      }
+    },
+    {
+      "id": "armures-basiques-byron-punk-life",
+      "name": "Byron Punk Life",
+      "category": "Armures — Basiques",
+      "priceMode": "exact",
+      "price": 500,
+      "priceLabel": "500 $",
+      "effect": "Voyant, style neopunk.",
+      "data": {
+        "Protection": "Melee 1 (Ablatif 4), Antichoc 1",
+        "Notes": "Voyant, style neopunk."
+      }
+    },
+    {
+      "id": "armures-basiques-raven-black-dog",
+      "name": "Raven Black Dog",
+      "category": "Armures — Basiques",
+      "priceMode": "exact",
+      "price": 1000,
+      "priceLabel": "1 000 $",
+      "effect": "Tenue de securite/police.",
+      "data": {
+        "Protection": "Balistique 3, Melee 2, Antichoc 2",
+        "Notes": "Tenue de securite/police."
+      }
+    },
+    {
+      "id": "armures-basiques-phoenix-silver-knight",
+      "name": "Phoenix Silver Knight",
+      "category": "Armures — Basiques",
+      "priceMode": "exact",
+      "price": 1000,
+      "priceLabel": "1 000 $",
+      "effect": "Tenue renforcee.",
+      "data": {
+        "Protection": "Balistique 2, Melee 3, Antichoc 2",
+        "Notes": "Tenue renforcee."
+      }
+    },
+    {
+      "id": "armures-basiques-owl-new-guard",
+      "name": "Owl New Guard",
+      "category": "Armures — Basiques",
+      "priceMode": "exact",
+      "price": 850,
+      "priceLabel": "850 $",
+      "effect": "Protection polyvalente.",
+      "data": {
+        "Protection": "Balistique 2, Melee 2, Antichoc 2",
+        "Notes": "Protection polyvalente."
+      }
+    },
+    {
+      "id": "armures-basiques-byron-king-worker-vii",
+      "name": "Byron King Worker VII",
+      "category": "Armures — Basiques",
+      "priceMode": "exact",
+      "price": 750,
+      "priceLabel": "750 $",
+      "effect": "Harnais de chantier ; compatible outils/augmentations industrielles.",
+      "data": {
+        "Protection": "Antichoc 4",
+        "Notes": "Harnais de chantier ; compatible outils/augmentations industrielles."
+      }
+    }
+  ]
+}

@@ -1,0 +1,218 @@
+{
+  "version": 1,
+  "catalogShape": {
+    "type": "object",
+    "keys": [
+      "version",
+      "source",
+      "entries"
+    ]
+  },
+  "samples": [
+    {
+      "name": "Phoenix AR-124 Mutilator",
+      "category": "Armes — Automatiques",
+      "path": [
+        "entries",
+        34
+      ],
+      "raw": {
+        "id": "armes-automatiques-phoenix-ar-124-mutilator",
+        "name": "Phoenix AR-124 Mutilator",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 950,
+        "priceLabel": "950 $",
+        "effect": "",
+        "data": {
+          "Classe": "Assaut",
+          "DGT": "11",
+          "Portee": "60 m",
+          "Cap.": "36",
+          "Proprietes": "Rafale, Automatique"
+        }
+      }
+    },
+    {
+      "name": "Owl SR-017 Big Game Hunter",
+      "category": "Armes — Précision",
+      "path": [
+        "entries",
+        38
+      ],
+      "raw": {
+        "id": "armes-precision-owl-sr-017-big-game-hunter",
+        "name": "Owl SR-017 Big Game Hunter",
+        "category": "Armes — Précision",
+        "priceMode": "exact",
+        "price": 950,
+        "priceLabel": "950 $",
+        "effect": "",
+        "data": {
+          "Classe": "Precision",
+          "DGT": "12",
+          "Portee": "120 m",
+          "Cap.": "5",
+          "Proprietes": "-"
+        }
+      }
+    },
+    {
+      "name": "Owl LC-014 Chasseur",
+      "category": "Armes — Mêlée",
+      "path": [
+        "entries",
+        10
+      ],
+      "raw": {
+        "id": "armes-melee-owl-lc-014-chasseur",
+        "name": "Owl LC-014 Chasseur",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 750,
+        "priceLabel": "750 $",
+        "effect": "",
+        "data": {
+          "Type": "Trait",
+          "DGT": "7",
+          "Portee": "25 m",
+          "Proprietes": "Perforant 1 ; 1 coup"
+        }
+      }
+    },
+    {
+      "name": "Raven Black Feathers",
+      "category": "Armures — Basiques",
+      "path": [
+        "entries",
+        83
+      ],
+      "raw": {
+        "id": "armures-basiques-raven-black-feathers",
+        "name": "Raven Black Feathers",
+        "category": "Armures — Basiques",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": "Gilet fin, dissimulable.",
+        "data": {
+          "Protection": "Balistique 1 (Ablatif 4)",
+          "Notes": "Gilet fin, dissimulable."
+        }
+      }
+    },
+    {
+      "name": "BridgeElectrics No-Fire",
+      "category": "Armures — Spécialisées",
+      "path": [
+        "entries",
+        97
+      ],
+      "raw": {
+        "id": "armures-specialisees-bridgeelectrics-no-fire",
+        "name": "BridgeElectrics No-Fire",
+        "category": "Armures — Spécialisées",
+        "priceMode": "exact",
+        "price": 1000,
+        "priceLabel": "1 000 $",
+        "effect": "Tenue pompier/technicien, chaleur et electricite.",
+        "data": {
+          "Profil": "Bal.1 / Mel.1 / Ant.3 ; Reduction 3 [Feu/Electricite]",
+          "Fonction": "Tenue pompier/technicien, chaleur et electricite."
+        }
+      }
+    },
+    {
+      "name": "Raven Gallowglass II legere",
+      "category": "Armures — Combat",
+      "path": [
+        "entries",
+        91
+      ],
+      "raw": {
+        "id": "armures-combat-raven-gallowglass-ii-legere",
+        "name": "Raven Gallowglass II legere",
+        "category": "Armures — Combat",
+        "priceMode": "exact",
+        "price": 1450,
+        "priceLabel": "1 450 $",
+        "effect": "Anti-EMP",
+        "data": {
+          "Bal.": "Balistique 5",
+          "Mel.": "Melee 3",
+          "Ant.": "Antichoc 4",
+          "Notes": "Anti-EMP"
+        }
+      }
+    },
+    {
+      "name": "Raven Gallowglass II lourde",
+      "category": "Armures — Combat",
+      "path": [
+        "entries",
+        94
+      ],
+      "raw": {
+        "id": "armures-combat-raven-gallowglass-ii-lourde",
+        "name": "Raven Gallowglass II lourde",
+        "category": "Armures — Combat",
+        "priceMode": "exact",
+        "price": 5500,
+        "priceLabel": "5 500 $",
+        "effect": "Anti-EMP ; militaire lourd",
+        "data": {
+          "Bal.": "Balistique 9",
+          "Mel.": "Melee 4",
+          "Ant.": "Antichoc 6",
+          "Notes": "Anti-EMP ; militaire lourd"
+        }
+      }
+    },
+    {
+      "name": "Phoenix Sun King",
+      "category": "Armures — Combat",
+      "path": [
+        "entries",
+        95
+      ],
+      "raw": {
+        "id": "armures-combat-phoenix-sun-king",
+        "name": "Phoenix Sun King",
+        "category": "Armures — Combat",
+        "priceMode": "exact",
+        "price": 5000,
+        "priceLabel": "5 000 $",
+        "effect": "Protection thermique reactive",
+        "data": {
+          "Bal.": "Balistique 5",
+          "Mel.": "Melee 5",
+          "Ant.": "Antichoc 5",
+          "Notes": "Protection thermique reactive"
+        }
+      }
+    },
+    {
+      "name": "Owl Moon Guard",
+      "category": "Armures — Combat",
+      "path": [
+        "entries",
+        96
+      ],
+      "raw": {
+        "id": "armures-combat-owl-moon-guard",
+        "name": "Owl Moon Guard",
+        "category": "Armures — Combat",
+        "priceMode": "exact",
+        "price": 4550,
+        "priceLabel": "4 550 $",
+        "effect": "Faible signature en obscurite",
+        "data": {
+          "Bal.": "Balistique 4",
+          "Mel.": "Melee 7",
+          "Ant.": "Antichoc 4",
+          "Notes": "Faible signature en obscurite"
+        }
+      }
+    }
+  ]
+}

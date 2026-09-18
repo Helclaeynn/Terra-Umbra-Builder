@@ -31,7 +31,7 @@ const equipmentBase=safeEntries('equipment');
 const neuroSource=safeEntries('neuroprograms');
 const vehicleSource=safeEntries('vehicles');
 const equipmentRuntime=equipmentBase+neuroSource+vehicleSource;
-if(equipmentBase!==261||neuroSource!==27||vehicleSource!==10||equipmentRuntime!==298)throw new Error(`Sources équipement inattendues: ${equipmentBase}+${neuroSource}+${vehicleSource}=${equipmentRuntime}`);
+if(equipmentBase!==321||neuroSource!==27||vehicleSource!==10||equipmentRuntime!==358)throw new Error(`Sources équipement inattendues: ${equipmentBase}+${neuroSource}+${vehicleSource}=${equipmentRuntime}`);
 
 const augB64=fs.readFileSync(`${REALITY}/augmentations.json.gz.b64`,'utf8').replace(/\s+/g,'');
 const augRaw=JSON.parse(zlib.gunzipSync(Buffer.from(augB64,'base64')).toString('utf8'));
@@ -55,7 +55,7 @@ const augSpec=manifest.datasets.find(item=>item.id==='augmentations');
 if(!equipSpec||!augSpec)throw new Error('Datasets catalogue absents du manifeste');
 const equipment=load(equipSpec);
 const augmentations=load(augSpec);
-if(equipment.length!==297)throw new Error(`Équipement visible: ${equipment.length}, attendu 297 après dédoublonnage FaceCaster`);
+if(equipment.length!==357)throw new Error(`Équipement visible: ${equipment.length}, attendu 357 après réintégration legacy et dédoublonnage FaceCaster`);
 if(!augmentations.length||augmentations.length>=augmentationRuntime)throw new Error(`Regroupement augmentations invalide: ${augmentations.length} pages pour ${augmentationRuntime} variantes`);
 if(equipSpec.count!==equipment.length||augSpec.count!==augmentations.length)throw new Error('Manifeste: nombre de pages catalogue incohérent');
 

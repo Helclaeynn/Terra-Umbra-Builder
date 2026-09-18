@@ -1,0 +1,44 @@
+name: Legacy equipment reintegration
+
+on:
+  push:
+    branches:
+      - feature/legacy-arsenal-armors-reintegration
+    paths:
+      - 'compendium/source/legacy-equipment-candidates-v1.json'
+      - 'scripts/audit-legacy-equipment-reintegration.mjs'
+      - 'scripts/export-current-equipment-catalog.mjs'
+      - '.github/workflows/legacy-equipment-reintegration.yml'
+      - 'character-builder/rulesets/terra-umbra/reality/safe/**'
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/legacy-arsenal-armors-reintegration
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Audit legacy equipment against active Builder catalog
+        run: |
+          node scripts/audit-legacy-equipment-reintegration.mjs
+          node scripts/export-current-equipment-catalog.mjs
+      - name: Commit audit report
+        shell: bash
+        run: |
+          FILES='compendium/source/legacy-equipment-audit-v1.json compendium/source/legacy-equipment-audit-summary-v1.json compendium/source/legacy-equipment-missing-v1.json compendium/source/legacy-equipment-likely-v1.json compendium/source/legacy-equipment-schema-samples-v1.json compendium/source/legacy-equipment-resolution-v1.json compendium/source/current-equipment-catalog-v1.json compendium/source/current-combat-catalog-v1.json compendium/source/current-combat-categories-v1.json compendium/source/current-combat-category-*.json'
+          CHANGED="$(git status --porcelain -- $FILES)"
+          if [ -z "$CHANGED" ]; then
+            echo 'Audit reports already synchronized.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add $FILES
+          git commit -m 'test(equipment): record legacy reintegration audit'
+          git push origin HEAD:feature/legacy-arsenal-armors-reintegration

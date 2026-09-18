@@ -1,0 +1,457 @@
+{
+  "version": 1,
+  "summary": {
+    "total": 124,
+    "existing": 22,
+    "likelyExisting": 42,
+    "missing": 60
+  },
+  "resolved": [
+    {
+      "legacyName": "+B Hunter",
+      "currentName": "Owl LC-014 Chasseur",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    },
+    {
+      "legacyName": "CB Hunter",
+      "currentName": "Owl LC-014 Chasseur",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    },
+    {
+      "legacyName": "ESW Immobilizer",
+      "currentName": "Raven HT-014 Immobilisateur",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    },
+    {
+      "legacyName": "ESW Inabilitor",
+      "currentName": "Owl LT-015 Incapaciteur",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    },
+    {
+      "legacyName": "WSG Poseidon",
+      "currentName": "SeaWares HL-02 Poseidon",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    },
+    {
+      "legacyName": "P. Hitman",
+      "currentName": "Raven MC-025 Hitman",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "p. Vampire Killer",
+      "currentName": "Phoenix PW-026 Vampire Killer",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "PW Superballs",
+      "currentName": "Owl MB-014 Bolas monofilament",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    },
+    {
+      "legacyName": "Pw Cuchulainn",
+      "currentName": "Raven JL-014 Cuchulainn",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    },
+    {
+      "legacyName": "PW Tomahawk",
+      "currentName": "Tala TH-029 Tomahawk",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    },
+    {
+      "legacyName": "PW Steel feathers",
+      "currentName": "Phoenix PCK-08 Feather",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    },
+    {
+      "legacyName": "CoS Riot force",
+      "currentName": "Raven TM-028 Riot Control",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    },
+    {
+      "legacyName": "CoS Sunwukong",
+      "currentName": "Owl TS-009 Sun Wukong",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    },
+    {
+      "legacyName": "AR Mutilator",
+      "currentName": "Phoenix AR-124 Mutilator",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "Ar Sunlight",
+      "currentName": "Phoenix AR-124 Sunlight",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "AR Howling",
+      "currentName": "Owl AR-071 Howling",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "AR Rampager",
+      "currentName": "Raven AR-027 Rampager",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "Sr Big Game Hunter",
+      "currentName": "Owl SR-017 Big Game Hunter",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "SR Hoot",
+      "currentName": "Owl SR-029 Hoot",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "Sr Deathbringer",
+      "currentName": "Raven SR-029 Deathbringer",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "SR Phantom",
+      "currentName": "Phoenix SR-034 Phantom",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "LMG Suppressor",
+      "currentName": "Owl MGP-062 Suppressor",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "LMG Military",
+      "currentName": "Raven MGP-072 Military",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "LMG Equalizer",
+      "currentName": "Phoenix MGP-042 Equalizer",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "MG Gladius",
+      "currentName": "Owl LMG-092 Gladius",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "MG Urban",
+      "currentName": "Phoenix LMG-018 Urban",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "MG Executionner",
+      "currentName": "Raven LMG-027 Executionner",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    },
+    {
+      "legacyName": "MG Neo-Executionner",
+      "currentName": "Raven LMG-072 Neo-Executionner",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "PP old colt",
+      "currentName": "Owl PP-014 Old Colt",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "PP Defender",
+      "currentName": "Raven PP-012 Defender",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "HP Deputy",
+      "currentName": "Owl HP-104 Deputy",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "HP pacificateur",
+      "currentName": "Raven HP-014 Pacificateur",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "HP Gardien",
+      "currentName": "Raven HP-067 Gardien",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "HP Violator",
+      "currentName": "Phoenix HP-028 Violator",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "HP Depliant",
+      "currentName": "Phoenix HP-092 Depliant",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "LP Acceptable",
+      "currentName": "Owl LP-019 Acceptable",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "LP Sturdy",
+      "currentName": "Raven LP-004 Sturdy",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "LP Sunblast",
+      "currentName": "Phoenix LP-028 Sun Blast",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    },
+    {
+      "legacyName": "SPC No-Fire",
+      "currentName": "BridgeElectrics No-Fire",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "SPC Free Fly",
+      "currentName": "Ocean Master Free Fly",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "SPC Santa cloth",
+      "currentName": "Icecorps Santa Clothes",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    },
+    {
+      "legacyName": "SPC Medicarmor",
+      "currentName": "Biosun Medicarmor",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "SPC Muad Dib",
+      "currentName": "Sunways Desert Survivor",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    },
+    {
+      "legacyName": "SPC Cthulhu killer",
+      "currentName": "Seawares Scaph IV",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    },
+    {
+      "legacyName": "sba Ghillie basic",
+      "currentName": "Byron Ghillie Basic",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "SBA Squid Skin",
+      "currentName": "Raven Squid Skin",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "SBA Dirty Sniper",
+      "currentName": "Phoenix Dirty Sniper",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "SBA Zero Guard",
+      "currentName": "Owl Zero Guard",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "SBA Ninja",
+      "currentName": "SBA Ninja",
+      "status": "existing",
+      "confidence": "exact"
+    },
+    {
+      "legacyName": "Spc neuromaster",
+      "currentName": "ArcaNetwork Neuromaster",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "BPV Bullet Fear",
+      "currentName": "Owl Bullets Fear",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    },
+    {
+      "legacyName": "BPV Black Feathers",
+      "currentName": "Raven Black Feathers",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "BPV New Guard",
+      "currentName": "Owl New Guard",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "BPV Black Dog",
+      "currentName": "Raven Black Dog",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "BPV Punk life",
+      "currentName": "Byron Punk Life",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "BPV SunShield",
+      "currentName": "Phoenix Sun Shield",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    },
+    {
+      "legacyName": "BPV King Worker",
+      "currentName": "Byron King Worker VII",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "BPV Silver Knight",
+      "currentName": "Phoenix Silver Knight",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "LBA Night Guard",
+      "currentName": "Owl Night Guard",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "LBA Gallowglass II",
+      "currentName": "Raven Gallowglass II legere",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    },
+    {
+      "legacyName": "LBA Skylord",
+      "currentName": "Phoenix Skylord III",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "HBA Moon Guard",
+      "currentName": "Owl Moon Guard",
+      "status": "likely-existing",
+      "confidence": "title"
+    },
+    {
+      "legacyName": "HBA Gallowglass V",
+      "currentName": "Raven Gallowglass II lourde",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    },
+    {
+      "legacyName": "HBA Sunking",
+      "currentName": "Phoenix Sun King",
+      "status": "existing",
+      "confidence": "confirmed-alias"
+    }
+  ],
+  "missing": [
+    "+B Black Arrow",
+    "CB Championship",
+    "WSG Tethyssette",
+    "P. Flak Cannon",
+    "P. Sheer BlueShell A.",
+    "P. Charm",
+    "P. Armcannon",
+    "P. Railway to hell",
+    "P. Vader",
+    "Pw Ravenegg",
+    "PW Inferno",
+    "PW Dripper",
+    "PW heliosII",
+    "PW Superchoc",
+    "PW frog egg",
+    "PW Pokeball",
+    "GL Vending Machine",
+    "PW Jagi",
+    "PW Shadow gift",
+    "GL Bomberman",
+    "GL Easter Bunny",
+    "BK King fist",
+    "Bh Ginette",
+    "?? Antoinette",
+    "?? Pierrette",
+    "Wm Melinette",
+    "Cos Stretchy",
+    "AR Sal-in",
+    "AR Morissette",
+    "AR Aciditicteeth",
+    "AR Blastard",
+    "Sr Song-gos",
+    "Sr Luzette",
+    "sr Abraham Kennedy",
+    "SR Hellrails",
+    "DGR Pandemic",
+    "DGR Savior",
+    "DG Disease",
+    "DG Savior",
+    "DG RedCrush",
+    "DG Painkiller",
+    "BK Hornetouch",
+    "AR Blastard",
+    "LMG Bi",
+    "LMG Nebullar",
+    "LMG Surge",
+    "MG Bibal",
+    "MG Florette",
+    "HP Apex",
+    "LP Jeanette",
+    "HP Jotkka",
+    "HP Pacificateur x",
+    "pP Eolgul-e",
+    "PP Sunnyroshima",
+    "HP Reminiscer",
+    "HP Oblivion",
+    "HP Zeus",
+    "LP Dracula",
+    "LBA Soldier",
+    "HBA heavy soldier"
+  ]
+}

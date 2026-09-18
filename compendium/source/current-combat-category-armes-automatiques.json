@@ -1,0 +1,183 @@
+{
+  "version": 1,
+  "category": "Armes — Automatiques",
+  "count": 11,
+  "entries": [
+    {
+      "id": "armes-automatiques-owl-mgp-062-suppressor",
+      "name": "Owl MGP-062 Suppressor",
+      "category": "Armes — Automatiques",
+      "priceMode": "exact",
+      "price": 750,
+      "priceLabel": "750 $",
+      "effect": "",
+      "data": {
+        "Classe": "PM",
+        "DGT": "7",
+        "Portee": "30 m",
+        "Cap.": "30",
+        "Proprietes": "Rafale, Automatique"
+      }
+    },
+    {
+      "id": "armes-automatiques-raven-mgp-072-military",
+      "name": "Raven MGP-072 Military",
+      "category": "Armes — Automatiques",
+      "priceMode": "exact",
+      "price": 1050,
+      "priceLabel": "1 050 $",
+      "effect": "",
+      "data": {
+        "Classe": "PM",
+        "DGT": "8",
+        "Portee": "30 m",
+        "Cap.": "20",
+        "Proprietes": "Rafale, Automatique, Fiable"
+      }
+    },
+    {
+      "id": "armes-automatiques-phoenix-mgp-042-equalizer",
+      "name": "Phoenix MGP-042 Equalizer",
+      "category": "Armes — Automatiques",
+      "priceMode": "exact",
+      "price": 1250,
+      "priceLabel": "1 250 $",
+      "effect": "",
+      "data": {
+        "Classe": "PM",
+        "DGT": "7",
+        "Portee": "30 m",
+        "Cap.": "30",
+        "Proprietes": "Rafale, Automatique, Smartlink"
+      }
+    },
+    {
+      "id": "armes-automatiques-owl-lmg-092-gladius",
+      "name": "Owl LMG-092 Gladius",
+      "category": "Armes — Automatiques",
+      "priceMode": "exact",
+      "price": 950,
+      "priceLabel": "950 $",
+      "effect": "",
+      "data": {
+        "Classe": "SMG",
+        "DGT": "9",
+        "Portee": "45 m",
+        "Cap.": "30",
+        "Proprietes": "Rafale, Automatique"
+      }
+    },
+    {
+      "id": "armes-automatiques-phoenix-lmg-018-urban",
+      "name": "Phoenix LMG-018 Urban",
+      "category": "Armes — Automatiques",
+      "priceMode": "exact",
+      "price": 1550,
+      "priceLabel": "1 550 $",
+      "effect": "",
+      "data": {
+        "Classe": "SMG",
+        "DGT": "9",
+        "Portee": "30 m",
+        "Cap.": "30",
+        "Proprietes": "Rafale, Automatique, Smartlink"
+      }
+    },
+    {
+      "id": "armes-automatiques-raven-lmg-027-executionner",
+      "name": "Raven LMG-027 Executionner",
+      "category": "Armes — Automatiques",
+      "priceMode": "exact",
+      "price": 1350,
+      "priceLabel": "1 350 $",
+      "effect": "",
+      "data": {
+        "Classe": "SMG",
+        "DGT": "10",
+        "Portee": "30 m",
+        "Cap.": "20",
+        "Proprietes": "Rafale, Automatique, Fiable"
+      }
+    },
+    {
+      "id": "armes-automatiques-raven-lmg-072-neo-executionner",
+      "name": "Raven LMG-072 Neo-Executionner",
+      "category": "Armes — Automatiques",
+      "priceMode": "exact",
+      "price": 2150,
+      "priceLabel": "2 150 $",
+      "effect": "",
+      "data": {
+        "Classe": "SMG",
+        "DGT": "10",
+        "Portee": "30 m",
+        "Cap.": "20",
+        "Proprietes": "Rafale, Automatique, Fiable, Smartlink"
+      }
+    },
+    {
+      "id": "armes-automatiques-phoenix-ar-124-mutilator",
+      "name": "Phoenix AR-124 Mutilator",
+      "category": "Armes — Automatiques",
+      "priceMode": "exact",
+      "price": 950,
+      "priceLabel": "950 $",
+      "effect": "",
+      "data": {
+        "Classe": "Assaut",
+        "DGT": "11",
+        "Portee": "60 m",
+        "Cap.": "36",
+        "Proprietes": "Rafale, Automatique"
+      }
+    },
+    {
+      "id": "armes-automatiques-raven-ar-027-rampager",
+      "name": "Raven AR-027 Rampager",
+      "category": "Armes — Automatiques",
+      "priceMode": "exact",
+      "price": 2100,
+      "priceLabel": "2 100 $",
+      "effect": "",
+      "data": {
+        "Classe": "Assaut",
+        "DGT": "12",
+        "Portee": "60 m",
+        "Cap.": "24",
+        "Proprietes": "Rafale, Automatique, Fiable, EMP"
+      }
+    },
+    {
+      "id": "armes-automatiques-owl-ar-071-howling",
+      "name": "Owl AR-071 Howling",
+      "category": "Armes — Automatiques",
+      "priceMode": "exact",
+      "price": 1550,
+      "priceLabel": "1 550 $",
+      "effect": "",
+      "data": {
+        "Classe": "Assaut",
+        "DGT": "11",
+        "Portee": "45 m",
+        "Cap.": "36",
+        "Proprietes": "Rafale, Automatique, Perforant 1"
+      }
+    },
+    {
+      "id": "armes-automatiques-phoenix-ar-124-sunlight",
+      "name": "Phoenix AR-124 Sunlight",
+      "category": "Armes — Automatiques",
+      "priceMode": "exact",
+      "price": 2550,
+      "priceLabel": "2 550 $",
+      "effect": "",
+      "data": {
+        "Classe": "Assaut",
+        "DGT": "11",
+        "Portee": "45 m",
+        "Cap.": "36",
+        "Proprietes": "Rafale, Automatique, Smartlink, Flash"
+      }
+    }
+  ]
+}
