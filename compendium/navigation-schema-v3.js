@@ -62,7 +62,7 @@ function classifyEquipment(page){
   const n=norm(category),order=numericIdOrder(page),weaponClass=norm(page?.catalog?.weaponClass||''),weaponRole=norm(page?.catalog?.weaponRole||''),title=norm(page?.title||'');
   const legacy=LEGACY_WEAPON_SUBGROUPS.get(title);if(legacy)return result('Armement',10,legacy[0],legacy[1],order);
   if(n==='armes melee'){
-    if(/trait|jet/.test(weaponClass))return result('Armement',10,'Armes de jet & trait',20,order);
+    if(/trait|jet/.test(weaponClass)||/\b(?:lc|hl|jl|th|mb) \d/.test(title))return result('Armement',10,'Armes de jet & trait',20,order);
     return result('Armement',10,'Armes de mêlée',10,order);
   }
   if(n==='armes poing tasers'){
