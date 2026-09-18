@@ -134,15 +134,15 @@ function pnjMjHtml(a){
 
 function relatedTo(a){const text=norm(flattenText(a)),tags=new Set((a.tags||[]).map(norm));return articles().filter(x=>x.id!==a.id&&x.audience!=='mj').map(x=>{let score=x.category===a.category?.25:0;const title=norm(x.title);if(title.length>4&&text.includes(title))score+=5;for(const t of x.tags||[])if(tags.has(norm(t)))score++;return[score,x]}).filter(x=>x[0]>1).sort((x,y)=>y[0]-x[0]||x[1].title.localeCompare(y[1].title,'fr')).slice(0,12).map(x=>x[1])}
 
-function startArticleHref(id){return articleCache.has(id)?`#/article/${encodeURIComponent(id)}`:'#/search'}
+function startArticleHref(id){return `#/article/${encodeURIComponent(id)}`}
 function startArticleTitle(id,fallback=''){return articleCache.get(id)?.title||fallback||id}
 function startCard(item){
   const href=startArticleHref(item.id);
   return `<a class="start-card" href="${href}" data-wiki-id="${esc(item.id)}"><strong>${esc(item.label)}</strong><p>${esc(item.summary)}</p><span>Lire : ${esc(startArticleTitle(item.id,item.label))} →</span></a>`;
 }
 function natureCard(item){
-  const rules=articleCache.get(item.rulesId),lore=articleCache.get(item.loreId);
-  return `<article class="nature-card"><div class="nature-copy"><div><strong>${esc(item.label)}</strong>${item.note?`<span class="start-pill">${esc(item.note)}</span>`:''}</div><p>${esc(item.summary||'')}</p></div><div class="nature-links">${rules?`<a class="wiki-link" data-wiki-id="${esc(rules.id)}" href="#/article/${encodeURIComponent(rules.id)}">Règles de Nature</a>`:''}${lore?`<a class="wiki-link" data-wiki-id="${esc(lore.id)}" href="#/article/${encodeURIComponent(lore.id)}">Présentation & lore</a>`:''}</div></article>`;
+  const rulesId=item.rulesId||'',loreId=item.loreId||'';
+  return `<article class="nature-card"><div class="nature-copy"><div><strong>${esc(item.label)}</strong>${item.note?`<span class="start-pill">${esc(item.note)}</span>`:''}</div><p>${esc(item.summary||'')}</p></div><div class="nature-links">${rulesId?`<a class="wiki-link" data-wiki-id="${esc(rulesId)}" href="#/article/${encodeURIComponent(rulesId)}">Règles de Nature</a>`:''}${loreId?`<a class="wiki-link" data-wiki-id="${esc(loreId)}" href="#/article/${encodeURIComponent(loreId)}">Présentation & lore</a>`:''}</div></article>`;
 }
 function wikiPreviewText(article,limit=360){
   const chunks=[];
@@ -196,4 +196,13 @@ async function router(){const raw=location.hash.slice(1)||'/start';if(raw==='/st
 
 $('#globalSearch').addEventListener('submit',e=>{e.preventDefault();routeTo(`/search?q=${encodeURIComponent(searchInput.value.trim())}`)});window.addEventListener('hashchange',router);
 
-(async()=>{manifest=await loadManifest();await loadCorpus();ensureCategories();renderNav();await router()})().catch(error=>{console.error(error);main.innerHTML=`<div class="empty"><strong>Impossible de charger le Compendium.</strong><br>${esc(error.message)}</div>`});
+(async()=>{
+  manifest=await loadManifest();
+  const firstRoute=location.hash.slice(1)||'/start';
+  if(firstRoute==='/start')await showStart();
+  await loadCorpus();
+  ensureCategories();
+  const currentRoute=location.hash.slice(1)||'/start';
+  if(currentRoute==='/start')return showStart();
+  await router();
+})().catch(error=>{console.error(error);main.innerHTML=`<div class="empty"><strong>Impossible de charger le Compendium.</strong><br>${esc(error.message)}</div>`});
