@@ -20,9 +20,11 @@ async function stored(){
 try{
   await page.goto(`${base}character-builder/`,{waitUntil:'domcontentloaded'});
   await page.waitForSelector('#stepNav .step-link',{timeout:30000});
+  await page.waitForFunction(()=>window.__TUC_LATE_STATE_READY__===true,null,{timeout:30000});
   await page.evaluate(()=>localStorage.removeItem('tuc-character-builder-v1'));
   await page.reload({waitUntil:'domcontentloaded'});
   await page.waitForSelector('#stepNav .step-link',{timeout:30000});
+  await page.waitForFunction(()=>window.__TUC_LATE_STATE_READY__===true,null,{timeout:30000});
 
   await clickStep('Edge');
   const attrPack=page.locator('.p32-edge-spend').filter({hasText:'+2 Attributs'}).first();
@@ -49,6 +51,7 @@ try{
 
   await page.reload({waitUntil:'domcontentloaded'});
   await page.waitForSelector('#stepNav .step-link',{timeout:30000});
+  await page.waitForFunction(()=>window.__TUC_LATE_STATE_READY__===true,null,{timeout:30000});
   saved=await stored();
   if(saved.edge?.attributePack!==1||saved.edge?.cashPacks!==1)throw new Error(`Edge counters perdus après reload: ${JSON.stringify(saved.edge)}`);
   const edgeAttrAfter=Object.values(saved.edgeAttributes||{}).reduce((n,v)=>n+Number(v||0),0);
