@@ -16,6 +16,9 @@ let manifest=null;
 let wikiLinker=null;
 const articleCache=new Map();
 const datasetCache=new Map();
+let corpusPromise=null,corpusReady=false,navigationCounts=null;
+window.__TUC_CORPUS_READY__=false;
+window.__TUC_START_READY__=false;
 const statusClass=s=>['canon_recent','canon_enrichi'].includes(s)?'canon':s==='source_detaillee'?'source':s==='obsolete'?'obsolete':'';
 const statusLabel=s=>manifest?.statusLabels?.[s]||s||'';
 
@@ -48,6 +51,25 @@ async function loadManifest(){
   if(!Array.isArray(data.datasets)||!Array.isArray(data.categories))throw new Error('Manifest V3 invalide');
   return data;
 }
+async function loadNavigationCounts(){
+  try{
+    const r=await fetch('data/navigation-v1.json',{cache:'no-cache'});if(!r.ok)return null;
+    const data=await r.json(),counts={};
+    for(const entry of data.entries||[])counts[entry.category]=(counts[entry.category]||0)+1;
+    for(const guide of GUIDE_ARTICLES)counts[guide.category]=(counts[guide.category]||0)+1;
+    return counts;
+  }catch{return null}
+}
+function installGuideArticles(){
+  for(const article of GUIDE_ARTICLES){
+    const copy=structuredClone(article);
+    copy.dataset=copy.dataset||'guide';
+    copy.sourceCategory=copy.sourceCategory||copy.category;
+    copy.category=displayCategory(copy);
+    articleCache.set(copy.id,copy);
+  }
+}
+
 async function loadCommittedOverrides(){
   try{
     const r=await fetch('data/manual-overrides.json',{cache:'no-cache'});
@@ -87,19 +109,15 @@ async function loadCorpus(){
       articleCache.set(article.id,article);
     }
   }
-  for(const article of GUIDE_ARTICLES){
-    const copy=structuredClone(article);
-    copy.dataset=copy.dataset||'guide';
-    copy.sourceCategory=copy.sourceCategory||copy.category;
-    copy.category=displayCategory(copy);
-    articleCache.set(copy.id,copy);
-  }
+  installGuideArticles();
   const summary=await applyCommittedOverridesToMap(articleCache,await loadCommittedOverrides());
   if(summary.conflicts.length)console.warn(`${summary.conflicts.length} override(s) éditorial(aux) ignoré(s) car le corpus source a changé.`,summary.conflicts);
   if(summary.missing.length)console.warn(`${summary.missing.length} override(s) ciblent une page absente.`,summary.missing);
   wikiLinker=createWikiLinker(articles(),{explicitTargets:WIKI_EXPLICIT_TARGETS,strictSurfaceAliases:WIKI_STRICT_SURFACE_ALIASES,searchFallbacks:WIKI_SEARCH_FALLBACKS});
   console.info(`Wiki interne : ${wikiLinker.stats.aliases} alias directs, ${wikiLinker.stats.ambiguous} ambigus ignorés.`);
+  corpusReady=true;window.__TUC_CORPUS_READY__=true;
 }
+function ensureCorpus(){if(corpusReady)return Promise.resolve();if(!corpusPromise)corpusPromise=loadCorpus();return corpusPromise}
 function articles(){return [...articleCache.values()]}
 
 function ensureCategories(){
@@ -107,7 +125,7 @@ function ensureCategories(){
   manifest.categories=CATEGORY_ORDER.filter(category=>found.has(category));
 }
 function renderNav(active=''){
-  const counts={};for(const a of articles())counts[a.category]=(counts[a.category]||0)+1;
+  const counts=navigationCounts?{...navigationCounts}:{};if(!navigationCounts)for(const a of articles())counts[a.category]=(counts[a.category]||0)+1;
   nav.innerHTML=`<a href="#/start" class="${active==='start'?'active':''}">Nouveau joueur</a><a href="#/home" class="${active==='home'?'active':''}">Index du Compendium</a><hr>${manifest.categories.map(c=>`<a href="#/category/${encodeURIComponent(c)}" class="${active===c?'active':''}"><span>${esc(c)}</span><span class="count">${counts[c]||0}</span></a>`).join('')}<hr><a href="#/search" class="${active==='search'?'active':''}">Recherche globale</a>`;
 }
 function metaBadges(a){return `<div class="meta"><span class="badge ${statusClass(a.status)}">${esc(statusLabel(a.status))}</span>${a.__editorialOverride?'<span class="badge canon">Édité</span>':''}${a.audience==='mj'?'<span class="badge mj">Contenu MJ</span>':''}${a.pnj?.completeness?`<span class="badge pnj-state ${esc(a.pnj.completeness)}">${esc(pnjCompletenessLabel(a.pnj.completeness))}</span>`:''}${(a.tags||[]).filter(Boolean).slice(0,8).map(t=>`<span class="badge">${esc(t)}</span>`).join('')}</div>`}
@@ -193,7 +211,7 @@ window.addEventListener('scroll',()=>{if(wikiPreviewLink)positionWikiPreview(wik
 window.addEventListener('resize',()=>{if(wikiPreviewLink)positionWikiPreview(wikiPreviewLink)});
 
 async function showStart(){
-  renderNav('start');
+  renderNav('start');window.__TUC_START_READY__=true;
   setToc(`<div class="toc-title">Commencer par</div><div class="toc-links"><a href="#/article/guide-realite-nouveau-joueur">Guide de la Réalité</a><a href="#/article/guide-verite-nouveau-joueur">Guide de la Vérité</a><a href="#/article/verite-002-le-voile-et-l-hologramme">Voile & Hologramme</a><a href="#/article/realite-005-4-creation-et-progression">Création</a></div>`);
   main.innerHTML=`<div class="page-head start-hero"><div class="eyebrow">PREMIERS PAS</div><h1>Découvrir Terra Umbra California</h1><p>${linkify('Terra Umbra California se lit sur deux niveaux superposés : la Réalité, le monde visible et quotidien, et la Vérité, le monde caché derrière le Voile. Commence ici, puis suis les liens selon le personnage que tu veux découvrir ou créer.')}</p><div class="start-actions"><a class="builder-link" href="../character-builder/">Créer un personnage</a><a class="builder-link secondary" href="#/home">Explorer tout le Compendium</a></div></div><section class="start-section"><h2>Les quatre pages à lire d’abord</h2><div class="start-grid">${PLAYER_START.basics.map(startCard).join('')}</div></section><section class="start-section"><h2>Natures et espèces disponibles</h2><p class="start-intro">Chaque entrée ci-dessous renvoie à sa page de règles de Nature et, lorsqu’elle existe séparément, à sa présentation dans le lore. Les accès particuliers sont isolés juste après.</p><div class="nature-grid">${PLAYER_START.natures.map(natureCard).join('')}</div>${PLAYER_START.restricted.length?`<h3 class="start-subtitle">Accès particuliers</h3><div class="nature-grid">${PLAYER_START.restricted.map(natureCard).join('')}</div>`:''}</section><section class="start-section"><h2>Repères de lore</h2><p class="start-intro">Ces pages servent de carrefours : elles relient plusieurs Natures, peuples ou mécanismes du monde caché.</p><div class="start-grid compact">${PLAYER_START.loreHubs.map(startCard).join('')}</div></section><section class="start-section"><h2>Explorer ensuite</h2><div class="start-grid compact">${PLAYER_START.categories.map(item=>`<a class="start-card" href="${item.href}"><strong>${esc(item.label)}</strong><p>${esc(item.summary)}</p><span>Ouvrir la rubrique →</span></a>`).join('')}</div></section>`;
 }
@@ -215,15 +233,20 @@ async function showArticle(id,anchor=''){const focused=document.activeElement;if
 function excerptFor(a,q){const nq=norm(q);for(const s of a.sections||[])for(const b of s.blocks||[])if(b.type==='p'&&norm(b.text).includes(nq))return{sec:s,text:b.text};return{sec:null,text:articleSnippet(a)}}
 function highlight(t,q){let out=esc(t);for(const w of norm(q).split(' ').filter(x=>x.length>1)){const re=new RegExp(`(${w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`,'ig');out=out.replace(re,'<mark>$1</mark>')}return out}
 async function showSearch(q=''){renderNav('search');searchInput.value=q;setToc('');if(!q){main.innerHTML='<div class="page-head"><div class="eyebrow">RECHERCHE GLOBALE</div><h1>Rechercher dans TUC</h1><p>La recherche porte sur le lore, les PNJ, les règles, le Bestiaire, l’équipement, les augmentations et les surcouches récentes.</p></div>';return}const terms=norm(q).split(' ').filter(Boolean),scored=[];for(const a of articles()){const text=norm(flattenText(a));if(!terms.every(t=>text.includes(t)))continue;let score=terms.reduce((n,t)=>n+(norm(a.title).includes(t)?8:0)+(norm((a.tags||[]).join(' ')).includes(t)?3:0),0);score+=Math.min(10,terms.reduce((n,t)=>n+(text.match(new RegExp(t,'g'))||[]).length,0)*.15);scored.push([score,a])}scored.sort((x,y)=>y[0]-x[0]||x[1].title.localeCompare(y[1].title,'fr'));const results=scored.slice(0,200);main.innerHTML=`<div class="page-head"><div class="eyebrow">RECHERCHE GLOBALE</div><h1>${esc(q)}</h1><p>${scored.length} résultat${scored.length>1?'s':''}${scored.length>200?' · 200 premiers affichés':''}.</p></div><div class="search-results">${results.map(([,a])=>{const ex=excerptFor(a,q),href=`#/article/${encodeURIComponent(a.id)}${ex.sec?'@'+encodeURIComponent(ex.sec.id):''}`;return`<a class="search-result" href="${href}"><div class="crumb">${esc(a.category)} · ${esc(statusLabel(a.status))}${a.pnj?.completeness?` · ${esc(pnjCompletenessLabel(a.pnj.completeness))}`:''}</div><h3>${highlight(a.title,q)}</h3><p>${highlight(ex.text,q)}</p></a>`}).join('')||'<div class="empty">Aucun résultat.</div>'}</div>`}
-async function router(){const raw=location.hash.slice(1)||'/start';if(raw==='/start')return showStart();if(raw.startsWith('/article/')){let x=decodeURIComponent(raw.slice(9)),anchor='';if(x.includes('@')){const parts=x.split('@',2);x=parts[0];anchor=decodeURIComponent(parts[1]||'')}return showArticle(x,anchor)}if(raw.startsWith('/category/'))return showCategory(decodeURIComponent(raw.slice(10)));if(raw.startsWith('/search'))return showSearch(new URLSearchParams(raw.split('?')[1]||'').get('q')||'');return showHome()}
+async function router(){const raw=location.hash.slice(1)||'/start';if(raw==='/start')return showStart();await ensureCorpus();if(raw.startsWith('/article/')){let x=decodeURIComponent(raw.slice(9)),anchor='';if(x.includes('@')){const parts=x.split('@',2);x=parts[0];anchor=decodeURIComponent(parts[1]||'')}return showArticle(x,anchor)}if(raw.startsWith('/category/'))return showCategory(decodeURIComponent(raw.slice(10)));if(raw.startsWith('/search'))return showSearch(new URLSearchParams(raw.split('?')[1]||'').get('q')||'');return showHome()}
 
 $('#globalSearch').addEventListener('submit',e=>{e.preventDefault();routeTo(`/search?q=${encodeURIComponent(searchInput.value.trim())}`)});window.addEventListener('hashchange',router);
 
 (async()=>{
-  manifest=await loadManifest();
-  await loadCorpus();
+  [manifest,navigationCounts]=await Promise.all([loadManifest(),loadNavigationCounts()]);
+  installGuideArticles();
   ensureCategories();
   const currentRoute=location.hash.slice(1)||'/start';
-  if(currentRoute==='/start')return showStart();
-  await router();
+  if(currentRoute==='/start'){
+    await showStart();
+    const launch=()=>ensureCorpus().then(()=>{ensureCategories();if((location.hash.slice(1)||'/start')==='/start')renderNav('start')}).catch(error=>console.error('Chargement du corpus en arrière-plan',error));
+    if('requestIdleCallback' in window)requestIdleCallback(launch,{timeout:250});else setTimeout(launch,0);
+    return;
+  }
+  await ensureCorpus();ensureCategories();await router();
 })().catch(error=>{console.error(error);main.innerHTML=`<div class="empty"><strong>Impossible de charger le Compendium.</strong><br>${esc(error.message)}</div>`});
