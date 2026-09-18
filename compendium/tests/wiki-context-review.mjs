@@ -39,7 +39,7 @@ for(const [alias,id] of Object.entries(WIKI_EXPLICIT_TARGETS)){
   const k=norm(alias);if(!explicitByNorm.has(k))explicitByNorm.set(k,[]);
   explicitByNorm.get(k).push({alias,id,surface:surface(alias)});
 }
-const risky=new Set(['cycle','corruption','chasseur','chasseurs','fleau','fleaux','revelation','revele','revelee','voile','nature']);
+const risky=new Set(['cycle','corruption','chasseur','chasseurs','fleau','fleaux','revelation','revele','revelee','voile','nature','eveil','terre','commission','gang','gangs','la famille','grande reserve','la grande reserve']);
 const anchorRe=/<a class="wiki-link"[^>]*data-wiki-id="([^"]+)"[^>]*>([^<]*)<\/a>/g;
 const groups=new Map(),review=[];
 let total=0;
