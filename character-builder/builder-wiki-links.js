@@ -1,5 +1,5 @@
 import {createWikiLinker} from '../compendium/wiki-links.js';
-import {WIKI_EXPLICIT_TARGETS,WIKI_SEARCH_FALLBACKS,WIKI_STRICT_SURFACE_ALIASES} from '../compendium/onboarding-data.js';
+import {WIKI_EXPLICIT_TARGETS,WIKI_SEARCH_FALLBACKS,WIKI_STRICT_SURFACE_ALIASES,WIKI_CASE_SENSITIVE_ALIASES} from '../compendium/onboarding-data.js';
 import {manualArticleMedia} from '../compendium/manual-media.js';
 import {GUIDE_ARTICLES,GUIDE_NAVIGATION} from '../compendium/guide-articles.js';
 
@@ -33,6 +33,7 @@ async function loadIndex(){
   linker=createWikiLinker(pseudo,{
     explicitTargets:WIKI_EXPLICIT_TARGETS,
     strictSurfaceAliases:WIKI_STRICT_SURFACE_ALIASES,
+    caseSensitiveAliases:WIKI_CASE_SENSITIVE_ALIASES,
     searchFallbacks:WIKI_SEARCH_FALLBACKS,
     hrefForId:id=>`${COMPENDIUM}index.html#/article/${encodeURIComponent(id)}`,
     searchHref:alias=>`${COMPENDIUM}index.html#/search?q=${encodeURIComponent(alias)}`
