@@ -121,7 +121,7 @@ function ensureCorpus(){if(corpusReady)return Promise.resolve();if(!corpusPromis
 function articles(){return [...articleCache.values()]}
 
 function ensureCategories(){
-  const found=new Set(articles().map(a=>a.category).filter(Boolean));
+  const found=navigationCounts?new Set(Object.keys(navigationCounts)):new Set(articles().map(a=>a.category).filter(Boolean));
   manifest.categories=CATEGORY_ORDER.filter(category=>found.has(category));
 }
 function renderNav(active=''){
