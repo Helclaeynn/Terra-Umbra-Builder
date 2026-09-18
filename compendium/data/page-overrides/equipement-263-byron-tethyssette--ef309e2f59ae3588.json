@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "updated": "2026-09-18",
+  "entries": [
+    {
+      "articleId": "equipement-263-byron-tethyssette",
+      "baseHash": "80fee9d43828231e0b58fc7eac2237d779852e0663dc9a197b05d76561513724",
+      "updatedAt": "2026-09-18T10:27:15.228Z",
+      "note": "",
+      "operations": [
+        {
+          "op": "replace",
+          "path": "/sections",
+          "value": [
+            {
+              "id": "contexte",
+              "title": "Description et usage",
+              "level": 2,
+              "blocks": [
+                {
+                  "type": "p",
+                  "style": "lore",
+                  "text": "Byron Tethyssette est un fusil-harpon Byron destiné au combat sous-marin, dont les mini-harpons exploitent des bulles de plasma autour de l’impact."
+                },
+                {
+                  "type": "p",
+                  "style": "lore",
+                  "text": "Dans son emploi prévu, arme aquatique de courte portée, spécialisée et moins efficace lorsque ses conditions d’emploi idéales ne sont pas réunies."
+                }
+              ]
+            },
+            {
+              "id": "proprietes",
+              "title": "Propriétés",
+              "level": 2,
+              "blocks": [
+                {
+                  "type": "table",
+                  "rows": [
+                    [
+                      "Catégorie",
+                      "Armes — Mêlée"
+                    ],
+                    [
+                      "Prix",
+                      "900"
+                    ],
+                    [
+                      "Effet / usage",
+                      "arme aquatique de courte portée, spécialisée et moins efficace lorsque ses conditions d’emploi idéales ne sont pas réunies"
+                    ],
+                    [
+                      "PriceMode",
+                      "exact"
+                    ],
+                    [
+                      "PriceLabel",
+                      "900 $"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "op": "replace",
+          "path": "/illustration",
+          "value": {
+            "src": "images/manual/equipement-263-byron-tethyssette.webp",
+            "alt": "Illustration de Byron Tethyssette",
+            "caption": "Illustration à venir"
+          }
+        }
+      ]
+    }
+  ]
+}
