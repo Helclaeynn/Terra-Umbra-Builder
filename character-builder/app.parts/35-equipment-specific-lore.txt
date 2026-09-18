@@ -204,7 +204,7 @@ function r35SpecificByName(item){
   const n=r34Loose(item?.name||'');if(!n)return '';
   if(r35SpecificLore.has(n))return r35SpecificLore.get(n);
   let best='',bestLen=0;
-  for(const [k,v] of r35SpecificLore){if(k.length<5)continue;if((n.includes(k)||k.includes(n))&&k.length>bestLen){best=v;bestLen=k.length}}
+  for(const [k,v] of r35SpecificLore){if(k.length<5||n.length<5)continue;if((n.includes(k)||k.includes(n))&&k.length>bestLen){best=v;bestLen=k.length}}
   return best;
 }
 function r35Sentence(v=''){
