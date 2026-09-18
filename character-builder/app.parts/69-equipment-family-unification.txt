@@ -1,0 +1,74 @@
+// Unified equipment families — same weapon taxonomy as Compendium navigation.
+const r69LegacyWeaponFamilies=new Map([
+  ['black arrow','Armement — Arcs, arbalètes & harpons'],['nextar championship','Armement — Arcs, arbalètes & harpons'],['byron tethyssette','Armement — Arcs, arbalètes & harpons'],
+  ['raven ravenegg','Armement — Grenades & explosifs'],['phoenix inferno','Armement — Grenades & explosifs'],['owl dripper','Armement — Grenades & explosifs'],['phoenix helios ii','Armement — Grenades & explosifs'],['owl superchoc','Armement — Grenades & explosifs'],['biosun frog egg','Armement — Grenades & explosifs'],['byron pokeball','Armement — Grenades & explosifs'],['jagi','Armement — Grenades & explosifs'],['shadow gift','Armement — Grenades & explosifs'],
+  ['owl vending machine','Armement — Lance-grenades'],['raven bomberman','Armement — Lance-grenades'],['phoenix easter bunny','Armement — Lance-grenades'],
+  ['phoenix king fist','Armement — Armes de contact & outils'],['byron ginette','Armement — Armes de contact & outils'],['mary antoinette','Armement — Armes de contact & outils'],['pierrette','Armement — Armes de contact & outils'],['byron melinette','Armement — Armes de contact & outils'],['stretchy','Armement — Armes de contact & outils'],
+  ['sunways hornetouch','Armement — Armes de contact hypodermiques'],['biosun blastard injector','Armement — Armes de contact hypodermiques'],
+  ['sal in','Armement — Fusils d’assaut'],['morissette','Armement — Fusils d’assaut'],['biosun aciditicteeth','Armement — Fusils d’assaut'],['tortoise blastard','Armement — Fusils d’assaut'],
+  ['song gos','Armement — Fusils de précision'],['byron luzette','Armement — Fusils de précision'],['abraham kennedy','Armement — Fusils de précision'],['raven sehdia hellrails','Armement — Fusils de précision'],
+  ['biosun pandemic','Armement — Fusils hypodermiques'],['sunways savior dgr','Armement — Fusils hypodermiques'],
+  ['disease','Armement — Pistolets hypodermiques'],['raven sunways savior dg','Armement — Pistolets hypodermiques'],['raven painkiller','Armement — Pistolets hypodermiques'],
+  ['phoenix redcrush','Armement — Lanceurs hypodermiques & chimiques'],
+  ['bi','Armement — Pistolets-mitrailleurs (PM)'],['sfu nebullar','Armement — Pistolets-mitrailleurs (PM)'],['monarch surge','Armement — Pistolets-mitrailleurs (PM)'],
+  ['bibal','Armement — SMG'],['byron florette','Armement — SMG'],
+  ['owl apex','Armement — Pistolets lourds'],['jotkka','Armement — Pistolets lourds'],['raven sehdia pacificateur x','Armement — Pistolets lourds'],
+  ['byron jeanette','Armement — Pistolets légers'],['eolgul e','Armement — Pistolets de poche'],['phoenix sunnyroshima','Armement — Pistolets de poche'],
+  ['reminiscer prototype','Armement — Pistolets prototypes'],['oblivion prototype','Armement — Pistolets prototypes'],['zeus prototype','Armement — Pistolets prototypes'],['dracula prototype','Armement — Pistolets prototypes'],['phoenix vader prototype','Armement — Pistolets prototypes'],
+  ['flak cannon prototype','Armement — Armes lourdes prototypes'],['armcannon prototype','Armement — Armes lourdes prototypes'],
+  ['sheer blueshell a prototype','Armement — Drones d’assaut & armes autonomes'],['charm prototype','Armement — Dispositifs expérimentaux'],
+  ['raven sehdia railway to hell prototype','Armement — Anti-matériel & fortifications']
+]);
+
+function r69WeaponFamily(item){
+  if(!item||item.kind==='augmentation'||item.neuro)return '';
+  const name=r34Loose(item.name||''),legacy=r69LegacyWeaponFamilies.get(name);if(legacy)return legacy;
+  const category=r34Loose(item.category||''),weaponClass=r34Loose(r15DeepField(item,['Classe','Type'])||''),role=r34Loose(r15DeepField(item,['Rôle','Role'])||'');
+  if(category==='armes melee'){
+    if(/trait|jet/.test(weaponClass)||/\b(?:lc|hl|jl|th|mb) \d/.test(name))return 'Armement — Armes de jet & trait';
+    return 'Armement — Armes de mêlée';
+  }
+  if(category==='armes poing tasers'){
+    if(/taser/.test(weaponClass)||/\b(?:lt|ht) \d/.test(name))return 'Armement — Tasers';
+    if(weaponClass==='poche'||/\bpp \d/.test(name))return 'Armement — Pistolets de poche';
+    if(/pistolet leger/.test(weaponClass)||/\blp \d/.test(name))return 'Armement — Pistolets légers';
+    if(/pistolet lourd/.test(weaponClass)||/\bhp \d/.test(name))return 'Armement — Pistolets lourds';
+  }
+  if(category==='armes automatiques'){
+    if(weaponClass==='pm'||/\bmgp \d/.test(name))return 'Armement — Pistolets-mitrailleurs (PM)';
+    if(weaponClass==='smg'||/\blmg \d/.test(name))return 'Armement — SMG';
+    if(/assaut/.test(weaponClass)||/\bar \d/.test(name))return 'Armement — Fusils d’assaut';
+  }
+  if(category==='armes precision'){
+    if(/shotgun/.test(weaponClass)||/\bsg \d/.test(name))return 'Armement — Shotguns';
+    return 'Armement — Fusils de précision';
+  }
+  if(category==='armes lourdes'){
+    if(/mitrailleuse|gatling/.test(role)||/bastion|hellstorm/.test(name))return 'Armement — Mitrailleuses lourdes & Gatlings';
+    if(/neutralisation/.test(role)||/manticore/.test(name))return 'Armement — Neutralisation lourde';
+    if(/lance grenades|lance roquette|missile/.test(role)||/doorbell|breacher|wasp/.test(name))return 'Armement — Lanceurs & missiles';
+    if(/anti materiel|fortification/.test(role)||/wallbreaker/.test(name))return 'Armement — Anti-matériel & fortifications';
+    if(/projecteur/.test(role)||/salamander|purifier/.test(name))return 'Armement — Projecteurs lourds';
+    return 'Armement — Armes lourdes';
+  }
+  return '';
+}
+
+const r69DisplayCategoryBase=eqxDisplayCategory;
+eqxDisplayCategory=function(item){
+  if(item?.neuro)return 'Neuroprogrammes';
+  const weapon=r69WeaponFamily(item);if(weapon)return weapon;
+  return r69DisplayCategoryBase(item);
+};
+
+window.TUCBuilderSeptFixes=window.TUCBuilderSeptFixes||{};
+window.TUCBuilderSeptFixes.equipmentFamily=name=>{
+  const item=(realityData.equipment||[]).find(x=>r34Loose(x.name||'')===r34Loose(name||''));
+  return item?eqxDisplayCategory(item):null;
+};
+window.TUCBuilderSeptFixes.equipmentFamilyAudit=()=>{
+  const broad=new Set(['Armes — Mêlée','Armes — Poing & Tasers','Armes — Automatiques','Armes — Précision','Armes — Lourdes','Armement — Mêlée','Armement — Poing & Tasers','Armement — Automatiques','Armement — Précision','Armement — Lourdes']);
+  const weapons=(realityData.equipment||[]).filter(x=>/^armes\s/i.test(String(x.category||''))||r69LegacyWeaponFamilies.has(r34Loose(x.name||'')));
+  const rows=weapons.map(x=>({name:x.name,sourceCategory:x.category,family:eqxDisplayCategory(x)}));
+  return {count:rows.length,broad:rows.filter(x=>broad.has(x.family)),shotguns:rows.filter(x=>/\bSG-/i.test(x.name||'')).map(x=>({name:x.name,family:x.family})),families:[...new Set(rows.map(x=>x.family))].sort((a,b)=>a.localeCompare(b,'fr'))};
+};
