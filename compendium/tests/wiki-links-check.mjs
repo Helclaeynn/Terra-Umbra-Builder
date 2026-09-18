@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {createWikiLinker} from '../wiki-links.js';
 import {PLAYER_START,WIKI_EXPLICIT_TARGETS} from '../onboarding-data.js';
 import {GUIDE_NAVIGATION} from '../guide-articles.js';
+import {MANUAL_ARTICLE_MEDIA} from '../manual-media.js';
 
 const navigation=JSON.parse(fs.readFileSync(new URL('../data/navigation-v1.json',import.meta.url),'utf8'));
 const entries=[...(Array.isArray(navigation)?navigation:(navigation.entries||[])),...GUIDE_NAVIGATION];
@@ -12,10 +13,16 @@ const requiredIds=[
   ...PLAYER_START.basics.map(item=>item.id),
   ...PLAYER_START.natures.flatMap(item=>[item.rulesId,item.loreId]),
   ...PLAYER_START.restricted.flatMap(item=>[item.rulesId,item.loreId]),
+  ...(PLAYER_START.loreHubs||[]).map(item=>item.id),
   ...Object.values(WIKI_EXPLICIT_TARGETS)
 ].filter(Boolean);
 
 for(const id of requiredIds)assert.ok(ids.has(id),`Onboarding/wiki target absent de navigation-v1.json: ${id}`);
+for(const [id,media] of Object.entries(MANUAL_ARTICLE_MEDIA)){
+  assert.ok(ids.has(id),`Média manuel ciblant une page absente: ${id}`);
+  assert.ok(media?.src&&!/placeholder/i.test(media.src),`Média manuel invalide pour ${id}`);
+  assert.ok(fs.existsSync(new URL('../'+media.src.replace(/^\.\//,''),import.meta.url)),`Fichier média absent pour ${id}: ${media.src}`);
+}
 
 const sampleIds=[
   'verite-050-14-daemons',
@@ -50,4 +57,4 @@ const escaped=linker.linkify('<script>Belial</script>');
 assert.ok(escaped.startsWith('&lt;script&gt;'));
 assert.ok(escaped.endsWith('&lt;/script&gt;'));
 
-console.log(`Wiki links OK — ${requiredIds.length} cibles d’onboarding/alias vérifiées, ${linker.stats.aliases} alias de test.`);
+console.log(`Wiki links OK — ${requiredIds.length} cibles d’onboarding/alias vérifiées, ${Object.keys(MANUAL_ARTICLE_MEDIA).length} médias manuels, ${linker.stats.aliases} alias de test.`);
