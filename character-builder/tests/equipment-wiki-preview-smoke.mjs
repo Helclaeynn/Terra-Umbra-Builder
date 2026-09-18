@@ -10,6 +10,16 @@ try{
   await page.waitForSelector('#stepNav button',{timeout:30000});
   await page.waitForFunction(()=>window.__TUC_LATE_STATE_READY__===true,null,{timeout:30000});
 
+  const sphereNav=page.locator('#stepNav button').filter({hasText:'Sphère & Style'}).first();
+  await sphereNav.click();
+  const sphere=page.locator('#stepContent .choice-card').first();
+  await sphere.waitFor({state:'visible',timeout:10000});await sphere.click();
+  const styleHeading=page.locator('#stepContent h3.subhead').filter({hasText:'Style'}).first();
+  await styleHeading.waitFor({state:'visible',timeout:10000});
+  const styleGrid=styleHeading.locator('xpath=following-sibling::div[contains(@class,"cards")][1]');
+  const style=styleGrid.locator('.choice-card').first();
+  await style.waitFor({state:'visible',timeout:10000});await style.click();
+
   const nav=page.locator('#stepNav button').filter({hasText:'Équipement'}).first();
   await nav.click();
 
