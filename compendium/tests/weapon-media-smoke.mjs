@@ -35,4 +35,24 @@ try{
     if(!state.complete||state.naturalWidth<200||state.naturalHeight<50)throw new Error(`${id}: image non décodée ou trop petite ${JSON.stringify(state)}`);
   }
   console.log(`WEAPON MEDIA OK — ${weapons.length} pages affichent leur WebP manuel.`);
+  await page.goto(`${base}compendium/index.html#/article/equipement-288-sal-in`,{waitUntil:'domcontentloaded',timeout:30000});
+  const familyTag=page.locator('.meta .tag-link',{hasText:'Armement — Fusils d’assaut'}).first();
+  await familyTag.waitFor({state:'visible',timeout:10000});
+  await familyTag.click();
+  await page.waitForFunction(()=>location.hash.startsWith('#/search?q='),null,{timeout:10000});
+  await page.waitForFunction(()=>document.querySelector('.search-results'),null,{timeout:20000});
+  const expectedAssaultIds=[
+    'equipement-035-phoenix-ar-124-mutilator',
+    'equipement-036-raven-ar-027-rampager',
+    'equipement-037-owl-ar-071-howling',
+    'equipement-038-phoenix-ar-124-sunlight',
+    'equipement-288-sal-in',
+    'equipement-289-morissette',
+    'equipement-290-biosun-aciditicteeth',
+    'equipement-291-tortoise-blastard'
+  ];
+  const hrefs=await page.locator('.search-results .search-result').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('href')||''));
+  for(const id of expectedAssaultIds){if(!hrefs.some(href=>href.includes(id)))throw new Error(`Tag Fusils d’assaut: entrée absente ${id}`);}
+  console.log(`TAG SEARCH OK — Armement — Fusils d’assaut retrouve les ${expectedAssaultIds.length} entrées attendues.`);
+
 } finally {await browser.close();}
