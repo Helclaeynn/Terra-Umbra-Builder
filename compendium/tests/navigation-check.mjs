@@ -105,7 +105,7 @@ expectId('realite-003-2-talents-de-realite','Règles','Réalité — Talents & d
 expectId('realite-016-1-principes-du-neurodive','Règles','Réalité — Neurodive','Règles de Neurodive');
 expectId('verite-037-1-architecture-de-la-verite','Règles','Vérité — Règles communes','Cadre commun');
 expectId('regles-verite-v6-corruption','Règles','Vérité — Corruption & Fléaux','Corruption');
-expectId('equipement-001-couteau-de-combat','Équipement & Objets','Équipement de Réalité','Armement — Mêlée');
+expectId('equipement-001-couteau-de-combat','Équipement & Objets','Équipement de Réalité','Armement — Armes de mêlée');
 expectId('augmentation-001-amplificateur-interne','Équipement & Objets','Augmentations','Cybernétique — Audio');
 expectId('augmentation-010-bio-tatouage','Équipement & Objets','Augmentations','Biogénétique — Biogénétique');
 expectId('lore-gouvernement-congres','Réalité','Institutions & sécurité','Gouvernement');
