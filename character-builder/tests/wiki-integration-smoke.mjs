@@ -18,7 +18,7 @@ try{
   if(await aerHub.count()!==1)throw new Error('Hub Aèr absent des repères de lore.');
   await truthGuide.click();
   await page.waitForFunction(()=>location.hash.includes('guide-verite-nouveau-joueur'),null,{timeout:10000});
-  await page.waitForSelector('#main .page-head h1',{timeout:10000});
+  await page.waitForFunction(()=>document.querySelector('#main .page-head h1')?.textContent?.includes('Vérité — Guide du nouveau joueur'),null,{timeout:10000});
   const truthBody=(await page.locator('#main').innerText()).replace(/\s+/g,' ');
   if(!/Voilé/.test(truthBody)||!/Semi-Révélé/.test(truthBody)||!/Révélé/.test(truthBody)||!/simple illusion visuelle/.test(truthBody))throw new Error('Guide Vérité incomplet sur Révélation/Hologramme.');
   await page.goto(`${base}compendium/#/start`,{waitUntil:'domcontentloaded'});
