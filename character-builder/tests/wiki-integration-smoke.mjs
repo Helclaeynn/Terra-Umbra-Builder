@@ -42,7 +42,7 @@ try{
   const khinae=page.locator('#stepContent a.builder-wiki-link[data-wiki-id]').filter({hasText:/Khinae/i}).first();
   await khinae.waitFor({state:'visible',timeout:15000});
   const href=await khinae.getAttribute('href');
-  if(!href?.includes('../compendium/index.html#/article/verite-048-12-autres-descendants-de-khinae'))throw new Error(`Khinae ne pointe pas vers le lore attendu: ${href}`);
+  if(!href?.includes('../compendium/index.html#/article/verite-lore-khinae-originels'))throw new Error(`Khinae ne pointe pas vers sa page d’origine attendue: ${href}`);
   await khinae.hover();
   await page.waitForSelector('.builder-wiki-preview.visible',{timeout:5000});
   await page.waitForFunction(()=>{const p=document.querySelector('.builder-wiki-preview.visible p');return p&&p.textContent&&!p.textContent.includes('Chargement')&&p.textContent.trim().length>40},null,{timeout:15000});
