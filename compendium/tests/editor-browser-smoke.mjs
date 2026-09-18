@@ -90,6 +90,15 @@ try{
   await page.locator('.editor-state-badge').filter({hasText:'Brouillon local'}).waitFor({timeout:10000});
   await page.waitForTimeout(500);
 
+  const draftsButton=page.locator('#tucDraftsButton');
+  await draftsButton.waitFor({state:'visible',timeout:10000});await draftsButton.click();
+  const draftsDialog=page.locator('dialog.editor-drafts-dialog');await draftsDialog.waitFor({state:'visible',timeout:10000});
+  const bulkPublish=draftsDialog.locator('[data-tuc-publish-all-main]');
+  await bulkPublish.waitFor({state:'visible',timeout:10000});
+  const bulkText=(await bulkPublish.innerText()).trim();
+  if(!/Publier tous sur main \(1\)/.test(bulkText))throw new Error(`Bouton de publication groupée incorrect: ${bulkText}`);
+  await draftsDialog.locator('[data-action="close"]').last().click();await draftsDialog.waitFor({state:'detached'});
+
   const diagnostics=await page.evaluate(()=>{
     let drafts={};try{drafts=JSON.parse(localStorage.getItem('tuc-compendium-drafts-v1')||'{}');}catch{}
     return {
