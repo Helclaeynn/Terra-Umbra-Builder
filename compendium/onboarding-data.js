@@ -24,51 +24,61 @@ export const PLAYER_START = {
   natures: [
     {
       label: 'Humain / Chasseur',
+      summary: 'Le point d’entrée humain dans la Vérité, avec les règles et la doctrine propres aux Chasseurs.',
       rulesId: 'regles-verite-nature-humain',
       loreId: 'verite-055-19-formation-et-doctrine-de-chasseur'
     },
     {
       label: 'Vampire',
+      summary: 'La Nature vampirique, ses règles communes et les sociétés de Vampires.',
       rulesId: 'regles-verite-nature-vampire',
       loreId: 'verite-046-10-vampires'
     },
     {
       label: 'Garou',
+      summary: 'Les loups descendants de Khinae, leurs règles de Nature et leurs Pelages.',
       rulesId: 'regles-verite-nature-garou',
       loreId: 'verite-047-11-garous-loups-descendants-de-khinae'
     },
     {
       label: 'Descendant de Khinae',
+      summary: 'Les autres lignées issues de Khinae au-delà des Garous.',
       rulesId: 'regles-verite-nature-khinae',
       loreId: 'verite-048-12-autres-descendants-de-khinae'
     },
     {
       label: 'Mage',
+      summary: 'La Nature mage, ses Talents communs et ses différentes affinités magiques.',
       rulesId: 'regles-verite-nature-mage',
       loreId: 'verite-049-13-mages'
     },
     {
       label: 'Daemon',
+      summary: 'Une Nature liée aux Divinités daemoniaques, à leurs Maisonnées et à leurs Faveurs.',
       rulesId: 'regles-verite-nature-daemon',
       loreId: 'verite-050-14-daemons'
     },
     {
       label: 'Angelus',
+      summary: 'La Nature céleste des Angelus, reliée à l’Arbre de Vie et à la Transcendance.',
       rulesId: 'regles-verite-nature-angelus',
       loreId: 'verite-051-15-angelus'
     },
     {
       label: 'Aseryn',
+      summary: 'La Nature aseryne, ses capacités propres et les peuples de la diaspora aseryne.',
       rulesId: 'regles-verite-nature-aseryn',
       loreId: 'verite-052-16-aseryns'
     },
     {
       label: 'Exilé',
+      summary: 'Les peuples exilés, leurs traditions et leurs règles de Nature communes ou spécifiques.',
       rulesId: 'regles-verite-nature-exile',
       loreId: 'verite-053-17-exiles-peuples-fonctions-et-traditions'
     },
     {
       label: 'Extral / Humain galactique',
+      summary: 'Les origines galactiques regroupées sous les règles Extrals et Humains galactiques.',
       rulesId: 'regles-verite-nature-extral',
       loreId: 'verite-054-18-extrals-homo-superior-et-adrak'
     }
@@ -76,6 +86,7 @@ export const PLAYER_START = {
   restricted: [
     {
       label: 'Ad’rak',
+      summary: 'Une origine extrale disposant de sa propre page de lore et d’un accès de création restreint.',
       rulesId: 'regles-verite-extral-ad-rak-origine-restreinte',
       loreId: 'verite-lore-adrak',
       note: 'Origine restreinte'
