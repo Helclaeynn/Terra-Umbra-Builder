@@ -5,6 +5,7 @@ import {GUIDE_ARTICLES,GUIDE_NAVIGATION} from '../compendium/guide-articles.js';
 
 const COMPENDIUM='../compendium/';
 const MAX_PREVIEW_PARTS=24;
+const ARTICLE_TITLE_FIXES={'regles-verite-angelus-sephirah-nesah-la-victoire':'Nesah — La Victoire'};
 const excludedTags=new Set(['A','BUTTON','INPUT','SELECT','OPTION','TEXTAREA','LABEL','SCRIPT','STYLE','CODE','PRE']);
 let navigation=null,manifest=null,linker=null;
 const equipmentByTitle=new Map();
@@ -26,7 +27,7 @@ async function loadIndex(){
     if(entry.category==='Équipement & Objets')equipmentByTitle.set(String(entry.displayTitle||entry.title||'').trim().toLocaleLowerCase('fr'),entry);
   }
   const pseudo=entries.map(entry=>({
-    id:entry.id,title:entry.displayTitle||entry.title||entry.id,dataset:entry.dataset,
+    id:entry.id,title:ARTICLE_TITLE_FIXES[entry.id]||entry.displayTitle||entry.title||entry.id,dataset:entry.dataset,
     category:entry.category||'',group:entry.group||'',subgroup:entry.subgroup||''
   }));
   linker=createWikiLinker(pseudo,{
@@ -93,7 +94,7 @@ async function loadDataset(datasetId){
     const bin=atob(b64),bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
     const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
     const rows=JSON.parse(await new Response(stream).text());
-    for(const article of rows||[])if(article?.id)articleCache.set(article.id,article);
+    for(const article of rows||[])if(article?.id){article.title=ARTICLE_TITLE_FIXES[article.id]||article.title;articleCache.set(article.id,article)}
     return rows;
   })().catch(error=>{console.warn('Builder wiki preview dataset',datasetId,error);return null});
   datasetCache.set(datasetId,promise);return promise;
