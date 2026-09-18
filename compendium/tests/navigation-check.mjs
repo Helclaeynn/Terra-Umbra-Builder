@@ -121,6 +121,14 @@ const runtime=fs.readFileSync('compendium/category-navigation.js','utf8');
 if(!/navigation-v1\.json/.test(runtime)||!/cloneNode\(true\)/.test(runtime)||!/hierarchical-category-list/.test(runtime))throw new Error('Runtime navigation hiérarchique/cliquable incomplet');
 await import('./category-navigation-runtime-check.mjs');
 
+const legacyBroadWeaponGroups=new Set(['Armement — Mêlée','Armement — Poing & Tasers','Armement — Automatiques','Armement — Précision','Armement — Lourdes']);
+const realityWeapons=entries.filter(entry=>entry.dataset==='equipement'&&String(entry.subgroup||'').startsWith('Armement — '));
+const broadWeapons=realityWeapons.filter(entry=>legacyBroadWeaponGroups.has(entry.subgroup));
+if(broadWeapons.length)throw new Error(`Navigation armes encore trop large: ${broadWeapons.map(x=>`${x.displayTitle} -> ${x.subgroup}`).join(' | ')}`);
+for(const id of ['equipement-043-raven-sg-025-riot-control','equipement-044-raven-sg-039-croaker','equipement-045-owl-sg-016-boss','equipement-046-phoenix-sg-042-fire-rain']){
+  const entry=entries.find(x=>x.id===id);
+  if(entry?.subgroup!=='Armement — Shotguns')throw new Error(`Shotgun mal classé: ${id} -> ${entry?.subgroup}`);
+}
 console.log(`NAVIGATION V3 OK — ${nav.entries.length}/${expectedTotal} pages visibles classées dans 6 rubriques sans fourre-tout.`);
 for(const category of displayCategories){
   const rows=nav.entries.filter(entry=>entry.category===category);
