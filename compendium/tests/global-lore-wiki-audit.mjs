@@ -72,7 +72,7 @@ const selectedIds=[
 ];
 const selected=selectedIds.map(id=>{const a=byId.get(id);return a?{id,title:a.title,category:a.category,text:articleText(a)}:{id,missing:true}});
 
-const builderDir=new URL('../../character-builder/app.parts/',root);
+const builderDir=new URL('../character-builder/app.parts/',root);
 const builderFiles=fs.readdirSync(builderDir).filter(name=>name.endsWith('.txt'));
 const builderSource=builderFiles.map(name=>fs.readFileSync(new URL(name,builderDir),'utf8')).join('\n');
 const builderConcepts=concepts.map(label=>({label,occurrences:(norm(builderSource).match(new RegExp(`\\b${norm(label).replace(/ /g,'\\s+')}\\b`,'g'))||[]).length,target:WIKI_EXPLICIT_TARGETS[label]||''}));
