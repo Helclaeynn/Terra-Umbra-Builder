@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
 import {createWikiLinker} from '../wiki-links.js';
-import {WIKI_EXPLICIT_TARGETS,WIKI_SEARCH_FALLBACKS,WIKI_STRICT_SURFACE_ALIASES} from '../onboarding-data.js';
+import {WIKI_EXPLICIT_TARGETS,WIKI_SEARCH_FALLBACKS,WIKI_STRICT_SURFACE_ALIASES,WIKI_CASE_SENSITIVE_ALIASES} from '../onboarding-data.js';
 import {GUIDE_ARTICLES,GUIDE_NAVIGATION} from '../guide-articles.js';
 
 const root=new URL('../',import.meta.url);
@@ -33,7 +33,7 @@ const articles=[];
 for(const spec of manifest.datasets)for(const row of loadDataset(spec))articles.push(context(row,spec.id));
 for(const row of GUIDE_ARTICLES)articles.push(context(structuredClone(row),'guide'));
 const byId=new Map(articles.map(a=>[a.id,a]));
-const linker=createWikiLinker(articles,{explicitTargets:WIKI_EXPLICIT_TARGETS,strictSurfaceAliases:WIKI_STRICT_SURFACE_ALIASES,searchFallbacks:WIKI_SEARCH_FALLBACKS});
+const linker=createWikiLinker(articles,{explicitTargets:WIKI_EXPLICIT_TARGETS,strictSurfaceAliases:WIKI_STRICT_SURFACE_ALIASES,caseSensitiveAliases:WIKI_CASE_SENSITIVE_ALIASES,searchFallbacks:WIKI_SEARCH_FALLBACKS});
 const anchorRe=/<a class="wiki-link"[^>]*data-wiki-id="([^"]+)"[^>]*>([^<]*)<\/a>/g;
 const inbound=new Map(),outbound=new Map(),labels=new Map();
 for(const article of articles){
