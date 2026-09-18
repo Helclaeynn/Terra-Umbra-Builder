@@ -1,6 +1,6 @@
 import {createWikiLinker} from '../compendium/wiki-links.js';
 import {WIKI_EXPLICIT_TARGETS,WIKI_SEARCH_FALLBACKS,WIKI_STRICT_SURFACE_ALIASES,WIKI_CASE_SENSITIVE_ALIASES} from '../compendium/onboarding-data.js';
-import {manualArticleMedia} from '../compendium/manual-media.js?v=20260918-rifles1';
+import {manualArticleMedia} from '../compendium/manual-media.js?v=20260918-bulk1';
 import {GUIDE_ARTICLES,GUIDE_NAVIGATION} from '../compendium/guide-articles.js';
 
 const COMPENDIUM='../compendium/';
