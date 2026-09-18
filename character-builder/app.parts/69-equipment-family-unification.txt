@@ -72,3 +72,5 @@ window.TUCBuilderSeptFixes.equipmentFamilyAudit=()=>{
   const rows=weapons.map(x=>({name:x.name,sourceCategory:x.category,family:eqxDisplayCategory(x)}));
   return {count:rows.length,broad:rows.filter(x=>broad.has(x.family)),shotguns:rows.filter(x=>/\bSG-/i.test(x.name||'')).map(x=>({name:x.name,family:x.family})),families:[...new Set(rows.map(x=>x.family))].sort((a,b)=>a.localeCompare(b,'fr'))};
 };
+
+window.TUCBuilderSeptFixes.equipmentCategoryList=()=>eqxCategoryList('equipment');
