@@ -194,6 +194,74 @@
       ]
     },
     {
+      "articleId": "equipement-017-raven-ht-014-immobilisateur",
+      "baseHash": "64fb28c91ddf158aa33317450e558ca4fbe7dbfad71f303073638f9a5b06023c",
+      "updatedAt": "2026-09-18T10:28:00.124Z",
+      "note": "",
+      "operations": [
+        {
+          "op": "replace",
+          "path": "/sections",
+          "value": [
+            {
+              "id": "contexte",
+              "title": "Description et usage",
+              "level": 2,
+              "blocks": [
+                {
+                  "type": "p",
+                  "style": "lore",
+                  "text": "Le HT-014 Immobilisateur est la réponse Raven au taser léger : plus massif, moins discret et clairement destiné à une intervention où l’on préfère une décharge lourde à une longue autonomie. Sa silhouette et son nom le rapprochent des équipements professionnels de sécurité et de maintien de l’ordre."
+                },
+                {
+                  "type": "p",
+                  "style": "lore",
+                  "text": "Raven traite ici la neutralisation comme un problème opérationnel plutôt que comme un gadget civil. Le porteur gagne un outil spécialisé contre une personne ou un équipement sensible à l’électricité, mais doit accepter une arme plus encombrante et une réserve plus limitée que les solutions Owl plus compactes."
+                }
+              ]
+            },
+            {
+              "id": "proprietes",
+              "title": "Propriétés",
+              "level": 2,
+              "blocks": [
+                {
+                  "type": "table",
+                  "rows": [
+                    [
+                      "Catégorie",
+                      "Armes — Poing & Tasers"
+                    ],
+                    [
+                      "Prix",
+                      "500"
+                    ],
+                    [
+                      "PriceMode",
+                      "exact"
+                    ],
+                    [
+                      "PriceLabel",
+                      "500 $"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "op": "replace",
+          "path": "/illustration",
+          "value": {
+            "src": "images/manual/equipement-017-raven-ht-014-immobilisateur.webp",
+            "alt": "Illustration de Raven HT-014 Immobilisateur",
+            "caption": "Illustration à venir"
+          }
+        }
+      ]
+    },
+    {
       "articleId": "equipement-261-black-arrow",
       "baseHash": "bf3e0fc14bdb5bfaf84861c4474420730746143674133e2a89851178afed4be1",
       "updatedAt": "2026-09-18T10:24:51.430Z",
