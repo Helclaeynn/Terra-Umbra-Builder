@@ -51,3 +51,4 @@ jobs:
           echo "Using browser: $CHROME_BIN"
           TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node compendium/tests/editor-browser-smoke.mjs
           TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node compendium/tests/editor-bulk-publish-smoke.mjs
+          TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node compendium/tests/weapon-media-smoke.mjs
