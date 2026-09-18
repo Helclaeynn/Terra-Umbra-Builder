@@ -10,6 +10,7 @@ on:
       - feature/tuc-compendium-editor
       - feature/tuc-compendium-inline-images
       - feature/compendium-page-pr-persistence
+      - feature/compendium-onboarding-wiki-links
     paths:
       - 'compendium/**'
       - 'character-builder/rulesets/terra-umbra/reality/augmentations.json.gz.b64'
@@ -60,6 +61,8 @@ jobs:
           node --check compendium/navigation-schema-v2.js
           node --check compendium/navigation-schema-v3.js
           node --check compendium/category-navigation.js
+          node --check compendium/wiki-links.js
+          node --check compendium/onboarding-data.js
           node --check compendium/editor-runtime.js
           node --check compendium/editor-ordering.js
           node --check compendium/draft-manager.js
@@ -91,6 +94,7 @@ jobs:
           node --check compendium/tests/catalog-runtime-browser-smoke.mjs
           node --check compendium/tests/truth-catalog-pages-check.mjs
           node --check compendium/tests/truth-catalog-runtime-browser-smoke.mjs
+          node --check compendium/tests/wiki-links-check.mjs
       - name: Validate editor override engine
         run: |
           node compendium/tests/editor-overrides-check.mjs
@@ -115,6 +119,7 @@ jobs:
           node compendium/tests/catalog-pages-check.mjs
           node compendium/tests/reality-catalog-lore-quality-check.mjs
           node compendium/tests/truth-catalog-pages-check.mjs
+          node compendium/tests/wiki-links-check.mjs
       - name: Validate RawGitHack external delivery
         shell: bash
         env:
