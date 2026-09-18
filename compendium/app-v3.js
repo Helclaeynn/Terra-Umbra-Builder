@@ -134,9 +134,6 @@ async function loadCorpus(){
     for(const article of rows){
       if(!article?.id)continue;
       article.dataset=article.dataset||dataset;
-      article.title=ARTICLE_TITLE_FIXES[article.id]||article.title;
-      article.sourceCategory=article.category;
-      article.category=displayCategory(article);
       articleCache.set(article.id,article);
     }
   }
@@ -144,7 +141,13 @@ async function loadCorpus(){
   const summary=await applyCommittedOverridesToMap(articleCache,await loadCommittedOverrides());
   if(summary.conflicts.length)console.warn(`${summary.conflicts.length} override(s) éditorial(aux) ignoré(s) car le corpus source a changé.`,summary.conflicts);
   if(summary.missing.length)console.warn(`${summary.missing.length} override(s) ciblent une page absente.`,summary.missing);
-  for(const article of articleCache.values()){applyNavigationTaxonomy(article);applyTargetedEditorialCorrections(article)}
+  for(const article of articleCache.values()){
+    article.title=ARTICLE_TITLE_FIXES[article.id]||article.title;
+    article.sourceCategory=article.sourceCategory||article.category;
+    article.category=displayCategory(article);
+    applyNavigationTaxonomy(article);
+    applyTargetedEditorialCorrections(article);
+  }
   wikiLinker=createWikiLinker(articles(),{explicitTargets:WIKI_EXPLICIT_TARGETS,strictSurfaceAliases:WIKI_STRICT_SURFACE_ALIASES,caseSensitiveAliases:WIKI_CASE_SENSITIVE_ALIASES,searchFallbacks:WIKI_SEARCH_FALLBACKS});
   console.info(`Wiki interne : ${wikiLinker.stats.aliases} alias directs, ${wikiLinker.stats.ambiguous} ambigus ignorés.`);
   corpusReady=true;window.__TUC_CORPUS_READY__=true;
