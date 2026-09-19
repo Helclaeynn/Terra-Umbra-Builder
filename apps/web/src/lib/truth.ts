@@ -378,19 +378,19 @@ export function truthChoicesValid(pkg:TruthRulesPackage,state:TruthState){
 
 export function truthSanitizeTalents(pkg:TruthRulesPackage,state:TruthState){
   if(state.consciousness==="profane")return [];
-  const available=truthAvailableTalents(pkg,state);
-  const byId=new Map(available.map(talent=>[talent.id,talent]));
-  let selected=state.truthTalents.filter(id=>byId.has(id));
+  let selected=[...state.truthTalents];
   let changed=true;
   while(changed){
     changed=false;
     const current={...state,truthTalents:selected};
-    const next=selected.filter(id=>{
+    const available=truthAvailableTalents(pkg,current);
+    const byId=new Map(available.map(talent=>[talent.id,talent]));
+    const pruned=selected.filter(id=>{
       const talent=byId.get(id);
       return !!talent&&truthPrerequisiteSatisfied(pkg,current,talent,available);
     });
-    if(next.length!==selected.length){
-      selected=next;
+    if(pruned.length!==selected.length){
+      selected=pruned;
       changed=true;
     }
   }
