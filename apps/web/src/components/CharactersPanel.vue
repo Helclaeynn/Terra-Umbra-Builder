@@ -585,46 +585,4 @@ onMounted(loadCharacters);
     padding-left: 0;
   }
 }
-
-/* V2 visual-system alignment */
-.characters-panel {
-  border-color: var(--tu-border);
-}
-.character-count {
-  border-radius: 999px;
-  border-color: rgba(204,178,125,.26);
-  color: var(--tu-gold-bright);
-  background: rgba(169,132,76,.055);
-}
-.character-feedback {
-  border-radius: var(--tu-radius-sm);
-}
-.characters-layout,
-.character-list {
-  border-color: var(--tu-border-soft);
-}
-.character-list button {
-  border-radius: var(--tu-radius-sm);
-  color: var(--tu-text-soft);
-}
-.character-list button:hover,
-.character-list button.active {
-  border-left-color: var(--tu-gold-strong);
-  background: linear-gradient(90deg, rgba(169,132,76,.13), rgba(169,132,76,.025));
-}
-.character-list button.active {
-  box-shadow: inset 0 0 0 1px rgba(204,178,125,.08);
-}
-.character-detail h3 {
-  font-family: var(--tu-font-display);
-}
-.builder-slot {
-  border-color: rgba(204,178,125,.2);
-  border-radius: var(--tu-radius-sm);
-  background: linear-gradient(135deg, rgba(169,132,76,.075), rgba(255,255,255,.012));
-}
-.revision-list article {
-  border-top-color: var(--tu-border-soft);
-}
-
 </style>
