@@ -3,7 +3,7 @@ import { readFile, readdir } from "node:fs/promises";
 import { resolve } from "node:path";
 import { gunzipSync } from "node:zlib";
 import type { FastifyInstance, FastifyReply } from "fastify";
-import { requireUser } from "./auth.js";
+import { currentUser, requireUser } from "./auth.js";
 import { pool } from "./db.js";
 import {
   COMPENDIUM_GUIDE_ARTICLES,
@@ -131,6 +131,34 @@ async function requireEditor(request: any, reply: FastifyReply) {
     return null;
   }
   return user;
+}
+
+function canReadMj(role: unknown): boolean {
+  return role === "gm" || role === "editor" || role === "admin";
+}
+
+function articleForAudience(article: Article, includeMj: boolean): Article {
+  const result = deepClone(article);
+  if (!includeMj && Array.isArray(result.sections)) {
+    result.sections = result.sections.filter((section) => section?.audience !== "mj");
+  }
+  delete result.__searchText;
+  return result;
+}
+
+export async function resolveCompendiumId(
+  label: string,
+  category = ""
+): Promise<string | null> {
+  const target = norm(label);
+  if (!target) return null;
+  const corpus = await getCorpus();
+  let matches = corpus.articles.filter((article) => norm(article.title) === target);
+  if (category) {
+    const categorized = matches.filter((article) => article.category === category);
+    if (categorized.length) matches = categorized;
+  }
+  return matches.length === 1 ? matches[0].id : null;
 }
 
 function mediaSource(media: unknown): string {
@@ -944,10 +972,13 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     };
   });
 
-  app.get("/api/compendium/wiki-index", async () => {
+  app.get("/api/compendium/wiki-index", async (request) => {
     const corpus = await getCorpus();
+    const user = await currentUser(request);
+    const includeMj = canReadMj(user?.role);
     return {
-      entries: corpus.articles.map((article) => {
+      entries: corpus.articles.map((source) => {
+        const article = articleForAudience(source, includeMj);
         const navigation = article.navigation as JsonObject | undefined;
         return {
           id: article.id,
@@ -975,6 +1006,8 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     };
   }>("/api/compendium/search", async (request) => {
     const corpus = await getCorpus();
+    const user = await currentUser(request);
+    const includeMj = canReadMj(user?.role);
     const query = String(request.query.q ?? "").trim();
     const normalizedQuery = norm(query);
     const category = String(request.query.category ?? "").trim();
@@ -984,15 +1017,16 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const offset = Math.max(0, Number.parseInt(request.query.offset ?? "0", 10) || 0);
     const tokens = normalizedQuery.split(" ").filter(Boolean);
 
-    let rows = corpus.articles.filter((article) => {
-      if (category && article.category !== category) return false;
-      if (dataset && article.dataset !== dataset) return false;
-      if (manufacturer && norm(article.manufacturer) !== norm(manufacturer)) return false;
-      if (tokens.length && !tokens.every((token) => String(article.__searchText ?? "").includes(token))) {
-        return false;
-      }
-      return true;
-    });
+    let rows = corpus.articles
+      .map((article) => articleForAudience(article, includeMj))
+      .filter((article) => {
+        if (category && article.category !== category) return false;
+        if (dataset && article.dataset !== dataset) return false;
+        if (manufacturer && norm(article.manufacturer) !== norm(manufacturer)) return false;
+        const searchable = norm(flattenText(article));
+        if (tokens.length && !tokens.every((token) => searchable.includes(token))) return false;
+        return true;
+      });
 
     if (normalizedQuery) {
       rows = rows.sort((a, b) => {
@@ -1520,8 +1554,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       return reply.code(404).send({ error: "compendium_article_not_found" });
     }
 
-    const result = deepClone(article);
-    delete result.__searchText;
-    return { article: result };
+    const user = await currentUser(request);
+    return { article: articleForAudience(article, canReadMj(user?.role)) };
   });
 }
