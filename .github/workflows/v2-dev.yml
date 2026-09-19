@@ -503,7 +503,6 @@ jobs:
           PY
 
           curl --fail --silent --show-error \
-            -b "$COOKIE_JAR" \
             "https://dev.terra-umbra.fr/api/compendium/articles/$COMPENDIUM_NEW_ID" > "$COMPENDIUM_NEW"
           python3 - "$COMPENDIUM_NEW" "$COMPENDIUM_NEW_ID" <<'PY'
           import json,sys
