@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { cloneJson } from "../../lib/json";
 import {
   augmentationAccess,
   augmentationBaseKey,
@@ -75,7 +76,7 @@ function money(value:number|null|undefined){
   return value===null||value===undefined?"—":new Intl.NumberFormat("fr-FR",{maximumFractionDigits:0}).format(value)+" $";
 }
 function notify(){
-  const payload=structuredClone(props.modelValue);
+  const payload=cloneJson(props.modelValue);
   emit("update:modelValue",payload);
 }
 function priceValue(item:RealityItem){
