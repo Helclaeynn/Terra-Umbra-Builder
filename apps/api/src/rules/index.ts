@@ -7,6 +7,11 @@ import { terraUmbraTruthRules } from "./truth/rules.js";
 import { getRealityRules } from "./reality.js";
 import { findCompendiumHubMatches, findCompendiumMatches, resolveCompendiumHubId, resolveCompendiumId } from "../compendium.js";
 import { getTalentRegistry, queryTalentRegistry, talentRegistryMeta } from "./talent-registry.js";
+import {
+  BUILDER_ORIGIN_PAGE_IDS,
+  BUILDER_SPHERE_PAGE_IDS,
+  BUILDER_STYLE_PAGE_IDS
+} from "../compendium-builder-references.js";
 
 type NamedEntry={name?:string;compendiumId?:string|null;[key:string]:unknown};
 
@@ -100,12 +105,24 @@ async function enrichNamedWithHub<T extends NamedEntry>(
 async function enrichCreationRules(){
   const rules=structuredClone(terraUmbraCreationRules) as any;
   for(const key of Object.keys(rules.origins??{})){
-    rules.origins[key]=await enrichNamed(rules.origins[key],"Réalité");
+    rules.origins[key]={
+      ...rules.origins[key],
+      compendiumId:BUILDER_ORIGIN_PAGE_IDS[key]
+    };
   }
   for(const key of Object.keys(rules.spheres??{})){
-    rules.spheres[key]=await enrichNamed(rules.spheres[key],"Réalité");
+    rules.spheres[key]={
+      ...rules.spheres[key],
+      compendiumId:BUILDER_SPHERE_PAGE_IDS[key]
+    };
   }
-  rules.styles=await Promise.all((rules.styles??[]).map((entry:NamedEntry)=>enrichNamed(entry,"Réalité")));
+  rules.styles=await Promise.all((rules.styles??[]).map(async(entry:NamedEntry)=>{
+    const enriched=await enrichNamed(entry,"Réalité");
+    if(enriched.compendiumId)return enriched;
+    const styleId=String((entry as Record<string,unknown>).id??"");
+    const compendiumId=BUILDER_STYLE_PAGE_IDS[styleId];
+    return compendiumId?{...enriched,compendiumId}:enriched;
+  }));
   for(const poolName of ["origin","sphere"] as const){
     for(const key of Object.keys(rules.talents?.[poolName]??{})){
       const hubId=REALITY_TALENT_HUB_IDS[poolName][key];
