@@ -57,7 +57,10 @@ type NavigationEntry = {
 type Corpus = {
   manifest: Manifest;
   articles: Article[];
+  publicArticles: Article[];
   byId: Map<string, Article>;
+  publicById: Map<string, Article>;
+  wikiIndexCompact: Array<Record<string, unknown>>;
   editorBaseById: Map<string, { hash: string; article: Article }>;
   navigation: Map<string, NavigationEntry>;
   categories: Array<{ name: string; count: number }>;
@@ -872,6 +875,17 @@ async function loadCorpus(): Promise<Corpus> {
   const manualMediaFiles = new Set(
     await readdir(resolve(COMPENDIUM_MEDIA_DIR, "images/manual")).catch(() => [] as string[])
   );
+  const manualGalleryByArticle = new Map<string, string[]>();
+  for (const filename of manualMediaFiles) {
+    if (!filename.endsWith(".webp")) continue;
+    const marker = filename.indexOf("--");
+    if (marker <= 0) continue;
+    const articleId = filename.slice(0, marker);
+    const gallery = manualGalleryByArticle.get(articleId) ?? [];
+    gallery.push(filename);
+    manualGalleryByArticle.set(articleId, gallery);
+  }
+  for (const gallery of manualGalleryByArticle.values()) gallery.sort();
 
   const navigation = new Map(
     [
@@ -897,9 +911,7 @@ async function loadCorpus(): Promise<Corpus> {
       else article.image = media;
     }
 
-    const gallery = [...manualMediaFiles]
-      .filter((filename) => filename.startsWith(`${article.id}--`) && filename.endsWith(".webp"))
-      .sort()
+    const gallery = (manualGalleryByArticle.get(article.id) ?? [])
       .map((filename) => ({
         src: `images/manual/${filename}`,
         alt: article.title ?? article.id,
@@ -931,7 +943,26 @@ async function loadCorpus(): Promise<Corpus> {
     article.__searchText = norm(flattenText(article));
   }
 
-  const articles = [...byId.values()];
+  const articles = [...byId.values()].sort(compareArticles);
+  const publicArticles = articles.map((article) => {
+    const publicArticle = articleForAudience(article, false);
+    publicArticle.__searchText = norm(flattenText(publicArticle));
+    return publicArticle;
+  });
+  const publicById = new Map(publicArticles.map((article) => [article.id, article]));
+  const wikiIndexCompact = articles.map((article) => {
+    const navigation = article.navigation as JsonObject | undefined;
+    return {
+      id: article.id,
+      title: article.title ?? article.id,
+      category: article.category ?? "",
+      dataset: article.dataset ?? "",
+      group: navigation?.group ?? "",
+      subgroup: navigation?.subgroup ?? "",
+      manufacturer: String(article.manufacturer ?? "")
+    };
+  });
+
   const counts = new Map<string, number>();
   for (const article of articles) {
     if (article.category) counts.set(article.category, (counts.get(article.category) ?? 0) + 1);
@@ -955,7 +986,10 @@ async function loadCorpus(): Promise<Corpus> {
   return {
     manifest,
     articles,
+    publicArticles,
     byId,
+    publicById,
+    wikiIndexCompact,
     editorBaseById,
     navigation,
     categories,
@@ -971,6 +1005,15 @@ async function loadCorpus(): Promise<Corpus> {
 function getCorpus(): Promise<Corpus> {
   if (!corpusPromise) corpusPromise = loadCorpus();
   return corpusPromise;
+}
+
+export async function preloadCompendium(): Promise<void> {
+  const started = performance.now();
+  const corpus = await getCorpus();
+  const elapsed = Math.round(performance.now() - started);
+  console.info(
+    `Compendium preloaded: ${corpus.articles.length} articles in ${elapsed} ms`
+  );
 }
 
 function navSort(article: Article): [number, number, number, string] {
@@ -1143,13 +1186,19 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     };
   });
 
-  app.get("/api/compendium/wiki-index", async (request) => {
+  app.get<{
+    Querystring: { compact?: string };
+  }>("/api/compendium/wiki-index", async (request) => {
     const corpus = await getCorpus();
+    if (request.query.compact === "1") {
+      return { entries: corpus.wikiIndexCompact };
+    }
+
     const user = await currentUser(request);
     const includeMj = canReadMj(user?.role);
+    const articles = includeMj ? corpus.articles : corpus.publicArticles;
     return {
-      entries: corpus.articles.map((source) => {
-        const article = articleForAudience(source, includeMj);
+      entries: articles.map((article) => {
         const navigation = article.navigation as JsonObject | undefined;
         return {
           id: article.id,
@@ -1163,6 +1212,25 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
           media: article.illustration ?? article.image ?? null
         };
       })
+    };
+  });
+
+  app.get<{
+    Params: { id: string };
+  }>("/api/compendium/wiki-preview/:id", async (request, reply) => {
+    const id = request.params.id.trim();
+    if (!id || id.length > 240) return bad(reply, "invalid_compendium_article_id");
+
+    const corpus = await getCorpus();
+    const user = await currentUser(request);
+    const includeMj = canReadMj(user?.role);
+    const article = (includeMj ? corpus.byId : corpus.publicById).get(id);
+    if (!article) return reply.code(404).send({ error: "compendium_article_not_found" });
+
+    return {
+      id: article.id,
+      snippet: wikiPreviewText(article),
+      media: article.illustration ?? article.image ?? null
     };
   });
 
@@ -1188,24 +1256,27 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const offset = Math.max(0, Number.parseInt(request.query.offset ?? "0", 10) || 0);
     const tokens = normalizedQuery.split(" ").filter(Boolean);
 
-    let rows = corpus.articles
-      .map((article) => articleForAudience(article, includeMj))
-      .filter((article) => {
-        if (category && article.category !== category) return false;
-        if (dataset && article.dataset !== dataset) return false;
-        if (manufacturer && norm(article.manufacturer) !== norm(manufacturer)) return false;
-        const searchable = norm(flattenText(article));
-        if (tokens.length && !tokens.every((token) => searchable.includes(token))) return false;
-        return true;
+    const sourceArticles = includeMj ? corpus.articles : corpus.publicArticles;
+    let rows = sourceArticles;
+
+    if (category) rows = rows.filter((article) => article.category === category);
+    if (dataset) rows = rows.filter((article) => article.dataset === dataset);
+    if (manufacturer) {
+      const normalizedManufacturer = norm(manufacturer);
+      rows = rows.filter((article) => norm(article.manufacturer) === normalizedManufacturer);
+    }
+    if (tokens.length) {
+      rows = rows.filter((article) => {
+        const searchable = String(article.__searchText ?? "");
+        return tokens.every((token) => searchable.includes(token));
       });
+    }
 
     if (normalizedQuery) {
-      rows = rows.sort((a, b) => {
+      rows = [...rows].sort((a, b) => {
         const scoreDifference = searchScore(b, query) - searchScore(a, query);
         return scoreDifference || compareArticles(a, b);
       });
-    } else {
-      rows = rows.sort(compareArticles);
     }
 
     const total = rows.length;
@@ -1765,12 +1836,14 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     if (!id || id.length > 240) return bad(reply, "invalid_compendium_article_id");
 
     const corpus = await getCorpus();
-    const article = corpus.byId.get(id);
+    const user = await currentUser(request);
+    const includeMj = canReadMj(user?.role);
+    const article = (includeMj ? corpus.byId : corpus.publicById).get(id);
     if (!article) {
       return reply.code(404).send({ error: "compendium_article_not_found" });
     }
 
-    const user = await currentUser(request);
-    return { article: articleForAudience(article, canReadMj(user?.role)) };
+    if (!includeMj) return { article };
+    return { article: articleForAudience(article, true) };
   });
 }
