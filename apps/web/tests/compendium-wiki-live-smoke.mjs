@@ -59,6 +59,12 @@ try{
   const rawHunterDirective=await publicPage.getByText(/\{\{Talents\|group=humain:/).count();
   if(rawHunterDirective)throw new Error("Directive brute visible dans le hub Talent Chasseur.");
 
+  await publicPage.goto(baseUrl+"/compendium?article=regles-realite-style-hacker",{waitUntil:"domcontentloaded",timeout:30000});
+  await publicPage.getByRole("heading",{name:"Style — Hacker"}).waitFor({state:"visible",timeout:10000});
+  await publicPage.getByText("DONNÉES CANONIQUES",{exact:true}).waitFor({state:"visible",timeout:10000});
+  await publicPage.getByText("Style",{exact:true}).first().waitFor({state:"visible",timeout:10000});
+  await publicPage.getByText("Lecture seule",{exact:true}).waitFor({state:"visible",timeout:10000});
+
   if(dynamicTalentArticle){
     await publicPage.goto(baseUrl+"/compendium?article="+encodeURIComponent(dynamicTalentArticle),{waitUntil:"domcontentloaded",timeout:30000});
     await publicPage.getByRole("heading",{name:"Talents dynamiques"}).waitFor({state:"visible",timeout:10000});
