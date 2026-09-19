@@ -37,7 +37,8 @@ await app.register(cors, {
 app.addHook("onSend", async (request, reply, payload) => {
   if (
     request.url.startsWith("/api/auth/") ||
-    request.url.startsWith("/api/admin/")
+    request.url.startsWith("/api/admin/") ||
+    request.url.startsWith("/api/characters")
   ) {
     reply.header("Cache-Control", "no-store, private");
     reply.header("Pragma", "no-cache");
