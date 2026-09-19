@@ -7,6 +7,8 @@ import TalentSelector, {
   type TalentChoiceSpec,
   type TalentOption
 } from "../components/builder/TalentSelector.vue";
+import EquipmentStep from "../components/builder/EquipmentStep.vue";
+import type { RealityRulesPackage } from "../lib/reality";
 import type { Character, CharacterDataV2 } from "../types/character";
 import {
   truthAvailableTalents,
@@ -115,6 +117,8 @@ const disadvantages=ref<DisadvantageCatalog|null>(null);
 const disadvantageLore=ref<Record<string,string>>({});
 const edgeRules=ref<EdgeRules|null>(null);
 const truthRules=ref<TruthRulesPackage|null>(null);
+const realityRules=ref<RealityRulesPackage|null>(null);
+const equipmentValid=ref(false);
 const disadvantageCategory=ref("common");
 const truthSearch=ref("");
 const loading=ref(true);
@@ -135,7 +139,7 @@ const sections:Array<[StepId,string,boolean]>=[
   ["truth","Vérité",true],
   ["disadvantages","Désavantages",true],
   ["edge","Edge",true],
-  ["equipment","Équipement",false],
+  ["equipment","Équipement",true],
   ["finish","Finalisation",false],
   ["progression","Dépense XP & PTV",false]
 ];
@@ -572,6 +576,7 @@ function stepDone(id:StepId){
     const renownOk=Number(draft.value.edge.renownPack||0)===0||(!hasUnknownDisadvantage.value&&!hasRenownedTalent.value);
     return edgeRemaining.value>=0&&attrOk&&skillsOk&&talentsOk&&renownOk;
   }
+  if(id==="equipment")return equipmentValid.value;
   return false;
 }
 
@@ -580,7 +585,7 @@ async function loadCharacter(){
   error.value="";
   const id=String(route.params.id??"");
   try{
-    const [characterResult,rulesResult,truthResult]=await Promise.all([
+    const [characterResult,rulesResult,truthResult,realityResult]=await Promise.all([
       api<{character:Character}>(`/api/characters/${encodeURIComponent(id)}`),
       api<{
         rules:CreationRules;
@@ -591,7 +596,8 @@ async function loadCharacter(){
         disadvantageLore:Record<string,string>;
         edgeRules:EdgeRules;
       }>("/api/rulesets/terra-umbra/creation"),
-      api<TruthRulesPackage>("/api/rulesets/terra-umbra/truth")
+      api<TruthRulesPackage>("/api/rulesets/terra-umbra/truth"),
+      api<RealityRulesPackage>("/api/rulesets/terra-umbra/reality")
     ]);
     character.value=characterResult.character;
     draft.value=structuredClone(characterResult.character.data);
@@ -603,6 +609,7 @@ async function loadCharacter(){
     disadvantageLore.value=rulesResult.disadvantageLore;
     edgeRules.value=rulesResult.edgeRules;
     truthRules.value=truthResult;
+    realityRules.value=realityResult;
 
     const loadedTruth=currentTruthState.value;
     if(loadedTruth){
@@ -1995,6 +2002,21 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
             </div>
           </template>
         </article>
+
+        <EquipmentStep
+          v-else-if="activeStep === 'equipment' && realityRules"
+          class="panel builder-card"
+          :model-value="draft.reality"
+          :rules="realityRules"
+          :style="selectedStyle"
+          :edge="draft.edge"
+          :talent-ids="selectedRealityTalentIds()"
+          :disadvantages="draft.disadvantages"
+          :neurodive-raw="skillRaw('neurodive')"
+          :sphere-id="draft.creation.sphere"
+          @update:model-value="draft.reality=$event"
+          @validation="equipmentValid=$event"
+        />
 
         <article v-else class="panel builder-card">
           <p class="eyebrow">RECONSTRUCTION V2</p>
