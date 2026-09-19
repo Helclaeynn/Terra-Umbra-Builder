@@ -117,7 +117,7 @@ const page=await browser.newPage({viewport:{width:1440,height:1000}});
 try{
   await page.goto(`${base}compendium/index.html`,{waitUntil:'domcontentloaded',timeout:30000});
   const bulkFailures=await page.evaluate(async ids=>{
-    const mod=await import('./manual-media.js?v=20260918-bulk1');
+    const mod=await import('./manual-media.js?v=20260919-gallery1');
     const failures=[];
     for(const id of ids){
       const media=mod.manualArticleMedia(id);
@@ -174,6 +174,26 @@ try{
   const thumbState=await searchThumb.evaluate(img=>({complete:img.complete,w:img.naturalWidth,h:img.naturalHeight}));
   if(!thumbState.complete||thumbState.w<1||thumbState.h<1)throw new Error(`Miniature recherche invalide ${JSON.stringify(thumbState)}`);
   console.log('NAV COMFORT OK — breadcrumb, famille, Voir aussi et miniature de recherche.');
+  await page.goto(`${base}compendium/index.html#/article/equipement-035-phoenix-ar-124-mutilator`,{waitUntil:'domcontentloaded',timeout:30000});
+  const manufacturerLink=page.locator('.manufacturer-link',{hasText:'Phoenix'}).first();
+  await manufacturerLink.waitFor({state:'visible',timeout:10000});
+  await manufacturerLink.click();
+  await page.waitForFunction(()=>location.hash.startsWith('#/manufacturer/Phoenix'),null,{timeout:10000});
+  await page.locator('.manufacturer-page-grid').waitFor({state:'visible',timeout:20000});
+  const manufacturerHrefs=await page.locator('.manufacturer-page-grid .family-card').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('href')||''));
+  if(!manufacturerHrefs.some(href=>href.includes('equipement-035-phoenix-ar-124-mutilator')))throw new Error('Page fabricant Phoenix: Mutilator absent');
+  if(!manufacturerHrefs.some(href=>href.includes('equipement-038-phoenix-ar-124-sunlight')))throw new Error('Page fabricant Phoenix: Sunlight absent');
+  if(manufacturerHrefs.some(href=>href.includes('equipement-036-raven-ar-027-rampager')))throw new Error('Page fabricant Phoenix: entrée Raven parasite');
+  await page.goto(`${base}compendium/index.html#/category/${encodeURIComponent('Équipement & Objets')}`,{waitUntil:'domcontentloaded',timeout:30000});
+  await page.locator('#categoryManufacturer').waitFor({state:'visible',timeout:20000});
+  await page.selectOption('#categoryManufacturer','Raven');
+  const visibleCards=page.locator('.article-card:visible');
+  if(await visibleCards.count()<20)throw new Error('Filtre fabricant Raven: trop peu de résultats');
+  if((await visibleCards.first().getAttribute('data-manufacturer'))!=='Raven')throw new Error('Filtre fabricant Raven: carte non Raven visible');
+  await page.goto(`${base}compendium/index.html#/search?q=Raven&category=${encodeURIComponent('Équipement & Objets')}&manufacturer=Raven`,{waitUntil:'domcontentloaded',timeout:30000});
+  await page.locator('#searchManufacturer').waitFor({state:'visible',timeout:20000});
+  if(await page.locator('.search-result[href*="equipement-036-raven-ar-027-rampager"]').count()<1)throw new Error('Recherche facettée Raven: Rampager absent');
+  console.log('MANUFACTURER/FACETS OK — page fabricant, filtre de rubrique et recherche facettée.');
   await page.goto(`${base}compendium/index.html#/article/equipement-027-phoenix-hp-092-depliant`,{waitUntil:'domcontentloaded',timeout:30000});
   const folded=page.locator('.article-gallery img[src*="equipement-027-phoenix-hp-092-depliant--folded.webp"]').first();
   await folded.waitFor({state:'visible',timeout:10000});
