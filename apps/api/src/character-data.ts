@@ -111,8 +111,32 @@ export function blankCharacterData(name:string): CharacterDataV2 {
     equipment:[],
     social:{languages:["Anglais"],contacts:[],reputation:""},
     spending:{augmentations:0,equipment:0,vehicle:0},
-    reality:{},
-    progression:{},
+    reality:{
+      augmentations:[],
+      equipment:[],
+      fixedChargeItems:[],
+      mjAdvancedOverride:false,
+      mjAccessOverride:false,
+      sphereSupportDetail:"",
+      possessionsNotes:"",
+      networks:"",
+      statuses:"",
+      patrimony:"",
+      debts:""
+    },
+    progression:{
+      xpEarned:0,
+      ptvEarned:0,
+      skillRanks:{},
+      attributeRanks:{},
+      realityTalents:[],
+      truthTalents:[],
+      flashUses:[],
+      flashReady:true,
+      flashArmed:false,
+      cashBase:null,
+      cashTransactions:[]
+    },
     meta:{}
   };
 }
