@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 
-type ThemeKey = "interface-2035" | "livre-vivant" | "codex-hybride" | "dossier-umbra";
+type ThemeKey = "interface-2035" | "livre-vivant" | "codex-hybride" | "dossier-umbra" | "umbra-archive" | "umbra-signal";
 type ViewKey = "builder" | "compendium";
 
 const route = useRoute();
@@ -36,6 +36,18 @@ const themes: Array<{
     short: "D",
     title: "Dossier Umbra",
     description: "Archives 2035, dossiers et couches Réalité / Vérité."
+  },
+  {
+    key: "umbra-archive",
+    short: "E",
+    title: "Umbra Archive",
+    description: "Dossier Umbra assombri pour le texte, avec médias sur tables lumineuses."
+  },
+  {
+    key: "umbra-signal",
+    short: "F",
+    title: "Umbra Signal",
+    description: "Même logique, plus technique et 2035, avec un entrelacement Réalité / Vérité plus présent."
   }
 ];
 
@@ -456,7 +468,7 @@ const results = [
   display:grid;place-items:center;width:38px;height:38px;flex:0 0 38px;
   border:1px solid var(--reality);color:var(--reality);font-weight:900;
 }
-.theme-switcher{display:flex;gap:6px}
+.theme-switcher{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
 .theme-switcher a,.view-switcher a,.lab-exit{
   text-decoration:none;color:var(--muted);border:1px solid var(--line);
   padding:8px 10px;border-radius:9px;background:var(--surface-3);
@@ -694,6 +706,195 @@ const results = [
 .lab--dossier-umbra .article-cards small{font-family:"Courier New",monospace}
 .lab--dossier-umbra .truth-box{background:rgba(194,160,181,.08)}
 .lab--dossier-umbra .summary-cta{color:#202628;background:var(--reality)}
+
+
+/* E — Umbra Archive
+   Dark reading surfaces + light media mats. Dossier language without paper-sheet rupture. */
+.lab--umbra-archive{
+  --bg:#1d2225;--surface:#2a3034;--surface-2:#333b3f;--surface-3:#23292c;
+  --line:#465055;--line-strong:#667277;--text:#eef1ef;--muted:#a8b0b0;
+  --reality:#83bdb5;--truth:#b69eaf;--shadow:0 18px 42px rgba(0,0,0,.28);--radius:5px;
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),
+    linear-gradient(rgba(255,255,255,.014) 1px,transparent 1px),
+    #1d2225;
+  background-size:36px 36px;
+}
+.lab--umbra-archive .lab-topbar{background:rgba(29,34,37,.96)}
+.lab--umbra-archive .lab-sigil{
+  border-style:solid;border-color:var(--reality);color:var(--reality);
+  box-shadow:inset 0 0 0 3px rgba(131,189,181,.06)
+}
+.lab--umbra-archive .builder-steps,
+.lab--umbra-archive .builder-sheet,
+.lab--umbra-archive .builder-summary,
+.lab--umbra-archive .wiki-results,
+.lab--umbra-archive .wiki-article,
+.lab--umbra-archive .wiki-infobox{
+  box-shadow:7px 9px 0 rgba(0,0,0,.14),var(--shadow);
+}
+.lab--umbra-archive .builder-sheet,
+.lab--umbra-archive .wiki-article{
+  position:relative;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.018),transparent 120px),
+    var(--surface);
+}
+.lab--umbra-archive .builder-sheet::after,
+.lab--umbra-archive .wiki-article::after{
+  content:"ARCHIVE · TUC-2035";
+  position:absolute;top:16px;right:-1px;
+  padding:5px 11px;border:1px solid var(--line-strong);border-right:0;
+  background:#343c40;color:#bdc5c4;
+  font:800 9px/1 "Courier New",monospace;letter-spacing:.13em;
+}
+.lab--umbra-archive .lab-kicker,
+.lab--umbra-archive .equipment-copy>small,
+.lab--umbra-archive .crumb,
+.lab--umbra-archive .article-cards small,
+.lab--umbra-archive .builder-summary h3{
+  font-family:"Courier New",monospace;
+}
+.lab--umbra-archive .equipment-image,
+.lab--umbra-archive .hero-media,
+.lab--umbra-archive .summary-item img,
+.lab--umbra-archive .wiki-infobox figure img{
+  background:#d5d8d4;
+}
+.lab--umbra-archive .equipment-image{
+  border-bottom:1px solid #9ba19e;
+}
+.lab--umbra-archive .hero-media{
+  border-color:#8f9794;
+  box-shadow:inset 0 0 0 7px #d5d8d4,inset 0 0 0 8px #a6adaa;
+}
+.lab--umbra-archive .hero-media img{padding:14px}
+.lab--umbra-archive .summary-item img{border-color:#8f9794}
+.lab--umbra-archive .wiki-infobox figure img{border-bottom:1px solid #8f9794}
+.lab--umbra-archive .equipment-placeholder{
+  background:#d0d3cf;
+}
+.lab--umbra-archive .equipment-placeholder span{color:#707976}
+.lab--umbra-archive .reality-truth-note{
+  position:relative;
+  overflow:hidden;
+  background:#262d30;
+}
+.lab--umbra-archive .reality-truth-note::before{
+  content:"";position:absolute;left:0;right:50%;top:0;height:2px;background:var(--reality)
+}
+.lab--umbra-archive .reality-truth-note::after{
+  content:"";position:absolute;left:50%;right:0;bottom:0;height:2px;background:var(--truth)
+}
+.lab--umbra-archive .sheet-head,
+.lab--umbra-archive .article-head{
+  border-bottom-color:#596469;
+}
+.lab--umbra-archive .equipment-card.truth{
+  border-color:#685f69;
+}
+.lab--umbra-archive .truth-box{
+  background:rgba(182,158,175,.06);
+}
+
+/* F — Umbra Signal
+   Same contrast strategy, more technical and visibly interlaced without hard page transitions. */
+.lab--umbra-signal{
+  --bg:#0c1216;--surface:#131c22;--surface-2:#1a262d;--surface-3:#0f171c;
+  --line:#29404a;--line-strong:#47616b;--text:#edf4f4;--muted:#93a6aa;
+  --reality:#55d1b8;--truth:#9f94d7;--shadow:0 20px 52px rgba(0,0,0,.33);--radius:9px;
+  background:
+    radial-gradient(circle at 14% 0%,rgba(45,87,96,.28),transparent 34rem),
+    linear-gradient(180deg,#0c1216,#0a0f13);
+}
+.lab--umbra-signal .lab-topbar{
+  background:rgba(10,16,20,.95);
+  border-bottom-color:#29404a;
+}
+.lab--umbra-signal .lab-sigil{
+  position:relative;border-color:var(--reality);color:var(--reality)
+}
+.lab--umbra-signal .lab-sigil::after{
+  content:"";position:absolute;width:16px;height:1px;right:-9px;bottom:7px;background:var(--truth);transform:rotate(-35deg)
+}
+.lab--umbra-signal .builder-sheet,
+.lab--umbra-signal .wiki-article{
+  position:relative;
+  background:
+    linear-gradient(135deg,rgba(85,209,184,.022),transparent 32%),
+    linear-gradient(315deg,rgba(159,148,215,.02),transparent 28%),
+    var(--surface);
+}
+.lab--umbra-signal .builder-sheet::before,
+.lab--umbra-signal .wiki-article::before{
+  content:"";position:absolute;inset:-1px;pointer-events:none;border-radius:inherit;
+  background:
+    linear-gradient(90deg,var(--reality),transparent 28%) top left/46% 1px no-repeat,
+    linear-gradient(270deg,var(--truth),transparent 32%) bottom right/46% 1px no-repeat;
+}
+.lab--umbra-signal .builder-steps,
+.lab--umbra-signal .builder-summary,
+.lab--umbra-signal .wiki-results,
+.lab--umbra-signal .wiki-infobox{
+  background:linear-gradient(180deg,#151f25,#11191e);
+}
+.lab--umbra-signal .lab-kicker,
+.lab--umbra-signal .equipment-copy>small,
+.lab--umbra-signal .crumb,
+.lab--umbra-signal .article-cards small,
+.lab--umbra-signal .builder-summary h3{
+  font-family:"Courier New",monospace;
+  letter-spacing:.11em;
+}
+.lab--umbra-signal .equipment-image,
+.lab--umbra-signal .hero-media,
+.lab--umbra-signal .summary-item img,
+.lab--umbra-signal .wiki-infobox figure img{
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.38),transparent 45%),
+    #dce1dd;
+}
+.lab--umbra-signal .equipment-image img,
+.lab--umbra-signal .hero-media img,
+.lab--umbra-signal .summary-item img,
+.lab--umbra-signal .wiki-infobox figure img{
+  filter:drop-shadow(0 10px 12px rgba(27,37,39,.18));
+}
+.lab--umbra-signal .hero-media{
+  border-color:#87938f;
+}
+.lab--umbra-signal .hero-media img{padding:14px}
+.lab--umbra-signal .equipment-placeholder{
+  background:#d7dbd7;
+}
+.lab--umbra-signal .equipment-placeholder span{color:#687471}
+.lab--umbra-signal .progress-track span{
+  background:linear-gradient(90deg,var(--reality) 0 44%,#709a99 49%,#807caa 53%,var(--truth) 100%);
+}
+.lab--umbra-signal .reality-truth-note{
+  background:
+    linear-gradient(90deg,rgba(85,209,184,.045),transparent 44%,rgba(159,148,215,.045)),
+    #11191e;
+}
+.lab--umbra-signal .interlace-mark{
+  position:relative;color:#d5d7e8;text-shadow:-8px 0 14px var(--reality),8px 0 14px var(--truth)
+}
+.lab--umbra-signal .equipment-card.selected{
+  border-color:#3c8d7c;
+  box-shadow:inset 3px 0 var(--reality);
+}
+.lab--umbra-signal .equipment-card.truth{
+  border-color:#595579;
+  box-shadow:inset -3px 0 rgba(159,148,215,.65);
+}
+.lab--umbra-signal .article-callout{
+  border-left-color:var(--reality);
+  border-right:1px solid rgba(159,148,215,.35);
+}
+.lab--umbra-signal .truth-box{
+  border-left-color:var(--truth);
+  background:rgba(159,148,215,.045);
+}
 
 @media(max-width:1250px){
   .prototype-builder{grid-template-columns:220px minmax(0,1fr)}
