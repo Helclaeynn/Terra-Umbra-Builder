@@ -63,6 +63,7 @@ const notice = ref("");
 const conflict = ref(false);
 const draftUpdatedAt = ref<string | null>(null);
 const publishedAt = ref<string | null>(null);
+const categories = ["Règles", "Réalité", "Vérité", "Équipement & Objets", "Personnages", "Bestiaire"];
 
 function clone<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T;
@@ -308,6 +309,44 @@ async function insertTable() {
   wikiText.value = wikiText.value.slice(0, start) + value + wikiText.value.slice(start);
   await nextTick();
   element.focus();
+}
+
+function insertBold() {
+  return insertMarkup("'''", "'''", "texte en gras");
+}
+
+function insertItalic() {
+  return insertMarkup("''", "''", "texte en italique");
+}
+
+function insertMjSection() {
+  return insertMarkup("{{MJ}}\n", "", "== Section MJ ==");
+}
+
+function insertLore() {
+  return insertMarkup("{{Lore}}\n", "", "Texte de lore");
+}
+
+function previewInline(value: unknown): string {
+  const escaped = String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+  return escaped
+    .replace(/&#39;&#39;&#39;([^\n]+?)&#39;&#39;&#39;/g, "<strong>$1</strong>")
+    .replace(/&#39;&#39;([^\n]+?)&#39;&#39;/g, "<em>$1</em>");
+}
+
+function enablePnj() {
+  if (article.value && !article.value.pnj) article.value.pnj = {};
+}
+
+function disablePnj() {
+  if (article.value?.pnj && window.confirm("Retirer la fiche structurée de personnage ?")) {
+    delete article.value.pnj;
+  }
 }
 
 function fillForms(source: EditableArticle) {
@@ -583,8 +622,8 @@ onMounted(load);
       <template v-else-if="article">
         <header class="editor-heading">
           <div>
-            <p class="eyebrow">ÉDITION WIKI</p>
-            <h1>{{ article.title }}</h1>
+            <p class="eyebrow">{{ isNew && !pageId ? "NOUVELLE PAGE WIKI" : "ÉDITION WIKI" }}</p>
+            <h1>{{ article.title || "Nouvelle page" }}</h1>
             <p>
               Édite le contenu comme une page encyclopédique. Le brouillon reste privé jusqu’à publication.
             </p>
@@ -609,7 +648,11 @@ onMounted(load);
               <label>Titre<input v-model="article.title" maxlength="240" /></label>
               <div class="editor-two">
                 <label>Statut<input v-model="article.status" placeholder="canon_recent…" /></label>
-                <label>Rubrique<input :value="article.category" disabled /></label>
+                <label>Rubrique
+                  <select v-model="article.category">
+                    <option v-for="item in categories" :key="item" :value="item">{{ item }}</option>
+                  </select>
+                </label>
               </div>
               <label>Source<input v-model="article.source" /></label>
               <label>Tags<textarea v-model="tagsText" rows="2" placeholder="Vérité, Garous, Californie…" /></label>
@@ -635,7 +678,13 @@ onMounted(load);
               <img v-if="previewMedia" class="editor-media-preview" :src="previewMedia" :alt="mediaAlt || article.title" />
             </div>
 
-            <div v-if="article.pnj" class="panel editor-card">
+            <div v-if="!article.pnj" class="panel editor-card">
+              <p class="eyebrow">FICHE PERSONNAGE</p>
+              <p class="editor-hint">Optionnel : ajoute des champs structurés si cette page décrit un personnage.</p>
+              <button class="secondary" type="button" @click="enablePnj">Ajouter une fiche personnage</button>
+            </div>
+
+            <div v-else class="panel editor-card">
               <p class="eyebrow">FICHE PERSONNAGE</p>
               <div class="editor-two">
                 <label>Âge<input v-model="pnjForm.age" /></label>
@@ -651,66 +700,52 @@ onMounted(load);
                 <label>Alt portrait<input v-model="pnjForm.portraitAlt" /></label>
                 <label>Légende portrait<input v-model="pnjForm.portraitCaption" /></label>
               </div>
+              <button class="danger-button" type="button" @click="disablePnj">Retirer la fiche personnage</button>
             </div>
 
             <div class="editor-sections-head">
-              <div><p class="eyebrow">CONTENU</p><h2>Sections</h2></div>
-              <button class="secondary" type="button" @click="addSection">+ Section</button>
+              <div>
+                <p class="eyebrow">CONTENU</p>
+                <h2>Texte de la page</h2>
+                <p class="editor-hint">Écris d’un seul tenant. Les sections techniques sont reconstruites automatiquement.</p>
+              </div>
             </div>
 
-            <article
-              v-for="(section, sectionIndex) in article.sections || []"
-              :key="section.id || sectionIndex"
-              class="panel editor-section-card"
-            >
-              <header>
-                <input v-model="section.title" class="section-title-input" placeholder="Titre de section" />
-                <select v-model.number="section.level">
-                  <option :value="2">H2</option>
-                  <option :value="3">H3</option>
-                  <option :value="4">H4</option>
-                </select>
-                <select v-model="section.audience">
-                  <option value="">Public</option>
-                  <option value="mj">MJ</option>
-                </select>
-                <button class="danger-button" type="button" @click="removeSection(sectionIndex)">Supprimer</button>
-              </header>
-
-              <div class="editor-blocks">
-                <div v-for="(block, blockIndex) in section.blocks" :key="blockIndex" class="editor-block">
-                  <div class="editor-block-toolbar">
-                    <strong>{{ block.type === "table" ? "Tableau" : "Paragraphe" }}</strong>
-                    <select v-if="block.type === 'p'" v-model="block.style">
-                      <option value="">Normal</option>
-                      <option value="lore">Lore</option>
-                      <option value="list">Liste / retrait</option>
-                      <option value="callout">Encadré</option>
-                    </select>
-                    <button type="button" @click="removeBlock(section, blockIndex)">×</button>
-                  </div>
-
-                  <textarea
-                    v-if="block.type === 'p'"
-                    v-model="block.text"
-                    rows="7"
-                    placeholder="Texte de la page…"
-                  />
-                  <textarea
-                    v-else
-                    :value="tableText(block)"
-                    rows="6"
-                    placeholder="Colonnes séparées par des tabulations"
-                    @input="setTableEvent(block, $event)"
-                  />
-                </div>
+            <div class="panel wiki-source-card">
+              <div class="wiki-toolbar" aria-label="Outils d’édition wiki">
+                <button type="button" title="Titre de section" @click="insertHeading(2)">H2</button>
+                <button type="button" title="Sous-section" @click="insertHeading(3)">H3</button>
+                <button type="button" title="Gras" @click="insertBold"><strong>B</strong></button>
+                <button type="button" title="Italique" @click="insertItalic"><em>I</em></button>
+                <button type="button" title="Liste" @click="insertBullet">• Liste</button>
+                <button type="button" title="Tableau" @click="insertTable">▦ Tableau</button>
+                <button type="button" title="Section MJ" @click="insertMjSection">MJ</button>
+                <button type="button" title="Encadré lore" @click="insertLore">Lore</button>
               </div>
+              <textarea
+                ref="sourceArea"
+                v-model="wikiText"
+                class="wiki-source"
+                spellcheck="true"
+                placeholder="Rédige ici…
 
-              <footer>
-                <button type="button" @click="addParagraph(section)">+ Paragraphe</button>
-                <button type="button" @click="addTable(section)">+ Tableau</button>
-              </footer>
-            </article>
+== Une section ==
+Le texte de la section.
+
+=== Une sous-section ===
+Encore du texte.
+
+* Un élément
+* Un autre élément"
+              />
+              <div class="syntax-help">
+                <span><code>== Titre ==</code> section</span>
+                <span><code>=== Sous-titre ===</code> sous-section</span>
+                <span><code>* élément</code> liste</span>
+                <span><code>'''gras'''</code> et <code>''italique''</code></span>
+                <span>Les liens vers les autres pages sont détectés automatiquement.</span>
+              </div>
+            </div>
           </section>
 
           <aside class="panel editor-preview-column">
@@ -725,10 +760,12 @@ onMounted(load);
               <span v-if="article.status">{{ article.status }}</span>
             </div>
 
-            <section v-for="(section, index) in article.sections || []" :key="section.id || index">
-              <h2 v-if="section.title">{{ section.title }}</h2>
+            <section v-for="(section, index) in previewSections" :key="section.id || index" :class="{ 'mj-preview': section.audience === 'mj' }">
+              <h2 v-if="section.title && Number(section.level || 2) === 2">{{ section.title }}</h2>
+              <h3 v-else-if="section.title && Number(section.level || 2) === 3">{{ section.title }}</h3>
+              <h4 v-else-if="section.title">{{ section.title }}</h4>
               <template v-for="(block, blockIndex) in section.blocks" :key="blockIndex">
-                <p v-if="block.type === 'p'" :class="block.style">{{ block.text }}</p>
+                <p v-if="block.type === 'p'" :class="block.style" v-html="previewInline(block.text)"></p>
                 <table v-else>
                   <tbody>
                     <tr v-for="(row, rowIndex) in block.rows || []" :key="rowIndex">
@@ -749,7 +786,7 @@ onMounted(load);
           <button class="secondary" type="button" :disabled="busy" @click="saveDraft()">
             {{ busy ? "Enregistrement…" : "Enregistrer le brouillon" }}
           </button>
-          <button class="primary" type="button" :disabled="busy || conflict" @click="publish">
+          <button class="primary" type="button" :disabled="busy || conflict || !article.title?.trim()" @click="publish">
             Publier dans le wiki
           </button>
         </div>
