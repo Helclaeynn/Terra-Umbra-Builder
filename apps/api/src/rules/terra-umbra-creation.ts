@@ -888,43 +888,6 @@ export const terraUmbraCreationRules = {
           "origin": "mafieuse"
         }
       ],
-      "crawler": [
-        {
-          "id": "debrouille",
-          "name": "Débrouille",
-          "effect": "+1 Survie en milieu urbain pauvre, abandonné ou hors système.",
-          "category": "origin",
-          "origin": "crawler"
-        },
-        {
-          "id": "codes_de_rue",
-          "name": "Codes de rue",
-          "effect": "+2 Langages & Argot pour argot, signes, graffitis et codes Underlives.",
-          "category": "origin",
-          "origin": "crawler"
-        },
-        {
-          "id": "enfant_des_zones_mortes",
-          "name": "Enfant des zones mortes",
-          "effect": "Circonstance favorable (+3) pour circuler et s’orienter dans son ancien quartier abandonné.",
-          "category": "origin",
-          "origin": "crawler"
-        },
-        {
-          "id": "on_connait_quelquun",
-          "name": "On connaît quelqu’un",
-          "effect": "Un Contact mineur Crawler.",
-          "category": "origin",
-          "origin": "crawler"
-        },
-        {
-          "id": "recuperateur",
-          "name": "Récupérateur",
-          "effect": "+2 Investigation lorsqu’il s’agit de trouver quelque chose d’utile dans des ruines, déchets techniques, squats ou infrastructures abandonnées.",
-          "category": "origin",
-          "origin": "crawler"
-        }
-      ],
       "religieuse": [
         {
           "id": "education_doctrinale",
@@ -961,8 +924,778 @@ export const terraUmbraCreationRules = {
           "category": "origin",
           "origin": "religieuse"
         }
+      ],
+      "crawler": [
+        {
+          "id": "debrouille",
+          "name": "Débrouille",
+          "effect": "+1 Survie en milieu urbain pauvre, abandonné ou hors système.",
+          "category": "origin",
+          "origin": "crawler"
+        },
+        {
+          "id": "codes_de_rue",
+          "name": "Codes de rue",
+          "effect": "+2 Langages & Argot pour argot, signes, graffitis et codes Underlives.",
+          "category": "origin",
+          "origin": "crawler"
+        },
+        {
+          "id": "enfant_des_zones_mortes",
+          "name": "Enfant des zones mortes",
+          "effect": "Circonstance favorable (+3) pour circuler et s’orienter dans son ancien quartier abandonné.",
+          "category": "origin",
+          "origin": "crawler"
+        },
+        {
+          "id": "on_connait_quelquun",
+          "name": "On connaît quelqu’un",
+          "effect": "Un Contact mineur Crawler.",
+          "category": "origin",
+          "origin": "crawler"
+        },
+        {
+          "id": "recuperateur",
+          "name": "Récupérateur",
+          "effect": "+2 Investigation lorsqu’il s’agit de trouver quelque chose d’utile dans des ruines, déchets techniques, squats ou infrastructures abandonnées.",
+          "category": "origin",
+          "origin": "crawler"
+        }
       ]
-    }
+    },
+    "sphere": {
+      "corporatiste": [
+        {
+          "id": "dotation_standard",
+          "name": "Dotation standard",
+          "effect": "Équipement professionnel correspondant réellement au poste.",
+          "category": "sphere",
+          "sphere": "corporatiste"
+        },
+        {
+          "id": "assurance_corporative",
+          "name": "Assurance corporative",
+          "effect": "Couverture médicale liée au contrat.",
+          "category": "sphere",
+          "sphere": "corporatiste"
+        },
+        {
+          "id": "badge_interne",
+          "name": "Badge interne",
+          "effect": "Accréditations ordinaires nécessaires à la fonction.",
+          "category": "sphere",
+          "sphere": "corporatiste"
+        },
+        {
+          "id": "avantages_salaries",
+          "name": "Avantages salariés",
+          "effect": "Accès aux services et prestations internes/partenaires.",
+          "category": "sphere",
+          "sphere": "corporatiste"
+        },
+        {
+          "id": "compte_de_frais",
+          "name": "Compte de frais",
+          "effect": "Dépenses professionnelles raisonnables prises en charge.",
+          "category": "sphere",
+          "sphere": "corporatiste"
+        },
+        {
+          "id": "reseau_interne",
+          "name": "Réseau interne",
+          "effect": "Un Contact dans un autre service de la corporation.",
+          "category": "sphere",
+          "sphere": "corporatiste"
+        },
+        {
+          "id": "profil_calibre",
+          "name": "Profil calibré",
+          "effect": "+2 lorsque l’adéquation du Logifate au poste est directement examinée.",
+          "category": "sphere",
+          "sphere": "corporatiste"
+        },
+        {
+          "id": "acces_fournisseur",
+          "name": "Accès fournisseur",
+          "effect": "Accès privilégié aux produits ordinaires de sa corporation ou de ses partenaires.",
+          "category": "sphere",
+          "sphere": "corporatiste"
+        },
+        {
+          "id": "service_juridique",
+          "name": "Service juridique",
+          "effect": "Assistance légale dans les affaires relevant réellement du travail.",
+          "category": "sphere",
+          "sphere": "corporatiste"
+        },
+        {
+          "id": "programme_pilote",
+          "name": "Programme pilote",
+          "effect": "Peut accéder à des essais/prototypes compatibles avec sa fonction, sur autorisation.",
+          "category": "sphere",
+          "sphere": "corporatiste"
+        },
+        {
+          "id": "extraction_corporative",
+          "name": "Extraction corporative",
+          "effect": "Peut solliciter une assistance de sécurité lorsqu’un employé de son rang justifie réellement l’intervention.",
+          "category": "sphere",
+          "sphere": "corporatiste"
+        },
+        {
+          "id": "requin_corporatif",
+          "name": "Requin corporatif",
+          "effect": "+2 Diplomatie ou Commerce, choisi à l’acquisition, lors de négociations professionnelles entre corporations.",
+          "category": "sphere",
+          "sphere": "corporatiste"
+        }
+      ],
+      "gouvernementale": [
+        {
+          "id": "dotation_de_service",
+          "name": "Dotation de service",
+          "effect": "Équipement nécessaire au poste ; arme uniquement lorsque la fonction la justifie.",
+          "category": "sphere",
+          "sphere": "gouvernementale"
+        },
+        {
+          "id": "habilitation_administrative",
+          "name": "Habilitation administrative",
+          "effect": "Accès ordinaire à une branche précise de l’administration.",
+          "category": "sphere",
+          "sphere": "gouvernementale"
+        },
+        {
+          "id": "reseau_administratif",
+          "name": "Réseau administratif",
+          "effect": "Un Contact dans un autre service public.",
+          "category": "sphere",
+          "sphere": "gouvernementale"
+        },
+        {
+          "id": "acces_aux_registres",
+          "name": "Accès aux registres",
+          "effect": "Peut consulter légalement les données relevant de sa fonction.",
+          "category": "sphere",
+          "sphere": "gouvernementale"
+        },
+        {
+          "id": "procedure_acceleree",
+          "name": "Procédure accélérée",
+          "effect": "+2 pour faire progresser une démarche administrative relevant réellement de son domaine.",
+          "category": "sphere",
+          "sphere": "gouvernementale"
+        },
+        {
+          "id": "fonctionnaire_experimente",
+          "name": "Fonctionnaire expérimenté",
+          "effect": "+1 Diplomatie dans les rapports professionnels avec l’administration.",
+          "category": "sphere",
+          "sphere": "gouvernementale"
+        },
+        {
+          "id": "requisition_de_service",
+          "name": "Réquisition de service",
+          "effect": "Peut demander temporairement véhicule, matériel ou local raisonnable lorsque sa mission le justifie.",
+          "category": "sphere",
+          "sphere": "gouvernementale"
+        },
+        {
+          "id": "couverture_fonctionnelle",
+          "name": "Couverture fonctionnelle",
+          "effect": "Assistance institutionnelle/juridique pour les actes légaux accomplis en service.",
+          "category": "sphere",
+          "sphere": "gouvernementale"
+        },
+        {
+          "id": "dossier_institutionnel",
+          "name": "Dossier institutionnel",
+          "effect": "Possède un profil professionnel reconnu et cohérent dans les bases gouvernementales.",
+          "category": "sphere",
+          "sphere": "gouvernementale"
+        },
+        {
+          "id": "autorite_officielle",
+          "name": "Autorité officielle",
+          "effect": "+2 Autorité lorsqu’un agent assermenté donne un ordre entrant réellement dans ses prérogatives.",
+          "category": "sphere",
+          "sphere": "gouvernementale"
+        },
+        {
+          "id": "priorite_interservices",
+          "name": "Priorité interservices",
+          "effect": "Sait à quelle chaîne hiérarchique faire remonter une urgence et peut demander une coopération officielle entre services.",
+          "category": "sphere",
+          "sphere": "gouvernementale"
+        },
+        {
+          "id": "appui_du_service",
+          "name": "Appui du service",
+          "effect": "En cas de difficulté professionnelle sérieuse, peut solliciter renforts, expertise ou soutien correspondant réellement aux moyens de son administration.",
+          "category": "sphere",
+          "sphere": "gouvernementale"
+        }
+      ],
+      "mafieuse": [
+        {
+          "id": "protection",
+          "name": "Protection",
+          "effect": "S’en prendre publiquement au personnage sur le territoire de son organisation peut provoquer des représailles.",
+          "category": "sphere",
+          "sphere": "mafieuse"
+        },
+        {
+          "id": "marche_noir",
+          "name": "Marché noir",
+          "effect": "Sait accéder aux filières illégales de son organisation pour rechercher une marchandise existante.",
+          "category": "sphere",
+          "sphere": "mafieuse"
+        },
+        {
+          "id": "receleur",
+          "name": "Recéleur",
+          "effect": "+2 Commerce pour acheter/vendre des marchandises volées ou illégales via son réseau.",
+          "category": "sphere",
+          "sphere": "mafieuse"
+        },
+        {
+          "id": "blanchiment",
+          "name": "Blanchiment",
+          "effect": "Sait faire passer des revenus criminels par une filière légale lorsqu’il possède le réseau nécessaire.",
+          "category": "sphere",
+          "sphere": "mafieuse"
+        },
+        {
+          "id": "faussaires",
+          "name": "Faussaires",
+          "effect": "Accès à une filière de faux papiers, identités ou documents.",
+          "category": "sphere",
+          "sphere": "mafieuse"
+        },
+        {
+          "id": "dette_de_faveur",
+          "name": "Dette de faveur",
+          "effect": "Un Contact ou groupe lui doit une faveur significative mais raisonnable.",
+          "category": "sphere",
+          "sphere": "mafieuse"
+        },
+        {
+          "id": "omerta",
+          "name": "Omerta",
+          "effect": "+2 Force Mentale contre les pressions visant à lui faire trahir l’organisation.",
+          "category": "sphere",
+          "sphere": "mafieuse"
+        },
+        {
+          "id": "planque",
+          "name": "Planque",
+          "effect": "Dispose d’un refuge réellement existant associé à son organisation.",
+          "category": "sphere",
+          "sphere": "mafieuse"
+        },
+        {
+          "id": "homme_femme_du_milieu",
+          "name": "Homme/Femme du milieu",
+          "effect": "+1 Diplomatie ou Autorité, choisi à l’acquisition, dans les interactions internes à sa propre organisation.",
+          "category": "sphere",
+          "sphere": "mafieuse"
+        },
+        {
+          "id": "armurier_du_milieu",
+          "name": "Armurier du milieu",
+          "effect": "Canal privilégié pour armes et munitions effectivement disponibles dans le réseau.",
+          "category": "sphere",
+          "sphere": "mafieuse"
+        },
+        {
+          "id": "entreprise_de_couverture",
+          "name": "Entreprise de couverture",
+          "effect": "Possède ou utilise une activité légale pouvant servir de façade.",
+          "category": "sphere",
+          "sphere": "mafieuse"
+        },
+        {
+          "id": "corruption_locale",
+          "name": "Corruption locale",
+          "effect": "Un Contact compromis dans une institution précise ; ses capacités restent celles de son véritable poste.",
+          "category": "sphere",
+          "sphere": "mafieuse"
+        }
+      ],
+      "crawler": [
+        {
+          "id": "fiable",
+          "name": "Fiable",
+          "effect": "+2 pour convaincre un commanditaire connaissant sa réputation de lui confier un contrat.",
+          "category": "sphere",
+          "sphere": "crawler"
+        },
+        {
+          "id": "bonnes_adresses",
+          "name": "Bonnes adresses",
+          "effect": "+2 Investigation, Survie ou Commerce pour trouver un service clandestin dans un milieu Crawler où il possède réellement des entrées.",
+          "category": "sphere",
+          "sphere": "crawler"
+        },
+        {
+          "id": "dans_le_coup",
+          "name": "Dans le coup",
+          "effect": "Reçoit normalement les informations publiques ou semi-publiques de la scène underground dont il fait partie.",
+          "category": "sphere",
+          "sphere": "crawler"
+        },
+        {
+          "id": "contact_de_renom",
+          "name": "Contact de renom",
+          "effect": "Un Contact Crawler notable. Son aide n’est jamais automatique.",
+          "category": "sphere",
+          "sphere": "crawler"
+        },
+        {
+          "id": "assurance_silver",
+          "name": "Assurance Silver",
+          "effect": "Possède réellement une couverture CareForce Silver ; sa traduction économique suit le bloc Services/Train de vie.",
+          "category": "sphere",
+          "sphere": "crawler"
+        },
+        {
+          "id": "maitrise_des_codes_de_la_rue",
+          "name": "Maîtrise des codes de la rue",
+          "effect": "+1 Langages & Argot concernant la culture et les codes Crawlers.",
+          "category": "sphere",
+          "sphere": "crawler"
+        },
+        {
+          "id": "optitech",
+          "name": "OptiTech",
+          "effect": "Avec outils et préparation, optimise un matériel pour la scène : il ignore sa première défaillance matérielle non catastrophique.",
+          "category": "sphere",
+          "sphere": "crawler"
+        },
+        {
+          "id": "logifake",
+          "name": "Logifake",
+          "effect": "Possède un profil Logifate de couverture cohérent résistant aux contrôles ordinaires.",
+          "category": "sphere",
+          "sphere": "crawler"
+        },
+        {
+          "id": "nid_de_frelons",
+          "name": "Nid de frelons",
+          "effect": "Sait reconnaître et approcher les refuges/réseaux Neopunks réellement présents.",
+          "category": "sphere",
+          "sphere": "crawler"
+        },
+        {
+          "id": "insignifiant",
+          "name": "Insignifiant",
+          "effect": "+2 Furtivité pour se fondre dans une foule ; les témoins retiennent difficilement son visage après une interaction banale.",
+          "category": "sphere",
+          "sphere": "crawler"
+        },
+        {
+          "id": "fixweb",
+          "name": "Fixweb",
+          "effect": "Membre du réseau oral des Fixers ; peut rechercher ou faire circuler des contrats et contacter un intermédiaire local.",
+          "category": "sphere",
+          "sphere": "crawler"
+        },
+        {
+          "id": "black_clinic",
+          "name": "Black Clinic",
+          "effect": "Possède une entrée crédible auprès d’au moins une clinique noire / réseau Meditech.",
+          "category": "sphere",
+          "sphere": "crawler"
+        }
+      ],
+      "religieuse": [
+        {
+          "id": "communaute_de_fideles",
+          "name": "Communauté de fidèles",
+          "effect": "Accès normal à sa communauté religieuse locale pour renseignements et aide quotidienne.",
+          "category": "sphere",
+          "sphere": "religieuse"
+        },
+        {
+          "id": "autorite_religieuse",
+          "name": "Autorité religieuse",
+          "effect": "+2 Autorité ou Diplomatie auprès de croyants reconnaissant réellement sa fonction.",
+          "category": "sphere",
+          "sphere": "religieuse"
+        },
+        {
+          "id": "ministere",
+          "name": "Ministère",
+          "effect": "Appartenance à une branche : santé, logement, charité, éducation, ressources, sciences, etc.",
+          "category": "sphere",
+          "sphere": "religieuse"
+        },
+        {
+          "id": "mission_ecclesiastique",
+          "name": "Mission ecclésiastique",
+          "effect": "L’institution peut fournir régulièrement du travail/rémunération correspondant à son rôle.",
+          "category": "sphere",
+          "sphere": "religieuse"
+        },
+        {
+          "id": "hebergement_religieux",
+          "name": "Hébergement religieux",
+          "effect": "Possibilité de demander un logement simple dans une implantation disposant de place.",
+          "category": "sphere",
+          "sphere": "religieuse"
+        },
+        {
+          "id": "reseau_caritatif",
+          "name": "Réseau caritatif",
+          "effect": "Accès aux associations, aides matérielles et services sociaux de son institution.",
+          "category": "sphere",
+          "sphere": "religieuse"
+        },
+        {
+          "id": "education_theologique",
+          "name": "Éducation théologique",
+          "effect": "+1 Savoirs pour religion, doctrine et histoire religieuse.",
+          "category": "sphere",
+          "sphere": "religieuse"
+        },
+        {
+          "id": "conseiller_spirituel",
+          "name": "Conseiller spirituel",
+          "effect": "+1 Diplomatie lorsqu’un interlocuteur accepte sincèrement cette relation de conseil.",
+          "category": "sphere",
+          "sphere": "religieuse"
+        },
+        {
+          "id": "presence_holonet",
+          "name": "Présence Holonet",
+          "effect": "+2 Investigation ou Représentation dans les réseaux médiatiques officiels de sa religion.",
+          "category": "sphere",
+          "sphere": "religieuse"
+        },
+        {
+          "id": "soutien_communautaire",
+          "name": "Soutien communautaire",
+          "effect": "Sait mobiliser rapidement une aide profane modeste : bénévoles, repas, transport, traduction, collecte…",
+          "category": "sphere",
+          "sphere": "religieuse"
+        },
+        {
+          "id": "ordre_religieux",
+          "name": "Ordre religieux",
+          "effect": "Appartenance à une structure régulière reconnue, avec réseau, uniforme, hiérarchie et accès ordinaires.",
+          "category": "sphere",
+          "sphere": "religieuse"
+        },
+        {
+          "id": "reseau_confessionnel",
+          "name": "Réseau confessionnel",
+          "effect": "Lors d’un déplacement, sait identifier et contacter une implantation de sa religion ou d’une organisation alliée, lorsqu’elle existe.",
+          "category": "sphere",
+          "sphere": "religieuse"
+        }
+      ]
+    },
+    "common": [
+      {
+        "id": "sommeil_leger",
+        "name": "Sommeil léger",
+        "effect": "+2 Perception pour remarquer un danger pendant le sommeil. Un danger évident réveille normalement le personnage.",
+        "category": "common"
+      },
+      {
+        "id": "resistance_a_la_chaleur",
+        "name": "Résistance à la chaleur",
+        "effect": "+2 Constitution contre chaleur, déshydratation et exposition climatique chaude.",
+        "category": "common"
+      },
+      {
+        "id": "resistance_au_froid",
+        "name": "Résistance au froid",
+        "effect": "+2 Constitution contre froid et exposition climatique glaciale.",
+        "category": "common"
+      },
+      {
+        "id": "sante_de_fer",
+        "name": "Santé de fer",
+        "effect": "+1 Constitution contre maladies, infections et récupération physiologique.",
+        "category": "common"
+      },
+      {
+        "id": "insensibilite_a_la_douleur",
+        "name": "Insensibilité à la douleur",
+        "effect": "Les conséquences dues exclusivement à la douleur sont considérées comme un cran moins sévères. Les blessures restent totalement présentes.",
+        "category": "common"
+      },
+      {
+        "id": "nageur",
+        "name": "Nageur",
+        "effect": "+1 Athlétisme pour nage et manœuvres aquatiques ; pleine mobilité dans une eau ordinaire.",
+        "category": "common"
+      },
+      {
+        "id": "ambidextre",
+        "name": "Ambidextre",
+        "effect": "Utilise indifféremment les deux mains sans complication liée à la main non directrice.",
+        "category": "common"
+      },
+      {
+        "id": "brave",
+        "name": "Brave",
+        "effect": "+2 Maîtrise spirituelle face à la peur d’un danger physique identifiable.",
+        "category": "common"
+      },
+      {
+        "id": "fier_heritier",
+        "name": "Fier héritier",
+        "effect": "Augmente le Train de vie de base d’un cran, avec un minimum Confortable ; peut exceptionnellement faire passer Aisé à Luxe.",
+        "category": "common"
+      },
+      {
+        "id": "renomme",
+        "name": "Renommé",
+        "effect": "Fixe la Renommée initiale à 2 dans un milieu cohérent.",
+        "category": "common"
+      },
+      {
+        "id": "presence_remarquable",
+        "name": "Présence remarquable",
+        "effect": "Choisir un trait particulièrement frappant : beauté, voix, allure, style, carrure… +2 au test social lorsque ce trait précis constitue réellement un avantage.",
+        "category": "common"
+      },
+      {
+        "id": "apprentissage_fulgurant",
+        "name": "Apprentissage fulgurant",
+        "effect": "Une fois par scénario, réduit de 2 XP le coût d’une hausse de Compétence réellement pratiquée ou entraînée pendant ce scénario, minimum 1 XP.",
+        "category": "common"
+      }
+    ],
+    "expertise": [
+      {
+        "id": "athlete",
+        "name": "Athlète",
+        "effect": "+1 Athlétisme. En opposition purement athlétique, une égalité peut être départagée à son avantage lorsque l’entraînement constitue la différence.",
+        "category": "expertise",
+        "attribute": "vigueur",
+        "skill": "athletisme",
+        "prerequisite": null
+      },
+      {
+        "id": "poings_de_fer",
+        "name": "Poings de fer",
+        "effect": "+1 Pugilat. Les attaques à mains nues ont DGT 2 au lieu de 1.",
+        "category": "expertise",
+        "attribute": "vigueur",
+        "skill": "pugilat",
+        "prerequisite": null
+      },
+      {
+        "id": "stabilite_augmentique",
+        "name": "Stabilité augmentique",
+        "effect": "+1 Humanité. Le Stress augmentique de base total est réduit de 1, minimum 0.",
+        "category": "expertise",
+        "attribute": "vigueur",
+        "skill": "humanite",
+        "prerequisite": null
+      },
+      {
+        "id": "maitre_des_lames",
+        "name": "Maître des lames",
+        "effect": "+1 Mêlée lorsqu’il utilise une lame. Sur marge 6+, une Altération cohérente peut laisser une plaie ouverte persistante jusqu’à un soin approprié.",
+        "category": "expertise",
+        "attribute": "vigueur",
+        "skill": "melee",
+        "prerequisite": null
+      },
+      {
+        "id": "resistance_aux_toxines",
+        "name": "Résistance aux toxines",
+        "effect": "+2 Constitution contre poisons, drogues, toxines et substances similaires.",
+        "category": "expertise",
+        "attribute": "vigueur",
+        "skill": "constitution",
+        "prerequisite": null
+      },
+      {
+        "id": "tireur_de_precision",
+        "name": "Tireur de précision",
+        "effect": "+1 Tir. Avec Viser et une Altération, la localisation annoncée s’applique si elle est physiquement possible.",
+        "category": "expertise",
+        "attribute": "agilite",
+        "skill": "tir",
+        "prerequisite": null
+      },
+      {
+        "id": "pilote_emerite",
+        "name": "Pilote émérite",
+        "effect": "+1 Pilotage. Gagne les égalités d’opposition lorsque la maîtrise du véhicule est réellement déterminante.",
+        "category": "expertise",
+        "attribute": "agilite",
+        "skill": "pilotage",
+        "prerequisite": null
+      },
+      {
+        "id": "ombre_vivante",
+        "name": "Ombre vivante",
+        "effect": "+1 Furtivité. +2 lorsqu’il vient de rompre la ligne de vue et exploite immédiatement un environnement permettant de disparaître.",
+        "category": "expertise",
+        "attribute": "agilite",
+        "skill": "furtivite",
+        "prerequisite": null
+      },
+      {
+        "id": "reflexes_defensifs",
+        "name": "Réflexes défensifs",
+        "effect": "+1 Esquive. Peut défendre activement si le temps de réaction est la principale difficulté, sans supprimer une vraie Surprise.",
+        "category": "expertise",
+        "attribute": "agilite",
+        "skill": "esquive",
+        "prerequisite": null
+      },
+      {
+        "id": "mains_lestes",
+        "name": "Mains lestes",
+        "effect": "+1 Larcin. +2 pour pickpocket, manipulation discrète ou dissimulation d’un petit objet.",
+        "category": "expertise",
+        "attribute": "agilite",
+        "skill": "larcin",
+        "prerequisite": null
+      },
+      {
+        "id": "linguiste_emerite",
+        "name": "Linguiste émérite",
+        "effect": "+1 Langages & Argot. Peut déduire le sens général d’une langue inconnue apparentée à une langue connue.",
+        "category": "expertise",
+        "attribute": "esprit",
+        "skill": "langages_argot",
+        "prerequisite": null
+      },
+      {
+        "id": "puits_de_savoir",
+        "name": "Puits de savoir",
+        "effect": "+1 Savoirs. Choisir un grand domaine de connaissance ; peut y effectuer des recherches spécialisées.",
+        "category": "expertise",
+        "attribute": "esprit",
+        "skill": "savoirs",
+        "prerequisite": null
+      },
+      {
+        "id": "doc_de_choc",
+        "name": "Doc de choc",
+        "effect": "+1 Soin. Les Premiers soins réussis rendent +1 PV supplémentaire.",
+        "category": "expertise",
+        "attribute": "esprit",
+        "skill": "soin",
+        "prerequisite": null
+      },
+      {
+        "id": "mecano_de_pointe",
+        "name": "Mécano de pointe",
+        "effect": "+1 Mécanique. Diagnostic, démontage et compréhension d’une machine accessible demandent environ deux fois moins de temps.",
+        "category": "expertise",
+        "attribute": "esprit",
+        "skill": "mecanique",
+        "prerequisite": null
+      },
+      {
+        "id": "detective",
+        "name": "Détective",
+        "effect": "+1 Investigation. Sur DR 2+, une enquête réussie révèle normalement un détail ou lien supplémentaire pertinent lorsque la scène en contient un.",
+        "category": "expertise",
+        "attribute": "esprit",
+        "skill": "investigation",
+        "prerequisite": null
+      },
+      {
+        "id": "stable",
+        "name": "Stable",
+        "effect": "+1 Maîtrise spirituelle lorsqu’il s’agit de Stress, choc, panique ou maintien du sang-froid.",
+        "category": "expertise",
+        "attribute": "volonte",
+        "skill": "maitrise_spirituelle",
+        "prerequisite": null
+      },
+      {
+        "id": "sens_accru_x",
+        "name": "Sens accru (X)",
+        "effect": "Choisir vue, ouïe, odorat, toucher ou goût. +2 Perception lorsque ce sens précis est déterminant.",
+        "category": "expertise",
+        "attribute": "volonte",
+        "skill": "perception",
+        "prerequisite": null
+      },
+      {
+        "id": "maitre_de_la_survie",
+        "name": "Maître de la survie",
+        "effect": "+1 Survie. Lorsque les ressources existent réellement et qu’il dispose de temps, trouve généralement nourriture, eau ou abri sans test inutile.",
+        "category": "expertise",
+        "attribute": "volonte",
+        "skill": "survie",
+        "prerequisite": null
+      },
+      {
+        "id": "mental_dacier",
+        "name": "Mental d’acier",
+        "effect": "+1 Force Mentale. +2 contre interrogatoire, pression psychologique ou tentative profane de briser sa volonté ; prendre le meilleur bonus applicable.",
+        "category": "expertise",
+        "attribute": "volonte",
+        "skill": "force_mentale",
+        "prerequisite": null
+      },
+      {
+        "id": "neurodriver",
+        "name": "Neurodriver",
+        "effect": "Prérequis Neurodive 1+. +1 aux tests de Neurodive et +1 Neuroprogramme chargé. Ne modifie jamais le Rang Neurodive.",
+        "category": "expertise",
+        "attribute": "volonte",
+        "skill": "neurodive",
+        "prerequisite": "neurodive_1"
+      },
+      {
+        "id": "seducteur_seductrice",
+        "name": "Séducteur / Séductrice",
+        "effect": "+1 Séduction. Après une interaction suffisamment longue et réussie, distingue généralement attirance sincère, indifférence et séduction intéressée.",
+        "category": "expertise",
+        "attribute": "charisme",
+        "skill": "seduction",
+        "prerequisite": null
+      },
+      {
+        "id": "diplomate",
+        "name": "Diplomate",
+        "effect": "+1 Diplomatie. Après quelques échanges, identifie le principal point de blocage déclaré d’une négociation.",
+        "category": "expertise",
+        "attribute": "charisme",
+        "skill": "diplomatie",
+        "prerequisite": null
+      },
+      {
+        "id": "maitre_du_troc",
+        "name": "Maître du Troc",
+        "effect": "+1 Commerce. Une réussite permet normalement d’obtenir une condition commerciale légèrement meilleure.",
+        "category": "expertise",
+        "attribute": "charisme",
+        "skill": "commerce",
+        "prerequisite": null
+      },
+      {
+        "id": "artiste",
+        "name": "Artiste",
+        "effect": "+1 Représentation. Une représentation réussie peut créer une circonstance favorable (+3) lors d’une interaction ultérieure directement influencée.",
+        "category": "expertise",
+        "attribute": "charisme",
+        "skill": "representation",
+        "prerequisite": null
+      },
+      {
+        "id": "autorite_naturelle",
+        "name": "Autorité naturelle",
+        "effect": "+1 Autorité. +2 pour donner immédiatement une consigne simple à un groupe qui reconnaît déjà une légitimité au personnage.",
+        "category": "expertise",
+        "attribute": "charisme",
+        "skill": "autorite",
+        "prerequisite": null
+      }
+    ]
   }
 } as const;
 
