@@ -34,6 +34,8 @@ const props=defineProps<{
   lifestyleBase:string;
   lifestyleEffective:string;
   account:number;
+  renownScore:number;
+  campaignCash:number;
   equipmentCount:number;
   augmentationCount:number;
 }>();
@@ -159,7 +161,7 @@ function setContacts(value:string){
           ></textarea>
         </label>
         <label>
-          Milieu de Renommée
+          Milieu de Renommée · score {{ renownScore }}
           <input
             :value="renownMilieu"
             placeholder="Milieu, scène, réseau ou institution concernée"
@@ -223,6 +225,7 @@ function setContacts(value:string){
           <span>Train de vie : <strong>{{ lifestyleBase }}</strong></span>
           <span v-if="lifestyleEffective!==lifestyleBase">Après charges : <strong>{{ lifestyleEffective }}</strong></span>
           <span>Compte de création restant : <strong>{{ account.toLocaleString("fr-FR") }} $</strong></span>
+          <span>Solde de campagne : <strong>{{ campaignCash.toLocaleString("fr-FR") }} $</strong></span>
           <span>Équipement : {{ equipmentCount }} · Augmentations : {{ augmentationCount }}</span>
         </section>
         <section>
