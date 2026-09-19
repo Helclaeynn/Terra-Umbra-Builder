@@ -638,17 +638,23 @@ async function loadCorpus(): Promise<Corpus> {
      FROM compendium_custom_articles
      WHERE is_published = true`
   );
+  const customArticleIds = new Set<string>();
   for (const row of customArticles.rows) {
     if (!row.baseDocument?.id || byId.has(row.articleId)) continue;
     const article = deepClone(row.baseDocument);
     article.dataset = "custom";
-    article.__customWikiPage = true;
     byId.set(row.articleId, article);
+    customArticleIds.add(row.articleId);
   }
 
   const editorBaseById = new Map<string, { hash: string; article: Article }>();
   for (const [id, article] of byId) {
     editorBaseById.set(id, { hash: articleHash(article), article: deepClone(article) });
+  }
+
+  for (const id of customArticleIds) {
+    const article = byId.get(id);
+    if (article) article.__customWikiPage = true;
   }
 
   let databaseEditApplied = 0;
