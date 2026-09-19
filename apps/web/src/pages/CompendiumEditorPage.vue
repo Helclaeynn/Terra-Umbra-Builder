@@ -399,7 +399,7 @@ async function load() {
       conflict: boolean;
       draftUpdatedAt: string | null;
       publishedAt: string | null;
-    }>(`/api/compendium/editor/articles/${encodeURIComponent(pageId.value)}`);
+    }>(`/api/compendium/editor/articles/${encodeURIComponent(id.value)}`);
 
     pageId.value = id.value;
     article.value = clone(payload.draft ?? payload.article);
@@ -854,6 +854,39 @@ Encore du texte.
   background:rgba(13,12,10,.97); box-shadow:0 -10px 35px rgba(0,0,0,.25);
 }
 .editor-actions .spacer { flex:1; }
+.editor-hint { margin:.25rem 0; color:#817a70; font-size:.78rem; line-height:1.5; }
+.wiki-source-card { padding:0; overflow:hidden; }
+.wiki-toolbar {
+  display:flex; gap:.4rem; flex-wrap:wrap; align-items:center;
+  padding:.65rem; border-bottom:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.02); position:sticky; top:72px; z-index:5;
+}
+.wiki-toolbar button {
+  min-width:38px; padding:.42rem .58rem; border:1px solid rgba(255,255,255,.1);
+  background:transparent; color:#aaa397;
+}
+.wiki-toolbar button:hover { border-color:#9d7c48; color:#e1c995; }
+.wiki-source {
+  display:block; width:100%; min-height:62vh; resize:vertical; box-sizing:border-box;
+  border:0; border-radius:0; padding:1.2rem; outline:none;
+  background:rgba(8,8,7,.35); color:#d1c9bd;
+  font:400 .98rem/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;
+}
+.wiki-source:focus { box-shadow:inset 0 0 0 1px rgba(157,124,72,.35); }
+.syntax-help {
+  display:flex; flex-wrap:wrap; gap:.75rem; padding:.7rem 1rem;
+  border-top:1px solid rgba(255,255,255,.07); color:#777169; font-size:.7rem;
+}
+.syntax-help code { color:#bba77e; }
+.editor-preview-column h3,.editor-preview-column h4 {
+  font-family:Georgia,serif; font-weight:500; margin:1.1rem 0 .45rem;
+}
+.editor-preview-column p.callout {
+  padding:.8rem; border-left:3px solid #806a48; background:rgba(128,106,72,.08);
+}
+.editor-preview-column .mj-preview {
+  padding:.8rem; border:1px solid rgba(175,110,92,.3); background:rgba(84,43,30,.08);
+}
 @media (max-width:1000px) {
   .wiki-editor-grid { grid-template-columns:1fr; }
   .editor-preview-column { position:static; max-height:none; }
