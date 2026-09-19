@@ -174,12 +174,14 @@ export async function resolveCompendiumId(
 }
 
 
-function hubLabelForms(label: string): string[] {
+type HubLabelForm = { value: string; depth: number };
+
+function hubLabelForms(label: string): HubLabelForm[] {
   const raw = String(label ?? "").trim();
   if (!raw) return [];
 
-  const forms = new Set<string>();
-  const push = (value: string) => {
+  const forms = new Map<string, number>();
+  const push = (value: string, depth: number) => {
     const cleaned = value
       .replace(/\s+[—-]\s+\d+\s*PTV\b/gi, "")
       .replace(/^Facette\s*:\s*/i, "")
@@ -188,14 +190,19 @@ function hubLabelForms(label: string): string[] {
       .replace(/\s+[—-]\s+Talents? de Lignée\s*$/i, "")
       .trim();
     const normalized = norm(cleaned);
-    if (normalized.length >= 4) forms.add(normalized);
+    if (normalized.length < 4) return;
+    forms.set(normalized, Math.max(forms.get(normalized) ?? 0, depth));
   };
 
-  push(raw);
-  for (const segment of raw.split(/\s*›\s*/)) push(segment);
+  const segments = raw.split(/\s*›\s*/).filter(Boolean);
+  push(raw, segments.length + 1);
+  segments.forEach((segment, index) => push(segment, index + 1));
 
-  if (/\bcommun(?:e|s)?\b/i.test(raw)) push("Talents communs");
-  return [...forms].sort((a, b) => b.length - a.length);
+  if (/\bcommun(?:e|s)?\b/i.test(raw)) push("Talents communs", segments.length + 2);
+
+  return [...forms.entries()]
+    .map(([value, depth]) => ({ value, depth }))
+    .sort((a, b) => b.depth - a.depth || b.value.length - a.value.length);
 }
 
 function articleMatchesNatureHub(articleId: string, natureId: string): boolean {
@@ -233,11 +240,15 @@ export async function findCompendiumHubMatches(
 
       let score = 0;
       for (const form of forms) {
+        const depthBonus = form.depth * 1000;
         for (const candidate of labels) {
-          if (candidate === form) score = Math.max(score, 10000 + form.length);
-          else if (candidate.includes(form)) score = Math.max(score, 5000 + form.length);
-          else if (form.includes(candidate) && candidate.length >= 7) {
-            score = Math.max(score, 4000 + candidate.length);
+          if (candidate === form.value) {
+            score = Math.max(score, 100000 + depthBonus + form.value.length);
+          } else if (candidate.includes(form.value)) {
+            const extra = Math.max(0, candidate.length - form.value.length);
+            score = Math.max(score, 50000 + depthBonus + form.value.length - extra);
+          } else if (form.value.includes(candidate) && candidate.length >= 7) {
+            score = Math.max(score, 40000 + depthBonus + candidate.length);
           }
         }
       }
