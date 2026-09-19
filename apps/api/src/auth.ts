@@ -20,7 +20,8 @@ export type PublicUser = {
   lastLoginAt: string | null;
 };
 
-const SESSION_COOKIE = "tuc_session";
+const SESSION_COOKIE = "__Host-tuc_session";
+const LEGACY_SESSION_COOKIE = "tuc_session";
 const SESSION_TTL_DAYS = Number(process.env.SESSION_TTL_DAYS ?? 30);
 const SCRYPT_N = 32768;
 const SCRYPT_R = 8;
@@ -109,13 +110,10 @@ export function hashSessionToken(token: string): string {
   return createHash("sha256").update(token).digest("hex");
 }
 
-export function readSessionToken(request: FastifyRequest): string | null {
-  const raw = request.headers.cookie;
-  if (!raw) return null;
-
+function cookieValue(raw: string, name: string): string | null {
   for (const part of raw.split(";")) {
-    const [name, ...rest] = part.trim().split("=");
-    if (name === SESSION_COOKIE) {
+    const [cookieName, ...rest] = part.trim().split("=");
+    if (cookieName === name) {
       const value = rest.join("=");
       return value || null;
     }
@@ -124,33 +122,53 @@ export function readSessionToken(request: FastifyRequest): string | null {
   return null;
 }
 
-export function setSessionCookie(reply: FastifyReply, token: string): void {
-  const maxAge = Math.max(1, Math.floor(SESSION_TTL_DAYS * 24 * 60 * 60));
-  reply.header(
-    "Set-Cookie",
-    [
-      `${SESSION_COOKIE}=${token}`,
-      "Path=/",
-      "HttpOnly",
-      "Secure",
-      "SameSite=Strict",
-      `Max-Age=${maxAge}`
-    ].join("; ")
+export function readSessionToken(request: FastifyRequest): string | null {
+  const raw = request.headers.cookie;
+  if (!raw) return null;
+
+  return (
+    cookieValue(raw, SESSION_COOKIE) ??
+    cookieValue(raw, LEGACY_SESSION_COOKIE)
   );
 }
 
+function sessionCookie(token: string, maxAge: number): string {
+  return [
+    `${SESSION_COOKIE}=${token}`,
+    "Path=/",
+    "HttpOnly",
+    "Secure",
+    "SameSite=Strict",
+    `Max-Age=${maxAge}`
+  ].join("; ");
+}
+
+function expiredCookie(name: string): string {
+  return [
+    `${name}=`,
+    "Path=/",
+    "HttpOnly",
+    "Secure",
+    "SameSite=Strict",
+    "Max-Age=0",
+    "Expires=Thu, 01 Jan 1970 00:00:00 GMT"
+  ].join("; ");
+}
+
+export function setSessionCookie(reply: FastifyReply, token: string): void {
+  const maxAge = Math.max(1, Math.floor(SESSION_TTL_DAYS * 24 * 60 * 60));
+
+  reply.raw.setHeader("Set-Cookie", [
+    sessionCookie(token, maxAge),
+    expiredCookie(LEGACY_SESSION_COOKIE)
+  ]);
+}
+
 export function clearSessionCookie(reply: FastifyReply): void {
-  reply.header(
-    "Set-Cookie",
-    [
-      `${SESSION_COOKIE}=`,
-      "Path=/",
-      "HttpOnly",
-      "Secure",
-      "SameSite=Strict",
-      "Max-Age=0"
-    ].join("; ")
-  );
+  reply.raw.setHeader("Set-Cookie", [
+    expiredCookie(SESSION_COOKIE),
+    expiredCookie(LEGACY_SESSION_COOKIE)
+  ]);
 }
 
 export async function createSession(
@@ -182,6 +200,10 @@ export async function destroySession(token: string | null): Promise<void> {
   await pool.query("DELETE FROM sessions WHERE token_hash = $1", [
     hashSessionToken(token)
   ]);
+}
+
+export async function destroyUserSessions(userId: string): Promise<void> {
+  await pool.query("DELETE FROM sessions WHERE user_id = $1", [userId]);
 }
 
 export async function currentUser(

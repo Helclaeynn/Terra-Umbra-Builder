@@ -7,6 +7,7 @@ import {
   createSession,
   currentUser,
   destroySession,
+  destroyUserSessions,
   hashPassword,
   hashSessionToken,
   normalizeEmail,
@@ -99,7 +100,7 @@ async function loadUser(id: string) {
 app.get("/api/health", async () => ({
   status: "ok",
   service: "tuc-api",
-  version: "0.4.0"
+  version: "0.4.1"
 }));
 
 app.get("/api/ready", async (_request, reply) => {
@@ -122,7 +123,7 @@ app.get("/api/ready", async (_request, reply) => {
 app.get("/api", async () => ({
   name: "Terra Umbra API",
   status: "online",
-  version: "0.4.0"
+  version: "0.4.1"
 }));
 
 app.get("/api/auth/setup-status", async () => ({
@@ -431,7 +432,15 @@ app.post<{
 });
 
 app.post("/api/auth/logout", async (request, reply) => {
-  await destroySession(readSessionToken(request));
+  const token = readSessionToken(request);
+  const user = await currentUser(request);
+
+  if (user) {
+    await destroyUserSessions(user.id);
+  } else {
+    await destroySession(token);
+  }
+
   clearSessionCookie(reply);
   return { ok: true };
 });
