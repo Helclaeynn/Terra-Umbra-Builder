@@ -546,6 +546,12 @@ jobs:
                   "blocks":[{"type":"p","text":"Page créée automatiquement pour le smoke wiki. Les Garous servent d’interlink de contrôle."}]
               },
               {
+                  "id":"talents",
+                  "title":"Talents dynamiques",
+                  "level":2,
+                  "blocks":[{"type":"p","text":"{{Talents|ids=faveur_de_la_nuit,sens_du_chasseur}}"}]
+              },
+              {
                   "id":"mj",
                   "title":"Secrets MJ",
                   "level":2,
@@ -625,6 +631,7 @@ jobs:
           test -n "$CHROME_BIN"
           TUC_V2_SMOKE_BASE_URL='https://dev.terra-umbra.fr' \
             TUC_SESSION_TOKEN="$SESSION_TOKEN" \
+            TUC_DYNAMIC_TALENT_ARTICLE="$COMPENDIUM_NEW_ID" \
             CHROME_BIN="$CHROME_BIN" \
             node apps/web/tests/compendium-wiki-live-smoke.mjs
 
