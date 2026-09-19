@@ -892,7 +892,7 @@ onBeforeUnmount(() => {
         {{ libraryNotice }}
       </div>
 
-      <template>
+      <template v-if="true">
         <section class="panel compendium-search">
           <form @submit.prevent="search">
             <label>
