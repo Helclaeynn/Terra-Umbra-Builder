@@ -142,6 +142,119 @@ jobs:
           done
           exit 1
 
+      - name: Character V2 smoke test
+        if: steps.deployment.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          TEST_ID="$(date +%s)-$"
+          TEST_EMAIL="ci-character-$TEST_ID@example.invalid"
+          TEST_PASSWORD="Tuc-CI-$TEST_ID!Aa9"
+          COOKIE_JAR="$(mktemp)"
+          IMPORT_BODY="$(mktemp)"
+          IMPORT_RESPONSE="$(mktemp)"
+          CURRENT_RESPONSE="$(mktemp)"
+          PATCH_BODY="$(mktemp)"
+          PATCH_RESPONSE="$(mktemp)"
+
+          cleanup() {
+            rm -f "$COOKIE_JAR" "$IMPORT_BODY" "$IMPORT_RESPONSE" "$CURRENT_RESPONSE" "$PATCH_BODY" "$PATCH_RESPONSE"
+            ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST"               "cd /opt/terra-umbra/infrastructure && set -a && . ./.env && set +a && docker compose --env-file .env exec -T db psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -c \"DELETE FROM users WHERE email = '$TEST_EMAIL';\""               </dev/null >/dev/null 2>&1 || true
+          }
+          trap cleanup EXIT
+
+          REGISTER_PAYLOAD="$(printf '{"displayName":"CI Character","email":"%s","password":"%s","passwordConfirmation":"%s"}' "$TEST_EMAIL" "$TEST_PASSWORD" "$TEST_PASSWORD")"
+          curl --fail --silent --show-error             -c "$COOKIE_JAR"             -H 'Content-Type: application/json'             -d "$REGISTER_PAYLOAD"             https://dev.terra-umbra.fr/api/auth/register >/dev/null
+
+          cat > "$IMPORT_BODY" <<'JSON'
+          {
+            "data": {
+              "schemaVersion": 1,
+              "rulesetId": "terra-umbra",
+              "identity": {
+                "name": "CI V1 Import",
+                "age": "31",
+                "concept": "Smoke import"
+              },
+              "attributes": {
+                "vigueur": 4,
+                "agilite": 5,
+                "esprit": 3,
+                "volonte": 4,
+                "charisme": 6
+              },
+              "skills": {
+                "tir": {
+                  "style": 1,
+                  "free": 2,
+                  "edge": 1,
+                  "raw": 99,
+                  "final": 99
+                }
+              },
+              "derived": {
+                "pvMax": 999
+              },
+              "validation": {
+                "finish": true
+              }
+            }
+          }
+          JSON
+
+          curl --fail --silent --show-error             -b "$COOKIE_JAR"             -H 'Content-Type: application/json'             -d @"$IMPORT_BODY"             https://dev.terra-umbra.fr/api/characters/import-v1 > "$IMPORT_RESPONSE"
+
+          read -r CHARACTER_ID CHARACTER_VERSION < <(
+            python3 - "$IMPORT_RESPONSE" <<'PY'
+          import json,sys
+          data=json.load(open(sys.argv[1],encoding="utf-8"))["character"]
+          print(data["id"],data["version"])
+          PY
+          )
+          test "$CHARACTER_VERSION" = "1"
+
+          curl --fail --silent --show-error             -b "$COOKIE_JAR"             "https://dev.terra-umbra.fr/api/characters/$CHARACTER_ID" > "$CURRENT_RESPONSE"
+
+          python3 - "$CURRENT_RESPONSE" <<'PY'
+          import json,sys
+          character=json.load(open(sys.argv[1],encoding="utf-8"))["character"]
+          data=character["data"]
+          assert data["schemaVersion"] == 2, data
+          assert data["rulesetId"] == "terra-umbra", data
+          assert data["identity"]["name"] == "CI V1 Import", data
+          assert data["meta"]["importedFrom"] == "v1-json", data
+          assert data["skills"]["tir"] == {"style":1,"free":2,"edge":1}, data["skills"]["tir"]
+          assert "derived" not in data, data.keys()
+          assert "validation" not in data, data.keys()
+          PY
+
+          python3 - "$CURRENT_RESPONSE" "$PATCH_BODY" <<'PY'
+          import json,sys
+          character=json.load(open(sys.argv[1],encoding="utf-8"))["character"]
+          character["data"]["identity"]["name"]="CI Native Save"
+          payload={
+            "name":"CI Native Save",
+            "version":character["version"],
+            "data":character["data"]
+          }
+          json.dump(payload,open(sys.argv[2],"w",encoding="utf-8"),ensure_ascii=False)
+          PY
+
+          curl --fail --silent --show-error             -b "$COOKIE_JAR"             -X PATCH             -H 'Content-Type: application/json'             -d @"$PATCH_BODY"             "https://dev.terra-umbra.fr/api/characters/$CHARACTER_ID" > "$PATCH_RESPONSE"
+
+          python3 - "$PATCH_RESPONSE" <<'PY'
+          import json,sys
+          character=json.load(open(sys.argv[1],encoding="utf-8"))["character"]
+          assert character["version"] == 2, character
+          assert character["name"] == "CI Native Save", character
+          assert character["data"]["identity"]["name"] == "CI Native Save", character
+          PY
+
+          curl --fail --silent --show-error             "https://dev.terra-umbra.fr/characters/$CHARACTER_ID/builder" | grep -q 'id="app"'
+
+          echo "Character V2 smoke OK"
+
       - name: Auth logout smoke test
         if: steps.deployment.outputs.enabled == 'true'
         shell: bash
