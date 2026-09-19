@@ -325,7 +325,14 @@ function buildRealityRules(){
 
   return {
     source:{
-      equipment:String(catalog.source??current.manifest&&typeof current.manifest==="object"?(current.manifest as AnyRecord).source??"":""),
+      equipment:String(
+        catalog.source ??
+        (
+          current.manifest&&typeof current.manifest==="object"
+            ? (current.manifest as AnyRecord).source??""
+            : ""
+        )
+      ),
       version:String(catalog.version??""),
       mergedLoreFiles:existsSync(path.join(root,"lore"))?readdirSync(path.join(root,"lore")).filter(name=>name.endsWith(".json")).length:0
     },
