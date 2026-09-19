@@ -623,8 +623,10 @@ const socialValidation=computed(()=>{
   const languages=socialLanguages();
   const languageOk=languages.length===requiredLanguageCount.value&&languages.every(value=>value.trim().length>0);
   const crawler=draft.value.creation.sphere!=="crawler"||socialContacts().some(value=>value.trim().length>0);
-  const support=String(draft.value.reality.sphereSupportDetail??"").trim();
-  const corporatiste=draft.value.creation.sphere!=="corporatiste"||support.length>0;
+  const supportType=String(draft.value.reality.sphereSupportType??"");
+  const supportItem=String(draft.value.reality.sphereSupportItemId??"");
+  const corporatiste=draft.value.creation.sphere!=="corporatiste"||
+    (["housing","vehicle"].includes(supportType)&&supportItem.length>0);
   return {languages:languageOk,crawler,corporatiste};
 });
 
@@ -664,6 +666,14 @@ const equipmentValidation=computed(()=>{
 
   const loadedNeuro=state.equipment.filter(p=>itemMap.get(p.itemId)?.neuro&&p.loaded).length;
   if(loadedNeuro>neuroCapacity(skillRaw("neurodive"),selectedRealityTalentIds(),draft.value.disadvantages))return false;
+  if(draft.value.creation.sphere==="corporatiste"){
+    if(!["housing","vehicle"].includes(state.sphereSupportType)||!state.sphereSupportItemId)return false;
+    if(state.sphereSupportType==="housing"){
+      if(!state.fixedChargeItems.some(charge=>charge.sphereSupport&&charge.sourceItemId===state.sphereSupportItemId&&charge.monthly===0))return false;
+    }else if(!state.equipment.some(purchase=>purchase.sphereSupport&&purchase.itemId===state.sphereSupportItemId&&Number(purchase.selectedPrice)===0)){
+      return false;
+    }
+  }
   const load=augmentationLoadValue.value;
   return load.charge<=derivedStats.value.integrity&&load.stress<=derivedStats.value.augmentStressMax;
 });
@@ -2285,9 +2295,7 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
           v-else-if="activeStep === 'finish'"
           class="panel builder-card"
           :social="draft.social"
-          :reality="draft.reality"
           :sphere-id="draft.creation.sphere"
-          :sphere-support="selectedSphere?.support || ''"
           :required-language-count="requiredLanguageCount"
           :statuses="finalValidationStatuses"
           :valid="stepDone('finish')"
@@ -2313,7 +2321,6 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
           :equipment-count="equipmentCount"
           :augmentation-count="augmentationCount"
           @update:social="draft.social=$event"
-          @update:reality="draft.reality=$event"
           @navigate="navigateFromFinalization"
         />
 
