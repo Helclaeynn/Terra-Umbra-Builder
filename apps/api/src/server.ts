@@ -37,8 +37,19 @@ await app.register(cors, {
 });
 
 app.addHook("onSend", async (request, reply, payload) => {
+  const privateCompendium =
+    request.url.startsWith("/api/compendium/library") ||
+    request.url.startsWith("/api/compendium/favorites") ||
+    request.url.startsWith("/api/compendium/collections") ||
+    request.url.startsWith("/api/compendium/editor");
+
   if (request.url.startsWith("/api/compendium/media/")) {
-    reply.header("Cache-Control", "private, max-age=86400");
+    reply.header("Cache-Control", "public, max-age=86400");
+    return payload;
+  }
+
+  if (request.url.startsWith("/api/compendium/") && !privateCompendium) {
+    reply.header("Cache-Control", "public, max-age=60");
     return payload;
   }
 
@@ -46,7 +57,7 @@ app.addHook("onSend", async (request, reply, payload) => {
     request.url.startsWith("/api/auth/") ||
     request.url.startsWith("/api/admin/") ||
     request.url.startsWith("/api/characters") ||
-    request.url.startsWith("/api/compendium")
+    privateCompendium
   ) {
     reply.header("Cache-Control", "no-store, private");
     reply.header("Pragma", "no-cache");
