@@ -1,3 +1,8 @@
+const V2_CHARACTER_ID=String(window.__TUC_V2_CHARACTER_ID__||'');
+const localStorage=V2_CHARACTER_ID
+  ? {getItem:()=>null,setItem:()=>{},removeItem:()=>{}}
+  : window.localStorage;
+
 const ROOT='./rulesets/terra-umbra';
 const IDS=['corporatiste','gouvernementale','mafieuse','crawler','religieuse'];
 const TRUTH_IDS=['humain','vampire','garou','khinae','mage','daemon','angelus','aseryn','exile','extral'];
