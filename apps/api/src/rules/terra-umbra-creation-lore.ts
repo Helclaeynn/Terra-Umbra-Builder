@@ -339,7 +339,8 @@ export const terraUmbraRealitySkillTalentMap = {
   diplomate:"diplomatie",
   maitre_du_troc:"commerce",
   artiste:"representation",
-  autorite_naturelle:"autorite"
+  autorite_naturelle:"autorite",
+  discipline_de_foi:"maitrise_spirituelle"
 } as const;
 
 export type TerraUmbraCreationLore = typeof terraUmbraCreationLore;
