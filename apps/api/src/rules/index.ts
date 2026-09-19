@@ -426,7 +426,12 @@ export async function registerRulesRoutes(app:FastifyInstance){
 
   app.get<{Params:{id:string}}>("/api/compendium/builder-usage/:id", async (request)=>{
     const id=String(request.params.id??"").trim();
-    return {articleId:id,usage:id?await builderUsageFor(id):[]};
+    if(!id)return {articleId:id,usage:[],sources:[]};
+    const [usage,sources]=await Promise.all([
+      builderUsageFor(id),
+      builderSourceFor(id)
+    ]);
+    return {articleId:id,usage,sources};
   });
 
   app.get("/api/compendium/editor/builder-coverage", async (request,reply)=>{
