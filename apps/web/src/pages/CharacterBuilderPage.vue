@@ -24,7 +24,6 @@ import {
   realityLifestyleBase,
   realityPriceSpec,
   lifestylePressure,
-  type RealityItem,
   type RealityRulesPackage
 } from "../lib/reality";
 import type { Character, CharacterDataV2 } from "../types/character";
@@ -2252,6 +2251,7 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
           :sphere-id="draft.creation.sphere"
           :integrity="derivedStats.integrity"
           :augment-stress-max="derivedStats.augmentStressMax"
+          :valid="equipmentValidation"
           @update:model-value="draft.reality=$event"
         />
 
@@ -2316,11 +2316,11 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
         />
 
         <article v-else class="panel builder-card">
-          <p class="eyebrow">RECONSTRUCTION V2</p>
-          <h2>Bloc suivant</h2>
+          <p class="eyebrow">BUILDER V2</p>
+          <h2>Bloc indisponible</h2>
           <p class="builder-intro">
-            Ce bloc sera reconstruit nativement dans la V2. Les données éventuellement
-            importées de la V1 restent conservées en base pendant la migration.
+            Le bloc demandé n’a pas pu être initialisé. Recharge la fiche ; si le problème
+            persiste, le message d’erreur affiché en haut du Builder permettra de l’identifier.
           </p>
         </article>
       </section>
