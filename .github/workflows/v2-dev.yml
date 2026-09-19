@@ -175,6 +175,7 @@ jobs:
               "identity": {
                 "name": "CI V1 Import",
                 "age": "31",
+                "activity": "Journaliste",
                 "concept": "Smoke import"
               },
               "attributes": {
@@ -223,6 +224,9 @@ jobs:
           assert data["schemaVersion"] == 2, data
           assert data["rulesetId"] == "terra-umbra", data
           assert data["identity"]["name"] == "CI V1 Import", data
+          assert data["identity"]["firstName"] == "", data
+          assert data["identity"]["occupation"] == "Journaliste", data
+          assert "activity" not in data["identity"], data["identity"]
           assert data["meta"]["importedFrom"] == "v1-json", data
           assert data["skills"]["tir"] == {"style":1,"free":2,"edge":1}, data["skills"]["tir"]
           assert "derived" not in data, data.keys()
