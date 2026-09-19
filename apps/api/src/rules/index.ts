@@ -6,7 +6,7 @@ import { terraUmbraDisadvantages, terraUmbraDisadvantageLore, terraUmbraEdgeRule
 import { terraUmbraTruthRules } from "./truth/rules.js";
 import { getRealityRules } from "./reality.js";
 import { findCompendiumMatches, resolveCompendiumId } from "../compendium.js";
-import { queryTalentRegistry, talentRegistryMeta } from "./talent-registry.js";
+import { getTalentRegistry, queryTalentRegistry, talentRegistryMeta } from "./talent-registry.js";
 
 type NamedEntry={name?:string;compendiumId?:string|null;[key:string]:unknown};
 
@@ -485,5 +485,27 @@ export async function registerRulesRoutes(app:FastifyInstance){
 
   app.get("/api/compendium/talents/meta", async ()=>{
     return talentRegistryMeta();
+  });
+
+  app.get("/api/compendium/editor/talent-hub-audit", async (request,reply)=>{
+    const user=await requireEditorUser(request,reply);
+    if(!user)return;
+    const meta=talentRegistryMeta();
+    const groups=await Promise.all(meta.groups.map(async group=>{
+      const matches=await findCompendiumMatches(group.label);
+      return {...group,matches};
+    }));
+    const natures=await Promise.all(meta.natures.map(async natureId=>{
+      const rows=getTalentRegistry().filter(row=>row.natureId===natureId);
+      return {natureId,count:rows.length};
+    }));
+    return {
+      totalTalents:meta.total,
+      exactGroupMatches:groups.filter(group=>group.matches.length===1).length,
+      ambiguousGroupMatches:groups.filter(group=>group.matches.length>1).length,
+      missingGroupMatches:groups.filter(group=>group.matches.length===0).length,
+      groups,
+      natures
+    };
   });
 }
