@@ -657,34 +657,42 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
                 <label>
                   Nom
                   <input v-model="draft.identity.name" maxlength="120" />
+                  <small class="field-help">Le nom principal sous lequel le personnage est identifié.</small>
                 </label>
                 <label>
                   Prénom
                   <input v-model="draft.identity.firstName" maxlength="120" />
+                  <small class="field-help">Le prénom courant du personnage.</small>
                 </label>
                 <label>
                   Alias
                   <input v-model="draft.identity.alias" />
+                  <small class="field-help">Surnom, indicatif, nom de scène, pseudonyme de réseau ou identité utilisée dans certains milieux.</small>
                 </label>
                 <label>
                   Occupation
                   <input v-model="draft.identity.occupation" />
+                  <small class="field-help">Ce que le personnage fait aujourd’hui ; la Sphère et le Style préciseront son milieu et sa pratique de départ.</small>
                 </label>
                 <label>
                   Âge
                   <input v-model="draft.identity.age" />
+                  <small class="field-help">Âge réel, légal ou apparent si cela a du sens pour le concept.</small>
                 </label>
                 <label>
                   Sexe
                   <input v-model="draft.identity.sex" />
+                  <small class="field-help">Information descriptive sans conséquence mécanique.</small>
                 </label>
                 <label>
                   Taille
                   <input v-model="draft.identity.height" />
+                  <small class="field-help">Information descriptive ; gardez l’unité qui vous convient.</small>
                 </label>
                 <label>
                   Poids
                   <input v-model="draft.identity.weight" />
+                  <small class="field-help">Information descriptive sans conséquence mécanique.</small>
                 </label>
               </div>
 
@@ -692,14 +700,17 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
                 <label>
                   Concept
                   <textarea v-model="draft.identity.concept" rows="3"></textarea>
+                  <small class="field-help">Une phrase qui résume l’idée du personnage : rôle, tempérament, contradiction ou image forte.</small>
                 </label>
                 <label>
                   Objectif
                   <textarea v-model="draft.identity.objective" rows="3"></textarea>
+                  <small class="field-help">Ce que le personnage veut concrètement aujourd’hui : retrouver quelqu’un, gagner une place, payer une dette, comprendre un secret…</small>
                 </label>
                 <label>
                   Notes / background
                   <textarea v-model="draft.identity.notes" rows="7"></textarea>
+                  <small class="field-help">Caractère, apparence, relations, histoire ou événements marquants ; inutile d’écrire une biographie complète avant de jouer.</small>
                 </label>
               </div>
             </div>
@@ -719,6 +730,12 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
             L’Origine décrit le milieu dans lequel le personnage a grandi ou reçu l’essentiel
             de son éducation. Elle ne détermine pas sa Sphère actuelle.
           </p>
+
+          <div class="rule-note">
+            <strong>Ce que ce choix représente :</strong> des habitudes, des codes et un acquis durable
+            de l’enfance ou de la formation initiale. Le Talent d’Origine choisi n’est pas perdu si
+            le personnage change ensuite de métier, de Sphère ou de loyauté.
+          </div>
 
           <div class="choice-grid">
             <button
@@ -764,6 +781,14 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
             Elle pose cinq Compétences fixes à +1. Le Style décrit votre pratique de départ
             et fournit cinq points guidés à répartir.
           </p>
+
+          <div class="rule-note">
+            <strong>Sphère ≠ Origine :</strong> l’Origine raconte d’où vous venez ; la Sphère raconte
+            où vous vivez et travaillez aujourd’hui. <strong>Style ≠ classe :</strong> il décrit votre
+            pratique de départ mais ne vous enferme pas dans une progression. L’Enveloppe augmentique
+            d’un Style représente ce qui a déjà pu être investi dans le corps avant le scénario 1 :
+            ce n’est pas de l’argent liquide.
+          </div>
 
           <div class="choice-grid">
             <button
@@ -1059,5 +1084,5 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
 </template>
 
 <style scoped>
-.builder-v2-shell{min-height:100vh}.builder-topbar{position:sticky}.back-link{text-decoration:none;display:inline-flex;align-items:center}.builder-loading{min-height:calc(100vh - 74px);display:grid;place-content:center;gap:1rem;color:#9f988c;text-align:center}.error-state strong{color:#e2b0aa}.builder-workspace{width:min(1440px,calc(100% - 2rem));margin:0 auto;padding:2rem 0 5rem;display:grid;grid-template-columns:285px minmax(0,1fr);gap:1.25rem;align-items:start}.builder-sidebar{position:sticky;top:94px;overflow:hidden}.builder-character{padding:1.1rem;display:grid;grid-template-columns:54px 1fr;gap:.8rem;align-items:center;border-bottom:1px solid rgba(255,255,255,.07)}.builder-character h1{margin:.15rem 0 .35rem;font-family:Georgia,serif;font-size:1.35rem;font-weight:500}.builder-character small{color:#7e786f}.builder-mini-portrait{width:54px;height:68px;overflow:hidden;border:1px solid rgba(255,255,255,.12);background:#0d0c0a;display:grid;place-items:center}.builder-mini-portrait img{width:100%;height:100%;object-fit:cover}.builder-mini-portrait.empty span{color:#7c6b4b;font-family:Georgia,serif}.builder-nav{display:grid;padding:.55rem}.builder-nav button{display:grid;grid-template-columns:1.6rem 1fr auto;align-items:center;gap:.45rem;width:100%;padding:.7rem .65rem;border:0;border-left:2px solid transparent;text-align:left;color:#8e887f;background:transparent}.builder-nav button.active{border-left-color:#a17d45;color:#e6ddcf;background:rgba(161,125,69,.08)}.builder-nav button.done:not(.active){color:#a7c4a4}.builder-nav button:disabled{opacity:.5}.builder-nav button span,.builder-nav button small{font-size:.68rem}.builder-nav button small{color:#675f56}.builder-nav button.done small{color:#8faf8c}.builder-main{min-width:0}.builder-card{padding:clamp(1.2rem,3vw,2rem)}.builder-heading{align-items:center}.schema-badge{padding:.35rem .55rem;border:1px solid rgba(199,173,120,.25);color:#c7ad78;font-size:.72rem;white-space:nowrap}.builder-intro{color:#969085;line-height:1.65}.identity-layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:1.4rem;margin-top:1.4rem;align-items:start}.portrait-card{display:grid;gap:.65rem}.portrait-card>small{color:#777169;line-height:1.45}.portrait-frame{aspect-ratio:4/5;overflow:hidden;border:1px solid rgba(255,255,255,.14);background:#090908;display:grid;place-items:center}.portrait-frame img{width:100%;height:100%;object-fit:cover}.portrait-frame.empty{border-style:dashed}.portrait-empty{padding:1rem;display:grid;gap:.5rem;text-align:center;color:#777169}.portrait-empty strong{color:#cfc6b6;font-family:Georgia,serif;font-size:1.2rem}.identity-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.narrative-grid{display:grid;gap:1rem;margin-top:1rem}textarea{width:100%;padding:.7rem .75rem;border:1px solid rgba(255,255,255,.12);outline:none;resize:vertical;color:#eee8dc;background:#12110f;font:inherit}textarea:focus{border-color:#9d7c48;box-shadow:0 0 0 2px rgba(157,124,72,.14)}.choice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.8rem;margin-top:1.25rem}.choice-card{display:grid;gap:.45rem;min-height:94px;padding:1rem;border:1px solid rgba(255,255,255,.1);text-align:left;color:#cfc7ba;background:rgba(255,255,255,.018)}.choice-card:hover{border-color:rgba(199,173,120,.38)}.choice-card.selected{border-color:#a17d45;background:rgba(161,125,69,.1)}.choice-card span{color:#938d83;font-size:.8rem;line-height:1.45}.choice-card small{color:#746e65;font-size:.69rem;line-height:1.45}.sphere-card{min-height:150px}.style-card{min-height:120px}.subsection{margin-top:2rem;padding-top:1.4rem;border-top:1px solid rgba(255,255,255,.07)}.subsection h3{margin:0 0 .7rem;font-family:Georgia,serif;font-size:1.25rem}.subsection-title{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start}.subsection-title p{margin:.35rem 0 0;color:#8f897f;font-size:.85rem}.talent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.7rem}.allocator-grid,.attribute-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.75rem;margin-top:1rem}.allocator-card,.attribute-card{padding:.85rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.allocator-card{display:flex;justify-content:space-between;align-items:center;gap:.8rem}.allocator-card>div:first-child{display:grid;gap:.2rem}.allocator-card small{color:#746e65}.allocator-card p{margin:.3rem 0 0;color:#817a70;font-size:.72rem;line-height:1.4}.stepper{display:grid;grid-template-columns:34px 32px 34px;align-items:center;text-align:center}.stepper button{height:34px;border:1px solid rgba(255,255,255,.12);color:#d8cebe;background:#11100e}.stepper button:hover{border-color:#9d7c48}.attribute-card{display:grid;gap:.75rem;text-align:center}.attribute-card>strong{font-family:Georgia,serif}.attribute-card p{margin:0;color:#817a70;font-size:.74rem;line-height:1.45;text-align:left}.stepper.large{grid-template-columns:42px 1fr 42px}.stepper.large span{font-family:Georgia,serif;font-size:1.7rem}.rule-note{margin-top:1rem;padding:.85rem 1rem;border:1px solid rgba(112,168,121,.22);color:#a8bca6;background:rgba(49,80,54,.1);line-height:1.55}.rule-note.bad{border-color:rgba(166,81,72,.28);color:#d0a29c;background:rgba(93,42,37,.12)}.skill-family{margin-top:1.7rem}.skill-family h3{margin:0 0 .65rem;font-family:Georgia,serif;font-size:1.15rem}.skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.7rem}.skill-card{display:grid;gap:.7rem;padding:.85rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.skill-head,.skill-free-line{display:flex;justify-content:space-between;align-items:center;gap:.7rem}.skill-head span{color:#c7ad78;font-size:.72rem}.skill-lore{margin:0;color:#817a70;font-size:.73rem;line-height:1.45}.skill-breakdown{display:flex;flex-wrap:wrap;gap:.4rem}.skill-breakdown span{padding:.28rem .42rem;border:1px solid rgba(255,255,255,.07);color:#7d776e;font-size:.68rem}.skill-breakdown strong{color:#bdb4a6}.skill-free-line{padding-top:.55rem;border-top:1px solid rgba(255,255,255,.06);color:#8f897f;font-size:.78rem}@media(max-width:900px){.builder-workspace{grid-template-columns:1fr}.builder-sidebar{position:static}.builder-nav{grid-template-columns:repeat(2,minmax(0,1fr))}.identity-layout{grid-template-columns:1fr}.portrait-card{max-width:260px}.builder-topbar{flex-wrap:wrap}.top-actions{width:100%;justify-content:flex-end}}@media(max-width:620px){.identity-grid{grid-template-columns:1fr}.builder-nav{grid-template-columns:1fr}.choice-grid{grid-template-columns:1fr}.subsection-title{flex-direction:column}}
+.builder-v2-shell{min-height:100vh}.builder-topbar{position:sticky}.back-link{text-decoration:none;display:inline-flex;align-items:center}.builder-loading{min-height:calc(100vh - 74px);display:grid;place-content:center;gap:1rem;color:#9f988c;text-align:center}.error-state strong{color:#e2b0aa}.builder-workspace{width:min(1440px,calc(100% - 2rem));margin:0 auto;padding:2rem 0 5rem;display:grid;grid-template-columns:285px minmax(0,1fr);gap:1.25rem;align-items:start}.builder-sidebar{position:sticky;top:94px;overflow:hidden}.builder-character{padding:1.1rem;display:grid;grid-template-columns:54px 1fr;gap:.8rem;align-items:center;border-bottom:1px solid rgba(255,255,255,.07)}.builder-character h1{margin:.15rem 0 .35rem;font-family:Georgia,serif;font-size:1.35rem;font-weight:500}.builder-character small{color:#7e786f}.builder-mini-portrait{width:54px;height:68px;overflow:hidden;border:1px solid rgba(255,255,255,.12);background:#0d0c0a;display:grid;place-items:center}.builder-mini-portrait img{width:100%;height:100%;object-fit:cover}.builder-mini-portrait.empty span{color:#7c6b4b;font-family:Georgia,serif}.builder-nav{display:grid;padding:.55rem}.builder-nav button{display:grid;grid-template-columns:1.6rem 1fr auto;align-items:center;gap:.45rem;width:100%;padding:.7rem .65rem;border:0;border-left:2px solid transparent;text-align:left;color:#8e887f;background:transparent}.builder-nav button.active{border-left-color:#a17d45;color:#e6ddcf;background:rgba(161,125,69,.08)}.builder-nav button.done:not(.active){color:#a7c4a4}.builder-nav button:disabled{opacity:.5}.builder-nav button span,.builder-nav button small{font-size:.68rem}.builder-nav button small{color:#675f56}.builder-nav button.done small{color:#8faf8c}.builder-main{min-width:0}.builder-card{padding:clamp(1.2rem,3vw,2rem)}.builder-heading{align-items:center}.schema-badge{padding:.35rem .55rem;border:1px solid rgba(199,173,120,.25);color:#c7ad78;font-size:.72rem;white-space:nowrap}.builder-intro{color:#969085;line-height:1.65}.identity-layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:1.4rem;margin-top:1.4rem;align-items:start}.portrait-card{display:grid;gap:.65rem}.portrait-card>small{color:#777169;line-height:1.45}.portrait-frame{aspect-ratio:4/5;overflow:hidden;border:1px solid rgba(255,255,255,.14);background:#090908;display:grid;place-items:center}.portrait-frame img{width:100%;height:100%;object-fit:cover}.portrait-frame.empty{border-style:dashed}.portrait-empty{padding:1rem;display:grid;gap:.5rem;text-align:center;color:#777169}.portrait-empty strong{color:#cfc6b6;font-family:Georgia,serif;font-size:1.2rem}.identity-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.field-help{color:#777169;font-size:.7rem;line-height:1.4}.narrative-grid{display:grid;gap:1rem;margin-top:1rem}textarea{width:100%;padding:.7rem .75rem;border:1px solid rgba(255,255,255,.12);outline:none;resize:vertical;color:#eee8dc;background:#12110f;font:inherit}textarea:focus{border-color:#9d7c48;box-shadow:0 0 0 2px rgba(157,124,72,.14)}.choice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.8rem;margin-top:1.25rem}.choice-card{display:grid;gap:.45rem;min-height:94px;padding:1rem;border:1px solid rgba(255,255,255,.1);text-align:left;color:#cfc7ba;background:rgba(255,255,255,.018)}.choice-card:hover{border-color:rgba(199,173,120,.38)}.choice-card.selected{border-color:#a17d45;background:rgba(161,125,69,.1)}.choice-card span{color:#938d83;font-size:.8rem;line-height:1.45}.choice-card small{color:#746e65;font-size:.69rem;line-height:1.45}.sphere-card{min-height:150px}.style-card{min-height:120px}.subsection{margin-top:2rem;padding-top:1.4rem;border-top:1px solid rgba(255,255,255,.07)}.subsection h3{margin:0 0 .7rem;font-family:Georgia,serif;font-size:1.25rem}.subsection-title{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start}.subsection-title p{margin:.35rem 0 0;color:#8f897f;font-size:.85rem}.talent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.7rem}.allocator-grid,.attribute-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.75rem;margin-top:1rem}.allocator-card,.attribute-card{padding:.85rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.allocator-card{display:flex;justify-content:space-between;align-items:center;gap:.8rem}.allocator-card>div:first-child{display:grid;gap:.2rem}.allocator-card small{color:#746e65}.allocator-card p{margin:.3rem 0 0;color:#817a70;font-size:.72rem;line-height:1.4}.stepper{display:grid;grid-template-columns:34px 32px 34px;align-items:center;text-align:center}.stepper button{height:34px;border:1px solid rgba(255,255,255,.12);color:#d8cebe;background:#11100e}.stepper button:hover{border-color:#9d7c48}.attribute-card{display:grid;gap:.75rem;text-align:center}.attribute-card>strong{font-family:Georgia,serif}.attribute-card p{margin:0;color:#817a70;font-size:.74rem;line-height:1.45;text-align:left}.stepper.large{grid-template-columns:42px 1fr 42px}.stepper.large span{font-family:Georgia,serif;font-size:1.7rem}.rule-note{margin-top:1rem;padding:.85rem 1rem;border:1px solid rgba(112,168,121,.22);color:#a8bca6;background:rgba(49,80,54,.1);line-height:1.55}.rule-note.bad{border-color:rgba(166,81,72,.28);color:#d0a29c;background:rgba(93,42,37,.12)}.skill-family{margin-top:1.7rem}.skill-family h3{margin:0 0 .65rem;font-family:Georgia,serif;font-size:1.15rem}.skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.7rem}.skill-card{display:grid;gap:.7rem;padding:.85rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.skill-head,.skill-free-line{display:flex;justify-content:space-between;align-items:center;gap:.7rem}.skill-head span{color:#c7ad78;font-size:.72rem}.skill-lore{margin:0;color:#817a70;font-size:.73rem;line-height:1.45}.skill-breakdown{display:flex;flex-wrap:wrap;gap:.4rem}.skill-breakdown span{padding:.28rem .42rem;border:1px solid rgba(255,255,255,.07);color:#7d776e;font-size:.68rem}.skill-breakdown strong{color:#bdb4a6}.skill-free-line{padding-top:.55rem;border-top:1px solid rgba(255,255,255,.06);color:#8f897f;font-size:.78rem}@media(max-width:900px){.builder-workspace{grid-template-columns:1fr}.builder-sidebar{position:static}.builder-nav{grid-template-columns:repeat(2,minmax(0,1fr))}.identity-layout{grid-template-columns:1fr}.portrait-card{max-width:260px}.builder-topbar{flex-wrap:wrap}.top-actions{width:100%;justify-content:flex-end}}@media(max-width:620px){.identity-grid{grid-template-columns:1fr}.builder-nav{grid-template-columns:1fr}.choice-grid{grid-template-columns:1fr}.subsection-title{flex-direction:column}}
 </style>
