@@ -46,6 +46,12 @@ try{
   await publicPage.getByText("DANS LE BUILDER",{exact:true}).waitFor({state:"visible",timeout:10000});
   await publicPage.getByText("Nature",{exact:true}).first().waitFor({state:"visible",timeout:10000});
   await publicPage.getByText("Vérité",{exact:true}).first().waitFor({state:"visible",timeout:10000});
+  await publicPage.getByRole("heading",{name:"Dans ce dossier"}).waitFor({state:"visible",timeout:10000});
+  const vampireDossier=publicPage.locator(".wiki-dossier");
+  const vampireDossierCards=await vampireDossier.locator("button").count();
+  if(vampireDossierCards<5)throw new Error("Dossier Vampire trop pauvre: "+vampireDossierCards+" pages.");
+  await vampireDossier.getByRole("button").filter({hasText:"Sang Ardent — Larisha"}).first()
+    .waitFor({state:"visible",timeout:10000});
 
   await publicPage.goto(baseUrl+"/compendium?article=regles-verite-chasseur-lavandieres",{waitUntil:"domcontentloaded",timeout:30000});
   await publicPage.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
