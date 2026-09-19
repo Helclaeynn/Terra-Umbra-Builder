@@ -100,6 +100,13 @@ type CurrentUser = {
   role: "player" | "gm" | "editor" | "admin";
 };
 
+type BuilderUsage = {
+  kind: string;
+  label: string;
+  step: "origin" | "sphere" | "talents" | "truth" | "disadvantages" | "equipment";
+  detail?: string;
+};
+
 type OnboardingItem = {
   id: string;
   label: string;
@@ -154,6 +161,7 @@ const manufacturer = ref("");
 const results = ref<SearchItem[]>([]);
 const total = ref(0);
 const selected = ref<Article | null>(null);
+const builderUsage = ref<BuilderUsage[]>([]);
 const loading = ref(false);
 const articleLoading = ref(false);
 const error = ref("");
@@ -240,6 +248,17 @@ const relatedArticles = computed(() => {
     .filter((entry): entry is WikiEntry => Boolean(entry))
     .slice(0, 12);
 });
+
+function builderStepLabel(step: BuilderUsage["step"]): string {
+  return ({
+    origin: "Origine",
+    sphere: "Sphère & Style",
+    talents: "Talents",
+    truth: "Vérité",
+    disadvantages: "Désavantages",
+    equipment: "Équipement"
+  } as const)[step] ?? step;
+}
 
 function collectionContains(collection: LibraryCollection, articleId?: string): boolean {
   return Boolean(articleId && collection.articleIds.includes(articleId));
@@ -485,6 +504,7 @@ async function toggleFavorite(articleId: string) {
     await loadLibrary();
     libraryNotice.value = favorite ? "Retiré des favoris." : "Ajouté aux favoris.";
   } catch (cause) {
+    builderUsage.value = [];
     error.value = humanError(cause);
   } finally {
     libraryBusy.value = false;
@@ -621,10 +641,16 @@ async function openArticle(id: string, syncRoute = true) {
   error.value = "";
 
   try {
-    const result = await api<{ article: Article }>(
-      `/api/compendium/articles/${encodeURIComponent(id)}`
-    );
+    const [result, usageResult] = await Promise.all([
+      api<{ article: Article }>(
+        `/api/compendium/articles/${encodeURIComponent(id)}`
+      ),
+      api<{ usage: BuilderUsage[] }>(
+        `/api/compendium/builder-usage/${encodeURIComponent(id)}`
+      ).catch(() => ({ usage: [] as BuilderUsage[] }))
+    ]);
     selected.value = result.article;
+    builderUsage.value = usageResult.usage;
 
     if (syncRoute && route.query.article !== id) {
       await router.push({
@@ -1255,6 +1281,20 @@ onBeforeUnmount(() => {
                     </dl>
                   </div>
 
+                  <section v-if="builderUsage.length" class="wiki-builder-usage">
+                    <p class="eyebrow">DANS LE BUILDER</p>
+                    <p class="wiki-builder-intro">
+                      Cette page sert directement de référence à {{ builderUsage.length > 1 ? "plusieurs choix" : "un choix" }} du Builder.
+                    </p>
+                    <div class="wiki-builder-usage-list">
+                      <article v-for="(usage,index) in builderUsage" :key="`${usage.step}-${usage.kind}-${index}`">
+                        <span>{{ builderStepLabel(usage.step) }}</span>
+                        <strong>{{ usage.kind }}</strong>
+                        <small>{{ usage.label }}<template v-if="usage.detail"> · {{ usage.detail }}</template></small>
+                      </article>
+                    </div>
+                  </section>
+
                   <nav v-if="articleToc.length" class="wiki-toc" aria-label="Sommaire de l'article">
                     <p class="eyebrow">SOMMAIRE</p>
                     <button
@@ -1742,6 +1782,13 @@ onBeforeUnmount(() => {
   font-size: .76rem;
 }
 
+.wiki-builder-usage{padding:1rem;border:1px solid rgba(199,173,120,.18);background:rgba(161,125,69,.045)}
+.wiki-builder-intro{margin:.1rem 0 .75rem;color:#827b71;font-size:.72rem;line-height:1.45}
+.wiki-builder-usage-list{display:grid;gap:.45rem}
+.wiki-builder-usage-list article{display:grid;gap:.14rem;padding:.55rem .6rem;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.015)}
+.wiki-builder-usage-list article>span{color:#b99a66;font-size:.62rem;text-transform:uppercase;letter-spacing:.06em}
+.wiki-builder-usage-list strong{color:#ddd3c3;font-size:.78rem}
+.wiki-builder-usage-list small{color:#817a70;font-size:.68rem;line-height:1.35}
 .wiki-toc {
   display: grid;
   gap: .15rem;
