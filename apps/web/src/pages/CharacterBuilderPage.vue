@@ -1491,6 +1491,229 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
           </template>
         </article>
 
+        <article v-else-if="activeStep === 'truth'" class="panel builder-card">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">07 · VÉRITÉ</p>
+              <h2>Nature & Vérité</h2>
+            </div>
+            <span class="schema-badge">
+              {{ truthPtvRemaining }} / {{ truthRules?.structure.ptvInitial || 0 }} PTV restant
+            </span>
+          </div>
+
+          <p class="builder-intro">
+            La Nature décrit ce que le personnage est réellement derrière le Voile. Les choix
+            structurels ouvrent uniquement les branches qui lui appartiennent ; les Traits gratuits
+            sont accordés automatiquement et les Talents de Vérité consomment les PTV de création.
+          </p>
+
+          <div v-if="!truthRules || !currentTruthState" class="rule-note bad">
+            Règles de Vérité indisponibles.
+          </div>
+
+          <template v-else>
+            <section class="truth-consciousness">
+              <div class="subsection-title">
+                <div>
+                  <h3>Niveau de conscience</h3>
+                  <p>Un Profane ne peut dépenser aucun PTV. Un Initié peut accéder aux branches réellement ouvertes par sa Nature.</p>
+                </div>
+              </div>
+              <div class="truth-consciousness-grid">
+                <button
+                  v-for="entry in truthRules.structure.consciousness"
+                  :key="entry.id"
+                  type="button"
+                  class="choice-card"
+                  :class="{ selected: currentTruthState.consciousness === entry.id }"
+                  @click="setTruthConsciousness(entry.id)"
+                >
+                  <strong>{{ entry.name }}</strong>
+                  <span v-if="entry.id === 'profane'">Ignore encore la Vérité ou n’y a pas accès consciemment.</span>
+                  <span v-else>Connaît l’existence de la Vérité et peut employer ses acquis surnaturels.</span>
+                </button>
+              </div>
+            </section>
+
+            <section class="truth-nature-section">
+              <div class="subsection-title">
+                <div>
+                  <h3>Nature</h3>
+                  <p>Changer de Nature réinitialise ses choix structurels et ses Talents de Vérité, sans toucher à la Réalité.</p>
+                </div>
+              </div>
+
+              <div class="truth-nature-grid">
+                <button
+                  v-for="nature in Object.values(truthRules.structure.natures)"
+                  :key="nature.id"
+                  type="button"
+                  class="choice-card truth-nature-card"
+                  :class="{ selected: currentTruthState.nature === nature.id }"
+                  @click="setTruthNature(nature.id)"
+                >
+                  <strong>{{ nature.name }}</strong>
+                  <span>{{ nature.description }}</span>
+                </button>
+              </div>
+            </section>
+
+            <template v-if="selectedTruthNature">
+              <section v-if="selectedTruthNature.choices.length" class="truth-choice-section">
+                <div class="subsection-title">
+                  <div>
+                    <h3>Choix structurels</h3>
+                    <p>Ces choix déterminent les branches, traditions, lignées ou écoles réellement accessibles.</p>
+                  </div>
+                  <span class="schema-badge">{{ truthChoicesValid(truthRules,currentTruthState) ? "complet" : "à compléter" }}</span>
+                </div>
+
+                <div class="truth-choice-grid">
+                  <label v-for="choice in selectedTruthNature.choices" :key="choice.key" class="truth-choice-field">
+                    <span>
+                      <strong>{{ choice.label }}</strong>
+                      <small v-if="choice.optional">optionnel</small>
+                    </span>
+                    <select
+                      :value="truthChoiceValue(choice)"
+                      @change="setTruthChoice(choice.key,($event.target as HTMLSelectElement).value)"
+                    >
+                      <option value="">{{ choice.optional ? "— Aucun —" : "— Choisir —" }}</option>
+                      <option
+                        v-for="option in resolvedTruthChoiceOptions(choice)"
+                        :key="option.id"
+                        :value="option.id"
+                      >
+                        {{ option.name }}
+                      </option>
+                    </select>
+                    <em v-if="selectedTruthChoice(choice)?.description">
+                      {{ selectedTruthChoice(choice)?.description }}
+                    </em>
+                    <em v-else-if="choice.dependsOn && !String(currentTruthState.choices[choice.dependsOn] || '')">
+                      Choisissez d’abord {{ selectedTruthNature.choices.find(item=>item.key===choice.dependsOn)?.label || choice.dependsOn }}.
+                    </em>
+                  </label>
+                </div>
+              </section>
+
+              <section v-if="selectedTruthFreeTraits.length" class="truth-free-section">
+                <div class="subsection-title">
+                  <div>
+                    <h3>Traits gratuits de Vérité</h3>
+                    <p>Ils découlent directement de la Nature et des choix structurels. Ils ne coûtent aucun PTV.</p>
+                  </div>
+                  <span class="schema-badge">{{ selectedTruthFreeTraits.length }}</span>
+                </div>
+
+                <div class="truth-free-grid">
+                  <article
+                    v-for="trait in selectedTruthFreeTraits"
+                    :key="`${trait.name}:${trait.source || ''}:${trait.effect}`"
+                    class="truth-free-card"
+                  >
+                    <div class="truth-talent-head">
+                      <strong>{{ trait.name }}</strong>
+                      <span>{{ trait.access || "Gratuit" }}</span>
+                    </div>
+                    <small v-if="trait.source">{{ trait.source }}</small>
+                    <p>{{ trait.effect }}</p>
+                  </article>
+                </div>
+              </section>
+
+              <section class="truth-talents-section">
+                <div class="subsection-title">
+                  <div>
+                    <h3>Talents de Vérité</h3>
+                    <p>
+                      Seuls les Talents compatibles avec la Nature et les choix ci-dessus sont proposés.
+                      Retirer un prérequis retire aussi automatiquement les Talents qui en dépendent.
+                    </p>
+                  </div>
+                  <span class="schema-badge">
+                    {{ truthPtvSpentValue }} / {{ truthRules.structure.ptvInitial }} PTV
+                  </span>
+                </div>
+
+                <div v-if="currentTruthState.consciousness === 'profane'" class="rule-note">
+                  <strong>Profane :</strong> aucun Talent de Vérité n’est achetable. Les PTV restent disponibles
+                  tant que le personnage n’est pas Initié.
+                </div>
+
+                <div
+                  v-else-if="!truthChoicesValid(truthRules,currentTruthState)"
+                  class="rule-note bad"
+                >
+                  Complétez d’abord les choix structurels obligatoires de cette Nature.
+                </div>
+
+                <template v-else>
+                  <label class="truth-search">
+                    Rechercher dans les Talents accessibles
+                    <input
+                      v-model="truthSearch"
+                      type="search"
+                      placeholder="Nom, groupe, effet, prérequis…"
+                    />
+                  </label>
+
+                  <div v-if="!visibleTruthGroups.length" class="rule-note">
+                    Aucun Talent ne correspond aux choix actuels ou à la recherche.
+                  </div>
+
+                  <details
+                    v-for="group in visibleTruthGroups"
+                    :key="group.name"
+                    class="truth-group"
+                    :open="group.items.some(talent=>truthTalentSelected(talent.id))"
+                  >
+                    <summary>
+                      <span>
+                        <strong>{{ group.name }}</strong>
+                        <small>{{ group.items.length }} Talent{{ group.items.length > 1 ? "s" : "" }}</small>
+                      </span>
+                    </summary>
+
+                    <div class="truth-talent-grid">
+                      <button
+                        v-for="talent in group.items"
+                        :key="talent.id"
+                        type="button"
+                        class="truth-talent-card"
+                        :class="{ selected: truthTalentSelected(talent.id) }"
+                        :disabled="!truthTalentSelected(talent.id) && !truthTalentCanAdd(talent)"
+                        @click="toggleTruthTalent(talent)"
+                      >
+                        <div class="truth-talent-head">
+                          <strong>{{ talent.name }}</strong>
+                          <span>{{ talent.cost }} PTV</span>
+                        </div>
+                        <div class="truth-talent-meta">
+                          <span v-if="talent.access">{{ talent.access }}</span>
+                          <span v-if="talent.prerequisiteName">
+                            Prérequis : {{ talent.prerequisiteName }}
+                            <template v-if="!truthTalentPrereqOk(talent)"> · non rempli</template>
+                          </span>
+                        </div>
+                        <em v-if="talent.runtimeLore">{{ talent.runtimeLore }}</em>
+                        <p><b>Effet :</b> {{ talent.effect }}</p>
+                      </button>
+                    </div>
+                  </details>
+                </template>
+              </section>
+
+              <div class="rule-note" :class="{ bad: !stepDone('truth') }">
+                <strong v-if="stepDone('truth')">Vérité cohérente.</strong>
+                <strong v-else>Vérité à compléter.</strong>
+                {{ truthPtvRemaining }} PTV restent disponibles à la création.
+              </div>
+            </template>
+          </template>
+        </article>
+
         <article v-else-if="activeStep === 'disadvantages'" class="panel builder-card">
           <div class="section-heading">
             <div>
@@ -1712,5 +1935,5 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
 </template>
 
 <style scoped>
-.builder-v2-shell{min-height:100vh}.builder-topbar{position:sticky}.back-link{text-decoration:none;display:inline-flex;align-items:center}.builder-loading{min-height:calc(100vh - 74px);display:grid;place-content:center;gap:1rem;color:#9f988c;text-align:center}.error-state strong{color:#e2b0aa}.builder-workspace{width:min(1440px,calc(100% - 2rem));margin:0 auto;padding:2rem 0 5rem;display:grid;grid-template-columns:285px minmax(0,1fr);gap:1.25rem;align-items:start}.builder-sidebar{position:sticky;top:94px;overflow:hidden}.builder-character{padding:1.1rem;display:grid;grid-template-columns:54px 1fr;gap:.8rem;align-items:center;border-bottom:1px solid rgba(255,255,255,.07)}.builder-character h1{margin:.15rem 0 .35rem;font-family:Georgia,serif;font-size:1.35rem;font-weight:500}.builder-character small{color:#7e786f}.builder-mini-portrait{width:54px;height:68px;overflow:hidden;border:1px solid rgba(255,255,255,.12);background:#0d0c0a;display:grid;place-items:center}.builder-mini-portrait img{width:100%;height:100%;object-fit:cover}.builder-mini-portrait.empty span{color:#7c6b4b;font-family:Georgia,serif}.builder-nav{display:grid;padding:.55rem}.builder-nav button{display:grid;grid-template-columns:1.6rem 1fr auto;align-items:center;gap:.45rem;width:100%;padding:.7rem .65rem;border:0;border-left:2px solid transparent;text-align:left;color:#8e887f;background:transparent}.builder-nav button.active{border-left-color:#a17d45;color:#e6ddcf;background:rgba(161,125,69,.08)}.builder-nav button.done:not(.active){color:#a7c4a4}.builder-nav button:disabled{opacity:.5}.builder-nav button span,.builder-nav button small{font-size:.68rem}.builder-nav button small{color:#675f56}.builder-nav button.done small{color:#8faf8c}.builder-main{min-width:0}.builder-card{padding:clamp(1.2rem,3vw,2rem)}.builder-heading{align-items:center}.schema-badge{padding:.35rem .55rem;border:1px solid rgba(199,173,120,.25);color:#c7ad78;font-size:.72rem;white-space:nowrap}.builder-intro{color:#969085;line-height:1.65}.identity-layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:1.4rem;margin-top:1.4rem;align-items:start}.portrait-card{display:grid;gap:.65rem}.portrait-card>small{color:#777169;line-height:1.45}.portrait-frame{aspect-ratio:4/5;overflow:hidden;border:1px solid rgba(255,255,255,.14);background:#090908;display:grid;place-items:center}.portrait-frame img{width:100%;height:100%;object-fit:cover}.portrait-frame.empty{border-style:dashed}.portrait-empty{padding:1rem;display:grid;gap:.5rem;text-align:center;color:#777169}.portrait-empty strong{color:#cfc6b6;font-family:Georgia,serif;font-size:1.2rem}.identity-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.field-help{color:#777169;font-size:.7rem;line-height:1.4}.narrative-grid{display:grid;gap:1rem;margin-top:1rem}textarea{width:100%;padding:.7rem .75rem;border:1px solid rgba(255,255,255,.12);outline:none;resize:vertical;color:#eee8dc;background:#12110f;font:inherit}textarea:focus{border-color:#9d7c48;box-shadow:0 0 0 2px rgba(157,124,72,.14)}.choice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.8rem;margin-top:1.25rem}.choice-card{display:grid;gap:.45rem;min-height:94px;padding:1rem;border:1px solid rgba(255,255,255,.1);text-align:left;color:#cfc7ba;background:rgba(255,255,255,.018)}.choice-card:hover{border-color:rgba(199,173,120,.38)}.choice-card.selected{border-color:#a17d45;background:rgba(161,125,69,.1)}.choice-card span{color:#938d83;font-size:.8rem;line-height:1.45}.choice-card small{color:#746e65;font-size:.69rem;line-height:1.45}.sphere-card{min-height:150px}.style-card{min-height:120px}.subsection{margin-top:2rem;padding-top:1.4rem;border-top:1px solid rgba(255,255,255,.07)}.subsection h3{margin:0 0 .7rem;font-family:Georgia,serif;font-size:1.25rem}.subsection-title{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start}.subsection-title p{margin:.35rem 0 0;color:#8f897f;font-size:.85rem}.talent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.7rem}.allocator-grid,.attribute-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.75rem;margin-top:1rem}.allocator-card,.attribute-card{padding:.85rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.allocator-card{display:flex;justify-content:space-between;align-items:center;gap:.8rem}.allocator-card>div:first-child{display:grid;gap:.2rem}.allocator-card small{color:#746e65}.allocator-card p{margin:.3rem 0 0;color:#817a70;font-size:.72rem;line-height:1.4}.stepper{display:grid;grid-template-columns:34px 32px 34px;align-items:center;text-align:center}.stepper button{height:34px;border:1px solid rgba(255,255,255,.12);color:#d8cebe;background:#11100e}.stepper button:hover{border-color:#9d7c48}.attribute-card{display:grid;gap:.75rem;text-align:center}.attribute-card>strong{font-family:Georgia,serif}.attribute-card p{margin:0;color:#817a70;font-size:.74rem;line-height:1.45;text-align:left}.stepper.large{grid-template-columns:42px 1fr 42px}.stepper.large span{font-family:Georgia,serif;font-size:1.7rem}.rule-note{margin-top:1rem;padding:.85rem 1rem;border:1px solid rgba(112,168,121,.22);color:#a8bca6;background:rgba(49,80,54,.1);line-height:1.55}.rule-note.bad{border-color:rgba(166,81,72,.28);color:#d0a29c;background:rgba(93,42,37,.12)}.skill-family{margin-top:1.7rem}.skill-family h3{margin:0 0 .65rem;font-family:Georgia,serif;font-size:1.15rem}.skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.7rem}.skill-card{display:grid;gap:.7rem;padding:.85rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.skill-head,.skill-free-line{display:flex;justify-content:space-between;align-items:center;gap:.7rem}.skill-head span{color:#c7ad78;font-size:.72rem}.skill-lore{margin:0;color:#817a70;font-size:.73rem;line-height:1.45}.skill-breakdown{display:flex;flex-wrap:wrap;gap:.4rem}.skill-breakdown span{padding:.28rem .42rem;border:1px solid rgba(255,255,255,.07);color:#7d776e;font-size:.68rem}.skill-breakdown strong{color:#bdb4a6}.skill-free-line{padding-top:.55rem;border-top:1px solid rgba(255,255,255,.06);color:#8f897f;font-size:.78rem}.category-select{max-width:360px;margin-top:1rem}.disadvantage-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.75rem;margin-top:1rem}.disadvantage-card{display:grid;gap:.6rem;padding:1rem;border:1px solid rgba(255,255,255,.09);text-align:left;color:#cfc7ba;background:rgba(255,255,255,.015)}.disadvantage-card:hover{border-color:rgba(199,173,120,.38)}.disadvantage-card.selected{border-color:#a17d45;background:rgba(161,125,69,.1)}.disadvantage-card:disabled{opacity:.42}.disadvantage-head{display:flex;justify-content:space-between;gap:.7rem}.disadvantage-head span{color:#c7ad78;font-size:.7rem}.disadvantage-card em{color:#918a80;font-size:.78rem;line-height:1.5}.disadvantage-card p{margin:0;color:#b8afa2;font-size:.78rem;line-height:1.5}.selected-disadvantages{margin-top:1.2rem}.selected-disadvantages h3{font-family:Georgia,serif;font-size:1rem}.selected-disadvantages>div{display:flex;flex-wrap:wrap;gap:.45rem}.selected-chip{padding:.4rem .55rem;border:1px solid rgba(199,173,120,.24);color:#d2c4aa;background:rgba(161,125,69,.08)}.edge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:.8rem;margin-top:1.2rem}.edge-card{display:flex;flex-direction:column;gap:.65rem;padding:1rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.edge-card-head{display:flex;justify-content:space-between;gap:.7rem}.edge-card-head span{color:#c7ad78;font-size:.72rem}.edge-card em{color:#918a80;font-size:.78rem;line-height:1.5}.edge-card p{margin:0;color:#b9b0a4;font-size:.76rem;line-height:1.45}.edge-card .stepper{margin-top:auto}.edge-allocation{margin-top:2rem;padding-top:1.4rem;border-top:1px solid rgba(255,255,255,.07)}.attribute-card small{color:#817a70}@media(max-width:900px){.builder-workspace{grid-template-columns:1fr}.builder-sidebar{position:static}.builder-nav{grid-template-columns:repeat(2,minmax(0,1fr))}.identity-layout{grid-template-columns:1fr}.portrait-card{max-width:260px}.builder-topbar{flex-wrap:wrap}.top-actions{width:100%;justify-content:flex-end}}@media(max-width:620px){.identity-grid{grid-template-columns:1fr}.builder-nav{grid-template-columns:1fr}.choice-grid{grid-template-columns:1fr}.subsection-title{flex-direction:column}}
+.builder-v2-shell{min-height:100vh}.builder-topbar{position:sticky}.back-link{text-decoration:none;display:inline-flex;align-items:center}.builder-loading{min-height:calc(100vh - 74px);display:grid;place-content:center;gap:1rem;color:#9f988c;text-align:center}.error-state strong{color:#e2b0aa}.builder-workspace{width:min(1440px,calc(100% - 2rem));margin:0 auto;padding:2rem 0 5rem;display:grid;grid-template-columns:285px minmax(0,1fr);gap:1.25rem;align-items:start}.builder-sidebar{position:sticky;top:94px;overflow:hidden}.builder-character{padding:1.1rem;display:grid;grid-template-columns:54px 1fr;gap:.8rem;align-items:center;border-bottom:1px solid rgba(255,255,255,.07)}.builder-character h1{margin:.15rem 0 .35rem;font-family:Georgia,serif;font-size:1.35rem;font-weight:500}.builder-character small{color:#7e786f}.builder-mini-portrait{width:54px;height:68px;overflow:hidden;border:1px solid rgba(255,255,255,.12);background:#0d0c0a;display:grid;place-items:center}.builder-mini-portrait img{width:100%;height:100%;object-fit:cover}.builder-mini-portrait.empty span{color:#7c6b4b;font-family:Georgia,serif}.builder-nav{display:grid;padding:.55rem}.builder-nav button{display:grid;grid-template-columns:1.6rem 1fr auto;align-items:center;gap:.45rem;width:100%;padding:.7rem .65rem;border:0;border-left:2px solid transparent;text-align:left;color:#8e887f;background:transparent}.builder-nav button.active{border-left-color:#a17d45;color:#e6ddcf;background:rgba(161,125,69,.08)}.builder-nav button.done:not(.active){color:#a7c4a4}.builder-nav button:disabled{opacity:.5}.builder-nav button span,.builder-nav button small{font-size:.68rem}.builder-nav button small{color:#675f56}.builder-nav button.done small{color:#8faf8c}.builder-main{min-width:0}.builder-card{padding:clamp(1.2rem,3vw,2rem)}.builder-heading{align-items:center}.schema-badge{padding:.35rem .55rem;border:1px solid rgba(199,173,120,.25);color:#c7ad78;font-size:.72rem;white-space:nowrap}.builder-intro{color:#969085;line-height:1.65}.identity-layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:1.4rem;margin-top:1.4rem;align-items:start}.portrait-card{display:grid;gap:.65rem}.portrait-card>small{color:#777169;line-height:1.45}.portrait-frame{aspect-ratio:4/5;overflow:hidden;border:1px solid rgba(255,255,255,.14);background:#090908;display:grid;place-items:center}.portrait-frame img{width:100%;height:100%;object-fit:cover}.portrait-frame.empty{border-style:dashed}.portrait-empty{padding:1rem;display:grid;gap:.5rem;text-align:center;color:#777169}.portrait-empty strong{color:#cfc6b6;font-family:Georgia,serif;font-size:1.2rem}.identity-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.field-help{color:#777169;font-size:.7rem;line-height:1.4}.narrative-grid{display:grid;gap:1rem;margin-top:1rem}textarea{width:100%;padding:.7rem .75rem;border:1px solid rgba(255,255,255,.12);outline:none;resize:vertical;color:#eee8dc;background:#12110f;font:inherit}textarea:focus{border-color:#9d7c48;box-shadow:0 0 0 2px rgba(157,124,72,.14)}.choice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.8rem;margin-top:1.25rem}.choice-card{display:grid;gap:.45rem;min-height:94px;padding:1rem;border:1px solid rgba(255,255,255,.1);text-align:left;color:#cfc7ba;background:rgba(255,255,255,.018)}.choice-card:hover{border-color:rgba(199,173,120,.38)}.choice-card.selected{border-color:#a17d45;background:rgba(161,125,69,.1)}.choice-card span{color:#938d83;font-size:.8rem;line-height:1.45}.choice-card small{color:#746e65;font-size:.69rem;line-height:1.45}.sphere-card{min-height:150px}.style-card{min-height:120px}.subsection{margin-top:2rem;padding-top:1.4rem;border-top:1px solid rgba(255,255,255,.07)}.subsection h3{margin:0 0 .7rem;font-family:Georgia,serif;font-size:1.25rem}.subsection-title{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start}.subsection-title p{margin:.35rem 0 0;color:#8f897f;font-size:.85rem}.talent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.7rem}.allocator-grid,.attribute-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.75rem;margin-top:1rem}.allocator-card,.attribute-card{padding:.85rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.allocator-card{display:flex;justify-content:space-between;align-items:center;gap:.8rem}.allocator-card>div:first-child{display:grid;gap:.2rem}.allocator-card small{color:#746e65}.allocator-card p{margin:.3rem 0 0;color:#817a70;font-size:.72rem;line-height:1.4}.stepper{display:grid;grid-template-columns:34px 32px 34px;align-items:center;text-align:center}.stepper button{height:34px;border:1px solid rgba(255,255,255,.12);color:#d8cebe;background:#11100e}.stepper button:hover{border-color:#9d7c48}.attribute-card{display:grid;gap:.75rem;text-align:center}.attribute-card>strong{font-family:Georgia,serif}.attribute-card p{margin:0;color:#817a70;font-size:.74rem;line-height:1.45;text-align:left}.stepper.large{grid-template-columns:42px 1fr 42px}.stepper.large span{font-family:Georgia,serif;font-size:1.7rem}.rule-note{margin-top:1rem;padding:.85rem 1rem;border:1px solid rgba(112,168,121,.22);color:#a8bca6;background:rgba(49,80,54,.1);line-height:1.55}.rule-note.bad{border-color:rgba(166,81,72,.28);color:#d0a29c;background:rgba(93,42,37,.12)}.skill-family{margin-top:1.7rem}.skill-family h3{margin:0 0 .65rem;font-family:Georgia,serif;font-size:1.15rem}.skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.7rem}.skill-card{display:grid;gap:.7rem;padding:.85rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.skill-head,.skill-free-line{display:flex;justify-content:space-between;align-items:center;gap:.7rem}.skill-head span{color:#c7ad78;font-size:.72rem}.skill-lore{margin:0;color:#817a70;font-size:.73rem;line-height:1.45}.skill-breakdown{display:flex;flex-wrap:wrap;gap:.4rem}.skill-breakdown span{padding:.28rem .42rem;border:1px solid rgba(255,255,255,.07);color:#7d776e;font-size:.68rem}.skill-breakdown strong{color:#bdb4a6}.skill-free-line{padding-top:.55rem;border-top:1px solid rgba(255,255,255,.06);color:#8f897f;font-size:.78rem}.truth-consciousness,.truth-nature-section,.truth-choice-section,.truth-free-section,.truth-talents-section{margin-top:1.8rem;padding-top:1.3rem;border-top:1px solid rgba(255,255,255,.07)}.truth-consciousness{margin-top:1rem}.truth-consciousness-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;margin-top:1rem}.truth-nature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:.75rem;margin-top:1rem}.truth-nature-card{min-height:180px}.truth-nature-card span{max-height:7.2em;overflow:auto}.truth-choice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.85rem;margin-top:1rem}.truth-choice-field{display:grid;gap:.55rem;padding:.9rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.truth-choice-field>span{display:flex;justify-content:space-between;gap:.6rem}.truth-choice-field small{color:#827b71;font-size:.68rem}.truth-choice-field em{color:#918a80;font-size:.76rem;line-height:1.5}.truth-free-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:.7rem;margin-top:1rem}.truth-free-card{display:grid;gap:.5rem;padding:.9rem;border:1px solid rgba(98,147,114,.2);background:rgba(49,80,54,.07)}.truth-free-card small{color:#8ca08e}.truth-free-card p{margin:0;color:#aaa297;font-size:.77rem;line-height:1.5}.truth-search{display:grid;gap:.4rem;max-width:560px;margin:1rem 0;color:#8f897f;font-size:.78rem}.truth-group{margin-top:.75rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.01)}.truth-group>summary{cursor:pointer;padding:.85rem 1rem;list-style:none}.truth-group>summary::-webkit-details-marker{display:none}.truth-group>summary>span{display:flex;justify-content:space-between;gap:.75rem;align-items:center}.truth-group>summary small{color:#80796f}.truth-talent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.65rem;padding:.75rem;border-top:1px solid rgba(255,255,255,.06)}.truth-talent-card{display:grid;gap:.55rem;padding:.9rem;border:1px solid rgba(255,255,255,.09);text-align:left;color:#ccc3b5;background:rgba(255,255,255,.015)}.truth-talent-card:hover:not(:disabled){border-color:rgba(199,173,120,.38)}.truth-talent-card.selected{border-color:#a17d45;background:rgba(161,125,69,.1)}.truth-talent-card:disabled{opacity:.45}.truth-talent-head{display:flex;justify-content:space-between;gap:.75rem;align-items:flex-start}.truth-talent-head span{color:#c7ad78;font-size:.72rem;white-space:nowrap}.truth-talent-meta{display:flex;flex-wrap:wrap;gap:.35rem}.truth-talent-meta span{padding:.24rem .4rem;border:1px solid rgba(255,255,255,.07);color:#8e877c;font-size:.66rem}.truth-talent-card em{color:#918a80;font-size:.76rem;line-height:1.5}.truth-talent-card p{margin:0;color:#b9b0a4;font-size:.76rem;line-height:1.5}.category-select{max-width:360px;margin-top:1rem}.disadvantage-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.75rem;margin-top:1rem}.disadvantage-card{display:grid;gap:.6rem;padding:1rem;border:1px solid rgba(255,255,255,.09);text-align:left;color:#cfc7ba;background:rgba(255,255,255,.015)}.disadvantage-card:hover{border-color:rgba(199,173,120,.38)}.disadvantage-card.selected{border-color:#a17d45;background:rgba(161,125,69,.1)}.disadvantage-card:disabled{opacity:.42}.disadvantage-head{display:flex;justify-content:space-between;gap:.7rem}.disadvantage-head span{color:#c7ad78;font-size:.7rem}.disadvantage-card em{color:#918a80;font-size:.78rem;line-height:1.5}.disadvantage-card p{margin:0;color:#b8afa2;font-size:.78rem;line-height:1.5}.selected-disadvantages{margin-top:1.2rem}.selected-disadvantages h3{font-family:Georgia,serif;font-size:1rem}.selected-disadvantages>div{display:flex;flex-wrap:wrap;gap:.45rem}.selected-chip{padding:.4rem .55rem;border:1px solid rgba(199,173,120,.24);color:#d2c4aa;background:rgba(161,125,69,.08)}.edge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:.8rem;margin-top:1.2rem}.edge-card{display:flex;flex-direction:column;gap:.65rem;padding:1rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.edge-card-head{display:flex;justify-content:space-between;gap:.7rem}.edge-card-head span{color:#c7ad78;font-size:.72rem}.edge-card em{color:#918a80;font-size:.78rem;line-height:1.5}.edge-card p{margin:0;color:#b9b0a4;font-size:.76rem;line-height:1.45}.edge-card .stepper{margin-top:auto}.edge-allocation{margin-top:2rem;padding-top:1.4rem;border-top:1px solid rgba(255,255,255,.07)}.attribute-card small{color:#817a70}@media(max-width:900px){.builder-workspace{grid-template-columns:1fr}.builder-sidebar{position:static}.builder-nav{grid-template-columns:repeat(2,minmax(0,1fr))}.identity-layout{grid-template-columns:1fr}.portrait-card{max-width:260px}.builder-topbar{flex-wrap:wrap}.top-actions{width:100%;justify-content:flex-end}}@media(max-width:620px){.truth-consciousness-grid{grid-template-columns:1fr}.identity-grid{grid-template-columns:1fr}.builder-nav{grid-template-columns:1fr}.choice-grid{grid-template-columns:1fr}.subsection-title{flex-direction:column}}
 </style>
