@@ -110,7 +110,7 @@ type WikiEntry = {
   group: string;
   subgroup: string;
   manufacturer: string;
-  snippet: string;
+  snippet?: string;
   media?: string | MediaRef | null;
 };
 
@@ -231,7 +231,9 @@ const wikiPreview = ref({
 });
 let wikiLinker: any = null;
 const wikiById = new Map<string, WikiEntry>();
+const wikiPreviewCache = new Map<string, { snippet: string; media?: string | MediaRef | null }>();
 let wikiPreviewTimer: number | undefined;
+let wikiBootstrapTimer: number | undefined;
 let wikiPreviewLink: HTMLAnchorElement | null = null;
 
 const RECENT_STORAGE_KEY = "tuc-compendium-recent-v1";
@@ -549,7 +551,7 @@ async function loadOnboarding() {
 
 async function loadWikiIndex() {
   try {
-    const payload = await api<{ entries: WikiEntry[] }>("/api/compendium/wiki-index");
+    const payload = await api<{ entries: WikiEntry[] }>("/api/compendium/wiki-index?compact=1");
     wikiById.clear();
     for (const entry of payload.entries) wikiById.set(entry.id, entry);
 
@@ -562,6 +564,7 @@ async function loadWikiIndex() {
       searchHref: (term: string) => `/compendium?q=${encodeURIComponent(term)}`
     });
     wikiReady.value = true;
+    loadLocalRecent();
 
     (window as any).__TUC_WIKI_V2__ = {
       ready: true,
@@ -598,7 +601,7 @@ function recentSearchItem(id: string): RecentItem | null {
     tags: [],
     manufacturer: entry.manufacturer,
     edited: false,
-    snippet: entry.snippet
+    snippet: entry.snippet ?? ""
   };
 }
 
@@ -970,31 +973,43 @@ async function openArticle(id: string, syncRoute = true) {
   showOnboarding.value = false;
   articleLoading.value = true;
   error.value = "";
+  builderUsage.value = [];
+  builderSources.value = [];
+  talentEmbeds.value = {};
+
+  const usagePromise = api<{ usage: BuilderUsage[]; sources: BuilderSourceRecord[] }>(
+    `/api/compendium/builder-usage/${encodeURIComponent(id)}`
+  ).catch(() => ({
+    usage: [] as BuilderUsage[],
+    sources: [] as BuilderSourceRecord[]
+  }));
 
   try {
-    const [result, usageResult] = await Promise.all([
-      api<{ article: Article }>(
-        `/api/compendium/articles/${encodeURIComponent(id)}`
-      ),
-      api<{ usage: BuilderUsage[]; sources: BuilderSourceRecord[] }>(
-        `/api/compendium/builder-usage/${encodeURIComponent(id)}`
-      ).catch(() => ({
-        usage: [] as BuilderUsage[],
-        sources: [] as BuilderSourceRecord[]
-      }))
-    ]);
+    const result = await api<{ article: Article }>(
+      `/api/compendium/articles/${encodeURIComponent(id)}`
+    );
+
+    // Primary content becomes visible immediately. Builder context, dynamic
+    // Talents and history enrich the already rendered article afterwards.
     selected.value = result.article;
-    builderUsage.value = usageResult.usage;
-    builderSources.value = usageResult.sources;
-    await loadTalentEmbeds(result.article);
-    await rememberArticle(id);
+    articleLoading.value = false;
 
     if (syncRoute && route.query.article !== id) {
-      await router.push({
+      void router.push({
         path: "/compendium",
         query: { article: id }
       });
     }
+
+    const usageResult = await usagePromise;
+    if (selected.value?.id !== id) return;
+    builderUsage.value = usageResult.usage;
+    builderSources.value = usageResult.sources;
+
+    await Promise.all([
+      loadTalentEmbeds(result.article),
+      rememberArticle(id)
+    ]);
   } catch (cause) {
     builderUsage.value = [];
     builderSources.value = [];
@@ -1070,33 +1085,49 @@ async function positionWikiPreview(link: HTMLAnchorElement) {
   wikiPreview.value.width = width;
 }
 
-function showWikiPreview(link: HTMLAnchorElement) {
+async function showWikiPreview(link: HTMLAnchorElement) {
   const id = link.dataset.wikiId;
   if (!id) return;
   const entry = wikiById.get(id);
   if (!entry) return;
 
   wikiPreviewLink = link;
+  const cached = wikiPreviewCache.get(id);
   wikiPreview.value = {
     visible: true,
     id,
     title: entry.title,
     category: entry.category || "Compendium",
     context: [entry.group, entry.subgroup].filter(Boolean).join(" · "),
-    snippet: entry.snippet,
-    mediaSrc: mediaUrl(entry.media),
+    snippet: cached?.snippet ?? "",
+    mediaSrc: mediaUrl(cached?.media),
     left: wikiPreview.value.left,
     top: wikiPreview.value.top,
     width: wikiPreview.value.width
   };
   void positionWikiPreview(link);
+
+  if (cached) return;
+  try {
+    const preview = await api<{ id: string; snippet: string; media?: string | MediaRef | null }>(
+      `/api/compendium/wiki-preview/${encodeURIComponent(id)}`
+    );
+    wikiPreviewCache.set(id, { snippet: preview.snippet, media: preview.media });
+    if (wikiPreview.value.visible && wikiPreview.value.id === id) {
+      wikiPreview.value.snippet = preview.snippet;
+      wikiPreview.value.mediaSrc = mediaUrl(preview.media);
+      void positionWikiPreview(link);
+    }
+  } catch {
+    // Preview enrichment is optional; navigation must stay instant.
+  }
 }
 
 function handleWikiMouseover(event: MouseEvent) {
   const link = closestWikiLink(event);
   if (!link || link === wikiPreviewLink || !link.dataset.wikiId) return;
   if (wikiPreviewTimer !== undefined) window.clearTimeout(wikiPreviewTimer);
-  wikiPreviewTimer = window.setTimeout(() => showWikiPreview(link), 120);
+  wikiPreviewTimer = window.setTimeout(() => void showWikiPreview(link), 120);
 }
 
 function handleWikiMouseout(event: MouseEvent) {
@@ -1108,7 +1139,7 @@ function handleWikiMouseout(event: MouseEvent) {
 
 function handleWikiFocusin(event: FocusEvent) {
   const link = closestWikiLink(event);
-  if (link?.dataset.wikiId) showWikiPreview(link);
+  if (link?.dataset.wikiId) void showWikiPreview(link);
 }
 
 function handleWikiFocusout(event: FocusEvent) {
@@ -1238,22 +1269,35 @@ watch(
   }
 );
 
-onMounted(async () => {
+onMounted(() => {
   if (typeof route.query.q === "string") query.value = route.query.q;
   if (typeof route.query.category === "string") category.value = route.query.category;
 
+  const initialArticleId =
+    typeof route.query.article === "string" ? route.query.article : "";
+
   showOnboarding.value =
     route.query.start === "1" ||
-    (!route.query.article && !query.value.trim() && !category.value);
+    (!initialArticleId && !query.value.trim() && !category.value);
 
-  await loadCurrentUser();
-  await Promise.all([loadMeta(), loadOnboarding(), loadWikiIndex(), search()]);
-  loadLocalRecent();
-  if (currentUser.value) await loadLibrary();
-
-  if (typeof route.query.article === "string") {
-    await openArticle(route.query.article, false);
+  // The requested content is always the highest-priority network call.
+  if (initialArticleId) {
+    void openArticle(initialArticleId, false);
+  } else if (!showOnboarding.value || query.value.trim() || category.value) {
+    void search();
   }
+
+  void loadMeta();
+  void loadOnboarding();
+  void loadCurrentUser().then(async () => {
+    if (currentUser.value) await loadLibrary();
+  });
+
+  // Interlinking is an enhancement, not a prerequisite to reading a page.
+  // A short delay lets the article/search request win the initial connection.
+  wikiBootstrapTimer = window.setTimeout(() => {
+    void loadWikiIndex();
+  }, initialArticleId ? 250 : 50);
 
   window.addEventListener("scroll", repositionWikiPreview, { passive: true });
   window.addEventListener("resize", repositionWikiPreview);
@@ -1261,6 +1305,7 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
   window.clearTimeout(suggestionTimer);
+  window.clearTimeout(wikiBootstrapTimer);
   hideWikiPreview();
   window.removeEventListener("scroll", repositionWikiPreview);
   window.removeEventListener("resize", repositionWikiPreview);
@@ -1560,7 +1605,7 @@ onBeforeUnmount(() => {
             @focusout="handleWikiFocusout"
             @click="handleWikiClick"
           >
-            <div v-if="articleLoading" class="article-skeleton" aria-label="Chargement de l’article">
+            <div v-if="articleLoading && !selected" class="article-skeleton" aria-label="Chargement de l’article">
               <div class="article-skeleton-kicker"></div>
               <div class="article-skeleton-title"></div>
               <div class="article-skeleton-meta"></div>
@@ -1770,7 +1815,7 @@ onBeforeUnmount(() => {
                       >
                         <span>{{ entry.subgroup || entry.category }}</span>
                         <strong>{{ entry.title }}</strong>
-                        <small>{{ entry.snippet }}</small>
+                        <small v-if="entry.snippet">{{ entry.snippet }}</small>
                       </button>
                     </div>
                   </section>
