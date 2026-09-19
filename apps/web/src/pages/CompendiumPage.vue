@@ -852,11 +852,14 @@ onBeforeUnmount(() => {
       </RouterLink>
 
       <div class="compendium-top-actions">
+        <button class="ghost compact-link" type="button" @click="openNewcomer">
+          Nouveau joueur
+        </button>
         <RouterLink v-if="canEdit" class="ghost compact-link wiki-create-link" to="/compendium/new">
           ＋ Nouvelle page
         </RouterLink>
         <RouterLink class="ghost compact-link" to="/">
-          Retour à mon espace
+          {{ currentUser ? "Mon espace" : "Connexion" }}
         </RouterLink>
       </div>
     </header>
@@ -867,8 +870,8 @@ onBeforeUnmount(() => {
           <p class="eyebrow">CORPUS NATIF V2</p>
           <h1>Compendium</h1>
           <p>
-            Consultation du corpus V3 consolidé par l’API Terra Umbra. La recherche
-            s’effectue côté serveur sur les titres, tags, groupes et contenu des articles.
+            Wiki public de Terra Umbra California : règles, Réalité, Vérité, personnages,
+            créatures et équipement. Aucun compte n’est nécessaire pour lire ou rechercher.
           </p>
         </div>
 
@@ -884,13 +887,12 @@ onBeforeUnmount(() => {
 
       <div v-if="error" class="feedback error compendium-feedback">
         {{ error }}
-        <RouterLink v-if="authenticationRequired" to="/">Se connecter</RouterLink>
       </div>
       <div v-else-if="libraryNotice" class="feedback compendium-feedback">
         {{ libraryNotice }}
       </div>
 
-      <template v-if="!authenticationRequired">
+      <template>
         <section class="panel compendium-search">
           <form @submit.prevent="search">
             <label>
@@ -938,7 +940,15 @@ onBeforeUnmount(() => {
           </div>
         </section>
 
-        <section class="panel library-panel">
+        <CompendiumOnboarding
+          v-if="showOnboarding"
+          :data="onboarding"
+          @open-article="openArticle"
+          @open-category="openOnboardingCategory"
+          @close="closeNewcomer"
+        />
+
+        <section v-if="currentUser && !showOnboarding" class="panel library-panel">
           <div class="library-heading">
             <div>
               <p class="eyebrow">MA BIBLIOTHÈQUE</p>
@@ -1002,7 +1012,7 @@ onBeforeUnmount(() => {
           </p>
         </section>
 
-        <section class="compendium-workspace">
+        <section v-if="!showOnboarding" class="compendium-workspace">
           <aside class="panel result-panel">
             <div class="result-heading">
               <div>
@@ -1102,7 +1112,7 @@ onBeforeUnmount(() => {
                       <span v-if="selected.__wikiPublishedEdit">Édition wiki publiée</span>
                     </div>
 
-                    <div class="article-library-actions">
+                    <div v-if="currentUser" class="article-library-actions">
                       <button
                         class="favorite-button"
                         :class="{ active: selectedIsFavorite }"
