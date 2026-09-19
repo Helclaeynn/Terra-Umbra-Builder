@@ -63,6 +63,28 @@ type CreationRules={
   };
 };
 
+type DisadvantageOption={
+  id:string;
+  name:string;
+  effect:string;
+  category:"common"|"attribute"|"sphere";
+  attribute?:string;
+  sphere?:string;
+};
+type DisadvantageCatalog={
+  common:readonly DisadvantageOption[];
+  attribute:readonly DisadvantageOption[];
+  sphere:Record<string,readonly DisadvantageOption[]>;
+};
+type EdgeOptionRule={max:number;points?:number;amount?:number;steps?:number;gen2Windows?:number};
+type EdgeLore={lore:string;mechanic:string};
+type EdgeRules={
+  base:number;
+  maxHeld:number;
+  options:Record<string,EdgeOptionRule>;
+  lore:Record<string,EdgeLore>;
+};
+
 type StepId="identity"|"origin"|"sphere"|"attributes"|"skills"|"talents"|"truth"|"disadvantages"|"edge"|"equipment"|"finish"|"progression";
 
 const route=useRoute();
@@ -72,6 +94,10 @@ const rules=ref<CreationRules|null>(null);
 const lore=ref<CreationLore|null>(null);
 const talentChoiceSpecs=ref<Record<string,TalentChoiceSpec>>({});
 const skillTalentMap=ref<Record<string,string>>({});
+const disadvantages=ref<DisadvantageCatalog|null>(null);
+const disadvantageLore=ref<Record<string,string>>({});
+const edgeRules=ref<EdgeRules|null>(null);
+const disadvantageCategory=ref("common");
 const loading=ref(true);
 const saving=ref(false);
 const error=ref("");
@@ -88,8 +114,8 @@ const sections:Array<[StepId,string,boolean]>=[
   ["skills","Compétences",true],
   ["talents","Talents",true],
   ["truth","Vérité",false],
-  ["disadvantages","Désavantages",false],
-  ["edge","Edge",false],
+  ["disadvantages","Désavantages",true],
+  ["edge","Edge",true],
   ["equipment","Équipement",false],
   ["finish","Finalisation",false],
   ["progression","Dépense XP & PTV",false]
@@ -168,10 +194,16 @@ const attributeTotal=computed(()=>{
   return rules.value.attributes.reduce((sum,attribute)=>sum+Number(draft.value?.attributes[attribute.id]??0),0);
 });
 
-const attributeBudget=computed(()=>{
+const attributeBudget=computed(()=>rules.value?.creation.attributes.baseTotal??0);
+
+const edgeAttributePointsUsed=computed(()=>{
+  if(!draft.value)return 0;
+  return Object.values(draft.value.edgeAttributes).reduce((sum,value)=>sum+Number(value||0),0);
+});
+
+const edgeAttributeBudget=computed(()=>{
   if(!draft.value||!rules.value)return 0;
-  const attr=rules.value.creation.attributes;
-  return attr.baseTotal+(Number(draft.value.edge.attributePack||0)*attr.edgePackPoints);
+  return Number(draft.value.edge.attributePack||0)*rules.value.creation.attributes.edgePackPoints;
 });
 
 function humanError(code:string){
@@ -334,6 +366,9 @@ async function loadCharacter(){
         lore:CreationLore;
         talentChoiceSpecs:Record<string,TalentChoiceSpec>;
         skillTalentMap:Record<string,string>;
+        disadvantages:DisadvantageCatalog;
+        disadvantageLore:Record<string,string>;
+        edgeRules:EdgeRules;
       }>("/api/rulesets/terra-umbra/creation")
     ]);
     character.value=characterResult.character;
@@ -342,6 +377,13 @@ async function loadCharacter(){
     lore.value=rulesResult.lore;
     talentChoiceSpecs.value=rulesResult.talentChoiceSpecs;
     skillTalentMap.value=rulesResult.skillTalentMap;
+    disadvantages.value=rulesResult.disadvantages;
+    disadvantageLore.value=rulesResult.disadvantageLore;
+    edgeRules.value=rulesResult.edgeRules;
+    if(
+      disadvantageCategory.value==="sphere" &&
+      !draft.value.creation.sphere
+    ) disadvantageCategory.value="common";
     baseline.value=JSON.stringify(draft.value);
   }catch(cause){
     error.value=humanError((cause as Error).message);
@@ -875,7 +917,7 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
           <p class="builder-intro">
             Répartissez le budget entre les cinq Attributs. Base {{ rules.creation.attributes.baseTotal }}
             points, minimum {{ rules.creation.attributes.min }}, maximum {{ rules.creation.attributes.max }}.
-            Un achat Edge « +2 Attributs » déjà présent dans une fiche importée augmente automatiquement le budget.
+            Les éventuels +2 Attributs achetés avec Edge sont attribués séparément à l’étape Edge et ne modifient jamais ce budget de 22 points.
           </p>
 
           <div class="attribute-grid">
