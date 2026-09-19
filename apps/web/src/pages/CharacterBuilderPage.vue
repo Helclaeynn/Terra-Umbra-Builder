@@ -27,7 +27,7 @@ import {
   type RealityRulesPackage,
   type RealityState
 } from "../lib/reality";
-import { ensureProgression } from "../lib/progression";
+import { campaignCash, ensureProgression, type ProgressionState } from "../lib/progression";
 import type { Character, CharacterDataV2 } from "../types/character";
 import {
   truthAvailableTalents,
@@ -751,6 +751,17 @@ const sphereNameValue=computed(()=>selectedSphere.value?.name??"");
 const styleNameValue=computed(()=>selectedStyle.value?.name??"");
 const equipmentCount=computed(()=>realityState.value?.equipment.length??0);
 const augmentationCount=computed(()=>realityState.value?.augmentations.length??0);
+const renownScore=computed(()=>{
+  if(!draft.value)return 0;
+  if(hasUnknownDisadvantage.value)return 0;
+  if(hasRenownedTalent.value||Number(draft.value.edge.renownPack||0)>0)return 2;
+  return 1;
+});
+const campaignCashValue=computed(()=>{
+  if(!draft.value)return 0;
+  const progression=draft.value.progression as unknown as ProgressionState;
+  return campaignCash(progression,Math.max(0,realityEconomyValue.value?.account||0));
+});
 
 function navigateFromFinalization(id:string){
   if(sections.some(([step])=>step===id))activeStep.value=id as StepId;
@@ -2292,6 +2303,8 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
           :lifestyle-base="lifestyleBaseValue"
           :lifestyle-effective="lifestylePressureValue?.effective || lifestyleBaseValue"
           :account="realityEconomyValue?.account || 0"
+          :renown-score="renownScore"
+          :campaign-cash="campaignCashValue"
           :equipment-count="equipmentCount"
           :augmentation-count="augmentationCount"
           @update:social="draft.social=$event"
