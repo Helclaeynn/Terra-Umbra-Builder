@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { cloneJson } from "../../lib/json";
+import BuilderWikiLink from "./BuilderWikiLink.vue";
 import {
   augmentationAccess,
   augmentationBaseKey,
@@ -529,7 +530,7 @@ function setCorporateSupportItem(itemId:string){
         <div class="picked-list">
           <div v-for="row in purchasedAugmentations" :key="row.purchase.uid" class="picked-row rich">
             <div v-if="row.item">
-              <strong>{{ row.item.name }}</strong>
+              <strong><BuilderWikiLink :label="row.item.name" category="Équipement & Objets" compact /></strong>
               <span>
                 {{ money(row.purchase.selectedPrice ?? row.item.price) }}
                 <template v-if="row.item.generation"> · Gen {{ row.item.generation }}</template>
@@ -568,7 +569,7 @@ function setCorporateSupportItem(itemId:string){
         <div class="picked-list">
           <div v-for="row in purchasedEquipment" :key="row.purchase.uid" class="picked-row rich">
             <div v-if="row.item">
-              <strong>{{ row.item.name }}</strong>
+              <strong><BuilderWikiLink :label="row.item.name" category="Équipement & Objets" compact /></strong>
               <span>
                 {{ row.item.category }} · {{ money(row.purchase.selectedPrice ?? row.item.price) }}
                 <template v-if="row.purchase.sphereSupport"> · véhicule de fonction</template>
@@ -626,7 +627,7 @@ function setCorporateSupportItem(itemId:string){
         <div v-if="catalogKind === 'equipment'" class="catalog-grid">
           <article v-for="item in filteredEquipment" :key="item.id" class="catalog-card">
             <div class="catalog-head">
-              <div><strong>{{ item.name }}</strong><small>{{ item.category }}</small></div>
+              <div><strong><BuilderWikiLink :label="item.name" category="Équipement & Objets" /></strong><small>{{ item.category }}</small></div>
               <button class="primary compact" type="button" :disabled="!addStatus(item).ok" @click="addPurchase(item)">Ajouter</button>
             </div>
             <div class="pillbar">
@@ -656,7 +657,7 @@ function setCorporateSupportItem(itemId:string){
           <article v-for="group in augmentationGroups" :key="group.key" class="catalog-card">
             <div class="catalog-head">
               <div>
-                <strong>{{ selectedVariant(group).name }}</strong>
+                <strong><BuilderWikiLink :label="selectedVariant(group).name" category="Équipement & Objets" /></strong>
                 <small>{{ selectedVariant(group).category }}</small>
               </div>
               <button
