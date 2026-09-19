@@ -40,12 +40,17 @@ const auditEvents = ref<AuditEvent[]>([]);
 const busy = ref(false);
 const message = ref("");
 const error = ref("");
-const authMode = ref<"login" | "register">("login");
+const passwordResetAvailable = ref(false);
+const resetToken = ref(new URLSearchParams(window.location.search).get("reset") ?? "");
+const authMode = ref<"login" | "register" | "forgot" | "reset">(
+  resetToken.value ? "reset" : "login"
+);
 
 const authForm = ref({
   displayName: "",
   email: "",
-  password: ""
+  password: "",
+  passwordConfirmation: ""
 });
 
 const profileForm = ref({
@@ -54,7 +59,8 @@ const profileForm = ref({
 
 const passwordForm = ref({
   currentPassword: "",
-  newPassword: ""
+  newPassword: "",
+  newPasswordConfirmation: ""
 });
 
 const isAdmin = computed(() => user.value?.role === "admin");
@@ -69,6 +75,12 @@ function humanError(code: string): string {
     invalid_email: "Adresse e-mail invalide.",
     invalid_display_name: "Le nom doit contenir entre 2 et 80 caractères.",
     weak_password: "Le mot de passe doit contenir au moins 12 caractères.",
+    password_confirmation_mismatch: "Les deux mots de passe doivent être renseignés et identiques.",
+    password_reset_unavailable: "La récupération par e-mail n’est pas encore configurée.",
+    password_reset_mail_failed: "L’e-mail de réinitialisation n’a pas pu être envoyé.",
+    invalid_reset_token: "Le lien de réinitialisation est invalide.",
+    invalid_or_expired_reset_token: "Le lien de réinitialisation est invalide ou a expiré.",
+    password_reset_failed: "La réinitialisation du mot de passe a échoué.",
     setup_already_completed: "Le compte administrateur initial existe déjà.",
     setup_required: "L'initialisation administrateur doit être terminée d'abord.",
     email_already_used: "Cette adresse e-mail est déjà utilisée.",
@@ -80,7 +92,10 @@ function humanError(code: string): string {
     cannot_modify_self: "Ton propre rôle ne se modifie pas depuis ce panneau.",
     last_admin_protected: "Le dernier administrateur actif est protégé.",
     invalid_current_password: "Le mot de passe actuel est incorrect.",
-    account_update_failed: "La modification du compte a échoué."
+    account_update_failed: "La modification du compte a échoué.",
+    cannot_delete_self: "Tu ne peux pas supprimer ton propre compte administrateur.",
+    delete_confirmation_mismatch: "La confirmation ne correspond pas à l’adresse e-mail du compte.",
+    account_delete_failed: "La suppression du compte a échoué."
   };
 
   return labels[code] ?? "Une erreur est survenue.";
@@ -109,9 +124,10 @@ async function api<T>(
 }
 
 async function bootstrap() {
-  const [healthResult, setupResult] = await Promise.allSettled([
+  const [healthResult, setupResult, capabilitiesResult] = await Promise.allSettled([
     api<{ status: string }>("/api/health"),
-    api<{ setupRequired: boolean }>("/api/auth/setup-status")
+    api<{ setupRequired: boolean }>("/api/auth/setup-status"),
+    api<{ passwordResetAvailable: boolean }>("/api/auth/capabilities")
   ]);
 
   health.value =
@@ -119,6 +135,10 @@ async function bootstrap() {
 
   if (setupResult.status === "fulfilled") {
     setupRequired.value = setupResult.value.setupRequired;
+  }
+
+  if (capabilitiesResult.status === "fulfilled") {
+    passwordResetAvailable.value = capabilitiesResult.value.passwordResetAvailable;
   }
 
   if (!setupRequired.value) {
@@ -135,6 +155,7 @@ function applyUser(nextUser: User) {
   user.value = nextUser;
   profileForm.value.displayName = nextUser.displayName;
   authForm.value.password = "";
+  authForm.value.passwordConfirmation = "";
 
   if (nextUser.role === "admin") {
     void loadAdmin();
@@ -191,6 +212,50 @@ async function submitAuth() {
   }
 }
 
+async function requestPasswordReset() {
+  resetFeedback();
+  busy.value = true;
+
+  try {
+    await api("/api/auth/forgot-password", {
+      method: "POST",
+      body: JSON.stringify({ email: authForm.value.email })
+    });
+    message.value = "Si ce compte existe, un lien de réinitialisation vient d’être envoyé.";
+    authMode.value = "login";
+  } catch (cause) {
+    error.value = humanError((cause as Error).message);
+  } finally {
+    busy.value = false;
+  }
+}
+
+async function resetPassword() {
+  resetFeedback();
+  busy.value = true;
+
+  try {
+    await api("/api/auth/reset-password", {
+      method: "POST",
+      body: JSON.stringify({
+        token: resetToken.value,
+        password: authForm.value.password,
+        passwordConfirmation: authForm.value.passwordConfirmation
+      })
+    });
+    authForm.value.password = "";
+    authForm.value.passwordConfirmation = "";
+    resetToken.value = "";
+    window.history.replaceState({}, "", window.location.pathname);
+    authMode.value = "login";
+    message.value = "Mot de passe réinitialisé. Tu peux maintenant te connecter.";
+  } catch (cause) {
+    error.value = humanError((cause as Error).message);
+  } finally {
+    busy.value = false;
+  }
+}
+
 async function logout() {
   await api("/api/auth/logout", { method: "POST" }).catch(() => undefined);
   user.value = null;
@@ -227,7 +292,11 @@ async function changePassword() {
       method: "POST",
       body: JSON.stringify(passwordForm.value)
     });
-    passwordForm.value = { currentPassword: "", newPassword: "" };
+    passwordForm.value = {
+      currentPassword: "",
+      newPassword: "",
+      newPasswordConfirmation: ""
+    };
     message.value = "Mot de passe modifié. Les autres sessions ont été fermées.";
   } catch (cause) {
     error.value = humanError((cause as Error).message);
@@ -252,11 +321,49 @@ async function loadAdmin() {
 }
 
 async function setRole(target: User, role: Role) {
+  if (role === target.role) return;
+
+  const confirmed = window.confirm(
+    `Changer le rôle de ${target.displayName} (${target.email}) de « ${roleLabels[target.role]} » vers « ${roleLabels[role]} » ?`
+  );
+
+  if (!confirmed) {
+    await loadAdmin();
+    return;
+  }
+
   await updateAdminUser(target, { role });
 }
 
 async function toggleActive(target: User) {
+  const action = target.active ? "désactiver" : "réactiver";
+  const confirmed = window.confirm(
+    `Êtes-vous sûr de vouloir ${action} le compte de ${target.displayName} (${target.email}) ?`
+  );
+
+  if (!confirmed) return;
   await updateAdminUser(target, { active: !target.active });
+}
+
+async function deleteAccount(target: User) {
+  resetFeedback();
+
+  const confirmation = window.prompt(
+    `Suppression définitive de ${target.displayName}. Cette opération supprimera aussi ses personnages.\n\nPour confirmer, retape exactement son adresse e-mail :\n${target.email}`
+  );
+
+  if (confirmation === null) return;
+
+  try {
+    await api(`/api/admin/users/${target.id}`, {
+      method: "DELETE",
+      body: JSON.stringify({ confirmation })
+    });
+    message.value = `Compte ${target.email} supprimé.`;
+    await loadAdmin();
+  } catch (cause) {
+    error.value = humanError((cause as Error).message);
+  }
 }
 
 async function updateAdminUser(
@@ -278,6 +385,10 @@ async function updateAdminUser(
   } catch (cause) {
     error.value = humanError((cause as Error).message);
   }
+}
+
+function auditActionLabel(event: AuditEvent): string {
+  return event.action === "account_delete" ? "a supprimé" : "a modifié";
 }
 
 function formatDate(value: string | null): string {
@@ -355,6 +466,16 @@ onMounted(bootstrap);
             />
             <small>12 caractères minimum.</small>
           </label>
+          <label>
+            Confirmer le mot de passe
+            <input
+              v-model="authForm.passwordConfirmation"
+              type="password"
+              autocomplete="new-password"
+              required
+              minlength="12"
+            />
+          </label>
           <button class="primary" :disabled="busy" type="submit">
             Créer mon compte administrateur
           </button>
@@ -372,7 +493,7 @@ onMounted(bootstrap);
         </div>
 
         <div class="panel auth-card">
-          <div class="tabs">
+          <div v-if="authMode === 'login' || authMode === 'register'" class="tabs">
             <button
               type="button"
               :class="{ active: authMode === 'login' }"
@@ -389,7 +510,7 @@ onMounted(bootstrap);
             </button>
           </div>
 
-          <form @submit.prevent="submitAuth">
+          <form v-if="authMode === 'login' || authMode === 'register'" @submit.prevent="submitAuth">
             <label v-if="authMode === 'register'">
               Nom affiché
               <input
@@ -420,8 +541,70 @@ onMounted(bootstrap);
               />
               <small v-if="authMode === 'register'">12 caractères minimum.</small>
             </label>
+            <label v-if="authMode === 'register'">
+              Confirmer le mot de passe
+              <input
+                v-model="authForm.passwordConfirmation"
+                type="password"
+                autocomplete="new-password"
+                required
+                minlength="12"
+              />
+            </label>
             <button class="primary" :disabled="busy" type="submit">
               {{ authMode === "login" ? "Se connecter" : "Créer le compte" }}
+            </button>
+            <button
+              v-if="authMode === 'login' && passwordResetAvailable"
+              class="link-button"
+              type="button"
+              @click="authMode = 'forgot'"
+            >
+              Mot de passe oublié ?
+            </button>
+          </form>
+
+          <form v-if="authMode === 'forgot'" @submit.prevent="requestPasswordReset">
+            <p class="auth-help">
+              Renseigne l’adresse e-mail de ton compte. Si elle existe, nous t’enverrons
+              un lien valable 30 minutes.
+            </p>
+            <label>
+              E-mail
+              <input v-model="authForm.email" type="email" autocomplete="email" required />
+            </label>
+            <button class="primary" :disabled="busy" type="submit">
+              Envoyer le lien
+            </button>
+            <button class="link-button" type="button" @click="authMode = 'login'">
+              Retour à la connexion
+            </button>
+          </form>
+
+          <form v-if="authMode === 'reset'" @submit.prevent="resetPassword">
+            <p class="auth-help">Choisis ton nouveau mot de passe.</p>
+            <label>
+              Nouveau mot de passe
+              <input
+                v-model="authForm.password"
+                type="password"
+                autocomplete="new-password"
+                minlength="12"
+                required
+              />
+            </label>
+            <label>
+              Confirmer le mot de passe
+              <input
+                v-model="authForm.passwordConfirmation"
+                type="password"
+                autocomplete="new-password"
+                minlength="12"
+                required
+              />
+            </label>
+            <button class="primary" :disabled="busy" type="submit">
+              Réinitialiser le mot de passe
             </button>
           </form>
         </div>
@@ -482,6 +665,16 @@ onMounted(bootstrap);
                 Nouveau mot de passe
                 <input
                   v-model="passwordForm.newPassword"
+                  type="password"
+                  autocomplete="new-password"
+                  minlength="12"
+                  required
+                />
+              </label>
+              <label>
+                Confirmer le nouveau mot de passe
+                <input
+                  v-model="passwordForm.newPasswordConfirmation"
                   type="password"
                   autocomplete="new-password"
                   minlength="12"
@@ -556,6 +749,14 @@ onMounted(bootstrap);
                     >
                       {{ account.active ? "Désactiver" : "Réactiver" }}
                     </button>
+                    <button
+                      class="ghost compact danger"
+                      type="button"
+                      :disabled="account.id === user.id"
+                      @click="deleteAccount(account)"
+                    >
+                      Supprimer
+                    </button>
                   </td>
                 </tr>
               </tbody>
@@ -576,7 +777,7 @@ onMounted(bootstrap);
             <article v-for="event in auditEvents" :key="event.id">
               <div>
                 <strong>{{ event.actorName || "Administrateur supprimé" }}</strong>
-                a modifié
+                {{ auditActionLabel(event) }}
                 <strong>{{ event.targetName || event.targetEmail || "un compte" }}</strong>
               </div>
               <small>{{ formatDate(event.createdAt) }}</small>

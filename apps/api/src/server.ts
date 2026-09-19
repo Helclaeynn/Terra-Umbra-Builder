@@ -1,3 +1,4 @@
+import { randomBytes } from "node:crypto";
 import cors from "@fastify/cors";
 import Fastify, { type FastifyReply } from "fastify";
 import {
@@ -21,6 +22,7 @@ import {
 } from "./auth.js";
 import { databaseStatus, pool } from "./db.js";
 import { registerCharacterRoutes } from "./characters.js";
+import { passwordResetMailAvailable, sendPasswordResetEmail } from "./mail.js";
 
 const app = Fastify({
   logger: true,
@@ -97,7 +99,7 @@ async function loadUser(id: string) {
 app.get("/api/health", async () => ({
   status: "ok",
   service: "tuc-api",
-  version: "0.3.0"
+  version: "0.4.0"
 }));
 
 app.get("/api/ready", async (_request, reply) => {
@@ -120,25 +122,33 @@ app.get("/api/ready", async (_request, reply) => {
 app.get("/api", async () => ({
   name: "Terra Umbra API",
   status: "online",
-  version: "0.3.0"
+  version: "0.4.0"
 }));
 
 app.get("/api/auth/setup-status", async () => ({
   setupRequired: (await userCount()) === 0
 }));
 
+app.get("/api/auth/capabilities", async () => ({
+  passwordResetAvailable: passwordResetMailAvailable()
+}));
+
 app.post<{
-  Body: { email?: string; displayName?: string; password?: string };
+  Body: { email?: string; displayName?: string; password?: string; passwordConfirmation?: string };
 }>("/api/auth/setup", async (request, reply) => {
   const email = normalizeEmail(request.body?.email ?? "");
   const displayName = (request.body?.displayName ?? "").trim();
   const password = request.body?.password ?? "";
+  const passwordConfirmation = request.body?.passwordConfirmation ?? "";
 
   if (!validateEmail(email)) return inputError(reply, "invalid_email");
   if (!validateDisplayName(displayName)) {
     return inputError(reply, "invalid_display_name");
   }
   if (!validatePassword(password)) return inputError(reply, "weak_password");
+  if (!passwordConfirmation || password !== passwordConfirmation) {
+    return inputError(reply, "password_confirmation_mismatch");
+  }
 
   const passwordHash = await hashPassword(password);
   const client = await pool.connect();
@@ -188,7 +198,7 @@ app.post<{
 });
 
 app.post<{
-  Body: { email?: string; displayName?: string; password?: string };
+  Body: { email?: string; displayName?: string; password?: string; passwordConfirmation?: string };
 }>("/api/auth/register", async (request, reply) => {
   if ((await userCount()) === 0) {
     return reply.code(409).send({ error: "setup_required" });
@@ -197,12 +207,16 @@ app.post<{
   const email = normalizeEmail(request.body?.email ?? "");
   const displayName = (request.body?.displayName ?? "").trim();
   const password = request.body?.password ?? "";
+  const passwordConfirmation = request.body?.passwordConfirmation ?? "";
 
   if (!validateEmail(email)) return inputError(reply, "invalid_email");
   if (!validateDisplayName(displayName)) {
     return inputError(reply, "invalid_display_name");
   }
   if (!validatePassword(password)) return inputError(reply, "weak_password");
+  if (!passwordConfirmation || password !== passwordConfirmation) {
+    return inputError(reply, "password_confirmation_mismatch");
+  }
 
   try {
     const passwordHash = await hashPassword(password);
@@ -275,6 +289,147 @@ app.post<{
   return { user: await loadUser(row.id) };
 });
 
+
+app.post<{
+  Body: { email?: string };
+}>("/api/auth/forgot-password", async (request, reply) => {
+  if (!passwordResetMailAvailable()) {
+    return reply.code(503).send({ error: "password_reset_unavailable" });
+  }
+
+  const email = normalizeEmail(request.body?.email ?? "");
+
+  if (!validateEmail(email)) {
+    return { ok: true };
+  }
+
+  const result = await pool.query<{
+    id: string;
+    email: string;
+    display_name: string;
+    is_active: boolean;
+  }>(
+    `SELECT id, email, display_name, is_active
+     FROM users
+     WHERE lower(email) = $1
+     LIMIT 1`,
+    [email]
+  );
+
+  const account = result.rows[0];
+  if (!account || !account.is_active) {
+    return { ok: true };
+  }
+
+  const token = randomBytes(32).toString("base64url");
+  const tokenHash = hashSessionToken(token);
+
+  await pool.query(
+    `DELETE FROM password_reset_tokens
+     WHERE user_id = $1 OR expires_at <= now() OR used_at IS NOT NULL`,
+    [account.id]
+  );
+
+  await pool.query(
+    `INSERT INTO password_reset_tokens
+      (token_hash, user_id, expires_at, requested_ip)
+     VALUES ($1, $2, now() + interval '30 minutes', $3)`,
+    [tokenHash, account.id, request.ip]
+  );
+
+  try {
+    await sendPasswordResetEmail(
+      account.email,
+      account.display_name,
+      token
+    );
+  } catch (mailError) {
+    app.log.error(mailError);
+    await pool.query(
+      "DELETE FROM password_reset_tokens WHERE token_hash = $1",
+      [tokenHash]
+    );
+    return reply.code(503).send({ error: "password_reset_mail_failed" });
+  }
+
+  return { ok: true };
+});
+
+app.post<{
+  Body: {
+    token?: string;
+    password?: string;
+    passwordConfirmation?: string;
+  };
+}>("/api/auth/reset-password", async (request, reply) => {
+  const token = request.body?.token ?? "";
+  const password = request.body?.password ?? "";
+  const passwordConfirmation = request.body?.passwordConfirmation ?? "";
+
+  if (token.length < 20) return inputError(reply, "invalid_reset_token");
+  if (!validatePassword(password)) return inputError(reply, "weak_password");
+  if (!passwordConfirmation || password !== passwordConfirmation) {
+    return inputError(reply, "password_confirmation_mismatch");
+  }
+
+  const tokenHash = hashSessionToken(token);
+  const client = await pool.connect();
+
+  try {
+    await client.query("BEGIN");
+
+    const resetResult = await client.query<{
+      user_id: string;
+      is_active: boolean;
+    }>(
+      `SELECT p.user_id, u.is_active
+       FROM password_reset_tokens p
+       JOIN users u ON u.id = p.user_id
+       WHERE p.token_hash = $1
+         AND p.expires_at > now()
+         AND p.used_at IS NULL
+       FOR UPDATE`,
+      [tokenHash]
+    );
+
+    const reset = resetResult.rows[0];
+    if (!reset || !reset.is_active) {
+      await client.query("ROLLBACK");
+      return reply.code(400).send({ error: "invalid_or_expired_reset_token" });
+    }
+
+    const passwordHash = await hashPassword(password);
+
+    await client.query(
+      `UPDATE users
+       SET password_hash = $1, updated_at = now()
+       WHERE id = $2`,
+      [passwordHash, reset.user_id]
+    );
+
+    await client.query(
+      "UPDATE password_reset_tokens SET used_at = now() WHERE token_hash = $1",
+      [tokenHash]
+    );
+    await client.query(
+      "DELETE FROM password_reset_tokens WHERE user_id = $1 AND token_hash <> $2",
+      [reset.user_id, tokenHash]
+    );
+    await client.query("DELETE FROM sessions WHERE user_id = $1", [
+      reset.user_id
+    ]);
+
+    await client.query("COMMIT");
+    return { ok: true };
+  } catch (resetError) {
+    await client.query("ROLLBACK").catch(() => undefined);
+    app.log.error(resetError);
+    return reply.code(500).send({ error: "password_reset_failed" });
+  } finally {
+    client.release();
+  }
+});
+
 app.post("/api/auth/logout", async (request, reply) => {
   await destroySession(readSessionToken(request));
   clearSessionCookie(reply);
@@ -307,15 +462,19 @@ app.patch<{
 });
 
 app.post<{
-  Body: { currentPassword?: string; newPassword?: string };
+  Body: { currentPassword?: string; newPassword?: string; newPasswordConfirmation?: string };
 }>("/api/auth/change-password", async (request, reply) => {
   const user = await requireUser(request, reply);
   if (!user) return;
 
   const currentPassword = request.body?.currentPassword ?? "";
   const newPassword = request.body?.newPassword ?? "";
+  const newPasswordConfirmation = request.body?.newPasswordConfirmation ?? "";
   if (!validatePassword(newPassword)) {
     return inputError(reply, "weak_password");
+  }
+  if (!newPasswordConfirmation || newPassword !== newPasswordConfirmation) {
+    return inputError(reply, "password_confirmation_mismatch");
   }
 
   const result = await pool.query<{ password_hash: string | null }>(
@@ -521,6 +680,106 @@ app.patch<{
   }
 });
 
+
+app.delete<{
+  Params: { id: string };
+  Body: { confirmation?: string };
+}>("/api/admin/users/:id", async (request, reply) => {
+  const admin = await requireAdmin(request, reply);
+  if (!admin) return;
+
+  const targetId = request.params.id;
+  if (
+    !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+      targetId
+    )
+  ) {
+    return inputError(reply, "invalid_user_id");
+  }
+
+  if (targetId === admin.id) {
+    return reply.code(400).send({ error: "cannot_delete_self" });
+  }
+
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    await client.query("SELECT pg_advisory_xact_lock(88442213)");
+
+    const targetResult = await client.query<{
+      id: string;
+      email: string;
+      display_name: string;
+      role: Role;
+      is_active: boolean;
+    }>(
+      `SELECT id, email, display_name, role, is_active
+       FROM users
+       WHERE id = $1
+       FOR UPDATE`,
+      [targetId]
+    );
+
+    const target = targetResult.rows[0];
+    if (!target) {
+      await client.query("ROLLBACK");
+      return reply.code(404).send({ error: "user_not_found" });
+    }
+
+    if (
+      normalizeEmail(request.body?.confirmation ?? "") !==
+      normalizeEmail(target.email)
+    ) {
+      await client.query("ROLLBACK");
+      return reply.code(400).send({ error: "delete_confirmation_mismatch" });
+    }
+
+    if (target.role === "admin" && target.is_active) {
+      const otherAdmins = await client.query<{ count: string }>(
+        `SELECT count(*)::text AS count
+         FROM users
+         WHERE role = 'admin'
+           AND is_active = true
+           AND id <> $1`,
+        [targetId]
+      );
+
+      if (Number(otherAdmins.rows[0]?.count ?? 0) === 0) {
+        await client.query("ROLLBACK");
+        return reply.code(409).send({ error: "last_admin_protected" });
+      }
+    }
+
+    await client.query(
+      `INSERT INTO admin_audit_log
+        (actor_id, target_user_id, action, before_state, after_state)
+       VALUES ($1, $2, 'account_delete', $3::jsonb, $4::jsonb)`,
+      [
+        admin.id,
+        targetId,
+        JSON.stringify({
+          email: target.email,
+          displayName: target.display_name,
+          role: target.role,
+          active: target.is_active
+        }),
+        JSON.stringify({ deleted: true })
+      ]
+    );
+
+    await client.query("DELETE FROM users WHERE id = $1", [targetId]);
+    await client.query("COMMIT");
+
+    return { ok: true };
+  } catch (deleteError) {
+    await client.query("ROLLBACK").catch(() => undefined);
+    app.log.error(deleteError);
+    return reply.code(500).send({ error: "account_delete_failed" });
+  } finally {
+    client.release();
+  }
+});
+
 app.get("/api/admin/audit", async (request, reply) => {
   const admin = await requireAdmin(request, reply);
   if (!admin) return;
@@ -533,8 +792,8 @@ app.get("/api/admin/audit", async (request, reply) => {
        a.after_state AS "afterState",
        a.created_at::text AS "createdAt",
        actor.display_name AS "actorName",
-       target.display_name AS "targetName",
-       target.email AS "targetEmail"
+       COALESCE(target.display_name, a.before_state->>'displayName') AS "targetName",
+       COALESCE(target.email, a.before_state->>'email') AS "targetEmail"
      FROM admin_audit_log a
      LEFT JOIN users actor ON actor.id = a.actor_id
      LEFT JOIN users target ON target.id = a.target_user_id

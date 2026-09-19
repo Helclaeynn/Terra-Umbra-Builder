@@ -185,7 +185,8 @@ select:focus {
 
 .primary,
 .secondary,
-.ghost {
+.ghost,
+.link-button {
   min-height: 42px;
   border: 1px solid transparent;
   padding: .65rem 1rem;
@@ -207,6 +208,29 @@ select:focus {
   border-color: rgba(255, 255, 255, .12);
   color: #c3bcae;
   background: transparent;
+}
+
+.link-button {
+  min-height: auto;
+  padding: .35rem 0;
+  border: 0;
+  color: #bca06c;
+  background: transparent;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: .2rem;
+}
+
+.auth-help {
+  margin: 0 0 .35rem;
+  color: #9b958a;
+  font-size: .88rem;
+  line-height: 1.55;
+}
+
+.danger {
+  color: #ca948b;
+  border-color: rgba(166, 81, 72, .28);
 }
 
 .compact {
@@ -399,6 +423,9 @@ td select {
 }
 
 .actions-cell {
+  display: flex;
+  justify-content: flex-end;
+  gap: .45rem;
   text-align: right;
 }
 
