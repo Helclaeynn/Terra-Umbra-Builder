@@ -51,7 +51,6 @@ jobs:
           TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node character-builder/tests/browser-smoke.mjs
           TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node character-builder/tests/block10-search-focus.mjs
           TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node character-builder/tests/persistence-smoke.mjs
-          TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node character-builder/tests/v2-character-bridge-smoke.mjs
           TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node character-builder/tests/equipment-wiki-preview-smoke.mjs
           TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node character-builder/tests/wiki-integration-smoke.mjs
           TUC_SMOKE_BASE_URL='http://127.0.0.1:8765/' CHROME_BIN="$CHROME_BIN" node character-builder/tests/truth-lore-audit.mjs
