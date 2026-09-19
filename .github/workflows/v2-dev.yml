@@ -140,3 +140,64 @@ jobs:
             sleep 5
           done
           exit 1
+
+      - name: Auth logout smoke test
+        if: steps.deployment.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" <<'REMOTE'
+            set -euo pipefail
+            cd /opt/terra-umbra/infrastructure
+
+            set -a
+            . ./.env
+            set +a
+
+            TEST_ID="$(date +%s)-$"
+            TEST_EMAIL="ci-logout-$TEST_ID@example.invalid"
+            TEST_PASSWORD="Tuc-CI-$TEST_ID!Aa9"
+            COOKIE_JAR="$(mktemp)"
+
+            cleanup() {
+              rm -f "$COOKIE_JAR"
+              docker compose --env-file .env exec -T db \
+                psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
+                -c "DELETE FROM users WHERE email = '$TEST_EMAIL';" \
+                </dev/null >/dev/null 2>&1 || true
+            }
+            trap cleanup EXIT
+
+            PAYLOAD="$(printf '{"displayName":"CI Logout","email":"%s","password":"%s","passwordConfirmation":"%s"}' "$TEST_EMAIL" "$TEST_PASSWORD" "$TEST_PASSWORD")"
+
+            curl --fail --silent --show-error \
+              -c "$COOKIE_JAR" \
+              -H 'Content-Type: application/json' \
+              -d "$PAYLOAD" \
+              https://dev.terra-umbra.fr/api/auth/register >/dev/null
+
+            BEFORE="$(curl --silent --output /dev/null --write-out '%{http_code}' \
+              -b "$COOKIE_JAR" \
+              https://dev.terra-umbra.fr/api/auth/me)"
+            test "$BEFORE" = "200"
+
+            OLD_TOKEN="$(awk '$6 == "__Host-tuc_session" { print $7 }' "$COOKIE_JAR" | tail -n 1)"
+            test -n "$OLD_TOKEN"
+
+            curl --fail --silent --show-error \
+              -b "$COOKIE_JAR" \
+              -c "$COOKIE_JAR" \
+              -X POST \
+              https://dev.terra-umbra.fr/api/auth/logout >/dev/null
+
+            AFTER_COOKIE="$(curl --silent --output /dev/null --write-out '%{http_code}' \
+              -b "$COOKIE_JAR" \
+              https://dev.terra-umbra.fr/api/auth/me)"
+            test "$AFTER_COOKIE" = "401"
+
+            AFTER_TOKEN="$(curl --silent --output /dev/null --write-out '%{http_code}' \
+              -H "Cookie: __Host-tuc_session=$OLD_TOKEN" \
+              https://dev.terra-umbra.fr/api/auth/me)"
+            test "$AFTER_TOKEN" = "401"
+
+            echo "Logout smoke OK"
+          REMOTE
