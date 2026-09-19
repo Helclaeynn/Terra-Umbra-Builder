@@ -24,6 +24,9 @@ COPY compendium/data/navigation-v1.json ./compendium-data/navigation-v1.json
 COPY compendium/data/manual-overrides.json ./compendium-data/manual-overrides.json
 COPY compendium/data/v3-*.b64part ./compendium-data/
 
+COPY compendium/images ./compendium-media/images
+COPY compendium/assets ./compendium-media/assets
+
 USER node
 EXPOSE 3000
 CMD ["npm", "start"]
