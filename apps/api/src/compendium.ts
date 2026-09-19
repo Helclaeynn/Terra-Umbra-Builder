@@ -160,8 +160,8 @@ export async function findCompendiumMatches(
   }
   return matches.map((article) => ({
     id: article.id,
-    title: article.title,
-    category: article.category
+    title: String(article.title ?? article.id),
+    category: String(article.category ?? "")
   }));
 }
 
