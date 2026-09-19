@@ -14,6 +14,7 @@ import {
   truthChoicesValid,
   truthGroups,
   truthPrerequisiteSatisfied,
+  truthPermanentAttributeBonus,
   truthPtvSpent,
   truthRevelationProfile,
   truthSanitizeChoices,
@@ -511,7 +512,10 @@ function selectedDisadvantageItems(){
 
 function finalAttribute(id:string){
   if(!draft.value)return 0;
-  return Number(draft.value.attributes[id]||0)+Number(draft.value.edgeAttributes[id]||0);
+  const truthBonus=currentTruthState.value
+    ? truthPermanentAttributeBonus(currentTruthState.value,id)
+    : 0;
+  return Number(draft.value.attributes[id]||0)+Number(draft.value.edgeAttributes[id]||0)+truthBonus;
 }
 
 function formatMoney(value:number){
