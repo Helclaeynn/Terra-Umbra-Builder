@@ -6,7 +6,6 @@ on:
       - feature/tuc-web-v2
     paths:
       - "apps/**"
-      - "character-builder/**"
       - "infrastructure/**"
       - ".github/workflows/v2-dev.yml"
   workflow_dispatch:
@@ -89,9 +88,8 @@ jobs:
         shell: bash
         run: |
           SSH="ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes"
-          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "mkdir -p /opt/terra-umbra/apps /opt/terra-umbra/character-builder /opt/terra-umbra/infrastructure"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "mkdir -p /opt/terra-umbra/apps /opt/terra-umbra/infrastructure"
           rsync -az --delete -e "$SSH" apps/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/apps/"
-          rsync -az --delete -e "$SSH" character-builder/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/character-builder/"
           rsync -az --delete --exclude='.env' -e "$SSH" infrastructure/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/infrastructure/"
 
       - name: Migrate and deploy containers
@@ -138,8 +136,6 @@ jobs:
             if curl --fail --silent --show-error --max-time 10 https://dev.terra-umbra.fr/api/health; then
               echo
               curl --fail --silent --show-error --max-time 10 https://dev.terra-umbra.fr/api/auth/setup-status
-              curl --fail --silent --show-error --max-time 20 https://dev.terra-umbra.fr/builder/ | grep -q 'Créateur de personnage'
-              echo "Builder route smoke OK"
               exit 0
             fi
             sleep 5
