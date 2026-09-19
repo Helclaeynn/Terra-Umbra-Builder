@@ -37,6 +37,7 @@ const props=defineProps<{
   sphereId:string;
   integrity:number;
   augmentStressMax:number;
+  valid:boolean;
 }>();
 
 const emit=defineEmits<{
@@ -240,24 +241,7 @@ function removeCharge(uid:string){
   notify();
 }
 
-const isValid=computed(()=>{
-  if(!props.style)return false;
-  if((economy.value?.account??-1)<0)return false;
-  for(const {purchase,item} of purchasedAugmentations.value){
-    if(!item)return false;
-    if(!augmentationSupportSatisfied(props.rules,state.value,item))return false;
-    if(item.generation===2){
-      const access=augmentationAccess(props.rules,props.style,item,props.edge,state.value.mjAccessOverride);
-      if(!access.ok||!access.systems.includes(Number(purchase.gen2System)))return false;
-    }
-    if((item.price??0)>props.rules.economy.advancedPurchaseThreshold&&!state.value.mjAdvancedOverride)return false;
-    if(augmentationCopyCount(props.rules,state.value,item)>augmentationMaxCopies(item))return false;
-  }
-  if(loadedNeuroCount.value>neuroCap.value)return false;
-  if(load.value.charge>props.integrity)return false;
-  if(load.value.stress>props.augmentStressMax)return false;
-  return true;
-});
+
 
 </script>
 
@@ -268,7 +252,7 @@ const isValid=computed(()=>{
         <p class="eyebrow">10 · ÉQUIPEMENT</p>
         <h2>Réalité, équipement & augmentations</h2>
       </div>
-      <span class="schema-badge" :class="{ bad: !isValid }">{{ isValid ? "cohérent" : "à vérifier" }}</span>
+      <span class="schema-badge" :class="{ bad: !valid }">{{ valid ? "cohérent" : "à vérifier" }}</span>
     </div>
 
     <p class="builder-intro">
