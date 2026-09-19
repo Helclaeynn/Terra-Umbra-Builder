@@ -124,9 +124,18 @@ try{
   if(!targetId)throw new Error("Interlink sans data-wiki-id.");
   if(!linkedText)throw new Error("Interlink sans libellé.");
 
-  await link.hover();
   const preview=page.locator(".wiki-hover-preview");
-  await preview.waitFor({state:"visible",timeout:10000});
+  let previewVisible=false;
+  for(let attempt=0;attempt<2&&!previewVisible;attempt+=1){
+    await page.mouse.move(2,2);
+    await page.waitForTimeout(150);
+    await link.hover();
+    try{
+      await preview.waitFor({state:"visible",timeout:2500});
+      previewVisible=true;
+    }catch{}
+  }
+  if(!previewVisible)throw new Error("Aperçu wiki absent après deux survols réels.");
 
   const previewTitle=(await preview.locator("strong").innerText()).trim();
   const previewText=(await preview.locator("p").innerText()).trim();
