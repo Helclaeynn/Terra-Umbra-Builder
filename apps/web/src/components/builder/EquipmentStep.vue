@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, watchEffect } from "vue";
 import {
   augmentationAccess,
   augmentationBaseKey,
@@ -252,6 +252,8 @@ const isValid=computed(()=>{
   if(loadedNeuroCount.value>neuroCap.value)return false;
   return true;
 });
+
+watchEffect(()=>emit("validation",isValid.value));
 </script>
 
 <template>
