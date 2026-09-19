@@ -11,6 +11,7 @@ import {
   COMPENDIUM_PLAYER_START
 } from "./compendium-onboarding.js";
 import { generatedTalentHubCorpus } from "./compendium-talent-hubs.js";
+import { generatedBuilderReferenceCorpus } from "./compendium-builder-references.js";
 
 type JsonObject = Record<string, any>;
 type Article = JsonObject & {
@@ -793,6 +794,13 @@ async function loadCorpus(): Promise<Corpus> {
     if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
   }
 
+  const generatedBuilderReferences = generatedBuilderReferenceCorpus();
+  for (const reference of generatedBuilderReferences.articles) {
+    if (!byId.has(String(reference.id))) {
+      byId.set(String(reference.id), deepClone(reference) as Article);
+    }
+  }
+
   const overrideSummary = await applyCommittedOverrides(byId, overridePayload);
 
   const customArticles = await pool.query<{ articleId: string; baseDocument: Article }>(
@@ -857,7 +865,8 @@ async function loadCorpus(): Promise<Corpus> {
     [
       ...(navigationPayload.entries ?? []),
       ...COMPENDIUM_GUIDE_NAVIGATION,
-      ...generatedTalentHubs.navigation
+      ...generatedTalentHubs.navigation,
+      ...generatedBuilderReferences.navigation
     ]
       .filter((entry) => entry?.id)
       .map((entry) => [entry.id, entry as NavigationEntry])
