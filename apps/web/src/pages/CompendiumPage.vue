@@ -304,8 +304,8 @@ function linkifyText(value: unknown, article: Article | null = selected.value): 
   const text = String(value ?? "");
   const html = wikiLinker?.linkify(text, wikiContext(article)) ?? escapeHtml(text);
   return html
-    .replace(/'''([^\n]+?)'''/g, "<strong>$1</strong>")
-    .replace(/''([^\n]+?)''/g, "<em>$1</em>");
+    .replace(/&#39;&#39;&#39;([^\n]+?)&#39;&#39;&#39;/g, "<strong>$1</strong>")
+    .replace(/&#39;&#39;([^\n]+?)&#39;&#39;/g, "<em>$1</em>");
 }
 
 function humanError(cause: unknown): string {
