@@ -217,8 +217,13 @@ try{
   if(!previewVisible)throw new Error("Aperçu wiki absent après deux survols réels.");
 
   const previewTitle=(await preview.locator("strong").innerText()).trim();
-  const previewText=(await preview.locator("p").innerText()).trim();
   if(!previewTitle)throw new Error("Aperçu wiki sans titre.");
+  await page.waitForFunction(
+    ()=>String(document.querySelector(".wiki-hover-preview p")?.textContent||"").trim().length>=20,
+    null,
+    {timeout:10000}
+  );
+  const previewText=(await preview.locator("p").innerText()).trim();
   if(previewText.length<20)throw new Error("Aperçu wiki trop court.");
 
   await link.click();
