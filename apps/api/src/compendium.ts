@@ -4,6 +4,7 @@ import { resolve } from "node:path";
 import { gunzipSync } from "node:zlib";
 import type { FastifyInstance, FastifyReply } from "fastify";
 import { requireUser } from "./auth.js";
+import { pool } from "./db.js";
 
 type JsonObject = Record<string, any>;
 type Article = JsonObject & {
@@ -97,6 +98,13 @@ const COMPENDIUM_DATA_DIR =
     : resolve(process.cwd(), "../../compendium/data"));
 
 let corpusPromise: Promise<Corpus> | null = null;
+
+const UUID_RE =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+function validCollectionName(value: unknown): value is string {
+  return typeof value === "string" && value.trim().length >= 1 && value.trim().length <= 80;
+}
 
 function bad(reply: FastifyReply, error: string) {
   return reply.code(400).send({ error });
@@ -580,6 +588,81 @@ function searchItem(article: Article, query: string) {
   };
 }
 
+async function loadUserLibrary(userId: string, corpus: Corpus) {
+  const [favoriteRows, collectionRows, itemRows] = await Promise.all([
+    pool.query<{ articleId: string }>(
+      `SELECT article_id AS "articleId"
+       FROM compendium_favorites
+       WHERE user_id = $1
+       ORDER BY created_at DESC`,
+      [userId]
+    ),
+    pool.query<{
+      id: string;
+      name: string;
+      createdAt: string;
+      updatedAt: string;
+    }>(
+      `SELECT
+         id,
+         name,
+         created_at::text AS "createdAt",
+         updated_at::text AS "updatedAt"
+       FROM compendium_collections
+       WHERE owner_id = $1
+       ORDER BY updated_at DESC, name ASC`,
+      [userId]
+    ),
+    pool.query<{ collectionId: string; articleId: string }>(
+      `SELECT
+         i.collection_id AS "collectionId",
+         i.article_id AS "articleId"
+       FROM compendium_collection_items i
+       JOIN compendium_collections c ON c.id = i.collection_id
+       WHERE c.owner_id = $1
+       ORDER BY i.created_at DESC`,
+      [userId]
+    )
+  ]);
+
+  const favorites = favoriteRows.rows.map((row) => row.articleId);
+  const favoriteItems = favorites
+    .map((id) => corpus.byId.get(id))
+    .filter((article): article is Article => Boolean(article))
+    .map((article) => searchItem(article, ""));
+
+  const idsByCollection = new Map<string, string[]>();
+  for (const row of itemRows.rows) {
+    const ids = idsByCollection.get(row.collectionId) ?? [];
+    ids.push(row.articleId);
+    idsByCollection.set(row.collectionId, ids);
+  }
+
+  const collections = collectionRows.rows.map((collection) => {
+    const articleIds = idsByCollection.get(collection.id) ?? [];
+    return {
+      ...collection,
+      articleIds,
+      items: articleIds
+        .map((id) => corpus.byId.get(id))
+        .filter((article): article is Article => Boolean(article))
+        .map((article) => searchItem(article, ""))
+    };
+  });
+
+  return { favorites, favoriteItems, collections };
+}
+
+async function ownedCollection(collectionId: string, userId: string): Promise<boolean> {
+  const result = await pool.query(
+    `SELECT 1
+     FROM compendium_collections
+     WHERE id = $1 AND owner_id = $2`,
+    [collectionId, userId]
+  );
+  return Boolean(result.rowCount);
+}
+
 export async function registerCompendiumRoutes(app: FastifyInstance) {
   app.get("/api/compendium/meta", async (request, reply) => {
     const user = await requireUser(request, reply);
@@ -650,6 +733,218 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       limit,
       items: rows.slice(offset, offset + limit).map((article) => searchItem(article, query))
     };
+  });
+
+  app.get("/api/compendium/library", async (request, reply) => {
+    const user = await requireUser(request, reply);
+    if (!user) return;
+
+    const corpus = await getCorpus();
+    return loadUserLibrary(user.id, corpus);
+  });
+
+  app.put<{
+    Params: { id: string };
+  }>("/api/compendium/favorites/:id", async (request, reply) => {
+    const user = await requireUser(request, reply);
+    if (!user) return;
+
+    const id = request.params.id.trim();
+    const corpus = await getCorpus();
+    if (!id || id.length > 240 || !corpus.byId.has(id)) {
+      return reply.code(404).send({ error: "compendium_article_not_found" });
+    }
+
+    await pool.query(
+      `INSERT INTO compendium_favorites (user_id, article_id)
+       VALUES ($1, $2)
+       ON CONFLICT (user_id, article_id) DO NOTHING`,
+      [user.id, id]
+    );
+
+    return { articleId: id, favorite: true };
+  });
+
+  app.delete<{
+    Params: { id: string };
+  }>("/api/compendium/favorites/:id", async (request, reply) => {
+    const user = await requireUser(request, reply);
+    if (!user) return;
+
+    const id = request.params.id.trim();
+    if (!id || id.length > 240) return bad(reply, "invalid_compendium_article_id");
+
+    await pool.query(
+      `DELETE FROM compendium_favorites
+       WHERE user_id = $1 AND article_id = $2`,
+      [user.id, id]
+    );
+
+    return { articleId: id, favorite: false };
+  });
+
+  app.post<{
+    Body: { name?: string };
+  }>("/api/compendium/collections", async (request, reply) => {
+    const user = await requireUser(request, reply);
+    if (!user) return;
+
+    const name = request.body?.name?.trim();
+    if (!validCollectionName(name)) return bad(reply, "invalid_collection_name");
+
+    try {
+      const result = await pool.query<{
+        id: string;
+        name: string;
+        createdAt: string;
+        updatedAt: string;
+      }>(
+        `INSERT INTO compendium_collections (owner_id, name)
+         VALUES ($1, $2)
+         RETURNING
+           id,
+           name,
+           created_at::text AS "createdAt",
+           updated_at::text AS "updatedAt"`,
+        [user.id, name]
+      );
+      return reply.code(201).send({
+        collection: { ...result.rows[0], articleIds: [], items: [] }
+      });
+    } catch (cause: any) {
+      if (cause?.code === "23505") {
+        return reply.code(409).send({ error: "collection_name_conflict" });
+      }
+      throw cause;
+    }
+  });
+
+  app.patch<{
+    Params: { id: string };
+    Body: { name?: string };
+  }>("/api/compendium/collections/:id", async (request, reply) => {
+    const user = await requireUser(request, reply);
+    if (!user) return;
+
+    if (!UUID_RE.test(request.params.id)) return bad(reply, "invalid_collection_id");
+    const name = request.body?.name?.trim();
+    if (!validCollectionName(name)) return bad(reply, "invalid_collection_name");
+
+    try {
+      const result = await pool.query<{
+        id: string;
+        name: string;
+        createdAt: string;
+        updatedAt: string;
+      }>(
+        `UPDATE compendium_collections
+         SET name = $1, updated_at = now()
+         WHERE id = $2 AND owner_id = $3
+         RETURNING
+           id,
+           name,
+           created_at::text AS "createdAt",
+           updated_at::text AS "updatedAt"`,
+        [name, request.params.id, user.id]
+      );
+
+      if (!result.rows[0]) {
+        return reply.code(404).send({ error: "collection_not_found" });
+      }
+
+      return { collection: result.rows[0] };
+    } catch (cause: any) {
+      if (cause?.code === "23505") {
+        return reply.code(409).send({ error: "collection_name_conflict" });
+      }
+      throw cause;
+    }
+  });
+
+  app.delete<{
+    Params: { id: string };
+  }>("/api/compendium/collections/:id", async (request, reply) => {
+    const user = await requireUser(request, reply);
+    if (!user) return;
+
+    if (!UUID_RE.test(request.params.id)) return bad(reply, "invalid_collection_id");
+
+    const result = await pool.query(
+      `DELETE FROM compendium_collections
+       WHERE id = $1 AND owner_id = $2
+       RETURNING id`,
+      [request.params.id, user.id]
+    );
+
+    if (!result.rowCount) {
+      return reply.code(404).send({ error: "collection_not_found" });
+    }
+
+    return { deleted: true, id: request.params.id };
+  });
+
+  app.put<{
+    Params: { collectionId: string; articleId: string };
+  }>("/api/compendium/collections/:collectionId/articles/:articleId", async (request, reply) => {
+    const user = await requireUser(request, reply);
+    if (!user) return;
+
+    const { collectionId } = request.params;
+    const articleId = request.params.articleId.trim();
+    if (!UUID_RE.test(collectionId)) return bad(reply, "invalid_collection_id");
+
+    const corpus = await getCorpus();
+    if (!articleId || articleId.length > 240 || !corpus.byId.has(articleId)) {
+      return reply.code(404).send({ error: "compendium_article_not_found" });
+    }
+
+    if (!(await ownedCollection(collectionId, user.id))) {
+      return reply.code(404).send({ error: "collection_not_found" });
+    }
+
+    await pool.query(
+      `INSERT INTO compendium_collection_items (collection_id, article_id)
+       VALUES ($1, $2)
+       ON CONFLICT (collection_id, article_id) DO NOTHING`,
+      [collectionId, articleId]
+    );
+    await pool.query(
+      `UPDATE compendium_collections
+       SET updated_at = now()
+       WHERE id = $1`,
+      [collectionId]
+    );
+
+    return { collectionId, articleId, included: true };
+  });
+
+  app.delete<{
+    Params: { collectionId: string; articleId: string };
+  }>("/api/compendium/collections/:collectionId/articles/:articleId", async (request, reply) => {
+    const user = await requireUser(request, reply);
+    if (!user) return;
+
+    const { collectionId } = request.params;
+    const articleId = request.params.articleId.trim();
+    if (!UUID_RE.test(collectionId)) return bad(reply, "invalid_collection_id");
+
+    if (!(await ownedCollection(collectionId, user.id))) {
+      return reply.code(404).send({ error: "collection_not_found" });
+    }
+
+    await pool.query(
+      `DELETE FROM compendium_collection_items
+       WHERE collection_id = $1 AND article_id = $2`,
+      [collectionId, articleId]
+    );
+    await pool.query(
+      `UPDATE compendium_collections
+       SET updated_at = now()
+       WHERE id = $1`,
+      [collectionId]
+    );
+
+    return { collectionId, articleId, included: false };
   });
 
   app.get<{
