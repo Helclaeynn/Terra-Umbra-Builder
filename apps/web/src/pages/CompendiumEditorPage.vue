@@ -1284,8 +1284,8 @@ Encore du texte.
 }
 .editor-actions .spacer { flex:1; }
 .editor-hint { margin:.25rem 0; color:#817a70; font-size:.78rem; line-height:1.5; }
-.talent-insert-panel{display:grid;grid-template-columns:minmax(180px,1fr) auto auto auto auto;gap:.5rem;align-items:center;padding:.7rem .8rem;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);background:linear-gradient(90deg,rgba(161,125,69,.08),rgba(255,255,255,.012))}
-.talent-insert-panel>div{display:grid;gap:.15rem}.talent-insert-panel strong{color:#d9cebd;font-size:.76rem}.talent-insert-panel small{color:#7f786e;font-size:.63rem}.talent-insert-panel select{min-width:130px}
+.talent-insert-panel{display:grid;grid-template-columns:minmax(180px,1fr) auto auto auto auto;gap:.5rem;align-items:center;padding:.7rem .8rem;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);background:linear-gradient(90deg,rgba(161,125,69,.08),rgba(255,255,255,.012));position:relative;z-index:6;scroll-margin-block:96px}
+.talent-insert-panel>div{display:grid;gap:.15rem}.talent-insert-panel strong{color:#d9cebd;font-size:.76rem}.talent-insert-panel small{color:#7f786e;font-size:.63rem}.talent-insert-panel select{min-width:130px}.talent-insert-panel button{scroll-margin-block:112px}
 .wiki-toolbar button.active{border-color:#9d7c48;color:#e1c995;background:rgba(157,124,72,.1)}
 .preview-talent-embed{display:grid;gap:.28rem;margin:.75rem 0;padding:.8rem;border:1px solid rgba(199,173,120,.2);background:linear-gradient(145deg,rgba(161,125,69,.07),rgba(255,255,255,.012))}.preview-talent-embed span{color:#a88e60;font-size:.58rem;letter-spacing:.08em}.preview-talent-embed strong{color:#ded3c2;font-family:Georgia,serif}.preview-talent-embed small{color:#817a70}
 @media(max-width:900px){.talent-insert-panel{grid-template-columns:1fr 1fr}.talent-insert-panel>div{grid-column:1/-1}}
@@ -1293,7 +1293,7 @@ Encore du texte.
 .wiki-toolbar {
   display:flex; gap:.4rem; flex-wrap:wrap; align-items:center;
   padding:.65rem; border-bottom:1px solid rgba(255,255,255,.08);
-  background:rgba(255,255,255,.02); position:sticky; top:72px; z-index:5;
+  background:rgba(255,255,255,.02); position:static; z-index:5;
 }
 .wiki-toolbar button {
   min-width:38px; padding:.42rem .58rem; border:1px solid rgba(255,255,255,.1);
