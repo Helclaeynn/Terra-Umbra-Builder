@@ -290,7 +290,7 @@ onMounted(loadCharacters);
             <h3>{{ selected.name }}</h3>
           </div>
           <div class="character-detail-actions">
-            <RouterLink class="ghost compact builder-link" :to="`/characters/${selected.id}/builder`">
+            <RouterLink class="primary compact builder-link" :to="`/characters/${selected.id}/builder`">
               Ouvrir le Builder
             </RouterLink>
             <button class="ghost compact danger" type="button" :disabled="loading" @click="archiveCharacter">
@@ -314,10 +314,13 @@ onMounted(loadCharacters);
         </form>
 
         <div class="builder-slot">
-          <strong>Fiche de personnage</strong>
+          <div>
+            <span>BUILDER V2</span>
+            <strong>Fiche active · version {{ selected.version }}</strong>
+          </div>
           <p>
-            Le Builder V2 est une page Vue native reliée à l’API. Les exports JSON de la V1
-            peuvent être importés puis poursuivis dans le nouveau modèle de données.
+            La fiche est sauvegardée et versionnée. Ouvre le Builder pour reprendre la création
+            ou la progression sans changer d’espace.
           </p>
         </div>
 
@@ -437,8 +440,9 @@ onMounted(loadCharacters);
 .character-list button:hover,
 .character-list button.active {
   border-left-color: #a17d45;
-  background: rgba(161, 125, 69, .08);
+  background: linear-gradient(90deg,rgba(161,125,69,.11),rgba(161,125,69,.025));
 }
+.character-list button.active{box-shadow:inset 0 0 0 1px rgba(199,173,120,.08)}
 
 .character-list strong,
 .character-list small {
@@ -490,19 +494,26 @@ onMounted(loadCharacters);
 }
 
 .builder-slot {
+  display:grid;
+  gap:.55rem;
   margin-top: 1.3rem;
   padding: 1rem;
-  border: 1px dashed rgba(199, 173, 120, .2);
+  border: 1px solid rgba(199, 173, 120, .18);
   color: #8f897f;
   line-height: 1.55;
+  background:linear-gradient(135deg,rgba(161,125,69,.065),rgba(255,255,255,.01));
 }
 
+.builder-slot>div{display:flex;align-items:center;justify-content:space-between;gap:.7rem;flex-wrap:wrap}
+.builder-slot span{color:#a88e60;font-size:.62rem;letter-spacing:.08em}
 .builder-slot strong {
-  color: #cfc5b3;
+  color: #d8cebd;
+  font-size:.78rem;
 }
 
 .builder-slot p {
-  margin: .4rem 0 0;
+  margin: 0;
+  font-size:.76rem;
 }
 
 .revision-block {
