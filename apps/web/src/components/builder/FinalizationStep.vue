@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import { cloneJson } from "../../lib/json";
 
 type StatusRow={id:string;label:string;ok:boolean;reason:string};
 type NamedValue={id:string;name:string;value:number;raw?:number;bonus?:number};
@@ -63,10 +64,10 @@ const renownMilieu=computed(()=>String(props.social.renownMilieu??""));
 const supportDetail=computed(()=>String(props.reality.sphereSupportDetail??""));
 
 function updateSocial(patch:Record<string,unknown>){
-  emit("update:social",{...structuredClone(props.social),...patch});
+  emit("update:social",{...cloneJson(props.social),...patch});
 }
 function updateReality(patch:Record<string,unknown>){
-  emit("update:reality",{...structuredClone(props.reality),...patch});
+  emit("update:reality",{...cloneJson(props.reality),...patch});
 }
 function setLanguage(index:number,value:string){
   const next=[...languages.value];
