@@ -27,6 +27,7 @@ export type TruthFreeTraitRule={
 
 export type TruthNature={
   id:string;
+  compendiumId?:string;
   name:string;
   description:string;
   choices:TruthChoice[];
@@ -36,6 +37,7 @@ export type TruthNature={
 
 export type TruthTalent={
   id:string;
+  compendiumId?:string;
   name:string;
   cost:number;
   access?:string;
