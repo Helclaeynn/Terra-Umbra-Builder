@@ -148,13 +148,19 @@ const stylePointsUsed=computed(()=>{
 
 const freeSkillPointsUsed=computed(()=>{
   if(!draft.value)return 0;
-  return Object.values(draft.value.skills).reduce((sum,skill)=>sum+Number(skill.free||0)+Number(skill.edge||0),0);
+  return Object.values(draft.value.skills).reduce((sum,skill)=>sum+Number(skill.free||0),0);
 });
 
-const freeSkillBudget=computed(()=>{
+const freeSkillBudget=computed(()=>rules.value?.creation.skills.freePoints??0);
+
+const edgeSkillPointsUsed=computed(()=>{
+  if(!draft.value)return 0;
+  return Object.values(draft.value.skills).reduce((sum,skill)=>sum+Number(skill.edge||0),0);
+});
+
+const edgeSkillBudget=computed(()=>{
   if(!draft.value||!rules.value)return 0;
-  const config=rules.value.creation.skills;
-  return config.freePoints+(Number(draft.value.edge.skillPacks||0)*config.edgePackPoints);
+  return Number(draft.value.edge.skillPacks||0)*rules.value.creation.skills.edgePackPoints;
 });
 
 const attributeTotal=computed(()=>{
@@ -881,11 +887,9 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
 
           <p class="builder-intro">
             Les cinq points fixes de Sphère et les cinq points de Style sont déjà intégrés.
-            Répartissez ici les {{ rules.creation.skills.freePoints }} points libres
-            <template v-if="Number(draft.edge.skillPacks || 0) > 0">
-              ainsi que les points supplémentaires déjà achetés avec Edge
-            </template>.
-            Le Brut ne peut pas dépasser {{ rules.creation.skills.rawMax }} à la création.
+            Répartissez ici uniquement les {{ rules.creation.skills.freePoints }} points libres.
+            Les éventuels points achetés avec Edge sont affichés dans les valeurs mais se répartissent
+            à l’étape Edge. Le Brut ne peut pas dépasser {{ rules.creation.skills.rawMax }} à la création.
           </p>
 
           <div v-if="!selectedStyle" class="rule-note bad">
@@ -893,6 +897,12 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
           </div>
 
           <template v-else>
+            <div v-if="edgeSkillBudget > 0" class="rule-note">
+              <strong>Edge déjà acheté :</strong> {{ edgeSkillPointsUsed }} / {{ edgeSkillBudget }}
+              point{{ edgeSkillBudget > 1 ? "s" : "" }} attribué{{ edgeSkillPointsUsed > 1 ? "s" : "" }}.
+              Cette enveloppe sera modifiable uniquement au bloc Edge.
+            </div>
+
             <div
               v-for="attribute in rules.attributes"
               :key="attribute.id"
