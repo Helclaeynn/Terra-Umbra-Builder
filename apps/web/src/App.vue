@@ -440,6 +440,9 @@ onMounted(bootstrap);
       </RouterLink>
 
       <div class="top-actions">
+        <RouterLink class="ghost compact top-product-link" to="/compendium">
+          Compendium
+        </RouterLink>
         <span class="api-pill" :class="{ ok: health === 'ok' }">
           API {{ health }}
         </span>
