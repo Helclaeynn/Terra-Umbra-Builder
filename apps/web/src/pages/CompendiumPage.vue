@@ -308,6 +308,56 @@ const relatedArticles = computed(() => {
     .slice(0, 12);
 });
 
+const dossierContext = computed(() => {
+  void wikiReady.value;
+  const article = selected.value;
+  if (!article) return { label: "", mode: "" as "manufacturer" | "subgroup" | "group" | "" };
+
+  if (article.manufacturer) {
+    return { label: `Fabricant · ${article.manufacturer}`, mode: "manufacturer" as const };
+  }
+  if (article.navigation?.subgroup) {
+    return { label: article.navigation.subgroup, mode: "subgroup" as const };
+  }
+  if (article.navigation?.group) {
+    return { label: article.navigation.group, mode: "group" as const };
+  }
+  return { label: "", mode: "" as const };
+});
+
+const dossierArticles = computed(() => {
+  void wikiReady.value;
+  const article = selected.value;
+  const context = dossierContext.value;
+  if (!article || !context.mode) return [] as WikiEntry[];
+
+  const explicitIds = new Set(relatedArticles.value.map((entry) => entry.id));
+  return [...wikiById.values()]
+    .filter((entry) => entry.id !== article.id && !explicitIds.has(entry.id))
+    .filter((entry) => {
+      if (context.mode === "manufacturer") {
+        return Boolean(article.manufacturer) && entry.manufacturer === article.manufacturer;
+      }
+      if (context.mode === "subgroup") {
+        return (
+          entry.category === article.category &&
+          Boolean(article.navigation?.subgroup) &&
+          entry.subgroup === article.navigation?.subgroup
+        );
+      }
+      return (
+        entry.category === article.category &&
+        Boolean(article.navigation?.group) &&
+        entry.group === article.navigation?.group
+      );
+    })
+    .sort((a, b) =>
+      a.subgroup.localeCompare(b.subgroup, "fr", { sensitivity: "base" }) ||
+      a.title.localeCompare(b.title, "fr", { numeric: true, sensitivity: "base" })
+    )
+    .slice(0, 24);
+});
+
 const mechanicalLabels: Record<string, string> = {
   effect: "Effet",
   prerequisite: "Prérequis",
@@ -1705,6 +1755,24 @@ onBeforeUnmount(() => {
                         </div>
                       </template>
                     </template>
+                  </section>
+
+                  <section v-if="dossierArticles.length" class="wiki-see-also wiki-dossier">
+                    <p class="eyebrow">DOSSIER</p>
+                    <h2>Dans ce dossier</h2>
+                    <p class="wiki-dossier-context">{{ dossierContext.label }}</p>
+                    <div class="wiki-related-grid">
+                      <button
+                        v-for="entry in dossierArticles"
+                        :key="entry.id"
+                        type="button"
+                        @click="openArticle(entry.id)"
+                      >
+                        <span>{{ entry.subgroup || entry.category }}</span>
+                        <strong>{{ entry.title }}</strong>
+                        <small>{{ entry.snippet }}</small>
+                      </button>
+                    </div>
                   </section>
 
                   <section v-if="relatedArticles.length" class="wiki-see-also">
