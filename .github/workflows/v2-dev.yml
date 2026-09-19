@@ -9,6 +9,7 @@ on:
       - "infrastructure/**"
       - "compendium/source/current-equipment-catalog-v1.json"
       - "compendium/source/reality-lore-v3-*.json"
+      - "compendium/data/**"
       - "character-builder/rulesets/terra-umbra/reality/**"
       - ".github/workflows/v2-dev.yml"
   workflow_dispatch:
@@ -123,10 +124,11 @@ jobs:
         shell: bash
         run: |
           SSH="ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes"
-          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "mkdir -p /opt/terra-umbra/apps /opt/terra-umbra/infrastructure /opt/terra-umbra/compendium/source /opt/terra-umbra/character-builder/rulesets/terra-umbra/reality"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "mkdir -p /opt/terra-umbra/apps /opt/terra-umbra/infrastructure /opt/terra-umbra/compendium/source /opt/terra-umbra/compendium/data /opt/terra-umbra/character-builder/rulesets/terra-umbra/reality"
           rsync -az --delete -e "$SSH" apps/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/apps/"
           rsync -az --delete --exclude='.env' -e "$SSH" infrastructure/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/infrastructure/"
           rsync -az -e "$SSH" compendium/source/current-equipment-catalog-v1.json compendium/source/reality-lore-v3-*.json "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/compendium/source/"
+          rsync -az --delete -e "$SSH" compendium/data/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/compendium/data/"
           rsync -az --delete -e "$SSH" character-builder/rulesets/terra-umbra/reality/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/character-builder/rulesets/terra-umbra/reality/"
 
       - name: Migrate and deploy containers
@@ -179,7 +181,7 @@ jobs:
           done
           exit 1
 
-      - name: Character V2 smoke test
+      - name: Character and Compendium V2 smoke test
         if: steps.deployment.outputs.enabled == 'true'
         shell: bash
         run: |
@@ -197,9 +199,12 @@ jobs:
           RULES_RESPONSE="$(mktemp)"
           TRUTH_RESPONSE="$(mktemp)"
           REALITY_RESPONSE="$(mktemp)"
+          COMPENDIUM_META="$(mktemp)"
+          COMPENDIUM_SEARCH="$(mktemp)"
+          COMPENDIUM_ARTICLE="$(mktemp)"
 
           cleanup() {
-            rm -f "$COOKIE_JAR" "$IMPORT_BODY" "$IMPORT_RESPONSE" "$CURRENT_RESPONSE" "$PATCH_BODY" "$PATCH_RESPONSE" "$RULES_RESPONSE" "$TRUTH_RESPONSE" "$REALITY_RESPONSE"
+            rm -f "$COOKIE_JAR" "$IMPORT_BODY" "$IMPORT_RESPONSE" "$CURRENT_RESPONSE" "$PATCH_BODY" "$PATCH_RESPONSE" "$RULES_RESPONSE" "$TRUTH_RESPONSE" "$REALITY_RESPONSE" "$COMPENDIUM_META" "$COMPENDIUM_SEARCH" "$COMPENDIUM_ARTICLE"
             ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST"               "cd /opt/terra-umbra/infrastructure && set -a && . ./.env && set +a && docker compose --env-file .env exec -T db psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -c \"DELETE FROM users WHERE email = '$TEST_EMAIL';\""               </dev/null >/dev/null 2>&1 || true
           }
           trap cleanup EXIT
@@ -280,6 +285,41 @@ jobs:
           assert "Bull Basic" in names, "Bull Basic absent"
           assert any(item["lore"] for item in reality["equipment"]), "Lore équipement absent"
           PY
+
+          curl --fail --silent --show-error \
+            -b "$COOKIE_JAR" \
+            https://dev.terra-umbra.fr/api/compendium/meta > "$COMPENDIUM_META"
+
+          curl --fail --silent --show-error \
+            -b "$COOKIE_JAR" \
+            'https://dev.terra-umbra.fr/api/compendium/search?q=Afanc&limit=10' > "$COMPENDIUM_SEARCH"
+
+          curl --fail --silent --show-error \
+            -b "$COOKIE_JAR" \
+            https://dev.terra-umbra.fr/api/compendium/articles/bestiaire-v15-afanc > "$COMPENDIUM_ARTICLE"
+
+          python3 - "$COMPENDIUM_META" "$COMPENDIUM_SEARCH" "$COMPENDIUM_ARTICLE" <<'PY'
+          import json,sys
+          meta=json.load(open(sys.argv[1],encoding="utf-8"))
+          search=json.load(open(sys.argv[2],encoding="utf-8"))
+          article=json.load(open(sys.argv[3],encoding="utf-8"))["article"]
+
+          assert meta["total"] >= 1800, meta
+          assert any(item["name"] == "Bestiaire" for item in meta["categories"]), meta["categories"]
+          assert meta["overrides"]["applied"] > 0, meta["overrides"]
+          assert any(item["id"] == "bestiaire-v15-afanc" for item in search["items"]), search
+          assert article["id"] == "bestiaire-v15-afanc", article["id"]
+          assert article.get("__editorialOverride") is True, article
+          paragraphs=[
+              block.get("text","")
+              for section in article.get("sections",[])
+              for block in section.get("blocks",[])
+              if block.get("type") == "p"
+          ]
+          assert any("esprit des eaux profondes" in text for text in paragraphs), paragraphs[:3]
+          PY
+
+          curl --fail --silent --show-error https://dev.terra-umbra.fr/compendium | grep -q 'id="app"'
 
           cat > "$IMPORT_BODY" <<'JSON'
           {
