@@ -1399,6 +1399,7 @@ onBeforeUnmount(()=>{
           Références
           <span v-if="knowledgeRefs.length">{{ knowledgeRefs.length }}</span>
         </button>
+        <a class="ghost compact back-link" href="/compendium" target="_blank" rel="noopener">Compendium ↗</a>
         <RouterLink class="ghost compact back-link" to="/">Mes personnages</RouterLink>
         <button class="primary compact" type="button" :disabled="saving || loading || !dirty" @click="saveCharacter">
           {{ saving ? "Enregistrement…" : dirty ? "Enregistrer" : "Enregistré" }}
