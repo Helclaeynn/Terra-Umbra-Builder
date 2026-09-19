@@ -1,8 +1,9 @@
 export type CharacterIdentity = {
   name: string;
+  firstName: string;
   alias: string;
+  occupation: string;
   age: string;
-  activity: string;
   sex: string;
   height: string;
   weight: string;
