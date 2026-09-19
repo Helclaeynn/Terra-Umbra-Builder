@@ -14,6 +14,37 @@ const browser=await chromium.launch({
   args:["--no-sandbox"]
 });
 
+const perfContext=await browser.newContext();
+const perfPage=await perfContext.newPage();
+try{
+  const compactResponsePromise=perfPage.waitForResponse(
+    response=>response.url().includes("/api/compendium/wiki-index?compact=1"),
+    {timeout:15000}
+  );
+  const started=Date.now();
+  await perfPage.goto(baseUrl+"/compendium?article=guide-realite-nouveau-joueur",{
+    waitUntil:"domcontentloaded",
+    timeout:30000
+  });
+  await perfPage.locator(".article-header h1").waitFor({state:"visible",timeout:10000});
+  const articleVisibleMs=Date.now()-started;
+
+  const compactResponse=await compactResponsePromise;
+  const compactPayload=await compactResponse.json();
+  const compactEntries=compactPayload.entries||[];
+  if(compactEntries.length<1800)throw new Error("Index wiki compact incomplet: "+compactEntries.length);
+  if(compactEntries.some(entry=>"snippet" in entry||"media" in entry)){
+    throw new Error("Index wiki compact contient encore snippets ou médias.");
+  }
+  await perfPage.waitForFunction(()=>window.__TUC_WIKI_V2__?.ready===true,null,{timeout:10000});
+  const wikiReadyMs=Date.now()-started;
+  console.log(
+    `COMPENDIUM PERF — article visible ${articleVisibleMs} ms · wiki prêt ${wikiReadyMs} ms · index compact ${compactEntries.length} entrées`
+  );
+}finally{
+  await perfContext.close();
+}
+
 const publicContext=await browser.newContext();
 const publicPage=await publicContext.newPage();
 try{
