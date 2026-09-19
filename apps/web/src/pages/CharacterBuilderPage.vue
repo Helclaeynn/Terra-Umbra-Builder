@@ -1266,17 +1266,17 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
 <template>
   <div class="builder-v2-shell">
     <header class="topbar builder-topbar">
-      <a class="brand" href="/">
+      <RouterLink class="brand" to="/">
         <span class="brand-mark">TU</span>
         <span>
           <strong>Terra Umbra</strong>
           <small>California · Builder V2</small>
         </span>
-      </a>
+      </RouterLink>
 
       <div class="top-actions">
         <span v-if="character" class="api-pill ok">v{{ character.version }}</span>
-        <a class="ghost compact back-link" href="/">Mes personnages</a>
+        <RouterLink class="ghost compact back-link" to="/">Mes personnages</RouterLink>
         <button class="primary compact" type="button" :disabled="saving || loading || !dirty" @click="saveCharacter">
           {{ saving ? "Enregistrement…" : dirty ? "Enregistrer" : "Enregistré" }}
         </button>
@@ -1290,7 +1290,7 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
     <main v-else-if="error && !draft" class="builder-loading error-state">
       <strong>Impossible d’ouvrir cette fiche.</strong>
       <span>{{ error }}</span>
-      <a class="secondary back-link" href="/">Retour à Mes personnages</a>
+      <RouterLink class="secondary back-link" to="/">Retour à Mes personnages</RouterLink>
     </main>
 
     <main v-else-if="draft && character && rules && lore" class="builder-workspace">
