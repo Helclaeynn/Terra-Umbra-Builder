@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 
-type ThemeKey = "interface-2035" | "livre-vivant" | "codex-hybride" | "dossier-umbra" | "umbra-archive" | "umbra-signal";
+type ThemeKey = "interface-2035" | "livre-vivant" | "codex-hybride" | "dossier-umbra" | "umbra-archive" | "umbra-signal" | "umbra-signal-final";
 type ViewKey = "builder" | "compendium";
 
 const route = useRoute();
@@ -48,6 +48,12 @@ const themes: Array<{
     short: "F",
     title: "Umbra Signal",
     description: "Même logique, plus technique et 2035, avec un entrelacement Réalité / Vérité plus présent."
+  },
+  {
+    key: "umbra-signal-final",
+    short: "G",
+    title: "Umbra Signal Final",
+    description: "Signal renforcé : petits cadres plus lisibles, médias sur gris froid, contraste conservé."
   }
 ];
 
@@ -894,6 +900,148 @@ const results = [
 .lab--umbra-signal .truth-box{
   border-left-color:var(--truth);
   background:rgba(159,148,215,.045);
+}
+
+
+/* G — Umbra Signal Final
+   Validated direction: keep Signal's darkness/aggression, improve micro-controls,
+   and cool the light media mats so images keep volume without an ivory cast. */
+.lab--umbra-signal-final{
+  --bg:#0b1115;--surface:#131c22;--surface-2:#1b272e;--surface-3:#10181d;
+  --line:#314852;--line-strong:#516d77;--text:#eef4f5;--muted:#9caeb3;
+  --reality:#59d7bf;--truth:#a39add;--shadow:0 20px 52px rgba(0,0,0,.34);--radius:9px;
+  background:
+    radial-gradient(circle at 14% 0%,rgba(45,91,100,.3),transparent 34rem),
+    linear-gradient(180deg,#0b1115,#090e12);
+}
+.lab--umbra-signal-final .lab-topbar{
+  background:rgba(10,16,20,.96);
+  border-bottom-color:#2e4650;
+}
+.lab--umbra-signal-final .lab-sigil{
+  position:relative;border-color:var(--reality);color:var(--reality)
+}
+.lab--umbra-signal-final .lab-sigil::after{
+  content:"";position:absolute;width:16px;height:1px;right:-9px;bottom:7px;background:var(--truth);transform:rotate(-35deg)
+}
+.lab--umbra-signal-final .builder-sheet,
+.lab--umbra-signal-final .wiki-article{
+  position:relative;
+  background:
+    linear-gradient(135deg,rgba(89,215,191,.024),transparent 32%),
+    linear-gradient(315deg,rgba(163,154,221,.022),transparent 28%),
+    var(--surface);
+}
+.lab--umbra-signal-final .builder-sheet::before,
+.lab--umbra-signal-final .wiki-article::before{
+  content:"";position:absolute;inset:-1px;pointer-events:none;border-radius:inherit;
+  background:
+    linear-gradient(90deg,var(--reality),transparent 28%) top left/46% 1px no-repeat,
+    linear-gradient(270deg,var(--truth),transparent 32%) bottom right/46% 1px no-repeat;
+}
+.lab--umbra-signal-final .builder-steps,
+.lab--umbra-signal-final .builder-summary,
+.lab--umbra-signal-final .wiki-results,
+.lab--umbra-signal-final .wiki-infobox{
+  background:linear-gradient(180deg,#151f25,#11191e);
+}
+.lab--umbra-signal-final .lab-kicker,
+.lab--umbra-signal-final .equipment-copy>small,
+.lab--umbra-signal-final .crumb,
+.lab--umbra-signal-final .article-cards small,
+.lab--umbra-signal-final .builder-summary h3{
+  font-family:"Courier New",monospace;
+  letter-spacing:.11em;
+}
+
+/* More visible micro-controls than Signal, without softening the theme. */
+.lab--umbra-signal-final .filter-row button,
+.lab--umbra-signal-final .wiki-results nav button,
+.lab--umbra-signal-final .theme-switcher a,
+.lab--umbra-signal-final .view-switcher a,
+.lab--umbra-signal-final .tag-row span{
+  border-color:#3d5660;
+  background:#172229;
+  color:#c6d2d6;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.012);
+}
+.lab--umbra-signal-final .filter-row button:hover,
+.lab--umbra-signal-final .wiki-results nav button:hover,
+.lab--umbra-signal-final .theme-switcher a:hover,
+.lab--umbra-signal-final .view-switcher a:hover{
+  border-color:#597681;
+  background:#1c2930;
+  color:#f0f5f6;
+}
+.lab--umbra-signal-final .filter-row button.active,
+.lab--umbra-signal-final .wiki-results nav button.active,
+.lab--umbra-signal-final .theme-switcher a.active,
+.lab--umbra-signal-final .view-switcher a.active{
+  border-color:var(--reality);
+  background:linear-gradient(180deg,rgba(89,215,191,.12),rgba(89,215,191,.05));
+  color:#f5fffd;
+  box-shadow:inset 0 0 0 1px rgba(89,215,191,.2);
+}
+
+/* Cold light-table media treatment. */
+.lab--umbra-signal-final .equipment-image,
+.lab--umbra-signal-final .hero-media,
+.lab--umbra-signal-final .summary-item img,
+.lab--umbra-signal-final .wiki-infobox figure img{
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.28),transparent 44%),
+    #d4dce0;
+}
+.lab--umbra-signal-final .equipment-image{
+  border-bottom:1px solid #87959a;
+}
+.lab--umbra-signal-final .equipment-image img,
+.lab--umbra-signal-final .hero-media img,
+.lab--umbra-signal-final .summary-item img,
+.lab--umbra-signal-final .wiki-infobox figure img{
+  filter:drop-shadow(0 10px 12px rgba(24,34,37,.17));
+}
+.lab--umbra-signal-final .hero-media{
+  border-color:#87959a;
+  box-shadow:inset 0 0 0 7px #d4dce0,inset 0 0 0 8px #b6c0c4;
+}
+.lab--umbra-signal-final .hero-media img{padding:14px}
+.lab--umbra-signal-final .summary-item img{border-color:#87959a}
+.lab--umbra-signal-final .wiki-infobox figure img{border-bottom:1px solid #87959a}
+.lab--umbra-signal-final .equipment-placeholder{
+  background:#cfd8dc;
+}
+.lab--umbra-signal-final .equipment-placeholder span{color:#66757a}
+
+.lab--umbra-signal-final .progress-track{
+  background:#223038;
+}
+.lab--umbra-signal-final .progress-track span{
+  background:linear-gradient(90deg,var(--reality) 0 44%,#78aaa6 49%,#8780b4 53%,var(--truth) 100%);
+}
+.lab--umbra-signal-final .reality-truth-note{
+  background:
+    linear-gradient(90deg,rgba(89,215,191,.05),transparent 44%,rgba(163,154,221,.05)),
+    #11191e;
+}
+.lab--umbra-signal-final .interlace-mark{
+  position:relative;color:#d9dbea;text-shadow:-8px 0 14px var(--reality),8px 0 14px var(--truth)
+}
+.lab--umbra-signal-final .equipment-card.selected{
+  border-color:#449985;
+  box-shadow:inset 3px 0 var(--reality);
+}
+.lab--umbra-signal-final .equipment-card.truth{
+  border-color:#625d83;
+  box-shadow:inset -3px 0 rgba(163,154,221,.7);
+}
+.lab--umbra-signal-final .article-callout{
+  border-left-color:var(--reality);
+  border-right:1px solid rgba(163,154,221,.38);
+}
+.lab--umbra-signal-final .truth-box{
+  border-left-color:var(--truth);
+  background:rgba(163,154,221,.05);
 }
 
 @media(max-width:1250px){
