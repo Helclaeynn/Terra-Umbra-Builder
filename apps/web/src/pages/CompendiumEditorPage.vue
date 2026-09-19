@@ -645,7 +645,7 @@ onMounted(load);
           <section class="editor-form-column">
             <div class="panel editor-card">
               <p class="eyebrow">IDENTITÉ DE LA PAGE</p>
-              <label>Titre<input v-model="article.title" maxlength="240" /></label>
+              <label>Titre<input v-model="article.title" maxlength="240" placeholder="Titre de la page" /></label>
               <div class="editor-two">
                 <label>Statut<input v-model="article.status" placeholder="canon_recent…" /></label>
                 <label>Rubrique
