@@ -35,6 +35,8 @@ const props=defineProps<{
   disadvantages:string[];
   neurodiveRaw:number;
   sphereId:string;
+  integrity:number;
+  augmentStressMax:number;
 }>();
 
 const emit=defineEmits<{
@@ -255,6 +257,8 @@ const isValid=computed(()=>{
     if(augmentationCopyCount(props.rules,state.value,item)>augmentationMaxCopies(item))return false;
   }
   if(loadedNeuroCount.value>neuroCap.value)return false;
+  if(load.value.charge>props.integrity)return false;
+  if(load.value.stress>props.augmentStressMax)return false;
   return true;
 });
 
@@ -362,11 +366,23 @@ watchEffect(()=>emit("validation",isValid.value));
           <div>
             <h3>Augmentations installées</h3>
             <p>
-              Charge {{ load.charge }} · Stress {{ load.stress }}
+              Charge {{ load.charge }}/{{ integrity }} · Stress {{ load.stress }}/{{ augmentStressMax }}
               <template v-if="load.rawStress !== load.stress"> ({{ load.rawStress }} avant Stabilité augmentique)</template>
             </p>
           </div>
           <span class="schema-badge">{{ purchasedAugmentations.length }}</span>
+        </div>
+        <div v-if="load.charge > integrity" class="rule-note bad">
+          Charge augmentique permanente {{ load.charge }} &gt; Intégrité {{ integrity }}.
+        </div>
+        <div v-else-if="load.charge === integrity && load.charge > 0" class="rule-note">
+          Charge exactement au seuil d’Intégrité : autorisé, mais dangereux.
+        </div>
+        <div v-if="load.stress > augmentStressMax" class="rule-note bad">
+          Stress augmentique {{ load.stress }} &gt; maximum {{ augmentStressMax }}.
+        </div>
+        <div v-else-if="load.stress === augmentStressMax && load.stress > 0" class="rule-note">
+          Stress exactement au maximum : autorisé, mais dangereux.
         </div>
         <div v-if="!purchasedAugmentations.length" class="empty-line">Aucune augmentation.</div>
         <div class="picked-list">
