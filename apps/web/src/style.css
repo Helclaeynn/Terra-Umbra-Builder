@@ -7,6 +7,60 @@
 
 * { box-sizing: border-box; }
 
+html {
+  scroll-behavior: smooth;
+}
+
+html.route-changing::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  height: 2px;
+  width: 72%;
+  transform-origin: left center;
+  background: linear-gradient(90deg, transparent, #c7ad78 18%, #a17d45 72%, transparent);
+  animation: route-progress .65s cubic-bezier(.2,.8,.2,1) both;
+  pointer-events: none;
+}
+
+@keyframes route-progress {
+  0% { transform: scaleX(.08); opacity: 0; }
+  18% { opacity: 1; }
+  75% { transform: scaleX(.82); opacity: 1; }
+  100% { transform: scaleX(1); opacity: 0; }
+}
+
+.route-enter-active,
+.route-leave-active {
+  transition:
+    opacity .18s ease,
+    transform .22s cubic-bezier(.2,.7,.2,1),
+    filter .22s ease;
+}
+
+.route-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+  filter: blur(2px);
+}
+
+.route-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+  filter: blur(1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  html.route-changing::before { animation: none; display: none; }
+  .route-enter-active,
+  .route-leave-active { transition: none; }
+  .route-enter-from,
+  .route-leave-to { opacity: 1; transform: none; filter: none; }
+}
+
 body {
   margin: 0;
   min-width: 320px;
@@ -24,6 +78,16 @@ select {
 
 button {
   cursor: pointer;
+  transition:
+    border-color .16s ease,
+    background-color .16s ease,
+    color .16s ease,
+    opacity .16s ease,
+    transform .16s ease;
+}
+
+button:not(:disabled):active {
+  transform: translateY(1px);
 }
 
 button:disabled {
@@ -143,6 +207,11 @@ button:disabled {
   border: 1px solid rgba(226, 206, 164, .16);
   background: rgba(24, 22, 18, .82);
   box-shadow: 0 22px 70px rgba(0, 0, 0, .22);
+  transition:
+    border-color .18s ease,
+    background-color .18s ease,
+    box-shadow .22s ease,
+    transform .22s ease;
 }
 
 .auth-card {
@@ -196,6 +265,18 @@ select:focus {
   background: #a17d45;
   color: #100f0d;
   font-weight: 700;
+}
+
+.primary:not(:disabled):hover {
+  background: #b58d4e;
+  box-shadow: 0 8px 24px rgba(161, 125, 69, .16);
+}
+
+.secondary:not(:disabled):hover,
+.ghost:not(:disabled):hover {
+  border-color: rgba(199, 173, 120, .48);
+  color: #e4d8c2;
+  background: rgba(161, 125, 69, .06);
 }
 
 .secondary {
