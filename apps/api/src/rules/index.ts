@@ -9,6 +9,26 @@ import { findCompendiumMatches, resolveCompendiumId } from "../compendium.js";
 
 type NamedEntry={name?:string;compendiumId?:string|null;[key:string]:unknown};
 
+const BUILDER_COMPENDIUM_ID_OVERRIDES:Record<string,string>={
+  "armes-melee-phoenix-pck-08-feather":"equipement-003-phoenix-pck-08-feather",
+  "armes-melee-phoenix-ba-037-sun-axe":"equipement-004-phoenix-ba-037-sun-axe",
+  "armes-melee-raven-cl-038-claymore":"equipement-005-raven-cl-038-claymore",
+  "armes-melee-raven-sp-016-raven-spear":"equipement-006-raven-sp-016-raven-spear",
+  "armes-melee-phoenix-pw-026-vampire-killer":"equipement-009-phoenix-pw-026-vampire-killer",
+  "armes-melee-raven-mc-025-hitman":"equipement-010-raven-mc-025-hitman",
+  "armes-melee-owl-lc-014-chasseur":"equipement-011-owl-lc-014-chasseur",
+  "armes-poing-tasers-raven-ht-014-immobilisateur":"equipement-017-raven-ht-014-immobilisateur",
+  "armes-lourdes-bastion":"equipement-047-bastion",
+  "munitions-speciales-raven-flash":"equipement-061-raven-flash",
+  "munitions-speciales-raven-volto":"equipement-062-raven-volto",
+  "munitions-speciales-raven-drill":"equipement-063-raven-drill",
+  "munitions-speciales-phoenix-pyro":"equipement-065-phoenix-pyro",
+  "armures-basiques-raven-black-feathers":"equipement-083-raven-black-feathers",
+  "armures-basiques-raven-black-dog":"equipement-087-raven-black-dog",
+  "armures-combat-raven-gallowglass-ii-legere":"equipement-091-raven-gallowglass-ii-legere",
+  "armures-combat-raven-gallowglass-ii-lourde":"equipement-094-raven-gallowglass-ii-lourde"
+};
+
 const NATURE_COMPENDIUM_IDS:Record<string,string>={
   humain:"verite-055-19-formation-et-doctrine-de-chasseur",
   vampire:"verite-046-10-vampires",
@@ -23,9 +43,13 @@ const NATURE_COMPENDIUM_IDS:Record<string,string>={
 };
 
 async function enrichNamed<T extends NamedEntry>(entry:T,category=""){
-  const compendiumId=entry.name
-    ?await resolveCompendiumId(String(entry.name),category)
-    :null;
+  const rawId=String((entry as Record<string,unknown>).id??"");
+  const explicit=rawId?BUILDER_COMPENDIUM_ID_OVERRIDES[rawId]:undefined;
+  const compendiumId=explicit??(
+    entry.name
+      ?await resolveCompendiumId(String(entry.name),category)
+      :null
+  );
   return compendiumId?{...entry,compendiumId}:entry;
 }
 
