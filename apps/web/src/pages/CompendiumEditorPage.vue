@@ -31,6 +31,28 @@ type EditableArticle = {
   sections?: ArticleSection[];
 };
 
+type BuilderSourceRecord = {
+  key: string;
+  family: string;
+  kind: string;
+  label: string;
+  category: string;
+  step: string;
+  compendiumId?: string | null;
+  mechanics: Record<string, unknown>;
+};
+
+type CoverageItem = BuilderSourceRecord & {
+  status: "linked" | "missing" | "ambiguous";
+  matches: Array<{ id: string; title: string; category: string }>;
+};
+
+type CoveragePayload = {
+  summary: { total: number; linked: number; missing: number; ambiguous: number };
+  families: Array<{ family: string; total: number; linked: number; missing: number; ambiguous: number }>;
+  items: CoverageItem[];
+};
+
 const route = useRoute();
 const router = useRouter();
 const id = computed(() => String(route.params.id ?? ""));
@@ -63,6 +85,12 @@ const notice = ref("");
 const conflict = ref(false);
 const draftUpdatedAt = ref<string | null>(null);
 const publishedAt = ref<string | null>(null);
+const builderSources = ref<BuilderSourceRecord[]>([]);
+const coverage = ref<CoveragePayload | null>(null);
+const coverageOpen = ref(false);
+const coverageLoading = ref(false);
+const coverageFamily = ref("");
+const coverageStatus = ref<"" | "missing" | "ambiguous" | "linked">("missing");
 const categories = ["Règles", "Réalité", "Vérité", "Équipement & Objets", "Personnages", "Bestiaire"];
 
 function clone<T>(value: T): T {
@@ -94,6 +122,78 @@ function mediaUrl(value: unknown): string {
   if (!clean.startsWith("images/") && !clean.startsWith("assets/")) return src;
   return `/api/compendium/media/${clean}`;
 }
+
+const familyLabels: Record<string, string> = {
+  origins: "Origines",
+  spheres: "Sphères",
+  styles: "Styles",
+  "reality-talents": "Talents de Réalité",
+  disadvantages: "Désavantages",
+  natures: "Natures",
+  "truth-talents": "Talents de Vérité",
+  equipment: "Équipement",
+  augmentations: "Augmentations",
+  recurring: "Services & charges"
+};
+
+const mechanicalLabels: Record<string, string> = {
+  id: "ID Builder",
+  name: "Nom",
+  category: "Catégorie",
+  sourceCategory: "Source",
+  effect: "Effet",
+  prerequisite: "Prérequis",
+  prerequisiteName: "Prérequis",
+  cost: "Coût",
+  access: "Accès",
+  group: "Groupe",
+  generation: "Génération",
+  price: "Prix",
+  priceMin: "Prix min.",
+  priceMax: "Prix max.",
+  priceLabel: "Prix",
+  charge: "Charge",
+  stress: "Stress",
+  slots: "Emplacements",
+  lifestyle: "Train de vie",
+  account: "Compte",
+  augmentationEnvelope: "Enveloppe augmentique",
+  vehicleCapital: "Capital véhicule",
+  skills: "Compétences",
+  expertiseFamilies: "Familles d’expertise",
+  support: "Appui",
+  fixedSkills: "Compétences fixes",
+  recurring: "Récurrence",
+  monthlyCost: "Coût mensuel",
+  vehicle: "Véhicule",
+  neuro: "Neuroprogramme",
+  attribute: "Attribut",
+  skill: "Compétence",
+  sphere: "Sphère",
+  originId: "Origine"
+};
+
+function mechanicalValue(value: unknown): string {
+  if (Array.isArray(value)) return value.map(String).join(" · ");
+  if (typeof value === "boolean") return value ? "Oui" : "Non";
+  if (value && typeof value === "object") return JSON.stringify(value);
+  if (typeof value === "number") return new Intl.NumberFormat("fr-FR").format(value);
+  return String(value ?? "—");
+}
+
+const filteredCoverage = computed(() => {
+  const rows = coverage.value?.items ?? [];
+  return rows.filter((item) =>
+    (!coverageFamily.value || item.family === coverageFamily.value) &&
+    (!coverageStatus.value || item.status === coverageStatus.value)
+  );
+});
+
+const coveragePercent = computed(() => {
+  const summary = coverage.value?.summary;
+  if (!summary?.total) return 0;
+  return Math.round((summary.linked / summary.total) * 100);
+});
 
 const previewMedia = computed(() =>
   mediaSrc.value.trim()
@@ -374,6 +474,38 @@ function fillForms(source: EditableArticle) {
   };
 }
 
+async function loadBuilderSource(articleId: string) {
+  if (!articleId) {
+    builderSources.value = [];
+    return;
+  }
+  try {
+    const payload = await api<{ records: BuilderSourceRecord[] }>(
+      `/api/compendium/editor/builder-source/${encodeURIComponent(articleId)}`
+    );
+    builderSources.value = payload.records;
+  } catch {
+    builderSources.value = [];
+  }
+}
+
+async function toggleCoverage() {
+  coverageOpen.value = !coverageOpen.value;
+  if (!coverageOpen.value || coverage.value || coverageLoading.value) return;
+  coverageLoading.value = true;
+  try {
+    coverage.value = await api<CoveragePayload>("/api/compendium/editor/builder-coverage");
+  } catch (cause) {
+    error.value = humanError(cause);
+  } finally {
+    coverageLoading.value = false;
+  }
+}
+
+function closeCoverage() {
+  coverageOpen.value = false;
+}
+
 async function load() {
   loading.value = true;
   error.value = "";
@@ -389,6 +521,7 @@ async function load() {
         sections: []
       };
       pageId.value = "";
+      builderSources.value = [];
       fillForms(article.value);
       return;
     }
@@ -407,6 +540,7 @@ async function load() {
     draftUpdatedAt.value = payload.draftUpdatedAt;
     publishedAt.value = payload.publishedAt;
     fillForms(article.value);
+    await loadBuilderSource(pageId.value);
   } catch (cause) {
     error.value = humanError(cause);
   } finally {
@@ -523,6 +657,7 @@ async function ensureCreated(): Promise<boolean> {
     pageId.value = payload.articleId;
     article.value.id = payload.articleId;
     await router.replace("/compendium/edit/" + encodeURIComponent(payload.articleId));
+    await loadBuilderSource(payload.articleId);
     return true;
   } catch (cause) {
     error.value = humanError(cause);
@@ -612,11 +747,86 @@ onMounted(load);
         <span class="brand-mark">TU</span>
         <span><strong>Terra Umbra</strong><small>Éditeur du Compendium</small></span>
       </RouterLink>
-      <button class="ghost" type="button" @click="backToArticle">← Retour à l’article</button>
+      <div class="editor-top-actions">
+        <button class="ghost compact" type="button" :aria-expanded="coverageOpen" @click="toggleCoverage">
+          Couverture Builder
+          <span v-if="coverage" class="coverage-mini">{{ coveragePercent }}%</span>
+        </button>
+        <button class="ghost" type="button" @click="backToArticle">← Retour à l’article</button>
+      </div>
     </header>
 
+    <button
+      v-if="coverageOpen"
+      class="coverage-backdrop"
+      type="button"
+      aria-label="Fermer l’audit de couverture"
+      @click="closeCoverage"
+    ></button>
+    <aside class="coverage-drawer" :class="{ open: coverageOpen }" :aria-hidden="!coverageOpen">
+      <header class="coverage-head">
+        <div>
+          <p class="eyebrow">AUDIT BUILDER → WIKI</p>
+          <h2>Couverture du Compendium</h2>
+          <p>Les associations exactes entre les catalogues mécaniques et leurs pages encyclopédiques.</p>
+        </div>
+        <button class="ghost compact" type="button" @click="closeCoverage">Fermer</button>
+      </header>
+
+      <div v-if="coverageLoading" class="coverage-loading">
+        <span></span><span></span><span></span>
+      </div>
+
+      <template v-else-if="coverage">
+        <div class="coverage-score">
+          <strong>{{ coveragePercent }}%</strong>
+          <div>
+            <span>{{ coverage.summary.linked }} liés</span>
+            <small>{{ coverage.summary.total }} éléments canoniques</small>
+          </div>
+        </div>
+
+        <div class="coverage-stats">
+          <article><strong>{{ coverage.summary.linked }}</strong><span>Liés</span></article>
+          <article><strong>{{ coverage.summary.missing }}</strong><span>Sans page</span></article>
+          <article><strong>{{ coverage.summary.ambiguous }}</strong><span>Ambigus</span></article>
+        </div>
+
+        <div class="coverage-filters">
+          <select v-model="coverageStatus" aria-label="État de couverture">
+            <option value="">Tous les états</option>
+            <option value="missing">Sans page</option>
+            <option value="ambiguous">Ambigus</option>
+            <option value="linked">Liés</option>
+          </select>
+          <select v-model="coverageFamily" aria-label="Famille Builder">
+            <option value="">Toutes les familles</option>
+            <option v-for="family in coverage.families" :key="family.family" :value="family.family">
+              {{ familyLabels[family.family] || family.family }} · {{ family.linked }}/{{ family.total }}
+            </option>
+          </select>
+        </div>
+
+        <div class="coverage-list">
+          <article v-for="item in filteredCoverage" :key="item.key" :class="item.status">
+            <div>
+              <span>{{ familyLabels[item.family] || item.family }}</span>
+              <strong>{{ item.label }}</strong>
+              <small>{{ item.kind }}</small>
+            </div>
+            <div class="coverage-item-state">
+              <b>{{ item.status === "linked" ? "Lié" : item.status === "ambiguous" ? "Ambigu" : "À créer" }}</b>
+              <small v-if="item.matches.length">{{ item.matches.map(match => match.title).join(" · ") }}</small>
+            </div>
+          </article>
+        </div>
+      </template>
+    </aside>
+
     <main class="wiki-editor-page">
-      <div v-if="loading" class="panel editor-loading">Chargement de l’éditeur…</div>
+      <div v-if="loading" class="panel editor-loading editor-skeleton" aria-label="Chargement de l’éditeur">
+        <span></span><span></span><span></span><span></span>
+      </div>
       <div v-else-if="error && !article" class="feedback error">{{ error }}</div>
 
       <template v-else-if="article">
@@ -656,6 +866,41 @@ onMounted(load);
               </div>
               <label>Source<input v-model="article.source" /></label>
               <label>Tags<textarea v-model="tagsText" rows="2" placeholder="Vérité, Garous, Californie…" /></label>
+            </div>
+
+            <div v-if="!isNew" class="panel editor-card builder-source-card" :class="{ linked: builderSources.length }">
+              <div class="editor-card-title">
+                <div>
+                  <p class="eyebrow">SOURCE MÉCANIQUE</p>
+                  <h2>{{ builderSources.length ? "Relié au Builder" : "Aucune liaison Builder" }}</h2>
+                </div>
+                <span class="builder-source-state" :class="{ ok: builderSources.length }">
+                  {{ builderSources.length ? "Données verrouillées" : "Lore uniquement" }}
+                </span>
+              </div>
+              <p class="editor-hint">
+                <template v-if="builderSources.length">
+                  Les valeurs ci-dessous proviennent du Builder et ne sont pas éditables ici. Le wiki reste responsable du lore, des illustrations et de la rédaction.
+                </template>
+                <template v-else>
+                  Cette page n’est reliée à aucun objet mécanique canonique. L’audit de couverture permet d’identifier les pages manquantes.
+                </template>
+              </p>
+              <div v-for="source in builderSources" :key="source.key" class="builder-source-record">
+                <header>
+                  <div>
+                    <span>{{ familyLabels[source.family] || source.family }}</span>
+                    <strong>{{ source.label }}</strong>
+                  </div>
+                  <small>{{ source.kind }}</small>
+                </header>
+                <dl>
+                  <template v-for="(value,key) in source.mechanics" :key="key">
+                    <dt>{{ mechanicalLabels[String(key)] || key }}</dt>
+                    <dd>{{ mechanicalValue(value) }}</dd>
+                  </template>
+                </dl>
+              </div>
             </div>
 
             <div class="panel editor-card">
@@ -796,14 +1041,23 @@ Encore du texte.
 </template>
 
 <style scoped>
-.wiki-editor-shell { min-height: 100vh; }
+.wiki-editor-shell { min-height: 100vh; background:radial-gradient(circle at 82% 8%,rgba(139,101,53,.1),transparent 30rem); }
+.editor-top-actions{display:flex;align-items:center;gap:.55rem}.coverage-mini{margin-left:.35rem;color:#d7bd88;font-size:.68rem}
+.coverage-backdrop{position:fixed;inset:0;z-index:44;border:0;background:rgba(0,0,0,.52);backdrop-filter:blur(3px)}
+.coverage-drawer{position:fixed;top:0;right:0;z-index:45;width:min(560px,94vw);height:100vh;padding:1.2rem;overflow:auto;border-left:1px solid rgba(226,206,164,.16);background:linear-gradient(180deg,#15130f,#0e0d0b);box-shadow:-30px 0 80px rgba(0,0,0,.45);transform:translateX(104%);opacity:0;pointer-events:none;transition:transform .24s cubic-bezier(.2,.7,.2,1),opacity .18s ease}.coverage-drawer.open{transform:none;opacity:1;pointer-events:auto}
+.coverage-head{display:flex;justify-content:space-between;gap:1rem;padding:.25rem 0 1rem;border-bottom:1px solid rgba(255,255,255,.08)}.coverage-head h2{margin:.12rem 0 .35rem;font:500 1.65rem/1.1 Georgia,serif}.coverage-head p:not(.eyebrow){margin:0;color:#8a8379;font-size:.76rem;line-height:1.5}
+.coverage-score{display:flex;align-items:center;gap:1rem;padding:1rem 0}.coverage-score>strong{font:500 2.8rem/1 Georgia,serif;color:#d7bd88}.coverage-score>div{display:grid;gap:.15rem}.coverage-score span{color:#c9c0b1}.coverage-score small{color:#766f67}
+.coverage-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem}.coverage-stats article{display:grid;gap:.2rem;padding:.75rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.018)}.coverage-stats strong{font:500 1.45rem/1 Georgia,serif}.coverage-stats span{color:#807970;font-size:.68rem;text-transform:uppercase;letter-spacing:.06em}
+.coverage-filters{display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin:1rem 0}.coverage-list{display:grid;gap:.45rem}.coverage-list article{display:flex;justify-content:space-between;gap:1rem;padding:.7rem .75rem;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.012)}.coverage-list article.missing{border-left:3px solid #aa695e}.coverage-list article.ambiguous{border-left:3px solid #b99556}.coverage-list article.linked{border-left:3px solid #6f9f78}.coverage-list article>div:first-child{display:grid;gap:.15rem}.coverage-list article span{color:#907957;font-size:.62rem;text-transform:uppercase;letter-spacing:.06em}.coverage-list article strong{color:#d9d0c1;font-size:.82rem}.coverage-list article small{color:#777068;font-size:.66rem}.coverage-item-state{display:grid;gap:.2rem;text-align:right;align-content:start;max-width:46%}.coverage-item-state b{color:#aaa296;font-size:.7rem}.coverage-loading{display:grid;gap:.6rem;padding:1rem 0}.coverage-loading span,.editor-skeleton span{height:14px;background:linear-gradient(90deg,rgba(255,255,255,.035),rgba(255,255,255,.09),rgba(255,255,255,.035));background-size:220% 100%;animation:editor-shimmer 1.2s linear infinite}.coverage-loading span:nth-child(2),.editor-skeleton span:nth-child(2){width:72%}.coverage-loading span:nth-child(3){width:84%}
+@keyframes editor-shimmer{to{background-position:-220% 0}}
+
 .wiki-editor-topbar {
   min-height: 72px; display:flex; align-items:center; justify-content:space-between; gap:1rem;
   padding:0 clamp(1rem,4vw,3rem); position:sticky; top:0; z-index:30;
   border-bottom:1px solid rgba(226,206,164,.13); background:rgba(13,12,10,.97);
 }
 .wiki-editor-page { width:min(1540px,calc(100% - 2rem)); margin:0 auto; padding:2rem 0 7rem; }
-.editor-loading { padding:2rem; }
+.editor-loading { padding:2rem; }.editor-skeleton{display:grid;gap:.75rem;min-height:180px;align-content:center}.editor-skeleton span{height:18px}.editor-skeleton span:nth-child(3){width:88%}.editor-skeleton span:nth-child(4){width:58%}
 .editor-heading { display:flex; justify-content:space-between; gap:2rem; align-items:end; margin-bottom:1.2rem; }
 .editor-heading h1 { margin:.2rem 0 .5rem; font:500 clamp(2rem,4vw,3.8rem)/1.04 Georgia,serif; }
 .editor-heading p:not(.eyebrow) { margin:0; max-width:72ch; color:#999287; }
@@ -813,7 +1067,7 @@ Encore du texte.
 .wiki-editor-grid { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(330px,.65fr); gap:1rem; align-items:start; }
 .editor-form-column { display:grid; gap:1rem; }
 .editor-card,.editor-section-card,.editor-preview-column { padding:1rem; }
-.editor-card { display:grid; gap:.8rem; }
+.editor-card { display:grid; gap:.8rem; border-color:rgba(226,206,164,.12); background:linear-gradient(145deg,rgba(26,24,20,.9),rgba(20,18,15,.78)); }.editor-card:hover{border-color:rgba(226,206,164,.2)}
 .editor-card-title,.editor-sections-head { display:flex; justify-content:space-between; align-items:end; gap:1rem; }
 .editor-card h2,.editor-sections-head h2 { margin:.15rem 0 0; font:500 1.45rem/1.2 Georgia,serif; }
 .editor-two { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem; }
@@ -821,6 +1075,8 @@ Encore du texte.
 .editor-card input,.editor-card textarea,.editor-card select,.editor-section-card input,.editor-section-card textarea,.editor-section-card select {
   width:100%; box-sizing:border-box;
 }
+.builder-source-card{border-left:3px solid rgba(125,101,66,.55)}.builder-source-card.linked{border-left-color:#7c9d72}.builder-source-state{padding:.3rem .45rem;border:1px solid rgba(255,255,255,.09);color:#8b847b;font-size:.65rem;text-transform:uppercase;letter-spacing:.05em}.builder-source-state.ok{color:#9fbe98;border-color:rgba(112,168,121,.25)}
+.builder-source-record{display:grid;gap:.6rem;padding:.75rem;border:1px solid rgba(255,255,255,.07);background:rgba(8,8,7,.22)}.builder-source-record>header{display:flex;justify-content:space-between;gap:.8rem}.builder-source-record>header>div{display:grid;gap:.15rem}.builder-source-record>header span{color:#8c754f;font-size:.62rem;text-transform:uppercase;letter-spacing:.07em}.builder-source-record>header strong{color:#ddd4c6}.builder-source-record>header small{color:#817a71;font-size:.67rem}.builder-source-record dl{display:grid;grid-template-columns:minmax(100px,.6fr) minmax(0,1.4fr);gap:0;margin:0}.builder-source-record dt,.builder-source-record dd{padding:.38rem .45rem;border-top:1px solid rgba(255,255,255,.05);font-size:.7rem}.builder-source-record dt{color:#746e66}.builder-source-record dd{margin:0;color:#b8afa3;overflow-wrap:anywhere}
 .editor-media-preview { width:min(100%,520px); max-height:340px; object-fit:contain; margin-top:.2rem; border:1px solid rgba(255,255,255,.08); background:rgba(0,0,0,.2); }
 .editor-sections-head { margin-top:.3rem; }
 .editor-section-card { display:grid; gap:.8rem; }
@@ -892,6 +1148,9 @@ Encore du texte.
   .editor-preview-column { position:static; max-height:none; }
 }
 @media (max-width:680px) {
+  .editor-top-actions{gap:.35rem}.editor-top-actions .ghost{padding:.4rem .5rem}
+  .coverage-filters{grid-template-columns:1fr}.coverage-stats{grid-template-columns:1fr 1fr 1fr}.coverage-list article{flex-direction:column}.coverage-item-state{max-width:none;text-align:left}
+
   .editor-heading,.editor-card-title,.editor-sections-head { align-items:stretch; flex-direction:column; }
   .editor-two,.editor-section-card > header { grid-template-columns:1fr; }
   .editor-actions { flex-wrap:wrap; }
