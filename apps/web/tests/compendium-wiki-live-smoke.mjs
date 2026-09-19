@@ -127,7 +127,9 @@ try{
     ["interface-2035","Interface 2035"],
     ["livre-vivant","Livre vivant"],
     ["codex-hybride","Codex hybride"],
-    ["dossier-umbra","Dossier Umbra"]
+    ["dossier-umbra","Dossier Umbra"],
+    ["umbra-archive","Umbra Archive"],
+    ["umbra-signal","Umbra Signal"]
   ];
   for(const [slug,label] of styleThemes){
     await publicPage.goto(`${baseUrl}/style-lab/${slug}/builder`,{waitUntil:"domcontentloaded",timeout:30000});
@@ -147,7 +149,7 @@ try{
       {timeout:10000}
     );
   }
-  console.log("STYLE LAB OK — 4 thèmes · Builder + Compendium · médias chargés");
+  console.log("STYLE LAB OK — 6 thèmes · Builder + Compendium · médias chargés");
 
   await publicPage.goto(baseUrl+"/compendium",{waitUntil:"domcontentloaded",timeout:30000});
   const loginLink=publicPage.getByRole("link",{name:"Connexion"});
