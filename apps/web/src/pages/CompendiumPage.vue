@@ -977,13 +977,6 @@ async function openArticle(id: string, syncRoute = true) {
   builderSources.value = [];
   talentEmbeds.value = {};
 
-  const usagePromise = api<{ usage: BuilderUsage[]; sources: BuilderSourceRecord[] }>(
-    `/api/compendium/builder-usage/${encodeURIComponent(id)}`
-  ).catch(() => ({
-    usage: [] as BuilderUsage[],
-    sources: [] as BuilderSourceRecord[]
-  }));
-
   try {
     const result = await api<{ article: Article }>(
       `/api/compendium/articles/${encodeURIComponent(id)}`
@@ -1001,7 +994,12 @@ async function openArticle(id: string, syncRoute = true) {
       });
     }
 
-    const usageResult = await usagePromise;
+    const usageResult = await api<{ usage: BuilderUsage[]; sources: BuilderSourceRecord[] }>(
+      `/api/compendium/builder-usage/${encodeURIComponent(id)}`
+    ).catch(() => ({
+      usage: [] as BuilderUsage[],
+      sources: [] as BuilderSourceRecord[]
+    }));
     if (selected.value?.id !== id) return;
     builderUsage.value = usageResult.usage;
     builderSources.value = usageResult.sources;
