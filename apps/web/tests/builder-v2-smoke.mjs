@@ -313,8 +313,8 @@ for(const label of ["Voilé","Semi-Révélé","Révélé"]){
 
 await page.getByRole("button",{name:/Équipement/}).click();
 await page.getByRole("heading",{name:"Réalité, équipement & augmentations"}).waitFor();
-await page.getByText("Kit Smoke",{exact:true}).waitFor();
 const kitWiki=page.getByRole("link",{name:/Kit Smoke/}).first();
+await kitWiki.waitFor({state:"visible",timeout:5000});
 await kitWiki.hover();
 await page.getByText("Équipement de référence du smoke Builder, centralisé dans le Compendium.",{exact:false}).waitFor({state:"visible",timeout:5000});
 const kitHref=await kitWiki.getAttribute("href");
