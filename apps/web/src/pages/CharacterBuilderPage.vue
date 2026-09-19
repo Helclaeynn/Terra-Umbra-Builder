@@ -8,7 +8,21 @@ import TalentSelector, {
   type TalentOption
 } from "../components/builder/TalentSelector.vue";
 import EquipmentStep from "../components/builder/EquipmentStep.vue";
-import type { RealityRulesPackage } from "../lib/reality";
+import {
+  augmentationAccess,
+  augmentationCopyCount,
+  augmentationLoad,
+  augmentationMaxCopies,
+  augmentationSupportSatisfied,
+  ensureRealityState,
+  neuroCapacity,
+  priceSelectionValid,
+  realityEconomic,
+  realityItemMap,
+  realityLifestyleBase,
+  lifestylePressure,
+  type RealityRulesPackage
+} from "../lib/reality";
 import type { Character, CharacterDataV2 } from "../types/character";
 import {
   truthAvailableTalents,
@@ -118,7 +132,6 @@ const disadvantageLore=ref<Record<string,string>>({});
 const edgeRules=ref<EdgeRules|null>(null);
 const truthRules=ref<TruthRulesPackage|null>(null);
 const realityRules=ref<RealityRulesPackage|null>(null);
-const equipmentValid=ref(false);
 const disadvantageCategory=ref("common");
 const truthSearch=ref("");
 const loading=ref(true);
@@ -522,6 +535,141 @@ function finalAttribute(id:string){
   return Number(draft.value.attributes[id]||0)+Number(draft.value.edgeAttributes[id]||0)+truthBonus;
 }
 
+const derivedStats=computed(()=>{
+  const vigor=finalAttribute("vigueur");
+  const agility=finalAttribute("agilite");
+  const will=finalAttribute("volonte");
+  const constitution=skillFinal("constitution");
+  const athletics=skillFinal("athletisme");
+  const dodge=skillFinal("esquive");
+  const fortitude=skillFinal("force_mentale");
+  const humanity=skillFinal("humanite");
+  const meleeSkill=skillFinal("melee");
+  const pugilatSkill=skillFinal("pugilat");
+  const shootingSkill=skillFinal("tir");
+  const neuro=skillFinal("neurodive");
+  const integrity=Math.max(
+    1,
+    fortitude+humanity-(draft.value?.disadvantages.includes("integrite_defaillante")?2:0)
+  );
+  return {
+    pvMax:2*vigor+constitution,
+    death:-(vigor+constitution),
+    initiative:agility+athletics-(draft.value?.disadvantages.includes("lent_a_reagir")?2:0),
+    passiveDefense:agility+dodge,
+    occultDefense:will+fortitude,
+    movement:5+athletics,
+    integrity,
+    augmentStressMax:vigor+humanity,
+    melee:vigor+meleeSkill,
+    pugilat:vigor+pugilatSkill,
+    shooting:agility+shootingSkill,
+    neurodive:will+neuro
+  };
+});
+
+const realityState=computed(()=>draft.value?ensureRealityState(draft.value.reality):null);
+const realityItems=computed(()=>realityRules.value?realityItemMap(realityRules.value):new Map());
+const realityEconomyValue=computed(()=>
+  realityRules.value&&realityState.value&&selectedStyle.value
+    ? realityEconomic(realityRules.value,realityState.value,selectedStyle.value,draft.value?.edge??{})
+    : null
+);
+const lifestyleBaseValue=computed(()=>
+  realityRules.value&&selectedStyle.value&&draft.value
+    ? realityLifestyleBase(
+        realityRules.value,
+        selectedStyle.value,
+        draft.value.edge,
+        selectedRealityTalentIds(),
+        draft.value.disadvantages
+      )
+    : "Standard"
+);
+const lifestylePressureValue=computed(()=>
+  realityRules.value&&realityState.value
+    ? lifestylePressure(realityRules.value,realityState.value,lifestyleBaseValue.value)
+    : null
+);
+const augmentationLoadValue=computed(()=>
+  realityRules.value&&realityState.value
+    ? augmentationLoad(realityRules.value,realityState.value,selectedRealityTalentIds())
+    : {charge:0,stress:0,rawStress:0}
+);
+const requiredLanguageCount=computed(()=>Math.max(1,1+skillRaw("langages_argot")));
+
+function socialLanguages(){
+  if(!draft.value)return [];
+  const values=Array.isArray(draft.value.social.languages)
+    ? draft.value.social.languages.filter((value):value is string=>typeof value==="string")
+    : [];
+  return values;
+}
+function socialContacts(){
+  if(!draft.value)return [];
+  return Array.isArray(draft.value.social.contacts)
+    ? draft.value.social.contacts.filter((value):value is string=>typeof value==="string")
+    : [];
+}
+const socialValidation=computed(()=>{
+  if(!draft.value)return {languages:false,crawler:false,corporatiste:false};
+  const languages=socialLanguages();
+  const languageOk=languages.length===requiredLanguageCount.value&&languages.every(value=>value.trim().length>0);
+  const crawler=draft.value.creation.sphere!=="crawler"||socialContacts().some(value=>value.trim().length>0);
+  const support=String(draft.value.reality.sphereSupportDetail??"").trim();
+  const corporatiste=draft.value.creation.sphere!=="corporatiste"||support.length>0;
+  return {languages:languageOk,crawler,corporatiste};
+});
+
+const equipmentValidation=computed(()=>{
+  if(!draft.value||!realityRules.value||!selectedStyle.value||!realityState.value)return false;
+  const pkg=realityRules.value;
+  const state=realityState.value;
+  const itemMap=realityItems.value;
+  const eco=realityEconomyValue.value;
+  if(!eco||eco.account<0)return false;
+
+  for(const purchase of state.augmentations){
+    const item=itemMap.get(purchase.itemId);
+    if(!item)return false;
+    if(
+      realityPriceSpecForValidation(item).configurable&&
+      (!purchase.priceConfirmed||!priceSelectionValid(item,Number.isFinite(Number(purchase.selectedPrice))?Number(purchase.selectedPrice):null))
+    ) return false;
+    if((purchase.selectedPrice??item.price??0)>pkg.economy.advancedPurchaseThreshold&&!state.mjAdvancedOverride)return false;
+    if(!augmentationSupportSatisfied(pkg,state,item))return false;
+    if(augmentationCopyCount(pkg,state,item)>augmentationMaxCopies(item))return false;
+    const access=augmentationAccess(pkg,selectedStyle.value,item,draft.value.edge,state.mjAccessOverride);
+    if(!access.ok)return false;
+    if(item.generation===2&&!access.systems.includes(Number(purchase.gen2System)))return false;
+  }
+
+  for(const purchase of state.equipment){
+    const item=itemMap.get(purchase.itemId);
+    if(!item)return false;
+    if(
+      realityPriceSpecForValidation(item).configurable&&
+      (!purchase.priceConfirmed||!priceSelectionValid(item,Number.isFinite(Number(purchase.selectedPrice))?Number(purchase.selectedPrice):null))
+    ) return false;
+    if((purchase.selectedPrice??item.price??0)>pkg.economy.advancedPurchaseThreshold&&!state.mjAdvancedOverride)return false;
+    if(item.neuro&&draft.value.disadvantages.includes("unsinkable"))return false;
+  }
+
+  const loadedNeuro=state.equipment.filter(p=>itemMap.get(p.itemId)?.neuro&&p.loaded).length;
+  if(loadedNeuro>neuroCapacity(skillRaw("neurodive"),selectedRealityTalentIds(),draft.value.disadvantages))return false;
+  const load=augmentationLoadValue.value;
+  return load.charge<=derivedStats.value.integrity&&load.stress<=derivedStats.value.augmentStressMax;
+});
+
+function realityPriceSpecForValidation(item:ReturnType<typeof realityItemMap> extends Map<string,infer T>?T:never){
+  const configurable=
+    item.price===null||
+    (item.priceMin!==null&&item.priceMax!==null&&item.priceMin!==item.priceMax)||
+    /\$\s*\+|\+\s*$/.test(item.priceLabel||"")||
+    /variable|indicatif|sur devis|selon/i.test(item.priceLabel||"");
+  return {configurable};
+}
+
 function formatMoney(value:number){
   return new Intl.NumberFormat("fr-FR").format(value)+" $";
 }
@@ -576,7 +724,16 @@ function stepDone(id:StepId){
     const renownOk=Number(draft.value.edge.renownPack||0)===0||(!hasUnknownDisadvantage.value&&!hasRenownedTalent.value);
     return edgeRemaining.value>=0&&attrOk&&skillsOk&&talentsOk&&renownOk;
   }
-  if(id==="equipment")return equipmentValid.value;
+  if(id==="equipment")return equipmentValidation.value;
+  if(id==="finish"){
+    return sections
+      .filter(([step,,required])=>required&&step!=="finish")
+      .every(([step])=>stepDone(step))&&
+      socialValidation.value.languages&&
+      socialValidation.value.crawler&&
+      socialValidation.value.corporatiste;
+  }
+  if(id==="progression")return true;
   return false;
 }
 
@@ -2014,8 +2171,9 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
           :disadvantages="draft.disadvantages"
           :neurodive-raw="skillRaw('neurodive')"
           :sphere-id="draft.creation.sphere"
+          :integrity="derivedStats.integrity"
+          :augment-stress-max="derivedStats.augmentStressMax"
           @update:model-value="draft.reality=$event"
-          @validation="equipmentValid=$event"
         />
 
         <article v-else class="panel builder-card">
