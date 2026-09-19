@@ -3,6 +3,7 @@ import { chromium } from "playwright-core";
 const baseUrl=(process.env.TUC_V2_SMOKE_BASE_URL||"https://dev.terra-umbra.fr").replace(/\/$/,"");
 const executablePath=process.env.CHROME_BIN;
 const sessionToken=process.env.TUC_SESSION_TOKEN;
+const dynamicTalentArticle=process.env.TUC_DYNAMIC_TALENT_ARTICLE||"";
 
 if(!executablePath)throw new Error("CHROME_BIN manquant.");
 if(!sessionToken)throw new Error("TUC_SESSION_TOKEN manquant.");
@@ -46,9 +47,20 @@ try{
   await publicPage.getByText("Nature",{exact:true}).first().waitFor({state:"visible",timeout:10000});
   await publicPage.getByText("Vérité",{exact:true}).first().waitFor({state:"visible",timeout:10000});
 
+  if(dynamicTalentArticle){
+    await publicPage.goto(baseUrl+"/compendium?article="+encodeURIComponent(dynamicTalentArticle),{waitUntil:"domcontentloaded",timeout:30000});
+    await publicPage.getByRole("heading",{name:"Talents dynamiques"}).waitFor({state:"visible",timeout:10000});
+    await publicPage.getByRole("heading",{name:"Faveur de la nuit"}).waitFor({state:"visible",timeout:10000});
+    await publicPage.getByRole("heading",{name:"Sens du chasseur"}).waitFor({state:"visible",timeout:10000});
+    const cards=await publicPage.locator(".talent-wiki-card").count();
+    if(cards!==2)throw new Error("Bloc dynamique de Talents inattendu: "+cards+" cartes.");
+    const rawDirective=await publicPage.getByText("{{Talents|ids=faveur_de_la_nuit,sens_du_chasseur}}",{exact:true}).count();
+    if(rawDirective)throw new Error("Directive Talents brute encore visible.");
+  }
+
   const loginLink=publicPage.getByRole("link",{name:"Connexion"});
   await loginLink.waitFor({state:"visible",timeout:10000});
-  console.log("WIKI PUBLIC OK — onboarding + suggestions de recherche + guide + backlinks Builder sans session");
+  console.log("WIKI PUBLIC OK — onboarding + suggestions + backlinks Builder + cartes Talents dynamiques sans session");
 }finally{
   await publicContext.close();
 }
@@ -196,6 +208,12 @@ try{
   await page.goto(baseUrl+"/compendium/new?title=CI%20Builder%20Page&category=R%C3%A8gles&source=Builder%20%C2%B7%20CI&tags=Talent%2CBuilder",{waitUntil:"domcontentloaded",timeout:30000});
   await page.getByText("NOUVELLE PAGE WIKI",{exact:true}).waitFor({state:"visible",timeout:10000});
   await page.locator(".wiki-source").waitFor({state:"visible",timeout:10000});
+  const talentButton=page.getByRole("button",{name:"Talents",exact:true});
+  await talentButton.waitFor({state:"visible",timeout:10000});
+  await talentButton.click();
+  await page.getByText("Insérer des Talents dynamiques",{exact:true}).waitFor({state:"visible",timeout:10000});
+  await page.getByRole("button",{name:"Annuler",exact:true}).click();
+
   const newTitle=page.locator('input[placeholder="Titre de la page"]');
   await newTitle.waitFor({state:"visible",timeout:10000});
   if(await newTitle.inputValue()!=="CI Builder Page")throw new Error("Préremplissage titre Builder absent.");
@@ -206,7 +224,7 @@ try{
 
   if(browserErrors.length)throw new Error(browserErrors.join("\n"));
 
-  console.log(`WIKI V2 OK — ${sourceTitle} → ${linkedText} → ${previewTitle} · média + éditeur + source Builder + audit + création OK`);
+  console.log(`WIKI V2 OK — ${sourceTitle} → ${linkedText} → ${previewTitle} · média + éditeur + registre Talents + source Builder + audit + création OK`);
 }finally{
   await browser.close();
 }
