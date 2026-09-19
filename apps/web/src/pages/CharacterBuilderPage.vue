@@ -68,6 +68,13 @@ const dirty=computed(()=>{
   return JSON.stringify(draft.value)!==baseline.value;
 });
 
+const identityDisplayName=computed(()=>{
+  if(!draft.value)return character.value?.name??"";
+  const firstName=draft.value.identity.firstName.trim();
+  const name=draft.value.identity.name.trim();
+  return [firstName,name].filter(Boolean).join(" ")||character.value?.name||"";
+});
+
 const selectedSphere=computed(()=>{
   if(!draft.value||!rules.value)return null;
   return rules.value.spheres[draft.value.creation.sphere]??null;
@@ -168,8 +175,9 @@ async function saveCharacter(){
   error.value="";
   notice.value="";
   try{
-    const name=draft.value.identity.name.trim()||character.value.name;
-    draft.value.identity.name=name;
+    const surname=draft.value.identity.name.trim()||character.value.name;
+    draft.value.identity.name=surname;
+    const name=[draft.value.identity.firstName.trim(),surname].filter(Boolean).join(" ");
     const result=await api<{character:Character}>(`/api/characters/${character.value.id}`,{
       method:"PATCH",
       body:JSON.stringify({
@@ -374,13 +382,13 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
             <img
               v-if="draft.identity.portraitDataUrl"
               :src="draft.identity.portraitDataUrl"
-              :alt="`Portrait de ${draft.identity.name || character.name}`"
+              :alt="`Portrait de ${identityDisplayName || character.name}`"
             />
             <span v-else>TU</span>
           </div>
           <div>
             <p class="eyebrow">PERSONNAGE</p>
-            <h1>{{ draft.identity.name || character.name }}</h1>
+            <h1>{{ identityDisplayName || character.name }}</h1>
             <small>
               {{ draft.meta?.importedFrom === "v1-json" ? "Importé depuis le Builder V1" : "Fiche native V2" }}
             </small>
@@ -429,7 +437,7 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
                 <img
                   v-if="draft.identity.portraitDataUrl"
                   :src="draft.identity.portraitDataUrl"
-                  :alt="`Portrait de ${draft.identity.name || 'personnage'}`"
+                  :alt="`Portrait de ${identityDisplayName || 'personnage'}`"
                 />
                 <div v-else class="portrait-empty">
                   <strong>Portrait</strong>
@@ -459,19 +467,23 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
                   <input v-model="draft.identity.name" maxlength="120" />
                 </label>
                 <label>
-                  Âge
-                  <input v-model="draft.identity.age" />
+                  Prénom
+                  <input v-model="draft.identity.firstName" maxlength="120" />
                 </label>
                 <label>
                   Alias
                   <input v-model="draft.identity.alias" />
                 </label>
                 <label>
-                  Métier / activité actuelle
-                  <input v-model="draft.identity.activity" />
+                  Occupation
+                  <input v-model="draft.identity.occupation" />
                 </label>
                 <label>
-                  Sexe / genre
+                  Âge
+                  <input v-model="draft.identity.age" />
+                </label>
+                <label>
+                  Sexe
                   <input v-model="draft.identity.sex" />
                 </label>
                 <label>
