@@ -504,7 +504,6 @@ async function toggleFavorite(articleId: string) {
     await loadLibrary();
     libraryNotice.value = favorite ? "Retiré des favoris." : "Ajouté aux favoris.";
   } catch (cause) {
-    builderUsage.value = [];
     error.value = humanError(cause);
   } finally {
     libraryBusy.value = false;
@@ -659,6 +658,7 @@ async function openArticle(id: string, syncRoute = true) {
       });
     }
   } catch (cause) {
+    builderUsage.value = [];
     error.value = humanError(cause);
   } finally {
     articleLoading.value = false;
