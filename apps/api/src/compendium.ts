@@ -1020,8 +1020,8 @@ function searchItem(article: Article, query: string) {
   };
 }
 
-async function loadUserLibrary(userId: string, corpus: Corpus) {
-  const [favoriteRows, collectionRows, itemRows] = await Promise.all([
+async function loadUserLibrary(userId: string, corpus: Corpus, includeMj: boolean) {
+  const [favoriteRows, collectionRows, itemRows, historyRows] = await Promise.all([
     pool.query<{ articleId: string }>(
       `SELECT article_id AS "articleId"
        FROM compendium_favorites
@@ -1054,14 +1054,29 @@ async function loadUserLibrary(userId: string, corpus: Corpus) {
        WHERE c.owner_id = $1
        ORDER BY i.created_at DESC`,
       [userId]
+    ),
+    pool.query<{ articleId: string; viewedAt: string; viewCount: number }>(
+      `SELECT
+         article_id AS "articleId",
+         viewed_at::text AS "viewedAt",
+         view_count AS "viewCount"
+       FROM compendium_history
+       WHERE user_id = $1
+       ORDER BY viewed_at DESC
+       LIMIT 50`,
+      [userId]
     )
   ]);
 
+  const visibleItem = (id: string) => {
+    const article = corpus.byId.get(id);
+    return article ? searchItem(articleForAudience(article, includeMj), "") : null;
+  };
+
   const favorites = favoriteRows.rows.map((row) => row.articleId);
   const favoriteItems = favorites
-    .map((id) => corpus.byId.get(id))
-    .filter((article): article is Article => Boolean(article))
-    .map((article) => searchItem(article, ""));
+    .map(visibleItem)
+    .filter((article): article is ReturnType<typeof searchItem> => Boolean(article));
 
   const idsByCollection = new Map<string, string[]>();
   for (const row of itemRows.rows) {
@@ -1076,13 +1091,19 @@ async function loadUserLibrary(userId: string, corpus: Corpus) {
       ...collection,
       articleIds,
       items: articleIds
-        .map((id) => corpus.byId.get(id))
-        .filter((article): article is Article => Boolean(article))
-        .map((article) => searchItem(article, ""))
+        .map(visibleItem)
+        .filter((article): article is ReturnType<typeof searchItem> => Boolean(article))
     };
   });
 
-  return { favorites, favoriteItems, collections };
+  const recentItems = historyRows.rows
+    .map((row) => {
+      const item = visibleItem(row.articleId);
+      return item ? { ...item, viewedAt: row.viewedAt, viewCount: row.viewCount } : null;
+    })
+    .filter((item): item is ReturnType<typeof searchItem> & { viewedAt: string; viewCount: number } => Boolean(item));
+
+  return { favorites, favoriteItems, collections, recentItems };
 }
 
 async function ownedCollection(collectionId: string, userId: string): Promise<boolean> {
@@ -1205,7 +1226,52 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     if (!user) return;
 
     const corpus = await getCorpus();
-    return loadUserLibrary(user.id, corpus);
+    return loadUserLibrary(user.id, corpus, canReadMj(user.role));
+  });
+
+  app.put<{
+    Params: { id: string };
+  }>("/api/compendium/history/:id", async (request, reply) => {
+    const user = await requireUser(request, reply);
+    if (!user) return;
+
+    const id = request.params.id.trim();
+    const corpus = await getCorpus();
+    if (!id || id.length > 240 || !corpus.byId.has(id)) {
+      return reply.code(404).send({ error: "compendium_article_not_found" });
+    }
+
+    await pool.query(
+      `INSERT INTO compendium_history (user_id, article_id, viewed_at, view_count)
+       VALUES ($1, $2, now(), 1)
+       ON CONFLICT (user_id, article_id) DO UPDATE SET
+         viewed_at = now(),
+         view_count = compendium_history.view_count + 1`,
+      [user.id, id]
+    );
+
+    await pool.query(
+      `DELETE FROM compendium_history
+       WHERE user_id = $1
+         AND article_id NOT IN (
+           SELECT article_id
+           FROM compendium_history
+           WHERE user_id = $1
+           ORDER BY viewed_at DESC
+           LIMIT 100
+         )`,
+      [user.id]
+    );
+
+    return { articleId: id, recorded: true };
+  });
+
+  app.delete("/api/compendium/history", async (request, reply) => {
+    const user = await requireUser(request, reply);
+    if (!user) return;
+
+    await pool.query("DELETE FROM compendium_history WHERE user_id = $1", [user.id]);
+    return { cleared: true };
   });
 
   app.put<{
