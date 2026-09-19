@@ -2,6 +2,11 @@
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import { onBeforeRouteLeave, useRoute } from "vue-router";
 import { api, ApiError } from "../lib/api";
+import TalentSelector, {
+  type TalentChoiceOption,
+  type TalentChoiceSpec,
+  type TalentOption
+} from "../components/builder/TalentSelector.vue";
 import type { Character, CharacterDataV2 } from "../types/character";
 
 type RuleAttribute={id:string;name:string};
@@ -20,7 +25,23 @@ type RuleStyle={
   gen2SlotsBase:number;
   vehicleCapital:number;
 };
-type RuleTalent={id:string;name:string;effect?:string;description?:string};
+type RuleTalent=TalentOption&{
+  category?:string;
+  sphere?:string;
+  attribute?:string;
+  skill?:string;
+  prerequisite?:string|null;
+};
+type CreationLore={
+  origin:Record<string,string>;
+  originTalent:Record<string,string>;
+  sphere:Record<string,string>;
+  style:Record<string,string>;
+  skill:Record<string,string>;
+  attribute:Record<string,string>;
+  talent:Record<string,string>;
+  sphereTalent:Record<string,string>;
+};
 type CreationRules={
   id:string;
   name:string;
@@ -34,7 +55,12 @@ type CreationRules={
   origins:Record<string,RuleOrigin>;
   spheres:Record<string,RuleSphere>;
   styles:RuleStyle[];
-  talents:{origin:Record<string,RuleTalent[]>};
+  talents:{
+    origin:Record<string,RuleTalent[]>;
+    sphere:Record<string,RuleTalent[]>;
+    common:RuleTalent[];
+    expertise:RuleTalent[];
+  };
 };
 
 type StepId="identity"|"origin"|"sphere"|"attributes"|"skills"|"talents"|"truth"|"disadvantages"|"edge"|"equipment"|"finish"|"progression";
@@ -43,6 +69,9 @@ const route=useRoute();
 const character=ref<Character|null>(null);
 const draft=ref<CharacterDataV2|null>(null);
 const rules=ref<CreationRules|null>(null);
+const lore=ref<CreationLore|null>(null);
+const talentChoiceSpecs=ref<Record<string,TalentChoiceSpec>>({});
+const skillTalentMap=ref<Record<string,string>>({});
 const loading=ref(true);
 const saving=ref(false);
 const error=ref("");
@@ -57,7 +86,7 @@ const sections:Array<[StepId,string,boolean]>=[
   ["sphere","Sphère & Style",true],
   ["attributes","Attributs",true],
   ["skills","Compétences",true],
-  ["talents","Talents",false],
+  ["talents","Talents",true],
   ["truth","Vérité",false],
   ["disadvantages","Désavantages",false],
   ["edge","Edge",false],
@@ -97,6 +126,20 @@ const originTalents=computed(()=>{
   if(!draft.value||!rules.value)return [];
   return rules.value.talents.origin[draft.value.creation.origin]??[];
 });
+
+const sphereTalents=computed(()=>{
+  if(!draft.value||!rules.value)return [];
+  return rules.value.talents.sphere[draft.value.creation.sphere]??[];
+});
+
+const expertiseTalents=computed(()=>{
+  if(!selectedStyle.value||!rules.value)return [];
+  return rules.value.talents.expertise.filter((talent)=>
+    !!talent.attribute&&selectedStyle.value?.expertiseFamilies.includes(talent.attribute)
+  );
+});
+
+const commonTalents=computed(()=>rules.value?.talents.common??[]);
 
 const stylePointsUsed=computed(()=>{
   if(!draft.value)return 0;
@@ -144,6 +187,97 @@ function attributeName(id:string){
   return rules.value?.attributes.find((attribute)=>attribute.id===id)?.name??id;
 }
 
+function talentById(id:string):RuleTalent|null{
+  if(!id||!rules.value)return null;
+  for(const pool of Object.values(rules.value.talents.origin)){
+    const found=pool.find((talent)=>talent.id===id);
+    if(found)return found;
+  }
+  for(const pool of Object.values(rules.value.talents.sphere)){
+    const found=pool.find((talent)=>talent.id===id);
+    if(found)return found;
+  }
+  return rules.value.talents.expertise.find((talent)=>talent.id===id)
+    ??rules.value.talents.common.find((talent)=>talent.id===id)
+    ??null;
+}
+
+function talentNarrative(talent:RuleTalent|null){
+  if(!talent||!lore.value)return "";
+  if(talent.category==="origin")return lore.value.originTalent[talent.id]??"";
+  if(talent.category==="sphere")return lore.value.sphereTalent[talent.id]??"";
+  return lore.value.talent[talent.id]??"";
+}
+
+function talentChoiceSpec(id:string){
+  return id?talentChoiceSpecs.value[id]??null:null;
+}
+
+function talentChoiceValue(id:string){
+  if(!draft.value||!id)return "";
+  const value=draft.value.talentChoices[id];
+  return typeof value==="string"?value:"";
+}
+
+function setTalentChoice(id:string,value:string){
+  if(!draft.value||!id)return;
+  draft.value.talentChoices[id]=value;
+}
+
+function talentChoiceOptions(spec:TalentChoiceSpec|null):TalentChoiceOption[]{
+  if(!spec||!rules.value)return [];
+  if(spec.kind==="enum")return [...(spec.options??[])];
+  if(spec.kind!=="skill")return [];
+  const allowed=spec.skills
+    ? new Set(spec.skills)
+    : new Set(
+        rules.value.skills
+          .filter((skill)=>!spec.skillAttribute||skill.attribute===spec.skillAttribute)
+          .map((skill)=>skill.id)
+      );
+  return rules.value.skills
+    .filter((skill)=>allowed.has(skill.id))
+    .map((skill)=>({id:skill.id,name:skill.name}));
+}
+
+function talentChoiceValid(id:string){
+  const spec=talentChoiceSpec(id);
+  return !spec||talentChoiceValue(id).trim().length>0;
+}
+
+function setTalent(slot:"origin"|"sphere"|"expertise"|"common",id:string){
+  if(!draft.value)return;
+  draft.value.talents[slot]=id;
+}
+
+function selectedRealityTalentIds(){
+  if(!draft.value)return [];
+  return [
+    draft.value.talents.origin,
+    draft.value.talents.sphere,
+    draft.value.talents.expertise,
+    draft.value.talents.common,
+    ...(draft.value.talents.edge||[])
+  ].filter(Boolean);
+}
+
+function skillTalentBonus(id:string){
+  if(!draft.value)return 0;
+  let total=0;
+  for(const talentId of selectedRealityTalentIds()){
+    if(skillTalentMap.value[talentId]===id)total+=1;
+    const spec=talentChoiceSpec(talentId);
+    if(spec?.kind==="skill"&&spec.permanent&&talentChoiceValue(talentId)===id){
+      total+=Number(spec.bonus||0);
+    }
+  }
+  return total;
+}
+
+function skillFinal(id:string){
+  return skillRaw(id)+skillTalentBonus(id);
+}
+
 function formatMoney(value:number){
   return new Intl.NumberFormat("fr-FR").format(value)+" $";
 }
@@ -151,7 +285,7 @@ function formatMoney(value:number){
 function stepDone(id:StepId){
   if(!draft.value||!rules.value)return false;
   if(id==="identity")return !!draft.value.identity.name.trim()&&!!draft.value.identity.age.trim();
-  if(id==="origin")return !!draft.value.creation.origin&&!!draft.value.talents.origin;
+  if(id==="origin")return !!draft.value.creation.origin&&!!draft.value.talents.origin&&talentChoiceValid(draft.value.talents.origin);
   if(id==="sphere")return !!draft.value.creation.sphere&&!!draft.value.creation.style&&stylePointsUsed.value===5;
   if(id==="attributes"){
     const bounds=rules.value.creation.attributes;
@@ -166,6 +300,19 @@ function stepDone(id:StepId){
       freeSkillPointsUsed.value===freeSkillBudget.value&&
       rules.value.skills.every((skill)=>skillRaw(skill.id)<=max);
   }
+  if(id==="talents"){
+    const selected=[
+      draft.value.talents.origin,
+      draft.value.talents.sphere,
+      draft.value.talents.expertise,
+      draft.value.talents.common
+    ];
+    const expertise=talentById(draft.value.talents.expertise);
+    const expertiseOk=!!expertise?.attribute&&!!selectedStyle.value?.expertiseFamilies.includes(expertise.attribute);
+    const choicesOk=selected.filter(Boolean).every(talentChoiceValid);
+    const neuroOk=draft.value.talents.expertise!=="neurodriver"||skillRaw("neurodive")>=1;
+    return selected.every(Boolean)&&expertiseOk&&choicesOk&&neuroOk;
+  }
   return false;
 }
 
@@ -176,11 +323,19 @@ async function loadCharacter(){
   try{
     const [characterResult,rulesResult]=await Promise.all([
       api<{character:Character}>(`/api/characters/${encodeURIComponent(id)}`),
-      api<{rules:CreationRules}>("/api/rulesets/terra-umbra/creation")
+      api<{
+        rules:CreationRules;
+        lore:CreationLore;
+        talentChoiceSpecs:Record<string,TalentChoiceSpec>;
+        skillTalentMap:Record<string,string>;
+      }>("/api/rulesets/terra-umbra/creation")
     ]);
     character.value=characterResult.character;
     draft.value=structuredClone(characterResult.character.data);
     rules.value=rulesResult.rules;
+    lore.value=rulesResult.lore;
+    talentChoiceSpecs.value=rulesResult.talentChoiceSpecs;
+    skillTalentMap.value=rulesResult.skillTalentMap;
     baseline.value=JSON.stringify(draft.value);
   }catch(cause){
     error.value=humanError((cause as Error).message);
