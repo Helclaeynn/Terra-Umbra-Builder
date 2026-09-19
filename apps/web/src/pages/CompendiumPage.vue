@@ -2,6 +2,7 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import { api, ApiError } from "../lib/api";
+import CompendiumOnboarding from "../components/CompendiumOnboarding.vue";
 import { createWikiLinker } from "../lib/wiki-linker";
 import {
   WIKI_CASE_SENSITIVE_ALIASES,
@@ -99,6 +100,28 @@ type CurrentUser = {
   role: "player" | "gm" | "editor" | "admin";
 };
 
+type OnboardingItem = {
+  id: string;
+  label: string;
+  summary: string;
+};
+
+type OnboardingNature = {
+  label: string;
+  summary: string;
+  rulesId?: string;
+  loreId?: string;
+  note?: string;
+};
+
+type OnboardingData = {
+  basics: OnboardingItem[];
+  natures: OnboardingNature[];
+  restricted: OnboardingNature[];
+  loreHubs: OnboardingItem[];
+  categories: Array<{ label: string; category: string; summary: string }>;
+};
+
 type Article = {
   id: string;
   title?: string;
@@ -134,7 +157,8 @@ const selected = ref<Article | null>(null);
 const loading = ref(false);
 const articleLoading = ref(false);
 const error = ref("");
-const authenticationRequired = ref(false);
+const onboarding = ref<OnboardingData | null>(null);
+const showOnboarding = ref(false);
 const favoriteIds = ref<string[]>([]);
 const favoriteItems = ref<SearchItem[]>([]);
 const collections = ref<LibraryCollection[]>([]);
@@ -309,10 +333,6 @@ function linkifyText(value: unknown, article: Article | null = selected.value): 
 }
 
 function humanError(cause: unknown): string {
-  if (cause instanceof ApiError && cause.status === 401) {
-    authenticationRequired.value = true;
-    return "Connexion requise pour consulter le Compendium V2.";
-  }
   if (cause instanceof ApiError && cause.message === "compendium_article_not_found") {
     return "Cette entrée du Compendium n’existe plus.";
   }
@@ -342,6 +362,15 @@ async function loadMeta() {
     meta.value = await api<Meta>("/api/compendium/meta");
   } catch (cause) {
     error.value = humanError(cause);
+  }
+}
+
+async function loadOnboarding() {
+  try {
+    onboarding.value = await api<OnboardingData>("/api/compendium/onboarding");
+  } catch (cause) {
+    console.warn("Parcours nouveau joueur indisponible.", cause);
+    onboarding.value = null;
   }
 }
 
@@ -382,6 +411,13 @@ async function loadWikiIndex() {
 }
 
 async function loadLibrary() {
+  if (!currentUser.value) {
+    favoriteIds.value = [];
+    favoriteItems.value = [];
+    collections.value = [];
+    return;
+  }
+
   try {
     const payload = await api<LibraryPayload>("/api/compendium/library");
     favoriteIds.value = payload.favorites;
@@ -389,6 +425,13 @@ async function loadLibrary() {
     collections.value = payload.collections;
     refreshActiveLibraryView();
   } catch (cause) {
+    if (cause instanceof ApiError && cause.status === 401) {
+      currentUser.value = null;
+      favoriteIds.value = [];
+      favoriteItems.value = [];
+      collections.value = [];
+      return;
+    }
     error.value = humanError(cause);
   }
 }
@@ -543,7 +586,7 @@ async function search() {
   activeLibraryView.value = "";
   loading.value = true;
   error.value = "";
-  authenticationRequired.value = false;
+  if (query.value.trim() || category.value || manufacturer.value) showOnboarding.value = false;
 
   try {
     const params = new URLSearchParams();
@@ -573,6 +616,7 @@ async function search() {
 }
 
 async function openArticle(id: string, syncRoute = true) {
+  showOnboarding.value = false;
   articleLoading.value = true;
   error.value = "";
 
@@ -596,9 +640,30 @@ async function openArticle(id: string, syncRoute = true) {
 }
 
 async function chooseCategory(name: string) {
+  showOnboarding.value = false;
   category.value = category.value === name ? "" : name;
   if (category.value && category.value !== "Équipement & Objets") manufacturer.value = "";
   await search();
+}
+
+async function openNewcomer() {
+  selected.value = null;
+  query.value = "";
+  category.value = "";
+  manufacturer.value = "";
+  showOnboarding.value = true;
+  await router.push({ path: "/compendium", query: { start: "1" } });
+}
+
+async function closeNewcomer() {
+  showOnboarding.value = false;
+  await router.push({ path: "/compendium" });
+}
+
+async function openOnboardingCategory(name: string) {
+  category.value = "";
+  await chooseCategory(name);
+  await router.replace({ path: "/compendium", query: { category: name } });
 }
 
 async function chooseManufacturer(name: string) {
@@ -750,8 +815,15 @@ watch(
 
 onMounted(async () => {
   if (typeof route.query.q === "string") query.value = route.query.q;
+  if (typeof route.query.category === "string") category.value = route.query.category;
 
-  await Promise.all([loadCurrentUser(), loadMeta(), loadLibrary(), loadWikiIndex(), search()]);
+  showOnboarding.value =
+    route.query.start === "1" ||
+    (!route.query.article && !query.value.trim() && !category.value);
+
+  await loadCurrentUser();
+  await Promise.all([loadMeta(), loadOnboarding(), loadWikiIndex(), search()]);
+  if (currentUser.value) await loadLibrary();
 
   if (typeof route.query.article === "string") {
     await openArticle(route.query.article, false);
