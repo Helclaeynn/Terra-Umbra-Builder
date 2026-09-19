@@ -138,7 +138,7 @@ const wikiPreview = ref({
   top: 12,
   width: 360
 });
-let wikiLinker: ReturnType<typeof createWikiLinker> | null = null;
+let wikiLinker: any = null;
 const wikiById = new Map<string, WikiEntry>();
 let wikiPreviewTimer: number | undefined;
 let wikiPreviewLink: HTMLAnchorElement | null = null;
@@ -218,7 +218,7 @@ async function loadWikiIndex() {
     wikiById.clear();
     for (const entry of payload.entries) wikiById.set(entry.id, entry);
 
-    wikiLinker = createWikiLinker(payload.entries, {
+    wikiLinker = (createWikiLinker as any)(payload.entries, {
       explicitTargets: WIKI_EXPLICIT_TARGETS,
       strictSurfaceAliases: WIKI_STRICT_SURFACE_ALIASES,
       caseSensitiveAliases: WIKI_CASE_SENSITIVE_ALIASES,
