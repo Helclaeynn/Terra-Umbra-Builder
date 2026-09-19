@@ -206,6 +206,62 @@ const edgeAttributeBudget=computed(()=>{
   return Number(draft.value.edge.attributePack||0)*rules.value.creation.attributes.edgePackPoints;
 });
 
+const disadvantageCategories=computed(()=>{
+  if(!draft.value)return [
+    {id:"common",name:"Communs"},
+    {id:"attribute",name:"Faiblesses d’Attribut"}
+  ];
+  const rows=[
+    {id:"common",name:"Communs"},
+    {id:"attribute",name:"Faiblesses d’Attribut"}
+  ];
+  if(draft.value.creation.sphere)rows.push({id:"sphere",name:"Sphère actuelle"});
+  return rows;
+});
+
+const visibleDisadvantages=computed(()=>{
+  if(!disadvantages.value||!draft.value)return [];
+  if(disadvantageCategory.value==="attribute")return [...disadvantages.value.attribute];
+  if(disadvantageCategory.value==="sphere"){
+    return [...(disadvantages.value.sphere[draft.value.creation.sphere]??[])];
+  }
+  return [...disadvantages.value.common];
+});
+
+const edgeTotal=computed(()=>{
+  if(!draft.value||!edgeRules.value)return 0;
+  return edgeRules.value.base+draft.value.disadvantages.length;
+});
+
+const edgeSpent=computed(()=>{
+  if(!draft.value)return 0;
+  return ["attributePack","skillPacks","talentPacks","cashPacks","lifestylePack","augmentationPacks","renownPack"]
+    .reduce((sum,key)=>sum+Number(draft.value?.edge[key]||0),0);
+});
+
+const edgeRemaining=computed(()=>edgeTotal.value-edgeSpent.value);
+
+const hasUnknownDisadvantage=computed(()=>draft.value?.disadvantages.includes("inconnu")??false);
+const hasRenownedTalent=computed(()=>selectedRealityTalentIds().includes("renomme"));
+
+const edgeTalentGroups=computed(()=>{
+  if(!rules.value||!draft.value)return [];
+  const usedFree=new Set([
+    draft.value.talents.origin,
+    draft.value.talents.sphere,
+    draft.value.talents.expertise,
+    draft.value.talents.common
+  ].filter(Boolean));
+  const currentOrigin=rules.value.talents.origin[draft.value.creation.origin]??[];
+  const currentSphere=rules.value.talents.sphere[draft.value.creation.sphere]??[];
+  return [
+    {label:"Origine",items:currentOrigin.filter(t=>!usedFree.has(t.id))},
+    {label:"Sphère",items:currentSphere.filter(t=>!usedFree.has(t.id))},
+    {label:"Expertises",items:rules.value.talents.expertise.filter(t=>!usedFree.has(t.id))},
+    {label:"Communs",items:rules.value.talents.common.filter(t=>!usedFree.has(t.id))}
+  ];
+});
+
 function humanError(code:string){
   const labels:Record<string,string>={
     authentication_required:"Ta session a expiré. Reviens à l’accueil pour te reconnecter.",
@@ -316,6 +372,45 @@ function skillFinal(id:string){
   return skillRaw(id)+skillTalentBonus(id);
 }
 
+function disadvantageNarrative(item:DisadvantageOption){
+  const keyed=item.sphere?`${item.sphere}:${item.id}`:"";
+  return (keyed&&disadvantageLore.value[keyed])||disadvantageLore.value[item.id]||
+    `Ce Désavantage doit réellement pouvoir compliquer la vie du personnage en jeu.`;
+}
+
+function disadvantageById(id:string):DisadvantageOption|null{
+  if(!disadvantages.value)return null;
+  return [
+    ...disadvantages.value.common,
+    ...disadvantages.value.attribute,
+    ...Object.values(disadvantages.value.sphere).flat()
+  ].find(item=>item.id===id)??null;
+}
+
+function disadvantagesCompatible(){
+  if(!draft.value)return true;
+  const selected=new Set(draft.value.disadvantages);
+  if(selected.has("sensible_a_la_chaleur")&&selectedRealityTalentIds().includes("resistance_a_la_chaleur"))return false;
+  if(selected.has("sensible_au_froid")&&selectedRealityTalentIds().includes("resistance_au_froid"))return false;
+  if(selected.has("lache")&&selectedRealityTalentIds().includes("brave"))return false;
+  if(selected.has("unsinkable")&&selectedRealityTalentIds().includes("neurodriver"))return false;
+  return true;
+}
+
+function edgeTalentValid(){
+  if(!draft.value)return false;
+  const count=Number(draft.value.edge.talentPacks||0);
+  if(draft.value.talents.edge.length!==count)return false;
+  const chosen=draft.value.talents.edge.filter(Boolean);
+  if(chosen.length!==count||new Set(chosen).size!==chosen.length)return false;
+  return chosen.every(talentChoiceValid);
+}
+
+function finalAttribute(id:string){
+  if(!draft.value)return 0;
+  return Number(draft.value.attributes[id]||0)+Number(draft.value.edgeAttributes[id]||0);
+}
+
 function formatMoney(value:number){
   return new Intl.NumberFormat("fr-FR").format(value)+" $";
 }
@@ -350,6 +445,18 @@ function stepDone(id:StepId){
     const choicesOk=selected.filter(Boolean).every(talentChoiceValid);
     const neuroOk=draft.value.talents.expertise!=="neurodriver"||skillRaw("neurodive")>=1;
     return selected.every(Boolean)&&expertiseOk&&choicesOk&&neuroOk;
+  }
+  if(id==="disadvantages"){
+    return draft.value.disadvantages.length<=3&&disadvantagesCompatible();
+  }
+  if(id==="edge"){
+    const attrOk=Number(draft.value.edge.attributePack||0)===0
+      ? edgeAttributePointsUsed.value===0
+      : edgeAttributePointsUsed.value===edgeAttributeBudget.value;
+    const skillsOk=edgeSkillPointsUsed.value===edgeSkillBudget.value;
+    const talentsOk=edgeTalentValid();
+    const renownOk=Number(draft.value.edge.renownPack||0)===0||(!hasUnknownDisadvantage.value&&!hasRenownedTalent.value);
+    return edgeRemaining.value>=0&&attrOk&&skillsOk&&talentsOk&&renownOk;
   }
   return false;
 }
@@ -549,6 +656,77 @@ function changeFreeSkillPoint(id:string,delta:number){
   if(delta>0&&freeSkillPointsUsed.value>=freeSkillBudget.value)return;
   if(delta>0&&skillRaw(id)>=rules.value.creation.skills.rawMax)return;
   skill.free=next;
+}
+
+function toggleDisadvantage(id:string){
+  if(!draft.value)return;
+  const selected=draft.value.disadvantages.includes(id);
+  if(selected){
+    draft.value.disadvantages=draft.value.disadvantages.filter(item=>item!==id);
+  }else if(draft.value.disadvantages.length<3){
+    draft.value.disadvantages.push(id);
+  }
+  if(id==="inconnu"&&draft.value.disadvantages.includes(id))draft.value.edge.renownPack=0;
+}
+
+function trimEdgeTalentSlots(){
+  if(!draft.value)return;
+  const count=Math.max(0,Number(draft.value.edge.talentPacks||0));
+  draft.value.talents.edge=draft.value.talents.edge.slice(0,count);
+  while(draft.value.talents.edge.length<count)draft.value.talents.edge.push("");
+}
+
+function changeEdgePurchase(key:string,delta:number){
+  if(!draft.value||!edgeRules.value)return;
+  const rule=edgeRules.value.options[key];
+  if(!rule)return;
+  const current=Number(draft.value.edge[key]||0);
+  const next=current+delta;
+  if(next<0||next>rule.max)return;
+  if(delta>0&&edgeRemaining.value<=0)return;
+  if(key==="renownPack"&&delta>0&&(hasUnknownDisadvantage.value||hasRenownedTalent.value))return;
+
+  if(delta<0&&key==="attributePack"&&edgeAttributePointsUsed.value>Math.max(0,next)*Number(rule.points||0))return;
+  if(delta<0&&key==="skillPacks"&&edgeSkillPointsUsed.value>Math.max(0,next)*Number(rule.points||0))return;
+
+  draft.value.edge[key]=next;
+  if(key==="talentPacks")trimEdgeTalentSlots();
+}
+
+function changeEdgeAttribute(id:string,delta:number){
+  if(!draft.value||!rules.value)return;
+  const current=Number(draft.value.edgeAttributes[id]||0);
+  const next=current+delta;
+  if(next<0)return;
+  if(delta>0&&edgeAttributePointsUsed.value>=edgeAttributeBudget.value)return;
+  if(delta>0&&finalAttribute(id)>=rules.value.creation.attributes.max)return;
+  draft.value.edgeAttributes[id]=next;
+}
+
+function changeEdgeSkill(id:string,delta:number){
+  if(!draft.value||!rules.value)return;
+  const skill=draft.value.skills[id];
+  if(!skill)return;
+  const next=Number(skill.edge||0)+delta;
+  if(next<0)return;
+  if(delta>0&&edgeSkillPointsUsed.value>=edgeSkillBudget.value)return;
+  if(delta>0&&skillRaw(id)>=rules.value.creation.skills.rawMax)return;
+  skill.edge=next;
+}
+
+function setEdgeTalent(index:number,id:string){
+  if(!draft.value)return;
+  trimEdgeTalentSlots();
+  draft.value.talents.edge[index]=id;
+}
+
+function edgeTalentGroupsFor(index:number){
+  if(!draft.value)return [];
+  const others=new Set(draft.value.talents.edge.filter((_,i)=>i!==index).filter(Boolean));
+  return edgeTalentGroups.value.map(group=>({
+    label:group.label,
+    items:group.items.filter(talent=>!others.has(talent.id))
+  }));
 }
 
 function changeAttribute(id:string,delta:number){
