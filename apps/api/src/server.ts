@@ -37,6 +37,11 @@ await app.register(cors, {
 });
 
 app.addHook("onSend", async (request, reply, payload) => {
+  if (request.url.startsWith("/api/compendium/media/")) {
+    reply.header("Cache-Control", "private, max-age=86400");
+    return payload;
+  }
+
   if (
     request.url.startsWith("/api/auth/") ||
     request.url.startsWith("/api/admin/") ||
