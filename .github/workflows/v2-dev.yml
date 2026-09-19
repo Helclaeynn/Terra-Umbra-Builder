@@ -110,6 +110,17 @@ jobs:
         if: steps.deployment.outputs.enabled == 'true'
         uses: actions/checkout@v4
 
+      - name: Setup Node for live browser smoke
+        if: steps.deployment.outputs.enabled == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install live browser smoke driver
+        if: steps.deployment.outputs.enabled == 'true'
+        working-directory: apps/web
+        run: npm install --no-save --package-lock=false playwright-core@1.55.0
+
       - name: Configure SSH
         if: steps.deployment.outputs.enabled == 'true'
         shell: bash
@@ -203,11 +214,12 @@ jobs:
           COMPENDIUM_SEARCH="$(mktemp)"
           COMPENDIUM_MANUFACTURER="$(mktemp)"
           COMPENDIUM_ARTICLE="$(mktemp)"
+          COMPENDIUM_WIKI="$(mktemp)"
           COMPENDIUM_LIBRARY="$(mktemp)"
           COMPENDIUM_COLLECTION="$(mktemp)"
 
           cleanup() {
-            rm -f "$COOKIE_JAR" "$IMPORT_BODY" "$IMPORT_RESPONSE" "$CURRENT_RESPONSE" "$PATCH_BODY" "$PATCH_RESPONSE" "$RULES_RESPONSE" "$TRUTH_RESPONSE" "$REALITY_RESPONSE" "$COMPENDIUM_META" "$COMPENDIUM_SEARCH" "$COMPENDIUM_MANUFACTURER" "$COMPENDIUM_ARTICLE" "$COMPENDIUM_LIBRARY" "$COMPENDIUM_COLLECTION"
+            rm -f "$COOKIE_JAR" "$IMPORT_BODY" "$IMPORT_RESPONSE" "$CURRENT_RESPONSE" "$PATCH_BODY" "$PATCH_RESPONSE" "$RULES_RESPONSE" "$TRUTH_RESPONSE" "$REALITY_RESPONSE" "$COMPENDIUM_META" "$COMPENDIUM_SEARCH" "$COMPENDIUM_MANUFACTURER" "$COMPENDIUM_ARTICLE" "$COMPENDIUM_WIKI" "$COMPENDIUM_LIBRARY" "$COMPENDIUM_COLLECTION"
             ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST"               "cd /opt/terra-umbra/infrastructure && set -a && . ./.env && set +a && docker compose --env-file .env exec -T db psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -c \"DELETE FROM users WHERE email = '$TEST_EMAIL';\""               </dev/null >/dev/null 2>&1 || true
           }
           trap cleanup EXIT
@@ -305,12 +317,17 @@ jobs:
             -b "$COOKIE_JAR" \
             https://dev.terra-umbra.fr/api/compendium/articles/bestiaire-v15-afanc > "$COMPENDIUM_ARTICLE"
 
-          python3 - "$COMPENDIUM_META" "$COMPENDIUM_SEARCH" "$COMPENDIUM_MANUFACTURER" "$COMPENDIUM_ARTICLE" <<'PY'
+          curl --fail --silent --show-error \
+            -b "$COOKIE_JAR" \
+            https://dev.terra-umbra.fr/api/compendium/wiki-index > "$COMPENDIUM_WIKI"
+
+          python3 - "$COMPENDIUM_META" "$COMPENDIUM_SEARCH" "$COMPENDIUM_MANUFACTURER" "$COMPENDIUM_ARTICLE" "$COMPENDIUM_WIKI" <<'PY'
           import json,sys
           meta=json.load(open(sys.argv[1],encoding="utf-8"))
           search=json.load(open(sys.argv[2],encoding="utf-8"))
           manufacturer=json.load(open(sys.argv[3],encoding="utf-8"))
           article=json.load(open(sys.argv[4],encoding="utf-8"))["article"]
+          wiki=json.load(open(sys.argv[5],encoding="utf-8"))["entries"]
 
           assert meta["total"] >= 1800, meta
           assert any(item["name"] == "Bestiaire" for item in meta["categories"]), meta["categories"]
@@ -328,9 +345,24 @@ jobs:
               if block.get("type") == "p"
           ]
           assert any("esprit des eaux profondes" in text for text in paragraphs), paragraphs[:3]
+          assert len(wiki) >= 1800, len(wiki)
+          afanc=next(item for item in wiki if item["id"] == "bestiaire-v15-afanc")
+          assert "esprit des eaux profondes" in afanc["snippet"], afanc
+          garou=next(item for item in wiki if item["id"] == "verite-047-11-garous-loups-descendants-de-khinae")
+          assert garou["category"] == "Vérité", garou
+          assert garou["snippet"], garou
           PY
 
           curl --fail --silent --show-error https://dev.terra-umbra.fr/compendium | grep -q 'id="app"'
+
+          SESSION_TOKEN="$(awk '$6 == "__Host-tuc_session" { print $7 }' "$COOKIE_JAR" | tail -n 1)"
+          test -n "$SESSION_TOKEN"
+          CHROME_BIN="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
+          test -n "$CHROME_BIN"
+          TUC_V2_SMOKE_BASE_URL='https://dev.terra-umbra.fr' \
+            TUC_SESSION_TOKEN="$SESSION_TOKEN" \
+            CHROME_BIN="$CHROME_BIN" \
+            node apps/web/tests/compendium-wiki-live-smoke.mjs
 
           curl --fail --silent --show-error \
             -b "$COOKIE_JAR" \
