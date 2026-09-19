@@ -201,10 +201,11 @@ jobs:
           REALITY_RESPONSE="$(mktemp)"
           COMPENDIUM_META="$(mktemp)"
           COMPENDIUM_SEARCH="$(mktemp)"
+          COMPENDIUM_MANUFACTURER="$(mktemp)"
           COMPENDIUM_ARTICLE="$(mktemp)"
 
           cleanup() {
-            rm -f "$COOKIE_JAR" "$IMPORT_BODY" "$IMPORT_RESPONSE" "$CURRENT_RESPONSE" "$PATCH_BODY" "$PATCH_RESPONSE" "$RULES_RESPONSE" "$TRUTH_RESPONSE" "$REALITY_RESPONSE" "$COMPENDIUM_META" "$COMPENDIUM_SEARCH" "$COMPENDIUM_ARTICLE"
+            rm -f "$COOKIE_JAR" "$IMPORT_BODY" "$IMPORT_RESPONSE" "$CURRENT_RESPONSE" "$PATCH_BODY" "$PATCH_RESPONSE" "$RULES_RESPONSE" "$TRUTH_RESPONSE" "$REALITY_RESPONSE" "$COMPENDIUM_META" "$COMPENDIUM_SEARCH" "$COMPENDIUM_MANUFACTURER" "$COMPENDIUM_ARTICLE"
             ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST"               "cd /opt/terra-umbra/infrastructure && set -a && . ./.env && set +a && docker compose --env-file .env exec -T db psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -c \"DELETE FROM users WHERE email = '$TEST_EMAIL';\""               </dev/null >/dev/null 2>&1 || true
           }
           trap cleanup EXIT
@@ -296,18 +297,26 @@ jobs:
 
           curl --fail --silent --show-error \
             -b "$COOKIE_JAR" \
+            'https://dev.terra-umbra.fr/api/compendium/search?category=%C3%89quipement%20%26%20Objets&manufacturer=Raven&limit=100' > "$COMPENDIUM_MANUFACTURER"
+
+          curl --fail --silent --show-error \
+            -b "$COOKIE_JAR" \
             https://dev.terra-umbra.fr/api/compendium/articles/bestiaire-v15-afanc > "$COMPENDIUM_ARTICLE"
 
-          python3 - "$COMPENDIUM_META" "$COMPENDIUM_SEARCH" "$COMPENDIUM_ARTICLE" <<'PY'
+          python3 - "$COMPENDIUM_META" "$COMPENDIUM_SEARCH" "$COMPENDIUM_MANUFACTURER" "$COMPENDIUM_ARTICLE" <<'PY'
           import json,sys
           meta=json.load(open(sys.argv[1],encoding="utf-8"))
           search=json.load(open(sys.argv[2],encoding="utf-8"))
-          article=json.load(open(sys.argv[3],encoding="utf-8"))["article"]
+          manufacturer=json.load(open(sys.argv[3],encoding="utf-8"))
+          article=json.load(open(sys.argv[4],encoding="utf-8"))["article"]
 
           assert meta["total"] >= 1800, meta
           assert any(item["name"] == "Bestiaire" for item in meta["categories"]), meta["categories"]
           assert meta["overrides"]["applied"] > 0, meta["overrides"]
           assert any(item["id"] == "bestiaire-v15-afanc" for item in search["items"]), search
+          assert manufacturer["total"] >= 20, manufacturer
+          assert all(item["manufacturer"] == "Raven" for item in manufacturer["items"]), manufacturer["items"][:5]
+          assert any(item["id"] == "equipement-036-raven-ar-027-rampager" for item in manufacturer["items"]), manufacturer
           assert article["id"] == "bestiaire-v15-afanc", article["id"]
           assert article.get("__editorialOverride") is True, article
           paragraphs=[
