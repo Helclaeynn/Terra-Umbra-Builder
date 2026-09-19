@@ -478,6 +478,45 @@ jobs:
           assert all("mechanics" in item for item in records), records
           PY
 
+          echo "Wiki smoke: verifying modular Talent registry"
+          curl --fail --silent --show-error             "https://dev.terra-umbra.fr/api/compendium/talents/meta" > "$COMPENDIUM_EDITOR"
+          python3 - "$COMPENDIUM_EDITOR" <<'PY'
+          import json,sys
+          payload=json.load(open(sys.argv[1],encoding="utf-8"))
+          assert payload["total"] > 1000, payload
+          assert "vampire" in payload["natures"], payload
+          assert "garou" in payload["natures"], payload
+          assert payload["groups"], payload
+          print(f'TALENT REGISTRY — {payload["total"]} talents · {len(payload["groups"])} groupes')
+          PY
+
+          curl --fail --silent --show-error             "https://dev.terra-umbra.fr/api/compendium/talents?natureId=vampire" > "$COMPENDIUM_EDITOR"
+          python3 - "$COMPENDIUM_EDITOR" <<'PY'
+          import json,sys
+          payload=json.load(open(sys.argv[1],encoding="utf-8"))
+          assert payload["total"] > 0, payload
+          item=payload["items"][0]
+          for key in ("talentId","natureId","groupId","name","lore","mechanics","cost","access"):
+              assert key in item, (key,item)
+          assert item["natureId"] == "vampire", item
+          PY
+
+          curl --fail --silent --show-error             -b "$COOKIE_JAR"             "https://dev.terra-umbra.fr/api/compendium/editor/talent-hub-audit" > "$COMPENDIUM_EDITOR"
+          python3 - "$COMPENDIUM_EDITOR" <<'PY'
+          import json,sys
+          payload=json.load(open(sys.argv[1],encoding="utf-8"))
+          assert payload["totalTalents"] > 1000, payload
+          assert payload["groups"], payload
+          print(
+              f'TALENT HUB AUDIT — {payload["exactGroupMatches"]} groupes liés exactement · '
+              f'{payload["ambiguousGroupMatches"]} ambigus · {payload["missingGroupMatches"]} sans page exacte'
+          )
+          for group in payload["groups"]:
+              if group["matches"]:
+                  matches=" | ".join(f'{m["id"]}:{m["title"]}' for m in group["matches"])
+                  print(f'TALENT HUB {group["groupId"]} => {matches}')
+          PY
+
           echo "Wiki smoke: creating and publishing a custom page"
           CREATE_PAYLOAD="$(printf '{"title":"CI Wiki %s","category":"Réalité","source":"CI smoke","tags":["CI"]}' "$TEST_ID")"
           curl --fail --silent --show-error \
