@@ -144,10 +144,10 @@ export function generatedBuilderReferenceCorpus() {
     nav.push(navigation(id, title, "Sphères", 30, 20 + index * 10));
   });
 
-  const styles = terraUmbraCreationRules.styles as Array<{
-    id?: string;
-    name?: string;
-    sphere?: string;
+  const styles = terraUmbraCreationRules.styles as ReadonlyArray<{
+    readonly id?: string;
+    readonly name?: string;
+    readonly sphere?: string;
   }>;
   let styleOrder = 20;
   for (const style of styles) {
