@@ -302,7 +302,10 @@ function wikiContext(article: Article | null) {
 function linkifyText(value: unknown, article: Article | null = selected.value): string {
   void wikiReady.value;
   const text = String(value ?? "");
-  return wikiLinker?.linkify(text, wikiContext(article)) ?? escapeHtml(text);
+  const html = wikiLinker?.linkify(text, wikiContext(article)) ?? escapeHtml(text);
+  return html
+    .replace(/'''([^\n]+?)'''/g, "<strong>$1</strong>")
+    .replace(/''([^\n]+?)''/g, "<em>$1</em>");
 }
 
 function humanError(cause: unknown): string {
@@ -776,9 +779,14 @@ onBeforeUnmount(() => {
         </span>
       </RouterLink>
 
-      <RouterLink class="ghost compact-link" to="/">
-        Retour à mon espace
-      </RouterLink>
+      <div class="compendium-top-actions">
+        <RouterLink v-if="canEdit" class="ghost compact-link wiki-create-link" to="/compendium/new">
+          ＋ Nouvelle page
+        </RouterLink>
+        <RouterLink class="ghost compact-link" to="/">
+          Retour à mon espace
+        </RouterLink>
+      </div>
     </header>
 
     <main class="compendium-page">
@@ -1251,6 +1259,17 @@ onBeforeUnmount(() => {
   display: inline-flex;
   align-items: center;
   text-decoration: none;
+}
+
+.compendium-top-actions {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+
+.wiki-create-link {
+  border-color: rgba(157, 124, 72, .45) !important;
+  color: #dcc48f !important;
 }
 
 .compendium-page {
