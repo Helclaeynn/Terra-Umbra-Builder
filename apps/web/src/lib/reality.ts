@@ -317,6 +317,137 @@ export function augmentationAccess(
     :{ok:false,systems:[],reason:`Famille Gen1 hors package (${families.join(", ")||"non classée"})`};
 }
 
+function realityNorm(value:unknown=""){
+  return String(value??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()
+    .replace(/[’']/g,"'").replace(/[^a-z0-9]+/g," ").trim();
+}
+
+function realityDeepField(item:RealityItem,names:string[]){
+  const wanted=new Set(names.map(realityNorm));
+  const pools=[item.data,record(item.data?.data),record(item.data?.details)];
+  for(const pool of pools){
+    for(const [key,value] of Object.entries(pool)){
+      if(wanted.has(realityNorm(key))&&value!==undefined&&value!==null&&value!=="")return value;
+    }
+  }
+  return null;
+}
+
+export function isAugmentationSupport(item:RealityItem){
+  const name=realityNorm(item.name);
+  const type=realityNorm(`${item.category} ${realityDeepField(item,["Type"])??""}`);
+  return type.includes("support")||
+    /cablage neuronal|cyberoeil|cyberaudio|cyberbras|cyberjambe|cybermain|cyberpied|support de membres|support multi/.test(name);
+}
+
+export function augmentationSupportAlternatives(item:RealityItem){
+  if(item.kind!=="augmentation"||isAugmentationSupport(item))return [] as string[][];
+  const explicit=realityNorm(realityDeepField(item,["Support","Support requis","Support nécessaire","Support necessaire"])??"");
+  const name=realityNorm(item.name),families=item.families,groups:string[][]=[];
+  const add=(...values:(string|null)[])=>{
+    const clean=values.filter((value):value is string=>!!value);
+    if(clean.length)groups.push(clean);
+  };
+  if(explicit){
+    if(explicit.includes("cablage neuronal"))add("cablage neuronal");
+    if(explicit.includes("cyberoeil"))add("cyberoeil");
+    if(explicit.includes("cyberaudio"))add("cyberaudio");
+    if(explicit.includes("cybermain")||explicit.includes("cyberbras")){
+      add(explicit.includes("cybermain")?"cybermain":null,explicit.includes("cyberbras")?"cyberbras":null);
+    }
+    if(explicit.includes("cyberpied")||explicit.includes("cyberjambe")){
+      add(explicit.includes("cyberpied")?"cyberpied":null,explicit.includes("cyberjambe")?"cyberjambe":null);
+    }
+  }
+  if(!groups.length){
+    if(families.includes("neural"))add("cablage neuronal");
+    else if(families.includes("optical"))add("cyberoeil");
+    else if(families.includes("audio"))add("cyberaudio");
+    else if(families.includes("member")){
+      if(/jambe|pied|palme/.test(name))add("cyberjambe","cyberpied");
+      else add("cyberbras","cybermain");
+    }
+  }
+  return groups;
+}
+
+export function augmentationSupportLabel(item:RealityItem){
+  const explicit=String(realityDeepField(item,["Support","Support requis","Support nécessaire","Support necessaire"])??"").trim();
+  if(explicit)return explicit;
+  return augmentationSupportAlternatives(item)
+    .map(group=>group.map(value=>value.replace(/\b\w/g,char=>char.toUpperCase())).join(" ou "))
+    .join(" + ");
+}
+
+export function augmentationSupportSatisfied(
+  pkg:RealityRulesPackage,
+  state:RealityState,
+  item:RealityItem
+){
+  const requirements=augmentationSupportAlternatives(item);
+  if(!requirements.length)return true;
+  const items=realityItemMap(pkg);
+  const installed=state.augmentations
+    .map(p=>items.get(p.itemId))
+    .filter((value):value is RealityItem=>!!value)
+    .map(value=>realityNorm(value.name));
+  return requirements.every(group=>
+    group.some(needle=>installed.some(name=>name.includes(realityNorm(needle))))
+  );
+}
+
+export function augmentationLoad(
+  pkg:RealityRulesPackage,
+  state:RealityState,
+  talentIds:string[]
+){
+  const items=realityItemMap(pkg);
+  let charge=0,stress=0;
+  for(const purchase of state.augmentations){
+    const item=items.get(purchase.itemId);
+    if(!item)continue;
+    charge+=Number(item.charge||0);
+    stress+=Number(item.stress||0);
+  }
+  const rawStress=stress;
+  if(talentIds.includes("stabilite_augmentique"))stress=Math.max(0,stress-1);
+  return {charge,stress,rawStress};
+}
+
+export function equipmentStats(item:RealityItem){
+  const specs:Array<[string,string[]]>= [
+    ["DGT",["DGT","Dégâts","Degats"]],
+    ["Portée",["Portée","Portee"]],
+    ["Capacité",["Capacité","Capacite","Coups","Chargeur","Cap."]],
+    ["Propriétés",["Propriétés","Proprietes","Spéciaux","Speciaux"]],
+    ["Armure",["Armure","Valeur d’Armure","Valeur Armure"]],
+    ["Balistique",["Balistique"]],
+    ["Énergie",["Énergie","Energie"]],
+    ["Protection",["Protection"]],
+    ["Blindage",["Blindage","Blind."]],
+    ["Structure",["Structure","Str."]],
+    ["Places",["Places"]],
+    ["Vitesse",["Vitesse"]],
+    ["Autonomie",["Autonomie"]],
+    ["Entretien/mois",["Entretien/mois","Entretien mensuel","Maintenance/mois"]]
+  ];
+  return specs.flatMap(([label,names])=>{
+    const value=realityDeepField(item,names);
+    return value===null||value===undefined||String(value).trim()===""?[]:[[label,String(value).trim()] as const];
+  });
+}
+
+export function recurringMonthlyCost(item:RealityItem){
+  const min=Number(item.priceMin);
+  const max=Number(item.priceMax);
+  const exact=Number(item.price);
+  const base=
+    item.priceMin!==null&&item.priceMax!==null&&Number.isFinite(min)&&Number.isFinite(max)
+      ?(min+max)/2
+      :Number.isFinite(exact)?exact:0;
+  return item.recurring==="annual"?base/12:item.recurring==="monthly"?base:0;
+}
+
 export function canAffordRealityPurchase(
   pkg:RealityRulesPackage,
   state:RealityState,
@@ -331,6 +462,9 @@ export function canAffordRealityPurchase(
   if(item.kind==="augmentation"){
     const access=augmentationAccess(pkg,style,item,edge,state.mjAccessOverride);
     if(!access.ok)return access;
+    if(!augmentationSupportSatisfied(pkg,state,item)){
+      return {ok:false,reason:`Support requis : ${augmentationSupportLabel(item)}`};
+    }
   }
   if(item.neuro&&override)return {ok:true,reason:""};
   const eco=realityEconomic(pkg,state,style,edge);
