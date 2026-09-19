@@ -91,6 +91,7 @@ try{
     throw new Error("Hub Talent Chasseur inattendu: "+hunterHubTitle);
   }
   await publicPage.getByText("Lire la souillure",{exact:true}).first().waitFor({state:"visible",timeout:10000});
+  await publicPage.locator(".talent-wiki-card").first().waitFor({state:"visible",timeout:10000});
   const hunterTalentCards=await publicPage.locator(".talent-wiki-card").count();
   if(hunterTalentCards<2)throw new Error("Hub Talent Chasseur incomplet: "+hunterTalentCards+" cartes.");
   const rawHunterDirective=await publicPage.getByText(/\{\{Talents\|group=humain:/).count();
