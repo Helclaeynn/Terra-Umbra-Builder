@@ -44,13 +44,15 @@ function humanError(code: string): string {
 }
 
 async function api<T>(path: string, options: RequestInit = {}): Promise<T> {
+  const headers = new Headers(options.headers ?? {});
+  if (options.body !== undefined && !headers.has("Content-Type")) {
+    headers.set("Content-Type", "application/json");
+  }
+
   const response = await fetch(path, {
     ...options,
     credentials: "same-origin",
-    headers: {
-      "Content-Type": "application/json",
-      ...(options.headers ?? {})
-    }
+    headers
   });
   const body = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(body.error ?? `http_${response.status}`);
