@@ -34,6 +34,18 @@ await app.register(cors, {
   origin: false
 });
 
+app.addHook("onSend", async (request, reply, payload) => {
+  if (
+    request.url.startsWith("/api/auth/") ||
+    request.url.startsWith("/api/admin/")
+  ) {
+    reply.header("Cache-Control", "no-store, private");
+    reply.header("Pragma", "no-cache");
+  }
+
+  return payload;
+});
+
 const loginAttempts = new Map<string, { count: number; resetAt: number }>();
 const LOGIN_WINDOW_MS = 15 * 60 * 1000;
 const LOGIN_MAX_ATTEMPTS = 8;
@@ -100,7 +112,7 @@ async function loadUser(id: string) {
 app.get("/api/health", async () => ({
   status: "ok",
   service: "tuc-api",
-  version: "0.4.1"
+  version: "0.4.2"
 }));
 
 app.get("/api/ready", async (_request, reply) => {
@@ -123,7 +135,7 @@ app.get("/api/ready", async (_request, reply) => {
 app.get("/api", async () => ({
   name: "Terra Umbra API",
   status: "online",
-  version: "0.4.1"
+  version: "0.4.2"
 }));
 
 app.get("/api/auth/setup-status", async () => ({

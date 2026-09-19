@@ -126,10 +126,7 @@ export function readSessionToken(request: FastifyRequest): string | null {
   const raw = request.headers.cookie;
   if (!raw) return null;
 
-  return (
-    cookieValue(raw, SESSION_COOKIE) ??
-    cookieValue(raw, LEGACY_SESSION_COOKIE)
-  );
+  return cookieValue(raw, SESSION_COOKIE);
 }
 
 function sessionCookie(token: string, maxAge: number): string {
