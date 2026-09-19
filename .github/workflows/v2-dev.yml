@@ -1,0 +1,117 @@
+name: TUC Web V2 dev
+
+on:
+  push:
+    branches:
+      - feature/tuc-web-v2
+    paths:
+      - "apps/**"
+      - "infrastructure/**"
+      - ".github/workflows/v2-dev.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: tuc-v2-dev
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Build API
+        working-directory: apps/api
+        run: |
+          npm install
+          npm run build
+
+      - name: Build web
+        working-directory: apps/web
+        run: |
+          npm install
+          npm run build
+
+      - name: Validate Compose
+        working-directory: infrastructure
+        env:
+          POSTGRES_DB: tuc
+          POSTGRES_USER: tuc
+          POSTGRES_PASSWORD: ci-only-placeholder
+        run: docker compose config --quiet
+
+  deploy-dev:
+    needs: check
+    runs-on: ubuntu-latest
+    environment: tuc-dev
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+
+    steps:
+      - name: Check deployment configuration
+        id: deployment
+        shell: bash
+        run: |
+          if [[ -n "$TUC_DEV_HOST" && -n "$TUC_DEV_USER" && -n "$TUC_DEV_SSH_KEY" ]]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "Deployment secrets are not configured yet; skipping VPS deployment."
+          fi
+
+      - name: Checkout
+        if: steps.deployment.outputs.enabled == 'true'
+        uses: actions/checkout@v4
+
+      - name: Configure SSH
+        if: steps.deployment.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_dev
+          chmod 600 ~/.ssh/tuc_dev
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+
+      - name: Upload V2
+        if: steps.deployment.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          SSH="ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes"
+          $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "mkdir -p /opt/terra-umbra/apps /opt/terra-umbra/infrastructure"
+          rsync -az --delete -e "$SSH" apps/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/apps/"
+          rsync -az --delete --exclude='.env' -e "$SSH" infrastructure/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/infrastructure/"
+
+      - name: Deploy containers
+        if: steps.deployment.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" <<'REMOTE'
+            set -euo pipefail
+            cd /opt/terra-umbra/infrastructure
+            test -f .env
+            docker compose --env-file .env up -d --build --remove-orphans
+            docker compose ps
+          REMOTE
+
+      - name: Smoke test
+        if: steps.deployment.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          for attempt in {1..12}; do
+            if curl --fail --silent --show-error --max-time 10 https://dev.terra-umbra.fr/api/health; then
+              exit 0
+            fi
+            sleep 5
+          done
+          exit 1
