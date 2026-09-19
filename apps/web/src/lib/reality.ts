@@ -65,6 +65,9 @@ export type RealityPurchase={
   acquiredInCampaign?:boolean;
   campaignCatalogPrice?:number;
   campaignCommerceDegree?:number;
+  sphereSupport?:boolean;
+  supportCreated?:boolean;
+  supportOriginalPrice?:number;
 };
 
 export type FixedCharge={
@@ -72,6 +75,9 @@ export type FixedCharge={
   name:string;
   monthly:number;
   sourceItemId?:string;
+  sphereSupport?:boolean;
+  supportCreated?:boolean;
+  supportOriginalMonthly?:number;
 };
 
 export type RealityState={
@@ -80,12 +86,8 @@ export type RealityState={
   fixedChargeItems:FixedCharge[];
   mjAdvancedOverride:boolean;
   mjAccessOverride:boolean;
-  sphereSupportDetail:string;
-  possessionsNotes:string;
-  networks:string;
-  statuses:string;
-  patrimony:string;
-  debts:string;
+  sphereSupportType:""|"housing"|"vehicle";
+  sphereSupportItemId:string;
 };
 
 export type RealityStyle={
@@ -123,19 +125,28 @@ export function ensureRealityState(raw:Record<string,unknown>):RealityState{
   const augmentations=array(raw.augmentations).filter(x=>x&&typeof x==="object") as RealityPurchase[];
   const equipment=array(raw.equipment).filter(x=>x&&typeof x==="object") as RealityPurchase[];
   const fixedChargeItems=array(raw.fixedChargeItems).filter(x=>x&&typeof x==="object") as FixedCharge[];
+  const legacySupport=String(raw.sphereSupportDetail??"");
+  let sphereSupportType=String(raw.sphereSupportType??"");
+  if(!["housing","vehicle"].includes(sphereSupportType)){
+    const normalized=legacySupport.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+    sphereSupportType=/logement|maison|appartement|studio|villa|hebergement/.test(normalized)
+      ?"housing"
+      :/vehicule|voiture|moto|transport/.test(normalized)
+        ?"vehicle"
+        :"";
+  }
   Object.assign(raw,{
     augmentations,
     equipment,
     fixedChargeItems,
     mjAdvancedOverride:Boolean(raw.mjAdvancedOverride),
     mjAccessOverride:Boolean(raw.mjAccessOverride),
-    sphereSupportDetail:String(raw.sphereSupportDetail??""),
-    possessionsNotes:String(raw.possessionsNotes??""),
-    networks:String(raw.networks??""),
-    statuses:String(raw.statuses??""),
-    patrimony:String(raw.patrimony??""),
-    debts:String(raw.debts??"")
+    sphereSupportType,
+    sphereSupportItemId:String(raw.sphereSupportItemId??"")
   });
+  for(const key of ["sphereSupportDetail","possessionsNotes","networks","statuses","patrimony","debts"]){
+    delete raw[key];
+  }
   return raw as unknown as RealityState;
 }
 
@@ -244,7 +255,7 @@ export function automaticVehicleMaintenance(pkg:RealityRulesPackage,state:Realit
   const items=realityItemMap(pkg);
   return state.equipment.reduce((sum,p)=>{
     const item=items.get(p.itemId);
-    return item?.vehicle
+    return item?.vehicle&&!p.sphereSupport
       ?sum+moneyField(item,["Entretien/mois","Entretien mensuel","Maintenance/mois"])
       :sum;
   },0);
@@ -264,9 +275,16 @@ export function lifestylePressure(
   const reference=pkg.economy.lifestyle.monthlyReference[base]??200;
   const drops=Math.floor(total/reference);
   const effective=order[Math.max(0,baseIndex-drops)]??order[0]??"Survie";
+  const effectiveIndex=Math.max(0,baseIndex-drops);
+  const atFloor=effectiveIndex===0;
+  const nextDropAt=(drops+1)*reference;
   return {
     base,effective,reference,total,drops,
+    baseIndex,effectiveIndex,
     deficit:Math.max(0,drops-baseIndex)*reference,
+    nextDropAt,
+    remainingToNext:atFloor?0:Math.max(0,nextDropAt-total),
+    atFloor,
     manual,augment,vehicles
   };
 }
