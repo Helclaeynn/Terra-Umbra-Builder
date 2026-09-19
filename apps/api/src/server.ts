@@ -49,7 +49,12 @@ app.addHook("onSend", async (request, reply, payload) => {
   }
 
   if (request.url.startsWith("/api/compendium/") && !privateCompendium) {
-    reply.header("Cache-Control", "public, max-age=60");
+    if (request.headers.cookie) {
+      reply.header("Cache-Control", "private, max-age=60");
+      reply.header("Vary", "Cookie");
+    } else {
+      reply.header("Cache-Control", "public, max-age=60");
+    }
     return payload;
   }
 
