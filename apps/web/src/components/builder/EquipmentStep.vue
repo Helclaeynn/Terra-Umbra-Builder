@@ -104,6 +104,20 @@ function norm(value:string){
 function money(value:number|null|undefined){
   return value===null||value===undefined?"—":new Intl.NumberFormat("fr-FR",{maximumFractionDigits:0}).format(value)+" $";
 }
+function wikiBadges(item:RealityItem,selectedPrice?:number|null){
+  const badges=[item.category];
+  const price=selectedPrice??item.price;
+  if(price!==null&&price!==undefined)badges.push(money(price));
+  if(item.generation)badges.push(`Gen ${item.generation}`);
+  if(item.charge!==null)badges.push(`Charge ${item.charge}`);
+  if(item.stress!==null)badges.push(`Stress ${item.stress}`);
+  if(item.vehicle)badges.push("Véhicule");
+  if(item.neuro)badges.push("Neuroprogramme");
+  return badges.slice(0,5);
+}
+function wikiDetail(item:RealityItem){
+  return item.effect||item.lore||"";
+}
 function notify(){
   const payload=cloneJson(props.modelValue);
   emit("update:modelValue",payload);
@@ -530,7 +544,14 @@ function setCorporateSupportItem(itemId:string){
         <div class="picked-list">
           <div v-for="row in purchasedAugmentations" :key="row.purchase.uid" class="picked-row rich">
             <div v-if="row.item">
-              <strong><BuilderWikiLink :label="row.item.name" :article-id="row.item.compendiumId" category="Équipement & Objets" compact /></strong>
+              <strong><BuilderWikiLink
+                  :label="row.item.name"
+                  :article-id="row.item.compendiumId"
+                  category="Équipement & Objets"
+                  :detail="wikiDetail(row.item)"
+                  :badges="wikiBadges(row.item,row.purchase.selectedPrice)"
+                  compact
+                /></strong>
               <span>
                 {{ money(row.purchase.selectedPrice ?? row.item.price) }}
                 <template v-if="row.item.generation"> · Gen {{ row.item.generation }}</template>
@@ -569,7 +590,14 @@ function setCorporateSupportItem(itemId:string){
         <div class="picked-list">
           <div v-for="row in purchasedEquipment" :key="row.purchase.uid" class="picked-row rich">
             <div v-if="row.item">
-              <strong><BuilderWikiLink :label="row.item.name" :article-id="row.item.compendiumId" category="Équipement & Objets" compact /></strong>
+              <strong><BuilderWikiLink
+                  :label="row.item.name"
+                  :article-id="row.item.compendiumId"
+                  category="Équipement & Objets"
+                  :detail="wikiDetail(row.item)"
+                  :badges="wikiBadges(row.item,row.purchase.selectedPrice)"
+                  compact
+                /></strong>
               <span>
                 {{ row.item.category }} · {{ money(row.purchase.selectedPrice ?? row.item.price) }}
                 <template v-if="row.purchase.sphereSupport"> · véhicule de fonction</template>
@@ -627,7 +655,13 @@ function setCorporateSupportItem(itemId:string){
         <div v-if="catalogKind === 'equipment'" class="catalog-grid">
           <article v-for="item in filteredEquipment" :key="item.id" class="catalog-card">
             <div class="catalog-head">
-              <div><strong><BuilderWikiLink :label="item.name" :article-id="item.compendiumId" category="Équipement & Objets" /></strong><small>{{ item.category }}</small></div>
+              <div><strong><BuilderWikiLink
+                  :label="item.name"
+                  :article-id="item.compendiumId"
+                  category="Équipement & Objets"
+                  :detail="wikiDetail(item)"
+                  :badges="wikiBadges(item,priceValue(item))"
+                /></strong><small>{{ item.category }}</small></div>
               <button class="primary compact" type="button" :disabled="!addStatus(item).ok" @click="addPurchase(item)">Ajouter</button>
             </div>
             <div class="pillbar">
@@ -657,7 +691,13 @@ function setCorporateSupportItem(itemId:string){
           <article v-for="group in augmentationGroups" :key="group.key" class="catalog-card">
             <div class="catalog-head">
               <div>
-                <strong><BuilderWikiLink :label="selectedVariant(group).name" :article-id="selectedVariant(group).compendiumId" category="Équipement & Objets" /></strong>
+                <strong><BuilderWikiLink
+                  :label="selectedVariant(group).name"
+                  :article-id="selectedVariant(group).compendiumId"
+                  category="Équipement & Objets"
+                  :detail="wikiDetail(selectedVariant(group))"
+                  :badges="wikiBadges(selectedVariant(group),priceValue(selectedVariant(group)))"
+                /></strong>
                 <small>{{ selectedVariant(group).category }}</small>
               </div>
               <button
