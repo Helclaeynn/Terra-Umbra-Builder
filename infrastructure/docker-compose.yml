@@ -49,8 +49,6 @@ services:
     build:
       context: ../apps/web
     restart: unless-stopped
-    volumes:
-      - ../character-builder:/usr/share/nginx/html/builder:ro
     networks:
       - frontend
 
