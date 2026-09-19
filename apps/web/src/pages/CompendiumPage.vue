@@ -1071,7 +1071,7 @@ onBeforeUnmount(() => {
             </div>
 
             <template v-else-if="selected">
-              <div class="wiki-article-grid">
+              <div :key="selected.id" class="wiki-article-grid wiki-article-enter">
                 <div class="wiki-article-main">
                   <header class="article-header">
                     <div class="article-breadcrumb">
@@ -1650,6 +1650,14 @@ onBeforeUnmount(() => {
   gap: clamp(1.5rem, 3vw, 2.5rem);
   align-items: start;
 }
+.wiki-article-enter {
+  animation: wiki-article-in .2s cubic-bezier(.2,.7,.2,1) both;
+}
+@keyframes wiki-article-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
 
 .wiki-article-main {
   min-width: 0;
