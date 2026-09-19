@@ -129,10 +129,18 @@ try{
   await editLink.click();
   await page.waitForURL(/\/compendium\/edit\/bestiaire-v15-afanc$/, {timeout:10000});
   await page.getByText("ÉDITION WIKI",{exact:true}).waitFor({state:"visible",timeout:10000});
+  await page.locator(".wiki-source").waitFor({state:"visible",timeout:10000});
+  const legacySections=await page.locator(".editor-section-card").count();
+  if(legacySections!==0)throw new Error("Ancien éditeur par sections encore visible.");
+
+  await page.goto(baseUrl+"/compendium/new",{waitUntil:"domcontentloaded",timeout:30000});
+  await page.getByText("NOUVELLE PAGE WIKI",{exact:true}).waitFor({state:"visible",timeout:10000});
+  await page.locator(".wiki-source").waitFor({state:"visible",timeout:10000});
+  await page.locator('input[placeholder="Titre de la page"]').waitFor({state:"visible",timeout:10000});
 
   if(browserErrors.length)throw new Error(browserErrors.join("\n"));
 
-  console.log(`WIKI V2 OK — ${sourceTitle} → ${linkedText} → ${previewTitle} · média Afanc + éditeur OK`);
+  console.log(`WIKI V2 OK — ${sourceTitle} → ${linkedText} → ${previewTitle} · média + éditeur continu + création OK`);
 }finally{
   await browser.close();
 }
