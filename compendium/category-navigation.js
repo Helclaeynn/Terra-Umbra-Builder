@@ -115,15 +115,17 @@ function buildGroups(classified){
   return [...groups.values()].sort((a,b)=>a.order-b.order||a.name.localeCompare(b.name,'fr'));
 }
 
-function applyFilter(wrap,input){
-  const q=norm(input?.value||'');let visibleCount=0;
+function applyFilter(wrap,input,manufacturerSelect){
+  const q=norm(input?.value||''),manufacturer=norm(manufacturerSelect?.value||'');let visibleCount=0;
   for(const card of wrap.querySelectorAll('.article-card')){
-    const ok=!q||q.split(' ').every(token=>(card.dataset.filter||'').includes(token));
+    const textOk=!q||q.split(' ').every(token=>(card.dataset.filter||'').includes(token));
+    const manufacturerOk=!manufacturer||norm(card.dataset.manufacturer)===manufacturer;
+    const ok=textOk&&manufacturerOk;
     card.hidden=!ok;if(ok)visibleCount++;
   }
   for(const subgroup of wrap.querySelectorAll('.nav-subgroup'))subgroup.hidden=![...subgroup.querySelectorAll('.article-card')].some(card=>!card.hidden);
   for(const group of wrap.querySelectorAll('.nav-group'))group.hidden=![...group.querySelectorAll('.article-card')].some(card=>!card.hidden);
-  const counter=document.querySelector('#categoryVisible');if(counter)counter.textContent=`${visibleCount} entrée${visibleCount>1?'s':''} affichée${visibleCount>1?'s':''}`;
+  const counter=document.querySelector('#categoryVisible');if(counter)counter.textContent=`${visibleCount} entrée${visibleCount>1?'s':''} affichée${visibleCount>1?'s':''}${manufacturerSelect?.value?` · ${manufacturerSelect.value}`:''}`;
 }
 
 async function enhanceCurrentCategory(){
@@ -169,9 +171,11 @@ async function enhanceCurrentCategory(){
   }
 
   root.replaceWith(wrap);renderCategoryToc(orderedGroups);
-  const input=document.querySelector('#categoryFilter');
-  if(input&&!input.dataset.hierarchicalFilterBound){input.dataset.hierarchicalFilterBound='1';input.addEventListener('input',()=>applyFilter(wrap,input));}
-  applyFilter(wrap,input);
+  const input=document.querySelector('#categoryFilter'),manufacturerSelect=document.querySelector('#categoryManufacturer');
+  const apply=()=>applyFilter(wrap,input,manufacturerSelect);
+  if(input&&!input.dataset.hierarchicalFilterBound){input.dataset.hierarchicalFilterBound='1';input.addEventListener('input',apply);}
+  if(manufacturerSelect&&!manufacturerSelect.dataset.hierarchicalFilterBound){manufacturerSelect.dataset.hierarchicalFilterBound='1';manufacturerSelect.addEventListener('change',apply);}
+  apply();
 }
 
 let scheduled=false;
