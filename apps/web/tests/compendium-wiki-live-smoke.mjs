@@ -108,9 +108,31 @@ try{
     {timeout:10000}
   );
 
+  await page.goto(`${baseUrl}/compendium?article=bestiaire-v15-afanc`,{
+    waitUntil:"domcontentloaded",
+    timeout:30000
+  });
+  await page.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
+  const afancTitle=(await page.locator(".article-header h1").innerText()).trim();
+  if(afancTitle!=="Afanc")throw new Error("Page Afanc inattendue: "+afancTitle);
+
+  const media=page.locator(".wiki-media img");
+  await media.waitFor({state:"visible",timeout:10000});
+  await page.waitForFunction(
+    ()=>document.querySelector(".wiki-media img")?.naturalWidth>0,
+    null,
+    {timeout:10000}
+  );
+
+  const editLink=page.locator(".wiki-edit-link");
+  await editLink.waitFor({state:"visible",timeout:10000});
+  await editLink.click();
+  await page.waitForURL(/\/compendium\/edit\/bestiaire-v15-afanc$/, {timeout:10000});
+  await page.getByText("ÉDITION WIKI",{exact:true}).waitFor({state:"visible",timeout:10000});
+
   if(browserErrors.length)throw new Error(browserErrors.join("\n"));
 
-  console.log(`WIKI V2 OK — ${sourceTitle} → ${linkedText} → ${previewTitle}`);
+  console.log(`WIKI V2 OK — ${sourceTitle} → ${linkedText} → ${previewTitle} · média Afanc + éditeur OK`);
 }finally{
   await browser.close();
 }
