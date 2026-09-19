@@ -24,9 +24,10 @@ export type CharacterDataV2 = {
   rulesetId: "terra-umbra";
   identity: {
     name: string;
+    firstName: string;
     alias: string;
+    occupation: string;
     age: string;
-    activity: string;
     sex: string;
     height: string;
     weight: string;
@@ -72,9 +73,10 @@ export function blankCharacterData(name:string): CharacterDataV2 {
     rulesetId:"terra-umbra",
     identity:{
       name,
+      firstName:"",
       alias:"",
+      occupation:"",
       age:"",
-      activity:"",
       sex:"",
       height:"",
       weight:"",
@@ -122,9 +124,10 @@ export function normalizeCharacterData(input:unknown, fallbackName:string): Char
   const identity=cloneRecord(source.identity);
   out.identity={
     name:asString(identity.name,fallbackName).trim()||fallbackName,
+    firstName:asString(identity.firstName),
     alias:asString(identity.alias),
+    occupation:asString(identity.occupation,asString(identity.activity)),
     age:asString(identity.age),
-    activity:asString(identity.activity),
     sex:asString(identity.sex),
     height:asString(identity.height),
     weight:asString(identity.weight),
