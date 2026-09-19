@@ -53,6 +53,12 @@ type CoveragePayload = {
   items: CoverageItem[];
 };
 
+type TalentRegistryMeta = {
+  total: number;
+  natures: string[];
+  groups: Array<{ groupId: string; natureId: string; label: string; count: number }>;
+};
+
 const route = useRoute();
 const router = useRouter();
 const id = computed(() => String(route.params.id ?? ""));
@@ -91,6 +97,11 @@ const coverageOpen = ref(false);
 const coverageLoading = ref(false);
 const coverageFamily = ref("");
 const coverageStatus = ref<"" | "missing" | "ambiguous" | "linked">("missing");
+const talentInsertOpen = ref(false);
+const talentMeta = ref<TalentRegistryMeta | null>(null);
+const talentInsertMode = ref<"nature" | "group">("nature");
+const talentInsertNature = ref("vampire");
+const talentInsertGroup = ref("");
 const categories = ["Règles", "Réalité", "Vérité", "Équipement & Objets", "Personnages", "Bestiaire"];
 
 function clone<T>(value: T): T {
@@ -425,6 +436,75 @@ function insertMjSection() {
 
 function insertLore() {
   return insertMarkup("{{Lore}}\n", "", "Texte de lore");
+}
+
+async function toggleTalentInsert() {
+  talentInsertOpen.value = !talentInsertOpen.value;
+  if (!talentInsertOpen.value || talentMeta.value) return;
+  try {
+    talentMeta.value = await api<TalentRegistryMeta>("/api/compendium/talents/meta");
+    if (!talentMeta.value.natures.includes(talentInsertNature.value)) {
+      talentInsertNature.value = talentMeta.value.natures[0] ?? "";
+    }
+    if (!talentInsertGroup.value) {
+      talentInsertGroup.value = talentMeta.value.groups[0]?.groupId ?? "";
+    }
+  } catch (cause) {
+    error.value = humanError(cause);
+  }
+}
+
+const talentInsertGroups = computed(() =>
+  (talentMeta.value?.groups ?? []).filter(group =>
+    !talentInsertNature.value || group.natureId === talentInsertNature.value
+  )
+);
+
+function talentDirectiveInfo(value: unknown) {
+  const text = String(value ?? "").trim();
+  const match = text.match(/^\{\{Talents\|(.+)\}\}$/i);
+  if (!match) return null;
+  const fields = new Map<string,string>();
+  for (const part of match[1].split("|")) {
+    const [rawKey,...rest] = part.split("=");
+    fields.set(rawKey.trim().toLowerCase(), rest.join("=").trim());
+  }
+  const nature = fields.get("nature") || fields.get("natureid") || "";
+  const group = fields.get("group") || fields.get("groupid") || "";
+  const ids = fields.get("ids") || "";
+  if (group) {
+    const found = talentMeta.value?.groups.find(item => item.groupId === group);
+    return { label: found?.label || group, detail: found ? `${found.natureId} · ${found.count} Talent${found.count > 1 ? "s" : ""}` : "Groupe dynamique" };
+  }
+  if (nature) {
+    const count = talentMeta.value?.groups
+      .filter(item => item.natureId === nature)
+      .reduce((sum,item) => sum + item.count,0);
+    return { label: `Talents · ${nature}`, detail: count ? `${count} Talents` : "Nature dynamique" };
+  }
+  if (ids) {
+    const count = ids.split(",").map(value => value.trim()).filter(Boolean).length;
+    return { label: "Sélection de Talents", detail: `${count} Talent${count > 1 ? "s" : ""}` };
+  }
+  return null;
+}
+
+async function insertTalentBlock() {
+  const element = sourceArea.value;
+  if (!element) return;
+  let directive = "";
+  if (talentInsertMode.value === "group" && talentInsertGroup.value) {
+    directive = `{{Talents|group=${talentInsertGroup.value}}}`;
+  } else if (talentInsertNature.value) {
+    directive = `{{Talents|nature=${talentInsertNature.value}}}`;
+  }
+  if (!directive) return;
+  const start = element.selectionStart;
+  const prefix = start > 0 && !wikiText.value.slice(0,start).endsWith("\n") ? "\n\n" : "";
+  wikiText.value = wikiText.value.slice(0,start) + prefix + directive + "\n\n" + wikiText.value.slice(start);
+  talentInsertOpen.value = false;
+  await nextTick();
+  element.focus();
 }
 
 function previewInline(value: unknown): string {
@@ -1022,6 +1102,31 @@ onMounted(load);
                 <button type="button" title="Tableau" @click="insertTable">▦ Tableau</button>
                 <button type="button" title="Section MJ" @click="insertMjSection">MJ</button>
                 <button type="button" title="Encadré lore" @click="insertLore">Lore</button>
+                <button type="button" title="Bloc dynamique de Talents" :class="{ active: talentInsertOpen }" @click="toggleTalentInsert">Talents</button>
+              </div>
+              <div v-if="talentInsertOpen" class="talent-insert-panel">
+                <div>
+                  <strong>Insérer des Talents dynamiques</strong>
+                  <small>Le texte des Talents restera centralisé dans le registre canonique.</small>
+                </div>
+                <select v-model="talentInsertMode" aria-label="Type de bloc Talents">
+                  <option value="nature">Toute une Nature</option>
+                  <option value="group">Un groupe de Talents</option>
+                </select>
+                <select v-model="talentInsertNature" aria-label="Nature des Talents">
+                  <option v-for="nature in talentMeta?.natures || []" :key="nature" :value="nature">{{ nature }}</option>
+                </select>
+                <select
+                  v-if="talentInsertMode === 'group'"
+                  v-model="talentInsertGroup"
+                  aria-label="Groupe de Talents"
+                >
+                  <option v-for="group in talentInsertGroups" :key="group.groupId" :value="group.groupId">
+                    {{ group.label }} · {{ group.count }}
+                  </option>
+                </select>
+                <button class="secondary compact" type="button" @click="insertTalentBlock">Insérer</button>
+                <button class="ghost compact" type="button" @click="talentInsertOpen=false">Annuler</button>
               </div>
               <textarea
                 ref="sourceArea"
@@ -1044,6 +1149,7 @@ Encore du texte.
                 <span><code>=== Sous-titre ===</code> sous-section</span>
                 <span><code>* élément</code> liste</span>
                 <span><code>'''gras'''</code> et <code>''italique''</code></span>
+                <span><code>{{Talents|…}}</code> cartes alimentées par le registre central.</span>
                 <span>Les liens vers les autres pages sont détectés automatiquement.</span>
               </div>
             </div>
@@ -1066,7 +1172,12 @@ Encore du texte.
               <h3 v-else-if="section.title && Number(section.level || 2) === 3">{{ section.title }}</h3>
               <h4 v-else-if="section.title">{{ section.title }}</h4>
               <template v-for="(block, blockIndex) in section.blocks" :key="blockIndex">
-                <p v-if="block.type === 'p'" :class="block.style" v-html="previewInline(block.text)"></p>
+                <div v-if="block.type === 'p' && talentDirectiveInfo(block.text)" class="preview-talent-embed">
+                  <span>REGISTRE DE TALENTS</span>
+                  <strong>{{ talentDirectiveInfo(block.text)?.label }}</strong>
+                  <small>{{ talentDirectiveInfo(block.text)?.detail }}</small>
+                </div>
+                <p v-else-if="block.type === 'p'" :class="block.style" v-html="previewInline(block.text)"></p>
                 <table v-else>
                   <tbody>
                     <tr v-for="(row, rowIndex) in block.rows || []" :key="rowIndex">
@@ -1173,6 +1284,11 @@ Encore du texte.
 }
 .editor-actions .spacer { flex:1; }
 .editor-hint { margin:.25rem 0; color:#817a70; font-size:.78rem; line-height:1.5; }
+.talent-insert-panel{display:grid;grid-template-columns:minmax(180px,1fr) auto auto auto auto;gap:.5rem;align-items:center;padding:.7rem .8rem;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);background:linear-gradient(90deg,rgba(161,125,69,.08),rgba(255,255,255,.012))}
+.talent-insert-panel>div{display:grid;gap:.15rem}.talent-insert-panel strong{color:#d9cebd;font-size:.76rem}.talent-insert-panel small{color:#7f786e;font-size:.63rem}.talent-insert-panel select{min-width:130px}
+.wiki-toolbar button.active{border-color:#9d7c48;color:#e1c995;background:rgba(157,124,72,.1)}
+.preview-talent-embed{display:grid;gap:.28rem;margin:.75rem 0;padding:.8rem;border:1px solid rgba(199,173,120,.2);background:linear-gradient(145deg,rgba(161,125,69,.07),rgba(255,255,255,.012))}.preview-talent-embed span{color:#a88e60;font-size:.58rem;letter-spacing:.08em}.preview-talent-embed strong{color:#ded3c2;font-family:Georgia,serif}.preview-talent-embed small{color:#817a70}
+@media(max-width:900px){.talent-insert-panel{grid-template-columns:1fr 1fr}.talent-insert-panel>div{grid-column:1/-1}}
 .wiki-source-card { padding:0; overflow:hidden; }
 .wiki-toolbar {
   display:flex; gap:.4rem; flex-wrap:wrap; align-items:center;
