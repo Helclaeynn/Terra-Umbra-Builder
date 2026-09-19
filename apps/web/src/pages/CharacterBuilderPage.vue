@@ -593,6 +593,20 @@ async function loadCharacter(){
     disadvantageLore.value=rulesResult.disadvantageLore;
     edgeRules.value=rulesResult.edgeRules;
     truthRules.value=truthResult;
+
+    const loadedTruth=currentTruthState.value;
+    if(loadedTruth){
+      const nature=truthResult.structure.natures[loadedTruth.nature]??truthResult.structure.natures.humain;
+      const normalized:TruthState={
+        nature:nature.id,
+        consciousness:loadedTruth.consciousness==="initie"?"initie":"profane",
+        choices:truthSanitizeChoices(nature,loadedTruth.choices),
+        truthTalents:[...loadedTruth.truthTalents]
+      };
+      normalized.truthTalents=truthSanitizeTalents(truthResult,normalized);
+      writeTruthState(normalized);
+    }
+
     if(
       disadvantageCategory.value==="sphere" &&
       !draft.value.creation.sphere
