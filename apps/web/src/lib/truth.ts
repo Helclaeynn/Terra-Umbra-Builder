@@ -348,6 +348,17 @@ function truthChoiceLabel(pkg:TruthRulesPackage,state:TruthState,key:string){
   return truthChoiceOptions(choice,state.choices).find(option=>option.id===selected)?.name??"";
 }
 
+export function truthPermanentAttributeBonus(
+  state:TruthState,
+  attributeId:string
+){
+  const hunterMemory=
+    state.nature==="humain"&&
+    state.consciousness==="initie"&&
+    (stringChoice(state.choices,"hunterTradition")||"aucune")!=="aucune";
+  return hunterMemory&&attributeId==="volonte"?1:0;
+}
+
 export function truthRevelationProfile(pkg:TruthRulesPackage,state:TruthState){
   const nature=state.nature;
   const choices=state.choices;
