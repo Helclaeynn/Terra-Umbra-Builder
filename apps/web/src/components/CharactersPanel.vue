@@ -271,9 +271,14 @@ onMounted(loadCharacters);
             <p class="eyebrow">FICHE #{{ selected.version }}</p>
             <h3>{{ selected.name }}</h3>
           </div>
-          <button class="ghost compact danger" type="button" :disabled="loading" @click="archiveCharacter">
-            Archiver
-          </button>
+          <div class="character-detail-actions">
+            <a class="ghost compact builder-link" :href="`/builder/?character=${selected.id}`">
+              Ouvrir le Builder
+            </a>
+            <button class="ghost compact danger" type="button" :disabled="loading" @click="archiveCharacter">
+              Archiver
+            </button>
+          </div>
         </div>
 
         <form class="rename-form" @submit.prevent="saveName">
@@ -434,6 +439,17 @@ onMounted(loadCharacters);
   font-family: Georgia, serif;
   font-size: 1.5rem;
   font-weight: 500;
+}
+
+.character-detail-actions {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  flex-wrap: wrap;
+}
+
+.builder-link {
+  text-decoration: none;
 }
 
 .danger {
