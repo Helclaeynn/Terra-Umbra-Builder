@@ -101,6 +101,11 @@ window.TUCTruthRuntimeAudit={
       source:'V1 final runtime',
       ptvInitial:ruleset.truth.ptvInitial,
       consciousness:clone(ruleset.truth.consciousness),
+      needles:clone(truthNeedles),
+      matrices:{
+        exile:typeof t21ExileMatrix!=='undefined'?clone(t21ExileMatrix):{},
+        extral:typeof t21ExtralMatrix!=='undefined'?clone(t21ExtralMatrix):{}
+      },
       structures,
       catalogs
     };
