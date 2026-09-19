@@ -4,6 +4,7 @@ import BuilderWikiLink from "./BuilderWikiLink.vue";
 
 export type TalentOption={
   id:string;
+  compendiumId?:string;
   name:string;
   effect?:string;
   description?:string;
@@ -113,7 +114,7 @@ function updateChoice(event:Event){
       </div>
 
       <div class="talent-detail">
-        <strong><BuilderWikiLink :label="selected.name" category="Règles" /></strong>
+        <strong><BuilderWikiLink :label="selected.name" :article-id="selected.compendiumId" category="Règles" /></strong>
         <em v-if="selectedLore">{{ selectedLore }}</em>
         <p><b>Effet mécanique :</b> {{ selected.effect || selected.description || "—" }}</p>
       </div>
