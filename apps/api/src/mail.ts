@@ -28,14 +28,10 @@ export function passwordResetMailAvailable(): boolean {
   return Boolean(host && user && password && from);
 }
 
-export async function sendPasswordResetEmail(
-  email: string,
-  displayName: string,
-  token: string
-): Promise<boolean> {
-  if (!passwordResetMailAvailable()) return false;
+function createTransporter() {
+  if (!host || !user || !password) return null;
 
-  const transporter = nodemailer.createTransport({
+  return nodemailer.createTransport({
     host,
     port,
     secure,
@@ -44,6 +40,24 @@ export async function sendPasswordResetEmail(
       pass: password
     }
   });
+}
+
+export async function verifyPasswordResetMail(): Promise<void> {
+  const transporter = createTransporter();
+  if (!transporter || !from) {
+    throw new Error("SMTP configuration is incomplete");
+  }
+
+  await transporter.verify();
+}
+
+export async function sendPasswordResetEmail(
+  email: string,
+  displayName: string,
+  token: string
+): Promise<boolean> {
+  const transporter = createTransporter();
+  if (!transporter || !from) return false;
 
   const resetUrl = `${appBaseUrl}/?reset=${encodeURIComponent(token)}`;
 
