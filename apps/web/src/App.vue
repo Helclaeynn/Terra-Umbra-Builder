@@ -431,13 +431,13 @@ onMounted(bootstrap);
 <template>
   <div class="app-shell">
     <header class="topbar">
-      <a class="brand" href="/">
+      <RouterLink class="brand" to="/">
         <span class="brand-mark">TU</span>
         <span>
           <strong>Terra Umbra</strong>
           <small>California · Web V2</small>
         </span>
-      </a>
+      </RouterLink>
 
       <div class="top-actions">
         <span class="api-pill" :class="{ ok: health === 'ok' }">
