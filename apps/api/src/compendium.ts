@@ -606,6 +606,14 @@ function applyTargetedEditorialCorrections(article: Article): void {
   }
 }
 
+function publicSnippetText(value: unknown): string {
+  return String(value ?? "")
+    .replace(/\{\{Talents\|[^{}]*\}\}/gi, " ")
+    .replace(/\{\{(?:MJ|Lore|Encadré)\}\}/gi, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function flattenText(article: Article): string {
   const bits: string[] = [
     article.title ?? "",
@@ -630,10 +638,15 @@ function flattenText(article: Article): string {
   for (const section of article.sections ?? []) {
     bits.push(String(section.title ?? ""));
     for (const block of section.blocks ?? []) {
-      if (block?.type === "p") bits.push(String(block.text ?? ""));
+      if (block?.type === "p") {
+        const text = publicSnippetText(block.text);
+        if (text) bits.push(text);
+      }
       if (block?.type === "table" && Array.isArray(block.rows)) {
         for (const row of block.rows) {
-          if (Array.isArray(row)) bits.push(...row.map((cell) => String(cell ?? "")));
+          if (Array.isArray(row)) {
+            bits.push(...row.map((cell) => publicSnippetText(cell)).filter(Boolean));
+          }
         }
       }
     }
@@ -669,8 +682,9 @@ function wikiPreviewText(article: Article, limit = 360): string {
     if (section?.audience === "mj") continue;
 
     for (const block of section.blocks ?? []) {
-      if (block?.type === "p" && String(block.text ?? "").trim()) {
-        chunks.push(String(block.text).trim());
+      if (block?.type === "p") {
+        const text = publicSnippetText(block.text);
+        if (text) chunks.push(text);
       }
       if (chunks.join(" ").length >= limit * 1.4) break;
     }
@@ -678,9 +692,7 @@ function wikiPreviewText(article: Article, limit = 360): string {
     if (chunks.join(" ").length >= limit * 1.4) break;
   }
 
-  const text = (chunks.join(" ") || articleSnippet(article, "", limit))
-    .replace(/\s+/g, " ")
-    .trim();
+  const text = publicSnippetText(chunks.join(" ") || articleSnippet(article, "", limit));
 
   if (text.length <= limit) return text;
   return text.slice(0, limit).replace(/\s+\S*$/, "") + "…";
