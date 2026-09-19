@@ -27,7 +27,7 @@ try{
   const searchInput=publicPage.locator('input[type="search"]');
   await searchInput.fill("Afanc");
   await publicPage.getByRole("button",{name:"Rechercher"}).click();
-  await publicPage.locator(".result-card").first().waitFor({state:"visible",timeout:10000});
+  await publicPage.locator(".result-card strong",{hasText:"Afanc"}).first().waitFor({state:"visible",timeout:10000});
   const searchTitles=await publicPage.locator(".result-card strong").allInnerTexts();
   if(!searchTitles.some(title=>title.trim()==="Afanc"))throw new Error("Recherche publique Afanc absente: "+searchTitles.join(", "));
 
