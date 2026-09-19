@@ -5,7 +5,7 @@ import { terraUmbraCreationLore, terraUmbraTalentChoiceSpecs, terraUmbraRealityS
 import { terraUmbraDisadvantages, terraUmbraDisadvantageLore, terraUmbraEdgeRules } from "./terra-umbra-disadvantages-edge.js";
 import { terraUmbraTruthRules } from "./truth/rules.js";
 import { getRealityRules } from "./reality.js";
-import { findCompendiumMatches, resolveCompendiumId } from "../compendium.js";
+import { findCompendiumHubMatches, findCompendiumMatches, resolveCompendiumHubId, resolveCompendiumId } from "../compendium.js";
 import { getTalentRegistry, queryTalentRegistry, talentRegistryMeta } from "./talent-registry.js";
 
 type NamedEntry={name?:string;compendiumId?:string|null;[key:string]:unknown};
@@ -43,6 +43,38 @@ const NATURE_COMPENDIUM_IDS:Record<string,string>={
   extral:"verite-054-18-extrals-homo-superior-et-adrak"
 };
 
+
+const REALITY_TALENT_HUB_IDS={
+  common:"regles-realite-talents-communs",
+  expertise:{
+    vigueur:"regles-realite-talents-expertise-vigueur",
+    agilite:"regles-realite-talents-expertise-agilite",
+    esprit:"regles-realite-talents-expertise-esprit",
+    volonte:"regles-realite-talents-expertise-volonte",
+    charisme:"regles-realite-talents-expertise-charisme"
+  } as Record<string,string>,
+  origin:{
+    corporatiste:"regles-realite-talents-origine-origine-corporatiste",
+    crawler:"regles-realite-talents-origine-origine-crawler",
+    gouvernementale:"regles-realite-talents-origine-origine-gouvernementale",
+    mafieuse:"regles-realite-talents-origine-origine-mafieuse",
+    religieuse:"regles-realite-talents-origine-origine-religieuse"
+  } as Record<string,string>,
+  sphere:{
+    corporatiste:"regles-realite-talents-sphere-corporatiste",
+    crawler:"regles-realite-talents-sphere-crawler",
+    gouvernementale:"regles-realite-talents-sphere-gouvernemental",
+    mafieuse:"regles-realite-talents-sphere-pegre",
+    religieuse:"regles-realite-talents-sphere-religieux"
+  } as Record<string,string>
+};
+
+const REALITY_DISADVANTAGE_HUB_IDS:Record<string,string>={
+  common:"regles-realite-desavantages-communs",
+  attribute:"regles-realite-desavantages-attributs",
+  sphere:"regles-realite-desavantages-sphere"
+};
+
 async function enrichNamed<T extends NamedEntry>(entry:T,category=""){
   const rawId=String((entry as Record<string,unknown>).id??"");
   const explicit=rawId?BUILDER_COMPENDIUM_ID_OVERRIDES[rawId]:undefined;
@@ -54,6 +86,17 @@ async function enrichNamed<T extends NamedEntry>(entry:T,category=""){
   return compendiumId?{...entry,compendiumId}:entry;
 }
 
+
+async function enrichNamedWithHub<T extends NamedEntry>(
+  entry:T,
+  hubId:string|undefined,
+  category="Règles"
+){
+  const enriched=await enrichNamed(entry,category);
+  if(enriched.compendiumId||!hubId)return enriched;
+  return {...enriched,compendiumId:hubId};
+}
+
 async function enrichCreationRules(){
   const rules=structuredClone(terraUmbraCreationRules) as any;
   for(const key of Object.keys(rules.origins??{})){
@@ -63,28 +106,41 @@ async function enrichCreationRules(){
     rules.spheres[key]=await enrichNamed(rules.spheres[key],"Réalité");
   }
   rules.styles=await Promise.all((rules.styles??[]).map((entry:NamedEntry)=>enrichNamed(entry,"Réalité")));
-  for(const poolName of ["origin","sphere"]){
+  for(const poolName of ["origin","sphere"] as const){
     for(const key of Object.keys(rules.talents?.[poolName]??{})){
+      const hubId=REALITY_TALENT_HUB_IDS[poolName][key];
       rules.talents[poolName][key]=await Promise.all(
-        rules.talents[poolName][key].map((entry:NamedEntry)=>enrichNamed(entry,"Règles"))
+        rules.talents[poolName][key].map((entry:NamedEntry)=>enrichNamedWithHub(entry,hubId))
       );
     }
   }
-  for(const poolName of ["common","expertise"]){
-    rules.talents[poolName]=await Promise.all(
-      (rules.talents?.[poolName]??[]).map((entry:NamedEntry)=>enrichNamed(entry,"Règles"))
-    );
-  }
+  rules.talents.common=await Promise.all(
+    (rules.talents?.common??[]).map((entry:NamedEntry)=>
+      enrichNamedWithHub(entry,REALITY_TALENT_HUB_IDS.common)
+    )
+  );
+  rules.talents.expertise=await Promise.all(
+    (rules.talents?.expertise??[]).map((entry:NamedEntry)=>
+      enrichNamedWithHub(
+        entry,
+        REALITY_TALENT_HUB_IDS.expertise[String((entry as Record<string,unknown>).attribute??"")]
+      )
+    )
+  );
 
   const disadvantages=structuredClone(terraUmbraDisadvantages) as any;
-  for(const poolName of ["common","attribute"]){
+  for(const poolName of ["common","attribute"] as const){
     disadvantages[poolName]=await Promise.all(
-      (disadvantages?.[poolName]??[]).map((entry:NamedEntry)=>enrichNamed(entry,"Règles"))
+      (disadvantages?.[poolName]??[]).map((entry:NamedEntry)=>
+        enrichNamedWithHub(entry,REALITY_DISADVANTAGE_HUB_IDS[poolName])
+      )
     );
   }
   for(const key of Object.keys(disadvantages?.sphere??{})){
     disadvantages.sphere[key]=await Promise.all(
-      disadvantages.sphere[key].map((entry:NamedEntry)=>enrichNamed(entry,"Règles"))
+      disadvantages.sphere[key].map((entry:NamedEntry)=>
+        enrichNamedWithHub(entry,REALITY_DISADVANTAGE_HUB_IDS.sphere)
+      )
     );
   }
 
@@ -102,7 +158,14 @@ async function enrichTruthRules(){
   }
   for(const key of Object.keys(truth.catalogs??{})){
     truth.catalogs[key]=await Promise.all(
-      truth.catalogs[key].map((entry:NamedEntry)=>enrichNamed(entry,"Règles"))
+      truth.catalogs[key].map(async(entry:NamedEntry)=>{
+        const enriched=await enrichNamed(entry,"Règles");
+        if(enriched.compendiumId)return enriched;
+        const group=String((entry as Record<string,unknown>).group??"").trim();
+        if(!group)return enriched;
+        const hubId=await resolveCompendiumHubId(group,key);
+        return hubId?{...enriched,compendiumId:hubId}:enriched;
+      })
     );
   }
   return truth;
@@ -492,8 +555,11 @@ export async function registerRulesRoutes(app:FastifyInstance){
     if(!user)return;
     const meta=talentRegistryMeta();
     const groups=await Promise.all(meta.groups.map(async group=>{
-      const matches=await findCompendiumMatches(group.label);
-      return {...group,matches};
+      const exactMatches=await findCompendiumMatches(group.label,"Règles");
+      const matches=exactMatches.length
+        ?exactMatches
+        :await findCompendiumHubMatches(group.label,group.natureId);
+      return {...group,matches,matchType:exactMatches.length?"exact":"hub"};
     }));
     const natures=await Promise.all(meta.natures.map(async natureId=>{
       const rows=getTalentRegistry().filter(row=>row.natureId===natureId);
@@ -501,7 +567,9 @@ export async function registerRulesRoutes(app:FastifyInstance){
     }));
     return {
       totalTalents:meta.total,
-      exactGroupMatches:groups.filter(group=>group.matches.length===1).length,
+      exactGroupMatches:groups.filter(group=>group.matchType==="exact"&&group.matches.length===1).length,
+      resolvedHubMatches:groups.filter(group=>group.matches.length===1).length,
+      inferredHubMatches:groups.filter(group=>group.matchType==="hub"&&group.matches.length===1).length,
       ambiguousGroupMatches:groups.filter(group=>group.matches.length>1).length,
       missingGroupMatches:groups.filter(group=>group.matches.length===0).length,
       groups,
