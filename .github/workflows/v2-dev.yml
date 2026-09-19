@@ -195,9 +195,11 @@ jobs:
           PATCH_BODY="$(mktemp)"
           PATCH_RESPONSE="$(mktemp)"
           RULES_RESPONSE="$(mktemp)"
+          TRUTH_RESPONSE="$(mktemp)"
+          REALITY_RESPONSE="$(mktemp)"
 
           cleanup() {
-            rm -f "$COOKIE_JAR" "$IMPORT_BODY" "$IMPORT_RESPONSE" "$CURRENT_RESPONSE" "$PATCH_BODY" "$PATCH_RESPONSE" "$RULES_RESPONSE"
+            rm -f "$COOKIE_JAR" "$IMPORT_BODY" "$IMPORT_RESPONSE" "$CURRENT_RESPONSE" "$PATCH_BODY" "$PATCH_RESPONSE" "$RULES_RESPONSE" "$TRUTH_RESPONSE" "$REALITY_RESPONSE"
             ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST"               "cd /opt/terra-umbra/infrastructure && set -a && . ./.env && set +a && docker compose --env-file .env exec -T db psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -c \"DELETE FROM users WHERE email = '$TEST_EMAIL';\""               </dev/null >/dev/null 2>&1 || true
           }
           trap cleanup EXIT
@@ -234,6 +236,7 @@ jobs:
           assert "requin_corporatif" in choices
           assert "sens_accru_x" in choices
           assert payload["skillTalentMap"]["tireur_de_precision"] == "tir"
+          assert payload["skillTalentMap"]["discipline_de_foi"] == "maitrise_spirituelle"
           assert payload["disadvantageLore"]["sensible_a_la_chaleur"]
           assert payload["disadvantageLore"]["corporatiste:contrat_leonin"]
           assert len(payload["disadvantages"]["common"]) == 15
@@ -243,6 +246,39 @@ jobs:
           assert payload["edgeRules"]["options"]["attributePack"]["points"] == 2
           assert payload["edgeRules"]["options"]["skillPacks"]["points"] == 4
           assert payload["edgeRules"]["lore"]["talentPacks"]["lore"]
+          PY
+
+          curl --fail --silent --show-error \
+            -b "$COOKIE_JAR" \
+            https://dev.terra-umbra.fr/api/rulesets/terra-umbra/truth > "$TRUTH_RESPONSE"
+
+          curl --fail --silent --show-error \
+            -b "$COOKIE_JAR" \
+            https://dev.terra-umbra.fr/api/rulesets/terra-umbra/reality > "$REALITY_RESPONSE"
+
+          python3 - "$TRUTH_RESPONSE" "$REALITY_RESPONSE" <<'PY'
+          import json,sys
+          truth=json.load(open(sys.argv[1],encoding="utf-8"))
+          reality=json.load(open(sys.argv[2],encoding="utf-8"))
+
+          stages=truth["revelation"]["stages"]
+          assert stages["v"]["name"] == "Voilé", stages
+          assert stages["sr"]["name"] == "Semi-Révélé", stages
+          assert stages["r"]["name"] == "Révélé", stages
+          assert truth["revelation"]["rules"]["revealedReplacesSemiRevealed"] is True
+          assert truth["revelation"]["rules"]["vigorPvMultiplier"] == 2
+          assert truth["revelation"]["angelusStats"], "Profils Angelus absents"
+          assert truth["revelation"]["daemonStats"], "Profils Daemon absents"
+
+          counts=reality["counts"]
+          assert counts["equipment"] >= 261, counts
+          assert counts["augmentations"] > 0, counts
+          assert counts["recurring"] > 0, counts
+          assert reality["source"]["mergedLoreFiles"] > 0, reality["source"]
+          names={item["name"] for item in reality["equipment"]}
+          assert "Pass metro/tram" in names, "Pass metro/tram absent"
+          assert "Bull Basic" in names, "Bull Basic absent"
+          assert any(item["lore"] for item in reality["equipment"]), "Lore équipement absent"
           PY
 
           cat > "$IMPORT_BODY" <<'JSON'
