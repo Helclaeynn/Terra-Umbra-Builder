@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watchEffect } from "vue";
+import { computed, ref } from "vue";
 import {
   augmentationAccess,
   augmentationBaseKey,
@@ -41,7 +41,6 @@ const props=defineProps<{
 
 const emit=defineEmits<{
   "update:modelValue":[value:Record<string,unknown>];
-  validation:[value:boolean];
 }>();
 
 const catalogKind=ref<"equipment"|"augmentation">("equipment");
@@ -78,7 +77,6 @@ function money(value:number|null|undefined){
 function notify(){
   const payload=structuredClone(props.modelValue);
   emit("update:modelValue",payload);
-  emit("validation",isValid.value);
 }
 function priceValue(item:RealityItem){
   const spec=realityPriceSpec(item);
@@ -245,7 +243,6 @@ function removeCharge(uid:string){
 const isValid=computed(()=>{
   if(!props.style)return false;
   if((economy.value?.account??-1)<0)return false;
-  if(props.sphereId==="corporatiste"&&!state.value.sphereSupportDetail.trim())return false;
   for(const {purchase,item} of purchasedAugmentations.value){
     if(!item)return false;
     if(!augmentationSupportSatisfied(props.rules,state.value,item))return false;
@@ -262,7 +259,6 @@ const isValid=computed(()=>{
   return true;
 });
 
-watchEffect(()=>emit("validation",isValid.value));
 </script>
 
 <template>
