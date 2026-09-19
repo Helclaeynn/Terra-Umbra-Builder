@@ -68,6 +68,34 @@ const pressure=computed(()=>lifestylePressure(props.rules,state.value,lifestyleB
 const load=computed(()=>augmentationLoad(props.rules,state.value,props.talentIds));
 const neuroCap=computed(()=>neuroCapacity(props.neurodiveRaw,props.talentIds,props.disadvantages));
 const loadedNeuroCount=computed(()=>state.value.equipment.filter(p=>items.value.get(p.itemId)?.neuro&&p.loaded).length);
+const lifestyleTiers=computed(()=>[...props.rules.economy.lifestyle.order]
+  .reverse()
+  .map(name=>{
+    const index=props.rules.economy.lifestyle.order.indexOf(name);
+    return {
+      name,
+      base:index===pressure.value.baseIndex,
+      effective:index===pressure.value.effectiveIndex,
+      lost:index>pressure.value.effectiveIndex&&index<=pressure.value.baseIndex
+    };
+  })
+);
+
+const corporateHousingOptions=computed(()=>props.rules.recurring
+  .filter(item=>/logement|loyer|appartement|studio|villa|penthouse|résidence|residence|dortoir|hébergement|hebergement/.test(
+    norm(`${item.name} ${item.category}`)
+  ))
+  .sort((a,b)=>a.name.localeCompare(b.name,"fr"))
+);
+const corporateVehicleOptions=computed(()=>props.rules.equipment
+  .filter(item=>item.vehicle)
+  .sort((a,b)=>a.name.localeCompare(b.name,"fr"))
+);
+const corporateSupportItem=computed(()=>
+  items.value.get(state.value.sphereSupportItemId) ??
+  props.rules.recurring.find(item=>item.id===state.value.sphereSupportItemId) ??
+  null
+);
 
 function norm(value:string){
   return value.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLocaleLowerCase("fr");
@@ -129,7 +157,13 @@ function addPurchase(item:RealityItem){
 function removePurchase(kind:"equipment"|"augmentation",uid:string){
   const list=kind==="augmentation"?state.value.augmentations:state.value.equipment;
   const index=list.findIndex(item=>item.uid===uid);
-  if(index>=0)list.splice(index,1);
+  if(index<0)return;
+  const removed=list[index];
+  list.splice(index,1);
+  if(removed.sphereSupport){
+    state.value.sphereSupportType="";
+    state.value.sphereSupportItemId="";
+  }
   notify();
 }
 function toggleNeuro(uid:string){
@@ -237,11 +271,108 @@ function addCustomCharge(){
   notify();
 }
 function removeCharge(uid:string){
+  const removed=state.value.fixedChargeItems.find(item=>item.uid===uid);
   state.value.fixedChargeItems=state.value.fixedChargeItems.filter(item=>item.uid!==uid);
+  if(removed?.sphereSupport){
+    state.value.sphereSupportType="";
+    state.value.sphereSupportItemId="";
+  }
   notify();
 }
 
+function clearCorporateSupportAsset(keepType=false){
+  state.value.fixedChargeItems=state.value.fixedChargeItems.flatMap(charge=>{
+    if(!charge.sphereSupport)return [charge];
+    if(charge.supportCreated)return [];
+    return [{
+      ...charge,
+      monthly:Math.max(0,Number(charge.supportOriginalMonthly)||0),
+      sphereSupport:false,
+      supportCreated:false,
+      supportOriginalMonthly:undefined
+    }];
+  });
+  state.value.equipment=state.value.equipment.flatMap(purchase=>{
+    if(!purchase.sphereSupport)return [purchase];
+    if(purchase.supportCreated)return [];
+    return [{
+      ...purchase,
+      selectedPrice:Math.max(0,Number(purchase.supportOriginalPrice)||0),
+      sphereSupport:false,
+      supportCreated:false,
+      supportOriginalPrice:undefined
+    }];
+  });
+  state.value.sphereSupportItemId="";
+  if(!keepType)state.value.sphereSupportType="";
+}
 
+function setCorporateSupportType(value:string){
+  clearCorporateSupportAsset(false);
+  state.value.sphereSupportType=value==="housing"||value==="vehicle"?value:"";
+  notify();
+}
+
+function setCorporateSupportItem(itemId:string){
+  const type=state.value.sphereSupportType;
+  clearCorporateSupportAsset(true);
+  if(!itemId){
+    notify();
+    return;
+  }
+  state.value.sphereSupportItemId=itemId;
+
+  if(type==="housing"){
+    const item=props.rules.recurring.find(entry=>entry.id===itemId);
+    if(!item){
+      state.value.sphereSupportItemId="";
+      notify();
+      return;
+    }
+    const existing=state.value.fixedChargeItems.find(charge=>charge.sourceItemId===itemId&&!charge.sphereSupport);
+    if(existing){
+      existing.supportOriginalMonthly=existing.monthly;
+      existing.monthly=0;
+      existing.sphereSupport=true;
+      existing.supportCreated=false;
+    }else{
+      state.value.fixedChargeItems.push({
+        uid:uniqueUid("corp-housing"),
+        name:item.name,
+        monthly:0,
+        sourceItemId:item.id,
+        sphereSupport:true,
+        supportCreated:true
+      });
+    }
+  }else if(type==="vehicle"){
+    const item=props.rules.equipment.find(entry=>entry.id===itemId&&entry.vehicle);
+    if(!item){
+      state.value.sphereSupportItemId="";
+      notify();
+      return;
+    }
+    const existing=state.value.equipment.find(purchase=>purchase.itemId===itemId&&!purchase.sphereSupport);
+    if(existing){
+      existing.supportOriginalPrice=Number(existing.selectedPrice??item.price??item.priceMin??0);
+      existing.selectedPrice=0;
+      existing.priceConfirmed=true;
+      existing.sphereSupport=true;
+      existing.supportCreated=false;
+    }else{
+      state.value.equipment.push({
+        uid:uniqueUid("corp-vehicle"),
+        itemId:item.id,
+        kind:"equipment",
+        selectedPrice:0,
+        priceConfirmed:true,
+        sphereSupport:true,
+        supportCreated:true
+      });
+    }
+  }
+  notify();
+}
 
 </script>
 
@@ -297,9 +428,33 @@ function removeCharge(uid:string){
         <div class="charge-summary">
           <span>Référence <strong>{{ money(pressure.reference) }}/mois</strong></span>
           <span>Charges <strong>{{ money(pressure.total) }}/mois</strong></span>
+          <span>Tranches consommées <strong>{{ pressure.drops }}</strong></span>
           <span>Entretien aug. <strong>{{ money(pressure.augment) }}/mois</strong></span>
           <span>Entretien véhicules <strong>{{ money(pressure.vehicles) }}/mois</strong></span>
         </div>
+
+        <div class="lifestyle-tier-box">
+          <div class="lifestyle-tier-track">
+            <span
+              v-for="tier in lifestyleTiers"
+              :key="tier.name"
+              class="lifestyle-tier"
+              :class="{base:tier.base,effective:tier.effective,lost:tier.lost}"
+            >
+              {{ tier.name }}
+              <small v-if="tier.base">base</small>
+              <small v-if="tier.effective">actuel</small>
+            </span>
+          </div>
+          <p v-if="!pressure.atFloor">
+            Prochain cran perdu dans <strong>{{ money(pressure.remainingToNext) }}/mois</strong>
+            de charges supplémentaires. Le calcul est actualisé immédiatement à chaque ajout ou retrait.
+          </p>
+          <p v-else>
+            Le Train de vie effectif est déjà à <strong>Survie</strong>.
+          </p>
+        </div>
+
         <div v-if="pressure.deficit" class="rule-note bad">
           Déficit structurel : {{ money(pressure.deficit) }}/mois au-delà de Survie.
         </div>
@@ -335,7 +490,13 @@ function removeCharge(uid:string){
 
         <div v-if="state.fixedChargeItems.length" class="picked-list">
           <div v-for="charge in state.fixedChargeItems" :key="charge.uid" class="picked-row">
-            <div><strong>{{ charge.name }}</strong><span>{{ money(charge.monthly) }}/mois</span></div>
+            <div>
+              <strong>{{ charge.name }}</strong>
+              <span>
+                {{ money(charge.monthly) }}/mois
+                <template v-if="charge.sphereSupport"> · pris en charge par la corporation</template>
+              </span>
+            </div>
             <button class="ghost danger compact" type="button" @click="removeCharge(charge.uid)">Retirer</button>
           </div>
         </div>
@@ -408,7 +569,10 @@ function removeCharge(uid:string){
           <div v-for="row in purchasedEquipment" :key="row.purchase.uid" class="picked-row rich">
             <div v-if="row.item">
               <strong>{{ row.item.name }}</strong>
-              <span>{{ row.item.category }} · {{ money(row.purchase.selectedPrice ?? row.item.price) }}</span>
+              <span>
+                {{ row.item.category }} · {{ money(row.purchase.selectedPrice ?? row.item.price) }}
+                <template v-if="row.purchase.sphereSupport"> · véhicule de fonction</template>
+              </span>
               <label v-if="row.item.neuro" class="neuro-toggle">
                 <input
                   type="checkbox"
@@ -546,23 +710,71 @@ function removeCharge(uid:string){
         </div>
       </section>
 
-      <section v-if="sphereId === 'corporatiste'" class="reality-panel">
-        <h3>Appui Corporatiste</h3>
-        <p class="builder-intro">Précisez la prestation de base fournie par l’Avantage contractuel de Sphère.</p>
-        <textarea v-model="state.sphereSupportDetail" rows="3" @input="notify"></textarea>
-      </section>
+      <section v-if="sphereId === 'corporatiste'" class="reality-panel corporate-support-panel">
+        <div class="subsection-title">
+          <div>
+            <h3>Appui Corporatiste</h3>
+            <p>
+              L’Avantage contractuel prend en charge une prestation concrète tant que le contrat existe.
+              Sa valeur réelle est retirée des dépenses du personnage plutôt que convertie en bonus abstrait.
+            </p>
+          </div>
+          <span class="schema-badge">{{ corporateSupportItem ? "pris en charge" : "à choisir" }}</span>
+        </div>
 
-      <section class="reality-panel notes-grid">
-        <label>Possessions / détails<textarea v-model="state.possessionsNotes" rows="3" @input="notify"></textarea></label>
-        <label>Réseaux<textarea v-model="state.networks" rows="3" @input="notify"></textarea></label>
-        <label>Statuts<textarea v-model="state.statuses" rows="3" @input="notify"></textarea></label>
-        <label>Patrimoine<textarea v-model="state.patrimony" rows="3" @input="notify"></textarea></label>
-        <label>Dettes<textarea v-model="state.debts" rows="3" @input="notify"></textarea></label>
+        <div class="corporate-support-grid">
+          <label>
+            Type de prestation
+            <select
+              :value="state.sphereSupportType"
+              @change="setCorporateSupportType(($event.target as HTMLSelectElement).value)"
+            >
+              <option value="">— Choisir —</option>
+              <option value="housing">Logement de fonction</option>
+              <option value="vehicle">Véhicule de fonction</option>
+            </select>
+          </label>
+
+          <label v-if="state.sphereSupportType === 'housing'">
+            Logement pris en charge
+            <select
+              :value="state.sphereSupportItemId"
+              @change="setCorporateSupportItem(($event.target as HTMLSelectElement).value)"
+            >
+              <option value="">— Choisir dans les logements —</option>
+              <option v-for="item in corporateHousingOptions" :key="item.id" :value="item.id">
+                {{ item.name }} · {{ item.priceLabel }}
+              </option>
+            </select>
+          </label>
+
+          <label v-else-if="state.sphereSupportType === 'vehicle'">
+            Véhicule fourni
+            <select
+              :value="state.sphereSupportItemId"
+              @change="setCorporateSupportItem(($event.target as HTMLSelectElement).value)"
+            >
+              <option value="">— Choisir dans les véhicules —</option>
+              <option v-for="item in corporateVehicleOptions" :key="item.id" :value="item.id">
+                {{ item.name }} · {{ item.priceLabel }}
+              </option>
+            </select>
+          </label>
+        </div>
+
+        <div v-if="state.sphereSupportType === 'housing' && corporateSupportItem" class="rule-note good">
+          <strong>{{ corporateSupportItem.name }}</strong> passe à 0 $/mois :
+          la pression sur le Train de vie est recalculée immédiatement.
+        </div>
+        <div v-else-if="state.sphereSupportType === 'vehicle' && corporateSupportItem" class="rule-note good">
+          <strong>{{ corporateSupportItem.name }}</strong> est fourni à 0 $ :
+          son prix n’est pas débité du Compte ni du Capital véhicule, et son entretien est pris en charge.
+        </div>
       </section>
     </template>
   </article>
 </template>
 
 <style scoped>
-.equipment-step{display:grid;gap:1rem}.economy-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem}.economy-grid>div{display:grid;gap:.3rem;padding:.85rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.economy-grid small{color:#79736a}.economy-grid strong{font-family:Georgia,serif;font-size:1.25rem}.economy-grid span{color:#a79f92;font-size:.75rem}.reality-panel{margin-top:.4rem;padding:1rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.012)}.reality-panel h3{margin:.1rem 0 .55rem;font-family:Georgia,serif}.charge-summary{display:flex;flex-wrap:wrap;gap:.45rem;margin:.8rem 0}.charge-summary>span,.pillbar span,.statbar span{padding:.28rem .45rem;border:1px solid rgba(255,255,255,.08);color:#928b80;font-size:.68rem}.charge-add-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(120px,1fr) auto;gap:.7rem;align-items:end;margin-top:.7rem}.charge-add-grid.custom{padding-top:.7rem;border-top:1px solid rgba(255,255,255,.06)}.picked-list{display:grid;gap:.5rem;margin-top:.85rem}.picked-row{display:flex;justify-content:space-between;align-items:center;gap:.8rem;padding:.7rem .8rem;border:1px solid rgba(255,255,255,.08)}.picked-row>div{display:grid;gap:.2rem}.picked-row span,.picked-row small{color:#8f887e;font-size:.72rem}.picked-row.rich{align-items:flex-start}.inline-select,.neuro-toggle{display:flex;align-items:center;gap:.5rem;margin-top:.4rem;color:#8f887e;font-size:.72rem}.inline-select select{width:auto}.catalog-kind{display:flex;gap:.35rem}.catalog-kind button{padding:.45rem .65rem;border:1px solid rgba(255,255,255,.09);color:#918a80;background:#11100e}.catalog-kind button.selected{border-color:#9d7c48;color:#dfd2ba}.catalog-tools{display:grid;grid-template-columns:minmax(180px,.7fr) minmax(240px,1.3fr);gap:.7rem;margin:1rem 0}.override-grid{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1rem;color:#90897f;font-size:.76rem}.override-grid label{display:flex;gap:.45rem;align-items:center}.catalog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:.75rem}.catalog-card{display:flex;flex-direction:column;gap:.65rem;padding:.9rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.012)}.catalog-head{display:flex;justify-content:space-between;gap:.8rem;align-items:flex-start}.catalog-head>div{display:grid;gap:.2rem}.catalog-head small{color:#777169}.pillbar,.statbar{display:flex;flex-wrap:wrap;gap:.35rem}.catalog-card em{color:#928b80;font-size:.77rem;line-height:1.5}.catalog-card p{margin:0;color:#b6ada0;font-size:.77rem;line-height:1.5}.price-config{max-width:220px}.support-line{padding:.45rem .55rem;border:1px solid rgba(112,168,121,.18);color:#a7bca5;font-size:.72rem}.support-line.bad{border-color:rgba(166,81,72,.28);color:#d0a29c}.bad-text{color:#d0a29c!important}.schema-badge.bad{border-color:rgba(166,81,72,.35);color:#d0a29c}.empty-line{color:#787168;font-size:.8rem}.notes-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}.notes-grid label{display:grid;gap:.4rem}.notes-grid textarea{min-height:82px}@media(max-width:900px){.economy-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.charge-add-grid,.catalog-tools,.notes-grid{grid-template-columns:1fr}.catalog-grid{grid-template-columns:1fr}}@media(max-width:560px){.economy-grid{grid-template-columns:1fr}.picked-row{align-items:stretch;flex-direction:column}.catalog-head{flex-direction:column}}
+.equipment-step{display:grid;gap:1rem}.economy-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem}.economy-grid>div{display:grid;gap:.3rem;padding:.85rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.economy-grid small{color:#79736a}.economy-grid strong{font-family:Georgia,serif;font-size:1.25rem}.economy-grid span{color:#a79f92;font-size:.75rem}.reality-panel{margin-top:.4rem;padding:1rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.012)}.reality-panel h3{margin:.1rem 0 .55rem;font-family:Georgia,serif}.charge-summary{display:flex;flex-wrap:wrap;gap:.45rem;margin:.8rem 0}.lifestyle-tier-box{display:grid;gap:.55rem;margin:.75rem 0 1rem;padding:.75rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.012)}.lifestyle-tier-box p{margin:0;color:#8f887e;font-size:.75rem}.lifestyle-tier-track{display:flex;flex-wrap:wrap;gap:.35rem}.lifestyle-tier{display:flex;align-items:center;gap:.3rem;padding:.35rem .5rem;border:1px solid rgba(255,255,255,.08);color:#766f66;font-size:.72rem}.lifestyle-tier.base{border-color:rgba(199,173,120,.3);color:#c7ad78}.lifestyle-tier.effective{border-color:rgba(112,168,121,.38);color:#b6cfb4;background:rgba(49,80,54,.1)}.lifestyle-tier.lost{opacity:.42;text-decoration:line-through}.lifestyle-tier small{font-size:.58rem;text-transform:uppercase;letter-spacing:.05em}.corporate-support-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;margin-top:.9rem}.charge-summary>span,.pillbar span,.statbar span{padding:.28rem .45rem;border:1px solid rgba(255,255,255,.08);color:#928b80;font-size:.68rem}.charge-add-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(120px,1fr) auto;gap:.7rem;align-items:end;margin-top:.7rem}.charge-add-grid.custom{padding-top:.7rem;border-top:1px solid rgba(255,255,255,.06)}.picked-list{display:grid;gap:.5rem;margin-top:.85rem}.picked-row{display:flex;justify-content:space-between;align-items:center;gap:.8rem;padding:.7rem .8rem;border:1px solid rgba(255,255,255,.08)}.picked-row>div{display:grid;gap:.2rem}.picked-row span,.picked-row small{color:#8f887e;font-size:.72rem}.picked-row.rich{align-items:flex-start}.inline-select,.neuro-toggle{display:flex;align-items:center;gap:.5rem;margin-top:.4rem;color:#8f887e;font-size:.72rem}.inline-select select{width:auto}.catalog-kind{display:flex;gap:.35rem}.catalog-kind button{padding:.45rem .65rem;border:1px solid rgba(255,255,255,.09);color:#918a80;background:#11100e}.catalog-kind button.selected{border-color:#9d7c48;color:#dfd2ba}.catalog-tools{display:grid;grid-template-columns:minmax(180px,.7fr) minmax(240px,1.3fr);gap:.7rem;margin:1rem 0}.override-grid{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1rem;color:#90897f;font-size:.76rem}.override-grid label{display:flex;gap:.45rem;align-items:center}.catalog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:.75rem}.catalog-card{display:flex;flex-direction:column;gap:.65rem;padding:.9rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.012)}.catalog-head{display:flex;justify-content:space-between;gap:.8rem;align-items:flex-start}.catalog-head>div{display:grid;gap:.2rem}.catalog-head small{color:#777169}.pillbar,.statbar{display:flex;flex-wrap:wrap;gap:.35rem}.catalog-card em{color:#928b80;font-size:.77rem;line-height:1.5}.catalog-card p{margin:0;color:#b6ada0;font-size:.77rem;line-height:1.5}.price-config{max-width:220px}.support-line{padding:.45rem .55rem;border:1px solid rgba(112,168,121,.18);color:#a7bca5;font-size:.72rem}.support-line.bad{border-color:rgba(166,81,72,.28);color:#d0a29c}.bad-text{color:#d0a29c!important}.schema-badge.bad{border-color:rgba(166,81,72,.35);color:#d0a29c}.empty-line{color:#787168;font-size:.8rem}@media(max-width:900px){.economy-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.charge-add-grid,.catalog-tools,.corporate-support-grid{grid-template-columns:1fr}.catalog-grid{grid-template-columns:1fr}}@media(max-width:560px){.economy-grid{grid-template-columns:1fr}.picked-row{align-items:stretch;flex-direction:column}.catalog-head{flex-direction:column}}
 </style>
