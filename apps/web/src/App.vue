@@ -2,7 +2,6 @@
 import { computed, onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
 import CharactersPanel from "./components/CharactersPanel.vue";
-import TerraUmbraBrandMark from "./components/TerraUmbraBrandMark.vue";
 import "./brand-signal.css";
 
 type Role = "player" | "gm" | "editor" | "admin";
@@ -435,7 +434,7 @@ onMounted(bootstrap);
     <header class="topbar">
       <RouterLink class="brand" to="/">
         <span class="brand-emblem" aria-hidden="true">
-          <TerraUmbraBrandMark />
+          <img src="/brand/terra-umbra-mark.webp" alt="" />
         </span>
         <span class="brand-wordmark">
           <strong>Terra Umbra</strong>
@@ -667,7 +666,7 @@ onMounted(bootstrap);
             <div class="brand-orbit one"></div>
             <div class="brand-orbit two"></div>
             <div class="brand-orbit three"></div>
-            <TerraUmbraBrandMark class="brand-hero-mark" />
+            <img class="brand-hero-mark" src="/brand/terra-umbra-mark.webp" alt="" />
             <div class="brand-axis"><span>RÉALITÉ</span><span>VÉRITÉ</span></div>
           </div>
         </section>
