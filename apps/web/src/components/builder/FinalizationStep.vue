@@ -12,9 +12,7 @@ type DerivedStats={
 
 const props=defineProps<{
   social:Record<string,unknown>;
-  reality:Record<string,unknown>;
   sphereId:string;
-  sphereSupport:string;
   requiredLanguageCount:number;
   statuses:StatusRow[];
   valid:boolean;
@@ -43,7 +41,6 @@ const props=defineProps<{
 
 const emit=defineEmits<{
   "update:social":[value:Record<string,unknown>];
-  "update:reality":[value:Record<string,unknown>];
   navigate:[id:string];
 }>();
 
@@ -61,13 +58,9 @@ const contactsText=computed(()=>Array.isArray(props.social.contacts)
 );
 const reputation=computed(()=>String(props.social.reputation??""));
 const renownMilieu=computed(()=>String(props.social.renownMilieu??""));
-const supportDetail=computed(()=>String(props.reality.sphereSupportDetail??""));
 
 function updateSocial(patch:Record<string,unknown>){
   emit("update:social",{...cloneJson(props.social),...patch});
-}
-function updateReality(patch:Record<string,unknown>){
-  emit("update:reality",{...cloneJson(props.reality),...patch});
 }
 function setLanguage(index:number,value:string){
   const next=[...languages.value];
@@ -169,16 +162,10 @@ function setContacts(value:string){
             @input="updateSocial({renownMilieu:($event.target as HTMLInputElement).value})"
           />
         </label>
-        <label v-if="sphereId==='corporatiste'">
-          Appui de Sphère · précision
-          <textarea
-            :value="supportDetail"
-            rows="4"
-            :placeholder="sphereSupport"
-            @input="updateReality({sphereSupportDetail:($event.target as HTMLTextAreaElement).value})"
-          ></textarea>
-          <small>Ex. logement de fonction, couverture santé, transport ou autre prestation contractuelle.</small>
-        </label>
+        <div v-if="sphereId==='corporatiste'" class="support-reminder">
+          <strong>Appui Corporatiste</strong>
+          <span>La prestation contractuelle est choisie et chiffrée directement dans le bloc Équipement.</span>
+        </div>
       </div>
     </section>
 
