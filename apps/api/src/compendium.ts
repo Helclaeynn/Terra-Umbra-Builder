@@ -143,7 +143,7 @@ function isPlaceholderMedia(media: unknown): boolean {
 function editableArticle(base: Article, input: unknown): Article {
   const source = input && typeof input === "object" ? (input as JsonObject) : {};
   const result = deepClone(base);
-  const simpleFields = ["title", "source", "status", "tags", "sections", "pnj", "image", "illustration"];
+  const simpleFields = ["title", "category", "source", "status", "tags", "sections", "pnj", "image", "illustration"];
 
   for (const field of simpleFields) {
     if (!Object.prototype.hasOwnProperty.call(source, field)) continue;
@@ -154,13 +154,48 @@ function editableArticle(base: Article, input: unknown): Article {
 
   result.id = base.id;
   result.dataset = base.dataset;
-  result.category = base.category;
-  result.sourceCategory = base.sourceCategory;
+  result.category = String(result.category ?? base.category ?? "Réalité");
+  result.sourceCategory = result.category;
   delete result.navigation;
   delete result.manufacturer;
   delete result.__searchText;
   delete result.__wikiPublishedEdit;
   return result;
+}
+
+function slugifyArticleTitle(value: string): string {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 100);
+}
+
+async function editorBaseFor(
+  id: string,
+  corpus: Corpus
+): Promise<{ hash: string; article: Article } | null> {
+  const existing = corpus.editorBaseById.get(id);
+  if (existing) return existing;
+
+  const custom = await pool.query<{ baseDocument: Article }>(
+    `SELECT base_document AS "baseDocument"
+     FROM compendium_custom_articles
+     WHERE article_id = $1`,
+    [id]
+  );
+  const article = custom.rows[0]?.baseDocument;
+  if (!article) return null;
+  return { hash: articleHash(article), article: deepClone(article) };
+}
+
+async function editorCurrentArticle(id: string, corpus: Corpus): Promise<Article | null> {
+  const current = corpus.byId.get(id);
+  if (current) return current;
+  const base = await editorBaseFor(id, corpus);
+  return base?.article ?? null;
 }
 
 function validEditableArticle(value: unknown): value is Article {
@@ -597,6 +632,19 @@ async function loadCorpus(): Promise<Corpus> {
   }
 
   const overrideSummary = await applyCommittedOverrides(byId, overridePayload);
+
+  const customArticles = await pool.query<{ articleId: string; baseDocument: Article }>(
+    `SELECT article_id AS "articleId", base_document AS "baseDocument"
+     FROM compendium_custom_articles
+     WHERE is_published = true`
+  );
+  for (const row of customArticles.rows) {
+    if (!row.baseDocument?.id || byId.has(row.articleId)) continue;
+    const article = deepClone(row.baseDocument);
+    article.dataset = "custom";
+    article.__customWikiPage = true;
+    byId.set(row.articleId, article);
+  }
 
   const editorBaseById = new Map<string, { hash: string; article: Article }>();
   for (const [id, article] of byId) {
@@ -1191,6 +1239,81 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     }
   });
 
+  app.post<{
+    Body: {
+      title?: string;
+      category?: string;
+      source?: string;
+      status?: string;
+      tags?: string[];
+    };
+  }>("/api/compendium/editor/articles", async (request, reply) => {
+    const user = await requireEditor(request, reply);
+    if (!user) return;
+
+    const title = String(request.body?.title ?? "").trim();
+    const category = String(request.body?.category ?? "Réalité").trim() || "Réalité";
+    const source = String(request.body?.source ?? "").trim();
+    const status = String(request.body?.status ?? "canon_enrichi").trim() || "canon_enrichi";
+    const tags = Array.isArray(request.body?.tags)
+      ? request.body.tags.map((tag) => String(tag).trim()).filter(Boolean).slice(0, 100)
+      : [];
+
+    if (!title || title.length > 240) return bad(reply, "invalid_compendium_article_title");
+
+    const slug = slugifyArticleTitle(title);
+    if (!slug) return bad(reply, "invalid_compendium_article_title");
+
+    const corpus = await getCorpus();
+    let id = `wiki-${slug}`;
+    let suffix = 2;
+    while (
+      corpus.byId.has(id) ||
+      (await pool.query("SELECT 1 FROM compendium_custom_articles WHERE article_id = $1", [id])).rowCount
+    ) {
+      id = `wiki-${slug}-${suffix}`;
+      suffix += 1;
+    }
+
+    const base: Article = {
+      id,
+      title,
+      category,
+      sourceCategory: category,
+      dataset: "custom",
+      source,
+      status,
+      tags,
+      sections: []
+    };
+    const baseHash = articleHash(base);
+
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      await client.query(
+        `INSERT INTO compendium_custom_articles
+           (article_id, base_document, created_by)
+         VALUES ($1, $2::jsonb, $3)`,
+        [id, JSON.stringify(base), user.id]
+      );
+      await client.query(
+        `INSERT INTO compendium_article_edits
+           (article_id, base_hash, draft, draft_by, draft_updated_at, updated_at)
+         VALUES ($1, $2, $3::jsonb, $4, now(), now())`,
+        [id, baseHash, JSON.stringify(base), user.id]
+      );
+      await client.query("COMMIT");
+    } catch (cause) {
+      await client.query("ROLLBACK").catch(() => undefined);
+      throw cause;
+    } finally {
+      client.release();
+    }
+
+    return reply.code(201).send({ articleId: id, article: base });
+  });
+
   app.get<{
     Params: { id: string };
   }>("/api/compendium/editor/articles/:id", async (request, reply) => {
@@ -1199,8 +1322,8 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
 
     const id = request.params.id.trim();
     const corpus = await getCorpus();
-    const article = corpus.byId.get(id);
-    const base = corpus.editorBaseById.get(id);
+    const article = await editorCurrentArticle(id, corpus);
+    const base = await editorBaseFor(id, corpus);
     if (!article || !base) {
       return reply.code(404).send({ error: "compendium_article_not_found" });
     }
@@ -1244,8 +1367,8 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
 
     const id = request.params.id.trim();
     const corpus = await getCorpus();
-    const current = corpus.byId.get(id);
-    const base = corpus.editorBaseById.get(id);
+    const current = await editorCurrentArticle(id, corpus);
+    const base = await editorBaseFor(id, corpus);
     if (!current || !base) {
       return reply.code(404).send({ error: "compendium_article_not_found" });
     }
@@ -1298,7 +1421,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
 
     const id = request.params.id.trim();
     const corpus = await getCorpus();
-    const base = corpus.editorBaseById.get(id);
+    const base = await editorBaseFor(id, corpus);
     if (!base) return reply.code(404).send({ error: "compendium_article_not_found" });
 
     const client = await pool.connect();
@@ -1342,6 +1465,14 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
              updated_at = now()
          WHERE article_id = $1`,
         [id, user.id]
+      );
+      await client.query(
+        `UPDATE compendium_custom_articles
+         SET is_published = true,
+             published_at = COALESCE(published_at, now()),
+             updated_at = now()
+         WHERE article_id = $1`,
+        [id]
       );
       await client.query("COMMIT");
     } catch (cause) {
