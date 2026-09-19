@@ -149,6 +149,7 @@ try{
   }
   console.log("STYLE LAB OK — 4 thèmes · Builder + Compendium · médias chargés");
 
+  await publicPage.goto(baseUrl+"/compendium",{waitUntil:"domcontentloaded",timeout:30000});
   const loginLink=publicPage.getByRole("link",{name:"Connexion"});
   await loginLink.waitFor({state:"visible",timeout:10000});
   console.log("WIKI PUBLIC OK — onboarding + suggestions + backlinks Builder + cartes Talents dynamiques sans session");
