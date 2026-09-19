@@ -685,15 +685,72 @@ const validationReasons:Partial<Record<StepId,string>>={
   equipment:"Budget, accès, Charge, Stress, Gen2 ou Neuroprogrammes à corriger."
 };
 
+const creationStepIds:StepId[]=[
+  "identity","origin","sphere","attributes","skills","talents","truth","disadvantages","edge","equipment"
+];
+
+const creationValidationMap=computed<Record<string,boolean>>(()=>{
+  if(!draft.value||!rules.value)return {};
+  const result:Record<string,boolean>={};
+
+  result.identity=!!draft.value.identity.name.trim()&&!!draft.value.identity.age.trim();
+  result.origin=!!draft.value.creation.origin&&!!draft.value.talents.origin&&talentChoiceValid(draft.value.talents.origin);
+  result.sphere=!!draft.value.creation.sphere&&!!draft.value.creation.style&&stylePointsUsed.value===rules.value.creation.skills.stylePoints;
+
+  const bounds=rules.value.creation.attributes;
+  result.attributes=attributeTotal.value===attributeBudget.value&&rules.value.attributes.every(attribute=>{
+    const value=Number(draft.value?.attributes[attribute.id]??0);
+    return value>=bounds.min&&value<=bounds.max;
+  });
+
+  const skillMax=rules.value.creation.skills.rawMax;
+  result.skills=!!selectedStyle.value&&
+    stylePointsUsed.value===rules.value.creation.skills.stylePoints&&
+    freeSkillPointsUsed.value===freeSkillBudget.value&&
+    rules.value.skills.every(skill=>skillRaw(skill.id)<=skillMax);
+
+  const selected=[
+    draft.value.talents.origin,
+    draft.value.talents.sphere,
+    draft.value.talents.expertise,
+    draft.value.talents.common
+  ];
+  const expertise=talentById(draft.value.talents.expertise);
+  result.talents=selected.every(Boolean)&&
+    !!expertise?.attribute&&
+    !!selectedStyle.value?.expertiseFamilies.includes(expertise.attribute)&&
+    selected.filter(Boolean).every(talentChoiceValid)&&
+    (draft.value.talents.expertise!=="neurodriver"||skillRaw("neurodive")>=1);
+
+  result.truth=!!truthRules.value&&!!currentTruthState.value&&
+    !!currentTruthState.value.nature&&
+    !!currentTruthState.value.consciousness&&
+    truthChoicesValid(truthRules.value,currentTruthState.value)&&
+    truthPtvSpentValue.value<=truthRules.value.structure.ptvInitial;
+
+  result.disadvantages=draft.value.disadvantages.length<=3&&disadvantagesCompatible();
+
+  const attrOk=Number(draft.value.edge.attributePack||0)===0
+    ?edgeAttributePointsUsed.value===0
+    :edgeAttributePointsUsed.value===edgeAttributeBudget.value;
+  const skillsOk=edgeSkillPointsUsed.value===edgeSkillBudget.value;
+  const renownOk=Number(draft.value.edge.renownPack||0)===0||(!hasUnknownDisadvantage.value&&!hasRenownedTalent.value);
+  result.edge=edgeRemaining.value>=0&&attrOk&&skillsOk&&edgeTalentValid()&&renownOk;
+
+  result.equipment=equipmentValidation.value;
+  return result;
+});
+
 const finalValidationStatuses=computed(()=>
-  sections
-    .filter(([id,,enabled])=>enabled&&id!=="finish"&&id!=="progression")
-    .map(([id,label])=>({
+  creationStepIds.map(id=>{
+    const section=sections.find(([step])=>step===id);
+    return {
       id,
-      label,
-      ok:stepDone(id),
+      label:section?.[1]??id,
+      ok:!!creationValidationMap.value[id],
       reason:validationReasons[id]??"À compléter"
-    }))
+    };
+  })
 );
 
 const finalAttributeRows=computed(()=>
@@ -768,66 +825,14 @@ function navigateFromFinalization(id:string){
 }
 
 function stepDone(id:StepId):boolean{
-  if(!draft.value||!rules.value)return false;
-  if(id==="identity")return !!draft.value.identity.name.trim()&&!!draft.value.identity.age.trim();
-  if(id==="origin")return !!draft.value.creation.origin&&!!draft.value.talents.origin&&talentChoiceValid(draft.value.talents.origin);
-  if(id==="sphere")return !!draft.value.creation.sphere&&!!draft.value.creation.style&&stylePointsUsed.value===5;
-  if(id==="attributes"){
-    const bounds=rules.value.creation.attributes;
-    return attributeTotal.value===attributeBudget.value&&rules.value.attributes.every((attribute)=>{
-      const value=Number(draft.value?.attributes[attribute.id]??0);
-      return value>=bounds.min&&value<=bounds.max;
-    });
-  }
-  if(id==="skills"){
-    const max=rules.value.creation.skills.rawMax;
-    return !!selectedStyle.value&&stylePointsUsed.value===rules.value.creation.skills.stylePoints&&
-      freeSkillPointsUsed.value===freeSkillBudget.value&&
-      rules.value.skills.every((skill)=>skillRaw(skill.id)<=max);
-  }
-  if(id==="talents"){
-    const selected=[
-      draft.value.talents.origin,
-      draft.value.talents.sphere,
-      draft.value.talents.expertise,
-      draft.value.talents.common
-    ];
-    const expertise=talentById(draft.value.talents.expertise);
-    const expertiseOk=!!expertise?.attribute&&!!selectedStyle.value?.expertiseFamilies.includes(expertise.attribute);
-    const choicesOk=selected.filter(Boolean).every(talentChoiceValid);
-    const neuroOk=draft.value.talents.expertise!=="neurodriver"||skillRaw("neurodive")>=1;
-    return selected.every(Boolean)&&expertiseOk&&choicesOk&&neuroOk;
-  }
-  if(id==="truth"){
-    if(!truthRules.value||!currentTruthState.value)return false;
-    return !!currentTruthState.value.nature&&
-      !!currentTruthState.value.consciousness&&
-      truthChoicesValid(truthRules.value,currentTruthState.value)&&
-      truthPtvSpentValue.value<=truthRules.value.structure.ptvInitial;
-  }
-  if(id==="disadvantages"){
-    return draft.value.disadvantages.length<=3&&disadvantagesCompatible();
-  }
-  if(id==="edge"){
-    const attrOk=Number(draft.value.edge.attributePack||0)===0
-      ? edgeAttributePointsUsed.value===0
-      : edgeAttributePointsUsed.value===edgeAttributeBudget.value;
-    const skillsOk=edgeSkillPointsUsed.value===edgeSkillBudget.value;
-    const talentsOk=edgeTalentValid();
-    const renownOk=Number(draft.value.edge.renownPack||0)===0||(!hasUnknownDisadvantage.value&&!hasRenownedTalent.value);
-    return edgeRemaining.value>=0&&attrOk&&skillsOk&&talentsOk&&renownOk;
-  }
-  if(id==="equipment")return equipmentValidation.value;
+  if(id==="progression")return true;
   if(id==="finish"){
-    return sections
-      .filter(([step,,enabled])=>enabled&&step!=="finish"&&step!=="progression")
-      .every(([step])=>stepDone(step))&&
+    return creationStepIds.every(step=>!!creationValidationMap.value[step])&&
       socialValidation.value.languages&&
       socialValidation.value.crawler&&
       socialValidation.value.corporatiste;
   }
-  if(id==="progression")return true;
-  return false;
+  return !!creationValidationMap.value[id];
 }
 
 async function loadCharacter(){
