@@ -294,6 +294,14 @@ export function augmentationAccess(
   const access=pkg.economy.styleAugAccess[style.id];
   if(!access)return {ok:false,systems:[] as number[],reason:"Accès augmentique non documenté"};
   const families=item.families;
+  if(pureCosmeticAugmentation(item)){
+    if(item.generation===2){
+      const windows=(style.gen2SlotsBase||0)+Number(edge.augmentationPacks||0);
+      const systems=Array.from({length:windows},(_,index)=>index+1);
+      return systems.length?{ok:true,systems,reason:""}:{ok:false,systems,reason:"Aucune fenêtre Gen2"};
+    }
+    return {ok:true,systems:[],reason:""};
+  }
   const allowed=(tags:readonly string[])=>tags.includes("all")||families.some(family=>tags.includes(family));
   const bio=families.includes("bio");
   if(bio){
@@ -377,6 +385,40 @@ export function augmentationSupportLabel(item:RealityItem){
   return augmentationSupportAlternatives(item)
     .map(group=>group.map(value=>value.replace(/\b\w/g,char=>char.toUpperCase())).join(" ou "))
     .join(" + ");
+}
+
+export function pureCosmeticAugmentation(item:RealityItem){
+  if(item.kind!=="augmentation"||!item.families.includes("aesthetic"))return false;
+  const source=realityNorm(`${item.name} ${item.category} ${item.effect}`);
+  const effect=realityNorm(item.effect);
+  if(!effect)return true;
+  const cosmetic=/aucun effet|sans effet|cosmet|esthet|decoratif|decoration|apparence|teinte|couleur|tatouage|capillaire/.test(source);
+  const mechanical=/\b(dgt|armure|defense|initiative|charge|stress|bonus|malus|pa|pv)\b|\+\s*\d|\-\s*\d/.test(effect);
+  return cosmetic&&!mechanical;
+}
+
+export function augmentationBaseKey(item:RealityItem){
+  return realityNorm(item.name).replace(/\bgen\s*[12]\b/g,"").trim();
+}
+
+export function augmentationMaxCopies(item:RealityItem){
+  if(item.kind!=="augmentation")return Number.POSITIVE_INFINITY;
+  const name=realityNorm(item.name);
+  if(item.families.includes("member")&&!item.families.includes("heavy"))return 2;
+  if(/\bcyber(bras|jambe|main|pied|oeil)\b/.test(name))return 2;
+  return 1;
+}
+
+export function augmentationCopyCount(
+  pkg:RealityRulesPackage,
+  state:RealityState,
+  item:RealityItem
+){
+  const items=realityItemMap(pkg),key=augmentationBaseKey(item);
+  return state.augmentations.filter(p=>{
+    const installed=items.get(p.itemId);
+    return !!installed&&augmentationBaseKey(installed)===key;
+  }).length;
 }
 
 export function augmentationSupportSatisfied(
@@ -954,6 +996,9 @@ export function canAffordRealityPurchase(
   if(price===null)return {ok:false,reason:"Prix non exploitable"};
   if(price>pkg.economy.advancedPurchaseThreshold&&!state.mjAdvancedOverride)return {ok:false,reason:"Accord MJ requis (> 20 000 $)"};
   if(item.kind==="augmentation"){
+    if(augmentationCopyCount(pkg,state,item)>=augmentationMaxCopies(item)){
+      return {ok:false,reason:"Maximum d’installations atteint"};
+    }
     const access=augmentationAccess(pkg,style,item,edge,state.mjAccessOverride);
     if(!access.ok)return access;
     if(!augmentationSupportSatisfied(pkg,state,item)){
