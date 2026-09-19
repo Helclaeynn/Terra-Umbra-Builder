@@ -8,6 +8,7 @@ import TalentSelector, {
   type TalentOption
 } from "../components/builder/TalentSelector.vue";
 import EquipmentStep from "../components/builder/EquipmentStep.vue";
+import FinalizationStep from "../components/builder/FinalizationStep.vue";
 import {
   augmentationAccess,
   augmentationCopyCount,
@@ -153,7 +154,7 @@ const sections:Array<[StepId,string,boolean]>=[
   ["disadvantages","Désavantages",true],
   ["edge","Edge",true],
   ["equipment","Équipement",true],
-  ["finish","Finalisation",false],
+  ["finish","Finalisation",true],
   ["progression","Dépense XP & PTV",false]
 ];
 
@@ -672,6 +673,81 @@ function realityPriceSpecForValidation(item:ReturnType<typeof realityItemMap> ex
 
 function formatMoney(value:number){
   return new Intl.NumberFormat("fr-FR").format(value)+" $";
+}
+
+const validationReasons:Partial<Record<StepId,string>>={
+  identity:"Nom et âge requis.",
+  origin:"Origine, Talent d’Origine et choix secondaire éventuel requis.",
+  sphere:"Sphère, Style et 5 points guidés requis.",
+  attributes:"Budget d’Attributs à terminer.",
+  skills:"Répartition des Compétences à terminer.",
+  talents:"Choix de Talents ou prérequis à corriger.",
+  truth:"Choix de Vérité incomplet ou PTV de création dépassés.",
+  disadvantages:"Désavantages incompatibles ou trop nombreux.",
+  edge:"Dépenses ou allocations Edge à corriger.",
+  equipment:"Budget, accès, Charge, Stress, Gen2 ou Neuroprogrammes à corriger."
+};
+
+const finalValidationStatuses=computed(()=>
+  sections
+    .filter(([id,,required])=>required&&id!=="finish")
+    .map(([id,label])=>({
+      id,
+      label,
+      ok:stepDone(id),
+      reason:validationReasons[id]??"À compléter"
+    }))
+);
+
+const finalAttributeRows=computed(()=>
+  (rules.value?.attributes??[]).map(attribute=>({
+    id:attribute.id,
+    name:attribute.name,
+    value:finalAttribute(attribute.id)
+  }))
+);
+const finalSkillRows=computed(()=>
+  (rules.value?.skills??[]).map(skill=>({
+    id:skill.id,
+    name:skill.name,
+    raw:skillRaw(skill.id),
+    bonus:skillTalentBonus(skill.id),
+    value:skillFinal(skill.id)
+  }))
+);
+const selectedRealityTalentNames=computed(()=>
+  selectedRealityTalentIds()
+    .map(id=>talentById(id)?.name??id)
+);
+const selectedDisadvantageNames=computed(()=>
+  selectedDisadvantageItems().map(item=>item.name)
+);
+const truthNatureName=computed(()=>
+  currentTruthState.value&&truthRules.value
+    ? truthRules.value.structure.natures[currentTruthState.value.nature]?.name??currentTruthState.value.nature
+    : ""
+);
+const truthConsciousnessName=computed(()=>
+  currentTruthState.value&&truthRules.value
+    ? truthRules.value.structure.consciousness.find(item=>item.id===currentTruthState.value?.consciousness)?.name??currentTruthState.value.consciousness
+    : ""
+);
+const selectedTruthTalentNames=computed(()=>{
+  if(!currentTruthState.value)return [];
+  const byId=new Map(availableTruthTalents.value.map(item=>[item.id,item.name]));
+  return currentTruthState.value.truthTalents.map(id=>byId.get(id)??id);
+});
+const originNameValue=computed(()=>draft.value&&rules.value
+  ? rules.value.origins[draft.value.creation.origin]?.name??""
+  : ""
+);
+const sphereNameValue=computed(()=>selectedSphere.value?.name??"");
+const styleNameValue=computed(()=>selectedStyle.value?.name??"");
+const equipmentCount=computed(()=>realityState.value?.equipment.length??0);
+const augmentationCount=computed(()=>realityState.value?.augmentations.length??0);
+
+function navigateFromFinalization(id:string){
+  if(sections.some(([step])=>step===id))activeStep.value=id as StepId;
 }
 
 function stepDone(id:StepId){
@@ -2174,6 +2250,40 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
           :integrity="derivedStats.integrity"
           :augment-stress-max="derivedStats.augmentStressMax"
           @update:model-value="draft.reality=$event"
+        />
+
+        <FinalizationStep
+          v-else-if="activeStep === 'finish'"
+          class="panel builder-card"
+          :social="draft.social"
+          :reality="draft.reality"
+          :sphere-id="draft.creation.sphere"
+          :sphere-support="selectedSphere?.support || ''"
+          :required-language-count="requiredLanguageCount"
+          :statuses="finalValidationStatuses"
+          :valid="stepDone('finish')"
+          :derived="derivedStats"
+          :attributes="finalAttributeRows"
+          :skills="finalSkillRows"
+          :identity-name="identityDisplayName"
+          :origin-name="originNameValue"
+          :sphere-name="sphereNameValue"
+          :style-name="styleNameValue"
+          :reality-talent-names="selectedRealityTalentNames"
+          :disadvantage-names="selectedDisadvantageNames"
+          :truth-nature-name="truthNatureName"
+          :truth-consciousness-name="truthConsciousnessName"
+          :truth-talent-names="selectedTruthTalentNames"
+          :truth-ptv-spent="truthPtvSpentValue"
+          :truth-ptv-initial="truthRules?.structure.ptvInitial || 0"
+          :lifestyle-base="lifestyleBaseValue"
+          :lifestyle-effective="lifestylePressureValue?.effective || lifestyleBaseValue"
+          :account="realityEconomyValue?.account || 0"
+          :equipment-count="equipmentCount"
+          :augmentation-count="augmentationCount"
+          @update:social="draft.social=$event"
+          @update:reality="draft.reality=$event"
+          @navigate="navigateFromFinalization"
         />
 
         <article v-else class="panel builder-card">
