@@ -10,6 +10,7 @@ import { truthCatalogAseryn } from "./catalog-aseryn.js";
 import { truthCatalogExile } from "./catalog-exile.js";
 import { truthCatalogExtral } from "./catalog-extral.js";
 import { truthVisibilityNeedles, truthSharedHunterNatures } from "./visibility.js";
+import { truthRevelationRules } from "./revelation.js";
 
 export const terraUmbraTruthRules = {
   structure: truthRuntimeStructure,
@@ -28,7 +29,8 @@ export const terraUmbraTruthRules = {
   visibility: {
     needles: truthVisibilityNeedles,
     sharedHunterNatures: truthSharedHunterNatures
-  }
+  },
+  revelation: truthRevelationRules
 } as const;
 
 export type TerraUmbraTruthRules = typeof terraUmbraTruthRules;
