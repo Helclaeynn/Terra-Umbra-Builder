@@ -493,6 +493,9 @@ jobs:
           for expected in {"equipment","augmentations","reality-talents","truth-talents","natures"}:
               assert expected in families, families
           assert summary["linked"] + summary["missing"] + summary["ambiguous"] == summary["total"], summary
+          assert summary["missing"] == 0, summary
+          assert summary["ambiguous"] == 0, summary
+          assert summary["linked"] == summary["total"], summary
           print(f'BUILDER COVERAGE — {summary["linked"]}/{summary["total"]} liés · {summary["missing"]} manquants · {summary["ambiguous"]} ambigus')
           for family in payload["families"]:
               print(f'COVERAGE {family["family"]} — {family["linked"]}/{family["total"]} liés · {family["missing"]} manquants · {family["ambiguous"]} ambigus')
