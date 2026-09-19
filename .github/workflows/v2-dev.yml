@@ -102,6 +102,7 @@ jobs:
             test -f .env
             docker compose --env-file .env up -d --build --remove-orphans
             docker compose ps
+            rm -f ~/.ssh/tuc_github_deploy ~/.ssh/tuc_github_deploy.pub
           REMOTE
 
       - name: Smoke test
