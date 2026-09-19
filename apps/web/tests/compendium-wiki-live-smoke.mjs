@@ -197,12 +197,10 @@ try{
   const newTitle=page.locator('input[placeholder="Titre de la page"]');
   await newTitle.waitFor({state:"visible",timeout:10000});
   if(await newTitle.inputValue()!=="CI Builder Page")throw new Error("Préremplissage titre Builder absent.");
-  const categoryValue=await page.locator("select").filter({has:page.locator('option[value="Règles"]')}).first().inputValue().catch(()=>null);
+  const categoryValue=await page.getByLabel("Rubrique").inputValue();
   if(categoryValue!=="Règles")throw new Error("Préremplissage rubrique Builder absent: "+categoryValue);
-  if(!(await page.locator('input').filter({hasValue:"Builder · CI"}).count())){
-    const sourceValue=await page.locator('input').evaluateAll(inputs=>inputs.map(input=>input.value).find(value=>value==="Builder · CI")||"");
-    if(sourceValue!=="Builder · CI")throw new Error("Préremplissage source Builder absent.");
-  }
+  const sourceValue=await page.getByLabel("Source").inputValue();
+  if(sourceValue!=="Builder · CI")throw new Error("Préremplissage source Builder absent: "+sourceValue);
 
   if(browserErrors.length)throw new Error(browserErrors.join("\n"));
 
