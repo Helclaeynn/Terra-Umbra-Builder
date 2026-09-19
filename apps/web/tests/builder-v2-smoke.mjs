@@ -90,7 +90,7 @@ const rules={
       crawler:[{id:"sphere_smoke",name:"Réseau Crawler",effect:"Contact",category:"sphere",sphere:"crawler"}],
       corporatiste:[{id:"sphere_corp_smoke",name:"Dotation smoke",effect:"Support",category:"sphere",sphere:"corporatiste"}]
     },
-    common:[{id:"common_smoke",name:"Brave",effect:"Test commun",category:"common"}],
+    common:[{id:"common_smoke",name:"Brave",compendiumId:"wiki-brave",effect:"Test commun",category:"common"}],
     expertise:[{id:"expertise_smoke",name:"Athlète",effect:"+1 Athlétisme",category:"expertise",attribute:"vigueur"}]
   }
 };
@@ -146,7 +146,7 @@ const truthRules={
 };
 
 const equipmentItem={
-  id:"eq-smoke",kind:"equipment",name:"Kit Smoke",category:"Matériel",sourceCategory:"Matériel",
+  id:"eq-smoke",compendiumId:"wiki-kit-smoke",kind:"equipment",name:"Kit Smoke",category:"Matériel",sourceCategory:"Matériel",
   price:100,priceMin:100,priceMax:100,priceLabel:"100 $",generation:null,charge:null,stress:null,slots:null,
   effect:"Équipement de test.",lore:"Un kit destiné au smoke.",data:{},vehicle:false,neuro:false,
   recurring:"durable_purchase",monthlyCost:0,families:[]
