@@ -99,6 +99,7 @@ jobs:
           node --check compendium/tests/wiki-context-audit.mjs
           node --check compendium/tests/global-lore-wiki-audit.mjs
           node --check compendium/tests/wiki-context-review.mjs
+          node --check compendium/tests/media-gate.mjs
       - name: Validate editor override engine
         run: |
           node compendium/tests/editor-overrides-check.mjs
@@ -109,6 +110,17 @@ jobs:
         run: |
           node scripts/sync-page-overrides.mjs
           node compendium/tests/manual-overrides-check.mjs
+      - name: Validate media integrity
+        run: |
+          node compendium/tests/media-gate.mjs
+      - name: Upload media audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: media-audit
+          path: /tmp/tuc-media-audit.json
+          if-no-files-found: ignore
+          retention-days: 1
       - name: Validate owner auth safety
         run: |
           if grep -RniE 'client_secret|private_key|github_pat_' compendium/github-editor-config.js compendium/github-owner-editor.js; then

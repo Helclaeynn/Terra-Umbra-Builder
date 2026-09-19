@@ -167,10 +167,21 @@ try{
   if(!(await page.locator('.breadcrumbs').textContent())?.includes('Armement — Fusils d’assaut'))throw new Error('Breadcrumb Sal-in incomplet');
   if(await page.locator('.related-grid .family-card').count()<1)throw new Error('Voir aussi enrichi absent sur Sal-in');
   await page.goto(`${base}compendium/index.html#/search?q=Sal-in`,{waitUntil:'domcontentloaded',timeout:30000});
-  const searchThumb=page.locator('.search-result-media .search-thumb img').first();
+  const salInResult=page.locator('.search-result-media[href*="equipement-288-sal-in"]').first();
+  await salInResult.waitFor({state:'visible',timeout:10000});
+  const searchThumb=salInResult.locator('.search-thumb img').first();
   await searchThumb.waitFor({state:'visible',timeout:10000});
   const thumbState=await searchThumb.evaluate(img=>({complete:img.complete,w:img.naturalWidth,h:img.naturalHeight}));
   if(!thumbState.complete||thumbState.w<1||thumbState.h<1)throw new Error(`Miniature recherche invalide ${JSON.stringify(thumbState)}`);
   console.log('NAV COMFORT OK — breadcrumb, famille, Voir aussi et miniature de recherche.');
+  await page.goto(`${base}compendium/index.html#/article/equipement-027-phoenix-hp-092-depliant`,{waitUntil:'domcontentloaded',timeout:30000});
+  const folded=page.locator('.article-gallery img[src*="equipement-027-phoenix-hp-092-depliant--folded.webp"]').first();
+  await folded.waitFor({state:'visible',timeout:10000});
+  const foldedState=await folded.evaluate(img=>({complete:img.complete,w:img.naturalWidth,h:img.naturalHeight}));
+  if(!foldedState.complete||foldedState.w<1||foldedState.h<1)throw new Error(`Galerie Depliant invalide ${JSON.stringify(foldedState)}`);
+  await page.goto(`${base}compendium/index.html#/media-audit`,{waitUntil:'domcontentloaded',timeout:30000});
+  await page.locator('.media-audit-stats').waitFor({state:'visible',timeout:20000});
+  console.log('GALLERY/AUDIT OK — variante Depliant décodée et rapport médias rendu.');
+
 
 } finally {await browser.close();}
