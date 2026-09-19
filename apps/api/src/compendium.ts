@@ -5,6 +5,11 @@ import { gunzipSync } from "node:zlib";
 import type { FastifyInstance, FastifyReply } from "fastify";
 import { requireUser } from "./auth.js";
 import { pool } from "./db.js";
+import {
+  COMPENDIUM_GUIDE_ARTICLES,
+  COMPENDIUM_GUIDE_NAVIGATION,
+  COMPENDIUM_PLAYER_START
+} from "./compendium-onboarding.js";
 
 type JsonObject = Record<string, any>;
 type Article = JsonObject & {
@@ -631,6 +636,10 @@ async function loadCorpus(): Promise<Corpus> {
     }
   }
 
+  for (const guide of COMPENDIUM_GUIDE_ARTICLES) {
+    if (!byId.has(guide.id)) byId.set(guide.id, deepClone(guide) as Article);
+  }
+
   const overrideSummary = await applyCommittedOverrides(byId, overridePayload);
 
   const customArticles = await pool.query<{ articleId: string; baseDocument: Article }>(
@@ -692,7 +701,9 @@ async function loadCorpus(): Promise<Corpus> {
   );
 
   const navigation = new Map(
-    (navigationPayload.entries ?? []).filter((entry) => entry?.id).map((entry) => [entry.id, entry])
+    [...(navigationPayload.entries ?? []), ...COMPENDIUM_GUIDE_NAVIGATION]
+      .filter((entry) => entry?.id)
+      .map((entry) => [entry.id, entry as NavigationEntry])
   );
 
   for (const article of byId.values()) {
@@ -919,10 +930,7 @@ async function ownedCollection(collectionId: string, userId: string): Promise<bo
 }
 
 export async function registerCompendiumRoutes(app: FastifyInstance) {
-  app.get("/api/compendium/meta", async (request, reply) => {
-    const user = await requireUser(request, reply);
-    if (!user) return;
-
+  app.get("/api/compendium/meta", async () => {
     const corpus = await getCorpus();
     return {
       version: corpus.manifest.version,
@@ -936,10 +944,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     };
   });
 
-  app.get("/api/compendium/wiki-index", async (request, reply) => {
-    const user = await requireUser(request, reply);
-    if (!user) return;
-
+  app.get("/api/compendium/wiki-index", async () => {
     const corpus = await getCorpus();
     return {
       entries: corpus.articles.map((article) => {
@@ -968,10 +973,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       limit?: string;
       offset?: string;
     };
-  }>("/api/compendium/search", async (request, reply) => {
-    const user = await requireUser(request, reply);
-    if (!user) return;
-
+  }>("/api/compendium/search", async (request) => {
     const corpus = await getCorpus();
     const query = String(request.query.q ?? "").trim();
     const normalizedQuery = norm(query);
@@ -1011,6 +1013,18 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       offset,
       limit,
       items: rows.slice(offset, offset + limit).map((article) => searchItem(article, query))
+    };
+  });
+
+  app.get("/api/compendium/onboarding", async () => {
+    const corpus = await getCorpus();
+    const exists = (id: string) => corpus.byId.has(id);
+    return {
+      ...deepClone(COMPENDIUM_PLAYER_START),
+      available: {
+        basics: COMPENDIUM_PLAYER_START.basics.filter((item) => exists(item.id)).map((item) => item.id),
+        loreHubs: COMPENDIUM_PLAYER_START.loreHubs.filter((item) => exists(item.id)).map((item) => item.id)
+      }
     };
   });
 
@@ -1229,9 +1243,6 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
   app.get<{
     Params: { "*": string };
   }>("/api/compendium/media/*", async (request, reply) => {
-    const user = await requireUser(request, reply);
-    if (!user) return;
-
     const relative = safeMediaRelativePath(String(request.params["*"] ?? ""));
     if (!relative) return bad(reply, "invalid_compendium_media_path");
 
@@ -1500,9 +1511,6 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
   app.get<{
     Params: { id: string };
   }>("/api/compendium/articles/:id", async (request, reply) => {
-    const user = await requireUser(request, reply);
-    if (!user) return;
-
     const id = request.params.id.trim();
     if (!id || id.length > 240) return bad(reply, "invalid_compendium_article_id");
 
