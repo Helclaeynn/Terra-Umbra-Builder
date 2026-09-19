@@ -340,7 +340,6 @@ const dossierArticles = computed(() => {
       }
       if (context.mode === "subgroup") {
         return (
-          entry.category === article.category &&
           Boolean(article.navigation?.subgroup) &&
           entry.subgroup === article.navigation?.subgroup
         );
@@ -352,10 +351,11 @@ const dossierArticles = computed(() => {
       );
     })
     .sort((a, b) =>
+      Number(b.category === article.category) - Number(a.category === article.category) ||
       a.subgroup.localeCompare(b.subgroup, "fr", { sensitivity: "base" }) ||
       a.title.localeCompare(b.title, "fr", { numeric: true, sensitivity: "base" })
     )
-    .slice(0, 24);
+    .slice(0, 36);
 });
 
 const mechanicalLabels: Record<string, string> = {
