@@ -87,7 +87,7 @@ function stringChoice(choices:Record<string,unknown>,key:string){
 
 export function truthChoiceOptions(choice:TruthChoice,choices:Record<string,unknown>){
   if(choice.optionsBy&&choice.dependsOn){
-    return choice.optionsBy[stringChoice(choices,choice.dependsOn)]??[];
+    return choice.optionsBy[stringChoice(choices,choice.dependsOn)]??choice.options??[];
   }
   return choice.options??[];
 }
