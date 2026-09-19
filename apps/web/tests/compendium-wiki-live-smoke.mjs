@@ -24,12 +24,14 @@ try{
   const basics=await publicPage.locator(".newcomer-card").count();
   if(basics<4)throw new Error("Parcours nouveau joueur incomplet: "+basics+" cartes.");
 
-  const searchInput=publicPage.locator('input[type="search"]');
-  await searchInput.fill("Afanc");
-  await publicPage.getByRole("button",{name:"Rechercher"}).click();
-  await publicPage.locator(".result-card strong",{hasText:"Afanc"}).first().waitFor({state:"visible",timeout:10000});
-  const searchTitles=await publicPage.locator(".result-card strong").allInnerTexts();
-  if(!searchTitles.some(title=>title.trim()==="Afanc"))throw new Error("Recherche publique Afanc absente: "+searchTitles.join(", "));
+  const searchInput=publicPage.locator('input[aria-label="Recherche dans le Compendium"]');
+  await searchInput.fill("Afa");
+  const afancSuggestion=publicPage.getByRole("option").filter({hasText:"Afanc"}).first();
+  await afancSuggestion.waitFor({state:"visible",timeout:10000});
+  await afancSuggestion.click();
+  await publicPage.locator(".article-header h1").waitFor({state:"visible",timeout:10000});
+  const afancFromSuggestion=(await publicPage.locator(".article-header h1").innerText()).trim();
+  if(afancFromSuggestion!=="Afanc")throw new Error("Suggestion Afanc incorrecte: "+afancFromSuggestion);
 
   await publicPage.goto(baseUrl+"/compendium?article=guide-realite-nouveau-joueur",{waitUntil:"domcontentloaded",timeout:30000});
   await publicPage.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
@@ -44,7 +46,7 @@ try{
 
   const loginLink=publicPage.getByRole("link",{name:"Connexion"});
   await loginLink.waitFor({state:"visible",timeout:10000});
-  console.log("WIKI PUBLIC OK — onboarding + recherche + guide + backlinks Builder sans session");
+  console.log("WIKI PUBLIC OK — onboarding + suggestions de recherche + guide + backlinks Builder sans session");
 }finally{
   await publicContext.close();
 }
