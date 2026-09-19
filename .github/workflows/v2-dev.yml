@@ -125,6 +125,7 @@ jobs:
 
             docker compose --env-file .env up -d --build --remove-orphans
             docker compose ps
+            docker compose --env-file .env exec -T api npm run verify:mail </dev/null
           REMOTE
 
       - name: Smoke test
