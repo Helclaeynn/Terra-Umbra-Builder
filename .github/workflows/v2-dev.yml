@@ -220,11 +220,12 @@ jobs:
           COMPENDIUM_ARTICLE="$(mktemp)"
           COMPENDIUM_WIKI="$(mktemp)"
           COMPENDIUM_EDITOR="$(mktemp)"
+          COMPENDIUM_ME="$(mktemp)"
           COMPENDIUM_LIBRARY="$(mktemp)"
           COMPENDIUM_COLLECTION="$(mktemp)"
 
           cleanup() {
-            rm -f "$COOKIE_JAR" "$IMPORT_BODY" "$IMPORT_RESPONSE" "$CURRENT_RESPONSE" "$PATCH_BODY" "$PATCH_RESPONSE" "$RULES_RESPONSE" "$TRUTH_RESPONSE" "$REALITY_RESPONSE" "$COMPENDIUM_META" "$COMPENDIUM_SEARCH" "$COMPENDIUM_MANUFACTURER" "$COMPENDIUM_ARTICLE" "$COMPENDIUM_WIKI" "$COMPENDIUM_EDITOR" "$COMPENDIUM_LIBRARY" "$COMPENDIUM_COLLECTION"
+            rm -f "$COOKIE_JAR" "$IMPORT_BODY" "$IMPORT_RESPONSE" "$CURRENT_RESPONSE" "$PATCH_BODY" "$PATCH_RESPONSE" "$RULES_RESPONSE" "$TRUTH_RESPONSE" "$REALITY_RESPONSE" "$COMPENDIUM_META" "$COMPENDIUM_SEARCH" "$COMPENDIUM_MANUFACTURER" "$COMPENDIUM_ARTICLE" "$COMPENDIUM_WIKI" "$COMPENDIUM_EDITOR" "$COMPENDIUM_ME" "$COMPENDIUM_LIBRARY" "$COMPENDIUM_COLLECTION"
             ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST"               "cd /opt/terra-umbra/infrastructure && set -a && . ./.env && set +a && docker compose --env-file .env exec -T db psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -c \"DELETE FROM users WHERE email = '$TEST_EMAIL';\""               </dev/null >/dev/null 2>&1 || true
           }
           trap cleanup EXIT
@@ -370,21 +371,41 @@ jobs:
           PY
           )"
           test -n "$MEDIA_PATH"
-          curl --fail --silent --show-error -b "$COOKIE_JAR" \
-            "https://dev.terra-umbra.fr/api/compendium/media/$MEDIA_PATH" >/dev/null
+          echo "Wiki smoke: verifying restored media"
+          MEDIA_STATUS="$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' \
+            -b "$COOKIE_JAR" \
+            "https://dev.terra-umbra.fr/api/compendium/media/$MEDIA_PATH")"
+          echo "Wiki smoke: media HTTP $MEDIA_STATUS"
+          test "$MEDIA_STATUS" = "200"
 
+          echo "Wiki smoke: verifying player cannot edit"
           EDITOR_STATUS="$(curl --silent --output /dev/null --write-out '%{http_code}' \
             -b "$COOKIE_JAR" \
             https://dev.terra-umbra.fr/api/compendium/editor/articles/bestiaire-v15-afanc)"
+          echo "Wiki smoke: player editor HTTP $EDITOR_STATUS"
           test "$EDITOR_STATUS" = "403"
 
           ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" \
             "cd /opt/terra-umbra/infrastructure && set -a && . ./.env && set +a && docker compose --env-file .env exec -T db psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -c \"UPDATE users SET role = 'editor' WHERE email = '$TEST_EMAIL';\"" \
             </dev/null >/dev/null
 
-          curl --fail --silent --show-error \
+          curl --fail --silent --show-error -b "$COOKIE_JAR" \
+            https://dev.terra-umbra.fr/api/auth/me > "$COMPENDIUM_ME"
+          python3 - "$COMPENDIUM_ME" <<'PY'
+          import json,sys
+          user=json.load(open(sys.argv[1],encoding="utf-8"))["user"]
+          assert user["role"] == "editor", user
+          PY
+
+          echo "Wiki smoke: verifying editor API"
+          EDITOR_STATUS="$(curl --silent --show-error --output "$COMPENDIUM_EDITOR" --write-out '%{http_code}' \
             -b "$COOKIE_JAR" \
-            https://dev.terra-umbra.fr/api/compendium/editor/articles/bestiaire-v15-afanc > "$COMPENDIUM_EDITOR"
+            https://dev.terra-umbra.fr/api/compendium/editor/articles/bestiaire-v15-afanc)"
+          echo "Wiki smoke: editor HTTP $EDITOR_STATUS"
+          if [ "$EDITOR_STATUS" != "200" ]; then
+            cat "$COMPENDIUM_EDITOR" >&2 || true
+            exit 1
+          fi
 
           python3 - "$COMPENDIUM_EDITOR" <<'PY'
           import json,sys
@@ -409,6 +430,15 @@ jobs:
             "cd /opt/terra-umbra/infrastructure && set -a && . ./.env && set +a && docker compose --env-file .env exec -T db psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -c \"UPDATE users SET role = 'player' WHERE email = '$TEST_EMAIL';\"" \
             </dev/null >/dev/null
 
+          curl --fail --silent --show-error -b "$COOKIE_JAR" \
+            https://dev.terra-umbra.fr/api/auth/me > "$COMPENDIUM_ME"
+          python3 - "$COMPENDIUM_ME" <<'PY'
+          import json,sys
+          user=json.load(open(sys.argv[1],encoding="utf-8"))["user"]
+          assert user["role"] == "player", user
+          PY
+
+          echo "Library smoke: favorites and collections"
           curl --fail --silent --show-error \
             -b "$COOKIE_JAR" \
             -X PUT \
@@ -474,6 +504,7 @@ jobs:
           assert not library["collections"], library["collections"]
           PY
 
+          echo "Character smoke: import and native save"
           cat > "$IMPORT_BODY" <<'JSON'
           {
             "data": {
