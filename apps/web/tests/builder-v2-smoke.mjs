@@ -281,6 +281,12 @@ try{
 }
 await page.getByRole("heading",{name:/V2 Smoke|Smoke/}).first().waitFor();
 
+const referencesButton=page.getByRole("button",{name:/Références/});
+await referencesButton.waitFor({state:"visible",timeout:5000});
+await referencesButton.click();
+await page.getByRole("heading",{name:"Comprendre mes choix"}).waitFor({state:"visible",timeout:5000});
+await page.getByRole("button",{name:"Fermer"}).click();
+
 await page.getByRole("button",{name:/Sphère & Style/}).click();
 const styleAlt=page.getByRole("button",{name:/Smoke Style Alt/});
 await styleAlt.waitFor();
@@ -380,5 +386,5 @@ for(const legacyKey of ["sphereSupportDetail","possessionsNotes","networks","sta
 
 if(browserErrors.length)throw new Error("Erreurs navigateur :\n"+browserErrors.join("\n"));
 
-console.log("Builder Web V2 smoke OK — 12 blocs actifs, wiki Talents/Équipement, V/SR/R, Finalisation, Progression et sauvegarde validés.");
+console.log("Builder Web V2 smoke OK — 12 blocs actifs, tiroir Références, wiki Talents/Équipement, V/SR/R, Finalisation, Progression et sauvegarde validés.");
 await browser.close();
