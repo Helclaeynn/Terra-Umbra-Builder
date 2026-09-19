@@ -173,6 +173,98 @@ export async function resolveCompendiumId(
   return matches.length === 1 ? matches[0].id : null;
 }
 
+
+function hubLabelForms(label: string): string[] {
+  const raw = String(label ?? "").trim();
+  if (!raw) return [];
+
+  const forms = new Set<string>();
+  const push = (value: string) => {
+    const cleaned = value
+      .replace(/\s+[—-]\s+\d+\s*PTV\b/gi, "")
+      .replace(/^Facette\s*:\s*/i, "")
+      .replace(/^Nature\s*:\s*/i, "")
+      .replace(/\s+[—-]\s+Talents? de Cour\s*$/i, "")
+      .replace(/\s+[—-]\s+Talents? de Lignée\s*$/i, "")
+      .trim();
+    const normalized = norm(cleaned);
+    if (normalized.length >= 4) forms.add(normalized);
+  };
+
+  push(raw);
+  for (const segment of raw.split(/\s*›\s*/)) push(segment);
+
+  if (/\bcommun(?:e|s)?\b/i.test(raw)) push("Talents communs");
+  return [...forms].sort((a, b) => b.length - a.length);
+}
+
+function articleMatchesNatureHub(articleId: string, natureId: string): boolean {
+  if (!natureId) return true;
+  const id = norm(articleId).replace(/\s+/g, "-");
+  const nature = norm(natureId).replace(/\s+/g, "-");
+  if (!nature) return true;
+  return (
+    id.includes(`regles-verite-${nature}-`) ||
+    id.includes(`regles-verite-v6-${nature}-`) ||
+    id.includes(`regles-verite-nature-${nature}`)
+  );
+}
+
+export async function findCompendiumHubMatches(
+  label: string,
+  natureId = ""
+): Promise<Array<{ id: string; title: string; category: string }>> {
+  const exact = await findCompendiumMatches(label, "Règles");
+  if (exact.length) return exact;
+
+  const forms = hubLabelForms(label);
+  if (!forms.length) return [];
+
+  const corpus = await getCorpus();
+  const scored = corpus.articles
+    .filter((article) => article.category === "Règles")
+    .filter((article) => articleMatchesNatureHub(article.id, natureId))
+    .map((article) => {
+      const navTitle = corpus.navigation.get(article.id)?.displayTitle ?? "";
+      const labels = [
+        norm(article.title ?? ""),
+        norm(navTitle)
+      ].filter(Boolean);
+
+      let score = 0;
+      for (const form of forms) {
+        for (const candidate of labels) {
+          if (candidate === form) score = Math.max(score, 10000 + form.length);
+          else if (candidate.includes(form)) score = Math.max(score, 5000 + form.length);
+          else if (form.includes(candidate) && candidate.length >= 7) {
+            score = Math.max(score, 4000 + candidate.length);
+          }
+        }
+      }
+      return { article, score };
+    })
+    .filter((row) => row.score > 0)
+    .sort((a, b) => b.score - a.score || compareArticles(a.article, b.article));
+
+  if (!scored.length) return [];
+  const best = scored[0].score;
+  return scored
+    .filter((row) => row.score === best)
+    .map(({ article }) => ({
+      id: article.id,
+      title: String(article.title ?? article.id),
+      category: String(article.category ?? "")
+    }));
+}
+
+export async function resolveCompendiumHubId(
+  label: string,
+  natureId = ""
+): Promise<string | null> {
+  const matches = await findCompendiumHubMatches(label, natureId);
+  return matches.length === 1 ? matches[0].id : null;
+}
+
 function mediaSource(media: unknown): string {
   if (typeof media === "string") return media.trim();
   if (media && typeof media === "object") return String((media as JsonObject).src ?? "").trim();
