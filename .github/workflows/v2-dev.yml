@@ -197,6 +197,15 @@ jobs:
           assert "requin_corporatif" in choices
           assert "sens_accru_x" in choices
           assert payload["skillTalentMap"]["tireur_de_precision"] == "tir"
+          assert payload["disadvantageLore"]["sensible_a_la_chaleur"]
+          assert payload["disadvantageLore"]["corporatiste:contrat_leonin"]
+          assert len(payload["disadvantages"]["common"]) == 15
+          assert len(payload["disadvantages"]["attribute"]) == 15
+          assert len(payload["disadvantages"]["sphere"]["crawler"]) == 5
+          assert payload["edgeRules"]["base"] == 5
+          assert payload["edgeRules"]["options"]["attributePack"]["points"] == 2
+          assert payload["edgeRules"]["options"]["skillPacks"]["points"] == 4
+          assert payload["edgeRules"]["lore"]["talentPacks"]["lore"]
           PY
 
           cat > "$IMPORT_BODY" <<'JSON'
