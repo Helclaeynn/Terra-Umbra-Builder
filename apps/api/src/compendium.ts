@@ -52,6 +52,7 @@ type Corpus = {
   byId: Map<string, Article>;
   navigation: Map<string, NavigationEntry>;
   categories: Array<{ name: string; count: number }>;
+  manufacturers: Array<{ name: string; count: number }>;
   overrideSummary: { applied: number; conflicts: number; missing: number };
 };
 
@@ -62,6 +63,27 @@ const CATEGORY_ORDER = [
   "Équipement & Objets",
   "Personnages",
   "Bestiaire"
+];
+
+const EQUIPMENT_MANUFACTURERS = [
+  "Raven-Sehdia",
+  "Raven-Sunways",
+  "BridgeElectrics",
+  "Ocean Master",
+  "ArcaNetwork",
+  "SeaWares",
+  "Phoenix",
+  "Raven",
+  "Owl",
+  "Byron",
+  "Biosun",
+  "Sunways",
+  "Icecorps",
+  "Tala",
+  "SBA",
+  "SFU",
+  "Monarch",
+  "Tortoise"
 ];
 
 const ARTICLE_TITLE_FIXES: Record<string, string> = {
@@ -226,6 +248,24 @@ function displayCategory(article: Article): string {
   return source;
 }
 
+function manufacturerFromTitle(title: unknown): string {
+  const raw = String(title ?? "").trim();
+  const key = norm(raw);
+
+  for (const manufacturer of EQUIPMENT_MANUFACTURERS) {
+    const maker = norm(manufacturer);
+    if (key === maker || key.startsWith(`${maker} `)) return manufacturer;
+  }
+
+  const suffix = raw.split(/\s+[—–-]\s+/).at(-1);
+  const suffixKey = norm(suffix);
+  return EQUIPMENT_MANUFACTURERS.find((manufacturer) => norm(manufacturer) === suffixKey) ?? "";
+}
+
+function manufacturerFor(article: Article): string {
+  return article.dataset === "equipement" ? manufacturerFromTitle(article.title) : "";
+}
+
 function applyNavigationTaxonomy(article: Article, entry?: NavigationEntry): void {
   const subgroup = String(entry?.subgroup ?? "").trim();
   if (article.dataset !== "equipement" || !/^Armement\s+—\s+/i.test(subgroup)) return;
@@ -274,6 +314,7 @@ function flattenText(article: Article): string {
   const bits: string[] = [
     article.title ?? "",
     article.source ?? "",
+    String(article.manufacturer ?? ""),
     ...(article.tags ?? [])
   ];
 
@@ -447,6 +488,7 @@ async function loadCorpus(): Promise<Corpus> {
 
     applyNavigationTaxonomy(article, navEntry);
     applyTargetedEditorialCorrections(article);
+    article.manufacturer = manufacturerFor(article);
     article.__searchText = norm(flattenText(article));
   }
 
@@ -461,7 +503,17 @@ async function loadCorpus(): Promise<Corpus> {
     ...[...counts.keys()].filter((name) => !CATEGORY_ORDER.includes(name)).sort((a, b) => a.localeCompare(b, "fr"))
   ].map((name) => ({ name, count: counts.get(name) ?? 0 }));
 
-  return { manifest, articles, byId, navigation, categories, overrideSummary };
+  const manufacturerCounts = new Map<string, number>();
+  for (const article of articles) {
+    const manufacturer = String(article.manufacturer ?? "");
+    if (!manufacturer) continue;
+    manufacturerCounts.set(manufacturer, (manufacturerCounts.get(manufacturer) ?? 0) + 1);
+  }
+  const manufacturers = [...manufacturerCounts.entries()]
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, "fr"));
+
+  return { manifest, articles, byId, navigation, categories, manufacturers, overrideSummary };
 }
 
 function getCorpus(): Promise<Corpus> {
@@ -522,6 +574,7 @@ function searchItem(article: Article, query: string) {
     group: navigation?.group ?? "",
     subgroup: navigation?.subgroup ?? "",
     tags: article.tags ?? [],
+    manufacturer: String(article.manufacturer ?? ""),
     edited: Boolean(article.__editorialOverride),
     snippet: articleSnippet(article, query)
   };
@@ -539,6 +592,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       total: corpus.articles.length,
       expectedTotal: corpus.manifest.expectedTotal ?? null,
       categories: corpus.categories,
+      manufacturers: corpus.manufacturers,
       overrides: corpus.overrideSummary
     };
   });
@@ -548,6 +602,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       q?: string;
       category?: string;
       dataset?: string;
+      manufacturer?: string;
       limit?: string;
       offset?: string;
     };
@@ -560,6 +615,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const normalizedQuery = norm(query);
     const category = String(request.query.category ?? "").trim();
     const dataset = String(request.query.dataset ?? "").trim();
+    const manufacturer = String(request.query.manufacturer ?? "").trim();
     const limit = Math.min(100, Math.max(1, Number.parseInt(request.query.limit ?? "40", 10) || 40));
     const offset = Math.max(0, Number.parseInt(request.query.offset ?? "0", 10) || 0);
     const tokens = normalizedQuery.split(" ").filter(Boolean);
@@ -567,6 +623,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     let rows = corpus.articles.filter((article) => {
       if (category && article.category !== category) return false;
       if (dataset && article.dataset !== dataset) return false;
+      if (manufacturer && norm(article.manufacturer) !== norm(manufacturer)) return false;
       if (tokens.length && !tokens.every((token) => String(article.__searchText ?? "").includes(token))) {
         return false;
       }
@@ -587,6 +644,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       q: query,
       category,
       dataset,
+      manufacturer,
       total,
       offset,
       limit,
