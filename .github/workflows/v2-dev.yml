@@ -184,6 +184,11 @@ jobs:
             OLD_TOKEN="$(awk '$6 == "__Host-tuc_session" { print $7 }' "$COOKIE_JAR" | tail -n 1)"
             test -n "$OLD_TOKEN"
 
+            LEGACY_STATUS="$(curl --silent --output /dev/null --write-out '%{http_code}' \
+              -H "Cookie: tuc_session=$OLD_TOKEN" \
+              https://dev.terra-umbra.fr/api/auth/me)"
+            test "$LEGACY_STATUS" = "401"
+
             curl --fail --silent --show-error \
               -b "$COOKIE_JAR" \
               -c "$COOKIE_JAR" \

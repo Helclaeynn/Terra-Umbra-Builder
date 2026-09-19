@@ -95,7 +95,8 @@ function humanError(code: string): string {
     account_update_failed: "La modification du compte a échoué.",
     cannot_delete_self: "Tu ne peux pas supprimer ton propre compte administrateur.",
     delete_confirmation_mismatch: "La confirmation ne correspond pas à l’adresse e-mail du compte.",
-    account_delete_failed: "La suppression du compte a échoué."
+    account_delete_failed: "La suppression du compte a échoué.",
+    logout_failed: "La déconnexion n’a pas été confirmée par le serveur."
   };
 
   return labels[code] ?? "Une erreur est survenue.";
@@ -257,12 +258,31 @@ async function resetPassword() {
 }
 
 async function logout() {
-  await api("/api/auth/logout", { method: "POST" }).catch(() => undefined);
-  user.value = null;
-  adminUsers.value = [];
-  auditEvents.value = [];
-  message.value = "";
-  error.value = "";
+  resetFeedback();
+  busy.value = true;
+
+  try {
+    await api("/api/auth/logout", { method: "POST" });
+
+    const check = await fetch("/api/auth/me", {
+      method: "GET",
+      credentials: "same-origin",
+      cache: "no-store"
+    });
+
+    if (check.status !== 401) {
+      throw new Error("logout_failed");
+    }
+
+    user.value = null;
+    adminUsers.value = [];
+    auditEvents.value = [];
+    authMode.value = "login";
+  } catch (cause) {
+    error.value = humanError((cause as Error).message);
+  } finally {
+    busy.value = false;
+  }
 }
 
 async function saveProfile() {
