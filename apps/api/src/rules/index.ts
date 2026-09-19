@@ -1,11 +1,11 @@
-import type { FastifyInstance } from "fastify";
+import type { FastifyInstance, FastifyReply } from "fastify";
 import { requireUser } from "../auth.js";
 import { terraUmbraCreationRules } from "./terra-umbra-creation.js";
 import { terraUmbraCreationLore, terraUmbraTalentChoiceSpecs, terraUmbraRealitySkillTalentMap } from "./terra-umbra-creation-lore.js";
 import { terraUmbraDisadvantages, terraUmbraDisadvantageLore, terraUmbraEdgeRules } from "./terra-umbra-disadvantages-edge.js";
 import { terraUmbraTruthRules } from "./truth/rules.js";
 import { getRealityRules } from "./reality.js";
-import { resolveCompendiumId } from "../compendium.js";
+import { findCompendiumMatches, resolveCompendiumId } from "../compendium.js";
 
 type NamedEntry={name?:string;compendiumId?:string|null;[key:string]:unknown};
 
@@ -136,6 +136,195 @@ function usagePush(rows:BuilderUsage[],seen:Set<string>,entry:BuilderUsage){
   rows.push(entry);
 }
 
+type BuilderCatalogEntry={
+  key:string;
+  family:string;
+  kind:string;
+  label:string;
+  category:string;
+  step:BuilderUsage["step"];
+  compendiumId?:string|null;
+  mechanics:Record<string,unknown>;
+};
+
+function mechanicalSnapshot(entry:Record<string,unknown>):Record<string,unknown>{
+  const keys=[
+    "id","name","category","sourceCategory","effect","prerequisite","prerequisiteName",
+    "cost","access","group","generation","price","priceMin","priceMax","priceLabel",
+    "charge","stress","slots","lifestyle","account","augmentationEnvelope","vehicleCapital",
+    "skills","expertiseFamilies","support","fixedSkills","recurring","monthlyCost","vehicle","neuro",
+    "attribute","skill","sphere","originId"
+  ];
+  const result:Record<string,unknown>={};
+  for(const key of keys){
+    const value=entry[key];
+    if(value===undefined||value===null||value==="")continue;
+    result[key]=value;
+  }
+  return result;
+}
+
+function catalogPush(
+  rows:BuilderCatalogEntry[],
+  seen:Set<string>,
+  entry:NamedEntry,
+  meta:{key:string;family:string;kind:string;category:string;step:BuilderUsage["step"]}
+){
+  const label=String(entry.name??"").trim();
+  if(!label)return;
+  const identity=`${meta.family}|${String((entry as any).id??meta.key)}|${label}`;
+  if(seen.has(identity))return;
+  seen.add(identity);
+  rows.push({
+    ...meta,
+    label,
+    compendiumId:entry.compendiumId,
+    mechanics:mechanicalSnapshot(entry)
+  });
+}
+
+async function builderCatalogEntries():Promise<BuilderCatalogEntry[]>{
+  const [creation,truth,reality]=await Promise.all([
+    getEnrichedCreation(),
+    getEnrichedTruth(),
+    getEnrichedReality()
+  ]);
+  const rows:BuilderCatalogEntry[]=[];
+  const seen=new Set<string>();
+
+  for(const [key,entry] of Object.entries(creation.rules.origins??{}) as Array<[string,NamedEntry]>){
+    catalogPush(rows,seen,entry,{key,family:"origins",kind:"Origine",category:"Réalité",step:"origin"});
+  }
+  for(const [key,entry] of Object.entries(creation.rules.spheres??{}) as Array<[string,NamedEntry]>){
+    catalogPush(rows,seen,entry,{key,family:"spheres",kind:"Sphère",category:"Réalité",step:"sphere"});
+  }
+  for(const entry of creation.rules.styles??[]){
+    catalogPush(rows,seen,entry,{key:String(entry.id??entry.name??""),family:"styles",kind:"Style",category:"Réalité",step:"sphere"});
+  }
+
+  for(const [poolName,pools] of Object.entries({
+    origin:creation.rules.talents?.origin??{},
+    sphere:creation.rules.talents?.sphere??{}
+  })){
+    for(const [scope,entries] of Object.entries(pools) as Array<[string,NamedEntry[]]>){
+      for(const entry of entries){
+        catalogPush(rows,seen,entry,{
+          key:`${poolName}:${scope}:${String((entry as any).id??entry.name??"")}`,
+          family:"reality-talents",kind:"Talent",category:"Règles",step:"talents"
+        });
+      }
+    }
+  }
+  for(const poolName of ["common","expertise"]){
+    for(const entry of creation.rules.talents?.[poolName]??[]){
+      catalogPush(rows,seen,entry,{
+        key:`${poolName}:${String(entry.id??entry.name??"")}`,
+        family:"reality-talents",kind:"Talent",category:"Règles",step:"talents"
+      });
+    }
+  }
+
+  for(const [poolName,entries] of Object.entries({
+    common:creation.disadvantages?.common??[],
+    attribute:creation.disadvantages?.attribute??[]
+  }) as Array<[string,NamedEntry[]]>){
+    for(const entry of entries){
+      catalogPush(rows,seen,entry,{
+        key:`${poolName}:${String((entry as any).id??entry.name??"")}`,
+        family:"disadvantages",kind:"Désavantage",category:"Règles",step:"disadvantages"
+      });
+    }
+  }
+  for(const [scope,entries] of Object.entries(creation.disadvantages?.sphere??{}) as Array<[string,NamedEntry[]]>){
+    for(const entry of entries){
+      catalogPush(rows,seen,entry,{
+        key:`sphere:${scope}:${String((entry as any).id??entry.name??"")}`,
+        family:"disadvantages",kind:"Désavantage",category:"Règles",step:"disadvantages"
+      });
+    }
+  }
+
+  for(const [key,entry] of Object.entries(truth.structure?.natures??{}) as Array<[string,NamedEntry]>){
+    catalogPush(rows,seen,entry,{key,family:"natures",kind:"Nature",category:"Vérité",step:"truth"});
+  }
+  for(const [scope,entries] of Object.entries(truth.catalogs??{}) as Array<[string,NamedEntry[]]>){
+    for(const entry of entries){
+      catalogPush(rows,seen,entry,{
+        key:`${scope}:${String((entry as any).id??entry.name??"")}`,
+        family:"truth-talents",kind:"Talent de Vérité",category:"Règles",step:"truth"
+      });
+    }
+  }
+
+  for(const entry of reality.equipment??[]){
+    catalogPush(rows,seen,entry,{
+      key:String(entry.id??entry.name??""),family:"equipment",kind:"Équipement",
+      category:"Équipement & Objets",step:"equipment"
+    });
+  }
+  for(const entry of reality.augmentations??[]){
+    catalogPush(rows,seen,entry,{
+      key:String(entry.id??entry.name??""),family:"augmentations",kind:"Augmentation",
+      category:"Équipement & Objets",step:"equipment"
+    });
+  }
+  for(const entry of reality.recurring??[]){
+    catalogPush(rows,seen,entry,{
+      key:String(entry.id??entry.name??""),family:"recurring",kind:"Charge / service",
+      category:"Équipement & Objets",step:"equipment"
+    });
+  }
+
+  return rows;
+}
+
+async function builderCoverage(){
+  const entries=await builderCatalogEntries();
+  const audited=await Promise.all(entries.map(async(entry)=>{
+    if(entry.compendiumId){
+      return {...entry,status:"linked" as const,matches:[{id:entry.compendiumId,title:entry.label,category:entry.category}]};
+    }
+    const matches=await findCompendiumMatches(entry.label,entry.category);
+    return {
+      ...entry,
+      status:(matches.length>1?"ambiguous":"missing") as "ambiguous"|"missing",
+      matches
+    };
+  }));
+  const familyMap=new Map<string,{family:string;total:number;linked:number;missing:number;ambiguous:number}>();
+  for(const item of audited){
+    const row=familyMap.get(item.family)??{family:item.family,total:0,linked:0,missing:0,ambiguous:0};
+    row.total+=1;
+    row[item.status]+=1;
+    familyMap.set(item.family,row);
+  }
+  return {
+    summary:{
+      total:audited.length,
+      linked:audited.filter(item=>item.status==="linked").length,
+      missing:audited.filter(item=>item.status==="missing").length,
+      ambiguous:audited.filter(item=>item.status==="ambiguous").length
+    },
+    families:[...familyMap.values()].sort((a,b)=>a.family.localeCompare(b.family)),
+    items:audited
+  };
+}
+
+async function builderSourceFor(articleId:string){
+  const entries=await builderCatalogEntries();
+  return entries.filter(entry=>entry.compendiumId===articleId);
+}
+
+async function requireEditorUser(request:any,reply:FastifyReply){
+  const user=await requireUser(request,reply);
+  if(!user)return null;
+  if(user.role!=="editor"&&user.role!=="admin"){
+    reply.code(403).send({error:"editor_required"});
+    return null;
+  }
+  return user;
+}
+
 async function builderUsageFor(articleId:string):Promise<BuilderUsage[]>{
   const [creation,truth,reality]=await Promise.all([
     getEnrichedCreation(),
@@ -238,5 +427,18 @@ export async function registerRulesRoutes(app:FastifyInstance){
   app.get<{Params:{id:string}}>("/api/compendium/builder-usage/:id", async (request)=>{
     const id=String(request.params.id??"").trim();
     return {articleId:id,usage:id?await builderUsageFor(id):[]};
+  });
+
+  app.get("/api/compendium/editor/builder-coverage", async (request,reply)=>{
+    const user=await requireEditorUser(request,reply);
+    if(!user)return;
+    return builderCoverage();
+  });
+
+  app.get<{Params:{id:string}}>("/api/compendium/editor/builder-source/:id", async (request,reply)=>{
+    const user=await requireEditorUser(request,reply);
+    if(!user)return;
+    const id=String(request.params.id??"").trim();
+    return {articleId:id,records:id?await builderSourceFor(id):[]};
   });
 }
