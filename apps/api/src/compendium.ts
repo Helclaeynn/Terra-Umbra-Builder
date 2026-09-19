@@ -1,0 +1,616 @@
+import { createHash } from "node:crypto";
+import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
+import { gunzipSync } from "node:zlib";
+import type { FastifyInstance, FastifyReply } from "fastify";
+import { requireUser } from "./auth.js";
+
+type JsonObject = Record<string, any>;
+type Article = JsonObject & {
+  id: string;
+  title?: string;
+  category?: string;
+  sourceCategory?: string;
+  dataset?: string;
+  source?: string;
+  status?: string;
+  tags?: string[];
+  sections?: JsonObject[];
+};
+
+type DatasetSpec = {
+  id: string;
+  prefix: string;
+  parts: number;
+  count: number;
+};
+
+type Manifest = {
+  version: number;
+  generated?: string;
+  categories: string[];
+  statusLabels?: Record<string, string>;
+  datasets: DatasetSpec[];
+  expectedTotal?: number;
+};
+
+type NavigationEntry = {
+  id: string;
+  dataset?: string;
+  category?: string;
+  group?: string;
+  groupOrder?: number;
+  subgroup?: string;
+  subgroupOrder?: number;
+  pageOrder?: number;
+  displayTitle?: string;
+};
+
+type Corpus = {
+  manifest: Manifest;
+  articles: Article[];
+  byId: Map<string, Article>;
+  navigation: Map<string, NavigationEntry>;
+  categories: Array<{ name: string; count: number }>;
+  overrideSummary: { applied: number; conflicts: number; missing: number };
+};
+
+const CATEGORY_ORDER = [
+  "Règles",
+  "Réalité",
+  "Vérité",
+  "Équipement & Objets",
+  "Personnages",
+  "Bestiaire"
+];
+
+const ARTICLE_TITLE_FIXES: Record<string, string> = {
+  "regles-verite-angelus-sephirah-nesah-la-victoire": "Nesah — La Victoire"
+};
+
+const COMPENDIUM_DATA_DIR =
+  process.env.COMPENDIUM_DATA_DIR ??
+  (process.env.NODE_ENV === "production"
+    ? "/app/compendium-data"
+    : resolve(process.cwd(), "../../compendium/data"));
+
+let corpusPromise: Promise<Corpus> | null = null;
+
+function bad(reply: FastifyReply, error: string) {
+  return reply.code(400).send({ error });
+}
+
+function deepClone<T>(value: T): T {
+  if (value === undefined || value === null) return value;
+  return JSON.parse(JSON.stringify(value)) as T;
+}
+
+function canonicalize(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(canonicalize);
+  if (value && typeof value === "object") {
+    const output: JsonObject = {};
+    for (const key of Object.keys(value as JsonObject).sort()) {
+      if (key === "dataset") continue;
+      output[key] = canonicalize((value as JsonObject)[key]);
+    }
+    return output;
+  }
+  return value;
+}
+
+function stableStringify(value: unknown): string {
+  return JSON.stringify(canonicalize(value));
+}
+
+function articleHash(article: Article): string {
+  return createHash("sha256").update(stableStringify(article)).digest("hex");
+}
+
+function decodePointerToken(token: string): string {
+  return token.replace(/~1/g, "/").replace(/~0/g, "~");
+}
+
+function pointerParts(path: string): string[] {
+  if (!path.startsWith("/")) throw new Error(`Chemin JSON Pointer invalide: ${path}`);
+  if (path === "/") return [""];
+  return path.slice(1).split("/").map(decodePointerToken);
+}
+
+function resolveParent(root: JsonObject, path: string, create = false) {
+  const parts = pointerParts(path);
+  const key = parts.pop() ?? "";
+  let node: any = root;
+
+  for (const part of parts) {
+    if (Array.isArray(node)) {
+      const index = Number(part);
+      if (!Number.isInteger(index) || index < 0 || index >= node.length) {
+        throw new Error(`Index introuvable: ${part}`);
+      }
+      node = node[index];
+      continue;
+    }
+
+    if (!node || typeof node !== "object") {
+      throw new Error(`Parent non objet pour ${path}`);
+    }
+
+    if (!Object.prototype.hasOwnProperty.call(node, part)) {
+      if (!create) throw new Error(`Chemin introuvable: ${path}`);
+      node[part] = {};
+    }
+
+    node = node[part];
+  }
+
+  return { parent: node, key };
+}
+
+function arrayIndex(key: string, length: number, allowEnd = false): number {
+  if (key === "-" && allowEnd) return length;
+  const index = Number(key);
+  const max = allowEnd ? length : length - 1;
+  if (!Number.isInteger(index) || index < 0 || index > max) {
+    throw new Error(`Index de tableau invalide: ${key}`);
+  }
+  return index;
+}
+
+function applyOperation(target: JsonObject, operation: JsonObject): void {
+  const op = String(operation.op ?? "");
+  const path = String(operation.path ?? "");
+  if (!["add", "replace", "remove"].includes(op)) {
+    throw new Error(`Opération inconnue: ${op}`);
+  }
+
+  const { parent, key } = resolveParent(target, path, op === "add");
+
+  if (Array.isArray(parent)) {
+    if (op === "add") {
+      parent.splice(arrayIndex(key, parent.length, true), 0, deepClone(operation.value));
+    } else {
+      const index = arrayIndex(key, parent.length);
+      if (op === "replace") parent[index] = deepClone(operation.value);
+      else parent.splice(index, 1);
+    }
+    return;
+  }
+
+  if (!parent || typeof parent !== "object") {
+    throw new Error(`Parent non objet pour ${path}`);
+  }
+
+  if (op === "remove") {
+    if (!Object.prototype.hasOwnProperty.call(parent, key)) {
+      throw new Error(`Chemin introuvable: ${path}`);
+    }
+    delete parent[key];
+  } else if (op === "replace") {
+    if (!Object.prototype.hasOwnProperty.call(parent, key)) {
+      throw new Error(`Chemin introuvable: ${path}`);
+    }
+    parent[key] = deepClone(operation.value);
+  } else {
+    parent[key] = deepClone(operation.value);
+  }
+}
+
+function norm(value: unknown): string {
+  return String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function organisationRealm(article: Article): string {
+  const tags = (article.tags ?? []).map(norm);
+  if (tags.includes("verite")) return "Vérité";
+  if (tags.includes("realite")) return "Réalité";
+
+  const text = norm(`${article.title ?? ""} ${(article.tags ?? []).join(" ")} ${article.source ?? ""}`);
+  return /vampir|garou|loup garou|mage|daemon|angelus|aseryn|atlante|exile|extral|chasseur|fleau|occulte|khinae/.test(
+    text
+  )
+    ? "Vérité"
+    : "Réalité";
+}
+
+function displayCategory(article: Article): string {
+  const source = article.sourceCategory ?? article.category ?? "";
+  if (["Équipement", "Augmentations", "Catalogue Vérité"].includes(source)) {
+    return "Équipement & Objets";
+  }
+  if (source === "Organisations") return organisationRealm(article);
+  return source;
+}
+
+function applyNavigationTaxonomy(article: Article, entry?: NavigationEntry): void {
+  const subgroup = String(entry?.subgroup ?? "").trim();
+  if (article.dataset !== "equipement" || !/^Armement\s+—\s+/i.test(subgroup)) return;
+
+  if (Array.isArray(article.tags)) {
+    let replaced = false;
+    article.tags = article.tags.map((tag) => {
+      if (/^(?:Armes|Armement)\s+—\s+/i.test(String(tag ?? ""))) {
+        replaced = true;
+        return subgroup;
+      }
+      return tag;
+    });
+    if (!replaced) article.tags.push(subgroup);
+  }
+
+  for (const section of article.sections ?? []) {
+    for (const block of section.blocks ?? []) {
+      if (block?.type !== "table" || !Array.isArray(block.rows)) continue;
+      block.rows = block.rows.map((row: unknown) => {
+        if (!Array.isArray(row) || row.length < 2 || norm(row[0]) !== "categorie") return row;
+        if (!/^(?:Armes|Armement)\s+—\s+/i.test(String(row[1] ?? ""))) return row;
+        const copy = [...row];
+        copy[1] = subgroup;
+        return copy;
+      });
+    }
+  }
+}
+
+function applyTargetedEditorialCorrections(article: Article): void {
+  if (article.id !== "equipement-045-owl-sg-016-boss") return;
+
+  for (const section of article.sections ?? []) {
+    for (const block of section.blocks ?? []) {
+      if (block?.type !== "p" || typeof block.text !== "string") continue;
+      block.text = block.text.replace(
+        /Sa grande réserve n[’']en fait pas une arme de moyenne portée\s*:\s*la philosophie du modèle reste celle d[’']un shotgun fiable, efficace tant qu[’']on accepte son domaine d[’']emploi très rapproché\.?/i,
+        "Sa capacité de munitions supérieure à la moyenne limite les rechargements, mais ne change pas son domaine d’emploi : le Boss reste un shotgun fiable, conçu pour le combat à très courte portée."
+      );
+    }
+  }
+}
+
+function flattenText(article: Article): string {
+  const bits: string[] = [
+    article.title ?? "",
+    article.source ?? "",
+    ...(article.tags ?? [])
+  ];
+
+  const pnj = article.pnj as JsonObject | undefined;
+  if (pnj) {
+    bits.push(
+      String(pnj.nom_verite ?? ""),
+      String(pnj.race ?? ""),
+      String(pnj.age ?? ""),
+      String(pnj.origine ?? ""),
+      String(pnj.statut ?? ""),
+      String(pnj.statut_verite ?? ""),
+      ...(Array.isArray(pnj.relations) ? pnj.relations.map(String) : [])
+    );
+  }
+
+  for (const section of article.sections ?? []) {
+    bits.push(String(section.title ?? ""));
+    for (const block of section.blocks ?? []) {
+      if (block?.type === "p") bits.push(String(block.text ?? ""));
+      if (block?.type === "table" && Array.isArray(block.rows)) {
+        for (const row of block.rows) {
+          if (Array.isArray(row)) bits.push(...row.map((cell) => String(cell ?? "")));
+        }
+      }
+    }
+  }
+
+  return bits.join(" ");
+}
+
+function articleSnippet(article: Article, query = "", limit = 260): string {
+  const text = flattenText(article).replace(/\s+/g, " ").trim();
+  if (!text) return "";
+
+  if (query) {
+    const normalizedText = norm(text);
+    const firstToken = norm(query).split(" ").find(Boolean);
+    if (firstToken) {
+      const index = normalizedText.indexOf(firstToken);
+      if (index > 80) {
+        const start = Math.max(0, index - 70);
+        const excerpt = text.slice(start, start + limit);
+        return `…${excerpt}${start + limit < text.length ? "…" : ""}`;
+      }
+    }
+  }
+
+  return text.slice(0, limit) + (text.length > limit ? "…" : "");
+}
+
+async function readJson<T>(filename: string): Promise<T> {
+  return JSON.parse(await readFile(resolve(COMPENDIUM_DATA_DIR, filename), "utf8")) as T;
+}
+
+async function loadDataset(spec: DatasetSpec): Promise<Article[]> {
+  const parts = await Promise.all(
+    Array.from({ length: spec.parts }, async (_, index) => {
+      const filename = `${spec.prefix}-${String(index).padStart(2, "0")}.b64part`;
+      return readFile(resolve(COMPENDIUM_DATA_DIR, filename), "utf8");
+    })
+  );
+
+  const compressed = Buffer.from(parts.join("").replace(/\s+/g, ""), "base64");
+  const parsed = JSON.parse(gunzipSync(compressed).toString("utf8")) as Article[];
+  if (!Array.isArray(parsed)) throw new Error(`${spec.id} · racine non tabulaire`);
+  return parsed;
+}
+
+async function applyCommittedOverrides(
+  articleMap: Map<string, Article>,
+  payload: JsonObject
+): Promise<{ applied: number; conflicts: number; missing: number }> {
+  const entries = Array.isArray(payload.entries) ? payload.entries : [];
+  const grouped = new Map<string, JsonObject[]>();
+
+  for (const entry of entries) {
+    if (!entry?.articleId) continue;
+    const id = String(entry.articleId);
+    const list = grouped.get(id) ?? [];
+    list.push(entry);
+    grouped.set(id, list);
+  }
+
+  let applied = 0;
+  let conflicts = 0;
+  let missing = 0;
+
+  for (const [articleId, articleEntries] of grouped) {
+    const base = articleMap.get(articleId);
+    if (!base) {
+      missing += 1;
+      continue;
+    }
+
+    const baseHash = articleHash(base);
+    let effective = deepClone(base);
+    let appliedHere = 0;
+    let mediaOverride = false;
+
+    for (const entry of articleEntries) {
+      if (entry.baseHash !== baseHash) {
+        conflicts += 1;
+        continue;
+      }
+
+      for (const operation of Array.isArray(entry.operations) ? entry.operations : []) {
+        applyOperation(effective, operation);
+        if (["/illustration", "/image"].includes(String(operation?.path ?? ""))) {
+          mediaOverride = true;
+        }
+      }
+
+      applied += 1;
+      appliedHere += 1;
+    }
+
+    if (appliedHere > 0) {
+      effective.dataset = effective.dataset ?? base.dataset;
+      effective.__editorialOverride = true;
+      effective.__editorialOverrideCount = appliedHere;
+      effective.__editorialMediaOverride = mediaOverride;
+      articleMap.set(articleId, effective);
+    }
+  }
+
+  return { applied, conflicts, missing };
+}
+
+async function loadCorpus(): Promise<Corpus> {
+  const manifest = await readJson<Manifest>("manifest-v3.json");
+  const navigationPayload = await readJson<{ entries?: NavigationEntry[] }>("navigation-v1.json");
+  const overridePayload = await readJson<JsonObject>("manual-overrides.json");
+
+  if (!Array.isArray(manifest.datasets)) throw new Error("Manifest Compendium V3 invalide");
+
+  const byId = new Map<string, Article>();
+  const loaded = await Promise.all(
+    manifest.datasets.map(async (spec) => [spec.id, await loadDataset(spec)] as const)
+  );
+
+  for (const [dataset, rows] of loaded) {
+    for (const source of rows) {
+      if (!source?.id) continue;
+      const article = deepClone(source);
+      article.dataset = article.dataset ?? dataset;
+      byId.set(article.id, article);
+    }
+  }
+
+  const overrideSummary = await applyCommittedOverrides(byId, overridePayload);
+  const navigation = new Map(
+    (navigationPayload.entries ?? []).filter((entry) => entry?.id).map((entry) => [entry.id, entry])
+  );
+
+  for (const article of byId.values()) {
+    article.title = ARTICLE_TITLE_FIXES[article.id] ?? article.title;
+    article.sourceCategory = article.sourceCategory ?? article.category;
+
+    const navEntry = navigation.get(article.id);
+    article.category = navEntry?.category ?? displayCategory(article);
+    if (navEntry) {
+      article.navigation = {
+        group: navEntry.group ?? "",
+        groupOrder: navEntry.groupOrder ?? 0,
+        subgroup: navEntry.subgroup ?? "",
+        subgroupOrder: navEntry.subgroupOrder ?? 0,
+        pageOrder: navEntry.pageOrder ?? 0
+      };
+    }
+
+    applyNavigationTaxonomy(article, navEntry);
+    applyTargetedEditorialCorrections(article);
+    article.__searchText = norm(flattenText(article));
+  }
+
+  const articles = [...byId.values()];
+  const counts = new Map<string, number>();
+  for (const article of articles) {
+    if (article.category) counts.set(article.category, (counts.get(article.category) ?? 0) + 1);
+  }
+
+  const categories = [
+    ...CATEGORY_ORDER.filter((name) => counts.has(name)),
+    ...[...counts.keys()].filter((name) => !CATEGORY_ORDER.includes(name)).sort((a, b) => a.localeCompare(b, "fr"))
+  ].map((name) => ({ name, count: counts.get(name) ?? 0 }));
+
+  return { manifest, articles, byId, navigation, categories, overrideSummary };
+}
+
+function getCorpus(): Promise<Corpus> {
+  if (!corpusPromise) corpusPromise = loadCorpus();
+  return corpusPromise;
+}
+
+function navSort(article: Article): [number, number, number, string] {
+  const navigation = article.navigation as JsonObject | undefined;
+  return [
+    Number(navigation?.groupOrder ?? 9999),
+    Number(navigation?.subgroupOrder ?? 9999),
+    Number(navigation?.pageOrder ?? 9999),
+    article.title ?? article.id
+  ];
+}
+
+function compareArticles(a: Article, b: Article): number {
+  const left = navSort(a);
+  const right = navSort(b);
+  for (let index = 0; index < 3; index += 1) {
+    const difference = Number(left[index]) - Number(right[index]);
+    if (difference) return difference;
+  }
+  return String(left[3]).localeCompare(String(right[3]), "fr", {
+    numeric: true,
+    sensitivity: "base"
+  });
+}
+
+function searchScore(article: Article, query: string): number {
+  if (!query) return 0;
+  const title = norm(article.title);
+  const q = norm(query);
+  let score = 0;
+  if (title === q) score += 1000;
+  else if (title.startsWith(q)) score += 500;
+  else if (title.includes(q)) score += 250;
+
+  const tags = norm((article.tags ?? []).join(" "));
+  if (tags.includes(q)) score += 100;
+
+  const navigation = article.navigation as JsonObject | undefined;
+  if (norm(`${navigation?.group ?? ""} ${navigation?.subgroup ?? ""}`).includes(q)) score += 80;
+
+  return score;
+}
+
+function searchItem(article: Article, query: string) {
+  const navigation = article.navigation as JsonObject | undefined;
+  return {
+    id: article.id,
+    title: article.title ?? article.id,
+    category: article.category ?? "",
+    dataset: article.dataset ?? "",
+    source: article.source ?? "",
+    status: article.status ?? "",
+    group: navigation?.group ?? "",
+    subgroup: navigation?.subgroup ?? "",
+    tags: article.tags ?? [],
+    edited: Boolean(article.__editorialOverride),
+    snippet: articleSnippet(article, query)
+  };
+}
+
+export async function registerCompendiumRoutes(app: FastifyInstance) {
+  app.get("/api/compendium/meta", async (request, reply) => {
+    const user = await requireUser(request, reply);
+    if (!user) return;
+
+    const corpus = await getCorpus();
+    return {
+      version: corpus.manifest.version,
+      generated: corpus.manifest.generated ?? null,
+      total: corpus.articles.length,
+      expectedTotal: corpus.manifest.expectedTotal ?? null,
+      categories: corpus.categories,
+      overrides: corpus.overrideSummary
+    };
+  });
+
+  app.get<{
+    Querystring: {
+      q?: string;
+      category?: string;
+      dataset?: string;
+      limit?: string;
+      offset?: string;
+    };
+  }>("/api/compendium/search", async (request, reply) => {
+    const user = await requireUser(request, reply);
+    if (!user) return;
+
+    const corpus = await getCorpus();
+    const query = String(request.query.q ?? "").trim();
+    const normalizedQuery = norm(query);
+    const category = String(request.query.category ?? "").trim();
+    const dataset = String(request.query.dataset ?? "").trim();
+    const limit = Math.min(100, Math.max(1, Number.parseInt(request.query.limit ?? "40", 10) || 40));
+    const offset = Math.max(0, Number.parseInt(request.query.offset ?? "0", 10) || 0);
+    const tokens = normalizedQuery.split(" ").filter(Boolean);
+
+    let rows = corpus.articles.filter((article) => {
+      if (category && article.category !== category) return false;
+      if (dataset && article.dataset !== dataset) return false;
+      if (tokens.length && !tokens.every((token) => String(article.__searchText ?? "").includes(token))) {
+        return false;
+      }
+      return true;
+    });
+
+    if (normalizedQuery) {
+      rows = rows.sort((a, b) => {
+        const scoreDifference = searchScore(b, query) - searchScore(a, query);
+        return scoreDifference || compareArticles(a, b);
+      });
+    } else {
+      rows = rows.sort(compareArticles);
+    }
+
+    const total = rows.length;
+    return {
+      q: query,
+      category,
+      dataset,
+      total,
+      offset,
+      limit,
+      items: rows.slice(offset, offset + limit).map((article) => searchItem(article, query))
+    };
+  });
+
+  app.get<{
+    Params: { id: string };
+  }>("/api/compendium/articles/:id", async (request, reply) => {
+    const user = await requireUser(request, reply);
+    if (!user) return;
+
+    const id = request.params.id.trim();
+    if (!id || id.length > 240) return bad(reply, "invalid_compendium_article_id");
+
+    const corpus = await getCorpus();
+    const article = corpus.byId.get(id);
+    if (!article) {
+      return reply.code(404).send({ error: "compendium_article_not_found" });
+    }
+
+    const result = deepClone(article);
+    delete result.__searchText;
+    return { article: result };
+  });
+}
