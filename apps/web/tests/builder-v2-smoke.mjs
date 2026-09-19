@@ -157,10 +157,12 @@ const realityRules={
 const browser=await chromium.launch({headless:true,executablePath,args:["--no-sandbox"]});
 const page=await browser.newPage();
 const browserErrors=[];
-page.on("pageerror",error=>browserErrors.push(String(error)));
+const failedRequests=[];
+page.on("pageerror",error=>browserErrors.push("pageerror: "+String(error)));
 page.on("console",message=>{
-  if(message.type()==="error")browserErrors.push(message.text());
+  if(message.type()==="error")browserErrors.push("console: "+message.text());
 });
+page.on("requestfailed",request=>failedRequests.push(request.method()+" "+request.url()+" · "+String(request.failure()?.errorText||"")));
 
 await page.route("**/api/**",async route=>{
   const request=route.request();
@@ -200,6 +202,17 @@ await page.route("**/api/**",async route=>{
 });
 
 await page.goto(baseUrl+"/characters/"+characterId+"/builder",{waitUntil:"networkidle"});
+try{
+  await page.locator(".builder-workspace").waitFor({state:"visible",timeout:12000});
+}catch(error){
+  console.error("=== BUILDER BODY ===");
+  console.error(await page.locator("body").innerText().catch(()=>"(body indisponible)"));
+  console.error("=== BROWSER ERRORS ===");
+  console.error(browserErrors.join("\n")||"(aucune)");
+  console.error("=== FAILED REQUESTS ===");
+  console.error(failedRequests.join("\n")||"(aucune)");
+  throw error;
+}
 await page.getByRole("heading",{name:/V2 Smoke|Smoke/}).first().waitFor();
 
 const nav=page.locator(".builder-nav button");
