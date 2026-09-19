@@ -374,6 +374,30 @@ function articleSnippet(article: Article, query = "", limit = 260): string {
   return text.slice(0, limit) + (text.length > limit ? "…" : "");
 }
 
+function wikiPreviewText(article: Article, limit = 360): string {
+  const chunks: string[] = [];
+
+  for (const section of article.sections ?? []) {
+    if (section?.audience === "mj") continue;
+
+    for (const block of section.blocks ?? []) {
+      if (block?.type === "p" && String(block.text ?? "").trim()) {
+        chunks.push(String(block.text).trim());
+      }
+      if (chunks.join(" ").length >= limit * 1.4) break;
+    }
+
+    if (chunks.join(" ").length >= limit * 1.4) break;
+  }
+
+  const text = (chunks.join(" ") || articleSnippet(article, "", limit))
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (text.length <= limit) return text;
+  return text.slice(0, limit).replace(/\s+\S*$/, "") + "…";
+}
+
 async function readJson<T>(filename: string): Promise<T> {
   return JSON.parse(await readFile(resolve(COMPENDIUM_DATA_DIR, filename), "utf8")) as T;
 }
@@ -677,6 +701,28 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       categories: corpus.categories,
       manufacturers: corpus.manufacturers,
       overrides: corpus.overrideSummary
+    };
+  });
+
+  app.get("/api/compendium/wiki-index", async (request, reply) => {
+    const user = await requireUser(request, reply);
+    if (!user) return;
+
+    const corpus = await getCorpus();
+    return {
+      entries: corpus.articles.map((article) => {
+        const navigation = article.navigation as JsonObject | undefined;
+        return {
+          id: article.id,
+          title: article.title ?? article.id,
+          category: article.category ?? "",
+          dataset: article.dataset ?? "",
+          group: navigation?.group ?? "",
+          subgroup: navigation?.subgroup ?? "",
+          manufacturer: String(article.manufacturer ?? ""),
+          snippet: wikiPreviewText(article)
+        };
+      })
     };
   });
 
