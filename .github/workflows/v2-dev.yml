@@ -385,8 +385,17 @@ jobs:
           echo "Wiki smoke: player editor HTTP $EDITOR_STATUS"
           test "$EDITOR_STATUS" = "403"
 
+          curl --fail --silent --show-error -b "$COOKIE_JAR" \
+            https://dev.terra-umbra.fr/api/auth/me > "$COMPENDIUM_ME"
+          COMPENDIUM_USER_ID="$(python3 - "$COMPENDIUM_ME" <<'PY'
+          import json,sys
+          print(json.load(open(sys.argv[1],encoding="utf-8"))["user"]["id"])
+          PY
+          )"
+          test -n "$COMPENDIUM_USER_ID"
+
           ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" \
-            "cd /opt/terra-umbra/infrastructure && set -a && . ./.env && set +a && docker compose --env-file .env exec -T db psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -c \"UPDATE users SET role = 'editor' WHERE email = '$TEST_EMAIL';\"" \
+            "cd /opt/terra-umbra/infrastructure && set -a && . ./.env && set +a && docker compose --env-file .env exec -T db psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -c \"UPDATE users SET role = 'editor' WHERE id = '$COMPENDIUM_USER_ID';\"" \
             </dev/null >/dev/null
 
           curl --fail --silent --show-error -b "$COOKIE_JAR" \
@@ -427,7 +436,7 @@ jobs:
             node apps/web/tests/compendium-wiki-live-smoke.mjs
 
           ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" \
-            "cd /opt/terra-umbra/infrastructure && set -a && . ./.env && set +a && docker compose --env-file .env exec -T db psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -c \"UPDATE users SET role = 'player' WHERE email = '$TEST_EMAIL';\"" \
+            "cd /opt/terra-umbra/infrastructure && set -a && . ./.env && set +a && docker compose --env-file .env exec -T db psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -c \"UPDATE users SET role = 'player' WHERE id = '$COMPENDIUM_USER_ID';\"" \
             </dev/null >/dev/null
 
           curl --fail --silent --show-error -b "$COOKIE_JAR" \
