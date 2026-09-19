@@ -84,10 +84,16 @@ type LibraryCollection = {
   items: SearchItem[];
 };
 
+type RecentItem = SearchItem & {
+  viewedAt?: string;
+  viewCount?: number;
+};
+
 type LibraryPayload = {
   favorites: string[];
   favoriteItems: SearchItem[];
   collections: LibraryCollection[];
+  recentItems: RecentItem[];
 };
 
 type MediaRef = {
@@ -202,11 +208,12 @@ const onboarding = ref<OnboardingData | null>(null);
 const showOnboarding = ref(false);
 const favoriteIds = ref<string[]>([]);
 const favoriteItems = ref<SearchItem[]>([]);
+const recentItems = ref<RecentItem[]>([]);
 const collections = ref<LibraryCollection[]>([]);
 const newCollectionName = ref("");
 const libraryBusy = ref(false);
 const libraryNotice = ref("");
-const activeLibraryView = ref<"" | "favorites" | string>("");
+const activeLibraryView = ref<"" | "favorites" | "recent" | string>("");
 const currentUser = ref<CurrentUser | null>(null);
 const wikiReady = ref(false);
 const wikiPreviewEl = ref<HTMLElement | null>(null);
@@ -226,6 +233,9 @@ let wikiLinker: any = null;
 const wikiById = new Map<string, WikiEntry>();
 let wikiPreviewTimer: number | undefined;
 let wikiPreviewLink: HTMLAnchorElement | null = null;
+
+const RECENT_STORAGE_KEY = "tuc-compendium-recent-v1";
+const RECENT_LOCAL_LIMIT = 30;
 
 const resultLabel = computed(() => {
   if (loading.value) return "Recherche…";
@@ -523,11 +533,90 @@ async function loadWikiIndex() {
   }
 }
 
+function recentSearchItem(id: string): RecentItem | null {
+  const entry = wikiById.get(id);
+  if (!entry) return null;
+  return {
+    id: entry.id,
+    title: entry.title,
+    category: entry.category,
+    dataset: entry.dataset,
+    source: "",
+    status: "",
+    group: entry.group,
+    subgroup: entry.subgroup,
+    tags: [],
+    manufacturer: entry.manufacturer,
+    edited: false,
+    snippet: entry.snippet
+  };
+}
+
+function localRecentIds(): string[] {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(RECENT_STORAGE_KEY) ?? "[]");
+    return Array.isArray(parsed)
+      ? parsed.map(String).filter(Boolean).slice(0, RECENT_LOCAL_LIMIT)
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function loadLocalRecent() {
+  const rows = localRecentIds()
+    .map(recentSearchItem)
+    .filter((item): item is RecentItem => Boolean(item));
+  if (!currentUser.value || !recentItems.value.length) recentItems.value = rows;
+}
+
+function rememberLocalRecent(id: string) {
+  const ids = [id, ...localRecentIds().filter((item) => item !== id)].slice(0, RECENT_LOCAL_LIMIT);
+  try {
+    localStorage.setItem(RECENT_STORAGE_KEY, JSON.stringify(ids));
+  } catch {
+    // Private browsing/storage denial must never block article reading.
+  }
+}
+
+async function rememberArticle(id: string) {
+  rememberLocalRecent(id);
+  const item = recentSearchItem(id);
+  if (item) {
+    recentItems.value = [
+      item,
+      ...recentItems.value.filter((row) => row.id !== id)
+    ].slice(0, 50);
+    refreshActiveLibraryView();
+  }
+
+  if (currentUser.value) {
+    await api(`/api/compendium/history/${encodeURIComponent(id)}`, { method: "PUT" }).catch(() => undefined);
+  }
+}
+
+async function clearHistory() {
+  if (currentUser.value) {
+    await api("/api/compendium/history", { method: "DELETE" }).catch(() => undefined);
+  }
+  try {
+    localStorage.removeItem(RECENT_STORAGE_KEY);
+  } catch {
+    // Storage may be unavailable.
+  }
+  recentItems.value = [];
+  if (activeLibraryView.value === "recent") {
+    results.value = [];
+    total.value = 0;
+  }
+}
+
 async function loadLibrary() {
   if (!currentUser.value) {
     favoriteIds.value = [];
     favoriteItems.value = [];
     collections.value = [];
+    loadLocalRecent();
     return;
   }
 
@@ -535,6 +624,7 @@ async function loadLibrary() {
     const payload = await api<LibraryPayload>("/api/compendium/library");
     favoriteIds.value = payload.favorites;
     favoriteItems.value = payload.favoriteItems;
+    recentItems.value = payload.recentItems;
     collections.value = payload.collections;
     refreshActiveLibraryView();
   } catch (cause) {
@@ -543,6 +633,7 @@ async function loadLibrary() {
       favoriteIds.value = [];
       favoriteItems.value = [];
       collections.value = [];
+      loadLocalRecent();
       return;
     }
     error.value = humanError(cause);
@@ -550,6 +641,12 @@ async function loadLibrary() {
 }
 
 function refreshActiveLibraryView() {
+  if (activeLibraryView.value === "recent") {
+    results.value = recentItems.value;
+    total.value = recentItems.value.length;
+    return;
+  }
+
   if (activeLibraryView.value === "favorites") {
     results.value = favoriteItems.value;
     total.value = favoriteItems.value.length;
@@ -565,6 +662,15 @@ function refreshActiveLibraryView() {
     results.value = collection.items;
     total.value = collection.items.length;
   }
+}
+
+function showRecent() {
+  activeLibraryView.value = "recent";
+  query.value = "";
+  category.value = "";
+  manufacturer.value = "";
+  results.value = recentItems.value;
+  total.value = recentItems.value.length;
 }
 
 function showFavorites() {
@@ -831,6 +937,7 @@ async function openArticle(id: string, syncRoute = true) {
     builderUsage.value = usageResult.usage;
     builderSources.value = usageResult.sources;
     await loadTalentEmbeds(result.article);
+    await rememberArticle(id);
 
     if (syncRoute && route.query.article !== id) {
       await router.push({
@@ -1091,6 +1198,7 @@ onMounted(async () => {
 
   await loadCurrentUser();
   await Promise.all([loadMeta(), loadOnboarding(), loadWikiIndex(), search()]);
+  loadLocalRecent();
   if (currentUser.value) await loadLibrary();
 
   if (typeof route.query.article === "string") {
