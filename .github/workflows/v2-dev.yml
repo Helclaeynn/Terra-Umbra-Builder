@@ -459,12 +459,22 @@ jobs:
           import json,sys
           payload=json.load(open(sys.argv[1],encoding="utf-8"))
           article=payload["article"]
-          article["sections"]=[{
-              "id":"intro",
-              "title":"Présentation",
-              "level":2,
-              "blocks":[{"type":"p","text":"Page créée automatiquement pour le smoke wiki. Les Garous servent d’interlink de contrôle."}]
-          }]
+          secret="CI-MJ-SECRET-"+article["id"]
+          article["sections"]=[
+              {
+                  "id":"intro",
+                  "title":"Présentation",
+                  "level":2,
+                  "blocks":[{"type":"p","text":"Page créée automatiquement pour le smoke wiki. Les Garous servent d’interlink de contrôle."}]
+              },
+              {
+                  "id":"mj",
+                  "title":"Secrets MJ",
+                  "level":2,
+                  "audience":"mj",
+                  "blocks":[{"type":"p","text":secret+" — ce texte ne doit jamais être livré au public ni aux joueurs."}]
+              }
+          ]
           json.dump({"article":article},open(sys.argv[2],"w",encoding="utf-8"),ensure_ascii=False)
           PY
 
@@ -500,6 +510,33 @@ jobs:
           article=json.load(open(sys.argv[1],encoding="utf-8"))["article"]
           assert article["id"] == sys.argv[2], article
           assert article["dataset"] == "custom", article
+          assert not any(section.get("audience") == "mj" for section in article.get("sections",[])), article
+          assert "CI-MJ-SECRET-" not in json.dumps(article,ensure_ascii=False), article
+          PY
+
+          echo "Wiki smoke: verifying GM/editor-only content gating"
+          curl --fail --silent --show-error             -b "$COOKIE_JAR"             "https://dev.terra-umbra.fr/api/compendium/articles/$COMPENDIUM_NEW_ID" > "$COMPENDIUM_NEW"
+          python3 - "$COMPENDIUM_NEW" "$COMPENDIUM_NEW_ID" <<'PY'
+          import json,sys
+          article=json.load(open(sys.argv[1],encoding="utf-8"))["article"]
+          secret="CI-MJ-SECRET-"+sys.argv[2]
+          assert any(section.get("audience") == "mj" for section in article.get("sections",[])), article
+          assert secret in json.dumps(article,ensure_ascii=False), article
+          PY
+
+          SECRET_TERM="CI-MJ-SECRET-$COMPENDIUM_NEW_ID"
+          curl --fail --silent --show-error             --get             --data-urlencode "q=$SECRET_TERM"             --data-urlencode "limit=10"             https://dev.terra-umbra.fr/api/compendium/search > "$COMPENDIUM_NEW"
+          python3 - "$COMPENDIUM_NEW" <<'PY'
+          import json,sys
+          payload=json.load(open(sys.argv[1],encoding="utf-8"))
+          assert payload["total"] == 0, payload
+          PY
+
+          curl --fail --silent --show-error             -b "$COOKIE_JAR"             --get             --data-urlencode "q=$SECRET_TERM"             --data-urlencode "limit=10"             https://dev.terra-umbra.fr/api/compendium/search > "$COMPENDIUM_NEW"
+          python3 - "$COMPENDIUM_NEW" "$COMPENDIUM_NEW_ID" <<'PY'
+          import json,sys
+          payload=json.load(open(sys.argv[1],encoding="utf-8"))
+          assert any(item["id"] == sys.argv[2] for item in payload["items"]), payload
           PY
 
           curl --fail --silent --show-error https://dev.terra-umbra.fr/compendium | grep -q 'id="app"'
