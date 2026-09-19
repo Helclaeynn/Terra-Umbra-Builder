@@ -123,6 +123,32 @@ try{
     if(rawDirective)throw new Error("Directive Talents brute encore visible.");
   }
 
+  const styleThemes=[
+    ["interface-2035","Interface 2035"],
+    ["livre-vivant","Livre vivant"],
+    ["codex-hybride","Codex hybride"],
+    ["dossier-umbra","Dossier Umbra"]
+  ];
+  for(const [slug,label] of styleThemes){
+    await publicPage.goto(`${baseUrl}/style-lab/${slug}/builder`,{waitUntil:"domcontentloaded",timeout:30000});
+    await publicPage.getByRole("heading",{name:label,exact:true}).waitFor({state:"visible",timeout:10000});
+    await publicPage.getByRole("heading",{name:"Équipement & patrimoine",exact:true}).waitFor({state:"visible",timeout:10000});
+    await publicPage.waitForFunction(
+      ()=>[...document.querySelectorAll(".equipment-image img")].every(img=>img.naturalWidth>0),
+      null,
+      {timeout:10000}
+    );
+
+    await publicPage.getByRole("link",{name:"Compendium",exact:true}).click();
+    await publicPage.getByRole("heading",{name:"OWL LC-014 Chasseur",exact:true}).waitFor({state:"visible",timeout:10000});
+    await publicPage.waitForFunction(
+      ()=>document.querySelector(".hero-media img")?.naturalWidth>0,
+      null,
+      {timeout:10000}
+    );
+  }
+  console.log("STYLE LAB OK — 4 thèmes · Builder + Compendium · médias chargés");
+
   const loginLink=publicPage.getByRole("link",{name:"Connexion"});
   await loginLink.waitFor({state:"visible",timeout:10000});
   console.log("WIKI PUBLIC OK — onboarding + suggestions + backlinks Builder + cartes Talents dynamiques sans session");
