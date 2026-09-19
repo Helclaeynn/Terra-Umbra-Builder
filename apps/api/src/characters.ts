@@ -1,6 +1,11 @@
 import type { FastifyInstance, FastifyReply } from "fastify";
 import { pool } from "./db.js";
 import { requireUser } from "./auth.js";
+import {
+  blankCharacterData,
+  importV1CharacterData,
+  normalizeCharacterData
+} from "./character-data.js";
 
 type CharacterRow = {
   id: string;
@@ -29,6 +34,45 @@ function validData(value: unknown): value is Record<string, unknown> {
 
 function bad(reply: FastifyReply, error: string) {
   return reply.code(400).send({ error });
+}
+
+async function insertCharacter(
+  ownerId: string,
+  name: string,
+  data: Record<string, unknown>,
+  reason: "created" | "imported"
+): Promise<CharacterRow> {
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    const created = await client.query<CharacterRow>(
+      `INSERT INTO characters (owner_id, name, data, version)
+       VALUES ($1, $2, $3::jsonb, 1)
+       RETURNING
+         id,
+         name,
+         data,
+         version,
+         created_at::text AS "createdAt",
+         updated_at::text AS "updatedAt"`,
+      [ownerId, name, JSON.stringify(data)]
+    );
+
+    const character = created.rows[0];
+    await client.query(
+      `INSERT INTO character_revisions
+        (character_id, revision, name, data, reason, created_by)
+       VALUES ($1, 1, $2, $3::jsonb, $4, $5)`,
+      [character.id, character.name, JSON.stringify(character.data), reason, ownerId]
+    );
+    await client.query("COMMIT");
+    return character;
+  } catch (error) {
+    await client.query("ROLLBACK").catch(() => undefined);
+    throw error;
+  } finally {
+    client.release();
+  }
 }
 
 export async function registerCharacterRoutes(app: FastifyInstance) {
@@ -61,43 +105,48 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
     if (!user) return;
 
     const name = request.body?.name?.trim();
-    const data = request.body?.data ?? {};
+    const requestedData = request.body?.data;
 
     if (!validName(name)) return bad(reply, "invalid_character_name");
-    if (!validData(data)) return bad(reply, "invalid_character_data");
+    if (requestedData !== undefined && !validData(requestedData)) {
+      return bad(reply, "invalid_character_data");
+    }
 
-    const client = await pool.connect();
+    const data =
+      requestedData && Object.keys(requestedData).length > 0
+        ? normalizeCharacterData(requestedData, name)
+        : blankCharacterData(name);
+
     try {
-      await client.query("BEGIN");
-      const created = await client.query<CharacterRow>(
-        `INSERT INTO characters (owner_id, name, data, version)
-         VALUES ($1, $2, $3::jsonb, 1)
-         RETURNING
-           id,
-           name,
-           data,
-           version,
-           created_at::text AS "createdAt",
-           updated_at::text AS "updatedAt"`,
-        [user.id, name, JSON.stringify(data)]
-      );
-
-      const character = created.rows[0];
-      await client.query(
-        `INSERT INTO character_revisions
-          (character_id, revision, name, data, reason, created_by)
-         VALUES ($1, 1, $2, $3::jsonb, 'created', $4)`,
-        [character.id, character.name, JSON.stringify(character.data), user.id]
-      );
-      await client.query("COMMIT");
-
+      const character = await insertCharacter(user.id, name, data, "created");
       return reply.code(201).send({ character });
     } catch (error) {
-      await client.query("ROLLBACK").catch(() => undefined);
       app.log.error(error);
       return reply.code(500).send({ error: "character_create_failed" });
-    } finally {
-      client.release();
+    }
+  });
+
+  app.post<{
+    Body: { data?: Record<string, unknown> };
+  }>("/api/characters/import-v1", async (request, reply) => {
+    const user = await requireUser(request, reply);
+    if (!user) return;
+
+    const source = request.body?.data;
+    if (!validData(source)) return bad(reply, "invalid_character_data");
+
+    const data = importV1CharacterData(source);
+    if (!data) return bad(reply, "invalid_v1_character");
+
+    const name = data.identity.name;
+    if (!validName(name)) return bad(reply, "invalid_character_name");
+
+    try {
+      const character = await insertCharacter(user.id, name, data, "imported");
+      return reply.code(201).send({ character });
+    } catch (error) {
+      app.log.error(error);
+      return reply.code(500).send({ error: "character_import_failed" });
     }
   });
 
@@ -125,6 +174,7 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
 
     const character = result.rows[0];
     if (!character) return reply.code(404).send({ error: "character_not_found" });
+    character.data = normalizeCharacterData(character.data, character.name);
     return { character };
   });
 
@@ -195,7 +245,10 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
       }
 
       const nextName = requestedName?.trim() ?? current.name;
-      const nextData = requestedData ?? current.data;
+      const nextData =
+        requestedData !== undefined
+          ? normalizeCharacterData(requestedData, nextName)
+          : normalizeCharacterData(current.data, nextName);
       const nextVersion = current.version + 1;
 
       const updated = await client.query<CharacterRow>(
@@ -395,6 +448,7 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
       }
 
       const nextVersion = current.version + 1;
+      const restoredData = normalizeCharacterData(snapshot.data, snapshot.name);
       const updated = await client.query<CharacterRow>(
         `UPDATE characters
          SET
@@ -410,7 +464,7 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
            version,
            created_at::text AS "createdAt",
            updated_at::text AS "updatedAt"`,
-        [snapshot.name, JSON.stringify(snapshot.data), nextVersion, current.id]
+        [snapshot.name, JSON.stringify(restoredData), nextVersion, current.id]
       );
 
       await client.query(
