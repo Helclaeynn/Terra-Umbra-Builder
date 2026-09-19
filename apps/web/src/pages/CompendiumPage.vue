@@ -61,6 +61,20 @@ type ArticleSection = {
   blocks?: ArticleBlock[];
 };
 
+type TalentRegistryRow = {
+  talentId: string;
+  natureId: string;
+  groupId: string;
+  groupLabel: string;
+  name: string;
+  lore: string;
+  mechanics: string;
+  cost: number;
+  access: string;
+  prerequisiteId?: string;
+  prerequisiteName?: string;
+};
+
 type LibraryCollection = {
   id: string;
   name: string;
@@ -180,6 +194,7 @@ let suggestionRequest = 0;
 const selected = ref<Article | null>(null);
 const builderUsage = ref<BuilderUsage[]>([]);
 const builderSources = ref<BuilderSourceRecord[]>([]);
+const talentEmbeds = ref<Record<string, TalentRegistryRow[]>>({});
 const loading = ref(false);
 const articleLoading = ref(false);
 const error = ref("");
@@ -815,6 +830,7 @@ async function openArticle(id: string, syncRoute = true) {
     selected.value = result.article;
     builderUsage.value = usageResult.usage;
     builderSources.value = usageResult.sources;
+    await loadTalentEmbeds(result.article);
 
     if (syncRoute && route.query.article !== id) {
       await router.push({
@@ -825,6 +841,7 @@ async function openArticle(id: string, syncRoute = true) {
   } catch (cause) {
     builderUsage.value = [];
     builderSources.value = [];
+    talentEmbeds.value = {};
     error.value = humanError(cause);
   } finally {
     articleLoading.value = false;
@@ -968,6 +985,65 @@ async function handleWikiClick(event: MouseEvent) {
 
 function repositionWikiPreview() {
   if (wikiPreviewLink) void positionWikiPreview(wikiPreviewLink);
+}
+
+type TalentDirective = {natureId?:string;groupId?:string;ids?:string[]};
+
+function talentDirective(value:string):TalentDirective|null{
+  const match=value.trim().match(/^\{\{Talents\|(.+)\}\}$/i);
+  if(!match)return null;
+  const result:TalentDirective={};
+  for(const part of match[1].split("|")){
+    const [rawKey,...rest]=part.split("=");
+    const key=rawKey.trim().toLocaleLowerCase("fr");
+    const val=rest.join("=").trim();
+    if(!val)continue;
+    if(key==="nature"||key==="natureid")result.natureId=val;
+    else if(key==="group"||key==="groupid")result.groupId=val;
+    else if(key==="ids")result.ids=val.split(",").map(item=>item.trim()).filter(Boolean);
+  }
+  return result.natureId||result.groupId||result.ids?.length?result:null;
+}
+
+function talentEmbedKey(block:ArticleBlock):string{
+  return blockText(block).trim();
+}
+
+function isTalentEmbed(block:ArticleBlock):boolean{
+  return block?.type==="p"&&Boolean(talentDirective(talentEmbedKey(block)));
+}
+
+function talentsForBlock(block:ArticleBlock):TalentRegistryRow[]{
+  return talentEmbeds.value[talentEmbedKey(block)]??[];
+}
+
+async function loadTalentEmbeds(article:Article){
+  const directives=new Map<string,TalentDirective>();
+  for(const section of article.sections??[]){
+    for(const block of section.blocks??[]){
+      const key=talentEmbedKey(block);
+      const spec=talentDirective(key);
+      if(spec)directives.set(key,spec);
+    }
+  }
+  if(!directives.size){
+    talentEmbeds.value={};
+    return;
+  }
+
+  const entries=await Promise.all([...directives.entries()].map(async([key,spec])=>{
+    const params=new URLSearchParams();
+    if(spec.natureId)params.set("natureId",spec.natureId);
+    if(spec.groupId)params.set("groupId",spec.groupId);
+    if(spec.ids?.length)params.set("ids",spec.ids.join(","));
+    try{
+      const payload=await api<{items:TalentRegistryRow[]}>(`/api/compendium/talents?${params.toString()}`);
+      return [key,payload.items] as const;
+    }catch{
+      return [key,[] as TalentRegistryRow[]] as const;
+    }
+  }));
+  talentEmbeds.value=Object.fromEntries(entries);
 }
 
 function blockText(block: ArticleBlock): string {
@@ -1402,8 +1478,31 @@ onBeforeUnmount(() => {
                         </component>
 
                         <template v-for="(block, blockIndex) in section.blocks || []" :key="blockIndex">
+                          <div v-if="isTalentEmbed(block)" class="talent-registry-block">
+                            <div v-if="talentsForBlock(block).length" class="talent-card-grid">
+                              <article v-for="talent in talentsForBlock(block)" :key="talent.talentId" class="talent-wiki-card">
+                                <header>
+                                  <div>
+                                    <span>{{ talent.groupLabel }}</span>
+                                    <h3>{{ talent.name }}</h3>
+                                  </div>
+                                  <strong>{{ talent.cost }} PTV</strong>
+                                </header>
+                                <div class="talent-wiki-meta">
+                                  <span v-if="talent.access">{{ talent.access }}</span>
+                                  <span v-if="talent.prerequisiteName">Prérequis · {{ talent.prerequisiteName }}</span>
+                                </div>
+                                <p class="talent-wiki-lore">{{ talent.lore }}</p>
+                                <div class="talent-wiki-mechanics">
+                                  <small>EFFET</small>
+                                  <p>{{ talent.mechanics }}</p>
+                                </div>
+                              </article>
+                            </div>
+                            <div v-else class="talent-registry-empty">Aucun Talent ne correspond à ce bloc dynamique.</div>
+                          </div>
                           <p
-                            v-if="block.type === 'p'"
+                            v-else-if="block.type === 'p'"
                             :class="['article-paragraph', String(block.style || '')]"
                             v-html="linkifyText(blockText(block), selected)"
                           ></p>
@@ -1428,8 +1527,31 @@ onBeforeUnmount(() => {
                       </component>
 
                       <template v-for="(block, blockIndex) in section.blocks || []" :key="blockIndex">
+                        <div v-if="isTalentEmbed(block)" class="talent-registry-block">
+                          <div v-if="talentsForBlock(block).length" class="talent-card-grid">
+                            <article v-for="talent in talentsForBlock(block)" :key="talent.talentId" class="talent-wiki-card">
+                              <header>
+                                <div>
+                                  <span>{{ talent.groupLabel }}</span>
+                                  <h3>{{ talent.name }}</h3>
+                                </div>
+                                <strong>{{ talent.cost }} PTV</strong>
+                              </header>
+                              <div class="talent-wiki-meta">
+                                <span v-if="talent.access">{{ talent.access }}</span>
+                                <span v-if="talent.prerequisiteName">Prérequis · {{ talent.prerequisiteName }}</span>
+                              </div>
+                              <p class="talent-wiki-lore">{{ talent.lore }}</p>
+                              <div class="talent-wiki-mechanics">
+                                <small>EFFET</small>
+                                <p>{{ talent.mechanics }}</p>
+                              </div>
+                            </article>
+                          </div>
+                          <div v-else class="talent-registry-empty">Aucun Talent ne correspond à ce bloc dynamique.</div>
+                        </div>
                         <p
-                          v-if="block.type === 'p'"
+                          v-else-if="block.type === 'p'"
                           :class="['article-paragraph', String(block.style || '')]"
                           v-html="linkifyText(blockText(block), selected)"
                         ></p>
@@ -2055,6 +2177,14 @@ onBeforeUnmount(() => {
   font-size: .76rem;
 }
 
+.talent-registry-block{margin:1.1rem 0 1.6rem}
+.talent-card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.75rem}
+.talent-wiki-card{display:flex;flex-direction:column;gap:.7rem;padding:1rem;border:1px solid rgba(199,173,120,.16);background:linear-gradient(145deg,rgba(161,125,69,.055),rgba(255,255,255,.012));box-shadow:0 10px 28px rgba(0,0,0,.12)}
+.talent-wiki-card header{display:flex;align-items:flex-start;justify-content:space-between;gap:.8rem}.talent-wiki-card header span{color:#947d58;font-size:.6rem;text-transform:uppercase;letter-spacing:.06em}.talent-wiki-card h3{margin:.16rem 0 0;color:#e2d8c8;font:500 1.05rem/1.2 Georgia,serif}.talent-wiki-card header>strong{flex:0 0 auto;color:#d6b97f;font-size:.72rem}
+.talent-wiki-meta{display:flex;flex-wrap:wrap;gap:.35rem}.talent-wiki-meta span{padding:.24rem .38rem;border:1px solid rgba(255,255,255,.07);color:#8f887d;font-size:.62rem}
+.talent-wiki-lore{margin:0;color:#9c958b;font-size:.76rem;line-height:1.55}
+.talent-wiki-mechanics{margin-top:auto;padding:.7rem .75rem;border-left:2px solid rgba(199,173,120,.36);background:rgba(0,0,0,.13)}.talent-wiki-mechanics small{display:block;margin-bottom:.28rem;color:#a88e60;font-size:.58rem;letter-spacing:.08em}.talent-wiki-mechanics p{margin:0;color:#c0b7aa;font-size:.72rem;line-height:1.5}
+.talent-registry-empty{padding:.9rem;border:1px dashed rgba(255,255,255,.1);color:#817a70;font-size:.75rem}
 .wiki-mechanics-card{padding:1rem;border:1px solid rgba(199,173,120,.24);background:linear-gradient(145deg,rgba(161,125,69,.08),rgba(255,255,255,.014));box-shadow:inset 0 1px rgba(255,255,255,.025)}
 .wiki-mechanics-head{display:flex;justify-content:space-between;gap:.8rem;align-items:flex-start;margin-bottom:.7rem}.wiki-mechanics-head strong{display:block;color:#e4d8c4;font:500 1rem/1.2 Georgia,serif}.wiki-mechanics-head>span{padding:.2rem .38rem;border:1px solid rgba(112,168,121,.22);color:#9fbd9d;font-size:.58rem;text-transform:uppercase;letter-spacing:.05em}
 .wiki-mechanics-record+.wiki-mechanics-record{margin-top:.8rem;padding-top:.8rem;border-top:1px solid rgba(255,255,255,.07)}.wiki-mechanics-record header{display:flex;justify-content:space-between;gap:.6rem;margin-bottom:.5rem}.wiki-mechanics-record header strong{color:#d5cbbd;font-size:.76rem}.wiki-mechanics-record header small{color:#857e73;font-size:.62rem}
