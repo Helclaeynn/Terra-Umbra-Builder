@@ -9,6 +9,7 @@ import TalentSelector, {
 } from "../components/builder/TalentSelector.vue";
 import EquipmentStep from "../components/builder/EquipmentStep.vue";
 import FinalizationStep from "../components/builder/FinalizationStep.vue";
+import ProgressionStep from "../components/builder/ProgressionStep.vue";
 import {
   augmentationAccess,
   augmentationCopyCount,
@@ -708,6 +709,15 @@ const finalSkillRows=computed(()=>
     value:skillFinal(skill.id)
   }))
 );
+const progressionSkillBases=computed(()=>Object.fromEntries(
+  (rules.value?.skills??[]).map(skill=>[skill.id,skillRaw(skill.id)])
+));
+const progressionSkillFinalBases=computed(()=>Object.fromEntries(
+  (rules.value?.skills??[]).map(skill=>[skill.id,skillFinal(skill.id)])
+));
+const progressionAttributeBases=computed(()=>Object.fromEntries(
+  (rules.value?.attributes??[]).map(attribute=>[attribute.id,finalAttribute(attribute.id)])
+));
 const selectedRealityTalentNames=computed(()=>
   selectedRealityTalentIds()
     .map(id=>talentById(id)?.name??id)
@@ -2277,6 +2287,32 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
           @update:social="draft.social=$event"
           @update:reality="draft.reality=$event"
           @navigate="navigateFromFinalization"
+        />
+
+        <ProgressionStep
+          v-else-if="activeStep === 'progression' && truthRules && realityRules && currentTruthState"
+          class="panel builder-card"
+          :progression="draft.progression"
+          :reality="draft.reality"
+          :truth-state="currentTruthState"
+          :rules="rules"
+          :truth-rules="truthRules"
+          :reality-rules="realityRules"
+          :style="selectedStyle"
+          :edge="draft.edge"
+          :sphere-id="draft.creation.sphere"
+          :sphere-name="sphereNameValue"
+          :creation-talent-ids="selectedRealityTalentIds()"
+          :skill-talent-map="skillTalentMap"
+          :disadvantages="draft.disadvantages"
+          :skill-bases="progressionSkillBases"
+          :skill-final-bases="progressionSkillFinalBases"
+          :attribute-bases="progressionAttributeBases"
+          :creation-ptv-reserve="Math.max(0,truthPtvRemaining)"
+          :creation-account="Math.max(0,realityEconomyValue?.account || 0)"
+          @update:progression="draft.progression=$event"
+          @update:reality="draft.reality=$event"
+          @update:truth="writeTruthState($event)"
         />
 
         <article v-else class="panel builder-card">
