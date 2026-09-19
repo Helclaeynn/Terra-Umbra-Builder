@@ -1,18 +1,5 @@
 (()=> {
   const STORAGE='tuc-character-builder-v1';
-  const rawCharacterId=new URLSearchParams(location.search).get('character')||'';
-  const V2_UUID_RE=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-  const v2CharacterId=V2_UUID_RE.test(rawCharacterId)?rawCharacterId:'';
-  const v2Mode=Boolean(v2CharacterId);
-  window.__TUC_V2_CHARACTER_ID__=v2CharacterId;
-  window.__TUC_V2_BOOTSTRAP__=v2Mode
-    ? fetch(`/api/characters/${encodeURIComponent(v2CharacterId)}`,{credentials:'same-origin',cache:'no-store'})
-        .then(async response=>{
-          const body=await response.json().catch(()=>({}));
-          if(!response.ok)throw Object.assign(new Error(body.error||`http_${response.status}`),{status:response.status});
-          return body;
-        })
-    : Promise.resolve(null);
   const STEPS=[
     ['identity','Identité'],['origin','Origine'],['sphere','Sphère & Style'],['attributes','Attributs'],
     ['skills','Compétences'],['talents','Talents'],['truth','Vérité'],['disadvantages','Désavantages'],
@@ -22,7 +9,7 @@
   if(!stepContent||!stepNav)return;
 
   const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const read=()=>{if(v2Mode)return {};try{return JSON.parse(window.localStorage.getItem(STORAGE)||'{}')||{}}catch{return {}}};
+  const read=()=>{try{return JSON.parse(localStorage.getItem(STORAGE)||'{}')||{}}catch{return {}}};
   const stored=read();
   const identity={
     name:'',alias:'',age:'',sex:'',height:'',weight:'',concept:'',objective:'',notes:'',portraitDataUrl:'',portraitName:'',
@@ -33,7 +20,7 @@
   const write=()=>{
     const current=read();
     current.identity={...(current.identity||{}),...identity};
-    if(!v2Mode){try{window.localStorage.setItem(STORAGE,JSON.stringify(current))}catch(error){console.warn('Fast identity persistence',error)}}
+    try{localStorage.setItem(STORAGE,JSON.stringify(current))}catch(error){console.warn('Fast identity persistence',error)}
     renderSummary();
   };
 
