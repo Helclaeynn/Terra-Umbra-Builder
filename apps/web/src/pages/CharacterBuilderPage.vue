@@ -8,6 +8,21 @@ import TalentSelector, {
   type TalentOption
 } from "../components/builder/TalentSelector.vue";
 import type { Character, CharacterDataV2 } from "../types/character";
+import {
+  truthAvailableTalents,
+  truthChoiceOptions,
+  truthChoicesValid,
+  truthGroups,
+  truthPrerequisiteSatisfied,
+  truthPtvSpent,
+  truthSanitizeChoices,
+  truthSanitizeTalents,
+  truthSelectedFreeTraits,
+  type TruthChoice,
+  type TruthRulesPackage,
+  type TruthState,
+  type TruthTalent
+} from "../lib/truth";
 
 type RuleAttribute={id:string;name:string};
 type RuleSkill={id:string;name:string;attribute:string};
@@ -97,7 +112,9 @@ const skillTalentMap=ref<Record<string,string>>({});
 const disadvantages=ref<DisadvantageCatalog|null>(null);
 const disadvantageLore=ref<Record<string,string>>({});
 const edgeRules=ref<EdgeRules|null>(null);
+const truthRules=ref<TruthRulesPackage|null>(null);
 const disadvantageCategory=ref("common");
+const truthSearch=ref("");
 const loading=ref(true);
 const saving=ref(false);
 const error=ref("");
@@ -113,7 +130,7 @@ const sections:Array<[StepId,string,boolean]>=[
   ["attributes","Attributs",true],
   ["skills","Compétences",true],
   ["talents","Talents",true],
-  ["truth","Vérité",false],
+  ["truth","Vérité",true],
   ["disadvantages","Désavantages",true],
   ["edge","Edge",true],
   ["equipment","Équipement",false],
@@ -253,6 +270,61 @@ const edgeRemaining=computed(()=>edgeTotal.value-edgeSpent.value);
 
 const hasUnknownDisadvantage=computed(()=>draft.value?.disadvantages.includes("inconnu")??false);
 const hasRenownedTalent=computed(()=>selectedRealityTalentIds().includes("renomme"));
+
+const currentTruthState=computed<TruthState|null>(()=>{
+  if(!draft.value)return null;
+  const raw=draft.value.truth;
+  const choices=raw.choices&&typeof raw.choices==="object"&&!Array.isArray(raw.choices)
+    ? raw.choices as Record<string,unknown>
+    : {};
+  return {
+    nature:typeof raw.nature==="string"?raw.nature:"humain",
+    consciousness:typeof raw.consciousness==="string"?raw.consciousness:"profane",
+    choices,
+    truthTalents:Array.isArray(raw.truthTalents)
+      ? raw.truthTalents.filter((id):id is string=>typeof id==="string")
+      : []
+  };
+});
+
+const selectedTruthNature=computed(()=>{
+  if(!truthRules.value||!currentTruthState.value)return null;
+  return truthRules.value.structure.natures[currentTruthState.value.nature]??null;
+});
+
+const availableTruthTalents=computed(()=>{
+  if(!truthRules.value||!currentTruthState.value)return [];
+  return truthAvailableTalents(truthRules.value,currentTruthState.value);
+});
+
+const selectedTruthFreeTraits=computed(()=>{
+  if(!truthRules.value||!currentTruthState.value)return [];
+  return truthSelectedFreeTraits(truthRules.value,currentTruthState.value);
+});
+
+const truthPtvSpentValue=computed(()=>{
+  if(!truthRules.value||!currentTruthState.value)return 0;
+  return truthPtvSpent(truthRules.value,currentTruthState.value);
+});
+
+const truthPtvRemaining=computed(()=>
+  (truthRules.value?.structure.ptvInitial??0)-truthPtvSpentValue.value
+);
+
+const visibleTruthGroups=computed(()=>{
+  const groups=truthGroups(availableTruthTalents.value);
+  const query=truthSearch.value.trim().toLocaleLowerCase("fr");
+  if(!query)return groups;
+  return groups
+    .map(group=>({
+      ...group,
+      items:group.items.filter(talent=>
+        [talent.name,talent.group,talent.effect,talent.runtimeLore,talent.prerequisiteName]
+          .some(value=>String(value||"").toLocaleLowerCase("fr").includes(query))
+      )
+    }))
+    .filter(group=>group.items.length);
+});
 
 const edgeTalentGroups=computed(()=>{
   if(!rules.value||!draft.value)return [];
@@ -471,6 +543,13 @@ function stepDone(id:StepId){
     const neuroOk=draft.value.talents.expertise!=="neurodriver"||skillRaw("neurodive")>=1;
     return selected.every(Boolean)&&expertiseOk&&choicesOk&&neuroOk;
   }
+  if(id==="truth"){
+    if(!truthRules.value||!currentTruthState.value)return false;
+    return !!currentTruthState.value.nature&&
+      !!currentTruthState.value.consciousness&&
+      truthChoicesValid(truthRules.value,currentTruthState.value)&&
+      truthPtvSpentValue.value<=truthRules.value.structure.ptvInitial;
+  }
   if(id==="disadvantages"){
     return draft.value.disadvantages.length<=3&&disadvantagesCompatible();
   }
@@ -491,7 +570,7 @@ async function loadCharacter(){
   error.value="";
   const id=String(route.params.id??"");
   try{
-    const [characterResult,rulesResult]=await Promise.all([
+    const [characterResult,rulesResult,truthResult]=await Promise.all([
       api<{character:Character}>(`/api/characters/${encodeURIComponent(id)}`),
       api<{
         rules:CreationRules;
@@ -501,7 +580,8 @@ async function loadCharacter(){
         disadvantages:DisadvantageCatalog;
         disadvantageLore:Record<string,string>;
         edgeRules:EdgeRules;
-      }>("/api/rulesets/terra-umbra/creation")
+      }>("/api/rulesets/terra-umbra/creation"),
+      api<TruthRulesPackage>("/api/rulesets/terra-umbra/truth")
     ]);
     character.value=characterResult.character;
     draft.value=structuredClone(characterResult.character.data);
@@ -512,6 +592,7 @@ async function loadCharacter(){
     disadvantages.value=rulesResult.disadvantages;
     disadvantageLore.value=rulesResult.disadvantageLore;
     edgeRules.value=rulesResult.edgeRules;
+    truthRules.value=truthResult;
     if(
       disadvantageCategory.value==="sphere" &&
       !draft.value.creation.sphere
@@ -686,6 +767,96 @@ function changeFreeSkillPoint(id:string,delta:number){
   if(delta>0&&freeSkillPointsUsed.value>=freeSkillBudget.value)return;
   if(delta>0&&skillRaw(id)>=rules.value.creation.skills.rawMax)return;
   skill.free=next;
+}
+
+function writeTruthState(state:TruthState){
+  if(!draft.value)return;
+  draft.value.truth={
+    nature:state.nature,
+    consciousness:state.consciousness,
+    choices:{...state.choices},
+    truthTalents:[...state.truthTalents]
+  };
+}
+
+function setTruthNature(id:string){
+  if(!draft.value||!truthRules.value)return;
+  const nature=truthRules.value.structure.natures[id];
+  if(!nature)return;
+  const current=currentTruthState.value;
+  const next:TruthState={
+    nature:id,
+    consciousness:current?.consciousness??"profane",
+    choices:truthSanitizeChoices(nature,{}),
+    truthTalents:[]
+  };
+  writeTruthState(next);
+  truthSearch.value="";
+}
+
+function setTruthConsciousness(id:string){
+  if(!truthRules.value||!currentTruthState.value)return;
+  const next:TruthState={...currentTruthState.value,consciousness:id};
+  next.truthTalents=truthSanitizeTalents(truthRules.value,next);
+  writeTruthState(next);
+}
+
+function setTruthChoice(key:string,value:string){
+  if(!truthRules.value||!currentTruthState.value||!selectedTruthNature.value)return;
+  const choices=truthSanitizeChoices(
+    selectedTruthNature.value,
+    {...currentTruthState.value.choices,[key]:value}
+  );
+  const next:TruthState={...currentTruthState.value,choices};
+  next.truthTalents=truthSanitizeTalents(truthRules.value,next);
+  writeTruthState(next);
+}
+
+function truthChoiceValue(choice:TruthChoice){
+  const value=currentTruthState.value?.choices[choice.key];
+  return typeof value==="string"?value:"";
+}
+
+function resolvedTruthChoiceOptions(choice:TruthChoice){
+  return truthChoiceOptions(choice,currentTruthState.value?.choices??{});
+}
+
+function selectedTruthChoice(choice:TruthChoice){
+  const value=truthChoiceValue(choice);
+  return resolvedTruthChoiceOptions(choice).find(option=>option.id===value)??null;
+}
+
+function truthTalentSelected(id:string){
+  return currentTruthState.value?.truthTalents.includes(id)??false;
+}
+
+function truthTalentPrereqOk(talent:TruthTalent){
+  if(!truthRules.value||!currentTruthState.value)return false;
+  return truthPrerequisiteSatisfied(
+    truthRules.value,
+    currentTruthState.value,
+    talent,
+    availableTruthTalents.value
+  );
+}
+
+function truthTalentCanAdd(talent:TruthTalent){
+  if(!truthRules.value||!currentTruthState.value)return false;
+  if(truthTalentSelected(talent.id))return true;
+  if(!truthTalentPrereqOk(talent))return false;
+  return truthPtvSpentValue.value+Number(talent.cost||0)<=truthRules.value.structure.ptvInitial;
+}
+
+function toggleTruthTalent(talent:TruthTalent){
+  if(!truthRules.value||!currentTruthState.value)return;
+  const selected=currentTruthState.value.truthTalents.includes(talent.id);
+  if(!selected&&!truthTalentCanAdd(talent))return;
+  const truthTalents=selected
+    ? currentTruthState.value.truthTalents.filter(id=>id!==talent.id)
+    : [...currentTruthState.value.truthTalents,talent.id];
+  const next:TruthState={...currentTruthState.value,truthTalents};
+  next.truthTalents=truthSanitizeTalents(truthRules.value,next);
+  writeTruthState(next);
 }
 
 function toggleDisadvantage(id:string){
