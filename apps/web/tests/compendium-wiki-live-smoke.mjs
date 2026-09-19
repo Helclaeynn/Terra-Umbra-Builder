@@ -13,6 +13,36 @@ const browser=await chromium.launch({
   args:["--no-sandbox"]
 });
 
+const publicContext=await browser.newContext();
+const publicPage=await publicContext.newPage();
+try{
+  await publicPage.goto(baseUrl+"/compendium",{waitUntil:"domcontentloaded",timeout:30000});
+  await publicPage.locator(".newcomer-hero").waitFor({state:"visible",timeout:20000});
+  const newcomerTitle=(await publicPage.locator(".newcomer-hero h2").innerText()).trim();
+  if(newcomerTitle!=="Entrer dans Terra Umbra")throw new Error("Portail nouveau joueur absent: "+newcomerTitle);
+
+  const basics=await publicPage.locator(".newcomer-card").count();
+  if(basics<4)throw new Error("Parcours nouveau joueur incomplet: "+basics+" cartes.");
+
+  const searchInput=publicPage.locator('input[type="search"]');
+  await searchInput.fill("Afanc");
+  await publicPage.getByRole("button",{name:"Rechercher"}).click();
+  await publicPage.locator(".result-card").first().waitFor({state:"visible",timeout:10000});
+  const searchTitles=await publicPage.locator(".result-card strong").allInnerTexts();
+  if(!searchTitles.some(title=>title.trim()==="Afanc"))throw new Error("Recherche publique Afanc absente: "+searchTitles.join(", "));
+
+  await publicPage.goto(baseUrl+"/compendium?article=guide-realite-nouveau-joueur",{waitUntil:"domcontentloaded",timeout:30000});
+  await publicPage.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
+  const guideTitle=(await publicPage.locator(".article-header h1").innerText()).trim();
+  if(guideTitle!=="Réalité — Guide du nouveau joueur")throw new Error("Guide public inattendu: "+guideTitle);
+
+  const loginLink=publicPage.getByRole("link",{name:"Connexion"});
+  await loginLink.waitFor({state:"visible",timeout:10000});
+  console.log("WIKI PUBLIC OK — onboarding + recherche + guide sans session");
+}finally{
+  await publicContext.close();
+}
+
 const context=await browser.newContext();
 await context.addCookies([{
   name:"__Host-tuc_session",
