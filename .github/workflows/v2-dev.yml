@@ -449,6 +449,28 @@ jobs:
           assert len(payload["baseHash"]) == 64, payload["baseHash"]
           PY
 
+          echo "Wiki smoke: verifying Builder coverage audit"
+          curl --fail --silent --show-error             -b "$COOKIE_JAR"             https://dev.terra-umbra.fr/api/compendium/editor/builder-coverage > "$COMPENDIUM_EDITOR"
+          python3 - "$COMPENDIUM_EDITOR" <<'PY'
+          import json,sys
+          payload=json.load(open(sys.argv[1],encoding="utf-8"))
+          summary=payload["summary"]
+          assert summary["total"] > 0, summary
+          assert summary["linked"] > 0, summary
+          families={item["family"] for item in payload["families"]}
+          for expected in {"equipment","augmentations","reality-talents","truth-talents","natures"}:
+              assert expected in families, families
+          assert summary["linked"] + summary["missing"] + summary["ambiguous"] == summary["total"], summary
+          PY
+
+          curl --fail --silent --show-error             -b "$COOKIE_JAR"             https://dev.terra-umbra.fr/api/compendium/editor/builder-source/verite-046-10-vampires > "$COMPENDIUM_EDITOR"
+          python3 - "$COMPENDIUM_EDITOR" <<'PY'
+          import json,sys
+          records=json.load(open(sys.argv[1],encoding="utf-8"))["records"]
+          assert any(item["kind"] == "Nature" for item in records), records
+          assert all("mechanics" in item for item in records), records
+          PY
+
           echo "Wiki smoke: creating and publishing a custom page"
           CREATE_PAYLOAD="$(printf '{"title":"CI Wiki %s","category":"Réalité","source":"CI smoke","tags":["CI"]}' "$TEST_ID")"
           curl --fail --silent --show-error \
