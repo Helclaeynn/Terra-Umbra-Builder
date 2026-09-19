@@ -1357,67 +1357,94 @@ onBeforeUnmount(() => {
           @close="closeNewcomer"
         />
 
-        <section v-if="currentUser && !showOnboarding" class="panel library-panel">
+        <section
+          v-if="!showOnboarding && (currentUser || recentItems.length)"
+          class="panel library-panel"
+        >
           <div class="library-heading">
             <div>
-              <p class="eyebrow">MA BIBLIOTHÈQUE</p>
-              <h2>Favoris & collections</h2>
+              <p class="eyebrow">{{ currentUser ? "MA BIBLIOTHÈQUE" : "MA NAVIGATION" }}</p>
+              <h2>{{ currentUser ? "Historique, favoris & collections" : "Historique récent" }}</h2>
             </div>
-            <button
-              class="library-scope"
-              :class="{ active: activeLibraryView === 'favorites' }"
-              type="button"
-              @click="showFavorites"
-            >
-              ★ Favoris · {{ favoriteIds.length }}
-            </button>
-          </div>
-
-          <form class="collection-create" @submit.prevent="createCollection">
-            <input
-              v-model="newCollectionName"
-              maxlength="80"
-              placeholder="Nouvelle collection…"
-              aria-label="Nom de la nouvelle collection"
-            />
-            <button class="secondary" :disabled="libraryBusy || !newCollectionName.trim()" type="submit">
-              Créer
-            </button>
-          </form>
-
-          <div v-if="collections.length" class="collection-list">
-            <div
-              v-for="collection in collections"
-              :key="collection.id"
-              class="collection-row"
-              :class="{ active: activeLibraryView === collection.id }"
-            >
-              <button class="collection-open" type="button" @click="showCollection(collection)">
-                <strong>{{ collection.name }}</strong>
-                <small>{{ collection.articleIds.length }} article{{ collection.articleIds.length > 1 ? "s" : "" }}</small>
+            <div class="library-scopes">
+              <button
+                class="library-scope"
+                :class="{ active: activeLibraryView === 'recent' }"
+                type="button"
+                @click="showRecent"
+              >
+                ◷ Historique · {{ recentItems.length }}
               </button>
               <button
-                class="collection-action"
+                v-if="recentItems.length"
+                class="library-clear"
                 type="button"
-                title="Renommer"
-                :disabled="libraryBusy"
-                @click="renameCollection(collection)"
+                @click="clearHistory"
               >
-                ✎
+                Effacer
               </button>
               <button
-                class="collection-action danger"
+                v-if="currentUser"
+                class="library-scope"
+                :class="{ active: activeLibraryView === 'favorites' }"
                 type="button"
-                title="Supprimer"
-                :disabled="libraryBusy"
-                @click="deleteCollection(collection)"
+                @click="showFavorites"
               >
-                ×
+                ★ Favoris · {{ favoriteIds.length }}
               </button>
             </div>
           </div>
+
+          <template v-if="currentUser">
+            <form class="collection-create" @submit.prevent="createCollection">
+              <input
+                v-model="newCollectionName"
+                maxlength="80"
+                placeholder="Nouvelle collection…"
+                aria-label="Nom de la nouvelle collection"
+              />
+              <button class="secondary" :disabled="libraryBusy || !newCollectionName.trim()" type="submit">
+                Créer
+              </button>
+            </form>
+
+            <div v-if="collections.length" class="collection-list">
+              <div
+                v-for="collection in collections"
+                :key="collection.id"
+                class="collection-row"
+                :class="{ active: activeLibraryView === collection.id }"
+              >
+                <button class="collection-open" type="button" @click="showCollection(collection)">
+                  <strong>{{ collection.name }}</strong>
+                  <small>{{ collection.articleIds.length }} article{{ collection.articleIds.length > 1 ? "s" : "" }}</small>
+                </button>
+                <button
+                  class="collection-action"
+                  type="button"
+                  title="Renommer"
+                  :disabled="libraryBusy"
+                  @click="renameCollection(collection)"
+                >
+                  ✎
+                </button>
+                <button
+                  class="collection-action danger"
+                  type="button"
+                  title="Supprimer"
+                  :disabled="libraryBusy"
+                  @click="deleteCollection(collection)"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+            <p v-else class="library-empty">
+              Crée une collection pour préparer une campagne, une faction, un scénario ou une liste de références.
+            </p>
+          </template>
           <p v-else class="library-empty">
-            Crée une collection pour préparer une campagne, une faction, un scénario ou une liste de références.
+            Cet historique reste uniquement dans ce navigateur tant que tu n’es pas connecté.
           </p>
         </section>
 
@@ -1427,11 +1454,13 @@ onBeforeUnmount(() => {
               <div>
                 <p class="eyebrow">
                   {{
-                    activeLibraryView === "favorites"
-                      ? "MES FAVORIS"
-                      : activeLibraryView
-                        ? collections.find(item => item.id === activeLibraryView)?.name || "MA COLLECTION"
-                        : category || "TOUTES LES RUBRIQUES"
+                    activeLibraryView === "recent"
+                      ? "RÉCEMMENT CONSULTÉS"
+                      : activeLibraryView === "favorites"
+                        ? "MES FAVORIS"
+                        : activeLibraryView
+                          ? collections.find(item => item.id === activeLibraryView)?.name || "MA COLLECTION"
+                          : category || "TOUTES LES RUBRIQUES"
                   }}
                 </p>
                 <h2>Résultats</h2>
@@ -1988,6 +2017,27 @@ onBeforeUnmount(() => {
 .library-heading h2 {
   margin: 0;
   font: 500 1.45rem/1.2 Georgia, serif;
+}
+
+.library-scopes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: .45rem;
+}
+
+.library-clear {
+  min-height: 38px;
+  padding: .45rem .6rem;
+  border: 1px solid rgba(255, 255, 255, .08);
+  color: #857f76;
+  background: transparent;
+  font-size: .72rem;
+}
+
+.library-clear:hover {
+  border-color: rgba(199, 173, 120, .25);
+  color: #bdb5a8;
 }
 
 .library-scope {
