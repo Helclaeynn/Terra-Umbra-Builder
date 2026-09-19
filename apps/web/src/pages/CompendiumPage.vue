@@ -46,13 +46,20 @@ type TableBlock = {
   rows?: unknown[][];
 };
 
+type ArticleBlock = ParagraphBlock | TableBlock | {
+  type?: string;
+  text?: unknown;
+  style?: unknown;
+  rows?: unknown[][];
+};
+
 type ArticleSection = {
   id?: string;
   title?: string;
   level?: number;
   audience?: string;
   status?: string;
-  blocks?: Array<ParagraphBlock | TableBlock | Record<string, unknown>>;
+  blocks?: ArticleBlock[];
 };
 
 type Article = {
@@ -158,12 +165,12 @@ async function chooseCategory(name: string) {
   await search();
 }
 
-function blockText(block: ArticleSection["blocks"][number]): string {
+function blockText(block: ArticleBlock): string {
   if (block && block.type === "p" && "text" in block) return String(block.text ?? "");
   return "";
 }
 
-function tableRows(block: ArticleSection["blocks"][number]): unknown[][] {
+function tableRows(block: ArticleBlock): unknown[][] {
   if (block && block.type === "table" && "rows" in block && Array.isArray(block.rows)) {
     return block.rows;
   }
