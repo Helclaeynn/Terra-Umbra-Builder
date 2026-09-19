@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
-import { RouterLink } from "vue-router";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { RouterLink, useRoute, useRouter } from "vue-router";
 import { api, ApiError } from "../lib/api";
 import { createWikiLinker } from "../lib/wiki-linker";
 import {
@@ -103,6 +103,9 @@ type Article = {
   pnj?: Record<string, unknown>;
   __editorialOverride?: boolean;
 };
+
+const route = useRoute();
+const router = useRouter();
 
 const meta = ref<Meta | null>(null);
 const query = ref("");
@@ -421,7 +424,7 @@ async function search() {
   }
 }
 
-async function openArticle(id: string) {
+async function openArticle(id: string, syncRoute = true) {
   articleLoading.value = true;
   error.value = "";
 
@@ -430,6 +433,13 @@ async function openArticle(id: string) {
       `/api/compendium/articles/${encodeURIComponent(id)}`
     );
     selected.value = result.article;
+
+    if (syncRoute && route.query.article !== id) {
+      await router.push({
+        path: "/compendium",
+        query: { article: id }
+      });
+    }
   } catch (cause) {
     error.value = humanError(cause);
   } finally {
@@ -577,8 +587,27 @@ function sectionHeadingLevel(section: ArticleSection): "h2" | "h3" | "h4" {
   return "h2";
 }
 
+watch(
+  () => route.query.article,
+  (value) => {
+    const id = typeof value === "string" ? value : "";
+    if (id && id !== selected.value?.id) {
+      void openArticle(id, false);
+    } else if (!id) {
+      selected.value = null;
+    }
+  }
+);
+
 onMounted(async () => {
+  if (typeof route.query.q === "string") query.value = route.query.q;
+
   await Promise.all([loadMeta(), loadLibrary(), loadWikiIndex(), search()]);
+
+  if (typeof route.query.article === "string") {
+    await openArticle(route.query.article, false);
+  }
+
   window.addEventListener("scroll", repositionWikiPreview, { passive: true });
   window.addEventListener("resize", repositionWikiPreview);
 });
