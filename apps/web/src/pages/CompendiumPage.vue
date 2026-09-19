@@ -227,9 +227,24 @@ async function loadWikiIndex() {
       searchHref: (term: string) => `/compendium?q=${encodeURIComponent(term)}`
     });
     wikiReady.value = true;
+
+    (window as any).__TUC_WIKI_V2__ = {
+      ready: true,
+      entries: payload.entries.length,
+      stats: wikiLinker.stats,
+      hasGarouTarget: wikiById.has("verite-047-11-garous-loups-descendants-de-khinae"),
+      sanity: wikiLinker.linkify(
+        "Les Garous croisent parfois des Vampires.",
+        { id: "__wiki_sanity__", category: "Vérité", dataset: "verite", title: "Test" }
+      )
+    };
   } catch (cause) {
     console.warn("Index wiki indisponible.", cause);
     wikiReady.value = false;
+    (window as any).__TUC_WIKI_V2__ = {
+      ready: false,
+      error: cause instanceof Error ? cause.message : String(cause)
+    };
   }
 }
 
