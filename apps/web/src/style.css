@@ -280,6 +280,32 @@ select:focus {
   border-color: rgba(199, 173, 120, .28);
 }
 
+.compendium-launcher {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1.25rem;
+  padding: 1.35rem 1.5rem;
+}
+
+.compendium-launcher h2 {
+  margin-bottom: .4rem;
+}
+
+.compendium-launcher p {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.compendium-launcher-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -485,6 +511,11 @@ td select {
 
   .welcome {
     align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .compendium-launcher {
+    align-items: stretch;
     flex-direction: column;
   }
 
