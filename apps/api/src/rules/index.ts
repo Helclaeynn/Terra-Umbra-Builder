@@ -97,11 +97,121 @@ async function enrichRealityRules(){
   return reality;
 }
 
+type BuilderUsage={
+  kind:string;
+  label:string;
+  step:"origin"|"sphere"|"talents"|"truth"|"disadvantages"|"equipment";
+  detail?:string;
+};
+
+type TimedCache<T>={expires:number;promise:Promise<T>};
+const RULE_CACHE_MS=60_000;
+let creationCache:TimedCache<any>|null=null;
+let truthCache:TimedCache<any>|null=null;
+let realityCache:TimedCache<any>|null=null;
+
+function cached<T>(slot:TimedCache<T>|null,create:()=>Promise<T>){
+  const now=Date.now();
+  if(slot&&slot.expires>now)return slot;
+  return {expires:now+RULE_CACHE_MS,promise:create()};
+}
+
+function getEnrichedCreation(){
+  creationCache=cached(creationCache,enrichCreationRules);
+  return creationCache.promise;
+}
+function getEnrichedTruth(){
+  truthCache=cached(truthCache,enrichTruthRules);
+  return truthCache.promise;
+}
+function getEnrichedReality(){
+  realityCache=cached(realityCache,enrichRealityRules);
+  return realityCache.promise;
+}
+
+function usagePush(rows:BuilderUsage[],seen:Set<string>,entry:BuilderUsage){
+  const key=`${entry.step}|${entry.kind}|${entry.label}`;
+  if(seen.has(key))return;
+  seen.add(key);
+  rows.push(entry);
+}
+
+async function builderUsageFor(articleId:string):Promise<BuilderUsage[]>{
+  const [creation,truth,reality]=await Promise.all([
+    getEnrichedCreation(),
+    getEnrichedTruth(),
+    getEnrichedReality()
+  ]);
+  const rows:BuilderUsage[]=[];
+  const seen=new Set<string>();
+
+  for(const entry of Object.values(creation.rules.origins??{}) as NamedEntry[]){
+    if(entry.compendiumId===articleId)usagePush(rows,seen,{kind:"Origine",label:String(entry.name??""),step:"origin"});
+  }
+  for(const entry of Object.values(creation.rules.spheres??{}) as NamedEntry[]){
+    if(entry.compendiumId===articleId)usagePush(rows,seen,{kind:"Sphère",label:String(entry.name??""),step:"sphere"});
+  }
+  for(const entry of creation.rules.styles??[]){
+    if(entry.compendiumId===articleId)usagePush(rows,seen,{kind:"Style",label:String(entry.name??""),step:"sphere"});
+  }
+  for(const pools of [creation.rules.talents?.origin,creation.rules.talents?.sphere]){
+    for(const entries of Object.values(pools??{}) as NamedEntry[][]){
+      for(const entry of entries){
+        if(entry.compendiumId===articleId)usagePush(rows,seen,{kind:"Talent",label:String(entry.name??""),step:"talents"});
+      }
+    }
+  }
+  for(const poolName of ["common","expertise"]){
+    for(const entry of creation.rules.talents?.[poolName]??[]){
+      if(entry.compendiumId===articleId)usagePush(rows,seen,{kind:"Talent",label:String(entry.name??""),step:"talents"});
+    }
+  }
+
+  for(const entries of [
+    creation.disadvantages?.common??[],
+    creation.disadvantages?.attribute??[],
+    ...Object.values(creation.disadvantages?.sphere??{}) as NamedEntry[][]
+  ]){
+    for(const entry of entries as NamedEntry[]){
+      if(entry.compendiumId===articleId)usagePush(rows,seen,{kind:"Désavantage",label:String(entry.name??""),step:"disadvantages"});
+    }
+  }
+
+  for(const entry of Object.values(truth.structure?.natures??{}) as NamedEntry[]){
+    if(entry.compendiumId===articleId)usagePush(rows,seen,{kind:"Nature",label:String(entry.name??""),step:"truth"});
+  }
+  for(const entries of Object.values(truth.catalogs??{}) as NamedEntry[][]){
+    for(const entry of entries){
+      if(entry.compendiumId===articleId){
+        usagePush(rows,seen,{
+          kind:"Talent de Vérité",
+          label:String(entry.name??""),
+          step:"truth",
+          detail:String(entry.group??entry.access??"")
+        });
+      }
+    }
+  }
+
+  for(const entry of reality.equipment??[]){
+    if(entry.compendiumId===articleId){
+      usagePush(rows,seen,{kind:"Équipement",label:String(entry.name??""),step:"equipment",detail:String(entry.category??"")});
+    }
+  }
+  for(const entry of reality.augmentations??[]){
+    if(entry.compendiumId===articleId){
+      usagePush(rows,seen,{kind:"Augmentation",label:String(entry.name??""),step:"equipment",detail:String(entry.category??"")});
+    }
+  }
+
+  return rows;
+}
+
 export async function registerRulesRoutes(app:FastifyInstance){
   app.get("/api/rulesets/terra-umbra/creation", async (request, reply)=>{
     const user=await requireUser(request,reply);
     if(!user)return;
-    const enriched=await enrichCreationRules();
+    const enriched=await getEnrichedCreation();
     return {
       rules:enriched.rules,
       lore:terraUmbraCreationLore,
@@ -116,12 +226,17 @@ export async function registerRulesRoutes(app:FastifyInstance){
   app.get("/api/rulesets/terra-umbra/truth", async (request, reply)=>{
     const user=await requireUser(request,reply);
     if(!user)return;
-    return enrichTruthRules();
+    return getEnrichedTruth();
   });
 
   app.get("/api/rulesets/terra-umbra/reality", async (request, reply)=>{
     const user=await requireUser(request,reply);
     if(!user)return;
-    return enrichRealityRules();
+    return getEnrichedReality();
+  });
+
+  app.get<{Params:{id:string}}>("/api/compendium/builder-usage/:id", async (request)=>{
+    const id=String(request.params.id??"").trim();
+    return {articleId:id,usage:id?await builderUsageFor(id):[]};
   });
 }
