@@ -35,18 +35,7 @@ type SearchItem = {
   snippet: string;
 };
 
-type ParagraphBlock = {
-  type: "p";
-  text?: string;
-  style?: string;
-};
-
-type TableBlock = {
-  type: "table";
-  rows?: unknown[][];
-};
-
-type ArticleBlock = ParagraphBlock | TableBlock | {
+type ArticleBlock = {
   type?: string;
   text?: unknown;
   style?: unknown;
