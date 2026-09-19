@@ -1149,7 +1149,7 @@ Encore du texte.
                 <span><code>=== Sous-titre ===</code> sous-section</span>
                 <span><code>* élément</code> liste</span>
                 <span><code>'''gras'''</code> et <code>''italique''</code></span>
-                <span><code>{{Talents|…}}</code> cartes alimentées par le registre central.</span>
+                <span><code v-pre>{{Talents|…}}</code> cartes alimentées par le registre central.</span>
                 <span>Les liens vers les autres pages sont détectés automatiquement.</span>
               </div>
             </div>
