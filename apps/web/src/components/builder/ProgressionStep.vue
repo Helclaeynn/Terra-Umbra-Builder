@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { cloneJson } from "../../lib/json";
+import BuilderWikiLink from "./BuilderWikiLink.vue";
 import {
   addCashTransaction,
   attributeStepCost,
@@ -43,6 +44,7 @@ type RuleSkill={id:string;name:string;attribute:string};
 type RuleTalent={
   id:string;
   name:string;
+  compendiumId?:string;
   effect?:string;
   attribute?:string;
   category?:string;
@@ -602,7 +604,21 @@ function sellCampaignItem(){
         <div class="subsection-title"><div><h3>{{ group.label }}</h3><p>{{ group.help }}</p></div><span class="schema-badge">{{ group.items.length }}</span></div>
         <div class="talent-grid">
           <article v-for="talent in group.items" :key="talent.id" :class="{locked:!realityTalentAllowed(talent).ok}">
-            <div class="card-head"><strong>{{ talent.name }}</strong><span>10 XP</span></div>
+            <div class="card-head">
+              <div class="progress-card-title">
+                <strong>{{ talent.name }}</strong>
+                <BuilderWikiLink
+                  :label="talent.name"
+                  :article-id="talent.compendiumId"
+                  category="Règles"
+                  :detail="talent.effect"
+                  compact
+                >
+                  <span>Compendium</span>
+                </BuilderWikiLink>
+              </div>
+              <span>10 XP</span>
+            </div>
             <p>{{ talent.effect || "—" }}</p>
             <small v-if="!realityTalentAllowed(talent).ok">{{ realityTalentAllowed(talent).reason }}</small>
             <button class="primary compact" type="button" :disabled="!realityTalentAllowed(talent).ok||xpRemainingValue<10" @click="buyRealityTalent(talent)">Apprendre · 10 XP</button>
@@ -629,7 +645,23 @@ function sellCampaignItem(){
       </label>
       <div class="talent-grid">
         <article v-for="talent in truthCandidates" :key="talent.id" :class="{locked:!truthCanBuy(talent)}">
-          <div class="card-head"><div><strong>{{ talent.name }}</strong><small>{{ talent.group }}</small></div><span>{{ talent.cost }} PTV</span></div>
+          <div class="card-head">
+            <div class="progress-card-title">
+              <strong>{{ talent.name }}</strong>
+              <small>{{ talent.group }}</small>
+              <BuilderWikiLink
+                :label="talent.name"
+                :article-id="talent.compendiumId"
+                category="Règles"
+                :detail="talent.effect"
+                :badges="[talent.group, talent.cost + ' PTV']"
+                compact
+              >
+                <span>Compendium</span>
+              </BuilderWikiLink>
+            </div>
+            <span>{{ talent.cost }} PTV</span>
+          </div>
           <em v-if="talent.runtimeLore">{{ talent.runtimeLore }}</em>
           <p v-if="talent.prerequisiteName"><b>Prérequis :</b> {{ talent.prerequisiteName }}</p>
           <p>{{ talent.effect }}</p>
@@ -665,6 +697,16 @@ function sellCampaignItem(){
           <span>Commerce <strong>{{ tradePreview.degree.id===0 ? "sans jet" : tradePreview.degree.delta+" %" }}</strong></span>
           <span>À payer <strong>{{ money(tradePreview.total) }}</strong></span>
           <p>{{ tradeItem.effect || tradeItem.lore }}</p>
+          <BuilderWikiLink
+            :label="tradeItem.name"
+            :article-id="tradeItem.compendiumId"
+            category="Équipement & Objets"
+            :detail="tradeItem.effect || tradeItem.lore"
+            :badges="[tradeItem.category, realityPriceSpec(tradeItem).label]"
+            compact
+          >
+            <span>Voir la fiche Compendium</span>
+          </BuilderWikiLink>
           <small v-if="campaignPurchaseBlockReason(tradeItem)">{{ campaignPurchaseBlockReason(tradeItem) }}</small>
           <button class="primary compact" type="button" :disabled="!!campaignPurchaseBlockReason(tradeItem)" @click="buyCampaignItem">Acheter et débiter</button>
         </div>
@@ -699,5 +741,5 @@ function sellCampaignItem(){
 </template>
 
 <style scoped>
-.progression-step{display:grid;gap:1rem}.pool-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem}.pool-grid>div{display:grid;gap:.25rem;padding:.8rem;border:1px solid rgba(255,255,255,.08)}.pool-grid small,.pool-grid span{color:#7f786f;font-size:.7rem}.pool-grid strong{font-family:Georgia,serif;font-size:1.35rem}.pool-grid .good strong{color:#9dba9a}.progress-panel,.flash-panel{padding:1rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.012)}.progress-panel>summary,.trade-block>summary{cursor:pointer;display:flex;justify-content:space-between;gap:.8rem;list-style:none}.progress-panel>summary span,.trade-block>summary span{color:#7d766c;font-size:.75rem}.ledger-grid,.money-grid,.trade-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem;margin-top:1rem}.session-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem;margin-top:.8rem}.session-card{display:grid;gap:.35rem;padding:.75rem;border:1px solid rgba(255,255,255,.08);text-align:left;background:#100f0d;color:#bdb4a7}.session-card span{color:#c7ad78}.session-card small{color:#777168}.flash-panel{display:flex;justify-content:space-between;gap:1rem;align-items:center;border-color:rgba(183,152,84,.3)}.flash-panel>div:first-child{display:grid;gap:.25rem}.flash-panel span{color:#91897e;font-size:.77rem;line-height:1.45}.action-row{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.7rem}.progress-grid,.talent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.65rem;margin-top:.8rem}.progress-grid article,.talent-grid article{display:flex;flex-direction:column;gap:.55rem;padding:.75rem;border:1px solid rgba(255,255,255,.08)}.talent-grid article.locked{opacity:.65}.card-head{display:flex;justify-content:space-between;gap:.7rem}.card-head>div{display:grid;gap:.15rem}.card-head span{color:#c7ad78;font-size:.73rem}.card-head small,.progress-grid article>small,.talent-grid article>small{color:#817a70}.talent-grid article p,.talent-grid article em{margin:0;color:#918a80;font-size:.76rem;line-height:1.5}.talent-grid article .primary{margin-top:auto}.skill-family{margin-top:1rem}.skill-family h3{margin:.5rem 0;font-family:Georgia,serif}.talent-group{padding-top:1rem;border-top:1px solid rgba(255,255,255,.06)}.owned-list{display:grid;gap:.5rem;margin-top:.8rem}.owned-row{display:flex;justify-content:space-between;gap:.7rem;align-items:center;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.08)}.owned-row>div{display:grid;gap:.15rem}.owned-row span{color:#7e776e;font-size:.72rem}.truth-search{display:grid;gap:.4rem;margin-top:.8rem}.initiation-row{display:flex;justify-content:space-between;gap:1rem;align-items:center;margin-top:.8rem;padding:.8rem;border:1px solid rgba(199,173,120,.2)}.initiation-row>div{display:grid;gap:.25rem}.initiation-row span{color:#8e877d;font-size:.76rem}.cash-badge{padding:.45rem .65rem;border:1px solid rgba(89,133,91,.3);color:#a8c0a5;font-family:Georgia,serif}.money-grid{grid-template-columns:minmax(180px,2fr) minmax(140px,1fr) minmax(120px,1fr) auto;align-items:end}.trade-block{margin-top:.9rem;padding-top:.8rem;border-top:1px solid rgba(255,255,255,.07)}.trade-grid .wide{grid-column:1/-1}.trade-preview{display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;margin-top:.8rem;padding:.8rem;border:1px solid rgba(255,255,255,.08)}.trade-preview span{padding:.3rem .45rem;border:1px solid rgba(255,255,255,.07);color:#8d867c;font-size:.72rem}.trade-preview p{width:100%;margin:.25rem 0;color:#948c81;font-size:.76rem}.trade-preview small{width:100%;color:#d0a29c}.positive{color:#9dbb99}.negative{color:#d0a29c}.empty-line{margin-top:.8rem;color:#817a70}@media(max-width:900px){.pool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.session-grid{grid-template-columns:1fr}.flash-panel{align-items:stretch;flex-direction:column}.money-grid{grid-template-columns:1fr 1fr}}@media(max-width:600px){.pool-grid,.ledger-grid,.money-grid,.trade-grid{grid-template-columns:1fr}.owned-row,.initiation-row{align-items:stretch;flex-direction:column}.trade-grid .wide{grid-column:auto}}
+.progression-step{display:grid;gap:1rem}.progress-card-title{display:grid;gap:.18rem;min-width:0}.progress-card-title :deep(.builder-wiki-ref){font-size:.68rem;color:#aa956e}.pool-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem}.pool-grid>div{display:grid;gap:.25rem;padding:.8rem;border:1px solid rgba(255,255,255,.08)}.pool-grid small,.pool-grid span{color:#7f786f;font-size:.7rem}.pool-grid strong{font-family:Georgia,serif;font-size:1.35rem}.pool-grid .good strong{color:#9dba9a}.progress-panel,.flash-panel{padding:1rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.012)}.progress-panel>summary,.trade-block>summary{cursor:pointer;display:flex;justify-content:space-between;gap:.8rem;list-style:none}.progress-panel>summary span,.trade-block>summary span{color:#7d766c;font-size:.75rem}.ledger-grid,.money-grid,.trade-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem;margin-top:1rem}.session-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem;margin-top:.8rem}.session-card{display:grid;gap:.35rem;padding:.75rem;border:1px solid rgba(255,255,255,.08);text-align:left;background:#100f0d;color:#bdb4a7}.session-card span{color:#c7ad78}.session-card small{color:#777168}.flash-panel{display:flex;justify-content:space-between;gap:1rem;align-items:center;border-color:rgba(183,152,84,.3)}.flash-panel>div:first-child{display:grid;gap:.25rem}.flash-panel span{color:#91897e;font-size:.77rem;line-height:1.45}.action-row{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.7rem}.progress-grid,.talent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.65rem;margin-top:.8rem}.progress-grid article,.talent-grid article{display:flex;flex-direction:column;gap:.55rem;padding:.75rem;border:1px solid rgba(255,255,255,.08)}.talent-grid article.locked{opacity:.65}.card-head{display:flex;justify-content:space-between;gap:.7rem}.card-head>div{display:grid;gap:.15rem}.card-head span{color:#c7ad78;font-size:.73rem}.card-head small,.progress-grid article>small,.talent-grid article>small{color:#817a70}.talent-grid article p,.talent-grid article em{margin:0;color:#918a80;font-size:.76rem;line-height:1.5}.talent-grid article .primary{margin-top:auto}.skill-family{margin-top:1rem}.skill-family h3{margin:.5rem 0;font-family:Georgia,serif}.talent-group{padding-top:1rem;border-top:1px solid rgba(255,255,255,.06)}.owned-list{display:grid;gap:.5rem;margin-top:.8rem}.owned-row{display:flex;justify-content:space-between;gap:.7rem;align-items:center;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.08)}.owned-row>div{display:grid;gap:.15rem}.owned-row span{color:#7e776e;font-size:.72rem}.truth-search{display:grid;gap:.4rem;margin-top:.8rem}.initiation-row{display:flex;justify-content:space-between;gap:1rem;align-items:center;margin-top:.8rem;padding:.8rem;border:1px solid rgba(199,173,120,.2)}.initiation-row>div{display:grid;gap:.25rem}.initiation-row span{color:#8e877d;font-size:.76rem}.cash-badge{padding:.45rem .65rem;border:1px solid rgba(89,133,91,.3);color:#a8c0a5;font-family:Georgia,serif}.money-grid{grid-template-columns:minmax(180px,2fr) minmax(140px,1fr) minmax(120px,1fr) auto;align-items:end}.trade-block{margin-top:.9rem;padding-top:.8rem;border-top:1px solid rgba(255,255,255,.07)}.trade-grid .wide{grid-column:1/-1}.trade-preview{display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;margin-top:.8rem;padding:.8rem;border:1px solid rgba(255,255,255,.08)}.trade-preview span{padding:.3rem .45rem;border:1px solid rgba(255,255,255,.07);color:#8d867c;font-size:.72rem}.trade-preview p{width:100%;margin:.25rem 0;color:#948c81;font-size:.76rem}.trade-preview small{width:100%;color:#d0a29c}.positive{color:#9dbb99}.negative{color:#d0a29c}.empty-line{margin-top:.8rem;color:#817a70}@media(max-width:900px){.pool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.session-grid{grid-template-columns:1fr}.flash-panel{align-items:stretch;flex-direction:column}.money-grid{grid-template-columns:1fr 1fr}}@media(max-width:600px){.pool-grid,.ledger-grid,.money-grid,.trade-grid{grid-template-columns:1fr}.owned-row,.initiation-row{align-items:stretch;flex-direction:column}.trade-grid .wide{grid-column:auto}}
 </style>
