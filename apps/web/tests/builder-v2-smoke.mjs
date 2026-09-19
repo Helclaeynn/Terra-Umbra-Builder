@@ -285,7 +285,7 @@ const referencesButton=page.getByRole("button",{name:/Références/});
 await referencesButton.waitFor({state:"visible",timeout:5000});
 await referencesButton.click();
 await page.getByRole("heading",{name:"Comprendre mes choix"}).waitFor({state:"visible",timeout:5000});
-await page.getByRole("button",{name:"Fermer"}).click();
+await page.getByRole("button",{name:"Fermer",exact:true}).click();
 
 await page.getByRole("button",{name:/Sphère & Style/}).click();
 const styleAlt=page.getByRole("button",{name:/Smoke Style Alt/});
