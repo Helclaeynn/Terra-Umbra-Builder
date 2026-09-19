@@ -47,6 +47,18 @@ try{
   await publicPage.getByText("Nature",{exact:true}).first().waitFor({state:"visible",timeout:10000});
   await publicPage.getByText("Vérité",{exact:true}).first().waitFor({state:"visible",timeout:10000});
 
+  await publicPage.goto(baseUrl+"/compendium?article=regles-verite-chasseur-lavandieres",{waitUntil:"domcontentloaded",timeout:30000});
+  await publicPage.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
+  const hunterHubTitle=(await publicPage.locator(".article-header h1").innerText()).trim();
+  if(hunterHubTitle!=="Lavandières — tradition vampirique de Chasse"){
+    throw new Error("Hub Talent Chasseur inattendu: "+hunterHubTitle);
+  }
+  await publicPage.getByText("Lire la souillure",{exact:true}).first().waitFor({state:"visible",timeout:10000});
+  const hunterTalentCards=await publicPage.locator(".talent-wiki-card").count();
+  if(hunterTalentCards<2)throw new Error("Hub Talent Chasseur incomplet: "+hunterTalentCards+" cartes.");
+  const rawHunterDirective=await publicPage.getByText(/\{\{Talents\|group=humain:/).count();
+  if(rawHunterDirective)throw new Error("Directive brute visible dans le hub Talent Chasseur.");
+
   if(dynamicTalentArticle){
     await publicPage.goto(baseUrl+"/compendium?article="+encodeURIComponent(dynamicTalentArticle),{waitUntil:"domcontentloaded",timeout:30000});
     await publicPage.getByRole("heading",{name:"Talents dynamiques"}).waitFor({state:"visible",timeout:10000});
