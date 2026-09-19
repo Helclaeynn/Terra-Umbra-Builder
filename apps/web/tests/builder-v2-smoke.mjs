@@ -60,11 +60,18 @@ const rules={
   },
   origins:{citadin:{name:"Citadin"}},
   spheres:{crawler:{name:"Crawler",originId:"citadin",support:"Un Contact fiable",fixedSkills:[]}},
-  styles:[{
-    id:"smoke_style",sphere:"crawler",name:"Smoke Style",skills:[],
-    expertiseFamilies:["vigueur","agilite"],lifestyle:"Standard",account:10000,
-    augmentationEnvelope:5000,gen2SlotsBase:1,vehicleCapital:0
-  }],
+  styles:[
+    {
+      id:"smoke_style",sphere:"crawler",name:"Smoke Style",skills:[],
+      expertiseFamilies:["vigueur","agilite"],lifestyle:"Standard",account:10000,
+      augmentationEnvelope:5000,gen2SlotsBase:1,vehicleCapital:0
+    },
+    {
+      id:"smoke_style_alt",sphere:"crawler",name:"Smoke Style Alt",skills:[],
+      expertiseFamilies:["esprit","volonte"],lifestyle:"Confortable",account:12000,
+      augmentationEnvelope:8000,gen2SlotsBase:1,vehicleCapital:0
+    }
+  ],
   talents:{
     origin:{citadin:[{id:"origin_smoke",name:"Acquis urbain",effect:"+1 test",category:"origin"}]},
     sphere:{crawler:[{id:"sphere_smoke",name:"Réseau Crawler",effect:"Contact",category:"sphere",sphere:"crawler"}]},
@@ -77,7 +84,7 @@ const lore={
   origin:{citadin:"Lore origine"},
   originTalent:{origin_smoke:"Lore talent origine"},
   sphere:{crawler:"Lore sphère"},
-  style:{smoke_style:"Lore style"},
+  style:{smoke_style:"Lore style",smoke_style_alt:"Lore style alternatif"},
   skill:Object.fromEntries(skillIds.map(([id,name])=>[id,"Lore "+name])),
   attribute:{vigueur:"",agilite:"",esprit:"",volonte:"",charisme:""},
   talent:{common_smoke:"Lore commun",expertise_smoke:"Lore expertise"},
@@ -140,7 +147,8 @@ const realityRules={
   economy:{
     advancedPurchaseThreshold:20000,unusedEnvelopeRefundRate:.5,
     styleAugAccess:{
-      smoke_style:{text:"Accès smoke",gen1:["all"],gen2:["all"],bio:["all"],bioCap:20000}
+      smoke_style:{text:"Accès smoke",gen1:["all"],gen2:["all"],bio:["all"],bioCap:20000},
+      smoke_style_alt:{text:"Accès smoke alt",gen1:["all"],gen2:["all"],bio:["all"],bioCap:20000}
     },
     lifestyle:{
       order:["Survie","Modeste","Standard","Confortable","Aisé","Luxe"],
@@ -214,6 +222,16 @@ try{
   throw error;
 }
 await page.getByRole("heading",{name:/V2 Smoke|Smoke/}).first().waitFor();
+
+await page.getByRole("button",{name:/Sphère & Style/}).click();
+const styleAlt=page.getByRole("button",{name:/Smoke Style Alt/});
+await styleAlt.waitFor();
+await styleAlt.click();
+await page.waitForFunction(()=>{
+  const buttons=[...document.querySelectorAll(".choice-card.style-card")];
+  return buttons.some(button=>button.textContent?.includes("Smoke Style Alt")&&button.classList.contains("selected"));
+},{timeout:5000});
+if(browserErrors.length)throw new Error("Erreur lors du changement de Style :\n"+browserErrors.join("\n"));
 
 const nav=page.locator(".builder-nav button");
 if(await nav.count()!==12)throw new Error("Le Builder V2 doit exposer exactement 12 blocs.");
