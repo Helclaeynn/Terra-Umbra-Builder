@@ -364,8 +364,8 @@ onMounted(loadCharacters);
   min-height: 2rem;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(199, 173, 120, .22);
-  color: #c7ad78;
+  border: 1px solid rgba(88,220,197,.26);
+  color: #58dcc5;
   font-size: .8rem;
 }
 
@@ -405,12 +405,12 @@ onMounted(loadCharacters);
   display: grid;
   place-content: center;
   text-align: center;
-  color: #8f897f;
+  color: #91a7b1;
 }
 
 .characters-empty p {
   margin: 0 0 .4rem;
-  color: #cfc6b6;
+  color: #d7e3e7;
 }
 
 .characters-layout {
@@ -433,16 +433,16 @@ onMounted(loadCharacters);
   border: 0;
   border-left: 2px solid transparent;
   text-align: left;
-  color: #bcb4a7;
+  color: #c5d4d9;
   background: transparent;
 }
 
 .character-list button:hover,
 .character-list button.active {
-  border-left-color: #a17d45;
-  background: linear-gradient(90deg,rgba(161,125,69,.11),rgba(161,125,69,.025));
+  border-left-color: #58dcc5;
+  background: linear-gradient(90deg,rgba(88,220,197,.10),rgba(88,220,197,.02));
 }
-.character-list button.active{box-shadow:inset 0 0 0 1px rgba(199,173,120,.08)}
+.character-list button.active{box-shadow:inset 0 0 0 1px rgba(88,220,197,.08)}
 
 .character-list strong,
 .character-list small {
@@ -450,7 +450,7 @@ onMounted(loadCharacters);
 }
 
 .character-list small {
-  color: #746f67;
+  color: #7f929b;
   font-size: .7rem;
 }
 
@@ -486,7 +486,7 @@ onMounted(loadCharacters);
 }
 
 .danger {
-  color: #ca948b;
+  color: #e39ba4;
 }
 
 .rename-form {
@@ -498,16 +498,16 @@ onMounted(loadCharacters);
   gap:.55rem;
   margin-top: 1.3rem;
   padding: 1rem;
-  border: 1px solid rgba(199, 173, 120, .18);
-  color: #8f897f;
+  border: 1px solid rgba(88,220,197,.22);
+  color: #91a7b1;
   line-height: 1.55;
-  background:linear-gradient(135deg,rgba(161,125,69,.065),rgba(255,255,255,.01));
+  background:linear-gradient(135deg,rgba(88,220,197,.055),rgba(255,255,255,.01));
 }
 
 .builder-slot>div{display:flex;align-items:center;justify-content:space-between;gap:.7rem;flex-wrap:wrap}
-.builder-slot span{color:#a88e60;font-size:.62rem;letter-spacing:.08em}
+.builder-slot span{color:#67c9b7;font-size:.62rem;letter-spacing:.08em}
 .builder-slot strong {
-  color: #d8cebd;
+  color: #e1ecef;
   font-size:.78rem;
 }
 
@@ -526,7 +526,7 @@ onMounted(loadCharacters);
 }
 
 .revision-title small {
-  color: #716c64;
+  color: #748891;
 }
 
 .revision-list {
@@ -544,18 +544,18 @@ onMounted(loadCharacters);
 }
 
 .revision-list strong {
-  color: #bbb3a6;
+  color: #c1d0d5;
   font-size: .78rem;
 }
 
 .revision-list small {
   margin-top: .2rem;
-  color: #716c64;
+  color: #748891;
   font-size: .68rem;
 }
 
 .current-revision {
-  color: #9fba9d;
+  color: #8addc3;
   font-size: .72rem;
 }
 
