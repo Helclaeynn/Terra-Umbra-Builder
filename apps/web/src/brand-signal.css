@@ -657,3 +657,338 @@
   from{transform:rotate(-12deg)}
   to{transform:rotate(-372deg)}
 }
+
+
+/* Brand fidelity pass — align the actual dashboard with the approved identity board. */
+.brand-signal .page{
+  width:min(1360px,calc(100% - 2rem));
+}
+
+.brand-signal .brand-emblem{
+  width:52px;
+  height:52px;
+  flex-basis:52px;
+}
+.brand-signal .brand-emblem::before{display:none}
+.brand-signal .brand-emblem img{
+  width:52px;
+  height:52px;
+  border-radius:0;
+  object-fit:cover;
+  mix-blend-mode:normal;
+  filter:drop-shadow(0 0 10px rgba(46,173,225,.18));
+}
+
+.brand-signal .brand-wordmark strong{
+  width:fit-content;
+  color:transparent;
+  background:linear-gradient(90deg,#f2f7fb 0 58%,#77cfff 74%,#b58bf1 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  font-size:1.05rem;
+  font-weight:720;
+  letter-spacing:.09em;
+}
+.brand-signal .brand-wordmark small{
+  color:#7592a4;
+  font-size:.56rem;
+  letter-spacing:.24em;
+}
+.brand-signal .brand-wordmark small i{
+  background:linear-gradient(90deg,#39d7de,#8e70e7);
+}
+
+.brand-signal .brand-nav-link{
+  min-height:auto;
+  padding:.45rem .55rem;
+  border:0 !important;
+  border-radius:0;
+  color:#8ca6b5 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  font-size:.61rem;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.brand-signal .brand-nav-link:hover{
+  color:#dff7fb !important;
+  text-shadow:0 0 12px rgba(69,190,221,.32);
+}
+.brand-signal .brand-top-signal{
+  color:#7893a3;
+  letter-spacing:.19em;
+}
+.brand-signal .api-pill{
+  border-color:#263f4b;
+  color:#79919b;
+  background:#0a131a;
+}
+
+.brand-signal .brand-dashboard-hero{
+  grid-template-columns:minmax(0,.93fr) minmax(390px,1.07fr);
+  min-height:430px;
+  gap:1.1rem;
+  padding:clamp(2rem,4vw,3.45rem);
+  border-color:#1f4a60;
+  border-radius:11px;
+  background:
+    linear-gradient(90deg,rgba(6,14,22,.98) 0 43%,rgba(7,16,25,.86) 58%,rgba(5,12,20,.75) 100%),
+    radial-gradient(ellipse at 79% 15%,rgba(29,115,168,.20),transparent 45%),
+    #071019;
+}
+.brand-signal .brand-dashboard-hero::before{
+  background:
+    linear-gradient(90deg,#33d9dc,rgba(35,141,218,.56),transparent 31%) top left/52% 1px no-repeat,
+    linear-gradient(270deg,#a06ce6,rgba(64,112,203,.38),transparent 32%) bottom right/48% 1px no-repeat,
+    linear-gradient(rgba(69,125,147,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(69,125,147,.03) 1px,transparent 1px);
+  background-size:52% 1px,48% 1px,36px 36px,36px 36px;
+  opacity:.9;
+}
+.brand-signal .brand-dashboard-hero::after{
+  width:770px;
+  height:390px;
+  right:-175px;
+  top:-255px;
+  border:1px solid rgba(66,172,222,.33);
+  border-radius:50%;
+  box-shadow:
+    0 0 0 16px rgba(38,131,188,.018),
+    0 0 55px rgba(43,141,208,.10),
+    inset 0 -3px 15px rgba(116,215,255,.10);
+  transform:rotate(8deg);
+}
+
+.brand-signal .brand-hero-copy::before{display:none}
+.brand-signal .brand-hero-copy{
+  max-width:680px;
+  align-self:center;
+}
+.brand-signal .brand-hero-copy>.eyebrow{
+  margin-bottom:1rem;
+  color:#7e9aaa;
+  font-size:.58rem;
+  letter-spacing:.24em;
+}
+.brand-signal .brand-statement{
+  display:grid;
+  gap:.16rem;
+  max-width:14ch !important;
+  margin:0 0 1.1rem !important;
+  font-size:clamp(2.05rem,4vw,3.7rem) !important;
+  line-height:1.02 !important;
+  letter-spacing:.085em !important;
+  text-transform:uppercase;
+}
+.brand-signal .brand-statement span{
+  display:block;
+}
+.brand-signal .brand-statement span:nth-child(1),
+.brand-signal .brand-statement span:nth-child(3){
+  color:#edf5f8;
+}
+.brand-signal .brand-statement span:nth-child(2){
+  color:#6fcff1;
+}
+.brand-signal .brand-statement::after{
+  width:86px !important;
+  height:2px !important;
+  margin-top:.9rem !important;
+  background:linear-gradient(90deg,#36dbe0,#2b92ff 54%,#a67ce6) !important;
+}
+.brand-signal .dashboard-lead{
+  max-width:59ch;
+  color:#8fa7b2;
+  font-size:.91rem;
+  line-height:1.72;
+}
+.brand-signal .brand-manifesto{
+  gap:.65rem 1rem;
+  margin-top:1.15rem;
+  color:#6c8796;
+  font-size:.56rem;
+  letter-spacing:.22em;
+}
+.brand-signal .brand-manifesto span{
+  color:#9fb3bc;
+}
+.brand-signal .brand-manifesto i{
+  width:28px;
+  background:linear-gradient(90deg,#3ed3d1,#9a73e6);
+}
+.brand-signal .dashboard-identity{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:.55rem .8rem;
+  margin-top:1.25rem;
+}
+.brand-signal .dashboard-identity>strong{
+  color:#eaf3f5;
+  font-size:.77rem;
+  font-weight:750;
+  letter-spacing:.05em;
+}
+.brand-signal .dashboard-identity .muted{
+  color:#6e8793;
+  font-size:.7rem;
+}
+
+.brand-signal .brand-hero-visual{
+  min-height:350px;
+  overflow:hidden;
+}
+.brand-signal .brand-hero-visual::before{
+  content:"";
+  position:absolute;
+  width:720px;
+  height:720px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 50%,rgba(18,104,151,.05) 0 39%,transparent 40%),
+    repeating-radial-gradient(circle at 50% 50%,rgba(69,165,205,.055) 0 1px,transparent 1px 28px);
+  opacity:.6;
+}
+.brand-signal .brand-hero-mark{
+  width:min(29vw,345px);
+  max-width:345px;
+  border-radius:0;
+  object-fit:cover;
+  mix-blend-mode:normal;
+  opacity:1;
+  filter:
+    drop-shadow(0 0 16px rgba(27,161,226,.18))
+    drop-shadow(0 0 34px rgba(157,90,224,.08));
+}
+.brand-signal .brand-orbit.one{
+  width:405px;
+  height:405px;
+  border-color:rgba(59,197,215,.22);
+}
+.brand-signal .brand-orbit.two{
+  width:455px;
+  height:300px;
+  border-color:rgba(154,104,221,.18);
+}
+.brand-signal .brand-orbit.three{
+  width:330px;
+  height:470px;
+  border-color:rgba(74,131,185,.14);
+}
+.brand-signal .brand-axis{
+  width:min(455px,94%);
+  color:#6d8997;
+  font-size:.5rem;
+  letter-spacing:.22em;
+}
+.brand-signal .brand-visual-note,
+.brand-signal .brand-visual-build{
+  position:absolute;
+  z-index:5;
+  margin:0;
+  color:#7895a5;
+  font-size:.5rem;
+  font-weight:800;
+  letter-spacing:.22em;
+  line-height:1.75;
+}
+.brand-signal .brand-visual-note{
+  right:1.4rem;
+  top:2rem;
+  text-align:right;
+}
+.brand-signal .brand-visual-build{
+  right:1.4rem;
+  bottom:1.5rem;
+  text-align:right;
+}
+.brand-signal .brand-visual-note::after,
+.brand-signal .brand-visual-build::after{
+  content:"";
+  display:block;
+  width:22px;
+  height:1px;
+  margin-top:.45rem;
+  margin-left:auto;
+  background:linear-gradient(90deg,#45dbe0,#9b72e5);
+}
+
+.brand-signal .dashboard-portals{
+  gap:.85rem;
+}
+.brand-signal .dashboard-portal{
+  min-height:205px;
+  padding:1.45rem;
+  border-color:#214759;
+  border-radius:10px;
+  background:#09141c;
+}
+.brand-signal .dashboard-portal:hover{
+  border-color:#3d7183;
+  background:#0c1a23;
+}
+.brand-signal .dashboard-portal h2{
+  font-size:1.48rem;
+  letter-spacing:-.018em;
+}
+.brand-signal .dashboard-portal>strong{
+  color:#a9bdc5;
+  font-size:.64rem;
+  letter-spacing:.12em;
+}
+.brand-signal .portal-index{
+  color:rgba(91,165,190,.23);
+  font-size:1.35rem;
+}
+.brand-signal .builder-portal{
+  background:
+    linear-gradient(135deg,rgba(23,69,72,.23),transparent 46%),
+    #09141c;
+}
+.brand-signal .compendium-portal{
+  background:
+    linear-gradient(135deg,rgba(89,61,126,.22),transparent 48%),
+    #09141c;
+}
+
+.brand-signal .account-panel,
+.brand-signal .characters-panel,
+.brand-signal .table-wrap,
+.brand-signal .audit-list{
+  border-color:#203e4c;
+  border-radius:10px;
+  background:
+    linear-gradient(145deg,rgba(13,25,34,.96),rgba(8,17,24,.94));
+}
+
+@media (max-width:980px){
+  .brand-signal .brand-dashboard-hero{
+    grid-template-columns:1fr;
+  }
+  .brand-signal .brand-statement{
+    max-width:18ch !important;
+  }
+  .brand-signal .brand-hero-visual{
+    min-height:300px;
+  }
+  .brand-signal .brand-hero-mark{
+    width:min(52vw,330px);
+  }
+}
+
+@media (max-width:760px){
+  .brand-signal .brand-statement{
+    font-size:clamp(1.75rem,9.7vw,3rem) !important;
+  }
+  .brand-signal .brand-hero-visual{
+    min-height:255px;
+  }
+  .brand-signal .brand-hero-mark{
+    width:min(68vw,285px);
+  }
+  .brand-signal .brand-visual-note,
+  .brand-signal .brand-visual-build{
+    display:none;
+  }
+}
