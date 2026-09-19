@@ -138,6 +138,8 @@ jobs:
             if curl --fail --silent --show-error --max-time 10 https://dev.terra-umbra.fr/api/health; then
               echo
               curl --fail --silent --show-error --max-time 10 https://dev.terra-umbra.fr/api/auth/setup-status
+              curl --fail --silent --show-error --max-time 20 https://dev.terra-umbra.fr/builder/ | grep -q 'Créateur de personnage'
+              echo "Builder route smoke OK"
               exit 0
             fi
             sleep 5
