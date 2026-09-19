@@ -240,6 +240,11 @@ function setTableText(block: ArticleBlock, value: string) {
     .map((line) => line.split("\t"));
 }
 
+function setTableEvent(block: ArticleBlock, event: Event) {
+  const target = event.target;
+  if (target instanceof HTMLTextAreaElement) setTableText(block, target.value);
+}
+
 async function saveDraft(showNotice = true): Promise<boolean> {
   if (!article.value) return false;
   syncForms();
@@ -446,7 +451,7 @@ onMounted(load);
                     :value="tableText(block)"
                     rows="6"
                     placeholder="Colonnes séparées par des tabulations"
-                    @input="setTableText(block, ($event.target as HTMLTextAreaElement).value)"
+                    @input="setTableEvent(block, $event)"
                   />
                 </div>
               </div>
