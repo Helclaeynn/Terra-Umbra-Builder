@@ -122,12 +122,18 @@ export const MANUAL_ARTICLE_MEDIA={
   'equipement-019-raven-pp-012-defender':{src:'images/manual/equipement-019-raven-pp-012-defender.webp'},
   'equipement-020-owl-lp-019-acceptable':{src:'images/manual/equipement-020-owl-lp-019-acceptable.webp'},
   'equipement-021-raven-lp-004-sturdy':{src:'images/manual/equipement-021-raven-lp-004-sturdy.webp'},
-  'equipement-022-phoenix-lp-028-sun-blast':{src:'images/manual/equipement-022-phoenix-lp-028-sun-blast.webp'},
+  'equipement-022-phoenix-lp-028-sun-blast':{
+    src:'images/manual/equipement-022-phoenix-lp-028-sun-blast.webp',
+    gallery:[{src:'images/manual/equipement-022-phoenix-lp-028-sun-blast--legacy.webp',alt:'Phoenix LP-028 Sun Blast — version précédente',caption:'Version précédente'}]
+  },
   'equipement-023-owl-hp-104-deputy':{src:'images/manual/equipement-023-owl-hp-104-deputy.webp'},
   'equipement-024-raven-hp-014-pacificateur':{src:'images/manual/equipement-024-raven-hp-014-pacificateur.webp'},
   'equipement-025-raven-hp-067-gardien':{src:'images/manual/equipement-025-raven-hp-067-gardien.webp'},
   'equipement-026-phoenix-hp-028-violator':{src:'images/manual/equipement-026-phoenix-hp-028-violator.webp'},
-  'equipement-027-phoenix-hp-092-depliant':{src:'images/manual/equipement-027-phoenix-hp-092-depliant.webp'},
+  'equipement-027-phoenix-hp-092-depliant':{
+    src:'images/manual/equipement-027-phoenix-hp-092-depliant.webp',
+    gallery:[{src:'images/manual/equipement-027-phoenix-hp-092-depliant--folded.webp',alt:'Phoenix HP-092 Depliant — mode plié',caption:'Mode plié'}]
+  },
   'equipement-028-owl-mgp-062-suppressor':{src:'images/manual/equipement-028-owl-mgp-062-suppressor.webp'},
   'equipement-029-raven-mgp-072-military':{src:'images/manual/equipement-029-raven-mgp-072-military.webp'},
   'equipement-030-phoenix-mgp-042-equalizer':{src:'images/manual/equipement-030-phoenix-mgp-042-equalizer.webp'},
@@ -201,4 +207,9 @@ export const MANUAL_ARTICLE_MEDIA={
 
 export function manualArticleMedia(id){
   return MANUAL_ARTICLE_MEDIA[String(id||'')]||null;
+}
+
+export function manualArticleGallery(id){
+  const media=MANUAL_ARTICLE_MEDIA[String(id||'')]||null;
+  return Array.isArray(media?.gallery)?media.gallery:[];
 }

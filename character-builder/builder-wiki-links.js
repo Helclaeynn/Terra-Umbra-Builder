@@ -1,6 +1,6 @@
 import {createWikiLinker} from '../compendium/wiki-links.js';
 import {WIKI_EXPLICIT_TARGETS,WIKI_SEARCH_FALLBACKS,WIKI_STRICT_SURFACE_ALIASES,WIKI_CASE_SENSITIVE_ALIASES} from '../compendium/onboarding-data.js';
-import {manualArticleMedia} from '../compendium/manual-media.js?v=20260918-bulk1';
+import {manualArticleMedia} from '../compendium/manual-media.js?v=20260919-gallery1';
 import {GUIDE_ARTICLES,GUIDE_NAVIGATION} from '../compendium/guide-articles.js';
 
 const COMPENDIUM='../compendium/';
@@ -37,7 +37,7 @@ async function loadIndex(){
     if(entry.category==='Équipement & Objets')equipmentByTitle.set(String(entry.displayTitle||entry.title||'').trim().toLocaleLowerCase('fr'),entry);
   }
   for(const override of manualOverrides?.entries||[]){
-    const op=[...(override.operations||[])].reverse().find(x=>x&&x.path==='/illustration'&&(x.op==='replace'||x.op==='add'));
+    const op=[...(override.operations||[])].reverse().find(x=>x&&['/illustration','/image'].includes(x.path)&&(x.op==='replace'||x.op==='add'));
     if(!op?.value||!override?.articleId)continue;
     editorialIllustrations.set(override.articleId,op.value);
     const entry=entryById.get(override.articleId);

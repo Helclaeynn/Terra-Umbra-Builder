@@ -28,6 +28,7 @@ export async function applyCommittedOverridesToMap(articleMap,payload,{strict=fa
       if(base.dataset&&!effective.dataset)effective.dataset=base.dataset;
       effective.__editorialOverride=true;
       effective.__editorialOverrideCount=result.applied.length;
+      effective.__editorialMediaOverride=result.applied.some(entry=>(entry.operations||[]).some(operation=>operation&&['/illustration','/image'].includes(operation.path)));
       articleMap.set(articleId,effective);
       applied+=result.applied.length;
     }

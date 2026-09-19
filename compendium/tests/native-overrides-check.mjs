@@ -22,6 +22,17 @@ assert.equal(effective.sections[0].blocks[0].text,'Contenu édité et recherchab
 assert.equal(effective.dataset,'realite');
 assert.equal(effective.__editorialOverride,true);
 assert.equal(effective.__editorialOverrideCount,1);
+assert.equal(effective.__editorialMediaOverride,false);
+
+const mediaBase={...structuredClone(base),image:'assets/equipment-placeholder.svg'};
+const mediaHash=await articleHash(mediaBase);
+const mediaMap=new Map([[mediaBase.id,structuredClone(mediaBase)]]);
+const mediaPayload={version:1,entries:[{articleId:mediaBase.id,baseHash:mediaHash,operations:[
+  {op:'add',path:'/illustration',value:{src:'images/manual/demo.webp',alt:'Demo'}}
+]}]};
+await applyCommittedOverridesToMap(mediaMap,mediaPayload,{strict:true});
+assert.equal(mediaMap.get(mediaBase.id).__editorialMediaOverride,true);
+assert.equal(mediaMap.get(mediaBase.id).illustration.src,'images/manual/demo.webp');
 
 const conflictMap=new Map([[base.id,structuredClone(base)]]);
 const conflictPayload={version:1,entries:[{...payload.entries[0],baseHash:'0'.repeat(64)}]};
