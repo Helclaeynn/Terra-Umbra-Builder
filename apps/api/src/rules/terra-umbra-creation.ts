@@ -158,6 +158,15 @@ export const terraUmbraCreationRules = {
       "max": 7,
       "edgePackPoints": 2,
       "edgePackMax": 1
+    },
+    "skills": {
+      "sphereFixedPoints": 5,
+      "stylePoints": 5,
+      "stylePerSkillMax": 2,
+      "freePoints": 15,
+      "rawMax": 5,
+      "edgePackPoints": 4,
+      "edgePackMax": 3
     }
   },
   "origins": {
