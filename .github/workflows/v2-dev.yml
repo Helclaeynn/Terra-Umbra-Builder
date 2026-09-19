@@ -203,9 +203,11 @@ jobs:
           COMPENDIUM_SEARCH="$(mktemp)"
           COMPENDIUM_MANUFACTURER="$(mktemp)"
           COMPENDIUM_ARTICLE="$(mktemp)"
+          COMPENDIUM_LIBRARY="$(mktemp)"
+          COMPENDIUM_COLLECTION="$(mktemp)"
 
           cleanup() {
-            rm -f "$COOKIE_JAR" "$IMPORT_BODY" "$IMPORT_RESPONSE" "$CURRENT_RESPONSE" "$PATCH_BODY" "$PATCH_RESPONSE" "$RULES_RESPONSE" "$TRUTH_RESPONSE" "$REALITY_RESPONSE" "$COMPENDIUM_META" "$COMPENDIUM_SEARCH" "$COMPENDIUM_MANUFACTURER" "$COMPENDIUM_ARTICLE"
+            rm -f "$COOKIE_JAR" "$IMPORT_BODY" "$IMPORT_RESPONSE" "$CURRENT_RESPONSE" "$PATCH_BODY" "$PATCH_RESPONSE" "$RULES_RESPONSE" "$TRUTH_RESPONSE" "$REALITY_RESPONSE" "$COMPENDIUM_META" "$COMPENDIUM_SEARCH" "$COMPENDIUM_MANUFACTURER" "$COMPENDIUM_ARTICLE" "$COMPENDIUM_LIBRARY" "$COMPENDIUM_COLLECTION"
             ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST"               "cd /opt/terra-umbra/infrastructure && set -a && . ./.env && set +a && docker compose --env-file .env exec -T db psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -c \"DELETE FROM users WHERE email = '$TEST_EMAIL';\""               </dev/null >/dev/null 2>&1 || true
           }
           trap cleanup EXIT
@@ -329,6 +331,71 @@ jobs:
           PY
 
           curl --fail --silent --show-error https://dev.terra-umbra.fr/compendium | grep -q 'id="app"'
+
+          curl --fail --silent --show-error \
+            -b "$COOKIE_JAR" \
+            -X PUT \
+            https://dev.terra-umbra.fr/api/compendium/favorites/bestiaire-v15-afanc >/dev/null
+
+          curl --fail --silent --show-error \
+            -b "$COOKIE_JAR" \
+            -H 'Content-Type: application/json' \
+            -d '{"name":"CI Dossier"}' \
+            https://dev.terra-umbra.fr/api/compendium/collections > "$COMPENDIUM_COLLECTION"
+
+          COLLECTION_ID="$(python3 - "$COMPENDIUM_COLLECTION" <<'PY'
+          import json,sys
+          print(json.load(open(sys.argv[1],encoding="utf-8"))["collection"]["id"])
+          PY
+          )"
+          test -n "$COLLECTION_ID"
+
+          curl --fail --silent --show-error \
+            -b "$COOKIE_JAR" \
+            -X PUT \
+            "https://dev.terra-umbra.fr/api/compendium/collections/$COLLECTION_ID/articles/bestiaire-v15-afanc" >/dev/null
+
+          curl --fail --silent --show-error \
+            -b "$COOKIE_JAR" \
+            https://dev.terra-umbra.fr/api/compendium/library > "$COMPENDIUM_LIBRARY"
+
+          python3 - "$COMPENDIUM_LIBRARY" "$COLLECTION_ID" <<'PY'
+          import json,sys
+          library=json.load(open(sys.argv[1],encoding="utf-8"))
+          collection_id=sys.argv[2]
+          assert "bestiaire-v15-afanc" in library["favorites"], library
+          assert any(item["id"] == "bestiaire-v15-afanc" for item in library["favoriteItems"]), library["favoriteItems"]
+          collection=next(item for item in library["collections"] if item["id"] == collection_id)
+          assert collection["name"] == "CI Dossier", collection
+          assert "bestiaire-v15-afanc" in collection["articleIds"], collection
+          assert any(item["id"] == "bestiaire-v15-afanc" for item in collection["items"]), collection["items"]
+          PY
+
+          curl --fail --silent --show-error \
+            -b "$COOKIE_JAR" \
+            -X DELETE \
+            "https://dev.terra-umbra.fr/api/compendium/collections/$COLLECTION_ID/articles/bestiaire-v15-afanc" >/dev/null
+
+          curl --fail --silent --show-error \
+            -b "$COOKIE_JAR" \
+            -X DELETE \
+            https://dev.terra-umbra.fr/api/compendium/favorites/bestiaire-v15-afanc >/dev/null
+
+          curl --fail --silent --show-error \
+            -b "$COOKIE_JAR" \
+            -X DELETE \
+            "https://dev.terra-umbra.fr/api/compendium/collections/$COLLECTION_ID" >/dev/null
+
+          curl --fail --silent --show-error \
+            -b "$COOKIE_JAR" \
+            https://dev.terra-umbra.fr/api/compendium/library > "$COMPENDIUM_LIBRARY"
+
+          python3 - "$COMPENDIUM_LIBRARY" <<'PY'
+          import json,sys
+          library=json.load(open(sys.argv[1],encoding="utf-8"))
+          assert "bestiaire-v15-afanc" not in library["favorites"], library
+          assert not library["collections"], library["collections"]
+          PY
 
           cat > "$IMPORT_BODY" <<'JSON'
           {
