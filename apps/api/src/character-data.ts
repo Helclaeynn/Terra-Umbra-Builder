@@ -1,3 +1,5 @@
+import { terraUmbraCreationRules } from "./rules/terra-umbra-creation.js";
+
 type JsonRecord = Record<string, unknown>;
 
 const isRecord=(value:unknown): value is JsonRecord =>
@@ -84,7 +86,12 @@ export function blankCharacterData(name:string): CharacterDataV2 {
     },
     creation:{origin:"",sphere:"",style:""},
     attributes:{vigueur:3,agilite:3,esprit:3,volonte:3,charisme:3},
-    skills:{},
+    skills:Object.fromEntries(
+      terraUmbraCreationRules.skills.map((skill)=>[
+        skill.id,
+        { style:0, free:0, edge:0 }
+      ])
+    ),
     talents:{origin:"",sphere:"",expertise:"",common:"",edge:[]},
     talentChoices:{},
     disadvantages:[],
@@ -142,7 +149,7 @@ export function normalizeCharacterData(input:unknown, fallbackName:string): Char
 
   if(isRecord(source.skills)){
     for(const [id,value] of Object.entries(source.skills)){
-      if(!isRecord(value))continue;
+      if(!isRecord(value) || !(id in out.skills))continue;
       out.skills[id]={
         style:Math.max(0,asNumber(value.style)),
         free:Math.max(0,asNumber(value.free)),
