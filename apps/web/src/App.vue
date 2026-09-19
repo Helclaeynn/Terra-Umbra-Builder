@@ -106,13 +106,15 @@ async function api<T>(
   path: string,
   options: RequestInit = {}
 ): Promise<T> {
+  const headers = new Headers(options.headers ?? {});
+  if (options.body !== undefined && !headers.has("Content-Type")) {
+    headers.set("Content-Type", "application/json");
+  }
+
   const response = await fetch(path, {
     ...options,
     credentials: "same-origin",
-    headers: {
-      "Content-Type": "application/json",
-      ...(options.headers ?? {})
-    }
+    headers
   });
 
   const body = await response.json().catch(() => ({}));
@@ -262,7 +264,10 @@ async function logout() {
   busy.value = true;
 
   try {
-    await api("/api/auth/logout", { method: "POST" });
+    await api("/api/auth/logout", {
+      method: "POST",
+      body: "{}"
+    });
 
     const check = await fetch("/api/auth/me", {
       method: "GET",
