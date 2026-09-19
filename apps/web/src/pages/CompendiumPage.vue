@@ -14,6 +14,7 @@ type Meta = {
   total: number;
   expectedTotal: number | null;
   categories: CategoryCount[];
+  manufacturers: CategoryCount[];
   overrides: {
     applied: number;
     conflicts: number;
@@ -31,6 +32,7 @@ type SearchItem = {
   group: string;
   subgroup: string;
   tags: string[];
+  manufacturer: string;
   edited: boolean;
   snippet: string;
 };
@@ -58,6 +60,7 @@ type Article = {
   source?: string;
   status?: string;
   tags?: string[];
+  manufacturer?: string;
   sections?: ArticleSection[];
   navigation?: {
     group?: string;
@@ -70,6 +73,7 @@ type Article = {
 const meta = ref<Meta | null>(null);
 const query = ref("");
 const category = ref("");
+const manufacturer = ref("");
 const results = ref<SearchItem[]>([]);
 const total = ref(0);
 const selected = ref<Article | null>(null);
@@ -111,6 +115,7 @@ async function search() {
     const params = new URLSearchParams();
     if (query.value.trim()) params.set("q", query.value.trim());
     if (category.value) params.set("category", category.value);
+    if (manufacturer.value) params.set("manufacturer", manufacturer.value);
     params.set("limit", "60");
 
     const result = await api<{
@@ -151,6 +156,13 @@ async function openArticle(id: string) {
 
 async function chooseCategory(name: string) {
   category.value = category.value === name ? "" : name;
+  if (category.value && category.value !== "Équipement & Objets") manufacturer.value = "";
+  await search();
+}
+
+async function chooseManufacturer(name: string) {
+  manufacturer.value = name;
+  if (name) category.value = "Équipement & Objets";
   await search();
 }
 
@@ -236,6 +248,20 @@ onMounted(async () => {
                   placeholder="Nom, faction, règle, équipement, créature…"
                   autocomplete="off"
                 />
+                <select
+                  v-model="manufacturer"
+                  aria-label="Fabricant ou marque"
+                  @change="chooseManufacturer(manufacturer)"
+                >
+                  <option value="">Tous les fabricants</option>
+                  <option
+                    v-for="item in meta?.manufacturers || []"
+                    :key="item.name"
+                    :value="item.name"
+                  >
+                    {{ item.name }} · {{ item.count }}
+                  </option>
+                </select>
                 <button class="primary" :disabled="loading" type="submit">
                   Rechercher
                 </button>
@@ -280,6 +306,7 @@ onMounted(async () => {
                 <span class="result-meta">
                   {{ item.category }}
                   <template v-if="item.subgroup"> · {{ item.subgroup }}</template>
+                  <template v-if="item.manufacturer"> · {{ item.manufacturer }}</template>
                 </span>
                 <strong>{{ item.title }}</strong>
                 <p>{{ item.snippet }}</p>
@@ -316,6 +343,14 @@ onMounted(async () => {
                 <div class="article-meta">
                   <span v-if="selected.status">{{ selected.status }}</span>
                   <span v-if="selected.source">{{ selected.source }}</span>
+                  <button
+                    v-if="selected.manufacturer"
+                    class="manufacturer-badge"
+                    type="button"
+                    @click="chooseManufacturer(selected.manufacturer)"
+                  >
+                    Fabricant · {{ selected.manufacturer }}
+                  </button>
                   <span v-if="selected.__editorialOverride">Édité</span>
                 </div>
 
@@ -497,7 +532,7 @@ onMounted(async () => {
 
 .search-line {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) minmax(190px, 260px) auto;
   gap: .7rem;
 }
 
@@ -645,12 +680,19 @@ onMounted(async () => {
 }
 
 .article-meta span,
+.article-meta button,
 .article-tags button {
   padding: .3rem .5rem;
   border: 1px solid rgba(255, 255, 255, .10);
   color: #a9a195;
   background: transparent;
   font-size: .72rem;
+}
+
+.manufacturer-badge {
+  cursor: pointer;
+  border-color: rgba(140, 120, 201, .42) !important;
+  color: #d7c7ff !important;
 }
 
 .article-tags {
