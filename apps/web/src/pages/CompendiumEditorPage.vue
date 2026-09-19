@@ -506,18 +506,36 @@ function closeCoverage() {
   coverageOpen.value = false;
 }
 
+async function createCoveragePage(item: CoverageItem) {
+  coverageOpen.value = false;
+  await router.push({
+    path: "/compendium/new",
+    query: {
+      title: item.label,
+      category: item.category,
+      source: `Builder · ${familyLabels[item.family] || item.family}`,
+      tags: [item.kind, "Builder"].join(",")
+    }
+  });
+  await load();
+}
+
 async function load() {
   loading.value = true;
   error.value = "";
   try {
     if (isNew.value) {
+      const requestedCategory = String(route.query.category ?? "Réalité");
       article.value = {
         id: "",
-        title: "",
-        category: "Réalité",
-        source: "",
+        title: String(route.query.title ?? ""),
+        category: categories.includes(requestedCategory) ? requestedCategory : "Réalité",
+        source: String(route.query.source ?? ""),
         status: "canon_enrichi",
-        tags: [],
+        tags: String(route.query.tags ?? "")
+          .split(",")
+          .map(value => value.trim())
+          .filter(Boolean),
         sections: []
       };
       pageId.value = "";
@@ -817,6 +835,14 @@ onMounted(load);
             <div class="coverage-item-state">
               <b>{{ item.status === "linked" ? "Lié" : item.status === "ambiguous" ? "Ambigu" : "À créer" }}</b>
               <small v-if="item.matches.length">{{ item.matches.map(match => match.title).join(" · ") }}</small>
+              <button
+                v-if="item.status === 'missing'"
+                class="coverage-create"
+                type="button"
+                @click="createCoveragePage(item)"
+              >
+                Créer la page
+              </button>
             </div>
           </article>
         </div>
@@ -1048,7 +1074,7 @@ Encore du texte.
 .coverage-head{display:flex;justify-content:space-between;gap:1rem;padding:.25rem 0 1rem;border-bottom:1px solid rgba(255,255,255,.08)}.coverage-head h2{margin:.12rem 0 .35rem;font:500 1.65rem/1.1 Georgia,serif}.coverage-head p:not(.eyebrow){margin:0;color:#8a8379;font-size:.76rem;line-height:1.5}
 .coverage-score{display:flex;align-items:center;gap:1rem;padding:1rem 0}.coverage-score>strong{font:500 2.8rem/1 Georgia,serif;color:#d7bd88}.coverage-score>div{display:grid;gap:.15rem}.coverage-score span{color:#c9c0b1}.coverage-score small{color:#766f67}
 .coverage-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem}.coverage-stats article{display:grid;gap:.2rem;padding:.75rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.018)}.coverage-stats strong{font:500 1.45rem/1 Georgia,serif}.coverage-stats span{color:#807970;font-size:.68rem;text-transform:uppercase;letter-spacing:.06em}
-.coverage-filters{display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin:1rem 0}.coverage-list{display:grid;gap:.45rem}.coverage-list article{display:flex;justify-content:space-between;gap:1rem;padding:.7rem .75rem;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.012)}.coverage-list article.missing{border-left:3px solid #aa695e}.coverage-list article.ambiguous{border-left:3px solid #b99556}.coverage-list article.linked{border-left:3px solid #6f9f78}.coverage-list article>div:first-child{display:grid;gap:.15rem}.coverage-list article span{color:#907957;font-size:.62rem;text-transform:uppercase;letter-spacing:.06em}.coverage-list article strong{color:#d9d0c1;font-size:.82rem}.coverage-list article small{color:#777068;font-size:.66rem}.coverage-item-state{display:grid;gap:.2rem;text-align:right;align-content:start;max-width:46%}.coverage-item-state b{color:#aaa296;font-size:.7rem}.coverage-loading{display:grid;gap:.6rem;padding:1rem 0}.coverage-loading span,.editor-skeleton span{height:14px;background:linear-gradient(90deg,rgba(255,255,255,.035),rgba(255,255,255,.09),rgba(255,255,255,.035));background-size:220% 100%;animation:editor-shimmer 1.2s linear infinite}.coverage-loading span:nth-child(2),.editor-skeleton span:nth-child(2){width:72%}.coverage-loading span:nth-child(3){width:84%}
+.coverage-filters{display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin:1rem 0}.coverage-list{display:grid;gap:.45rem}.coverage-list article{display:flex;justify-content:space-between;gap:1rem;padding:.7rem .75rem;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.012)}.coverage-list article.missing{border-left:3px solid #aa695e}.coverage-list article.ambiguous{border-left:3px solid #b99556}.coverage-list article.linked{border-left:3px solid #6f9f78}.coverage-list article>div:first-child{display:grid;gap:.15rem}.coverage-list article span{color:#907957;font-size:.62rem;text-transform:uppercase;letter-spacing:.06em}.coverage-list article strong{color:#d9d0c1;font-size:.82rem}.coverage-list article small{color:#777068;font-size:.66rem}.coverage-item-state{display:grid;gap:.2rem;text-align:right;align-content:start;max-width:46%}.coverage-item-state b{color:#aaa296;font-size:.7rem}.coverage-create{justify-self:end;margin-top:.25rem;padding:.3rem .45rem;border:1px solid rgba(199,173,120,.28);background:rgba(161,125,69,.06);color:#cfb47e;font-size:.65rem}.coverage-create:hover{border-color:#a88a58;background:rgba(161,125,69,.12)}.coverage-loading{display:grid;gap:.6rem;padding:1rem 0}.coverage-loading span,.editor-skeleton span{height:14px;background:linear-gradient(90deg,rgba(255,255,255,.035),rgba(255,255,255,.09),rgba(255,255,255,.035));background-size:220% 100%;animation:editor-shimmer 1.2s linear infinite}.coverage-loading span:nth-child(2),.editor-skeleton span:nth-child(2){width:72%}.coverage-loading span:nth-child(3){width:84%}
 @keyframes editor-shimmer{to{background-position:-220% 0}}
 
 .wiki-editor-topbar {
