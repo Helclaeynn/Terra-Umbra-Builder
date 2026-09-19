@@ -223,9 +223,17 @@ jobs:
           COMPENDIUM_ME="$(mktemp)"
           COMPENDIUM_LIBRARY="$(mktemp)"
           COMPENDIUM_COLLECTION="$(mktemp)"
+          COMPENDIUM_NEW="$(mktemp)"
+          COMPENDIUM_NEW_DRAFT="$(mktemp)"
+          COMPENDIUM_NEW_ID=""
 
           cleanup() {
-            rm -f "$COOKIE_JAR" "$IMPORT_BODY" "$IMPORT_RESPONSE" "$CURRENT_RESPONSE" "$PATCH_BODY" "$PATCH_RESPONSE" "$RULES_RESPONSE" "$TRUTH_RESPONSE" "$REALITY_RESPONSE" "$COMPENDIUM_META" "$COMPENDIUM_SEARCH" "$COMPENDIUM_MANUFACTURER" "$COMPENDIUM_ARTICLE" "$COMPENDIUM_WIKI" "$COMPENDIUM_EDITOR" "$COMPENDIUM_ME" "$COMPENDIUM_LIBRARY" "$COMPENDIUM_COLLECTION"
+            rm -f "$COOKIE_JAR" "$IMPORT_BODY" "$IMPORT_RESPONSE" "$CURRENT_RESPONSE" "$PATCH_BODY" "$PATCH_RESPONSE" "$RULES_RESPONSE" "$TRUTH_RESPONSE" "$REALITY_RESPONSE" "$COMPENDIUM_META" "$COMPENDIUM_SEARCH" "$COMPENDIUM_MANUFACTURER" "$COMPENDIUM_ARTICLE" "$COMPENDIUM_WIKI" "$COMPENDIUM_EDITOR" "$COMPENDIUM_ME" "$COMPENDIUM_LIBRARY" "$COMPENDIUM_COLLECTION" "$COMPENDIUM_NEW" "$COMPENDIUM_NEW_DRAFT"
+            if [ -n "$COMPENDIUM_NEW_ID" ]; then
+              ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" \
+                "cd /opt/terra-umbra/infrastructure && set -a && . ./.env && set +a && docker compose --env-file .env exec -T db psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -c \"DELETE FROM compendium_article_edit_revisions WHERE article_id = '$COMPENDIUM_NEW_ID'; DELETE FROM compendium_article_edits WHERE article_id = '$COMPENDIUM_NEW_ID'; DELETE FROM compendium_custom_articles WHERE article_id = '$COMPENDIUM_NEW_ID';\"" \
+                </dev/null >/dev/null 2>&1 || true
+            fi
             ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST"               "cd /opt/terra-umbra/infrastructure && set -a && . ./.env && set +a && docker compose --env-file .env exec -T db psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -c \"DELETE FROM users WHERE email = '$TEST_EMAIL';\""               </dev/null >/dev/null 2>&1 || true
           }
           trap cleanup EXIT
@@ -385,6 +393,14 @@ jobs:
           echo "Wiki smoke: player editor HTTP $EDITOR_STATUS"
           test "$EDITOR_STATUS" = "403"
 
+          CREATE_STATUS="$(curl --silent --output /dev/null --write-out '%{http_code}' \
+            -b "$COOKIE_JAR" \
+            -H 'Content-Type: application/json' \
+            -d '{"title":"Forbidden CI page","category":"Réalité"}' \
+            https://dev.terra-umbra.fr/api/compendium/editor/articles)"
+          echo "Wiki smoke: player create HTTP $CREATE_STATUS"
+          test "$CREATE_STATUS" = "403"
+
           curl --fail --silent --show-error -b "$COOKIE_JAR" \
             https://dev.terra-umbra.fr/api/auth/me > "$COMPENDIUM_ME"
           COMPENDIUM_USER_ID="$(python3 - "$COMPENDIUM_ME" <<'PY'
@@ -421,6 +437,69 @@ jobs:
           payload=json.load(open(sys.argv[1],encoding="utf-8"))
           assert payload["article"]["id"] == "bestiaire-v15-afanc", payload
           assert len(payload["baseHash"]) == 64, payload["baseHash"]
+          PY
+
+          echo "Wiki smoke: creating and publishing a custom page"
+          CREATE_PAYLOAD="$(printf '{"title":"CI Wiki %s","category":"Réalité","source":"CI smoke","tags":["CI"]}' "$TEST_ID")"
+          curl --fail --silent --show-error \
+            -b "$COOKIE_JAR" \
+            -H 'Content-Type: application/json' \
+            -d "$CREATE_PAYLOAD" \
+            https://dev.terra-umbra.fr/api/compendium/editor/articles > "$COMPENDIUM_NEW"
+
+          COMPENDIUM_NEW_ID="$(python3 - "$COMPENDIUM_NEW" <<'PY'
+          import json,sys
+          payload=json.load(open(sys.argv[1],encoding="utf-8"))
+          print(payload["articleId"])
+          PY
+          )"
+          test -n "$COMPENDIUM_NEW_ID"
+
+          python3 - "$COMPENDIUM_NEW" "$COMPENDIUM_NEW_DRAFT" <<'PY'
+          import json,sys
+          payload=json.load(open(sys.argv[1],encoding="utf-8"))
+          article=payload["article"]
+          article["sections"]=[{
+              "id":"intro",
+              "title":"Présentation",
+              "level":2,
+              "blocks":[{"type":"p","text":"Page créée automatiquement pour le smoke wiki. Les Garous servent d’interlink de contrôle."}]
+          }]
+          json.dump({"article":article},open(sys.argv[2],"w",encoding="utf-8"),ensure_ascii=False)
+          PY
+
+          curl --fail --silent --show-error \
+            -b "$COOKIE_JAR" \
+            -X PUT \
+            -H 'Content-Type: application/json' \
+            -d @"$COMPENDIUM_NEW_DRAFT" \
+            "https://dev.terra-umbra.fr/api/compendium/editor/articles/$COMPENDIUM_NEW_ID/draft" >/dev/null
+
+          curl --fail --silent --show-error \
+            -b "$COOKIE_JAR" \
+            -X POST \
+            "https://dev.terra-umbra.fr/api/compendium/editor/articles/$COMPENDIUM_NEW_ID/publish" > "$COMPENDIUM_NEW"
+
+          python3 - "$COMPENDIUM_NEW" "$COMPENDIUM_NEW_ID" <<'PY'
+          import json,sys
+          payload=json.load(open(sys.argv[1],encoding="utf-8"))
+          article=payload["article"]
+          assert payload["published"] is True, payload
+          assert article["id"] == sys.argv[2], article
+          assert article["title"].startswith("CI Wiki "), article
+          assert article["category"] == "Réalité", article
+          assert article.get("__wikiPublishedEdit") is True, article
+          assert article["sections"][0]["blocks"][0]["text"].startswith("Page créée automatiquement"), article
+          PY
+
+          curl --fail --silent --show-error \
+            -b "$COOKIE_JAR" \
+            "https://dev.terra-umbra.fr/api/compendium/articles/$COMPENDIUM_NEW_ID" > "$COMPENDIUM_NEW"
+          python3 - "$COMPENDIUM_NEW" "$COMPENDIUM_NEW_ID" <<'PY'
+          import json,sys
+          article=json.load(open(sys.argv[1],encoding="utf-8"))["article"]
+          assert article["id"] == sys.argv[2], article
+          assert article["dataset"] == "custom", article
           PY
 
           curl --fail --silent --show-error https://dev.terra-umbra.fr/compendium | grep -q 'id="app"'
