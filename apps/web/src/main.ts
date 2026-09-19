@@ -10,6 +10,8 @@ const router=createRouter({
     { path:"/compendium", component:()=>import("./pages/CompendiumPage.vue") },
     { path:"/compendium/new", component:()=>import("./pages/CompendiumEditorPage.vue") },
     { path:"/compendium/edit/:id", component:()=>import("./pages/CompendiumEditorPage.vue") },
+    { path:"/style-lab", redirect:"/style-lab/interface-2035/builder" },
+    { path:"/style-lab/:theme/:view?", component:()=>import("./pages/StyleLabPage.vue") },
     { path:"/:pathMatch(.*)*", redirect:"/" }
   ]
 });
