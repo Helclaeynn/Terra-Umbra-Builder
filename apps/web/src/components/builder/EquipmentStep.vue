@@ -9,7 +9,6 @@ import {
   augmentationSupportLabel,
   augmentationSupportSatisfied,
   canAffordRealityPurchase,
-  ensureRealityState,
   equipmentStats,
   lifestylePressure,
   neuroCapacity,
@@ -54,7 +53,7 @@ const recurringDraft=ref("");
 const customChargeName=ref("");
 const customChargeMonthly=ref("");
 
-const state=computed(()=>ensureRealityState(props.modelValue));
+const state=computed(()=>props.modelValue as unknown as import("../../lib/reality").RealityState);
 const items=computed(()=>realityItemMap(props.rules));
 const economy=computed(()=>props.style
   ?realityEconomic(props.rules,state.value,props.style,props.edge)
