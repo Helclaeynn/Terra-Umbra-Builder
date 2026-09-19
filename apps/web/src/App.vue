@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
+import { RouterLink } from "vue-router";
 import CharactersPanel from "./components/CharactersPanel.vue";
 
 type Role = "player" | "gm" | "editor" | "admin";
@@ -648,6 +649,20 @@ onMounted(bootstrap);
         <div v-if="message || error" class="feedback" :class="{ error: !!error }">
           {{ error || message }}
         </div>
+
+        <section class="panel compendium-launcher">
+          <div>
+            <p class="eyebrow">COMPENDIUM</p>
+            <h2>Corpus V2 natif</h2>
+            <p class="muted">
+              Recherche et consultation du corpus V3 consolidé, directement depuis
+              l’application et l’API Terra Umbra.
+            </p>
+          </div>
+          <RouterLink class="secondary compendium-launcher-link" to="/compendium">
+            Ouvrir le Compendium
+          </RouterLink>
+        </section>
 
         <section class="grid">
           <article class="panel">
