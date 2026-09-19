@@ -1,5 +1,6 @@
 export type RealityItem={
   id:string;
+  compendiumId?:string;
   kind:"equipment"|"augmentation";
   name:string;
   category:string;
