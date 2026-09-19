@@ -180,6 +180,17 @@ try{
   const legacySections=await page.locator(".editor-section-card").count();
   if(legacySections!==0)throw new Error("Ancien éditeur par sections encore visible.");
 
+  await page.goto(baseUrl+"/compendium/edit/verite-046-10-vampires",{waitUntil:"domcontentloaded",timeout:30000});
+  await page.getByText("SOURCE MÉCANIQUE",{exact:true}).waitFor({state:"visible",timeout:10000});
+  await page.getByRole("heading",{name:"Relié au Builder"}).waitFor({state:"visible",timeout:10000});
+  await page.getByText("Nature",{exact:true}).first().waitFor({state:"visible",timeout:10000});
+
+  const coverageButton=page.getByRole("button",{name:/Couverture Builder/});
+  await coverageButton.click();
+  await page.getByRole("heading",{name:"Couverture du Compendium"}).waitFor({state:"visible",timeout:10000});
+  await page.getByText(/éléments canoniques/).waitFor({state:"visible",timeout:10000});
+  await page.getByRole("button",{name:"Fermer",exact:true}).click();
+
   await page.goto(baseUrl+"/compendium/new",{waitUntil:"domcontentloaded",timeout:30000});
   await page.getByText("NOUVELLE PAGE WIKI",{exact:true}).waitFor({state:"visible",timeout:10000});
   await page.locator(".wiki-source").waitFor({state:"visible",timeout:10000});
@@ -187,7 +198,7 @@ try{
 
   if(browserErrors.length)throw new Error(browserErrors.join("\n"));
 
-  console.log(`WIKI V2 OK — ${sourceTitle} → ${linkedText} → ${previewTitle} · média + éditeur continu + création OK`);
+  console.log(`WIKI V2 OK — ${sourceTitle} → ${linkedText} → ${previewTitle} · média + éditeur + source Builder + audit + création OK`);
 }finally{
   await browser.close();
 }
