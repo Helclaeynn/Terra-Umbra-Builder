@@ -26,6 +26,7 @@ import {
   lifestylePressure,
   type RealityRulesPackage
 } from "../lib/reality";
+import { ensureProgression } from "../lib/progression";
 import type { Character, CharacterDataV2 } from "../types/character";
 import {
   truthAvailableTalents,
@@ -571,7 +572,7 @@ const derivedStats=computed(()=>{
   };
 });
 
-const realityState=computed(()=>draft.value?ensureRealityState(draft.value.reality):null);
+const realityState=computed(()=>draft.value?draft.value.reality as any:null);
 const realityItems=computed(()=>realityRules.value?realityItemMap(realityRules.value):new Map());
 const realityEconomyValue=computed(()=>
   realityRules.value&&realityState.value&&selectedStyle.value
@@ -836,6 +837,12 @@ async function loadCharacter(){
     ]);
     character.value=characterResult.character;
     draft.value=structuredClone(characterResult.character.data);
+    ensureRealityState(draft.value.reality);
+    ensureProgression(
+      draft.value.progression,
+      rulesResult.rules.skills.map(skill=>skill.id),
+      rulesResult.rules.attributes.map(attribute=>attribute.id)
+    );
     rules.value=rulesResult.rules;
     lore.value=rulesResult.lore;
     talentChoiceSpecs.value=rulesResult.talentChoiceSpecs;
