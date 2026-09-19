@@ -117,12 +117,8 @@ export function blankCharacterData(name:string): CharacterDataV2 {
       fixedChargeItems:[],
       mjAdvancedOverride:false,
       mjAccessOverride:false,
-      sphereSupportDetail:"",
-      possessionsNotes:"",
-      networks:"",
-      statuses:"",
-      patrimony:"",
-      debts:""
+      sphereSupportType:"",
+      sphereSupportItemId:""
     },
     progression:{
       xpEarned:0,
@@ -232,6 +228,24 @@ export function normalizeCharacterData(input:unknown, fallbackName:string): Char
   }
 
   out.reality=cloneRecord(source.reality);
+  {
+    const reality=out.reality;
+    const legacySupport=asString(reality.sphereSupportDetail);
+    let supportType=asString(reality.sphereSupportType);
+    if(!["housing","vehicle"].includes(supportType)){
+      const normalized=legacySupport.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+      supportType=/logement|maison|appartement|studio|villa|hebergement/.test(normalized)
+        ?"housing"
+        :/vehicule|voiture|moto|transport/.test(normalized)
+          ?"vehicle"
+          :"";
+    }
+    reality.sphereSupportType=supportType;
+    reality.sphereSupportItemId=asString(reality.sphereSupportItemId);
+    for(const key of ["sphereSupportDetail","possessionsNotes","networks","statuses","patrimony","debts"]){
+      delete reality[key];
+    }
+  }
   out.progression=cloneRecord(source.progression);
 
   const sourceSchema=Number(source.schemaVersion);
