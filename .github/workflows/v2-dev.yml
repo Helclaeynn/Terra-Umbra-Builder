@@ -254,6 +254,20 @@ jobs:
           assert sum(len(v) for v in rules["talents"]["sphere"].values()) == 60
           assert len(rules["talents"]["common"]) == 12
           assert len(rules["talents"]["expertise"]) == 25
+          assert {item.get("compendiumId") for item in rules["talents"]["common"]} == {"regles-realite-talents-communs"}
+          expertise_hubs={
+              "vigueur":"regles-realite-talents-expertise-vigueur",
+              "agilite":"regles-realite-talents-expertise-agilite",
+              "esprit":"regles-realite-talents-expertise-esprit",
+              "volonte":"regles-realite-talents-expertise-volonte",
+              "charisme":"regles-realite-talents-expertise-charisme",
+          }
+          for attribute,hub in expertise_hubs.items():
+              assert all(
+                  item.get("compendiumId") == hub
+                  for item in rules["talents"]["expertise"]
+                  if item.get("attribute") == attribute
+              ), (attribute,hub)
           assert len(lore["origin"]) == 5
           assert len(lore["style"]) == 25
           assert len(lore["skill"]) == 25
@@ -276,6 +290,8 @@ jobs:
           assert len(payload["disadvantages"]["common"]) == 15
           assert len(payload["disadvantages"]["attribute"]) == 15
           assert len(payload["disadvantages"]["sphere"]["crawler"]) == 5
+          assert {item.get("compendiumId") for item in payload["disadvantages"]["common"]} == {"regles-realite-desavantages-communs"}
+          assert {item.get("compendiumId") for item in payload["disadvantages"]["attribute"]} == {"regles-realite-desavantages-attributs"}
           assert payload["edgeRules"]["base"] == 5
           assert payload["edgeRules"]["options"]["attributePack"]["points"] == 2
           assert payload["edgeRules"]["options"]["skillPacks"]["points"] == 4
@@ -304,13 +320,29 @@ jobs:
           assert truth["revelation"]["angelusStats"], "Profils Angelus absents"
           assert truth["revelation"]["daemonStats"], "Profils Daemon absents"
           assert truth["structure"]["natures"]["vampire"]["compendiumId"] == "verite-046-10-vampires"
-          truth_refs=[
-              talent.get("compendiumId")
+          truth_talents=[
+              talent
               for talents in truth["catalogs"].values()
               for talent in talents
-              if talent.get("compendiumId")
           ]
+          truth_refs=[talent.get("compendiumId") for talent in truth_talents if talent.get("compendiumId")]
           assert truth_refs, "Aucun Talent de Vérité relié canoniquement au Compendium"
+          assert len(truth_refs) == len(truth_talents), (
+              len(truth_refs),len(truth_talents),
+              [talent.get("name") for talent in truth_talents if not talent.get("compendiumId")][:20]
+          )
+          vampire_common=[
+              talent for talent in truth["catalogs"]["vampire"]
+              if talent.get("group") == "Vampire — commun"
+          ]
+          assert vampire_common
+          assert {talent.get("compendiumId") for talent in vampire_common} == {"regles-verite-vampire-commun"}
+          lavandieres=[
+              talent for talent in truth["catalogs"]["humain"]
+              if str(talent.get("group","")).startswith("Lavandières — tradition vampirique de Chasse")
+          ]
+          assert lavandieres
+          assert {talent.get("compendiumId") for talent in lavandieres} == {"regles-verite-chasseur-lavandieres"}
 
           counts=reality["counts"]
           assert counts["equipment"] >= 261, counts
@@ -507,9 +539,14 @@ jobs:
           payload=json.load(open(sys.argv[1],encoding="utf-8"))
           assert payload["totalTalents"] > 1000, payload
           assert payload["groups"], payload
+          assert payload["resolvedHubMatches"] == len(payload["groups"]), payload
+          assert payload["ambiguousGroupMatches"] == 0, payload
+          assert payload["missingGroupMatches"] == 0, payload
+          assert payload["inferredHubMatches"] > 0, payload
           print(
-              f'TALENT HUB AUDIT — {payload["exactGroupMatches"]} groupes liés exactement · '
-              f'{payload["ambiguousGroupMatches"]} ambigus · {payload["missingGroupMatches"]} sans page exacte'
+              f'TALENT HUB AUDIT — {payload["resolvedHubMatches"]}/{len(payload["groups"])} groupes couverts · '
+              f'{payload["exactGroupMatches"]} exacts · {payload["inferredHubMatches"]} résolus par hub · '
+              f'{payload["ambiguousGroupMatches"]} ambigus · {payload["missingGroupMatches"]} manquants'
           )
           for group in payload["groups"]:
               if group["matches"]:
