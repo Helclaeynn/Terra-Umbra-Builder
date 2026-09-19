@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, nextTick, onMounted, ref } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import { api, ApiError } from "../lib/api";
 
@@ -34,8 +34,11 @@ type EditableArticle = {
 const route = useRoute();
 const router = useRouter();
 const id = computed(() => String(route.params.id ?? ""));
-
+const isNew = computed(() => route.path === "/compendium/new" || !id.value);
+const pageId = ref("");
 const article = ref<EditableArticle | null>(null);
+const wikiText = ref("");
+const sourceArea = ref<HTMLTextAreaElement | null>(null);
 const tagsText = ref("");
 const mediaType = ref<"image" | "illustration">("image");
 const mediaSrc = ref("");
@@ -105,6 +108,7 @@ function humanError(cause: unknown): string {
       authentication_required: "Connexion requise.",
       editor_required: "Cette page est réservée aux éditeurs et administrateurs.",
       compendium_article_not_found: "Article introuvable.",
+      invalid_compendium_article_title: "Le titre de la page n’est pas valide.",
       invalid_compendium_article: "Le contenu de l’article n’est pas valide.",
       compendium_draft_required: "Enregistre d’abord un brouillon avant de publier.",
       compendium_source_changed: "Le corpus source a changé. Recharge la page avant de republier."
@@ -114,8 +118,201 @@ function humanError(cause: unknown): string {
   return "Une erreur est survenue dans l’éditeur.";
 }
 
+function sectionsToWiki(sections: ArticleSection[] = []): string {
+  const out: string[] = [];
+  for (const section of sections) {
+    if (section.audience === "mj") out.push("{{MJ}}");
+    if (section.title) {
+      const level = Math.max(2, Math.min(4, Number(section.level ?? 2)));
+      const mark = "=".repeat(level);
+      out.push(mark + " " + section.title + " " + mark, "");
+    }
+    for (const block of section.blocks ?? []) {
+      if (block.type === "table") {
+        out.push('{| class="wikitable"');
+        for (const row of block.rows ?? []) out.push("|-", "| " + row.join(" || "));
+        out.push("|}", "");
+        continue;
+      }
+      const text = String(block.text ?? "");
+      if (!text.trim()) continue;
+      if (block.style === "lore") out.push("{{Lore}}");
+      else if (block.style === "callout") out.push("{{Encadré}}");
+      if (block.style === "list") {
+        for (const line of text.split(/\r?\n/).filter(Boolean)) {
+          out.push("* " + line.replace(/^\s*[•*-]\s*/, ""));
+        }
+        out.push("");
+      } else {
+        out.push(text, "");
+      }
+    }
+  }
+  return out.join("\n").replace(/\n{3,}/g, "\n\n").trim();
+}
+
+function wikiToSections(source: string): ArticleSection[] {
+  const lines = source.replace(/\r/g, "").split("\n");
+  const sections: ArticleSection[] = [];
+  let current: ArticleSection = { id: "intro", title: "", level: 2, blocks: [] };
+  let paragraph: string[] = [];
+  let pendingStyle = "";
+  let pendingAudience = "";
+
+  const pushSection = () => {
+    if (current.title || current.blocks.length) sections.push(current);
+  };
+  const flush = () => {
+    if (!paragraph.length) return;
+    const text = paragraph.join("\n").trim();
+    if (text) current.blocks.push({
+      type: "p",
+      text,
+      ...(pendingStyle ? { style: pendingStyle } : {})
+    });
+    paragraph = [];
+    pendingStyle = "";
+  };
+
+  for (let index = 0; index < lines.length; index += 1) {
+    const line = lines[index];
+    const trim = line.trim();
+
+    if (trim === "{{MJ}}") {
+      flush();
+      pendingAudience = "mj";
+      continue;
+    }
+    if (trim === "{{Lore}}") {
+      flush();
+      pendingStyle = "lore";
+      continue;
+    }
+    if (trim === "{{Encadré}}") {
+      flush();
+      pendingStyle = "callout";
+      continue;
+    }
+
+    const heading = trim.match(/^(={2,4})\s*(.+?)\s*\1$/);
+    if (heading) {
+      flush();
+      pushSection();
+      current = {
+        id: "section-" + (sections.length + 1),
+        title: heading[2].trim(),
+        level: heading[1].length,
+        blocks: [],
+        ...(pendingAudience ? { audience: pendingAudience } : {})
+      };
+      pendingAudience = "";
+      continue;
+    }
+
+    if (trim.startsWith("{|")) {
+      flush();
+      const rows: string[][] = [];
+      for (index += 1; index < lines.length; index += 1) {
+        const rowLine = lines[index].trim();
+        if (rowLine === "|}") break;
+        if (rowLine === "|-" || !rowLine) continue;
+        if (rowLine.startsWith("|") || rowLine.startsWith("!")) {
+          rows.push(rowLine.slice(1).split(/\|\||!!/).map((value) => value.trim()));
+        }
+      }
+      current.blocks.push({ type: "table", rows });
+      continue;
+    }
+
+    if (/^\*\s+/.test(trim)) {
+      flush();
+      const items: string[] = [];
+      while (index < lines.length && /^\*\s+/.test(lines[index].trim())) {
+        items.push(lines[index].trim().replace(/^\*\s+/, ""));
+        index += 1;
+      }
+      index -= 1;
+      current.blocks.push({
+        type: "p",
+        style: "list",
+        text: items.map((item) => "• " + item).join("\n")
+      });
+      continue;
+    }
+
+    if (!trim) {
+      flush();
+      continue;
+    }
+    paragraph.push(line);
+  }
+
+  flush();
+  pushSection();
+  return sections;
+}
+
+const previewSections = computed(() => wikiToSections(wikiText.value));
+
+async function insertMarkup(before: string, after = "", placeholder = "Texte") {
+  const element = sourceArea.value;
+  if (!element) return;
+  const start = element.selectionStart;
+  const end = element.selectionEnd;
+  const selected = wikiText.value.slice(start, end) || placeholder;
+  wikiText.value =
+    wikiText.value.slice(0, start) +
+    before +
+    selected +
+    after +
+    wikiText.value.slice(end);
+  await nextTick();
+  element.focus();
+  element.setSelectionRange(start + before.length, start + before.length + selected.length);
+}
+
+async function insertHeading(level: number) {
+  const element = sourceArea.value;
+  if (!element) return;
+  const start = element.selectionStart;
+  const end = element.selectionEnd;
+  const selected = wikiText.value.slice(start, end) || "Titre de section";
+  const mark = "=".repeat(level);
+  const prefix = start > 0 && !wikiText.value.slice(0, start).endsWith("\n") ? "\n\n" : "";
+  const value = prefix + mark + " " + selected + " " + mark + "\n\n";
+  wikiText.value = wikiText.value.slice(0, start) + value + wikiText.value.slice(end);
+  await nextTick();
+  element.focus();
+}
+
+async function insertBullet() {
+  const element = sourceArea.value;
+  if (!element) return;
+  const start = element.selectionStart;
+  const end = element.selectionEnd;
+  const selected = wikiText.value.slice(start, end) || "Élément de liste";
+  const value = selected
+    .split(/\r?\n/)
+    .map((line) => "* " + line.replace(/^\*\s*/, ""))
+    .join("\n");
+  wikiText.value = wikiText.value.slice(0, start) + value + wikiText.value.slice(end);
+  await nextTick();
+  element.focus();
+}
+
+async function insertTable() {
+  const element = sourceArea.value;
+  if (!element) return;
+  const start = element.selectionStart;
+  const value = '\n{| class="wikitable"\n|-\n| Colonne 1 || Colonne 2\n|-\n| Valeur || Valeur\n|}\n';
+  wikiText.value = wikiText.value.slice(0, start) + value + wikiText.value.slice(start);
+  await nextTick();
+  element.focus();
+}
+
 function fillForms(source: EditableArticle) {
   tagsText.value = (source.tags ?? []).join(", ");
+  wikiText.value = sectionsToWiki(source.sections ?? []);
 
   const media = normalizeMedia(source.illustration ?? source.image);
   mediaType.value = source.illustration ? "illustration" : "image";
@@ -142,14 +339,30 @@ async function load() {
   loading.value = true;
   error.value = "";
   try {
+    if (isNew.value) {
+      article.value = {
+        id: "",
+        title: "",
+        category: "Réalité",
+        source: "",
+        status: "canon_enrichi",
+        tags: [],
+        sections: []
+      };
+      pageId.value = "";
+      fillForms(article.value);
+      return;
+    }
+
     const payload = await api<{
       article: EditableArticle;
       draft: EditableArticle | null;
       conflict: boolean;
       draftUpdatedAt: string | null;
       publishedAt: string | null;
-    }>(`/api/compendium/editor/articles/${encodeURIComponent(id.value)}`);
+    }>(`/api/compendium/editor/articles/${encodeURIComponent(pageId.value)}`);
 
+    pageId.value = id.value;
     article.value = clone(payload.draft ?? payload.article);
     conflict.value = payload.conflict;
     draftUpdatedAt.value = payload.draftUpdatedAt;
@@ -169,6 +382,7 @@ function syncForms() {
     .split(",")
     .map((value) => value.trim())
     .filter(Boolean);
+  article.value.sections = wikiToSections(wikiText.value);
 
   article.value.image = null;
   article.value.illustration = null;
@@ -245,15 +459,47 @@ function setTableEvent(block: ArticleBlock, event: Event) {
   if (target instanceof HTMLTextAreaElement) setTableText(block, target.value);
 }
 
+async function ensureCreated(): Promise<boolean> {
+  if (pageId.value) return true;
+  if (!article.value?.title?.trim()) {
+    error.value = "Donne un titre à la nouvelle page.";
+    return false;
+  }
+
+  syncForms();
+  try {
+    const payload = await api<{ articleId: string; article: EditableArticle }>(
+      "/api/compendium/editor/articles",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          title: article.value.title,
+          category: article.value.category,
+          source: article.value.source,
+          status: article.value.status,
+          tags: article.value.tags
+        })
+      }
+    );
+    pageId.value = payload.articleId;
+    article.value.id = payload.articleId;
+    await router.replace("/compendium/edit/" + encodeURIComponent(payload.articleId));
+    return true;
+  } catch (cause) {
+    error.value = humanError(cause);
+    return false;
+  }
+}
+
 async function saveDraft(showNotice = true): Promise<boolean> {
-  if (!article.value) return false;
+  if (!article.value || !(await ensureCreated())) return false;
   syncForms();
   busy.value = true;
   error.value = "";
   notice.value = "";
 
   try {
-    await api(`/api/compendium/editor/articles/${encodeURIComponent(id.value)}/draft`, {
+    await api(`/api/compendium/editor/articles/${encodeURIComponent(pageId.value)}/draft`, {
       method: "PUT",
       body: JSON.stringify({ article: article.value })
     });
@@ -278,7 +524,7 @@ async function publish() {
   notice.value = "";
   try {
     const payload = await api<{ article: EditableArticle }>(
-      `/api/compendium/editor/articles/${encodeURIComponent(id.value)}/publish`,
+      `/api/compendium/editor/articles/${encodeURIComponent(pageId.value)}/publish`,
       { method: "POST" }
     );
     article.value = clone(payload.article);
@@ -297,7 +543,7 @@ async function discardDraft() {
   if (!window.confirm("Supprimer le brouillon et revenir à la version publiée ?")) return;
   busy.value = true;
   try {
-    await api(`/api/compendium/editor/articles/${encodeURIComponent(id.value)}/draft`, {
+    await api(`/api/compendium/editor/articles/${encodeURIComponent(pageId.value)}/draft`, {
       method: "DELETE"
     });
     await load();
@@ -310,7 +556,11 @@ async function discardDraft() {
 }
 
 async function backToArticle() {
-  await router.push({ path: "/compendium", query: { article: id.value } });
+  if (pageId.value && publishedAt.value) {
+    await router.push({ path: "/compendium", query: { article: pageId.value } });
+  } else {
+    await router.push("/compendium");
+  }
 }
 
 onMounted(load);
