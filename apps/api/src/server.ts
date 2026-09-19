@@ -23,6 +23,7 @@ import {
 } from "./auth.js";
 import { databaseStatus, pool } from "./db.js";
 import { registerCharacterRoutes } from "./characters.js";
+import { registerCompendiumRoutes } from "./compendium.js";
 import { registerRulesRoutes } from "./rules/index.js";
 import { passwordResetMailAvailable, sendPasswordResetEmail } from "./mail.js";
 
@@ -39,7 +40,8 @@ app.addHook("onSend", async (request, reply, payload) => {
   if (
     request.url.startsWith("/api/auth/") ||
     request.url.startsWith("/api/admin/") ||
-    request.url.startsWith("/api/characters")
+    request.url.startsWith("/api/characters") ||
+    request.url.startsWith("/api/compendium")
   ) {
     reply.header("Cache-Control", "no-store, private");
     reply.header("Pragma", "no-cache");
@@ -829,6 +831,7 @@ app.get("/api/admin/audit", async (request, reply) => {
 
 await registerCharacterRoutes(app);
 await registerRulesRoutes(app);
+await registerCompendiumRoutes(app);
 
 const port = Number(process.env.PORT ?? 3000);
 
