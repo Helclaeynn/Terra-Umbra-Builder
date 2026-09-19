@@ -211,6 +211,16 @@ const suggestionsVisible = computed(() =>
   (suggestionLoading.value || suggestions.value.length > 0)
 );
 
+const resultGroups = computed(() => {
+  const groups = new Map<string, SearchItem[]>();
+  for (const item of results.value) {
+    const name = item.category || "Autres";
+    if (!groups.has(name)) groups.set(name, []);
+    groups.get(name)!.push(item);
+  }
+  return [...groups.entries()].map(([name, items]) => ({ name, items }));
+});
+
 const selectedIsFavorite = computed(() =>
   selected.value ? favoriteIds.value.includes(selected.value.id) : false
 );
@@ -1184,26 +1194,32 @@ onBeforeUnmount(() => {
             </div>
 
             <div v-if="results.length" class="result-list">
-              <button
-                v-for="item in results"
-                :key="item.id"
-                class="result-card"
-                :class="{ active: selected?.id === item.id }"
-                type="button"
-                @click="openArticle(item.id)"
-              >
-                <span class="result-meta">
-                  {{ item.category }}
-                  <template v-if="item.subgroup"> · {{ item.subgroup }}</template>
-                  <template v-if="item.manufacturer"> · {{ item.manufacturer }}</template>
-                </span>
-                <strong>{{ item.title }}</strong>
-                <p>{{ item.snippet }}</p>
-                <div class="result-flags">
-                  <small v-if="item.edited">Édition canonique appliquée</small>
-                  <small v-if="favoriteIds.includes(item.id)">★ Favori</small>
-                </div>
-              </button>
+              <section v-for="group in resultGroups" :key="group.name" class="result-group">
+                <header>
+                  <strong>{{ group.name }}</strong>
+                  <span>{{ group.items.length }}</span>
+                </header>
+                <button
+                  v-for="item in group.items"
+                  :key="item.id"
+                  class="result-card"
+                  :class="{ active: selected?.id === item.id }"
+                  type="button"
+                  @click="openArticle(item.id)"
+                >
+                  <span class="result-meta">
+                    {{ item.category }}
+                    <template v-if="item.subgroup"> · {{ item.subgroup }}</template>
+                    <template v-if="item.manufacturer"> · {{ item.manufacturer }}</template>
+                  </span>
+                  <strong>{{ item.title }}</strong>
+                  <p>{{ item.snippet }}</p>
+                  <div class="result-flags">
+                    <small v-if="item.edited">Édition canonique appliquée</small>
+                    <small v-if="favoriteIds.includes(item.id)">★ Favori</small>
+                  </div>
+                </button>
+              </section>
             </div>
 
             <div v-else-if="!loading" class="empty-results">
@@ -1761,6 +1777,8 @@ onBeforeUnmount(() => {
   font-size: .78rem;
 }
 
+.result-group{display:grid;gap:.45rem}.result-group+.result-group{margin-top:.8rem;padding-top:.8rem;border-top:1px solid rgba(255,255,255,.07)}
+.result-group>header{display:flex;justify-content:space-between;gap:.6rem;align-items:center;padding:0 .15rem}.result-group>header strong{color:#b99a66;font-size:.68rem;text-transform:uppercase;letter-spacing:.07em}.result-group>header span{color:#716b63;font-size:.65rem}
 .result-list {
   max-height: calc(100vh - 205px);
   overflow-y: auto;
