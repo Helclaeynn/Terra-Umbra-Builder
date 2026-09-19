@@ -964,15 +964,14 @@ onBeforeUnmount(() => {
                     <p
                       v-if="block.type === 'p'"
                       :class="['article-paragraph', String(block.style || '')]"
-                    >
-                      {{ blockText(block) }}
-                    </p>
+                      v-html="linkifyText(blockText(block), selected)"
+                    ></p>
                     <div v-else-if="block.type === 'table'" class="article-table-wrap">
                       <table class="article-table">
                         <tbody>
                           <tr v-for="(row, rowIndex) in tableRows(block)" :key="rowIndex">
                             <td v-for="(cell, cellIndex) in row" :key="cellIndex">
-                              {{ formatCell(cell) }}
+                              <span v-html="linkifyText(formatCell(cell), selected)"></span>
                             </td>
                           </tr>
                         </tbody>
