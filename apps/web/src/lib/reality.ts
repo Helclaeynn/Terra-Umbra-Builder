@@ -91,6 +91,7 @@ export type RealityState={
 export type RealityStyle={
   id:string;
   name:string;
+  expertiseFamilies:string[];
   lifestyle:string;
   account:number;
   augmentationEnvelope:number;
