@@ -75,6 +75,12 @@ type LibraryPayload = {
   collections: LibraryCollection[];
 };
 
+type MediaRef = {
+  src: string;
+  alt?: string;
+  caption?: string;
+};
+
 type WikiEntry = {
   id: string;
   title: string;
@@ -84,6 +90,13 @@ type WikiEntry = {
   subgroup: string;
   manufacturer: string;
   snippet: string;
+  media?: string | MediaRef | null;
+};
+
+type CurrentUser = {
+  id: string;
+  displayName: string;
+  role: "player" | "gm" | "editor" | "admin";
 };
 
 type Article = {
@@ -101,7 +114,11 @@ type Article = {
     subgroup?: string;
   };
   pnj?: Record<string, unknown>;
+  image?: string | MediaRef;
+  illustration?: string | MediaRef;
+  gallery?: MediaRef[];
   __editorialOverride?: boolean;
+  __wikiPublishedEdit?: boolean;
 };
 
 const route = useRoute();
@@ -125,6 +142,7 @@ const newCollectionName = ref("");
 const libraryBusy = ref(false);
 const libraryNotice = ref("");
 const activeLibraryView = ref<"" | "favorites" | string>("");
+const currentUser = ref<CurrentUser | null>(null);
 const wikiReady = ref(false);
 const wikiPreviewEl = ref<HTMLElement | null>(null);
 const wikiPreview = ref({
@@ -134,6 +152,7 @@ const wikiPreview = ref({
   category: "",
   context: "",
   snippet: "",
+  mediaSrc: "",
   left: 12,
   top: 12,
   width: 360
@@ -152,8 +171,110 @@ const selectedIsFavorite = computed(() =>
   selected.value ? favoriteIds.value.includes(selected.value.id) : false
 );
 
+const canEdit = computed(() =>
+  currentUser.value?.role === "editor" || currentUser.value?.role === "admin"
+);
+
+const selectedMedia = computed(() => primaryArticleMedia(selected.value));
+
+const articleToc = computed(() =>
+  (selected.value?.sections ?? [])
+    .map((section, index) => ({
+      id: sectionDomId(section, index),
+      title: String(section.title ?? "").trim(),
+      level: Number(section.level ?? 2)
+    }))
+    .filter((item) => item.title)
+);
+
+const relatedArticles = computed(() => {
+  void wikiReady.value;
+  const article = selected.value;
+  if (!article || !wikiLinker) return [] as WikiEntry[];
+
+  const ids = new Set<string>();
+  const collect = (value: unknown) => {
+    const html = wikiLinker.linkify(String(value ?? ""), wikiContext(article));
+    for (const match of html.matchAll(/data-wiki-id="([^"]+)"/g)) {
+      if (match[1] && match[1] !== article.id) ids.add(match[1]);
+    }
+  };
+
+  for (const section of article.sections ?? []) {
+    for (const block of section.blocks ?? []) {
+      if (block?.type === "p") collect(block.text);
+      if (block?.type === "table" && Array.isArray(block.rows)) {
+        for (const row of block.rows) {
+          if (Array.isArray(row)) for (const cell of row) collect(cell);
+        }
+      }
+    }
+  }
+
+  return [...ids]
+    .map((id) => wikiById.get(id))
+    .filter((entry): entry is WikiEntry => Boolean(entry))
+    .slice(0, 12);
+});
+
 function collectionContains(collection: LibraryCollection, articleId?: string): boolean {
   return Boolean(articleId && collection.articleIds.includes(articleId));
+}
+
+function normalizeMedia(value: unknown): MediaRef | null {
+  if (typeof value === "string" && value.trim()) return { src: value.trim() };
+  if (value && typeof value === "object") {
+    const media = value as Record<string, unknown>;
+    const src = String(media.src ?? "").trim();
+    if (!src) return null;
+    return {
+      src,
+      alt: String(media.alt ?? "").trim() || undefined,
+      caption: String(media.caption ?? "").trim() || undefined
+    };
+  }
+  return null;
+}
+
+function mediaUrl(value: unknown): string {
+  const media = normalizeMedia(value);
+  if (!media?.src) return "";
+  const src = media.src.trim();
+  if (/^(?:https?:|data:|blob:)/i.test(src)) return src;
+  if (src.startsWith("/api/compendium/media/")) return src;
+  const clean = src
+    .replace(/^\/?compendium\//, "")
+    .replace(/^\/+/, "");
+  if (!clean.startsWith("images/") && !clean.startsWith("assets/")) return src;
+  return `/api/compendium/media/${clean}`;
+}
+
+function primaryArticleMedia(article: Article | null): MediaRef | null {
+  if (!article) return null;
+  const direct = normalizeMedia(article.illustration ?? article.image);
+  if (direct) return { ...direct, src: mediaUrl(direct) };
+
+  const pnj = article.pnj as Record<string, unknown> | undefined;
+  const portrait = normalizeMedia(
+    pnj?.portrait
+      ? {
+          src: pnj.portrait,
+          alt: pnj.portrait_alt ?? `Portrait de ${article.title ?? article.id}`,
+          caption: pnj.portrait_caption ?? ""
+        }
+      : null
+  );
+  return portrait ? { ...portrait, src: mediaUrl(portrait) } : null;
+}
+
+function sectionDomId(section: ArticleSection, index: number): string {
+  const raw = String(section.id ?? "").trim();
+  if (raw) return `wiki-section-${raw.replace(/[^a-zA-Z0-9_-]+/g, "-")}`;
+  return `wiki-section-${index + 1}`;
+}
+
+function scrollToSection(id: string) {
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function escapeHtml(value: unknown): string {
@@ -202,6 +323,15 @@ function humanError(cause: unknown): string {
     return "Cette collection n’existe plus.";
   }
   return "Le Compendium n’a pas pu être chargé.";
+}
+
+async function loadCurrentUser() {
+  try {
+    const payload = await api<{ user: CurrentUser }>("/api/auth/me");
+    currentUser.value = payload.user;
+  } catch {
+    currentUser.value = null;
+  }
 }
 
 async function loadMeta() {
@@ -520,6 +650,7 @@ function showWikiPreview(link: HTMLAnchorElement) {
     category: entry.category || "Compendium",
     context: [entry.group, entry.subgroup].filter(Boolean).join(" · "),
     snippet: entry.snippet,
+    mediaSrc: mediaUrl(entry.media),
     left: wikiPreview.value.left,
     top: wikiPreview.value.top,
     width: wikiPreview.value.width
@@ -617,7 +748,7 @@ watch(
 onMounted(async () => {
   if (typeof route.query.q === "string") query.value = route.query.q;
 
-  await Promise.all([loadMeta(), loadLibrary(), loadWikiIndex(), search()]);
+  await Promise.all([loadCurrentUser(), loadMeta(), loadLibrary(), loadWikiIndex(), search()]);
 
   if (typeof route.query.article === "string") {
     await openArticle(route.query.article, false);
@@ -850,136 +981,212 @@ onBeforeUnmount(() => {
             </div>
 
             <template v-else-if="selected">
-              <header class="article-header">
-                <div class="article-breadcrumb">
-                  <span>{{ selected.category }}</span>
-                  <template v-if="selected.navigation?.group">
-                    <span>›</span>
-                    <span>{{ selected.navigation.group }}</span>
-                  </template>
-                  <template v-if="selected.navigation?.subgroup">
-                    <span>›</span>
-                    <span>{{ selected.navigation.subgroup }}</span>
-                  </template>
-                </div>
-
-                <h1>{{ selected.title }}</h1>
-
-                <div class="article-meta">
-                  <span v-if="selected.status">{{ selected.status }}</span>
-                  <span v-if="selected.source">{{ selected.source }}</span>
-                  <button
-                    v-if="selected.manufacturer"
-                    class="manufacturer-badge"
-                    type="button"
-                    @click="chooseManufacturer(selected.manufacturer)"
-                  >
-                    Fabricant · {{ selected.manufacturer }}
-                  </button>
-                  <span v-if="selected.__editorialOverride">Édité</span>
-                </div>
-
-                <div class="article-library-actions">
-                  <button
-                    class="favorite-button"
-                    :class="{ active: selectedIsFavorite }"
-                    type="button"
-                    :disabled="libraryBusy"
-                    @click="toggleFavorite(selected.id)"
-                  >
-                    {{ selectedIsFavorite ? "★ Retirer des favoris" : "☆ Ajouter aux favoris" }}
-                  </button>
-
-                  <button
-                    v-for="collection in collections"
-                    :key="collection.id"
-                    class="collection-toggle"
-                    :class="{ active: collectionContains(collection, selected.id) }"
-                    type="button"
-                    :disabled="libraryBusy"
-                    @click="toggleCollectionArticle(collection, selected.id)"
-                  >
-                    {{ collectionContains(collection, selected.id) ? "✓" : "+" }}
-                    {{ collection.name }}
-                  </button>
-                </div>
-
-                <div v-if="selected.tags?.length" class="article-tags">
-                  <button
-                    v-for="tag in selected.tags.slice(0, 12)"
-                    :key="tag"
-                    type="button"
-                    @click="query = tag; search()"
-                  >
-                    {{ tag }}
-                  </button>
-                </div>
-              </header>
-
-              <section
-                v-for="(section, sectionIndex) in selected.sections || []"
-                :key="section.id || sectionIndex"
-                class="article-section"
-              >
-                <details v-if="section.audience === 'mj'" class="mj-section">
-                  <summary>{{ section.title || "Informations MJ" }}</summary>
-                  <div class="mj-content">
-                    <component
-                      :is="sectionHeadingLevel(section)"
-                      v-if="section.title"
-                    >
-                      {{ section.title }}
-                    </component>
-
-                    <template v-for="(block, blockIndex) in section.blocks || []" :key="blockIndex">
-                      <p
-                        v-if="block.type === 'p'"
-                        :class="['article-paragraph', String(block.style || '')]"
-                        v-html="linkifyText(blockText(block), selected)"
-                      ></p>
-                      <div v-else-if="block.type === 'table'" class="article-table-wrap">
-                        <table class="article-table">
-                          <tbody>
-                            <tr v-for="(row, rowIndex) in tableRows(block)" :key="rowIndex">
-                              <td v-for="(cell, cellIndex) in row" :key="cellIndex">
-                                <span v-html="linkifyText(formatCell(cell), selected)"></span>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </template>
-                  </div>
-                </details>
-
-                <template v-else>
-                  <component
-                    :is="sectionHeadingLevel(section)"
-                    v-if="section.title"
-                  >
-                    {{ section.title }}
-                  </component>
-
-                  <template v-for="(block, blockIndex) in section.blocks || []" :key="blockIndex">
-                    <p
-                      v-if="block.type === 'p'"
-                      :class="['article-paragraph', String(block.style || '')]"
-                      v-html="linkifyText(blockText(block), selected)"
-                    ></p>
-                    <div v-else-if="block.type === 'table'" class="article-table-wrap">
-                      <table class="article-table">
-                        <tbody>
-                          <tr v-for="(row, rowIndex) in tableRows(block)" :key="rowIndex">
-                            <td v-for="(cell, cellIndex) in row" :key="cellIndex">
-                              <span v-html="linkifyText(formatCell(cell), selected)"></span>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+              <div class="wiki-article-grid">
+                <div class="wiki-article-main">
+                  <header class="article-header">
+                    <div class="article-breadcrumb">
+                      <span>{{ selected.category }}</span>
+                      <template v-if="selected.navigation?.group">
+                        <span>›</span>
+                        <span>{{ selected.navigation.group }}</span>
+                      </template>
+                      <template v-if="selected.navigation?.subgroup">
+                        <span>›</span>
+                        <span>{{ selected.navigation.subgroup }}</span>
+                      </template>
                     </div>
-                  </template>
-                </template>
-              </section>
+
+                    <div class="wiki-title-line">
+                      <h1>{{ selected.title }}</h1>
+                      <RouterLink
+                        v-if="canEdit"
+                        class="wiki-edit-link"
+                        :to="`/compendium/edit/${encodeURIComponent(selected.id)}`"
+                      >
+                        ✎ Modifier
+                      </RouterLink>
+                    </div>
+
+                    <div class="article-meta">
+                      <span v-if="selected.status">{{ selected.status }}</span>
+                      <span v-if="selected.source">{{ selected.source }}</span>
+                      <button
+                        v-if="selected.manufacturer"
+                        class="manufacturer-badge"
+                        type="button"
+                        @click="chooseManufacturer(selected.manufacturer)"
+                      >
+                        Fabricant · {{ selected.manufacturer }}
+                      </button>
+                      <span v-if="selected.__editorialOverride">Override canonique</span>
+                      <span v-if="selected.__wikiPublishedEdit">Édition wiki publiée</span>
+                    </div>
+
+                    <div class="article-library-actions">
+                      <button
+                        class="favorite-button"
+                        :class="{ active: selectedIsFavorite }"
+                        type="button"
+                        :disabled="libraryBusy"
+                        @click="toggleFavorite(selected.id)"
+                      >
+                        {{ selectedIsFavorite ? "★ Retirer des favoris" : "☆ Ajouter aux favoris" }}
+                      </button>
+
+                      <button
+                        v-for="collection in collections"
+                        :key="collection.id"
+                        class="collection-toggle"
+                        :class="{ active: collectionContains(collection, selected.id) }"
+                        type="button"
+                        :disabled="libraryBusy"
+                        @click="toggleCollectionArticle(collection, selected.id)"
+                      >
+                        {{ collectionContains(collection, selected.id) ? "✓" : "+" }}
+                        {{ collection.name }}
+                      </button>
+                    </div>
+
+                    <div v-if="selected.tags?.length" class="article-tags">
+                      <button
+                        v-for="tag in selected.tags.slice(0, 12)"
+                        :key="tag"
+                        type="button"
+                        @click="query = tag; search()"
+                      >
+                        {{ tag }}
+                      </button>
+                    </div>
+                  </header>
+
+                  <section
+                    v-for="(section, sectionIndex) in selected.sections || []"
+                    :id="sectionDomId(section, sectionIndex)"
+                    :key="section.id || sectionIndex"
+                    class="article-section"
+                  >
+                    <details v-if="section.audience === 'mj'" class="mj-section">
+                      <summary>{{ section.title || "Informations MJ" }}</summary>
+                      <div class="mj-content">
+                        <component :is="sectionHeadingLevel(section)" v-if="section.title">
+                          {{ section.title }}
+                        </component>
+
+                        <template v-for="(block, blockIndex) in section.blocks || []" :key="blockIndex">
+                          <p
+                            v-if="block.type === 'p'"
+                            :class="['article-paragraph', String(block.style || '')]"
+                            v-html="linkifyText(blockText(block), selected)"
+                          ></p>
+                          <div v-else-if="block.type === 'table'" class="article-table-wrap">
+                            <table class="article-table">
+                              <tbody>
+                                <tr v-for="(row, rowIndex) in tableRows(block)" :key="rowIndex">
+                                  <td v-for="(cell, cellIndex) in row" :key="cellIndex">
+                                    <span v-html="linkifyText(formatCell(cell), selected)"></span>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </template>
+                      </div>
+                    </details>
+
+                    <template v-else>
+                      <component :is="sectionHeadingLevel(section)" v-if="section.title">
+                        {{ section.title }}
+                      </component>
+
+                      <template v-for="(block, blockIndex) in section.blocks || []" :key="blockIndex">
+                        <p
+                          v-if="block.type === 'p'"
+                          :class="['article-paragraph', String(block.style || '')]"
+                          v-html="linkifyText(blockText(block), selected)"
+                        ></p>
+                        <div v-else-if="block.type === 'table'" class="article-table-wrap">
+                          <table class="article-table">
+                            <tbody>
+                              <tr v-for="(row, rowIndex) in tableRows(block)" :key="rowIndex">
+                                <td v-for="(cell, cellIndex) in row" :key="cellIndex">
+                                  <span v-html="linkifyText(formatCell(cell), selected)"></span>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </template>
+                    </template>
+                  </section>
+
+                  <section v-if="relatedArticles.length" class="wiki-see-also">
+                    <p class="eyebrow">LIENS DU WIKI</p>
+                    <h2>Voir aussi</h2>
+                    <div class="wiki-related-grid">
+                      <button
+                        v-for="entry in relatedArticles"
+                        :key="entry.id"
+                        type="button"
+                        @click="openArticle(entry.id)"
+                      >
+                        <span>{{ entry.category }}</span>
+                        <strong>{{ entry.title }}</strong>
+                        <small>{{ entry.snippet }}</small>
+                      </button>
+                    </div>
+                  </section>
+                </div>
+
+                <aside class="wiki-infobox">
+                  <figure v-if="selectedMedia" class="wiki-media">
+                    <img
+                      :src="selectedMedia.src"
+                      :alt="selectedMedia.alt || selected.title || selected.id"
+                      loading="lazy"
+                    />
+                    <figcaption v-if="selectedMedia.caption">{{ selectedMedia.caption }}</figcaption>
+                  </figure>
+
+                  <div class="wiki-infobox-card">
+                    <p class="eyebrow">FICHE</p>
+                    <dl>
+                      <template v-if="selected.category">
+                        <dt>Rubrique</dt><dd>{{ selected.category }}</dd>
+                      </template>
+                      <template v-if="selected.navigation?.group">
+                        <dt>Groupe</dt><dd>{{ selected.navigation.group }}</dd>
+                      </template>
+                      <template v-if="selected.navigation?.subgroup">
+                        <dt>Sous-groupe</dt><dd>{{ selected.navigation.subgroup }}</dd>
+                      </template>
+                      <template v-if="selected.manufacturer">
+                        <dt>Fabricant</dt><dd>{{ selected.manufacturer }}</dd>
+                      </template>
+                    </dl>
+                  </div>
+
+                  <nav v-if="articleToc.length" class="wiki-toc" aria-label="Sommaire de l'article">
+                    <p class="eyebrow">SOMMAIRE</p>
+                    <button
+                      v-for="item in articleToc"
+                      :key="item.id"
+                      type="button"
+                      :class="`level-${item.level}`"
+                      @click="scrollToSection(item.id)"
+                    >
+                      {{ item.title }}
+                    </button>
+                  </nav>
+
+                  <div v-if="selected.gallery?.length" class="wiki-gallery">
+                    <p class="eyebrow">GALERIE</p>
+                    <figure v-for="media in selected.gallery" :key="media.src">
+                      <img :src="mediaUrl(media)" :alt="media.alt || selected.title || selected.id" loading="lazy" />
+                      <figcaption v-if="media.caption">{{ media.caption }}</figcaption>
+                    </figure>
+                  </div>
+                </aside>
+              </div>
             </template>
 
             <div v-else class="article-placeholder">
@@ -1005,6 +1212,12 @@ onBeforeUnmount(() => {
           width: wikiPreview.width + 'px'
         }"
       >
+        <img
+          v-if="wikiPreview.mediaSrc"
+          class="wiki-hover-image"
+          :src="wikiPreview.mediaSrc"
+          :alt="wikiPreview.title"
+        />
         <div class="wiki-hover-kicker">{{ wikiPreview.category }}</div>
         <strong>{{ wikiPreview.title }}</strong>
         <small v-if="wikiPreview.context">{{ wikiPreview.context }}</small>
@@ -1330,6 +1543,171 @@ onBeforeUnmount(() => {
   padding: clamp(1.25rem, 3vw, 2.5rem);
 }
 
+.wiki-article-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  align-items: start;
+}
+
+.wiki-article-main {
+  min-width: 0;
+}
+
+.wiki-title-line {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.wiki-title-line h1 {
+  flex: 1;
+}
+
+.wiki-edit-link {
+  flex: 0 0 auto;
+  margin-top: .8rem;
+  padding: .5rem .7rem;
+  border: 1px solid rgba(216, 189, 133, .30);
+  color: #d8bd85;
+  text-decoration: none;
+  font-size: .76rem;
+}
+
+.wiki-infobox {
+  position: sticky;
+  top: 96px;
+  display: grid;
+  gap: .8rem;
+}
+
+.wiki-media,
+.wiki-gallery figure {
+  margin: 0;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.025);
+}
+
+.wiki-media img,
+.wiki-gallery img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 420px;
+  object-fit: contain;
+  background: rgba(0,0,0,.20);
+}
+
+.wiki-media figcaption,
+.wiki-gallery figcaption {
+  padding: .55rem .65rem;
+  color: #8f897f;
+  font-size: .72rem;
+  line-height: 1.4;
+}
+
+.wiki-infobox-card,
+.wiki-toc,
+.wiki-gallery {
+  padding: .85rem;
+  border: 1px solid rgba(255,255,255,.09);
+  background: rgba(255,255,255,.018);
+}
+
+.wiki-infobox-card dl {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: .45rem .7rem;
+  margin: .65rem 0 0;
+}
+
+.wiki-infobox-card dt {
+  color: #79736a;
+  font-size: .7rem;
+}
+
+.wiki-infobox-card dd {
+  margin: 0;
+  color: #c6beb0;
+  font-size: .76rem;
+}
+
+.wiki-toc {
+  display: grid;
+  gap: .15rem;
+}
+
+.wiki-toc button {
+  padding: .35rem .2rem;
+  border: 0;
+  color: #aaa397;
+  background: transparent;
+  text-align: left;
+  font-size: .78rem;
+}
+
+.wiki-toc button:hover {
+  color: #e1c995;
+}
+
+.wiki-toc button.level-3 { padding-left: .8rem; }
+.wiki-toc button.level-4 { padding-left: 1.4rem; }
+
+.wiki-gallery {
+  display: grid;
+  gap: .65rem;
+}
+
+.wiki-see-also {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,.09);
+}
+
+.wiki-see-also h2 {
+  margin: .2rem 0 1rem;
+  font: 500 1.65rem/1.2 Georgia, serif;
+}
+
+.wiki-related-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .6rem;
+}
+
+.wiki-related-grid button {
+  display: grid;
+  gap: .28rem;
+  padding: .8rem;
+  border: 1px solid rgba(255,255,255,.09);
+  background: rgba(255,255,255,.018);
+  color: #c7bfb2;
+  text-align: left;
+}
+
+.wiki-related-grid button:hover {
+  border-color: rgba(216,189,133,.35);
+  background: rgba(157,124,72,.08);
+}
+
+.wiki-related-grid span {
+  color: #9c8156;
+  font-size: .65rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.wiki-related-grid strong {
+  font-family: Georgia, serif;
+  font-weight: 500;
+}
+
+.wiki-related-grid small {
+  color: #817b72;
+  line-height: 1.35;
+}
+
 .article-header {
   padding-bottom: 1.5rem;
   margin-bottom: 1.5rem;
@@ -1491,6 +1869,14 @@ onBeforeUnmount(() => {
   pointer-events: none;
 }
 
+.wiki-hover-image {
+  width: 100%;
+  max-height: 150px;
+  object-fit: cover;
+  margin-bottom: .25rem;
+  border: 1px solid rgba(255,255,255,.08);
+}
+
 .wiki-hover-preview strong {
   color: #eee7da;
   font: 500 1.15rem/1.2 Georgia, serif;
@@ -1523,6 +1909,19 @@ onBeforeUnmount(() => {
   .compendium-hero,
   .compendium-workspace {
     grid-template-columns: 1fr;
+  }
+
+  .wiki-article-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wiki-infobox {
+    position: static;
+    order: -1;
+  }
+
+  .wiki-media img {
+    max-height: 520px;
   }
 
   .compendium-stats {
