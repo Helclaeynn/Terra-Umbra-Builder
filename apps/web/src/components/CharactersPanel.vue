@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
+import { RouterLink } from "vue-router";
 import { api } from "../lib/api";
 import type { Character, Revision } from "../types/character";
 
@@ -224,7 +225,7 @@ onMounted(loadCharacters);
 </script>
 
 <template>
-  <article class="panel characters-panel">
+  <article id="characters" class="panel characters-panel">
     <div class="section-heading">
       <div>
         <p class="eyebrow">MES PERSONNAGES</p>
@@ -289,9 +290,9 @@ onMounted(loadCharacters);
             <h3>{{ selected.name }}</h3>
           </div>
           <div class="character-detail-actions">
-            <a class="ghost compact builder-link" :href="`/characters/${selected.id}/builder`">
+            <RouterLink class="ghost compact builder-link" :to="`/characters/${selected.id}/builder`">
               Ouvrir le Builder
-            </a>
+            </RouterLink>
             <button class="ghost compact danger" type="button" :disabled="loading" @click="archiveCharacter">
               Archiver
             </button>
