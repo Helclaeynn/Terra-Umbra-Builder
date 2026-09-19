@@ -585,33 +585,4 @@ onMounted(loadCharacters);
     padding-left: 0;
   }
 }
-
-/* V1-inspired character library alignment */
-.character-count{
-  border-color:#344550;
-  color:var(--tu-accent);
-  background:#0d141a;
-}
-.characters-layout,
-.character-list{border-color:var(--tu-border)}
-.character-list button{color:#b9c7cf;border-radius:9px}
-.character-list button:hover,
-.character-list button.active{
-  border-left-color:var(--tu-accent);
-  background:linear-gradient(90deg,rgba(72,215,177,.09),rgba(72,215,177,.018));
-}
-.character-list button.active{box-shadow:inset 0 0 0 1px rgba(72,215,177,.08)}
-.character-detail h3{
-  font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;
-  font-weight:800;
-  letter-spacing:-.02em;
-}
-.builder-slot{
-  border-color:#28414a;
-  border-radius:12px;
-  background:#0e1a1d;
-}
-.builder-slot span{color:var(--tu-accent)}
-.revision-list article{border-top-color:var(--tu-border-soft)}
-
 </style>
