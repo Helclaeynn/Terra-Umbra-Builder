@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, ref } from "vue";
 import { api } from "../../lib/api";
 
 type SearchItem={
@@ -12,6 +12,7 @@ type SearchItem={
   group?:string;
   subgroup?:string;
   snippet?:string;
+  mediaSrc?:string;
 };
 
 const props=withDefaults(defineProps<{
@@ -43,19 +44,59 @@ function searchKey(){
   return [props.articleId,props.category,norm(props.label)].join("|");
 }
 
+function mediaSrc(value:unknown):string{
+  let raw="";
+  if(typeof value==="string")raw=value.trim();
+  else if(value&&typeof value==="object")raw=String((value as Record<string,unknown>).src??"").trim();
+  if(!raw)return"";
+  if(/^(?:https?:|data:|blob:)/i.test(raw))return raw;
+  if(raw.startsWith("/api/compendium/media/"))return raw;
+  const clean=raw.replace(/^\/?compendium\//,"").replace(/^\/+/, "");
+  return clean.startsWith("images/")||clean.startsWith("assets/")
+    ?`/api/compendium/media/${clean}`
+    :raw;
+}
+
+function articleSnippet(article:Record<string,unknown>):string{
+  const sections=Array.isArray(article.sections)?article.sections as Array<Record<string,unknown>>:[];
+  const chunks:string[]=[];
+  for(const section of sections){
+    if(section.audience==="mj")continue;
+    const blocks=Array.isArray(section.blocks)?section.blocks as Array<Record<string,unknown>>:[];
+    for(const block of blocks){
+      if(block.type==="p"&&String(block.text??"").trim())chunks.push(String(block.text).trim());
+      if(chunks.join(" ").length>360)break;
+    }
+    if(chunks.join(" ").length>360)break;
+  }
+  const text=chunks.join(" ").replace(/\s+/g," ").trim();
+  return text.length>360?text.slice(0,357).replace(/\s+\S*$/,"")+"…":text;
+}
+
+async function hydrate(item:SearchItem):Promise<SearchItem>{
+  try{
+    const payload=await api<{article:Record<string,unknown>}>(`/api/compendium/articles/${encodeURIComponent(item.id)}`);
+    const article=payload.article;
+    return{
+      ...item,
+      title:String(article.title??item.title),
+      category:String(article.category??item.category),
+      source:String(article.source??item.source??""),
+      status:String(article.status??item.status??""),
+      snippet:articleSnippet(article)||item.snippet,
+      mediaSrc:mediaSrc(article.illustration??article.image)
+    };
+  }catch{return item;}
+}
+
 async function resolveArticle():Promise<SearchItem|null>{
   if(props.articleId){
     try{
-      const payload=await api<{article:Record<string,unknown>}>(`/api/compendium/articles/${encodeURIComponent(props.articleId)}`);
-      const article=payload.article;
-      return {
-        id:String(article.id??props.articleId),
-        title:String(article.title??props.label),
-        category:String(article.category??props.category),
-        source:String(article.source??""),
-        status:String(article.status??""),
-        snippet:""
-      };
+      return await hydrate({
+        id:props.articleId,
+        title:props.label,
+        category:props.category
+      });
     }catch{/* fallback search below */}
   }
 
@@ -64,13 +105,10 @@ async function resolveArticle():Promise<SearchItem|null>{
   const payload=await api<{items:SearchItem[]}>(`/api/compendium/search?${params.toString()}`);
   const target=norm(props.label);
   const exact=payload.items.find(item=>norm(item.title)===target);
-  if(exact)return exact;
+  if(exact)return hydrate(exact);
 
-  const starts=payload.items.filter(item=>{
-    const title=norm(item.title);
-    return title.startsWith(target+" ")||title.startsWith(target+" —")||title.startsWith(target+" -");
-  });
-  if(starts.length===1)return starts[0];
+  const starts=payload.items.filter(item=>norm(item.title).startsWith(target+" "));
+  if(starts.length===1)return hydrate(starts[0]);
 
   return null;
 }
@@ -103,10 +141,6 @@ const preview=computed(()=>{
   return"Voir la page dédiée dans le Compendium.";
 });
 
-onMounted(()=>{
-  // Prépare silencieusement les références visibles sans bloquer le Builder.
-  window.setTimeout(()=>void ensureResolved(),50);
-});
 </script>
 
 <template>
@@ -130,6 +164,7 @@ onMounted(()=>{
     </a>
 
     <span class="builder-wiki-hover" role="tooltip">
+      <img v-if="resolved?.mediaSrc" class="wiki-preview-media" :src="resolved.mediaSrc" alt="" loading="lazy" />
       <small>{{ resolved?.category || category || "Compendium" }}</small>
       <strong>{{ resolved?.title || label }}</strong>
       <p>{{ preview }}</p>
@@ -145,6 +180,7 @@ onMounted(()=>{
 .wiki-mark{font-size:.68em;color:#a88c58;opacity:.8}
 .builder-wiki-hover{position:absolute;left:0;bottom:calc(100% + 9px);z-index:120;display:none;width:min(360px,80vw);padding:.75rem .85rem;border:1px solid rgba(199,173,120,.28);background:#0d0c0a;color:#cfc6b8;box-shadow:0 14px 36px rgba(0,0,0,.5);pointer-events:none;text-align:left}
 .builder-wiki-ref:hover .builder-wiki-hover,.builder-wiki-ref:focus-within .builder-wiki-hover{display:block}
+.wiki-preview-media{display:block;width:100%;max-height:170px;object-fit:contain;margin:0 0 .65rem;background:rgba(0,0,0,.25)}
 .builder-wiki-hover small{display:block;margin-bottom:.2rem;color:#a68d64;font-size:.62rem;text-transform:uppercase;letter-spacing:.08em}
 .builder-wiki-hover strong{display:block;color:#e2d8c8;font:500 .98rem/1.25 Georgia,serif}
 .builder-wiki-hover p{margin:.42rem 0;color:#aaa195;font-size:.72rem;line-height:1.45}
