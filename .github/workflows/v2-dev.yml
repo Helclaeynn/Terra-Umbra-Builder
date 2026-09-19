@@ -157,15 +157,47 @@ jobs:
           CURRENT_RESPONSE="$(mktemp)"
           PATCH_BODY="$(mktemp)"
           PATCH_RESPONSE="$(mktemp)"
+          RULES_RESPONSE="$(mktemp)"
 
           cleanup() {
-            rm -f "$COOKIE_JAR" "$IMPORT_BODY" "$IMPORT_RESPONSE" "$CURRENT_RESPONSE" "$PATCH_BODY" "$PATCH_RESPONSE"
+            rm -f "$COOKIE_JAR" "$IMPORT_BODY" "$IMPORT_RESPONSE" "$CURRENT_RESPONSE" "$PATCH_BODY" "$PATCH_RESPONSE" "$RULES_RESPONSE"
             ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST"               "cd /opt/terra-umbra/infrastructure && set -a && . ./.env && set +a && docker compose --env-file .env exec -T db psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -c \"DELETE FROM users WHERE email = '$TEST_EMAIL';\""               </dev/null >/dev/null 2>&1 || true
           }
           trap cleanup EXIT
 
           REGISTER_PAYLOAD="$(printf '{"displayName":"CI Character","email":"%s","password":"%s","passwordConfirmation":"%s"}' "$TEST_EMAIL" "$TEST_PASSWORD" "$TEST_PASSWORD")"
           curl --fail --silent --show-error             -c "$COOKIE_JAR"             -H 'Content-Type: application/json'             -d "$REGISTER_PAYLOAD"             https://dev.terra-umbra.fr/api/auth/register >/dev/null
+
+          curl --fail --silent --show-error             -b "$COOKIE_JAR"             https://dev.terra-umbra.fr/api/rulesets/terra-umbra/creation > "$RULES_RESPONSE"
+
+          python3 - "$RULES_RESPONSE" <<'PY'
+          import json,sys
+          payload=json.load(open(sys.argv[1],encoding="utf-8"))
+          rules=payload["rules"]
+          lore=payload["lore"]
+          choices=payload["talentChoiceSpecs"]
+          assert len(rules["talents"]["origin"]) == 5, rules["talents"]["origin"].keys()
+          assert sum(len(v) for v in rules["talents"]["origin"].values()) == 25
+          assert sum(len(v) for v in rules["talents"]["sphere"].values()) == 60
+          assert len(rules["talents"]["common"]) == 12
+          assert len(rules["talents"]["expertise"]) == 25
+          assert len(lore["origin"]) == 5
+          assert len(lore["style"]) == 25
+          assert len(lore["skill"]) == 25
+          assert len(lore["sphereTalent"]) == 60
+          assert lore["origin"]["corporatiste"]
+          assert lore["style"]["cybercorpo"]
+          assert lore["skill"]["neurodive"]
+          assert lore["sphereTalent"]["dotation_standard"]
+          calibrated=choices["formation_calibree"]
+          assert calibrated["kind"] == "skill"
+          assert calibrated["skillAttribute"] == "esprit"
+          assert calibrated["bonus"] == 1
+          assert calibrated["permanent"] is True
+          assert "requin_corporatif" in choices
+          assert "sens_accru_x" in choices
+          assert payload["skillTalentMap"]["tireur_de_precision"] == "tir"
+          PY
 
           cat > "$IMPORT_BODY" <<'JSON'
           {
