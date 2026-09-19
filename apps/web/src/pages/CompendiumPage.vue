@@ -2796,4 +2796,100 @@ onBeforeUnmount(() => {
     width: min(100% - 1rem, 1480px);
   }
 }
+
+/* V2 visual-system alignment */
+.compendium-shell {
+  background:
+    radial-gradient(circle at 82% 3%, rgba(142, 102, 52, .095), transparent 34rem),
+    radial-gradient(circle at 7% 46%, rgba(67, 79, 70, .055), transparent 30rem);
+}
+.compendium-topbar {
+  border-bottom-color: var(--tu-border);
+  background: linear-gradient(180deg, rgba(18,16,13,.96), rgba(11,10,9,.93));
+  backdrop-filter: blur(22px) saturate(1.1);
+  box-shadow: var(--tu-shadow-sm);
+}
+.compendium-hero h1,
+.article-header h1,
+.article-section h2,
+.article-section h3,
+.article-section h4 {
+  font-family: var(--tu-font-display);
+}
+.compendium-stats {
+  border-color: var(--tu-border-strong);
+  border-radius: var(--tu-radius-md);
+  background: linear-gradient(145deg, rgba(169,132,76,.11), rgba(20,18,15,.88));
+}
+.compendium-search {
+  border-color: var(--tu-border-strong);
+  border-radius: var(--tu-radius-lg);
+  background:
+    linear-gradient(135deg, rgba(169,132,76,.08), rgba(24,22,18,.9) 44%, rgba(14,13,12,.94));
+  box-shadow: var(--tu-shadow-lg);
+}
+.search-line input[type="search"] {
+  border-color: rgba(204,178,125,.2);
+  border-radius: var(--tu-radius-sm);
+  background: rgba(8,8,7,.46);
+}
+.search-suggestions {
+  border-color: var(--tu-border-strong);
+  border-radius: var(--tu-radius-md);
+  background: rgba(14,13,11,.985);
+  box-shadow: var(--tu-shadow-lg);
+}
+.search-suggestions button.active,
+.search-suggestions button:hover {
+  background: var(--tu-gold-wash);
+}
+.category-chip {
+  border-radius: 999px;
+  border-color: rgba(255,255,255,.10);
+  background: rgba(255,255,255,.014);
+}
+.category-chip:hover {
+  border-color: rgba(204,178,125,.34);
+  background: var(--tu-surface-hover);
+}
+.category-chip.active {
+  border-color: rgba(204,178,125,.5);
+  color: var(--tu-gold-bright);
+  background: rgba(169,132,76,.12);
+}
+.library-panel,
+.results-panel,
+.article-panel {
+  border-color: var(--tu-border);
+}
+.article-header {
+  border-bottom-color: var(--tu-border-soft);
+}
+.article-meta span,
+.article-meta button,
+.article-tags button {
+  border-radius: 999px;
+  border-color: rgba(255,255,255,.095);
+  background: rgba(255,255,255,.012);
+}
+.article-paragraph {
+  color: var(--tu-text-soft);
+}
+.article-paragraph.lore {
+  color: #d1c5af;
+}
+.article-table {
+  overflow: hidden;
+  border-radius: var(--tu-radius-sm);
+}
+.mj-section {
+  border-radius: var(--tu-radius-sm);
+}
+.wiki-hover-preview {
+  border-color: rgba(204,178,125,.36);
+  border-radius: var(--tu-radius-md);
+  background: rgba(14,13,11,.985);
+  box-shadow: var(--tu-shadow-lg);
+}
+
 </style>
