@@ -27,7 +27,10 @@ type CreationRules={
   sourceVersion:string;
   attributes:RuleAttribute[];
   skills:RuleSkill[];
-  creation:{attributes:{baseTotal:number;min:number;max:number;edgePackPoints:number;edgePackMax:number}};
+  creation:{
+    attributes:{baseTotal:number;min:number;max:number;edgePackPoints:number;edgePackMax:number};
+    skills:{sphereFixedPoints:number;stylePoints:number;stylePerSkillMax:number;freePoints:number;rawMax:number;edgePackPoints:number;edgePackMax:number};
+  };
   origins:Record<string,RuleOrigin>;
   spheres:Record<string,RuleSphere>;
   styles:RuleStyle[];
@@ -53,7 +56,7 @@ const sections:Array<[StepId,string,boolean]>=[
   ["origin","Origine",true],
   ["sphere","Sphère & Style",true],
   ["attributes","Attributs",true],
-  ["skills","Compétences",false],
+  ["skills","Compétences",true],
   ["talents","Talents",false],
   ["truth","Vérité",false],
   ["disadvantages","Désavantages",false],
@@ -98,6 +101,17 @@ const originTalents=computed(()=>{
 const stylePointsUsed=computed(()=>{
   if(!draft.value)return 0;
   return Object.values(draft.value.skills).reduce((sum,skill)=>sum+Number(skill.style||0),0);
+});
+
+const freeSkillPointsUsed=computed(()=>{
+  if(!draft.value)return 0;
+  return Object.values(draft.value.skills).reduce((sum,skill)=>sum+Number(skill.free||0)+Number(skill.edge||0),0);
+});
+
+const freeSkillBudget=computed(()=>{
+  if(!draft.value||!rules.value)return 0;
+  const config=rules.value.creation.skills;
+  return config.freePoints+(Number(draft.value.edge.skillPacks||0)*config.edgePackPoints);
 });
 
 const attributeTotal=computed(()=>{
@@ -145,6 +159,12 @@ function stepDone(id:StepId){
       const value=Number(draft.value?.attributes[attribute.id]??0);
       return value>=bounds.min&&value<=bounds.max;
     });
+  }
+  if(id==="skills"){
+    const max=rules.value.creation.skills.rawMax;
+    return !!selectedStyle.value&&stylePointsUsed.value===rules.value.creation.skills.stylePoints&&
+      freeSkillPointsUsed.value===freeSkillBudget.value&&
+      rules.value.skills.every((skill)=>skillRaw(skill.id)<=max);
   }
   return false;
 }
@@ -315,6 +335,17 @@ function changeStylePoint(id:string,delta:number){
   if(delta>0&&stylePointsUsed.value>=5)return;
   if(delta>0&&skillRaw(id)>=5)return;
   skill.style=next;
+}
+
+function changeFreeSkillPoint(id:string,delta:number){
+  if(!draft.value||!rules.value)return;
+  const skill=draft.value.skills[id];
+  if(!skill)return;
+  const next=Number(skill.free||0)+delta;
+  if(next<0)return;
+  if(delta>0&&freeSkillPointsUsed.value>=freeSkillBudget.value)return;
+  if(delta>0&&skillRaw(id)>=rules.value.creation.skills.rawMax)return;
+  skill.free=next;
 }
 
 function changeAttribute(id:string,delta:number){
@@ -681,6 +712,78 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
           </div>
         </article>
 
+        <article v-else-if="activeStep === 'skills'" class="panel builder-card">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">05 · COMPÉTENCES</p>
+              <h2>Compétences libres</h2>
+            </div>
+            <span class="schema-badge">{{ freeSkillPointsUsed }} / {{ freeSkillBudget }}</span>
+          </div>
+
+          <p class="builder-intro">
+            Les cinq points fixes de Sphère et les cinq points de Style sont déjà intégrés.
+            Répartissez ici les {{ rules.creation.skills.freePoints }} points libres
+            <template v-if="Number(draft.edge.skillPacks || 0) > 0">
+              ainsi que les points supplémentaires déjà achetés avec Edge
+            </template>.
+            Le Brut ne peut pas dépasser {{ rules.creation.skills.rawMax }} à la création.
+          </p>
+
+          <div v-if="!selectedStyle" class="rule-note bad">
+            Choisissez d’abord une Sphère et un Style.
+          </div>
+
+          <template v-else>
+            <div
+              v-for="attribute in rules.attributes"
+              :key="attribute.id"
+              class="skill-family"
+            >
+              <h3>{{ attribute.name }}</h3>
+              <div class="skill-grid">
+                <div
+                  v-for="skill in rules.skills.filter((item)=>item.attribute===attribute.id)"
+                  :key="skill.id"
+                  class="skill-card"
+                >
+                  <div class="skill-head">
+                    <strong>{{ skill.name }}</strong>
+                    <span>Brut {{ skillRaw(skill.id) }}/{{ rules.creation.skills.rawMax }}</span>
+                  </div>
+
+                  <div class="skill-breakdown">
+                    <span>Sphère <strong>{{ sphereFixed(skill.id) }}</strong></span>
+                    <span>Style <strong>{{ draft.skills[skill.id]?.style || 0 }}</strong></span>
+                    <span>Libre <strong>{{ draft.skills[skill.id]?.free || 0 }}</strong></span>
+                  </div>
+
+                  <div class="skill-free-line">
+                    <span>Points libres</span>
+                    <div class="stepper">
+                      <button type="button" @click="changeFreeSkillPoint(skill.id,-1)">−</button>
+                      <strong>{{ draft.skills[skill.id]?.free || 0 }}</strong>
+                      <button type="button" @click="changeFreeSkillPoint(skill.id,1)">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="rule-note" :class="{ bad: freeSkillPointsUsed !== freeSkillBudget }">
+              <strong v-if="freeSkillPointsUsed === freeSkillBudget">
+                Tous les points libres sont répartis.
+              </strong>
+              <strong v-else-if="freeSkillPointsUsed < freeSkillBudget">
+                Il reste {{ freeSkillBudget - freeSkillPointsUsed }} point{{ freeSkillBudget - freeSkillPointsUsed > 1 ? "s" : "" }} libre{{ freeSkillBudget - freeSkillPointsUsed > 1 ? "s" : "" }}.
+              </strong>
+              <strong v-else>
+                Budget dépassé de {{ freeSkillPointsUsed - freeSkillBudget }}.
+              </strong>
+            </div>
+          </template>
+        </article>
+
         <article v-else class="panel builder-card">
           <p class="eyebrow">RECONSTRUCTION V2</p>
           <h2>Bloc suivant</h2>
@@ -695,5 +798,5 @@ onBeforeUnmount(()=>window.removeEventListener("beforeunload",beforeUnload));
 </template>
 
 <style scoped>
-.builder-v2-shell{min-height:100vh}.builder-topbar{position:sticky}.back-link{text-decoration:none;display:inline-flex;align-items:center}.builder-loading{min-height:calc(100vh - 74px);display:grid;place-content:center;gap:1rem;color:#9f988c;text-align:center}.error-state strong{color:#e2b0aa}.builder-workspace{width:min(1440px,calc(100% - 2rem));margin:0 auto;padding:2rem 0 5rem;display:grid;grid-template-columns:285px minmax(0,1fr);gap:1.25rem;align-items:start}.builder-sidebar{position:sticky;top:94px;overflow:hidden}.builder-character{padding:1.1rem;display:grid;grid-template-columns:54px 1fr;gap:.8rem;align-items:center;border-bottom:1px solid rgba(255,255,255,.07)}.builder-character h1{margin:.15rem 0 .35rem;font-family:Georgia,serif;font-size:1.35rem;font-weight:500}.builder-character small{color:#7e786f}.builder-mini-portrait{width:54px;height:68px;overflow:hidden;border:1px solid rgba(255,255,255,.12);background:#0d0c0a;display:grid;place-items:center}.builder-mini-portrait img{width:100%;height:100%;object-fit:cover}.builder-mini-portrait.empty span{color:#7c6b4b;font-family:Georgia,serif}.builder-nav{display:grid;padding:.55rem}.builder-nav button{display:grid;grid-template-columns:1.6rem 1fr auto;align-items:center;gap:.45rem;width:100%;padding:.7rem .65rem;border:0;border-left:2px solid transparent;text-align:left;color:#8e887f;background:transparent}.builder-nav button.active{border-left-color:#a17d45;color:#e6ddcf;background:rgba(161,125,69,.08)}.builder-nav button.done:not(.active){color:#a7c4a4}.builder-nav button:disabled{opacity:.5}.builder-nav button span,.builder-nav button small{font-size:.68rem}.builder-nav button small{color:#675f56}.builder-nav button.done small{color:#8faf8c}.builder-main{min-width:0}.builder-card{padding:clamp(1.2rem,3vw,2rem)}.builder-heading{align-items:center}.schema-badge{padding:.35rem .55rem;border:1px solid rgba(199,173,120,.25);color:#c7ad78;font-size:.72rem;white-space:nowrap}.builder-intro{color:#969085;line-height:1.65}.identity-layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:1.4rem;margin-top:1.4rem;align-items:start}.portrait-card{display:grid;gap:.65rem}.portrait-card>small{color:#777169;line-height:1.45}.portrait-frame{aspect-ratio:4/5;overflow:hidden;border:1px solid rgba(255,255,255,.14);background:#090908;display:grid;place-items:center}.portrait-frame img{width:100%;height:100%;object-fit:cover}.portrait-frame.empty{border-style:dashed}.portrait-empty{padding:1rem;display:grid;gap:.5rem;text-align:center;color:#777169}.portrait-empty strong{color:#cfc6b6;font-family:Georgia,serif;font-size:1.2rem}.identity-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.narrative-grid{display:grid;gap:1rem;margin-top:1rem}textarea{width:100%;padding:.7rem .75rem;border:1px solid rgba(255,255,255,.12);outline:none;resize:vertical;color:#eee8dc;background:#12110f;font:inherit}textarea:focus{border-color:#9d7c48;box-shadow:0 0 0 2px rgba(157,124,72,.14)}.choice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.8rem;margin-top:1.25rem}.choice-card,.talent-card{display:grid;gap:.45rem;min-height:94px;padding:1rem;border:1px solid rgba(255,255,255,.1);text-align:left;color:#cfc7ba;background:rgba(255,255,255,.018)}.choice-card:hover,.talent-card:hover{border-color:rgba(199,173,120,.38)}.choice-card.selected,.talent-card.selected{border-color:#a17d45;background:rgba(161,125,69,.1)}.choice-card span,.talent-card span{color:#938d83;font-size:.8rem;line-height:1.45}.choice-card small{color:#746e65;font-size:.69rem;line-height:1.45}.sphere-card{min-height:150px}.style-card{min-height:120px}.subsection{margin-top:2rem;padding-top:1.4rem;border-top:1px solid rgba(255,255,255,.07)}.subsection h3{margin:0 0 .7rem;font-family:Georgia,serif;font-size:1.25rem}.subsection-title{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start}.subsection-title p{margin:.35rem 0 0;color:#8f897f;font-size:.85rem}.talent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.7rem}.allocator-grid,.attribute-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.75rem;margin-top:1rem}.allocator-card,.attribute-card{padding:.85rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.allocator-card{display:flex;justify-content:space-between;align-items:center;gap:.8rem}.allocator-card>div:first-child{display:grid;gap:.2rem}.allocator-card small{color:#746e65}.stepper{display:grid;grid-template-columns:34px 32px 34px;align-items:center;text-align:center}.stepper button{height:34px;border:1px solid rgba(255,255,255,.12);color:#d8cebe;background:#11100e}.stepper button:hover{border-color:#9d7c48}.attribute-card{display:grid;gap:1rem;text-align:center}.attribute-card>strong{font-family:Georgia,serif}.stepper.large{grid-template-columns:42px 1fr 42px}.stepper.large span{font-family:Georgia,serif;font-size:1.7rem}.rule-note{margin-top:1rem;padding:.85rem 1rem;border:1px solid rgba(112,168,121,.22);color:#a8bca6;background:rgba(49,80,54,.1);line-height:1.55}.rule-note.bad{border-color:rgba(166,81,72,.28);color:#d0a29c;background:rgba(93,42,37,.12)}@media(max-width:900px){.builder-workspace{grid-template-columns:1fr}.builder-sidebar{position:static}.builder-nav{grid-template-columns:repeat(2,minmax(0,1fr))}.identity-layout{grid-template-columns:1fr}.portrait-card{max-width:260px}.builder-topbar{flex-wrap:wrap}.top-actions{width:100%;justify-content:flex-end}}@media(max-width:620px){.identity-grid{grid-template-columns:1fr}.builder-nav{grid-template-columns:1fr}.choice-grid,.talent-grid{grid-template-columns:1fr}.subsection-title{flex-direction:column}}
+.builder-v2-shell{min-height:100vh}.builder-topbar{position:sticky}.back-link{text-decoration:none;display:inline-flex;align-items:center}.builder-loading{min-height:calc(100vh - 74px);display:grid;place-content:center;gap:1rem;color:#9f988c;text-align:center}.error-state strong{color:#e2b0aa}.builder-workspace{width:min(1440px,calc(100% - 2rem));margin:0 auto;padding:2rem 0 5rem;display:grid;grid-template-columns:285px minmax(0,1fr);gap:1.25rem;align-items:start}.builder-sidebar{position:sticky;top:94px;overflow:hidden}.builder-character{padding:1.1rem;display:grid;grid-template-columns:54px 1fr;gap:.8rem;align-items:center;border-bottom:1px solid rgba(255,255,255,.07)}.builder-character h1{margin:.15rem 0 .35rem;font-family:Georgia,serif;font-size:1.35rem;font-weight:500}.builder-character small{color:#7e786f}.builder-mini-portrait{width:54px;height:68px;overflow:hidden;border:1px solid rgba(255,255,255,.12);background:#0d0c0a;display:grid;place-items:center}.builder-mini-portrait img{width:100%;height:100%;object-fit:cover}.builder-mini-portrait.empty span{color:#7c6b4b;font-family:Georgia,serif}.builder-nav{display:grid;padding:.55rem}.builder-nav button{display:grid;grid-template-columns:1.6rem 1fr auto;align-items:center;gap:.45rem;width:100%;padding:.7rem .65rem;border:0;border-left:2px solid transparent;text-align:left;color:#8e887f;background:transparent}.builder-nav button.active{border-left-color:#a17d45;color:#e6ddcf;background:rgba(161,125,69,.08)}.builder-nav button.done:not(.active){color:#a7c4a4}.builder-nav button:disabled{opacity:.5}.builder-nav button span,.builder-nav button small{font-size:.68rem}.builder-nav button small{color:#675f56}.builder-nav button.done small{color:#8faf8c}.builder-main{min-width:0}.builder-card{padding:clamp(1.2rem,3vw,2rem)}.builder-heading{align-items:center}.schema-badge{padding:.35rem .55rem;border:1px solid rgba(199,173,120,.25);color:#c7ad78;font-size:.72rem;white-space:nowrap}.builder-intro{color:#969085;line-height:1.65}.identity-layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:1.4rem;margin-top:1.4rem;align-items:start}.portrait-card{display:grid;gap:.65rem}.portrait-card>small{color:#777169;line-height:1.45}.portrait-frame{aspect-ratio:4/5;overflow:hidden;border:1px solid rgba(255,255,255,.14);background:#090908;display:grid;place-items:center}.portrait-frame img{width:100%;height:100%;object-fit:cover}.portrait-frame.empty{border-style:dashed}.portrait-empty{padding:1rem;display:grid;gap:.5rem;text-align:center;color:#777169}.portrait-empty strong{color:#cfc6b6;font-family:Georgia,serif;font-size:1.2rem}.identity-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.narrative-grid{display:grid;gap:1rem;margin-top:1rem}textarea{width:100%;padding:.7rem .75rem;border:1px solid rgba(255,255,255,.12);outline:none;resize:vertical;color:#eee8dc;background:#12110f;font:inherit}textarea:focus{border-color:#9d7c48;box-shadow:0 0 0 2px rgba(157,124,72,.14)}.choice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.8rem;margin-top:1.25rem}.choice-card,.talent-card{display:grid;gap:.45rem;min-height:94px;padding:1rem;border:1px solid rgba(255,255,255,.1);text-align:left;color:#cfc7ba;background:rgba(255,255,255,.018)}.choice-card:hover,.talent-card:hover{border-color:rgba(199,173,120,.38)}.choice-card.selected,.talent-card.selected{border-color:#a17d45;background:rgba(161,125,69,.1)}.choice-card span,.talent-card span{color:#938d83;font-size:.8rem;line-height:1.45}.choice-card small{color:#746e65;font-size:.69rem;line-height:1.45}.sphere-card{min-height:150px}.style-card{min-height:120px}.subsection{margin-top:2rem;padding-top:1.4rem;border-top:1px solid rgba(255,255,255,.07)}.subsection h3{margin:0 0 .7rem;font-family:Georgia,serif;font-size:1.25rem}.subsection-title{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start}.subsection-title p{margin:.35rem 0 0;color:#8f897f;font-size:.85rem}.talent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.7rem}.allocator-grid,.attribute-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.75rem;margin-top:1rem}.allocator-card,.attribute-card{padding:.85rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.allocator-card{display:flex;justify-content:space-between;align-items:center;gap:.8rem}.allocator-card>div:first-child{display:grid;gap:.2rem}.allocator-card small{color:#746e65}.stepper{display:grid;grid-template-columns:34px 32px 34px;align-items:center;text-align:center}.stepper button{height:34px;border:1px solid rgba(255,255,255,.12);color:#d8cebe;background:#11100e}.stepper button:hover{border-color:#9d7c48}.attribute-card{display:grid;gap:1rem;text-align:center}.attribute-card>strong{font-family:Georgia,serif}.stepper.large{grid-template-columns:42px 1fr 42px}.stepper.large span{font-family:Georgia,serif;font-size:1.7rem}.rule-note{margin-top:1rem;padding:.85rem 1rem;border:1px solid rgba(112,168,121,.22);color:#a8bca6;background:rgba(49,80,54,.1);line-height:1.55}.rule-note.bad{border-color:rgba(166,81,72,.28);color:#d0a29c;background:rgba(93,42,37,.12)}.skill-family{margin-top:1.7rem}.skill-family h3{margin:0 0 .65rem;font-family:Georgia,serif;font-size:1.15rem}.skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.7rem}.skill-card{display:grid;gap:.7rem;padding:.85rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.skill-head,.skill-free-line{display:flex;justify-content:space-between;align-items:center;gap:.7rem}.skill-head span{color:#c7ad78;font-size:.72rem}.skill-breakdown{display:flex;flex-wrap:wrap;gap:.4rem}.skill-breakdown span{padding:.28rem .42rem;border:1px solid rgba(255,255,255,.07);color:#7d776e;font-size:.68rem}.skill-breakdown strong{color:#bdb4a6}.skill-free-line{padding-top:.55rem;border-top:1px solid rgba(255,255,255,.06);color:#8f897f;font-size:.78rem}@media(max-width:900px){.builder-workspace{grid-template-columns:1fr}.builder-sidebar{position:static}.builder-nav{grid-template-columns:repeat(2,minmax(0,1fr))}.identity-layout{grid-template-columns:1fr}.portrait-card{max-width:260px}.builder-topbar{flex-wrap:wrap}.top-actions{width:100%;justify-content:flex-end}}@media(max-width:620px){.identity-grid{grid-template-columns:1fr}.builder-nav{grid-template-columns:1fr}.choice-grid,.talent-grid{grid-template-columns:1fr}.subsection-title{flex-direction:column}}
 </style>
