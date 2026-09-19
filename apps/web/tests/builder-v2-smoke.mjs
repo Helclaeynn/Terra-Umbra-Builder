@@ -234,6 +234,36 @@ await page.route("**/api/**",async route=>{
   if(url.pathname==="/api/rulesets/terra-umbra/reality"){
     return route.fulfill({status:200,contentType:"application/json",body:JSON.stringify(realityRules)});
   }
+  if(url.pathname==="/api/compendium/search"){
+    const q=(url.searchParams.get("q")||"").trim();
+    const known={
+      "Kit Smoke":{id:"wiki-kit-smoke",title:"Kit Smoke",category:"Équipement & Objets",snippet:"Équipement de référence du smoke Builder."},
+      "Brave":{id:"wiki-brave",title:"Brave",category:"Règles",snippet:"Talent de référence du smoke Builder."}
+    };
+    const item=known[q];
+    return route.fulfill({
+      status:200,contentType:"application/json",
+      body:JSON.stringify({q,total:item?1:0,offset:0,limit:12,items:item?[item]:[]})
+    });
+  }
+  if(url.pathname==="/api/compendium/articles/wiki-kit-smoke"){
+    return route.fulfill({
+      status:200,contentType:"application/json",
+      body:JSON.stringify({article:{
+        id:"wiki-kit-smoke",title:"Kit Smoke",category:"Équipement & Objets",
+        sections:[{id:"intro",title:"Présentation",level:2,blocks:[{type:"p",text:"Équipement de référence du smoke Builder, centralisé dans le Compendium."}]}]
+      }})
+    });
+  }
+  if(url.pathname==="/api/compendium/articles/wiki-brave"){
+    return route.fulfill({
+      status:200,contentType:"application/json",
+      body:JSON.stringify({article:{
+        id:"wiki-brave",title:"Brave",category:"Règles",
+        sections:[{id:"intro",title:"Présentation",level:2,blocks:[{type:"p",text:"Talent Brave documenté dans le Compendium."}]}]
+      }})
+    });
+  }
   return route.fulfill({status:404,contentType:"application/json",body:JSON.stringify({error:"smoke_unhandled_route",path:url.pathname})});
 });
 
@@ -267,6 +297,14 @@ for(let i=0;i<12;i++){
   if(await nav.nth(i).isDisabled())throw new Error("Bloc "+(i+1)+" encore désactivé.");
 }
 
+await page.getByRole("button",{name:/Talents/}).click();
+const braveWiki=page.getByRole("link",{name:/Brave/}).first();
+await braveWiki.waitFor({state:"visible",timeout:5000});
+await braveWiki.hover();
+await page.getByText("Talent Brave documenté dans le Compendium.",{exact:false}).waitFor({state:"visible",timeout:5000});
+const braveHref=await braveWiki.getAttribute("href");
+if(!braveHref?.includes("article=wiki-brave"))throw new Error("Talent Brave non résolu vers le Compendium: "+braveHref);
+
 await page.getByRole("button",{name:/Vérité/}).click();
 await page.getByRole("heading",{name:"Voile & Révélation"}).waitFor();
 for(const label of ["Voilé","Semi-Révélé","Révélé"]){
@@ -276,6 +314,11 @@ for(const label of ["Voilé","Semi-Révélé","Révélé"]){
 await page.getByRole("button",{name:/Équipement/}).click();
 await page.getByRole("heading",{name:"Réalité, équipement & augmentations"}).waitFor();
 await page.getByText("Kit Smoke",{exact:true}).waitFor();
+const kitWiki=page.getByRole("link",{name:/Kit Smoke/}).first();
+await kitWiki.hover();
+await page.getByText("Équipement de référence du smoke Builder, centralisé dans le Compendium.",{exact:false}).waitFor({state:"visible",timeout:5000});
+const kitHref=await kitWiki.getAttribute("href");
+if(!kitHref?.includes("article=wiki-kit-smoke"))throw new Error("Équipement Kit Smoke non résolu vers le Compendium: "+kitHref);
 await page.getByText("Confortable → Confortable",{exact:true}).waitFor();
 await page.getByLabel("Charge personnalisée").fill("Loyer test");
 await page.getByLabel("Montant / mois").fill("1300");
@@ -337,5 +380,5 @@ for(const legacyKey of ["sphereSupportDetail","possessionsNotes","networks","sta
 
 if(browserErrors.length)throw new Error("Erreurs navigateur :\n"+browserErrors.join("\n"));
 
-console.log("Builder Web V2 smoke OK — 12 blocs actifs, V/SR/R, Équipement, Finalisation, Progression et sauvegarde validés.");
+console.log("Builder Web V2 smoke OK — 12 blocs actifs, wiki Talents/Équipement, V/SR/R, Finalisation, Progression et sauvegarde validés.");
 await browser.close();
