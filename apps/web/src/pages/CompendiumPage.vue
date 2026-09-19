@@ -107,6 +107,17 @@ type BuilderUsage = {
   detail?: string;
 };
 
+type BuilderSourceRecord = {
+  key: string;
+  family: string;
+  kind: string;
+  label: string;
+  category: string;
+  step: string;
+  compendiumId?: string | null;
+  mechanics: Record<string, unknown>;
+};
+
 type OnboardingItem = {
   id: string;
   label: string;
@@ -168,6 +179,7 @@ let suggestionTimer: number | undefined;
 let suggestionRequest = 0;
 const selected = ref<Article | null>(null);
 const builderUsage = ref<BuilderUsage[]>([]);
+const builderSources = ref<BuilderSourceRecord[]>([]);
 const loading = ref(false);
 const articleLoading = ref(false);
 const error = ref("");
@@ -270,6 +282,51 @@ const relatedArticles = computed(() => {
     .filter((entry): entry is WikiEntry => Boolean(entry))
     .slice(0, 12);
 });
+
+const mechanicalLabels: Record<string, string> = {
+  effect: "Effet",
+  prerequisite: "Prérequis",
+  prerequisiteName: "Prérequis",
+  cost: "Coût",
+  access: "Accès",
+  group: "Groupe",
+  generation: "Génération",
+  price: "Prix",
+  priceMin: "Prix min.",
+  priceMax: "Prix max.",
+  priceLabel: "Prix",
+  charge: "Charge",
+  stress: "Stress",
+  slots: "Emplacements",
+  lifestyle: "Train de vie",
+  account: "Compte",
+  augmentationEnvelope: "Enveloppe augmentique",
+  vehicleCapital: "Capital véhicule",
+  support: "Appui",
+  recurring: "Récurrence",
+  monthlyCost: "Coût mensuel",
+  attribute: "Attribut",
+  skill: "Compétence"
+};
+
+function mechanicalValue(key: string, value: unknown): string {
+  if (Array.isArray(value)) return value.map(String).join(" · ");
+  if (typeof value === "boolean") return value ? "Oui" : "Non";
+  if (typeof value === "number") {
+    const formatted = new Intl.NumberFormat("fr-FR").format(value);
+    if (/price|account|capital|envelope|cost/i.test(key)) return formatted + " $";
+    return formatted;
+  }
+  if (value && typeof value === "object") return JSON.stringify(value);
+  return String(value ?? "—");
+}
+
+function visibleMechanics(source: BuilderSourceRecord) {
+  const hidden = new Set(["id", "name", "category", "sourceCategory", "originId", "sphere", "vehicle", "neuro"]);
+  return Object.entries(source.mechanics).filter(([key, value]) =>
+    !hidden.has(key) && value !== undefined && value !== null && value !== ""
+  );
+}
 
 function builderStepLabel(step: BuilderUsage["step"]): string {
   return ({
@@ -748,12 +805,16 @@ async function openArticle(id: string, syncRoute = true) {
       api<{ article: Article }>(
         `/api/compendium/articles/${encodeURIComponent(id)}`
       ),
-      api<{ usage: BuilderUsage[] }>(
+      api<{ usage: BuilderUsage[]; sources: BuilderSourceRecord[] }>(
         `/api/compendium/builder-usage/${encodeURIComponent(id)}`
-      ).catch(() => ({ usage: [] as BuilderUsage[] }))
+      ).catch(() => ({
+        usage: [] as BuilderUsage[],
+        sources: [] as BuilderSourceRecord[]
+      }))
     ]);
     selected.value = result.article;
     builderUsage.value = usageResult.usage;
+    builderSources.value = usageResult.sources;
 
     if (syncRoute && route.query.article !== id) {
       await router.push({
@@ -763,6 +824,7 @@ async function openArticle(id: string, syncRoute = true) {
     }
   } catch (cause) {
     builderUsage.value = [];
+    builderSources.value = [];
     error.value = humanError(cause);
   } finally {
     articleLoading.value = false;
@@ -1432,6 +1494,29 @@ onBeforeUnmount(() => {
                     </dl>
                   </div>
 
+                  <section v-if="builderSources.length" class="wiki-mechanics-card">
+                    <div class="wiki-mechanics-head">
+                      <div>
+                        <p class="eyebrow">DONNÉES CANONIQUES</p>
+                        <strong>{{ builderSources.length > 1 ? "Références Builder" : builderSources[0]?.kind }}</strong>
+                      </div>
+                      <span>Lecture seule</span>
+                    </div>
+                    <article v-for="source in builderSources" :key="source.key" class="wiki-mechanics-record">
+                      <header v-if="builderSources.length > 1">
+                        <strong>{{ source.label }}</strong>
+                        <small>{{ source.kind }}</small>
+                      </header>
+                      <dl v-if="visibleMechanics(source).length">
+                        <template v-for="[key,value] in visibleMechanics(source)" :key="key">
+                          <dt>{{ mechanicalLabels[key] || key }}</dt>
+                          <dd>{{ mechanicalValue(key,value) }}</dd>
+                        </template>
+                      </dl>
+                    </article>
+                    <p class="wiki-mechanics-note">Ces valeurs proviennent directement du Builder et ne sont pas éditées par le wiki.</p>
+                  </section>
+
                   <section v-if="builderUsage.length" class="wiki-builder-usage">
                     <p class="eyebrow">DANS LE BUILDER</p>
                     <p class="wiki-builder-intro">
@@ -1970,6 +2055,10 @@ onBeforeUnmount(() => {
   font-size: .76rem;
 }
 
+.wiki-mechanics-card{padding:1rem;border:1px solid rgba(199,173,120,.24);background:linear-gradient(145deg,rgba(161,125,69,.08),rgba(255,255,255,.014));box-shadow:inset 0 1px rgba(255,255,255,.025)}
+.wiki-mechanics-head{display:flex;justify-content:space-between;gap:.8rem;align-items:flex-start;margin-bottom:.7rem}.wiki-mechanics-head strong{display:block;color:#e4d8c4;font:500 1rem/1.2 Georgia,serif}.wiki-mechanics-head>span{padding:.2rem .38rem;border:1px solid rgba(112,168,121,.22);color:#9fbd9d;font-size:.58rem;text-transform:uppercase;letter-spacing:.05em}
+.wiki-mechanics-record+.wiki-mechanics-record{margin-top:.8rem;padding-top:.8rem;border-top:1px solid rgba(255,255,255,.07)}.wiki-mechanics-record header{display:flex;justify-content:space-between;gap:.6rem;margin-bottom:.5rem}.wiki-mechanics-record header strong{color:#d5cbbd;font-size:.76rem}.wiki-mechanics-record header small{color:#857e73;font-size:.62rem}
+.wiki-mechanics-record dl{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:.34rem .65rem;margin:0}.wiki-mechanics-record dt{color:#81796d;font-size:.64rem}.wiki-mechanics-record dd{margin:0;color:#c5bbac;font-size:.68rem;text-align:right;overflow-wrap:anywhere}.wiki-mechanics-note{margin:.75rem 0 0;padding-top:.65rem;border-top:1px solid rgba(255,255,255,.06);color:#756f66;font-size:.62rem;line-height:1.4}
 .wiki-builder-usage{padding:1rem;border:1px solid rgba(199,173,120,.18);background:rgba(161,125,69,.045)}
 .wiki-builder-intro{margin:.1rem 0 .75rem;color:#827b71;font-size:.72rem;line-height:1.45}
 .wiki-builder-usage-list{display:grid;gap:.45rem}
