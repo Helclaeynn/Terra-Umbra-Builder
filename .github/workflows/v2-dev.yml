@@ -92,7 +92,7 @@ jobs:
           rsync -az --delete -e "$SSH" apps/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/apps/"
           rsync -az --delete --exclude='.env' -e "$SSH" infrastructure/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/infrastructure/"
 
-      - name: Deploy containers
+      - name: Migrate and deploy containers
         if: steps.deployment.outputs.enabled == 'true'
         shell: bash
         run: |
@@ -100,9 +100,31 @@ jobs:
             set -euo pipefail
             cd /opt/terra-umbra/infrastructure
             test -f .env
+
+            set -a
+            . ./.env
+            set +a
+
+            docker compose --env-file .env up -d db
+
+            for attempt in $(seq 1 20); do
+              if docker compose --env-file .env exec -T db pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB" >/dev/null 2>&1; then
+                break
+              fi
+              if [ "$attempt" -eq 20 ]; then
+                echo "PostgreSQL did not become ready." >&2
+                exit 1
+              fi
+              sleep 2
+            done
+
+            for migration in migrations/*.sql; do
+              echo "Applying $migration"
+              docker compose --env-file .env exec -T db                 psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$POSTGRES_DB" < "$migration"
+            done
+
             docker compose --env-file .env up -d --build --remove-orphans
             docker compose ps
-            rm -f ~/.ssh/tuc_github_deploy ~/.ssh/tuc_github_deploy.pub
           REMOTE
 
       - name: Smoke test
@@ -111,6 +133,8 @@ jobs:
         run: |
           for attempt in {1..12}; do
             if curl --fail --silent --show-error --max-time 10 https://dev.terra-umbra.fr/api/health; then
+              echo
+              curl --fail --silent --show-error --max-time 10 https://dev.terra-umbra.fr/api/auth/setup-status
               exit 0
             fi
             sleep 5
