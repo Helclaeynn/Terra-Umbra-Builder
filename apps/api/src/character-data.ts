@@ -109,7 +109,7 @@ export function blankCharacterData(name:string): CharacterDataV2 {
     edgeAttributes:{},
     truth:{nature:"humain",consciousness:"profane",choices:{hunterTradition:"aucune"},truthTalents:[]},
     equipment:[],
-    social:{languages:["Français"],contacts:[],reputation:""},
+    social:{languages:["Anglais"],contacts:[],reputation:""},
     spending:{augmentations:0,equipment:0,vehicle:0},
     reality:{},
     progression:{},
@@ -196,7 +196,7 @@ export function normalizeCharacterData(input:unknown, fallbackName:string): Char
   const social=cloneRecord(source.social);
   out.social={
     ...social,
-    languages:stringArray(social.languages).length?stringArray(social.languages):["Français"],
+    languages:stringArray(social.languages).length?stringArray(social.languages):["Anglais"],
     contacts:Array.isArray(social.contacts)?structuredClone(social.contacts):[],
     reputation:asString(social.reputation)
   };
