@@ -405,6 +405,10 @@ jobs:
             CHROME_BIN="$CHROME_BIN" \
             node apps/web/tests/compendium-wiki-live-smoke.mjs
 
+          ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" \
+            "cd /opt/terra-umbra/infrastructure && set -a && . ./.env && set +a && docker compose --env-file .env exec -T db psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -c \"UPDATE users SET role = 'player' WHERE email = '$TEST_EMAIL';\"" \
+            </dev/null >/dev/null
+
           curl --fail --silent --show-error \
             -b "$COOKIE_JAR" \
             -X PUT \
