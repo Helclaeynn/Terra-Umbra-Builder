@@ -1843,7 +1843,10 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       return reply.code(404).send({ error: "compendium_article_not_found" });
     }
 
-    if (!includeMj) return { article };
+    if (!includeMj) {
+      const { __searchText: _searchText, ...publicArticle } = article;
+      return { article: publicArticle };
+    }
     return { article: articleForAudience(article, true) };
   });
 }
