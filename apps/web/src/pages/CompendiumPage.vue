@@ -53,6 +53,21 @@ type ArticleSection = {
   blocks?: ArticleBlock[];
 };
 
+type LibraryCollection = {
+  id: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  articleIds: string[];
+  items: SearchItem[];
+};
+
+type LibraryPayload = {
+  favorites: string[];
+  favoriteItems: SearchItem[];
+  collections: LibraryCollection[];
+};
+
 type Article = {
   id: string;
   title?: string;
@@ -81,11 +96,26 @@ const loading = ref(false);
 const articleLoading = ref(false);
 const error = ref("");
 const authenticationRequired = ref(false);
+const favoriteIds = ref<string[]>([]);
+const favoriteItems = ref<SearchItem[]>([]);
+const collections = ref<LibraryCollection[]>([]);
+const newCollectionName = ref("");
+const libraryBusy = ref(false);
+const libraryNotice = ref("");
+const activeLibraryView = ref<"" | "favorites" | string>("");
 
 const resultLabel = computed(() => {
   if (loading.value) return "Recherche…";
   return total.value === 1 ? "1 entrée" : `${total.value.toLocaleString("fr-FR")} entrées`;
 });
+
+const selectedIsFavorite = computed(() =>
+  selected.value ? favoriteIds.value.includes(selected.value.id) : false
+);
+
+function collectionContains(collection: LibraryCollection, articleId?: string): boolean {
+  return Boolean(articleId && collection.articleIds.includes(articleId));
+}
 
 function humanError(cause: unknown): string {
   if (cause instanceof ApiError && cause.status === 401) {
@@ -94,6 +124,15 @@ function humanError(cause: unknown): string {
   }
   if (cause instanceof ApiError && cause.message === "compendium_article_not_found") {
     return "Cette entrée du Compendium n’existe plus.";
+  }
+  if (cause instanceof ApiError && cause.message === "invalid_collection_name") {
+    return "Le nom de la collection doit contenir entre 1 et 80 caractères.";
+  }
+  if (cause instanceof ApiError && cause.message === "collection_name_conflict") {
+    return "Une collection porte déjà ce nom.";
+  }
+  if (cause instanceof ApiError && cause.message === "collection_not_found") {
+    return "Cette collection n’existe plus.";
   }
   return "Le Compendium n’a pas pu être chargé.";
 }
@@ -106,7 +145,166 @@ async function loadMeta() {
   }
 }
 
+async function loadLibrary() {
+  try {
+    const payload = await api<LibraryPayload>("/api/compendium/library");
+    favoriteIds.value = payload.favorites;
+    favoriteItems.value = payload.favoriteItems;
+    collections.value = payload.collections;
+    refreshActiveLibraryView();
+  } catch (cause) {
+    error.value = humanError(cause);
+  }
+}
+
+function refreshActiveLibraryView() {
+  if (activeLibraryView.value === "favorites") {
+    results.value = favoriteItems.value;
+    total.value = favoriteItems.value.length;
+    return;
+  }
+
+  if (activeLibraryView.value) {
+    const collection = collections.value.find((item) => item.id === activeLibraryView.value);
+    if (!collection) {
+      activeLibraryView.value = "";
+      return;
+    }
+    results.value = collection.items;
+    total.value = collection.items.length;
+  }
+}
+
+function showFavorites() {
+  activeLibraryView.value = "favorites";
+  query.value = "";
+  category.value = "";
+  manufacturer.value = "";
+  results.value = favoriteItems.value;
+  total.value = favoriteItems.value.length;
+}
+
+function showCollection(collection: LibraryCollection) {
+  activeLibraryView.value = collection.id;
+  query.value = "";
+  category.value = "";
+  manufacturer.value = "";
+  results.value = collection.items;
+  total.value = collection.items.length;
+}
+
+async function toggleFavorite(articleId: string) {
+  libraryBusy.value = true;
+  libraryNotice.value = "";
+  error.value = "";
+
+  try {
+    const favorite = favoriteIds.value.includes(articleId);
+    await api(`/api/compendium/favorites/${encodeURIComponent(articleId)}`, {
+      method: favorite ? "DELETE" : "PUT"
+    });
+    await loadLibrary();
+    libraryNotice.value = favorite ? "Retiré des favoris." : "Ajouté aux favoris.";
+  } catch (cause) {
+    error.value = humanError(cause);
+  } finally {
+    libraryBusy.value = false;
+  }
+}
+
+async function createCollection() {
+  const name = newCollectionName.value.trim();
+  if (!name) return;
+
+  libraryBusy.value = true;
+  libraryNotice.value = "";
+  error.value = "";
+
+  try {
+    await api("/api/compendium/collections", {
+      method: "POST",
+      body: JSON.stringify({ name })
+    });
+    newCollectionName.value = "";
+    await loadLibrary();
+    libraryNotice.value = `Collection « ${name} » créée.`;
+  } catch (cause) {
+    error.value = humanError(cause);
+  } finally {
+    libraryBusy.value = false;
+  }
+}
+
+async function renameCollection(collection: LibraryCollection) {
+  const name = window.prompt("Nouveau nom de la collection :", collection.name)?.trim();
+  if (!name || name === collection.name) return;
+
+  libraryBusy.value = true;
+  libraryNotice.value = "";
+  error.value = "";
+
+  try {
+    await api(`/api/compendium/collections/${collection.id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ name })
+    });
+    await loadLibrary();
+    libraryNotice.value = "Collection renommée.";
+  } catch (cause) {
+    error.value = humanError(cause);
+  } finally {
+    libraryBusy.value = false;
+  }
+}
+
+async function deleteCollection(collection: LibraryCollection) {
+  if (!window.confirm(`Supprimer la collection « ${collection.name} » ? Les articles du Compendium ne seront pas supprimés.`)) {
+    return;
+  }
+
+  libraryBusy.value = true;
+  libraryNotice.value = "";
+  error.value = "";
+
+  try {
+    await api(`/api/compendium/collections/${collection.id}`, { method: "DELETE" });
+    if (activeLibraryView.value === collection.id) {
+      activeLibraryView.value = "";
+      await search();
+    }
+    await loadLibrary();
+    libraryNotice.value = "Collection supprimée.";
+  } catch (cause) {
+    error.value = humanError(cause);
+  } finally {
+    libraryBusy.value = false;
+  }
+}
+
+async function toggleCollectionArticle(collection: LibraryCollection, articleId: string) {
+  libraryBusy.value = true;
+  libraryNotice.value = "";
+  error.value = "";
+
+  try {
+    const included = collectionContains(collection, articleId);
+    await api(
+      `/api/compendium/collections/${collection.id}/articles/${encodeURIComponent(articleId)}`,
+      { method: included ? "DELETE" : "PUT" }
+    );
+    await loadLibrary();
+    libraryNotice.value = included
+      ? `Retiré de « ${collection.name} ».`
+      : `Ajouté à « ${collection.name} ».`;
+  } catch (cause) {
+    error.value = humanError(cause);
+  } finally {
+    libraryBusy.value = false;
+  }
+}
+
 async function search() {
+  activeLibraryView.value = "";
   loading.value = true;
   error.value = "";
   authenticationRequired.value = false;
@@ -190,7 +388,7 @@ function sectionHeadingLevel(section: ArticleSection): "h2" | "h3" | "h4" {
 }
 
 onMounted(async () => {
-  await Promise.all([loadMeta(), search()]);
+  await Promise.all([loadMeta(), loadLibrary(), search()]);
 });
 </script>
 
@@ -234,6 +432,9 @@ onMounted(async () => {
       <div v-if="error" class="feedback error compendium-feedback">
         {{ error }}
         <RouterLink v-if="authenticationRequired" to="/">Se connecter</RouterLink>
+      </div>
+      <div v-else-if="libraryNotice" class="feedback compendium-feedback">
+        {{ libraryNotice }}
       </div>
 
       <template v-if="!authenticationRequired">
@@ -284,11 +485,83 @@ onMounted(async () => {
           </div>
         </section>
 
+        <section class="panel library-panel">
+          <div class="library-heading">
+            <div>
+              <p class="eyebrow">MA BIBLIOTHÈQUE</p>
+              <h2>Favoris & collections</h2>
+            </div>
+            <button
+              class="library-scope"
+              :class="{ active: activeLibraryView === 'favorites' }"
+              type="button"
+              @click="showFavorites"
+            >
+              ★ Favoris · {{ favoriteIds.length }}
+            </button>
+          </div>
+
+          <form class="collection-create" @submit.prevent="createCollection">
+            <input
+              v-model="newCollectionName"
+              maxlength="80"
+              placeholder="Nouvelle collection…"
+              aria-label="Nom de la nouvelle collection"
+            />
+            <button class="secondary" :disabled="libraryBusy || !newCollectionName.trim()" type="submit">
+              Créer
+            </button>
+          </form>
+
+          <div v-if="collections.length" class="collection-list">
+            <div
+              v-for="collection in collections"
+              :key="collection.id"
+              class="collection-row"
+              :class="{ active: activeLibraryView === collection.id }"
+            >
+              <button class="collection-open" type="button" @click="showCollection(collection)">
+                <strong>{{ collection.name }}</strong>
+                <small>{{ collection.articleIds.length }} article{{ collection.articleIds.length > 1 ? "s" : "" }}</small>
+              </button>
+              <button
+                class="collection-action"
+                type="button"
+                title="Renommer"
+                :disabled="libraryBusy"
+                @click="renameCollection(collection)"
+              >
+                ✎
+              </button>
+              <button
+                class="collection-action danger"
+                type="button"
+                title="Supprimer"
+                :disabled="libraryBusy"
+                @click="deleteCollection(collection)"
+              >
+                ×
+              </button>
+            </div>
+          </div>
+          <p v-else class="library-empty">
+            Crée une collection pour préparer une campagne, une faction, un scénario ou une liste de références.
+          </p>
+        </section>
+
         <section class="compendium-workspace">
           <aside class="panel result-panel">
             <div class="result-heading">
               <div>
-                <p class="eyebrow">{{ category || "TOUTES LES RUBRIQUES" }}</p>
+                <p class="eyebrow">
+                  {{
+                    activeLibraryView === "favorites"
+                      ? "MES FAVORIS"
+                      : activeLibraryView
+                        ? collections.find(item => item.id === activeLibraryView)?.name || "MA COLLECTION"
+                        : category || "TOUTES LES RUBRIQUES"
+                  }}
+                </p>
                 <h2>Résultats</h2>
               </div>
               <span>{{ resultLabel }}</span>
@@ -310,7 +583,10 @@ onMounted(async () => {
                 </span>
                 <strong>{{ item.title }}</strong>
                 <p>{{ item.snippet }}</p>
-                <small v-if="item.edited">Édition canonique appliquée</small>
+                <div class="result-flags">
+                  <small v-if="item.edited">Édition canonique appliquée</small>
+                  <small v-if="favoriteIds.includes(item.id)">★ Favori</small>
+                </div>
               </button>
             </div>
 
@@ -352,6 +628,31 @@ onMounted(async () => {
                     Fabricant · {{ selected.manufacturer }}
                   </button>
                   <span v-if="selected.__editorialOverride">Édité</span>
+                </div>
+
+                <div class="article-library-actions">
+                  <button
+                    class="favorite-button"
+                    :class="{ active: selectedIsFavorite }"
+                    type="button"
+                    :disabled="libraryBusy"
+                    @click="toggleFavorite(selected.id)"
+                  >
+                    {{ selectedIsFavorite ? "★ Retirer des favoris" : "☆ Ajouter aux favoris" }}
+                  </button>
+
+                  <button
+                    v-for="collection in collections"
+                    :key="collection.id"
+                    class="collection-toggle"
+                    :class="{ active: collectionContains(collection, selected.id) }"
+                    type="button"
+                    :disabled="libraryBusy"
+                    @click="toggleCollectionArticle(collection, selected.id)"
+                  >
+                    {{ collectionContains(collection, selected.id) ? "✓" : "+" }}
+                    {{ collection.name }}
+                  </button>
                 </div>
 
                 <div v-if="selected.tags?.length" class="article-tags">
@@ -562,6 +863,117 @@ onMounted(async () => {
   border-color: #9d7c48;
   color: #e1c995;
   background: rgba(157, 124, 72, .11);
+}
+
+.library-panel {
+  margin-bottom: 1rem;
+  padding: 1rem;
+}
+
+.library-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.library-heading h2 {
+  margin: 0;
+  font: 500 1.45rem/1.2 Georgia, serif;
+}
+
+.library-scope {
+  min-height: 38px;
+  padding: .45rem .7rem;
+  border: 1px solid rgba(255, 255, 255, .11);
+  color: #bdb5a8;
+  background: transparent;
+}
+
+.library-scope.active,
+.favorite-button.active,
+.collection-toggle.active {
+  border-color: #9d7c48;
+  color: #e1c995;
+  background: rgba(157, 124, 72, .11);
+}
+
+.collection-create {
+  grid-template-columns: minmax(0, 1fr) auto;
+  margin-top: 1rem;
+}
+
+.collection-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .55rem;
+  margin-top: .8rem;
+}
+
+.collection-row {
+  display: grid;
+  grid-template-columns: auto 34px 34px;
+  align-items: stretch;
+  border: 1px solid rgba(255, 255, 255, .09);
+}
+
+.collection-row.active {
+  border-color: #806a48;
+}
+
+.collection-open,
+.collection-action {
+  border: 0;
+  background: transparent;
+  color: #bdb5a8;
+}
+
+.collection-open {
+  display: grid;
+  gap: .1rem;
+  padding: .45rem .65rem;
+  text-align: left;
+}
+
+.collection-open small {
+  color: #777169;
+}
+
+.collection-action {
+  border-left: 1px solid rgba(255, 255, 255, .08);
+}
+
+.collection-action.danger {
+  color: #c99088;
+}
+
+.library-empty {
+  margin: .8rem 0 0;
+  color: #777169;
+  font-size: .82rem;
+}
+
+.article-library-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+  margin-top: .75rem;
+}
+
+.favorite-button,
+.collection-toggle {
+  min-height: 34px;
+  padding: .35rem .55rem;
+  border: 1px solid rgba(255, 255, 255, .10);
+  color: #a9a195;
+  background: transparent;
+  font-size: .72rem;
+}
+
+.result-flags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
 }
 
 .compendium-workspace {
@@ -816,8 +1228,14 @@ onMounted(async () => {
     display: none;
   }
 
-  .search-line {
+  .search-line,
+  .collection-create {
     grid-template-columns: 1fr;
+  }
+
+  .library-heading {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .compendium-page {
