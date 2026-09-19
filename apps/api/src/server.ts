@@ -20,6 +20,7 @@ import {
   type Role
 } from "./auth.js";
 import { databaseStatus, pool } from "./db.js";
+import { registerCharacterRoutes } from "./characters.js";
 
 const app = Fastify({
   logger: true,
@@ -96,7 +97,7 @@ async function loadUser(id: string) {
 app.get("/api/health", async () => ({
   status: "ok",
   service: "tuc-api",
-  version: "0.2.0"
+  version: "0.3.0"
 }));
 
 app.get("/api/ready", async (_request, reply) => {
@@ -119,7 +120,7 @@ app.get("/api/ready", async (_request, reply) => {
 app.get("/api", async () => ({
   name: "Terra Umbra API",
   status: "online",
-  version: "0.2.0"
+  version: "0.3.0"
 }));
 
 app.get("/api/auth/setup-status", async () => ({
@@ -543,6 +544,8 @@ app.get("/api/admin/audit", async (request, reply) => {
 
   return { events: result.rows };
 });
+
+await registerCharacterRoutes(app);
 
 const port = Number(process.env.PORT ?? 3000);
 

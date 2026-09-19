@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
+import CharactersPanel from "./components/CharactersPanel.vue";
 
 type Role = "player" | "gm" | "editor" | "admin";
 
@@ -493,14 +494,7 @@ onMounted(bootstrap);
             </form>
           </article>
 
-          <article class="panel coming-soon">
-            <p class="eyebrow">PROCHAIN BLOC</p>
-            <h2>Mes personnages</h2>
-            <p>
-              La persistance des personnages sera branchée ici : plusieurs fiches
-              par compte, historique de révisions et export PDF.
-            </p>
-          </article>
+          <CharactersPanel />
         </section>
 
         <section v-if="isAdmin" class="admin-section">
