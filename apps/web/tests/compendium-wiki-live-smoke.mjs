@@ -65,6 +65,15 @@ try{
   await publicPage.getByText("Style",{exact:true}).first().waitFor({state:"visible",timeout:10000});
   await publicPage.getByText("Lecture seule",{exact:true}).waitFor({state:"visible",timeout:10000});
 
+  const historyButton=publicPage.getByRole("button",{name:/Historique ·/});
+  await historyButton.waitFor({state:"visible",timeout:10000});
+  const historyLabel=(await historyButton.innerText()).trim();
+  const historyCount=Number(historyLabel.match(/(\d+)$/)?.[1]||0);
+  if(historyCount<2)throw new Error("Historique local incomplet: "+historyLabel);
+  await historyButton.click();
+  await publicPage.getByText("RÉCEMMENT CONSULTÉS",{exact:true}).waitFor({state:"visible",timeout:10000});
+  await publicPage.getByRole("button",{name:/Style — Hacker/}).first().waitFor({state:"visible",timeout:10000});
+
   if(dynamicTalentArticle){
     await publicPage.goto(baseUrl+"/compendium?article="+encodeURIComponent(dynamicTalentArticle),{waitUntil:"domcontentloaded",timeout:30000});
     await publicPage.getByRole("heading",{name:"Talents dynamiques"}).waitFor({state:"visible",timeout:10000});
