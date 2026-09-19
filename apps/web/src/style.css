@@ -1,21 +1,32 @@
 :root {
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #ece7dc;
-  background: #100f0d;
+  color: #eaf0f4;
+  background: #0b0f12;
   font-synthesis: none;
-  --tu-bg: #100f0d;
-  --tu-surface: rgba(24, 22, 18, .84);
-  --tu-surface-strong: #171511;
-  --tu-surface-soft: rgba(255, 255, 255, .018);
-  --tu-border: rgba(226, 206, 164, .15);
-  --tu-border-soft: rgba(255, 255, 255, .07);
-  --tu-gold: #c7ad78;
-  --tu-gold-strong: #a17d45;
-  --tu-text: #ece7dc;
-  --tu-muted: #8f897f;
-  --tu-success: #a7c4a4;
-  --tu-danger: #d0a29c;
-  --tu-shadow: 0 24px 72px rgba(0, 0, 0, .28);
+  color-scheme: dark;
+
+  --tu-bg: #0b0f12;
+  --tu-surface: rgba(17, 24, 32, .94);
+  --tu-surface-strong: #151f29;
+  --tu-surface-soft: rgba(255, 255, 255, .022);
+  --tu-border: #25313d;
+  --tu-border-soft: rgba(147, 163, 175, .13);
+
+  --tu-accent: #48d7b1;
+  --tu-accent-strong: #31b995;
+  --tu-accent-soft: rgba(72, 215, 177, .10);
+  --tu-accent2: #73a8ff;
+
+  /* Kept as aliases while older V2 components are progressively migrated. */
+  --tu-gold: var(--tu-accent);
+  --tu-gold-strong: var(--tu-accent-strong);
+
+  --tu-text: #eaf0f4;
+  --tu-muted: #93a3af;
+  --tu-success: #56d987;
+  --tu-danger: #ff7d89;
+  --tu-warn: #ffcc66;
+  --tu-shadow: 0 20px 50px rgba(0, 0, 0, .28);
 }
 
 * { box-sizing: border-box; }
@@ -33,7 +44,7 @@ html.route-changing::before {
   height: 2px;
   width: 72%;
   transform-origin: left center;
-  background: linear-gradient(90deg, transparent, #c7ad78 18%, #a17d45 72%, transparent);
+  background: linear-gradient(90deg, transparent, var(--tu-accent) 18%, var(--tu-accent2) 72%, transparent);
   animation: route-progress .65s cubic-bezier(.2,.8,.2,1) both;
   pointer-events: none;
 }
@@ -79,9 +90,9 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 12% -8%, rgba(139, 98, 50, .2), transparent 34rem),
-    radial-gradient(circle at 88% 18%, rgba(67, 83, 74, .08), transparent 28rem),
-    linear-gradient(180deg, #100f0d 0%, #0d0c0b 100%);
+    radial-gradient(circle at 10% 0%, rgba(40, 72, 88, .62) 0, transparent 34rem),
+    radial-gradient(circle at 88% 16%, rgba(37, 82, 91, .18), transparent 28rem),
+    linear-gradient(180deg, #0b0f12 0%, #090d10 100%);
 }
 
 body::before {
@@ -134,8 +145,8 @@ button:disabled {
   justify-content: space-between;
   gap: 1rem;
   padding: 0 clamp(1rem, 5vw, 4rem);
-  border-bottom: 1px solid rgba(226, 206, 164, .13);
-  background: linear-gradient(180deg, rgba(17, 15, 12, .94), rgba(13, 12, 10, .9));
+  border-bottom: 1px solid var(--tu-border);
+  background: linear-gradient(180deg, rgba(14, 20, 26, .96), rgba(10, 14, 18, .92));
   backdrop-filter: blur(20px) saturate(1.1);
   box-shadow: 0 10px 35px rgba(0,0,0,.16);
   position: sticky;
@@ -156,10 +167,11 @@ button:disabled {
   place-items: center;
   width: 40px;
   height: 40px;
-  border: 1px solid #8e7145;
-  color: #d8bd85;
-  font-family: Georgia, serif;
-  background: linear-gradient(145deg, rgba(161,125,69,.12), rgba(255,255,255,.015));
+  border: 1px solid rgba(72,215,177,.48);
+  color: var(--tu-accent);
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-weight: 800;
+  background: linear-gradient(145deg, rgba(72,215,177,.10), rgba(115,168,255,.04));
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.025), 0 10px 24px rgba(0,0,0,.22);
 }
 
@@ -229,14 +241,17 @@ button:disabled {
 
 .eyebrow {
   margin: 0 0 .65rem;
-  color: #c7ad78;
+  color: var(--tu-accent);
   font-size: .72rem;
-  letter-spacing: .2em;
+  font-weight: 800;
+  letter-spacing: .18em;
+  text-transform: uppercase;
 }
 
 .panel {
   border: 1px solid var(--tu-border);
-  background: linear-gradient(145deg, rgba(25,23,19,.88), rgba(19,18,15,.82));
+  border-radius: 14px;
+  background: rgba(17,24,32,.94);
   box-shadow: var(--tu-shadow);
   transition:
     border-color .18s ease,
@@ -270,17 +285,17 @@ select {
   width: 100%;
   min-height: 44px;
   padding: .65rem .75rem;
-  border: 1px solid rgba(255, 255, 255, .12);
-  border-radius: 0;
+  border: 1px solid var(--tu-border);
+  border-radius: 10px;
   outline: none;
-  color: #eee8dc;
-  background: #12110f;
+  color: var(--tu-text);
+  background: #0c1217;
 }
 
 input:focus,
 select:focus {
-  border-color: #9d7c48;
-  box-shadow: 0 0 0 2px rgba(157, 124, 72, .14);
+  border-color: #456574;
+  box-shadow: 0 0 0 2px rgba(72, 215, 177, .10);
 }
 
 .primary,
@@ -293,40 +308,40 @@ select:focus {
 }
 
 .primary {
-  background: #a17d45;
-  color: #100f0d;
-  font-weight: 700;
+  background: var(--tu-accent);
+  color: #062019;
+  font-weight: 800;
 }
 
 .primary:not(:disabled):hover {
-  background: #b58d4e;
-  box-shadow: 0 8px 24px rgba(161, 125, 69, .16);
+  background: #5de1bf;
+  box-shadow: 0 8px 24px rgba(72, 215, 177, .14);
 }
 
 .secondary:not(:disabled):hover,
 .ghost:not(:disabled):hover {
-  border-color: rgba(199, 173, 120, .48);
-  color: #e4d8c2;
-  background: rgba(161, 125, 69, .06);
+  border-color: rgba(72, 215, 177, .42);
+  color: #edf7f8;
+  background: rgba(72, 215, 177, .055);
 }
 
 .secondary {
-  border-color: #806a48;
-  color: #d9c69e;
-  background: transparent;
+  border-color: #36505c;
+  color: #bcd7e2;
+  background: #101820;
 }
 
 .ghost {
-  border-color: rgba(255, 255, 255, .12);
-  color: #c3bcae;
-  background: transparent;
+  border-color: var(--tu-border);
+  color: #c7d2d8;
+  background: #111820;
 }
 
 .link-button {
   min-height: auto;
   padding: .35rem 0;
   border: 0;
-  color: #bca06c;
+  color: var(--tu-accent2);
   background: transparent;
   text-align: left;
   text-decoration: underline;
