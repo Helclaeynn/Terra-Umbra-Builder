@@ -158,7 +158,7 @@ const sections:Array<[StepId,string,boolean]>=[
   ["edge","Edge",true],
   ["equipment","Équipement",true],
   ["finish","Finalisation",true],
-  ["progression","Dépense XP & PTV",false]
+  ["progression","Dépense XP & PTV",true]
 ];
 
 const edgeOptionUi=[
@@ -684,7 +684,7 @@ const validationReasons:Partial<Record<StepId,string>>={
 
 const finalValidationStatuses=computed(()=>
   sections
-    .filter(([id,,required])=>required&&id!=="finish")
+    .filter(([id,,enabled])=>enabled&&id!=="finish"&&id!=="progression")
     .map(([id,label])=>({
       id,
       label,
@@ -806,7 +806,7 @@ function stepDone(id:StepId):boolean{
   if(id==="equipment")return equipmentValidation.value;
   if(id==="finish"){
     return sections
-      .filter(([step,,required])=>required&&step!=="finish")
+      .filter(([step,,enabled])=>enabled&&step!=="finish"&&step!=="progression")
       .every(([step])=>stepDone(step))&&
       socialValidation.value.languages&&
       socialValidation.value.crawler&&
