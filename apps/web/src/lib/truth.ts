@@ -61,6 +61,22 @@ export type TruthRulesPackage={
     needles:Record<string,Record<string,string[]>>;
     sharedHunterNatures:readonly string[];
   };
+  revelation:{
+    stages:Record<"v"|"sr"|"r",{code:string;name:string}>;
+    rules:{
+      revealedReplacesSemiRevealed:boolean;
+      vigorPvMultiplier:number;
+      vigorShapeChangeDoesNotHeal:boolean;
+    };
+    bodies:Record<string,{v:string;sr:string;r:string}>;
+    daemonStats:Record<string,{sr:string;r:string}>;
+    angelusStats:Record<string,{sr:string;r:string}>;
+    aserynStats:Record<string,{sr:string;r:string}>;
+    exileStats:Record<string,{sr:string;r:string}>;
+    extralStats:Record<string,{sr:string;r:string}>;
+    khinaeBase:Record<string,{animal:string;hybrid:string}>;
+    khinaeVariant:Record<string,Record<string,string>>;
+  };
 };
 
 export type TruthState={
@@ -302,6 +318,178 @@ export function truthSelectedFreeTraits(pkg:TruthRulesPackage,state:TruthState){
     unique.set(`${trait.name}|${trait.source||""}|${trait.effect}`,trait);
   }
   return [...unique.values()];
+}
+
+export type TruthRevealStage="v"|"sr"|"r";
+
+export function truthTraitStages(access=""){
+  const value=access.toUpperCase();
+  return {
+    v:value.includes("V"),
+    sr:value.includes("SR"),
+    r:value.includes("R")
+  };
+}
+
+export function truthTraitsForStage(
+  pkg:TruthRulesPackage,
+  state:TruthState,
+  stage:TruthRevealStage
+){
+  return truthSelectedFreeTraits(pkg,state)
+    .filter(trait=>truthTraitStages(trait.access)[stage]);
+}
+
+function truthChoiceLabel(pkg:TruthRulesPackage,state:TruthState,key:string){
+  const nature=pkg.structure.natures[state.nature];
+  const choice=nature?.choices.find(item=>item.key===key);
+  if(!choice)return "";
+  const selected=stringChoice(state.choices,key);
+  return truthChoiceOptions(choice,state.choices).find(option=>option.id===selected)?.name??"";
+}
+
+export function truthRevelationProfile(pkg:TruthRulesPackage,state:TruthState){
+  const nature=state.nature;
+  const choices=state.choices;
+  const revelation=pkg.revelation;
+  const defaultBody=revelation.bodies[nature]??{
+    v:"État voilé.",
+    sr:"État semi-révélé.",
+    r:"État révélé."
+  };
+  let body={...defaultBody};
+  let label=pkg.structure.natures[nature]?.name??"Nature";
+  let stats={v:"Aucun bonus chiffré renseigné",sr:"Voir capacités SR",r:"Voir capacités R"};
+
+  const hunterMemory=
+    nature==="humain"&&
+    state.consciousness==="initie"&&
+    (stringChoice(choices,"hunterTradition")||"aucune")!=="aucune";
+
+  if(nature==="humain"){
+    label=hunterMemory?"Humain Chasseur · mémoire du Voile":"Humain";
+    stats=hunterMemory
+      ? {
+          v:"+1 Volonté permanent",
+          sr:"+1 Volonté permanent · aucun bonus SR supplémentaire",
+          r:"+1 Volonté permanent · aucun bonus R supplémentaire"
+        }
+      : {
+          v:"Aucun bonus de Nature",
+          sr:"Aucun bonus racial : être Initié n’est pas une transformation physique",
+          r:"Aucun bonus racial : un Humain ne possède pas de forme Révélée propre"
+        };
+    if(hunterMemory){
+      body={
+        v:"Le Chasseur reste humain, mais sa mémoire a franchi le seuil : le +1 Volonté est permanent, même Voilé.",
+        sr:"Toujours humain. Les capacités SR de sa tradition peuvent s’exprimer ; le +1 Volonté permanent reste inclus et aucun second bonus racial ne s’ajoute.",
+        r:"Toujours humain d’apparence. Sa condition de Chasseur est pleinement lisible aux perceptions adaptées ; le +1 Volonté permanent reste son seul modificateur commun."
+      };
+    }
+  }else if(nature==="vampire"){
+    label="Nature Vampire";
+    stats={
+      v:"Aucun bonus de Nature",
+      sr:"+1 Vigueur · +1 Volonté",
+      r:"+2 Vigueur · +1 Volonté"
+    };
+  }else if(nature==="mage"){
+    label="Mageius ouvert";
+    stats={
+      v:"Aucune modification",
+      sr:"+1 Esprit · +1 Volonté",
+      r:"+1 Esprit · +2 Volonté"
+    };
+  }else if(nature==="daemon"){
+    const id=stringChoice(choices,"divinity");
+    const row=revelation.daemonStats[id];
+    label=truthChoiceLabel(pkg,state,"divinity")||"Divinité à choisir";
+    stats={
+      v:"Aucun bonus daemoniaque d’Attribut",
+      sr:row?.sr??"Choisir une Divinité",
+      r:row?.r??"Choisir une Divinité"
+    };
+  }else if(nature==="angelus"){
+    const id=stringChoice(choices,"sephirah");
+    const row=revelation.angelusStats[id];
+    label=truthChoiceLabel(pkg,state,"sephirah")||"Sephirah à choisir";
+    stats={
+      v:"Aucun bonus céleste d’Attribut",
+      sr:row?.sr??"Choisir une Sephirah",
+      r:row?.r??"Choisir une Sephirah"
+    };
+  }else if(nature==="aseryn"){
+    const id=stringChoice(choices,"origin");
+    const row=revelation.aserynStats[id];
+    label=truthChoiceLabel(pkg,state,"origin")||"Origine aseryne à choisir";
+    stats={
+      v:"Aucun modificateur racial commun",
+      sr:row?.sr??"+1 Agilité commun, puis empreinte de l’Origine",
+      r:row?.r??"+2 Agilité commun, puis empreinte de l’Origine"
+    };
+  }else if(nature==="exile"){
+    const id=stringChoice(choices,"people");
+    const row=revelation.exileStats[id];
+    label=truthChoiceLabel(pkg,state,"people")||"Peuple exilé à choisir";
+    stats={
+      v:"Traduction humaine/plausible · aucun bonus racial",
+      sr:row?.sr??"Choisir un peuple",
+      r:row?.r??"Choisir un peuple"
+    };
+  }else if(nature==="extral"){
+    const id=stringChoice(choices,"species");
+    const row=revelation.extralStats[id];
+    label=truthChoiceLabel(pkg,state,"species")||"Profil extral à choisir";
+    stats={
+      v:"Traduction humaine/plausible · aucun bonus racial",
+      sr:row?.sr??"Choisir un profil",
+      r:row?.r??"Choisir un profil"
+    };
+  }else if(nature==="garou"){
+    const chained=stringChoice(choices,"blood")==="sang_enchaine";
+    label=chained?"Garou · Sang Enchaîné":"Garou";
+    stats=chained
+      ? {
+          v:"Aucun bonus de Nature",
+          sr:"Aucun bonus d’Attribut automatique · instincts/sens SR",
+          r:"+2 Vigueur · +2 Agilité · +3 Pugilat · +1 PA/round · forme hybride interdite"
+        }
+      : {
+          v:"Aucun bonus de Nature",
+          sr:"Aucun bonus d’Attribut automatique · instincts/sens SR",
+          r:"Humain révélé : aucun gros bonus automatique · Loup : +2 Agilité · morsure DGT 3 · Hybride : +3 Vigueur · +2 Agilité · +3 Pugilat · griffes/crocs DGT 5 · Armure 2 · Régénération 2 PV/round · +1 PA/round"
+        };
+  }else if(nature==="khinae"){
+    const lineage=stringChoice(choices,"lineage");
+    const variant=stringChoice(choices,"variant");
+    const base=revelation.khinaeBase[lineage];
+    const variantStats=revelation.khinaeVariant[lineage]?.[variant];
+    const suffix=variantStats?` · Variante hybride sélectionnée : ${variantStats}`:"";
+    label=[
+      truthChoiceLabel(pkg,state,"lineage"),
+      truthChoiceLabel(pkg,state,"variant")
+    ].filter(Boolean).join(" · ")||"Lignée à choisir";
+    stats={
+      v:"Aucun bonus de Nature",
+      sr:"Aucun bonus d’Attribut commun · instincts/perceptions SR de Lignée",
+      r:base
+        ? `Humain révélé : aucun bonus d’Attribut automatique · Animal : ${base.animal} · Hybride : ${base.hybrid}${suffix}`
+        : "Choisir une Lignée"
+    };
+  }
+
+  return {
+    label,
+    body,
+    stats,
+    stages:{
+      v:{...revelation.stages.v,traits:truthTraitsForStage(pkg,state,"v")},
+      sr:{...revelation.stages.sr,traits:truthTraitsForStage(pkg,state,"sr")},
+      r:{...revelation.stages.r,traits:truthTraitsForStage(pkg,state,"r")}
+    },
+    vigorAffectsPv:/Vigueur/i.test(`${stats.sr} ${stats.r}`),
+    rules:revelation.rules
+  };
 }
 
 function matchingPrerequisites(talent:TruthTalent,available:TruthTalent[]){
