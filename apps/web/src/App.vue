@@ -443,9 +443,12 @@ onMounted(bootstrap);
       </RouterLink>
 
       <div class="top-actions">
-        <span class="brand-top-signal" aria-hidden="true">RÉALITÉ // VÉRITÉ</span>
-        <RouterLink class="ghost compact top-product-link" to="/compendium">
-          Compendium
+        <span class="brand-top-signal" aria-hidden="true">REALITY // VÉRITÉ</span>
+        <a v-if="user" class="ghost compact top-product-link brand-nav-link" href="#characters">
+          Builder
+        </a>
+        <RouterLink class="ghost compact top-product-link brand-nav-link" to="/compendium">
+          Explore
         </RouterLink>
         <span class="api-pill" :class="{ ok: health === 'ok' }">
           API {{ health }}
@@ -646,28 +649,34 @@ onMounted(bootstrap);
       <template v-else>
         <section class="welcome dashboard-hero brand-dashboard-hero">
           <div class="brand-hero-copy">
-            <p class="eyebrow">ESPACE TERRA UMBRA</p>
-            <h1>{{ user.displayName }}</h1>
+            <p class="eyebrow">REALITY // VÉRITÉ</p>
+            <h1 class="brand-statement">
+              <span>Reality</span>
+              <span>is a layer,</span>
+              <span>not a limit.</span>
+            </h1>
             <p class="dashboard-lead">
               Personnages, règles et encyclopédie dans un même espace. Reprends une fiche
               ou explore le monde sans changer d’outil.
             </p>
             <p class="brand-manifesto" aria-hidden="true">
-              <span>Construire</span><i></i><span>Explorer</span><i></i><span>Révéler</span>
+              <span>Build</span><i></i><span>Explore</span><i></i><span>Uncover</span>
             </p>
             <div class="dashboard-identity">
+              <strong>{{ user.displayName }}</strong>
               <span class="role-badge">{{ roleLabels[user.role] }}</span>
               <span class="muted">{{ user.email }}</span>
             </div>
           </div>
 
           <div class="brand-hero-visual" aria-hidden="true">
-            <div class="brand-hero-globe"></div>
             <div class="brand-orbit one"></div>
             <div class="brand-orbit two"></div>
             <div class="brand-orbit three"></div>
             <img class="brand-hero-mark" src="/brand/terra-umbra-mark.webp" alt="" />
             <div class="brand-axis"><span>RÉALITÉ</span><span>VÉRITÉ</span></div>
+            <p class="brand-visual-note">SAME WORLD.<br />A DEEPER LAYER.</p>
+            <p class="brand-visual-build">CALIFORNIA<br />BUILDER V2</p>
           </div>
         </section>
 
