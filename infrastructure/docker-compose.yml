@@ -21,7 +21,8 @@ services:
 
   api:
     build:
-      context: ../apps/api
+      context: ..
+      dockerfile: apps/api/Dockerfile
     restart: unless-stopped
     environment:
       NODE_ENV: production
