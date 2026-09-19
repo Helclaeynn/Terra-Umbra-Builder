@@ -40,7 +40,11 @@ const characterData={
   equipment:[],
   social:{languages:["Anglais"],contacts:["Contact Smoke"],reputation:""},
   spending:{augmentations:0,equipment:0,vehicle:0},
-  reality:{augmentations:[],equipment:[],fixedChargeItems:[],sphereSupportDetail:""},
+  reality:{
+    augmentations:[],equipment:[],fixedChargeItems:[],
+    mjAdvancedOverride:false,mjAccessOverride:false,
+    sphereSupportType:"",sphereSupportItemId:""
+  },
   progression:{},
   meta:{}
 };
@@ -59,7 +63,10 @@ const rules={
     skills:{sphereFixedPoints:5,stylePoints:5,stylePerSkillMax:2,freePoints:0,rawMax:5,edgePackPoints:4,edgePackMax:1}
   },
   origins:{citadin:{name:"Citadin"}},
-  spheres:{crawler:{name:"Crawler",originId:"citadin",support:"Un Contact fiable",fixedSkills:[]}},
+  spheres:{
+    crawler:{name:"Crawler",originId:"citadin",support:"Un Contact fiable",fixedSkills:[]},
+    corporatiste:{name:"Corporatiste",originId:"citadin",support:"Avantage contractuel",fixedSkills:[]}
+  },
   styles:[
     {
       id:"smoke_style",sphere:"crawler",name:"Smoke Style",skills:[],
@@ -70,11 +77,19 @@ const rules={
       id:"smoke_style_alt",sphere:"crawler",name:"Smoke Style Alt",skills:[],
       expertiseFamilies:["esprit","volonte"],lifestyle:"Confortable",account:12000,
       augmentationEnvelope:8000,gen2SlotsBase:1,vehicleCapital:0
+    },
+    {
+      id:"corp_smoke",sphere:"corporatiste",name:"Corpo Smoke",skills:[],
+      expertiseFamilies:["esprit","charisme"],lifestyle:"Confortable",account:10000,
+      augmentationEnvelope:5000,gen2SlotsBase:1,vehicleCapital:0
     }
   ],
   talents:{
     origin:{citadin:[{id:"origin_smoke",name:"Acquis urbain",effect:"+1 test",category:"origin"}]},
-    sphere:{crawler:[{id:"sphere_smoke",name:"Réseau Crawler",effect:"Contact",category:"sphere",sphere:"crawler"}]},
+    sphere:{
+      crawler:[{id:"sphere_smoke",name:"Réseau Crawler",effect:"Contact",category:"sphere",sphere:"crawler"}],
+      corporatiste:[{id:"sphere_corp_smoke",name:"Dotation smoke",effect:"Support",category:"sphere",sphere:"corporatiste"}]
+    },
     common:[{id:"common_smoke",name:"Brave",effect:"Test commun",category:"common"}],
     expertise:[{id:"expertise_smoke",name:"Athlète",effect:"+1 Athlétisme",category:"expertise",attribute:"vigueur"}]
   }
@@ -83,12 +98,12 @@ const rules={
 const lore={
   origin:{citadin:"Lore origine"},
   originTalent:{origin_smoke:"Lore talent origine"},
-  sphere:{crawler:"Lore sphère"},
-  style:{smoke_style:"Lore style",smoke_style_alt:"Lore style alternatif"},
+  sphere:{crawler:"Lore sphère",corporatiste:"Lore corporatiste"},
+  style:{smoke_style:"Lore style",smoke_style_alt:"Lore style alternatif",corp_smoke:"Lore corpo"},
   skill:Object.fromEntries(skillIds.map(([id,name])=>[id,"Lore "+name])),
   attribute:{vigueur:"",agilite:"",esprit:"",volonte:"",charisme:""},
   talent:{common_smoke:"Lore commun",expertise_smoke:"Lore expertise"},
-  sphereTalent:{sphere_smoke:"Lore sphère talent"}
+  sphereTalent:{sphere_smoke:"Lore sphère talent",sphere_corp_smoke:"Lore corpo talent"}
 };
 
 const edgeKeys=["attributePack","skillPacks","talentPacks","cashPacks","lifestylePack","augmentationPacks","renownPack"];
@@ -136,6 +151,18 @@ const equipmentItem={
   effect:"Équipement de test.",lore:"Un kit destiné au smoke.",data:{},vehicle:false,neuro:false,
   recurring:"durable_purchase",monthlyCost:0,families:[]
 };
+const housingItem={
+  id:"housing-smoke",kind:"equipment",name:"Appartement Smoke",category:"Logement",sourceCategory:"Logement",
+  price:1200,priceMin:1200,priceMax:1200,priceLabel:"1 200 $/mois",generation:null,charge:null,stress:null,slots:null,
+  effect:"Logement de test.",lore:"Appartement smoke.",data:{},vehicle:false,neuro:false,
+  recurring:"monthly",monthlyCost:1200,families:[]
+};
+const vehicleItem={
+  id:"vehicle-smoke",kind:"equipment",name:"CityPod Smoke",category:"Véhicules",sourceCategory:"Véhicules",
+  price:6000,priceMin:6000,priceMax:6000,priceLabel:"6 000 $",generation:null,charge:null,stress:null,slots:null,
+  effect:"Véhicule de test.",lore:"Véhicule smoke.",data:{"Entretien/mois":200},vehicle:true,neuro:false,
+  recurring:"durable_purchase",monthlyCost:0,families:[]
+};
 const augmentationItem={
   id:"aug-smoke",kind:"augmentation",name:"Cyberœil Smoke",category:"Optique",sourceCategory:"Optique",
   price:500,priceMin:500,priceMax:500,priceLabel:"500 $",generation:1,charge:1,stress:1,slots:null,
@@ -148,7 +175,8 @@ const realityRules={
     advancedPurchaseThreshold:20000,unusedEnvelopeRefundRate:.5,
     styleAugAccess:{
       smoke_style:{text:"Accès smoke",gen1:["all"],gen2:["all"],bio:["all"],bioCap:20000},
-      smoke_style_alt:{text:"Accès smoke alt",gen1:["all"],gen2:["all"],bio:["all"],bioCap:20000}
+      smoke_style_alt:{text:"Accès smoke alt",gen1:["all"],gen2:["all"],bio:["all"],bioCap:20000},
+      corp_smoke:{text:"Accès corpo",gen1:["all"],gen2:["all"],bio:["all"],bioCap:20000}
     },
     lifestyle:{
       order:["Survie","Modeste","Standard","Confortable","Aisé","Luxe"],
@@ -156,10 +184,10 @@ const realityRules={
       lore:{Survie:"",Modeste:"",Standard:"Vie standard smoke.",Confortable:"","Aisé":"",Luxe:""}
     }
   },
-  equipment:[equipmentItem],
+  equipment:[equipmentItem,vehicleItem],
   augmentations:[augmentationItem],
-  recurring:[],
-  counts:{equipment:1,augmentations:1,recurring:0,monthly:0,annual:0,vehicles:0,neuroprograms:0}
+  recurring:[housingItem],
+  counts:{equipment:2,augmentations:1,recurring:1,monthly:1,annual:0,vehicles:1,neuroprograms:0}
 };
 
 const browser=await chromium.launch({headless:true,executablePath,args:["--no-sandbox"]});
@@ -248,6 +276,29 @@ for(const label of ["Voilé","Semi-Révélé","Révélé"]){
 await page.getByRole("button",{name:/Équipement/}).click();
 await page.getByRole("heading",{name:"Réalité, équipement & augmentations"}).waitFor();
 await page.getByText("Kit Smoke",{exact:true}).waitFor();
+await page.getByText("Confortable → Confortable",{exact:true}).waitFor();
+await page.getByLabel("Charge personnalisée").fill("Loyer test");
+await page.getByLabel("Montant / mois").fill("1300");
+await page.getByRole("button",{name:"Ajouter"}).nth(1).click();
+await page.getByText("Confortable → Standard",{exact:true}).waitFor();
+
+await page.getByRole("button",{name:/Sphère & Style/}).click();
+await page.getByRole("button",{name:/Corporatiste/}).click();
+await page.getByRole("button",{name:/Corpo Smoke/}).click();
+await page.getByRole("button",{name:/Équipement/}).click();
+await page.getByRole("heading",{name:"Appui Corporatiste"}).waitFor();
+
+await page.getByLabel("Type de prestation").selectOption("housing");
+await page.getByLabel("Logement pris en charge").selectOption("housing-smoke");
+await page.getByText(/Appartement Smoke.*pris en charge par la corporation/).waitFor();
+
+await page.getByLabel("Type de prestation").selectOption("vehicle");
+await page.getByLabel("Véhicule fourni").selectOption("vehicle-smoke");
+await page.getByText(/CityPod Smoke.*véhicule de fonction/).waitFor();
+
+for(const removedLabel of ["Réseaux","Statuts","Patrimoine","Dettes"]){
+  if(await page.getByText(removedLabel,{exact:true}).count())throw new Error("Ancien champ encore visible : "+removedLabel);
+}
 
 await page.getByRole("button",{name:/Finalisation/}).click();
 await page.getByRole("heading",{name:"Contrôle final de la fiche"}).waitFor();
@@ -276,6 +327,13 @@ await page.getByText(/Fiche enregistrée · version 8/).waitFor();
 if(!savedPayload)throw new Error("La sauvegarde versionnée n’a pas été envoyée.");
 if(savedPayload.version!==7)throw new Error("Version optimiste incorrecte.");
 if(savedPayload.data?.schemaVersion!==2)throw new Error("La sauvegarde n’est pas en schema v2.");
+if(savedPayload.data?.reality?.sphereSupportType!=="vehicle")throw new Error("Appui Corporatiste non persisté.");
+if(savedPayload.data?.reality?.sphereSupportItemId!=="vehicle-smoke")throw new Error("Véhicule de fonction non persisté.");
+for(const legacyKey of ["sphereSupportDetail","possessionsNotes","networks","statuses","patrimony","debts"]){
+  if(Object.prototype.hasOwnProperty.call(savedPayload.data?.reality||{},legacyKey)){
+    throw new Error("Champ Réalité legacy encore sauvegardé : "+legacyKey);
+  }
+}
 
 if(browserErrors.length)throw new Error("Erreurs navigateur :\n"+browserErrors.join("\n"));
 
