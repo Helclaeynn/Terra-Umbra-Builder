@@ -146,18 +146,30 @@ function articleForAudience(article: Article, includeMj: boolean): Article {
   return result;
 }
 
-export async function resolveCompendiumId(
+export async function findCompendiumMatches(
   label: string,
   category = ""
-): Promise<string | null> {
+): Promise<Array<{ id: string; title: string; category: string }>> {
   const target = norm(label);
-  if (!target) return null;
+  if (!target) return [];
   const corpus = await getCorpus();
   let matches = corpus.articles.filter((article) => norm(article.title) === target);
   if (category) {
     const categorized = matches.filter((article) => article.category === category);
     if (categorized.length) matches = categorized;
   }
+  return matches.map((article) => ({
+    id: article.id,
+    title: article.title,
+    category: article.category
+  }));
+}
+
+export async function resolveCompendiumId(
+  label: string,
+  category = ""
+): Promise<string | null> {
+  const matches = await findCompendiumMatches(label, category);
   return matches.length === 1 ? matches[0].id : null;
 }
 
