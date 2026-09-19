@@ -1,21 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-
-type Character = {
-  id: string;
-  name: string;
-  data: Record<string, unknown>;
-  version: number;
-  createdAt: string;
-  updatedAt: string;
-};
-
-type Revision = {
-  revision: number;
-  name: string;
-  reason: string;
-  createdAt: string;
-};
+import { api } from "../lib/api";
+import type { Character, Revision } from "../types/character";
 
 const characters = ref<Character[]>([]);
 const selected = ref<Character | null>(null);
@@ -25,6 +11,7 @@ const editName = ref("");
 const loading = ref(false);
 const notice = ref("");
 const error = ref("");
+const importInput = ref<HTMLInputElement | null>(null);
 
 const hasCharacters = computed(() => characters.value.length > 0);
 
@@ -35,28 +22,14 @@ function humanError(code: string): string {
     character_version_conflict: "Ce personnage a été modifié ailleurs. Recharge sa fiche avant de réessayer.",
     character_not_found: "Ce personnage n’existe plus ou ne t’appartient pas.",
     character_create_failed: "La création du personnage a échoué.",
+    invalid_v1_character: "Ce fichier n’est pas un export JSON compatible du Builder V1.",
+    character_import_failed: "L’import du personnage a échoué.",
     character_update_failed: "La sauvegarde du personnage a échoué.",
     character_archive_failed: "L’archivage du personnage a échoué.",
     revision_not_found: "Cette révision n’existe plus.",
     character_restore_failed: "La restauration a échoué."
   };
   return labels[code] ?? "Une erreur est survenue.";
-}
-
-async function api<T>(path: string, options: RequestInit = {}): Promise<T> {
-  const headers = new Headers(options.headers ?? {});
-  if (options.body !== undefined && !headers.has("Content-Type")) {
-    headers.set("Content-Type", "application/json");
-  }
-
-  const response = await fetch(path, {
-    ...options,
-    credentials: "same-origin",
-    headers
-  });
-  const body = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(body.error ?? `http_${response.status}`);
-  return body as T;
 }
 
 function setSelected(character: Character | null) {
@@ -96,7 +69,7 @@ async function createCharacter() {
   try {
     const result = await api<{ character: Character }>("/api/characters", {
       method: "POST",
-      body: JSON.stringify({ name, data: {} })
+      body: JSON.stringify({ name })
     });
     newName.value = "";
     await loadCharacters();
@@ -106,6 +79,37 @@ async function createCharacter() {
   } catch (cause) {
     error.value = humanError((cause as Error).message);
   } finally {
+    loading.value = false;
+  }
+}
+
+async function importV1Character(event: Event) {
+  const input = event.target as HTMLInputElement;
+  const file = input.files?.[0];
+  if (!file) return;
+
+  loading.value = true;
+  notice.value = "";
+  error.value = "";
+
+  try {
+    if (file.size > 1024 * 1024) throw new Error("invalid_character_data");
+    const parsed = JSON.parse(await file.text()) as Record<string, unknown>;
+    const result = await api<{ character: Character }>("/api/characters/import-v1", {
+      method: "POST",
+      body: JSON.stringify({ data: parsed })
+    });
+    await loadCharacters();
+    const imported =
+      characters.value.find((item) => item.id === result.character.id) ?? result.character;
+    setSelected(imported);
+    notice.value = `« ${result.character.name} » importé depuis le Builder V1.`;
+  } catch (cause) {
+    const code =
+      cause instanceof SyntaxError ? "invalid_v1_character" : (cause as Error).message;
+    error.value = humanError(code);
+  } finally {
+    input.value = "";
     loading.value = false;
   }
 }
@@ -229,18 +233,31 @@ onMounted(loadCharacters);
       <span class="character-count">{{ characters.length }}</span>
     </div>
 
-    <form class="character-create" @submit.prevent="createCharacter">
-      <input
-        v-model="newName"
-        aria-label="Nom du nouveau personnage"
-        placeholder="Nom du nouveau personnage"
-        maxlength="120"
-        required
-      />
-      <button class="secondary" :disabled="loading" type="submit">
-        Créer
+    <div class="character-entry-actions">
+      <form class="character-create" @submit.prevent="createCharacter">
+        <input
+          v-model="newName"
+          aria-label="Nom du nouveau personnage"
+          placeholder="Nom du nouveau personnage"
+          maxlength="120"
+          required
+        />
+        <button class="secondary" :disabled="loading" type="submit">
+          Créer
+        </button>
+      </form>
+
+      <button class="ghost import-v1" type="button" :disabled="loading" @click="importInput?.click()">
+        Importer un JSON V1
       </button>
-    </form>
+      <input
+        ref="importInput"
+        type="file"
+        accept=".json,application/json"
+        hidden
+        @change="importV1Character"
+      />
+    </div>
 
     <div v-if="notice || error" class="character-feedback" :class="{ error: !!error }">
       {{ error || notice }}
@@ -272,7 +289,7 @@ onMounted(loadCharacters);
             <h3>{{ selected.name }}</h3>
           </div>
           <div class="character-detail-actions">
-            <a class="ghost compact builder-link" :href="`/builder/?character=${selected.id}`">
+            <a class="ghost compact builder-link" :href="`/characters/${selected.id}/builder`">
               Ouvrir le Builder
             </a>
             <button class="ghost compact danger" type="button" :disabled="loading" @click="archiveCharacter">
@@ -298,8 +315,8 @@ onMounted(loadCharacters);
         <div class="builder-slot">
           <strong>Fiche de personnage</strong>
           <p>
-            La sauvegarde serveur est opérationnelle. Le Builder TUC sera branché ici
-            pour enregistrer directement l’intégralité de la fiche dans ce personnage.
+            Le Builder V2 est une page Vue native reliée à l’API. Les exports JSON de la V1
+            peuvent être importés puis poursuivis dans le nouveau modèle de données.
           </p>
         </div>
 
@@ -348,9 +365,20 @@ onMounted(loadCharacters);
   font-size: .8rem;
 }
 
+.character-entry-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: .65rem;
+  align-items: start;
+  margin-bottom: 1rem;
+}
+
 .character-create {
   grid-template-columns: 1fr auto;
-  margin-bottom: 1rem;
+}
+
+.import-v1 {
+  white-space: nowrap;
 }
 
 .character-feedback {
@@ -521,6 +549,10 @@ onMounted(loadCharacters);
 
 @media (max-width: 720px) {
   .characters-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .character-entry-actions {
     grid-template-columns: 1fr;
   }
 
