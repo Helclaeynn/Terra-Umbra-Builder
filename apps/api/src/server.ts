@@ -23,6 +23,7 @@ import {
 } from "./auth.js";
 import { databaseStatus, pool } from "./db.js";
 import { registerCharacterRoutes } from "./characters.js";
+import { registerRulesRoutes } from "./rules/index.js";
 import { passwordResetMailAvailable, sendPasswordResetEmail } from "./mail.js";
 
 const app = Fastify({
@@ -827,6 +828,7 @@ app.get("/api/admin/audit", async (request, reply) => {
 });
 
 await registerCharacterRoutes(app);
+await registerRulesRoutes(app);
 
 const port = Number(process.env.PORT ?? 3000);
 
