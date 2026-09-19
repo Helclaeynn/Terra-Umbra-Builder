@@ -632,6 +632,64 @@ td select {
   color: #716c64;
 }
 
+
+/* V1-inspired personal space alignment */
+.api-pill.ok{
+  color:var(--tu-success);
+  border-color:#2a6344;
+}
+.role-badge{
+  color:var(--tu-accent);
+  border-color:#36505c;
+}
+.dashboard-hero{
+  border-color:var(--tu-border);
+  border-radius:16px;
+  background:
+    linear-gradient(110deg,rgba(72,215,177,.055),transparent 48%),
+    rgba(17,24,32,.94);
+}
+.dashboard-hero::after{
+  border-color:rgba(115,168,255,.12);
+  box-shadow:0 0 0 4rem rgba(72,215,177,.014),0 0 0 8rem rgba(115,168,255,.01);
+}
+.dashboard-mark span{
+  border-color:#344550;
+  color:var(--tu-accent);
+  background:#0d141a;
+}
+.dashboard-portal{
+  border-color:var(--tu-border);
+  border-radius:14px;
+  background:#111820;
+}
+.dashboard-portal:hover{
+  border-color:#46616e;
+  box-shadow:0 22px 56px rgba(0,0,0,.28);
+}
+.dashboard-portal h2{
+  font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;
+  font-weight:800;
+  letter-spacing:-.02em;
+}
+.dashboard-portal>strong,
+.portal-index{color:var(--tu-accent)}
+.builder-portal{
+  background:linear-gradient(145deg,rgba(72,215,177,.055),#111820);
+}
+.compendium-portal{
+  background:linear-gradient(145deg,rgba(115,168,255,.06),#111820);
+}
+.account-panel{
+  border-color:var(--tu-border);
+  background:#111820;
+}
+.tabs{border-bottom-color:var(--tu-border)}
+.tabs button.active{
+  color:var(--tu-accent);
+  background:#16242b;
+}
+
 @media (max-width: 760px) {
   .auth-layout,
   .grid {
