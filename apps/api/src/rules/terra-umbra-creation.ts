@@ -765,7 +765,196 @@ export const terraUmbraCreationRules = {
       "gen2SlotsBase": 0,
       "vehicleCapital": 0
     }
-  ]
+  ],
+  "talents": {
+    "origin": {
+      "corporatiste": [
+        {
+          "id": "codes_corporatifs",
+          "name": "Codes corporatifs",
+          "effect": "+2 Diplomatie pour comprendre et appliquer usages, vocabulaire et hiérarchies corporatives.",
+          "category": "origin",
+          "origin": "corporatiste"
+        },
+        {
+          "id": "formation_calibree",
+          "name": "Formation calibrée",
+          "effect": "Choisir une Compétence d’Esprit cohérente avec l’éducation reçue ; +1 à cette Compétence.",
+          "category": "origin",
+          "origin": "corporatiste"
+        },
+        {
+          "id": "culture_produit",
+          "name": "Culture produit",
+          "effect": "Choisir un secteur corporatif : cybernétique, armement, médias, biotech, finance, etc. +2 Savoirs pour connaître acteurs, produits et habitudes du secteur.",
+          "category": "origin",
+          "origin": "corporatiste"
+        },
+        {
+          "id": "reseau_scolaire",
+          "name": "Réseau scolaire",
+          "effect": "Un Contact mineur issu de l’école, de la formation ou de la corporation familiale.",
+          "category": "origin",
+          "origin": "corporatiste"
+        },
+        {
+          "id": "toujours_presentable",
+          "name": "Toujours présentable",
+          "effect": "+2 Représentation lorsqu’il faut adopter rapidement le comportement, l’apparence ou le niveau de langage attendu dans un environnement corporatif formel.",
+          "category": "origin",
+          "origin": "corporatiste"
+        }
+      ],
+      "gouvernementale": [
+        {
+          "id": "education_civique",
+          "name": "Éducation civique",
+          "effect": "+2 Savoirs sur droit, administration et institutions californiennes.",
+          "category": "origin",
+          "origin": "gouvernementale"
+        },
+        {
+          "id": "procedures_administratives",
+          "name": "Procédures administratives",
+          "effect": "Sait normalement quel service, formulaire ou interlocuteur rechercher pour une procédure administrative courante.",
+          "category": "origin",
+          "origin": "gouvernementale"
+        },
+        {
+          "id": "famille_de_fonctionnaires",
+          "name": "Famille de fonctionnaires",
+          "effect": "Un Contact mineur dans un service public, une administration ou une force gouvernementale.",
+          "category": "origin",
+          "origin": "gouvernementale"
+        },
+        {
+          "id": "formation_publique",
+          "name": "Formation publique",
+          "effect": "Choisir une Compétence d’Esprit cohérente avec l’éducation reçue ; +1.",
+          "category": "origin",
+          "origin": "gouvernementale"
+        },
+        {
+          "id": "dossier_propre",
+          "name": "Dossier propre",
+          "effect": "Sauf Désavantage contradictoire, possède un historique administratif cohérent et sans anomalie majeure.",
+          "category": "origin",
+          "origin": "gouvernementale"
+        }
+      ],
+      "mafieuse": [
+        {
+          "id": "codes_du_milieu",
+          "name": "Codes du milieu",
+          "effect": "+2 Diplomatie pour connaître respect, rites, rangs, tabous et façons correctes de parler dans sa Pègre d’origine.",
+          "category": "origin",
+          "origin": "mafieuse"
+        },
+        {
+          "id": "omerta_familiale",
+          "name": "Omerta familiale",
+          "effect": "+2 Force Mentale contre pression ou intimidation visant directement à faire trahir sa famille ou son ancien milieu.",
+          "category": "origin",
+          "origin": "mafieuse"
+        },
+        {
+          "id": "enfant_du_quartier",
+          "name": "Enfant du quartier",
+          "effect": "Circonstance favorable (+3) pour retrouver une adresse, un passage ou une figure locale dans le quartier où il a réellement grandi.",
+          "category": "origin",
+          "origin": "mafieuse"
+        },
+        {
+          "id": "vieilles_frequentations",
+          "name": "Vieilles fréquentations",
+          "effect": "Un Contact mineur lié à la Pègre ou à sa communauté.",
+          "category": "origin",
+          "origin": "mafieuse"
+        },
+        {
+          "id": "petites_combines",
+          "name": "Petites combines",
+          "effect": "+2 Commerce ou Larcin, choisi à la création, pour de petites pratiques apprises durant l’enfance.",
+          "category": "origin",
+          "origin": "mafieuse"
+        }
+      ],
+      "crawler": [
+        {
+          "id": "debrouille",
+          "name": "Débrouille",
+          "effect": "+1 Survie en milieu urbain pauvre, abandonné ou hors système.",
+          "category": "origin",
+          "origin": "crawler"
+        },
+        {
+          "id": "codes_de_rue",
+          "name": "Codes de rue",
+          "effect": "+2 Langages & Argot pour argot, signes, graffitis et codes Underlives.",
+          "category": "origin",
+          "origin": "crawler"
+        },
+        {
+          "id": "enfant_des_zones_mortes",
+          "name": "Enfant des zones mortes",
+          "effect": "Circonstance favorable (+3) pour circuler et s’orienter dans son ancien quartier abandonné.",
+          "category": "origin",
+          "origin": "crawler"
+        },
+        {
+          "id": "on_connait_quelquun",
+          "name": "On connaît quelqu’un",
+          "effect": "Un Contact mineur Crawler.",
+          "category": "origin",
+          "origin": "crawler"
+        },
+        {
+          "id": "recuperateur",
+          "name": "Récupérateur",
+          "effect": "+2 Investigation lorsqu’il s’agit de trouver quelque chose d’utile dans des ruines, déchets techniques, squats ou infrastructures abandonnées.",
+          "category": "origin",
+          "origin": "crawler"
+        }
+      ],
+      "religieuse": [
+        {
+          "id": "education_doctrinale",
+          "name": "Éducation doctrinale",
+          "effect": "+2 Savoirs pour la religion dans laquelle le personnage a été élevé.",
+          "category": "origin",
+          "origin": "religieuse"
+        },
+        {
+          "id": "vie_communautaire",
+          "name": "Vie communautaire",
+          "effect": "+2 Diplomatie auprès de sa communauté d’origine lorsque les références et coutumes communes sont pertinentes.",
+          "category": "origin",
+          "origin": "religieuse"
+        },
+        {
+          "id": "discipline_de_foi",
+          "name": "Discipline de foi",
+          "effect": "+1 Maîtrise spirituelle. Aucun effet de Vérité.",
+          "category": "origin",
+          "origin": "religieuse"
+        },
+        {
+          "id": "communaute_dorigine",
+          "name": "Communauté d’origine",
+          "effect": "Un Contact mineur dans une institution ou congrégation religieuse.",
+          "category": "origin",
+          "origin": "religieuse"
+        },
+        {
+          "id": "education_caritative",
+          "name": "Éducation caritative",
+          "effect": "+2 Soin, Diplomatie ou Savoirs, choisi à la création, dans les situations d’assistance sociale correspondant réellement à son éducation.",
+          "category": "origin",
+          "origin": "religieuse"
+        }
+      ]
+    }
+  }
 } as const;
 
 export type TerraUmbraCreationRules = typeof terraUmbraCreationRules;
