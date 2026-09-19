@@ -668,7 +668,6 @@ async function loadCorpus(): Promise<Corpus> {
     if (gallery.length) article.gallery = gallery;
 
     article.title = ARTICLE_TITLE_FIXES[article.id] ?? article.title;
-    article.title = ARTICLE_TITLE_FIXES[article.id] ?? article.title;
     article.sourceCategory = article.sourceCategory ?? article.category;
 
     const navEntry = navigation.get(article.id);
