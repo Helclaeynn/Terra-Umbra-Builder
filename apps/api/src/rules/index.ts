@@ -4,6 +4,7 @@ import { terraUmbraCreationRules } from "./terra-umbra-creation.js";
 import { terraUmbraCreationLore, terraUmbraTalentChoiceSpecs, terraUmbraRealitySkillTalentMap } from "./terra-umbra-creation-lore.js";
 import { terraUmbraDisadvantages, terraUmbraDisadvantageLore, terraUmbraEdgeRules } from "./terra-umbra-disadvantages-edge.js";
 import { terraUmbraTruthRules } from "./truth/rules.js";
+import { getRealityRules } from "./reality.js";
 
 export async function registerRulesRoutes(app:FastifyInstance){
   app.get("/api/rulesets/terra-umbra/creation", async (request, reply)=>{
@@ -16,5 +17,11 @@ export async function registerRulesRoutes(app:FastifyInstance){
     const user=await requireUser(request,reply);
     if(!user)return;
     return terraUmbraTruthRules;
+  });
+
+  app.get("/api/rulesets/terra-umbra/reality", async (request, reply)=>{
+    const user=await requireUser(request,reply);
+    if(!user)return;
+    return getRealityRules();
   });
 }
