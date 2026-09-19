@@ -1,19 +1,15 @@
 import { createApp, h, Transition } from "vue";
 import { createRouter, createWebHistory, RouterView } from "vue-router";
-import App from "./App.vue";
-import CharacterBuilderPage from "./pages/CharacterBuilderPage.vue";
-import CompendiumPage from "./pages/CompendiumPage.vue";
-import CompendiumEditorPage from "./pages/CompendiumEditorPage.vue";
 import "./style.css";
 
 const router=createRouter({
   history:createWebHistory(),
   routes:[
-    { path:"/", component:App },
-    { path:"/characters/:id/builder", component:CharacterBuilderPage },
-    { path:"/compendium", component:CompendiumPage },
-    { path:"/compendium/new", component:CompendiumEditorPage },
-    { path:"/compendium/edit/:id", component:CompendiumEditorPage },
+    { path:"/", component:()=>import("./App.vue") },
+    { path:"/characters/:id/builder", component:()=>import("./pages/CharacterBuilderPage.vue") },
+    { path:"/compendium", component:()=>import("./pages/CompendiumPage.vue") },
+    { path:"/compendium/new", component:()=>import("./pages/CompendiumEditorPage.vue") },
+    { path:"/compendium/edit/:id", component:()=>import("./pages/CompendiumEditorPage.vue") },
     { path:"/:pathMatch(.*)*", redirect:"/" }
   ]
 });
