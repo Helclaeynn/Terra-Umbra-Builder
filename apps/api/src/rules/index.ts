@@ -6,6 +6,7 @@ import { terraUmbraDisadvantages, terraUmbraDisadvantageLore, terraUmbraEdgeRule
 import { terraUmbraTruthRules } from "./truth/rules.js";
 import { getRealityRules } from "./reality.js";
 import { findCompendiumMatches, resolveCompendiumId } from "../compendium.js";
+import { queryTalentRegistry, talentRegistryMeta } from "./talent-registry.js";
 
 type NamedEntry={name?:string;compendiumId?:string|null;[key:string]:unknown};
 
@@ -469,5 +470,20 @@ export async function registerRulesRoutes(app:FastifyInstance){
     if(!user)return;
     const id=String(request.params.id??"").trim();
     return {articleId:id,records:id?await builderSourceFor(id):[]};
+  });
+
+  app.get<{Querystring:{natureId?:string;groupId?:string;ids?:string}}>("/api/compendium/talents", async (request)=>{
+    const natureId=String(request.query.natureId??"").trim()||undefined;
+    const groupId=String(request.query.groupId??"").trim()||undefined;
+    const ids=String(request.query.ids??"")
+      .split(",")
+      .map(value=>value.trim())
+      .filter(Boolean);
+    const items=queryTalentRegistry({natureId,groupId,ids});
+    return {items,total:items.length};
+  });
+
+  app.get("/api/compendium/talents/meta", async ()=>{
+    return talentRegistryMeta();
   });
 }
