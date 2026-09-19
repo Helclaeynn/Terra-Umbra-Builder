@@ -497,7 +497,9 @@ jobs:
           for family in payload["families"]:
               print(f'COVERAGE {family["family"]} — {family["linked"]}/{family["total"]} liés · {family["missing"]} manquants · {family["ambiguous"]} ambigus')
           for item in payload["items"]:
-              if item["status"] == "ambiguous":
+              if item["status"] == "missing":
+                  print(f'MISSING {item["family"]}::{item["key"]}::{item["label"]}')
+              elif item["status"] == "ambiguous":
                   matches=" | ".join(f'{match["id"]}:{match["title"]}' for match in item["matches"])
                   print(f'AMBIGUOUS {item["family"]}::{item["key"]}::{item["label"]} => {matches}')
           PY
