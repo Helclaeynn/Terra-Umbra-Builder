@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { cloneJson } from "../../lib/json";
 import {
   addCashTransaction,
   attributeStepCost,
@@ -97,11 +98,11 @@ const saleKey=ref("");
 const saleDegree=ref(0);
 
 const state=computed(()=>ensureProgression(
-  structuredClone(props.progression),
+  cloneJson(props.progression),
   props.rules.skills.map(item=>item.id),
   props.rules.attributes.map(item=>item.id)
 ));
-const realityState=computed(()=>ensureRealityState(structuredClone(props.reality)));
+const realityState=computed(()=>ensureRealityState(cloneJson(props.reality)));
 const itemMap=computed(()=>realityItemMap(props.realityRules));
 
 function emitProgression(next=state.value){
