@@ -2,6 +2,8 @@
 import { computed, onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
 import CharactersPanel from "./components/CharactersPanel.vue";
+import TerraUmbraBrandMark from "./components/TerraUmbraBrandMark.vue";
+import "./brand-signal.css";
 
 type Role = "player" | "gm" | "editor" | "admin";
 
@@ -429,17 +431,20 @@ onMounted(bootstrap);
 </script>
 
 <template>
-  <div class="app-shell">
+  <div class="app-shell brand-signal">
     <header class="topbar">
       <RouterLink class="brand" to="/">
-        <span class="brand-mark">TU</span>
-        <span>
+        <span class="brand-emblem" aria-hidden="true">
+          <TerraUmbraBrandMark />
+        </span>
+        <span class="brand-wordmark">
           <strong>Terra Umbra</strong>
-          <small>California · Web V2</small>
+          <small><span>California</span><i></i><span>Web V2</span></small>
         </span>
       </RouterLink>
 
       <div class="top-actions">
+        <span class="brand-top-signal" aria-hidden="true">RÉALITÉ // VÉRITÉ</span>
         <RouterLink class="ghost compact top-product-link" to="/compendium">
           Compendium
         </RouterLink>
@@ -640,21 +645,30 @@ onMounted(bootstrap);
       </section>
 
       <template v-else>
-        <section class="welcome dashboard-hero">
-          <div>
+        <section class="welcome dashboard-hero brand-dashboard-hero">
+          <div class="brand-hero-copy">
             <p class="eyebrow">ESPACE TERRA UMBRA</p>
             <h1>{{ user.displayName }}</h1>
             <p class="dashboard-lead">
               Personnages, règles et encyclopédie dans un même espace. Reprends une fiche
               ou explore le monde sans changer d’outil.
             </p>
+            <p class="brand-manifesto" aria-hidden="true">
+              <span>Construire</span><i></i><span>Explorer</span><i></i><span>Révéler</span>
+            </p>
             <div class="dashboard-identity">
               <span class="role-badge">{{ roleLabels[user.role] }}</span>
               <span class="muted">{{ user.email }}</span>
             </div>
           </div>
-          <div class="dashboard-mark" aria-hidden="true">
-            <span>T</span><span>U</span>
+
+          <div class="brand-hero-visual" aria-hidden="true">
+            <div class="brand-hero-globe"></div>
+            <div class="brand-orbit one"></div>
+            <div class="brand-orbit two"></div>
+            <div class="brand-orbit three"></div>
+            <TerraUmbraBrandMark class="brand-hero-mark" />
+            <div class="brand-axis"><span>RÉALITÉ</span><span>VÉRITÉ</span></div>
           </div>
         </section>
 
