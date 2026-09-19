@@ -1235,8 +1235,16 @@ onBeforeUnmount(() => {
             @focusout="handleWikiFocusout"
             @click="handleWikiClick"
           >
-            <div v-if="articleLoading" class="article-placeholder">
-              Chargement de l’entrée…
+            <div v-if="articleLoading" class="article-skeleton" aria-label="Chargement de l’article">
+              <div class="article-skeleton-kicker"></div>
+              <div class="article-skeleton-title"></div>
+              <div class="article-skeleton-meta"></div>
+              <div class="article-skeleton-grid">
+                <div>
+                  <span></span><span></span><span></span><span></span><span></span>
+                </div>
+                <aside></aside>
+              </div>
             </div>
 
             <template v-else-if="selected">
@@ -1504,6 +1512,9 @@ onBeforeUnmount(() => {
 <style scoped>
 .compendium-shell {
   min-height: 100vh;
+  background:
+    radial-gradient(circle at 80% 4%, rgba(133, 96, 49, .11), transparent 34rem),
+    radial-gradient(circle at 8% 42%, rgba(82, 63, 39, .07), transparent 28rem);
 }
 
 .compendium-topbar {
@@ -1549,6 +1560,7 @@ onBeforeUnmount(() => {
   align-items: end;
   gap: 2rem;
   margin-bottom: 2rem;
+  padding: clamp(.4rem,1vw,.9rem) 0 0;
 }
 
 .compendium-hero h1 {
@@ -1564,9 +1576,12 @@ onBeforeUnmount(() => {
 }
 
 .compendium-stats {
-  min-width: 180px;
-  padding: 1rem 1.2rem;
+  min-width: 190px;
+  padding: 1.05rem 1.2rem;
   display: grid;
+  gap:.15rem;
+  border-color:rgba(199,173,120,.22);
+  background:linear-gradient(145deg,rgba(161,125,69,.09),rgba(20,18,15,.82));
 }
 
 .compendium-stats strong {
@@ -1591,13 +1606,21 @@ onBeforeUnmount(() => {
 .compendium-search {
   padding: 1rem;
   margin-bottom: 1rem;
+  border-color:rgba(199,173,120,.2);
+  background:
+    linear-gradient(135deg,rgba(161,125,69,.07),rgba(24,22,18,.86) 42%,rgba(17,16,14,.9));
+  box-shadow:0 22px 65px rgba(0,0,0,.2);
 }
 
 .search-line {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(190px, 260px) auto;
   gap: .7rem;
+  align-items:stretch;
 }
+.search-line input[type="search"]{min-height:50px;font-size:1rem;border-color:rgba(199,173,120,.2);background:rgba(8,8,7,.38)}
+.search-line input[type="search"]:focus{border-color:#a88a58;box-shadow:0 0 0 2px rgba(168,138,88,.12),0 12px 30px rgba(0,0,0,.18)}
+.search-line .primary{min-height:50px}
 
 .compendium-search form{position:relative}
 .search-suggestions{position:absolute;left:0;right:0;top:calc(100% + .45rem);z-index:30;display:grid;max-height:min(520px,62vh);overflow:auto;border:1px solid rgba(199,173,120,.24);background:#0e0d0b;box-shadow:0 22px 60px rgba(0,0,0,.42)}
@@ -1619,9 +1642,11 @@ onBeforeUnmount(() => {
   min-height: 36px;
   padding: .45rem .7rem;
   border: 1px solid rgba(255, 255, 255, .11);
-  background: transparent;
+  background: rgba(255,255,255,.012);
   color: #bdb5a8;
+  transition:transform .16s ease,border-color .16s ease,background .16s ease,color .16s ease;
 }
+.category-chip:hover{transform:translateY(-1px);border-color:rgba(199,173,120,.34);background:rgba(161,125,69,.055)}
 
 .category-chip small {
   color: #777169;
@@ -1756,6 +1781,8 @@ onBeforeUnmount(() => {
   overflow: hidden;
   position: sticky;
   top: 90px;
+  border-color:rgba(226,206,164,.12);
+  background:rgba(20,18,15,.88);
 }
 
 .result-heading {
@@ -1788,18 +1815,20 @@ onBeforeUnmount(() => {
   width: 100%;
   display: grid;
   gap: .42rem;
-  padding: 1rem;
-  border: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, .07);
+  padding: .9rem 1rem;
+  border: 1px solid transparent;
+  border-bottom-color: rgba(255, 255, 255, .06);
   text-align: left;
   color: #d6cfc2;
   background: transparent;
+  transition:background .16s ease,border-color .16s ease,transform .16s ease;
 }
 
 .result-card:hover,
 .result-card.active {
-  background: rgba(157, 124, 72, .10);
+  background: linear-gradient(90deg,rgba(157,124,72,.105),rgba(157,124,72,.025));
 }
+.result-card:hover{transform:translateX(2px)}
 
 .result-card.active {
   box-shadow: inset 3px 0 #9d7c48;
@@ -1833,7 +1862,15 @@ onBeforeUnmount(() => {
 .article-panel {
   min-height: 620px;
   padding: clamp(1.25rem, 3vw, 2.5rem);
+  border-color:rgba(226,206,164,.13);
+  background:linear-gradient(160deg,rgba(24,22,18,.9),rgba(17,16,14,.82));
 }
+
+.article-skeleton{display:grid;gap:1rem;min-height:520px;padding:.2rem}
+.article-skeleton-kicker,.article-skeleton-title,.article-skeleton-meta,.article-skeleton-grid span,.article-skeleton-grid aside{background:linear-gradient(90deg,rgba(255,255,255,.035),rgba(255,255,255,.09),rgba(255,255,255,.035));background-size:220% 100%;animation:wiki-skeleton 1.25s linear infinite}
+.article-skeleton-kicker{width:22%;height:10px}.article-skeleton-title{width:58%;height:46px;margin:.15rem 0}.article-skeleton-meta{width:40%;height:18px}
+.article-skeleton-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,300px);gap:2rem;margin-top:1rem}.article-skeleton-grid>div{display:grid;gap:.7rem;align-content:start}.article-skeleton-grid span{height:13px}.article-skeleton-grid span:nth-child(2){width:88%}.article-skeleton-grid span:nth-child(3){width:95%}.article-skeleton-grid span:nth-child(4){width:72%}.article-skeleton-grid span:nth-child(5){width:84%}.article-skeleton-grid aside{height:320px}
+@keyframes wiki-skeleton{to{background-position:-220% 0}}
 
 .wiki-article-grid {
   display: grid;
@@ -2213,6 +2250,8 @@ onBeforeUnmount(() => {
 }
 
 @media (max-width: 940px) {
+  .article-skeleton-grid{grid-template-columns:1fr}.article-skeleton-grid aside{height:180px}
+
   .compendium-hero,
   .compendium-workspace {
     grid-template-columns: 1fr;
