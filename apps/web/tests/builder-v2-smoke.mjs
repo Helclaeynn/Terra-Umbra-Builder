@@ -237,7 +237,17 @@ await page.getByText("Valeurs dérivées",{exact:true}).waitFor();
 await page.getByText("PV max",{exact:true}).waitFor();
 
 await page.getByRole("button",{name:/Dépense XP & PTV/}).click();
-await page.getByRole("heading",{name:"Progression de campagne"}).waitFor();
+try{
+  await page.getByRole("heading",{name:"Progression de campagne"}).waitFor({timeout:12000});
+}catch(error){
+  console.error("=== PROGRESSION BODY ===");
+  console.error(await page.locator("body").innerText({timeout:3000}).catch(()=>"(body indisponible)"));
+  console.error("=== BROWSER ERRORS ===");
+  console.error(browserErrors.join("\n")||"(aucune)");
+  console.error("=== FAILED REQUESTS ===");
+  console.error(failedRequests.join("\n")||"(aucune)");
+  throw error;
+}
 await page.getByText("XP disponibles",{exact:true}).waitFor();
 await page.getByText("PTV disponibles",{exact:true}).waitFor();
 await page.getByText("Argent & possessions de campagne",{exact:true}).waitFor();
