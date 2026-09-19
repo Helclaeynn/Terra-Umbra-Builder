@@ -1,10 +1,26 @@
+import { readFileSync } from "node:fs";
 import nodemailer from "nodemailer";
 
 const host = process.env.SMTP_HOST?.trim();
 const port = Number(process.env.SMTP_PORT ?? 587);
 const secure = process.env.SMTP_SECURE === "true";
 const user = process.env.SMTP_USER?.trim();
-const password = process.env.SMTP_PASSWORD;
+function readSmtpPassword(): string | undefined {
+  const direct = process.env.SMTP_PASSWORD?.trim();
+  if (direct) return direct;
+
+  const file = process.env.SMTP_PASSWORD_FILE?.trim();
+  if (!file) return undefined;
+
+  try {
+    const value = readFileSync(file, "utf8").trim();
+    return value || undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+const password = readSmtpPassword();
 const from = process.env.MAIL_FROM?.trim();
 const appBaseUrl = (process.env.APP_BASE_URL ?? "https://dev.terra-umbra.fr").replace(/\/$/, "");
 
