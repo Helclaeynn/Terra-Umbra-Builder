@@ -145,8 +145,8 @@ try{
   const familyTag=page.locator('.meta .tag-link',{hasText:'Armement — Fusils d’assaut'}).first();
   await familyTag.waitFor({state:'visible',timeout:10000});
   await familyTag.click();
-  await page.waitForFunction(()=>location.hash.startsWith('#/search?q='),null,{timeout:10000});
-  await page.waitForFunction(()=>document.querySelector('.search-results'),null,{timeout:20000});
+  await page.waitForFunction(()=>location.hash.startsWith('#/family/'),null,{timeout:10000});
+  await page.waitForFunction(()=>document.querySelector('.family-grid'),null,{timeout:20000});
   const expectedAssaultIds=[
     'equipement-035-phoenix-ar-124-mutilator',
     'equipement-036-raven-ar-027-rampager',
@@ -157,8 +157,20 @@ try{
     'equipement-290-biosun-aciditicteeth',
     'equipement-291-tortoise-blastard'
   ];
-  const hrefs=await page.locator('.search-results .search-result').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('href')||''));
+  const hrefs=await page.locator('.family-grid .family-card').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('href')||''));
   for(const id of expectedAssaultIds){if(!hrefs.some(href=>href.includes(id)))throw new Error(`Tag Fusils d’assaut: entrée absente ${id}`);}
-  console.log(`TAG SEARCH OK — Armement — Fusils d’assaut retrouve les ${expectedAssaultIds.length} entrées attendues.`);
+  const familyTitle=(await page.locator('.family-page-head h1').textContent())?.trim();
+  if(familyTitle!=='Armement — Fusils d’assaut')throw new Error(`Titre famille inattendu: ${familyTitle}`);
+  console.log(`FAMILY PAGE OK — Armement — Fusils d’assaut retrouve les ${expectedAssaultIds.length} entrées attendues.`);
+  await page.goto(`${base}compendium/index.html#/article/equipement-288-sal-in`,{waitUntil:'domcontentloaded',timeout:30000});
+  await page.locator('.breadcrumbs').waitFor({state:'visible',timeout:10000});
+  if(!(await page.locator('.breadcrumbs').textContent())?.includes('Armement — Fusils d’assaut'))throw new Error('Breadcrumb Sal-in incomplet');
+  if(await page.locator('.related-grid .family-card').count()<1)throw new Error('Voir aussi enrichi absent sur Sal-in');
+  await page.goto(`${base}compendium/index.html#/search?q=Sal-in`,{waitUntil:'domcontentloaded',timeout:30000});
+  const searchThumb=page.locator('.search-result-media .search-thumb img').first();
+  await searchThumb.waitFor({state:'visible',timeout:10000});
+  const thumbState=await searchThumb.evaluate(img=>({complete:img.complete,w:img.naturalWidth,h:img.naturalHeight}));
+  if(!thumbState.complete||thumbState.w<1||thumbState.h<1)throw new Error(`Miniature recherche invalide ${JSON.stringify(thumbState)}`);
+  console.log('NAV COMFORT OK — breadcrumb, famille, Voir aussi et miniature de recherche.');
 
 } finally {await browser.close();}
