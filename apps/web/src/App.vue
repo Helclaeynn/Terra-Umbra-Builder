@@ -637,35 +637,52 @@ onMounted(bootstrap);
       </section>
 
       <template v-else>
-        <section class="welcome">
+        <section class="welcome dashboard-hero">
           <div>
-            <p class="eyebrow">ESPACE UTILISATEUR</p>
+            <p class="eyebrow">ESPACE TERRA UMBRA</p>
             <h1>{{ user.displayName }}</h1>
-            <p class="muted">{{ user.email }}</p>
+            <p class="dashboard-lead">
+              Personnages, règles et encyclopédie dans un même espace. Reprends une fiche
+              ou explore le monde sans changer d’outil.
+            </p>
+            <div class="dashboard-identity">
+              <span class="role-badge">{{ roleLabels[user.role] }}</span>
+              <span class="muted">{{ user.email }}</span>
+            </div>
           </div>
-          <span class="role-badge">{{ roleLabels[user.role] }}</span>
+          <div class="dashboard-mark" aria-hidden="true">
+            <span>T</span><span>U</span>
+          </div>
         </section>
 
         <div v-if="message || error" class="feedback" :class="{ error: !!error }">
           {{ error || message }}
         </div>
 
-        <section class="panel compendium-launcher">
-          <div>
-            <p class="eyebrow">COMPENDIUM</p>
-            <h2>Corpus V2 natif</h2>
-            <p class="muted">
-              Recherche et consultation du corpus V3 consolidé, directement depuis
-              l’application et l’API Terra Umbra.
-            </p>
-          </div>
-          <RouterLink class="secondary compendium-launcher-link" to="/compendium">
-            Ouvrir le Compendium
+        <section class="dashboard-portals">
+          <a class="dashboard-portal builder-portal" href="#characters">
+            <span class="portal-index">01</span>
+            <div>
+              <p class="eyebrow">BUILDER</p>
+              <h2>Mes personnages</h2>
+              <p>Créer, reprendre et faire progresser les fiches sauvegardées.</p>
+            </div>
+            <strong>Voir mes fiches ↓</strong>
+          </a>
+
+          <RouterLink class="dashboard-portal compendium-portal" to="/compendium">
+            <span class="portal-index">02</span>
+            <div>
+              <p class="eyebrow">COMPENDIUM</p>
+              <h2>Explorer Terra Umbra</h2>
+              <p>Règles, lore, équipement, personnages et références du Builder.</p>
+            </div>
+            <strong>Ouvrir le wiki →</strong>
           </RouterLink>
         </section>
 
         <section class="grid">
-          <article class="panel">
+          <article class="panel account-panel">
             <div class="section-heading">
               <div>
                 <p class="eyebrow">MON COMPTE</p>
