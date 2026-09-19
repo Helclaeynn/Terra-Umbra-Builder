@@ -211,11 +211,15 @@ function articleMatchesNatureHub(articleId: string, natureId: string): boolean {
   const id = norm(articleId).replace(/\s+/g, "-");
   const nature = norm(natureId).replace(/\s+/g, "-");
   if (!nature) return true;
-  return (
-    id.includes(`regles-verite-${nature}-`) ||
-    id.includes(`regles-verite-v6-${nature}-`) ||
-    id.includes(`regles-verite-nature-${nature}`)
-  );
+
+  const prefixes = new Set([
+    `regles-verite-${nature}-`,
+    `regles-verite-v6-${nature}-`,
+    `regles-verite-nature-${nature}`
+  ]);
+  if (nature === "humain") prefixes.add("regles-verite-chasseur-");
+
+  return [...prefixes].some((prefix) => id.includes(prefix));
 }
 
 export async function findCompendiumHubMatches(
