@@ -191,10 +191,18 @@ try{
   await page.getByText(/éléments canoniques/).waitFor({state:"visible",timeout:10000});
   await page.getByRole("button",{name:"Fermer",exact:true}).click();
 
-  await page.goto(baseUrl+"/compendium/new",{waitUntil:"domcontentloaded",timeout:30000});
+  await page.goto(baseUrl+"/compendium/new?title=CI%20Builder%20Page&category=R%C3%A8gles&source=Builder%20%C2%B7%20CI&tags=Talent%2CBuilder",{waitUntil:"domcontentloaded",timeout:30000});
   await page.getByText("NOUVELLE PAGE WIKI",{exact:true}).waitFor({state:"visible",timeout:10000});
   await page.locator(".wiki-source").waitFor({state:"visible",timeout:10000});
-  await page.locator('input[placeholder="Titre de la page"]').waitFor({state:"visible",timeout:10000});
+  const newTitle=page.locator('input[placeholder="Titre de la page"]');
+  await newTitle.waitFor({state:"visible",timeout:10000});
+  if(await newTitle.inputValue()!=="CI Builder Page")throw new Error("Préremplissage titre Builder absent.");
+  const categoryValue=await page.locator("select").filter({has:page.locator('option[value="Règles"]')}).first().inputValue().catch(()=>null);
+  if(categoryValue!=="Règles")throw new Error("Préremplissage rubrique Builder absent: "+categoryValue);
+  if(!(await page.locator('input').filter({hasValue:"Builder · CI"}).count())){
+    const sourceValue=await page.locator('input').evaluateAll(inputs=>inputs.map(input=>input.value).find(value=>value==="Builder · CI")||"");
+    if(sourceValue!=="Builder · CI")throw new Error("Préremplissage source Builder absent.");
+  }
 
   if(browserErrors.length)throw new Error(browserErrors.join("\n"));
 
