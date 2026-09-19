@@ -24,7 +24,8 @@ import {
   realityLifestyleBase,
   realityPriceSpec,
   lifestylePressure,
-  type RealityRulesPackage
+  type RealityRulesPackage,
+  type RealityState
 } from "../lib/reality";
 import { ensureProgression } from "../lib/progression";
 import type { Character, CharacterDataV2 } from "../types/character";
@@ -572,7 +573,9 @@ const derivedStats=computed(()=>{
   };
 });
 
-const realityState=computed(()=>draft.value?draft.value.reality as any:null);
+const realityState=computed<RealityState|null>(()=>
+  draft.value ? draft.value.reality as unknown as RealityState : null
+);
 const realityItems=computed(()=>realityRules.value?realityItemMap(realityRules.value):new Map());
 const realityEconomyValue=computed(()=>
   realityRules.value&&realityState.value&&selectedStyle.value
