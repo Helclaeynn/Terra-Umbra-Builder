@@ -12,6 +12,7 @@ const router=createRouter({
     { path:"/", component:App },
     { path:"/characters/:id/builder", component:CharacterBuilderPage },
     { path:"/compendium", component:CompendiumPage },
+    { path:"/compendium/new", component:CompendiumEditorPage },
     { path:"/compendium/edit/:id", component:CompendiumEditorPage },
     { path:"/:pathMatch(.*)*", redirect:"/" }
   ]
