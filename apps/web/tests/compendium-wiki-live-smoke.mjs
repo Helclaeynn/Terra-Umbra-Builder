@@ -32,18 +32,41 @@ page.on("console",message=>{
 });
 
 try{
-  const sourceId="verite-047-11-garous-loups-descendants-de-khinae";
-  await page.goto(`${baseUrl}/compendium?article=${encodeURIComponent(sourceId)}`,{
-    waitUntil:"domcontentloaded",
-    timeout:30000
-  });
+  const candidates=[
+    "verite-057-21-les-six-fleaux-et-le-faux-septieme",
+    "verite-056-20-corruption",
+    "verite-046-10-vampires",
+    "verite-050-14-daemons",
+    "verite-053-17-exiles-peuples-fonctions-et-traditions",
+    "verite-047-11-garous-loups-descendants-de-khinae"
+  ];
 
-  await page.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
-  const sourceTitle=(await page.locator(".article-header h1").innerText()).trim();
+  let sourceTitle="";
+  let link=null;
+
+  for(const sourceId of candidates){
+    await page.goto(`${baseUrl}/compendium?article=${encodeURIComponent(sourceId)}`,{
+      waitUntil:"domcontentloaded",
+      timeout:30000
+    });
+
+    await page.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
+    sourceTitle=(await page.locator(".article-header h1").innerText()).trim();
+
+    const candidateLink=page.locator(".article-paragraph a.wiki-link[data-wiki-id]").first();
+    try{
+      await candidateLink.waitFor({state:"visible",timeout:5000});
+      link=candidateLink;
+      break;
+    }catch{}
+  }
+
+  if(!link){
+    const sample=await page.locator(".article-paragraph").first().innerHTML().catch(()=>"(aucun paragraphe)");
+    throw new Error(`Aucun interlink détecté sur les pages de contrôle. HTML exemple: ${sample}. Erreurs: ${browserErrors.join(" | ")}`);
+  }
+
   if(!sourceTitle)throw new Error("Titre article source absent.");
-
-  const link=page.locator(".article-paragraph a.wiki-link[data-wiki-id]").first();
-  await link.waitFor({state:"visible",timeout:20000});
 
   const targetId=await link.getAttribute("data-wiki-id");
   const linkedText=(await link.innerText()).trim();
