@@ -1,4 +1,4 @@
-import { createApp, h } from "vue";
+import { createApp, h, Transition } from "vue";
 import { createRouter, createWebHistory, RouterView } from "vue-router";
 import App from "./App.vue";
 import CharacterBuilderPage from "./pages/CharacterBuilderPage.vue";
@@ -18,6 +18,22 @@ const router=createRouter({
   ]
 });
 
+router.beforeEach(()=>{
+  document.documentElement.classList.add("route-changing");
+});
+
+router.afterEach(()=>{
+  window.requestAnimationFrame(()=>{
+    window.setTimeout(()=>document.documentElement.classList.remove("route-changing"),180);
+  });
+});
+
 createApp({
-  render:()=>h(RouterView)
+  render:()=>h(RouterView,null,{
+    default:({Component,route}:any)=>h(
+      Transition,
+      {name:"route",mode:"out-in"},
+      ()=>h(Component,{key:route.path})
+    )
+  })
 }).use(router).mount("#app");
