@@ -33,6 +33,7 @@ page.on("console",message=>{
 
 try{
   const candidates=[
+    "verite-048-12-autres-descendants-de-khinae",
     "verite-057-21-les-six-fleaux-et-le-faux-septieme",
     "verite-056-20-corruption",
     "verite-046-10-vampires",
