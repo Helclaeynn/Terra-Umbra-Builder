@@ -1,7 +1,14 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
 import { api, ApiError } from "../lib/api";
+import { createWikiLinker } from "../lib/wiki-linker";
+import {
+  WIKI_CASE_SENSITIVE_ALIASES,
+  WIKI_EXPLICIT_TARGETS,
+  WIKI_SEARCH_FALLBACKS,
+  WIKI_STRICT_SURFACE_ALIASES
+} from "../lib/wiki-data";
 
 type CategoryCount = {
   name: string;
@@ -68,10 +75,22 @@ type LibraryPayload = {
   collections: LibraryCollection[];
 };
 
+type WikiEntry = {
+  id: string;
+  title: string;
+  category: string;
+  dataset: string;
+  group: string;
+  subgroup: string;
+  manufacturer: string;
+  snippet: string;
+};
+
 type Article = {
   id: string;
   title?: string;
   category?: string;
+  dataset?: string;
   source?: string;
   status?: string;
   tags?: string[];
@@ -103,6 +122,23 @@ const newCollectionName = ref("");
 const libraryBusy = ref(false);
 const libraryNotice = ref("");
 const activeLibraryView = ref<"" | "favorites" | string>("");
+const wikiReady = ref(false);
+const wikiPreviewEl = ref<HTMLElement | null>(null);
+const wikiPreview = ref({
+  visible: false,
+  id: "",
+  title: "",
+  category: "",
+  context: "",
+  snippet: "",
+  left: 12,
+  top: 12,
+  width: 360
+});
+let wikiLinker: ReturnType<typeof createWikiLinker> | null = null;
+const wikiById = new Map<string, WikiEntry>();
+let wikiPreviewTimer: number | undefined;
+let wikiPreviewLink: HTMLAnchorElement | null = null;
 
 const resultLabel = computed(() => {
   if (loading.value) return "Recherche…";
@@ -115,6 +151,34 @@ const selectedIsFavorite = computed(() =>
 
 function collectionContains(collection: LibraryCollection, articleId?: string): boolean {
   return Boolean(articleId && collection.articleIds.includes(articleId));
+}
+
+function escapeHtml(value: unknown): string {
+  return String(value ?? "").replace(/[&<>"']/g, (character) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[character] ?? character);
+}
+
+function wikiContext(article: Article | null) {
+  if (!article) return "";
+  return {
+    id: article.id,
+    title: article.title ?? article.id,
+    category: article.category ?? "",
+    dataset: article.dataset ?? "",
+    group: article.navigation?.group ?? "",
+    subgroup: article.navigation?.subgroup ?? ""
+  };
+}
+
+function linkifyText(value: unknown, article: Article | null = selected.value): string {
+  void wikiReady.value;
+  const text = String(value ?? "");
+  return wikiLinker?.linkify(text, wikiContext(article)) ?? escapeHtml(text);
 }
 
 function humanError(cause: unknown): string {
@@ -142,6 +206,27 @@ async function loadMeta() {
     meta.value = await api<Meta>("/api/compendium/meta");
   } catch (cause) {
     error.value = humanError(cause);
+  }
+}
+
+async function loadWikiIndex() {
+  try {
+    const payload = await api<{ entries: WikiEntry[] }>("/api/compendium/wiki-index");
+    wikiById.clear();
+    for (const entry of payload.entries) wikiById.set(entry.id, entry);
+
+    wikiLinker = createWikiLinker(payload.entries, {
+      explicitTargets: WIKI_EXPLICIT_TARGETS,
+      strictSurfaceAliases: WIKI_STRICT_SURFACE_ALIASES,
+      caseSensitiveAliases: WIKI_CASE_SENSITIVE_ALIASES,
+      searchFallbacks: WIKI_SEARCH_FALLBACKS,
+      hrefForId: (id: string) => `/compendium?article=${encodeURIComponent(id)}`,
+      searchHref: (term: string) => `/compendium?q=${encodeURIComponent(term)}`
+    });
+    wikiReady.value = true;
+  } catch (cause) {
+    console.warn("Index wiki indisponible.", cause);
+    wikiReady.value = false;
   }
 }
 
@@ -364,6 +449,111 @@ async function chooseManufacturer(name: string) {
   await search();
 }
 
+function closestWikiLink(event: Event): HTMLAnchorElement | null {
+  const target = event.target;
+  if (!(target instanceof Element)) return null;
+  return target.closest("a.wiki-link");
+}
+
+function hideWikiPreview() {
+  if (wikiPreviewTimer !== undefined) window.clearTimeout(wikiPreviewTimer);
+  wikiPreviewTimer = undefined;
+  wikiPreviewLink = null;
+  wikiPreview.value.visible = false;
+}
+
+async function positionWikiPreview(link: HTMLAnchorElement) {
+  await nextTick();
+  if (!wikiPreview.value.visible || !wikiPreviewEl.value) return;
+
+  const rect = link.getBoundingClientRect();
+  const pad = 12;
+  const width = Math.min(420, window.innerWidth - pad * 2);
+  const height = wikiPreviewEl.value.offsetHeight || 180;
+  const left = Math.max(pad, Math.min(window.innerWidth - width - pad, rect.left));
+  let top = rect.bottom + 10;
+  if (top + height > window.innerHeight - pad) {
+    top = Math.max(pad, rect.top - height - 10);
+  }
+
+  wikiPreview.value.left = left;
+  wikiPreview.value.top = top;
+  wikiPreview.value.width = width;
+}
+
+function showWikiPreview(link: HTMLAnchorElement) {
+  const id = link.dataset.wikiId;
+  if (!id) return;
+  const entry = wikiById.get(id);
+  if (!entry) return;
+
+  wikiPreviewLink = link;
+  wikiPreview.value = {
+    visible: true,
+    id,
+    title: entry.title,
+    category: entry.category || "Compendium",
+    context: [entry.group, entry.subgroup].filter(Boolean).join(" · "),
+    snippet: entry.snippet,
+    left: wikiPreview.value.left,
+    top: wikiPreview.value.top,
+    width: wikiPreview.value.width
+  };
+  void positionWikiPreview(link);
+}
+
+function handleWikiMouseover(event: MouseEvent) {
+  const link = closestWikiLink(event);
+  if (!link || link === wikiPreviewLink || !link.dataset.wikiId) return;
+  if (wikiPreviewTimer !== undefined) window.clearTimeout(wikiPreviewTimer);
+  wikiPreviewTimer = window.setTimeout(() => showWikiPreview(link), 120);
+}
+
+function handleWikiMouseout(event: MouseEvent) {
+  const link = closestWikiLink(event);
+  if (!link) return;
+  const related = event.relatedTarget;
+  if (!(related instanceof Node) || !link.contains(related)) hideWikiPreview();
+}
+
+function handleWikiFocusin(event: FocusEvent) {
+  const link = closestWikiLink(event);
+  if (link?.dataset.wikiId) showWikiPreview(link);
+}
+
+function handleWikiFocusout(event: FocusEvent) {
+  if (closestWikiLink(event)) hideWikiPreview();
+}
+
+async function handleWikiClick(event: MouseEvent) {
+  const link = closestWikiLink(event);
+  if (!link) return;
+
+  const id = link.dataset.wikiId;
+  const searchTerm = link.dataset.wikiSearch;
+  if (!id && !searchTerm) return;
+
+  event.preventDefault();
+  hideWikiPreview();
+
+  if (id) {
+    await openArticle(id);
+    if (window.innerWidth < 940) {
+      document.querySelector(".article-panel")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    return;
+  }
+
+  if (searchTerm) {
+    query.value = searchTerm;
+    await search();
+  }
+}
+
+function repositionWikiPreview() {
+  if (wikiPreviewLink) void positionWikiPreview(wikiPreviewLink);
+}
+
 function blockText(block: ArticleBlock): string {
   if (block && block.type === "p" && "text" in block) return String(block.text ?? "");
   return "";
@@ -388,7 +578,15 @@ function sectionHeadingLevel(section: ArticleSection): "h2" | "h3" | "h4" {
 }
 
 onMounted(async () => {
-  await Promise.all([loadMeta(), loadLibrary(), search()]);
+  await Promise.all([loadMeta(), loadLibrary(), loadWikiIndex(), search()]);
+  window.addEventListener("scroll", repositionWikiPreview, { passive: true });
+  window.addEventListener("resize", repositionWikiPreview);
+});
+
+onBeforeUnmount(() => {
+  hideWikiPreview();
+  window.removeEventListener("scroll", repositionWikiPreview);
+  window.removeEventListener("resize", repositionWikiPreview);
 });
 </script>
 
@@ -595,7 +793,14 @@ onMounted(async () => {
             </div>
           </aside>
 
-          <article class="panel article-panel">
+          <article
+            class="panel article-panel"
+            @mouseover="handleWikiMouseover"
+            @mouseout="handleWikiMouseout"
+            @focusin="handleWikiFocusin"
+            @focusout="handleWikiFocusout"
+            @click="handleWikiClick"
+          >
             <div v-if="articleLoading" class="article-placeholder">
               Chargement de l’entrée…
             </div>
@@ -686,15 +891,14 @@ onMounted(async () => {
                       <p
                         v-if="block.type === 'p'"
                         :class="['article-paragraph', String(block.style || '')]"
-                      >
-                        {{ blockText(block) }}
-                      </p>
+                        v-html="linkifyText(blockText(block), selected)"
+                      ></p>
                       <div v-else-if="block.type === 'table'" class="article-table-wrap">
                         <table class="article-table">
                           <tbody>
                             <tr v-for="(row, rowIndex) in tableRows(block)" :key="rowIndex">
                               <td v-for="(cell, cellIndex) in row" :key="cellIndex">
-                                {{ formatCell(cell) }}
+                                <span v-html="linkifyText(formatCell(cell), selected)"></span>
                               </td>
                             </tr>
                           </tbody>
@@ -746,6 +950,24 @@ onMounted(async () => {
           </article>
         </section>
       </template>
+
+      <div
+        v-if="wikiPreview.visible"
+        ref="wikiPreviewEl"
+        class="wiki-hover-preview"
+        role="tooltip"
+        :style="{
+          left: wikiPreview.left + 'px',
+          top: wikiPreview.top + 'px',
+          width: wikiPreview.width + 'px'
+        }"
+      >
+        <div class="wiki-hover-kicker">{{ wikiPreview.category }}</div>
+        <strong>{{ wikiPreview.title }}</strong>
+        <small v-if="wikiPreview.context">{{ wikiPreview.context }}</small>
+        <p>{{ wikiPreview.snippet }}</p>
+        <span>Cliquer pour ouvrir l’article →</span>
+      </div>
     </main>
   </div>
 </template>
@@ -1196,6 +1418,62 @@ onMounted(async () => {
   color: #d8d0c2;
   font-family: Georgia, serif;
   font-weight: 500;
+}
+
+:deep(.wiki-link) {
+  color: #d8bd85;
+  text-decoration: underline;
+  text-decoration-color: rgba(216, 189, 133, .45);
+  text-decoration-thickness: 1px;
+  text-underline-offset: .18em;
+  cursor: pointer;
+}
+
+:deep(.wiki-link:hover),
+:deep(.wiki-link:focus-visible) {
+  color: #f0d9a8;
+  text-decoration-color: currentColor;
+  outline: none;
+}
+
+.wiki-hover-preview {
+  position: fixed;
+  z-index: 80;
+  display: grid;
+  gap: .45rem;
+  padding: 1rem 1.05rem;
+  border: 1px solid rgba(216, 189, 133, .34);
+  background: rgba(16, 15, 13, .98);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, .48);
+  pointer-events: none;
+}
+
+.wiki-hover-preview strong {
+  color: #eee7da;
+  font: 500 1.15rem/1.2 Georgia, serif;
+}
+
+.wiki-hover-preview small {
+  color: #8f897f;
+}
+
+.wiki-hover-preview p {
+  margin: 0;
+  color: #bbb3a6;
+  font-size: .84rem;
+  line-height: 1.55;
+}
+
+.wiki-hover-preview > span {
+  color: #c7ad78;
+  font-size: .72rem;
+}
+
+.wiki-hover-kicker {
+  color: #c7ad78;
+  font-size: .68rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
 }
 
 @media (max-width: 940px) {
