@@ -40,6 +40,8 @@ try{
 
   await publicPage.goto(baseUrl+"/compendium?article=verite-046-10-vampires",{waitUntil:"domcontentloaded",timeout:30000});
   await publicPage.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
+  await publicPage.getByText("DONNÉES CANONIQUES",{exact:true}).waitFor({state:"visible",timeout:10000});
+  await publicPage.getByText("Lecture seule",{exact:true}).waitFor({state:"visible",timeout:10000});
   await publicPage.getByText("DANS LE BUILDER",{exact:true}).waitFor({state:"visible",timeout:10000});
   await publicPage.getByText("Nature",{exact:true}).first().waitFor({state:"visible",timeout:10000});
   await publicPage.getByText("Vérité",{exact:true}).first().waitFor({state:"visible",timeout:10000});
