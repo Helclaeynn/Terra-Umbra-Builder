@@ -44,6 +44,7 @@ try{
 
   let sourceTitle="";
   let link=null;
+  let wikiDebug=null;
 
   for(const sourceId of candidates){
     await page.goto(`${baseUrl}/compendium?article=${encodeURIComponent(sourceId)}`,{
@@ -53,6 +54,17 @@ try{
 
     await page.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
     sourceTitle=(await page.locator(".article-header h1").innerText()).trim();
+
+    await page.waitForFunction(
+      ()=>window.__TUC_WIKI_V2__?.ready!==undefined,
+      null,
+      {timeout:10000}
+    );
+    wikiDebug=await page.evaluate(()=>window.__TUC_WIKI_V2__);
+    if(!wikiDebug?.ready)throw new Error("Runtime wiki non prêt: "+JSON.stringify(wikiDebug));
+    if(!String(wikiDebug.sanity||"").includes("data-wiki-id")){
+      throw new Error("Sanity linker sans interlink: "+JSON.stringify(wikiDebug));
+    }
 
     const candidateLink=page.locator(".article-paragraph a.wiki-link[data-wiki-id]").first();
     try{
@@ -64,7 +76,7 @@ try{
 
   if(!link){
     const sample=await page.locator(".article-paragraph").first().innerHTML().catch(()=>"(aucun paragraphe)");
-    throw new Error(`Aucun interlink détecté sur les pages de contrôle. HTML exemple: ${sample}. Erreurs: ${browserErrors.join(" | ")}`);
+    throw new Error(`Aucun interlink détecté sur les pages de contrôle. HTML exemple: ${sample}. Wiki: ${JSON.stringify(wikiDebug)}. Erreurs: ${browserErrors.join(" | ")}`);
   }
 
   if(!sourceTitle)throw new Error("Titre article source absent.");
