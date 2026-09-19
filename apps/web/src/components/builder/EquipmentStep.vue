@@ -21,6 +21,7 @@ import {
   recurringMonthlyCost,
   uniqueUid,
   type RealityItem,
+  type RealityPurchase,
   type RealityRulesPackage,
   type RealityStyle
 } from "../../lib/reality";
@@ -109,7 +110,7 @@ function addPurchase(item:RealityItem){
   const status=addStatus(item);
   if(!status.ok)return;
   const value=priceValue(item)??0;
-  const purchase={
+  const purchase:RealityPurchase={
     uid:uniqueUid(item.kind==="augmentation"?"aug":"eq"),
     itemId:item.id,
     kind:item.kind,
@@ -147,6 +148,10 @@ function setGen2System(uid:string,value:string){
   notify();
 }
 function purchaseItem(id:string){return items.value.get(id)??null}
+function gen2Systems(item:RealityItem){
+  if(!props.style)return [] as number[];
+  return augmentationAccess(props.rules,props.style,item,props.edge,state.value.mjAccessOverride).systems;
+}
 
 const equipmentCategories=computed(()=>[...new Set(
   props.rules.equipment
@@ -381,7 +386,7 @@ watchEffect(()=>emit("validation",isValid.value));
                 Fenêtre Gen2
                 <select :value="row.purchase.gen2System || 1" @change="setGen2System(row.purchase.uid,($event.target as HTMLSelectElement).value)">
                   <option
-                    v-for="system in augmentationAccess(rules,style,row.item,edge,state.mjAccessOverride).systems"
+                    v-for="system in gen2Systems(row.item)"
                     :key="system"
                     :value="system"
                   >Système {{ system }}</option>
