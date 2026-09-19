@@ -318,5 +318,30 @@ export const terraUmbraTalentChoiceSpecs = {
   }
 } as const;
 
+export const terraUmbraRealitySkillTalentMap = {
+  athlete:"athletisme",
+  poings_de_fer:"pugilat",
+  stabilite_augmentique:"humanite",
+  tireur_de_precision:"tir",
+  pilote_emerite:"pilotage",
+  ombre_vivante:"furtivite",
+  reflexes_defensifs:"esquive",
+  mains_lestes:"larcin",
+  linguiste_emerite:"langages_argot",
+  puits_de_savoir:"savoirs",
+  doc_de_choc:"soin",
+  mecano_de_pointe:"mecanique",
+  detective:"investigation",
+  maitre_de_la_survie:"survie",
+  mental_dacier:"force_mentale",
+  neurodriver:"neurodive",
+  seducteur_seductrice:"seduction",
+  diplomate:"diplomatie",
+  maitre_du_troc:"commerce",
+  artiste:"representation",
+  autorite_naturelle:"autorite"
+} as const;
+
 export type TerraUmbraCreationLore = typeof terraUmbraCreationLore;
+export type TerraUmbraRealitySkillTalentMap = typeof terraUmbraRealitySkillTalentMap;
 export type TerraUmbraTalentChoiceSpecs = typeof terraUmbraTalentChoiceSpecs;
