@@ -21,7 +21,9 @@ import {
   realityEconomic,
   realityItemMap,
   realityLifestyleBase,
+  realityPriceSpec,
   lifestylePressure,
+  type RealityItem,
   type RealityRulesPackage
 } from "../lib/reality";
 import type { Character, CharacterDataV2 } from "../types/character";
@@ -634,7 +636,7 @@ const equipmentValidation=computed(()=>{
     const item=itemMap.get(purchase.itemId);
     if(!item)return false;
     if(
-      realityPriceSpecForValidation(item).configurable&&
+      realityPriceSpec(item).configurable&&
       (!purchase.priceConfirmed||!priceSelectionValid(item,Number.isFinite(Number(purchase.selectedPrice))?Number(purchase.selectedPrice):null))
     ) return false;
     if((purchase.selectedPrice??item.price??0)>pkg.economy.advancedPurchaseThreshold&&!state.mjAdvancedOverride)return false;
@@ -649,7 +651,7 @@ const equipmentValidation=computed(()=>{
     const item=itemMap.get(purchase.itemId);
     if(!item)return false;
     if(
-      realityPriceSpecForValidation(item).configurable&&
+      realityPriceSpec(item).configurable&&
       (!purchase.priceConfirmed||!priceSelectionValid(item,Number.isFinite(Number(purchase.selectedPrice))?Number(purchase.selectedPrice):null))
     ) return false;
     if((purchase.selectedPrice??item.price??0)>pkg.economy.advancedPurchaseThreshold&&!state.mjAdvancedOverride)return false;
@@ -661,15 +663,6 @@ const equipmentValidation=computed(()=>{
   const load=augmentationLoadValue.value;
   return load.charge<=derivedStats.value.integrity&&load.stress<=derivedStats.value.augmentStressMax;
 });
-
-function realityPriceSpecForValidation(item:ReturnType<typeof realityItemMap> extends Map<string,infer T>?T:never){
-  const configurable=
-    item.price===null||
-    (item.priceMin!==null&&item.priceMax!==null&&item.priceMin!==item.priceMax)||
-    /\$\s*\+|\+\s*$/.test(item.priceLabel||"")||
-    /variable|indicatif|sur devis|selon/i.test(item.priceLabel||"");
-  return {configurable};
-}
 
 function formatMoney(value:number){
   return new Intl.NumberFormat("fr-FR").format(value)+" $";
@@ -750,7 +743,7 @@ function navigateFromFinalization(id:string){
   if(sections.some(([step])=>step===id))activeStep.value=id as StepId;
 }
 
-function stepDone(id:StepId){
+function stepDone(id:StepId):boolean{
   if(!draft.value||!rules.value)return false;
   if(id==="identity")return !!draft.value.identity.name.trim()&&!!draft.value.identity.age.trim();
   if(id==="origin")return !!draft.value.creation.origin&&!!draft.value.talents.origin&&talentChoiceValid(draft.value.talents.origin);
