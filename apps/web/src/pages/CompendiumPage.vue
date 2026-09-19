@@ -160,6 +160,12 @@ const category = ref("");
 const manufacturer = ref("");
 const results = ref<SearchItem[]>([]);
 const total = ref(0);
+const suggestions = ref<SearchItem[]>([]);
+const suggestionLoading = ref(false);
+const searchFocused = ref(false);
+const suggestionIndex = ref(-1);
+let suggestionTimer: number | undefined;
+let suggestionRequest = 0;
 const selected = ref<Article | null>(null);
 const builderUsage = ref<BuilderUsage[]>([]);
 const loading = ref(false);
@@ -198,6 +204,12 @@ const resultLabel = computed(() => {
   if (loading.value) return "Recherche…";
   return total.value === 1 ? "1 entrée" : `${total.value.toLocaleString("fr-FR")} entrées`;
 });
+
+const suggestionsVisible = computed(() =>
+  searchFocused.value &&
+  query.value.trim().length >= 2 &&
+  (suggestionLoading.value || suggestions.value.length > 0)
+);
 
 const selectedIsFavorite = computed(() =>
   selected.value ? favoriteIds.value.includes(selected.value.id) : false
@@ -601,7 +613,89 @@ async function toggleCollectionArticle(collection: LibraryCollection, articleId:
   }
 }
 
+function clearSuggestions() {
+  suggestions.value = [];
+  suggestionIndex.value = -1;
+  suggestionLoading.value = false;
+}
+
+function scheduleSuggestions() {
+  window.clearTimeout(suggestionTimer);
+  const value = query.value.trim();
+  if (value.length < 2) {
+    clearSuggestions();
+    return;
+  }
+  suggestionTimer = window.setTimeout(() => void loadSuggestions(value), 180);
+}
+
+async function loadSuggestions(value: string) {
+  const requestId = ++suggestionRequest;
+  suggestionLoading.value = true;
+  try {
+    const params = new URLSearchParams({ q: value, limit: "8" });
+    if (category.value) params.set("category", category.value);
+    if (manufacturer.value) params.set("manufacturer", manufacturer.value);
+    const payload = await api<{ items: SearchItem[] }>(
+      `/api/compendium/search?${params.toString()}`
+    );
+    if (requestId !== suggestionRequest || value !== query.value.trim()) return;
+    suggestions.value = payload.items;
+    suggestionIndex.value = payload.items.length ? 0 : -1;
+  } catch {
+    if (requestId === suggestionRequest) suggestions.value = [];
+  } finally {
+    if (requestId === suggestionRequest) suggestionLoading.value = false;
+  }
+}
+
+async function chooseSuggestion(item: SearchItem) {
+  query.value = item.title;
+  searchFocused.value = false;
+  clearSuggestions();
+  await openArticle(item.id);
+}
+
+function handleSearchKeydown(event: KeyboardEvent) {
+  if (!suggestionsVisible.value || !suggestions.value.length) {
+    if (event.key === "Escape") {
+      searchFocused.value = false;
+      clearSuggestions();
+    }
+    return;
+  }
+
+  if (event.key === "ArrowDown") {
+    event.preventDefault();
+    suggestionIndex.value = (suggestionIndex.value + 1) % suggestions.value.length;
+  } else if (event.key === "ArrowUp") {
+    event.preventDefault();
+    suggestionIndex.value =
+      (suggestionIndex.value - 1 + suggestions.value.length) % suggestions.value.length;
+  } else if (event.key === "Enter" && suggestionIndex.value >= 0) {
+    event.preventDefault();
+    const item = suggestions.value[suggestionIndex.value];
+    if (item) void chooseSuggestion(item);
+  } else if (event.key === "Escape") {
+    event.preventDefault();
+    searchFocused.value = false;
+    clearSuggestions();
+  }
+}
+
+function handleSearchBlur() {
+  window.setTimeout(() => {
+    searchFocused.value = false;
+  }, 120);
+}
+
+watch(query, () => {
+  if (searchFocused.value) scheduleSuggestions();
+});
+
 async function search() {
+  searchFocused.value = false;
+  clearSuggestions();
   activeLibraryView.value = "";
   loading.value = true;
   error.value = "";
@@ -860,6 +954,7 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(() => {
+  window.clearTimeout(suggestionTimer);
   hideWikiPreview();
   window.removeEventListener("scroll", repositionWikiPreview);
   window.removeEventListener("resize", repositionWikiPreview);
@@ -929,6 +1024,10 @@ onBeforeUnmount(() => {
                   type="search"
                   placeholder="Nom, faction, règle, équipement, créature…"
                   autocomplete="off"
+                  aria-label="Recherche dans le Compendium"
+                  @focus="searchFocused=true; scheduleSuggestions()"
+                  @blur="handleSearchBlur"
+                  @keydown="handleSearchKeydown"
                 />
                 <select
                   v-model="manufacturer"
@@ -946,6 +1045,34 @@ onBeforeUnmount(() => {
                 </select>
                 <button class="primary" :disabled="loading" type="submit">
                   Rechercher
+                </button>
+              </div>
+
+              <div
+                v-if="suggestionsVisible"
+                class="search-suggestions"
+                role="listbox"
+                aria-label="Suggestions de recherche"
+              >
+                <div v-if="suggestionLoading && !suggestions.length" class="search-suggestion-loading">
+                  Recherche…
+                </div>
+                <button
+                  v-for="(item,index) in suggestions"
+                  :key="item.id"
+                  type="button"
+                  role="option"
+                  :aria-selected="index === suggestionIndex"
+                  :class="{ active: index === suggestionIndex }"
+                  @mousedown.prevent
+                  @mouseenter="suggestionIndex=index"
+                  @click="chooseSuggestion(item)"
+                >
+                  <span>
+                    <strong>{{ item.title }}</strong>
+                    <small>{{ item.category }}<template v-if="item.subgroup"> · {{ item.subgroup }}</template></small>
+                  </span>
+                  <em>{{ item.snippet }}</em>
                 </button>
               </div>
             </label>
@@ -1456,6 +1583,12 @@ onBeforeUnmount(() => {
   gap: .7rem;
 }
 
+.compendium-search form{position:relative}
+.search-suggestions{position:absolute;left:0;right:0;top:calc(100% + .45rem);z-index:30;display:grid;max-height:min(520px,62vh);overflow:auto;border:1px solid rgba(199,173,120,.24);background:#0e0d0b;box-shadow:0 22px 60px rgba(0,0,0,.42)}
+.search-suggestions button{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:1rem;padding:.7rem .85rem;border:0;border-bottom:1px solid rgba(255,255,255,.055);text-align:left;color:#cfc6b8;background:transparent}
+.search-suggestions button:last-child{border-bottom:0}.search-suggestions button.active,.search-suggestions button:hover{background:rgba(161,125,69,.09)}
+.search-suggestions button>span{display:grid;gap:.2rem}.search-suggestions strong{color:#e1d7c8;font-size:.84rem}.search-suggestions small{color:#9d8357;font-size:.65rem}.search-suggestions em{color:#817a70;font-size:.69rem;line-height:1.4;font-style:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.search-suggestion-loading{padding:.9rem;color:#8e877c;font-size:.75rem}
 .category-strip {
   display: flex;
   flex-wrap: wrap;
