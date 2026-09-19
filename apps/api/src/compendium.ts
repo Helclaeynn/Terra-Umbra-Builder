@@ -10,6 +10,7 @@ import {
   COMPENDIUM_GUIDE_NAVIGATION,
   COMPENDIUM_PLAYER_START
 } from "./compendium-onboarding.js";
+import { generatedTalentHubCorpus } from "./compendium-talent-hubs.js";
 
 type JsonObject = Record<string, any>;
 type Article = JsonObject & {
@@ -783,6 +784,11 @@ async function loadCorpus(): Promise<Corpus> {
     if (!byId.has(guide.id)) byId.set(guide.id, deepClone(guide) as Article);
   }
 
+  const generatedTalentHubs = generatedTalentHubCorpus();
+  for (const hub of generatedTalentHubs.articles) {
+    if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
+  }
+
   const overrideSummary = await applyCommittedOverrides(byId, overridePayload);
 
   const customArticles = await pool.query<{ articleId: string; baseDocument: Article }>(
@@ -844,7 +850,11 @@ async function loadCorpus(): Promise<Corpus> {
   );
 
   const navigation = new Map(
-    [...(navigationPayload.entries ?? []), ...COMPENDIUM_GUIDE_NAVIGATION]
+    [
+      ...(navigationPayload.entries ?? []),
+      ...COMPENDIUM_GUIDE_NAVIGATION,
+      ...generatedTalentHubs.navigation
+    ]
       .filter((entry) => entry?.id)
       .map((entry) => [entry.id, entry as NavigationEntry])
   );
