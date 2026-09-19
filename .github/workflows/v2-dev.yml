@@ -303,6 +303,14 @@ jobs:
           assert truth["revelation"]["rules"]["vigorPvMultiplier"] == 2
           assert truth["revelation"]["angelusStats"], "Profils Angelus absents"
           assert truth["revelation"]["daemonStats"], "Profils Daemon absents"
+          assert truth["structure"]["natures"]["vampire"]["compendiumId"] == "verite-046-10-vampires"
+          truth_refs=[
+              talent.get("compendiumId")
+              for talents in truth["catalogs"].values()
+              for talent in talents
+              if talent.get("compendiumId")
+          ]
+          assert truth_refs, "Aucun Talent de Vérité relié canoniquement au Compendium"
 
           counts=reality["counts"]
           assert counts["equipment"] >= 261, counts
@@ -313,6 +321,8 @@ jobs:
           assert "Pass metro/tram" in names, "Pass metro/tram absent"
           assert "Bull Basic" in names, "Bull Basic absent"
           assert any(item["lore"] for item in reality["equipment"]), "Lore équipement absent"
+          reality_refs=[item.get("compendiumId") for item in reality["equipment"] if item.get("compendiumId")]
+          assert reality_refs, "Aucun équipement relié canoniquement au Compendium"
           PY
 
           curl --fail --silent --show-error \
