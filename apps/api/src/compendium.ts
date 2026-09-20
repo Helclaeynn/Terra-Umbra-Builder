@@ -925,9 +925,7 @@ async function loadCorpus(): Promise<Corpus> {
 
   const generatedTalentHubs = generatedTalentHubCorpus();
   for (const hub of generatedTalentHubs.articles) {
-    // Generated hubs are the active V2 projection of the canonical Builder
-    // registry and intentionally supersede same-id legacy table pages.
-    byId.set(hub.id, deepClone(hub) as Article);
+    if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
   }
 
   const generatedBuilderReferences = generatedBuilderReferenceCorpus();
