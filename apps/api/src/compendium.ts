@@ -122,6 +122,15 @@ import {
   COMPENDIUM_VERITE_FANTASTIQUES_PNJ_ARTICLES,
   COMPENDIUM_VERITE_FANTASTIQUES_PNJ_NAVIGATION
 } from "./compendium-verite-fantastiques-pnj.js";
+import {
+  COMPENDIUM_VERITE_EXTRATERRESTRES_ARTICLES,
+  COMPENDIUM_VERITE_EXTRATERRESTRES_NAVIGATION,
+  COMPENDIUM_VERITE_EXTRATERRESTRES_ENRICHMENTS
+} from "./compendium-verite-extraterrestres-lore.js";
+import {
+  COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_ARTICLES,
+  COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_NAVIGATION
+} from "./compendium-verite-extraterrestres-pnj.js";
 
 type JsonObject = Record<string, any>;
 type Article = JsonObject & {
@@ -564,6 +573,180 @@ function deepClone<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T;
 }
 
+function normalizedPnjIdentity(value: unknown): string {
+  return String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[’‘`]/g, "'")
+    .replace(/[^a-z0-9']+/g, " ")
+    .trim();
+}
+
+function usablePnjIdentity(value: unknown): string | null {
+  const normalized = normalizedPnjIdentity(value);
+  if (!normalized || normalized === "?" || normalized === "_" || normalized.length < 4) return null;
+  return normalized;
+}
+
+function articlePnjIdentityKeys(article: Article): Set<string> {
+  const keys = new Set<string>();
+  const add = (value: unknown) => {
+    const key = usablePnjIdentity(value);
+    if (key) keys.add(key);
+  };
+
+  add(article.title);
+  const pnj = article.pnj ?? {};
+  for (const field of ["real_name", "nom_reel", "nom_realite", "nom_verite", "name", "alias"]) add(pnj[field]);
+  for (const value of Array.isArray(pnj.identity_keys) ? pnj.identity_keys : []) add(value);
+
+  for (const section of article.sections ?? []) {
+    for (const block of section?.blocks ?? []) {
+      if (block?.type !== "table" || !Array.isArray(block.rows)) continue;
+      for (const row of block.rows) {
+        if (!Array.isArray(row) || row.length < 2) continue;
+        const label = normalizedPnjIdentity(row[0]);
+        if (
+          label.includes("nom de la realite") ||
+          label.includes("nom de la verite") ||
+          label === "nom" ||
+          label.includes("identite")
+        ) {
+          add(row[1]);
+        }
+      }
+    }
+  }
+
+  return keys;
+}
+
+function mergeUniqueTextBlocks(target: JsonObject, blocks: JsonObject[]) {
+  target.blocks = Array.isArray(target.blocks) ? target.blocks : [];
+  const existing = new Set(
+    target.blocks
+      .map((block: JsonObject) => (block?.type === "p" ? String(block.text ?? "").trim() : ""))
+      .filter(Boolean)
+  );
+  for (const block of blocks) {
+    const text = block?.type === "p" ? String(block.text ?? "").trim() : "";
+    if (text && existing.has(text)) continue;
+    target.blocks.push(deepClone(block));
+    if (text) existing.add(text);
+  }
+}
+
+function mergeExtraterrestrialPnj(target: Article, source: Article): Article {
+  const merged = deepClone(target);
+  merged.tags = [...new Set([...(merged.tags ?? []), ...(source.tags ?? [])])];
+
+  const sources = [merged.source, source.source]
+    .flatMap((value) => String(value ?? "").split(" ; "))
+    .map((value) => value.trim())
+    .filter(Boolean);
+  merged.source = [...new Set(sources)].join(" ; ");
+
+  merged.pnj = { ...(source.pnj ?? {}), ...(merged.pnj ?? {}) };
+  const identityKeys = new Set<string>([
+    ...articlePnjIdentityKeys(merged),
+    ...articlePnjIdentityKeys(source)
+  ]);
+  merged.pnj.identity_keys = [...identityKeys];
+
+  const sourceProfile = (source.sections ?? []).find((section) => section.id === "profil");
+  const sourceTruth = (source.sections ?? []).find((section) => section.id === "informations-mj");
+  const sourceReality = (source.sections ?? []).filter((section) =>
+    section.id === "informations-realite" || section.id === "informations-seuil"
+  );
+
+  let mj = (merged.sections ?? []).find((section) => section?.audience === "mj" && /mj|dossier/i.test(String(section.id ?? "")));
+  if (!mj) {
+    mj = {
+      id: "informations-mj",
+      title: "Informations MJ",
+      level: 2,
+      audience: "mj",
+      blocks: []
+    };
+    merged.sections = [...(merged.sections ?? []), mj];
+  }
+
+  const identityLines = [
+    source.pnj?.nom_verite ? `Nom de la Vérité : ${source.pnj.nom_verite}` : "",
+    source.pnj?.race ? `Nature réelle : ${source.pnj.race}` : ""
+  ].filter(Boolean);
+  if (identityLines.length) {
+    mergeUniqueTextBlocks(mj, [{ type: "p", text: identityLines.join(" · ") }]);
+  }
+  if (sourceTruth) mergeUniqueTextBlocks(mj, sourceTruth.blocks ?? []);
+
+  const existingSectionIds = new Set((merged.sections ?? []).map((section) => String(section?.id ?? "")));
+  if (sourceReality.length && !existingSectionIds.has("source-extraterrestres-realite")) {
+    merged.sections = [
+      ...(merged.sections ?? []),
+      {
+        id: "source-extraterrestres-realite",
+        title: "Complément Réalité · dossier extraterrestre",
+        level: 2,
+        blocks: sourceReality.flatMap((section) => deepClone(section.blocks ?? []))
+      }
+    ];
+  }
+
+  if (sourceProfile && !existingSectionIds.has("source-extraterrestres-identite")) {
+    const rows = (sourceProfile.blocks ?? [])
+      .flatMap((block: JsonObject) => (block?.type === "table" && Array.isArray(block.rows) ? block.rows : []))
+      .filter((row: unknown[]) => {
+        const label = normalizedPnjIdentity(row?.[0]);
+        return label === "age" || label.includes("affiliations") || label.includes("nationalite") || label.includes("personnages lies") || label.includes("repere");
+      });
+    if (rows.length) {
+      merged.sections = [
+        ...(merged.sections ?? []),
+        {
+          id: "source-extraterrestres-identite",
+          title: "Complément de fiche · dossier extraterrestre",
+          level: 2,
+          blocks: [{ type: "table", rows }]
+        }
+      ];
+    }
+  }
+
+  return merged;
+}
+
+function findMatchingActivePnj(byId: Map<string, Article>, source: Article): Article | null {
+  const sourceStrong = [
+    usablePnjIdentity(source.pnj?.real_name),
+    usablePnjIdentity(source.pnj?.nom_verite)
+  ].filter(Boolean) as string[];
+  if (!sourceStrong.length) return null;
+
+  const matches: Array<{ article: Article; score: number }> = [];
+  for (const candidate of byId.values()) {
+    if (candidate.id === source.id) continue;
+    const category = String(candidate.category ?? candidate.sourceCategory ?? "");
+    if (category !== "Personnages" && !String(candidate.dataset ?? "").includes("pnj")) continue;
+    const keys = articlePnjIdentityKeys(candidate);
+    let score = 0;
+    if (sourceStrong[1] && keys.has(sourceStrong[1])) score = Math.max(score, 5);
+    if (sourceStrong[0] && keys.has(sourceStrong[0])) score = Math.max(score, 4);
+    if (score > 0) matches.push({ article: candidate, score });
+  }
+
+  if (!matches.length) return null;
+  const bestScore = Math.max(...matches.map((match) => match.score));
+  const best = matches.filter((match) => match.score === bestScore);
+  if (best.length > 1) {
+    throw new Error(
+      `Identité PNJ ambiguë pour ${source.title ?? source.id}: ${best.map((match) => match.article.id).join(", ")}`
+    );
+  }
+  return best[0].article;
+}
+
 function canonicalize(value: unknown): unknown {
   if (Array.isArray(value)) return value.map(canonicalize);
   if (value && typeof value === "object") {
@@ -945,6 +1128,7 @@ async function loadCorpus(): Promise<Corpus> {
   if (!Array.isArray(manifest.datasets)) throw new Error("Manifest Compendium V3 invalide");
 
   const byId = new Map<string, Article>();
+  const extraterrestrialPnjResolvedIds = new Map<string, string>();
   const loaded = await Promise.all(
     manifest.datasets.map(async (spec) => [spec.id, await loadDataset(spec)] as const)
   );
@@ -1117,6 +1301,32 @@ async function loadCorpus(): Promise<Corpus> {
     byId.set(article.id, deepClone(article) as Article);
   }
 
+  for (const article of COMPENDIUM_VERITE_EXTRATERRESTRES_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const enrichment of COMPENDIUM_VERITE_EXTRATERRESTRES_ENRICHMENTS) {
+    const target = byId.get(enrichment.targetId);
+    if (!target) continue;
+    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
+    target.sections = [
+      ...(target.sections ?? []),
+      ...deepClone(enrichment.sections).filter((section) => !existingIds.has(String(section?.id ?? "")))
+    ];
+  }
+
+  for (const sourceArticle of COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeExtraterrestrialPnj(existing, article));
+      extraterrestrialPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+    byId.set(article.id, article);
+    extraterrestrialPnjResolvedIds.set(article.id, article.id);
+  }
+
   for (const enrichment of COMPENDIUM_REALITE_V9_GOVERNMENT_TRUTH_PNJ_ENRICHMENTS) {
     const target = byId.get(enrichment.id);
     if (!target) continue;
@@ -1249,6 +1459,10 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_VERITE_SPECIES_PNJ_NAVIGATION,
       ...COMPENDIUM_VERITE_FANTASTIQUES_NAVIGATION,
       ...COMPENDIUM_VERITE_FANTASTIQUES_PNJ_NAVIGATION,
+      ...COMPENDIUM_VERITE_EXTRATERRESTRES_NAVIGATION,
+      ...COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_NAVIGATION.filter(
+        (entry) => extraterrestrialPnjResolvedIds.get(entry.id) === entry.id
+      ),
       ...generatedTalentHubs.navigation,
       ...generatedBuilderReferences.navigation
     ]
