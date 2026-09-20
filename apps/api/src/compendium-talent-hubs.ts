@@ -115,22 +115,6 @@ const TALENT_HUB_SPECS: TalentHubSpec[] = [
     pageOrder: 140
   },
   {
-    id: "regles-verite-aseryn-tradition-seryn-l-artisane",
-    title: "Seryn — l’Artisane",
-    natureId: "aseryn",
-    groupPrefix: "Traditions des Treize › Seryn — l’Artisane",
-    subgroup: "Aseryns",
-    pageOrder: 100
-  },
-  {
-    id: "regles-verite-daemon-formation-secondaire",
-    title: "Daemon — Formation secondaire",
-    natureId: "daemon",
-    groupPrefix: "Fonctions daemoniaques › Formation secondaire",
-    subgroup: "Daemons",
-    pageOrder: 100
-  },
-  {
     id: "regles-verite-extral-protocoles-de-continuite",
     title: "Extral — Protocoles de Continuité",
     natureId: "extral",
