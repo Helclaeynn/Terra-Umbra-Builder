@@ -182,10 +182,11 @@ jobs:
             docker compose --env-file .env build api
             docker compose --env-file .env build web
 
-            # Avoid running a second Node process inside the live API container:
-            # the Truth V7 corpus now keeps substantially more canonical source text in memory.
+            # Avoid running a second Node process beside the live API on this small host.
+            # Whatever happens to verify-mail, the API MUST be started again before this step exits.
+            VERIFY_MAIL_STATUS=0
             docker compose --env-file .env stop api || true
-            docker compose --env-file .env run --rm --no-deps api node dist/verify-mail.js </dev/null
+            docker compose --env-file .env run --rm --no-deps api node dist/verify-mail.js </dev/null || VERIFY_MAIL_STATUS=$?
 
             docker compose --env-file .env up -d --remove-orphans
             docker compose ps
@@ -201,6 +202,11 @@ jobs:
               fi
               sleep 2
             done
+
+            if [ "$VERIFY_MAIL_STATUS" -ne 0 ]; then
+              echo "Mail verification failed, but the API has been restored." >&2
+              exit "$VERIFY_MAIL_STATUS"
+            fi
           REMOTE
 
       - name: Purge stale CI accounts
