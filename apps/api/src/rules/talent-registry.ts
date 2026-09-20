@@ -54,6 +54,25 @@ export function getTalentRegistry():TalentRegistryRow[]{
     }
   }
 
+  for(const raw of terraUmbraTruthRules.corruption.talents as readonly Record<string,unknown>[]){
+    const sourceId=String(raw.sourceId??"").trim();
+    const natureId=`fleau-${sourceId}`;
+    const groupLabel=String(raw.group??"Corruption").trim()||"Corruption";
+    rows.push({
+      talentId:String(raw.id??"").trim(),
+      natureId,
+      groupId:talentGroupId(natureId,groupLabel),
+      groupLabel,
+      name:String(raw.name??raw.id??"").trim(),
+      lore:String(raw.runtimeLore??"").trim(),
+      mechanics:String(raw.effect??"").trim(),
+      cost:Number(raw.cost??0),
+      access:String(raw.access??"").trim(),
+      ...(raw.compendiumId?{compendiumId:String(raw.compendiumId)}:{}),
+      ...(raw.prerequisiteName?{prerequisiteName:String(raw.prerequisiteName)}:{})
+    });
+  }
+
   cache=rows.filter(row=>row.talentId&&row.name);
   return cache;
 }
