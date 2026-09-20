@@ -155,6 +155,10 @@ function articleForAudience(article: Article, includeMj: boolean): Article {
   return result;
 }
 
+function canonicalCategory(article: Article): string {
+  return String(article.legacyCategory ?? article.category ?? "");
+}
+
 export async function findCompendiumMatches(
   label: string,
   category = ""
@@ -164,7 +168,7 @@ export async function findCompendiumMatches(
   const corpus = await getCorpus();
   let matches = corpus.articles.filter((article) => norm(article.title) === target);
   if (category) {
-    const categorized = matches.filter((article) => article.category === category);
+    const categorized = matches.filter((article) => canonicalCategory(article) === category);
     if (categorized.length) matches = categorized;
   }
   return matches.map((article) => ({
@@ -242,7 +246,7 @@ export async function findCompendiumHubMatches(
 
   const corpus = await getCorpus();
   const scored = corpus.articles
-    .filter((article) => article.category === "Règles")
+    .filter((article) => canonicalCategory(article) === "Règles")
     .filter((article) => articleMatchesNatureHub(article.id, natureId))
     .map((article) => {
       const navTitle = corpus.navigation.get(article.id)?.displayTitle ?? "";
