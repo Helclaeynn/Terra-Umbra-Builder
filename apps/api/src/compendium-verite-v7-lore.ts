@@ -647,7 +647,7 @@ const SOURCE_ARTICLES=[
     ]
   }
 ] as const;
-export const COMPENDIUM_VERITE_V7_LORE_ARTICLES:Article[]=SOURCE_ARTICLES.map(a=>({...a,dataset:"verite-v7",category:"Vérité",sourceCategory:"Vérité",source:SOURCE,status:"canon_enrichi",rebuildV2:true,sections:a.sections as Section[]}));
+export const COMPENDIUM_VERITE_V7_LORE_ARTICLES:Article[]=SOURCE_ARTICLES.map(a=>({...a,tags:[...a.tags],dataset:"verite-v7",category:"Vérité",sourceCategory:"Vérité",source:SOURCE,status:"canon_enrichi",rebuildV2:true,sections:a.sections as unknown as Section[]}));
 export const COMPENDIUM_VERITE_V7_LORE_NAVIGATION=[
 {id:"verite-v7-derriere-le-voile",dataset:"verite-v7",category:"Vérité",group:"Derrière le Voile",groupOrder:20,subgroup:"Cadre général",subgroupOrder:10,pageOrder:10,displayTitle:"Vérité — derrière le Voile"},
 {id:"verite-v7-voile-hologramme",dataset:"verite-v7",category:"Vérité",group:"Derrière le Voile",groupOrder:20,subgroup:"Cadre général",subgroupOrder:10,pageOrder:20,displayTitle:"Le Voile & l'Hologramme"},
