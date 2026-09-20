@@ -132,7 +132,7 @@ try{
     ["verite-v7-chasseurs-doctrine-association-traditions","La Californie comme territoire de Chasse","Un catalogue canonique de 266 Talents"],
     ["verite-v7-six-fleaux-sources-rupture","Thul — la Fixation","Les Dons ne sont pas un second catalogue de Compendium"],
     ["verite-v7-delanial-pere-ombre","Le Père de l’Ombre","progression PTV"],
-    ["verite-v7-descendants-khinae","Crocodiliens","Catalogue canonique des Talents de Lignée et Sangs vifs"]
+    ["verite-v7-descendants-khinae","Lignées majeures conservées dans le corpus","Catalogue canonique des Talents de Lignée et Sangs vifs"]
   ];
   for(const [articleId,requiredHeading,forbiddenText] of truthLoreChecks){
     await publicPage.goto(baseUrl+"/compendium?article="+encodeURIComponent(articleId),{waitUntil:"domcontentloaded",timeout:30000});
