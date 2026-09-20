@@ -600,6 +600,14 @@ function edgeSkillPointsForAttribute(attributeId:string){
     .reduce((sum,skill)=>sum+Number(draft.value?.skills[skill.id]?.edge||0),0);
 }
 
+function edgeSkillsForAttribute(attributeId:string){
+  if(!draft.value||!rules.value)return [];
+  return rules.value.skills.filter(skill=>
+    skill.attribute===attributeId&&
+    (Number(draft.value?.skills[skill.id]?.edge||0)>0||skillRaw(skill.id)<5)
+  );
+}
+
 function selectedDisadvantageItems(){
   if(!draft.value)return [];
   return draft.value.disadvantages
@@ -2595,7 +2603,7 @@ onBeforeUnmount(()=>{
                 </summary>
                 <div class="edge-five-grid">
                   <div
-                    v-for="skill in rules.skills.filter(item=>item.attribute===attribute.id && (Number(draft.skills[item.id]?.edge || 0) > 0 || skillRaw(item.id) < 5))"
+                    v-for="skill in edgeSkillsForAttribute(attribute.id)"
                     :key="skill.id"
                     class="edge-alloc-card"
                   >
