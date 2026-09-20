@@ -187,21 +187,6 @@ const EXTRALS: Section[] = [
     ]
   },
   {
-    id: "aidh-homo-superior-adrak",
-    title: "AIDH, Homo Superior & Ad’rak",
-    level: 2,
-    blocks: [
-      {
-        type: "p",
-        text: "L’AIDH appartient aux Mondes Technologiques humains et son centre historique se trouve dans le système d’Ichéi. Pour beaucoup de ses membres, la Terre est une planète humaine périphérique plutôt qu’un berceau. Ses infrastructures disposent notamment d’invariants, capteurs de cohérence, confinement, biphysique et dispositifs anti-possession."
-      },
-      {
-        type: "p",
-        text: "Les Homo Superior restent des Humains : conditionnement, génétique, nanites et optimisation neurologique poussent leur corps très loin sans créer une nouvelle espèce. Les Ad’rak sont au contraire une espèce extrale véritable ; les individus terrestres sont surtout réfugiés, dissidents, descendants de communautés libres ou anciens sujets ayant échappé à l’Armée noire."
-      }
-    ]
-  },
-  {
     id: "catalogue-builder",
     title: "Un catalogue canonique de 161 Talents",
     level: 2,
@@ -212,16 +197,97 @@ const EXTRALS: Section[] = [
           ["Famille", "Nombre"],
           ["Profils Talass, Mo’sen, Baséanh, Rocréen & Thalsios", 61],
           ["Protocoles de Continuité", 4],
-          ["Homo Superior", 12],
-          ["Ad’rak", 20],
           ["Organisations Extrals", 56],
-          ["Doctrines AIDH", 8],
-          ["Total", 161]
+          ["Sous-total de cette page", 121]
         ]
       },
       {
         type: "p",
-        text: "Le Builder reste la source mécanique détaillée des 161 Talents. Cette page fixe plutôt les différences de civilisation, les rôles institutionnels et les limites conceptuelles : une appartenance au GAAC n’accorde pas un pouvoir, une technologie n’est pas universelle et une organisation n’est pas une espèce."
+        text: "Le Builder reste la source mécanique détaillée. Cette page couvre les cinq communautés principales, les Protocoles de Continuité et les organisations Extrals ; Homo Superior, Ad’rak et les doctrines AIDH disposent d’une page distincte afin de ne pas confondre diaspora extrale, humanité transformée et espèce rare."
+      }
+    ]
+  }
+];
+
+const HOMO_ADRAK: Section[] = [
+  {
+    id: "aidh",
+    title: "AIDH — une Humanité des Mondes Technologiques",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "L’AIDH appartient aux Mondes Technologiques humains et son centre historique se situe dans le système d’Ichéi. Pour beaucoup de ses membres, la Terre est une planète humaine périphérique. L’organisation possède des sciences et infrastructures très supérieures aux standards terrestres dans plusieurs domaines."
+      },
+      {
+        type: "p",
+        text: "Invariants, capteurs de cohérence, confinement, biphysique et anti-possession permettent d’interagir avec Terra Umbra sans rendre l’AIDH omnisciente ni propriétaire de l’Hologramme. Sa relation à la Terre mêle protection, surveillance et intérêt stratégique."
+      }
+    ]
+  },
+  {
+    id: "homo-superior",
+    title: "Homo Superior — une extrémité de la science humaine",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Les Homo Superior restent des Humains. Génétique, nanites, conditionnement et optimisation neurologique poussent leurs capacités assez loin pour que la distinction paraisse moins évidente à un observateur terrestre, mais il ne s’agit jamais d’une nouvelle espèce."
+      },
+      {
+        type: "p",
+        text: "Ils représentent un programme et une culture du corps propres à l’AIDH. Les Seigneur-Généraux restent des figures hors échelle PJ : ils ne constituent pas le dernier rang naturel de la progression Homo Superior."
+      }
+    ]
+  },
+  {
+    id: "adrak",
+    title: "Ad’rak — les géants qui ne résument pas leur empire",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Les Ad’rak sont une espèce extrale véritable, très grande et extrêmement puissante physiquement. Les individus présents sur Terre sont surtout réfugiés, dissidents, descendants de communautés libres ou anciens sujets ayant échappé à l’Armée noire."
+      },
+      {
+        type: "p",
+        text: "Un PJ Ad’rak loyal à l’Armée noire n’est pas le cadre ordinaire de cette origine. Leur existence rappelle surtout que les cinq peuples représentés autour du GAAC ne constituent qu’une fraction des civilisations galactiques possibles."
+      }
+    ]
+  },
+  {
+    id: "distinction",
+    title: "Deux profils rares, deux statuts différents",
+    level: 2,
+    blocks: [
+      {
+        type: "table",
+        rows: [
+          ["Profil", "Nature", "Repère"],
+          ["Homo Superior", "Humain", "Humanité transformée par les sciences AIDH ; aucune espèce nouvelle."],
+          ["Ad’rak", "Extral", "Espèce véritable ; origine PJ restreinte dans le cadre terrestre."]
+        ]
+      }
+    ]
+  },
+  {
+    id: "builder",
+    title: "Repère Builder",
+    level: 2,
+    blocks: [
+      {
+        type: "table",
+        rows: [
+          ["Famille", "Talents"],
+          ["Homo Superior", 12],
+          ["Ad’rak", 20],
+          ["Doctrines AIDH", 8],
+          ["Total", 40]
+        ]
+      },
+      {
+        type: "p",
+        text: "Le détail mécanique reste dans le Builder. Cette page sert précisément à empêcher trois confusions : Homo Superior n’est pas un Extral, Ad’rak n’est pas un programme humain, et l’AIDH n’est pas une espèce."
       }
     ]
   }
@@ -742,21 +808,28 @@ export const COMPENDIUM_VERITE_V7_PASS_B_ARTICLES: Article[] = [
   article(
     "verite-v7-exiles-peuples-silcenters-traditions",
     "Vérité",
-    "Exilés — peuples, Silcenters & traditions",
+    "Exilés — peuples d’Aèr & société terrestre",
     ["Vérité", "Exilés", "Aèr", "Silcenters", "Elyë", "Whurten", "Ashyll", "Thulkar", "Azménorien"],
     EXILES
   ),
   article(
     "verite-v7-extrals-gaac-aidh-diasporas",
     "Vérité",
-    "Extrals — GAAC, AIDH & diasporas",
-    ["Vérité", "Extrals", "GAAC", "AIDH", "Homo Superior", "Ad’rak", "Talass", "Mo’sen", "Baséanh", "Rocréen", "Thalsios"],
+    "Extrals — peuples galactiques & GAAC",
+    ["Vérité", "Extrals", "GAAC", "Talass", "Mo’sen", "Baséanh", "Rocréen", "Thalsios"],
     EXTRALS
+  ),
+  article(
+    "verite-v7-homo-superior-adrak-profils-rares",
+    "Vérité",
+    "Homo Superior & Ad’rak — profils rares",
+    ["Vérité", "AIDH", "Homo Superior", "Ad’rak", "Profils rares", "Armée noire"],
+    HOMO_ADRAK
   ),
   article(
     "verite-v7-chasseurs-doctrine-association-traditions",
     "Vérité",
-    "Chasseurs — doctrine, Association & traditions",
+    "Chasseurs — savoir, survivre & transmettre",
     ["Vérité", "Chasseurs", "Association", "GT", "Traditions de Chasse", "Confrérie du Bestiaire"],
     CHASSEURS
   ),
@@ -770,14 +843,14 @@ export const COMPENDIUM_VERITE_V7_PASS_B_ARTICLES: Article[] = [
   article(
     "verite-v7-six-fleaux-sources-rupture",
     "Vérité",
-    "Les six Fléaux — Sources, tentations & Rupture",
+    "Les six Fléaux",
     ["Vérité", "Fléaux", "Vhodhal", "V’Aagor", "Sharith", "Vhadhi", "Shaoggith", "Thul", "Rupture"],
     FLEAUX
   ),
   article(
     "verite-v7-delanial-pere-ombre",
     "Vérité",
-    "Delanial — le Père de l’Ombre",
+    "Delanial — le faux Septième",
     ["Vérité", "Delanial", "Ombre-Monde", "Père de l’Ombre", "MJ"],
     DELANIAL
   ),
@@ -812,6 +885,17 @@ export const COMPENDIUM_VERITE_V7_PASS_B_NAVIGATION = [
     subgroupOrder: 70,
     pageOrder: 10,
     displayTitle: "Extrals — GAAC, AIDH & diasporas"
+  },
+  {
+    id: "verite-v7-homo-superior-adrak-profils-rares",
+    dataset: "verite-v7",
+    category: "Vérité",
+    group: "Peuples & Natures",
+    groupOrder: 30,
+    subgroup: "Extrals",
+    subgroupOrder: 70,
+    pageOrder: 20,
+    displayTitle: "Homo Superior & Ad’rak — profils rares"
   },
   {
     id: "verite-v7-chasseurs-doctrine-association-traditions",
