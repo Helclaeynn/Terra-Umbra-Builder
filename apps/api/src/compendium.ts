@@ -681,17 +681,23 @@ function mergeExtraterrestrialPnj(target: Article, source: Article): Article {
   }
   if (sourceTruth) mergeUniqueTextBlocks(mj, sourceTruth.blocks ?? []);
 
+  const insertPublicSectionBeforeMj = (section: JsonObject) => {
+    const sections = [...(merged.sections ?? [])];
+    const mjIndex = sections.findIndex((item) => item?.audience === "mj");
+    if (mjIndex >= 0) sections.splice(mjIndex, 0, section);
+    else sections.push(section);
+    merged.sections = sections;
+  };
+
   const existingSectionIds = new Set((merged.sections ?? []).map((section) => String(section?.id ?? "")));
   if (sourceReality.length && !existingSectionIds.has("source-extraterrestres-realite")) {
-    merged.sections = [
-      ...(merged.sections ?? []),
-      {
-        id: "source-extraterrestres-realite",
-        title: "Complément Réalité · dossier extraterrestre",
-        level: 2,
-        blocks: sourceReality.flatMap((section) => deepClone(section.blocks ?? []))
-      }
-    ];
+    insertPublicSectionBeforeMj({
+      id: "source-extraterrestres-realite",
+      title: "Complément Réalité · dossier extraterrestre",
+      level: 2,
+      blocks: sourceReality.flatMap((section) => deepClone(section.blocks ?? []))
+    });
+    existingSectionIds.add("source-extraterrestres-realite");
   }
 
   if (sourceProfile && !existingSectionIds.has("source-extraterrestres-identite")) {
@@ -702,15 +708,12 @@ function mergeExtraterrestrialPnj(target: Article, source: Article): Article {
         return label === "age" || label.includes("affiliations") || label.includes("nationalite") || label.includes("personnages lies") || label.includes("repere");
       });
     if (rows.length) {
-      merged.sections = [
-        ...(merged.sections ?? []),
-        {
-          id: "source-extraterrestres-identite",
-          title: "Complément de fiche · dossier extraterrestre",
-          level: 2,
-          blocks: [{ type: "table", rows }]
-        }
-      ];
+      insertPublicSectionBeforeMj({
+        id: "source-extraterrestres-identite",
+        title: "Complément de fiche · dossier extraterrestre",
+        level: 2,
+        blocks: [{ type: "table", rows }]
+      });
     }
   }
 
@@ -718,11 +721,9 @@ function mergeExtraterrestrialPnj(target: Article, source: Article): Article {
 }
 
 function findMatchingActivePnj(byId: Map<string, Article>, source: Article): Article | null {
-  const sourceStrong = [
-    usablePnjIdentity(source.pnj?.real_name),
-    usablePnjIdentity(source.pnj?.nom_verite)
-  ].filter(Boolean) as string[];
-  if (!sourceStrong.length) return null;
+  const realKey = usablePnjIdentity(source.pnj?.real_name);
+  const truthKey = usablePnjIdentity(source.pnj?.nom_verite);
+  if (!realKey && !truthKey) return null;
 
   const matches: Array<{ article: Article; score: number }> = [];
   for (const candidate of byId.values()) {
@@ -731,8 +732,8 @@ function findMatchingActivePnj(byId: Map<string, Article>, source: Article): Art
     if (category !== "Personnages" && !String(candidate.dataset ?? "").includes("pnj")) continue;
     const keys = articlePnjIdentityKeys(candidate);
     let score = 0;
-    if (sourceStrong[1] && keys.has(sourceStrong[1])) score = Math.max(score, 5);
-    if (sourceStrong[0] && keys.has(sourceStrong[0])) score = Math.max(score, 4);
+    if (truthKey && keys.has(truthKey)) score = Math.max(score, 5);
+    if (realKey && keys.has(realKey)) score = Math.max(score, 4);
     if (score > 0) matches.push({ article: candidate, score });
   }
 
