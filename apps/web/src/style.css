@@ -688,18 +688,24 @@ body::before{
 input,select,textarea{border-color:rgba(91,139,157,.28);color:#eef6f8;background:#0b151d}
 select{
   appearance:none;
-  padding-right:2.4rem;
+  min-height:42px;
+  padding:.62rem 2.65rem .62rem .82rem;
+  border-radius:9px;
+  background-color:#0b151d;
   background-image:
     linear-gradient(45deg,transparent 50%,#6fcff1 50%),
     linear-gradient(135deg,#6fcff1 50%,transparent 50%);
   background-position:
-    calc(100% - 15px) 50%,
-    calc(100% - 10px) 50%;
+    calc(100% - 16px) 50%,
+    calc(100% - 11px) 50%;
   background-size:5px 5px,5px 5px;
   background-repeat:no-repeat;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.018),0 1px 0 rgba(0,0,0,.22);
+  transition:border-color .14s ease,background-color .14s ease,box-shadow .14s ease;
 }
-select:hover{border-color:rgba(88,220,197,.42)}
+select:hover{border-color:rgba(88,220,197,.42);background-color:#0d1922}
 select option,select optgroup{color:#eef6f8;background:#0b151d}
+select option{padding:.35rem .5rem}
 select optgroup{font-weight:700;color:#91cfe0}
 input:focus,select:focus,textarea:focus{border-color:#2b92ff;box-shadow:0 0 0 2px rgba(43,146,255,.14)}
 .eyebrow{color:#58dcc5}
