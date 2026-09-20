@@ -914,20 +914,32 @@ jobs:
           # Readability regression guards: a heading must never swallow previous rule sections.
           mage=fetch_article("regles-verite-v7-mage-maitrise-amplitude-lancement")
           mage_defense=paragraph_text(section(mage,"Défense occulte"))
-          assert "Défense occulte passive" in mage_defense,mage_defense[:1000]
+          mage_text=flatten(mage)
+          assert "Défense occulte passive : Volonté + Force Mentale" in mage_defense,mage_defense[:1000]
+          assert "Défense occulte active : Volonté + Force Mentale + 1d10e — 1 PA" in mage_defense,mage_defense[:1000]
           assert "Type de Mageius" not in mage_defense,mage_defense[:1000]
+          assert "Passer V → SR → R" in mage_text,mage_text[:2000]
+          assert "V → R est possible" in mage_text,mage_text[:2000]
+          assert "Affinité → intention/Essence → Polarité → Amplitude → portée" in mage_text,mage_text[:3000]
+          assert "Roue : Kaharal ↔ Meldir ↔ Elinaeth ↔ Mestherak ↔ Discella ↔ Kaharal" in mage_text,mage_text[:3000]
+          assert "→ →" not in mage_text,mage_text[:3000]
 
           daemon=fetch_article("regles-verite-v7-daemon-nature-fonctions-divinites-facettes")
           daemon_oracle=paragraph_text(section(daemon,"Oracle / Tentateur"))
+          daemon_transverse=paragraph_text(section(daemon,"Règles transversales des pouvoirs divins"))
           assert "Télépathie" in daemon_oracle,daemon_oracle
           assert "{{Talents|group=daemon:oracle-tentateur-lecture-mentale}}" in daemon_oracle,daemon_oracle
           assert "Lecture superficielle — 1 PTV" not in daemon_oracle,daemon_oracle[:1500]
+          assert "Dégâts = Résultat du pouvoir − Défense applicable + DGT − Protection applicable" in daemon_transverse,daemon_transverse
+          assert "− −" not in flatten(daemon),daemon_transverse
 
           angelus=fetch_article("regles-verite-v7-angelus-nature-revelation-transcendance")
           vertu=paragraph_text(section(angelus,"Nature : Vertu"))
+          angelus_revelation=flatten(section(angelus,"Réincarnation, Éveil et Révélation"))
           assert "Purification" in vertu,vertu
           assert "{{Talents|group=angelus:nature-vertu}}" in vertu,vertu
           assert "Apaisement profond" not in vertu,vertu[:1500]
+          assert "V → R" in angelus_revelation,angelus_revelation[:2000]
 
           aseryn=fetch_article("regles-verite-v7-aseryn-treize-dratyn-conseil-foudre")
           theana=paragraph_text(section(aseryn,"Theana — la Guérisseuse"))
@@ -949,7 +961,7 @@ jobs:
               (section.get("title"),len(str(block.get("text",""))))
               for section in article.get("sections",[])
               for block in section.get("blocks",[])
-              if block.get("type")=="p" and len(str(block.get("text",""))) > 5000
+              if block.get("type")=="p" and len(str(block.get("text",""))) > 1500
             ]
             assert not oversized,(article_id,oversized)
 
