@@ -2937,6 +2937,15 @@ onBeforeUnmount(() => {
   border-left: 2px solid rgba(43,146,255, .35);
 }
 
+.article-paragraph.tech {
+  margin: .75rem 0;
+  padding: .8rem 1rem;
+  border: 1px solid rgba(88, 220, 197, .18);
+  border-left: 3px solid rgba(88, 220, 197, .45);
+  border-radius: .5rem;
+  background: rgba(16, 32, 42, .45);
+}
+
 .article-table-wrap {
   overflow-x: auto;
   margin: 1rem 0;
