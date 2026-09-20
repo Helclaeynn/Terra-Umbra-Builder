@@ -2,8 +2,7 @@ import { editorializeTruthSections } from "./compendium-verite-v7-editorial.js";
 
 type Block =
   | { type: "p"; text: string; style?: string }
-  | { type: "table"; rows: unknown[][] }
-  | { type: "list"; items: string[] };
+  | { type: "table"; rows: unknown[][] };
 type Section = { id: string; title: string; level: number; audience?: "mj"; blocks: Block[] };
 type Article = {
   id: string;
@@ -300,21 +299,22 @@ const CHASSEURS: Section[] = [
     level: 2,
     blocks: [
       {
-        type: "list",
-        items: [
-          "Lavandières : Vampires indépendants spécialisés contre Vampires dangereux, Moroï et Strygoï.",
-          "Ordres catholiques : Arianwen pour la traque, Ephraïm pour l’exorcisme, Magdalena pour jugement et scellement.",
-          "Khālsā : serment, protection, liberté et rupture des emprises.",
-          "Taoïstes Gu et Shimazu : équilibre du Yin et du Yang ; secrets Shi : contact méthodique et dangereux avec le Néant.",
-          "Kabbale : principes des dix Sephiroth sans devenir Angelus.",
-          "Nizarites : Arts du Djinn et doctrine de Chasse.",
-          "Onmyoji : Shikigami, sceaux, noms et pactes spirituels.",
-          "Néopaïens : morts, terre, seuils, présages et serments.",
-          "Chasse Fantastique : héritage de la Vénerie elfique née de la Guerre de la Magie.",
-          "Lueurs d’Azménor : visions réelles du Néant sans garantie d’interprétation correcte.",
-          "Xenoshield : contre-intrusion Extral techniquement compétente mais idéologiquement xénophobe.",
-          "Indépendants : héritages familiaux, traumatismes, bricolages et spécialisations sans doctrine commune.",
-          "Table Ronde : lignées des chevaliers choisis par Merlin et armes uniques créées pour leurs héritiers."
+        type: "table",
+        rows: [
+          ["Tradition", "Repère"],
+          ["Lavandières", "Vampires indépendants spécialisés contre Vampires dangereux, Moroï et Strygoï."],
+          ["Ordres catholiques", "Arianwen pour la traque, Ephraïm pour l’exorcisme, Magdalena pour jugement et scellement."],
+          ["Khālsā", "Serment, protection, liberté et rupture des emprises."],
+          ["Taoïstes Gu et Shimazu / Shi", "Équilibre du Yin et du Yang ; les secrets Shi utilisent un contact méthodique et dangereux avec le Néant."],
+          ["Kabbale", "Principes des dix Sephiroth sans devenir Angelus."],
+          ["Nizarites", "Arts du Djinn et doctrine de Chasse."],
+          ["Onmyoji", "Shikigami, sceaux, noms et pactes spirituels."],
+          ["Néopaïens", "Morts, terre, seuils, présages et serments."],
+          ["Chasse Fantastique", "Héritage de la Vénerie elfique née de la Guerre de la Magie."],
+          ["Lueurs d’Azménor", "Visions réelles du Néant sans garantie d’interprétation correcte."],
+          ["Xenoshield", "Contre-intrusion Extral techniquement compétente mais idéologiquement xénophobe."],
+          ["Indépendants", "Héritages familiaux, traumatismes, bricolages et spécialisations sans doctrine commune."],
+          ["Table Ronde", "Lignées des chevaliers choisis par Merlin et armes uniques créées pour leurs héritiers."]
         ]
       }
     ]
