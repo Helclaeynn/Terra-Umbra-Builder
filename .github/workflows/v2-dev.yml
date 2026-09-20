@@ -48,6 +48,10 @@ jobs:
         working-directory: apps/api
         run: node scripts/check-truth-v7-readability.mjs
 
+      - name: Check Truth Builder integration
+        working-directory: apps/api
+        run: node scripts/check-truth-v7-builder-integration.mjs
+
       - name: Build web
         working-directory: apps/web
         run: |
