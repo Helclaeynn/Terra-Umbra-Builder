@@ -47,6 +47,7 @@ import {
   truthSanitizeCorruptionTalents,
   truthSanitizeTalents,
   truthCorruptionPrerequisiteSatisfied,
+  truthEquipmentInvalidIds,
   truthSelectedFreeTraits,
   type TruthChoice,
   type TruthRulesPackage,
@@ -383,6 +384,7 @@ const currentTruthState=computed<TruthState|null>(()=>{
       ? raw.truthEquipment.filter((id):id is string=>typeof id==="string")
       : [],
     truthEquipmentMjOverride:Boolean(raw.truthEquipmentMjOverride),
+    corruptionMjAuthorized:Boolean(raw.corruptionMjAuthorized),
     corruption:Math.max(0,Math.trunc(Number(raw.corruption)||0)),
     corruptionSource:typeof raw.corruptionSource==="string"?raw.corruptionSource:"",
     corruptionTalents:Array.isArray(raw.corruptionTalents)
@@ -881,12 +883,23 @@ const creationValidationMap=computed<Record<string,boolean>>(()=>{
       const talent=truthRules.value?.corruption.talents.find(item=>item.id===id);
       return !!talent&&truthCorruptionPrerequisiteSatisfied(truthRules.value!,currentTruthState.value!,talent);
     });
+  const corruptionAuthorizationValid=!!currentTruthState.value&&(
+    currentTruthState.value.corruptionMjAuthorized||
+    (
+      currentTruthState.value.corruption===0&&
+      !currentTruthState.value.corruptionSource&&
+      currentTruthState.value.corruptionTalents.length===0
+    )
+  );
+  const truthEquipmentAccessValid=!!truthRules.value&&!!currentTruthState.value&&
+    truthEquipmentInvalidIds(truthRules.value,currentTruthState.value).length===0;
 
   result.truth=!!truthRules.value&&!!currentTruthState.value&&
     !!currentTruthState.value.nature&&
     !!currentTruthState.value.consciousness&&
     truthChoicesValid(truthRules.value,currentTruthState.value)&&
-    corruptionSourceValid&&corruptionTalentsValid&&
+    corruptionAuthorizationValid&&corruptionSourceValid&&corruptionTalentsValid&&
+    truthEquipmentAccessValid&&
     truthPtvSpentValue.value<=truthRules.value.structure.ptvInitial;
 
   result.disadvantages=draft.value.disadvantages.length<=3&&disadvantagesCompatible();
@@ -1192,6 +1205,7 @@ async function loadCharacter(){
           truthTalents:[...loadedTruth.truthTalents],
           truthEquipment:[...loadedTruth.truthEquipment],
           truthEquipmentMjOverride:Boolean(loadedTruth.truthEquipmentMjOverride),
+          corruptionMjAuthorized:Boolean(loadedTruth.corruptionMjAuthorized),
           corruption:Math.min(derivedStats.value.integrity,Math.max(0,loadedTruth.corruption)),
           corruptionSource:loadedTruth.corruption>0?loadedTruth.corruptionSource:"",
           corruptionTalents:[...loadedTruth.corruptionTalents]
@@ -1385,6 +1399,7 @@ function writeTruthState(state:TruthState){
     truthTalents:[...state.truthTalents],
     truthEquipment:[...state.truthEquipment],
     truthEquipmentMjOverride:Boolean(state.truthEquipmentMjOverride),
+    corruptionMjAuthorized:Boolean(state.corruptionMjAuthorized),
     corruption:Math.max(0,Math.trunc(Number(state.corruption)||0)),
     corruptionSource:String(state.corruptionSource||""),
     corruptionTalents:[...state.corruptionTalents]
@@ -1403,6 +1418,7 @@ function setTruthNature(id:string){
     truthTalents:[],
     truthEquipment:[...(current?.truthEquipment??[])],
     truthEquipmentMjOverride:Boolean(current?.truthEquipmentMjOverride),
+    corruptionMjAuthorized:Boolean(current?.corruptionMjAuthorized),
     corruption:Number(current?.corruption??0),
     corruptionSource:String(current?.corruptionSource??""),
     corruptionTalents:[...(current?.corruptionTalents??[])]
