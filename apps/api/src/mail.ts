@@ -59,7 +59,7 @@ export async function sendPasswordResetEmail(
   const transporter = createTransporter();
   if (!transporter || !from) return false;
 
-  const resetUrl = `${appBaseUrl}/?reset=${encodeURIComponent(token)}`;
+  const resetUrl = `${appBaseUrl}/account?reset=${encodeURIComponent(token)}`;
 
   await transporter.sendMail({
     from,
