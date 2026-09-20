@@ -911,7 +911,9 @@ async function loadCorpus(): Promise<Corpus> {
 
   const generatedTalentHubs = generatedTalentHubCorpus();
   for (const hub of generatedTalentHubs.articles) {
-    if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
+    // Generated hubs are the active V2 projection of the canonical Builder
+    // registry and intentionally supersede same-id legacy table pages.
+    byId.set(hub.id, deepClone(hub) as Article);
   }
 
   const generatedBuilderReferences = generatedBuilderReferenceCorpus();
@@ -1086,6 +1088,7 @@ async function loadCorpus(): Promise<Corpus> {
 
   for (const article of byId.values()) {
     if (!legacyIds.has(article.id)) continue;
+    if (article.rebuildV2 === true) continue;
     article.legacyCategory = article.category ?? "";
     article.category = LEGACY_CATEGORY;
     article.__legacy = true;
