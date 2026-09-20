@@ -836,7 +836,7 @@ export const COMPENDIUM_VERITE_V7_PASS_B_ARTICLES: Article[] = [
   article(
     "regles-verite-v7-corruption-integrite-bascule",
     "Règles",
-    "Corruption — Humanité, Intégrité, Souillure & Bascule",
+    "Corruption, Souillure, Bascule & purification",
     ["Vérité", "Corruption", "Humanité", "Intégrité", "Souillure", "Bascule", "DON", "RITE", "FAVEUR"],
     CORRUPTION
   ),
@@ -857,7 +857,7 @@ export const COMPENDIUM_VERITE_V7_PASS_B_ARTICLES: Article[] = [
   article(
     "regles-verite-v7-equipement-proprietes-acquisition",
     "Règles",
-    "Équipement de Vérité — propriétés, acquisition & réseaux",
+    "Propriétés, accès, confinement & compatibilités",
     ["Vérité", "Équipement", "Chasse", "Raven", "AIDH", "Runes", "Technomagie", "Jade"],
     EQUIPEMENT
   )
@@ -939,7 +939,7 @@ export const COMPENDIUM_VERITE_V7_PASS_B_NAVIGATION = [
     subgroup: "Corruption",
     subgroupOrder: 10,
     pageOrder: 10,
-    displayTitle: "Corruption — Humanité, Intégrité, Souillure & Bascule"
+    displayTitle: "Corruption, Souillure, Bascule & purification"
   },
   {
     id: "regles-verite-v7-equipement-proprietes-acquisition",
@@ -950,6 +950,6 @@ export const COMPENDIUM_VERITE_V7_PASS_B_NAVIGATION = [
     subgroup: "Principes communs",
     subgroupOrder: 10,
     pageOrder: 10,
-    displayTitle: "Équipement de Vérité — propriétés, acquisition & réseaux"
+    displayTitle: "Propriétés, accès, confinement & compatibilités"
   }
 ];
