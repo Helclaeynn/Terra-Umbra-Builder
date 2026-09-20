@@ -84,6 +84,17 @@ for (const article of COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_ARTICLES) {
   const stats = article.sections?.find((section) => section.id === "statistiques");
   assert.ok(mj && mj.audience === "mj", `${article.id}: MJ block missing/restricted incorrectly`);
   assert.ok((mj.blocks ?? []).length > 0, `${article.id}: source Truth information must fill MJ block`);
+  const expectedTruth = (article.pnj?.source_verite ?? [])
+    .map((entry) => String(entry?.text ?? ""))
+    .join(" ")
+    .replace(/\s+/g, " ")
+    .trim();
+  const renderedTruth = (mj.blocks ?? [])
+    .map((block) => String(block?.text ?? ""))
+    .join(" ")
+    .replace(/\s+/g, " ")
+    .trim();
+  assert.equal(renderedTruth, expectedTruth, `${article.id}: MJ block must reproduce the complete source Truth text`);
   assert.ok(stats && stats.audience === "mj", `${article.id}: statistics block missing/restricted incorrectly`);
   assert.deepEqual(stats.blocks, [], `${article.id}: statistics stay empty until consolidation`);
   assert.ok(Array.isArray(article.pnj?.identity_keys) && article.pnj.identity_keys.length >= 1, `${article.id}: identity keys missing`);
