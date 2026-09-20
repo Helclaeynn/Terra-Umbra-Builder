@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
 import CharactersPanel from "./components/CharactersPanel.vue";
 import "./brand-signal.css";
+import TerraUmbraLockup from "./components/TerraUmbraLockup.vue";
 
 type Role = "player" | "gm" | "editor" | "admin";
 
@@ -432,19 +433,12 @@ onMounted(bootstrap);
 <template>
   <div class="app-shell brand-signal">
     <header class="topbar">
-      <RouterLink class="brand" to="/">
-        <span class="brand-emblem" aria-hidden="true">
-          <img src="/brand/terra-umbra-mark-clean.webp" alt="" />
-        </span>
-        <span class="brand-wordmark">
-          <strong>Terra Umbra</strong>
-          <small><span>California</span><i></i><span>Web V2</span></small>
-        </span>
+      <RouterLink class="brand brand-lockup-link" to="/">
+        <TerraUmbraLockup />
       </RouterLink>
 
       <div class="top-actions">
-        <span class="brand-top-signal" aria-hidden="true">REALITY // VÉRITÉ</span>
-        <a v-if="user" class="ghost compact top-product-link brand-nav-link" href="#characters">
+                <a v-if="user" class="ghost compact top-product-link brand-nav-link" href="#characters">
           Builder
         </a>
         <RouterLink class="ghost compact top-product-link brand-nav-link" to="/compendium">
@@ -655,14 +649,9 @@ onMounted(bootstrap);
             aria-hidden="true"
           />
 
-          <div class="brand-masthead">
-            <div class="brand-masthead-mark" aria-hidden="true">
-              <img src="/brand/terra-umbra-mark-clean.webp" alt="" />
-            </div>
-
+          <div class="brand-masthead brand-masthead-final">
             <div class="brand-masthead-copy">
-              <p class="brand-microline">REALITY // VÉRITÉ // WHAT LIES BENEATH</p>
-              <h1 class="brand-title">TERRA UMBRA</h1>
+              <TerraUmbraLockup class="brand-masthead-lockup" />
               <p class="brand-subtitle">CALIFORNIA&nbsp;&nbsp;•&nbsp;&nbsp;BUILDER V2</p>
               <div class="brand-title-rule" aria-hidden="true"></div>
               <p class="brand-tagline">SAME WORLD&nbsp;&nbsp;//&nbsp;&nbsp;A DEEPER LAYER&nbsp;&nbsp;//&nbsp;&nbsp;BUILT TO UNCOVER</p>
@@ -678,15 +667,7 @@ onMounted(bootstrap);
                 <span class="muted">{{ user.email }}</span>
               </div>
             </div>
-          </div>
-
-          <div class="brand-side-rail" aria-hidden="true">
-            <span>BUILD</span>
-            <span>EXPLORE</span>
-            <span>UNCOVER</span>
-            <span>REVEAL</span>
-            <span>PERSIST</span>
-          </div>
+          </div></div>
         </section>
 
         <div v-if="message || error" class="feedback" :class="{ error: !!error }">
