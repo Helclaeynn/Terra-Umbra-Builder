@@ -45,25 +45,12 @@ const emit=defineEmits<{
   "update:modelValue":[value:Record<string,unknown>];
 }>();
 
-const catalogKind=ref<"equipment"|"augmentation">("equipment");
 const equipmentQuery=ref("");
 const augmentationQuery=ref("");
 const equipmentCategory=ref("");
 const augmentationCategory=ref("");
-const query=computed({
-  get:()=>catalogKind.value==="augmentation"?augmentationQuery.value:equipmentQuery.value,
-  set:(value:string)=>{
-    if(catalogKind.value==="augmentation")augmentationQuery.value=value;
-    else equipmentQuery.value=value;
-  }
-});
-const category=computed({
-  get:()=>catalogKind.value==="augmentation"?augmentationCategory.value:equipmentCategory.value,
-  set:(value:string)=>{
-    if(catalogKind.value==="augmentation")augmentationCategory.value=value;
-    else equipmentCategory.value=value;
-  }
-});
+const equipmentCatalogOpen=ref(false);
+const augmentationCatalogOpen=ref(false);
 const priceDrafts=ref<Record<string,string>>({});
 const variantChoice=ref<Record<string,string>>({});
 const recurringId=ref("");
@@ -240,27 +227,25 @@ const recurringGroups=computed(()=>{
     .sort((a,b)=>a.label.localeCompare(b.label,"fr"));
 });
 
-const categories=computed(()=>catalogKind.value==="augmentation"?augmentationCategories.value:equipmentCategories.value);
-
 function visibleAugmentation(item:RealityItem){
   if(!props.style)return false;
   if(state.value.mjAccessOverride)return true;
   return augmentationAccess(props.rules,props.style,item,props.edge,false).ok;
 }
 const filteredEquipment=computed(()=>{
-  const q=norm(query.value.trim());
+  const q=norm(equipmentQuery.value.trim());
   return props.rules.equipment.filter(item=>{
     if(item.recurring==="monthly"||item.recurring==="annual")return false;
-    if(category.value&&item.category!==category.value)return false;
+    if(equipmentCategory.value&&item.category!==equipmentCategory.value)return false;
     return !q||norm(`${item.name} ${item.category} ${item.effect} ${item.lore}`).includes(q);
   });
 });
 const augmentationGroups=computed(()=>{
-  const q=norm(query.value.trim());
+  const q=norm(augmentationQuery.value.trim());
   const map=new Map<string,RealityItem[]>();
   for(const item of props.rules.augmentations){
     if(!visibleAugmentation(item))continue;
-    if(category.value&&item.category!==category.value)continue;
+    if(augmentationCategory.value&&item.category!==augmentationCategory.value)continue;
     if(q&&!norm(`${item.name} ${item.category} ${item.effect} ${item.lore}`).includes(q))continue;
     const key=augmentationBaseKey(item);
     if(!map.has(key))map.set(key,[]);
@@ -671,41 +656,31 @@ function setCorporateSupportItem(itemId:string){
         </div>
       </section>
 
-      <details class="reality-panel catalog-panel catalog-disclosure">
+      <details
+        class="reality-panel catalog-panel catalog-disclosure"
+        :open="augmentationCatalogOpen"
+        @toggle="augmentationCatalogOpen=($event.currentTarget as HTMLDetailsElement).open"
+      >
         <summary class="catalog-summary">
           <span>
-            <strong>Catalogues d’achats</strong>
-            <small>Repliés par défaut pour garder les acquis et le budget lisibles.</small>
+            <strong>Choisir des augmentations</strong>
+            <small>Catalogue trié par famille · versions Gen1/Gen2 regroupées</small>
           </span>
-          <span class="schema-badge">{{ rules.counts.equipment + rules.counts.augmentations }} entrées</span>
+          <span class="schema-badge">{{ augmentationGroups.length }}</span>
         </summary>
 
         <div class="catalog-body">
-          <div class="subsection-title">
-            <div>
-              <h3>{{ catalogKind === 'equipment' ? 'Équipement, services & véhicules' : 'Augmentations' }}</h3>
-              <p>
-                Les résultats sont séparés par famille comme dans le Builder V1.
-                Les charges mensuelles/annuelles restent dans le panneau Train de vie.
-              </p>
-            </div>
-            <div class="catalog-kind">
-              <button type="button" :class="{ selected: catalogKind === 'equipment' }" @click="catalogKind='equipment'">Équipement</button>
-              <button type="button" :class="{ selected: catalogKind === 'augmentation' }" @click="catalogKind='augmentation'">Augmentations</button>
-            </div>
-          </div>
-
           <div class="catalog-tools">
             <label>
               Famille
-              <select v-model="category">
+              <select v-model="augmentationCategory">
                 <option value="">Toutes les catégories</option>
-                <option v-for="value in categories" :key="value" :value="value">{{ value }}</option>
+                <option v-for="value in augmentationCategories" :key="value" :value="value">{{ value }}</option>
               </select>
             </label>
             <label>
               Recherche
-              <input v-model="query" type="search" :placeholder="catalogKind === 'augmentation' ? 'Rechercher une augmentation…' : 'Rechercher équipement, service ou véhicule…'" />
+              <input v-model="augmentationQuery" type="search" placeholder="Rechercher une augmentation…" />
             </label>
           </div>
 
@@ -714,56 +689,14 @@ function setCorporateSupportItem(itemId:string){
               <input v-model="state.mjAdvancedOverride" type="checkbox" @change="notify" />
               Accord MJ pour achats/augmentations avancés &gt; {{ money(rules.economy.advancedPurchaseThreshold) }}
             </label>
-            <label v-if="catalogKind === 'augmentation'">
+            <label>
               <input v-model="state.mjAccessOverride" type="checkbox" @change="notify" />
               Accord MJ pour sortir du package augmentique du Style
             </label>
           </div>
 
-          <div v-if="catalogKind === 'equipment'" class="catalog-category-stack">
-            <section v-for="group in equipmentCatalogGroups" :key="group.label" class="catalog-family">
-              <h4>
-                <span>{{ group.label }}</span>
-                <span class="family-count">{{ group.items.length }}</span>
-              </h4>
-              <div class="catalog-grid">
-                <article v-for="item in group.items" :key="item.id" class="catalog-card">
-                  <div class="catalog-head">
-                    <div><strong><BuilderWikiLink
-                        :label="item.name"
-                        :article-id="item.compendiumId"
-                        category="Équipement & Objets"
-                        :detail="wikiDetail(item)"
-                        :badges="wikiBadges(item,priceValue(item))"
-                      /></strong><small>{{ item.category }}</small></div>
-                    <button class="primary compact" type="button" :disabled="!addStatus(item).ok" @click="addPurchase(item)">Ajouter</button>
-                  </div>
-                  <div class="pillbar">
-                    <span>{{ realityPriceSpec(item).label }}</span>
-                    <span v-if="item.vehicle">Véhicule</span>
-                    <span v-if="item.neuro">Neuroprogramme</span>
-                  </div>
-                  <label v-if="realityPriceSpec(item).configurable" class="price-config">
-                    Prix retenu
-                    <input
-                      v-model="priceDrafts[item.id]"
-                      type="number"
-                      min="0"
-                      :placeholder="String(realityPriceSpec(item).defaultCost ?? '')"
-                    />
-                  </label>
-                  <div v-if="equipmentStats(item).length" class="statbar">
-                    <span v-for="[label,value] in equipmentStats(item)" :key="label"><b>{{ label }}</b> {{ value }}</span>
-                  </div>
-                  <em v-if="item.lore">{{ item.lore }}</em>
-                  <p v-if="item.effect"><b>Effet :</b> {{ item.effect }}</p>
-                  <small v-if="!addStatus(item).ok" class="bad-text">{{ addStatus(item).reason }}</small>
-                </article>
-              </div>
-            </section>
-          </div>
-
-          <div v-else class="catalog-category-stack">
+          <div class="catalog-count">{{ augmentationGroups.length }} augmentation(s) correspondante(s)</div>
+          <div class="catalog-category-stack">
             <section v-for="family in augmentationCatalogGroups" :key="family.label" class="catalog-family">
               <h4>
                 <span>{{ family.label }}</span>
@@ -805,9 +738,7 @@ function setCorporateSupportItem(itemId:string){
                     <span v-if="selectedVariant(group).charge !== null">Charge {{ selectedVariant(group).charge }}</span>
                     <span v-if="selectedVariant(group).stress !== null">Stress {{ selectedVariant(group).stress }}</span>
                     <span v-for="familyName in selectedVariant(group).families" :key="familyName">{{ familyName }}</span>
-                    <span>
-                      {{ augmentationCopyCount(rules,state,selectedVariant(group)) }}/{{ augmentationMaxCopies(selectedVariant(group)) }}
-                    </span>
+                    <span>{{ augmentationCopyCount(rules,state,selectedVariant(group)) }}/{{ augmentationMaxCopies(selectedVariant(group)) }}</span>
                   </div>
 
                   <label v-if="realityPriceSpec(selectedVariant(group)).configurable" class="price-config">
@@ -829,6 +760,87 @@ function setCorporateSupportItem(itemId:string){
                   <em v-if="selectedVariant(group).lore">{{ selectedVariant(group).lore }}</em>
                   <p v-if="selectedVariant(group).effect"><b>Effet :</b> {{ selectedVariant(group).effect }}</p>
                   <small v-if="!addStatus(selectedVariant(group)).ok" class="bad-text">{{ addStatus(selectedVariant(group)).reason }}</small>
+                </article>
+              </div>
+            </section>
+          </div>
+        </div>
+      </details>
+
+      <details
+        class="reality-panel catalog-panel catalog-disclosure"
+        :open="equipmentCatalogOpen"
+        @toggle="equipmentCatalogOpen=($event.currentTarget as HTMLDetailsElement).open"
+      >
+        <summary class="catalog-summary">
+          <span>
+            <strong>Choisir équipement, services & véhicules</strong>
+            <small>Catalogue trié par famille · achats ponctuels distincts des Charges fixes</small>
+          </span>
+          <span class="schema-badge">{{ filteredEquipment.length }}</span>
+        </summary>
+
+        <div class="catalog-body">
+          <div class="catalog-tools">
+            <label>
+              Famille
+              <select v-model="equipmentCategory">
+                <option value="">Toutes les catégories</option>
+                <option v-for="value in equipmentCategories" :key="value" :value="value">{{ value }}</option>
+              </select>
+            </label>
+            <label>
+              Recherche
+              <input v-model="equipmentQuery" type="search" placeholder="Rechercher équipement, service ou véhicule…" />
+            </label>
+          </div>
+
+          <div class="override-grid">
+            <label>
+              <input v-model="state.mjAdvancedOverride" type="checkbox" @change="notify" />
+              Accord MJ pour achats avancés &gt; {{ money(rules.economy.advancedPurchaseThreshold) }}
+            </label>
+          </div>
+
+          <div class="catalog-count">{{ filteredEquipment.length }} entrée(s) correspondante(s)</div>
+          <div class="catalog-category-stack">
+            <section v-for="group in equipmentCatalogGroups" :key="group.label" class="catalog-family">
+              <h4>
+                <span>{{ group.label }}</span>
+                <span class="family-count">{{ group.items.length }}</span>
+              </h4>
+              <div class="catalog-grid">
+                <article v-for="item in group.items" :key="item.id" class="catalog-card">
+                  <div class="catalog-head">
+                    <div><strong><BuilderWikiLink
+                        :label="item.name"
+                        :article-id="item.compendiumId"
+                        category="Équipement & Objets"
+                        :detail="wikiDetail(item)"
+                        :badges="wikiBadges(item,priceValue(item))"
+                      /></strong><small>{{ item.category }}</small></div>
+                    <button class="primary compact" type="button" :disabled="!addStatus(item).ok" @click="addPurchase(item)">Ajouter</button>
+                  </div>
+                  <div class="pillbar">
+                    <span>{{ realityPriceSpec(item).label }}</span>
+                    <span v-if="item.vehicle">Véhicule</span>
+                    <span v-if="item.neuro">Neuroprogramme</span>
+                  </div>
+                  <label v-if="realityPriceSpec(item).configurable" class="price-config">
+                    Prix retenu
+                    <input
+                      v-model="priceDrafts[item.id]"
+                      type="number"
+                      min="0"
+                      :placeholder="String(realityPriceSpec(item).defaultCost ?? '')"
+                    />
+                  </label>
+                  <div v-if="equipmentStats(item).length" class="statbar">
+                    <span v-for="[label,value] in equipmentStats(item)" :key="label"><b>{{ label }}</b> {{ value }}</span>
+                  </div>
+                  <em v-if="item.lore">{{ item.lore }}</em>
+                  <p v-if="item.effect"><b>Effet :</b> {{ item.effect }}</p>
+                  <small v-if="!addStatus(item).ok" class="bad-text">{{ addStatus(item).reason }}</small>
                 </article>
               </div>
             </section>
@@ -902,5 +914,5 @@ function setCorporateSupportItem(itemId:string){
 </template>
 
 <style scoped>
-.equipment-step{display:grid;gap:1rem}.economy-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem}.economy-grid>div{display:grid;gap:.3rem;padding:.85rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.economy-grid small{color:#667f8b}.economy-grid strong{font-family:Georgia,serif;font-size:1.25rem}.economy-grid span{color:#a7bbc3;font-size:.75rem}.reality-panel{margin-top:.4rem;padding:1rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.012)}.reality-panel h3{margin:.1rem 0 .55rem;font-family:Georgia,serif}.charge-summary{display:flex;flex-wrap:wrap;gap:.45rem;margin:.8rem 0}.lifestyle-tier-box{display:grid;gap:.55rem;margin:.75rem 0 1rem;padding:.75rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.012)}.lifestyle-tier-box p{margin:0;color:#7f98a3;font-size:.75rem}.lifestyle-tier-track{display:flex;flex-wrap:wrap;gap:.35rem}.lifestyle-tier{display:flex;align-items:center;gap:.3rem;padding:.35rem .5rem;border:1px solid rgba(255,255,255,.08);color:#667f8b;font-size:.72rem}.lifestyle-tier.base{border-color:rgba(88,220,197,.3);color:#58dcc5}.lifestyle-tier.effective{border-color:rgba(112,168,121,.38);color:#b6cfb4;background:rgba(49,80,54,.1)}.lifestyle-tier.lost{opacity:.42;text-decoration:line-through}.lifestyle-tier small{font-size:.58rem;text-transform:uppercase;letter-spacing:.05em}.corporate-support-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;margin-top:.9rem}.charge-summary>span,.pillbar span,.statbar span{padding:.28rem .45rem;border:1px solid rgba(255,255,255,.08);color:#7f98a3;font-size:.68rem}.charge-add-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(120px,1fr) auto;gap:.7rem;align-items:end;margin-top:.7rem}.charge-add-grid.custom{padding-top:.7rem;border-top:1px solid rgba(255,255,255,.06)}.picked-list{display:grid;gap:.5rem;margin-top:.85rem}.picked-row{display:flex;justify-content:space-between;align-items:center;gap:.8rem;padding:.7rem .8rem;border:1px solid rgba(255,255,255,.08)}.picked-row>div{display:grid;gap:.2rem}.picked-row span,.picked-row small{color:#7f98a3;font-size:.72rem}.picked-row.rich{align-items:flex-start}.inline-select,.neuro-toggle{display:flex;align-items:center;gap:.5rem;margin-top:.4rem;color:#7f98a3;font-size:.72rem}.inline-select select{width:auto}.catalog-kind{display:flex;gap:.35rem}.catalog-kind button{padding:.45rem .65rem;border:1px solid rgba(255,255,255,.09);color:#7f98a3;background:#0b151d}.catalog-kind button.selected{border-color:#2b92ff;color:#d7e3e7}.catalog-tools{display:grid;grid-template-columns:minmax(180px,.7fr) minmax(240px,1.3fr);gap:.7rem;margin:1rem 0}.catalog-tools label{display:grid;gap:.4rem;color:#91a7b1;font-size:.72rem}.override-grid{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1rem;color:#7f98a3;font-size:.76rem}.override-grid label{display:flex;gap:.45rem;align-items:center}.catalog-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}.catalog-disclosure{padding:0!important;overflow:hidden}.catalog-summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem;list-style:none}.catalog-summary::-webkit-details-marker{display:none}.catalog-summary>span:first-child{display:grid;gap:.2rem}.catalog-summary strong{font:500 1.2rem/1.2 Georgia,serif;color:#dce8ec}.catalog-summary small{color:#718a95;font-size:.72rem}.catalog-summary::after{content:"›";color:#58dcc5;font-size:1.2rem;transform:rotate(90deg);transition:transform .15s ease}.catalog-disclosure[open]>.catalog-summary::after{transform:rotate(-90deg)}.catalog-body{padding:0 1rem 1rem;border-top:1px solid rgba(255,255,255,.06)}.catalog-category-stack{display:grid;gap:1.1rem}.catalog-family{padding-top:.9rem;border-top:1px solid rgba(88,220,197,.10)}.catalog-family:first-child{border-top:0;padding-top:.2rem}.catalog-family>h4{display:flex;align-items:center;gap:.55rem;margin:.35rem 0 .65rem;color:#c5d4d9;font:600 .8rem/1.2 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase}.family-count{display:inline-flex;align-items:center;justify-content:center;min-width:1.7rem;height:1.35rem;padding:0 .35rem;border:1px solid rgba(88,220,197,.22);color:#58dcc5;font-size:.64rem}.catalog-card{display:flex;flex-direction:column;gap:.65rem;padding:.9rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.012)}.catalog-head{display:flex;justify-content:space-between;gap:.8rem;align-items:flex-start}.catalog-head>div{display:grid;gap:.2rem}.catalog-head small{color:#667f8b}.pillbar,.statbar{display:flex;flex-wrap:wrap;gap:.35rem}.catalog-card em{color:#7f98a3;font-size:.77rem;line-height:1.5}.catalog-card p{margin:0;color:#a7bbc3;font-size:.77rem;line-height:1.5}.price-config{max-width:220px}.support-line{padding:.45rem .55rem;border:1px solid rgba(112,168,121,.18);color:#a7bca5;font-size:.72rem}.support-line.bad{border-color:rgba(166,81,72,.28);color:#d0a29c}.bad-text{color:#d0a29c!important}.schema-badge.bad{border-color:rgba(166,81,72,.35);color:#d0a29c}.empty-line{color:#667f8b;font-size:.8rem}@media(max-width:1180px){.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:900px){.economy-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.charge-add-grid,.catalog-tools,.corporate-support-grid{grid-template-columns:1fr}.catalog-grid{grid-template-columns:1fr}}@media(max-width:560px){.economy-grid{grid-template-columns:1fr}.picked-row{align-items:stretch;flex-direction:column}.catalog-head{flex-direction:column}}
+.equipment-step{display:grid;gap:1rem}.economy-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem}.economy-grid>div{display:grid;gap:.3rem;padding:.85rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.economy-grid small{color:#667f8b}.economy-grid strong{font-family:Georgia,serif;font-size:1.25rem}.economy-grid span{color:#a7bbc3;font-size:.75rem}.reality-panel{margin-top:.4rem;padding:1rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.012)}.reality-panel h3{margin:.1rem 0 .55rem;font-family:Georgia,serif}.charge-summary{display:flex;flex-wrap:wrap;gap:.45rem;margin:.8rem 0}.lifestyle-tier-box{display:grid;gap:.55rem;margin:.75rem 0 1rem;padding:.75rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.012)}.lifestyle-tier-box p{margin:0;color:#7f98a3;font-size:.75rem}.lifestyle-tier-track{display:flex;flex-wrap:wrap;gap:.35rem}.lifestyle-tier{display:flex;align-items:center;gap:.3rem;padding:.35rem .5rem;border:1px solid rgba(255,255,255,.08);color:#667f8b;font-size:.72rem}.lifestyle-tier.base{border-color:rgba(88,220,197,.3);color:#58dcc5}.lifestyle-tier.effective{border-color:rgba(112,168,121,.38);color:#b6cfb4;background:rgba(49,80,54,.1)}.lifestyle-tier.lost{opacity:.42;text-decoration:line-through}.lifestyle-tier small{font-size:.58rem;text-transform:uppercase;letter-spacing:.05em}.corporate-support-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;margin-top:.9rem}.charge-summary>span,.pillbar span,.statbar span{padding:.28rem .45rem;border:1px solid rgba(255,255,255,.08);color:#7f98a3;font-size:.68rem}.charge-add-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(120px,1fr) auto;gap:.7rem;align-items:end;margin-top:.7rem}.charge-add-grid.custom{padding-top:.7rem;border-top:1px solid rgba(255,255,255,.06)}.picked-list{display:grid;gap:.5rem;margin-top:.85rem}.picked-row{display:flex;justify-content:space-between;align-items:center;gap:.8rem;padding:.7rem .8rem;border:1px solid rgba(255,255,255,.08)}.picked-row>div{display:grid;gap:.2rem}.picked-row span,.picked-row small{color:#7f98a3;font-size:.72rem}.picked-row.rich{align-items:flex-start}.inline-select,.neuro-toggle{display:flex;align-items:center;gap:.5rem;margin-top:.4rem;color:#7f98a3;font-size:.72rem}.inline-select select{width:auto}.catalog-tools{display:grid;grid-template-columns:minmax(180px,.7fr) minmax(240px,1.3fr);gap:.7rem;margin:1rem 0}.catalog-tools label{display:grid;gap:.4rem;color:#91a7b1;font-size:.72rem}.catalog-count{margin:-.25rem 0 .85rem;color:#718a95;font-size:.72rem}.override-grid{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1rem;color:#7f98a3;font-size:.76rem}.override-grid label{display:flex;gap:.45rem;align-items:center}.catalog-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}.catalog-disclosure{padding:0!important;overflow:hidden}.catalog-summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem;list-style:none}.catalog-summary::-webkit-details-marker{display:none}.catalog-summary>span:first-child{display:grid;gap:.2rem}.catalog-summary strong{font:500 1.2rem/1.2 Georgia,serif;color:#dce8ec}.catalog-summary small{color:#718a95;font-size:.72rem}.catalog-summary::after{content:"›";color:#58dcc5;font-size:1.2rem;transform:rotate(90deg);transition:transform .15s ease}.catalog-disclosure[open]>.catalog-summary::after{transform:rotate(-90deg)}.catalog-body{padding:0 1rem 1rem;border-top:1px solid rgba(255,255,255,.06)}.catalog-category-stack{display:grid;gap:1.1rem}.catalog-family{padding-top:.9rem;border-top:1px solid rgba(88,220,197,.10)}.catalog-family:first-child{border-top:0;padding-top:.2rem}.catalog-family>h4{display:flex;align-items:center;gap:.55rem;margin:.35rem 0 .65rem;color:#c5d4d9;font:600 .8rem/1.2 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase}.family-count{display:inline-flex;align-items:center;justify-content:center;min-width:1.7rem;height:1.35rem;padding:0 .35rem;border:1px solid rgba(88,220,197,.22);color:#58dcc5;font-size:.64rem}.catalog-card{display:flex;flex-direction:column;gap:.65rem;padding:.9rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.012)}.catalog-head{display:flex;justify-content:space-between;gap:.8rem;align-items:flex-start}.catalog-head>div{display:grid;gap:.2rem}.catalog-head small{color:#667f8b}.pillbar,.statbar{display:flex;flex-wrap:wrap;gap:.35rem}.catalog-card em{color:#7f98a3;font-size:.77rem;line-height:1.5}.catalog-card p{margin:0;color:#a7bbc3;font-size:.77rem;line-height:1.5}.price-config{max-width:220px}.support-line{padding:.45rem .55rem;border:1px solid rgba(112,168,121,.18);color:#a7bca5;font-size:.72rem}.support-line.bad{border-color:rgba(166,81,72,.28);color:#d0a29c}.bad-text{color:#d0a29c!important}.schema-badge.bad{border-color:rgba(166,81,72,.35);color:#d0a29c}.empty-line{color:#667f8b;font-size:.8rem}@media(max-width:1180px){.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:900px){.economy-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.charge-add-grid,.catalog-tools,.corporate-support-grid{grid-template-columns:1fr}.catalog-grid{grid-template-columns:1fr}}@media(max-width:560px){.economy-grid{grid-template-columns:1fr}.picked-row{align-items:stretch;flex-direction:column}.catalog-head{flex-direction:column}}
 </style>
