@@ -41,6 +41,10 @@ jobs:
           npm install
           npm run build
 
+      - name: Check Truth V7 editorial readability
+        working-directory: apps/api
+        run: node scripts/check-truth-v7-readability.mjs
+
       - name: Build web
         working-directory: apps/web
         run: |
@@ -1463,4 +1467,3 @@ jobs:
               -c "WITH deleted AS (DELETE FROM users WHERE email LIKE 'ci-%@example.invalid' RETURNING 1) SELECT count(*) FROM deleted;")"
             echo "CI CLEANUP FINAL — $AUDIT_DELETED trace(s) audit + $DELETED compte(s) résiduel(s) supprimé(s)"
           REMOTE
-

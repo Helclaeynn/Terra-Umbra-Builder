@@ -1,3 +1,5 @@
+import { editorializeTruthSections } from "./compendium-verite-v7-editorial.js";
+
 type Block={type:"p";text:string;style?:string}|{type:"table";rows:unknown[][]};
 type Section={id:string;title:string;level:number;audience?:"mj";blocks:Block[]};
 type Article={id:string;dataset:string;category:string;sourceCategory:string;title:string;source:string;status:string;rebuildV2:true;tags:string[];sections:Section[]};
@@ -868,7 +870,7 @@ const SOURCE_PAYLOAD={
     }
   ]
 };
-const article=(id:string,category:"Vérité"|"Règles",title:string,tags:string[],sections:unknown):Article=>({id,dataset:"verite-v7",category,sourceCategory:category,title,source:SOURCE,status:"canon_enrichi",rebuildV2:true,tags,sections:sections as Section[]});
+const article=(id:string,category:"Vérité"|"Règles",title:string,tags:string[],sections:unknown):Article=>{const typed=sections as Section[];return {id,dataset:"verite-v7",category,sourceCategory:category,title,source:SOURCE,status:"canon_enrichi",rebuildV2:true,tags,sections:category==="Règles"?editorializeTruthSections(typed) as Section[]:typed};};
 export const COMPENDIUM_VERITE_V7_ASERYN_ARTICLES:Article[]=[
 article("verite-v7-aseryns-serathe-atlantide-treize","Vérité","Aseryns — Serathè, Atlantide & Treize",["Vérité","Aseryns","Serathè","Atlantide","Treize","Accelyr","Paleo-Atlantes"],SOURCE_PAYLOAD.lore),
 article("regles-verite-v7-aseryn-nature-accelyr-origines","Règles","Nature, Accelyr & Origines",["Vérité","Aseryns","Nature","Accelyr","Origines","Résonance","Serathéens"],SOURCE_PAYLOAD.r1),
