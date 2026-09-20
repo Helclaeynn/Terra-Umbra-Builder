@@ -675,6 +675,18 @@ jobs:
             "realite-v9-vivre-en-2035":("Réalité",[
               "Précaire / Modeste","Bankcorpos","Accès n'est pas propriété"
             ]),
+            "realite-v9-alimentation-logement-quotidien-materiel":("Réalité",[
+              "ration universelle","cuisines automatisées","absence de friction"
+            ]),
+            "realite-v9-technologies-infrastructures-mobilite":("Réalité",[
+              "Vactrain","Modules autonomes de service","Dina Page"
+            ]),
+            "realite-v9-augmentations-corps-sante":("Réalité",[
+              "cybermécaniques","identifiant de santé","culture d'organes"
+            ]),
+            "realite-v9-loisirs-modes-sociabilites":("Réalité",[
+              "nightclubs","neopunk","deathball"
+            ]),
             "realite-v9-holonet-medias-culture-identite":("Réalité",[
               "Logifate","Mediacorpos","journée parfaitement ordinaire"
             ]),
@@ -738,7 +750,7 @@ jobs:
             index=json.load(response)["entries"]
           live={item["id"] for item in index if item.get("dataset")=="realite-v9"}
           assert live==set(expected),(live,set(expected))
-          assert sum(1 for item in index if item.get("dataset")=="realite-v9" and item.get("category")=="Réalité")==9
+          assert sum(1 for item in index if item.get("dataset")=="realite-v9" and item.get("category")=="Réalité")==13
           assert sum(1 for item in index if item.get("dataset")=="realite-v9" and item.get("category")=="Règles")==11
           PY
 
