@@ -298,9 +298,9 @@ await page.waitForFunction(()=>{
 if(browserErrors.length)throw new Error("Erreur lors du changement de Style :\n"+browserErrors.join("\n"));
 
 const nav=page.locator(".builder-nav button");
-if(await nav.count()!==12)throw new Error("Le Builder V2 doit exposer exactement 12 blocs.");
-for(let i=0;i<12;i++){
-  if(await nav.nth(i).isDisabled())throw new Error("Bloc "+(i+1)+" encore désactivé.");
+if(await nav.count()!==11)throw new Error("Le Builder V2 doit exposer exactement 11 étapes de création.");
+for(let i=0;i<11;i++){
+  if(await nav.nth(i).isDisabled())throw new Error("Étape "+(i+1)+" encore désactivée.");
 }
 
 await page.locator(".builder-nav").getByRole("button",{name:/Talents/}).click();
