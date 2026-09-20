@@ -139,22 +139,31 @@ const emit=defineEmits<{
 
 <style scoped>
 .newcomer-layer{display:grid;gap:1.35rem;margin:0 0 1.2rem}
-.newcomer-hero{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;padding:1.4rem 1.5rem;border-color:rgba(157,124,72,.3);background:linear-gradient(135deg,rgba(157,124,72,.09),rgba(255,255,255,.018))}
+.newcomer-hero{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;padding:1.4rem 1.5rem;border-color:rgba(43,146,255,.3);background:linear-gradient(135deg,rgba(43,146,255,.09),rgba(255,255,255,.018))}
 .newcomer-hero h2{margin:.15rem 0 .45rem;font:500 clamp(1.8rem,3vw,2.8rem)/1.05 Georgia,serif}
-.newcomer-hero p:not(.eyebrow){max-width:82ch;margin:0;color:#aaa296;line-height:1.6}
+.newcomer-hero p:not(.eyebrow){max-width:82ch;margin:0;color:#a6bac2;line-height:1.6}
 .newcomer-section{display:grid;gap:.8rem}.newcomer-section-head h3{margin:.15rem 0 0;font:500 clamp(1.35rem,2vw,1.8rem)/1.15 Georgia,serif}
 .newcomer-grid,.category-entry-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
 .newcomer-card,.category-entry{text-align:left;padding:1rem;display:flex;flex-direction:column;align-items:flex-start;min-height:145px;cursor:pointer}
 .newcomer-grid.compact .newcomer-card{min-height:125px}
-.newcomer-card strong,.category-entry strong{font:500 1.15rem/1.2 Georgia,serif;color:#ddd4c6}
-.newcomer-card p,.category-entry p,.nature-card p{color:#938b81;line-height:1.55;margin:.45rem 0}
-.newcomer-card span{margin-top:auto;color:#c5a66f;font-size:.75rem;font-weight:700}
-.newcomer-card:hover,.category-entry:hover,.nature-actions button:hover{border-color:rgba(157,124,72,.55)}
+.newcomer-card strong,.category-entry strong{font:500 1.15rem/1.2 Georgia,serif;color:#d7e3e7}
+.newcomer-card p,.category-entry p,.nature-card p{color:#7f98a3;line-height:1.55;margin:.45rem 0}
+.newcomer-card span{margin-top:auto;color:#6fcff1;font-size:.75rem;font-weight:700}
+.newcomer-card:hover,.category-entry:hover,.nature-actions button:hover{border-color:rgba(43,146,255,.55)}
 .nature-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem}
 .nature-card{padding:.9rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.nature-card>div:first-child{min-width:0}.nature-card strong{font-size:1rem;color:#d8d0c3}.nature-actions{display:flex;justify-content:flex-end;gap:.4rem;flex-wrap:wrap}
-.nature-actions button{white-space:nowrap;border:1px solid rgba(255,255,255,.1);background:transparent;color:#aaa296;padding:.4rem .55rem}
-.nature-title-row{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}.start-pill{padding:.2rem .45rem;border:1px solid rgba(181,139,77,.45);color:#dfbd80;font-size:.62rem;text-transform:uppercase;letter-spacing:.05em}
-.restricted-title{margin:.7rem 0 0;color:#b89a69;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em}
+.nature-card>div:first-child{min-width:0}.nature-card strong{font-size:1rem;color:#d3e0e4}.nature-actions{display:flex;justify-content:flex-end;gap:.4rem;flex-wrap:wrap}
+.nature-actions button{white-space:nowrap;border:1px solid rgba(255,255,255,.1);background:transparent;color:#a6bac2;padding:.4rem .55rem}
+.nature-title-row{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}.start-pill{padding:.2rem .45rem;border:1px solid rgba(166,124,230,.45);color:#cdb8ef;font-size:.62rem;text-transform:uppercase;letter-spacing:.05em}
+.restricted-title{margin:.7rem 0 0;color:#8fb7c5;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em}
 @media(max-width:900px){.newcomer-grid,.category-entry-grid,.nature-grid{grid-template-columns:1fr}.newcomer-hero,.nature-card{align-items:flex-start;flex-direction:column}.nature-actions{justify-content:flex-start}}
+
+/* Approved V2 visual system */
+.newcomer-hero{
+  border-color:rgba(88,220,197,.28);
+  background:linear-gradient(135deg,rgba(88,220,197,.07),rgba(43,146,255,.025));
+}
+.newcomer-card:hover,.category-entry:hover,.nature-actions button:hover{border-color:rgba(88,220,197,.50)}
+.start-pill{border-color:rgba(166,124,230,.36);color:#cdb8ef}
+
 </style>
