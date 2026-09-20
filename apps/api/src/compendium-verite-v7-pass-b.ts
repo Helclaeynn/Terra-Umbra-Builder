@@ -288,65 +288,303 @@ const EXTRALS: Section[] = [
     blocks: [
       {
         type: "p",
-        text: "Les Extrals viennent de civilisations galactiques ayant développé le voyage spatial et rencontré l’Humanité loin de la Terre. Leur implantation terrestre est globalement beaucoup plus récente que celle des Exilés. Il n’existe aucune « technologie extrale » unique : chaque civilisation a suivi ses propres paradigmes."
+        text: "Les Extrals suivent une trajectoire très différente de celle des Exilés. Ils viennent de civilisations galactiques — mondes, systèmes, empires, alliances et guerres — ayant développé le voyage spatial et rencontré l’Humanité loin de la Terre. Leur implantation terrestre est, dans l’ensemble, beaucoup plus récente que celle des peuples d’Aèr."
       },
       {
         type: "p",
-        text: "Le Voile peut traduire une morphologie, mais il ne supprime ni besoins biologiques, ni culture, ni habitudes de communication, ni incompatibilités techniques. Les diasporas dépendent donc de logements adaptés, soins xénobiologiques, interfaces, chaînes alimentaires et institutions capables de traiter une anatomie officiellement inexistante."
+        text: "Il n’existe aucune « technologie extrale » unique. Chaque civilisation a suivi ses propres paradigmes et peut être extraordinairement avancée dans un domaine tout en étant moins impressionnante dans un autre. Biologie, psychisme, matériaux, ingénierie, informatique et énergie ne suivent pas partout les mêmes chemins."
       }
     ]
   },
   {
-    id: "cinq-peuples",
-    title: "Les cinq principales communautés terrestres",
+    id: "arriver-sur-terre",
+    title: "Arriver sur une planète qui ne sait pas que vous existez",
     level: 2,
     blocks: [
       {
-        type: "table",
-        rows: [
-          ["Peuple", "Repère"],
-          ["Talass", "Petits êtres segmentaires, soie très conductrice, aptitudes psychiques et culture privilégiant intellect, technique et réduction de la violence."],
-          ["Mo’sen", "Reptiloïdes cuirassés marqués par une histoire de domination ; indépendance et contrôle des conditions de protection sont des enjeux centraux."],
-          ["Baséanh", "Quatre bras, six yeux et Tardollas : leur propre biologie peut servir d’infrastructure de culture et de technologie vivante."],
-          ["Rocréen", "Molluscoïdes amphibies à Noyau régénératif, communication psychique et diasporas clandestines particulièrement solides."],
-          ["Thalsios", "Amphibioïdes massifs très sensibles à l’humidité, précis de leurs mains et culturellement tournés vers réparation, adaptation et résolution concrète."]
-        ]
+        type: "p",
+        text: "Un nouvel arrivant peut avoir voyagé entre plusieurs systèmes avant de découvrir qu’à Los Angeles il doit apprendre à se faire passer pour une espèce qui ignore jusqu’à l’existence de sa planète d’origine. L’Hologramme rend cette implantation possible sans la rendre simple."
+      },
+      {
+        type: "p",
+        text: "Le Voile peut traduire une morphologie, mais il ne supprime ni besoins biologiques, ni culture, ni habitudes de communication, ni incompatibilités techniques. Les communautés extrales dépendent donc d’infrastructures très concrètes : logements adaptés, soins xénobiologiques, chaînes alimentaires compatibles, interfaces, traducteurs, fournisseurs et institutions capables de traiter une anatomie officiellement inexistante."
       }
     ]
   },
   {
-    id: "gaac-organisations",
-    title: "GAAC, organisations et diasporas",
+    id: "talass",
+    title: "Talass — penser la technique sans aimer la violence",
     level: 2,
     blocks: [
       {
         type: "p",
-        text: "Le GAAC représente, négocie et facilite l’intégration sans constituer un gouvernement unique. Il fournit procédures, relais, interlocuteurs et légitimité à des communautés qui conservent leurs propres citoyennetés, diasporas et fidélités."
+        text: "Les Talass sont de petits êtres segmentaires issus de formes fongiformes. Leur soie extrêmement conductrice, leurs capacités de déplacement, leurs aptitudes psychiques et leur rapport au Talwa’Etax produisent des solutions technologiques et perceptives qui ne ressemblent pas toujours à l’ingénierie humaine."
       },
       {
         type: "p",
-        text: "La CTU cherche à rendre transmissibles des technologies trop avancées pour rester des boîtes noires importées. La Croix Verte adapte localement habitats et soins à plusieurs physiologies. REPTILE protège les intérêts mo’sens par l’influence et l’infiltration. La Mafia Shaediri maîtrise les derniers kilomètres du marché noir galactique, tandis qu’Hydroguard travaille là où l’environnement lui-même devient une menace opérationnelle."
+        text: "Leur culture valorise fortement l’intellect et se méfie de la violence. Cette méfiance n’implique pas l’incapacité à se défendre : elle exprime plutôt l’idée que si une structure pouvait empêcher, négocier ou rendre inutile le conflit, devoir le résoudre par la force constitue déjà un échec de conception."
+      },
+      {
+        type: "p",
+        text: "La vie terrestre a renforcé chez certaines communautés un goût pour la politique. Négocier avec l’AIDH, le GAAC et les gouvernements humains oblige à transformer l’intelligence technique en intelligence institutionnelle ; un Talass peut donc devenir militant, diplomate ou organisateur sans renier sa culture scientifique."
       }
     ]
   },
   {
-    id: "catalogue-builder",
-    title: "Un catalogue canonique de 161 Talents",
+    id: "mosen",
+    title: "Mo’sen — survivre à une histoire de domination",
     level: 2,
     blocks: [
       {
-        type: "table",
-        rows: [
-          ["Famille", "Nombre"],
-          ["Profils Talass, Mo’sen, Baséanh, Rocréen & Thalsios", 61],
-          ["Protocoles de Continuité", 4],
-          ["Organisations Extrals", 56],
-          ["Sous-total de cette page", 121]
-        ]
+        type: "p",
+        text: "Les Mo’sens sont de puissants reptiloïdes dont la cuirasse naturelle, les pics hormonaux et les sens prédateurs deviennent difficiles à ignorer lorsqu’ils se Révèlent. Leur histoire a toutefois été marquée par l’oppression exercée par d’autres branches apparentées et par les alliances nécessaires pour s’en libérer."
       },
       {
         type: "p",
-        text: "Le Builder reste la source mécanique détaillée. Cette page couvre les cinq communautés principales, les Protocoles de Continuité et les organisations Extrals ; Homo Superior, Ad’rak et les doctrines AIDH disposent d’une page distincte afin de ne pas confondre diaspora extrale, humanité transformée et espèce rare."
+        text: "Cette mémoire crée une sensibilité politique particulière à la dépendance. Une communauté capable de se nourrir, se défendre et négocier sans tutelle est culturellement plus sûre qu’une communauté très confortable dont un acteur extérieur peut couper les ressources en une décision."
+      },
+      {
+        type: "p",
+        text: "REPTILE représente la version la plus controversée de cette logique : influencer les structures humaines de l’intérieur afin qu’elles protègent les intérêts mo’sens. Beaucoup de Mo’sens rejettent pourtant cette stratégie et préfèrent GAAC, réseaux scientifiques ou intégration plus transparente. Brotherhood of Hate et Saeniaforming Army appartiennent à des branches plus radicales, généralement traitées comme menaces plutôt que comme organisations ordinaires."
+      }
+    ]
+  },
+  {
+    id: "baseanh",
+    title: "Baséanhs — la biologie comme laboratoire",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Les Baséanhs possèdent quatre bras, six yeux et des Tardollas capables de maintenir différents milieux cellulaires. Là où beaucoup d’espèces séparent nettement le corps de l’outil, un Baséanh peut faire de son organisme une infrastructure de culture biologique."
+      },
+      {
+        type: "p",
+        text: "Pharmacologie, acclimatation et biologie appliquée occupent donc une place majeure dans leur civilisation. Une préparation n’est pas une potion mystérieuse : elle résulte d’un milieu vivant entretenu, compris et capable de produire toxines, protéines, bactéries, traitements ou composés précis."
+      },
+      {
+        type: "p",
+        text: "Sur Terre, cette expertise les rend essentiels aux problèmes que la médecine humaine ne sait pas encore traiter. La Croix Verte et les Biobars incarnent cette philosophie : adapter localement air, humidité, nourriture, traitements et microclimats au lieu de prétendre transformer toute la planète."
+      }
+    ]
+  },
+  {
+    id: "rocreen",
+    title: "Rocréens — régénérer, communiquer, survivre par le réseau",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Les Rocréens sont des molluscoïdes amphibies dont le Noyau permet une reconstruction biologique remarquable. Cette capacité, associée à une communication psychique et à une histoire de prédateurs sociaux, donne à leur culture une relation particulière à la continuité du groupe."
+      },
+      {
+        type: "p",
+        text: "Partager une perception ou une information n’abolit pas les frontières individuelles, mais se négocie dans une culture où cette forme d’échange peut être aussi ordinaire que montrer une image. Leurs diasporas ont développé des réseaux clandestins particulièrement solides."
+      },
+      {
+        type: "p",
+        text: "La Mafia Shaediri en est l’exemple le plus célèbre ; les Shaekori en représentent une dimension plus fraternelle faite de refuges, extractions et relais distribués. Un Rocréen n’a pas besoin d’être criminel pour comprendre pourquoi une diaspora minoritaire valorise les routes qui continuent d’exister quand l’administration officielle ne répond plus."
+      }
+    ]
+  },
+  {
+    id: "thalsios",
+    title: "Thalsios — résoudre ce qui est devant soi",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Les Thalsios sont des amphibioïdes massifs, très sensibles à l’humidité et remarquablement précis de leurs mains. Longtemps exploités comme main-d’œuvre, ils ont développé une culture dans laquelle travail, réparation et résolution concrète des problèmes sont des moyens de reprendre du contrôle sur un environnement qui a souvent décidé à leur place."
+      },
+      {
+        type: "p",
+        text: "Leur physiologie rend la politique environnementale immédiatement tangible : eau, climatisation ou panne d’infrastructure peuvent devenir des questions de santé. Hydroguard est née de cette réalité, tandis que leur sens pratique les rend également très présents dans les organisations scientifiques comme la CTU, où il complète bien le goût talass pour l’ingénierie théorique."
+      }
+    ]
+  },
+  {
+    id: "gaac",
+    title: "GAAC — représenter sans gouverner",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "La Global Alliance of Alien Citizens sert de conseil officiel, d’espace d’auto-encadrement, de représentation et d’intégration légale. Elle aide les communautés à respecter les contraintes imposées par l’AIDH et à négocier avec des institutions terrestres qui ne peuvent publiquement reconnaître leur existence."
+      },
+      {
+        type: "p",
+        text: "Son pouvoir est d’abord institutionnel : procédures, relais, interlocuteurs et légitimité lorsqu’un problème biologique, juridique ou diplomatique ne peut être résolu par un service humain ordinaire. Le GAAC ne remplace ni les citoyennetés, ni les diasporas, ni les organisations culturelles ou scientifiques."
+      },
+      {
+        type: "p",
+        text: "Cette modestie est l’une de ses forces. Avec cinq espèces majeures et de nombreux profils plus rares, vouloir devenir un gouvernement unique provoquerait immédiatement une guerre de compétences. Le GAAC fonctionne mieux comme cadre partagé que comme autorité cherchant à effacer les intérêts particuliers."
+      }
+    ]
+  },
+  {
+    id: "ctu",
+    title: "CTU — rendre l’impossible transmissible",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "La Californian Talasses Union est une faction scientifique transespèce. Elle part d’un problème simple : posséder un appareil extraordinaire ne sert presque à rien si personne sur place ne sait le réparer, produire ses composants ou comprendre les étapes intermédiaires nécessaires à sa fabrication."
+      },
+      {
+        type: "p",
+        text: "La CTU cherche donc à déclasser intelligemment une technologie, créer des équivalents, encapsuler des procédures et bâtir des prototypes de transition. Elle ne veut pas rendre la Terre galactique en une nuit, mais construire un chemin reproductible entre ce qui existe déjà et ce qui resterait autrement une boîte noire importée."
+      },
+      {
+        type: "p",
+        text: "Cette philosophie attire naturellement Talass et Thalsios sans leur être exclusive. Elle possède aussi une dimension politique : diffuser une technologie réduit la dépendance envers celui qui la vend."
+      }
+    ]
+  },
+  {
+    id: "croix-verte",
+    title: "Croix Verte / Ligue Baséanne — rendre la Terre habitable pour plusieurs espèces",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "La Croix Verte travaille sur l’acclimatation et l’intervention xénobiologique. Une planète entière ne peut être terraformée pour chaque visiteur, mais un habitat, une clinique ou une zone de travail peuvent être adaptés localement."
+      },
+      {
+        type: "p",
+        text: "Microclimats, substitutions métaboliques, conversion de traitements et supports vitaux permettent de maintenir temporairement une espèce que la médecine locale ignore presque entièrement. Le Baséanh y trouve un terrain naturel sans exclusivité absolue."
+      },
+      {
+        type: "p",
+        text: "Une grande partie de son travail consiste précisément à faire en sorte que rien de spectaculaire ne se produise : que le patient survive, que l’air soit respirable, que la nourriture soit compatible et que personne n’ait à expliquer pourquoi une ambulance humaine ne pouvait pas résoudre le problème."
+      }
+    ]
+  },
+  {
+    id: "reptile",
+    title: "REPTILE — protéger par l’infiltration",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Majoritairement mo’senne, REPTILE considère que la sécurité réelle vient de la capacité à faire agir les systèmes humains dans le bon sens avant qu’une crise n’éclate. L’organisation infiltre, influence ou recrute à l’intérieur d’institutions dont les décisions affectent les Extrals."
+      },
+      {
+        type: "p",
+        text: "Elle ne cherche pas seulement des « amis haut placés » : elle construit des mandats dormants, répartit les décisions et cherche à faire survivre un dispositif même si un membre central disparaît. Pour ses adversaires, REPTILE prouve pourquoi les Extrals ne devraient pas être laissés sans contrôle ; pour ses membres, il prouve qu’une minorité incapable d’influencer les structures décidant de son avenir est déjà à leur merci."
+      }
+    ]
+  },
+  {
+    id: "shaediri",
+    title: "Mafia Shaediri — une frontière qui commence au dernier kilomètre",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "La Mafia Shaediri est rocréenne par origine mais ouverte à d’autres espèces via les Shaekori. Elle maîtrise la zone où une marchandise existe quelque part dans le réseau galactique mais ne peut franchir légalement les derniers obstacles jusqu’à son utilisateur terrestre."
+      },
+      {
+        type: "p",
+        text: "Transpondeurs, soutes aveugles, fenêtres orbitales, routes cislunaires, provenance brouillée et importations noires appartiennent à cette culture. La filière ne garantit jamais que tout soit disponible : sa puissance est de savoir ce qui peut réellement arriver, par où, à quel prix et avec quel risque."
+      },
+      {
+        type: "p",
+        text: "L’échelle reste terrestre. Le réseau extérieur fait venir la marchandise ; le contrebandier local rend le dernier segment possible. La Shaediri permet ainsi à la galaxie d’avoir des conséquences locales sans transformer chaque intermédiaire en capitaine de vaisseau interstellaire."
+      }
+    ]
+  },
+  {
+    id: "hydroguard",
+    title: "Hydroguard / THDF — vivre là où l’environnement tue avant l’ennemi",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Hydroguard est née d’une expertise hydrométrique et d’intervention qui a progressivement pris une dimension militaire. Sous l’eau, déplacement, pression ou sauvetage peuvent tuer aussi sûrement qu’une arme ; combat et extraction ne sont donc jamais totalement séparés."
+      },
+      {
+        type: "p",
+        text: "Abysswatchers, Deepknights, Mermaid Soldiers et Mola Mola sont différents visages d’une même culture opérationnelle, pas quatre organisations autonomes. Thalsios et Rocréens y sont particulièrement présents, avec des ouvertures à d’autres espèces capables de supporter l’environnement."
+      },
+      {
+        type: "p",
+        text: "Sur Terre, Hydroguard intervient lorsque les infrastructures humaines deviennent inadaptées : profondeur, habitats immergés, accidents liés à des technologies extrales ou zones dont la physique environnementale rend une unité classique inefficace."
+      }
+    ]
+  },
+  {
+    id: "smrc-agi",
+    title: "SMRC / AGI — rendre les corps compatibles",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Le SMRC recherche la compatibilité génétique entre espèces ; l’AGI en représente une façade ou expression plus publique, particulièrement présente chez les Thalsios. Leur travail produit des modifications orgienétiques, augmentations biologiques durables capables d’ajouter des fonctions réelles au corps."
+      },
+      {
+        type: "p",
+        text: "L’Hologramme traduit une greffe durablement intégrée avec le reste du corps, mais ne transforme pas la modification en détail insignifiant. Plaques mo’sennes, branchies thaliosses ou tissus rocréens régénératifs peuvent devenir des choix médicaux, professionnels ou culturels."
+      },
+      {
+        type: "p",
+        text: "Le projet est à la fois scientifique et politique : plus les espèces deviennent biologiquement compatibles, moins elles dépendent d’infrastructures séparées. Mais emprunter les fonctions d’un autre organisme brouille aussi la frontière entre adaptation et appropriation. Les hybrides entre surnaturel terrestre et orgienétique extrale restent des cas exceptionnels, davantage faits pour expériences, menaces ou scénarios que pour une normalité sociale."
+      }
+    ]
+  },
+  {
+    id: "sra",
+    title: "SRA — chercher sans transformer chaque réponse en pouvoir",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "La Shadow Research Agency étudie les anomalies, collecte des données et construit des protocoles scientifiques. Sa spécificité vient de ses laboratoires, dossiers, missions et de l’accès à des phénomènes que la science publique ne peut officiellement reconnaître."
+      },
+      {
+        type: "p",
+        text: "Elle n’a pas besoin d’une « magie de scientifique » pour être importante : mesurer correctement une anomalie, comparer des expériences et produire une hypothèse reproductible est déjà extraordinairement rare lorsque le monde peut modifier les données que l’on tente d’enregistrer."
+      },
+      {
+        type: "p",
+        text: "La SRA sert souvent de pont entre savoir profane et Vérité. Ses chercheurs peuvent découvrir un phénomène avant d’avoir le vocabulaire culturel permettant de l’interpréter, produisant autant de grandes avancées que d’erreurs mémorables."
+      }
+    ]
+  },
+  {
+    id: "emeraude-sanglante",
+    title: "Émeraude Sanglante — la réponse radicale à l’Armée noire",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "L’Émeraude Sanglante est une faction militaire talass radicalisée, officiellement presque détruite, dont la réputation vient de son succès exceptionnel contre l’Armée noire Ad’rak. Son existence contredit l’image d’un peuple talass incapable d’assumer la violence : certains ont décidé que refuser de préparer la guerre revenait à laisser l’adversaire en choisir le moment."
+      },
+      {
+        type: "p",
+        text: "Sa doctrine combine armures adaptées à la mobilité talass et méthodes destinées à démanteler méthodiquement des adversaires physiquement supérieurs : ouvrir une brèche, l’exploiter puis l’agrandir jusqu’à ce que la masse cesse d’être décisive."
+      },
+      {
+        type: "p",
+        text: "Cette radicalisation rend la faction difficilement compatible avec une intégration ordinaire. Même chez les Talass, elle demeure rare et clandestine, bien plus marquée par la guerre que la plupart des institutions extrales ne souhaitent l’admettre publiquement."
+      }
+    ]
+  },
+  {
+    id: "extrals-2035",
+    title: "Les Extrals en 2035 — une diaspora récente, déjà divisée",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Il n’existe pas de communauté extrale uniforme. Le GAAC fournit un cadre et les organisations créent des routes et des savoirs, mais les espèces ont des histoires suffisamment différentes pour que deux Extrals puissent avoir moins en commun culturellement que deux Humains de continents opposés."
+      },
+      {
+        type: "p",
+        text: "La Terre accélère pourtant certains rapprochements. Être cachés par le même Hologramme, dépendre des mêmes infrastructures spécialisées et négocier avec les mêmes gouvernements crée des solidarités nouvelles. CTU, Croix Verte, routes Shaediri et opérations Hydroguard produisent progressivement une culture extrale terrestre."
+      },
+      {
+        type: "p",
+        text: "Cette culture reste jeune. Contrairement aux Exilés, beaucoup peuvent encore nommer la planète, le système ou l’organisation qui les a envoyés ici. La question « quel monde est vraiment le nôtre ? » n’est pas encore ancienne ; pour certains, elle commence seulement à se poser."
       }
     ]
   }
@@ -354,17 +592,36 @@ const EXTRALS: Section[] = [
 
 const HOMO_ADRAK: Section[] = [
   {
-    id: "aidh",
-    title: "AIDH — une Humanité des Mondes Technologiques",
+    id: "aidh-ichei",
+    title: "AIDH — une Humanité qui ne vient pas de la Terre",
     level: 2,
     blocks: [
       {
         type: "p",
-        text: "L’AIDH appartient aux Mondes Technologiques humains et son centre historique se situe dans le système d’Ichéi. Pour beaucoup de ses membres, la Terre est une planète humaine périphérique. L’organisation possède des sciences et infrastructures très supérieures aux standards terrestres dans plusieurs domaines."
+        text: "L’AIDH appartient aux Mondes Technologiques humains et vient du système d’Ichéi. Ses membres considèrent généralement Ichéi Prime comme le berceau de leur civilisation. Pour beaucoup, la Terre n’est donc pas la « maison de l’espèce », mais un autre grand foyer humain, ancien, autonome et culturellement distinct."
       },
       {
         type: "p",
-        text: "Invariants, capteurs de cohérence, confinement, biphysique et anti-possession permettent d’interagir avec Terra Umbra sans rendre l’AIDH omnisciente ni propriétaire de l’Hologramme. Sa relation à la Terre mêle protection, surveillance et intérêt stratégique."
+        text: "Les Humains galactiques ont reconstruit autour d’Ichéi une histoire complète de leur civilisation et se trompent eux aussi sur l’origine la plus ancienne de l’Humanité : celle-ci reste liée à Aèr. Le rapport entre Humains d’Ichéi et Humains terrestres est donc celui de deux branches culturelles séparées par des trajectoires historiques immenses, pas celui d’une population revenant consciemment vers son berceau."
+      },
+      {
+        type: "p",
+        text: "Pour un agent de l’AIDH, la Terre est surtout un monde humain chargé d’anomalies que les autres sociétés ne rencontrent pas à la même concentration. Magie, peuples d’Aèr et surtout Hologramme rendent la planète stratégiquement unique."
+      }
+    ]
+  },
+  {
+    id: "aidh-hologramme",
+    title: "L’AIDH & l’Hologramme",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "L’AIDH a participé à la création de l’Hologramme et continue à l’alimenter et le stabiliser avec d’autres acteurs. Elle possède des technologies capables d’interagir directement avec la Cohérence : invariants, capteurs, enregistrements invariants, confinement, biphysique, anti-possession et protocoles de terrain."
+      },
+      {
+        type: "p",
+        text: "Cette connaissance ne signifie ni omniscience ni contrôle exclusif du système. Sa relation à la Terre mêle protection, surveillance et intérêt stratégique. Certains agents veulent préserver la planète d’une attention galactique dangereuse ; d’autres craignent qu’une Terre réunissant forte densité magique et accélération technologique ne recrée des conditions que des civilisations anciennes ont déjà appris à redouter."
       }
     ]
   },
@@ -375,11 +632,15 @@ const HOMO_ADRAK: Section[] = [
     blocks: [
       {
         type: "p",
-        text: "Les Homo Superior restent des Humains. Génétique, nanites, conditionnement et optimisation neurologique poussent leurs capacités assez loin pour que la distinction paraisse moins évidente à un observateur terrestre, mais il ne s’agit jamais d’une nouvelle espèce."
+        text: "Les Homo Superior ne sont pas une espèce. Ils restent Humains. Génétique, nanites, conditionnement et optimisation neurologique ont cependant poussé leurs capacités assez loin pour qu’un observateur terrestre puisse facilement les classer comme autre chose."
       },
       {
         type: "p",
-        text: "Ils représentent un programme et une culture du corps propres à l’AIDH. Les Seigneur-Généraux restent des figures hors échelle PJ : ils ne constituent pas le dernier rang naturel de la progression Homo Superior."
+        text: "Pour l’AIDH, ils représentent un programme, une doctrine et une technologie appliqués à l’Humanité. Pour les sociétés augmentées de 2035, ils posent une question plus dérangeante : à partir de quel niveau de modification une amélioration cesse-t-elle d’être un simple équipement pour devenir une culture du corps entière ?"
+      },
+      {
+        type: "p",
+        text: "Les Seigneur-Généraux restent des figures humaines exceptionnelles hors échelle PJ. Un Homo Superior ne progresse pas naturellement vers ce statut simplement en accumulant les capacités de son programme."
       }
     ]
   },
@@ -390,47 +651,45 @@ const HOMO_ADRAK: Section[] = [
     blocks: [
       {
         type: "p",
-        text: "Les Ad’rak sont une espèce extrale véritable, très grande et extrêmement puissante physiquement. Les individus présents sur Terre sont surtout réfugiés, dissidents, descendants de communautés libres ou anciens sujets ayant échappé à l’Armée noire."
+        text: "Les Ad’rak sont de véritables Extrals, très grands et capables d’une puissance physique comparable à certaines Natures terrestres dangereuses. Un adulte mesure environ 2,60 m chez les hommes et 2,20 m chez les femmes ; leur corps est construit pour une violence et une contrainte physique que la majorité des espèces n’affronte jamais directement."
       },
       {
         type: "p",
-        text: "Un PJ Ad’rak loyal à l’Armée noire n’est pas le cadre ordinaire de cette origine. Leur existence rappelle surtout que les cinq peuples représentés autour du GAAC ne constituent qu’une fraction des civilisations galactiques possibles."
+        text: "Sur Terre, les profils ordinaires ou jouables sont surtout des réfugiés, dissidents, descendants de communautés libres ou anciens sujets ayant échappé à l’Armée noire. Les loyalistes ne constituent pas une trajectoire normale de personnage : ils appartiennent à une puissance dont objectifs et méthodes les placent généralement du côté des menaces."
+      },
+      {
+        type: "p",
+        text: "Cette distinction empêche de réduire toute l’espèce à son armée. Un Ad’rak libre construit son identité dans l’ombre d’une puissance qui a façonné la réputation de son peuple, et sa simple présence peut provoquer la peur chez des Extrals qui connaissent cette histoire mieux que la plupart des Humains."
       }
     ]
   },
   {
-    id: "distinction",
+    id: "nelakna",
+    title: "Les Arts de Nel’Akna",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Les Arts de Nel’Akna montrent qu’une culture guerrière ad’rak peut être discipline, forme et tradition plutôt que brutalité pure. Nel’Akna, connue sur Terre sous le nom de Tejana, est la dernière grande prêtresse libre connue de cet ancien ordre sacerdotal martial lié aux lunes-sanctuaires Ad’rak."
+      },
+      {
+        type: "p",
+        text: "Les Formes anciennes peuvent être transmises au-delà de l’espèce par un véritable maître, tandis que le Souffle écarlate reste beaucoup plus rare et dépend d’une capacité réelle à le faire circuler. La force ad’rak est réelle ; ce qu’un individu choisit d’en faire demeure une question personnelle, culturelle et politique."
+      }
+    ]
+  },
+  {
+    id: "deux-profils-rares",
     title: "Deux profils rares, deux statuts différents",
     level: 2,
     blocks: [
       {
-        type: "table",
-        rows: [
-          ["Profil", "Nature", "Repère"],
-          ["Homo Superior", "Humain", "Humanité transformée par les sciences AIDH ; aucune espèce nouvelle."],
-          ["Ad’rak", "Extral", "Espèce véritable ; origine PJ restreinte dans le cadre terrestre."]
-        ]
-      }
-    ]
-  },
-  {
-    id: "builder",
-    title: "Repère Builder",
-    level: 2,
-    blocks: [
-      {
-        type: "table",
-        rows: [
-          ["Famille", "Talents"],
-          ["Homo Superior", 12],
-          ["Ad’rak", 20],
-          ["Doctrines AIDH", 8],
-          ["Total", 40]
-        ]
+        type: "p",
+        text: "Homo Superior et Ad’rak partagent une place périphérique dans le dossier des Mondes Technologiques mais ne doivent jamais être confondus. Le premier est un Humain profondément transformé par les sciences de l’AIDH ; le second est une espèce extrale véritable dont une fraction seulement se trouve sur Terre."
       },
       {
         type: "p",
-        text: "Le détail mécanique reste dans le Builder. Cette page sert précisément à empêcher trois confusions : Homo Superior n’est pas un Extral, Ad’rak n’est pas un programme humain, et l’AIDH n’est pas une espèce."
+        text: "Ils restent des profils rares du corpus, pas deux grandes Natures autonomes équivalentes aux Vampires, Garous, Mages ou Angelus. Leur intérêt vient précisément de ce qu’ils révèlent sur l’échelle galactique du monde et sur les limites de la définition humaine de l’espèce."
       }
     ]
   }
