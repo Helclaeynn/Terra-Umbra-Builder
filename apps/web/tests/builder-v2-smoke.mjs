@@ -36,7 +36,11 @@ const characterData={
   disadvantages:[],
   edge:{attributePack:0,skillPacks:0,talentPacks:0,cashPacks:0,lifestylePack:0,augmentationPacks:0,renownPack:0},
   edgeAttributes:{},
-  truth:{nature:"humain",consciousness:"initie",choices:{hunterTradition:"aucune"},truthTalents:[]},
+  truth:{
+    nature:"humain",consciousness:"initie",choices:{hunterTradition:"aucune"},truthTalents:[],
+    truthEquipment:[],truthEquipmentMjOverride:false,
+    corruptionMjAuthorized:false,corruption:0,corruptionSource:"",corruptionTalents:[]
+  },
   equipment:[],
   social:{languages:["Anglais"],contacts:["Contact Smoke"],reputation:""},
   spending:{augmentations:0,equipment:0,vehicle:0},
@@ -130,6 +134,37 @@ const truthRules={
     }
   },
   catalogs:{humain:[]},
+  equipment:[
+    {
+      id:"truth-ref-smoke",name:"Propriété Smoke",chapter:"22",section:"Propriétés communes",
+      status:"reference",sourceKind:"property",tags:[],lore:"Règle commune de référence.",
+      properties:[{label:"Règle",value:"Référence uniquement"}],
+      compendiumId:"wiki-truth-ref-smoke",referenceOnly:true,requiresMj:false
+    },
+    {
+      id:"truth-hunt-smoke",name:"Arme de Chasse Smoke",chapter:"23",section:"Équipement de Chasse",
+      status:"catalogue",sourceKind:"equipment",tags:[],lore:"Matériel réservé à une vraie tradition de Chasse.",
+      properties:[{label:"Profil",value:"DGT smoke"}],
+      compendiumId:"wiki-truth-hunt-smoke",referenceOnly:false,requiresMj:false
+    },
+    {
+      id:"truth-exile-smoke",name:"Objet d’Aèr Smoke",chapter:"24",section:"Marché des Exilés",
+      status:"catalogue",sourceKind:"equipment",tags:[],lore:"Matériel des réseaux d’Aèr.",
+      properties:[{label:"Accès",value:"Exilé"}],
+      compendiumId:"wiki-truth-exile-smoke",referenceOnly:false,requiresMj:false
+    },
+    {
+      id:"truth-corrupt-smoke",name:"Relique corrompue Smoke",chapter:"27",section:"Calamitechnologie",
+      status:"hors_catalogue",sourceKind:"artifact",tags:[],lore:"Objet corrompu exceptionnel.",
+      properties:[{label:"Souillure",value:"MJ"}],
+      compendiumId:"wiki-truth-corrupt-smoke",referenceOnly:false,requiresMj:true
+    }
+  ],
+  corruption:{
+    sources:[{id:"vhodhal",name:"Vhodhal",corruption:"Faim",principle:"Dévoration",compendiumId:"wiki-vhodhal-smoke"}],
+    precedence:["vhodhal"],
+    talents:[]
+  },
   visibility:{needles:{humain:{}},sharedHunterNatures:[]},
   revelation:{
     stages:{v:{code:"V",name:"Voilé"},sr:{code:"SR",name:"Semi-Révélé"},r:{code:"R",name:"Révélé"}},
@@ -320,6 +355,35 @@ await revealDisclosure.click();
 for(const label of ["Voilé","Semi-Révélé","Révélé"]){
   await page.getByText(label,{exact:true}).waitFor({state:"visible",timeout:5000});
 }
+
+// Truth equipment is scoped by the character's actual access. A Human with no
+// hunter tradition only sees the common reference layer.
+await page.getByRole("heading",{name:"Objets de Vérité"}).waitFor({state:"visible",timeout:5000});
+const truthCatalog=page.locator("summary.truth-disclosure-summary").filter({hasText:"Catalogue de Vérité"});
+await truthCatalog.click();
+await page.getByText("Propriété Smoke",{exact:true}).waitFor({state:"visible",timeout:5000});
+if(await page.getByText("Arme de Chasse Smoke",{exact:true}).count())throw new Error("Équipement de Chasse visible sans tradition de Chasse.");
+if(await page.getByText("Objet d’Aèr Smoke",{exact:true}).count())throw new Error("Objet d’Aèr visible pour un non-Exilé.");
+if(await page.getByText("Relique corrompue Smoke",{exact:true}).count())throw new Error("Équipement corrompu visible sans autorisation MJ.");
+
+const truthEquipmentMj=page.getByLabel(/Autorisation MJ d’accès exceptionnel aux objets de Vérité/);
+await truthEquipmentMj.check();
+for(const label of ["Arme de Chasse Smoke","Objet d’Aèr Smoke","Relique corrompue Smoke"]){
+  await page.getByText(label,{exact:true}).waitFor({state:"visible",timeout:5000});
+}
+await truthEquipmentMj.uncheck();
+await page.waitForFunction(()=>![...document.querySelectorAll("body *")].some(node=>node.textContent?.trim()==="Objet d’Aèr Smoke"),{timeout:5000});
+
+// Corruption is not a normal creation choice: it stays closed until explicit GM approval.
+await page.getByText("Personnage sain par défaut.",{exact:false}).waitFor({state:"visible",timeout:5000});
+if(await page.getByText("Source dominante",{exact:true}).count())throw new Error("Corruption ouverte sans autorisation MJ.");
+const corruptionApproval=page.getByLabel(/Autorisation MJ : ouvrir Corruption & Fléaux/);
+await corruptionApproval.check();
+await page.getByText("Source dominante",{exact:true}).waitFor({state:"visible",timeout:5000});
+await page.getByRole("option",{name:/Vhodhal/}).waitFor({state:"attached",timeout:5000});
+const activeApproval=page.getByLabel(/Autorisation MJ active/);
+await activeApproval.uncheck();
+await page.getByText("Personnage sain par défaut.",{exact:false}).waitFor({state:"visible",timeout:5000});
 
 await page.locator(".builder-nav").getByRole("button",{name:/Équipement/}).click();
 await page.getByRole("heading",{name:"Réalité, équipement & augmentations"}).waitFor();
