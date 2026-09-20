@@ -63,6 +63,25 @@ for (const article of articles) {
   }
 }
 
+const truthEquipment = terraUmbraTruthRules.equipment;
+if (truthEquipment.length !== 229) fail(`truth equipment: expected 229 entries, found ${truthEquipment.length}`);
+if (new Set(truthEquipment.map((item) => item.id)).size !== 229) fail("truth equipment: duplicate ids");
+for (const chapter of ["22","23","24","25","26","27"]) {
+  if (!truthEquipment.some((item) => item.chapter === chapter)) {
+    fail(`truth equipment: missing chapter ${chapter}`);
+  }
+}
+const commonProperties = truthEquipment.filter((item) => item.chapter === "22");
+if (!commonProperties.length || commonProperties.some((item) => !item.referenceOnly)) {
+  fail("truth equipment: chapter 22 common properties must remain reference-only");
+}
+for (const item of truthEquipment) {
+  if (!item.compendiumId) fail(`truth equipment: ${item.name} has no Compendium target`);
+  if ((item.status === "unique" || item.status === "hors_catalogue") && !item.requiresMj) {
+    fail(`truth equipment: exceptional item ${item.name} is not MJ-gated`);
+  }
+}
+
 const catalogs = terraUmbraTruthRules.catalogs;
 const expectedCounts = [
   ["exile", catalogs.exile, 184],
@@ -123,5 +142,5 @@ for (const needle of ["Perforant X", "Sacré", "Angélique", "Solaire", "EMP / I
 }
 
 if (!process.exitCode) {
-  console.log("[truth-v7-pass-b] 20/20 Pass B editorial pages validated; 611 Builder talents linked to six rule pages without catalog duplication.");
+  console.log("[truth-v7-pass-b] 20/20 Pass B editorial pages validated; 611 Builder talents linked; 229 Truth equipment entries validated without catalog duplication.");
 }
