@@ -47,7 +47,7 @@ export const COMPENDIUM_MOTEUR_V4_ARTICLES: Article[] = [
         title: "Le socle commun de Terra Umbra California",
         level: 2,
         blocks: [
-          p("Le Moteur rassemble les règles communes de Terra Umbra California : résolution des tests, profil dérivé, Initiative et Points d’Action, déplacement, Edge, Renommée, combat, tir, santé, soins et Stress."),
+          p("Le Moteur V4 a été finalisé le 10 septembre 2026 après cross-audit Création × Réalité × Vérité. Il rassemble les règles communes de Terra Umbra California : résolution des tests, profil dérivé, Initiative et Points d’Action, déplacement, Edge, Renommée, combat, tir, santé, soins et Stress."),
           p("Les règles spécifiques de Réalité et de Vérité se branchent sur ce socle sans le redéfinir, sauf lorsqu’une exception est explicitement écrite. En cas de doute, cette rubrique constitue donc la référence générale avant d’appliquer une règle plus spécifique.")
         ]
       },
