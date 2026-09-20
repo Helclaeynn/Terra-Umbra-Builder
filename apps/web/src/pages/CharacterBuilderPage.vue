@@ -8,6 +8,7 @@ import TalentSelector, {
   type TalentOption
 } from "../components/builder/TalentSelector.vue";
 import BuilderWikiLink from "../components/builder/BuilderWikiLink.vue";
+import TruthEquipmentPanel from "../components/builder/TruthEquipmentPanel.vue";
 import TerraUmbraLockup from "../components/TerraUmbraLockup.vue";
 import EquipmentStep from "../components/builder/EquipmentStep.vue";
 import FinalizationStep from "../components/builder/FinalizationStep.vue";
@@ -373,7 +374,11 @@ const currentTruthState=computed<TruthState|null>(()=>{
     choices,
     truthTalents:Array.isArray(raw.truthTalents)
       ? raw.truthTalents.filter((id):id is string=>typeof id==="string")
-      : []
+      : [],
+    truthEquipment:Array.isArray(raw.truthEquipment)
+      ? raw.truthEquipment.filter((id):id is string=>typeof id==="string")
+      : [],
+    truthEquipmentMjOverride:Boolean(raw.truthEquipmentMjOverride)
   };
 });
 
@@ -1127,7 +1132,9 @@ async function loadCharacter(){
           nature:nature.id,
           consciousness:loadedTruth.consciousness==="initie"?"initie":"profane",
           choices:truthSanitizeChoices(nature,loadedTruth.choices),
-          truthTalents:[...loadedTruth.truthTalents]
+          truthTalents:[...loadedTruth.truthTalents],
+          truthEquipment:[...loadedTruth.truthEquipment],
+          truthEquipmentMjOverride:Boolean(loadedTruth.truthEquipmentMjOverride)
         };
         normalized.truthTalents=truthSanitizeTalents(truthResult,normalized);
         writeTruthState(normalized);
@@ -1314,7 +1321,9 @@ function writeTruthState(state:TruthState){
     nature:state.nature,
     consciousness:state.consciousness,
     choices:{...state.choices},
-    truthTalents:[...state.truthTalents]
+    truthTalents:[...state.truthTalents],
+    truthEquipment:[...state.truthEquipment],
+    truthEquipmentMjOverride:Boolean(state.truthEquipmentMjOverride)
   };
 }
 
@@ -1327,7 +1336,9 @@ function setTruthNature(id:string){
     nature:id,
     consciousness:current?.consciousness??"profane",
     choices:truthSanitizeChoices(nature,{}),
-    truthTalents:[]
+    truthTalents:[],
+    truthEquipment:[...(current?.truthEquipment??[])],
+    truthEquipmentMjOverride:Boolean(current?.truthEquipmentMjOverride)
   };
   writeTruthState(next);
   truthSearch.value="";
@@ -2458,6 +2469,12 @@ onBeforeUnmount(()=>{
                   </details>
                 </template>
               </section>
+
+              <TruthEquipmentPanel
+                :model-value="currentTruthState"
+                :rules="truthRules"
+                @update:model-value="writeTruthState($event)"
+              />
 
               <div class="rule-note" :class="{ bad: !stepDone('truth') }">
                 <strong v-if="stepDone('truth')">Vérité cohérente.</strong>
