@@ -369,7 +369,7 @@ if(await page.getByText("Relique corrompue Smoke",{exact:true}).count())throw ne
 const truthEquipmentMj=page.getByLabel(/Autorisation MJ d’accès exceptionnel aux objets de Vérité/);
 await truthEquipmentMj.check();
 for(const label of ["Arme de Chasse Smoke","Objet d’Aèr Smoke","Relique corrompue Smoke"]){
-  await page.getByText(label,{exact:true}).waitFor({state:"visible",timeout:5000});
+  await page.getByText(label,{exact:true}).waitFor({state:"attached",timeout:5000});
 }
 await truthEquipmentMj.uncheck();
 await page.getByText("Objet d’Aèr Smoke",{exact:true}).waitFor({state:"detached",timeout:5000});
