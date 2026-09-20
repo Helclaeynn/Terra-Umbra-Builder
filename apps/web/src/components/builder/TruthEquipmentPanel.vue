@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import BuilderWikiLink from "./BuilderWikiLink.vue";
-import type { TruthEquipmentItem, TruthRulesPackage, TruthState } from "../../lib/truth";
+import {
+  truthEquipmentAccess,
+  truthEquipmentVisible,
+  type TruthEquipmentItem,
+  type TruthRulesPackage,
+  type TruthState
+} from "../../lib/truth";
 
 const props=defineProps<{
   modelValue:TruthState;
@@ -31,14 +37,16 @@ function norm(value:string){
 const itemMap=computed(()=>new Map(props.rules.equipment.map(item=>[item.id,item])));
 const owned=computed(()=>props.modelValue.truthEquipment??[]);
 const ownedItems=computed(()=>owned.value.map(id=>itemMap.value.get(id)).filter((item):item is TruthEquipmentItem=>!!item));
+const inaccessibleOwned=computed(()=>ownedItems.value.filter(item=>!truthEquipmentAccess(item,props.modelValue).ok));
+const visibleCatalog=computed(()=>props.rules.equipment.filter(item=>truthEquipmentVisible(item,props.modelValue)));
 
-const chapters=computed(()=>[...new Set(props.rules.equipment.map(item=>item.chapter))]
+const chapters=computed(()=>[...new Set(visibleCatalog.value.map(item=>item.chapter))]
   .sort((a,b)=>Number(a)-Number(b))
   .map(id=>({id,label:chapterLabels[id]??`Chapitre ${id}`})));
 
 const filtered=computed(()=>{
   const q=norm(query.value.trim());
-  return props.rules.equipment.filter(item=>{
+  return visibleCatalog.value.filter(item=>{
     if(chapter.value&&item.chapter!==chapter.value)return false;
     if(!q)return true;
     const haystack=[
@@ -74,9 +82,13 @@ function setMjOverride(value:boolean){
   update(next=>{next.truthEquipmentMjOverride=value;});
 }
 
+function access(item:TruthEquipmentItem){
+  return truthEquipmentAccess(item,props.modelValue);
+}
+
 function canAdd(item:TruthEquipmentItem){
   if(item.referenceOnly)return false;
-  if(item.requiresMj&&!props.modelValue.truthEquipmentMjOverride)return false;
+  if(!access(item).ok)return false;
   return !owned.value.includes(item.id);
 }
 
@@ -91,8 +103,10 @@ function remove(id:string){
 
 function statusLabel(item:TruthEquipmentItem){
   if(item.referenceOnly)return "Référence / règle";
-  if(item.requiresMj)return "Accès exceptionnel";
-  return item.status||"Acquisition fictionnelle";
+  const result=access(item);
+  if(!result.ok)return "Hors filière — MJ requis";
+  if(!result.natural)return "Autorisation MJ exceptionnelle";
+  return result.reason||item.status||"Acquisition fictionnelle";
 }
 
 function propertyPreview(item:TruthEquipmentItem){
@@ -133,11 +147,17 @@ function propertyPreview(item:TruthEquipmentItem){
     </div>
     <div v-else class="empty-line">Aucun objet de Vérité enregistré comme possession.</div>
 
+    <div v-if="inaccessibleOwned.length" class="rule-note bad">
+      <strong>Accès à régulariser :</strong>
+      {{ inaccessibleOwned.map(item=>item.name).join(" · ") }}.
+      Ces objets restent enregistrés pour ne perdre aucune donnée, mais la filière actuelle ne les autorise pas sans accord MJ.
+    </div>
+
     <details class="truth-equipment-catalog">
       <summary class="truth-disclosure-summary">
         <span>
           <strong>Catalogue de Vérité</strong>
-          <small>229 entrées · Livre V</small>
+          <small>{{ visibleCatalog.length }} accessibles · 229 entrées source · Livre V</small>
         </span>
         <span class="schema-badge">{{ filtered.length }}</span>
       </summary>
@@ -165,15 +185,19 @@ function propertyPreview(item:TruthEquipmentItem){
           @change="setMjOverride(($event.target as HTMLInputElement).checked)"
         />
         <span>
-          <strong>Autorisation MJ pour les objets uniques / hors acquisition normale</strong>
-          <small>Cette option n’accorde aucun objet automatiquement ; elle autorise seulement son enregistrement dans la fiche.</small>
+          <strong>Autorisation MJ d’accès exceptionnel aux objets de Vérité</strong>
+          <small>
+            Ouvre les filières qui ne correspondent pas naturellement au personnage ainsi que les objets uniques,
+            hors catalogue et corrompus. Aucun objet n’est accordé automatiquement.
+          </small>
         </span>
       </label>
 
       <div class="rule-note">
         <strong>Acquisition fictionnelle :</strong>
         le Builder mémorise la possession, mais ne paie automatiquement ni PTV ni argent.
-        Les entrées de référence et les propriétés communes restent consultables sans pouvoir être ajoutées comme objets.
+        Les entrées de référence restent consultables sans pouvoir être ajoutées. Les marchés d’Aèr, xéno, AIDH,
+        de Chasse et corrompus ne sont affichés que si la Nature, la voie ou l’autorisation MJ de la fiche y donne réellement accès.
       </div>
 
       <details v-for="group in groups" :key="group.label" class="truth-equipment-group">
@@ -203,7 +227,7 @@ function propertyPreview(item:TruthEquipmentItem){
                 :disabled="!canAdd(item)"
                 @click="add(item)"
               >
-                {{ owned.includes(item.id) ? "Possédé" : item.referenceOnly ? "Référence" : item.requiresMj && !modelValue.truthEquipmentMjOverride ? "MJ requis" : "Ajouter" }}
+                {{ owned.includes(item.id) ? "Possédé" : item.referenceOnly ? "Référence" : !access(item).ok ? "MJ requis" : "Ajouter" }}
               </button>
             </div>
 
