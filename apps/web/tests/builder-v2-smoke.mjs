@@ -359,7 +359,11 @@ await page.getByRole("heading",{name:"Contrôle final de la fiche"}).waitFor();
 await page.getByRole("heading",{name:"Dérivés"}).waitFor();
 await page.locator(".derived-compact span").filter({hasText:"PV"}).first().waitFor({state:"visible",timeout:5000});
 
-await page.locator(".builder-nav").getByRole("button",{name:/Dépense XP & PTV/}).click();
+if(await page.locator(".builder-nav").getByRole("button",{name:/Dépense XP & PTV/}).count()){
+  throw new Error("La progression ne doit plus être une étape du Builder de création.");
+}
+
+await page.goto(`${baseUrl}/characters/${characterId}/progression`,{waitUntil:"domcontentloaded"});
 try{
   await page.getByRole("heading",{name:"Progression de campagne"}).waitFor({timeout:12000});
 }catch(error){
@@ -374,6 +378,10 @@ try{
 await page.getByText("XP disponibles",{exact:true}).waitFor();
 await page.getByText("PTV disponibles",{exact:true}).waitFor();
 await page.getByText("Argent & possessions de campagne",{exact:true}).waitFor();
+await page.getByRole("link",{name:"Builder"}).waitFor();
+if(await page.locator(".builder-nav").count()){
+  throw new Error("La route Progression ne doit pas réafficher la navigation de création.");
+}
 
 const saveButton=page.getByRole("button",{name:/Enregistrer/}).first();
 await saveButton.click();
@@ -391,5 +399,5 @@ for(const legacyKey of ["sphereSupportDetail","possessionsNotes","networks","sta
 
 if(browserErrors.length)throw new Error("Erreurs navigateur :\n"+browserErrors.join("\n"));
 
-console.log("Builder Web V2 smoke OK — 12 blocs actifs, tiroir Références, wiki Talents/Équipement, V/SR/R, Finalisation, Progression et sauvegarde validés.");
+console.log("Builder Web V2 smoke OK — 11 étapes de création, progression séparée, tiroir Références, wiki Talents/Équipement, V/SR/R, Finalisation et sauvegarde validés.");
 await browser.close();
