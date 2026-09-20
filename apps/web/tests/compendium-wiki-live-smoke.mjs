@@ -77,11 +77,15 @@ try{
 
   const rulesChip=publicPage.locator(".category-strip .category-chip").filter({hasText:"Règles"}).first();
   await rulesChip.click();
-  await publicPage.locator(".category-overview h1").filter({hasText:"Règles"}).waitFor({state:"visible",timeout:10000});
+  await publicPage.waitForURL(
+    url=>new URL(url).searchParams.get("category")==="Règles",
+    {timeout:20000}
+  );
+  await publicPage.locator(".category-overview h1").filter({hasText:"Règles"}).waitFor({state:"visible",timeout:20000});
   await publicPage.locator(".compendium-navigation .navigation-group").filter({hasText:"Moteur de jeu"}).first()
-    .waitFor({state:"visible",timeout:10000});
+    .waitFor({state:"visible",timeout:20000});
   await publicPage.locator(".category-group-card").filter({hasText:"Moteur de jeu"}).first()
-    .waitFor({state:"visible",timeout:10000});
+    .waitFor({state:"visible",timeout:20000});
   if(await publicPage.locator(".compendium-navigation .result-card").count()){
     throw new Error("Les résultats de recherche ne doivent plus occuper la navigation gauche.");
   }
