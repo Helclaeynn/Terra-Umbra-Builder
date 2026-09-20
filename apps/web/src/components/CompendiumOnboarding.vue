@@ -32,7 +32,7 @@ const emit=defineEmits<{
       <button class="secondary" type="button" @click="emit('close')">Explorer directement l’index</button>
     </header>
 
-    <section class="newcomer-section">
+    <section v-if="data.basics.length" class="newcomer-section">
       <div class="newcomer-section-head">
         <div>
           <p class="eyebrow">COMMENCER ICI</p>
@@ -54,7 +54,7 @@ const emit=defineEmits<{
       </div>
     </section>
 
-    <section class="newcomer-section">
+    <section v-if="data.natures.length || data.restricted.length" class="newcomer-section">
       <div class="newcomer-section-head">
         <div>
           <p class="eyebrow">CHOISIR UNE NATURE</p>
@@ -92,7 +92,7 @@ const emit=defineEmits<{
       </div>
     </section>
 
-    <section class="newcomer-section">
+    <section v-if="data.loreHubs.length" class="newcomer-section">
       <div class="newcomer-section-head">
         <div>
           <p class="eyebrow">POUR ALLER PLUS LOIN</p>
@@ -114,7 +114,7 @@ const emit=defineEmits<{
       </div>
     </section>
 
-    <section class="newcomer-section">
+    <section v-if="data.categories.length" class="newcomer-section">
       <div class="newcomer-section-head">
         <div>
           <p class="eyebrow">EXPLORER</p>
