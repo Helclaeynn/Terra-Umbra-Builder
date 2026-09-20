@@ -21,6 +21,14 @@ import {
   COMPENDIUM_REALITE_V9_LORE_NAVIGATION
 } from "./compendium-realite-v9-lore.js";
 import {
+  COMPENDIUM_REALITE_V9_RELIGION_ARTICLES,
+  COMPENDIUM_REALITE_V9_RELIGION_NAVIGATION
+} from "./compendium-realite-v9-religions.js";
+import {
+  COMPENDIUM_REALITE_V9_RELIGION_PNJ_ARTICLES,
+  COMPENDIUM_REALITE_V9_RELIGION_PNJ_NAVIGATION
+} from "./compendium-realite-v9-religion-pnj.js";
+import {
   COMPENDIUM_REALITE_V9_RULE_ARTICLES,
   COMPENDIUM_REALITE_V9_RULE_NAVIGATION
 } from "./compendium-realite-v9-rules.js";
@@ -907,6 +915,16 @@ async function loadCorpus(): Promise<Corpus> {
     byId.set(article.id, deepClone(article) as Article);
   }
 
+  for (const article of COMPENDIUM_REALITE_V9_RELIGION_ARTICLES) {
+    // Religion consolidation overrides the Reality hub and adds one immersive page per major tradition.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_RELIGION_PNJ_ARTICLES) {
+    // Illustrated religious PNJs override matching legacy IDs (Bhima/Ciara) and add the remaining detailed profiles.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
   for (const article of COMPENDIUM_REALITE_V9_RULE_ARTICLES) {
     // Transversal rules hidden among catalog chapters are promoted here without duplicating catalog entries.
     byId.set(article.id, deepClone(article) as Article);
@@ -1043,6 +1061,8 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_GUIDE_NAVIGATION,
       ...COMPENDIUM_MOTEUR_V4_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_LORE_NAVIGATION,
+      ...COMPENDIUM_REALITE_V9_RELIGION_NAVIGATION,
+      ...COMPENDIUM_REALITE_V9_RELIGION_PNJ_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_RULE_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_LORE_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_RULE_NAVIGATION,
