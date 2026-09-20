@@ -843,7 +843,7 @@ onMounted(load);
   <div class="wiki-editor-shell">
     <header class="wiki-editor-topbar">
       <RouterLink class="brand editor-brand-lockup" to="/">
-        <TerraUmbraLockup />
+        <TerraUmbraLockup compact />
       </RouterLink>
       <div class="editor-top-actions">
         <button class="ghost compact" type="button" :aria-expanded="coverageOpen" @click="toggleCoverage">

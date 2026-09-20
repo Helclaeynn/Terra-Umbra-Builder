@@ -1315,7 +1315,7 @@ onBeforeUnmount(() => {
   <div class="compendium-shell">
     <header class="compendium-topbar">
       <RouterLink class="brand compendium-brand-lockup" to="/">
-        <TerraUmbraLockup />
+        <TerraUmbraLockup compact />
       </RouterLink>
 
       <div class="compendium-top-actions">
@@ -1333,7 +1333,9 @@ onBeforeUnmount(() => {
 
     <main class="compendium-page">
       <section class="compendium-hero">
+        <div class="compendium-earth-horizon" aria-hidden="true"></div>
         <div>
+          <TerraUmbraLockup class="compendium-hero-logo" />
           <p class="eyebrow">CORPUS NATIF V2</p>
           <h1>Compendium</h1>
           <p>
@@ -2007,12 +2009,60 @@ onBeforeUnmount(() => {
 }
 
 .compendium-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: end;
-  gap: 2rem;
-  margin-bottom: 2rem;
-  padding: clamp(.4rem,1vw,.9rem) 0 0;
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:end;
+  gap:2rem;
+  min-height:250px;
+  margin-bottom:2rem;
+  padding:clamp(1.1rem,2vw,1.7rem) clamp(1rem,2vw,1.65rem);
+  overflow:hidden;
+  border:1px solid rgba(59,126,157,.22);
+  background:
+    radial-gradient(circle at 86% 78%,rgba(44,144,212,.11),transparent 25rem),
+    radial-gradient(circle at 96% 58%,rgba(179,61,219,.07),transparent 21rem),
+    linear-gradient(135deg,rgba(16,19,24,.86),rgba(11,13,17,.68));
+}
+
+.compendium-hero > :not(.compendium-earth-horizon){
+  position:relative;
+  z-index:2;
+}
+
+.compendium-hero-logo{
+  width:min(360px,72vw) !important;
+  margin:0 0 .65rem;
+}
+
+.compendium-earth-horizon{
+  position:absolute;
+  z-index:1;
+  right:-78px;
+  bottom:-322px;
+  width:min(62vw,760px);
+  height:430px;
+  border-radius:50%;
+  border-top:2px solid rgba(66,215,236,.72);
+  opacity:.9;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at 50% 0%,rgba(43,151,240,.15),transparent 43%),
+    linear-gradient(90deg,transparent 2%,rgba(54,207,232,.055) 36%,rgba(177,62,224,.075) 78%,transparent);
+  box-shadow:
+    0 -3px 16px rgba(48,195,239,.22),
+    0 -14px 45px rgba(41,139,232,.14),
+    0 -23px 78px rgba(166,72,221,.11);
+}
+
+.compendium-earth-horizon::before{
+  content:"";
+  position:absolute;
+  left:9%;
+  right:8%;
+  top:-1px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,#48d8e5 35%,#3f93ff 58%,#c85cec 83%,transparent);
 }
 
 .compendium-hero h1 {

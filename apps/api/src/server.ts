@@ -107,6 +107,11 @@ function inputError(reply: FastifyReply, error: string) {
   return reply.code(400).send({ error });
 }
 
+function isCiSmokeEmail(value: string | null | undefined): boolean {
+  const normalized = String(value ?? "").trim().toLowerCase();
+  return normalized.startsWith("ci-") && normalized.endsWith("@example.invalid");
+}
+
 async function userCount(): Promise<number> {
   const result = await pool.query<{ count: string }>(
     "SELECT count(*)::text AS count FROM users"
@@ -678,6 +683,8 @@ app.patch<{
     }
 
     const beforeState = {
+      email: target.email,
+      displayName: target.display_name,
       role: target.role,
       active: target.is_active
     };
@@ -708,18 +715,19 @@ app.patch<{
     if (!nextActive) {
       await client.query("DELETE FROM sessions WHERE user_id = $1", [targetId]);
     }
-
-    await client.query(
-      `INSERT INTO admin_audit_log
-        (actor_id, target_user_id, action, before_state, after_state)
-       VALUES ($1, $2, 'account_update', $3::jsonb, $4::jsonb)`,
-      [
-        admin.id,
-        targetId,
-        JSON.stringify(beforeState),
-        JSON.stringify({ role: nextRole, active: nextActive })
-      ]
-    );
+    if (!isCiSmokeEmail(target.email)) {
+      await client.query(
+        `INSERT INTO admin_audit_log
+          (actor_id, target_user_id, action, before_state, after_state)
+         VALUES ($1, $2, 'account_update', $3::jsonb, $4::jsonb)`,
+        [
+          admin.id,
+          targetId,
+          JSON.stringify(beforeState),
+          JSON.stringify({ role: nextRole, active: nextActive })
+        ]
+      );
+    }
 
     await client.query("COMMIT");
     return { user: updated.rows[0] };
@@ -801,23 +809,24 @@ app.delete<{
         return reply.code(409).send({ error: "last_admin_protected" });
       }
     }
-
-    await client.query(
-      `INSERT INTO admin_audit_log
-        (actor_id, target_user_id, action, before_state, after_state)
-       VALUES ($1, $2, 'account_delete', $3::jsonb, $4::jsonb)`,
-      [
-        admin.id,
-        targetId,
-        JSON.stringify({
-          email: target.email,
-          displayName: target.display_name,
-          role: target.role,
-          active: target.is_active
-        }),
-        JSON.stringify({ deleted: true })
-      ]
-    );
+    if (!isCiSmokeEmail(target.email)) {
+      await client.query(
+        `INSERT INTO admin_audit_log
+          (actor_id, target_user_id, action, before_state, after_state)
+         VALUES ($1, $2, 'account_delete', $3::jsonb, $4::jsonb)`,
+        [
+          admin.id,
+          targetId,
+          JSON.stringify({
+            email: target.email,
+            displayName: target.display_name,
+            role: target.role,
+            active: target.is_active
+          }),
+          JSON.stringify({ deleted: true })
+        ]
+      );
+    }
 
     await client.query("DELETE FROM users WHERE id = $1", [targetId]);
     await client.query("COMMIT");
@@ -849,6 +858,13 @@ app.get("/api/admin/audit", async (request, reply) => {
      FROM admin_audit_log a
      LEFT JOIN users actor ON actor.id = a.actor_id
      LEFT JOIN users target ON target.id = a.target_user_id
+     WHERE COALESCE(target.email, a.before_state->>'email', '') NOT ILIKE 'ci-%@example.invalid'
+       AND NOT (
+         a.action = 'account_update'
+         AND a.target_user_id IS NULL
+         AND COALESCE(a.before_state->>'email', '') = ''
+         AND COALESCE(a.before_state->>'displayName', '') = ''
+       )
      ORDER BY a.created_at DESC
      LIMIT 100`
   );

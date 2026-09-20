@@ -192,10 +192,24 @@ jobs:
             set -a
             . ./.env
             set +a
+            AUDIT_DELETED="$(docker compose --env-file .env exec -T db \
+              psql -At -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
+              -c "WITH deleted AS (
+                    DELETE FROM admin_audit_log
+                    WHERE target_user_id IN (SELECT id FROM users WHERE email LIKE 'ci-%@example.invalid')
+                       OR COALESCE(before_state->>'email','') LIKE 'ci-%@example.invalid'
+                       OR (
+                         action = 'account_update'
+                         AND target_user_id IS NULL
+                         AND COALESCE(before_state->>'email','') = ''
+                         AND COALESCE(before_state->>'displayName','') = ''
+                       )
+                    RETURNING 1
+                  ) SELECT count(*) FROM deleted;")"
             DELETED="$(docker compose --env-file .env exec -T db \
               psql -At -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
               -c "WITH deleted AS (DELETE FROM users WHERE email LIKE 'ci-%@example.invalid' RETURNING 1) SELECT count(*) FROM deleted;")"
-            echo "CI ACCOUNT CLEANUP — $DELETED compte(s) de test supprimé(s)"
+            echo "CI CLEANUP — $AUDIT_DELETED trace(s) audit + $DELETED compte(s) de test supprimé(s)"
           REMOTE
 
       - name: Smoke test
@@ -946,9 +960,23 @@ jobs:
             set -a
             . ./.env
             set +a
+            AUDIT_DELETED="$(docker compose --env-file .env exec -T db \
+              psql -At -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
+              -c "WITH deleted AS (
+                    DELETE FROM admin_audit_log
+                    WHERE target_user_id IN (SELECT id FROM users WHERE email LIKE 'ci-%@example.invalid')
+                       OR COALESCE(before_state->>'email','') LIKE 'ci-%@example.invalid'
+                       OR (
+                         action = 'account_update'
+                         AND target_user_id IS NULL
+                         AND COALESCE(before_state->>'email','') = ''
+                         AND COALESCE(before_state->>'displayName','') = ''
+                       )
+                    RETURNING 1
+                  ) SELECT count(*) FROM deleted;")"
             DELETED="$(docker compose --env-file .env exec -T db \
               psql -At -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
               -c "WITH deleted AS (DELETE FROM users WHERE email LIKE 'ci-%@example.invalid' RETURNING 1) SELECT count(*) FROM deleted;")"
-            echo "CI ACCOUNT CLEANUP FINAL — $DELETED compte(s) résiduel(s) supprimé(s)"
+            echo "CI CLEANUP FINAL — $AUDIT_DELETED trace(s) audit + $DELETED compte(s) résiduel(s) supprimé(s)"
           REMOTE
 
