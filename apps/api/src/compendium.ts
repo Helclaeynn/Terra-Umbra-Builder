@@ -338,7 +338,16 @@ export async function resolveCompendiumHubId(
   natureId = ""
 ): Promise<string | null> {
   const matches = await findCompendiumHubMatches(label, natureId);
-  return matches.length === 1 ? matches[0].id : null;
+  if (matches.length === 1) return matches[0].id;
+
+  // Builder provenance remains traceable while a legacy family is awaiting
+  // its V2 hub. Interactive hub audits call findCompendiumHubMatches directly
+  // and therefore still require an active page.
+  if (!matches.length) {
+    const historical = await findCompendiumMatches(label, "Règles");
+    if (historical.length === 1) return historical[0].id;
+  }
+  return null;
 }
 
 function mediaSource(media: unknown): string {
