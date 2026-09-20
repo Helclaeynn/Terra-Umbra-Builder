@@ -40,10 +40,22 @@ for (const article of COMPENDIUM_VERITE_SPECIES_PNJ_ARTICLES) {
   assert.ok(stats, `${article.id}: missing statistics block`);
   assert.equal(mj.audience, "mj", `${article.id}: MJ block must be restricted`);
   assert.equal(stats.audience, "mj", `${article.id}: statistics block must be restricted`);
-  assert.deepEqual(mj.blocks, [], `${article.id}: MJ block must remain empty until consolidation`);
   assert.deepEqual(stats.blocks, [], `${article.id}: statistics block must remain empty until consolidation`);
 
   assert.ok(Array.isArray(article.pnj?.source_verite), `${article.id}: missing preserved Truth source`);
+  const truthSections = article.pnj.source_verite;
+  const expectedMjTexts = truthSections
+    .map((entry, index) =>
+      truthSections.length > 1
+        ? `${String(entry.label || `Informations Vérité ${index + 1}`)}\n\n${String(entry.text || "")}`
+        : String(entry.text || "")
+    )
+    .filter(Boolean);
+  assert.deepEqual(
+    (mj.blocks ?? []).map((block) => String(block.text ?? "")),
+    expectedMjTexts,
+    `${article.id}: MJ block must reproduce all source Informations Vérité sections`
+  );
   assert.ok(String(article.pnj?.source_extract ?? "").length > 0, `${article.id}: missing complete source extract`);
 }
 
@@ -71,6 +83,9 @@ assert.ok(
   "Missing Garou enrichment"
 );
 
+const withTruth = COMPENDIUM_VERITE_SPECIES_PNJ_ARTICLES.filter((article) => article.pnj?.source_verite?.length).length;
+const withoutTruth = COMPENDIUM_VERITE_SPECIES_PNJ_ARTICLES.length - withTruth;
+
 console.log(
-  "TRUTH SPECIES INTEGRATION OK — 68/68 PNJ · 7/8/8/8/13/12/12 groupes · 4/4 pages Créatures · blocs MJ/stats prêts et vides"
+  `TRUTH SPECIES INTEGRATION OK — 68/68 PNJ · 7/8/8/8/13/12/12 groupes · 4/4 pages Créatures · ${withTruth} blocs MJ alimentés · ${withoutTruth} sans Vérité source · stats vides`
 );
