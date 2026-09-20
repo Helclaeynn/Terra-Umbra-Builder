@@ -12,6 +12,7 @@ import { truthCatalogExtral } from "./catalog-extral.js";
 import { truthVisibilityNeedles, truthSharedHunterNatures } from "./visibility.js";
 import { truthRevelationRules } from "./revelation.js";
 import { truthEquipmentCatalog } from "./equipment.js";
+import { corruptionPrecedence, corruptionSources, corruptionTalents } from "./corruption.js";
 
 type TruthTalent = {
   group?: string;
@@ -109,6 +110,11 @@ const humainCatalog = bindCompendium(truthCatalogHumain, (group) =>
 export const terraUmbraTruthRules = {
   structure: truthRuntimeStructure,
   equipment: truthEquipmentCatalog,
+  corruption: {
+    sources: corruptionSources,
+    precedence: corruptionPrecedence,
+    talents: corruptionTalents
+  },
   catalogs: {
     humain: humainCatalog,
     vampire: vampireCatalog,
