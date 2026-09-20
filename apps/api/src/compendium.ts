@@ -12,6 +12,10 @@ import {
 } from "./compendium-onboarding.js";
 import { generatedTalentHubCorpus } from "./compendium-talent-hubs.js";
 import { generatedBuilderReferenceCorpus } from "./compendium-builder-references.js";
+import {
+  COMPENDIUM_MOTEUR_V4_ARTICLES,
+  COMPENDIUM_MOTEUR_V4_NAVIGATION
+} from "./compendium-moteur-v4.js";
 
 type JsonObject = Record<string, any>;
 type Article = JsonObject & {
@@ -812,6 +816,11 @@ async function loadCorpus(): Promise<Corpus> {
     if (!byId.has(guide.id)) byId.set(guide.id, deepClone(guide) as Article);
   }
 
+  for (const article of COMPENDIUM_MOTEUR_V4_ARTICLES) {
+    // The rebuilt Moteur corpus deliberately supersedes any legacy page with the same ID.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
   const generatedTalentHubs = generatedTalentHubCorpus();
   for (const hub of generatedTalentHubs.articles) {
     if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
@@ -899,6 +908,7 @@ async function loadCorpus(): Promise<Corpus> {
     [
       ...(navigationPayload.entries ?? []),
       ...COMPENDIUM_GUIDE_NAVIGATION,
+      ...COMPENDIUM_MOTEUR_V4_NAVIGATION,
       ...generatedTalentHubs.navigation,
       ...generatedBuilderReferences.navigation
     ]
