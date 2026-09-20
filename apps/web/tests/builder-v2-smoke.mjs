@@ -382,6 +382,8 @@ await page.getByRole("link",{name:"Builder"}).waitFor();
 if(await page.locator(".builder-nav").count()){
   throw new Error("La route Progression ne doit pas réafficher la navigation de création.");
 }
+await page.getByRole("button",{name:/Normale.*\+3 XP/}).click();
+await page.getByText("3",{exact:true}).first().waitFor();
 
 const saveButton=page.getByRole("button",{name:/Enregistrer/}).first();
 await saveButton.click();
