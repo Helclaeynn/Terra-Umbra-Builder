@@ -2038,21 +2038,21 @@ onBeforeUnmount(() => {
 .compendium-earth-horizon{
   position:absolute;
   z-index:1;
-  right:-78px;
-  bottom:-322px;
-  width:min(62vw,760px);
-  height:430px;
+  right:-58px;
+  bottom:-205px;
+  width:min(44vw,520px);
+  height:295px;
   border-radius:50%;
-  border-top:2px solid rgba(66,215,236,.72);
-  opacity:.9;
+  border-top:1px solid rgba(66,215,236,.48);
+  opacity:.44;
   pointer-events:none;
   background:
     radial-gradient(ellipse at 50% 0%,rgba(43,151,240,.15),transparent 43%),
     linear-gradient(90deg,transparent 2%,rgba(54,207,232,.055) 36%,rgba(177,62,224,.075) 78%,transparent);
   box-shadow:
-    0 -3px 16px rgba(48,195,239,.22),
-    0 -14px 45px rgba(41,139,232,.14),
-    0 -23px 78px rgba(166,72,221,.11);
+    0 -3px 11px rgba(48,195,239,.12),
+    0 -10px 30px rgba(41,139,232,.08),
+    0 -18px 50px rgba(166,72,221,.06);
 }
 
 .compendium-earth-horizon::before{
