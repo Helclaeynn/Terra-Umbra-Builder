@@ -1,5 +1,5 @@
 // Generated from TUC_Vérité_ les espèces  surnaturelles(1).docx.
-// source_verite/source_extract preserve source material while MJ/stat blocks remain intentionally empty.
+// source_verite/source_extract preserve source material; Truth information is rendered in the MJ block while statistics remain intentionally empty.
 const PAYLOAD = [
   {
     "id": "personnages-verite-especes-veronica-silver",
@@ -94,7 +94,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Veronica n’a aucune conscience de sa nature de demi-aseryn, mais sa mère était une aseryn, dit-on une Mulienne, et certaines rumeurs de la communauté des Atlantes fantasment que la Silver serait l’héritière du trône de Mu et de l’Atlantide, une demi-humaine. Si rien n’est confirmé quant à l’identité de sa mère, pour Veronica, les choses ne sont pas simple, son sang Aseryn lui confère une capacité de réflexion et une vitesse de réaction outrancières, faisant d’elle une des guerrières les plus puissante au corps à corps, mais aussi une des tireuses les plus précises, en effet, les aseryn ont une vue meilleure que les humains, certes, de peu, ils ne souffrent surtout d’aucune maladie oculaire, Veronica est dotée d’une vision bien supérieure à la moyenne atlante de son coté, en cela, combiné à une capacité de réflexion éclair et des réflexes inimaginables, elle est une tireuse de précision bien souvent sous-estimée même quand on connait bien sa réputation. Son sang Aseryn lui coute néanmoins de gros ennuis avec les Créatures de la Vérité, les monstres sentent en elle quelque chose, particulièrement les Abyssaux et leurs maitres. Veronica sait qu’il existe quelques créatures surnaturelles, elle en a déjà croisé et tué, cependant, elle est encore loin de comprendre la nature exacte de ces créatures, notamment celle de son amie Olla."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -198,7 +203,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Kyriak est né peu après la destruction de l’Atlantide, son père était un cousin à quelques degrés de la reine Kalira Athegos. La vie pour le jeune Kyriak ne fut pas simple, il apprit à la dure la survie et comment s’intégré dans des communautés. Avec les siècles, ce marin s’illustra et devint un protecteur des Aseryns Terrestres, il les mena dans diverses parties du monde à travers l’Histoire, l’exode des Aseryns fut long et rassembler les communautés fut difficile, il vécut très longtemps en Grèce antique notamment, et aurait été proche de la déesse Abigor. Kyriak accusa les abyssaux, ces êtres infâmes servant les Fléaux, d’être à l’origine de la chute de l’Atlantide, immortel, il était le seul Aseryn assez vieux pour savoir la vérité, notamment concernant Sil’Elaith, ainsi, les Muliens associèrent les créatures pisciformes maudites à la destruction de leur continent, un mensonge éhonté qui permit à Kyriak de justifier la suite de ses plans. Quand il eut assez de puissance avec ses magiciens, Kyriak fit créer le continent de Mu, soulevant hors des flots les immenses citées d’abyssaux, les purgeant alors pour prendre ces nouvelles terres. A l’époque moderne, il eut de longues discussions avec Sil’Elaith, qui vint à lui d’elle-même, ils fondèrent Seawares, un but de la corporation étant de préserver Mu comme pour que Sil ne fasse pénitence de ses actions contre l’Atlantide. Kyriak pose soucis chez les Muliens, ses deux filles et uniques héritières se cacheraient à Los Angeles."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -308,7 +318,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Kalira ATHEGOS est la plus grande et la plus prodigieuse reine Atlante ayant existé. Les muliens la voient comme la cause du naufrage de l’Atlantide, ils ne la considèrent donc pas en vie, et la respectent pour celle qu’elle était, les Aseryn expatriés sur Aèr la considèrent avec beaucoup plus de respect encore et ne nient pas qu’elle soit encore en vie. Bien qu’elle ait beaucoup voyager, pour installer des duchés Atlantes sur des mondes propices, elle chercha dans les années 1990-2000 à renouer entre muliens et neo-atlantes. Sa relation avec John Silver était fortuite mais elle l’apprécia d’autant plus en réalisant qu’il était le fils d’une princesse mulienne. Hélas, Kalira ignorait que la mère de John avait été maudite par R’Sheraag, le rocréen calamiteux, elle découvrit la malédiction sur sa fille, Veronica, marquée d’un symbole en forme de tentacule à la base de sa nuque, tout comme John en avait un. Kalira brula la malédiction de Veronica par sa grande maitrise de la foudre et décida de quitter John pour faire élever Veronica par une famille prestigieuse atlante, néanmoins, elle n’eut pasq le cœur d’arracher l’enfant à son père et retourna sur l’Aèr en renonçant à eux, réalisant son erreur après coup, trop tard hélas, quand elle revint à L’Atlantide. Désormais, elle doit malheureusement s’assurer de faire assassiner Olla, la petite amie de Veronica afin de couper tout lien avec R’sheraag qui en descend."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -412,7 +427,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Seigneur aseryn à la tête du duché d’Amrica sur le continent de Mû, il est le principal administratif gérant les muliens (aseryns du continent de Mu) sur le continent américain. Il déteste corps et âme Kyriak Zenos, le roi de Mu, il en est jaloux au plus au haut point et déteste encore plus ses innombrables aventures donnant des princesses bâtardes un peu partout sur Terre. S’il déteste Kyriak, il n’apprécie pas plus les neo-atlantes (aseryns du continent de l’Atlantide) revenus d’Aèr, ayant pendant longtemps cherché à les faire assassiner dès qu’il en repérait un dans la société américaine. Loin d’être manichéen, il sait qu’il n’a aucune fenêtre pour accéder au trône Mulien, encore moins celui Atlante, c’est ainsi qu’entre en scène les intrigues politiques aserynes. Bien qu’il méprise corps et âmes les « princesses bâtardes », Sagarion est le protecteur de l’une d’elles: Deidea Eina (Zenos). Le but de Sagarion est de destituer Kyriak, instaurer Deidea, la marier à un prétendant Atlante que proposera Kelrana Nateas, la duchesse neoatlante d’Elisiel, avec qui Sagarion complote pour unir Muliens et atlantes tout en écartant les couronnes actuelles. Le problème se posant, Kelrana ne propose pas de prétendant, un temps, elle parla de Lavian Alganos, un cousin de la reine Lorinae Athegos, mais Sagarion ne trouva aucune preuve de son existence, tués précocement ou mensonge de son « alliée », rien ne fut établi. Le fait que Kalira Athegos existe encore est d’autant plus problématique concernant la légitimité Mulienne, c’est d’ailleurs pour ça que Sagarion avait approché la mafia Italienne en 2013, pour s’assurer que la famille de Kalira ne soit éliminée, lui refusant toute nouvelle descendance."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -516,7 +536,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Kelrana est la noble aseryne en charge du duché d’Elisiel, sur le continent de l’Atlantide, cependant, la tâche est aisée pour elle et elle sait parfaitement s’organiser pour déléguer la gouvernance de son territoire afin de vivre en Californie la majorité du temps. Bien qu’elle n’ait rien contre Lorinae Athegos, la reine de l’Atlantide, elle aspire à de bien plus grands projets pour son espèce, un nouvel d’âge d’or Atlante et pourrait être considérée comme traitresse par ses manigances avec les Muliens. En vérité, elle ne va jamais contre les intérêts de l’Atlantide, elle fait passer le continent oublié en premier, puis elle considère le cas des muliens, et ensuite celui de tous les Aseryns. Son projet est celui de la « Grande couronne » qui gouvernerait à nouveau tous les aseryns et si elle semble aider Sagarion pour destituer Kyriak, elle ne partage pas vraiment ses petites méthodes « minables » et surtout ses choix « par défaut », ayant abandonné l’idée de placer Deidea EINA à la première rencontre avec elle, ne la trouvant ni charismatique ni intelligente à peine charmante et surtout, peu intéressante. Kelrana a néanmoins peu d’options, elle préférerait tout simplement marier Kyriak à Lorinae, mais rien ne semble s’orienter vers ça, elle essaye également de convaincre Kalira de tout simplement succéder à Lorinae, mais n’est pas née la personne capable de faire fléchir la plus grande reine Atlante ayant vécu, ses dernières options sont la fille cachée de Kalira, Veronica SILVER, bien plus intéressante de personnalité que ses tantes, mais absolument pas « atlante » de culture, la dernière option étant de jouer avec la génétique."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -620,7 +645,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Larry SUNDOWN est un des pires criminels au monde, pourtant, il s’agir d’un des nobles Atlantes les plus respectables de l’Atlantide. Duc de Relaïa c’est possiblement l’homme le plus loyal à Lorinae Darksun, la reine actuelle. Son jeu en tant que maitre de la flotte pirate la plus colossale du monde n’est qu’un amusement pour cet illustre duc si noble, qui se perçoit comme un corsaire plus qu’autre chose, il navigue essentiellement autour du continent de Mu, défiant les Muliens en vérité, sa flotte ne sert pas à les attaquer mais les tenir en respect, en effet, dans les navires désuets des humains, il s’y trouve de nombreux navires neoatlantes, mêlant technologie et magie n’ayant plus rien avoir avec ce qu’étaient les bateaux humains. Il est également prêt à intervenir contre toute forme d’assaut massifs des peuples sous-marins d’hommes-poissons ou de créatures tentaculaires que sont les rocréens abyssaux. Il est convaincu, à tort, que Siobhain Nic SIRIDEAN est une princesse Mulienne et a pour objectif de la rallier un jour, les espions de Sagarion NAGILIA assurant assez de contre-informations pour le maintenir dans l’erreur. Il s’entends très mal avec la duchesse atlante Kelrana NATEAS."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -724,7 +754,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Veronica n’a aucune conscience de sa nature de demi-aseryn, mais sa mère était une aseryn, dit-on une Mulienne, et certaines rumeurs de la communauté des Atlantes fantasment que la Silver serait l’héritière du trône de Mu et de l’Atlantide, une demi-humaine. Si rien n’est confirmé quant à l’identité de sa mère, pour Veronica, les choses ne sont pas simple, son sang Aseryn lui confère une capacité de réflexion et une vitesse de réaction outrancières, faisant d’elle une des guerrières les plus puissante au corps à corps, mais aussi une des tireuses les plus précises, en effet, les aseryn ont une vue meilleure que les humains, certes, de peu, ils ne souffrent surtout d’aucune maladie oculaire, Veronica est dotée d’une vision bien supérieure à la moyenne atlante de son coté, en cela, combiné à une capacité de réflexion éclair et des réflexes inimaginables, elle est une tireuse de précision bien souvent sous-estimée même quand on connait bien sa réputation. Son sang Aseryn lui coute néanmoins de gros ennuis avec les Créatures de la Vérité, les monstres sentent en elle quelque chose, particulièrement les Abyssaux et leurs maitres. Veronica sait qu’il existe quelques créatures surnaturelles, elle en a déjà croisé et tué, cependant, elle est encore loin de comprendre la nature exacte de ces créatures, notamment celle de son amie Olla."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -828,7 +863,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Koji est un demi-Aseryn, un peu comme Veronica silver. Sa mère étant souvent mobilisée durant son enfance, il l’a assez peu connu durant son enfance, et quand il arriva à ses 10 ans, elle ne revint pas au Japon, tombée amoureuse d’un frère d’arme, elle resta aux Etats-Unis, abandonnant Koji qui resta dans sa famille paternelle. Sa famille gardait un katana maudit, « Musaboken » depuis des siècles. Son grand-père connaissait les légendes mais se refusait à y croire, ne les ayant enseignés qu’à son second fils, quand il décéda, massacré par une créature s’emparant du katana, Nobuyori les raconta à Koji, convaincu que son père avait été tué à cause du sabre. Koji avait une telle colère qu’il ne s’interrogea pas sur la véracité de ces légendes, à 17 ans, il s’enfonça dans un repaire Yakuza, sachant qu’il s’agissait peut-être de « yokai », il les tua tous sans retrouver le katana mais frôla la mort, une Miko le sauvant et l’empêchant d’être retrouvé par la police. Instruit auprès du prêtre que la Miko servait, un exorciste Shintoïste, le « Shinryu » s’éleva vite comme un des chasseurs les plus efficace, intégrant le « Hunt XV », pour le compte de l’Association. Il dispose d’une armure technologique rétractable et prototype capable de suivre ses mouvements surhumains ainsi que deux sabres modernes, capables de générer de la foudre qu’il sait d’instinct orienter. Il ne sait pas qu’il est Aseryn par sa mère, en revanche, il se pense sincèrement descendre de Susanoo, le dieu de l’orage."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -932,7 +972,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Belial est la déesse la plus puissante née sur la Terre, la plus intelligente et la plus charismatique, elle est celle qui a été à l’origine de la, victoire sur les Fléaux, enfermant les « Immondes » dans les flots du Pacifique, faisant exploser Ux'sharith Bellathei, l’une des pires créatures parmi les Fléaux alors qu’elle avait dévoré des dieux... Elle a accueilli Morrighan avec amitié autrefois et a accepté les expatriés, elle a mené la guerre contre les « Voyageurs », menés par les « Titans » et permis l’essor des Mages, elle a condamné les ancêtres des Vampires Et elle tomba amoureuse d’une petite émigrée, sa plus grande erreur. Jamais Elynea n’accepta le statut dominant et écrasant de Belial dans leur relation, leur vie privée affecta la Terre et le « Paradis » fut créé avec Elynea à sa tête, un panthéon monothéiste défendu par des armées d’esclaves sacrifiables face à des légions d’âmes adorées et soigneusement sélectionnées. Belial ne perdit pas sa guerre, mais nul ne peut dire qu’elle gagna, le temps s’écoule et désormais, la guerre sans avoir réellement prit fin n’est plus véritablement importante."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1036,7 +1081,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Le cardinal Rasgado a beau être le plus proche collaborateur de la papesse, il s’avère être tout simplement le Diable en personne, s’étant hissé jusque-là au nez et à la barbe des anges qui ont longtemps délaissé la religion Chrétienne. Il ne faut pas s’y tromper, si Diablo est le dieu des ténèbres, de la peur, du malsain, de la nuit mais aussi de l’inconnu, il est tout autant celui qu’on peut vénérer pour s’en prémunir. Diablo a bénéficié d’une grande publicité par la peur que la Chrétienté a eu de lui, s’il comptait de base comme l’un des dieux anciens les plus puissants, la nuit terrifiant depuis toujours l’Humanité aussi bien que nombre d’espèces intelligentes, il s’est beaucoup renforcé durant les derniers millénaires. En tant que Dieu des ténèbres, il était un des plus acharnés à vaincre les fléaux et fit tout son possible pour sauver du néant les vampires, hélas condamnés par nature. De même, Diablo se gorge régulièrement dans l’Ombre-monde et se fait vénérer par les Ombres et les Revenants autant que les mortels. C’est cette vénération par des créatures régulièrement ennemies des dieux, tels que les voyageurs, qui fit de Diablo un des plus farouches ennemis de Belial quand il ne s’y alliait pas contre le Paradis. Avec le temps, si Belial et Diablo ne peuvent toujours pas aisément s’entendre, ils restent courtois et font simplement en sorte de s’éviter le plus possible. Il n’a aucunement l’intention de pervertir ou corrompre Paladia, la papesse, il assure réellement ses fonctions avec sérieux et apprécie la mortelle même s’il se sert des Chasseurs de l’Eglise pour gérer ses fidèles inhumains et ceux n’ayant pas encore la bonne idée de le prier pour survivre."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1140,7 +1190,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Alice River n’est autre que la déesse Alabor, la déesse des flots sur Terre, peu importe son appellation ancienne, de Tiamat à Poséidon, l’Humanité la vénère comme une mère créatrice depuis toujours. Elle est toutefois crainte également, tant la forcer destructrice de l’eau est bien connue. Durant la Préhistoire et l’Histoire de l’Humanité, elle a coulé des milliers de civilisations qui ne la vénéraient plus assez, les expatriés d’Aèr ont très souvent payé le respect de leurs anciens cultes, la déesse capricieuse les noyant régulièrement. Alabor n’a rien d’une divinité douce, elle est exigeante et a très souvent un comportement qu’on qualifierait de toxique si ce n’est néfaste. C’est une perfectionniste qui n’a aucune forme de respect pour personne. Tout comme Lilith ou Belial, elle est associée à des forces que l’Humanité aura toujours en tête, l’eau est vitale, indispensable et le surnom de la Terre, « planète bleue » lui est dû. Bien qu’elle se soit soumise à sa sœur, Belial, Alabor agit très souvent comme son égale, s’estimant plus puissante que Belial d’ailleurs, la reconnaissant meilleure comme dirigeante mais incapable de lui faire face, c’est pourquoi, l’immense égo d’Alabor la pousse à voir Belial comme une petite sœur qu’elle « autorise » à régner et qui lui doit un grand respect de concéder ainsi le règne. Elle n’a jamais eu trop d’intérêt pour les sociétés humaines, depuis toujours, elle se bat avec acharnement contre les fléaux sous-marins et leurs vastes cités d’abominations. C’est cette lutte qui fit d’elle une des rares déesses anciennes vénérées par les Atlantes, autrefois."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1244,7 +1299,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Mammon est tout simplement le dieu ancien de la mort. Tout comme Alabor ou Lilith il est un des dieux les plus puissants par le caractère inébranlable de ses attributs, la mort, les âmes, les rites funéraires, les fantômes et autres notions de fin et de cycle. Il n’a jamais été en rivalité avec l’Archange majeure Azrael, très tôt, ils n’ont pas cherché à s’opposer mais œuvrer conjointement, conscient que le domaine qu’ils avaient choisi n’offrait pas le temps pour les niaiseries d’une guerre divine. Si Azrael a finalement été officiellement déchue, nul n’en connait les véritables conditions ou raison, si Elynea l’a puni, si Mammon l’a trahi ou si un accord plus important s’est joué. Les démons de Mammon et les anges d’Azrael collaborent et se confondent parfois. Le dieu n’est venu s’incarner que récemment, « Hadès », « Hel » ou bien encore « Osiris », ses avatars étant connus pour être systématiquement reclus dans l’inframonde, soulignant le caractère casanier du dieu. Mammon respecte Belial au plus haut point, même s’il s’estime au-dessus de son autorité pour ce qui concerne la tâche divine de protéger les âmes, pour tout le reste, il lui obéit au doigt et à l’œil. Certains dieux anciens voient son incarnation comme un signe qu’il souhaite aider Azrael, en effet, le détective la contactant très souvent pour qu’elle ne chasse ce qu’il répugne à éliminer lui-même. Récemment, il aida une jeune sorcière nommée Shannon à créer son magasin de curiosité, il y a quelques années de ça."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1348,7 +1408,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Astaroth est une déesse ancienne. Elle a pour attributs l’intelligence, la force de volonté, l’inventivité, la stratégie, la sagesse et la connaissance. Elle préfère ses avatars mâles dans les mythologies. Astaroth était très proche de Baal, sans être son époux, c’était son ami et amant le plus apprécié, elle était son alliée totale autrefois et si quelques religions prêtaient une opposition à leurs deux facettes, guerre et sagesse, Mars et Athena, la majorité des cultes soulignaient leur complémentarité. C’est pourquoi Astaroth en veut monstrueusement à Belial pour ne pas avoir autant défendu son frère face aux forces de son amante. Depuis, Astaroth est aigrie, sceptique, cynique, c’est une déesse du savoir qui méprise presque tout, rien ni personne ne peut la surprendre ni se montrer plus génial qu’elle, elle n’a aucun intérêt pour les humains et autres races mortelles, du moins, elle n’a aucun intérêt en dehors de leurs prières, se faisant vénérée comme « Science » ou « Technologie » plutôt que comme divinité nommée. Pourtant, elle est tombée incroyablement folle de Leslie Wright, prophétesse de l’attribut de « l’intellect » mais par égo, Astaroth ne chercha pas à ranger Leslie dans ses serviteurs mais à rivaliser avec elle au PCRC, sabotant ses travaux ou falsifiant les résultats pour voir à quelle vitesse elle réussirait à décrypter les technologies de la déesse qu’elle créa pour les nord-coréens. Quand Leslie réalisa que son amie jouait avec ses progrès, elle démonta la gueule de la déesse, lui laissant comprendre qu’elle n’avait rien à foutre de son camp d’origine, mais qu’elle ne la laisserait pas vivre longtemps si elle continuait à saboter les découvertes. C’est une raison de plus qui pousse Astaroth à se cacher en 2035, ayant été tabassée par une mortelle, surpassée mais surtout, ayant honte d’avoir trahi la seule mortelle qu’elle désirait avoir pour amie."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1452,7 +1517,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Mephisto est le dieu ancien de la magie, du surnaturel et des rêves également. C’est la figure du trompeur, du dieu Fripon, tels ceux qu’il prône de vénérer, lui-même donc. Cet éternel menteur est incroyablement jaloux des Mages, il déteste l’idée qu’il existe des Mageius, paradoxalement, il adore véritablement les Mages, ayant été celui qui introduisit Anahita à la cour divine, la voyant bien comme parèdre. Il possède un siège dans chaque Loge magique nationale du monde, sous divers noms, il a grandement influencé les Mages dans leur vision des Voyageurs, les menants à s’affronter alors qu’initialement ils étaient simplement une forme humaine de Voyageurs. Beaucoup de sorciers qui ne sont pas disciples de Mages se soumettent à Mephisto, c’est l’ordre naturel des choses selon lui et ses sorciers le vénérant sont d’autant plus puissants, en revanche, ses démons ont tendance à ne pas être mieux dotés en pouvoirs. Par le passé, Mephisto adopta Faust, le Mage, comme un fils et lui livra beaucoup de secrets en pensant récupérer son âme, hélas, il fut trahi, n’obtenant pas grand-chose du Mage. Malgré son apparence moins impressionnante que d’autres dieux, moins beau, moins charismatique, moins jeune, Mephisto est un trompeur né qui peut se faire passer pour n’importe qui sans même se déguiser, pourtant maitre des illusions et des transformations. Il a d’ailleurs une légère affection pour Quezalcoatl, le roi vampire avec qui il partage ce genre d’expertise, appréciant les vampires de cette faction, plus sorciers que les autres, même s’il ne peut en récupérer les âmes, y travaillant néanmoins."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1563,7 +1633,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "« Première femme d’Adam » et bien d’autres appellations sont associées à « Lilith », en vérité, cette déesse ancienne est une des divinités les plus puissantes de la Terre, de tout temps et jamais, toutes les espèces vénèrent la fertilité, la reproduction, l’amour, la famille et c’est typiquement le genre d’attributs lui étant associés. Même si on la rattache plus aisément à un succube dépravé, la déesse a bien des aspects fondamentaux, tels que les sentiments, c’est toutefois bel et bien « l’Amour » qui la caractérise, or, l’amour ne se manifeste pas seulement comme l’adoration de l’âme sœur, mais cela porte sur l’amitié, la fraternité, la compassion, la maternité et surtout la vénération, qu’on parle de vénérer des dieux ou bien des superstars, l’amour est similaire et inconditionnel. En cela, Lilith est imbattable, indétrônable dans son domaine et a passé les guerres entre Paradis et Enfers sans trop s’inquiéter, rien ne pouvait la menacer et rien ne le fera jamais. Bien que clairement partisane de Belial, elle n’a jamais montré de haine contre les ennemis des Dieux Anciens. Même avec Ux’Sharith, Lilith n’a jamais éprouvé de mépris, de haine ou de dégout pour le fléau, elle lui enseigna le plaisir charnel et la fit se reproduire pour diviser sa puissance et l’affaiblir, afin de pouvoir la tuer, certes, mais surtout pour garder son âme auprès d’elle comme l’amie précieuse et aimée que Sharith était pour Lilith. C’est possiblement là le plus grand défaut de Lilith, elle ne déteste personne et n’aime pas le conflit, surpuissante et écrasante, elle se fiche des oppositions, finalement, s’avérant absolument au-dessus des petites guerres, c’est pourquoi ses démons la considèrent comme la « Vraie reine » des enfers."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1667,7 +1742,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Nathan Prince est un avatar très en dessous de l’image de Satan, le dieu ancien qui se cache derrière. Rendu extrêmement populaire par la Chrétienté, il n’était pas un dieu aussi célébré que cela dans les mythologies du monde, hormis peut-être chez les nordiques où le culte de Tyr étaient majeurs avant d’être éclipsé par celui d’Odin. Dieu de la justice, des serments, de la vengeance et de l’équilibre, Satan n’a rien d’un « ennemi » de l’Humanité contrairement au démon dont il porte le nom avec fierté désormais. Si l’Humain cherche l’Ordre et la Justice quand il est en paix, ces attributs ne sont pas des besoins primaires ou inéluctables pour les mortels, bien que puissants, selon les époques, Satan a donc été un dieu bien plus secondaire d’autant plus que les valeurs morales d’équités et de jugement ont toujours été associées au pouvoir politique, à la gouvernance, donc à Belial, aussi bien déesse du feu que des dirigeants. Pour cette raison, Satan est bien un des rares dieux anciens à ne pas s’estimer surpuissant ni indépendant de sa reine, il en est le plus loyal sujet et plus d’une fois s’est préparer à faire de lourds sacrifices pour préserver les pions de Belial et assurer la victoire de ses plans. En 2035, le fait que Belial ait choisi de devenir avocate et lui procureur n’est pas anodin, s’il avait pu, il serait même venu dans le cabinet Fate qu’elle créa. C’est possiblement ce que Belial aime le moins avec Satan, sa tendance à vouloir toujours la coller tel un petit chien. Outre ses défauts, Satan est actuellement un des Dieux les plus actifs contre le Paradis et les Archanges, bien qu’il soit un des Dieux anciens les plus faibles, il est le plus menaçant contre les forces angéliques et malgré cette faiblesse relative, aucun Archange majeur ne veut s’y frotter frontalement."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1771,7 +1851,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Abigor était la déesse du ciel, des vents, des nuages mais surtout des orages, de la foudre et des tempêtes. Thor, Zeus, Indra, Susanoo ou bien encore Taranis, Seth, ses avatars sont souvent masculins et très souvent aussi impétueux que puissants. Bien que la blonde apparaisse séduisante, la divinité colérique et violente qu’elle est n’a jamais su se faire apprécier de ses pairs, les autres dieux, comme l’eau, la mort ou l’amour, le ciel est un attribut que tous les mortels perçoivent et vénère, dans de très nombreuses mythologie le roi des dieux est le dieu céleste et cela n’est pas anodin, puisqu’Abigor a longtemps combattu Belial, contestant régulièrement son statut royal, les deux plus puissantes divinité s’opposant souvent jusqu’ à ce que ne s’en mêle Elynea. Tout comme Lucifer, Abigor n’aimait pas du tout la protégée et amante de Belial, quand cette disciple s’est retournée contre les dieux en revenant d’Aèr, Abigor considéra avoir patte blanche pour la punir, mais Belial n’était pas prête à ce que sa rivale n’abatte son ancienne protégée, c’est la reine des dieux qui fit déchoir la déesse céleste, non pas pour offrir sa place à sa disciple mais pour être celle qui punirait la traitresse. Révoltée et animée d’une rage sans égale, Abigor déteste aussi bien les démons servant Belial et ses alliés divins que les anges servant Elynea."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1875,7 +1960,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Lucifer était un des dieux les plus puissants de l’ancien Pantheon. Héros pendant la guerre contre les fléaux, il était plutôt loyal envers la reine Belial qu’il considérait comme sa sœur. Offusqué qu’elle n’accepte Morrighan dans le panthéon, il s’opposa un peu trop vivement aux décisions de la reine et le paya, Belial n’ayant pas un caractère à tolérer ce genre de discussions. Exilé du « Pandemonium », le grand palais de Belial, où les dieux étaient rassemblés à l’époque, il ne fut autorisé de revenir qu’avec la présentation de nouveaux à la cour de Belial, la reine offrant à son « petit frère », une occasion de se racheter en instruisant la nouvelle protégée de la brune: une minable fille d’une déesse de la lumière d’Aèr. Cette jeune se nommait Elynea, ce n’était pas la seule « petite déesse » qui fut reçue, mais ce fut la seule que Belial garda dans sa cour. Au début, les dieux s’en amusaient, la courtisane n’était qu’une minable visiteuse Belial en l’exposant comme un objet de foire l’humiliait un peu mais c’est Lucifer qui alla le plus loin. Extrêmement jaloux en comprenant le premier qu’Elynea et Belial avaient une relation sérieuse, il se sentit gravement menacé, s’imaginant Belial vouloir qu’il n’enseigne à la jeune déesse pour qu’elle ne devienne déesse de la lumière à sa place. Humiliation après humiliation, il tâcha de faire partir Elynea et de briser sa relation avec Belial. Hélas, Lucifer provoqua une haine sans fin chez Elynea pour le panthéon terrestre et si elle s’en alla, ce ne fut que pour mieux conquérir la Terre avec des légions d’Anges. Lucifer fut le premier ciblé, il était celui qu’Elynea connaissait le mieux après Belial, elle se chargea de lui personnellement et le brisa après avoir volé siècle après siècles ses attributs et étouffé ses cultes, les lui prenant. Désormais, c’est un chasseur du « HuntXV », il est perpétuellement harcelé par Uriel, une Archange majeure d’Elynea, aussi sadique qu’attachée à lui, qui, pour achever son humiliation, n’a de cesse de lui proposer de servir Elynea en devenant un simple petit ange…"
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1979,7 +2069,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Baal est un des dieux anciens. Il aime les attributs de la guerre, de la force de la violence, la stratégie, la tactique, le conflit, le sport également et surtout la victoire. Triste ironie qu’il soit donc un des dieux que le Paradis parvint à faire tomber, ce n’est pas étonnant qu’ainsi, le culte de Baal ait été éclipsé par celui de Yahvé aux débuts du judaïsme. En vérité, les dieux anciens « déchus » ne le sont que par la disparition de leur « Enfer », leur bulle dimensionnelle servant de repaire aux âmes qu’ils se réservent autour d’eux, pour le reste, beaucoup d’entre eux restent puissants, dotés de partisans actifs et poursuivant les « Prophètes », ceux détenant les attributs divins. Baal est un des « déchus » les plus puissants, tant individuellement que par son influence dans la Réalité et la Vérité. Baal est souvent considéré comme le petit frère de Belial, la reine des dieux anciens, il dispose d’un caractère impétueux similaire et s’entends aussi bien avec elle qu’ils ne peuvent s’affronter sans limites quand la colère les prend. Il entretient aussi une relation pleine de dualité avec la déesse expatriée Morrighan, laquelle lui dispute tant dans la Réalité que la Vérité ce qui fait l’essence-même de Baal, pourtant, il semble absolument la vénérer et l’adorer, au point d’avoir un complexe de jalousie malsain contre ses amants alors qu’ils n’ont jamais été ensemble. Baal est un homme qui en impose énormément, massif et charismatique, il terrifie par un simple regard. Malgré son gout pour l’affrontement, en 2035, il ne figure pas dans les « étoiles », les plus grands combattants reconnus, en effet, après sa défaite, il s’est lassé de combattre lui-même."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -2083,7 +2178,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Zabeel n’est autre que Belzebuth, le dieu des animaux, des maladies, de la médecine, la santé, la chasse et l’agriculture. Qu’on l’appelle « Gaïa », « Rudra, « Cernunnos » ou bien « Skadi », il est une figure ancienne des mythologies plus primitive, où la faim et la santé étaient plus importantes que tout. Du temps de la guerre contre les fléaux, c’était le dieu le plus puissant de la Terre, mais pour les vaincre, il absorba énormément de leur énergie corrompue, de leurs miasmes putrides et de leur essence maudite, même pour un tel dieu, sa santé en fut affectée et c’est par les soins de sa « sœur » Belial, qu’il parvint à garder son âme intacte, la reine des dieux venant à son chevet bruler les afflictions le détruisant. Belzebuth incarne une certaine bestialité, une forme de primalité, malgré son apparence extrêmement soignée, il dégage la même aura qu’un prédateur. Bien qu’il n’ait plus du tout sa puissance passée, ayant été vaincu par les Archanges de plus, il reste un loyal serviteur de Belial, à qui il doit la vie. A la fois dieu de la vie, de la pestilence et de la primalité, Belzebuth a beau être faible, il terrifie les archanges par sa seule existence. En revanche, il est traqué par les abominations et les cultistes des fléaux, car en lui réside la résurrection et la libération de presque tous les fléaux anciens."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -2187,7 +2287,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Sigrun est une « Prophétesse » de Baal. Une valkyrie de légende plus précisément. Elle a plusieurs fois été envoyée collecter des âmes de guerriers pour renforcer les légions du Dieu de la Guerre. Désormais qu’il est tenu hors de son « Enfer », il a plus que jamais besoin de soutient sur Terra Umbra et Sigrün et ses sœurs sont très nombreuses à s’être incarnées, désormais ce sont des « Emissaires ». Sigrun a été une future majeure pour restaurer l’ancien paganisme dans une version modernisée, elle frôlé la mort peu après son grand procès, plusieurs Anges l’acculant afin de la tuer. Sans ses talents martiaux surhumains, elle aurait vite été massacrée par les créatures du « paradis ». Son unique but est de lier le plus possible les neopaïens, afin de rassembler le plus d’Attributs possibles, hélas, dit-on que l’Attribut de la Guerre serait dans une des 10 femmes les plus influentes de Grande Californie, Sigrun penche pour Siobhain car elle sent d’instinct que l’actrice est liée à une divinité. Elle fait partie d’un réseau secret de daemons, « les passeurs ». Ils servent plusieurs dieux déchus différents, et cherchent à ouvrir l’Ombre-monde pour arracher des Fléaux et restaurer l’énergie de leurs divinités grâce à cette source incommensurable de pouvoirs, paradoxalement, allant totalement contre les ordres de leurs dieux de fait."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -2291,7 +2396,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Dieu. Tel est un de ses nombreux noms. Elle est venue sur Terre toute jeune et malgré une relation amoureuse avec la reine des dieux, n’a pas apprécié les humiliations régulières qu’elle y vécu. Les dieux ne cherchèrent pas à s’en excuser et la poussèrent à partir. Elle revint, décidée à se venger et y parvint grandement. Ses Archanges ne sont pas des frères et des collègues mais des serviteurs, ce qui lui assure la totale mainmise sur le « Paradis » alors que Belial doit composer avec diplomatie concernant les « Enfers », plus désunis et souvent en rivalité. En 2035, toutefois, cette guerre n’a plus vraiment lieu d’être, d’autres menaces reviennent de l’Ombre-monde, de l’Espace infini et possiblement d’autres mondes à tout instant. Elynea a toujours su mieux séduire les humains, susciter la ferveur plus qu’aucun dieu terrestre, certains anges disent qu’elle prépare sa seconde phase, maintenant qu’elle est au-dessus de tous les dieux, elle aspirerait à les faire se soumettre pour les intégrer au paradis, les transcendant aussi, pour remplacer les archanges et faire du Paradis le seul panthéon, uni et en paix. Cette idée terrifie certains Archanges qui œuvrent plus encore pour anéantir les Dieux avant qu’ils ne les remplacent."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -2395,7 +2505,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Azraël était une Archange principale. Extrêmement importante pour Elynea, on ne sait pas vraiment si, comme Elynea, elle n’était pas une fille de dieux d’Aèr, tel que Threisis, la rumeur qui semble la plus récurente reste toutefois une paladine de Threisis, archange noir sur Aèr que sa hiérarchie empêchait de progresser et qui fut séduite par les promesses d’Elynea. Son opposition avec Mammon fut régulière et paradoxalement sans haine aucune, ni l’un l’autre n’avait d’amour pour la guerre et chacun faisait son devoir, petit à petit, cessant de s’opposer pour s’allier. Là encore, on ne sait pas vraiment ce qu’il s’est passé, mais Azraël a été arrachée du paradis et dépossédée d’une grande partie de ses pouvoirs. Les anges des autres factions parlent de sa trahison, en collaborant avec Mammon, elle aurait conspiré contre Elynea et l’aurait payé en étant trahie par le Démon, qui la déposséda de ses pouvoirs en ayant trahi la longue collaboration menée. Les anges de sa faction sont plus discrets, murmurant plutôt la trahison de Gabriel, jalouse d’Azrael. Gabriel et Barachiel auraient conspiré pour se débarrasser d’elle en prétextant son rapprochement avec Mammon. Les anges de Michael, Archange qui était proche d’Azrael, murmurent de leur côté qu’Azraël n’aurait été ni trahie ni n’aurait trahi le paradis, elle aurait sacrifié ses pouvoirs face à un Fléau qu’elle maintiendrait encore en sommeil, forcée de le surveiller sur Terre."
+          }
+        ]
       },
       {
         "id": "statistiques",
