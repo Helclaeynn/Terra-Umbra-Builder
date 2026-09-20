@@ -1034,7 +1034,7 @@
   opacity:.52;
 }
 
-.brand-signal .brand-horizon-art{
+.brand-signal .brand-dashboard-hero > .brand-horizon-art{
   position:absolute;
   z-index:0;
   right:-12px;
