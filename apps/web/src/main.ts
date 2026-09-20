@@ -8,6 +8,7 @@ const router=createRouter({
     { path:"/", component:()=>import("./pages/CompendiumPage.vue") },
     { path:"/account", component:()=>import("./App.vue") },
     { path:"/characters/:id/builder", component:()=>import("./pages/CharacterBuilderPage.vue") },
+    { path:"/characters/:id/progression", component:()=>import("./pages/CharacterBuilderPage.vue") },
     { path:"/compendium", component:()=>import("./pages/CompendiumPage.vue") },
     { path:"/compendium/new", component:()=>import("./pages/CompendiumEditorPage.vue") },
     { path:"/compendium/edit/:id", component:()=>import("./pages/CompendiumEditorPage.vue") },
