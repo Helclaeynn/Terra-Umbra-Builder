@@ -107,7 +107,7 @@ export function blankCharacterData(name:string): CharacterDataV2 {
       renownPack:0
     },
     edgeAttributes:{},
-    truth:{nature:"humain",consciousness:"profane",choices:{hunterTradition:"aucune"},truthTalents:[],truthEquipment:[],truthEquipmentMjOverride:false,corruption:0,corruptionSource:"",corruptionTalents:[]},
+    truth:{nature:"humain",consciousness:"profane",choices:{hunterTradition:"aucune"},truthTalents:[],truthEquipment:[],truthEquipmentMjOverride:false,corruptionMjAuthorized:false,corruption:0,corruptionSource:"",corruptionTalents:[]},
     equipment:[],
     social:{languages:["Anglais"],contacts:[],reputation:""},
     spending:{augmentations:0,equipment:0,vehicle:0},
@@ -204,6 +204,10 @@ export function normalizeCharacterData(input:unknown, fallbackName:string): Char
   }
 
   const truth=cloneRecord(source.truth);
+  const corruption=Math.max(0,Math.trunc(Number(truth.corruption)||0));
+  const corruptionSource=asString(truth.corruptionSource,"");
+  const corruptionTalents=stringArray(truth.corruptionTalents);
+  const legacyCorruptionActive=corruption>0||!!corruptionSource||corruptionTalents.length>0;
   out.truth={
     nature:asString(truth.nature,"humain"),
     consciousness:asString(truth.consciousness,"profane"),
@@ -211,9 +215,13 @@ export function normalizeCharacterData(input:unknown, fallbackName:string): Char
     truthTalents:stringArray(truth.truthTalents),
     truthEquipment:stringArray(truth.truthEquipment),
     truthEquipmentMjOverride:Boolean(truth.truthEquipmentMjOverride),
-    corruption:Math.max(0,Math.trunc(Number(truth.corruption)||0)),
-    corruptionSource:asString(truth.corruptionSource,""),
-    corruptionTalents:stringArray(truth.corruptionTalents)
+    corruptionMjAuthorized:
+      typeof truth.corruptionMjAuthorized==="boolean"
+        ?truth.corruptionMjAuthorized
+        :legacyCorruptionActive,
+    corruption,
+    corruptionSource,
+    corruptionTalents
   };
 
   out.equipment=Array.isArray(source.equipment)?structuredClone(source.equipment):[];
