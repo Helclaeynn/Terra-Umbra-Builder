@@ -1790,7 +1790,7 @@ const SOURCE_PAYLOAD={
     }
   ]
 } as const;
-const article=(id:string,category:"Vérité"|"Règles",title:string,tags:string[],sections:readonly Section[]):Article=>({id,dataset:"verite-v7",category,sourceCategory:category,title,source:SOURCE,status:"canon_enrichi",rebuildV2:true,tags,sections:sections as Section[]});
+const article=(id:string,category:"Vérité"|"Règles",title:string,tags:string[],sections:readonly unknown[]):Article=>({id,dataset:"verite-v7",category,sourceCategory:category,title,source:SOURCE,status:"canon_enrichi",rebuildV2:true,tags,sections:sections as unknown as Section[]});
 export const COMPENDIUM_VERITE_V7_DAEMON_ARTICLES:Article[]=[
 article("verite-v7-daemons-divinites-maisonnees-temples","Vérité","Daemons — Divinités, Maisonnées & Temples",["Vérité","Daemons","Divinités","Maisonnées","Temples","Guerre céleste"],SOURCE_PAYLOAD.lore),
 article("regles-verite-v7-daemon-nature-fonctions-divinites-facettes","Règles","Nature, Fonctions, Divinités & Facettes",["Vérité","Daemons","Nature","Fonctions","Divinités","Facettes"],SOURCE_PAYLOAD.r1),
