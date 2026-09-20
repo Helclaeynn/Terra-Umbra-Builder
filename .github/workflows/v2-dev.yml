@@ -380,7 +380,7 @@ jobs:
           assert truth["revelation"]["rules"]["vigorPvMultiplier"] == 2
           assert truth["revelation"]["angelusStats"], "Profils Angelus absents"
           assert truth["revelation"]["daemonStats"], "Profils Daemon absents"
-          assert truth["structure"]["natures"]["vampire"]["compendiumId"] == "verite-046-10-vampires"
+          assert truth["structure"]["natures"]["vampire"]["compendiumId"] == "verite-v7-vampires-civilisation-cours-sangs"
           truth_talents=[
               talent
               for talents in truth["catalogs"].values()
@@ -888,8 +888,8 @@ jobs:
             "regles-verite-v7-angelus-sephiroth-archanges-seraphins":"Sephiroth, Archanges & Séraphins",
             "regles-verite-v7-aseryn-nature-accelyr-origines":"Nature, Accelyr & Origines",
             "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre":"Treize Traditions, Dratyn & Conseil de la Foudre",
-            "regles-verite-v7-corruption-integrite-bascule":"Corruption — Humanité, Intégrité, Souillure & Bascule",
-            "regles-verite-v7-equipement-proprietes-acquisition":"Équipement de Vérité — propriétés, acquisition & réseaux",
+            "regles-verite-v7-corruption-integrite-bascule":"Corruption, Souillure, Bascule & purification",
+            "regles-verite-v7-equipement-proprietes-acquisition":"Propriétés, accès, confinement & compatibilités",
             "regles-verite-v7-exiles-profils-cinq-peuples":"Profils raciaux des cinq peuples",
             "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie":"Silcenters, HDS, Croix d’Emphyrra, Runes, réseaux, Hordes & technomagie",
             "regles-verite-v7-extrals-profils-physiologies":"Cinq profils extrals & physiologies",
