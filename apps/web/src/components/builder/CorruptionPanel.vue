@@ -59,6 +59,7 @@ const groups=computed(()=>{
 
 function update(mutator:(state:TruthState)=>void){
   const next=structuredClone(props.modelValue);
+  next.corruptionMjAuthorized=Boolean(next.corruptionMjAuthorized);
   next.corruption=Math.max(0,Math.min(Math.max(1,props.integrity),Math.trunc(Number(next.corruption)||0)));
   next.corruptionSource=String(next.corruptionSource||"");
   next.corruptionTalents=[...new Set(next.corruptionTalents??[])];
@@ -73,7 +74,21 @@ function update(mutator:(state:TruthState)=>void){
   emit("update:modelValue",next);
 }
 
+function setAuthorized(value:boolean){
+  if(!value&&(props.modelValue.corruption>0||(props.modelValue.corruptionTalents??[]).length>0))return;
+  update(next=>{
+    next.corruptionMjAuthorized=value;
+    if(!value){
+      next.corruption=0;
+      next.corruptionSource="";
+      next.corruptionTalents=[];
+    }
+  });
+}
+
+
 function setSource(id:string){
+  if(!props.modelValue.corruptionMjAuthorized)return;
   update(next=>{
     if(!id){
       next.corruption=0;
@@ -87,6 +102,7 @@ function setSource(id:string){
 }
 
 function changeCorruption(delta:number){
+  if(!props.modelValue.corruptionMjAuthorized)return;
   update(next=>{
     if(delta>0&&!next.corruptionSource)return;
     next.corruption=Math.max(0,Math.min(props.integrity,next.corruption+delta));
@@ -107,6 +123,7 @@ function active(talent:CorruptionTalent){
 }
 
 function buyBlockReason(talent:CorruptionTalent){
+  if(!props.modelValue.corruptionMjAuthorized)return "Autorisation MJ requise";
   if(props.modelValue.consciousness==="profane")return "Initiation requise";
   if(selected(talent))return "";
   if(props.ptvRemaining<talent.cost)return "PTV insuffisants";
@@ -143,6 +160,7 @@ function removeCascade(id:string){
 }
 
 function toggle(talent:CorruptionTalent){
+  if(!props.modelValue.corruptionMjAuthorized)return;
   if(selected(talent)){
     removeCascade(talent.id);
     return;
@@ -177,9 +195,31 @@ function talentState(talent:CorruptionTalent){
           fiche mais deviennent dormants ; leurs PTV ne sont jamais remboursés.
         </p>
       </div>
-      <span class="schema-badge">{{ modelValue.corruption }}/{{ integrity }} · {{ depth }}</span>
+      <span class="schema-badge">
+        {{ modelValue.corruptionMjAuthorized ? `${modelValue.corruption}/${integrity} · ${depth}` : "MJ requis" }}
+      </span>
     </div>
 
+    <div v-if="!modelValue.corruptionMjAuthorized" class="corruption-gate">
+      <div class="rule-note">
+        <strong>Personnage sain par défaut.</strong>
+        La Corruption n’est pas un choix de création ordinaire. Ce bloc ne s’ouvre que sur accord explicite du MJ ;
+        en campagne, la Corruption est normalement gérée depuis l’évolution du personnage.
+      </div>
+      <label class="corruption-authorization">
+        <input
+          type="checkbox"
+          :checked="false"
+          @change="setAuthorized(($event.target as HTMLInputElement).checked)"
+        />
+        <span>
+          <strong>Autorisation MJ : ouvrir Corruption & Fléaux</strong>
+          <small>À utiliser uniquement si le MJ autorise un personnage déjà corrompu à la création.</small>
+        </span>
+      </label>
+    </div>
+
+    <template v-else>
     <div class="corruption-state-grid">
       <label>
         <span>Source dominante</span>
@@ -335,11 +375,33 @@ function talentState(talent:CorruptionTalent){
       <strong>Préséance en cas d’égalité :</strong>
       {{ rules.corruption.precedence.map(sourceLabel).join(" → ") }}
     </div>
+
+    <label class="corruption-authorization active">
+      <input
+        type="checkbox"
+        :checked="true"
+        :disabled="modelValue.corruption>0 || modelValue.corruptionTalents.length>0"
+        @change="setAuthorized(($event.target as HTMLInputElement).checked)"
+      />
+      <span>
+        <strong>Autorisation MJ active</strong>
+        <small v-if="modelValue.corruption>0 || modelValue.corruptionTalents.length>0">
+          Retirez d’abord toute Corruption et toute capacité de Fléau pour refermer ce bloc.
+        </small>
+        <small v-else>Peut être retirée tant qu’aucune Corruption ni capacité n’a été enregistrée.</small>
+      </span>
+    </label>
+    </template>
   </section>
 </template>
 
 <style scoped>
 .corruption-panel{margin-top:24px;border-top:1px solid var(--line);padding-top:22px}
+.corruption-gate{display:grid;gap:12px;margin:14px 0}
+.corruption-authorization{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid var(--line);border-radius:12px}
+.corruption-authorization span{display:grid;gap:3px}
+.corruption-authorization small{color:var(--muted)}
+.corruption-authorization.active{margin-top:14px}
 .corruption-state-grid{display:grid;grid-template-columns:minmax(220px,1fr) minmax(220px,1fr);gap:14px;margin:14px 0}
 .corruption-state-grid label{display:grid;gap:6px}
 .corruption-gauge{display:grid;gap:6px}
