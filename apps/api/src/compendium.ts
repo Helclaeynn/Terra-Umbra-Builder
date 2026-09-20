@@ -74,6 +74,15 @@ import {
   COMPENDIUM_VERITE_V7_PASS_B_RULE_ARTICLES,
   COMPENDIUM_VERITE_V7_PASS_B_RULE_NAVIGATION
 } from "./compendium-verite-v7-pass-b-rules.js";
+import {
+  COMPENDIUM_VERITE_SPECIES_LORE_ARTICLES,
+  COMPENDIUM_VERITE_SPECIES_LORE_NAVIGATION,
+  COMPENDIUM_VERITE_SPECIES_ENRICHMENTS
+} from "./compendium-verite-species-lore.js";
+import {
+  COMPENDIUM_VERITE_SPECIES_PNJ_ARTICLES,
+  COMPENDIUM_VERITE_SPECIES_PNJ_NAVIGATION
+} from "./compendium-verite-species-pnj.js";
 
 type JsonObject = Record<string, any>;
 type Article = JsonObject & {
@@ -988,6 +997,26 @@ async function loadCorpus(): Promise<Corpus> {
     byId.set(article.id, deepClone(article) as Article);
   }
 
+  for (const article of COMPENDIUM_VERITE_SPECIES_LORE_ARTICLES) {
+    // Detailed terrestrial-creature source: adds families not already promoted by Truth V7.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const enrichment of COMPENDIUM_VERITE_SPECIES_ENRICHMENTS) {
+    const target = byId.get(enrichment.targetId);
+    if (!target) continue;
+    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
+    target.sections = [
+      ...(target.sections ?? []),
+      ...deepClone(enrichment.sections).filter((section) => !existingIds.has(String(section?.id ?? "")))
+    ];
+  }
+
+  for (const article of COMPENDIUM_VERITE_SPECIES_PNJ_ARTICLES) {
+    // These active PNJs are recreated from the detailed source and remain independent from OLD archives.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
   const generatedTalentHubs = generatedTalentHubCorpus();
   for (const hub of generatedTalentHubs.articles) {
     if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
@@ -1094,6 +1123,8 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_VERITE_V7_ASERYN_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_PASS_B_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_PASS_B_RULE_NAVIGATION,
+      ...COMPENDIUM_VERITE_SPECIES_LORE_NAVIGATION,
+      ...COMPENDIUM_VERITE_SPECIES_PNJ_NAVIGATION,
       ...generatedTalentHubs.navigation,
       ...generatedBuilderReferences.navigation
     ]
