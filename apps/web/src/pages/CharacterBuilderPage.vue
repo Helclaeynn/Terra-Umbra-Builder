@@ -1399,7 +1399,7 @@ onBeforeUnmount(()=>{
   <div class="builder-v2-shell">
     <header class="topbar builder-topbar">
       <RouterLink class="brand builder-brand-lockup" to="/">
-        <TerraUmbraLockup />
+        <TerraUmbraLockup compact />
       </RouterLink>
 
       <div class="top-actions">

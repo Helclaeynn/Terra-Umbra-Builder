@@ -434,7 +434,7 @@ onMounted(bootstrap);
   <div class="app-shell brand-signal">
     <header class="topbar">
       <RouterLink class="brand brand-lockup-link" to="/">
-        <TerraUmbraLockup />
+        <TerraUmbraLockup compact />
       </RouterLink>
 
       <div class="top-actions">
@@ -642,12 +642,7 @@ onMounted(bootstrap);
 
       <template v-else>
         <section class="welcome dashboard-hero brand-dashboard-hero">
-          <img
-            class="brand-horizon-art"
-            src="/brand/terra-umbra-horizon.webp"
-            alt=""
-            aria-hidden="true"
-          />
+          <div class="brand-horizon-art" aria-hidden="true"></div>
 
           <div class="brand-masthead brand-masthead-final">
             <div class="brand-masthead-copy">
