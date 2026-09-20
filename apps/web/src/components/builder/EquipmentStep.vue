@@ -46,8 +46,24 @@ const emit=defineEmits<{
 }>();
 
 const catalogKind=ref<"equipment"|"augmentation">("equipment");
-const query=ref("");
-const category=ref("");
+const equipmentQuery=ref("");
+const augmentationQuery=ref("");
+const equipmentCategory=ref("");
+const augmentationCategory=ref("");
+const query=computed({
+  get:()=>catalogKind.value==="augmentation"?augmentationQuery.value:equipmentQuery.value,
+  set:(value:string)=>{
+    if(catalogKind.value==="augmentation")augmentationQuery.value=value;
+    else equipmentQuery.value=value;
+  }
+});
+const category=computed({
+  get:()=>catalogKind.value==="augmentation"?augmentationCategory.value:equipmentCategory.value,
+  set:(value:string)=>{
+    if(catalogKind.value==="augmentation")augmentationCategory.value=value;
+    else equipmentCategory.value=value;
+  }
+});
 const priceDrafts=ref<Record<string,string>>({});
 const variantChoice=ref<Record<string,string>>({});
 const recurringId=ref("");
@@ -209,7 +225,7 @@ const equipmentCategories=computed(()=>[...new Set(
     .map(item=>item.category)
 )].sort((a,b)=>a.localeCompare(b,"fr")));
 const augmentationCategories=computed(()=>[...new Set(
-  props.rules.augmentations.map(item=>item.category)
+  props.rules.augmentations.filter(visibleAugmentation).map(item=>item.category)
 )].sort((a,b)=>a.localeCompare(b,"fr")));
 
 const recurringGroups=computed(()=>{
@@ -674,8 +690,8 @@ function setCorporateSupportItem(itemId:string){
               </p>
             </div>
             <div class="catalog-kind">
-              <button type="button" :class="{ selected: catalogKind === 'equipment' }" @click="catalogKind='equipment';category=''">Équipement</button>
-              <button type="button" :class="{ selected: catalogKind === 'augmentation' }" @click="catalogKind='augmentation';category=''">Augmentations</button>
+              <button type="button" :class="{ selected: catalogKind === 'equipment' }" @click="catalogKind='equipment'">Équipement</button>
+              <button type="button" :class="{ selected: catalogKind === 'augmentation' }" @click="catalogKind='augmentation'">Augmentations</button>
             </div>
           </div>
 
