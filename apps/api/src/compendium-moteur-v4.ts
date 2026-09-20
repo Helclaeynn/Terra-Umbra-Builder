@@ -17,6 +17,7 @@ type Article = {
   title: string;
   source: string;
   status: string;
+  rebuildV2: true;
   tags: string[];
   sections: Section[];
 };
@@ -35,6 +36,7 @@ export const COMPENDIUM_MOTEUR_V4_ARTICLES: Article[] = [
     title: "Moteur de jeu — règles fondamentales",
     source: SOURCE,
     status: "canon_enrichi",
+    rebuildV2: true,
     tags: [
       "Moteur", "règles", "socle commun", "résolution", "profil", "statut",
       "combat", "tir", "santé", "stress", "Réalité", "Vérité"
@@ -85,6 +87,7 @@ export const COMPENDIUM_MOTEUR_V4_ARTICLES: Article[] = [
     title: "Résolution des tests",
     source: SOURCE,
     status: "canon_enrichi",
+    rebuildV2: true,
     tags: [
       "test", "jet", "Attribut", "Compétence", "1d10e", "d10 explosif", "Difficulté",
       "DR", "marge", "échec narratif", "circonstance", "opposition", "assistance",
@@ -186,6 +189,7 @@ export const COMPENDIUM_MOTEUR_V4_ARTICLES: Article[] = [
     title: "Profil, valeurs dérivées & statut",
     source: SOURCE,
     status: "canon_enrichi",
+    rebuildV2: true,
     tags: [
       "profil", "valeurs dérivées", "PV", "Seuil de Mort", "Défense passive",
       "Défense occulte", "Initiative", "Déplacement", "Intégrité", "Stress augmentique",
@@ -267,6 +271,7 @@ export const COMPENDIUM_MOTEUR_V4_ARTICLES: Article[] = [
     title: "Initiative, Points d’Action & déplacement",
     source: SOURCE,
     status: "canon_enrichi",
+    rebuildV2: true,
     tags: [
       "Initiative", "PA", "Points d’Action", "passes", "round", "Réaction",
       "Défense active", "PA gagné", "Déplacement", "se relever", "terrain",
@@ -337,6 +342,7 @@ export const COMPENDIUM_MOTEUR_V4_ARTICLES: Article[] = [
     title: "Combat & défenses",
     source: SOURCE,
     status: "canon_enrichi",
+    rebuildV2: true,
     tags: [
       "combat", "Défense passive", "Défense active", "surprise", "Mêlée",
       "Pugilat", "Armure", "dégâts", "DGT", "Zone", "Zone X m", "Fiable",
@@ -401,6 +407,7 @@ export const COMPENDIUM_MOTEUR_V4_ARTICLES: Article[] = [
     title: "Tir, portée & tirs particuliers",
     source: SOURCE,
     status: "canon_enrichi",
+    rebuildV2: true,
     tags: [
       "Tir", "Altération", "Marge", "Portée", "couvert", "Viser", "Verrouillage",
       "Rafale", "Suppression", "Automatique", "tir au contact", "tir dans une mêlée",
@@ -507,6 +514,7 @@ export const COMPENDIUM_MOTEUR_V4_ARTICLES: Article[] = [
     title: "Santé, blessures & soins",
     source: SOURCE,
     status: "canon_enrichi",
+    rebuildV2: true,
     tags: [
       "Santé", "PV", "blessures", "50%", "25%", "Agonisant", "Stabilisé",
       "Agonie", "Test d’Agonie", "Stabiliser", "Premiers soins", "Repos",
@@ -589,6 +597,7 @@ export const COMPENDIUM_MOTEUR_V4_ARTICLES: Article[] = [
     title: "Stress & états psychologiques",
     source: SOURCE,
     status: "canon_enrichi",
+    rebuildV2: true,
     tags: [
       "Stress", "test de Stress", "Normal", "Tendu", "Paniqué", "échec narratif",
       "d10 explosif", "blessures", "retour au calme", "Traumatisme", "Raison",
