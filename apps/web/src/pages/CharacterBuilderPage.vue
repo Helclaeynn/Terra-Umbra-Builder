@@ -295,6 +295,11 @@ const visibleDisadvantages=computed(()=>{
   return [...disadvantages.value.common];
 });
 
+const availableDisadvantages=computed(()=>{
+  const selected=new Set(draft.value?.disadvantages??[]);
+  return visibleDisadvantages.value.filter(item=>!selected.has(item.id));
+});
+
 const edgeTotal=computed(()=>{
   if(!draft.value||!edgeRules.value)return 0;
   return edgeRules.value.base+draft.value.disadvantages.length;
@@ -2328,7 +2333,7 @@ onBeforeUnmount(()=>{
                 <select v-model="disadvantagePick" :disabled="draft.disadvantages.length >= 3">
                   <option value="">— Choisir —</option>
                   <option
-                    v-for="item in visibleDisadvantages.filter(item=>!draft.disadvantages.includes(item.id))"
+                    v-for="item in availableDisadvantages"
                     :key="item.id"
                     :value="item.id"
                   >
