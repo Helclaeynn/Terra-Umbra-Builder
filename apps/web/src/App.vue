@@ -645,8 +645,9 @@ onMounted(bootstrap);
           <div class="brand-horizon-art" aria-hidden="true"></div>
 
           <div class="brand-masthead brand-masthead-final">
+            <TerraUmbraLockup class="brand-masthead-lockup" />
+
             <div class="brand-masthead-copy">
-              <TerraUmbraLockup class="brand-masthead-lockup" />
               <div class="brand-title-rule" aria-hidden="true"></div>
               <p class="brand-tagline">SAME WORLD&nbsp;&nbsp;//&nbsp;&nbsp;A DEEPER LAYER&nbsp;&nbsp;//&nbsp;&nbsp;BUILT TO UNCOVER</p>
 

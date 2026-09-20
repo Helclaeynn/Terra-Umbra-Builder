@@ -27,14 +27,14 @@ withDefaults(
   aspect-ratio:360 / 264;
   object-fit:contain;
   object-position:center;
-  opacity:.78;
+  opacity:.88;
   mix-blend-mode:screen;
   filter:
-    saturate(.58)
-    brightness(.82)
-    contrast(.92)
-    drop-shadow(0 0 9px rgba(36,165,255,.10))
-    drop-shadow(0 0 14px rgba(221,40,255,.055));
+    saturate(.72)
+    brightness(.92)
+    contrast(.96)
+    drop-shadow(0 0 10px rgba(36,165,255,.14))
+    drop-shadow(0 0 15px rgba(221,40,255,.075));
 }
 .tu-brand-lockup.compact{
   width:104px;
