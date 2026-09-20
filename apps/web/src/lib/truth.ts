@@ -138,6 +138,7 @@ export type TruthState={
   truthTalents:string[];
   truthEquipment:string[];
   truthEquipmentMjOverride:boolean;
+  corruptionMjAuthorized:boolean;
   corruption:number;
   corruptionSource:string;
   corruptionTalents:string[];
@@ -168,6 +169,79 @@ export function truthNorm(value=""){
 function stringChoice(choices:Record<string,unknown>,key:string){
   const value=choices[key];
   return typeof value==="string"?value:"";
+}
+
+export type TruthEquipmentAccess={
+  ok:boolean;
+  natural:boolean;
+  reason:string;
+};
+
+export function truthEquipmentAccess(item:TruthEquipmentItem,state:TruthState):TruthEquipmentAccess{
+  if(item.referenceOnly){
+    return {ok:true,natural:true,reason:"Référence commune"};
+  }
+  if(state.truthEquipmentMjOverride){
+    return {ok:true,natural:false,reason:"Autorisation MJ exceptionnelle"};
+  }
+  if(item.requiresMj){
+    return {ok:false,natural:false,reason:"Autorisation MJ requise"};
+  }
+
+  const hunterTradition=stringChoice(state.choices,"hunterTradition");
+  const species=stringChoice(state.choices,"species");
+  const network=stringChoice(state.choices,"network");
+
+  if(item.chapter==="23"){
+    const ok=!!hunterTradition&&hunterTradition!=="aucune";
+    return {
+      ok,
+      natural:ok,
+      reason:ok?"Tradition de Chasse":"Réservé aux personnages ayant une tradition de Chasse"
+    };
+  }
+  if(item.chapter==="24"){
+    const ok=state.nature==="exile";
+    return {
+      ok,
+      natural:ok,
+      reason:ok?"Accès Exilé / Aèr":"Réservé aux Exilés ou à une autorisation MJ"
+    };
+  }
+  if(item.chapter==="25"){
+    const ok=state.nature==="extral";
+    return {
+      ok,
+      natural:ok,
+      reason:ok?"Accès Extral / marché xéno":"Réservé aux Extrals ou à une autorisation MJ"
+    };
+  }
+  if(item.chapter==="26"){
+    const aidhNetwork=network==="aidh_intervention"||network==="aidh_coherence";
+    const ok=state.nature==="extral"&&(species==="homo_superior"||aidhNetwork);
+    return {
+      ok,
+      natural:ok,
+      reason:ok?"Habilitation AIDH":"Réservé aux Homo Superior / personnels AIDH autorisés"
+    };
+  }
+  if(item.chapter==="27"){
+    return {ok:false,natural:false,reason:"Équipement corrompu : autorisation MJ requise"};
+  }
+
+  return {ok:false,natural:false,reason:"Accès fictionnel non ouvert par la fiche"};
+}
+
+export function truthEquipmentVisible(item:TruthEquipmentItem,state:TruthState){
+  return item.referenceOnly||truthEquipmentAccess(item,state).ok;
+}
+
+export function truthEquipmentInvalidIds(pkg:TruthRulesPackage,state:TruthState){
+  const byId=new Map((pkg.equipment??[]).map(item=>[item.id,item]));
+  return (state.truthEquipment??[]).filter(id=>{
+    const item=byId.get(id);
+    return !item||!truthEquipmentAccess(item,state).ok;
+  });
 }
 
 export function truthChoiceOptions(choice:TruthChoice,choices:Record<string,unknown>){
