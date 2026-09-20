@@ -208,6 +208,7 @@ export const COMPENDIUM_GUIDE_NAVIGATION = [
 
 export const COMPENDIUM_PLAYER_START = {
   basics: [
+    { id: "regles-moteur-de-jeu", label: "Moteur de jeu — règles fondamentales", summary: "Le socle commun : faire un test, agir en combat, gérer les PA, les blessures, les soins et le Stress." },
     { id: "guide-realite-nouveau-joueur", label: "Réalité — Guide du nouveau joueur", summary: "Comprendre le monde visible, ce qu’un personnage ordinaire connaît et comment la Réalité rencontre la Vérité." },
     { id: "guide-verite-nouveau-joueur", label: "Vérité — Guide du nouveau joueur", summary: "Comprendre la superposition Réalité/Vérité, la révélation, le Voile et la manière dont le surnaturel agit sur le monde visible." },
     { id: "verite-002-le-voile-et-l-hologramme", label: "Le Voile et l’Hologramme", summary: "Comprendre pourquoi le surnaturel n’apparaît pas de la même manière à tous." },
