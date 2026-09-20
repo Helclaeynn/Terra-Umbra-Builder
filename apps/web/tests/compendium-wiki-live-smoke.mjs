@@ -112,6 +112,28 @@ try{
     throw new Error("La page Vampire V7 reconstruite ne doit pas être marquée OLD.");
   }
 
+  const truthLoreChecks=[
+    ["verite-v7-exiles-peuples-silcenters-traditions","Une société exilée, pas cinq musées","Un catalogue canonique de 184 Talents"],
+    ["verite-v7-extrals-gaac-aidh-diasporas","Les Extrals en 2035 — une diaspora récente, déjà divisée","Un catalogue canonique de 161 Talents"],
+    ["verite-v7-homo-superior-adrak-profils-rares","Les Arts de Nel’Akna","Repère Builder"],
+    ["verite-v7-chasseurs-doctrine-association-traditions","La Californie comme territoire de Chasse","Un catalogue canonique de 266 Talents"],
+    ["verite-v7-six-fleaux-sources-rupture","Thul — la Fixation","Les Dons ne sont pas un second catalogue de Compendium"],
+    ["verite-v7-delanial-pere-ombre","Classification MJ — le faux Septième","progression PTV"],
+    ["verite-v7-descendants-khinae","Crocodiliens","Catalogue canonique des Talents de Lignée et Sangs vifs"]
+  ];
+  for(const [articleId,requiredHeading,forbiddenText] of truthLoreChecks){
+    await publicPage.goto(baseUrl+"/compendium?article="+encodeURIComponent(articleId),{waitUntil:"domcontentloaded",timeout:30000});
+    await publicPage.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
+    await publicPage.getByRole("heading",{name:requiredHeading,exact:true}).waitFor({state:"visible",timeout:10000});
+    if(await publicPage.getByText(forbiddenText,{exact:false}).count()){
+      throw new Error(articleId+" contient encore du contenu mécanique de lore interdit: "+forbiddenText);
+    }
+    if(await publicPage.getByText("Archive de l’ancien Compendium",{exact:true}).count()){
+      throw new Error(articleId+" est retombé en OLD.");
+    }
+  }
+  console.log("TRUTH LORE LIVE OK — 7 pages sensibles · lore rendu · anciens catalogues absents");
+
   await publicPage.goto(baseUrl+"/compendium?article=regles-verite-chasseur-lavandieres",{waitUntil:"domcontentloaded",timeout:30000});
   await publicPage.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
   await publicPage.getByText("Archive de l’ancien Compendium",{exact:true}).waitFor({state:"visible",timeout:10000});
