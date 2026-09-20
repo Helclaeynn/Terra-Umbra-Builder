@@ -54,6 +54,10 @@ import {
   COMPENDIUM_VERITE_V7_ASERYN_ARTICLES,
   COMPENDIUM_VERITE_V7_ASERYN_NAVIGATION
 } from "./compendium-verite-v7-aseryns.js";
+import {
+  COMPENDIUM_VERITE_V7_PASS_B_ARTICLES,
+  COMPENDIUM_VERITE_V7_PASS_B_NAVIGATION
+} from "./compendium-verite-v7-pass-b.js";
 
 type JsonObject = Record<string, any>;
 type Article = JsonObject & {
@@ -923,6 +927,10 @@ async function loadCorpus(): Promise<Corpus> {
     byId.set(article.id, deepClone(article) as Article);
   }
 
+  for (const article of COMPENDIUM_VERITE_V7_PASS_B_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
   const generatedTalentHubs = generatedTalentHubCorpus();
   for (const hub of generatedTalentHubs.articles) {
     if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
@@ -1021,6 +1029,7 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_VERITE_V7_DAEMON_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_ANGELUS_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_ASERYN_NAVIGATION,
+      ...COMPENDIUM_VERITE_V7_PASS_B_NAVIGATION,
       ...generatedTalentHubs.navigation,
       ...generatedBuilderReferences.navigation
     ]
