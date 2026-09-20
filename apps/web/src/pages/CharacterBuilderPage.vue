@@ -300,6 +300,10 @@ const availableDisadvantages=computed(()=>{
   return visibleDisadvantages.value.filter(item=>!selected.has(item.id));
 });
 
+const disadvantagePreview=computed(()=>
+  disadvantagePick.value ? disadvantageById(disadvantagePick.value) : null
+);
+
 const edgeTotal=computed(()=>{
   if(!draft.value||!edgeRules.value)return 0;
   return edgeRules.value.base+draft.value.disadvantages.length;
@@ -544,6 +548,56 @@ function edgePurchaseDisabled(key:string){
   if(!draft.value)return true;
   if(key==="renownPack")return hasUnknownDisadvantage.value||hasRenownedTalent.value;
   return false;
+}
+
+function edgePurchasePlusDisabled(key:string){
+  if(!draft.value||!edgeRules.value)return true;
+  const current=Number(draft.value.edge[key]||0);
+  const rule=edgeRules.value.options[key];
+  return !rule||current>=rule.max||edgeRemaining.value<=0||edgePurchaseDisabled(key);
+}
+function edgePurchaseMinusDisabled(key:string){
+  if(!draft.value||!edgeRules.value)return true;
+  const current=Number(draft.value.edge[key]||0);
+  if(current<=0)return true;
+  const next=current-1;
+  const rule=edgeRules.value.options[key];
+  if(!rule)return true;
+  if(key==="attributePack"&&edgeAttributePointsUsed.value>Math.max(0,next)*Number(rule.points||0))return true;
+  if(key==="skillPacks"&&edgeSkillPointsUsed.value>Math.max(0,next)*Number(rule.points||0))return true;
+  if(key==="talentPacks"&&draft.value.talents.edge.slice(Math.max(0,next)).some(Boolean))return true;
+  return false;
+}
+function edgeOptionResult(key:string){
+  if(!draft.value)return "";
+  if(key==="attributePack")return Number(draft.value.edge.attributePack||0)>0
+    ? `${edgeAttributePointsUsed.value}/${edgeAttributeBudget.value} points attribués`
+    : "";
+  if(key==="skillPacks")return Number(draft.value.edge.skillPacks||0)>0
+    ? `${edgeSkillPointsUsed.value}/${edgeSkillBudget.value} points attribués`
+    : "";
+  if(key==="talentPacks")return Number(draft.value.edge.talentPacks||0)>0
+    ? `${draft.value.talents.edge.filter(Boolean).length}/${draft.value.edge.talentPacks} Talent(s) choisi(s)`
+    : "";
+  if(key==="cashPacks")return selectedStyle.value
+    ? `Compte actuel : ${formatMoney(Math.max(0,realityEconomyValue.value?.account??selectedStyle.value.account))}`
+    : "";
+  if(key==="lifestylePack")return selectedStyle.value
+    ? `Train de vie actuel : ${lifestylePressureValue.value?.effective||lifestyleBaseValue.value}`
+    : "";
+  if(key==="augmentationPacks"&&selectedStyle.value){
+    const extra=Number(draft.value.edge.augmentationPacks||0)*5000;
+    const windows=selectedStyle.value.gen2SlotsBase+Number(draft.value.edge.augmentationPacks||0)*Number(edgeRules.value?.options.augmentationPacks?.gen2Windows||0);
+    return `Enveloppe : ${formatMoney(selectedStyle.value.augmentationEnvelope+extra)} · ${windows} fenêtre(s) Gen2`;
+  }
+  if(key==="renownPack")return `Renommée actuelle : ${renownScore.value}`;
+  return "";
+}
+function edgeSkillPointsForAttribute(attributeId:string){
+  if(!draft.value||!rules.value)return 0;
+  return rules.value.skills
+    .filter(skill=>skill.attribute===attributeId)
+    .reduce((sum,skill)=>sum+Number(draft.value?.skills[skill.id]?.edge||0),0);
 }
 
 function selectedDisadvantageItems(){
@@ -1235,6 +1289,12 @@ function setTruthConsciousness(id:string){
   const next:TruthState={...currentTruthState.value,consciousness:id};
   next.truthTalents=truthSanitizeTalents(truthRules.value,next);
   writeTruthState(next);
+}
+
+function truthConsciousnessHelp(id:string){
+  return id==="profane"
+    ? "Ignore encore la Vérité ou n’y a pas accès consciemment. Aucun PTV de Vérité ne peut être dépensé tant que le personnage reste Profane."
+    : "Connaît l’existence de la Vérité et peut employer ses acquis surnaturels et dépenser ses PTV dans les branches ouvertes par sa Nature.";
 }
 
 function setTruthChoice(key:string,value:string){
@@ -2038,34 +2098,53 @@ onBeforeUnmount(()=>{
               <div class="truth-picker-grid">
                 <label>
                   <span>Nature</span>
-                  <select
-                    :value="currentTruthState.nature"
-                    @change="setTruthNature(($event.target as HTMLSelectElement).value)"
-                  >
-                    <option
-                      v-for="nature in Object.values(truthRules.structure.natures)"
-                      :key="nature.id"
-                      :value="nature.id"
+                  <div class="v1-select-shell">
+                    <select
+                      :value="currentTruthState.nature"
+                      @change="setTruthNature(($event.target as HTMLSelectElement).value)"
                     >
-                      {{ nature.name }}
-                    </option>
-                  </select>
+                      <option
+                        v-for="nature in Object.values(truthRules.structure.natures)"
+                        :key="nature.id"
+                        :value="nature.id"
+                        :title="nature.description"
+                      >
+                        {{ nature.name }}
+                      </option>
+                    </select>
+                    <span
+                      v-if="selectedTruthNature"
+                      class="select-hover-help"
+                      tabindex="0"
+                      :data-tooltip="selectedTruthNature.description"
+                      aria-label="Aide sur la Nature"
+                    >i</span>
+                  </div>
                 </label>
 
                 <label>
                   <span>Conscience</span>
-                  <select
-                    :value="currentTruthState.consciousness"
-                    @change="setTruthConsciousness(($event.target as HTMLSelectElement).value)"
-                  >
-                    <option
-                      v-for="entry in truthRules.structure.consciousness"
-                      :key="entry.id"
-                      :value="entry.id"
+                  <div class="v1-select-shell">
+                    <select
+                      :value="currentTruthState.consciousness"
+                      @change="setTruthConsciousness(($event.target as HTMLSelectElement).value)"
                     >
-                      {{ entry.name }}
-                    </option>
-                  </select>
+                      <option
+                        v-for="entry in truthRules.structure.consciousness"
+                        :key="entry.id"
+                        :value="entry.id"
+                        :title="truthConsciousnessHelp(entry.id)"
+                      >
+                        {{ entry.name }}
+                      </option>
+                    </select>
+                    <span
+                      class="select-hover-help"
+                      tabindex="0"
+                      :data-tooltip="truthConsciousnessHelp(currentTruthState.consciousness)"
+                      aria-label="Aide sur le niveau de conscience"
+                    >i</span>
+                  </div>
                 </label>
               </div>
 
@@ -2110,19 +2189,29 @@ onBeforeUnmount(()=>{
                       <strong>{{ choice.label }}</strong>
                       <small v-if="choice.optional">optionnel</small>
                     </span>
-                    <select
-                      :value="truthChoiceValue(choice)"
-                      @change="setTruthChoice(choice.key,($event.target as HTMLSelectElement).value)"
-                    >
-                      <option value="">{{ choice.optional ? "— Aucun —" : "— Choisir —" }}</option>
-                      <option
-                        v-for="option in resolvedTruthChoiceOptions(choice)"
-                        :key="option.id"
-                        :value="option.id"
+                    <div class="v1-select-shell">
+                      <select
+                        :value="truthChoiceValue(choice)"
+                        @change="setTruthChoice(choice.key,($event.target as HTMLSelectElement).value)"
                       >
-                        {{ option.name }}
-                      </option>
-                    </select>
+                        <option value="">{{ choice.optional ? "— Aucun —" : "— Choisir —" }}</option>
+                        <option
+                          v-for="option in resolvedTruthChoiceOptions(choice)"
+                          :key="option.id"
+                          :value="option.id"
+                          :title="option.description || ''"
+                        >
+                          {{ option.name }}
+                        </option>
+                      </select>
+                      <span
+                        v-if="selectedTruthChoice(choice)?.description"
+                        class="select-hover-help"
+                        tabindex="0"
+                        :data-tooltip="selectedTruthChoice(choice)?.description || ''"
+                        :aria-label="`Aide sur ${choice.label}`"
+                      >i</span>
+                    </div>
                     <em v-if="selectedTruthChoice(choice)?.description">
                       {{ selectedTruthChoice(choice)?.description }}
                     </em>
@@ -2330,16 +2419,26 @@ onBeforeUnmount(()=>{
 
               <label>
                 <span>Désavantage</span>
-                <select v-model="disadvantagePick" :disabled="draft.disadvantages.length >= 3">
-                  <option value="">— Choisir —</option>
-                  <option
-                    v-for="item in availableDisadvantages"
-                    :key="item.id"
-                    :value="item.id"
-                  >
-                    {{ item.name }}
-                  </option>
-                </select>
+                <div class="v1-select-shell">
+                  <select v-model="disadvantagePick" :disabled="draft.disadvantages.length >= 3">
+                    <option value="">— Choisir —</option>
+                    <option
+                      v-for="item in availableDisadvantages"
+                      :key="item.id"
+                      :value="item.id"
+                      :title="`Ambiance : ${disadvantageNarrative(item)}\nMécanique : ${item.effect}`"
+                    >
+                      {{ item.name }}
+                    </option>
+                  </select>
+                  <span
+                    v-if="disadvantagePreview"
+                    class="select-hover-help"
+                    tabindex="0"
+                    :data-tooltip="`Ambiance : ${disadvantageNarrative(disadvantagePreview)}\n\nMécanique : ${disadvantagePreview.effect}`"
+                    aria-label="Aperçu du Désavantage"
+                  >i</span>
+                </div>
               </label>
 
               <button
@@ -2351,6 +2450,15 @@ onBeforeUnmount(()=>{
                 Ajouter le Désavantage
               </button>
             </div>
+
+            <article v-if="disadvantagePreview" class="choice-preview">
+              <div>
+                <strong>{{ disadvantagePreview.name }}</strong>
+                <span>Prévisualisation — pas encore ajouté</span>
+              </div>
+              <em>{{ disadvantageNarrative(disadvantagePreview) }}</em>
+              <p><b>Effet mécanique :</b> {{ disadvantagePreview.effect }}</p>
+            </article>
 
             <div v-if="draft.disadvantages.length" class="selected-disadvantage-list">
               <article
@@ -2413,12 +2521,19 @@ onBeforeUnmount(()=>{
                 </div>
                 <em>{{ edgeRules.lore[option.key]?.lore }}</em>
                 <p>{{ edgeRules.lore[option.key]?.mechanic }}</p>
+                <div v-if="edgeOptionResult(option.key)" class="edge-result">
+                  {{ edgeOptionResult(option.key) }}
+                </div>
                 <div class="stepper">
-                  <button type="button" @click="changeEdgePurchase(option.key,-1)">−</button>
+                  <button
+                    type="button"
+                    :disabled="edgePurchaseMinusDisabled(option.key)"
+                    @click="changeEdgePurchase(option.key,-1)"
+                  >−</button>
                   <strong>{{ Number(draft.edge[option.key] || 0) }}</strong>
                   <button
                     type="button"
-                    :disabled="edgePurchaseDisabled(option.key)"
+                    :disabled="edgePurchasePlusDisabled(option.key)"
                     @click="changeEdgePurchase(option.key,1)"
                   >+</button>
                 </div>
@@ -2440,13 +2555,16 @@ onBeforeUnmount(()=>{
                 </div>
                 <span class="schema-badge">{{ edgeAttributePointsUsed }}/{{ edgeAttributeBudget }}</span>
               </div>
-              <div class="attribute-grid">
-                <div v-for="attribute in rules.attributes" :key="attribute.id" class="attribute-card">
-                  <strong>{{ attribute.name }}</strong>
-                  <small>Base {{ draft.attributes[attribute.id] }} · Final {{ finalAttribute(attribute.id) }}/7</small>
-                  <div class="stepper large">
+              <div class="edge-five-grid">
+                <div v-for="attribute in rules.attributes" :key="attribute.id" class="edge-alloc-card">
+                  <div class="edge-card-head">
+                    <strong>{{ attribute.name }}</strong>
+                    <span>{{ finalAttribute(attribute.id) }}/7</span>
+                  </div>
+                  <p>{{ lore.attribute[attribute.id] }}</p>
+                  <div class="stepper">
                     <button type="button" @click="changeEdgeAttribute(attribute.id,-1)">−</button>
-                    <span>+{{ Number(draft.edgeAttributes[attribute.id] || 0) }}</span>
+                    <strong>+{{ Number(draft.edgeAttributes[attribute.id] || 0) }}</strong>
                     <button type="button" @click="changeEdgeAttribute(attribute.id,1)">+</button>
                   </div>
                 </div>
@@ -2462,30 +2580,38 @@ onBeforeUnmount(()=>{
                 <span class="schema-badge">{{ edgeSkillPointsUsed }}/{{ edgeSkillBudget }}</span>
               </div>
 
-              <div v-for="attribute in rules.attributes" :key="attribute.id" class="skill-family">
-                <h3>{{ attribute.name }}</h3>
-                <div class="skill-grid">
+              <details
+                v-for="attribute in rules.attributes"
+                :key="attribute.id"
+                class="edge-skill-group"
+                :open="edgeSkillPointsForAttribute(attribute.id) > 0"
+              >
+                <summary>
+                  <span>
+                    <strong>{{ attribute.name }}</strong>
+                    <small>Compétences liées à cet Attribut</small>
+                  </span>
+                  <span class="schema-badge">{{ edgeSkillPointsForAttribute(attribute.id) }} Edge</span>
+                </summary>
+                <div class="edge-five-grid">
                   <div
-                    v-for="skill in rules.skills.filter(item=>item.attribute===attribute.id)"
+                    v-for="skill in rules.skills.filter(item=>item.attribute===attribute.id && (Number(draft.skills[item.id]?.edge || 0) > 0 || skillRaw(item.id) < 5))"
                     :key="skill.id"
-                    class="skill-card"
+                    class="edge-alloc-card"
                   >
-                    <div class="skill-head">
+                    <div class="edge-card-head">
                       <strong>{{ skill.name }}</strong>
-                      <span>Brut {{ skillRaw(skill.id) }}/5</span>
+                      <span>{{ skillRaw(skill.id) }}/5</span>
                     </div>
-                    <p class="skill-lore">{{ lore.skill[skill.id] }}</p>
-                    <div class="skill-free-line">
-                      <span>Edge</span>
-                      <div class="stepper">
-                        <button type="button" @click="changeEdgeSkill(skill.id,-1)">−</button>
-                        <strong>+{{ Number(draft.skills[skill.id]?.edge || 0) }}</strong>
-                        <button type="button" @click="changeEdgeSkill(skill.id,1)">+</button>
-                      </div>
+                    <p>{{ lore.skill[skill.id] }}</p>
+                    <div class="stepper">
+                      <button type="button" @click="changeEdgeSkill(skill.id,-1)">−</button>
+                      <strong>+{{ Number(draft.skills[skill.id]?.edge || 0) }}</strong>
+                      <button type="button" @click="changeEdgeSkill(skill.id,1)">+</button>
                     </div>
                   </div>
                 </div>
-              </div>
+              </details>
             </section>
 
             <section v-if="Number(draft.edge.talentPacks || 0) > 0" class="edge-allocation">
@@ -2636,7 +2762,7 @@ onBeforeUnmount(()=>{
 
 <style scoped>
 .builder-v2-shell{min-height:100vh}.references-button{display:inline-flex;align-items:center;gap:.4rem}.references-button span{display:grid;place-items:center;min-width:1.2rem;height:1.2rem;padding:0 .25rem;border:1px solid rgba(88,220,197,.25);color:#b8dfea;font-size:.65rem}.knowledge-backdrop{position:fixed;inset:0;z-index:39;border:0;background:rgba(0,0,0,.48);backdrop-filter:blur(2px)}.knowledge-drawer{position:fixed;top:0;right:0;z-index:40;width:min(440px,92vw);height:100vh;padding:1.1rem;overflow:auto;border-left:1px solid rgba(70,126,148,.18);background:#0b151d;box-shadow:-24px 0 70px rgba(0,0,0,.38);transform:translateX(104%);opacity:0;transition:transform .24s cubic-bezier(.2,.7,.2,1),opacity .18s ease;pointer-events:none}.knowledge-drawer.open{transform:none;opacity:1;pointer-events:auto}.knowledge-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;padding:.45rem 0 1rem;border-bottom:1px solid rgba(255,255,255,.08)}.knowledge-head h2{margin:.15rem 0 .35rem;font:500 1.6rem/1.1 Georgia,serif}.knowledge-head p:not(.eyebrow){margin:0;color:#718a95;font-size:.78rem;line-height:1.5}.knowledge-empty{margin-top:1rem;padding:1rem;border:1px dashed rgba(255,255,255,.12);color:#718a95;line-height:1.55}.knowledge-group{padding:1rem 0;border-bottom:1px solid rgba(255,255,255,.07)}.knowledge-group h3{margin:0 0 .55rem;color:#8fb7c5;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}.knowledge-item{padding:.65rem 0}.knowledge-item+.knowledge-item{border-top:1px solid rgba(255,255,255,.045)}.knowledge-item>p{margin:.3rem 0 0;color:#718a95;font-size:.7rem;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.builder-topbar{position:sticky}.builder-topbar-start{display:flex;align-items:center;gap:1rem;min-width:0}.builder-compendium-return{display:inline-flex;align-items:center;min-height:34px;padding:.4rem .7rem;border-left:1px solid rgba(88,220,197,.2);color:#6fcff1;font-size:.76rem;font-weight:700;text-decoration:none;letter-spacing:.03em}.builder-compendium-return:hover{color:#eef6f8}.back-link{text-decoration:none;display:inline-flex;align-items:center}.builder-loading{min-height:calc(100vh - 74px);display:grid;place-content:center;gap:1rem;color:#91a7b1;text-align:center}.error-state strong{color:#e2b0aa}.builder-workspace{width:min(1440px,calc(100% - 2rem));margin:0 auto;padding:2rem 0 5rem;display:grid;grid-template-columns:285px minmax(0,1fr);gap:1.25rem;align-items:start}.builder-sidebar{position:sticky;top:94px;overflow:hidden}.builder-character{padding:1.1rem;display:grid;grid-template-columns:54px 1fr;gap:.8rem;align-items:center;border-bottom:1px solid rgba(255,255,255,.07);background:linear-gradient(135deg,rgba(43,146,255,.06),transparent)}
-.builder-progress{padding:.85rem 1rem;border-bottom:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.08)}.builder-progress-head{display:flex;justify-content:space-between;align-items:center;gap:.6rem;color:#7f98a3;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em}.builder-progress-head strong{color:#b8dfea;font:500 .82rem/1 Georgia,serif}.builder-progress-track{height:3px;margin:.55rem 0;background:rgba(255,255,255,.07);overflow:hidden}.builder-progress-track span{display:block;height:100%;background:linear-gradient(90deg,#365f73,#58dcc5);transition:width .24s ease}.builder-progress small{color:#667f8b;font-size:.64rem}.builder-character h1{margin:.15rem 0 .35rem;font-family:Georgia,serif;font-size:1.35rem;font-weight:500}.builder-character small{color:#718a95}.builder-mini-portrait{width:54px;height:68px;overflow:hidden;border:1px solid rgba(255,255,255,.12);background:#081017;display:grid;place-items:center}.builder-mini-portrait img{width:100%;height:100%;object-fit:cover}.builder-mini-portrait.empty span{color:#5b93ad;font-family:Georgia,serif}.builder-nav{display:grid;padding:.55rem}.builder-nav button{position:relative;display:grid;grid-template-columns:1.6rem 1fr auto;align-items:center;gap:.45rem;width:100%;padding:.72rem .65rem;border:0;border-left:2px solid transparent;text-align:left;color:#7f98a3;background:transparent;transition:background .16s ease,color .16s ease,border-color .16s ease}.builder-nav button:hover:not(:disabled){color:#c5d4d9;background:rgba(255,255,255,.018)}.builder-nav button.active{border-left-color:#58dcc5;color:#eef6f8;background:linear-gradient(90deg,rgba(43,146,255,.13),rgba(43,146,255,.035))}.builder-nav button.done:not(.active){color:#a7c4a4}.builder-nav button.done:not(.active)::after{content:"";position:absolute;right:.45rem;width:5px;height:5px;border-radius:50%;background:#7fa07a;opacity:.75}.builder-nav button:disabled{opacity:.5}.builder-nav button span,.builder-nav button small{font-size:.68rem}.builder-nav button small{color:#667f8b}.builder-nav button.done small{color:#8faf8c}.builder-main{min-width:0}.builder-card{padding:clamp(1.2rem,3vw,2rem);animation:builder-step-in .2s cubic-bezier(.2,.7,.2,1) both}@keyframes builder-step-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}.builder-heading{align-items:center}.schema-badge{padding:.35rem .55rem;border:1px solid rgba(88,220,197,.25);color:#58dcc5;font-size:.72rem;white-space:nowrap}.builder-intro{color:#91a7b1;line-height:1.65}.identity-layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:1.4rem;margin-top:1.4rem;align-items:start}.portrait-card{display:grid;gap:.65rem}.portrait-card>small{color:#667f8b;line-height:1.45}.portrait-frame{aspect-ratio:4/5;overflow:hidden;border:1px solid rgba(255,255,255,.14);background:#070d13;display:grid;place-items:center}.portrait-frame img{width:100%;height:100%;object-fit:cover}.portrait-frame.empty{border-style:dashed}.portrait-empty{padding:1rem;display:grid;gap:.5rem;text-align:center;color:#667f8b}.portrait-empty strong{color:#c5d4d9;font-family:Georgia,serif;font-size:1.2rem}.identity-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.field-help{color:#667f8b;font-size:.7rem;line-height:1.4}.narrative-grid{display:grid;gap:1rem;margin-top:1rem}textarea{width:100%;padding:.7rem .75rem;border:1px solid rgba(255,255,255,.12);outline:none;resize:vertical;color:#eef6f8;background:#0b151d;font:inherit}textarea:focus{border-color:#2b92ff;box-shadow:0 0 0 2px rgba(43,146,255,.14)}.choice-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:.8rem;margin-top:1.25rem}.choice-grid>.choice-card-shell{flex:0 1 calc(33.333% - .55rem);min-width:0}.choice-card{display:grid;gap:.45rem;min-height:94px;padding:1rem;border:1px solid rgba(255,255,255,.1);text-align:left;color:#c5d4d9;background:rgba(255,255,255,.018)}.choice-card:hover{border-color:rgba(88,220,197,.38);transform:translateY(-1px)}.choice-card.selected{border-color:#2b92ff;background:rgba(43,146,255,.1)}.choice-card span{color:#7f98a3;font-size:.8rem;line-height:1.45}.choice-card small{color:#667f8b;font-size:.69rem;line-height:1.45}.choice-card-shell,.disadvantage-entry{position:relative;display:grid}.choice-card-shell>.choice-card,.disadvantage-entry>.disadvantage-card{width:100%;height:100%;padding-bottom:2.05rem}.choice-card-wiki{position:absolute;left:1rem;bottom:.55rem;z-index:2;font-size:.68rem;color:#6fb9d6}.sphere-card{min-height:150px}.style-card{min-height:120px}.subsection{margin-top:2rem;padding-top:1.4rem;border-top:1px solid rgba(255,255,255,.07)}.subsection h3{margin:0 0 .7rem;font-family:Georgia,serif;font-size:1.25rem}.subsection-title{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start}.subsection-title p{margin:.35rem 0 0;color:#91a7b1;font-size:.85rem}.talent-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem}.allocator-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem;margin-top:1rem}.attribute-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.75rem;margin-top:1rem}.allocator-card,.attribute-card{padding:.85rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.allocator-card{display:flex;flex:0 1 calc(33.333% - .5rem);min-width:0;flex-direction:column;align-items:stretch;gap:.8rem}.allocator-copy{display:grid;gap:.2rem}.allocator-card small{color:#667f8b}.allocator-card p{margin:.3rem 0 0;color:#718a95;font-size:.72rem;line-height:1.4}.allocator-point-line{display:flex;justify-content:space-between;align-items:center;gap:.7rem;margin-top:auto;padding-top:.65rem;border-top:1px solid rgba(255,255,255,.06);color:#91a7b1;font-size:.74rem}.stepper{display:grid;grid-template-columns:34px 32px 34px;align-items:center;text-align:center}.stepper button{height:34px;border:1px solid rgba(255,255,255,.12);color:#c5d4d9;background:#0b151d}.stepper button:hover{border-color:#2b92ff}.attribute-card{display:grid;gap:.75rem;text-align:center}.attribute-card>strong{font-family:Georgia,serif}.attribute-card p{margin:0;color:#718a95;font-size:.74rem;line-height:1.45;text-align:left}.stepper.large{grid-template-columns:42px 1fr 42px}.stepper.large span{font-family:Georgia,serif;font-size:1.7rem}.rule-note{margin-top:1rem;padding:.85rem 1rem;border:1px solid rgba(112,168,121,.22);color:#a8bca6;background:rgba(49,80,54,.1);line-height:1.55}.rule-note.bad{border-color:rgba(166,81,72,.28);color:#d0a29c;background:rgba(93,42,37,.12)}.skill-family{margin-top:1.7rem}.skill-family h3{margin:0 0 .65rem;font-family:Georgia,serif;font-size:1.15rem}.skill-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem}.skill-card{display:flex;flex-direction:column;gap:.7rem;padding:.85rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.skill-head,.skill-free-line{display:flex;justify-content:space-between;align-items:center;gap:.7rem}.skill-head span{color:#58dcc5;font-size:.72rem}.skill-lore{margin:0;color:#718a95;font-size:.73rem;line-height:1.45}.skill-free-line{margin-top:auto;padding-top:.55rem;border-top:1px solid rgba(255,255,255,.06);color:#91a7b1;font-size:.78rem}.truth-choice-section,.truth-free-section,.truth-talents-section{margin-top:1.8rem;padding-top:1.3rem;border-top:1px solid rgba(255,255,255,.07)}.truth-picker{margin-top:1rem;padding-top:1.2rem;border-top:1px solid rgba(255,255,255,.07)}.truth-picker-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem;max-width:760px}.truth-picker-grid label{display:grid;gap:.4rem;color:#b8dfea;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}.truth-nature-summary{display:grid;grid-template-columns:minmax(0,1fr) 118px;gap:1rem;align-items:center;margin-top:1rem;padding:1rem;border:1px solid rgba(88,220,197,.28);background:rgba(88,220,197,.035)}.truth-nature-summary-copy{display:grid;gap:.45rem}.truth-nature-summary-copy h3{margin:0;font:600 1.35rem/1.15 Georgia,serif}.truth-nature-summary-copy>p:not(.eyebrow){margin:0;color:#91a7b1;line-height:1.6}.truth-nature-summary-copy small{color:#718a95;line-height:1.45}.truth-reserve{display:grid;place-items:center;gap:.2rem;min-height:92px;border:1px solid rgba(88,220,197,.28);background:rgba(0,0,0,.08);text-align:center}.truth-reserve strong{color:#58dcc5;font:700 1.75rem/1 Georgia,serif}.truth-reserve span{color:#91a7b1;font-size:.62rem;text-transform:uppercase;letter-spacing:.07em}.truth-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem;margin-top:1rem}.truth-choice-field{display:grid;gap:.55rem;padding:.15rem 0 .8rem;border-bottom:1px solid rgba(255,255,255,.06)}.truth-choice-field>span{display:flex;justify-content:space-between;gap:.6rem}.truth-choice-field small{color:#718a95;font-size:.68rem}.truth-choice-field em{color:#7f98a3;font-size:.76rem;line-height:1.5}.truth-reveal-section{margin-top:1.8rem;padding-top:1.3rem;border-top:1px solid rgba(255,255,255,.07)}.truth-reveal-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;margin-top:1rem}.truth-reveal-card{display:flex;flex-direction:column;gap:.65rem;padding:1rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.truth-reveal-head{display:flex;justify-content:space-between;gap:.75rem;align-items:center}.truth-reveal-head strong{font-family:Georgia,serif;font-size:1.05rem}.truth-reveal-head span{padding:.22rem .4rem;border:1px solid rgba(88,220,197,.28);color:#58dcc5;font-size:.68rem}.truth-reveal-stats{padding:.55rem .65rem;border:1px solid rgba(112,168,121,.18);color:#b8c9b6;background:rgba(49,80,54,.08);font-size:.76rem;line-height:1.45}.truth-reveal-card>p{margin:0;color:#91a7b1;font-size:.78rem;line-height:1.55}.truth-reveal-traits{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:auto;padding-top:.5rem;border-top:1px solid rgba(255,255,255,.06)}.truth-reveal-traits small{width:100%;color:#667f8b}.truth-reveal-traits span{padding:.22rem .38rem;border:1px solid rgba(255,255,255,.07);color:#a7bbc3;font-size:.66rem}.truth-free-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:.7rem;margin-top:1rem}.truth-free-grid>.truth-free-card{flex:0 1 calc(33.333% - .48rem);min-width:0}.truth-free-card{display:grid;gap:.5rem;padding:.9rem;border:1px solid rgba(98,147,114,.2);background:rgba(49,80,54,.07)}.truth-free-card small{color:#8ca08e}.truth-free-card p{margin:0;color:#a6bac2;font-size:.77rem;line-height:1.5}.truth-search{display:grid;gap:.4rem;max-width:560px;margin:1rem 0;color:#91a7b1;font-size:.78rem}.truth-group{margin-top:.75rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.01)}.truth-group>summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:.85rem 1rem;list-style:none}.truth-group>summary::-webkit-details-marker{display:none}.truth-group>summary::after{content:"›";color:#58dcc5;font-size:1.1rem;transform:rotate(90deg);transition:transform .15s ease}.truth-group[open]>summary::after{transform:rotate(-90deg)}.truth-group>summary>span{display:flex;justify-content:space-between;gap:.75rem;align-items:center;flex:1}.truth-group>summary small{color:#718a95}.truth-disclosure-summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.85rem 0;list-style:none}.truth-disclosure-summary::-webkit-details-marker{display:none}.truth-disclosure-summary>span:first-child{display:grid;gap:.2rem}.truth-disclosure-summary strong{font:500 1.18rem/1.2 Georgia,serif;color:#dce8ec}.truth-disclosure-summary small{color:#718a95;font-size:.72rem}.truth-disclosure-intro{margin:.1rem 0 1rem;color:#91a7b1;font-size:.84rem;line-height:1.55}.truth-reveal-section,.truth-free-section{margin-top:1.5rem;padding:0 0 .25rem;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.05)}.truth-talent-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem;padding:.75rem;border-top:1px solid rgba(255,255,255,.06)}.truth-talent-entry{display:grid;position:relative}.truth-talent-card{display:grid;gap:.55rem;width:100%;padding:.9rem;padding-bottom:2.05rem;border:1px solid rgba(255,255,255,.09);text-align:left;color:#c5d4d9;background:rgba(255,255,255,.015)}.truth-talent-wiki{position:absolute;left:.9rem;bottom:.55rem;font-size:.68rem;color:#6fb9d6}.truth-talent-card:hover:not(:disabled){border-color:rgba(88,220,197,.38)}.truth-talent-card.selected{border-color:#2b92ff;background:rgba(43,146,255,.1)}.truth-talent-card:disabled{opacity:.45}.truth-talent-head{display:flex;justify-content:space-between;gap:.75rem;align-items:flex-start}.truth-talent-head span{color:#58dcc5;font-size:.72rem;white-space:nowrap}.truth-talent-meta{display:flex;flex-wrap:wrap;gap:.35rem}.truth-talent-meta span{padding:.24rem .4rem;border:1px solid rgba(255,255,255,.07);color:#718a95;font-size:.66rem}.truth-talent-card em{color:#7f98a3;font-size:.76rem;line-height:1.5}.truth-talent-card p{margin:0;color:#a7bbc3;font-size:.76rem;line-height:1.5}.disadvantage-controls{display:grid;grid-template-columns:minmax(180px,.7fr) minmax(240px,1fr);gap:.8rem;align-items:end;margin-top:1rem;max-width:900px}.disadvantage-controls label{display:grid;gap:.4rem;color:#b8dfea;font-size:.72rem;font-weight:700;letter-spacing:.04em}.disadvantage-add{grid-column:1/-1;justify-self:start}.selected-disadvantage-list{display:grid;gap:.65rem;margin-top:1rem}.selected-disadvantage-card{display:grid;gap:.5rem;padding:.85rem 1rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.selected-disadvantage-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}.selected-disadvantage-head>div{display:flex;align-items:baseline;gap:.4rem;flex-wrap:wrap}.selected-disadvantage-head small{color:#6fb9d6;font-size:.67rem}.selected-disadvantage-card em{color:#8fb7c5;font-size:.78rem;line-height:1.5}.selected-disadvantage-card p{margin:0;color:#d7e3e7;font-size:.78rem;line-height:1.5}.disadvantage-empty{margin-top:1rem;padding:.8rem 0;color:#667f8b;font-size:.8rem}.edge-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:.8rem;margin-top:1.2rem}.edge-grid>.edge-card{flex:0 1 calc(33.333% - .55rem);min-width:0}.edge-card{display:flex;flex-direction:column;gap:.65rem;padding:1rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.edge-card-head{display:flex;justify-content:space-between;gap:.7rem}.edge-card-head span{color:#58dcc5;font-size:.72rem}.edge-card em{color:#7f98a3;font-size:.78rem;line-height:1.5}.edge-card p{margin:0;color:#a7bbc3;font-size:.76rem;line-height:1.45}.edge-card .stepper{margin-top:auto}.edge-allocation{margin-top:2rem;padding-top:1.4rem;border-top:1px solid rgba(255,255,255,.07)}.attribute-card small{color:#718a95}@media(max-width:1180px){.choice-grid>.choice-card-shell,.truth-free-grid>.truth-free-card,.edge-grid>.edge-card,.allocator-card{flex-basis:calc(50% - .4rem)}.talent-grid,.truth-talent-grid,.skill-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:900px){.truth-picker-grid,.truth-choice-grid,.disadvantage-controls{grid-template-columns:1fr}.truth-nature-summary{grid-template-columns:1fr}.truth-reserve{min-height:72px}.truth-reveal-grid{grid-template-columns:1fr}.builder-workspace{grid-template-columns:1fr}.builder-sidebar{position:static}.builder-nav{grid-template-columns:repeat(2,minmax(0,1fr))}.identity-layout{grid-template-columns:1fr}.portrait-card{max-width:260px}.builder-topbar{flex-wrap:wrap}.top-actions{width:100%;justify-content:flex-end}}@media(max-width:620px){.choice-grid>.choice-card-shell,.truth-free-grid>.truth-free-card,.edge-grid>.edge-card,.allocator-card{flex-basis:100%}.talent-grid,.truth-talent-grid,.skill-grid{grid-template-columns:1fr}.truth-consciousness-grid{grid-template-columns:1fr}.identity-grid{grid-template-columns:1fr}.builder-nav{grid-template-columns:1fr}.subsection-title{flex-direction:column}}
+.builder-progress{padding:.85rem 1rem;border-bottom:1px solid rgba(255,255,255,.07);background:rgba(0,0,0,.08)}.builder-progress-head{display:flex;justify-content:space-between;align-items:center;gap:.6rem;color:#7f98a3;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em}.builder-progress-head strong{color:#b8dfea;font:500 .82rem/1 Georgia,serif}.builder-progress-track{height:3px;margin:.55rem 0;background:rgba(255,255,255,.07);overflow:hidden}.builder-progress-track span{display:block;height:100%;background:linear-gradient(90deg,#365f73,#58dcc5);transition:width .24s ease}.builder-progress small{color:#667f8b;font-size:.64rem}.builder-character h1{margin:.15rem 0 .35rem;font-family:Georgia,serif;font-size:1.35rem;font-weight:500}.builder-character small{color:#718a95}.builder-mini-portrait{width:54px;height:68px;overflow:hidden;border:1px solid rgba(255,255,255,.12);background:#081017;display:grid;place-items:center}.builder-mini-portrait img{width:100%;height:100%;object-fit:cover}.builder-mini-portrait.empty span{color:#5b93ad;font-family:Georgia,serif}.builder-nav{display:grid;padding:.55rem}.builder-nav button{position:relative;display:grid;grid-template-columns:1.6rem 1fr auto;align-items:center;gap:.45rem;width:100%;padding:.72rem .65rem;border:0;border-left:2px solid transparent;text-align:left;color:#7f98a3;background:transparent;transition:background .16s ease,color .16s ease,border-color .16s ease}.builder-nav button:hover:not(:disabled){color:#c5d4d9;background:rgba(255,255,255,.018)}.builder-nav button.active{border-left-color:#58dcc5;color:#eef6f8;background:linear-gradient(90deg,rgba(43,146,255,.13),rgba(43,146,255,.035))}.builder-nav button.done:not(.active){color:#a7c4a4}.builder-nav button.done:not(.active)::after{content:"";position:absolute;right:.45rem;width:5px;height:5px;border-radius:50%;background:#7fa07a;opacity:.75}.builder-nav button:disabled{opacity:.5}.builder-nav button span,.builder-nav button small{font-size:.68rem}.builder-nav button small{color:#667f8b}.builder-nav button.done small{color:#8faf8c}.builder-main{min-width:0}.builder-card{padding:clamp(1.2rem,3vw,2rem);animation:builder-step-in .2s cubic-bezier(.2,.7,.2,1) both}@keyframes builder-step-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}.builder-heading{align-items:center}.schema-badge{padding:.35rem .55rem;border:1px solid rgba(88,220,197,.25);color:#58dcc5;font-size:.72rem;white-space:nowrap}.builder-intro{color:#91a7b1;line-height:1.65}.identity-layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:1.4rem;margin-top:1.4rem;align-items:start}.portrait-card{display:grid;gap:.65rem}.portrait-card>small{color:#667f8b;line-height:1.45}.portrait-frame{aspect-ratio:4/5;overflow:hidden;border:1px solid rgba(255,255,255,.14);background:#070d13;display:grid;place-items:center}.portrait-frame img{width:100%;height:100%;object-fit:cover}.portrait-frame.empty{border-style:dashed}.portrait-empty{padding:1rem;display:grid;gap:.5rem;text-align:center;color:#667f8b}.portrait-empty strong{color:#c5d4d9;font-family:Georgia,serif;font-size:1.2rem}.identity-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.field-help{color:#667f8b;font-size:.7rem;line-height:1.4}.narrative-grid{display:grid;gap:1rem;margin-top:1rem}textarea{width:100%;padding:.7rem .75rem;border:1px solid rgba(255,255,255,.12);outline:none;resize:vertical;color:#eef6f8;background:#0b151d;font:inherit}textarea:focus{border-color:#2b92ff;box-shadow:0 0 0 2px rgba(43,146,255,.14)}.choice-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:.8rem;margin-top:1.25rem}.choice-grid>.choice-card-shell{flex:0 1 calc(33.333% - .55rem);min-width:0}.choice-card{display:grid;gap:.45rem;min-height:94px;padding:1rem;border:1px solid rgba(255,255,255,.1);text-align:left;color:#c5d4d9;background:rgba(255,255,255,.018)}.choice-card:hover{border-color:rgba(88,220,197,.38);transform:translateY(-1px)}.choice-card.selected{border-color:#2b92ff;background:rgba(43,146,255,.1)}.choice-card span{color:#7f98a3;font-size:.8rem;line-height:1.45}.choice-card small{color:#667f8b;font-size:.69rem;line-height:1.45}.choice-card-shell,.disadvantage-entry{position:relative;display:grid}.choice-card-shell>.choice-card,.disadvantage-entry>.disadvantage-card{width:100%;height:100%;padding-bottom:2.05rem}.choice-card-wiki{position:absolute;left:1rem;bottom:.55rem;z-index:2;font-size:.68rem;color:#6fb9d6}.sphere-card{min-height:150px}.style-card{min-height:120px}.subsection{margin-top:2rem;padding-top:1.4rem;border-top:1px solid rgba(255,255,255,.07)}.subsection h3{margin:0 0 .7rem;font-family:Georgia,serif;font-size:1.25rem}.subsection-title{display:flex;justify-content:space-between;gap:1rem;align-items:flex-start}.subsection-title p{margin:.35rem 0 0;color:#91a7b1;font-size:.85rem}.talent-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem}.allocator-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem;margin-top:1rem}.attribute-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.75rem;margin-top:1rem}.allocator-card,.attribute-card{padding:.85rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.allocator-card{display:flex;flex:0 1 calc(33.333% - .5rem);min-width:0;flex-direction:column;align-items:stretch;gap:.8rem}.allocator-copy{display:grid;gap:.2rem}.allocator-card small{color:#667f8b}.allocator-card p{margin:.3rem 0 0;color:#718a95;font-size:.72rem;line-height:1.4}.allocator-point-line{display:flex;justify-content:space-between;align-items:center;gap:.7rem;margin-top:auto;padding-top:.65rem;border-top:1px solid rgba(255,255,255,.06);color:#91a7b1;font-size:.74rem}.stepper{display:grid;grid-template-columns:34px 32px 34px;align-items:center;text-align:center}.stepper button{height:34px;border:1px solid rgba(255,255,255,.12);color:#c5d4d9;background:#0b151d}.stepper button:hover{border-color:#2b92ff}.attribute-card{display:grid;gap:.75rem;text-align:center}.attribute-card>strong{font-family:Georgia,serif}.attribute-card p{margin:0;color:#718a95;font-size:.74rem;line-height:1.45;text-align:left}.stepper.large{grid-template-columns:42px 1fr 42px}.stepper.large span{font-family:Georgia,serif;font-size:1.7rem}.rule-note{margin-top:1rem;padding:.85rem 1rem;border:1px solid rgba(112,168,121,.22);color:#a8bca6;background:rgba(49,80,54,.1);line-height:1.55}.rule-note.bad{border-color:rgba(166,81,72,.28);color:#d0a29c;background:rgba(93,42,37,.12)}.skill-family{margin-top:1.7rem}.skill-family h3{margin:0 0 .65rem;font-family:Georgia,serif;font-size:1.15rem}.skill-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem}.skill-card{display:flex;flex-direction:column;gap:.7rem;padding:.85rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.skill-head,.skill-free-line{display:flex;justify-content:space-between;align-items:center;gap:.7rem}.skill-head span{color:#58dcc5;font-size:.72rem}.skill-lore{margin:0;color:#718a95;font-size:.73rem;line-height:1.45}.skill-free-line{margin-top:auto;padding-top:.55rem;border-top:1px solid rgba(255,255,255,.06);color:#91a7b1;font-size:.78rem}.truth-choice-section,.truth-free-section,.truth-talents-section{margin-top:1.8rem;padding-top:1.3rem;border-top:1px solid rgba(255,255,255,.07)}.truth-picker{margin-top:1rem;padding-top:1.2rem;border-top:1px solid rgba(255,255,255,.07)}.truth-picker-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem;max-width:760px}.truth-picker-grid label{display:grid;gap:.4rem;color:#b8dfea;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}.truth-nature-summary{display:grid;grid-template-columns:minmax(0,1fr) 118px;gap:1rem;align-items:center;margin-top:1rem;padding:1rem;border:1px solid rgba(88,220,197,.28);background:rgba(88,220,197,.035)}.truth-nature-summary-copy{display:grid;gap:.45rem}.truth-nature-summary-copy h3{margin:0;font:600 1.35rem/1.15 Georgia,serif}.truth-nature-summary-copy>p:not(.eyebrow){margin:0;color:#91a7b1;line-height:1.6}.truth-nature-summary-copy small{color:#718a95;line-height:1.45}.truth-reserve{display:grid;place-items:center;gap:.2rem;min-height:92px;border:1px solid rgba(88,220,197,.28);background:rgba(0,0,0,.08);text-align:center}.truth-reserve strong{color:#58dcc5;font:700 1.75rem/1 Georgia,serif}.truth-reserve span{color:#91a7b1;font-size:.62rem;text-transform:uppercase;letter-spacing:.07em}.truth-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem;margin-top:1rem}.truth-choice-field{display:grid;gap:.55rem;padding:.15rem 0 .8rem;border-bottom:1px solid rgba(255,255,255,.06)}.truth-choice-field>span{display:flex;justify-content:space-between;gap:.6rem}.truth-choice-field small{color:#718a95;font-size:.68rem}.truth-choice-field em{color:#7f98a3;font-size:.76rem;line-height:1.5}.truth-reveal-section{margin-top:1.8rem;padding-top:1.3rem;border-top:1px solid rgba(255,255,255,.07)}.truth-reveal-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;margin-top:1rem}.truth-reveal-card{display:flex;flex-direction:column;gap:.65rem;padding:1rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.truth-reveal-head{display:flex;justify-content:space-between;gap:.75rem;align-items:center}.truth-reveal-head strong{font-family:Georgia,serif;font-size:1.05rem}.truth-reveal-head span{padding:.22rem .4rem;border:1px solid rgba(88,220,197,.28);color:#58dcc5;font-size:.68rem}.truth-reveal-stats{padding:.55rem .65rem;border:1px solid rgba(112,168,121,.18);color:#b8c9b6;background:rgba(49,80,54,.08);font-size:.76rem;line-height:1.45}.truth-reveal-card>p{margin:0;color:#91a7b1;font-size:.78rem;line-height:1.55}.truth-reveal-traits{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:auto;padding-top:.5rem;border-top:1px solid rgba(255,255,255,.06)}.truth-reveal-traits small{width:100%;color:#667f8b}.truth-reveal-traits span{padding:.22rem .38rem;border:1px solid rgba(255,255,255,.07);color:#a7bbc3;font-size:.66rem}.truth-free-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:.7rem;margin-top:1rem}.truth-free-grid>.truth-free-card{flex:0 1 calc(33.333% - .48rem);min-width:0}.truth-free-card{display:grid;gap:.5rem;padding:.9rem;border:1px solid rgba(98,147,114,.2);background:rgba(49,80,54,.07)}.truth-free-card small{color:#8ca08e}.truth-free-card p{margin:0;color:#a6bac2;font-size:.77rem;line-height:1.5}.truth-search{display:grid;gap:.4rem;max-width:560px;margin:1rem 0;color:#91a7b1;font-size:.78rem}.truth-group{margin-top:.75rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.01)}.truth-group>summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:.85rem 1rem;list-style:none}.truth-group>summary::-webkit-details-marker{display:none}.truth-group>summary::after{content:"›";color:#58dcc5;font-size:1.1rem;transform:rotate(90deg);transition:transform .15s ease}.truth-group[open]>summary::after{transform:rotate(-90deg)}.truth-group>summary>span{display:flex;justify-content:space-between;gap:.75rem;align-items:center;flex:1}.truth-group>summary small{color:#718a95}.truth-disclosure-summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.85rem 0;list-style:none}.truth-disclosure-summary::-webkit-details-marker{display:none}.truth-disclosure-summary>span:first-child{display:grid;gap:.2rem}.truth-disclosure-summary strong{font:500 1.18rem/1.2 Georgia,serif;color:#dce8ec}.truth-disclosure-summary small{color:#718a95;font-size:.72rem}.truth-disclosure-intro{margin:.1rem 0 1rem;color:#91a7b1;font-size:.84rem;line-height:1.55}.truth-reveal-section,.truth-free-section{margin-top:1.5rem;padding:0 0 .25rem;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.05)}.truth-talent-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem;padding:.75rem;border-top:1px solid rgba(255,255,255,.06)}.truth-talent-entry{display:grid;position:relative}.truth-talent-card{display:grid;gap:.55rem;width:100%;padding:.9rem;padding-bottom:2.05rem;border:1px solid rgba(255,255,255,.09);text-align:left;color:#c5d4d9;background:rgba(255,255,255,.015)}.truth-talent-wiki{position:absolute;left:.9rem;bottom:.55rem;font-size:.68rem;color:#6fb9d6}.truth-talent-card:hover:not(:disabled){border-color:rgba(88,220,197,.38)}.truth-talent-card.selected{border-color:#2b92ff;background:rgba(43,146,255,.1)}.truth-talent-card:disabled{opacity:.45}.truth-talent-head{display:flex;justify-content:space-between;gap:.75rem;align-items:flex-start}.truth-talent-head span{color:#58dcc5;font-size:.72rem;white-space:nowrap}.truth-talent-meta{display:flex;flex-wrap:wrap;gap:.35rem}.truth-talent-meta span{padding:.24rem .4rem;border:1px solid rgba(255,255,255,.07);color:#718a95;font-size:.66rem}.truth-talent-card em{color:#7f98a3;font-size:.76rem;line-height:1.5}.truth-talent-card p{margin:0;color:#a7bbc3;font-size:.76rem;line-height:1.5}.disadvantage-controls{display:grid;grid-template-columns:minmax(180px,.7fr) minmax(240px,1fr);gap:.8rem;align-items:end;margin-top:1rem;max-width:900px}.v1-select-shell{position:relative;display:flex;align-items:center}.v1-select-shell select{width:100%;padding-right:3rem}.select-hover-help{position:absolute;right:.72rem;top:50%;display:grid;place-items:center;width:1.35rem;height:1.35rem;border:1px solid rgba(88,220,197,.3);border-radius:50%;transform:translateY(-50%);color:#58dcc5;background:#0b151d;font-size:.7rem;font-weight:800;cursor:help;z-index:2}.select-hover-help::after{content:attr(data-tooltip);position:absolute;right:0;top:calc(100% + .55rem);z-index:30;width:min(360px,70vw);padding:.75rem .85rem;border:1px solid rgba(88,220,197,.3);border-radius:8px;color:#d7e3e7;background:#0b151d;box-shadow:0 16px 40px rgba(0,0,0,.38);white-space:pre-line;font-size:.74rem;font-weight:400;line-height:1.5;letter-spacing:0;text-transform:none;opacity:0;pointer-events:none;transform:translateY(-4px);transition:opacity .12s ease,transform .12s ease}.select-hover-help:hover::after,.select-hover-help:focus::after{opacity:1;transform:translateY(0)}.choice-preview{display:grid;gap:.45rem;max-width:900px;margin:.65rem 0 0;padding:.8rem 1rem;border:1px solid rgba(88,220,197,.2);border-radius:8px;background:rgba(88,220,197,.035)}.choice-preview>div{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap}.choice-preview>div span{color:#58dcc5;font-size:.67rem}.choice-preview em{color:#8fb7c5;font-size:.78rem;line-height:1.5}.choice-preview p{margin:0;color:#d7e3e7;font-size:.78rem;line-height:1.5}.disadvantage-controls label{display:grid;gap:.4rem;color:#b8dfea;font-size:.72rem;font-weight:700;letter-spacing:.04em}.disadvantage-add{grid-column:1/-1;justify-self:start}.selected-disadvantage-list{display:grid;gap:.65rem;margin-top:1rem}.selected-disadvantage-card{display:grid;gap:.5rem;padding:.85rem 1rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.selected-disadvantage-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}.selected-disadvantage-head>div{display:flex;align-items:baseline;gap:.4rem;flex-wrap:wrap}.selected-disadvantage-head small{color:#6fb9d6;font-size:.67rem}.selected-disadvantage-card em{color:#8fb7c5;font-size:.78rem;line-height:1.5}.selected-disadvantage-card p{margin:0;color:#d7e3e7;font-size:.78rem;line-height:1.5}.disadvantage-empty{margin-top:1rem;padding:.8rem 0;color:#667f8b;font-size:.8rem}.edge-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:.8rem;margin-top:1.2rem}.edge-grid>.edge-card{flex:0 1 calc(33.333% - .55rem);min-width:0}.edge-card{display:flex;flex-direction:column;gap:.65rem;padding:1rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.edge-card-head{display:flex;justify-content:space-between;gap:.7rem}.edge-card-head span{color:#58dcc5;font-size:.72rem}.edge-card em{color:#7f98a3;font-size:.78rem;line-height:1.5}.edge-card p{margin:0;color:#a7bbc3;font-size:.76rem;line-height:1.45}.edge-result{margin-top:auto;padding:.5rem .6rem;border:1px solid rgba(88,220,197,.14);color:#91cfe0;background:rgba(88,220,197,.03);font-size:.7rem;line-height:1.4}.edge-card .stepper{margin-top:.1rem}.edge-allocation{margin-top:2rem;padding-top:1.4rem;border-top:1px solid rgba(255,255,255,.07)}.edge-five-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem;margin-top:1rem}.edge-alloc-card{display:flex;flex:0 1 calc(33.333% - .5rem);min-width:0;flex-direction:column;gap:.65rem;padding:.85rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.edge-alloc-card p{margin:0;color:#718a95;font-size:.73rem;line-height:1.45}.edge-alloc-card .stepper{margin-top:auto}.edge-skill-group{margin-top:.75rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.01)}.edge-skill-group>summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:.8rem 1rem;list-style:none}.edge-skill-group>summary::-webkit-details-marker{display:none}.edge-skill-group>summary>span:first-child{display:grid;gap:.15rem}.edge-skill-group>summary small{color:#718a95;font-size:.68rem}.edge-skill-group>summary::after{content:"›";color:#58dcc5;font-size:1.05rem;transform:rotate(90deg);transition:transform .15s ease}.edge-skill-group[open]>summary::after{transform:rotate(-90deg)}.edge-skill-group>.edge-five-grid{padding:0 .75rem .85rem}.attribute-card small{color:#718a95}@media(max-width:1180px){.choice-grid>.choice-card-shell,.truth-free-grid>.truth-free-card,.edge-grid>.edge-card,.allocator-card,.edge-alloc-card{flex-basis:calc(50% - .4rem)}.talent-grid,.truth-talent-grid,.skill-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:900px){.truth-picker-grid,.truth-choice-grid,.disadvantage-controls{grid-template-columns:1fr}.truth-nature-summary{grid-template-columns:1fr}.truth-reserve{min-height:72px}.truth-reveal-grid{grid-template-columns:1fr}.builder-workspace{grid-template-columns:1fr}.builder-sidebar{position:static}.builder-nav{grid-template-columns:repeat(2,minmax(0,1fr))}.identity-layout{grid-template-columns:1fr}.portrait-card{max-width:260px}.builder-topbar{flex-wrap:wrap}.top-actions{width:100%;justify-content:flex-end}}@media(max-width:620px){.choice-grid>.choice-card-shell,.truth-free-grid>.truth-free-card,.edge-grid>.edge-card,.allocator-card,.edge-alloc-card{flex-basis:100%}.talent-grid,.truth-talent-grid,.skill-grid{grid-template-columns:1fr}.truth-consciousness-grid{grid-template-columns:1fr}.identity-grid{grid-template-columns:1fr}.builder-nav{grid-template-columns:1fr}.subsection-title{flex-direction:column}}
 
 /* Approved V2 visual system */
 .builder-v2-shell{
