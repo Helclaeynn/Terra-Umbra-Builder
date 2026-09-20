@@ -945,7 +945,9 @@ const originNameValue=computed(()=>draft.value&&rules.value
 );
 const sphereNameValue=computed(()=>selectedSphere.value?.name??"");
 const styleNameValue=computed(()=>selectedStyle.value?.name??"");
-const equipmentCount=computed(()=>realityState.value?.equipment.length??0);
+const equipmentCount=computed(()=>
+  (realityState.value?.equipment.length??0)+(currentTruthState.value?.truthEquipment.length??0)
+);
 const augmentationCount=computed(()=>realityState.value?.augmentations.length??0);
 const renownScore=computed(()=>{
   if(!draft.value)return 0;
@@ -1010,6 +1012,20 @@ const knowledgeRefs=computed<KnowledgeRef[]>(()=>{
       key:`talent-truth-${id}`,label:talent.name,kind:"Talent",category:"Règles",
       articleId:talent.compendiumId,detail:talent.effect,
       badges:[`${talent.cost} PTV`,talent.access??"Vérité"].filter(Boolean)
+    });
+  }
+
+  const truthEquipmentById=new Map((truthRules.value?.equipment??[]).map(item=>[item.id,item]));
+  for(const id of currentTruthState.value?.truthEquipment??[]){
+    const item=truthEquipmentById.get(id);
+    if(item)add({
+      key:`truth-equipment-${id}`,
+      label:item.name,
+      kind:"Objet de Vérité",
+      category:"Équipement & Objets",
+      articleId:item.compendiumId,
+      detail:item.lore||item.properties.map(property=>`${property.label} : ${property.value}`).join(" · "),
+      badges:[item.section||`Chapitre ${item.chapter}`,item.requiresMj?"Accès exceptionnel":"Vérité"].filter(Boolean)
     });
   }
 
