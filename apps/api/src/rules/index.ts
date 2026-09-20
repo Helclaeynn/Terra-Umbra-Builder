@@ -241,12 +241,13 @@ export async function preloadBuilderRules():Promise<void>{
   ]);
   const elapsed=Math.round(performance.now()-started);
   const equipmentCount=Number(reality?.equipment?.length??0);
+  const truthEquipmentCount=Number(truth?.equipment?.length??0);
   const truthTalentCount=Object.values(truth?.catalogs??{}).reduce(
     (sum:number,entries:any)=>sum+(Array.isArray(entries)?entries.length:0),
     0
   );
   console.info(
-    `Builder rules preloaded in ${elapsed} ms · ${creation?.rules?.styles?.length??0} styles · ${truthTalentCount} talents Vérité · ${equipmentCount} équipements`
+    `Builder rules preloaded in ${elapsed} ms · ${creation?.rules?.styles?.length??0} styles · ${truthTalentCount} talents Vérité · ${truthEquipmentCount} objets Vérité · ${equipmentCount} équipements Réalité`
   );
 }
 
@@ -376,6 +377,15 @@ async function builderCatalogEntries():Promise<BuilderCatalogEntry[]>{
       });
     }
   }
+  for(const entry of truth.equipment??[]){
+    catalogPush(rows,seen,entry,{
+      key:String((entry as any).id??entry.name??""),
+      family:"truth-equipment",
+      kind:"Objet de Vérité",
+      category:"Équipement & Objets",
+      step:"truth"
+    });
+  }
 
   for(const entry of reality.equipment??[]){
     catalogPush(rows,seen,entry,{
@@ -500,6 +510,16 @@ async function builderUsageFor(articleId:string):Promise<BuilderUsage[]>{
           detail:String(entry.group??entry.access??"")
         });
       }
+    }
+  }
+  for(const entry of truth.equipment??[]){
+    if(entry.compendiumId===articleId){
+      usagePush(rows,seen,{
+        kind:"Objet de Vérité",
+        label:String(entry.name??""),
+        step:"truth",
+        detail:String(entry.section??entry.status??"")
+      });
     }
   }
 
