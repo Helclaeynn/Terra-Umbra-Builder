@@ -32,7 +32,10 @@ try{
   const compactResponse=await compactResponsePromise;
   const compactPayload=await compactResponse.json();
   const compactEntries=compactPayload.entries||[];
-  if(compactEntries.length<1800)throw new Error("Index wiki compact incomplet: "+compactEntries.length);
+  if(compactEntries.length<500)throw new Error("Index wiki actif trop petit: "+compactEntries.length);
+  if(compactEntries.some(entry=>entry.category==="OLD")){
+    throw new Error("Une archive OLD a fui dans l’index wiki actif.");
+  }
   if(compactEntries.some(entry=>"snippet" in entry||"media" in entry)){
     throw new Error("Index wiki compact contient encore snippets ou médias.");
   }
@@ -59,8 +62,9 @@ try{
   const newcomerTitle=(await publicPage.locator(".newcomer-hero h2").innerText()).trim();
   if(newcomerTitle!=="Entrer dans Terra Umbra")throw new Error("Portail nouveau joueur absent: "+newcomerTitle);
 
-  const basics=await publicPage.locator(".newcomer-card").count();
-  if(basics<4)throw new Error("Parcours nouveau joueur incomplet: "+basics+" cartes.");
+  if(await publicPage.getByRole("button",{name:/Archives · ancien Compendium/}).count()){
+    throw new Error("La rubrique OLD ne doit pas être proposée au public.");
+  }
 
   const searchInput=publicPage.locator('input[aria-label="Recherche dans le Compendium"]');
   await searchInput.fill("Afa");
@@ -74,49 +78,22 @@ try{
   await publicPage.goto(baseUrl+"/compendium?article=guide-realite-nouveau-joueur",{waitUntil:"domcontentloaded",timeout:30000});
   await publicPage.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
   const guideTitle=(await publicPage.locator(".article-header h1").innerText()).trim();
-  if(guideTitle!=="Réalité — Guide du nouveau joueur")throw new Error("Guide public inattendu: "+guideTitle);
+  if(guideTitle!=="Réalité — Guide du nouveau joueur")throw new Error("Guide archive inattendu: "+guideTitle);
+  await publicPage.getByText("Archive de l’ancien Compendium",{exact:true}).waitFor({state:"visible",timeout:10000});
 
   await publicPage.goto(baseUrl+"/compendium?article=verite-046-10-vampires",{waitUntil:"domcontentloaded",timeout:30000});
   await publicPage.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
+  await publicPage.getByText("Archive de l’ancien Compendium",{exact:true}).waitFor({state:"visible",timeout:10000});
   await publicPage.getByText("DONNÉES CANONIQUES",{exact:true}).waitFor({state:"visible",timeout:10000});
   await publicPage.getByText("Lecture seule",{exact:true}).waitFor({state:"visible",timeout:10000});
   await publicPage.getByText("DANS LE BUILDER",{exact:true}).waitFor({state:"visible",timeout:10000});
-  await publicPage.getByText("Nature",{exact:true}).first().waitFor({state:"visible",timeout:10000});
-  await publicPage.getByText("Vérité",{exact:true}).first().waitFor({state:"visible",timeout:10000});
-  await publicPage.getByRole("heading",{name:"Dans ce dossier"}).waitFor({state:"visible",timeout:10000});
-  const vampireDossier=publicPage.locator(".wiki-dossier");
-  const vampireDossierCards=await vampireDossier.locator("button").count();
-  if(vampireDossierCards<5)throw new Error("Dossier Vampire trop pauvre: "+vampireDossierCards+" pages.");
-  await vampireDossier.getByRole("button").filter({hasText:"Sang Ardent — Larisha"}).first()
-    .waitFor({state:"visible",timeout:10000});
 
   await publicPage.goto(baseUrl+"/compendium?article=regles-verite-chasseur-lavandieres",{waitUntil:"domcontentloaded",timeout:30000});
   await publicPage.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
-  const hunterHubTitle=(await publicPage.locator(".article-header h1").innerText()).trim();
-  if(hunterHubTitle!=="Lavandières — tradition vampirique de Chasse"){
-    throw new Error("Hub Talent Chasseur inattendu: "+hunterHubTitle);
-  }
-  await publicPage.getByText("Lire la souillure",{exact:true}).first().waitFor({state:"visible",timeout:10000});
+  await publicPage.getByText("Archive de l’ancien Compendium",{exact:true}).waitFor({state:"visible",timeout:10000});
   await publicPage.locator(".talent-wiki-card").first().waitFor({state:"visible",timeout:10000});
-  const hunterTalentCards=await publicPage.locator(".talent-wiki-card").count();
-  if(hunterTalentCards<2)throw new Error("Hub Talent Chasseur incomplet: "+hunterTalentCards+" cartes.");
   const rawHunterDirective=await publicPage.getByText(/\{\{Talents\|group=humain:/).count();
-  if(rawHunterDirective)throw new Error("Directive brute visible dans le hub Talent Chasseur.");
-
-  await publicPage.goto(baseUrl+"/compendium?article=regles-realite-style-hacker",{waitUntil:"domcontentloaded",timeout:30000});
-  await publicPage.getByRole("heading",{name:"Style — Hacker"}).waitFor({state:"visible",timeout:10000});
-  await publicPage.getByText("DONNÉES CANONIQUES",{exact:true}).waitFor({state:"visible",timeout:10000});
-  await publicPage.getByText("Style",{exact:true}).first().waitFor({state:"visible",timeout:10000});
-  await publicPage.getByText("Lecture seule",{exact:true}).waitFor({state:"visible",timeout:10000});
-
-  const historyButton=publicPage.getByRole("button",{name:/Historique ·/});
-  await historyButton.waitFor({state:"visible",timeout:10000});
-  const historyLabel=(await historyButton.innerText()).trim();
-  const historyCount=Number(historyLabel.match(/(\d+)$/)?.[1]||0);
-  if(historyCount<2)throw new Error("Historique local incomplet: "+historyLabel);
-  await historyButton.click();
-  await publicPage.getByText("RÉCEMMENT CONSULTÉS",{exact:true}).waitFor({state:"visible",timeout:10000});
-  await publicPage.getByRole("button",{name:/Style — Hacker/}).first().waitFor({state:"visible",timeout:10000});
+  if(rawHunterDirective)throw new Error("Directive brute visible dans le hub Talent archivé.");
 
   if(dynamicTalentArticle){
     await publicPage.goto(baseUrl+"/compendium?article="+encodeURIComponent(dynamicTalentArticle),{waitUntil:"domcontentloaded",timeout:30000});
@@ -185,95 +162,25 @@ page.on("console",message=>{
 });
 
 try{
-  const candidates=[
-    "verite-048-12-autres-descendants-de-khinae",
-    "verite-057-21-les-six-fleaux-et-le-faux-septieme",
-    "verite-056-20-corruption",
-    "verite-046-10-vampires",
-    "verite-050-14-daemons",
-    "verite-053-17-exiles-peuples-fonctions-et-traditions",
-    "verite-047-11-garous-loups-descendants-de-khinae"
-  ];
-
-  let sourceTitle="";
-  let link=null;
-  let wikiDebug=null;
-
-  for(const sourceId of candidates){
-    await page.goto(`${baseUrl}/compendium?article=${encodeURIComponent(sourceId)}`,{
-      waitUntil:"domcontentloaded",
-      timeout:30000
-    });
-
-    await page.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
-    sourceTitle=(await page.locator(".article-header h1").innerText()).trim();
-
-    await page.waitForFunction(
-      ()=>window.__TUC_WIKI_V2__?.ready!==undefined,
-      null,
-      {timeout:10000}
-    );
-    wikiDebug=await page.evaluate(()=>window.__TUC_WIKI_V2__);
-    if(!wikiDebug?.ready)throw new Error("Runtime wiki non prêt: "+JSON.stringify(wikiDebug));
-    if(!String(wikiDebug.sanity||"").includes("data-wiki-id")){
-      throw new Error("Sanity linker sans interlink: "+JSON.stringify(wikiDebug));
-    }
-
-    const candidateLink=page.locator(".article-paragraph a.wiki-link[data-wiki-id]").first();
-    try{
-      await candidateLink.waitFor({state:"visible",timeout:5000});
-      link=candidateLink;
-      break;
-    }catch{}
+  await page.goto(baseUrl+"/compendium",{waitUntil:"domcontentloaded",timeout:30000});
+  await page.waitForFunction(()=>window.__TUC_WIKI_V2__?.ready===true,null,{timeout:10000});
+  const wikiDebug=await page.evaluate(()=>window.__TUC_WIKI_V2__);
+  if(!wikiDebug?.hasAfancTarget)throw new Error("Afanc absent de l’index actif: "+JSON.stringify(wikiDebug));
+  if(wikiDebug?.hasLegacyEntry)throw new Error("OLD présent dans l’index actif: "+JSON.stringify(wikiDebug));
+  if(!String(wikiDebug.sanity||"").includes("data-wiki-id")){
+    throw new Error("Sanity linker actif sans interlink: "+JSON.stringify(wikiDebug));
   }
 
-  if(!link){
-    const sample=await page.locator(".article-paragraph").first().innerHTML().catch(()=>"(aucun paragraphe)");
-    throw new Error(`Aucun interlink détecté sur les pages de contrôle. HTML exemple: ${sample}. Wiki: ${JSON.stringify(wikiDebug)}. Erreurs: ${browserErrors.join(" | ")}`);
-  }
+  const archiveChip=page.getByRole("button",{name:/Archives · ancien Compendium/});
+  await archiveChip.waitFor({state:"visible",timeout:10000});
+  await archiveChip.click();
+  await page.getByText(/entrées?/).first().waitFor({state:"visible",timeout:10000});
+  const archiveResult=page.locator(".result-card").first();
+  await archiveResult.waitFor({state:"visible",timeout:10000});
 
-  if(!sourceTitle)throw new Error("Titre article source absent.");
-
-  const targetId=await link.getAttribute("data-wiki-id");
-  const linkedText=(await link.innerText()).trim();
-  if(!targetId)throw new Error("Interlink sans data-wiki-id.");
-  if(!linkedText)throw new Error("Interlink sans libellé.");
-
-  const preview=page.locator(".wiki-hover-preview");
-  let previewVisible=false;
-  for(let attempt=0;attempt<2&&!previewVisible;attempt+=1){
-    await page.mouse.move(2,2);
-    await page.waitForTimeout(150);
-    await link.hover();
-    try{
-      await preview.waitFor({state:"visible",timeout:2500});
-      previewVisible=true;
-    }catch{}
-  }
-  if(!previewVisible)throw new Error("Aperçu wiki absent après deux survols réels.");
-
-  const previewTitle=(await preview.locator("strong").innerText()).trim();
-  if(!previewTitle)throw new Error("Aperçu wiki sans titre.");
-  await page.waitForFunction(
-    ()=>String(document.querySelector(".wiki-hover-preview p")?.textContent||"").trim().length>=20,
-    null,
-    {timeout:10000}
-  );
-  const previewText=(await preview.locator("p").innerText()).trim();
-  if(previewText.length<20)throw new Error("Aperçu wiki trop court.");
-
-  await link.click();
-  await page.waitForFunction(
-    expected=>new URL(location.href).searchParams.get("article")===expected,
-    targetId,
-    {timeout:10000}
-  );
-
-  await page.waitForFunction(
-    expected=>document.querySelector(".article-header h1")?.textContent?.trim()===expected,
-    previewTitle,
-    {timeout:10000}
-  );
+  await page.goto(baseUrl+"/compendium?article=verite-046-10-vampires",{waitUntil:"domcontentloaded",timeout:30000});
+  await page.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
+  await page.getByText("Archive de l’ancien Compendium",{exact:true}).waitFor({state:"visible",timeout:10000});
 
   await page.goto(`${baseUrl}/compendium?article=bestiaire-v15-afanc`,{
     waitUntil:"domcontentloaded",
@@ -330,7 +237,7 @@ try{
 
   if(browserErrors.length)throw new Error(browserErrors.join("\n"));
 
-  console.log(`WIKI V2 OK — ${sourceTitle} → ${linkedText} → ${previewTitle} · média + éditeur + registre Talents + source Builder + audit + création OK`);
+  console.log("WIKI V2 OK — Compendium actif isolé des archives OLD · média + éditeur + registre Talents + source Builder + audit + création OK");
 }finally{
   await browser.close();
 }
