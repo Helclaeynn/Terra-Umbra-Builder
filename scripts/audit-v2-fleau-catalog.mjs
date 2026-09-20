@@ -100,7 +100,9 @@ for(const raw of decoded.entries??[]){
   rows.push({
     name,cost,kind,sourceId,
     family:sourceId==="vaagor"&&eyeWhiteNames.has(name)?"Messagers de l’Œil Blanc":family(subheadings,sourceId),
-    headings
+    headings,
+    text:clean(card.text),
+    rawTitle
   });
 }
 
@@ -110,7 +112,9 @@ for(const row of rows){
   byFamily.get(row.family).push(row);
 }
 const total=rows.reduce((sum,row)=>sum+row.cost,0);
-console.log(`FLÉAUX SOURCE AUDIT — ${rows.length} capacités · ${total} PTV · ${byFamily.size} familles`);
+const withText=rows.filter(row=>row.text.length>0).length;
+const rawTitleCarriesBody=rows.filter(row=>/Profil\s*:/i.test(row.rawTitle)&&row.rawTitle.length>160).length;
+console.log(`FLÉAUX SOURCE AUDIT — ${rows.length} capacités · ${total} PTV · ${byFamily.size} familles · text=${withText} · longTitle=${rawTitleCarriesBody}`);
 for(const [name,[count,ptv]] of Object.entries(expected)){
   const actual=byFamily.get(name)??[];
   const actualPtv=actual.reduce((sum,row)=>sum+row.cost,0);
