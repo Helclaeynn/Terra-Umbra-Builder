@@ -21,6 +21,7 @@ type Meta = {
   version: number;
   generated: string | null;
   total: number;
+  archivedTotal?: number;
   expectedTotal: number | null;
   categories: CategoryCount[];
   manufacturers: CategoryCount[];
@@ -179,6 +180,8 @@ type Article = {
   image?: string | MediaRef;
   illustration?: string | MediaRef;
   gallery?: MediaRef[];
+  legacyCategory?: string;
+  __legacy?: boolean;
   __editorialOverride?: boolean;
   __wikiPublishedEdit?: boolean;
 };
@@ -404,6 +407,10 @@ function visibleMechanics(source: BuilderSourceRecord) {
   return Object.entries(source.mechanics).filter(([key, value]) =>
     !hidden.has(key) && value !== undefined && value !== null && value !== ""
   );
+}
+
+function categoryLabel(value: string): string {
+  return value === "OLD" ? "Archives · ancien Compendium" : value;
 }
 
 function builderStepLabel(step: BuilderUsage["step"]): string {
@@ -1435,7 +1442,7 @@ onBeforeUnmount(() => {
               type="button"
               @click="chooseCategory(item.name)"
             >
-              <span>{{ item.name }}</span>
+              <span>{{ categoryLabel(item.name) }}</span>
               <small>{{ item.count }}</small>
             </button>
           </div>
@@ -1619,7 +1626,7 @@ onBeforeUnmount(() => {
                 <div class="wiki-article-main">
                   <header class="article-header">
                     <div class="article-breadcrumb">
-                      <span>{{ selected.category }}</span>
+                      <span>{{ categoryLabel(selected.category || "") }}</span>
                       <template v-if="selected.navigation?.group">
                         <span>›</span>
                         <span>{{ selected.navigation.group }}</span>
@@ -1628,6 +1635,14 @@ onBeforeUnmount(() => {
                         <span>›</span>
                         <span>{{ selected.navigation.subgroup }}</span>
                       </template>
+                    </div>
+
+                    <div v-if="selected.__legacy" class="legacy-article-notice">
+                      <strong>Archive de l’ancien Compendium</strong>
+                      <span>
+                        Conservée pour audit{{ selected.legacyCategory ? ` · ancienne rubrique : ${selected.legacyCategory}` : "" }}.
+                        Cette fiche n’apparaît plus dans la navigation normale.
+                      </span>
                     </div>
 
                     <div class="wiki-title-line">
@@ -1849,7 +1864,7 @@ onBeforeUnmount(() => {
                     <p class="eyebrow">FICHE</p>
                     <dl>
                       <template v-if="selected.category">
-                        <dt>Rubrique</dt><dd>{{ selected.category }}</dd>
+                        <dt>Rubrique</dt><dd>{{ categoryLabel(selected.category) }}</dd>
                       </template>
                       <template v-if="selected.navigation?.group">
                         <dt>Groupe</dt><dd>{{ selected.navigation.group }}</dd>
@@ -2412,6 +2427,27 @@ onBeforeUnmount(() => {
 
 .wiki-article-main {
   min-width: 0;
+}
+
+.legacy-article-notice {
+  display: grid;
+  gap: .22rem;
+  margin: 0 0 .85rem;
+  padding: .7rem .85rem;
+  border: 1px solid rgba(176,132,77,.34);
+  border-radius: 9px;
+  background: rgba(176,132,77,.055);
+  color: #b9a58b;
+}
+.legacy-article-notice strong {
+  color: #d8c4a4;
+  font-size: .76rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.legacy-article-notice span {
+  font-size: .72rem;
+  line-height: 1.45;
 }
 
 .wiki-title-line {
