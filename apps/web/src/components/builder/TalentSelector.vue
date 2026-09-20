@@ -131,5 +131,5 @@ function updateChoice(event:Event){
 </template>
 
 <style scoped>
-.talent-selector{display:grid;gap:.65rem;margin:0 0 1rem;max-width:800px}.talent-selector>label,.talent-choice label{display:grid;gap:.42rem;color:#d3cbbc;font-size:.88rem}.talent-detail,.talent-choice{display:grid;gap:.5rem;padding:.85rem 1rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.018)}.talent-detail strong{color:#e5dccd}.talent-detail em{color:#9a9388;font-size:.82rem;line-height:1.55}.talent-detail p{margin:0;color:#bcb3a6;font-size:.82rem;line-height:1.55}.talent-detail b{color:#ddd2c2}.talent-choice{border-color:rgba(199,173,120,.2)}.talent-choice small{color:#817a70;line-height:1.45}
+.talent-selector{display:grid;gap:.65rem;margin:0 0 1rem;max-width:800px}.talent-selector>label,.talent-choice label{display:grid;gap:.42rem;color:#c4d5da;font-size:.88rem}.talent-detail,.talent-choice{display:grid;gap:.5rem;padding:.85rem 1rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.018)}.talent-detail strong{color:#dce8ec}.talent-detail em{color:#91a7b1;font-size:.82rem;line-height:1.55}.talent-detail p{margin:0;color:#afc1c8;font-size:.82rem;line-height:1.55}.talent-detail b{color:#d7e3e7}.talent-choice{border-color:rgba(88,220,197,.2)}.talent-choice small{color:#718a95;line-height:1.45}
 </style>
