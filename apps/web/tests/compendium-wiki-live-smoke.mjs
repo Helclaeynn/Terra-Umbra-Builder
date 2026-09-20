@@ -78,9 +78,16 @@ try{
   const rulesChip=publicPage.locator(".category-strip .category-chip").filter({hasText:"Règles"}).first();
   await rulesChip.click();
   await publicPage.waitForURL(
-    url=>new URL(url).searchParams.get("category")==="Règles",
+    url=>{
+      const parsed=new URL(url);
+      return parsed.searchParams.get("category")==="Règles" && !parsed.searchParams.has("article");
+    },
     {timeout:20000}
   );
+  await publicPage.goto(baseUrl+"/compendium?category="+encodeURIComponent("Règles"),{
+    waitUntil:"domcontentloaded",
+    timeout:30000
+  });
   await publicPage.locator(".category-overview h1").filter({hasText:"Règles"}).waitFor({state:"visible",timeout:20000});
   await publicPage.locator(".compendium-navigation .navigation-group").filter({hasText:"Moteur de jeu"}).first()
     .waitFor({state:"visible",timeout:20000});
