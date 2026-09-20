@@ -415,8 +415,10 @@ jobs:
           article=json.load(open(sys.argv[4],encoding="utf-8"))["article"]
           wiki=json.load(open(sys.argv[5],encoding="utf-8"))["entries"]
 
-          assert meta["total"] >= 1800, meta
+          assert meta["total"] >= 500, meta
+          assert meta.get("archivedTotal",0) >= 1000, meta
           assert any(item["name"] == "Bestiaire" for item in meta["categories"]), meta["categories"]
+          assert all(item["name"] != "OLD" for item in meta["categories"]), meta["categories"]
           assert meta["overrides"]["applied"] > 0, meta["overrides"]
           assert any(item["id"] == "bestiaire-v15-afanc" for item in search["items"]), search
           assert manufacturer["total"] >= 20, manufacturer
@@ -435,12 +437,11 @@ jobs:
               if block.get("type") == "p"
           ]
           assert any("esprit des eaux profondes" in text for text in paragraphs), paragraphs[:3]
-          assert len(wiki) >= 1800, len(wiki)
+          assert len(wiki) >= 500, len(wiki)
+          assert all(item["category"] != "OLD" for item in wiki), [item for item in wiki if item["category"] == "OLD"][:5]
           afanc=next(item for item in wiki if item["id"] == "bestiaire-v15-afanc")
           assert "esprit des eaux profondes" in afanc["snippet"], afanc
-          garou=next(item for item in wiki if item["id"] == "verite-047-11-garous-loups-descendants-de-khinae")
-          assert garou["category"] == "Vérité", garou
-          assert garou["snippet"], garou
+          assert not any(item["id"] == "verite-047-11-garous-loups-descendants-de-khinae" for item in wiki), "Une archive Vérité a fui dans l’index actif"
           PY
 
           MEDIA_PATH="$(python3 - "$COMPENDIUM_ARTICLE" <<'PY'
@@ -492,6 +493,18 @@ jobs:
           import json,sys
           user=json.load(open(sys.argv[1],encoding="utf-8"))["user"]
           assert user["role"] == "editor", user
+          PY
+
+          echo "Wiki smoke: verifying OLD archive audit"
+          curl --fail --silent --show-error \
+            -b "$COOKIE_JAR" \
+            'https://dev.terra-umbra.fr/api/compendium/search?category=OLD&limit=10' > "$COMPENDIUM_SEARCH"
+          python3 - "$COMPENDIUM_SEARCH" <<'PY'
+          import json,sys
+          payload=json.load(open(sys.argv[1],encoding="utf-8"))
+          assert payload["total"] >= 1000, payload
+          assert payload["items"], payload
+          assert all(item["category"] == "OLD" for item in payload["items"]), payload["items"]
           PY
 
           echo "Wiki smoke: verifying editor API"
