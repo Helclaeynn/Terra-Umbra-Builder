@@ -1076,19 +1076,20 @@ jobs:
           payload=json.load(open(sys.argv[1],encoding="utf-8"))
           assert payload["totalTalents"] > 1000, payload
           assert payload["groups"], payload
-          assert payload["resolvedHubMatches"] == len(payload["groups"]), payload
+          assert payload["resolvedTargetMatches"] == len(payload["groups"]), payload
           assert payload["ambiguousGroupMatches"] == 0, payload
           assert payload["missingGroupMatches"] == 0, payload
-          assert payload["inferredHubMatches"] > 0, payload
+          assert payload["directBindingMatches"] > 0, payload
           print(
-              f'TALENT HUB AUDIT — {payload["resolvedHubMatches"]}/{len(payload["groups"])} groupes couverts · '
-              f'{payload["exactGroupMatches"]} exacts · {payload["inferredHubMatches"]} résolus par hub · '
+              f'TALENT TARGET AUDIT — {payload["resolvedTargetMatches"]}/{len(payload["groups"])} groupes couverts · '
+              f'{payload["directBindingMatches"]} liaisons éditoriales · {payload["exactGroupMatches"]} exacts · '
+              f'{payload["inferredHubMatches"]} résolus par ancien hub · '
               f'{payload["ambiguousGroupMatches"]} ambigus · {payload["missingGroupMatches"]} manquants'
           )
           for group in payload["groups"]:
               if group["matches"]:
                   matches=" | ".join(f'{m["id"]}:{m["title"]}' for m in group["matches"])
-                  print(f'TALENT HUB {group["groupId"]} => {matches}')
+                  print(f'TALENT TARGET {group["groupId"]} => {matches}')
           PY
 
           echo "Wiki smoke: creating and publishing a custom page"
