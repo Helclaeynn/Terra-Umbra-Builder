@@ -972,6 +972,7 @@ async function loadCorpus(): Promise<Corpus> {
   if (!legacyIds.size) {
     const initialLegacyIds = [...byId.values()]
       .filter((article) => !PROTECTED_REBUILD_CATEGORIES.has(String(article.category ?? "")))
+      .filter((article) => article.rebuildV2 !== true)
       .map((article) => article.id);
 
     if (initialLegacyIds.length) {
