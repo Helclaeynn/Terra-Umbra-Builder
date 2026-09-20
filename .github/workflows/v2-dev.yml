@@ -901,6 +901,62 @@ jobs:
               article=json.load(response)["article"]
             assert "{{Talents|" in flatten(article),(article_id,"missing dynamic Talent binding")
 
+          def fetch_article(article_id):
+            with urllib.request.urlopen(base+article_id,timeout=20) as response:
+              return json.load(response)["article"]
+
+          def section(article,title):
+            return next(item for item in article.get("sections",[]) if item.get("title")==title)
+
+          def paragraph_text(section):
+            return " ".join(
+              str(block.get("text",""))
+              for block in section.get("blocks",[])
+              if block.get("type")=="p"
+            )
+
+          # Readability regression guards: a heading must never swallow previous rule sections.
+          mage=fetch_article("regles-verite-v7-mage-maitrise-amplitude-lancement")
+          mage_defense=paragraph_text(section(mage,"Défense occulte"))
+          assert "Défense occulte passive" in mage_defense,mage_defense[:1000]
+          assert "Type de Mageius" not in mage_defense,mage_defense[:1000]
+
+          daemon=fetch_article("regles-verite-v7-daemon-nature-fonctions-divinites-facettes")
+          daemon_oracle=paragraph_text(section(daemon,"Oracle / Tentateur"))
+          assert "Télépathie" in daemon_oracle,daemon_oracle
+          assert "{{Talents|group=daemon:oracle-tentateur-lecture-mentale}}" in daemon_oracle,daemon_oracle
+          assert "Lecture superficielle — 1 PTV" not in daemon_oracle,daemon_oracle[:1500]
+
+          angelus=fetch_article("regles-verite-v7-angelus-nature-revelation-transcendance")
+          vertu=paragraph_text(section(angelus,"Nature : Vertu"))
+          assert "Purification" in vertu,vertu
+          assert "{{Talents|group=angelus:nature-vertu}}" in vertu,vertu
+          assert "Apaisement profond" not in vertu,vertu[:1500]
+
+          aseryn=fetch_article("regles-verite-v7-aseryn-treize-dratyn-conseil-foudre")
+          theana=paragraph_text(section(aseryn,"Theana — la Guérisseuse"))
+          assert "Theana est la Fondatrice" in theana,theana
+          assert "{{Talents|group=aseryn:traditions-des-treize-theana-la-guerisseuse}}" in theana,theana
+
+          for article_id in (
+            "regles-verite-v7-mage-maitrise-amplitude-lancement",
+            "regles-verite-v7-mage-tension-revers-echos-oeuvres",
+            "regles-verite-v7-daemon-nature-fonctions-divinites-facettes",
+            "regles-verite-v7-daemon-maisonnees-faveurs-patron",
+            "regles-verite-v7-angelus-nature-revelation-transcendance",
+            "regles-verite-v7-angelus-sephiroth-archanges-seraphins",
+            "regles-verite-v7-aseryn-nature-accelyr-origines",
+            "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre"
+          ):
+            article=fetch_article(article_id)
+            oversized=[
+              (section.get("title"),len(str(block.get("text",""))))
+              for section in article.get("sections",[])
+              for block in section.get("blocks",[])
+              if block.get("type")=="p" and len(str(block.get("text",""))) > 5000
+            ]
+            assert not oversized,(article_id,oversized)
+
           with urllib.request.urlopen(
             "https://dev.terra-umbra.fr/api/compendium/wiki-index?compact=1",
             timeout=20
