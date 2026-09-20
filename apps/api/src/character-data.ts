@@ -107,7 +107,7 @@ export function blankCharacterData(name:string): CharacterDataV2 {
       renownPack:0
     },
     edgeAttributes:{},
-    truth:{nature:"humain",consciousness:"profane",choices:{hunterTradition:"aucune"},truthTalents:[],truthEquipment:[],truthEquipmentMjOverride:false},
+    truth:{nature:"humain",consciousness:"profane",choices:{hunterTradition:"aucune"},truthTalents:[],truthEquipment:[],truthEquipmentMjOverride:false,corruption:0,corruptionSource:"",corruptionTalents:[]},
     equipment:[],
     social:{languages:["Anglais"],contacts:[],reputation:""},
     spending:{augmentations:0,equipment:0,vehicle:0},
@@ -210,7 +210,10 @@ export function normalizeCharacterData(input:unknown, fallbackName:string): Char
     choices:cloneRecord(truth.choices),
     truthTalents:stringArray(truth.truthTalents),
     truthEquipment:stringArray(truth.truthEquipment),
-    truthEquipmentMjOverride:Boolean(truth.truthEquipmentMjOverride)
+    truthEquipmentMjOverride:Boolean(truth.truthEquipmentMjOverride),
+    corruption:Math.max(0,Math.trunc(Number(truth.corruption)||0)),
+    corruptionSource:asString(truth.corruptionSource,""),
+    corruptionTalents:stringArray(truth.corruptionTalents)
   };
 
   out.equipment=Array.isArray(source.equipment)?structuredClone(source.equipment):[];
