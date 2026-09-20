@@ -40,98 +40,241 @@ const article = (
 
 const EXILES: Section[] = [
   {
-    id: "categorie-historique",
-    title: "Une catégorie historique, pas une famille biologique",
+    id: "peuples-autres-mondes",
+    title: "Des peuples d’autres mondes devenus terrestres",
     level: 2,
     blocks: [
       {
         type: "p",
-        text: "Le terme Exilé regroupe principalement les peuples venus d’Aèr par les passages entre les mondes, ainsi que quelques lignées issues de Gaerras ou de mondes disparus. Elyë, Whurtens, Ashylls, Thulkars et Azménoriens n’ont ni biologie ni civilisation uniques : leur point commun est historique et cosmologique."
+        text: "Le terme Exilé désigne principalement les peuples venus d’Aèr par les passages entre les mondes, ainsi que quelques lignées issues de Gaerras ou de mondes aujourd’hui disparus. Elyë, Whurtens, Ashylls, Thulkars et Azménoriens forment les grandes communautés connues. Ils ne partagent ni biologie ni civilisation uniques : leur point commun est historique et cosmologique."
       },
       {
         type: "p",
-        text: "L’exil ne signifie pas forcément une migration récente. Beaucoup de communautés vivent sur Terre depuis des générations, parfois depuis bien avant l’Hologramme. Un Exilé de 2035 peut n’avoir jamais vu Aèr et considérer la Californie comme son seul pays tout en conservant une identité culturelle très forte."
+        text: "Le mot donne facilement une image fausse de migration récente. Beaucoup de ces communautés vivent sur Terre depuis très longtemps, souvent depuis bien avant l’Hologramme. La majorité de leurs membres de 2035 sont nés ici, comme leurs parents et parfois des dizaines de générations avant eux. Aèr peut être une mémoire familiale, un héritage culturel, une destination lointaine ou un monde qu’ils n’ont jamais vu."
+      },
+      {
+        type: "p",
+        text: "L’ironie humaine tient à une histoire encore plus ancienne : l’Humanité elle-même possède une origine lointaine liée à Aèr qu’elle a oubliée. Les Exilés d’Aèr ne sont donc pas simplement des étrangers venus s’installer sur un monde humain ; ils vivent auprès d’un peuple qui a perdu la mémoire d’une part de sa propre histoire."
+      }
+    ]
+  },
+  {
+    id: "cultures-transformees",
+    title: "Des cultures transformées par la Terre",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Les sociétés exilées terrestres ne sont pas des copies modernisées de celles d’Aèr. Des peuples autrefois séparés ont dû cohabiter, des traditions se sont mélangées et de nouvelles institutions sont nées pour répondre à des problèmes inconnus sur le monde d’origine. Les catastrophes, le Voile, la vie clandestine et les siècles de coexistence avec les sociétés humaines ont produit une histoire proprement terrestre."
+      },
+      {
+        type: "p",
+        text: "Un Elyë californien peut n’avoir jamais vu Aèr ; un Thulkar arrivé depuis six mois peut devoir apprendre simultanément la circulation, l’Holonet et le fonctionnement du Voile ; un Ashyll peut être plus à l’aise sur un marché clandestin de Los Angeles qu’un Humain né dans le même quartier. L’exil est donc moins une distance géographique qu’une relation à l’héritage."
+      },
+      {
+        type: "p",
+        text: "Pour beaucoup, la Californie ou la Terre entière est le seul foyer réellement vécu. Les nouveaux arrivants existent toujours, mais ils sont minoritaires face à des diasporas anciennes. La question centrale n’est plus seulement « d’où viens-tu ? », mais « quel monde considères-tu comme le tien ? »."
       }
     ]
   },
   {
     id: "silcenters",
-    title: "Silcenters — villes de la seconde appartenance",
+    title: "Les Silcenters — villes de la seconde appartenance",
     level: 2,
     blocks: [
       {
         type: "p",
-        text: "Les Silcenters sont des communautés de Vérité : logements, commerces, écoles, lieux de formation et réseaux de solidarité adaptés à des morphologies ou usages que la Réalité ordinaire rend difficiles. Ils servent de sas aux nouveaux arrivants et de quartiers familiaux à ceux qui sont nés sur Terre."
+        text: "Les Silcenters sont souvent décrits comme des centres d’accueil, ce qui est beaucoup trop réducteur. Ce sont des communautés de Vérité complètes : logements, commerces, écoles, lieux de formation, réseaux de solidarité et infrastructures capables d’accueillir des morphologies ou usages que la Réalité ordinaire rend difficiles."
       },
       {
         type: "p",
-        text: "Le Conseil des Anciens donne au réseau une dimension politique sans créer un État parallèle. Les Protocoles de Continuité sont nés de l’expérience collective du Voile ; la HDS s’est développée comme spécialisation plus poussée dans certains cursus, particulièrement sous l’influence de l’Union Elfique."
+        text: "Pour un nouvel arrivant, un Silcenter sert de sas vers le droit terrestre, la monnaie, la conduite, l’informatique, le Holonet et les comportements sociaux contemporains. Pour une famille installée depuis plusieurs générations, il peut n’être qu’un quartier où les grands-parents parlent d’Aèr sans mesurer chaque mot et où les enfants savent qu’ils ne sont pas seuls à posséder une autre forme sous le Voile."
+      },
+      {
+        type: "p",
+        text: "Le Conseil des Anciens donne au réseau une dimension politique sans transformer tous les Exilés en citoyens d’un État parallèle. Ses sièges, alliances et équilibres reflètent des histoires anciennes ; certaines communautés y sont mieux représentées que d’autres, et les structures de représentation peuvent paraître avoir vieilli moins vite que la société qu’elles organisent."
+      },
+      {
+        type: "p",
+        text: "Les Protocoles de Continuité sont nés de cette expérience collective : apprendre à passer entre états, agir ensemble et empêcher qu’une crise individuelle ne devienne une rupture publique. La HDS s’est développée comme spécialisation plus poussée dans certains cursus, particulièrement sous l’influence de l’Union Elfique. Ces disciplines ne définissent pas les Silcenters ; elles montrent comment une communauté transforme la contrainte du Voile en savoir transmissible."
       }
     ]
   },
   {
-    id: "cinq-peuples",
-    title: "Les cinq grands peuples",
+    id: "elye",
+    title: "Elyë — vivre avec des siècles devant soi",
     level: 2,
     blocks: [
       {
-        type: "table",
-        rows: [
-          ["Peuple", "Repère"],
-          ["Elyë", "Longévité, mémoire, grâce et forte proximité culturelle avec la Magie, sans faire de chaque Elyë un Mage."],
-          ["Whurten", "Artisanat, profondeurs, runes, fiabilité et culture de la maintenance durable."],
-          ["Ashyll", "Adaptation, commerce, technique et compréhension des réseaux de valeur, légaux comme clandestins."],
-          ["Thulkar", "Identités structurées par des Hordes aux héritages militaires et communautaires très différenciés."],
-          ["Azménorien", "Magie, technologie xéno et technomagie mêlées au point de rendre artificielle la séparation entre science et surnaturel."]
-        ]
+        type: "p",
+        text: "La longévité elyë transforme profondément la famille, l’éducation et la mémoire. Une décision politique peut encore être discutée par quelqu’un qui se souvient personnellement du contexte dans lequel elle fut prise plusieurs générations humaines plus tôt. Cette continuité ne garantit pas la sagesse : elle permet aussi de porter très longtemps fidélités, erreurs et traumatismes."
+      },
+      {
+        type: "p",
+        text: "Sur Terre, les anciennes lignées elfiques ont été fortement brassées par les migrations et les Silcenters. La culture moderne est moins obsédée par la pureté d’origine qu’une lecture simplifiée d’Aèr pourrait le laisser croire, même si certaines distinctions restent fortes lorsqu’elles touchent à la Guerre de la Magie ou à la manière dont l’Hologramme a modifié le développement des enfants."
+      },
+      {
+        type: "p",
+        text: "Chez les Elyë maintenus Voilés, l’Hologramme peut pousser la maturation physique vers un rythme proche de celui des Humains. Pour certains, cette adaptation a permis de sauver des générations après les catastrophes ; pour d’autres, elle a volé une part fondamentale de l’enfance elfique. L’affinité avec la Magie demeure importante sans faire de chaque Elyë un Mage."
       }
     ]
   },
   {
-    id: "traditions-et-organisations",
-    title: "Traditions, réseaux et fonctions",
-    level: 2,
+    id: "union-elfique-croix-emphyrra",
+    title: "Union Elfique & Croix d’Emphyrra",
+    level: 3,
     blocks: [
       {
         type: "p",
-        text: "L’Union Elfique préserve cursus, langues et outils d’intégration. La Croix d’Emphyrra rassemble quatre traditions idéologiques — Faucon de Malachite, Serpentaire de Citrine, Aigle de Larvikite et Hibou d’Onyx — qui ne sont pas des sous-races : on y entre par adhésion, enseignement et mentorat."
+        text: "L’Union Elfique est une force culturelle et scolaire majeure : elle préserve cursus, langues, mémoires et outils d’intégration. Son investissement dans la HDS répond à une question profondément elyë : comment vivre longtemps dans un monde dont la cohérence cherche continuellement à vous traduire ?"
       },
       {
         type: "p",
-        text: "Chez les Whurtens, Ymirin, Elegarin et Traditionalistes sont surtout des positions politiques ou culturelles. Les grandes progressions mécaniques sont les Runes, l’Atelier des Clans et l’Iron Law ; le système n’invente pas un arbre de PTV à une faction qui n’a pas de méthode propre."
+        text: "La Croix d’Emphyrra rassemble quatre traditions idéologiques, pas quatre sous-races. Le Faucon de Malachite valorise autonomie, terrain et rupture de l’artifice lorsqu’il devient une prison. Le Serpentaire de Citrine porte une exigence plus élitiste et une Haute Magie difficile d’accès. L’Aigle de Larvikite conserve un rapport plus intransigeant aux anciens dieux et aux rites. Le Hibou d’Onyx travaille avec les Ombres et des formes de symbiose qui inquiètent souvent ceux qui n’en connaissent que les manifestations."
       },
       {
         type: "p",
-        text: "Les Ashylls articulent notamment Green Union, réseaux commerciaux et Syndicat de Jade. Les Hordes thulkars représentent des héritages distincts ; la Horde Abyssale relève de la Corruption de Thul lorsqu’elle est réellement corrompue, et la Horde Maudite reste du lore sans arbre PJ propre."
-      },
-      {
-        type: "p",
-        text: "Les héritages azménoriens montrent enfin le versant technomagique de l’exil : fonctions fermées, interfaces entre Flux et technologie et réseaux capables de produire ou maintenir des objets que la Réalité terrestre ne sait pas expliquer seule."
+        text: "On n’y naît pas comme on naît Elyë : on entre dans ces traditions par l’éducation, l’adhésion, le mentorat et parfois des épreuves qui engagent une véritable vision du monde."
       }
     ]
   },
   {
-    id: "catalogue-builder",
-    title: "Un catalogue canonique de 184 Talents",
+    id: "whurtens",
+    title: "Whurtens — faire durer le monde",
     level: 2,
     blocks: [
       {
-        type: "table",
-        rows: [
-          ["Famille", "Nombre"],
-          ["Profils des cinq peuples", 53],
-          ["Silcenters & HDS", 7],
-          ["Croix d’Emphyrra", 40],
-          ["Héritages whurtens", 16],
-          ["Réseaux ashylls & Syndicat de Jade", 23],
-          ["Hordes thulkars", 22],
-          ["Héritages azménoriens", 23],
-          ["Total", 184]
-        ]
+        type: "p",
+        text: "Les Whurtens ont conservé une relation profonde à l’artisanat, aux profondeurs, aux runes et à la fiabilité. Là où une improvisation brillante peut être admirée chez les Ashylls, le Whurten traditionnel veut surtout que la solution fonctionne encore dans vingt ans et qu’un autre artisan puisse la réparer en comprenant ce qui a été construit."
       },
       {
         type: "p",
-        text: "Le détail mécanique de ces 184 Talents appartient au registre canonique du Builder. Le Compendium conserve ici ce qui permet de les comprendre : identité des peuples, rôle des institutions, nature des traditions, règles d’accès et place de ces progressions dans le monde."
+        text: "Cette culture ne rejette ni électronique, ni augmentations, ni technologies terrestres. Elle demande ce qu’elles deviennent lorsque la maintenance disparaît, qui possède les plans et combien de temps les pièces resteront remplaçables. Une civilisation de produits jetables peut donc paraître techniquement brillante et culturellement absurde."
+      },
+      {
+        type: "p",
+        text: "Les Ymirin incarnent surtout une force politique et institutionnelle liée aux sièges whurtens du Conseil des Anciens. Les Elegarin sont plus ouverts à la mixité, au commerce et aux échanges ; les Traditionalistes portent davantage les runes, les clans, les anciens dieux, les langues et les savoirs. Les Duergar Nidavellin et Vagorrin appartiennent à des branches beaucoup plus difficiles à intégrer dans une vie ordinaire et ne représentent pas la trajectoire normale d’un Whurten terrestre de 2035."
+      }
+    ]
+  },
+  {
+    id: "atelier-iron-law",
+    title: "Atelier des Clans & Iron Law",
+    level: 3,
+    blocks: [
+      {
+        type: "p",
+        text: "L’Atelier des Clans transpose la philosophie whurtenne de maintenance au monde moderne : restaurer, fiabiliser, régler et prolonger la vie d’un équipement réel devient une discipline en soi, qu’il soit terrestre, exilé ou hybride."
+      },
+      {
+        type: "p",
+        text: "Iron Law pousse une idée différente mais apparentée : une augmentation ne devrait pas être un empilement de fonctions fragiles, mais une architecture assez robuste pour devenir une part durable de l’individu sans le condamner à une dépendance permanente. L’idéologie est transespèce, même si elle reste fortement marquée par la pensée whurtenne."
+      }
+    ]
+  },
+  {
+    id: "ashylls",
+    title: "Ashylls — survivre entre les systèmes",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Les Ashylls ont fait de l’adaptation une culture. Leur morphologie, leur ouïe et leur génie technique comptent, mais leur force historique vient surtout de leur capacité à comprendre comment circule la valeur : argent, information, accès, dette, faveur ou marchandise."
+      },
+      {
+        type: "p",
+        text: "La Terre offre presque un environnement idéal à cette compétence : juridictions superposées, corporations, chaînes logistiques, mafias et Underlife. Un Ashyll n’est pas naturellement criminel ; il appartient simplement à une culture qui sait depuis longtemps que la différence entre un marché et une frontière dépend souvent de celui qui écrit la règle."
+      }
+    ]
+  },
+  {
+    id: "green-union-ligue-jade",
+    title: "Green Union, Ligue des Quatre Empereurs & Syndicat de Jade",
+    level: 3,
+    blocks: [
+      {
+        type: "p",
+        text: "La Green Union représente une stratégie d’intégration et de respectabilité : travailler avec Silcenters, institutions et réseaux légaux pour qu’un jeune Ashyll puisse étudier, travailler ou créer une entreprise sans devoir commencer sa vie par le marché noir. Ses critiques craignent toutefois que l’intégration devienne conformité et fasse oublier les réseaux qui ont permis au peuple de survivre."
+      },
+      {
+        type: "p",
+        text: "La Ligue des Quatre Empereurs ne confond pas richesse et argent liquide. Elle construit avant la négociation un environnement de sociétés écrans, structures juridiques, capitaux, contrats, positions de marché et menaces. Sa culture considère la conversation comme la dernière étape d’un travail de pouvoir commencé bien avant."
+      },
+      {
+        type: "p",
+        text: "Le Syndicat de Jade est l’une des grandes infrastructures criminelles de l’Underlife de Vérité. Protection, contrebande, courtage occulte et circulation de marchandises impossibles à transporter proprement font sa force. Son efficacité tient au réseau : savoir si une chose existe, qui la transporte, quel risque elle représente et ce qui sera demandé en échange. Le Syndicat n’est pas exclusivement ashyll ; les Thulkars y disposent aussi d’un accès important et d’autres Exilés peuvent y être intégrés."
+      }
+    ]
+  },
+  {
+    id: "thulkars",
+    title: "Thulkars — la Horde comme culture, pas comme foule",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "La puissance physique des Thulkars est évidente, mais leurs Hordes montrent pourquoi elle ne suffit pas à définir leur civilisation. Une Horde est une culture d’action collective avec sa doctrine, ses valeurs, sa façon de se déplacer, de combattre et de définir la réussite. Deux Thulkars peuvent partager une anatomie et diverger presque sur tout le reste."
+      },
+      {
+        type: "p",
+        text: "La Horde Divine est tactique : plans, fixation de cible, ripostes et coordination héritées d’Ashorn. La Horde des Marais privilégie l’opportunisme et la capacité à exploiter une faiblesse plutôt qu’une pureté tactique abstraite. La Horde Fantôme travaille l’intégration, l’identité cloisonnée et la disparition dans la Réalité ; beaucoup de ses membres sont nés sur Terre et sa spécialité n’est donc pas de « jouer l’Humain », mais de maintenir plusieurs couches de vie sous pression."
+      },
+      {
+        type: "p",
+        text: "La Horde des Cendres fait de la construction, de l’infrastructure, de la réparation et de la logistique une véritable doctrine de guerre. La Horde de la Rose valorise polyvalence, éducation, arts, représentation et formation croisée, en refusant le stéréotype de l’Orque réduit à la force brute."
+      },
+      {
+        type: "p",
+        text: "Les Hordes Abyssale et Maudite appartiennent à des trajectoires plus sombres. La première se rapproche de la Corruption de Thul lorsqu’elle est réellement corrompue ; la seconde demeure un élément de lore sans progression PJ propre. D’autres petites Hordes existent sans nécessairement justifier une doctrine universellement enseignée."
+      }
+    ]
+  },
+  {
+    id: "azmenoriens",
+    title: "Azménoriens — survivants d’une réussite trop grande",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Les Azménoriens portent une relation unique entre magie et technologie. Leur âge d’or a démontré que lois naturelles et transgression magique pouvaient coopérer à des échelles que les civilisations modernes ne savent plus reproduire. Il a aussi démontré qu’une réussite suffisamment grande peut devenir plus dangereuse qu’un échec."
+      },
+      {
+        type: "p",
+        text: "La Technomagie ancienne a permis des Portails des Mondes stables, des manipulations du Néant et des architectures dont l’Hologramme planétaire reste l’un des héritages les plus impressionnants. La catastrophe qui suivit explique une culture moderne beaucoup plus méfiante envers l’expansion incontrôlée."
+      },
+      {
+        type: "p",
+        text: "Les Servants de Pluton sont experts des technologies xéno et de la discrétion stratégique. Ils considèrent que la Terre devient dangereuse non parce qu’elle est faible, mais parce qu’elle réunit de nouveau croissance technologique rapide et forte densité magique. Leur objectif est aussi d’éviter qu’elle devienne assez visible ou ambitieuse pour attirer une attention galactique qu’elle ne pourrait pas supporter. Cette doctrine crée avec l’AIDH une relation faite de compréhension mutuelle du danger et de profonde méfiance sur la manière de le gérer."
+      }
+    ]
+  },
+  {
+    id: "technomagie-moderne",
+    title: "Technomagie moderne & Lueurs d’Azménor",
+    level: 3,
+    blocks: [
+      {
+        type: "p",
+        text: "La reconstruction moderne n’essaie pas de restaurer immédiatement l’âge d’or. Elle travaille par procédures limitées : Convergence entre systèmes physiques et magiques, Fracture locale de certaines continuités, Arsenal de Rupture capable d’observer ou d’agir sous le Voile. Un prototype peut être utilisé par quelqu’un qui n’est pas technomage si sa conception le permet ; la compétence exceptionnelle appartient à celui qui sait le construire, pas à l’objet lui-même."
+      },
+      {
+        type: "p",
+        text: "Les Lueurs d’Azménor suivent une autre trajectoire, tournée vers la Chasse, les Fléaux et le Néant. Elles rappellent que l’héritage azménorien ne se réduit pas à la technique : lorsqu’un peuple a déjà ouvert des portes qu’il aurait préféré ne jamais voir, certains descendants consacrent leur existence à reconnaître ce qui cherche encore à passer."
+      }
+    ]
+  },
+  {
+    id: "societe-exilee",
+    title: "Une société exilée, pas cinq musées",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "En 2035, ces peuples se croisent depuis suffisamment longtemps pour que les frontières culturelles restent réelles sans être étanches. Un Whurten peut apprendre dans un atelier ashyll, un Elyë travailler avec des Thulkars, un Azménorien vivre dans un Silcenter dominé par d’autres traditions. Les organisations accueillent parfois des membres extérieurs lorsqu’ils possèdent les relations et la formation nécessaires."
+      },
+      {
+        type: "p",
+        text: "L’Exilé moderne se définit donc moins par une fidélité obligatoire à un peuple que par la manière dont il choisit de porter un héritage qui a déjà changé. La Terre n’est plus seulement le lieu de l’exil. Pour beaucoup, elle est devenue la maison où cet héritage a appris à survivre."
       }
     ]
   }
