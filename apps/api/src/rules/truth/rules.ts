@@ -79,10 +79,25 @@ const aserynCatalog = bindCompendium(truthCatalogAseryn, (group) => {
   return "regles-verite-v7-aseryn-nature-accelyr-origines";
 });
 
+const exileCatalog = bindCompendium(
+  truthCatalogExile,
+  () => "verite-v7-exiles-peuples-silcenters-traditions"
+);
+
+const extralCatalog = bindCompendium(
+  truthCatalogExtral,
+  () => "verite-v7-extrals-gaac-aidh-diasporas"
+);
+
+const humainCatalog = bindCompendium(
+  truthCatalogHumain,
+  () => "verite-v7-chasseurs-doctrine-association-traditions"
+);
+
 export const terraUmbraTruthRules = {
   structure: truthRuntimeStructure,
   catalogs: {
-    humain: truthCatalogHumain,
+    humain: humainCatalog,
     vampire: vampireCatalog,
     garou: garouCatalog,
     khinae: khinaeCatalog,
@@ -90,8 +105,8 @@ export const terraUmbraTruthRules = {
     daemon: daemonCatalog,
     angelus: angelusCatalog,
     aseryn: aserynCatalog,
-    exile: truthCatalogExile,
-    extral: truthCatalogExtral
+    exile: exileCatalog,
+    extral: extralCatalog
   },
   visibility: {
     needles: truthVisibilityNeedles,

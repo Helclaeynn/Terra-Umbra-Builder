@@ -1,0 +1,871 @@
+import { editorializeTruthSections } from "./compendium-verite-v7-editorial.js";
+
+type Block =
+  | { type: "p"; text: string; style?: string }
+  | { type: "table"; rows: unknown[][] }
+  | { type: "list"; items: string[] };
+type Section = { id: string; title: string; level: number; audience?: "mj"; blocks: Block[] };
+type Article = {
+  id: string;
+  dataset: string;
+  category: string;
+  sourceCategory: string;
+  title: string;
+  source: string;
+  status: string;
+  rebuildV2: true;
+  tags: string[];
+  sections: Section[];
+};
+
+const SOURCE = "TUC_Verite_V7_CROSSAUDIT_2026-09-10.docx";
+
+const article = (
+  id: string,
+  category: "Vérité" | "Règles",
+  title: string,
+  tags: string[],
+  sections: Section[]
+): Article => ({
+  id,
+  dataset: "verite-v7",
+  category,
+  sourceCategory: category,
+  title,
+  source: SOURCE,
+  status: "canon_enrichi",
+  rebuildV2: true,
+  tags,
+  sections: editorializeTruthSections(sections) as Section[]
+});
+
+const EXILES: Section[] = [
+  {
+    id: "categorie-historique",
+    title: "Une catégorie historique, pas une famille biologique",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Le terme Exilé regroupe principalement les peuples venus d’Aèr par les passages entre les mondes, ainsi que quelques lignées issues de Gaerras ou de mondes disparus. Elyë, Whurtens, Ashylls, Thulkars et Azménoriens n’ont ni biologie ni civilisation uniques : leur point commun est historique et cosmologique."
+      },
+      {
+        type: "p",
+        text: "L’exil ne signifie pas forcément une migration récente. Beaucoup de communautés vivent sur Terre depuis des générations, parfois depuis bien avant l’Hologramme. Un Exilé de 2035 peut n’avoir jamais vu Aèr et considérer la Californie comme son seul pays tout en conservant une identité culturelle très forte."
+      }
+    ]
+  },
+  {
+    id: "silcenters",
+    title: "Silcenters — villes de la seconde appartenance",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Les Silcenters sont des communautés de Vérité : logements, commerces, écoles, lieux de formation et réseaux de solidarité adaptés à des morphologies ou usages que la Réalité ordinaire rend difficiles. Ils servent de sas aux nouveaux arrivants et de quartiers familiaux à ceux qui sont nés sur Terre."
+      },
+      {
+        type: "p",
+        text: "Le Conseil des Anciens donne au réseau une dimension politique sans créer un État parallèle. Les Protocoles de Continuité sont nés de l’expérience collective du Voile ; la HDS s’est développée comme spécialisation plus poussée dans certains cursus, particulièrement sous l’influence de l’Union Elfique."
+      }
+    ]
+  },
+  {
+    id: "cinq-peuples",
+    title: "Les cinq grands peuples",
+    level: 2,
+    blocks: [
+      {
+        type: "table",
+        rows: [
+          ["Peuple", "Repère"],
+          ["Elyë", "Longévité, mémoire, grâce et forte proximité culturelle avec la Magie, sans faire de chaque Elyë un Mage."],
+          ["Whurten", "Artisanat, profondeurs, runes, fiabilité et culture de la maintenance durable."],
+          ["Ashyll", "Adaptation, commerce, technique et compréhension des réseaux de valeur, légaux comme clandestins."],
+          ["Thulkar", "Identités structurées par des Hordes aux héritages militaires et communautaires très différenciés."],
+          ["Azménorien", "Magie, technologie xéno et technomagie mêlées au point de rendre artificielle la séparation entre science et surnaturel."]
+        ]
+      }
+    ]
+  },
+  {
+    id: "traditions-et-organisations",
+    title: "Traditions, réseaux et fonctions",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "L’Union Elfique préserve cursus, langues et outils d’intégration. La Croix d’Emphyrra rassemble quatre traditions idéologiques — Faucon de Malachite, Serpentaire de Citrine, Aigle de Larvikite et Hibou d’Onyx — qui ne sont pas des sous-races : on y entre par adhésion, enseignement et mentorat."
+      },
+      {
+        type: "p",
+        text: "Chez les Whurtens, Ymirin, Elegarin et Traditionalistes sont surtout des positions politiques ou culturelles. Les grandes progressions mécaniques sont les Runes, l’Atelier des Clans et l’Iron Law ; le système n’invente pas un arbre de PTV à une faction qui n’a pas de méthode propre."
+      },
+      {
+        type: "p",
+        text: "Les Ashylls articulent notamment Green Union, réseaux commerciaux et Syndicat de Jade. Les Hordes thulkars représentent des héritages distincts ; la Horde Abyssale relève de la Corruption de Thul lorsqu’elle est réellement corrompue, et la Horde Maudite reste du lore sans arbre PJ propre."
+      },
+      {
+        type: "p",
+        text: "Les héritages azménoriens montrent enfin le versant technomagique de l’exil : fonctions fermées, interfaces entre Flux et technologie et réseaux capables de produire ou maintenir des objets que la Réalité terrestre ne sait pas expliquer seule."
+      }
+    ]
+  },
+  {
+    id: "catalogue-builder",
+    title: "Un catalogue canonique de 184 Talents",
+    level: 2,
+    blocks: [
+      {
+        type: "table",
+        rows: [
+          ["Famille", "Nombre"],
+          ["Profils des cinq peuples", 53],
+          ["Silcenters & HDS", 7],
+          ["Croix d’Emphyrra", 40],
+          ["Héritages whurtens", 16],
+          ["Réseaux ashylls & Syndicat de Jade", 23],
+          ["Hordes thulkars", 22],
+          ["Héritages azménoriens", 23],
+          ["Total", 184]
+        ]
+      },
+      {
+        type: "p",
+        text: "Le détail mécanique de ces 184 Talents appartient au registre canonique du Builder. Le Compendium conserve ici ce qui permet de les comprendre : identité des peuples, rôle des institutions, nature des traditions, règles d’accès et place de ces progressions dans le monde."
+      }
+    ]
+  }
+];
+
+const EXTRALS: Section[] = [
+  {
+    id: "histoire-galactique",
+    title: "Des peuples de l’Histoire galactique",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Les Extrals viennent de civilisations galactiques ayant développé le voyage spatial et rencontré l’Humanité loin de la Terre. Leur implantation terrestre est globalement beaucoup plus récente que celle des Exilés. Il n’existe aucune « technologie extrale » unique : chaque civilisation a suivi ses propres paradigmes."
+      },
+      {
+        type: "p",
+        text: "Le Voile peut traduire une morphologie, mais il ne supprime ni besoins biologiques, ni culture, ni habitudes de communication, ni incompatibilités techniques. Les diasporas dépendent donc de logements adaptés, soins xénobiologiques, interfaces, chaînes alimentaires et institutions capables de traiter une anatomie officiellement inexistante."
+      }
+    ]
+  },
+  {
+    id: "cinq-peuples",
+    title: "Les cinq principales communautés terrestres",
+    level: 2,
+    blocks: [
+      {
+        type: "table",
+        rows: [
+          ["Peuple", "Repère"],
+          ["Talass", "Petits êtres segmentaires, soie très conductrice, aptitudes psychiques et culture privilégiant intellect, technique et réduction de la violence."],
+          ["Mo’sen", "Reptiloïdes cuirassés marqués par une histoire de domination ; indépendance et contrôle des conditions de protection sont des enjeux centraux."],
+          ["Baséanh", "Quatre bras, six yeux et Tardollas : leur propre biologie peut servir d’infrastructure de culture et de technologie vivante."],
+          ["Rocréen", "Molluscoïdes amphibies à Noyau régénératif, communication psychique et diasporas clandestines particulièrement solides."],
+          ["Thalsios", "Amphibioïdes massifs très sensibles à l’humidité, précis de leurs mains et culturellement tournés vers réparation, adaptation et résolution concrète."]
+        ]
+      }
+    ]
+  },
+  {
+    id: "gaac-organisations",
+    title: "GAAC, organisations et diasporas",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Le GAAC représente, négocie et facilite l’intégration sans constituer un gouvernement unique. Il fournit procédures, relais, interlocuteurs et légitimité à des communautés qui conservent leurs propres citoyennetés, diasporas et fidélités."
+      },
+      {
+        type: "p",
+        text: "La CTU cherche à rendre transmissibles des technologies trop avancées pour rester des boîtes noires importées. La Croix Verte adapte localement habitats et soins à plusieurs physiologies. REPTILE protège les intérêts mo’sens par l’influence et l’infiltration. La Mafia Shaediri maîtrise les derniers kilomètres du marché noir galactique, tandis qu’Hydroguard travaille là où l’environnement lui-même devient une menace opérationnelle."
+      }
+    ]
+  },
+  {
+    id: "aidh-homo-superior-adrak",
+    title: "AIDH, Homo Superior & Ad’rak",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "L’AIDH appartient aux Mondes Technologiques humains et son centre historique se trouve dans le système d’Ichéi. Pour beaucoup de ses membres, la Terre est une planète humaine périphérique plutôt qu’un berceau. Ses infrastructures disposent notamment d’invariants, capteurs de cohérence, confinement, biphysique et dispositifs anti-possession."
+      },
+      {
+        type: "p",
+        text: "Les Homo Superior restent des Humains : conditionnement, génétique, nanites et optimisation neurologique poussent leur corps très loin sans créer une nouvelle espèce. Les Ad’rak sont au contraire une espèce extrale véritable ; les individus terrestres sont surtout réfugiés, dissidents, descendants de communautés libres ou anciens sujets ayant échappé à l’Armée noire."
+      }
+    ]
+  },
+  {
+    id: "catalogue-builder",
+    title: "Un catalogue canonique de 161 Talents",
+    level: 2,
+    blocks: [
+      {
+        type: "table",
+        rows: [
+          ["Famille", "Nombre"],
+          ["Profils Talass, Mo’sen, Baséanh, Rocréen & Thalsios", 61],
+          ["Protocoles de Continuité", 4],
+          ["Homo Superior", 12],
+          ["Ad’rak", 20],
+          ["Organisations Extrals", 56],
+          ["Doctrines AIDH", 8],
+          ["Total", 161]
+        ]
+      },
+      {
+        type: "p",
+        text: "Le Builder reste la source mécanique détaillée des 161 Talents. Cette page fixe plutôt les différences de civilisation, les rôles institutionnels et les limites conceptuelles : une appartenance au GAAC n’accorde pas un pouvoir, une technologie n’est pas universelle et une organisation n’est pas une espèce."
+      }
+    ]
+  }
+];
+
+const CHASSEURS: Section[] = [
+  {
+    id: "du-temoin-au-chasseur",
+    title: "Du témoin au Chasseur",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Le premier trait commun aux Chasseurs est de s’être souvenus. Certains Humains survivent à la Vérité sans laisser le Voile recoudre complètement leur perception. Ils deviennent réellement Chasseurs lorsqu’ils apprennent à agir consciemment dans ce monde et que l’Hologramme cesse de traiter leurs souvenirs comme ceux d’un civil à reconduire vers l’ignorance."
+      },
+      {
+        type: "p",
+        text: "La Chasse commence par l’identification. Une faiblesse folklorique fausse, une munition inadéquate ou une méthode de neutralisation incomplète tue plus sûrement qu’un manque de courage. Le Chasseur expérimenté demande d’abord ce qu’est la cible et ce qu’elle a fait, avant de demander comment elle meurt."
+      }
+    ]
+  },
+  {
+    id: "association",
+    title: "L’Association comme infrastructure de survie",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Morrighan a fondé l’Association des Chasseurs pour fournir une infrastructure commune, pas une doctrine unique. Bars, restaurants, garages et ateliers servent de relais d’information, de matériel, de contrats et d’expérience. Les anciens Chasseurs y conservent une valeur considérable même lorsqu’ils ne peuvent plus partir sur le terrain."
+      },
+      {
+        type: "p",
+        text: "La Confrérie du Bestiaire documente créatures et phénomènes, mais ses dossiers restent des observations faillibles. Les habilitations GT structurent la confiance par domaines ; elles donnent accès à des dossiers et interlocuteurs, jamais gratuitement à une arme, une relique ou un prototype."
+      }
+    ]
+  },
+  {
+    id: "habilitations",
+    title: "Habilitations GT",
+    level: 3,
+    blocks: [
+      {
+        type: "table",
+        rows: [
+          ["Code", "Domaine"],
+          ["GT-01", "Surnaturel général / opérations de base"],
+          ["GT-11", "Surnaturels civilisés, notamment Vampires et Garous"],
+          ["GT-02", "Féerique et petites créatures monstrueuses"],
+          ["GT-22", "Elfique / Aèr / Exilés"],
+          ["GT-03", "Extrals invasifs de danger limité"],
+          ["GT-33", "Domaine Extral large"],
+          ["GT-00", "Habilitation transversale exceptionnelle"]
+        ]
+      },
+      {
+        type: "p",
+        text: "Hunt100 est une reconnaissance tardive exceptionnelle et narrative. Hunt15 relève du worldbuilding légendaire et n’est pas une progression PJ. Observers et Confrérie du Bestiaire sont des fonctions ou statuts, pas des arbres de PTV."
+      }
+    ]
+  },
+  {
+    id: "chasser-n-est-pas-hair",
+    title: "Chasser n’est pas haïr une espèce",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Une Nature ne prouve ni culpabilité ni innocence. Un Vampire peut être criminel ou allié, un Exilé la victime et un Angelus la source du problème. Les traditions sérieuses séparent Nature et comportement. Xenoshield illustre l’échec inverse : de vraies compétences techniques contre les Extrals deviennent dangereuses lorsqu’elles sont transformées en certitudes morales."
+      }
+    ]
+  },
+  {
+    id: "traditions",
+    title: "Les grandes traditions",
+    level: 2,
+    blocks: [
+      {
+        type: "list",
+        items: [
+          "Lavandières : Vampires indépendants spécialisés contre Vampires dangereux, Moroï et Strygoï.",
+          "Ordres catholiques : Arianwen pour la traque, Ephraïm pour l’exorcisme, Magdalena pour jugement et scellement.",
+          "Khālsā : serment, protection, liberté et rupture des emprises.",
+          "Taoïstes Gu et Shimazu : équilibre du Yin et du Yang ; secrets Shi : contact méthodique et dangereux avec le Néant.",
+          "Kabbale : principes des dix Sephiroth sans devenir Angelus.",
+          "Nizarites : Arts du Djinn et doctrine de Chasse.",
+          "Onmyoji : Shikigami, sceaux, noms et pactes spirituels.",
+          "Néopaïens : morts, terre, seuils, présages et serments.",
+          "Chasse Fantastique : héritage de la Vénerie elfique née de la Guerre de la Magie.",
+          "Lueurs d’Azménor : visions réelles du Néant sans garantie d’interprétation correcte.",
+          "Xenoshield : contre-intrusion Extral techniquement compétente mais idéologiquement xénophobe.",
+          "Indépendants : héritages familiaux, traumatismes, bricolages et spécialisations sans doctrine commune.",
+          "Table Ronde : lignées des chevaliers choisis par Merlin et armes uniques créées pour leurs héritiers."
+        ]
+      }
+    ]
+  },
+  {
+    id: "catalogue-builder",
+    title: "Un catalogue canonique de 266 Talents",
+    level: 2,
+    blocks: [
+      {
+        type: "table",
+        rows: [
+          ["Famille", "Nombre"],
+          ["Doctrine commune de Chasse", 4],
+          ["Lavandières", 4],
+          ["Chasseurs catholiques", 40],
+          ["Khālsā", 20],
+          ["Taoïstes", 20],
+          ["Kabbale", 20],
+          ["Nizarites / Asāsīyūn", 18],
+          ["Onmyoji", 20],
+          ["Néopaïens", 20],
+          ["Chasse Fantastique", 20],
+          ["Lueurs d’Azménor", 20],
+          ["Xenoshield", 20],
+          ["Chasseurs indépendants", 20],
+          ["Table Ronde", 20],
+          ["Total", 266]
+        ]
+      },
+      {
+        type: "p",
+        text: "Le détail des 266 Talents reste dans le Builder. Le Compendium conserve la logique de la Chasse, le rôle de l’Association, les habilitations, les traditions et la distinction essentielle entre méthode spécialisée et vérité universelle."
+      }
+    ]
+  }
+];
+
+const CORRUPTION: Section[] = [
+  {
+    id: "humanite-integrite",
+    title: "Humanité & Intégrité",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Humanité mesure la continuité de l’identité, du libre arbitre et du rapport au corps malgré les transformations. Le terme est métaphysique : il ne mesure ni l’espèce ni la ressemblance avec Homo sapiens. L’Intégrité vaut Force Mentale + Humanité, minimum 1, en ne comptant que les valeurs permanentes."
+      },
+      {
+        type: "p",
+        text: "Charge augmentique et Corruption utilisent la même limite d’Intégrité mais restent deux jauges indépendantes : elles ne s’additionnent jamais et l’une ne réduit pas le seuil de l’autre. Le Stress augmentique maximal vaut Vigueur + Humanité."
+      }
+    ]
+  },
+  {
+    id: "profondeur",
+    title: "Profondeur de l’emprise",
+    level: 2,
+    blocks: [
+      {
+        type: "table",
+        rows: [
+          ["État", "Condition", "Conséquence générale"],
+          ["Sain", "Corruption 0", "Aucune Source dominante ; Dons de Corruption dormants."],
+          ["Marqué", "Corruption 1+", "Premiers Dons de la Source accessibles."],
+          ["Envahi", "Corruption ≥ moitié de l’Intégrité, arrondie au supérieur", "Dons de profondeur moyenne accessibles."],
+          ["Au bord de la Rupture", "Corruption ≥ max(1, Intégrité − 1)", "Dons les plus dangereux accessibles."],
+          ["Seuil atteint", "Corruption = Intégrité", "Test de Bascule immédiat."]
+        ]
+      },
+      {
+        type: "p",
+        text: "La Corruption ne récupère jamais naturellement par repos, thérapie, temps ou simple éloignement d’un culte. La réduire exige un moyen rare et explicitement capable de purifier la Source."
+      }
+    ]
+  },
+  {
+    id: "sources-concurrentes",
+    title: "Une seule Source dominante",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Un personnage n’a qu’une seule jauge de Corruption. Si une nouvelle Source de Fléau tente d’entrer, on résout d’abord le gain réel puis on compare l’emprise actuelle à la quantité entrante. La plus forte assimile l’autre et tous les points deviennent ceux de la Source dominante."
+      },
+      {
+        type: "p",
+        text: "En cas d’égalité exacte, la préséance est : V’Aagor → Sharith → Vhodhal → Vhadhi → Shaoggith → Thul. Cette liste ne mesure jamais la puissance cosmique ; elle sert uniquement à départager deux emprises égales sur un même individu."
+      }
+    ]
+  },
+  {
+    id: "exposition",
+    title: "Exposition & gain de Corruption",
+    level: 2,
+    blocks: [
+      {
+        type: "table",
+        rows: [
+          ["Vecteur", "Test"],
+          ["Physique / biologique", "Vigueur + Constitution + 1d10e"],
+          ["Mental / spirituel / essentiel", "Volonté + Force Mentale + 1d10e"]
+        ]
+      },
+      {
+        type: "table",
+        rows: [
+          ["Intensité", "Difficulté"],
+          ["Mineure", 12],
+          ["Courante", 15],
+          ["Forte", 18],
+          ["Majeure", 21],
+          ["Exceptionnelle", 25]
+        ]
+      },
+      {
+        type: "p",
+        text: "Réussite : aucune Corruption. Échec : +1 Corruption de la Source. Échec narratif : +2. Humanité n’est pas ajoutée au test : elle fixe l’Intégrité. Un Test de Corruption ou de Souillure ne bénéficie normalement ni d’Assistance ni de Prendre son temps, sauf règle explicitement conçue pour cela."
+      },
+      {
+        type: "p",
+        text: "Une exposition environnementale continue à un même vecteur ordinaire ne provoque normalement qu’un seul test par scène, sauf hausse réelle d’intensité ou nouveau vecteur. Les activations surnaturelles de culte sont chacune une nouvelle ouverture et peuvent provoquer leur propre Souillure."
+      }
+    ]
+  },
+  {
+    id: "don-rite-faveur",
+    title: "DON, RITE & FAVEUR",
+    level: 2,
+    blocks: [
+      {
+        type: "table",
+        rows: [
+          ["Type", "Définition", "Après purification ou rupture"],
+          ["DON", "Capacité rendue possible par la Corruption déjà présente.", "Devient dormant si la Source change ou si la profondeur requise n’est plus atteinte."],
+          ["RITE", "Technique apprise manipulant un principe de Fléau.", "Reste connue ; l’utiliser demeure corrupteur."],
+          ["FAVEUR", "Pouvoir accordé ou alimenté par un Patron, une marque ou un lien extérieur.", "Devient dormante si le lien correspondant est réellement rompu."]
+        ]
+      },
+      {
+        type: "p",
+        text: "Les PTV achètent la maîtrise de Dons auxquels la Source et la profondeur donnent accès. Un seul arbre de Dons de Corruption est actif à la fois. Les Dons d’une ancienne Source restent sur la fiche mais deviennent dormants et leurs PTV ne sont jamais remboursés."
+      }
+    ]
+  },
+  {
+    id: "souillure",
+    title: "Souillure des Rites & Faveurs",
+    level: 2,
+    blocks: [
+      {
+        type: "table",
+        rows: [
+          ["Coût du pouvoir", "Difficulté de Souillure"],
+          ["1 PTV", "15 — Normal"],
+          ["2 PTV", "18 — Difficile"],
+          ["3 PTV", "21 — Très difficile"],
+          ["Exceptionnel", "25 si le texte l’indique"]
+        ]
+      },
+      {
+        type: "p",
+        text: "Chaque activation surnaturelle d’un RITE ou d’une FAVEUR provoque un Test de Souillure, même si le pouvoir principal échoue. Par défaut il utilise Volonté + Force Mentale ; un pouvoir explicitement corporel peut utiliser Vigueur + Constitution. Un maintien ne reteste qu’à l’activation initiale."
+      },
+      {
+        type: "p",
+        text: "Un DON personnel n’impose pas de Souillure à chaque usage par défaut : il exploite une Corruption déjà installée. Certains Dons ou pouvoirs indiquent toutefois un gain automatique de Corruption, qui peut s’ajouter au Test de Souillure d’un RITE ou d’une FAVEUR."
+      }
+    ]
+  },
+  {
+    id: "bascule",
+    title: "Atteindre l’Intégrité — la Bascule",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Lorsque Corruption = Intégrité, effectuer immédiatement Volonté + Maîtrise spirituelle + 1d10e contre difficulté 18. En réussite, le personnage tient mais reste à Corruption maximale. Toute nouvelle exposition qui aurait dû ajouter au moins 1 point déclenche un nouveau Test de Bascule."
+      },
+      {
+        type: "p",
+        text: "En échec, la Source dominante produit normalement une Rupture et le personnage sort du cadre PJ standard. La forme dépend du Fléau, des Dons, du culte, de la dernière exposition et de la Nature d’origine."
+      }
+    ]
+  },
+  {
+    id: "purification",
+    title: "Purification & objets souillés",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Une purification explicite retire seulement le nombre de points indiqué. À 0, la Source dominante disparaît et les Dons deviennent dormants ; les Rites restent connus et les Faveurs ne cessent que si leur lien externe est réellement rompu."
+      },
+      {
+        type: "p",
+        text: "Purifier un porteur ne purifie pas automatiquement une relique, une greffe ou une Calamitechnologie. Un objet corrompu indique sa Source, son vecteur, la difficulté et fréquence de Souillure, ses propriétés, contrecoups et moyens de confinement. Il ne donne jamais automatiquement les Dons du Fléau."
+      }
+    ]
+  }
+];
+
+const FLEAUX: Section[] = [
+  {
+    id: "cadre",
+    title: "Six Sources cosmiques",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Les six Fléaux ne sont ni des espèces jouables ordinaires ni des classes. Ce sont des puissances cosmiques dont l’essence altère êtres, lieux et parfois systèmes. La partie jouable se situe avant la Rupture : le personnage conserve sa Nature et ses relations tout en portant une Source qui ouvre progressivement des Dons."
+      },
+      {
+        type: "table",
+        rows: [
+          ["Fléau", "Principe", "Corruption", "Tentation"],
+          ["Vhodhal", "Dévorer", "Famine Blanche", "Tout peut devenir nourriture."],
+          ["V’Aagor", "Annexer / unir", "Sombre-Vérité", "Tout peut devenir une partie de moi."],
+          ["Ux’Sharith", "Séparer / décomposer", "Division", "Tout possède une ligne de coupe."],
+          ["C’Thath Vhadhi", "Réaffecter / adapter", "Métastase", "Je peux devenir la solution."],
+          ["Gajh’Shaoggith", "Engendrer / proliférer", "Germination", "Je peux mettre la solution au monde."],
+          ["Thul", "Fixer / empêcher le devenir", "Fixation", "Pourquoi laisser quoi que ce soit changer ?"]
+        ]
+      }
+    ]
+  },
+  {
+    id: "echelle",
+    title: "Fléaux Anciens, supérieurs & Abominations",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Les six grandes Sources sont des Fléaux Anciens : leur essence agit presque comme une loi hostile du monde. Un Fléau supérieur peut naître d’une convergence, d’un fragment autonome, d’une descendance impossible ou d’une conséquence devenue immense. Les Fléaux inférieurs et Abominations sont des êtres réécrits, créations fonctionnelles ou Ruptures devenues inséparables d’une Source."
+      },
+      {
+        type: "p",
+        text: "Vaincre une manifestation, un avatar ou une Abomination ne signifie pas avoir tué la puissance cosmique. Les Fléaux Anciens et supérieurs n’utilisent normalement pas de profil de mort ordinaire."
+      }
+    ]
+  },
+  {
+    id: "rupture-et-cultes",
+    title: "Rupture, Hologramme & cultes",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "À la Bascule, la Corruption cesse d’être quelque chose dans le personnage et devient ce qu’il est. Avant Rupture, l’Hologramme le traite normalement selon sa Nature d’origine ; après Rupture, aucune traduction humaine cohérente n’est garantie."
+      },
+      {
+        type: "p",
+        text: "Une voie de culte n’est pas nécessairement une voie de Corruption. RITES et FAVEURS peuvent être appris ou reçus à Corruption 0, mais leur emploi provoque la Souillure. Les Dons dépendent au contraire de la Source dominante et de la profondeur d’emprise."
+      }
+    ]
+  },
+  {
+    id: "dons",
+    title: "Les Dons ne sont pas un second catalogue de Compendium",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Les arbres de Dons décrivent ce que chaque Source permet avant la Rupture. Ils suivent le moteur commun DON / RITE / FAVEUR, les seuils Marqué, Envahi et Au bord, ainsi que les règles de Souillure et de Bascule. Le Compendium conserve ces principes et les identités des six Sources sans transformer chaque Fléau en une page-listing mécanique."
+      }
+    ]
+  }
+];
+
+const DELANIAL: Section[] = [
+  {
+    id: "rumeur",
+    title: "Le Père de l’Ombre",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Dans certains dossiers et cultes de l’Ombre-Monde, Delanial est appelé Septième Fléau, Fléau de l’Ombre-Monde ou Père de l’Ombre. Des Ombres, Dives et Deimons ont interprété son passage comme celui d’un créateur, au point qu’un culte décentralisé lui a survécu."
+      },
+      {
+        type: "p",
+        text: "Les récits les mieux informés insistent surtout sur l’ancienneté, la puissance passive et l’influence profonde de Delanial dans l’Ombre-Monde. Les certitudes publiques s’arrêtent là : ses véritables rapports avec les grandes puissances ne sont pas une connaissance ordinaire."
+      }
+    ]
+  },
+  {
+    id: "classification-mj",
+    title: "Classification MJ — le faux Septième Fléau",
+    level: 2,
+    audience: "mj",
+    blocks: [
+      {
+        type: "p",
+        text: "Delanial n’est pas un Fléau. C’est un Légionnaire des Puissances, réfugié qui cherche à demeurer caché des autres Puissances. Il n’existe aucune Source de Corruption Delanial, aucun Don, aucune Bascule et aucune place pour lui dans la préséance des six Fléaux."
+      },
+      {
+        type: "p",
+        text: "Il peut exercer une influence comparable à une Source et affronter des manifestations de niveau Fléau sans devenir un « super-Fléau ». Son intervention contre V’Aagor puis l’effacement de cette intervention relèvent d’une catégorie cosmologique différente."
+      }
+    ]
+  },
+  {
+    id: "ombremonde-mj",
+    title: "Ombre-Monde, Anahita & Morrighan",
+    level: 2,
+    audience: "mj",
+    blocks: [
+      {
+        type: "p",
+        text: "Delanial s’est réfugié dans l’Ombre-Monde et a profondément participé à sa structuration sans posséder toute la dimension ni toutes les Ombres. Il a créé le Mageius d’Anahita lors d’un événement unique, non reproductible par Talent ou Rite. Morrighan fait partie des très rares personnes qui le connaissent comme individu."
+      },
+      {
+        type: "p",
+        text: "Le culte du Père de l’Ombre ne lui obéit pas : Delanial a tenté de le supprimer et il n’ouvre aucune progression PTV. Il n’a pas de fiche de combat ordinaire ; on peut négocier, obtenir une aide, contrer une conséquence ou une projection, mais pas le réduire à une réserve de PV."
+      }
+    ]
+  }
+];
+
+const EQUIPEMENT: Section[] = [
+  {
+    id: "loi-commune",
+    title: "Objet réel, disponibilité réelle, acquisition fictionnelle",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Tous les catalogues de Vérité suivent la même loi : les réseaux ouvrent des voies d’accès, ils ne créent pas la marchandise. Un Talent, une habilitation ou des PTV ne donnent jamais automatiquement un objet. Prix, dette, relation, commande, mission, vol ou autorisation restent des éléments de fiction réels."
+      },
+      {
+        type: "p",
+        text: "L’équipement de Chasse ne remplace pas le catalogue d’armement de Réalité. Lorsqu’un objet terrestre existe déjà, son profil profane et son prix de base restent ceux du catalogue unifié ; Vérité n’ajoute que les propriétés surnaturelles, usages de Chasse, statuts ou modifications explicitement indiqués."
+      }
+    ]
+  },
+  {
+    id: "proprietes",
+    title: "Propriétés communes",
+    level: 2,
+    blocks: [
+      {
+        type: "table",
+        rows: [
+          ["Propriété", "Règle"],
+          ["Perforant X", "Ignore X points d’Armure matérielle seulement."],
+          ["Sacré", "Consécration réelle ; n’agit que sur vulnérabilités et Talents qui la reconnaissent."],
+          ["Angélique", "Sacré céleste ; divin lorsque la règle concernée le prévoit."],
+          ["Solaire", "Effet surnaturel de Soleil ; des UV ordinaires ne sont pas le Soleil."],
+          ["Incendiaire", "Feu ; une Altération appropriée peut Enflammer."],
+          ["EMP / Ion", "Affecte les systèmes technologiques exposés, pas la magie, l’âme ou une biologie purement organique."],
+          ["Invariant", "Résiste aux corrections ordinaires ; ne voit jamais plus que le capteur auquel il est relié."],
+          ["Calibré", "Préparé contre une signature connue ; jamais universel."],
+          ["Surchauffe", "Impose un refroidissement après usage intensif selon le profil."],
+          ["Verrouillé", "Exige une autorisation biologique, psychique, nanitique ou cryptographique."]
+        ]
+      }
+    ]
+  },
+  {
+    id: "chasse",
+    title: "Équipement de Chasse",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "L’arsenal de Chasse combine armes profanes adaptées, munitions spécialisées, matériel rituel, capture physique, confinement, investigation et prototypes Raven. Une faiblesse n’existe que si la cible la possède réellement : l’argent, le fer froid, le Sacré ou le Solaire ne deviennent jamais des bonus génériques contre « le surnaturel »."
+      },
+      {
+        type: "p",
+        text: "Les dispositifs de contention doivent correspondre au mécanisme réellement identifié. Une cage calibrée contre l’immatérialité n’arrête pas par principe une téléportation, une extraction technologique ou une magie sans rapport. Cette logique de diagnostic reste centrale dans tout l’équipement spécialisé."
+      }
+    ]
+  },
+  {
+    id: "marche-exile",
+    title: "Marché de Vérité des Exilés",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Jadecenters et Palameta alimentent un marché noir magique ; les ateliers whurtens fournissent runes, supports et réparations ; les réseaux azménoriens produisent des prototypes technomagiques ; loges et marchés occultes font circuler consommables et reliques mineures. Les grandes pièces antiques restent hors catalogue."
+      },
+      {
+        type: "table",
+        rows: [
+          ["Rareté", "Disponibilité typique", "Ordre de prix terrestre"],
+          ["V0 — courant", "Composant, support, arme ordinaire adaptée", "100 à 2 000 $"],
+          ["V1 — spécialisé", "Rune chargée, capteur occulte simple, arme préparée", "2 000 à 10 000 $"],
+          ["V2 — rare", "Objet runique durable, technomagie portable", "10 000 à 50 000 $"],
+          ["V3 — prototype", "Arsenal de Rupture, installations de contention", "50 000 à 150 000 $"],
+          ["V4 — exceptionnel", "Prototype majeur, pièce antique, commande politiquement sensible", "Prix + dette + scénario"]
+        ]
+      }
+    ]
+  },
+  {
+    id: "aidh",
+    title: "Technologie AIDH & Cohérence",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Le matériel AIDH générique est robuste, verrouillé, réparable avec les bonnes infrastructures et pensé pour fonctionner en réseau. L’intégration nanitique peut rendre une interface fluide sans créer de bonus gratuit de Compétence. Un capteur générique ne voit jamais automatiquement la Vérité d’une cible Voilée."
+      },
+      {
+        type: "p",
+        text: "Les appareils conçus pour Terra Umbra — invariants, capteurs de cohérence, ancrages, fenêtres d’observation, optiques de Vérité, quarantaine et anti-possession — soutiennent des fonctions précises. Ils ne remplacent pas les Talents de Cohérence et n’éteignent jamais l’Hologramme par simple présence."
+      }
+    ]
+  },
+  {
+    id: "hors-catalogue",
+    title: "Ce qui reste hors catalogue",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Armes de Merlin, Excalibur/Ymir, reliques divines majeures, objets cosmologiques, Portails des Mondes, composants structurants de l’Hologramme, artefacts personnels de figures légendaires et prototypes uniques de PNJ restent des objets de campagne. Ils ne possèdent ni prix ni niveau de rareté standard."
+      }
+    ]
+  }
+];
+
+export const COMPENDIUM_VERITE_V7_PASS_B_ARTICLES: Article[] = [
+  article(
+    "verite-v7-exiles-peuples-silcenters-traditions",
+    "Vérité",
+    "Exilés — peuples, Silcenters & traditions",
+    ["Vérité", "Exilés", "Aèr", "Silcenters", "Elyë", "Whurten", "Ashyll", "Thulkar", "Azménorien"],
+    EXILES
+  ),
+  article(
+    "verite-v7-extrals-gaac-aidh-diasporas",
+    "Vérité",
+    "Extrals — GAAC, AIDH & diasporas",
+    ["Vérité", "Extrals", "GAAC", "AIDH", "Homo Superior", "Ad’rak", "Talass", "Mo’sen", "Baséanh", "Rocréen", "Thalsios"],
+    EXTRALS
+  ),
+  article(
+    "verite-v7-chasseurs-doctrine-association-traditions",
+    "Vérité",
+    "Chasseurs — doctrine, Association & traditions",
+    ["Vérité", "Chasseurs", "Association", "GT", "Traditions de Chasse", "Confrérie du Bestiaire"],
+    CHASSEURS
+  ),
+  article(
+    "regles-verite-v7-corruption-integrite-bascule",
+    "Règles",
+    "Corruption — Humanité, Intégrité, Souillure & Bascule",
+    ["Vérité", "Corruption", "Humanité", "Intégrité", "Souillure", "Bascule", "DON", "RITE", "FAVEUR"],
+    CORRUPTION
+  ),
+  article(
+    "verite-v7-six-fleaux-sources-rupture",
+    "Vérité",
+    "Les six Fléaux — Sources, tentations & Rupture",
+    ["Vérité", "Fléaux", "Vhodhal", "V’Aagor", "Sharith", "Vhadhi", "Shaoggith", "Thul", "Rupture"],
+    FLEAUX
+  ),
+  article(
+    "verite-v7-delanial-pere-ombre",
+    "Vérité",
+    "Delanial — le Père de l’Ombre",
+    ["Vérité", "Delanial", "Ombre-Monde", "Père de l’Ombre", "MJ"],
+    DELANIAL
+  ),
+  article(
+    "regles-verite-v7-equipement-proprietes-acquisition",
+    "Règles",
+    "Équipement de Vérité — propriétés, acquisition & réseaux",
+    ["Vérité", "Équipement", "Chasse", "Raven", "AIDH", "Runes", "Technomagie", "Jade"],
+    EQUIPEMENT
+  )
+];
+
+export const COMPENDIUM_VERITE_V7_PASS_B_NAVIGATION = [
+  {
+    id: "verite-v7-exiles-peuples-silcenters-traditions",
+    dataset: "verite-v7",
+    category: "Vérité",
+    group: "Peuples & Natures",
+    groupOrder: 30,
+    subgroup: "Exilés",
+    subgroupOrder: 60,
+    pageOrder: 10,
+    displayTitle: "Exilés — peuples, Silcenters & traditions"
+  },
+  {
+    id: "verite-v7-extrals-gaac-aidh-diasporas",
+    dataset: "verite-v7",
+    category: "Vérité",
+    group: "Peuples & Natures",
+    groupOrder: 30,
+    subgroup: "Extrals",
+    subgroupOrder: 70,
+    pageOrder: 10,
+    displayTitle: "Extrals — GAAC, AIDH & diasporas"
+  },
+  {
+    id: "verite-v7-chasseurs-doctrine-association-traditions",
+    dataset: "verite-v7",
+    category: "Vérité",
+    group: "Chasse & organisations",
+    groupOrder: 50,
+    subgroup: "Chasseurs",
+    subgroupOrder: 10,
+    pageOrder: 10,
+    displayTitle: "Chasseurs — doctrine, Association & traditions"
+  },
+  {
+    id: "verite-v7-six-fleaux-sources-rupture",
+    dataset: "verite-v7",
+    category: "Vérité",
+    group: "Corruption & Fléaux",
+    groupOrder: 60,
+    subgroup: "Fléaux",
+    subgroupOrder: 10,
+    pageOrder: 20,
+    displayTitle: "Les six Fléaux — Sources, tentations & Rupture"
+  },
+  {
+    id: "verite-v7-delanial-pere-ombre",
+    dataset: "verite-v7",
+    category: "Vérité",
+    group: "Corruption & Fléaux",
+    groupOrder: 60,
+    subgroup: "Fléaux",
+    subgroupOrder: 10,
+    pageOrder: 30,
+    displayTitle: "Delanial — le Père de l’Ombre"
+  },
+  {
+    id: "regles-verite-v7-corruption-integrite-bascule",
+    dataset: "verite-v7",
+    category: "Règles",
+    group: "Vérité — Corruption",
+    groupOrder: 85,
+    subgroup: "Corruption",
+    subgroupOrder: 10,
+    pageOrder: 10,
+    displayTitle: "Corruption — Humanité, Intégrité, Souillure & Bascule"
+  },
+  {
+    id: "regles-verite-v7-equipement-proprietes-acquisition",
+    dataset: "verite-v7",
+    category: "Règles",
+    group: "Vérité — Équipement",
+    groupOrder: 90,
+    subgroup: "Principes communs",
+    subgroupOrder: 10,
+    pageOrder: 10,
+    displayTitle: "Équipement de Vérité — propriétés, acquisition & réseaux"
+  }
+];
