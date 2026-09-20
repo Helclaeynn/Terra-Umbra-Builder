@@ -42,16 +42,16 @@ const BUILDER_COMPENDIUM_ID_OVERRIDES:Record<string,string>={
 };
 
 const NATURE_COMPENDIUM_IDS:Record<string,string>={
-  humain:"verite-055-19-formation-et-doctrine-de-chasseur",
-  vampire:"verite-046-10-vampires",
-  garou:"verite-047-11-garous-loups-descendants-de-khinae",
-  khinae:"verite-048-12-autres-descendants-de-khinae",
-  mage:"verite-049-13-mages",
-  daemon:"verite-050-14-daemons",
-  angelus:"verite-051-15-angelus",
-  aseryn:"verite-052-16-aseryns",
-  exile:"verite-053-17-exiles-peuples-fonctions-et-traditions",
-  extral:"verite-054-18-extrals-homo-superior-et-adrak"
+  humain:"verite-v7-chasseurs-doctrine-association-traditions",
+  vampire:"verite-v7-vampires-civilisation-cours-sangs",
+  garou:"verite-v7-garous-khinae-meutes-pelages",
+  khinae:"verite-v7-descendants-khinae",
+  mage:"verite-v7-mages-mageius-roue-loges",
+  daemon:"verite-v7-daemons-divinites-maisonnees-temples",
+  angelus:"verite-v7-angelus-elynea-arbre-vie",
+  aseryn:"verite-v7-aseryns-serathe-atlantide-treize",
+  exile:"verite-v7-exiles-peuples-silcenters-traditions",
+  extral:"verite-v7-extrals-gaac-aidh-diasporas"
 };
 
 

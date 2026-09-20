@@ -79,19 +79,30 @@ const aserynCatalog = bindCompendium(truthCatalogAseryn, (group) => {
   return "regles-verite-v7-aseryn-nature-accelyr-origines";
 });
 
-const exileCatalog = bindCompendium(
-  truthCatalogExile,
-  () => "verite-v7-exiles-peuples-silcenters-traditions"
+const exileCatalog = bindCompendium(truthCatalogExile, (group) =>
+  group.startsWith("Les cinq profils raciaux")
+    ? "regles-verite-v7-exiles-profils-cinq-peuples"
+    : "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie"
 );
 
-const extralCatalog = bindCompendium(
-  truthCatalogExtral,
-  () => "verite-v7-extrals-gaac-aidh-diasporas"
-);
+const extralCatalog = bindCompendium(truthCatalogExtral, (group) => {
+  if (
+    group.startsWith("Talass") ||
+    group.startsWith("Mo’sen") ||
+    group.startsWith("Baséanh") ||
+    group.startsWith("Rocréen") ||
+    group.startsWith("Thalsios") ||
+    group.startsWith("Protocoles de Continuité")
+  ) {
+    return "regles-verite-v7-extrals-profils-physiologies";
+  }
+  return "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak";
+});
 
-const humainCatalog = bindCompendium(
-  truthCatalogHumain,
-  () => "verite-v7-chasseurs-doctrine-association-traditions"
+const humainCatalog = bindCompendium(truthCatalogHumain, (group) =>
+  group.startsWith("Doctrine commune de Chasse")
+    ? "regles-verite-v7-chasseurs-doctrine-association-gt-hunt"
+    : "regles-verite-v7-chasseurs-traditions"
 );
 
 export const terraUmbraTruthRules = {
