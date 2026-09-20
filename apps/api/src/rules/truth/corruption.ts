@@ -185,7 +185,10 @@ function buildCatalog():CorruptionTalent[]{
     const sourceId=sourceIdFor(h3||headings.join(" "));
     if(!sourceId)throw new Error(`Fléau indéterminé pour ${parsed.name}: ${headings.join(" › ")}`);
     const source=corruptionSources.find(item=>item.id===sourceId)!;
-    const family=familyFor(subheadings.join(" "),sourceId);
+    const eyeWhiteNames=new Set(["Voir la couture","Masse empruntée","Pression invisible","Ancre gravitationnelle","Étouffement du Mageius","Écarter la couture"]);
+    const family=sourceId==="vaagor"&&eyeWhiteNames.has(parsed.name)
+      ?"Messagers de l’Œil Blanc"
+      :familyFor(subheadings.join(" "),sourceId);
     rows.push({
       id:`fleau_${sourceId}_${slug(family)}_${slug(parsed.name)}`,
       name:parsed.name,

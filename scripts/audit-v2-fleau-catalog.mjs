@@ -96,7 +96,12 @@ for(const raw of decoded.entries??[]){
     rejected.push({name,profile,headings,cost,kind,sourceId});
     continue;
   }
-  rows.push({name,cost,kind,sourceId,family:family(subheadings,sourceId),headings});
+  const eyeWhiteNames=new Set(["Voir la couture","Masse empruntée","Pression invisible","Ancre gravitationnelle","Étouffement du Mageius","Écarter la couture"]);
+  rows.push({
+    name,cost,kind,sourceId,
+    family:sourceId==="vaagor"&&eyeWhiteNames.has(name)?"Messagers de l’Œil Blanc":family(subheadings,sourceId),
+    headings
+  });
 }
 
 const byFamily=new Map();
