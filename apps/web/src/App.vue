@@ -652,7 +652,6 @@ onMounted(bootstrap);
           <div class="brand-masthead brand-masthead-final">
             <div class="brand-masthead-copy">
               <TerraUmbraLockup class="brand-masthead-lockup" />
-              <p class="brand-subtitle">CALIFORNIA&nbsp;&nbsp;•&nbsp;&nbsp;BUILDER V2</p>
               <div class="brand-title-rule" aria-hidden="true"></div>
               <p class="brand-tagline">SAME WORLD&nbsp;&nbsp;//&nbsp;&nbsp;A DEEPER LAYER&nbsp;&nbsp;//&nbsp;&nbsp;BUILT TO UNCOVER</p>
 
