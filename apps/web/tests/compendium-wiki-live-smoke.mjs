@@ -75,6 +75,23 @@ try{
   const afancFromSuggestion=(await publicPage.locator(".article-header h1").innerText()).trim();
   if(afancFromSuggestion!=="Afanc")throw new Error("Suggestion Afanc incorrecte: "+afancFromSuggestion);
 
+  const rulesChip=publicPage.locator(".category-strip .category-chip").filter({hasText:"Règles"}).first();
+  await rulesChip.click();
+  await publicPage.locator(".category-overview h1").filter({hasText:"Règles"}).waitFor({state:"visible",timeout:10000});
+  await publicPage.locator(".compendium-navigation .navigation-group").filter({hasText:"Moteur de jeu"}).first()
+    .waitFor({state:"visible",timeout:10000});
+  await publicPage.locator(".category-group-card").filter({hasText:"Moteur de jeu"}).first()
+    .waitFor({state:"visible",timeout:10000});
+  if(await publicPage.locator(".compendium-navigation .result-card").count()){
+    throw new Error("Les résultats de recherche ne doivent plus occuper la navigation gauche.");
+  }
+
+  await searchInput.fill("Neurodive");
+  await searchInput.press("Enter");
+  await publicPage.locator(".search-results-main").waitFor({state:"visible",timeout:10000});
+  await publicPage.locator(".main-result-card").first().waitFor({state:"visible",timeout:10000});
+  await publicPage.locator(".compendium-navigation").waitFor({state:"visible",timeout:10000});
+
   await publicPage.goto(baseUrl+"/compendium?article=guide-realite-nouveau-joueur",{waitUntil:"domcontentloaded",timeout:30000});
   await publicPage.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
   const guideTitle=(await publicPage.locator(".article-header h1").innerText()).trim();

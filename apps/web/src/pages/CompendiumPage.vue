@@ -264,6 +264,88 @@ const resultGroups = computed(() => {
   return [...groups.entries()].map(([name, items]) => ({ name, items }));
 });
 
+const navigationEntries = computed(() => {
+  void wikiReady.value;
+  const activeCategory = category.value || selected.value?.category || "";
+  if (!activeCategory || activeCategory === "OLD") return [] as WikiEntry[];
+
+  return [...wikiById.values()]
+    .filter((entry) => entry.category === activeCategory)
+    .sort((a, b) =>
+      (a.group || "Autres").localeCompare(b.group || "Autres", "fr", { sensitivity: "base" }) ||
+      (a.subgroup || "Pages").localeCompare(b.subgroup || "Pages", "fr", { sensitivity: "base" }) ||
+      a.title.localeCompare(b.title, "fr", { numeric: true, sensitivity: "base" })
+    );
+});
+
+const navigationGroups = computed(() => {
+  const groups = new Map<string, Map<string, WikiEntry[]>>();
+
+  for (const entry of navigationEntries.value) {
+    const groupName = entry.group || "Autres";
+    const subgroupName = entry.subgroup || "Pages";
+    if (!groups.has(groupName)) groups.set(groupName, new Map());
+    const subgroups = groups.get(groupName)!;
+    if (!subgroups.has(subgroupName)) subgroups.set(subgroupName, []);
+    subgroups.get(subgroupName)!.push(entry);
+  }
+
+  return [...groups.entries()].map(([name, subgroupMap]) => ({
+    name,
+    count: [...subgroupMap.values()].reduce((sum, entries) => sum + entries.length, 0),
+    subgroups: [...subgroupMap.entries()].map(([subgroup, entries]) => ({
+      name: subgroup,
+      entries
+    }))
+  }));
+});
+
+const hasResultSurface = computed(() =>
+  !selected.value &&
+  Boolean(
+    query.value.trim() ||
+    manufacturer.value ||
+    activeLibraryView.value ||
+    category.value === "OLD"
+  )
+);
+
+const hasCategorySurface = computed(() =>
+  !selected.value &&
+  Boolean(category.value) &&
+  category.value !== "OLD" &&
+  !query.value.trim() &&
+  !manufacturer.value &&
+  !activeLibraryView.value
+);
+
+const resultSurfaceTitle = computed(() => {
+  if (activeLibraryView.value === "recent") return "Récemment consultés";
+  if (activeLibraryView.value === "favorites") return "Mes favoris";
+  if (activeLibraryView.value) {
+    return collections.value.find((item) => item.id === activeLibraryView.value)?.name || "Ma collection";
+  }
+  if (query.value.trim()) return `Recherche · « ${query.value.trim()} »`;
+  if (manufacturer.value) return `Fabricant · ${manufacturer.value}`;
+  if (category.value === "OLD") return "Archives · ancien Compendium";
+  return "Résultats";
+});
+
+function resultBreadcrumb(item: SearchItem | WikiEntry): string {
+  return [
+    categoryLabel(item.category || ""),
+    item.group || "",
+    item.subgroup || "",
+    item.manufacturer ? `Fabricant · ${item.manufacturer}` : ""
+  ].filter(Boolean).join(" › ");
+}
+
+function navigationGroupOpen(groupName: string): boolean {
+  if (selected.value?.navigation?.group === groupName) return true;
+  if (category.value === "Règles" || category.value === "Réalité") return navigationGroups.value.length <= 5;
+  return false;
+}
+
 const selectedIsFavorite = computed(() =>
   selected.value ? favoriteIds.value.includes(selected.value.id) : false
 );
@@ -727,6 +809,8 @@ function refreshActiveLibraryView() {
 }
 
 function showRecent() {
+  showOnboarding.value = false;
+  selected.value = null;
   activeLibraryView.value = "recent";
   query.value = "";
   category.value = "";
@@ -736,6 +820,8 @@ function showRecent() {
 }
 
 function showFavorites() {
+  showOnboarding.value = false;
+  selected.value = null;
   activeLibraryView.value = "favorites";
   query.value = "";
   category.value = "";
@@ -745,6 +831,8 @@ function showFavorites() {
 }
 
 function showCollection(collection: LibraryCollection) {
+  showOnboarding.value = false;
+  selected.value = null;
   activeLibraryView.value = collection.id;
   query.value = "";
   category.value = "";
@@ -965,10 +1053,7 @@ async function search() {
 
     results.value = result.items;
     total.value = result.total;
-
-    if (selected.value && !result.items.some((item) => item.id === selected.value?.id)) {
-      selected.value = null;
-    }
+    selected.value = null;
   } catch (cause) {
     results.value = [];
     total.value = 0;
@@ -994,6 +1079,7 @@ async function openArticle(id: string, syncRoute = true) {
     // Primary content becomes visible immediately. Builder context, dynamic
     // Talents and history enrich the already rendered article afterwards.
     selected.value = result.article;
+    if (result.article.category) category.value = result.article.category;
     articleLoading.value = false;
 
     if (syncRoute && route.query.article !== id) {
@@ -1029,9 +1115,16 @@ async function openArticle(id: string, syncRoute = true) {
 
 async function chooseCategory(name: string) {
   showOnboarding.value = false;
+  activeLibraryView.value = "";
+  selected.value = null;
+  query.value = "";
   category.value = category.value === name ? "" : name;
-  if (category.value && category.value !== "Équipement & Objets") manufacturer.value = "";
+  if (category.value !== "Équipement & Objets") manufacturer.value = "";
   await search();
+  await router.replace({
+    path: "/compendium",
+    query: category.value ? { category: category.value } : {}
+  });
 }
 
 async function openNewcomer() {
@@ -1051,10 +1144,11 @@ async function closeNewcomer() {
 async function openOnboardingCategory(name: string) {
   category.value = "";
   await chooseCategory(name);
-  await router.replace({ path: "/compendium", query: { category: name } });
 }
 
 async function chooseManufacturer(name: string) {
+  selected.value = null;
+  activeLibraryView.value = "";
   manufacturer.value = name;
   if (name) category.value = "Équipement & Objets";
   await search();
@@ -1426,7 +1520,7 @@ onBeforeUnmount(() => {
                 >
                   <span>
                     <strong>{{ item.title }}</strong>
-                    <small>{{ item.category }}<template v-if="item.subgroup"> · {{ item.subgroup }}</template></small>
+                    <small>{{ resultBreadcrumb(item) }}</small>
                   </span>
                   <em>{{ item.snippet }}</em>
                 </button>
@@ -1549,56 +1643,90 @@ onBeforeUnmount(() => {
         </section>
 
         <section v-if="!showOnboarding" class="compendium-workspace">
-          <aside class="panel result-panel">
-            <div class="result-heading">
+          <aside class="panel compendium-navigation">
+            <div class="navigation-heading">
               <div>
-                <p class="eyebrow">
-                  {{
-                    activeLibraryView === "recent"
-                      ? "RÉCEMMENT CONSULTÉS"
-                      : activeLibraryView === "favorites"
-                        ? "MES FAVORIS"
-                        : activeLibraryView
-                          ? collections.find(item => item.id === activeLibraryView)?.name || "MA COLLECTION"
-                          : category || "TOUTES LES RUBRIQUES"
-                  }}
-                </p>
-                <h2>Résultats</h2>
+                <p class="eyebrow">NAVIGATION</p>
+                <h2>Compendium</h2>
               </div>
-              <span>{{ resultLabel }}</span>
+              <span v-if="category">{{ categoryLabel(category) }}</span>
             </div>
 
-            <div v-if="results.length" class="result-list">
-              <section v-for="group in resultGroups" :key="group.name" class="result-group">
-                <header>
-                  <strong>{{ group.name }}</strong>
-                  <span>{{ group.items.length }}</span>
-                </header>
-                <button
-                  v-for="item in group.items"
-                  :key="item.id"
-                  class="result-card"
-                  :class="{ active: selected?.id === item.id }"
-                  type="button"
-                  @click="openArticle(item.id)"
-                >
-                  <span class="result-meta">
-                    {{ item.category }}
-                    <template v-if="item.subgroup"> · {{ item.subgroup }}</template>
-                    <template v-if="item.manufacturer"> · {{ item.manufacturer }}</template>
-                  </span>
-                  <strong>{{ item.title }}</strong>
-                  <p>{{ item.snippet }}</p>
-                  <div class="result-flags">
-                    <small v-if="item.edited">Édition canonique appliquée</small>
-                    <small v-if="favoriteIds.includes(item.id)">★ Favori</small>
-                  </div>
-                </button>
-              </section>
+            <nav class="navigation-categories" aria-label="Rubriques du Compendium">
+              <button
+                type="button"
+                class="navigation-category"
+                :class="{ active: !category }"
+                @click="chooseCategory('')"
+              >
+                <span>Toutes les rubriques</span>
+                <small>{{ meta?.total?.toLocaleString('fr-FR') || '—' }}</small>
+              </button>
+              <button
+                v-for="item in meta?.categories || []"
+                :key="item.name"
+                type="button"
+                class="navigation-category"
+                :class="{ active: category === item.name }"
+                @click="chooseCategory(item.name)"
+              >
+                <span>{{ categoryLabel(item.name) }}</span>
+                <small>{{ item.count }}</small>
+              </button>
+            </nav>
+
+            <div v-if="category && category !== 'OLD'" class="navigation-tree">
+              <div class="navigation-tree-kicker">
+                <strong>{{ categoryLabel(category) }}</strong>
+                <span>{{ navigationEntries.length }} page{{ navigationEntries.length > 1 ? 's' : '' }}</span>
+              </div>
+
+              <details
+                v-for="group in navigationGroups"
+                :key="group.name"
+                class="navigation-group"
+                :open="navigationGroupOpen(group.name)"
+              >
+                <summary>
+                  <span>{{ group.name }}</span>
+                  <small>{{ group.count }}</small>
+                </summary>
+
+                <div class="navigation-group-body">
+                  <section
+                    v-for="subgroup in group.subgroups"
+                    :key="`${group.name}-${subgroup.name}`"
+                    class="navigation-subgroup"
+                  >
+                    <header v-if="subgroup.name !== 'Pages'">
+                      <span>{{ subgroup.name }}</span>
+                      <small>{{ subgroup.entries.length }}</small>
+                    </header>
+                    <button
+                      v-for="entry in subgroup.entries"
+                      :key="entry.id"
+                      type="button"
+                      class="navigation-page"
+                      :class="{ active: selected?.id === entry.id }"
+                      @click="openArticle(entry.id)"
+                    >
+                      {{ entry.title }}
+                    </button>
+                  </section>
+                </div>
+              </details>
+
+              <p v-if="wikiReady && !navigationGroups.length" class="navigation-empty">
+                Aucune page active dans cette rubrique.
+              </p>
             </div>
 
-            <div v-else-if="!loading" class="empty-results">
-              Aucune entrée ne correspond à cette recherche.
+            <div v-else-if="category === 'OLD'" class="navigation-archive-note">
+              Les archives sont volontairement absentes de l’arborescence active. Leur contenu apparaît dans la zone principale.
+            </div>
+
+            <div v-else class="navigation-hint">
+              Choisis une rubrique pour afficher ses groupes, sous-groupes et pages.
             </div>
           </aside>
 
@@ -1940,12 +2068,115 @@ onBeforeUnmount(() => {
               </div>
             </template>
 
+            <section v-else-if="hasResultSurface" class="search-results-main">
+              <header class="surface-heading">
+                <div>
+                  <p class="eyebrow">RECHERCHE & BIBLIOTHÈQUE</p>
+                  <h1>{{ resultSurfaceTitle }}</h1>
+                  <p v-if="query.trim()">
+                    Les résultats sont affichés ici pour garder la navigation du Compendium disponible à gauche.
+                  </p>
+                </div>
+                <div class="surface-count">
+                  <strong>{{ total.toLocaleString("fr-FR") }}</strong>
+                  <span>{{ total === 1 ? "entrée" : "entrées" }}</span>
+                </div>
+              </header>
+
+              <div v-if="results.length" class="main-result-list">
+                <section v-for="group in resultGroups" :key="group.name" class="main-result-group">
+                  <header>
+                    <strong>{{ categoryLabel(group.name) }}</strong>
+                    <span>{{ group.items.length }}</span>
+                  </header>
+                  <button
+                    v-for="item in group.items"
+                    :key="item.id"
+                    class="result-card main-result-card"
+                    type="button"
+                    @click="openArticle(item.id)"
+                  >
+                    <span class="result-path">{{ resultBreadcrumb(item) }}</span>
+                    <strong>{{ item.title }}</strong>
+                    <p>{{ item.snippet }}</p>
+                    <div class="result-flags">
+                      <small v-if="item.edited">Édition canonique appliquée</small>
+                      <small v-if="favoriteIds.includes(item.id)">★ Favori</small>
+                    </div>
+                  </button>
+                </section>
+                <p v-if="total > results.length" class="result-limit-note">
+                  {{ results.length }} premiers résultats affichés sur {{ total.toLocaleString("fr-FR") }}.
+                  Affine la recherche pour aller plus vite.
+                </p>
+              </div>
+
+              <div v-else-if="!loading" class="empty-results main-empty-results">
+                Aucune entrée ne correspond à cette recherche.
+              </div>
+            </section>
+
+            <section v-else-if="hasCategorySurface" class="category-overview">
+              <header class="surface-heading">
+                <div>
+                  <p class="eyebrow">RUBRIQUE</p>
+                  <h1>{{ categoryLabel(category) }}</h1>
+                  <p>
+                    Parcours la rubrique par dossier. Les mêmes groupes restent disponibles dans l’arborescence à gauche pendant la lecture.
+                  </p>
+                </div>
+                <div class="surface-count">
+                  <strong>{{ navigationEntries.length.toLocaleString("fr-FR") }}</strong>
+                  <span>pages actives</span>
+                </div>
+              </header>
+
+              <div v-if="navigationGroups.length" class="category-group-grid">
+                <section v-for="group in navigationGroups" :key="group.name" class="category-group-card">
+                  <header>
+                    <div>
+                      <p class="eyebrow">DOSSIER</p>
+                      <h2>{{ group.name }}</h2>
+                    </div>
+                    <span>{{ group.count }}</span>
+                  </header>
+
+                  <div class="category-subgroup-list">
+                    <section v-for="subgroup in group.subgroups" :key="subgroup.name">
+                      <div v-if="subgroup.name !== 'Pages'" class="category-subgroup-title">
+                        <strong>{{ subgroup.name }}</strong>
+                        <span>{{ subgroup.entries.length }}</span>
+                      </div>
+                      <div class="category-page-links">
+                        <button
+                          v-for="entry in subgroup.entries.slice(0, 12)"
+                          :key="entry.id"
+                          type="button"
+                          @click="openArticle(entry.id)"
+                        >
+                          <span>{{ entry.title }}</span>
+                          <small>Ouvrir →</small>
+                        </button>
+                      </div>
+                      <p v-if="subgroup.entries.length > 12" class="category-more">
+                        + {{ subgroup.entries.length - 12 }} autres pages dans l’arborescence de gauche.
+                      </p>
+                    </section>
+                  </div>
+                </section>
+              </div>
+
+              <div v-else-if="wikiReady" class="main-empty-results">
+                Cette rubrique ne contient pas encore de pages reconstruites.
+              </div>
+            </section>
+
             <div v-else class="article-placeholder">
               <p class="eyebrow">LECTURE</p>
-              <h2>Sélectionne une entrée</h2>
+              <h2>Choisis une rubrique ou lance une recherche</h2>
               <p>
-                Utilise la recherche ou les rubriques à gauche, puis ouvre une entrée
-                pour afficher son contenu complet.
+                La colonne de gauche sert désormais uniquement à naviguer dans le Compendium.
+                Les résultats de recherche et les sommaires de rubrique s’affichent dans cette zone.
               </p>
             </div>
           </article>
@@ -2920,5 +3151,440 @@ onBeforeUnmount(() => {
   background:rgba(43,146,255,.10);
 }
 .result-card.active{box-shadow:inset 3px 0 #58dcc5}
+
+
+
+/* Navigation / discovery pass: the left column is navigation only; results live in the reading surface. */
+.compendium-workspace {
+  grid-template-columns: minmax(270px, 330px) minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.compendium-navigation {
+  position: sticky;
+  top: 90px;
+  max-height: calc(100vh - 110px);
+  overflow: auto;
+  border-color: rgba(70,126,148,.14);
+  background: rgba(10,20,29,.9);
+  scrollbar-width: thin;
+}
+
+.navigation-heading {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: .8rem;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,.075);
+  background: rgba(10,20,29,.97);
+}
+
+.navigation-heading h2 {
+  margin: 0;
+  font: 500 1.35rem/1.2 Georgia, serif;
+}
+
+.navigation-heading > span {
+  max-width: 46%;
+  color: #6fb9d6;
+  font-size: .68rem;
+  text-align: right;
+}
+
+.navigation-categories {
+  display: grid;
+  padding: .55rem;
+  border-bottom: 1px solid rgba(255,255,255,.065);
+}
+
+.navigation-category {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .65rem;
+  min-height: 35px;
+  padding: .42rem .55rem;
+  border: 1px solid transparent;
+  color: #91a9b3;
+  background: transparent;
+  text-align: left;
+}
+
+.navigation-category:hover {
+  color: #c5e4ea;
+  background: rgba(43,146,255,.055);
+}
+
+.navigation-category.active {
+  border-color: rgba(43,146,255,.3);
+  color: #d5edf2;
+  background: rgba(43,146,255,.1);
+}
+
+.navigation-category small {
+  color: #617985;
+  font-size: .63rem;
+}
+
+.navigation-tree {
+  display: grid;
+  gap: .5rem;
+  padding: .65rem;
+}
+
+.navigation-tree-kicker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .6rem;
+  padding: .2rem .15rem .45rem;
+}
+
+.navigation-tree-kicker strong {
+  color: #8bcbd6;
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+}
+
+.navigation-tree-kicker span {
+  color: #617985;
+  font-size: .62rem;
+}
+
+.navigation-group {
+  border: 1px solid rgba(255,255,255,.075);
+  background: rgba(255,255,255,.012);
+}
+
+.navigation-group > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .65rem;
+  padding: .62rem .7rem;
+  cursor: pointer;
+  list-style: none;
+  color: #afc4cc;
+  font-size: .75rem;
+  font-weight: 700;
+}
+
+.navigation-group > summary::-webkit-details-marker { display: none; }
+
+.navigation-group > summary::before {
+  content: "›";
+  margin-right: .25rem;
+  color: #58dcc5;
+  transform: rotate(0deg);
+  transition: transform .15s ease;
+}
+
+.navigation-group[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.navigation-group > summary span { flex: 1; }
+.navigation-group > summary small {
+  color: #617985;
+  font-size: .62rem;
+}
+
+.navigation-group-body {
+  display: grid;
+  gap: .65rem;
+  padding: 0 .45rem .5rem;
+  border-top: 1px solid rgba(255,255,255,.045);
+}
+
+.navigation-subgroup {
+  display: grid;
+  gap: .18rem;
+  padding-top: .5rem;
+}
+
+.navigation-subgroup > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  padding: 0 .35rem .2rem;
+  color: #6fb9d6;
+  font-size: .63rem;
+  text-transform: uppercase;
+  letter-spacing: .055em;
+}
+
+.navigation-subgroup > header small { color: #566e79; }
+
+.navigation-page {
+  width: 100%;
+  padding: .42rem .5rem;
+  border: 0;
+  border-left: 2px solid transparent;
+  color: #8da4ae;
+  background: transparent;
+  text-align: left;
+  font-size: .69rem;
+  line-height: 1.35;
+}
+
+.navigation-page:hover {
+  color: #d0e7ec;
+  background: rgba(43,146,255,.045);
+}
+
+.navigation-page.active {
+  border-left-color: #2b92ff;
+  color: #d9f0f3;
+  background: rgba(43,146,255,.09);
+}
+
+.navigation-hint,
+.navigation-empty,
+.navigation-archive-note {
+  margin: .7rem;
+  padding: .75rem;
+  border: 1px solid rgba(255,255,255,.06);
+  color: #718a95;
+  background: rgba(255,255,255,.012);
+  font-size: .72rem;
+  line-height: 1.5;
+}
+
+.search-results-main,
+.category-overview {
+  padding: clamp(1rem, 2vw, 1.6rem);
+}
+
+.surface-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,.075);
+}
+
+.surface-heading h1 {
+  margin: .1rem 0 .35rem;
+  font: 500 clamp(1.7rem, 3vw, 2.5rem)/1.05 Georgia, serif;
+}
+
+.surface-heading p {
+  max-width: 760px;
+  margin: 0;
+  color: #829aa5;
+  font-size: .82rem;
+  line-height: 1.55;
+}
+
+.surface-count {
+  min-width: 94px;
+  display: grid;
+  gap: .1rem;
+  padding: .65rem .75rem;
+  border: 1px solid rgba(88,220,197,.2);
+  text-align: center;
+}
+
+.surface-count strong {
+  color: #63e0ca;
+  font-size: 1.2rem;
+}
+
+.surface-count span {
+  color: #718a95;
+  font-size: .62rem;
+  text-transform: uppercase;
+  letter-spacing: .055em;
+}
+
+.main-result-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.main-result-group {
+  display: grid;
+  gap: .5rem;
+}
+
+.main-result-group > header {
+  display: flex;
+  justify-content: space-between;
+  gap: .6rem;
+  padding: .2rem .1rem .45rem;
+  border-bottom: 1px solid rgba(255,255,255,.055);
+}
+
+.main-result-group > header strong {
+  color: #8fc9d5;
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .065em;
+}
+
+.main-result-group > header span {
+  color: #617985;
+  font-size: .68rem;
+}
+
+.main-result-card {
+  padding: .85rem 1rem;
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 8px;
+  background: rgba(255,255,255,.012);
+}
+
+.main-result-card:hover {
+  border-color: rgba(43,146,255,.32);
+  background: rgba(43,146,255,.055);
+}
+
+.main-result-card > strong {
+  color: #d8e7eb;
+  font-size: .95rem;
+}
+
+.main-result-card > p {
+  margin: 0;
+  color: #8199a3;
+  font-size: .74rem;
+  line-height: 1.48;
+}
+
+.result-path {
+  color: #6fb9d6;
+  font-size: .63rem;
+  line-height: 1.35;
+}
+
+.result-limit-note,
+.category-more {
+  margin: .35rem 0 0;
+  color: #617985;
+  font-size: .68rem;
+}
+
+.category-group-grid {
+  display: grid;
+  gap: .85rem;
+}
+
+.category-group-card {
+  border: 1px solid rgba(255,255,255,.075);
+  background: rgba(255,255,255,.012);
+}
+
+.category-group-card > header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .85rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+.category-group-card > header h2 {
+  margin: .1rem 0 0;
+  font: 500 1.25rem/1.2 Georgia, serif;
+}
+
+.category-group-card > header > span {
+  color: #63e0ca;
+  font-size: .74rem;
+}
+
+.category-subgroup-list {
+  display: grid;
+  gap: .85rem;
+  padding: .85rem 1rem 1rem;
+}
+
+.category-subgroup-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .7rem;
+  margin-bottom: .35rem;
+}
+
+.category-subgroup-title strong {
+  color: #7fb6c4;
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .055em;
+}
+
+.category-subgroup-title span {
+  color: #617985;
+  font-size: .64rem;
+}
+
+.category-page-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .38rem;
+}
+
+.category-page-links button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .8rem;
+  padding: .58rem .65rem;
+  border: 1px solid rgba(255,255,255,.06);
+  color: #a9bec6;
+  background: rgba(8,16,24,.35);
+  text-align: left;
+}
+
+.category-page-links button:hover {
+  border-color: rgba(88,220,197,.25);
+  color: #d6edf1;
+  background: rgba(43,146,255,.045);
+}
+
+.category-page-links button small {
+  color: #5f9eaf;
+  white-space: nowrap;
+}
+
+.main-empty-results {
+  margin: 1rem 0 0;
+  padding: 1rem;
+  border: 1px dashed rgba(255,255,255,.09);
+  color: #718a95;
+  text-align: center;
+}
+
+@media(max-width: 980px) {
+  .compendium-workspace {
+    grid-template-columns: 1fr;
+  }
+  .compendium-navigation {
+    position: static;
+    max-height: none;
+  }
+}
+
+@media(max-width: 680px) {
+  .surface-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .surface-count {
+    align-self: flex-start;
+  }
+  .category-page-links {
+    grid-template-columns: 1fr;
+  }
+}
 
 </style>
