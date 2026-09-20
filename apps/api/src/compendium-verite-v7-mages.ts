@@ -1,5 +1,5 @@
 type Block={type:"p";text:string;style?:string}|{type:"table";rows:unknown[][]};
-type Section={id:string;title:string;level:number;audience?:"mj";blocks:Block[]};
+type Section={id:string;title:string;level:number;audience?:"mj";blocks:readonly Block[]};
 type Article={id:string;dataset:string;category:string;sourceCategory:string;title:string;source:string;status:string;rebuildV2:true;tags:string[];sections:Section[]};
 const SOURCE="TUC_Verite_V7_CROSSAUDIT_2026-09-10.docx";
 const SOURCE_PAYLOAD={
