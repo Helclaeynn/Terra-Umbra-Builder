@@ -555,6 +555,68 @@ function setCorporateSupportItem(itemId:string){
         </div>
       </section>
 
+      <section v-if="sphereId === 'corporatiste'" class="reality-panel corporate-support-panel">
+        <div class="subsection-title">
+          <div>
+            <h3>Appui Corporatiste</h3>
+            <p>
+              L’Avantage contractuel prend en charge une prestation concrète tant que le contrat existe.
+              Sa valeur réelle est retirée des dépenses du personnage plutôt que convertie en bonus abstrait.
+            </p>
+          </div>
+          <span class="schema-badge">{{ corporateSupportItem ? "pris en charge" : "à choisir" }}</span>
+        </div>
+
+        <div class="corporate-support-grid">
+          <label>
+            Type de prestation
+            <select
+              :value="state.sphereSupportType"
+              @change="setCorporateSupportType(($event.target as HTMLSelectElement).value)"
+            >
+              <option value="">— Choisir —</option>
+              <option value="housing">Logement de fonction</option>
+              <option value="vehicle">Véhicule de fonction</option>
+            </select>
+          </label>
+
+          <label v-if="state.sphereSupportType === 'housing'">
+            Logement pris en charge
+            <select
+              :value="state.sphereSupportItemId"
+              @change="setCorporateSupportItem(($event.target as HTMLSelectElement).value)"
+            >
+              <option value="">— Choisir dans les logements —</option>
+              <option v-for="item in corporateHousingOptions" :key="item.id" :value="item.id">
+                {{ item.name }} · {{ item.priceLabel }}
+              </option>
+            </select>
+          </label>
+
+          <label v-else-if="state.sphereSupportType === 'vehicle'">
+            Véhicule fourni
+            <select
+              :value="state.sphereSupportItemId"
+              @change="setCorporateSupportItem(($event.target as HTMLSelectElement).value)"
+            >
+              <option value="">— Choisir dans les véhicules —</option>
+              <option v-for="item in corporateVehicleOptions" :key="item.id" :value="item.id">
+                {{ item.name }} · {{ item.priceLabel }}
+              </option>
+            </select>
+          </label>
+        </div>
+
+        <div v-if="state.sphereSupportType === 'housing' && corporateSupportItem" class="rule-note good">
+          <strong>{{ corporateSupportItem.name }}</strong> passe à 0 $/mois :
+          la pression sur le Train de vie est recalculée immédiatement.
+        </div>
+        <div v-else-if="state.sphereSupportType === 'vehicle' && corporateSupportItem" class="rule-note good">
+          <strong>{{ corporateSupportItem.name }}</strong> est fourni à 0 $ :
+          son prix n’est pas débité du Compte ni du Capital véhicule, et son entretien est pris en charge.
+        </div>
+      </section>
+
       <section class="reality-panel">
         <div class="subsection-title">
           <div>
@@ -848,67 +910,7 @@ function setCorporateSupportItem(itemId:string){
         </div>
       </details>
 
-      <section v-if="sphereId === 'corporatiste'" class="reality-panel corporate-support-panel">
-        <div class="subsection-title">
-          <div>
-            <h3>Appui Corporatiste</h3>
-            <p>
-              L’Avantage contractuel prend en charge une prestation concrète tant que le contrat existe.
-              Sa valeur réelle est retirée des dépenses du personnage plutôt que convertie en bonus abstrait.
-            </p>
-          </div>
-          <span class="schema-badge">{{ corporateSupportItem ? "pris en charge" : "à choisir" }}</span>
-        </div>
-
-        <div class="corporate-support-grid">
-          <label>
-            Type de prestation
-            <select
-              :value="state.sphereSupportType"
-              @change="setCorporateSupportType(($event.target as HTMLSelectElement).value)"
-            >
-              <option value="">— Choisir —</option>
-              <option value="housing">Logement de fonction</option>
-              <option value="vehicle">Véhicule de fonction</option>
-            </select>
-          </label>
-
-          <label v-if="state.sphereSupportType === 'housing'">
-            Logement pris en charge
-            <select
-              :value="state.sphereSupportItemId"
-              @change="setCorporateSupportItem(($event.target as HTMLSelectElement).value)"
-            >
-              <option value="">— Choisir dans les logements —</option>
-              <option v-for="item in corporateHousingOptions" :key="item.id" :value="item.id">
-                {{ item.name }} · {{ item.priceLabel }}
-              </option>
-            </select>
-          </label>
-
-          <label v-else-if="state.sphereSupportType === 'vehicle'">
-            Véhicule fourni
-            <select
-              :value="state.sphereSupportItemId"
-              @change="setCorporateSupportItem(($event.target as HTMLSelectElement).value)"
-            >
-              <option value="">— Choisir dans les véhicules —</option>
-              <option v-for="item in corporateVehicleOptions" :key="item.id" :value="item.id">
-                {{ item.name }} · {{ item.priceLabel }}
-              </option>
-            </select>
-          </label>
-        </div>
-
-        <div v-if="state.sphereSupportType === 'housing' && corporateSupportItem" class="rule-note good">
-          <strong>{{ corporateSupportItem.name }}</strong> passe à 0 $/mois :
-          la pression sur le Train de vie est recalculée immédiatement.
-        </div>
-        <div v-else-if="state.sphereSupportType === 'vehicle' && corporateSupportItem" class="rule-note good">
-          <strong>{{ corporateSupportItem.name }}</strong> est fourni à 0 $ :
-          son prix n’est pas débité du Compte ni du Capital véhicule, et son entretien est pris en charge.
-        </div>
-      </section>
+      
     </template>
   </article>
 </template>
