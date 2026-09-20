@@ -1346,12 +1346,34 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
 
   app.get("/api/compendium/onboarding", async () => {
     const corpus = await getCorpus();
-    const exists = (id: string) => {
+    const exists = (id?: string) => {
+      if (!id) return false;
       const article = corpus.byId.get(id);
       return Boolean(article && article.category !== LEGACY_CATEGORY);
     };
+    const activeCategories = new Set(
+      corpus.articles
+        .filter((article) => article.category !== LEGACY_CATEGORY)
+        .map((article) => String(article.category ?? ""))
+        .filter(Boolean)
+    );
+    const sanitizeNature = (item: JsonObject) => {
+      const rulesId = exists(String(item.rulesId ?? "")) ? String(item.rulesId) : undefined;
+      const loreId = exists(String(item.loreId ?? "")) ? String(item.loreId) : undefined;
+      return rulesId || loreId ? { ...deepClone(item), rulesId, loreId } : null;
+    };
     return {
       ...deepClone(COMPENDIUM_PLAYER_START),
+      basics: COMPENDIUM_PLAYER_START.basics.filter((item) => exists(item.id)),
+      loreHubs: COMPENDIUM_PLAYER_START.loreHubs.filter((item) => exists(item.id)),
+      natures: COMPENDIUM_PLAYER_START.natures
+        .map((item) => sanitizeNature(item as JsonObject))
+        .filter(Boolean),
+      restricted: COMPENDIUM_PLAYER_START.restricted
+        .map((item) => sanitizeNature(item as JsonObject))
+        .filter(Boolean),
+      categories: COMPENDIUM_PLAYER_START.categories
+        .filter((item) => activeCategories.has(item.category)),
       available: {
         basics: COMPENDIUM_PLAYER_START.basics.filter((item) => exists(item.id)).map((item) => item.id),
         loreHubs: COMPENDIUM_PLAYER_START.loreHubs.filter((item) => exists(item.id)).map((item) => item.id)
