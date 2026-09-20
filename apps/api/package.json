@@ -11,7 +11,8 @@
     "verify:mail": "node dist/verify-mail.js",
     "check:truth-v7-pass-b": "npm run build && node scripts/check-truth-v7-pass-b.mjs",
     "check:truth-v7-lore": "npm run build && node scripts/check-truth-v7-lore-integrity.mjs",
-    "check:truth-species": "npm run build && node scripts/check-truth-species-integration.mjs"
+    "check:truth-species": "npm run build && node scripts/check-truth-species-integration.mjs",
+    "check:truth-fantastiques": "npm run build && node scripts/check-truth-fantastiques-integration.mjs"
   },
   "dependencies": {
     "@fastify/cors": "11.1.0",
