@@ -582,7 +582,8 @@ export async function registerRulesRoutes(app:FastifyInstance){
     if(!user)return;
     const meta=talentRegistryMeta();
     const groups=await Promise.all(meta.groups.map(async group=>{
-      const exactMatches=await findCompendiumMatches(group.label,"Règles");
+      const exactMatches=(await findCompendiumMatches(group.label,"Règles"))
+        .filter(match=>match.category!=="OLD");
       const matches=exactMatches.length
         ?exactMatches
         :await findCompendiumHubMatches(group.label,group.natureId);

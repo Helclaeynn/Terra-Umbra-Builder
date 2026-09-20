@@ -210,10 +210,8 @@ export async function findCompendiumMatches(
   const corpus = await getCorpus();
   let matches = corpus.articles.filter((article) => norm(article.title) === target);
   if (category) {
-    // Category-scoped resolution must only consider the article's current,
-    // published category. Archived pages retain their former category in
-    // `legacyCategory` for provenance, but they must not shadow active hubs.
-    matches = matches.filter((article) => article.category === category);
+    const categorized = matches.filter((article) => canonicalCategory(article) === category);
+    if (categorized.length) matches = categorized;
   }
   return matches.map((article) => ({
     id: article.id,
@@ -283,7 +281,8 @@ export async function findCompendiumHubMatches(
   label: string,
   natureId = ""
 ): Promise<Array<{ id: string; title: string; category: string }>> {
-  const exact = await findCompendiumMatches(label, "Règles");
+  const exact = (await findCompendiumMatches(label, "Règles"))
+    .filter((article) => article.category !== LEGACY_CATEGORY);
   if (exact.length) return exact;
 
   const forms = hubLabelForms(label);
