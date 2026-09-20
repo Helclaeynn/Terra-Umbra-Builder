@@ -213,7 +213,11 @@ const EXILES: Section[] = [
     blocks: [
       {
         type: "p",
-        text: "La puissance physique des Thulkars est évidente, mais leurs Hordes montrent pourquoi elle ne suffit pas à définir leur civilisation. Une Horde est une culture d’action collective avec sa doctrine, ses valeurs, sa façon de se déplacer, de combattre et de définir la réussite. Deux Thulkars peuvent partager une anatomie et diverger presque sur tout le reste. La Formation de Horde commune enseigne les réflexes qui permettent à plusieurs individus de fonctionner comme un ensemble — se déployer, s’épauler, relever quelqu’un ou déplacer une formation — avant que les doctrines spécialisées ne donnent un sens propre à cette coordination."
+        text: "La puissance physique des Thulkars est évidente, mais leurs Hordes montrent pourquoi elle ne suffit pas à définir leur civilisation. Une Horde est une culture d’action collective avec sa doctrine, ses valeurs, sa façon de se déplacer, de combattre et de définir la réussite. Deux Thulkars peuvent partager une anatomie et diverger presque sur tout le reste."
+      },
+      {
+        type: "p",
+        text: "La Formation de Horde commune enseigne les réflexes qui permettent à plusieurs individus de fonctionner comme un ensemble — se déployer, s’épauler, relever quelqu’un ou déplacer une formation — avant que les doctrines spécialisées ne donnent un sens propre à cette coordination."
       },
       {
         type: "p",
