@@ -143,6 +143,18 @@ export type TruthState={
   corruptionTalents:string[];
 };
 
+export function ensureTruthRulesPackage(pkg:TruthRulesPackage):TruthRulesPackage{
+  return {
+    ...pkg,
+    equipment:Array.isArray(pkg.equipment)?pkg.equipment:[],
+    corruption:{
+      sources:Array.isArray(pkg.corruption?.sources)?pkg.corruption.sources:[],
+      precedence:Array.isArray(pkg.corruption?.precedence)?pkg.corruption.precedence:[],
+      talents:Array.isArray(pkg.corruption?.talents)?pkg.corruption.talents:[]
+    }
+  };
+}
+
 export function truthNorm(value=""){
   return value
     .normalize("NFD")
@@ -620,8 +632,8 @@ export function truthPtvSpent(pkg:TruthRulesPackage,state:TruthState){
     for(const talent of mageAllTalents(pkg,state))all.set(talent.id,talent);
   }
   const native=state.truthTalents.reduce((sum,id)=>sum+Number(all.get(id)?.cost||0),0);
-  const corruptionById=new Map(pkg.corruption.talents.map(talent=>[talent.id,talent]));
-  const corrupted=state.corruptionTalents.reduce(
+  const corruptionById=new Map((pkg.corruption?.talents??[]).map(talent=>[talent.id,talent]));
+  const corrupted=(state.corruptionTalents??[]).reduce(
     (sum,id)=>sum+Number(corruptionById.get(id)?.cost||0),
     0
   );
@@ -695,16 +707,16 @@ export function truthCorruptionPrerequisiteSatisfied(
 ){
   const raw=truthNorm(talent.prerequisiteName||"");
   if(!raw)return true;
-  const selected=new Set(state.corruptionTalents);
-  const candidates=pkg.corruption.talents.filter(other=>
+  const selected=new Set(state.corruptionTalents??[]);
+  const candidates=(pkg.corruption?.talents??[]).filter(other=>
     other.id!==talent.id&&raw.includes(truthNorm(other.name))
   );
   return candidates.length>0&&candidates.every(other=>selected.has(other.id));
 }
 
 export function truthSanitizeCorruptionTalents(pkg:TruthRulesPackage,state:TruthState){
-  const known=new Set(pkg.corruption.talents.map(talent=>talent.id));
-  return [...new Set(state.corruptionTalents.filter(id=>known.has(id)))];
+  const known=new Set((pkg.corruption?.talents??[]).map(talent=>talent.id));
+  return [...new Set((state.corruptionTalents??[]).filter(id=>known.has(id)))];
 }
 
 export function truthGroups(talents:TruthTalent[]){
