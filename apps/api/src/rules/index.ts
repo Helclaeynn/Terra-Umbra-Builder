@@ -209,29 +209,39 @@ type BuilderUsage={
   detail?:string;
 };
 
-type TimedCache<T>={expires:number;promise:Promise<T>};
-const RULE_CACHE_MS=60_000;
-let creationCache:TimedCache<any>|null=null;
-let truthCache:TimedCache<any>|null=null;
-let realityCache:TimedCache<any>|null=null;
-
-function cached<T>(slot:TimedCache<T>|null,create:()=>Promise<T>){
-  const now=Date.now();
-  if(slot&&slot.expires>now)return slot;
-  return {expires:now+RULE_CACHE_MS,promise:create()};
-}
+let creationPromise:Promise<any>|null=null;
+let truthPromise:Promise<any>|null=null;
+let realityPromise:Promise<any>|null=null;
 
 function getEnrichedCreation(){
-  creationCache=cached(creationCache,enrichCreationRules);
-  return creationCache.promise;
+  creationPromise??=enrichCreationRules();
+  return creationPromise;
 }
 function getEnrichedTruth(){
-  truthCache=cached(truthCache,enrichTruthRules);
-  return truthCache.promise;
+  truthPromise??=enrichTruthRules();
+  return truthPromise;
 }
 function getEnrichedReality(){
-  realityCache=cached(realityCache,enrichRealityRules);
-  return realityCache.promise;
+  realityPromise??=enrichRealityRules();
+  return realityPromise;
+}
+
+export async function preloadBuilderRules():Promise<void>{
+  const started=performance.now();
+  const [creation,truth,reality]=await Promise.all([
+    getEnrichedCreation(),
+    getEnrichedTruth(),
+    getEnrichedReality()
+  ]);
+  const elapsed=Math.round(performance.now()-started);
+  const equipmentCount=Number(reality?.equipment?.length??0);
+  const truthTalentCount=Object.values(truth?.catalogs??{}).reduce(
+    (sum:number,entries:any)=>sum+(Array.isArray(entries)?entries.length:0),
+    0
+  );
+  console.info(
+    `Builder rules preloaded in ${elapsed} ms · ${creation?.rules?.styles?.length??0} styles · ${truthTalentCount} talents Vérité · ${equipmentCount} équipements`
+  );
 }
 
 function usagePush(rows:BuilderUsage[],seen:Set<string>,entry:BuilderUsage){
