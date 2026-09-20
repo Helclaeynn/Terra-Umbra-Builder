@@ -32,6 +32,7 @@ import {
   COMPENDIUM_REALITE_V9_CHRISTIANITY_ARTICLES,
   COMPENDIUM_REALITE_V9_CHRISTIANITY_NAVIGATION
 } from "./compendium-realite-v9-christianity.js";
+import { COMPENDIUM_REALITE_V9_CHRISTIANITY_LORE_ARTICLE } from "./compendium-realite-v9-christianity-lore.js";
 import {
   COMPENDIUM_REALITE_V9_RULE_ARTICLES,
   COMPENDIUM_REALITE_V9_RULE_NAVIGATION
@@ -949,6 +950,12 @@ async function loadCorpus(): Promise<Corpus> {
     // Full Christianity pass: enriches the public Church page and adds active PNJs from the detailed source.
     byId.set(article.id, deepClone(article) as Article);
   }
+
+  // Final source-complete public Reality consolidation for the unified Christian Church.
+  byId.set(
+    COMPENDIUM_REALITE_V9_CHRISTIANITY_LORE_ARTICLE.id,
+    deepClone(COMPENDIUM_REALITE_V9_CHRISTIANITY_LORE_ARTICLE) as Article
+  );
 
   for (const article of COMPENDIUM_REALITE_V9_RULE_ARTICLES) {
     // Transversal rules hidden among catalog chapters are promoted here without duplicating catalog entries.
