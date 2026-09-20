@@ -726,6 +726,68 @@ jobs:
           print("REALITY V9 AUDIT — 20/20 pages · 122/122 talents · 55/55 désavantages")
           PY
 
+          echo "Wiki smoke: verifying canonical Truth V7 foundation"
+          python3 - <<'PY'
+          import json,urllib.request
+
+          base="https://dev.terra-umbra.fr/api/compendium/articles/"
+          expected={
+            "verite-v7-derriere-le-voile":("Vérité",[
+              "n'est pas un second monde","La Réalité visible n'est donc pas fausse","Personne ne sait tout"
+            ]),
+            "verite-v7-voile-hologramme":("Vérité",[
+              "architecture technomagique planétaire","Voir sous le Voile ne Révèle pas","Voilé (V)"
+            ]),
+            "verite-v7-habiter-la-verite":("Vérité",[
+              "traduction permanente","Silcenters","La Vérité fonctionne ainsi la plupart du temps"
+            ]),
+            "verite-v7-cycle-neant-ombremonde-histoire-cachee":("Vérité",[
+              "Cycle","Néant","Ombremonde","Atlantide"
+            ]),
+            "regles-verite-v7-architecture-ptv-acces":("Règles",[
+              "Les couches de la Vérité","1 PTV","Accès N / O / R / X","jamais achetée avec des PTV"
+            ]),
+            "regles-verite-v7-pa-reactions-defense-puissance":("Règles",[
+              "Surrégime du Garou Écarlate","Volonté + Force Mentale + 1d10e","Exceptionnelle","25"
+            ]),
+            "regles-verite-v7-voile-continuite-objets-reseaux-interfaces":("Règles",[
+              "normalement une scène maximum","2 × la variation de Vigueur","Aucun pool de PA","Homo Superior","jamais la possession d'un objet"
+            ])
+          }
+
+          def flatten(value):
+            if isinstance(value,dict):
+              return " ".join(flatten(v) for v in value.values())
+            if isinstance(value,list):
+              return " ".join(flatten(v) for v in value)
+            return str(value)
+
+          for article_id,(category,sentinels) in expected.items():
+            with urllib.request.urlopen(base+article_id,timeout=20) as response:
+              payload=json.load(response)
+            article=payload["article"]
+            assert article["category"]==category,(article_id,article.get("category"),category)
+            assert article["dataset"]=="verite-v7",(article_id,article.get("dataset"))
+            assert article.get("rebuildV2") is True,(article_id,article.get("rebuildV2"))
+            assert not article.get("__legacy"),article_id
+            haystack=flatten(article)
+            for sentinel in sentinels:
+              assert sentinel in haystack,(article_id,sentinel)
+
+          with urllib.request.urlopen(
+            "https://dev.terra-umbra.fr/api/compendium/wiki-index?compact=1",
+            timeout=20
+          ) as response:
+            index=json.load(response)["entries"]
+          live={item["id"]:item for item in index}
+          missing=set(expected)-set(live)
+          assert not missing,missing
+          assert sum(1 for article_id in expected if live[article_id].get("category")=="Vérité")==4
+          assert sum(1 for article_id in expected if live[article_id].get("category")=="Règles")==3
+          assert all(live[article_id].get("category")!="OLD" for article_id in expected)
+          print("TRUTH V7 FOUNDATION — 4 lore pages + 3 common rules pages guarded")
+          PY
+
           echo "Wiki smoke: verifying editor API"
           EDITOR_STATUS="$(curl --silent --show-error --output "$COMPENDIUM_EDITOR" --write-out '%{http_code}' \
             -b "$COOKIE_JAR" \
