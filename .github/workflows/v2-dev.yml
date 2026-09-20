@@ -601,6 +601,131 @@ jobs:
           assert moteur==expected,(moteur,expected)
           PY
 
+          echo "Wiki smoke: verifying canonical Reality V9"
+          python3 - <<'PY'
+          import json,urllib.parse,urllib.request
+
+          base="https://dev.terra-umbra.fr/api/compendium/articles/"
+          expected={
+            "realite-v9-grande-californie-2035":("Réalité",[
+              "Grande Guerre du Pacifique","Dina Page","Catalina de la Caza"
+            ]),
+            "realite-v9-etat-institutions-grande-reserve":("Réalité",[
+              "Grande Réserve","CNAD","CBII","STAB"
+            ]),
+            "realite-v9-los-angeles-laus-securites":("Réalité",[
+              "Urban Security Centers","Ghost Bureau","Catalina de la Caza"
+            ]),
+            "realite-v9-corporations-territoires":("Réalité",[
+              "Yellow Food","Eversor","Saskia"
+            ]),
+            "realite-v9-pegre-mafias-gangs":("Réalité",[
+              "Table des Mafias","Vladivostokskaïa","French Connection"
+            ]),
+            "realite-v9-religions-communautes":("Réalité",[
+              "Alexandre IX","Innocentia XIV","Grand Architecte"
+            ]),
+            "realite-v9-crawlers-underlife":("Réalité",[
+              "Neurodivers","Underlife","réputation"
+            ]),
+            "realite-v9-vivre-en-2035":("Réalité",[
+              "ration universelle","vactrains","Accès n'est pas propriété"
+            ]),
+            "realite-v9-holonet-medias-culture-identite":("Réalité",[
+              "Logifate","Mediacorpos","journée parfaitement ordinaire"
+            ]),
+            "regles-realite-v9-reperes-sociaux":("Règles",[
+              "cinq Sphères","Logifate","Compte"
+            ]),
+            "regles-realite-v9-talents":("Règles",[
+              "122","25","Neurodriver"
+            ]),
+            "regles-realite-v9-desavantages":("Règles",[
+              "55","maximum trois Désavantages","Unsinkable"
+            ]),
+            "regles-realite-v9-charge-stress-frenesie":("Règles",[
+              "Stress augmentique maximum","Frénésie augmentique","25"
+            ]),
+            "regles-realite-v9-supports-slots-compatibilites":("Règles",[
+              "Chaque CyberŒil","SynthéDerm","Cyborg lourd","Biogénétique"
+            ]),
+            "regles-realite-v9-neurodive-principes-rang":("Règles",[
+              "Volonté + Neurodive + 1d10e","10–15","Unsinkable"
+            ]),
+            "regles-realite-v9-neurodive-actions-intrusion":("Règles",[
+              "Faible / civile","Trace","Exceptionnelle"
+            ]),
+            "regles-realite-v9-neurocombat-integrite-logicielle":("Règles",[
+              "Marge en PV","programme sacrifié","grillé"
+            ]),
+            "regles-realite-v9-economie-compte-train-vie":("Règles",[
+              "5 000 $+","Charges fixes","200 000 $+"
+            ]),
+            "regles-realite-v9-equipement-proprietes-protections":("Règles",[
+              "Perforant X","Camo 3","Deep Fake Live"
+            ]),
+            "regles-realite-v9-vehicules-poursuites-reparations":("Règles",[
+              "0 Structure","Impact catastrophique","1 + DR Structure"
+            ])
+          }
+
+          def flatten(value):
+            if isinstance(value,dict):
+              return " ".join(flatten(v) for v in value.values())
+            if isinstance(value,list):
+              return " ".join(flatten(v) for v in value)
+            return str(value)
+
+          for article_id,(category,sentinels) in expected.items():
+            with urllib.request.urlopen(base+article_id,timeout=20) as response:
+              payload=json.load(response)
+            article=payload["article"]
+            assert article["category"]==category,(article_id,article.get("category"),category)
+            assert article["dataset"]=="realite-v9",(article_id,article.get("dataset"))
+            assert not article.get("__legacy"),article_id
+            haystack=flatten(article)
+            for sentinel in sentinels:
+              assert sentinel in haystack,(article_id,sentinel)
+
+          with urllib.request.urlopen(
+            "https://dev.terra-umbra.fr/api/compendium/wiki-index?compact=1",
+            timeout=20
+          ) as response:
+            index=json.load(response)["entries"]
+          live={item["id"] for item in index if item.get("dataset")=="realite-v9"}
+          assert live==set(expected),(live,set(expected))
+          assert sum(1 for item in index if item.get("dataset")=="realite-v9" and item.get("category")=="Réalité")==9
+          assert sum(1 for item in index if item.get("dataset")=="realite-v9" and item.get("category")=="Règles")==11
+          PY
+
+          echo "Wiki smoke: cross-auditing Reality V9 Builder catalogs"
+          curl --fail --silent --show-error \
+            -b "$COOKIE_JAR" \
+            https://dev.terra-umbra.fr/api/rulesets/terra-umbra/creation > "$COMPENDIUM_EDITOR"
+          python3 - "$COMPENDIUM_EDITOR" <<'PY'
+          import json,sys
+          payload=json.load(open(sys.argv[1],encoding="utf-8"))
+          talents=payload["rules"]["talents"]
+          talent_counts={
+            "common":len(talents["common"]),
+            "expertise":len(talents["expertise"]),
+            "origin":sum(len(items) for items in talents["origin"].values()),
+            "sphere":sum(len(items) for items in talents["sphere"].values())
+          }
+          assert talent_counts=={"common":12,"expertise":25,"origin":25,"sphere":60},talent_counts
+          assert sum(talent_counts.values())==122,talent_counts
+
+          disadvantages=payload["disadvantages"]
+          disadvantage_counts={
+            "common":len(disadvantages["common"]),
+            "attribute":len(disadvantages["attribute"]),
+            "sphere":sum(len(items) for items in disadvantages["sphere"].values())
+          }
+          assert disadvantage_counts=={"common":15,"attribute":15,"sphere":25},disadvantage_counts
+          assert sum(disadvantage_counts.values())==55,disadvantage_counts
+          print("REALITY V9 AUDIT — 20/20 pages · 122/122 talents · 55/55 désavantages")
+          PY
+
           echo "Wiki smoke: verifying editor API"
           EDITOR_STATUS="$(curl --silent --show-error --output "$COMPENDIUM_EDITOR" --write-out '%{http_code}' \
             -b "$COOKIE_JAR" \
