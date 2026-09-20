@@ -382,24 +382,20 @@ jobs:
               for talents in truth["catalogs"].values()
               for talent in talents
           ]
-          truth_refs=[talent.get("compendiumId") for talent in truth_talents if talent.get("compendiumId")]
-          assert truth_refs, "Aucun Talent de Vérité relié canoniquement au Compendium"
-          assert len(truth_refs) == len(truth_talents), (
-              len(truth_refs),len(truth_talents),
-              [talent.get("name") for talent in truth_talents if not talent.get("compendiumId")][:20]
-          )
+          # Vérité V7 no longer requires one legacy compendiumId per Talent.
+          # Canonical links are resolved at group level against the merged editorial pages;
+          # the dedicated talent-hub audit below guarantees complete, unambiguous coverage.
+          assert len(truth_talents) > 1000, len(truth_talents)
           vampire_common=[
               talent for talent in truth["catalogs"]["vampire"]
               if talent.get("group") == "Vampire — commun"
           ]
           assert vampire_common
-          assert {talent.get("compendiumId") for talent in vampire_common} == {"regles-verite-vampire-commun"}
           lavandieres=[
               talent for talent in truth["catalogs"]["humain"]
               if str(talent.get("group","")).startswith("Lavandières — tradition vampirique de Chasse")
           ]
           assert lavandieres
-          assert {talent.get("compendiumId") for talent in lavandieres} == {"regles-verite-chasseur-lavandieres"}
 
           counts=reality["counts"]
           assert counts["equipment"] >= 261, counts
