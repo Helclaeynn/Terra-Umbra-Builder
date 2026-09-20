@@ -367,7 +367,7 @@ if(await page.locator(".builder-nav").getByRole("button",{name:/Dépense XP & PT
 
 const creationSaveButton=page.getByRole("button",{name:/Enregistrer/}).first();
 await creationSaveButton.click();
-await page.getByText(/Fiche enregistrée · version 9/).waitFor();
+await page.getByText(/Fiche enregistrée · version 8/).waitFor();
 if(!savedPayload)throw new Error("La sauvegarde de fin de création n’a pas été envoyée.");
 if(savedPayload.version!==7)throw new Error("Version optimiste de création incorrecte.");
 if(savedPayload.data?.reality?.sphereSupportType!=="vehicle")throw new Error("Appui Corporatiste non persisté à la fin de création.");
@@ -397,7 +397,7 @@ await page.getByText("3",{exact:true}).first().waitFor();
 
 const saveButton=page.getByRole("button",{name:/Enregistrer/}).first();
 await saveButton.click();
-await page.getByText(/Fiche enregistrée · version 8/).waitFor();
+await page.getByText(/Fiche enregistrée · version 9/).waitFor();
 if(!savedPayload)throw new Error("La sauvegarde versionnée n’a pas été envoyée.");
 if(savedPayload.version!==8)throw new Error("Version optimiste de progression incorrecte.");
 if(savedPayload.data?.schemaVersion!==2)throw new Error("La sauvegarde n’est pas en schema v2.");
