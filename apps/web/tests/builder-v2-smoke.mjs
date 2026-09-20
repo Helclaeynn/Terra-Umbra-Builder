@@ -356,8 +356,8 @@ for(const removedLabel of ["Réseaux","Statuts","Patrimoine","Dettes"]){
 
 await page.getByRole("button",{name:/Finalisation/}).click();
 await page.getByRole("heading",{name:"Contrôle final de la fiche"}).waitFor();
-await page.getByText("Valeurs dérivées",{exact:true}).waitFor();
-await page.getByText("PV max",{exact:true}).waitFor();
+await page.getByRole("heading",{name:"Dérivés"}).waitFor();
+await page.getByText("PV",{exact:true}).waitFor();
 
 await page.getByRole("button",{name:/Dépense XP & PTV/}).click();
 try{
