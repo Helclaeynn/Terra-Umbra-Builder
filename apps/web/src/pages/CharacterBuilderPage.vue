@@ -288,11 +288,18 @@ const disadvantageCategories=computed(()=>{
 
 const visibleDisadvantages=computed(()=>{
   if(!disadvantages.value||!draft.value)return [];
-  if(disadvantageCategory.value==="attribute")return [...disadvantages.value.attribute];
-  if(disadvantageCategory.value==="sphere"){
-    return [...(disadvantages.value.sphere[draft.value.creation.sphere]??[])];
+  if(disadvantageCategory.value==="attribute"){
+    const order=new Map((rules.value?.attributes??[]).map((attribute,index)=>[attribute.id,index]));
+    return [...disadvantages.value.attribute].sort((a,b)=>{
+      const attributeOrder=(order.get(a.attribute||"")??999)-(order.get(b.attribute||"")??999);
+      return attributeOrder||a.name.localeCompare(b.name,"fr");
+    });
   }
-  return [...disadvantages.value.common];
+  if(disadvantageCategory.value==="sphere"){
+    return [...(disadvantages.value.sphere[draft.value.creation.sphere]??[])]
+      .sort((a,b)=>a.name.localeCompare(b.name,"fr"));
+  }
+  return [...disadvantages.value.common].sort((a,b)=>a.name.localeCompare(b.name,"fr"));
 });
 
 const availableDisadvantages=computed(()=>{
