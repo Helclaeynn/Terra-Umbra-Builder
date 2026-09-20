@@ -48,8 +48,14 @@ try{
 const publicContext=await browser.newContext();
 const publicPage=await publicContext.newPage();
 try{
-  await publicPage.goto(baseUrl+"/compendium",{waitUntil:"domcontentloaded",timeout:30000});
+  await publicPage.goto(baseUrl+"/",{waitUntil:"domcontentloaded",timeout:30000});
   await publicPage.locator(".newcomer-hero").waitFor({state:"visible",timeout:20000});
+  await publicPage.locator(".compendium-topbar .tu-brand-lockup").waitFor({state:"visible",timeout:10000});
+  await publicPage.waitForFunction(
+    ()=>document.querySelector(".compendium-topbar .tu-brand-lockup")?.naturalWidth>0,
+    null,
+    {timeout:10000}
+  );
   const newcomerTitle=(await publicPage.locator(".newcomer-hero h2").innerText()).trim();
   if(newcomerTitle!=="Entrer dans Terra Umbra")throw new Error("Portail nouveau joueur absent: "+newcomerTitle);
 
@@ -152,7 +158,7 @@ try{
   }
   console.log("STYLE LAB OK — 7 thèmes · Builder + Compendium · médias chargés");
 
-  await publicPage.goto(baseUrl+"/compendium",{waitUntil:"domcontentloaded",timeout:30000});
+  await publicPage.goto(baseUrl+"/",{waitUntil:"domcontentloaded",timeout:30000});
   const loginLink=publicPage.getByRole("link",{name:"Connexion"});
   await loginLink.waitFor({state:"visible",timeout:10000});
   console.log("WIKI PUBLIC OK — onboarding + suggestions + backlinks Builder + cartes Talents dynamiques sans session");
