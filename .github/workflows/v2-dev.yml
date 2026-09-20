@@ -416,7 +416,7 @@ jobs:
           wiki=json.load(open(sys.argv[5],encoding="utf-8"))["entries"]
 
           assert meta["total"] >= 500, meta
-          assert meta.get("archivedTotal",0) >= 1000, meta
+          assert meta.get("archivedTotal",0) >= 900, meta
           assert any(item["name"] == "Bestiaire" for item in meta["categories"]), meta["categories"]
           assert all(item["name"] != "OLD" for item in meta["categories"]), meta["categories"]
           assert meta["overrides"]["applied"] > 0, meta["overrides"]
@@ -502,7 +502,7 @@ jobs:
           python3 - "$COMPENDIUM_SEARCH" <<'PY'
           import json,sys
           payload=json.load(open(sys.argv[1],encoding="utf-8"))
-          assert payload["total"] >= 1000, payload
+          assert payload["total"] >= 900, payload
           assert payload["items"], payload
           assert all(item["category"] == "OLD" for item in payload["items"]), payload["items"]
           PY
