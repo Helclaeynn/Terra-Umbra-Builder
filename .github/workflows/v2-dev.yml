@@ -676,10 +676,10 @@ jobs:
               "Yellow Food","Eversor","Saskia"
             ]),
             "realite-v9-pegre-mafias-gangs":("Réalité",[
-              "Table des Mafias","Vladivostokskaïa","French Connection"
+              "CCGC","Vladivostokskaïa","French Connection"
             ]),
             "realite-v9-religions-communautes":("Réalité",[
-              "Alexandre IX","Innocentia XIV","Grand Architecte"
+              "Alexandre IX","Innocentia XIV","Église cybernétique"
             ]),
             "realite-v9-crawlers-underlife":("Réalité",[
               "Neurodivers","Underlife","réputation"
@@ -737,6 +737,74 @@ jobs:
             ])
           }
 
+          # Detailed source integrations expand the public Reality corpus.
+          expected.update({
+            "realite-v9-comite-general-crime-californien":("Réalité",["Comité général du Crime californien"]),
+            "realite-v9-vladivostokskaia":("Réalité",["Vladivostokskaïa — la Bratva californienne"]),
+            "realite-v9-la-famille":("Réalité",["La Famille — mafia italo-américaine"]),
+            "realite-v9-vingt-deux-dragons":("Réalité",["Les Vingt-deux Dragons — Triades californiennes"]),
+            "realite-v9-tenshi-yamaguchi-gumi":("Réalité",["Tenshi Yamaguchi-gumi — Yakuza californiens"]),
+            "realite-v9-cartel-sinaloa":("Réalité",["Cartel de Sinaloa"]),
+            "realite-v9-new-yiddish-californian-connection":("Réalité",["New Yiddish Californian Connection"]),
+            "realite-v9-oglaigh":("Réalité",["Oglaigh — mafia irlandaise"]),
+            "realite-v9-french-connection":("Réalité",["French Connection — le Milieu californien"]),
+            "realite-v9-cartel-diejuana":("Réalité",["Cartel de Diejuana"]),
+            "realite-v9-gangs-underlife":("Réalité",["Gangs de l’Underlife"]),
+            "realite-v9-laus-formation":("Réalité",["Rejoindre le LAUS — concours, académie & carrière"]),
+            "realite-v9-laus-commandement":("Réalité",["Commandement & Bureau du Chef du LAUS"]),
+            "realite-v9-laus-surveillance":("Réalité",["Surveillance Bureau"]),
+            "realite-v9-laus-investigation":("Réalité",["Investigation Bureau"]),
+            "realite-v9-laus-intervention":("Réalité",["Intervention Bureau"]),
+            "realite-v9-polices-grande-californie":("Réalité",["Polices urbaines de Grande Californie"]),
+            "realite-v9-agences-securite-enquete":("Réalité",["Agences gouvernementales de Grande Californie"]),
+            "realite-v9-ennemis-publics":("Réalité",["Les plus grands ennemis publics"]),
+            "realite-v9-systeme-carceral":("Réalité",["Système carcéral de Grande Californie"]),
+            "realite-v9-corcoran-ushkoll":("Réalité",["Corcoran — Ushkoll Penitentiary"]),
+            "realite-v9-executif-grande-californie":("Réalité",["Exécutif de Grande Californie"]),
+            "realite-v9-cabinet-secretariats":("Réalité",["Cabinet présidentiel & secrétariats d’État"]),
+            "realite-v9-mairies-pouvoirs-locaux":("Réalité",["Mairies & pouvoirs locaux"]),
+            "realite-v9-congres-grande-californie":("Réalité",["Congrès de Grande Californie"]),
+            "realite-v9-commission-legislative":("Réalité",["Commission législative & Observatoires"]),
+            "realite-v9-justice-californienne":("Réalité",["Justice californienne"]),
+            "realite-v9-cour-supreme":("Réalité",["Cour suprême de Grande Californie"]),
+            "realite-v9-haute-commission-juristes":("Réalité",["Haute Commission des juristes californiens"]),
+            "realite-v9-services-publics":("Réalité",["Services publics de Grande Californie"]),
+            "realite-v9-forces-defense":("Réalité",["Forces de défense de Grande Californie"]),
+            "realite-v9-grande-reserve-detail":("Réalité",["Grande Réserve"]),
+            "realite-v9-cnad":("Réalité",["CNAD — California National Agencies Directorate"]),
+            "realite-v9-cbii":("Réalité",["CBII — Investigation & renseignement"]),
+            "realite-v9-cpp":("Réalité",["CPP — Contrebande & produits interdits"]),
+            "realite-v9-inata":("Réalité",["INATA — Affaires amérindiennes"]),
+            "realite-v9-cbac":("Réalité",["CBAC — Abus & corruption"]),
+            "realite-v9-cchs":("Réalité",["CCHS — Surveillance sanitaire"]),
+            "realite-v9-nrmd":("Réalité",["NRMD — Gestion des ressources"]),
+            "realite-v9-eio":("Réalité",["EIO — Inspection de l’éducation"]),
+            "realite-v9-csc":("Réalité",["CSC — Standards corporatifs"]),
+            "realite-v9-stab":("Réalité",["STAB — Anti-abus technologiques"]),
+            "realite-v9-renseignement-mondial":("Réalité",["Services de renseignement dans le monde"]),
+            "realite-v9-chretiente-reunifiee":("Réalité",["Chrétienté réunifiée"]),
+            "realite-v9-islam-2035":("Réalité",["Islam en 2035"]),
+            "realite-v9-hindouisme-grande-diaspora":("Réalité",["Hindouisme & Grande Diaspora"]),
+            "realite-v9-shientaoisme":("Réalité",["Shientaoïsme"]),
+            "realite-v9-eglise-cybernetique":("Réalité",["Église cybernétique"]),
+            "realite-v9-neopaganisme":("Réalité",["Néopaganisme"]),
+            "realite-v9-elyseisme-cyber-eternite":("Réalité",["Élyséisme & cyber-éternité"]),
+            "realite-v9-judaisme-2035":("Réalité",["Judaïsme en 2035"]),
+            "realite-v9-sectes-cultes-marginaux":("Réalité",["Sectes & cultes marginaux"]),
+          })
+          religion_ids={
+            "realite-v9-religions-communautes",
+            "realite-v9-chretiente-reunifiee",
+            "realite-v9-islam-2035",
+            "realite-v9-hindouisme-grande-diaspora",
+            "realite-v9-shientaoisme",
+            "realite-v9-eglise-cybernetique",
+            "realite-v9-neopaganisme",
+            "realite-v9-elyseisme-cyber-eternite",
+            "realite-v9-judaisme-2035",
+            "realite-v9-sectes-cultes-marginaux",
+          }
+
           def flatten(value):
             if isinstance(value,dict):
               return " ".join(flatten(v) for v in value.values())
@@ -749,7 +817,9 @@ jobs:
               payload=json.load(response)
             article=payload["article"]
             assert article["category"]==category,(article_id,article.get("category"),category)
-            assert article["dataset"]=="realite-v9",(article_id,article.get("dataset"))
+            dataset="realite-v9-religions" if article_id in religion_ids else "realite-v9"
+            assert article["dataset"]==dataset,(article_id,article.get("dataset"),dataset)
+            assert any(section.get("blocks") for section in article.get("sections",[])),article_id
             assert not article.get("__legacy"),article_id
             haystack=flatten(article)
             for sentinel in sentinels:
@@ -760,10 +830,11 @@ jobs:
             timeout=20
           ) as response:
             index=json.load(response)["entries"]
-          live={item["id"] for item in index if item.get("dataset")=="realite-v9"}
+          live={item["id"] for item in index if item.get("dataset") in {"realite-v9","realite-v9-religions"}}
           assert live==set(expected),(live,set(expected))
-          assert sum(1 for item in index if item.get("dataset")=="realite-v9" and item.get("category")=="Réalité")==13
+          assert sum(1 for item in index if item.get("dataset")=="realite-v9" and item.get("category")=="Réalité")==55
           assert sum(1 for item in index if item.get("dataset")=="realite-v9" and item.get("category")=="Règles")==11
+          assert sum(1 for item in index if item.get("dataset")=="realite-v9-religions")==10
           PY
 
           echo "Wiki smoke: cross-auditing Reality V9 Builder catalogs"
