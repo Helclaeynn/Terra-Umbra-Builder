@@ -339,12 +339,12 @@ const SOURCE_PAYLOAD={
         },
         {
           "type": "p",
-          "text": "• Maîtrise: Initiale Affinée Supérieure → → → Magistrale. Elle donne des permissions qualitatives, pas un simple bonus chiffré.",
+          "text": "• Maîtrise : Initiale → Affinée → Supérieure → Magistrale. Elle donne des permissions qualitatives, pas un simple bonus chiffré.",
           "style": "list"
         },
         {
           "type": "p",
-          "text": "• Amplitude: Mineure Significative Majeure → → → Cataclysmique. Mythique reste hors progression PJ.",
+          "text": "• Amplitude : Mineure → Significative → Majeure → Cataclysmique. Mythique reste hors progression PJ.",
           "style": "list"
         },
         {
@@ -376,22 +376,26 @@ const SOURCE_PAYLOAD={
       "blocks": [
         {
           "type": "p",
-          "text": "Voilé (V) Aspect: Humain ordinaire sous l’Hologramme. • Modifications: Aucune modification. Accès magique: Pas de lancement direct par le Mageius.",
-          "style": "tech"
+          "style": "tech",
+          "text": "Voilé (V)\nAspect : Humain ordinaire sous l’Hologramme.\nModifications : Aucune modification.\nAccès magique : Pas de lancement direct par le Mageius."
         },
         {
           "type": "p",
-          "text": "Semi-Révélé (SR) Aspect: Toujours physiquement humain; le Mageius affleure. • Modifications: +1 Esprit, +1 Volonté. Accès magique: Vision du Voile, Perception magique, Protection du Mageius. Amplitude maximale: Mineure.",
-          "style": "tech"
+          "style": "tech",
+          "text": "Semi-Révélé (SR)\nAspect : Toujours physiquement humain ; le Mageius affleure.\nModifications : +1 Esprit, +1 Volonté.\nAccès magique : Vision du Voile, Perception magique, Protection du Mageius.\nAmplitude maximale : Mineure."
         },
         {
           "type": "p",
-          "text": "Révélé (R) Aspect: Peut rester parfaitement humain d’apparence; le Mageius est pleinement ouvert. • Modifications: +1 Esprit, +2 Volonté (remplace les bonus SR). Accès magique: Toute Affinité, Maîtrise et Amplitude réellement acquises.",
-          "style": "tech"
+          "style": "tech",
+          "text": "Révélé (R)\nAspect : Peut rester parfaitement humain d’apparence ; le Mageius est pleinement ouvert.\nModifications : +1 Esprit, +2 Volonté (remplace les bonus SR).\nAccès magique : Toute Affinité, Maîtrise et Amplitude réellement acquises."
         },
         {
           "type": "p",
-          "text": "La Révélation d’un Mage n’est pas forcément spectaculaire. Un Mage peut donc rester Révélé très longtemps s’il accepte les risques sociaux et métaphysiques liés au Voile. Certains Mages très anciens ou arrogants n’éprouvent aucune raison de refermer leur Mageius tant que personne ne peut les contraindre à le faire. Passer V SR R suit les règles générales de → → Révélation de TUC: 1 PA sous pression, sans jet sauf opposition active. Un passage direct V R est → possible. Le marqueur d’état reste externe à la fiche."
+          "text": "La Révélation d’un Mage n’est pas forcément spectaculaire. Un Mage peut donc rester Révélé très longtemps s’il accepte les risques sociaux et métaphysiques liés au Voile. Certains Mages très anciens ou arrogants n’éprouvent aucune raison de refermer leur Mageius tant que personne ne peut les contraindre à le faire."
+        },
+        {
+          "type": "p",
+          "text": "Passer V → SR → R suit les règles générales de Révélation de TUC : 1 PA sous pression, sans jet sauf opposition active. Un passage direct V → R est possible. Le marqueur d’état reste externe à la fiche."
         }
       ]
     },
@@ -402,32 +406,41 @@ const SOURCE_PAYLOAD={
       "blocks": [
         {
           "type": "p",
-          "text": "Les quinze domaines sont répartis en cinq groupes naturels. Le Type du Mageius ne rend pas les autres domaines impossibles: il détermine le point d’entrée du Mage dans la Roue et le coût de la traversée vers des familles magiques étrangères."
+          "text": "Les quinze domaines sont répartis en cinq groupes naturels. Le Type du Mageius ne rend pas les autres domaines impossibles : il détermine le point d’entrée du Mage dans la Roue et le coût de la traversée vers des familles magiques étrangères."
         },
         {
           "type": "p",
-          "text": "Kaharal Nature: Matière, forme, monde physique Affinités natives: Architétramancie • Morphomancie • Alchimie",
-          "style": "tech"
+          "style": "tech",
+          "text": "Kaharal\nNature : Matière, forme, monde physique\nAffinités natives : Architétramancie • Morphomancie • Alchimie"
         },
         {
           "type": "p",
-          "text": "Meldir Nature: Ordre, restauration, lumière Affinités natives: Photomancie • Acratomancie • Médéomancie",
-          "style": "tech"
+          "style": "tech",
+          "text": "Meldir\nNature : Ordre, restauration, lumière\nAffinités natives : Photomancie • Acratomancie • Médéomancie"
         },
         {
           "type": "p",
-          "text": "Elinaeth Nature: Forces, information, continuum Affinités natives: Télékinésie • Divination • Chronomancie",
-          "style": "tech"
+          "style": "tech",
+          "text": "Elinaeth\nNature : Forces, information, continuum\nAffinités natives : Télékinésie • Divination • Chronomancie"
         },
         {
           "type": "p",
-          "text": "Mestherak Nature: Âme, mort, essence vitale Affinités natives: Spectromancie • Hématomancie • Nécromancie",
-          "style": "tech"
+          "style": "tech",
+          "text": "Mestherak\nNature : Âme, mort, essence vitale\nAffinités natives : Spectromancie • Hématomancie • Nécromancie"
         },
         {
           "type": "p",
-          "text": "Discella Nature: Ombre, illusion, malédiction Affinités natives: Skiamancie • Pseudomancie • Pathomancie Roue: Kaharal Meldir Elinaeth Mestherak ↔ ↔ ↔ ↔ ↔ Discella Kaharal Un Kaharal reste un Kaharal même s’il apprend la Chronomancie. Il n’a pas changé de Mageius: il a appris à faire résonner son Mageius avec une portion éloignée de la Roue.",
-          "style": "tech"
+          "style": "tech",
+          "text": "Discella\nNature : Ombre, illusion, malédiction\nAffinités natives : Skiamancie • Pseudomancie • Pathomancie"
+        },
+        {
+          "type": "p",
+          "style": "tech",
+          "text": "Roue : Kaharal ↔ Meldir ↔ Elinaeth ↔ Mestherak ↔ Discella ↔ Kaharal"
+        },
+        {
+          "type": "p",
+          "text": "Un Kaharal reste un Kaharal même s’il apprend la Chronomancie. Il n’a pas changé de Mageius : il a appris à faire résonner son Mageius avec une portion éloignée de la Roue."
         }
       ]
     },
@@ -512,7 +525,12 @@ const SOURCE_PAYLOAD={
       "blocks": [
         {
           "type": "p",
-          "text": "Jet de magie: Volonté + Maîtrise spirituelle + 1d10e Le Mage ne choisit pas un sort dans une liste. Il décrit ce qu’il veut imposer à la Réalité puis fixe les paramètres suivants: Affinité intention/Essence → → Polarité Amplitude portée. La Maîtrise doit → → rendre l’effet concevable; l’Amplitude doit rendre son échelle possible."
+          "style": "tech",
+          "text": "Jet de magie : Volonté + Maîtrise spirituelle + 1d10e"
+        },
+        {
+          "type": "p",
+          "text": "Le Mage ne choisit pas un sort dans une liste. Il décrit ce qu’il veut imposer à la Réalité puis fixe les paramètres suivants : Affinité → intention/Essence → Polarité → Amplitude → portée. La Maîtrise doit rendre l’effet concevable ; l’Amplitude doit rendre son échelle possible."
         }
       ]
     },
@@ -625,7 +643,7 @@ const SOURCE_PAYLOAD={
         },
         {
           "type": "p",
-          "text": "La difficulté dépend de l’Amplitude réellement utilisée, pas du maximum possédé. Pour chaque palier d’Amplitude possédé au-dessus de l’effet utilisé, la difficulté descend d’un niveau sur l’échelle 25 21 18 15 12. Si le Mage possède au moins → → → → deux paliers d’avance, l’effet devient automatique uniquement lorsqu’il n’existe ni opposition, ni urgence, ni difficulté réelle de contexte."
+          "text": "La difficulté dépend de l’Amplitude réellement utilisée, pas du maximum possédé. Pour chaque palier d’Amplitude possédé au-dessus de l’effet utilisé, la difficulté descend d’un niveau sur l’échelle 25 → 21 → 18 → 15 → 12. Si le Mage possède au moins deux paliers d’avance, l’effet devient automatique uniquement lorsqu’il n’existe ni opposition, ni urgence, ni difficulté réelle de contexte."
         }
       ]
     },
@@ -715,21 +733,21 @@ const SOURCE_PAYLOAD={
       "blocks": [
         {
           "type": "p",
-          "text": "Défense occulte passive : Volonté + Force Mentale",
-          "style": "tech"
+          "style": "tech",
+          "text": "Défense occulte passive : Volonté + Force Mentale"
         },
         {
           "type": "p",
-          "text": "Défense occulte active : Volonté + Force Mentale + 1d10e — 1 PA",
-          "style": "tech"
+          "style": "tech",
+          "text": "Défense occulte active : Volonté + Force Mentale + 1d10e — 1 PA"
         },
         {
           "type": "p",
-          "text": "1d10e — 1 PA La Défense occulte s’applique lorsqu’un effet magique est imposé directement à une personne: malédiction, intrusion mentale, altération interne du corps, manipulation directe du sang contenu dans l’organisme, etc. Une Défense active suppose que la cible puisse percevoir ou comprendre qu’elle est attaquée; la Défense passive s’applique toujours lorsqu’une résistance est pertinente."
+          "text": "La Défense occulte s’applique lorsqu’un effet magique est imposé directement à une personne : malédiction, intrusion mentale, altération interne du corps, manipulation directe du sang contenu dans l’organisme, etc. Une Défense active suppose que la cible puisse percevoir ou comprendre qu’elle est attaquée ; la Défense passive s’applique toujours lorsqu’une résistance est pertinente."
         },
         {
           "type": "p",
-          "text": "Un phénomène devenu physiquement évitable utilise une défense physique: pierre télékinétique, lame de glace, explosion, chute provoquée, etc. On n’utilise jamais simultanément Défense physique et Défense occulte pour la même attaque."
+          "text": "Un phénomène devenu physiquement évitable utilise une défense physique : pierre télékinétique, lame de glace, explosion, chute provoquée, etc. On n’utilise jamais simultanément Défense physique et Défense occulte pour la même attaque."
         }
       ]
     },
@@ -1190,17 +1208,18 @@ const SOURCE_PAYLOAD={
       "blocks": [
         {
           "type": "p",
-          "text": "• Une forte Amplitude n’accorde pas automatiquement la finesse nécessaire pour épargner précisément les alliés au cœur d’une vaste zone.",
-          "style": "list"
+          "style": "list",
+          "text": "• Une forte Amplitude n’accorde pas automatiquement la finesse nécessaire pour épargner précisément les alliés au cœur d’une vaste zone."
         },
         {
           "type": "p",
-          "text": "scientifique gratuite: exploiter un phénomène subtil exige de comprendre suffisamment ce phénomène."
+          "style": "list",
+          "text": "• La magie ne donne pas une connaissance scientifique gratuite : exploiter un phénomène subtil exige de comprendre suffisamment ce phénomène."
         },
         {
           "type": "p",
-          "text": "• Les formes extrêmes comme une magie sismique parfaitement contrôlée peuvent devenir des Œuvres personnelles/familiales.",
-          "style": "list"
+          "style": "list",
+          "text": "• Les formes extrêmes comme une magie sismique parfaitement contrôlée peuvent devenir des Œuvres personnelles/familiales."
         }
       ]
     },
