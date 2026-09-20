@@ -103,7 +103,7 @@ const talentMeta = ref<TalentRegistryMeta | null>(null);
 const talentInsertMode = ref<"nature" | "group">("nature");
 const talentInsertNature = ref("vampire");
 const talentInsertGroup = ref("");
-const categories = ["Règles", "Réalité", "Vérité", "Équipement & Objets", "Personnages", "Bestiaire"];
+const categories = ["Règles", "Réalité", "Vérité", "Personnages", "Équipement & Objets", "Bestiaire", "OLD"];
 
 function clone<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T;
@@ -606,11 +606,11 @@ async function load() {
   error.value = "";
   try {
     if (isNew.value) {
-      const requestedCategory = String(route.query.category ?? "Réalité");
+      const requestedCategory = String(route.query.category ?? "Réalité").trim();
       article.value = {
         id: "",
         title: String(route.query.title ?? ""),
-        category: categories.includes(requestedCategory) ? requestedCategory : "Réalité",
+        category: requestedCategory || "Réalité",
         source: String(route.query.source ?? ""),
         status: "canon_enrichi",
         tags: String(route.query.tags ?? "")
@@ -995,9 +995,15 @@ onMounted(load);
               <div class="editor-two">
                 <label>Statut<input v-model="article.status" placeholder="canon_recent…" /></label>
                 <label>Rubrique
-                  <select v-model="article.category">
-                    <option v-for="item in categories" :key="item" :value="item">{{ item }}</option>
-                  </select>
+                  <input
+                    v-model="article.category"
+                    list="compendium-category-suggestions"
+                    maxlength="80"
+                    placeholder="Règles, Lieux, Organisations…"
+                  />
+                  <datalist id="compendium-category-suggestions">
+                    <option v-for="item in categories" :key="item" :value="item"></option>
+                  </datalist>
                 </label>
               </div>
               <label>Source<input v-model="article.source" /></label>
