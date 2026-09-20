@@ -312,13 +312,18 @@ const braveHref=await braveWiki.getAttribute("href");
 if(!braveHref?.includes("article=wiki-brave"))throw new Error("Talent Brave non résolu vers le Compendium: "+braveHref);
 
 await page.getByRole("button",{name:/Vérité/}).click();
-await page.getByRole("heading",{name:"Voile & Révélation"}).waitFor();
+const revealDisclosure=page.locator("summary.truth-disclosure-summary").filter({hasText:"Voile & Révélation"});
+await revealDisclosure.waitFor({state:"visible",timeout:5000});
+await revealDisclosure.click();
 for(const label of ["Voilé","Semi-Révélé","Révélé"]){
-  if(await page.getByText(label,{exact:true}).count()===0)throw new Error("État de Vérité absent : "+label);
+  await page.getByText(label,{exact:true}).waitFor({state:"visible",timeout:5000});
 }
 
 await page.getByRole("button",{name:/Équipement/}).click();
 await page.getByRole("heading",{name:"Réalité, équipement & augmentations"}).waitFor();
+const catalogDisclosure=page.locator("summary.catalog-summary");
+await catalogDisclosure.waitFor({state:"visible",timeout:5000});
+await catalogDisclosure.click();
 const kitWiki=page.getByRole("link",{name:/Kit Smoke/}).first();
 await kitWiki.waitFor({state:"visible",timeout:5000});
 await kitWiki.hover();
