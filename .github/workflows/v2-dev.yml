@@ -60,6 +60,10 @@ jobs:
         working-directory: apps/api
         run: node scripts/check-truth-fantastiques-integration.mjs
 
+      - name: Check Truth extraterrestrial integration
+        working-directory: apps/api
+        run: node scripts/check-truth-extraterrestrials-integration.mjs
+
       - name: Build web
         working-directory: apps/web
         run: |
