@@ -287,7 +287,7 @@ await referencesButton.click();
 await page.getByRole("heading",{name:"Comprendre mes choix"}).waitFor({state:"visible",timeout:5000});
 await page.getByRole("button",{name:"Fermer",exact:true}).click();
 
-await page.getByRole("button",{name:/Sphère & Style/}).click();
+await page.locator(".builder-nav").getByRole("button",{name:/Sphère & Style/}).click();
 const styleAlt=page.getByRole("button",{name:/Smoke Style Alt/});
 await styleAlt.waitFor();
 await styleAlt.click();
@@ -303,7 +303,7 @@ for(let i=0;i<12;i++){
   if(await nav.nth(i).isDisabled())throw new Error("Bloc "+(i+1)+" encore désactivé.");
 }
 
-await page.getByRole("button",{name:/Talents/}).click();
+await page.locator(".builder-nav").getByRole("button",{name:/Talents/}).click();
 const braveWiki=page.getByRole("link",{name:/Brave/}).first();
 await braveWiki.waitFor({state:"visible",timeout:5000});
 await braveWiki.hover();
@@ -311,7 +311,7 @@ await page.getByText("Talent Brave documenté dans le Compendium.",{exact:false}
 const braveHref=await braveWiki.getAttribute("href");
 if(!braveHref?.includes("article=wiki-brave"))throw new Error("Talent Brave non résolu vers le Compendium: "+braveHref);
 
-await page.getByRole("button",{name:/Vérité/}).click();
+await page.locator(".builder-nav").getByRole("button",{name:/Vérité/}).click();
 const revealDisclosure=page.locator("summary.truth-disclosure-summary").filter({hasText:"Voile & Révélation"});
 await revealDisclosure.waitFor({state:"visible",timeout:5000});
 await revealDisclosure.click();
@@ -319,7 +319,7 @@ for(const label of ["Voilé","Semi-Révélé","Révélé"]){
   await page.getByText(label,{exact:true}).waitFor({state:"visible",timeout:5000});
 }
 
-await page.getByRole("button",{name:/Équipement/}).click();
+await page.locator(".builder-nav").getByRole("button",{name:/Équipement/}).click();
 await page.getByRole("heading",{name:"Réalité, équipement & augmentations"}).waitFor();
 const catalogDisclosure=page.locator("summary.catalog-summary").filter({hasText:"Choisir équipement, services & véhicules"});
 await catalogDisclosure.waitFor({state:"visible",timeout:5000});
@@ -336,10 +336,10 @@ await page.getByLabel("Montant / mois").fill("1300");
 await page.getByRole("button",{name:"Ajouter"}).nth(1).click();
 await page.getByText("Confortable → Standard",{exact:true}).waitFor();
 
-await page.getByRole("button",{name:/Sphère & Style/}).click();
+await page.locator(".builder-nav").getByRole("button",{name:/Sphère & Style/}).click();
 await page.getByRole("button",{name:/Corporatiste/}).click();
 await page.getByRole("button",{name:/Corpo Smoke/}).click();
-await page.getByRole("button",{name:/Équipement/}).click();
+await page.locator(".builder-nav").getByRole("button",{name:/Équipement/}).click();
 await page.getByRole("heading",{name:"Appui Corporatiste"}).waitFor();
 
 await page.getByLabel("Type de prestation").selectOption("housing");
@@ -354,12 +354,12 @@ for(const removedLabel of ["Réseaux","Statuts","Patrimoine","Dettes"]){
   if(await page.getByText(removedLabel,{exact:true}).count())throw new Error("Ancien champ encore visible : "+removedLabel);
 }
 
-await page.getByRole("button",{name:/Finalisation/}).click();
+await page.locator(".builder-nav").getByRole("button",{name:/Finalisation/}).click();
 await page.getByRole("heading",{name:"Contrôle final de la fiche"}).waitFor();
 await page.getByRole("heading",{name:"Dérivés"}).waitFor();
 await page.locator(".derived-compact span").filter({hasText:"PV"}).first().waitFor({state:"visible",timeout:5000});
 
-await page.getByRole("button",{name:/Dépense XP & PTV/}).click();
+await page.locator(".builder-nav").getByRole("button",{name:/Dépense XP & PTV/}).click();
 try{
   await page.getByRole("heading",{name:"Progression de campagne"}).waitFor({timeout:12000});
 }catch(error){
