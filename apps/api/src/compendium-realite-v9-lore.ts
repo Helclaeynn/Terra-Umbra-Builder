@@ -975,7 +975,7 @@ export const COMPENDIUM_REALITE_V9_LORE_ARTICLES: Article[] = [
         ]
       }
     ]
-  }
+  },
   {
     id: "realite-v9-augmentations-corps-sante",
     dataset: "realite-v9",
@@ -1046,7 +1046,7 @@ export const COMPENDIUM_REALITE_V9_LORE_ARTICLES: Article[] = [
         ]
       }
     ]
-  }
+  },
   {
     id: "realite-v9-alimentation-logement-quotidien-materiel",
     dataset: "realite-v9",
@@ -1132,7 +1132,7 @@ export const COMPENDIUM_REALITE_V9_LORE_ARTICLES: Article[] = [
         ]
       }
     ]
-  }
+  },
   {
     id: "realite-v9-technologies-infrastructures-mobilite",
     dataset: "realite-v9",
