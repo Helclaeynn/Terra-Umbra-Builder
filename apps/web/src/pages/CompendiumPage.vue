@@ -1650,7 +1650,7 @@ onBeforeUnmount(() => {
                       >
                         Fabricant · {{ selected.manufacturer }}
                       </button>
-                      <span v-if="selected.__editorialOverride">Override canonique</span>
+                      <span v-if="selected.__editorialOverride">Surcharge éditoriale</span>
                       <span v-if="selected.__wikiPublishedEdit">Édition wiki publiée</span>
                     </div>
 

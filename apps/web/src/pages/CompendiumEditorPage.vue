@@ -2,6 +2,7 @@
 import { computed, nextTick, onMounted, ref } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import { api, ApiError } from "../lib/api";
+import TerraUmbraLockup from "../components/TerraUmbraLockup.vue";
 
 type MediaRef = { src: string; alt?: string; caption?: string };
 type ArticleBlock = {
@@ -841,9 +842,8 @@ onMounted(load);
 <template>
   <div class="wiki-editor-shell">
     <header class="wiki-editor-topbar">
-      <RouterLink class="brand" to="/">
-        <span class="brand-mark">TU</span>
-        <span><strong>Terra Umbra</strong><small>Éditeur du Compendium</small></span>
+      <RouterLink class="brand editor-brand-lockup" to="/">
+        <TerraUmbraLockup />
       </RouterLink>
       <div class="editor-top-actions">
         <button class="ghost compact" type="button" :aria-expanded="coverageOpen" @click="toggleCoverage">

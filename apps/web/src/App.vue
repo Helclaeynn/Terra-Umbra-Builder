@@ -442,7 +442,7 @@ onMounted(bootstrap);
           Builder
         </a>
         <RouterLink class="ghost compact top-product-link brand-nav-link" to="/compendium">
-          Explore
+          Explorer
         </RouterLink>
         <span class="api-pill" :class="{ ok: health === 'ok' }">
           API {{ health }}
@@ -515,10 +515,10 @@ onMounted(bootstrap);
       <section v-else-if="!user" class="auth-layout">
         <div class="intro">
           <p class="eyebrow">TERRA UMBRA CALIFORNIA</p>
-          <h1>Bienvenue dans TUC Web</h1>
+          <h1>Ton espace Terra Umbra</h1>
           <p>
-            La V2 dispose maintenant de comptes persistants. Les personnages,
-            collections et outils de campagne viendront se greffer sur ce compte.
+            Connecte-toi pour retrouver tes personnages, tes favoris, tes collections
+            et ton historique synchronisé. Le Compendium reste accessible sans compte.
           </p>
         </div>
 
