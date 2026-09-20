@@ -263,7 +263,7 @@ try{
   const legacySections=await page.locator(".editor-section-card").count();
   if(legacySections!==0)throw new Error("Ancien éditeur par sections encore visible.");
 
-  await page.goto(baseUrl+"/compendium/edit/verite-046-10-vampires",{waitUntil:"domcontentloaded",timeout:30000});
+  await page.goto(baseUrl+"/compendium/edit/verite-v7-vampires-civilisation-cours-sangs",{waitUntil:"domcontentloaded",timeout:30000});
   await page.getByText("SOURCE MÉCANIQUE",{exact:true}).waitFor({state:"visible",timeout:10000});
   await page.getByRole("heading",{name:"Relié au Builder"}).waitFor({state:"visible",timeout:10000});
   await page.getByText("Nature",{exact:true}).first().waitFor({state:"visible",timeout:10000});
