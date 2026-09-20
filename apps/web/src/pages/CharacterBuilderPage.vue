@@ -958,8 +958,12 @@ const truthConsciousnessName=computed(()=>
 );
 const selectedTruthTalentNames=computed(()=>{
   if(!currentTruthState.value)return [];
-  const byId=new Map(availableTruthTalents.value.map(item=>[item.id,item.name]));
-  return currentTruthState.value.truthTalents.map(id=>byId.get(id)??id);
+  const nativeById=new Map(availableTruthTalents.value.map(item=>[item.id,item.name]));
+  const corruptionById=new Map((truthRules.value?.corruption.talents??[]).map(item=>[item.id,item.name]));
+  return [
+    ...currentTruthState.value.truthTalents.map(id=>nativeById.get(id)??id),
+    ...currentTruthState.value.corruptionTalents.map(id=>corruptionById.get(id)??id)
+  ];
 });
 const originNameValue=computed(()=>draft.value&&rules.value
   ? rules.value.origins[draft.value.creation.origin]?.name??""
@@ -1034,6 +1038,20 @@ const knowledgeRefs=computed<KnowledgeRef[]>(()=>{
       key:`talent-truth-${id}`,label:talent.name,kind:"Talent",category:"Règles",
       articleId:talent.compendiumId,detail:talent.effect,
       badges:[`${talent.cost} PTV`,talent.access??"Vérité"].filter(Boolean)
+    });
+  }
+
+  const corruptionById=new Map((truthRules.value?.corruption.talents??[]).map(talent=>[talent.id,talent]));
+  for(const id of currentTruthState.value?.corruptionTalents??[]){
+    const talent=corruptionById.get(id);
+    if(talent)add({
+      key:`talent-corruption-${id}`,
+      label:talent.name,
+      kind:talent.kind==="DON"?"Don de Fléau":talent.kind==="RITE"?"Rite de Fléau":"Faveur de Fléau",
+      category:"Règles",
+      articleId:talent.compendiumId,
+      detail:talent.effect,
+      badges:[talent.sourceName,talent.family,`${talent.cost} PTV`].filter(Boolean)
     });
   }
 
