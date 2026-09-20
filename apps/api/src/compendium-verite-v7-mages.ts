@@ -1,22 +1,773 @@
-import { gunzipSync } from "node:zlib";
-
 type Block={type:"p";text:string;style?:string}|{type:"table";rows:unknown[][]};
 type Section={id:string;title:string;level:number;audience?:"mj";blocks:Block[]};
 type Article={id:string;dataset:string;category:string;sourceCategory:string;title:string;source:string;status:string;rebuildV2:true;tags:string[];sections:Section[]};
-type Payload={lore:Section[];r1:Section[];r2:Section[];r3:Section[]};
-
 const SOURCE="TUC_Verite_V7_CROSSAUDIT_2026-09-10.docx";
-const SOURCE_PAYLOAD="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";
-const source=JSON.parse(gunzipSync(Buffer.from(SOURCE_PAYLOAD,"base64")).toString("utf8")) as Payload;
-const article=(id:string,category:"Vérité"|"Règles",title:string,tags:string[],sections:Section[]):Article=>({id,dataset:"verite-v7",category,sourceCategory:category,title,source:SOURCE,status:"canon_enrichi",rebuildV2:true,tags,sections});
-
+const SOURCE_PAYLOAD={
+  "lore": [
+    {
+      "id": "ouverture",
+      "title": "Repère",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "id": "le-mageius",
+      "title": "Le Mageius",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Un Mage est un Humain lié à un Mageius, structure magique quasi autonome servant de conduit entre sa volonté et la Magie. Le Mageius n’est ni un organe ordinaire, ni une réserve de mana, ni une personne enfermée dans le corps du Mage. Il possède une continuité faite d’affinités, de résonances, d’instincts et parfois des traces de ses porteurs précédents."
+        }
+      ]
+    },
+    {
+      "id": "avant-les-societes-humaines",
+      "title": "Avant les sociétés humaines",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Les Mageius sont plus anciens que les traditions qui les étudient. Lorsque la Terre baignait davantage dans la Magie, certains agrégats finirent par acquérir une forme de conscience et s’incarnèrent dans des êtres vivants. Sur de très longues périodes, certaines lignées devinrent particulièrement compatibles avec eux et donnèrent naissance aux Voyageurs : Dives, Gorgones, Amazones, Kochtchei, Babayaga et autres êtres dont les mythologies ont conservé des souvenirs déformés. Les Mageius finirent également par se fixer aux Humains. Cette association produisit les premiers grands Mages et des traditions que les Elfes d’Aèr désignèrent sous le terme de Myrddin. La transmission n’est cependant pas un simple héritage sanguin : la descendance d’un grand Mage ne garantit pas qu’un enfant recevra un Mageius, et un Mage peut apparaître dans une famille qui n’en a aucune mémoire."
+        }
+      ]
+    },
+    {
+      "id": "la-guerre-de-la-magie",
+      "title": "La Guerre de la Magie",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Les Mages apprirent que les Mageius pouvaient survivre à leurs porteurs et rejoindre d’autres hôtes. Les grands Voyageurs cessèrent alors d’être seulement des rivaux ou des monstres : ils devinrent aussi des réservoirs de structures magiques convoitées. La Guerre de la Magie vit des sociétés humaines lever des forces contre plusieurs lignées de Voyageurs afin de les détruire et de libérer les Mageius qu’elles portaient. La victoire fut presque complète et profondément ironique. Les sociétés humaines que les Mages avaient contribué à renforcer finirent par se retourner contre eux. La magie devint superstition, hérésie ou crime ; ceux qui avaient détruit une partie de leurs anciens rivaux durent apprendre à se cacher au milieu des civilisations qu’ils avaient aidé à bâtir."
+        }
+      ]
+    },
+    {
+      "id": "la-roue-magique",
+      "title": "La Roue magique",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Cinq grandes familles décrivent le point d’entrée naturel d’un Mageius dans la Roue. Le Kaharal résonne avec la matière et la forme ; le Meldir avec l’ordre, la restauration et la lumière ; l’Elinaeth avec les forces, l’information et le continuum ; le Mestherak avec l’âme, la mort et l’essence vitale ; le Discella avec l’ombre, l’illusion et la malédiction. Ces Types ne sont pas cinq écoles fermées. Un Kaharal peut étudier la Chronomancie sans cesser d’être Kaharal ; il doit simplement parcourir une portion plus éloignée de la Roue. L’âge et l’expérience des grands Mages sont donc dangereux parce qu’ils ont parfois eu des siècles pour apprendre des domaines que leur affinité initiale ne laissait pas deviner."
+        }
+      ]
+    },
+    {
+      "id": "comprendre-avant-d-imposer",
+      "title": "Comprendre avant d’imposer",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "La magie ne comprend pas les mots à la place du Mage. Connaître le nom d’un organe ne permet pas de le manipuler si l’on ne sait pas où il se trouve ni comment il fonctionne. Un Alchimiste ne fabrique pas une molécule complexe qu’il ne comprend pas simplement parce qu’il en connaît la désignation. La connaissance profane détermine donc directement la finesse et l’étendue de ce qu’un Mage peut imposer au monde. Cette relation explique l’importance des sciences, de la médecine, de l’histoire et des savoirs techniques dans les communautés magiques. Un chirurgien Morphomancien est terrifiant parce qu’il connaît l’anatomie. Un chimiste Alchimiste parce qu’il sait réellement ce qui se produira lorsque deux structures se rencontrent. La Magie ne remplace pas l’expertise ; elle la prolonge jusqu’à l’impossible."
+        }
+      ]
+    },
+    {
+      "id": "uvres-echos-et-heritage",
+      "title": "Œuvres, Échos et héritage",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "À mesure qu’un Mage affine une technique, sa manière de faire peut s’inscrire dans son Mageius. Après sa mort, il peut rester un Écho : réflexe, méthode ou technique qu’un porteur ultérieur découvrira comme presque naturelle. Inversement, une technique suffisamment aboutie peut devenir une Œuvre personnelle puis, si elle est transmise, une Magie familiale. Chez les Mages, une famille peut donc être une généalogie d’idées autant qu’une lignée de sang."
+        }
+      ]
+    },
+    {
+      "id": "les-loges",
+      "title": "Les Loges",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Les Mages se regroupent en Loges qui servent à la fois d’écoles, de refuges, d’autorités et de réseaux de transmission. Elles coopèrent sans former un gouvernement mondial cohérent. Leur organisation valorise fortement la maîtrise et l’enseignement : apprentis, Singularis, Tutors, Referrers, Magisters et quelques figures hors norme structurent un milieu où le savoir est à la fois prestige et moyen de survie. La naissance de la Grande Californie a provoqué une crise très concrète parmi elles. Les anciennes juridictions américaines et mexicaines ne correspondaient plus au territoire politique, ouvrant un conflit entre Los Angeles et Tijuana pour le contrôle de la nouvelle organisation régionale. Los Angeles l’emporta, mais les affrontements affaiblirent durablement la communauté magique locale."
+        }
+      ]
+    },
+    {
+      "id": "puissance-et-revers",
+      "title": "Puissance et Revers",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Un Mageius peut être forcé. Plus un Mage pousse de puissance au-delà de ce qu’il maîtrise confortablement, plus il augmente le risque d’un Revers et d’une Dormance qui peut fermer son accès à la Magie pendant plusieurs jours. Les plus expérimentés ne sont donc pas ceux qui forcent systématiquement davantage, mais ceux qui savent exactement quand le prix d’un échec justifie de risquer de perdre leur propre magie."
+        }
+      ]
+    },
+    {
+      "id": "les-mages-en-2035",
+      "title": "Les Mages en 2035",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "La modernité a rendu le savoir plus accessible que jamais. Imagerie médicale, bases scientifiques, modélisation, capteurs et bibliothèques numériques donnent aux Mages des moyens d’étude que leurs prédécesseurs auraient considérés comme miraculeux. La technologie ne concurrence pas nécessairement la Magie : elle produit de nouveaux phénomènes à comprendre et de nouvelles manières de vérifier ce que l’on croit savoir. Elle augmente aussi l’échelle des erreurs. Une faute qui aurait autrefois brûlé une pièce peut désormais perturber un réseau automatisé, un laboratoire ou une infrastructure urbaine. Le Mage contemporain possède davantage de connaissances que presque tous ses prédécesseurs ; il possède donc aussi davantage de manières de se tromper."
+        }
+      ]
+    },
+    {
+      "id": "vivre-avec-un-mageius",
+      "title": "Vivre avec un Mageius",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Le Mageius n'est ni une batterie ni un simple organe magique. Il agit comme conduit, résonateur et mémoire. Il permet à un Humain d'imposer au réel une compréhension suffisamment précise pour devenir magie, tout en conservant des Échos de ceux qui l'ont porté auparavant. Cette quasi-autonomie donne à chaque Mage une relation intime avec quelque chose qui n'est pas tout à fait une seconde personne et certainement pas un outil neutre. Certains Mages perçoivent leur Mageius comme une présence familière, d'autres comme un ensemble d'intuitions, de rêves ou de réflexes intellectuels. Les Échos peuvent transmettre une manière de penser, une peur, un geste, parfois une compréhension que le porteur actuel n'aurait pas pu acquérir seul. Ils ne remplacent cependant ni l'étude ni l'expérience. Recevoir le souvenir d'une solution n'est pas nécessairement comprendre pourquoi elle fonctionne. Cette tension structure la magie de TUC. Le pouvoir ne récompense pas seulement la volonté de produire un effet ; il récompense la compréhension de ce que l'on manipule. La médecine élargit la guérison, la physique enrichit la télékinésie, la chimie transforme l'alchimie, l'histoire et la linguistique donnent des outils aux pratiques qui dépendent de symboles ou de morts. Un Mage qui cesse d'apprendre finit par rencontrer les limites de sa propre bibliothèque mentale."
+        }
+      ]
+    },
+    {
+      "id": "la-roue-n-est-pas-une-prison",
+      "title": "La Roue n'est pas une prison",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Les cinq portes de la Roue — Kaharal, Meldir, Elinaeth, Mestherak et Discella — décrivent des affinités et des familles de compréhension. Elles ne sont pas des classes fermées. Un Mage peut commencer avec une sensibilité évidente à une porte puis consacrer des années à apprendre loin de cette première affinité. Ce principe explique la diversité des Loges. Certaines se spécialisent dans une tradition précise parce qu'elles possèdent les maîtres, les archives et les protections adaptées. D'autres valorisent au contraire la circulation entre disciplines. Une Loge n'est pas un gouvernement mondial des Mages : c'est un lieu d'étude, de sécurité, d'autorité locale et souvent de mémoire collective. La Guerre de la Magie a rendu cette fonction de protection particulièrement importante. Les archives ne sont pas seulement des bibliothèques ; elles peuvent contenir des œuvres dangereuses, des noms, des fragments de Mageius et des traces d'expériences dont la répétition serait catastrophique. L'autorité d'une Loge vient autant de ce qu'elle sait empêcher que de ce qu'elle sait enseigner."
+        }
+      ]
+    },
+    {
+      "id": "la-technologie-comme-nouvelle-matiere-de-magie",
+      "title": "La technologie comme nouvelle matière de magie",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Le monde de 2035 offre aux Mages une situation sans précédent. Jamais l'Humanité n'avait produit autant d'objets complexes dont le fonctionnement peut être étudié, modélisé et compris. Pour certaines traditions, la technologie est donc moins un adversaire qu'une bibliothèque nouvelle. Un moteur, un réseau, une interface neuronale ou un matériau de synthèse deviennent des structures que la magie peut aborder dès lors que le Mage en comprend réellement les principes. Cela ne signifie pas qu'un sort puisse remplacer gratuitement toute ingénierie. Plus le système est complexe, plus l'ignorance devient dangereuse. La magie n'offre pas une permission de sauter les étapes intellectuelles ; elle rend les étapes utiles d'une manière que la science profane n'avait jamais envisagée. Cette proximité explique aussi la méfiance réciproque entre certains Mages et technomages. Les uns improvisent à partir d'une compréhension personnelle du réel ; les autres construisent des procédures qui font coopérer science et transgression magique dans un dispositif reproductible. Les résultats peuvent se ressembler tout en reposant sur des philosophies profondément différentes."
+        }
+      ]
+    },
+    {
+      "id": "uvres-personnelles-et-familles-de-pratique",
+      "title": "Œuvres personnelles et familles de pratique",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Les Mages les plus marquants laissent rarement seulement une liste de sorts. Ils laissent des Œuvres : solutions, formes, méthodes, constructions qui portent leur manière propre de comprendre la magie. Certaines deviennent des Magies familiales transmises à des descendants ou à des élèves, parfois modifiées pendant des générations. Cette transmission donne à la magie une histoire humaine. Deux Mages capables d'obtenir un résultat comparable peuvent le faire par des raisonnements totalement différents, et cette différence compte lorsque l'effet rencontre une limite imprévue. Connaître l'Œuvre de quelqu'un, c'est parfois connaître sa manière de penser. En 2035, un Mage n'est donc pas seulement un être capable d'imposer sa volonté. C'est quelqu'un dont l'éducation transforme littéralement l'étendue de ce que cette volonté peut accomplir."
+        }
+      ]
+    },
+    {
+      "id": "les-cinq-portes-de-la-roue-comme-cultures-de-pensee",
+      "title": "Les cinq portes de la Roue comme cultures de pensée",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Kaharal, Meldir, Elinaeth, Mestherak et Discella ne sont pas cinq professions ni cinq classes fermées. Ils décrivent les grandes affinités par lesquelles un Mageius entre plus naturellement en résonance avec la Roue. Un Mage peut étudier loin de sa porte d'origine ; il le fera simplement sans la même familiarité initiale. Cette possibilité a des conséquences culturelles. Les Loges ne peuvent pas réduire un élève à son affinité sans gaspiller une partie de son potentiel. Les traditions sérieuses enseignent donc d'abord une manière de raisonner : identifier ce qui est réellement manipulé, distinguer une analogie d'une propriété et savoir quand un effet exige une compréhension que le Mage ne possède pas encore. Les rivalités entre portes viennent moins d'une incompatibilité magique que de façons différentes de poser les problèmes. Deux Mages peuvent obtenir des résultats proches en décrivant la même situation par des chemins intellectuels opposés. Ce désaccord peut devenir fécond dans une équipe ou produire des querelles doctrinales de plusieurs générations dans une Loge."
+        }
+      ]
+    },
+    {
+      "id": "la-loge-maison-d-etude-et-puissance-locale",
+      "title": "La Loge, maison d'étude et puissance locale",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Une Loge est rarement seulement une école. Elle accumule des bibliothèques, des lieux sûrs, des objets, des dettes et surtout des Mages capables de reconnaître les conséquences d'une erreur occulte. Dans un territoire où aucune autorité mondiale des Mages n'existe, cette concentration produit naturellement une forme de pouvoir local. Certaines Loges deviennent protectrices : elles surveillent des lieux dangereux, transmettent des méthodes et interviennent lorsqu'un phénomène menace la population. D'autres deviennent aristocratiques, familiales, académiques ou presque corporatives. Une Loge peut être bienveillante envers son quartier et impitoyable envers un rival. Le mot décrit une structure de continuité, pas une morale. La Guerre de la Magie a laissé une méfiance durable envers les organisations qui prétendent posséder la seule manière légitime d'employer la Roue. Les Voyageurs, les lignées dispersées et les survivants de traditions détruites ont transmis l'idée qu'aucune institution ne devrait pouvoir décider seule quels savoirs ont le droit d'exister. Cette mémoire explique la résistance à toute tentative de gouvernement magique global."
+        }
+      ]
+    },
+    {
+      "id": "echos-heriter-sans-consentement-total",
+      "title": "Échos : hériter sans consentement total",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Le Mageius conserve des traces de porteurs précédents. Un Écho peut être une technique, une intuition, une sensation ou une structure mentale assez complète pour guider le Mage actuel. Cette transmission est précieuse parce qu'elle traverse des destructions d'archives auxquelles aucun livre n'aurait survécu. Elle peut aussi être inconfortable. Un Écho n'a pas été écrit pour un lecteur futur ; il vient d'une personne qui a vécu, aimé, eu peur et parfois commis des erreurs. Le porteur actuel peut recevoir un réflexe dont il désapprouve la source ou une compréhension liée à une époque dont les catégories n'existent plus. Les Mages apprennent donc à distinguer mémoire et autorité. Le fait qu'un ancien porteur ait réussi quelque chose ne prouve pas qu'il avait raison sur le monde, seulement qu'il a laissé une trace suffisamment forte pour survivre."
+        }
+      ]
+    },
+    {
+      "id": "la-technologie-comme-nouvel-alphabet-magique",
+      "title": "La technologie comme nouvel alphabet magique",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "La révolution technologique de 2030 a bouleversé l'étude magique moins parce qu'elle a produit des machines plus puissantes que parce qu'elle a multiplié les systèmes que l'on peut réellement comprendre. Réseaux, implants, matériaux biosynthétiques, neurointerfaces et architectures autonomes offrent aux Mages des objets dont les propriétés n'existaient pas dans les bibliothèques des siècles précédents. Un Mage moderne peut donc être dangereux dans un laboratoire pour des raisons que ses ancêtres auraient eu du mal à imaginer. Comprendre un protocole, une chaîne de capteurs ou la chimie d'un matériau devient une manière d'élargir ce que la Magie peut viser avec précision. La frontière entre « savoir profane » et « savoir magique » n'a jamais été aussi artificielle. Cette évolution inquiète les traditionalistes mais ne rend pas leurs connaissances obsolètes. Les anciens textes décrivent des principes, des erreurs et des catastrophes que la nouveauté technique ne supprime pas. Le Mage de 2035 a simplement accès à une bibliothèque beaucoup plus grande - et donc à beaucoup plus de façons de se tromper."
+        }
+      ]
+    }
+  ],
+  "r1": [
+    {
+      "id": "architecture-du-mage",
+      "title": "Architecture du Mage",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Le Mage est un humain lié à un Mageius, structure magique quasi autonome servant de conduit entre sa volonté et la Magie. Un Mageius peut théoriquement apprendre à exploiter les quinze domaines de la Roue, mais son Type détermine ses affinités naturelles et les chemins de progression les plus faciles. Affinité = ce que je peux manipuler. Maîtrise = à quel point je peux le manipuler avec finesse. Amplitude = à quelle échelle je peux l’imposer au monde. • Nature Mage : Vision du Voile, Perception magique, Protection du Mageius, Défense occulte et capacité innée de Volonté supérieure. • Type de Mageius : Kaharal, Meldir, Elinaeth, Mestherak ou Discella. • Affinité dominante : première langue magique du Mage, plus naturellement résonnante. • Maîtrise : Initiale Affinée Supérieure → → → Magistrale. Elle donne des permissions qualitatives, pas un simple bonus chiffré. • Amplitude : Mineure Significative Majeure → → → Cataclysmique. Mythique reste hors progression PJ. • Techniques : usages particuliers appris ; elles n’annulent jamais les limites générales sans le dire explicitement. • Œuvre personnelle : sort signature inventé par un Mage arrivé à maturité magique. • Magie familiale : Œuvre personnelle transmise et devenue tradition. • Écho du Mageius : technique laissée par un ancien porteur dans la mémoire du Mageius."
+        }
+      ]
+    },
+    {
+      "id": "etats-de-revelation",
+      "title": "États de Révélation",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Voilé (V) Aspect: Humain ordinaire sous l’Hologramme. • Modifications: Aucune modification. Accès magique: Pas de lancement direct par le Mageius. Semi-Révélé (SR) Aspect: Toujours physiquement humain ; le Mageius affleure. • Modifications: +1 Esprit, +1 Volonté. Accès magique: Vision du Voile, Perception magique, Protection du Mageius. Amplitude maximale : Mineure. Révélé (R) Aspect: Peut rester parfaitement humain d’apparence ; le Mageius est pleinement ouvert. • Modifications: +1 Esprit, +2 Volonté (remplace les bonus SR). Accès magique: Toute Affinité, Maîtrise et Amplitude réellement acquises. La Révélation d’un Mage n’est pas forcément spectaculaire. Un Mage peut donc rester Révélé très longtemps s’il accepte les risques sociaux et métaphysiques liés au Voile. Certains Mages très anciens ou arrogants n’éprouvent aucune raison de refermer leur Mageius tant que personne ne peut les contraindre à le faire. Passer V SR R suit les règles générales de → → Révélation de TUC : 1 PA sous pression, sans jet sauf opposition active. Un passage direct V R est → possible. Le marqueur d’état reste externe à la fiche."
+        }
+      ]
+    },
+    {
+      "id": "mageius-et-roue-magique",
+      "title": "Mageius et Roue magique",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Les quinze domaines sont répartis en cinq groupes naturels. Le Type du Mageius ne rend pas les autres domaines impossibles : il détermine le point d’entrée du Mage dans la Roue et le coût de la traversée vers des familles magiques étrangères. Kaharal Nature: Matière, forme, monde physique Affinités natives: Architétramancie • Morphomancie • Alchimie Meldir Nature: Ordre, restauration, lumière Affinités natives: Photomancie • Acratomancie • Médéomancie Elinaeth Nature: Forces, information, continuum Affinités natives: Télékinésie • Divination • Chronomancie Mestherak Nature: Âme, mort, essence vitale Affinités natives: Spectromancie • Hématomancie • Nécromancie Discella Nature: Ombre, illusion, malédiction Affinités natives: Skiamancie • Pseudomancie • Pathomancie Roue : Kaharal Meldir Elinaeth Mestherak ↔ ↔ ↔ ↔ ↔ Discella Kaharal Un Kaharal reste un Kaharal même s’il apprend la Chronomancie. Il n’a pas changé de Mageius : il a appris à faire résonner son Mageius avec une portion éloignée de la Roue."
+        }
+      ]
+    },
+    {
+      "id": "progression-par-points-de-verite",
+      "title": "Progression par Points de Vérité",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "id": "affinite-dominante",
+      "title": "Affinité dominante",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": ": première langue magique du Mage, plus naturellement résonnante. •"
+        }
+      ]
+    },
+    {
+      "id": "maitrise",
+      "title": "Maîtrise",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Initiale est le niveau de base : effet direct et simple, un phénomène évident. Les niveaux Affinée, Supérieure et Magistrale sont achetés en PTV depuis le catalogue canonique du Builder."
+        },
+        {
+          "type": "p",
+          "text": "{{Talents|group=mage:progression-par-points-de-verite-maitrise}}"
+        },
+        {
+          "type": "p",
+          "text": "Mythique reste hors progression PJ. Les coûts sont cumulatifs : atteindre Magistrale depuis Initiale représente 1 + 2 + 3 = 6 PTV."
+        }
+      ]
+    },
+    {
+      "id": "amplitude",
+      "title": "Amplitude",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Mineure est l'Amplitude de base : un individu, un objet ou une petite manifestation. Les niveaux Significative, Majeure et Cataclysmique sont achetés en PTV depuis le catalogue canonique du Builder."
+        },
+        {
+          "type": "p",
+          "text": "{{Talents|group=mage:progression-par-points-de-verite-amplitude}}"
+        },
+        {
+          "type": "p",
+          "text": "Mythique reste hors progression PJ et correspond à l'échelle ville/région et au-delà. Les coûts sont cumulatifs : atteindre Cataclysmique depuis Mineure représente 1 + 2 + 3 = 6 PTV."
+        }
+      ]
+    },
+    {
+      "id": "affinites-supplementaires",
+      "title": "Affinités supplémentaires",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Éveiller une deuxième Affinité native coûte 1 PTV et exige d’avoir déjà progressé au moins une fois dans la première Affinité. Éveiller la troisième coûte également 1 PTV et exige une nouvelle progression dans une Affinité native. Accord adjacent — 3 PTV : prérequis, au moins une Affinité native à Maîtrise Supérieure. Le Mage ouvre une Affinité d’un Mageius adjacent en Initiale / Mineure. Les deux autres domaines de ce Type peuvent ensuite être éveillés pour 1 PTV chacun, avec la même logique de progression. Traversée de la Roue — 2 PTV : prérequis, avoir établi un Accord avec le Mageius intermédiaire. Le Mage ouvre une Affinité du Type éloigné en Initiale / Mineure. Ainsi, atteindre une première Affinité à deux segments de son Mageius natal coûte 5 PTV au total. Il n’existe pas de limite théorique au nombre d’Affinités qu’un Mage peut apprendre. En pratique, Maîtrise, Amplitude, Techniques et traversées coûtent suffisamment de PTV pour qu’un PJ se spécialise naturellement ; les monstres de plusieurs millénaires peuvent, eux, avoir parcouru une grande partie de la Roue."
+        }
+      ]
+    },
+    {
+      "id": "construire-et-lancer-un-sort",
+      "title": "Construire et lancer un sort",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Jet de magie : Volonté + Maîtrise spirituelle + 1d10e Le Mage ne choisit pas un sort dans une liste. Il décrit ce qu’il veut imposer à la Réalité puis fixe les paramètres suivants : Affinité intention/"
+        }
+      ]
+    },
+    {
+      "id": "essence",
+      "title": "Essence",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "→ →"
+        }
+      ]
+    },
+    {
+      "id": "polarite",
+      "title": "Polarité",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Amplitude portée. La Maîtrise doit → → rendre l’effet concevable ; l’Amplitude doit rendre son échelle possible. Essence Essence Fonction Destructive Endommager, briser, consumer. Reconstructive Réparer, guérir, restaurer. Créative Façonner, produire ou ajouter une fonction. Invocative Faire venir une entité ou chose qui préexiste ailleurs. Restrictive Neutraliser, diminuer ou empêcher une fonction. Invasive Créer un flux, transfert ou influence entre le Mage et une cible. L’Essence sert à clarifier l’intention ; elle n’ajoute pas à elle seule un modificateur mathématique. Polarité Polarité Cible Endo Le Mage lui-même. Exo Une cible identifiée. Stato Un lieu, un point ou une zone indépendamment de ce qui s’y trouve."
+        }
+      ]
+    },
+    {
+      "id": "difficulte-pa-et-tension-par-amplitude",
+      "title": "Difficulté, PA et Tension par Amplitude",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Insignifiante Difficulté de base: Automatique hors pression • PA de base: 0 / 1 si enjeu tactique Tension à la libération: +0 Mineure Difficulté de base: 15 • PA de base: 1 Tension à la libération: +1 Significative Difficulté de base: 18 • PA de base: 2 Tension à la libération: +2 Majeure Difficulté de base: 21 • PA de base: 3 Tension à la libération: +3 Cataclysmique Difficulté de base: 25 • PA de base: 4 Tension à la libération: +4 Mythique Difficulté de base: Inaccessible aux PJ • PA de base: — Tension à la libération: — La difficulté dépend de l’Amplitude réellement utilisée, pas du maximum possédé. Pour chaque palier d’Amplitude possédé au-dessus de l’effet utilisé, la difficulté descend d’un niveau sur l’échelle 25 21 18 15 12. Si le Mage possède au moins → → → → deux paliers d’avance, l’effet devient automatique uniquement lorsqu’il n’existe ni opposition, ni urgence, ni difficulté réelle de contexte."
+        }
+      ]
+    },
+    {
+      "id": "portee",
+      "title": "Portée",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Portée Règle Endo / Contact Difficulté 1 niveau. − Portée de Volonté Volonté × 5 mètres ; difficulté normale. À vue Difficulté +1 niveau. Hors vue / éloignée Nécessite un lien, un ancrage, un rituel, une Technique, un Écho ou une Magie personnelle qui l’autorise. Une difficulté ne dépasse pas 25. Si la portée ou un autre facteur devrait la pousser au-delà, chaque niveau excédentaire impose au moins 1 PA de Canalisation avant même que le sort puisse être tenté. Cette Canalisation obligatoire ramène d’abord le sort à 25."
+        }
+      ]
+    },
+    {
+      "id": "principe-de-designation-et-role-des-savoirs",
+      "title": "Principe de désignation et rôle des Savoirs",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "La magie n’agit pas sur les mots employés par le joueur. Elle agit sur ce que le Mage est réellement capable d’identifier. Pour manipuler quelque chose, le Mage doit pouvoir se représenter et désigner sa cible de façon suffisante. Voir une personne permet de viser cette personne ; voir sa main permet de viser cette main ; voir du sang exposé permet de viser ce sang. En revanche, connaître le mot « cervelet » ne permet pas de sélectionner automatiquement un cervelet caché derrière un crâne. • Visibilité : voir directement une cible ou une partie de cible est la méthode la plus simple de désignation. • Connaissance : une cible technique, anatomique, chimique, historique ou symbolique exige que le Mage comprenne réellement ce qu’il cherche à manipuler. • Localisation : même connue, une structure invisible doit pouvoir être localisée par un moyen crédible : perception spécialisée, connaissance clinique précise, retour magique, imagerie, lien, Sceau, Technique ou Magie personnelle. • Compétences profanes : Savoirs, Soin, Perception, Investigation, Langages & Argot ou autres Compétences pertinentes peuvent servir de permission fictionnelle. On ne fait un jet séparé que lorsque l’expertise elle-même est incertaine et importante. Maîtrise magique = « est-ce que je sais modeler cet effet ? » Savoir profane = « est-ce que je comprends suffisamment ce que j’essaie de modeler ? » Cette règle empêche les exécutions absurdes par simple formulation (« je pince son artériole cérébrale ») tout en récompensant les Mages cultivés. Un chirurgien Morphomancien, un chimiste Alchimiste ou un historien Divinateur deviennent terrifiants précisément parce qu’ils savent de quoi ils parlent."
+        }
+      ]
+    },
+    {
+      "id": "defenses-et-degats-magiques",
+      "title": "Défenses et dégâts magiques",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "id": "defense-occulte",
+      "title": "Défense occulte",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "et capacité innée de Volonté supérieure. • Type de Mageius : Kaharal, Meldir, Elinaeth, Mestherak ou Discella. • Affinité dominante : première langue magique du Mage, plus naturellement résonnante. • Maîtrise : Initiale Affinée Supérieure → → → Magistrale. Elle donne des permissions qualitatives, pas un simple bonus chiffré. • Amplitude : Mineure Significative Majeure → → → Cataclysmique. Mythique reste hors progression PJ. • Techniques : usages particuliers appris ; elles n’annulent jamais les limites générales sans le dire explicitement. • Œuvre personnelle : sort signature inventé par un Mage arrivé à maturité magique. • Magie familiale : Œuvre personnelle transmise et devenue tradition. • Écho du Mageius : technique laissée par un ancien porteur dans la mémoire du Mageius. États de Révélation Voilé (V) Aspect: Humain ordinaire sous l’Hologramme. • Modifications: Aucune modification. Accès magique: Pas de lancement direct par le Mageius. Semi-Révélé (SR) Aspect: Toujours physiquement humain ; le Mageius affleure. • Modifications: +1 Esprit, +1 Volonté. Accès magique: Vision du Voile, Perception magique, Protection du Mageius. Amplitude maximale : Mineure. Révélé (R) Aspect: Peut rester parfaitement humain d’apparence ; le Mageius est pleinement ouvert. • Modifications: +1 Esprit, +2 Volonté (remplace les bonus SR). Accès magique: Toute Affinité, Maîtrise et Amplitude réellement acquises. La Révélation d’un Mage n’est pas forcément spectaculaire. Un Mage peut donc rester Révélé très longtemps s’il accepte les risques sociaux et métaphysiques liés au Voile. Certains Mages très anciens ou arrogants n’éprouvent aucune raison de refermer leur Mageius tant que personne ne peut les contraindre à le faire."
+        },
+        {
+          "type": "p",
+          "text": "Passer V SR R suit les règles générales de → → Révélation de TUC : 1 PA sous pression, sans jet sauf opposition active. Un passage direct V R est → possible. Le marqueur d’état reste externe à la fiche. Mageius et Roue magique Les quinze domaines sont répartis en cinq groupes naturels. Le Type du Mageius ne rend pas les autres domaines impossibles : il détermine le point d’entrée du Mage dans la Roue et le coût de la traversée vers des familles magiques étrangères. Kaharal Nature: Matière, forme, monde physique Affinités natives: Architétramancie • Morphomancie • Alchimie Meldir Nature: Ordre, restauration, lumière Affinités natives: Photomancie • Acratomancie • Médéomancie Elinaeth Nature: Forces, information, continuum Affinités natives: Télékinésie • Divination • Chronomancie Mestherak Nature: Âme, mort, essence vitale Affinités natives: Spectromancie • Hématomancie • Nécromancie Discella Nature: Ombre, illusion, malédiction Affinités natives: Skiamancie • Pseudomancie • Pathomancie Roue : Kaharal Meldir Elinaeth Mestherak ↔ ↔ ↔ ↔ ↔ Discella Kaharal Un Kaharal reste un Kaharal même s’il apprend la Chronomancie. Il n’a pas changé de Mageius : il a appris à faire résonner son Mageius avec une portion éloignée de la Roue. Progression par Points de Vérité Affinité dominante À l’éveil, le Mage choisit une Affinité native de son Mageius. Elle commence gratuitement à Maîtrise Initiale / Amplitude Mineure. Résonance dominante — 1 fois par scène, le Mage peut relancer le 1d10e d’un sort de son Affinité dominante et conserver le second résultat. Maîtrise Initiale Coût: Base Permission générale: Effet direct et simple ; un phénomène évident."
+        },
+        {
+          "type": "p",
+          "text": "Affinée Coût: 1 PTV Permission générale: Précision élevée, formes complexes, division simple d’un effet. Supérieure Coût: 2 PTV Permission générale: Plusieurs paramètres simultanés, effets indirects, comportements élaborés. Magistrale Coût: 3 PTV Permission générale: Exploitation extrême du concept ; ouvre l’accès à une Œuvre personnelle. Mythique Coût: — Permission générale: Hors progression PJ. Les coûts sont cumulatifs : atteindre Magistrale depuis Initiale représente 1 + 2 + 3 = 6 PTV. Amplitude Mineure Coût: Base Échelle indicative: Un individu, un objet, une petite manifestation. Significative Coût: 1 PTV Échelle indicative: Petit groupe, véhicule, pièce, effet de combat conséquent. Majeure Coût: 2 PTV Échelle indicative: Bâtiment, grande zone, phénomène surnaturel considérable. Cataclysmique Coût: 3 PTV Échelle indicative: Quartier, vaste terrain, événement historique local. Mythique Coût: — Échelle indicative: Ville/région et au-delà : hors progression PJ. Les coûts sont cumulatifs : atteindre Cataclysmique depuis Mineure représente 1 + 2 + 3 = 6 PTV. Affinités supplémentaires Éveiller une deuxième Affinité native coûte 1 PTV et exige d’avoir déjà progressé au moins une fois dans la première Affinité. Éveiller la troisième coûte également 1 PTV et exige une nouvelle progression dans une Affinité native. Accord adjacent — 3 PTV : prérequis, au moins une Affinité native à Maîtrise Supérieure. Le Mage ouvre une Affinité d’un Mageius adjacent en Initiale / Mineure. Les deux autres domaines de ce Type peuvent ensuite être éveillés pour 1 PTV chacun, avec la même logique de progression. Traversée de la Roue — 2 PTV : prérequis, avoir établi un Accord avec le Mageius intermédiaire."
+        },
+        {
+          "type": "p",
+          "text": "Le Mage ouvre une Affinité du Type éloigné en Initiale / Mineure. Ainsi, atteindre une première Affinité à deux segments de son Mageius natal coûte 5 PTV au total. Il n’existe pas de limite théorique au nombre d’Affinités qu’un Mage peut apprendre. En pratique, Maîtrise, Amplitude, Techniques et traversées coûtent suffisamment de PTV pour qu’un PJ se spécialise naturellement ; les monstres de plusieurs millénaires peuvent, eux, avoir parcouru une grande partie de la Roue. Construire et lancer un sort Jet de magie : Volonté + Maîtrise spirituelle + 1d10e Le Mage ne choisit pas un sort dans une liste. Il décrit ce qu’il veut imposer à la Réalité puis fixe les paramètres suivants : Affinité intention/Essence → → Polarité Amplitude portée. La Maîtrise doit → → rendre l’effet concevable ; l’Amplitude doit rendre son échelle possible. Essence Essence Fonction Destructive Endommager, briser, consumer. Reconstructive Réparer, guérir, restaurer. Créative Façonner, produire ou ajouter une fonction. Invocative Faire venir une entité ou chose qui préexiste ailleurs. Restrictive Neutraliser, diminuer ou empêcher une fonction. Invasive Créer un flux, transfert ou influence entre le Mage et une cible. L’Essence sert à clarifier l’intention ; elle n’ajoute pas à elle seule un modificateur mathématique. Polarité Polarité Cible Endo Le Mage lui-même. Exo Une cible identifiée. Stato Un lieu, un point ou une zone indépendamment de ce qui s’y trouve."
+        },
+        {
+          "type": "p",
+          "text": "Difficulté, PA et Tension par Amplitude Insignifiante Difficulté de base: Automatique hors pression • PA de base: 0 / 1 si enjeu tactique Tension à la libération: +0 Mineure Difficulté de base: 15 • PA de base: 1 Tension à la libération: +1 Significative Difficulté de base: 18 • PA de base: 2 Tension à la libération: +2 Majeure Difficulté de base: 21 • PA de base: 3 Tension à la libération: +3 Cataclysmique Difficulté de base: 25 • PA de base: 4 Tension à la libération: +4 Mythique Difficulté de base: Inaccessible aux PJ • PA de base: — Tension à la libération: — La difficulté dépend de l’Amplitude réellement utilisée, pas du maximum possédé. Pour chaque palier d’Amplitude possédé au-dessus de l’effet utilisé, la difficulté descend d’un niveau sur l’échelle 25 21 18 15 12. Si le Mage possède au moins → → → → deux paliers d’avance, l’effet devient automatique uniquement lorsqu’il n’existe ni opposition, ni urgence, ni difficulté réelle de contexte. Portée Portée Règle Endo / Contact Difficulté 1 niveau. − Portée de Volonté Volonté × 5 mètres ; difficulté normale. À vue Difficulté +1 niveau. Hors vue / éloignée Nécessite un lien, un ancrage, un rituel, une Technique, un Écho ou une Magie personnelle qui l’autorise. Une difficulté ne dépasse pas 25. Si la portée ou un autre facteur devrait la pousser au-delà, chaque niveau excédentaire impose au moins 1 PA de Canalisation avant même que le sort puisse être tenté. Cette Canalisation obligatoire ramène d’abord le sort à 25. Principe de désignation et rôle des Savoirs La magie n’agit pas sur les mots employés par le joueur. Elle agit sur ce que le Mage est réellement capable d’identifier."
+        },
+        {
+          "type": "p",
+          "text": "Pour manipuler quelque chose, le Mage doit pouvoir se représenter et désigner sa cible de façon suffisante. Voir une personne permet de viser cette personne ; voir sa main permet de viser cette main ; voir du sang exposé permet de viser ce sang. En revanche, connaître le mot « cervelet » ne permet pas de sélectionner automatiquement un cervelet caché derrière un crâne. • Visibilité : voir directement une cible ou une partie de cible est la méthode la plus simple de désignation. • Connaissance : une cible technique, anatomique, chimique, historique ou symbolique exige que le Mage comprenne réellement ce qu’il cherche à manipuler. • Localisation : même connue, une structure invisible doit pouvoir être localisée par un moyen crédible : perception spécialisée, connaissance clinique précise, retour magique, imagerie, lien, Sceau, Technique ou Magie personnelle. • Compétences profanes : Savoirs, Soin, Perception, Investigation, Langages & Argot ou autres Compétences pertinentes peuvent servir de permission fictionnelle. On ne fait un jet séparé que lorsque l’expertise elle-même est incertaine et importante. Maîtrise magique = « est-ce que je sais modeler cet effet ? » Savoir profane = « est-ce que je comprends suffisamment ce que j’essaie de modeler ? » Cette règle empêche les exécutions absurdes par simple formulation (« je pince son artériole cérébrale ») tout en récompensant les Mages cultivés. Un chirurgien Morphomancien, un chimiste Alchimiste ou un historien Divinateur deviennent terrifiants précisément parce qu’ils savent de quoi ils parlent."
+        },
+        {
+          "type": "p",
+          "text": "Défenses et dégâts magiques Défense occulte Défense occulte passive : Volonté + Force Mentale Défense occulte active : Volonté + Force Mentale + 1d10e — 1 PA La Défense occulte s’applique lorsqu’un effet magique est imposé directement à une personne : malédiction, intrusion mentale, altération interne du corps, manipulation directe du sang contenu dans l’organisme, etc. Une Défense active suppose que la cible puisse percevoir ou comprendre qu’elle est attaquée ; la Défense passive s’applique toujours lorsqu’une résistance est pertinente. Un phénomène devenu physiquement évitable utilise une défense physique : pierre télékinétique, lame de glace, explosion, chute provoquée, etc. On n’utilise jamais simultanément Défense physique et Défense occulte pour la même attaque."
+        }
+      ]
+    },
+    {
+      "id": "resolution-d-une-attaque-magique",
+      "title": "Résolution d’une attaque magique",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Le résultat du Mage doit à la fois atteindre la Difficulté intrinsèque du sort et dépasser la Défense applicable. Une égalité avec la Défense conserve le statu quo : l’attaque n’impose pas son effet. Dégâts magiques = Résultat du lancement Défense − applicable + bonus d’Amplitude Protection − applicable Amplitude offensive Bonus de dégâts Mineure +6 Significative +12 Majeure +18 Cataclysmique +24 La Protection applicable dépend de la nature finale de l’effet : une armure peut réduire une pierre propulsée ou une lame de glace ; elle n’arrête pas une malédiction qui agit directement dans l’organisme. Une protection magique spécifique peut fonctionner lorsque son texte le permet. Zone : un seul jet de lancement est effectué ; chaque cible compare ce résultat à sa propre Défense et reçoit des dégâts calculés individuellement. Une cible consciente et capable de réagir peut payer 1 PA pour une Défense active. Objets : contre un objet non défendu, la Difficulté intrinsèque du sort sert de seuil pour calculer la marge offensive, sauf si une Résistance structurelle supérieure est fixée par le MJ. L’Armure ou la solidité de l’objet s’applique ensuite normalement."
+        }
+      ]
+    },
+    {
+      "id": "canalisation-maintien-et-sorts-longs",
+      "title": "Canalisation, maintien et sorts longs",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "id": "canalisation-concentration",
+      "title": "Canalisation / Concentration",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Chaque PA supplémentaire investi avant la résolution réduit la Difficulté intrinsèque du sort d’un niveau, minimum 12. La Canalisation échange du temps contre de la fiabilité. Elle ne réduit ni la Défense d’une cible ni la Tension produite par le sort. Un Cataclysmique de base coûte 4 PA pour difficulté 25 ; avec 2 PA de Canalisation il coûte 6 PA et tombe à difficulté 18. Pour un Mage à 2 PA, cela peut représenter trois rounds entiers consacrés au même sort."
+        }
+      ]
+    },
+    {
+      "id": "preparation-sur-plusieurs-rounds",
+      "title": "Préparation sur plusieurs rounds",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Un sort de 2 PA ou plus peut être payé sur plusieurs rounds consécutifs. Le Mage peut effectuer d’autres actions compatibles avec sa concentration entre les PA investis. Une interruption significative — grosse blessure, projection, effet mental, tentative volontaire d’interruption — peut imposer Volonté + Force Mentale. En cas d’échec, les PA déjà investis sont perdus. La Tension est ajoutée lorsque le sort est effectivement libéré, qu’il réussisse ou échoue. Un sort interrompu avant sa libération ne produit normalement pas sa Tension complète ; le MJ peut néanmoins appliquer +1 Tension en cas de surcharge narrative manifeste."
+        }
+      ]
+    },
+    {
+      "id": "maintien-et-permanence",
+      "title": "Maintien et permanence",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Effet maintenu : 1 PA par round, sans nouveau jet d’activation automatique. Un phénomène qui existe ensuite par lui-même ne nécessite pas de maintien : feu réellement allumé, métal réellement remodelé, plaie réellement guérie. Un phénomène qui dépend d’un flux continu — lévitation, champ de force, accélération temporelle, hallucination active — exige un maintien. Une formulation comme « pour toujours » ne rend jamais gratuitement un effet permanent. Une durée hostile ou une permanence surnaturelle importante augmente l’Amplitude, la complexité, nécessite un ancrage ou relève d’une Technique/Magie personnelle."
+        }
+      ]
+    },
+    {
+      "id": "une-fonction-principale",
+      "title": "Une fonction principale",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Un sort générique possède une fonction mécanique principale. Une boule de feu ne gagne pas gratuitement dégâts + aveuglement + repoussement + destruction d’armure + mur persistant. Une Maîtrise élevée permet des comportements complexes, mais chaque fonction distincte doit être justifiée par la Maîtrise, l’Amplitude ou une Technique explicite."
+        }
+      ]
+    }
+  ],
+  "r2": [
+    {
+      "id": "tension-revers-et-dormance",
+      "title": "Tension, Revers et Dormance",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Le Mageius ne fonctionne pas comme une réserve de mana. Il supporte une certaine pression puis commence à protester. La Tension mesure l’insistance du Mage et la quantité de magie qu’il force à travers son conduit."
+        }
+      ]
+    },
+    {
+      "id": "monter-et-reduire-la-tension",
+      "title": "Monter et réduire la Tension",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Événement Variation Sort Insignifiant +0 Sort Mineur +1 Sort Significatif +2 Sort Majeur +3 Sort Cataclysmique +4 Changer d’Affinité −1 Tension avant d’ajouter la Tension du nouveau sort. Événement Variation Un round complet sans utiliser le Mageius −1 Tension. Quelques minutes de véritable calme hors scène Le MJ peut ramener progressivement la Tension à 0. Changer de domaine soulage le Mageius sans le remettre miraculeusement à neuf. C’est l’une des raisons pour lesquelles les jeunes Mages apprennent à alterner leurs Affinités."
+        }
+      ]
+    },
+    {
+      "id": "test-de-revers",
+      "title": "Test de Revers",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Aucun test n’est nécessaire tant que la Tension reste à 0–2. Dès qu’un sort fait atteindre ou augmenter une Tension de 3 ou plus, le sort est résolu puis le Mage teste : Volonté + Force Mentale + 1d10e Tension après le sort Difficulté de Revers 3 12 4 15 5 18 6 21 7+ 25"
+        }
+      ]
+    },
+    {
+      "id": "consequences-du-revers",
+      "title": "Conséquences du Revers",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Revers — Tension 3–4 Contrecoup immédiat: 3 PV irréductibles. Maintiens/concentrations cessent. PA restants du round perdus. Dormance: Environ 2 jours. Revers sévère — Tension 5–6 Contrecoup immédiat: 5 PV irréductibles. Le Mage est hagard et n’agit plus jusqu’à la fin de son prochain round ; Défense passive seulement. Dormance: Environ 3 jours. Revers catastrophique — Tension 7+ ou échec narratif Contrecoup immédiat: 7 PV irréductibles. Le Mage s’effondre généralement inconscient ; s’il reste conscient, il est au minimum hors d’état d’agir normalement pour la scène. Dormance: Environ 3 à 5 jours, selon violence. La Dormance est le cœur de la peur du Revers. Le Mageius s’endort réellement : aucun sort, aucune Affinité, aucune Magie personnelle/familiale, aucune Protection du Mageius et aucune Perception magique provenant du Mageius. Le Mage conserve son corps, ses Attributs, Compétences, équipements et relations, mais surnaturellement il redevient presque un humain ordinaire. Dormir huit heures, prendre des stimulants ou réussir un bon jet ne réveille pas un Mageius en Dormance. Seuls des procédés extraordinairement rares et spécifiquement capables d’agir sur un Mageius pourraient raccourcir cette période."
+        }
+      ]
+    },
+    {
+      "id": "capacites-et-talents-communs",
+      "title": "Capacités et Talents communs",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "id": "capacites-gratuites",
+      "title": "Capacités gratuites",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Vision à travers le Voile — SR/R : le Mage voit normalement les créatures et phénomènes accessibles à un observateur de son niveau de Révélation, conformément aux règles générales du Voile. Perception magique — SR/R : Esprit + Perception lorsque l’information est incertaine. Permet de ressentir nœuds, zones, enchantements, traces ou présences magiques, y compris lorsqu’elles ne sont pas pleinement révélées. Ne donne pas automatiquement leur Nature, leur histoire ou leur fonctionnement exact. Protection du Mageius — SR/R : +3 à la Défense occulte passive ou active contre les effets surnaturels agissant directement sur le Mage. Ne protège pas contre une conséquence devenue purement physique. Disparaît totalement pendant la Dormance. Canalisation — SR/R : action universelle décrite au §8 ; aucun Talent requis."
+        }
+      ]
+    },
+    {
+      "id": "volonte-superieure-capacite-innee",
+      "title": "Volonté supérieure — capacité innée",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Tout Mage peut forcer son Mageius au-delà de ses limites. Aucun achat en PTV n’est requis. Avant de commencer un sort, le Mage peut augmenter pour ce sort seulement sa Maîtrise d’un palier, son Amplitude d’un palier, ou les deux si l’effet déclaré exige réellement les deux dépassements. Il ne peut jamais atteindre Mythique par ce moyen et ne peut pas improviser une Affinité qu’il ne possède pas. Le sort utilise ensuite sa vraie difficulté, ses vrais PA, sa portée, sa Canalisation et sa Tension correspondant au niveau forcé. Après résolution, réussite ou échec : Revers catastrophique automatique. Aucun test de Revers ne peut l’éviter. Volonté supérieure est le bouton « Revers ou mort ». Les Mages savent qu’il existe ; ils font tout pour ne jamais avoir à l’utiliser."
+        }
+      ]
+    },
+    {
+      "id": "talents-communs",
+      "title": "Talents communs",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Les Talents communs du Mage sont alimentés directement par le catalogue canonique du Builder ; coûts, accès, prérequis, effet et lore mécanique ne sont pas recopiés ici."
+        },
+        {
+          "type": "p",
+          "text": "{{Talents|group=mage:capacites-et-talents-communs-talents-communs}}"
+        }
+      ]
+    },
+    {
+      "id": "echos-uvres-personnelles-et-magies-familiales",
+      "title": "Échos, Œuvres personnelles et Magies familiales",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "id": "echo-du-mageius",
+      "title": "Écho du Mageius",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": ": technique laissée par un ancien porteur dans la mémoire du Mageius. États de Révélation Voilé (V) Aspect: Humain ordinaire sous l’Hologramme. • Modifications: Aucune modification. Accès magique: Pas de lancement direct par le Mageius. Semi-Révélé (SR) Aspect: Toujours physiquement humain ; le Mageius affleure. • Modifications: +1 Esprit, +1 Volonté. Accès magique: Vision du Voile, Perception magique, Protection du Mageius. Amplitude maximale : Mineure. Révélé (R) Aspect: Peut rester parfaitement humain d’apparence ; le Mageius est pleinement ouvert. • Modifications: +1 Esprit, +2 Volonté (remplace les bonus SR). Accès magique: Toute Affinité, Maîtrise et Amplitude réellement acquises. La Révélation d’un Mage n’est pas forcément spectaculaire. Un Mage peut donc rester Révélé très longtemps s’il accepte les risques sociaux et métaphysiques liés au Voile. Certains Mages très anciens ou arrogants n’éprouvent aucune raison de refermer leur Mageius tant que personne ne peut les contraindre à le faire. Passer V SR R suit les règles générales de → → Révélation de TUC : 1 PA sous pression, sans jet sauf opposition active. Un passage direct V R est → possible. Le marqueur d’état reste externe à la fiche. Mageius et Roue magique Les quinze domaines sont répartis en cinq groupes naturels. Le Type du Mageius ne rend pas les autres domaines impossibles : il détermine le point d’entrée du Mage dans la Roue et le coût de la traversée vers des familles magiques étrangères."
+        },
+        {
+          "type": "p",
+          "text": "Kaharal Nature: Matière, forme, monde physique Affinités natives: Architétramancie • Morphomancie • Alchimie Meldir Nature: Ordre, restauration, lumière Affinités natives: Photomancie • Acratomancie • Médéomancie Elinaeth Nature: Forces, information, continuum Affinités natives: Télékinésie • Divination • Chronomancie Mestherak Nature: Âme, mort, essence vitale Affinités natives: Spectromancie • Hématomancie • Nécromancie Discella Nature: Ombre, illusion, malédiction Affinités natives: Skiamancie • Pseudomancie • Pathomancie Roue : Kaharal Meldir Elinaeth Mestherak ↔ ↔ ↔ ↔ ↔ Discella Kaharal Un Kaharal reste un Kaharal même s’il apprend la Chronomancie. Il n’a pas changé de Mageius : il a appris à faire résonner son Mageius avec une portion éloignée de la Roue. Progression par Points de Vérité Affinité dominante À l’éveil, le Mage choisit une Affinité native de son Mageius. Elle commence gratuitement à Maîtrise Initiale / Amplitude Mineure. Résonance dominante — 1 fois par scène, le Mage peut relancer le 1d10e d’un sort de son Affinité dominante et conserver le second résultat. Maîtrise Initiale Coût: Base Permission générale: Effet direct et simple ; un phénomène évident. Affinée Coût: 1 PTV Permission générale: Précision élevée, formes complexes, division simple d’un effet. Supérieure Coût: 2 PTV Permission générale: Plusieurs paramètres simultanés, effets indirects, comportements élaborés. Magistrale Coût: 3 PTV Permission générale: Exploitation extrême du concept ; ouvre l’accès à une"
+        }
+      ]
+    },
+    {
+      "id": "uvre-personnelle",
+      "title": "Œuvre personnelle",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "puis, si elle est transmise, une"
+        }
+      ]
+    },
+    {
+      "id": "magie-familiale",
+      "title": "Magie familiale",
+      "level": 3,
+      "blocks": [
+        {
+          "type": "p",
+          "text": ". Chez les Mages, une famille peut donc être une généalogie d’idées autant qu’une lignée de sang. Les Loges Les Mages se regroupent en Loges qui servent à la fois d’écoles, de refuges, d’autorités et de réseaux de transmission. Elles coopèrent sans former un gouvernement mondial cohérent. Leur organisation valorise fortement la maîtrise et l’enseignement : apprentis, Singularis, Tutors, Referrers, Magisters et quelques figures hors norme structurent un milieu où le savoir est à la fois prestige et moyen de survie. La naissance de la Grande Californie a provoqué une crise très concrète parmi elles. Les anciennes juridictions américaines et mexicaines ne correspondaient plus au territoire politique, ouvrant un conflit entre Los Angeles et Tijuana pour le contrôle de la nouvelle organisation régionale. Los Angeles l’emporta, mais les affrontements affaiblirent durablement la communauté magique locale. Puissance et Revers Un Mageius peut être forcé. Plus un Mage pousse de puissance au-delà de ce qu’il maîtrise confortablement, plus il augmente le risque d’un Revers et d’une Dormance qui peut fermer son accès à la Magie pendant plusieurs jours. Les plus expérimentés ne sont donc pas ceux qui forcent systématiquement davantage, mais ceux qui savent exactement quand le prix d’un échec justifie de risquer de perdre leur propre magie. Les Mages en 2035 La modernité a rendu le savoir plus accessible que jamais. Imagerie médicale, bases scientifiques, modélisation, capteurs et bibliothèques numériques donnent aux Mages des moyens d’étude que leurs prédécesseurs auraient considérés comme miraculeux."
+        },
+        {
+          "type": "p",
+          "text": "La technologie ne concurrence pas nécessairement la Magie : elle produit de nouveaux phénomènes à comprendre et de nouvelles manières de vérifier ce que l’on croit savoir. Elle augmente aussi l’échelle des erreurs. Une faute qui aurait autrefois brûlé une pièce peut désormais perturber un réseau automatisé, un laboratoire ou une infrastructure urbaine. Le Mage contemporain possède davantage de connaissances que presque tous ses prédécesseurs ; il possède donc aussi davantage de manières de se tromper. Vivre avec un Mageius Le Mageius n'est ni une batterie ni un simple organe magique. Il agit comme conduit, résonateur et mémoire. Il permet à un Humain d'imposer au réel une compréhension suffisamment précise pour devenir magie, tout en conservant des Échos de ceux qui l'ont porté auparavant. Cette quasi-autonomie donne à chaque Mage une relation intime avec quelque chose qui n'est pas tout à fait une seconde personne et certainement pas un outil neutre. Certains Mages perçoivent leur Mageius comme une présence familière, d'autres comme un ensemble d'intuitions, de rêves ou de réflexes intellectuels. Les Échos peuvent transmettre une manière de penser, une peur, un geste, parfois une compréhension que le porteur actuel n'aurait pas pu acquérir seul. Ils ne remplacent cependant ni l'étude ni l'expérience. Recevoir le souvenir d'une solution n'est pas nécessairement comprendre pourquoi elle fonctionne. Cette tension structure la magie de TUC. Le pouvoir ne récompense pas seulement la volonté de produire un effet ; il récompense la compréhension de ce que l'on manipule."
+        },
+        {
+          "type": "p",
+          "text": "La médecine élargit la guérison, la physique enrichit la télékinésie, la chimie transforme l'alchimie, l'histoire et la linguistique donnent des outils aux pratiques qui dépendent de symboles ou de morts. Un Mage qui cesse d'apprendre finit par rencontrer les limites de sa propre bibliothèque mentale. La Roue n'est pas une prison Les cinq portes de la Roue — Kaharal, Meldir, Elinaeth, Mestherak et Discella — décrivent des affinités et des familles de compréhension. Elles ne sont pas des classes fermées. Un Mage peut commencer avec une sensibilité évidente à une porte puis consacrer des années à apprendre loin de cette première affinité. Ce principe explique la diversité des Loges. Certaines se spécialisent dans une tradition précise parce qu'elles possèdent les maîtres, les archives et les protections adaptées. D'autres valorisent au contraire la circulation entre disciplines. Une Loge n'est pas un gouvernement mondial des Mages : c'est un lieu d'étude, de sécurité, d'autorité locale et souvent de mémoire collective. La Guerre de la Magie a rendu cette fonction de protection particulièrement importante. Les archives ne sont pas seulement des bibliothèques ; elles peuvent contenir des œuvres dangereuses, des noms, des fragments de Mageius et des traces d'expériences dont la répétition serait catastrophique. L'autorité d'une Loge vient autant de ce qu'elle sait empêcher que de ce qu'elle sait enseigner. La technologie comme nouvelle matière de magie Le monde de 2035 offre aux Mages une situation sans précédent. Jamais l'Humanité n'avait produit autant d'objets complexes dont le fonctionnement peut être étudié, modélisé et compris."
+        },
+        {
+          "type": "p",
+          "text": "Pour certaines traditions, la technologie est donc moins un adversaire qu'une bibliothèque nouvelle. Un moteur, un réseau, une interface neuronale ou un matériau de synthèse deviennent des structures que la magie peut aborder dès lors que le Mage en comprend réellement les principes. Cela ne signifie pas qu'un sort puisse remplacer gratuitement toute ingénierie. Plus le système est complexe, plus l'ignorance devient dangereuse. La magie n'offre pas une permission de sauter les étapes intellectuelles ; elle rend les étapes utiles d'une manière que la science profane n'avait jamais envisagée. Cette proximité explique aussi la méfiance réciproque entre certains Mages et technomages. Les uns improvisent à partir d'une compréhension personnelle du réel ; les autres construisent des procédures qui font coopérer science et transgression magique dans un dispositif reproductible. Les résultats peuvent se ressembler tout en reposant sur des philosophies profondément différentes. Œuvres personnelles et familles de pratique Les Mages les plus marquants laissent rarement seulement une liste de sorts. Ils laissent des Œuvres : solutions, formes, méthodes, constructions qui portent leur manière propre de comprendre la magie. Certaines deviennent des Magies familiales transmises à des descendants ou à des élèves, parfois modifiées pendant des générations. Cette transmission donne à la magie une histoire humaine. Deux Mages capables d'obtenir un résultat comparable peuvent le faire par des raisonnements totalement différents, et cette différence compte lorsque l'effet rencontre une limite imprévue. Connaître l'Œuvre de quelqu'un, c'est parfois connaître sa manière de penser."
+        },
+        {
+          "type": "p",
+          "text": "En 2035, un Mage n'est donc pas seulement un être capable d'imposer sa volonté. C'est quelqu'un dont l'éducation transforme littéralement l'étendue de ce que cette volonté peut accomplir. Les cinq portes de la Roue comme cultures de pensée Kaharal, Meldir, Elinaeth, Mestherak et Discella ne sont pas cinq professions ni cinq classes fermées. Ils décrivent les grandes affinités par lesquelles un Mageius entre plus naturellement en résonance avec la Roue. Un Mage peut étudier loin de sa porte d'origine ; il le fera simplement sans la même familiarité initiale. Cette possibilité a des conséquences culturelles. Les Loges ne peuvent pas réduire un élève à son affinité sans gaspiller une partie de son potentiel. Les traditions sérieuses enseignent donc d'abord une manière de raisonner : identifier ce qui est réellement manipulé, distinguer une analogie d'une propriété et savoir quand un effet exige une compréhension que le Mage ne possède pas encore. Les rivalités entre portes viennent moins d'une incompatibilité magique que de façons différentes de poser les problèmes. Deux Mages peuvent obtenir des résultats proches en décrivant la même situation par des chemins intellectuels opposés. Ce désaccord peut devenir fécond dans une équipe ou produire des querelles doctrinales de plusieurs générations dans une Loge. La Loge, maison d'étude et puissance locale Une Loge est rarement seulement une école. Elle accumule des bibliothèques, des lieux sûrs, des objets, des dettes et surtout des Mages capables de reconnaître les conséquences d'une erreur occulte. Dans un territoire où aucune autorité mondiale des Mages n'existe, cette concentration produit naturellement une forme de pouvoir local."
+        },
+        {
+          "type": "p",
+          "text": "Certaines Loges deviennent protectrices : elles surveillent des lieux dangereux, transmettent des méthodes et interviennent lorsqu'un phénomène menace la population. D'autres deviennent aristocratiques, familiales, académiques ou presque corporatives. Une Loge peut être bienveillante envers son quartier et impitoyable envers un rival. Le mot décrit une structure de continuité, pas une morale. La Guerre de la Magie a laissé une méfiance durable envers les organisations qui prétendent posséder la seule manière légitime d'employer la Roue. Les Voyageurs, les lignées dispersées et les survivants de traditions détruites ont transmis l'idée qu'aucune institution ne devrait pouvoir décider seule quels savoirs ont le droit d'exister. Cette mémoire explique la résistance à toute tentative de gouvernement magique global. Échos : hériter sans consentement total Le Mageius conserve des traces de porteurs précédents. Un Écho peut être une technique, une intuition, une sensation ou une structure mentale assez complète pour guider le Mage actuel. Cette transmission est précieuse parce qu'elle traverse des destructions d'archives auxquelles aucun livre n'aurait survécu. Elle peut aussi être inconfortable. Un Écho n'a pas été écrit pour un lecteur futur ; il vient d'une personne qui a vécu, aimé, eu peur et parfois commis des erreurs. Le porteur actuel peut recevoir un réflexe dont il désapprouve la source ou une compréhension liée à une époque dont les catégories n'existent plus. Les Mages apprennent donc à distinguer mémoire et autorité. Le fait qu'un ancien porteur ait réussi quelque chose ne prouve pas qu'il avait raison sur le monde, seulement qu'il a laissé une trace suffisamment forte pour survivre."
+        },
+        {
+          "type": "p",
+          "text": "La technologie comme nouvel alphabet magique La révolution technologique de 2030 a bouleversé l'étude magique moins parce qu'elle a produit des machines plus puissantes que parce qu'elle a multiplié les systèmes que l'on peut réellement comprendre. Réseaux, implants, matériaux biosynthétiques, neurointerfaces et architectures autonomes offrent aux Mages des objets dont les propriétés n'existaient pas dans les bibliothèques des siècles précédents. Un Mage moderne peut donc être dangereux dans un laboratoire pour des raisons que ses ancêtres auraient eu du mal à imaginer. Comprendre un protocole, une chaîne de capteurs ou la chimie d'un matériau devient une manière d'élargir ce que la Magie peut viser avec précision. La frontière entre « savoir profane » et « savoir magique » n'a jamais été aussi artificielle. Cette évolution inquiète les traditionalistes mais ne rend pas leurs connaissances obsolètes. Les anciens textes décrivent des principes, des erreurs et des catastrophes que la nouveauté technique ne supprime pas. Le Mage de 2035 a simplement accès à une bibliothèque beaucoup plus grande - et donc à beaucoup plus de façons de se tromper. Architecture du Mage Le Mage est un humain lié à un Mageius, structure magique quasi autonome servant de conduit entre sa volonté et la Magie. Un Mageius peut théoriquement apprendre à exploiter les quinze domaines de la Roue, mais son Type détermine ses affinités naturelles et les chemins de progression les plus faciles. Affinité = ce que je peux manipuler. Maîtrise = à quel point je peux le manipuler avec finesse. Amplitude = à quelle échelle je peux l’imposer au monde."
+        },
+        {
+          "type": "p",
+          "text": "• Nature Mage : Vision du Voile, Perception magique, Protection du Mageius, Défense occulte et capacité innée de Volonté supérieure. • Type de Mageius : Kaharal, Meldir, Elinaeth, Mestherak ou Discella. • Affinité dominante : première langue magique du Mage, plus naturellement résonnante. • Maîtrise : Initiale Affinée Supérieure → → → Magistrale. Elle donne des permissions qualitatives, pas un simple bonus chiffré. • Amplitude : Mineure Significative Majeure → → → Cataclysmique. Mythique reste hors progression PJ. • Techniques : usages particuliers appris ; elles n’annulent jamais les limites générales sans le dire explicitement. • Œuvre personnelle : sort signature inventé par un Mage arrivé à maturité magique. • Magie familiale : Œuvre personnelle transmise et devenue tradition. • Écho du Mageius : technique laissée par un ancien porteur dans la mémoire du Mageius. États de Révélation Voilé (V) Aspect: Humain ordinaire sous l’Hologramme. • Modifications: Aucune modification. Accès magique: Pas de lancement direct par le Mageius. Semi-Révélé (SR) Aspect: Toujours physiquement humain ; le Mageius affleure. • Modifications: +1 Esprit, +1 Volonté. Accès magique: Vision du Voile, Perception magique, Protection du Mageius. Amplitude maximale : Mineure. Révélé (R) Aspect: Peut rester parfaitement humain d’apparence ; le Mageius est pleinement ouvert. • Modifications: +1 Esprit, +2 Volonté (remplace les bonus SR). Accès magique: Toute Affinité, Maîtrise et Amplitude réellement acquises. La Révélation d’un Mage n’est pas forcément spectaculaire. Un Mage peut donc rester Révélé très longtemps s’il accepte les risques sociaux et métaphysiques liés au Voile."
+        },
+        {
+          "type": "p",
+          "text": "Certains Mages très anciens ou arrogants n’éprouvent aucune raison de refermer leur Mageius tant que personne ne peut les contraindre à le faire. Passer V SR R suit les règles générales de → → Révélation de TUC : 1 PA sous pression, sans jet sauf opposition active. Un passage direct V R est → possible. Le marqueur d’état reste externe à la fiche. Mageius et Roue magique Les quinze domaines sont répartis en cinq groupes naturels. Le Type du Mageius ne rend pas les autres domaines impossibles : il détermine le point d’entrée du Mage dans la Roue et le coût de la traversée vers des familles magiques étrangères. Kaharal Nature: Matière, forme, monde physique Affinités natives: Architétramancie • Morphomancie • Alchimie Meldir Nature: Ordre, restauration, lumière Affinités natives: Photomancie • Acratomancie • Médéomancie Elinaeth Nature: Forces, information, continuum Affinités natives: Télékinésie • Divination • Chronomancie Mestherak Nature: Âme, mort, essence vitale Affinités natives: Spectromancie • Hématomancie • Nécromancie Discella Nature: Ombre, illusion, malédiction Affinités natives: Skiamancie • Pseudomancie • Pathomancie Roue : Kaharal Meldir Elinaeth Mestherak ↔ ↔ ↔ ↔ ↔ Discella Kaharal Un Kaharal reste un Kaharal même s’il apprend la Chronomancie. Il n’a pas changé de Mageius : il a appris à faire résonner son Mageius avec une portion éloignée de la Roue. Progression par Points de Vérité Affinité dominante À l’éveil, le Mage choisit une Affinité native de son Mageius. Elle commence gratuitement à Maîtrise Initiale / Amplitude Mineure. Résonance dominante — 1 fois par scène, le Mage peut relancer le 1d10e d’un sort de son Affinité dominante et conserver le second résultat."
+        },
+        {
+          "type": "p",
+          "text": "Maîtrise Initiale Coût: Base Permission générale: Effet direct et simple ; un phénomène évident. Affinée Coût: 1 PTV Permission générale: Précision élevée, formes complexes, division simple d’un effet. Supérieure Coût: 2 PTV Permission générale: Plusieurs paramètres simultanés, effets indirects, comportements élaborés. Magistrale Coût: 3 PTV Permission générale: Exploitation extrême du concept ; ouvre l’accès à une Œuvre personnelle. Mythique Coût: — Permission générale: Hors progression PJ. Les coûts sont cumulatifs : atteindre Magistrale depuis Initiale représente 1 + 2 + 3 = 6 PTV. Amplitude Mineure Coût: Base Échelle indicative: Un individu, un objet, une petite manifestation. Significative Coût: 1 PTV Échelle indicative: Petit groupe, véhicule, pièce, effet de combat conséquent. Majeure Coût: 2 PTV Échelle indicative: Bâtiment, grande zone, phénomène surnaturel considérable. Cataclysmique Coût: 3 PTV Échelle indicative: Quartier, vaste terrain, événement historique local. Mythique Coût: — Échelle indicative: Ville/région et au-delà : hors progression PJ. Les coûts sont cumulatifs : atteindre Cataclysmique depuis Mineure représente 1 + 2 + 3 = 6 PTV. Affinités supplémentaires Éveiller une deuxième Affinité native coûte 1 PTV et exige d’avoir déjà progressé au moins une fois dans la première Affinité. Éveiller la troisième coûte également 1 PTV et exige une nouvelle progression dans une Affinité native. Accord adjacent — 3 PTV : prérequis, au moins une Affinité native à Maîtrise Supérieure. Le Mage ouvre une Affinité d’un Mageius adjacent en Initiale / Mineure. Les deux autres domaines de ce Type peuvent ensuite être éveillés pour 1 PTV chacun, avec la même logique de progression."
+        },
+        {
+          "type": "p",
+          "text": "Traversée de la Roue — 2 PTV : prérequis, avoir établi un Accord avec le Mageius intermédiaire. Le Mage ouvre une Affinité du Type éloigné en Initiale / Mineure. Ainsi, atteindre une première Affinité à deux segments de son Mageius natal coûte 5 PTV au total. Il n’existe pas de limite théorique au nombre d’Affinités qu’un Mage peut apprendre. En pratique, Maîtrise, Amplitude, Techniques et traversées coûtent suffisamment de PTV pour qu’un PJ se spécialise naturellement ; les monstres de plusieurs millénaires peuvent, eux, avoir parcouru une grande partie de la Roue. Construire et lancer un sort Jet de magie : Volonté + Maîtrise spirituelle + 1d10e Le Mage ne choisit pas un sort dans une liste. Il décrit ce qu’il veut imposer à la Réalité puis fixe les paramètres suivants : Affinité intention/Essence → → Polarité Amplitude portée. La Maîtrise doit → → rendre l’effet concevable ; l’Amplitude doit rendre son échelle possible. Essence Essence Fonction Destructive Endommager, briser, consumer. Reconstructive Réparer, guérir, restaurer. Créative Façonner, produire ou ajouter une fonction. Invocative Faire venir une entité ou chose qui préexiste ailleurs. Restrictive Neutraliser, diminuer ou empêcher une fonction. Invasive Créer un flux, transfert ou influence entre le Mage et une cible. L’Essence sert à clarifier l’intention ; elle n’ajoute pas à elle seule un modificateur mathématique. Polarité Polarité Cible Endo Le Mage lui-même. Exo Une cible identifiée. Stato Un lieu, un point ou une zone indépendamment de ce qui s’y trouve."
+        },
+        {
+          "type": "p",
+          "text": "Difficulté, PA et Tension par Amplitude Insignifiante Difficulté de base: Automatique hors pression • PA de base: 0 / 1 si enjeu tactique Tension à la libération: +0 Mineure Difficulté de base: 15 • PA de base: 1 Tension à la libération: +1 Significative Difficulté de base: 18 • PA de base: 2 Tension à la libération: +2 Majeure Difficulté de base: 21 • PA de base: 3 Tension à la libération: +3 Cataclysmique Difficulté de base: 25 • PA de base: 4 Tension à la libération: +4 Mythique Difficulté de base: Inaccessible aux PJ • PA de base: — Tension à la libération: — La difficulté dépend de l’Amplitude réellement utilisée, pas du maximum possédé. Pour chaque palier d’Amplitude possédé au-dessus de l’effet utilisé, la difficulté descend d’un niveau sur l’échelle 25 21 18 15 12. Si le Mage possède au moins → → → → deux paliers d’avance, l’effet devient automatique uniquement lorsqu’il n’existe ni opposition, ni urgence, ni difficulté réelle de contexte. Portée Portée Règle Endo / Contact Difficulté 1 niveau. − Portée de Volonté Volonté × 5 mètres ; difficulté normale. À vue Difficulté +1 niveau. Hors vue / éloignée Nécessite un lien, un ancrage, un rituel, une Technique, un Écho ou une Magie personnelle qui l’autorise. Une difficulté ne dépasse pas 25. Si la portée ou un autre facteur devrait la pousser au-delà, chaque niveau excédentaire impose au moins 1 PA de Canalisation avant même que le sort puisse être tenté. Cette Canalisation obligatoire ramène d’abord le sort à 25. Principe de désignation et rôle des Savoirs La magie n’agit pas sur les mots employés par le joueur. Elle agit sur ce que le Mage est réellement capable d’identifier."
+        },
+        {
+          "type": "p",
+          "text": "Pour manipuler quelque chose, le Mage doit pouvoir se représenter et désigner sa cible de façon suffisante. Voir une personne permet de viser cette personne ; voir sa main permet de viser cette main ; voir du sang exposé permet de viser ce sang. En revanche, connaître le mot « cervelet » ne permet pas de sélectionner automatiquement un cervelet caché derrière un crâne. • Visibilité : voir directement une cible ou une partie de cible est la méthode la plus simple de désignation. • Connaissance : une cible technique, anatomique, chimique, historique ou symbolique exige que le Mage comprenne réellement ce qu’il cherche à manipuler. • Localisation : même connue, une structure invisible doit pouvoir être localisée par un moyen crédible : perception spécialisée, connaissance clinique précise, retour magique, imagerie, lien, Sceau, Technique ou Magie personnelle. • Compétences profanes : Savoirs, Soin, Perception, Investigation, Langages & Argot ou autres Compétences pertinentes peuvent servir de permission fictionnelle. On ne fait un jet séparé que lorsque l’expertise elle-même est incertaine et importante. Maîtrise magique = « est-ce que je sais modeler cet effet ? » Savoir profane = « est-ce que je comprends suffisamment ce que j’essaie de modeler ? » Cette règle empêche les exécutions absurdes par simple formulation (« je pince son artériole cérébrale ») tout en récompensant les Mages cultivés. Un chirurgien Morphomancien, un chimiste Alchimiste ou un historien Divinateur deviennent terrifiants précisément parce qu’ils savent de quoi ils parlent."
+        },
+        {
+          "type": "p",
+          "text": "Défenses et dégâts magiques Défense occulte Défense occulte passive : Volonté + Force Mentale Défense occulte active : Volonté + Force Mentale + 1d10e — 1 PA La Défense occulte s’applique lorsqu’un effet magique est imposé directement à une personne : malédiction, intrusion mentale, altération interne du corps, manipulation directe du sang contenu dans l’organisme, etc. Une Défense active suppose que la cible puisse percevoir ou comprendre qu’elle est attaquée ; la Défense passive s’applique toujours lorsqu’une résistance est pertinente. Un phénomène devenu physiquement évitable utilise une défense physique : pierre télékinétique, lame de glace, explosion, chute provoquée, etc. On n’utilise jamais simultanément Défense physique et Défense occulte pour la même attaque. Résolution d’une attaque magique Le résultat du Mage doit à la fois atteindre la Difficulté intrinsèque du sort et dépasser la Défense applicable. Une égalité avec la Défense conserve le statu quo : l’attaque n’impose pas son effet. Dégâts magiques = Résultat du lancement Défense − applicable + bonus d’Amplitude Protection − applicable Amplitude offensive Bonus de dégâts Mineure +6 Significative +12 Majeure +18 Cataclysmique +24 La Protection applicable dépend de la nature finale de l’effet : une armure peut réduire une pierre propulsée ou une lame de glace ; elle n’arrête pas une malédiction qui agit directement dans l’organisme. Une protection magique spécifique peut fonctionner lorsque son texte le permet. Zone : un seul jet de lancement est effectué ; chaque cible compare ce résultat à sa propre Défense et reçoit des dégâts calculés individuellement. Une cible consciente et capable de réagir peut payer 1 PA pour une Défense active."
+        },
+        {
+          "type": "p",
+          "text": "Objets : contre un objet non défendu, la Difficulté intrinsèque du sort sert de seuil pour calculer la marge offensive, sauf si une Résistance structurelle supérieure est fixée par le MJ. L’Armure ou la solidité de l’objet s’applique ensuite normalement. Canalisation, maintien et sorts longs Canalisation / Concentration Chaque PA supplémentaire investi avant la résolution réduit la Difficulté intrinsèque du sort d’un niveau, minimum 12. La Canalisation échange du temps contre de la fiabilité. Elle ne réduit ni la Défense d’une cible ni la Tension produite par le sort. Un Cataclysmique de base coûte 4 PA pour difficulté 25 ; avec 2 PA de Canalisation il coûte 6 PA et tombe à difficulté 18. Pour un Mage à 2 PA, cela peut représenter trois rounds entiers consacrés au même sort. Préparation sur plusieurs rounds Un sort de 2 PA ou plus peut être payé sur plusieurs rounds consécutifs. Le Mage peut effectuer d’autres actions compatibles avec sa concentration entre les PA investis. Une interruption significative — grosse blessure, projection, effet mental, tentative volontaire d’interruption — peut imposer Volonté + Force Mentale. En cas d’échec, les PA déjà investis sont perdus. La Tension est ajoutée lorsque le sort est effectivement libéré, qu’il réussisse ou échoue. Un sort interrompu avant sa libération ne produit normalement pas sa Tension complète ; le MJ peut néanmoins appliquer +1 Tension en cas de surcharge narrative manifeste. Maintien et permanence Effet maintenu : 1 PA par round, sans nouveau jet d’activation automatique. Un phénomène qui existe ensuite par lui-même ne nécessite pas de maintien : feu réellement allumé, métal réellement remodelé, plaie réellement guérie."
+        },
+        {
+          "type": "p",
+          "text": "Un phénomène qui dépend d’un flux continu — lévitation, champ de force, accélération temporelle, hallucination active — exige un maintien. Une formulation comme « pour toujours » ne rend jamais gratuitement un effet permanent. Une durée hostile ou une permanence surnaturelle importante augmente l’Amplitude, la complexité, nécessite un ancrage ou relève d’une Technique/Magie personnelle. Une fonction principale Un sort générique possède une fonction mécanique principale. Une boule de feu ne gagne pas gratuitement dégâts + aveuglement + repoussement + destruction d’armure + mur persistant. Une Maîtrise élevée permet des comportements complexes, mais chaque fonction distincte doit être justifiée par la Maîtrise, l’Amplitude ou une Technique explicite. Tension, Revers et Dormance Le Mageius ne fonctionne pas comme une réserve de mana. Il supporte une certaine pression puis commence à protester. La Tension mesure l’insistance du Mage et la quantité de magie qu’il force à travers son conduit. Monter et réduire la Tension Événement Variation Sort Insignifiant +0 Sort Mineur +1 Sort Significatif +2 Sort Majeur +3 Sort Cataclysmique +4 Changer d’Affinité −1 Tension avant d’ajouter la Tension du nouveau sort. Événement Variation Un round complet sans utiliser le Mageius −1 Tension. Quelques minutes de véritable calme hors scène Le MJ peut ramener progressivement la Tension à 0. Changer de domaine soulage le Mageius sans le remettre miraculeusement à neuf. C’est l’une des raisons pour lesquelles les jeunes Mages apprennent à alterner leurs Affinités. Test de Revers Aucun test n’est nécessaire tant que la Tension reste à 0–2."
+        },
+        {
+          "type": "p",
+          "text": "Dès qu’un sort fait atteindre ou augmenter une Tension de 3 ou plus, le sort est résolu puis le Mage teste : Volonté + Force Mentale + 1d10e Tension après le sort Difficulté de Revers 3 12 4 15 5 18 6 21 7+ 25 Conséquences du Revers Revers — Tension 3–4 Contrecoup immédiat: 3 PV irréductibles. Maintiens/concentrations cessent. PA restants du round perdus. Dormance: Environ 2 jours. Revers sévère — Tension 5–6 Contrecoup immédiat: 5 PV irréductibles. Le Mage est hagard et n’agit plus jusqu’à la fin de son prochain round ; Défense passive seulement. Dormance: Environ 3 jours. Revers catastrophique — Tension 7+ ou échec narratif Contrecoup immédiat: 7 PV irréductibles. Le Mage s’effondre généralement inconscient ; s’il reste conscient, il est au minimum hors d’état d’agir normalement pour la scène. Dormance: Environ 3 à 5 jours, selon violence. La Dormance est le cœur de la peur du Revers. Le Mageius s’endort réellement : aucun sort, aucune Affinité, aucune Magie personnelle/familiale, aucune Protection du Mageius et aucune Perception magique provenant du Mageius. Le Mage conserve son corps, ses Attributs, Compétences, équipements et relations, mais surnaturellement il redevient presque un humain ordinaire. Dormir huit heures, prendre des stimulants ou réussir un bon jet ne réveille pas un Mageius en Dormance. Seuls des procédés extraordinairement rares et spécifiquement capables d’agir sur un Mageius pourraient raccourcir cette période. Capacités et Talents communs Capacités gratuites Vision à travers le Voile — SR/R : le Mage voit normalement les créatures et phénomènes accessibles à un observateur de son niveau de Révélation, conformément aux règles générales du Voile."
+        },
+        {
+          "type": "p",
+          "text": "Perception magique — SR/R : Esprit + Perception lorsque l’information est incertaine. Permet de ressentir nœuds, zones, enchantements, traces ou présences magiques, y compris lorsqu’elles ne sont pas pleinement révélées. Ne donne pas automatiquement leur Nature, leur histoire ou leur fonctionnement exact. Protection du Mageius — SR/R : +3 à la Défense occulte passive ou active contre les effets surnaturels agissant directement sur le Mage. Ne protège pas contre une conséquence devenue purement physique. Disparaît totalement pendant la Dormance. Canalisation — SR/R : action universelle décrite au §8 ; aucun Talent requis. Volonté supérieure — capacité innée Tout Mage peut forcer son Mageius au-delà de ses limites. Aucun achat en PTV n’est requis. Avant de commencer un sort, le Mage peut augmenter pour ce sort seulement sa Maîtrise d’un palier, son Amplitude d’un palier, ou les deux si l’effet déclaré exige réellement les deux dépassements. Il ne peut jamais atteindre Mythique par ce moyen et ne peut pas improviser une Affinité qu’il ne possède pas. Le sort utilise ensuite sa vraie difficulté, ses vrais PA, sa portée, sa Canalisation et sa Tension correspondant au niveau forcé. Après résolution, réussite ou échec : Revers catastrophique automatique. Aucun test de Revers ne peut l’éviter. Volonté supérieure est le bouton « Revers ou mort ». Les Mages savent qu’il existe ; ils font tout pour ne jamais avoir à l’utiliser. Talents communs Équilibrage du Flux Coût: 1 PTV SR/R. La première fois par round que le Mage change d’Affinité, la Tension baisse de 2 au lieu de 1 avant l’ajout du nouveau sort. Décharge contrôlée Coût: 1 PTV SR/R. 1 PA, Volonté + Maîtrise spirituelle, difficulté 15. Réussite : 1 Tension."
+        },
+        {
+          "type": "p",
+          "text": "Une seule fois par round. Échec − narratif : +1 Tension. Ancrage du Mageius Coût: 1 PTV SR/R. +3 pour résister aux effets visant spécifiquement à sceller, corrompre, arracher, déplacer ou désolidariser le Mageius. Résonance héritée Coût: 2 PTV SR/R. Déverrouille un Écho magique gravé dans le Mageius par un ancien porteur ; voir §11. Œuvre personnelle Coût: 3 PTV R. Prérequis : Maîtrise Magistrale + Amplitude Majeure dans l’Affinité principale et développement narratif. Permet de créer une technique signature. Héritage familial Coût: 2 PTV R. Permet d’apprendre une Magie familiale transmise, avec les prérequis de Maîtrise/Amplitude fixés par cette tradition. Échos, Œuvres personnelles et Magies familiales Écho du Mageius Un Mageius peut conserver le sort de prédilection d’un ancien porteur comme une habitude gravée dans sa structure. Résonance héritée déverrouille un Écho précis défini avec le MJ, généralement après une découverte narrative sur l’histoire du Mageius. • Pour cet effet exact, la Difficulté est réduite d’un niveau, minimum 12. • Si le Mage ne possède pas encore l’Affinité correspondante, il peut néanmoins reproduire l’Écho exact en Initiale / Mineure, sans en déduire d’autres usages du domaine. • S’il apprend ensuite l’Affinité, l’Écho peut être utilisé jusqu’à sa propre Maîtrise et Amplitude. Œuvre personnelle L’Œuvre personnelle marque le passage d’un Mage compétent à un véritable maître. Le joueur ne choisit pas un pouvoir standard : il invente avec le MJ une technique qui découle de ses Affinités et de son savoir mais possède une règle spéciale propre."
+        },
+        {
+          "type": "p",
+          "text": "Une Œuvre personnelle peut briser une règle générale de la magie, mais doit être définie par une idée forte et identifiable — jamais « tous mes sorts sont meilleurs ». Elle peut par exemple contourner une limite de désignation, réduire un coût en PA pour un sort signature, créer une portée normalement impossible, fusionner deux domaines, permettre une permanence particulière, modifier la défense applicable ou exploiter une structure que la magie générique ne sait pas cibler. Magie familiale Une Magie personnelle devient familiale lorsqu’elle est transmise. Le fondateur a dû inventer la méthode ; ses descendants ou disciples bénéficient d’un enseignement déjà structuré. Une famille peut donc transmettre un sort extrêmement sophistiqué sans que tous ses membres soient capables de l’utiliser : posséder le nom ou le sang ne remplace jamais les prérequis magiques. Une Magie familiale peut combiner plusieurs domaines si la tradition l’exige. Un héritier dont le Mageius natal n’est pas naturellement adapté doit malgré tout ouvrir les Affinités nécessaires par la Roue ou accepter les restrictions spécifiques prévues par la tradition."
+        }
+      ]
+    }
+  ],
+  "r3": [
+    {
+      "id": "quinze-domaines",
+      "title": "Les cinq portes et les quinze domaines",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Architétramancie — magie des éléments L’Architétramancie manifeste et manipule des phénomènes élémentaires : feu, eau, air, terre, glace, foudre, vibrations et autres orientations cohérentes avec la tradition du Mage. À l’éveil, le Mage choisit au moins une orientation élémentaire qu’il connaît réellement ; élargir son répertoire demande entraînement, progression ou Technique. Maîtrise Ce qu’elle autorise Initiale Créer, déplacer, intensifier ou diminuer un phénomène simple. Affinée Formes précises, plusieurs manifestations simples, sélection partielle des zones touchées. Maîtrise Ce qu’elle autorise Supérieure Pression, température, propagation, courants, gradients et interactions complexes. Magistrale Exploitation profonde d’un principe élémentaire ; ouvre les spécialisations dignes d’une Magie personnelle. Exemples de sorts (repères, pas une liste fermée) Allumer une torche ou produire une flamme contrôlée. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Pas de défense hors opposition. Projeter une lance de feu sur un adversaire. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Défense physique si projectile évitable ; DGT magique +6. Créer un mur de flammes fermant une pièce. Maîtrise min.: Affinée • Amplitude: Significative • PA: 2 • Diff. base: 18 Stato ; dégâts à ceux qui le traversent selon effet annoncé. Geler un véhicule ou projeter plusieurs ennemis par une onde d’air. Maîtrise min.: Affinée • Amplitude: Significative • PA: 2 • Diff. base: 18 Défense physique des cibles affectées. Embraser un bâtiment ou provoquer un séisme destructeur local. Maîtrise min.: Supérieure • Amplitude: Majeure • PA: 3 • Diff. base: 21 La finesse de sélection dépend de la Maîtrise."
+        },
+        {
+          "type": "p",
+          "text": "Déclencher un séisme ou une tempête affectant un quartier. Maîtrise min.: Magistrale • Amplitude: Cataclysmique • PA: 4 • Diff. base: 25 Très forte Tension ; Canalisation souvent indispensable. Limites et garde-fous • Une forte Amplitude n’accorde pas automatiquement la finesse nécessaire pour épargner précisément les alliés au cœur d’une vaste zone. • La magie ne donne pas une connaissance scientifique gratuite : exploiter un phénomène subtil exige de comprendre suffisamment ce phénomène. • Les formes extrêmes comme une magie sismique parfaitement contrôlée peuvent devenir des Œuvres personnelles/familiales. Morphomancie — magie du Modelage La Morphomancie modifie la forme, la densité et l’organisation de la matière sans nécessairement changer sa substance. Elle excelle sur le corps vivant, mais toute modification hostile interne doit vaincre la Défense occulte et respecter le Principe de désignation. Maîtrise Ce qu’elle autorise Initiale Modifier simplement forme, densité ou proportions. Affinée Remodelage précis d’anatomie ou de structures complexes. Supérieure Organes fonctionnels, métamorphoses cohérentes, plusieurs systèmes interdépendants. Magistrale Réorganisation radicale tout en conservant un ensemble fonctionnel ; base des grandes métamorphoses personnelles. Exemples de sorts (repères, pas une liste fermée) Modifier temporairement son visage ou ses empreintes. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Endo : difficulté 1 niveau. − Densifier localement ses os ou former des griffes. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Bonus mécanique limité par l’effet annoncé ; maintien si nécessaire. Se métamorphoser en animal fonctionnel."
+        },
+        {
+          "type": "p",
+          "text": "Maîtrise min.: Affinée • Amplitude: Significative • PA: 2 • Diff. base: 18 Endo ; connaissances anatomiques pertinentes. Altérer lourdement le corps d’un adversaire. Maîtrise min.: Affinée • Amplitude: Significative • PA: 2 • Diff. base: 18 Défense occulte ; pas d’instakill anatomique par simple formulation. Créer une chimère pleinement fonctionnelle ou transformer complètement un autre être. Maîtrise min.: Supérieure • Amplitude: Majeure • PA: 3 • Diff. base: 21 Défense occulte si hostile ; permanence non gratuite. Transformer simultanément une foule ou remodeler massivement une structure. Maîtrise min.: Magistrale • Amplitude: Cataclysmique • PA: 4 • Diff. base: 25 La sélection fine des victimes exige une très haute Maîtrise. Limites et garde-fous • La Morphomancie ne remplace pas la Médéomancie : fermer mécaniquement une plaie n’efface pas automatiquement les PV perdus. • Une transformation durable et avantageuse ne donne pas gratuitement des augmentations permanentes d’Attributs ; elle relève d’une Technique, d’un maintien ou d’une Œuvre personnelle. • Cibler un organe interne précis exige connaissance + localisation crédible ; le nom de l’organe ne suffit pas. Alchimie — magie des atomes L’Alchimie manipule composition, séparation et recombinaison de la matière. Elle devient d’autant plus redoutable que le Mage possède de vrais savoirs en chimie, matériaux, pharmacologie ou physique. Maîtrise Ce qu’elle autorise Initiale Déplacer, séparer ou concentrer une substance connue. Affinée Recombinaisons chimiques et contrôle précis des réactions. Supérieure Chaînes complexes sans respecter toutes les conditions normales de pression, température ou catalyse."
+        },
+        {
+          "type": "p",
+          "text": "Magistrale Manipulation atomique extrêmement fine ; les phénomènes nucléaires restent hors usage générique. Exemples de sorts (repères, pas une liste fermée) Purifier un verre d’eau ou séparer une contamination simple. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Aucun effet inventé sans connaître la substance ciblée. Concentrer un acide ou produire un composé irritant connu. Maîtrise min.: Affinée • Amplitude: Mineure • PA: 1 • Diff. base: 15 Si attaque directe : défense appropriée selon vecteur. Transformer chimiquement le contenu d’un réservoir ou saturer une pièce de gaz. Maîtrise min.: Affinée • Amplitude: Significative • PA: 2 • Diff. base: 18 Stato possible ; exposition physique après création. Fragiliser une structure métallique importante. Maîtrise min.: Affinée • Amplitude: Significative • PA: 2 • Diff. base: 18 Objet : difficulté ou résistance structurelle comme seuil. Modifier plusieurs tonnes de matériau ou neutraliser une contamination industrielle. Maîtrise min.: Supérieure • Amplitude: Majeure • PA: 3 • Diff. base: 21 Exige connaissances réelles des matériaux. Altérer la composition d’une vaste zone environnementale. Maîtrise min.: Magistrale • Amplitude: Cataclysmique • PA: 4 • Diff. base: 25 Les conséquences secondaires restent réelles. Limites et garde-fous • « Je transforme ça en neurotoxine » exige de connaître ce que le Mage cherche réellement à produire. • Fusion/fission nucléaire, transformation de matière en arme nucléaire et transmutations énergétiques extrêmes sont des Œuvres personnelles/familiales, pas des conséquences automatiques d’Alchimie Magistrale. • La magie ne fournit pas gratuitement les données de laboratoire manquantes."
+        },
+        {
+          "type": "p",
+          "text": "Meldir — ordre, lumière et restauration Photomancie — magie de la Lumière La Photomancie contrôle la lumière comme phénomène réel et, aux niveaux élevés, comme principe surnaturel. Elle se distingue de l’illusion : un effet photomantique modifie réellement la lumière présente dans le monde. Maîtrise Ce qu’elle autorise Initiale Créer, réduire, diriger ou intensifier la lumière. Affinée Spectres, réflexion, réfraction et plusieurs trajectoires. Supérieure Constructions lumineuses complexes, focalisation, protections et interactions surnaturelles. Magistrale Lumière utilisée comme principe magique, pas seulement comme illumination. Exemples de sorts (repères, pas une liste fermée) Créer une source lumineuse ou éteindre une zone sombre. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Pas de défense si purement utilitaire. Éblouir une cible ou lancer un faisceau offensif. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Défense physique si faisceau évitable ; +6 dégâts. Aveugler un groupe ou illuminer intégralement une grande pièce. Maîtrise min.: Affinée • Amplitude: Significative • PA: 2 • Diff. base: 18 Défense physique/Perception selon l’effet. Créer plusieurs faisceaux indépendants ou un écran lumineux. Maîtrise min.: Supérieure • Amplitude: Significative • PA: 2 • Diff. base: 18 Comportement multiple permis par la Maîtrise. Baigner un bâtiment dans une Lumière surnaturelle hostile à certaines entités. Maîtrise min.: Supérieure • Amplitude: Majeure • PA: 3 • Diff. base: 21 Effets spéciaux dépendent de Techniques appropriées. Créer une manifestation lumineuse majeure à l’échelle d’un quartier. Maîtrise min.: Magistrale • Amplitude: Cataclysmique • PA: 4 • Diff."
+        },
+        {
+          "type": "p",
+          "text": "base: 25 Très visible ; conséquences sur le Voile évidentes. Limites et garde-fous • Photomancie ne crée pas automatiquement des hallucinations : elle agit sur la lumière réelle. • Une caméra peut normalement enregistrer une modification photomantique si l’Hologramme ne la réécrit pas ensuite. • Les effets sacrés/divins ne sont pas inclus gratuitement : la Lumière magique n’est pas automatiquement une énergie religieuse. Acratomancie — magie des Sceaux L’Acratomancie attache une règle magique à un support, un objet, un emplacement ou une condition. Elle récompense la préparation, la logique et l’anticipation. Maîtrise Ce qu’elle autorise Initiale Un déclencheur, une condition et un effet simples. Affinée Délais, identités, exceptions et plusieurs conditions. Supérieure Réseaux de Sceaux, enchantements élaborés et stockage d’effets. Magistrale Architectures magiques complètes orchestrant plusieurs fonctions. Exemples de sorts (repères, pas une liste fermée) Poser une alarme sur une porte. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Sceau passif, peut durer tant que son ancrage reste intact. Créer une rune qui libère un effet Mineur au contact. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Compte comme Sceau chargé. Protéger une pièce avec un piège sélectif. Maîtrise min.: Affinée • Amplitude: Significative • PA: 2 • Diff. base: 18 Déclenchement selon conditions définies. Stocker temporairement un objet ou un sort dans un Sceau. Maîtrise min.: Supérieure • Amplitude: Significative • PA: 2 • Diff. base: 18 La capacité exacte dépend de la nature du stockage. Sécuriser un bâtiment entier par un réseau de Sceaux. Maîtrise min.: Supérieure • Amplitude: Majeure • PA: 3 • Diff."
+        },
+        {
+          "type": "p",
+          "text": "base: 21 Peut demander préparation matérielle/temps narratif. Structurer magiquement une zone urbaine par un vaste réseau. Maîtrise min.: Magistrale • Amplitude: Cataclysmique • PA: 4+ • Diff. base: 25 Rituel long presque obligatoire. Limites et garde-fous • Sceaux chargés actifs simultanément : 1 / 2 / 3 / 4 selon Maîtrise Initiale / Affinée / Supérieure / Magistrale. Les alarmes et marquages passifs ancrés dans un lieu ne comptent pas nécessairement dans cette limite. • La Tension d’un Sceau chargé est payée lors de son inscription/chargement ; son déclenchement ultérieur n’exige pas que le Mageius soit actif. • Préparer une réserve infinie de « grenades magiques » est impossible sans Magie personnelle ou infrastructure spéciale. Médéomancie — magie de Guérison La Médéomancie restaure l’intégrité fonctionnelle d’un être vivant. Les connaissances médicales permettent des soins beaucoup plus précis ; la magie ne remplace pas automatiquement un diagnostic que le Mage ne sait pas faire. Maîtrise Ce qu’elle autorise Initiale Plaies, saignements, stabilisation et traumatismes simples. Maîtrise Ce qu’elle autorise Affinée Fractures, tissus profonds et organes simples. Supérieure Organes complexes, membres, lésions surnaturelles. Magistrale Reconstruction biologique extrême et restauration au-delà de la médecine normale. Exemples de sorts (repères, pas une liste fermée) Stabiliser un Agonisant. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Contact conseillé ; peut être automatique pour un grand Mage hors pression. Refermer des blessures et rendre 1 + DR PV. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Une cible ne peut pas être « farmée » en soins."
+        },
+        {
+          "type": "p",
+          "text": "Réparer une blessure grave et rendre 3 + DR PV. Maîtrise min.: Affinée • Amplitude: Significative • PA: 2 • Diff. base: 18 Connaissance médicale utile pour effets précis. Réparer un organe sévèrement endommagé. Maîtrise min.: Affinée • Amplitude: Significative • PA: 2 • Diff. base: 18 Peut exiger Soin/Savoirs comme permission fictionnelle. Reconstruire un membre ou rendre 5 + DR PV à défaut d’effet ciblé. Maîtrise min.: Supérieure • Amplitude: Majeure • PA: 3 • Diff. base: 21 Permanence naturelle si véritable réparation biologique. Traiter simultanément de nombreuses victimes d’un désastre biologique. Maîtrise min.: Magistrale • Amplitude: Cataclysmique • PA: 4 • Diff. base: 25 Logistique et diagnostic restent pertinents. Limites et garde-fous • Un organisme ayant récupéré des PV par Médéomancie ne peut plus en récupérer par Médéomancie avant la fin de la scène ou une véritable période de repos. De nouvelles blessures peuvent toujours être stabilisées. • Résurrection véritable : hors magie générique. Elle exige Œuvre personnelle, sacrifices, conditions ou autres exceptions majeures. • Médéomancie restaure ; elle ne remplace pas la Morphomancie pour fabriquer arbitrairement de nouvelles anatomies. Elinaeth — forces, information et continuum Télékinésie — magie des forces La Télékinésie applique forces, pressions et mouvements sans contact. Sa dangerosité dépend énormément de la précision du Mage et de sa compréhension des systèmes qu’il manipule. Maîtrise Ce qu’elle autorise Initiale Pousser, tirer, soulever, maintenir une force simple. Affinée Plusieurs vecteurs et manipulations précises. Supérieure Champs de force, pressions différenciées, mouvements autonomes complexes."
+        },
+        {
+          "type": "p",
+          "text": "Magistrale Ingénierie de forces invisibles : armures, lames de pression, architectures dynamiques. Exemples de sorts (repères, pas une liste fermée) Attirer une arme posée ou repousser une personne. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Défense physique si hostile et évitable. Projeter un objet comme projectile. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Défense physique ; +6 dégâts avant protection physique. Soulever une voiture ou immobiliser plusieurs personnes. Maîtrise min.: Affinée • Amplitude: Significative • PA: 2 • Diff. base: 18 Vigueur/Athlétisme ou Défense selon la forme de contrainte. Former un écran de pression ou manipuler plusieurs trajectoires. Maîtrise min.: Supérieure • Amplitude: Significative • PA: 2 • Diff. base: 18 Maintien si champ persistant. Soutenir une portion de bâtiment ou écraser une structure massive. Maîtrise min.: Supérieure • Amplitude: Majeure • PA: 3 • Diff. base: 21 Objet : résistance structurelle possible. Déplacer une masse colossale ou exercer une force cohérente sur une vaste zone. Maîtrise min.: Magistrale • Amplitude: Cataclysmique • PA: 4 • Diff. base: 25 Précision sélective très coûteuse en Maîtrise. Limites et garde-fous • La Télékinésie ne donne pas de vision interne. On ne « télékinèse » pas un cervelet caché sans moyen de désignation approprié. • Un objet projeté est une menace physique : armure et défense physique s’appliquent normalement. • Créer une armure/lame invisible extrêmement efficace peut relever d’une Œuvre personnelle comme spécialisation du domaine. Divination — magie de l’information et des possibles La Divination extrait des informations du présent, des traces, des relations et des futurs possibles."
+        },
+        {
+          "type": "p",
+          "text": "Elle ne transforme pas le Mage en narrateur omniscient et ne fournit pas automatiquement des connaissances qu’il ne sait pas formuler. Maîtrise Ce qu’elle autorise Initiale Question immédiate, impression, danger proche, trace simple. Affinée Recherche ciblée, observation éloignée liée, plusieurs futurs proches. Supérieure Ramifications causales, prévisions complexes, analyse stratégique. Magistrale Lecture très large des conséquences, probabilités et relations entre événements. Exemples de sorts (repères, pas une liste fermée) Pressentir un danger immédiat. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Information courte, souvent qualitative. Retrouver une chose proche à partir d’un lien pertinent. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Le lien doit réellement désigner la cible. Observer magiquement un lieu connu ou lié. Maîtrise min.: Affinée • Amplitude: Significative • PA: 2 • Diff. base: 18 Hors vue autorisé si le lien fait partie de l’effet. Comparer plusieurs futurs immédiats avant une opération. Maîtrise min.: Affinée • Amplitude: Significative • PA: 2 • Diff. base: 18 Les décisions futures peuvent invalider une branche. Prévoir les principales issues d’une bataille ou d’un projet majeur. Maîtrise min.: Supérieure • Amplitude: Majeure • PA: 3 • Diff. base: 21 Informations riches mais non omniscientes. Lire les tendances d’une catastrophe ou d’une guerre à l’échelle urbaine. Maîtrise min.: Magistrale • Amplitude: Cataclysmique • PA: 4 • Diff. base: 25 Le résultat porte sur tendances, pivots et probabilités. Limites et garde-fous • Le Mage doit poser une question, définir un sujet ou disposer d’un lien. « Dis-moi tout » n’est pas une cible valable."
+        },
+        {
+          "type": "p",
+          "text": "• Le futur est probabiliste : les choix de personnes informées de la prophétie peuvent modifier ce qui était le plus probable. • Divination donne un avantage informationnel, pas le scénario du MJ page par page. Chronomancie — magie du temps La Chronomancie modifie l’écoulement local du temps. Les altérations du continuum sont dangereuses ; le voyage physique dans le passé ou le futur dépasse la magie générique des PJ. Maîtrise Ce qu’elle autorise Initiale Accélérer ou ralentir légèrement un processus simple. Affinée Plusieurs rythmes et petites bulles temporelles. Supérieure Accélérations fortes, suspension brève, véritables effets tactiques sur le rythme d’action. Magistrale Altérations très poussées du continuum local, à la frontière de ce qui reste raisonnablement sûr. Exemples de sorts (repères, pas une liste fermée) Ralentir une chute ou accélérer une action non￾combattante. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Effet bref ; maintien si prolongé. Déplacer légèrement l’ordre d’initiative ou ralentir un adversaire. Maîtrise min.: Affinée • Amplitude: Mineure • PA: 1 • Diff. base: 15 Défense occulte si imposé directement. Accorder +1 PA/round à une cible. Maîtrise min.: Supérieure • Amplitude: Significative • PA: 2 • Diff. base: 18 Maintien 1 PA/round ; ne se cumule pas avec autre Chronomancie identique. Accélérer ou ralentir un petit groupe. Maîtrise min.: Supérieure • Amplitude: Significative • PA: 2 • Diff. base: 18 Défense occulte pour cibles hostiles. Modifier fortement le rythme temporel d’une grande zone. Maîtrise min.: Supérieure • Amplitude: Majeure • PA: 3 • Diff. base: 21 Les interactions entre intérieur/extérieur peuvent être complexes."
+        },
+        {
+          "type": "p",
+          "text": "Placer une portion de quartier dans une altération temporelle majeure. Maîtrise min.: Magistrale • Amplitude: Cataclysmique • PA: 4 • Diff. base: 25 Risque de conséquences narratives importantes. Limites et garde-fous • +1 PA/round exige au minimum Maîtrise Supérieure + Amplitude Significative. Une cible ne peut gagner plus de +1 PA/round par Chronomancie générique. • Voyage physique dans le passé/futur, réécriture sûre de l’Histoire ou boucle temporelle stable : Œuvres personnelles/NPC exceptionnels. Mestherak — âme, mort et essence vitale Spectromancie — magie spectrale La Spectromancie agit sur les âmes désincarnées, spectres, empreintes spirituelles et formes incorporelles. Elle ne réanime pas la chair et ne remplace pas la Nécromancie. Maîtrise Ce qu’elle autorise Initiale Percevoir, communiquer et toucher magiquement un spectre. Affinée Déplacer, protéger, contraindre ou ancrer une âme. Supérieure Projection de l’âme, possession contrôlée, manipulation de plusieurs spectres. Magistrale Restructuration complexe d’une existence spectrale et vastes phénomènes spirituels. Exemples de sorts (repères, pas une liste fermée) Voir et parler à un spectre présent. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Pas de contrôle automatique. Repousser ou maintenir un esprit. Maîtrise min.: Affinée • Amplitude: Mineure • PA: 1 • Diff. base: 15 Défense occulte de l’entité. Forcer une manifestation ou projeter brièvement sa conscience. Maîtrise min.: Affinée • Amplitude: Significative • PA: 2 • Diff. base: 18 Maintien selon durée. Contraindre plusieurs spectres ou déplacer une âme sur une grande distance liée. Maîtrise min.: Supérieure • Amplitude: Majeure • PA: 3 • Diff."
+        },
+        {
+          "type": "p",
+          "text": "base: 21 Défense occulte des esprits concernés. Projeter durablement son âme dans un réceptacle préparé. Maîtrise min.: Supérieure • Amplitude: Majeure • PA: 3 • Diff. base: 21 Connaissance du réceptacle et ancrage nécessaires. Provoquer une manifestation spectrale massive sur une zone urbaine. Maîtrise min.: Magistrale • Amplitude: Cataclysmique • PA: 4 • Diff. base: 25 Faire venir ne signifie pas contrôler. Limites et garde-fous • Spectromancie = âme ; Nécromancie = cadavre/état de mort ; Médéomancie = vie/restauration. • L’Essence Invocative fait venir une entité qui préexiste. Elle ne la crée pas et ne l’asservit pas gratuitement. • Possession et projection exigent des conditions de désignation/ancrage cohérentes. Hématomancie — magie du Sang L’Hématomancie manipule le sang comme matière, système biologique et support magique. Elle est très directe mais reste soumise à la désignation : le Mage peut viser une personne et sa circulation globale, pas sélectionner gratuitement une microstructure invisible qu’il ne sait pas localiser. Maîtrise Ce qu’elle autorise Initiale Sang visible ou accessible ; mouvements et effets globaux simples. Affinée Circulation, coagulation, pression et contrôle précis. Supérieure Sang comme vecteur autonome, lien ou extension de la volonté. Magistrale Contrôle hématique extrêmement poussé, effets de masse et techniques signatures. Exemples de sorts (repères, pas une liste fermée) Faire ramper du sang exposé ou arrêter une hémorragie. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Pas de Défense si sang libre et non contesté. Perturber globalement la circulation d’une cible. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff."
+        },
+        {
+          "type": "p",
+          "text": "base: 15 Défense occulte ; attaque directe +6 dégâts si destructive. Bloquer un membre par circulation ou contrôler plusieurs litres de sang. Maîtrise min.: Affinée • Amplitude: Significative • PA: 2 • Diff. base: 18 Défense occulte si sang interne. Utiliser son propre sang comme plusieurs vecteurs actifs. Maîtrise min.: Supérieure • Amplitude: Significative • PA: 2 • Diff. base: 18 Comportement autonome limité par Maîtrise/maintien. Manipuler le sang de plusieurs individus dans une vaste scène. Maîtrise min.: Supérieure • Amplitude: Majeure • PA: 3 • Diff. base: 21 Chaque cible compare sa Défense occulte. Affecter la circulation d’une population importante dans une vaste zone. Maîtrise min.: Magistrale • Amplitude: Cataclysmique • PA: 4 • Diff. base: 25 Sélection fine et létalité restent limitées par le sort annoncé. Limites et garde-fous • Une cible vivante contenant son sang peut être visée globalement parce que le Mage identifie la personne ; cibler une artériole invisible précise exige connaissance + localisation. • « J’arrête son cœur » ou « je bouche un vaisseau cérébral » ne contourne pas les PV : c’est une description d’attaque à résoudre normalement. • Les gouttes autonomes, liens hématiques à distance ou effets chirurgicalement précis sont d’excellents candidats à des Magies personnelles/familiales. Nécromancie — magie de la Mort La Nécromancie travaille sur les cadavres, l’état de mort et les structures mortes. Elle peut animer un corps sans lui rendre son âme. Maîtrise Ce qu’elle autorise Initiale Préserver, mouvoir ou modifier un cadavre simple. Affinée Animation cohérente et contrôle de plusieurs corps."
+        },
+        {
+          "type": "p",
+          "text": "Maîtrise Ce qu’elle autorise Supérieure Morts-vivants spécialisés, autonomies simples et cohorte organisée. Magistrale Systèmes nécromantiques durables, armées ou territoires de mort. Exemples de sorts (repères, pas une liste fermée) Empêcher un cadavre de se décomposer. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Effet reconstructif/restrictif sur matière morte. Animer un cadavre simple pour une tâche directe. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Maintien si comportement actif complexe. Animer plusieurs serviteurs morts. Maîtrise min.: Affinée • Amplitude: Significative • PA: 2 • Diff. base: 18 Une cohorte générique active à la fois. Créer un mort-vivant spécialisé et relativement autonome. Maîtrise min.: Supérieure • Amplitude: Significative • PA: 2 • Diff. base: 18 Fonctions spéciales exigent vraie conception magique. Lever une unité importante de morts. Maîtrise min.: Supérieure • Amplitude: Majeure • PA: 3 • Diff. base: 21 Ordres complexes peuvent exiger maintien/commandement. Éveiller un cimetière ou imposer un domaine nécromantique local. Maîtrise min.: Magistrale • Amplitude: Cataclysmique • PA: 4 • Diff. base: 25 Rituel/Canalisation souvent nécessaire. Limites et garde-fous • Un Mage ne peut entretenir qu’une cohorte nécromantique générique pleinement liée et active à la fois ; créer une nouvelle cohorte remplace ou libère la précédente, sauf Technique/Magie personnelle. • Les armées historiques permanentes de grands nécromanciens sont des accomplissements spécialisés, pas un stockpile gratuit de sorts Mineurs. • Animer un corps ≠ remettre son âme dedans. La résurrection véritable traverse d’autres domaines et reste exceptionnelle."
+        },
+        {
+          "type": "p",
+          "text": "Discella — ombre, mensonge et malédiction Pseudomancie — magie des Illusions La Pseudomancie manipule apparence et perception. Une illusion placée dans le monde et une hallucination imposée directement à un esprit ne se défendent pas de la même manière. Maîtrise Ce qu’elle autorise Initiale Un sens, un son, une image ou une apparence simple. Affinée Illusion multisensorielle cohérente. Supérieure Illusions multiples, réactives et partiellement autonomes. Magistrale Environnement perceptif complet et cohérent à grande échelle. Exemples de sorts (repères, pas une liste fermée) Modifier une voix ou cacher visuellement un petit objet. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Observation opposée si quelqu’un a une raison de douter. Créer un déguisement visuel et sonore cohérent. Maîtrise min.: Affinée • Amplitude: Mineure • PA: 1 • Diff. base: 15 Esprit + Perception contre résultat si l’illusion est examinée. Transformer l’apparence d’une pièce entière. Maîtrise min.: Affinée • Amplitude: Significative • PA: 2 • Diff. base: 18 Maintien si illusion active et réactive. Imposer une hallucination ciblée à une personne. Maîtrise min.: Affinée • Amplitude: Significative • PA: 2 • Diff. base: 18 Défense occulte. Remplacer perceptivement un bâtiment ou une rue. Maîtrise min.: Supérieure • Amplitude: Majeure • PA: 3 • Diff. base: 21 Les interactions physiques réelles peuvent trahir l’illusion. Imposer une fausse réalité cohérente à un quartier. Maîtrise min.: Magistrale • Amplitude: Cataclysmique • PA: 4 • Diff. base: 25 Très forte charge de maintien/Canalisation selon durée."
+        },
+        {
+          "type": "p",
+          "text": "Limites et garde-fous • Illusion placée dans le monde : Esprit + Perception peut la confronter si le personnage dispose d’un motif de doute. Hallucination imposée : Défense occulte. • Une illusion ne devient pas physiquement réelle grâce à un gros DR. • Créer du sommeil, un monde de rêve autonome ou une illusion qui acquiert des effets matériels relève d’Œuvres personnelles/familiales. Pathomancie — magie des Malédictions La Pathomancie attache à une cible une règle négative surnaturelle : faiblesse, contrainte, condition, interdiction ou dégradation. Plus la règle est durable et sophistiquée, plus Maîtrise et Amplitude montent. Maîtrise Ce qu’elle autorise Initiale Gêne précise, courte et simple. Affinée Condition, déclencheur ou durée sérieuse. Supérieure Malédictions complexes, transmissibles ou multiconditionnelles. Magistrale Véritable loi personnelle surnaturelle ou fléau de grande ampleur. Exemples de sorts (repères, pas une liste fermée) Imposer 3 sur une famille précise d’actions pendant − un court moment. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Défense occulte. Faire dysfonctionner un objet ou fragiliser temporairement une capacité. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Objet : résistance éventuelle selon nature. Bloquer une capacité pendant une scène. Maîtrise min.: Affinée • Amplitude: Significative • PA: 2 • Diff. base: 18 Défense occulte ; préciser exactement ce qui est bloqué. Attacher une malédiction conditionnelle durable à une personne. Maîtrise min.: Supérieure • Amplitude: Majeure • PA: 3 • Diff. base: 21 Durée/ancrage contribuent à l’Amplitude. Maudire durablement un groupe limité ou une organisation locale."
+        },
+        {
+          "type": "p",
+          "text": "Maîtrise min.: Supérieure • Amplitude: Majeure • PA: 3 • Diff. base: 21 Cibles identifiables nécessaires. Imposer un fléau à une importante population ou zone. Maîtrise min.: Magistrale • Amplitude: Cataclysmique • PA: 4 • Diff. base: 25 Conditions et sélection doivent être définies avant le jet. Limites et garde-fous • « Pour toujours » n’est jamais gratuit : durée longue, transmission et permanence font partie de la puissance réelle du sort. • Une malédiction doit définir clairement sa cible et sa règle ; les formulations vagues ne donnent pas plus de puissance. • Attaquer directement le Mageius d’un autre Mage, forcer le Revers ou arracher le Mageius sont des techniques spécialisées exceptionnelles. Skiamancie — magie des Ombres La Skiamancie contrôle l’Ombre comme substance et milieu surnaturel réel. Elle ne se confond ni avec l’absence de lumière ni avec une illusion. Maîtrise Ce qu’elle autorise Initiale Étendre, déplacer ou épaissir une Ombre. Affinée Lui donner forme, consistance ou fonction simple. Supérieure Ombres autonomes, passages et zones occultantes complexes. Magistrale Utiliser l’Ombre comme véritable milieu métaphysique à grande échelle. Exemples de sorts (repères, pas une liste fermée) Étendre une ombre ou créer un appendice sombre. Maîtrise min.: Initiale • Amplitude: Mineure • PA: 1 • Diff. base: 15 Peut fournir couvert/interaction selon effet annoncé. Engloutir une petite zone dans des ténèbres surnaturelles. Maîtrise min.: Affinée • Amplitude: Significative • PA: 2 • Diff. base: 18 La Photomancie peut interagir mais ne « dissipe » pas automatiquement l’Ombre. Créer plusieurs formes d’ombre capables d’interagir. Maîtrise min.: Supérieure • Amplitude: Significative • PA: 2 • Diff."
+        },
+        {
+          "type": "p",
+          "text": "base: 18 Maintien si autonomie active. Passer entre deux ombres identifiées dans la portée autorisée. Maîtrise min.: Supérieure • Amplitude: Significative • PA: 2 • Diff. base: 18 Les deux extrémités doivent être désignables ; hors vue exige Technique/ancrage. Faire vivre les ombres d’un bâtiment entier. Maîtrise min.: Supérieure • Amplitude: Majeure • PA: 3 • Diff. base: 21 Sélection et comportement dépendent de la Maîtrise. Transformer une portion urbaine en manifestation active de l’Ombre. Maîtrise min.: Magistrale • Amplitude: Cataclysmique • PA: 4 • Diff. base: 25 Effet métaphysique massif, très risqué pour le Voile. Limites et garde-fous • Photomancie = lumière réelle ; Pseudomancie = perception ; Skiamancie = Ombre surnaturelle. • Un passage d’ombre générique ne permet pas de téléporter vers un lieu inconnu non désignable. • Créer des Deimons, royaumes d’ombre autonomes ou passages intermondes durables relève de Magies personnelles/familiales."
+        }
+      ]
+    }
+  ]
+} as const;
+const article=(id:string,category:"Vérité"|"Règles",title:string,tags:string[],sections:readonly Section[]):Article=>({id,dataset:"verite-v7",category,sourceCategory:category,title,source:SOURCE,status:"canon_enrichi",rebuildV2:true,tags,sections:sections as Section[]});
 export const COMPENDIUM_VERITE_V7_MAGE_ARTICLES:Article[]=[
-article("verite-v7-mages-mageius-roue-loges","Vérité","Mages — Mageius, Roue & Loges",["Vérité","Mages","Mageius","Roue magique","Loges","Guerre de la Magie","Échos","Œuvres"],source.lore),
-article("regles-verite-v7-mage-maitrise-amplitude-lancement","Règles","Moteur de magie — Maîtrise, Amplitude & lancement",["Vérité","Mages","Mageius","Maîtrise","Amplitude","sorts","Canalisation"],source.r1),
-article("regles-verite-v7-mage-tension-revers-echos-oeuvres","Règles","Tension, Revers, Échos & Œuvres",["Vérité","Mages","Tension","Revers","Dormance","Échos","Œuvres","Magie familiale"],source.r2),
-article("regles-verite-v7-mage-roue-5-portes-15-ecoles","Règles","Roue magique — 5 portes & 15 écoles",["Vérité","Mages","Roue magique","Kaharal","Meldir","Elinaeth","Mestherak","Discella","écoles"],source.r3)
+article("verite-v7-mages-mageius-roue-loges","Vérité","Mages — Mageius, Roue & Loges",["Vérité","Mages","Mageius","Roue magique","Loges","Guerre de la Magie","Échos","Œuvres"],SOURCE_PAYLOAD.lore),
+article("regles-verite-v7-mage-maitrise-amplitude-lancement","Règles","Moteur de magie — Maîtrise, Amplitude & lancement",["Vérité","Mages","Mageius","Maîtrise","Amplitude","sorts","Canalisation"],SOURCE_PAYLOAD.r1),
+article("regles-verite-v7-mage-tension-revers-echos-oeuvres","Règles","Tension, Revers, Échos & Œuvres",["Vérité","Mages","Tension","Revers","Dormance","Échos","Œuvres","Magie familiale"],SOURCE_PAYLOAD.r2),
+article("regles-verite-v7-mage-roue-5-portes-15-ecoles","Règles","Roue magique — 5 portes & 15 écoles",["Vérité","Mages","Roue magique","Kaharal","Meldir","Elinaeth","Mestherak","Discella","écoles"],SOURCE_PAYLOAD.r3)
 ];
-
 export const COMPENDIUM_VERITE_V7_MAGE_NAVIGATION=[
 {id:"verite-v7-mages-mageius-roue-loges",dataset:"verite-v7",category:"Vérité",group:"Peuples & Natures",groupOrder:30,subgroup:"Mages",subgroupOrder:20,pageOrder:10,displayTitle:"Mages — Mageius, Roue & Loges"},
 {id:"regles-verite-v7-mage-maitrise-amplitude-lancement",dataset:"verite-v7",category:"Règles",group:"Vérité — Natures & capacités",groupOrder:80,subgroup:"Mages",subgroupOrder:40,pageOrder:10,displayTitle:"Moteur de magie — Maîtrise, Amplitude & lancement"},
