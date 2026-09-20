@@ -279,10 +279,11 @@ function articleMatchesNatureHub(articleId: string, natureId: string): boolean {
 
 export async function findCompendiumHubMatches(
   label: string,
-  natureId = ""
+  natureId = "",
+  includeLegacy = false
 ): Promise<Array<{ id: string; title: string; category: string }>> {
   const exact = (await findCompendiumMatches(label, "Règles"))
-    .filter((article) => article.category !== LEGACY_CATEGORY);
+    .filter((article) => includeLegacy || article.category !== LEGACY_CATEGORY);
   if (exact.length) return exact;
 
   const forms = hubLabelForms(label);
@@ -290,7 +291,11 @@ export async function findCompendiumHubMatches(
 
   const corpus = await getCorpus();
   const scored = corpus.articles
-    .filter((article) => article.category === "Règles")
+    .filter((article) =>
+      includeLegacy
+        ? canonicalCategory(article) === "Règles"
+        : article.category === "Règles"
+    )
     .filter((article) => articleMatchesNatureHub(article.id, natureId))
     .map((article) => {
       const navTitle = corpus.navigation.get(article.id)?.displayTitle ?? "";
@@ -337,7 +342,7 @@ export async function resolveCompendiumHubId(
   label: string,
   natureId = ""
 ): Promise<string | null> {
-  const matches = await findCompendiumHubMatches(label, natureId);
+  const matches = await findCompendiumHubMatches(label, natureId, true);
   if (matches.length === 1) return matches[0].id;
 
   // Builder provenance remains traceable while a legacy family is awaiting
