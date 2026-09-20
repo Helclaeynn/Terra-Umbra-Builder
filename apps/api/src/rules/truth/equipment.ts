@@ -34,7 +34,7 @@ export type TruthEquipmentItem={
   requiresMj:boolean;
 };
 
-function text(value:unknown){
+function text(value:unknown):string{
   if(value===null||value===undefined)return "";
   if(Array.isArray(value))return value.map(text).filter(Boolean).join(" · ");
   if(typeof value==="object")return JSON.stringify(value);
