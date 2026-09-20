@@ -28,6 +28,8 @@ jobs:
           cp.execFileSync(process.execPath, ['--check', tmp], { stdio: 'inherit' });
           console.log(`Syntax OK: ${parts.length} builder parts`);
           NODE
+      - name: Audit Fléaux source catalog
+        run: node scripts/audit-v2-fleau-catalog.mjs
       - name: Check Compendium JavaScript syntax
         run: |
           node --check compendium/app.js
