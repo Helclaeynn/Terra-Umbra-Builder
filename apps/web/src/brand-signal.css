@@ -998,7 +998,7 @@
 .brand-signal .brand-dashboard-hero{
   display:block;
   position:relative;
-  min-height:270px;
+  min-height:220px;
   padding:0;
   overflow:hidden;
   border:1px solid #1d4d65;
@@ -1028,7 +1028,7 @@
   position:absolute;
   left:23px;
   right:23px;
-  bottom:28px;
+  bottom:20px;
   height:1px;
   background:linear-gradient(90deg,rgba(59,212,217,.82),rgba(66,117,215,.28) 48%,rgba(160,102,228,.72));
   opacity:.52;
@@ -1037,14 +1037,14 @@
 .brand-signal .brand-horizon-art{
   position:absolute;
   z-index:0;
-  right:-42px;
-  bottom:-170px;
-  width:min(38vw,430px);
-  height:245px;
+  right:-20px;
+  bottom:-125px;
+  width:min(31vw,330px);
+  height:185px;
   border-radius:50%;
   border-top:1px solid rgba(67,218,238,.48);
   pointer-events:none;
-  opacity:.34;
+  opacity:.25;
   background:
     radial-gradient(ellipse at 50% 0%,rgba(45,167,255,.16),transparent 42%),
     linear-gradient(90deg,transparent 0 12%,rgba(52,206,238,.06) 35%,rgba(174,70,235,.08) 76%,transparent 100%);
@@ -1078,12 +1078,12 @@
   position:relative;
   z-index:2;
   display:grid;
-  grid-template-columns:minmax(220px,285px) minmax(0,1fr);
-  gap:clamp(1.5rem,3.4vw,3rem);
+  grid-template-columns:minmax(175px,215px) minmax(0,1fr);
+  gap:clamp(1.2rem,2.2vw,1.6rem);
   align-items:center;
-  min-height:270px;
-  padding:1.45rem clamp(1.8rem,4vw,3.5rem);
-  padding-right:clamp(3rem,7vw,6rem);
+  min-height:220px;
+  padding:.9rem clamp(1.4rem,3vw,1.8rem);
+  padding-right:clamp(2.4rem,5vw,4.2rem);
 }
 
 .brand-signal .brand-masthead-mark{
@@ -1176,7 +1176,7 @@
 }
 .brand-signal .brand-masthead-copy .dashboard-lead{
   max-width:59ch;
-  margin:1rem 0 0;
+  margin:.7rem 0 0;
   color:#94aab4;
   font-size:.88rem;
   line-height:1.58;
@@ -1186,7 +1186,7 @@
   align-items:center;
   flex-wrap:wrap;
   gap:.55rem .8rem;
-  margin-top:1rem;
+  margin-top:.75rem;
 }
 .brand-signal .brand-masthead-copy .dashboard-identity>strong{
   color:#edf5f7;
@@ -1358,16 +1358,16 @@
   max-height:72px;
 }
 .brand-signal .brand-masthead-final{
-  grid-template-columns:minmax(220px,285px) minmax(0,1fr);
-  padding-right:clamp(3rem,7vw,6rem);
+  grid-template-columns:minmax(175px,215px) minmax(0,1fr);
+  padding-right:clamp(2.4rem,5vw,4.2rem);
 }
 .brand-signal .brand-masthead-final .brand-masthead-copy{
   max-width:650px;
   align-self:center;
 }
 .brand-signal .brand-masthead-final .brand-masthead-lockup{
-  width:min(285px,100%) !important;
-  max-width:285px;
+  width:min(215px,100%) !important;
+  max-width:215px;
   margin:0;
   justify-self:start;
   align-self:center;
