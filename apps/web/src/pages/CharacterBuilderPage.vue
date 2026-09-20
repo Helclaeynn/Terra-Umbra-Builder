@@ -8,6 +8,7 @@ import TalentSelector, {
   type TalentOption
 } from "../components/builder/TalentSelector.vue";
 import BuilderWikiLink from "../components/builder/BuilderWikiLink.vue";
+import TerraUmbraLockup from "../components/TerraUmbraLockup.vue";
 import EquipmentStep from "../components/builder/EquipmentStep.vue";
 import FinalizationStep from "../components/builder/FinalizationStep.vue";
 import ProgressionStep from "../components/builder/ProgressionStep.vue";
@@ -152,6 +153,7 @@ const realityRules=ref<RealityRulesPackage|null>(null);
 const disadvantageCategory=ref("common");
 const truthSearch=ref("");
 const loading=ref(true);
+const supplementalLoading=ref(false);
 const saving=ref(false);
 const error=ref("");
 const notice=ref("");
@@ -957,10 +959,14 @@ function stepDone(id:StepId):boolean{
 
 async function loadCharacter(){
   loading.value=true;
+  supplementalLoading.value=false;
   error.value="";
   const id=String(route.params.id??"");
   try{
-    const [characterResult,rulesResult,truthResult,realityResult]=await Promise.all([
+    // First paint only waits for the character and the creation core.
+    // Vérité and Réalité catalogs are deliberately deferred so they cannot
+    // hold the whole Builder behind their larger payloads.
+    const [characterResult,rulesResult]=await Promise.all([
       api<{character:Character}>(`/api/characters/${encodeURIComponent(id)}`),
       api<{
         rules:CreationRules;
@@ -970,10 +976,9 @@ async function loadCharacter(){
         disadvantages:DisadvantageCatalog;
         disadvantageLore:Record<string,string>;
         edgeRules:EdgeRules;
-      }>("/api/rulesets/terra-umbra/creation"),
-      api<TruthRulesPackage>("/api/rulesets/terra-umbra/truth"),
-      api<RealityRulesPackage>("/api/rulesets/terra-umbra/reality")
+      }>("/api/rulesets/terra-umbra/creation")
     ]);
+
     character.value=characterResult.character;
     draft.value=structuredClone(characterResult.character.data);
     ensureRealityState(draft.value.reality);
@@ -989,30 +994,43 @@ async function loadCharacter(){
     disadvantages.value=rulesResult.disadvantages;
     disadvantageLore.value=rulesResult.disadvantageLore;
     edgeRules.value=rulesResult.edgeRules;
-    truthRules.value=truthResult;
-    realityRules.value=realityResult;
-
-    const loadedTruth=currentTruthState.value;
-    if(loadedTruth){
-      const nature=truthResult.structure.natures[loadedTruth.nature]??truthResult.structure.natures.humain;
-      const normalized:TruthState={
-        nature:nature.id,
-        consciousness:loadedTruth.consciousness==="initie"?"initie":"profane",
-        choices:truthSanitizeChoices(nature,loadedTruth.choices),
-        truthTalents:[...loadedTruth.truthTalents]
-      };
-      normalized.truthTalents=truthSanitizeTalents(truthResult,normalized);
-      writeTruthState(normalized);
-    }
 
     if(
       disadvantageCategory.value==="sphere" &&
       !draft.value.creation.sphere
     ) disadvantageCategory.value="common";
+
     baseline.value=JSON.stringify(draft.value);
+    loading.value=false;
+
+    supplementalLoading.value=true;
+    void Promise.all([
+      api<TruthRulesPackage>("/api/rulesets/terra-umbra/truth"),
+      api<RealityRulesPackage>("/api/rulesets/terra-umbra/reality")
+    ]).then(([truthResult,realityResult])=>{
+      truthRules.value=truthResult;
+      realityRules.value=realityResult;
+
+      const loadedTruth=currentTruthState.value;
+      if(loadedTruth&&!dirty.value){
+        const nature=truthResult.structure.natures[loadedTruth.nature]??truthResult.structure.natures.humain;
+        const normalized:TruthState={
+          nature:nature.id,
+          consciousness:loadedTruth.consciousness==="initie"?"initie":"profane",
+          choices:truthSanitizeChoices(nature,loadedTruth.choices),
+          truthTalents:[...loadedTruth.truthTalents]
+        };
+        normalized.truthTalents=truthSanitizeTalents(truthResult,normalized);
+        writeTruthState(normalized);
+        baseline.value=JSON.stringify(draft.value);
+      }
+    }).catch(cause=>{
+      error.value=`Les catalogues avancés n’ont pas pu être chargés : ${humanError((cause as Error).message)}`;
+    }).finally(()=>{
+      supplementalLoading.value=false;
+    });
   }catch(cause){
     error.value=humanError((cause as Error).message);
-  }finally{
     loading.value=false;
   }
 }
@@ -1380,12 +1398,8 @@ onBeforeUnmount(()=>{
 <template>
   <div class="builder-v2-shell">
     <header class="topbar builder-topbar">
-      <RouterLink class="brand" to="/">
-        <span class="brand-mark">TU</span>
-        <span>
-          <strong>Terra Umbra</strong>
-          <small>California · Builder V2</small>
-        </span>
+      <RouterLink class="brand builder-brand-lockup" to="/">
+        <TerraUmbraLockup />
       </RouterLink>
 
       <div class="top-actions">
@@ -1400,7 +1414,7 @@ onBeforeUnmount(()=>{
           <span v-if="knowledgeRefs.length">{{ knowledgeRefs.length }}</span>
         </button>
         <a class="ghost compact back-link" href="/compendium" target="_blank" rel="noopener">Compendium ↗</a>
-        <RouterLink class="ghost compact back-link" to="/">Mes personnages</RouterLink>
+        <RouterLink class="ghost compact back-link" to="/account">Mes personnages</RouterLink>
         <button class="primary compact" type="button" :disabled="saving || loading || !dirty" @click="saveCharacter">
           {{ saving ? "Enregistrement…" : dirty ? "Enregistrer" : "Enregistré" }}
         </button>
@@ -1455,7 +1469,7 @@ onBeforeUnmount(()=>{
     <main v-else-if="error && !draft" class="builder-loading error-state">
       <strong>Impossible d’ouvrir cette fiche.</strong>
       <span>{{ error }}</span>
-      <RouterLink class="secondary back-link" to="/">Retour à Mes personnages</RouterLink>
+      <RouterLink class="secondary back-link" to="/account">Retour à Mes personnages</RouterLink>
     </main>
 
     <main v-else-if="draft && character && rules && lore" class="builder-workspace">
@@ -2004,8 +2018,8 @@ onBeforeUnmount(()=>{
             sont accordés automatiquement et les Talents de Vérité consomment les PTV de création.
           </p>
 
-          <div v-if="!truthRules || !currentTruthState" class="rule-note bad">
-            Règles de Vérité indisponibles.
+          <div v-if="!truthRules || !currentTruthState" class="rule-note" :class="{ bad: !supplementalLoading }">
+            {{ supplementalLoading ? "Chargement des règles de Vérité…" : "Règles de Vérité indisponibles." }}
           </div>
 
           <template v-else>
@@ -2495,6 +2509,15 @@ onBeforeUnmount(()=>{
           </template>
         </article>
 
+        <article
+          v-else-if="activeStep === 'equipment' && !realityRules"
+          class="panel builder-card"
+        >
+          <p class="eyebrow">10 · ÉQUIPEMENT</p>
+          <h2>Chargement du catalogue…</h2>
+          <p class="builder-intro">La fiche est déjà disponible ; le catalogue Réalité termine son chargement en arrière-plan.</p>
+        </article>
+
         <EquipmentStep
           v-else-if="activeStep === 'equipment' && realityRules"
           class="panel builder-card"
@@ -2544,6 +2567,15 @@ onBeforeUnmount(()=>{
           @update:social="draft.social=$event"
           @navigate="navigateFromFinalization"
         />
+
+        <article
+          v-else-if="activeStep === 'progression' && supplementalLoading"
+          class="panel builder-card"
+        >
+          <p class="eyebrow">PROGRESSION</p>
+          <h2>Chargement des catalogues…</h2>
+          <p class="builder-intro">La progression sera disponible dès que les règles Vérité et Réalité auront fini de charger.</p>
+        </article>
 
         <ProgressionStep
           v-else-if="activeStep === 'progression' && truthRules && realityRules && currentTruthState"
