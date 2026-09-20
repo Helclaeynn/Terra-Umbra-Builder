@@ -21,6 +21,14 @@ import {
   COMPENDIUM_REALITE_V9_LORE_NAVIGATION
 } from "./compendium-realite-v9-lore.js";
 import {
+  COMPENDIUM_REALITE_V9_PEGRE_ARTICLES,
+  COMPENDIUM_REALITE_V9_PEGRE_NAVIGATION
+} from "./compendium-realite-v9-pegre.js";
+import {
+  COMPENDIUM_REALITE_V9_PEGRE_PNJ_ARTICLES,
+  COMPENDIUM_REALITE_V9_PEGRE_PNJ_NAVIGATION
+} from "./compendium-realite-v9-pegre-pnj.js";
+import {
   COMPENDIUM_REALITE_V9_RELIGION_ARTICLES,
   COMPENDIUM_REALITE_V9_RELIGION_NAVIGATION
 } from "./compendium-realite-v9-religions.js";
@@ -934,6 +942,16 @@ async function loadCorpus(): Promise<Corpus> {
     byId.set(article.id, deepClone(article) as Article);
   }
 
+  for (const article of COMPENDIUM_REALITE_V9_PEGRE_ARTICLES) {
+    // Detailed California underworld pass: overrides the Reality hub and adds one page per criminal organization.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_PEGRE_PNJ_ARTICLES) {
+    // Active underworld PNJs use dedicated IDs; archived PNJ pages remain audit material only.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
   for (const article of COMPENDIUM_REALITE_V9_RELIGION_ARTICLES) {
     // Religion consolidation overrides the Reality hub and adds one immersive page per major tradition.
     byId.set(article.id, deepClone(article) as Article);
@@ -1113,6 +1131,8 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_GUIDE_NAVIGATION,
       ...COMPENDIUM_MOTEUR_V4_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_LORE_NAVIGATION,
+      ...COMPENDIUM_REALITE_V9_PEGRE_NAVIGATION,
+      ...COMPENDIUM_REALITE_V9_PEGRE_PNJ_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_RELIGION_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_RELIGION_PNJ_NAVIGATION.map((entry) => ({
         ...entry,
