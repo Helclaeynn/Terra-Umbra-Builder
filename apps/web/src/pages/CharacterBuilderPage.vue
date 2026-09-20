@@ -34,6 +34,7 @@ import {
 import { campaignCash, ensureProgression, type ProgressionState } from "../lib/progression";
 import type { Character, CharacterDataV2 } from "../types/character";
 import {
+  ensureTruthRulesPackage,
   truthAvailableTalents,
   truthChoiceOptions,
   truthChoicesValid,
@@ -1159,12 +1160,13 @@ async function loadCharacter(){
       api<TruthRulesPackage>("/api/rulesets/terra-umbra/truth"),
       api<RealityRulesPackage>("/api/rulesets/terra-umbra/reality")
     ]).then(([truthResult,realityResult])=>{
-      truthRules.value=truthResult;
+      const normalizedTruthResult=ensureTruthRulesPackage(truthResult);
+      truthRules.value=normalizedTruthResult;
       realityRules.value=realityResult;
 
       const loadedTruth=currentTruthState.value;
       if(loadedTruth&&!dirty.value){
-        const nature=truthResult.structure.natures[loadedTruth.nature]??truthResult.structure.natures.humain;
+        const nature=normalizedTruthResult.structure.natures[loadedTruth.nature]??normalizedTruthResult.structure.natures.humain;
         const normalized:TruthState={
           nature:nature.id,
           consciousness:loadedTruth.consciousness==="initie"?"initie":"profane",
@@ -1176,8 +1178,8 @@ async function loadCharacter(){
           corruptionSource:loadedTruth.corruption>0?loadedTruth.corruptionSource:"",
           corruptionTalents:[...loadedTruth.corruptionTalents]
         };
-        normalized.truthTalents=truthSanitizeTalents(truthResult,normalized);
-        normalized.corruptionTalents=truthSanitizeCorruptionTalents(truthResult,normalized);
+        normalized.truthTalents=truthSanitizeTalents(normalizedTruthResult,normalized);
+        normalized.corruptionTalents=truthSanitizeCorruptionTalents(normalizedTruthResult,normalized);
         writeTruthState(normalized);
         baseline.value=JSON.stringify(draft.value);
       }
