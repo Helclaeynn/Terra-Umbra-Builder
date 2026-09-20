@@ -69,13 +69,17 @@ type Corpus = {
   databaseEditSummary: { applied: number; conflicts: number };
 };
 
+const LEGACY_CATEGORY = "OLD";
+const PROTECTED_REBUILD_CATEGORIES = new Set(["Équipement & Objets", "Bestiaire"]);
+
 const CATEGORY_ORDER = [
   "Règles",
   "Réalité",
   "Vérité",
-  "Équipement & Objets",
   "Personnages",
-  "Bestiaire"
+  "Équipement & Objets",
+  "Bestiaire",
+  LEGACY_CATEGORY
 ];
 
 const EQUIPMENT_MANUFACTURERS = [
@@ -943,6 +947,38 @@ async function loadCorpus(): Promise<Corpus> {
     article.__searchText = norm(flattenText(article));
   }
 
+  const legacyRows = await pool.query<{ articleId: string }>(
+    `SELECT article_id AS "articleId"
+     FROM compendium_legacy_articles`
+  );
+  let legacyIds = new Set(legacyRows.rows.map((row) => row.articleId));
+
+  // One-time cut-over: snapshot every article that exists at deployment time,
+  // except Equipment and Bestiary. Future pages are not automatically archived.
+  if (!legacyIds.size) {
+    const initialLegacyIds = [...byId.values()]
+      .filter((article) => !PROTECTED_REBUILD_CATEGORIES.has(String(article.category ?? "")))
+      .map((article) => article.id);
+
+    if (initialLegacyIds.length) {
+      await pool.query(
+        `INSERT INTO compendium_legacy_articles (article_id)
+         SELECT unnest($1::text[])
+         ON CONFLICT (article_id) DO NOTHING`,
+        [initialLegacyIds]
+      );
+      legacyIds = new Set(initialLegacyIds);
+    }
+  }
+
+  for (const article of byId.values()) {
+    if (!legacyIds.has(article.id)) continue;
+    article.legacyCategory = article.category ?? "";
+    article.category = LEGACY_CATEGORY;
+    article.__legacy = true;
+    article.__searchText = norm(flattenText(article));
+  }
+
   const articles = [...byId.values()].sort(compareArticles);
   const publicArticles = articles.map((article) => {
     const publicArticle = articleForAudience(article, false);
@@ -950,18 +986,20 @@ async function loadCorpus(): Promise<Corpus> {
     return publicArticle;
   });
   const publicById = new Map(publicArticles.map((article) => [article.id, article]));
-  const wikiIndexCompact = articles.map((article) => {
-    const navigation = article.navigation as JsonObject | undefined;
-    return {
-      id: article.id,
-      title: article.title ?? article.id,
-      category: article.category ?? "",
-      dataset: article.dataset ?? "",
-      group: navigation?.group ?? "",
-      subgroup: navigation?.subgroup ?? "",
-      manufacturer: String(article.manufacturer ?? "")
-    };
-  });
+  const wikiIndexCompact = articles
+    .filter((article) => article.category !== LEGACY_CATEGORY)
+    .map((article) => {
+      const navigation = article.navigation as JsonObject | undefined;
+      return {
+        id: article.id,
+        title: article.title ?? article.id,
+        category: article.category ?? "",
+        dataset: article.dataset ?? "",
+        group: navigation?.group ?? "",
+        subgroup: navigation?.subgroup ?? "",
+        manufacturer: String(article.manufacturer ?? "")
+      };
+    });
 
   const counts = new Map<string, number>();
   for (const article of articles) {
@@ -1125,7 +1163,8 @@ async function loadUserLibrary(userId: string, corpus: Corpus, includeMj: boolea
 
   const visibleItem = (id: string) => {
     const article = corpus.byId.get(id);
-    return article ? searchItem(articleForAudience(article, includeMj), "") : null;
+    if (!article || article.category === LEGACY_CATEGORY) return null;
+    return searchItem(articleForAudience(article, includeMj), "");
   };
 
   const favorites = favoriteRows.rows.map((row) => row.articleId);
@@ -1172,14 +1211,19 @@ async function ownedCollection(collectionId: string, userId: string): Promise<bo
 }
 
 export async function registerCompendiumRoutes(app: FastifyInstance) {
-  app.get("/api/compendium/meta", async () => {
+  app.get("/api/compendium/meta", async (request) => {
     const corpus = await getCorpus();
+    const user = await currentUser(request);
+    const canAuditLegacy = isEditorRole(user?.role);
+    const activeTotal = corpus.articles.filter((article) => article.category !== LEGACY_CATEGORY).length;
+    const archivedTotal = corpus.articles.length - activeTotal;
     return {
       version: corpus.manifest.version,
       generated: corpus.manifest.generated ?? null,
-      total: corpus.articles.length,
-      expectedTotal: corpus.manifest.expectedTotal ?? null,
-      categories: corpus.categories,
+      total: activeTotal,
+      archivedTotal,
+      expectedTotal: null,
+      categories: corpus.categories.filter((entry) => entry.name !== LEGACY_CATEGORY || canAuditLegacy),
       manufacturers: corpus.manufacturers,
       overrides: corpus.overrideSummary,
       databaseEdits: corpus.databaseEditSummary
@@ -1196,7 +1240,8 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
 
     const user = await currentUser(request);
     const includeMj = canReadMj(user?.role);
-    const articles = includeMj ? corpus.articles : corpus.publicArticles;
+    const articles = (includeMj ? corpus.articles : corpus.publicArticles)
+      .filter((article) => article.category !== LEGACY_CATEGORY);
     return {
       entries: articles.map((article) => {
         const navigation = article.navigation as JsonObject | undefined;
@@ -1257,9 +1302,16 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const tokens = normalizedQuery.split(" ").filter(Boolean);
 
     const sourceArticles = includeMj ? corpus.articles : corpus.publicArticles;
-    let rows = sourceArticles;
+    const canAuditLegacy = isEditorRole(user?.role);
+    let rows =
+      category === LEGACY_CATEGORY && canAuditLegacy
+        ? sourceArticles.filter((article) => article.category === LEGACY_CATEGORY)
+        : sourceArticles.filter((article) => article.category !== LEGACY_CATEGORY);
 
-    if (category) rows = rows.filter((article) => article.category === category);
+    if (category && category !== LEGACY_CATEGORY) {
+      rows = rows.filter((article) => article.category === category);
+    }
+    if (category === LEGACY_CATEGORY && !canAuditLegacy) rows = [];
     if (dataset) rows = rows.filter((article) => article.dataset === dataset);
     if (manufacturer) {
       const normalizedManufacturer = norm(manufacturer);
@@ -1294,7 +1346,10 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
 
   app.get("/api/compendium/onboarding", async () => {
     const corpus = await getCorpus();
-    const exists = (id: string) => corpus.byId.has(id);
+    const exists = (id: string) => {
+      const article = corpus.byId.get(id);
+      return Boolean(article && article.category !== LEGACY_CATEGORY);
+    };
     return {
       ...deepClone(COMPENDIUM_PLAYER_START),
       available: {
