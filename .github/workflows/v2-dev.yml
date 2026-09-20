@@ -400,6 +400,15 @@ jobs:
               if str(talent.get("group","")).startswith("Lavandières — tradition vampirique de Chasse")
           ]
           assert lavandieres
+          khinae=truth["catalogs"]["khinae"]
+          assert khinae, "Catalogue Khinae vide"
+          assert {
+              talent.get("compendiumId")
+              for talent in khinae
+          } == {"regles-verite-v7-khinae-moteur-lignees"}, {
+              talent.get("compendiumId")
+              for talent in khinae
+          }
 
           counts=reality["counts"]
           assert counts["equipment"] >= 261, counts
@@ -927,7 +936,6 @@ jobs:
             "regles-verite-v7-vampire-sangs-transformations",
             "regles-verite-v7-garou-nature-formes-frenesie-pelages",
             "regles-verite-v7-garou-sangs-vifs",
-            "regles-verite-v7-khinae-moteur-lignees",
             "regles-verite-v7-mage-maitrise-amplitude-lancement",
             "regles-verite-v7-mage-tension-revers-echos-oeuvres",
             "regles-verite-v7-daemon-nature-fonctions-divinites-facettes",
