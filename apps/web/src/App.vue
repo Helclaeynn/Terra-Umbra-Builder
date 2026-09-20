@@ -434,7 +434,7 @@ onMounted(bootstrap);
     <header class="topbar">
       <RouterLink class="brand" to="/">
         <span class="brand-emblem" aria-hidden="true">
-          <img src="/brand/terra-umbra-mark.webp" alt="" />
+          <img src="/brand/terra-umbra-mark-clean.webp" alt="" />
         </span>
         <span class="brand-wordmark">
           <strong>Terra Umbra</strong>
@@ -648,35 +648,44 @@ onMounted(bootstrap);
 
       <template v-else>
         <section class="welcome dashboard-hero brand-dashboard-hero">
-          <div class="brand-hero-copy">
-            <p class="eyebrow">REALITY // VÉRITÉ</p>
-            <h1 class="brand-statement">
-              <span>Reality</span>
-              <span>is a layer,</span>
-              <span>not a limit.</span>
-            </h1>
-            <p class="dashboard-lead">
-              Personnages, règles et encyclopédie dans un même espace. Reprends une fiche
-              ou explore le monde sans changer d’outil.
-            </p>
-            <p class="brand-manifesto" aria-hidden="true">
-              <span>Build</span><i></i><span>Explore</span><i></i><span>Uncover</span>
-            </p>
-            <div class="dashboard-identity">
-              <strong>{{ user.displayName }}</strong>
-              <span class="role-badge">{{ roleLabels[user.role] }}</span>
-              <span class="muted">{{ user.email }}</span>
+          <img
+            class="brand-horizon-art"
+            src="/brand/terra-umbra-horizon.webp"
+            alt=""
+            aria-hidden="true"
+          />
+
+          <div class="brand-masthead">
+            <div class="brand-masthead-mark" aria-hidden="true">
+              <img src="/brand/terra-umbra-mark-clean.webp" alt="" />
+            </div>
+
+            <div class="brand-masthead-copy">
+              <p class="brand-microline">REALITY // VÉRITÉ // WHAT LIES BENEATH</p>
+              <h1 class="brand-title">TERRA UMBRA</h1>
+              <p class="brand-subtitle">CALIFORNIA&nbsp;&nbsp;•&nbsp;&nbsp;BUILDER V2</p>
+              <div class="brand-title-rule" aria-hidden="true"></div>
+              <p class="brand-tagline">SAME WORLD&nbsp;&nbsp;//&nbsp;&nbsp;A DEEPER LAYER&nbsp;&nbsp;//&nbsp;&nbsp;BUILT TO UNCOVER</p>
+
+              <p class="dashboard-lead">
+                Personnages, règles et encyclopédie dans un même espace. Reprends une fiche
+                ou explore le monde sans changer d’outil.
+              </p>
+
+              <div class="dashboard-identity">
+                <strong>{{ user.displayName }}</strong>
+                <span class="role-badge">{{ roleLabels[user.role] }}</span>
+                <span class="muted">{{ user.email }}</span>
+              </div>
             </div>
           </div>
 
-          <div class="brand-hero-visual" aria-hidden="true">
-            <div class="brand-orbit one"></div>
-            <div class="brand-orbit two"></div>
-            <div class="brand-orbit three"></div>
-            <img class="brand-hero-mark" src="/brand/terra-umbra-mark.webp" alt="" />
-            <div class="brand-axis"><span>RÉALITÉ</span><span>VÉRITÉ</span></div>
-            <p class="brand-visual-note">SAME WORLD.<br />A DEEPER LAYER.</p>
-            <p class="brand-visual-build">CALIFORNIA<br />BUILDER V2</p>
+          <div class="brand-side-rail" aria-hidden="true">
+            <span>BUILD</span>
+            <span>EXPLORE</span>
+            <span>UNCOVER</span>
+            <span>REVEAL</span>
+            <span>PERSIST</span>
           </div>
         </section>
 
