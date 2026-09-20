@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-import { RouterLink } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 import { api } from "../lib/api";
 import type { Character, Revision } from "../types/character";
 
+const router = useRouter();
 const characters = ref<Character[]>([]);
 const selected = ref<Character | null>(null);
 const revisions = ref<Revision[]>([]);
-const newName = ref("");
 const editName = ref("");
 const loading = ref(false);
 const notice = ref("");
@@ -61,22 +61,18 @@ async function loadCharacters() {
 }
 
 async function createCharacter() {
-  const name = newName.value.trim();
-  if (!name) return;
-
   loading.value = true;
   notice.value = "";
   error.value = "";
   try {
     const result = await api<{ character: Character }>("/api/characters", {
       method: "POST",
-      body: JSON.stringify({ name })
+      body: JSON.stringify({})
     });
-    newName.value = "";
     await loadCharacters();
     const created = characters.value.find((item) => item.id === result.character.id) ?? result.character;
     setSelected(created);
-    notice.value = "Personnage créé et sauvegardé.";
+    await router.push(`/characters/${created.id}/builder`);
   } catch (cause) {
     error.value = humanError((cause as Error).message);
   } finally {
@@ -235,18 +231,9 @@ onMounted(loadCharacters);
     </div>
 
     <div class="character-entry-actions">
-      <form class="character-create" @submit.prevent="createCharacter">
-        <input
-          v-model="newName"
-          aria-label="Nom du nouveau personnage"
-          placeholder="Nom du nouveau personnage"
-          maxlength="120"
-          required
-        />
-        <button class="secondary" :disabled="loading" type="submit">
-          Créer
-        </button>
-      </form>
+      <button class="secondary character-create-direct" :disabled="loading" type="button" @click="createCharacter">
+        {{ loading ? "Création…" : "Créer un personnage" }}
+      </button>
 
       <button class="ghost import-v1" type="button" :disabled="loading" @click="importInput?.click()">
         Importer un JSON V1
@@ -293,6 +280,9 @@ onMounted(loadCharacters);
             <RouterLink class="primary compact builder-link" :to="`/characters/${selected.id}/builder`">
               Ouvrir le Builder
             </RouterLink>
+            <RouterLink class="ghost compact builder-link" :to="`/characters/${selected.id}/progression`">
+              Progression
+            </RouterLink>
             <button class="ghost compact danger" type="button" :disabled="loading" @click="archiveCharacter">
               Archiver
             </button>
@@ -319,8 +309,8 @@ onMounted(loadCharacters);
             <strong>Fiche active · version {{ selected.version }}</strong>
           </div>
           <p>
-            La fiche est sauvegardée et versionnée. Ouvre le Builder pour reprendre la création
-            ou la progression sans changer d’espace.
+            La création se modifie dans le Builder. Une fois la fiche en jeu, les dépenses XP/PTV
+            et l’évolution du personnage disposent désormais de leur propre espace Progression.
           </p>
         </div>
 
@@ -377,8 +367,8 @@ onMounted(loadCharacters);
   margin-bottom: 1rem;
 }
 
-.character-create {
-  grid-template-columns: 1fr auto;
+.character-create-direct {
+  justify-self: start;
 }
 
 .import-v1 {
