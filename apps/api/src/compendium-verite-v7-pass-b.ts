@@ -1100,25 +1100,29 @@ const CORRUPTION: Section[] = [
 
 const FLEAUX: Section[] = [
   {
-    id: "cadre",
-    title: "Six Sources cosmiques",
+    id: "six-sources",
+    title: "Six catastrophes capables de raisonner",
     level: 2,
     blocks: [
       {
         type: "p",
-        text: "Les six Fléaux ne sont ni des espèces jouables ordinaires ni des classes. Ce sont des puissances cosmiques dont l’essence altère êtres, lieux et parfois systèmes. La partie jouable se situe avant la Rupture : le personnage conserve sa Nature et ses relations tout en portant une Source qui ouvre progressivement des Dons."
+        text: "Les six Fléaux ne forment ni une espèce ni un panthéon ordinaire. Ce sont des Sources cosmiques dont l’existence impose une logique au réel : dévorer, annexer, diviser, adapter, engendrer ou fixer. Elles peuvent réfléchir, négocier et poursuivre des objectifs, mais leur pensée reste enfermée dans ce principe au point qu’un échange avec elles ressemble moins à une diplomatie qu’à une conversation avec une catastrophe consciente."
       },
       {
         type: "table",
         rows: [
-          ["Fléau", "Principe", "Corruption", "Tentation"],
-          ["Vhodhal", "Dévorer", "Famine Blanche", "Tout peut devenir nourriture."],
-          ["V’Aagor", "Annexer / unir", "Sombre-Vérité", "Tout peut devenir une partie de moi."],
-          ["Ux’Sharith", "Séparer / décomposer", "Division", "Tout possède une ligne de coupe."],
-          ["C’Thath Vhadhi", "Réaffecter / adapter", "Métastase", "Je peux devenir la solution."],
-          ["Gajh’Shaoggith", "Engendrer / proliférer", "Germination", "Je peux mettre la solution au monde."],
-          ["Thul", "Fixer / empêcher le devenir", "Fixation", "Pourquoi laisser quoi que ce soit changer ?"]
+          ["Source", "Principe", "Empreinte"],
+          ["Vhodhal", "Dévorer", "Famine Blanche"],
+          ["V’Aagor", "Annexer / unir", "Sombre-Vérité"],
+          ["Ux’Sharith", "Séparer / décomposer", "Division"],
+          ["C’Thath Vhadhi", "Réaffecter / adapter", "Métastase"],
+          ["Gajh’Shaoggith", "Engendrer / proliférer", "Germination"],
+          ["Thul", "Fixer / empêcher le devenir", "Fixation"]
         ]
+      },
+      {
+        type: "p",
+        text: "Leurs relations anciennes ne ressemblent pas davantage à celles d’une famille stable. Sharith a contenu et dirigé Vhodhal ; V’Aagor a annexé, relié ou contraint d’autres Sources ; alliances, fragments et descendances ont produit des êtres qui peuvent servir leur origine, la haïr ou simplement chercher à survivre à ce qu’ils sont."
       }
     ]
   },
@@ -1129,37 +1133,169 @@ const FLEAUX: Section[] = [
     blocks: [
       {
         type: "p",
-        text: "Les six grandes Sources sont des Fléaux Anciens : leur essence agit presque comme une loi hostile du monde. Un Fléau supérieur peut naître d’une convergence, d’un fragment autonome, d’une descendance impossible ou d’une conséquence devenue immense. Les Fléaux inférieurs et Abominations sont des êtres réécrits, créations fonctionnelles ou Ruptures devenues inséparables d’une Source."
+        text: "Les six grandes Sources sont des Fléaux Anciens : leur essence agit presque comme une loi hostile du monde. Leur présence ne produit pas seulement des monstres ; elle force matière, vie, identité ou changement à entrer dans une manière unique de fonctionner."
       },
       {
         type: "p",
-        text: "Vaincre une manifestation, un avatar ou une Abomination ne signifie pas avoir tué la puissance cosmique. Les Fléaux Anciens et supérieurs n’utilisent normalement pas de profil de mort ordinaire."
+        text: "Les Fléaux supérieurs peuvent naître d’une convergence, d’un fragment devenu autonome, d’une descendance impossible ou d’une conséquence assez vaste pour acquérir sa propre existence. Le mot « enfant » est souvent pratique mais trompeur lorsque filiation, possession, causalité et reproduction se confondent."
+      },
+      {
+        type: "p",
+        text: "Les Fléaux inférieurs, Abominations et Ruptures sont les menaces que l’on rencontre le plus souvent sur le terrain. Un Chasseur peut détruire une créature, couper un culte ou sceller une manifestation sans avoir détruit la Source cosmique qui se trouve derrière."
       }
     ]
   },
   {
-    id: "rupture-et-cultes",
-    title: "Rupture, Hologramme & cultes",
+    id: "vhodhal",
+    title: "Vhodhal — la Famine Blanche",
     level: 2,
     blocks: [
       {
         type: "p",
-        text: "À la Bascule, la Corruption cesse d’être quelque chose dans le personnage et devient ce qu’il est. Avant Rupture, l’Hologramme le traite normalement selon sa Nature d’origine ; après Rupture, aucune traduction humaine cohérente n’est garantie."
+        text: "Vhodhal est la faim portée à une échelle où la notion même de nourriture cesse d’être biologique. Matière, énergie, douleur, fonction, espace et jusqu’à la mort peuvent devenir des prises dès lors que la Famine apprend à les reconnaître."
       },
       {
         type: "p",
-        text: "Une voie de culte n’est pas nécessairement une voie de Corruption. RITES et FAVEURS peuvent être appris ou reçus à Corruption 0, mais leur emploi provoque la Souillure. Les Dons dépendent au contraire de la Source dominante et de la profondeur d’emprise."
+        text: "Les textes anciens l’appellent Famine véritable, Bouche absolue, Crocs du chaos ou Chien de la Reine. Ses quatre « regards » décrivent une compréhension des formes, des énergies, des structures mentales et des trames temporelles : plus Vhodhal comprend une chose, plus elle peut finir par l’envisager comme consommable."
+      },
+      {
+        type: "p",
+        text: "Ux’Sharith est longtemps décrite comme la puissance capable de donner une direction à cette faim, d’où le titre de Chien de la Reine. Cette relation n’avait rien d’affectueux : la Division imposait assez de séparation dans l’appétit de Vhodhal pour qu’une intention puisse momentanément exister entre deux besoins de dévorer."
+      },
+      {
+        type: "p",
+        text: "La Famine Blanche produit des Ruptures très différentes selon la Nature touchée : Wendigos, Bêtes Faramines, Sangs d’Ivoire, Noctiels ou Egams ne sont pas une même espèce, mais la même loi de dévoration appliquée à des organismes différents. La Loge d’Écume transforme cette faim en religion et apprend à nourrir le manque avec la destruction d’autrui."
       }
     ]
   },
   {
-    id: "dons",
-    title: "Les Dons ne sont pas un second catalogue de Compendium",
+    id: "vaagor",
+    title: "V’Aagor — la Sombre-Vérité",
     level: 2,
     blocks: [
       {
         type: "p",
-        text: "Les arbres de Dons décrivent ce que chaque Source permet avant la Rupture. Ils suivent le moteur commun DON / RITE / FAVEUR, les seuils Marqué, Envahi et Au bord, ainsi que les règles de Souillure et de Bascule. Le Compendium conserve ces principes et les identités des six Sources sans transformer chaque Fléau en une page-listing mécanique."
+        text: "V’Aagor incarne l’Unité, l’appropriation et la fusion. Son ombre n’est pas un symbole esthétique : elle représente une continuité qui peut englober objets, corps, territoires et liens jusqu’à brouiller la frontière entre ce qui appartient au porteur et ce qui est devenu une extension de lui."
+      },
+      {
+        type: "p",
+        text: "Les archives qui le nomment Mloxol V’Aagor parlent parfois du « Roi des Fléaux ». Il ne s’agit pas d’une monarchie paisible : le titre conserve surtout la mémoire d’une puissance capable d’annexer, contraindre ou relier plusieurs Sources. Sa forme fondamentale est décrite comme une matière sombre sans anatomie stable, tour à tour fluide, solide, lourde ou presque sans masse."
+      },
+      {
+        type: "p",
+        text: "V’Aagor est l’opposé naturel de Sharith : elle sépare, il rejoint. Leur ancienne association permettait à la Division de produire des fragments et à l’Unité de les rattacher à une volonté plus vaste, combinaison qui explique plusieurs horreurs attribuées aux premiers âges des Fléaux."
+      },
+      {
+        type: "p",
+        text: "Ses cultes modernes ne forment aucune Église unique. Le Deimonisme travaille avec les créatures d’Ombre ; Longinus a transformé une ancienne tradition de Chasse en Ombre-Église ; la Confrérie de la Faux cherche une tutelle directe ; la Fontaine des Ténèbres exploite la condition vampirique ; l’Œil Blanc porte des marques extérieures. Le Gouffre Infini mêle même V’Aagor à Thul."
+      },
+      {
+        type: "p",
+        text: "Les Ruptures aagoriennes vont du Fragment ou Assimilé à l’Oshirique vampirique, aux Sœurs de l’Œil Blanc ou à des Abominations façonnées par la Faux. Un Deimon corrompu reste fondamentalement un Deimon : aucun peuple d’Ombre n’est naturellement servile envers V’Aagor."
+      }
+    ]
+  },
+  {
+    id: "sharith",
+    title: "Ux’Sharith Bellatheis — la Division",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Sharith incarne division, décomposition, fragmentation, fission et lecture des structures. Son principe ne crée normalement pas une propriété nouvelle : il révèle, isole, redistribue, dégrade ou détache ce qui existait déjà."
+      },
+      {
+        type: "p",
+        text: "Reine de la Discorde, Mère des Couleurs ou Reine des Fléaux sont des titres anciens qui expriment une position de puissance plus qu’une administration. Sharith pouvait imposer sa logique à d’autres Sources, notamment Vhodhal, tout en restant elle-même prise dans une relation d’alliance et de contrainte avec V’Aagor."
+      },
+      {
+        type: "p",
+        text: "La Division dépasse la cassure matérielle : lumière, énergie, structure, pouvoir ou conscience peuvent être forcés à révéler les différences qui existaient déjà en eux. L’image du prisme revient souvent dans ses mythes : les couleurs ne sont pas inventées, elles deviennent visibles lorsque l’unité est brisée."
+      },
+      {
+        type: "p",
+        text: "Cette logique a nourri l’Archilogomancie, qui comprend en décomposant, la Nucléomancie, qui pousse le principe jusque dans la matière, et Bellatheis, qui conserve des héritages biologiques et cultuels anciens. Les Psycolors appartiennent aux expressions post-Rupture et restent des créatures rares plutôt qu’une école ordinaire."
+      },
+      {
+        type: "p",
+        text: "Les récits de Sharith parlent d’essence dispersée, de fragments, de descendances et d’identités qui se séparent sans jamais redevenir exactement ce qu’elles furent. Détruire une manifestation locale ne garantit donc jamais que tout ce que la Division avait déjà détaché ait disparu avec elle."
+      }
+    ]
+  },
+  {
+    id: "vhadhi",
+    title: "C’Thath Vhadhi — la Métastase",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Vhadhi change la fonction des choses. Elle ne mutile pas au hasard : elle reconnecte causalités, organes, objets et usages jusqu’à ce que l’ensemble remplisse le rôle devenu nécessaire. Son surnom de Nœud de la Causalité ne signifie pas qu’elle commande au destin, mais qu’elle redéfinit la relation entre une chose et ce à quoi elle sert."
+      },
+      {
+        type: "p",
+        text: "Sa tentation est l’une des plus séduisantes : adaptation, guérison, amélioration et continuité peuvent sembler préférables à la faiblesse. Le danger apparaît quand identité, espèce ou forme cessent d’avoir une valeur propre dès lors qu’une fonction jugée plus utile peut les remplacer."
+      },
+      {
+        type: "p",
+        text: "L’Éden Gris a bâti sa longévité sur cette ambiguïté. Ses racines mêlent alchimie, quête d’immortalité et évolution dirigée ; génétique, biologie et ingénierie lui ont ensuite fourni de nouveaux langages. Il attire souvent par l’espoir : malades, personnes se vivant comme inadaptées et chercheurs convaincus que la Nature ne devrait pas avoir le dernier mot."
+      },
+      {
+        type: "p",
+        text: "La Forge Grise représente sa dimension d’infrastructure, tandis qu’Am’Mleeac montre qu’un Fléau supérieur lié à Vhadhi peut développer sa propre trajectoire. Héméra et Aristaeus illustrent des Ruptures conscientes extrêmement avancées : une créature métastasée peut rester rationnelle et même satisfaite tout en ayant perdu la possibilité de vouloir autre chose que la Finalité qui l’a reconstruite."
+      }
+    ]
+  },
+  {
+    id: "shaoggith",
+    title: "Gajh’Shaoggith — la Germination",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Shaoggith fait vivre ce qui ne devrait pas vivre. Toute chair peut devenir graine, toute blessure naissance potentielle et tout organisme milieu de culture. Là où Vhadhi transforme une chose pour résoudre un problème, Shaoggith préfère mettre au monde quelque chose qui le résoudra."
+      },
+      {
+        type: "p",
+        text: "Les descriptions les plus anciennes parlent d’une masse vivante titanesque, presque astrale, hérissée de membres et de gueules reptiliennes. Une écaille, une dent ou un fragment abandonné pouvait devenir le départ d’une nouvelle prolifération."
+      },
+      {
+        type: "p",
+        text: "Ses créations ne forment pas une espèce stable. Elles se ramifient, dégénèrent, se recombinent et donnent naissance à des lignées de plus en plus éloignées de leur première forme. Des traditions reptiliennes galactiques attribuent à son passage une part de l’histoire des Mo’sen, Chez’zons et Xe’wens, sans que cela signifie une Corruption héréditaire actuelle."
+      },
+      {
+        type: "p",
+        text: "Le culte de la Mère Primordiale possède une implantation extrale importante et traite la Terre à la fois comme tombeau et sanctuaire. Le nom de Tiamat apparaît dans plusieurs traditions humaines, souvenir déformé possible d’une catastrophe biologique plus ancienne."
+      },
+      {
+        type: "p",
+        text: "Les Cycles prolongent la Germination après la Rupture : une Abomination peut encore muer, se reproduire et changer de fonction. Li’loth a dépassé plusieurs Cycles ; Shy’Krerath, Rulfam, Tiamandra, Nahfr et les grandes engeances montrent jusqu’où cette prolifération peut conduire."
+      }
+    ]
+  },
+  {
+    id: "thul",
+    title: "Thul — la Fixation",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Thul cherche la fin du devenir. Il transforme jusqu’à obtenir une forme qu’il estime définitive, puis tente d’empêcher évolution, vieillissement, métamorphose, dégradation et parfois Temps lui-même. Il constitue ainsi la contradiction la plus nette de Shaoggith : la Germination multiplie les futurs, la Fixation veut qu’il n’en reste plus aucun."
+      },
+      {
+        type: "p",
+        text: "Les cultes abyssaux le relient aux profondeurs, aux civilisations noyées et aux organismes fossiles encore vivants. Des archives anciennes rapprochent ses manifestations de Mû et de récits marins ensuite reformulés par la littérature lovecraftienne ; ces mythes ne sont pas des rapports exacts, mais ils conservent des motifs récurrents de villes englouties, sommeil immense et retour d’un état ancien."
+      },
+      {
+        type: "p",
+        text: "Thul n’est pas libéré en 2035. Il demeure endormi ou emprisonné sous Mû, et la plupart des rencontres passent par Patrons, Abominations, cultes ou émanations. Le Sombre Culte, Dagon, Telipinu et la Horde Abyssale ne forment pas une Église centralisée : ce sont des foyers distincts autour d’une Source captive."
+      },
+      {
+        type: "p",
+        text: "La peur thulienne n’est pas seulement d’être transformé en monstre, mais d’être conservé : blessure qui ne guérit ni ne s’aggrave, âme qui ne peut partir, corps qui ne vieillit plus sans réellement vivre mieux, cité qui refuse de mourir ou adaptation devenue inutile mais impossible à perdre."
+      },
+      {
+        type: "p",
+        text: "Fossiles vivants, Abyssaux profondément métissés, Myxiniens, hybrides et âmes figées figurent parmi ses Ruptures. Dagon, Telipinu, R’Sheraag, Dsherra’neth, Pestiria, Olla et Greem’Sha appartiennent aux grandes figures de cette écologie ; la destruction d’une incarnation, comme Telipinu l’illustre, n’implique pas forcément l’annihilation de l’entité derrière elle."
       }
     ]
   }
@@ -1173,27 +1309,31 @@ const DELANIAL: Section[] = [
     blocks: [
       {
         type: "p",
-        text: "Dans certains dossiers et cultes de l’Ombre-Monde, Delanial est appelé Septième Fléau, Fléau de l’Ombre-Monde ou Père de l’Ombre. Des Ombres, Dives et Deimons ont interprété son passage comme celui d’un créateur, au point qu’un culte décentralisé lui a survécu."
+        text: "Dans les dossiers rares qui le mentionnent, Delanial est appelé Fléau de l’Ombre-Monde, Septième Fléau ou Père de l’Ombre. Son ancienneté, sa puissance passive et son influence sur une dimension entière rendent la confusion compréhensible."
       },
       {
         type: "p",
-        text: "Les récits les mieux informés insistent surtout sur l’ancienneté, la puissance passive et l’influence profonde de Delanial dans l’Ombre-Monde. Les certitudes publiques s’arrêtent là : ses véritables rapports avec les grandes puissances ne sont pas une connaissance ordinaire."
+        text: "Son passage a laissé assez de traces pour que des Ombres, Dives et Deimons l’interprètent comme un créateur. Un culte décentralisé du Père de l’Ombre est né de cette erreur et a survécu même aux tentatives de Delanial lui-même pour le faire disparaître."
       }
     ]
   },
   {
     id: "classification-mj",
-    title: "Classification MJ — le faux Septième Fléau",
+    title: "Classification MJ — le faux Septième",
     level: 2,
     audience: "mj",
     blocks: [
       {
         type: "p",
-        text: "Delanial n’est pas un Fléau. C’est un Légionnaire des Puissances, réfugié qui cherche à demeurer caché des autres Puissances. Il n’existe aucune Source de Corruption Delanial, aucun Don, aucune Bascule et aucune place pour lui dans la préséance des six Fléaux."
+        text: "Delanial n’est pas un Fléau. C’est un Légionnaire des Puissances, avant tout un réfugié cherchant à demeurer caché des autres Puissances. Sa cosmologie est différente de celle des six Sources, même lorsqu’il peut exercer une influence comparable à la leur."
       },
       {
         type: "p",
-        text: "Il peut exercer une influence comparable à une Source et affronter des manifestations de niveau Fléau sans devenir un « super-Fléau ». Son intervention contre V’Aagor puis l’effacement de cette intervention relèvent d’une catégorie cosmologique différente."
+        text: "Il a déjà été capable d’affronter des manifestations de niveau Fléau sans devenir pour autant un « super-Fléau ». Son intervention contre V’Aagor puis l’effacement de cette intervention montrent précisément qu’une puissance hors échelle peut appartenir à une autre catégorie cosmologique."
+      },
+      {
+        type: "p",
+        text: "Cette distinction rappelle que les classifications des Chasseurs sont des outils de compréhension, pas des lois imposées au monde. Toutes les puissances immenses ne sont pas des Fléaux et toutes les religions de Vérité ne comprennent pas correctement l’objet qu’elles vénèrent."
       }
     ]
   },
@@ -1205,11 +1345,19 @@ const DELANIAL: Section[] = [
     blocks: [
       {
         type: "p",
-        text: "Delanial s’est réfugié dans l’Ombre-Monde et a profondément participé à sa structuration sans posséder toute la dimension ni toutes les Ombres. Il a créé le Mageius d’Anahita lors d’un événement unique, non reproductible par Talent ou Rite. Morrighan fait partie des très rares personnes qui le connaissent comme individu."
+        text: "Delanial s’est réfugié dans l’Ombre-Monde et a profondément participé à sa structuration, devenant une sorte de Démiurge caché sans posséder toute la dimension ni toutes les Ombres."
       },
       {
         type: "p",
-        text: "Le culte du Père de l’Ombre ne lui obéit pas : Delanial a tenté de le supprimer et il n’ouvre aucune progression PTV. Il n’a pas de fiche de combat ordinaire ; on peut négocier, obtenir une aide, contrer une conséquence ou une projection, mais pas le réduire à une réserve de PV."
+        text: "Il a créé le Mageius d’Anahita lors d’un événement unique qui ne constitue pas une technique transmissible. Morrighan fait partie des très rares personnes capables de le connaître comme individu et de comprendre qu’il ne relève pas de la classification des Fléaux."
+      },
+      {
+        type: "p",
+        text: "Le culte du Père de l’Ombre ne lui obéit pas. Delanial n’est ni son fondateur volontaire ni son dieu consentant ; le culte existe parce que certaines créatures ont transformé les traces de son passage en récit de création."
+      },
+      {
+        type: "p",
+        text: "Delanial n’est pas une créature que l’on comprend correctement en la réduisant à un affrontement direct. Une histoire peut porter sur une négociation, une conséquence de son intervention, un secret, une projection ou l’aide impossible d’une puissance qui préférerait que personne ne sache qu’elle existe."
       }
     ]
   }
