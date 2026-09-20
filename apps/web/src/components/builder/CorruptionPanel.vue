@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
+import { cloneJson } from "../../lib/json";
 import BuilderWikiLink from "./BuilderWikiLink.vue";
 import {
   truthCorruptionDepth,
@@ -58,7 +59,7 @@ const groups=computed(()=>{
 });
 
 function update(mutator:(state:TruthState)=>void){
-  const next=structuredClone(props.modelValue);
+  const next=cloneJson(props.modelValue);
   next.corruptionMjAuthorized=Boolean(next.corruptionMjAuthorized);
   next.corruption=Math.max(0,Math.min(Math.max(1,props.integrity),Math.trunc(Number(next.corruption)||0)));
   next.corruptionSource=String(next.corruptionSource||"");

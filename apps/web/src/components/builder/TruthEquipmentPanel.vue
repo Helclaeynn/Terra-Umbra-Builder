@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { cloneJson } from "../../lib/json";
 import BuilderWikiLink from "./BuilderWikiLink.vue";
 import {
   truthEquipmentAccess,
@@ -71,7 +72,7 @@ const groups=computed(()=>{
 });
 
 function update(mutator:(next:TruthState)=>void){
-  const next=structuredClone(props.modelValue);
+  const next=cloneJson(props.modelValue);
   next.truthEquipment=Array.isArray(next.truthEquipment)?next.truthEquipment:[];
   next.truthEquipmentMjOverride=Boolean(next.truthEquipmentMjOverride);
   mutator(next);
