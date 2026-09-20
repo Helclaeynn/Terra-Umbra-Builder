@@ -998,7 +998,7 @@
 .brand-signal .brand-dashboard-hero{
   display:block;
   position:relative;
-  min-height:220px;
+  min-height:200px;
   padding:0;
   overflow:hidden;
   border:1px solid #1d4d65;
@@ -1037,10 +1037,10 @@
 .brand-signal .brand-horizon-art{
   position:absolute;
   z-index:0;
-  right:-20px;
-  bottom:-125px;
-  width:min(31vw,330px);
-  height:185px;
+  right:-12px;
+  bottom:-112px;
+  width:min(29vw,300px);
+  height:165px;
   border-radius:50%;
   border-top:1px solid rgba(67,218,238,.48);
   pointer-events:none;
@@ -1078,12 +1078,12 @@
   position:relative;
   z-index:2;
   display:grid;
-  grid-template-columns:minmax(175px,215px) minmax(0,1fr);
-  gap:clamp(1.2rem,2.2vw,1.6rem);
+  grid-template-columns:minmax(220px,255px) minmax(0,1fr);
+  gap:clamp(.9rem,1.8vw,1.3rem);
   align-items:center;
-  min-height:220px;
-  padding:.9rem clamp(1.4rem,3vw,1.8rem);
-  padding-right:clamp(2.4rem,5vw,4.2rem);
+  min-height:200px;
+  padding:.42rem clamp(1.1rem,2.4vw,1.5rem);
+  padding-right:clamp(2.2rem,4.5vw,3.8rem);
 }
 
 .brand-signal .brand-masthead-mark{
@@ -1358,16 +1358,16 @@
   max-height:72px;
 }
 .brand-signal .brand-masthead-final{
-  grid-template-columns:minmax(175px,215px) minmax(0,1fr);
-  padding-right:clamp(2.4rem,5vw,4.2rem);
+  grid-template-columns:minmax(220px,255px) minmax(0,1fr);
+  padding-right:clamp(2.2rem,4.5vw,3.8rem);
 }
 .brand-signal .brand-masthead-final .brand-masthead-copy{
   max-width:650px;
   align-self:center;
 }
 .brand-signal .brand-masthead-final .brand-masthead-lockup{
-  width:min(215px,100%) !important;
-  max-width:215px;
+  width:min(255px,100%) !important;
+  max-width:255px;
   margin:0;
   justify-self:start;
   align-self:center;
