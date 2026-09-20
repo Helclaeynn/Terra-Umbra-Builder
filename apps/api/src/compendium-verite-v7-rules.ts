@@ -252,7 +252,7 @@ const SOURCE_ARTICLES=[
     ]
   }
 ] as const;
-export const COMPENDIUM_VERITE_V7_RULE_ARTICLES:Article[]=SOURCE_ARTICLES.map(a=>({...a,dataset:"verite-v7",category:"Règles",sourceCategory:"Règles",source:SOURCE,status:"canon_enrichi",rebuildV2:true,sections:a.sections as Section[]}));
+export const COMPENDIUM_VERITE_V7_RULE_ARTICLES:Article[]=SOURCE_ARTICLES.map(a=>({...a,tags:[...a.tags],dataset:"verite-v7",category:"Règles",sourceCategory:"Règles",source:SOURCE,status:"canon_enrichi",rebuildV2:true,sections:a.sections as unknown as Section[]}));
 export const COMPENDIUM_VERITE_V7_RULE_NAVIGATION=[
 {id:"regles-verite-v7-architecture-ptv-acces",dataset:"verite-v7",category:"Règles",group:"Socle Vérité",groupOrder:40,subgroup:"Architecture & progression",subgroupOrder:10,pageOrder:10,displayTitle:"Architecture, PTV & accès"},
 {id:"regles-verite-v7-pa-reactions-defense-puissance",dataset:"verite-v7",category:"Règles",group:"Socle Vérité",groupOrder:40,subgroup:"Action & opposition",subgroupOrder:20,pageOrder:10,displayTitle:"PA, Réactions, Défense occulte & Puissance"},
