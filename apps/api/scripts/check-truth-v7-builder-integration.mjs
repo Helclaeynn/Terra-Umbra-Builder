@@ -32,7 +32,16 @@ const registry = getTalentRegistry();
 const meta = talentRegistryMeta();
 assert.equal(registry.length, 1412, "Truth Talent registry must contain 1185 native + 227 Fléau abilities");
 assert.equal(meta.total, 1412, "Talent registry metadata total must be 1412");
-assert.equal(new Set(registry.map((row) => row.talentId)).size, 1412, "Talent registry ids must be unique");
+assert.equal(
+  new Set(registry.map((row) => `${row.natureId}:${row.talentId}`)).size,
+  1412,
+  "Talent registry nature/id pairs must be unique"
+);
+assert.equal(
+  new Set(registry.map((row) => row.talentId)).size,
+  1405,
+  "Global ids keep the seven canonical Vampire/Garou shared Blood Talent ids"
+);
 
 for (const natureId of expectedFleauIds) {
   assert.ok(meta.natures.includes(natureId), `Missing Fléau registry nature ${natureId}`);
