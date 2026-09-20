@@ -206,16 +206,18 @@ await page.route("**/api/**",async route=>{
   const method=request.method();
 
   if(url.pathname==="/api/characters/"+characterId&&method==="GET"){
+    const currentVersion=savedPayload?Number(savedPayload.version||7)+1:7;
     return route.fulfill({
       status:200,contentType:"application/json",
-      body:JSON.stringify({character:{id:characterId,name:"V2 Smoke",data:characterData,version:7,createdAt:new Date(0).toISOString(),updatedAt:new Date(0).toISOString()}})
+      body:JSON.stringify({character:{id:characterId,name:savedPayload?.name||"V2 Smoke",data:savedPayload?.data||characterData,version:currentVersion,createdAt:new Date(0).toISOString(),updatedAt:new Date(0).toISOString()}})
     });
   }
   if(url.pathname==="/api/characters/"+characterId&&method==="PATCH"){
     savedPayload=JSON.parse(request.postData()||"{}");
+    const nextVersion=Number(savedPayload.version||7)+1;
     return route.fulfill({
       status:200,contentType:"application/json",
-      body:JSON.stringify({character:{id:characterId,name:savedPayload.name,data:savedPayload.data,version:8,createdAt:new Date(0).toISOString(),updatedAt:new Date().toISOString()}})
+      body:JSON.stringify({character:{id:characterId,name:savedPayload.name,data:savedPayload.data,version:nextVersion,createdAt:new Date(0).toISOString(),updatedAt:new Date().toISOString()}})
     });
   }
   if(url.pathname==="/api/rulesets/terra-umbra/creation"){
@@ -363,6 +365,14 @@ if(await page.locator(".builder-nav").getByRole("button",{name:/Dépense XP & PT
   throw new Error("La progression ne doit plus être une étape du Builder de création.");
 }
 
+const creationSaveButton=page.getByRole("button",{name:/Enregistrer/}).first();
+await creationSaveButton.click();
+await page.getByText(/Fiche enregistrée · version 9/).waitFor();
+if(!savedPayload)throw new Error("La sauvegarde de fin de création n’a pas été envoyée.");
+if(savedPayload.version!==7)throw new Error("Version optimiste de création incorrecte.");
+if(savedPayload.data?.reality?.sphereSupportType!=="vehicle")throw new Error("Appui Corporatiste non persisté à la fin de création.");
+if(savedPayload.data?.reality?.sphereSupportItemId!=="vehicle-smoke")throw new Error("Véhicule de fonction non persisté à la fin de création.");
+
 await page.goto(`${baseUrl}/characters/${characterId}/progression`,{waitUntil:"domcontentloaded"});
 try{
   await page.getByRole("heading",{name:"Progression de campagne"}).waitFor({timeout:12000});
@@ -389,7 +399,7 @@ const saveButton=page.getByRole("button",{name:/Enregistrer/}).first();
 await saveButton.click();
 await page.getByText(/Fiche enregistrée · version 8/).waitFor();
 if(!savedPayload)throw new Error("La sauvegarde versionnée n’a pas été envoyée.");
-if(savedPayload.version!==7)throw new Error("Version optimiste incorrecte.");
+if(savedPayload.version!==8)throw new Error("Version optimiste de progression incorrecte.");
 if(savedPayload.data?.schemaVersion!==2)throw new Error("La sauvegarde n’est pas en schema v2.");
 if(savedPayload.data?.reality?.sphereSupportType!=="vehicle")throw new Error("Appui Corporatiste non persisté.");
 if(savedPayload.data?.reality?.sphereSupportItemId!=="vehicle-smoke")throw new Error("Véhicule de fonction non persisté.");
