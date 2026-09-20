@@ -5,7 +5,8 @@ import "./style.css";
 const router=createRouter({
   history:createWebHistory(),
   routes:[
-    { path:"/", component:()=>import("./App.vue") },
+    { path:"/", component:()=>import("./pages/CompendiumPage.vue") },
+    { path:"/account", component:()=>import("./App.vue") },
     { path:"/characters/:id/builder", component:()=>import("./pages/CharacterBuilderPage.vue") },
     { path:"/compendium", component:()=>import("./pages/CompendiumPage.vue") },
     { path:"/compendium/new", component:()=>import("./pages/CompendiumEditorPage.vue") },
