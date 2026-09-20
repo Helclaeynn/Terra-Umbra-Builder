@@ -1193,6 +1193,41 @@ async function loadCorpus(): Promise<Corpus> {
     ];
   }
 
+  const governmentHub = byId.get("realite-v9-etat-institutions-grande-reserve");
+  if (governmentHub) {
+    governmentHub.sections = [
+      ...(governmentHub.sections ?? []),
+      ...(deepClone(COMPENDIUM_REALITE_V9_GOVERNMENT_HUB_SECTIONS) as JsonObject[])
+    ];
+    if (!String(governmentHub.source ?? "").includes("TUC_organisations_gouvernement(1).docx")) {
+      governmentHub.source = [governmentHub.source, "TUC_organisations_gouvernement(1).docx"].filter(Boolean).join(" ; ");
+    }
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_GOVERNMENT_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_GOVERNMENT_PNJ_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const enrichment of COMPENDIUM_REALITE_V9_GOVERNMENT_PNJ_ENRICHMENTS) {
+    const target = byId.get(enrichment.id);
+    if (!target) continue;
+    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
+    if (!existingIds.has(String(enrichment.section?.id ?? ""))) {
+      target.sections = [
+        ...(target.sections ?? []),
+        deepClone(enrichment.section) as JsonObject
+      ];
+    }
+    if (!String(target.source ?? "").includes("TUC_organisations_gouvernement(1).docx")) {
+      target.source = [target.source, "TUC_organisations_gouvernement(1).docx"].filter(Boolean).join(" ; ");
+    }
+    target.tags = Array.from(new Set([...(target.tags ?? []), "Gouvernement"]));
+  }
+
   for (const article of COMPENDIUM_REALITE_V9_RELIGION_ARTICLES) {
     // Religion consolidation overrides the Reality hub and adds one immersive page per major tradition.
     byId.set(article.id, deepClone(article) as Article);
