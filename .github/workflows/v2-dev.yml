@@ -779,7 +779,7 @@ jobs:
           }
           assert disadvantage_counts=={"common":15,"attribute":15,"sphere":25},disadvantage_counts
           assert sum(disadvantage_counts.values())==55,disadvantage_counts
-          print("REALITY V9 AUDIT — 20/20 pages · 122/122 talents · 55/55 désavantages")
+          print("REALITY V9 AUDIT — 24/24 pages · 122/122 talents · 55/55 désavantages")
           PY
 
           echo "Wiki smoke: verifying canonical Truth V7 pass A architecture"
