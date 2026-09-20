@@ -1484,7 +1484,7 @@ const SOURCE_PAYLOAD={
     }
   ]
 } as const;
-const article=(id:string,category:"Vérité"|"Règles",title:string,tags:string[],sections:readonly Section[]):Article=>({id,dataset:"verite-v7",category,sourceCategory:category,title,source:SOURCE,status:"canon_enrichi",rebuildV2:true,tags,sections:sections as Section[]});
+const article=(id:string,category:"Vérité"|"Règles",title:string,tags:string[],sections:readonly unknown[]):Article=>({id,dataset:"verite-v7",category,sourceCategory:category,title,source:SOURCE,status:"canon_enrichi",rebuildV2:true,tags,sections:sections as unknown as Section[]});
 export const COMPENDIUM_VERITE_V7_ANGELUS_ARTICLES:Article[]=[
 article("verite-v7-angelus-elynea-arbre-vie","Vérité","Angelus — Elynea & l’Arbre de Vie",["Vérité","Angelus","Elynea","Arbre de Vie","Sephiroth","Archanges","Séraphins"],SOURCE_PAYLOAD.lore),
 article("regles-verite-v7-angelus-nature-revelation-transcendance","Règles","Nature angélique, Révélation & Transcendance",["Vérité","Angelus","Aura","Auréole","Transcendance","Trône","Vertu","Domination"],SOURCE_PAYLOAD.r1),
