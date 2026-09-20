@@ -114,15 +114,15 @@ function loadDecoded(){
 function sourceIdFor(text:string):CorruptionSourceId|null{
   const value=norm(text);
   if(value.includes("vhodhal"))return "vhodhal";
-  if(value.includes("v'aagor")||value.includes("vaagor"))return "vaagor";
+  if(value.includes("v'aagor")||value.includes("v aagor")||value.includes("vaagor"))return "vaagor";
   if(value.includes("sharith"))return "sharith";
   if(value.includes("vhadhi"))return "vhadhi";
   if(value.includes("shaoggith"))return "shaoggith";
   if(/(^| )thul( |$)/.test(value))return "thul";
   return null;
 }
-function familyFor(headings:string,sourceId:CorruptionSourceId):string{
-  const value=norm(headings);
+function familyFor(subheadings:string,sourceId:CorruptionSourceId):string{
+  const value=norm(subheadings);
   const defs:[string,RegExp][]=[
     ["Famine Blanche",/famine blanche/],
     ["Loge d’Écume",/loge d ecume/],
@@ -179,11 +179,13 @@ function buildCatalog():CorruptionTalent[]{
     const rawTitle=clean(card.title);
     const parsed=profileParts(rawTitle);
     if(!parsed)continue;
-    const headings=[clean(card.heading3),clean(card.heading4),clean(card.heading5)].filter(Boolean);
-    const sourceId=sourceIdFor(headings.join(" "));
+    const h3=clean(card.heading3);
+    const subheadings=[clean(card.heading4),clean(card.heading5)].filter(Boolean);
+    const headings=[h3,...subheadings].filter(Boolean);
+    const sourceId=sourceIdFor(h3||headings.join(" "));
     if(!sourceId)throw new Error(`Fléau indéterminé pour ${parsed.name}: ${headings.join(" › ")}`);
     const source=corruptionSources.find(item=>item.id===sourceId)!;
-    const family=familyFor(headings.join(" "),sourceId);
+    const family=familyFor(subheadings.join(" "),sourceId);
     rows.push({
       id:`fleau_${sourceId}_${slug(family)}_${slug(parsed.name)}`,
       name:parsed.name,

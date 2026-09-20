@@ -38,8 +38,8 @@ const asObject=raw=>{
   return Object.fromEntries(raw.map((value,index)=>[String(decoded.columns?.[index]??index),value]));
 };
 
-function family(headings,source){
-  const value=norm(headings);
+function family(subheadings,source){
+  const value=norm(subheadings);
   const defs=[
     ["Famine Blanche",/famine blanche/],
     ["Loge d’Écume",/loge d ecume/],
@@ -68,7 +68,7 @@ function family(headings,source){
 function source(headings){
   const v=norm(headings);
   if(v.includes("vhodhal"))return"vhodhal";
-  if(v.includes("v'aagor")||v.includes("vaagor"))return"vaagor";
+  if(v.includes("v'aagor")||v.includes("v aagor")||v.includes("vaagor"))return"vaagor";
   if(v.includes("sharith"))return"sharith";
   if(v.includes("vhadhi"))return"vhadhi";
   if(v.includes("shaoggith"))return"shaoggith";
@@ -88,13 +88,15 @@ for(const raw of decoded.entries??[]){
   const profile=rawTitle.slice(marker).replace(/^Profil\s*:\s*/i,"").trim();
   const cost=Number(profile.match(/(\d+)\s*PTV/i)?.[1]??0);
   const kind=(profile.match(/\b(DON|RITE|FAVEUR)\b/i)?.[1]??"").toUpperCase();
-  const headings=[card.heading3,card.heading4,card.heading5].map(clean).filter(Boolean).join(" › ");
-  const sourceId=source(headings);
+  const h3=clean(card.heading3);
+  const subheadings=[card.heading4,card.heading5].map(clean).filter(Boolean).join(" › ");
+  const headings=[h3,subheadings].filter(Boolean).join(" › ");
+  const sourceId=source(h3||headings);
   if(!name||!cost||!kind||!sourceId){
     rejected.push({name,profile,headings,cost,kind,sourceId});
     continue;
   }
-  rows.push({name,cost,kind,sourceId,family:family(headings,sourceId),headings});
+  rows.push({name,cost,kind,sourceId,family:family(subheadings,sourceId),headings});
 }
 
 const byFamily=new Map();
