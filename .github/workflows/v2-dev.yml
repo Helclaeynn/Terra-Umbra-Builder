@@ -52,6 +52,10 @@ jobs:
         working-directory: apps/api
         run: node scripts/check-truth-v7-builder-integration.mjs
 
+      - name: Check Truth species integration
+        working-directory: apps/api
+        run: node scripts/check-truth-species-integration.mjs
+
       - name: Build web
         working-directory: apps/web
         run: |
