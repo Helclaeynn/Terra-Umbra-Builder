@@ -682,7 +682,7 @@ export function truthCorruptionDepth(corruption:number,integrity:number){
 }
 
 function corruptionDepthRank(depth:string){
-  if(depth==="Au bord de la Rupture")return 3;
+  if(depth==="Seuil atteint"||depth==="Au bord de la Rupture")return 3;
   if(depth==="Envahi")return 2;
   if(depth==="Marqué")return 1;
   return 0;
