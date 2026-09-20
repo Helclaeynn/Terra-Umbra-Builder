@@ -154,7 +154,6 @@ export function generatedTalentHubCorpus() {
       category: "Règles",
       sourceCategory: "Règles",
       dataset: "generated-talents",
-      rebuildV2: true,
       source: "Builder V2 — registre canonique des Talents",
       status: "canon_enrichi",
       tags: [spec.natureId, "talents", "hub"],
