@@ -1013,15 +1013,6 @@ export const COMPENDIUM_VERITE_V7_KHINAE_RULE_ARTICLES: Article[] = [
         ]
       },
       {
-        id: "catalogue",
-        title: "Catalogue canonique des Talents de Lignée et Sangs vifs",
-        level: 2,
-        blocks: [
-          p("Comme pour les Talents de Réalité, le détail achat par achat n'est pas recopié dans une seconde source. Le registre ci-dessous est alimenté directement par le Builder et couvre les Talents des dix Lignées ainsi que les Sangs vifs disponibles aux descendants non-loups."),
-          allTalents("khinae")
-        ]
-      },
-      {
         id: "acces",
         title: "Accès, rareté et cas corrompus",
         level: 2,
