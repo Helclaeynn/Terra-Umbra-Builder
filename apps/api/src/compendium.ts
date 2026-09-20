@@ -29,6 +29,16 @@ import {
   COMPENDIUM_REALITE_V9_PEGRE_PNJ_NAVIGATION
 } from "./compendium-realite-v9-pegre-pnj.js";
 import {
+  COMPENDIUM_REALITE_V9_POLICE_HUB_SECTIONS,
+  COMPENDIUM_REALITE_V9_POLICE_ARTICLES,
+  COMPENDIUM_REALITE_V9_POLICE_NAVIGATION
+} from "./compendium-realite-v9-police.js";
+import {
+  COMPENDIUM_REALITE_V9_POLICE_PNJ_ARTICLES,
+  COMPENDIUM_REALITE_V9_POLICE_PNJ_NAVIGATION,
+  COMPENDIUM_REALITE_V9_POLICE_PNJ_ENRICHMENTS
+} from "./compendium-realite-v9-police-pnj.js";
+import {
   COMPENDIUM_REALITE_V9_RELIGION_ARTICLES,
   COMPENDIUM_REALITE_V9_RELIGION_NAVIGATION
 } from "./compendium-realite-v9-religions.js";
@@ -961,6 +971,33 @@ async function loadCorpus(): Promise<Corpus> {
     byId.set(article.id, deepClone(article) as Article);
   }
 
+  const lausHub = byId.get("realite-v9-los-angeles-laus-securites");
+  if (lausHub) {
+    // Preserve the consolidated Reality page and append the source-complete Police/LAUS detail pass.
+    lausHub.sections = [
+      ...(lausHub.sections ?? []),
+      ...(deepClone(COMPENDIUM_REALITE_V9_POLICE_HUB_SECTIONS) as JsonObject[])
+    ];
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_POLICE_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_POLICE_PNJ_ARTICLES) {
+    // Active Police/Most-Wanted profiles use dedicated IDs; matching OLD pages remain audit-only.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const enrichment of COMPENDIUM_REALITE_V9_POLICE_PNJ_ENRICHMENTS) {
+    const target = byId.get(enrichment.id);
+    if (!target) continue;
+    target.sections = [
+      ...(target.sections ?? []),
+      deepClone(enrichment.section) as JsonObject
+    ];
+  }
+
   for (const article of COMPENDIUM_REALITE_V9_RELIGION_ARTICLES) {
     // Religion consolidation overrides the Reality hub and adds one immersive page per major tradition.
     byId.set(article.id, deepClone(article) as Article);
@@ -1160,6 +1197,8 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_REALITE_V9_LORE_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_PEGRE_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_PEGRE_PNJ_NAVIGATION,
+      ...COMPENDIUM_REALITE_V9_POLICE_NAVIGATION,
+      ...COMPENDIUM_REALITE_V9_POLICE_PNJ_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_RELIGION_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_RELIGION_PNJ_NAVIGATION.map((entry) => ({
         ...entry,
