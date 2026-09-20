@@ -2474,7 +2474,7 @@ const SOURCE_PAYLOAD={
       ]
     }
   ]
-};
+} as unknown as {lore:Section[];r1:Section[];r2:Section[];r3:Section[]};
 const article=(id:string,category:"Vérité"|"Règles",title:string,tags:string[],sections:Section[]):Article=>({id,dataset:"verite-v7",category,sourceCategory:category,title,source:SOURCE,status:"canon_enrichi",rebuildV2:true,tags,sections});
 export const COMPENDIUM_VERITE_V7_MAGE_ARTICLES:Article[]=[
 article("verite-v7-mages-mageius-roue-loges","Vérité","Mages — Mageius, Roue & Loges",["Vérité","Mages","Mageius","Roue magique","Loges","Guerre de la Magie","Échos","Œuvres"],SOURCE_PAYLOAD.lore),
