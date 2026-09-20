@@ -268,6 +268,7 @@ function articleMatchesNatureHub(articleId: string, natureId: string): boolean {
 
   const prefixes = new Set([
     `regles-verite-${nature}-`,
+    `regles-verite-v7-${nature}-`,
     `regles-verite-v6-${nature}-`,
     `regles-verite-nature-${nature}`
   ]);
@@ -292,9 +293,13 @@ export async function findCompendiumHubMatches(
     .filter((article) => articleMatchesNatureHub(article.id, natureId))
     .map((article) => {
       const navTitle = corpus.navigation.get(article.id)?.displayTitle ?? "";
+      const sectionTitles = (article.sections ?? [])
+        .map((section) => norm(section?.title ?? ""))
+        .filter(Boolean);
       const labels = [
         norm(article.title ?? ""),
-        norm(navTitle)
+        norm(navTitle),
+        ...sectionTitles
       ].filter(Boolean);
 
       let score = 0;
