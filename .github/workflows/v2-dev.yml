@@ -551,7 +551,7 @@ jobs:
             ],
             "regles-sante-blessures-soins":[
               "1 + DR PV",
-              "une seule tentative efficace",
+              "Une seule tentative efficace",
               "Constitution PV par jour",
               "Seuil de Mort"
             ],
