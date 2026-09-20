@@ -29,6 +29,10 @@ import {
   COMPENDIUM_REALITE_V9_RELIGION_PNJ_NAVIGATION
 } from "./compendium-realite-v9-religion-pnj.js";
 import {
+  COMPENDIUM_REALITE_V9_CHRISTIANITY_ARTICLES,
+  COMPENDIUM_REALITE_V9_CHRISTIANITY_NAVIGATION
+} from "./compendium-realite-v9-christianity.js";
+import {
   COMPENDIUM_REALITE_V9_RULE_ARTICLES,
   COMPENDIUM_REALITE_V9_RULE_NAVIGATION
 } from "./compendium-realite-v9-rules.js";
@@ -128,6 +132,11 @@ type Corpus = {
 };
 
 const LEGACY_CATEGORY = "OLD";
+const RELIGION_ARCHIVE_ID_REMAP: Record<string, string> = {
+  "pnj-059-bhima-shiravadakar": "pnj-religions-bhima-shiravadakar",
+  "pnj-062-ciara-mcfarlane": "pnj-religions-ciara-mcfarlane"
+};
+const activeReligionPnjId = (id: string) => RELIGION_ARCHIVE_ID_REMAP[id] ?? id;
 const PROTECTED_REBUILD_CATEGORIES = new Set(["Équipement & Objets", "Bestiaire"]);
 
 const CATEGORY_ORDER = [
@@ -920,8 +929,15 @@ async function loadCorpus(): Promise<Corpus> {
     byId.set(article.id, deepClone(article) as Article);
   }
 
-  for (const article of COMPENDIUM_REALITE_V9_RELIGION_PNJ_ARTICLES) {
-    // Illustrated religious PNJs override matching legacy IDs (Bhima/Ciara) and add the remaining detailed profiles.
+  for (const sourceArticle of COMPENDIUM_REALITE_V9_RELIGION_PNJ_ARTICLES) {
+    // Active religious profiles never reuse archived legacy IDs: archives remain independent audit material.
+    const article = deepClone(sourceArticle) as Article;
+    article.id = activeReligionPnjId(article.id);
+    byId.set(article.id, article);
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_CHRISTIANITY_ARTICLES) {
+    // Full Christianity pass: enriches the public Church page and adds active PNJs from the detailed source.
     byId.set(article.id, deepClone(article) as Article);
   }
 
@@ -1062,7 +1078,11 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_MOTEUR_V4_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_LORE_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_RELIGION_NAVIGATION,
-      ...COMPENDIUM_REALITE_V9_RELIGION_PNJ_NAVIGATION,
+      ...COMPENDIUM_REALITE_V9_RELIGION_PNJ_NAVIGATION.map((entry) => ({
+        ...entry,
+        id: activeReligionPnjId(entry.id)
+      })),
+      ...COMPENDIUM_REALITE_V9_CHRISTIANITY_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_RULE_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_LORE_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_RULE_NAVIGATION,
