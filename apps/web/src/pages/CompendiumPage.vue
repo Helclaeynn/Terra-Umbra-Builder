@@ -1967,8 +1967,8 @@ onBeforeUnmount(() => {
 .compendium-shell {
   min-height: 100vh;
   background:
-    radial-gradient(circle at 80% 4%, rgba(133, 96, 49, .11), transparent 34rem),
-    radial-gradient(circle at 8% 42%, rgba(82, 63, 39, .07), transparent 28rem);
+    radial-gradient(circle at 80% 4%, rgba(43,146,255, .11), transparent 34rem),
+    radial-gradient(circle at 8% 42%, rgba(166,124,230, .07), transparent 28rem);
 }
 
 .compendium-topbar {
@@ -1978,8 +1978,8 @@ onBeforeUnmount(() => {
   justify-content: space-between;
   gap: 1rem;
   padding: 0 clamp(1rem, 5vw, 4rem);
-  border-bottom: 1px solid rgba(226, 206, 164, .13);
-  background: rgba(13, 12, 10, .94);
+  border-bottom: 1px solid rgba(70,126,148, .13);
+  background: rgba(8,15,23, .94);
   position: sticky;
   top: 0;
   z-index: 20;
@@ -1998,8 +1998,8 @@ onBeforeUnmount(() => {
 }
 
 .wiki-create-link {
-  border-color: rgba(157, 124, 72, .45) !important;
-  color: #dcc48f !important;
+  border-color: rgba(43,146,255, .45) !important;
+  color: #b8dfea !important;
 }
 
 .compendium-page {
@@ -2073,7 +2073,7 @@ onBeforeUnmount(() => {
 .compendium-hero p:not(.eyebrow) {
   max-width: 72ch;
   margin: 0;
-  color: #aaa397;
+  color: #a6bac2;
   line-height: 1.65;
 }
 
@@ -2082,8 +2082,8 @@ onBeforeUnmount(() => {
   padding: 1.05rem 1.2rem;
   display: grid;
   gap:.15rem;
-  border-color:rgba(199,173,120,.22);
-  background:linear-gradient(145deg,rgba(161,125,69,.09),rgba(20,18,15,.82));
+  border-color:rgba(88,220,197,.22);
+  background:linear-gradient(145deg,rgba(43,146,255,.09),rgba(12,23,32,.82));
 }
 
 .compendium-stats strong {
@@ -2108,9 +2108,9 @@ onBeforeUnmount(() => {
 .compendium-search {
   padding: 1rem;
   margin-bottom: 1rem;
-  border-color:rgba(199,173,120,.2);
+  border-color:rgba(88,220,197,.2);
   background:
-    linear-gradient(135deg,rgba(161,125,69,.07),rgba(24,22,18,.86) 42%,rgba(17,16,14,.9));
+    linear-gradient(135deg,rgba(43,146,255,.07),rgba(16,27,37,.86) 42%,rgba(8,16,24,.9));
   box-shadow:0 22px 65px rgba(0,0,0,.2);
 }
 
@@ -2120,16 +2120,16 @@ onBeforeUnmount(() => {
   gap: .7rem;
   align-items:stretch;
 }
-.search-line input[type="search"]{min-height:50px;font-size:1rem;border-color:rgba(199,173,120,.2);background:rgba(8,8,7,.38)}
+.search-line input[type="search"]{min-height:50px;font-size:1rem;border-color:rgba(88,220,197,.2);background:rgba(8,8,7,.38)}
 .search-line input[type="search"]:focus{border-color:#a88a58;box-shadow:0 0 0 2px rgba(168,138,88,.12),0 12px 30px rgba(0,0,0,.18)}
 .search-line .primary{min-height:50px}
 
 .compendium-search form{position:relative}
-.search-suggestions{position:absolute;left:0;right:0;top:calc(100% + .45rem);z-index:30;display:grid;max-height:min(520px,62vh);overflow:auto;border:1px solid rgba(199,173,120,.24);background:#0e0d0b;box-shadow:0 22px 60px rgba(0,0,0,.42)}
+.search-suggestions{position:absolute;left:0;right:0;top:calc(100% + .45rem);z-index:30;display:grid;max-height:min(520px,62vh);overflow:auto;border:1px solid rgba(88,220,197,.24);background:#081119;box-shadow:0 22px 60px rgba(0,0,0,.42)}
 .search-suggestions button{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:1rem;padding:.7rem .85rem;border:0;border-bottom:1px solid rgba(255,255,255,.055);text-align:left;color:#cfc6b8;background:transparent}
-.search-suggestions button:last-child{border-bottom:0}.search-suggestions button.active,.search-suggestions button:hover{background:rgba(161,125,69,.09)}
-.search-suggestions button>span{display:grid;gap:.2rem}.search-suggestions strong{color:#e1d7c8;font-size:.84rem}.search-suggestions small{color:#9d8357;font-size:.65rem}.search-suggestions em{color:#817a70;font-size:.69rem;line-height:1.4;font-style:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.search-suggestion-loading{padding:.9rem;color:#8e877c;font-size:.75rem}
+.search-suggestions button:last-child{border-bottom:0}.search-suggestions button.active,.search-suggestions button:hover{background:rgba(43,146,255,.09)}
+.search-suggestions button>span{display:grid;gap:.2rem}.search-suggestions strong{color:#dce8ec;font-size:.84rem}.search-suggestions small{color:#6fb9d6;font-size:.65rem}.search-suggestions em{color:#718a95;font-size:.69rem;line-height:1.4;font-style:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.search-suggestion-loading{padding:.9rem;color:#718a95;font-size:.75rem}
 .category-strip {
   display: flex;
   flex-wrap: wrap;
@@ -2148,16 +2148,16 @@ onBeforeUnmount(() => {
   color: #bdb5a8;
   transition:transform .16s ease,border-color .16s ease,background .16s ease,color .16s ease;
 }
-.category-chip:hover{transform:translateY(-1px);border-color:rgba(199,173,120,.34);background:rgba(161,125,69,.055)}
+.category-chip:hover{transform:translateY(-1px);border-color:rgba(88,220,197,.34);background:rgba(43,146,255,.055)}
 
 .category-chip small {
   color: #777169;
 }
 
 .category-chip.active {
-  border-color: #9d7c48;
-  color: #e1c995;
-  background: rgba(157, 124, 72, .11);
+  border-color: #2b92ff;
+  color: #c7eaf2;
+  background: rgba(43,146,255, .11);
 }
 
 .library-panel {
@@ -2194,7 +2194,7 @@ onBeforeUnmount(() => {
 }
 
 .library-clear:hover {
-  border-color: rgba(199, 173, 120, .25);
+  border-color: rgba(88,220,197, .25);
   color: #bdb5a8;
 }
 
@@ -2209,9 +2209,9 @@ onBeforeUnmount(() => {
 .library-scope.active,
 .favorite-button.active,
 .collection-toggle.active {
-  border-color: #9d7c48;
-  color: #e1c995;
-  background: rgba(157, 124, 72, .11);
+  border-color: #2b92ff;
+  color: #c7eaf2;
+  background: rgba(43,146,255, .11);
 }
 
 .collection-create {
@@ -2304,8 +2304,8 @@ onBeforeUnmount(() => {
   overflow: hidden;
   position: sticky;
   top: 90px;
-  border-color:rgba(226,206,164,.12);
-  background:rgba(20,18,15,.88);
+  border-color:rgba(70,126,148,.12);
+  background:rgba(12,23,32,.88);
 }
 
 .result-heading {
@@ -2349,12 +2349,12 @@ onBeforeUnmount(() => {
 
 .result-card:hover,
 .result-card.active {
-  background: linear-gradient(90deg,rgba(157,124,72,.105),rgba(157,124,72,.025));
+  background: linear-gradient(90deg,rgba(43,146,255,.105),rgba(43,146,255,.025));
 }
 .result-card:hover{transform:translateX(2px)}
 
 .result-card.active {
-  box-shadow: inset 3px 0 #9d7c48;
+  box-shadow: inset 3px 0 #2b92ff;
 }
 
 .result-card strong {
@@ -2364,14 +2364,14 @@ onBeforeUnmount(() => {
 
 .result-card p {
   margin: 0;
-  color: #8f897f;
+  color: #91a7b1;
   font-size: .8rem;
   line-height: 1.45;
 }
 
 .result-meta,
 .result-card small {
-  color: #a88e60;
+  color: #6fb9d6;
   font-size: .68rem;
   letter-spacing: .06em;
   text-transform: uppercase;
@@ -2385,8 +2385,8 @@ onBeforeUnmount(() => {
 .article-panel {
   min-height: 620px;
   padding: clamp(1.25rem, 3vw, 2.5rem);
-  border-color:rgba(226,206,164,.13);
-  background:linear-gradient(160deg,rgba(24,22,18,.9),rgba(17,16,14,.82));
+  border-color:rgba(70,126,148,.13);
+  background:linear-gradient(160deg,rgba(16,27,37,.9),rgba(8,16,24,.82));
 }
 
 .article-skeleton{display:grid;gap:1rem;min-height:520px;padding:.2rem}
@@ -2462,7 +2462,7 @@ onBeforeUnmount(() => {
 .wiki-media figcaption,
 .wiki-gallery figcaption {
   padding: .55rem .65rem;
-  color: #8f897f;
+  color: #91a7b1;
   font-size: .72rem;
   line-height: 1.4;
 }
@@ -2495,23 +2495,23 @@ onBeforeUnmount(() => {
 
 .talent-registry-block{margin:1.1rem 0 1.6rem}
 .talent-card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.75rem}
-.talent-wiki-card{display:flex;flex-direction:column;gap:.7rem;padding:1rem;border:1px solid rgba(199,173,120,.16);background:linear-gradient(145deg,rgba(161,125,69,.055),rgba(255,255,255,.012));box-shadow:0 10px 28px rgba(0,0,0,.12)}
-.talent-wiki-card header{display:flex;align-items:flex-start;justify-content:space-between;gap:.8rem}.talent-wiki-card header span{color:#947d58;font-size:.6rem;text-transform:uppercase;letter-spacing:.06em}.talent-wiki-card h3{margin:.16rem 0 0;color:#e2d8c8;font:500 1.05rem/1.2 Georgia,serif}.talent-wiki-card header>strong{flex:0 0 auto;color:#d6b97f;font-size:.72rem}
-.talent-wiki-meta{display:flex;flex-wrap:wrap;gap:.35rem}.talent-wiki-meta span{padding:.24rem .38rem;border:1px solid rgba(255,255,255,.07);color:#8f887d;font-size:.62rem}
+.talent-wiki-card{display:flex;flex-direction:column;gap:.7rem;padding:1rem;border:1px solid rgba(88,220,197,.16);background:linear-gradient(145deg,rgba(43,146,255,.055),rgba(255,255,255,.012));box-shadow:0 10px 28px rgba(0,0,0,.12)}
+.talent-wiki-card header{display:flex;align-items:flex-start;justify-content:space-between;gap:.8rem}.talent-wiki-card header span{color:#709aad;font-size:.6rem;text-transform:uppercase;letter-spacing:.06em}.talent-wiki-card h3{margin:.16rem 0 0;color:#dce8ec;font:500 1.05rem/1.2 Georgia,serif}.talent-wiki-card header>strong{flex:0 0 auto;color:#91cfe0;font-size:.72rem}
+.talent-wiki-meta{display:flex;flex-wrap:wrap;gap:.35rem}.talent-wiki-meta span{padding:.24rem .38rem;border:1px solid rgba(255,255,255,.07);color:#718a95;font-size:.62rem}
 .talent-wiki-lore{margin:0;color:#9c958b;font-size:.76rem;line-height:1.55}
-.talent-wiki-mechanics{margin-top:auto;padding:.7rem .75rem;border-left:2px solid rgba(199,173,120,.36);background:rgba(0,0,0,.13)}.talent-wiki-mechanics small{display:block;margin-bottom:.28rem;color:#a88e60;font-size:.58rem;letter-spacing:.08em}.talent-wiki-mechanics p{margin:0;color:#c0b7aa;font-size:.72rem;line-height:1.5}
-.talent-registry-empty{padding:.9rem;border:1px dashed rgba(255,255,255,.1);color:#817a70;font-size:.75rem}
-.wiki-mechanics-card{padding:1rem;border:1px solid rgba(199,173,120,.24);background:linear-gradient(145deg,rgba(161,125,69,.08),rgba(255,255,255,.014));box-shadow:inset 0 1px rgba(255,255,255,.025)}
-.wiki-mechanics-head{display:flex;justify-content:space-between;gap:.8rem;align-items:flex-start;margin-bottom:.7rem}.wiki-mechanics-head strong{display:block;color:#e4d8c4;font:500 1rem/1.2 Georgia,serif}.wiki-mechanics-head>span{padding:.2rem .38rem;border:1px solid rgba(112,168,121,.22);color:#9fbd9d;font-size:.58rem;text-transform:uppercase;letter-spacing:.05em}
-.wiki-mechanics-record+.wiki-mechanics-record{margin-top:.8rem;padding-top:.8rem;border-top:1px solid rgba(255,255,255,.07)}.wiki-mechanics-record header{display:flex;justify-content:space-between;gap:.6rem;margin-bottom:.5rem}.wiki-mechanics-record header strong{color:#d5cbbd;font-size:.76rem}.wiki-mechanics-record header small{color:#857e73;font-size:.62rem}
-.wiki-mechanics-record dl{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:.34rem .65rem;margin:0}.wiki-mechanics-record dt{color:#81796d;font-size:.64rem}.wiki-mechanics-record dd{margin:0;color:#c5bbac;font-size:.68rem;text-align:right;overflow-wrap:anywhere}.wiki-mechanics-note{margin:.75rem 0 0;padding-top:.65rem;border-top:1px solid rgba(255,255,255,.06);color:#756f66;font-size:.62rem;line-height:1.4}
-.wiki-builder-usage{padding:1rem;border:1px solid rgba(199,173,120,.18);background:rgba(161,125,69,.045)}
-.wiki-builder-intro{margin:.1rem 0 .75rem;color:#827b71;font-size:.72rem;line-height:1.45}
+.talent-wiki-mechanics{margin-top:auto;padding:.7rem .75rem;border-left:2px solid rgba(88,220,197,.36);background:rgba(0,0,0,.13)}.talent-wiki-mechanics small{display:block;margin-bottom:.28rem;color:#6fb9d6;font-size:.58rem;letter-spacing:.08em}.talent-wiki-mechanics p{margin:0;color:#afc1c8;font-size:.72rem;line-height:1.5}
+.talent-registry-empty{padding:.9rem;border:1px dashed rgba(255,255,255,.1);color:#718a95;font-size:.75rem}
+.wiki-mechanics-card{padding:1rem;border:1px solid rgba(88,220,197,.24);background:linear-gradient(145deg,rgba(43,146,255,.08),rgba(255,255,255,.014));box-shadow:inset 0 1px rgba(255,255,255,.025)}
+.wiki-mechanics-head{display:flex;justify-content:space-between;gap:.8rem;align-items:flex-start;margin-bottom:.7rem}.wiki-mechanics-head strong{display:block;color:#dce8ec;font:500 1rem/1.2 Georgia,serif}.wiki-mechanics-head>span{padding:.2rem .38rem;border:1px solid rgba(112,168,121,.22);color:#9fbd9d;font-size:.58rem;text-transform:uppercase;letter-spacing:.05em}
+.wiki-mechanics-record+.wiki-mechanics-record{margin-top:.8rem;padding-top:.8rem;border-top:1px solid rgba(255,255,255,.07)}.wiki-mechanics-record header{display:flex;justify-content:space-between;gap:.6rem;margin-bottom:.5rem}.wiki-mechanics-record header strong{color:#c5d4d9;font-size:.76rem}.wiki-mechanics-record header small{color:#718a95;font-size:.62rem}
+.wiki-mechanics-record dl{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:.34rem .65rem;margin:0}.wiki-mechanics-record dt{color:#81796d;font-size:.64rem}.wiki-mechanics-record dd{margin:0;color:#afc1c8;font-size:.68rem;text-align:right;overflow-wrap:anywhere}.wiki-mechanics-note{margin:.75rem 0 0;padding-top:.65rem;border-top:1px solid rgba(255,255,255,.06);color:#667f8b;font-size:.62rem;line-height:1.4}
+.wiki-builder-usage{padding:1rem;border:1px solid rgba(88,220,197,.18);background:rgba(43,146,255,.045)}
+.wiki-builder-intro{margin:.1rem 0 .75rem;color:#718a95;font-size:.72rem;line-height:1.45}
 .wiki-builder-usage-list{display:grid;gap:.45rem}
 .wiki-builder-usage-list article{display:grid;gap:.14rem;padding:.55rem .6rem;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.015)}
 .wiki-builder-usage-list article>span{color:#b99a66;font-size:.62rem;text-transform:uppercase;letter-spacing:.06em}
 .wiki-builder-usage-list strong{color:#ddd3c3;font-size:.78rem}
-.wiki-builder-usage-list small{color:#817a70;font-size:.68rem;line-height:1.35}
+.wiki-builder-usage-list small{color:#718a95;font-size:.68rem;line-height:1.35}
 .wiki-toc {
   display: grid;
   gap: .15rem;
@@ -2520,14 +2520,14 @@ onBeforeUnmount(() => {
 .wiki-toc button {
   padding: .35rem .2rem;
   border: 0;
-  color: #aaa397;
+  color: #a6bac2;
   background: transparent;
   text-align: left;
   font-size: .78rem;
 }
 
 .wiki-toc button:hover {
-  color: #e1c995;
+  color: #c7eaf2;
 }
 
 .wiki-toc button.level-3 { padding-left: .8rem; }
@@ -2567,7 +2567,7 @@ onBeforeUnmount(() => {
 
 .wiki-related-grid button:hover {
   border-color: rgba(216,189,133,.35);
-  background: rgba(157,124,72,.08);
+  background: rgba(43,146,255,.08);
 }
 
 .wiki-related-grid span {
@@ -2666,7 +2666,7 @@ onBeforeUnmount(() => {
 
 .article-paragraph.list {
   padding-left: 1rem;
-  border-left: 2px solid rgba(157, 124, 72, .35);
+  border-left: 2px solid rgba(43,146,255, .35);
 }
 
 .article-table-wrap {
@@ -2709,7 +2709,7 @@ onBeforeUnmount(() => {
   place-content: center;
   max-width: 55ch;
   margin: 0 auto;
-  color: #8f897f;
+  color: #91a7b1;
   text-align: center;
 }
 
@@ -2762,7 +2762,7 @@ onBeforeUnmount(() => {
 }
 
 .wiki-hover-preview small {
-  color: #8f897f;
+  color: #91a7b1;
 }
 
 .wiki-hover-preview p {
@@ -2773,12 +2773,12 @@ onBeforeUnmount(() => {
 }
 
 .wiki-hover-preview > span {
-  color: #c7ad78;
+  color: #58dcc5;
   font-size: .72rem;
 }
 
 .wiki-hover-kicker {
-  color: #c7ad78;
+  color: #58dcc5;
   font-size: .68rem;
   letter-spacing: .14em;
   text-transform: uppercase;
@@ -2843,4 +2843,45 @@ onBeforeUnmount(() => {
     width: min(100% - 1rem, 1480px);
   }
 }
+
+/* Approved V2 visual system */
+.compendium-shell{
+  background:
+    radial-gradient(circle at 12% -5%,rgba(32,96,111,.20),transparent 32rem),
+    radial-gradient(circle at 88% 12%,rgba(111,67,145,.11),transparent 28rem),
+    linear-gradient(180deg,#09121a,#071019);
+}
+.compendium-topbar{
+  min-height:68px;
+  border-bottom-color:rgba(82,134,151,.34);
+  background:rgba(8,15,23,.96);
+  backdrop-filter:blur(18px) saturate(1.14);
+  box-shadow:0 12px 34px rgba(0,0,0,.25);
+}
+.wiki-create-link{border-color:rgba(88,220,197,.35)!important;color:#b8dfea!important}
+.compendium-page{padding:1.45rem 0 4.5rem}
+.compendium-hero{
+  min-height:205px;
+  margin-bottom:1.25rem;
+  padding:.9rem 1.15rem;
+  border-color:#1f4a60;
+  border-radius:11px;
+  background:
+    radial-gradient(circle at 84% 72%,rgba(43,146,255,.10),transparent 24rem),
+    radial-gradient(circle at 96% 48%,rgba(166,124,230,.07),transparent 20rem),
+    linear-gradient(135deg,rgba(10,24,34,.95),rgba(7,16,24,.90));
+}
+.compendium-hero-logo{width:min(255px,62vw)!important;margin:0 0 .45rem}
+.compendium-earth-horizon{opacity:.27}
+.compendium-stats,.compendium-search,.compendium-results,.compendium-article{
+  border-color:#203f4d;
+  background:linear-gradient(145deg,rgba(13,25,34,.96),rgba(8,17,24,.94));
+}
+.category-chip.active,.favorite-button.active,.collection-toggle.active{
+  border-color:#2b92ff;
+  color:#c7eaf2;
+  background:rgba(43,146,255,.10);
+}
+.result-card.active{box-shadow:inset 3px 0 #58dcc5}
+
 </style>
