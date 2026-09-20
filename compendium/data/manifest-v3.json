@@ -59,10 +59,10 @@
     },
     {
       "id": "verite",
-      "prefix": "v3-verite-lore-v11",
-      "parts": 11,
+      "prefix": "v3-verite-lore-v12",
+      "parts": 12,
       "count": 78,
-      "sha256": "d644eac53c31cd77db8ad77646fc06d57ed8075c7ac5cbe48144446048c0fd9a"
+      "sha256": "40cf793990a7f8469763fae45c1dc91eb495e5636c7a45c837f0222302a05108"
     },
     {
       "id": "verite-catalogue",
@@ -78,17 +78,17 @@
     },
     {
       "id": "bestiaire",
-      "prefix": "v3-bestiaire-v16-enriched-263",
-      "parts": 30,
+      "prefix": "v3-bestiaire-v17-enriched-263",
+      "parts": 31,
       "count": 263,
-      "sha256": "3354fe59ebce7b4c3fa444a665be1ca0e5c79a1a0832b4378174ea6ddeff4cce"
+      "sha256": "018148c0525c023ffd537079b2f3abbb749f98886aaa21816e504a15b16fe3ab"
     },
     {
       "id": "lore",
-      "prefix": "v3-lore-v9",
-      "parts": 89,
-      "count": 341,
-      "sha256": "f32209785b0991ebb5f1ac68cd7fe9ecbf3d72e9af4da90a61de1731f5771f4d"
+      "prefix": "v3-lore-v10",
+      "parts": 95,
+      "count": 349,
+      "sha256": "dedf34d17177d3479646eebc49ce3be6d8fc2cae7fbe2caf2bf2dc7d9e1d943a"
     },
     {
       "id": "pnj",
@@ -98,5 +98,5 @@
       "sha256": "a6371b223bbde189b4d2cdaed752554562910aef2d6738729afac4338f7dd18b"
     }
   ],
-  "expectedTotal": 1862
+  "expectedTotal": 1870
 }
