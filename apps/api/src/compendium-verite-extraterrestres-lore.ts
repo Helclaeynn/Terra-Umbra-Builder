@@ -604,6 +604,21 @@ export const COMPENDIUM_VERITE_EXTRATERRESTRES_ARTICLES = [
     ],
     "sections": [
       {
+        "id": "statut-des-presences-rares",
+        "title": "Statut des présences rares sur Terre",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "La source distingue les cinq grandes espèces officiellement autorisées par l’AIDH des autres présences extraterrestres. Talass, Mo’sens, Baséanhs, Rocréens et Thalsios sont soumis à des passeports, des réglementations et un recensement aussi complet que possible ; la majorité de leurs ressortissants est considérée comme pacifique."
+          },
+          {
+            "type": "p",
+            "text": "Les peuples plus rares ou hostiles disposent d’un statut beaucoup moins uniforme. Plusieurs arrivent sur Terre par l’intermédiaire de la mafia rocréenne, parfois à l’insu de l’AIDH, et leur présence est donc moins contrôlée et moins contrôlable."
+          }
+        ]
+      },
+      {
         "id": "orpacyors",
         "title": "Orpacyors",
         "level": 2,
