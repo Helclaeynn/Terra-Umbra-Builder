@@ -378,11 +378,11 @@ await page.getByText("Objet d’Aèr Smoke",{exact:true}).waitFor({state:"detach
 await page.getByText("Personnage sain par défaut.",{exact:false}).waitFor({state:"visible",timeout:5000});
 if(await page.getByText("Source dominante",{exact:true}).count())throw new Error("Corruption ouverte sans autorisation MJ.");
 const corruptionApproval=page.getByLabel(/Autorisation MJ : ouvrir Corruption & Fléaux/);
-await corruptionApproval.check();
+await corruptionApproval.click();
 await page.getByText("Source dominante",{exact:true}).waitFor({state:"visible",timeout:5000});
 await page.getByRole("option",{name:/Vhodhal/}).waitFor({state:"attached",timeout:5000});
 const activeApproval=page.getByLabel(/Autorisation MJ active/);
-await activeApproval.uncheck();
+await activeApproval.click();
 await page.getByText("Personnage sain par défaut.",{exact:false}).waitFor({state:"visible",timeout:5000});
 
 await page.locator(".builder-nav").getByRole("button",{name:/Équipement/}).click();
