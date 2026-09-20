@@ -35,6 +35,26 @@ export type TruthNature={
   freeTraitRules:TruthFreeTraitRule[];
 };
 
+export type TruthEquipmentProperty={
+  label:string;
+  value:string;
+};
+
+export type TruthEquipmentItem={
+  id:string;
+  name:string;
+  chapter:string;
+  section:string;
+  status:string;
+  sourceKind:string;
+  tags:string[];
+  lore:string;
+  properties:TruthEquipmentProperty[];
+  compendiumId?:string;
+  referenceOnly:boolean;
+  requiresMj:boolean;
+};
+
 export type TruthTalent={
   id:string;
   compendiumId?:string;
@@ -59,6 +79,7 @@ export type TruthRulesPackage={
     natures:Record<string,TruthNature>;
   };
   catalogs:Record<string,TruthTalent[]>;
+  equipment:TruthEquipmentItem[];
   visibility:{
     needles:Record<string,Record<string,string[]>>;
     sharedHunterNatures:readonly string[];
@@ -86,6 +107,8 @@ export type TruthState={
   consciousness:string;
   choices:Record<string,unknown>;
   truthTalents:string[];
+  truthEquipment:string[];
+  truthEquipmentMjOverride:boolean;
 };
 
 export function truthNorm(value=""){
