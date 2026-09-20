@@ -9,6 +9,7 @@ import TalentSelector, {
 } from "../components/builder/TalentSelector.vue";
 import BuilderWikiLink from "../components/builder/BuilderWikiLink.vue";
 import TruthEquipmentPanel from "../components/builder/TruthEquipmentPanel.vue";
+import CorruptionPanel from "../components/builder/CorruptionPanel.vue";
 import TerraUmbraLockup from "../components/TerraUmbraLockup.vue";
 import EquipmentStep from "../components/builder/EquipmentStep.vue";
 import FinalizationStep from "../components/builder/FinalizationStep.vue";
@@ -42,7 +43,9 @@ import {
   truthPtvSpent,
   truthRevelationProfile,
   truthSanitizeChoices,
+  truthSanitizeCorruptionTalents,
   truthSanitizeTalents,
+  truthCorruptionPrerequisiteSatisfied,
   truthSelectedFreeTraits,
   type TruthChoice,
   type TruthRulesPackage,
@@ -378,7 +381,12 @@ const currentTruthState=computed<TruthState|null>(()=>{
     truthEquipment:Array.isArray(raw.truthEquipment)
       ? raw.truthEquipment.filter((id):id is string=>typeof id==="string")
       : [],
-    truthEquipmentMjOverride:Boolean(raw.truthEquipmentMjOverride)
+    truthEquipmentMjOverride:Boolean(raw.truthEquipmentMjOverride),
+    corruption:Math.max(0,Math.trunc(Number(raw.corruption)||0)),
+    corruptionSource:typeof raw.corruptionSource==="string"?raw.corruptionSource:"",
+    corruptionTalents:Array.isArray(raw.corruptionTalents)
+      ? raw.corruptionTalents.filter((id):id is string=>typeof id==="string")
+      : []
   };
 });
 
@@ -861,10 +869,23 @@ const creationValidationMap=computed<Record<string,boolean>>(()=>{
     selected.filter(Boolean).every(talentChoiceValid)&&
     (draft.value.talents.expertise!=="neurodriver"||skillRaw("neurodive")>=1);
 
+  const corruptionSourceValid=!!truthRules.value&&!!currentTruthState.value&&(
+    currentTruthState.value.corruption===0
+      ? !currentTruthState.value.corruptionSource
+      : currentTruthState.value.corruption<=derivedStats.value.integrity&&
+        truthRules.value.corruption.sources.some(source=>source.id===currentTruthState.value?.corruptionSource)
+  );
+  const corruptionTalentsValid=!!truthRules.value&&!!currentTruthState.value&&
+    currentTruthState.value.corruptionTalents.every(id=>{
+      const talent=truthRules.value?.corruption.talents.find(item=>item.id===id);
+      return !!talent&&truthCorruptionPrerequisiteSatisfied(truthRules.value!,currentTruthState.value!,talent);
+    });
+
   result.truth=!!truthRules.value&&!!currentTruthState.value&&
     !!currentTruthState.value.nature&&
     !!currentTruthState.value.consciousness&&
     truthChoicesValid(truthRules.value,currentTruthState.value)&&
+    corruptionSourceValid&&corruptionTalentsValid&&
     truthPtvSpentValue.value<=truthRules.value.structure.ptvInitial;
 
   result.disadvantages=draft.value.disadvantages.length<=3&&disadvantagesCompatible();
@@ -1150,9 +1171,13 @@ async function loadCharacter(){
           choices:truthSanitizeChoices(nature,loadedTruth.choices),
           truthTalents:[...loadedTruth.truthTalents],
           truthEquipment:[...loadedTruth.truthEquipment],
-          truthEquipmentMjOverride:Boolean(loadedTruth.truthEquipmentMjOverride)
+          truthEquipmentMjOverride:Boolean(loadedTruth.truthEquipmentMjOverride),
+          corruption:Math.min(derivedStats.value.integrity,Math.max(0,loadedTruth.corruption)),
+          corruptionSource:loadedTruth.corruption>0?loadedTruth.corruptionSource:"",
+          corruptionTalents:[...loadedTruth.corruptionTalents]
         };
         normalized.truthTalents=truthSanitizeTalents(truthResult,normalized);
+        normalized.corruptionTalents=truthSanitizeCorruptionTalents(truthResult,normalized);
         writeTruthState(normalized);
         baseline.value=JSON.stringify(draft.value);
       }
@@ -1339,7 +1364,10 @@ function writeTruthState(state:TruthState){
     choices:{...state.choices},
     truthTalents:[...state.truthTalents],
     truthEquipment:[...state.truthEquipment],
-    truthEquipmentMjOverride:Boolean(state.truthEquipmentMjOverride)
+    truthEquipmentMjOverride:Boolean(state.truthEquipmentMjOverride),
+    corruption:Math.max(0,Math.trunc(Number(state.corruption)||0)),
+    corruptionSource:String(state.corruptionSource||""),
+    corruptionTalents:[...state.corruptionTalents]
   };
 }
 
@@ -1354,7 +1382,10 @@ function setTruthNature(id:string){
     choices:truthSanitizeChoices(nature,{}),
     truthTalents:[],
     truthEquipment:[...(current?.truthEquipment??[])],
-    truthEquipmentMjOverride:Boolean(current?.truthEquipmentMjOverride)
+    truthEquipmentMjOverride:Boolean(current?.truthEquipmentMjOverride),
+    corruption:Number(current?.corruption??0),
+    corruptionSource:String(current?.corruptionSource??""),
+    corruptionTalents:[...(current?.corruptionTalents??[])]
   };
   writeTruthState(next);
   truthSearch.value="";
@@ -2485,6 +2516,14 @@ onBeforeUnmount(()=>{
                   </details>
                 </template>
               </section>
+
+              <CorruptionPanel
+                :model-value="currentTruthState"
+                :rules="truthRules"
+                :integrity="derivedStats.integrity"
+                :ptv-remaining="truthPtvRemaining"
+                @update:model-value="writeTruthState($event)"
+              />
 
               <TruthEquipmentPanel
                 :model-value="currentTruthState"
