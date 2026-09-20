@@ -667,7 +667,7 @@ onMounted(bootstrap);
                 <span class="muted">{{ user.email }}</span>
               </div>
             </div>
-          </div></div>
+          </div>
         </section>
 
         <div v-if="message || error" class="feedback" :class="{ error: !!error }">
