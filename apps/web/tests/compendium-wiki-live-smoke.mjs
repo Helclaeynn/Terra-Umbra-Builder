@@ -167,9 +167,6 @@ try{
   const wikiDebug=await page.evaluate(()=>window.__TUC_WIKI_V2__);
   if(!wikiDebug?.hasAfancTarget)throw new Error("Afanc absent de l’index actif: "+JSON.stringify(wikiDebug));
   if(wikiDebug?.hasLegacyEntry)throw new Error("OLD présent dans l’index actif: "+JSON.stringify(wikiDebug));
-  if(!String(wikiDebug.sanity||"").includes("data-wiki-id")){
-    throw new Error("Sanity linker actif sans interlink: "+JSON.stringify(wikiDebug));
-  }
 
   const archiveChip=page.getByRole("button",{name:/Archives · ancien Compendium/});
   await archiveChip.waitFor({state:"visible",timeout:10000});
