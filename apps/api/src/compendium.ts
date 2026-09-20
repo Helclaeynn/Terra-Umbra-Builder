@@ -92,6 +92,15 @@ import {
   COMPENDIUM_VERITE_SPECIES_PNJ_ARTICLES,
   COMPENDIUM_VERITE_SPECIES_PNJ_NAVIGATION
 } from "./compendium-verite-species-pnj.js";
+import {
+  COMPENDIUM_VERITE_FANTASTIQUES_ARTICLES,
+  COMPENDIUM_VERITE_FANTASTIQUES_NAVIGATION,
+  COMPENDIUM_VERITE_FANTASTIQUES_ENRICHMENTS
+} from "./compendium-verite-fantastiques-lore.js";
+import {
+  COMPENDIUM_VERITE_FANTASTIQUES_PNJ_ARTICLES,
+  COMPENDIUM_VERITE_FANTASTIQUES_PNJ_NAVIGATION
+} from "./compendium-verite-fantastiques-pnj.js";
 
 type JsonObject = Record<string, any>;
 type Article = JsonObject & {
@@ -1042,6 +1051,24 @@ async function loadCorpus(): Promise<Corpus> {
     byId.set(article.id, deepClone(article) as Article);
   }
 
+  for (const article of COMPENDIUM_VERITE_FANTASTIQUES_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const enrichment of COMPENDIUM_VERITE_FANTASTIQUES_ENRICHMENTS) {
+    const target = byId.get(enrichment.targetId);
+    if (!target) continue;
+    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
+    target.sections = [
+      ...(target.sections ?? []),
+      ...deepClone(enrichment.sections).filter((section) => !existingIds.has(String(section?.id ?? "")))
+    ];
+  }
+
+  for (const article of COMPENDIUM_VERITE_FANTASTIQUES_PNJ_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
   const generatedTalentHubs = generatedTalentHubCorpus();
   for (const hub of generatedTalentHubs.articles) {
     if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
@@ -1152,6 +1179,8 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_VERITE_V7_PASS_B_RULE_NAVIGATION,
       ...COMPENDIUM_VERITE_SPECIES_LORE_NAVIGATION,
       ...COMPENDIUM_VERITE_SPECIES_PNJ_NAVIGATION,
+      ...COMPENDIUM_VERITE_FANTASTIQUES_NAVIGATION,
+      ...COMPENDIUM_VERITE_FANTASTIQUES_PNJ_NAVIGATION,
       ...generatedTalentHubs.navigation,
       ...generatedBuilderReferences.navigation
     ]
