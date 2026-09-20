@@ -503,10 +503,10 @@ function sellCampaignItem(){
   <article class="progression-step">
     <div class="section-heading">
       <div>
-        <p class="eyebrow">12 · DÉPENSE XP & PTV</p>
+        <p class="eyebrow">SUIVI · XP & PTV</p>
         <h2>Progression de campagne</h2>
       </div>
-      <span class="schema-badge">hors validation de création</span>
+      <span class="schema-badge">après création</span>
     </div>
 
     <p class="builder-intro">
