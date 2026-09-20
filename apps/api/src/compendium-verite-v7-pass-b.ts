@@ -697,17 +697,51 @@ const HOMO_ADRAK: Section[] = [
 
 const CHASSEURS: Section[] = [
   {
-    id: "du-temoin-au-chasseur",
+    id: "temoin-chasseur",
     title: "Du témoin au Chasseur",
     level: 2,
     blocks: [
       {
         type: "p",
-        text: "Le premier trait commun aux Chasseurs est de s’être souvenus. Certains Humains survivent à la Vérité sans laisser le Voile recoudre complètement leur perception. Ils deviennent réellement Chasseurs lorsqu’ils apprennent à agir consciemment dans ce monde et que l’Hologramme cesse de traiter leurs souvenirs comme ceux d’un civil à reconduire vers l’ignorance."
+        text: "Le premier trait commun aux Chasseurs n’est ni le courage ni la violence : c’est de s’être souvenus. Des Humains survivent à une rencontre de Vérité puis voient le Voile recoudre progressivement leur perception — l’horreur devient accident, la créature un homme, le massacre une attaque animale. Chez certains, une cicatrice, un détail ou une conviction refuse pourtant de disparaître."
       },
       {
         type: "p",
-        text: "La Chasse commence par l’identification. Une faiblesse folklorique fausse, une munition inadéquate ou une méthode de neutralisation incomplète tue plus sûrement qu’un manque de courage. Le Chasseur expérimenté demande d’abord ce qu’est la cible et ce qu’elle a fait, avant de demander comment elle meurt."
+        text: "Cette résistance ne suffit pas à faire immédiatement un Chasseur. Certains passent des années à chercher, nier ou croire qu’ils deviennent fous. Le basculement intervient lorsqu’ils apprennent à agir consciemment dans la Vérité et que l’Hologramme cesse de traiter leurs souvenirs comme ceux d’un civil à ramener vers l’ignorance. Ils ne deviennent pas omniscients : ils conservent simplement ce qu’ils ont réellement vécu."
+      }
+    ]
+  },
+  {
+    id: "preparer",
+    title: "Préparer avant de combattre",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Une créature surnaturelle n’est pas dangereuse uniquement parce qu’elle est forte. Elle peut se régénérer, disparaître, changer de corps, posséder quelqu’un, traverser un seuil ou survivre à ce qui aurait dû la tuer. La Chasse commence donc par l’identification : comprendre ce que l’on poursuit, distinguer une faiblesse réelle du folklore et déterminer ce que « neutraliser » signifie réellement pour cette cible."
+      },
+      {
+        type: "p",
+        text: "Les Chasseurs expérimentés survivent parce qu’ils arrivent avec ce qu’il fallait apporter. Une mauvaise munition, un rite incomplet, une légende fausse ou une poursuite engagée sur le territoire idéal de la proie suffisent à transformer le courage en épitaphe."
+      }
+    ]
+  },
+  {
+    id: "trouver-les-autres",
+    title: "Survivre signifie trouver les autres",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "La majorité des Chasseurs ne commence pas dans une immense organisation. Beaucoup sont seuls, avec quelques notes, un souvenir traumatique et des certitudes très approximatives. Cette solitude est l’une de leurs principales causes de mortalité."
+      },
+      {
+        type: "p",
+        text: "Ceux qui durent finissent souvent par trouver un Bar de Chasseurs, un intermédiaire de l’Association ou simplement quelqu’un capable de répondre : « Oui. Je sais ce que tu as vu. » Un nom en entraîne un autre : exorciste, spécialiste, ancien, personne possédant la bonne munition ou sachant que le conseil trouvé sur l’Holonet est faux."
+      },
+      {
+        type: "p",
+        text: "Les vétérans ne sont pas ceux qui n’ont jamais eu besoin de personne ; ce sont ceux qui ont compris assez tôt qu’un métier fondé sur les secrets devient mortel lorsque chacun conserve les siens."
       }
     ]
   },
@@ -718,17 +752,21 @@ const CHASSEURS: Section[] = [
     blocks: [
       {
         type: "p",
-        text: "Morrighan a fondé l’Association des Chasseurs pour fournir une infrastructure commune, pas une doctrine unique. Bars, restaurants, garages et ateliers servent de relais d’information, de matériel, de contrats et d’expérience. Les anciens Chasseurs y conservent une valeur considérable même lorsqu’ils ne peuvent plus partir sur le terrain."
+        text: "Morrighan fonda l’Association des Chasseurs pour fournir une infrastructure commune plutôt qu’une doctrine unique. Bars, restaurants, garages et ateliers deviennent des points de rencontre, d’échange de matériel, d’information, de contrats et d’erreurs apprises à prix fort."
       },
       {
         type: "p",
-        text: "La Confrérie du Bestiaire documente créatures et phénomènes, mais ses dossiers restent des observations faillibles. Les habilitations GT structurent la confiance par domaines ; elles donnent accès à des dossiers et interlocuteurs, jamais gratuitement à une arme, une relique ou un prototype."
+        text: "Cette infrastructure est souvent tenue par ceux qui ne chassent plus. Blessure, âge ou dette peuvent mettre fin aux opérations de terrain sans effacer vingt ans d’expérience. Dans une profession où les jeunes meurent surtout de ce qu’ils ignorent, un ancien derrière un comptoir peut sauver davantage de vies qu’un combattant exceptionnel."
+      },
+      {
+        type: "p",
+        text: "Les habilitations GT structurent la confiance par domaines plutôt que comme une simple échelle de puissance. Elles indiquent quels dossiers, interlocuteurs et contrats l’Association accepte de confier à quelqu’un, et attestent surtout qu’il a appris à ne pas confondre toutes les créatures de Vérité avec une même menace."
       }
     ]
   },
   {
     id: "habilitations",
-    title: "Habilitations GT",
+    title: "Habilitations GT, Hunt & reconnaissance",
     level: 3,
     blocks: [
       {
@@ -746,76 +784,151 @@ const CHASSEURS: Section[] = [
       },
       {
         type: "p",
-        text: "Hunt100 est une reconnaissance tardive exceptionnelle et narrative. Hunt15 relève du worldbuilding légendaire et n’est pas une progression PJ. Observers et Confrérie du Bestiaire sont des fonctions ou statuts, pas des arbres de PTV."
+        text: "Hunt100 est une reconnaissance extrêmement rare liée à des trajectoires exceptionnelles. Hunt15 appartient à une autre échelle encore : quelques noms légendaires dont les histoires et les possessions circulent dans la Chasse comme rappel qu’il existe toujours quelqu’un de plus dangereux que la dernière chose rencontrée."
       }
     ]
   },
   {
-    id: "chasser-n-est-pas-hair",
+    id: "confrerie-bestiaire",
+    title: "La Confrérie du Bestiaire",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "La Confrérie rassemble observateurs, intellectuels et vétérans qui documentent créatures et phénomènes, puis diffusent une partie de leurs travaux sur l’Holonet de Vérité. Ces dossiers sauvent des vies mais ne sont jamais considérés comme infaillibles."
+      },
+      {
+        type: "p",
+        text: "Une observation incomplète peut devenir une règle fausse répétée cent fois ; publier des informations sur un ancien Vampire peut aussi lui apprendre exactement qui s’intéresse à lui. La Confrérie est donc une mémoire collective, pas une autorité omnisciente."
+      }
+    ]
+  },
+  {
+    id: "chasser-pas-hair",
     title: "Chasser n’est pas haïr une espèce",
     level: 2,
     blocks: [
       {
         type: "p",
-        text: "Une Nature ne prouve ni culpabilité ni innocence. Un Vampire peut être criminel ou allié, un Exilé la victime et un Angelus la source du problème. Les traditions sérieuses séparent Nature et comportement. Xenoshield illustre l’échec inverse : de vraies compétences techniques contre les Extrals deviennent dangereuses lorsqu’elles sont transformées en certitudes morales."
-      }
-    ]
-  },
-  {
-    id: "traditions",
-    title: "Les grandes traditions",
-    level: 2,
-    blocks: [
-      {
-        type: "table",
-        rows: [
-          ["Tradition", "Repère"],
-          ["Lavandières", "Vampires indépendants spécialisés contre Vampires dangereux, Moroï et Strygoï."],
-          ["Ordres catholiques", "Arianwen pour la traque, Ephraïm pour l’exorcisme, Magdalena pour jugement et scellement."],
-          ["Khālsā", "Serment, protection, liberté et rupture des emprises."],
-          ["Taoïstes Gu et Shimazu / Shi", "Équilibre du Yin et du Yang ; les secrets Shi utilisent un contact méthodique et dangereux avec le Néant."],
-          ["Kabbale", "Principes des dix Sephiroth sans devenir Angelus."],
-          ["Nizarites", "Arts du Djinn et doctrine de Chasse."],
-          ["Onmyoji", "Shikigami, sceaux, noms et pactes spirituels."],
-          ["Néopaïens", "Morts, terre, seuils, présages et serments."],
-          ["Chasse Fantastique", "Héritage de la Vénerie elfique née de la Guerre de la Magie."],
-          ["Lueurs d’Azménor", "Visions réelles du Néant sans garantie d’interprétation correcte."],
-          ["Xenoshield", "Contre-intrusion Extral techniquement compétente mais idéologiquement xénophobe."],
-          ["Indépendants", "Héritages familiaux, traumatismes, bricolages et spécialisations sans doctrine commune."],
-          ["Table Ronde", "Lignées des chevaliers choisis par Merlin et armes uniques créées pour leurs héritiers."]
-        ]
-      }
-    ]
-  },
-  {
-    id: "catalogue-builder",
-    title: "Un catalogue canonique de 266 Talents",
-    level: 2,
-    blocks: [
-      {
-        type: "table",
-        rows: [
-          ["Famille", "Nombre"],
-          ["Doctrine commune de Chasse", 4],
-          ["Lavandières", 4],
-          ["Chasseurs catholiques", 40],
-          ["Khālsā", 20],
-          ["Taoïstes", 20],
-          ["Kabbale", 20],
-          ["Nizarites / Asāsīyūn", 18],
-          ["Onmyoji", 20],
-          ["Néopaïens", 20],
-          ["Chasse Fantastique", 20],
-          ["Lueurs d’Azménor", 20],
-          ["Xenoshield", 20],
-          ["Chasseurs indépendants", 20],
-          ["Table Ronde", 20],
-          ["Total", 266]
-        ]
+        text: "La différence entre Chasseur et tueur apparaît lorsque l’identification contredit le préjugé. Un Vampire peut être criminel ou allié, un Exilé la victime, un Angelus la source du problème, et une créature réputée monstrueuse n’avoir commis aucun acte justifiant sa destruction."
       },
       {
         type: "p",
-        text: "Le détail des 266 Talents reste dans le Builder. Le Compendium conserve la logique de la Chasse, le rôle de l’Association, les habilitations, les traditions et la distinction essentielle entre méthode spécialisée et vérité universelle."
+        text: "Les traditions sérieuses apprennent donc à séparer Nature et comportement, même lorsqu’elles se spécialisent dans une famille de menaces. Les Lavandières chassent des Vampires dangereux, Moroï et Strygoï sans conclure que tout Vampire mérite automatiquement la mort ; les ordres catholiques distinguent traque, exorcisme, jugement et scellement parce que chaque problème ne se résout pas par le même geste."
+      }
+    ]
+  },
+  {
+    id: "traditions-historiques",
+    title: "Les traditions comme réponses historiques",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Chaque grande tradition de Chasse est née d’un problème concret. Les Lavandières sont des Vampires indépendants spécialisés contre les leurs lorsqu’ils deviennent dangereux. Les ordres catholiques se divisent notamment entre Arianwen pour la traque, Ephraïm pour l’exorcisme et Magdalena pour le jugement et le scellement."
+      },
+      {
+        type: "p",
+        text: "Les Khālsā travaillent autour du serment, de la protection et de la liberté face aux emprises. Les taoïstes Gu et Shimazu cultivent l’équilibre du Yin et du Yang, tandis que les secrets Shi utilisent un lien beaucoup plus dangereux au Néant. Les Kabbalistes exploitent les Sephiroth comme principes sans devenir Angelus ; les Nizarites associent Arts du Djinn et doctrine de Chasse ; les Onmyoji travaillent avec Shikigami, noms, sceaux et pactes spirituels."
+      },
+      {
+        type: "p",
+        text: "Les Néopaïens ont reconstruit des pratiques autour des morts, de la terre, des seuils, des présages et des serments. La Chasse Fantastique conserve la mémoire d’une ancienne armée punitive elfique de la Guerre de la Magie. Les Lueurs d’Azménor reçoivent de vraies visions du Néant sans jamais être certaines de les interpréter correctement. La Table Ronde transmet les lignées des chevaliers choisis par Merlin et les armes uniques créées pour leurs héritiers."
+      },
+      {
+        type: "p",
+        text: "Cette diversité reste une force tant qu’elle s’accompagne d’humilité. Une tradition exceptionnelle dans son domaine devient dangereuse lorsqu’elle décide que ce domaine explique tout le reste du monde."
+      }
+    ]
+  },
+  {
+    id: "xenoshield",
+    title: "Xenoshield — le spécialiste aveuglé par son propre préjugé",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Xenoshield est profondément xénophobe vis-à-vis des Extrals. L’organisation possède de vraies compétences en xénobiologie hostile, contre-technologie, confinement et interception, mais confond volontiers origine non terrestre et menace potentielle. Sa culture de suspicion lui donne précisément l’impression de posséder le discernement qui lui manque parfois le plus."
+      },
+      {
+        type: "p",
+        text: "L’ironie est que Xenoshield est noyauté par des Extrals sans le savoir. Sous le Voile, certains membres peuvent parfaitement passer pour Humains aux yeux de leurs propres camarades : quelques-uns servent sincèrement l’organisation, d’autres l’utilisent ou l’infiltrent."
+      },
+      {
+        type: "p",
+        text: "Ses méthodes techniques restent utiles lorsqu’elles établissent des faits matériels ; l’erreur commence quand ces faits deviennent des certitudes politiques ou morales."
+      }
+    ]
+  },
+  {
+    id: "independants",
+    title: "Les indépendants",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Les Chasseurs indépendants n’ont ni uniforme ni doctrine commune. Certains sont des survivants dont toute la méthode s’est construite autour d’un traumatisme ; d’autres héritent d’un secret familial, bricolent technologie et reliques, portent une marque laissée par une proie ou consacrent leur existence à un individu unique."
+      },
+      {
+        type: "p",
+        text: "Certains n’ont qu’une arme à feu, du sel et du courage ; d’autres portent des augmentations auxquelles sont fixées des reliques. Leur diversité est immense, mais leur faiblesse commune reste l’isolement. Trouver le premier Bar de Chasseurs avant la première erreur fatale décide souvent si leur histoire dure plus de quelques mois."
+      }
+    ]
+  },
+  {
+    id: "bouddhistes-grand-traqueur",
+    title: "Les Chasseurs bouddhistes & le Grand Traqueur",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Il existe une tradition si rare qu’elle ne compte qu’une poignée de représentants dans le monde. Ces Chasseurs bouddhistes utilisent le Néant selon des méthodes que presque personne d’autre ne comprend assez pour reproduire ; leur enseignement circule à peine hors de quelques lignées de transmission."
+      },
+      {
+        type: "p",
+        text: "Leur plus grand représentant est le Grand Traqueur, figure légendaire depuis des siècles dans les milieux surnaturels. Sa réputation ne vient pas seulement de sa puissance ou de sa longévité dans la Chasse, mais de l’absence totale de catégorie protectrice dans ses proies : Vampire, Angelus, Chasseur ou autre puissance peuvent tous devenir une cible."
+      },
+      {
+        type: "p",
+        text: "La légende rappelle une vérité inconfortable : savoir tuer des monstres n’empêche personne de devenir, aux yeux de quelqu’un d’autre, la prochaine chose à traquer."
+      }
+    ]
+  },
+  {
+    id: "blessure-sociale",
+    title: "Se souvenir est une blessure sociale",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "Le premier coût de la Chasse n’est pas toujours une cicatrice physique. C’est souvent l’impossibilité de revenir à une conversation ordinaire : se rappeler un corps que les proches ont oublié, une créature que les enregistrements ne montrent plus correctement ou une mort dont le rapport officiel donne une explication que l’on sait fausse."
+      },
+      {
+        type: "p",
+        text: "Beaucoup essaient d’abord de convaincre. Ils montrent des fichiers, racontent l’histoire, reviennent sur les lieux. Le Voile transforme alors leur certitude en isolement : les proches s’inquiètent, les collègues parlent d’obsession et les institutions médicalisent parfois ce qui ressemble objectivement à une conviction impossible à vérifier."
+      },
+      {
+        type: "p",
+        text: "Le futur Chasseur ne devient pas nécessairement plus violent. Il devient quelqu’un qui accepte que le monde ne lui rendra pas facilement la preuve dont il a besoin pour se sentir sain. Trouver un autre initié est souvent ce qui l’empêche de se briser."
+      }
+    ]
+  },
+  {
+    id: "californie-2035",
+    title: "La Californie comme territoire de Chasse",
+    level: 2,
+    blocks: [
+      {
+        type: "p",
+        text: "La Grande Californie concentre en 2035 une diversité de Vérité inhabituelle : anciennes communautés exilées, diasporas extrales récentes, Natures intégrées à la société, corporations capables de financer des recherches interdites, mafias transportant ce que la loi ne comprend pas, esprits, cultes et institutions publiques en reconstruction."
+      },
+      {
+        type: "p",
+        text: "Cette densité produit des contrats que les vieux manuels ne prévoyaient pas. Une disparition peut mêler technologie extrale, dette vampirique et culte humain ; une clinique noire peut soigner la proie poursuivie ; une corporation peut déclencher un phénomène sans comprendre que son prototype reproduit un principe de Vérité ancien."
+      },
+      {
+        type: "p",
+        text: "L’Association fournit des points d’appui, la Confrérie de l’information et les traditions des méthodes, mais aucune structure ne remplace le jugement. Le Chasseur qui survit n’est pas celui qui connaît par cœur le plus grand nombre de faiblesses : c’est celui qui demande d’abord « qu’est-ce que c’est ? », puis « qu’est-ce que ça a fait ? », et seulement ensuite « comment est-ce que ça meurt ? »."
       }
     ]
   }
