@@ -50,6 +50,17 @@ import {
   COMPENDIUM_REALITE_V9_GOVERNMENT_TRUTH_PNJ_ENRICHMENTS
 } from "./compendium-realite-v9-government-pnj.js";
 import {
+  COMPENDIUM_REALITE_V9_AGENCIES_HUB_ID,
+  COMPENDIUM_REALITE_V9_AGENCIES_HUB,
+  COMPENDIUM_REALITE_V9_AGENCIES_ARTICLES,
+  COMPENDIUM_REALITE_V9_AGENCIES_NAVIGATION
+} from "./compendium-realite-v9-agencies.js";
+import {
+  COMPENDIUM_REALITE_V9_AGENCIES_PNJ_ARTICLES,
+  COMPENDIUM_REALITE_V9_AGENCIES_PNJ_NAVIGATION,
+  COMPENDIUM_REALITE_V9_AGENCIES_PNJ_ENRICHMENTS
+} from "./compendium-realite-v9-agencies-pnj.js";
+import {
   COMPENDIUM_REALITE_V9_RELIGION_ARTICLES,
   COMPENDIUM_REALITE_V9_RELIGION_NAVIGATION
 } from "./compendium-realite-v9-religions.js";
@@ -1232,6 +1243,24 @@ async function loadCorpus(): Promise<Corpus> {
     target.tags = Array.from(new Set([...(target.tags ?? []), "Gouvernement"]));
   }
 
+  const agenciesHub = byId.get(COMPENDIUM_REALITE_V9_AGENCIES_HUB_ID);
+  if (agenciesHub) {
+    agenciesHub.title = String(COMPENDIUM_REALITE_V9_AGENCIES_HUB.title ?? agenciesHub.title);
+    agenciesHub.source = String(COMPENDIUM_REALITE_V9_AGENCIES_HUB.source ?? agenciesHub.source);
+    agenciesHub.tags = deepClone(COMPENDIUM_REALITE_V9_AGENCIES_HUB.tags ?? agenciesHub.tags ?? []);
+    agenciesHub.sections = deepClone(COMPENDIUM_REALITE_V9_AGENCIES_HUB.sections ?? []) as JsonObject[];
+    agenciesHub.status = "canon_enrichi";
+    agenciesHub.rebuildV2 = true;
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_AGENCIES_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_AGENCIES_PNJ_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
   for (const article of COMPENDIUM_REALITE_V9_RELIGION_ARTICLES) {
     // Religion consolidation overrides the Reality hub and adds one immersive page per major tradition.
     byId.set(article.id, deepClone(article) as Article);
@@ -1382,6 +1411,28 @@ async function loadCorpus(): Promise<Corpus> {
     target.tags = Array.from(new Set([...(target.tags ?? []), "Gouvernement", "Réalité"]));
   }
 
+  for (const enrichment of COMPENDIUM_REALITE_V9_AGENCIES_PNJ_ENRICHMENTS) {
+    const target = byId.get(enrichment.id);
+    if (!target) continue;
+    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
+    const sections = deepClone(enrichment.sections ?? []).filter(
+      (section) => !existingIds.has(String(section?.id ?? ""))
+    );
+    if (sections.length) {
+      target.sections = [...(target.sections ?? []), ...sections];
+    }
+    if (enrichment.pnjPatch) {
+      target.pnj = {
+        ...(target.pnj ?? {}),
+        ...deepClone(enrichment.pnjPatch)
+      };
+    }
+    if (!String(target.source ?? "").includes("TUC_organisations_agences(1).docx")) {
+      target.source = [target.source, "TUC_organisations_agences(1).docx"].filter(Boolean).join(" ; ");
+    }
+    target.tags = Array.from(new Set([...(target.tags ?? []), "Agences", "Réalité"]));
+  }
+
   const generatedTalentHubs = generatedTalentHubCorpus();
   for (const hub of generatedTalentHubs.articles) {
     if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
@@ -1477,6 +1528,8 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_REALITE_V9_POLICE_PNJ_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_GOVERNMENT_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_GOVERNMENT_PNJ_NAVIGATION,
+      ...COMPENDIUM_REALITE_V9_AGENCIES_NAVIGATION,
+      ...COMPENDIUM_REALITE_V9_AGENCIES_PNJ_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_RELIGION_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_RELIGION_PNJ_NAVIGATION.map((entry) => ({
         ...entry,
