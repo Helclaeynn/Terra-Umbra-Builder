@@ -507,6 +507,100 @@ jobs:
           assert all(item["category"] == "OLD" for item in payload["items"]), payload["items"]
           PY
 
+          echo "Wiki smoke: verifying canonical Moteur V4"
+          python3 - <<'PY'
+          import json,urllib.request
+
+          base="https://dev.terra-umbra.fr/api/compendium/articles/"
+          expected={
+            "regles-moteur-de-jeu":[
+              "socle commun",
+              "Réalité et de Vérité",
+              "Initiative, Points d’Action & déplacement"
+            ],
+            "regles-resolution-des-tests":[
+              "Attribut + Compétence + 1d10e",
+              "Très difficile",
+              "Assistance",
+              "Action combinée"
+            ],
+            "regles-profil-valeurs-derivees-statut":[
+              "PV maximum",
+              "Forcer le Destin",
+              "Maximum conservé : 8",
+              "Figure majeure",
+              "Renommée et Réputation"
+            ],
+            "regles-initiative-pa-deplacement":[
+              "1 → 2 → 3 → 4 → 5",
+              "plus haute passe future",
+              "5 + Athlétisme",
+              "propriété Encombrant"
+            ],
+            "regles-combat-defenses":[
+              "Agilité + Esquive + 1d10e",
+              "Marge + DGT de l’arme",
+              "alliées comprises",
+              "Fiable"
+            ],
+            "regles-tir-portee-tirs-particuliers":[
+              "2 × DGT",
+              "Viser et Verrouillage peuvent se cumuler",
+              "3 impacts",
+              "Défense passive est inférieure"
+            ],
+            "regles-sante-blessures-soins":[
+              "1 + DR PV",
+              "une seule tentative efficace",
+              "Constitution PV par jour",
+              "Seuil de Mort"
+            ],
+            "regles-stress-etats-psychologiques":[
+              "1–2 naturel",
+              "9–10",
+              "remonter les PV",
+              "jauge de Raison"
+            ]
+          }
+
+          def flatten(value):
+            if isinstance(value,dict):
+              return " ".join(flatten(v) for v in value.values())
+            if isinstance(value,list):
+              return " ".join(flatten(v) for v in value)
+            return str(value)
+
+          for article_id,sentinels in expected.items():
+            with urllib.request.urlopen(base+article_id,timeout=20) as response:
+              payload=json.load(response)
+            article=payload["article"]
+            assert article["category"]=="Règles",(article_id,article.get("category"))
+            assert article["dataset"]=="moteur-v4",(article_id,article.get("dataset"))
+            assert not article.get("__legacy"),article_id
+            haystack=flatten(article)
+            for sentinel in sentinels:
+              assert sentinel in haystack,(article_id,sentinel)
+          PY
+
+          curl --fail --silent --show-error \
+            'https://dev.terra-umbra.fr/api/compendium/search?category=R%C3%A8gles&limit=100' > "$COMPENDIUM_SEARCH"
+          python3 - "$COMPENDIUM_SEARCH" <<'PY'
+          import json,sys
+          payload=json.load(open(sys.argv[1],encoding="utf-8"))
+          moteur={item["id"] for item in payload["items"] if item.get("dataset")=="moteur-v4"}
+          expected={
+            "regles-moteur-de-jeu",
+            "regles-resolution-des-tests",
+            "regles-profil-valeurs-derivees-statut",
+            "regles-initiative-pa-deplacement",
+            "regles-combat-defenses",
+            "regles-tir-portee-tirs-particuliers",
+            "regles-sante-blessures-soins",
+            "regles-stress-etats-psychologiques"
+          }
+          assert moteur==expected,(moteur,expected)
+          PY
+
           echo "Wiki smoke: verifying editor API"
           EDITOR_STATUS="$(curl --silent --show-error --output "$COMPENDIUM_EDITOR" --write-out '%{http_code}' \
             -b "$COOKIE_JAR" \
