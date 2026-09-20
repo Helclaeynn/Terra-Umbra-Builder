@@ -357,7 +357,7 @@ for(const removedLabel of ["Réseaux","Statuts","Patrimoine","Dettes"]){
 await page.getByRole("button",{name:/Finalisation/}).click();
 await page.getByRole("heading",{name:"Contrôle final de la fiche"}).waitFor();
 await page.getByRole("heading",{name:"Dérivés"}).waitFor();
-await page.getByText("PV",{exact:true}).waitFor();
+await page.locator(".derived-compact span").filter({hasText:"PV"}).first().waitFor({state:"visible",timeout:5000});
 
 await page.getByRole("button",{name:/Dépense XP & PTV/}).click();
 try{
