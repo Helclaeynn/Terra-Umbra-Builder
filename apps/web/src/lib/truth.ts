@@ -55,6 +55,30 @@ export type TruthEquipmentItem={
   requiresMj:boolean;
 };
 
+export type CorruptionSource={
+  id:string;
+  name:string;
+  corruption:string;
+  principle:string;
+  compendiumId?:string;
+};
+
+export type CorruptionTalent={
+  id:string;
+  name:string;
+  cost:number;
+  kind:"DON"|"RITE"|"FAVEUR";
+  depth:"Marqué"|"Envahi"|"Au bord de la Rupture"|"";
+  sourceId:string;
+  sourceName:string;
+  family:string;
+  access:string;
+  prerequisiteName:string;
+  effect:string;
+  group:string;
+  compendiumId?:string;
+};
+
 export type TruthTalent={
   id:string;
   compendiumId?:string;
@@ -80,6 +104,11 @@ export type TruthRulesPackage={
   };
   catalogs:Record<string,TruthTalent[]>;
   equipment:TruthEquipmentItem[];
+  corruption:{
+    sources:CorruptionSource[];
+    precedence:string[];
+    talents:CorruptionTalent[];
+  };
   visibility:{
     needles:Record<string,Record<string,string[]>>;
     sharedHunterNatures:readonly string[];
@@ -109,6 +138,9 @@ export type TruthState={
   truthTalents:string[];
   truthEquipment:string[];
   truthEquipmentMjOverride:boolean;
+  corruption:number;
+  corruptionSource:string;
+  corruptionTalents:string[];
 };
 
 export function truthNorm(value=""){
@@ -587,7 +619,13 @@ export function truthPtvSpent(pkg:TruthRulesPackage,state:TruthState){
   if(state.nature==="mage"){
     for(const talent of mageAllTalents(pkg,state))all.set(talent.id,talent);
   }
-  return state.truthTalents.reduce((sum,id)=>sum+Number(all.get(id)?.cost||0),0);
+  const native=state.truthTalents.reduce((sum,id)=>sum+Number(all.get(id)?.cost||0),0);
+  const corruptionById=new Map(pkg.corruption.talents.map(talent=>[talent.id,talent]));
+  const corrupted=state.corruptionTalents.reduce(
+    (sum,id)=>sum+Number(corruptionById.get(id)?.cost||0),
+    0
+  );
+  return native+corrupted;
 }
 
 export function truthChoicesValid(pkg:TruthRulesPackage,state:TruthState){
@@ -619,6 +657,54 @@ export function truthSanitizeTalents(pkg:TruthRulesPackage,state:TruthState){
     }
   }
   return selected;
+}
+
+export function truthCorruptionDepth(corruption:number,integrity:number){
+  const max=Math.max(1,Math.floor(integrity||1));
+  const value=Math.max(0,Math.min(max,Math.floor(corruption||0)));
+  if(value===0)return "Sain";
+  if(value>=max)return "Seuil atteint";
+  if(value>=Math.max(1,max-1))return "Au bord de la Rupture";
+  if(value>=Math.ceil(max/2))return "Envahi";
+  return "Marqué";
+}
+
+function corruptionDepthRank(depth:string){
+  if(depth==="Au bord de la Rupture")return 3;
+  if(depth==="Envahi")return 2;
+  if(depth==="Marqué")return 1;
+  return 0;
+}
+
+export function truthCorruptionTalentActive(
+  talent:CorruptionTalent,
+  state:TruthState,
+  integrity:number
+){
+  if(talent.kind==="RITE")return true;
+  if(talent.kind==="FAVEUR")return true;
+  if(!state.corruptionSource||talent.sourceId!==state.corruptionSource)return false;
+  const current=truthCorruptionDepth(state.corruption,integrity);
+  return corruptionDepthRank(current)>=corruptionDepthRank(talent.depth);
+}
+
+export function truthCorruptionPrerequisiteSatisfied(
+  pkg:TruthRulesPackage,
+  state:TruthState,
+  talent:CorruptionTalent
+){
+  const raw=truthNorm(talent.prerequisiteName||"");
+  if(!raw)return true;
+  const selected=new Set(state.corruptionTalents);
+  const candidates=pkg.corruption.talents.filter(other=>
+    other.id!==talent.id&&raw.includes(truthNorm(other.name))
+  );
+  return candidates.length>0&&candidates.every(other=>selected.has(other.id));
+}
+
+export function truthSanitizeCorruptionTalents(pkg:TruthRulesPackage,state:TruthState){
+  const known=new Set(pkg.corruption.talents.map(talent=>talent.id));
+  return [...new Set(state.corruptionTalents.filter(id=>known.has(id)))];
 }
 
 export function truthGroups(talents:TruthTalent[]){
