@@ -104,10 +104,13 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
     const user = await requireUser(request, reply);
     if (!user) return;
 
-    const name = request.body?.name?.trim();
+    const requestedName = request.body?.name?.trim();
     const requestedData = request.body?.data;
+    const name = requestedName || "Nouveau personnage";
 
-    if (!validName(name)) return bad(reply, "invalid_character_name");
+    if (requestedName !== undefined && !validName(requestedName)) {
+      return bad(reply, "invalid_character_name");
+    }
     if (requestedData !== undefined && !validData(requestedData)) {
       return bad(reply, "invalid_character_data");
     }
