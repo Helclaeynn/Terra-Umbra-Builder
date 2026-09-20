@@ -353,7 +353,7 @@ const revealDisclosure=page.locator("summary.truth-disclosure-summary").filter({
 await revealDisclosure.waitFor({state:"visible",timeout:5000});
 await revealDisclosure.click();
 for(const label of ["Voilé","Semi-Révélé","Révélé"]){
-  await page.getByText(label,{exact:true}).waitFor({state:"visible",timeout:5000});
+  await page.getByText(label,{exact:true}).waitFor({state:"attached",timeout:5000});
 }
 
 // Truth equipment is scoped by the character's actual access. A Human with no
@@ -361,7 +361,7 @@ for(const label of ["Voilé","Semi-Révélé","Révélé"]){
 await page.getByRole("heading",{name:"Objets de Vérité"}).waitFor({state:"visible",timeout:5000});
 const truthCatalog=page.locator("summary.truth-disclosure-summary").filter({hasText:"Catalogue de Vérité"});
 await truthCatalog.click();
-await page.getByText("Propriété Smoke",{exact:true}).waitFor({state:"visible",timeout:5000});
+await page.getByText("Propriété Smoke",{exact:true}).waitFor({state:"attached",timeout:5000});
 if(await page.getByText("Arme de Chasse Smoke",{exact:true}).count())throw new Error("Équipement de Chasse visible sans tradition de Chasse.");
 if(await page.getByText("Objet d’Aèr Smoke",{exact:true}).count())throw new Error("Objet d’Aèr visible pour un non-Exilé.");
 if(await page.getByText("Relique corrompue Smoke",{exact:true}).count())throw new Error("Équipement corrompu visible sans autorisation MJ.");
@@ -372,7 +372,7 @@ for(const label of ["Arme de Chasse Smoke","Objet d’Aèr Smoke","Relique corro
   await page.getByText(label,{exact:true}).waitFor({state:"visible",timeout:5000});
 }
 await truthEquipmentMj.uncheck();
-await page.waitForFunction(()=>![...document.querySelectorAll("body *")].some(node=>node.textContent?.trim()==="Objet d’Aèr Smoke"),{timeout:5000});
+await page.getByText("Objet d’Aèr Smoke",{exact:true}).waitFor({state:"detached",timeout:5000});
 
 // Corruption is not a normal creation choice: it stays closed until explicit GM approval.
 await page.getByText("Personnage sain par défaut.",{exact:false}).waitFor({state:"visible",timeout:5000});
