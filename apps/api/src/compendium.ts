@@ -728,6 +728,9 @@ function findMatchingActivePnj(byId: Map<string, Article>, source: Article): Art
   const matches: Array<{ article: Article; score: number }> = [];
   for (const candidate of byId.values()) {
     if (candidate.id === source.id) continue;
+    // OLD/legacy corpus is loaded before its final category remap. Only rebuilt V2
+    // profiles may absorb a new cross-document source; archives remain audit-only.
+    if (candidate.rebuildV2 !== true) continue;
     const category = String(candidate.category ?? candidate.sourceCategory ?? "");
     if (category !== "Personnages" && !String(candidate.dataset ?? "").includes("pnj")) continue;
     const keys = articlePnjIdentityKeys(candidate);
