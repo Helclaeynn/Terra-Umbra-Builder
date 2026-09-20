@@ -21,6 +21,7 @@ on:
       - 'scripts/enrich-compendium-reality-lore.mjs'
       - 'scripts/build-compendium-truth-catalog.mjs'
       - 'scripts/enrich-compendium-truth-lore.mjs'
+      - 'scripts/integrate-truth-lore-hunters-2026-09-v1.mjs'
       - 'scripts/prepare-builder-reality-catalogs.mjs'
       - 'scripts/build-compendium-navigation.mjs'
       - 'scripts/sync-page-overrides.mjs'
@@ -86,6 +87,7 @@ jobs:
           node --check scripts/enrich-compendium-reality-lore.mjs
           node --check scripts/build-compendium-truth-catalog.mjs
           node --check scripts/enrich-compendium-truth-lore.mjs
+          node --check scripts/integrate-truth-lore-hunters-2026-09-v1.mjs
           node --check scripts/prepare-builder-reality-catalogs.mjs
           node --check compendium/tests/navigation-check.mjs
           node --check compendium/tests/category-navigation-runtime-check.mjs
@@ -94,6 +96,7 @@ jobs:
           node --check compendium/tests/reality-catalog-lore-quality-check.mjs
           node --check compendium/tests/catalog-runtime-browser-smoke.mjs
           node --check compendium/tests/truth-catalog-pages-check.mjs
+          node --check compendium/tests/truth-lore-hunters-2026-09-check.mjs
           node --check compendium/tests/truth-catalog-runtime-browser-smoke.mjs
           node --check compendium/tests/wiki-links-check.mjs
           node --check compendium/tests/wiki-context-audit.mjs
@@ -129,6 +132,7 @@ jobs:
           fi
       - name: Validate V3 corpus and active runtime
         run: |
+          node compendium/tests/truth-lore-hunters-2026-09-check.mjs
           node compendium/tests/manifest-check.mjs
           node compendium/tests/navigation-check.mjs
           node compendium/tests/bestiary-v16-check.mjs
