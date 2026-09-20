@@ -1,426 +1,260 @@
-type Block =
-  | { type: "p"; text: string; style?: string }
-  | { type: "table"; rows: unknown[][] };
-
-type Section = {
-  id: string;
-  title: string;
-  level: number;
-  audience?: "mj";
-  blocks: Block[];
-};
-
-type Article = {
-  id: string;
-  dataset: string;
-  category: string;
-  sourceCategory: string;
-  title: string;
-  source: string;
-  status: string;
-  rebuildV2: true;
-  tags: string[];
-  sections: Section[];
-};
-
-const SOURCE = "TUC_Verite_V7_CROSSAUDIT_2026-09-10.pdf";
-
-const p = (text: string, style?: string): Block => ({ type: "p", text, ...(style ? { style } : {}) });
-const table = (rows: unknown[][]): Block => ({ type: "table", rows });
-
-export const COMPENDIUM_VERITE_V7_RULE_ARTICLES: Article[] = [
+type Block={type:"p";text:string;style?:string}|{type:"table";rows:unknown[][]};
+type Section={id:string;title:string;level:number;audience?:"mj";blocks:Block[]};
+type Article={id:string;dataset:string;category:string;sourceCategory:string;title:string;source:string;status:string;rebuildV2:true;tags:string[];sections:Section[]};
+const SOURCE="TUC_Verite_V7_CROSSAUDIT_2026-09-10.docx";
+const SOURCE_ARTICLES=[
   {
-    id: "regles-verite-v7-architecture-ptv-acces",
-    dataset: "verite-v7",
-    category: "Règles",
-    sourceCategory: "Règles",
-    title: "Architecture, PTV & accès",
-    source: SOURCE,
-    status: "canon_enrichi",
-    rebuildV2: true,
-    tags: ["Vérité", "PTV", "XP", "Nature", "Origine", "Tradition", "Statut", "accès", "cross-training"],
-    sections: [
+    "id": "regles-verite-v7-architecture-ptv-acces",
+    "title": "Architecture, PTV & accès",
+    "tags": [
+      "Vérité",
+      "PTV",
+      "XP",
+      "Nature",
+      "Origine",
+      "Tradition",
+      "Statut",
+      "accès",
+      "cross-training"
+    ],
+    "sections": [
       {
-        id: "architecture",
-        title: "Les couches de la Vérité",
-        level: 2,
-        blocks: [
-          p("La Vérité distingue ce que le personnage est, ce qu'il a hérité, ce qu'il a appris et ce qu'il possède. Ces couches ne sont pas interchangeables : un objet ne devient pas une Nature, un rang social ne devient pas automatiquement un pouvoir et une compétence profane ne remplace pas une aptitude de Vérité."),
-          table([
-            ["Couche", "Principe"],
-            ["Nature", "Ce que le personnage est réellement."],
-            ["Origine / héritage", "Branche de Nature, ascendance ou héritage propre à la Vérité."],
-            ["Tradition / doctrine / fonction", "Formation distinctive ; elle peut être surnaturelle, technique, culturelle ou opérationnelle."],
-            ["Statut", "Habilitation, rang, réputation ou fonction sociale ; narratif sauf maîtrise distincte explicitement décrite."],
-            ["Équipement", "Ce que le personnage possède. La possession n'est jamais achetée avec des PTV."]
-          ]),
-          p("Les mêmes termes peuvent avoir une importance différente selon les peuples. Une Cour vampirique, un Pelage garou, une École de Magie, une Fonction daemoniaque ou une tradition de Chasse s'inscrivent dans cette architecture sans devenir pour autant le même type de phénomène.")
+        "id": "1-architecture-de-la-verite",
+        "title": "1. Architecture de la Vérité",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "La Vérité regroupe Natures, héritages, traditions, doctrines, fonctions et disciplines. L’XP décrit l’expertise profane ; les PTV décrivent ce que le personnage est, ce qu’une tradition de Vérité lui a appris à devenir, ou une manière exceptionnelle d’utiliser ses capacités. Couche Principe Nature Ce que le personnage est. Origine / héritage Branche de Nature ou ascendance de Vérité. Tradition / doctrine / fonction Formation distinctive, pas nécessairement surnaturelle. Statut Habilitation, rang, réputation ou fonction sociale ; narratif sauf maîtrise distincte. Équipement Ce que le personnage possède ; jamais acheté par PTV."
+          }
         ]
       },
       {
-        id: "xp-ptv",
-        title: "XP et PTV ne mesurent pas la même progression",
-        level: 2,
-        blocks: [
-          p("L'XP décrit l'expertise profane : compétences, attributs et progression générale du personnage dans le monde visible."),
-          p("Les Points de Vérité (PTV) décrivent ce que le personnage est, ce qu'une tradition de Vérité lui a appris à devenir ou une manière exceptionnelle d'exploiter sa Nature, sa doctrine ou sa fonction."),
-          p("Un Talent de Vérité peut améliorer une action profane lorsqu'il représente réellement une aptitude distinctive qui s'ajoute à l'expertise. Il ne remplace pas simplement un métier, une connaissance, une ressource, un outil ou un accès que le personnage ne possède pas.")
+        "id": "2-points-de-verite-acces-et-conception-des-talents",
+        "title": "2. Points de Vérité, accès et conception des Talents",
+        "level": 2,
+        "blocks": []
+      },
+      {
+        "id": "ptv-et-competences-profanes",
+        "title": "PTV et Compétences profanes",
+        "level": 3,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Un Talent peut améliorer une action profane — bonus, relance, DR, auto-Assistance, exception d’action — s’il représente une Nature, une discipline ou une doctrine distinctive qui s’ajoute réellement à l’expertise. Il ne remplace pas simplement un métier, une connaissance, un objet ou une ressource absente. Les anciens « Compétence au minimum X » deviennent +X lorsqu’ils expriment une aptitude de Vérité : le novice est aidé et le spécialiste peut dépasser le plafond humain. Coût Intention 1 PTV signature utile ou ouverture spécialisée 2 PTV effet puissant ou règle modifiée 3 PTV effet majeur, rare ou nouvelle dimension d’action Accès Sens N — Naturel accès canonique/culturel ; Talent à acheter O — Ouvert formation ou mentor crédible R — Restreint origine rare, initiation ou accès difficile X — Incompatible incompatibilité réelle de Nature ou de principe Cross-training : possible si la fiction le permet ; signatures racines, prérequis biologiques, initiatiques et matériels restent applicables."
+          }
         ]
       },
       {
-        id: "talents-competences",
-        title: "Talents de Vérité et Compétences profanes",
-        level: 2,
-        blocks: [
-          p("Lorsqu'un ancien effet de Vérité exprimait une « Compétence au minimum X » pour représenter une aptitude surnaturelle ou une discipline de Vérité, le modèle V7 privilégie un bonus +X. Le novice bénéficie ainsi réellement de son aptitude tandis qu'un spécialiste peut dépasser ce qu'aurait imposé un minimum fixe."),
-          p("Une amélioration profane reste légitime si elle exprime une Nature, une discipline ou une doctrine identifiable : bonus, relance, modification de DR, auto-Assistance ou exception d'action. Elle ne doit jamais servir de raccourci générique pour acheter avec des PTV ce qui relève normalement de l'XP ou de la fiction.")
-        ]
-      },
-      {
-        id: "couts",
-        title: "Échelle de coût des Talents",
-        level: 2,
-        blocks: [
-          table([
-            ["Coût", "Intention"],
-            ["1 PTV", "Signature utile, ouverture spécialisée ou capacité étroite mais réellement distinctive."],
-            ["2 PTV", "Effet puissant ou modification notable d'une règle."],
-            ["3 PTV", "Effet majeur, rare ou ouvrant une nouvelle dimension d'action."]
-          ]),
-          p("Cette échelle guide la conception ; le coût exact d'un Talent canonique reste celui de son arbre. Un effet exceptionnel n'est pas automatiquement disponible simplement parce qu'un personnage possède assez de PTV : prérequis et accès continuent de s'appliquer.")
-        ]
-      },
-      {
-        id: "acces",
-        title: "Accès N / O / R / X",
-        level: 2,
-        blocks: [
-          table([
-            ["Code", "Nom", "Sens"],
-            ["N", "Naturel", "Accès canonique ou culturel de la Nature ; le Talent doit encore être acheté."],
-            ["O", "Ouvert", "Formation possible avec un mentor, une institution ou un apprentissage crédible."],
-            ["R", "Restreint", "Origine rare, initiation, secret ou accès difficile nécessaire."],
-            ["X", "Incompatible", "Incompatibilité réelle de Nature, de physiologie ou de principe."]
-          ]),
-          p("Le code d'accès ne remplace jamais les prérequis internes de l'arbre. Il décrit qui peut raisonnablement apprendre la voie, pas le prix complet de chaque capacité.")
-        ]
-      },
-      {
-        id: "cross-training",
-        title: "Cross-training et limites réelles",
-        level: 2,
-        blocks: [
-          p("Le cross-training est possible lorsque la fiction le permet. Une personne peut apprendre hors de sa tradition d'origine si elle rencontre un mentor, une méthode et les conditions nécessaires."),
-          p("Les signatures racines, prérequis biologiques, initiatiques ou matériels restent cependant applicables. Une technique reposant sur un organe, un état de Révélation, une consécration ou une infrastructure particulière ne devient pas universelle parce qu'elle a été observée.")
-        ]
-      },
-      {
-        id: "doctrines-fonctions",
-        title: "Doctrines, fonctions et voies non surnaturelles",
-        level: 2,
-        blocks: [
-          p("Une voie PTV peut représenter une doctrine, une fonction ou une culture opérationnelle de Vérité sans être elle-même surnaturelle. Elle est légitime lorsqu'elle formalise une manière distinctive d'agir, d'intégrer une faction ou d'exploiter ses codes."),
-          p("Les Hordes, la Croix d'Emphyrra, le Syndicat de Jade, la Mafia Shaediri et d'autres réseaux peuvent ainsi posséder des maîtrises de Vérité sans que le Talent fasse apparaître l'organisation, ses ressources ou sa logistique.")
-        ]
-      },
-      {
-        id: "statut-equipement",
-        title: "Statut, accès et possession",
-        level: 2,
-        blocks: [
-          p("Un rang, une habilitation ou une réputation reste narratif tant qu'aucune maîtrise distincte n'est définie. Acheter une technique ne confère pas automatiquement le grade, le laboratoire, le vendeur ou l'autorité qui l'entourent."),
-          p("Les PTV n'achètent jamais directement une arme, un prototype, un compagnon, une planque ou un service. Ils peuvent acheter la maîtrise, la calibration, le lien ou la capacité d'exploitation permettant d'utiliser pleinement quelque chose qui existe réellement dans la fiction.")
+        "id": "doctrine-fonction-et-reseau-de-verite",
+        "title": "Doctrine, fonction et réseau de Vérité",
+        "level": 3,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Une voie PTV peut représenter une fonction, une doctrine ou une culture opérationnelle de Vérité sans être surnaturelle. Elle est légitime lorsqu’elle formalise une manière distinctive d’agir, d’intégrer une faction ou d’exploiter ses codes — Hordes, Croix d’Emphyrra, Syndicat de Jade, Mafia Shaediri, etc. Elle ne remplace jamais l’existence réelle des moyens requis. Un réseau de Vérité n’apparaît jamais parce qu’un Talent est acheté. Si le réseau, la route, le relais, le vendeur ou la ressource existe réellement, l’initié sait en reconnaître les signes, s’authentifier et utiliser les procédures auxquelles son degré d’intégration lui donne accès. Prix, délais, risques et disponibilité restent réels."
+          }
         ]
       }
     ]
   },
   {
-    id: "regles-verite-v7-pa-reactions-defense-puissance",
-    dataset: "verite-v7",
-    category: "Règles",
-    sourceCategory: "Règles",
-    title: "PA, Réactions, Défense occulte & Puissance",
-    source: SOURCE,
-    status: "canon_enrichi",
-    rebuildV2: true,
-    tags: ["Vérité", "PA", "Réaction", "non-cumul", "Défense occulte", "Puissance", "Volonté", "Force Mentale"],
-    sections: [
+    "id": "regles-verite-v7-pa-reactions-defense-puissance",
+    "title": "PA, Réactions, Défense occulte & Puissance",
+    "tags": [
+      "Vérité",
+      "PA",
+      "Réactions",
+      "Défense occulte",
+      "Puissance",
+      "non-cumul"
+    ],
+    "sections": [
       {
-        id: "actions-pa",
-        title: "Actions et coût en PA",
-        level: 2,
-        blocks: [
-          p("Une capacité active de Vérité coûte 1 PA par défaut. Une capacité peut demander 2 ou 3 PA, une préparation longue ou une autre procédure lorsque son texte l'indique."),
-          p("Le maximum normal reste 3 PA. Une capacité qui augmente ce maximum accorde normalement au plus +1 PA, portant le personnage à 4 ; plusieurs gains directs de PA ne se cumulent pas sauf exception explicitement écrite."),
-          p("Exception canonique : le Surrégime du Garou Écarlate peut se cumuler avec le +1 PA de la forme Hybride et atteindre 5 PA. Cette exception ne crée pas une règle générale de cumul.")
+        "id": "3-pa-reactions-durees-et-non-cumul",
+        "title": "3. PA, Réactions, durées et non-cumul",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Actif : 1 PA par défaut ; 2–3 PA ou préparation longue si indiqué. Maximum normal : 3 PA. Une capacité accorde normalement au plus +1 PA, donc 4. Plusieurs gains directs ne se cumulent pas sauf exception explicite. Exception écrite possible : le Surrégime Garou Écarlate se cumule avec le +1 PA Hybride et peut atteindre 5 PA. Une Réaction dépense un PA, sauf PA de Réaction spécialisé explicitement créé. Une relance de Talent maximum par test. Une réduction générique de Difficulté maximum par effets externes ; les moteurs internes comme Amplitude/portée/Canalisation Mage suivent leurs propres règles. Deux effets substantiellement équivalents ne se cumulent pas sauf mention explicite. Une seule Assistance effective peut s’appliquer à un même test. Bras, tentacules, queues et appendices supplémentaires n’accordent jamais d’eux-mêmes PA, Attaque, Défense active ou Réaction supplémentaires."
+          }
         ]
       },
       {
-        id: "reactions",
-        title: "Réactions",
-        level: 2,
-        blocks: [
-          p("Une Réaction dépense normalement 1 PA. Un effet peut créer un PA de Réaction spécialisé ; ce PA ne devient pas un PA général et ne sert qu'aux réactions prévues par le texte."),
-          p("Une réaction qui doit intervenir avant une fuite, une téléportation ou une disparition doit l'indiquer explicitement. Une fois le déplacement instantané résolu, aucune poursuite rétroactive n'est créée par défaut.")
+        "id": "arbitrage-transversal-des-chevauchements",
+        "title": "Arbitrage transversal des chevauchements",
+        "level": 3,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Une même conséquence mortelle ne bénéficie que d’un seul effet surnaturel d’annulation/report/remplacement de Mort, sauf exception écrite. Compagnon, double, invocation ou projection contrôlée : aucun pool de PA joueur indépendant sauf règle explicite. Pouvoir copié/emprunté : conserve les prérequis de Nature, V/SR/R et lien externe sauf exception explicite. Une réaction pré-fuite doit l’indiquer ; aucune poursuite rétroactive après téléportation résolue. Une Altération automatique n’en crée pas une seconde de même nature si l’action en accordait déjà une. Voir sous le Voile n’est jamais Révéler."
+          }
         ]
       },
       {
-        id: "non-cumul",
-        title: "Règles de non-cumul",
-        level: 2,
-        blocks: [
-          table([
-            ["Chevauchement", "Arbitrage commun"],
-            ["Relance de Talent", "Une seule relance de Talent maximum par test."],
-            ["Réduction générique de Difficulté", "Une seule réduction externe maximum ; les moteurs internes qui définissent leur propre échelle suivent leur texte."],
-            ["Effets équivalents", "Deux effets substantiellement identiques ne se cumulent pas, sauf mention explicite."],
-            ["Assistance", "Une seule Assistance effective peut s'appliquer à un même test."],
-            ["Annulation ou report de Mort", "Une seule protection surnaturelle s'applique à une même conséquence mortelle, sauf exception écrite."],
-            ["Altération automatique", "N'ajoute pas une seconde Altération de même nature si l'action en accordait déjà une."]
-          ]),
-          p("Les systèmes internes possédant leur propre logique — par exemple certaines étapes de construction magique — ne sont pas aplatis par cette règle : leur texte spécifique reste prioritaire.")
-        ]
-      },
-      {
-        id: "appendices",
-        title: "Membres supplémentaires et économie d'action",
-        level: 2,
-        blocks: [
-          p("Bras, tentacules, queues, ailes et autres appendices supplémentaires n'accordent jamais par leur seule existence un PA, une Attaque, une Défense active ou une Réaction supplémentaire."),
-          p("Ils peuvent autoriser des actions, prises, formes de déplacement ou capacités prévues par la Nature ; l'économie d'action reste celle du Moteur tant qu'une exception n'est pas explicitement écrite.")
-        ]
-      },
-      {
-        id: "compagnons-doubles",
-        title: "Compagnons, doubles, invocations et projections",
-        level: 2,
-        blocks: [
-          p("Un compagnon lié, double, invocation ou projection contrôlée n'obtient pas un pool de PA joueur indépendant par défaut. Ses actions tactiques sont payées selon la règle qui le contrôle."),
-          p("Une règle particulière peut créer une autonomie réelle ; elle doit l'indiquer. L'existence d'une seconde figurine ou d'un second corps ne suffit pas à doubler l'économie d'action.")
-        ]
-      },
-      {
-        id: "copie",
-        title: "Pouvoirs copiés ou empruntés",
-        level: 2,
-        blocks: [
-          p("Copier ou emprunter un pouvoir ne supprime pas ses prérequis de Nature, d'état V/SR/R ou de lien externe, sauf exception explicite. Une capacité qui dépend d'une physiologie, d'une consécration ou d'un réseau continue d'en dépendre.")
-        ]
-      },
-      {
-        id: "defense-occulte",
-        title: "Défense occulte",
-        level: 2,
-        blocks: [
-          p("Une imposition directe sur l'esprit, l'âme, la volonté, l'identité ou l'intérieur du corps utilise la Défense occulte. Un phénomène physiquement évitable utilise la Défense physique. On n'applique jamais les deux défenses au même effet."),
-          table([
-            ["Défense", "Formule"],
-            ["Passive", "Volonté + Force Mentale"],
-            ["Active — 1 PA", "Volonté + Force Mentale + 1d10e"]
-          ]),
-          p("Comme pour la Défense active du Moteur, le dé supplémentaire représente une dépense active de réaction et ne devient pas un bonus permanent.")
-        ]
-      },
-      {
-        id: "puissance",
-        title: "Puissance d'un effet",
-        level: 2,
-        blocks: [
-          p("Lorsqu'un effet possède déjà un résultat de création ou un jet de Source, ce résultat sert de Puissance. Lorsqu'aucun résultat ni opposant n'existe, utiliser l'échelle autonome commune."),
-          table([
-            ["Puissance autonome", "Valeur"],
-            ["Mineure", "12"],
-            ["Courante", "15"],
-            ["Forte", "18"],
-            ["Majeure", "21"],
-            ["Exceptionnelle", "25"]
-          ])
-        ]
-      },
-      {
-        id: "repere",
-        title: "Priorité des règles",
-        level: 2,
-        blocks: [
-          p("Ces conventions sont le socle transversal. Une Nature, un Talent ou un moteur spécialisé peut écrire une exception ; l'exception s'applique alors à son propre périmètre sans devenir automatiquement une nouvelle règle générale.")
+        "id": "4-defense-occulte-et-puissance-des-effets",
+        "title": "4. Défense occulte et Puissance des effets",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Une imposition directe sur esprit, âme, volonté, identité ou intérieur du corps utilise la Défense occulte. Un phénomène physiquement évitable utilise la Défense physique. Jamais les deux pour le même effet. Défense occulte Formule Passive Volonté + Force Mentale Active — 1 PA Volonté + Force Mentale + 1d10e Puissance Valeur Jet de création connu résultat de création/maintien Source présente jet approprié de la Source Autonome 12 mineur ; 15 courant ; 18 fort ; 21 majeur ; 25 exceptionnel"
+          }
         ]
       }
     ]
   },
   {
-    id: "regles-verite-v7-voile-continuite-objets-reseaux-interfaces",
-    dataset: "verite-v7",
-    category: "Règles",
-    sourceCategory: "Règles",
-    title: "Voile, V/SR/R, continuité, objets, mobilité, compagnons, réseaux & interfaces",
-    source: SOURCE,
-    status: "canon_enrichi",
-    rebuildV2: true,
-    tags: ["Vérité", "Voile", "Hologramme", "V", "SR", "R", "continuité", "PV", "compagnons", "réseaux", "Neurodive", "PTV"],
-    sections: [
+    "id": "regles-verite-v7-voile-continuite-objets-reseaux-interfaces",
+    "title": "Voile, V/SR/R, continuité, objets, mobilité, compagnons, réseaux & interfaces",
+    "tags": [
+      "Vérité",
+      "Voile",
+      "V",
+      "SR",
+      "R",
+      "continuité",
+      "mobilité",
+      "compagnons",
+      "réseaux",
+      "interfaces"
+    ],
+    "sections": [
       {
-        id: "hologramme",
-        title: "Hologramme et états de Révélation",
-        level: 2,
-        blocks: [
-          p("L'Hologramme est un construct technomagique planétaire qui traduit physiquement les êtres et phénomènes de Vérité dans une cohérence humaine. Il ne s'agit pas d'une simple illusion visuelle."),
-          table([
-            ["État", "Effet mécanique général"],
-            ["Voilé (V)", "Forme traduite ; seules les capacités compatibles avec V sont disponibles."],
-            ["Semi-Révélé (SR)", "Vérité partielle et métastable ; normalement une scène maximum par défaut."],
-            ["Révélé (R)", "Vérité pleinement exprimée ; l'apparence peut rester humaine si la Nature le prévoit."]
-          ]),
-          p("Sous pression, une transition coûte normalement 1 PA. Un jet n'est demandé que lorsqu'une opposition active le justifie. Aucune action générique ne force un personnage de R vers V ; seuls les effets qui l'autorisent explicitement le peuvent.")
+        "id": "5-hologramme-voile-semi-revelation-et-revelation",
+        "title": "5. Hologramme, Voile, Semi-Révélation et Révélation",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "L’Hologramme est un construct technomagique planétaire qui traduit physiquement les êtres et phénomènes de Vérité en une cohérence humaine. Ce n’est pas une simple illusion visuelle. État Effet V forme traduite ; capacités compatibles V seulement SR Vérité partielle, métastable, normalement une scène maximum R Vérité pleinement exprimée ; l’apparence peut rester humaine selon la Nature Transition sous pression : normalement 1 PA, jet seulement si opposition active. Aucune action générique ne force R V ; seuls les effets qui → l’autorisent explicitement le peuvent. Cible Observation Cible V V/SR/R voient normalement la traduction, sauf perception spéciale Cible SR V voit la traduction ; SR/R voit la Vérité partielle Cible R la Vérité exprimée est visible par tous Un observateur R ne voit pas automatiquement la Vérité d’une cible restée V. Voir sous le Voile ne Révèle pas. L’Hologramme peut corriger souvenirs et preuves ordinaires. Les supports invariants résistent aux corrections ordinaires mais n’enregistrent jamais ce que leurs capteurs n’ont pas perçu. HDS/Holojamer peut maintenir V et bloquer V SR/R ; aucun R V → → générique."
+          }
         ]
       },
       {
-        id: "observation",
-        title: "Observation selon l'état",
-        level: 2,
-        blocks: [
-          table([
-            ["Cible", "Observation ordinaire"],
-            ["Cible V", "Les observateurs V, SR ou R voient normalement la traduction, sauf perception spéciale."],
-            ["Cible SR", "Un observateur V voit la traduction ; SR ou R perçoit la Vérité partielle."],
-            ["Cible R", "La Vérité exprimée est visible par tous les témoins présents."]
-          ]),
-          p("Un observateur Révélé ne voit pas automatiquement la Vérité d'une cible restée Voilée. Voir sous le Voile ne Révèle jamais la cible et ne modifie pas ses capacités disponibles.")
+        "id": "dissimulation-surnaturelle-et-capteurs",
+        "title": "Dissimulation surnaturelle et capteurs",
+        "level": 3,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Lorsqu’un effet indique qu’une cible devient surnaturellement invisible, les perceptions profanes ordinaires suivent normalement la traduction de la Réalité/Hologramme : vision, caméras et capteurs ordinaires ne révèlent pas la cible. Une perception véritablement surnaturelle et adaptée peut néanmoins la percevoir lorsque sa nature le permet. Un pouvoir qui décrit une dissimulation plus limitée suit son propre texte."
+          }
         ]
       },
       {
-        id: "preuves-hds",
-        title: "Preuves, invariance et HDS",
-        level: 2,
-        blocks: [
-          p("L'Hologramme peut corriger souvenirs et preuves ordinaires. Un support invariant résiste aux corrections ordinaires mais n'enregistre jamais une information que son capteur n'a pas perçue."),
-          p("Un HDS/Holojamer peut maintenir un être en V et bloquer une progression V → SR/R lorsqu'il est applicable. Il n'existe pas d'action générique HDS qui force un être déjà Révélé à retourner en V.")
+        "id": "6-continuite-corporelle-objets-et-mobilite-ailee",
+        "title": "6. Continuité corporelle, objets et Mobilité ailée",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Une seule histoire de blessures suit le personnage entre états et formes. Si Vigueur change, PV max et actuels varient immédiatement de 2 × la variation ; une baisse de forme ne fait pas passer un personnage positif sous 1 PV. Changer de forme ne soigne jamais."
+          }
         ]
       },
       {
-        id: "dissimulation",
-        title: "Dissimulation surnaturelle et capteurs",
-        level: 2,
-        blocks: [
-          p("Lorsqu'un effet rend une cible surnaturellement invisible, les perceptions profanes ordinaires suivent normalement la traduction : vision, caméras et capteurs ordinaires ne révèlent pas la cible."),
-          p("Une perception véritablement surnaturelle et adaptée peut néanmoins la détecter si sa nature le permet. Un pouvoir décrivant une dissimulation plus limitée suit son propre texte.")
+        "id": "deplacement-multiplie",
+        "title": "Déplacement multiplié",
+        "level": 3,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Lorsqu’une Nature indique Déplacement ×2 ou environ ×2, chaque PA de Déplacement couvre 2 × (5 + Athlétisme) mètres lorsque le terrain et la morphologie concernés sont réellement adaptés. Ce multiplicateur ne crée aucun PA supplémentaire."
+          }
         ]
       },
       {
-        id: "continuite",
-        title: "Continuité corporelle et blessures",
-        level: 2,
-        blocks: [
-          p("Un personnage conserve une seule histoire de blessures entre états et formes. Changer de forme ne soigne jamais."),
-          p("Si la Vigueur change, les PV maximum et actuels varient immédiatement de 2 × la variation de Vigueur. Lorsqu'une baisse de forme réduit ce total, un personnage qui était encore positif ne tombe pas sous 1 PV par ce seul recalcul."),
-          p("Les prothèses, augmentations et modifications durablement intégrées suivent normalement la traduction corporelle. Ce qui est seulement porté reste un objet distinct.")
+        "id": "mobilite-ailee-convention-pj",
+        "title": "Mobilité ailée — convention PJ",
+        "level": 3,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Avec des ailes fonctionnelles, un Déplacement peut devenir un grand déplacement aérien soutenu, franchir un vide, gagner/perdre fortement de l’altitude et ignorer des obstacles au sol. Le personnage doit terminer sur un support ou s’y agripper. Pas de vol stationnaire ni de combat aérien permanent par défaut."
+          }
         ]
       },
       {
-        id: "deplacement",
-        title: "Déplacement multiplié",
-        level: 2,
-        blocks: [
-          p("Lorsqu'une Nature indique Déplacement ×2 ou environ ×2, chaque PA de Déplacement couvre 2 × (5 + Athlétisme) mètres lorsque le terrain et la morphologie concernés sont réellement adaptés."),
-          p("Ce multiplicateur ne crée aucun PA supplémentaire et ne double pas automatiquement les autres actions liées au mouvement.")
+        "id": "objets-et-projectiles",
+        "title": "Objets et projectiles",
+        "level": 3,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Une transformation ne duplique ni ne restaure un objet consommé. Un effet de Vérité attaché à un projectile suit son propre support et sa durée ; aucun principe générique ne permet d’accumuler plusieurs enchantements équivalents."
+          }
         ]
       },
       {
-        id: "mobilite-ailee",
-        title: "Mobilité ailée — convention PJ",
-        level: 2,
-        blocks: [
-          p("Avec des ailes fonctionnelles, un Déplacement peut devenir un grand déplacement aérien soutenu, franchir un vide, gagner ou perdre fortement de l'altitude et ignorer des obstacles au sol."),
-          p("Le personnage doit terminer son déplacement sur un support ou s'y agripper. Par défaut, les ailes ne donnent ni vol stationnaire permanent ni sous-système de combat aérien continu.")
+        "id": "7-humains-chasseurs-reconnus-humanite-et-integrite",
+        "title": "7. Humains, Chasseurs reconnus, Humanité et Intégrité",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "L’Humain conscient connaît la Vérité mais peut encore subir des corrections. Un véritable Chasseur est reconnu par l’Hologramme : les corrections civiles ordinaires cessent d’effacer ce qu’il a réellement vu, sans lui donner vision de V, identification automatique ni immunité aux attaques explicites de mémoire. Valeur Règle Intégrité Force Mentale + Humanité, minimum 1 Stress augmentique max Vigueur + Humanité Charge augmentique jauge indépendante utilisant l’Intégrité Corruption jauge indépendante utilisant la même Intégrité Seules les valeurs permanentes de Force Mentale/Humanité modifient l’Intégrité."
+          }
         ]
       },
       {
-        id: "objets-projectiles",
-        title: "Objets, transformations et projectiles",
-        level: 2,
-        blocks: [
-          p("Une transformation ne duplique ni ne restaure un objet consommé. Une munition, un outil ou une ressource dépensée reste dépensée après un changement de forme."),
-          p("Un effet de Vérité attaché à un projectile suit son propre support et sa propre durée. Aucun principe générique ne permet d'empiler plusieurs enchantements substantiellement équivalents sur le même effet.")
+        "id": "8-compagnons-lies-et-reseaux-de-verite",
+        "title": "8. Compagnons liés et réseaux de Vérité",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Compagnon = PNJ réel avec stats, PV, sens, pouvoirs, faiblesses et personnalité. Par défaut un seul compagnon actif. Aucun pool de PA indépendant ; actions tactiques et défenses utilisent les PA du maître. Perdre la créature ne fait pas perdre le Talent ; PTV achète le lien, jamais la créature. Développements communs : Lien surnaturel 2 ; Résonance liée 1 ; Accueil de l’essence 2 ; Invocation liée 3."
+          }
         ]
       },
       {
-        id: "humanite-integrite",
-        title: "Humains, Chasseurs reconnus, Humanité & Intégrité",
-        level: 2,
-        blocks: [
-          p("Un Humain conscient de la Vérité peut encore subir les corrections du Voile. Un véritable Chasseur reconnu par l'Hologramme conserve ce qu'il a réellement vu malgré les corrections civiles ordinaires, sans gagner vision de V, identification automatique ni immunité aux attaques explicites de mémoire."),
-          table([
-            ["Valeur", "Règle"],
-            ["Intégrité", "Force Mentale + Humanité, minimum 1."],
-            ["Stress augmentique maximum", "Vigueur + Humanité."],
-            ["Charge augmentique", "Jauge indépendante utilisant l'Intégrité."],
-            ["Corruption", "Jauge indépendante utilisant la même Intégrité."]
-          ]),
-          p("Seules les valeurs permanentes de Force Mentale et d'Humanité modifient l'Intégrité.")
+        "id": "reseaux-de-verite",
+        "title": "Réseaux de Vérité",
+        "level": 3,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Un Talent de réseau ne crée jamais vendeur, planque, filière, marchandise ou service. Il représente l’intégration suffisante pour lire et exploiter codes, signes, procédures, relais et voies clandestines d’un réseau qui existe réellement. Disponibilité, prix, délais et risques restent fictionnels. Cette règle couvre notamment Syndicat de Jade, Mafia Shaediri, Shaekori et réseaux analogues. Certaines institutions restent volontairement sans arbre PTV lorsque leur intérêt est principalement statutaire ou logistique."
+          }
         ]
       },
       {
-        id: "compagnons",
-        title: "Compagnons liés",
-        level: 2,
-        blocks: [
-          p("Un compagnon lié est un véritable PNJ avec ses propres statistiques, PV, sens, pouvoirs, faiblesses et personnalité. Par défaut, un seul compagnon est actif."),
-          p("Aucun pool de PA indépendant : les actions tactiques et les défenses du compagnon utilisent les PA du maître selon la règle de contrôle applicable."),
-          p("Perdre la créature ne fait pas perdre le Talent. Les PTV achètent le lien, jamais la créature elle-même."),
-          table([
-            ["Développement commun", "Coût"],
-            ["Lien surnaturel", "2 PTV"],
-            ["Résonance liée", "1 PTV"],
-            ["Accueil de l'essence", "2 PTV"],
-            ["Invocation liée", "3 PTV"]
-          ])
+        "id": "9-equipement-de-verite-principe-commun",
+        "title": "9. Équipement de Vérité — principe commun",
+        "level": 2,
+        "blocks": []
+      },
+      {
+        "id": "armure-corporelle-et-reductions",
+        "title": "Armure corporelle et Réductions",
+        "level": 3,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Une Armure corporelle est une Armure de base portée par le corps lui-même : peau, carapace, tissus minéralisés, armure dermique ou protection surnaturelle explicitement corporelle. Par défaut, une « Armure naturelle » de Vérité doit être lue comme une Armure corporelle. L’Armure est la couche matérielle de base ; les Réductions typées (Mêlée, Antichoc, Balistique, Feu, Neuro, etc.) restent distinctes et ne s’appliquent qu’à leur vecteur. Pour le cumul, utiliser la meilleure Armure corporelle applicable ; elle peut se cumuler avec l’Armure portée selon les règles de Réalité, mais deux couches corporelles ne s’additionnent pas sauf texte explicite."
+          }
         ]
       },
       {
-        id: "reseaux",
-        title: "Réseaux de Vérité",
-        level: 2,
-        blocks: [
-          p("Un Talent de réseau ne crée jamais vendeur, planque, filière, marchandise ou service. Il représente l'intégration suffisante pour reconnaître et exploiter les codes, signes, procédures, relais et voies clandestines d'un réseau qui existe réellement."),
-          p("Disponibilité, prix, délais et risques restent fictionnels. Le principe couvre notamment le Syndicat de Jade, la Mafia Shaediri, les Shaekori et les réseaux analogues."),
-          p("Certaines institutions peuvent rester volontairement sans arbre PTV lorsque leur intérêt est surtout statutaire ou logistique.")
-        ]
-      },
-      {
-        id: "armure-corporelle",
-        title: "Armure corporelle et Réductions",
-        level: 2,
-        blocks: [
-          p("Une Armure naturelle de Vérité se lit par défaut comme une Armure corporelle : peau, carapace, tissus minéralisés, armure dermique ou protection explicitement portée par le corps."),
-          p("L'Armure reste la couche matérielle de base ; les Réductions typées — Mêlée, Antichoc, Balistique, Feu, Neuro ou autre — restent distinctes et ne s'appliquent qu'à leur vecteur."),
-          p("Pour le cumul, utiliser la meilleure Armure corporelle applicable. Elle peut se cumuler avec l'Armure portée selon les règles de Réalité ; deux couches corporelles ne s'additionnent pas sauf texte explicite.")
-        ]
-      },
-      {
-        id: "interfaces-neurodive",
-        title: "Interfaces étrangères et Neurodive",
-        level: 2,
-        blocks: [
-          p("Un système électronique, connecté ou en réseau n'est pas automatiquement compatible avec le Neurodive terrestre. Il faut une voie de données réelle et une interface ou un protocole compatible, traduit ou effectivement adapté."),
-          p("Une fois cette compatibilité obtenue, Intrusion, Contrôle et Neurocombat utilisent le moteur Neurodive normal."),
-          p("Magie pure, âme, tissu biologique, pouvoir de Nature ou substrat technobiologique sans interface accessible ne deviennent jamais des cibles Neuro par leur seule existence. Le nuage nanitique intégré d'un Homo Superior n'est notamment pas Neuro-hackable par défaut.")
-        ]
-      },
-      {
-        id: "ptv-objets",
-        title: "PTV, objets et prototypes",
-        level: 2,
-        blocks: [
-          p("Les PTV achètent une maîtrise, une technique, une calibration ou une capacité d'exploitation ; jamais la possession d'un objet."),
-          p("Perdre un objet ne fait donc pas perdre les PTV investis dans la maîtrise correspondante. Un prototype reste un objet réel : il peut être volé, détruit, réparé et parfois utilisé par un tiers."),
-          p("Un objet fixe n'accorde jamais automatiquement les Talents de son créateur. Les artefacts uniques, armes de lignée et reliques de PNJ restent hors du catalogue ordinaire.")
+        "id": "interfaces-etrangeres-et-neurodive",
+        "title": "Interfaces étrangères et Neurodive",
+        "level": 3,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Un système électronique, connecté ou en réseau n’est pas automatiquement compatible avec le Neurodive terrestre. Il faut une voie de données réelle et une interface/protocole compatibles, traduits ou effectivement adaptés. Une fois cette compatibilité obtenue, Intrusion, Contrôle et Neurocombat utilisent le moteur Neurodive normal. Magie pure, âme, tissu biologique, pouvoir de Nature ou substrat technobiologique sans interface accessible ne deviennent jamais des cibles Neuro par leur seule existence ; le nuage nanitique intégré d’un Homo Superior n’est notamment pas Neuro-hackable par défaut. PTV achète une maîtrise, technique, calibration ou capacité d’exploitation, jamais la possession d’un objet. Perdre un objet ne fait pas perdre les PTV investis. Prototype = objet réel, volable, destructible, réparable et parfois utilisable par un tiers. Un objet fixe n’accorde jamais les Talents de son créateur. Artefacts uniques, armes de lignée et reliques de PNJ restent hors catalogue ordinaire."
+          }
         ]
       }
     ]
   }
-];
-
-export const COMPENDIUM_VERITE_V7_RULE_NAVIGATION = [
-  { id: "regles-verite-v7-architecture-ptv-acces", dataset: "verite-v7", category: "Règles", group: "Socle Vérité", groupOrder: 40, subgroup: "Architecture & progression", subgroupOrder: 10, pageOrder: 10, displayTitle: "Architecture, PTV & accès" },
-  { id: "regles-verite-v7-pa-reactions-defense-puissance", dataset: "verite-v7", category: "Règles", group: "Socle Vérité", groupOrder: 40, subgroup: "Action & opposition", subgroupOrder: 20, pageOrder: 10, displayTitle: "PA, Réactions, Défense occulte & Puissance" },
-  { id: "regles-verite-v7-voile-continuite-objets-reseaux-interfaces", dataset: "verite-v7", category: "Règles", group: "Socle Vérité", groupOrder: 40, subgroup: "Voile & continuité", subgroupOrder: 30, pageOrder: 10, displayTitle: "Voile, V/SR/R, continuité, objets, mobilité, compagnons, réseaux & interfaces" }
+] as const;
+export const COMPENDIUM_VERITE_V7_RULE_ARTICLES:Article[]=SOURCE_ARTICLES.map(a=>({...a,dataset:"verite-v7",category:"Règles",sourceCategory:"Règles",source:SOURCE,status:"canon_enrichi",rebuildV2:true,sections:a.sections as Section[]}));
+export const COMPENDIUM_VERITE_V7_RULE_NAVIGATION=[
+{id:"regles-verite-v7-architecture-ptv-acces",dataset:"verite-v7",category:"Règles",group:"Socle Vérité",groupOrder:40,subgroup:"Architecture & progression",subgroupOrder:10,pageOrder:10,displayTitle:"Architecture, PTV & accès"},
+{id:"regles-verite-v7-pa-reactions-defense-puissance",dataset:"verite-v7",category:"Règles",group:"Socle Vérité",groupOrder:40,subgroup:"Action & opposition",subgroupOrder:20,pageOrder:10,displayTitle:"PA, Réactions, Défense occulte & Puissance"},
+{id:"regles-verite-v7-voile-continuite-objets-reseaux-interfaces",dataset:"verite-v7",category:"Règles",group:"Socle Vérité",groupOrder:40,subgroup:"Voile & continuité",subgroupOrder:30,pageOrder:10,displayTitle:"Voile, V/SR/R, continuité, objets, mobilité, compagnons, réseaux & interfaces"}
 ];
