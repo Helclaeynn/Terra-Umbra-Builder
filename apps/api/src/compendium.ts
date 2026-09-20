@@ -1416,7 +1416,7 @@ async function loadCorpus(): Promise<Corpus> {
     if (!target) continue;
     const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
     const sections = deepClone(enrichment.sections ?? []).filter(
-      (section) => !existingIds.has(String(section?.id ?? ""))
+      (section: JsonObject) => !existingIds.has(String(section?.id ?? ""))
     );
     if (sections.length) {
       target.sections = [...(target.sections ?? []), ...sections];
