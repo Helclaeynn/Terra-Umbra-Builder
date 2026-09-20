@@ -105,7 +105,9 @@ try{
   await publicPage.goto(baseUrl+"/compendium?article=verite-046-10-vampires",{waitUntil:"domcontentloaded",timeout:30000});
   await publicPage.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
   await publicPage.getByText("Archive de l’ancien Compendium",{exact:true}).waitFor({state:"visible",timeout:10000});
-  await publicPage.getByText("Lecture seule",{exact:true}).waitFor({state:"visible",timeout:10000});
+  if(await publicPage.locator(".wiki-edit-link").count()){
+    throw new Error("Une archive OLD ne doit pas être éditable dans le Compendium public.");
+  }
 
   // Builder provenance belongs to the rebuilt active article, never to its OLD archive.
   await publicPage.goto(baseUrl+"/compendium?article=verite-v7-vampires-civilisation-cours-sangs",{waitUntil:"domcontentloaded",timeout:30000});
