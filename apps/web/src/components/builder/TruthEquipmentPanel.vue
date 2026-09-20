@@ -14,7 +14,6 @@ const emit=defineEmits<{
 
 const query=ref("");
 const chapter=ref("");
-const catalogOpen=ref(false);
 
 const chapterLabels:Record<string,string>={
   "22":"Propriétés communes",
@@ -134,7 +133,7 @@ function propertyPreview(item:TruthEquipmentItem){
     </div>
     <div v-else class="empty-line">Aucun objet de Vérité enregistré comme possession.</div>
 
-    <details v-model:open="catalogOpen" class="truth-equipment-catalog">
+    <details class="truth-equipment-catalog">
       <summary class="truth-disclosure-summary">
         <span>
           <strong>Catalogue de Vérité</strong>
