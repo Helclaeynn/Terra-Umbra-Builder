@@ -5,7 +5,13 @@ import { terraUmbraCreationLore, terraUmbraTalentChoiceSpecs, terraUmbraRealityS
 import { terraUmbraDisadvantages, terraUmbraDisadvantageLore, terraUmbraEdgeRules } from "./terra-umbra-disadvantages-edge.js";
 import { terraUmbraTruthRules } from "./truth/rules.js";
 import { getRealityRules } from "./reality.js";
-import { findCompendiumHubMatches, findCompendiumMatches, resolveCompendiumHubId, resolveCompendiumId } from "../compendium.js";
+import {
+  findActiveCompendiumArticleById,
+  findCompendiumHubMatches,
+  findCompendiumMatches,
+  resolveCompendiumHubId,
+  resolveCompendiumId
+} from "../compendium.js";
 import { getTalentRegistry, queryTalentRegistry, talentRegistryMeta } from "./talent-registry.js";
 import {
   BUILDER_ORIGIN_PAGE_IDS,
@@ -581,22 +587,37 @@ export async function registerRulesRoutes(app:FastifyInstance){
     const user=await requireEditorUser(request,reply);
     if(!user)return;
     const meta=talentRegistryMeta();
+    const registry=getTalentRegistry();
     const groups=await Promise.all(meta.groups.map(async group=>{
+      const rows=registry.filter(row=>row.groupId===group.groupId);
+      const boundIds=[...new Set(rows.map(row=>row.compendiumId).filter((id):id is string=>Boolean(id)))];
+      if(boundIds.length){
+        const resolved=(await Promise.all(boundIds.map(id=>findActiveCompendiumArticleById(id))))
+          .filter((match):match is NonNullable<typeof match>=>Boolean(match));
+        return {...group,matches:resolved,matchType:"binding",boundIds};
+      }
+
       const exactMatches=(await findCompendiumMatches(group.label,"Règles"))
         .filter(match=>match.category!=="OLD");
       const matches=exactMatches.length
         ?exactMatches
         :await findCompendiumHubMatches(group.label,group.natureId);
-      return {...group,matches,matchType:exactMatches.length?"exact":"hub"};
+      return {...group,matches,matchType:exactMatches.length?"exact":"hub",boundIds:[]};
     }));
     const natures=await Promise.all(meta.natures.map(async natureId=>{
-      const rows=getTalentRegistry().filter(row=>row.natureId===natureId);
+      const rows=registry.filter(row=>row.natureId===natureId);
       return {natureId,count:rows.length};
     }));
+    const resolvedTargetMatches=groups.filter(group=>group.matches.length===1).length;
+    const directBindingMatches=groups.filter(group=>group.matchType==="binding"&&group.matches.length===1).length;
     return {
       totalTalents:meta.total,
       exactGroupMatches:groups.filter(group=>group.matchType==="exact"&&group.matches.length===1).length,
-      resolvedHubMatches:groups.filter(group=>group.matches.length===1).length,
+      directBindingMatches,
+      resolvedTargetMatches,
+      // Backward-compatible alias: this now means a resolved Compendium target,
+      // not that a generated one-page-per-group hub exists.
+      resolvedHubMatches:resolvedTargetMatches,
       inferredHubMatches:groups.filter(group=>group.matchType==="hub"&&group.matches.length===1).length,
       ambiguousGroupMatches:groups.filter(group=>group.matches.length>1).length,
       missingGroupMatches:groups.filter(group=>group.matches.length===0).length,

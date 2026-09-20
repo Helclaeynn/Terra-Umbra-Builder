@@ -10,6 +10,7 @@ export type TalentRegistryRow={
   mechanics:string;
   cost:number;
   access:string;
+  compendiumId?:string;
   prerequisiteId?:string;
   prerequisiteName?:string;
 };
@@ -46,6 +47,7 @@ export function getTalentRegistry():TalentRegistryRow[]{
         mechanics:String(raw.effect??"").trim(),
         cost:Number(raw.cost??0),
         access:String(raw.access??"").trim(),
+        ...(raw.compendiumId?{compendiumId:String(raw.compendiumId)}:{}),
         ...(raw.prerequisite?{prerequisiteId:String(raw.prerequisite)}:{}),
         ...(raw.prerequisiteName?{prerequisiteName:String(raw.prerequisiteName)}:{})
       });

@@ -232,6 +232,21 @@ export async function resolveCompendiumId(
   return matches.length === 1 ? matches[0].id : null;
 }
 
+export async function findActiveCompendiumArticleById(
+  id: string
+): Promise<{ id: string; title: string; category: string } | null> {
+  const target = String(id ?? "").trim();
+  if (!target) return null;
+  const corpus = await getCorpus();
+  const article = corpus.byId.get(target);
+  if (!article || article.category === LEGACY_CATEGORY) return null;
+  return {
+    id: article.id,
+    title: String(article.title ?? article.id),
+    category: String(article.category ?? "")
+  };
+}
+
 
 type HubLabelForm = { value: string; depth: number };
 
