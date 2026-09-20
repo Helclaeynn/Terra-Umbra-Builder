@@ -578,10 +578,11 @@ async function loadWikiIndex() {
       ready: true,
       entries: payload.entries.length,
       stats: wikiLinker.stats,
-      hasGarouTarget: wikiById.has("verite-047-11-garous-loups-descendants-de-khinae"),
+      hasAfancTarget: wikiById.has("bestiaire-v15-afanc"),
+      hasLegacyEntry: payload.entries.some((entry) => entry.category === "OLD"),
       sanity: wikiLinker.linkify(
-        "Les Garous croisent parfois des Vampires.",
-        { id: "__wiki_sanity__", category: "Vérité", dataset: "verite", title: "Test" }
+        "Un Afanc rôde près du rivage.",
+        { id: "__wiki_sanity__", category: "Bestiaire", dataset: "bestiaire", title: "Test" }
       )
     };
   } catch (cause) {
