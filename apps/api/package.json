@@ -6,10 +6,11 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc -p tsconfig.json",
-    "check:truth-v7": "npm run build && node scripts/check-truth-v7-readability.mjs && node scripts/check-truth-v7-pass-b.mjs",
+    "check:truth-v7": "npm run build && node scripts/check-truth-v7-readability.mjs && node scripts/check-truth-v7-pass-b.mjs && node scripts/check-truth-v7-lore-integrity.mjs",
     "start": "node dist/server.js",
     "verify:mail": "node dist/verify-mail.js",
-    "check:truth-v7-pass-b": "npm run build && node scripts/check-truth-v7-pass-b.mjs"
+    "check:truth-v7-pass-b": "npm run build && node scripts/check-truth-v7-pass-b.mjs",
+    "check:truth-v7-lore": "npm run build && node scripts/check-truth-v7-lore-integrity.mjs"
   },
   "dependencies": {
     "@fastify/cors": "11.1.0",
