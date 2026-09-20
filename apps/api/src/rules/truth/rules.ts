@@ -11,6 +11,7 @@ import { truthCatalogExile } from "./catalog-exile.js";
 import { truthCatalogExtral } from "./catalog-extral.js";
 import { truthVisibilityNeedles, truthSharedHunterNatures } from "./visibility.js";
 import { truthRevelationRules } from "./revelation.js";
+import { truthEquipmentCatalog } from "./equipment.js";
 
 type TruthTalent = {
   group?: string;
@@ -107,6 +108,7 @@ const humainCatalog = bindCompendium(truthCatalogHumain, (group) =>
 
 export const terraUmbraTruthRules = {
   structure: truthRuntimeStructure,
+  equipment: truthEquipmentCatalog,
   catalogs: {
     humain: humainCatalog,
     vampire: vampireCatalog,
