@@ -16,6 +16,14 @@ import {
   COMPENDIUM_MOTEUR_V4_ARTICLES,
   COMPENDIUM_MOTEUR_V4_NAVIGATION
 } from "./compendium-moteur-v4.js";
+import {
+  COMPENDIUM_REALITE_V9_LORE_ARTICLES,
+  COMPENDIUM_REALITE_V9_LORE_NAVIGATION
+} from "./compendium-realite-v9-lore.js";
+import {
+  COMPENDIUM_REALITE_V9_RULE_ARTICLES,
+  COMPENDIUM_REALITE_V9_RULE_NAVIGATION
+} from "./compendium-realite-v9-rules.js";
 
 type JsonObject = Record<string, any>;
 type Article = JsonObject & {
@@ -821,6 +829,16 @@ async function loadCorpus(): Promise<Corpus> {
     byId.set(article.id, deepClone(article) as Article);
   }
 
+  for (const article of COMPENDIUM_REALITE_V9_LORE_ARTICLES) {
+    // Reality V9 is the rebuilt canonical public lore corpus for this source.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_RULE_ARTICLES) {
+    // Transversal rules hidden among catalog chapters are promoted here without duplicating catalog entries.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
   const generatedTalentHubs = generatedTalentHubCorpus();
   for (const hub of generatedTalentHubs.articles) {
     if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
@@ -909,6 +927,8 @@ async function loadCorpus(): Promise<Corpus> {
       ...(navigationPayload.entries ?? []),
       ...COMPENDIUM_GUIDE_NAVIGATION,
       ...COMPENDIUM_MOTEUR_V4_NAVIGATION,
+      ...COMPENDIUM_REALITE_V9_LORE_NAVIGATION,
+      ...COMPENDIUM_REALITE_V9_RULE_NAVIGATION,
       ...generatedTalentHubs.navigation,
       ...generatedBuilderReferences.navigation
     ]
