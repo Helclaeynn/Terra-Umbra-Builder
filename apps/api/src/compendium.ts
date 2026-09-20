@@ -210,8 +210,10 @@ export async function findCompendiumMatches(
   const corpus = await getCorpus();
   let matches = corpus.articles.filter((article) => norm(article.title) === target);
   if (category) {
-    const categorized = matches.filter((article) => canonicalCategory(article) === category);
-    if (categorized.length) matches = categorized;
+    // Category-scoped resolution must only consider the article's current,
+    // published category. Archived pages retain their former category in
+    // `legacyCategory` for provenance, but they must not shadow active hubs.
+    matches = matches.filter((article) => article.category === category);
   }
   return matches.map((article) => ({
     id: article.id,
@@ -289,7 +291,7 @@ export async function findCompendiumHubMatches(
 
   const corpus = await getCorpus();
   const scored = corpus.articles
-    .filter((article) => canonicalCategory(article) === "Règles")
+    .filter((article) => article.category === "Règles")
     .filter((article) => articleMatchesNatureHub(article.id, natureId))
     .map((article) => {
       const navTitle = corpus.navigation.get(article.id)?.displayTitle ?? "";
