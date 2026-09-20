@@ -2553,17 +2553,17 @@ onBeforeUnmount(()=>{
                 </template>
               </section>
 
+              <TruthEquipmentPanel
+                :model-value="currentTruthState"
+                :rules="truthRules"
+                @update:model-value="writeTruthState($event)"
+              />
+
               <CorruptionPanel
                 :model-value="currentTruthState"
                 :rules="truthRules"
                 :integrity="derivedStats.integrity"
                 :ptv-remaining="truthPtvRemaining"
-                @update:model-value="writeTruthState($event)"
-              />
-
-              <TruthEquipmentPanel
-                :model-value="currentTruthState"
-                :rules="truthRules"
                 @update:model-value="writeTruthState($event)"
               />
 
