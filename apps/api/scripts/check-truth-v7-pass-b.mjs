@@ -1,4 +1,5 @@
 import { COMPENDIUM_VERITE_V7_PASS_B_ARTICLES } from "../dist/compendium-verite-v7-pass-b.js";
+import { COMPENDIUM_VERITE_V7_PASS_B_RULE_ARTICLES } from "../dist/compendium-verite-v7-pass-b-rules.js";
 import { terraUmbraTruthRules } from "../dist/rules/truth/rules.js";
 
 const fail = (message) => {
@@ -6,16 +7,29 @@ const fail = (message) => {
   process.exitCode = 1;
 };
 
-const articles = COMPENDIUM_VERITE_V7_PASS_B_ARTICLES;
+const articles = [...COMPENDIUM_VERITE_V7_PASS_B_ARTICLES, ...COMPENDIUM_VERITE_V7_PASS_B_RULE_ARTICLES];
 const byId = new Map(articles.map((article) => [article.id, article]));
 const expectedIds = [
   "verite-v7-exiles-peuples-silcenters-traditions",
   "verite-v7-extrals-gaac-aidh-diasporas",
+  "verite-v7-homo-superior-adrak-profils-rares",
   "verite-v7-chasseurs-doctrine-association-traditions",
   "regles-verite-v7-corruption-integrite-bascule",
   "verite-v7-six-fleaux-sources-rupture",
   "verite-v7-delanial-pere-ombre",
-  "regles-verite-v7-equipement-proprietes-acquisition"
+  "regles-verite-v7-equipement-proprietes-acquisition",
+  "regles-verite-v7-exiles-profils-cinq-peuples",
+  "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie",
+  "regles-verite-v7-extrals-profils-physiologies",
+  "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak",
+  "regles-verite-v7-chasseurs-doctrine-association-gt-hunt",
+  "regles-verite-v7-chasseurs-traditions",
+  "regles-verite-v7-fleau-vhodhal",
+  "regles-verite-v7-fleau-vaagor",
+  "regles-verite-v7-fleau-sharith",
+  "regles-verite-v7-fleau-vhadhi",
+  "regles-verite-v7-fleau-shaoggith",
+  "regles-verite-v7-fleau-thul"
 ];
 
 if (articles.length !== expectedIds.length) {
@@ -50,16 +64,36 @@ for (const article of articles) {
 }
 
 const catalogs = terraUmbraTruthRules.catalogs;
-const expectedBindings = [
-  ["exile", catalogs.exile, 184, "verite-v7-exiles-peuples-silcenters-traditions"],
-  ["extral", catalogs.extral, 161, "verite-v7-extrals-gaac-aidh-diasporas"],
-  ["humain", catalogs.humain, 266, "verite-v7-chasseurs-doctrine-association-traditions"]
+const expectedCounts = [
+  ["exile", catalogs.exile, 184],
+  ["extral", catalogs.extral, 161],
+  ["humain", catalogs.humain, 266]
 ];
-
-for (const [label, catalog, count, compendiumId] of expectedBindings) {
+for (const [label, catalog, count] of expectedCounts) {
   if (catalog.length !== count) fail(`${label}: expected ${count} talents, found ${catalog.length}`);
-  const wrong = catalog.filter((talent) => talent.compendiumId !== compendiumId);
-  if (wrong.length) fail(`${label}: ${wrong.length} talents do not point to ${compendiumId}`);
+  const missing = catalog.filter((talent) => !talent.compendiumId);
+  if (missing.length) fail(`${label}: ${missing.length} talents have no editorial Compendium target`);
+}
+
+const expectedTargets = {
+  exile: new Set([
+    "regles-verite-v7-exiles-profils-cinq-peuples",
+    "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie"
+  ]),
+  extral: new Set([
+    "regles-verite-v7-extrals-profils-physiologies",
+    "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak"
+  ]),
+  humain: new Set([
+    "regles-verite-v7-chasseurs-doctrine-association-gt-hunt",
+    "regles-verite-v7-chasseurs-traditions"
+  ])
+};
+for (const [label, targets] of Object.entries(expectedTargets)) {
+  const actual = new Set(catalogs[label].map((talent) => talent.compendiumId));
+  if (actual.size !== targets.size || [...actual].some((id) => !targets.has(id))) {
+    fail(`${label}: unexpected editorial target set ${[...actual].join(", ")}`);
+  }
 }
 
 const corruptionText = flatten(byId.get("regles-verite-v7-corruption-integrite-bascule"));
@@ -89,5 +123,5 @@ for (const needle of ["Perforant X", "Sacré", "Angélique", "Solaire", "EMP / I
 }
 
 if (!process.exitCode) {
-  console.log("[truth-v7-pass-b] 7/7 editorial pages validated; 611 Builder talents linked without catalog duplication.");
+  console.log("[truth-v7-pass-b] 20/20 Pass B editorial pages validated; 611 Builder talents linked to six rule pages without catalog duplication.");
 }
