@@ -24,7 +24,7 @@ import {
 import { databaseStatus, pool } from "./db.js";
 import { registerCharacterRoutes } from "./characters.js";
 import { preloadCompendium, registerCompendiumRoutes } from "./compendium.js";
-import { registerRulesRoutes } from "./rules/index.js";
+import { preloadBuilderRules, registerRulesRoutes } from "./rules/index.js";
 import { passwordResetMailAvailable, sendPasswordResetEmail } from "./mail.js";
 
 const app = Fastify({
@@ -45,6 +45,12 @@ app.addHook("onSend", async (request, reply, payload) => {
 
   if (request.url.startsWith("/api/compendium/media/")) {
     reply.header("Cache-Control", "public, max-age=86400");
+    return payload;
+  }
+
+  if (request.url.startsWith("/api/rulesets/terra-umbra/")) {
+    reply.header("Cache-Control", "private, max-age=300");
+    reply.header("Vary", "Cookie");
     return payload;
   }
 
@@ -857,6 +863,9 @@ await registerCompendiumRoutes(app);
 // Build the Compendium once during service startup so the first visitor
 // never pays the corpus decode/indexing cost.
 await preloadCompendium();
+// Same strategy as the Compendium: build the static Builder catalogs once
+// during startup so no visitor becomes the cold-cache guinea pig.
+await preloadBuilderRules();
 
 const port = Number(process.env.PORT ?? 3000);
 
