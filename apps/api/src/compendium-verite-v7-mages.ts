@@ -694,29 +694,36 @@ const SOURCE_PAYLOAD={
         },
         {
           "type": "p",
-          "text": "Pour manipuler quelque chose, le Mage doit pouvoir se représenter et désigner sa cible de façon suffisante. Voir une personne permet de viser cette personne; voir sa main permet de viser cette main; voir du sang exposé permet de viser ce sang. En revanche, connaître le mot « cervelet » ne permet pas de sélectionner automatiquement un cervelet caché derrière un crâne."
+          "text": "Pour manipuler quelque chose, le Mage doit pouvoir se représenter et désigner sa cible de façon suffisante. Voir une personne permet de viser cette personne ; voir sa main permet de viser cette main ; voir du sang exposé permet de viser ce sang. En revanche, connaître le mot « cervelet » ne permet pas de sélectionner automatiquement un cervelet caché derrière un crâne."
         },
         {
           "type": "p",
-          "text": "• Visibilité: voir directement une cible ou une partie de cible est la méthode la plus simple de désignation.",
-          "style": "list"
+          "style": "list",
+          "text": "• Visibilité : voir directement une cible ou une partie de cible est la méthode la plus simple de désignation."
         },
         {
           "type": "p",
-          "text": "chimique, historique ou symbolique exige que le Mage comprenne réellement ce qu’il cherche à manipuler."
+          "style": "list",
+          "text": "• Connaissance : une cible technique, anatomique, chimique, historique ou symbolique exige que le Mage comprenne réellement ce qu’il cherche à manipuler."
         },
         {
           "type": "p",
-          "text": "• Localisation: même connue, une structure invisible doit pouvoir être localisée par un moyen crédible: perception spécialisée, connaissance clinique précise, retour magique, imagerie, lien, Sceau, Technique ou Magie personnelle.",
-          "style": "list"
+          "style": "list",
+          "text": "• Localisation : même connue, une structure invisible doit pouvoir être localisée par un moyen crédible : perception spécialisée, connaissance clinique précise, retour magique, imagerie, lien, Sceau, Technique ou Magie personnelle."
         },
         {
           "type": "p",
-          "text": "Investigation, Langages & Argot ou autres Compétences pertinentes peuvent servir de permission fictionnelle. On ne fait un jet séparé que lorsque l’expertise elle-même est incertaine et importante."
+          "style": "list",
+          "text": "• Compétences profanes : Savoirs, Soin, Perception, Investigation, Langages & Argot ou autres Compétences pertinentes peuvent servir de permission fictionnelle. On ne fait un jet séparé que lorsque l’expertise elle-même est incertaine et importante."
         },
         {
           "type": "p",
-          "text": "Maîtrise magique = « est-ce que je sais modeler cet effet? » Savoir profane = « est-ce que je comprends suffisamment ce que j’essaie de modeler? » Cette règle empêche les exécutions absurdes par simple formulation (« je pince son artériole cérébrale ») tout en récompensant les Mages cultivés. Un chirurgien Morphomancien, un chimiste Alchimiste ou un historien Divinateur deviennent terrifiants précisément parce qu’ils savent de quoi ils parlent."
+          "style": "tech",
+          "text": "Maîtrise magique = « est-ce que je sais modeler cet effet ? »\nSavoir profane = « est-ce que je comprends suffisamment ce que j’essaie de modeler ? »"
+        },
+        {
+          "type": "p",
+          "text": "Cette règle empêche les exécutions absurdes par simple formulation (« je pince son artériole cérébrale ») tout en récompensant les Mages cultivés. Un chirurgien Morphomancien, un chimiste Alchimiste ou un historien Divinateur deviennent terrifiants précisément parce qu’ils savent de quoi ils parlent."
         }
       ]
     },
@@ -1077,17 +1084,18 @@ const SOURCE_PAYLOAD={
         },
         {
           "type": "p",
-          "text": "• Pour cet effet exact, la Difficulté est réduite d’un niveau, minimum 12.",
-          "style": "list"
+          "style": "list",
+          "text": "• Pour cet effet exact, la Difficulté est réduite d’un niveau, minimum 12."
         },
         {
           "type": "p",
-          "text": "correspondante, il peut néanmoins reproduire l’Écho exact en Initiale / Mineure, sans en déduire d’autres usages du domaine."
+          "style": "list",
+          "text": "• Si le Mage ne possède pas encore l’Affinité correspondante, il peut néanmoins reproduire l’Écho exact en Initiale / Mineure, sans en déduire d’autres usages du domaine."
         },
         {
           "type": "p",
-          "text": "• S’il apprend ensuite l’Affinité, l’Écho peut être utilisé jusqu’à sa propre Maîtrise et Amplitude.",
-          "style": "list"
+          "style": "list",
+          "text": "• S’il apprend ensuite l’Affinité, l’Écho peut être utilisé jusqu’à sa propre Maîtrise et Amplitude."
         }
       ]
     },
@@ -1293,17 +1301,18 @@ const SOURCE_PAYLOAD={
       "blocks": [
         {
           "type": "p",
-          "text": "• La Morphomancie ne remplace pas la Médéomancie: fermer mécaniquement une plaie n’efface pas automatiquement les PV perdus.",
-          "style": "list"
+          "style": "list",
+          "text": "• La Morphomancie ne remplace pas la Médéomancie : fermer mécaniquement une plaie n’efface pas automatiquement les PV perdus."
         },
         {
           "type": "p",
-          "text": "donne pas gratuitement des augmentations permanentes d’Attributs; elle relève d’une Technique, d’un maintien ou d’une Œuvre personnelle."
+          "style": "list",
+          "text": "• Une transformation durable et avantageuse ne donne pas gratuitement des augmentations permanentes d’Attributs ; elle relève d’une Technique, d’un maintien ou d’une Œuvre personnelle."
         },
         {
           "type": "p",
-          "text": "• Cibler un organe interne précis exige connaissance + localisation crédible; le nom de l’organe ne suffit pas.",
-          "style": "list"
+          "style": "list",
+          "text": "• Cibler un organe interne précis exige connaissance + localisation crédible ; le nom de l’organe ne suffit pas."
         }
       ]
     },
@@ -1377,17 +1386,18 @@ const SOURCE_PAYLOAD={
       "blocks": [
         {
           "type": "p",
-          "text": "• « Je transforme ça en neurotoxine » exige de connaître ce que le Mage cherche réellement à produire.",
-          "style": "list"
+          "style": "list",
+          "text": "• « Je transforme ça en neurotoxine » exige de connaître ce que le Mage cherche réellement à produire."
         },
         {
           "type": "p",
-          "text": "en arme nucléaire et transmutations énergétiques extrêmes sont des Œuvres personnelles/familiales, pas des conséquences automatiques d’Alchimie Magistrale."
+          "style": "list",
+          "text": "• Fusion/fission nucléaire, transformation de matière en arme nucléaire et transmutations énergétiques extrêmes sont des Œuvres personnelles/familiales, pas des conséquences automatiques d’Alchimie Magistrale."
         },
         {
           "type": "p",
-          "text": "• La magie ne fournit pas gratuitement les données de laboratoire manquantes.",
-          "style": "list"
+          "style": "list",
+          "text": "• La magie ne fournit pas gratuitement les données de laboratoire manquantes."
         }
       ]
     },
@@ -1472,17 +1482,18 @@ const SOURCE_PAYLOAD={
       "blocks": [
         {
           "type": "p",
-          "text": "• Photomancie ne crée pas automatiquement des hallucinations: elle agit sur la lumière réelle.",
-          "style": "list"
+          "style": "list",
+          "text": "• Photomancie ne crée pas automatiquement des hallucinations : elle agit sur la lumière réelle."
         },
         {
           "type": "p",
-          "text": "modification photomantique si l’Hologramme ne la réécrit pas ensuite."
+          "style": "list",
+          "text": "• Une caméra peut normalement enregistrer une modification photomantique si l’Hologramme ne la réécrit pas ensuite."
         },
         {
           "type": "p",
-          "text": "• Les effets sacrés/divins ne sont pas inclus gratuitement: la Lumière magique n’est pas automatiquement une énergie religieuse.",
-          "style": "list"
+          "style": "list",
+          "text": "• Les effets sacrés/divins ne sont pas inclus gratuitement : la Lumière magique n’est pas automatiquement une énergie religieuse."
         }
       ]
     },
@@ -1566,17 +1577,18 @@ const SOURCE_PAYLOAD={
       "blocks": [
         {
           "type": "p",
-          "text": "• Sceaux chargés actifs simultanément: 1 / 2 / 3 / 4 selon Maîtrise Initiale / Affinée / Supérieure / Magistrale. Les alarmes et marquages passifs ancrés dans un lieu ne comptent pas nécessairement dans cette limite.",
-          "style": "list"
+          "style": "list",
+          "text": "• Sceaux chargés actifs simultanément : 1 / 2 / 3 / 4 selon Maîtrise Initiale / Affinée / Supérieure / Magistrale. Les alarmes et marquages passifs ancrés dans un lieu ne comptent pas nécessairement dans cette limite."
         },
         {
           "type": "p",
-          "text": "inscription/chargement; son déclenchement ultérieur n’exige pas que le Mageius soit actif."
+          "style": "list",
+          "text": "• La Tension d’un Sceau chargé est payée lors de son inscription/chargement ; son déclenchement ultérieur n’exige pas que le Mageius soit actif."
         },
         {
           "type": "p",
-          "text": "• Préparer une réserve infinie de « grenades magiques » est impossible sans Magie personnelle ou infrastructure spéciale.",
-          "style": "list"
+          "style": "list",
+          "text": "• Préparer une réserve infinie de « grenades magiques » est impossible sans Magie personnelle ou infrastructure spéciale."
         }
       ]
     },
@@ -1675,17 +1687,18 @@ const SOURCE_PAYLOAD={
       "blocks": [
         {
           "type": "p",
-          "text": "• Un organisme ayant récupéré des PV par Médéomancie ne peut plus en récupérer par Médéomancie avant la fin de la scène ou une véritable période de repos. De nouvelles blessures peuvent toujours être stabilisées.",
-          "style": "list"
+          "style": "list",
+          "text": "• Un organisme ayant récupéré des PV par Médéomancie ne peut plus en récupérer par Médéomancie avant la fin de la scène ou une véritable période de repos. De nouvelles blessures peuvent toujours être stabilisées."
         },
         {
           "type": "p",
-          "text": "exige Œuvre personnelle, sacrifices, conditions ou autres exceptions majeures."
+          "style": "list",
+          "text": "• Résurrection véritable : hors magie générique. Elle exige Œuvre personnelle, sacrifices, conditions ou autres exceptions majeures."
         },
         {
           "type": "p",
-          "text": "• Médéomancie restaure; elle ne remplace pas la Morphomancie pour fabriquer arbitrairement de nouvelles anatomies.",
-          "style": "list"
+          "style": "list",
+          "text": "• Médéomancie restaure ; elle ne remplace pas la Morphomancie pour fabriquer arbitrairement de nouvelles anatomies."
         }
       ]
     },
@@ -1765,17 +1778,18 @@ const SOURCE_PAYLOAD={
       "blocks": [
         {
           "type": "p",
-          "text": "• La Télékinésie ne donne pas de vision interne. On ne « télékinèse » pas un cervelet caché sans moyen de désignation approprié.",
-          "style": "list"
+          "style": "list",
+          "text": "• La Télékinésie ne donne pas de vision interne. On ne « télékinèse » pas un cervelet caché sans moyen de désignation approprié."
         },
         {
           "type": "p",
-          "text": "et défense physique s’appliquent normalement."
+          "style": "list",
+          "text": "• Un objet projeté est une menace physique : armure et défense physique s’appliquent normalement."
         },
         {
           "type": "p",
-          "text": "• Créer une armure/lame invisible extrêmement efficace peut relever d’une Œuvre personnelle comme spécialisation du domaine.",
-          "style": "list"
+          "style": "list",
+          "text": "• Créer une armure/lame invisible extrêmement efficace peut relever d’une Œuvre personnelle comme spécialisation du domaine."
         }
       ]
     },
@@ -1854,17 +1868,18 @@ const SOURCE_PAYLOAD={
       "blocks": [
         {
           "type": "p",
-          "text": "• Le Mage doit poser une question, définir un sujet ou disposer d’un lien. « Dis-moi tout » n’est pas une cible valable.",
-          "style": "list"
+          "style": "list",
+          "text": "• Le Mage doit poser une question, définir un sujet ou disposer d’un lien. « Dis-moi tout » n’est pas une cible valable."
         },
         {
           "type": "p",
-          "text": "informées de la prophétie peuvent modifier ce qui était le plus probable."
+          "style": "list",
+          "text": "• Le futur est probabiliste : les choix de personnes informées de la prophétie peuvent modifier ce qui était le plus probable."
         },
         {
           "type": "p",
-          "text": "• Divination donne un avantage informationnel, pas le scénario du MJ page par page.",
-          "style": "list"
+          "style": "list",
+          "text": "• Divination donne un avantage informationnel, pas le scénario du MJ page par page."
         }
       ]
     },
@@ -1948,12 +1963,13 @@ const SOURCE_PAYLOAD={
       "blocks": [
         {
           "type": "p",
-          "text": "• +1 PA/round exige au minimum Maîtrise Supérieure + Amplitude Significative. Une cible ne peut gagner plus de +1 PA/round par Chronomancie générique.",
-          "style": "list"
+          "style": "list",
+          "text": "• +1 PA/round exige au minimum Maîtrise Supérieure + Amplitude Significative. Une cible ne peut gagner plus de +1 PA/round par Chronomancie générique."
         },
         {
           "type": "p",
-          "text": "sûre de l’Histoire ou boucle temporelle stable: Œuvres personnelles/NPC exceptionnels."
+          "style": "list",
+          "text": "• Voyage physique dans le passé/futur, réécriture sûre de l’Histoire ou boucle temporelle stable : Œuvres personnelles/NPC exceptionnels."
         }
       ]
     },
@@ -2033,17 +2049,18 @@ const SOURCE_PAYLOAD={
       "blocks": [
         {
           "type": "p",
-          "text": "• Spectromancie = âme; Nécromancie = cadavre/état de mort; Médéomancie = vie/restauration.",
-          "style": "list"
+          "style": "list",
+          "text": "• Spectromancie = âme ; Nécromancie = cadavre/état de mort ; Médéomancie = vie/restauration."
         },
         {
           "type": "p",
-          "text": "préexiste. Elle ne la crée pas et ne l’asservit pas gratuitement."
+          "style": "list",
+          "text": "• L’Essence Invocative fait venir une entité qui préexiste. Elle ne la crée pas et ne l’asservit pas gratuitement."
         },
         {
           "type": "p",
-          "text": "• Possession et projection exigent des conditions de désignation/ancrage cohérentes.",
-          "style": "list"
+          "style": "list",
+          "text": "• Possession et projection exigent des conditions de désignation/ancrage cohérentes."
         }
       ]
     },
@@ -2117,17 +2134,18 @@ const SOURCE_PAYLOAD={
       "blocks": [
         {
           "type": "p",
-          "text": "• Une cible vivante contenant son sang peut être visée globalement parce que le Mage identifie la personne; cibler une artériole invisible précise exige connaissance + localisation.",
-          "style": "list"
+          "style": "list",
+          "text": "• Une cible vivante contenant son sang peut être visée globalement parce que le Mage identifie la personne ; cibler une artériole invisible précise exige connaissance + localisation."
         },
         {
           "type": "p",
-          "text": "cérébral » ne contourne pas les PV: c’est une description d’attaque à résoudre normalement."
+          "style": "list",
+          "text": "• « J’arrête son cœur » ou « je bouche un vaisseau cérébral » ne contourne pas les PV : c’est une description d’attaque à résoudre normalement."
         },
         {
           "type": "p",
-          "text": "• Les gouttes autonomes, liens hématiques à distance ou effets chirurgicalement précis sont d’excellents candidats à des Magies personnelles/familiales.",
-          "style": "list"
+          "style": "list",
+          "text": "• Les gouttes autonomes, liens hématiques à distance ou effets chirurgicalement précis sont d’excellents candidats à des Magies personnelles/familiales."
         }
       ]
     },
@@ -2201,17 +2219,18 @@ const SOURCE_PAYLOAD={
       "blocks": [
         {
           "type": "p",
-          "text": "• Un Mage ne peut entretenir qu’une cohorte nécromantique générique pleinement liée et active à la fois; créer une nouvelle cohorte remplace ou libère la précédente, sauf Technique/Magie personnelle.",
-          "style": "list"
+          "style": "list",
+          "text": "• Un Mage ne peut entretenir qu’une cohorte nécromantique générique pleinement liée et active à la fois ; créer une nouvelle cohorte remplace ou libère la précédente, sauf Technique/Magie personnelle."
         },
         {
           "type": "p",
-          "text": "nécromanciens sont des accomplissements spécialisés, pas un stockpile gratuit de sorts Mineurs."
+          "style": "list",
+          "text": "• Les armées historiques permanentes de grands nécromanciens sont des accomplissements spécialisés, pas un stockpile gratuit de sorts Mineurs."
         },
         {
           "type": "p",
-          "text": "• Animer un corps ≠ remettre son âme dedans. La résurrection véritable traverse d’autres domaines et reste exceptionnelle.",
-          "style": "list"
+          "style": "list",
+          "text": "• Animer un corps ≠ remettre son âme dedans. La résurrection véritable traverse d’autres domaines et reste exceptionnelle."
         }
       ]
     },
@@ -2291,17 +2310,18 @@ const SOURCE_PAYLOAD={
       "blocks": [
         {
           "type": "p",
-          "text": "• Illusion placée dans le monde: Esprit + Perception peut la confronter si le personnage dispose d’un motif de doute. Hallucination imposée: Défense occulte.",
-          "style": "list"
+          "style": "list",
+          "text": "• Illusion placée dans le monde : Esprit + Perception peut la confronter si le personnage dispose d’un motif de doute. Hallucination imposée : Défense occulte."
         },
         {
           "type": "p",
-          "text": "grâce à un gros DR."
+          "style": "list",
+          "text": "• Une illusion ne devient pas physiquement réelle grâce à un gros DR."
         },
         {
           "type": "p",
-          "text": "• Créer du sommeil, un monde de rêve autonome ou une illusion qui acquiert des effets matériels relève d’Œuvres personnelles/familiales.",
-          "style": "list"
+          "style": "list",
+          "text": "• Créer du sommeil, un monde de rêve autonome ou une illusion qui acquiert des effets matériels relève d’Œuvres personnelles/familiales."
         }
       ]
     },
@@ -2375,17 +2395,18 @@ const SOURCE_PAYLOAD={
       "blocks": [
         {
           "type": "p",
-          "text": "• « Pour toujours » n’est jamais gratuit: durée longue, transmission et permanence font partie de la puissance réelle du sort.",
-          "style": "list"
+          "style": "list",
+          "text": "• « Pour toujours » n’est jamais gratuit : durée longue, transmission et permanence font partie de la puissance réelle du sort."
         },
         {
           "type": "p",
-          "text": "sa règle; les formulations vagues ne donnent pas plus de puissance."
+          "style": "list",
+          "text": "• Une malédiction doit définir clairement sa cible et sa règle ; les formulations vagues ne donnent pas plus de puissance."
         },
         {
           "type": "p",
-          "text": "• Attaquer directement le Mageius d’un autre Mage, forcer le Revers ou arracher le Mageius sont des techniques spécialisées exceptionnelles.",
-          "style": "list"
+          "style": "list",
+          "text": "• Attaquer directement le Mageius d’un autre Mage, forcer le Revers ou arracher le Mageius sont des techniques spécialisées exceptionnelles."
         }
       ]
     },
@@ -2459,17 +2480,18 @@ const SOURCE_PAYLOAD={
       "blocks": [
         {
           "type": "p",
-          "text": "• Photomancie = lumière réelle; Pseudomancie = perception; Skiamancie = Ombre surnaturelle.",
-          "style": "list"
+          "style": "list",
+          "text": "• Photomancie = lumière réelle ; Pseudomancie = perception ; Skiamancie = Ombre surnaturelle."
         },
         {
           "type": "p",
-          "text": "téléporter vers un lieu inconnu non désignable."
+          "style": "list",
+          "text": "• Un passage d’ombre générique ne permet pas de téléporter vers un lieu inconnu non désignable."
         },
         {
           "type": "p",
-          "text": "• Créer des Deimons, royaumes d’ombre autonomes ou passages intermondes durables relève de Magies personnelles/familiales.",
-          "style": "list"
+          "style": "list",
+          "text": "• Créer des Deimons, royaumes d’ombre autonomes ou passages intermondes durables relève de Magies personnelles/familiales."
         }
       ]
     }
