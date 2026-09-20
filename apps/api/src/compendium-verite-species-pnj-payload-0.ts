@@ -1,5 +1,5 @@
 // Generated from TUC_Vérité_ les espèces  surnaturelles(1).docx.
-// source_verite/source_extract preserve source material while MJ/stat blocks remain intentionally empty.
+// source_verite/source_extract preserve source material; Truth information is rendered in the MJ block while statistics remain intentionally empty.
 const PAYLOAD = [
   {
     "id": "personnages-verite-especes-ming-xinya",
@@ -94,7 +94,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Aucun autre vampire ne peut se prétendre plus ancien que Xinya, seuls les veilleurs le pourraient mais aucun d’entre eux n’étant assez bavard pour raconter sa vie, il est acté qu’elle est « la plus ancienne » à l’heure actuelle. Elle est à l’origine des vampires de « Shì hun zhe », elle en est la reine et la fondatrice. La faction vampirique « asiatique » est excessivement subtile et discrète, beaucoup d’entre eux possèdent le « sang condamné », qui permet à ces vampires de boire la vie sans passer par le sang de leurs victimes, ce qui les rend encore plus difficiles à repérer. Elle a vécu auprès de très nombreux rois et empereurs de l’extrême orient, qu’ils soient chinois, japonais, coréens ou Mongol, elle a intégré des harems et murmuré à l’oreille de nombreux mortels, s’amusant de leurs minables conflits. Qin Shi Huang, le premier empereur de Chine, était son plus loyal serviteur mortel, elle s’impliqua plus que jamais dans l’établissement de son empire. Elle est très impliquée dans l’élimination des chasseurs du taoïsme véritable, elle a déjà été scellée par un membre du clan Shi autrefois, heureusement, elle sut s’en libérer, mais elle voue à ce clan une haine et un respect rare pour des simples humains. Elle a une haine profonde pour Neeba, le roi vampire de « l’Oru », qu’elle considère comme une bête sauvage qui n’a rien d’un vampire. Elle n’aime que peu les Japonais, car sur l’archipel, les lignées de loups-garous sont très nombreuses."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -198,7 +203,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "« Dragoy » était un guerrier durant la fin de la préhistoire sur les terres des ancêtres des Thraces. Son clan protégeait un royaume d’Amazones, un peuple de Voyageurs, hélas une femme inconnue décima le clan et les amazones. Elle récupéra le guerrier exceptionnel qui était à l’agonie et elle en fit un vampire qu’elle garda comme garde du corps des millénaires. Bien qu’il ne fût qu’un serviteur, un « chevalier » de sa maitresse, « Dragoy » s’imposa petit à petit, formant la « Krovni Rytsari » dont il devint le roi essentiellement à la disparition mystérieuse de sa maitresse. Essentiellement implanté dans les pays de l’Europe de l’Est, il diffusa son influence, soumettant les vampires de l’ouest petit à petit, remontant vers l’Asie par l’actuelle Russie. Il a un gout extrêmement prononcé pour le combat et l’opposition, c’est un vampire très cruel, il ne cherche pas la survie des siens, il cherche seulement à préserver leur force et leur statut d’êtres supérieurs. La « Krovni » est donc la faction vampirique la plus belliqueuse et la plus dynamique, seule la force compte, qu’elle soit physique, politique ou économique n’a aucune importance, la « force », selon Dragoy, c’est de contraindre les autres, pas le moyen pour y parvenir, la Force est la domination, la faiblesse est la soumission donc. Il a éliminé énormément de ses descendants de fait, qui contestaient sa force, seule Hécate est intouchable, car elle est la seule descendante de sa maitresse, la seule créature qu’il vénère assez pour ne pas remettre en question la force de cette dernière. Dragoy possède « la marque de Caïn », c’est une technique que seule la « Krovni » possède, pour assurément transformer en vampire n’importe quel mortel sans risque de le tuer, en revanche, le vampire change souvent radicalement du mortel qu’il était. Il est assez méprisé par les autres rois vampires car il est plus actifs et plus connus des chasseurs donc. Il a un compte personnel à régler avec la Cartomancienne, une chasseuse du Hunt-15 de l’Association."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -302,7 +312,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "« L’Alghul Almalakiu» est la faction vampirique la plus mystérieuse, elle prône une ascendance commune de tous les vampires qui viendraient d’Arawn, le premier d’entre eux, un dieu qu’aurait rejeté la reine des anciens dieux par sa trop grande puissance. Composée de groupuscules plus sectaires, princes, ducs et autres suivent les titres ottomans comme appellations. Megda est la neuvième maitresse de l’Alghul, c’est la faction qui change le plus de roi, en effet, quand les princes sont mécontents, le roi abdique afin de ne pas être tué, généralement, il devient vizir du suivant, un titre qui lui fait renoncer à avoir ses propres nobles mais lui octroie une certaine protection contre ses anciens détracteurs. Megda utilise ses vampires à travers la pègre dans la Réalité, elle est implantée merveilleusement partout dans le monde même si son bassin originel reste sa zone d’influence incontestée. Manipulatrice et tacticienne, elle a gangréné plusieurs factions de chasseurs dont la secte des Nizarites, où quelques vampires renseignent les humains et se font passer pour des chasseurs de la secte. Megda est surnommée la « Lamia » chez les Vampires, elle est réputée pour avoir un « sang venimeux » des plus toxiques, son baiser comme ses morsures peuvent tuer par le venin surnaturel qu’elle produit. Elle est aussi capable de générer des toxines par son odeur naturelle, au demeurant très envoutante."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -406,7 +421,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "On ignore quand il est né, à une époque reculée bien avant l’antiquité. C’est un vampire né d’une longue lignée de descendants des Khinae, et bien qu’il ignore ce que sont les Khinae, pour Neeba, son lignage est sa plus grande fierté. Il est à l’origine des vampires de « Oru ayeraye » il en est le roi et le fondateur. Il est aussi le grand conquérant et le grand chasseur, c’est lui qui extermina presque entièrement les « boudas », les hommes-hyènes, équivalent des loups-garous en Afrique, durant des millénaires, durant le commerce triangulaire, il faisait expédier les lignées de bouda pour les faire vendre aux blancs. Il déteste corps et âme les vampires de « l’alghul » et de la « Krovni ». Neeba voue un culte ancien aux « Forces », les Fléaux anciens ayant créé ses ancêtres c’est en cela qu’il déteste les deux factions vampiriques citées plus haut, « l’Alghul » moyen-oriental prônant pour origine « Arawn » un vampire originel maudit par la reine des dieux alors que la Krovni évoque Caïn, maudit par Dieu, Neeba ne pouvant accepter qu’on ne reconnaisse l’œuvre « d’Osh’bawa », le dieu de l’Ombre que seuls les vampires de « L’oru » ne vénèrent. Un point décisif concernant Neeba est sa totale stérilité, évoqué plus tôt, il ne respecte que le lignage chez les vampires et méprise les transformés, pourtant la quasi-totalité de l’espèce en étant. Or, il est parfaitement incapable de se reproduire, il est le dernier de sa lignée et cela le frustre atrocement. Pour cette raison, il semble tout faire pour avoir les faveurs de la déesse Lilith, son seul espoir, espérant qu’au moins elle ne pardonne aux vampires leur crime originel."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -510,7 +530,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "« L’Ihuito Meztzi» est la faction vampirique la plus commune sur le continent américain. Elle touche essentiellement le sud et le centre des Amériques, le nord ayant plus souvent été un territoire de loups-garous, cependant, elle s’est extrêmement liée aux populations hispaniques à travers le temps. La fête des morts « Día de Muertos” est une fête mexicaine qui glorifiait les vampires de cette faction à l’origine. Quetzalcoatl est un vampire unique en son genre, il a été tué et dispersé dans l’ombre-monde plusieurs fois, à chaque fois, il est revenu, sa faction pense que les vampires sont ses créations, il est un véritable dieu pour les siens. Le culte du sang qu’ils pratiquent a été transmis aux Olmèques, Mayas ou bien encore Aztecs chez les humains des Amériques. Quetzal change de visage aisément par son « sang masqué », en outre il possède aussi « le sang primal », pouvant prendre la forme d’un serpent ailé géant selon les légendes. Il possède un troisième « sang », le sang « Coatl » qui lui est propre, lui permettant de renaitre dans le corps du vampire qui le boit, d’où son immortalité presque parfaite. Le vampire qui devient Quetzal est intégralement écrasée par la personnalité du roi vampirique, en revanche, il en conserve le corps de base qu’il peut à loisir changer de forme mais qui demeure celui basique, ainsi, Quetzalcoatl n’est ni roi ni reine, il est les deux selon l’époque et sa volonté. Il n’est possiblement pas le plus puissant des vampires royaux, pour ce qui est des prouesses physiques, très loin d’égaler le roi de la « Krovni » ou son égal, celui de « l’Oru », il semble plus fragile que la reine Xinya également mais cela s’explique par le fait qu’il change de corps plus souvent, ayant donc des compétences physiques proches d’un jeune vampire, en revanche, ses pouvoirs sont incroyablement plus développés,"
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -620,7 +645,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Dans les montagnes des Carpathes, au troisième millénaire avant notre ère, une femme habillée de haillon décima une tribu Thrace et ne garda que le meilleur des cavaliers, elle le nomma Dragoy, et fit de lui un vampire en lui déposant la « marque de Caïn », une marque accentuant les chances de transformer en vampire. Au dernier millénaire avant notre ère, peu avant qu’elle ne disparaisse, l’inconnue donna naissance à Hécate. Puissantes par ses pouvoirs, Hécate s’imposa et fut même vénérée telle la déesse de la magie, de la lune et des carrefours par les Grecs anciens. Impitoyable princesse vampire, elle compte parmi les plus anciennes encore actives au sein de la faction « Krovni Rytsari ». Elle a pour projet de changer radicalement la biologie vampirique par les modifications génétiques, elle est obsédée par cette discipline et perçoit très mal les contrôles par le CCHS, d’autant plus qu’elle sait pertinemment que derrière Keysha RICHARDS, le second de cette agence est Zabeel AL’BEL qui n’est autre que Belzebuth, le dieu ancien."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -724,7 +754,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Née en 1680, en Styrie, d’une très haute noblesse Hongroise, elle fut mordue à peine adulte par la princesse vampire Hécate SKOTIA, surnommée « Hécate », de la « Krovni Rytsari ». Développant le « sang masqué », la jeune servante de la princesse mena une vie de luxe et d’amusement avant qu’on ne tente de la tuer pour avoir séduit de jeunes femmes à une époque où l’homosexualité était taboue, surtout pour de jeunes héritières nobles. La princesse Hecate la plongea en sommeil et se chargea d’anéantir les nobles de Styrie hormis la maison Karnstein qui devint une famille vampirique. En 1792, elle quitta ses contrées natales pour joindre l’empire britannique. Aux alentours de 1872, elle confia sa vie à son ami, l’irlandais et écrivain Joseph Sheridan Le Fanu, qui fantasma énormément et écrivit rapidement le roman « Carmilla ». Excédée par cette trahison, Mircalla entra à la cour de Dragoy SKOTIALOV, où, après 35 ans, elle parvint à lui donner une fille, la princesse Carmilla SKORTIA en 1907. Mircalla, satisfaite d’avoir donné une enfant pure au roi, pu s’en retourner aux jeunes femmes, sa passion. Dans les années 2030, Mircalla quitta les terres autrichiennes pour traquer sa fille, Carmilla, laquelle se faisait connaitre comme une tueuse de vampires aux Etats-Unis, à cause de sa rivalité avec Hécate, sa demi-sœur, hélas, elle n’en retrouva pas la trace et resta donc servir Hécate à la place."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -828,7 +863,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Le clan des « pelages gris » est le clan de loup-garou le plus connu dans les légendes, en effet, il rayonne dans l’Europe depuis toujours, protégeant les humains des autres créatures. Le meneur le plus ancien connu est Romulus, fondateur légendaire de Rome, que la légende décrit comme avoir été allaité par une louve dans la grotte du Lupercal. Les « pelages gris » sont très souvent des porteurs du « sang vengeur », qui amplifie leurs cris sauvages et leur permet de blesser à distance par la seule utilisation du son. Ils sont des ennemis séculaires des « pelages blancs », les Garous européens du nord et historiquement, les « pelages gris » ont eu une longue et étrange relation avec la chrétienté, s’y alliant souvent pour lutter contre « les barbares » souvent liés aux « pelages blancs » mais à côté, tout ce qui fut enseigné aux religieux pour combattre els garous fut tôt ou tard retourné contre eux. C’est ainsi qu’en 266, le meneur « Romulus » fut tué, « Ascanius » le remplaçant à la tête de la « Meute ». Celui de 2035 est devenu le meneur en 2030, bien que ce fût un scientifique à l’origine, avec les affrontements, c’est devenu un leader et un combattant affûté. Son départ pour les Etats-Unis est lié avec l’extermination de la cellule insurgée qu’il menait, il y est allé pour sauver les Garous que des scientifiques de « Sunways corporation » avaient récupéré pour une expérience conjointe avec une corporation asiatique très récente, « Fulldroids corporation » qui transforma en cyborg les garous ainsi enlevés lors de la purge des insurgés."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1229,7 +1269,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Le clan des « pelages bruns » est un des clans Garous les plus proches des esprits, avec les millénaires, les garous du Japon et de l’Asie la plus orientale ont métissé leur essence à celui des « Kami » (ici les Keltas). Ils ont un plus grand contrôle sur leurs instincts mais au détriment d’une puissance bestiale plus faible que les autres clans en général. « Inukawa » est le second Meneur le plus « ancien » par la date à laquelle les souvenirs légués remontent. Shingen était un jeune chien fou, rêvant d’une vie de luxe, de femmes et d’aventures chez les Yakuzas, il n’était clairement pas destiné à devenir un Meneur à la base, rejetant le clan pour aller vivre à Tokyo. C’est paradoxalement sa vie de yakuza qui le structura, le respect du clan, tout sacrifier pour lui, tout encaisser pour le bien du clan…la notion de meute parfaite lui fut enseigné ainsi. Pendant la guerre de Corée, il intégra les Forces de Défense du Japon, mais il déserta, afin de traquer seule les ennemis. Ce sont les Yakuzas qui le sauvèrent du peloton d’exécution, notamment les Yamaguchi, qui avaient conquis presque tout le Japon pendant la guerre. Il devint Meneur en tuant le précédent pour obtenir le droit d’émigrer aux Etats-Unis, il ne l’avait pas initialement désiré mais cela l’arrangea grandement quoi qu’il changeât à jamais de caractère…"
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1432,7 +1477,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Tokala est un cas à part, en 2035, elle est encore un garou latent alors qu’elle a l’essentiel des capacité sensitives de son espèce. Sa famille sont des Garous latents n’ayant jamais développé le moindre signe d’appartenance aux loups-garous, il faut remonter à son ancêtre, Koshaway, ayant combattu pendant la première guerre mondiale, pour retrouver un loup-garous et notamment un Prime garou plus que renommé parmi les siens. Tokala a plus d’une fois frôlé la transformation pendant la guerre de 2022, plusieurs fois, elle a décimé des groupes ennemis pourtant bien équipés, bien augmentés, à la seule force de ses sens, ses bras et son agilité, devenant une véritable légende moderne que les Nord-coréens craignent encore. Comme Tokala n’a pas de mentor, que sa « tribu » loup-garou n’a pas remarqué son éveil, elle n’a aucune connaissance sur sa nature et utilise très mal ses compétences pourtant prodigieuses. Depuis sa naissance, elle est toutefois observée par Koshaway et dégage des signes caractéristiques d’une potentielle « Meneuse » de clan. Son existence est connue de Talatuwa, la Meneuse des « pelages sombres » qui tenta de la tuer à la création de la grande Réserve indienne, heureusement, Koshaway intervenant. Tôt ou tard, néanmoins, Talatuwa reviendra confronter Tokala, et à l’heure actuelle, rien ne dit que l’héroïne de guerre ne soit prête à faire face à une créature aussi puissante…"
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1536,7 +1586,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Le loup-garou amérindien se déchaina pendant la guerre mais il ne parvint pas à calmer sa soif de sang une fois revenu au pays. Il s’exila afin de communier avec les esprits mais il voulait toujours plus de combat. Sa meute était indépendante, n’appartenant ni aux « pelages sombres » ni aux « pelages bruns ». Koshaway se déclara « pelage d’acier » en 1950, et défia les autres Meneurs du continent américains. Son ambition détruisit sa meute et bien qu’il dévorât plusieurs alphas de renoms pendant ce qu’on nomma « la guerre du renégat » chez les tribus garous d’Amérique, il finit par être banni. Il eut un fils avec une femme, certains disent qu’elle était un garou latent, d’autre qu’elle était un esprit (kelta). L’enfant fut élevé avec les autres comanches, sa descendance donnant Tokala. Koshaway échappa à la mort, devenant un spectre dans le désert Californien, il apparait de temps en temps, cependant, sans posséder un sang comanche voire garou, sa rencontre peut vite devenir mortelle pour de pauvres étrangers."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1640,7 +1695,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Anahita est une Mage, elle est extrêmement ancienne et remonte à une époque reculée. Elle n’est pas humaine, c’est une créature de la Terre aussi ancienne que les dieux locaux, une « Voyageuses », tels les Titans, les croquemitaines, les Amazones et tant de « monstres » possédant des Mageius. Anahita reste singulière, car elle n’est pas « dotée » d’un ou plusieurs Mageius, mais son âme est un amas de ces derniers. Elle connait parfaitement les Dieux et les Archanges, mais aussi les très anciens seigneurs Voyageurs, elle a vu apparaitre les vampires, elle connait parfaitement les Atlantes et les expatriés, elle connait tout de la Terre en vérité. On ignore les projets réels d’Anahita et la faction des Mages la considère comme son ultime et plus puissante représentante, car ses savoirs et ses affinités sont infinis. Cependant, peu de Magister révèlent son existence aux mages plus humbles et pratiquement aucun « Disciple » (sorcier servant les Mages) n’est vraiment au courant de son existence. Anahita ne préside aucune Loge, en revanche, elle n’a aucun scrupule à s’inviter partout à sa guise, au demeurant, elle le fait aussi bien chez les vampires, ayant fermé la crypte profonde d’un Duc nnazi en 1941 au nez et à la barbe de ce dernier."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1744,7 +1804,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "La légende du Comte de Saint-Germain n’est plus à refaire, alchimiste et artiste de talent durant le XVIII -ème siècle que l’on disait immortel. Gehrman est un des plus « Mages » siégeant à une Loge, il a pour maitrise essentiellement la chronomancie, la magie du temps, il a les avant-bras tatoués par ses pairs pour lui interdire d’aller dans le futur ou pire encore, le passé, pas physiquement du moins, ayant déjà causé de graves troubles en modifiant le continuum espace-temps, les Mages comme les Dieux ne subissant pas les modifications d’une altération temporelle, sur Terre, il a sévèrement été puni. Malgré tout, c’est un homme qui apprécie le luxe et les belles choses, coquet et courtois, il n’est ni agressif ni spécialement ambitieux, préférant la paix et le luxe à l’inconfort et le conflit. Il siège à la Loge de New-York où il compte parmi les cinq plus puissants de cette loge dont la fée Morgane, la fée Viviane, Daghain et Nicolas Flamel, son très bon ami et mentor. Saint-Germain et Daghain ont une relation extrêmement conflictuelle, anciens amants, leurs vives oppositions ne sont généralement calmées que par la Mage Morgane, qui fait figure incontestable d’autorité à la loge de New-York, bien qu’elle y soit très peu présente. Saint-Germain a très peu de sorciers et de disciples, la chronomancie étant incroyablement dangereuse et difficile, limitée de plus par l’Hologramme, très peu parviennent à l’utiliser réellement et ceux qu’il a formé y ont souvent renoncé. Sur le plan personnel, Gehrman cache une obsession pour Nevenka, une babayaga ancienne qu’il cherche à capturer de manière irraisonnée, envoyant nombre de chasseurs à la mort pour ça."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1848,7 +1913,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "De tous les Mages, après l’Archimage, il existe un nom qui résonne dans la Vérité, un nom qui provoque des tremblements chez nombre d’expatriés et de la rage chez d’autres, un nom que les atlantes détestent au moins autant que Sil’elaith, un nom que les vampires anciens veulent voir mort… celui de Daghain MELDEGRYN, la Mage la plus spéciste de la Terre. De toutes ses actions, la plus connue est la guerre de la Magie, elle ne l’a ni déclenchée seule ni menée seule, cependant c’est bien de son esprit tordu qu’est née l’idée de priver les inhumains de la Magie. On peut aussi lui imputer nombre de catastrophes qu’elle provoque régulièrement, pour éliminer des inhumains ou des rivaux, elle n’a absolument aucun regret dans ce genre d’action et fait généralement passer séismes, volcanisme ou autre pour naturel alors qu’elle en est la cause. Maîtresse de la Loge de Londres pendant des siècles, elle est devenue celle de New-York en 1902. Elle est aussi crainte par les siens qu’elle n’est admirée, sa lignée est une des plus puissantes, et suit sa doctrine assez radicale, n’ayant aucune pitié pour l’inhumain, protégeant et veillant sur toutes les formes d’humains dont elle s’estime la gardienne. Elle admire Siobhain, Dina et Leslie, et bien que la première soit semi-humaine, elle estimerait intéressant de les intégrer à sa famille, prêtre à sacrifier quelques descendants pour donner des Mageius… elle est l’ennemie la plus farouche d’Oberon et Atreesha du côté des expatriés. Elle siège à la loge de New-York où elle fait figure de leader en l’absence de la fée Morgane."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1952,7 +2022,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "La légende de Mithridate est si connue qu’elle a même donné des mots du langage courant. A bien regarder « Mick D. », on ne voit pas vraiment le personnage de légende néanmoins, juste un vieux punk squelettique, drogué, avec une colonne vertébrale renforcée pour pallier ses soucis de santé à cause des doses massives de drogues en tous genres qu’il consomme. Ressemblant à une momie, Mick D. est pourtant bel et bien le principal dirigeant de la Loge de San Diejuana sur laquelle il règne en maitre, lui et sa vision déconstruite des Mages. Il aime le conflit et adore plus encore l’époque qu’est 2035, où tout fusionne et tout se croise, tout s’ignore et tout cohabite sans aucune structure ni ordre. Sa magie est essentiellement basée sur les poisons, les venins, les drogues et toute substance altérant les corps. Il aime voir ses ennemis perdre lentement leurs facultés physiques et mentales, c’est un grand sadique dont le plus grand rêve est de pisser sur la foule de croyants du haut de la tour Vatican. Malgré son apparence, c’est u des mages les plus redoutables, en vérité, il est un des rares où il est impossible de s’en sortir indemne si on lui fait face, sa seule présence empoisonnant l’air de bien des substances possibles."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -2056,7 +2131,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "La légende de Gullveig est celle comme quoi la magicienne d’or attisa la jalousie et la colère des dieux nordiques au point qu’ils se ruèrent tous pour la mettre à mort. La Mage éponyme n’est certainement pas étrangère à cette légende, elle est une magicienne versée dans la chimie, elle assemble et défait des molécules et quand on la pousse dans ses retranchements, peut même aller jusqu’à la fusion et la fission nucléaire. Elle peut donc littéralement transformer toute matière en or en fusionnant les atomes jusqu’à la bonne densité, le rêve de tous les alchimistes, ses lointains disciples. C’est, de fait, une des Mages les plus puissantes, même si sa magie reste extrêmement restreinte en portée vu l’intensité nécessaire. Ce n’est pas une femme belliqueuse c’est même quelqu’un d’assez enthousiaste et optimiste, hélas, elle a tendance à briller et rayonner de génie au point de rendre jaloux. Elle est également très peu concernée et peu attentive aux autres, particulièrement égoïste bien que gentille, elle peut s’avérer particulièrement insensible voire néfaste pour les gens s’interposant avec ses projets, comme s’ils n’existaient pas tout simplement. Elle siège à la Loge de Los Angeles, où elle est un des cinq membres permanents, avec Circé, Naalnish, Zhu Bajie et Ngoma. Si la loge de los Angeles est moins influente que celle de New-York, elle a un bien meilleur relationnel avec les autres loges, comme celle de Las Vegas ou de Phoenix, même si celle de Tijuana était en guerre ouverte à la création de la Grande Californie. Gullveig n’y a d’ailleurs pas participé, s’en fichant, savoir quelle Loge dominait ne lui important pas une seconde."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -2160,7 +2240,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Anahita créa un Mageius prodigieux qui donna celui de Merlin, puis elle tenta d’en faire un second, sur la base d’une structure radicalement différente et bien plus chaotique, elle ne parvint pas à le créer de manière stable, mais laissa ce mageius s’accrocher à la vie néanmoins bien que « raté ». Ce Mageius sordide s’implanta dans Johann Georg Faust, un alchimiste connu pour la légende qu’il engendra. Ce Mage toutefois était bien plus sournois et malfaisant que la version de Goethe notamment. Allié de Mephisto, ce Mage n’hésita pas à trahir sa loge pour obtenir les faveurs du dieu de la connaissance. En parallèle, il fit de même avec l’Archange Gabrielle qu’il fit presque tomber amoureuse de lui, l’Archange lui offrant aussi de grandes faveurs en échange de joindre le camp des cieux. Forcément, il ne céda jamais son âme ni au dieu ni à l’archange et le paya cher. La magie de Faust est la vie, le mouvement, ou plutôt, il est un expert dans la création de pseudo￾âmes, en compressant de la Magie originelle. Son but serait toutefois de créer lui aussi des Mageius et d’égaler sa « mère » spirituelle. Créer une âme frôlant le divin, un Mageius frôlant la perfection, un corps immortel, tel est le projet de toute son existence. C’est ainsi qu’il a créé Aisha WHITE, s’il n’a pas réussi à lui créer un véritable Mageius, le corps entier de cette créature artificielle s’en approche dans le fonctionnement, son âme, sans être divine, n’a rien en commun avec celle d’un humain et son corps est entièrement recodé génétiquement de naissance, elle est « sa fille » et bien qu’elle ne le connaisse pas, Faust l’aime véritablement car elle est son Homoncule le plus abouti. Faust cherche un génie inégalable pour réparer les défauts de son mageius et pour cela, il cibla Leslie Wright qu’il projette d’instruire comme sorcière afin de l’aider bien que rien ne soit moins sûr quant au fait qu’elle n’accepte…"
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -2264,7 +2349,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Circé est une Mage assez ancienne, elle est née d’une Amazone (une voyageuse) et du dieu Lucifer, elle n’est donc pas parfaitement humaine malgré ses apparences et même sans ses pouvoirs dispose d’une redoutable force physique héritée de sa mère. La grecque est toutefois bien mieux connue pour ses dons de métamorphose, changeant l’apparence des créatures, elle est à la fois maitresse des illusions et à la fois des véritables déformations du corps. Tout comme Gullveig, si on la pousse plus loin, elle a poussé sa magie très loin, capable de réécrire l’ADN de tous les êtres dans son champ de vision, elle peut littéralement transformer en pourceaux des humains, définitivement. Elle a peu connu sa mère, comme elle est née à taille humaine (les amazones avoisinent les deux mètres), elle fut rejetée. Dans son malheur, elle hérita quand même d’un Mageius et resta respectée par les démons de son père. La magie de Circé passe par la lumière, plus particulièrement par son regard, elle n’a pas besoin d’incanter, de cercle ou de manifestation, un simple clignement d’yeux suffit à la grande maitresse de la loge de Los Angeles. Elle est extrêmement crainte et respectée pour ça mais elle est aussi souvent critiquée, car elle n’enseigne pas sa magie. Elle n’a pas d’attrait pour les hommes, elle n’a jamais constitué de famille, n’ayant aucune forme de confiance dans les humains, elle ne cède aucun savoir et n’enseigne à personne, ce qui reste presque hérétique pour les Mages, si jamais elle venait à mourir, son immense savoir allant disparaitre. C’est surtout l’éventualité que son Mageius puisse revenir sans jamais pouvoir atteindre son niveau qui horrifie ses pairs, beaucoup lorgnant dessus l’idée de la tuer le jour même où elle aurait écrit un grimoire de sa discipline. Circé ne s’entend d’aucune façon avec Daghain et Mithridate, respectivement de la loge de New-York et de celle de Tijuana n’ayant d’aucune façon la même vision de la Magie qu’eux."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -2368,7 +2458,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Hadaïah est un ancien Mage de la loge de Megiddo où il resta longtemps avant la chute de la ville. Durant ses voyages, il se rendit en Perse, où, en Perse, il enseigna très librement aux humains la magie, faisant de toute la classe sacerdotale des « Disciples », qui se nommèrent « Disciples du mage », hélas écourtés en « mages », bien qu’ils n’en étaient pas véritablement. En -522, sous le nom de Gaumata, il tenta de s’emparer de l’empire perse mais fut « assassiné », Darius prenant le trône perse. En effet, ’est un sans loge, un Mage errant. Préférant s’en aller, Hadaïah délaissa quelques siècles cette partie du monde profitant, bien plus tard, de l’empire romain pour voyager et rassembler de vrais Mages, rédigeant des lois pour éviter à ses pairs de faire les mêmes erreurs que lui en enseignant un peu trop aux humains dépourvus de Mageius la magie si dure à manipuler. Plus d’une fois, Hadaïah fut à l’origine de changements majeurs dans l’organisation des Mages et en 2025, il estima l’humanité prête pour renouer en partie avec la Magie. Il travailla sur un nouveau réseau mondial allant remplacer Internet, incluant bien plus de magie pour contourner l’Hologramme, utilisant l’esprit humain pour générer de l’énergie, aidé par le PCRC, c’est ainsi que naquit l’Holonet réseau informatique et dimension magique à la fois, un nouveau flux d’énergie. Ce que n’avoua jamais Hadaïh, c’était qu’il projetait de déposséder ses opposants de leur Mageius en séparant leurs esprits de leur cœur grâce à l’Holonet, heureusement, sa petite fille, Kristia s’assura qu’il n’y arrive pas lors du lancement de l’Holonet."
+          }
+        ]
       },
       {
         "id": "statistiques",
