@@ -321,7 +321,7 @@ for(const label of ["Voilé","Semi-Révélé","Révélé"]){
 
 await page.getByRole("button",{name:/Équipement/}).click();
 await page.getByRole("heading",{name:"Réalité, équipement & augmentations"}).waitFor();
-const catalogDisclosure=page.locator("summary.catalog-summary");
+const catalogDisclosure=page.locator("summary.catalog-summary").filter({hasText:"Choisir équipement, services & véhicules"});
 await catalogDisclosure.waitFor({state:"visible",timeout:5000});
 await catalogDisclosure.click();
 const kitWiki=page.getByRole("link",{name:/Kit Smoke/}).first();
