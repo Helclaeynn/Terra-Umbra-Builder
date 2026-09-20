@@ -39,6 +39,17 @@ import {
   COMPENDIUM_REALITE_V9_POLICE_PNJ_ENRICHMENTS
 } from "./compendium-realite-v9-police-pnj.js";
 import {
+  COMPENDIUM_REALITE_V9_GOVERNMENT_HUB_SECTIONS,
+  COMPENDIUM_REALITE_V9_GOVERNMENT_ARTICLES,
+  COMPENDIUM_REALITE_V9_GOVERNMENT_NAVIGATION
+} from "./compendium-realite-v9-government.js";
+import {
+  COMPENDIUM_REALITE_V9_GOVERNMENT_PNJ_ARTICLES,
+  COMPENDIUM_REALITE_V9_GOVERNMENT_PNJ_NAVIGATION,
+  COMPENDIUM_REALITE_V9_GOVERNMENT_PNJ_ENRICHMENTS,
+  COMPENDIUM_REALITE_V9_GOVERNMENT_TRUTH_PNJ_ENRICHMENTS
+} from "./compendium-realite-v9-government-pnj.js";
+import {
   COMPENDIUM_REALITE_V9_RELIGION_ARTICLES,
   COMPENDIUM_REALITE_V9_RELIGION_NAVIGATION
 } from "./compendium-realite-v9-religions.js";
@@ -1106,6 +1117,22 @@ async function loadCorpus(): Promise<Corpus> {
     byId.set(article.id, deepClone(article) as Article);
   }
 
+  for (const enrichment of COMPENDIUM_REALITE_V9_GOVERNMENT_TRUTH_PNJ_ENRICHMENTS) {
+    const target = byId.get(enrichment.id);
+    if (!target) continue;
+    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
+    if (!existingIds.has(String(enrichment.section?.id ?? ""))) {
+      target.sections = [
+        ...(target.sections ?? []),
+        deepClone(enrichment.section) as JsonObject
+      ];
+    }
+    if (!String(target.source ?? "").includes("TUC_organisations_gouvernement(1).docx")) {
+      target.source = [target.source, "TUC_organisations_gouvernement(1).docx"].filter(Boolean).join(" ; ");
+    }
+    target.tags = Array.from(new Set([...(target.tags ?? []), "Gouvernement", "Réalité"]));
+  }
+
   const generatedTalentHubs = generatedTalentHubCorpus();
   for (const hub of generatedTalentHubs.articles) {
     if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
@@ -1199,6 +1226,8 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_REALITE_V9_PEGRE_PNJ_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_POLICE_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_POLICE_PNJ_NAVIGATION,
+      ...COMPENDIUM_REALITE_V9_GOVERNMENT_NAVIGATION,
+      ...COMPENDIUM_REALITE_V9_GOVERNMENT_PNJ_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_RELIGION_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_RELIGION_PNJ_NAVIGATION.map((entry) => ({
         ...entry,
