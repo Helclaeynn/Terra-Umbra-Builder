@@ -182,6 +182,22 @@ jobs:
             docker compose --env-file .env exec -T api npm run verify:mail </dev/null
           REMOTE
 
+      - name: Purge stale CI accounts
+        if: steps.deployment.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" <<'REMOTE'
+            set -euo pipefail
+            cd /opt/terra-umbra/infrastructure
+            set -a
+            . ./.env
+            set +a
+            DELETED="$(docker compose --env-file .env exec -T db \
+              psql -At -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
+              -c "WITH deleted AS (DELETE FROM users WHERE email LIKE 'ci-%@example.invalid' RETURNING 1) SELECT count(*) FROM deleted;")"
+            echo "CI ACCOUNT CLEANUP — $DELETED compte(s) de test supprimé(s)"
+          REMOTE
+
       - name: Smoke test
         if: steps.deployment.outputs.enabled == 'true'
         shell: bash
@@ -846,6 +862,12 @@ jobs:
 
           curl --fail --silent --show-error             "https://dev.terra-umbra.fr/characters/$CHARACTER_ID/builder" | grep -q 'id="app"'
 
+          TUC_V2_SMOKE_BASE_URL='https://dev.terra-umbra.fr' \
+            TUC_SESSION_TOKEN="$SESSION_TOKEN" \
+            TUC_CHARACTER_ID="$CHARACTER_ID" \
+            CHROME_BIN="$CHROME_BIN" \
+            node apps/web/tests/builder-live-perf-smoke.mjs
+
           echo "Character V2 smoke OK"
 
       - name: Auth logout smoke test
@@ -913,3 +935,20 @@ jobs:
 
             echo "Logout smoke OK"
           REMOTE
+
+      - name: Final CI account cleanup
+        if: always() && steps.deployment.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" <<'REMOTE'
+            set -euo pipefail
+            cd /opt/terra-umbra/infrastructure
+            set -a
+            . ./.env
+            set +a
+            DELETED="$(docker compose --env-file .env exec -T db \
+              psql -At -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
+              -c "WITH deleted AS (DELETE FROM users WHERE email LIKE 'ci-%@example.invalid' RETURNING 1) SELECT count(*) FROM deleted;")"
+            echo "CI ACCOUNT CLEANUP FINAL — $DELETED compte(s) résiduel(s) supprimé(s)"
+          REMOTE
+
