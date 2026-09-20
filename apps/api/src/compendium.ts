@@ -32,6 +32,28 @@ import {
   COMPENDIUM_VERITE_V7_RULE_ARTICLES,
   COMPENDIUM_VERITE_V7_RULE_NAVIGATION
 } from "./compendium-verite-v7-rules.js";
+import {
+  COMPENDIUM_VERITE_V7_KHINAE_LORE_ARTICLES,
+  COMPENDIUM_VERITE_V7_KHINAE_RULE_ARTICLES,
+  COMPENDIUM_VERITE_V7_KHINAE_LORE_NAVIGATION,
+  COMPENDIUM_VERITE_V7_KHINAE_RULE_NAVIGATION
+} from "./compendium-verite-v7-khinae.js";
+import {
+  COMPENDIUM_VERITE_V7_MAGE_ARTICLES,
+  COMPENDIUM_VERITE_V7_MAGE_NAVIGATION
+} from "./compendium-verite-v7-mages.js";
+import {
+  COMPENDIUM_VERITE_V7_DAEMON_ARTICLES,
+  COMPENDIUM_VERITE_V7_DAEMON_NAVIGATION
+} from "./compendium-verite-v7-daemons.js";
+import {
+  COMPENDIUM_VERITE_V7_ANGELUS_ARTICLES,
+  COMPENDIUM_VERITE_V7_ANGELUS_NAVIGATION
+} from "./compendium-verite-v7-angelus.js";
+import {
+  COMPENDIUM_VERITE_V7_ASERYN_ARTICLES,
+  COMPENDIUM_VERITE_V7_ASERYN_NAVIGATION
+} from "./compendium-verite-v7-aseryns.js";
 
 type JsonObject = Record<string, any>;
 type Article = JsonObject & {
@@ -857,6 +879,30 @@ async function loadCorpus(): Promise<Corpus> {
     byId.set(article.id, deepClone(article) as Article);
   }
 
+  for (const article of COMPENDIUM_VERITE_V7_KHINAE_LORE_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_VERITE_V7_KHINAE_RULE_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_VERITE_V7_MAGE_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_VERITE_V7_DAEMON_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_VERITE_V7_ANGELUS_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_VERITE_V7_ASERYN_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
   const generatedTalentHubs = generatedTalentHubCorpus();
   for (const hub of generatedTalentHubs.articles) {
     if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
@@ -949,6 +995,12 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_REALITE_V9_RULE_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_LORE_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_RULE_NAVIGATION,
+      ...COMPENDIUM_VERITE_V7_KHINAE_LORE_NAVIGATION,
+      ...COMPENDIUM_VERITE_V7_KHINAE_RULE_NAVIGATION,
+      ...COMPENDIUM_VERITE_V7_MAGE_NAVIGATION,
+      ...COMPENDIUM_VERITE_V7_DAEMON_NAVIGATION,
+      ...COMPENDIUM_VERITE_V7_ANGELUS_NAVIGATION,
+      ...COMPENDIUM_VERITE_V7_ASERYN_NAVIGATION,
       ...generatedTalentHubs.navigation,
       ...generatedBuilderReferences.navigation
     ]
