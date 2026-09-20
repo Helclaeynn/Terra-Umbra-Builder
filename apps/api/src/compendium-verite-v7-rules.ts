@@ -364,7 +364,7 @@ export const COMPENDIUM_VERITE_V7_RULE_ARTICLES: Article[] = [
         level: 2,
         blocks: [
           p("Un compagnon lié est un véritable PNJ avec ses propres statistiques, PV, sens, pouvoirs, faiblesses et personnalité. Par défaut, un seul compagnon est actif."),
-          p("Le compagnon ne possède pas un pool de PA joueur indépendant : ses actions tactiques et ses défenses utilisent les PA du maître selon la règle de contrôle applicable."),
+          p("Aucun pool de PA indépendant : les actions tactiques et les défenses du compagnon utilisent les PA du maître selon la règle de contrôle applicable."),
           p("Perdre la créature ne fait pas perdre le Talent. Les PTV achètent le lien, jamais la créature elle-même."),
           table([
             ["Développement commun", "Coût"],
