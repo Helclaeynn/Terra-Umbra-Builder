@@ -11,6 +11,7 @@ import {
 } from "../dist/compendium-verite-extraterrestres-pnj.js";
 import { COMPENDIUM_REALITE_V9_PEGRE_PNJ_ARTICLES } from "../dist/compendium-realite-v9-pegre-pnj.js";
 import { COMPENDIUM_REALITE_V9_POLICE_PNJ_ARTICLES } from "../dist/compendium-realite-v9-police-pnj.js";
+import { COMPENDIUM_REALITE_V9_GOVERNMENT_PNJ_ARTICLES } from "../dist/compendium-realite-v9-government-pnj.js";
 import { COMPENDIUM_REALITE_V9_RELIGION_PNJ_ARTICLES } from "../dist/compendium-realite-v9-religion-pnj.js";
 import { COMPENDIUM_REALITE_V9_CHRISTIANITY_ARTICLES } from "../dist/compendium-realite-v9-christianity.js";
 import { COMPENDIUM_VERITE_SPECIES_PNJ_ARTICLES } from "../dist/compendium-verite-species-pnj.js";
@@ -92,6 +93,7 @@ for (const article of COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_ARTICLES) {
 const activeOtherPnjs = [
   ...COMPENDIUM_REALITE_V9_PEGRE_PNJ_ARTICLES,
   ...COMPENDIUM_REALITE_V9_POLICE_PNJ_ARTICLES,
+  ...COMPENDIUM_REALITE_V9_GOVERNMENT_PNJ_ARTICLES,
   ...COMPENDIUM_REALITE_V9_RELIGION_PNJ_ARTICLES,
   ...COMPENDIUM_REALITE_V9_CHRISTIANITY_ARTICLES.filter((article) => article.category === "Personnages"),
   ...COMPENDIUM_VERITE_SPECIES_PNJ_ARTICLES,
