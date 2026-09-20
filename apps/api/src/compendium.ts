@@ -24,6 +24,14 @@ import {
   COMPENDIUM_REALITE_V9_RULE_ARTICLES,
   COMPENDIUM_REALITE_V9_RULE_NAVIGATION
 } from "./compendium-realite-v9-rules.js";
+import {
+  COMPENDIUM_VERITE_V7_LORE_ARTICLES,
+  COMPENDIUM_VERITE_V7_LORE_NAVIGATION
+} from "./compendium-verite-v7-lore.js";
+import {
+  COMPENDIUM_VERITE_V7_RULE_ARTICLES,
+  COMPENDIUM_VERITE_V7_RULE_NAVIGATION
+} from "./compendium-verite-v7-rules.js";
 
 type JsonObject = Record<string, any>;
 type Article = JsonObject & {
@@ -839,6 +847,16 @@ async function loadCorpus(): Promise<Corpus> {
     byId.set(article.id, deepClone(article) as Article);
   }
 
+  for (const article of COMPENDIUM_VERITE_V7_LORE_ARTICLES) {
+    // Truth V7 is rebuilt source-first; it supersedes archived legacy pages without restoring the old corpus.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_VERITE_V7_RULE_ARTICLES) {
+    // Common Truth rules are promoted from the canonical V7 source and remain separate from product catalogs.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
   const generatedTalentHubs = generatedTalentHubCorpus();
   for (const hub of generatedTalentHubs.articles) {
     if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
@@ -929,6 +947,8 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_MOTEUR_V4_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_LORE_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_RULE_NAVIGATION,
+      ...COMPENDIUM_VERITE_V7_LORE_NAVIGATION,
+      ...COMPENDIUM_VERITE_V7_RULE_NAVIGATION,
       ...generatedTalentHubs.navigation,
       ...generatedBuilderReferences.navigation
     ]
