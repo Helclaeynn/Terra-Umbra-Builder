@@ -1,5 +1,5 @@
 // Generated from TUC_Vérité_ les espèces  surnaturelles(1).docx.
-// source_verite/source_extract preserve source material while MJ/stat blocks remain intentionally empty.
+// source_verite/source_extract preserve source material; Truth information is rendered in the MJ block while statistics remain intentionally empty.
 const PAYLOAD = [
   {
     "id": "personnages-verite-especes-mickael-krieg",
@@ -94,7 +94,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "L’archange Michael est connu dans les récits bibliques, il est le chevalier de Dieu, le guerrier, il incarne la vertu du courage et combat les forces maléfiques, les ennemis de Dieu. Paladin de la déesse Denilia sur Aèr, c’était un guerrier exceptionnel qui reçut la digne mission de protéger la fille de la déesse de la lumière, l’accompagnant sur Terre. Il la vit être humiliée, méprisée, moquée, il fut mainte fois écartée, ne pouvant ni la protéger ni la rassurer, profondément blessé par l’attitude des dieux de la Terre, il développa une haine sans égale à leur encontre, d’une part, par compassion pour la jeune Elynea, d’autre part pour lui-même, ayant échoué dans sa mission par leur faute, son immense orgueil étant vexé, il s’entraina corps et âme. Quand Elynea lui confia ses projets de conquête, elle trouva en Michael son allié le plus fervent, son protecteur et maitre d’armes acceptant l’immense honneur de commander en son nom des légions d’anges qu’elle créa et d’entamer une guerre longue et violente. De tous les Archanges majeurs, il est l’un des plus anciens, plus vieux qu’Elynea elle-même, s’il est d’une incroyable loyauté, il conserve une grande indépendance, la respectant mais ne la vénérant pas autant que les autres, l’ayant vu grandir. L’épée sacrée du culte qu’il reçut de Denilia en personne lui fut volée par Lucifer qui l’utilise dans ses chasses désormais."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -202,7 +207,16 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Informations Vérité V1\n\nL’archange Gabriel est probablement le plus connu et le plus prié de tous les anges du Paradis. C’est aussi une des plus anciens archanges à suivre Elynea, du même âge qu’Elynea, elle était une servante de la jeune déesse, chassée par les dieux de la Terre, elle devint prêtresse de Nathral, le père d’Elynea, et développa des dons immenses dans la magie protectrice de son dieu Tutélaire. Quand son amie revint sur Aèr, elle décida de ne plus jamais la quitter, folle d’Elynea et jalouse de la sublime Belial qui avait tout l’amour de la divine fille de la lumière. Gabrielle se révéla d’un sadisme rare pendant les guerres ouvertes ou cachées contre les dieux, derrière un visage « angélique », elle complota et monta les démons les uns contre les autres, parfois jusqu’aux dieux eux-mêmes. Obsessionnelle d’Elynea, Gabrielle se montra d’une efficacité sans faille pour accomplir sa conquête, mais fut recadrée régulièrement quant à ses sentiments non partagés et sa place au Paradis. En effet, autant son efficacité à duper les démons était un atout pour le Paradis, autant sa jalousie maladive contre ses propres alliés la fit plus d’une fois intriguer à la cour céleste. Gabrielle méprise les humains de plus, les mortels en général mais entre tous, les humains sont ceux qu’elle tolère le moins bien, hélas, c’est l’espèce offrant le plus d’âme pour le Paradis, alors elle sait jouer la comédie, mais poussée à bout, elle révèle parfois une personnalité frustrée et complexée bien plus malsaine qu’on ne pourrait l’imaginer à voir son si joli sourire. Comédienne-née, elle adore plus que tout se donner en représentation, c’est pourquoi elle est l’Archange la plus connue, apparaissant le plus souvent aux humains."
+          },
+          {
+            "type": "p",
+            "text": "Informations Vérité V2\n\nL’archange Gabriel est probablement le plus connu et le plus prié de tous les anges du Paradis. Gabrielle était une jeune femme archange issue de la petite noblesse, servant le glorieux Thariel, un très haut seigneur, elle le suivit au service d’Elynea dans sa guerre contre les dieux de la Terre. Thariel ne fit pas long feu, Gabrielle s’en servit de tremplin et se fit rapidement remarquer pour son incroyable intelligence et son sens aussi bien dans la stratégie que la diplomatie. Elle devint un archange majeur aisément, parmi les moins nobles et les plus jeunes des élus d’Elynea, elle était celle qui en voulait le plus, intriguant et complotant au besoin. Gabrielle continua par la suite d’entretenir son ambition. En effet, même s’il il y avait bien une relative victoire du Paradis sur les Enfers, une Déesse Unique étrangère égalant tout un panthéon de Dieux Anciens locaux, Gabrielle n’a jamais considéré que cela suffisait, elle en a toujours voulu plus et n’a jamais économisé ses efforts pour gravir les échelons, devenant l’un des trois Archanges les plus proches d’Elynea. Avec le temps, Elynea se désintéressa de l’opposition avec les Démons, elle avait prouvé sa valeur à Belial, instauré son Paradis et régnait sans partage sur ses Anges, cependant, ça ne suffisait pas à Gabrielle, les Archanges se voyaient comme des Dieux la seule différence était que les prières allaient directement à Elynea, ils n’en recevaient rien ou presque, c’était elle et uniquement elle qui redistribuait l’énergie reçue, renforçant parfois des Anges qui ne me méritaient pas tant. Elynea se détacha petit à petit du Paradis mais continua de percevoir les prières, Gabrielle prit la main sur le Paradis en son absence de plus en plus régulière. Dotée d’une personnalité complexée et éternellement insatisfaite, Gabrielle est un monstre d’ambition, avec Remiel et quelques Archanges mineurs, elle entreprit de détourner des prières de manière plus « équitable » et se pose sur le trône céleste dès qu’Elynea n’y est pas. La déesse unique n’est possiblement pas dupe à son sujet, mais les ambitions de Gabrielle ne sont pas une menace pour elle, il s’agit plus d’un jeu et d’une manière d’avoir quelqu’un de compétent la remplaçant quand elle s’occupe chez les mortels, car elle sait que Gabrielle méprise tellement les humains qu’elle ne vivra jamais plus qu’occasionnellement parmi eux bien qu’elle adore se donner en spectacle."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -310,7 +324,16 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Informations Vérité V1\n\nRaphael est l’Archange de la guérison. Grand ennemi de Belzébuth et de Mammon, il se voit aussi comme l’archange de la vie. Prêtre d’importance dans le culte d’Astia, la déesse de la vie sur Aèr, cet Archange s’est senti investi d’une mission quand Elynea vint appeler à l’aide sur Aèr. Raphael est quelqu’un d’aussi calculateur que glacial, résilient au possible, il préfère ne rien exprimer jusqu’à sa victoire. Très proche d’Azrael à l’origine, probablement très épris d’elle, il n’a jamais fait le moindre pour exprimer ses sentiments et regrette amèrement qu’elle ne soit plus au Paradis, son départ est probablement la raison de la grande perte d’intérêt de Raphael pour les petits jeux de la cour céleste. Rival de Gabrielle sur de nombreux plans, c’est un des archanges majeurs les plus réputés, apparaissant à chaque grande pandémie et épidémie de l’Humanité, il se délecta souvent de cet instant où une simple maladie fait plonger dans la foi des millions de mortels. Il n’est toutefois pas spécialement cruel, c’est un sujet d’Elynea relativement fiable et loyal. Son plus gros souci est son incarnation actuelle, il avait choisi Karine O’BRYAN, une mage descendante de Daghain, mariée à Logan ZEINER, un riche entrepreneur, son but était de dérober le Mageius de sa mère pendant la gestation mais rien ne s’est passé correctement, s’il a réussi à arracher le Mageius et faire mourir la mage à l’issu de l’accouchement, le processus pour en arriver là mena à la conception d’un autre enfant, Simon, qui hérita des pouvoirs de Raphael quand Raphael hérita du Mageius. L’archange est actuellement coincé sur Terre tant que Simon est en vie, s’il attend que ce dernier décède, il ne cherche pas à le provoquer spécifiquement."
+          },
+          {
+            "type": "p",
+            "text": "Informations Vérité V2\n\nRaphael est l’Archange de la guérison. Grand ennemi de Belzébuth et de Mammon, il se voit aussi comme l’archange de la vie. Raphael était un petit noble qu’on orienta dans les ordres religieux, destiné à devenir prêtre d’Astia, la déesse de la vie et de la santé, il s’en détourna à l’appel d’Elynea, l’envie de devenir plus qu’un simple prêtre le dévorant. Raphael est un grand rival de Gabrielle à la cour céleste, ainsi, avec sa prise de pouvoir de plus en plus forte, Gabrielle repousse l’influence de Raphael, il lutte à sa manière jouant sur les pandémies et les miracles médicaux pour renforcer la foi, surtout en son nom. Pour récupérer le fruit de son travail, il détournait aussi une part des prières, finançant le Mage Faust pour créer des Homoncules spécifiques, capables d’accumuler les prières comme le font les Prophètes à travers leur Attributs. Afin d’aider Faust, il s’incarna en humain mais visiblement, Gabrielle le piégea dans ce corps, cédant à son frère, Simon Zeiner, les pouvoirs de Raphael."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -414,7 +437,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Urielle est l’archange de lumière. Ironiquement, elle n’est pas une Archange du tout à l’origine, c’est un phénix d’Aèr qui avait été offert à Elynea par sa mère, un « animal de compagnie » dotée d’une intelligence supérieure. Quand Elynea acheva la « transcendance » qui permettait aux anges de devenir possiblement les égaux d’Archanges d’Aèr, elle tenta de transcender son oiseau radieux, Urielle s’éveillant alors artificiellement et prit une forme humaine. Comme beaucoup de phénix, elle est d’une nature faussement insouciante, masquant derrière une attitude enjouée et ingénue sa véritable nature de rapace, un prédateur impitoyable. Urielle dérangeait au Paradis, elle n’était pas un archange ni même un ange, pourtant elle en partageait les pouvoirs et plus encore, maitresse du feu naturellement et plus douée dans la lumière que tous les paladins ou prêtres de Denilia, on la craignait, on la jalousait et c’est pourquoi elle est dotée d’une si grande confiance en elle. Son ennemi naturel chez les démons était Lucifer, loin d’être le plus puissant des Dieux anciens, elle le trouvait le plus intéressant, elle l’a tout de suite adorée et a exprimé le souhait d’en faire un ange d’Elynea, une insulte grave pour le dieu ancien qui, hélas pour lui, finit par déchoir et errer avec peu de pouvoirs sur Terre. « Heureusement » pour lui, Urielle ne l’oublie jamais et régulièrement vient le supporter avec joie et bonne humeur quand il a du mal dans ses chasses, lui ayant même offert l’épée de Michael qu’elle déroba par jeu. Urielle n’en fait qu’à sa tête en général, ruinant les plans de Gabrielle et se fichant de lois de Michael, elle n’en répond qu’à Elynea, qu’elle adore plus que tout, tel une mère et une maitresse."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -525,7 +553,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Remiel était l’archange des tempêtes. C’était un archange d’une très noble lignée sur Aèr, très prestigieuse et ancienne qui répondit à l’appel d’Elynea avec fierté et honneur. Guerrier élémentaire extrêmement affûté, il jalousait la puissance inégalable de Michael, lequel avait la préférence d’Elynea alors que ce paladin n’était qu’un vil roturier. Extrêmement présomptueux et hautain, Remiel comptait malgré tout comme un des Archanges majeurs les plus puissants et influents. Sa chute n’en fut que plus dure, quand il s’opposa plus régulièrement à la déesse Abigor, lui disputant la traque des « Prophètes » lié aux attributs célestes, il fit face à la déesse au caractère le plus orageux de la Terre, aucune victoire de Remiel n’était jamais totale, elle ravageait la Terre sans avoir aucun scrupule quand elle échouait à manipuler les mortels, allant jusqu’à foudroyer les prophètes tournés vers le Paradis, tout simplement. Parce qu’il était prétentieux au point d’imaginer avoir une chance, il confronta Abigor seul à seul, quelques minutes suffirent à la déesse pour jeter son âme au sol, dépossédée de tout corps. C’est Elynea en personne qui se chargea d’Abigor, récupérant assez tôt tous ses attributs, Remiel pensant avoir été vengé mais c’était indépendant de sa défaite stupide. En 2035, Remiel garde un peu d’orgueil, mais avoir vécu des vies de mortels plus misérables les unes que les autres lui a fait redoutablement réviser sa façon d’être, c’est un être brisé qui cherche juste à vivre en paix, loin du tumulte entre les enfers et le Paradis."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -629,7 +662,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Camaelle est l’Archange de la foudre. C’est une Archange qui fut créée spécifiquement par Sil’Elaith, elle la servait loyalement. Quand Elynea vint se venger, c’est naturellement que Camaelle suivit le camp des Archanges. En rivalité forte avec Remiel pour le titre d’Archange de l’orage, elle n’a pas cessé de travailler sa transcendance afin de muer ses pouvoirs en foudre, pour le surclasser. Malgré sa rivalité, elle était son alliée face à a déesse Abigor, quand Remiel fut déchu, Camaelle eut un profond sentiment d’injustice, heureusement, Abigor aussi finit par être déchue. Camaelle est un archange majeur mais de second plan, assez tôt, les 6 archanges principaux ont éclipsé les autres à la cour d’Elynea, ça n’a toutefois jamais dérangé la surpuissante élémentariste. Camaelle a toujours surveillé la descendance de Sil’Elaith, c’est pourquoi elle a voulu devenir la fille de Katell afin d’amplifier ses pouvoirs durant la grossesse. Elle aurait aussi poussé Katell auparavant à aller séduire ses collègues mais n’a jamais bien déterminé si son père était John Silver, Henry Edward ou Simon Rodriguez, considérant moins probable Franklin Bentley."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -737,7 +775,16 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Informations Vérité V1\n\nAzazel est l’archange des concepteurs et des gardiens, c’est l‘archange forgeron. Dans les mythes bibliques il est déchu après avoir enseigné aux hommes comment forger des armes afin de s’entretuer. Azazel était effectivement un forgeron sur Aèr, c’était possiblement le plus incroyable des forgerons Archanges qui existaient, c’était aussi un prêtre de Kanorarn, le dieu des Forges sur Aèr. Elynea le défia de créer des armes capables de rivaliser avec le divin, il s’exécuta et façonna l’équipement des archanges majeurs qui allaient suivre la divine conquérante. Maitre des barrières, il fut longtemps un archange majeur lui aussi, avant d’être vaincu par le dieu Satan. Déchu, il resta sur Terre pour équiper les forces du paradis, il aida grandement les nephilims notamment, avant de réaliser que le Paradis ne comptait plus dessus, rarement mis au courant après sa chute, il comprit un peu tard que Gabrielle s’attachait à l’empêcher d’être vraiment utile, pour ne pas justifier ainsi d’un possible retour au paradis. Très tôt, il sentit « l’Arkhangel » comme lié au paradis au sein de la Bratva, mais n’a jamais rencontré Svetlana bien qu’il travaille désormais pour cette descendante d’Elynea."
+          },
+          {
+            "type": "p",
+            "text": "Informations Vérité V2\n\nAzazel est l’archange des concepteurs et des gardiens, c’est l‘archange forgeron. Dans les mythes bibliques il est déchu après avoir enseigné aux hommes comment forger des armes afin de s’entretuer. Azazel était effectivement un forgeron sur Aèr, mais il n’était pas très réputé, jeune apprenti d’un artisan nain, il suivit les troupes Archanges quand Elynea les souleva contre la Terre. Azazel n’était ni bon guerrier ni bon élémentariste mais c’était un artisan doué, Elynea lui enseigna la transcendance pour qu’il ne mène une expérience, celle de changer de simples matériaux en matériaux « Elyséens », Il forgea les armes des Archanges majeurs et de nombreux saints servant le Paradis et resta dans les bonnes grâces d’Elynéa longtemps. Hélas, il était très ambitieux, comme tous les archanges venus remplacer des Dieux Anciens. Comme il ne percevait pas beaucoup de prières, même pour un Archange majeur, Azazel travailla pour les dieux Anciens par la suite ainsi qu’avec les Mages, créant notamment Excalibur avec l’aide des Mages Vivianne, Morgane et Merlin de la Loge « celtique ». Evidemment, Azazel fut déchu du paradis, par Gabrielle, qui le considéra comme un traitre, jalouse qu’il ne devienne de plus en plus puissant."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -841,7 +888,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Zophielle est l’archange de l’amour. Dotée d’une beauté simple, elle possède en grand charme lui permettant d’aisément influencer les mortels sans même recourir au moindre pouvoir. Archange majeur autrefois, elle n’a jamais réellement pu lutter contre la déesse lilith et ses agents et c’est pourquoi elle opta pour d’autres méthodes, trahissant le Paradis officiellement, Zophielle servit Lilith corps et âme. Elynea savait toutefois que ce n’était qu’une façade, un agent infiltré, hélas, Lilith ne fut pas dupe, ce qui ne l’empêcha pas d’accepter, grandement détachée du conflit entre enfers et paradis. Zophielle perdit peu à peu son importance à la cour céleste, ne rapportant trop rien comme information, n’agissant qu’assez peu et adhérant de plus en plus à la vision de lilith. Quand Elynea la fit revenir au Paradis, elle fit punir sévèrement Zophielle que lilith avait totalement rendu inutile pour Elynea, toutefois elle ne fut pas déchue. Zophielle eut bien d’autres projets à mener, sous la direction d’Elynea, servant de « chargée de communication » des différents prophètes, elle permit d’instaurer des religions monothéistes surpuissantes et écrasantes. En 2035, elle a ainsi la charge de faire de la papesse actuelle une véritable idole plus encore adorée que Siobhain nic SIRIDEAN, l’actrice-productrice-présidente de corporation la plus célèbre du monde. Un des secrets les mieux gardés de Zophielle est toutefois sa relation avec Diablo mais aussi L’ombre￾Pape, l’Archange, le Démon et l’Abomination voulant mener bien plus loin Innocentia afin d’en faire une nouvelle divinité, d’un autre genre, avec un nouveau paradis."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -949,7 +1001,16 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Informations Vérité V1\n\nBarachiel est l’archange majeur de ma bonté, du bien et de la fortune dans tous les sens du terme. Il était bien plus fringant et jeune quand Elynea le recruta sur Aèr, c’était un jeune archange même comparé à bien des autres partisans, mais il était fanatique comme aucun autre et sa grande dévotion le mena loin à la cour du Paradis. Au sommet de sa gloire, Barachiel se lança dans un projet ambitieux mais dangereux, il chercha à rallier Rae’kath, la chasseuse Vala’erai, ancienne esclave des Fléaux, mais pour la trouver, il fut obligé de recourir à l’aide d’un Mage, Lognemus dont le Mageius devint celui de Saint-Germain plus tard. Maitre de la magie temporelle le Mage se joua de l’Archange, lui arrachant de son « temps » encore et encore, essoufflant le pouvoir d’Elynea et l’essence de l’Archange en lui faisant miroiter de retrouver la chasseuse à travers des brides de temps perdu. C’est ainsi que Barachiel finit par devenir vieux et faible, totalement manipulé par celui qu’il pensait être son ami mais qui se gorgeait de son immortalité en vérité. Barachiel était un archange de la bonté par son caractère mais ce n’était pas l’archange de la stupidité ou de la paresse, s’il sacrifiait énormément d’énergie et de « temps » durant ses recherches, il obtint énormément d’expérience, assez pour forcer le mageius de lognemus à se réincarner, s’arrachant du mage spontanément en le tuant. Méprisé par les autres archanges, Barachiel ne fut pas déchu mais s’exila lui-même avec honte, prenant en grippe les mages comme aucun autre Archange après cette expérience."
+          },
+          {
+            "type": "p",
+            "text": "Informations Vérité V2\n\nBarachiel est l’archange majeur de ma bonté, du bien et de la fortune dans tous les sens du terme. Baraquiel était un ange et non un archange, il s’est éveillé à une conscience réelle en étant transcendé c’est pourquoi, malgré son immortalité, il vieillit contrairement aux autres archanges majeurs, parfaitement immortels de leur côté. Serviteur des Archanges, il ne se contenta pas d’obéir, ni puissant ni intelligents comparés à eux, il était né pour Elynea, éveillé par Elynea et sa vie n’existait que pour faire chuter de leurs trônes les dieux anciens. Absolument suicidaire et sans peur, Barachiel se révéla le plus brave de tous les anges du paradis, archanges compris. Impressionnant à chaque action qu’il menait, ce fanatique devint vite l’exemple pour tous les anges mais aussi l’épine dans le pied des Archanges, en effet, Elynea s’en servait pour souligner sa bonté, le récompensant incroyablement plus que les archanges majeurs « bonté de Dieu », ne signifiait pas qu’il était généreux, mais que « Dieu » était bon avec lui, jusqu’à l’ultime insulte pour les archanges d’Aèr: Elynea nomma Barachiel « Archange majeur ». Une véritable insulte pour les natifs d’Aèr, un esclave, un golem stupide fut nommé leur égal, il était aimé d’Elynea et eux peinaient à avoir quelques miettes de prières. Pour Michael, Gabriel et Raphael, les trois principaux archanges à la tête des factions du paradis, c’était difficile à accepter. Gabrielle lui mena la vie dure et s’attarda à le désinformer, Michael s’attacha à agir toujours avant lui, Raphael refusa simplement de soigner ou guérir les anges servant Barachiel mais ça ne changea rien à ce que cet ange transcendé ressentait, si Elynea laissait faire, c’était qu’il devait le subir."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1053,7 +1114,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Svetlana l’ignore mais elle est une « Mashia’h », c’est-à-dire un « messie », des êtres extrêmement rares, il s’agit de Nephilim avant tout mais pas seulement, ceux-là possèdent plus qu’une mince transcendance, ils descendent directement d’Elynea, de Dieu, et leur transcendance est primordiale, elle peut transcender plus que leur corps et leur âme mais aussi celles de ceux qui les entourent, tels les apôtres de Jesus dans la Bible. Le caractère messianique de ces êtres est évident et le « paradis » les surveille scrupuleusement car chaque « « Mashia’h » s’éveillant change absolument toute à grande échelle dans le monde. Pour la faction démoniaque, il est évident que par sa nature Nephilim, le « Mashia’h » peut très bien œuvrer pour les « enfers », hélas pour les démons, jamais aucun « Mashia’h » n’est devenu « l’antéchrist » tant recherché. Svetalana n’est que suspectée encore, n’ayant pas développer de grands pouvoirs, cependant, la dévotion infinie et totale de ses hommes est un premier signe de sa nature, et si l’Eglise Chrétienne vomirait à l’idée de comparer Drasko Vladic à un Apôtre, pour les Anges, ce pourrait être très sérieux. Tôt ou tard, elle sera donc approchée, la question n’est pas tant de savoir par qui (anges ou démons) ce n’est même pas de savoir quand, mais la seule question à se poser serait de savoir ce qu’elle fera quand elle saura ce qu’elle est… Certains disent que l’Ange Michael serait déjà près d’elle, sous les traits de Mikhail, le fils de sa compagne."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1157,7 +1223,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "« Valentino » n’est clairement pas un humain, c’est même une entité qu’on ne peut définir absolument comme étant un « être vivant », il s’agit plutôt d’une « essence de causalité », un reflet de la volonté de Mloxol V’Aagor, et pourtant il ne s’agit pas non plus de son maitre, simplement de l’émanation de sa volonté à revenir à la vie. Il possède seulement une forme humaine pour ce qu’il montre, ses pouvoirs sont équivalents à ceux d’un Mage très anciens et ses compétences physiques sont similaires à ceux d’un roi vampire, c’est une « Ombre », un « deimon » créé par le Fléau, même si sa naissance est causale et non volontaire, V’Aagor ignore qui est Absariath, il ne le considère pas comme existant, pourtant Absariath sait tout de son « maitre », son « père », qui n’est que le « Tout » dont il est issu, une « simple » écharde de volonté qui a été perdue. S’il est si puissant, c’est parce qu’Absariath puise dans tous les pouvoirs existants pour se façonner, il consume également les « Autres », les autres émanations de V’Aagor, qui, comme Absariath, naissent spontanément. Dans sa quête de pouvoir, Absariath tenta de s’emparer des dons d’Ux’Sharith, il est le père véritable de Catalina de la Caza notamment, s’étant adonné à la reproduction, poussé par un instinct inédit. Il règne sur l’Eglise Secrète, et complote avec le dieu ancien Diablo et l’archange majeure Zophielle pour transformer Innocentia en déesse, pour cela, il façonne sa prophétesse, Stephania VOLKOV afin de forcer la Papesse à éveiller son âme, Stephania n’étant qu’un sacrifice pour créer une nouvelle divinité que L’ombre-pape réserve comme femelle à son maitre afin de créer une nouvelle ère des abominations. Absariath a toutefois quelques moments d’humanité, comme si, à force d’exister, il devenait un être vivant véritablement et éprouvait l’envie de le rester, impliquant de ne pas réveiller son « Père »."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1250,7 +1321,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Mloxol est le « roi des fléaux », un titre qui n’a aucun sens, en vérité, puisque sur les 7 fléaux majeurs, il n’a jamais commandé qu’à trois autres dont Ux’Sharith, « la reine des fléaux », qu’il soumettait de force sans jamais avoir un ascendant véritable sur son esprit. Ce surnom lui était essentiellement donné par les Dieux, car il était l’un des trois fléaux les plus puissants et le plus avide de pouvoir. C’était un être extrêmement ambitieux et dangereux, son apparence d’origine était une masse informe similaire à du pétrole bouillonnant, pouvant devenir liquide aussi bien que dur comme du diamant, sans yeux ni bouche, son corps serpentait le long des parois, recouvrant et assimilant tout de son corps, toute ombre créé par l’exposition de son corps à une lumière était son corps, pouvant donc se démultiplier à l’infini mais finissant toujours par fusionner. N’ayant ni organe ni réelle consistance s’il le désirait, il n’était qu’un amas de matière noire soumis à une volonté malsaine. Quand Lilith fit découvrir les plaisirs charnels à Ux-Sharith, il en devint un grand amateur lui aussi et insémina sa « reine », hélas, il ne perdait pas de pouvoir contrairement à elle. Il entreprit de corrompre tous les êtres vivants, certains lui attribuent les « deimons », ces ombres-vivantes qui ne seraient que des fragments de sa tentative de règne, certains pensent qu’il est le premier fléau à avoir corrompu les Khinaes qui donnèrent les vampires, sa nature obscure pouvant être l’origine de leur caractère ténébreux, on pense aussi que sa nature liée à la matière noire le relie aux effismes terriens. Belial et Lucifer furent les seuls capables de l’enfermer dans une prison de feu et de lumière où son existence-même ne pouvait exister, telle la théorie du chat de Schrodinger, il n’est donc ni mort ni vivant ou plus précisément, tant que sa prison demeure, il n’existe plus mais, en même temps, il existe forcément si sa prison demeure pour le contenir. Des fragments du Fléau demeurent partout dans le monde, mais sans sa volonté, ces fragments sont à la fois son essence et à la fois d’autres entités, par exemple, il y a l’Ombre-Pape qui agit pour le ramener sans pour autant être lui. L’archange Gabrielle a déjà essayé de l’utiliser, mais fit corrompre un ange par l’essence du Fléau, ne se risquant pas à l’être elle-même. Mloxol peut toutefois parler à ses cultistes, il aurait annoncé son retour prochain, grâce à Ux’Sharith, mais rien ne semble indiquer qu’elle n’ait la même volonté, bien au contraire, toutefois, il n’a jamais précisé si c’était de gré ou de force…"
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1343,7 +1419,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Ux’Sharith était un fléau s’étant écrasé sur Terre après la guerre entre les légions, résidu de leur puissance, elle détruisait la lumière aussi bien que la magie en les décomposant. Créature de destruction, elle commandait à Gajh’ shaoggith et C'thath vhadhi, deux fléaux d’une puissance similaire et était soumise « au roi des fléaux »: Mloxol v'aagor, bien que chacun de ces fléaux était une calamité vénérée et crainte n’interagissant que peu avec les autres. Invulnérable, aucun dieu ne parvenait à la vaincre, Lucifer ou même Belial, elle brisait leurs pouvoirs, comme un prisme décomposant la lumière. C’est lilith qui se chargea d’elle. Lilith n’usa d’aucun pouvoir, elle vint juste à elle pour la servir, humblement, lui façonner un corps plus humain, touchée, Sharith tomba amoureuse de lilith et usa de plus en plus du corps offert, découvrant la luxure, forçant lilith à faire des corps pour ses deux congénères. Au gré des orgies de Fléaux, elle engendra des myriades de créatures, renforçant les troupes des Fléaux, mais lilith avait gagné, chaque engeance de Sharith emportait de sa puissance avec elle, la créature immonde était si fertile qu’elle s’épuisa sans s’en rendre compte, s’emprisonnant dans le corps conçu pour la retenir. Lilith la tua et chercha à emporter son esprit dans son enfer, mais horrifiée par la trahison, Sharith brisa son esprit pour se réfugier en chaque descendante, chaque descendante se cachant alors et engendrant elle-même des myriades de descendantes. Ces dernières sont appelées sorcières « psycolor » car chacune a hérité d’un pouvoir chromatique, une sorte de ki de fléau augmentant le physique et l’intelligence. L’ordres religieux des saintes Lagunes s’occupa de les traquer et les tuer des millénaires avant de les exploiter plus que els exterminer. En 2020, un grand tournoi au sein de l’Académie visait à établir le niveau des étudiantes psycolors, Allisa SVALISDOTTIR, se révéla posséder l’esprit de Sharith et dévora les pouvoirs de toutes les étudiantes présentes, avant d’anéantir l’ordre des Saintes Lagunes et traquer les sorcières psycolors à travers le monde, n’en gardant qu’une poignée singulière. Profondément marquée par la trahison de son premier amour, Lilith, elle ne se sentit pas de se venger ni reprendre sa vie de fléau, se voyant comme une déesse, l’égale d’Elynea ou Belial, elle vise à purger le monde de sa propre espèce, les Fléau, pour racheter son passé, plus particulièrement, exterminer V’Aagor, son ancien maitre et plus terrible Fléau sur Terre bien que « l ’immondice Abyssale » K'thuhuth'lul l’ait possiblement surpassé"
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1436,7 +1517,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Shaoggith est un fléau essentiellement issu du chaos et du néant. Il dévore absolument tout ce qui l’entoure, l’animé, l’inanimé, le matériel et même l’immatériel, c’est un véritable dévoreur acharné de tout ce qu’il perçoit. Les quatre yeux de Shaoggith voient quelque chose de différent chacun, l’un voit « les formes », l’autre voit « le temps », un troisième voit « l’énergie » et le dernier voit « la volonté » de ce qui l’entoure, il ne peut néanmoins se concentrer que sur un seul œil à la fois, les autres n’étant que secondaires jusqu’à ce qu’il ait dévoré ce qu’il a perçu comme son repas. Perpétuellement affamé, malgré une intelligence monumentale c’était le plus bestial de tous les fléaux majeurs, sa faim réduisait ses envies de réflexions à un niveau presque instinctif, seule Ux’sharith parvenait à le faire cesser ses chasses. « Chien de Sharith », c’est ce que signifie Shaoggith dans la langue spécifique des fléaux terrestres, en effet, bien que sa puissance pût effrayer plus encore les dieux anciens que celle d’ux-Sharith, il lui était entièrement obéissant, le nourrissant de son énergie écrasante, elle l’avait dressé. Sa famine était contagieuse, surnommée « famine liquide » ceux qui sont contaminés salivent un mucus blanchâtre et collant qui peut dissoudre pierre ou acier une fois que l’eau de cette salive est évaporée. Peu de cultes secrets l’honorent, mais il s’est fait glorifier néanmoins au plus fort du règne d’ux￾sharith, comme un sous-culte à cette dernière. Il était la poubelle des fléaux, celui qu’on nourrissait par les ennemis sans valeur. Sa nature même était la destruction, son odeur était celle d’ozone et de souffre, une puanteur faisant tousser des kilomètres avant qu’il n’arrive. Il a de très nombreuses engeances ressemblant à des limaces dont la tête possède deux tentacules pour ramener à leur bec tranchant leurs proies, elles sécrètent le mucus blanc de la famine liquide par tout leur corps. Il fut tué par Mammon, non sans mal puisqu’il dévorait sa propre mort puis la trame temporelle où il le tuait, le dieu ancien le tuant en boucle jusqu’à ce qu’il ne soit aidé par Rae’kath, la Vala’eraï, pourtant soumise à V’Aagor, la créature élémentaire préférant préserver la stabilité terrestre en détruisant un être capable de dévorer le temps. Il n’est pas parfaitement mort, son corps immense demeure au nord de l’Alaska, d’où seraient apparu les premiers Wendigos, ces revenants affamés."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1529,7 +1615,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Shaoggith est un fléau essentiellement issu du chaos et du néant. Il dévore absolument tout ce qui l’entoure, l’animé, l’inanimé, le matériel et même l’immatériel, c’est un véritable dévoreur acharné de tout ce qu’il perçoit. Les quatre yeux de Shaoggith voient quelque chose de différent chacun, l’un voit « les formes », l’autre voit « le temps », un troisième voit « l’énergie » et le dernier voit « la volonté » de ce qui l’entoure, il ne peut néanmoins se concentrer que sur un seul œil à la fois, les autres n’étant que secondaires jusqu’à ce qu’il ait dévoré ce qu’il a perçu comme son repas. Perpétuellement affamé, malgré une intelligence monumentale c’était le plus bestial de tous les fléaux majeurs, sa faim réduisait ses envies de réflexions à un niveau presque instinctif, seule Ux’sharith parvenait à le faire cesser ses chasses. « Chien de Sharith », c’est ce que signifie Shaoggith dans la langue spécifique des fléaux terrestres, en effet, bien que sa puissance pût effrayer plus encore les dieux anciens que celle d’ux-Sharith, il lui était entièrement obéissant, le nourrissant de son énergie écrasante, elle l’avait dressé. Sa famine était contagieuse, surnommée « famine liquide » ceux qui sont contaminés salivent un mucus blanchâtre et collant qui peut dissoudre pierre ou acier une fois que l’eau de cette salive est évaporée. Peu de cultes secrets l’honorent, mais il s’est fait glorifier néanmoins au plus fort du règne d’ux￾sharith, comme un sous-culte à cette dernière. Il était la poubelle des fléaux, celui qu’on nourrissait par les ennemis sans valeur. Sa nature même était la destruction, son odeur était celle d’ozone et de souffre, une puanteur faisant tousser des kilomètres avant qu’il n’arrive. Il a de très nombreuses engeances ressemblant à des limaces dont la tête possède deux tentacules pour ramener à leur bec tranchant leurs proies, elles sécrètent le mucus blanc de la famine liquide par tout leur corps. Il fut tué par Mammon, non sans mal puisqu’il dévorait sa propre mort puis la trame temporelle où il le tuait, le dieu ancien le tuant en boucle jusqu’à ce qu’il ne soit aidé par Rae’kath, la Vala’eraï, pourtant soumise à V’Aagor, la créature élémentaire préférant préserver la stabilité terrestre en détruisant un être capable de dévorer le temps. Il n’est pas parfaitement mort, son corps immense demeure au nord de l’Alaska, d’où seraient apparu les premiers Wendigos, ces revenants affamés."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1622,7 +1713,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "C’Thath Vhadhi était la quatrième des fléaux alliés, soumise à Mloxol V’Aagor et ux’Sharith elle était la plus discrète de ces quatre Fléaux majeurs. Vahdhi était un Fléau issu des entrelacs de causalité, ce sont les dieux qui la réveillèrent, en structurant leurs forces et leur organisation, elle éventra la croute terrestre pour sortir, tellement énorme qu’elle déversa des tonnes de lave qu’elle avait sur elle. Tout ce qu’elle regarde change intrinsèquement de fonction, elle donne un but, une raison d’exister à toute chose, mais ce n’est pas une véritable déesse du destin, c’est un entrelacs de causalités, ça signifie qu’elle mêle les destins et les fonctions, mais de manière anarchique, sans grand dessein divin derrière, c’est une essence chaotique absolue et glaciale. Son propre corps n’est qu’un tas de nœuds de fibres plus ou moins géantes, telle une grappe de racines plus longues qu’une montagne au sommet de laquelle un minuscule buste humanoïde toise le monde d’un visage bleuté sans émotion. Elle n’a jamais véritablement été vaincue, les dieux se sont rendus compte une fois les autres fléaux enfermés ou tués qu’elle était la plus dangereuse pour eux. Elle n’est ni destructrice ni invasive, alors pour les espèces vivantes, elle était la moins menaçante, en revanche, face à un dieu, un être particulièrement forgé par l’énergie, cherchant à s’attacher à un « Attribut », elle est d’une redoutable dangerosité puisqu’elle peut donner un attribut de son choix au dieu l’affrontant, elle est capable de créer ces « attributs flottants » et de les greffer, mais aucun dieu n’a envie de devenir le dieu « de la faiblesse et de la coprophagie » ou bien « le dieu lécheur de poussière » encore moins ils n'ont envie de changer de nature. C’est Elynea qui s’occupa de l’enfermer, après la guerre contre les enfers, du moins après avoir réussi installer le Paradis, elle a attaqué les cultes qui restaient, et le culte de Vhadi était l’un des plus puissants puisque le Fléau accordait une nouvelle vie à ceux sacrifiant assez à son gout, changeant la personnalité et les dons de ceux qui la vénèrent. Elynea l’enferma après un combat monumental dans les souterrains, la divine créature lumineuse fut maintes fois réduite à des statuts immondes et méprisables, mais elle se refusa de fuir, affrontant le Fléau, même déesse de la vase, mortelle et malade, car elle réalisa rapidement que Vhadhi ne savait simplement pas se défendre autrement et jamais ne tuait elle-même. Elle l’emprisonna dans l’enfer de Lucifer, afin d’accentuer l’humiliation pour l’ancien dieu de la lumière désormais déchu."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1726,7 +1822,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "K'thuhuth'lul est un fléau qui se forma à l’extérieur de la Terre, il fut arraché à sa dimension par des rocréens primitifs sur leur planète, il y a plusieurs centaines de millions d’années Sa présence extrêmement mutagène quand elle ne tue pas est si effrayante qu’il rend fou à distance, sans même qu’on ne le voit ni ne sache qu’il est présent. Extrêmement radioactif, il est à l’origine d’énormément de nouvelles formes de vies dans les profondeurs, hélas, souvent difformes. Il était le pire ennemi de V’Aagor, c’est un de leur affrontements qui poussa les dieux véritablement débuter la guerre contre les Fléaux. Chez les dieux, il était l’ennemi d’Alabor, sa présence n’étant pas que mutagène, il altérait jusqu’aux éléments, jusqu’aux atomes, changeant l’eau et sa composition, ainsi, il y a 380 à 360 millions d’années, la grande extinction du Dévonien est clairement du fait d’Alabor pour tenter d’anéantir Thul et ses innombrables créations que sa seule présence engendrait. Les scientifiques même en 2035 ont énormément de preuve que le niveau de la mer changeait énormément à cette période, ignorant qu’il s’agissait d’assèchement et d’inondations pour purger la Terre. Cette guerre entre Alabor et Thul mena à ce que les « fées », les esprits de la Terre, ne se divisent, certaines se ralliant à la déesse, comme le cas d’Amphitrite, d’autres s’y opposèrent et finirent corrompus et altérés, souvent dévorés par l’impitoyable titan vert. Les cultes de thul demeurèrent même en 2035, même s’il a fini par être enfermés dans l’immense cité, non pas de R’Lyeh, mais la capitale de Mu que fondèrent les créatures le servant il y a des millions d’années. Les Atlantes dérobèrent ce continent immergé hélas et les grandes cités sous-marines du Pacifique, ils réalisèrent leur erreur trop tard, sous le grand palais du roi Kyriak, la tombe de Thul est désormais à l’air libre bien qu’il y sommeille encore. Dans son sommeil, Thul souffla souvent des images et des récits, mais aucun humain ne fut plus réceptif que H.P. Lovecraft."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1830,7 +1931,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Pendant des temps immémoriaux, elle était la favorite de la déesse Alabor, « Poséidon » dans la mythologie grecque dont elle se présentait comme la première épouse. Elle a commencé à gravement être en désaccord avec les décisions de la déesse, les néréides finissant par tourner le dos à la déesse des flots. Connue pour ses amours volages, Amphitrite cherchait avant tout un protecteur puissant contre le « titan vert », une incommensurablement grande créature, un « Fléau » reposant dans la mer, indescriptible et changeante, aux innombrables tentacules que serviraient les « abyssaux », ces êtres vaguement humanoïdes déformés par sa seule présence et que certains décrivent comme d’anciens Aseryns déformés. En effet, les nymphes des mers étant en guerre depuis l’apparition de ces créatures cherchant à réveiller le « Fléau », elles sont progressivement détournées de la guerre des dieux pour mener la leur, seules, puisque les dieux semblaient ne plus tenir compte des Fléaux. Malgré ses attaques contre Sil’Elaith et Kyriak, Amphitrite négocie actuellement un pacte entre les trois afin de s’occuper de ce fléau avant qu’il ne détruise leurs intérêts et ce, en dépit d’Elynea et Belial qui semblent n’avoir rien à foutre que plusieurs sous-fléaux le servant n’aient déjà été réveillés dans le Pacifique, tel que Télipinu, Dagon ou d’autres."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -1934,7 +2040,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Ravana était le fils d’Ymir, le plus ancien des Dives, il vit son père considérer avec amitié les premiers Mages, qui possédaient la « marque », les Mageius. Alors que son père était en guerre contre les dieux, il vit les Mages se retourner contre les Dives et les autres voyageurs, voulant prendre pour eux seuls les Mageius. Ravana massacra plus de Mages qu’aucun dives ne le fit, il fallut qu’Anahita n’intervienne pour l’arrêter, lui sauvant la vie par la même occasion en le scellant et mettant fin à la guerre des Mageius. Bien des temps plus tard, on libéra Ravana pour combattre les Anges mais perdu à une époque n’étant plus la sienne, il ne fut pas d’une grande efficacité et très vite les dieux furent obligés de s’occuper de lui au lieu de le compter comme un allié. Enfermé dans l’Ombre-monde par la suite, il est corrompu par « l’Ombre » comme bien des Dises et s’en est échappé avant de devenir totalement fou. Plusieurs sectes humaines le vénèrent et c’est lui qui réveilla le Fléau du « Grand traqueur » en Europe pour faire diversion, raison pour laquelle, certains chasseurs confondent les deux pistes."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -2045,7 +2156,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Angrboda est parfois surnommée « Anger » ou « Wrath » bien qu’elle ait un caractère extrêmement paisible au quotidien, c’est une Dive explosive qui ne supporte pas qu’on touche sa progéniture et ses trésors. Reine du nord, elle régnait sans partage sur les « géants », tels qu’on les retrouve dans les mythologie grecques ou nordiques. Les dieux ont purgé son vaste empire et l’ont jeté dans un profond gouffre. Pendant des Millénaires, elle appela à l’aide des mortels, s’offrant à eux jusqu’à pouvoir se libérer un jour, lançant son fils difforme, un semi-dive, Grendel, sur les royaumes autour de son gouffre. Elle tua Beowulf, le héros qui tua Grendel, lui fixant le Mageius de l’ogre, hélas, l’humain, pugnace ne la trancha en deux. Retombant dans son gouffre, elle continua d’appeler à l’aide jusqu’en 2025, où une excavation de megacorporation ouvrit un passage dans les profondeurs de l’empire de la géante. Elle dévora tous les humains y pénétrant afin de restaurer son corps et invoqua de force le dieu Mephisto qui, autrefois, fut un de ses amants (Loki). Elle a pour projet de recréer magiquement les Dives à partir d’humains, c’est avec l’aide de Mephisto qu’elle développa donc un « vaccin » nouveau à partir de son sang que Sunways commercialise sous le nom « Divaccine ». Elle n’a rien à faire que les nouveaux mutants n’aient pas de Mageius, elle cherche juste à reconstruire son espèce. Le seul objet de sa colère est le prêtre Raphael, un chasseur qui n’est autre que le légendaire Beowulf qui la tua pratiquement autrefois, voulant récupérer le Mageius de son fils greffé en lui."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -2149,7 +2265,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Akvan est un frère d’Ymir, un des plus anciens Dives de la Terre. Akvan est tout simplement le plus puissant et le plus écrasant de tous les Dives à avoir existé, l’égal d’un dieu certains osent dire, sans nul doute largement l’égal d’un Archange majeur donc. Surpuissant magicien et guerrier géant exceptionnel, il était à la tête des Dives face aux Fléaux et un ami proche de Baal aussi bien que de Belial. Quand les dieux s’attaquèrent aux Dives, il se refusa à combattre la reine des dieux, son amie. On ne sait combien de temps mais il encaissa nombres d’assauts divins sans broncher avant de décéder, refusant de se battre tant que Belial n’aurait pas demandé pardon pour son crime contre cette espèce, hélas, plus inflexible encore que lui, elle ne lui fit jamais ce plaisir. Bien que mort, son Mageius resta ancré à une pierre là où il décéda, la pierre devenant à nouveau Akvan après un millénaire. Régnant sur les Dives, il avait sa lignée dans le moyen orient, au plus proche des cultes divins anciens, l’actuel pays d’Iran était son siège. Quand les humains arrivèrent, il constitua d’immense harems de cette petite espèce, jusqu’à ce que les anges ne ravagent à leur tour l’empire d’Akvan. Caïn tua Akvan, profitant des assauts angéliques pour s’infiltrer jusqu’au Dive et avoir un vrai combat, celui contre Cronos ayant été autrefois interrompu par Abigor. La lignée du « roi des dives » demeura, exerçant un puissant contrôle sur les « Djinn », les fées, en l’honneur de leur soumission à Akvan, la lignée, humaine ne perdit rien des allégeances envers elle, les seigneurs des djinns s’asservissant aux héritiers du légendaire roi, ainsi, la descendante directe d’Akvan, Farah el’Arshad, est directement protégée par la reine-esclave Saajida, fille d’Ouranos, le roi des « djinns » célestes, elle est asservie à Akvan et ses descendants mais reste lareine des ouranies jusqu’à ce que son père ne soit libéré des Anges."
+          }
+        ]
       },
       {
         "id": "statistiques",
@@ -2253,7 +2374,12 @@ const PAYLOAD = [
         "title": "Informations MJ",
         "level": 2,
         "audience": "mj",
-        "blocks": []
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Le vieux clan Shinoda a toujours été considéré avec peur et méfiance au Japon. Créé par un « démon », les Shinoda ont toujours régné en maitre sur l’île forestière où ils se trouvaient, comme possédés par des pouvoirs ténébreux. Le sang des « Deimons » coule dans les veines des Shinoda, celui du plus ancien Kitsune de l’archipel nippon notamment et du plus maléfique. Fuyumi n’a pas conscience de son héritage réel, en revanche, elle a conscience de sa nature peu humaine, capable de maitriser des dizaines d’adversaires seule, elle sent souvent une sombre énergie se dégager de ses poings quand elle pratique son karaté ancestral, une énergie qui ne ressemble pas à ce qu’on appelle le ki. Plus elle prend de l’âge plus les yeux de Fuyumi s’éclaircissent, passant de noir à un rouge foncé, elle a du mal à se couper les ongles de plus, eux-mêmes noircissant naturellement, ces changements la stressent mais sa vie au sein des yakuzas est plus importante."
+          }
+        ]
       },
       {
         "id": "statistiques",
