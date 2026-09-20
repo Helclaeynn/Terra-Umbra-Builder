@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import TerraUmbraLockup from "../components/TerraUmbraLockup.vue";
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import { api, ApiError } from "../lib/api";
@@ -1313,12 +1314,8 @@ onBeforeUnmount(() => {
 <template>
   <div class="compendium-shell">
     <header class="compendium-topbar">
-      <RouterLink class="brand" to="/">
-        <span class="brand-mark">TU</span>
-        <span>
-          <strong>Terra Umbra</strong>
-          <small>California · Compendium V2</small>
-        </span>
+      <RouterLink class="brand compendium-brand-lockup" to="/">
+        <TerraUmbraLockup />
       </RouterLink>
 
       <div class="compendium-top-actions">
@@ -1328,7 +1325,7 @@ onBeforeUnmount(() => {
         <RouterLink v-if="canEdit" class="ghost compact-link wiki-create-link" to="/compendium/new">
           ＋ Nouvelle page
         </RouterLink>
-        <RouterLink class="ghost compact-link" to="/">
+        <RouterLink class="ghost compact-link" to="/account">
           {{ currentUser ? "Mon espace" : "Connexion" }}
         </RouterLink>
       </div>
