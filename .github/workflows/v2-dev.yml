@@ -1065,7 +1065,7 @@ jobs:
                   print(f'AMBIGUOUS {item["family"]}::{item["key"]}::{item["label"]} => {matches}')
           PY
 
-          curl --fail --silent --show-error             -b "$COOKIE_JAR"             https://dev.terra-umbra.fr/api/compendium/editor/builder-source/verite-046-10-vampires > "$COMPENDIUM_EDITOR"
+          curl --fail --silent --show-error             -b "$COOKIE_JAR"             https://dev.terra-umbra.fr/api/compendium/editor/builder-source/verite-v7-vampires-civilisation-cours-sangs > "$COMPENDIUM_EDITOR"
           python3 - "$COMPENDIUM_EDITOR" <<'PY'
           import json,sys
           records=json.load(open(sys.argv[1],encoding="utf-8"))["records"]
