@@ -500,7 +500,8 @@ jobs:
           wiki=json.load(open(sys.argv[5],encoding="utf-8"))["entries"]
 
           assert meta["total"] >= 500, meta
-          assert meta.get("archivedTotal",0) >= 900, meta
+          # Canonical PNJ deduplication removes redundant OLD identities from the live corpus; keep a floor that still catches archive loss.
+          assert meta.get("archivedTotal",0) >= 850, meta
           assert any(item["name"] == "Bestiaire" for item in meta["categories"]), meta["categories"]
           assert all(item["name"] != "OLD" for item in meta["categories"]), meta["categories"]
           assert meta["overrides"]["applied"] > 0, meta["overrides"]
