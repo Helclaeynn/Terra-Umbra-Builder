@@ -107,8 +107,8 @@ const plagueTargets=[
   ["Gajh’ shaoggith",'lore-plagues-gajh-shaoggith','Dossier détaillé — Gajh’Shaoggith'],
   ["K'thuhuth'lul",'lore-plagues-kthuhuthlul','Dossier détaillé — K’thuhuth’lul / Thul'],
 ];
-for(const [srcTitle,id,sectionTitle] of plagueTargets){const p=plague(srcTitle);appendSection(pageById(lore,id),sectionTitle,[...(p.intro||[]),...(p.info||[])],{idPrefix:'fleaux-focus'});}
-const del=plague('Delanial');appendSection(pageById(lore,'lore-plagues-delanial'),'Dossier détaillé — Delanial',del.intro,{idPrefix:'fleaux-focus'});const father=cult('Delanial','Le père de L’Ombre');appendSection(pageById(lore,'lore-plagues-delanial'),'Le Père de l’Ombre — histoire et fonctionnement',loreParas(father),{idPrefix:'fleaux-focus'});
+for(const [srcTitle,id,sectionTitle] of plagueTargets){const p=plague(srcTitle);appendSection(pageById(lore,id),sectionTitle,[p.subtitle,...(p.intro||[]),...(p.info||[])].filter(Boolean),{idPrefix:'fleaux-focus'});}
+const del=plague('Delanial');appendSection(pageById(lore,'lore-plagues-delanial'),'Dossier détaillé — Delanial',[del.subtitle,...(del.intro||[])].filter(Boolean),{idPrefix:'fleaux-focus'});const father=cult('Delanial','Le père de L’Ombre');appendSection(pageById(lore,'lore-plagues-delanial'),'Le Père de l’Ombre — histoire et fonctionnement',loreParas(father),{idPrefix:'fleaux-focus'});
 
 // 2. Six cult pages, only autonomous objects absent from corpus.
 const newLore=[
