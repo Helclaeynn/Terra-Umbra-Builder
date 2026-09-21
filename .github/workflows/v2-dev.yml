@@ -64,6 +64,10 @@ jobs:
         working-directory: apps/api
         run: node scripts/check-truth-aseryn-terres-temples.mjs
 
+      - name: Check Truth Grands Exilés integration
+        working-directory: apps/api
+        run: node scripts/check-truth-grands-exiles.mjs
+
       - name: Check Truth fantastic species integration
         working-directory: apps/api
         run: node scripts/check-truth-fantastiques-integration.mjs
