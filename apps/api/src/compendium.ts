@@ -2787,7 +2787,7 @@ async function loadCorpus(): Promise<Corpus> {
 
   const resolveShiQiTarget = (enrichment: JsonObject): Article | null => {
     const direct = byId.get(String(enrichment.id ?? ""));
-    if (direct?.rebuildV2 !== false) return direct;
+    if (direct && direct.rebuildV2 !== false) return direct;
     const wanted = new Set(
       (enrichment.identityKeys ?? []).map((value: unknown) => normalizedPnjIdentity(value)).filter(Boolean)
     );
