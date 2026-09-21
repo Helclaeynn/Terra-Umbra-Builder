@@ -134,6 +134,15 @@ import {
   COMPENDIUM_VERITE_V7_ANGELUS_NAVIGATION
 } from "./compendium-verite-v7-angelus.js";
 import {
+  COMPENDIUM_VERITE_ANGELUS_ARTICLES,
+  COMPENDIUM_VERITE_ANGELUS_ENRICHMENTS,
+  COMPENDIUM_VERITE_ANGELUS_NAVIGATION
+} from "./compendium-verite-angelus-source.js";
+import {
+  COMPENDIUM_VERITE_ANGELUS_PNJ_ARTICLES,
+  COMPENDIUM_VERITE_ANGELUS_PNJ_NAVIGATION
+} from "./compendium-verite-angelus-pnj.js";
+import {
   COMPENDIUM_VERITE_V7_ASERYN_ARTICLES,
   COMPENDIUM_VERITE_V7_ASERYN_NAVIGATION
 } from "./compendium-verite-v7-aseryns.js";
@@ -1031,6 +1040,121 @@ function mergePelagePnj(target: Article, source: Article): Article {
   return merged;
 }
 
+function mergeAngelusPnj(target: Article, source: Article): Article {
+  const merged = deepClone(target);
+  merged.tags = [...new Set([...(merged.tags ?? []), ...(source.tags ?? [])])];
+
+  const sources = [merged.source, source.source]
+    .flatMap((value) => String(value ?? "").split(" ; "))
+    .map((value) => value.trim())
+    .filter(Boolean);
+  merged.source = [...new Set(sources)].join(" ; ");
+  if (new Set(sources).size > 1) {
+    merged.tags = [...new Set([...(merged.tags ?? []), "Multi-source"])];
+  }
+
+  const targetPnj = merged.pnj ?? {};
+  const sourcePnj = source.pnj ?? {};
+  merged.pnj = { ...sourcePnj, ...targetPnj };
+  merged.pnj.identity_keys = [
+    ...new Set([
+      ...articlePnjIdentityKeys(target),
+      ...articlePnjIdentityKeys(source),
+      ...articlePnjIdentityKeys(merged)
+    ])
+  ];
+  merged.pnj.source_documents = [
+    ...new Set([
+      ...((Array.isArray(targetPnj.source_documents) ? targetPnj.source_documents : []) as string[]),
+      ...((Array.isArray(sourcePnj.source_documents) ? sourcePnj.source_documents : []) as string[]),
+      ...sources
+    ])
+  ];
+
+  const sections = [...(merged.sections ?? [])];
+  const sourceProfile = (source.sections ?? []).find((section) => section.id === "profil");
+  const sourceReality = (source.sections ?? []).find((section) => section.id === "informations-realite");
+  const sourceTruth = (source.sections ?? []).find((section) => section.id === "informations-mj");
+
+  let mj = sections.find(
+    (section) => section?.audience === "mj" && /mj|dossier|verite/i.test(String(section.id ?? ""))
+  );
+  if (!mj) {
+    mj = {
+      id: "informations-mj",
+      title: "Informations MJ",
+      level: 2,
+      audience: "mj",
+      blocks: []
+    };
+    sections.push(mj);
+  }
+  if (sourceTruth) mergeUniqueTextBlocks(mj, sourceTruth.blocks ?? []);
+
+  const insertBeforeMj = (section: JsonObject) => {
+    const index = sections.findIndex((item) => item?.audience === "mj");
+    if (index >= 0) sections.splice(index, 0, section);
+    else sections.push(section);
+  };
+
+  const existingIds = new Set(sections.map((section) => String(section?.id ?? "")));
+  if (sourceReality?.blocks?.length && !existingIds.has("source-angelus-realite")) {
+    insertBeforeMj({
+      id: "source-angelus-realite",
+      title: "Complément Réalité · dossier Angelus",
+      level: 2,
+      blocks: deepClone(sourceReality.blocks)
+    });
+    existingIds.add("source-angelus-realite");
+  }
+
+  if (sourceProfile && !existingIds.has("source-angelus-identite")) {
+    const rows = (sourceProfile.blocks ?? [])
+      .flatMap((block: JsonObject) => (block?.type === "table" && Array.isArray(block.rows) ? block.rows : []))
+      .filter((row: unknown[]) => {
+        const label = normalizedPnjIdentity(row?.[0]);
+        return label.includes("age") || label.includes("affiliations") || label.includes("nationalite");
+      });
+    if (rows.length) {
+      insertBeforeMj({
+        id: "source-angelus-identite",
+        title: "Complément de fiche · dossier Angelus",
+        level: 2,
+        blocks: [{ type: "table", rows }]
+      });
+    }
+  }
+
+  const secretLabels = [
+    "nom de la verite",
+    "nature reelle",
+    "ethnie reelle",
+    "archange tutelaire",
+    "divinite",
+    "pouvoir principal",
+    "statut verite"
+  ];
+  merged.sections = sections.map((section) => {
+    if (section?.audience === "mj") return section;
+    const copy = deepClone(section) as JsonObject;
+    copy.blocks = (copy.blocks ?? []).map((block: JsonObject) => {
+      if (block?.type !== "table" || !Array.isArray(block.rows)) return block;
+      return {
+        ...block,
+        rows: block.rows.filter((row: unknown[]) => {
+          const label = normalizedPnjIdentity(row?.[0]);
+          return !secretLabels.some((secret) => label.includes(secret));
+        })
+      };
+    });
+    return copy;
+  });
+
+  merged.status = "canon_enrichi";
+  merged.rebuildV2 = true;
+  return merged;
+}
+
 function mergeHunterPnj(target: Article, source: Article): Article {
   const merged = mergeFleauxPnj(target, source);
   const targetPnj = target.pnj ?? {};
@@ -1584,6 +1708,7 @@ async function loadCorpus(): Promise<Corpus> {
   const mageLogesPnjResolvedIds = new Map<string, string>();
   const vampireCourtPnjResolvedIds = new Map<string, string>();
   const pelagePnjResolvedIds = new Map<string, string>();
+  const angelusPnjResolvedIds = new Map<string, string>();
   const aserynTerresTemplesPnjResolvedIds = new Map<string, string>();
   const grandsExilesPnjResolvedIds = new Map<string, string>();
   const loaded = await Promise.all(
@@ -1782,6 +1907,50 @@ async function loadCorpus(): Promise<Corpus> {
 
   for (const article of COMPENDIUM_VERITE_V7_ANGELUS_ARTICLES) {
     byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const enrichment of COMPENDIUM_VERITE_ANGELUS_ENRICHMENTS) {
+    const target = byId.get(String(enrichment.targetId ?? ""));
+    if (!target) {
+      throw new Error(`Cible d'enrichissement Angelus absente: ${String(enrichment.targetId ?? "")}`);
+    }
+
+    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
+    const sections = (deepClone(enrichment.sections ?? []) as JsonObject[]).filter(
+      (section) => !existingIds.has(String(section?.id ?? ""))
+    );
+    if (sections.length) target.sections = [...(target.sections ?? []), ...sections];
+
+    const sources = [target.source, enrichment.source]
+      .flatMap((value) => String(value ?? "").split(" ; "))
+      .map((value) => value.trim())
+      .filter(Boolean);
+    target.source = [...new Set(sources)].join(" ; ");
+    target.tags = [
+      ...new Set([
+        ...(target.tags ?? []),
+        ...(enrichment.tags ?? []),
+        ...(new Set(sources).size > 1 ? ["Multi-source"] : [])
+      ])
+    ];
+    target.status = "canon_enrichi";
+    target.rebuildV2 = true;
+  }
+
+  for (const article of COMPENDIUM_VERITE_ANGELUS_ARTICLES) {
+    byId.set(String(article.id), deepClone(article) as Article);
+  }
+
+  for (const sourceArticle of COMPENDIUM_VERITE_ANGELUS_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingAserynPnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeAngelusPnj(existing, article));
+      angelusPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+    byId.set(article.id, article);
+    angelusPnjResolvedIds.set(article.id, article.id);
   }
 
   for (const article of COMPENDIUM_VERITE_V7_ASERYN_ARTICLES) {
@@ -2486,6 +2655,10 @@ async function loadCorpus(): Promise<Corpus> {
       ),
       ...COMPENDIUM_VERITE_V7_DAEMON_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_ANGELUS_NAVIGATION,
+      ...COMPENDIUM_VERITE_ANGELUS_NAVIGATION,
+      ...COMPENDIUM_VERITE_ANGELUS_PNJ_NAVIGATION.filter(
+        (entry) => angelusPnjResolvedIds.get(entry.id) === entry.id
+      ),
       ...COMPENDIUM_VERITE_V7_ASERYN_NAVIGATION,
       ...COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_NAVIGATION,
       ...COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_PNJ_NAVIGATION.filter(
