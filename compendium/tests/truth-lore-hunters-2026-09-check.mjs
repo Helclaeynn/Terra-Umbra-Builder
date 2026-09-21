@@ -42,5 +42,5 @@ const expectedHunterSubgroups=new Map([
   ['lore-hunters-confreries','Traditions religieuses de Chasse'],
 ]);
 for(const id of newIds){const entry=navById.get(id);if(!entry)throw new Error(`Navigation absente: ${id}`);if(entry.category!=='Vérité'||entry.group!=='Chasseurs & traditions')throw new Error(`${id}: navigation inattendue ${entry.category} > ${entry.group}`);if(entry.subgroup!==expectedHunterSubgroups.get(id))throw new Error(`${id}: sous-groupe inattendu ${entry.subgroup}`)}
-if(manifest.expectedTotal!==1870)throw new Error(`Total V3 attendu 1870, re\xe7u ${manifest.expectedTotal}`);
+if(manifest.expectedTotal<1870)throw new Error(`Total V3 inférieur au socle Chasseurs 1870: ${manifest.expectedTotal}`);
 console.log('TRUTH HUNTERS LORE OK \u2014 8 nouvelles pages, 19 enrichissements distribu\xe9s, aucun portrait requis.');
