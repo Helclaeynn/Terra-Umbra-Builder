@@ -10955,6 +10955,28 @@
       "displayTitle": "« Lili Divine » - LILIANA SHERA"
     },
     {
+      "id": "pnj-fleaux-baldwin-de-vandrick",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corporations",
+      "groupOrder": 20,
+      "subgroup": "Corporatistes & acteurs privés",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Baldwin de Vandrick"
+    },
+    {
+      "id": "pnj-fleaux-neeba-ngubenani",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corporations",
+      "groupOrder": 20,
+      "subgroup": "Corporatistes & acteurs privés",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Neeba NGUBENANI"
+    },
+    {
       "id": "pnj-044-alessandra-luciano",
       "dataset": "pnj",
       "category": "Personnages",
@@ -11351,6 +11373,28 @@
       "displayTitle": "Sikya HAWKINS"
     },
     {
+      "id": "pnj-fleaux-rolf-de-vandrick",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Crawlers & Underlife",
+      "groupOrder": 40,
+      "subgroup": "Crawlers & réseaux Underlife",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Rolf de VANDRICK"
+    },
+    {
+      "id": "pnj-fleaux-ryong-myung-sook",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Crawlers & Underlife",
+      "groupOrder": 40,
+      "subgroup": "Crawlers & réseaux Underlife",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "RYONG Myung-Sook"
+    },
+    {
       "id": "pnj-085-arthur-savas",
       "dataset": "pnj",
       "category": "Personnages",
@@ -11648,17 +11692,6 @@
       "displayTitle": "Alisa SVALISDOTTIR"
     },
     {
-      "id": "pnj-098-olayinka-najja",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Figures de Vérité",
-      "groupOrder": 70,
-      "subgroup": "Vampires",
-      "subgroupOrder": 10,
-      "pageOrder": 98,
-      "displayTitle": "Olayinka NAJJA"
-    },
-    {
       "id": "pnj-157-ryan-foster",
       "dataset": "pnj",
       "category": "Personnages",
@@ -11668,17 +11701,6 @@
       "subgroupOrder": 30,
       "pageOrder": 157,
       "displayTitle": "Ryan Foster"
-    },
-    {
-      "id": "pnj-095-mir-a-stephens",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Figures de Vérité",
-      "groupOrder": 70,
-      "subgroup": "Exilés",
-      "subgroupOrder": 70,
-      "pageOrder": 95,
-      "displayTitle": "Mir a STEPHENS"
     },
     {
       "id": "pnj-106-ademichelle-dunard",
@@ -12363,6 +12385,28 @@
       "displayTitle": "_"
     },
     {
+      "id": "pnj-081-aberration-z-87",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Fléaux & figures de Rupture",
+      "subgroupOrder": 10,
+      "pageOrder": 81,
+      "displayTitle": "Aberration Z-87"
+    },
+    {
+      "id": "pnj-082-ana-diana-de-la-caza",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Fléaux & figures de Rupture",
+      "subgroupOrder": 10,
+      "pageOrder": 82,
+      "displayTitle": "Ana Diana de la CAZA"
+    },
+    {
       "id": "pnj-083-anastasia-vargas",
       "dataset": "pnj",
       "category": "Personnages",
@@ -12374,6 +12418,28 @@
       "displayTitle": "Anastasia VARGAS"
     },
     {
+      "id": "pnj-084-arkady-karamov",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Fléaux & figures de Rupture",
+      "subgroupOrder": 10,
+      "pageOrder": 84,
+      "displayTitle": "Arkady KARAMOV"
+    },
+    {
+      "id": "pnj-086-azaliah-springer",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Fléaux & figures de Rupture",
+      "subgroupOrder": 10,
+      "pageOrder": 86,
+      "displayTitle": "Azaliah SPRINGER"
+    },
+    {
       "id": "pnj-088-cthulhu",
       "dataset": "pnj",
       "category": "Personnages",
@@ -12383,6 +12449,83 @@
       "subgroupOrder": 10,
       "pageOrder": 88,
       "displayTitle": "Cthulhu"
+    },
+    {
+      "id": "pnj-091-lidira",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Fléaux & figures de Rupture",
+      "subgroupOrder": 10,
+      "pageOrder": 91,
+      "displayTitle": "Lidira"
+    },
+    {
+      "id": "pnj-095-mir-a-stephens",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Fléaux & figures de Rupture",
+      "subgroupOrder": 10,
+      "pageOrder": 95,
+      "displayTitle": "Mir a STEPHENS"
+    },
+    {
+      "id": "pnj-096-noah-brenneman",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Fléaux & figures de Rupture",
+      "subgroupOrder": 10,
+      "pageOrder": 96,
+      "displayTitle": "Noah BRENNEMAN"
+    },
+    {
+      "id": "pnj-097-nora-shakir",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Fléaux & figures de Rupture",
+      "subgroupOrder": 10,
+      "pageOrder": 97,
+      "displayTitle": "Nora SHAKIR"
+    },
+    {
+      "id": "pnj-098-olayinka-najja",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Fléaux & figures de Rupture",
+      "subgroupOrder": 10,
+      "pageOrder": 98,
+      "displayTitle": "Olayinka NAJJA"
+    },
+    {
+      "id": "pnj-100-ombre-pape-valentino-sombra",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Fléaux & figures de Rupture",
+      "subgroupOrder": 10,
+      "pageOrder": 100,
+      "displayTitle": "Ombre-Pape -Valentino SOMBRA"
+    },
+    {
+      "id": "pnj-102-sven-scythe",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Fléaux & figures de Rupture",
+      "subgroupOrder": 10,
+      "pageOrder": 102,
+      "displayTitle": "Sven SCYTHE"
     },
     {
       "id": "pnj-103-tellia-fedirivna-skrypnyk",
@@ -12407,114 +12550,125 @@
       "displayTitle": "Ulfric TAMER"
     },
     {
-      "id": "pnj-081-aberration-z-87",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Abominations",
-      "subgroupOrder": 20,
-      "pageOrder": 81,
-      "displayTitle": "Aberration Z-87"
-    },
-    {
-      "id": "pnj-082-ana-diana-de-la-caza",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Abominations",
-      "subgroupOrder": 20,
-      "pageOrder": 82,
-      "displayTitle": "Ana Diana de la CAZA"
-    },
-    {
-      "id": "pnj-084-arkady-karamov",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Abominations",
-      "subgroupOrder": 20,
-      "pageOrder": 84,
-      "displayTitle": "Arkady KARAMOV"
-    },
-    {
-      "id": "pnj-086-azaliah-springer",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Abominations",
-      "subgroupOrder": 20,
-      "pageOrder": 86,
-      "displayTitle": "Azaliah SPRINGER"
-    },
-    {
-      "id": "pnj-091-lidira",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Abominations",
-      "subgroupOrder": 20,
-      "pageOrder": 91,
-      "displayTitle": "Lidira"
-    },
-    {
-      "id": "pnj-096-noah-brenneman",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Abominations",
-      "subgroupOrder": 20,
-      "pageOrder": 96,
-      "displayTitle": "Noah BRENNEMAN"
-    },
-    {
-      "id": "pnj-097-nora-shakir",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Abominations",
-      "subgroupOrder": 20,
-      "pageOrder": 97,
-      "displayTitle": "Nora SHAKIR"
-    },
-    {
-      "id": "pnj-100-ombre-pape-valentino-sombra",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Abominations",
-      "subgroupOrder": 20,
-      "pageOrder": 100,
-      "displayTitle": "Ombre-Pape -Valentino SOMBRA"
-    },
-    {
-      "id": "pnj-102-sven-scythe",
-      "dataset": "pnj",
-      "category": "Personnages",
-      "group": "Corruption & menaces",
-      "groupOrder": 80,
-      "subgroup": "Abominations",
-      "subgroupOrder": 20,
-      "pageOrder": 102,
-      "displayTitle": "Sven SCYTHE"
-    },
-    {
       "id": "pnj-105-yegor-karamov",
       "dataset": "pnj",
       "category": "Personnages",
       "group": "Corruption & menaces",
       "groupOrder": 80,
-      "subgroup": "Abominations",
-      "subgroupOrder": 20,
+      "subgroup": "Fléaux & figures de Rupture",
+      "subgroupOrder": 10,
       "pageOrder": 105,
       "displayTitle": "Yegor KARAMOV"
+    },
+    {
+      "id": "pnj-fleaux-am-mleeac",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Fléaux & figures de Rupture",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Am’Mleeac"
+    },
+    {
+      "id": "pnj-fleaux-dagon",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Fléaux & figures de Rupture",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Dagon / Aberration Z-19"
+    },
+    {
+      "id": "pnj-fleaux-dsherra-neth",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Fléaux & figures de Rupture",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Dsherra'neth / Aberration Z-47"
+    },
+    {
+      "id": "pnj-fleaux-fredegonda",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Fléaux & figures de Rupture",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Fredegonda VONRIM"
+    },
+    {
+      "id": "pnj-fleaux-roi-du-givre",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Fléaux & figures de Rupture",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Le Roi du Givre"
+    },
+    {
+      "id": "pnj-fleaux-pestiria",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Fléaux & figures de Rupture",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Pestiria — Peste des vases"
+    },
+    {
+      "id": "pnj-fleaux-r-sheraag",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Fléaux & figures de Rupture",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "R’Sheraag / Aberration Z-45"
+    },
+    {
+      "id": "pnj-fleaux-raghnaid-maccalmain",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Fléaux & figures de Rupture",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Raghnaid MACCALMAIN"
+    },
+    {
+      "id": "pnj-fleaux-siadara",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Fléaux & figures de Rupture",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Sianna DANEIN / Siadara"
+    },
+    {
+      "id": "pnj-fleaux-telipinu",
+      "dataset": "pnj",
+      "category": "Personnages",
+      "group": "Corruption & menaces",
+      "groupOrder": 80,
+      "subgroup": "Fléaux & figures de Rupture",
+      "subgroupOrder": 10,
+      "pageOrder": 500,
+      "displayTitle": "Telipinu / Aberration Z-75"
     },
     {
       "id": "pnj-107-alicia-starrogue",
@@ -20534,6 +20688,72 @@
       "subgroupOrder": 20,
       "pageOrder": 60,
       "displayTitle": "Thul — la Fixation"
+    },
+    {
+      "id": "lore-plagues-cultes-vaagor",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 70,
+      "subgroup": "Cultes des Fléaux",
+      "subgroupOrder": 30,
+      "pageOrder": 10,
+      "displayTitle": "Cultes de V’Aagor — Longinus, Œil Blanc, Fontaine, Faux et Gouffre"
+    },
+    {
+      "id": "lore-plagues-cultes-uxsharith",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 70,
+      "subgroup": "Cultes des Fléaux",
+      "subgroupOrder": 30,
+      "pageOrder": 20,
+      "displayTitle": "Cultes d’Ux’Sharith — Saintes Lagunes, Bellatheis et Grand Savoir"
+    },
+    {
+      "id": "lore-plagues-cultes-vhodhal",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 70,
+      "subgroup": "Cultes des Fléaux",
+      "subgroupOrder": 30,
+      "pageOrder": 30,
+      "displayTitle": "Cultes de Vhodhal — Loge d’Écume et Sang d’Ivoire"
+    },
+    {
+      "id": "lore-plagues-eden-gris",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 70,
+      "subgroup": "Cultes des Fléaux",
+      "subgroupOrder": 30,
+      "pageOrder": 40,
+      "displayTitle": "Le culte de l’Éden Gris"
+    },
+    {
+      "id": "lore-plagues-mere-primordiale",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 70,
+      "subgroup": "Cultes des Fléaux",
+      "subgroupOrder": 30,
+      "pageOrder": 50,
+      "displayTitle": "La Mère Primordiale"
+    },
+    {
+      "id": "lore-plagues-sombre-culte",
+      "dataset": "lore",
+      "category": "Vérité",
+      "group": "Corruption & Fléaux",
+      "groupOrder": 70,
+      "subgroup": "Cultes des Fléaux",
+      "subgroupOrder": 30,
+      "pageOrder": 60,
+      "displayTitle": "Le Sombre Culte"
     },
     {
       "id": "lore-plagues-contexte",
