@@ -1590,7 +1590,8 @@ async function loadCorpus(): Promise<Corpus> {
       ])
     ];
     target.status = "canon_enrichi";
-    target.rebuildV2 = true;
+    // Do not promote a legacy archive merely because the Chasseurs source adds evidence to it.
+    // Rebuilt active pages remain rebuilt; archived V3 pages keep their OLD status at cut-over.
   }
 
   for (const enrichment of COMPENDIUM_REALITE_V9_GOVERNMENT_TRUTH_PNJ_ENRICHMENTS) {
