@@ -31,6 +31,16 @@ const enrich=[
 ];
 for(const [did,id,title] of enrich){const p=all[did].find(x=>x.id===id);if(!p)throw new Error(`Cible absente ${did}:${id}`);if(!(p.sections||[]).some(s=>s.title===title))throw new Error(`${id}: section absente ${title}`)}
 const navById=new Map(navigation.entries.map(entry=>[entry.id,entry]));
-for(const id of newIds){const entry=navById.get(id);if(!entry)throw new Error(`Navigation absente: ${id}`);if(entry.category!=='Vérité'||entry.group!=='Chasseurs & traditions')throw new Error(`${id}: navigation inattendue ${entry.category} > ${entry.group}`)}
+const expectedHunterSubgroups=new Map([
+  ['lore-hunters-association','Organisations de Chasse'],
+  ['lore-hunters-association-gate-hunt','Organisations de Chasse'],
+  ['lore-hunters-xenoshield','Organisations de Chasse'],
+  ['lore-hunters-chretiens','Traditions religieuses de Chasse'],
+  ['lore-hunters-musulmans','Traditions religieuses de Chasse'],
+  ['lore-hunters-hindouistes','Traditions religieuses de Chasse'],
+  ['lore-hunters-shientaoistes','Traditions religieuses de Chasse'],
+  ['lore-hunters-confreries','Traditions religieuses de Chasse'],
+]);
+for(const id of newIds){const entry=navById.get(id);if(!entry)throw new Error(`Navigation absente: ${id}`);if(entry.category!=='Vérité'||entry.group!=='Chasseurs & traditions')throw new Error(`${id}: navigation inattendue ${entry.category} > ${entry.group}`);if(entry.subgroup!==expectedHunterSubgroups.get(id))throw new Error(`${id}: sous-groupe inattendu ${entry.subgroup}`)}
 if(manifest.expectedTotal!==1870)throw new Error(`Total V3 attendu 1870, re\xe7u ${manifest.expectedTotal}`);
 console.log('TRUTH HUNTERS LORE OK \u2014 8 nouvelles pages, 19 enrichissements distribu\xe9s, aucun portrait requis.');
