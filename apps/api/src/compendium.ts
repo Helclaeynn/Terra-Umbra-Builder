@@ -155,6 +155,18 @@ import {
   COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_PNJ_NAVIGATION
 } from "./compendium-verite-temples-daemoniaques-pnj.js";
 import {
+  COMPENDIUM_TEN_BACKGROUND_ENRICHMENTS,
+  COMPENDIUM_TEN_SVETLANA_ARTICLE,
+  COMPENDIUM_TEN_SVETLANA_NAVIGATION,
+  COMPENDIUM_TEN_ARKHANGEL_LINK
+} from "./compendium-ten-backgrounds.js";
+import {
+  COMPENDIUM_VERITE_TEN_SOURCE,
+  COMPENDIUM_VERITE_TEN_CHRONOLOGY_ARTICLE,
+  COMPENDIUM_VERITE_TEN_ENRICHMENTS,
+  COMPENDIUM_VERITE_TEN_NAVIGATION
+} from "./compendium-verite-ten-catastrophes.js";
+import {
   COMPENDIUM_VERITE_V7_ASERYN_ARTICLES,
   COMPENDIUM_VERITE_V7_ASERYN_NAVIGATION
 } from "./compendium-verite-v7-aseryns.js";
@@ -2817,6 +2829,73 @@ async function loadCorpus(): Promise<Corpus> {
   }
   for (const gallery of manualGalleryByArticle.values()) gallery.sort();
 
+  const mergeTenSource = (target: Article, source: string, tags: string[]) => {
+    const sources = [target.source, source]
+      .flatMap((value) => String(value ?? "").split(" ; "))
+      .map((value) => value.trim())
+      .filter(Boolean);
+    target.source = [...new Set(sources)].join(" ; ");
+    target.tags = [...new Set([...(target.tags ?? []), ...tags, ...(new Set(sources).size > 1 ? ["Multi-source"] : [])])];
+    target.status = "canon_enrichi";
+    target.rebuildV2 = true;
+    target.pnj = { ...(target.pnj ?? {}) };
+    target.pnj.source_documents = [
+      ...new Set([
+        ...((Array.isArray(target.pnj.source_documents) ? target.pnj.source_documents : []) as string[]),
+        ...sources
+      ])
+    ];
+  };
+
+  const appendTenSections = (target: Article, sections: JsonObject[]) => {
+    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
+    for (const sourceSection of sections) {
+      const id = String(sourceSection?.id ?? "");
+      if (!id || existingIds.has(id)) continue;
+      const copy = deepClone(sourceSection) as JsonObject;
+      if (copy.audience === "mj") {
+        target.sections = [...(target.sections ?? []), copy];
+      } else {
+        const current = [...(target.sections ?? [])];
+        const mjIndex = current.findIndex((section) => section?.audience === "mj");
+        if (mjIndex >= 0) current.splice(mjIndex, 0, copy);
+        else current.push(copy);
+        target.sections = current;
+      }
+      existingIds.add(id);
+    }
+  };
+
+  byId.set(COMPENDIUM_TEN_SVETLANA_ARTICLE.id, deepClone(COMPENDIUM_TEN_SVETLANA_ARTICLE) as Article);
+
+  for (const enrichment of COMPENDIUM_TEN_BACKGROUND_ENRICHMENTS) {
+    const target = byId.get(String(enrichment.targetId ?? ""));
+    if (!target) throw new Error(`Ten · cible BG absente: ${String(enrichment.targetId ?? "")}`);
+    appendTenSections(target, deepClone(enrichment.sections ?? []) as JsonObject[]);
+    mergeTenSource(target, String(enrichment.source ?? ""), enrichment.tags ?? []);
+  }
+
+  const arkhangel = byId.get(String(COMPENDIUM_TEN_ARKHANGEL_LINK.targetId ?? ""));
+  const svetlana = byId.get(String(COMPENDIUM_TEN_SVETLANA_ARTICLE.id));
+  if (!arkhangel || !svetlana) throw new Error("Ten · lien Svetlana/Arkhangel impossible");
+  appendTenSections(arkhangel, [deepClone(COMPENDIUM_TEN_ARKHANGEL_LINK.section) as JsonObject]);
+  mergeTenSource(arkhangel, String(COMPENDIUM_TEN_ARKHANGEL_LINK.source ?? ""), COMPENDIUM_TEN_ARKHANGEL_LINK.tags ?? []);
+  arkhangel.pnj = { ...(arkhangel.pnj ?? {}) };
+  svetlana.pnj = { ...(svetlana.pnj ?? {}) };
+  arkhangel.pnj.relations = [...new Set([...(arkhangel.pnj.relations ?? []), svetlana.id])];
+  svetlana.pnj.relations = [...new Set([...(svetlana.pnj.relations ?? []), arkhangel.id])];
+  // Deliberately keep the identities separate: the secret is a protected relation, never a merge key.
+  arkhangel.pnj.identity_keys = (arkhangel.pnj.identity_keys ?? []).filter((key: string) => normalizedPnjIdentity(key) !== normalizedPnjIdentity("Svetlana Konstantinovna"));
+  svetlana.pnj.identity_keys = (svetlana.pnj.identity_keys ?? []).filter((key: string) => normalizedPnjIdentity(key) !== normalizedPnjIdentity("Arkhangel"));
+
+  byId.set(COMPENDIUM_VERITE_TEN_CHRONOLOGY_ARTICLE.id, deepClone(COMPENDIUM_VERITE_TEN_CHRONOLOGY_ARTICLE) as Article);
+  for (const enrichment of COMPENDIUM_VERITE_TEN_ENRICHMENTS) {
+    const target = byId.get(String(enrichment.targetId ?? ""));
+    if (!target) throw new Error(`Ten · cible Catastrophes absente: ${String(enrichment.targetId ?? "")}`);
+    appendTenSections(target, deepClone(enrichment.sections ?? []) as JsonObject[]);
+    mergeTenSource(target, COMPENDIUM_VERITE_TEN_SOURCE, enrichment.tags ?? []);
+  }
+
   const navigation = new Map(
     [
       ...(navigationPayload.entries ?? []),
@@ -2857,6 +2936,8 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_PNJ_NAVIGATION.filter(
         (entry) => templesDaemoniaquesPnjResolvedIds.get(entry.id) === entry.id
       ),
+      ...COMPENDIUM_TEN_SVETLANA_NAVIGATION,
+      ...COMPENDIUM_VERITE_TEN_NAVIGATION,
       ...COMPENDIUM_VERITE_VAMPIRE_COURTS_NAVIGATION,
       ...COMPENDIUM_VERITE_VAMPIRE_COURTS_PNJ_NAVIGATION.filter((entry) => vampireCourtPnjResolvedIds.get(entry.id) === entry.id),
       ...COMPENDIUM_VERITE_PELAGES_NAVIGATION,
