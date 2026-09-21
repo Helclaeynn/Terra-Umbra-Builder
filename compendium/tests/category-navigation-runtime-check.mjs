@@ -17,6 +17,7 @@ if(!nav.includes("/^#\\/article\\/(.+)$/"))fail('category-navigation.js ne lit p
 if(!nav.includes('cloneNode(true)'))fail('Le renderer ne reconstruit plus les cartes cliquables par clonage.');
 if(!nav.includes('root.replaceWith(wrap)'))fail('Le renderer ne remplace plus la liste source par la hiérarchie.');
 if(!nav.includes("current==='chasseurs traditions'"))fail('La hiérarchie explicite Chasseurs & traditions n’est plus préservée au runtime.');
+if(!nav.includes("current==='corruption fleaux'"))fail('La hiérarchie explicite Corruption & Fléaux n’est plus préservée au runtime.');
 if(!nav.includes("card.hidden=!ok"))fail('Le filtre hiérarchique n’agit plus sur les cartes rendues.');
 if(nav.includes('#category-list'))fail('Ancien sélecteur #category-list réintroduit.');
 if(nav.includes('#\\/page\\/'))fail('Ancienne route #/page réintroduite.');
