@@ -73,6 +73,8 @@ const mediaType = ref<"image" | "illustration">("image");
 const mediaSrc = ref("");
 const mediaAlt = ref("");
 const mediaCaption = ref("");
+const mediaUploading = ref(false);
+const portraitUploading = ref(false);
 const pnjForm = ref({
   age: "",
   origine: "",
@@ -224,7 +226,11 @@ function humanError(cause: unknown): string {
       invalid_compendium_article_title: "Le titre de la page n’est pas valide.",
       invalid_compendium_article: "Le contenu de l’article n’est pas valide.",
       compendium_draft_required: "Enregistre d’abord un brouillon avant de publier.",
-      compendium_source_changed: "Le corpus source a changé. Recharge la page avant de republier."
+      compendium_source_changed: "Le corpus source a changé. Recharge la page avant de republier.",
+      compendium_image_required: "Choisis une image à envoyer.",
+      compendium_image_too_large: "L’image dépasse la limite de 15 Mo.",
+      invalid_compendium_image: "Le fichier image n’est pas valide.",
+      unsupported_compendium_image: "Format non pris en charge. Utilise JPEG, PNG, WebP ou GIF."
     };
     return labels[cause.message] ?? cause.message;
   }
@@ -518,6 +524,83 @@ function previewInline(value: unknown): string {
   return escaped
     .replace(/&#39;&#39;&#39;([^\n]+?)&#39;&#39;&#39;/g, "<strong>$1</strong>")
     .replace(/&#39;&#39;([^\n]+?)&#39;&#39;/g, "<em>$1</em>");
+}
+
+function fileAsBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(reader.error ?? new Error("file_read_failed"));
+    reader.onload = () => {
+      const result = String(reader.result ?? "");
+      const marker = result.indexOf(",");
+      resolve(marker >= 0 ? result.slice(marker + 1) : result);
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function uploadLocalImage(event: Event, slot: "page" | "portrait") {
+  const input = event.target;
+  if (!(input instanceof HTMLInputElement)) return;
+  const file = input.files?.[0];
+  if (!file) return;
+
+  error.value = "";
+  notice.value = "";
+
+  if (file.size > 15 * 1024 * 1024) {
+    error.value = "L’image dépasse la limite de 15 Mo.";
+    input.value = "";
+    return;
+  }
+
+  if (!["image/jpeg", "image/png", "image/webp", "image/gif"].includes(file.type)) {
+    error.value = "Format non pris en charge. Utilise JPEG, PNG, WebP ou GIF.";
+    input.value = "";
+    return;
+  }
+
+  if (!(await ensureCreated())) {
+    input.value = "";
+    return;
+  }
+
+  if (slot === "portrait") portraitUploading.value = true;
+  else mediaUploading.value = true;
+
+  try {
+    const payload = await api<{ src: string }>(
+      `/api/compendium/editor/articles/${encodeURIComponent(pageId.value)}/media`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          slot,
+          data: await fileAsBase64(file)
+        })
+      }
+    );
+
+    if (slot === "portrait") {
+      pnjForm.value.portrait = payload.src;
+      if (!pnjForm.value.portraitAlt.trim()) {
+        pnjForm.value.portraitAlt = article.value?.title ?? "";
+      }
+    } else {
+      mediaSrc.value = payload.src;
+      if (!mediaAlt.value.trim()) mediaAlt.value = article.value?.title ?? "";
+    }
+
+    notice.value =
+      slot === "portrait"
+        ? "Portrait envoyé. Enregistre ou publie la page pour conserver la référence."
+        : "Image envoyée. Enregistre ou publie la page pour conserver la référence.";
+  } catch (cause) {
+    error.value = humanError(cause);
+  } finally {
+    if (slot === "portrait") portraitUploading.value = false;
+    else mediaUploading.value = false;
+    input.value = "";
+  }
 }
 
 function enablePnj() {
