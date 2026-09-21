@@ -342,6 +342,10 @@ export const COMPENDIUM_TEN_SVETLANA_ARTICLE = {
               "Cheffe cuisinière et restauratrice"
             ],
             [
+              "Affiliation publique",
+              "Religieux"
+            ],
+            [
               "Établissement emblématique",
               "The Angel’s Table"
             ]

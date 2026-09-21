@@ -24,3 +24,6 @@ assert.equal(COMPENDIUM_TEN_PAGE_ARTICLE.title,"Les Ten");
 assert.equal(COMPENDIUM_TEN_PAGE_ARTICLE.sourceCategory,"Réalité");
 assert.ok(COMPENDIUM_TEN_PAGE_ARTICLE.sections.some(s=>s.audience==="mj"),"La page Les Ten doit porter une couche Vérité MJ");
 assert.equal(COMPENDIUM_TEN_TRUTH_ENRICHMENTS.length,10,"les dix Ten doivent avoir une ancre de Vérité canonique");
+
+assert.ok(JSON.stringify(COMPENDIUM_TEN_TRUTH_ENRICHMENTS).includes("Mashia’h"),"Svetlana doit conserver son nom de Vérité dans le canon MJ");
+assert.ok(JSON.stringify(COMPENDIUM_TEN_TRUTH_ENRICHMENTS).includes("Nephilim divin"),"Svetlana doit être décrite comme Nephilim divin");
