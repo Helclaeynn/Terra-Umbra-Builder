@@ -32,6 +32,8 @@ COPY compendium/data/v3-*.b64part ./compendium-data/
 COPY compendium/images ./compendium-media/images
 COPY compendium/assets ./compendium-media/assets
 
+RUN mkdir -p /app/editor-media && chown -R node:node /app/editor-media
+
 USER node
 EXPOSE 3000
 CMD ["npm", "start"]
