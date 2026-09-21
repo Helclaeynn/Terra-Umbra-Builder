@@ -191,6 +191,8 @@ import {
   COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_ARTICLES,
   COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_NAVIGATION
 } from "./compendium-verite-extraterrestres-pnj.js";
+import { COMPENDIUM_VERITE_VAMPIRE_COURTS_SOURCE, COMPENDIUM_VERITE_VAMPIRE_COURTS_ARTICLES, COMPENDIUM_VERITE_VAMPIRE_COURTS_ENRICHMENTS, COMPENDIUM_VERITE_VAMPIRE_COURTS_NAVIGATION } from "./compendium-verite-vampire-courts-lore.js";
+import { COMPENDIUM_VERITE_VAMPIRE_COURTS_PNJ_ARTICLES, COMPENDIUM_VERITE_VAMPIRE_COURTS_PNJ_NAVIGATION } from "./compendium-verite-vampire-courts-pnj.js";
 
 type JsonObject = Record<string, any>;
 export type Article = JsonObject & {
@@ -336,10 +338,15 @@ function canReadMj(role: unknown): boolean {
   return role === "gm" || role === "editor" || role === "admin";
 }
 
+function isMjOnlyArticle(article: Article): boolean { return article?.audience === "mj"; }
 function articleForAudience(article: Article, includeMj: boolean): Article {
   const result = deepClone(article);
-  if (!includeMj && Array.isArray(result.sections)) {
-    result.sections = result.sections.filter((section) => section?.audience !== "mj");
+  if (!includeMj) {
+    if (Array.isArray(result.sections)) result.sections = result.sections.filter((section) => section?.audience !== "mj");
+    if (result.pnj && typeof result.pnj === "object") {
+      const pnj = result.pnj as JsonObject;
+      result.pnj = {...(pnj.portrait?{portrait:pnj.portrait}:{}),...(pnj.portrait_alt?{portrait_alt:pnj.portrait_alt}:{}),...(pnj.portrait_caption?{portrait_caption:pnj.portrait_caption}:{})};
+    }
   }
   delete result.__searchText;
   return result;
@@ -831,6 +838,14 @@ function mergeFleauxPnj(target: Article, source: Article): Article {
   return merged;
 }
 
+function mergeVampireCourtPnj(target: Article, source: Article): Article {
+  const merged = mergeFleauxPnj(target, source);
+  const targetRealityIdentity = usablePnjIdentity(target.pnj?.real_name) ?? usablePnjIdentity(target.pnj?.nom_reel) ?? usablePnjIdentity(target.pnj?.nom_realite);
+  const sourceRealityIdentity = String(source.pnj?.real_name ?? "").trim();
+  if (!targetRealityIdentity && sourceRealityIdentity) merged.title = sourceRealityIdentity;
+  if (source.audience === "mj" && !targetRealityIdentity && !sourceRealityIdentity) merged.audience = "mj";
+  return merged;
+}
 function mergeHunterPnj(target: Article, source: Article): Article {
   const merged = mergeFleauxPnj(target, source);
   const targetPnj = target.pnj ?? {};
@@ -1380,6 +1395,7 @@ async function loadCorpus(): Promise<Corpus> {
   const hunterPnjResolvedIds = new Map<string, string>();
   const fleauxPnjResolvedIds = new Map<string, string>();
   const mageLogesPnjResolvedIds = new Map<string, string>();
+  const vampireCourtPnjResolvedIds = new Map<string, string>();
   const loaded = await Promise.all(
     manifest.datasets.map(async (spec) => [spec.id, await loadDataset(spec)] as const)
   );
@@ -1925,6 +1941,17 @@ async function loadCorpus(): Promise<Corpus> {
     mageLogesPnjResolvedIds.set(article.id, article.id);
   }
 
+  for (const article of COMPENDIUM_VERITE_VAMPIRE_COURTS_ARTICLES) byId.set(String(article.id), deepClone(article) as Article);
+  for (const enrichment of COMPENDIUM_VERITE_VAMPIRE_COURTS_ENRICHMENTS) {
+    const target=byId.get(String(enrichment.targetId??"")); if(!target) throw new Error(`Cible d'enrichissement Cours vampiriques absente: ${String(enrichment.targetId??"")}`);
+    const ids=new Set((target.sections??[]).map((section)=>String(section?.id??""))); const ss=deepClone(enrichment.sections??[]).filter((section:JsonObject)=>!ids.has(String(section?.id??""))); if(ss.length)target.sections=[...(target.sections??[]),...ss];
+    const sources=[target.source,COMPENDIUM_VERITE_VAMPIRE_COURTS_SOURCE].flatMap((v)=>String(v??"").split(" ; ")).map((v)=>v.trim()).filter(Boolean); target.source=[...new Set(sources)].join(" ; "); target.tags=[...new Set([...(target.tags??[]),"Vampires","Cours vampiriques",...(new Set(sources).size>1?["Multi-source"]:[])])]; target.status="canon_enrichi"; target.rebuildV2=true;
+  }
+  for (const sourceArticle of COMPENDIUM_VERITE_VAMPIRE_COURTS_PNJ_ARTICLES) {
+    const article=deepClone(sourceArticle) as Article; const existing=findMatchingActivePnj(byId,article);
+    if(existing){byId.set(existing.id,mergeVampireCourtPnj(existing,article));vampireCourtPnjResolvedIds.set(article.id,existing.id);continue;}
+    byId.set(article.id,article);vampireCourtPnjResolvedIds.set(article.id,article.id);
+  }
   const generatedTalentHubs = generatedTalentHubCorpus();
   for (const hub of generatedTalentHubs.articles) {
     if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
@@ -2045,6 +2072,8 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_VERITE_LOGES_MAGES_PNJ_NAVIGATION.filter(
         (entry) => mageLogesPnjResolvedIds.get(entry.id) === entry.id
       ),
+      ...COMPENDIUM_VERITE_VAMPIRE_COURTS_NAVIGATION,
+      ...COMPENDIUM_VERITE_VAMPIRE_COURTS_PNJ_NAVIGATION.filter((entry) => vampireCourtPnjResolvedIds.get(entry.id) === entry.id),
       ...COMPENDIUM_VERITE_V7_DAEMON_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_ANGELUS_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_ASERYN_NAVIGATION,
@@ -2153,11 +2182,7 @@ async function loadCorpus(): Promise<Corpus> {
   }
 
   const articles = [...byId.values()].sort(compareArticles);
-  const publicArticles = articles.map((article) => {
-    const publicArticle = articleForAudience(article, false);
-    publicArticle.__searchText = norm(flattenText(publicArticle));
-    return publicArticle;
-  });
+  const publicArticles = articles.filter((article) => !isMjOnlyArticle(article)).map((article) => { const publicArticle=articleForAudience(article,false); publicArticle.__searchText=norm(flattenText(publicArticle)); return publicArticle; });
   const publicById = new Map(publicArticles.map((article) => [article.id, article]));
   const wikiIndexCompact = articles
     .filter((article) => article.category !== LEGACY_CATEGORY)
@@ -2418,12 +2443,9 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     Querystring: { compact?: string };
   }>("/api/compendium/wiki-index", async (request) => {
     const corpus = await getCorpus();
-    if (request.query.compact === "1") {
-      return { entries: corpus.wikiIndexCompact };
-    }
-
     const user = await currentUser(request);
     const includeMj = canReadMj(user?.role);
+    if (request.query.compact === "1") return { entries: includeMj ? corpus.wikiIndexCompact : corpus.wikiIndexCompact.filter((entry) => corpus.publicById.has(String(entry.id ?? ""))) };
     const articles = (includeMj ? corpus.articles : corpus.publicArticles)
       .filter((article) => article.category !== LEGACY_CATEGORY);
     return {
