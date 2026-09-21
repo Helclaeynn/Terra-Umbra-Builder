@@ -149,6 +149,18 @@ import {
   COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_PNJ_NAVIGATION
 } from "./compendium-verite-aseryn-terres-temples-pnj.js";
 import {
+  COMPENDIUM_VERITE_GRANDS_EXILES_SOURCE,
+  COMPENDIUM_VERITE_GRANDS_EXILES_HUB_ID,
+  COMPENDIUM_VERITE_GRANDS_EXILES_HUB_SECTIONS,
+  COMPENDIUM_VERITE_GRANDS_EXILES_ARTICLES,
+  COMPENDIUM_VERITE_GRANDS_EXILES_NAVIGATION,
+  COMPENDIUM_VERITE_GRANDS_EXILES_HUNTER_ENRICHMENT
+} from "./compendium-verite-grands-exiles.js";
+import {
+  COMPENDIUM_VERITE_GRANDS_EXILES_PNJ_ARTICLES,
+  COMPENDIUM_VERITE_GRANDS_EXILES_PNJ_NAVIGATION
+} from "./compendium-verite-grands-exiles-pnj.js";
+import {
   COMPENDIUM_VERITE_V7_PASS_B_ARTICLES,
   COMPENDIUM_VERITE_V7_PASS_B_NAVIGATION
 } from "./compendium-verite-v7-pass-b.js";
@@ -1559,6 +1571,7 @@ async function loadCorpus(): Promise<Corpus> {
   const vampireCourtPnjResolvedIds = new Map<string, string>();
   const pelagePnjResolvedIds = new Map<string, string>();
   const aserynTerresTemplesPnjResolvedIds = new Map<string, string>();
+  const grandsExilesPnjResolvedIds = new Map<string, string>();
   const loaded = await Promise.all(
     manifest.datasets.map(async (spec) => [spec.id, await loadDataset(spec)] as const)
   );
@@ -1798,6 +1811,37 @@ async function loadCorpus(): Promise<Corpus> {
     byId.set(article.id, deepClone(article) as Article);
   }
 
+  const grandsExilesHub = byId.get(COMPENDIUM_VERITE_GRANDS_EXILES_HUB_ID);
+  if (!grandsExilesHub) {
+    throw new Error(`Hub Exilés absent pour l'intégration Grands Exilés: ${COMPENDIUM_VERITE_GRANDS_EXILES_HUB_ID}`);
+  }
+  const grandsExilesHubSectionIds = new Set(
+    (grandsExilesHub.sections ?? []).map((section) => String(section?.id ?? ""))
+  );
+  for (const section of COMPENDIUM_VERITE_GRANDS_EXILES_HUB_SECTIONS) {
+    const id = String(section?.id ?? "");
+    if (!id || grandsExilesHubSectionIds.has(id)) continue;
+    grandsExilesHub.sections = [...(grandsExilesHub.sections ?? []), deepClone(section) as JsonObject];
+    grandsExilesHubSectionIds.add(id);
+  }
+  grandsExilesHub.source = [
+    ...new Set(
+      [grandsExilesHub.source, COMPENDIUM_VERITE_GRANDS_EXILES_SOURCE]
+        .flatMap((value) => String(value ?? "").split(" ; "))
+        .map((value) => value.trim())
+        .filter(Boolean)
+    )
+  ].join(" ; ");
+  grandsExilesHub.tags = [
+    ...new Set([...(grandsExilesHub.tags ?? []), "Grands Exilés", "Factions exilées", "Multi-source"])
+  ];
+  grandsExilesHub.status = "canon_enrichi";
+  grandsExilesHub.rebuildV2 = true;
+
+  for (const article of COMPENDIUM_VERITE_GRANDS_EXILES_ARTICLES) {
+    byId.set(String(article.id), deepClone(article) as Article);
+  }
+
   for (const article of COMPENDIUM_VERITE_HUNTERS_ARTICLES) {
     byId.set(article.id, deepClone(article) as Article);
   }
@@ -1908,6 +1952,44 @@ async function loadCorpus(): Promise<Corpus> {
     // Do not promote a legacy archive merely because the Chasseurs source adds evidence to it.
     // Rebuilt active pages remain rebuilt; archived V3 pages keep their OLD status at cut-over.
   }
+
+  const grandsExilesHunterTarget = byId.get(
+    String(COMPENDIUM_VERITE_GRANDS_EXILES_HUNTER_ENRICHMENT.targetId ?? "")
+  );
+  if (!grandsExilesHunterTarget) {
+    throw new Error(
+      `Cible Chasse Fantastique absente: ${COMPENDIUM_VERITE_GRANDS_EXILES_HUNTER_ENRICHMENT.targetId}`
+    );
+  }
+  const grandsExilesHunterSectionIds = new Set(
+    (grandsExilesHunterTarget.sections ?? []).map((section) => String(section?.id ?? ""))
+  );
+  const grandsExilesHunterSections = deepClone(
+    COMPENDIUM_VERITE_GRANDS_EXILES_HUNTER_ENRICHMENT.sections ?? []
+  ).filter((section: JsonObject) => !grandsExilesHunterSectionIds.has(String(section?.id ?? "")));
+  if (grandsExilesHunterSections.length) {
+    grandsExilesHunterTarget.sections = [
+      ...(grandsExilesHunterTarget.sections ?? []),
+      ...grandsExilesHunterSections
+    ];
+  }
+  grandsExilesHunterTarget.source = [
+    ...new Set(
+      [grandsExilesHunterTarget.source, COMPENDIUM_VERITE_GRANDS_EXILES_SOURCE]
+        .flatMap((value) => String(value ?? "").split(" ; "))
+        .map((value) => value.trim())
+        .filter(Boolean)
+    )
+  ].join(" ; ");
+  grandsExilesHunterTarget.tags = [
+    ...new Set([
+      ...(grandsExilesHunterTarget.tags ?? []),
+      ...(COMPENDIUM_VERITE_GRANDS_EXILES_HUNTER_ENRICHMENT.tags ?? []),
+      "Multi-source"
+    ])
+  ];
+  grandsExilesHunterTarget.status = "canon_enrichi";
+  grandsExilesHunterTarget.rebuildV2 = true;
 
   for (const enrichment of COMPENDIUM_REALITE_V9_GOVERNMENT_TRUTH_PNJ_ENRICHMENTS) {
     const target = byId.get(enrichment.id);
@@ -2205,6 +2287,35 @@ async function loadCorpus(): Promise<Corpus> {
     aserynTerresTemplesPnjResolvedIds.set(article.id, article.id);
   }
 
+  for (const sourceArticle of COMPENDIUM_VERITE_GRANDS_EXILES_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingAserynPnj(byId, article);
+    if (existing) {
+      const merged = mergeAserynPnj(existing, article);
+      const sources = [existing.source, article.source]
+        .flatMap((value) => String(value ?? "").split(" ; "))
+        .map((value) => value.trim())
+        .filter(Boolean);
+      merged.source = [...new Set(sources)].join(" ; ");
+      merged.tags = [
+        ...new Set([
+          ...(merged.tags ?? []),
+          "Exilés",
+          "Grands Exilés 2026-09",
+          ...(new Set(sources).size > 1 ? ["Multi-source"] : [])
+        ])
+      ];
+      merged.status = "canon_enrichi";
+      merged.rebuildV2 = true;
+      byId.set(existing.id, merged);
+      grandsExilesPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+
+    byId.set(article.id, article);
+    grandsExilesPnjResolvedIds.set(article.id, article.id);
+  }
+
   const generatedTalentHubs = generatedTalentHubCorpus();
   for (const hub of generatedTalentHubs.articles) {
     if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
@@ -2337,6 +2448,10 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_NAVIGATION,
       ...COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_PNJ_NAVIGATION.filter(
         (entry) => aserynTerresTemplesPnjResolvedIds.get(entry.id) === entry.id
+      ),
+      ...COMPENDIUM_VERITE_GRANDS_EXILES_NAVIGATION,
+      ...COMPENDIUM_VERITE_GRANDS_EXILES_PNJ_NAVIGATION.filter(
+        (entry) => grandsExilesPnjResolvedIds.get(entry.id) === entry.id
       ),
       ...COMPENDIUM_VERITE_V7_PASS_B_NAVIGATION,
       ...COMPENDIUM_VERITE_HUNTERS_NAVIGATION,
