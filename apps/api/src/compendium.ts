@@ -143,6 +143,18 @@ import {
   COMPENDIUM_VERITE_ANGELUS_PNJ_NAVIGATION
 } from "./compendium-verite-angelus-pnj.js";
 import {
+  COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_SOURCE,
+  COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_ANGELUS_SOURCE,
+  COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_HUB_ID,
+  COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_HUB_SECTIONS,
+  COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_LESLIE_ENRICHMENT,
+  COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_ANGELUS_RELATIONS
+} from "./compendium-verite-temples-daemoniaques.js";
+import {
+  COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_PNJ_ARTICLES,
+  COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_PNJ_NAVIGATION
+} from "./compendium-verite-temples-daemoniaques-pnj.js";
+import {
   COMPENDIUM_VERITE_V7_ASERYN_ARTICLES,
   COMPENDIUM_VERITE_V7_ASERYN_NAVIGATION
 } from "./compendium-verite-v7-aseryns.js";
@@ -1709,6 +1721,7 @@ async function loadCorpus(): Promise<Corpus> {
   const vampireCourtPnjResolvedIds = new Map<string, string>();
   const pelagePnjResolvedIds = new Map<string, string>();
   const angelusPnjResolvedIds = new Map<string, string>();
+  const templesDaemoniaquesPnjResolvedIds = new Map<string, string>();
   const aserynTerresTemplesPnjResolvedIds = new Map<string, string>();
   const grandsExilesPnjResolvedIds = new Map<string, string>();
   const loaded = await Promise.all(
@@ -2430,6 +2443,184 @@ async function loadCorpus(): Promise<Corpus> {
     mageLogesPnjResolvedIds.set(article.id, article.id);
   }
 
+  const templesDaemoniaquesHub = byId.get(COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_HUB_ID);
+  if (!templesDaemoniaquesHub) {
+    throw new Error(`Hub Daemons absent pour l'intégration des Temples démoniaques: ${COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_HUB_ID}`);
+  }
+  const templesDaemoniaquesHubSectionIds = new Set(
+    (templesDaemoniaquesHub.sections ?? []).map((section) => String(section?.id ?? ""))
+  );
+  for (const section of COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_HUB_SECTIONS) {
+    const id = String(section?.id ?? "");
+    if (!id || templesDaemoniaquesHubSectionIds.has(id)) continue;
+    templesDaemoniaquesHub.sections = [
+      ...(templesDaemoniaquesHub.sections ?? []),
+      deepClone(section) as JsonObject
+    ];
+    templesDaemoniaquesHubSectionIds.add(id);
+  }
+  const templesDaemoniaquesHubSources = [
+    templesDaemoniaquesHub.source,
+    COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_SOURCE,
+    COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_ANGELUS_SOURCE
+  ]
+    .flatMap((value) => String(value ?? "").split(" ; "))
+    .map((value) => value.trim())
+    .filter(Boolean);
+  templesDaemoniaquesHub.source = [...new Set(templesDaemoniaquesHubSources)].join(" ; ");
+  templesDaemoniaquesHub.tags = [
+    ...new Set([
+      ...(templesDaemoniaquesHub.tags ?? []),
+      "Temples démoniaques",
+      "Temples fantômes",
+      "Multi-source"
+    ])
+  ];
+  templesDaemoniaquesHub.status = "canon_enrichi";
+  templesDaemoniaquesHub.rebuildV2 = true;
+
+  for (const sourceArticle of COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    // Public PNJ metadata must not reveal daemon nature, patron deity or Temple.
+    article.tags = (article.tags ?? []).filter((tag) => !/daemon|temple/i.test(String(tag)));
+
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing && String(existing.dataset ?? "").includes("angelus")) {
+      throw new Error(`Fusion Angelus/Daemon interdite pour ${article.title ?? article.id}: ${existing.id}`);
+    }
+
+    if (existing) {
+      const merged = mergeCrawlerPnj(existing, article);
+      const targetPnj = existing.pnj ?? {};
+      const sourcePnj = article.pnj ?? {};
+      merged.pnj = {
+        ...targetPnj,
+        ...sourcePnj,
+        relations: [
+          ...new Set([
+            ...((Array.isArray(targetPnj.relations) ? targetPnj.relations : []) as string[]),
+            ...((Array.isArray(sourcePnj.relations) ? sourcePnj.relations : []) as string[])
+          ])
+        ],
+        source_documents: [
+          ...new Set([
+            ...((Array.isArray(targetPnj.source_documents) ? targetPnj.source_documents : []) as string[]),
+            ...((Array.isArray(sourcePnj.source_documents) ? sourcePnj.source_documents : []) as string[]),
+            ...String(existing.source ?? "").split(" ; "),
+            ...String(article.source ?? "").split(" ; ")
+          ].map((value) => String(value ?? "").trim()).filter(Boolean))
+        ]
+      };
+      merged.pnj.identity_keys = [
+        ...new Set([
+          ...articlePnjIdentityKeys(existing),
+          ...articlePnjIdentityKeys(article),
+          ...articlePnjIdentityKeys(merged)
+        ])
+      ];
+      if (String(sourcePnj.real_name ?? "").trim() === "Nick Edison") {
+        merged.pnj.identity_keys = merged.pnj.identity_keys.filter(
+          (key: string) => !normalizedPnjIdentity(key).includes("balam")
+        );
+        merged.pnj.nom_verite = sourcePnj.nom_verite;
+        merged.pnj.nom_verite_source = sourcePnj.nom_verite_source;
+      }
+      byId.set(existing.id, merged);
+      templesDaemoniaquesPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+
+    if (String(article.pnj?.real_name ?? "").trim() === "Nick Edison") {
+      article.pnj.identity_keys = (article.pnj.identity_keys ?? []).filter(
+        (key: string) => !normalizedPnjIdentity(key).includes("balam")
+      );
+    }
+    byId.set(article.id, article);
+    templesDaemoniaquesPnjResolvedIds.set(article.id, article.id);
+  }
+
+  const leslie = byId.get(String(COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_LESLIE_ENRICHMENT.targetId ?? ""));
+  if (!leslie) {
+    throw new Error(`Leslie Wright absente pour le lien Abrasax: ${String(COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_LESLIE_ENRICHMENT.targetId ?? "")}`);
+  }
+  const abrasaxResolvedId =
+    templesDaemoniaquesPnjResolvedIds.get(String(COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_LESLIE_ENRICHMENT.relationId ?? "")) ??
+    String(COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_LESLIE_ENRICHMENT.relationId ?? "");
+  leslie.pnj = { ...(leslie.pnj ?? {}) };
+  leslie.pnj.relations = [
+    ...new Set([
+      ...((Array.isArray(leslie.pnj.relations) ? leslie.pnj.relations : []) as string[]),
+      abrasaxResolvedId
+    ].filter(Boolean))
+  ];
+  leslie.pnj.source_documents = [
+    ...new Set([
+      ...((Array.isArray(leslie.pnj.source_documents) ? leslie.pnj.source_documents : []) as string[]),
+      COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_SOURCE
+    ])
+  ];
+  const leslieSection = deepClone(COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_LESLIE_ENRICHMENT.section) as JsonObject;
+  if (!(leslie.sections ?? []).some((section) => String(section?.id ?? "") === String(leslieSection.id ?? ""))) {
+    leslie.sections = [...(leslie.sections ?? []), leslieSection];
+  }
+  leslie.tags = [...new Set([...(leslie.tags ?? []), "Multi-source"])];
+  leslie.status = "canon_enrichi";
+  leslie.rebuildV2 = true;
+
+  const addProtectedPnjRelation = (
+    article: Article,
+    relatedId: string,
+    note: string,
+    relationKey: string
+  ) => {
+    article.pnj = { ...(article.pnj ?? {}) };
+    article.pnj.relations = [
+      ...new Set([
+        ...((Array.isArray(article.pnj.relations) ? article.pnj.relations : []) as string[]),
+        relatedId
+      ].filter(Boolean))
+    ];
+    article.pnj.source_documents = [
+      ...new Set([
+        ...((Array.isArray(article.pnj.source_documents) ? article.pnj.source_documents : []) as string[]),
+        COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_SOURCE,
+        COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_ANGELUS_SOURCE
+      ])
+    ];
+    const sectionId = `temples-daemoniaques-relation-${relationKey.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`;
+    if (!(article.sections ?? []).some((section) => String(section?.id ?? "") === sectionId)) {
+      article.sections = [
+        ...(article.sections ?? []),
+        {
+          id: sectionId,
+          title: "Lien MJ · Angelus & Daemons",
+          level: 2,
+          audience: "mj",
+          blocks: [{ type: "p", style: "lore", text: note }]
+        }
+      ];
+    }
+    article.status = "canon_enrichi";
+    article.rebuildV2 = true;
+  };
+
+  for (const relation of COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_ANGELUS_RELATIONS) {
+    const daemonId =
+      templesDaemoniaquesPnjResolvedIds.get(String(relation.daemonSourceId ?? "")) ??
+      String(relation.daemonSourceId ?? "");
+    const angelusId =
+      angelusPnjResolvedIds.get(String(relation.angelusId ?? "")) ??
+      String(relation.angelusId ?? "");
+    const daemon = byId.get(daemonId);
+    const angelus = byId.get(angelusId);
+    if (!daemon || !angelus) {
+      throw new Error(`Relation Angelus/Daemon introuvable: ${daemonId} ↔ ${angelusId}`);
+    }
+    const key = `${String(relation.daemonSourceId ?? "")}-${String(relation.angelusId ?? "")}`;
+    addProtectedPnjRelation(daemon, angelusId, String(relation.note ?? ""), key);
+    addProtectedPnjRelation(angelus, daemonId, String(relation.note ?? ""), key);
+  }
+
   for (const article of COMPENDIUM_VERITE_VAMPIRE_COURTS_ARTICLES) byId.set(String(article.id), deepClone(article) as Article);
   for (const enrichment of COMPENDIUM_VERITE_VAMPIRE_COURTS_ENRICHMENTS) {
     const target=byId.get(String(enrichment.targetId??"")); if(!target) throw new Error(`Cible d'enrichissement Cours vampiriques absente: ${String(enrichment.targetId??"")}`);
@@ -2646,6 +2837,9 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_VERITE_V7_MAGE_NAVIGATION,
       ...COMPENDIUM_VERITE_LOGES_MAGES_PNJ_NAVIGATION.filter(
         (entry) => mageLogesPnjResolvedIds.get(entry.id) === entry.id
+      ),
+      ...COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_PNJ_NAVIGATION.filter(
+        (entry) => templesDaemoniaquesPnjResolvedIds.get(entry.id) === entry.id
       ),
       ...COMPENDIUM_VERITE_VAMPIRE_COURTS_NAVIGATION,
       ...COMPENDIUM_VERITE_VAMPIRE_COURTS_PNJ_NAVIGATION.filter((entry) => vampireCourtPnjResolvedIds.get(entry.id) === entry.id),
