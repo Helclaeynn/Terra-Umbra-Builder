@@ -283,6 +283,11 @@ import {
   COMPENDIUM_POINTS_RENCONTRE_PNJ_ARTICLES,
   COMPENDIUM_POINTS_RENCONTRE_PNJ_NAVIGATION
 } from "./compendium-points-rencontre-pnj.js";
+import {
+  COMPENDIUM_SHI_QI_ARTICLES,
+  COMPENDIUM_SHI_QI_NAVIGATION,
+  COMPENDIUM_SHI_QI_ENRICHMENTS
+} from "./compendium-shi-qi.js";
 
 type JsonObject = Record<string, any>;
 export type Article = JsonObject & {
@@ -2776,6 +2781,67 @@ async function loadCorpus(): Promise<Corpus> {
     pointsRencontrePnjResolvedIds.set(article.id, article.id);
   }
 
+  for (const article of COMPENDIUM_SHI_QI_ARTICLES) {
+    byId.set(String(article.id), deepClone(article) as Article);
+  }
+
+  const resolveShiQiTarget = (enrichment: JsonObject): Article | null => {
+    const direct = byId.get(String(enrichment.id ?? ""));
+    if (direct?.rebuildV2 !== false) return direct;
+    const wanted = new Set(
+      (enrichment.identityKeys ?? []).map((value: unknown) => normalizedPnjIdentity(value)).filter(Boolean)
+    );
+    if (!wanted.size) return null;
+    for (const candidate of byId.values()) {
+      if (candidate.rebuildV2 !== true || !candidate.pnj) continue;
+      const keys = [
+        candidate.title,
+        candidate.pnj.real_name,
+        candidate.pnj.nom_reel,
+        candidate.pnj.nom_realite,
+        candidate.pnj.nom_verite,
+        ...(Array.isArray(candidate.pnj.identity_keys) ? candidate.pnj.identity_keys : [])
+      ].map((value) => normalizedPnjIdentity(value)).filter(Boolean);
+      if (keys.some((key) => wanted.has(key))) return candidate;
+    }
+    return null;
+  };
+
+  for (const enrichment of COMPENDIUM_SHI_QI_ENRICHMENTS) {
+    const target = resolveShiQiTarget(enrichment);
+    if (!target) throw new Error(`Shi/Qi · cible absente: ${String(enrichment.id ?? "")}`);
+
+    const replacementId = String(enrichment.replaceSectionId ?? "");
+    const incoming = deepClone(enrichment.sections ?? []) as JsonObject[];
+    const incomingIds = new Set(incoming.map((section) => String(section?.id ?? "")).filter(Boolean));
+    target.sections = [
+      ...(target.sections ?? []).filter((section) => {
+        const id = String(section?.id ?? "");
+        if (replacementId && id === replacementId) return false;
+        return !incomingIds.has(id);
+      }),
+      ...incoming
+    ];
+
+    target.source = [...new Set(
+      [target.source, enrichment.source]
+        .flatMap((value) => String(value ?? "").split(" ; "))
+        .map((value) => value.trim())
+        .filter(Boolean)
+    )].join(" ; ");
+    target.tags = [...new Set([...(target.tags ?? []), ...(enrichment.tags ?? []), "Shi/Qi 2026-09"])];
+    target.status = "canon_enrichi";
+    target.rebuildV2 = true;
+
+    if (target.pnj) {
+      target.pnj = { ...target.pnj };
+      target.pnj.identity_keys = [...new Set([
+        ...(Array.isArray(target.pnj.identity_keys) ? target.pnj.identity_keys : []),
+        ...(enrichment.identityKeys ?? [])
+      ])];
+    }
+  }
+
   const generatedTalentHubs = generatedTalentHubCorpus();
   for (const hub of generatedTalentHubs.articles) {
     if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
@@ -3107,6 +3173,7 @@ async function loadCorpus(): Promise<Corpus> {
         (entry) => humanGalacticPnjResolvedIds.get(entry.id) === entry.id
       ),
       ...COMPENDIUM_POINTS_RENCONTRE_NAVIGATION,
+      ...COMPENDIUM_SHI_QI_NAVIGATION,
       ...COMPENDIUM_POINTS_RENCONTRE_PNJ_NAVIGATION.filter(
         (entry) => pointsRencontrePnjResolvedIds.get(entry.id) === entry.id
       ),
