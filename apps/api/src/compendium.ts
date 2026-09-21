@@ -809,14 +809,42 @@ function findMatchingActivePnj(byId: Map<string, Article>, source: Article): Art
   const truthKey = usablePnjIdentity(source.pnj?.nom_verite);
   if (!realKey && !truthKey) return null;
 
-  const matches: Array<{ article: Article; score: number }> = [];
-  for (const candidate of byId.values()) {
-    if (candidate.id === source.id) continue;
+  const candidates = [...byId.values()].filter((candidate) => {
+    if (candidate.id === source.id) return false;
     // OLD/legacy corpus is loaded before its final category remap. Only rebuilt V2
     // profiles may absorb a new cross-document source; archives remain audit-only.
-    if (candidate.rebuildV2 !== true) continue;
+    if (candidate.rebuildV2 !== true) return false;
     const category = String(candidate.category ?? candidate.sourceCategory ?? "");
-    if (category !== "Personnages" && !String(candidate.dataset ?? "").includes("pnj")) continue;
+    return category === "Personnages" || String(candidate.dataset ?? "").includes("pnj");
+  });
+
+  const directIdentityKeys = (candidate: Article) => {
+    const keys = new Set<string>();
+    const add = (value: unknown) => {
+      const key = usablePnjIdentity(value);
+      if (key) keys.add(key);
+    };
+    add(candidate.title);
+    const pnj = candidate.pnj ?? {};
+    for (const field of ["real_name", "nom_reel", "nom_realite", "nom_verite", "name", "alias"]) add(pnj[field]);
+    return keys;
+  };
+
+  // Prefer a single explicit title/PNJ-field match over identities recovered from tables.
+  // Some legacy sheets contain copied "Nom de la Réalité" rows from another character.
+  for (const key of [truthKey, realKey].filter(Boolean) as string[]) {
+    const direct = candidates.filter((candidate) => directIdentityKeys(candidate).has(key));
+    if (direct.length === 1) return direct[0];
+    if (direct.length > 1) {
+      const titleMatches = direct.filter(
+        (candidate) => usablePnjIdentity(candidate.title) === key
+      );
+      if (titleMatches.length === 1) return titleMatches[0];
+    }
+  }
+
+  const matches: Array<{ article: Article; score: number }> = [];
+  for (const candidate of candidates) {
     const keys = articlePnjIdentityKeys(candidate);
     let score = 0;
     if (truthKey && keys.has(truthKey)) score = Math.max(score, 5);
