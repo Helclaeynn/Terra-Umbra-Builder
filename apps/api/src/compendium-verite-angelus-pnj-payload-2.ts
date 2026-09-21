@@ -30,8 +30,7 @@ const PAYLOAD = [
       "relations": [],
       "identity_keys": [
         "Milda Tarasknovna",
-        "Selaphielle",
-        "Bethel"
+        "Selaphielle"
       ],
       "source_group": "Gueburah · Selaphielle",
       "source_order": 29,
@@ -39,7 +38,7 @@ const PAYLOAD = [
         19,
         19
       ],
-      "source_designation": "Bethel",
+      "source_designation": "Selaphielle",
       "source_extract": "Milda était une soldate russe assez lambda avant la guerre, déployée en manœuvre à l’ouest, elle se retrouva isolée avec son bataillon lors des attaques coréennes. Elle intégra l’armée de l’Arkhangel et en devint un officier reconnaissable à sa natte rouge lui valant le surnom de « Red Sonya ». Après la guerre, elle resta auprès de la légende vivante qu’est « L’arkhangel » et intégra la pègre de Vladivostok à ses côtés. Désormais, elle est à la tête de la section assassinat dans la Bratva ainsi que la gestion de s armes. Selaphielle était l’Archange du devoir de son côté. En concurrence avec notamment l’archange Michel, elle était toutefois loin de pâlir face à l’archange guerrier. Cependant, elle idolâtrait Metatron alors quand il fut emprisonné, elle plaida, encore et encore en sa faveur, réhabilité son chef devint son obsession et Elynea n’apprécia pas que son archange du devoir délaisse ceux attribuer pour s’opposer à ses décisions, la faisant aussi enfermer. Elle possède Milda avec l’accord de cette dernière afin d’assister",
       "source_documents": [
         "factions_Arbre de vie et angelus(2).pdf"
@@ -173,8 +172,7 @@ const PAYLOAD = [
       "relations": [],
       "identity_keys": [
         "Brandon Shark",
-        "Bethel",
-        "Svetlana même face au surnaturel, cependant, Milda a souvent le plein contrôle de son corps."
+        "Bethel"
       ],
       "source_group": "Gueburah · Selaphielle",
       "source_order": 30,
@@ -182,7 +180,7 @@ const PAYLOAD = [
         19,
         19
       ],
-      "source_designation": "Svetlana même face au surnaturel, cependant, Milda a souvent le plein contrôle de son corps.",
+      "source_designation": "Bethel",
       "source_extract": "Brandon est un mercenaire, recruté après la guerre, à la suite de l’anéantissement de la flotte australienne dans laquelle il était marin. C’est un agent de sécurité et un des rares de l’Unité corneille, que dirige Liam Nic Siridean. S’il est singulier c’est que c’est un ange et non un kelta bien qu’il soit dans cette unité d’élite composée à deux exceptions près d’esprits servant Morrighan. Bethel est le séraphin du métal, il possède le pouvoir de poser des revêtements métalliques, de corroder les métaux et de les durcir ou les ramollir. Les objets qu’il peut créer sont durables sur le temps mais selon son niveau de santé, n’ont pas la même efficacité. C’était un démon inférieur d’Aèr, une sorte d’esclave qui assistait des forgerons. Parce qu’il était totalement dévoué à sa tâche, Selaphielle décida de l’acheter et le proposa à la transcendance, pour ajouter de la variabilité aux troupes. Il est un des rares Kera’erkal à être resté au sein des Angelus, presque tous ont été tués ou détruits une fois inutiles. Très augmenté, il est passionné au possible par la mécanisation, qu’il voit comme l’occasion de transcender encore une fois son corps. Michel n’a pas le temps, mais il a senti une influence extérieure sur cet ange, la « voie Zarpheth » semble l’avoir illuminé même si la marque d’Elynea n’a pas encore réagit.",
       "source_documents": [
         "factions_Arbre de vie et angelus(2).pdf"
@@ -316,8 +314,7 @@ const PAYLOAD = [
       "relations": [],
       "identity_keys": [
         "Sasha Novogvna",
-        "Sachielle",
-        "Chiloel"
+        "Sachielle"
       ],
       "source_group": "Tiph’Ereth · Sachielle",
       "source_order": 31,
@@ -325,7 +322,7 @@ const PAYLOAD = [
         20,
         20
       ],
-      "source_designation": "Chiloel",
+      "source_designation": "Sachielle",
       "source_extract": "Sasha Novogvna est une mère supérieure d’une communauté de nonnes à Las Vegas. Elle n’est pas vraiment connue du grand public. On ignore que c’est une femme de 62 ans de plus à son physique régénéré. En vérité, elle est la gardienne de « l’Arsenal sacré », qui équipe les ordres de chasseurs de l’Eglise. Le père Jacke Ashford, parfois surnommé « mech Santa Klaus » avec son garage de motards religieux n’est qu’un de ses subordonnés. Ex-chasseuse de l’ordre d’Arianwen, c’était la meilleure disciple de Sœur Maria durant les années 2000 jusqu’à ce qu’elle ne réveille sa nature Archangélique de Sachielle. Sachielle est l’archange de la Charité et même si elle n’a jamais changé de personnalité véritablement, Maria préféra la retirer de la Chasse. La rupture a été brutale entre la chasseuse rousse et la jeune nonne qui s’est sentie trahie. Parfois, c’est pour ça que sœur Maria n’a pas d’approvisionnement, Sachielle ayant encore de la colère pour avoir été interdite de chasse. En tant qu’Archange, elle a le pouvoir de la « charité », qui lui permet de donner des pouvoirs à ses cibles, par exemple ceux d’un archange à un ange n’étant pas de sa Sephira. Zophielle lui fut préférée alors Sachielle essaya de se",
       "source_documents": [
         "factions_Arbre de vie et angelus(2).pdf"
@@ -459,8 +456,7 @@ const PAYLOAD = [
       "relations": [],
       "identity_keys": [
         "Chinyu DAO",
-        "Chiloel",
-        "rebeller, donnant à ses anges des pouvoirs démoniaques de lilith et se faisant enfermer pour ça."
+        "Chiloel"
       ],
       "source_group": "Tiph’Ereth · Sachielle",
       "source_order": 32,
@@ -468,7 +464,7 @@ const PAYLOAD = [
         20,
         20
       ],
-      "source_designation": "rebeller, donnant à ses anges des pouvoirs démoniaques de lilith et se faisant enfermer pour ça.",
+      "source_designation": "Chiloel",
       "source_extract": "Le « clodp chinois » du quartier chinois est une personne absolument méconnue à Los Angeles. Il boit sans interruption une bière médiocre de Yellowfood vaguement inspirée des alcools chinois, il n’est jamais ivre, il est sale et mal habillé d’une chemise hawaïenne turquoise usée et délavée. Si personne ne retient son nom c’est parce qu’il est la résignation incarnée, l’inexistence de motivation, pas la paresse mais la destruction de toute énergie mentale liée à l’action, l’innovation, le progrès, le mouvement, la résistance. Rien de tout cela n’émane de lui, il ne souffre pas seulement « d’Impuissance apprise » mais il l’émane comme une maladie. A son contact, ls rêves, l’ambition, la motivation, tout ça se brise comme de petites vaguelettes sur une digue épaisse. Séraphin de la résignation, cette ancienne Vertu était l’ancienen « Paresse » des sept péchés capitaux, il a dépassé ce statut. Il est une ruine de l’esprit désormais. Il ne sert pas Zophielle, restant loyal à Sachielle. Son seuil ami est « le vieux », qu’il pense être un ange déchu et abimé comme lui. (Alors que c’est un vieux thalsios)",
       "source_documents": [
         "factions_Arbre de vie et angelus(2).pdf"
@@ -602,8 +598,7 @@ const PAYLOAD = [
       "relations": [],
       "identity_keys": [
         "Hannah Lee Flegton",
-        "Hanaelle",
-        "Phanaelle"
+        "Hanaelle"
       ],
       "source_group": "Nesah · Hanaelle",
       "source_order": 33,
@@ -611,7 +606,7 @@ const PAYLOAD = [
         21,
         21
       ],
-      "source_designation": "Phanaelle",
+      "source_designation": "Hanaelle",
       "source_extract": "Hannah L Flegton est une prostituée de la Vladic association. C’est une des plus grandes gagneuses de l’association de Drasko. Adorée des gangs essentiellement, elle est aussi très proche du maire Hamilton. Hannah n’est pas une « hooker », elle se refuse catégoriquement à ce que l’amour et le réconfort qu’elle apporte à ses clients ne serve à quelqu’un d’autre que ses clients. Hanaelle est l’archange de la sexualité. Elle était préférée de loin à Azazel quant à maitriser la sephira de Nesah. Elle aimait véritablement Elynea comme Urielle et d’autres. Si cet archange a été jeté et enfermée, c’est parce qu’elle aimait trop les mortels, elle s’est plusieurs fois opposée à d’autres archanges pour en sauver. Elle a fini par être piégée, elle a toutefois commis l’erreur de refuser de se défendre, comptant sur la confiance d’Elynea en elle. La déesse n’apprécia pas cette paresse et Hanaelle s ’enfonça dans sa défiance, sûre que sa maitresse ne la sauverait, ce qui agaça encore plus Elynea qui la laissa enfermée",
       "source_documents": [
         "factions_Arbre de vie et angelus(2).pdf"
@@ -745,8 +740,7 @@ const PAYLOAD = [
       "relations": [],
       "identity_keys": [
         "Min-Kyung RA",
-        "Phanaelle",
-        "longtemps, jusqu’en 2007, la renvoyant sur Terre avec l’espoir qu’elle changerait un peu."
+        "Phanaelle"
       ],
       "source_group": "Nesah · Hanaelle",
       "source_order": 34,
@@ -754,7 +748,7 @@ const PAYLOAD = [
         21,
         21
       ],
-      "source_designation": "longtemps, jusqu’en 2007, la renvoyant sur Terre avec l’espoir qu’elle changerait un peu.",
+      "source_designation": "Phanaelle",
       "source_extract": "Min-Kyung est une jeune artiste d’IOmegacoustic, ou plutôt, elle était l’un des membres de « Black Angel », un groupe de K-pop, top20 de la saison estivale 2034. Dans les années 2030, un exploit de durer au sommet des ventes une saison entière, ensuite, les artistes sont redistribués ailleurs ou retombe dans l’anonymat. Min-Kyung avait assez investi et a pu s’acheter une formation de management. Bien qu’elle n’ait que 21 ans, elle entraine donc des jeunes femmes à devenir les prochaines chanteuses-danseuses à usage quasi-unique d’Omegacoustic. Glaciale et manipulatrice, elle a un management extrêmement toxique. Séraphin de la prudence, Phanaelle est un ange insensible qui prend possession de corps d’homme ou de femme sans distinction. Une fois les 30 ans atteints, ou à la moindre blessure ou déformation, elle en change, car elle est obsédée par avoir un corps presque parfait. Elle a trahi Hanaelle en rapportant à Elynea chaque fois que l’ange accouchait ou ruinait les plans d’un autre archange, craignant d’être elle aussi punie. Ça ne lui a pas profité, la délation n’estpas appréciée généralement, bien qu’utile, après avoir été ramenée à un rang de simple ange, elle remonta sous la surveillance d’Azazel.",
       "source_documents": [
         "factions_Arbre de vie et angelus(2).pdf"
@@ -888,8 +882,7 @@ const PAYLOAD = [
       "relations": [],
       "identity_keys": [
         "Angel Graff",
-        "Sandalphon",
-        "Pergamin"
+        "Sandalphon"
       ],
       "source_group": "Hod · Sandalphon",
       "source_order": 35,
@@ -897,7 +890,7 @@ const PAYLOAD = [
         22,
         22
       ],
-      "source_designation": "Pergamin",
+      "source_designation": "Sandalphon",
       "source_extract": "Angel est le fils naturel du révérend Graff, mal dans sa peau et complexé, c’est un drogué que son père a tenté maintes fois de mettre en clinique privée afin de le cacher. Récemment, très récemment, il a commencé à changer, devenant bien plus séducteur, se tenant droit, ses cheveux ayant blanchi d’un coup. C’est un autre homme, un miracle. Une possession angélique très peu discrète, mais rien de choquant avec Sandalphon, l’archange de la Grandeur. Seul vrai rival d’Urielle pour la sephira de Hod, il avait la préférence d’Elynea initialement. Frère de Metatron, Sandalphon était un séducteur incroyable et un meneur rare. Stratège mais aussi duelliste efficace, on parle plus souvent de son ainé mais c’était un génie rare chez les archanges. Officiellement il a pour seule erreur d’être infiniment loyal à son frère. Officieusement, il était amoureux de Morrighan et passait plus de temps à essayer de la séduire qu’œuvrer pour le paradis. Revenu sur Terre, il n’a pas abandonné son désir pour la reine des corbeaux. Son but est d’être recruté à la Raven, bien qu’il ne sache pas comment faire. Il est capable de noircir ses",
       "source_documents": [
         "factions_Arbre de vie et angelus(2).pdf"
@@ -1030,14 +1023,8 @@ const PAYLOAD = [
       "organisation": "Arbre de Vie",
       "relations": [],
       "identity_keys": [
-        "« Jesus Jack Kenobi » - Jack Ken",
-        "Pergamin",
-        "ailes et d’avoir des pouvoirs de corneille de Morrighan mais s’il le fait, il sera probablement puni.",
         "Jack Ken",
-        "Jesus Jack Kenobi",
-        "JJK",
-        "Jesus Jack",
-        "J. Kenobi"
+        "Pergamin"
       ],
       "source_group": "Hod · Sandalphon",
       "source_order": 36,
@@ -1045,7 +1032,7 @@ const PAYLOAD = [
         22,
         22
       ],
-      "source_designation": "ailes et d’avoir des pouvoirs de corneille de Morrighan mais s’il le fait, il sera probablement puni.",
+      "source_designation": "Pergamin",
       "source_extract": "En 2035, qui ne connait pas « JJK » ? ou Jesus Jack », « J. kenobi », autant de surnoms du plus grand DJ des quartiers abandonnés. Une MAP à 17 pistes de résonnances (quoi que ça puisse vouloir dire) est sa marque de fabrique. On dit que tant qu’il mixe, personne ne peut s’arrêter de danser. Et pour cause, le séraphin de la persévérance, a pour pouvoir de rendre presque inarrêtables ceux qu’ils protègent. Servant autrefois Sandalphon, qu’il aimait de tout son cœur, Pergamin sert désormais Urielle, qu’il adore, certes, moins, mais passionnément malgré tout. Ce qui est le plus trompeur avec ce Neopunk c’est qu’il n'utilise pas la musique pour propager ses pouvoirs mais les jeux de lumières, servant Urielle. De fait, on s’attaque souvent à sa table de mixage ou aux enceintes quand on réalise ses dons, mais rarement aux lumières stroboscopiques qu’il a partout, sa cravate, ses canons de bras ou autres spots. Il a un charme énorme et aime draguer les daemons, peu importe leur genre ou leur statut.",
       "source_documents": [
         "factions_Arbre de vie et angelus(2).pdf"
@@ -1179,8 +1166,7 @@ const PAYLOAD = [
       "relations": [],
       "identity_keys": [
         "Melias Abel",
-        "Mebahel",
-        "Henael"
+        "Mebahel"
       ],
       "source_group": "Yessod · Mebahel",
       "source_order": 37,
@@ -1188,7 +1174,7 @@ const PAYLOAD = [
         23,
         23
       ],
-      "source_designation": "Henael",
+      "source_designation": "Mebahel",
       "source_extract": "Melias est un chasseur de l’Association. Il est dans le Hunt100. Très équipé et doté d’une camionnette un peu pourrie remplie d’armes, on le confond parfois avec Luke Cypher avec leur grand manteau blanc et leurs yeux dorés. La ressemblance s’arrête là, n’est pas du Hunt15 qui le veut, encore moins en se baladant avec une épée. Melias utilise de la technologie, c’est un ancien ingénieur de Byron industrie viré parce que son logifate avait 2 points en dessous des standards de la corporation. Mebahel est un archange renégat, il a pour pouvoir « la vérité », il voit par ses yeux dorés le « souffle » de la sincérité, comme si la couleur du souffle des paroles était dotée d’une teinte selon si on lui ment ou non. Il est insensible aux illusions de plus, peut forcer la révélation de presque n’importe qui. Il peut causer de la douleur physique proportionnelles aux mensonges vociférés, en corps à corps, les feintes tentées contre lui font également de la douleur physique. Elynea ne l’a jamais vraiment apprécié, il était incapable de mentir et s’entendait très mal avec nombre d’Archanges à cause de cette obsession, sa loyauté était",
       "source_documents": [
         "factions_Arbre de vie et angelus(2).pdf"
@@ -1322,8 +1308,7 @@ const PAYLOAD = [
       "relations": [],
       "identity_keys": [
         "Henna Vatryov",
-        "Henael- Baba Hena",
-        "grande, mais il était connu pour sa franchise, Astaroth lui fit révéler des secrets en abusant de cela."
+        "Henael- Baba Hena"
       ],
       "source_group": "Yessod · Mebahel",
       "source_order": 38,
@@ -1331,7 +1316,7 @@ const PAYLOAD = [
         23,
         23
       ],
-      "source_designation": "grande, mais il était connu pour sa franchise, Astaroth lui fit révéler des secrets en abusant de cela.",
+      "source_designation": "Henael- Baba Hena",
       "source_extract": "Henna est une escort que l’on retrouve régulièrement dans les soirées de « Jesus Jack » . On la trouve dans toutes la Californie, elle voyage beaucoup. C’est toujours près d’un comptoir qu’on la rencontre, un vert d’alcool à la menthe, généralement d’une couleur assortie à ses yeux. Sensuelle et cynique à la fois, elle ne parle jamais longtemps à moins qu’on ne l’engage, mais elle a toujours un bon conseil à donner. Et pour cause, cet « Angelus » est le séraphin de l’Avertissement. On la surnomme aussi « Dame Blanche » même si elle n’est pas un spectre. Les voyageurs ont été vaincus avant qu’Elynea ne vienne sur Terre, cependant quand elle se rebella, si peu de dives ne vinrent à elle, beaucoup ayant cédé aux fléaux, les Babayaga et Kochtchei jugèrent l’occasion bonne pour se venger des dieux. S’ils se ravisèrent vite, certains ont reçu la marque d’Elynea et n’ont pas dévié du chemin emprunté. C’est le cas d’Hena, une fille de l’ancienne. Elle n’a pas de gros don, mais elle a une grande clairvoyance.",
       "source_documents": [
         "factions_Arbre de vie et angelus(2).pdf"
@@ -1464,11 +1449,8 @@ const PAYLOAD = [
       "organisation": "Arbre de Vie",
       "relations": [],
       "identity_keys": [
-        "Murton Blade -Goro Ishikawa",
-        "Muriel",
-        "Osael",
         "Murton Blade",
-        "Goro Ishikawa"
+        "Muriel"
       ],
       "source_group": "Malkhouth · Muriel",
       "source_order": 39,
@@ -1476,7 +1458,7 @@ const PAYLOAD = [
         24,
         24
       ],
-      "source_designation": "Osael",
+      "source_designation": "Muriel",
       "source_extract": "Murton Blade est un assassin, américain redoutablement weeb , il a pratiqué l’art du katana seul avant la guerre, gagnant une petite compétition New-Yorkaise. Voidrunner, il a sa réputation, notamment à cause de sa carrure presque inhumaine avec ses 2,20 m tout en muscles. Les yakuzas aimaient s’en moquer, le « singe des ténèbres » était son surnom entre eux. Quand Goro Oshiro a été tué Murton a tout de suite été engagé par sa fiancée. Il ne fuit pas engager pour le venger néanmoins mais servir de corps de transplantation à son cerveau à Sunways. La greffe n’a pas été totale pour certaines raisons pratiques mais elle avait presque réussi. Hélas, les douleurs étaient trop grandes pour Goro. C’est ainsi, qu’au soir du 27 février 2035, Goro se planta un doigt dans la carotide pour en finir. Muriel s’incarna en lui à ce moment, le possédant pour prendre ce corps exceptionnel. Archange de la destruction, il était un partenaire de l’archange de la mort, Azrael qu’il adorait bien qu’elle ne le considérait pas. La marque de Muriel est unique, elle n’a pas de limite à sa transcendance, dès qu’il détruit le lien entre une âme et son corps, il voit sa marque se renforcer. Les anges ne sont pas des gentils mais Muriel était un amateur de",
       "source_documents": [
         "factions_Arbre de vie et angelus(2).pdf"
@@ -1610,8 +1592,7 @@ const PAYLOAD = [
       "relations": [],
       "identity_keys": [
         "Kyu-Bok NURA",
-        "Osael",
-        "carnage qui dérangeait. Devenant de plus en plus fort, c’est Azrael elle-même qui l’a enfermé."
+        "Osael"
       ],
       "source_group": "Malkhouth · Muriel",
       "source_order": 40,
@@ -1619,7 +1600,7 @@ const PAYLOAD = [
         24,
         24
       ],
-      "source_designation": "carnage qui dérangeait. Devenant de plus en plus fort, c’est Azrael elle-même qui l’a enfermé.",
+      "source_designation": "Osael",
       "source_extract": "Kyu-Bok était un jeune policier de Seoul quand la Corée du sud fut envahie. Il a passé l’essentiel de la guerre dans une cellule ou sur un lit d’hôpital. Il a été déporté aux Etats-Unis après la grande défaite des premières batailles de l’Alliance Pacifique. Il n’a participé qu’à une seule bataille après avoir été intégré aux US. Rangers, une défaite de plus. C’est un agent de sécurité de Tortoise security, mais c’est un homme plein de haine et de ressentiment, son seul objectif est de se venger des Nord-coréens. Séraphin de la colère, il servait l’archange Muriel assez loyalement. Quand il fut enfermé, Osael se rangea au service d’Azrael bien que sa nature ne fût pas parfaitement en coïncidence avec ses anges. Il agit souvent indépendamment, c’est un excellent combattant bien qu’assez impétueux. Il fait souvent mine d’être un maitre d’arts-martiaux, cependant, c’est pour tromper les idiots le pensant assez stupide pour défier au corps à corps des ennemis en 2035, possédant un pistolet mitrailleur intégré à son bras gauche pour les buter au besoin. Il est au service de Ye-bin RYONG même si elle fait peu appel à lui.",
       "source_documents": [
         "factions_Arbre de vie et angelus(2).pdf"
@@ -1753,8 +1734,7 @@ const PAYLOAD = [
       "relations": [],
       "identity_keys": [
         "Katerinochkina Angelika Ruslanovna",
-        "Kathariel",
-        "Luxure"
+        "Kathariel"
       ],
       "source_group": "Autres Angelus",
       "source_order": 41,
@@ -1762,7 +1742,7 @@ const PAYLOAD = [
         25,
         25
       ],
-      "source_designation": "Luxure",
+      "source_designation": "Kathariel",
       "source_extract": "Katerina Angelika était un des assassins au service d’igor Artemov, de la Sokolnitcheskaïa moscovite. Elle rencontra Svetlana durant son tour du monde et en devint une grande fan. Lors de la guerre, elle fut envoyée pour l’aider et l’ancienne spetsnaz intégra le bataillon Arckhangel. Avec Lev, Drasko et Milda, Angelika est la plus loyale de tous envers Svetlana, de nature glaciale et posée, si elle est moins insensible que Lev, elle est probablement proche de la psychopathie tant les ordres de Svetlana importent plus que tout le reste. Kathariel est un chérubin des forces de l’Archange Michel, initialement elle n’était pas censée rencontrer Svetlana ni interférer, mais subjuguée par la jeune femme de Vladivostok, elle ne put obéir et en devint une proche. Elle a une honte infinie qui la ronge, car n’étant pas",
       "source_documents": [
         "factions_Arbre de vie et angelus(2).pdf"
@@ -1888,8 +1868,6 @@ const PAYLOAD = [
       "relations": [],
       "identity_keys": [
         "Lex Huria",
-        "Lexael > Luxure",
-        "humaine, elle apeur d’être rejetée si Svetlana comprend ce qu’elle est.",
         "Lexael"
       ],
       "source_group": "Autres Angelus",
@@ -1898,7 +1876,7 @@ const PAYLOAD = [
         25,
         25
       ],
-      "source_designation": "humaine, elle apeur d’être rejetée si Svetlana comprend ce qu’elle est.",
+      "source_designation": "Lexael",
       "source_extract": "Lex Huria est une assistante de production sur les différentes émissions au taux d’audimat le plus élevé Elle est notamment sur des émissions de Lys depuis quelques années et a récemment été placée sur les émissions culinaires de Svetlana. Enjouée et volontaire, c’est une femme efficace malgré une apparence assez frivole. Lexael est en effet l’incarnation de la Luxure, c’est une ancienne Vertu qui a tellement aspiré de luxure chez les mortels qu’elle en est devenue une manifestation. Elle est, inévitablement, obsédée sexuelle et si elle est capable de travailler en tant qu’humaine, absolument tout son temps libre n'est dédié qu’à draguer et coucher, absolument tout ce qui existe. Peu lui importe le « vecteur » du plaisir, pour elle, tout se justifie si l’extase est là, elle ne parle pas de partenaires ou de sextoy, mais de « vecteurs », n’attachant pas plus d’importance à une amante qu’a un vibro, un sans-abri ou un bouc. Elle terrifie les incubes et les succubes des daemons, puisqu’elle pompe leurs pouvoirs. Elle a été envoyée pour surveiller Svetlana mais sa présence à provoquer l’apparition d’un fantasme dans la Réalité. Lors de la « pluie des anges », d’anciennes « Luxures » ont été renvoyées sur Terre, elle a pour mission de les vaincre même si cela l’éloigne de sa Svetlana adorée.",
       "source_documents": [
         "factions_Arbre de vie et angelus(2).pdf"
