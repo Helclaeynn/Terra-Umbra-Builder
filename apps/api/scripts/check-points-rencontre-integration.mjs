@@ -18,6 +18,24 @@ assert.equal(locations.length, 24, "Points de rencontre: 24 lieux physiques uniq
 assert.equal(new Set(COMPENDIUM_POINTS_RENCONTRE_ARTICLES.map((article) => article.id)).size, 25, "Points de rencontre: ids de lieux non uniques");
 assert.equal(COMPENDIUM_POINTS_RENCONTRE_NAVIGATION.length, 25, "Points de rencontre: navigation des lieux incomplète");
 
+for (const article of locations) {
+  assert.ok(article.illustration?.src?.startsWith("images/points-rencontre/"), `${article.id}: illustration source absente`);
+  assert.ok(article.illustration.src.endsWith(".webp"), `${article.id}: illustration non normalisée en WebP`);
+  assert.ok(!(article.sections ?? []).some((section) => section.id === "repere"), `${article.id}: bloc Repère méta encore visible`);
+
+  const visible = JSON.stringify(article.sections ?? []);
+  for (const meta of ["Dossier source", "Pages source", "Page source", "Communautés documentées"]) {
+    assert.ok(!visible.includes(meta), `${article.id}: métadonnée d’audit encore visible — ${meta}`);
+  }
+
+  const guardians = article.sections?.find((section) => section.id === "gardiens");
+  if (guardians) {
+    assert.equal(guardians.title, "Gardiens", `${article.id}: titre des gardiens trop technique`);
+    assert.ok(!(JSON.stringify(guardians.blocks ?? []).includes("Page source")), `${article.id}: page source visible dans les gardiens`);
+  }
+}
+
+
 for (const article of COMPENDIUM_POINTS_RENCONTRE_ARTICLES) {
   assert.equal(article.audience, "mj", `${article.id}: le lieu doit rester MJ-only`);
   assert.equal(article.source, "Points de rencontre(3).pdf", `${article.id}: provenance source incorrecte`);
@@ -88,4 +106,4 @@ const jcube = byTitle.get("Jamal Jace Jayson");
 assert.ok(jcube?.pnj?.identity_keys?.includes("J3"), "Jcube: alias J3 absent");
 assert.ok(jcube?.pnj?.identity_keys?.includes("Jcube"), "Jcube: alias Jcube absent");
 
-console.log("POINTS DE RENCONTRE OK — 24 lieux uniques + 1 hub MJ · 52 gardiens · Vérité protégée · doublons physiques fusionnés");
+console.log("POINTS DE RENCONTRE OK — 24 lieux illustrés · métadonnées masquées · 52 gardiens · Vérité protégée · doublons physiques fusionnés");
