@@ -164,7 +164,7 @@ jobs:
           rsync -az --delete -e "$SSH" apps/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/apps/"
           rsync -az --delete --exclude='.env' -e "$SSH" infrastructure/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/infrastructure/"
           rsync -az -e "$SSH" compendium/source/current-equipment-catalog-v1.json compendium/source/reality-lore-v3-*.json "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/compendium/source/"
-          rsync -az -e "$SSH" compendium/source/verite-catalog-v6.json.gz.b64 compendium/source/truth-mechanics-v6-fixed.manifest.json compendium/source/truth-mechanics-v6-fixed.part*.b64 "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/compendium/source/"
+          rsync -az -e "$SSH" compendium/source/verite-catalog-v6.json.gz.b64 compendium/source/truth-mechanics-v6-fixed.manifest.json compendium/source/truth-mechanics-v6-fixed.part*.b64 compendium/source/truth-lore-hunters-2026-09-v1-*.b64part "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/compendium/source/"
           rsync -az --delete -e "$SSH" compendium/data/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/compendium/data/"
           rsync -az --delete -e "$SSH" compendium/images/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/compendium/images/"
           rsync -az --delete -e "$SSH" compendium/assets/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/compendium/assets/"
