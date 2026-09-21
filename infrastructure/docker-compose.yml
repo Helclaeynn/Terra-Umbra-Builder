@@ -37,8 +37,10 @@ services:
       SMTP_USER: ${SMTP_USER:-noreply@terra-umbra.fr}
       SMTP_PASSWORD_FILE: /run/secrets/smtp_password
       MAIL_FROM: ${MAIL_FROM:-Terra Umbra <noreply@terra-umbra.fr>}
+      COMPENDIUM_UPLOAD_DIR: /app/editor-media
     volumes:
       - /opt/terra-umbra/secrets/smtp_password:/run/secrets/smtp_password:ro
+      - compendium-editor-media:/app/editor-media
     depends_on:
       db:
         condition: service_healthy
@@ -72,6 +74,7 @@ services:
 
 volumes:
   postgres-data:
+  compendium-editor-media:
   caddy-data:
   caddy-config:
 
