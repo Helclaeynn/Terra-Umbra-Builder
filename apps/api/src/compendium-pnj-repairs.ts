@@ -64,9 +64,12 @@ function removeParas(a:A,match:(t:string)=>boolean){
 }
 function order(a:A){if(!a.pnj&&!String(a.dataset??"").includes("pnj"))return;const pub:J[]=[],priv:J[]=[],st:J[]=[];for(const s of a.sections??[]){if(stats(s))st.push(s);else if(s?.audience==="mj")priv.push(s);else pub.push(s);}a.sections=[...pub,...priv,...st];}
 function secretProfile(a:A){
-  if(!new Set(["verite-species-pnj","verite-fantastiques-pnj","verite-extraterrestres-pnj","verite-hunters-pnj"]).has(String(a.dataset??"")))return;
-  const labels=new Set(["nom de la verite","nature reelle","ethnie reelle","repere"]), rows:any[][]=[];
-  for(const s of a.sections??[]){if(s?.audience==="mj")continue;for(const b of s.blocks??[])if(b?.type==="table"&&Array.isArray(b.rows))b.rows=b.rows.filter((r:any[])=>{if(!labels.has(n(r?.[0])))return true;const v=String(r?.[1]??"").trim();if(v&&!/^[_?]+$/.test(v))rows.push(cp(r));return false;});}
+  if(!a.pnj&&!String(a.dataset??"").includes("pnj"))return;
+  const truthIdentityLabels=new Set(["nom de la verite","nature reelle","ethnie reelle"]);
+  const legacyTruthDatasets=new Set(["verite-species-pnj","verite-fantastiques-pnj","verite-extraterrestres-pnj","verite-hunters-pnj"]);
+  const hideRepere=legacyTruthDatasets.has(String(a.dataset??""));
+  const rows:any[][]=[];
+  for(const s of a.sections??[]){if(s?.audience==="mj")continue;for(const b of s.blocks??[])if(b?.type==="table"&&Array.isArray(b.rows))b.rows=b.rows.filter((r:any[])=>{const label=n(r?.[0]);if(!truthIdentityLabels.has(label)&&!(hideRepere&&label==="repere"))return true;const v=String(r?.[1]??"").trim();if(v&&!/^[_?]+$/.test(v))rows.push(cp(r));return false;});}
   if(rows.length)addMj(a,[{type:"table",rows:[["Champ MJ","Valeur"],...rows]}]);
 }
 function sourceKeyCleanup(a:A){
