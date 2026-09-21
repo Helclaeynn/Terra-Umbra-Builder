@@ -22,6 +22,7 @@ COPY character-builder/rulesets/terra-umbra/reality/safe/vehicles.part01.b64 ./r
 COPY compendium/source/verite-catalog-v6.json.gz.b64 ./rules-data/truth-equipment/verite-catalog-v6.json.gz.b64
 COPY compendium/source/truth-mechanics-v6-fixed.manifest.json ./rules-data/truth-mechanics/truth-mechanics-v6-fixed.manifest.json
 COPY compendium/source/truth-mechanics-v6-fixed.part*.b64 ./rules-data/truth-mechanics/
+COPY compendium/source/truth-lore-hunters-2026-09-v1-*.b64part ./rules-data/hunters/
 
 COPY compendium/data/manifest-v3.json ./compendium-data/manifest-v3.json
 COPY compendium/data/navigation-v1.json ./compendium-data/navigation-v1.json

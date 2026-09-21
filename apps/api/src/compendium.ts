@@ -135,6 +135,12 @@ import {
   COMPENDIUM_VERITE_V7_PASS_B_NAVIGATION
 } from "./compendium-verite-v7-pass-b.js";
 import {
+  COMPENDIUM_VERITE_HUNTERS_SOURCE,
+  COMPENDIUM_VERITE_HUNTERS_ARTICLES,
+  COMPENDIUM_VERITE_HUNTERS_ENRICHMENTS,
+  COMPENDIUM_VERITE_HUNTERS_NAVIGATION
+} from "./compendium-verite-hunters-source.js";
+import {
   COMPENDIUM_VERITE_V7_PASS_B_RULE_ARTICLES,
   COMPENDIUM_VERITE_V7_PASS_B_RULE_NAVIGATION
 } from "./compendium-verite-v7-pass-b-rules.js";
@@ -1477,6 +1483,10 @@ async function loadCorpus(): Promise<Corpus> {
     byId.set(article.id, deepClone(article) as Article);
   }
 
+  for (const article of COMPENDIUM_VERITE_HUNTERS_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
   for (const article of COMPENDIUM_VERITE_V7_PASS_B_RULE_ARTICLES) {
     byId.set(article.id, deepClone(article) as Article);
   }
@@ -1543,6 +1553,44 @@ async function loadCorpus(): Promise<Corpus> {
     }
     byId.set(article.id, article);
     extraterrestrialPnjResolvedIds.set(article.id, article.id);
+  }
+
+  for (const enrichment of COMPENDIUM_VERITE_HUNTERS_ENRICHMENTS) {
+    const target = byId.get(String(enrichment.id ?? ""));
+    if (!target) continue;
+
+    const replaceTitles = new Set(
+      (enrichment.replaceSections ?? []).map((title: unknown) => norm(title))
+    );
+    const incomingTitles = new Set(
+      (enrichment.sections ?? []).map((section: JsonObject) => norm(section?.title ?? ""))
+    );
+    target.sections = [
+      ...(target.sections ?? []).filter((section) => {
+        const title = norm(section?.title ?? "");
+        return !replaceTitles.has(title) && !incomingTitles.has(title);
+      }),
+      ...(deepClone(enrichment.sections ?? []) as JsonObject[])
+    ];
+
+    const sources = [target.source, COMPENDIUM_VERITE_HUNTERS_SOURCE]
+      .flatMap((value) => String(value ?? "").split(" ; "))
+      .map((value) => value.trim())
+      .filter(Boolean);
+    target.source = [...new Set(sources)].join(" ; ");
+
+    const isRealityLore =
+      target.category === "Réalité" ||
+      (target.category === "Organisations" &&
+        (target.tags ?? []).some((tag) => norm(tag) === "religions et neoreligions"));
+    target.tags = [
+      ...new Set([
+        ...(target.tags ?? []),
+        ...(isRealityLore ? ["Lore Chasseurs 2026-09"] : ["Vérité", "Chasseurs", "Lore Chasseurs 2026-09"])
+      ])
+    ];
+    target.status = "canon_enrichi";
+    target.rebuildV2 = true;
   }
 
   for (const enrichment of COMPENDIUM_REALITE_V9_GOVERNMENT_TRUTH_PNJ_ENRICHMENTS) {
@@ -1775,6 +1823,7 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_VERITE_V7_ANGELUS_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_ASERYN_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_PASS_B_NAVIGATION,
+      ...COMPENDIUM_VERITE_HUNTERS_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_PASS_B_RULE_NAVIGATION,
       ...COMPENDIUM_VERITE_SPECIES_LORE_NAVIGATION,
       ...COMPENDIUM_VERITE_SPECIES_PNJ_NAVIGATION,
