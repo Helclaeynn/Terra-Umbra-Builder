@@ -57,7 +57,7 @@ function canonicalizeTruth(entry,card){
   if(/cosmologie|histoire cachee/.test(current))return resultFrom(entry,'Vérité','Cosmologie & histoire cachée',10,'Voile, mondes & histoire occulte',10);
   if(/entrer dans la verite/.test(current))return resultFrom(entry,'Vérité','Entrer dans la Vérité',20,entry.subgroup||'Repères & accès',Number(entry.subgroupOrder)||10);
   if(/corruption|fleau/.test(current)||/fleau|vhodhal|v aagor|ux sharith|c thath|gajh|corruption|rupture/.test(text))return resultFrom(entry,'Vérité','Corruption & Fléaux',60,/corruption/.test(text)?'Corruption & contamination':'Fléaux, Ruptures & serviteurs',/corruption/.test(text)?10:20);
-  if(/chasseur/.test(current)||/chasseur|inquisition|ordre de chasse|hunter|clan shi|shimazu|famille gu/.test(text))return resultFrom(entry,'Vérité','Chasseurs & traditions',50,'Ordres, clans & doctrine de Chasse',10);
+  if(current==='chasseurs traditions')return resultFrom(entry,'Vérité','Chasseurs & traditions',50,entry.subgroup||'Ordres, clans & doctrine de Chasse',Number(entry.subgroupOrder)||10);\n  if(/chasseur/.test(current)||/chasseur|inquisition|ordre de chasse|hunter|clan shi|shimazu|famille gu/.test(text))return resultFrom(entry,'Vérité','Chasseurs & traditions',50,'Ordres, clans & doctrine de Chasse',10);
   if(/lieux|ombremonde/.test(current))return resultFrom(entry,'Vérité','Lieux & Ombremonde',40,'Lieux, plans & territoires occultes',10);
   if(/creatures|phenomenes/.test(current))return resultFrom(entry,'Vérité','Créatures & phénomènes',70,'Créatures & manifestations',10);
   const domain=truthDomain(text);
