@@ -270,6 +270,14 @@ import {
   COMPENDIUM_VERITE_PELAGES_PNJ_ARTICLES,
   COMPENDIUM_VERITE_PELAGES_PNJ_NAVIGATION
 } from "./compendium-verite-pelages-pnj.js";
+import {
+  COMPENDIUM_POINTS_RENCONTRE_ARTICLES,
+  COMPENDIUM_POINTS_RENCONTRE_NAVIGATION
+} from "./compendium-points-rencontre.js";
+import {
+  COMPENDIUM_POINTS_RENCONTRE_PNJ_ARTICLES,
+  COMPENDIUM_POINTS_RENCONTRE_PNJ_NAVIGATION
+} from "./compendium-points-rencontre-pnj.js";
 
 type JsonObject = Record<string, any>;
 export type Article = JsonObject & {
@@ -1736,6 +1744,7 @@ async function loadCorpus(): Promise<Corpus> {
   const templesDaemoniaquesPnjResolvedIds = new Map<string, string>();
   const aserynTerresTemplesPnjResolvedIds = new Map<string, string>();
   const grandsExilesPnjResolvedIds = new Map<string, string>();
+  const pointsRencontrePnjResolvedIds = new Map<string, string>();
   const loaded = await Promise.all(
     manifest.datasets.map(async (spec) => [spec.id, await loadDataset(spec)] as const)
   );
@@ -2746,6 +2755,22 @@ async function loadCorpus(): Promise<Corpus> {
     grandsExilesPnjResolvedIds.set(article.id, article.id);
   }
 
+  for (const article of COMPENDIUM_POINTS_RENCONTRE_ARTICLES) {
+    byId.set(String(article.id), deepClone(article) as Article);
+  }
+
+  for (const sourceArticle of COMPENDIUM_POINTS_RENCONTRE_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingAserynPnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeAngelusPnj(existing, article));
+      pointsRencontrePnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+    byId.set(article.id, article);
+    pointsRencontrePnjResolvedIds.set(article.id, article.id);
+  }
+
   const generatedTalentHubs = generatedTalentHubCorpus();
   for (const hub of generatedTalentHubs.articles) {
     if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
@@ -2992,6 +3017,10 @@ async function loadCorpus(): Promise<Corpus> {
       ),
       ...COMPENDIUM_VERITE_HUMAN_GALACTIC_PNJ_NAVIGATION.filter(
         (entry) => humanGalacticPnjResolvedIds.get(entry.id) === entry.id
+      ),
+      ...COMPENDIUM_POINTS_RENCONTRE_NAVIGATION,
+      ...COMPENDIUM_POINTS_RENCONTRE_PNJ_NAVIGATION.filter(
+        (entry) => pointsRencontrePnjResolvedIds.get(entry.id) === entry.id
       ),
       ...generatedTalentHubs.navigation,
       ...generatedBuilderReferences.navigation
