@@ -193,6 +193,15 @@ import {
 } from "./compendium-verite-extraterrestres-pnj.js";
 import { COMPENDIUM_VERITE_VAMPIRE_COURTS_SOURCE, COMPENDIUM_VERITE_VAMPIRE_COURTS_ARTICLES, COMPENDIUM_VERITE_VAMPIRE_COURTS_ENRICHMENTS, COMPENDIUM_VERITE_VAMPIRE_COURTS_NAVIGATION } from "./compendium-verite-vampire-courts-lore.js";
 import { COMPENDIUM_VERITE_VAMPIRE_COURTS_PNJ_ARTICLES, COMPENDIUM_VERITE_VAMPIRE_COURTS_PNJ_NAVIGATION } from "./compendium-verite-vampire-courts-pnj.js";
+import {
+  COMPENDIUM_VERITE_PELAGES_ARTICLES,
+  COMPENDIUM_VERITE_PELAGES_ENRICHMENTS,
+  COMPENDIUM_VERITE_PELAGES_NAVIGATION
+} from "./compendium-verite-pelages-lore.js";
+import {
+  COMPENDIUM_VERITE_PELAGES_PNJ_ARTICLES,
+  COMPENDIUM_VERITE_PELAGES_PNJ_NAVIGATION
+} from "./compendium-verite-pelages-pnj.js";
 
 type JsonObject = Record<string, any>;
 export type Article = JsonObject & {
@@ -846,6 +855,51 @@ function mergeVampireCourtPnj(target: Article, source: Article): Article {
   if (source.audience === "mj" && !targetRealityIdentity && !sourceRealityIdentity) merged.audience = "mj";
   return merged;
 }
+function mergePelagePnj(target: Article, source: Article): Article {
+  const merged = mergeVampireCourtPnj(target, source);
+
+  // Older active species sheets sometimes exposed Truth rows in their public
+  // profile section. Keep all source information but remove those rows from
+  // the public profile when this newer Pelages source is merged.
+  merged.sections = (merged.sections ?? []).map((section) => {
+    const copy = deepClone(section) as JsonObject;
+
+    if (String(copy.id ?? "") === "profil") {
+      copy.blocks = (copy.blocks ?? []).map((block: JsonObject) => {
+        if (block?.type !== "table" || !Array.isArray(block.rows)) return block;
+        const rows = block.rows.filter((row: unknown[]) => {
+          const label = normalizedPnjIdentity(row?.[0]);
+          return !(
+            label.includes("nom de la verite") ||
+            label.includes("nature reelle") ||
+            label.includes("ethnie reelle") ||
+            label.includes("grand meneur") ||
+            label.includes("pouvoir du sang") ||
+            label.includes("statut verite")
+          );
+        });
+        return { ...block, rows };
+      });
+    }
+
+    // Some previous "Informations Réalité" paragraphs mixed public biography
+    // and supernatural identity. The new Pelages source provides a clean
+    // public section, so retain the older mixed text as GM-only instead of
+    // leaking it.
+    if (String(copy.id ?? "") === "info-realite") {
+      const sourceText = JSON.stringify(copy);
+      if (/loup.?garou|garou|pelage|meute|meneur|sang vif|sang [a-z]|nature reelle|revele/i.test(sourceText)) {
+        copy.audience = "mj";
+        copy.title = "Informations source antérieure · MJ";
+      }
+    }
+
+    return copy;
+  });
+
+  return merged;
+}
+
 function mergeHunterPnj(target: Article, source: Article): Article {
   const merged = mergeFleauxPnj(target, source);
   const targetPnj = target.pnj ?? {};
@@ -1396,6 +1450,7 @@ async function loadCorpus(): Promise<Corpus> {
   const fleauxPnjResolvedIds = new Map<string, string>();
   const mageLogesPnjResolvedIds = new Map<string, string>();
   const vampireCourtPnjResolvedIds = new Map<string, string>();
+  const pelagePnjResolvedIds = new Map<string, string>();
   const loaded = await Promise.all(
     manifest.datasets.map(async (spec) => [spec.id, await loadDataset(spec)] as const)
   );
@@ -1952,6 +2007,51 @@ async function loadCorpus(): Promise<Corpus> {
     if(existing){byId.set(existing.id,mergeVampireCourtPnj(existing,article));vampireCourtPnjResolvedIds.set(article.id,existing.id);continue;}
     byId.set(article.id,article);vampireCourtPnjResolvedIds.set(article.id,article.id);
   }
+  for (const article of COMPENDIUM_VERITE_PELAGES_ARTICLES) {
+    byId.set(String(article.id), deepClone(article) as Article);
+  }
+
+  for (const enrichment of COMPENDIUM_VERITE_PELAGES_ENRICHMENTS) {
+    const target = byId.get(String(enrichment.targetId ?? ""));
+    if (!target) {
+      throw new Error(`Cible d'enrichissement Pelages absente: ${String(enrichment.targetId ?? "")}`);
+    }
+
+    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
+    const sections = deepClone(enrichment.sections ?? []).filter(
+      (section: JsonObject) => !existingIds.has(String(section?.id ?? ""))
+    );
+    if (sections.length) target.sections = [...(target.sections ?? []), ...sections];
+
+    const sources = [target.source, enrichment.source]
+      .flatMap((value) => String(value ?? "").split(" ; "))
+      .map((value) => value.trim())
+      .filter(Boolean);
+    target.source = [...new Set(sources)].join(" ; ");
+    target.tags = [
+      ...new Set([
+        ...(target.tags ?? []),
+        ...(enrichment.tags ?? []),
+        ...(new Set(sources).size > 1 ? ["Multi-source"] : [])
+      ])
+    ];
+    target.status = "canon_enrichi";
+    target.rebuildV2 = true;
+  }
+
+  for (const sourceArticle of COMPENDIUM_VERITE_PELAGES_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergePelagePnj(existing, article));
+      pelagePnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+
+    byId.set(article.id, article);
+    pelagePnjResolvedIds.set(article.id, article.id);
+  }
+
   const generatedTalentHubs = generatedTalentHubCorpus();
   for (const hub of generatedTalentHubs.articles) {
     if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
@@ -2074,6 +2174,10 @@ async function loadCorpus(): Promise<Corpus> {
       ),
       ...COMPENDIUM_VERITE_VAMPIRE_COURTS_NAVIGATION,
       ...COMPENDIUM_VERITE_VAMPIRE_COURTS_PNJ_NAVIGATION.filter((entry) => vampireCourtPnjResolvedIds.get(entry.id) === entry.id),
+      ...COMPENDIUM_VERITE_PELAGES_NAVIGATION,
+      ...COMPENDIUM_VERITE_PELAGES_PNJ_NAVIGATION.filter(
+        (entry) => pelagePnjResolvedIds.get(entry.id) === entry.id
+      ),
       ...COMPENDIUM_VERITE_V7_DAEMON_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_ANGELUS_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_ASERYN_NAVIGATION,
