@@ -1141,7 +1141,17 @@ onMounted(load);
                 </label>
                 <label>Texte alternatif<input v-model="mediaAlt" /></label>
               </div>
-              <label>Chemin ou URL
+              <label class="editor-upload-field">
+                Choisir une image depuis mon PC
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/gif"
+                  :disabled="mediaUploading"
+                  @change="uploadLocalImage($event, 'page')"
+                />
+                <small>{{ mediaUploading ? "Envoi en cours…" : "JPEG, PNG, WebP ou GIF · 15 Mo maximum" }}</small>
+              </label>
+              <label>Ou utiliser un chemin / une URL
                 <input v-model="mediaSrc" placeholder="images/manual/… ou https://…" />
               </label>
               <label>Légende<input v-model="mediaCaption" /></label>
@@ -1165,7 +1175,19 @@ onMounted(load);
                 <label>Statut de Vérité<input v-model="pnjForm.statutVerite" /></label>
               </div>
               <label>Relations<textarea v-model="pnjForm.relations" rows="4" placeholder="Une relation par ligne" /></label>
-              <label>Portrait<input v-model="pnjForm.portrait" placeholder="images/… ou URL" /></label>
+              <label class="editor-upload-field">
+                Choisir le portrait depuis mon PC
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/gif"
+                  :disabled="portraitUploading"
+                  @change="uploadLocalImage($event, 'portrait')"
+                />
+                <small>{{ portraitUploading ? "Envoi en cours…" : "JPEG, PNG, WebP ou GIF · 15 Mo maximum" }}</small>
+              </label>
+              <label>Ou utiliser un chemin / une URL
+                <input v-model="pnjForm.portrait" placeholder="images/… ou URL" />
+              </label>
               <div class="editor-two">
                 <label>Alt portrait<input v-model="pnjForm.portraitAlt" /></label>
                 <label>Légende portrait<input v-model="pnjForm.portraitCaption" /></label>
@@ -1340,6 +1362,9 @@ Encore du texte.
 .builder-source-card{border-left:3px solid rgba(125,101,66,.55)}.builder-source-card.linked{border-left-color:#7c9d72}.builder-source-state{padding:.3rem .45rem;border:1px solid rgba(255,255,255,.09);color:#7f98a3;font-size:.65rem;text-transform:uppercase;letter-spacing:.05em}.builder-source-state.ok{color:#9fbe98;border-color:rgba(112,168,121,.25)}
 .builder-source-record{display:grid;gap:.6rem;padding:.75rem;border:1px solid rgba(255,255,255,.07);background:rgba(8,8,7,.22)}.builder-source-record>header{display:flex;justify-content:space-between;gap:.8rem}.builder-source-record>header>div{display:grid;gap:.15rem}.builder-source-record>header span{color:#6fb9d6;font-size:.62rem;text-transform:uppercase;letter-spacing:.07em}.builder-source-record>header strong{color:#d7e3e7}.builder-source-record>header small{color:#718a95;font-size:.67rem}.builder-source-record dl{display:grid;grid-template-columns:minmax(100px,.6fr) minmax(0,1.4fr);gap:0;margin:0}.builder-source-record dt,.builder-source-record dd{padding:.38rem .45rem;border-top:1px solid rgba(255,255,255,.05);font-size:.7rem}.builder-source-record dt{color:#667f8b}.builder-source-record dd{margin:0;color:#a7bbc3;overflow-wrap:anywhere}
 .editor-media-preview { width:min(100%,520px); max-height:340px; object-fit:contain; margin-top:.2rem; border:1px solid rgba(255,255,255,.08); background:rgba(0,0,0,.2); }
+.editor-upload-field{padding:.75rem;border:1px dashed rgba(78,177,200,.24);background:rgba(43,146,255,.035)}
+.editor-upload-field input[type="file"]{margin-top:.45rem;padding:.5rem;background:rgba(0,0,0,.16);cursor:pointer}
+.editor-upload-field small{display:block;margin-top:.35rem;color:#66838e;font-size:.68rem}
 .editor-sections-head { margin-top:.3rem; }
 .editor-section-card { display:grid; gap:.8rem; }
 .editor-section-card > header { display:grid; grid-template-columns:minmax(0,1fr) 80px 100px auto; gap:.5rem; }
