@@ -119,6 +119,13 @@ import {
   COMPENDIUM_VERITE_V7_MAGE_NAVIGATION
 } from "./compendium-verite-v7-mages.js";
 import {
+  COMPENDIUM_VERITE_LOGES_MAGES_SOURCE,
+  COMPENDIUM_VERITE_LOGES_MAGES_HUB_ID,
+  COMPENDIUM_VERITE_LOGES_MAGES_HUB_SECTIONS,
+  COMPENDIUM_VERITE_LOGES_MAGES_PNJ_ARTICLES,
+  COMPENDIUM_VERITE_LOGES_MAGES_PNJ_NAVIGATION
+} from "./compendium-verite-loges-mages.js";
+import {
   COMPENDIUM_VERITE_V7_DAEMON_ARTICLES,
   COMPENDIUM_VERITE_V7_DAEMON_NAVIGATION
 } from "./compendium-verite-v7-daemons.js";
@@ -1372,6 +1379,7 @@ async function loadCorpus(): Promise<Corpus> {
   const corporationPnjResolvedIds = new Map<string, string>();
   const hunterPnjResolvedIds = new Map<string, string>();
   const fleauxPnjResolvedIds = new Map<string, string>();
+  const mageLogesPnjResolvedIds = new Map<string, string>();
   const loaded = await Promise.all(
     manifest.datasets.map(async (spec) => [spec.id, await loadDataset(spec)] as const)
   );
@@ -1878,6 +1886,45 @@ async function loadCorpus(): Promise<Corpus> {
     fleauxPnjResolvedIds.set(article.id, article.id);
   }
 
+  const mageLogesHub = byId.get(COMPENDIUM_VERITE_LOGES_MAGES_HUB_ID);
+  if (!mageLogesHub) {
+    throw new Error(`Hub Mages absent pour l'intégration des Loges: ${COMPENDIUM_VERITE_LOGES_MAGES_HUB_ID}`);
+  }
+  const mageLogesSectionIds = new Set(
+    (mageLogesHub.sections ?? []).map((section) => String(section?.id ?? ""))
+  );
+  for (const section of COMPENDIUM_VERITE_LOGES_MAGES_HUB_SECTIONS) {
+    const id = String(section?.id ?? "");
+    if (!id || mageLogesSectionIds.has(id)) continue;
+    mageLogesHub.sections = [...(mageLogesHub.sections ?? []), deepClone(section) as JsonObject];
+    mageLogesSectionIds.add(id);
+  }
+  mageLogesHub.source = [
+    ...new Set(
+      [mageLogesHub.source, COMPENDIUM_VERITE_LOGES_MAGES_SOURCE]
+        .flatMap((value) => String(value ?? "").split(" ; "))
+        .map((value) => value.trim())
+        .filter(Boolean)
+    )
+  ].join(" ; ");
+  mageLogesHub.tags = [
+    ...new Set([...(mageLogesHub.tags ?? []), "Loges des Mages", "New-York", "Los Angeles", "San Diejuana", "Las Vegas", "Phoenix", "Grande Réserve"])
+  ];
+  mageLogesHub.status = "canon_enrichi";
+  mageLogesHub.rebuildV2 = true;
+
+  for (const sourceArticle of COMPENDIUM_VERITE_LOGES_MAGES_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeFleauxPnj(existing, article));
+      mageLogesPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+    byId.set(article.id, article);
+    mageLogesPnjResolvedIds.set(article.id, article.id);
+  }
+
   const generatedTalentHubs = generatedTalentHubCorpus();
   for (const hub of generatedTalentHubs.articles) {
     if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
@@ -1995,6 +2042,9 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_VERITE_V7_KHINAE_LORE_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_KHINAE_RULE_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_MAGE_NAVIGATION,
+      ...COMPENDIUM_VERITE_LOGES_MAGES_PNJ_NAVIGATION.filter(
+        (entry) => mageLogesPnjResolvedIds.get(entry.id) === entry.id
+      ),
       ...COMPENDIUM_VERITE_V7_DAEMON_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_ANGELUS_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_ASERYN_NAVIGATION,
