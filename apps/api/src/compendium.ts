@@ -138,6 +138,17 @@ import {
   COMPENDIUM_VERITE_V7_ASERYN_NAVIGATION
 } from "./compendium-verite-v7-aseryns.js";
 import {
+  COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_SOURCE,
+  COMPENDIUM_VERITE_ASERYN_HUB_ID,
+  COMPENDIUM_VERITE_ASERYN_HUB_SECTIONS,
+  COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_ARTICLES,
+  COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_NAVIGATION
+} from "./compendium-verite-aseryn-terres-temples.js";
+import {
+  COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_PNJ_ARTICLES,
+  COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_PNJ_NAVIGATION
+} from "./compendium-verite-aseryn-terres-temples-pnj.js";
+import {
   COMPENDIUM_VERITE_V7_PASS_B_ARTICLES,
   COMPENDIUM_VERITE_V7_PASS_B_NAVIGATION
 } from "./compendium-verite-v7-pass-b.js";
@@ -855,6 +866,102 @@ function mergeVampireCourtPnj(target: Article, source: Article): Article {
   if (source.audience === "mj" && !targetRealityIdentity && !sourceRealityIdentity) merged.audience = "mj";
   return merged;
 }
+function findMatchingAserynPnj(byId: Map<string, Article>, source: Article): Article | null {
+  const standard = findMatchingActivePnj(byId, source);
+  if (standard) return standard;
+
+  const sourceKeys = articlePnjIdentityKeys(source);
+  if (!sourceKeys.size) return null;
+
+  const candidates = [...byId.values()].filter((candidate) => {
+    if (candidate.id === source.id || candidate.rebuildV2 !== true) return false;
+    const category = String(candidate.category ?? candidate.sourceCategory ?? "");
+    return category === "Personnages" || String(candidate.dataset ?? "").includes("pnj");
+  });
+
+  const scored: Array<{ article: Article; score: number }> = [];
+  for (const candidate of candidates) {
+    const candidateKeys = articlePnjIdentityKeys(candidate);
+    const overlap = [...sourceKeys].filter((key) => candidateKeys.has(key));
+    if (!overlap.length) continue;
+
+    let score = overlap.length * 10;
+    const directCandidate = new Set<string>();
+    const add = (value: unknown) => {
+      const key = usablePnjIdentity(value);
+      if (key) directCandidate.add(key);
+    };
+    add(candidate.title);
+    for (const field of ["real_name", "nom_reel", "nom_realite", "nom_verite", "name", "alias"]) {
+      add(candidate.pnj?.[field]);
+    }
+    if (overlap.some((key) => directCandidate.has(key))) score += 100;
+    scored.push({ article: candidate, score });
+  }
+
+  if (!scored.length) return null;
+  const bestScore = Math.max(...scored.map((row) => row.score));
+  const best = scored.filter((row) => row.score === bestScore);
+  if (best.length > 1) {
+    throw new Error(
+      `Identité PNJ Aseryn ambiguë pour ${source.title ?? source.id}: ${best.map((row) => row.article.id).join(", ")}`
+    );
+  }
+  return best[0].article;
+}
+
+function mergeAserynPnj(target: Article, source: Article): Article {
+  const merged = mergeFleauxPnj(target, source);
+  const targetPnj = target.pnj ?? {};
+  const sourcePnj = source.pnj ?? {};
+
+  const sourceDocuments = [
+    ...((Array.isArray(targetPnj.source_documents) ? targetPnj.source_documents : []) as string[]),
+    ...((Array.isArray(sourcePnj.source_documents) ? sourcePnj.source_documents : []) as string[]),
+    ...String(target.source ?? "").split(" ; "),
+    ...String(source.source ?? "").split(" ; ")
+  ].map((value) => String(value ?? "").trim()).filter(Boolean);
+
+  const sourceAffiliations = [
+    ...((Array.isArray(targetPnj.source_affiliations) ? targetPnj.source_affiliations : []) as string[]),
+    ...((Array.isArray(sourcePnj.source_affiliations) ? sourcePnj.source_affiliations : []) as string[]),
+    targetPnj.affiliations,
+    sourcePnj.affiliations
+  ].map((value) => String(value ?? "").trim()).filter(
+    (value) => value && !["_", "?", "-", "???", "????"].includes(value)
+  );
+
+  merged.pnj = {
+    ...(merged.pnj ?? {}),
+    source_documents: [...new Set(sourceDocuments)],
+    source_affiliations: [...new Set(sourceAffiliations)]
+  };
+
+  const secretLabels = [
+    "nom de la verite",
+    "nature reelle",
+    "ethnie reelle",
+    "statut verite",
+    "identite de verite"
+  ];
+
+  merged.sections = (merged.sections ?? []).map((section) => {
+    if (section?.audience === "mj") return section;
+    const copy = deepClone(section) as JsonObject;
+    copy.blocks = (copy.blocks ?? []).map((block: JsonObject) => {
+      if (block?.type !== "table" || !Array.isArray(block.rows)) return block;
+      const rows = block.rows.filter((row: unknown[]) => {
+        const label = normalizedPnjIdentity(row?.[0]);
+        return !secretLabels.some((secret) => label.includes(secret));
+      });
+      return { ...block, rows };
+    });
+    return copy;
+  });
+
+  return merged;
+}
+
 function mergePelagePnj(target: Article, source: Article): Article {
   const merged = mergeVampireCourtPnj(target, source);
 
@@ -1451,6 +1558,7 @@ async function loadCorpus(): Promise<Corpus> {
   const mageLogesPnjResolvedIds = new Map<string, string>();
   const vampireCourtPnjResolvedIds = new Map<string, string>();
   const pelagePnjResolvedIds = new Map<string, string>();
+  const aserynTerresTemplesPnjResolvedIds = new Map<string, string>();
   const loaded = await Promise.all(
     manifest.datasets.map(async (spec) => [spec.id, await loadDataset(spec)] as const)
   );
@@ -1651,6 +1759,39 @@ async function loadCorpus(): Promise<Corpus> {
 
   for (const article of COMPENDIUM_VERITE_V7_ASERYN_ARTICLES) {
     byId.set(article.id, deepClone(article) as Article);
+  }
+
+  const aserynHub = byId.get(COMPENDIUM_VERITE_ASERYN_HUB_ID);
+  if (!aserynHub) {
+    throw new Error(`Hub Aseryn absent pour l'intégration des terres et temples: ${COMPENDIUM_VERITE_ASERYN_HUB_ID}`);
+  }
+
+  const aserynHubSectionIds = new Set(
+    (aserynHub.sections ?? []).map((section) => String(section?.id ?? ""))
+  );
+  for (const section of COMPENDIUM_VERITE_ASERYN_HUB_SECTIONS) {
+    const id = String(section?.id ?? "");
+    if (!id || aserynHubSectionIds.has(id)) continue;
+    aserynHub.sections = [...(aserynHub.sections ?? []), deepClone(section) as JsonObject];
+    aserynHubSectionIds.add(id);
+  }
+
+  aserynHub.source = [
+    ...new Set(
+      [aserynHub.source, COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_SOURCE]
+        .flatMap((value) => String(value ?? "").split(" ; "))
+        .map((value) => value.trim())
+        .filter(Boolean)
+    )
+  ].join(" ; ");
+  aserynHub.tags = [
+    ...new Set([...(aserynHub.tags ?? []), "Terres aserynes", "Temples aseryns", "Multi-source"])
+  ];
+  aserynHub.status = "canon_enrichi";
+  aserynHub.rebuildV2 = true;
+
+  for (const article of COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_ARTICLES) {
+    byId.set(String(article.id), deepClone(article) as Article);
   }
 
   for (const article of COMPENDIUM_VERITE_V7_PASS_B_ARTICLES) {
@@ -2052,6 +2193,18 @@ async function loadCorpus(): Promise<Corpus> {
     pelagePnjResolvedIds.set(article.id, article.id);
   }
 
+  for (const sourceArticle of COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingAserynPnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeAserynPnj(existing, article));
+      aserynTerresTemplesPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+    byId.set(article.id, article);
+    aserynTerresTemplesPnjResolvedIds.set(article.id, article.id);
+  }
+
   const generatedTalentHubs = generatedTalentHubCorpus();
   for (const hub of generatedTalentHubs.articles) {
     if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
@@ -2181,6 +2334,10 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_VERITE_V7_DAEMON_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_ANGELUS_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_ASERYN_NAVIGATION,
+      ...COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_NAVIGATION,
+      ...COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_PNJ_NAVIGATION.filter(
+        (entry) => aserynTerresTemplesPnjResolvedIds.get(entry.id) === entry.id
+      ),
       ...COMPENDIUM_VERITE_V7_PASS_B_NAVIGATION,
       ...COMPENDIUM_VERITE_HUNTERS_NAVIGATION,
       ...COMPENDIUM_VERITE_HUNTERS_PNJ_NAVIGATION.filter(
