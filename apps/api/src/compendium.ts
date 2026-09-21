@@ -214,6 +214,18 @@ import {
   COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_ARTICLES,
   COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_NAVIGATION
 } from "./compendium-verite-extraterrestres-pnj.js";
+import {
+  COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES,
+  COMPENDIUM_VERITE_GALACTIC_LORE_NAVIGATION
+} from "./compendium-verite-galactic-factions-lore.js";
+import {
+  COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_ARTICLES,
+  COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_NAVIGATION
+} from "./compendium-verite-extrals-groups-pnj.js";
+import {
+  COMPENDIUM_VERITE_HUMAN_GALACTIC_PNJ_ARTICLES,
+  COMPENDIUM_VERITE_HUMAN_GALACTIC_PNJ_NAVIGATION
+} from "./compendium-verite-humans-galactic-pnj.js";
 import { COMPENDIUM_VERITE_VAMPIRE_COURTS_SOURCE, COMPENDIUM_VERITE_VAMPIRE_COURTS_ARTICLES, COMPENDIUM_VERITE_VAMPIRE_COURTS_ENRICHMENTS, COMPENDIUM_VERITE_VAMPIRE_COURTS_NAVIGATION } from "./compendium-verite-vampire-courts-lore.js";
 import { COMPENDIUM_VERITE_VAMPIRE_COURTS_PNJ_ARTICLES, COMPENDIUM_VERITE_VAMPIRE_COURTS_PNJ_NAVIGATION } from "./compendium-verite-vampire-courts-pnj.js";
 import {
@@ -1563,6 +1575,8 @@ async function loadCorpus(): Promise<Corpus> {
 
   const byId = new Map<string, Article>();
   const extraterrestrialPnjResolvedIds = new Map<string, string>();
+  const extralsGroupsPnjResolvedIds = new Map<string, string>();
+  const humanGalacticPnjResolvedIds = new Map<string, string>();
   const crawlerPnjResolvedIds = new Map<string, string>();
   const corporationPnjResolvedIds = new Map<string, string>();
   const hunterPnjResolvedIds = new Map<string, string>();
@@ -1912,6 +1926,34 @@ async function loadCorpus(): Promise<Corpus> {
     }
     byId.set(article.id, article);
     extraterrestrialPnjResolvedIds.set(article.id, article.id);
+  }
+
+  for (const article of COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES) {
+    byId.set(String(article.id), deepClone(article) as Article);
+  }
+
+  for (const sourceArticle of COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeExtraterrestrialPnj(existing, article));
+      extralsGroupsPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+    byId.set(article.id, article);
+    extralsGroupsPnjResolvedIds.set(article.id, article.id);
+  }
+
+  for (const sourceArticle of COMPENDIUM_VERITE_HUMAN_GALACTIC_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeExtraterrestrialPnj(existing, article));
+      humanGalacticPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+    byId.set(article.id, article);
+    humanGalacticPnjResolvedIds.set(article.id, article.id);
   }
 
   for (const enrichment of COMPENDIUM_VERITE_HUNTERS_ENRICHMENTS) {
@@ -2470,6 +2512,13 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_VERITE_EXTRATERRESTRES_NAVIGATION,
       ...COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_NAVIGATION.filter(
         (entry) => extraterrestrialPnjResolvedIds.get(entry.id) === entry.id
+      ),
+      ...COMPENDIUM_VERITE_GALACTIC_LORE_NAVIGATION,
+      ...COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_NAVIGATION.filter(
+        (entry) => extralsGroupsPnjResolvedIds.get(entry.id) === entry.id
+      ),
+      ...COMPENDIUM_VERITE_HUMAN_GALACTIC_PNJ_NAVIGATION.filter(
+        (entry) => humanGalacticPnjResolvedIds.get(entry.id) === entry.id
       ),
       ...generatedTalentHubs.navigation,
       ...generatedBuilderReferences.navigation
