@@ -2539,18 +2539,34 @@ async function loadCorpus(): Promise<Corpus> {
     templesDaemoniaquesPnjResolvedIds.set(article.id, article.id);
   }
 
-  const leslie = byId.get(String(COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_LESLIE_ENRICHMENT.targetId ?? ""));
+  const leslieSourceId = String(COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_LESLIE_ENRICHMENT.targetId ?? "");
+  const leslieResolvedId = mageLogesPnjResolvedIds.get(leslieSourceId) ?? leslieSourceId;
+  const leslie = byId.get(leslieResolvedId);
   if (!leslie) {
-    throw new Error(`Leslie Wright absente pour le lien Abrasax: ${String(COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_LESLIE_ENRICHMENT.targetId ?? "")}`);
+    throw new Error(`Leslie Wright absente pour le lien Abrasax: ${leslieSourceId} -> ${leslieResolvedId}`);
   }
+  const abrasaxSourceId = String(COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_LESLIE_ENRICHMENT.relationId ?? "");
   const abrasaxResolvedId =
-    templesDaemoniaquesPnjResolvedIds.get(String(COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_LESLIE_ENRICHMENT.relationId ?? "")) ??
-    String(COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_LESLIE_ENRICHMENT.relationId ?? "");
+    templesDaemoniaquesPnjResolvedIds.get(abrasaxSourceId) ??
+    abrasaxSourceId;
+  const abrasax = byId.get(abrasaxResolvedId);
+  if (!abrasax) {
+    throw new Error(`Abrasax absent pour le lien Leslie Wright: ${abrasaxSourceId} -> ${abrasaxResolvedId}`);
+  }
+
   leslie.pnj = { ...(leslie.pnj ?? {}) };
   leslie.pnj.relations = [
     ...new Set([
       ...((Array.isArray(leslie.pnj.relations) ? leslie.pnj.relations : []) as string[]),
       abrasaxResolvedId
+    ].filter(Boolean))
+  ];
+  abrasax.pnj = { ...(abrasax.pnj ?? {}) };
+  abrasax.pnj.relations = [
+    ...new Set([
+      ...((Array.isArray(abrasax.pnj.relations) ? abrasax.pnj.relations : []) as string[])
+        .filter((id) => id !== leslieSourceId || leslieSourceId === leslieResolvedId),
+      leslieResolvedId
     ].filter(Boolean))
   ];
   leslie.pnj.source_documents = [
