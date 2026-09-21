@@ -80,6 +80,10 @@ jobs:
         working-directory: apps/api
         run: node scripts/check-truth-extraterrestrials-integration.mjs
 
+      - name: Check Points de rencontre integration
+        working-directory: apps/api
+        run: node scripts/check-points-rencontre-integration.mjs
+
       - name: Build web
         working-directory: apps/web
         run: |
