@@ -44,6 +44,16 @@ try{
   ];
   const titles=await page.locator('.hierarchical-category-list .article-card h3').allTextContents();
   for(const title of expectedHunters)if(!titles.includes(title))throw new Error(`Vérité: page Chasseurs non rendue: ${title}`);
+  if(await page.locator('.nav-subgroup-title span:text-is("Cultes des Fléaux")').count()!==1)throw new Error('Vérité: sous-groupe Cultes des Fléaux absent.');
+  const expectedFleauxCultes=[
+    'Cultes de V’Aagor — Longinus, Œil Blanc, Fontaine, Faux et Gouffre',
+    'Cultes d’Ux’Sharith — Saintes Lagunes, Bellatheis et Grand Savoir',
+    'Cultes de Vhodhal — Loge d’Écume et Sang d’Ivoire',
+    'Le culte de l’Éden Gris',
+    'La Mère Primordiale',
+    'Le Sombre Culte',
+  ];
+  for(const title of expectedFleauxCultes)if(!titles.includes(title))throw new Error(`Vérité: page de culte Fléaux non rendue: ${title}`);
   await page.locator('[data-hunter-shortcut="1"] a').first().click();
   await page.waitForFunction(()=>location.hash.startsWith('#/family/'),null,{timeout:10000});
   await page.waitForSelector('#main .family-card',{timeout:10000});
