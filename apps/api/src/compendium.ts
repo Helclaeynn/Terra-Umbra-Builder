@@ -2866,11 +2866,18 @@ async function loadCorpus(): Promise<Corpus> {
     }
   };
 
+  const resolveTenTargetId = (sourceId: string) =>
+    crawlerPnjResolvedIds.get(sourceId) ??
+    corporationPnjResolvedIds.get(sourceId) ??
+    sourceId;
+
   byId.set(COMPENDIUM_TEN_SVETLANA_ARTICLE.id, deepClone(COMPENDIUM_TEN_SVETLANA_ARTICLE) as Article);
 
   for (const enrichment of COMPENDIUM_TEN_BACKGROUND_ENRICHMENTS) {
-    const target = byId.get(String(enrichment.targetId ?? ""));
-    if (!target) throw new Error(`Ten · cible BG absente: ${String(enrichment.targetId ?? "")}`);
+    const sourceTargetId = String(enrichment.targetId ?? "");
+    const targetId = resolveTenTargetId(sourceTargetId);
+    const target = byId.get(targetId);
+    if (!target) throw new Error(`Ten · cible BG absente: ${sourceTargetId} -> ${targetId}`);
     appendTenSections(target, deepClone(enrichment.sections ?? []) as JsonObject[]);
     mergeTenSource(target, String(enrichment.source ?? ""), enrichment.tags ?? []);
   }
@@ -2890,8 +2897,10 @@ async function loadCorpus(): Promise<Corpus> {
 
   byId.set(COMPENDIUM_VERITE_TEN_CHRONOLOGY_ARTICLE.id, deepClone(COMPENDIUM_VERITE_TEN_CHRONOLOGY_ARTICLE) as Article);
   for (const enrichment of COMPENDIUM_VERITE_TEN_ENRICHMENTS) {
-    const target = byId.get(String(enrichment.targetId ?? ""));
-    if (!target) throw new Error(`Ten · cible Catastrophes absente: ${String(enrichment.targetId ?? "")}`);
+    const sourceTargetId = String(enrichment.targetId ?? "");
+    const targetId = resolveTenTargetId(sourceTargetId);
+    const target = byId.get(targetId);
+    if (!target) throw new Error(`Ten · cible Catastrophes absente: ${sourceTargetId} -> ${targetId}`);
     appendTenSections(target, deepClone(enrichment.sections ?? []) as JsonObject[]);
     mergeTenSource(target, COMPENDIUM_VERITE_TEN_SOURCE, enrichment.tags ?? []);
   }
