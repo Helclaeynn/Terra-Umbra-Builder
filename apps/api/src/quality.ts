@@ -129,6 +129,24 @@ async function localMediaBroken(media: unknown): Promise<boolean> {
 
 async function ensureReviewRows(articleIds: string[]) {
   if (!articleIds.length) return;
+
+  const count = await pool.query<{ count: string }>(
+    "SELECT count(*)::text AS count FROM compendium_review_state"
+  );
+  const firstBootstrap = Number(count.rows[0]?.count ?? 0) === 0;
+
+  if (firstBootstrap) {
+    await pool.query(
+      [
+        "INSERT INTO compendium_review_state (article_id, first_seen_at)",
+        "SELECT unnest($1::text[]), now() - (($2::int + 1) * interval '1 day')",
+        "ON CONFLICT (article_id) DO NOTHING"
+      ].join("\n"),
+      [articleIds, RECENT_DAYS]
+    );
+    return;
+  }
+
   await pool.query(
     [
       "INSERT INTO compendium_review_state (article_id)",
