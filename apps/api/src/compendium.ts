@@ -21,6 +21,16 @@ import {
   COMPENDIUM_REALITE_V9_LORE_NAVIGATION
 } from "./compendium-realite-v9-lore.js";
 import {
+  COMPENDIUM_REALITE_V9_CORPORATIONS_HUB_ID,
+  COMPENDIUM_REALITE_V9_CORPORATIONS_HUB_ENRICHMENT,
+  COMPENDIUM_REALITE_V9_CORPORATIONS_ARTICLES,
+  COMPENDIUM_REALITE_V9_CORPORATIONS_NAVIGATION
+} from "./compendium-realite-v9-corporations.js";
+import {
+  COMPENDIUM_REALITE_V9_CORPORATIONS_PNJ_ARTICLES,
+  COMPENDIUM_REALITE_V9_CORPORATIONS_PNJ_NAVIGATION
+} from "./compendium-realite-v9-corporations-pnj.js";
+import {
   COMPENDIUM_REALITE_V9_PEGRE_ARTICLES,
   COMPENDIUM_REALITE_V9_PEGRE_NAVIGATION
 } from "./compendium-realite-v9-pegre.js";
@@ -722,6 +732,19 @@ function mergeCrawlerPnj(target: Article, source: Article): Article {
   return merged;
 }
 
+function mergeCorporationPnj(target: Article, source: Article): Article {
+  const merged = mergeCrawlerPnj(target, source);
+  merged.pnj = { ...(source.pnj ?? {}), ...(target.pnj ?? {}) };
+  merged.pnj.identity_keys = [
+    ...new Set([
+      ...articlePnjIdentityKeys(target),
+      ...articlePnjIdentityKeys(source),
+      ...articlePnjIdentityKeys(merged)
+    ])
+  ];
+  return merged;
+}
+
 function mergeExtraterrestrialPnj(target: Article, source: Article): Article {
   const merged = deepClone(target);
   merged.tags = [...new Set([...(merged.tags ?? []), ...(source.tags ?? [])])];
@@ -1247,6 +1270,7 @@ async function loadCorpus(): Promise<Corpus> {
   const byId = new Map<string, Article>();
   const extraterrestrialPnjResolvedIds = new Map<string, string>();
   const crawlerPnjResolvedIds = new Map<string, string>();
+  const corporationPnjResolvedIds = new Map<string, string>();
   const loaded = await Promise.all(
     manifest.datasets.map(async (spec) => [spec.id, await loadDataset(spec)] as const)
   );
@@ -1272,6 +1296,29 @@ async function loadCorpus(): Promise<Corpus> {
   for (const article of COMPENDIUM_REALITE_V9_LORE_ARTICLES) {
     // Reality V9 is the rebuilt canonical public lore corpus for this source.
     byId.set(article.id, deepClone(article) as Article);
+  }
+
+  const corporationsHub = byId.get(COMPENDIUM_REALITE_V9_CORPORATIONS_HUB_ID);
+  if (corporationsHub) {
+    const existingIds = new Set((corporationsHub.sections ?? []).map((section) => String(section?.id ?? "")));
+    const additions = (COMPENDIUM_REALITE_V9_CORPORATIONS_HUB_ENRICHMENT.sections ?? [])
+      .filter((section: JsonObject) => !existingIds.has(String(section?.id ?? "")));
+    corporationsHub.sections = [...(corporationsHub.sections ?? []), ...(deepClone(additions) as JsonObject[])];
+    const sources = [corporationsHub.source, COMPENDIUM_REALITE_V9_CORPORATIONS_HUB_ENRICHMENT.source]
+      .flatMap((value) => String(value ?? "").split(" ; "))
+      .map((value) => value.trim())
+      .filter(Boolean);
+    corporationsHub.source = [...new Set(sources)].join(" ; ");
+    corporationsHub.tags = [...new Set([
+      ...(corporationsHub.tags ?? []),
+      ...(COMPENDIUM_REALITE_V9_CORPORATIONS_HUB_ENRICHMENT.tags ?? [])
+    ])];
+    corporationsHub.status = "canon_enrichi";
+    corporationsHub.rebuildV2 = true;
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_CORPORATIONS_ARTICLES) {
+    byId.set(String(article.id), deepClone(article) as Article);
   }
 
   for (const article of COMPENDIUM_REALITE_V9_PEGRE_ARTICLES) {
@@ -1595,6 +1642,18 @@ async function loadCorpus(): Promise<Corpus> {
     crawlerPnjResolvedIds.set(article.id, article.id);
   }
 
+  for (const sourceArticle of COMPENDIUM_REALITE_V9_CORPORATIONS_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeCorporationPnj(existing, article));
+      corporationPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+    byId.set(article.id, article);
+    corporationPnjResolvedIds.set(article.id, article.id);
+  }
+
   const generatedTalentHubs = generatedTalentHubCorpus();
   for (const hub of generatedTalentHubs.articles) {
     if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
@@ -1684,6 +1743,10 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_GUIDE_NAVIGATION,
       ...COMPENDIUM_MOTEUR_V4_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_LORE_NAVIGATION,
+      ...COMPENDIUM_REALITE_V9_CORPORATIONS_NAVIGATION,
+      ...COMPENDIUM_REALITE_V9_CORPORATIONS_PNJ_NAVIGATION.filter(
+        (entry) => corporationPnjResolvedIds.get(entry.id) === entry.id
+      ),
       ...COMPENDIUM_REALITE_V9_PEGRE_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_PEGRE_PNJ_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_POLICE_NAVIGATION,
