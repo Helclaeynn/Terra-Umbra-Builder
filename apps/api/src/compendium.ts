@@ -161,6 +161,11 @@ import {
   COMPENDIUM_TEN_ARKHANGEL_LINK
 } from "./compendium-ten-backgrounds.js";
 import {
+  COMPENDIUM_TEN_PAGE_ARTICLE,
+  COMPENDIUM_TEN_PAGE_NAVIGATION,
+  COMPENDIUM_TEN_TRUTH_ENRICHMENTS
+} from "./compendium-ten-canon.js";
+import {
   COMPENDIUM_VERITE_TEN_SOURCE,
   COMPENDIUM_VERITE_TEN_CHRONOLOGY_ARTICLE,
   COMPENDIUM_VERITE_TEN_ENRICHMENTS,
@@ -2891,12 +2896,79 @@ async function loadCorpus(): Promise<Corpus> {
     }
   };
 
-  const resolveTenTargetId = (sourceId: string) =>
-    crawlerPnjResolvedIds.get(sourceId) ??
-    corporationPnjResolvedIds.get(sourceId) ??
-    sourceId;
+  const mergeTenMjBlocks = (target: Article, sourceSection: JsonObject) => {
+    const current = [...(target.sections ?? [])];
+    let mjIndex = current.findIndex((section) => String(section?.id ?? "") === "dossier-mj");
+    if (mjIndex < 0) {
+      mjIndex = current.findIndex(
+        (section) => section?.audience === "mj" && String(section?.id ?? "") !== "profil-statistique"
+      );
+    }
+    const sourceBlocks = deepClone((sourceSection?.blocks ?? []) as JsonObject[]) as JsonObject[];
+    if (mjIndex >= 0) {
+      const existing = current[mjIndex] as JsonObject;
+      const existingBlocks = ((existing?.blocks ?? []) as JsonObject[]).map((block) => deepClone(block) as JsonObject);
+      const signatures = new Set(existingBlocks.map((block) => JSON.stringify(block)));
+      for (const block of sourceBlocks) {
+        const signature = JSON.stringify(block);
+        if (signatures.has(signature)) continue;
+        existingBlocks.push(block);
+        signatures.add(signature);
+      }
+      current[mjIndex] = { ...existing, audience: "mj", blocks: existingBlocks };
+    } else {
+      const copy = deepClone(sourceSection) as JsonObject;
+      copy.id = "dossier-mj";
+      copy.title = "Dossier MJ · Vérité & informations cachées";
+      copy.audience = "mj";
+      const statsIndex = current.findIndex((section) => String(section?.id ?? "") === "profil-statistique");
+      if (statsIndex >= 0) current.splice(statsIndex, 0, copy);
+      else current.push(copy);
+    }
+    target.sections = current;
+  };
 
-  byId.set(COMPENDIUM_TEN_SVETLANA_ARTICLE.id, deepClone(COMPENDIUM_TEN_SVETLANA_ARTICLE) as Article);
+  const svetlanaCandidates = [...byId.values()].filter((article) => {
+    const names = [
+      String(article?.title ?? ""),
+      String(article?.pnj?.real_name ?? ""),
+      ...((Array.isArray(article?.pnj?.identity_keys) ? article.pnj.identity_keys : []) as string[])
+    ];
+    return names.some(
+      (name) => normalizedPnjIdentity(name) === normalizedPnjIdentity("Svetlana Konstantinovna")
+    );
+  });
+  if (svetlanaCandidates.length !== 1) {
+    throw new Error(`Ten · fiche Svetlana canonique ambiguë: ${svetlanaCandidates.map((article) => article.id).join(", ") || "aucune"}`);
+  }
+  const svetlana = svetlanaCandidates[0];
+  for (const section of (COMPENDIUM_TEN_SVETLANA_ARTICLE.sections ?? []) as JsonObject[]) {
+    const sectionId = String(section?.id ?? "");
+    if (sectionId === "profil-statistique") continue;
+    if (section?.audience === "mj") mergeTenMjBlocks(svetlana, section);
+    else appendTenSections(svetlana, [deepClone(section) as JsonObject]);
+  }
+  mergeTenSource(
+    svetlana,
+    String(COMPENDIUM_TEN_SVETLANA_ARTICLE.source ?? ""),
+    COMPENDIUM_TEN_SVETLANA_ARTICLE.tags ?? []
+  );
+  const svetlanaSourcePnj = deepClone(COMPENDIUM_TEN_SVETLANA_ARTICLE.pnj ?? {}) as JsonObject;
+  const svetlanaExistingPnj = deepClone(svetlana.pnj ?? {}) as JsonObject;
+  svetlana.pnj = { ...svetlanaSourcePnj, ...svetlanaExistingPnj };
+  svetlana.pnj.identity_keys = [
+    ...new Set([
+      ...((Array.isArray(svetlanaSourcePnj.identity_keys) ? svetlanaSourcePnj.identity_keys : []) as string[]),
+      ...((Array.isArray(svetlanaExistingPnj.identity_keys) ? svetlanaExistingPnj.identity_keys : []) as string[])
+    ])
+  ];
+
+  const resolveTenTargetId = (sourceId: string) =>
+    sourceId === String(COMPENDIUM_TEN_SVETLANA_ARTICLE.id)
+      ? svetlana.id
+      : crawlerPnjResolvedIds.get(sourceId) ??
+        corporationPnjResolvedIds.get(sourceId) ??
+        sourceId;
 
   for (const enrichment of COMPENDIUM_TEN_BACKGROUND_ENRICHMENTS) {
     const sourceTargetId = String(enrichment.targetId ?? "");
@@ -2908,9 +2980,8 @@ async function loadCorpus(): Promise<Corpus> {
   }
 
   const arkhangel = byId.get(String(COMPENDIUM_TEN_ARKHANGEL_LINK.targetId ?? ""));
-  const svetlana = byId.get(String(COMPENDIUM_TEN_SVETLANA_ARTICLE.id));
-  if (!arkhangel || !svetlana) throw new Error("Ten · lien Svetlana/Arkhangel impossible");
-  appendTenSections(arkhangel, [deepClone(COMPENDIUM_TEN_ARKHANGEL_LINK.section) as JsonObject]);
+  if (!arkhangel) throw new Error("Ten · lien Svetlana/Arkhangel impossible");
+  mergeTenMjBlocks(arkhangel, deepClone(COMPENDIUM_TEN_ARKHANGEL_LINK.section) as JsonObject);
   mergeTenSource(arkhangel, String(COMPENDIUM_TEN_ARKHANGEL_LINK.source ?? ""), COMPENDIUM_TEN_ARKHANGEL_LINK.tags ?? []);
   arkhangel.pnj = { ...(arkhangel.pnj ?? {}) };
   svetlana.pnj = { ...(svetlana.pnj ?? {}) };
@@ -2919,6 +2990,18 @@ async function loadCorpus(): Promise<Corpus> {
   // Deliberately keep the identities separate: the secret is a protected relation, never a merge key.
   arkhangel.pnj.identity_keys = (arkhangel.pnj.identity_keys ?? []).filter((key: string) => normalizedPnjIdentity(key) !== normalizedPnjIdentity("Svetlana Konstantinovna"));
   svetlana.pnj.identity_keys = (svetlana.pnj.identity_keys ?? []).filter((key: string) => normalizedPnjIdentity(key) !== normalizedPnjIdentity("Arkhangel"));
+
+  byId.set(COMPENDIUM_TEN_PAGE_ARTICLE.id, deepClone(COMPENDIUM_TEN_PAGE_ARTICLE) as Article);
+  for (const enrichment of COMPENDIUM_TEN_TRUTH_ENRICHMENTS) {
+    const sourceTargetId = String(enrichment.targetId ?? "");
+    const targetId = resolveTenTargetId(sourceTargetId);
+    const target = byId.get(targetId);
+    if (!target) throw new Error(`Ten · cible canonique absente: ${sourceTargetId} -> ${targetId}`);
+    mergeTenMjBlocks(target, deepClone(enrichment.section) as JsonObject);
+    target.tags = [...new Set([...(target.tags ?? []), "Ten", "Ancre de Vérité"])];
+    target.status = "canon_enrichi";
+    target.rebuildV2 = true;
+  }
 
   byId.set(COMPENDIUM_VERITE_TEN_CHRONOLOGY_ARTICLE.id, deepClone(COMPENDIUM_VERITE_TEN_CHRONOLOGY_ARTICLE) as Article);
   for (const enrichment of COMPENDIUM_VERITE_TEN_ENRICHMENTS) {
@@ -2970,7 +3053,12 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_PNJ_NAVIGATION.filter(
         (entry) => templesDaemoniaquesPnjResolvedIds.get(entry.id) === entry.id
       ),
-      ...COMPENDIUM_TEN_SVETLANA_NAVIGATION,
+      ...COMPENDIUM_TEN_PAGE_NAVIGATION,
+      ...COMPENDIUM_TEN_SVETLANA_NAVIGATION.map((entry) => ({
+        ...entry,
+        id: svetlana.id,
+        dataset: svetlana.dataset ?? entry.dataset
+      })),
       ...COMPENDIUM_VERITE_TEN_NAVIGATION,
       ...COMPENDIUM_VERITE_VAMPIRE_COURTS_NAVIGATION,
       ...COMPENDIUM_VERITE_VAMPIRE_COURTS_PNJ_NAVIGATION.filter((entry) => vampireCourtPnjResolvedIds.get(entry.id) === entry.id),
