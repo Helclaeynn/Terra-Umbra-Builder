@@ -95,9 +95,9 @@ function splitHooley(byId:Map<string,A>){
   const e=COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_ARTICLES.find((x:J)=>n(x.title)===n("Elsa Rys"));
   const h=COMPENDIUM_VERITE_HUMAN_GALACTIC_PNJ_ARTICLES.find((x:J)=>n(x.title)===n("Nehemiah Hooley"));if(!e||!h)return;
   for(const a of [...byId.values()]){const keys=[a.title,a.pnj?.real_name,a.pnj?.nom_verite,...(Array.isArray(a.pnj?.identity_keys)?a.pnj.identity_keys:[])].map(n);if(keys.includes(n("Elsa Rys"))||keys.includes(n("Nehemiah Hooley")))byId.delete(a.id);}
-  const el=cp(e) as A;el.pnj={...(el.pnj??{}),nom_verite:""};el.pnj.identity_keys=(el.pnj.identity_keys??[]).filter((k:unknown)=>n(k)!==n("Hooley’Makal")&&n(k)!==n(el.pnj.source_designation));delete el.pnj.source_designation;
+  const el=cp(e) as A;const elPnj=el.pnj={...(el.pnj??{}),nom_verite:""};elPnj.identity_keys=(elPnj.identity_keys??[]).filter((k:unknown)=>n(k)!==n("Hooley’Makal")&&n(k)!==n(elPnj.source_designation));delete elPnj.source_designation;
   for(const s of el.sections??[])if(s?.audience==="mj")for(const b of s.blocks??[])if(b?.type==="table"&&Array.isArray(b.rows))b.rows=b.rows.filter((r:any[])=>n(r?.[0])!=="nom de la verite");
-  const ne=cp(h) as A;ne.pnj={...(ne.pnj??{})};ne.pnj.identity_keys=(ne.pnj.identity_keys??[]).filter((k:unknown)=>n(k)!==n(ne.pnj.source_designation));delete ne.pnj.source_designation;
+  const ne=cp(h) as A;const nePnj=ne.pnj={...(ne.pnj??{})};nePnj.identity_keys=(nePnj.identity_keys??[]).filter((k:unknown)=>n(k)!==n(nePnj.source_designation));delete nePnj.source_designation;
   byId.set(el.id,el);byId.set(ne.id,ne);
 }
 function stripExactDupes(a:A){
@@ -157,7 +157,7 @@ export function applyCompendiumPnjRepairs(byId:Map<string,A>){
     "Dina Page":["Vice-Président"],"Finn Sherman":["Procureur général"],"Katherine Warren":["Directeur de la sécurité"],"Keysha Richards":["Secrétaire à l'éducation"],"Robert Hamilton":["Maire de San Diejuana"],"Kelford Bentley":["Générale du CG. Net Corps"]
   };for(const [name,v] of Object.entries(gt)){const a=article(byId,[name]);if(a)removeTrailing(a,v);}
   const hom=article(byId,["Homer Duke"]);if(hom){hom.pnj={...(hom.pnj??{}),statut:"Président du Sénat"};setTable(hom,"Fonction / désignation","Président du Sénat");}
-  const bro=article(byId,["Brooker Adams"]);if(bro){if(n(bro.pnj?.statut).includes("qualites de sa collegue"))delete bro.pnj.statut;dropRows(bro,["Fonction / désignation"]);}
+  const bro=article(byId,["Brooker Adams"]);if(bro){if(bro.pnj&&n(bro.pnj.statut).includes("qualites de sa collegue"))delete bro.pnj.statut;dropRows(bro,["Fonction / désignation"]);}
   const far=article(byId,["Farah El Arshad","Farah el Arshad"]);if(far){far.pnj={...(far.pnj??{}),statut:"Présidente de la Cour suprême de Californie"};setTable(far,"Fonction / désignation","Présidente de la Cour suprême de Californie");}
   const ji=article(byId,["Ji-mi Ryong"]);if(ji&&Array.isArray(ji.archiveReferences))ji.archiveReferences=ji.archiveReferences.filter((x:unknown)=>n(x)!==n("pnj-031-mi-yeon-ryong"));
   for(const name of ["Emerald Monroe","Connor K. McDougals"]){const a=article(byId,[name]);if(a)for(const s of a.sections??[])if(/relations/i.test(String(s?.id??s?.title??"")))for(const b of s.blocks??[])if(b?.type==="table"&&Array.isArray(b.rows))b.rows=b.rows.filter((r:any[])=>!r.some(c=>/^\?+$/.test(String(c??"").trim())));}
@@ -178,9 +178,9 @@ export function applyCompendiumPnjRepairs(byId:Map<string,A>){
   const ver=article(byId,["Veronica SILVER","Veronica Silver"]);if(ver)replace(ver,[[/\bdétective est clairement la personne/gi,"Cette détective est clairement la personne"],[/\bcompliquées\. Elle aurait/gi,"Elle aurait"]]);
 
   const fra=article(byId,["Franklin Bentley"]);if(fra)setTable(fra,"Nom","Franklin BENTLEY");
-  const rom=article(byId,["Romina de la Cavalleria"]);if(rom){if(n(rom.pnj?.statut).includes("terrorisme coreen"))delete rom.pnj.statut;dropRows(rom,["Fonction / désignation"]);}
+  const rom=article(byId,["Romina de la Cavalleria"]);if(rom){if(rom.pnj&&n(rom.pnj.statut).includes("terrorisme coreen"))delete rom.pnj.statut;dropRows(rom,["Fonction / désignation"]);}
   const fio=article(byId,["Fiona Boyer"]);if(fio)removeTrailing(fio,["3. REPARTITION (CARTE DE LA)"]);
-  const jord=article(byId,["Jordel Sharzmann"]);if(jord){if(n(jord.pnj?.statut).includes("wakagashira"))delete jord.pnj.statut;dropRows(jord,["Fonction / désignation","Statut"]);}
+  const jord=article(byId,["Jordel Sharzmann"]);if(jord){if(jord.pnj&&n(jord.pnj.statut).includes("wakagashira"))delete jord.pnj.statut;dropRows(jord,["Fonction / désignation","Statut"]);}
   const tos=article(byId,["Toshiyuki Yodokawa","Yoshiyuki Yodokawa"]);if(tos)replace(tos,[[/Yoshiyuki YODOKAWA/gi,"Toshiyuki YODOKAWA"],[/Shateigashura/gi,"Shateigashira"]]);
 
   const xi=article(byId,["Xieren Song"]);if(xi){xi.pnj={...(xi.pnj??{}),statut:"Grande figure shientaoïste californienne"};setTable(xi,"Statut","Grande figure shientaoïste californienne");setTable(xi,"Fonction / désignation","Grande figure shientaoïste californienne");}
@@ -191,7 +191,7 @@ export function applyCompendiumPnjRepairs(byId:Map<string,A>){
   const sal=article(byId,["Saleem el Khayat"]);if(sal)replace(sal,[[/Présidente/g,"Président"]]);
   const wei=article(byId,["Wei Shi"]);if(wei)replace(wei,[[/Vice-Président\b/g,"Vice-Présidente"]]);
 
-  for(const [name,rep] of [["Yun","Le patriarche des profondeurs"],["Yura","Le patriarche des profondeurs"],["Izchara","La prêtresse du fer"],["Gawel Prowacjesky","Le patriarche des profondeurs"],["Kevin Eckker","La maitresse des industries"],["Cassandra Helen","La noble chasse"],["Selm Scytheri","La noble chasse"]]){const a=article(byId,[name]);if(!a)continue;if(n(a.pnj?.statut_verite)===n(rep))delete a.pnj.statut_verite;for(const s of a.sections??[])if(s?.audience==="mj")for(const b of s.blocks??[])if(b?.type==="table"&&Array.isArray(b.rows))b.rows=b.rows.filter((r:any[])=>!(n(r?.[0])==="repere"&&n(r?.[1])===n(rep)));}
+  for(const [name,rep] of [["Yun","Le patriarche des profondeurs"],["Yura","Le patriarche des profondeurs"],["Izchara","La prêtresse du fer"],["Gawel Prowacjesky","Le patriarche des profondeurs"],["Kevin Eckker","La maitresse des industries"],["Cassandra Helen","La noble chasse"],["Selm Scytheri","La noble chasse"]]){const a=article(byId,[name]);if(!a)continue;if(a.pnj&&n(a.pnj.statut_verite)===n(rep))delete a.pnj.statut_verite;for(const s of a.sections??[])if(s?.audience==="mj")for(const b of s.blocks??[])if(b?.type==="table"&&Array.isArray(b.rows))b.rows=b.rows.filter((r:any[])=>!(n(r?.[0])==="repere"&&n(r?.[1])===n(rep)));}
   const king=article(byId,["King Frazier","Kiizaga"]);if(king){king.pnj={...(king.pnj??{}),race:"Gobelin"};setTable(king,"Nature réelle","Gobelin");}
 
   const soo=article(byId,["Soo-Kyung Yu","So’Ouk-32","So'Ouk-32"]);if(soo){soo.pnj={...(soo.pnj??{}),real_name:"Soo-Kyung Yu",nom_verite:"So’Ouk-32"};setTable(soo,"Nom de la Vérité","So’Ouk-32");}
