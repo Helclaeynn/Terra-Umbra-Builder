@@ -288,6 +288,7 @@ import {
   COMPENDIUM_SHI_QI_NAVIGATION,
   COMPENDIUM_SHI_QI_ENRICHMENTS
 } from "./compendium-shi-qi.js";
+import { applyCompendiumPnjRepairs } from "./compendium-pnj-repairs.js";
 
 type JsonObject = Record<string, any>;
 export type Article = JsonObject & {
@@ -3156,6 +3157,8 @@ async function loadCorpus(): Promise<Corpus> {
     throw new Error("Ten · fuite publique détectée sur la fiche Svetlana");
   }
 
+  applyCompendiumPnjRepairs(byId);
+
   const navigation = new Map(
     [
       ...(navigationPayload.entries ?? []),
@@ -3257,7 +3260,7 @@ async function loadCorpus(): Promise<Corpus> {
       ...generatedTalentHubs.navigation,
       ...generatedBuilderReferences.navigation
     ]
-      .filter((entry) => entry?.id)
+      .filter((entry) => entry?.id && byId.has(String(entry.id)))
       .map((entry) => [entry.id, entry as NavigationEntry])
   );
 
