@@ -141,6 +141,15 @@ import {
   COMPENDIUM_VERITE_HUNTERS_NAVIGATION
 } from "./compendium-verite-hunters-source.js";
 import {
+  COMPENDIUM_VERITE_FLEAUX_SOURCE,
+  COMPENDIUM_VERITE_FLEAUX_ARTICLES,
+  COMPENDIUM_VERITE_FLEAUX_ENRICHMENTS,
+  COMPENDIUM_VERITE_FLEAUX_EXISTING_PNJ_SOURCES,
+  COMPENDIUM_VERITE_FLEAUX_NEW_PNJ_ARTICLES,
+  COMPENDIUM_VERITE_FLEAUX_NAVIGATION,
+  COMPENDIUM_VERITE_FLEAUX_PNJ_NAVIGATION
+} from "./compendium-verite-fleaux-focus.js";
+import {
   COMPENDIUM_VERITE_V7_PASS_B_RULE_ARTICLES,
   COMPENDIUM_VERITE_V7_PASS_B_RULE_NAVIGATION
 } from "./compendium-verite-v7-pass-b-rules.js";
@@ -751,6 +760,29 @@ function mergeCorporationPnj(target: Article, source: Article): Article {
   return merged;
 }
 
+function mergeFleauxPnj(target: Article, source: Article): Article {
+  const merged = mergeCrawlerPnj(target, source);
+  const targetPnj = target.pnj ?? {};
+  const sourcePnj = source.pnj ?? {};
+  merged.pnj = { ...sourcePnj, ...targetPnj };
+  merged.pnj.tags = [
+    ...new Set([...(sourcePnj.tags ?? []), ...(targetPnj.tags ?? [])])
+  ];
+  merged.pnj.relations = [
+    ...new Set([...(sourcePnj.relations ?? []), ...(targetPnj.relations ?? [])])
+  ];
+  merged.pnj.identity_keys = [
+    ...new Set([
+      ...articlePnjIdentityKeys(target),
+      ...articlePnjIdentityKeys(source),
+      ...articlePnjIdentityKeys(merged)
+    ])
+  ];
+  merged.status = "canon_enrichi";
+  merged.rebuildV2 = true;
+  return merged;
+}
+
 function mergeExtraterrestrialPnj(target: Article, source: Article): Article {
   const merged = deepClone(target);
   merged.tags = [...new Set([...(merged.tags ?? []), ...(source.tags ?? [])])];
@@ -1277,6 +1309,7 @@ async function loadCorpus(): Promise<Corpus> {
   const extraterrestrialPnjResolvedIds = new Map<string, string>();
   const crawlerPnjResolvedIds = new Map<string, string>();
   const corporationPnjResolvedIds = new Map<string, string>();
+  const fleauxPnjResolvedIds = new Map<string, string>();
   const loaded = await Promise.all(
     manifest.datasets.map(async (spec) => [spec.id, await loadDataset(spec)] as const)
   );
@@ -1703,6 +1736,74 @@ async function loadCorpus(): Promise<Corpus> {
     corporationPnjResolvedIds.set(article.id, article.id);
   }
 
+  for (const article of COMPENDIUM_VERITE_FLEAUX_ARTICLES) {
+    byId.set(String(article.id), deepClone(article) as Article);
+  }
+
+  for (const enrichment of COMPENDIUM_VERITE_FLEAUX_ENRICHMENTS) {
+    const target = byId.get(String(enrichment.targetId ?? ""));
+    if (!target) {
+      throw new Error(`Cible d'enrichissement Fléaux absente: ${String(enrichment.targetId ?? "")}`);
+    }
+    const incoming = deepClone(enrichment.section) as JsonObject;
+    const incomingId = String(incoming?.id ?? "");
+    const incomingTitle = norm(incoming?.title ?? "");
+    const exists = (target.sections ?? []).some(
+      (section) =>
+        (incomingId && String(section?.id ?? "") === incomingId) ||
+        (incomingTitle && norm(section?.title ?? "") === incomingTitle)
+    );
+    if (!exists) target.sections = [...(target.sections ?? []), incoming];
+
+    const sources = [target.source, COMPENDIUM_VERITE_FLEAUX_SOURCE]
+      .flatMap((value) => String(value ?? "").split(" ; "))
+      .map((value) => value.trim())
+      .filter(Boolean);
+    target.source = [...new Set(sources)].join(" ; ");
+    target.tags = [...new Set([...(target.tags ?? []), "Fléaux", "Focus Fléaux 2026-09"])];
+    target.status = "canon_enrichi";
+    target.rebuildV2 = true;
+  }
+
+  for (const sourceArticle of COMPENDIUM_VERITE_FLEAUX_EXISTING_PNJ_SOURCES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeFleauxPnj(existing, article));
+      fleauxPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+
+    const legacyTargetId = String(article.legacyTargetId ?? "");
+    const legacy = legacyTargetId ? byId.get(legacyTargetId) : null;
+    if (legacy) {
+      const rebuilt = deepClone(legacy) as Article;
+      rebuilt.id = article.id;
+      rebuilt.dataset = article.dataset;
+      rebuilt.category = "Personnages";
+      rebuilt.sourceCategory = String(legacy.sourceCategory ?? "Vérité");
+      rebuilt.rebuildV2 = true;
+      delete rebuilt.__legacy;
+      delete rebuilt.legacyCategory;
+      byId.set(article.id, mergeFleauxPnj(rebuilt, article));
+    } else {
+      byId.set(article.id, article);
+    }
+    fleauxPnjResolvedIds.set(article.id, article.id);
+  }
+
+  for (const sourceArticle of COMPENDIUM_VERITE_FLEAUX_NEW_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeFleauxPnj(existing, article));
+      fleauxPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+    byId.set(article.id, article);
+    fleauxPnjResolvedIds.set(article.id, article.id);
+  }
+
   const generatedTalentHubs = generatedTalentHubCorpus();
   for (const hub of generatedTalentHubs.articles) {
     if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
@@ -1825,6 +1926,10 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_VERITE_V7_ASERYN_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_PASS_B_NAVIGATION,
       ...COMPENDIUM_VERITE_HUNTERS_NAVIGATION,
+      ...COMPENDIUM_VERITE_FLEAUX_NAVIGATION,
+      ...COMPENDIUM_VERITE_FLEAUX_PNJ_NAVIGATION.filter(
+        (entry) => fleauxPnjResolvedIds.get(entry.id) === entry.id
+      ),
       ...COMPENDIUM_VERITE_V7_PASS_B_RULE_NAVIGATION,
       ...COMPENDIUM_VERITE_SPECIES_LORE_NAVIGATION,
       ...COMPENDIUM_VERITE_SPECIES_PNJ_NAVIGATION,
