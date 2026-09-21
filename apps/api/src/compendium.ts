@@ -141,6 +141,10 @@ import {
   COMPENDIUM_VERITE_HUNTERS_NAVIGATION
 } from "./compendium-verite-hunters-source.js";
 import {
+  COMPENDIUM_VERITE_HUNTERS_PNJ_ARTICLES,
+  COMPENDIUM_VERITE_HUNTERS_PNJ_NAVIGATION
+} from "./compendium-verite-hunters-pnj.js";
+import {
   COMPENDIUM_VERITE_FLEAUX_SOURCE,
   COMPENDIUM_VERITE_FLEAUX_ARTICLES,
   COMPENDIUM_VERITE_FLEAUX_ENRICHMENTS,
@@ -783,6 +787,26 @@ function mergeFleauxPnj(target: Article, source: Article): Article {
   return merged;
 }
 
+function mergeHunterPnj(target: Article, source: Article): Article {
+  const merged = mergeFleauxPnj(target, source);
+  const targetPnj = target.pnj ?? {};
+  const sourcePnj = source.pnj ?? {};
+  merged.pnj = {
+    ...(merged.pnj ?? {}),
+    hunter_source_extract: sourcePnj.source_extract ?? "",
+    hunter_source_verite: deepClone(sourcePnj.source_verite ?? []),
+    source_documents: [
+      ...new Set([
+        ...((Array.isArray(targetPnj.source_documents) ? targetPnj.source_documents : []) as string[]),
+        ...((Array.isArray(sourcePnj.source_documents) ? sourcePnj.source_documents : []) as string[]),
+        COMPENDIUM_VERITE_HUNTERS_SOURCE
+      ])
+    ]
+  };
+  merged.tags = [...new Set([...(merged.tags ?? []), "Chasseurs", "Lore Chasseurs 2026-09"])];
+  return merged;
+}
+
 function mergeExtraterrestrialPnj(target: Article, source: Article): Article {
   const merged = deepClone(target);
   merged.tags = [...new Set([...(merged.tags ?? []), ...(source.tags ?? [])])];
@@ -1309,6 +1333,7 @@ async function loadCorpus(): Promise<Corpus> {
   const extraterrestrialPnjResolvedIds = new Map<string, string>();
   const crawlerPnjResolvedIds = new Map<string, string>();
   const corporationPnjResolvedIds = new Map<string, string>();
+  const hunterPnjResolvedIds = new Map<string, string>();
   const fleauxPnjResolvedIds = new Map<string, string>();
   const loaded = await Promise.all(
     manifest.datasets.map(async (spec) => [spec.id, await loadDataset(spec)] as const)
@@ -1736,6 +1761,18 @@ async function loadCorpus(): Promise<Corpus> {
     corporationPnjResolvedIds.set(article.id, article.id);
   }
 
+  for (const sourceArticle of COMPENDIUM_VERITE_HUNTERS_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeHunterPnj(existing, article));
+      hunterPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+    byId.set(article.id, article);
+    hunterPnjResolvedIds.set(article.id, article.id);
+  }
+
   for (const article of COMPENDIUM_VERITE_FLEAUX_ARTICLES) {
     byId.set(String(article.id), deepClone(article) as Article);
   }
@@ -1926,6 +1963,9 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_VERITE_V7_ASERYN_NAVIGATION,
       ...COMPENDIUM_VERITE_V7_PASS_B_NAVIGATION,
       ...COMPENDIUM_VERITE_HUNTERS_NAVIGATION,
+      ...COMPENDIUM_VERITE_HUNTERS_PNJ_NAVIGATION.filter(
+        (entry) => hunterPnjResolvedIds.get(entry.id) === entry.id
+      ),
       ...COMPENDIUM_VERITE_FLEAUX_NAVIGATION,
       ...COMPENDIUM_VERITE_FLEAUX_PNJ_NAVIGATION.filter(
         (entry) => fleauxPnjResolvedIds.get(entry.id) === entry.id

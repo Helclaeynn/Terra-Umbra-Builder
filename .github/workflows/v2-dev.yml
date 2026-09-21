@@ -56,6 +56,10 @@ jobs:
         working-directory: apps/api
         run: node scripts/check-truth-species-integration.mjs
 
+      - name: Check Truth hunters PNJ integration
+        working-directory: apps/api
+        run: node scripts/check-truth-hunters-pnj-integration.mjs
+
       - name: Check Truth fantastic species integration
         working-directory: apps/api
         run: node scripts/check-truth-fantastiques-integration.mjs
