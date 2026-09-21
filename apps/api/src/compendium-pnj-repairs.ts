@@ -95,9 +95,9 @@ function splitHooley(byId:Map<string,A>){
   const e=COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_ARTICLES.find((x:J)=>n(x.title)===n("Elsa Rys"));
   const h=COMPENDIUM_VERITE_HUMAN_GALACTIC_PNJ_ARTICLES.find((x:J)=>n(x.title)===n("Nehemiah Hooley"));if(!e||!h)return;
   for(const a of [...byId.values()]){const keys=[a.title,a.pnj?.real_name,a.pnj?.nom_verite,...(Array.isArray(a.pnj?.identity_keys)?a.pnj.identity_keys:[])].map(n);if(keys.includes(n("Elsa Rys"))||keys.includes(n("Nehemiah Hooley")))byId.delete(a.id);}
-  const el=cp(e) as A;const elPnj=el.pnj={...(el.pnj??{}),nom_verite:""};elPnj.identity_keys=(elPnj.identity_keys??[]).filter((k:unknown)=>n(k)!==n("Hooley’Makal")&&n(k)!==n(elPnj.source_designation));delete elPnj.source_designation;
+  const el=cp(e) as A;const elPnj:J=el.pnj={...(el.pnj??{}),nom_verite:""};elPnj.identity_keys=(elPnj.identity_keys??[]).filter((k:unknown)=>n(k)!==n("Hooley’Makal")&&n(k)!==n(elPnj.source_designation));delete elPnj.source_designation;
   for(const s of el.sections??[])if(s?.audience==="mj")for(const b of s.blocks??[])if(b?.type==="table"&&Array.isArray(b.rows))b.rows=b.rows.filter((r:any[])=>n(r?.[0])!=="nom de la verite");
-  const ne=cp(h) as A;const nePnj=ne.pnj={...(ne.pnj??{})};nePnj.identity_keys=(nePnj.identity_keys??[]).filter((k:unknown)=>n(k)!==n(nePnj.source_designation));delete nePnj.source_designation;
+  const ne=cp(h) as A;const nePnj:J=ne.pnj={...(ne.pnj??{})};nePnj.identity_keys=(nePnj.identity_keys??[]).filter((k:unknown)=>n(k)!==n(nePnj.source_designation));delete nePnj.source_designation;
   byId.set(el.id,el);byId.set(ne.id,ne);
 }
 function stripExactDupes(a:A){
