@@ -390,23 +390,6 @@ export const COMPENDIUM_TEN_SVETLANA_ARTICLE = {
           "type": "p",
           "text": "La fiche Arkhangel demeure donc distincte : pour le monde criminel comme pour la police, Arkhangel est une figure anonyme. Le lien avec Svetlana n’existe que dans le dossier MJ."
         },
-        {
-          "type": "table",
-          "rows": [
-            [
-              "Lien canonique",
-              "Cible"
-            ],
-            [
-              "Identité secrète",
-              "Arkhangel"
-            ],
-            [
-              "Fiche liée",
-              "pnj-pegre-arkhangel"
-            ]
-          ]
-        }
       ]
     },
     {
@@ -451,15 +434,6 @@ export const COMPENDIUM_TEN_ARKHANGEL_LINK = {
         "type": "p",
         "text": "Ne jamais ajouter « Svetlana Konstantinovna » aux clés d’identité d’Arkhangel et ne jamais ajouter « Arkhangel » aux clés d’identité de Svetlana : ce lien doit rester une relation MJ, afin d’éviter toute fusion automatique et toute fuite dans la recherche publique."
       },
-      {
-        "type": "table",
-        "rows": [
-          [
-            "Fiche civile",
-            "pnj-ten-svetlana-konstantinovna"
-          ]
-        ]
-      }
     ]
   }
 } as Record<string, any>;
