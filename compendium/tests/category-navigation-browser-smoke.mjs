@@ -46,8 +46,8 @@ try{
   for(const title of expectedHunters)if(!titles.includes(title))throw new Error(`Vérité: page Chasseurs non rendue: ${title}`);
   await page.locator('[data-hunter-shortcut="1"] a').first().click();
   await page.waitForFunction(()=>location.hash.startsWith('#/family/'),null,{timeout:10000});
-  await page.waitForSelector('#main .article-card',{timeout:10000});
-  const familyTitles=await page.locator('#main .article-card h3').allTextContents();
+  await page.waitForSelector('#main .family-card',{timeout:10000});
+  const familyTitles=await page.locator('#main .family-card strong').allTextContents();
   for(const title of expectedHunters.slice(0,3))if(!familyTitles.includes(title))throw new Error(`Famille Organisations de Chasse: page absente ${title}`);
   if(errors.length)throw new Error(`Erreurs navigateur:\n${errors.join('\n')}`);
   console.log('CATEGORY NAV BROWSER OK — 6 rubriques + raccourcis et 8 pages Chasseurs réellement rendues/cliquables.');
