@@ -61,6 +61,19 @@ import {
   COMPENDIUM_REALITE_V9_AGENCIES_PNJ_ENRICHMENTS
 } from "./compendium-realite-v9-agencies-pnj.js";
 import {
+  COMPENDIUM_REALITE_V9_CRAWLERS_HUB_ID,
+  COMPENDIUM_REALITE_V9_CRAWLERS_HUB_SOURCE,
+  COMPENDIUM_REALITE_V9_CRAWLERS_HUB_TAGS,
+  COMPENDIUM_REALITE_V9_CRAWLERS_HUB_SECTIONS,
+  COMPENDIUM_REALITE_V9_CRAWLERS_ARTICLE_ENRICHMENTS,
+  COMPENDIUM_REALITE_V9_CRAWLERS_ARTICLES,
+  COMPENDIUM_REALITE_V9_CRAWLERS_NAVIGATION
+} from "./compendium-realite-v9-crawlers.js";
+import {
+  COMPENDIUM_REALITE_V9_CRAWLERS_PNJ_ARTICLES,
+  COMPENDIUM_REALITE_V9_CRAWLERS_PNJ_NAVIGATION
+} from "./compendium-realite-v9-crawlers-pnj.js";
+import {
   COMPENDIUM_REALITE_V9_RELIGION_ARTICLES,
   COMPENDIUM_REALITE_V9_RELIGION_NAVIGATION
 } from "./compendium-realite-v9-religions.js";
@@ -648,6 +661,66 @@ function mergeUniqueTextBlocks(target: JsonObject, blocks: JsonObject[]) {
   }
 }
 
+function mergeCrawlerPnj(target: Article, source: Article): Article {
+  const merged = deepClone(target);
+  merged.tags = [...new Set([...(merged.tags ?? []), ...(source.tags ?? [])])];
+
+  const sources = [merged.source, source.source]
+    .flatMap((value) => String(value ?? "").split(" ; "))
+    .map((value) => value.trim())
+    .filter(Boolean);
+  merged.source = [...new Set(sources)].join(" ; ");
+
+  merged.pnj = { ...(source.pnj ?? {}), ...(merged.pnj ?? {}) };
+  merged.pnj.identity_keys = [
+    ...new Set([
+      ...articlePnjIdentityKeys(merged),
+      ...articlePnjIdentityKeys(source)
+    ])
+  ];
+
+  const sections = [...(merged.sections ?? [])];
+  const existingIds = new Set(sections.map((section) => String(section?.id ?? "")));
+
+  const insertPublicSection = (section: JsonObject) => {
+    const copy = deepClone(section);
+    const mjIndex = sections.findIndex((item) => item?.audience === "mj");
+    if (mjIndex >= 0) sections.splice(mjIndex, 0, copy);
+    else sections.push(copy);
+    existingIds.add(String(copy?.id ?? ""));
+  };
+
+  for (const section of source.sections ?? []) {
+    const id = String(section?.id ?? "");
+    if (!id || id === "profil-statistique" || section?.audience === "mj" || existingIds.has(id)) continue;
+    insertPublicSection(section);
+  }
+
+  for (const section of source.sections ?? []) {
+    const id = String(section?.id ?? "");
+    if (!id || id === "profil-statistique" || section?.audience !== "mj" || existingIds.has(id)) continue;
+    const blocks = Array.isArray(section?.blocks) ? section.blocks : [];
+    if (!blocks.length) continue;
+    sections.push(deepClone(section));
+    existingIds.add(id);
+  }
+
+  if (!existingIds.has("profil-statistique")) {
+    sections.push({
+      id: "profil-statistique",
+      title: "Profil statistique",
+      level: 2,
+      audience: "mj",
+      blocks: []
+    });
+  }
+
+  merged.sections = sections;
+  merged.status = "canon_enrichi";
+  merged.rebuildV2 = true;
+  return merged;
+}
+
 function mergeExtraterrestrialPnj(target: Article, source: Article): Article {
   const merged = deepClone(target);
   merged.tags = [...new Set([...(merged.tags ?? []), ...(source.tags ?? [])])];
@@ -1144,6 +1217,7 @@ async function loadCorpus(): Promise<Corpus> {
 
   const byId = new Map<string, Article>();
   const extraterrestrialPnjResolvedIds = new Map<string, string>();
+  const crawlerPnjResolvedIds = new Map<string, string>();
   const loaded = await Promise.all(
     manifest.datasets.map(async (spec) => [spec.id, await loadDataset(spec)] as const)
   );
@@ -1433,6 +1507,65 @@ async function loadCorpus(): Promise<Corpus> {
     target.tags = Array.from(new Set([...(target.tags ?? []), "Agences", "Réalité"]));
   }
 
+  const crawlersHub = byId.get(COMPENDIUM_REALITE_V9_CRAWLERS_HUB_ID);
+  if (crawlersHub) {
+    const existingIds = new Set((crawlersHub.sections ?? []).map((section) => String(section?.id ?? "")));
+    const sections = deepClone(COMPENDIUM_REALITE_V9_CRAWLERS_HUB_SECTIONS).filter(
+      (section: JsonObject) => !existingIds.has(String(section?.id ?? ""))
+    );
+    if (sections.length) {
+      crawlersHub.sections = [...(crawlersHub.sections ?? []), ...sections];
+    }
+    const sources = [crawlersHub.source, COMPENDIUM_REALITE_V9_CRAWLERS_HUB_SOURCE]
+      .flatMap((value) => String(value ?? "").split(" ; "))
+      .map((value) => value.trim())
+      .filter(Boolean);
+    crawlersHub.source = [...new Set(sources)].join(" ; ");
+    crawlersHub.tags = [
+      ...new Set([...(crawlersHub.tags ?? []), ...COMPENDIUM_REALITE_V9_CRAWLERS_HUB_TAGS])
+    ];
+    crawlersHub.status = "canon_enrichi";
+    crawlersHub.rebuildV2 = true;
+  }
+
+  for (const enrichment of COMPENDIUM_REALITE_V9_CRAWLERS_ARTICLE_ENRICHMENTS) {
+    const target = byId.get(String(enrichment.targetId ?? ""));
+    if (!target) continue;
+
+    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
+    const sections = deepClone(enrichment.sections ?? []).filter(
+      (section: JsonObject) => !existingIds.has(String(section?.id ?? ""))
+    );
+    if (sections.length) {
+      target.sections = [...(target.sections ?? []), ...sections];
+    }
+
+    const sources = [target.source, enrichment.source]
+      .flatMap((value) => String(value ?? "").split(" ; "))
+      .map((value) => value.trim())
+      .filter(Boolean);
+    target.source = [...new Set(sources)].join(" ; ");
+    target.tags = [...new Set([...(target.tags ?? []), ...(enrichment.tags ?? [])])];
+    target.status = "canon_enrichi";
+    target.rebuildV2 = true;
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_CRAWLERS_ARTICLES) {
+    byId.set(String(article.id), deepClone(article) as Article);
+  }
+
+  for (const sourceArticle of COMPENDIUM_REALITE_V9_CRAWLERS_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeCrawlerPnj(existing, article));
+      crawlerPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+    byId.set(article.id, article);
+    crawlerPnjResolvedIds.set(article.id, article.id);
+  }
+
   const generatedTalentHubs = generatedTalentHubCorpus();
   for (const hub of generatedTalentHubs.articles) {
     if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
@@ -1530,6 +1663,10 @@ async function loadCorpus(): Promise<Corpus> {
       ...COMPENDIUM_REALITE_V9_GOVERNMENT_PNJ_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_AGENCIES_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_AGENCIES_PNJ_NAVIGATION,
+      ...COMPENDIUM_REALITE_V9_CRAWLERS_NAVIGATION,
+      ...COMPENDIUM_REALITE_V9_CRAWLERS_PNJ_NAVIGATION.filter(
+        (entry) => crawlerPnjResolvedIds.get(entry.id) === entry.id
+      ),
       ...COMPENDIUM_REALITE_V9_RELIGION_NAVIGATION,
       ...COMPENDIUM_REALITE_V9_RELIGION_PNJ_NAVIGATION.map((entry) => ({
         ...entry,
