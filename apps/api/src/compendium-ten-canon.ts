@@ -113,7 +113,7 @@ export const COMPENDIUM_TEN_TRUTH_ENRICHMENTS = [
   },
   {
     targetId: "pnj-ten-svetlana-konstantinovna",
-    section: truthSection("Svetlana Konstantinovna descend directement d’Elynea, le Dieu Unique. Elle est techniquement un Nephilim divin et un prophète, ce qui explique l’ampleur de ses capacités liées aux anges, à la lumière divine, aux marques et aux Attributs. Cette nature est distincte de son secret criminel : Svetlana est également Arkhangel, identité connue uniquement dans les informations MJ.")
+    section: truthSection("Svetlana Konstantinovna, dont le nom de Vérité est « Mashia’h », descend directement d’Elynea, le Dieu Unique. Elle est techniquement un Nephilim divin et un prophète, ce qui explique l’ampleur de ses capacités liées aux anges, à la lumière divine, aux marques et aux Attributs. Cette nature est distincte de son secret criminel : Svetlana est également Arkhangel, identité connue uniquement dans les informations MJ. Sous cette identité, elle est la dirigeante véritable de la Bratva et une puissance majeure du crime organisé en Grande Californie et au-delà.")
   },
   {
     targetId: "pnj-crawlers-docx-leslie-wright",

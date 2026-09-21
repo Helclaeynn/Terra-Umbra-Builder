@@ -2942,6 +2942,26 @@ async function loadCorpus(): Promise<Corpus> {
     throw new Error(`Ten · fiche Svetlana canonique ambiguë: ${svetlanaCandidates.map((article) => article.id).join(", ") || "aucune"}`);
   }
   const svetlana = svetlanaCandidates[0];
+
+  // The legacy active sheet mixed public Reality fields with Truth/Arkhangel secrets.
+  // The Ten pass replaces those mixed public sections with the clean Reality fiche below.
+  svetlana.sections = (svetlana.sections ?? []).filter((sourceSection) => {
+    if (sourceSection?.audience === "mj") return true;
+    const id = normalizedPnjIdentity(String(sourceSection?.id ?? ""));
+    const title = normalizedPnjIdentity(String(sourceSection?.title ?? ""));
+    const payload = normalizedPnjIdentity(JSON.stringify(sourceSection ?? {}));
+    const legacyProfile =
+      (id === "profil" || title === "profil") &&
+      (payload.includes("nom de la verite") ||
+        payload.includes("nature reelle") ||
+        payload.includes("mashia") ||
+        payload.includes("arkhangel"));
+    const legacyMixedReality =
+      (id.includes("info-realite") || id.includes("informations-realite") || title.includes("informations realite")) &&
+      payload.includes("arkhangel");
+    return !(legacyProfile || legacyMixedReality);
+  });
+
   for (const section of (COMPENDIUM_TEN_SVETLANA_ARTICLE.sections ?? []) as JsonObject[]) {
     const sectionId = String(section?.id ?? "");
     if (sectionId === "profil-statistique") continue;
@@ -3011,6 +3031,63 @@ async function loadCorpus(): Promise<Corpus> {
     if (!target) throw new Error(`Ten · cible Catastrophes absente: ${sourceTargetId} -> ${targetId}`);
     appendTenSections(target, deepClone(enrichment.sections ?? []) as JsonObject[]);
     mergeTenSource(target, COMPENDIUM_VERITE_TEN_SOURCE, enrichment.tags ?? []);
+  }
+
+  const normalizeTenPresentation = (target: Article) => {
+    const publicSections: JsonObject[] = [];
+    const mjSections: JsonObject[] = [];
+    const statsSections: JsonObject[] = [];
+
+    for (const sourceSection of target.sections ?? []) {
+      const section = deepClone(sourceSection) as JsonObject;
+      const id = normalizedPnjIdentity(String(section?.id ?? ""));
+      const title = normalizedPnjIdentity(String(section?.title ?? ""));
+      if (id === "profil-statistique" || title === "profil statistique" || title === "statistiques") {
+        statsSections.push(section);
+      } else if (section?.audience === "mj") {
+        mjSections.push(section);
+      } else {
+        publicSections.push(section);
+      }
+    }
+
+    target.sections = [...publicSections, ...mjSections, ...statsSections];
+
+    let sawMj = false;
+    for (const section of target.sections) {
+      const id = normalizedPnjIdentity(String(section?.id ?? ""));
+      const title = normalizedPnjIdentity(String(section?.title ?? ""));
+      const isStats = id === "profil-statistique" || title === "profil statistique" || title === "statistiques";
+      if (section?.audience === "mj" || isStats) sawMj = true;
+      else if (sawMj) throw new Error(`Ten · section publique après le MJ: ${target.id} / ${String(section?.id ?? section?.title ?? "?")}`);
+    }
+    if (statsSections.length && target.sections[target.sections.length - 1] !== statsSections[statsSections.length - 1]) {
+      throw new Error(`Ten · statistiques non terminales: ${target.id}`);
+    }
+  };
+
+  const tenPresentationIds = new Set<string>([
+    svetlana.id,
+    arkhangel.id,
+    ...COMPENDIUM_TEN_BACKGROUND_ENRICHMENTS.map((entry) => resolveTenTargetId(String(entry.targetId ?? ""))),
+    ...COMPENDIUM_TEN_TRUTH_ENRICHMENTS.map((entry) => resolveTenTargetId(String(entry.targetId ?? ""))),
+    ...COMPENDIUM_VERITE_TEN_ENRICHMENTS.map((entry) => resolveTenTargetId(String(entry.targetId ?? "")))
+  ]);
+  for (const targetId of tenPresentationIds) {
+    const target = byId.get(targetId);
+    if (target) normalizeTenPresentation(target);
+  }
+
+  const svetlanaPublicSurface = normalizedPnjIdentity(
+    JSON.stringify((svetlana.sections ?? []).filter((section) => section?.audience !== "mj"))
+  );
+  if (
+    svetlanaPublicSurface.includes("arkhangel") ||
+    svetlanaPublicSurface.includes("mashia") ||
+    svetlanaPublicSurface.includes("nom de la verite") ||
+    svetlanaPublicSurface.includes("nature reelle")
+  ) {
+    throw new Error("Ten · fuite publique détectée sur la fiche Svetlana");
   }
 
   const navigation = new Map(
