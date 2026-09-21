@@ -669,7 +669,8 @@ function mergeCrawlerPnj(target: Article, source: Article): Article {
     .flatMap((value) => String(value ?? "").split(" ; "))
     .map((value) => value.trim())
     .filter(Boolean);
-  merged.source = [...new Set(sources)].join(" ; ");\n  if (new Set(sources).size > 1) merged.tags = [...new Set([...(merged.tags ?? []), "Multi-source"])];
+  merged.source = [...new Set(sources)].join(" ; ");
+  if (new Set(sources).size > 1) merged.tags = [...new Set([...(merged.tags ?? []), "Multi-source"])];
 
   merged.pnj = { ...(merged.pnj ?? {}), ...(source.pnj ?? {}) };
   merged.pnj.identity_keys = [
