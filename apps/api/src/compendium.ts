@@ -186,7 +186,7 @@ import {
 } from "./compendium-verite-extraterrestres-pnj.js";
 
 type JsonObject = Record<string, any>;
-type Article = JsonObject & {
+export type Article = JsonObject & {
   id: string;
   title?: string;
   category?: string;
@@ -2129,6 +2129,17 @@ async function loadCorpus(): Promise<Corpus> {
 function getCorpus(): Promise<Corpus> {
   if (!corpusPromise) corpusPromise = loadCorpus();
   return corpusPromise;
+}
+
+export async function getCompendiumQualityCorpus() {
+  const corpus = await getCorpus();
+  return {
+    articles: corpus.articles,
+    publicArticles: corpus.publicArticles,
+    navigationIds: [...corpus.navigation.keys()],
+    databaseEditSummary: corpus.databaseEditSummary,
+    overrideSummary: corpus.overrideSummary
+  };
 }
 
 export async function preloadCompendium(): Promise<void> {

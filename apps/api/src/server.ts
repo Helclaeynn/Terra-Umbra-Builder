@@ -24,6 +24,7 @@ import {
 import { databaseStatus, pool } from "./db.js";
 import { registerCharacterRoutes } from "./characters.js";
 import { preloadCompendium, registerCompendiumRoutes } from "./compendium.js";
+import { registerQualityRoutes } from "./quality.js";
 import { preloadBuilderRules, registerRulesRoutes } from "./rules/index.js";
 import { passwordResetMailAvailable, sendPasswordResetEmail } from "./mail.js";
 
@@ -875,6 +876,7 @@ app.get("/api/admin/audit", async (request, reply) => {
 await registerCharacterRoutes(app);
 await registerRulesRoutes(app);
 await registerCompendiumRoutes(app);
+await registerQualityRoutes(app);
 
 // Build the Compendium once during service startup so the first visitor
 // never pays the corpus decode/indexing cost.
