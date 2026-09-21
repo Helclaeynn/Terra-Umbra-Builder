@@ -2788,6 +2788,78 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     }
   });
 
+  app.get<{
+    Params: { "*": string };
+  }>("/api/compendium/uploads/*", async (request, reply) => {
+    const filename = safeUploadFilename(String(request.params["*"] ?? ""));
+    if (!filename) return bad(reply, "invalid_compendium_upload_path");
+
+    try {
+      const body = await readFile(resolve(COMPENDIUM_UPLOAD_DIR, filename));
+      reply.header("Content-Type", mediaContentType(filename));
+      reply.header("Cache-Control", "public, max-age=31536000, immutable");
+      reply.header("X-Content-Type-Options", "nosniff");
+      return reply.send(body);
+    } catch {
+      return reply.code(404).send({ error: "compendium_media_not_found" });
+    }
+  });
+
+  app.post<{
+    Params: { id: string };
+    Body: {
+      data?: string;
+      slot?: "page" | "portrait";
+    };
+  }>(
+    "/api/compendium/editor/articles/:id/media",
+    { bodyLimit: 24 * 1024 * 1024 },
+    async (request, reply) => {
+      const user = await requireEditor(request, reply);
+      if (!user) return;
+
+      const id = String(request.params.id ?? "").trim();
+      if (!id || id.length > 240) return bad(reply, "invalid_compendium_article_id");
+
+      const corpus = await getCorpus();
+      const article = await editorCurrentArticle(id, corpus);
+      if (!article) {
+        return reply.code(404).send({ error: "compendium_article_not_found" });
+      }
+
+      const slot = request.body?.slot === "portrait" ? "portrait" : "page";
+      const encoded = String(request.body?.data ?? "").trim();
+      if (!encoded) return bad(reply, "compendium_image_required");
+      if (encoded.length > 21 * 1024 * 1024) {
+        return reply.code(413).send({ error: "compendium_image_too_large" });
+      }
+
+      const data = Buffer.from(encoded, "base64");
+      if (!data.length) return bad(reply, "invalid_compendium_image");
+      if (data.length > 15 * 1024 * 1024) {
+        return reply.code(413).send({ error: "compendium_image_too_large" });
+      }
+
+      const extension = uploadedImageExtension(data);
+      if (!extension) return bad(reply, "unsupported_compendium_image");
+
+      const safeId = id.replace(/[^a-zA-Z0-9_.-]+/g, "-").slice(0, 180);
+      const token = randomBytes(5).toString("hex");
+      const filename = `${safeId}--${slot}-${Date.now()}-${token}.${extension}`;
+
+      await mkdir(COMPENDIUM_UPLOAD_DIR, { recursive: true });
+      await writeFile(resolve(COMPENDIUM_UPLOAD_DIR, filename), data, { flag: "wx" });
+
+      return reply.code(201).send({
+        src: `/api/compendium/uploads/${filename}`,
+        filename,
+        slot,
+        contentType: mediaContentType(filename),
+        size: data.length
+      });
+    }
+  );
+
   app.post<{
     Body: {
       title?: string;
