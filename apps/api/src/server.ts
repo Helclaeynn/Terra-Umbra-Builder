@@ -44,7 +44,10 @@ app.addHook("onSend", async (request, reply, payload) => {
     request.url.startsWith("/api/compendium/collections") ||
     request.url.startsWith("/api/compendium/editor");
 
-  if (request.url.startsWith("/api/compendium/media/")) {
+  if (
+    request.url.startsWith("/api/compendium/media/") ||
+    request.url.startsWith("/api/compendium/uploads/")
+  ) {
     reply.header("Cache-Control", "public, max-age=86400");
     return payload;
   }
