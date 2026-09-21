@@ -3,6 +3,7 @@ name: Compendium navigation browser smoke
 on:
   push:
     branches:
+      - main
       - preview/compendium-restructure
     paths:
       - 'compendium/app-v3.js'
