@@ -1,0 +1,35 @@
+name: TUC Shi Qi staging check
+
+on:
+  push:
+    branches:
+      - integration/shi-qi-points-media-20260921
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Build API
+        working-directory: apps/api
+        run: |
+          npm install
+          npm run build
+
+      - name: Check Points de rencontre integration
+        working-directory: apps/api
+        run: node scripts/check-points-rencontre-integration.mjs
+
+      - name: Check Shi and Qi integration
+        working-directory: apps/api
+        run: node scripts/check-shi-qi-integration.mjs
