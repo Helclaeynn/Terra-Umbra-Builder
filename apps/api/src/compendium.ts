@@ -1,5 +1,5 @@
-import { createHash } from "node:crypto";
-import { readFile, readdir } from "node:fs/promises";
+import { createHash, randomBytes } from "node:crypto";
+import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { gunzipSync } from "node:zlib";
 import type { FastifyInstance, FastifyReply } from "fastify";
@@ -295,6 +295,12 @@ const COMPENDIUM_MEDIA_DIR =
   (process.env.NODE_ENV === "production"
     ? "/app/compendium-media"
     : resolve(process.cwd(), "../../compendium"));
+
+const COMPENDIUM_UPLOAD_DIR =
+  process.env.COMPENDIUM_UPLOAD_DIR ??
+  (process.env.NODE_ENV === "production"
+    ? "/app/editor-media"
+    : resolve(process.cwd(), "../../.editor-media"));
 
 let corpusPromise: Promise<Corpus> | null = null;
 
@@ -615,6 +621,37 @@ function mediaContentType(path: string): string {
   if (lower.endsWith(".gif")) return "image/gif";
   if (lower.endsWith(".svg")) return "image/svg+xml; charset=utf-8";
   return "application/octet-stream";
+}
+
+function uploadedImageExtension(data: Buffer): "jpg" | "png" | "webp" | "gif" | null {
+  if (data.length >= 3 && data[0] === 0xff && data[1] === 0xd8 && data[2] === 0xff) return "jpg";
+  if (
+    data.length >= 8 &&
+    data[0] === 0x89 &&
+    data[1] === 0x50 &&
+    data[2] === 0x4e &&
+    data[3] === 0x47 &&
+    data[4] === 0x0d &&
+    data[5] === 0x0a &&
+    data[6] === 0x1a &&
+    data[7] === 0x0a
+  ) return "png";
+  if (
+    data.length >= 12 &&
+    data.subarray(0, 4).toString("ascii") === "RIFF" &&
+    data.subarray(8, 12).toString("ascii") === "WEBP"
+  ) return "webp";
+  if (data.length >= 6) {
+    const signature = data.subarray(0, 6).toString("ascii");
+    if (signature === "GIF87a" || signature === "GIF89a") return "gif";
+  }
+  return null;
+}
+
+function safeUploadFilename(value: string): string | null {
+  const clean = value.trim();
+  if (!/^[a-zA-Z0-9_.-]+\.(?:jpg|png|webp|gif)$/i.test(clean)) return null;
+  return clean;
 }
 
 function bad(reply: FastifyReply, error: string) {
