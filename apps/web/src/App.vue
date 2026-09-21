@@ -763,9 +763,14 @@ onMounted(bootstrap);
               <p class="eyebrow">ADMINISTRATION</p>
               <h2>Gestion des comptes</h2>
             </div>
-            <button class="ghost" type="button" @click="loadAdmin">
-              Actualiser
-            </button>
+            <div class="top-actions">
+              <RouterLink class="ghost" to="/admin/quality">
+                Contrôle qualité
+              </RouterLink>
+              <button class="ghost" type="button" @click="loadAdmin">
+                Actualiser
+              </button>
+            </div>
           </div>
 
           <div class="panel table-wrap">
