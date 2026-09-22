@@ -306,7 +306,7 @@ const PAYLOAD = [
       "real_name": "Sasha Novogvna",
       "nom_verite": "Sachielle",
       "race": "Archangelus",
-      "age": "«62 ans » - ????",
+      "age": "62 ans",
       "origine": "Ukrainienne",
       "statut": "religieux : Chrétiens",
       "statut_verite": "Archange renégat",
@@ -347,7 +347,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«62 ans » - ????"
+                "Non communiqué"
               ],
               [
                 "Affiliations",
@@ -368,7 +368,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Sasha Novogvna est une mère supérieure d’une communauté de nonnes à Las Vegas. Elle n’est pas vraiment connue du grand public."
+            "text": "Sasha Novogvna est mère supérieure d’une communauté de nonnes à Las Vegas. Discrète, elle demeure peu connue du grand public."
           }
         ]
       },
@@ -408,12 +408,16 @@ const PAYLOAD = [
               [
                 "Sephira",
                 "Tiph’Ereth"
+              ],
+              [
+                "Âge réel / source",
+                "62 ans"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "On ignore que c’est une femme de 62 ans de plus à son physique régénéré. En vérité, elle est la gardienne de « l’Arsenal sacré », qui équipe les ordres de chasseurs de l’Eglise. Le père Jacke Ashford, parfois surnommé « mech Santa Klaus » avec son garage de motards religieux n’est qu’un de ses subordonnés. Ex-chasseuse de l’ordre d’Arianwen, c’était la meilleure disciple de Sœur Maria durant les années 2000 jusqu’à ce qu’elle ne réveille sa nature Archangélique de Sachielle. Sachielle est l’archange de la Charité et même si elle n’a jamais changé de personnalité véritablement, Maria préféra la retirer de la Chasse. La rupture a été brutale entre la chasseuse rousse et la jeune nonne qui s’est sentie trahie. Parfois, c’est pour ça que sœur Maria n’a pas d’approvisionnement, Sachielle ayant encore de la colère pour avoir été interdite de chasse. En tant qu’Archange, elle a le pouvoir de la « charité », qui lui permet de donner des pouvoirs à ses cibles, par exemple ceux d’un archange à un ange n’étant pas de sa Sephira. Zophielle lui fut préférée alors Sachielle essaya de se"
+            "text": "Sasha a en réalité 62 ans, âge que son physique régénéré dissimule. Elle est la gardienne de « l’Arsenal sacré », qui équipe les ordres de chasseurs de l’Église ; le père Jacke Ashford, parfois surnommé « Mech Santa Klaus » avec son garage de motards religieux, n’est que l’un de ses subordonnés. Ancienne chasseuse de l’ordre d’Arianwen, elle fut la meilleure disciple de Sœur Maria durant les années 2000 avant d’éveiller sa nature archangélique de Sachielle. Archange de la Charité, Sachielle ne changea pas fondamentalement de personnalité, mais Maria préféra la retirer de la Chasse. La rupture fut brutale et la jeune nonne se sentit trahie ; sa colère explique parfois les difficultés d’approvisionnement de Sœur Maria. Le pouvoir de « charité » de Sachielle lui permet d’accorder des pouvoirs à ses cibles, par exemple ceux d’un Archange à un Ange étranger à sa Sephira. Zophielle lui ayant été préférée, Sachielle tenta de se rebeller en donnant à ses anges des pouvoirs démoniaques de Lilith, ce qui entraîna son emprisonnement."
           }
         ]
       },
