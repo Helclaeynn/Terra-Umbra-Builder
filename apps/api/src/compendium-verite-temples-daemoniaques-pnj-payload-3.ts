@@ -1,2 +1,1749 @@
-const PAYLOAD = [{"id":"pnj-temples-daemoniaques-ryushi-ikazuchi","dataset":"verite-temples-daemoniaques-pnj","category":"Personnages","sourceCategory":"Vérité","title":"Ryushi IKAZUCHI","source":"factions_Temples Daemoniaques(3).pdf","status":"canon_source","rebuildV2":true,"tags":["Vérité","PNJ","Daemons","Temples démoniaques","Temple d’Abigor"],"pnj":{"completeness":"detailed","real_name":"Ryushi IKAZUCHI","real_name_source":"Ryushi IKAZUCHI","nom_verite":"Furfur – Date Masamune","nom_verite_source":"Furfur – Date Masamune","race":"Daemons","age":"«22 ans », ????","origine":"américaine","statut":"Duc","affiliations":"pègre : Yakuzas","divinite":"Abigor","pouvoir_principal":"les typhons","titre_infernal":"Duc","source_group":"Temple d’Abigor","source_pages":[22],"identity_keys":["Ryushi IKAZUCHI","Furfur – Date Masamune","Furfur"],"relations":[],"source_documents":["factions_Temples Daemoniaques(3).pdf"],"source_extract":"Ryushi est un jeune Yakuza qui ‘n’a pas encore vraiment fait ses preuves. Tabassé presque à mort par Goro, le défunt fils de l’oyabun, il était en convalescence pendant quelques mois quand Fuyumi SHINODA monta en influence, il sert la famille Egawa, notamment Masato Egawa, un opposant farouche à Fuyumi. Son titre démoniaque est associé au nom de Furfur, le démon cervidé des orages. Ce duc est un ancien samurai du nom de DATE Masamune, le célèbre daimyo. Le « dragon borgne » a toujours été un fervent amateur de technologie, surtout guerrière et c’est pourquoi c’est un des rares daemons aussi augmentés. Bien qu’il soit un prodigieux maitre du Katana, il ne trouve pas cette arme adaptée en 2035 et lui préfère deux armes de poings de la Raven. Abigor le récupéra car Date beaucoup voyagé, jusqu’en Europe notamment de son vivant, honorant les kamis célestes régulièrement. Incarnation des typhons désormais, s’il n’est pas important dans la mafia, il reste un daemon puissant. 10. Temple de Baal"},"sections":[{"id":"temples-daemoniaques-realite","title":"Informations · Réalité","level":2,"blocks":[{"type":"table","rows":[["Champ","Valeur"],["Nom","Ryushi IKAZUCHI"],["Âge apparent","22 ans"],["Affiliations","pègre : Yakuzas"],["Nationalité d’origine","américaine"]]},{"type":"p","style":"lore","text":"Ryushi est un jeune Yakuza qui ‘n’a pas encore vraiment fait ses preuves. Tabassé presque à mort par Goro, le défunt fils de l’oyabun, il était en convalescence pendant quelques mois quand Fuyumi SHINODA monta en influence, il sert la famille Egawa, notamment Masato Egawa, un opposant farouche à Fuyumi."}]},{"id":"temples-daemoniaques-mj","title":"Dossier MJ · Vérité & informations cachées","level":2,"audience":"mj","blocks":[{"type":"table","rows":[["Champ","Valeur"],["Nom de la Réalité · source","Ryushi IKAZUCHI"],["Nom de la Vérité","Furfur – Date Masamune"],["Âge source","«22 ans », ????"],["Affiliations","pègre : Yakuzas"],["Nationalité d’origine","américaine"],["Nature réelle","Daemons"],["Divinité","Abigor"],["Pouvoir principal","les typhons"],["Titre infernal","Duc"],["Temple / groupe source","Temple d’Abigor"],["Page source","22"]]},{"type":"p","style":"lore","text":"Ryushi est un jeune Yakuza qui ‘n’a pas encore vraiment fait ses preuves. Tabassé presque à mort par Goro, le défunt fils de l’oyabun, il était en convalescence pendant quelques mois quand Fuyumi SHINODA monta en influence, il sert la famille Egawa, notamment Masato Egawa, un opposant farouche à Fuyumi. Son titre démoniaque est associé au nom de Furfur, le démon cervidé des orages. Ce duc est un ancien samurai du nom de DATE Masamune, le célèbre daimyo. Le « dragon borgne » a toujours été un fervent amateur de technologie, surtout guerrière et c’est pourquoi c’est un des rares daemons aussi augmentés. Bien qu’il soit un prodigieux maitre du Katana, il ne trouve pas cette arme adaptée en 2035 et lui préfère deux armes de poings de la Raven. Abigor le récupéra car Date beaucoup voyagé, jusqu’en Europe notamment de son vivant, honorant les kamis célestes régulièrement. Incarnation des typhons désormais, s’il n’est pas important dans la mafia, il reste un daemon puissant. 10. Temple de Baal"}]},{"id":"profil-statistique","title":"Profil statistique","level":2,"audience":"mj","blocks":[]}]},{"id":"pnj-temples-daemoniaques-eres-kamal","dataset":"verite-temples-daemoniaques-pnj","category":"Personnages","sourceCategory":"Vérité","title":"Eres Kamal","source":"factions_Temples Daemoniaques(3).pdf","status":"canon_source","rebuildV2":true,"tags":["Vérité","PNJ","Daemons","Temples démoniaques","Temple de Baal"],"pnj":{"completeness":"detailed","real_name":"Eres Kamal","real_name_source":"Eres Kamal","nom_verite":"Ereshkigal– Esh","nom_verite_source":"Ereshkigal– Esh","race":"Daemons - psychopompes","age":"«44 ans » - ????","origine":"américaine","statut":"Duchesse","affiliations":"corporation : Phoenix","divinite":"Baal","pouvoir_principal":"le meurtre","titre_infernal":"Duchesse","source_group":"Temple de Baal","source_pages":[23],"identity_keys":["Eres Kamal","Ereshkigal– Esh","Ereshkigal"],"relations":[],"source_documents":["factions_Temples Daemoniaques(3).pdf"],"source_extract":"Eres est une « vendeuse » de la Phoenix corporation. Il faut donc la voir comme une sorte de démarcheuse, une vendeuse d’armes, ce n’est pas un haut cadre, elle est toutefois amenée à négocier aussi bien avec des criminels qu’avec des présidents d’états bien que son style neopunk ne plaise pas toujours. Dotée du titre de duchesse et du nom divin d’Ereshkigal, déesse des enfers mésopotamiens, c’est une des daemones assez anciennes puisqu’elle préexistait à l’arrivée humaine, étant une psychopompe, une entité de la mort. Esh résidait dans la dimension de « Helheim » elle n’avait de lien qu’avec les amazones, surtout nordiques (valkyries) et les corneilles de Morrighan qui passaient dans ce plan. Elle a été séduite par Baal, le dieu et bien qu’elle ne soit jamais morte, elle a accepté sa marque. En 2035, elle est sa plus loyale et utile alliée."},"sections":[{"id":"temples-daemoniaques-realite","title":"Informations · Réalité","level":2,"blocks":[{"type":"table","rows":[["Champ","Valeur"],["Nom","Eres Kamal"],["Âge apparent","44 ans"],["Affiliations","corporation : Phoenix"],["Nationalité d’origine","américaine"]]},{"type":"p","style":"lore","text":"Eres est une « vendeuse » de la Phoenix corporation. Il faut donc la voir comme une sorte de démarcheuse, une vendeuse d’armes, ce n’est pas un haut cadre, elle est toutefois amenée à négocier aussi bien avec des criminels qu’avec des présidents d’états bien que son style neopunk ne plaise pas toujours."}]},{"id":"temples-daemoniaques-mj","title":"Dossier MJ · Vérité & informations cachées","level":2,"audience":"mj","blocks":[{"type":"table","rows":[["Champ","Valeur"],["Nom de la Réalité · source","Eres Kamal"],["Nom de la Vérité","Ereshkigal– Esh"],["Âge source","«44 ans » - ????"],["Affiliations","corporation : Phoenix"],["Nationalité d’origine","américaine"],["Nature réelle","Daemons - psychopompes"],["Divinité","Baal"],["Pouvoir principal","le meurtre"],["Titre infernal","Duchesse"],["Temple / groupe source","Temple de Baal"],["Page source","23"]]},{"type":"p","style":"lore","text":"Eres est une « vendeuse » de la Phoenix corporation. Il faut donc la voir comme une sorte de démarcheuse, une vendeuse d’armes, ce n’est pas un haut cadre, elle est toutefois amenée à négocier aussi bien avec des criminels qu’avec des présidents d’états bien que son style neopunk ne plaise pas toujours. Dotée du titre de duchesse et du nom divin d’Ereshkigal, déesse des enfers mésopotamiens, c’est une des daemones assez anciennes puisqu’elle préexistait à l’arrivée humaine, étant une psychopompe, une entité de la mort. Esh résidait dans la dimension de « Helheim » elle n’avait de lien qu’avec les amazones, surtout nordiques (valkyries) et les corneilles de Morrighan qui passaient dans ce plan. Elle a été séduite par Baal, le dieu et bien qu’elle ne soit jamais morte, elle a accepté sa marque. En 2035, elle est sa plus loyale et utile alliée."}]},{"id":"profil-statistique","title":"Profil statistique","level":2,"audience":"mj","blocks":[]}]},{"id":"pnj-temples-daemoniaques-shin-xeong","dataset":"verite-temples-daemoniaques-pnj","category":"Personnages","sourceCategory":"Vérité","title":"Shin XEONG","source":"factions_Temples Daemoniaques(3).pdf","status":"canon_source","rebuildV2":true,"tags":["Vérité","PNJ","Daemons","Temples démoniaques","Temple de Baal"],"pnj":{"completeness":"detailed","real_name":"Shin XEONG","real_name_source":"Shin XEONG","nom_verite":"leraje - Houyi","nom_verite_source":"leraje - Houyi","race":"Daemons","age":"«45ans », ????","origine":"chinoises","statut":"Duc","affiliations":"pègre : triades","divinite":"Baal","pouvoir_principal":"les blessures","titre_infernal":"Duc","source_group":"Temple de Baal","source_pages":[23],"identity_keys":["Shin XEONG","leraje - Houyi","Leraje"],"relations":[],"source_documents":["factions_Temples Daemoniaques(3).pdf"],"source_extract":"Shin XEONG était un soldat de l’armée chinoise pendant la guerre, il était sous le commandement de plusieurs officiers incompétents avant d’être sous les ordres de Wei SHI. C’était un sniper d’élite et bien que désormais « Avant-garde » au sein de la Triade, il reste possiblement le tireur d’élite de Californie le plus efficace qui existe, même devant les TEN. Leraje est un démon réputé aussi beau et élégant qu’il est bon archer, ce duc est toutefois surtout un tireur de précision, qu’importe l’arme, les blessures qu’il cause sont très aggravées d’une part, d’autres part, elles s’infectent automatiquement. En tant que mortel, il est Houyi, l’archer Yi légendaire qui aurait, selon les mythes, abattu neuf soleils et dont l’épouse serait devenue immortelle et serait allée sur la lune. C’était un archer réputé en vérité vers les années 2170 avant notre ère qui aurait combattu la dynastie Xia. Il aurait caché le décès de sa femme et aurait été réputé pour empoisonner les flèches de ses archers. Stratège et bon combattant, Baal fit de lui un de ses daemons les plus loyaux. Il respecte infiniment SHI Wei, plus que le boss de la triade. 11. Temple de Beelzebuth"},"sections":[{"id":"temples-daemoniaques-realite","title":"Informations · Réalité","level":2,"blocks":[{"type":"table","rows":[["Champ","Valeur"],["Nom","Shin XEONG"],["Âge apparent","45ans"],["Affiliations","pègre : triades"],["Nationalité d’origine","chinoises"]]},{"type":"p","style":"lore","text":"Shin XEONG était un soldat de l’armée chinoise pendant la guerre, il était sous le commandement de plusieurs officiers incompétents avant d’être sous les ordres de Wei SHI. C’était un sniper d’élite et bien que désormais « Avant-garde » au sein de la Triade, il reste possiblement le tireur d’élite de Californie le plus efficace qui existe, même devant les TEN."}]},{"id":"temples-daemoniaques-mj","title":"Dossier MJ · Vérité & informations cachées","level":2,"audience":"mj","blocks":[{"type":"table","rows":[["Champ","Valeur"],["Nom de la Réalité · source","Shin XEONG"],["Nom de la Vérité","leraje - Houyi"],["Âge source","«45ans », ????"],["Affiliations","pègre : triades"],["Nationalité d’origine","chinoises"],["Nature réelle","Daemons"],["Divinité","Baal"],["Pouvoir principal","les blessures"],["Titre infernal","Duc"],["Temple / groupe source","Temple de Baal"],["Page source","23"]]},{"type":"p","style":"lore","text":"Shin XEONG était un soldat de l’armée chinoise pendant la guerre, il était sous le commandement de plusieurs officiers incompétents avant d’être sous les ordres de Wei SHI. C’était un sniper d’élite et bien que désormais « Avant-garde » au sein de la Triade, il reste possiblement le tireur d’élite de Californie le plus efficace qui existe, même devant les TEN. Leraje est un démon réputé aussi beau et élégant qu’il est bon archer, ce duc est toutefois surtout un tireur de précision, qu’importe l’arme, les blessures qu’il cause sont très aggravées d’une part, d’autres part, elles s’infectent automatiquement. En tant que mortel, il est Houyi, l’archer Yi légendaire qui aurait, selon les mythes, abattu neuf soleils et dont l’épouse serait devenue immortelle et serait allée sur la lune. C’était un archer réputé en vérité vers les années 2170 avant notre ère qui aurait combattu la dynastie Xia. Il aurait caché le décès de sa femme et aurait été réputé pour empoisonner les flèches de ses archers. Stratège et bon combattant, Baal fit de lui un de ses daemons les plus loyaux. Il respecte infiniment SHI Wei, plus que le boss de la triade. 11. Temple de Beelzebuth"}]},{"id":"profil-statistique","title":"Profil statistique","level":2,"audience":"mj","blocks":[]}]},{"id":"pnj-temples-daemoniaques-melindia-sticks","dataset":"verite-temples-daemoniaques-pnj","category":"Personnages","sourceCategory":"Vérité","title":"Melindia Sticks","source":"factions_Temples Daemoniaques(3).pdf","status":"canon_source","rebuildV2":true,"tags":["Vérité","PNJ","Daemons","Temples démoniaques","Temple de Belzébuth"],"pnj":{"completeness":"detailed","real_name":"Melindia Sticks","real_name_source":"Melindia Sticks","nom_verite":"Persephone - Kothea","nom_verite_source":"Persephone - Kothea","race":"Daemons","age":"«25 ans » - ????","origine":"américaine","statut":"Duchesse","affiliations":"Corporations : Sunways","divinite":"Beelzebuth","pouvoir_principal":"la régénération","titre_infernal":"Duchesse","source_group":"Temple de Belzébuth","source_pages":[24],"identity_keys":["Melindia Sticks","Persephone - Kothea","Perséphone"],"relations":[],"source_documents":["factions_Temples Daemoniaques(3).pdf"],"source_extract":"Melindia est une subordonnée d’Elody-Katherine Skotia avec qui elle partage une amitié de longue date. C’est une administratrice bien qu’elle soit initialement médecin. En tant que Daemone, elle est une duchesse ayant un titre plus qu’évocateur : Perséphone. Reine des enfers grecs, elle a toujours été la favorite non pas de Mammon (hadès) mais Belzébuth. Divinité mineure du printemps et de la régénération, elle incarne une facette assez bienfaitrice. Elle était une guérisseuse grecque anonyme que la vampire Hécate utilisa pour se nourrir et travailler sur la « malédiction » des vampires. Melindia décéda d’une simple infection à cause d’une morsure de sa maitresse. Belzébuth récupéra son âme et la belle grecque accepta de le servir pour espérer libérer des Fléaux les vampires qu’elle affectionnait malgré sa mort. C’est une proche amie d’Aessa également, une duchesse de Lilith."},"sections":[{"id":"temples-daemoniaques-realite","title":"Informations · Réalité","level":2,"blocks":[{"type":"table","rows":[["Champ","Valeur"],["Nom","Melindia Sticks"],["Âge apparent","25 ans"],["Affiliations","Corporations : Sunways"],["Nationalité d’origine","américaine"]]},{"type":"p","style":"lore","text":"Melindia est une subordonnée d’Elody-Katherine Skotia avec qui elle partage une amitié de longue date. C’est une administratrice bien qu’elle soit initialement médecin."}]},{"id":"temples-daemoniaques-mj","title":"Dossier MJ · Vérité & informations cachées","level":2,"audience":"mj","blocks":[{"type":"table","rows":[["Champ","Valeur"],["Nom de la Réalité · source","Melindia Sticks"],["Nom de la Vérité","Persephone - Kothea"],["Âge source","«25 ans » - ????"],["Affiliations","Corporations : Sunways"],["Nationalité d’origine","américaine"],["Nature réelle","Daemons"],["Divinité","Beelzebuth"],["Pouvoir principal","la régénération"],["Titre infernal","Duchesse"],["Temple / groupe source","Temple de Belzébuth"],["Page source","24"]]},{"type":"p","style":"lore","text":"Melindia est une subordonnée d’Elody-Katherine Skotia avec qui elle partage une amitié de longue date. C’est une administratrice bien qu’elle soit initialement médecin. En tant que Daemone, elle est une duchesse ayant un titre plus qu’évocateur : Perséphone. Reine des enfers grecs, elle a toujours été la favorite non pas de Mammon (hadès) mais Belzébuth. Divinité mineure du printemps et de la régénération, elle incarne une facette assez bienfaitrice. Elle était une guérisseuse grecque anonyme que la vampire Hécate utilisa pour se nourrir et travailler sur la « malédiction » des vampires. Melindia décéda d’une simple infection à cause d’une morsure de sa maitresse. Belzébuth récupéra son âme et la belle grecque accepta de le servir pour espérer libérer des Fléaux les vampires qu’elle affectionnait malgré sa mort. C’est une proche amie d’Aessa également, une duchesse de Lilith."}]},{"id":"profil-statistique","title":"Profil statistique","level":2,"audience":"mj","blocks":[]}]},{"id":"pnj-temples-daemoniaques-ziyad-alaydin","dataset":"verite-temples-daemoniaques-pnj","category":"Personnages","sourceCategory":"Vérité","title":"Ziyad Al’Aydin","source":"factions_Temples Daemoniaques(3).pdf","status":"canon_source","rebuildV2":true,"tags":["Vérité","PNJ","Daemons","Temples démoniaques","Temple de Belzébuth"],"pnj":{"completeness":"detailed","real_name":"Ziyad Al’Aydin","real_name_source":"Ziyad Al’Aydin","nom_verite":"Baphomet -","nom_verite_source":"Baphomet -","race":"Daemons","age":"«32 ans », ????","origine":"américaine","statut":"Duc","affiliations":"Religieux : néopaïens","divinite":"Beelzebuth","pouvoir_principal":"l’évolution","titre_infernal":"Duc","source_group":"Temple de Belzébuth","source_pages":[24],"identity_keys":["Ziyad Al’Aydin","Baphomet -","Baphomet"],"relations":[],"source_documents":["factions_Temples Daemoniaques(3).pdf"],"source_extract":"Ziyad est un prêcheur néopaïen. Cultiste convaincu et fervent anti-monithéïste, il est régulièrement accusé de financer des terroristes et des insurgés pour attaquer Neovatican et différentes mosquées. Outre ses talents d’orateur incontestés, c’est aussi un défenseur acharné du droit de disposer de son corps, assumant pleinement un corps modifié pour être réellement hermaphrodite, ayant déjà eu un enfant de son mari , qu’il porta et ayant inséminé son épouse avec succès. Baphomet est probablement un nom de démon extrêmement connu et forcément le duc qui le porte est un terrifiant et redouté daemon. Il se plait à modifier et faire évoluer son corps à sa guise. De son vivant, c’était un musulman anonyme très respectueux de sa religion, il fut horrifié de voir comment les occidentaux créèrent le mythe de Baphomet à partir du Prophète, au point de tout faire pour les provoquer, se faisant vite tuer par ses propres frères. Récupéré par Belzébuth, il assuma de devenir l’incarnation de l’évolution, du changement, de l’altération, toujours plus provocateur et sans aucune forme de retenue morale. Il serait la mère de Daniela Götz qu’il abandonna aux Saintes lagunes, ignorant tout du père, le roi vampire Quetzalcoatl. 12. Temple de Lucifer"},"sections":[{"id":"temples-daemoniaques-realite","title":"Informations · Réalité","level":2,"blocks":[{"type":"table","rows":[["Champ","Valeur"],["Nom","Ziyad Al’Aydin"],["Âge apparent","32 ans"],["Affiliations","Religieux : néopaïens"],["Nationalité d’origine","américaine"]]},{"type":"p","style":"lore","text":"Ziyad est un prêcheur néopaïen. Cultiste convaincu et fervent anti-monithéïste, il est régulièrement accusé de financer des terroristes et des insurgés pour attaquer Neovatican et différentes mosquées. Outre ses talents d’orateur incontestés, c’est aussi un défenseur acharné du droit de disposer de son corps, assumant pleinement un corps modifié pour être réellement hermaphrodite, ayant déjà eu un enfant de son mari , qu’il porta et ayant inséminé son épouse avec succès."}]},{"id":"temples-daemoniaques-mj","title":"Dossier MJ · Vérité & informations cachées","level":2,"audience":"mj","blocks":[{"type":"table","rows":[["Champ","Valeur"],["Nom de la Réalité · source","Ziyad Al’Aydin"],["Nom de la Vérité","Baphomet -"],["Âge source","«32 ans », ????"],["Affiliations","Religieux : néopaïens"],["Nationalité d’origine","américaine"],["Nature réelle","Daemons"],["Divinité","Beelzebuth"],["Pouvoir principal","l’évolution"],["Titre infernal","Duc"],["Temple / groupe source","Temple de Belzébuth"],["Page source","24"]]},{"type":"p","style":"lore","text":"Ziyad est un prêcheur néopaïen. Cultiste convaincu et fervent anti-monithéïste, il est régulièrement accusé de financer des terroristes et des insurgés pour attaquer Neovatican et différentes mosquées. Outre ses talents d’orateur incontestés, c’est aussi un défenseur acharné du droit de disposer de son corps, assumant pleinement un corps modifié pour être réellement hermaphrodite, ayant déjà eu un enfant de son mari , qu’il porta et ayant inséminé son épouse avec succès. Baphomet est probablement un nom de démon extrêmement connu et forcément le duc qui le porte est un terrifiant et redouté daemon. Il se plait à modifier et faire évoluer son corps à sa guise. De son vivant, c’était un musulman anonyme très respectueux de sa religion, il fut horrifié de voir comment les occidentaux créèrent le mythe de Baphomet à partir du Prophète, au point de tout faire pour les provoquer, se faisant vite tuer par ses propres frères. Récupéré par Belzébuth, il assuma de devenir l’incarnation de l’évolution, du changement, de l’altération, toujours plus provocateur et sans aucune forme de retenue morale. Il serait la mère de Daniela Götz qu’il abandonna aux Saintes lagunes, ignorant tout du père, le roi vampire Quetzalcoatl. 12. Temple de Lucifer"}]},{"id":"profil-statistique","title":"Profil statistique","level":2,"audience":"mj","blocks":[]}]},{"id":"pnj-temples-daemoniaques-pablo-parejano","dataset":"verite-temples-daemoniaques-pnj","category":"Personnages","sourceCategory":"Vérité","title":"Pablo Parejano","source":"factions_Temples Daemoniaques(3).pdf","status":"canon_source","rebuildV2":true,"tags":["Vérité","PNJ","Daemons","Temples démoniaques","Temple de Lucifer"],"pnj":{"completeness":"detailed","real_name":"Pablo Parejano","real_name_source":"Pablo Parejano","nom_verite":"Adramalech – Rodrigo Diaz de Vivar","nom_verite_source":"Adramalech – Rodrigo Diaz de Vivar","race":"Daemons","age":"«36 ans » - ????","origine":"mexicaine","statut":"Duc","affiliations":"Religion : chrétien","divinite":"Lucifer","pouvoir_principal":"le rayonnement","titre_infernal":"Duc","source_group":"Temple de Lucifer","source_pages":[25],"identity_keys":["Pablo Parejano","Adramalech – Rodrigo Diaz de Vivar","Adramalech"],"relations":[],"source_documents":["factions_Temples Daemoniaques(3).pdf"],"source_extract":"Pablo est un chasseur de l’Eglise chrétienne unifiée. Père Pablo fait ainsi partie de l’ordre d’Arianwen même s’il est très peu souvent en contact avec les autres chasseurs de l’ordre étant donné son caractère grincheux et ses méthodes qu’il refuse de montrer. De son vivant, Rodrigo n’était autre que « el Cid » , le mercenaire castillan. Combattant exceptionnel qui fut glorifié après sa mort, c’était un prophète détenant l’attribut de « la Gloire ». Récupéré par Lucifer bien que ce dernier n’ait plus de temple, Rodrigo a pourfendu le précédent Adramalech pour prouver sa valeur et en obtenir le titre. Adramalech était possiblement le nom d’une divinité solaire assyrienne notamment. Bien qu’il soit assez « jeune » comme daemon et bien qu’il ait joint un dieu déchu, Adramalech est incroyablement puissant puisque son pouvoir de rayonnement lui permet d'étendre la portée de tout ce qui le concerne."},"sections":[{"id":"temples-daemoniaques-realite","title":"Informations · Réalité","level":2,"blocks":[{"type":"table","rows":[["Champ","Valeur"],["Nom","Pablo Parejano"],["Âge apparent","36 ans"],["Affiliations","Religion : chrétien"],["Nationalité d’origine","mexicaine"]]},{"type":"p","style":"lore","text":"Pablo est un chasseur de l’Eglise chrétienne unifiée. Père Pablo fait ainsi partie de l’ordre d’Arianwen même s’il est très peu souvent en contact avec les autres chasseurs de l’ordre étant donné son caractère grincheux et ses méthodes qu’il refuse de montrer."}]},{"id":"temples-daemoniaques-mj","title":"Dossier MJ · Vérité & informations cachées","level":2,"audience":"mj","blocks":[{"type":"table","rows":[["Champ","Valeur"],["Nom de la Réalité · source","Pablo Parejano"],["Nom de la Vérité","Adramalech – Rodrigo Diaz de Vivar"],["Âge source","«36 ans » - ????"],["Affiliations","Religion : chrétien"],["Nationalité d’origine","mexicaine"],["Nature réelle","Daemons"],["Divinité","Lucifer"],["Pouvoir principal","le rayonnement"],["Titre infernal","Duc"],["Temple / groupe source","Temple de Lucifer"],["Page source","25"]]},{"type":"p","style":"lore","text":"Pablo est un chasseur de l’Eglise chrétienne unifiée. Père Pablo fait ainsi partie de l’ordre d’Arianwen même s’il est très peu souvent en contact avec les autres chasseurs de l’ordre étant donné son caractère grincheux et ses méthodes qu’il refuse de montrer. De son vivant, Rodrigo n’était autre que « el Cid » , le mercenaire castillan. Combattant exceptionnel qui fut glorifié après sa mort, c’était un prophète détenant l’attribut de « la Gloire ». Récupéré par Lucifer bien que ce dernier n’ait plus de temple, Rodrigo a pourfendu le précédent Adramalech pour prouver sa valeur et en obtenir le titre. Adramalech était possiblement le nom d’une divinité solaire assyrienne notamment. Bien qu’il soit assez « jeune » comme daemon et bien qu’il ait joint un dieu déchu, Adramalech est incroyablement puissant puisque son pouvoir de rayonnement lui permet d'étendre la portée de tout ce qui le concerne."}]},{"id":"profil-statistique","title":"Profil statistique","level":2,"audience":"mj","blocks":[]}]},{"id":"pnj-temples-daemoniaques-navati-rajamalla","dataset":"verite-temples-daemoniaques-pnj","category":"Personnages","sourceCategory":"Vérité","title":"Navati Rajamalla","source":"factions_Temples Daemoniaques(3).pdf","status":"canon_source","rebuildV2":true,"tags":["Vérité","PNJ","Daemons","Temples démoniaques","Temple de Lucifer"],"pnj":{"completeness":"detailed","real_name":"Navati Rajamalla","real_name_source":"Navati Rajamalla","nom_verite":"Abalim - Lakshmi","nom_verite_source":"Abalim - Lakshmi","race":"Daemons","age":"«25ans », ????","origine":"britannique","statut":"Duchesse","affiliations":"Corporative : Tuatha","divinite":"Lucifer","pouvoir_principal":"la splendeur","titre_infernal":"Duchesse","source_group":"Temple de Lucifer","source_pages":[25],"identity_keys":["Navati Rajamalla","Abalim - Lakshmi","Abalim"],"relations":[],"source_documents":["factions_Temples Daemoniaques(3).pdf"],"source_extract":"Navati est une chanteuse et une actrice de la Tuatha. Malgré un comportement de diva hautaine, elle a une voix enchanteresse qui la caractérise, aussi cristalline que féminine. De son vivant, ce n’était pas une humaine mais une dive, une reine dive de l’est, c’est d’ailleurs une des amazones la servant avec qui Lucifer a engendré la mage Circé. C’est une rares dives ayant totalement cédé face aux dieux, une traitresse, elle était appelée Lakshmi, et était vénérée comme telle même après la chute de Lucifer. Elle possède quatre bras car elle a fusionné son âme à celle du précédent détenteur du titre Abalim plutôt que de le déposséder et le renvoyer au cycle des âmes. Contrairement à Merlin, qui possède un spectre de Mageius, elle a perdu le sien en étant tuée par Angrboda après sa trahison, le mageius de Lakshmi a été offert à Anahita en cadeau, mais l’Archimage le renvoya subtilement sur Terre, ne prenant pas parti pour les dieux ou les Dives. Navati s’entend très mal avec les Mages néanmoins, quand elle le peut, elle essaye d’amoindrir leurs forces. 0. Autres"},"sections":[{"id":"temples-daemoniaques-realite","title":"Informations · Réalité","level":2,"blocks":[{"type":"table","rows":[["Champ","Valeur"],["Nom","Navati Rajamalla"],["Âge apparent","25ans"],["Affiliations","Corporative : Tuatha"],["Nationalité d’origine","britannique"]]},{"type":"p","style":"lore","text":"Navati est une chanteuse et une actrice de la Tuatha. Malgré un comportement de diva hautaine, elle a une voix enchanteresse qui la caractérise, aussi cristalline que féminine."}]},{"id":"temples-daemoniaques-mj","title":"Dossier MJ · Vérité & informations cachées","level":2,"audience":"mj","blocks":[{"type":"table","rows":[["Champ","Valeur"],["Nom de la Réalité · source","Navati Rajamalla"],["Nom de la Vérité","Abalim - Lakshmi"],["Âge source","«25ans », ????"],["Affiliations","Corporative : Tuatha"],["Nationalité d’origine","britannique"],["Nature réelle","Daemons"],["Divinité","Lucifer"],["Pouvoir principal","la splendeur"],["Titre infernal","Duchesse"],["Temple / groupe source","Temple de Lucifer"],["Page source","25"]]},{"type":"p","style":"lore","text":"Navati est une chanteuse et une actrice de la Tuatha. Malgré un comportement de diva hautaine, elle a une voix enchanteresse qui la caractérise, aussi cristalline que féminine. De son vivant, ce n’était pas une humaine mais une dive, une reine dive de l’est, c’est d’ailleurs une des amazones la servant avec qui Lucifer a engendré la mage Circé. C’est une rares dives ayant totalement cédé face aux dieux, une traitresse, elle était appelée Lakshmi, et était vénérée comme telle même après la chute de Lucifer. Elle possède quatre bras car elle a fusionné son âme à celle du précédent détenteur du titre Abalim plutôt que de le déposséder et le renvoyer au cycle des âmes. Contrairement à Merlin, qui possède un spectre de Mageius, elle a perdu le sien en étant tuée par Angrboda après sa trahison, le mageius de Lakshmi a été offert à Anahita en cadeau, mais l’Archimage le renvoya subtilement sur Terre, ne prenant pas parti pour les dieux ou les Dives. Navati s’entend très mal avec les Mages néanmoins, quand elle le peut, elle essaye d’amoindrir leurs forces. 0. Autres"}]},{"id":"profil-statistique","title":"Profil statistique","level":2,"audience":"mj","blocks":[]}]},{"id":"pnj-temples-daemoniaques-max-sharp","dataset":"verite-temples-daemoniaques-pnj","category":"Personnages","sourceCategory":"Vérité","title":"Max Sharp","source":"factions_Temples Daemoniaques(3).pdf","status":"canon_source","rebuildV2":true,"tags":["Vérité","PNJ","Daemons","Temples démoniaques","Autres"],"pnj":{"completeness":"detailed","real_name":"Max Sharp","real_name_source":"Max Sharp – « Max Murder »","nom_verite":"Focalor – Maximilien de Robespierre","nom_verite_source":"Focalor – Maximilien de Robespierre","race":"Daemons","age":"«31 ans » - ????","origine":"américaine","statut":"Duc","affiliations":"Crawlers : Insurgés","divinite":"Baal","pouvoir_principal":"La dignité","titre_infernal":"Duc","source_group":"Autres","source_pages":[26],"identity_keys":["Max Sharp","Focalor – Maximilien de Robespierre","Max Sharp – « Max Murder »","Focalor"],"relations":[],"source_documents":["factions_Temples Daemoniaques(3).pdf"],"source_extract":"Max Sharp est le bras droit de « Raiser », l’un des trois grands noms de l’insurrection américano- californienne. Max est probablement encore plus violent et extrême que Raiser, au point d’être surnommé « Max Murder » un nom obtenu en 2031 quand il lança un raid sur une usine-village de yellowfood corp, près de Phoenix, ne laissant aucun corporatiste en réchapper. Focalor n’est pas un nom de démon très connu et pourtant c’est un duc actuel de Baal, créé récemment puisqu’il n’a que quelques siècles. Autrefois, on le connaissait comme l’humain Maximilien de Robespierre et si, comme souvent on a autant terni son image qu’on n’a pu enjoliver ses actions, il reste une grande figure de l’Histoire Française au point que Baal, même déchu ne s’acharne à en faire un subordonné. Il incarne la dignité humaine, l’insoumission de fait, tous les mortels se valent pour lui."},"sections":[{"id":"temples-daemoniaques-realite","title":"Informations · Réalité","level":2,"blocks":[{"type":"table","rows":[["Champ","Valeur"],["Nom","Max Sharp"],["Âge apparent","31 ans"],["Affiliations","Crawlers : Insurgés"],["Nationalité d’origine","américaine"]]},{"type":"p","style":"lore","text":"Max Sharp est le bras droit de « Raiser », l’un des trois grands noms de l’insurrection américano- californienne. Max est probablement encore plus violent et extrême que Raiser, au point d’être surnommé « Max Murder » un nom obtenu en 2031 quand il lança un raid sur une usine-village de yellowfood corp, près de Phoenix, ne laissant aucun corporatiste en réchapper."}]},{"id":"temples-daemoniaques-mj","title":"Dossier MJ · Vérité & informations cachées","level":2,"audience":"mj","blocks":[{"type":"table","rows":[["Champ","Valeur"],["Nom de la Réalité · source","Max Sharp – « Max Murder »"],["Nom de la Vérité","Focalor – Maximilien de Robespierre"],["Âge source","«31 ans » - ????"],["Affiliations","Crawlers : Insurgés"],["Nationalité d’origine","américaine"],["Nature réelle","Daemons"],["Divinité","Baal"],["Pouvoir principal","La dignité"],["Titre infernal","Duc"],["Temple / groupe source","Autres"],["Page source","26"]]},{"type":"p","style":"lore","text":"Max Sharp est le bras droit de « Raiser », l’un des trois grands noms de l’insurrection américano- californienne. Max est probablement encore plus violent et extrême que Raiser, au point d’être surnommé « Max Murder » un nom obtenu en 2031 quand il lança un raid sur une usine-village de yellowfood corp, près de Phoenix, ne laissant aucun corporatiste en réchapper. Focalor n’est pas un nom de démon très connu et pourtant c’est un duc actuel de Baal, créé récemment puisqu’il n’a que quelques siècles. Autrefois, on le connaissait comme l’humain Maximilien de Robespierre et si, comme souvent on a autant terni son image qu’on n’a pu enjoliver ses actions, il reste une grande figure de l’Histoire Française au point que Baal, même déchu ne s’acharne à en faire un subordonné. Il incarne la dignité humaine, l’insoumission de fait, tous les mortels se valent pour lui."}]},{"id":"profil-statistique","title":"Profil statistique","level":2,"audience":"mj","blocks":[]}]},{"id":"pnj-temples-daemoniaques-meryl-west","dataset":"verite-temples-daemoniaques-pnj","category":"Personnages","sourceCategory":"Vérité","title":"Meryl West","source":"factions_Temples Daemoniaques(3).pdf","status":"canon_source","rebuildV2":true,"tags":["Vérité","PNJ","Daemons","Temples démoniaques","Autres"],"pnj":{"completeness":"detailed","real_name":"Meryl West","real_name_source":"Meryl West","nom_verite":"Byamee Waagal - hypnos","nom_verite_source":"Byamee Waagal - hypnos","race":"Daemons","age":"«20 ans », ????","origine":"australienne","statut":"Déesse","affiliations":"crawler : hooker","divinite":"Birrahgnooloo","pouvoir_principal":"le rêve","titre_infernal":"Déesse","source_group":"Autres","source_pages":[26],"identity_keys":["Meryl West","Byamee Waagal - hypnos","Birrahgnooloo"],"relations":[],"source_documents":["factions_Temples Daemoniaques(3).pdf"],"source_extract":"Meryl West est une prostituée d’une rare beauté qui est essentiellement au service de Todd Larsen. Elle n’est pas très influente dans la Réalité, elle est assez discrète et est souvent un peu endormie ou effacée. Dans la Vérité, elle est une daemone indépendante, une divinité médiane oubliée, elle est la créatrice du temps du rêve, d’une dimension onirique lui étant propre, son propre petit enfer et bien qu’elle servît un temps de dieu Mephisto, elle n’était ni vraiment princesse ni vraiment inférieure en termes d’ancienneté, juste moins puissante. Elle est une divinité des rêves de fait, Hypnos en quelque sorte. Elle est très indépendante des plans divins et de la Vérité, car elle préfère combattre les fléaux dans les rêves, son royaume où elle a ses propres daemons, des humains qui rêvent et qui retourne à la mortalité en se réveillant, au lieu de les récupérer une fois morts."},"sections":[{"id":"temples-daemoniaques-realite","title":"Informations · Réalité","level":2,"blocks":[{"type":"table","rows":[["Champ","Valeur"],["Nom","Meryl West"],["Âge apparent","20 ans"],["Affiliations","crawler : hooker"],["Nationalité d’origine","australienne"]]},{"type":"p","style":"lore","text":"Meryl West est une prostituée d’une rare beauté qui est essentiellement au service de Todd Larsen. Elle n’est pas très influente dans la Réalité, elle est assez discrète et est souvent un peu endormie ou effacée."}]},{"id":"temples-daemoniaques-mj","title":"Dossier MJ · Vérité & informations cachées","level":2,"audience":"mj","blocks":[{"type":"table","rows":[["Champ","Valeur"],["Nom de la Réalité · source","Meryl West"],["Nom de la Vérité","Byamee Waagal - hypnos"],["Âge source","«20 ans », ????"],["Affiliations","crawler : hooker"],["Nationalité d’origine","australienne"],["Nature réelle","Daemons"],["Divinité","Birrahgnooloo"],["Pouvoir principal","le rêve"],["Titre infernal","Déesse"],["Temple / groupe source","Autres"],["Page source","26"]]},{"type":"p","style":"lore","text":"Meryl West est une prostituée d’une rare beauté qui est essentiellement au service de Todd Larsen. Elle n’est pas très influente dans la Réalité, elle est assez discrète et est souvent un peu endormie ou effacée. Dans la Vérité, elle est une daemone indépendante, une divinité médiane oubliée, elle est la créatrice du temps du rêve, d’une dimension onirique lui étant propre, son propre petit enfer et bien qu’elle servît un temps de dieu Mephisto, elle n’était ni vraiment princesse ni vraiment inférieure en termes d’ancienneté, juste moins puissante. Elle est une divinité des rêves de fait, Hypnos en quelque sorte. Elle est très indépendante des plans divins et de la Vérité, car elle préfère combattre les fléaux dans les rêves, son royaume où elle a ses propres daemons, des humains qui rêvent et qui retourne à la mortalité en se réveillant, au lieu de les récupérer une fois morts."}]},{"id":"profil-statistique","title":"Profil statistique","level":2,"audience":"mj","blocks":[]}]},{"id":"pnj-temples-daemoniaques-kain-ferno","dataset":"verite-temples-daemoniaques-pnj","category":"Personnages","sourceCategory":"Vérité","title":"Kain Ferno","source":"factions_Temples Daemoniaques(3).pdf","status":"canon_source","rebuildV2":true,"tags":["Vérité","PNJ","Daemons","Temples démoniaques","Autres"],"pnj":{"completeness":"detailed","real_name":"Kain Ferno","real_name_source":"Kain Ferno","nom_verite":"Caïn – Caïnor","nom_verite_source":"Caïn – Caïnor","race":"Daemons - Astharès","age":"«30 ans » - ????","origine":"américano-iranienne","statut":"Prince - Dieu","affiliations":"Crawlers : deathrunner","divinite":"« Belial »","pouvoir_principal":"la défaite","titre_infernal":"Prince - Dieu","source_group":"Autres","source_pages":[27],"identity_keys":["Kain Ferno","Caïn – Caïnor","Caïn"],"relations":[],"source_documents":["factions_Temples Daemoniaques(3).pdf"],"source_extract":"Kain Ferno est connu pour avoir été un héros de guerre, supérieur direct d Catalina de la Caza avant qu’elle ne monte en grade. Après la guerre, sa vie s’est effondrée et il ne sert plus que de mercenaire dépressif. Son identité réelle est Caïn, sa mère est la reine Belial, son père, un étranger de Gaerras, le dieu du chaos Nordrar. C’est un Nor, une entité très supérieure de fait, aux pouvoirs gigantesques que Belial a scellé. Il a un sérieux complexe d’Œdipe néanmoins et toute sa vie s’est structurée pour avoir la reconnaissance de sa Mère, en vain. Caïn est l’incarnation de l’échec, chaque décision a été mauvaise et punie. Il a tué beaucoup de Dives pendant la guerre contre eux, hélas, juste quand Belial approchait d’un accord avec Akvan. Il était très attaché à Elynea et quand elle s’est rebellée, il a tout fait pour se mettre entre dieux et archanges. Il a aidé R’Gahanath à créer les vampires actuels en étant manipulé… Aucune décision prise ne lui a jamais profité. Pourtant, il pourrait être un dieu égal à sa mère ou Elynea s’il le désirait, car, comme Morrighan, il n’a pas besoin de chercher les attributs, il en a un de naissance."},"sections":[{"id":"temples-daemoniaques-realite","title":"Informations · Réalité","level":2,"blocks":[{"type":"table","rows":[["Champ","Valeur"],["Nom","Kain Ferno"],["Âge apparent","30 ans"],["Affiliations","Crawlers : deathrunner"],["Nationalité d’origine","américano-iranienne"]]},{"type":"p","style":"lore","text":"Kain Ferno est connu pour avoir été un héros de guerre, supérieur direct d Catalina de la Caza avant qu’elle ne monte en grade. Après la guerre, sa vie s’est effondrée et il ne sert plus que de mercenaire dépressif."}]},{"id":"temples-daemoniaques-mj","title":"Dossier MJ · Vérité & informations cachées","level":2,"audience":"mj","blocks":[{"type":"table","rows":[["Champ","Valeur"],["Nom de la Réalité · source","Kain Ferno"],["Nom de la Vérité","Caïn – Caïnor"],["Âge source","«30 ans » - ????"],["Affiliations","Crawlers : deathrunner"],["Nationalité d’origine","américano-iranienne"],["Nature réelle","Daemons - Astharès"],["Divinité","« Belial »"],["Pouvoir principal","la défaite"],["Titre infernal","Prince - Dieu"],["Temple / groupe source","Autres"],["Page source","27"]]},{"type":"p","style":"lore","text":"Kain Ferno est connu pour avoir été un héros de guerre, supérieur direct d Catalina de la Caza avant qu’elle ne monte en grade. Après la guerre, sa vie s’est effondrée et il ne sert plus que de mercenaire dépressif. Son identité réelle est Caïn, sa mère est la reine Belial, son père, un étranger de Gaerras, le dieu du chaos Nordrar. C’est un Nor, une entité très supérieure de fait, aux pouvoirs gigantesques que Belial a scellé. Il a un sérieux complexe d’Œdipe néanmoins et toute sa vie s’est structurée pour avoir la reconnaissance de sa Mère, en vain. Caïn est l’incarnation de l’échec, chaque décision a été mauvaise et punie. Il a tué beaucoup de Dives pendant la guerre contre eux, hélas, juste quand Belial approchait d’un accord avec Akvan. Il était très attaché à Elynea et quand elle s’est rebellée, il a tout fait pour se mettre entre dieux et archanges. Il a aidé R’Gahanath à créer les vampires actuels en étant manipulé… Aucune décision prise ne lui a jamais profité. Pourtant, il pourrait être un dieu égal à sa mère ou Elynea s’il le désirait, car, comme Morrighan, il n’a pas besoin de chercher les attributs, il en a un de naissance."}]},{"id":"profil-statistique","title":"Profil statistique","level":2,"audience":"mj","blocks":[]}]},{"id":"pnj-temples-daemoniaques-nina-allen","dataset":"verite-temples-daemoniaques-pnj","category":"Personnages","sourceCategory":"Vérité","title":"Nina Allen","source":"factions_Temples Daemoniaques(3).pdf","status":"canon_source","rebuildV2":true,"tags":["Vérité","PNJ","Daemons","Temples démoniaques","Autres"],"pnj":{"completeness":"detailed","real_name":"Nina Allen","real_name_source":"Nina Allen","nom_verite":"Alocer – Augusta Ada King (née byron)","nom_verite_source":"Alocer – Augusta Ada King (née byron)","race":"Daemons","age":"«22 ans », ????","origine":"américaine","statut":"Duchesse","affiliations":"Corporative : Tuatha","divinite":"Astaroth","pouvoir_principal":"l’informatique","titre_infernal":"Duchesse","source_group":"Autres","source_pages":[27],"identity_keys":["Nina Allen","Alocer – Augusta Ada King (née byron)","Alocer","Augusta Ada King","Ada Lovelace"],"relations":[],"source_documents":["factions_Temples Daemoniaques(3).pdf"],"source_extract":"Nina est la fille de Melina Byron-Smith, la grande présidente de la megacorporation Byron Industries. Très tôt, elle s’est très peu entendue avec sa mère, dès l’enfance, en 2029, elle s’émancipa à 16 ans pour tenter des études supérieures, shuntant le lycée par une fasse carte d’identité. Elle n’acheva aucune formation mais en 2035, elle est un des 5 neurodivers les plus craints de la Grande Californie. Quand on connait le nom d’Alocer, on n’imagine pas vraiment un chevalier montant un cheval aux pattes de dragon être une petite femme neurodiver, et forcément, la légende à peu avoir avec la duchesse d’Astaroth actuellement. Alocer était Augusta Ada King de Loveplace, mieux connue comme Ada Loveplace, la toute première personne à avoir écrit un programme informatique dans l’Histoire. Elle décéda en 1852 et fut récupérée par Astaroth. Elle a été incarnée de force en 2013 quand Astaroth sentit que le mage Zebediah JACOBSEN commença à travailler sur l’Holonet, même s’il ne finalisa rien avant le début 2030. Même si elle a la souillure de Sharith, sa mère étant une sorcière psycolor, Nina mécanise son corps pour limiter la souillure et protéger son âme. Elle traque Thar’lal rark, la plus grande menace pour la Terre selon elle."},"sections":[{"id":"temples-daemoniaques-realite","title":"Informations · Réalité","level":2,"blocks":[{"type":"table","rows":[["Champ","Valeur"],["Nom","Nina Allen"],["Âge apparent","22 ans"],["Affiliations","Corporative : Tuatha"],["Nationalité d’origine","américaine"]]},{"type":"p","style":"lore","text":"Nina est la fille de Melina Byron-Smith, la grande présidente de la megacorporation Byron Industries. Très tôt, elle s’est très peu entendue avec sa mère, dès l’enfance, en 2029, elle s’émancipa à 16 ans pour tenter des études supérieures, shuntant le lycée par une fasse carte d’identité. Elle n’acheva aucune formation mais en 2035, elle est un des 5 neurodivers les plus craints de la Grande Californie."}]},{"id":"temples-daemoniaques-mj","title":"Dossier MJ · Vérité & informations cachées","level":2,"audience":"mj","blocks":[{"type":"table","rows":[["Champ","Valeur"],["Nom de la Réalité · source","Nina Allen"],["Nom de la Vérité","Alocer – Augusta Ada King (née byron)"],["Âge source","«22 ans », ????"],["Affiliations","Corporative : Tuatha"],["Nationalité d’origine","américaine"],["Nature réelle","Daemons"],["Divinité","Astaroth"],["Pouvoir principal","l’informatique"],["Titre infernal","Duchesse"],["Temple / groupe source","Autres"],["Page source","27"],["Intertitre brut source","Waagal"]]},{"type":"p","style":"lore","text":"Nina est la fille de Melina Byron-Smith, la grande présidente de la megacorporation Byron Industries. Très tôt, elle s’est très peu entendue avec sa mère, dès l’enfance, en 2029, elle s’émancipa à 16 ans pour tenter des études supérieures, shuntant le lycée par une fasse carte d’identité. Elle n’acheva aucune formation mais en 2035, elle est un des 5 neurodivers les plus craints de la Grande Californie. Quand on connait le nom d’Alocer, on n’imagine pas vraiment un chevalier montant un cheval aux pattes de dragon être une petite femme neurodiver, et forcément, la légende à peu avoir avec la duchesse d’Astaroth actuellement. Alocer était Augusta Ada King de Loveplace, mieux connue comme Ada Loveplace, la toute première personne à avoir écrit un programme informatique dans l’Histoire. Elle décéda en 1852 et fut récupérée par Astaroth. Elle a été incarnée de force en 2013 quand Astaroth sentit que le mage Zebediah JACOBSEN commença à travailler sur l’Holonet, même s’il ne finalisa rien avant le début 2030. Même si elle a la souillure de Sharith, sa mère étant une sorcière psycolor, Nina mécanise son corps pour limiter la souillure et protéger son âme. Elle traque Thar’lal rark, la plus grande menace pour la Terre selon elle."}]},{"id":"profil-statistique","title":"Profil statistique","level":2,"audience":"mj","blocks":[]}]}] as Array<Record<string, any>>;
+const PAYLOAD = [
+  {
+    "id": "pnj-temples-daemoniaques-ryushi-ikazuchi",
+    "dataset": "verite-temples-daemoniaques-pnj",
+    "category": "Personnages",
+    "sourceCategory": "Vérité",
+    "title": "Ryushi Ikazuchi",
+    "source": "factions_Temples Daemoniaques(3).pdf",
+    "status": "canon_source",
+    "rebuildV2": true,
+    "tags": [
+      "Vérité",
+      "PNJ",
+      "Daemons",
+      "Temples démoniaques",
+      "Temple d’Abigor"
+    ],
+    "pnj": {
+      "completeness": "detailed",
+      "real_name": "Ryushi Ikazuchi",
+      "real_name_source": "Ryushi IKAZUCHI",
+      "nom_verite": "Furfur – Date Masamune",
+      "nom_verite_source": "Furfur – Date Masamune",
+      "race": "Daemons",
+      "age": "22 ans",
+      "origine": "américaine",
+      "statut": "Duc",
+      "affiliations": "pègre : Yakuzas",
+      "divinite": "Abigor",
+      "pouvoir_principal": "les typhons",
+      "titre_infernal": "Duc",
+      "source_group": "Temple d’Abigor",
+      "source_pages": [
+        22
+      ],
+      "identity_keys": [
+        "Furfur – Date Masamune",
+        "Furfur",
+        "Ryushi Ikazuchi",
+        "Date Masamune"
+      ],
+      "relations": [],
+      "source_documents": [
+        "factions_Temples Daemoniaques(3).pdf"
+      ],
+      "source_extract": "Ryushi est un jeune Yakuza qui ‘n’a pas encore vraiment fait ses preuves. Tabassé presque à mort par Goro, le défunt fils de l’oyabun, il était en convalescence pendant quelques mois quand Fuyumi SHINODA monta en influence, il sert la famille Egawa, notamment Masato Egawa, un opposant farouche à Fuyumi. Son titre démoniaque est associé au nom de Furfur, le démon cervidé des orages. Ce duc est un ancien samurai du nom de DATE Masamune, le célèbre daimyo. Le « dragon borgne » a toujours été un fervent amateur de technologie, surtout guerrière et c’est pourquoi c’est un des rares daemons aussi augmentés. Bien qu’il soit un prodigieux maitre du Katana, il ne trouve pas cette arme adaptée en 2035 et lui préfère deux armes de poings de la Raven. Abigor le récupéra car Date beaucoup voyagé, jusqu’en Europe notamment de son vivant, honorant les kamis célestes régulièrement. Incarnation des typhons désormais, s’il n’est pas important dans la mafia, il reste un daemon puissant. 10. Temple de Baal"
+    },
+    "sections": [
+      {
+        "id": "temples-daemoniaques-realite",
+        "title": "Informations · Réalité",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Champ",
+                "Valeur"
+              ],
+              [
+                "Nom",
+                "Ryushi Ikazuchi"
+              ],
+              [
+                "Âge apparent",
+                "22 ans"
+              ],
+              [
+                "Affiliations",
+                "pègre : Yakuzas"
+              ],
+              [
+                "Nationalité d’origine",
+                "américaine"
+              ]
+            ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Ryushi Ikazuchi est un jeune Yakuza qui n’a pas encore réellement fait ses preuves. Battu presque à mort par Goro, le défunt fils de l’Oyabun, il passa plusieurs mois en convalescence pendant que Fuyumi Shinoda gagnait en influence. Il sert aujourd’hui la famille Egawa, notamment Masato Egawa, adversaire déterminé de Fuyumi."
+          }
+        ]
+      },
+      {
+        "id": "temples-daemoniaques-mj",
+        "title": "Dossier MJ · Vérité & informations cachées",
+        "level": 2,
+        "audience": "mj",
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Champ",
+                "Valeur"
+              ],
+              [
+                "Nom de la Réalité · source",
+                "Ryushi IKAZUCHI"
+              ],
+              [
+                "Nom de la Vérité",
+                "Furfur – Date Masamune"
+              ],
+              [
+                "Âge source",
+                "«22 ans », ????"
+              ],
+              [
+                "Affiliations",
+                "pègre : Yakuzas"
+              ],
+              [
+                "Nationalité d’origine",
+                "américaine"
+              ],
+              [
+                "Nature réelle",
+                "Daemons"
+              ],
+              [
+                "Divinité",
+                "Abigor"
+              ],
+              [
+                "Pouvoir principal",
+                "les typhons"
+              ],
+              [
+                "Titre infernal",
+                "Duc"
+              ],
+              [
+                "Temple / groupe source",
+                "Temple d’Abigor"
+              ],
+              [
+                "Page source",
+                "22"
+              ]
+            ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Ryushi est en vérité Furfur–Date Masamune. Furfur est associé dans les légendes à un démon cervidé des orages. Le Duc fut autrefois Date Masamune, célèbre daimyo surnommé le « Dragon borgne ». Passionné par la technologie, particulièrement militaire, il est aujourd’hui l’un des rares Daemons lourdement augmentés. Maître exceptionnel du katana, il juge cependant cette arme peu adaptée à 2035 et lui préfère deux armes de poing Raven. Abigor récupéra son âme notamment parce que Date avait beaucoup voyagé, jusqu’en Europe, et honorait régulièrement les kamis célestes. Incarnation des typhons, il reste un Daemon puissant même si son influence mafieuse demeure limitée."
+          }
+        ]
+      },
+      {
+        "id": "profil-statistique",
+        "title": "Profil statistique",
+        "level": 2,
+        "audience": "mj",
+        "blocks": []
+      }
+    ]
+  },
+  {
+    "id": "pnj-temples-daemoniaques-eres-kamal",
+    "dataset": "verite-temples-daemoniaques-pnj",
+    "category": "Personnages",
+    "sourceCategory": "Vérité",
+    "title": "Eres Kamal",
+    "source": "factions_Temples Daemoniaques(3).pdf",
+    "status": "canon_source",
+    "rebuildV2": true,
+    "tags": [
+      "Vérité",
+      "PNJ",
+      "Daemons",
+      "Temples démoniaques",
+      "Temple de Baal"
+    ],
+    "pnj": {
+      "completeness": "detailed",
+      "real_name": "Eres Kamal",
+      "real_name_source": "Eres Kamal",
+      "nom_verite": "Ereshkigal– Esh",
+      "nom_verite_source": "Ereshkigal– Esh",
+      "race": "Daemons - psychopompes",
+      "age": "«44 ans » - ????",
+      "origine": "américaine",
+      "statut": "Duchesse",
+      "affiliations": "corporation : Phoenix",
+      "divinite": "Baal",
+      "pouvoir_principal": "le meurtre",
+      "titre_infernal": "Duchesse",
+      "source_group": "Temple de Baal",
+      "source_pages": [
+        23
+      ],
+      "identity_keys": [
+        "Eres Kamal",
+        "Ereshkigal– Esh",
+        "Ereshkigal"
+      ],
+      "relations": [],
+      "source_documents": [
+        "factions_Temples Daemoniaques(3).pdf"
+      ],
+      "source_extract": "Eres est une « vendeuse » de la Phoenix corporation. Il faut donc la voir comme une sorte de démarcheuse, une vendeuse d’armes, ce n’est pas un haut cadre, elle est toutefois amenée à négocier aussi bien avec des criminels qu’avec des présidents d’états bien que son style neopunk ne plaise pas toujours. Dotée du titre de duchesse et du nom divin d’Ereshkigal, déesse des enfers mésopotamiens, c’est une des daemones assez anciennes puisqu’elle préexistait à l’arrivée humaine, étant une psychopompe, une entité de la mort. Esh résidait dans la dimension de « Helheim » elle n’avait de lien qu’avec les amazones, surtout nordiques (valkyries) et les corneilles de Morrighan qui passaient dans ce plan. Elle a été séduite par Baal, le dieu et bien qu’elle ne soit jamais morte, elle a accepté sa marque. En 2035, elle est sa plus loyale et utile alliée."
+    },
+    "sections": [
+      {
+        "id": "temples-daemoniaques-realite",
+        "title": "Informations · Réalité",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Champ",
+                "Valeur"
+              ],
+              [
+                "Nom",
+                "Eres Kamal"
+              ],
+              [
+                "Âge apparent",
+                "44 ans"
+              ],
+              [
+                "Affiliations",
+                "corporation : Phoenix"
+              ],
+              [
+                "Nationalité d’origine",
+                "américaine"
+              ]
+            ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Eres est une « vendeuse » de la Phoenix corporation. Il faut donc la voir comme une sorte de démarcheuse, une vendeuse d’armes, ce n’est pas un haut cadre, elle est toutefois amenée à négocier aussi bien avec des criminels qu’avec des présidents d’états bien que son style neopunk ne plaise pas toujours."
+          }
+        ]
+      },
+      {
+        "id": "temples-daemoniaques-mj",
+        "title": "Dossier MJ · Vérité & informations cachées",
+        "level": 2,
+        "audience": "mj",
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Champ",
+                "Valeur"
+              ],
+              [
+                "Nom de la Réalité · source",
+                "Eres Kamal"
+              ],
+              [
+                "Nom de la Vérité",
+                "Ereshkigal– Esh"
+              ],
+              [
+                "Âge source",
+                "«44 ans » - ????"
+              ],
+              [
+                "Affiliations",
+                "corporation : Phoenix"
+              ],
+              [
+                "Nationalité d’origine",
+                "américaine"
+              ],
+              [
+                "Nature réelle",
+                "Daemons - psychopompes"
+              ],
+              [
+                "Divinité",
+                "Baal"
+              ],
+              [
+                "Pouvoir principal",
+                "le meurtre"
+              ],
+              [
+                "Titre infernal",
+                "Duchesse"
+              ],
+              [
+                "Temple / groupe source",
+                "Temple de Baal"
+              ],
+              [
+                "Page source",
+                "23"
+              ]
+            ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Eres est une « vendeuse » de la Phoenix corporation. Il faut donc la voir comme une sorte de démarcheuse, une vendeuse d’armes, ce n’est pas un haut cadre, elle est toutefois amenée à négocier aussi bien avec des criminels qu’avec des présidents d’états bien que son style neopunk ne plaise pas toujours. Dotée du titre de duchesse et du nom divin d’Ereshkigal, déesse des enfers mésopotamiens, c’est une des daemones assez anciennes puisqu’elle préexistait à l’arrivée humaine, étant une psychopompe, une entité de la mort. Esh résidait dans la dimension de « Helheim » elle n’avait de lien qu’avec les amazones, surtout nordiques (valkyries) et les corneilles de Morrighan qui passaient dans ce plan. Elle a été séduite par Baal, le dieu et bien qu’elle ne soit jamais morte, elle a accepté sa marque. En 2035, elle est sa plus loyale et utile alliée."
+          }
+        ]
+      },
+      {
+        "id": "profil-statistique",
+        "title": "Profil statistique",
+        "level": 2,
+        "audience": "mj",
+        "blocks": []
+      }
+    ]
+  },
+  {
+    "id": "pnj-temples-daemoniaques-shin-xeong",
+    "dataset": "verite-temples-daemoniaques-pnj",
+    "category": "Personnages",
+    "sourceCategory": "Vérité",
+    "title": "Shin XEONG",
+    "source": "factions_Temples Daemoniaques(3).pdf",
+    "status": "canon_source",
+    "rebuildV2": true,
+    "tags": [
+      "Vérité",
+      "PNJ",
+      "Daemons",
+      "Temples démoniaques",
+      "Temple de Baal"
+    ],
+    "pnj": {
+      "completeness": "detailed",
+      "real_name": "Shin XEONG",
+      "real_name_source": "Shin XEONG",
+      "nom_verite": "leraje - Houyi",
+      "nom_verite_source": "leraje - Houyi",
+      "race": "Daemons",
+      "age": "«45ans », ????",
+      "origine": "chinoises",
+      "statut": "Duc",
+      "affiliations": "pègre : triades",
+      "divinite": "Baal",
+      "pouvoir_principal": "les blessures",
+      "titre_infernal": "Duc",
+      "source_group": "Temple de Baal",
+      "source_pages": [
+        23
+      ],
+      "identity_keys": [
+        "Shin XEONG",
+        "leraje - Houyi",
+        "Leraje"
+      ],
+      "relations": [],
+      "source_documents": [
+        "factions_Temples Daemoniaques(3).pdf"
+      ],
+      "source_extract": "Shin XEONG était un soldat de l’armée chinoise pendant la guerre, il était sous le commandement de plusieurs officiers incompétents avant d’être sous les ordres de Wei SHI. C’était un sniper d’élite et bien que désormais « Avant-garde » au sein de la Triade, il reste possiblement le tireur d’élite de Californie le plus efficace qui existe, même devant les TEN. Leraje est un démon réputé aussi beau et élégant qu’il est bon archer, ce duc est toutefois surtout un tireur de précision, qu’importe l’arme, les blessures qu’il cause sont très aggravées d’une part, d’autres part, elles s’infectent automatiquement. En tant que mortel, il est Houyi, l’archer Yi légendaire qui aurait, selon les mythes, abattu neuf soleils et dont l’épouse serait devenue immortelle et serait allée sur la lune. C’était un archer réputé en vérité vers les années 2170 avant notre ère qui aurait combattu la dynastie Xia. Il aurait caché le décès de sa femme et aurait été réputé pour empoisonner les flèches de ses archers. Stratège et bon combattant, Baal fit de lui un de ses daemons les plus loyaux. Il respecte infiniment SHI Wei, plus que le boss de la triade. 11. Temple de Beelzebuth"
+    },
+    "sections": [
+      {
+        "id": "temples-daemoniaques-realite",
+        "title": "Informations · Réalité",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Champ",
+                "Valeur"
+              ],
+              [
+                "Nom",
+                "Shin XEONG"
+              ],
+              [
+                "Âge apparent",
+                "45ans"
+              ],
+              [
+                "Affiliations",
+                "pègre : triades"
+              ],
+              [
+                "Nationalité d’origine",
+                "chinoises"
+              ]
+            ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Shin XEONG était un soldat de l’armée chinoise pendant la guerre, il était sous le commandement de plusieurs officiers incompétents avant d’être sous les ordres de Wei SHI. C’était un sniper d’élite et bien que désormais « Avant-garde » au sein de la Triade, il reste possiblement le tireur d’élite de Californie le plus efficace qui existe, même devant les TEN."
+          }
+        ]
+      },
+      {
+        "id": "temples-daemoniaques-mj",
+        "title": "Dossier MJ · Vérité & informations cachées",
+        "level": 2,
+        "audience": "mj",
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Champ",
+                "Valeur"
+              ],
+              [
+                "Nom de la Réalité · source",
+                "Shin XEONG"
+              ],
+              [
+                "Nom de la Vérité",
+                "leraje - Houyi"
+              ],
+              [
+                "Âge source",
+                "«45ans », ????"
+              ],
+              [
+                "Affiliations",
+                "pègre : triades"
+              ],
+              [
+                "Nationalité d’origine",
+                "chinoises"
+              ],
+              [
+                "Nature réelle",
+                "Daemons"
+              ],
+              [
+                "Divinité",
+                "Baal"
+              ],
+              [
+                "Pouvoir principal",
+                "les blessures"
+              ],
+              [
+                "Titre infernal",
+                "Duc"
+              ],
+              [
+                "Temple / groupe source",
+                "Temple de Baal"
+              ],
+              [
+                "Page source",
+                "23"
+              ]
+            ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Shin XEONG était un soldat de l’armée chinoise pendant la guerre, il était sous le commandement de plusieurs officiers incompétents avant d’être sous les ordres de Wei SHI. C’était un sniper d’élite et bien que désormais « Avant-garde » au sein de la Triade, il reste possiblement le tireur d’élite de Californie le plus efficace qui existe, même devant les TEN. Leraje est un démon réputé aussi beau et élégant qu’il est bon archer, ce duc est toutefois surtout un tireur de précision, qu’importe l’arme, les blessures qu’il cause sont très aggravées d’une part, d’autres part, elles s’infectent automatiquement. En tant que mortel, il est Houyi, l’archer Yi légendaire qui aurait, selon les mythes, abattu neuf soleils et dont l’épouse serait devenue immortelle et serait allée sur la lune. C’était un archer réputé en vérité vers les années 2170 avant notre ère qui aurait combattu la dynastie Xia. Il aurait caché le décès de sa femme et aurait été réputé pour empoisonner les flèches de ses archers. Stratège et bon combattant, Baal fit de lui un de ses daemons les plus loyaux. Il respecte infiniment SHI Wei, plus que le boss de la triade. 11. Temple de Beelzebuth"
+          }
+        ]
+      },
+      {
+        "id": "profil-statistique",
+        "title": "Profil statistique",
+        "level": 2,
+        "audience": "mj",
+        "blocks": []
+      }
+    ]
+  },
+  {
+    "id": "pnj-temples-daemoniaques-melindia-sticks",
+    "dataset": "verite-temples-daemoniaques-pnj",
+    "category": "Personnages",
+    "sourceCategory": "Vérité",
+    "title": "Melindia Sticks",
+    "source": "factions_Temples Daemoniaques(3).pdf",
+    "status": "canon_source",
+    "rebuildV2": true,
+    "tags": [
+      "Vérité",
+      "PNJ",
+      "Daemons",
+      "Temples démoniaques",
+      "Temple de Belzébuth"
+    ],
+    "pnj": {
+      "completeness": "detailed",
+      "real_name": "Melindia Sticks",
+      "real_name_source": "Melindia Sticks",
+      "nom_verite": "Persephone - Kothea",
+      "nom_verite_source": "Persephone - Kothea",
+      "race": "Daemons",
+      "age": "«25 ans » - ????",
+      "origine": "américaine",
+      "statut": "Duchesse",
+      "affiliations": "Corporations : Sunways",
+      "divinite": "Beelzebuth",
+      "pouvoir_principal": "la régénération",
+      "titre_infernal": "Duchesse",
+      "source_group": "Temple de Belzébuth",
+      "source_pages": [
+        24
+      ],
+      "identity_keys": [
+        "Melindia Sticks",
+        "Persephone - Kothea",
+        "Perséphone"
+      ],
+      "relations": [],
+      "source_documents": [
+        "factions_Temples Daemoniaques(3).pdf"
+      ],
+      "source_extract": "Melindia est une subordonnée d’Elody-Katherine Skotia avec qui elle partage une amitié de longue date. C’est une administratrice bien qu’elle soit initialement médecin. En tant que Daemone, elle est une duchesse ayant un titre plus qu’évocateur : Perséphone. Reine des enfers grecs, elle a toujours été la favorite non pas de Mammon (hadès) mais Belzébuth. Divinité mineure du printemps et de la régénération, elle incarne une facette assez bienfaitrice. Elle était une guérisseuse grecque anonyme que la vampire Hécate utilisa pour se nourrir et travailler sur la « malédiction » des vampires. Melindia décéda d’une simple infection à cause d’une morsure de sa maitresse. Belzébuth récupéra son âme et la belle grecque accepta de le servir pour espérer libérer des Fléaux les vampires qu’elle affectionnait malgré sa mort. C’est une proche amie d’Aessa également, une duchesse de Lilith."
+    },
+    "sections": [
+      {
+        "id": "temples-daemoniaques-realite",
+        "title": "Informations · Réalité",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Champ",
+                "Valeur"
+              ],
+              [
+                "Nom",
+                "Melindia Sticks"
+              ],
+              [
+                "Âge apparent",
+                "25 ans"
+              ],
+              [
+                "Affiliations",
+                "Corporations : Sunways"
+              ],
+              [
+                "Nationalité d’origine",
+                "américaine"
+              ]
+            ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Melindia est une subordonnée d’Elody-Katherine Skotia avec qui elle partage une amitié de longue date. C’est une administratrice bien qu’elle soit initialement médecin."
+          }
+        ]
+      },
+      {
+        "id": "temples-daemoniaques-mj",
+        "title": "Dossier MJ · Vérité & informations cachées",
+        "level": 2,
+        "audience": "mj",
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Champ",
+                "Valeur"
+              ],
+              [
+                "Nom de la Réalité · source",
+                "Melindia Sticks"
+              ],
+              [
+                "Nom de la Vérité",
+                "Persephone - Kothea"
+              ],
+              [
+                "Âge source",
+                "«25 ans » - ????"
+              ],
+              [
+                "Affiliations",
+                "Corporations : Sunways"
+              ],
+              [
+                "Nationalité d’origine",
+                "américaine"
+              ],
+              [
+                "Nature réelle",
+                "Daemons"
+              ],
+              [
+                "Divinité",
+                "Beelzebuth"
+              ],
+              [
+                "Pouvoir principal",
+                "la régénération"
+              ],
+              [
+                "Titre infernal",
+                "Duchesse"
+              ],
+              [
+                "Temple / groupe source",
+                "Temple de Belzébuth"
+              ],
+              [
+                "Page source",
+                "24"
+              ]
+            ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Melindia est une subordonnée d’Elody-Katherine Skotia avec qui elle partage une amitié de longue date. C’est une administratrice bien qu’elle soit initialement médecin. En tant que Daemone, elle est une duchesse ayant un titre plus qu’évocateur : Perséphone. Reine des enfers grecs, elle a toujours été la favorite non pas de Mammon (hadès) mais Belzébuth. Divinité mineure du printemps et de la régénération, elle incarne une facette assez bienfaitrice. Elle était une guérisseuse grecque anonyme que la vampire Hécate utilisa pour se nourrir et travailler sur la « malédiction » des vampires. Melindia décéda d’une simple infection à cause d’une morsure de sa maitresse. Belzébuth récupéra son âme et la belle grecque accepta de le servir pour espérer libérer des Fléaux les vampires qu’elle affectionnait malgré sa mort. C’est une proche amie d’Aessa également, une duchesse de Lilith."
+          }
+        ]
+      },
+      {
+        "id": "profil-statistique",
+        "title": "Profil statistique",
+        "level": 2,
+        "audience": "mj",
+        "blocks": []
+      }
+    ]
+  },
+  {
+    "id": "pnj-temples-daemoniaques-ziyad-alaydin",
+    "dataset": "verite-temples-daemoniaques-pnj",
+    "category": "Personnages",
+    "sourceCategory": "Vérité",
+    "title": "Ziyad Al’Aydin",
+    "source": "factions_Temples Daemoniaques(3).pdf",
+    "status": "canon_source",
+    "rebuildV2": true,
+    "tags": [
+      "Vérité",
+      "PNJ",
+      "Daemons",
+      "Temples démoniaques",
+      "Temple de Belzébuth"
+    ],
+    "pnj": {
+      "completeness": "detailed",
+      "real_name": "Ziyad Al’Aydin",
+      "real_name_source": "Ziyad Al’Aydin",
+      "nom_verite": "Baphomet -",
+      "nom_verite_source": "Baphomet -",
+      "race": "Daemons",
+      "age": "«32 ans », ????",
+      "origine": "américaine",
+      "statut": "Duc",
+      "affiliations": "Religieux : néopaïens",
+      "divinite": "Beelzebuth",
+      "pouvoir_principal": "l’évolution",
+      "titre_infernal": "Duc",
+      "source_group": "Temple de Belzébuth",
+      "source_pages": [
+        24
+      ],
+      "identity_keys": [
+        "Ziyad Al’Aydin",
+        "Baphomet -",
+        "Baphomet"
+      ],
+      "relations": [],
+      "source_documents": [
+        "factions_Temples Daemoniaques(3).pdf"
+      ],
+      "source_extract": "Ziyad est un prêcheur néopaïen. Cultiste convaincu et fervent anti-monithéïste, il est régulièrement accusé de financer des terroristes et des insurgés pour attaquer Neovatican et différentes mosquées. Outre ses talents d’orateur incontestés, c’est aussi un défenseur acharné du droit de disposer de son corps, assumant pleinement un corps modifié pour être réellement hermaphrodite, ayant déjà eu un enfant de son mari , qu’il porta et ayant inséminé son épouse avec succès. Baphomet est probablement un nom de démon extrêmement connu et forcément le duc qui le porte est un terrifiant et redouté daemon. Il se plait à modifier et faire évoluer son corps à sa guise. De son vivant, c’était un musulman anonyme très respectueux de sa religion, il fut horrifié de voir comment les occidentaux créèrent le mythe de Baphomet à partir du Prophète, au point de tout faire pour les provoquer, se faisant vite tuer par ses propres frères. Récupéré par Belzébuth, il assuma de devenir l’incarnation de l’évolution, du changement, de l’altération, toujours plus provocateur et sans aucune forme de retenue morale. Il serait la mère de Daniela Götz qu’il abandonna aux Saintes lagunes, ignorant tout du père, le roi vampire Quetzalcoatl. 12. Temple de Lucifer"
+    },
+    "sections": [
+      {
+        "id": "temples-daemoniaques-realite",
+        "title": "Informations · Réalité",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Champ",
+                "Valeur"
+              ],
+              [
+                "Nom",
+                "Ziyad Al’Aydin"
+              ],
+              [
+                "Âge apparent",
+                "32 ans"
+              ],
+              [
+                "Affiliations",
+                "Religieux : néopaïens"
+              ],
+              [
+                "Nationalité d’origine",
+                "américaine"
+              ]
+            ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Ziyad est un prêcheur néopaïen. Cultiste convaincu et fervent anti-monithéïste, il est régulièrement accusé de financer des terroristes et des insurgés pour attaquer Neovatican et différentes mosquées. Outre ses talents d’orateur incontestés, c’est aussi un défenseur acharné du droit de disposer de son corps, assumant pleinement un corps modifié pour être réellement hermaphrodite, ayant déjà eu un enfant de son mari , qu’il porta et ayant inséminé son épouse avec succès."
+          }
+        ]
+      },
+      {
+        "id": "temples-daemoniaques-mj",
+        "title": "Dossier MJ · Vérité & informations cachées",
+        "level": 2,
+        "audience": "mj",
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Champ",
+                "Valeur"
+              ],
+              [
+                "Nom de la Réalité · source",
+                "Ziyad Al’Aydin"
+              ],
+              [
+                "Nom de la Vérité",
+                "Baphomet -"
+              ],
+              [
+                "Âge source",
+                "«32 ans », ????"
+              ],
+              [
+                "Affiliations",
+                "Religieux : néopaïens"
+              ],
+              [
+                "Nationalité d’origine",
+                "américaine"
+              ],
+              [
+                "Nature réelle",
+                "Daemons"
+              ],
+              [
+                "Divinité",
+                "Beelzebuth"
+              ],
+              [
+                "Pouvoir principal",
+                "l’évolution"
+              ],
+              [
+                "Titre infernal",
+                "Duc"
+              ],
+              [
+                "Temple / groupe source",
+                "Temple de Belzébuth"
+              ],
+              [
+                "Page source",
+                "24"
+              ]
+            ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Ziyad est un prêcheur néopaïen. Cultiste convaincu et fervent anti-monithéïste, il est régulièrement accusé de financer des terroristes et des insurgés pour attaquer Neovatican et différentes mosquées. Outre ses talents d’orateur incontestés, c’est aussi un défenseur acharné du droit de disposer de son corps, assumant pleinement un corps modifié pour être réellement hermaphrodite, ayant déjà eu un enfant de son mari , qu’il porta et ayant inséminé son épouse avec succès. Baphomet est probablement un nom de démon extrêmement connu et forcément le duc qui le porte est un terrifiant et redouté daemon. Il se plait à modifier et faire évoluer son corps à sa guise. De son vivant, c’était un musulman anonyme très respectueux de sa religion, il fut horrifié de voir comment les occidentaux créèrent le mythe de Baphomet à partir du Prophète, au point de tout faire pour les provoquer, se faisant vite tuer par ses propres frères. Récupéré par Belzébuth, il assuma de devenir l’incarnation de l’évolution, du changement, de l’altération, toujours plus provocateur et sans aucune forme de retenue morale. Il serait la mère de Daniela Götz qu’il abandonna aux Saintes lagunes, ignorant tout du père, le roi vampire Quetzalcoatl. 12. Temple de Lucifer"
+          }
+        ]
+      },
+      {
+        "id": "profil-statistique",
+        "title": "Profil statistique",
+        "level": 2,
+        "audience": "mj",
+        "blocks": []
+      }
+    ]
+  },
+  {
+    "id": "pnj-temples-daemoniaques-pablo-parejano",
+    "dataset": "verite-temples-daemoniaques-pnj",
+    "category": "Personnages",
+    "sourceCategory": "Vérité",
+    "title": "Pablo Parejano",
+    "source": "factions_Temples Daemoniaques(3).pdf",
+    "status": "canon_source",
+    "rebuildV2": true,
+    "tags": [
+      "Vérité",
+      "PNJ",
+      "Daemons",
+      "Temples démoniaques",
+      "Temple de Lucifer"
+    ],
+    "pnj": {
+      "completeness": "detailed",
+      "real_name": "Pablo Parejano",
+      "real_name_source": "Pablo Parejano",
+      "nom_verite": "Adramalech – Rodrigo Diaz de Vivar",
+      "nom_verite_source": "Adramalech – Rodrigo Diaz de Vivar",
+      "race": "Daemons",
+      "age": "«36 ans » - ????",
+      "origine": "mexicaine",
+      "statut": "Duc",
+      "affiliations": "Religion : chrétien",
+      "divinite": "Lucifer",
+      "pouvoir_principal": "le rayonnement",
+      "titre_infernal": "Duc",
+      "source_group": "Temple de Lucifer",
+      "source_pages": [
+        25
+      ],
+      "identity_keys": [
+        "Pablo Parejano",
+        "Adramalech – Rodrigo Diaz de Vivar",
+        "Adramalech"
+      ],
+      "relations": [],
+      "source_documents": [
+        "factions_Temples Daemoniaques(3).pdf"
+      ],
+      "source_extract": "Pablo est un chasseur de l’Eglise chrétienne unifiée. Père Pablo fait ainsi partie de l’ordre d’Arianwen même s’il est très peu souvent en contact avec les autres chasseurs de l’ordre étant donné son caractère grincheux et ses méthodes qu’il refuse de montrer. De son vivant, Rodrigo n’était autre que « el Cid » , le mercenaire castillan. Combattant exceptionnel qui fut glorifié après sa mort, c’était un prophète détenant l’attribut de « la Gloire ». Récupéré par Lucifer bien que ce dernier n’ait plus de temple, Rodrigo a pourfendu le précédent Adramalech pour prouver sa valeur et en obtenir le titre. Adramalech était possiblement le nom d’une divinité solaire assyrienne notamment. Bien qu’il soit assez « jeune » comme daemon et bien qu’il ait joint un dieu déchu, Adramalech est incroyablement puissant puisque son pouvoir de rayonnement lui permet d'étendre la portée de tout ce qui le concerne."
+    },
+    "sections": [
+      {
+        "id": "temples-daemoniaques-realite",
+        "title": "Informations · Réalité",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Champ",
+                "Valeur"
+              ],
+              [
+                "Nom",
+                "Pablo Parejano"
+              ],
+              [
+                "Âge apparent",
+                "36 ans"
+              ],
+              [
+                "Affiliations",
+                "Religion : chrétien"
+              ],
+              [
+                "Nationalité d’origine",
+                "mexicaine"
+              ]
+            ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Pablo est un chasseur de l’Eglise chrétienne unifiée. Père Pablo fait ainsi partie de l’ordre d’Arianwen même s’il est très peu souvent en contact avec les autres chasseurs de l’ordre étant donné son caractère grincheux et ses méthodes qu’il refuse de montrer."
+          }
+        ]
+      },
+      {
+        "id": "temples-daemoniaques-mj",
+        "title": "Dossier MJ · Vérité & informations cachées",
+        "level": 2,
+        "audience": "mj",
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Champ",
+                "Valeur"
+              ],
+              [
+                "Nom de la Réalité · source",
+                "Pablo Parejano"
+              ],
+              [
+                "Nom de la Vérité",
+                "Adramalech – Rodrigo Diaz de Vivar"
+              ],
+              [
+                "Âge source",
+                "«36 ans » - ????"
+              ],
+              [
+                "Affiliations",
+                "Religion : chrétien"
+              ],
+              [
+                "Nationalité d’origine",
+                "mexicaine"
+              ],
+              [
+                "Nature réelle",
+                "Daemons"
+              ],
+              [
+                "Divinité",
+                "Lucifer"
+              ],
+              [
+                "Pouvoir principal",
+                "le rayonnement"
+              ],
+              [
+                "Titre infernal",
+                "Duc"
+              ],
+              [
+                "Temple / groupe source",
+                "Temple de Lucifer"
+              ],
+              [
+                "Page source",
+                "25"
+              ]
+            ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Pablo est un chasseur de l’Eglise chrétienne unifiée. Père Pablo fait ainsi partie de l’ordre d’Arianwen même s’il est très peu souvent en contact avec les autres chasseurs de l’ordre étant donné son caractère grincheux et ses méthodes qu’il refuse de montrer. De son vivant, Rodrigo n’était autre que « el Cid » , le mercenaire castillan. Combattant exceptionnel qui fut glorifié après sa mort, c’était un prophète détenant l’attribut de « la Gloire ». Récupéré par Lucifer bien que ce dernier n’ait plus de temple, Rodrigo a pourfendu le précédent Adramalech pour prouver sa valeur et en obtenir le titre. Adramalech était possiblement le nom d’une divinité solaire assyrienne notamment. Bien qu’il soit assez « jeune » comme daemon et bien qu’il ait joint un dieu déchu, Adramalech est incroyablement puissant puisque son pouvoir de rayonnement lui permet d'étendre la portée de tout ce qui le concerne."
+          }
+        ]
+      },
+      {
+        "id": "profil-statistique",
+        "title": "Profil statistique",
+        "level": 2,
+        "audience": "mj",
+        "blocks": []
+      }
+    ]
+  },
+  {
+    "id": "pnj-temples-daemoniaques-navati-rajamalla",
+    "dataset": "verite-temples-daemoniaques-pnj",
+    "category": "Personnages",
+    "sourceCategory": "Vérité",
+    "title": "Navati Rajamalla",
+    "source": "factions_Temples Daemoniaques(3).pdf",
+    "status": "canon_source",
+    "rebuildV2": true,
+    "tags": [
+      "Vérité",
+      "PNJ",
+      "Daemons",
+      "Temples démoniaques",
+      "Temple de Lucifer"
+    ],
+    "pnj": {
+      "completeness": "detailed",
+      "real_name": "Navati Rajamalla",
+      "real_name_source": "Navati Rajamalla",
+      "nom_verite": "Abalim - Lakshmi",
+      "nom_verite_source": "Abalim - Lakshmi",
+      "race": "Daemons",
+      "age": "«25ans », ????",
+      "origine": "britannique",
+      "statut": "Duchesse",
+      "affiliations": "Corporative : Tuatha",
+      "divinite": "Lucifer",
+      "pouvoir_principal": "la splendeur",
+      "titre_infernal": "Duchesse",
+      "source_group": "Temple de Lucifer",
+      "source_pages": [
+        25
+      ],
+      "identity_keys": [
+        "Navati Rajamalla",
+        "Abalim - Lakshmi",
+        "Abalim"
+      ],
+      "relations": [],
+      "source_documents": [
+        "factions_Temples Daemoniaques(3).pdf"
+      ],
+      "source_extract": "Navati est une chanteuse et une actrice de la Tuatha. Malgré un comportement de diva hautaine, elle a une voix enchanteresse qui la caractérise, aussi cristalline que féminine. De son vivant, ce n’était pas une humaine mais une dive, une reine dive de l’est, c’est d’ailleurs une des amazones la servant avec qui Lucifer a engendré la mage Circé. C’est une rares dives ayant totalement cédé face aux dieux, une traitresse, elle était appelée Lakshmi, et était vénérée comme telle même après la chute de Lucifer. Elle possède quatre bras car elle a fusionné son âme à celle du précédent détenteur du titre Abalim plutôt que de le déposséder et le renvoyer au cycle des âmes. Contrairement à Merlin, qui possède un spectre de Mageius, elle a perdu le sien en étant tuée par Angrboda après sa trahison, le mageius de Lakshmi a été offert à Anahita en cadeau, mais l’Archimage le renvoya subtilement sur Terre, ne prenant pas parti pour les dieux ou les Dives. Navati s’entend très mal avec les Mages néanmoins, quand elle le peut, elle essaye d’amoindrir leurs forces. 0. Autres"
+    },
+    "sections": [
+      {
+        "id": "temples-daemoniaques-realite",
+        "title": "Informations · Réalité",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Champ",
+                "Valeur"
+              ],
+              [
+                "Nom",
+                "Navati Rajamalla"
+              ],
+              [
+                "Âge apparent",
+                "25ans"
+              ],
+              [
+                "Affiliations",
+                "Corporative : Tuatha"
+              ],
+              [
+                "Nationalité d’origine",
+                "britannique"
+              ]
+            ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Navati est une chanteuse et une actrice de la Tuatha. Malgré un comportement de diva hautaine, elle a une voix enchanteresse qui la caractérise, aussi cristalline que féminine."
+          }
+        ]
+      },
+      {
+        "id": "temples-daemoniaques-mj",
+        "title": "Dossier MJ · Vérité & informations cachées",
+        "level": 2,
+        "audience": "mj",
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Champ",
+                "Valeur"
+              ],
+              [
+                "Nom de la Réalité · source",
+                "Navati Rajamalla"
+              ],
+              [
+                "Nom de la Vérité",
+                "Abalim - Lakshmi"
+              ],
+              [
+                "Âge source",
+                "«25ans », ????"
+              ],
+              [
+                "Affiliations",
+                "Corporative : Tuatha"
+              ],
+              [
+                "Nationalité d’origine",
+                "britannique"
+              ],
+              [
+                "Nature réelle",
+                "Daemons"
+              ],
+              [
+                "Divinité",
+                "Lucifer"
+              ],
+              [
+                "Pouvoir principal",
+                "la splendeur"
+              ],
+              [
+                "Titre infernal",
+                "Duchesse"
+              ],
+              [
+                "Temple / groupe source",
+                "Temple de Lucifer"
+              ],
+              [
+                "Page source",
+                "25"
+              ]
+            ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Navati est une chanteuse et une actrice de la Tuatha. Malgré un comportement de diva hautaine, elle a une voix enchanteresse qui la caractérise, aussi cristalline que féminine. De son vivant, ce n’était pas une humaine mais une dive, une reine dive de l’est, c’est d’ailleurs une des amazones la servant avec qui Lucifer a engendré la mage Circé. C’est une rares dives ayant totalement cédé face aux dieux, une traitresse, elle était appelée Lakshmi, et était vénérée comme telle même après la chute de Lucifer. Elle possède quatre bras car elle a fusionné son âme à celle du précédent détenteur du titre Abalim plutôt que de le déposséder et le renvoyer au cycle des âmes. Contrairement à Merlin, qui possède un spectre de Mageius, elle a perdu le sien en étant tuée par Angrboda après sa trahison, le mageius de Lakshmi a été offert à Anahita en cadeau, mais l’Archimage le renvoya subtilement sur Terre, ne prenant pas parti pour les dieux ou les Dives. Navati s’entend très mal avec les Mages néanmoins, quand elle le peut, elle essaye d’amoindrir leurs forces. 0. Autres"
+          }
+        ]
+      },
+      {
+        "id": "profil-statistique",
+        "title": "Profil statistique",
+        "level": 2,
+        "audience": "mj",
+        "blocks": []
+      }
+    ]
+  },
+  {
+    "id": "pnj-temples-daemoniaques-max-sharp",
+    "dataset": "verite-temples-daemoniaques-pnj",
+    "category": "Personnages",
+    "sourceCategory": "Vérité",
+    "title": "Max Sharp",
+    "source": "factions_Temples Daemoniaques(3).pdf",
+    "status": "canon_source",
+    "rebuildV2": true,
+    "tags": [
+      "Vérité",
+      "PNJ",
+      "Daemons",
+      "Temples démoniaques",
+      "Autres"
+    ],
+    "pnj": {
+      "completeness": "detailed",
+      "real_name": "Max Sharp",
+      "real_name_source": "Max Sharp – « Max Murder »",
+      "nom_verite": "Focalor – Maximilien de Robespierre",
+      "nom_verite_source": "Focalor – Maximilien de Robespierre",
+      "race": "Daemons",
+      "age": "«31 ans » - ????",
+      "origine": "américaine",
+      "statut": "Duc",
+      "affiliations": "Crawlers : Insurgés",
+      "divinite": "Baal",
+      "pouvoir_principal": "La dignité",
+      "titre_infernal": "Duc",
+      "source_group": "Autres",
+      "source_pages": [
+        26
+      ],
+      "identity_keys": [
+        "Max Sharp",
+        "Focalor – Maximilien de Robespierre",
+        "Max Sharp – « Max Murder »",
+        "Focalor"
+      ],
+      "relations": [],
+      "source_documents": [
+        "factions_Temples Daemoniaques(3).pdf"
+      ],
+      "source_extract": "Max Sharp est le bras droit de « Raiser », l’un des trois grands noms de l’insurrection américano- californienne. Max est probablement encore plus violent et extrême que Raiser, au point d’être surnommé « Max Murder » un nom obtenu en 2031 quand il lança un raid sur une usine-village de yellowfood corp, près de Phoenix, ne laissant aucun corporatiste en réchapper. Focalor n’est pas un nom de démon très connu et pourtant c’est un duc actuel de Baal, créé récemment puisqu’il n’a que quelques siècles. Autrefois, on le connaissait comme l’humain Maximilien de Robespierre et si, comme souvent on a autant terni son image qu’on n’a pu enjoliver ses actions, il reste une grande figure de l’Histoire Française au point que Baal, même déchu ne s’acharne à en faire un subordonné. Il incarne la dignité humaine, l’insoumission de fait, tous les mortels se valent pour lui."
+    },
+    "sections": [
+      {
+        "id": "temples-daemoniaques-realite",
+        "title": "Informations · Réalité",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Champ",
+                "Valeur"
+              ],
+              [
+                "Nom",
+                "Max Sharp"
+              ],
+              [
+                "Âge apparent",
+                "31 ans"
+              ],
+              [
+                "Affiliations",
+                "Crawlers : Insurgés"
+              ],
+              [
+                "Nationalité d’origine",
+                "américaine"
+              ]
+            ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Max Sharp est le bras droit de « Raiser », l’un des trois grands noms de l’insurrection américano- californienne. Max est probablement encore plus violent et extrême que Raiser, au point d’être surnommé « Max Murder » un nom obtenu en 2031 quand il lança un raid sur une usine-village de yellowfood corp, près de Phoenix, ne laissant aucun corporatiste en réchapper."
+          }
+        ]
+      },
+      {
+        "id": "temples-daemoniaques-mj",
+        "title": "Dossier MJ · Vérité & informations cachées",
+        "level": 2,
+        "audience": "mj",
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Champ",
+                "Valeur"
+              ],
+              [
+                "Nom de la Réalité · source",
+                "Max Sharp – « Max Murder »"
+              ],
+              [
+                "Nom de la Vérité",
+                "Focalor – Maximilien de Robespierre"
+              ],
+              [
+                "Âge source",
+                "«31 ans » - ????"
+              ],
+              [
+                "Affiliations",
+                "Crawlers : Insurgés"
+              ],
+              [
+                "Nationalité d’origine",
+                "américaine"
+              ],
+              [
+                "Nature réelle",
+                "Daemons"
+              ],
+              [
+                "Divinité",
+                "Baal"
+              ],
+              [
+                "Pouvoir principal",
+                "La dignité"
+              ],
+              [
+                "Titre infernal",
+                "Duc"
+              ],
+              [
+                "Temple / groupe source",
+                "Autres"
+              ],
+              [
+                "Page source",
+                "26"
+              ]
+            ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Max Sharp est le bras droit de « Raiser », l’un des trois grands noms de l’insurrection américano- californienne. Max est probablement encore plus violent et extrême que Raiser, au point d’être surnommé « Max Murder » un nom obtenu en 2031 quand il lança un raid sur une usine-village de yellowfood corp, près de Phoenix, ne laissant aucun corporatiste en réchapper. Focalor n’est pas un nom de démon très connu et pourtant c’est un duc actuel de Baal, créé récemment puisqu’il n’a que quelques siècles. Autrefois, on le connaissait comme l’humain Maximilien de Robespierre et si, comme souvent on a autant terni son image qu’on n’a pu enjoliver ses actions, il reste une grande figure de l’Histoire Française au point que Baal, même déchu ne s’acharne à en faire un subordonné. Il incarne la dignité humaine, l’insoumission de fait, tous les mortels se valent pour lui."
+          }
+        ]
+      },
+      {
+        "id": "profil-statistique",
+        "title": "Profil statistique",
+        "level": 2,
+        "audience": "mj",
+        "blocks": []
+      }
+    ]
+  },
+  {
+    "id": "pnj-temples-daemoniaques-meryl-west",
+    "dataset": "verite-temples-daemoniaques-pnj",
+    "category": "Personnages",
+    "sourceCategory": "Vérité",
+    "title": "Meryl West",
+    "source": "factions_Temples Daemoniaques(3).pdf",
+    "status": "canon_source",
+    "rebuildV2": true,
+    "tags": [
+      "Vérité",
+      "PNJ",
+      "Daemons",
+      "Temples démoniaques",
+      "Autres"
+    ],
+    "pnj": {
+      "completeness": "detailed",
+      "real_name": "Meryl West",
+      "real_name_source": "Meryl West",
+      "nom_verite": "Byamee Waagal - hypnos",
+      "nom_verite_source": "Byamee Waagal - hypnos",
+      "race": "Daemons",
+      "age": "«20 ans », ????",
+      "origine": "australienne",
+      "statut": "Déesse",
+      "affiliations": "crawler : hooker",
+      "divinite": "Birrahgnooloo",
+      "pouvoir_principal": "le rêve",
+      "titre_infernal": "Déesse",
+      "source_group": "Autres",
+      "source_pages": [
+        26
+      ],
+      "identity_keys": [
+        "Meryl West",
+        "Byamee Waagal - hypnos",
+        "Birrahgnooloo"
+      ],
+      "relations": [],
+      "source_documents": [
+        "factions_Temples Daemoniaques(3).pdf"
+      ],
+      "source_extract": "Meryl West est une prostituée d’une rare beauté qui est essentiellement au service de Todd Larsen. Elle n’est pas très influente dans la Réalité, elle est assez discrète et est souvent un peu endormie ou effacée. Dans la Vérité, elle est une daemone indépendante, une divinité médiane oubliée, elle est la créatrice du temps du rêve, d’une dimension onirique lui étant propre, son propre petit enfer et bien qu’elle servît un temps de dieu Mephisto, elle n’était ni vraiment princesse ni vraiment inférieure en termes d’ancienneté, juste moins puissante. Elle est une divinité des rêves de fait, Hypnos en quelque sorte. Elle est très indépendante des plans divins et de la Vérité, car elle préfère combattre les fléaux dans les rêves, son royaume où elle a ses propres daemons, des humains qui rêvent et qui retourne à la mortalité en se réveillant, au lieu de les récupérer une fois morts."
+    },
+    "sections": [
+      {
+        "id": "temples-daemoniaques-realite",
+        "title": "Informations · Réalité",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Champ",
+                "Valeur"
+              ],
+              [
+                "Nom",
+                "Meryl West"
+              ],
+              [
+                "Âge apparent",
+                "20 ans"
+              ],
+              [
+                "Affiliations",
+                "crawler : hooker"
+              ],
+              [
+                "Nationalité d’origine",
+                "australienne"
+              ]
+            ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Meryl West est une prostituée d’une rare beauté qui est essentiellement au service de Todd Larsen. Elle n’est pas très influente dans la Réalité, elle est assez discrète et est souvent un peu endormie ou effacée."
+          }
+        ]
+      },
+      {
+        "id": "temples-daemoniaques-mj",
+        "title": "Dossier MJ · Vérité & informations cachées",
+        "level": 2,
+        "audience": "mj",
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Champ",
+                "Valeur"
+              ],
+              [
+                "Nom de la Réalité · source",
+                "Meryl West"
+              ],
+              [
+                "Nom de la Vérité",
+                "Byamee Waagal - hypnos"
+              ],
+              [
+                "Âge source",
+                "«20 ans », ????"
+              ],
+              [
+                "Affiliations",
+                "crawler : hooker"
+              ],
+              [
+                "Nationalité d’origine",
+                "australienne"
+              ],
+              [
+                "Nature réelle",
+                "Daemons"
+              ],
+              [
+                "Divinité",
+                "Birrahgnooloo"
+              ],
+              [
+                "Pouvoir principal",
+                "le rêve"
+              ],
+              [
+                "Titre infernal",
+                "Déesse"
+              ],
+              [
+                "Temple / groupe source",
+                "Autres"
+              ],
+              [
+                "Page source",
+                "26"
+              ]
+            ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Meryl West est une prostituée d’une rare beauté qui est essentiellement au service de Todd Larsen. Elle n’est pas très influente dans la Réalité, elle est assez discrète et est souvent un peu endormie ou effacée. Dans la Vérité, elle est une daemone indépendante, une divinité médiane oubliée, elle est la créatrice du temps du rêve, d’une dimension onirique lui étant propre, son propre petit enfer et bien qu’elle servît un temps de dieu Mephisto, elle n’était ni vraiment princesse ni vraiment inférieure en termes d’ancienneté, juste moins puissante. Elle est une divinité des rêves de fait, Hypnos en quelque sorte. Elle est très indépendante des plans divins et de la Vérité, car elle préfère combattre les fléaux dans les rêves, son royaume où elle a ses propres daemons, des humains qui rêvent et qui retourne à la mortalité en se réveillant, au lieu de les récupérer une fois morts."
+          }
+        ]
+      },
+      {
+        "id": "profil-statistique",
+        "title": "Profil statistique",
+        "level": 2,
+        "audience": "mj",
+        "blocks": []
+      }
+    ]
+  },
+  {
+    "id": "pnj-temples-daemoniaques-kain-ferno",
+    "dataset": "verite-temples-daemoniaques-pnj",
+    "category": "Personnages",
+    "sourceCategory": "Vérité",
+    "title": "Kain Ferno",
+    "source": "factions_Temples Daemoniaques(3).pdf",
+    "status": "canon_source",
+    "rebuildV2": true,
+    "tags": [
+      "Vérité",
+      "PNJ",
+      "Daemons",
+      "Temples démoniaques",
+      "Autres"
+    ],
+    "pnj": {
+      "completeness": "detailed",
+      "real_name": "Kain Ferno",
+      "real_name_source": "Kain Ferno",
+      "nom_verite": "Caïn – Caïnor",
+      "nom_verite_source": "Caïn – Caïnor",
+      "race": "Daemons - Astharès",
+      "age": "«30 ans » - ????",
+      "origine": "américano-iranienne",
+      "statut": "Prince - Dieu",
+      "affiliations": "Crawlers : deathrunner",
+      "divinite": "« Belial »",
+      "pouvoir_principal": "la défaite",
+      "titre_infernal": "Prince - Dieu",
+      "source_group": "Autres",
+      "source_pages": [
+        27
+      ],
+      "identity_keys": [
+        "Kain Ferno",
+        "Caïn – Caïnor",
+        "Caïn"
+      ],
+      "relations": [],
+      "source_documents": [
+        "factions_Temples Daemoniaques(3).pdf"
+      ],
+      "source_extract": "Kain Ferno est connu pour avoir été un héros de guerre, supérieur direct d Catalina de la Caza avant qu’elle ne monte en grade. Après la guerre, sa vie s’est effondrée et il ne sert plus que de mercenaire dépressif. Son identité réelle est Caïn, sa mère est la reine Belial, son père, un étranger de Gaerras, le dieu du chaos Nordrar. C’est un Nor, une entité très supérieure de fait, aux pouvoirs gigantesques que Belial a scellé. Il a un sérieux complexe d’Œdipe néanmoins et toute sa vie s’est structurée pour avoir la reconnaissance de sa Mère, en vain. Caïn est l’incarnation de l’échec, chaque décision a été mauvaise et punie. Il a tué beaucoup de Dives pendant la guerre contre eux, hélas, juste quand Belial approchait d’un accord avec Akvan. Il était très attaché à Elynea et quand elle s’est rebellée, il a tout fait pour se mettre entre dieux et archanges. Il a aidé R’Gahanath à créer les vampires actuels en étant manipulé… Aucune décision prise ne lui a jamais profité. Pourtant, il pourrait être un dieu égal à sa mère ou Elynea s’il le désirait, car, comme Morrighan, il n’a pas besoin de chercher les attributs, il en a un de naissance."
+    },
+    "sections": [
+      {
+        "id": "temples-daemoniaques-realite",
+        "title": "Informations · Réalité",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Champ",
+                "Valeur"
+              ],
+              [
+                "Nom",
+                "Kain Ferno"
+              ],
+              [
+                "Âge apparent",
+                "30 ans"
+              ],
+              [
+                "Affiliations",
+                "Crawlers : deathrunner"
+              ],
+              [
+                "Nationalité d’origine",
+                "américano-iranienne"
+              ]
+            ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Kain Ferno est connu pour avoir été un héros de guerre, supérieur direct d Catalina de la Caza avant qu’elle ne monte en grade. Après la guerre, sa vie s’est effondrée et il ne sert plus que de mercenaire dépressif."
+          }
+        ]
+      },
+      {
+        "id": "temples-daemoniaques-mj",
+        "title": "Dossier MJ · Vérité & informations cachées",
+        "level": 2,
+        "audience": "mj",
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Champ",
+                "Valeur"
+              ],
+              [
+                "Nom de la Réalité · source",
+                "Kain Ferno"
+              ],
+              [
+                "Nom de la Vérité",
+                "Caïn – Caïnor"
+              ],
+              [
+                "Âge source",
+                "«30 ans » - ????"
+              ],
+              [
+                "Affiliations",
+                "Crawlers : deathrunner"
+              ],
+              [
+                "Nationalité d’origine",
+                "américano-iranienne"
+              ],
+              [
+                "Nature réelle",
+                "Daemons - Astharès"
+              ],
+              [
+                "Divinité",
+                "« Belial »"
+              ],
+              [
+                "Pouvoir principal",
+                "la défaite"
+              ],
+              [
+                "Titre infernal",
+                "Prince - Dieu"
+              ],
+              [
+                "Temple / groupe source",
+                "Autres"
+              ],
+              [
+                "Page source",
+                "27"
+              ]
+            ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Kain Ferno est connu pour avoir été un héros de guerre, supérieur direct d Catalina de la Caza avant qu’elle ne monte en grade. Après la guerre, sa vie s’est effondrée et il ne sert plus que de mercenaire dépressif. Son identité réelle est Caïn, sa mère est la reine Belial, son père, un étranger de Gaerras, le dieu du chaos Nordrar. C’est un Nor, une entité très supérieure de fait, aux pouvoirs gigantesques que Belial a scellé. Il a un sérieux complexe d’Œdipe néanmoins et toute sa vie s’est structurée pour avoir la reconnaissance de sa Mère, en vain. Caïn est l’incarnation de l’échec, chaque décision a été mauvaise et punie. Il a tué beaucoup de Dives pendant la guerre contre eux, hélas, juste quand Belial approchait d’un accord avec Akvan. Il était très attaché à Elynea et quand elle s’est rebellée, il a tout fait pour se mettre entre dieux et archanges. Il a aidé R’Gahanath à créer les vampires actuels en étant manipulé… Aucune décision prise ne lui a jamais profité. Pourtant, il pourrait être un dieu égal à sa mère ou Elynea s’il le désirait, car, comme Morrighan, il n’a pas besoin de chercher les attributs, il en a un de naissance."
+          }
+        ]
+      },
+      {
+        "id": "profil-statistique",
+        "title": "Profil statistique",
+        "level": 2,
+        "audience": "mj",
+        "blocks": []
+      }
+    ]
+  },
+  {
+    "id": "pnj-temples-daemoniaques-nina-allen",
+    "dataset": "verite-temples-daemoniaques-pnj",
+    "category": "Personnages",
+    "sourceCategory": "Vérité",
+    "title": "Nina Allen",
+    "source": "factions_Temples Daemoniaques(3).pdf",
+    "status": "canon_source",
+    "rebuildV2": true,
+    "tags": [
+      "Vérité",
+      "PNJ",
+      "Daemons",
+      "Temples démoniaques",
+      "Autres"
+    ],
+    "pnj": {
+      "completeness": "detailed",
+      "real_name": "Nina Allen",
+      "real_name_source": "Nina Allen",
+      "nom_verite": "Alocer – Augusta Ada King (née byron)",
+      "nom_verite_source": "Alocer – Augusta Ada King (née byron)",
+      "race": "Daemons",
+      "age": "«22 ans », ????",
+      "origine": "américaine",
+      "statut": "Duchesse",
+      "affiliations": "Corporative : Tuatha",
+      "divinite": "Astaroth",
+      "pouvoir_principal": "l’informatique",
+      "titre_infernal": "Duchesse",
+      "source_group": "Autres",
+      "source_pages": [
+        27
+      ],
+      "identity_keys": [
+        "Nina Allen",
+        "Alocer – Augusta Ada King (née byron)",
+        "Alocer",
+        "Augusta Ada King",
+        "Ada Lovelace"
+      ],
+      "relations": [],
+      "source_documents": [
+        "factions_Temples Daemoniaques(3).pdf"
+      ],
+      "source_extract": "Nina est la fille de Melina Byron-Smith, la grande présidente de la megacorporation Byron Industries. Très tôt, elle s’est très peu entendue avec sa mère, dès l’enfance, en 2029, elle s’émancipa à 16 ans pour tenter des études supérieures, shuntant le lycée par une fasse carte d’identité. Elle n’acheva aucune formation mais en 2035, elle est un des 5 neurodivers les plus craints de la Grande Californie. Quand on connait le nom d’Alocer, on n’imagine pas vraiment un chevalier montant un cheval aux pattes de dragon être une petite femme neurodiver, et forcément, la légende à peu avoir avec la duchesse d’Astaroth actuellement. Alocer était Augusta Ada King de Loveplace, mieux connue comme Ada Loveplace, la toute première personne à avoir écrit un programme informatique dans l’Histoire. Elle décéda en 1852 et fut récupérée par Astaroth. Elle a été incarnée de force en 2013 quand Astaroth sentit que le mage Zebediah JACOBSEN commença à travailler sur l’Holonet, même s’il ne finalisa rien avant le début 2030. Même si elle a la souillure de Sharith, sa mère étant une sorcière psycolor, Nina mécanise son corps pour limiter la souillure et protéger son âme. Elle traque Thar’lal rark, la plus grande menace pour la Terre selon elle."
+    },
+    "sections": [
+      {
+        "id": "temples-daemoniaques-realite",
+        "title": "Informations · Réalité",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Champ",
+                "Valeur"
+              ],
+              [
+                "Nom",
+                "Nina Allen"
+              ],
+              [
+                "Âge apparent",
+                "22 ans"
+              ],
+              [
+                "Affiliations",
+                "Corporative : Tuatha"
+              ],
+              [
+                "Nationalité d’origine",
+                "américaine"
+              ]
+            ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Nina est la fille de Melina Byron-Smith, la grande présidente de la megacorporation Byron Industries. Très tôt, elle s’est très peu entendue avec sa mère, dès l’enfance, en 2029, elle s’émancipa à 16 ans pour tenter des études supérieures, shuntant le lycée par une fasse carte d’identité. Elle n’acheva aucune formation mais en 2035, elle est un des 5 neurodivers les plus craints de la Grande Californie."
+          }
+        ]
+      },
+      {
+        "id": "temples-daemoniaques-mj",
+        "title": "Dossier MJ · Vérité & informations cachées",
+        "level": 2,
+        "audience": "mj",
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Champ",
+                "Valeur"
+              ],
+              [
+                "Nom de la Réalité · source",
+                "Nina Allen"
+              ],
+              [
+                "Nom de la Vérité",
+                "Alocer – Augusta Ada King (née byron)"
+              ],
+              [
+                "Âge source",
+                "«22 ans », ????"
+              ],
+              [
+                "Affiliations",
+                "Corporative : Tuatha"
+              ],
+              [
+                "Nationalité d’origine",
+                "américaine"
+              ],
+              [
+                "Nature réelle",
+                "Daemons"
+              ],
+              [
+                "Divinité",
+                "Astaroth"
+              ],
+              [
+                "Pouvoir principal",
+                "l’informatique"
+              ],
+              [
+                "Titre infernal",
+                "Duchesse"
+              ],
+              [
+                "Temple / groupe source",
+                "Autres"
+              ],
+              [
+                "Page source",
+                "27"
+              ],
+              [
+                "Intertitre brut source",
+                "Waagal"
+              ]
+            ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Nina est la fille de Melina Byron-Smith, la grande présidente de la megacorporation Byron Industries. Très tôt, elle s’est très peu entendue avec sa mère, dès l’enfance, en 2029, elle s’émancipa à 16 ans pour tenter des études supérieures, shuntant le lycée par une fasse carte d’identité. Elle n’acheva aucune formation mais en 2035, elle est un des 5 neurodivers les plus craints de la Grande Californie. Quand on connait le nom d’Alocer, on n’imagine pas vraiment un chevalier montant un cheval aux pattes de dragon être une petite femme neurodiver, et forcément, la légende à peu avoir avec la duchesse d’Astaroth actuellement. Alocer était Augusta Ada King de Loveplace, mieux connue comme Ada Loveplace, la toute première personne à avoir écrit un programme informatique dans l’Histoire. Elle décéda en 1852 et fut récupérée par Astaroth. Elle a été incarnée de force en 2013 quand Astaroth sentit que le mage Zebediah JACOBSEN commença à travailler sur l’Holonet, même s’il ne finalisa rien avant le début 2030. Même si elle a la souillure de Sharith, sa mère étant une sorcière psycolor, Nina mécanise son corps pour limiter la souillure et protéger son âme. Elle traque Thar’lal rark, la plus grande menace pour la Terre selon elle."
+          }
+        ]
+      },
+      {
+        "id": "profil-statistique",
+        "title": "Profil statistique",
+        "level": 2,
+        "audience": "mj",
+        "blocks": []
+      }
+    ]
+  }
+] as Array<Record<string, any>>;
 export default PAYLOAD;
