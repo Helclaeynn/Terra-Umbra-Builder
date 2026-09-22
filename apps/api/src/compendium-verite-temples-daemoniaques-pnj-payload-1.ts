@@ -813,7 +813,7 @@ const PAYLOAD = [
       "nom_verite": "Alastor - Orphée",
       "nom_verite_source": "Alastor - Orphée",
       "race": "Daemons",
-      "age": "«33 ans » - ????",
+      "age": "33 ans",
       "origine": "Américaine",
       "statut": "Duc",
       "affiliations": "Crawler : cyberthug",
@@ -869,7 +869,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Zedarius est un chef de petit gang, un crawler qui est versé dans la criminalité. Il est très souvent associé aux mafias, qui s’en servent assez volontiers pour de basses besognes."
+            "text": "Zédarius dirige un petit gang et évolue comme Crawler dans les milieux criminels. Les mafias font régulièrement appel à lui pour des basses besognes qu’elles préfèrent ne pas assumer directement."
           }
         ]
       },
@@ -935,7 +935,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Zedarius est un chef de petit gang, un crawler qui est versé dans la criminalité. Il est très souvent associé aux mafias, qui s’en servent assez volontiers pour de basses besognes. En tant que daemon, Alastor est un très puissant duc de la Mort. Il est capable, par sa seule parole, d’appeler la souffrance de toute une vie dans un corps, et même des vies passées. Plus l’ennemi a d’expérience de vie, plus Alastor est dangereux. Il était Orphée, un simple mortel doté d’un don rare : celui d’appeler l’expérience par ses chants. Il essaya de suivre un Dive ayant tué sa bien-aimée, mais se retrouva dans l’Enfer de Mammon. Surpris par l’audace du mortel, « Hadès », Mammon donc, le garda, faisant de lui le seul mortel ayant été tué en enfer."
+            "text": "Zédarius est en vérité Alastor–Orphée, puissant Duc daemoniaque de la Mort. Par sa seule parole, il peut rappeler dans un corps la souffrance accumulée pendant toute une vie, voire au cours de vies antérieures : plus sa cible possède d’expérience, plus son pouvoir devient dangereux. Mortel, il fut Orphée, doté du don rare d’appeler l’expérience par ses chants. En poursuivant un Dive responsable de la mort de sa bien-aimée, il se retrouva dans l’Enfer de Mammon. Impressionné par l’audace de ce mortel, « Hadès » — c’est-à-dire Mammon — le conserva auprès de lui, faisant d’Orphée le seul mortel à avoir été tué en Enfer."
           }
         ]
       },
