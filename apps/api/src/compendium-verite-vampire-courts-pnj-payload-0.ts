@@ -1181,7 +1181,7 @@ const PAYLOAD = [
       "race": "Vampire",
       "age": "40 ans",
       "origine": "Italienne",
-      "statut": "Corporation :",
+      "statut": "Corporation : Yellowfood",
       "statut_verite": "troisième prince",
       "organisation": "Krovni Rytsari",
       "relations": [],
