@@ -1444,7 +1444,7 @@ const PAYLOAD = [
       "real_name": "Jamal Jace Jayson",
       "nom_verite": "Georah « cupidon »",
       "race": "Angelus",
-      "age": "«23 ans » - ????",
+      "age": "23 ans",
       "origine": "américaine",
       "statut": "Corporation : Redwheels/ crawler : Hooker",
       "statut_verite": "séraphin",
@@ -1485,7 +1485,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«23 ans » - ????"
+                "23 ans"
               ],
               [
                 "Affiliations",
@@ -1506,7 +1506,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Jamal Jace Jayson est un acteur essentiellement porno des studios Redwheels, même s’il est souvent vu dans des publicités ou en hôte d’accueil lors d’évènement. Extrêmement séduisant et séducteur, il possède le « Sugar Eden », juste en face du « First flame», le bar de Moloch et forcément, est en concurrence avec lui,"
+            "text": "Jamal Jace Jayson est surtout acteur pornographique pour les studios Redwheels, même s’il apparaît régulièrement dans des publicités ou comme hôte d’accueil lors d’événements. Extrêmement séduisant et séducteur, il possède le « Sugar Eden », juste en face du « First Flame », le bar de Moloch, et se trouve naturellement en concurrence avec lui."
           }
         ]
       },
@@ -1551,7 +1551,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "les deux bars à hôtes étant des repaires respectivement à angelus et daemons, se faisant face l’un l’autre. Il n’est pas rare de voir les uns chez les autres de temps en temps, même si Moloch n’aime pas voir des anges chez lui. « Jcube » est une référence chez les Vertus angéliques et il s’évertue à aimer le plus passionnément n’importe quel client.e.s de la même façon bien que son fantasme soit les femmes pâles d’origine celtique. En tant que séraphin, bien qu’il n’ait pas l’air"
+            "text": "Les deux bars à hôtes sont respectivement des repaires d’Angelus et de Daemons et se font face. Il n’est pas rare de voir les uns fréquenter l’établissement des autres, même si Moloch apprécie peu la présence d’anges chez lui. « Jcube » est une référence parmi les Vertus angéliques et s’évertue à aimer chaque client ou cliente avec la même passion, même si son fantasme personnel reste les femmes pâles d’origine celtique. En tant que Séraphin, bien qu’il n’ait rien de menaçant en apparence, il est surnommé « Cupidon » tant sa capacité à faire germer la passion est puissante."
           }
         ]
       },
