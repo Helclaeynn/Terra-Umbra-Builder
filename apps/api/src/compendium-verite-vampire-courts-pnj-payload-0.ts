@@ -1444,7 +1444,7 @@ const PAYLOAD = [
       "real_name": "Carmilla Stein",
       "nom_verite": "Carmilla Karnstein",
       "race": "Vampire",
-      "age": "«23 ans » - 230 ans",
+      "age": "23 ans",
       "origine": "Autriche (Styrie)",
       "statut": "crawlers : mercs / chasseurs",
       "statut_verite": "cinquième princesse",
@@ -1487,7 +1487,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«23 ans »"
+                "23 ans"
               ],
               [
                 "Affiliations",
@@ -1498,6 +1498,10 @@ const PAYLOAD = [
                 "Autriche (Styrie)"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Carmilla Stein est une jeune mercenaire excentrique au caractère affirmé, active comme Crawler indépendante. Elle fréquente régulièrement le réseau des cliniques Karnstein mais s’entend très mal avec Elizabeth. Elle entretient en revanche une amitié sincère avec Aessa, gérante du Purple Embers, qui lui sauva la vie quelques années plus tôt. Carmilla est également chasseuse et disciple de Lisbeth Brunn."
           }
         ]
       },
@@ -1538,7 +1542,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Excentrique jeune mercenaire, cette brunette au caractère assez affirmé est une crawler indépendante. Elle passe souvent par le réseau des cliniques Karnstein même si elle s’entends très mal avec Elizabeth. Elle une amitié réelle et une affection profonde pour Aessa, la gérante du Purple Embers qui lui sauva la vie il y a quelques années. C’est une chasseuse qui est la disciple de Lisbeth Brunn. C’est la dernière tête princière de la Krovni, elle est volontaire et bien que son talent ne soit pas à sous￾estimer, elle est encore assez jeune comparée à ses ainés. Née d’une mère elle-même assez jeune en tant que vampire. (Mircalla est plus jeune que Sigismund par exemple). Elle a des vues sur le trône mais ne supporte pas le duc Niklas Klammerstein, de la maison Karnstein. Ce dernier la dégoute profondément. Ayant beaucoup de points communs avec son père, elle ne le comprend pas forcément, prête à s’entrainer pour lui prendre la couronne au besoin. Elle est amie avec les mages Naalnish et Gwenddyd qui l’encouragent dans cette voie, mais aussi avec la démone Meririm, qui, en revanche, essaye de l’aider bien qu’elle soit un vampire, un être ennemi des dieux."
+            "text": "Carmilla est en vérité Carmilla Karnstein, cinquième princesse de la Krovni. Plus jeune que les autres têtes princières, elle reste néanmoins volontaire et dangereuse. Sa mère, Mircalla, était elle-même relativement jeune comme vampire lorsqu’elle lui donna naissance. Carmilla nourrit des ambitions royales mais déteste profondément Niklas Klammerstein, duc de la maison Karnstein. Elle partage plusieurs traits avec son père Dragoy sans toujours le comprendre et se dit prête à s’entraîner jusqu’à pouvoir lui prendre la couronne si nécessaire. Parmi ses alliés occultes figurent Nankil’slas — sous l’identité de Naalnish — et Gwenddydd, qui l’encouragent dans cette voie, ainsi que la Daemone Meririm, qui tente de l’aider malgré l’hostilité traditionnelle entre vampires et dieux."
           }
         ]
       },
