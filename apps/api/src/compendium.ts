@@ -830,6 +830,13 @@ function normalizedPnjIdentity(value: unknown): string {
 function usablePnjIdentity(value: unknown): string | null {
   const normalized = normalizedPnjIdentity(value);
   if (!normalized || normalized === "?" || normalized === "_" || normalized.length < 4) return null;
+  // Les imports conservent parfois des marqueurs de champ ou des taxons dans
+  // identity_keys. Ce ne sont jamais des identités et ils ne doivent surtout
+  // pas provoquer une fusion entre deux PNJ sans rapport.
+  if (
+    /^(?:non renseigne(?:e|es)?|inconnu(?:e|es)?|aucune couverture(?: humaine)?(?: connue| renseignee)?|sans identite(?: connue)?)$/.test(normalized) ||
+    /^(?:humain|humaine|humains|humaines|nain|naine|nains|naines|elfe|elfes|elfique|gobelin|gobeline|gobelins|gobelines|orc|orque|orcs|orques|vampire|vampires|mage|mages|angelus|daemon|daemons|aseryn|aseryne|aseryns|atlante|atlantes)$/.test(normalized)
+  ) return null;
   return normalized;
 }
 
