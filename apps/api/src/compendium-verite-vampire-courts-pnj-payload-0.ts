@@ -416,7 +416,7 @@ const PAYLOAD = [
       "real_name": "Bellanessa Lorenzo",
       "nom_verite": "Bianca Lancia d’Agliano",
       "race": "Vampire",
-      "age": "«40 ans » - 835 ans",
+      "age": "40 ans",
       "origine": "Italienne",
       "statut": "Corporation : Tuatha",
       "statut_verite": "troisième concubine",
@@ -459,7 +459,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«40 ans »"
+                "40 ans"
               ],
               [
                 "Affiliations",
@@ -470,6 +470,10 @@ const PAYLOAD = [
                 "Italienne"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Bellanessa Lorenzo dirige la sous-branche « Universal » de Tuatha Corporation et compte parmi les femmes les plus riches de 2035. Sensuelle, très attachée au luxe et dotée d’un glamour permanent, elle paraît presque dépourvue d’empathie. Sa sous-branche figure parmi les plus stables et les plus rentables de la corporation."
           }
         ]
       },
@@ -510,7 +514,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Directrice de la sous-branche « Universal » à la Tuatha corporation, c’est une des femmes les plus riches de 2035. Aussi sensuelle qu’amatrice de luxe, cette blonde pleine de glamour semble incapable d’empathie. C’est une directrice de sous-branche parmi les plus stables et les plus rentables, Bianca Lancia d’Agliano est une figure historique qui a été l’épouse de Frederic II, l’empereur du Saint￾Empire. Elle est notamment la mère de Manfred de Hohenstaufen, roi de Sicile que l’on considère comme un fils de l’empereur. Toutefois, Manfred est un fils de Dragoy Skotia, l’amant de l’impératrice. La blonde joua de ses charmes pour séduire l’empereur mais elle attira aussi un des plus éminents combattants de l’empire, le roi vampire. Parce que l’empereur était un homme jaloux qui la cloitra, il ne douta jamais de son infidélité avec Dragoy. Elle fit croire à sa mort en 1247 après une maladie, en vérité, vampirisée, elle ne supportait plus sa captivité et l’usage de sorts puissants pour survivre au soleil. C’est la deuxième concubine et possiblement une des plus actives, née de très haute noblesse, elle a un profond mépris pour les être les plus humbles, mortels comme vampires."
+            "text": "Bellanessa est en vérité Bianca Lancia d’Agliano, troisième concubine de Dragoy. Figure historique, elle fut l’épouse de Frédéric II, empereur du Saint-Empire, et la mère de Manfred de Hohenstaufen, roi de Sicile officiellement tenu pour fils de l’empereur. Manfred est cependant le fils de Dragoy Skotia, amant de Bianca. Celle-ci usa de ses charmes pour séduire Frédéric II mais attira aussi le roi vampire, l’un des combattants les plus éminents de l’Empire. Jaloux, l’empereur la fit cloîtrer sans jamais soupçonner son infidélité avec Dragoy. Bianca simula sa mort en 1247 après une maladie ; en réalité vampirisée, elle ne supportait plus sa captivité ni l’usage de sorts puissants nécessaires pour survivre au soleil. Née dans la très haute noblesse, cette concubine particulièrement active nourrit un profond mépris pour les êtres les plus humbles, mortels comme vampires."
           }
         ]
       },
