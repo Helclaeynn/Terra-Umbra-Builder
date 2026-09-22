@@ -1,8 +1,9 @@
 import P0 from "./compendium-verite-humans-galactic-pnj-payload-0.js";
 import P1 from "./compendium-verite-humans-galactic-pnj-payload-1.js";
 import P2 from "./compendium-verite-humans-galactic-pnj-payload-2.js";
+import { editorializeHumansGalacticPnj } from "./compendium-verite-humans-galactic-pnj-editorial.js";
 
-export const COMPENDIUM_VERITE_HUMAN_GALACTIC_PNJ_ARTICLES = [...P0, ...P1, ...P2];
+export const COMPENDIUM_VERITE_HUMAN_GALACTIC_PNJ_ARTICLES = editorializeHumansGalacticPnj([...P0, ...P1, ...P2]);
 
 const ORDER: Record<string, number> = {
   "AIDH": 10,
