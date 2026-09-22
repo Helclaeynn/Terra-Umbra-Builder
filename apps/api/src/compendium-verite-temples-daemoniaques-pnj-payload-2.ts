@@ -348,7 +348,7 @@ const PAYLOAD = [
       "nom_verite": "Asmodée-Pandrosion",
       "nom_verite_source": "Asmodée-Pandrosion",
       "race": "daemons",
-      "age": "« »44 ans », ????",
+      "age": "44 ans",
       "origine": "grecque",
       "statut": "Duchesse",
       "affiliations": "associatif : Caltech",
@@ -388,6 +388,10 @@ const PAYLOAD = [
                 "Magda Galanou"
               ],
               [
+                "Âge apparent",
+                "44 ans"
+              ],
+              [
                 "Affiliations",
                 "associatif : Caltech"
               ],
@@ -400,7 +404,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Magda est une enseignante-chercheuse à Caltech. C’est un des plus grands génies en mathématiques en 2035, elle travaille sur les calculateurs et les IA à coté de la recherche fondamentale. Malgré sa nature discrète et timide, cette grecque cache un tempérament bien plus sulfureux."
+            "text": "Magda Galanou est enseignante-chercheuse à Caltech et compte parmi les plus grands génies des mathématiques en 2035. Elle travaille aussi bien sur les calculateurs et les IA que sur la recherche fondamentale. Discrète et timide en apparence, elle cache un tempérament beaucoup plus intense."
           }
         ]
       },
@@ -466,7 +470,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Magda est une enseignante-chercheuse à Caltech. C’est un des plus grands génies en mathématiques en 2035, elle travaille sur les calculateurs et les IA à coté de la recherche fondamentale. Malgré sa nature discrète et timide, cette grecque cache un tempérament bien plus sulfureux. Le démon Asmodée est un des plus connus, « exterminateur » ou « colère », sont des mots allant avec son nom ainsi que la luxure. En vérité, la duchesse est une savante qui étudie toutes les magies, toutes les sciences et tous les arts, c’est le démon à la plus grande mémoire et les plus grands savoirs. Autrefois nommée Pandrosion, c’était une mathématicienne d’Alexandrie précédant Hypatie. Son pouvoir démoniaque basé sur les mathématiques est aussi simple que redoutable, elle bloque tout pouvoir la ciblant, pour réussir à la toucher, il faut réussir ses énigmes, rébus ou matrices à triples intégrales, tout y passe."
+            "text": "Magda est en vérité Asmodée-Pandrosion. Asmodée compte parmi les démons les plus connus, son nom étant associé à l’extermination, à la colère et à la luxure. Cette Duchesse est surtout une savante qui étudie toutes les magies, toutes les sciences et tous les arts, avec une mémoire et une somme de connaissances exceptionnelles. Autrefois nommée Pandrosion, elle fut une mathématicienne d’Alexandrie antérieure à Hypatie. Son pouvoir daemoniaque, fondé sur les mathématiques, est aussi simple que redoutable : elle bloque les pouvoirs qui la ciblent, obligeant ses adversaires à résoudre énigmes, rébus ou problèmes mathématiques — jusqu’aux triples intégrales — pour parvenir à l’atteindre."
           }
         ]
       },
