@@ -455,6 +455,7 @@ function isMjOnlyArticle(article: Article): boolean { return article?.audience =
 function hasProtectedPnjIdentity(article: Article): boolean {
   if (article.category !== "Personnages" || !article.pnj || typeof article.pnj !== "object") return false;
   const pnj = article.pnj as JsonObject;
+  if (pnj.protect_truth_metadata === true) return true;
   const realName = norm(pnj.real_name ?? pnj.nom_reel ?? pnj.nom_realite ?? "");
   const truthName = norm(pnj.nom_verite ?? "");
   return Boolean(realName && truthName && realName !== truthName);
@@ -1059,7 +1060,9 @@ function mergeAserynPnj(target: Article, source: Article): Article {
   const obsoleteSpeciesSections: Record<string, Set<string>> = {
     "personnages-verite-especes-lorinae-athegos": new Set(["info-realite", "informations-mj"]),
     "personnages-verite-especes-kyriakos-zenos": new Set(["informations-mj"]),
-    "personnages-verite-especes-veronica-silver": new Set(["informations-mj"])
+    "personnages-verite-especes-veronica-silver": new Set(["informations-mj"]),
+    "personnages-verite-especes-iwashita-koji": new Set(["profil"]),
+    "personnages-verite-chasseurs-neera-athren": new Set(["chasseurs-profil-source", "chasseurs-informations-realite"])
   };
   const obsolete = obsoleteSpeciesSections[String(target.id ?? "")];
   const currentTarget = obsolete
