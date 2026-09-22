@@ -1020,10 +1020,10 @@ const PAYLOAD = [
       "real_name": "Xicolas Morillo",
       "nom_verite": "Xicatl",
       "race": "Vampire",
-      "age": "«31 ans » - 1081 ans",
-      "origine": "américaine",
-      "statut": "pègre : Reaper incorporated",
-      "statut_verite": "« Kulkulan »",
+      "age": "31 ans",
+      "origine": "Américaine",
+      "statut": "Pègre : Reaper Incorporated",
+      "statut_verite": "Kukulkan",
       "organisation": "Ihuito Meztzi",
       "relations": [],
       "identity_keys": [
@@ -1036,7 +1036,7 @@ const PAYLOAD = [
         21,
         21
       ],
-      "source_designation": "K’uhul Ajaw « Tohil » : Quananda",
+      "source_designation": "K’uhul Ajaw « Kukulkan » : Xicatl",
       "source_reality_raw": "Xicolas Morillo",
       "source_truth_raw": "Xicatl",
       "source_extract": "K’uhul Ajaw « Tohil » : Quananda Nom de la Réalité : Xicolas Morillo Nom de la Vérité : Xicatl Age : «31 ans » - 1081 ans Affiliations : pègre : Reaper incorporated Nationalité d’origine : américaine Ethnie réelle : Vampire Statut : « Kulkulan » Maison vampirique : «Xikalkan » Xicolas Morillo est un des « Reapers » les plus redoutés. Avec son sourire dément et ses tatouages nombreux couvrant presque tout son corps de sa nuque à ses pieds, il est aussi effrayant qu’imprévisible. Il débuta dans les Grim Reapers, Veronica Silver, à peine plus vieille de quelques années, lui montrant les ficelles à lui et son « frère », Luther Pierce, lequel devint le boss du gang des années après. Xicolas forma sa propre bande, les red Reapers. Violent et sanguinaire, il est d’une intelligence rare malgré ses airs de dément enragé. Xicatl est des vampires de l’Ihuito parmi les héritiers les plus anciens. Il faut dire qu’entre ceux utilisés par Quetzal et ceux tués par leurs rivaux, leur nombre diminue aussi vite qu’ils ne se renouvellent. On le dit extrêmement puissant physiquement, mais il n’est pas faible de pouvoirs pour autant. Il n’a aucun respect pour les autres cours, il a déjà enlevé Mircalla Karnstein pour défier Dragoy Skotia, une des pires erreurs de sa vie.",
@@ -1063,17 +1063,21 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«31 ans »"
+                "31 ans"
               ],
               [
                 "Affiliations",
-                "pègre : Reaper incorporated"
+                "Pègre : Reaper Incorporated"
               ],
               [
                 "Nationalité d’origine",
-                "américaine"
+                "Américaine"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Xicolas Morillo compte parmi les « Reapers » les plus redoutés. Son sourire dément et ses nombreux tatouages, qui couvrent presque tout son corps de la nuque aux pieds, le rendent aussi effrayant qu’imprévisible. Il débuta chez les Grim Reapers, où Veronica Silver, de quelques années son aînée, apprit les ficelles du métier à Xicolas et à son « frère » Luther Pierce, futur chef du gang. Xicolas fonda ensuite sa propre bande, les Red Reapers. Violent et sanguinaire, il cache une intelligence rare derrière ses airs de dément enragé."
           }
         ]
       },
@@ -1096,7 +1100,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "«31 ans » - 1081 ans"
+                "31 ans en apparence ; 1 081 ans"
               ],
               [
                 "Nature réelle",
@@ -1104,17 +1108,17 @@ const PAYLOAD = [
               ],
               [
                 "Statut vampirique",
-                "« Kulkulan »"
+                "Kukulkan"
               ],
               [
                 "Maison vampirique",
-                "«Xikalkan »"
+                "Xikalkan"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "Xicolas Morillo est un des « Reapers » les plus redoutés. Avec son sourire dément et ses tatouages nombreux couvrant presque tout son corps de sa nuque à ses pieds, il est aussi effrayant qu’imprévisible. Il débuta dans les Grim Reapers, Veronica Silver, à peine plus vieille de quelques années, lui montrant les ficelles à lui et son « frère », Luther Pierce, lequel devint le boss du gang des années après. Xicolas forma sa propre bande, les red Reapers. Violent et sanguinaire, il est d’une intelligence rare malgré ses airs de dément enragé. Xicatl est des vampires de l’Ihuito parmi les héritiers les plus anciens. Il faut dire qu’entre ceux utilisés par Quetzal et ceux tués par leurs rivaux, leur nombre diminue aussi vite qu’ils ne se renouvellent. On le dit extrêmement puissant physiquement, mais il n’est pas faible de pouvoirs pour autant. Il n’a aucun respect pour les autres cours, il a déjà enlevé Mircalla Karnstein pour défier Dragoy Skotia, une des pires erreurs de sa vie."
+            "text": "Xicatl compte parmi les plus anciens héritiers de l’Ihuito encore en activité. Entre ceux qu’utilise Quetzal et ceux que leurs rivaux ont tués, leur nombre diminue aussi vite qu’il se renouvelle. Xicatl est réputé extrêmement puissant physiquement sans être dénué de pouvoirs. Il ne respecte aucune autre Cour et alla jusqu’à enlever Mircalla Karnstein pour défier Dragoy Skotia, l’une des pires erreurs de sa vie. Sa force physique en fait le candidat considéré comme le plus susceptible de devenir Quetzal."
           }
         ]
       },
