@@ -5,7 +5,7 @@ const PAYLOAD = [
     "dataset": "verite-vampire-courts-pnj",
     "category": "Personnages",
     "sourceCategory": "Personnages",
-    "title": "Dan HARRINGTON",
+    "title": "Dan Harrington",
     "source": "Factions_Les cours vampiriques(1)(2).pdf",
     "status": "canon_source",
     "rebuildV2": true,
@@ -18,18 +18,19 @@ const PAYLOAD = [
     ],
     "pnj": {
       "completeness": "detailed",
-      "real_name": "Dan HARRINGTON",
+      "real_name": "Dan Harrington",
       "nom_verite": "Dragoy SKOTIA",
       "race": "Vampire",
-      "age": "«45 ans » - 3457ans",
+      "age": "45 ans",
       "origine": "Américaine",
       "statut": "Crawlers : mercs",
       "statut_verite": "Roi",
       "organisation": "Krovni Rytsari",
       "relations": [],
       "identity_keys": [
-        "Dan HARRINGTON",
-        "Dragoy SKOTIA"
+        "Dan Harrington",
+        "Dragoy SKOTIA",
+        "Dan HARRINGTON"
       ],
       "source_group": "Krovni Rytsari",
       "source_order": 1,
@@ -60,11 +61,11 @@ const PAYLOAD = [
               ],
               [
                 "Nom / identité de Réalité",
-                "Dan HARRINGTON"
+                "Dan Harrington"
               ],
               [
                 "Âge apparent",
-                "«45 ans »"
+                "45 ans"
               ],
               [
                 "Affiliations",
@@ -75,6 +76,10 @@ const PAYLOAD = [
                 "Américaine"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Dan Harrington est l’un des Crawlers mercenaires les plus redoutés. Lié à Ushkoll et réputé proche de certains cadres de la corporation, il dirige ses propres équipes d’anciens soldats. Pendant la guerre de 2022 à 2028, il servit dans les U.S. Marines sans particulièrement s’y distinguer."
           }
         ]
       },
@@ -111,7 +116,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Actuellement un des crawlers les plus terrifiants. C’est un mercenaire lié à Ushkoll, on dit qu’il serait un proche des cadres de la corporation. Il possède ses propres équipes d’anciens soldats, en 22-28, il était dans les US. Marines même s’il n’a pas brillé. Roi fondateur de la krovni, il approche les 4000 ans sans avoir beaucoup changé. Il l’ignore, mais sa mère était une amazone qu’un ancien Khinae fertilisa, c’est pour l’éveiller que Gahanath décima sa communauté d’amazones et d’humains qu’il défendait, afin de mieux le corrompre. Il est une forme incomplète d’archivampire que la marque de Caïn a renforcé et c’est pour ça qu’il est un des plus puissants rois vampire quoi qu’un des plus jeunes. Brave mais sanguinaire, il est très intelligent et sait qu’il n’est qu’une marionnette pour sa maitresse, Gahanath, mais il assume son rôle de roi avec un sens du devoir, ne pouvant pas se venger d’ell, n’ayant"
+            "text": "Dan est en vérité Dragoy Skotia, roi fondateur de la Krovni Rytsari. Âgé de 3 457 ans, il approche les quatre millénaires sans avoir beaucoup changé. Il ignore que sa mère était une Amazone fécondée par un ancien Khinae. R’Gahanath massacra la communauté d’Amazones et d’humains qu’il défendait afin de provoquer son éveil puis de mieux le corrompre. Dragoy est une forme incomplète d’Archivampire renforcée par la Marque de Caïn, ce qui explique qu’il soit l’un des plus puissants rois vampires malgré sa relative jeunesse. Brave mais sanguinaire et très intelligent, il sait n’être qu’une marionnette pour R’Gahanath. Il assume pourtant sa fonction royale avec un profond sens du devoir et n’a désormais ni les moyens ni même l’envie de se venger d’elle."
           }
         ]
       },
