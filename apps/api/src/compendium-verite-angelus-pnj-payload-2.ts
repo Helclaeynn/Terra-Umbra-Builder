@@ -22,7 +22,7 @@ const PAYLOAD = [
       "real_name": "Milda Tarasknovna",
       "nom_verite": "Selaphielle",
       "race": "archangelus",
-      "age": "«36 ans » - ????",
+      "age": "36 ans",
       "origine": "Russe",
       "statut": "Pègre : Bratva",
       "statut_verite": "Archange renégat",
@@ -63,7 +63,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«36 ans » - ????"
+                "36 ans"
               ],
               [
                 "Affiliations",
@@ -84,7 +84,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Milda était une soldate russe assez lambda avant la guerre, déployée en manœuvre à l’ouest, elle se retrouva isolée avec son bataillon lors des attaques coréennes. Elle intégra l’armée de l’Arkhangel et en devint un officier reconnaissable à sa natte rouge lui valant le surnom de « Red Sonya ». Après la guerre, elle resta auprès de la légende vivante qu’est « L’arkhangel » et intégra la pègre de Vladivostok à ses côtés. Désormais, elle est à la tête de la section assassinat dans la Bratva ainsi que la gestion de s armes."
+            "text": "Milda était une soldate russe assez ordinaire avant la guerre. Déployée en manœuvre à l’ouest, elle se retrouva isolée avec son bataillon pendant les attaques coréennes. Elle intégra alors l’armée de l’Arkhangel et en devint officière, reconnaissable à sa natte rouge qui lui valut le surnom de « Red Sonya ». Après la guerre, elle resta auprès de la légende vivante qu’est l’Arkhangel et rejoignit à ses côtés la pègre de Vladivostok. Elle dirige désormais la section assassinat de la Bratva ainsi que la gestion de ses armes."
           }
         ]
       },
@@ -129,7 +129,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Selaphielle était l’Archange du devoir de son côté. En concurrence avec notamment l’archange Michel, elle était toutefois loin de pâlir face à l’archange guerrier. Cependant, elle idolâtrait Metatron alors quand il fut emprisonné, elle plaida, encore et encore en sa faveur, réhabilité son chef devint son obsession et Elynea n’apprécia pas que son archange du devoir délaisse ceux attribuer pour s’opposer à ses décisions, la faisant aussi enfermer. Elle possède Milda avec l’accord de cette dernière afin d’assister"
+            "text": "Selaphielle était l’Archange du devoir. En concurrence notamment avec Michel, elle n’avait rien à envier à l’Archange guerrier. Elle idolâtrait cependant Metatron et, lorsque celui-ci fut emprisonné, elle plaida sans relâche pour sa réhabilitation. Cette obsession la poussa à négliger les devoirs qui lui étaient attribués et à s’opposer aux décisions d’Elynea, qui finit par l’emprisonner à son tour. Selaphielle possède aujourd’hui Milda avec l’accord de cette dernière afin d’assister Svetlana jusque face au surnaturel ; Milda conserve toutefois très souvent le plein contrôle de son propre corps."
           }
         ]
       },
