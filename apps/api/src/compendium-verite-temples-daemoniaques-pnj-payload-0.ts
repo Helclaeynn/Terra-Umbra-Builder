@@ -650,7 +650,7 @@ const PAYLOAD = [
       "nom_verite": "Rhiannon– Boadicée",
       "nom_verite_source": "Rhiannon– Boadicée",
       "race": "Daemons",
-      "age": "«34 ans » - ????",
+      "age": "34 ans",
       "origine": "britannique",
       "statut": "Duchesse",
       "affiliations": "gouvernement : police (Los Angeles)",
@@ -706,7 +706,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Bethany Griffith est une enquêtrice née en Angleterre, émigrée aux Etats-Unis qui a obtenu la nationalité californienne après la guerre. Assez farouche et old school, elle est loin d’être facile à vivre pour ses collègues. Elle est particulièrement néopaïenne et a du mal avec ses collègues les plus Monothéistes, détestant plus que tous les autres les chrétiens."
+            "text": "Bethany Griffith est une enquêtrice née en Angleterre, émigrée aux États-Unis puis naturalisée californienne après la guerre. Farouche, très old school et peu facile à vivre pour ses collègues, elle affiche ouvertement ses convictions néopaïennes. Elle s’entend mal avec les collègues les plus monothéistes et nourrit une hostilité particulièrement forte envers les chrétiens."
           }
         ]
       },
@@ -772,7 +772,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Bethany Griffith est une enquêtrice née en Angleterre, émigrée aux Etats-Unis qui a obtenu la nationalité californienne après la guerre. Assez farouche et old school, elle est loin d’être facile à vivre pour ses collègues. Elle est particulièrement néopaïenne et a du mal avec ses collègues les plus Monothéistes, détestant plus que tous les autres les chrétiens. De son vivant, Boadicée ou plus vraisemblablement Boudicca, était une reine celtique qui se rebella contre les romains. Héroïque et farouche elle est devenue une figure britannique légendaire. Récupérée par Morrighan ou ses corneilles, elle devint une de ses daemones les plus emblématiques, Morrighan possédant des « grands corbeaux », elle possède assez peu de « ducs » véritables et aucun « princes » en dehors de quelques filles. Ce que l’Histoire ne peut relater c’est que Boadicée était une semi-elfe, fille de la reine Titania de plus."
+            "text": "Bethany est en vérité Rhiannon–Boadicée. De son vivant, Boadicée — plus vraisemblablement Boudicca — fut la reine celtique qui se rebella contre les Romains et devint une figure légendaire britannique. Récupérée par Morrighan ou par ses corneilles, elle devint l’une de ses Daemones les plus emblématiques. Morrighan s’appuie surtout sur ses « Grands Corbeaux » et possède relativement peu de véritables ducs ou duchesses daemoniaques, et aucun prince en dehors de quelques filles. L’Histoire ignore en outre que Boadicée était une semi-Elfe, fille de la reine Titania."
           }
         ]
       },
