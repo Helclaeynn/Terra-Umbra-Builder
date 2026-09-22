@@ -64,6 +64,13 @@ for (const key of ["source", "sourceCategory", "rebuildV2", "loreBook", "legacyT
 const delanial = COMPENDIUM_VERITE_V7_PASS_B_ARTICLES.find((article) => article.id === "verite-v7-delanial-pere-ombre");
 assert.ok(delanial, "page Delanial présente");
 assert.match(articleText(delanial), /aucune Source de Corruption Delanial/u, "garde Delanial explicite");
+const mergedDelanial = {
+  id: "verite-v7-delanial-pere-ombre",
+  category: "Vérité",
+  sections: [{ id: "classification", blocks: [{ type: "p", text: "Delanial n’est pas un Fléau." }] }]
+};
+applyLoreQualityCleanup(mergedDelanial);
+assert.match(articleText(mergedDelanial), /aucune Source de Corruption Delanial/u, "classification Delanial conservée après fusion");
 
 for (const file of ["apps/web/src/lib/wiki-data.ts", "compendium/onboarding-data.js"]) {
   assert.match(fs.readFileSync(new URL(`../../../${file}`, import.meta.url), "utf8"), /['"]Cycle['"]\s*:\s*['"]verite-033-le-cycle-le-neant-et-ce-que-la-mort-revele['"]/u, `${file}: alias Cycle`);
