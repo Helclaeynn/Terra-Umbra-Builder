@@ -664,7 +664,7 @@ const PAYLOAD = [
       "nom_verite": "Samael - Forseti",
       "nom_verite_source": "Samael - Forseti",
       "race": "Daemons",
-      "age": "«26 ans » - ????",
+      "age": "26 ans",
       "origine": "américaine",
       "statut": "Duc",
       "affiliations": "Crawler : « voidwatcher »",
@@ -720,7 +720,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Sam G. Clarkson est un crawler spécifique, il est le seul « voidwatcher » autoproclamé. C’est un détective (gunwatcher) spécialisé dans l’enquête sur des crimes irrésolus. Une fois payé, il n’arrêtera qu’une fois le responsable mort."
+            "text": "Sam G. Clarkson est un Crawler atypique et le seul « Voidwatcher » autoproclamé. Détective spécialisé dans les crimes irrésolus, il accepte des enquêtes difficiles avec une méthode radicale : une fois payé, il ne considère son travail terminé qu’après la mort du responsable."
           }
         ]
       },
@@ -786,7 +786,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Sam G. Clarkson est un crawler spécifique, il est le seul « voidwatcher » autoproclamé. C’est un détective (gunwatcher) spécialisé dans l’enquête sur des crimes irrésolus. Une fois payé, il n’arrêtera qu’une fois le responsable mort. Autrefois, ce duc était un prince daemoniaque, fils de lilith et Satan, il était connu comme Forseti, le dieu nordique de la Justice. Samael est souvent un autre nom pour Satan, ce n’est que récemment (quelques siècles) qu’en ayant été déchu, réincarné de zéro sur Terre, le prince a pu remonter la hiérarchie démoniaque et obtenir un titre à nouveau. Son ancien nom était Samanum, le démon rouge. C’est un des rares daemons « naturels » à être incarné en 2035, la raison étant qu’après son erreur, ayant jugé « coupable » une mortelle qui ne l’était pas, Satan l’a dépouillé de tout pouvoir, tout souvenir, Samael bénéficiant d’une vie de mortel pour se repentir."
+            "text": "Sam est en vérité Samael–Forseti. Autrefois prince daemoniaque, fils de Lilith et Satan, il fut associé à Forseti, dieu nordique de la Justice. Samael étant également un nom parfois attribué à Satan, son identité prête facilement à confusion. Déchu il y a quelques siècles et réincarné sans pouvoir ni souvenir, le prince dut gravir à nouveau toute la hiérarchie daemoniaque avant de retrouver un titre. Son ancien nom était Samanum, le Démon rouge. La cause de sa chute fut une erreur de jugement : après avoir déclaré coupable une mortelle innocente, Satan le dépouilla de tout et lui imposa une vie de mortel afin qu’il puisse se repentir."
           }
         ]
       },
