@@ -1969,7 +1969,7 @@ const PAYLOAD = [
       "real_name": "Nayshya Greer",
       "nom_verite": "Nayshya",
       "race": "Vampire",
-      "age": "«30 ans » - 1714 ans",
+      "age": "30 ans",
       "origine": "Américaine",
       "statut": "Crawlers : Hookers",
       "statut_verite": "« Masque de la foi »",
@@ -2012,7 +2012,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«30 ans »"
+                "30 ans"
               ],
               [
                 "Affiliations",
@@ -2023,6 +2023,10 @@ const PAYLOAD = [
                 "Américaine"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Nayshya Greer compte parmi les prostituées afro-américaines les plus influentes de Californie. Sulfureuse, provocatrice et extrêmement violente, elle n’hésite pas à éliminer ses rivales. Protégée par les Crips, elle est surtout associée à Todd Larsen dans son réseau de recrutement de jeunes femmes noires. Sans scrupules, elle est accusée d’un nombre particulièrement élevé d’agressions sexuelles contre des hommes en 2035."
           }
         ]
       },
@@ -2063,7 +2067,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Nayshya est une des plus influentes prostituées afro-américaines de Californie. Sulfureuse et obscène au possible, cette criminelle n’hésite pas à tuer ses rivales. Protégée par les Crips, elle est surtout l’associée de Todd Larsen dans son immonde entreprise pour recruter de jeunes beautés d’ébène pour des pervers. Sans scrupules ni morale, elle est possiblement la californienne ayant à son actif le plus d’agression sexuelles perpétrées contre des hommes durant l’année 2035. A la voir presque toujours nue, on n’imaginerait pas voir la grande prêtresse de l’Alghul. Elle use de son incommensurable charme pour rendre fanatique les membres de l’Alghul envers leur reine. C’est une assassine de « succubes », de tentateurs chez les daemons, elle capture leur âme pour utiliser leurs pouvoirs. Elle est crainte des autres cours vampiriques, car elle a déjà ramené des membres éminents de différentes cours sous la bannière de l’Alghul. Elle est née d’une noble lignée dans l’ancien royaume d’Aksoum."
+            "text": "Nayshya est le « Masque de la Foi », grande prêtresse de l’Alghul. Son immense pouvoir de séduction lui permet de transformer les membres de la Cour en fanatiques dévoués à leur reine. Elle chasse et tue les « Succubes » et autres tentateurs Daemons, capturant leurs âmes afin d’utiliser leurs pouvoirs. Les autres cours vampiriques la craignent, car elle a déjà ramené plusieurs de leurs membres éminents sous la bannière de l’Alghul. Nayshya descend d’une noble lignée de l’ancien royaume d’Aksoum."
           }
         ]
       },
