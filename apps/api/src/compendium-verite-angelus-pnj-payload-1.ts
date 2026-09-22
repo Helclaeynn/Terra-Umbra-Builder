@@ -1303,7 +1303,7 @@ const PAYLOAD = [
       "real_name": "Cylia Vecellio",
       "nom_verite": "Siloelle",
       "race": "Angelus",
-      "age": "«25 ans », ????",
+      "age": "25 ans",
       "origine": "Maltaise",
       "statut": "Corporation : Ushkoll",
       "statut_verite": "séraphin",
@@ -1344,7 +1344,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«25 ans », ????"
+                "25 ans"
               ],
               [
                 "Affiliations",
@@ -1365,7 +1365,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Cylia Vecellio est une sportive de très haut niveau. Elle appartient à Ushkoll, qui est une corporation essentiellement versée dans le mercenariat, mais a quelques branches dans le divertissement, dont des athlètes d’UMA ou autres. Même si Cylia a été formée comme un agent de sécurité initialement, ses performances l’ont amenée à s’orienter sur les sports. Athlétisme, escalade, UMA et natations sont ses sports, en 2035, à l’image de Dina Page en son temps, très peu d’athlètes sont spécialistes d’un sport unique, le Sport de 2035 s’orientant sur une synergie des compétences et une polyvalence des athlètes."
+            "text": "Cylia Vecellio est une sportive de très haut niveau employée par Ushkoll. Bien que la corporation soit principalement tournée vers le mercenariat, elle possède aussi plusieurs branches de divertissement, notamment autour de l’UMA et d’autres disciplines sportives. D’abord formée comme agente de sécurité, Cylia s’orienta vers le sport grâce à ses performances. Elle pratique notamment l’athlétisme, l’escalade, l’UMA et la natation. Comme beaucoup d’athlètes de 2035, elle privilégie la polyvalence plutôt que la spécialisation dans une seule discipline."
           }
         ]
       },
@@ -1410,7 +1410,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Séraphin de l’Energie, Siloelle est pratiquement inépuisable. Elle n’a aucune patience et a constamment le besoin d’agir. C’est un séraphin ayant commencé comme Domination, une guerrière dans l’âme. C’est le genre de personne qui agira toujours avant de réfléchir, et bien qu’elle réfléchisse très vite, c’est parfois préjudiciable. Son corps appartient à la petite sœur de Tiamandra Vecellio, l’héritière de la « peau de Shaoggith ». Siloelle espérait être l’héritière de l’armure mais ne fut absolument pas formée dans ce sens. Elle servait Manakielle mais n’a pas voulu passer à Gabrielle, elle est une des rares séraphines à avoir deux sephiroth sur sa marque puisqu’Urielle l’accepta."
+            "text": "Séraphine de l’Énergie, Siloelle est pratiquement inépuisable. Elle n’a aucune patience et ressent en permanence le besoin d’agir. Elle commença comme Domination et reste une guerrière dans l’âme : elle agit presque toujours avant de réfléchir, même si sa pensée est extrêmement rapide, ce qui peut malgré tout lui porter préjudice. Son corps appartient à la petite sœur de Tiamandra Vecellio, héritière de la « peau de Shaoggith ». Siloelle espérait hériter de cette armure mais ne fut jamais formée dans ce but. Elle servait Manakielle mais refusa de passer sous l’autorité de Gabrielle ; Urielle l’accepta, ce qui fait d’elle l’une des rares Séraphines à porter deux Sephiroth sur sa Marque."
           }
         ]
       },
