@@ -2233,8 +2233,8 @@ const PAYLOAD = [
       "real_name": "Nadia El’Saabi",
       "nom_verite": "Merytaton",
       "race": "Vampire",
-      "age": "«24ans » - 3385 ans",
-      "origine": "Egyptienne",
+      "age": "24 ans",
+      "origine": "Égyptienne",
       "statut": "Corporation : Tala",
       "statut_verite": "« Masque des trésors »",
       "organisation": "Alghul Almalakiu",
@@ -2276,7 +2276,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«24ans »"
+                "24 ans"
               ],
               [
                 "Affiliations",
@@ -2284,9 +2284,13 @@ const PAYLOAD = [
               ],
               [
                 "Nationalité d’origine",
-                "Egyptienne"
+                "Égyptienne"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Nadia El’Saabi était une jeune actrice très populaire en Égypte. À son arrivée en Californie, elle échoua pourtant à percer, Tuatha privilégiant Ishaa El’Jabara pour les rôles moyen-orientaux de jeune femme brune. Pragmatique, Nadia se réorienta vers les casinos de Las Vegas et devint en seulement deux ans propriétaire du Luxor."
           }
         ]
       },
@@ -2327,7 +2331,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Nadia était une jeune actrice pleine de talent très connue en Egypte, mais à son arrivée en Californie, elle échoua platement à percer, la Tuatha donnant la priorité à Ishaa El’Jabara pour les rôles moyen￾orientaux de petite brune séduisante. Loin d’être idiote, Nadia se tourna vers les casinos de Las Vegas et devint en deux ans la propriétaire du Luxor. Fille d’Akhénaton, elle rse proclama Pharaon après lui mais son règne fut écourté par la grande crise que son père avait provoquée, notamment avec le clergé d’Amon. Destituée et traquée, ayant pris pour époux un Hittite, la jeune femme de 16 ans se réfugia auprès de la reine vampire Ankhsetis. Mortelle elle en devint une servante loyale, mais par sa consanguinité, la reine vampire savait que Merytaton ne pourrait pas devenir un vampire, au mieux une moroï. La reinefit un acte insensé, puisqu’elle donna naissance à une fille dont elle arracha l’âme pour l’échanger avec celle de la princesse, ce fut si immoral pour la cour de l’alghul qu’elle fut destituée, mais Merytaton devint ainsi vampire de sang royal ainsi. Elle est la plus riche de tous les vampire existants."
+            "text": "Nadia est en vérité Merytaton, « Masque des Trésors » de l’Alghul. Fille d’Akhénaton, elle se proclama pharaon après lui mais son règne fut rapidement brisé par la crise provoquée par son père, notamment avec le clergé d’Amon. Destituée et traquée après avoir pris un Hittite pour époux, la jeune princesse de seize ans se réfugia auprès de la reine vampire Ankhsetis. Mortelle, elle devint une servante loyale, mais sa forte consanguinité rendait improbable une transformation vampirique normale. Ankhsetis commit alors un acte jugé impardonnable : elle donna naissance à une fille, arracha l’âme de l’enfant et l’échangea avec celle de Merytaton. La Cour destitua la reine pour cet acte, mais Merytaton devint ainsi vampire de sang royal. Elle est aujourd’hui considérée comme la plus riche de tous les vampires existants."
           }
         ]
       },
