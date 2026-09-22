@@ -308,7 +308,7 @@ const PAYLOAD = [
       "real_name": "Jaquina Morales",
       "nom_verite": "Jachim",
       "race": "Angelus (Neva’iriel)",
-      "age": "«28 ans » - ????",
+      "age": "28 ans",
       "origine": "Mexicaine",
       "statut": "Crawler : neurodivers – pègre : cartel Sinaloa",
       "statut_verite": "séraphin",
@@ -349,7 +349,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«28 ans » - ????"
+                "28 ans"
               ],
               [
                 "Affiliations",
@@ -370,7 +370,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Née à Mexico, Jaquina passa la frontière pendant la guerre du Mexique pour fuir les combats entre ls cartels et les corporations. Bien qu’elle n’ait jamais appris la langue anglaise, elle la maitrise parfaitement grâce à ses implants linguistiques. C’est une crawler essentiellement employée par le cartel Sinaloa pour nuire au comité du Crime Californien. Malgré tout, elle ne crache jamais sur des missions éloignées de la pègre."
+            "text": "Née à Mexico, Jaquina franchit la frontière pendant la guerre du Mexique pour fuir les combats entre cartels et corporations. Bien qu’elle n’ait jamais appris l’anglais, elle le maîtrise parfaitement grâce à ses implants linguistiques. C’est une Crawler principalement employée par le cartel de Sinaloa pour nuire au Comité du Crime californien. Elle accepte toutefois aussi des missions sans rapport direct avec la pègre."
           }
         ]
       },
@@ -415,7 +415,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Archange de naissance sur la Terre, elle était d’une communauté assez maltraitée par les terriens, quand les anges passèrent le portail, transcendés, elle les aida essentiellement par vengeance contre les serviteurs des dieux locaux, qui persécuté les expatriés d’Aèr et de Gaerras, notamment durant la Purge des Astharès. Malgré ses incroyables dons dans les vents, lui valant d’être un séraphin de la tempête, elle n’eut pas de titre archangélique, ce qui la frustra étant"
+            "text": "Archange de naissance sur Terre, Jachim venait d’une communauté durement maltraitée par les Terriens. Lorsque les anges franchirent le portail après leur transcendance, elle les aida surtout par vengeance contre les serviteurs des dieux locaux qui persécutaient les expatriés d’Aèr et de Gaerras, notamment pendant la Purge des Astharès. Malgré ses dons extraordinaires sur les vents, qui lui valent d’être une Séraphine de la tempête, elle ne reçut aucun titre archangélique. Cette absence la frustra d’autant plus qu’elle est Neva’Iriel de naissance : elle tenta à plusieurs reprises de remplacer Camaelle et la sert sans réellement l’apprécier."
           }
         ]
       },
