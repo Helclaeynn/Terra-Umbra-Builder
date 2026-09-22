@@ -1810,17 +1810,19 @@ const PAYLOAD = [
     "pnj": {
       "completeness": "detailed",
       "real_name": "River Barns",
-      "nom_verite": "Neenynah / Rurumalith",
+      "nom_verite": "Neenymah / Rurumalith",
       "race": "Vampire",
-      "age": "«20 ans » - 120 ans",
-      "origine": "Americano-australienne",
+      "age": "20 ans",
+      "origine": "Américano-australienne",
       "statut": "Crawlers : Neopunks",
-      "statut_verite": "« Cihuaehcayotl»",
+      "statut_verite": "Cihuaehccayotl",
       "organisation": "Ihuito Meztzi",
       "relations": [],
       "identity_keys": [
         "River Barns",
-        "Neenynah / Rurumalith"
+        "Neenymah",
+        "Neenynah",
+        "Rurumalith"
       ],
       "source_group": "Ihuito Meztzi",
       "source_order": 33,
@@ -1828,7 +1830,7 @@ const PAYLOAD = [
         24,
         24
       ],
-      "source_designation": "K’uhul Ajaw « Huitztlampaehecatl » : Daniella",
+      "source_designation": "K’uhul Ajaw « Cihuaehccayotl » : Neenynah",
       "source_reality_raw": "River Barns",
       "source_truth_raw": "Neenynah / Rurumalith",
       "source_extract": "K’uhul Ajaw « Huitztlampaehecatl » : Daniella Nom de la Réalité : River Barns Nom de la Vérité : Neenynah / Rurumalith Age : «20 ans » - 120 ans Affiliations : Crawlers : Neopunks Nationalité d’origine : Americano-australienne Ethnie réelle : Vampire Statut : « Cihuaehcayotl» Maison vampirique : «Neenycayotl » River est un.e neopunk de tout juste 20 ans. Iel débute dans la scène undergound depuis peu de temps mais son nom commence à se faire connaitre. Parce qu’Iel n’était pas autorisé.e à la « Décharge » à San Diejuana, Iel se fit fabriquer un bus blindé et paya Xavio Nabarez pour escorter son bélier mécanique pendant qu’il faisait sa performance en traçant à travers la Décharge. Très écœuré.e qu’en 2035 on genre encore les gens, iel a modifié son corps à Biosun pour être un parfait hermaphrodite, possédant tous les organes sexuels humains à la fois, fonctionnels.Iel prône l’hermaphrodisme parfait et l’abolition des genres ou des petites boites liées à la sexualité, un humain est un humain, une baise est une baise, aucun autre détail n’a d’importance. Neenymah est le fils de Jurooga, l’ancienne reine de la cour Australienne et supposément d’un fils de Quetzalcoatl. Paria de la cour, il a tendance à défier les autres héritiers. Son corps est en partie féminin parce qu’il le partage avec une Deimone, Rurumalith, un serpent d’ombres décuplant ses jeunes pouvoirs. Il a pour but de restaurer sa mère comme Reine un jour mais il est un otage de l’’Ihuito puisqu’il",
@@ -1855,7 +1857,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«20 ans »"
+                "20 ans"
               ],
               [
                 "Affiliations",
@@ -1863,9 +1865,13 @@ const PAYLOAD = [
               ],
               [
                 "Nationalité d’origine",
-                "Americano-australienne"
+                "Américano-australienne"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "River Barns est un·e Neopunk de tout juste 20 ans. Iel débute depuis peu sur la scène underground, mais son nom commence à circuler. Comme l’accès à la « Décharge » de San Diejuana lui était interdit, River fit fabriquer un bus blindé et paya Xavio Nabarez pour escorter ce bélier mécanique pendant sa performance à travers le site. Révolté·e qu’en 2035 la société continue à genrer les individus, iel fit modifier son corps chez Biosun afin de devenir un parfait hermaphrodite, doté de tous les organes sexuels humains fonctionnels. River défend l’hermaphrodisme parfait et l’abolition des genres comme des catégories liées à la sexualité : « un humain est un humain, une baise est une baise », aucun autre détail ne lui importe."
           }
         ]
       },
@@ -1884,11 +1890,11 @@ const PAYLOAD = [
               ],
               [
                 "Nom de la Vérité",
-                "Neenynah / Rurumalith"
+                "Neenymah / Rurumalith"
               ],
               [
                 "Âge complet",
-                "«20 ans » - 120 ans"
+                "20 ans en apparence ; 120 ans"
               ],
               [
                 "Nature réelle",
@@ -1896,17 +1902,17 @@ const PAYLOAD = [
               ],
               [
                 "Statut vampirique",
-                "« Cihuaehcayotl»"
+                "Cihuaehccayotl"
               ],
               [
                 "Maison vampirique",
-                "«Neenycayotl »"
+                "Neenycayotl"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "River est un.e neopunk de tout juste 20 ans. Iel débute dans la scène undergound depuis peu de temps mais son nom commence à se faire connaitre. Parce qu’Iel n’était pas autorisé.e à la « Décharge » à San Diejuana, Iel se fit fabriquer un bus blindé et paya Xavio Nabarez pour escorter son bélier mécanique pendant qu’il faisait sa performance en traçant à travers la Décharge. Très écœuré.e qu’en 2035 on genre encore les gens, iel a modifié son corps à Biosun pour être un parfait hermaphrodite, possédant tous les organes sexuels humains à la fois, fonctionnels.Iel prône l’hermaphrodisme parfait et l’abolition des genres ou des petites boites liées à la sexualité, un humain est un humain, une baise est une baise, aucun autre détail n’a d’importance. Neenymah est le fils de Jurooga, l’ancienne reine de la cour Australienne et supposément d’un fils de Quetzalcoatl. Paria de la cour, il a tendance à défier les autres héritiers. Son corps est en partie féminin parce qu’il le partage avec une Deimone, Rurumalith, un serpent d’ombres décuplant ses jeunes pouvoirs. Il a pour but de restaurer sa mère comme Reine un jour mais il est un otage de l’’Ihuito puisqu’il"
+            "text": "Neenymah est le fils de Jurooga, ancienne reine de la Cour australienne, et serait issu d’un fils de Quetzalcoatl. Paria au sein de l’Ihuito, il tend à défier les autres héritiers. Son corps est en partie féminin parce qu’il le partage avec une Deimone, Rurumalith, serpent d’ombres qui décuple ses jeunes pouvoirs. Neenymah veut un jour restaurer sa mère sur le trône, mais demeure un otage de l’Ihuito parce qu’il possède le Sang du rêve."
           }
         ]
       },
