@@ -1079,10 +1079,10 @@ const PAYLOAD = [
       "real_name": "Tykeim Thornton",
       "nom_verite": "Sehloho",
       "race": "Vampire",
-      "age": "«35 ans » - 220 ans",
-      "origine": "Americain",
-      "statut": "Crawlers : mercs",
-      "statut_verite": "« Makoko»",
+      "age": "35 ans",
+      "origine": "Américain",
+      "statut": "Crawlers : Mercs",
+      "statut_verite": "Makoko",
       "organisation": "Oru Ayeraye",
       "relations": [],
       "identity_keys": [
@@ -1095,7 +1095,7 @@ const PAYLOAD = [
         32,
         32
       ],
-      "source_designation": "Makoko : Kakango",
+      "source_designation": "Makoko : Sehloho",
       "source_reality_raw": "Tykeim Thornton",
       "source_truth_raw": "Sehloho",
       "source_extract": "Makoko : Kakango Nom de la Réalité : Tykeim Thornton Nom de la Vérité : Sehloho Age : «35 ans » - 220 ans Affiliations : Crawlers : mercs Nationalité d’origine : Americain Ethnie réelle : Vampire Statut : « Makoko» Maison vampirique : «Obayifo » Tykeim est un mercenaire, ancien soldat des Etats-Unis, membre de l’US. Army. Il n’a pas spécialement été connu pendant la guerre. Il a un trouble de l’autorité lui causant des soucis malgré des compétences physiques et intellectuelles. Il est assez insensible et cruel de nature, peu de camarades ont gardé le contact. Souffrant d’un syndrome de stress post-traumatique, il était considéré comme inadapté à la société. Il est consommateur de « D-truth » (sombre vérité), une drogue surclassant les N￾sta. Malgré tout, c’est un mercenaire fiable pour les fixers, moins pour d’éventuels équipiers. Seigneur de la maison Obayifo, il a pour serviteur le deimon éponyme, une ombre vampirique cruelle et sanguinaire. Le seigneur vampirique est à l’aise en 2035, comme beaucoup de vampires africains, il a astucieusement utilisé la communauté afro-américaine pour s’intégré en Californie. Il a compris les enjeux, les forces et faiblesses des factions, et désormais joue le jeu de la Réalité sans abandonner ses devoirs dans la Vérité. Bien que jeune, il a des vues sur la couronne de l’Oru Ayeraye, côtoyant",
@@ -1122,17 +1122,21 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«35 ans »"
+                "35 ans"
               ],
               [
                 "Affiliations",
-                "Crawlers : mercs"
+                "Crawlers : Mercs"
               ],
               [
                 "Nationalité d’origine",
-                "Americain"
+                "Américain"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Tykeim Thornton est un mercenaire et ancien soldat de l’US Army dont les faits de guerre n’ont rien de particulièrement notable. Malgré de solides capacités physiques et intellectuelles, ses difficultés avec l’autorité lui ont souvent causé des problèmes. Insensible et cruel, il a conservé peu de liens avec ses anciens camarades. Son syndrome de stress post-traumatique le faisait considérer comme inadapté à la vie civile. Consommateur de D-Truth, une drogue plus puissante que les N-Sta, Tykeim reste un mercenaire fiable pour les fixers, mais beaucoup moins pour ses éventuels équipiers."
           }
         ]
       },
@@ -1155,7 +1159,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "«35 ans » - 220 ans"
+                "35 ans en apparence ; 220 ans"
               ],
               [
                 "Nature réelle",
@@ -1163,17 +1167,17 @@ const PAYLOAD = [
               ],
               [
                 "Statut vampirique",
-                "« Makoko»"
+                "Makoko"
               ],
               [
                 "Maison vampirique",
-                "«Obayifo »"
+                "Obayifo"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "Tykeim est un mercenaire, ancien soldat des Etats-Unis, membre de l’US. Army. Il n’a pas spécialement été connu pendant la guerre. Il a un trouble de l’autorité lui causant des soucis malgré des compétences physiques et intellectuelles. Il est assez insensible et cruel de nature, peu de camarades ont gardé le contact. Souffrant d’un syndrome de stress post-traumatique, il était considéré comme inadapté à la société. Il est consommateur de « D-truth » (sombre vérité), une drogue surclassant les N￾sta. Malgré tout, c’est un mercenaire fiable pour les fixers, moins pour d’éventuels équipiers. Seigneur de la maison Obayifo, il a pour serviteur le deimon éponyme, une ombre vampirique cruelle et sanguinaire. Le seigneur vampirique est à l’aise en 2035, comme beaucoup de vampires africains, il a astucieusement utilisé la communauté afro-américaine pour s’intégré en Californie. Il a compris les enjeux, les forces et faiblesses des factions, et désormais joue le jeu de la Réalité sans abandonner ses devoirs dans la Vérité. Bien que jeune, il a des vues sur la couronne de l’Oru Ayeraye, côtoyant"
+            "text": "Seigneur de la maison Obayifo, Sehloho commande le Deimon éponyme, une ombre vampirique cruelle et sanguinaire. Comme beaucoup de vampires africains, il a habilement utilisé la communauté afro-américaine pour s’intégrer en Californie. Il en comprend les factions, leurs forces et leurs faiblesses, et joue désormais le jeu de la Réalité sans abandonner ses devoirs dans la Vérité. Malgré son jeune âge, il convoite la couronne de l’Oru Ayeraye et fréquente régulièrement Temilade afin de comploter."
           }
         ]
       },
