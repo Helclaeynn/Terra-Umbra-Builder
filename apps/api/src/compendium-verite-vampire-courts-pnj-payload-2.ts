@@ -1738,7 +1738,7 @@ const PAYLOAD = [
     "dataset": "verite-vampire-courts-pnj",
     "category": "Personnages",
     "sourceCategory": "Personnages",
-    "title": "ZHAO Xinzo",
+    "title": "Zhao Xinzo",
     "source": "Factions_Les cours vampiriques(1)(2).pdf",
     "status": "canon_source",
     "rebuildV2": true,
@@ -1751,16 +1751,18 @@ const PAYLOAD = [
     ],
     "pnj": {
       "completeness": "detailed",
-      "real_name": "ZHAO Xinzo",
-      "nom_verite": "LI Zinzhuo",
-      "race": "vampire",
-      "age": "« 65 ans » - 2320 ans",
-      "origine": "chinoise",
-      "statut": "crawlers : fixers",
-      "statut_verite": "« Chengxiang »",
+      "real_name": "Zhao Xinzo",
+      "nom_verite": "Li Zinzhuo",
+      "race": "Vampire",
+      "age": "65 ans",
+      "origine": "Chinoise",
+      "statut": "Crawlers : Fixers",
+      "statut_verite": "Chengxiang",
       "organisation": "Shì hun zhe",
       "relations": [],
       "identity_keys": [
+        "Zhao Xinzo",
+        "Li Zinzhuo",
         "ZHAO Xinzo",
         "LI Zinzhuo"
       ],
@@ -1770,7 +1772,7 @@ const PAYLOAD = [
         36,
         36
       ],
-      "source_designation": "amèrement la perfection du Taoïsme véritable, qui permet aux humains de la combattre.",
+      "source_designation": "Chengxiang (grand chancelier) : Zinzhuo",
       "source_reality_raw": "ZHAO Xinzo",
       "source_truth_raw": "LI Zinzhuo",
       "source_extract": "amèrement la perfection du Taoïsme véritable, qui permet aux humains de la combattre. Nom de la Réalité : ZHAO Xinzo Nom de la Vérité : LI Zinzhuo Age : « 65 ans » - 2320 ans Affiliations : crawlers : fixers Nationalité d’origine : chinoise Ethnie réelle : vampire Statut : « Chengxiang » Clan vampirique : « Jianshi » Xinzo est un vieil homme charismatique. A Los Angeles, il est connu pour être un fixer traditionnaliste, toujours habillé d’habits de soie de grande qualité et faits par des artisans renommés. Assez raciste, il traite peu avec les hispaniques, les afro-américains ou bien les blancs, il favorise les moyen-orientaux et les extrême-orientaux surtout. Exigeant, il est aussi bon payeur qu’il est sévère, il répugne à traiter avec les yakuzas ou les Triades également, la pègre l’insupportant. Grand chancelier du Shi Hun zhe, il est le maitre de la maison « Jianshi », maître taoïste, il a un contrôle total sur ses moroï et ses zombies qui ont hérité du nom de sa Maison. Xinya le plaça dans la maison « Li », en -285 avant notre ère. Il était le « frère jumeau » de Li Mu, le grand général du royaume de Zhao, malade le jour, il remplaçait son « frère » la nuit. Il se forgea une culture et un esprit affûté ainsi mais fut une grande déception pour Xinya, qui préféra finalement Qin. Absolument loyal à l’impératrice, il n’a jamais discuté aucun ordre venant d’elle. Il est surnommé « l’exterminateur » car il a déjà supprimé 12 maisons vampiriques. Il utilise me taoïsme pour aspirer la vitalité à distance.",
@@ -1793,21 +1795,25 @@ const PAYLOAD = [
               ],
               [
                 "Nom / identité de Réalité",
-                "ZHAO Xinzo"
+                "Zhao Xinzo"
               ],
               [
                 "Âge apparent",
-                "« 65 ans »"
+                "65 ans"
               ],
               [
                 "Affiliations",
-                "crawlers : fixers"
+                "Crawlers : Fixers"
               ],
               [
                 "Nationalité d’origine",
-                "chinoise"
+                "Chinoise"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Zhao Xinzo est un vieil homme charismatique, connu à Los Angeles comme un Fixer traditionaliste toujours vêtu de soieries de grande qualité confectionnées par des artisans renommés. Raciste, il traite peu avec les Hispaniques, les Afro-Américains ou les Blancs et favorise surtout les communautés moyen-orientales et extrême-orientales. Exigeant, aussi bon payeur que sévère, il répugne également à travailler avec les Yakuzas ou les Triades, car la pègre l’insupporte."
           }
         ]
       },
@@ -1826,29 +1832,29 @@ const PAYLOAD = [
               ],
               [
                 "Nom de la Vérité",
-                "LI Zinzhuo"
+                "Li Zinzhuo"
               ],
               [
                 "Âge complet",
-                "« 65 ans » - 2320 ans"
+                "65 ans en apparence ; 2 320 ans"
               ],
               [
                 "Nature réelle",
-                "vampire"
+                "Vampire"
               ],
               [
                 "Statut vampirique",
-                "« Chengxiang »"
+                "Chengxiang"
               ],
               [
                 "Clan vampirique",
-                "« Jianshi »"
+                "Jianshi"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "Xinzo est un vieil homme charismatique. A Los Angeles, il est connu pour être un fixer traditionnaliste, toujours habillé d’habits de soie de grande qualité et faits par des artisans renommés. Assez raciste, il traite peu avec les hispaniques, les afro-américains ou bien les blancs, il favorise les moyen-orientaux et les extrême-orientaux surtout. Exigeant, il est aussi bon payeur qu’il est sévère, il répugne à traiter avec les yakuzas ou les Triades également, la pègre l’insupportant. Grand chancelier du Shi Hun zhe, il est le maitre de la maison « Jianshi », maître taoïste, il a un contrôle total sur ses moroï et ses zombies qui ont hérité du nom de sa Maison. Xinya le plaça dans la maison « Li », en -285 avant notre ère. Il était le « frère jumeau » de Li Mu, le grand général du royaume de Zhao, malade le jour, il remplaçait son « frère » la nuit. Il se forgea une culture et un esprit affûté ainsi mais fut une grande déception pour Xinya, qui préféra finalement Qin. Absolument loyal à l’impératrice, il n’a jamais discuté aucun ordre venant d’elle. Il est surnommé « l’exterminateur » car il a déjà supprimé 12 maisons vampiriques. Il utilise me taoïsme pour aspirer la vitalité à distance."
+            "text": "Grand chancelier du Shì hun zhe et maître de la maison Jianshi, Li Zinzhuo est un maître taoïste qui exerce un contrôle total sur ses Moroï et ses zombies, lesquels ont hérité du nom de sa maison. Xinya le plaça dans la maison Li en 285 avant notre ère. Présenté comme le « frère jumeau » de Li Mu, grand général du royaume de Zhao, il remplaçait la nuit ce dernier, malade durant le jour. Il acquit ainsi une vaste culture et un esprit affûté, mais déçut profondément Xinya, qui lui préféra finalement Qin. Absolument loyal à l’impératrice, il n’a jamais discuté aucun de ses ordres. Surnommé « l’Exterminateur » pour avoir supprimé douze maisons vampiriques, il utilise le taoïsme pour aspirer la vitalité à distance."
           }
         ]
       },
