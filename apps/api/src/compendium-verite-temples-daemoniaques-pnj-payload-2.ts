@@ -1619,7 +1619,7 @@ const PAYLOAD = [
       "nom_verite": "Paimon- Stateira",
       "nom_verite_source": "Paimon- Stateira",
       "race": "daemons",
-      "age": "« »25 ans », ????",
+      "age": "25 ans",
       "origine": "iranienne",
       "statut": "Duchesse",
       "affiliations": "corporatiste",
@@ -1659,6 +1659,10 @@ const PAYLOAD = [
                 "Samira Moghadam"
               ],
               [
+                "Âge apparent",
+                "25 ans"
+              ],
+              [
                 "Affiliations",
                 "corporatiste"
               ],
@@ -1671,7 +1675,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Samira est une ancienne actrice et top model de la Tuatha. Elle était amie et « disciple » d’Annashadeh qu’elle a remplacé en faisant valoir sa jeunesse sur son aînée. Annashadeh est très jalouse d’elle depuis qu’elle a donc été évincée."
+            "text": "Samira Moghadam est une ancienne actrice et top model de Tuatha. Elle fut longtemps amie et « disciple » d’Annashadeh avant de la remplacer en mettant en avant sa jeunesse. Depuis cette éviction, Annashadeh nourrit à son égard une forte jalousie."
           }
         ]
       },
@@ -1737,7 +1741,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Samira est une ancienne actrice et top model de la Tuatha. Elle était amie et « disciple » d’Annashadeh qu’elle a remplacé en faisant valoir sa jeunesse sur son aînée. Annashadeh est très jalouse d’elle depuis qu’elle a donc été évincée. Paimon, en tant que duchesse infernale est surtout réputée comme étant une des duchesses les plus influentes des enfers et toujours d’inspiration orientale. D’une beauté incommensurable, il n’est pas très étonnant de découvrir qu’elle était Stateira, épouse de Darius III. La reine perse était surtout réputée pour sa beauté mais elle était aussi sage et éduquée qu’elle n’était une Mage puissante de la loge de Babylone, morte en couche d’un enfant supposément d’Alexandre le Grand, elle a été récupérée par le Dieu Mephisto."
+            "text": "Samira est en vérité Paimon–Stateira, l’une des Duchesses infernales les plus influentes de Méphisto et une figure traditionnellement marquée par une forte inspiration orientale. D’une beauté exceptionnelle, elle fut autrefois Stateira, épouse de Darius III. La reine perse était réputée pour sa beauté, mais aussi pour sa sagesse, son éducation et ses talents de Mage au sein de la Loge de Babylone. Morte en couches alors qu’elle portait un enfant supposément conçu avec Alexandre le Grand, elle fut récupérée par Méphisto."
           }
         ]
       },
