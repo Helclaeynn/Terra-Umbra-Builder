@@ -1302,7 +1302,7 @@ const PAYLOAD = [
       "real_name": "Dragomir Mikhaïlovich",
       "nom_verite": "Graphiel",
       "race": "épée (« angelus »)",
-      "age": "« 68 ans », ????",
+      "age": "68 ans",
       "origine": "russe",
       "statut": "Crawlers : Voidrunner – pègre : Bratva",
       "statut_verite": "séraphin",
@@ -1343,7 +1343,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "« 68 ans », ????"
+                "68 ans"
               ],
               [
                 "Affiliations",
@@ -1364,7 +1364,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Dragomir Mikailovich était le bras armé de Semyon Valentinovich, le précédant boss de la mafia de Vladivostok. Certains estiment, à raison, que le règne sans partage de Semyon vient de l’invulnérabilité de Dragomir. Impassible, inexpressif, incapable d’exprimer un sentiment sur son visage, il est incompréhensible et terrifiant. Son fils, Lev, a été élevé sans mère à cause de sa naissance difficile, Dragomir n’a jamais rien fait pour l’élever, Lev devenant comme lui. Quand Semyon désigna Svetlana, Dragomir se rangea derrière la nouvelle patronne sans réfléchir."
+            "text": "Dragomir Mikhaïlovich était le bras armé de Semyon Valentinovich, le précédent boss de la mafia de Vladivostok. Certains estiment, à raison, que le règne sans partage de Semyon doit beaucoup à l’invulnérabilité de Dragomir. Impassible, inexpressif et presque incapable de laisser paraître un sentiment, il est incompréhensible et terrifiant. Son fils Lev fut élevé sans mère à la suite d’une naissance difficile ; Dragomir ne fit pratiquement rien pour l’élever, et Lev devint peu à peu semblable à lui. Lorsque Semyon désigna Svetlana, Dragomir se rangea derrière la nouvelle patronne sans hésiter."
           }
         ]
       },
@@ -1409,7 +1409,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Le séraphin est «l’épée de Dieu », pas symboliquement comme Michel ou Azrael le seraient, mais physiquement, il est « Relgraf’erel », uen épée quasiment divine forgée pour Elynea avant de venir sur Terre, un don aussi ancien que la petite phénix Urielle. Eveillé par la marque, transcendé, il ne s’agit pas d’un esprit d’épée, mais d’une arme éveillée. Son obéissance est TOTALE à Elynea tout comme Lev, son fils, l’est pour Svetlana, même si Lev n’est pas une arme lui-même, agissant comme tel. Dragomir vieillissant, il n’est pas un officier de Svetlana, mais il reste actif en tant qu’assassin à l’occasion. Il est l’ennemi le plus farouche de Moloch, la flamme de Belial. Commenté [BH2]: Guidorah !!!! Le dragon à trois têtes dans Godzilla ! Pour faire face à Michel, pourfendeur du dragon lors de l’apocalypse…. Tout est lié !!! Commenté [BH3]: Angelika est probablement un Cherubin de graphiel"
+            "text": "Graphiel est « l’épée de Dieu », non pas symboliquement comme Michel ou Azrael pourraient l’être, mais physiquement : il est RelGraf’erel, une épée presque divine forgée pour Elynea avant de venir sur Terre, un don aussi ancien que la petite phénix Urielle. Éveillé par la Marque puis transcendé, il ne s’agit pas d’un esprit d’épée mais d’une arme éveillée. Son obéissance à Elynea est totale, tout comme celle de Lev, son fils, envers Svetlana, même si Lev n’est pas lui-même une arme et ne fait qu’agir comme telle. Dragomir vieillissant, il n’est pas un officier de Svetlana mais reste actif à l’occasion comme assassin. Il est l’ennemi le plus farouche de Moloch, la flamme de Belial."
           }
         ]
       },
