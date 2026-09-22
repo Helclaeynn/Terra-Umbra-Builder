@@ -283,9 +283,9 @@ const PAYLOAD = [
       "real_name": "Tamytrice Bishop-Knowles",
       "nom_verite": "Temilade",
       "race": "Vampire",
-      "age": "«58 ans » - 15 289 ans",
-      "origine": "américaine",
-      "statut": "Corporation : aces (veuve de Kerald Knowles)",
+      "age": "58 ans",
+      "origine": "Américaine",
+      "statut": "Corporation : Aces (veuve de Kerald Knowles)",
       "statut_verite": "Archidiacresse",
       "organisation": "Oru Ayeraye",
       "relations": [],
@@ -299,7 +299,7 @@ const PAYLOAD = [
         29,
         29
       ],
-      "source_designation": "Archipaladin des ténèbres : Munyama",
+      "source_designation": "Archidiacresse des ténèbres : Temilade",
       "source_reality_raw": "Tamytrice Bishop-Knowles",
       "source_truth_raw": "Temilade",
       "source_extract": "Archipaladin des ténèbres : Munyama Nom de la Réalité : Tamytrice Bishop-Knowles Nom de la Vérité : Temilade Age : «58 ans » - 15 289 ans Affiliations : Corporation : aces (veuve de Kerald Knowles) Nationalité d’origine : américaine Ethnie réelle : Vampire Statut : Archidiacresse Maison vampirique : Ordre Oshirique Tamytrice Bishop est une femme aussi belle que cruelle et exigeante, très diplômée et qualifiée, elle épousa en troisième mariage Kerald Knowles, lui-même venant de perdre sa femme. Elle fut une belle￾mère effroyable pour Elianna Knowles et sa toxicité de manipulatrice lui valut d’être accusée par Kai Farley, président d’Aces (très proche ami de Kerald), d’être l’origine de la disparition de ce dernier. Touchant une partie de son héritage et de ses parts de la corporation, Tamytrice n’a pas de siège au conseil d’administration d’Aces, cependant, elle manipulerait Kadeena Jackson, la vice-présidente. Plus ancienne vampire de l’Oru, elle était une prêtresse du sang avant la secte de la Fontaine, elle servait Kragen, Loredena puis Oluwasegun dont elle était une épouse. Quand Neeba tua son propre grand￾père, elle préféra se soumettre mais elle a une certaine rancœur contre Olayinka et Neeba. Seconde grande figure religieuse, elle incarne l’ancienneté et l’opposition au roi et son mentor, bien que les deux eux-mêmes aient des différends. Elle est la grand-mère de Kealaboga (Kadena), qui est à la tête de la",
@@ -326,17 +326,21 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«58 ans »"
+                "58 ans"
               ],
               [
                 "Affiliations",
-                "Corporation : aces (veuve de Kerald Knowles)"
+                "Corporation : Aces (veuve de Kerald Knowles)"
               ],
               [
                 "Nationalité d’origine",
-                "américaine"
+                "Américaine"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Tamytrice Bishop-Knowles est une femme aussi belle que cruelle et exigeante, très diplômée et hautement qualifiée. Elle épousa Kerald Knowles en troisièmes noces, alors que celui-ci venait de perdre sa femme, puis se révéla une belle-mère effroyable pour Elianna Knowles. Sa toxicité et ses manipulations conduisirent Kai Farley, président d’Aces et ami très proche de Kerald, à l’accuser d’être à l’origine de la disparition de ce dernier. Tamytrice a hérité d’une partie de sa fortune et de ses parts dans la corporation. Sans siéger au conseil d’administration d’Aces, elle manipulerait Kadeena Jackson, la vice-présidente."
           }
         ]
       },
@@ -359,7 +363,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "«58 ans » - 15 289 ans"
+                "58 ans en apparence ; 15 289 ans"
               ],
               [
                 "Nature réelle",
@@ -377,7 +381,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Tamytrice Bishop est une femme aussi belle que cruelle et exigeante, très diplômée et qualifiée, elle épousa en troisième mariage Kerald Knowles, lui-même venant de perdre sa femme. Elle fut une belle￾mère effroyable pour Elianna Knowles et sa toxicité de manipulatrice lui valut d’être accusée par Kai Farley, président d’Aces (très proche ami de Kerald), d’être l’origine de la disparition de ce dernier. Touchant une partie de son héritage et de ses parts de la corporation, Tamytrice n’a pas de siège au conseil d’administration d’Aces, cependant, elle manipulerait Kadeena Jackson, la vice-présidente. Plus ancienne vampire de l’Oru, elle était une prêtresse du sang avant la secte de la Fontaine, elle servait Kragen, Loredena puis Oluwasegun dont elle était une épouse. Quand Neeba tua son propre grand￾père, elle préféra se soumettre mais elle a une certaine rancœur contre Olayinka et Neeba. Seconde grande figure religieuse, elle incarne l’ancienneté et l’opposition au roi et son mentor, bien que les deux eux-mêmes aient des différends. Elle est la grand-mère de Kealaboga (Kadena), qui est à la tête de la"
+            "text": "Plus ancienne vampire de l’Oru, Temilade était prêtresse du sang avant la fondation de la secte de la Fontaine. Elle servit successivement Kragen, Loredana puis Oluwasegun, dont elle fut l’une des épouses. Lorsque Neeba tua son propre grand-père, elle choisit de se soumettre, sans renoncer à sa rancœur contre le roi et Olayinka. Seconde grande figure religieuse de la Cour, elle incarne l’ancienneté et l’opposition à Neeba comme à sa mentor, malgré les différends qui séparent déjà ces deux derniers. Elle est la grand-mère de Kadeena Jackson, qui dirige la maison Grootslang. Mal intentionnée et manipulatrice, Temilade déteste et méprise les humains."
           }
         ]
       },
