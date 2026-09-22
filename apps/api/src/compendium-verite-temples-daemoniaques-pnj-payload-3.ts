@@ -1448,7 +1448,7 @@ const PAYLOAD = [
       "nom_verite": "Caïn – Caïnor",
       "nom_verite_source": "Caïn – Caïnor",
       "race": "Daemons - Astharès",
-      "age": "«30 ans » - ????",
+      "age": "30 ans",
       "origine": "américano-iranienne",
       "statut": "Prince - Dieu",
       "affiliations": "Crawlers : deathrunner",
@@ -1504,7 +1504,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Kain Ferno est connu pour avoir été un héros de guerre, supérieur direct d Catalina de la Caza avant qu’elle ne monte en grade. Après la guerre, sa vie s’est effondrée et il ne sert plus que de mercenaire dépressif."
+            "text": "Kain Ferno est connu comme un héros de guerre et fut le supérieur direct de Catalina de la Caza avant la montée en grade de celle-ci. Depuis la fin du conflit, sa vie s’est effondrée et il ne travaille plus que comme mercenaire, profondément dépressif."
           }
         ]
       },
@@ -1570,7 +1570,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Kain Ferno est connu pour avoir été un héros de guerre, supérieur direct d Catalina de la Caza avant qu’elle ne monte en grade. Après la guerre, sa vie s’est effondrée et il ne sert plus que de mercenaire dépressif. Son identité réelle est Caïn, sa mère est la reine Belial, son père, un étranger de Gaerras, le dieu du chaos Nordrar. C’est un Nor, une entité très supérieure de fait, aux pouvoirs gigantesques que Belial a scellé. Il a un sérieux complexe d’Œdipe néanmoins et toute sa vie s’est structurée pour avoir la reconnaissance de sa Mère, en vain. Caïn est l’incarnation de l’échec, chaque décision a été mauvaise et punie. Il a tué beaucoup de Dives pendant la guerre contre eux, hélas, juste quand Belial approchait d’un accord avec Akvan. Il était très attaché à Elynea et quand elle s’est rebellée, il a tout fait pour se mettre entre dieux et archanges. Il a aidé R’Gahanath à créer les vampires actuels en étant manipulé… Aucune décision prise ne lui a jamais profité. Pourtant, il pourrait être un dieu égal à sa mère ou Elynea s’il le désirait, car, comme Morrighan, il n’a pas besoin de chercher les attributs, il en a un de naissance."
+            "text": "Kain est en vérité Caïn–Caïnor. Sa mère est la reine Belial et son père, Nordrar, un dieu du chaos originaire de Gaerras. C’est un Nor, entité d’un rang très supérieur aux pouvoirs immenses que Belial a scellés. Caïn souffre d’un profond besoin de reconnaissance maternelle : toute son existence s’est structurée autour de l’espoir d’obtenir l’approbation de Belial, sans jamais y parvenir. Il incarne la défaite et l’échec, chacune de ses décisions finissant par se retourner contre lui. Il tua de nombreux Dives précisément au moment où Belial tentait de conclure un accord avec Akvan. Très attaché à Elynea, il essaya de s’interposer entre dieux et Archanges lors de sa rébellion. Manipulé, il participa aussi avec R’Gahanath à la création des vampires actuels. Pourtant, Caïn pourrait devenir un dieu comparable à sa mère ou à Elynea s’il le souhaitait : comme Morrighan, il possède dès la naissance un Attribut et n’a pas besoin de le conquérir."
           }
         ]
       },
