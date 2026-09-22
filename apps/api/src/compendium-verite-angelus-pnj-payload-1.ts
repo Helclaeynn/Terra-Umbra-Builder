@@ -1871,7 +1871,7 @@ const PAYLOAD = [
       "real_name": "Rubino Esterranzo",
       "nom_verite": "Rubiel",
       "race": "Angelus",
-      "age": "«55 ans », ????",
+      "age": "55 ans",
       "origine": "Mexicain",
       "statut": "Religieux : chrétiens",
       "statut_verite": "séraphin",
@@ -1912,7 +1912,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«55 ans », ????"
+                "55 ans"
               ],
               [
                 "Affiliations",
@@ -1933,7 +1933,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Rubino est un prêtre chrétien de San Diejuana, il habitait à Tijuana pendant des années avant la fusion avec San Diego. Il n’y a pas énormément à dire sur lui, un être progressiste et énergique qui adore les changements de Neovatican. Dès qu’il a pu, il s’est marié et a eu son premier enfant à 53 ans, assez récemment."
+            "text": "Rubino est un prêtre chrétien de San Diejuana. Il vécut longtemps à Tijuana avant la fusion avec San Diego. Progressiste et énergique, il accueille avec enthousiasme les transformations de Neovatican. Dès que cela lui fut possible, il se maria et eut récemment son premier enfant, à 53 ans."
           }
         ]
       },
@@ -1978,7 +1978,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Rubiel est le séraphin de la pureté, c’est une ancienne Vertu s’étant élevé. Son pouvoir est assez simple, c’est l’opposé du séraphin Ochotiel, plus une âme est en paix et saine d’esprit, ser eine, plus il la libère des contraintes physiques, de la fatigue, de la pesanteur, permettant des miracles physiques ou même intellectuels. Plus la personne est vertueuse et innocente, plus Rubiel accentue ses compétences, cependant, le remord et la culpabilité, même s’ils sont injustifiés, le strress également, sont des sentiments qui nuisent aux pouvoirs de Rubiel. Il servait Tsadqiel avant que ce dernier ne soit enfermé, il a changé pour Raphael. Il est amateur de vertu et de tranquillité, cependant, Rubiel a quand meme une part sombre, il a des amitiés très régulières avec les membres du Cartel de Tijuan et est un amant de la patronne de ce cartel de plus."
+            "text": "Rubiel est le Séraphin de la pureté, ancienne Vertu élevée à ce rang. Son pouvoir fonctionne à l’opposé de celui d’Ochotiel : plus une âme est en paix, saine d’esprit et sereine, plus il la libère de contraintes physiques comme la fatigue ou la pesanteur, permettant des prouesses physiques et même intellectuelles. Plus la personne est vertueuse et innocente, plus Rubiel amplifie ses capacités ; à l’inverse, remords, culpabilité — même injustifiée — et stress affaiblissent ses pouvoirs. Il servit Tsadqiel avant l’emprisonnement de ce dernier puis passa sous l’autorité de Raphael. Amateur de vertu et de tranquillité, Rubiel possède néanmoins une part sombre : il entretient des liens réguliers avec le cartel de Tijuana et est l’amant de sa patronne."
           }
         ]
       },
