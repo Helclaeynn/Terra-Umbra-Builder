@@ -164,7 +164,7 @@ const PAYLOAD = [
       "real_name": "Brandon Shark",
       "nom_verite": "Bethel",
       "race": "Angelus (kera'Erkal)",
-      "age": "«40 ans », ????",
+      "age": "40 ans",
       "origine": "Australienne",
       "statut": "Corporation : Ushkoll",
       "statut_verite": "séraphin",
@@ -205,7 +205,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«40 ans », ????"
+                "40 ans"
               ],
               [
                 "Affiliations",
@@ -226,7 +226,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Brandon est un mercenaire, recruté après la guerre, à la suite de l’anéantissement de la flotte australienne dans laquelle il était marin. C’est un agent de sécurité et un des rares de l’Unité corneille, que dirige Liam Nic Siridean."
+            "text": "Brandon est un mercenaire recruté après la guerre, à la suite de l’anéantissement de la flotte australienne dans laquelle il servait comme marin. Il travaille aujourd’hui comme agent de sécurité chez Ushkoll et fait partie des rares membres de l’Unité Corneille dirigée par Liam Nic Siridean."
           }
         ]
       },
@@ -271,7 +271,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "S’il est singulier c’est que c’est un ange et non un kelta bien qu’il soit dans cette unité d’élite composée à deux exceptions près d’esprits servant Morrighan. Bethel est le séraphin du métal, il possède le pouvoir de poser des revêtements métalliques, de corroder les métaux et de les durcir ou les ramollir. Les objets qu’il peut créer sont durables sur le temps mais selon son niveau de santé, n’ont pas la même efficacité. C’était un démon inférieur d’Aèr, une sorte d’esclave qui assistait des forgerons. Parce qu’il était totalement dévoué à sa tâche, Selaphielle décida de l’acheter et le proposa à la transcendance, pour ajouter de la variabilité aux troupes. Il est un des rares Kera’erkal à être resté au sein des Angelus, presque tous ont été tués ou détruits une fois inutiles. Très augmenté, il est passionné au possible par la mécanisation, qu’il voit comme l’occasion de transcender encore une fois son corps. Michel n’a pas le temps, mais il a senti une influence extérieure sur cet ange, la « voie Zarpheth » semble l’avoir illuminé même si la marque d’Elynea n’a pas encore réagit."
+            "text": "Brandon est singulier au sein de l’Unité Corneille : c’est un Ange et non un Kelta, alors que cette unité d’élite est composée, à deux exceptions près, d’esprits servant Morrighan. Bethel est le Séraphin du métal. Il peut déposer des revêtements métalliques, corroder les métaux, les durcir ou les ramollir. Les objets qu’il crée perdurent, mais leur efficacité varie selon son état de santé. À l’origine, Bethel était un démon inférieur d’Aèr, une sorte d’esclave assistant des forgerons. Sa dévotion absolue à sa tâche poussa Selaphielle à l’acheter puis à le proposer à la transcendance afin d’apporter davantage de diversité aux troupes. Il fait partie des rares Kera’Erkal demeurés parmi les Angelus, la plupart ayant été tués ou détruits lorsqu’ils ne furent plus jugés utiles. Très augmenté, il est passionné par la mécanisation, qu’il considère comme une occasion de transcender encore une fois son corps. Michel a perçu sur lui une influence extérieure : la « voie Zarpheth » semble l’avoir illuminé, même si la Marque d’Elynea n’a pas encore réagi."
           }
         ]
       },
