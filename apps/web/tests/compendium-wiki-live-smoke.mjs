@@ -149,7 +149,10 @@ try{
 
   await publicPage.goto(baseUrl+"/compendium?article=regles-verite-chasseur-lavandieres",{waitUntil:"domcontentloaded",timeout:30000});
   await publicPage.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
-  await publicPage.getByText("Archive de l’ancien Compendium",{exact:true}).waitFor({state:"visible",timeout:10000});
+  await publicPage.getByRole("heading",{name:"Un catalogue canonique de 4 Talents",exact:true}).waitFor({state:"visible",timeout:10000});
+  if(await publicPage.getByText("Archive de l’ancien Compendium",{exact:true}).count()){
+    throw new Error("Le hub Talent des Lavandières actif ne doit pas être marqué OLD.");
+  }
   await publicPage.locator(".talent-wiki-card").first().waitFor({state:"visible",timeout:10000});
   const rawHunterDirective=await publicPage.getByText(/\{\{Talents\|group=humain:/).count();
   if(rawHunterDirective)throw new Error("Directive brute visible dans le hub Talent archivé.");
