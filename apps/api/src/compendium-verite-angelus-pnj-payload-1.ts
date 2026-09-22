@@ -592,7 +592,7 @@ const PAYLOAD = [
       "real_name": "Barbara Amble",
       "nom_verite": "Barabbiel",
       "race": "Angelus (kera Yrin)",
-      "age": "«22 ans » - ????",
+      "age": "22 ans",
       "origine": "américaine",
       "statut": "Crawlers : Neopunks",
       "statut_verite": "séraphin",
@@ -633,7 +633,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«22 ans » - ????"
+                "22 ans"
               ],
               [
                 "Affiliations",
@@ -654,7 +654,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Barbara Amble est une neopunk, elle joue de la batterie et chante à l’occasion. Son groupe a été décimé par un assaut d’Omegacoustic en début d’année, certains parlent d’une embrouille entre nord-coréens, la raven et d’autres factions pendant cet échange. Elle traque des types louches qu’elle croisa durant le concert sauvage. Elle erre de groupe en groupe même si récemment, Eliza ayant perdu son batteur dans un échange entre cartel et insurgés, elle l’emploie plus régulièrement."
+            "text": "Barbara Amble est une Neopunk qui joue de la batterie et chante à l’occasion. Son groupe fut décimé par un assaut d’Omegacoustic au début de l’année ; certains évoquent une embrouille entre Nord-Coréens, Raven et d’autres factions pendant l’échange. Depuis, elle traque plusieurs individus louches croisés lors du concert sauvage. Elle passe d’un groupe à l’autre, même si Eliza, qui a récemment perdu son batteur dans un affrontement entre cartel et insurgés, l’emploie désormais plus régulièrement."
           }
         ]
       },
@@ -699,7 +699,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Barabbiel est le séraphin de s âmes. Ancienne Ange de la mort, elle a vécu la transcendance avec difficulté. Plus une âme est emplie de vices, plus elle est sensible à ses assauts immatériels la visant. Elle déteste les 7 péchés capitaux de fait, qui dévorent les vices, affaiblissant ses pouvoirs. C’est une spectromancienne qui invoque les âmes de"
+            "text": "Barabbiel est la Séraphine des âmes. Ancienne Ange de la mort, elle vécut difficilement la transcendance. Plus une âme est chargée de vices, plus elle devient sensible à ses assauts immatériels. Elle déteste donc les Sept Péchés capitaux, qui dévorent les vices et affaiblissent ainsi ses pouvoirs. Spectromancienne, elle invoque les âmes de ceux qu’elle a vaincus. Sa loyauté envers Azrael, sa créatrice, est absolue."
           }
         ]
       },
