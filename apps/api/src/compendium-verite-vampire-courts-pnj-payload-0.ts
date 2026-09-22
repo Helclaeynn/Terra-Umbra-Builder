@@ -438,7 +438,8 @@ const PAYLOAD = [
       "source_extract": "accepté. Il demeura son amant et fit d’elle un vampire quand Yvain commença à devenir violent. Nom de la Réalité : Bellanessa Lorenzo Nom de la Vérité : Bianca Lancia d’Agliano Age : «40 ans » - 835 ans Affiliations : Corporation : Tuatha Nationalité d’origine : Italienne Ethnie réelle : Vampire Statut : troisième concubine Maison vampirique : Hauhenstafen Directrice de la sous-branche « Universal » à la Tuatha corporation, c’est une des femmes les plus riches de 2035. Aussi sensuelle qu’amatrice de luxe, cette blonde pleine de glamour semble incapable d’empathie. C’est une directrice de sous-branche parmi les plus stables et les plus rentables, Bianca Lancia d’Agliano est une figure historique qui a été l’épouse de Frederic II, l’empereur du Saint￾Empire. Elle est notamment la mère de Manfred de Hohenstaufen, roi de Sicile que l’on considère comme un fils de l’empereur. Toutefois, Manfred est un fils de Dragoy Skotia, l’amant de l’impératrice. La blonde joua de ses charmes pour séduire l’empereur mais elle attira aussi un des plus éminents combattants de l’empire, le roi vampire. Parce que l’empereur était un homme jaloux qui la cloitra, il ne douta jamais de son infidélité avec Dragoy. Elle fit croire à sa mort en 1247 après une maladie, en vérité, vampirisée, elle ne supportait plus sa captivité et l’usage de sorts puissants pour survivre au soleil. C’est la deuxième concubine et possiblement une des plus actives, née de très haute noblesse, elle a un profond mépris pour les être les plus humbles, mortels comme vampires.",
       "source_documents": [
         "Factions_Les cours vampiriques(1)(2).pdf"
-      ]
+      ],
+      "maison_vampirique": "Hohenstaufen"
     },
     "sections": [
       {
@@ -508,7 +509,7 @@ const PAYLOAD = [
               ],
               [
                 "Maison vampirique",
-                "Hauhenstafen"
+                "Hohenstaufen"
               ]
             ]
           },
