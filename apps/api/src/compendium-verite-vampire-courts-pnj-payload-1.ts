@@ -1152,10 +1152,10 @@ const PAYLOAD = [
       "real_name": "Tonya Magrina",
       "nom_verite": "Quananda",
       "race": "Vampire",
-      "age": "«26 ans » - 926 ans",
+      "age": "26 ans",
       "origine": "Américaine",
-      "statut": "Corporations : Sunways (sportive)",
-      "statut_verite": "« Tohil»",
+      "statut": "Corporation : Sunways (sportive)",
+      "statut_verite": "Tohil",
       "organisation": "Ihuito Meztzi",
       "relations": [],
       "identity_keys": [
@@ -1168,7 +1168,7 @@ const PAYLOAD = [
         21,
         21
       ],
-      "source_designation": "Par sa force physique, il est considéré comme le plus probable à devenir Quetzal.",
+      "source_designation": "K’uhul Ajaw « Tohil » : Quananda",
       "source_reality_raw": "Tonya Magrina",
       "source_truth_raw": "Quananda",
       "source_extract": "Par sa force physique, il est considéré comme le plus probable à devenir Quetzal. Nom de la Réalité : Tonya Magrina Nom de la Vérité : Quananda Age : «26 ans » - 926 ans Affiliations : Corporations : Sunways (sportive) Nationalité d’origine : Américaine Ethnie réelle : Vampire Statut : « Tohil» Maison vampirique : «Quatankena » La corporation sunways est très active dans les sports, elle ne sponsorise pas ses athlètes, elle les entraine, les façonne, les nourrit et, bien évidemment, les modifie par de nombreuses augmentations biologiques voire génétiques. Tonya Magrina est un monstre ainsi produit. Combattante des UMA (ultimate martial arts), elle fait partie des « Etoiles » qui, comme Tommy Rosemann ou d’autres, font beaucoup parler d’eux en 2035. Violente, elle est réputée invaincue depuis ses opérations. Elle a failli briser Mencia, une championne de boxe mais aussi Quan ZhenKang, un tout jeune maitre du wushu qui est encore hospitalisé depuis un an. Princesse vampire puissante physiquement, elle fut la protégée de la séraphine Esdrael ( Erakziel) qui cherchait à la retourner contre son père. Quananda résista à la manipulation mais Esdrael lui fit payer son audace en massacrant sa maison vampirque. Quananda l’affronta mais alors qu’elle avait l’avantage, elle réalisa que l’angelus n’était pas ce qu’elle disait être, s’adonnant à la rage harkienne, elle surclassa le vampire dans sa maitrise du sang mais ne put achever le duel avec l’arrivée de Quetzal.",
@@ -1195,17 +1195,21 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«26 ans »"
+                "26 ans"
               ],
               [
                 "Affiliations",
-                "Corporations : Sunways (sportive)"
+                "Corporation : Sunways (sportive)"
               ],
               [
                 "Nationalité d’origine",
                 "Américaine"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Sunways est très active dans le sport : la corporation ne se contente pas de sponsoriser ses athlètes, elle les entraîne, les façonne, les nourrit et les modifie au moyen de nombreuses augmentations biologiques, voire génétiques. Tonya Magrina est l’un des monstres sportifs ainsi produits. Combattante d’UMA (Ultimate Martial Arts), elle compte parmi les « Étoiles » qui font beaucoup parler d’elles en 2035, comme Tommy Rosemann. Violente et réputée invaincue depuis ses opérations, elle a failli briser Mencia, championne de boxe, ainsi que Quan ZhenKang, jeune maître de wushu toujours hospitalisé un an après leur affrontement."
           }
         ]
       },
@@ -1228,7 +1232,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "«26 ans » - 926 ans"
+                "26 ans en apparence ; 926 ans"
               ],
               [
                 "Nature réelle",
@@ -1236,17 +1240,17 @@ const PAYLOAD = [
               ],
               [
                 "Statut vampirique",
-                "« Tohil»"
+                "Tohil"
               ],
               [
                 "Maison vampirique",
-                "«Quatankena »"
+                "Quatankena"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "La corporation sunways est très active dans les sports, elle ne sponsorise pas ses athlètes, elle les entraine, les façonne, les nourrit et, bien évidemment, les modifie par de nombreuses augmentations biologiques voire génétiques. Tonya Magrina est un monstre ainsi produit. Combattante des UMA (ultimate martial arts), elle fait partie des « Etoiles » qui, comme Tommy Rosemann ou d’autres, font beaucoup parler d’eux en 2035. Violente, elle est réputée invaincue depuis ses opérations. Elle a failli briser Mencia, une championne de boxe mais aussi Quan ZhenKang, un tout jeune maitre du wushu qui est encore hospitalisé depuis un an. Princesse vampire puissante physiquement, elle fut la protégée de la séraphine Esdrael ( Erakziel) qui cherchait à la retourner contre son père. Quananda résista à la manipulation mais Esdrael lui fit payer son audace en massacrant sa maison vampirque. Quananda l’affronta mais alors qu’elle avait l’avantage, elle réalisa que l’angelus n’était pas ce qu’elle disait être, s’adonnant à la rage harkienne, elle surclassa le vampire dans sa maitrise du sang mais ne put achever le duel avec l’arrivée de Quetzal."
+            "text": "Quananda est une princesse vampire d’une grande puissance physique. Elle fut la protégée de la Séraphine Esdrael, aussi nommée Erakziel, qui cherchait à la retourner contre son père. Quananda résista à cette manipulation ; Esdrael lui fit payer son refus en massacrant sa maison vampirique. Quananda l’affronta et prit d’abord l’avantage, avant de comprendre que l’Angelus n’était pas ce qu’elle prétendait être. En cédant à la rage harkienne, Esdrael surpassa alors la vampire dans sa propre maîtrise du sang. L’arrivée de Quetzal interrompit le duel avant son terme."
           }
         ]
       },
