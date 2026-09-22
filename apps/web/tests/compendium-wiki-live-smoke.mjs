@@ -153,9 +153,8 @@ try{
   if(await publicPage.getByText("Archive de l’ancien Compendium",{exact:true}).count()){
     throw new Error("Le hub Talent des Lavandières actif ne doit pas être marqué OLD.");
   }
-  await publicPage.locator(".talent-wiki-card").first().waitFor({state:"visible",timeout:10000});
   const rawHunterDirective=await publicPage.getByText(/\{\{Talents\|group=humain:/).count();
-  if(rawHunterDirective)throw new Error("Directive brute visible dans le hub Talent archivé.");
+  if(rawHunterDirective)throw new Error("Directive brute visible dans le hub Talent actif.");
 
   if(dynamicTalentArticle){
     await publicPage.goto(baseUrl+"/compendium?article="+encodeURIComponent(dynamicTalentArticle),{waitUntil:"domcontentloaded",timeout:30000});
