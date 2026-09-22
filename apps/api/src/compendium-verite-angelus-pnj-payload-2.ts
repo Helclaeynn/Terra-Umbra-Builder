@@ -1020,7 +1020,7 @@ const PAYLOAD = [
       "real_name": "Jack Ken",
       "nom_verite": "Pergamin",
       "race": "Angelus",
-      "age": "«30 ans », ????",
+      "age": "30 ans",
       "origine": "britannique",
       "statut": "Crawlers : neopunks",
       "statut_verite": "séraphin",
@@ -1061,7 +1061,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«30 ans », ????"
+                "30 ans"
               ],
               [
                 "Affiliations",
@@ -1082,7 +1082,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "En 2035, qui ne connait pas « JJK » ? ou Jesus Jack », « J. kenobi », autant de surnoms du plus grand DJ des quartiers abandonnés. Une MAP à 17 pistes de résonnances (quoi que ça puisse vouloir dire) est sa marque de fabrique. On dit que tant qu’il mixe, personne ne peut s’arrêter de danser."
+            "text": "En 2035, qui ne connaît pas « JJK », « Jesus Jack » ou « J. Kenobi » ? Jack Ken est l’un des plus grands DJ des quartiers abandonnés. Sa marque de fabrique est une MAP à 17 pistes de résonance — quoi que cela signifie exactement pour son public. La rumeur veut que tant qu’il mixe, personne ne puisse s’arrêter de danser."
           }
         ]
       },
@@ -1127,7 +1127,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Et pour cause, le séraphin de la persévérance, a pour pouvoir de rendre presque inarrêtables ceux qu’ils protègent. Servant autrefois Sandalphon, qu’il aimait de tout son cœur, Pergamin sert désormais Urielle, qu’il adore, certes, moins, mais passionnément malgré tout. Ce qui est le plus trompeur avec ce Neopunk c’est qu’il n'utilise pas la musique pour propager ses pouvoirs mais les jeux de lumières, servant Urielle. De fait, on s’attaque souvent à sa table de mixage ou aux enceintes quand on réalise ses dons, mais rarement aux lumières stroboscopiques qu’il a partout, sa cravate, ses canons de bras ou autres spots. Il a un charme énorme et aime draguer les daemons, peu importe leur genre ou leur statut."
+            "text": "Pergamin est le Séraphin de la persévérance : il peut rendre presque inarrêtables ceux qu’il protège. Autrefois au service de Sandalphon, qu’il aimait de tout son cœur, il sert désormais Urielle, qu’il adore avec un peu moins d’intensité mais toujours passionnément. Le plus trompeur chez ce Neopunk est qu’il ne propage pas ses pouvoirs par la musique mais par les jeux de lumière, en accord avec Urielle. Ses adversaires s’en prennent donc souvent à sa table de mixage ou à ses enceintes alors que les véritables vecteurs sont les lumières stroboscopiques disséminées partout : cravate, canons de bras et autres spots. Doté d’un immense charme, il aime draguer les Daemons quels que soient leur genre ou leur statut."
           }
         ]
       },
