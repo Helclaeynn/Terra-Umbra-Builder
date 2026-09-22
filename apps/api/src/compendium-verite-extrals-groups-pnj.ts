@@ -2,8 +2,9 @@ import P0 from "./compendium-verite-extrals-groups-pnj-payload-0.js";
 import P1 from "./compendium-verite-extrals-groups-pnj-payload-1.js";
 import P2 from "./compendium-verite-extrals-groups-pnj-payload-2.js";
 import P3 from "./compendium-verite-extrals-groups-pnj-payload-3.js";
+import { editorializeExtralsGroupsPnj } from "./compendium-verite-extrals-groups-pnj-editorial.js";
 
-export const COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_ARTICLES = [...P0, ...P1, ...P2, ...P3];
+export const COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_ARTICLES = editorializeExtralsGroupsPnj([...P0, ...P1, ...P2, ...P3]);
 
 const ORDER: Record<string, number> = {
   "GAAC": 10,
