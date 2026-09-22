@@ -594,7 +594,7 @@ const PAYLOAD = [
       "real_name": "Hannah Lee Flegton",
       "nom_verite": "Hanaelle",
       "race": "Archangelus",
-      "age": "«28 ans » - ????",
+      "age": "28 ans",
       "origine": "américaine",
       "statut": "Associatif : Vladic",
       "statut_verite": "Archange renégat",
@@ -635,7 +635,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«28 ans » - ????"
+                "28 ans"
               ],
               [
                 "Affiliations",
@@ -656,7 +656,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Hannah L Flegton est une prostituée de la Vladic association. C’est une des plus grandes gagneuses de l’association de Drasko. Adorée des gangs essentiellement, elle est aussi très proche du maire Hamilton. Hannah n’est pas une « hooker », elle se refuse catégoriquement à ce que l’amour et le réconfort qu’elle apporte à ses clients ne serve à quelqu’un d’autre que ses clients."
+            "text": "Hannah Lee Flegton est une prostituée de l’association Vladic et l’une de ses plus importantes gagneuses. Très populaire auprès des gangs, elle est également proche du maire Hamilton. Hannah refuse cependant l’étiquette de « Hooker » : elle ne veut pas que l’amour et le réconfort qu’elle apporte à ses clients servent les intérêts de quelqu’un d’autre qu’eux-mêmes."
           }
         ]
       },
@@ -701,7 +701,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Hanaelle est l’archange de la sexualité. Elle était préférée de loin à Azazel quant à maitriser la sephira de Nesah. Elle aimait véritablement Elynea comme Urielle et d’autres. Si cet archange a été jeté et enfermée, c’est parce qu’elle aimait trop les mortels, elle s’est plusieurs fois opposée à d’autres archanges pour en sauver. Elle a fini par être piégée, elle a toutefois commis l’erreur de refuser de se défendre, comptant sur la confiance d’Elynea en elle. La déesse n’apprécia pas cette paresse et Hanaelle s ’enfonça dans sa défiance, sûre que sa maitresse ne la sauverait, ce qui agaça encore plus Elynea qui la laissa enfermée"
+            "text": "Hanaelle est l’Archange de la sexualité. Elle était très largement préférée à Azazel pour maîtriser la Sephira Nesah et aimait véritablement Elynea, tout comme Urielle et plusieurs autres Archanges. Si elle fut rejetée puis enfermée, c’est parce qu’elle aimait trop les mortels et s’opposa à plusieurs reprises à d’autres Archanges pour en sauver. Finalement piégée, elle commis l’erreur de refuser de se défendre, persuadée qu’Elynea lui faisait confiance. La déesse interpréta cette attitude comme de la paresse ; Hanaelle s’enfonça alors dans la défiance, convaincue que sa maîtresse ne viendrait pas la sauver, ce qui ne fit qu’agacer davantage Elynea et prolonger son enfermement."
           }
         ]
       },
