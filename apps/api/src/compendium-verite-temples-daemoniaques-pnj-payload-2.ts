@@ -506,7 +506,7 @@ const PAYLOAD = [
       "nom_verite": "Morax– Louis Pasteur",
       "nom_verite_source": "Morax– Louis Pasteur",
       "race": "daemons",
-      "age": "«34 ans », ????",
+      "age": "34 ans",
       "origine": "Américaine",
       "statut": "Duc",
       "affiliations": "crawler : venomer",
@@ -562,7 +562,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Ludovic Yersin est un employé de la clinique privée de Elizabeth Mircalla KARNSTEIN. C’est un médecin reconnu et bien qu’il ne soit pas vampire, Elizabeth l’apprécie et lui fait confiance. C’est un ennemi farouche de Kristina RUIZ, l’insurgée et terroriste biologique."
+            "text": "Ludovic Yersin travaille dans la clinique privée d’Elizabeth Mircalla Karnstein. Médecin reconnu, il bénéficie de la confiance de sa patronne malgré le fait qu’il ne soit pas vampire. Il est également un adversaire déterminé de Kristina Ruiz, insurgée et terroriste biologique."
           }
         ]
       },
@@ -628,7 +628,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Ludovic Yersin est un employé de la clinique privée de Elizabeth Mircalla KARNSTEIN. C’est un médecin reconnu et bien qu’il ne soit pas vampire, Elizabeth l’apprécie et lui fait confiance. C’est un ennemi farouche de Kristina RUIZ, l’insurgée et terroriste biologique. Duc infernal, Morax est décrit dans des légendes comme un minotaure aussi brutal que savant. C’est un des daemons préférés d’Astaroth. Autrefois il était Louis Pasteur, le pionnier de la microbiologie. A sa mort, il fut récupéré par Astaroth afin de côtoyer d’autres génies tels que lui. S’il est loin d’être le plus ancien des daemons d’Astharoth à maitriser les arts médicaux, Asclépios ou Hyppocrate lui précédent de loin, il est le héros qui a été le plus loin dans le travail de ses pouvoirs, au point de provoquer un conflit léger entre Astaroth et Belzebuth. Il déteste corps et âme le caractère capitaliste et commercial de la médecine moderne, notamment Biosun, ne prenant jamais aucun contrat de ce genre de corporation. 7. Temple de Satan"
+            "text": "Ludovic est en vérité Morax–Louis Pasteur. Morax est décrit dans certaines traditions comme un minotaure aussi brutal que savant et compte parmi les Daemons préférés d’Astaroth. De son vivant, il fut Louis Pasteur, pionnier de la microbiologie. À sa mort, Astaroth récupéra son âme afin de l’entourer d’autres génies. Il n’est pas le plus ancien Daemon d’Astaroth à maîtriser les arts médicaux — Asclépios et Hippocrate le précèdent largement — mais il est probablement celui qui poussa le plus loin l’usage de ces pouvoirs, au point de provoquer un léger conflit entre Astaroth et Belzébuth. Il déteste profondément le caractère capitaliste et commercial de la médecine moderne, notamment Biosun, et refuse tout contrat avec ce type de corporation."
           }
         ]
       },
