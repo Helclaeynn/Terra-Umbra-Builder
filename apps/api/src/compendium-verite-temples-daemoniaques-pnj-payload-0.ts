@@ -496,7 +496,7 @@ const PAYLOAD = [
       "age": "38 ans",
       "origine": "Navajo",
       "statut": "grand Corbeau",
-      "affiliations": "« Corporatiste »/ associatif",
+      "affiliations": "Corporatiste / associatif",
       "divinite": "Morrighan",
       "pouvoir_principal": "La tromperie",
       "titre_infernal": "grand Corbeau",
@@ -537,7 +537,7 @@ const PAYLOAD = [
               ],
               [
                 "Affiliations",
-                "« Corporatiste »/ associatif"
+                "Corporatiste / associatif"
               ],
               [
                 "Nationalité d’origine",
@@ -579,7 +579,7 @@ const PAYLOAD = [
               ],
               [
                 "Affiliations",
-                "« Corporatiste »/ associatif"
+                "Corporatiste / associatif"
               ],
               [
                 "Nationalité d’origine",
