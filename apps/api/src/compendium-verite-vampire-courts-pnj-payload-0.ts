@@ -2101,7 +2101,7 @@ const PAYLOAD = [
       "real_name": "Engracia Montes",
       "nom_verite": "Meghnisa",
       "race": "Vampire",
-      "age": "«46 ans » - 1346 ans",
+      "age": "46 ans",
       "origine": "Mexicaine",
       "statut": "crawlers : voidrunner",
       "statut_verite": "« Masque des secrets »",
@@ -2144,7 +2144,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«46 ans »"
+                "46 ans"
               ],
               [
                 "Affiliations",
@@ -2155,6 +2155,10 @@ const PAYLOAD = [
                 "Mexicaine"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Engracia Montes est une assassine de la Blanchisserie connue sous les surnoms de « Black Scorpio » et, plus rarement, « Pandinus ». Rapide, agile et colérique, elle paraît constamment insatisfaite. Elle perdit ses fils pendant la guerre du Mexique et cherche désormais à éliminer aussi bien les membres des cartels que les corporatistes impliqués dans le massacre. Ironiquement, elle aurait elle-même appartenu autrefois aux Los Antrax, bras armé du cartel de Sinaloa."
           }
         ]
       },
@@ -2195,7 +2199,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Engracia Montes est une assassine de la Blanchisserie. Elle est surnommée « Black Scorpio » ou plus rarement « Pandinus ». C’est une tueuse agile et rapide, assez colérique, elle est constamment mécontente. Elle perdit ses fils pendant la guerre du Mexique et aurait à cœur de buter les membres des cartels et les corporatistes ayant participé à ce grand massacre. Ironiquement, elle serait une ancienne de los anthrax, le bras armé du cartel de Sinaloa. « Masque des secrets », elle est la ministre de l’espionnage et du renseignement dans l’Alghul. Née dans des peuples berbères durant la conquête musulmane, elle était une dhampire, capable de combattre de jour et participa grandement à la prise de Tolède en menant des guerrières berbères. Hélas, dans l’armée musulmane de l’époque, on ne toléra pas ces victoires longuement. Un Chasseur renseigné par un Angelus lui perça le cœur et ses guerrières furent égorgées après la prise de la ville. Elle survécut grâce à une fille de Megda, Ghaidaa, laquelle lui offrit son sang peu avant que le soleil ne se lève. Ghaidaa étant incapable de bouger, elle fit de Meghnisa un vrai vampire par ce geste et une loyale servante de Megda."
+            "text": "Engracia est en vérité Meghnisa, « Masque des Secrets » de l’Alghul et ministre de l’espionnage et du renseignement. Née parmi des peuples berbères durant la conquête musulmane, elle était alors une Dhampire capable de combattre de jour et participa activement à la prise de Tolède à la tête de guerrières berbères. Ses succès furent mal tolérés : un Chasseur renseigné par un Angelus lui perça le cœur et ses guerrières furent égorgées après la prise de la ville. Meghnisa survécut grâce à Ghaidaa, une fille de Megda, qui lui donna son sang peu avant le lever du soleil. Incapable de se déplacer elle-même, Ghaidaa transforma ainsi Meghnisa en véritable vampire et en servante loyale de Megda. Meghnisa ne se sent à l’aise qu’en présence de femmes et nourrit envers les hommes un mélange de haine et de phobie."
           }
         ]
       },
