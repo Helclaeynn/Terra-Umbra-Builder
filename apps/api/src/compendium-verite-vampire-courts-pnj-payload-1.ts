@@ -21,7 +21,7 @@ const PAYLOAD = [
       "real_name": "Annashadeh Shariati",
       "nom_verite": "Annashadeh",
       "race": "Vampire",
-      "age": "- « 52 ans » 2317ans",
+      "age": "52 ans",
       "origine": "Indienne",
       "statut": "Corporation : Eversor",
       "statut_verite": "« Masque de la diplomatie »",
@@ -64,7 +64,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "- « 52 ans » 2317ans"
+                "52 ans"
               ],
               [
                 "Affiliations",
@@ -75,6 +75,10 @@ const PAYLOAD = [
                 "Indienne"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Annashadeh Shariati fut un grand mannequin à succès en Inde, en Chine et aux États-Unis bien avant la guerre. Gracieuse, élégante et dotée d’une prestance rare, elle sembla longtemps indétrônable dans la haute couture. Après sa carrière de top model, elle devint l’égérie de plusieurs grandes marques avant d’être intégrée au panel de mannequins de Tuatha. Son visage, pourtant inchangé, finit par lasser le public et sa notoriété s’effondra. Elle retrouva une place en rejoignant Saskia chez Eversor Corporation."
           }
         ]
       },
@@ -115,7 +119,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Beauté indienne, elle est un grand mannequin ayant réussi en Inde, en Chine et aux Etats-Unis bien avant la guerre. Gracieuse et élégante, elle est une femme à la prestance rare qui semblait indétrônable dans le monde de la haute couture. Après sa carrière de topmodel, elle devint l’égérie de plusieurs grandes marques jusqu’à l’essor de la Tuatha où elle fut rachetée dans le panel des mannequins. Hélas, son visage, quoi qu’intemporel et inchangé, était trop connu, le public en étant lassé, elle vendait moins et finalement, en perte totale de notoriété, elle trouva son salut en s’engageant auprès de Saskia, dans l’Eversor corporation. Masque de la diplomatie, elle est l’émissaire de la reine. Annashadeh connait toutes les coutumes, les langues et l’étiquette des cours vampiriques, c’est un génie qui semble capable de décrypter les émotions et les moindres signes de communication non-verbale. Son jugement sur les gens est implacable et elle sait à merveille les manipuler pour que l’Alghul s’en sorte toujours. Née dans l’empire Maurya, en 282 avant notre ère, elle était une fille méconnue de l’empereur Ashoka. Elle fut mariée politiquement mais son époux était abusif, jaloux parce qu’elle était convoitée, battue à mort et défigurée"
+            "text": "Annashadeh est le « Masque de la Diplomatie », émissaire officielle de la reine de l’Alghul. Elle maîtrise les coutumes, les langues et l’étiquette des différentes cours vampiriques, lit avec une précision exceptionnelle les émotions et la communication non verbale et sait manipuler ses interlocuteurs afin que l’Alghul sorte gagnante des négociations. Née dans l’Empire Maurya en 282 avant notre ère, elle fut une fille méconnue de l’empereur Ashoka. Mariée pour des raisons politiques à un homme jaloux et violent, elle fut battue à mort et défigurée après des soupçons d’adultère. Un vampire la transforma afin de lui donner une chance de survivre."
           }
         ]
       },
