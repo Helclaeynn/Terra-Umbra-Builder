@@ -1156,9 +1156,9 @@ const PAYLOAD = [
     "pnj": {
       "completeness": "detailed",
       "real_name": "Shayna Arc",
-      "nom_verite": "Esdrael",
+      "nom_verite": "Esdrael / Erakziel",
       "race": "Astharès (« angelus »)",
-      "age": "«26 ans » - ????",
+      "age": "26 ans",
       "origine": "américaine",
       "statut": "Religieux : neopaïens",
       "statut_verite": "séraphin – princesse Astharès",
@@ -1166,7 +1166,9 @@ const PAYLOAD = [
       "relations": [],
       "identity_keys": [
         "Shayna Arc",
-        "Esdrael"
+        "Esdrael",
+        "Erakziel",
+        "Esdrael / Erakziel"
       ],
       "source_group": "Gueburah · Michel",
       "source_order": 9,
@@ -1199,7 +1201,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«26 ans » - ????"
+                "26 ans"
               ],
               [
                 "Affiliations",
@@ -1220,7 +1222,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Shayna est née à New-York. Elle a grandi dans l’espoir de devenir une importante politicienne, mais de couleur et de sexe féminin, elle a vite été brisée surtout après la guerre. Elle s’est réfugiée dans des croyances religieuses, notamment Aztèques dont elle devint une sorte de prêtresse."
+            "text": "Shayna est née à New York. Elle grandit avec l’espoir de devenir une importante personnalité politique, mais se heurta rapidement aux discriminations visant une femme noire, particulièrement après la guerre. Elle trouva refuge dans la religion, notamment dans les croyances aztèques, dont elle devint une sorte de prêtresse."
           }
         ]
       },
@@ -1239,7 +1241,7 @@ const PAYLOAD = [
               ],
               [
                 "Nom de la Vérité",
-                "Esdrael - Erakziel"
+                "Esdrael / Erakziel"
               ],
               [
                 "Nature réelle",
@@ -1265,7 +1267,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "L’ange du Sang, Esdrael est possiblement plus puissante que des Archanges majeurs. Fille de l’archidémon Hark et d’une prêtresse de Dradyn, cette Astharès était des communautés expatriées de Gaerras sur la Terre. Lors de la purge des Gaerriens, par les angelus, elle fut capturée et en échange de la survie de quelques serviteurs, se rangea aux côté d’Elynea et de ses Archanges. C’est cette raison qui fait que bien que surpuissante, elle reste séraphine et jamais Archange, Elynea n’ayant pas une pleine confiance en elle. Elle lutte contre"
+            "text": "L’ange du Sang, Esdrael — également appelée Erakziel — est possiblement plus puissante que certains Archanges majeurs. Fille de l’archidémon Hark et d’une prêtresse de Dradyn, cette Astharès appartenait aux communautés expatriées de Gaerras sur Terre. Lors de la purge des Gaerriens par les Angelus, elle fut capturée et, en échange de la survie de quelques serviteurs, se rangea aux côtés d’Elynea et de ses Archanges. Bien que surpuissante, elle resta donc Séraphine et ne devint jamais Archange, Elynea ne lui accordant pas une confiance totale. Elle lutte contre les vampires, notamment Quetzalcoatl."
           }
         ]
       },
