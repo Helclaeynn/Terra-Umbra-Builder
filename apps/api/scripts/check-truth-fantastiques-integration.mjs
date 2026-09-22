@@ -74,11 +74,51 @@ assert.equal(
   "Katell O’Dalaigh is the only source profile without Truth/MJ narrative"
 );
 
-const lolita = COMPENDIUM_VERITE_FANTASTIQUES_PNJ_ARTICLES.find((article) => article.title === "Lolitasex666-allholes");
-assert.ok(lolita, "Lolitasex666-allholes profile must exist");
+const lolita = COMPENDIUM_VERITE_FANTASTIQUES_PNJ_ARTICLES.find(
+  (article) => article.id === "personnages-verite-fantastiques-lolitasex666-allholes"
+);
+assert.ok(lolita, "Casey Vaughn's source profile must exist");
 assert.ok(
   (lolita.sections?.find((section) => section.id === "informations-mj")?.blocks?.length ?? 0) > 0,
   "The legacy generic Informations block must be protected as MJ material"
+);
+
+assert.ok(
+  COMPENDIUM_VERITE_FANTASTIQUES_PNJ_ARTICLES.every((article) => article.pnj?.protect_truth_metadata === true),
+  "All 52 audited profiles must protect Truth metadata"
+);
+
+const mjOnlyIds = new Set([
+  "personnages-verite-fantastiques-theoderid",
+  "personnages-verite-fantastiques-fredegonda",
+  "personnages-verite-fantastiques-lidira",
+  "personnages-verite-fantastiques-tharlal-rark"
+]);
+for (const article of COMPENDIUM_VERITE_FANTASTIQUES_PNJ_ARTICLES) {
+  assert.equal(article.audience === "mj", mjOnlyIds.has(article.id), `${article.id}: wrong article audience`);
+  const profile = article.sections?.find((section) => section.id === "profil");
+  assert.equal(profile?.audience, "mj", `${article.id}: occult profile must be MJ-only`);
+  for (const section of article.sections ?? []) {
+    if (/seuil/i.test(String(section.title ?? ""))) {
+      assert.equal(section.audience, "mj", `${article.id}: threshold section must be MJ-only`);
+    }
+  }
+}
+
+assert.equal(
+  COMPENDIUM_VERITE_FANTASTIQUES_PNJ_ARTICLES.find((article) => article.id === "personnages-verite-fantastiques-roberrik-reimer")?.title,
+  "Roberrick Reimer",
+  "Roberrick spelling must remain aligned with the audited canonical identity"
+);
+assert.equal(
+  COMPENDIUM_VERITE_FANTASTIQUES_PNJ_ARTICLES.find((article) => article.id === "personnages-verite-fantastiques-lolitasex666-allholes")?.title,
+  "Casey Vaughn",
+  "Casey Vaughn's hidden identity must not leak through the public title"
+);
+assert.equal(
+  COMPENDIUM_VERITE_FANTASTIQUES_PNJ_ARTICLES.find((article) => article.id === "personnages-verite-fantastiques-motsognir")?.title,
+  "Bob",
+  "The newer Grands Exilés source must supply Motsognir's public cover"
 );
 
 const frazier = COMPENDIUM_VERITE_FANTASTIQUES_PNJ_ARTICLES.find((article) => article.title === "King Frazier");
