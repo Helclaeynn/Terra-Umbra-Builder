@@ -189,6 +189,14 @@ assert.ok(
   !(mergedHonoka.sections ?? []).some((section) => section.id === "source-extraterrestres-identite" && section.audience !== "mj"),
   "Honoka's extraterrestrial identity complement must not be public"
 );
+const honokaPublicReality = mergedHonoka.sections?.find(
+  (section) => section.id === "source-extraterrestres-realite" && section.audience !== "mj"
+);
+assert.equal(honokaPublicReality?.title, "Informations Réalité", "Honoka must not expose an extraterrestrial dossier heading");
+assert.ok(
+  honokaPublicReality?.blocks?.some((block) => block.type === "p" && /Honoka est une vagabonde/.test(block.text ?? "")),
+  "Honoka's safe Reality biography must remain available"
+);
 for (const id of ["fleaux-focus-dossier", "fleaux-focus-realite", "fleaux-focus-verite"]) {
   assert.equal(
     mergedHonoka.sections?.find((section) => section.id === id)?.audience,

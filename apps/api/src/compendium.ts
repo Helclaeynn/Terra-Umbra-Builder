@@ -1381,7 +1381,10 @@ export function mergeExtraterrestrialPnj(target: Article, source: Article): Arti
   if (sourceReality.length && !existingSectionIds.has("source-extraterrestres-realite")) {
     insertPublicSectionBeforeMj({
       id: "source-extraterrestres-realite",
-      title: "Complément Réalité · dossier extraterrestre",
+      // A protected identity may be consolidated from several canonical files.
+      // The public article must present one coherent Reality biography, without
+      // exposing the provenance or the existence of a second occult dossier.
+      title: hasProtectedPnjIdentity(merged) ? "Informations Réalité" : "Complément Réalité · dossier extraterrestre",
       level: 2,
       blocks: sourceReality.flatMap((section) => deepClone(section.blocks ?? []))
     });
