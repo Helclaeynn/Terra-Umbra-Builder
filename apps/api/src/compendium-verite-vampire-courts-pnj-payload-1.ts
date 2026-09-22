@@ -882,6 +882,10 @@ const PAYLOAD = [
       "Cours vampiriques",
       "Ihuito Meztzi"
     ],
+    "merge_section_targets": {
+      "vampires-realite": "antisysteme-p60-realite",
+      "vampires-verite": "antisysteme-p60-mj"
+    },
     "pnj": {
       "completeness": "detailed",
       "real_name": "Nana Nandoa",
