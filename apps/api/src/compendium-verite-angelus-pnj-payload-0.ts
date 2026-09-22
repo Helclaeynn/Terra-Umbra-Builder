@@ -590,7 +590,7 @@ const PAYLOAD = [
       "real_name": "Stephania Lawrence",
       "nom_verite": "Assim",
       "race": "Angelus",
-      "age": "«30 ans » - ????",
+      "age": "30 ans",
       "origine": "américaine",
       "statut": "Corporation : Monarch system",
       "statut_verite": "séraphin",
@@ -631,7 +631,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«30 ans » - ????"
+                "30 ans"
               ],
               [
                 "Affiliations",
@@ -652,7 +652,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Cadre à la tête d la sous-branche « system » de la branche « Holosoftwares III » à Monarch system corporation, Stephania est une directrice assez terrible. Actuellement, au début 2035, Monarch system prend le dessus sur toutes les ventes liées au domaine de l’holonet ou d el’informatique sur Arcanet, l’actuel leader et Aces, de longtemps le numéro 2 du domaine. La progression éclair de Monarch n’est vraiment pas étrangère à la capacité stratégique sans égale de cette directrice sans vie privée et carriériste."
+            "text": "Cadre à la tête de la sous-branche « System » de la branche « Holosoftwares III » de Monarch System Corporation, Stephania est une directrice redoutable. Au début de 2035, Monarch System gagne du terrain sur les ventes liées à l’Holonet et à l’informatique face à Arcanet, l’actuel leader, ainsi qu’à Aces, longtemps numéro deux du domaine. La progression fulgurante de Monarch doit beaucoup à la capacité stratégique sans égale de cette directrice carriériste, dépourvue de véritable vie privée."
           }
         ]
       },
@@ -697,7 +697,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Cette séraphine sert l’archange le plus faible, Barachiel. C’est un stratège surprenant qui dédie entièrement sa vie à la progression de Monarch afin d’avoir le contrôle total de l’Holonet et de rendre la traque des Prophètes aisé, par des armées d’angelus introduits dans l’Holonet : des « Holangelus », allant remplacer les IA, après tout, ces créatures étant élémentaires, rien ne vient à"
+            "text": "Cette Séraphine sert Barachiel, l’archange le plus faible. C’est une stratège surprenante qui dédie entièrement sa vie à la progression de Monarch afin d’obtenir le contrôle total de l’Holonet et de faciliter la traque des Prophètes. Son projet repose sur des armées d’Angelus introduits dans l’Holonet, les « Holangelus », destinés à remplacer les IA ; ces créatures étant élémentaires, rien ne vient à l’encontre de cette théorie."
           }
         ]
       },
