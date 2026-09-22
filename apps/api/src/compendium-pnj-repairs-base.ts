@@ -190,7 +190,7 @@ function repairCrawlerP0(byId:Map<string,A>){
     "realite-v9-crawlers-motards-sons-of-silence":["Amazone","Angrboda","Sharfeidd","demi-Kelta"],
     "realite-v9-crawlers-motards-sons-of-legba":["Guédé","psychopompe","Roshielle","poison céleste","loup-garou"],
     "realite-v9-crawlers-motards-last-crows":["Thaagnno","Naalnish","Munin","Ihuito Meztzi","demi-déesse"],
-    "realite-v9-crawlers-enders-losttown":["Xewenne","Rulfam","Shaoggith","Apep","Sauroctone"]
+    "realite-v9-crawlers-enders-losttown":["Xewenne","Rulfam","Shaoggith","incarnation d’Apep","Sauroctone"]
   };
   for(const [id,terms] of Object.entries(forbidden)){
     const a=byId.get(id);if(!a)throw new Error(`Réparation Crawlers P0 · article absent après consolidation: ${id}`);
