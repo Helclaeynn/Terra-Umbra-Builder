@@ -134,7 +134,7 @@ const PAYLOAD = [
     "dataset": "verite-vampire-courts-pnj",
     "category": "Personnages",
     "sourceCategory": "Personnages",
-    "title": "Anastasia VARGAS",
+    "title": "Anastasia Vargas",
     "source": "Factions_Les cours vampiriques(1)(2).pdf",
     "status": "canon_source",
     "rebuildV2": true,
@@ -147,18 +147,20 @@ const PAYLOAD = [
     ],
     "pnj": {
       "completeness": "detailed",
-      "real_name": "Anastasia VARGAS",
+      "real_name": "Anastasia Vargas",
       "nom_verite": "R’Gahanath",
       "race": "Fléau supérieur",
-      "age": "« 30 ans » - ???? ans",
+      "age": "30 ans",
       "origine": "Bulgare",
       "statut": "crawlers : mercs",
       "statut_verite": "Première concubine",
       "organisation": "Krovni Rytsari",
       "relations": [],
       "identity_keys": [
-        "Anastasia VARGAS",
-        "R’Gahanath"
+        "Anastasia Vargas",
+        "R’Gahanath",
+        "Awan",
+        "Aklima"
       ],
       "aliases_source": [
         "Awan",
@@ -193,11 +195,11 @@ const PAYLOAD = [
               ],
               [
                 "Nom / identité de Réalité",
-                "Anastasia VARGAS Awan Aklima"
+                "Anastasia Vargas"
               ],
               [
                 "Âge apparent",
-                "« 30 ans »"
+                "30 ans"
               ],
               [
                 "Affiliations",
@@ -225,6 +227,10 @@ const PAYLOAD = [
                 "Valeur"
               ],
               [
+                "Alias source",
+                "Awan ; Aklima"
+              ],
+              [
                 "Nom de la Vérité",
                 "R’Gahanath"
               ],
@@ -244,7 +250,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Mloxol v'aagor profita de la prétention de Rae’Kath une Vala’Erai de la mort et du temps, mais aussi de l’amitié profonde qu’elle avait pour lui pour assimiler la nature de la créature élémentaire. De leur union naquit « R’Gahanath » « L’ombre du Temps » en langue des Fléaux. Elle se dissimula parmi les khinae et préserva cette espèce en créant les « archivampires » en les corrompant. Passionnée par l’expérimentation, elle débuta une grande compétition contre Sianna, un autre fléau supérieur. Elle se joua de Kain, le fils de Belial, voulant s’essayer à le corrompre, en, vain, mais elle le fit créer la marque de Caïn, un outil prodigieux. En soi, elle n’est pas malveillante, mais elle cherche à corrompre le plus d’âmes possible sur Terre pour qu’une solution sauve fléaux et corrompus du Néant, qui la terrifie absolument. Elle est extrêmement toxique et manipulatrice pour ses anciens amants qui ont beau la haïr, ne peuvent s’empêcher de l’adorer, Dragoy autant que Caïn entre autres."
+            "text": "Anastasia est en vérité R’Gahanath, également associée aux noms Awan et Aklima. Mloxol V’aagor profita de la prétention de Rae’Kath, une Vala’Erai liée à la mort et au temps, ainsi que de la profonde amitié qu’elle lui portait, afin d’assimiler la nature de cette créature élémentaire. De leur union naquit R’Gahanath, « l’Ombre du Temps » en langue des Fléaux. Elle se dissimula parmi les Khinae et préserva cette espèce en créant puis corrompant les Archivampires. Passionnée d’expérimentation, elle entra dans une compétition acharnée avec Sianna, autre Fléau supérieur. Elle tenta également de corrompre Kain, fils de Belial ; l’échec de cette tentative conduisit néanmoins Kain à créer la prodigieuse Marque de Caïn. R’Gahanath ne se considère pas comme malveillante : elle cherche à corrompre le plus d’âmes possible sur Terre dans l’espoir de trouver une solution permettant aux Fléaux et aux êtres corrompus d’échapper au Néant, qu’elle redoute absolument. Elle reste extrêmement toxique et manipulatrice avec ses anciens amants, notamment Dragoy et Caïn, qui continuent à l’adorer malgré leur haine."
           }
         ]
       },
