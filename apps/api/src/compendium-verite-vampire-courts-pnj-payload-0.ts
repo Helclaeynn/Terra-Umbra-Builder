@@ -814,14 +814,16 @@ const PAYLOAD = [
       "completeness": "detailed",
       "nom_verite": "Haîmanax",
       "race": "Vampire",
-      "age": "- 5557ans",
+      "age": "5 557 ans",
       "origine": "grecque",
       "statut": "aberration",
       "statut_verite": "seigneur des Veilleurs",
       "organisation": "Krovni Rytsari",
       "relations": [],
       "identity_keys": [
-        "Haîmanax"
+        "Haîmanax",
+        "Haïnamax",
+        "Hainamax"
       ],
       "source_group": "Krovni Rytsari",
       "source_order": 7,
@@ -857,7 +859,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "- 5557ans"
+                "5 557 ans"
               ],
               [
                 "Nature réelle",
@@ -875,7 +877,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Haïnamax est un des plus anciens vampires encore en vie. Bien avant la « Krovni rysteri », il était le roi vampire d’une faction. Dragoy Skotia, une « petite merde » apparut de nulle-part, sans servir les Archivampires et révolutionna les cours vampiriques d’occident en tuant les anciens maitres et apportant la marque de Caïn aux vampires. Vaincu, Haïnamax se refugia dans une crypte profonde, il endossa le rôle de Veilleur en échange de sa vie. Ses descendants instaurèrent la Maison Stroheim, qui prit fin avec Maximilian, le corrompu. Comme tous les Veilleurs vampiriques, Hainamax est fou, il entend les supplications et les souffrances de V'aagor depuis qu'il a son rôle de Veilleur, en échange il en est un fragment inférieur. Il méprise profondément Dragoy, mais il en a extrêmement peur. Toutes les maisons de la Krovni le vénèrent, tel un grand prêtre vampirique. Comme c’est un veilleur, il ne se nourrit pas sur des mortels, il ne boit rien pendant des siècles, il faut lui sacrifier des vampires de noble lignée pour le questionner. L’ancien roi servait les archivampires, avec leur disparition il a grandement perdu en intérêt"
+            "text": "Haîmanax est l’un des plus anciens vampires encore en vie. Bien avant la Krovni Rytsari, il régnait déjà sur une faction vampirique. Dragoy Skotia, alors jeune inconnu ne servant aucun Archivampire, bouleversa les cours vampiriques d’Occident en tuant les anciens maîtres et en apportant la Marque de Caïn aux vampires. Vaincu, Haîmanax se réfugia dans une crypte profonde et accepta le rôle de Veilleur en échange de sa vie. Ses descendants fondèrent la maison Stroheim, qui prit fin avec Maximilian le Corrompu. Comme tous les Veilleurs vampiriques, Haîmanax est fou : il entend les supplications et les souffrances de V’aagor et est devenu en retour un fragment inférieur du Fléau. Il méprise Dragoy mais le craint profondément. Toutes les maisons de la Krovni le vénèrent comme un grand prêtre. Il ne se nourrit plus de mortels et peut rester des siècles sans boire ; pour le consulter, il faut lui sacrifier des vampires de noble lignée. Avec la disparition des Archivampires qu’il servait autrefois, il s’est presque totalement désintéressé du monde et n’est plus obsédé que par la « Voix » de V’aagor, sans savoir d’où elle provient."
           }
         ]
       },
