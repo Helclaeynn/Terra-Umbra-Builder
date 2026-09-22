@@ -1732,7 +1732,7 @@ const PAYLOAD = [
       "real_name": "Katerinochkina Angelika Ruslanovna",
       "nom_verite": "Kathariel",
       "race": "Angelus",
-      "age": "«42 ans » - ????",
+      "age": "42 ans",
       "origine": "russe",
       "statut": "pègre : bratva",
       "statut_verite": "chérubin",
@@ -1773,7 +1773,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«42 ans » - ????"
+                "42 ans"
               ],
               [
                 "Affiliations",
@@ -1794,7 +1794,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Katerina Angelika était un des assassins au service d’igor Artemov, de la Sokolnitcheskaïa moscovite. Elle rencontra Svetlana durant son tour du monde et en devint une grande fan. Lors de la guerre, elle fut envoyée pour l’aider et l’ancienne spetsnaz intégra le bataillon Arckhangel. Avec Lev, Drasko et Milda, Angelika est la plus loyale de tous envers Svetlana, de nature glaciale et posée, si elle est moins insensible que Lev, elle est probablement proche de la psychopathie tant les ordres de Svetlana importent plus que tout le reste."
+            "text": "Katerinochkina Angelika Ruslanovna, souvent appelée Katerina Angelika, fut l’une des assassines au service d’Igor Artemov dans la Sokolnitcheskaïa moscovite. Elle rencontra Svetlana pendant le tour du monde de cette dernière et devint une admiratrice fervente. Durant la guerre, l’ancienne Spetsnaz fut envoyée pour l’aider et intégra le bataillon Arkhangel. Avec Lev, Drasko et Milda, Angelika compte parmi les plus loyaux soutiens de Svetlana. Glaciale et posée, moins insensible que Lev mais probablement proche de la psychopathie, elle place les ordres de Svetlana au-dessus de presque tout."
           }
         ]
       },
@@ -1831,7 +1831,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Kathariel est un chérubin des forces de l’Archange Michel, initialement elle n’était pas censée rencontrer Svetlana ni interférer, mais subjuguée par la jeune femme de Vladivostok, elle ne put obéir et en devint une proche. Elle a une honte infinie qui la ronge, car n’étant pas"
+            "text": "Kathariel est un Chérubin des forces de l’Archange Michel. Initialement, elle ne devait ni rencontrer Svetlana ni intervenir directement, mais la jeune femme de Vladivostok la subjugua au point qu’elle désobéit et devint l’une de ses proches. Une honte profonde la ronge depuis : n’étant pas humaine, Kathariel craint d’être rejetée si Svetlana découvre sa véritable nature."
           }
         ]
       },
