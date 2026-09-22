@@ -448,7 +448,7 @@ const PAYLOAD = [
       "real_name": "Ragnil Sundström",
       "nom_verite": "Arathim",
       "race": "Angelus",
-      "age": "«25ans », ????",
+      "age": "25 ans",
       "origine": "Suédoise",
       "statut": "Corporation : Phoenix",
       "statut_verite": "séraphin",
@@ -489,7 +489,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«25ans », ????"
+                "25 ans"
               ],
               [
                 "Affiliations",
@@ -510,7 +510,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Athlète en course et en saut à la perche reconnue en Suède, elle essaya de percer par la compétition professionnelle, mais en 2030, seuls les sports de combat avaient l’engouement du public. Elle s’est donc investie dans un autre domaine, offrant son corps à la recherche. Phoenix corporation la paya pour être du programme « Phoenix phase III », visant à réactualiser le vieux programme de la guerre ayant mené à A-man et Hell soldier. « Snow War » est ainsi née. C’est une augmentée redoutable même si elle est encore loin d’égaler les références du précédent projet."
+            "text": "Athlète reconnue en Suède en course et en saut à la perche, Ragnil tenta de percer dans la compétition professionnelle. En 2030, les sports de combat concentraient cependant l’essentiel de l’engouement du public. Elle s’investit donc dans un autre domaine en offrant son corps à la recherche. Phoenix Corporation la rémunéra pour participer au programme « Phoenix phase III », destiné à réactualiser l’ancien programme militaire ayant mené à A-Man et Hell Soldier. « Snow War » naquit ainsi. C’est une augmentée redoutable, même si elle reste encore loin d’égaler les références du précédent projet."
           }
         ]
       },
@@ -555,7 +555,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Arathim représente la loi des cieux. Gabrielle s’en sert comme juge et bourreau pour ceux qu’elle juge être les ennemis des cieux. Le plus souvent, Arathim exécute d’autres anges en vérité, ceux qui servent les Archanges les moins amicaux à Gabrielle ; Quand Ragnil met sa visière devant ses yeux, elle évoque assez vite la Justice aux yeux bandés. D’un point de vue personnel, elle veut tuer le daemon Apollyon, qu’elle n supporte pas et qui l’a tué déjà une fois dans une vie antérieure, une atroce souffrance qu’elle n’a pas oubliée."
+            "text": "Arathim représente la loi des Cieux. Gabrielle l’utilise comme juge et bourreau contre ceux qu’elle considère comme les ennemis célestes. Le plus souvent, Arathim exécute d’autres anges, notamment ceux qui servent les Archanges les moins amicaux envers Gabrielle. Lorsque Ragnil abaisse sa visière devant ses yeux, elle évoque rapidement la Justice aux yeux bandés. Sur un plan personnel, elle veut tuer le Daemon Apollyon, qu’elle ne supporte pas et qui l’a déjà tuée lors d’une vie antérieure ; elle n’a jamais oublié cette atroce souffrance."
           }
         ]
       },
