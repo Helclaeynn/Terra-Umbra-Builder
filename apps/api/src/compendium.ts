@@ -272,7 +272,8 @@ import {
   COMPENDIUM_VERITE_HUMAN_GALACTIC_PNJ_ARTICLES,
   COMPENDIUM_VERITE_HUMAN_GALACTIC_PNJ_NAVIGATION
 } from "./compendium-verite-humans-galactic-pnj.js";
-import { COMPENDIUM_VERITE_VAMPIRE_COURTS_SOURCE, COMPENDIUM_VERITE_VAMPIRE_COURTS_ARTICLES, COMPENDIUM_VERITE_VAMPIRE_COURTS_ENRICHMENTS, COMPENDIUM_VERITE_VAMPIRE_COURTS_NAVIGATION } from "./compendium-verite-vampire-courts-lore.js";
+import { COMPENDIUM_VERITE_VAMPIRE_COURTS_SOURCE, COMPENDIUM_VERITE_VAMPIRE_COURTS_ENRICHMENTS, COMPENDIUM_VERITE_VAMPIRE_COURTS_NAVIGATION } from "./compendium-verite-vampire-courts-lore.js";
+import { COMPENDIUM_VERITE_VAMPIRE_COURTS_EDITORIAL_ARTICLES } from "./compendium-verite-vampire-courts-editorial.js";
 import { COMPENDIUM_VERITE_VAMPIRE_COURTS_PNJ_ARTICLES, COMPENDIUM_VERITE_VAMPIRE_COURTS_PNJ_NAVIGATION } from "./compendium-verite-vampire-courts-pnj.js";
 import {
   COMPENDIUM_VERITE_PELAGES_ARTICLES,
@@ -2711,7 +2712,7 @@ async function loadCorpus(): Promise<Corpus> {
     addProtectedPnjRelation(angelus, daemonId, String(relation.note ?? ""), key);
   }
 
-  for (const article of COMPENDIUM_VERITE_VAMPIRE_COURTS_ARTICLES) byId.set(String(article.id), deepClone(article) as Article);
+  for (const article of COMPENDIUM_VERITE_VAMPIRE_COURTS_EDITORIAL_ARTICLES) byId.set(String(article.id), deepClone(article) as Article);
   for (const enrichment of COMPENDIUM_VERITE_VAMPIRE_COURTS_ENRICHMENTS) {
     const target=byId.get(String(enrichment.targetId??"")); if(!target) throw new Error(`Cible d'enrichissement Cours vampiriques absente: ${String(enrichment.targetId??"")}`);
     const ids=new Set((target.sections??[]).map((section)=>String(section?.id??""))); const ss=deepClone(enrichment.sections??[]).filter((section:JsonObject)=>!ids.has(String(section?.id??""))); if(ss.length)target.sections=[...(target.sections??[]),...ss];
