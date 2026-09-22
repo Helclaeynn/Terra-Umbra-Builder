@@ -1,0 +1,315 @@
+import { COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_ARTICLES } from "./compendium-verite-extrals-groups-pnj.js";
+import { COMPENDIUM_VERITE_HUMAN_GALACTIC_PNJ_ARTICLES } from "./compendium-verite-humans-galactic-pnj.js";
+
+type J = Record<string, any>;
+type A = J & { id:string; title?:string; dataset?:string; source?:string; tags?:string[]; pnj?:J; sections?:J[]; rebuildV2?:boolean };
+
+const cp=<T>(v:T):T=>JSON.parse(JSON.stringify(v));
+const n=(v:unknown)=>String(v??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
+const stats=(s:J)=>["profil statistique","statistiques"].includes(n(s?.title))||n(s?.id)==="profil statistique";
+const blockKey=(b:J)=>n(b?.type==="p"?b.text:b?.type==="table"&&Array.isArray(b.rows)?b.rows.flat().join(" "):"");
+
+function article(byId:Map<string,A>, names:string[], prefer=""):A|null {
+  const want=new Set(names.map(n));
+  const found=[...byId.values()].filter(a=>{
+    const p=a.pnj??{};
+    return [a.title,p.real_name,p.nom_reel,p.nom_realite,p.nom_verite,...(Array.isArray(p.identity_keys)?p.identity_keys:[])].map(n).some(k=>want.has(k));
+  });
+  if(prefer){const p=found.filter(a=>String(a.dataset??"").includes(prefer));if(p.length===1)return p[0];}
+  const t=found.filter(a=>want.has(n(a.title))); if(t.length===1)return t[0];
+  return found.length===1?found[0]:null;
+}
+function tableValue(a:A, labels:string[]):string {
+  const want=new Set(labels.map(n));
+  for(const s of a.sections??[])for(const b of s.blocks??[])if(b?.type==="table"&&Array.isArray(b.rows))
+    for(const r of b.rows)if(Array.isArray(r)&&want.has(n(r[0])))return String(r[1]??"").trim();
+  return "";
+}
+function mj(a:A):J {
+  let s=(a.sections??[]).find(x=>x?.audience==="mj"&&!stats(x));
+  if(!s){s={id:"dossier-mj",title:"Dossier MJ · Vérité & informations cachées",level:2,audience:"mj",blocks:[]};
+    const all=[...(a.sections??[])],i=all.findIndex(stats);if(i>=0)all.splice(i,0,s);else all.push(s);a.sections=all;}
+  s.blocks=Array.isArray(s.blocks)?s.blocks:[]; return s;
+}
+function addMj(a:A, blocks:J[]){
+  const s=mj(a), have=new Set((s.blocks??[]).map(blockKey).filter(Boolean));
+  for(const b of blocks){const k=blockKey(b);if(k&&!have.has(k)){s.blocks.push(cp(b));have.add(k);}}
+}
+function addPublic(a:A,id:string,title:string,text:string){
+  if((a.sections??[]).some(s=>String(s?.id??"")===id))return;
+  const s={id,title,level:2,blocks:[{type:"p",text}]},all=[...(a.sections??[])],i=all.findIndex(x=>x?.audience==="mj"||stats(x));
+  if(i>=0)all.splice(i,0,s);else all.push(s);a.sections=all;
+}
+function setTable(a:A,label:string,value:string){
+  for(const s of a.sections??[])for(const b of s.blocks??[])if(b?.type==="table"&&Array.isArray(b.rows))
+    for(const r of b.rows)if(Array.isArray(r)&&n(r[0])===n(label))r[1]=value;
+}
+function dropRows(a:A,labels:string[]){
+  const want=new Set(labels.map(n));
+  for(const s of a.sections??[]){if(s?.audience==="mj")continue;for(const b of s.blocks??[])if(b?.type==="table"&&Array.isArray(b.rows))b.rows=b.rows.filter((r:any[])=>!want.has(n(r?.[0])));}
+}
+function mapStrings(v:any, reps:Array<[RegExp,string]>):any{
+  if(typeof v==="string"){let x=v;for(const [p,r] of reps)x=x.replace(p,r);return x;}
+  if(Array.isArray(v))return v.map(x=>mapStrings(x,reps));
+  if(v&&typeof v==="object"){const o:J={};for(const [k,x] of Object.entries(v))o[k]=mapStrings(x,reps);return o;} return v;
+}
+function replace(a:A,reps:Array<[RegExp,string]>){const x=mapStrings(a,reps);for(const k of Object.keys(a))delete a[k];Object.assign(a,x);}
+function moveParagraphs(a:A, match:(t:string)=>boolean){
+  const moved:J[]=[];
+  for(const s of a.sections??[]){if(s?.audience==="mj"||stats(s))continue;const keep:J[]=[];for(const b of s.blocks??[]){if(b?.type==="p"&&match(String(b.text??"")))moved.push(b);else keep.push(b);}s.blocks=keep;}
+  if(moved.length)addMj(a,moved);
+}
+function removeParas(a:A,match:(t:string)=>boolean){
+  for(const s of a.sections??[]){if(s?.audience==="mj")continue;s.blocks=(s.blocks??[]).filter((b:J)=>!(b?.type==="p"&&match(String(b.text??""))));}
+}
+function order(a:A){if(!a.pnj&&!String(a.dataset??"").includes("pnj"))return;const pub:J[]=[],priv:J[]=[],st:J[]=[];for(const s of a.sections??[]){if(stats(s))st.push(s);else if(s?.audience==="mj")priv.push(s);else pub.push(s);}a.sections=[...pub,...priv,...st];}
+function secretProfile(a:A){
+  if(!a.pnj&&!String(a.dataset??"").includes("pnj"))return;
+  const truthIdentityLabels=new Set(["nom de la verite","nature reelle","ethnie reelle"]);
+  const legacyTruthDatasets=new Set(["verite-species-pnj","verite-fantastiques-pnj","verite-extraterrestres-pnj","verite-hunters-pnj"]);
+  const hideRepere=legacyTruthDatasets.has(String(a.dataset??""));
+  const rows:any[][]=[];
+  for(const s of a.sections??[]){if(s?.audience==="mj")continue;for(const b of s.blocks??[])if(b?.type==="table"&&Array.isArray(b.rows))b.rows=b.rows.filter((r:any[])=>{const label=n(r?.[0]);if(!truthIdentityLabels.has(label)&&!(hideRepere&&label==="repere"))return true;const v=String(r?.[1]??"").trim();if(v&&!/^[_?]+$/.test(v))rows.push(cp(r));return false;});}
+  if(rows.length)addMj(a,[{type:"table",rows:[["Champ MJ","Valeur"],...rows]}]);
+}
+function sourceKeyCleanup(a:A){
+  if(!["verite-extrals-groupes-pnj","verite-humains-galactiques-pnj"].includes(String(a.dataset??"")))return;
+  const d=n(a.pnj?.source_designation);if(d&&Array.isArray(a.pnj?.identity_keys))a.pnj.identity_keys=a.pnj.identity_keys.filter((k:unknown)=>n(k)!==d);
+  if(a.pnj)delete a.pnj.source_designation;
+}
+function mergeLegacy(target:A,src:A){
+  for(const s of src.sections??[])if(s?.audience==="mj"&&!stats(s))addMj(target,cp(s.blocks??[]));
+  const realities=(src.sections??[]).filter(s=>s?.audience!=="mj"&&!stats(s)&&n(s?.id)!=="profil"&&n(s?.title)!=="profil");
+  for(const s of realities){const blocks=cp(s.blocks??[]);if(!blocks.length)continue;const id="source-reparee-"+String(src.dataset??"legacy")+"-realite";if(!(target.sections??[]).some(x=>x.id===id)){const all=[...(target.sections??[])],i=all.findIndex(x=>x?.audience==="mj"||stats(x)),neo={id,title:"Complément Réalité · source antérieure",level:2,blocks};if(i>=0)all.splice(i,0,neo);else all.push(neo);target.sections=all;}}
+  target.source=[...new Set([target.source,src.source].flatMap(v=>String(v??"").split(" ; ")).map(x=>x.trim()).filter(Boolean))].join(" ; ");
+  target.tags=[...new Set([...(target.tags??[]),...(src.tags??[]),"Multi-source"])];target.status="canon_enrichi";target.rebuildV2=true;
+}
+function absorbOld(byId:Map<string,A>){
+  const olds=new Set(["verite-species-pnj","verite-fantastiques-pnj","verite-extraterrestres-pnj"]);
+  for(const src of [...byId.values()].filter(a=>olds.has(String(a.dataset??"")))){
+    const rn=String(src.pnj?.real_name??tableValue(src,["Nom de la Réalité","Nom / identité de Réalité"])).trim();if(!rn||/^[_?]+$/.test(rn))continue;
+    const forms=rn.split(/\s*\/\s*/).map(n).filter(Boolean);
+    const cand=[...byId.values()].filter(a=>a.id!==src.id&&!olds.has(String(a.dataset??""))&&forms.some(f=>[a.title,a.pnj?.real_name,a.pnj?.nom_reel,a.pnj?.nom_realite].map(n).includes(f)));
+    let t:A|null=null;if(cand.length===1)t=cand[0];else {const e=cand.filter(a=>forms.includes(n(a.title)));if(e.length===1)t=e[0];}
+    if(t){mergeLegacy(t,src);byId.delete(src.id);}
+  }
+}
+function splitHooley(byId:Map<string,A>){
+  const e=COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_ARTICLES.find((x:J)=>n(x.title)===n("Elsa Rys"));
+  const h=COMPENDIUM_VERITE_HUMAN_GALACTIC_PNJ_ARTICLES.find((x:J)=>n(x.title)===n("Nehemiah Hooley"));if(!e||!h)return;
+  for(const a of [...byId.values()]){const keys=[a.title,a.pnj?.real_name,a.pnj?.nom_verite,...(Array.isArray(a.pnj?.identity_keys)?a.pnj.identity_keys:[])].map(n);if(keys.includes(n("Elsa Rys"))||keys.includes(n("Nehemiah Hooley")))byId.delete(a.id);}
+  const el=cp(e) as A;const elPnj:J=el.pnj={...(el.pnj??{}),nom_verite:""};elPnj.identity_keys=(elPnj.identity_keys??[]).filter((k:unknown)=>n(k)!==n("Hooley’Makal")&&n(k)!==n(elPnj.source_designation));delete elPnj.source_designation;
+  for(const s of el.sections??[])if(s?.audience==="mj")for(const b of s.blocks??[])if(b?.type==="table"&&Array.isArray(b.rows))b.rows=b.rows.filter((r:any[])=>n(r?.[0])!=="nom de la verite");
+  const ne=cp(h) as A;const nePnj:J=ne.pnj={...(ne.pnj??{})};nePnj.identity_keys=(nePnj.identity_keys??[]).filter((k:unknown)=>n(k)!==n(nePnj.source_designation));delete nePnj.source_designation;
+  byId.set(el.id,el);byId.set(ne.id,ne);
+}
+function stripExactDupes(a:A){
+  const m=new Set<string>();for(const s of a.sections??[])if(s?.audience==="mj")for(const b of s.blocks??[]){const k=blockKey(b);if(k)m.add(k);}
+  for(const s of a.sections??[])if(s?.audience!=="mj"&&!stats(s))s.blocks=(s.blocks??[]).filter((b:J)=>{const k=blockKey(b);return !k||!m.has(k);});
+  const dossier=(a.sections??[]).find(s=>n(s?.title).includes("dossier des forces de l ordre")),bio=(a.sections??[]).find(s=>n(s?.title)==="biographie informations publiques");
+  if(dossier&&bio&&n((dossier.blocks??[]).map(blockKey).join(" "))===n((bio.blocks??[]).map(blockKey).join(" ")))a.sections=(a.sections??[]).filter(s=>s!==bio);
+}
+function removeTrailing(a:A,vals:string[]){const bad=new Set(vals.map(n));for(const s of a.sections??[])if(s?.audience!=="mj")s.blocks=(s.blocks??[]).filter((b:J)=>!(b?.type==="p"&&bad.has(n(b.text))));}
+
+function repairCrawlerP0(byId:Map<string,A>){
+  const setPublic=(id:string,sectionId:string,paragraphs:string[]):A=>{
+    const a=byId.get(id);if(!a)throw new Error(`Réparation Crawlers P0 · article absent: ${id}`);
+    const s=(a.sections??[]).find(x=>String(x?.id??"")===sectionId);if(!s)throw new Error(`Réparation Crawlers P0 · section absente: ${id}/${sectionId}`);
+    s.blocks=paragraphs.map(text=>({type:"p",text}));a.status="canon_enrichi";a.rebuildV2=true;return a;
+  };
+  const truth=(a:A,paragraphs:string[])=>addMj(a,paragraphs.map(text=>({type:"p",text})));
+
+  const black=setPublic("realite-v9-crawlers-insurges-black-star","histoire-doctrine",[
+    "La Black Star est une faction d’insurgés extrêmement mystérieuse et discrète, formée comme une coalition d’anciens militaires et mercenaires portés disparus ou considérés morts, réaugmentés et ressuscités. Elle intervient dans les affaires des mafias, corporations, gouvernements ou religions sans parti pris apparent. Ces briseurs de conflits ne sont pas des héros : ils détruisent, tuent des innocents dans leurs interventions et emportent systématiquement les corps. Leur cheffe est une blonde surnommée la « Fake Silver » ou « fausse Silver », dont la provocation rappelle Veronica Silver. Le financement et les motivations de la faction restent obscurs, tandis que les agences gouvernementales la traquent activement.",
+    "Alicia Starrogue cultive elle-même le parallèle avec Veronica Silver : humour étrange, esprit vif, curiosité, goût marqué pour la provocation et la N-sta. Elle laisse volontairement peu de prises permettant de la distinguer de l’Arbitre et joue de cette confusion, parfois au détriment de la confiance accordée à Veronica."
+  ]);replace(black,[[/Yegpor Karamov/gi,"Yegor Karamov"]]);truth(black,[
+    "Point Vérité : les factions extrales savent qu’Alicia Starrogue est une ancienne très haute gradée de l’AIDH, tuée puis ramenée à la vie par les Ombres wolféennes. La Black Star est composée de « zombies de l’AIDH » et d’humains terriens très compétents. Ses attaques visent avant tout à obtenir des corps destinés à être possédés ; les victimes alentour sont des dommages collatéraux ou des diversions. Alicia combat aussi les fanatiques de V’aagor parce qu’elle est elle-même un très ancien et puissant Fléau de même nature que le roi des Fléaux. On lui attribue la création des Ombres wolféennes, l’emprisonnement des Effismes mâles dans ce plan dimensionnel ainsi que de nombreux trous de ver et anomalies dimensionnelles.",
+    "Yegor Karamov est humain, mais classé comme aberration. Ancien petit professeur de sciences, fils de Sergey — prêtre lié à une secte de Fléau — et frère du mafieux Arkady, il éveilla les yeux d’or lors d’un voyage à Barcelone : une inconnue tua Lydia, sa compagne, quarante-deux fois en lui ordonnant de la ressusciter jusqu’à provoquer cet éveil. Contraint ensuite de servir Anadia puis la mafia russe, il ne ramena pas Lydia. Durant la guerre, il participa au PCRC et lança le projet Phoenix, ressuscitant réellement des soldats en les robotisant pour stabiliser le procédé. Il restaura notamment Hailey Powell, dont il tomba amoureux, puis son frère après la mort de celui-ci. Après avoir travaillé pour diverses corporations mécaniques et biologiques, il rejoignit finalement les insurgés ; Alicia Starrogue l’oblige à lui construire des soldats en plus de ses Ombres, en échange de l’autorisation d’étudier le processus de possession.",
+    "La véritable identité d’Alicia Starrogue est Ira’Xiadror, un Homo superior / Fléau très ancien. Ira’Xiadror a suivi Thar’lal Rark, le Ganne 0, un Éon supérieur fanatique de technologie. Elle était venue se renforcer en communiant avec V’aagor, un autre écho des Ténèbres chez les Fléaux, mais aussi pour Lisa Eredhès. Alicia a fusionné avec Ira’Xiadror et sa personnalité a profondément déteint sur le Fléau ; sa volonté, éprouvée lors du test Ackeld, lui a permis de survivre à cette fusion."
+  ]);
+
+  const hell=setPublic("realite-v9-crawlers-motards-hell-angels","reperes-fonctionnement",[
+    "N’en déplaise aux insurgés, il existe des forces de combat plus efficaces que presque toutes leurs factions. Chez les Hell Angels se trouve l’un des meilleurs combattants de Grande Californie : l’ex-colonel Arthur Bartram, héros de 22-28 de l’US Army et ancien chef du bataillon spécial des « Animals ». Il a servi Katja de Jankath dans les opérations ultra-secrètes du PCRC. Violent et impétueux, incapable de se reconnaître dans la société de 2035, il a fondé les « cités Bikers » en prenant par la force de petites localités et stations-service pour en faire des fortins. Il y laisse une grande liberté de vie, mais s’en extraire sans cuir ou escorte autorisée est difficile. Malgré un certain sens de l’honneur, il est profondément misogyne et assigne aux femmes un rôle essentiellement sexuel, hormis quelques rares personnes qu’il admire et respecte comme Katja ou Veronica.",
+    "Fille de Malcom Yates, ancien président du chapitre le plus influent des Angels, Janyn Yates était impliquée dans l’évolution des règles du club et soutenait Bartram. Lorsque celui-ci brisa la nuque de son père lors de leur duel pour la direction, elle n’en fut guère choquée. Élevée dans les bars et clubs de motards, elle dirige les « Avenging Angels » d’une main de fer, provoque régulièrement les Cruisers à Los Angeles et se pense capable d’affronter la Silver. Mariée à Jason Polodovich, elle a trois enfants avec lui et deux filles adoptives jumelles de seize ans, Lana et Fina. Elle s’entraîne à la boxe une à quatre heures chaque nuit.",
+    "Waylon Hunt est un ancien membre de l’US Navy et des Navy SEALs. Pompier à San Francisco avant la guerre, il retrouva au retour une ville dévastée et perdit une très grande partie de sa famille et de ses proches. Il vola alors une moto et quitta définitivement la ville. Taciturne et posé, il passa toutes les épreuves nécessaires pour gagner son cuir et finit président des « Cruel Angels ». Ami de « Jackal » et de « Beaver », parti en Alaska, il éprouvait des sentiments pour la femme de ce dernier, Ju-Han, transfuge nord-coréenne qu’il a récemment aidée à venir en Californie.",
+    "Angelino Molina est un biker craint, éternellement en colère ou renfrogné et presque impossible à commander. Contrebandier efficace, il aide surtout les Crawlers plutôt que les mafieux, mais peut tuer ses propres clients s’il décèle la moindre trahison."
+  ]);truth(hell,[
+    "Arthur Bartram est un Berserk d’Aèr, une nature très rare sur Terre. Sa femme est une immigrée très récente qu’il a dû faire venir spécialement afin de fonder une famille.",
+    "Angelino Molina est en Vérité Apollyon, Daemon au service de Mammon et duc infernal de la destruction. Il compte parmi les principaux alliés de l’archange Azrael dans ses missions et lui fournit le matériel que l’Association ne peut procurer, avec une fiabilité supérieure à Erianel ou à l’archange déchue Sachiel. Ami des chasseurs, il veille notamment sur la cartomancienne. Dans sa vie mortelle, Gahanath le tortura et le mutila avant que son propre frère Dragoy ne le tue lorsqu’il refusa de sacrifier les cavaliers à un rituel sombre. Mammon sauva son âme de la corruption avant qu’il ne devienne vampire. Cette histoire en a fait l’un des plus grands ennemis Daemons des vampires et explique qu’il aide sa nièce dès qu’elle les affronte."
+  ]);
+
+  const silence=setPublic("realite-v9-crawlers-motards-sons-of-silence","reperes-fonctionnement",[
+    "Les Sons of Silence ont été fondés en 1966. Misogyne, raciste et violent, ce club de motards criminalisé, originaire du Colorado, s’est largement répandu et a participé à la grande guerre des motards du début des années 2030 sur l’ensemble des grandes routes américaines. Après l’assassinat du grand président Todd Sheperd par Arthur Bartram et le massacre des « Crying Sons », une crise ravagea le club. Raghnaid, compagne de Sheperd et réfugiée européenne, défendit le QG avec quelques régulières. Elles gagnèrent dans le sang leur droit au cuir puis marchèrent sur le village Hell Angels de San Iron Paulo, qu’une cinquantaine de « Valkyries » incendièrent et massacrèrent. Redoutée, Raghnaid s’imposa comme présidente sans que personne n’ose lui rappeler que les Sons n’acceptaient jusque-là pas les femmes.",
+    "Eamonn Mac Cearáin est une des pires raclures que le monde puisse connaître. Né en Irlande et parent éloigné de Deaman et Siobhain, il disait enfant voir esprits et spectres, ce qui conduisit sa mère à multiplier les thérapies qu’il rejetait violemment. Après une criminalité médiocre, il finit par intégrer l’IRA véritable et fut envoyé aux États-Unis pour une mission dont il ne revint jamais. Ami de Todd Larsen, il épousa Yazmeen Oliver, ancienne camarade de Dina Page, puis navigua entre gangs, IRA, motards et milieux néonazis. Proche de Todd Sheperd, il projetait de le trahir une fois les Sons suffisamment reliés à l’IRA et aux néofascistes carcéraux, mais la guerre des motards ruina ce plan et Raghnaid lui ravit la présidence suprême.",
+    "Rike Kuechler est une ancienne régulière de motards. Amie de Raghnaid pendant la grande guerre des motards, elle participa à l’attaque du village Hell Angels alors qu’elle n’avait que vingt-et-un ans et se distinguait déjà par sa capacité à briser crânes et os. À Los Angeles, elle vient surtout s’entraîner : obsédée par l’effort, la musculature et la densité physique, elle méprise la maigreur, l’obésité, la petite taille ou les malformations. Ancienne néonazie, elle assume aujourd’hui une « musculosexualité » qui lui a fait comprendre l’absurdité d’une partie de ses anciennes idées. Son plus grand fantasme reste le général Ashorn et, plus largement, les vétérans. Sa moto, Miranda, est son autre bien le plus précieux.",
+    "Cannon Mullins préside les « Fils de l’Audace ». Ses hommes ressemblent à une caricature de Mad Max : drogues, alcool, augmentations et recherche d’une mort spectaculaire. Ce chapitre sert de force incontrôlable que Raghnaid lâche sur ses pires ennemis. Cannon affectionne une tronçonneuse aux dents usées et les canons antiaériens montés sur ses véhicules. Il ne supporte ni qu’on rappelle sa désertion après une seule semaine en Corée, ni qu’on le défie ; profondément complexé par sa propre couardise, il fait capturer puis exécuter ceux qui le provoquent plutôt que de les affronter lui-même. Raghnaid le conserve parce que ses hommes, eux, lui vouent une dévotion et une bravoure immenses."
+  ]);truth(silence,[
+    "Raghnaid Peutan est une Amazone. Elle compte parmi les huit reines servant Angrboda, vénère Katja et fut l’amie de Brunehilde.",
+    "Eamonn Mac Cearáin est un demi-Kelta, fils de Sharfeidd, ancien Kelta harfang entièrement loyal à Morrighan. Eamonn ne sait pas réellement ce qu’il est, hormis le fait qu’il voit des choses. Sharfeidd, qui avait aimé sa mère humaine, le déteste : Eamonn prostitua très jeune ses propres sœurs et sa mère afin de se payer une voiture et une arme à feu."
+  ]);
+
+  const legba=setPublic("realite-v9-crawlers-motards-sons-of-legba","reperes-fonctionnement",[
+    "Les Sons of Legba ont été fondés en 2025 pendant la guerre de 22-28. Face au rejet croissant des vétérans, les Afro-Américains ne disposaient pas de structure comparable aux grands clubs de motards et restaient écartés de nombreuses fraternités. Lors d’une permission, Zaketa Harris rassembla des vétérans blessés pour former les « fils de Legba », plus couramment appelés « Children of Legba » en raison de la forte présence féminine dans le club.",
+    "Annushka Lyninka Maxinovna est née en 1997 de riches parents américains. Ceux-ci firent naufrage après que leur meilleur ami, Shuji Kashiwa, président de Lao-Kashiwa Bank, leur eut prêté un voilier. Dans les îles Kouriles, Tomas et Jashanna Garnett, envoyés par Shuji, s’occupèrent de l’accouchement. Annushka grandit d’abord en Russie, sans savoir qu’elle était traquée par les hommes de Shuji, qui voulait l’empêcher d’hériter des parts de Tomas dans leurs entreprises. Le système russe, corrompu mais indépendant, la protégea des influences japonaises. En 2011, à quatorze ans, sa tante Zekera Collins la récupéra officiellement et Annushka débarqua à Los Angeles sans parler anglais, avec à peine quelques notions de japonais et surtout le russe. Rejetée pour cette différence, elle se rapprocha de parias puis des Reapers, qu’elle quitta lorsqu’une jeune blonde lui vola la vedette. Lutteuse confirmée mais empêchée de participer aux Jeux olympiques par ses problèmes de nationalité, elle échappa à la conscription en rejoignant des motards renégats puis les Sons of Legba. Elle est devenue un atout diplomatique du club auprès de la mafia russe, qui négocie rarement avec les Afro-Américains sauf par son intermédiaire.",
+    "LeMaun Cross est un sanguinaire président de gang de motards. Ancien policier de Washington condamné pour corruption, violences, abus de pouvoir et impliqué dans un double homicide, il survécut quinze ans en prison. Libéré en 2025 pour être envoyé dans la secrète « Sentenced Army », il refusa de déserter malgré l’effondrement logistique de cette unité et fut rapatrié après un an de combat. La justice américaine en ruine ne lui accorda pas la révision de peine promise : transféré à Corcoran, il rejoignit le gang carcéral de Katell avant qu’une magouille corporatiste ne le rachète pour une mission visant à tuer Dina Page. Cette fois, il déserta et trouva refuge chez les bikers.",
+    "Toxicity Norton est née d’une mère droguée qui vécut mal sa grossesse, la nomma ainsi puis l’abandonna. Jamais aimée ni respectée, elle mutila à douze ans un éducateur qui l’avait agressée, fut placée en maison de correction et s’enfonça dans la violence et les tentatives de suicide. Boxeuse de faible envergure, elle enchaîna les emplois avant de partir au front sans formation militaire, où elle découvrit une fraternité qu’elle adorait. Après la guerre, son syndrome post-traumatique la rendit incapable de sortir dans la rue. À la suite d’une tentative ratée, elle décida de rejoindre les Sons of Legba."
+  ]);truth(legba,[
+    "Zaketa Harris est en Vérité le Baron Moteur — parfois Baron Blast —, un Guédé psychopompe : un esprit de la mort qui n’est ni spectre, ni Ange, ni Daemon, ni véritable Nymphe, à mi-chemin entre Nymphe et Voyageur. Né à l’ère industrielle, il recueille les âmes mortes sur la route, dans les accidents de voitures ou de motos. Il utilise généralement une moto ultracustomisée d’or et de chrome ainsi qu’un corbillard assorti. Sa femme, la Baronne routière, conduit un trente-cinq tonnes customisé et parcourt la Grande Californie en annonçant aux âmes qui n’ont pas encore compris leur mort qu’elle vient « péter sa gueule » à son mari.",
+    "LeMaun Cross est un loup-garou au pelage roux.",
+    "Toxicity Norton est morte après la guerre et a été possédée par Roshielle, séraphine d’Azrael et l’une des plus fidèles créatures de l’Archange de la Mort. Elle a immédiatement collaboré avec le Baron Moteur. Son pouvoir angélique, le « poison céleste », la rend peu appréciée des Angelus, Daemons et Mages liés aux motards : lorsqu’elle inflige une blessure suffisamment grave, le poison ronge l’âme indépendamment de l’Hologramme et commence notamment par diminuer les pouvoirs les plus immatériels."
+  ]);
+
+  const crows=setPublic("realite-v9-crawlers-motards-last-crows","reperes-fonctionnement",[
+    "Les Last Crows sont des bikers particulièrement violents qui ne possèdent pas de territoire fixe et errent à leur convenance du sud du Canada jusqu’au Mexique. Wenona en est la cheffe ; c’est une motarde et une chamane.",
+    "Ciara MacFarlane est la fille de Delwynn McFarlane et Ravenna Blake. Abandonnée jeune par sa mère, elle fut élevée sur les routes dans le side-car de son père avant de s’inscrire au collège en Californie. À seize ans, son père disparut dans un « accident », tué par des marchands d’armes russes. Refusant de vivre chez les tueurs de Wenona, son amie d’enfance, elle conserva la moto, échappa aux services sociaux et vécut tantôt avec des motards, tantôt seule. Elle participa ensuite à la guerre de 22-28 dans des troupes mercenaires.",
+    "Meilir Yarwood est un Gallois parti aux États-Unis pour fuir une vie d’ennui. Longtemps membre des Black Crows, il était un très bon ami de Delwynn et veillait souvent sur Ciara avant la fuite de celle-ci après la disparition de son père. Il tenta d’intégrer Ushkoll quelques années avant la guerre, mais n’y resta pas après 2028.",
+    "Zack LittleBear erra longtemps avant d’être tabassé par Wenona dans un bar. Humilié, il la braqua alors qu’il était encore au sol ; imperturbable, Wenona vida sa bière dans le canon de l’arme et lui proposa de payer ses frais dentaires en échange de devenir son larbin. Il accepta, prit progressivement de l’importance chez les Last Crows et finit par créer son propre chapitre."
+  ]);truth(crows,[
+    "Le père de Wenona est le célèbre chasseur surnommé « Chaman ». Wenona ne chasse pas directement les créatures, mais envoie volontiers ses chapitres sur une piste : tous les Last Crows possèdent quelques bases de folklore et de chasse occulte. Enfant, à huit ans, elle fut capturée par une garou corrompue qui voulait l’utiliser comme otage contre Chaman ; Wenona tua la créature dans des circonstances obscures, probablement aidée par un esprit protecteur. Elle considère Delwynn McFarlane, qui la récupéra ensuite, comme son véritable père et entretient un lien sororal avec Ciara. Wenona peut voir naturellement à travers le Voile lorsqu’elle le souhaite. Elle cache à Ciara et Delwynn que l’esprit qui la protège est Thaagnno, un Mageius corrompu par Thul qui a asservi des âmes afin de devenir un nouveau type de Fléau.",
+    "Ciara MacFarlane est une demi-déesse humaine et une chasseuse de légende. Naalnish, un esprit-corbeau qu’elle sauva et qui devint son meilleur ami, l’aide en lui apportant renseignements, armes et matériaux. Ciara voit esprits, Daemons et Angelus depuis l’enfance et a contribué à l’essor des néopaïens. Elle intégra l’Association par hasard puis entra dans le Hunt15 pour pouvoir détruire Vargrunda, Amazone corrompue, et récupérer les restes de la lance de Brunehilde afin de débloquer ses pouvoirs. Elle voue une haine particulière au Mage Saint-Germain, le contrôle du temps lui faisant horreur.",
+    "Meilir Yarwood est en Vérité Munin, un Kelta et frère d’Hugin, parmi les plus anciens Keltas présents sur Terre. Chargé de surveiller Ciara, comme Hugin le fut plus tard pour Siobhain, il s’est toujours opposé à Naalnish, convaincu que l’esprit-corbeau voulait utiliser les filles de Morrighan. Président de Motorcycle Club en apparence, sa dévotion va uniquement à Morrighan, à laquelle il obéit immédiatement. Surnommé « Mémoire », il possède le don unique de tout retenir de manière ordonnée et utile, ce qui le rend extrêmement difficile à surprendre ou contrer. Il fut amoureux de Hildeveig, reine atlante d’Hyperborée ; après la mort de Brunehilde, celle-ci tenta de le tuer en rejetant les Daemons et esprits de Morrighan.",
+    "Zack LittleBear est l’un des fils du précédent Khaashtay. Humain mais élevé au contact des loups-garous, il rêvait enfant de se transformer lui aussi à la pleine lune et apprit combat et survie. Après que John Sandrock eut tué son père, la meute le mit à l’écart à la fois pour le protéger et préserver ses propres secrets. Plus tard, des vampires lui proposèrent de l’aider à se venger : en tant que fils de garou, il est compatible avec le sang vampirique et pourrait être transformé. L’Ihuito Meztzi cherche à le séduire pour l’utiliser, tandis que l’idée de devenir vampire afin de tuer John Sandrock reste très présente dans son quotidien."
+  ]);
+
+  const lost=setPublic("realite-v9-crawlers-enders-losttown","communaute",[
+    "Saurona Maxima Drakontos est la matrone d’une partie de la mafia de Losttown et contrôle notamment la branche du « Dragon des étoiles ». Elle s’entend très bien avec Ulfric, mais son goût du charme, de la séduction et des nouvelles alliances la pousse parfois à sacrifier des relations anciennes pourtant stables et rentables. Malgré son apparence féline, son corps trahit une sportive de niveau olympique, probablement augmentée, capable de briser la nuque d’un amant ou d’une amante pour un mot de travers.",
+    "Ulfric Tamer est le « seigneur » de Losttown, à la fois comparable à un baron de cartel, un grand parrain de mafia et un gourou de secte. Son pouvoir sur la cité autarcique est quasi absolu et presque tous le craignent. Les groupes les plus anarchistes détestent cette domination et de nombreuses sous-factions cherchent à le renverser, ce qui renforce encore ses méthodes sanguinaires et totalitaires.",
+    "Apepia XII White est la matrone d’une autre partie de la mafia de Losttown et contrôle la branche du « Serpent du chaos ». Elle incarne une grande part de la cruauté locale : elle a déjà empoisonné des points d’eau afin de récupérer des quartiers où entreposer des réserves, y compris de l’eau potable.",
+    "Zigmars Vilks est un Letton né en 1985. Plein de bonne volonté et d’avenir, il voulait étudier l’astronomie lorsqu’un groupe sectaire l’arracha à ses parents alors qu’il était encore enfant.",
+    "Faith Norton est une insurgée et terroriste réfugiée à Losttown avec son groupuscule. Sa mère, gradée de l’armée, tenta de dénoncer des exactions commises pendant la guerre et fut privée de solde, de rente et de droits avant de se suicider en 2030, alors que Faith avait dix-neuf ans. Identifiée en 2032 dans l’attaque terroriste du métro de Los Angeles, Faith finit par se cacher parmi les motards, qui lui indiquèrent la ville souterraine. Elle y découvrit derrière le rêve d’un lieu sans loi, corruption ni corporation une réalité de violence, de pauvreté et de mafias. Face à cette oppression sans recours, elle devint une insurgée à l’intérieur même de Losttown, défendant l’idée de lois, de structures et de justice. Elle reste Ender et hostile aux gouvernements comme aux corporations, mais rejette le chaos absolu et veut protéger le peuple de Losttown, quitte à devenir l’ennemie du principe même de la ville."
+  ]);truth(lost,[
+    "Saurona Maxima Drakontos est en Vérité Maxima, une Xewenne corrompue. Matriarche Xewenne, elle est proche des trois matriarches Mo’senne ; avec elles et une vétérane Chezonne, elle forme « l’Alliance rouge ». Comme les Mo’sennes, elle vénère Shaoggith, la « mère des espèces reptiliennes », réputée vaincue et jetée sur Terre dans des temps immémoriaux. Impitoyable, elle joue de sa fausse apparence même si l’Hologramme est presque inexistant à Losttown. Sa mère est la génitrice de cinquante-et-un des cinquante-cinq Xewens terriens. Sa confiance en elle est telle qu’elle s’interdit pratiquement de douter, même lorsqu’elle a tort.",
+    "Ulfric Tamer est en Vérité Rulfam, un Fléau supérieur surnommé « dragon ». Engeance de Shaoggith et Shorolth, il est le dernier dragon-Fléau de sa lignée encore en vie à avoir échappé à l’ordre Sauroctone. Il tua autrefois Siegfried, le plus puissant chevalier de ces chasseurs, et échoua à tuer Brunehilde, qui l’aimait. Il ne retrouva pas l’armure de Shaoggith : Siegfried, ressuscité par magie et devenu Daemon de Bélial, la transmit finalement à sa fille Tiamandra. Monstre inhumain, Rulfam doit néanmoins composer à Losttown avec des factions très hétéroclites, dont une communauté extraterrestre, une Loge de Mages et une masse de Néopunks furieux.",
+    "Apepia XII White est une Mage, maîtresse de la Loge de Losttown, dont la magie familiale est le « chaos des ténèbres ». Elle est la douzième incarnation d’Apep, fils de Diablo et d’un Mage fragment de V’aagor. Apep peut préparer un corps où conserver souvenirs et Mageius ; un corps sur deux est une femme qu’il fertilise avant de s’y incarner afin que leur enfant hérite du maximum de dons, enfant ensuite dévoré magiquement pour réintégrer la magie acquise. Sous son incarnation Apep XI, il fut tué par un Daemon de Lucifer avant d’avoir préparé son corps suivant. Maintenu en vie par nécromancie, il vola alors à son ami Faust l’un de ses homoncules et massacra les autres, hormis Aisha et quelques prototypes mieux cachés. Ce corps d’homoncule était puissant dans la magie des Fléaux, quoique moins compatible avec la magie familiale. Apepia vénère Shaoggith et V’aagor et demeure surtout une ennemie farouche de Lucifer.",
+    "Zigmars Vilks fut enlevé par l’ordre Sauroctone parce que son sang le rattachait à Wigbeorn, chevalier d’une terrible lignée issue de Saint George. Entraîné douze ans, de neuf à vingt-et-un ans, il consacra toute sa vie à hériter de Nahfr, l’armure faite de la peau de Tiamat — en vérité Shaoggith. Un demi-frère apparu de nulle part, Siegfried, se montra toutefois meilleur et obtint l’armure ; Zigmars fut marqué au fer rouge d’un sceau destiné à corrompre son corps pour l’empêcher de voler l’héritage. Rejeté de l’ordre alors qu’il n’avait échoué qu’à être moins bon que Siegfried — en réalité un Daemon déjà membre de l’ordre —, il se voua à Shaoggith. Il obtint une mue de Rulfam, le dernier dragon-Fléau, et devint un chevalier Sauroctone corrompu. Siegfried ayant ensuite disparu, Zigmars erre déprimé à Losttown comme un Fléau tueur de Fléaux, rassemblant d’autres chevaliers rejetés. Il espère que le détenteur actuel de Nahfr viendra un jour à Losttown pour être sacrifié à Shaoggith, dont il croit qu’elle lui a promis son amour dans un songe."
+  ]);
+
+  const forbidden:Record<string,string[]>={
+    "realite-v9-crawlers-insurges-black-star":["point vérité","Ira’Xiadror","AIDH","V’aagor","Effismes"],
+    "realite-v9-crawlers-motards-hell-angels":["Berserk d’Aèr","Apollyon","Mammon"],
+    "realite-v9-crawlers-motards-sons-of-silence":["Amazone","Angrboda","Sharfeidd","demi-Kelta"],
+    "realite-v9-crawlers-motards-sons-of-legba":["Guédé","psychopompe","Roshielle","poison céleste","loup-garou"],
+    "realite-v9-crawlers-motards-last-crows":["Thaagnno","Naalnish","Munin","Ihuito Meztzi","demi-déesse"],
+    "realite-v9-crawlers-enders-losttown":["Xewenne","Rulfam","Shaoggith","Apep","Sauroctone"]
+  };
+  for(const [id,terms] of Object.entries(forbidden)){
+    const a=byId.get(id);if(!a)throw new Error(`Réparation Crawlers P0 · article absent après consolidation: ${id}`);
+    const publicText=n((a.sections??[]).filter(s=>s?.audience!=="mj").flatMap(s=>(s.blocks??[]).filter((b:J)=>b?.type==="p").map((b:J)=>String(b.text??""))).join(" "));
+    for(const term of terms)if(publicText.includes(n(term)))throw new Error(`Réparation Crawlers P0 · fuite publique persistante: ${id} / ${term}`);
+    if(!(a.sections??[]).some(s=>s?.audience==="mj"&&(s.blocks??[]).length))throw new Error(`Réparation Crawlers P0 · dossier MJ manquant: ${id}`);
+  }
+}
+
+export function applyCompendiumPnjRepairs(byId:Map<string,A>){
+  const before=new Set(byId.keys());
+  splitHooley(byId);
+  for(const a of byId.values()){sourceKeyCleanup(a);secretProfile(a);}
+  absorbOld(byId);
+
+  // Erroneous obsolete Azazel sheet: Alexander Zazelov is the canonical Azazel.
+  byId.delete("personnages-verite-chasseurs-zarey-lysenko");
+
+  const laurie=byId.get("pnj-aseryns-terres-temples-laurie-d-sun-01")??article(byId,["Laurie D. Sun"]);
+  if(laurie){laurie.pnj={...(laurie.pnj??{}),nom_verite:"Lorinae Darksun",nom_verite_source:"Lorinae Darksun",statut:"Reine d’Atlantide par intérim"};laurie.pnj.identity_keys=[...new Set((laurie.pnj.identity_keys??[]).filter((k:unknown)=>!n(k).includes("lorinae athegos")).concat(["Laurie D. Sun","Lorinae Darksun","Darksun"]))];replace(laurie,[[/Lorinae Athegos \(Darksun\)/gi,"Lorinae Darksun"],[/Lorinae Athegos/gi,"Lorinae Darksun"]]);addMj(laurie,[{type:"p",text:"Canon actuel : Lorinae Darksun règne sur l’Atlantide par nécessité. Elle soutient Veronica Silver et n’a accepté la couronne que pour préserver le royaume en attendant une souveraine plus légitime ; Veronica est l’héritière appelée à réunifier les Aseryn."}]);}
+  const veronica=article(byId,["Veronica Silver","Veronica SILVER"],"crawlers");if(veronica){replace(veronica,[[/Californian Bank Tower/gi,"US Bank Tower"]]);addMj(veronica,[{type:"p",text:"Veronica Silver est la légitime grande reine Aseryn : fille de Kalira Athegos et petite-fille de Kyriak Zenos, elle est appelée à réunifier les Aseryn. Cette souveraineté s’ajoute à sa nature d’Architecte."}]);}
+  const carolina=article(byId,["Carolina Nates","Katryn Ruthberg"]);if(carolina){carolina.pnj={...(carolina.pnj??{})};carolina.pnj.identity_keys=[...new Set([...(carolina.pnj.identity_keys??[]),"Carolina Nates","Katryn Ruthberg"])];addPublic(carolina,"reparation-identite-carolina-katryn","Identités publiques","Katryn Ruthberg est son identité civile et professionnelle chez Wellspring ; Carolina Nates est son nom de scène comme mannequin de Tuatha. Les deux identités sont publiques.");}
+  const muya=article(byId,["Muya Mitchell"]);if(muya){muya.pnj={...(muya.pnj??{}),race:"Aseryne (lemurianne)"};replace(muya,[[/Aseryne \(Paleo-atlante\)/gi,"Aseryne (lemurianne)"]]);}
+  const denise=article(byId,["Denise Zane"]);if(denise){denise.pnj={...(denise.pnj??{}),nom_verite:"Deidea Eina Zenos / Coronis"};setTable(denise,"Nom de la Vérité","Deidea Eina Zenos / Coronis");}
+
+  const sh=[...byId.values()].filter(a=>[n("Shingen Inukawa"),n("INUKAWA Shingen")].includes(n(a.title))||[n("Shingen Inukawa"),n("INUKAWA Shingen")].includes(n(a.pnj?.real_name)));
+  if(sh.length){const t=sh.find(a=>String(a.dataset??"").includes("pelages"))??sh[0];for(const s of sh)if(s.id!==t.id){mergeLegacy(t,s);byId.delete(s.id);}t.title="Shingen Inukawa";t.pnj={...(t.pnj??{}),real_name:"Shingen Inukawa",nom_verite:"Inukami"};t.pnj.identity_keys=[...new Set([...(t.pnj.identity_keys??[]),"Shingen Inukawa","INUKAWA Shingen","Inukami"])];setTable(t,"Nom de la Vérité","Inukami");}
+  const tokala=article(byId,["Tokala"]);if(tokala){tokala.pnj={...(tokala.pnj??{}),race:"Khinae",statut_verite:"Nnyrss · Khinae parfait"};addMj(tokala,[{type:"p",text:"Canon actuel : Tokala est une Khinae, et non une louve-garou. Son rôle historique auprès des Pelages demeure ; après son éveil et son affrontement avec les Khinae corrompus, elle réveille la mémoire et la puissance de la Ssrynn originelle et atteint l’état de Nnyrss, le Khinae parfait."}]);}
+  const connor=article(byId,["Connor Cherros","Connor SHERO","Connor Shero","Koldraal’Sheroh"]);if(connor){connor.title="Connor Shero";connor.pnj={...(connor.pnj??{}),real_name:"Connor Shero",nom_verite:"Koldraal’Sheroh"};connor.pnj.identity_keys=(connor.pnj.identity_keys??[]).filter((k:unknown)=>n(k)!==n("Connor Cherros"));connor.pnj.identity_keys=[...new Set([...(connor.pnj.identity_keys??[]),"Connor Shero","Koldraal’Sheroh"])];replace(connor,[[/Connor Cherros/gi,"Connor Shero"]]);}
+  const rob=article(byId,["Roberrick Reimer","Roberrik Reimer"]);if(rob){rob.title="Roberrik Reimer";rob.pnj={...(rob.pnj??{}),real_name:"Roberrik Reimer"};replace(rob,[[/Roberrick Reimer/gi,"Roberrik Reimer"]]);}
+  const kain=article(byId,["Ken Ferno","Kain Ferno","Kai’nor","Caïnor"]);if(kain){kain.title="Kain Ferno";kain.pnj={...(kain.pnj??{}),real_name:"Kain Ferno",nom_verite:"Kai’nor / Caïn"};replace(kain,[[/\bKen Ferno\b/gi,"Kain Ferno"]]);}
+  const lis=article(byId,["Lisbeth Bruun","Lisbeth Brunn"]);if(lis){lis.title="Lisbeth Brunn";lis.pnj={...(lis.pnj??{}),real_name:"Lisbeth BRUNN",nom_verite:"Lisbeth BRUNN"};replace(lis,[[/Lisbeth Bruun/gi,"Lisbeth Brunn"]]);}
+  const dra=article(byId,["Dan Harrington","Dragoy Skotialov","Dragoy Skotia"]);if(dra){dra.pnj={...(dra.pnj??{}),nom_verite:"Dragoy SKOTIA"};replace(dra,[[/Dragoy SKOTIALOV/gi,"Dragoy SKOTIA"],[/Dragoy Skotialov/gi,"Dragoy Skotia"]]);setTable(dra,"Nom de la Vérité","Dragoy SKOTIA");}
+  const meg=article(byId,["Megda Ayshin"]);if(meg){setTable(meg,"Repère","La Lamia");if(meg.pnj)meg.pnj.statut_verite="La Lamia";}
+  const amu=article(byId,["Amunthoris","Amunthosis"]);if(amu){amu.title="Amunthosis";amu.pnj={...(amu.pnj??{}),nom_verite:"Amunthosis"};replace(amu,[[/Amunthoris/gi,"Amunthosis"]]);}
+
+  const vh=[...byId.values()].find(a=>/vhodhal/i.test(String(a.title??"")));if(vh){vh.pnj={...(vh.pnj??{})};if(/shaoggith/i.test(String(vh.pnj.nom_verite??"")))delete vh.pnj.nom_verite;if(/famine/i.test(String(vh.pnj.statut_verite??"")))delete vh.pnj.statut_verite;vh.pnj.identity_keys=(vh.pnj.identity_keys??[]).filter((k:unknown)=>!/shaoggith/i.test(String(k)));for(const s of vh.sections??[])if(s?.audience==="mj")s.blocks=(s.blocks??[]).filter((b:J)=>!/shaoggith|famine liquide|chien de sharith/i.test(String(b.text??"")));dropRows(vh,["Nom de la Vérité","Nature réelle","Repère"]);addMj(vh,[{type:"p",text:"Les données de Gajh’ Shaoggith qui avaient été recopiées par erreur sur cette fiche ont été retirées. Aucun nouveau canon n’est attribué à Vhodhal sans source."}]);}
+  const fuy=article(byId,["Fuyumi Shinoda"]);if(fuy)replace(fuy,[[/Ishikwa/gi,"Ishikawa"]]);
+  const jack=article(byId,["Jack Tang"]);if(jack){jack.pnj={...(jack.pnj??{}),nom_verite:"Zeel'Tan"};setTable(jack,"Nom de la Vérité","Zeel'Tan");}
+  const carmen=article(byId,["Carmen Hodge","Carmen Hodges","Elexarandra"]);if(carmen){carmen.title="Carmen Hodges";carmen.pnj={...(carmen.pnj??{}),real_name:"Carmen Hodges",nom_verite:"Elexarandra"};replace(carmen,[[/Carmen Hodge\b/gi,"Carmen Hodges"],[/Elexaranda/gi,"Elexarandra"]]);}
+  const ol=article(byId,["Olisha Harmon","Olishia Harmon"]);if(ol){ol.title="Olisha Harmon";ol.pnj={...(ol.pnj??{}),real_name:"Olisha Harmon"};replace(ol,[[/Olishia Harmon/gi,"Olisha Harmon"]]);}
+  const kay=article(byId,["Kay Salzer","P-148","A.P-148"]);if(kay){kay.pnj={...(kay.pnj??{}),nom_verite:"A.P-148"};replace(kay,[[/\bP-148\b/g,"A.P-148"]]);setTable(kay,"Nom de la Vérité","A.P-148");}
+  const shayna=article(byId,["Shayna Arc","Esdrael","Erakziel"]);if(shayna){shayna.pnj={...(shayna.pnj??{}),nom_verite:"Esdrael / Erakziel"};shayna.pnj.identity_keys=[...new Set([...(shayna.pnj.identity_keys??[]),"Esdrael","Erakziel"])];setTable(shayna,"Nom de la Vérité","Esdrael / Erakziel");}
+  const az=article(byId,["Alexander Zazelov","Azazel"]);if(az){az.pnj={...(az.pnj??{}),real_name:"Alexander Zazelov",nom_verite:"Azazel"};az.pnj.identity_keys=[...new Set([...(az.pnj.identity_keys??[]),"Alexander Zazelov","Azazel"])];}
+  const vin=article(byId,["Vicente Pardo","Vincente Pardo"]);if(vin){vin.title="Vincente Pardo";vin.pnj={...(vin.pnj??{}),real_name:"Vincente Pardo"};replace(vin,[[/Vicente PARDO/g,"Vincente PARDO"],[/Vicente Pardo/g,"Vincente Pardo"]]);}
+  const lor=article(byId,["Lorenzo Luciano","Lorenzo Luciani"]);if(lor)replace(lor,[[/Lorenzo LUCIANI/gi,"Lorenzo LUCIANO"],[/Lorenzo Luciani/gi,"Lorenzo Luciano"]]);
+
+  const mor=article(byId,["Morgan nic Brandubh"]),moi=article(byId,["Moira Blake","Moira Blackraven"]);if(mor&&moi&&mor.id!==moi.id){addMj(mor,[{type:"p",text:"Moira Blake / Moira Blackraven est une autre couverture humaine de Morrighan. Les deux identités publiques restent distinctes."}]);addMj(moi,[{type:"p",text:"Morgan nic Brandubh est une autre couverture humaine de Morrighan. Les deux identités publiques restent distinctes."}]);}
+
+  const drag=article(byId,["Dragomir Mikhaïlovich","Graphiel"]);if(drag){replace(drag,[[/Dragomir Mikailovich/gi,"Dragomir Mikhaïlovich"]]);for(const s of drag.sections??[])for(const b of s.blocks??[])if(b?.type==="p"&&typeof b.text==="string")b.text=b.text.replace(/Commenté \[BH2\]:[\s\S]*?(?=Commenté \[BH3\]:|$)/gi,"").replace(/Commenté \[BH3\]:[^\n]*/gi,"").trim();}
+  const jam=article(byId,["Jamal Jace Jayson"]);if(jam)for(const s of jam.sections??[])if(s?.audience!=="mj")for(const b of s.blocks??[])if(b?.type==="p"&&/est en concurrence avec lui,\s*$/i.test(String(b.text??"")))b.text=String(b.text).replace(/,\s*$/,".");
+  const tsh=article(byId,["Tshaddy el’Sharif","Tshaddy el'Sharif"]);if(tsh){moveParagraphs(tsh,t=>/saabiq el.?sharif/i.test(t));addPublic(tsh,"reparation-realite-tshaddy","Informations Réalité","Tshaddy el’Sharif est l’identité sous laquelle il est aujourd’hui connu ; son histoire antérieure relève du dossier MJ.");}
+  for(const [name,re] of [["Milda Tarasknovna",/section assassinat.*bratva/i],["Katerinochkina Angelika Ruslanovna",/assassin.*sokolnitcheska|loyal.*svetlana/i],["Murton Blade",/transplantation|greffe|goro.*carotide|27 février 2035/i]] as Array<[string,RegExp]>){const a=article(byId,[name]);if(a)moveParagraphs(a,t=>re.test(t));}
+
+  const gt:Record<string,string[]>={
+    "Dina Page":["Vice-Président"],"Finn Sherman":["Procureur général"],"Katherine Warren":["Directeur de la sécurité"],"Keysha Richards":["Secrétaire à l'éducation"],"Robert Hamilton":["Maire de San Diejuana"],"Kelford Bentley":["Générale du CG. Net Corps"]
+  };for(const [name,v] of Object.entries(gt)){const a=article(byId,[name]);if(a)removeTrailing(a,v);}
+  const hom=article(byId,["Homer Duke"]);if(hom){hom.pnj={...(hom.pnj??{}),statut:"Président du Sénat"};setTable(hom,"Fonction / désignation","Président du Sénat");}
+  const bro=article(byId,["Brooker Adams"]);if(bro){if(bro.pnj&&n(bro.pnj.statut).includes("qualites de sa collegue"))delete bro.pnj.statut;dropRows(bro,["Fonction / désignation"]);}
+  const far=article(byId,["Farah El Arshad","Farah el Arshad"]);if(far){far.pnj={...(far.pnj??{}),statut:"Présidente de la Cour suprême de Californie"};setTable(far,"Fonction / désignation","Présidente de la Cour suprême de Californie");}
+  const ji=article(byId,["Ji-mi Ryong"]);if(ji&&Array.isArray(ji.archiveReferences))ji.archiveReferences=ji.archiveReferences.filter((x:unknown)=>n(x)!==n("pnj-031-mi-yeon-ryong"));
+  for(const name of ["Emerald Monroe","Connor K. McDougals"]){const a=article(byId,[name]);if(a)for(const s of a.sections??[])if(/relations/i.test(String(s?.id??s?.title??"")))for(const b of s.blocks??[])if(b?.type==="table"&&Array.isArray(b.rows))b.rows=b.rows.filter((r:any[])=>!r.some(c=>/^\?+$/.test(String(c??"").trim())));}
+  const finn=article(byId,["Finn Sherman"]);if(finn)replace(finn,[[/^Née à San Francisco/gm,"Né à San Francisco"],[/c['’]est privilégié fils d['’]avocat/gi,"ce fils d’avocat privilégié"]]);
+
+  const at:Record<string,string[]>={
+    "Harper Long":["Directeur du personnel"],"Darren Wills":["Directrice « renseignement »"],"Christopher Wegener":["Directrice Adjointe"],"Tasunke":["Directrice"],"Hilda Magnuson":["Directrice Adjointe"],"Riguel Black":["Directeur"],"Gavin Clay":["Directrice Adjointe"],"Nehemiah Sellers":["Directrice Adjointe"]
+  };for(const [name,v] of Object.entries(at)){const a=article(byId,[name]);if(a)removeTrailing(a,v);}
+  const qu=article(byId,["Quinn Tucker"]);if(qu)moveParagraphs(qu,t=>/zarana|corps arkhangel|leader suprême.*corée/i.test(t));
+  const we=article(byId,["Christopher Wegener"]);if(we)moveParagraphs(we,t=>/traversa la frontière mexicaine|supposés alliés.*narco/i.test(t));
+  const hi=article(byId,["Shigenobu Higuchi"]);if(hi){const b=(hi.sections??[]).find(s=>s.id==="biographie");if(b?.blocks?.length){addMj(hi,cp(b.blocks));b.blocks=[{type:"p",text:"Shigenobu Higuchi est un cadre opérationnel de la STAB spécialisé dans la lutte contre l’usage criminel des augmentations. Son passé antérieur n’est pas publiquement détaillé."}];}}
+  const lu=article(byId,["Luna Eckelberg"]);if(lu)moveParagraphs(lu,t=>/faux.?papiers|suspectée d.?espionnage|makana.*libérer/i.test(t));
+  const sel=article(byId,["Nehemiah Sellers"]);if(sel)for(const s of sel.sections??[])if(s?.audience!=="mj")for(const b of s.blocks??[])if(b?.type==="p"&&typeof b.text==="string")b.text=b.text.replace(/, mais officieusement simple assassin à la solde des mafias/gi,"");
+
+  for(const name of ["Shuren SHI","Zeeka STEELE"]){const a=article(byId,[name]);if(!a)continue;a.pnj={...(a.pnj??{})};a.pnj.identity_keys=(a.pnj.identity_keys??[]).filter((k:unknown)=>n(k)!==n("Lady opium"));for(const s of a.sections??[])for(const b of s.blocks??[])if(b?.type==="table"&&Array.isArray(b.rows))b.rows=b.rows.filter((r:any[])=>!(n(r?.[0])==="alias designation"&&n(r?.[1])===n("Lady opium")));}
+  const shu=article(byId,["Shuren SHI"]);if(shu)removeParas(shu,t=>/quand elle fit son reportage dessus/i.test(t));
+  const zee=article(byId,["Zeeka STEELE"]);if(zee)for(const s of zee.sections??[])if(s?.audience==="mj")s.blocks=(s.blocks??[]).filter((b:J)=>!/comme elle assiste a enormement de\s*$/i.test(n(b.text)));
+  const ver=article(byId,["Veronica SILVER","Veronica Silver"]);if(ver)replace(ver,[[/\bdétective est clairement la personne/gi,"Cette détective est clairement la personne"],[/\bcompliquées\. Elle aurait/gi,"Elle aurait"]]);
+
+  const fra=article(byId,["Franklin Bentley"]);if(fra)setTable(fra,"Nom","Franklin BENTLEY");
+  const rom=article(byId,["Romina de la Cavalleria"]);if(rom){if(rom.pnj&&n(rom.pnj.statut).includes("terrorisme coreen"))delete rom.pnj.statut;dropRows(rom,["Fonction / désignation"]);}
+  const fio=article(byId,["Fiona Boyer"]);if(fio)removeTrailing(fio,["3. REPARTITION (CARTE DE LA)"]);
+  const jord=article(byId,["Jordel Sharzmann"]);if(jord){if(jord.pnj&&n(jord.pnj.statut).includes("wakagashira"))delete jord.pnj.statut;dropRows(jord,["Fonction / désignation","Statut"]);}
+  const tos=article(byId,["Toshiyuki Yodokawa","Yoshiyuki Yodokawa"]);if(tos)replace(tos,[[/Yoshiyuki YODOKAWA/gi,"Toshiyuki YODOKAWA"],[/Shateigashura/gi,"Shateigashira"]]);
+
+  const xi=article(byId,["Xieren Song"]);if(xi){xi.pnj={...(xi.pnj??{}),statut:"Grande figure shientaoïste californienne"};setTable(xi,"Statut","Grande figure shientaoïste californienne");setTable(xi,"Fonction / désignation","Grande figure shientaoïste californienne");}
+  for(const [name,re] of [["Durgawati Ghandi",/subterfuge|aura/i],["Meina Korgovski",/douzaine|aucune enquête/i],["Rafaella",/viol de paladia/i]] as Array<[string,RegExp]>){const a=article(byId,[name]);if(a)moveParagraphs(a,t=>re.test(t));}
+
+  for(const [name,re] of [["Munke Ghaimur",/assassin.*samoel gaster|fit assassiner.*gaster/i],["Elianna Knowles",/assassin|corruption/i],["Aghna Ui Siomoin",/combat.*mort|clandestin/i],["Athinea Dimitrios",/intrigue|prise de pouvoir/i],["Tiana Hawkins",/chantage/i],["Quahna Alvarez",/nettoy.*dossier|tortoise.*dossier/i],["Shuji Kashiwa",/exécution|exécuter/i]] as Array<[string,RegExp]>){const a=article(byId,[name]);if(a)moveParagraphs(a,t=>re.test(t));}
+  const lev=article(byId,["Lenavah Uriel","Levanah Uriel"]);if(lev){lev.title="Levanah Uriel";replace(lev,[[/Lenavah URIEL/gi,"Levanah URIEL"],[/Lenavah Uriel/gi,"Levanah Uriel"]]);}
+  const sal=article(byId,["Saleem el Khayat"]);if(sal)replace(sal,[[/Présidente/g,"Président"]]);
+  const wei=article(byId,["Wei Shi"]);if(wei)replace(wei,[[/Vice-Président\b/g,"Vice-Présidente"]]);
+
+  for(const [name,rep] of [["Yun","Le patriarche des profondeurs"],["Yura","Le patriarche des profondeurs"],["Izchara","La prêtresse du fer"],["Gawel Prowacjesky","Le patriarche des profondeurs"],["Kevin Eckker","La maitresse des industries"],["Cassandra Helen","La noble chasse"],["Selm Scytheri","La noble chasse"]]){const a=article(byId,[name]);if(!a)continue;if(a.pnj&&n(a.pnj.statut_verite)===n(rep))delete a.pnj.statut_verite;for(const s of a.sections??[])if(s?.audience==="mj")for(const b of s.blocks??[])if(b?.type==="table"&&Array.isArray(b.rows))b.rows=b.rows.filter((r:any[])=>!(n(r?.[0])==="repere"&&n(r?.[1])===n(rep)));}
+  const king=article(byId,["King Frazier","Kiizaga"]);if(king){king.pnj={...(king.pnj??{}),race:"Gobelin"};setTable(king,"Nature réelle","Gobelin");}
+
+  const soo=article(byId,["Soo-Kyung Yu","So’Ouk-32","So'Ouk-32"]);if(soo){soo.pnj={...(soo.pnj??{}),real_name:"Soo-Kyung Yu",nom_verite:"So’Ouk-32"};setTable(soo,"Nom de la Vérité","So’Ouk-32");}
+  const kan=article(byId,["Kang Sung-Hyung","Sunghyon Kang","KANG Sunghyon"]);if(kan){kan.title="Kang Sung-Hyung";kan.pnj={...(kan.pnj??{}),real_name:"Kang Sung-Hyung",nom_verite:"Saoden II-B2"};}
+  const iva=article(byId,["Ivana Yevgenievna","Ivanna Yevgenievna"]);if(iva){iva.title="Ivana Yevgenievna";replace(iva,[[/Ivanna YEVGENIEVNA/gi,"Ivana YEVGENIEVNA"],[/Ivanna Yevgenievna/gi,"Ivana Yevgenievna"]]);}
+  for(const name of ["Shimamura Nobuhito","Leona Elliott","T.N.","T.N"]){const a=article(byId,[name]);if(a)setTable(a,"Repère","");}
+  const kai=article(byId,["Kaine Reid","Daft Vador"]);if(kai){for(const s of kai.sections??[])if(s?.audience!=="mj")for(const b of s.blocks??[])if(b?.type==="table"&&Array.isArray(b.rows))b.rows=b.rows.filter((r:any[])=>!/Kaine Reid/i.test(String(r?.[1]??"")));addMj(kai,[{type:"p",text:"Identité protégée : Daft Vador est Kaine Reid. Cette correspondance est une information MJ."}]);}
+
+  const points:Record<string,string>={
+    "Kristina Moon":"Kristina Moon, dite « Frogchrist », est une Venomer et ancienne pharmacienne de Sunways. Elle est connue comme une assassine utilisant poisons et acides ; ses capacités magiques et la magie familiale de l’Empire vert restent MJ.",
+    "Murck Date":"Murck Date est un Crawler mercenaire élevé par Mickael Date. Son histoire familiale et sa loyauté envers celui qui l’a élevé appartiennent à sa biographie de Réalité ; son Mageius et ses techniques de projection spectrale restent MJ.",
+    "Mukna":"Mukna est un biker et gundriver comanche qui sillonne la Grande Réserve comme transporteur. Son rôle de sentinelle de Loge et sa magie du sang restent MJ.",
+    "Lana Alvarez":"Lana Alvarez est une jeune croupière de Tala, connue aussi pour sa carrure de combattante. Sa magie de malédiction et la technique du « Tueur de Mageius » restent MJ.",
+    "Gerald Ashorn":"Gerald Ashorn est un grand général, vétéran et héros des Marines américains puis californiens. Son identité thulkar et ses liens avec les puissances de la Vérité restent MJ.",
+    "Lisa Eredhes":"Née à Cancun en 2000, Lisa Eredhes a participé au PCRC avant de fonder Space Union en 2026 avec des scientifiques et d’anciens militaires. Elle a ensuite poussé le développement lunaire et les missions spatiales. Son rang au sein de l’AIDH reste MJ.",
+    "James Hopper":"James Hopper est un agent prometteur du CBII, enquêteur proche de Cole Gallagher et habitué à travailler avec les détectives du LAUS. Sa nature rocréenne, son origine clonale et son rôle dans les réseaux Feeshri restent MJ.",
+    "Racheyl Rosemann":"Racheyl Rosemann est l’assistante de direction de Rached Kelley chez Raven, remarquée pour son efficacité et sa mémoire exceptionnelle. Sa nature artificielle d’Ashmyn K’Na reste MJ."
+  };for(const [name,text] of Object.entries(points)){const a=article(byId,[name]);if(a)addPublic(a,"reparation-biographie-realite","Biographie & informations publiques",text);}
+
+  const cla=article(byId,["Clara Arellano"]);if(cla)addPublic(cla,"reparation-relation-svetlana","Relation publique · Svetlana Konstantinovna","Clara Arellano connaît publiquement Svetlana Konstantinovna en tant que restauratrice ; cette relation ne révèle pas l’identité criminelle d’Arkhangel.");
+  const dina=article(byId,["Dina Page"]);if(dina)addPublic(dina,"reparation-annexion-basse-californie","Réalité · recomposition territoriale","Sous Dina Page, la Californie a annexé le territoire du Sinaloa correspondant à la Basse-Californie dans la recomposition territoriale du sud.");
+
+  repairCrawlerP0(byId);
+  for(const a of byId.values()){stripExactDupes(a);order(a);}
+  for(const a of byId.values()){if(!a.pnj&&!String(a.dataset??"").includes("pnj"))continue;for(const s of a.sections??[]){if(s?.audience==="mj")continue;for(const b of s.blocks??[])if(b?.type==="table"&&Array.isArray(b.rows))for(const r of b.rows){const l=n(r?.[0]);if(["nom de la verite","nature reelle","ethnie reelle"].includes(l))throw new Error(`Réparation PNJ · fuite publique: ${a.id} / ${String(r?.[0]??"")}`);}}}
+
+  const after=new Set(byId.keys());
+  return {removedIds:[...before].filter(id=>!after.has(id)),restoredIds:[...after].filter(id=>!before.has(id))};
+}
