@@ -1912,10 +1912,10 @@ const PAYLOAD = [
       "nom_verite": "Gusoyn",
       "nom_verite_source": "Gusoyn",
       "race": "daemons",
-      "age": "«29 ans », ????",
+      "age": "29 ans",
       "origine": "Américaine",
       "statut": "Duchesse",
-      "affiliations": "« aucune »",
+      "affiliations": "aucune",
       "divinite": "Lilith",
       "pouvoir_principal": "la manipulation",
       "titre_infernal": "Duchesse",
@@ -1956,7 +1956,7 @@ const PAYLOAD = [
               ],
               [
                 "Affiliations",
-                "« aucune »"
+                "aucune"
               ],
               [
                 "Nationalité d’origine",
@@ -1967,7 +1967,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Leonetta est la patronne et l’unique serveuse du Dinner « B&E » dans un quartier abandonné de Los Angeles, un trou à rats côtoyer par des gangs afroaméricains et des crawlers essentiellement."
+            "text": "Leonetta est la patronne et l’unique serveuse du diner « B&E », installé dans un quartier abandonné de Los Angeles. L’établissement, assez miteux, est principalement fréquenté par des gangs afro-américains et des Crawlers."
           }
         ]
       },
@@ -1998,7 +1998,7 @@ const PAYLOAD = [
               ],
               [
                 "Affiliations",
-                "« aucune »"
+                "aucune"
               ],
               [
                 "Nationalité d’origine",
@@ -2033,7 +2033,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Leonetta est la patronne et l’unique serveuse du Dinner « B&E » dans un quartier abandonné de Los Angeles, un trou à rats côtoyer par des gangs afroaméricains et des crawlers essentiellement. C’est une duchesse infernale de Lilith, « Gusoyn », autrefois une Mage de la loge de Mandé, aux côtés de Doussou Damba, mais elle fut tuée par un Dive et son Mageius arraché. Récupérée par lilith qui adorait le caractère sensuel des 12 mages de la loge de Mandé, elle en fit une de ses duchesses en quelques siècles. Dans la Réalité, Leonetta est une amante régulière du Maire, Robert Hamilton qu’elle protège."
+            "text": "Leonetta est en vérité Gusoyn, Duchesse infernale de Lilith. Elle fut autrefois une Mage de la Loge de Mandé aux côtés de Doussou Damba, avant d’être tuée par un Dive qui lui arracha son Mageius. Lilith, séduite par le caractère sensuel des douze Mages de cette Loge, récupéra Gusoyn et en fit l’une de ses duchesses en quelques siècles. Dans la Réalité, Leonetta entretient aussi une relation régulière avec le maire Robert Hamilton, qu’elle protège."
           }
         ]
       },
