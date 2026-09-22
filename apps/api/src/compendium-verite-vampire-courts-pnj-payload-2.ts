@@ -2021,10 +2021,10 @@ const PAYLOAD = [
       "real_name": "Ouji Nojiro",
       "nom_verite": "Oda Nobunaga",
       "race": "Vampire",
-      "age": "«40 ans » - 502 ans",
-      "origine": "japonaise",
-      "statut": "Corporatif : Tortoise security",
-      "statut_verite": "« Taiwei",
+      "age": "40 ans",
+      "origine": "Japonaise",
+      "statut": "Corporation : Tortoise Security",
+      "statut_verite": "Taiwei",
       "organisation": "Shì hun zhe",
       "relations": [],
       "identity_keys": [
@@ -2037,7 +2037,7 @@ const PAYLOAD = [
         37,
         37
       ],
-      "source_designation": "Sidhe, les deimons, il est lui-même à moitié Caïth ce qui en fait un vampire plus difficile à toucher.",
+      "source_designation": "Taiwei (grand commandant) : Oda Nobunaga",
       "source_reality_raw": "Ouji Nojiro",
       "source_truth_raw": "Oda Nobunaga",
       "source_extract": "Sidhe, les deimons, il est lui-même à moitié Caïth ce qui en fait un vampire plus difficile à toucher. Nom de la Réalité : Ouji Nojiro Nom de la Vérité : Oda Nobunaga Age : «40 ans » - 502 ans Affiliations : Corporatif : Tortoise security Nationalité d’origine : japonaise Ethnie réelle : Vampire Statut : « Taiwei Clan vampirique : «Oni » Nojiro est un officier de tortoise security. C’est le bras -droit de Nakatsuno Takeshi, le directeur de la branche « sécurité urbaine ». Il porte presque toujours son armure Raven personnalisée par Sehdia corporation, un chef d’œuvre hors de prix. Il était officier au Japon pendant la guerre et voue une haine aux coréens, pas seulement du nord. Plus encore que les coréens, il exècre les criminels tels que les Yakuzas ou les Triades. Oda Nobunaga est probablement un des noms de samurai que la pop culture a le plus utilisé, tantôt glorifié tantôt décrit comme un démon. Bien que mortel, il était entouré de vampires dans un Japon presque entièrement sous domination garou. Mitsuhide Akechi craignait que Nobunaga ne soit corrompu et tenta son coup d’état. En 1582, Nobunaga se fit seppuku mais quand on tenta de trancher sa tête, une ombre déroba le daimyo. Amené à Xinya, elle en fit un vampire, ayant toujours su le clan Oda détenir du sang permettant d’être transformé. Grand Commandant de la cour, c’est un vampire redoutable qui cache derrière un style à deux lame un peu cliché et désuet un tireur de précision loin d’être aussi traditionnel qu’il ne cherche à le faire croire, adorant la technologie et totalement à jour.",
@@ -2064,21 +2064,21 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«40 ans »"
+                "40 ans"
               ],
               [
                 "Affiliations",
-                "Corporatif : Tortoise security"
+                "Corporation : Tortoise Security"
               ],
               [
                 "Nationalité d’origine",
-                "japonaise"
+                "Japonaise"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "Nojiro est un officier de tortoise security. C’est le bras -droit de Nakatsuno Takeshi, le directeur de la branche « sécurité urbaine ». Il porte presque toujours son armure Raven personnalisée par Sehdia corporation, un chef d’œuvre hors de prix. Il était officier au Japon pendant la guerre et voue une haine aux coréens, pas seulement du nord. Plus encore que les coréens, il exècre les criminels tels que les Yakuzas ou les Triades."
+            "text": "Ouji Nojiro est officier chez Tortoise Security et bras droit de Nakatsuno Takeshi, directeur de la branche « Sécurité urbaine ». Il porte presque toujours une armure Raven personnalisée par Sehdia Corporation, chef-d’œuvre hors de prix. Ancien officier au Japon pendant la guerre, il voue une haine aux Coréens, et pas seulement à ceux du Nord. Il exècre plus encore les criminels, notamment les Yakuzas et les Triades."
           }
         ]
       },
@@ -2101,7 +2101,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "«40 ans » - 502 ans"
+                "40 ans en apparence ; 502 ans"
               ],
               [
                 "Nature réelle",
@@ -2109,17 +2109,17 @@ const PAYLOAD = [
               ],
               [
                 "Statut vampirique",
-                "« Taiwei"
+                "Taiwei"
               ],
               [
                 "Clan vampirique",
-                "«Oni »"
+                "Oni"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "Oda Nobunaga est probablement un des noms de samurai que la pop culture a le plus utilisé, tantôt glorifié tantôt décrit comme un démon. Bien que mortel, il était entouré de vampires dans un Japon presque entièrement sous domination garou. Mitsuhide Akechi craignait que Nobunaga ne soit corrompu et tenta son coup d’état. En 1582, Nobunaga se fit seppuku mais quand on tenta de trancher sa tête, une ombre déroba le daimyo. Amené à Xinya, elle en fit un vampire, ayant toujours su le clan Oda détenir du sang permettant d’être transformé. Grand Commandant de la cour, c’est un vampire redoutable qui cache derrière un style à deux lame un peu cliché et désuet un tireur de précision loin d’être aussi traditionnel qu’il ne cherche à le faire croire, adorant la technologie et totalement à jour."
+            "text": "Oda Nobunaga est probablement l’un des noms de samouraïs les plus repris par la culture populaire, tantôt glorifié, tantôt décrit comme un démon. De son vivant, il était entouré de vampires dans un Japon presque entièrement dominé par les garous. Mitsuhide Akechi, craignant sa corruption, tenta son coup d’État. En 1582, Nobunaga se fit seppuku, mais une ombre déroba le daimyo lorsqu’on voulut lui trancher la tête. Conduit devant Xinya, il fut transformé en vampire : elle savait depuis toujours que le sang du clan Oda le permettrait. Grand commandant de la Cour, ce redoutable vampire dissimule derrière un style à deux lames, quelque peu cliché et désuet, un tireur de précision bien moins traditionaliste qu’il ne le prétend. Il adore la technologie et reste parfaitement à jour."
           }
         ]
       },
