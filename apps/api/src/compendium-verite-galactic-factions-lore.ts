@@ -7,7 +7,7 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sourceCategory": "Vérité",
     "title": "Histoire galactique — civilisations, empires & diaspora humaine",
     "source": "factions_Les groupes d'extrals(1)(1).pdf ; factions_Les humains galactiques(1)(1).pdf",
-    "status": "canon_source",
+    "status": "canon_enrichi",
     "rebuildV2": true,
     "tags": [
       "Vérité",
@@ -20,55 +20,385 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sections": [
       {
         "id": "chronologie-extrale",
-        "title": "Chronologie galactique · perspective extrale",
+        "title": "Les premières civilisations galactiques",
         "level": 2,
         "blocks": [
           {
             "type": "p",
             "style": "lore",
-            "text": "La galaxie est vaste, les Extrals (extraterrestrial lifes), sont le nom donné aux « Aliens ». L’histoire de la galaxie ne s’est pas jouée que chez les azménoriens et les humains, avec quelques hommes-verts en plus, de très grands évènements ont eu lieu en dehors des zones humaines. L’espèce la plus ancienne ayant maitrisé le vol Spatial ayant vécu dans la galaxie est celle des Korriators, venus d’une autre Galaxie, ils se sont crashés sur une planète des systèmes plus éloignés dans la Voie Lactée alors que les Azménoriens débutaient leur sortie d’Aèr. Loin d’être une espèce bienfaisante et généreuse venue instruire les autres peuples, les Korriators ont été exterminer toutes les espèces des planètes alentours afin d’endiguer toute évolution possible dans leur nouveau domaine, puis se sont isolés des millions d’années, sans jamais vouloir avoir la moindre forme d’interaction avec les créatures de la nouvelle galaxie, ils n’étaient pas conquérants, ils n’étaient pas amicaux, ayant juste fuit une menace et voulant vivre cachés. Après eux, pendant très longtemps, les espèces n’ont pas vude grand développement en dehors des azménoriens jusqu’à l’éveil de Thul, un fléau qui détruisit un monde. Il déchiqueta la divinité de ce dernier et de son essence vitale explosant dans le système, thul fertilisa quelques mondes, les Vers Cosmiques furent ainsi créés, ainsi que les ancêtres des rocréens. Les vers cosmiques furent la troisième espèce galactique, s’ils étaient loin d’avoir l’intelligence des Azménoriens ou des Korriators, ces immenses vers de plusieurs kilomètres de long vivaient dans le vide spatial à la recherche des étoiles, par une sorte de photosynthèse, se nourrissant de chaleurs et de débris spatiaux, créant de gigantesques essaims dans les ceintures d’astéroïdes ou sur ces derniers, les vers se déplaçaient lentement, mais virtuellement immortels, par l’énergie vitale du monde sacrifié les ayant créé, peu leur importait le temps. Les influences des Fléaux et des Eons mena au développement de certaines espèces sur la voie plus technologiques, il serait compliqué de retracer une grande Histoire parlant de chaque grande espèce, alors pour résumer, l’influence des vers galactiques a mené la création aux Deskoridiens, un grand peuple ancien. L’influence de Thul mena à l’apparition des Rocréens par la suite. Dans les systèmes éloignés, on ignore comment, l’influence Azménoriennes mena à la manifestation des Serys, peut être des descendants des Azménoriens ou une espèce ayant singé leur apparence ou ayant été corrompue par leur ADN, l’autre grand peuple ancien est celui des « Chezh’wens » et le dernier à retenir serait celui des Fyniades. Azménoriens, Deskoridiens, Rocréens, chezh’wens et Fyniades constituaient « l’écosystème galactique » le plus ancien, l’âge le plus reculé pendant lequel la vie a vu des espèces intelligentes se rencontrer dans l’espace. Très vite, le sursaut azménorien s’est arrêté, mais il continua à travers les Humains et les Serys, les premiers recommençant de rien après quelques décennies, tandis que les seconds, plus mystérieux conservèrent une avance technologique mais sans infrastructures dans les confins de la galaxie. C’est probablement cette avance qui joua pour la survie des Serys malgré la dangerosité de systèmes colonisés. Les humains de la Galaxie Brève histoire galactique Terra Umbra est une planète du système solaire, un petit système stellaire situé sur une branche de la galaxie qu’est la voie lactée. La Voie Lactée n’est toutefois pas dotée que d’une seule planète habitée. Quand un monde possède assez de « magie », il s’enveloppe d’une « manasphère » laquelle déjoue les lois naturelles et y voit des phénomènes propres s’y dérouler, l’évolution, la génétique, la physique et tout ce que la Science peut avoir établi comme lois ont une variabilité plus forte selon la densité de la Manasphère. Ces mondes qui en possèdent sont comme protégés par un bouclier qui les rend smoins sensibles aux influences extérieures, et comme ils échappent à la Physique en grande partie, ils sont extrêmement hostiles pour tout envahisseurs. Au contraire, les mondes faibles en magie n’ont pas ou peu de Manasphère, ils sont soumis aux lois de la Physique de manière bien plus absolue et les espèces qui s’y développent sont souvent plus faibles, ne comptant que sur leur métabolisme et dépendant totalement de leur environnement. Les Azménoriens étaient un peuple d’Aèr, ils progressèrent technologiquement plus vite et voyagèrent à travers l’espace. A la recherche de mondes magiques pour y déposer des portails des mondes, ils cherchaient à créer le plus grand vaste réseau afin de disposer de la Magie la plus abondante. Ces portails fonctionnaient en aspirant la magie pour ouvrir l’espace-temps et la matière afin de passer dans le « Néant », où rien n’a lieu d’être ni le temps ni l’espace, permettant le voyage quasi-instantané. Ils prirent Ichéi prime comme base de recherche, un monde sans aucune magie, sauvage mais luxuriant, ils y amenèrent les prisonniers de leurs ennemis sur Aèr, y menant une vaste guerre contre le reste du monde, déposant les prisonniers et esclaves sur Ichéi, afin de prélever des ressources mais surtout faire des expérimentations, notamment le développement de dons en totale absence d’énergie surnaturelle. Après la disparition des Azménoriens de leur colonie, ne restèrent que leurs esclaves, les humains, s’ils existaient probablement d’autres espèces chez les prisonniers, ceux de Meltanéa étaient plus nombreux et restèrent. Fervents croyants, ils perpétuèrent les structures des cultes issus d’Aèr, mais en oubliant peu à peur leurs origines, ils prirent els Azménoriens pour leurs dieux et non plus leurs esclavagistes puis se considérèrent comme légitimement les maitres d’Ichéi prime et plus tard de la galaxie en tant qu’héritiers de ces « dieux ». La ferveur mena à l’établissement de la Théocratie qui,à l’instar des Temples sur Aèr, avait sa structure en trois ordres : prêtres, paladins et inquisiteurs. Après la fin de la Théocratie, un âge plus technologique et plus glorieux s’annonça avec le Consortium Dardale. Le consortium favorisa une armée impérissable, une armée robotique, les « Consortiumian Battle Tacticaldroids » (CBT) qui, pendant longtemps, furent la meilleure option de défense jusqu’à ce que, sur Ardusk, la seconde grande génération de CBT, ne s’éveille à une conscience et ne débute sa révolte dans le sang. l’Eglise Ichéienne perdura malgré la perte de pouvoir confortant Inquisiteurs, Paladins et prêtres. Les gouvernements des différents mondes rattachés à Ichéi prime se dotèrent d’agences de surveillance en parallèle, mais progressivement, l’Eglise icheienne vit apparaitre d’autres cultes et le Consortium débuta son lent déclin."
+            "text": "Les Extrals, ou extraterrestrial lifes, sont les espèces extraterrestres de la Voie Lactée. Leur histoire ne se limite ni aux Azménoriens ni à l’Humanité. Plusieurs grandes civilisations ont façonné des régions entières de la galaxie avant les alliances actuelles."
+          }
+        ]
+      },
+      {
+        "id": "korriators",
+        "title": "Antiquité galactique — les Korriators",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Korriators constituent la plus ancienne espèce ayant maîtrisé le vol spatial et vécu dans la Voie Lactée. Venus d’une autre galaxie pour fuir une menace, ils se sont écrasés sur un monde des systèmes lointains alors que les Azménoriens commençaient à quitter Aèr."
           },
           {
             "type": "p",
             "style": "lore",
-            "text": "Les deskoridiens développèrent une technologie par les vers galactiques. Ces vers étaient « leurs dieux » mais aussi leur matière première, leur technologie puisque les vers servaient de vaisseaux et bien d’autres choses, ils s’en nourrissaient, vivaient dedans, les protégeaient, les vénéraient au début avant de les voir comme de simples écosystèmes leur étant asservis. Les Deskoridiens permirent le développement de bien des espèces, notamment les Gamaanes, une espèce qu’ils créèrent de toute pièce, ou bien les Menomahs, une espèce dérivée elle aussi des vers cosmiques. Les deskoridiens étaient curieux mais méprisants, ils étaient nomades et sans planète ils se fichaient de ce que faisaient les vers cosmiques, à savoir ravager des mondes quand ils avaient trop faim. Cet orgueil les mena à progressivement s’opposer aux tout jeunes systèmes des Chezh’wens. Les Chezh’wens étaient un peuple relativement géant comparé aux autres, certains le décrivent comme une espèce ssrynnesque totalement reptilienne d’apparence, née d’un monde magique tournant autour du magnétisme. D’autres y voient une création de la résonnance des fléaux reptiliens, par exemple, Shaoggith sur Terre, ayant changé des espèces n’ayant rien avoir en une forme similaire, unique et compatible, sur plusieurs mondes, afin de les servir et d’un jour les réunir. Ce serait cette complexe et immorale transformation de plusieurs espèces en une seule qui serait la raison de leur divergence très rapide ultérieurement. Les Chez’wens étaient un peuple puissant, assez archaïque en technologie néanmoins qui domina difficilement le vol stellaire. Quand des nuées de vers grands comme des asteroïdes se jetèrent sur leurs mondes, ils n’eurent pas grand moyen de résister. Les guerres avec les Deskoridiens s’essoufflèrent, mais la paisible espèce avait placé dans sa culture, peut être son génome, une rancœur et une violence qui allait devenir caractéristique de ses espèces descendantes. Une espèce qui se développa seule et sans aucun conflit fut celle des rocréens, développant de vastes empires en s’attaquant à des espèces cousines, nées de l’influence de Thul elles aussi, ils asservirent des peuples plus lents en développement et leur empire s’unifia et se divisa sans interruption, avant de former le « Grand empire » quand ils cessèrent leur expansion une fois quelques systèmes bien conquis. L’orgueil des Rocréens gonfla sans interruption du fait de millénaires sans aucun rival dans leur coin. Les Fyniade, enfin, étaient le dernier des peuples anciens de la Galaxie, on sait peu de chose, si ce n’est qu’ils étaient « beaux » selon les éons les ayant connus. Les Fyniades auraient développé leurs civilisations sans soucis jusqu’à l’arrivé d’une prophétesse, Ira’Xiadror, qui leur offrit l’immortalité. Le fléau, un « écho des ténèbres », comme V’aagor sur Terre, les emportant presque tous pour donner des corps à ses créations ses « Ombres » sur la planète de Wolféa. On ignore si les Fyniades disparurent à ce moment ou avec le temps mais la catastrophe les frappa et plus jamais ils n’eurent d’influence dans la galaxie hormis d’envoyer la stèle de Thar’lal, qu’un azménorien qui dérivait depuis longtemps dans l’espace trouva, se faisant posséder par l’éon que les Fyniades avaient sauvé de leur attaque. Chacune de ces espèces influença tellement dans ses systèmes qu’elle mena au rapide développement d’autres civilisations. Avant même de parler de ruine du Corsortium, il était si étendu que les déplacements prenaient beaucoup de temps et les communications étaient proportionnellement plus compliquée à assurer que la distance qui séparait les planètes entre elles. L’accent étant mis sur les pouvoirs locaux, la centralisation étant impossible. Cela facilita l’essor de la corruption. Outre la corruption Le commerce interstellaire se développait, des entreprises internationales devinent interplanétaire, interstellaire puis de véritables empires commerciaux se développèrent à côté des gouvernements, ainsi les G-Corporations s’implantèrent, régnant sur des ligues commerciales, exploitant des lunes, des planètes, des systèmes entiers pour certaines ressources, plus encore que les empires stellaires ultérieurs, elles s’implantèrent durablement et persistèrent jusqu’à nos jours. L’âge sombre de l’humanité ichéienne débuta, faible face aux aliens, à la division et aux maladies, en vérité, l’Humanité de la voie lactée frôla l’extinction sur les mondes non magiques, à plusieurs reprises, jusqu’à ce qu’une flotte azménorienne ne soit déployée, comme une flotte divine afin de protéger les humains. Sur la base de cette flotte, se créa l’AIDH, les azménoriens formant des humains d’exceptions pour les aider puis les remplacer. Peu après la création de l’AIDH, Morgan Thorn s’imposa sur les restes de l’inquisition ancienne et se présenta aux agences gouvernementales, présentant des savoirs infinis sur les cultes du Néant, de la Ténèbres, des dieux stellaires et autres menaces afin de créer la nouvelle Inquisition, et d’octroyer aux seigneurs-inquisiteurs le même statut que les seigneurs-généraux tant il y avait nécessité à lutter contre ces menaces d’une autre manière que l’AIDH. D’autres systèmes, plus isolés mirent du temps à être défendus par l’AIDH et le traité ichéien, peut être la chose la plus décisive, la plus centrale pour l’Humanité. Ce traité consistait à donner plein pouvoirs et ressources à l’AIDH contre sa protection totale. Cependant, l’AIDH ne couvrait pas tous les systèmes, loin de là et même les mondes sous le traité n’étaient pas assurés d’être protégés à temps. Le système de Skalah par exemple était sans défense et développa le Commissariat, une institution d’excellence qui rayonna par la suite, offrant une école non seulement d’officier aussi bons en stratégie qu’en combat mais surtout des commissaires qui, à l’aide d’un seul pouvaient galvaniser de simples armées sans avoir besoin de soldats surentrainés. En parallèle de l’inquisition, l’ordre des paladins survécu, détaché à la protection de lieux et de reliques, l’ordre s’épuisa et fut pratiquement détruit, à l’exception de rares individus épars dont une paladine anonyme. Cette paladine protégea de sa vie un monde attaqué, seule et alors qu’on la pensait morte, en réchappa et fit perdurer les paladins ichéiens. Après sa mort, l’ordre recruta des femmes exclusivement et la sororité resta en marge du reste de l’Humanité, renforçant et développant ses méthodes. L’ordre survécut à l’âge sombre et les Azménoriens trouvèrent parfait d l’intégrer à l’AIDH naissante, mais sur Tyrk, plus que têtue, les Sœurs refusèrent l’offre, protégeant déjà l’Humanité, la foi et le sacré, sans avoir besoin de créatures pour cela, peinant, probablement à voir en ces êtres bien vivants les dieux qu’elles priaient. Plus en arrière, si l’Eglise Ichéienne prit ses racines dans les Temples d’Aèr, le conseil des ombres, une organisation criminelle globale sur Aèr, avait forcément des représentants dans les esclaves que les azménoriens déposèrent sur Ichéi. Reformant leur organisation sur les bases communes, assassins, voleurs et arnaqueurs perdurèrent jusqu’à la Théocratie, pendant le Consortium et bien après. Si le crime organisé, en général, se développa plus ou moins en lien, les organisations naissant, mourant et d’autres les remplaçant, n’ayant absolument pas besoin ni moyen d’avoir un héritage culturel, les"
+            "text": "Ils ont exterminé les espèces des planètes voisines pour empêcher l’apparition de rivaux dans leur refuge, puis se sont isolés pendant des millions d’années. Leur objectif n’était ni la conquête de la nouvelle galaxie ni la transmission de leurs savoirs : ils cherchaient à vivre cachés."
+          }
+        ]
+      },
+      {
+        "id": "thul-vers",
+        "title": "Antiquité galactique — Thul et les vers cosmiques",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Longtemps après cette arrivée, alors que les Azménoriens poursuivaient leur développement, le Fléau Thul détruisit un monde et déchiqueta sa divinité. L’essence vitale libérée fertilisa plusieurs planètes du système. Elle donna naissance aux vers cosmiques ainsi qu’aux ancêtres des Rocréens."
           },
           {
             "type": "p",
             "style": "lore",
-            "text": "Histoire – «le moyen-âge galactique » L’histoire de l’Humanité Galactique fut lente et recommença d’un âge très sombre, puis d’un temps féodal sur Ichéi prime essentiellement. Les étapes sont évoquées dans un fichier dédié. Parallèlement, les Serys ont bénéficié d’une longévité plus grande et ont conservé, entretenu et répliqué les technologies azménoriennes, aux débuts, les Serys pratiquaient donc la techmagie, mais les mondes lointains où ils étaient n’avaient pas de ressource magique suffisante pour que cela ne dure, les technologies épuisaient la magie des mondes en quelques siècles, alors les Serys se divisèrent, afin de trouver un monde pour s’y implanter, un monde magique. Cette incapacité à trouver un tel monde dans leur secteur mena à de lourdes guerres idéologiques, elle mena surtout à réadapter leurs technologies, changer d’énergie. Les serys conservèrent une mobilité et malgré leurs divisions en plus de 44 sous-espèces ne se supportant pas entre elles, se sont établi comme l’espèce la plus puissante, repoussant les Deskoridiens et les vers cosmiques aussi bien que les autres peuples qu’ils vinrent déloger. Les Deskoridiens continuèrent leur parrainage d’autres peuples, formant « l’alliance Deskoridiennes » qui les élevait au rang de « dieux galactiques » (Daask’amka) que leurs protégés devaient vénérer. Cette vénération écrasante mena à l’insurrection des menomahs, qui, dotés de corps mécaniques, et poussés par Thar’al, leur guide, se rebellèrent et pillèrent les Deskoridiens. Les Menomahs, à cette époque, n’auraient vraiment pas suffit à déstabiliser l’hégémonie deskorienne, mais ce fut le premier pas, quand les Zintroïds, les Ballesthans ou bien les Drenochitiens se rebellèrent, l’alliance deskoridiennes éclata et les deskoridiens jouèrent encore plus mal leurs derniers coups, préférant offrir aux Menomahs plus de pouvoirs pour qu’ils ne calment leurs rivaux et ne cessent leur propre insurrection, offrant tout simplement à la petite espèce insignifiante de quoi exterminer les Deskoridiens et prendre la tête de leur alliance. Cette dernière ne tint pas, et les rebelles se déchirèrent entre eux, les Menomahs survivants à l’épreuve des siècles mais pas les autres. Les gamaanes restèrent, n’ayant pas défendu ni attaqué leurs créateurs, elles continuèrent de les vénérer. Les Chez’wens se déchirèrent dans des guerres absurdes après leur temps paisibles de conquête spatiale. Entre eux, face à tout ce qui les entouraient, dont les Thalsios, un petit peuple commençant son « antiquité spatiale ». Les thalsios ne doivent leur survie qu’à leur insignifiance à l’époque. les clans Chez’wens les plus grands en taille continuèrent de vivre sur des mondes encore un peu magiques, vénérant le ferrowen, possiblement une des matières les plus dense de la galaxie des plus conductrices d’un point de vue électromagnétique. Ils devinrent les Xe’wens en quelques millénaires, à peine, noircissant et développant de grandes cornes. Les Chez’wens les plus belliqueux et conquérants gardèrent leur apparence la plus basale, avec leurs dents caractéristiques, si nombreuses et longues, sans racines, ils se firent renommer chez’hons. Les chez’wens des mondes arides s’amincirent mais conservèrent une allure très proche de celle d’origines, les « Mo’wens » se détachèrent des Chezhons et des Xewens, par leur idéologie plus isolationniste, ils finirent par se renommer « Mo’sen », pour ne plus rien avoir même de nom avec leurs « cousins ». Enfin les « Chez’Reltes » des mondes plus exotiques développèrent un plumage plus flamboyant et un bec, un bec fin « Ferr », un bec large « Vosera », qui allait encore ultérieurement diviser l’espèce en deux peuples se détestant. Isolationnistes comme les Mo’sens, ils se terrèrent dans des mondes-jungles. organisations plus spécifiquement liées à l’assassinat, elles, conservèrent cet héritage, se faisant discrètes, disparaissant presque mais toujours présente jusqu’à ce qu’on ait besoin d’elles. L’ordre des assassins perdura ainsi et son caractère se fit toujours plus secret, reclus dans les Temples assassins, ces stations spatiales errantes enlevant des enfants et les altérant physiquement et génétiquement, altérant leur mémoire, leur cerveau, pour les façonner selon UN modèle d’assassin par temple, aux spécificités très cadrées. Peu avant l’effondrement du Consortium, une autre faction s’illustra, l’ordre des Archivistes, qui, face aux aliens et aux soulèvements populaires, prit peur qu’on n’oublie des savoirs, créant une immense station remplie de super ordinateurs quantiques afin d’y archiver les milliards de savoirs. Les archivistes se sacrifiant eux-mêmes, se connectant aux ordinateurs de la station, plutôt que de rentrer les données, les téléchargeant depuis leur propre mémoire. Neoalexandrie fut expulsée de l’orbite d’Ichei prime et pendant un temps excessivement long, on n’entendit plus jamais parler de ces érudits ayant sacrifié leur vie pour le bien de savoirs inutiles. Après la formation de l’AIDH, la seigneur général Moira Blackraven trouva néanmoins Neo-alexandria et réactiva la station, sauvant les archivistes d’une agonie éternelle. L’ordre des archivistes utilisa des technologies pour façonner des corps afin de charger leur esprit physiquement et commencèrent à reprendre leur grande collecte d’information, cette fois, auprès des races aliens. Une autre faction est celle de l’ordre Scytheri, on en sait assez peu de chose si ce n’est que sur les mondes sans magie, les humains, essentiellement des esclaves n’avaient pas de magiciens ni de savoirs leur permettant d’exploiter le peu d’énergie occulte de ces mondes, cependant, à l’instar des aliens se développant sur de telles planètes, une force poussait les cerveaux à pouvoir utiliser la propre énergie vitale du corps, cette énergie mentale, que toutes créature dotée d’un cerveau possède, était la base pour rassembler des cultistes et des curieux. Travaillant, expérimentant et enseignant, l’ordre Scytheri cultiva ses étranges pouvoirs ne dépendant d’aucune magie, mais commune aux formes de vies, reliant tous les êtres, permettant de comprendre sans langage, de voir sans vue, sentir jusque dans le vide ou bien encore prévoir ce qui arrivera. Par peur, l’ordre s’isola toutefois, car pour certains humains, leurs pouvoirs viendraient des aliens, pour d’autres de sombres cultes ou de simples mutations. Les enjeux de Terra Umbra A première vue, l’AIDH n’aurait aucun intérêt pour la Terre, qui est un mode magique s’appauvrissant en manasphère. Ce n’est pas le premier monde magique observé ni le plus riche en la matière. Ressources aussi bien qu’espèces n’ont rien d’originales. La grande différence de la Terre réside ailleurs, si les Azménoriens bénéficient encore maintenant d’une aura unique dans l’Histoire ou les légendes de bien des espèces galactiques, c’est parce qu’ils ont utilisé quelque chose qui fut interdit, proscrit : la magitechnologie. La « Technologie » consiste à saisir par la Science le fonctionnement des phénomènes naturels afin de les utiliser en les reproduisant. La magie est une énergie qui déjoue les lois de la nature. La magitechnologie est un domaine qui exploite la capacité de la magie afin d’outrepasser les limites de la Science. Ouvrir un vide dans le continuum espace-temps afin d’utiliser la dimension du Néant, pratiquer des tirs plasmagiques, sur des distances infinies, générer des boucliers énergétiques à la densité d’un trou noir, fusionner ou diviser les plans dimensionnels, éventrer le cycle universel des âmes pour en arracher l’expérience désirée."
+            "text": "Troisième espèce galactique, les vers cosmiques étaient moins intelligents que les Korriators et les Azménoriens. Longs de plusieurs kilomètres, ils vivaient dans le vide spatial et recherchaient les étoiles. Une forme de photosynthèse leur permettait de se nourrir de chaleur et de débris spatiaux. Leurs essaims occupaient les astéroïdes et leurs ceintures ; leur déplacement était lent, mais l’énergie vitale du monde sacrifié les rendait virtuellement immortels."
+          }
+        ]
+      },
+      {
+        "id": "peuples-anciens",
+        "title": "Antiquité galactique — les grands peuples",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’influence des Fléaux et des Éons accompagna le développement technologique de plusieurs espèces. Les vers cosmiques favorisèrent l’apparition des Deskoridiens ; celle de Thul mena aux Rocréens. Dans les systèmes éloignés, les Serys émergèrent sous une influence azménorienne dont la nature reste inconnue : descendance, imitation ou transformation par l’ADN azménorien sont autant d’hypothèses."
           },
           {
             "type": "p",
             "style": "lore",
-            "text": "Les rocéens commencèrent à voir leur empire devenir pluriel puis ingérable même ainsi divisé, toujours loin de tout, ils se frottèrent à une nouvelle espèce, les Zaabors, d’anciens esclaves qui prirent leur indépendance et formèrent un empire Zaabor dans l’empire Rocréen. La guerre des petits visqueux ne fut pas aussi grandiose que leurs légendes ne le disent puisque ce sont des considérations purement logistiques qui achevèrent cette grande guerre. : les Rocréens ne pouvant pas aller dans le nouvel empire Zaabor ayant épuisé ses ressources liées au vol interstellaire, la guerre s’acheva sur un génocide Zaabor chez les rocréens et génocide rocréens chez les Zaabor, afin de marquer leur victoire respective. La Fin de l’empire de l’empire rocréen arriva avec leur premier contact avec les Humains, qui, à l’époque, venaient d’être sauvés par les Azménoriens face aux Menomahs déchainés par leur victoire sur les Deskoridiens. Un seul vaisseau Azménorien déchira la flotte impériale bleue, les clans rocréens esclaves se rebellèrent et chaque monde rocréen devint indépendant. C’est à cette époque que les Ad’rak arrivèrent à percer plus loin que leurs systèmes, explosant le blocus que les CBT2 causaient, ils se déchainèrent en ligne droite sans aucune espèce pour les arrêter. Avec la fin de l’empire Rocréen, les Talass purent se développer dans leur espace, autrefois sous contrôle rocréens, cette espèce, pacifique, s’expatria vite néanmoins, afin de se placer sous la protection des azménoriens, hélas, ne trouvant que l’AIDH, balbutiant, se rangea de son coté en devenant la première espèce alien « alliée » à l’Humanité entière. Histoire – «les temps modernes galactiques » Le développement des espèces se continua dans la galaxie, pour citer les espèces marquantes c’est à cette époque que la majorité des espèces aujourd’hui encore dominantes sont apparues. Les baséanhs émergèrent de leurs mondes, malgré des volontés d’expansions ils furent redoutablement bloqués et menacés par les CBT2, des robots indépendants que les humains avaient créé pendant le moyen-âge galactique ainsi que les Menomahs, deux factions que Thar’Lal avait changé à jamais en les faisant se rebeller, mais il influença aussi l’Eglise Mécanique dont une branche extrémiste mena à la création de l’espèce « Zarpeth ». Les Thalsios et les Mo’sens furent menacés par les Chezhons, après des siècles de guerre, ils furent contraints de déplacer leurs population de plus en plus proche des humains jusqu’à se rajouter aux Tallass dans la faction « alliée » sans concession avec les Humains. Les Orpacyors émergèrent comme nouvelle espèce invasive, maitresses des modifications génétiques, elles s’attaquèrent aux Zaabors puis aux Rocréens, commençant à dévorer leur domaines spariaux. Les Zaabors se réfugièrent toujours plus loin et dans des mondes à forte gravités pour fuir les Orpacyorses, c’est ainsi qu’ils rencontrèrent les effismes, des créations des korriators que ces derniers avaient abandonné. L’alliance zaabor-effisme terrifia les Orpacyorses, qui se déchainèrent sur les rocréens lesquels perdirent jusqu’à leur monde natal, joignant à contrecœur les systèmes humains pour s’y cacher dans une vaste diaspora. Plus tard, ils intégrèrent le pacte des Aliens avec les humains. L’émergence des Orpacyorse dissimula les vastes ruches de Klexards, on ne sait pas si les Baséanhs les firent muter pour servir d’armes, si c’est une race s’étant développée seule ou si ce sont des orpacyorses les ayant créés pour servir de nourriture facile à élever, mais si les C’était bien là l’enjeu de la guerre de Tout Aèr contre les azménoriens à l’époque, mettant fin à leur âge spatial. L’AIDH s’est interdit d’utiliser la magitech, mais sur Terre, un monde magique où l’Humanité est en plein développement technologique, ce n’est qu’une question de temps avant que les humains pratiquant la magie ne s’impliquent profondément dans l’exploitation de la technologie. En outre, sur Terre sont autorisés des Aliens, et même sans être autorisés, il y en a depuis longtemps, bien avant l’Hologramme, si les humains pouvaient s’effrayer de la magietech, certains Aliens utilisent déjà des technologies surpassant leur maitrise, ils pourraient anéantir la galaxie avec la Magitech sur la base d’une simple erreur. Inversement, les Eons, ces « dieux errants » sont connu par l’AIDH comme des menaces disparates mais redoutables, sur Terre, la présence des Dieux locaux n’a pas échappé à l’AIDH, qui, sans parfaitement savoir la différence entre Eons et panthéons, ont bien saisi qu’il s’agissait d’êtres magiques dont les technologies extraterrestres pourraient changer le jeu d’influence qu’ils se mènent. Outre la magietech elle-même, l’AIDH protège par le Traité Ichéien non pas que des humains mais les Atlantes, Mylakai ayant été un Seigneur-général, il signa le traité à l’époque et bien que la Terre fût un monde magique ne rentrant théoriquement pas dedans, cett signature est une excuse parfaite pour avoir ce monde magique sous surveillance étroite. Autrefois à la charge de l’armée de l’AIDH qu’avait commandé Mylakai, la surveillance revint à l’armée de Moira Blackraven puis de celle de Lisa Eredhès. Un dernier point qui rend la Terre si singulière, ce sont les Fléaux. L’AIDH connait la différence entre Fléaux et Eons et sait que certains Fléaux ont créé les pires ennemis, les Ombres Wolféennes par exemple, mais à l’époque, l’évolution Rocréenne a aussi été forgée par le Fléau Thul, la « Nebuleuse » pourrait être un fléau dont les particules vivantes prédatrices seraient ses « cellules », le premier klexard pourrait être un Fléau de même que le dieu des vers cosmiques, il existe des exemples plus locaux, mais le fait que Thul se soient écrasé sur Terre et qu’Alicia Starrogue y soit aussi venue n’est absolument en rien une bonne nouvelle, ces entités étant des amas de pouvoirs qui ne devraient pas se mélanger, leurs pouvoirs sont aussi destructeurs que la magitiech, la « Calamitechnologie », qui se baserait sur eux serait assurément plus néfaste encore, certains pouvant recombiner la matière, l’ADN ou bien d’autres choses, Vhodhal peut dévorer sa mort ou bien le temps, s’imaginer un armement sur cette base serait absolu, V’Aagor possède la capacité d’être parfaitement intangible , Sharith de diviser et décomposer toute matière… les possibilités seraient infinies ."
+            "text": "Les Azménoriens, les Deskoridiens, les Rocréens, les Chezh’wens et les Fyniades formaient le plus ancien ensemble de civilisations intelligentes se rencontrant dans l’espace. L’expansion azménorienne s’interrompit, mais son héritage se prolongea chez les Humains et les Serys. Les premiers durent repartir de presque rien ; les seconds conservèrent une avance technologique malgré l’absence d’infrastructures dans les confins dangereux où ils vivaient."
+          }
+        ]
+      },
+      {
+        "id": "deskoridiens",
+        "title": "Antiquité galactique — les Deskoridiens et les Chezh’wens",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Deskoridiens développèrent leur technologie à partir des vers cosmiques. Ceux-ci furent d’abord leurs dieux, puis leurs vaisseaux, leurs habitats, leur nourriture et leur matière première. Ils les protégeaient tout en finissant par les considérer comme des écosystèmes asservis. Les Deskoridiens créèrent les Gamaanes et favorisèrent notamment les Menomahs, eux aussi dérivés des vers cosmiques."
           },
           {
             "type": "p",
             "style": "lore",
-            "text": "Orpacyorse n’ont jamais eu de soucis avec les cafards de l’espace, le reste de la galaxie n’apprécia vraiment pas le déchainement des insectoïdes. Une des espèces qui apparut plus récemment fut les Greys, une espèce amibique très dangereuse qui fut ramenée des mondes Korriators par les Zaabors. En quelques siècles, les « ambiques vampires » devinrent une espèce intelligente puis belliqueuse. On peut noter que les derniers corps des Fyniades furent détruits à cette époque par les Serys, par l’explosion de leur planète-mère mais qu’ils provoquèrent aussi le besoin des ombres d’en trouver de nouveaux. Les dons mentaux des serys les protégeant, ce furent les humains qui devinrent la cible d’ Ira’Xiadror et de ses engeances. Les Reltes, cette sous-forme de Chez’wens devenu plus aviaire d’apparence, commença sa guerre fratricide entre becs fins et becs larges, si les raisons sont plus profondes, cette militarisation à outrance les poussa à pratiquer l’esclavage, arrachant au monde magique de Losea des esclaves de cette terre féérique mais les vaisseaux, altérés par la magie de ce monde, fonctionnèrent mal et se téléportèrent à l’autre bout de la galaxie. À la suite de ce phénomène de Magie-tech, les Reltes bombardèrent Losea, et uen fois les retombées achevées, et l’atmosphèrent altérée, ils déportèrent les losus sur Losea II, un monde non magique. Un des esclaves téléportés arriva sur Terre d’ailleurs, à une époque assez reculée, il tomba face à un culte de Belial et fut trouvé par un Rocréen. Il devint le premier empereur des flammes de Losea et mena le soulèvement puis la reconquête des mondes légitimement Losiens. L’humanité trouva les Xidoniens, un peuple des mondes plus glaciaux, les Elaymar, un peuple métamorphe mais aussi les Spirggule et les Roesis. Les Roesis était un peuple guerrier d’une puissance assez sous-estimée, vénérant la force et le lignage, ils ne se reproduisaient qu’entre combattants de même valeur et pour ça, ils clonaient des vétérans trop âgés pour la reproduction. La consanguinité monta en flèche au fil des siècles et la chute Roesis fut désastreuse quand ils finirent par s’attaquer aux Greys qui contaminèrent leurs cellules et transformèrent l’attaque Roesis en une attaque de greys, aucun monde Roesis n'exista plus, les survivants consanguins se réfugièrent sur des lunes artificielles et s’exilèrent, purgeant de leur corps toute partie infectée par un grey. La dernière grande espèce était les Palaboriens. Ils étaient possiblement l’espèce avec la plus grande puissance psychique de la galaxie. Ils furent exterminés par les grey qui voulaient acquérir ces dons, les pensant purement physiologiques, c’est à cette époque qu’après deux extinctions de races aussi influente, l’inquisition acta comme une nécessité de détruire à tout jamais les Greys. Histoire – « époque actuelle » Les aliens sont très nombreux dans la galaxie et si l’Humanité est l’espèce majeure de la Voie Lactée, elle ne peut pas compter sans ses alliés ou ses ennemis inhumains. Sur Terre, la situation est totalement différente. Initialement fermée, les grey et les talass ont souvent visité la Terre. Des Rocréens s’y seraient écrasé il y a très longtemps, des Chez’wens auraient été créé par résonnance il y a longtemps aussi, à l’époque des fléaux. Les factions aliens sont donc très dépendantes de leur histoire galactique mais aussi de leur place sur Terre,Rocréens, baséanh, talass et Mo’sen sont des alliés des Humains, et donc les 01. Aidh Bien qu’on parle de « l’AIDH » comme d’une institution unique, la struture est divisée en de très vastes armées entretenant une communication et une concertation constante entre elles, disposant de conseils supervisant certaines décisions des Seigneurs-généraux et de l’armée 0 la cœur, le liant et la plus essentieelle structure de l’AIDH, l’armée 0 assure essentiellement un lourd travail de recherche et de logistique, de supervision, de recrutement et de gestion d el’information, pas de retraite pour les Officiers, après le service, un Seigneur-général ira à l’armée 0. Cependant, chaque armée est indépendante, le seigneur-général à sa tête est le seul à décider d’où elle va et de ce qu’elle combat. L’AIDH est une structure militaire dont les ressources sont assuréées par le traité Ichéien, les gouvernements qui le ratifient sont donc tenus de payer en ressource pour la protection, c’est un système féodal à l’échelle galactique, les « chevaliers » que sont les officiers de l’AIDH et leurs « serfs » cependant, il faut bien comprendre que ce système profite énormément aux gouvernements sous le traité, ceux qui s’y refusent sont très généralement instables ou finissent face une invasion. L’AIDH a un devoir total de neutralité sur les mondes humains, elle n’a pas à sympathiser avec des gouvernement, même très bénéfiques ni sévir des régimes totalitaires, il n’y a pas de portée politique avec l’AIDH. De fait, l’AIDH n’agit jamais dans des conflits entre humains et même quand des humains et des aliens qui sont alliés au traité ont des querelles ce n’est pas la priorité, l’AIDH n’iterviendra que si l’hostilité Alien devient une menace pour une population humaine, pas juste son régime politique ou autre faction idéologique. En retour, l’AIDH a l’immunité totale, ce qu’elle désigne comme ennemi de l’Humanité est un ennemi de l’Humanité et aucun gouvernement ni faction n’a autorité pour le contester et plus encore punir l’AIDH et ses membres d’avoir supprimer une telle menace, alors, généralement, les politiciens locaux savent que l’AIDH n’a pas autoriré pour arrêter leurs exactions, cependant ils savent aussi que si un haut officier classifie ledit politicien en TtM1 , en TtH2 ou pire encore en GCfH3 , il sera éliminé en quelques minutes par sa propre famille pour éviter le pire. ( 1 , 2 , 3 : « Traitor to Mankind » , « Threat to Humanity », « Galactic Calamity for Humans ». Ce sont les trois niveaux de menace majeure qu’un Seigneur-général peut déclarer, sans aucun procès afin de justifier le déploiement de ses troupes. Il existe des subtilités dans chaque ordre de menace, les «traitres » désignent des individus isolés et leur réseay, les « menaces » désignent des groupes plus étendus ou ayant une portée bien plus vaste que celle d’un simple traitre, les espèces Aliens ennemies sont classés ainsi, « calamité » désigne une menace encore plus grande, pouvant nécessité plus qu’une armée de l’AIDH, plusieurs et la contribution d 'organisations annexes, « les greys » en étaient, les « Ath’Tiay » et les « ombres Wolféennes » le sont encore) Outre la recherche pure, la Terre est située dans un secteur du traité, c’est-à-dire que les systèmes stellaires autour qui possèdent des planètes terraformées sont tous sous protection de l’AIDH, notamment de l’armée 783. Délaisser un tel monde parce qu’il est trop archaïque serait une faute grave, d’autant plus que des phénomènes étranges sont liés à la Terre, par exemple de vastes vaisseaux impériaux Rocréens ont été arrachés et téléportés sur Terre à une époque qui semble antérieur à l’empire rocréen, par une technologie inconnue. Sur Terre, il y existe encore les Greys, une espèce extrêmement dangereuse que l’inquisition décida d’anéantir par un virus, ce virus a été déjoué uniquement sur Terre et à tout moment ce monde pourrait devenir le départ d’un nouvel essor de cette espèce extrêmement invasive. Comme précédemment expliqué, la Terre est donc l’objet d’enjeux uniques dans la Galaxie et donc"
+            "text": "Nomades sans planète, curieux mais méprisants, les Deskoridiens se souciaient peu des mondes ravagés par leurs vers affamés. Cette attitude les opposa aux jeunes systèmes des Chezh’wens."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Chezh’wens étaient des êtres de grande taille et d’apparence reptilienne. Une tradition les fait naître sur un monde magique lié au magnétisme et les décrit comme proches des Ssryns. Une autre attribue leur origine à la résonance de Fléaux reptiliens, tel Shaoggith sur Terre : plusieurs espèces auraient été transformées en une forme commune et compatible pour servir ces entités et être réunies un jour. Cette origine multiple expliquerait leur divergence ultérieure rapide."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Puissants mais technologiquement archaïques, les Chezh’wens maîtrisaient difficilement le vol stellaire. Ils résistèrent mal aux essaims de vers grands comme des astéroïdes. Les guerres contre les Deskoridiens finirent par s’épuiser, mais laissèrent dans leur culture une rancœur et une violence durables, dont une éventuelle dimension génétique reste incertaine."
+          }
+        ]
+      },
+      {
+        "id": "rocreens-fyniades",
+        "title": "Antiquité galactique — empires rocréens et chute des Fyniades",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Dans leur région isolée, les Rocréens développèrent des empires en asservissant des peuples plus lents à progresser, dont des espèces cousines nées elles aussi de l’influence de Thul. Leur domaine connut des unifications et des divisions successives avant la formation du Grand Empire, une fois plusieurs systèmes solidement conquis. Des millénaires sans rival extérieur nourrirent leur sentiment de supériorité."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Fyniades sont les moins connus des grands peuples anciens. Les Éons qui les rencontrèrent les décrivaient comme beaux. Leur civilisation aurait prospéré jusqu’à l’arrivée d’Ira’Xiadror, une prophétesse leur promettant l’immortalité. Ce Fléau, un écho des Ténèbres comparable à V’aagor sur Terre, emporta presque tout leur peuple pour fournir des corps à ses Ombres sur Wolféa."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La disparition des Fyniades fut peut-être immédiate, peut-être progressive. Ils cessèrent en tout cas d’exercer une influence galactique. Ils envoyèrent toutefois la stèle de Thar’lal, contenant l’Éon qu’ils avaient sauvé. Un Azménorien dérivant dans l’espace la trouva et fut possédé par cette entité."
           }
         ]
       },
       {
         "id": "chronologie-humaine",
-        "title": "Humanité d’Ichéi · perspective humaine",
+        "title": "Des colonies azménoriennes à la Théocratie ichéienne",
         "level": 2,
         "blocks": [
           {
             "type": "p",
             "style": "lore",
-            "text": "La galaxie est vaste, les Extrals (extraterrestrial lifes), sont le nom donné aux « Aliens ». L’histoire de la galaxie ne s’est pas jouée que chez les azménoriens et les humains, avec quelques hommes-verts en plus, de très grands évènements ont eu lieu en dehors des zones humaines. L’espèce la plus ancienne ayant maitrisé le vol Spatial ayant vécu dans la galaxie est celle des Korriators, venus d’une autre Galaxie, ils se sont crashés sur une planète des systèmes plus éloignés dans la Voie Lactée alors que les Azménoriens débutaient leur sortie d’Aèr. Loin d’être une espèce bienfaisante et généreuse venue instruire les autres peuples, les Korriators ont été exterminer toutes les espèces des planètes alentours afin d’endiguer toute évolution possible dans leur nouveau domaine, puis se sont isolés des millions d’années, sans jamais vouloir avoir la moindre forme d’interaction avec les créatures de la nouvelle galaxie, ils n’étaient pas conquérants, ils n’étaient pas amicaux, ayant juste fuit une menace et voulant vivre cachés. Après eux, pendant très longtemps, les espèces n’ont pas vude grand développement en dehors des azménoriens jusqu’à l’éveil de Thul, un fléau qui détruisit un monde. Il déchiqueta la divinité de ce dernier et de son essence vitale explosant dans le système, thul fertilisa quelques mondes, les Vers Cosmiques furent ainsi créés, ainsi que les ancêtres des rocréens. Les vers cosmiques furent la troisième espèce galactique, s’ils étaient loin d’avoir l’intelligence des Azménoriens ou des Korriators, ces immenses vers de plusieurs kilomètres de long vivaient dans le vide spatial à la recherche des étoiles, par une sorte de photosynthèse, se nourrissant de chaleurs et de débris spatiaux, créant de gigantesques essaims dans les ceintures d’astéroïdes ou sur ces derniers, les vers se déplaçaient lentement, mais virtuellement immortels, par l’énergie vitale du monde sacrifié les ayant créé, peu leur importait le temps. Les influences des Fléaux et des Eons mena au développement de certaines espèces sur la voie plus technologiques, il serait compliqué de retracer une grande Histoire parlant de chaque grande espèce, alors pour résumer, l’influence des vers galactiques a mené la création aux Deskoridiens, un grand peuple ancien. L’influence de Thul mena à l’apparition des Rocréens par la suite. Dans les systèmes éloignés, on ignore comment, l’influence Azménoriennes mena à la manifestation des Serys, peut être des descendants des Azménoriens ou une espèce ayant singé leur apparence ou ayant été corrompue par leur ADN, l’autre grand peuple ancien est celui des « Chezh’wens » et le dernier à retenir serait celui des Fyniades. Azménoriens, Deskoridiens, Rocréens, chezh’wens et Fyniades constituaient « l’écosystème galactique » le plus ancien, l’âge le plus reculé pendant lequel la vie a vu des espèces intelligentes se rencontrer dans l’espace. Très vite, le sursaut azménorien s’est arrêté, mais il continua à travers les Humains et les Serys, les premiers recommençant de rien après quelques décennies, tandis que les seconds, plus mystérieux conservèrent une avance technologique mais sans infrastructures dans les confins de la galaxie. C’est probablement cette avance qui joua pour la survie des Serys malgré la dangerosité de systèmes colonisés. Les humains de la Galaxie Brève histoire galactique Terra Umbra est une planète du système solaire, un petit système stellaire situé sur une branche de la galaxie qu’est la voie lactée. La Voie Lactée n’est toutefois pas dotée que d’une seule planète habitée. Quand un monde possède assez de « magie », il s’enveloppe d’une « manasphère » laquelle déjoue les lois naturelles et y voit des phénomènes propres s’y dérouler, l’évolution, la génétique, la physique et tout ce que la Science peut avoir établi comme lois ont une variabilité plus forte selon la densité de la Manasphère. Ces mondes qui en possèdent sont comme protégés par un bouclier qui les rend smoins sensibles aux influences extérieures, et comme ils échappent à la Physique en grande partie, ils sont extrêmement hostiles pour tout envahisseurs. Au contraire, les mondes faibles en magie n’ont pas ou peu de Manasphère, ils sont soumis aux lois de la Physique de manière bien plus absolue et les espèces qui s’y développent sont souvent plus faibles, ne comptant que sur leur métabolisme et dépendant totalement de leur environnement. Les Azménoriens étaient un peuple d’Aèr, ils progressèrent technologiquement plus vite et voyagèrent à travers l’espace. A la recherche de mondes magiques pour y déposer des portails des mondes, ils cherchaient à créer le plus grand vaste réseau afin de disposer de la Magie la plus abondante. Ces portails fonctionnaient en aspirant la magie pour ouvrir l’espace-temps et la matière afin de passer dans le « Néant », où rien n’a lieu d’être ni le temps ni l’espace, permettant le voyage quasi-instantané. Ils prirent Ichéi prime comme base de recherche, un monde sans aucune magie, sauvage mais luxuriant, ils y amenèrent les prisonniers de leurs ennemis sur Aèr, y menant une vaste guerre contre le reste du monde, déposant les prisonniers et esclaves sur Ichéi, afin de prélever des ressources mais surtout faire des expérimentations, notamment le développement de dons en totale absence d’énergie surnaturelle. Après la disparition des Azménoriens de leur colonie, ne restèrent que leurs esclaves, les humains, s’ils existaient probablement d’autres espèces chez les prisonniers, ceux de Meltanéa étaient plus nombreux et restèrent. Fervents croyants, ils perpétuèrent les structures des cultes issus d’Aèr, mais en oubliant peu à peur leurs origines, ils prirent els Azménoriens pour leurs dieux et non plus leurs esclavagistes puis se considérèrent comme légitimement les maitres d’Ichéi prime et plus tard de la galaxie en tant qu’héritiers de ces « dieux ». La ferveur mena à l’établissement de la Théocratie qui,à l’instar des Temples sur Aèr, avait sa structure en trois ordres : prêtres, paladins et inquisiteurs. Après la fin de la Théocratie, un âge plus technologique et plus glorieux s’annonça avec le Consortium Dardale. Le consortium favorisa une armée impérissable, une armée robotique, les « Consortiumian Battle Tacticaldroids » (CBT) qui, pendant longtemps, furent la meilleure option de défense jusqu’à ce que, sur Ardusk, la seconde grande génération de CBT, ne s’éveille à une conscience et ne débute sa révolte dans le sang. l’Eglise Ichéienne perdura malgré la perte de pouvoir confortant Inquisiteurs, Paladins et prêtres. Les gouvernements des différents mondes rattachés à Ichéi prime se dotèrent d’agences de surveillance en parallèle, mais progressivement, l’Eglise icheienne vit apparaitre d’autres cultes et le Consortium débuta son lent déclin."
+            "text": "Les Azménoriens venaient d’Aèr. Leur avance technologique leur permit de rechercher dans l’espace des mondes magiques et d’y installer des portails. Ce réseau aspirait la magie pour ouvrir l’espace-temps et la matière vers le Néant, où temps et espace n’ont pas cours, et rendre les voyages presque instantanés."
           },
           {
             "type": "p",
             "style": "lore",
-            "text": "Les deskoridiens développèrent une technologie par les vers galactiques. Ces vers étaient « leurs dieux » mais aussi leur matière première, leur technologie puisque les vers servaient de vaisseaux et bien d’autres choses, ils s’en nourrissaient, vivaient dedans, les protégeaient, les vénéraient au début avant de les voir comme de simples écosystèmes leur étant asservis. Les Deskoridiens permirent le développement de bien des espèces, notamment les Gamaanes, une espèce qu’ils créèrent de toute pièce, ou bien les Menomahs, une espèce dérivée elle aussi des vers cosmiques. Les deskoridiens étaient curieux mais méprisants, ils étaient nomades et sans planète ils se fichaient de ce que faisaient les vers cosmiques, à savoir ravager des mondes quand ils avaient trop faim. Cet orgueil les mena à progressivement s’opposer aux tout jeunes systèmes des Chezh’wens. Les Chezh’wens étaient un peuple relativement géant comparé aux autres, certains le décrivent comme une espèce ssrynnesque totalement reptilienne d’apparence, née d’un monde magique tournant autour du magnétisme. D’autres y voient une création de la résonnance des fléaux reptiliens, par exemple, Shaoggith sur Terre, ayant changé des espèces n’ayant rien avoir en une forme similaire, unique et compatible, sur plusieurs mondes, afin de les servir et d’un jour les réunir. Ce serait cette complexe et immorale transformation de plusieurs espèces en une seule qui serait la raison de leur divergence très rapide ultérieurement. Les Chez’wens étaient un peuple puissant, assez archaïque en technologie néanmoins qui domina difficilement le vol stellaire. Quand des nuées de vers grands comme des asteroïdes se jetèrent sur leurs mondes, ils n’eurent pas grand moyen de résister. Les guerres avec les Deskoridiens s’essoufflèrent, mais la paisible espèce avait placé dans sa culture, peut être son génome, une rancœur et une violence qui allait devenir caractéristique de ses espèces descendantes. Une espèce qui se développa seule et sans aucun conflit fut celle des rocréens, développant de vastes empires en s’attaquant à des espèces cousines, nées de l’influence de Thul elles aussi, ils asservirent des peuples plus lents en développement et leur empire s’unifia et se divisa sans interruption, avant de former le « Grand empire » quand ils cessèrent leur expansion une fois quelques systèmes bien conquis. L’orgueil des Rocréens gonfla sans interruption du fait de millénaires sans aucun rival dans leur coin. Les Fyniade, enfin, étaient le dernier des peuples anciens de la Galaxie, on sait peu de chose, si ce n’est qu’ils étaient « beaux » selon les éons les ayant connus. Les Fyniades auraient développé leurs civilisations sans soucis jusqu’à l’arrivé d’une prophétesse, Ira’Xiadror, qui leur offrit l’immortalité. Le fléau, un « écho des ténèbres », comme V’aagor sur Terre, les emportant presque tous pour donner des corps à ses créations ses « Ombres » sur la planète de Wolféa. On ignore si les Fyniades disparurent à ce moment ou avec le temps mais la catastrophe les frappa et plus jamais ils n’eurent d’influence dans la galaxie hormis d’envoyer la stèle de Thar’lal, qu’un azménorien qui dérivait depuis longtemps dans l’espace trouva, se faisant posséder par l’éon que les Fyniades avaient sauvé de leur attaque. Chacune de ces espèces influença tellement dans ses systèmes qu’elle mena au rapide développement d’autres civilisations. Avant même de parler de ruine du Corsortium, il était si étendu que les déplacements prenaient beaucoup de temps et les communications étaient proportionnellement plus compliquée à assurer que la distance qui séparait les planètes entre elles. L’accent étant mis sur les pouvoirs locaux, la centralisation étant impossible. Cela facilita l’essor de la corruption. Outre la corruption Le commerce interstellaire se développait, des entreprises internationales devinent interplanétaire, interstellaire puis de véritables empires commerciaux se développèrent à côté des gouvernements, ainsi les G-Corporations s’implantèrent, régnant sur des ligues commerciales, exploitant des lunes, des planètes, des systèmes entiers pour certaines ressources, plus encore que les empires stellaires ultérieurs, elles s’implantèrent durablement et persistèrent jusqu’à nos jours. L’âge sombre de l’humanité ichéienne débuta, faible face aux aliens, à la division et aux maladies, en vérité, l’Humanité de la voie lactée frôla l’extinction sur les mondes non magiques, à plusieurs reprises, jusqu’à ce qu’une flotte azménorienne ne soit déployée, comme une flotte divine afin de protéger les humains. Sur la base de cette flotte, se créa l’AIDH, les azménoriens formant des humains d’exceptions pour les aider puis les remplacer. Peu après la création de l’AIDH, Morgan Thorn s’imposa sur les restes de l’inquisition ancienne et se présenta aux agences gouvernementales, présentant des savoirs infinis sur les cultes du Néant, de la Ténèbres, des dieux stellaires et autres menaces afin de créer la nouvelle Inquisition, et d’octroyer aux seigneurs-inquisiteurs le même statut que les seigneurs-généraux tant il y avait nécessité à lutter contre ces menaces d’une autre manière que l’AIDH. D’autres systèmes, plus isolés mirent du temps à être défendus par l’AIDH et le traité ichéien, peut être la chose la plus décisive, la plus centrale pour l’Humanité. Ce traité consistait à donner plein pouvoirs et ressources à l’AIDH contre sa protection totale. Cependant, l’AIDH ne couvrait pas tous les systèmes, loin de là et même les mondes sous le traité n’étaient pas assurés d’être protégés à temps. Le système de Skalah par exemple était sans défense et développa le Commissariat, une institution d’excellence qui rayonna par la suite, offrant une école non seulement d’officier aussi bons en stratégie qu’en combat mais surtout des commissaires qui, à l’aide d’un seul pouvaient galvaniser de simples armées sans avoir besoin de soldats surentrainés. En parallèle de l’inquisition, l’ordre des paladins survécu, détaché à la protection de lieux et de reliques, l’ordre s’épuisa et fut pratiquement détruit, à l’exception de rares individus épars dont une paladine anonyme. Cette paladine protégea de sa vie un monde attaqué, seule et alors qu’on la pensait morte, en réchappa et fit perdurer les paladins ichéiens. Après sa mort, l’ordre recruta des femmes exclusivement et la sororité resta en marge du reste de l’Humanité, renforçant et développant ses méthodes. L’ordre survécut à l’âge sombre et les Azménoriens trouvèrent parfait d l’intégrer à l’AIDH naissante, mais sur Tyrk, plus que têtue, les Sœurs refusèrent l’offre, protégeant déjà l’Humanité, la foi et le sacré, sans avoir besoin de créatures pour cela, peinant, probablement à voir en ces êtres bien vivants les dieux qu’elles priaient. Plus en arrière, si l’Eglise Ichéienne prit ses racines dans les Temples d’Aèr, le conseil des ombres, une organisation criminelle globale sur Aèr, avait forcément des représentants dans les esclaves que les azménoriens déposèrent sur Ichéi. Reformant leur organisation sur les bases communes, assassins, voleurs et arnaqueurs perdurèrent jusqu’à la Théocratie, pendant le Consortium et bien après. Si le crime organisé, en général, se développa plus ou moins en lien, les organisations naissant, mourant et d’autres les remplaçant, n’ayant absolument pas besoin ni moyen d’avoir un héritage culturel, les"
+            "text": "Ichéi Prime, monde sauvage et luxuriant mais dépourvu de magie, devint une base de recherche. Pendant leur guerre contre les autres peuples d’Aèr, les Azménoriens y déportèrent prisonniers et esclaves pour exploiter les ressources et expérimenter le développement de dons en l’absence d’énergie surnaturelle."
           },
           {
             "type": "p",
             "style": "lore",
-            "text": "Histoire – «le moyen-âge galactique » L’histoire de l’Humanité Galactique fut lente et recommença d’un âge très sombre, puis d’un temps féodal sur Ichéi prime essentiellement. Les étapes sont évoquées dans un fichier dédié. Parallèlement, les Serys ont bénéficié d’une longévité plus grande et ont conservé, entretenu et répliqué les technologies azménoriennes, aux débuts, les Serys pratiquaient donc la techmagie, mais les mondes lointains où ils étaient n’avaient pas de ressource magique suffisante pour que cela ne dure, les technologies épuisaient la magie des mondes en quelques siècles, alors les Serys se divisèrent, afin de trouver un monde pour s’y implanter, un monde magique. Cette incapacité à trouver un tel monde dans leur secteur mena à de lourdes guerres idéologiques, elle mena surtout à réadapter leurs technologies, changer d’énergie. Les serys conservèrent une mobilité et malgré leurs divisions en plus de 44 sous-espèces ne se supportant pas entre elles, se sont établi comme l’espèce la plus puissante, repoussant les Deskoridiens et les vers cosmiques aussi bien que les autres peuples qu’ils vinrent déloger. Les Deskoridiens continuèrent leur parrainage d’autres peuples, formant « l’alliance Deskoridiennes » qui les élevait au rang de « dieux galactiques » (Daask’amka) que leurs protégés devaient vénérer. Cette vénération écrasante mena à l’insurrection des menomahs, qui, dotés de corps mécaniques, et poussés par Thar’al, leur guide, se rebellèrent et pillèrent les Deskoridiens. Les Menomahs, à cette époque, n’auraient vraiment pas suffit à déstabiliser l’hégémonie deskorienne, mais ce fut le premier pas, quand les Zintroïds, les Ballesthans ou bien les Drenochitiens se rebellèrent, l’alliance deskoridiennes éclata et les deskoridiens jouèrent encore plus mal leurs derniers coups, préférant offrir aux Menomahs plus de pouvoirs pour qu’ils ne calment leurs rivaux et ne cessent leur propre insurrection, offrant tout simplement à la petite espèce insignifiante de quoi exterminer les Deskoridiens et prendre la tête de leur alliance. Cette dernière ne tint pas, et les rebelles se déchirèrent entre eux, les Menomahs survivants à l’épreuve des siècles mais pas les autres. Les gamaanes restèrent, n’ayant pas défendu ni attaqué leurs créateurs, elles continuèrent de les vénérer. Les Chez’wens se déchirèrent dans des guerres absurdes après leur temps paisibles de conquête spatiale. Entre eux, face à tout ce qui les entouraient, dont les Thalsios, un petit peuple commençant son « antiquité spatiale ». Les thalsios ne doivent leur survie qu’à leur insignifiance à l’époque. les clans Chez’wens les plus grands en taille continuèrent de vivre sur des mondes encore un peu magiques, vénérant le ferrowen, possiblement une des matières les plus dense de la galaxie des plus conductrices d’un point de vue électromagnétique. Ils devinrent les Xe’wens en quelques millénaires, à peine, noircissant et développant de grandes cornes. Les Chez’wens les plus belliqueux et conquérants gardèrent leur apparence la plus basale, avec leurs dents caractéristiques, si nombreuses et longues, sans racines, ils se firent renommer chez’hons. Les chez’wens des mondes arides s’amincirent mais conservèrent une allure très proche de celle d’origines, les « Mo’wens » se détachèrent des Chezhons et des Xewens, par leur idéologie plus isolationniste, ils finirent par se renommer « Mo’sen », pour ne plus rien avoir même de nom avec leurs « cousins ». Enfin les « Chez’Reltes » des mondes plus exotiques développèrent un plumage plus flamboyant et un bec, un bec fin « Ferr », un bec large « Vosera », qui allait encore ultérieurement diviser l’espèce en deux peuples se détestant. Isolationnistes comme les Mo’sens, ils se terrèrent dans des mondes-jungles. organisations plus spécifiquement liées à l’assassinat, elles, conservèrent cet héritage, se faisant discrètes, disparaissant presque mais toujours présente jusqu’à ce qu’on ait besoin d’elles. L’ordre des assassins perdura ainsi et son caractère se fit toujours plus secret, reclus dans les Temples assassins, ces stations spatiales errantes enlevant des enfants et les altérant physiquement et génétiquement, altérant leur mémoire, leur cerveau, pour les façonner selon UN modèle d’assassin par temple, aux spécificités très cadrées. Peu avant l’effondrement du Consortium, une autre faction s’illustra, l’ordre des Archivistes, qui, face aux aliens et aux soulèvements populaires, prit peur qu’on n’oublie des savoirs, créant une immense station remplie de super ordinateurs quantiques afin d’y archiver les milliards de savoirs. Les archivistes se sacrifiant eux-mêmes, se connectant aux ordinateurs de la station, plutôt que de rentrer les données, les téléchargeant depuis leur propre mémoire. Neoalexandrie fut expulsée de l’orbite d’Ichei prime et pendant un temps excessivement long, on n’entendit plus jamais parler de ces érudits ayant sacrifié leur vie pour le bien de savoirs inutiles. Après la formation de l’AIDH, la seigneur général Moira Blackraven trouva néanmoins Neo-alexandria et réactiva la station, sauvant les archivistes d’une agonie éternelle. L’ordre des archivistes utilisa des technologies pour façonner des corps afin de charger leur esprit physiquement et commencèrent à reprendre leur grande collecte d’information, cette fois, auprès des races aliens. Une autre faction est celle de l’ordre Scytheri, on en sait assez peu de chose si ce n’est que sur les mondes sans magie, les humains, essentiellement des esclaves n’avaient pas de magiciens ni de savoirs leur permettant d’exploiter le peu d’énergie occulte de ces mondes, cependant, à l’instar des aliens se développant sur de telles planètes, une force poussait les cerveaux à pouvoir utiliser la propre énergie vitale du corps, cette énergie mentale, que toutes créature dotée d’un cerveau possède, était la base pour rassembler des cultistes et des curieux. Travaillant, expérimentant et enseignant, l’ordre Scytheri cultiva ses étranges pouvoirs ne dépendant d’aucune magie, mais commune aux formes de vies, reliant tous les êtres, permettant de comprendre sans langage, de voir sans vue, sentir jusque dans le vide ou bien encore prévoir ce qui arrivera. Par peur, l’ordre s’isola toutefois, car pour certains humains, leurs pouvoirs viendraient des aliens, pour d’autres de sombres cultes ou de simples mutations. Les enjeux de Terra Umbra A première vue, l’AIDH n’aurait aucun intérêt pour la Terre, qui est un mode magique s’appauvrissant en manasphère. Ce n’est pas le premier monde magique observé ni le plus riche en la matière. Ressources aussi bien qu’espèces n’ont rien d’originales. La grande différence de la Terre réside ailleurs, si les Azménoriens bénéficient encore maintenant d’une aura unique dans l’Histoire ou les légendes de bien des espèces galactiques, c’est parce qu’ils ont utilisé quelque chose qui fut interdit, proscrit : la magitechnologie. La « Technologie » consiste à saisir par la Science le fonctionnement des phénomènes naturels afin de les utiliser en les reproduisant. La magie est une énergie qui déjoue les lois de la nature. La magitechnologie est un domaine qui exploite la capacité de la magie afin d’outrepasser les limites de la Science. Ouvrir un vide dans le continuum espace-temps afin d’utiliser la dimension du Néant, pratiquer des tirs plasmagiques, sur des distances infinies, générer des boucliers énergétiques à la densité d’un trou noir, fusionner ou diviser les plans dimensionnels, éventrer le cycle universel des âmes pour en arracher l’expérience désirée."
+            "text": "Après le départ des Azménoriens, les esclaves humains, majoritairement originaires de Meltanéa, restèrent sur place. D’autres espèces avaient probablement partagé leur captivité, mais les humains étaient les plus nombreux. Leur reconstruction fut lente, passant par des temps sombres et féodaux."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les croyants conservèrent des structures religieuses d’Aèr tout en oubliant leurs origines. Les anciens esclavagistes devinrent les dieux stellaires de l’Église ichéienne. Leurs fidèles se proclamèrent héritiers légitimes d’Ichéi Prime, puis de la galaxie. La Théocratie s’organisa en trois ordres : prêtres, paladins et inquisiteurs."
+          }
+        ]
+      },
+      {
+        "id": "moyen-age-serys",
+        "title": "Moyen Âge galactique — la dispersion des Serys",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La longévité des Serys leur permit de conserver, entretenir et reproduire les technologies azménoriennes. Ils pratiquaient d’abord la techmagie, mais les mondes lointains où ils vivaient ne contenaient pas assez d’énergie magique : leurs installations en épuisaient les ressources en quelques siècles."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Leur recherche de mondes magiques d’implantation échoua dans leur secteur et provoqua de graves guerres idéologiques. Ils durent adapter leurs technologies à d’autres énergies. Malgré leur division en plus de quarante-quatre sous-espèces hostiles entre elles, ils conservèrent leur mobilité et devinrent l’espèce la plus puissante, repoussant Deskoridiens, vers cosmiques et autres peuples des territoires qu’ils convoitaient."
+          }
+        ]
+      },
+      {
+        "id": "moyen-age-deskoridiens",
+        "title": "Moyen Âge galactique — la chute de l’Alliance deskoridienne",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Deskoridiens placèrent leurs protégés dans une alliance exigeant leur vénération comme « dieux galactiques », les Daask’amka. Cette domination provoqua la révolte des Menomahs, dotés de corps mécaniques et guidés par Thar’al."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Menomahs seuls n’auraient pas renversé cette hégémonie. Les soulèvements des Zintroïds, des Ballesthans et des Drenochitiens firent toutefois éclater l’alliance. Les Deskoridiens accordèrent alors davantage de pouvoirs aux Menomahs pour les apaiser et réprimer les autres rebelles ; ils leur donnèrent ainsi les moyens de les exterminer et de prendre leur place."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les vainqueurs se déchirèrent à leur tour. Les Menomahs traversèrent les siècles, contrairement aux autres rebelles. Les Gamaanes, qui n’avaient ni défendu ni attaqué leurs créateurs, survécurent aussi et continuèrent de les vénérer."
+          }
+        ]
+      },
+      {
+        "id": "moyen-age-chezhwens",
+        "title": "Moyen Âge galactique — les descendants des Chezh’wens",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Après leur expansion spatiale, les Chezh’wens se divisèrent dans des guerres internes et contre leurs voisins. Les jeunes Thalsios ne durent alors leur survie qu’à leur faible importance."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les plus grands clans restèrent sur des mondes encore partiellement magiques. Ils vénéraient le ferrowen, une matière exceptionnellement dense et conductrice sur le plan électromagnétique. En quelques millénaires, leur peau s’assombrit et de grandes cornes apparurent : ils devinrent les Xe’wens."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les groupes les plus belliqueux conservèrent leur apparence ancestrale et leurs nombreuses longues dents sans racines. Ils prirent le nom de Chezh’ons. Sur les mondes arides, les Mo’wens s’amincirent et choisirent l’isolationnisme. Ils se renommèrent ensuite Mo’sens pour rompre jusque dans leur nom avec leurs cousins."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Chez’Reltes des mondes exotiques développèrent plumes et becs. Les becs fins, « Ferr », et les becs larges, « Vosera », devinrent plus tard deux peuples ennemis. Comme les Mo’sens, ces Reltes se replièrent dans leurs mondes-jungles."
+          }
+        ]
+      },
+      {
+        "id": "consortium",
+        "title": "Du Consortium Dardale à l’âge sombre humain",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La fin de la Théocratie ouvrit un âge technologique dominé par le Consortium Dardale. Son armée de Consortiumian Battle Tacticaldroids, les CBT, constitua longtemps la meilleure défense humaine. Sur Ardusk, la deuxième génération, les CBT2, s’éveilla à la conscience et se révolta dans le sang."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’Église ichéienne conserva prêtres, paladins et inquisiteurs malgré sa perte de pouvoir. Des agences de surveillance apparurent auprès des gouvernements rattachés à Ichéi Prime, tandis que les cultes se multipliaient et que le Consortium déclinait."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’étendue des territoires ralentissait déplacements et communications, imposait le pouvoir local et favorisait la corruption. Des entreprises devinrent interplanétaires, puis interstellaires : les G-Corporations bâtirent des ligues commerciales et exploitèrent lunes, planètes et systèmes entiers. Plus durables que les empires stellaires, elles subsistent aujourd’hui."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Affaiblie par les divisions, les maladies et les menaces aliens, l’Humanité des mondes non magiques frôla plusieurs fois l’extinction. Une flotte azménorienne intervint pour la protéger. L’AIDH naquit autour de cette flotte ; les Azménoriens formèrent des humains d’exception pour les assister puis leur succéder."
+          }
+        ]
+      },
+      {
+        "id": "moyen-age-rocreens",
+        "title": "Moyen Âge galactique — la fin de l’Empire rocréen",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’Empire rocréen, devenu pluriel et ingérable, affronta les Zaabors, d’anciens esclaves qui fondèrent leur propre empire à l’intérieur du sien. Au-delà des légendes guerrières, des contraintes logistiques mirent fin au conflit : les Rocréens avaient épuisé les ressources nécessaires au vol interstellaire et ne pouvaient plus atteindre leurs adversaires. Chaque camp extermina les représentants de l’autre présents dans son territoire pour célébrer sa victoire."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Le premier contact avec les Humains acheva l’empire. Ceux-ci venaient d’être sauvés par les Azménoriens des Menomahs lancés dans la conquête après leur victoire sur les Deskoridiens. Un seul vaisseau azménorien déchira la flotte impériale bleue ; les clans esclaves se soulevèrent et les mondes rocréens devinrent indépendants."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "À cette époque, les Ad’rak percèrent le blocus que leur imposaient les CBT2 et poursuivirent leur avancée sans rencontrer d’espèce capable de les arrêter. Les Talass purent, eux, se développer dans l’ancien espace rocréen. Ils cherchèrent la protection azménorienne, rencontrèrent l’AIDH naissante et devinrent la première espèce alien alliée à l’Humanité entière."
+          }
+        ]
+      },
+      {
+        "id": "institutions-humaines",
+        "title": "Après l’âge sombre — les institutions humaines",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Le traité ichéien accorda à l’AIDH pouvoirs et ressources en échange d’une protection totale. Sa couverture restait néanmoins incomplète et ses interventions parfois tardives. Le système de Skalah, laissé sans défense, développa le Commissariat : une école d’officiers compétents en stratégie comme au combat, dont les commissaires pouvaient galvaniser des armées ordinaires sans disposer de soldats surentraînés."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Peu après la création de l’AIDH, Morgan Thorn réunit l’héritage de l’ancienne Inquisition et les agences gouvernementales autour de la lutte contre les cultes du Néant, des Ténèbres et des dieux stellaires. La nouvelle Inquisition obtint pour ses seigneurs un statut comparable à celui des seigneurs-généraux."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les paladins, chargés de protéger lieux saints et reliques, avaient presque disparu. Une paladine anonyme survécut à la défense solitaire d’un monde et permit à l’ordre de perdurer. Après sa mort, celui-ci recruta exclusivement des femmes. La sororité traversa l’âge sombre et refusa sur Tyrk de rejoindre l’AIDH naissante : elle estimait déjà protéger l’Humanité, la foi et le sacré sans l’aide des Azménoriens, qu’elle peinait à reconnaître comme ses dieux."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Le Conseil des ombres d’Aèr avait aussi laissé des héritiers parmi les esclaves d’Ichéi. Alors que les organisations criminelles ordinaires naissaient et disparaissaient, les ordres assassins conservèrent cet héritage. Leurs temples, des stations errantes, enlevaient des enfants et modifiaient corps, génétique, mémoire et cerveau pour produire un modèle d’assassin spécifique à chaque temple."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Peu avant l’effondrement du Consortium, les Archivistes construisirent une immense station d’ordinateurs quantiques pour préserver des milliards de savoirs. Ils s’y connectèrent pour transférer leurs souvenirs, sacrifiant leur vie à la collecte. Néo-Alexandrie fut expulsée de l’orbite d’Ichéi Prime et resta perdue pendant très longtemps. Après la formation de l’AIDH, Moira Blackraven la retrouva et la réactiva. Les Archivistes purent charger leurs esprits dans des corps fabriqués et reprendre leurs recherches, désormais auprès des espèces aliens."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Sur les mondes sans magie, l’ordre Scytheri développa l’usage de l’énergie vitale et mentale des êtres dotés d’un cerveau. Recherche, expérimentation et enseignement permirent de comprendre sans langage, voir sans les yeux, percevoir jusque dans le vide et pressentir l’avenir. L’ordre s’isola face aux accusations attribuant ses dons aux aliens, à des cultes obscurs ou à des mutations."
+          }
+        ]
+      },
+      {
+        "id": "temps-modernes",
+        "title": "Temps modernes — alliances et nouvelles menaces",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Baséanhs émergèrent mais virent leur expansion bloquée par les CBT2 humains et les Menomahs. Thar’Lal avait influencé la rébellion de ces deux factions. Son influence toucha aussi l’Église mécanique, dont une branche extrémiste donna naissance aux Zarpeth."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Après des siècles de guerre contre les Chezh’ons, les Thalsios et les Mo’sens déplacèrent leurs populations vers les systèmes humains et rejoignirent les Talass dans leur alliance avec l’Humanité."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Orpacyorses, maîtresses des modifications génétiques, attaquèrent les Zaabors puis les Rocréens. Les Zaabors se replièrent vers des mondes à forte gravité et y rencontrèrent les Effismes, créations abandonnées des Korriators. Leur alliance détourna les Orpacyorses vers les Rocréens, qui perdirent jusqu’à leur monde natal. Une vaste diaspora se réfugia dans les systèmes humains et rejoignit plus tard le pacte des espèces alliées."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La progression orpacyorse masqua l’expansion des ruches klexards. Leur origine reste incertaine : évolution autonome, mutations imposées par les Baséanhs pour en faire des armes, ou élevage alimentaire créé par les Orpacyorses. Ces dernières ne semblaient pas subir leurs attaques, contrairement au reste de la galaxie."
+          }
+        ]
+      },
+      {
+        "id": "greys-ombres",
+        "title": "Temps modernes — les Greys et les Ombres",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Zaabors ramenèrent des mondes korriators les Greys, une espèce amibique dangereuse. En quelques siècles, ces « amibes vampires » devinrent intelligentes puis belliqueuses."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Serys détruisirent les derniers corps fyniades en faisant exploser leur planète-mère. Les Ombres durent chercher de nouveaux hôtes. Protégés par leurs dons mentaux, les Serys leur résistèrent ; Ira’Xiadror et ses créatures se tournèrent vers les humains."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Roesis valorisaient la force et le lignage, réservaient la reproduction aux combattants de valeur comparable et clonaient les vétérans devenus trop âgés. Des siècles de consanguinité les fragilisèrent. Leur attaque contre les Greys se retourna contre eux lorsque ceux-ci contaminèrent leurs cellules. Aucun monde roesis ne subsista ; les survivants se réfugièrent sur des lunes artificielles et retirèrent de leur corps les parties infectées."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Palaboriens possédaient peut-être la plus grande puissance psychique de la galaxie. Les Greys les exterminèrent pour acquérir ces dons, qu’ils croyaient purement physiologiques. Après les catastrophes roesis et palaborienne, l’Inquisition jugea nécessaire d’anéantir définitivement les Greys."
+          }
+        ]
+      },
+      {
+        "id": "losea-rencontres",
+        "title": "Temps modernes — Losea et les nouvelles rencontres",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La guerre entre Reltes à bec fin et à bec large s’accompagna d’une militarisation et d’un recours à l’esclavage. Ils enlevèrent des habitants de Losea, monde féérique, mais sa magie altéra leurs vaisseaux et les téléporta à l’autre bout de la galaxie. Les Reltes bombardèrent ensuite Losea ; une fois l’atmosphère transformée, ils déportèrent les Losus sur Losea II, dépourvue de magie."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Un des captifs téléportés arriva sur Terre à une époque reculée, rencontra un culte de Belial et fut trouvé par un Rocréen. Il devint le premier empereur des flammes de Losea, mena le soulèvement et reconquit les mondes losiens."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’Humanité rencontra aussi les Xidoniens des mondes glaciaux, les Elaymar métamorphes, les Spirggule et les Roesis."
+          }
+        ]
+      },
+      {
+        "id": "epoque-actuelle",
+        "title": "Époque actuelle — une galaxie interdépendante",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’Humanité est devenue l’espèce majeure de la Voie Lactée, mais sa position dépend de ses alliés comme de ses ennemis. La Terre constitue un cas singulier. Longtemps fermée, elle avait pourtant déjà reçu des visites talasses et greys ; des Rocréens s’y seraient écrasés dans un passé très lointain, et des Chezh’wens y seraient apparus par résonance à l’époque des Fléaux."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les communautés terrestres et leurs factions restent liées à cette histoire, à leurs besoins biologiques, aux guerres galactiques et aux restrictions imposées par l’AIDH."
           }
         ]
       }
@@ -88,7 +418,7 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sourceCategory": "Vérité",
     "title": "Extrals sur Terre — communautés & factions",
     "source": "factions_Les groupes d'extrals(1)(1).pdf",
-    "status": "canon_source",
+    "status": "canon_enrichi",
     "rebuildV2": true,
     "tags": [
       "Vérité",
@@ -101,23 +431,117 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sections": [
       {
         "id": "panorama",
-        "title": "Panorama des communautés et factions terrestres",
+        "title": "Les communautés extrales de la Terre",
         "level": 2,
         "blocks": [
           {
             "type": "p",
             "style": "lore",
-            "text": "plus nombreux, bien loin devant toutes les autres races réunies. C’est pour ça qu’ils sont aussi facilement néfastes, la Terre étant un microcosme, un laboratoire, ils ne considèrent pas tous les humains locaux comme de vrais humains, mais des créatures plus archaïques. Le GAAC (Global Alliance of Alien Citizens) est une faction terrestre qui défend les droits des Extrals sur Terre. Son premier but est donc de protéger la vie de l’ensemble des Aliens en harmonie avec l’écosystème humain actuel. Dans 95% du temps, le GAAC boit les paroles de ‘AIDH, et pour cause, pas de ressortissant aliens sinon. Dans 5% des cas de conflit, en revanche, le GAAC fait valoir le bien être des aliens, le conseil essayant de faire pression sur Lisa Eredhès pour accepter quelques imports ou autre technologies manquantes. La CTU (Californian Talasses Union) est une faction majoritairement Talass qui vise à augmenter le niveau technologique des humains. Les talass ont grandement aidé toutes les races pacifiques avec elles dont l’Humanité depuis des siècles, peut être des millénaires de coexistence pacifique. C’est devenu une mission quasiment sacrée pour certains Talass et l’archaïsme terrien est terrifiant, les Talass ne comprennent pas ce que fait l’AIDH ici, encore moins pourquoi, pour la CTU, la Terre est un monde maltraité, sous-développé à dessein, comme un enfant élevé dans un placard, battu et analphabète. La CTU vise à aider la Terre vertueusement, c’est « nécessaire » selon elle et c’est pourquoi quand elle était la KTU* , elle avait tout fait pour que ça aille dans ce sens même en allant contre les ordres du GAAC et de l’AIDH. (*KTU : Korean Tallasses Union) La SRA (Shadow Research Agency) est une société des humains galactique et d’aliens qui ont senti ou été témoins de phénomènes magiques, c’est un groupe de recherche essentiellement basé en Australie qui enquête donc sur l’Ombre-monde et la magie, il n’est pas très actif en Californie. L’Emeraude Sanglante est une autre faction Talasse pure. Après la Percée Ad’rak ravageuse un groupe de talass avait décidé de devenir guerrier. Avec les siècles, « l’émeraude sanglante » s’est illustrée et a gagné en renommée. Elle s’est enorgueilli et enfoncé dans une violence et une haine si profonde qu’elle décida de pénétrer dans l’espace du domaine Ad’rak au lieu de simplement défendre. Elle fut laminée par l’armée noire mais l’AIDH préleva quelques survivants. Hélas, particulièrement ingrats, ces derniers, sur terre, fomentent leur vengeance sur les Ad’rak et n’obéissent pas aux lois de l’AIDH sur la vie des émigrés Extrals. L’émeraude sanglante importe du matériel de guerre d’un niveau interdit. Pendant la guerre de 22-28, la KTU employa l’Emeraude sanglante afin de tester des évolutions métisses entre le niveau technologique actuel des humains et celui minimal attendu. Malgré ça, l’Emeraude n’a pas gagné la guerre à elle seule, ce n’était pas son but de toute façon. Le R.E.P.T.I.L.E. (Reptilian Extraterrestrial Politicians, Technologistes and Ideologists League on Earth) est une organisation majoritairement Mo’senne. Elle cache néanmoins quelques rares Xe’wens et des Reltes en son sein, en revanche, aucun Chezhon, ils sont détestés et traqués. En soi, le REPTILE n’est pas une faction hostile, mais son but est de placer aux plus hauts sommets des représentants, en politique, économie, religion ou autre, afin que les Extrals, notamment les Mo’sens, ne soient protégés, non pas par le GAAC ou l’AIDH, jugés inefficaces voire injustes, mais par les lois et les systèmes humains en les parasitant le plus profondément possible. « Les Reptiliens », décrits par David Icke, un conspirationniste connu sont le REPTILE, mais leur volonté initiale reste la survie de leurs toutes petites communautés fragiles. Une branche du REPTILE est toutefois violente, la brotherhood of hate ( BoH) c’est une confrérie de chasseurs exrtrals (pas uniquement Mo’sens) qui ont la même volonté que l’émeraude majeurs. La présence d’entités comparables aux Eons (parfois appelés EON pour désigner ; « Extraterrestrial omnipotent Nuisance » ), semble aussi intriguer l’AIDH. La Terre fait office de laboratoire avec l’Hologramme, une puissante technologie qui sépare un plan dimensionnel d’une partie de la Manasphère afin de préserver cette dernière d’une utilisation abusive pour mieux l’étudier mais aussi pour laisser les humains locaux se développer en limitant au maximum l’influence extraterrestre. L’AIDH sert aussi de douane, elle autorise la présence des Extrals (les extraterrestres inhumains) mais selon un contrôle et des règles excessivement stricts. C’est l’AIDH et l’AIDH seule qui détermine qui vient sur Terre, combien de temps et pour faire quoi. Certains Extrals percoivent donc le détachement de la 783ème armée comme une agence de safari un peu militariste tant ils sont à l’aise avec les conditions requises. L’AIDH gère le grand générateur de l’Hologramme dans sa base du pole sud mais dispose de base sur chaque continent (exception faite de ceux Atlantes). Les soldats de l’AIDH sont des surhommes, ils sont surentrainés, les modificatiosn corporelles sont essentiellement d’ordre chimique afin de leur faire tolérer les grandes quantité de nanites en eux, ces nanites permettant des miracles, telle que des soins d’urgences, une capacit-é de stockage d’information, l’adaptation à des températures extrêmes, la recréation d’organes, la synthèse d’hormones, la suppression des toxines, la synthèse de tissus, la collecte de données entre nanites (lors d’un échange sanguin ou par simple contact de peau), mais aussi et surtout la capacité de matérialiser ou dématérialiser l’équipement, telle que l’armure de combat, fusil d’assaut et arme de poing, couteaux et ,évidemment, munitions. Un soldat de l’AIDH n'a pas à enfiler son armure, elle se déploie ex-nihilo après quelques secondes sous forme déphasée. Outre ces compétences, le soldat de base a des compétenes physiques et intellectuelles très au dessus de l’humanité, surtout terrienne. Parce que la durée de vie d’un soldat de l’AIDH est prolongée, « vétéran » n’a pas du tout le même sens que pour un terrien. Pratiquement aucun terrien n’a été intégré à l’AIDH, tous les soldats présents sur Terre sont donc nés ailleurs et y ont été mutés, il existe quelques exceptions mais les Terriens ignorant tout de l’AIDH, ce n’est pas cette dernière qui va se révéler à eux d’autant plus que n’étant pas un peuple de culture galactique, l’adaptation pourrait échouer quant à la vie spatiale. La seigneur-général en charge de la 783ème armée est Lisa Eredhès. Elle collabore avec les seigneurs-général karina Kelack ( de la 322ème armée) et Jol’la Etrys ( de la 811ème armée) qui croisent dans les secteurs alentours. Elle collabore plus intrinsèquement avec l’officier Alladava Kjoll, ancienne du haut commandement de l’armée 0 qui est son aide de camp désormais. La 783ème armée dispose de soldats spéciaux sur Terre, le détachement « Over-ghost » dont les armures sont non pas des armures de combat spatial mais dimentionnelles, permettant d’évoluer de la Réalité à la Vérité mais aussi de pénétrer dans l’Ombre-monde tout en étant immunisé à la magie, que l’AIDH désigne comme «énergie secrète » faute d’avoir des résultats probant de son étude. « L’overghost division » est aussi l’occasion de créer un armement efficace face à une des grandes menaces de la galaxie : les Ombre wolféennes, dont le Fléau qui ouvre les dimension semble avoir envoyé un de ses avatars, Alicia Starrogue, sur Terre afin de libérer son écho, un certain v’aagor qui serait de même nature qu’elle."
+            "text": "Les communautés terrestres dépendent de leurs guerres anciennes, de leurs besoins biologiques et de leur statut auprès de l’AIDH. Les Rocréens, les Baséanhs, les Talass et les Mo’sens, alliés de l’Humanité, y sont les plus nombreux, loin devant les autres espèces réunies. Les Thalsios appartiennent eux aussi aux six grandes espèces alliées avec les humains."
           },
           {
             "type": "p",
             "style": "lore",
-            "text": "sanglante : purger toute menace Extrale n’étant pas Mo’sen, Talass, Baséanne, Rocréenne ou Thalsiosse. C’est une armée mercenaire totalement spéciste qui déteste les autres espèces intelligentes en dehors des « Six » (dont l’humanité). Le GAAC condamne souvent la BoH pour ses exactions, cette confrérie purge des communautés émigrées, qu’elles soient hostiles ou pacifique. La BoH étant une branche du REPTILE, ce dernier la protège, relevant toutes les infractions des communautés attaquées et toutes les menaces possibles, le REPTILE fait souvent valoir que l’AIDH n’a, forcément, jamais autorisé ces illégaux à s’implanter puis, régulièrement, dissout la BoH pour mieux la reconstruire derrière sous un nouveau nom. Une seconde sous-branche du REPTILE est la Saeniaforming army : SA, une « armée » de nom seulement puisqu’il s’agit d’un groupuscule politique et industriel qui cherche à acélérer le réchauffement climatique afin de changer la Terre en une planète plus aride et correspondre mieux à un environnement propice aux Mo’sens. Gros industriels, scientifiques, politiciens, journalistes, la SA fait moins d’action violente qu’un lourd travail de désinformation pour endiguer tout travail environnementaliste afin de contrer le changement climatique. Les Climatosceptiques ont été créé par eux. Parfois, la SA déploie néanmoins des moyens militaires pour provoquer quelques incidents, le but est toujours de débloquer des moyens d’accélérer le réchauffement à terme. La « ligue Baséanne « est une autre faction, elle est aussi appelée « Croix verte » sur Terre et ne comporte pas que des Baséans. Elle a été fondée pour subvenir aux besoins de cette espèce un peu exigeante, en effet, l’atmosphère, la nourriture et diverses conditions terrestres ne vont pas bien aux Baséans, ils sont assez malades malgré leur très bonne intégration à la société Humaine, et l’AIDH reste intransigeante sur les conditions d’installation sur Terre, contrairement au REPTILE, qui entrevoit de modifier la Terre pour l’adapter aux besoins Mo’sens, la croix verte a installé des « Biobars » , officiellement des bars d’une franchise de Biosun, la corporation, officieusement des centres de remises en forme où la nourriture, la chimie de l’air et l’hydrométries sont ajustées au bien être des espèces plus exigeantes. Un secteur permet aussi la gestion génétique, étant donné que les Extrals sont assez peu nombreux et dispersés, ces Biobars permettent des rencontres et de les organiser, mettent à disposition des chambres et des laboratoires d’insémination ou de conceptions In vitro le cas échéant pour les rencontres. Tout est fait pour la prospérité des Extrals. La mafia Shaediri ou « mafia rocréenne » s’est forgée lors des grands mouvements d’insurrection contre l’empire Rocréen décadent, un des clans esclaves, les Shaediri renversa les gouvernements sur les mondes de Rushul, Athurum et Shlargassi, ce fut la grande révolution Shaediri, victorieuse pendant plusieurs décennies avant de subir une purge sanglante. La diaspora Shaediri fut assez rapide, une famille s’installa sur Terre sous la protection de l’AIDH, mais quand les rocréens d’autres clans arrivèrent, avec les mêmes droits et le même respect, ça ne passa aucunement. Les Shaediri s’enfoncèrent dans des importations d’armes, de matériel et une guerre secrète contre leurs « frères » ennemis, pour le contrôle du commerce extrals sur Terre, mais les rocréens Feeshri, l’ancien clan impérial, Asthiri, Tursha’i et Gollocki étaient liés aux G-corporations, alors les Shaediri se retrouvèrent écrasés. Ils ne se rebellèrent pas frontalement mais puisque le commerce officiel n’était pas possible ils développèrent le marché noir et assez vite, avec le blocus de l’AIDH sur les produits trop avancés, ils gagnèrent la guerre d’influence, s’octroyant les services de tous les émigrés illégaux les plus dangereux pour avoir une force de frappe en cas de menace du GAAC, qui, malgré tout, restait derrière les clans plus influents dans le reste de la galaxie. L’AIDH sur Terre profite du caractère sanctuaire pour cultiver des alliances moins aisées aileurs dans la galaxie, c’est notamment le cas avec les Ad’rak, l’AIDH fermant les yeux sur les comunautés se réfugiant là, essentiellement des ressortissants discriminés par l’armée noire Ad’rak, ayant , par exemple, grandement laissé venir la haute prêtresse Nel'Akna (Tejana) afin d’entacher l’image de l’armée noire. L’AIDH n’est pas une faction constituée de boyscouts, elle dispose d’assez peu d’effectifs sur Terre, 5 fois ce chiffre pour les effectifs sur la lune , l’équivalent de l’effectis de la lune pour le reste des colonies du système solaire de la Terre. Pour cette raison, s’il y a une menace qui nécessite une intervention, l’AIDH fera de la suppression rapide et brutale. Elle a pour traits l’agence privée corporative de la Space Force Union, une corporation qui accapare l’entièreté des droits liés au vol spatial et des stations au-delà de la lune. Suite au vol sur Mars de Dina Page, l’AIDH a compris que les terriens allaient de plus en plus essayer de sortir de la Terre et qu’il fallait cadrer cette sortie, hélas, les aliens et les humains d’autres système ayant déjà pénétré dans le système solaire depuis longtemps. La SFU se déclare être une agenced indépendante même si ses profits grace à l’attrait des voyages lunaire la placent comme une corporation très à l’aise financièrement. l’AIDH lutte aussi, évidemment, contre les actions aliens sur Terre, notamment la plus menançante étant le REPTILE et sa volonté de « réformer » le climat terrien en un désert plus aride et avantageux pour les Mo’sens. Ironiquement, les Mo’sens sont une race allié au traité Ichéiens qui ont été massacrés par l’espèce cousine qui est les Chezhons leur ayant volé leur monde natal. C’est Lisa Eredhès avait sauvé Saoden II-B2, le grand commandeur Talass de « l’émeraude sanglante » et permit son installation sur Terre, elle n’a pas mesuré l’ampleur de la soif de vengeance du Talass, un sentiment inexistant chez les autres de son espèce. Elle limite les actions de l’emeraude sanglante même si pendant la guerre de 22-28, Saoden a été plus loin qu’elle l’imaginait, poussé à une cruauté rare, pour ce Talass qui fut un temps son ami, Lisa a fait preuve d’une certaine largesse, désormais en 2035, ce n’est plus le cas, ordre est donné à tout soldat de l’abattre à vue s’il redéploie ses troupes. L’AIDH dispose toutefois sur Terre d’un vaste réseau, un agent est disposé dans chaque gouvernement de la terre, cet agent a renseigné les politiques avec qui il travaille quant à un devoir de le renseigner pour toute affaire qui pourrait toucher l’AIDH, une mesure pour éviter qu’un pauvre policier n’essaye d’arrêter des soldats en mission pour un défaut de phare."
+            "text": "Certains Extrals regardent la Terre comme un microcosme ou un laboratoire et traitent ses habitants comme des êtres archaïques plutôt que comme leurs égaux. D’autres cherchent sincèrement à les aider. L’appartenance à une espèce alliée ne garantit donc ni l’accord sur les restrictions locales ni des relations paisibles entre communautés."
+          }
+        ]
+      },
+      {
+        "id": "factions",
+        "title": "Les principales factions",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Organisation",
+                "Rôle et tensions"
+              ],
+              [
+                "GAAC",
+                "Représentation officielle des communautés, coordination avec l’AIDH et défense des conditions de séjour."
+              ],
+              [
+                "CTU",
+                "Union scientifique majoritairement talasse qui veut accélérer le progrès terrestre malgré les restrictions."
+              ],
+              [
+                "Émeraude Sanglante",
+                "Force militaire née de la lutte contre les Ad’rak, engagée dans une reconstruction clandestine."
+              ],
+              [
+                "R.E.P.T.I.L.E.",
+                "Réseau d’influence majoritairement mo’sen, lié à la Brotherhood of Hate et à la Saeniaforming Army."
+              ],
+              [
+                "Croix verte",
+                "Adaptation des milieux de vie et soutien à la santé et à la reproduction des Extrals."
+              ],
+              [
+                "Mafia Shaediri",
+                "Marché noir, immigration clandestine et solidarité entre communautés marginalisées."
+              ],
+              [
+                "Hydroguard",
+                "Défense militaire des eaux et lutte contre l’aridification."
+              ],
+              [
+                "SMRC",
+                "Recherche de compatibilité génétique et de fusion des espèces."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "gaac-aidh",
+        "title": "Coexistence et désaccords",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Le GAAC cherche à protéger les Aliens tout en maintenant leur coexistence avec la société humaine. Il suit les décisions de l’AIDH dans l’immense majorité des cas — environ 95 % — car l’admission des Extrals dépend de cette coopération. Dans les autres cas, il défend leur bien-être et négocie avec Lisa Eredhès l’importation de technologies ou de ressources manquantes."
           },
           {
             "type": "p",
             "style": "lore",
-            "text": "Une faction extrale assez violente est la Terrestrial Hydrometry Defense Front (THDF), mieux connue comme « l’hydroguard ». l’Hydroguard s’est construite sur les restes de l’armée planétaire Gruaa VI, vaincue par des reltes. En arrivant sur Terre, les Thalsios ont constaté le réchauffement climatique et ont appris que les agissements de la SA et du REPTILE était derrière cette nette accélération, l’aridité est vraiment létale pour les thalios, une espèce amphibie à la base, tout comme pour les Rocréens et l’humidité est déterminante pour la peau des Baséans, de fait sur les « Six espèces majeures de la galaxie », trois ont besoin d’un monde bien plus aquatique et tempéré, l’Humanité elle-même n’appréciant pas l’évolution climatique et les Talass étant neutres, l’hydroguard s’est vue financée par le GAAC officieusement, puisque le REPTILE n’est, officiellement pas responsable de la SA ou de la BoH, Outre les espèces majeures alliées, la Terre possède des groupuscules d’extrals issus d’ennemis, ils ont forgé des factions à part. Le « syndicat Gris » est un cercle restreint mafieux protégeant les « Greys », il est une branche de la mafia shaediri mais a ses propres intérêts. La « Riximport » est une société écran de la Réalité qui dissimule une société de voyage et de transports à la fois parfaitement légaux et illégaux, puisqu’il s’agit d’utiliser le grand nom de Beltor Rixil, le grand héros de l’espèce letrophodienne, une espèce très mineure dans la galaxie mais ayant brillé face aux Zarpheth par un roi, Beltor justement et ayant quelques passe-droits du fait de sa renommée. Le clan Oesydra est une famille Orpacyorse qui s’est implantée sur Terre en Californie, elle est assez mineure en nombre mais TOUS les extrals du continent et d’ailleurs savent qu’elles peuvent tout guérir et sont protégées de l’AIDH, de l’Emeraude sanglante et du BoH par presque tous les Aliens, la croix verte, notamment, qui les dissimule avec acharnement, leur conférant une sorte d’immunité totale et tacite. La flamme de Losia est une secte Losienne qui utilise à son insu un portail créé par des cultistes de Thul entre leur monde, Losea VIII et la Terre, ils pensent que la Terre est le monde des dieux. Ils viennent en initiation rencontrer la Déesse suprême (Belial) et en recevoir la bénédiction ou mourir. Cette secte n’envoie que les paladins les plus aguerris qui reviennent comme des semi￾dieux sur leur monde, se pensant transcendés par ce pèlerinage. Ils sont peu nombreux mais si fanatiques qu’ils sont d’une dangerosité rare. Comme ils ne restent jamais, ils n’ont jamais compris le fin mot."
+            "text": "Les oppositions ne se réduisent pas à l’AIDH contre les Extrals. La CTU dénonce un sous-développement délibérément entretenu ; le R.E.P.T.I.L.E. cherche une protection par les institutions humaines ; l’Hydroguard combat les projets climatiques de certaines branches mo’sennes. Les communautés illégales dépendent souvent des protections du marché noir."
+          }
+        ]
+      },
+      {
+        "id": "croix-verte",
+        "title": "La Ligue baséanne et la Croix verte",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La Ligue baséanne, appelée Croix verte sur Terre, ne rassemble pas uniquement des Baséanhs. Ces derniers s’intègrent bien socialement, mais l’atmosphère, la nourriture et d’autres conditions terrestres les rendent fréquemment malades. L’AIDH reste rigide sur leurs conditions d’installation."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Plutôt que de transformer la planète, la Croix verte entretient des Biobars. Officiellement, ils appartiennent à une franchise de la corporation Biosun ; ils servent en réalité de centres où l’alimentation, la chimie de l’air et l’humidité sont adaptées aux espèces exigeantes."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La dispersion et le faible nombre des Extrals imposent aussi une gestion des rencontres et de la diversité génétique. Les Biobars proposent chambres, laboratoires d’insémination et moyens de conception in vitro pour favoriser la prospérité des communautés."
+          }
+        ]
+      },
+      {
+        "id": "sra",
+        "title": "La Shadow Research Agency",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La SRA réunit humains galactiques et Aliens ayant perçu ou observé des phénomènes magiques. Principalement implantée en Australie, elle étudie l’Ombre-monde et la magie. Son activité en Californie reste limitée."
           }
         ]
       }
@@ -137,7 +561,7 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sourceCategory": "Vérité",
     "title": "GAAC — Global Alliance of Alien Citizens",
     "source": "factions_Les groupes d'extrals(1)(1).pdf",
-    "status": "canon_source",
+    "status": "canon_enrichi",
     "rebuildV2": true,
     "tags": [
       "Vérité",
@@ -148,13 +572,104 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sections": [
       {
         "id": "dossier-gaac",
-        "title": "Conseil officiel des Extrals sur Terre",
+        "title": "Le conseil officiel des Extrals",
         "level": 2,
         "blocks": [
           {
             "type": "p",
             "style": "lore",
-            "text": ". Initialment, il n’était pas autorisé à ce que viennent d’autres espèces que les humains et même avec les humains galactiques, les interractions étaient souvent néfastes. L’AIDH savait néanmoins que des communautés d’extrals s’y trouvaient : Rocréens là depuis au moins 66 millions d’années à cause d’une aberration temporelle, Effismes malsains fuyant le soleil depuis au moins deux millénaires, Talass et Greys curieux. Afin d’encadrer mieux ces venues, l’ouverture s’est faite progressivement, sous un contrôle drastique. Pour avoir une facilité à augmenter le flux de voyageurs pour ce monde touristique, les aliens ont créé le GAAC. Le GAAC était un moyen de s’auto-encadrer, montrer une bonne volonté et une collaboration parfaite afin de respecter les mesures de l’AIDH, les comprendre, les expliquer et les faire appliquer sans qu’aucune mesure de représaille ne se fasse. Le GAAC est composé de huit sièges, le nombre est fixe et les places sont acquise avec un vote assez contraignant à l’exception du siège humain. Chaque siège représente une communauté officielle, Talass, Rocréens, Baséans, Mo’sens, Thalsios et Humain sont les six sièges principaux. S’y ajoute le septième siège, celui actuellement occupé par l’impératrice Serysse et qui sert d’agent de liaison à l’AIDH quand le siège humain est vide. Le huitième siège est celui d’Elleth-Dyx. Elleth-Dyx était un Korriator qui voyageait pour préparer la galaxie à la « nébuleuse noire » des ath’Tiay que son espèce a fuit de sa galaxie d’origine, mais l’AIDH ne l’écouta pas vraiment, se méfiant profondément des korriators. Pourtant, Elleth-Dyx était possiblement un des rares de son espèce, peut être le seul à avoir de la compassion pour les autres espèces. Lors de la grande attaque dimensionnelle de 1829, il s’est sacrifié face aux « Perforeurs de plans » que libéra une entité de V’aagor. S’il n’est pas mort, la biologie Korriator échappant même aux meilleurs scientifiques de l’AIDH, il semble être un corps inerte qui ne s’exprime que très peu de fois même s’il le fait en temps de crise. Le GAAC a de nombreux agents, Nikita Chernov (Ni-4-40) est un génie Talass qui a particulièrement aidé le PCRC par sa richesse et son intelligence, il a été sauvé par Katja au Venezuela quand le KTU arracha les grands scientifiques. Sonny Dawson (So’Aul-74-Di), un autre Talass est aussi un agent du GAAC assez compétent, il fut détaché par le GAAC pour aider le PCRC à détruire les technologies du KTU, mais Lyamina qui falsifiait les données essaya de l’assassiner. Il s’en sortit mais se cacha dès lors auprès de la pègre rocréenne, la mafia shaediri. Appolo Gaines (arkInas), le chef du South Bureau à Los Angeles (LAUS), a été deux fois sanctionnné et viré de son siège du GAAC pour les Mo’sen, il a été remis très récemment après avoir caché certains phénomènes anormaux au Conseil du GAAC. Makar Kazlouski est un criminel ignoble biélorusse dans la réalité, dans la vérité, c’est un baséant et un grand agent du GAAC qui contrôle sur l’Holonet et au niveau chimique la neutralité des rues de Los Angeles."
+            "text": "La Global Alliance of Alien Citizens représente officiellement les Extrals sur Terre. Elle défend leur vie et leurs droits tout en organisant leur coexistence avec la société humaine et le respect des mesures de l’AIDH."
+          }
+        ]
+      },
+      {
+        "id": "origine",
+        "title": "De l’interdiction à l’ouverture contrôlée",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les séjours furent d’abord réservés aux humains, et même les contacts avec les humains galactiques pouvaient être néfastes. L’AIDH connaissait pourtant l’existence de communautés antérieures : Rocréens présents depuis au moins soixante-six millions d’années à la suite d’une aberration temporelle, Effismes fuyant le Soleil depuis au moins deux millénaires, visiteurs talass et greys."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’ouverture se fit progressivement, sous un contrôle drastique. Les Aliens créèrent le GAAC pour faciliter les flux vers ce monde touristique : se discipliner eux-mêmes, expliquer les règles, les appliquer et démontrer une coopération susceptible d’éviter les représailles."
+          }
+        ]
+      },
+      {
+        "id": "sieges",
+        "title": "Les huit sièges",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Siège",
+                "Représentation"
+              ],
+              [
+                "1 à 6",
+                "Communautés talasse, rocréenne, baséanne, mo’senne, thalsiosse et humaine."
+              ],
+              [
+                "7",
+                "Actuellement occupé par l’impératrice sérysse ; liaison avec l’AIDH lorsque le siège humain est vacant."
+              ],
+              [
+                "8",
+                "Siège d’Elleth-Dyx, le Korriator."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "designation",
+        "title": "Désignation et fonctionnement",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Le nombre de sièges est fixe. Un vote contraignant détermine leurs occupants, à l’exception du siège humain. Le conseil s’appuie sur un réseau d’agents et coopère presque toujours avec l’AIDH. Ses désaccords portent notamment sur les besoins des communautés et les importations autorisées."
+          }
+        ]
+      },
+      {
+        "id": "elleth-dyx",
+        "title": "Le siège d’Elleth-Dyx",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Elleth-Dyx avait quitté son peuple pour avertir la galaxie de la Nébuleuse noire des Ath’Tiay, menace que les Korriators avaient fuie. L’AIDH, méfiante envers son espèce, l’écouta peu. Son comportement témoignait pourtant d’une compassion exceptionnelle parmi les siens."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Lors de l’attaque dimensionnelle de 1829, il se sacrifia face aux Perforeurs de plans libérés par une entité de V’aagor. Son corps paraît désormais inerte, mais il s’exprime encore rarement, notamment en période de crise. Même les meilleurs scientifiques de l’AIDH ne comprennent pas assez sa biologie pour conclure à sa mort."
+          }
+        ]
+      },
+      {
+        "id": "agents",
+        "title": "Agents et relations terrestres",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Nikita Chernov, Ni-4-40, a soutenu le PCRC par ses moyens financiers et scientifiques après son sauvetage par Katja au Venezuela lors des enlèvements de savants par la KTU. Sonny Dawson, So’Aul-74-Di, fut envoyé aider le PCRC à détruire les technologies de la KTU ; après une tentative d’assassinat liée aux falsifications de Lyamina, il trouva refuge auprès des Shaediri."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Appolo Gaines, arkInas, dirige le South Bureau du LAUS et occupe de nouveau le siège mo’sen après deux sanctions et destitutions, dans le contexte de phénomènes anormaux dissimulés au conseil. Makar Kazlouski est un agent baséanh chargé de préserver la neutralité des rues de Los Angeles par l’Holonet et des moyens chimiques."
           }
         ]
       }
@@ -174,7 +689,7 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sourceCategory": "Vérité",
     "title": "CTU — Union Talasse Californienne",
     "source": "factions_Les groupes d'extrals(1)(1).pdf",
-    "status": "canon_source",
+    "status": "canon_enrichi",
     "rebuildV2": true,
     "tags": [
       "Vérité",
@@ -187,13 +702,69 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sections": [
       {
         "id": "dossier-ctu",
-        "title": "Mission technologique et implantation terrestre",
+        "title": "L’Union Talasse Californienne",
         "level": 2,
         "blocks": [
           {
             "type": "p",
             "style": "lore",
-            "text": ". La CTU est une faction que l’AIDH a du mal à réellement contenir sur Terre, dans les MT les XTU (unions talass X) sont ds soutien et des leviers technologiques qui permettent en quelques années de relever l’écart technologique d’un monde avec son environnement spatial proche l’AIDH apprécie l’aide car les défenses planétaires devenant plus efficaces, c’est moins de travail et plus de temps, les G￾corpo apprécient aussi car ce n’est pas elles qui se chargent de mettre à la page ces planètes isolées. Les XTU apportent avec eux le traité ichéien aussi, car si la communauté est humaine d’au moins 25% sur la planète, ils font la promotion du traité alors qu’eux-mêmes ne sont pas humains. En somme, ils sont des colonies entières de scientifiques missionnant pour augmenter les savoirs et la technologie, à leurs frais ils sont des héros du pacifisme aussi, n’ayant aucun guerrier ou presque et c’est précisément pour ça qu’ils ne comprennent absolument pas le souci de la Terre. Comment être considérés comme des être absolument vertueux à travers la galaxie mais comme terroristes sur un seul monde ?! sans rien changer en mentalité, méthode ou bienveillance ? ils ne comprennent pas le danger de la magitech, l’AIDH ou l’inquisition ne pouvant et ne voulant pas révéler l’ampleur du danger à ces scientifiques et ce secret pèse lourd. Le TTU, l’union terrestre Talasse, vota la poursuite de « l’Œuvre » peu importait l’oppresseur, elle se rapprocha de l’émeraude sanglante et fonda sa branche KTU pour totalement développer la Corée du nord et faire un exemple, mais le projet se militarisa bien trop. La TTU finança aussi le PCRC de Leslie Wright, pari tenu donc puisqu’entre 2022 et 2035, le bond technologique fut prodigieux malgré la répression malfaisante de l’AIDH. Après l’extermination d’une part de la KTU, la TTU forgea la CTU, focalisant assez vite ses ressources en Californie. Le CTU est une assemblée de scientifiques et d’intellectuels, ils ne sont pas tous Talass malgré le nom de cette union, le but est de promouvoir les technologies les plus bénéfiques et utiles à toutes les races amies de la galaxie. Le président du CTU est le président du TTU, la TTU est mobile et si des Unions Talasse existent dans tous les pays, seule celle en Californie a les moyens et l’intérêt de tous. L’union est formée d’un conseil lequel donne des directives à ses partisans et permet de financer formations, logement et équipement dans les laboratoires, centre de recherche ou autre corporation où ils œuvrent. Ils ne sont ni agressifs ni malfaisant, mais le caractère illégal de leurs activités s’ingérant avec le développement naturel technologique les pousse à plus de méfiance que jamais même si nombre de Talass se rendent à l’AIDH d’eux-mêmes quand ils sont trouvés, refusant de nier ou de lutter, convaincu de la juste cause qu’ils défendent. Cinquième siège Corp’+ : Christopher Zaakdu Sixième siège Corp’+ : Kirr'shala Nom de la Réalité : Christopher Zaakdu Nom de la Vérité : _ Age : « 84 ans » - ??? Affiliations : corporatiste : Wellspring Nationalité d’origine : Américaine Ethnie réelle : humains (Homo Galacticus) Statut : cinquième siège Haut cadre de Wellspring refusant de lâcher son siège même s’il n’a pas de branche ou de sous-branche à sa charge, il est un vieillard riche à millions qui semble s’ennuyer infiniment dans sa vie. Malade constamment, il a une dégénérescence musculaire et osseuse qu’aucune biocorpo ne semble capable de soigner, rendant son rajeunissement impossible. En vérité, c’est un Homo galacticus, un « humain spatial », il n’a pas un corps qui s’adapte bien à l’atmosphère écrasante et impossible de laisser les primates terriens farfouiller son ADN. Il s’arrange pour vivre sur la Lune afin de limiter ses maux. D’une cruauté inhumaine, c’est le plus grand allié du REPTILE, essayant de vendre la Terre aux Mo’sens dans un vaste plan de planète-caserne pour former des mercenaires reptiliens plutôt que d’envoyer des humains. Il représente une corporation de commerce vendant des stations orbitales, des lunes et des planètes entières. L’inquisition est sur son cul, alors il se cache sur Terre. Malgré son corps très faible, c’est un tireur d’une précision inhumaine. Nom de la Réalité : Ogum Mi-Yeon Nom de la Vérité : Kirr’Shala Age : «30 ans » - ??? Affiliations : Corporations : Nextar Nationalité d’origine : Coréenne Ethnie réelle : humaine (Homo sapiens) Statut : siège Mi-Yeon était une journaliste coréenne qui a été expatriée en Californie. Engagée à Nextar , elle n’a pas une carrière extraordinaire bien qu’elle ait vite monté quelques échelons, elle est connue pour son addiction au jeu. Elle a été une amante de Gabriella Austin même si leur relation sets vite achevée. Représentante des Space casinos Zuphubeliens, une G-corpo, elle est la grande rivale de Kassim puisque ses projets pour la Terre sont d’en faire un zoo interactif d’une autre nature que le parc à thème que Kassim vise, plus orienté sur un « westworld » pendant qu’elle est sur le modèle d’un zoo. Elle n’a pas cherché à bosser dans la Tala, experte à un niveau bien au-dessus dans les casinos, mais dans Nextar pour avoir des renseignements perpétuellement à jour. Elle adore les rocréens, son père était un rocréen Feeshri, alors elle a une certaine préférence pour ce clan. Elle bosse de manière régulière avec les Roesis également, sa corporation et le syndicat des lunes étant plus souvent alliés. C’est également une très proche amie d’Alladava Kjoll de l’AIDH."
+            "text": "La CTU, Californian Talasses Union, rassemble scientifiques et intellectuels, majoritairement talass mais pas exclusivement. Elle cherche à diffuser les technologies utiles et bénéfiques aux espèces amies. L’AIDH peine à contenir son action sur Terre."
+          }
+        ]
+      },
+      {
+        "id": "unions-talasses",
+        "title": "Les unions talasses dans la galaxie",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Dans les Mondes Technologiques, les unions XTU permettent de réduire en quelques années l’écart entre une planète et ses voisines. Ces colonies scientifiques financent elles-mêmes leurs recherches et leur aide. Presque dépourvues de guerriers, elles défendent une tradition pacifiste."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’AIDH bénéficie normalement de l’amélioration des défenses planétaires, et les G-Corporations n’ont pas à financer cette mise à niveau. Sur un monde dont au moins 25 % de la population est humaine, les XTU promeuvent également le traité ichéien, bien qu’elles ne soient pas elles-mêmes humaines."
+          }
+        ]
+      },
+      {
+        "id": "conflit-terrestre",
+        "title": "L’Œuvre et le conflit avec l’AIDH",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les unions ne comprennent pas pourquoi une activité admirée ailleurs devient assimilée au terrorisme sur Terre. Elles considèrent l’archaïsme terrien comme une maltraitance délibérée et leur assistance comme un devoir presque sacré. L’AIDH et l’Inquisition ne peuvent ou ne veulent leur révéler toute l’ampleur du danger magitechnologique."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La TTU, union talasse terrestre, vota la poursuite de « l’Œuvre » malgré ce qu’elle perçoit comme une oppression. Elle s’allia à l’Émeraude Sanglante et créa la Korean Talasses Union, la KTU, pour développer la Corée du Nord et en faire un exemple. Le projet se militarisa au-delà de ses intentions initiales."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La TTU finança aussi le PCRC de Leslie Wright. Elle voit le bond technologique de 2022 à 2035 comme la réussite de son engagement, malgré la répression de l’AIDH qu’elle juge malfaisante. Après l’extermination d’une partie de la KTU, elle créa la CTU et concentra ses ressources en Californie."
+          }
+        ]
+      },
+      {
+        "id": "conseil",
+        "title": "Conseil, financement et implantation",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Le président de la CTU préside également la TTU, qui reste mobile. Des unions existent dans tous les pays, mais la Californie concentre actuellement les moyens et l’attention."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Le conseil oriente les partisans et finance leur formation, leur logement et leur équipement dans les laboratoires, centres de recherche et corporations où ils travaillent. L’illégalité de cette intervention dans le développement technologique terrestre impose une grande méfiance. Beaucoup de Talass refusent néanmoins de mentir ou de combattre lorsqu’ils sont découverts et se rendent à l’AIDH, convaincus de la justesse de leur cause."
           }
         ]
       }
@@ -213,7 +784,7 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sourceCategory": "Vérité",
     "title": "Émeraude Sanglante",
     "source": "factions_Les groupes d'extrals(1)(1).pdf",
-    "status": "canon_source",
+    "status": "canon_enrichi",
     "rebuildV2": true,
     "tags": [
       "Vérité",
@@ -226,13 +797,91 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sections": [
       {
         "id": "dossier-emeraude",
-        "title": "Guerre, vengeance et présence terrestre",
+        "title": "Une force née de la Percée Ad’rak",
         "level": 2,
         "blocks": [
           {
             "type": "p",
             "style": "lore",
-            "text": ". Les Ad’rak ont toujours été l’espèce rivale des humains, nombreux, plus militarisés encore, aussi bien équipés, une culture martiale écrasant celles locales et une haine infinie contre les humains, l’élite de l’élite qu’est « l’armée noire » est une des « 5 menaces » de la galaxie face auxquelles même une armée de l’AIDH n’est pas certaine de suffire. Alors quand un secteur talass un peu isolé se trouva sur le chemin de l’armée noire, les colosses à la peau bleue ne firent pas la guerre aux pacifiques petites créatures vertes, ils exterminèrent la vermine alliée aux humains. Les très rares survivants furent traumatisés, ces peuples talass, déjà physiquement plus développés, ressentirent la haine, la colère, ils se rassemblèrent, et pendant longtemps ne firent que se défendre avant s’amasser des fonds, et de développer un armement propre. Saoden-I- b3 se rendit sur le monde Korriator après l’échec de son plaidoyer auprès de l’AIDH, laquelle, ne pouvait simplement pas former une « armée T » de l’AIDH avec des talass, l’idée fut longuement moquée, l’armée T devenant une blague jusqu’à ce que l’Emeraude sanglante ne s’illustre réellement, combinant les technologies Talass, Korriator et les armures de combat Menomahs, la flotte s’imposa comme l’une des plus puissantes de la galaxie. Saoden II-B2, un descendant de Saoden-I, affronta l’armée noire frontalement il y a 3 siècles. Ce fut la première fois dans l’Histoire galactique qu’une flotte non AIDH obtint une suite de victoires face à l’armée noire, offrant aux armées de l’AIDH une ouverture sans pareille, mais Saoden II était un tacticien de génie, il commença à ronger le territoire ad’rak , visant les planètes les plus religieuses, pour relancer une conscience religieuse Ad’rak, la contremesure de l’armée noire fut de raser ces mondes et asservir les prêtres anciens en les intégrant de force. Malgré tout, les Talass restaient des aliens de petite taille, sur Aetheon IV, le vaisseau-mère des Talass fut abordé, et la bataille se déroula au corps à corps, qu’ils ne purent gagner, Lisa Eredhès intervint et sauva les reines de l’émeraude sanglante, les amenant sur Terre. Saoden II lui était reconnaissant mais ne supporta pas son propre échec, alors qu’on lui offrit de vivre en paix, ayant été un modèle inspirant de nombreuses races et peuples, il préféra trahir la confiance de la Seigneur-général et préparer sa vengeance. Allié à la TTU, Saoden a besoin que le niveau technologique des Terriens ne permette la construction de la nouvelle flotte de l’Emeraude, en attendant, il y entraine des troupes secrètement et façonne la haine de complotistes humains contre les aliens, notamment en fournissant au Xenoshield des informations secrètes ou fausses afin de tuer des personnalités aliens. L’armée T ne fait plus rire personne désormais et la démonstration de 22-28 encore moins quand les Talass de l’émeraude ont fait une « parade » avec leur guerre de démonstration, notamment au REPTILE et aux autres aliens, pour leur faire comprendre : « L’émeraude n’est pas morte ». Cette faction contient essentiellement des Talass, mais quelques humains et Thalsios en font partie. On trouve aussi de nombreuses espèces disparues à cause des ad’rak dans ses rangs, tous ceux rongés par l’envie de vengeance. Seigneur-inquisiteur: Ysabel Thorne Acolyte: Noma Langa Nom de la Réalité : Ysabel Thorne Nom de la Vérité : _ Age : «29 ans » - ??? Affiliations : crawlers : fixer Nationalité d’origine : Américaine Ethnie réelle : Humaine (homo sapiens) Statut : Seigneur-inquisiteur Ysabel est un fixer qui est récemment arrivée à Los Angeles. Elle fait lentement consolider son réseau et règles quelques petits soucis, elle a notamment géré des conflits entre gangs afromaéricains. Peu influençable et très peu intimidée, elle reste un petit nom actuellement dont on ne sait trop rien. Ysabel est une figure majeure de l’actuelle inquisition galactique, possiblement plus ancienne que ses pairs, elle descendant de la fondatrice de la grande Restructuration de l’Inquisition. Cependant, personne ne fait référence à ce lignage tant Ysabel elle-même est une personnalité incontournable. Versée dans la lutte contre les artefacts magico-technologiques, elle a comme spécialité d’enquêter sur les plus sombres manifestations dans la galaxie. Sa suite personnelle était composée des meilleurs, Farah Crawn, Leonore Menas, Tasha Jaxx, Tyesha Kerrman, Elsarrrys, Jenell Vestre, Sœur Alatea et l’assassin Saskia mais aussi d’autres personnalités et aliens. Elle avait une raison d’être sur Terre mais elle n’existe plus donc elle est là pour rien mais c’est cool. Nom de la Réalité : Noma Langa Nom de la Vérité : _ Age : «34 ans » - ??? Affiliations : Crawlers Nationalité d’origine : Zimbabwéenne Ethnie réelle : Humaine (homo sapiens) Statut : Acolyte Noma est une crawler, elle a peu de personnalité, elle fait le boulot, va au bar boire trois pintes et va dormir dans son appartement, fait quatre heures de sport à la salle Ashorn, un repas surprotéiné et débute sa journée de boulot après 15h, jusqu’au petit matin. Noma est la plus fiable de toutes les acolytes qu’à former Ysabel. Quand elle forma son groupe d’élite hétéroclite, elle envoya Noma en éclaireur sur Terre. Noma s’est elle-même effacer la mémoire une fois arrivée, afin de s’intégrer et ne la retrouvera qu’une fois sa puce aura détecté le signal de l’inquisitrice. Elle vaut très largement un soldat d’élite de l’AIDH ou une sœur des ordres et a une capacité d’intégration assez élevée par son impersonnalité, ce n’est toutefois pas une caractéristique propre aux acolytes, c’est essentiellement Noma qui est ainsi. Aucun document ne le confirme mais elle aurait survécu à un cataclysme provoqué par un Eon sur sa planète natale, elle sentirait les éons depuis."
+            "text": "L’Émeraude Sanglante naquit parmi les rares survivants talass d’un secteur ravagé par l’Armée noire ad’rak. Cette élite, l’une des cinq grandes menaces galactiques, peut mettre en échec une armée entière de l’AIDH. Dans sa lutte contre l’Humanité, elle extermina ces communautés alliées plutôt que de leur livrer une guerre ordinaire."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Ces Talass, déjà plus développés physiquement que d’autres populations de leur espèce, furent marqués par la haine et la colère. Ils se regroupèrent d’abord pour se défendre, puis accumulèrent des fonds et conçurent leur propre armement."
+          }
+        ]
+      },
+      {
+        "id": "armee-t",
+        "title": "De la moquerie à la puissance militaire",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Saoden-I-b3 demanda sans succès à l’AIDH de créer une armée talasse. L’idée d’une « Armée T » devint un sujet de moquerie. Il se rendit ensuite sur un monde korriator. En associant technologies talasses et korriators aux armures de combat menomahs, l’Émeraude finit par constituer l’une des flottes les plus puissantes de la galaxie."
+          }
+        ]
+      },
+      {
+        "id": "offensive",
+        "title": "Les victoires de Saoden II et le désastre d’Aetheon IV",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Il y a trois siècles, Saoden II-B2 affronta directement l’Armée noire et obtint la première série de victoires d’une flotte extérieure à l’AIDH contre elle. Ces succès offrirent une ouverture majeure aux armées humaines."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Saoden II pénétra ensuite dans l’espace ad’rak. Il visait les mondes les plus religieux pour réveiller une opposition spirituelle à l’Armée noire. Celle-ci répondit en rasant ces planètes et en incorporant de force les anciens prêtres."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Sur Aetheon IV, les Ad’rak abordèrent le vaisseau-mère talass. La bataille au corps à corps tourna au désastre pour les combattants de petite taille. Lisa Eredhès intervint, sauva les reines de l’Émeraude et leur accorda un refuge sur Terre."
+          }
+        ]
+      },
+      {
+        "id": "terre",
+        "title": "Le refuge terrestre et la reconstruction clandestine",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Reconnaissant de son sauvetage mais incapable d’accepter la défaite, Saoden II choisit de préparer sa vengeance plutôt que de vivre en paix. Son alliance avec la TTU vise à élever la technologie terrienne jusqu’au niveau nécessaire à la construction d’une nouvelle flotte. Il importe du matériel de guerre interdit et entraîne secrètement ses troupes."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’Émeraude entretient aussi l’hostilité de complotistes humains envers les Aliens. Elle fournit notamment au Xenoshield des renseignements secrets ou mensongers pour provoquer l’assassinat de personnalités extrales."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Pendant la guerre de 2022–2028, la KTU l’employa pour expérimenter des technologies intermédiaires entre celles des Terriens et celles qu’elle souhaitait leur transmettre. L’Émeraude ne gagna pas seule la guerre et ne poursuivait pas ce but : ses opérations servaient aussi de démonstration au R.E.P.T.I.L.E. et aux autres communautés, pour signifier qu’elle existait toujours."
+          }
+        ]
+      },
+      {
+        "id": "composition",
+        "title": "Composition et relations avec l’AIDH",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La faction reste essentiellement talasse, mais accueille aussi quelques humains, des Thalsios et des survivants de peuples anéantis par les Ad’rak. Leur désir de vengeance les unit."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Lisa Eredhès avait accordé une certaine latitude à Saoden II malgré ses transgressions. En 2035, cette tolérance est révolue : ses soldats ont ordre de l’abattre à vue s’il redéploie ses forces."
           }
         ]
       }
@@ -252,7 +901,7 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sourceCategory": "Vérité",
     "title": "R.E.P.T.I.L.E. — influence, BoH & Saeniaforming Army",
     "source": "factions_Les groupes d'extrals(1)(1).pdf",
-    "status": "canon_source",
+    "status": "canon_enrichi",
     "rebuildV2": true,
     "tags": [
       "Vérité",
@@ -266,13 +915,91 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sections": [
       {
         "id": "dossier-reptile",
-        "title": "R.E.P.T.I.L.E. et ses branches",
+        "title": "Un réseau d’influence ancien",
         "level": 2,
         "blocks": [
           {
             "type": "p",
             "style": "lore",
-            "text": ".e.p.t.i.l.e. Bien connue des complotistes, cette faction est appelée R.E.P.T.I.L.E. (Reptilian Extraterrestrial Politicians, Technologistes and Ideologists League on Earth) et est composée essentiellement de Mo’sens, une espèce extraterrestre techniquement alliée à l’Humanité au sein de l’Alliance galactique. Initialement, les « Chezh’wens » étaient une espèce violente et invasive, en quelques millénaires en tant qu’espèce spatiale, elle s’est divisée par sélection en trois factions : les Xe’wens , les Chezh’ons et les Mo’sens. Avec leurs trois à quatre mètres, leurs écailles noires à cause de leur densité de carbone et de métal, les Xewens sont des colosses brutaux, les Chezhons dépassent toujours les deux mètres et ont des écailles d’un rouge sombre et des dents redoutables, les Mo’sens sont les faiblards et ont été malmenés pour ça, d’où leur trahison après leurs rébellions. Cependant ils restent assez violents et dominateurs bien qu’ils sachent être sages, et avant￾même qu’ils ne se rebelles quelques anciens Chez’wens s’installèrent sur Terre, développant quelques sociétés bien cachées. Avec le temps ils sont tous devenus « Mosens » en apparence mais cette culture a gardé des vices que els communautés Mo’sen du reste de la galaxie n’ont pas aussi salement conservé. Le REPTILE vise à placer aux plus hautes fonctions leurs représentants pour incliner la politique, la religion et l’économie humaine dans le sens le plus favorable aux Mo’sens. Il ne s’agit pas d’être une nuisance pour les humains mais d’insérer dans chaque mesure une considération pour les Mo’sens à l’insu de tous. Parfois, ces décisions sont graves, comme avec la branche SA, qui vise à augmenter le dérèglement climatique pour favoriser l’aridité Terrestre. Le REPTILE est tel qu’on l’imagine, une société secrète, très ancienne qui parasite les civilisations humaines depuis longtemps. Là où les complotiste ont toutefois tort c’est d’imaginer que les « reptiles » organisent cela pour manger des humains ou s’hybrider, ils n’en ont rien à faire en vérité. Au contraire, les membres du REPTILE essayent d s’émanciper de certains besoins caractéristiques des Mosens, comme un régime ultracarné, intégrant dans leur ADN des brides de celui humain pour pouvoir manger autre chose. Le REPTILE est une organisation qui se terre assez bien, elle profita de cataclysmes pour s’implanter en Australie ou en Amérique du sud. Et fonder des cités souterraines immenses. Commenté [BH1]: La prise du continent aseryn par les forces de Vaagor Commenté [BH2]: La prédation constante par Quetzalcoatl Commenté [BH3]: Dont ce qui deviendra Losttown"
+            "text": "Le R.E.P.T.I.L.E., Reptilian Extraterrestrial Politicians, Technologistes and Ideologists League on Earth, est une société secrète majoritairement mo’senne. Quelques Xe’wens et Reltes y figurent aussi ; les Chezh’ons, détestés et traqués, en sont exclus."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Son objectif est d’installer des représentants aux sommets de la politique, de l’économie et des religions humaines pour favoriser les communautés extrales, particulièrement les Mo’sens. Il veut inscrire leur protection dans les institutions et les lois terrestres, jugeant le GAAC et l’AIDH insuffisants ou injustes. Cette stratégie de survie peut entraîner des décisions très nuisibles aux autres populations."
+          }
+        ]
+      },
+      {
+        "id": "heritage",
+        "title": "L’héritage des communautés reptiliennes",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Chezh’wens se divisèrent en plusieurs lignées au fil des millénaires. Les Xe’wens atteignent trois à quatre mètres ; leur forte densité de carbone et de métal assombrit leurs écailles. Les Chezh’ons dépassent deux mètres, portent des écailles rouge sombre et possèdent des dents redoutables. Plus faibles physiquement et maltraités par leurs cousins, les Mo’sens se révoltèrent et rompirent avec eux."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Avant ces rébellions, d’anciennes communautés chezh’wennes s’étaient déjà installées discrètement sur Terre. Leur apparence devint mo’senne avec le temps, mais leurs traditions conservèrent davantage de pratiques dominatrices que celles de nombreuses communautés galactiques. Ces héritages culturels ne définissent pas tous les Mo’sens."
+          }
+        ]
+      },
+      {
+        "id": "infiltration",
+        "title": "Infiltration et adaptation",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les récits conspirationnistes de David Icke renvoient à l’existence de ces réseaux reptiliens, mais leur attribuent des objectifs erronés. Le R.E.P.T.I.L.E. ne cherche pas à organiser les sociétés humaines pour dévorer leurs habitants ou s’hybrider avec eux. Certains membres incorporent néanmoins des fragments d’ADN humain pour s’affranchir de besoins biologiques contraignants, notamment du régime très carnivore des Mo’sens."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’organisation a profité de cataclysmes pour s’implanter en Australie et en Amérique du Sud et y développer d’immenses cités souterraines. La prise du continent aseryn par les forces de V’aagor et la prédation de Quetzalcoatl font partie de ce contexte ; l’une de ces implantations deviendra Losttown."
+          }
+        ]
+      },
+      {
+        "id": "boh",
+        "title": "La Brotherhood of Hate",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La BoH est une confrérie de chasseurs extrals et une armée mercenaire spéciste. Elle n’est pas exclusivement mo’senne, mais réserve sa solidarité aux « Six » : Humains, Mo’sens, Talass, Baséanhs, Rocréens et Thalsios. Elle attaque des communautés émigrées extérieures à cet ensemble, qu’elles soient hostiles ou pacifiques."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Le GAAC condamne régulièrement ses exactions. Le R.E.P.T.I.L.E. la protège en invoquant les infractions et les menaces imputées aux victimes, ainsi que l’absence d’autorisation de l’AIDH. Il dissout périodiquement la confrérie pour la reconstituer sous un autre nom, tout en niant officiellement la responsabilité de ses actions."
+          }
+        ]
+      },
+      {
+        "id": "saeniaforming",
+        "title": "La Saeniaforming Army",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La SA cherche à accélérer le réchauffement et l’aridification de la Terre afin de l’adapter aux Mo’sens. Malgré son nom d’armée, il s’agit surtout d’un réseau politique et industriel rassemblant dirigeants d’entreprises, scientifiques, politiciens et journalistes."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Elle privilégie la désinformation et l’obstruction aux politiques environnementales. Elle a suscité des mouvements climatosceptiques pour entraver la lutte contre le changement climatique. Des opérations militaires ou des incidents provoqués servent parfois à ouvrir de nouvelles possibilités d’aridification."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Ces projets opposent la SA à l’Hydroguard et à l’AIDH, ainsi qu’aux espèces dont la survie dépend d’une forte humidité."
           }
         ]
       }
@@ -292,7 +1019,7 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sourceCategory": "Vérité",
     "title": "Mafia Shaediri — diaspora rocréenne & marché noir",
     "source": "factions_Les groupes d'extrals(1)(1).pdf",
-    "status": "canon_source",
+    "status": "canon_enrichi",
     "rebuildV2": true,
     "tags": [
       "Vérité",
@@ -305,18 +1032,174 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sections": [
       {
         "id": "dossier-shaediri",
-        "title": "Histoire, hiérarchie et économie clandestine",
+        "title": "Une diaspora devenue puissance du marché noir",
         "level": 2,
         "blocks": [
           {
             "type": "p",
             "style": "lore",
-            "text": ". Cette faille aurait jeté Rocréa, leur planète-mère dans une temporalité trouble, les datations in situ sur Rocréa, laissant envisager un développement comparable à la Terre, dates à peu près similaires de création et de développement de la vie et donc une sortie atmosphérique tardive dans l’espace. Pourtant, on trouve des rocréens ancestraux sur d’autres mondes, sur Terre, on en trouve au tout début de l’ordovicien, leur arrivée pourrait être l’origine de la fin du Cambrien. Cette présence n’a aucun sens scientifique ni aucune cohérence historique pour eux et serait le fait d’une aberration temporelle (Thul). Mis de coté cela, les rocréens classiques ont été assez explosifs, en 100 ans ils sont passé de leurs première navettes de sortie atmosphérique à leurs premiers croiseurs de combat. Extrêmement belliqueux, ils ont développé un empire boursoufflé tant il s’est étendu vite, tant qu’il était en vie, Jrash’kan’Feeshri, le premier empereur de la Rocréenité était un être absolu. Ses pouvoirs mentaux étaient colossaux, surnommé le « Kaashaar’bressh » (le briseur de croiseurs » en rocréen) il broyait les vaisseaux ennemis par la pensée, il était quasiment immortel, divinité incarnée parmi les siens, c’était vaguement un équivalent de seigneur￾général de l’AIDH pour les Rocréens. Tyran immonde, il installa un système de castes basées sur la génétique rocréenne et la possession de dons mentaux, de tous les peuples rocréens, les Shaediri, une ethnie plus terrestre, était la plus robuste concernant les conditions atmosphériques supportées et la moins puissante télépathiquement, il en fit un peuple-esclave déployé sur des centaines de mondes, exploitant les ressources ou faisant soldats avant d’être remplacés par des esclaves d’autres espèces, comme les Zaabors ou les Metkiriens. Lors du troisième siècle de règne de l’empereur, Muk’ta’Shaediri, une reproductrice d’une ferme à soldats, se rebella, utilisant un artefact, elle obtint le pouvoir de contrôler par la pensée les corps de tous ses descendants, et rebella 4100 esclaves sur un navire impérial. La rébellion Shaediri ne fit que commencer, car après le massacre des sacrifiés, tous les esclaves commencèrent à se rebeller. Sous le règne de l’impératrice Faetryshivia’feeshri, lors du millénaire suivant, aux dons presque égaux à Jrash, les Shaediri furent réprimés dans le sang. C’est sous l’empereur Ravorsh’ti’Feeshri que l’empire s’effondra, après quatre règnes tyranniques, les Shaediri s’exilèrent et alors que l’AIDH soumettait les rocréens, le Seigneur-Général Krellan Nightstar préféra abattre Ravorsh, qui avait survécu à la destruction de son vaisseau. Les Shaediri furent éloignés des deux systèmes laissés aux Rocréens, ils s’installèrent vers les systèmes alentours à la Terre pour s’éloigner. Ils se trouvèrent un nouvel ennemi avec la mafia Roesis de la « septième lune brune », une station mobile. La cohabitation fonctionna un temps avant que la nature rebelle des Shaediri ne les pousse à s’insurger. Ils firent une grave erreur et furent presque exterminés, se réfugiant sur Terre alors qu’ils n’étaient qu’une poignée. Ils prirent la main sur les branches de la Septième Lune localement et les remplacèrent. Désormais, sur Terre, la mafia extrale est synonyme de mafia rocréenne et donc Shaediri. Ils ont le contrôle de tous les spatioports illégaux et de tous les marchés noirs dont le plus grand est en Californie. Ils pensent déjouer toute surveillance mais ils sont souvent utilisés par l’AIDH à leur insu, certaines espèces hostiles sont laissées être sauvées par les Shaediri, comme les Greys, afin de voir leur adaptation à l’environnement très hostile et très humain de la Terre, souvent avec d’excellents résultats."
+            "text": "La mafia Shaediri est la principale organisation criminelle extrale sur Terre. Issue d’un peuple rocréen asservi puis dispersé, elle contrôle les spatioports illégaux et les marchés noirs, dont le plus important se trouve en Californie. Sa fédération des parias rassemble aussi des représentants d’autres espèces."
+          }
+        ]
+      },
+      {
+        "id": "temps-rocreen",
+        "title": "Une histoire marquée par les anomalies temporelles",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’Inquisition soupçonne une faille spatio-temporelle autour de Rocréa. Les datations sur cette planète suggèrent une formation et un développement de la vie comparables à ceux de la Terre, suivis d’une sortie relativement tardive dans l’espace. Pourtant, des Rocréens ancestraux sont présents ailleurs bien avant ce que cette chronologie permettrait."
           },
           {
             "type": "p",
             "style": "lore",
-            "text": "L’organisation de la mafia Shaediri est assez alambiquée, à l’image du corps des rocréens, tout en tentacules et fibres s’entrelaçant et se défaisant. Au sommet, il y a le « boss », le « Shaed », le shaed est élu par un conseil des « riches », les « Sushaari », les riches sont littéralement les plus riches, sans plus de qualité. Le « Shaed » désigne ses « sous-boss », les « Tu’shaedi », eux-mêmes confient alors des fortunes à des « trésoriers », les « Kuluumi » qui attribuent alors l’argent et les ressources aux « officiers »,les « Munmeshi », les « Munmeshi » obéissent aux Sous-boss, sont payés par les Kuluumi qui obéissent aussi aux sous-boss, cependant, chaque Munmeshi a pour mission de faire fructifier ses affaires, il va donc percevoir un capital et gagner un tribut par ses « soldats », les « Didiri ». Le caractère alambiqué vient du fait que les Munmeshi reçoivent un investissement des Kuluumi mais remontent un tribut directement au Shaed, le Shaed le laisse gérer aux « Visionnaires », les « Novoshi », qui décident quels Tu’shaedi perçoit quelle part des gains. Ainsi, les préférés des « Visionnaires » chez les Sous-boss peuvent être « Sushaari », simplement lors de leur récompense, et choisir le Boss, mais un Sous-boss assez doué peut aussi faire fortune et devenir « Riche », le Boss quant lui s’assure toujours de garder une part pour être « Sushaari » aussi . ll y a de forts risques de corruptions, c’est plus qu’une probabilité, c’est une mécanique du système. Ajoutons qu’il existe tout un système honorifique selon comment chacun gagne sa fortune ou ce qu’il en fait et qu’à même rang dans l’organisation générale, ce système honorifique ajoute une sous-hierarchie. Un point sur lesquelles Shaediri insistent, c’est l’entraide. Bien qu’ils soient rocréens, ils sont surtout une ethnie qui a vécu l’esclavage, la guerre, le sacrifice, ils sont plus soudés entre eux qu’on ne peut l’imaginer et ont une culture de l’entraide entre Shaediri et entre extrals. Les « Shaekori » sont les « frères des Shaediri », on compte ainsi les Orpacyorse, les Greys et d’autres ressortissants cachés d’espèces plus secondaires ou d’humains pour la quasi-totalité des Shaekori en vérité."
+            "text": "Sur Terre, des traces sont situées dès le début de l’Ordovicien ; leur arrivée pourrait être liée à la fin du Cambrien. Cette incohérence est attribuée à une aberration temporelle associée à Thul, sans explication scientifique ou historique établie."
+          }
+        ]
+      },
+      {
+        "id": "empire-castes",
+        "title": "L’Empire et l’esclavage des Shaediri",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Rocréens passèrent de leurs premières navettes atmosphériques aux croiseurs de combat en un siècle. Leur empire se développa très rapidement sous Jrash’kan’Feeshri, premier empereur de la Rocréenité. Ses pouvoirs mentaux lui permettaient de broyer des vaisseaux, d’où son titre de Kaashaar’bressh, « briseur de croiseurs ». Quasiment immortel et révéré comme une divinité, il exerçait une puissance comparable, pour son peuple, à celle d’un seigneur-général."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Il fonda un système de castes sur la génétique et les dons mentaux. Plus terrestres, plus résistants aux conditions atmosphériques et moins puissants télépathiquement, les Shaediri devinrent des esclaves, exploiteurs de ressources et soldats sur des centaines de mondes. Des peuples conquis, notamment Zaabors et Metkiriens, les remplacèrent ensuite dans certains de ces rôles."
+          }
+        ]
+      },
+      {
+        "id": "revolutions",
+        "title": "Révoltes et répressions",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Au troisième siècle de ce règne, Muk’ta’Shaediri, reproductrice d’une ferme à soldats, utilisa un artefact lui permettant de contrôler les corps de ses descendants. Elle souleva 4 100 esclaves sur un navire impérial. Leur massacre ne mit pas fin à la révolte : d’autres esclaves se rebellèrent."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Shaediri renversèrent les gouvernements de Rushul, Athurum et Shlargassi. Cette grande révolution conserva ses victoires pendant plusieurs décennies avant les purges. Sous l’impératrice Faetryshivia’Feeshri, dont les dons approchaient ceux de Jrash, la répression fut particulièrement sanglante au cours du millénaire suivant."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Après quatre règnes tyranniques, l’empire s’effondra sous Ravorsh’ti’Feeshri. Le seigneur-général Krellan Nightstar abattit l’empereur, qui avait survécu à la destruction de son vaisseau, tandis que l’AIDH soumettait les Rocréens."
+          }
+        ]
+      },
+      {
+        "id": "diaspora",
+        "title": "De la Septième Lune brune à la Terre",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Éloignés des deux systèmes laissés aux Rocréens, les Shaediri s’installèrent vers les systèmes proches de la Terre. Ils y rencontrèrent la mafia roesis de la Septième Lune brune, une station mobile. La cohabitation tourna à la révolte ; presque exterminés, une poignée de survivants se réfugia sur Terre et remplaça les branches locales de cette organisation."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Une famille shaediri y avait trouvé la protection de l’AIDH, mais l’arrivée d’autres clans rocréens avec les mêmes droits raviva les conflits. Les Feeshri, anciens impériaux, les Asthiri, les Tursha’i et les Gollocki disposaient du soutien des G-Corporations. Écartés du commerce officiel, les Shaediri développèrent le marché noir."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les restrictions technologiques de l’AIDH rendirent ce marché indispensable. Les Shaediri gagnèrent la guerre d’influence locale et recrutèrent des émigrés illégaux dangereux pour résister aux pressions du GAAC, davantage lié aux clans dominants dans la galaxie. L’alliance ultérieure avec Corp’+ renforça leur position."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Ils croient souvent échapper à la surveillance, mais l’AIDH les utilise aussi à leur insu. Elle laisse notamment des Greys ou d’autres membres d’espèces hostiles être sauvés par leurs réseaux pour observer leur adaptation à un environnement terrestre très humain et dangereux pour eux."
+          }
+        ]
+      },
+      {
+        "id": "organisation",
+        "title": "La hiérarchie shaediri",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Titre",
+                "Rôle"
+              ],
+              [
+                "Sushaari — les Riches",
+                "Conseil des plus fortunés ; élit le Shaed. La richesse suffit à y accéder."
+              ],
+              [
+                "Shaed — le boss",
+                "Désigne les sous-boss et reçoit directement les tributs. Conserve une fortune lui assurant lui-même le rang de Sushaari."
+              ],
+              [
+                "Tu’shaedi — les sous-boss",
+                "Dirigent officiers et trésoriers ; reçoivent une part des gains décidée par les Novoshi."
+              ],
+              [
+                "Kuluumi — les trésoriers",
+                "Gèrent les fortunes confiées par les sous-boss et financent les officiers."
+              ],
+              [
+                "Munmeshi — les officiers",
+                "Font fructifier les capitaux, commandent les soldats et remontent un tribut au Shaed."
+              ],
+              [
+                "Didiri — les soldats",
+                "Contribuent aux affaires et aux revenus de leur officier."
+              ],
+              [
+                "Novoshi — les Visionnaires",
+                "Répartissent les gains reçus par le Shaed entre les sous-boss."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "circulation-richesses",
+        "title": "Richesse, clientélisme et honneurs",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Munmeshi obéissent aux sous-boss et reçoivent leurs capitaux des Kuluumi, mais versent leurs tributs directement au Shaed. Celui-ci confie la répartition aux Novoshi. Les sous-boss favorisés par ces derniers peuvent devenir assez riches pour entrer parmi les Sushaari et participer à l’élection du chef ; d’autres y parviennent par leurs propres affaires."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La corruption est donc une mécanique du système, pas seulement un accident. Un ensemble de titres honorifiques, fondés sur la manière d’acquérir ou d’employer sa fortune, crée en outre une sous-hiérarchie entre personnes de même rang."
+          }
+        ]
+      },
+      {
+        "id": "shaekori",
+        "title": "L’entraide et les Shaekori",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’esclavage, les guerres et les sacrifices ont renforcé la solidarité shaediri. Leur organisation insiste sur l’entraide entre membres du peuple et entre Extrals."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Shaekori sont les « frères des Shaediri » : Orpacyorses, Greys, représentants cachés d’espèces secondaires et surtout de nombreux humains. Cette solidarité explique la force de la fédération des parias au-delà de la seule diaspora rocréenne."
           }
         ]
       }
@@ -336,7 +1219,7 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sourceCategory": "Vérité",
     "title": "SMRC — Species Merging Research Center",
     "source": "factions_Les groupes d'extrals(1)(1).pdf",
-    "status": "canon_source",
+    "status": "canon_enrichi",
     "rebuildV2": true,
     "tags": [
       "Vérité",
@@ -349,13 +1232,69 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sections": [
       {
         "id": "dossier-smrc",
-        "title": "Compatibilité génétique interespèces",
+        "title": "Le Species Merging Research Center",
         "level": 2,
         "blocks": [
           {
             "type": "p",
             "style": "lore",
-            "text": ". « L’Orgienétique » est un vaste projet de compatibilité génétique à l’échelle galactique, tous les Aliens ne sont pas éligibles à ce projets, il faut avoir une structure génétique compatible, mais pour le cas de la majorité des races galactiques, le projet semble valide (Humain, Thalsios, Baséanh , Mo’sens, Rocréens mais aussi Serys, Reltes, Ad’rak et dans une moindre mesure Effismes), le cas des Talass semble être à part. Le concept est que chaque espèce confère une part efficace de sa génétique et compense celle des autres afin de créer une espèce galactique plus homogène et compatible avec les autres représentants de ces espèces. Une grande fusion dans une unique espèce artificielle qui regroupera le meilleur des avantages évolutifs. Ce projet semble basiquement prodigieux, un véritable fantasme que d’avoir la beauté des humains, reconnue dans la galaxie entière, la régénération des Rocréens, enviées de tous, la maitrise de la chimie interne des Baséanh, particulièrement utile, la robustesse alimentaire des Mo’sens ou bien encore l’aptitude à vivre en apnée des jours comme les Thalsios, particulièrement utile dans l’espace. Hélas, il suffit d’avoir les plus fines bases en génétique pour commencer à objecter, rien qu’avec la disparité des espèces d’un seul monde, la compatibilité est si infime qu’il est inenvisageable de recombiner avec des Aliens. Et pourtant le SMRC y parvient ! Sans entrer dans les détails, là où l’ADN humain est en deux hélices, l’ADN recombiné est quadri hélices et par un jeu chimique, il est possible d’activer ou désactiver certaines hélices, codons ou certains chromosomes à différentes étapes de la vie. C’est là que divise « l’Orgienétique », « le génomisme » (forme de fascisme pour la pureté de l’ADN des espèces) y voit une grande menace pour l’intégrité des espèces, un humain est-il un humain s’il a des tentatcules de Rocréens ? un Thalsios est-il un Thalsios s’il a les écailles d’un Mo’sen ? Ces extrémistes rétrogrades luttent pour garder leurs particularités. A côté, certaines gouvernements entiers financent le SMRC, notamment des systèmes Thalsios et Baséanh dont l’envie de ressembler de plus en plus aux humains semble exercer une réelle pression sociale, l’Humain est idéalisé et si populeux qu’il est la norme dans la Galaxie, pour bien des mondes, « l’Orgienétique » tend à Humaniser les aliens et doter de compétences extrales les humains. Les mondes du traité Ichéien sont Sous la protection de l’AIDH, ils sont donc à très grande majorité humaine. Ils se voient avoir des recombinaisons parfois assez lourdes d’implication mais faciles à pratiquer, ce n’est qu’une série d’opérations, comme aller chez le dentiste et n’importe qui peut avoir des organes extrales. Hélas avec plus ou moins de réussite parfois. Tolérée quoi que méfiée dans la Galaxie, « l’orgienétique » est parfois perçue comme la réponse biologique à la Voie Zarpheth, la grande différence étant qu’elle ne dispose pas « d’armées de conversion ». Sur Terre, le problème est tout autre en revanche. En effet, on ignore si ces recombinaisons ne pourraient pas toucher les non-humains locaux et entrainer la création d’hybrides relevant de la magitech comme des êtres naturellement magiques et dotés de dons psychiques ou bien des rocréens vampires ou des Talass-garou dans le pire des projets…"
+            "text": "Le SMRC porte le projet d’« orgienétique », une recherche de compatibilité génétique à l’échelle galactique. Il vise à combiner les avantages évolutifs des espèces dans une forme artificielle plus homogène et compatible avec leurs représentants."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La structure génétique impose des limites d’éligibilité. Humains, Thalsios, Baséanhs, Mo’sens, Rocréens, Serys, Reltes et Ad’rak peuvent participer ; les Effismes ne le peuvent que dans une moindre mesure. Les Talass constituent un cas distinct."
+          }
+        ]
+      },
+      {
+        "id": "avantages",
+        "title": "Les avantages recherchés",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les promoteurs du projet mettent en avant l’apparence humaine, très valorisée dans la galaxie, la régénération rocréenne, le contrôle de la chimie interne des Baséanhs, la robustesse alimentaire des Mo’sens et la capacité des Thalsios à rester plusieurs jours en apnée, particulièrement utile dans l’espace."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Le projet dépasse les incompatibilités qui empêcheraient normalement de recombiner des espèces aussi éloignées. L’ADN recombiné comporte quatre hélices. Des mécanismes chimiques activent ou désactivent hélices, codons ou chromosomes à différentes étapes de la vie."
+          }
+        ]
+      },
+      {
+        "id": "controverses",
+        "title": "Génomisme et pression sociale",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Le génomisme, idéologie fascisante fondée sur la pureté de l’ADN des espèces, considère ces transformations comme une menace identitaire. Ses partisans contestent qu’un humain doté de tentacules rocréens ou un Thalsios portant des écailles mo’sennes conserve son appartenance d’origine."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "À l’inverse, des gouvernements entiers, notamment thalsios et baséanhs, financent le SMRC. L’Humanité, très nombreuse et idéalisée, sert de norme sociale dans de nombreux mondes. L’orgienétique tend ainsi à humaniser l’apparence des Aliens et à donner des capacités extrales aux humains."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Sur les mondes du traité ichéien, majoritairement humains, certaines recombinaisons sont devenues des séries d’opérations relativement courantes, avec des réussites variables et des conséquences parfois lourdes. La pratique reste tolérée mais suscite la méfiance. On la compare parfois à une réponse biologique à la Voie Zarpheth, sans ses armées de conversion."
+          }
+        ]
+      },
+      {
+        "id": "terre",
+        "title": "L’incertitude propre à la Terre",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Sur Terre, personne ne sait si ces recombinaisons pourraient affecter les peuples non humains locaux et produire des êtres relevant de la magitech : créatures naturellement magiques dotées de pouvoirs psychiques, Rocréens vampires ou Talass-garous. Il s’agit de risques et de projets envisagés, pas d’hybrides dont l’existence serait ici établie."
           }
         ]
       }
@@ -375,7 +1314,7 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sourceCategory": "Vérité",
     "title": "Hydroguard — Terrestrial Hydrometry Defense Front",
     "source": "factions_Les groupes d'extrals(1)(1).pdf",
-    "status": "canon_source",
+    "status": "canon_enrichi",
     "rebuildV2": true,
     "tags": [
       "Vérité",
@@ -388,13 +1327,102 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sections": [
       {
         "id": "dossier-hydroguard",
-        "title": "Défense hydrique et contre-aridification",
+        "title": "Le Terrestrial Hydrometry Defense Front",
         "level": 2,
         "blocks": [
           {
             "type": "p",
             "style": "lore",
-            "text": ". Aux débuts de cette faction, c’était une agence sans aucune prétention mandatée par le GAAC afin de surveiller les paramètres hydrométriques de la Terre. En effet, Rocréens et Thalsios ont besoin naturellement d’une humidité de pratiquement 95%, les baséanh ont besoin d’une humidité de plus de 85%, les humains quant à eux préfèrent entre 40 et 70% mais s’adaptent mieux aux environnements humides que secs en général. Le réchauffement climatique est une gêne qui met en colère les extrals concernés, mais qui n’a jamais remis en cause leur présence sur Terre, puisqu’ils ont des alternatives, des zones allant être recouvertes d’eau, et les stations sous-marines de Seawares qui permettent un contrôle plus facile encore que dans l’espace quant aux paramètres d’hydrométrie. Le principal souci fut l’enquête de Gbarr’sheb, une rocréenne qui révéla de dispositifs Mo’sens aux niveaux des volcans pour en intensifier l’activité et quand elle s’intéressa aux dorsales océaniques, elle releva des cités assez colossales de formes de vies intelligentes. Le GAAC mis en accusation Raysh’kan, le leader rocréen, visiblement ayant installé des cités de céphalopodiens à l’insu de tous, mais l’enquête révéla qu’elles étaient anciennes et souvent bien plus peuplées de « profonds » que de rocréens. L’agence fut confrontée à devoir intervenir quand une base de Seaware fut construite trop proche d’une cité sub-aquatique. Afin que la sécurité de Seaware ne puisse pas voir ou comprendre, l’agence supplia l’accès à des fonds et des moyens d’urgence et le GAAC accepta. L’Hydroguard naquit à ce moment les scaphandres de combat furent développés à partir de combinaisons spatiales d’armures de combat et d’équipement de planètes haute densité. Le système de canon vertical pour projeter les combattants fut placé sous des navires civiles, les meilleurs vétérans Thalsios furent dépêchés, on engagea aussi le mercenaire Zeel’than, l’effisme le plus redoutable sur Terre (officiellement, l’œil blanc ne comptant pas pour les extrals). La bataille fut sanglante et 80% des vétérans n’en revinrent pas, les autres étaient si traumatisés que le GAAC maintint le financement et la formation de « l’agence de défense des eaux ». Face aux activités de la SA, l’hydroguard fut maintes fois déployée et en 2022, face à l’Emeraude Sanglante, on la déploya aussi pour anéantir toute la flotte sous-marine des nord￾coréens c’est pour cela qu’aucune bataille de sous-marin n’est jamais rapportée, l’essentiel ayant été fait par « pressureship », des chasseurs de combat équipés pour tenir à la pression. L’hydroguad échappa au GAAC en 2025, quand elle commença à se faire financer par le PCRC. Après ça, elle devint une faction indépendante, enchainant les interventions en changeant de nature, passant d’une agence surveillant les activités Mo’senne du REPTILE à une force d’attaque destinée à détruire toute menace contre l’équilibre aquatique terrestre. Activiste, elle vise désormais les peuples abyssaux, les installations du REPTILE mais aussi les plateformes pétrolières, les mines, les grosses industries lourdes, tout ce qui pollue plus que nécessaire. Ainsi, l’Hydroguard est une faction insurgée dans la réalité et une faction de régulation dans la Vérité."
+            "text": "L’Hydroguard, ou THDF, protège les eaux et les conditions d’humidité terrestres. Elle s’appuie notamment sur les restes de l’armée thalsiosse de Gruaa VI, vaincue par les Reltes. Son opposition à la Saeniaforming Army répond à une nécessité vitale pour plusieurs communautés extrales."
+          }
+        ]
+      },
+      {
+        "id": "humidite",
+        "title": "Les besoins des communautés",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Population",
+                "Humidité recherchée"
+              ],
+              [
+                "Rocréens et Thalsios",
+                "Environ 95 %."
+              ],
+              [
+                "Baséanhs",
+                "Plus de 85 %."
+              ],
+              [
+                "Humains",
+                "De 40 à 70 % ; adaptation généralement plus facile à l’humidité qu’à la sécheresse."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "surveillance",
+        "title": "De la surveillance hydrométrique à la découverte des cités",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’organisation commença comme une modeste agence mandatée par le GAAC pour surveiller l’hydrométrie. Le réchauffement inquiétait les communautés sans condamner à lui seul leur présence : zones promises à la submersion et stations sous-marines de Seaware offraient des solutions adaptées."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’enquête de la Rocréenne Gbarr’sheb révéla des dispositifs mo’sens destinés à intensifier l’activité volcanique. En étudiant les dorsales océaniques, elle découvrit d’immenses cités de formes de vie intelligentes. Le GAAC accusa d’abord Raysh’kan d’avoir installé clandestinement des colonies céphalopodiennes ; l’enquête montra que ces cités étaient anciennes et souvent davantage peuplées de Profonds que de Rocréens."
+          }
+        ]
+      },
+      {
+        "id": "militarisation",
+        "title": "La naissance de l’Hydroguard militaire",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La construction d’une base Seaware trop près d’une cité sous-marine obligea l’agence à intervenir avant que la sécurité corporative ne comprenne ce qui se trouvait là. Le GAAC débloqua des moyens d’urgence. Des scaphandres furent conçus à partir de combinaisons spatiales, d’armures de combat et d’équipements pour planètes à haute densité."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Des canons verticaux destinés à projeter les combattants furent installés sous des navires civils. Les meilleurs vétérans thalsios furent mobilisés, ainsi que Zeel’than, considéré par les Extrals comme le plus redoutable Effisme terrestre — l’Œil blanc n’entrant pas dans leur comparaison."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La bataille coûta la vie à 80 % des vétérans. Le traumatisme des survivants poussa le GAAC à maintenir le financement et la formation de l’agence de défense des eaux. Il la soutenait aussi officieusement contre la SA, tandis que le R.E.P.T.I.L.E. niait sa propre responsabilité dans les actes de ses branches."
+          }
+        ]
+      },
+      {
+        "id": "guerre-independance",
+        "title": "De la guerre de 2022 à l’indépendance",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’Hydroguard fut déployée à plusieurs reprises contre la SA. En 2022, face à l’Émeraude Sanglante, elle détruisit la flotte sous-marine nord-coréenne. L’essentiel des combats fut mené par des pressureships, chasseurs conçus pour résister à la pression, ce qui explique l’absence de batailles sous-marines rapportées dans le récit public."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "En 2025, le financement par le PCRC lui permit d’échapper au GAAC. Devenue indépendante, elle passa d’une agence de surveillance des activités mo’sennes à une force d’attaque contre les menaces pesant sur l’équilibre aquatique."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Ses cibles comprennent désormais peuples abyssaux, installations du R.E.P.T.I.L.E., plateformes pétrolières, mines et industries lourdes excessivement polluantes. Elle apparaît ainsi comme une faction insurgée dans la Réalité et comme une force de régulation dans la Vérité."
           }
         ]
       }
@@ -414,7 +1442,7 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sourceCategory": "Vérité",
     "title": "Autres groupes extrals terrestres",
     "source": "factions_Les groupes d'extrals(1)(1).pdf",
-    "status": "canon_source",
+    "status": "canon_enrichi",
     "rebuildV2": true,
     "tags": [
       "Vérité",
@@ -428,13 +1456,129 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sections": [
       {
         "id": "dossier-autres-extrals",
-        "title": "Factions indépendantes et communautés mineures",
+        "title": "Les petites communautés extrales",
         "level": 2,
         "blocks": [
           {
             "type": "p",
             "style": "lore",
-            "text": ". Ce qui est assez ironique c’est que bien souvent ils incriminent l’AIDH, la voyant comme une agence qui régule et censure les Extrals, alors que la majorité des cas de censure ou de restriction de libertés viennent du GAAC. La raison est assez simple, les aliens qui sortent du cadre deviennent de menaces, l’AIDH détruit les menaces. Il n’y a pas négociation, le contrat est passé sur la Lune, en signant les décharges. Tout le reste plus politique, plus confus et insidieux est le fait du GAAC et de ses petits jeux d’influence avec les autres factions alien. En autre factions notables mais très limitées, on peut citer : • La cour Medira’fel. c’est la cour personnelle d’Assy Medira’fel, l’impératrice sérysse devenue esclave. elle est composée essentiellement de Xidoniens, mais d’aucun véritable Serys. Les Xidoniens sont une sous-forme artificielle de Serys, ils sont assez reconnaissables, ils sont tous dotés de cheveux noirs de jais, de cristallins rouges et d’une peau livide d’un blanc ivoire, ils sont moins agiles que les Serys, moins prompts au combat, plus froids et intellectuels, et tous sont dotés de dos mentaux comme la télépathie. Ils se ressemblent beaucoup et ont naturellement des symboles rouges sur leur peau. Cette cour sert à organiser la revanche de l’impératrice et accumulant des fonds, des informations et des alliances. • La sororité Gamaane terrestre. c’est une sorte de petit groupe de Gamaanes, toutes nées d’ Elexaranda, la première arrivée sur Terre, par hasard, mieux connue comme Carmen Hodges auprès du cabinet de Dina Page. Elles n’ont pas de revendication, elles se soutiennent juste entre elles puisqu’étant toutes sœurs. Elexaranda est aussi consultante pour l’Armée 0, car ellepeut sentir les vers galactiques, ces titans infestant les astéroïdes et donc elle peut sentir les astéroïdes même non détectés • La « division Starrogue » Quand un des vaisseaux de a 783ème de l’AIDH sombra dans une fluctuation irrationnelle spatiale, personne ne s’imaginait qu’il finirait dans une nébuleuse Wolféenne ni qu’on en reverrait la division que menait Alicia Starrogue. Hélas, ce fut le cas, intégralement possédés par les ombres Wolféennes, ce vaisseau de l’AIDH est le seul et unique ainsi perdu, 75% des effectifs dessus sont morts, résistant à la possession et leur corps décéda, mais, pour une poignée, quelque chose les garda en vie et, hélas, la possession fut permise. Alicia Starrogue , désormais possédée par le fléau créant ces technozombies, arriva sur Terre on ne sait comment, avec quelques soldats. Si elles font profile bas, ces « ombres wolféenne » reste dans des corps de soldats d’élite de l’AIDH et sont en elles-mêmes des créatures très dangereuses, puisqu’elles peuvent corrompre et altérer de leurs ombres n’importe quel véhicule, arme ou équipement. • Le huitième empire Ce sont les survivants Losus du huitième empire Losus. Les losus sont passés en 200 ans d’un monde parfaitement magique à un monde technologique, ils ont été pillés par des cultistes de Thul ayant détruit la magie sur leur monde. Le changement a été trop rapide, les losus sont encore mal adapté à la vie spatiale et la Terre rassure."
+            "text": "Des centaines de factions indépendantes réclament davantage de droits ou de visibilité. Elles accusent souvent l’AIDH de censurer les Extrals, alors que nombre de restrictions et de jeux politiques viennent du GAAC. L’AIDH fixe les conditions d’admission sur la Lune, lors de la signature des décharges, puis traite les violations devenues menaçantes comme des problèmes à éliminer. Le GAAC gère l’essentiel des négociations et des rivalités quotidiennes."
+          }
+        ]
+      },
+      {
+        "id": "cour-medirafel",
+        "title": "La cour Medira’fel",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La cour personnelle d’Assy Medira’fel, impératrice sérysse devenue esclave, rassemble surtout des Xidoniens et aucun véritable Serys. Elle accumule fonds, informations et alliances pour préparer sa revanche."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Xidoniens sont une forme artificielle issue des Serys. Cheveux noir de jais, cristallins rouges, peau blanc ivoire et marques rouges naturelles les rendent reconnaissables. Ils se ressemblent fortement, sont moins agiles et moins portés au combat que les Serys, plus froids et intellectuels, et possèdent des dons mentaux tels que la télépathie."
+          }
+        ]
+      },
+      {
+        "id": "gamaanes",
+        "title": "La sororité gamaane terrestre",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Gamaanes de cette petite sororité descendent toutes d’Elexaranda, arrivée sur Terre par hasard et connue comme Carmen Hodges auprès du cabinet de Dina Page. Elles n’ont pas de revendication commune particulière : elles se soutiennent comme des sœurs."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Elexaranda conseille également l’Armée 0. Sa perception des vers cosmiques présents dans les astéroïdes lui permet de repérer certains de ces corps avant les moyens de détection ordinaires."
+          }
+        ]
+      },
+      {
+        "id": "division-starrogue",
+        "title": "La division Starrogue",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Un vaisseau de la 783e armée disparut dans une fluctuation spatiale et aboutit dans une nébuleuse wolféenne. La division d’Alicia Starrogue y fut confrontée à la possession. Trois quarts des effectifs moururent en résistant ; une poignée fut maintenue en vie et possédée. Ce vaisseau de l’AIDH est le seul perdu de cette manière."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Alicia Starrogue, possédée par le Fléau créateur de ces technozombies, atteignit ensuite la Terre avec quelques soldats par un moyen inconnu. Discrets, ils conservent les corps et les capacités de combattants d’élite de l’AIDH. Leurs ombres peuvent corrompre et altérer véhicules, armes et équipements."
+          }
+        ]
+      },
+      {
+        "id": "huitieme-empire",
+        "title": "Les survivants du Huitième Empire",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Ces Losus viennent du Huitième Empire. En deux siècles, leur civilisation passa d’un monde entièrement magique à une société technologique après le pillage de cultistes de Thul et la destruction de sa magie. Mal adaptés à la vie spatiale après un changement aussi brutal, certains trouvent sur Terre un environnement rassurant."
+          }
+        ]
+      },
+      {
+        "id": "syndicat-gris",
+        "title": "Le Syndicat gris",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Cette branche restreinte de la mafia Shaediri protège les Greys tout en poursuivant ses propres intérêts."
+          }
+        ]
+      },
+      {
+        "id": "riximport",
+        "title": "Riximport",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Sous une société écran de la Réalité, Riximport organise des voyages et des transports à la fois légaux et clandestins. Elle bénéficie du nom de Beltor Rixil, roi et héros letrophodien qui s’illustra contre les Zarpheth. Le prestige de ce représentant d’une espèce galactique mineure lui procure des passe-droits."
+          }
+        ]
+      },
+      {
+        "id": "oesydra",
+        "title": "Le clan Oesydra",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Cette petite famille orpacyorse est installée en Californie. Sa capacité réputée à tout guérir lui vaut la protection de presque toutes les communautés extrales. La Croix verte la dissimule avec acharnement aux poursuites de l’AIDH, de l’Émeraude Sanglante et de la BoH. Cette solidarité lui assure une immunité tacite."
+          }
+        ]
+      },
+      {
+        "id": "flamme-losia",
+        "title": "La Flamme de Losia",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Cette secte losienne utilise, sans en connaître l’origine, un portail créé par des cultistes de Thul entre Losea VIII et la Terre. Ses membres croient rejoindre le monde des dieux pour rencontrer la déesse suprême Belial et recevoir sa bénédiction, ou mourir."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Seuls les paladins les plus aguerris accomplissent le pèlerinage. Ils reviennent vénérés comme des demi-dieux et se croient transcendés. Leur petit nombre ne diminue pas le danger de leur fanatisme. Comme ils ne restent jamais longtemps sur Terre, ils n’ont pas compris la véritable nature de leur voyage."
           }
         ]
       }
@@ -454,7 +1598,7 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sourceCategory": "Vérité",
     "title": "Humanité galactique — enjeux de Terra Umbra",
     "source": "factions_Les humains galactiques(1)(1).pdf",
-    "status": "canon_source",
+    "status": "canon_enrichi",
     "rebuildV2": true,
     "tags": [
       "Vérité",
@@ -467,13 +1611,86 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sections": [
       {
         "id": "enjeux-terra-umbra",
-        "title": "Pourquoi la Terre intéresse la galaxie",
+        "title": "Terra Umbra dans la Voie Lactée",
         "level": 2,
         "blocks": [
           {
             "type": "p",
             "style": "lore",
-            "text": "Les rocéens commencèrent à voir leur empire devenir pluriel puis ingérable même ainsi divisé, toujours loin de tout, ils se frottèrent à une nouvelle espèce, les Zaabors, d’anciens esclaves qui prirent leur indépendance et formèrent un empire Zaabor dans l’empire Rocréen. La guerre des petits visqueux ne fut pas aussi grandiose que leurs légendes ne le disent puisque ce sont des considérations purement logistiques qui achevèrent cette grande guerre. : les Rocréens ne pouvant pas aller dans le nouvel empire Zaabor ayant épuisé ses ressources liées au vol interstellaire, la guerre s’acheva sur un génocide Zaabor chez les rocréens et génocide rocréens chez les Zaabor, afin de marquer leur victoire respective. La Fin de l’empire de l’empire rocréen arriva avec leur premier contact avec les Humains, qui, à l’époque, venaient d’être sauvés par les Azménoriens face aux Menomahs déchainés par leur victoire sur les Deskoridiens. Un seul vaisseau Azménorien déchira la flotte impériale bleue, les clans rocréens esclaves se rebellèrent et chaque monde rocréen devint indépendant. C’est à cette époque que les Ad’rak arrivèrent à percer plus loin que leurs systèmes, explosant le blocus que les CBT2 causaient, ils se déchainèrent en ligne droite sans aucune espèce pour les arrêter. Avec la fin de l’empire Rocréen, les Talass purent se développer dans leur espace, autrefois sous contrôle rocréens, cette espèce, pacifique, s’expatria vite néanmoins, afin de se placer sous la protection des azménoriens, hélas, ne trouvant que l’AIDH, balbutiant, se rangea de son coté en devenant la première espèce alien « alliée » à l’Humanité entière. Histoire – «les temps modernes galactiques » Le développement des espèces se continua dans la galaxie, pour citer les espèces marquantes c’est à cette époque que la majorité des espèces aujourd’hui encore dominantes sont apparues. Les baséanhs émergèrent de leurs mondes, malgré des volontés d’expansions ils furent redoutablement bloqués et menacés par les CBT2, des robots indépendants que les humains avaient créé pendant le moyen-âge galactique ainsi que les Menomahs, deux factions que Thar’Lal avait changé à jamais en les faisant se rebeller, mais il influença aussi l’Eglise Mécanique dont une branche extrémiste mena à la création de l’espèce « Zarpeth ». Les Thalsios et les Mo’sens furent menacés par les Chezhons, après des siècles de guerre, ils furent contraints de déplacer leurs population de plus en plus proche des humains jusqu’à se rajouter aux Tallass dans la faction « alliée » sans concession avec les Humains. Les Orpacyors émergèrent comme nouvelle espèce invasive, maitresses des modifications génétiques, elles s’attaquèrent aux Zaabors puis aux Rocréens, commençant à dévorer leur domaines spariaux. Les Zaabors se réfugièrent toujours plus loin et dans des mondes à forte gravités pour fuir les Orpacyorses, c’est ainsi qu’ils rencontrèrent les effismes, des créations des korriators que ces derniers avaient abandonné. L’alliance zaabor-effisme terrifia les Orpacyorses, qui se déchainèrent sur les rocréens lesquels perdirent jusqu’à leur monde natal, joignant à contrecœur les systèmes humains pour s’y cacher dans une vaste diaspora. Plus tard, ils intégrèrent le pacte des Aliens avec les humains. L’émergence des Orpacyorse dissimula les vastes ruches de Klexards, on ne sait pas si les Baséanhs les firent muter pour servir d’armes, si c’est une race s’étant développée seule ou si ce sont des orpacyorses les ayant créés pour servir de nourriture facile à élever, mais si les C’était bien là l’enjeu de la guerre de Tout Aèr contre les azménoriens à l’époque, mettant fin à leur âge spatial. L’AIDH s’est interdit d’utiliser la magitech, mais sur Terre, un monde magique où l’Humanité est en plein développement technologique, ce n’est qu’une question de temps avant que les humains pratiquant la magie ne s’impliquent profondément dans l’exploitation de la technologie. En outre, sur Terre sont autorisés des Aliens, et même sans être autorisés, il y en a depuis longtemps, bien avant l’Hologramme, si les humains pouvaient s’effrayer de la magietech, certains Aliens utilisent déjà des technologies surpassant leur maitrise, ils pourraient anéantir la galaxie avec la Magitech sur la base d’une simple erreur. Inversement, les Eons, ces « dieux errants » sont connu par l’AIDH comme des menaces disparates mais redoutables, sur Terre, la présence des Dieux locaux n’a pas échappé à l’AIDH, qui, sans parfaitement savoir la différence entre Eons et panthéons, ont bien saisi qu’il s’agissait d’êtres magiques dont les technologies extraterrestres pourraient changer le jeu d’influence qu’ils se mènent. Outre la magietech elle-même, l’AIDH protège par le Traité Ichéien non pas que des humains mais les Atlantes, Mylakai ayant été un Seigneur-général, il signa le traité à l’époque et bien que la Terre fût un monde magique ne rentrant théoriquement pas dedans, cett signature est une excuse parfaite pour avoir ce monde magique sous surveillance étroite. Autrefois à la charge de l’armée de l’AIDH qu’avait commandé Mylakai, la surveillance revint à l’armée de Moira Blackraven puis de celle de Lisa Eredhès. Un dernier point qui rend la Terre si singulière, ce sont les Fléaux. L’AIDH connait la différence entre Fléaux et Eons et sait que certains Fléaux ont créé les pires ennemis, les Ombres Wolféennes par exemple, mais à l’époque, l’évolution Rocréenne a aussi été forgée par le Fléau Thul, la « Nebuleuse » pourrait être un fléau dont les particules vivantes prédatrices seraient ses « cellules », le premier klexard pourrait être un Fléau de même que le dieu des vers cosmiques, il existe des exemples plus locaux, mais le fait que Thul se soient écrasé sur Terre et qu’Alicia Starrogue y soit aussi venue n’est absolument en rien une bonne nouvelle, ces entités étant des amas de pouvoirs qui ne devraient pas se mélanger, leurs pouvoirs sont aussi destructeurs que la magitiech, la « Calamitechnologie », qui se baserait sur eux serait assurément plus néfaste encore, certains pouvant recombiner la matière, l’ADN ou bien d’autres choses, Vhodhal peut dévorer sa mort ou bien le temps, s’imaginer un armement sur cette base serait absolu, V’Aagor possède la capacité d’être parfaitement intangible , Sharith de diviser et décomposer toute matière… les possibilités seraient infinies ."
+            "text": "Terra Umbra appartient au système solaire, sur une branche de la Voie Lactée. L’Humanité galactique peuple de nombreux autres mondes. La Terre n’est ni le premier monde magique observé par l’AIDH, ni le plus riche en magie ; sa manasphère s’appauvrit, et ses ressources comme ses espèces ne suffisent pas à expliquer l’intérêt qu’elle suscite."
+          }
+        ]
+      },
+      {
+        "id": "manasphere",
+        "title": "Mondes magiques et mondes physiques",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Un monde suffisamment riche en magie s’enveloppe d’une manasphère. Évolution, génétique, physique et autres lois naturelles y deviennent plus variables selon sa densité. Cette enveloppe réduit certaines influences extérieures et rend le monde particulièrement hostile aux envahisseurs dont les moyens reposent sur les lois physiques."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les mondes pauvres en magie ont peu ou pas de manasphère. Leurs espèces dépendent plus strictement de leur métabolisme et de leur environnement et disposent généralement de moins de ressources surnaturelles."
+          }
+        ]
+      },
+      {
+        "id": "magitechnologie",
+        "title": "Le risque de la magitechnologie",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La technologie reproduit les phénomènes naturels compris par la science ; la magie peut en déjouer les lois. La magitechnologie exploite cette capacité pour dépasser les limites scientifiques. Les Azménoriens ouvrirent des passages vers le Néant, employèrent des tirs plasmagiques à portée infinie, créèrent des boucliers d’une densité comparable à celle d’un trou noir et manipulèrent les plans dimensionnels ou le cycle des âmes pour en extraire des expériences."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Cette pratique interdite fut un enjeu de la guerre de Tout Aèr contre les Azménoriens, qui mit fin à leur âge spatial. L’AIDH s’interdit elle-même de l’utiliser. Sur Terre, le développement technologique des humains et la présence ancienne d’aliens rendent pourtant probable la rencontre entre magie et technologies avancées. Une erreur pourrait avoir des conséquences à l’échelle de la galaxie."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’AIDH connaît les Éons comme des menaces dispersées mais redoutables. Elle a aussi identifié les dieux locaux comme des êtres magiques, sans distinguer parfaitement Éons et panthéons. L’accès de ces puissances aux technologies extraterrestres pourrait bouleverser leurs luttes d’influence."
+          }
+        ]
+      },
+      {
+        "id": "traite-atlante",
+        "title": "Le traité ichéien et les Atlantes",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Mylakai, ancien seigneur-général, signa le traité ichéien au nom des Atlantes. La Terre, monde magique, ne devrait théoriquement pas entrer dans son champ, mais cette signature offre à l’AIDH une justification pour y maintenir une surveillance étroite."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La responsabilité passa de l’armée autrefois commandée par Mylakai à celle de Moira Blackraven, puis à celle de Lisa Eredhès."
+          }
+        ]
+      },
+      {
+        "id": "calamitechnologie",
+        "title": "Fléaux et calamitechnologie",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’AIDH distingue les Fléaux des Éons. Certains Fléaux ont engendré des menaces galactiques : les Ombres wolféennes en sont un exemple, et Thul a influencé l’évolution rocréenne. La Nébuleuse pourrait elle-même être un Fléau dont les particules prédatrices seraient les cellules ; une origine comparable est envisagée pour le premier Klexard et le dieu des vers cosmiques."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La présence de Thul et d’Alicia Starrogue sur Terre inquiète donc l’AIDH. Une technologie fondée sur leurs pouvoirs, la calamitechnologie, pourrait être plus dévastatrice encore que la magitech. La recombinaison de la matière ou de l’ADN, la capacité de Vhodhal à dévorer sa mort ou le temps, l’intangibilité parfaite de V’aagor et la décomposition de la matière par Sharith ouvrent des perspectives d’armement catastrophiques."
           }
         ]
       }
@@ -493,7 +1710,7 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sourceCategory": "Vérité",
     "title": "AIDH — traité Ichéien, Armée 0 & 783e armée",
     "source": "factions_Les humains galactiques(1)(1).pdf",
-    "status": "canon_source",
+    "status": "canon_enrichi",
     "rebuildV2": true,
     "tags": [
       "Vérité",
@@ -508,23 +1725,245 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sections": [
       {
         "id": "dossier-aidh",
-        "title": "Structure, doctrine et présence terrestre",
+        "title": "Une institution, des armées autonomes",
         "level": 2,
         "blocks": [
           {
             "type": "p",
             "style": "lore",
-            "text": "Orpacyorse n’ont jamais eu de soucis avec les cafards de l’espace, le reste de la galaxie n’apprécia vraiment pas le déchainement des insectoïdes. Une des espèces qui apparut plus récemment fut les Greys, une espèce amibique très dangereuse qui fut ramenée des mondes Korriators par les Zaabors. En quelques siècles, les « ambiques vampires » devinrent une espèce intelligente puis belliqueuse. On peut noter que les derniers corps des Fyniades furent détruits à cette époque par les Serys, par l’explosion de leur planète-mère mais qu’ils provoquèrent aussi le besoin des ombres d’en trouver de nouveaux. Les dons mentaux des serys les protégeant, ce furent les humains qui devinrent la cible d’ Ira’Xiadror et de ses engeances. Les Reltes, cette sous-forme de Chez’wens devenu plus aviaire d’apparence, commença sa guerre fratricide entre becs fins et becs larges, si les raisons sont plus profondes, cette militarisation à outrance les poussa à pratiquer l’esclavage, arrachant au monde magique de Losea des esclaves de cette terre féérique mais les vaisseaux, altérés par la magie de ce monde, fonctionnèrent mal et se téléportèrent à l’autre bout de la galaxie. À la suite de ce phénomène de Magie-tech, les Reltes bombardèrent Losea, et uen fois les retombées achevées, et l’atmosphèrent altérée, ils déportèrent les losus sur Losea II, un monde non magique. Un des esclaves téléportés arriva sur Terre d’ailleurs, à une époque assez reculée, il tomba face à un culte de Belial et fut trouvé par un Rocréen. Il devint le premier empereur des flammes de Losea et mena le soulèvement puis la reconquête des mondes légitimement Losiens. L’humanité trouva les Xidoniens, un peuple des mondes plus glaciaux, les Elaymar, un peuple métamorphe mais aussi les Spirggule et les Roesis. Les Roesis était un peuple guerrier d’une puissance assez sous-estimée, vénérant la force et le lignage, ils ne se reproduisaient qu’entre combattants de même valeur et pour ça, ils clonaient des vétérans trop âgés pour la reproduction. La consanguinité monta en flèche au fil des siècles et la chute Roesis fut désastreuse quand ils finirent par s’attaquer aux Greys qui contaminèrent leurs cellules et transformèrent l’attaque Roesis en une attaque de greys, aucun monde Roesis n'exista plus, les survivants consanguins se réfugièrent sur des lunes artificielles et s’exilèrent, purgeant de leur corps toute partie infectée par un grey. La dernière grande espèce était les Palaboriens. Ils étaient possiblement l’espèce avec la plus grande puissance psychique de la galaxie. Ils furent exterminés par les grey qui voulaient acquérir ces dons, les pensant purement physiologiques, c’est à cette époque qu’après deux extinctions de races aussi influente, l’inquisition acta comme une nécessité de détruire à tout jamais les Greys. Histoire – « époque actuelle » Les aliens sont très nombreux dans la galaxie et si l’Humanité est l’espèce majeure de la Voie Lactée, elle ne peut pas compter sans ses alliés ou ses ennemis inhumains. Sur Terre, la situation est totalement différente. Initialement fermée, les grey et les talass ont souvent visité la Terre. Des Rocréens s’y seraient écrasé il y a très longtemps, des Chez’wens auraient été créé par résonnance il y a longtemps aussi, à l’époque des fléaux. Les factions aliens sont donc très dépendantes de leur histoire galactique mais aussi de leur place sur Terre,Rocréens, baséanh, talass et Mo’sen sont des alliés des Humains, et donc les 01. Aidh Bien qu’on parle de « l’AIDH » comme d’une institution unique, la struture est divisée en de très vastes armées entretenant une communication et une concertation constante entre elles, disposant de conseils supervisant certaines décisions des Seigneurs-généraux et de l’armée 0 la cœur, le liant et la plus essentieelle structure de l’AIDH, l’armée 0 assure essentiellement un lourd travail de recherche et de logistique, de supervision, de recrutement et de gestion d el’information, pas de retraite pour les Officiers, après le service, un Seigneur-général ira à l’armée 0. Cependant, chaque armée est indépendante, le seigneur-général à sa tête est le seul à décider d’où elle va et de ce qu’elle combat. L’AIDH est une structure militaire dont les ressources sont assuréées par le traité Ichéien, les gouvernements qui le ratifient sont donc tenus de payer en ressource pour la protection, c’est un système féodal à l’échelle galactique, les « chevaliers » que sont les officiers de l’AIDH et leurs « serfs » cependant, il faut bien comprendre que ce système profite énormément aux gouvernements sous le traité, ceux qui s’y refusent sont très généralement instables ou finissent face une invasion. L’AIDH a un devoir total de neutralité sur les mondes humains, elle n’a pas à sympathiser avec des gouvernement, même très bénéfiques ni sévir des régimes totalitaires, il n’y a pas de portée politique avec l’AIDH. De fait, l’AIDH n’agit jamais dans des conflits entre humains et même quand des humains et des aliens qui sont alliés au traité ont des querelles ce n’est pas la priorité, l’AIDH n’iterviendra que si l’hostilité Alien devient une menace pour une population humaine, pas juste son régime politique ou autre faction idéologique. En retour, l’AIDH a l’immunité totale, ce qu’elle désigne comme ennemi de l’Humanité est un ennemi de l’Humanité et aucun gouvernement ni faction n’a autorité pour le contester et plus encore punir l’AIDH et ses membres d’avoir supprimer une telle menace, alors, généralement, les politiciens locaux savent que l’AIDH n’a pas autoriré pour arrêter leurs exactions, cependant ils savent aussi que si un haut officier classifie ledit politicien en TtM1 , en TtH2 ou pire encore en GCfH3 , il sera éliminé en quelques minutes par sa propre famille pour éviter le pire. ( 1 , 2 , 3 : « Traitor to Mankind » , « Threat to Humanity », « Galactic Calamity for Humans ». Ce sont les trois niveaux de menace majeure qu’un Seigneur-général peut déclarer, sans aucun procès afin de justifier le déploiement de ses troupes. Il existe des subtilités dans chaque ordre de menace, les «traitres » désignent des individus isolés et leur réseay, les « menaces » désignent des groupes plus étendus ou ayant une portée bien plus vaste que celle d’un simple traitre, les espèces Aliens ennemies sont classés ainsi, « calamité » désigne une menace encore plus grande, pouvant nécessité plus qu’une armée de l’AIDH, plusieurs et la contribution d 'organisations annexes, « les greys » en étaient, les « Ath’Tiay » et les « ombres Wolféennes » le sont encore) Outre la recherche pure, la Terre est située dans un secteur du traité, c’est-à-dire que les systèmes stellaires autour qui possèdent des planètes terraformées sont tous sous protection de l’AIDH, notamment de l’armée 783. Délaisser un tel monde parce qu’il est trop archaïque serait une faute grave, d’autant plus que des phénomènes étranges sont liés à la Terre, par exemple de vastes vaisseaux impériaux Rocréens ont été arrachés et téléportés sur Terre à une époque qui semble antérieur à l’empire rocréen, par une technologie inconnue. Sur Terre, il y existe encore les Greys, une espèce extrêmement dangereuse que l’inquisition décida d’anéantir par un virus, ce virus a été déjoué uniquement sur Terre et à tout moment ce monde pourrait devenir le départ d’un nouvel essor de cette espèce extrêmement invasive. Comme précédemment expliqué, la Terre est donc l’objet d’enjeux uniques dans la Galaxie et donc"
+            "text": "L’AIDH se compose de très vastes armées qui communiquent et se concertent constamment. Des conseils supervisent certaines décisions, mais chaque armée reste indépendante : son seigneur-général décide de ses déplacements et de ses combats."
           },
           {
             "type": "p",
             "style": "lore",
-            "text": "plus nombreux, bien loin devant toutes les autres races réunies. C’est pour ça qu’ils sont aussi facilement néfastes, la Terre étant un microcosme, un laboratoire, ils ne considèrent pas tous les humains locaux comme de vrais humains, mais des créatures plus archaïques. Le GAAC (Global Alliance of Alien Citizens) est une faction terrestre qui défend les droits des Extrals sur Terre. Son premier but est donc de protéger la vie de l’ensemble des Aliens en harmonie avec l’écosystème humain actuel. Dans 95% du temps, le GAAC boit les paroles de ‘AIDH, et pour cause, pas de ressortissant aliens sinon. Dans 5% des cas de conflit, en revanche, le GAAC fait valoir le bien être des aliens, le conseil essayant de faire pression sur Lisa Eredhès pour accepter quelques imports ou autre technologies manquantes. La CTU (Californian Talasses Union) est une faction majoritairement Talass qui vise à augmenter le niveau technologique des humains. Les talass ont grandement aidé toutes les races pacifiques avec elles dont l’Humanité depuis des siècles, peut être des millénaires de coexistence pacifique. C’est devenu une mission quasiment sacrée pour certains Talass et l’archaïsme terrien est terrifiant, les Talass ne comprennent pas ce que fait l’AIDH ici, encore moins pourquoi, pour la CTU, la Terre est un monde maltraité, sous-développé à dessein, comme un enfant élevé dans un placard, battu et analphabète. La CTU vise à aider la Terre vertueusement, c’est « nécessaire » selon elle et c’est pourquoi quand elle était la KTU* , elle avait tout fait pour que ça aille dans ce sens même en allant contre les ordres du GAAC et de l’AIDH. (*KTU : Korean Tallasses Union) La SRA (Shadow Research Agency) est une société des humains galactique et d’aliens qui ont senti ou été témoins de phénomènes magiques, c’est un groupe de recherche essentiellement basé en Australie qui enquête donc sur l’Ombre-monde et la magie, il n’est pas très actif en Californie. L’Emeraude Sanglante est une autre faction Talasse pure. Après la Percée Ad’rak ravageuse un groupe de talass avait décidé de devenir guerrier. Avec les siècles, « l’émeraude sanglante » s’est illustrée et a gagné en renommée. Elle s’est enorgueilli et enfoncé dans une violence et une haine si profonde qu’elle décida de pénétrer dans l’espace du domaine Ad’rak au lieu de simplement défendre. Elle fut laminée par l’armée noire mais l’AIDH préleva quelques survivants. Hélas, particulièrement ingrats, ces derniers, sur terre, fomentent leur vengeance sur les Ad’rak et n’obéissent pas aux lois de l’AIDH sur la vie des émigrés Extrals. L’émeraude sanglante importe du matériel de guerre d’un niveau interdit. Pendant la guerre de 22-28, la KTU employa l’Emeraude sanglante afin de tester des évolutions métisses entre le niveau technologique actuel des humains et celui minimal attendu. Malgré ça, l’Emeraude n’a pas gagné la guerre à elle seule, ce n’était pas son but de toute façon. Le R.E.P.T.I.L.E. (Reptilian Extraterrestrial Politicians, Technologistes and Ideologists League on Earth) est une organisation majoritairement Mo’senne. Elle cache néanmoins quelques rares Xe’wens et des Reltes en son sein, en revanche, aucun Chezhon, ils sont détestés et traqués. En soi, le REPTILE n’est pas une faction hostile, mais son but est de placer aux plus hauts sommets des représentants, en politique, économie, religion ou autre, afin que les Extrals, notamment les Mo’sens, ne soient protégés, non pas par le GAAC ou l’AIDH, jugés inefficaces voire injustes, mais par les lois et les systèmes humains en les parasitant le plus profondément possible. « Les Reptiliens », décrits par David Icke, un conspirationniste connu sont le REPTILE, mais leur volonté initiale reste la survie de leurs toutes petites communautés fragiles. Une branche du REPTILE est toutefois violente, la brotherhood of hate ( BoH) c’est une confrérie de chasseurs exrtrals (pas uniquement Mo’sens) qui ont la même volonté que l’émeraude majeurs. La présence d’entités comparables aux Eons (parfois appelés EON pour désigner ; « Extraterrestrial omnipotent Nuisance » ), semble aussi intriguer l’AIDH. La Terre fait office de laboratoire avec l’Hologramme, une puissante technologie qui sépare un plan dimensionnel d’une partie de la Manasphère afin de préserver cette dernière d’une utilisation abusive pour mieux l’étudier mais aussi pour laisser les humains locaux se développer en limitant au maximum l’influence extraterrestre. L’AIDH sert aussi de douane, elle autorise la présence des Extrals (les extraterrestres inhumains) mais selon un contrôle et des règles excessivement stricts. C’est l’AIDH et l’AIDH seule qui détermine qui vient sur Terre, combien de temps et pour faire quoi. Certains Extrals percoivent donc le détachement de la 783ème armée comme une agence de safari un peu militariste tant ils sont à l’aise avec les conditions requises. L’AIDH gère le grand générateur de l’Hologramme dans sa base du pole sud mais dispose de base sur chaque continent (exception faite de ceux Atlantes). Les soldats de l’AIDH sont des surhommes, ils sont surentrainés, les modificatiosn corporelles sont essentiellement d’ordre chimique afin de leur faire tolérer les grandes quantité de nanites en eux, ces nanites permettant des miracles, telle que des soins d’urgences, une capacit-é de stockage d’information, l’adaptation à des températures extrêmes, la recréation d’organes, la synthèse d’hormones, la suppression des toxines, la synthèse de tissus, la collecte de données entre nanites (lors d’un échange sanguin ou par simple contact de peau), mais aussi et surtout la capacité de matérialiser ou dématérialiser l’équipement, telle que l’armure de combat, fusil d’assaut et arme de poing, couteaux et ,évidemment, munitions. Un soldat de l’AIDH n'a pas à enfiler son armure, elle se déploie ex-nihilo après quelques secondes sous forme déphasée. Outre ces compétences, le soldat de base a des compétenes physiques et intellectuelles très au dessus de l’humanité, surtout terrienne. Parce que la durée de vie d’un soldat de l’AIDH est prolongée, « vétéran » n’a pas du tout le même sens que pour un terrien. Pratiquement aucun terrien n’a été intégré à l’AIDH, tous les soldats présents sur Terre sont donc nés ailleurs et y ont été mutés, il existe quelques exceptions mais les Terriens ignorant tout de l’AIDH, ce n’est pas cette dernière qui va se révéler à eux d’autant plus que n’étant pas un peuple de culture galactique, l’adaptation pourrait échouer quant à la vie spatiale. La seigneur-général en charge de la 783ème armée est Lisa Eredhès. Elle collabore avec les seigneurs-général karina Kelack ( de la 322ème armée) et Jol’la Etrys ( de la 811ème armée) qui croisent dans les secteurs alentours. Elle collabore plus intrinsèquement avec l’officier Alladava Kjoll, ancienne du haut commandement de l’armée 0 qui est son aide de camp désormais. La 783ème armée dispose de soldats spéciaux sur Terre, le détachement « Over-ghost » dont les armures sont non pas des armures de combat spatial mais dimentionnelles, permettant d’évoluer de la Réalité à la Vérité mais aussi de pénétrer dans l’Ombre-monde tout en étant immunisé à la magie, que l’AIDH désigne comme «énergie secrète » faute d’avoir des résultats probant de son étude. « L’overghost division » est aussi l’occasion de créer un armement efficace face à une des grandes menaces de la galaxie : les Ombre wolféennes, dont le Fléau qui ouvre les dimension semble avoir envoyé un de ses avatars, Alicia Starrogue, sur Terre afin de libérer son écho, un certain v’aagor qui serait de même nature qu’elle."
+            "text": "L’Armée 0 constitue le cœur commun de l’organisation. Elle assure recherche, logistique, supervision, recrutement et gestion de l’information. Les officiers ne prennent pas de retraite au sens ordinaire : après son commandement, un seigneur-général rejoint l’Armée 0."
+          }
+        ]
+      },
+      {
+        "id": "traite-icheien",
+        "title": "Le traité ichéien : ressources et protection",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les gouvernements signataires fournissent les ressources de l’AIDH en échange de sa protection. Cette relation peut se comparer à un système féodal galactique entre protecteurs militaires et mondes tributaires. Elle bénéficie largement aux gouvernements couverts ; les mondes qui refusent le traité sont souvent instables ou exposés aux invasions."
           },
           {
             "type": "p",
             "style": "lore",
-            "text": "sanglante : purger toute menace Extrale n’étant pas Mo’sen, Talass, Baséanne, Rocréenne ou Thalsiosse. C’est une armée mercenaire totalement spéciste qui déteste les autres espèces intelligentes en dehors des « Six » (dont l’humanité). Le GAAC condamne souvent la BoH pour ses exactions, cette confrérie purge des communautés émigrées, qu’elles soient hostiles ou pacifique. La BoH étant une branche du REPTILE, ce dernier la protège, relevant toutes les infractions des communautés attaquées et toutes les menaces possibles, le REPTILE fait souvent valoir que l’AIDH n’a, forcément, jamais autorisé ces illégaux à s’implanter puis, régulièrement, dissout la BoH pour mieux la reconstruire derrière sous un nouveau nom. Une seconde sous-branche du REPTILE est la Saeniaforming army : SA, une « armée » de nom seulement puisqu’il s’agit d’un groupuscule politique et industriel qui cherche à acélérer le réchauffement climatique afin de changer la Terre en une planète plus aride et correspondre mieux à un environnement propice aux Mo’sens. Gros industriels, scientifiques, politiciens, journalistes, la SA fait moins d’action violente qu’un lourd travail de désinformation pour endiguer tout travail environnementaliste afin de contrer le changement climatique. Les Climatosceptiques ont été créé par eux. Parfois, la SA déploie néanmoins des moyens militaires pour provoquer quelques incidents, le but est toujours de débloquer des moyens d’accélérer le réchauffement à terme. La « ligue Baséanne « est une autre faction, elle est aussi appelée « Croix verte » sur Terre et ne comporte pas que des Baséans. Elle a été fondée pour subvenir aux besoins de cette espèce un peu exigeante, en effet, l’atmosphère, la nourriture et diverses conditions terrestres ne vont pas bien aux Baséans, ils sont assez malades malgré leur très bonne intégration à la société Humaine, et l’AIDH reste intransigeante sur les conditions d’installation sur Terre, contrairement au REPTILE, qui entrevoit de modifier la Terre pour l’adapter aux besoins Mo’sens, la croix verte a installé des « Biobars » , officiellement des bars d’une franchise de Biosun, la corporation, officieusement des centres de remises en forme où la nourriture, la chimie de l’air et l’hydrométries sont ajustées au bien être des espèces plus exigeantes. Un secteur permet aussi la gestion génétique, étant donné que les Extrals sont assez peu nombreux et dispersés, ces Biobars permettent des rencontres et de les organiser, mettent à disposition des chambres et des laboratoires d’insémination ou de conceptions In vitro le cas échéant pour les rencontres. Tout est fait pour la prospérité des Extrals. La mafia Shaediri ou « mafia rocréenne » s’est forgée lors des grands mouvements d’insurrection contre l’empire Rocréen décadent, un des clans esclaves, les Shaediri renversa les gouvernements sur les mondes de Rushul, Athurum et Shlargassi, ce fut la grande révolution Shaediri, victorieuse pendant plusieurs décennies avant de subir une purge sanglante. La diaspora Shaediri fut assez rapide, une famille s’installa sur Terre sous la protection de l’AIDH, mais quand les rocréens d’autres clans arrivèrent, avec les mêmes droits et le même respect, ça ne passa aucunement. Les Shaediri s’enfoncèrent dans des importations d’armes, de matériel et une guerre secrète contre leurs « frères » ennemis, pour le contrôle du commerce extrals sur Terre, mais les rocréens Feeshri, l’ancien clan impérial, Asthiri, Tursha’i et Gollocki étaient liés aux G-corporations, alors les Shaediri se retrouvèrent écrasés. Ils ne se rebellèrent pas frontalement mais puisque le commerce officiel n’était pas possible ils développèrent le marché noir et assez vite, avec le blocus de l’AIDH sur les produits trop avancés, ils gagnèrent la guerre d’influence, s’octroyant les services de tous les émigrés illégaux les plus dangereux pour avoir une force de frappe en cas de menace du GAAC, qui, malgré tout, restait derrière les clans plus influents dans le reste de la galaxie. L’AIDH sur Terre profite du caractère sanctuaire pour cultiver des alliances moins aisées aileurs dans la galaxie, c’est notamment le cas avec les Ad’rak, l’AIDH fermant les yeux sur les comunautés se réfugiant là, essentiellement des ressortissants discriminés par l’armée noire Ad’rak, ayant , par exemple, grandement laissé venir la haute prêtresse Nel'Akna (Tejana) afin d’entacher l’image de l’armée noire. L’AIDH n’est pas une faction constituée de boyscouts, elle dispose d’assez peu d’effectifs sur Terre, 5 fois ce chiffre pour les effectifs sur la lune , l’équivalent de l’effectis de la lune pour le reste des colonies du système solaire de la Terre. Pour cette raison, s’il y a une menace qui nécessite une intervention, l’AIDH fera de la suppression rapide et brutale. Elle a pour traits l’agence privée corporative de la Space Force Union, une corporation qui accapare l’entièreté des droits liés au vol spatial et des stations au-delà de la lune. Suite au vol sur Mars de Dina Page, l’AIDH a compris que les terriens allaient de plus en plus essayer de sortir de la Terre et qu’il fallait cadrer cette sortie, hélas, les aliens et les humains d’autres système ayant déjà pénétré dans le système solaire depuis longtemps. La SFU se déclare être une agenced indépendante même si ses profits grace à l’attrait des voyages lunaire la placent comme une corporation très à l’aise financièrement. l’AIDH lutte aussi, évidemment, contre les actions aliens sur Terre, notamment la plus menançante étant le REPTILE et sa volonté de « réformer » le climat terrien en un désert plus aride et avantageux pour les Mo’sens. Ironiquement, les Mo’sens sont une race allié au traité Ichéiens qui ont été massacrés par l’espèce cousine qui est les Chezhons leur ayant volé leur monde natal. C’est Lisa Eredhès avait sauvé Saoden II-B2, le grand commandeur Talass de « l’émeraude sanglante » et permit son installation sur Terre, elle n’a pas mesuré l’ampleur de la soif de vengeance du Talass, un sentiment inexistant chez les autres de son espèce. Elle limite les actions de l’emeraude sanglante même si pendant la guerre de 22-28, Saoden a été plus loin qu’elle l’imaginait, poussé à une cruauté rare, pour ce Talass qui fut un temps son ami, Lisa a fait preuve d’une certaine largesse, désormais en 2035, ce n’est plus le cas, ordre est donné à tout soldat de l’abattre à vue s’il redéploie ses troupes. L’AIDH dispose toutefois sur Terre d’un vaste réseau, un agent est disposé dans chaque gouvernement de la terre, cet agent a renseigné les politiques avec qui il travaille quant à un devoir de le renseigner pour toute affaire qui pourrait toucher l’AIDH, une mesure pour éviter qu’un pauvre policier n’essaye d’arrêter des soldats en mission pour un défaut de phare."
+            "text": "L’AIDH doit rester neutre dans les affaires politiques humaines. Elle n’a pas à favoriser un gouvernement bienveillant ni à renverser un régime totalitaire. Elle n’intervient pas dans les conflits entre humains. Les querelles avec des aliens alliés ne deviennent prioritaires que lorsqu’elles menacent une population humaine, et non seulement un régime ou une faction idéologique."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "En retour, l’AIDH dispose d’une immunité totale. Aucun gouvernement ni aucune faction n’a autorité pour contester la désignation d’un ennemi de l’Humanité ou punir les agents qui l’éliminent. Cette latitude limite de fait la sécurité des dirigeants locaux : même si l’AIDH ne peut réprimer leurs exactions politiques comme telles, leur classement parmi les menaces peut pousser leur propre entourage à les supprimer pour éviter une intervention."
+          }
+        ]
+      },
+      {
+        "id": "menaces",
+        "title": "Les trois grands classements de menace",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Code",
+                "Désignation",
+                "Portée"
+              ],
+              [
+                "TtM",
+                "Traitor to Mankind",
+                "Individu isolé et son réseau."
+              ],
+              [
+                "TtH",
+                "Threat to Humanity",
+                "Groupe étendu ou menace de plus grande portée ; les espèces aliens ennemies entrent dans cette catégorie."
+              ],
+              [
+                "GCfH",
+                "Galactic Calamity for Humans",
+                "Menace pouvant nécessiter plusieurs armées et des organisations annexes. Les Greys en faisaient partie ; les Ath’Tiay et les Ombres wolféennes y figurent encore."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "declaration-menace",
+        "title": "La décision des seigneurs-généraux",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Un seigneur-général peut déclarer ces niveaux sans procès pour justifier le déploiement de ses troupes. Chaque classement comporte des nuances internes, mais tous accordent à l’AIDH une très grande liberté d’action."
+          }
+        ]
+      },
+      {
+        "id": "terre-secteur",
+        "title": "La Terre et le secteur de la 783e armée",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les systèmes voisins du Soleil qui possèdent des planètes terraformées relèvent du traité ichéien, notamment de la 783e armée. Abandonner la Terre sous prétexte de son archaïsme serait donc une faute grave. Sa surveillance se justifie aussi par les enjeux de la magitechnologie, des Fléaux et des entités parfois désignées par l’acronyme EON, « Extraterrestrial Omnipotent Nuisance »."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "De vastes vaisseaux impériaux rocréens ont été arrachés à leur environnement puis transportés sur Terre à une époque apparemment antérieure à l’Empire rocréen, par un phénomène ou une technologie inconnus. Les Greys y subsistent également : le virus employé par l’Inquisition pour les exterminer n’a été déjoué que sur Terre. La planète pourrait devenir le point de départ de leur retour."
+          }
+        ]
+      },
+      {
+        "id": "hologramme",
+        "title": "L’Hologramme et le contrôle des séjours",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La Terre sert de laboratoire à l’Hologramme. Cette technologie sépare un plan dimensionnel d’une partie de la manasphère pour préserver celle-ci d’une exploitation abusive, permettre son étude et limiter l’influence extraterrestre sur le développement humain. Le générateur principal se trouve dans la base du pôle Sud ; l’AIDH possède aussi des bases sur les autres continents, à l’exception des territoires atlantes."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’AIDH exerce seule l’autorité douanière : elle décide quels Extrals viennent, pour quelle durée et pour quelle activité. Certains visiteurs parfaitement à l’aise avec ces exigences perçoivent le détachement de la 783e armée comme une agence de safari militarisée ; les restrictions restent pourtant extrêmement strictes."
+          }
+        ]
+      },
+      {
+        "id": "soldats",
+        "title": "Les soldats et les nanites",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les soldats sont surentraînés et possèdent des capacités physiques et intellectuelles très supérieures à celles de la plupart des humains, surtout terriens. Leurs modifications corporelles sont principalement chimiques et leur permettent de supporter de grandes quantités de nanites. Leur longévité donne au terme « vétéran » une tout autre portée que sur Terre."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les nanites assurent soins d’urgence, stockage d’informations, adaptation aux températures extrêmes, reconstitution d’organes et de tissus, synthèse d’hormones et élimination des toxines. Elles échangent aussi des données lors d’un contact cutané ou sanguin."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Elles permettent enfin de matérialiser et dématérialiser l’armure, les armes de poing et d’assaut, les couteaux et les munitions. Le soldat n’enfile pas son armure : elle se déploie en quelques secondes sous une forme déphasée."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Le recrutement terrien demeure exceptionnel. Presque tous les soldats présents sont nés ailleurs et ont été mutés sur Terre. L’AIDH ne cherche pas à se révéler aux habitants pour recruter ; leur absence de culture galactique pourrait aussi compromettre leur adaptation à la vie spatiale."
+          }
+        ]
+      },
+      {
+        "id": "commandement",
+        "title": "Le commandement du secteur",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Responsable",
+                "Fonction"
+              ],
+              [
+                "Lisa Eredhès",
+                "Seigneur-général de la 783e armée."
+              ],
+              [
+                "Karina Kelack",
+                "Seigneur-général de la 322e armée ; coopération dans les secteurs voisins."
+              ],
+              [
+                "Jol’la Etrys",
+                "Seigneur-général de la 811e armée ; coopération dans les secteurs voisins."
+              ],
+              [
+                "Alladava Kjoll",
+                "Ancienne du haut commandement de l’Armée 0, aide de camp de Lisa Eredhès."
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "overghost",
+        "title": "La division Over-ghost",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les soldats spéciaux Over-ghost disposent d’armures dimensionnelles. Ils passent entre Réalité et Vérité et pénètrent dans l’Ombre-monde en étant immunisés à la magie, que l’AIDH nomme « énergie secrète » faute de résultats suffisants dans son étude."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Ce détachement permet aussi de concevoir des armes contre les Ombres wolféennes. L’AIDH soupçonne le Fléau qui ouvre les dimensions d’avoir envoyé sur Terre un avatar, Alicia Starrogue, afin de libérer son écho V’aagor, qui serait de même nature."
+          }
+        ]
+      },
+      {
+        "id": "effectifs",
+        "title": "Effectifs et moyens terrestres",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les effectifs terrestres sont réduits. Ceux de la Lune sont environ cinq fois supérieurs ; les autres colonies du système solaire en abritent autant que la Lune. Face à une menace nécessitant une intervention, l’AIDH privilégie donc une suppression rapide et brutale."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Un agent est placé dans chaque gouvernement terrestre. Les responsables politiques doivent lui signaler les affaires susceptibles de concerner l’AIDH, notamment pour éviter une confrontation entre les forces locales et ses soldats en mission."
+          }
+        ]
+      },
+      {
+        "id": "space-force-union",
+        "title": "La Space Force Union",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La Space Force Union sert de façade à l’AIDH pour encadrer le vol spatial et les stations au-delà de la Lune. Après le voyage de Dina Page vers Mars, l’AIDH jugea nécessaire de contrôler davantage les sorties terrestres, alors que les humains galactiques et les Extrals fréquentaient déjà le système solaire."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "La SFU se présente comme une agence indépendante. Les revenus des voyages lunaires lui donnent pourtant les moyens financiers d’une corporation prospère."
+          }
+        ]
+      },
+      {
+        "id": "diplomatie",
+        "title": "Alliances, surveillance et répression",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Le sanctuaire terrestre permet de cultiver des relations difficiles ailleurs, notamment avec des Ad’rak discriminés par l’Armée noire. L’accueil de la haute prêtresse Nel’Akna, connue sur Terre comme Tejana, contribue ainsi à affaiblir l’image de cette armée."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’AIDH s’oppose aux projets d’aridification du R.E.P.T.I.L.E., malgré l’alliance des Mo’sens avec le traité ichéien. Elle surveille aussi l’Émeraude Sanglante. Lisa Eredhès sauva Saoden II-B2 et autorisa son refuge sur Terre, mais sous-estima sa soif de vengeance. Après les exactions de 2022–2028 et une période de tolérance personnelle, l’ordre en vigueur en 2035 est de l’abattre à vue s’il redéploie ses troupes."
           }
         ]
       }
@@ -544,7 +1983,7 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sourceCategory": "Vérité",
     "title": "G-Corporations & Corp’+",
     "source": "factions_Les humains galactiques(1)(1).pdf",
-    "status": "canon_source",
+    "status": "canon_enrichi",
     "rebuildV2": true,
     "tags": [
       "Vérité",
@@ -557,18 +1996,137 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sections": [
       {
         "id": "dossier-g-corpos",
-        "title": "Empires commerciaux et représentation Corp’+",
+        "title": "Des empires économiques galactiques",
         "level": 2,
         "blocks": [
           {
             "type": "p",
             "style": "lore",
-            "text": ". Certains évoquent les origines de ces G-corpos dans l’époque des seigneurs d’Ichei prime, les guildes marchandes obtinrent des droits toujours plus grands en approfondissant leurs liens familiaux avec la noblesse, jusqu’à ce que cette noblesse n’ait la main sur ces guildes. Le roman historique de leur apparition est probablement un vaste tissu de mensonge résumant et simplifiant à outrance comment des commerces ont pu devenir plus puissant que les plus grands empires stellaires. Par définition une G-corporation est une organisation à but uniquement lucratif dont des produits sont vendus sous le même nom à deux endroits opposés de la galaxie, même s’il est courant que des G-corpos aient des zones totalement vierges de leur existence, par exemple dans des domaines spatiaux appartenant à des Extrals. L’arsenal pour réussir un tel exploit est une force de terraformation, les G-corpos sont les leaders dans l’installation des espèces liées au Traité Ichéien, l’Humanité en tête donc, ses alliés compatibles (Mo’sen, Talass, Thalsios, Rocréens et Baséans) étant aussi associés avec une liste d’une centaine d’espèces plus localisées. En échange du travail offert, les G-corpos font d’une terre inhabitable une nouvelle demeure. Généralement, les G-corpos n’ont pas d’armée, car ce serait une méthode trop violente, à la place elles ont des vaisseaux entiers de colons, des déportés de mondes attaqués ou des volontaires prélevé sur des mondes surpeuplés, ces colos débarquent sur des mondes vierges ou habités par des aliens. Eles s’insinuent dans la politique, la santé et l’économies des formes de gouvernements, afin de préparer le terrain à leur implantation. Evidemment cette capacité à s’insérer à tous les niveaux est très étroitement surveillée par l’Inquisition galactique, on a déjà vu des G-corpos financer des guerres afin de pouvoir disposer d’une planète, certaines corporations sont même des expertes dans la vente et revente de planètes. Les G-corporations sont des conglomérats galactiques qui ont une forte influence sur les gouvernements, contrairement à l’AIDH ou l’inquisition, les G-corporations n’ont pas une composante humaine majoritaire volontairement, c’est une conséquence de la présence l’AIDH. En effet, c’est parce que rien ne protège aussi bien la paix dans la galaxie que l’AIDH et le traité Ichéien que l’espèce la plus prospère est l’humanité la conséquence directe est qu’étant plus prospère, les mondes où les G-corpos se maintiennent plus durablement sont ceux humains. Comme la stabilité des G-corpo dans les empires et systèmes Extrals est incertaine, statistiquement, il y a donc plus de chance qu’un secteur humain ne fasse plus de gains qu’un secteur alien et forcément, que les cadres humains s’en tirent mieux. Malgré tout, les G-corpos ont une très grosse part extrals dans leur organisation. Une différence notable entre les G-corpos et les Megacorpos de la Terre est leur unité. Il n’existe qu’une corporation par domaine dans la Galaxie, chacune est décomposée en milliers voire dizaines de milliers de Corporations de systèmes, qui peuvent se tirer dans les pattes, mais toutes sont des filiales d’une même G-corpos. Les grandes G-corpos ont un conseil galactique, de grands patrons de chacune. Ce conseil a une armée spéciale, « l’Armée d’Obédience au"
+            "text": "Les G-Corporations sont des ensembles politico-économiques consacrés au profit, à la distribution et au marketing à travers la galaxie. Une même marque peut vendre ses produits dans des régions opposées de la Voie Lactée, tout en restant absente de vastes domaines extrals."
           },
           {
             "type": "p",
             "style": "lore",
-            "text": "Marché » (Trade Army of Obedience), surnommée la « Taoo ». Cette armée est très mal vue des extrals neutres et même les Armées de l’AIDH ne la supportent qu’assez peu, en effet, elle est très peu populeuse et déployée toujours localement pour complétement soumettre des gouvernements, terraformer des mondes et les transformer en exploitations minières ou agricoles, mondes touristiques ou monde-dortoir selon les besoins des G-corpos. Les membres de la Taoo sont très préférentiellement recrutés chez les anciens de l’AIDH ou des plus prestigieuses armées, alors ses actions sont constamment espionnées et rapportées à l’Inquisition, l’AIDH et à travers la galaxie, hélas, elles sont rarement empêchées. Les soldats de la Taoo sont surnommés les « Obediers ». Une donnée essentielle qu’il fut bien comprendre avec les G-corpos est que les clients d’adaptent aux produits et non l’inverse dans la galaxie. En effet, la galaxie est si vaste et le nombre d’espèces touchées par le G-Trade est si colossal que les G-corpos ont une politique de globalisation plus qu’agressive. Il est plus simple de pousser à remanier génétiquement une espèce locale pour tolérer certaines protéines mortelles que de changer la recette de produits phares dont les stocks ne serviraient que pour quelques espèces pas certaines de se maintenir sur le long terme, en outre, ce changement génétique est un service payant, aux frais des clients qui fera prospérer une corporation, enfin, le caractère toxique de la protéine entrainera une sélection des individus la tolérant, qui seront de plus en plus nombreux à consommer comme les voisins et une chute de la santé générale qui augmentera les frais des corporations médicales, que des avantages ! Pour cette raison, les G-corpos provoquent de forts mouvements contestataires dans les systèmes trop récemment approchés. Sur TUC, Les représentants du conseil des G-corpos forment le « Corp’Plus »et il faut comprendre que c’est une première pour le conseil, l’AIDH a complétement interdit Corp’+ d’importer sur le territoire Terrien, sans raison logique, du moins du point de vue G-corporatif. Cette erreur administrative viole toutes les lois du Commerce galactique (lois que les G-corpos ont-elles-mêmes rédigé, ratifié et imposé) et c’est pourquoi elles se sont associées au « Syndicat Roesis », parfois appelé « Syndicat des lunes dansantes », un bien joli terme pour parler du plus grand réseau mafieux galactique. Cette alliance est contre-nature, puisque le Syndicat pille les G-corpos et assure le maintien de marché noir le plus vaste dans la galaxie par ses lunes artificielles errantes, dernier bastion des Roesis. Mais c’est cette expertise du marché noir qui s’avère nécessaire pour Corp’+, cette￾fois-ci et cette fois-ci seulement, les bénéfices semblent possibles que par un marché noir. Le déploiement de la Taoo n’a jamais été possible, malgré toute la discrétion, aucun vaisseau militaire corporatif ne s’est posé. Le syndicat Roesis passe par le clan Feeshri, chez les Rocréen, un clan très noble et réputé mais opposé dans une guerre asymétrique avec le clan Shaediri, qui détient 75% du marché noir terrien chez les Extrals par sa « fédération des parias ». Toutefois, Corp’+ a joué intelligemment puisque les G-corporation se sont bien servi du Syndicat pour acheminer des cargaisons, pour s’implanter et localement ont totalement retourné leur veste pour s’allier aux Shaediri, offrant un contrat juteyx à ce clan minable d’anciens esclaves qui ne sont presque que des animaux comme les autres dans ce zoo qu’est la Terre."
+            "text": "Certains récits font remonter leur origine aux guildes marchandes d’Ichéi Prime, qui auraient acquis des droits en nouant des liens familiaux avec la noblesse avant de passer sous son contrôle. Cette histoire simplifie probablement un processus beaucoup plus complexe, par lequel des commerces sont devenus plus puissants que les grands empires stellaires."
+          }
+        ]
+      },
+      {
+        "id": "terraformation",
+        "title": "Terraformation et implantation",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Leur puissance repose notamment sur la terraformation. Elles installent les espèces du traité ichéien, en premier lieu les humains, puis leurs alliés mo’sens, talass, thalsios, rocréens et baséanhs, ainsi qu’une centaine d’espèces plus locales. En échange du travail des colons, elles transforment des terres inhabitables en lieux de vie."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les G-Corporations ne disposent généralement pas chacune d’une armée. Elles emploient plutôt des flottes de colons, réfugiés de mondes attaqués ou volontaires issus de planètes surpeuplées, pour s’implanter sur des mondes vierges ou déjà habités. Elles prennent pied dans la politique, la santé et l’économie locales."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’Inquisition surveille ces pratiques. Certaines G-Corporations ont financé des guerres pour obtenir une planète ; d’autres se spécialisent dans l’achat et la revente de mondes."
+          }
+        ]
+      },
+      {
+        "id": "composition",
+        "title": "Une majorité humaine issue de la stabilité",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Leur forte composante humaine ne constitue pas un principe identitaire volontaire. La protection de l’AIDH et du traité favorise la prospérité et la stabilité des mondes humains, où les entreprises se maintiennent plus durablement que dans certains systèmes extrals. Les secteurs et les cadres humains en tirent un avantage statistique. Les Extrals conservent toutefois une place très importante dans ces organisations."
+          }
+        ]
+      },
+      {
+        "id": "conseil",
+        "title": "Une G-Corporation par domaine",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Contrairement aux mégacorporations terrestres, il n’existe qu’une G-Corporation par domaine à l’échelle galactique. Chacune se subdivise en milliers, voire en dizaines de milliers de corporations de systèmes. Ces filiales peuvent se combattre tout en relevant du même ensemble."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les grands dirigeants siègent dans un conseil galactique commun, qui dispose d’une force militaire spéciale : l’Armée d’Obédience au Marché, ou Trade Army of Obedience, surnommée la Taoo."
+          }
+        ]
+      },
+      {
+        "id": "taoo",
+        "title": "La Taoo et les Obediers",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Peu nombreuse et déployée localement, la Taoo soumet des gouvernements et impose la transformation de mondes en exploitations minières ou agricoles, destinations touristiques ou planètes-dortoirs. Ses soldats, les Obediers, sont recrutés de préférence parmi les anciens de l’AIDH et des armées les plus prestigieuses."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Extrals neutres la voient très mal et les armées de l’AIDH la tolèrent difficilement. Ses opérations sont constamment surveillées et rapportées à l’Inquisition, à l’AIDH et dans la galaxie, mais rarement empêchées."
+          }
+        ]
+      },
+      {
+        "id": "standardisation",
+        "title": "Adapter les clients aux produits",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Le G-Trade impose une standardisation agressive : les clients sont poussés à s’adapter aux produits, plutôt que l’inverse. Les entreprises préfèrent parfois vendre une modification génétique permettant de tolérer une protéine toxique plutôt que changer une recette pour quelques espèces dont la présence commerciale reste incertaine."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Cette politique fait payer l’adaptation aux consommateurs. Elle peut aussi favoriser les individus naturellement tolérants tout en dégradant la santé des autres, ce qui profite aux corporations médicales. Elle suscite de forts mouvements contestataires dans les systèmes récemment intégrés au marché."
+          }
+        ]
+      },
+      {
+        "id": "corp-plus",
+        "title": "Corp’+ et l’interdiction terrestre",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Sur Terra Umbra, les représentants du conseil forment Corp’Plus, ou Corp’+. L’interdiction d’importer imposée par l’AIDH est sans précédent pour eux. Ils la considèrent comme une erreur administrative contraire aux lois du commerce galactique, lois qu’ils ont eux-mêmes rédigées, ratifiées et imposées."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Pour contourner le blocus, Corp’+ s’est allié au Syndicat roesis, également appelé Syndicat des lunes dansantes. Ce vaste réseau mafieux pille habituellement les G-Corporations et entretient le marché noir depuis les lunes artificielles errantes qui abritent les derniers Roesis. Sur Terre, son expertise clandestine est devenue indispensable. Aucun vaisseau militaire corporatif n’a pu s’y poser et le déploiement de la Taoo demeure impossible."
+          }
+        ]
+      },
+      {
+        "id": "clans-rocreens",
+        "title": "Du Syndicat roesis aux Shaediri",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Le Syndicat passe par les Feeshri, clan rocréen prestigieux engagé dans une guerre asymétrique contre les Shaediri. Ces derniers contrôlent environ 75 % du marché noir extral terrestre grâce à leur fédération des parias."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Après avoir utilisé les réseaux roesis pour acheminer leurs cargaisons et s’implanter, les G-Corporations ont changé d’alliance localement et conclu un contrat lucratif avec les Shaediri. L’intérêt commercial l’a emporté sur le mépris social que certains dirigeants corporatifs portent à ce peuple d’anciens esclaves."
           }
         ]
       }
@@ -588,7 +2146,7 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sourceCategory": "Vérité",
     "title": "Inquisition galactique",
     "source": "factions_Les humains galactiques(1)(1).pdf",
-    "status": "canon_source",
+    "status": "canon_enrichi",
     "rebuildV2": true,
     "tags": [
       "Vérité",
@@ -601,18 +2159,125 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sections": [
       {
         "id": "dossier-inquisition",
-        "title": "Origines, restructuration et doctrine",
+        "title": "Une institution héritière de plusieurs ordres",
         "level": 2,
         "blocks": [
           {
             "type": "p",
             "style": "lore",
-            "text": "Conseiller : Su’Er’04 Conseiller : Gysh'orvmil Nom de la Réalité : Summer Stevenson Nom de la Vérité : Su’Er’04 Age : «33 ans » - ??? Affiliations : indépendant : Caltech Nationalité d’origine : Américaine Ethnie réelle : Talass Statut : Conseillère à la CTU Summer est la directrice de la branche « sciences sociales » à Caltech. Elle a néanmoins un doctorat en astronomie, un en étude comportementale et un en biochimie. C’est un génie glacial qui a beau être passionné par le cerveau humain, reste profondément glacial et sans empathie. C’est une directrice peu émotive, elle ne semble expressive que lorsqu’elle parle de Leslie Wright, qu’elle admire. Su’Er est une talass assez obsessionnelle, elle trouve les capacités cognitives des Terriens bien trop basses comparées à celles des autres humains, alors que Leslie Wright est bien au-dessus des normes galactiques, avec Myra Eger, elle avait établi un plan de remaniement génétique de l’espèce humaine via Yellowfood pour tendre vers une « Wrightisation » du cerveau de 75% de l’espèce mais pour des raisons financières purement, le CTU invalida le projet. Elle n’a pas d’attrait pour la sexualité en dehors de l’étude scientifique, c’est pourquoi elle s’habille extrêmement sexy, pour percer les secrets derrière cette stratégie reproductive. Nom de la Réalité : Jaymor Milgan Nom de la Vérité : Gysh'orvmil Age : «44 ans » - ??? Affiliations : Corporation : Yellowfood Nationalité d’origine : Américaine Ethnie réelle : Rocréenne Statut : Conseiller à la CTU Jaymor est le directeur de la branche Makerking de Yellowfood, il est très proche de Myra Eger, la directrice de la branche fastfood et leur alliance dans la corporation donne le ton sur les autres branches en général. Le parfait corporatiste pourri est incarné en Jaymor, ce métis élégant et séducteur est un menteur et arrose de fric toute forme de contestation ou de tâche sur l’image de la corporation. Gysh est un rocréen, membre de la CTU, il n’a pas grand-chose à foutre des petites considérations Shaediri vs Feeshri, il estime avoir une conscience et des plans pour l’avenir plus vertueux. Adepte de Machiavel, il se fout des moyens, seul compte la finalité. Il voit la Terre comme une prison, comme un bocal à poisson rouge où les humains et autres espèces intelligences voient leur potentiel à l’agonie dans ce contexte. Il est le diplomate de la CTU, les Talass n’ont pas d’empathie plus que ça à prendre des décisions drastiques mais Gysh leur est essentiel car ils peinent à convaincre en dehors de leur cercle de convaincus. Il n’en tire pas grand-chose en vérité, n’étant pas aussi pourri que son identité humaine ne l’est pour Yellowfood, même s’il est terrifié par l’AIDH. 03. L’Inquisition galactique L'histoire de l'Inquisition est une histoire particulièrement vaste, s'étirant sur des dizaines de milliers d'années, et prenant sa source dans de nombreuses autres organisations au cours du temps, s'étant réuni en une seule entité et s'articulant autour de buts communs. Néanmoins, on peut faire remonter les prémices de son histoire à l'aube des Mondes Technologiques, et de l'histoire de l'humanité dans les étoiles, depuis les premiers colons humains sur Ichéi Prime, déporté par les Azménoriens pour leurs expériences. Parmi ces quelques dizaines de milliers de colons forcés, issus de paysans, ou de soldats, ne se trouvaient ni mage ni prêtres, cependant, beaucoup d'entre eux restaient de fervents croyants, avec une certaine connaissance des rouages des clergés d'Aèr, leur monde natal. De fait, après le départ des azménoriens, et la fondation de l'église Ichéienne, les vénérant comme de lointains dieux des étoiles, partis pour permettre à l'Humanité d'accomplir son plein potentiel et de régner sur cette planète légitimement (par la suite, et les modifications et transformations de l'église suites aux découvertes technologiques, cette destinée manifeste changera en un règne légitime sur les étoiles), les fondateurs de cette église se calquèrent sur cette organisation issue d'Aèr, et trois branches furent constitués. Par la suite, le pouvoir de l'Inquisition, et des autres branches, ne fit que croître, au fur et a mesure que l'église Ichéienne montait au pouvoir, jusqu'a former la Théocratie Ichéienne, régnant sur la planète dans son ensemble. Le rôle de l'Inquisition devint alors celui de police politique, traquant les opposants et contestataire, et ce, jusqu'a la fin de la Théocratie, et l'avènement du Consortium Dardale, et l'avènement de la Technologie. L'église ne disparut pas cependant, bien que perdant énormément en influence, elle dut se restructurer complètement, endurant des siècles de transformations internes, alors que les schiismes s'enchainaient, tâchant de garder une place et de ne pas devenir une relique obsolète à l'heure où les premiers voyages spatiaux apparaissaient. C'est à ce moment que sa doctrine changea, pour placer l'humanité au centre de l'univers, et à la destinée manifeste de régner sur la galaxie. Les paladins devinrent des ordres de croisés, défendant les lieux saints et les pélerins, tandis que l'Inquisition se recentra davantage sur sa tâche de traquer les cultes de La Ténèbre, et du Néant, devenant de plus en plus alarmés au fil des découvertes technologiques, et plus particulièrement des voyages sub spatiaux. Les changements continuèrent de s'opérer, avec notamment la découverte de race aliens, parfois hostiles, parfois amicale, l'Inquisition se chargeant d'enquêter pour tenter de protéger l'humanité de ces insidieuses menaces potentielles En parallèle des changements que subissait l'Eglise Ichéienne et son Inquisition, d'autres organisations virent le jour, gouvernementales celle là, appartenant au Consortium Dardale, et visant des buts aussi divers que variés, comme la surveillance de ses populations, l'espionnage des autres formes gouvernementales et des cultures aliens, l'intégration de celles-ci parmi les plus pacifiques, la lutte contre les organisations du marché noir, ou autres organisations clandestines, mais également le renseignement, la déstabilisation politique, et bien d'autres. Ces différentes organisations étaient indépendantes, et bien qu'aux ordres du consortium Dardale, il n'était pas rare que leurs objectifs soient concurrents, ou qu'une compétition ne s'installe entre eux, au fur et à mesure qu'elles devenaient de plus en plus puissantes et monolithique, assemblant des informations à très grandes échelles, sur les diverses menaces stellaires."
+            "text": "L’Inquisition galactique résulte de dizaines de milliers d’années de transformations religieuses, politiques et militaires. Elle rassemble les héritages d’organisations différentes autour de la protection de l’Humanité contre les menaces infiltrées, corruptrices ou occultes."
+          }
+        ]
+      },
+      {
+        "id": "origines",
+        "title": "Ichéi Prime et la Théocratie",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les premiers humains d’Ichéi Prime furent des colons forcés, déportés d’Aèr par les Azménoriens pour leurs expériences. Paysans et soldats, ils ne comptaient ni mages ni prêtres parmi eux, mais beaucoup étaient croyants et connaissaient l’organisation des clergés de leur monde natal."
           },
           {
             "type": "p",
             "style": "lore",
-            "text": "Conseiller : Olisha Harmon Conseiller : Kor'rek Nom de la Réalité : Olisha Harmon Nom de la Vérité : _ Age : « 31 ans » - ??? Affiliations : crawlers : cythugs Nationalité d’origine : Américaine Ethnie réelle : baséanne hybride Statut : Conseillère à la CTU Kelford Bentley, le grand général des armées terrestres de Californie était assez facile à séduire plus jeune, Letona Harmon, une prostituée s’accordant ses faveurs un temps avant d’avoir Olisha. Olisha a toujours vécu dans l’enfer des gangs, de la drogue et de la prostitution. Elle a développé une personnalité impitoyable et en 2035 est un chef de gang redouté chez les crawlers. Son père refuse d’assumer tout lien de parenté avec cette criminelle endurcie. Outre une sueur ou un souffle toxique si elle le désire, Olisha est une baséanne hybride, elle a donc une apparence humaine pour des organes et un squelette baséan. Elle a intégré la CTU pour représenter l’hybridation des espèces comme une des voies de progrès que la Technologie permet. Si sa vie humaine est assez criminelle, sa vie dans la Vérité est plus prestigieuse. En effet, elle est diplômée de L’’académie militaire martienne et si Kor’rek est l’adepte de la violence éclair, elle est la conseillère plus versée dans la tactique et les actions militaires plus organisées. Nom de la Réalité : Derek Stevenson Nom de la Vérité : Kor'rek Age : «42 ans » - 222 ans Affiliations : Crawlers : Necropunks Nationalité d’origine : américaine Ethnie réelle : Mo’sen Statut : conseiller à la CTU Derek est le chef des « bloodscales », un gang de necropunks. Ces charognards sont des bikers, des assassins et autres vétérans ayant vrillé, ils n’ont pas ou plus de citoyenneté et un logifate nocif. Un necropunk est un crawler qu’on pourrait résumer à un pillard en dehors des villes. Derek gagne sa vie par la revente de ce qu’il vole mais aussi parce que les necropunks sont les seuls à être tolérés par les bikers sur les routes, offrant ainsi cette immunité aux plus offrants. Violent et absolument rebelle, c’est un tueur de fixers, quand on négocie, c’est directement avec lui. Anarchiste voire absolument chaotiste, Kor’rek, « Raptor », est étonnamment membre du conseil de la CTU. L’explication est simple, la CTU cherche à offrir aux Terriens le niveau technologique basique, pas d’imposer le moindre modèle, en ce sens, Kor y trouve son compte, il voit ce progrès technologique comme une source de chaos. Il est aussi assez haineux envers le REPTILE, qui incarne tout ce qu’il déteste. Il est la caution violente de la CTU, ce n’est pas un militaire, mais il sait organiser des attaques . D'autres groupes encore, branches mineures religieuses, associations de citoyens ou de civils organisés en milice, haut dignitaire militaire craignant une contamination, ordres ésotériques de Mécha-Mages cherchant a découvrir les secrets de l'univers, existaient dans la vaste diaspora du Consortium Dardale, mais ce fut justement la chute de celui-ci, violente, soudaine, et éminemment brutale, entrainant presque la chute et l'extinction de l'humanité dans son sillage, qui poussa l'église Ichéienne a se réformer à nouveau, et ces organisations à peu à peu se rassembler, pour devenir ce qui allait constituer l'Inquisition. C'est suite à ces changements radicaux, cette transformation et absorption de bien d'autres organismes partageant des buts similaires que fut structuré l'Inquisition, restant dans l'oubli pendant des millénaires, jusqu'à l'arrivée de l'AIDH, et le nouvel âge d'or de la galaxie, l'organisation sortant de l'ombre à ce moment. Ayant fortement noyauté les différents gouvernements galactiques, ayant des informations sur eux et leurs plus sombres secrets, mais aussi et surtout sur certains des plus terribles secrets de l'univers, et des menaces qui s'y tapissaient encore, plus insidieuse, plus dangereuses, et plus corruptrices que ce qu'affrontaient l'AIDH. Lors de ce concile secret, auxquels seuls une poignée de personne de chaque gouvernement fut convié, plus ou moins de force (par chantage ou manipulation) que l'inquisition montra, preuve à l'appui, les ravages possibles perpétrés par ces cultes et ces horreurs, si on les laissait faire, ayant rassemblé des preuves et des informations pendant des milliers d'années. Ces cultes de La Ténèbre, du Néant, des Dieux des Etoiles, ou encore ces races aliens ou créature abominable provoquant la folie, prenant la place des humains, contaminant leur génome, prenant le contrôle de gouvernement ou autre pour provoquer des révoltes horrifia les différents dirigeants galactiques, qui ratifièrent bien vite le Traité Inquisitorial, donnant aux Inquisiteurs des pouvoirs presque identique à ceux des révérés Seigneurs Généraux de l'AIDH. Ces pouvoirs incluent la possibilité d'enquêter dans n'importe quel secteur, gouvernement, même aux plus hautes échelles et fonctions, mais également de réquisitionner des troupes quand ils détectent une menace, et bien sûr, d'appliquer n'importe quel châtiment jugé approprié. Les inquisiteurs sont relativement peu nombreux, quelques milliers à l'échelle de la galaxie, mais chacun est indépendant des autres, et libre de mener ses affaires comme il l'entend, ayant carte blanche pour juger de la solution appropriée, allant parfois jusqu'à utiliser les armes ennemies contre lui, malgré le risque considérable que cela implique. Chaque Inquisiteur possède tout un réseau d'espions et d'informateurs, parfois n'étant même pas au courant de la nature profonde de l'organisation qu'ils servent, ainsi que de nombreux acolyte, des agents hautement entrainés, pouvant espérer devenir inquisiteur à leur tour un jour. Ils sont extrêmement bien entrainés, et possèdent de vaste connaissance, souvent interdites au reste du monde, a cause même du danger que cette simple connaissance représente. Pour cette raison, il faut un esprit de fer pour résister, et malgré cela, nombreux sont ceux qui deviennent fou ou sombrent dans l'hérésie à leur tour. Si l’inquisition a des traités avec tous les gouvernements du traité Ichéien, la Terre fait office d’exception, protégée par l’AIDH, elle ne l’est officiellement pas par l’Inquisition puisque ce qui se passe sur Terre y est confiné. Pourtant l’inquisition galactique est loin d’avoir délaissé sa surveillance."
+            "text": "Après le départ azménorien, l’Église ichéienne transforma les anciens maîtres en dieux stellaires. Leur retrait fut interprété comme la possibilité offerte aux humains d’accomplir leur destinée. Les structures d’Aèr servirent de modèle aux trois branches du clergé."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’Église acquit le pouvoir jusqu’à former une Théocratie planétaire. L’Inquisition y devint une police politique, chargée de traquer opposants et contestataires. Cette fonction perdura jusqu’à la fin de la Théocratie et à l’avènement du Consortium Dardale."
+          }
+        ]
+      },
+      {
+        "id": "reformes",
+        "title": "Technologie, schismes et voyages spatiaux",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Privée d’une grande part de son influence, l’Église dut traverser des siècles de restructurations et de schismes. Elle adapta sa doctrine aux découvertes technologiques : la destinée de l’Humanité ne fut plus de régner seulement sur Ichéi Prime, mais sur la galaxie."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les paladins devinrent des ordres de croisés protégeant lieux saints et pèlerins. L’Inquisition se recentra sur les cultes de la Ténèbre et du Néant. Les voyages subspatiaux et les contacts avec des espèces aliens, amicales ou hostiles, renforcèrent ses inquiétudes et ses enquêtes."
+          }
+        ]
+      },
+      {
+        "id": "agences",
+        "title": "Les agences du Consortium et les autres héritages",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Le Consortium créa parallèlement des organismes de surveillance, d’espionnage, de renseignement et de déstabilisation. Certains étudiaient les cultures aliens ou leur intégration pacifique ; d’autres luttaient contre le marché noir et les organisations clandestines. Malgré leur autorité commune, leurs objectifs pouvaient se concurrencer. Ils accumulèrent des connaissances considérables sur les menaces stellaires."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Des branches religieuses mineures, des associations civiles, des milices, des dignitaires militaires craignant la contamination et des ordres de Mécha-Mages poursuivaient aussi leurs propres recherches. La chute brutale du Consortium, qui faillit emporter l’Humanité, poussa ces groupes et l’Église à se rapprocher."
+          }
+        ]
+      },
+      {
+        "id": "traite",
+        "title": "La refondation et le traité inquisitorial",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’organisation issue de ces rapprochements resta dans l’ombre pendant des millénaires. Elle avait infiltré les gouvernements et réuni des preuves sur leurs secrets comme sur des menaces plus insidieuses que les adversaires militaires de l’AIDH. Après l’apparition de cette dernière, Morgan Thorn joua un rôle central dans la reconnaissance de la nouvelle Inquisition."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Lors d’un concile secret, quelques représentants de chaque gouvernement furent réunis, parfois par chantage ou manipulation. L’Inquisition leur montra les ravages des cultes de la Ténèbre, du Néant et des dieux stellaires, ainsi que les capacités de créatures provoquant la folie, remplaçant les humains, contaminant leur génome ou prenant le contrôle des gouvernements."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les dirigeants ratifièrent le traité inquisitorial. Les seigneurs-inquisiteurs reçurent des pouvoirs presque équivalents à ceux des seigneurs-généraux : enquêter dans tout secteur et jusqu’aux plus hautes fonctions, réquisitionner des troupes face à une menace et appliquer le châtiment qu’ils jugent approprié."
+          }
+        ]
+      },
+      {
+        "id": "fonctionnement",
+        "title": "Autonomie, réseaux et transmission",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Quelques milliers d’inquisiteurs opèrent à l’échelle galactique. Chacun est indépendant et dispose d’une grande liberté pour choisir ses méthodes. Certains utilisent les armes de l’ennemi malgré les risques."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Chaque inquisiteur entretient un réseau d’espions et d’informateurs, dont certains ignorent la véritable organisation qu’ils servent. Des acolytes hautement entraînés l’assistent et peuvent espérer lui succéder dans la fonction."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Leurs vastes connaissances sont souvent interdites au reste de la population parce que leur simple découverte représente un danger. Même une discipline mentale exceptionnelle ne protège pas toujours de la folie ou de la dérive vers les cultes combattus."
+          }
+        ]
+      },
+      {
+        "id": "terre",
+        "title": "Le statut particulier de la Terre",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "L’Inquisition dispose de traités avec les gouvernements du traité ichéien, mais la Terre fait exception. Protégée par l’AIDH, elle ne relève pas officiellement de sa protection inquisitoriale, les phénomènes terrestres étant supposés y rester confinés. L’Inquisition n’a pourtant pas renoncé à sa surveillance."
           }
         ]
       }
@@ -632,7 +2297,7 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sourceCategory": "Vérité",
     "title": "Autres organisations humaines galactiques",
     "source": "factions_Les humains galactiques(1)(1).pdf",
-    "status": "canon_source",
+    "status": "canon_enrichi",
     "rebuildV2": true,
     "tags": [
       "Vérité",
@@ -647,13 +2312,100 @@ export const COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES = [
     "sections": [
       {
         "id": "dossier-autres-humains",
-        "title": "Ordres, voyageurs et réseaux humains",
+        "title": "Visiteurs et résidents clandestins",
         "level": 2,
         "blocks": [
           {
             "type": "p",
             "style": "lore",
-            "text": "Général de Division : Ku78-Yjjj9 Général division : Sham-88-kur Nom de la Réalité : Mazeeda El'Sadheen Nom de la Vérité : Ku78-Yjjj9 Age : « 38 ans » Affiliations : crawlers : insurgés Iraniens Nationalité d’origine : iranienne Ethnie réelle : Talass Statut : Ministre de l’emeraude Mazeeda est une insurgée s’opposant à la tyrannie de Wellspring sur les pays du Moyen-Orient. Elle est venue plaider plusieurs fois aux Etats-Unis puis en Californie, espérant que cela toucherait personnellement Farah El’Arshad, hélas en vain. On parle peu souvent des insurgés Iraniens, on les associe salement aux terroristes islamistes même s’ils n’ont proprement rien en commun. Mazeeda est une amie d’Osheena Payne et achète beaucoup de matériel aux norcos, cela lui revenant moins cher et n’étant pas du matériel corporatiste. Ministre et donc général de division à l’Emeraude, elle devait gérer la suite de 2028 en Iran mais a été déjouée par Wellspring, pas de soulèvement monstrueux derrière elle, ce qui a vite arraché les fonds que le TTU lui fournissait. Disciple de Saoden, elle déteste So’ouk, sa rivale. C’est une Talass assez émotive, comme tous les autres de l’émeraude sanglante, elle a hérité de la souffrance de ses prédécesseurs, c’est une tête brulée qui affectionne la force brute malgré sa nature et une pilote exceptionnelle. Nom de la Réalité : Sharmon Leonard Nom de la Vérité : Sham-88-kur Age : « 34 ans » » Affiliations : corporatistes : Ushkoll Nationalité d’origine : Américaine Ethnie réelle : Talass Statut : Ministre de l’émeraude Sharmon est un vétéran de 22-28, il était US. Marines pendant le début puis a réitéré son engagement au sein d’Ushkoll sur la fin de la guerre. C’est un soldat de confiance et d’un calme presque inhumain qu’importe les situations. Les cadres d’Ushkoll peuvent compter sur lui mais il a une franchise assez exacerbée, ainsi, il ne protègera jamais un raciste ou ne tirera sur des insurgés, ses supérieurs l’ont parfois puni pour ses convictions assez fortes, mais son intégrité va avec les valeurs d’Ushkoll. Sham est un talass assez calme. Bien qu’il soit un des dirigeants de l’émeraude sanglante, il n’est pas du coté norco et bien qu’il idolâtre Saoden, il n’aide pas outre mesure l’insurrection et le terrorisme. Il entraine ses troupes en les intégrant à Ushkoll ou Pixy security. Il avait la charge de la réserve et malgré son apparence c’est plus un espion et un diplomate qu’un combattant. Saoden a de moins en moins confiance en son général, il sent que Sham change d’idole pour respecter bien plus Katja au fur et à mesure des années. Le CTU traite plus aisément avec lui d’ailleurs pour son coté calme et plus intégré. 04. Autres Les humains dans la galaxie sont très nombreux mais aucune grosse faction n’est implantée sur Terre en vérité, hormis l’AIDH, les Corporations galactique et un seigneur-inquisiteur assez curieux, les autres humains galactiques sont généralement de touristes avec un visa de 40 jours maximum. Ceux qui restent plus longuement sont tous des émigrés illégaux et presque toujours, ils ne représentent pas la faction dont ils sont issus. C’est bien souvent l’opposé puisqu’ils se cachent de ces dernières ou sont en mission secrètes. La Terre n’est pas forcément la destination la plus appropriées pour des humains de la galaxie, très surveillée, archaïque, elle n’offre pas grand-chose à part un petit délire rétro. Pourtant, elle est pour un tout petit nombre la cible parfaite. En effet, une fois passé la vigilance de l’AIDH, elle devient une planque absolument parfaite pour les criminels et autres personnes n’ayant rien à faire des lois, comme les assassins des ordres. Venir sur Terre est souvent un billet sans retour, mais c’est aussi l’assurance que les poursuivants aient autant de mal à partir et donc autant d’appréhension à venir, outre la sécurité, plus que gênante, qui, heureusement, refoule énormément de criminels ayant bien compris l’avantage de la planète, se cacher derrière l’AIDH étant aussi risqué qu’intéressant."
+            "text": "Malgré l’immensité de la diaspora humaine, les principales présences institutionnelles sur Terre restent l’AIDH, les corporations galactiques et un seigneur-inquisiteur particulièrement intéressé par ce monde. Les autres humains galactiques sont généralement des touristes munis d’un visa de quarante jours au maximum."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Ceux qui restent plus longtemps vivent le plus souvent dans l’illégalité. Ils ne représentent généralement pas leur faction d’origine : ils peuvent la fuir ou accomplir une mission secrète. Très surveillée et technologiquement archaïque, la Terre attire peu, en dehors de sa valeur touristique et de son exotisme rétro."
+          }
+        ]
+      },
+      {
+        "id": "refuge",
+        "title": "Un refuge difficile à atteindre et à quitter",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Une fois les contrôles de l’AIDH franchis, la Terre peut devenir une excellente cachette pour des criminels ou des membres d’ordres assassins. Le voyage prend souvent la forme d’un aller sans retour. Les poursuivants rencontrent les mêmes difficultés à entrer puis à repartir, ce qui les dissuade d’entreprendre la traque."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Cette protection reste risquée : l’AIDH refoule de nombreux criminels qui ont compris l’intérêt du sanctuaire. Se cacher derrière sa surveillance ne signifie pas échapper à son autorité."
+          }
+        ]
+      },
+      {
+        "id": "ordres-assassins",
+        "title": "Les ordres assassins",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les ordres héritent des réseaux criminels d’Aèr et de leurs descendants sur Ichéi Prime. Leurs temples sont des stations spatiales errantes où des enfants enlevés sont transformés physiquement et génétiquement. Mémoire et cerveau sont remaniés pour produire un modèle d’assassin propre à chaque temple."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Leurs dirigeants prolongent considérablement leur vie et contrôlent la génétique ainsi que la chimie corporelle de leurs agents. Des souches stables peuvent servir de modèles à des centaines de créations. Ces ordres demeurent distincts des organisations criminelles ordinaires, qui n’ont pas toujours conservé cet héritage."
+          }
+        ]
+      },
+      {
+        "id": "commissariat",
+        "title": "Le Commissariat",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Le Commissariat naquit dans le système de Skalah, laissé sans défense avant que l’AIDH puisse assurer sa protection. Son école forme des officiers excellant en stratégie et au combat. Ses commissaires peuvent galvaniser une armée ordinaire sans dépendre de troupes surentraînées."
+          }
+        ]
+      },
+      {
+        "id": "paladines",
+        "title": "La sororité des paladines ichéiennes",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Issue de l’ancien ordre chargé des lieux saints et des reliques, la sororité survécut à l’âge sombre grâce à l’exemple d’une paladine qui défendit seule un monde et survécut. Après sa mort, le recrutement devint exclusivement féminin. Les Sœurs refusèrent sur Tyrk l’intégration à l’AIDH proposée par les Azménoriens, affirmant servir déjà l’Humanité, la foi et le sacré."
+          }
+        ]
+      },
+      {
+        "id": "archivistes",
+        "title": "Les Archivistes de Néo-Alexandrie",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Archivistes sacrifièrent leur vie corporelle pour transférer leurs souvenirs dans les ordinateurs quantiques de Néo-Alexandrie, avant l’effondrement du Consortium. La station perdue fut retrouvée et réactivée par Moira Blackraven après la formation de l’AIDH. Des corps fabriqués leur permirent ensuite de reprendre leur collecte de savoirs auprès des espèces aliens."
+          }
+        ]
+      },
+      {
+        "id": "scytheri",
+        "title": "L’ordre Scytheri",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Scytheri étudient l’énergie vitale et mentale propre aux êtres dotés d’un cerveau, indépendamment de la magie ambiante. Leur enseignement porte sur la compréhension sans langage, la perception sans les sens ordinaires et l’anticipation. Ils se sont isolés pour échapper aux soupçons attribuant ces capacités aux aliens, à des cultes obscurs ou à des mutations."
           }
         ]
       }
