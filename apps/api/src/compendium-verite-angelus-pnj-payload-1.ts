@@ -450,7 +450,7 @@ const PAYLOAD = [
       "real_name": "Kurt Kriemenschneider",
       "nom_verite": "Sabbathiel",
       "race": "Angelus",
-      "age": "«29 ans », ????",
+      "age": "29 ans",
       "origine": "Américaine",
       "statut": "sportif – crawlers : « punkfighter »",
       "statut_verite": "séraphin",
@@ -491,7 +491,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«29 ans », ????"
+                "29 ans"
               ],
               [
                 "Affiliations",
@@ -512,7 +512,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Kurt Kriemenschneider est un combattant d’UMA (Ultimate Martial Arts), qui regroupent tous les styles et acceptent les technogmentés comme els biogmentés. Kurt n’est pas dans les « légendes » , comme une certaine Siobhain Nic Siridean ou Dina Page, il n’est même pas une étoile montante comme Tommy Rosemann, c’est un combattant relativement moyen qui a néanmoins son identité propre. En effet, il fait crawler, sans arme, en slip noir : « Punkfighter » est son style comme il s’est autoproclamé, pensant être suivi, mais personne en 2035 hormis les membres de sa salle de sport n’ont suivi le délire."
+            "text": "Kurt Kriemenschneider est un combattant d’UMA (Ultimate Martial Arts), discipline regroupant tous les styles et acceptant aussi bien les technogmentés que les biogmentés. Kurt ne fait pas partie des « légendes » comme Siobhain Nic Siridean ou Dina Page, et n’est même pas une étoile montante comme Tommy Rosemann : c’est un combattant relativement moyen qui possède néanmoins une identité très marquée. Il travaille aussi comme Crawler, sans arme et vêtu d’un simple slip noir. Il s’est autoproclamé fondateur du style « Punkfighter », convaincu qu’il serait suivi ; en 2035, personne en dehors de quelques membres de sa salle de sport n’a réellement adopté son délire."
           }
         ]
       },
@@ -557,7 +557,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Séraphin de la colère, il est capable d’entrer dans une telle transe qu’il densifie ses muscles au point d’arrêter les balles ou la magie, il ne contrôle néanmoins pas sa force pendant sa rage, il se blesse donc gravement lui￾même et n’étant pas augmenté, aucun neurodiver ne peut l’hacker. C’est un excentrique dont le slip noir très serré est parfois très dérangeant, mais certainement moins que son amour des câlins et des frappes sur le cul. Dans son slip, il garde une photo de Tejana, la légende vivante, rêvant un jour d’être lui aussi son disciple, il en a une autre, de Dina Page. Il est caractériel et affectueux à la fois, peu d’anges ne l’apprécient, trop excentrique pour eux hormis Camaelle et Urielle."
+            "text": "Séraphin de la colère, Sabbathiel est capable d’entrer dans une transe telle qu’il densifie ses muscles au point d’arrêter les balles ou la magie. Il ne contrôle toutefois plus sa force pendant sa rage et se blesse gravement lui-même ; n’étant pas augmenté, aucun Neurodiver ne peut le hacker. C’est un excentrique dont le slip noir très serré est parfois dérangeant, mais sans doute moins que son amour des câlins et des claques sur les fesses. Il conserve dans son slip une photo de Tejana, la légende vivante, rêvant de devenir un jour son disciple, ainsi qu’une autre de Dina Page. Caractériel et affectueux à la fois, il est trop excentrique pour la plupart des anges ; Camaelle et Urielle font partie des rares à l’apprécier."
           }
         ]
       },
