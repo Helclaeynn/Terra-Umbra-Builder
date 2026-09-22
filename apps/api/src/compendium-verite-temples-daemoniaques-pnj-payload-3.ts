@@ -498,7 +498,7 @@ const PAYLOAD = [
       "nom_verite": "Persephone - Kothea",
       "nom_verite_source": "Persephone - Kothea",
       "race": "Daemons",
-      "age": "«25 ans » - ????",
+      "age": "25 ans",
       "origine": "américaine",
       "statut": "Duchesse",
       "affiliations": "Corporations : Sunways",
@@ -554,7 +554,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Melindia est une subordonnée d’Elody-Katherine Skotia avec qui elle partage une amitié de longue date. C’est une administratrice bien qu’elle soit initialement médecin."
+            "text": "Melindia Sticks est une subordonnée d’Elodie-Katherine Skotia, avec qui elle partage une amitié de longue date. Initialement médecin, elle travaille désormais surtout comme administratrice chez Sunways."
           }
         ]
       },
@@ -620,7 +620,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Melindia est une subordonnée d’Elody-Katherine Skotia avec qui elle partage une amitié de longue date. C’est une administratrice bien qu’elle soit initialement médecin. En tant que Daemone, elle est une duchesse ayant un titre plus qu’évocateur : Perséphone. Reine des enfers grecs, elle a toujours été la favorite non pas de Mammon (hadès) mais Belzébuth. Divinité mineure du printemps et de la régénération, elle incarne une facette assez bienfaitrice. Elle était une guérisseuse grecque anonyme que la vampire Hécate utilisa pour se nourrir et travailler sur la « malédiction » des vampires. Melindia décéda d’une simple infection à cause d’une morsure de sa maitresse. Belzébuth récupéra son âme et la belle grecque accepta de le servir pour espérer libérer des Fléaux les vampires qu’elle affectionnait malgré sa mort. C’est une proche amie d’Aessa également, une duchesse de Lilith."
+            "text": "Melindia est en vérité Persephone–Kothea, Duchesse de Belzébuth au titre particulièrement évocateur : Perséphone. Reine des Enfers grecs, elle fut pourtant la favorite non de Mammon — assimilé à Hadès — mais de Belzébuth. Associée au printemps et à la régénération, elle incarne une facette relativement bienveillante du monde infernal. De son vivant, elle était une guérisseuse grecque anonyme que la vampire Hécate utilisa à la fois comme source de sang et comme assistante dans ses recherches sur la « malédiction » vampirique. Melindia mourut d’une simple infection consécutive à une morsure de sa maîtresse. Belzébuth récupéra son âme et la jeune Grecque accepta de le servir dans l’espoir de libérer les vampires de l’emprise des Fléaux malgré la mort qui l’avait frappée. Elle est également une proche amie d’Aessa, Duchesse de Lilith."
           }
         ]
       },
