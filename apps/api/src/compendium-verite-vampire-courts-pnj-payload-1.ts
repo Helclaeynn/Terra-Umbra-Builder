@@ -1679,11 +1679,11 @@ const PAYLOAD = [
       "completeness": "detailed",
       "real_name": "Consuela Miralles",
       "nom_verite": "Cuallima",
-      "race": "Vampires",
-      "age": "« 23 ans » -2957 ans",
+      "race": "Vampire",
+      "age": "23 ans",
       "origine": "Colombienne",
-      "statut": "crawlers : hookers",
-      "statut_verite": "« « Mictlanpachecatl»",
+      "statut": "Crawlers : Hookers",
+      "statut_verite": "Mictlanpachecatl",
       "organisation": "Ihuito Meztzi",
       "relations": [],
       "identity_keys": [
@@ -1696,7 +1696,7 @@ const PAYLOAD = [
         23,
         23
       ],
-      "source_designation": "pour chercher des trésors.",
+      "source_designation": "Ah’kin Ajaw « Mictlanpachecatl » : Cuallima",
       "source_reality_raw": "Consuela Miralles",
       "source_truth_raw": "Cuallima",
       "source_extract": "pour chercher des trésors. Nom de la Réalité : Consuela Miralles Nom de la Vérité : Cuallima Age : « 23 ans » -2957 ans Affiliations : crawlers : hookers Nationalité d’origine : Colombienne Ethnie réelle : Vampires Statut : « « Mictlanpachecatl» Maison vampirique : «Calima » Colombienne d’origine, Consuela est une jeune crawler, elle est assez rebelle et colérique, parfois on la surnomme la « diva Miralles » dans le bar « White jungle », un bar tenu par le Cartel de Sinaloa en collaboration avec des colombiens. C’est une prostituée fraichement débarquée, elle parle peu anglais mais elle est assez directe pour que ça ne joue pas. C’est une espionne du Cartel, mais elle essaye de monter son propre bar dans un quartier moins sale, elle a déjà décidé du lieu, mais lui manque l’argent pour les travaux, alors elle enchaine tous les boulots à sa portée. Cualllima est à l’origine de la culture Calima, laquelle a donné son nom à la ville de Cali. Ce vampire assez ancien y régnait. Fille de Quetzalcoatl, la jeune mortelle qu’elle feint d’être est loin d’être aussi explosive que la reine qu’elle était. Elle a été massacrée par un vampire de Vhodhal mais s’en est sortie. Elle est désormais prêtresse de la cour de l’Ihuito. Sa maison est celle « Calima » comme le peuple humain. Elle s’ennuie un peu avec les vampires et est obsédée par sa lutte contre le « sang d’ivoire »",
@@ -1723,17 +1723,21 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "« 23 ans » -2957 ans"
+                "23 ans"
               ],
               [
                 "Affiliations",
-                "crawlers : hookers"
+                "Crawlers : Hookers"
               ],
               [
                 "Nationalité d’origine",
                 "Colombienne"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Colombienne d’origine, Consuela Miralles est une jeune Crawler rebelle et colérique, parfois surnommée la « diva Miralles » au White Jungle, un bar tenu par le cartel de Sinaloa en collaboration avec des Colombiens. Cette prostituée fraîchement arrivée parle peu anglais, mais son caractère direct limite les malentendus. Espionne du Cartel, elle cherche aussi à ouvrir son propre bar dans un quartier moins délabré. Elle a déjà choisi le lieu, mais manque encore d’argent pour les travaux et enchaîne tous les emplois à sa portée."
           }
         ]
       },
@@ -1756,25 +1760,25 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "« 23 ans » -2957 ans"
+                "23 ans en apparence ; 2 957 ans"
               ],
               [
                 "Nature réelle",
-                "Vampires"
+                "Vampire"
               ],
               [
                 "Statut vampirique",
-                "« « Mictlanpachecatl»"
+                "Mictlanpachecatl"
               ],
               [
                 "Maison vampirique",
-                "«Calima »"
+                "Calima"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "Colombienne d’origine, Consuela est une jeune crawler, elle est assez rebelle et colérique, parfois on la surnomme la « diva Miralles » dans le bar « White jungle », un bar tenu par le Cartel de Sinaloa en collaboration avec des colombiens. C’est une prostituée fraichement débarquée, elle parle peu anglais mais elle est assez directe pour que ça ne joue pas. C’est une espionne du Cartel, mais elle essaye de monter son propre bar dans un quartier moins sale, elle a déjà décidé du lieu, mais lui manque l’argent pour les travaux, alors elle enchaine tous les boulots à sa portée. Cualllima est à l’origine de la culture Calima, laquelle a donné son nom à la ville de Cali. Ce vampire assez ancien y régnait. Fille de Quetzalcoatl, la jeune mortelle qu’elle feint d’être est loin d’être aussi explosive que la reine qu’elle était. Elle a été massacrée par un vampire de Vhodhal mais s’en est sortie. Elle est désormais prêtresse de la cour de l’Ihuito. Sa maison est celle « Calima » comme le peuple humain. Elle s’ennuie un peu avec les vampires et est obsédée par sa lutte contre le « sang d’ivoire »"
+            "text": "Cuallima est à l’origine de la culture Calima, qui donna son nom à la ville de Cali, sur laquelle cette ancienne vampire régna. Fille de Quetzalcoatl, elle se dissimule aujourd’hui sous les traits d’une jeune mortelle bien moins explosive que la reine qu’elle fut autrefois. Massacrée par un vampire de Vhodhal, elle parvint néanmoins à survivre. Désormais prêtresse de la Cour de l’Ihuito, elle dirige la maison Calima, nommée comme le peuple humain. Elle s’ennuie auprès des vampires et nourrit une véritable obsession pour sa lutte contre le « Sang d’ivoire »."
           }
         ]
       },
