@@ -22,10 +22,12 @@ import {
 } from "./compendium-realite-v9-lore.js";
 import {
   COMPENDIUM_REALITE_V9_CORPORATIONS_HUB_ID,
-  COMPENDIUM_REALITE_V9_CORPORATIONS_HUB_ENRICHMENT,
-  COMPENDIUM_REALITE_V9_CORPORATIONS_ARTICLES,
   COMPENDIUM_REALITE_V9_CORPORATIONS_NAVIGATION
 } from "./compendium-realite-v9-corporations.js";
+import {
+  COMPENDIUM_REALITE_V9_CORPORATIONS_EDITORIAL_HUB_ENRICHMENT,
+  COMPENDIUM_REALITE_V9_CORPORATIONS_EDITORIAL_ARTICLES
+} from "./compendium-realite-v9-corporations-editorial.js";
 import {
   COMPENDIUM_REALITE_V9_CORPORATIONS_PNJ_ARTICLES,
   COMPENDIUM_REALITE_V9_CORPORATIONS_PNJ_NAVIGATION
@@ -1849,23 +1851,23 @@ async function loadCorpus(): Promise<Corpus> {
   const corporationsHub = byId.get(COMPENDIUM_REALITE_V9_CORPORATIONS_HUB_ID);
   if (corporationsHub) {
     const existingIds = new Set((corporationsHub.sections ?? []).map((section) => String(section?.id ?? "")));
-    const additions = (COMPENDIUM_REALITE_V9_CORPORATIONS_HUB_ENRICHMENT.sections ?? [])
+    const additions = (COMPENDIUM_REALITE_V9_CORPORATIONS_EDITORIAL_HUB_ENRICHMENT.sections ?? [])
       .filter((section: JsonObject) => !existingIds.has(String(section?.id ?? "")));
     corporationsHub.sections = [...(corporationsHub.sections ?? []), ...(deepClone(additions) as JsonObject[])];
-    const sources = [corporationsHub.source, COMPENDIUM_REALITE_V9_CORPORATIONS_HUB_ENRICHMENT.source]
+    const sources = [corporationsHub.source, COMPENDIUM_REALITE_V9_CORPORATIONS_EDITORIAL_HUB_ENRICHMENT.source]
       .flatMap((value) => String(value ?? "").split(" ; "))
       .map((value) => value.trim())
       .filter(Boolean);
     corporationsHub.source = [...new Set(sources)].join(" ; ");
     corporationsHub.tags = [...new Set([
       ...(corporationsHub.tags ?? []),
-      ...(COMPENDIUM_REALITE_V9_CORPORATIONS_HUB_ENRICHMENT.tags ?? [])
+      ...(COMPENDIUM_REALITE_V9_CORPORATIONS_EDITORIAL_HUB_ENRICHMENT.tags ?? [])
     ])];
     corporationsHub.status = "canon_enrichi";
     corporationsHub.rebuildV2 = true;
   }
 
-  for (const article of COMPENDIUM_REALITE_V9_CORPORATIONS_ARTICLES) {
+  for (const article of COMPENDIUM_REALITE_V9_CORPORATIONS_EDITORIAL_ARTICLES) {
     byId.set(String(article.id), deepClone(article) as Article);
   }
 
