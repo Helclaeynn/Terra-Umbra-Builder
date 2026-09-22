@@ -812,10 +812,10 @@ const PAYLOAD = [
       "real_name": "Kanika Onyesha",
       "nom_verite": "Kanika",
       "race": "Vampire",
-      "age": "- «32 ans » 450 ans",
+      "age": "32 ans",
       "origine": "Kenyane",
-      "statut": "Crawlers : meditech",
-      "statut_verite": "« Reine consort »",
+      "statut": "Crawlers : Meditech",
+      "statut_verite": "Reine consort",
       "organisation": "Oru Ayeraye",
       "relations": [],
       "identity_keys": [
@@ -831,7 +831,7 @@ const PAYLOAD = [
         31,
         31
       ],
-      "source_designation": "Makoko : Moyotaji",
+      "source_designation": "Reine consort : Kanika",
       "source_reality_raw": "« Hailey Powell » -Kanika Onyesha",
       "source_truth_raw": "Kanika",
       "source_extract": "Makoko : Moyotaji Nom de la Réalité : « Hailey Powell » -Kanika Onyesha Nom de la Vérité : Kanika Age : - «32 ans » 450 ans Affiliations : Crawlers : meditech Nationalité d’origine : Kenyane Ethnie réelle : Vampire Statut : « Reine consort » Maison vampirique : Grootslang Kanika est une Kenyane venue aux Etats-Unis après ses études en ingénierie, promise à un bel avenir dans la recherche, travaillant pour l’équivalent d’un doctorat en robotique, elle n’acheva pas ses études à cause de la guerre. Elle fut renvoyée à son pays d’origine pour cause de restrictions budgétaires. Sur la seconde moitié de la guerre, on la rappela pour exploiter des brevets libres du PCRC. Après la guerre, on essaya de la renvoyer, mais elle usurpa l’identité d’une américaine morte au combat. Elle utilise de moins en moins cette identité, beaucoup trop de crawler ayant connu ou entendu parler du major Powell. Epouse de Neeba, cette guerrière d’une société nomade était un vampire de naissance, ses ancêtres ont choisi une tribu et en sont devenus les sorciers et les protecteurs, cependant, le sorcier limitait les vampires du groupe à un sorcier, deux épouses et quatre serviteurs, chassant ou tuant le reste. Fille cadette, elle se refusa à être donnée comme une vache et se rebella. Elle erra et sauva le roi Neeba qu’un duc daemoniaque avait réussi à enfermer. Elle devint une de ses épouses et intégra une grande maison",
@@ -854,21 +854,25 @@ const PAYLOAD = [
               ],
               [
                 "Nom / identité de Réalité",
-                "« Hailey Powell » -Kanika Onyesha"
+                "Kanika Onyesha (alias : Hailey Powell)"
               ],
               [
                 "Âge apparent",
-                "- «32 ans » 450 ans"
+                "32 ans"
               ],
               [
                 "Affiliations",
-                "Crawlers : meditech"
+                "Crawlers : Meditech"
               ],
               [
                 "Nationalité d’origine",
                 "Kenyane"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Kanika Onyesha est une ingénieure kényane venue aux États-Unis pour poursuivre des recherches de niveau doctoral en robotique. La guerre interrompit ses études et des restrictions budgétaires entraînèrent son renvoi au Kenya. Rappelée durant la seconde moitié du conflit pour exploiter des brevets libérés par le PCRC, elle fut de nouveau menacée d’expulsion après-guerre. Elle usurpa alors l’identité de Hailey Powell, une Américaine morte au combat. Kanika utilise de moins en moins cette couverture, trop de Crawlers ayant connu le major Powell ou entendu parler d’elle."
           }
         ]
       },
@@ -891,7 +895,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "- «32 ans » 450 ans"
+                "32 ans en apparence ; 450 ans"
               ],
               [
                 "Nature réelle",
@@ -899,7 +903,7 @@ const PAYLOAD = [
               ],
               [
                 "Statut vampirique",
-                "« Reine consort »"
+                "Reine consort"
               ],
               [
                 "Maison vampirique",
@@ -909,7 +913,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Kanika est une Kenyane venue aux Etats-Unis après ses études en ingénierie, promise à un bel avenir dans la recherche, travaillant pour l’équivalent d’un doctorat en robotique, elle n’acheva pas ses études à cause de la guerre. Elle fut renvoyée à son pays d’origine pour cause de restrictions budgétaires. Sur la seconde moitié de la guerre, on la rappela pour exploiter des brevets libres du PCRC. Après la guerre, on essaya de la renvoyer, mais elle usurpa l’identité d’une américaine morte au combat. Elle utilise de moins en moins cette identité, beaucoup trop de crawler ayant connu ou entendu parler du major Powell. Epouse de Neeba, cette guerrière d’une société nomade était un vampire de naissance, ses ancêtres ont choisi une tribu et en sont devenus les sorciers et les protecteurs, cependant, le sorcier limitait les vampires du groupe à un sorcier, deux épouses et quatre serviteurs, chassant ou tuant le reste. Fille cadette, elle se refusa à être donnée comme une vache et se rebella. Elle erra et sauva le roi Neeba qu’un duc daemoniaque avait réussi à enfermer. Elle devint une de ses épouses et intégra une grande maison"
+            "text": "Épouse de Neeba, Kanika était une guerrière vampire de naissance issue d’une société nomade. Ses ancêtres avaient choisi une tribu dont ils devinrent les sorciers et les protecteurs. Chaque groupe vampirique y était limité à un sorcier, deux épouses et quatre serviteurs ; les autres étaient chassés ou tués. Fille cadette, Kanika refusa d’être donnée comme du bétail et se rebella. Après une période d’errance, elle sauva le roi Neeba, qu’un duc démoniaque avait réussi à enfermer. Elle devint alors l’une de ses épouses et rejoignit une grande maison de l’Oru. Pour se venger, elle fit condamner sa lignée d’origine."
           }
         ]
       },
