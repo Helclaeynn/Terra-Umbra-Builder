@@ -402,6 +402,9 @@ const RELIGION_ARCHIVE_ID_REMAP: Record<string, string> = {
   "pnj-062-ciara-mcfarlane": "pnj-religions-ciara-mcfarlane"
 };
 const activeReligionPnjId = (id: string) => RELIGION_ARCHIVE_ID_REMAP[id] ?? id;
+const MERGED_PNJ_ALIAS_IDS: Record<string, string> = {
+  "pnj-crawlers-antisysteme-p52-ciara-macfarlane": "pnj-religions-ciara-mcfarlane"
+};
 const PROTECTED_REBUILD_CATEGORIES = new Set(["Équipement & Objets", "Bestiaire"]);
 
 const CATEGORY_ORDER = [
@@ -571,7 +574,7 @@ export async function findActiveCompendiumArticleById(
   const target = String(id ?? "").trim();
   if (!target) return null;
   const corpus = await getCorpus();
-  const article = corpus.byId.get(target);
+  const article = corpus.byId.get(MERGED_PNJ_ALIAS_IDS[target] ?? target);
   if (!article || article.category === LEGACY_CATEGORY) return null;
   return {
     id: article.id,
@@ -2057,6 +2060,9 @@ async function loadCorpus(): Promise<Corpus> {
     // Active religious profiles never reuse archived legacy IDs: archives remain independent audit material.
     const article = deepClone(sourceArticle) as Article;
     article.id = activeReligionPnjId(article.id);
+    // These source profiles were added after the original OLD snapshot. A new
+    // database must promote them too, rather than archiving them on first boot.
+    article.rebuildV2 = true;
     byId.set(article.id, article);
   }
 
@@ -3709,7 +3715,7 @@ async function loadUserLibrary(userId: string, corpus: Corpus, includeMj: boolea
   ]);
 
   const visibleItem = (id: string) => {
-    const article = corpus.byId.get(id);
+    const article = corpus.byId.get(MERGED_PNJ_ALIAS_IDS[id] ?? id);
     if (!article || article.category === LEGACY_CATEGORY) return null;
     return searchItem(articleForAudience(article, includeMj), "");
   };
@@ -3831,9 +3837,10 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const corpus = await getCorpus();
     const user = await currentUser(request);
     const includeMj = canReadMj(user?.role);
+    const canonicalId = MERGED_PNJ_ALIAS_IDS[id] ?? id;
     const article = includeMj
-      ? corpus.byId.get(PROTECTED_PNJ_SOURCE_IDS[id] ?? id)
-      : corpus.publicById.get(PROTECTED_PNJ_PUBLIC_IDS[id] ?? id);
+      ? corpus.byId.get(PROTECTED_PNJ_SOURCE_IDS[canonicalId] ?? canonicalId)
+      : corpus.publicById.get(PROTECTED_PNJ_PUBLIC_IDS[canonicalId] ?? canonicalId);
     if (!article) return reply.code(404).send({ error: "compendium_article_not_found" });
 
     return {
@@ -4562,9 +4569,10 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const corpus = await getCorpus();
     const user = await currentUser(request);
     const includeMj = canReadMj(user?.role);
+    const canonicalId = MERGED_PNJ_ALIAS_IDS[id] ?? id;
     const article = includeMj
-      ? corpus.byId.get(PROTECTED_PNJ_SOURCE_IDS[id] ?? id)
-      : corpus.publicById.get(PROTECTED_PNJ_PUBLIC_IDS[id] ?? id);
+      ? corpus.byId.get(PROTECTED_PNJ_SOURCE_IDS[canonicalId] ?? canonicalId)
+      : corpus.publicById.get(PROTECTED_PNJ_PUBLIC_IDS[canonicalId] ?? canonicalId);
     if (!article) {
       return reply.code(404).send({ error: "compendium_article_not_found" });
     }

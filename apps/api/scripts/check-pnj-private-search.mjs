@@ -10,9 +10,19 @@ pg.Pool.prototype.query = async function (sql) {
   return { rows: [], rowCount: 0 };
 };
 
-const { registerCompendiumRoutes } = await import("../dist/compendium.js");
+const { registerCompendiumRoutes, getCompendiumQualityCorpus } = await import("../dist/compendium.js");
 const app = fastify();
 await registerCompendiumRoutes(app);
+
+// A fresh database and an existing OLD snapshot must expose the same active
+// religious profiles. This check runs against the fresh database simulation.
+const corpus = await getCompendiumQualityCorpus();
+assert.equal(corpus.articles.filter((item) => item.category === "Personnages").length, 918);
+assert.equal(corpus.articles.filter((item) =>
+  item.dataset === "realite-v9-religions-pnj" && item.category === "Personnages").length, 15);
+const mergedCiara = corpus.articles.find((item) => item.id === "pnj-religions-ciara-mcfarlane");
+assert.ok(mergedCiara.sections.some((section) => section.id === "antisysteme-p52-realite"));
+assert.ok(!corpus.articles.some((item) => item.id === "pnj-crawlers-antisysteme-p52-ciara-macfarlane"));
 
 const search = async (value) => {
   const response = await app.inject({
@@ -63,6 +73,12 @@ assert.equal(nina.realityName, "Nina Le Guellec");
 assert.ok(nina.tags.includes("réalité/faction/corporatiste"));
 assert.ok(nina.tags.includes("réalité/organisation/Tuatha"));
 assert.equal(nina.secretTags, undefined);
+const amaya = await article("pnj-religions-amaya-carvallo");
+assert.equal(amaya.realityName, "Amaya Carvallo");
+assert.ok(amaya.tags.includes("réalité/faction/religieux"));
+assert.equal(amaya.secretTags, undefined);
+assert.equal((await article("pnj-crawlers-antisysteme-p52-ciara-macfarlane")).id,
+  "pnj-religions-ciara-mcfarlane");
 role = "gm";
 const gmMilda = await article("pnj-pegre-milda-tarasknovna");
 assert.ok(gmMilda.secretTags.includes("vérité/nom/Selaphielle"));
