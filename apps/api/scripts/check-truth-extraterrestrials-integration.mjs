@@ -10,6 +10,7 @@ import {
   COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_NAVIGATION
 } from "../dist/compendium-verite-extraterrestres-pnj.js";
 import { COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_ARTICLES } from "../dist/compendium-verite-extrals-groups-pnj.js";
+import { COMPENDIUM_VERITE_FLEAUX_EXISTING_PNJ_SOURCES } from "../dist/compendium-verite-fleaux-focus.js";
 import { COMPENDIUM_REALITE_V9_PEGRE_PNJ_ARTICLES } from "../dist/compendium-realite-v9-pegre-pnj.js";
 import { COMPENDIUM_REALITE_V9_POLICE_PNJ_ARTICLES } from "../dist/compendium-realite-v9-police-pnj.js";
 import { COMPENDIUM_REALITE_V9_GOVERNMENT_PNJ_ARTICLES } from "../dist/compendium-realite-v9-government-pnj.js";
@@ -18,6 +19,9 @@ import { COMPENDIUM_REALITE_V9_CHRISTIANITY_ARTICLES } from "../dist/compendium-
 import { COMPENDIUM_VERITE_SPECIES_PNJ_ARTICLES } from "../dist/compendium-verite-species-pnj.js";
 import { COMPENDIUM_VERITE_FANTASTIQUES_PNJ_ARTICLES } from "../dist/compendium-verite-fantastiques-pnj.js";
 import { truthCatalogExtral } from "../dist/rules/truth/catalog-extral.js";
+
+process.env.DATABASE_URL ??= "postgresql://x:x@127.0.0.1:1/x";
+const { mergeExtraterrestrialPnj, mergeFleauxPnj } = await import("../dist/compendium.js");
 
 const norm = (value) =>
   String(value ?? "")
@@ -168,6 +172,30 @@ assert.equal(
   "",
   "Elsa Rys must not inherit Nehemiah Hooley's Truth identity"
 );
+
+const honokaExtral = COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_ARTICLES.find(
+  (article) => article.id === "personnages-verite-extraterrestres-shykrerath"
+);
+const honokaGroup = COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_ARTICLES.find(
+  (article) => article.id === "personnages-verite-extrals-groupes-honoka"
+);
+const honokaFleaux = COMPENDIUM_VERITE_FLEAUX_EXISTING_PNJ_SOURCES.find(
+  (article) => norm(article.pnj?.nom_verite) === norm("Shy’Krerath")
+);
+assert.ok(honokaExtral && honokaGroup && honokaFleaux, "Honoka's three canonical source profiles must exist");
+const mergedHonoka = mergeFleauxPnj(mergeExtraterrestrialPnj(honokaExtral, honokaGroup), honokaFleaux);
+assert.equal(mergedHonoka.title, "Honoka", "Honoka must remain the active public identity");
+assert.ok(
+  !(mergedHonoka.sections ?? []).some((section) => section.id === "source-extraterrestres-identite" && section.audience !== "mj"),
+  "Honoka's extraterrestrial identity complement must not be public"
+);
+for (const id of ["fleaux-focus-dossier", "fleaux-focus-realite", "fleaux-focus-verite"]) {
+  assert.equal(
+    mergedHonoka.sections?.find((section) => section.id === id)?.audience,
+    "mj",
+    `Honoka/${id}: the former Z-87 dossier must be MJ-only`
+  );
+}
 
 const activeOtherPnjs = [
   ...COMPENDIUM_REALITE_V9_PEGRE_PNJ_ARTICLES,

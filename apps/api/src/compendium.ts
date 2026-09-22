@@ -909,6 +909,16 @@ function mergeCrawlerPnj(target: Article, source: Article): Article {
 
   const sections = [...(merged.sections ?? [])];
   const existingIds = new Set(sections.map((section) => String(section?.id ?? "")));
+  const protectedTarget = hasProtectedPnjIdentity(target);
+  const targetRealityIdentity = usablePnjIdentity(target.pnj?.real_name ?? target.pnj?.nom_reel ?? target.pnj?.nom_realite);
+  const sourceRealityIdentity = usablePnjIdentity(source.pnj?.real_name ?? source.pnj?.nom_reel ?? source.pnj?.nom_realite);
+  const conflictingRealityCover = Boolean(
+    protectedTarget && targetRealityIdentity && sourceRealityIdentity && targetRealityIdentity !== sourceRealityIdentity
+  );
+  const containsTruthMetadata = (section: JsonObject) => {
+    const content = normalizedPnjIdentity(JSON.stringify(section?.blocks ?? []));
+    return /nom de la verite|ethnie reelle|nature reelle|statut fonction veritable|age complet/.test(content);
+  };
 
   const insertPublicSection = (section: JsonObject) => {
     const copy = deepClone(section);
@@ -921,6 +931,11 @@ function mergeCrawlerPnj(target: Article, source: Article): Article {
   for (const section of source.sections ?? []) {
     const id = String(section?.id ?? "");
     if (!id || id === "profil-statistique" || section?.audience === "mj" || existingIds.has(id)) continue;
+    if (protectedTarget && (conflictingRealityCover || containsTruthMetadata(section))) {
+      sections.push({ ...deepClone(section), audience: "mj" });
+      existingIds.add(id);
+      continue;
+    }
     insertPublicSection(section);
   }
 
@@ -962,7 +977,7 @@ function mergeCorporationPnj(target: Article, source: Article): Article {
   return merged;
 }
 
-function mergeFleauxPnj(target: Article, source: Article): Article {
+export function mergeFleauxPnj(target: Article, source: Article): Article {
   const merged = mergeCrawlerPnj(target, source);
   const targetPnj = target.pnj ?? {};
   const sourcePnj = source.pnj ?? {};
@@ -1307,7 +1322,7 @@ function mergeHunterPnj(target: Article, source: Article): Article {
   return merged;
 }
 
-function mergeExtraterrestrialPnj(target: Article, source: Article): Article {
+export function mergeExtraterrestrialPnj(target: Article, source: Article): Article {
   const merged = deepClone(target);
   merged.tags = [...new Set([...(merged.tags ?? []), ...(source.tags ?? [])])];
 
@@ -1370,7 +1385,7 @@ function mergeExtraterrestrialPnj(target: Article, source: Article): Article {
     existingSectionIds.add("source-extraterrestres-realite");
   }
 
-  if (sourceProfile && !existingSectionIds.has("source-extraterrestres-identite")) {
+  if (sourceProfile && sourceProfile.audience !== "mj" && !hasProtectedPnjIdentity(source) && !existingSectionIds.has("source-extraterrestres-identite")) {
     const rows = (sourceProfile.blocks ?? [])
       .flatMap((block: JsonObject) => (block?.type === "table" && Array.isArray(block.rows) ? block.rows : []))
       .filter((row: unknown[]) => {
