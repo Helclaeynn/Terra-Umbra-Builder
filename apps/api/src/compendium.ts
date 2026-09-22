@@ -13,6 +13,9 @@ import {
 import { generatedTalentHubCorpus } from "./compendium-talent-hubs.js";
 import { generatedBuilderReferenceCorpus } from "./compendium-builder-references.js";
 import { applyFinalEditorialCleanup } from "./compendium-final-editorial-cleanup.js";
+import { applyCompendiumVeriteLogesMagesLore } from "./compendium-verite-loges-mages-lore.js";
+import { applyCompendiumVeriteClosureLore } from "./compendium-verite-closure-lore.js";
+import { applyCompendiumRealiteV9ClosureLore } from "./compendium-realite-v9-closure-lore.js";
 import {
   COMPENDIUM_MOTEUR_V4_ARTICLES,
   COMPENDIUM_MOTEUR_V4_NAVIGATION
@@ -2975,6 +2978,12 @@ async function loadCorpus(): Promise<Corpus> {
       byId.set(String(reference.id), deepClone(reference) as Article);
     }
   }
+
+  // Final lore-only closure. These idempotent passes run after source imports so
+  // concurrent PNJ consolidations and generated Builder mechanics stay untouched.
+  applyCompendiumVeriteLogesMagesLore(byId);
+  applyCompendiumVeriteClosureLore(byId);
+  applyCompendiumRealiteV9ClosureLore(byId);
 
   const overrideSummary = await applyCommittedOverrides(byId, overridePayload);
 
