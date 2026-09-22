@@ -134,7 +134,7 @@ const PAYLOAD = [
     "dataset": "verite-vampire-courts-pnj",
     "category": "Personnages",
     "sourceCategory": "Personnages",
-    "title": "Olayinka NAJJA",
+    "title": "Olayinka Najja",
     "source": "Factions_Les cours vampiriques(1)(2).pdf",
     "status": "canon_source",
     "rebuildV2": true,
@@ -147,16 +147,17 @@ const PAYLOAD = [
     ],
     "pnj": {
       "completeness": "detailed",
-      "real_name": "Olayinka NAJJA",
+      "real_name": "Olayinka Najja",
       "nom_verite": "Olayinka",
-      "race": "vampire",
-      "age": "« 40 ans » - 12 000 ans",
+      "race": "Vampire",
+      "age": "40 ans",
       "origine": "Congolaise",
-      "statut": "Religieux :secte oshirique",
+      "statut": "Religion : secte oshirique",
       "statut_verite": "Archiprêtresse",
       "organisation": "Oru Ayeraye",
       "relations": [],
       "identity_keys": [
+        "Olayinka Najja",
         "Olayinka NAJJA",
         "Olayinka"
       ],
@@ -166,7 +167,7 @@ const PAYLOAD = [
         28,
         28
       ],
-      "source_designation": "uhne mauvaise réputation chez les vampires, ne voyant jamais ls femmes autrement que des matrices.",
+      "source_designation": "Archevêque des ténèbres : Olayinka",
       "source_reality_raw": "«Olayinka NAJJA",
       "source_truth_raw": "Olayinka",
       "source_extract": "uhne mauvaise réputation chez les vampires, ne voyant jamais ls femmes autrement que des matrices. Nom de la Réalité : «Olayinka NAJJA Nom de la Vérité : Olayinka Age : « 40 ans » - 12 000 ans Affiliations : Religieux :secte oshirique Nationalité d’origine : Congolaise Ethnie réelle : vampire Statut : Archiprêtresse Maison vampirique : Ordre Oshirique Olayinka est une prêtresse d’une religion perdue. Elle se vend comme néopaïenne d’une mouvance vaudou, mais elle n’est pas reconnue par les autres religieux de cette appartenance. La secte Oshirique dont elle a l’entier contrôle est agressive et violente, on y vénère « Osh’bawa », le père des ténèbres, du chaos et des origines. Aucun texte dans le monde n’y fait référence, donc on considère ce culte comme une création falacieuse qu’elle met en avant. Archiprêtresse Oshirique, elle n’a pas créé le culte de V’aagor mais l’a totalement transfiguré par la création de la fontaine des ténèbres, qu’elle incarne physiquement désormais. Mère adoptive et mentor du roi Neeba, elle dirige en partie la cour vampirique, puisqu’elle a créé la fontaine, créé Neeba et planifié la chute de l’empereur Oluwasegun. Comme pour humilier Neeba, qui est stérile, elle est régulièrement enceinte et sacrifie ses enfants les plus faibles pour bénir les nobles de l’Oru. Pourtant, sa relation avec le roi est trouble, elle a un attachement rare et maternel pour lui malgré les provocations.",
@@ -189,21 +190,25 @@ const PAYLOAD = [
               ],
               [
                 "Nom / identité de Réalité",
-                "«Olayinka NAJJA"
+                "Olayinka Najja"
               ],
               [
                 "Âge apparent",
-                "« 40 ans »"
+                "40 ans"
               ],
               [
                 "Affiliations",
-                "Religieux :secte oshirique"
+                "Religion : secte oshirique"
               ],
               [
                 "Nationalité d’origine",
                 "Congolaise"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Olayinka Najja se présente comme la prêtresse néopaïenne d’une religion perdue, rattachée à une mouvance vaudou sans être reconnue par les autres religieux de cette tradition. Elle contrôle entièrement la secte oshirique, un mouvement agressif et violent qui vénère Osh’bawa, présenté comme le père des ténèbres, du chaos et des origines. Aucun texte connu ne mentionnant cette figure, le culte passe pour une création fallacieuse promue par Olayinka."
           }
         ]
       },
@@ -226,11 +231,11 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "« 40 ans » - 12 000 ans"
+                "40 ans en apparence ; 12 000 ans"
               ],
               [
                 "Nature réelle",
-                "vampire"
+                "Vampire"
               ],
               [
                 "Statut vampirique",
@@ -244,7 +249,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Olayinka est une prêtresse d’une religion perdue. Elle se vend comme néopaïenne d’une mouvance vaudou, mais elle n’est pas reconnue par les autres religieux de cette appartenance. La secte Oshirique dont elle a l’entier contrôle est agressive et violente, on y vénère « Osh’bawa », le père des ténèbres, du chaos et des origines. Aucun texte dans le monde n’y fait référence, donc on considère ce culte comme une création falacieuse qu’elle met en avant. Archiprêtresse Oshirique, elle n’a pas créé le culte de V’aagor mais l’a totalement transfiguré par la création de la fontaine des ténèbres, qu’elle incarne physiquement désormais. Mère adoptive et mentor du roi Neeba, elle dirige en partie la cour vampirique, puisqu’elle a créé la fontaine, créé Neeba et planifié la chute de l’empereur Oluwasegun. Comme pour humilier Neeba, qui est stérile, elle est régulièrement enceinte et sacrifie ses enfants les plus faibles pour bénir les nobles de l’Oru. Pourtant, sa relation avec le roi est trouble, elle a un attachement rare et maternel pour lui malgré les provocations."
+            "text": "Archiprêtresse oshirique, Olayinka n’a pas créé le culte de V’aagor, mais l’a entièrement transfiguré en fondant la Fontaine des Ténèbres, qu’elle incarne désormais physiquement. Mère adoptive et mentor du roi Neeba, elle dirige en partie la Cour vampirique : elle a créé la Fontaine, façonné Neeba et planifié la chute de l’empereur Oluwasegun. Comme pour humilier le roi stérile, elle tombe régulièrement enceinte et sacrifie ses enfants les plus faibles afin de bénir les nobles de l’Oru. Leur relation demeure pourtant trouble, car elle éprouve pour Neeba un attachement maternel rare malgré ses provocations."
           }
         ]
       },
