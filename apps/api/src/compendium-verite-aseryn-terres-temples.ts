@@ -7,6 +7,7 @@ import {
   COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_ARTICLES as BASE_ARTICLES,
   COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_NAVIGATION
 } from "./compendium-verite-aseryn-terres-temples-base.js";
+import { COMPENDIUM_VERITE_ASERYN_TEMPLES_LORE_SECTIONS } from "./compendium-verite-aseryn-temples-lore.js";
 
 export {
   COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_SOURCE,
@@ -35,14 +36,19 @@ const RESTORED_SECTION_PARAGRAPHS = Object.fromEntries(
   ])
 ) as Record<string, string[]>;
 
-export const COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_ARTICLES = BASE_ARTICLES.map((article) => ({
-  ...article,
-  sections: (article.sections ?? []).map((section: Record<string, any>) => {
+export const COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_ARTICLES = BASE_ARTICLES.map((article) => {
+  const restoredSections = (article.sections ?? []).map((section: Record<string, any>) => {
     const paragraphs = RESTORED_SECTION_PARAGRAPHS[String(section.id ?? "")];
     if (!paragraphs || (section.blocks ?? []).length > 0) return section;
     return {
       ...section,
       blocks: paragraphs.map((text) => ({ type: "p", style: "lore", text }))
     };
-  })
-})) as Array<Record<string, any>>;
+  });
+
+  return {
+    ...article,
+    sections:
+      COMPENDIUM_VERITE_ASERYN_TEMPLES_LORE_SECTIONS[String(article.id ?? "")] ?? restoredSections
+  };
+}) as Array<Record<string, any>>;
