@@ -1046,8 +1046,8 @@ const PAYLOAD = [
       "real_name": "Scott Ruthven",
       "nom_verite": "Sgair Ruadhainn Lodainn",
       "race": "Vampire",
-      "age": "«38 ans » - 1570 ans",
-      "origine": "Ecossaise",
+      "age": "38 ans",
+      "origine": "Écossaise",
       "statut": "pègre : mafia irlandaise",
       "statut_verite": "deuxième prince",
       "organisation": "Krovni Rytsari",
@@ -1089,7 +1089,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«38 ans »"
+                "38 ans"
               ],
               [
                 "Affiliations",
@@ -1097,9 +1097,13 @@ const PAYLOAD = [
               ],
               [
                 "Nationalité d’origine",
-                "Ecossaise"
+                "Écossaise"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "La mafia irlandaise de Californie repose sur une structure très fragmentée. L’un de ses piliers les plus indépendants est une cellule écossaise, vestige d’une mafia qui n’a jamais réellement réussi à s’implanter massivement dans l’État. Scott Ruthven dirige cette cellule. Homme d’action impétueux et impatient, il ne craint presque rien, tourne tout en plaisanterie et supporte très mal qu’on cherche à lui dicter sa conduite. Ses rapports avec son supérieur Deaman Mac Eadha sont particulièrement mauvais."
           }
         ]
       },
@@ -1140,7 +1144,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "La mafia Irlandaise a une structure assez patchwork, composée de petites entités distinctes, un de ses piliers les plus indépendants est une cellule composée d’écossais. Vestige de la « mafia écossaise », n’ayant jamais vraiment prit pied en Californie, elle a à sa tête Scott Ruthven ; du très célèbre clan Ruthven. Homme d’action très impétueux et impatient, il n’a peur de rien, tout est sujet de plaisanterie et la mort plus encore que le reste. Il a déjà été massacré une fois par Drasko et ses hommes, une autre fois par Deaman Mac EADHA, son supérieur avec qui il s’entends très mal. Il s’entends rarement avec les gens essayant de lui dicter quoi faire en vérité. Bien que descendant de corbeau de Morrighan, c’est un vampire de naissance et le créateur du clan Ruthven, connu historiquement pour diverses conspirations sur l’archipel Britannique mais aussi dans le roman « vampyre » de John William Polidori, où Lord Ruthven est très inspiré de Sgair. A la cour de Dragoy, Sgair s’entend mal avec la maison Hohenstaufen, Stroheim et Karnstein. Il est très ami avec"
+            "text": "Scott est en vérité Sgair Ruadhainn Lodainn, deuxième prince de la Krovni. Descendant d’un corbeau de Morrighan, il est vampire de naissance et fondateur du clan Ruthven. Son existence inspira diverses traditions historiques liées aux conspirations britanniques ainsi que la figure de Lord Ruthven dans « The Vampyre » de John William Polidori. Il a déjà survécu à des affrontements qui l’auraient laissé massacré, notamment face à Drasko et à Deaman Mac Eadha. À la cour de Dragoy, Sgair entretient de mauvais rapports avec les maisons Hohenstaufen, Stroheim et Karnstein. Il est en revanche très proche de Beryx Draghici, propriétaire du Pinksun Nightclub, principal lieu de rencontre vampirique."
           }
         ]
       },
