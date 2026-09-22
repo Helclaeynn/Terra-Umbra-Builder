@@ -1446,7 +1446,7 @@ const PAYLOAD = [
       "nom_verite": "Xezbeth - Sémiramis",
       "nom_verite_source": "Xezbeth - Sémiramis",
       "race": "Daemons",
-      "age": "«28 ans » - ????",
+      "age": "28 ans",
       "origine": "Irakienne",
       "statut": "Duchesse",
       "affiliations": "Pègre : Blanchisserie",
@@ -1502,7 +1502,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Aseela est une orpheline issue des guerres en Irak. Une soldate américaine défia sa hiérarchie pour la ramener et l’adopter. Désormais, elle est un des fixers les plus affûtés de la Blanchisserie, visant même le statut de « Whiteman »."
+            "text": "Aseela est une orpheline issue des guerres en Irak. Une soldate américaine défia sa hiérarchie pour la ramener aux États-Unis et l’adopter. Elle est aujourd’hui l’une des Fixers les plus affûtées de la Blanchisserie et vise même le prestigieux statut de « Whiteman »."
           }
         ]
       },
@@ -1568,7 +1568,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Aseela est une orpheline issue des guerres en Irak. Une soldate américaine défia sa hiérarchie pour la ramener et l’adopter. Désormais, elle est un des fixers les plus affûtés de la Blanchisserie, visant même le statut de « Whiteman ». Xezbeth est un démon connu comme étant « Al-Kathab » : le menteur, et cette duchesse de Diablo est une maitresse des illusions et des cauchemars. Puissante démone maniant les ténèbres, elle aimait profondément Angra Mainyu, l’Ombre créé par Diablo. De son vivant, elle était la plus célèbre reine babylonienne : Sémiramis, elle n’avait rien de ténébreux mais la peur qu’elle inspirait à ses ennemis et sa curiosité pour l’inconnu furent autant de raison pour Diablo quant à la récupérer."
+            "text": "Aseela est en vérité Xezbeth–Sémiramis. Xezbeth est connue sous le nom d’« Al-Kathab », le Menteur : Duchesse de Diablo, elle maîtrise les illusions, les cauchemars et les ténèbres. Elle aimait profondément Angra Mainyu, l’Ombre créée par Diablo. De son vivant, elle fut Sémiramis, célèbre reine babylonienne. Elle n’avait alors rien de particulièrement ténébreux, mais la peur qu’elle inspirait à ses ennemis et sa curiosité pour l’inconnu furent autant de raisons pour Diablo de récupérer son âme."
           }
         ]
       },
