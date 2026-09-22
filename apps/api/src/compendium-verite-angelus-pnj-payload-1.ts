@@ -20,9 +20,9 @@ const PAYLOAD = [
     "pnj": {
       "completeness": "detailed",
       "real_name": "Daniel Melton",
-      "nom_verite": "Danael",
+      "nom_verite": "Danael / Darxa",
       "race": "Angelus (Neva'Erkal)",
-      "age": "«37 ans » - ????",
+      "age": "37 ans",
       "origine": "américaine",
       "statut": "Gouvernement : Pompiers",
       "statut_verite": "séraphin",
@@ -30,7 +30,9 @@ const PAYLOAD = [
       "relations": [],
       "identity_keys": [
         "Daniel Melton",
-        "Danael"
+        "Danael",
+        "Darxa",
+        "Danael / Darxa"
       ],
       "source_group": "Hod · Urielle",
       "source_order": 15,
@@ -63,7 +65,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«37 ans » - ????"
+                "37 ans"
               ],
               [
                 "Affiliations",
@@ -84,7 +86,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Daniel Melton est un officier des pompiers de Los Angeles, elle a fait la guerre mais a vite été rapatriée à cause d’une grave blessure. Elle n’a pas abandonné son pays, contribuant en étant pompier volontaire. Bien qu’elle soit très rude, s’entrainant physiquement presque tout le temps, elle est une personne assez généreuse. Elle est très amie avec Trish Bentley, la femme du second de la Police de Los Angeles."
+            "text": "Daniel Melton est officière chez les pompiers de Los Angeles. Elle participa à la guerre mais fut rapidement rapatriée après une grave blessure. Elle continua néanmoins à servir son pays comme pompière volontaire. Très rude et presque constamment à l’entraînement physique, elle reste une personne généreuse. Elle est notamment très amie avec Trish Bentley, la femme du second de la police de Los Angeles."
           }
         ]
       },
@@ -103,7 +105,7 @@ const PAYLOAD = [
               ],
               [
                 "Nom de la Vérité",
-                "Danael - Darxa"
+                "Danael / Darxa"
               ],
               [
                 "Nature réelle",
@@ -129,7 +131,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Danael est un séraphin d’importance, c’est l’une des rares maitresses des flammes au paradis. Noble Neva’Erkal, elle était amie avec un des Archanges dépêché par Elynea et a fourni des Kera’erkal à Urielle même si, d’entrée de jeu, il était clair que Belial serait une adversaire insurmontable pour la Phénix. Darxa n’a pas vraiment apprécié la non-reconnaissance des Archanges envers elle, ses « démons"
+            "text": "Danael, également appelée Darxa, est une Séraphine d’importance et l’une des rares maîtresses des flammes du Paradis. Noble Neva’Erkal, elle était amie avec l’un des Archanges dépêchés par Elynea et fournit des Kera’Erkal à Urielle, même s’il était clair dès le départ que Belial constituerait une adversaire insurmontable pour la Phénix. Darxa apprécia très peu le manque de reconnaissance des Archanges envers elle, ses « démons mineurs » et leur sacrifice. Elle n’est loyale qu’à Elynea et Urielle et n’apprécie guère les autres anges."
           }
         ]
       },
