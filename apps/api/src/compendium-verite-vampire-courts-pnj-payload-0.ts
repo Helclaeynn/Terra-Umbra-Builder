@@ -1178,7 +1178,7 @@ const PAYLOAD = [
       "real_name": "Jonas Myer",
       "nom_verite": "Manfred Hohenstaufen (de Sicile)",
       "race": "Vampire",
-      "age": "«40 ans » - 777 ans",
+      "age": "40 ans",
       "origine": "Italienne",
       "statut": "Corporation :",
       "statut_verite": "troisième prince",
@@ -1200,7 +1200,9 @@ const PAYLOAD = [
       "source_extract": "Beryx Draghici qui possède le Pinksun Nightclub, le plus grand point de rencontre vampirique. Nom de la Réalité : Jonas Myer Nom de la Vérité : Manfred Hohenstaufen (de Sicile) Age : «40 ans » - 777 ans Affiliations : Corporation : Nationalité d’origine : Italienne Ethnie réelle : Vampire Statut : troisième prince Maison vampirique : Hauhenstafen Jonas est le directeur de la sous-branche « yellow-revo-meat », qui fournit la « viande » à l’ensemble de la distribution ou des restaurants Yellow-food. C’est un rusé et intransigeant corporatif qui ne recule devant aucune violence, aucune malversation ni aucun mensonge. Pourtant, il fut Manfred de Sicile autrefois, bien que né vampire, sa mère le fit passer pour le fils de l’empereur Frederic II. C’est avec le concours de la loge sicilienne qu’il avait asservit qu’il put se faire passer pour un mortel jusqu’en 1266, plusieurs fois excommunié en utilisant des alliances avec les Sarrasins, il fut ciblé par des chasseurs envoyés par le Pape lors de la bataille de Bénévent. Déchirant les sorts le protégeant du Soleil, très progressivement, il ne sentit pas son affaiblissement et fut pratiquement tué. Heureusement, les mages le servant le protégèrent et il fut enterré le temps de régénérer. Il a inspiré Horace Walpole pour le roman « le château d’Otrante » de 1764 évoquant son nom.",
       "source_documents": [
         "Factions_Les cours vampiriques(1)(2).pdf"
-      ]
+      ],
+      "affiliations": "Corporation : Yellowfood",
+      "maison_vampirique": "Hohenstaufen"
     },
     "sections": [
       {
@@ -1221,17 +1223,21 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«40 ans »"
+                "40 ans"
               ],
               [
                 "Affiliations",
-                "Corporation :"
+                "Corporation : Yellowfood"
               ],
               [
                 "Nationalité d’origine",
                 "Italienne"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Jonas Myer dirige la sous-branche « Yellow-Revo-Meat », qui fournit la viande destinée à l’ensemble de la distribution et des restaurants Yellowfood. Corporatiste rusé et intransigeant, il ne recule devant aucune violence, malversation ou manipulation pour atteindre ses objectifs."
           }
         ]
       },
@@ -1266,13 +1272,13 @@ const PAYLOAD = [
               ],
               [
                 "Maison vampirique",
-                "Hauhenstafen"
+                "Hohenstaufen"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "Jonas est le directeur de la sous-branche « yellow-revo-meat », qui fournit la « viande » à l’ensemble de la distribution ou des restaurants Yellow-food. C’est un rusé et intransigeant corporatif qui ne recule devant aucune violence, aucune malversation ni aucun mensonge. Pourtant, il fut Manfred de Sicile autrefois, bien que né vampire, sa mère le fit passer pour le fils de l’empereur Frederic II. C’est avec le concours de la loge sicilienne qu’il avait asservit qu’il put se faire passer pour un mortel jusqu’en 1266, plusieurs fois excommunié en utilisant des alliances avec les Sarrasins, il fut ciblé par des chasseurs envoyés par le Pape lors de la bataille de Bénévent. Déchirant les sorts le protégeant du Soleil, très progressivement, il ne sentit pas son affaiblissement et fut pratiquement tué. Heureusement, les mages le servant le protégèrent et il fut enterré le temps de régénérer. Il a inspiré Horace Walpole pour le roman « le château d’Otrante » de 1764 évoquant son nom."
+            "text": "Jonas est en vérité Manfred de Hohenstaufen, troisième prince de la Krovni. Né vampire, il fut présenté par sa mère comme le fils de l’empereur Frédéric II. Avec le soutien d’une Loge sicilienne qu’il avait asservie, il parvint à se faire passer pour mortel jusqu’en 1266. Plusieurs fois excommunié et allié à des forces sarrasines, il fut finalement pris pour cible par des chasseurs envoyés par le pape lors de la bataille de Bénévent. Ceux-ci déchirèrent les sorts qui le protégeaient du soleil ; l’affaiblissement progressif faillit le tuer. Les Mages à son service le sauvèrent et l’enterrèrent le temps qu’il se régénère. Sa figure inspira ensuite Horace Walpole pour « Le Château d’Otrante », publié en 1764."
           }
         ]
       },
