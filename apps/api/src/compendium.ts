@@ -293,10 +293,10 @@ import {
   COMPENDIUM_POINTS_RENCONTRE_PNJ_NAVIGATION
 } from "./compendium-points-rencontre-pnj.js";
 import {
-  COMPENDIUM_SHI_QI_ARTICLES,
   COMPENDIUM_SHI_QI_NAVIGATION,
   COMPENDIUM_SHI_QI_ENRICHMENTS
 } from "./compendium-shi-qi.js";
+import { COMPENDIUM_SHI_QI_EDITORIAL_ARTICLES } from "./compendium-shi-qi-editorial.js";
 import { applyCompendiumPnjRepairs } from "./compendium-pnj-repairs.js";
 
 type JsonObject = Record<string, any>;
@@ -2852,7 +2852,7 @@ async function loadCorpus(): Promise<Corpus> {
     pointsRencontrePnjResolvedIds.set(article.id, article.id);
   }
 
-  for (const article of COMPENDIUM_SHI_QI_ARTICLES) {
+  for (const article of COMPENDIUM_SHI_QI_EDITORIAL_ARTICLES) {
     byId.set(String(article.id), deepClone(article) as Article);
   }
 
