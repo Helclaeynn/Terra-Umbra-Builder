@@ -1312,8 +1312,8 @@ const PAYLOAD = [
       "real_name": "Sieg Kent",
       "nom_verite": "Sigismund Bathory",
       "race": "Vampire",
-      "age": "«24 ans » - 415 ans",
-      "origine": "Hongrie)",
+      "age": "24 ans",
+      "origine": "Hongrie",
       "statut": "crawlers : hookers",
       "statut_verite": "Quatrième prince",
       "organisation": "Krovni Rytsari",
@@ -1355,7 +1355,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«24 ans »"
+                "24 ans"
               ],
               [
                 "Affiliations",
@@ -1363,9 +1363,13 @@ const PAYLOAD = [
               ],
               [
                 "Nationalité d’origine",
-                "Hongrie)"
+                "Hongrie"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Sieg Kent est le principal collaborateur de Beryx Draghici et supervise au Pinksun Nightclub les Crawlers liés à la prostitution et à la séduction. Il assume une apparence androgyne, avec un visage très féminin contrastant avec une carrure extrêmement musclée. Charmeur redoutable, il a longtemps tenté de séduire Aessa du Purple Embers, au point d’être désormais interdit d’entrée dans l’établissement."
           }
         ]
       },
@@ -1406,7 +1410,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Principal collaborateur de Beryx Draghici, il commande les crawlers du genre prostitués et séducteurs dans le bar. Il a un côté androgyne assumé, son visage particulièrement, plus féminin qui tranche avec ses énormes bras musclés. Il a un monstrueux pouvoir de séduction. Il a longtemps essayé de draguer Aessa, ; du purple embers mais l’entrée dans ce bar lui reste interdit. Il est le fils d’Erzsebeth Báthory et de Dragoy Skotia. C’est un des princes les plus puissants en influence et malgré ses airs de séducteurs et d’obsédé sexuel, c’est aussi un des plus habiles combattants. Il a une passion pour les daemons et notamment Meririm (Messaline/ Aessa) qu’il trouve sublime. Il a une fibre familiale certaine, aimant ses frères et sœurs, ce n’est pas un sournois comme on pourrait se l’imaginer, il aime jouir d’une image ambiguë, malsaine parfois, mais c’est un homme d’une droiture digne de celle de son père. Il est lassé par le caractère maudit des vampires, il souhaiterait prier Lilith notamment, mais cela s’avère dangereux pour un vampire. Il a inspiré Heinrich Augustin von"
+            "text": "Sieg est en vérité Sigismund Báthory, fils d’Erzsébeth Báthory et de Dragoy Skotia. Quatrième prince de la Krovni, il compte parmi les plus influents et les meilleurs combattants de sa génération malgré son image de séducteur frivole. Il éprouve une fascination pour les Daemons, en particulier Meririm — Messaline/Aessa — qu’il trouve sublime. Très attaché à sa famille, il aime entretenir une image ambiguë et parfois malsaine mais possède en réalité une droiture comparable à celle de son père. Fatigué par la malédiction vampirique, il souhaiterait notamment pouvoir prier Lilith, démarche dangereuse pour un vampire. Il aurait inspiré Heinrich Augustin von Ossenfelder pour son poème « Der Vampir »."
           }
         ]
       },
