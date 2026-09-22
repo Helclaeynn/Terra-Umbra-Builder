@@ -191,8 +191,7 @@ import {
   COMPENDIUM_VERITE_GRANDS_EXILES_HUB_ID,
   COMPENDIUM_VERITE_GRANDS_EXILES_HUB_SECTIONS,
   COMPENDIUM_VERITE_GRANDS_EXILES_ARTICLES,
-  COMPENDIUM_VERITE_GRANDS_EXILES_NAVIGATION,
-  COMPENDIUM_VERITE_GRANDS_EXILES_HUNTER_ENRICHMENT
+  COMPENDIUM_VERITE_GRANDS_EXILES_NAVIGATION
 } from "./compendium-verite-grands-exiles.js";
 import {
   COMPENDIUM_VERITE_GRANDS_EXILES_HUB_LORE_SECTIONS,
@@ -208,10 +207,13 @@ import {
 } from "./compendium-verite-v7-pass-b.js";
 import {
   COMPENDIUM_VERITE_HUNTERS_SOURCE,
-  COMPENDIUM_VERITE_HUNTERS_ARTICLES,
-  COMPENDIUM_VERITE_HUNTERS_ENRICHMENTS,
   COMPENDIUM_VERITE_HUNTERS_NAVIGATION
 } from "./compendium-verite-hunters-source.js";
+import {
+  COMPENDIUM_VERITE_HUNTERS_LORE_ARTICLES,
+  COMPENDIUM_VERITE_HUNTERS_LORE_ENRICHMENTS,
+  COMPENDIUM_VERITE_HUNTERS_CHASSE_FANTASTIQUE_HUB_ENRICHMENT
+} from "./compendium-verite-hunters-lore.js";
 import {
   COMPENDIUM_VERITE_HUNTERS_PNJ_ARTICLES,
   COMPENDIUM_VERITE_HUNTERS_PNJ_NAVIGATION
@@ -2108,7 +2110,7 @@ async function loadCorpus(): Promise<Corpus> {
     );
   }
 
-  for (const article of COMPENDIUM_VERITE_HUNTERS_ARTICLES) {
+  for (const article of COMPENDIUM_VERITE_HUNTERS_LORE_ARTICLES) {
     byId.set(article.id, deepClone(article) as Article);
   }
 
@@ -2208,7 +2210,7 @@ async function loadCorpus(): Promise<Corpus> {
     humanGalacticPnjResolvedIds.set(article.id, article.id);
   }
 
-  for (const enrichment of COMPENDIUM_VERITE_HUNTERS_ENRICHMENTS) {
+  for (const enrichment of COMPENDIUM_VERITE_HUNTERS_LORE_ENRICHMENTS) {
     const target = byId.get(String(enrichment.id ?? ""));
     if (!target) continue;
 
@@ -2248,18 +2250,18 @@ async function loadCorpus(): Promise<Corpus> {
   }
 
   const grandsExilesHunterTarget = byId.get(
-    String(COMPENDIUM_VERITE_GRANDS_EXILES_HUNTER_ENRICHMENT.targetId ?? "")
+    String(COMPENDIUM_VERITE_HUNTERS_CHASSE_FANTASTIQUE_HUB_ENRICHMENT.targetId ?? "")
   );
   if (!grandsExilesHunterTarget) {
     throw new Error(
-      `Cible Chasse Fantastique absente: ${COMPENDIUM_VERITE_GRANDS_EXILES_HUNTER_ENRICHMENT.targetId}`
+      `Cible Chasse Fantastique absente: ${COMPENDIUM_VERITE_HUNTERS_CHASSE_FANTASTIQUE_HUB_ENRICHMENT.targetId}`
     );
   }
   const grandsExilesHunterSectionIds = new Set(
     (grandsExilesHunterTarget.sections ?? []).map((section) => String(section?.id ?? ""))
   );
   const grandsExilesHunterSections = deepClone(
-    COMPENDIUM_VERITE_GRANDS_EXILES_HUNTER_ENRICHMENT.sections ?? []
+    COMPENDIUM_VERITE_HUNTERS_CHASSE_FANTASTIQUE_HUB_ENRICHMENT.sections ?? []
   ).filter((section: JsonObject) => !grandsExilesHunterSectionIds.has(String(section?.id ?? "")));
   if (grandsExilesHunterSections.length) {
     grandsExilesHunterTarget.sections = [
@@ -2278,7 +2280,7 @@ async function loadCorpus(): Promise<Corpus> {
   grandsExilesHunterTarget.tags = [
     ...new Set([
       ...(grandsExilesHunterTarget.tags ?? []),
-      ...(COMPENDIUM_VERITE_GRANDS_EXILES_HUNTER_ENRICHMENT.tags ?? []),
+      ...(COMPENDIUM_VERITE_HUNTERS_CHASSE_FANTASTIQUE_HUB_ENRICHMENT.tags ?? []),
       "Multi-source"
     ])
   ];
