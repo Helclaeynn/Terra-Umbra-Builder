@@ -16,13 +16,22 @@ const PAYLOAD = [
       "Vampire"
     ],
     "pnj": {
-      "nom_verite": "Xinya MING",
-      "race": "Vampire",
-      "age": "«25 ans » -???? ans",
-      "origine": "chinoise",
-      "statut": "Religieux",
-      "statut_verite": "La plus ancienne des vampires",
+      "completeness": "detailed",
+      "real_name": "Ming Xinya",
+      "nom_verite": "Xinya Ming",
+      "race": "Archivampire",
+      "age": "27 ans",
+      "origine": "Chinoise",
+      "statut": "Religion : shientaoïsme",
+      "statut_verite": "Impératrice",
+      "organisation": "Shì hun zhe",
       "relations": [],
+      "identity_keys": [
+        "Ming Xinya",
+        "Xinya Ming",
+        "MING Xinya",
+        "Xinya MING"
+      ],
       "source_group": "Vampires",
       "source_order": 0,
       "source_pages": [
@@ -39,53 +48,13 @@ const PAYLOAD = [
     },
     "sections": [
       {
-        "id": "profil",
-        "title": "Profil",
-        "level": 2,
-        "blocks": [
-          {
-            "type": "table",
-            "rows": [
-              [
-                "Nom de la Réalité",
-                "Xinya MING"
-              ],
-              [
-                "Nom de la Vérité",
-                "Xinya MING"
-              ],
-              [
-                "Âge",
-                "«25 ans » -???? ans"
-              ],
-              [
-                "Affiliations",
-                "Religieux"
-              ],
-              [
-                "Nationalité d’origine",
-                "chinoise"
-              ],
-              [
-                "Nature réelle",
-                "Vampire"
-              ],
-              [
-                "Repère",
-                "La plus ancienne des vampires"
-              ]
-            ]
-          }
-        ]
-      },
-      {
         "id": "info-realite",
         "title": "Informations Réalité",
         "level": 2,
         "blocks": [
           {
             "type": "p",
-            "text": "Xinya est la fille d’un des trois plus riches hommes d’affaire chinois. L’empire économique qu’il possédait s’est totalement effondré durant la guerre et le PDG a été assassiné par des Nord-coréens en 2024. Xinya a été capturée par les troupes d’invasion, en Chine, nul ne sait ce qu’elle a subi en tant qu’otage, s’avérant taciturne au possible. En 2035, elle a toutefois repris du poil de la bête en intégrant un programme de protection californien et s’est instaurée comme une figure plutôt influente de la mouvance Shientaoïste."
+            "text": "Expatriée de Chine pendant la guerre, Ming Xinya était une très riche héritière que les États-Unis exfiltrèrent pour ses capitaux colossaux, qu’ils la forcèrent à injecter dans le PCRC. Bien qu’elle n’ait pas eu son mot à dire et ait fini par perdre la fortune familiale dans l’effort de guerre, elle n’a pas pour autant fini à la rue."
           }
         ]
       },
