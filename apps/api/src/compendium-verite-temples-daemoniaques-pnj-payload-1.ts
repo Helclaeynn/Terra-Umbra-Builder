@@ -1604,7 +1604,7 @@ const PAYLOAD = [
       "nom_verite": "Balam – Bertrand du Guesclin",
       "nom_verite_source": "Balam – Bertrand du Guesclin",
       "race": "Daemons",
-      "age": "«40 ans », ????",
+      "age": "40 ans",
       "origine": "française",
       "statut": "Duc",
       "affiliations": "pègre : mafia française",
@@ -1660,7 +1660,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Tristan Bourguignon ne semble pas avoir un nom très menaçant ni n’a une fonction » très élevée dans le « Milieu », la mafia française. C’est un lambda à Los Angeles. Pourtant, les types de la carrure de Drasko Vladic ne sont pas légion, encore moins ceux ayant l’air aussi effrayant que lui."
+            "text": "Tristan Barenton occupe une place assez modeste dans le « Milieu », la mafia française de Los Angeles, et son nom n’a rien de particulièrement menaçant. Pourtant, des hommes de sa carrure sont rares et son apparence suffit souvent à impressionner ceux qui le croisent."
           }
         ]
       },
@@ -1726,7 +1726,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Tristan Bourguignon ne semble pas avoir un nom très menaçant ni n’a une fonction » très élevée dans le « Milieu », la mafia française. C’est un lambda à Los Angeles. Pourtant, les types de la carrure de Drasko Vladic ne sont pas légion, encore moins ceux ayant l’air aussi effrayant que lui. C’est exactement la force de Balam, le duc infernal de Diablo, maitre de la peur. Son identité mortelle était le chevalier Bertrand du Guesclin bien qu’il ne lui ressemble plus du tout. Le « Dogue noir de Brocéliande », c’était un héros de la chevalerie française. Recueilli par Diablo sans qu’il n'ait de lien véritable avec les attributs du Dieu Ancien, il a fait comme toujours, s’étant laissé mener par le devoir. Balam est connu pour être relativement nudiste, l’ancien chevalier a une telle confiance en ses compétences martiales qu’il relève les défis torse-nu. Il a une haine infinie contre les Britanniques et est souvent un ami du Mage Maugis pour cette raison."
+            "text": "Tristan est en vérité Balam–Bertrand du Guesclin, Duc infernal de Diablo et maître de la peur. Son identité mortelle fut celle du chevalier Bertrand du Guesclin, le « Dogue noir de Brocéliande », héros de la chevalerie française, même s’il ne lui ressemble plus guère. Diablo recueillit son âme sans que Bertrand ait entretenu de lien particulier avec les attributs du Dieu Ancien ; fidèle à lui-même, il se laissa simplement guider par le devoir. Balam est connu pour son goût du nudisme : confiant dans ses compétences martiales, l’ancien chevalier relève volontiers les défis torse nu. Il nourrit une haine tenace envers les Britanniques et s’entend souvent très bien avec le Mage Maugis pour cette raison."
           }
         ]
       },
