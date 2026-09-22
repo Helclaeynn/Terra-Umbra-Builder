@@ -1608,7 +1608,7 @@ const PAYLOAD = [
     "dataset": "verite-vampire-courts-pnj",
     "category": "Personnages",
     "sourceCategory": "Personnages",
-    "title": "MING Xinya",
+    "title": "Ming Xinya",
     "source": "Factions_Les cours vampiriques(1)(2).pdf",
     "status": "canon_source",
     "rebuildV2": true,
@@ -1621,17 +1621,20 @@ const PAYLOAD = [
     ],
     "pnj": {
       "completeness": "detailed",
-      "real_name": "MING Xinya",
-      "nom_verite": "MING Xinya",
+      "real_name": "Ming Xinya",
+      "nom_verite": "Xinya Ming",
       "race": "Archivampire",
-      "age": "«27 ans » - 50 221 ans",
+      "age": "27 ans",
       "origine": "Chinoise",
-      "statut": "Religieux : shintaoïste",
+      "statut": "Religion : shientaoïsme",
       "statut_verite": "Impératrice",
       "organisation": "Shì hun zhe",
       "relations": [],
       "identity_keys": [
-        "MING Xinya"
+        "Ming Xinya",
+        "Xinya Ming",
+        "MING Xinya",
+        "Xinya MING"
       ],
       "source_group": "Shì hun zhe",
       "source_order": 49,
@@ -1639,7 +1642,7 @@ const PAYLOAD = [
         36,
         36
       ],
-      "source_designation": "Chengxiang (grand Chancelier) : Zinzhuo",
+      "source_designation": "Trône impérial : Xinya Ming",
       "source_reality_raw": "MING Xinya",
       "source_truth_raw": "MING Xinya",
       "source_extract": "Chengxiang (grand Chancelier) : Zinzhuo Nom de la Réalité : MING Xinya Nom de la Vérité : MING Xinya Age : «27 ans » - 50 221 ans Affiliations : Religieux : shintaoïste Nationalité d’origine : Chinoise Ethnie réelle : Archivampire Statut : Impératrice Expatriée de Chine pendant la guerre, elle était une très riche héritière que les Etats-Unis, exfiltrèrent pour ses capitaux colossaux qu’ils la forcèrent à injecter dans le PCRC. Bien qu’elle n’ait pas eu son mot à dire et qu’elle ait fini par perdre la fortune familiale dans l’effort de guerre, elle n’a pas fini à la rue pour autant. Xinya est actuellement le plus vieux vampire sur Terre. Son apparence a changé au fil des millénaires et son raffinement aussi. Elle a grandement influencé les civilisations d’extrême orient, certains vont jusqu’à lui attribuer le Taoïsme comme une philosophie et un pouvoir qu’elle développa pour lutter contre les méfaits du soleil en rééquilibrant les vampires, des créatures forgées par le « Yin », en leur réhaussant leur « Yang », de la recherche de cet équilibre, qu’elle enseigna à Lao Tseu notamment. Elle aida aussi Qin Shi Huang à consolider l’empire de Qin. Sa marque sur l’extrême orient est indélébile quoi que subtile et elle a autant contribué qu’elle n’a été combattue. Sorcière incomparable, c’est aussi une guerrière au physique athlétique, malgré ses grandes robes le dissimulant. Hélas, elle regrette",
@@ -1662,21 +1665,25 @@ const PAYLOAD = [
               ],
               [
                 "Nom / identité de Réalité",
-                "MING Xinya"
+                "Ming Xinya"
               ],
               [
                 "Âge apparent",
-                "«27 ans »"
+                "27 ans"
               ],
               [
                 "Affiliations",
-                "Religieux : shintaoïste"
+                "Religion : shientaoïsme"
               ],
               [
                 "Nationalité d’origine",
                 "Chinoise"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Expatriée de Chine pendant la guerre, Ming Xinya était une très riche héritière que les États-Unis exfiltrèrent pour ses capitaux colossaux, qu’ils la forcèrent à injecter dans le PCRC. Bien qu’elle n’ait pas eu son mot à dire et ait fini par perdre la fortune familiale dans l’effort de guerre, elle n’a pas pour autant fini à la rue."
           }
         ]
       },
@@ -1695,11 +1702,11 @@ const PAYLOAD = [
               ],
               [
                 "Nom de la Vérité",
-                "MING Xinya"
+                "Xinya Ming"
               ],
               [
                 "Âge complet",
-                "«27 ans » - 50 221 ans"
+                "27 ans en apparence ; 50 221 ans"
               ],
               [
                 "Nature réelle",
@@ -1713,7 +1720,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Expatriée de Chine pendant la guerre, elle était une très riche héritière que les Etats-Unis, exfiltrèrent pour ses capitaux colossaux qu’ils la forcèrent à injecter dans le PCRC. Bien qu’elle n’ait pas eu son mot à dire et qu’elle ait fini par perdre la fortune familiale dans l’effort de guerre, elle n’a pas fini à la rue pour autant. Xinya est actuellement le plus vieux vampire sur Terre. Son apparence a changé au fil des millénaires et son raffinement aussi. Elle a grandement influencé les civilisations d’extrême orient, certains vont jusqu’à lui attribuer le Taoïsme comme une philosophie et un pouvoir qu’elle développa pour lutter contre les méfaits du soleil en rééquilibrant les vampires, des créatures forgées par le « Yin », en leur réhaussant leur « Yang », de la recherche de cet équilibre, qu’elle enseigna à Lao Tseu notamment. Elle aida aussi Qin Shi Huang à consolider l’empire de Qin. Sa marque sur l’extrême orient est indélébile quoi que subtile et elle a autant contribué qu’elle n’a été combattue. Sorcière incomparable, c’est aussi une guerrière au physique athlétique, malgré ses grandes robes le dissimulant. Hélas, elle regrette"
+            "text": "Xinya est actuellement le plus vieux vampire de la Terre. Son apparence et son raffinement ont changé au fil des millénaires. Elle a profondément influencé les civilisations d’Extrême-Orient ; certains lui attribuent même le Taoïsme, philosophie et pouvoir qu’elle aurait développé pour lutter contre les méfaits du soleil en rééquilibrant les vampires, créatures forgées par le Yin, grâce au Yang. Elle enseigna notamment cette recherche d’équilibre à Lao Tseu et aida Qin Shi Huang à consolider l’empire Qin. Son empreinte sur l’Extrême-Orient est indélébile quoique subtile, et elle y fut autant combattue qu’elle contribua à son histoire. Sorcière incomparable, elle est aussi une guerrière au physique athlétique que dissimulent ses grandes robes. Elle regrette amèrement la perfection du Taoïsme véritable, qui permet aux humains de la combattre."
           }
         ]
       },
