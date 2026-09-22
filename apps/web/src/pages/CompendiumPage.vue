@@ -165,11 +165,13 @@ type OnboardingData = {
 type Article = {
   id: string;
   title?: string;
+  realityName?: string;
   category?: string;
   dataset?: string;
   source?: string;
   status?: string;
   tags?: string[];
+  secretTags?: string[];
   manufacturer?: string;
   sections?: ArticleSection[];
   navigation?: {
@@ -353,6 +355,14 @@ const selectedIsFavorite = computed(() =>
 const canEdit = computed(() =>
   currentUser.value?.role === "editor" || currentUser.value?.role === "admin"
 );
+const canSearchTruthTags = computed(() =>
+  currentUser.value?.role === "gm" || currentUser.value?.role === "admin"
+);
+
+function searchForTag(tag: string) {
+  query.value = `tag:"${tag.replace(/"/g, "")}"`;
+  void search();
+}
 
 const selectedMedia = computed(() => primaryArticleMedia(selected.value));
 
@@ -1786,6 +1796,9 @@ onBeforeUnmount(() => {
                     </div>
 
                     <div class="article-meta">
+                      <span v-if="selected.category === 'Personnages' && selected.realityName">
+                        Nom de Réalité · {{ selected.realityName }}
+                      </span>
                       <span v-if="selected.status">{{ selected.status }}</span>
                       <span v-if="canEdit && selected.source">{{ selected.source }}</span>
                       <button
@@ -1830,7 +1843,18 @@ onBeforeUnmount(() => {
                         v-for="tag in selected.tags.slice(0, 12)"
                         :key="tag"
                         type="button"
-                        @click="query = tag; search()"
+                        @click="searchForTag(tag)"
+                      >
+                        {{ tag }}
+                      </button>
+                    </div>
+                    <div v-if="canSearchTruthTags && selected.secretTags?.length" class="article-tags article-truth-tags">
+                      <span class="truth-tags-label">Tags Vérité · MJ</span>
+                      <button
+                        v-for="tag in selected.secretTags"
+                        :key="tag"
+                        type="button"
+                        @click="searchForTag(tag)"
                       >
                         {{ tag }}
                       </button>
@@ -2904,6 +2928,10 @@ onBeforeUnmount(() => {
 .article-tags button {
   cursor: pointer;
 }
+
+.article-truth-tags { align-items: center; }
+.article-truth-tags .truth-tags-label { color: #d9b6e9; font-size: .72rem; }
+.article-truth-tags button { border-color: rgba(184, 130, 214, .35); color: #e5c9ef; }
 
 .article-section {
   margin: 1.8rem 0;
