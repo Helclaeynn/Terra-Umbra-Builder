@@ -1872,7 +1872,7 @@ const PAYLOAD = [
     "dataset": "verite-vampire-courts-pnj",
     "category": "Personnages",
     "sourceCategory": "Personnages",
-    "title": "RIM Do-Yeon",
+    "title": "Rim Do-Yeon",
     "source": "Factions_Les cours vampiriques(1)(2).pdf",
     "status": "canon_source",
     "rebuildV2": true,
@@ -1885,16 +1885,17 @@ const PAYLOAD = [
     ],
     "pnj": {
       "completeness": "detailed",
-      "real_name": "RIM Do-Yeon",
+      "real_name": "Rim Do-Yeon",
       "nom_verite": "Sang-Ki",
       "race": "Vampire – Caïth Sidhe",
-      "age": "«22 ans » - 1036",
+      "age": "22 ans",
       "origine": "Coréenne",
-      "statut": "Crawlers : neurodivers",
-      "statut_verite": "« Yushi Dafu »",
+      "statut": "Crawlers : Neurodivers",
+      "statut_verite": "Yushi Dafu",
       "organisation": "Shì hun zhe",
       "relations": [],
       "identity_keys": [
+        "Rim Do-Yeon",
         "RIM Do-Yeon",
         "Sang-Ki"
       ],
@@ -1904,7 +1905,7 @@ const PAYLOAD = [
         37,
         37
       ],
-      "source_designation": "Taiwei (Grand commandant) : Oda Nobunaga",
+      "source_designation": "Yushi dafu (conseiller impérial) : Sang-Ki",
       "source_reality_raw": "RIM Do-Yeon",
       "source_truth_raw": "Sang-Ki",
       "source_extract": "Taiwei (Grand commandant) : Oda Nobunaga Nom de la Réalité : RIM Do-Yeon Nom de la Vérité : Sang-Ki Age : «22 ans » - 1036 Affiliations : Crawlers : neurodivers Nationalité d’origine : Coréenne Ethnie réelle : Vampire – Caïth Sidhe Statut : « Yushi Dafu » Clan vampirique : « Kuroneko » Do-Yeon est un jeune coréen qui est arrivé aux Etats-Unis à 9 ans, il n’a pas vraiment connu son pays natal bien qu’il parle la langue coréenne. Il parle également chinois et japonais puisqu’ il a grandi dans les quartiers asiatiques de Los Angeles, avec les émigrés de guerre. Grandissant dans la misère et la haine américaine, il a forgé un caractère malsain, sadique et antisocial assez redoutable. Bien qu’il ne soit pas doté d’un physique extraordinaire, il a assez de charme et s’avère être un oiseau de nuit. C’est un neurodiver très réputé sur l’Holonet. Fils de la fondatrice de la maison Kuroneko, un clan vampirique presque exclusivement féminin, Sang-ki est un vampire plus envoûtant et charmeur qu’on ne l’imagine. Toutefois, à la mort de sa mère, il a endossé le rôle de maitre du clan et l’a rapidement remplacé en tant que Conseiller à la cour, par son intelligence et sa logique implacable. Il aime particulièrement les guerriers ou sportifs virils et musclés, mais il adore rendre folles de désir de jeunes mortelles à l’occasion. Sa maison est très liée aux Caïth",
@@ -1927,21 +1928,25 @@ const PAYLOAD = [
               ],
               [
                 "Nom / identité de Réalité",
-                "RIM Do-Yeon"
+                "Rim Do-Yeon"
               ],
               [
                 "Âge apparent",
-                "«22 ans »"
+                "22 ans"
               ],
               [
                 "Affiliations",
-                "Crawlers : neurodivers"
+                "Crawlers : Neurodivers"
               ],
               [
                 "Nationalité d’origine",
                 "Coréenne"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Rim Do-Yeon est arrivé de Corée aux États-Unis à neuf ans et connaît peu son pays natal, bien qu’il parle coréen. Il maîtrise aussi le chinois et le japonais, ayant grandi dans les quartiers asiatiques de Los Angeles parmi les réfugiés de guerre. La misère et la haine de l’Amérique ont forgé chez lui un caractère malsain, sadique et redoutablement antisocial. Sans être doté d’un physique extraordinaire, il possède un certain charme et vit surtout la nuit. C’est un Neurodiver très réputé sur l’Holonet."
           }
         ]
       },
@@ -1964,7 +1969,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "«22 ans » - 1036"
+                "22 ans en apparence ; 1 036 ans"
               ],
               [
                 "Nature réelle",
@@ -1972,17 +1977,17 @@ const PAYLOAD = [
               ],
               [
                 "Statut vampirique",
-                "« Yushi Dafu »"
+                "Yushi Dafu"
               ],
               [
                 "Clan vampirique",
-                "« Kuroneko »"
+                "Kuroneko"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "Do-Yeon est un jeune coréen qui est arrivé aux Etats-Unis à 9 ans, il n’a pas vraiment connu son pays natal bien qu’il parle la langue coréenne. Il parle également chinois et japonais puisqu’ il a grandi dans les quartiers asiatiques de Los Angeles, avec les émigrés de guerre. Grandissant dans la misère et la haine américaine, il a forgé un caractère malsain, sadique et antisocial assez redoutable. Bien qu’il ne soit pas doté d’un physique extraordinaire, il a assez de charme et s’avère être un oiseau de nuit. C’est un neurodiver très réputé sur l’Holonet. Fils de la fondatrice de la maison Kuroneko, un clan vampirique presque exclusivement féminin, Sang-ki est un vampire plus envoûtant et charmeur qu’on ne l’imagine. Toutefois, à la mort de sa mère, il a endossé le rôle de maitre du clan et l’a rapidement remplacé en tant que Conseiller à la cour, par son intelligence et sa logique implacable. Il aime particulièrement les guerriers ou sportifs virils et musclés, mais il adore rendre folles de désir de jeunes mortelles à l’occasion. Sa maison est très liée aux Caïth"
+            "text": "Fils de la fondatrice de la maison Kuroneko, clan vampirique presque exclusivement féminin, Sang-Ki est un vampire plus envoûtant et charmeur que ne le laisse supposer sa couverture. À la mort de sa mère, il prit la tête du clan puis la remplaça rapidement comme conseiller de la Cour, grâce à son intelligence et à sa logique implacable. Il affectionne particulièrement les guerriers et les sportifs virils et musclés, mais aime aussi rendre de jeunes mortelles folles de désir. Sa maison entretient des liens étroits avec les Caïth Sidhe, les Deimons ; lui-même à moitié Caïth, Sang-Ki est un vampire plus difficile à toucher."
           }
         ]
       },
