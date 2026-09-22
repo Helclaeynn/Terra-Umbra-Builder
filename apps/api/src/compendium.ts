@@ -1,4427 +1,16 @@
-import { createHash, randomBytes } from "node:crypto";
-import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
-import { resolve } from "node:path";
-import { gunzipSync } from "node:zlib";
-import type { FastifyInstance, FastifyReply } from "fastify";
-import { currentUser, requireUser } from "./auth.js";
-import { pool } from "./db.js";
-import {
-  COMPENDIUM_GUIDE_ARTICLES,
-  COMPENDIUM_GUIDE_NAVIGATION,
-  COMPENDIUM_PLAYER_START
-} from "./compendium-onboarding.js";
-import { generatedTalentHubCorpus } from "./compendium-talent-hubs.js";
-import { generatedBuilderReferenceCorpus } from "./compendium-builder-references.js";
-import {
-  COMPENDIUM_MOTEUR_V4_ARTICLES,
-  COMPENDIUM_MOTEUR_V4_NAVIGATION
-} from "./compendium-moteur-v4.js";
-import {
-  COMPENDIUM_REALITE_V9_LORE_ARTICLES,
-  COMPENDIUM_REALITE_V9_LORE_NAVIGATION
-} from "./compendium-realite-v9-lore.js";
-import {
-  COMPENDIUM_REALITE_V9_CORPORATIONS_HUB_ID,
-  COMPENDIUM_REALITE_V9_CORPORATIONS_HUB_ENRICHMENT,
-  COMPENDIUM_REALITE_V9_CORPORATIONS_ARTICLES,
-  COMPENDIUM_REALITE_V9_CORPORATIONS_NAVIGATION
-} from "./compendium-realite-v9-corporations.js";
-import {
-  COMPENDIUM_REALITE_V9_CORPORATIONS_PNJ_ARTICLES,
-  COMPENDIUM_REALITE_V9_CORPORATIONS_PNJ_NAVIGATION
-} from "./compendium-realite-v9-corporations-pnj.js";
-import {
-  COMPENDIUM_REALITE_V9_PEGRE_ARTICLES,
-  COMPENDIUM_REALITE_V9_PEGRE_NAVIGATION
-} from "./compendium-realite-v9-pegre.js";
-import {
-  COMPENDIUM_REALITE_V9_PEGRE_PNJ_ARTICLES,
-  COMPENDIUM_REALITE_V9_PEGRE_PNJ_NAVIGATION
-} from "./compendium-realite-v9-pegre-pnj.js";
-import {
-  COMPENDIUM_REALITE_V9_POLICE_HUB_SECTIONS,
-  COMPENDIUM_REALITE_V9_POLICE_ARTICLES,
-  COMPENDIUM_REALITE_V9_POLICE_NAVIGATION
-} from "./compendium-realite-v9-police.js";
-import {
-  COMPENDIUM_REALITE_V9_POLICE_PNJ_ARTICLES,
-  COMPENDIUM_REALITE_V9_POLICE_PNJ_NAVIGATION,
-  COMPENDIUM_REALITE_V9_POLICE_PNJ_ENRICHMENTS
-} from "./compendium-realite-v9-police-pnj.js";
-import {
-  COMPENDIUM_REALITE_V9_GOVERNMENT_HUB_SECTIONS,
-  COMPENDIUM_REALITE_V9_GOVERNMENT_ARTICLES,
-  COMPENDIUM_REALITE_V9_GOVERNMENT_NAVIGATION
-} from "./compendium-realite-v9-government.js";
-import {
-  COMPENDIUM_REALITE_V9_GOVERNMENT_PNJ_ARTICLES,
-  COMPENDIUM_REALITE_V9_GOVERNMENT_PNJ_NAVIGATION,
-  COMPENDIUM_REALITE_V9_GOVERNMENT_PNJ_ENRICHMENTS,
-  COMPENDIUM_REALITE_V9_GOVERNMENT_TRUTH_PNJ_ENRICHMENTS
-} from "./compendium-realite-v9-government-pnj.js";
-import {
-  COMPENDIUM_REALITE_V9_AGENCIES_HUB_ID,
-  COMPENDIUM_REALITE_V9_AGENCIES_HUB,
-  COMPENDIUM_REALITE_V9_AGENCIES_ARTICLES,
-  COMPENDIUM_REALITE_V9_AGENCIES_NAVIGATION
-} from "./compendium-realite-v9-agencies.js";
-import {
-  COMPENDIUM_REALITE_V9_AGENCIES_PNJ_ARTICLES,
-  COMPENDIUM_REALITE_V9_AGENCIES_PNJ_NAVIGATION,
-  COMPENDIUM_REALITE_V9_AGENCIES_PNJ_ENRICHMENTS
-} from "./compendium-realite-v9-agencies-pnj.js";
-import {
-  COMPENDIUM_REALITE_V9_CRAWLERS_HUB_ID,
-  COMPENDIUM_REALITE_V9_CRAWLERS_HUB_SOURCE,
-  COMPENDIUM_REALITE_V9_CRAWLERS_HUB_TAGS,
-  COMPENDIUM_REALITE_V9_CRAWLERS_HUB_SECTIONS,
-  COMPENDIUM_REALITE_V9_CRAWLERS_ARTICLE_ENRICHMENTS,
-  COMPENDIUM_REALITE_V9_CRAWLERS_ARTICLES,
-  COMPENDIUM_REALITE_V9_CRAWLERS_NAVIGATION
-} from "./compendium-realite-v9-crawlers.js";
-import {
-  COMPENDIUM_REALITE_V9_CRAWLERS_PNJ_ARTICLES,
-  COMPENDIUM_REALITE_V9_CRAWLERS_PNJ_NAVIGATION
-} from "./compendium-realite-v9-crawlers-pnj.js";
-import {
-  COMPENDIUM_REALITE_V9_RELIGION_ARTICLES,
-  COMPENDIUM_REALITE_V9_RELIGION_NAVIGATION
-} from "./compendium-realite-v9-religions.js";
-import {
-  COMPENDIUM_REALITE_V9_RELIGION_PNJ_ARTICLES,
-  COMPENDIUM_REALITE_V9_RELIGION_PNJ_NAVIGATION
-} from "./compendium-realite-v9-religion-pnj.js";
-import {
-  COMPENDIUM_REALITE_V9_CHRISTIANITY_ARTICLES,
-  COMPENDIUM_REALITE_V9_CHRISTIANITY_NAVIGATION
-} from "./compendium-realite-v9-christianity.js";
-import { COMPENDIUM_REALITE_V9_CHRISTIANITY_LORE_ARTICLE } from "./compendium-realite-v9-christianity-lore.js";
-import {
-  COMPENDIUM_REALITE_V9_RULE_ARTICLES,
-  COMPENDIUM_REALITE_V9_RULE_NAVIGATION
-} from "./compendium-realite-v9-rules.js";
-import {
-  COMPENDIUM_VERITE_V7_LORE_ARTICLES,
-  COMPENDIUM_VERITE_V7_LORE_NAVIGATION
-} from "./compendium-verite-v7-lore.js";
-import {
-  COMPENDIUM_VERITE_V7_RULE_ARTICLES,
-  COMPENDIUM_VERITE_V7_RULE_NAVIGATION
-} from "./compendium-verite-v7-rules.js";
-import {
-  COMPENDIUM_VERITE_V7_KHINAE_LORE_ARTICLES,
-  COMPENDIUM_VERITE_V7_KHINAE_RULE_ARTICLES,
-  COMPENDIUM_VERITE_V7_KHINAE_LORE_NAVIGATION,
-  COMPENDIUM_VERITE_V7_KHINAE_RULE_NAVIGATION
-} from "./compendium-verite-v7-khinae.js";
-import {
-  COMPENDIUM_VERITE_V7_MAGE_ARTICLES,
-  COMPENDIUM_VERITE_V7_MAGE_NAVIGATION
-} from "./compendium-verite-v7-mages.js";
-import {
-  COMPENDIUM_VERITE_LOGES_MAGES_SOURCE,
-  COMPENDIUM_VERITE_LOGES_MAGES_HUB_ID,
-  COMPENDIUM_VERITE_LOGES_MAGES_HUB_SECTIONS,
-  COMPENDIUM_VERITE_LOGES_MAGES_PNJ_ARTICLES,
-  COMPENDIUM_VERITE_LOGES_MAGES_PNJ_NAVIGATION
-} from "./compendium-verite-loges-mages.js";
-import {
-  COMPENDIUM_VERITE_V7_DAEMON_ARTICLES,
-  COMPENDIUM_VERITE_V7_DAEMON_NAVIGATION
-} from "./compendium-verite-v7-daemons.js";
-import {
-  COMPENDIUM_VERITE_V7_ANGELUS_ARTICLES,
-  COMPENDIUM_VERITE_V7_ANGELUS_NAVIGATION
-} from "./compendium-verite-v7-angelus.js";
-import {
-  COMPENDIUM_VERITE_ANGELUS_ARTICLES,
-  COMPENDIUM_VERITE_ANGELUS_ENRICHMENTS,
-  COMPENDIUM_VERITE_ANGELUS_NAVIGATION
-} from "./compendium-verite-angelus-source.js";
-import {
-  COMPENDIUM_VERITE_ANGELUS_PNJ_ARTICLES,
-  COMPENDIUM_VERITE_ANGELUS_PNJ_NAVIGATION
-} from "./compendium-verite-angelus-pnj.js";
-import {
-  COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_SOURCE,
-  COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_ANGELUS_SOURCE,
-  COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_HUB_ID,
-  COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_HUB_SECTIONS,
-  COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_LESLIE_ENRICHMENT,
-  COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_ANGELUS_RELATIONS
-} from "./compendium-verite-temples-daemoniaques.js";
-import {
-  COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_PNJ_ARTICLES,
-  COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_PNJ_NAVIGATION
-} from "./compendium-verite-temples-daemoniaques-pnj.js";
-import {
-  COMPENDIUM_TEN_BACKGROUND_ENRICHMENTS,
-  COMPENDIUM_TEN_SVETLANA_ARTICLE,
-  COMPENDIUM_TEN_SVETLANA_NAVIGATION,
-  COMPENDIUM_TEN_ARKHANGEL_LINK
-} from "./compendium-ten-backgrounds.js";
-import {
-  COMPENDIUM_TEN_PAGE_ARTICLE,
-  COMPENDIUM_TEN_PAGE_NAVIGATION,
-  COMPENDIUM_TEN_TRUTH_ENRICHMENTS
-} from "./compendium-ten-canon.js";
-import {
-  COMPENDIUM_VERITE_TEN_SOURCE,
-  COMPENDIUM_VERITE_TEN_CHRONOLOGY_ARTICLE,
-  COMPENDIUM_VERITE_TEN_ENRICHMENTS,
-  COMPENDIUM_VERITE_TEN_NAVIGATION
-} from "./compendium-verite-ten-catastrophes.js";
-import {
-  COMPENDIUM_VERITE_V7_ASERYN_ARTICLES,
-  COMPENDIUM_VERITE_V7_ASERYN_NAVIGATION
-} from "./compendium-verite-v7-aseryns.js";
-import {
-  COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_SOURCE,
-  COMPENDIUM_VERITE_ASERYN_HUB_ID,
-  COMPENDIUM_VERITE_ASERYN_HUB_SECTIONS,
-  COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_ARTICLES,
-  COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_NAVIGATION
-} from "./compendium-verite-aseryn-terres-temples.js";
-import {
-  COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_PNJ_ARTICLES,
-  COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_PNJ_NAVIGATION
-} from "./compendium-verite-aseryn-terres-temples-pnj.js";
-import {
-  COMPENDIUM_VERITE_GRANDS_EXILES_SOURCE,
-  COMPENDIUM_VERITE_GRANDS_EXILES_HUB_ID,
-  COMPENDIUM_VERITE_GRANDS_EXILES_HUB_SECTIONS,
-  COMPENDIUM_VERITE_GRANDS_EXILES_ARTICLES,
-  COMPENDIUM_VERITE_GRANDS_EXILES_NAVIGATION
-} from "./compendium-verite-grands-exiles.js";
-import {
-  COMPENDIUM_VERITE_GRANDS_EXILES_HUB_LORE_SECTIONS,
-  COMPENDIUM_VERITE_GRANDS_EXILES_ARTICLE_LORE_SECTIONS
-} from "./compendium-verite-grands-exiles-lore.js";
-import {
-  COMPENDIUM_VERITE_GRANDS_EXILES_PNJ_ARTICLES,
-  COMPENDIUM_VERITE_GRANDS_EXILES_PNJ_NAVIGATION
-} from "./compendium-verite-grands-exiles-pnj.js";
-import {
-  COMPENDIUM_VERITE_V7_PASS_B_ARTICLES,
-  COMPENDIUM_VERITE_V7_PASS_B_NAVIGATION
-} from "./compendium-verite-v7-pass-b.js";
-import {
-  COMPENDIUM_VERITE_HUNTERS_SOURCE,
-  COMPENDIUM_VERITE_HUNTERS_NAVIGATION
-} from "./compendium-verite-hunters-source.js";
-import {
-  COMPENDIUM_VERITE_HUNTERS_LORE_ARTICLES,
-  COMPENDIUM_VERITE_HUNTERS_LORE_ENRICHMENTS,
-  COMPENDIUM_VERITE_HUNTERS_CHASSE_FANTASTIQUE_HUB_ENRICHMENT
-} from "./compendium-verite-hunters-lore.js";
-import {
-  COMPENDIUM_VERITE_HUNTERS_PNJ_ARTICLES,
-  COMPENDIUM_VERITE_HUNTERS_PNJ_NAVIGATION
-} from "./compendium-verite-hunters-pnj.js";
-import {
-  COMPENDIUM_VERITE_FLEAUX_SOURCE,
-  COMPENDIUM_VERITE_FLEAUX_ARTICLES,
-  COMPENDIUM_VERITE_FLEAUX_ENRICHMENTS,
-  COMPENDIUM_VERITE_FLEAUX_EXISTING_PNJ_SOURCES,
-  COMPENDIUM_VERITE_FLEAUX_NEW_PNJ_ARTICLES,
-  COMPENDIUM_VERITE_FLEAUX_NAVIGATION,
-  COMPENDIUM_VERITE_FLEAUX_PNJ_NAVIGATION
-} from "./compendium-verite-fleaux-focus.js";
-import {
-  COMPENDIUM_VERITE_V7_PASS_B_RULE_ARTICLES,
-  COMPENDIUM_VERITE_V7_PASS_B_RULE_NAVIGATION
-} from "./compendium-verite-v7-pass-b-rules.js";
-import {
-  COMPENDIUM_VERITE_SPECIES_LORE_ARTICLES,
-  COMPENDIUM_VERITE_SPECIES_LORE_NAVIGATION,
-  COMPENDIUM_VERITE_SPECIES_ENRICHMENTS
-} from "./compendium-verite-species-lore.js";
-import {
-  COMPENDIUM_VERITE_SPECIES_PNJ_ARTICLES,
-  COMPENDIUM_VERITE_SPECIES_PNJ_NAVIGATION
-} from "./compendium-verite-species-pnj.js";
-import {
-  COMPENDIUM_VERITE_FANTASTIQUES_ARTICLES,
-  COMPENDIUM_VERITE_FANTASTIQUES_NAVIGATION,
-  COMPENDIUM_VERITE_FANTASTIQUES_ENRICHMENTS
-} from "./compendium-verite-fantastiques-lore.js";
-import {
-  COMPENDIUM_VERITE_FANTASTIQUES_PNJ_ARTICLES,
-  COMPENDIUM_VERITE_FANTASTIQUES_PNJ_NAVIGATION
-} from "./compendium-verite-fantastiques-pnj.js";
-import {
-  COMPENDIUM_VERITE_EXTRATERRESTRES_ARTICLES,
-  COMPENDIUM_VERITE_EXTRATERRESTRES_NAVIGATION,
-  COMPENDIUM_VERITE_EXTRATERRESTRES_ENRICHMENTS
-} from "./compendium-verite-extraterrestres-lore.js";
-import {
-  COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_ARTICLES,
-  COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_NAVIGATION
-} from "./compendium-verite-extraterrestres-pnj.js";
-import {
-  COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES,
-  COMPENDIUM_VERITE_GALACTIC_LORE_NAVIGATION
-} from "./compendium-verite-galactic-factions-lore.js";
-import {
-  COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_ARTICLES,
-  COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_NAVIGATION
-} from "./compendium-verite-extrals-groups-pnj.js";
-import {
-  COMPENDIUM_VERITE_HUMAN_GALACTIC_PNJ_ARTICLES,
-  COMPENDIUM_VERITE_HUMAN_GALACTIC_PNJ_NAVIGATION
-} from "./compendium-verite-humans-galactic-pnj.js";
-import { COMPENDIUM_VERITE_VAMPIRE_COURTS_SOURCE, COMPENDIUM_VERITE_VAMPIRE_COURTS_ARTICLES, COMPENDIUM_VERITE_VAMPIRE_COURTS_ENRICHMENTS, COMPENDIUM_VERITE_VAMPIRE_COURTS_NAVIGATION } from "./compendium-verite-vampire-courts-lore.js";
-import { COMPENDIUM_VERITE_VAMPIRE_COURTS_PNJ_ARTICLES, COMPENDIUM_VERITE_VAMPIRE_COURTS_PNJ_NAVIGATION } from "./compendium-verite-vampire-courts-pnj.js";
-import {
-  COMPENDIUM_VERITE_PELAGES_ARTICLES,
-  COMPENDIUM_VERITE_PELAGES_ENRICHMENTS,
-  COMPENDIUM_VERITE_PELAGES_NAVIGATION
-} from "./compendium-verite-pelages-lore.js";
-import {
-  COMPENDIUM_VERITE_PELAGES_PNJ_ARTICLES,
-  COMPENDIUM_VERITE_PELAGES_PNJ_NAVIGATION
-} from "./compendium-verite-pelages-pnj.js";
-import {
-  COMPENDIUM_POINTS_RENCONTRE_ARTICLES,
-  COMPENDIUM_POINTS_RENCONTRE_NAVIGATION
-} from "./compendium-points-rencontre.js";
-import {
-  COMPENDIUM_POINTS_RENCONTRE_PNJ_ARTICLES,
-  COMPENDIUM_POINTS_RENCONTRE_PNJ_NAVIGATION
-} from "./compendium-points-rencontre-pnj.js";
-import {
-  COMPENDIUM_SHI_QI_ARTICLES,
-  COMPENDIUM_SHI_QI_NAVIGATION,
-  COMPENDIUM_SHI_QI_ENRICHMENTS
-} from "./compendium-shi-qi.js";
-import { applyCompendiumPnjRepairs } from "./compendium-pnj-repairs.js";
-
-type JsonObject = Record<string, any>;
-export type Article = JsonObject & {
-  id: string;
-  title?: string;
-  category?: string;
-  sourceCategory?: string;
-  dataset?: string;
-  source?: string;
-  status?: string;
-  tags?: string[];
-  sections?: JsonObject[];
-};
-
-type DatasetSpec = {
-  id: string;
-  prefix: string;
-  parts: number;
-  count: number;
-};
-
-type Manifest = {
-  version: number;
-  generated?: string;
-  categories: string[];
-  statusLabels?: Record<string, string>;
-  datasets: DatasetSpec[];
-  expectedTotal?: number;
-};
-
-type NavigationEntry = {
-  id: string;
-  dataset?: string;
-  category?: string;
-  group?: string;
-  groupOrder?: number;
-  subgroup?: string;
-  subgroupOrder?: number;
-  pageOrder?: number;
-  displayTitle?: string;
-};
-
-type Corpus = {
-  manifest: Manifest;
-  articles: Article[];
-  publicArticles: Article[];
-  byId: Map<string, Article>;
-  publicById: Map<string, Article>;
-  wikiIndexCompact: Array<Record<string, unknown>>;
-  editorBaseById: Map<string, { hash: string; article: Article }>;
-  navigation: Map<string, NavigationEntry>;
-  categories: Array<{ name: string; count: number }>;
-  manufacturers: Array<{ name: string; count: number }>;
-  overrideSummary: { applied: number; conflicts: number; missing: number };
-  databaseEditSummary: { applied: number; conflicts: number };
-};
-
-const LEGACY_CATEGORY = "OLD";
-const RELIGION_ARCHIVE_ID_REMAP: Record<string, string> = {
-  "pnj-059-bhima-shiravadakar": "pnj-religions-bhima-shiravadakar",
-  "pnj-062-ciara-mcfarlane": "pnj-religions-ciara-mcfarlane"
-};
-const activeReligionPnjId = (id: string) => RELIGION_ARCHIVE_ID_REMAP[id] ?? id;
-const PROTECTED_REBUILD_CATEGORIES = new Set(["Ã‰quipement & Objets", "Bestiaire"]);
-
-const CATEGORY_ORDER = [
-  "RÃ¨gles",
-  "RÃ©alitÃ©",
-  "VÃ©ritÃ©",
-  "Personnages",
-  "Ã‰quipement & Objets",
-  "Bestiaire",
-  LEGACY_CATEGORY
-];
-
-const EQUIPMENT_MANUFACTURERS = [
-  "Raven-Sehdia",
-  "Raven-Sunways",
-  "BridgeElectrics",
-  "Ocean Master",
-  "ArcaNetwork",
-  "SeaWares",
-  "Phoenix",
-  "Raven",
-  "Owl",
-  "Byron",
-  "Biosun",
-  "Sunways",
-  "Icecorps",
-  "Tala",
-  "SBA",
-  "SFU",
-  "Monarch",
-  "Tortoise"
-];
-
-const ARTICLE_TITLE_FIXES: Record<string, string> = {
-  "regles-verite-angelus-sephirah-nesah-la-victoire": "Nesah â€” La Victoire"
-};
-
-const COMPENDIUM_DATA_DIR =
-  process.env.COMPENDIUM_DATA_DIR ??
-  (process.env.NODE_ENV === "production"
-    ? "/app/compendium-data"
-    : resolve(process.cwd(), "../../compendium/data"));
-
-const COMPENDIUM_MEDIA_DIR =
-  process.env.COMPENDIUM_MEDIA_DIR ??
-  (process.env.NODE_ENV === "production"
-    ? "/app/compendium-media"
-    : resolve(process.cwd(), "../../compendium"));
-
-const COMPENDIUM_UPLOAD_DIR =
-  process.env.COMPENDIUM_UPLOAD_DIR ??
-  (process.env.NODE_ENV === "production"
-    ? "/app/editor-media"
-    : resolve(process.cwd(), "../../.editor-media"));
-
-let corpusPromise: Promise<Corpus> | null = null;
-
-const UUID_RE =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-
-function validCollectionName(value: unknown): value is string {
-  return typeof value === "string" && value.trim().length >= 1 && value.trim().length <= 80;
-}
-
-function isEditorRole(role: unknown): boolean {
-  return role === "editor" || role === "admin";
-}
-
-async function requireEditor(request: any, reply: FastifyReply) {
-  const user = await requireUser(request, reply);
-  if (!user) return null;
-  if (!isEditorRole(user.role)) {
-    reply.code(403).send({ error: "editor_required" });
-    return null;
-  }
-  return user;
-}
-
-function canReadMj(role: unknown): boolean {
-  return role === "gm" || role === "editor" || role === "admin";
-}
-
-function isMjOnlyArticle(article: Article): boolean { return article?.audience === "mj"; }
-function hasProtectedPnjIdentity(article: Article): boolean {
-  if (article.category !== "Personnages" || !article.pnj || typeof article.pnj !== "object") return false;
-  const pnj = article.pnj as JsonObject;
-  const realName = norm(pnj.real_name ?? pnj.nom_reel ?? pnj.nom_realite ?? "");
-  const truthName = norm(pnj.nom_verite ?? "");
-  return Boolean(realName && truthName && realName !== truthName);
-}
-
-function articleForAudience(article: Article, includeMj: boolean): Article {
-  const result = deepClone(article);
-  if (!includeMj) {
-    const protectedIdentity = hasProtectedPnjIdentity(article);
-    if (Array.isArray(result.sections)) result.sections = result.sections.filter((section) => section?.audience !== "mj");
-    if (result.pnj && typeof result.pnj === "object") {
-      const pnj = result.pnj as JsonObject;
-      result.pnj = {...(pnj.portrait?{portrait:pnj.portrait}:{}),...(pnj.portrait_alt?{portrait_alt:pnj.portrait_alt}:{}),...(pnj.portrait_caption?{portrait_caption:pnj.portrait_caption}:{})};
-    }
-    if (protectedIdentity) {
-      delete result.dataset;
-      delete result.source;
-      delete result.sourceCategory;
-      result.tags = [];
-      if (result.navigation && typeof result.navigation === "object") {
-        const navigation = result.navigation as JsonObject;
-        result.navigation = {
-          group: "Personnages",
-          groupOrder: navigation.groupOrder ?? 45,
-          subgroup: "",
-          subgroupOrder: navigation.subgroupOrder ?? 0,
-          pageOrder: navigation.pageOrder ?? 0
-        };
-      }
-    }
-  }
-  delete result.__searchText;
-  return result;
-}
-
-function canonicalCategory(article: Article): string {
-  return String(article.legacyCategory ?? article.category ?? "");
-}
-
-export async function findCompendiumMatches(
-  label: string,
-  category = ""
-): Promise<Array<{ id: string; title: string; category: string }>> {
-  const target = norm(label);
-  if (!target) return [];
-  const corpus = await getCorpus();
-  let matches = corpus.articles.filter((article) => norm(article.title) === target);
-  if (category) {
-    const categorized = matches.filter((article) => canonicalCategory(article) === category);
-    if (categorized.length) matches = categorized;
-  }
-  return matches.map((article) => ({
-    id: article.id,
-    title: String(article.title ?? article.id),
-    category: String(article.category ?? "")
-  }));
-}
-
-export async function resolveCompendiumId(
-  label: string,
-  category = ""
-): Promise<string | null> {
-  const matches = await findCompendiumMatches(label, category);
-  return matches.length === 1 ? matches[0].id : null;
-}
-
-export async function findActiveCompendiumArticleById(
-  id: string
-): Promise<{ id: string; title: string; category: string } | null> {
-  const target = String(id ?? "").trim();
-  if (!target) return null;
-  const corpus = await getCorpus();
-  const article = corpus.byId.get(target);
-  if (!article || article.category === LEGACY_CATEGORY) return null;
-  return {
-    id: article.id,
-    title: String(article.title ?? article.id),
-    category: String(article.category ?? "")
-  };
-}
-
-
-type HubLabelForm = { value: string; depth: number };
-
-function hubLabelForms(label: string): HubLabelForm[] {
-  const raw = String(label ?? "").trim();
-  if (!raw) return [];
-
-  const forms = new Map<string, number>();
-  const push = (value: string, depth: number) => {
-    const cleaned = value
-      .replace(/\s+[â€”-]\s+\d+\s*PTV\b/gi, "")
-      .replace(/^Facette\s*:\s*/i, "")
-      .replace(/^Nature\s*:\s*/i, "")
-      .replace(/\s+[â€”-]\s+Talents? de Cour\s*$/i, "")
-      .replace(/\s+[â€”-]\s+Talents? de LignÃ©e\s*$/i, "")
-      .trim();
-    const normalized = norm(cleaned);
-    if (normalized.length < 4) return;
-    forms.set(normalized, Math.max(forms.get(normalized) ?? 0, depth));
-  };
-
-  const segments = raw.split(/\s*â€º\s*/).filter(Boolean);
-  push(raw, segments.length + 1);
-  segments.forEach((segment, index) => push(segment, index + 1));
-
-  if (/\bcommun(?:e|s)?\b/i.test(raw)) push("Talents communs", segments.length + 2);
-
-  return [...forms.entries()]
-    .map(([value, depth]) => ({ value, depth }))
-    .sort((a, b) => b.depth - a.depth || b.value.length - a.value.length);
-}
-
-function articleMatchesNatureHub(articleId: string, natureId: string): boolean {
-  if (!natureId) return true;
-  const id = norm(articleId).replace(/\s+/g, "-");
-  const nature = norm(natureId).replace(/\s+/g, "-");
-  if (!nature) return true;
-
-  const prefixes = new Set([
-    `regles-verite-${nature}-`,
-    `regles-verite-v7-${nature}-`,
-    `regles-verite-v6-${nature}-`,
-    `regles-verite-nature-${nature}`
-  ]);
-  if (nature === "humain") prefixes.add("regles-verite-chasseur-");
-
-  return [...prefixes].some((prefix) => id.includes(prefix));
-}
-
-export async function findCompendiumHubMatches(
-  label: string,
-  natureId = "",
-  includeLegacy = false
-): Promise<Array<{ id: string; title: string; category: string }>> {
-  const exact = (await findCompendiumMatches(label, "RÃ¨gles"))
-    .filter((article) => includeLegacy || article.category !== LEGACY_CATEGORY);
-  if (exact.length) return exact;
-
-  const forms = hubLabelForms(label);
-  if (!forms.length) return [];
-
-  const corpus = await getCorpus();
-  const scored = corpus.articles
-    .filter((article) =>
-      includeLegacy
-        ? canonicalCategory(article) === "RÃ¨gles"
-        : article.category === "RÃ¨gles"
-    )
-    .filter((article) => articleMatchesNatureHub(article.id, natureId))
-    .map((article) => {
-      const navTitle = corpus.navigation.get(article.id)?.displayTitle ?? "";
-      const sectionTitles = (article.sections ?? [])
-        .map((section) => norm(section?.title ?? ""))
-        .filter(Boolean);
-      const labels = [
-        norm(article.title ?? ""),
-        norm(navTitle),
-        ...sectionTitles
-      ].filter(Boolean);
-
-      let score = 0;
-      for (const form of forms) {
-        const depthBonus = form.depth * 1000;
-        for (const candidate of labels) {
-          if (candidate === form.value) {
-            score = Math.max(score, 100000 + depthBonus + form.value.length);
-          } else if (candidate.includes(form.value)) {
-            const extra = Math.max(0, candidate.length - form.value.length);
-            score = Math.max(score, 50000 + depthBonus + form.value.length - extra);
-          } else if (form.value.includes(candidate) && candidate.length >= 7) {
-            score = Math.max(score, 40000 + depthBonus + candidate.length);
-          }
-        }
-      }
-      return { article, score };
-    })
-    .filter((row) => row.score > 0)
-    .sort((a, b) => b.score - a.score || compareArticles(a.article, b.article));
-
-  if (!scored.length) return [];
-  const best = scored[0].score;
-  return scored
-    .filter((row) => row.score === best)
-    .map(({ article }) => ({
-      id: article.id,
-      title: String(article.title ?? article.id),
-      category: String(article.category ?? "")
-    }));
-}
-
-export async function resolveCompendiumHubId(
-  label: string,
-  natureId = ""
-): Promise<string | null> {
-  const matches = await findCompendiumHubMatches(label, natureId, true);
-  if (matches.length === 1) return matches[0].id;
-
-  // Builder provenance remains traceable while a legacy family is awaiting
-  // its V2 hub. Interactive hub audits call findCompendiumHubMatches directly
-  // and therefore still require an active page.
-  if (!matches.length) {
-    const historical = await findCompendiumMatches(label, "RÃ¨gles");
-    if (historical.length === 1) return historical[0].id;
-  }
-  return null;
-}
-
-function mediaSource(media: unknown): string {
-  if (typeof media === "string") return media.trim();
-  if (media && typeof media === "object") return String((media as JsonObject).src ?? "").trim();
-  return "";
-}
-
-function isPlaceholderMedia(media: unknown): boolean {
-  return /(?:equipment|augmentation|truth-(?:artifact|catalog))-placeholder\.svg(?:$|[?#])/i.test(
-    mediaSource(media)
-  );
-}
-
-function editableArticle(base: Article, input: unknown): Article {
-  const source = input && typeof input === "object" ? (input as JsonObject) : {};
-  const result = deepClone(base);
-  const simpleFields = ["title", "category", "source", "status", "tags", "sections", "pnj", "image", "illustration"];
-
-  for (const field of simpleFields) {
-    if (!Object.prototype.hasOwnProperty.call(source, field)) continue;
-    const value = deepClone(source[field]);
-    if (value === null || value === undefined || value === "") delete result[field];
-    else result[field] = value;
-  }
-
-  result.id = base.id;
-  result.dataset = base.dataset;
-  result.category = String(result.category ?? base.category ?? "RÃ©alitÃ©");
-  result.sourceCategory = result.category;
-  delete result.navigation;
-  delete result.manufacturer;
-  delete result.__searchText;
-  delete result.__wikiPublishedEdit;
-  return result;
-}
-
-function slugifyArticleTitle(value: string): string {
-  return value
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 100);
-}
-
-async function editorBaseFor(
-  id: string,
-  corpus: Corpus
-): Promise<{ hash: string; article: Article } | null> {
-  const existing = corpus.editorBaseById.get(id);
-  if (existing) return existing;
-
-  const custom = await pool.query<{ baseDocument: Article }>(
-    `SELECT base_document AS "baseDocument"
-     FROM compendium_custom_articles
-     WHERE article_id = $1`,
-    [id]
-  );
-  const article = custom.rows[0]?.baseDocument;
-  if (!article) return null;
-  return { hash: articleHash(article), article: deepClone(article) };
-}
-
-async function editorCurrentArticle(id: string, corpus: Corpus): Promise<Article | null> {
-  const current = corpus.byId.get(id);
-  if (current) return current;
-  const base = await editorBaseFor(id, corpus);
-  return base?.article ?? null;
-}
-
-function validEditableArticle(value: unknown): value is Article {
-  if (!value || typeof value !== "object") return false;
-  const article = value as JsonObject;
-  const title = String(article.title ?? "").trim();
-  if (!title || title.length > 240) return false;
-  if (article.tags !== undefined) {
-    if (!Array.isArray(article.tags) || article.tags.length > 100) return false;
-    if (article.tags.some((tag: unknown) => typeof tag !== "string" || tag.length > 120)) return false;
-  }
-  if (article.sections !== undefined) {
-    if (!Array.isArray(article.sections) || article.sections.length > 160) return false;
-    for (const section of article.sections) {
-      if (!section || typeof section !== "object") return false;
-      if (!Array.isArray(section.blocks) || section.blocks.length > 300) return false;
-      for (const block of section.blocks) {
-        if (!block || typeof block !== "object") return false;
-        if (!["p", "table"].includes(String(block.type ?? ""))) return false;
-        if (block.type === "p" && String(block.text ?? "").length > 120000) return false;
-        if (block.type === "table" && !Array.isArray(block.rows)) return false;
-      }
-    }
-  }
-  return true;
-}
-
-function safeMediaRelativePath(value: string): string | null {
-  const clean = value.replace(/\\/g, "/").replace(/^\/+/, "");
-  if (!clean || clean.includes("\0") || clean.split("/").includes("..")) return null;
-  if (!clean.startsWith("images/") && !clean.startsWith("assets/")) return null;
-  return clean;
-}
-
-function mediaContentType(path: string): string {
-  const lower = path.toLowerCase();
-  if (lower.endsWith(".webp")) return "image/webp";
-  if (lower.endsWith(".png")) return "image/png";
-  if (lower.endsWith(".jpg") || lower.endsWith(".jpeg")) return "image/jpeg";
-  if (lower.endsWith(".gif")) return "image/gif";
-  if (lower.endsWith(".svg")) return "image/svg+xml; charset=utf-8";
-  return "application/octet-stream";
-}
-
-function uploadedImageExtension(data: Buffer): "jpg" | "png" | "webp" | "gif" | null {
-  if (data.length >= 3 && data[0] === 0xff && data[1] === 0xd8 && data[2] === 0xff) return "jpg";
-  if (
-    data.length >= 8 &&
-    data[0] === 0x89 &&
-    data[1] === 0x50 &&
-    data[2] === 0x4e &&
-    data[3] === 0x47 &&
-    data[4] === 0x0d &&
-    data[5] === 0x0a &&
-    data[6] === 0x1a &&
-    data[7] === 0x0a
-  ) return "png";
-  if (
-    data.length >= 12 &&
-    data.subarray(0, 4).toString("ascii") === "RIFF" &&
-    data.subarray(8, 12).toString("ascii") === "WEBP"
-  ) return "webp";
-  if (data.length >= 6) {
-    const signature = data.subarray(0, 6).toString("ascii");
-    if (signature === "GIF87a" || signature === "GIF89a") return "gif";
-  }
-  return null;
-}
-
-function safeUploadFilename(value: string): string | null {
-  const clean = value.trim();
-  if (!/^[a-zA-Z0-9_.-]+\.(?:jpg|png|webp|gif)$/i.test(clean)) return null;
-  return clean;
-}
-
-function bad(reply: FastifyReply, error: string) {
-  return reply.code(400).send({ error });
-}
-
-function deepClone<T>(value: T): T {
-  if (value === undefined || value === null) return value;
-  return JSON.parse(JSON.stringify(value)) as T;
-}
-
-function normalizedPnjIdentity(value: unknown): string {
-  return String(value ?? "")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[â€™â€˜`]/g, "'")
-    .replace(/[^a-z0-9']+/g, " ")
-    .trim();
-}
-
-function usablePnjIdentity(value: unknown): string | null {
-  const normalized = normalizedPnjIdentity(value);
-  if (!normalized || normalized === "?" || normalized === "_" || normalized.length < 4) return null;
-  return normalized;
-}
-
-function articlePnjIdentityKeys(article: Article): Set<string> {
-  const keys = new Set<string>();
-  const add = (value: unknown) => {
-    const key = usablePnjIdentity(value);
-    if (key) keys.add(key);
-  };
-
-  add(article.title);
-  const pnj = article.pnj ?? {};
-  for (const field of ["real_name", "nom_reel", "nom_realite", "nom_verite", "name", "alias"]) add(pnj[field]);
-  for (const value of Array.isArray(pnj.identity_keys) ? pnj.identity_keys : []) add(value);
-
-  for (const section of article.sections ?? []) {
-    for (const block of section?.blocks ?? []) {
-      if (block?.type !== "table" || !Array.isArray(block.rows)) continue;
-      for (const row of block.rows) {
-        if (!Array.isArray(row) || row.length < 2) continue;
-        const label = normalizedPnjIdentity(row[0]);
-        if (
-          label.includes("nom de la realite") ||
-          label.includes("nom de la verite") ||
-          label === "nom" ||
-          label.includes("identite")
-        ) {
-          add(row[1]);
-        }
-      }
-    }
-  }
-
-  return keys;
-}
-
-function mergeUniqueTextBlocks(target: JsonObject, blocks: JsonObject[]) {
-  target.blocks = Array.isArray(target.blocks) ? target.blocks : [];
-  const existing = new Set(
-    target.blocks
-      .map((block: JsonObject) => (block?.type === "p" ? String(block.text ?? "").trim() : ""))
-      .filter(Boolean)
-  );
-  for (const block of blocks) {
-    const text = block?.type === "p" ? String(block.text ?? "").trim() : "";
-    if (text && existing.has(text)) continue;
-    target.blocks.push(deepClone(block));
-    if (text) existing.add(text);
-  }
-}
-
-function mergeCrawlerPnj(target: Article, source: Article): Article {
-  const merged = deepClone(target);
-  merged.tags = [...new Set([...(merged.tags ?? []), ...(source.tags ?? [])])];
-
-  const sources = [merged.source, source.source]
-    .flatMap((value) => String(value ?? "").split(" ; "))
-    .map((value) => value.trim())
-    .filter(Boolean);
-  merged.source = [...new Set(sources)].join(" ; ");
-  if (new Set(sources).size > 1) merged.tags = [...new Set([...(merged.tags ?? []), "Multi-source"])];
-
-  merged.pnj = { ...(merged.pnj ?? {}), ...(source.pnj ?? {}) };
-  merged.pnj.identity_keys = [
-    ...new Set([
-      ...articlePnjIdentityKeys(merged),
-      ...articlePnjIdentityKeys(source)
-    ])
-  ];
-
-  const sections = [...(merged.sections ?? [])];
-  const existingIds = new Set(sections.map((section) => String(section?.id ?? "")));
-
-  const insertPublicSection = (section: JsonObject) => {
-    const copy = deepClone(section);
-    const mjIndex = sections.findIndex((item) => item?.audience === "mj");
-    if (mjIndex >= 0) sections.splice(mjIndex, 0, copy);
-    else sections.push(copy);
-    existingIds.add(String(copy?.id ?? ""));
-  };
-
-  for (const section of source.sections ?? []) {
-    const id = String(section?.id ?? "");
-    if (!id || id === "profil-statistique" || section?.audience === "mj" || existingIds.has(id)) continue;
-    insertPublicSection(section);
-  }
-
-  for (const section of source.sections ?? []) {
-    const id = String(section?.id ?? "");
-    if (!id || id === "profil-statistique" || section?.audience !== "mj" || existingIds.has(id)) continue;
-    const blocks = Array.isArray(section?.blocks) ? section.blocks : [];
-    if (!blocks.length) continue;
-    sections.push(deepClone(section));
-    existingIds.add(id);
-  }
-
-  if (!existingIds.has("profil-statistique")) {
-    sections.push({
-      id: "profil-statistique",
-      title: "Profil statistique",
-      level: 2,
-      audience: "mj",
-      blocks: []
-    });
-  }
-
-  merged.sections = sections;
-  merged.status = "canon_enrichi";
-  merged.rebuildV2 = true;
-  return merged;
-}
-
-function mergeCorporationPnj(target: Article, source: Article): Article {
-  const merged = mergeCrawlerPnj(target, source);
-  merged.pnj = { ...(source.pnj ?? {}), ...(target.pnj ?? {}) };
-  merged.pnj.identity_keys = [
-    ...new Set([
-      ...articlePnjIdentityKeys(target),
-      ...articlePnjIdentityKeys(source),
-      ...articlePnjIdentityKeys(merged)
-    ])
-  ];
-  return merged;
-}
-
-function mergeFleauxPnj(target: Article, source: Article): Article {
-  const merged = mergeCrawlerPnj(target, source);
-  const targetPnj = target.pnj ?? {};
-  const sourcePnj = source.pnj ?? {};
-  merged.pnj = { ...sourcePnj, ...targetPnj };
-  merged.pnj.tags = [
-    ...new Set([...(sourcePnj.tags ?? []), ...(targetPnj.tags ?? [])])
-  ];
-  merged.pnj.relations = [
-    ...new Set([...(sourcePnj.relations ?? []), ...(targetPnj.relations ?? [])])
-  ];
-  merged.pnj.identity_keys = [
-    ...new Set([
-      ...articlePnjIdentityKeys(target),
-      ...articlePnjIdentityKeys(source),
-      ...articlePnjIdentityKeys(merged)
-    ])
-  ];
-  merged.status = "canon_enrichi";
-  merged.rebuildV2 = true;
-  return merged;
-}
-
-function mergeVampireCourtPnj(target: Article, source: Article): Article {
-  const merged = mergeFleauxPnj(target, source);
-  const targetRealityIdentity = usablePnjIdentity(target.pnj?.real_name) ?? usablePnjIdentity(target.pnj?.nom_reel) ?? usablePnjIdentity(target.pnj?.nom_realite);
-  const sourceRealityIdentity = String(source.pnj?.real_name ?? "").trim();
-  if (!targetRealityIdentity && sourceRealityIdentity) merged.title = sourceRealityIdentity;
-  if (source.audience === "mj" && !targetRealityIdentity && !sourceRealityIdentity) merged.audience = "mj";
-  return merged;
-}
-function findMatchingAserynPnj(byId: Map<string, Article>, source: Article): Article | null {
-  const standard = findMatchingActivePnj(byId, source);
-  if (standard) return standard;
-
-  const sourceKeys = articlePnjIdentityKeys(source);
-  if (!sourceKeys.size) return null;
-
-  const candidates = [...byId.values()].filter((candidate) => {
-    if (candidate.id === source.id || candidate.rebuildV2 !== true) return false;
-    const category = String(candidate.category ?? candidate.sourceCategory ?? "");
-    return category === "Personnages" || String(candidate.dataset ?? "").includes("pnj");
-  });
-
-  const scored: Array<{ article: Article; score: number }> = [];
-  for (const candidate of candidates) {
-    const candidateKeys = articlePnjIdentityKeys(candidate);
-    const overlap = [...sourceKeys].filter((key) => candidateKeys.has(key));
-    if (!overlap.length) continue;
-
-    let score = overlap.length * 10;
-    const directCandidate = new Set<string>();
-    const add = (value: unknown) => {
-      const key = usablePnjIdentity(value);
-      if (key) directCandidate.add(key);
-    };
-    add(candidate.title);
-    for (const field of ["real_name", "nom_reel", "nom_realite", "nom_verite", "name", "alias"]) {
-      add(candidate.pnj?.[field]);
-    }
-    if (overlap.some((key) => directCandidate.has(key))) score += 100;
-    scored.push({ article: candidate, score });
-  }
-
-  if (!scored.length) return null;
-  const bestScore = Math.max(...scored.map((row) => row.score));
-  const best = scored.filter((row) => row.score === bestScore);
-  if (best.length > 1) {
-    throw new Error(
-      `IdentitÃ© PNJ Aseryn ambiguÃ« pour ${source.title ?? source.id}: ${best.map((row) => row.article.id).join(", ")}`
-    );
-  }
-  return best[0].article;
-}
-
-function mergeAserynPnj(target: Article, source: Article): Article {
-  const merged = mergeFleauxPnj(target, source);
-  const targetPnj = target.pnj ?? {};
-  const sourcePnj = source.pnj ?? {};
-
-  const sourceDocuments = [
-    ...((Array.isArray(targetPnj.source_documents) ? targetPnj.source_documents : []) as string[]),
-    ...((Array.isArray(sourcePnj.source_documents) ? sourcePnj.source_documents : []) as string[]),
-    ...String(target.source ?? "").split(" ; "),
-    ...String(source.source ?? "").split(" ; ")
-  ].map((value) => String(value ?? "").trim()).filter(Boolean);
-
-  const sourceAffiliations = [
-    ...((Array.isArray(targetPnj.source_affiliations) ? targetPnj.source_affiliations : []) as string[]),
-    ...((Array.isArray(sourcePnj.source_affiliations) ? sourcePnj.source_affiliations : []) as string[]),
-    targetPnj.affiliations,
-    sourcePnj.affiliations
-  ].map((value) => String(value ?? "").trim()).filter(
-    (value) => value && !["_", "?", "-", "???", "????"].includes(value)
-  );
-
-  merged.pnj = {
-    ...(merged.pnj ?? {}),
-    source_documents: [...new Set(sourceDocuments)],
-    source_affiliations: [...new Set(sourceAffiliations)]
-  };
-
-  const secretLabels = [
-    "nom de la verite",
-    "nature reelle",
-    "ethnie reelle",
-    "statut verite",
-    "identite de verite"
-  ];
-
-  merged.sections = (merged.sections ?? []).map((section) => {
-    if (section?.audience === "mj") return section;
-    const copy = deepClone(section) as JsonObject;
-    copy.blocks = (copy.blocks ?? []).map((block: JsonObject) => {
-      if (block?.type !== "table" || !Array.isArray(block.rows)) return block;
-      const rows = block.rows.filter((row: unknown[]) => {
-        const label = normalizedPnjIdentity(row?.[0]);
-        return !secretLabels.some((secret) => label.includes(secret));
-      });
-      return { ...block, rows };
-    });
-    return copy;
-  });
-
-  return merged;
-}
-
-function mergePelagePnj(target: Article, source: Article): Article {
-  const merged = mergeVampireCourtPnj(target, source);
-
-  // Older active species sheets sometimes exposed Truth rows in their public
-  // profile section. Keep all source information but remove those rows from
-  // the public profile when this newer Pelages source is merged.
-  merged.sections = (merged.sections ?? []).map((section) => {
-    const copy = deepClone(section) as JsonObject;
-
-    if (String(copy.id ?? "") === "profil") {
-      copy.blocks = (copy.blocks ?? []).map((block: JsonObject) => {
-        if (block?.type !== "table" || !Array.isArray(block.rows)) return block;
-        const rows = block.rows.filter((row: unknown[]) => {
-          const label = normalizedPnjIdentity(row?.[0]);
-          return !(
-            label.includes("nom de la verite") ||
-            label.includes("nature reelle") ||
-            label.includes("ethnie reelle") ||
-            label.includes("grand meneur") ||
-            label.includes("pouvoir du sang") ||
-            label.includes("statut verite")
-          );
-        });
-        return { ...block, rows };
-      });
-    }
-
-    // Some previous "Informations RÃ©alitÃ©" paragraphs mixed public biography
-    // and supernatural identity. The new Pelages source provides a clean
-    // public section, so retain the older mixed text as GM-only instead of
-    // leaking it.
-    if (String(copy.id ?? "") === "info-realite") {
-      const sourceText = JSON.stringify(copy);
-      if (/loup.?garou|garou|pelage|meute|meneur|sang vif|sang [a-z]|nature reelle|revele/i.test(sourceText)) {
-        copy.audience = "mj";
-        copy.title = "Informations source antÃ©rieure Â· MJ";
-      }
-    }
-
-    return copy;
-  });
-
-  return merged;
-}
-
-function mergeAngelusPnj(target: Article, source: Article): Article {
-  const merged = deepClone(target);
-  merged.tags = [...new Set([...(merged.tags ?? []), ...(source.tags ?? [])])];
-
-  const sources = [merged.source, source.source]
-    .flatMap((value) => String(value ?? "").split(" ; "))
-    .map((value) => value.trim())
-    .filter(Boolean);
-  merged.source = [...new Set(sources)].join(" ; ");
-  if (new Set(sources).size > 1) {
-    merged.tags = [...new Set([...(merged.tags ?? []), "Multi-source"])];
-  }
-
-  const targetPnj = merged.pnj ?? {};
-  const sourcePnj = source.pnj ?? {};
-  merged.pnj = { ...sourcePnj, ...targetPnj };
-  merged.pnj.identity_keys = [
-    ...new Set([
-      ...articlePnjIdentityKeys(target),
-      ...articlePnjIdentityKeys(source),
-      ...articlePnjIdentityKeys(merged)
-    ])
-  ];
-  merged.pnj.source_documents = [
-    ...new Set([
-      ...((Array.isArray(targetPnj.source_documents) ? targetPnj.source_documents : []) as string[]),
-      ...((Array.isArray(sourcePnj.source_documents) ? sourcePnj.source_documents : []) as string[]),
-      ...sources
-    ])
-  ];
-
-  const sections = [...(merged.sections ?? [])];
-  const sourceProfile = (source.sections ?? []).find((section) => section.id === "profil");
-  const sourceReality = (source.sections ?? []).find((section) => section.id === "informations-realite");
-  const sourceTruth = (source.sections ?? []).find((section) => section.id === "informations-mj");
-
-  let mj = sections.find(
-    (section) => section?.audience === "mj" && /mj|dossier|verite/i.test(String(section.id ?? ""))
-  );
-  if (!mj) {
-    mj = {
-      id: "informations-mj",
-      title: "Informations MJ",
-      level: 2,
-      audience: "mj",
-      blocks: []
-    };
-    sections.push(mj);
-  }
-  if (sourceTruth) mergeUniqueTextBlocks(mj, sourceTruth.blocks ?? []);
-
-  const insertBeforeMj = (section: JsonObject) => {
-    const index = sections.findIndex((item) => item?.audience === "mj");
-    if (index >= 0) sections.splice(index, 0, section);
-    else sections.push(section);
-  };
-
-  const existingIds = new Set(sections.map((section) => String(section?.id ?? "")));
-  if (sourceReality?.blocks?.length && !existingIds.has("source-angelus-realite")) {
-    insertBeforeMj({
-      id: "source-angelus-realite",
-      title: "ComplÃ©ment RÃ©alitÃ© Â· dossier Angelus",
-      level: 2,
-      blocks: deepClone(sourceReality.blocks)
-    });
-    existingIds.add("source-angelus-realite");
-  }
-
-  if (sourceProfile && !existingIds.has("source-angelus-identite")) {
-    const rows = (sourceProfile.blocks ?? [])
-      .flatMap((block: JsonObject) => (block?.type === "table" && Array.isArray(block.rows) ? block.rows : []))
-      .filter((row: unknown[]) => {
-        const label = normalizedPnjIdentity(row?.[0]);
-        return label.includes("age") || label.includes("affiliations") || label.includes("nationalite");
-      });
-    if (rows.length) {
-      insertBeforeMj({
-        id: "source-angelus-identite",
-        title: "ComplÃ©ment de fiche Â· dossier Angelus",
-        level: 2,
-        blocks: [{ type: "table", rows }]
-      });
-    }
-  }
-
-  const secretLabels = [
-    "nom de la verite",
-    "nature reelle",
-    "ethnie reelle",
-    "archange tutelaire",
-    "divinite",
-    "pouvoir principal",
-    "statut verite"
-  ];
-  merged.sections = sections.map((section) => {
-    if (section?.audience === "mj") return section;
-    const copy = deepClone(section) as JsonObject;
-    copy.blocks = (copy.blocks ?? []).map((block: JsonObject) => {
-      if (block?.type !== "table" || !Array.isArray(block.rows)) return block;
-      return {
-        ...block,
-        rows: block.rows.filter((row: unknown[]) => {
-          const label = normalizedPnjIdentity(row?.[0]);
-          return !secretLabels.some((secret) => label.includes(secret));
-        })
-      };
-    });
-    return copy;
-  });
-
-  merged.status = "canon_enrichi";
-  merged.rebuildV2 = true;
-  return merged;
-}
-
-function mergeHunterPnj(target: Article, source: Article): Article {
-  const merged = mergeFleauxPnj(target, source);
-  const targetPnj = target.pnj ?? {};
-  const sourcePnj = source.pnj ?? {};
-  merged.pnj = {
-    ...(merged.pnj ?? {}),
-    hunter_source_extract: sourcePnj.source_extract ?? "",
-    hunter_source_verite: deepClone(sourcePnj.source_verite ?? []),
-    source_documents: [
-      ...new Set([
-        ...((Array.isArray(targetPnj.source_documents) ? targetPnj.source_documents : []) as string[]),
-        ...((Array.isArray(sourcePnj.source_documents) ? sourcePnj.source_documents : []) as string[]),
-        COMPENDIUM_VERITE_HUNTERS_SOURCE
-      ])
-    ]
-  };
-  merged.tags = [...new Set([...(merged.tags ?? []), "Chasseurs", "Lore Chasseurs 2026-09"])];
-  return merged;
-}
-
-function mergeExtraterrestrialPnj(target: Article, source: Article): Article {
-  const merged = deepClone(target);
-  merged.tags = [...new Set([...(merged.tags ?? []), ...(source.tags ?? [])])];
-
-  const sources = [merged.source, source.source]
-    .flatMap((value) => String(value ?? "").split(" ; "))
-    .map((value) => value.trim())
-    .filter(Boolean);
-  merged.source = [...new Set(sources)].join(" ; ");
-
-  merged.pnj = { ...(source.pnj ?? {}), ...(merged.pnj ?? {}) };
-  const identityKeys = new Set<string>([
-    ...articlePnjIdentityKeys(merged),
-    ...articlePnjIdentityKeys(source)
-  ]);
-  merged.pnj.identity_keys = [...identityKeys];
-
-  const sourceProfile = (source.sections ?? []).find((section) => section.id === "profil");
-  const sourceTruth = (source.sections ?? []).find((section) => section.id === "informations-mj");
-  const sourceReality = (source.sections ?? []).filter((section) =>
-    section.id === "informations-realite" || section.id === "informations-seuil"
-  );
-
-  let mj = (merged.sections ?? []).find((section) => section?.audience === "mj" && /mj|dossier/i.test(String(section.id ?? "")));
-  if (!mj) {
-    mj = {
-      id: "informations-mj",
-      title: "Informations MJ",
-      level: 2,
-      audience: "mj",
-      blocks: []
-    };
-    merged.sections = [...(merged.sections ?? []), mj];
-  }
-
-  const identityLines = [
-    source.pnj?.nom_verite ? `Nom de la VÃ©ritÃ© : ${source.pnj.nom_verite}` : "",
-    source.pnj?.race ? `Nature rÃ©elle : ${source.pnj.race}` : ""
-  ].filter(Boolean);
-  if (identityLines.length) {
-    mergeUniqueTextBlocks(mj, [{ type: "p", text: identityLines.join(" Â· ") }]);
-  }
-  if (sourceTruth) mergeUniqueTextBlocks(mj, sourceTruth.blocks ?? []);
-
-  const insertPublicSectionBeforeMj = (section: JsonObject) => {
-    const sections = [...(merged.sections ?? [])];
-    const mjIndex = sections.findIndex((item) => item?.audience === "mj");
-    if (mjIndex >= 0) sections.splice(mjIndex, 0, section);
-    else sections.push(section);
-    merged.sections = sections;
-  };
-
-  const existingSectionIds = new Set((merged.sections ?? []).map((section) => String(section?.id ?? "")));
-  if (sourceReality.length && !existingSectionIds.has("source-extraterrestres-realite")) {
-    insertPublicSectionBeforeMj({
-      id: "source-extraterrestres-realite",
-      title: "ComplÃ©ment RÃ©alitÃ© Â· dossier extraterrestre",
-      level: 2,
-      blocks: sourceReality.flatMap((section) => deepClone(section.blocks ?? []))
-    });
-    existingSectionIds.add("source-extraterrestres-realite");
-  }
-
-  if (sourceProfile && !existingSectionIds.has("source-extraterrestres-identite")) {
-    const rows = (sourceProfile.blocks ?? [])
-      .flatMap((block: JsonObject) => (block?.type === "table" && Array.isArray(block.rows) ? block.rows : []))
-      .filter((row: unknown[]) => {
-        const label = normalizedPnjIdentity(row?.[0]);
-        return label === "age" || label.includes("affiliations") || label.includes("nationalite") || label.includes("personnages lies") || label.includes("repere");
-      });
-    if (rows.length) {
-      insertPublicSectionBeforeMj({
-        id: "source-extraterrestres-identite",
-        title: "ComplÃ©ment de fiche Â· dossier extraterrestre",
-        level: 2,
-        blocks: [{ type: "table", rows }]
-      });
-    }
-  }
-
-  return merged;
-}
-
-function findMatchingActivePnj(byId: Map<string, Article>, source: Article): Article | null {
-  const realKey = usablePnjIdentity(source.pnj?.real_name);
-  const truthKey = usablePnjIdentity(source.pnj?.nom_verite);
-  if (!realKey && !truthKey) return null;
-
-  const candidates = [...byId.values()].filter((candidate) => {
-    if (candidate.id === source.id) return false;
-    // OLD/legacy corpus is loaded before its final category remap. Only rebuilt V2
-    // profiles may absorb a new cross-document source; archives remain audit-only.
-    if (candidate.rebuildV2 !== true) return false;
-    const category = String(candidate.category ?? candidate.sourceCategory ?? "");
-    return category === "Personnages" || String(candidate.dataset ?? "").includes("pnj");
-  });
-
-  const directIdentityKeys = (candidate: Article) => {
-    const keys = new Set<string>();
-    const add = (value: unknown) => {
-      const key = usablePnjIdentity(value);
-      if (key) keys.add(key);
-    };
-    add(candidate.title);
-    const pnj = candidate.pnj ?? {};
-    for (const field of ["real_name", "nom_reel", "nom_realite", "nom_verite", "name", "alias"]) add(pnj[field]);
-    return keys;
-  };
-
-  // Prefer a single explicit title/PNJ-field match over identities recovered from tables.
-  // Some legacy sheets contain copied "Nom de la RÃ©alitÃ©" rows from another character.
-  for (const key of [truthKey, realKey].filter(Boolean) as string[]) {
-    const direct = candidates.filter((candidate) => directIdentityKeys(candidate).has(key));
-    if (direct.length === 1) return direct[0];
-    if (direct.length > 1) {
-      const titleMatches = direct.filter(
-        (candidate) => usablePnjIdentity(candidate.title) === key
-      );
-      if (titleMatches.length === 1) return titleMatches[0];
-    }
-  }
-
-  const matches: Array<{ article: Article; score: number }> = [];
-  for (const candidate of candidates) {
-    const keys = articlePnjIdentityKeys(candidate);
-    let score = 0;
-    if (truthKey && keys.has(truthKey)) score = Math.max(score, 5);
-    if (realKey && keys.has(realKey)) score = Math.max(score, 4);
-    if (score > 0) matches.push({ article: candidate, score });
-  }
-
-  if (!matches.length) return null;
-  const bestScore = Math.max(...matches.map((match) => match.score));
-  const best = matches.filter((match) => match.score === bestScore);
-  if (best.length > 1) {
-    throw new Error(
-      `IdentitÃ© PNJ ambiguÃ« pour ${source.title ?? source.id}: ${best.map((match) => match.article.id).join(", ")}`
-    );
-  }
-  return best[0].article;
-}
-
-function canonicalize(value: unknown): unknown {
-  if (Array.isArray(value)) return value.map(canonicalize);
-  if (value && typeof value === "object") {
-    const output: JsonObject = {};
-    for (const key of Object.keys(value as JsonObject).sort()) {
-      if (key === "dataset") continue;
-      output[key] = canonicalize((value as JsonObject)[key]);
-    }
-    return output;
-  }
-  return value;
-}
-
-function stableStringify(value: unknown): string {
-  return JSON.stringify(canonicalize(value));
-}
-
-function articleHash(article: Article): string {
-  return createHash("sha256").update(stableStringify(article)).digest("hex");
-}
-
-function decodePointerToken(token: string): string {
-  return token.replace(/~1/g, "/").replace(/~0/g, "~");
-}
-
-function pointerParts(path: string): string[] {
-  if (!path.startsWith("/")) throw new Error(`Chemin JSON Pointer invalide: ${path}`);
-  if (path === "/") return [""];
-  return path.slice(1).split("/").map(decodePointerToken);
-}
-
-function resolveParent(root: JsonObject, path: string, create = false) {
-  const parts = pointerParts(path);
-  const key = parts.pop() ?? "";
-  let node: any = root;
-
-  for (const part of parts) {
-    if (Array.isArray(node)) {
-      const index = Number(part);
-      if (!Number.isInteger(index) || index < 0 || index >= node.length) {
-        throw new Error(`Index introuvable: ${part}`);
-      }
-      node = node[index];
-      continue;
-    }
-
-    if (!node || typeof node !== "object") {
-      throw new Error(`Parent non objet pour ${path}`);
-    }
-
-    if (!Object.prototype.hasOwnProperty.call(node, part)) {
-      if (!create) throw new Error(`Chemin introuvable: ${path}`);
-      node[part] = {};
-    }
-
-    node = node[part];
-  }
-
-  return { parent: node, key };
-}
-
-function arrayIndex(key: string, length: number, allowEnd = false): number {
-  if (key === "-" && allowEnd) return length;
-  const index = Number(key);
-  const max = allowEnd ? length : length - 1;
-  if (!Number.isInteger(index) || index < 0 || index > max) {
-    throw new Error(`Index de tableau invalide: ${key}`);
-  }
-  return index;
-}
-
-function applyOperation(target: JsonObject, operation: JsonObject): void {
-  const op = String(operation.op ?? "");
-  const path = String(operation.path ?? "");
-  if (!["add", "replace", "remove"].includes(op)) {
-    throw new Error(`OpÃ©ration inconnue: ${op}`);
-  }
-
-  const { parent, key } = resolveParent(target, path, op === "add");
-
-  if (Array.isArray(parent)) {
-    if (op === "add") {
-      parent.splice(arrayIndex(key, parent.length, true), 0, deepClone(operation.value));
-    } else {
-      const index = arrayIndex(key, parent.length);
-      if (op === "replace") parent[index] = deepClone(operation.value);
-      else parent.splice(index, 1);
-    }
-    return;
-  }
-
-  if (!parent || typeof parent !== "object") {
-    throw new Error(`Parent non objet pour ${path}`);
-  }
-
-  if (op === "remove") {
-    if (!Object.prototype.hasOwnProperty.call(parent, key)) {
-      throw new Error(`Chemin introuvable: ${path}`);
-    }
-    delete parent[key];
-  } else if (op === "replace") {
-    if (!Object.prototype.hasOwnProperty.call(parent, key)) {
-      throw new Error(`Chemin introuvable: ${path}`);
-    }
-    parent[key] = deepClone(operation.value);
-  } else {
-    parent[key] = deepClone(operation.value);
-  }
-}
-
-function norm(value: unknown): string {
-  return String(value ?? "")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, " ")
-    .trim();
-}
-
-function organisationRealm(article: Article): string {
-  const tags = (article.tags ?? []).map(norm);
-  if (tags.includes("verite")) return "VÃ©ritÃ©";
-  if (tags.includes("realite")) return "RÃ©alitÃ©";
-
-  const text = norm(`${article.title ?? ""} ${(article.tags ?? []).join(" ")} ${article.source ?? ""}`);
-  return /vampir|garou|loup garou|mage|daemon|angelus|aseryn|atlante|exile|extral|chasseur|fleau|occulte|khinae/.test(
-    text
-  )
-    ? "VÃ©ritÃ©"
-    : "RÃ©alitÃ©";
-}
-
-function displayCategory(article: Article): string {
-  const source = article.sourceCategory ?? article.category ?? "";
-  if (["Ã‰quipement", "Augmentations", "Catalogue VÃ©ritÃ©"].includes(source)) {
-    return "Ã‰quipement & Objets";
-  }
-  if (source === "Organisations") return organisationRealm(article);
-  return source;
-}
-
-function manufacturerFromTitle(title: unknown): string {
-  const raw = String(title ?? "").trim();
-  const key = norm(raw);
-
-  for (const manufacturer of EQUIPMENT_MANUFACTURERS) {
-    const maker = norm(manufacturer);
-    if (key === maker || key.startsWith(`${maker} `)) return manufacturer;
-  }
-
-  const suffix = raw.split(/\s+[â€”â€“-]\s+/).at(-1);
-  const suffixKey = norm(suffix);
-  return EQUIPMENT_MANUFACTURERS.find((manufacturer) => norm(manufacturer) === suffixKey) ?? "";
-}
-
-function manufacturerFor(article: Article): string {
-  return article.dataset === "equipement" ? manufacturerFromTitle(article.title) : "";
-}
-
-function applyNavigationTaxonomy(article: Article, entry?: NavigationEntry): void {
-  const subgroup = String(entry?.subgroup ?? "").trim();
-  if (article.dataset !== "equipement" || !/^Armement\s+â€”\s+/i.test(subgroup)) return;
-
-  if (Array.isArray(article.tags)) {
-    let replaced = false;
-    article.tags = article.tags.map((tag) => {
-      if (/^(?:Armes|Armement)\s+â€”\s+/i.test(String(tag ?? ""))) {
-        replaced = true;
-        return subgroup;
-      }
-      return tag;
-    });
-    if (!replaced) article.tags.push(subgroup);
-  }
-
-  for (const section of article.sections ?? []) {
-    for (const block of section.blocks ?? []) {
-      if (block?.type !== "table" || !Array.isArray(block.rows)) continue;
-      block.rows = block.rows.map((row: unknown) => {
-        if (!Array.isArray(row) || row.length < 2 || norm(row[0]) !== "categorie") return row;
-        if (!/^(?:Armes|Armement)\s+â€”\s+/i.test(String(row[1] ?? ""))) return row;
-        const copy = [...row];
-        copy[1] = subgroup;
-        return copy;
-      });
-    }
-  }
-}
-
-function applyTargetedEditorialCorrections(article: Article): void {
-  if (article.id !== "equipement-045-owl-sg-016-boss") return;
-
-  for (const section of article.sections ?? []) {
-    for (const block of section.blocks ?? []) {
-      if (block?.type !== "p" || typeof block.text !== "string") continue;
-      block.text = block.text.replace(
-        /Sa grande rÃ©serve n[â€™']en fait pas une arme de moyenne portÃ©e\s*:\s*la philosophie du modÃ¨le reste celle d[â€™']un shotgun fiable, efficace tant qu[â€™']on accepte son domaine d[â€™']emploi trÃ¨s rapprochÃ©\.?/i,
-        "Sa capacitÃ© de munitions supÃ©rieure Ã  la moyenne limite les rechargements, mais ne change pas son domaine dâ€™emploi : le Boss reste un shotgun fiable, conÃ§u pour le combat Ã  trÃ¨s courte portÃ©e."
-      );
-    }
-  }
-}
-
-function publicSnippetText(value: unknown): string {
-  return String(value ?? "")
-    .replace(/\{\{Talents\|[^{}]*\}\}/gi, " ")
-    .replace(/\{\{(?:MJ|Lore|EncadrÃ©)\}\}/gi, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function flattenText(article: Article): string {
-  const bits: string[] = [
-    article.title ?? "",
-    article.source ?? "",
-    String(article.manufacturer ?? ""),
-    ...(article.tags ?? [])
-  ];
-
-  const pnj = article.pnj as JsonObject | undefined;
-  if (pnj) {
-    bits.push(
-      String(pnj.nom_verite ?? ""),
-      String(pnj.race ?? ""),
-      String(pnj.age ?? ""),
-      String(pnj.origine ?? ""),
-      String(pnj.statut ?? ""),
-      String(pnj.statut_verite ?? ""),
-      ...(Array.isArray(pnj.relations) ? pnj.relations.map(String) : [])
-    );
-  }
-
-  for (const section of article.sections ?? []) {
-    bits.push(String(section.title ?? ""));
-    for (const block of section.blocks ?? []) {
-      if (block?.type === "p") {
-        const text = publicSnippetText(block.text);
-        if (text) bits.push(text);
-      }
-      if (block?.type === "table" && Array.isArray(block.rows)) {
-        for (const row of block.rows) {
-          if (Array.isArray(row)) {
-            bits.push(...row.map((cell) => publicSnippetText(cell)).filter(Boolean));
-          }
-        }
-      }
-    }
-  }
-
-  return bits.join(" ");
-}
-
-function articleSnippet(article: Article, query = "", limit = 260): string {
-  const text = flattenText(article).replace(/\s+/g, " ").trim();
-  if (!text) return "";
-
-  if (query) {
-    const normalizedText = norm(text);
-    const firstToken = norm(query).split(" ").find(Boolean);
-    if (firstToken) {
-      const index = normalizedText.indexOf(firstToken);
-      if (index > 80) {
-        const start = Math.max(0, index - 70);
-        const excerpt = text.slice(start, start + limit);
-        return `â€¦${excerpt}${start + limit < text.length ? "â€¦" : ""}`;
-      }
-    }
-  }
-
-  return text.slice(0, limit) + (text.length > limit ? "â€¦" : "");
-}
-
-function wikiPreviewText(article: Article, limit = 360): string {
-  const chunks: string[] = [];
-
-  for (const section of article.sections ?? []) {
-    if (section?.audience === "mj") continue;
-
-    for (const block of section.blocks ?? []) {
-      if (block?.type === "p") {
-        const text = publicSnippetText(block.text);
-        if (text) chunks.push(text);
-      }
-      if (chunks.join(" ").length >= limit * 1.4) break;
-    }
-
-    if (chunks.join(" ").length >= limit * 1.4) break;
-  }
-
-  const text = publicSnippetText(chunks.join(" ") || articleSnippet(article, "", limit));
-
-  if (text.length <= limit) return text;
-  return text.slice(0, limit).replace(/\s+\S*$/, "") + "â€¦";
-}
-
-async function readJson<T>(filename: string): Promise<T> {
-  return JSON.parse(await readFile(resolve(COMPENDIUM_DATA_DIR, filename), "utf8")) as T;
-}
-
-async function loadDataset(spec: DatasetSpec): Promise<Article[]> {
-  const parts = await Promise.all(
-    Array.from({ length: spec.parts }, async (_, index) => {
-      const filename = `${spec.prefix}-${String(index).padStart(2, "0")}.b64part`;
-      return readFile(resolve(COMPENDIUM_DATA_DIR, filename), "utf8");
-    })
-  );
-
-  const compressed = Buffer.from(parts.join("").replace(/\s+/g, ""), "base64");
-  const parsed = JSON.parse(gunzipSync(compressed).toString("utf8")) as Article[];
-  if (!Array.isArray(parsed)) throw new Error(`${spec.id} Â· racine non tabulaire`);
-  return parsed;
-}
-
-async function applyCommittedOverrides(
-  articleMap: Map<string, Article>,
-  payload: JsonObject
-): Promise<{ applied: number; conflicts: number; missing: number }> {
-  const entries = Array.isArray(payload.entries) ? payload.entries : [];
-  const grouped = new Map<string, JsonObject[]>();
-
-  for (const entry of entries) {
-    if (!entry?.articleId) continue;
-    const id = String(entry.articleId);
-    const list = grouped.get(id) ?? [];
-    list.push(entry);
-    grouped.set(id, list);
-  }
-
-  let applied = 0;
-  let conflicts = 0;
-  let missing = 0;
-
-  for (const [articleId, articleEntries] of grouped) {
-    const base = articleMap.get(articleId);
-    if (!base) {
-      missing += 1;
-      continue;
-    }
-
-    const baseHash = articleHash(base);
-    let effective = deepClone(base);
-    let appliedHere = 0;
-    let mediaOverride = false;
-
-    for (const entry of articleEntries) {
-      if (entry.baseHash !== baseHash) {
-        conflicts += 1;
-        continue;
-      }
-
-      for (const operation of Array.isArray(entry.operations) ? entry.operations : []) {
-        applyOperation(effective, operation);
-        if (["/illustration", "/image"].includes(String(operation?.path ?? ""))) {
-          mediaOverride = true;
-        }
-      }
-
-      applied += 1;
-      appliedHere += 1;
-    }
-
-    if (appliedHere > 0) {
-      effective.dataset = effective.dataset ?? base.dataset;
-      effective.__editorialOverride = true;
-      effective.__editorialOverrideCount = appliedHere;
-      effective.__editorialMediaOverride = mediaOverride;
-      articleMap.set(articleId, effective);
-    }
-  }
-
-  return { applied, conflicts, missing };
-}
-
-async function loadCorpus(): Promise<Corpus> {
-  const manifest = await readJson<Manifest>("manifest-v3.json");
-  const navigationPayload = await readJson<{ entries?: NavigationEntry[] }>("navigation-v1.json");
-  const overridePayload = await readJson<JsonObject>("manual-overrides.json");
-
-  if (!Array.isArray(manifest.datasets)) throw new Error("Manifest Compendium V3 invalide");
-
-  const byId = new Map<string, Article>();
-  const extraterrestrialPnjResolvedIds = new Map<string, string>();
-  const extralsGroupsPnjResolvedIds = new Map<string, string>();
-  const humanGalacticPnjResolvedIds = new Map<string, string>();
-  const crawlerPnjResolvedIds = new Map<string, string>();
-  const corporationPnjResolvedIds = new Map<string, string>();
-  const hunterPnjResolvedIds = new Map<string, string>();
-  const fleauxPnjResolvedIds = new Map<string, string>();
-  const mageLogesPnjResolvedIds = new Map<string, string>();
-  const vampireCourtPnjResolvedIds = new Map<string, string>();
-  const pelagePnjResolvedIds = new Map<string, string>();
-  const angelusPnjResolvedIds = new Map<string, string>();
-  const templesDaemoniaquesPnjResolvedIds = new Map<string, string>();
-  const aserynTerresTemplesPnjResolvedIds = new Map<string, string>();
-  const grandsExilesPnjResolvedIds = new Map<string, string>();
-  const pointsRencontrePnjResolvedIds = new Map<string, string>();
-  const loaded = await Promise.all(
-    manifest.datasets.map(async (spec) => [spec.id, await loadDataset(spec)] as const)
-  );
-
-  for (const [dataset, rows] of loaded) {
-    for (const source of rows) {
-      if (!source?.id) continue;
-      const article = deepClone(source);
-      article.dataset = article.dataset ?? dataset;
-      byId.set(article.id, article);
-    }
-  }
-
-  for (const guide of COMPENDIUM_GUIDE_ARTICLES) {
-    if (!byId.has(guide.id)) byId.set(guide.id, deepClone(guide) as Article);
-  }
-
-  for (const article of COMPENDIUM_MOTEUR_V4_ARTICLES) {
-    // The rebuilt Moteur corpus deliberately supersedes any legacy page with the same ID.
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const article of COMPENDIUM_REALITE_V9_LORE_ARTICLES) {
-    // Reality V9 is the rebuilt canonical public lore corpus for this source.
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  const corporationsHub = byId.get(COMPENDIUM_REALITE_V9_CORPORATIONS_HUB_ID);
-  if (corporationsHub) {
-    const existingIds = new Set((corporationsHub.sections ?? []).map((section) => String(section?.id ?? "")));
-    const additions = (COMPENDIUM_REALITE_V9_CORPORATIONS_HUB_ENRICHMENT.sections ?? [])
-      .filter((section: JsonObject) => !existingIds.has(String(section?.id ?? "")));
-    corporationsHub.sections = [...(corporationsHub.sections ?? []), ...(deepClone(additions) as JsonObject[])];
-    const sources = [corporationsHub.source, COMPENDIUM_REALITE_V9_CORPORATIONS_HUB_ENRICHMENT.source]
-      .flatMap((value) => String(value ?? "").split(" ; "))
-      .map((value) => value.trim())
-      .filter(Boolean);
-    corporationsHub.source = [...new Set(sources)].join(" ; ");
-    corporationsHub.tags = [...new Set([
-      ...(corporationsHub.tags ?? []),
-      ...(COMPENDIUM_REALITE_V9_CORPORATIONS_HUB_ENRICHMENT.tags ?? [])
-    ])];
-    corporationsHub.status = "canon_enrichi";
-    corporationsHub.rebuildV2 = true;
-  }
-
-  for (const article of COMPENDIUM_REALITE_V9_CORPORATIONS_ARTICLES) {
-    byId.set(String(article.id), deepClone(article) as Article);
-  }
-
-  for (const article of COMPENDIUM_REALITE_V9_PEGRE_ARTICLES) {
-    // Detailed California underworld pass: overrides the Reality hub and adds one page per criminal organization.
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const article of COMPENDIUM_REALITE_V9_PEGRE_PNJ_ARTICLES) {
-    // Active underworld PNJs use dedicated IDs; archived PNJ pages remain audit material only.
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  const lausHub = byId.get("realite-v9-los-angeles-laus-securites");
-  if (lausHub) {
-    // Preserve the consolidated Reality page and append the source-complete Police/LAUS detail pass.
-    lausHub.sections = [
-      ...(lausHub.sections ?? []),
-      ...(deepClone(COMPENDIUM_REALITE_V9_POLICE_HUB_SECTIONS) as JsonObject[])
-    ];
-  }
-
-  for (const article of COMPENDIUM_REALITE_V9_POLICE_ARTICLES) {
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const article of COMPENDIUM_REALITE_V9_POLICE_PNJ_ARTICLES) {
-    // Active Police/Most-Wanted profiles use dedicated IDs; matching OLD pages remain audit-only.
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const enrichment of COMPENDIUM_REALITE_V9_POLICE_PNJ_ENRICHMENTS) {
-    const target = byId.get(enrichment.id);
-    if (!target) continue;
-    target.sections = [
-      ...(target.sections ?? []),
-      deepClone(enrichment.section) as JsonObject
-    ];
-  }
-
-  const governmentHub = byId.get("realite-v9-etat-institutions-grande-reserve");
-  if (governmentHub) {
-    governmentHub.sections = [
-      ...(governmentHub.sections ?? []),
-      ...(deepClone(COMPENDIUM_REALITE_V9_GOVERNMENT_HUB_SECTIONS) as JsonObject[])
-    ];
-    if (!String(governmentHub.source ?? "").includes("TUC_organisations_gouvernement(1).docx")) {
-      governmentHub.source = [governmentHub.source, "TUC_organisations_gouvernement(1).docx"].filter(Boolean).join(" ; ");
-    }
-  }
-
-  for (const article of COMPENDIUM_REALITE_V9_GOVERNMENT_ARTICLES) {
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const article of COMPENDIUM_REALITE_V9_GOVERNMENT_PNJ_ARTICLES) {
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const enrichment of COMPENDIUM_REALITE_V9_GOVERNMENT_PNJ_ENRICHMENTS) {
-    const target = byId.get(enrichment.id);
-    if (!target) continue;
-    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
-    if (!existingIds.has(String(enrichment.section?.id ?? ""))) {
-      target.sections = [
-        ...(target.sections ?? []),
-        deepClone(enrichment.section) as JsonObject
-      ];
-    }
-    if (!String(target.source ?? "").includes("TUC_organisations_gouvernement(1).docx")) {
-      target.source = [target.source, "TUC_organisations_gouvernement(1).docx"].filter(Boolean).join(" ; ");
-    }
-    target.tags = Array.from(new Set([...(target.tags ?? []), "Gouvernement"]));
-  }
-
-  const agenciesHub = byId.get(COMPENDIUM_REALITE_V9_AGENCIES_HUB_ID);
-  if (agenciesHub) {
-    agenciesHub.title = String(COMPENDIUM_REALITE_V9_AGENCIES_HUB.title ?? agenciesHub.title);
-    agenciesHub.source = String(COMPENDIUM_REALITE_V9_AGENCIES_HUB.source ?? agenciesHub.source);
-    agenciesHub.tags = deepClone(COMPENDIUM_REALITE_V9_AGENCIES_HUB.tags ?? agenciesHub.tags ?? []);
-    agenciesHub.sections = deepClone(COMPENDIUM_REALITE_V9_AGENCIES_HUB.sections ?? []) as JsonObject[];
-    agenciesHub.status = "canon_enrichi";
-    agenciesHub.rebuildV2 = true;
-  }
-
-  for (const article of COMPENDIUM_REALITE_V9_AGENCIES_ARTICLES) {
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const article of COMPENDIUM_REALITE_V9_AGENCIES_PNJ_ARTICLES) {
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const article of COMPENDIUM_REALITE_V9_RELIGION_ARTICLES) {
-    // Religion consolidation overrides the Reality hub and adds one immersive page per major tradition.
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const sourceArticle of COMPENDIUM_REALITE_V9_RELIGION_PNJ_ARTICLES) {
-    // Active religious profiles never reuse archived legacy IDs: archives remain independent audit material.
-    const article = deepClone(sourceArticle) as Article;
-    article.id = activeReligionPnjId(article.id);
-    byId.set(article.id, article);
-  }
-
-  for (const article of COMPENDIUM_REALITE_V9_CHRISTIANITY_ARTICLES) {
-    // Full Christianity pass: enriches the public Church page and adds active PNJs from the detailed source.
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  // Final source-complete public Reality consolidation for the unified Christian Church.
-  byId.set(
-    COMPENDIUM_REALITE_V9_CHRISTIANITY_LORE_ARTICLE.id,
-    deepClone(COMPENDIUM_REALITE_V9_CHRISTIANITY_LORE_ARTICLE) as Article
-  );
-
-  for (const article of COMPENDIUM_REALITE_V9_RULE_ARTICLES) {
-    // Transversal rules hidden among catalog chapters are promoted here without duplicating catalog entries.
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const article of COMPENDIUM_VERITE_V7_LORE_ARTICLES) {
-    // Truth V7 is rebuilt source-first; it supersedes archived legacy pages without restoring the old corpus.
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const article of COMPENDIUM_VERITE_V7_RULE_ARTICLES) {
-    // Common Truth rules are promoted from the canonical V7 source and remain separate from product catalogs.
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const article of COMPENDIUM_VERITE_V7_KHINAE_LORE_ARTICLES) {
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const article of COMPENDIUM_VERITE_V7_KHINAE_RULE_ARTICLES) {
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const article of COMPENDIUM_VERITE_V7_MAGE_ARTICLES) {
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const article of COMPENDIUM_VERITE_V7_DAEMON_ARTICLES) {
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const article of COMPENDIUM_VERITE_V7_ANGELUS_ARTICLES) {
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const enrichment of COMPENDIUM_VERITE_ANGELUS_ENRICHMENTS) {
-    const target = byId.get(String(enrichment.targetId ?? ""));
-    if (!target) {
-      throw new Error(`Cible d'enrichissement Angelus absente: ${String(enrichment.targetId ?? "")}`);
-    }
-
-    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
-    const sections = (deepClone(enrichment.sections ?? []) as JsonObject[]).filter(
-      (section) => !existingIds.has(String(section?.id ?? ""))
-    );
-    if (sections.length) target.sections = [...(target.sections ?? []), ...sections];
-
-    const sources = [target.source, enrichment.source]
-      .flatMap((value) => String(value ?? "").split(" ; "))
-      .map((value) => value.trim())
-      .filter(Boolean);
-    target.source = [...new Set(sources)].join(" ; ");
-    target.tags = [
-      ...new Set([
-        ...(target.tags ?? []),
-        ...(enrichment.tags ?? []),
-        ...(new Set(sources).size > 1 ? ["Multi-source"] : [])
-      ])
-    ];
-    target.status = "canon_enrichi";
-    target.rebuildV2 = true;
-  }
-
-  for (const article of COMPENDIUM_VERITE_ANGELUS_ARTICLES) {
-    byId.set(String(article.id), deepClone(article) as Article);
-  }
-
-  for (const sourceArticle of COMPENDIUM_VERITE_ANGELUS_PNJ_ARTICLES) {
-    const article = deepClone(sourceArticle) as Article;
-    const existing = findMatchingAserynPnj(byId, article);
-    if (existing) {
-      byId.set(existing.id, mergeAngelusPnj(existing, article));
-      angelusPnjResolvedIds.set(article.id, existing.id);
-      continue;
-    }
-    byId.set(article.id, article);
-    angelusPnjResolvedIds.set(article.id, article.id);
-  }
-
-  for (const article of COMPENDIUM_VERITE_V7_ASERYN_ARTICLES) {
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  const aserynHub = byId.get(COMPENDIUM_VERITE_ASERYN_HUB_ID);
-  if (!aserynHub) {
-    throw new Error(`Hub Aseryn absent pour l'intÃ©gration des terres et temples: ${COMPENDIUM_VERITE_ASERYN_HUB_ID}`);
-  }
-
-  const aserynHubSectionIds = new Set(
-    (aserynHub.sections ?? []).map((section) => String(section?.id ?? ""))
-  );
-  for (const section of COMPENDIUM_VERITE_ASERYN_HUB_SECTIONS) {
-    const id = String(section?.id ?? "");
-    if (!id || aserynHubSectionIds.has(id)) continue;
-    aserynHub.sections = [...(aserynHub.sections ?? []), deepClone(section) as JsonObject];
-    aserynHubSectionIds.add(id);
-  }
-
-  aserynHub.source = [
-    ...new Set(
-      [aserynHub.source, COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_SOURCE]
-        .flatMap((value) => String(value ?? "").split(" ; "))
-        .map((value) => value.trim())
-        .filter(Boolean)
-    )
-  ].join(" ; ");
-  aserynHub.tags = [
-    ...new Set([...(aserynHub.tags ?? []), "Terres aserynes", "Temples aseryns", "Multi-source"])
-  ];
-  aserynHub.status = "canon_enrichi";
-  aserynHub.rebuildV2 = true;
-
-  for (const article of COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_ARTICLES) {
-    byId.set(String(article.id), deepClone(article) as Article);
-  }
-
-  for (const article of COMPENDIUM_VERITE_V7_PASS_B_ARTICLES) {
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  const grandsExilesHub = byId.get(COMPENDIUM_VERITE_GRANDS_EXILES_HUB_ID);
-  if (!grandsExilesHub) {
-    throw new Error(`Hub ExilÃ©s absent pour l'intÃ©gration Grands ExilÃ©s: ${COMPENDIUM_VERITE_GRANDS_EXILES_HUB_ID}`);
-  }
-  const grandsExilesHubSectionIds = new Set(
-    (grandsExilesHub.sections ?? []).map((section) => String(section?.id ?? ""))
-  );
-  for (const section of COMPENDIUM_VERITE_GRANDS_EXILES_HUB_SECTIONS) {
-    const id = String(section?.id ?? "");
-    if (!id || grandsExilesHubSectionIds.has(id)) continue;
-    const repairedSection = COMPENDIUM_VERITE_GRANDS_EXILES_HUB_LORE_SECTIONS[id] ?? section;
-    grandsExilesHub.sections = [
-      ...(grandsExilesHub.sections ?? []),
-      deepClone(repairedSection) as JsonObject
-    ];
-    grandsExilesHubSectionIds.add(id);
-  }
-  grandsExilesHub.source = [
-    ...new Set(
-      [grandsExilesHub.source, COMPENDIUM_VERITE_GRANDS_EXILES_SOURCE]
-        .flatMap((value) => String(value ?? "").split(" ; "))
-        .map((value) => value.trim())
-        .filter(Boolean)
-    )
-  ].join(" ; ");
-  grandsExilesHub.tags = [
-    ...new Set([...(grandsExilesHub.tags ?? []), "Grands ExilÃ©s", "Factions exilÃ©es", "Multi-source"])
-  ];
-  grandsExilesHub.status = "canon_enrichi";
-  grandsExilesHub.rebuildV2 = true;
-
-  for (const article of COMPENDIUM_VERITE_GRANDS_EXILES_ARTICLES) {
-    const id = String(article.id);
-    const repairedSections = COMPENDIUM_VERITE_GRANDS_EXILES_ARTICLE_LORE_SECTIONS[id];
-    byId.set(
-      id,
-      deepClone(repairedSections ? { ...article, sections: repairedSections } : article) as Article
-    );
-  }
-
-  for (const article of COMPENDIUM_VERITE_HUNTERS_LORE_ARTICLES) {
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const article of COMPENDIUM_VERITE_V7_PASS_B_RULE_ARTICLES) {
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const article of COMPENDIUM_VERITE_SPECIES_LORE_ARTICLES) {
-    // Detailed terrestrial-creature source: adds families not already promoted by Truth V7.
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const enrichment of COMPENDIUM_VERITE_SPECIES_ENRICHMENTS) {
-    const target = byId.get(enrichment.targetId);
-    if (!target) continue;
-    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
-    target.sections = [
-      ...(target.sections ?? []),
-      ...deepClone(enrichment.sections).filter((section) => !existingIds.has(String(section?.id ?? "")))
-    ];
-  }
-
-  for (const article of COMPENDIUM_VERITE_SPECIES_PNJ_ARTICLES) {
-    // These active PNJs are recreated from the detailed source and remain independent from OLD archives.
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const article of COMPENDIUM_VERITE_FANTASTIQUES_ARTICLES) {
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const enrichment of COMPENDIUM_VERITE_FANTASTIQUES_ENRICHMENTS) {
-    const target = byId.get(enrichment.targetId);
-    if (!target) continue;
-    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
-    target.sections = [
-      ...(target.sections ?? []),
-      ...deepClone(enrichment.sections).filter((section) => !existingIds.has(String(section?.id ?? "")))
-    ];
-  }
-
-  for (const article of COMPENDIUM_VERITE_FANTASTIQUES_PNJ_ARTICLES) {
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const article of COMPENDIUM_VERITE_EXTRATERRESTRES_ARTICLES) {
-    byId.set(article.id, deepClone(article) as Article);
-  }
-
-  for (const enrichment of COMPENDIUM_VERITE_EXTRATERRESTRES_ENRICHMENTS) {
-    const target = byId.get(enrichment.targetId);
-    if (!target) continue;
-    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
-    target.sections = [
-      ...(target.sections ?? []),
-      ...deepClone(enrichment.sections).filter((section) => !existingIds.has(String(section?.id ?? "")))
-    ];
-  }
-
-  for (const sourceArticle of COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_ARTICLES) {
-    const article = deepClone(sourceArticle) as Article;
-    const existing = findMatchingActivePnj(byId, article);
-    if (existing) {
-      byId.set(existing.id, mergeExtraterrestrialPnj(existing, article));
-      extraterrestrialPnjResolvedIds.set(article.id, existing.id);
-      continue;
-    }
-    byId.set(article.id, article);
-    extraterrestrialPnjResolvedIds.set(article.id, article.id);
-  }
-
-  for (const article of COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES) {
-    byId.set(String(article.id), deepClone(article) as Article);
-  }
-
-  for (const sourceArticle of COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_ARTICLES) {
-    const article = deepClone(sourceArticle) as Article;
-    const existing = findMatchingActivePnj(byId, article);
-    if (existing) {
-      byId.set(existing.id, mergeExtraterrestrialPnj(existing, article));
-      extralsGroupsPnjResolvedIds.set(article.id, existing.id);
-      continue;
-    }
-    byId.set(article.id, article);
-    extralsGroupsPnjResolvedIds.set(article.id, article.id);
-  }
-
-  for (const sourceArticle of COMPENDIUM_VERITE_HUMAN_GALACTIC_PNJ_ARTICLES) {
-    const article = deepClone(sourceArticle) as Article;
-    const existing = findMatchingActivePnj(byId, article);
-    if (existing) {
-      byId.set(existing.id, mergeExtraterrestrialPnj(existing, article));
-      humanGalacticPnjResolvedIds.set(article.id, existing.id);
-      continue;
-    }
-    byId.set(article.id, article);
-    humanGalacticPnjResolvedIds.set(article.id, article.id);
-  }
-
-  for (const enrichment of COMPENDIUM_VERITE_HUNTERS_LORE_ENRICHMENTS) {
-    const target = byId.get(String(enrichment.id ?? ""));
-    if (!target) continue;
-
-    const replaceTitles = new Set(
-      (enrichment.replaceSections ?? []).map((title: unknown) => norm(title))
-    );
-    const incomingTitles = new Set(
-      (enrichment.sections ?? []).map((section: JsonObject) => norm(section?.title ?? ""))
-    );
-    target.sections = [
-      ...(target.sections ?? []).filter((section) => {
-        const title = norm(section?.title ?? "");
-        return !replaceTitles.has(title) && !incomingTitles.has(title);
-      }),
-      ...(deepClone(enrichment.sections ?? []) as JsonObject[])
-    ];
-
-    const sources = [target.source, COMPENDIUM_VERITE_HUNTERS_SOURCE]
-      .flatMap((value) => String(value ?? "").split(" ; "))
-      .map((value) => value.trim())
-      .filter(Boolean);
-    target.source = [...new Set(sources)].join(" ; ");
-
-    const isRealityLore =
-      target.category === "RÃ©alitÃ©" ||
-      (target.category === "Organisations" &&
-        (target.tags ?? []).some((tag) => norm(tag) === "religions et neoreligions"));
-    target.tags = [
-      ...new Set([
-        ...(target.tags ?? []),
-        ...(isRealityLore ? ["Lore Chasseurs 2026-09"] : ["VÃ©ritÃ©", "Chasseurs", "Lore Chasseurs 2026-09"])
-      ])
-    ];
-    target.status = "canon_enrichi";
-    // Do not promote a legacy archive merely because the Chasseurs source adds evidence to it.
-    // Rebuilt active pages remain rebuilt; archived V3 pages keep their OLD status at cut-over.
-  }
-
-  const grandsExilesHunterTarget = byId.get(
-    String(COMPENDIUM_VERITE_HUNTERS_CHASSE_FANTASTIQUE_HUB_ENRICHMENT.targetId ?? "")
-  );
-  if (!grandsExilesHunterTarget) {
-    throw new Error(
-      `Cible Chasse Fantastique absente: ${COMPENDIUM_VERITE_HUNTERS_CHASSE_FANTASTIQUE_HUB_ENRICHMENT.targetId}`
-    );
-  }
-  const grandsExilesHunterSectionIds = new Set(
-    (grandsExilesHunterTarget.sections ?? []).map((section) => String(section?.id ?? ""))
-  );
-  const grandsExilesHunterSections = deepClone(
-    COMPENDIUM_VERITE_HUNTERS_CHASSE_FANTASTIQUE_HUB_ENRICHMENT.sections ?? []
-  ).filter((section: JsonObject) => !grandsExilesHunterSectionIds.has(String(section?.id ?? "")));
-  if (grandsExilesHunterSections.length) {
-    grandsExilesHunterTarget.sections = [
-      ...(grandsExilesHunterTarget.sections ?? []),
-      ...grandsExilesHunterSections
-    ];
-  }
-  grandsExilesHunterTarget.source = [
-    ...new Set(
-      [grandsExilesHunterTarget.source, COMPENDIUM_VERITE_GRANDS_EXILES_SOURCE]
-        .flatMap((value) => String(value ?? "").split(" ; "))
-        .map((value) => value.trim())
-        .filter(Boolean)
-    )
-  ].join(" ; ");
-  grandsExilesHunterTarget.tags = [
-    ...new Set([
-      ...(grandsExilesHunterTarget.tags ?? []),
-      ...(COMPENDIUM_VERITE_HUNTERS_CHASSE_FANTASTIQUE_HUB_ENRICHMENT.tags ?? []),
-      "Multi-source"
-    ])
-  ];
-  grandsExilesHunterTarget.status = "canon_enrichi";
-  grandsExilesHunterTarget.rebuildV2 = true;
-
-  for (const enrichment of COMPENDIUM_REALITE_V9_GOVERNMENT_TRUTH_PNJ_ENRICHMENTS) {
-    const target = byId.get(enrichment.id);
-    if (!target) continue;
-    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
-    if (!existingIds.has(String(enrichment.section?.id ?? ""))) {
-      target.sections = [
-        ...(target.sections ?? []),
-        deepClone(enrichment.section) as JsonObject
-      ];
-    }
-    if (!String(target.source ?? "").includes("TUC_organisations_gouvernement(1).docx")) {
-      target.source = [target.source, "TUC_organisations_gouvernement(1).docx"].filter(Boolean).join(" ; ");
-    }
-    target.tags = Array.from(new Set([...(target.tags ?? []), "Gouvernement", "RÃ©alitÃ©"]));
-  }
-
-  for (const enrichment of COMPENDIUM_REALITE_V9_AGENCIES_PNJ_ENRICHMENTS) {
-    const target = byId.get(enrichment.id);
-    if (!target) continue;
-    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
-    const sections = deepClone(enrichment.sections ?? []).filter(
-      (section: JsonObject) => !existingIds.has(String(section?.id ?? ""))
-    );
-    if (sections.length) {
-      target.sections = [...(target.sections ?? []), ...sections];
-    }
-    if (enrichment.pnjPatch) {
-      target.pnj = {
-        ...(target.pnj ?? {}),
-        ...deepClone(enrichment.pnjPatch)
-      };
-    }
-    if (!String(target.source ?? "").includes("TUC_organisations_agences(1).docx")) {
-      target.source = [target.source, "TUC_organisations_agences(1).docx"].filter(Boolean).join(" ; ");
-    }
-    target.tags = Array.from(new Set([...(target.tags ?? []), "Agences", "RÃ©alitÃ©"]));
-  }
-
-  const crawlersHub = byId.get(COMPENDIUM_REALITE_V9_CRAWLERS_HUB_ID);
-  if (crawlersHub) {
-    const existingIds = new Set((crawlersHub.sections ?? []).map((section) => String(section?.id ?? "")));
-    const sections = deepClone(COMPENDIUM_REALITE_V9_CRAWLERS_HUB_SECTIONS).filter(
-      (section: JsonObject) => !existingIds.has(String(section?.id ?? ""))
-    );
-    if (sections.length) {
-      crawlersHub.sections = [...(crawlersHub.sections ?? []), ...sections];
-    }
-    const sources = [crawlersHub.source, COMPENDIUM_REALITE_V9_CRAWLERS_HUB_SOURCE]
-      .flatMap((value) => String(value ?? "").split(" ; "))
-      .map((value) => value.trim())
-      .filter(Boolean);
-    crawlersHub.source = [...new Set(sources)].join(" ; ");
-    crawlersHub.tags = [
-      ...new Set([...(crawlersHub.tags ?? []), ...COMPENDIUM_REALITE_V9_CRAWLERS_HUB_TAGS])
-    ];
-    crawlersHub.status = "canon_enrichi";
-    crawlersHub.rebuildV2 = true;
-  }
-
-  for (const enrichment of COMPENDIUM_REALITE_V9_CRAWLERS_ARTICLE_ENRICHMENTS) {
-    const target = byId.get(String(enrichment.targetId ?? ""));
-    if (!target) continue;
-
-    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
-    const sections = deepClone(enrichment.sections ?? []).filter(
-      (section: JsonObject) => !existingIds.has(String(section?.id ?? ""))
-    );
-    if (sections.length) {
-      target.sections = [...(target.sections ?? []), ...sections];
-    }
-
-    const sources = [target.source, enrichment.source]
-      .flatMap((value) => String(value ?? "").split(" ; "))
-      .map((value) => value.trim())
-      .filter(Boolean);
-    target.source = [...new Set(sources)].join(" ; ");
-    target.tags = [...new Set([...(target.tags ?? []), ...(enrichment.tags ?? [])])];
-    target.status = "canon_enrichi";
-    target.rebuildV2 = true;
-  }
-
-  for (const article of COMPENDIUM_REALITE_V9_CRAWLERS_ARTICLES) {
-    byId.set(String(article.id), deepClone(article) as Article);
-  }
-
-  for (const sourceArticle of COMPENDIUM_REALITE_V9_CRAWLERS_PNJ_ARTICLES) {
-    const article = deepClone(sourceArticle) as Article;
-    const existing = findMatchingActivePnj(byId, article);
-    if (existing) {
-      byId.set(existing.id, mergeCrawlerPnj(existing, article));
-      crawlerPnjResolvedIds.set(article.id, existing.id);
-      continue;
-    }
-    byId.set(article.id, article);
-    crawlerPnjResolvedIds.set(article.id, article.id);
-  }
-
-  for (const sourceArticle of COMPENDIUM_REALITE_V9_CORPORATIONS_PNJ_ARTICLES) {
-    const article = deepClone(sourceArticle) as Article;
-    const existing = findMatchingActivePnj(byId, article);
-    if (existing) {
-      byId.set(existing.id, mergeCorporationPnj(existing, article));
-      corporationPnjResolvedIds.set(article.id, existing.id);
-      continue;
-    }
-    byId.set(article.id, article);
-    corporationPnjResolvedIds.set(article.id, article.id);
-  }
-
-  for (const sourceArticle of COMPENDIUM_VERITE_HUNTERS_PNJ_ARTICLES) {
-    const article = deepClone(sourceArticle) as Article;
-    const existing = findMatchingActivePnj(byId, article);
-    if (existing) {
-      byId.set(existing.id, mergeHunterPnj(existing, article));
-      hunterPnjResolvedIds.set(article.id, existing.id);
-      continue;
-    }
-    byId.set(article.id, article);
-    hunterPnjResolvedIds.set(article.id, article.id);
-  }
-
-  for (const article of COMPENDIUM_VERITE_FLEAUX_ARTICLES) {
-    byId.set(String(article.id), deepClone(article) as Article);
-  }
-
-  for (const enrichment of COMPENDIUM_VERITE_FLEAUX_ENRICHMENTS) {
-    const target = byId.get(String(enrichment.targetId ?? ""));
-    if (!target) {
-      throw new Error(`Cible d'enrichissement FlÃ©aux absente: ${String(enrichment.targetId ?? "")}`);
-    }
-    const incoming = deepClone(enrichment.section) as JsonObject;
-    const incomingId = String(incoming?.id ?? "");
-    const incomingTitle = norm(incoming?.title ?? "");
-    const exists = (target.sections ?? []).some(
-      (section) =>
-        (incomingId && String(section?.id ?? "") === incomingId) ||
-        (incomingTitle && norm(section?.title ?? "") === incomingTitle)
-    );
-    if (!exists) target.sections = [...(target.sections ?? []), incoming];
-
-    const sources = [target.source, COMPENDIUM_VERITE_FLEAUX_SOURCE]
-      .flatMap((value) => String(value ?? "").split(" ; "))
-      .map((value) => value.trim())
-      .filter(Boolean);
-    target.source = [...new Set(sources)].join(" ; ");
-    target.tags = [...new Set([...(target.tags ?? []), "FlÃ©aux", "Focus FlÃ©aux 2026-09"])];
-    target.status = "canon_enrichi";
-    target.rebuildV2 = true;
-  }
-
-  for (const sourceArticle of COMPENDIUM_VERITE_FLEAUX_EXISTING_PNJ_SOURCES) {
-    const article = deepClone(sourceArticle) as Article;
-    const existing = findMatchingActivePnj(byId, article);
-    if (existing) {
-      byId.set(existing.id, mergeFleauxPnj(existing, article));
-      fleauxPnjResolvedIds.set(article.id, existing.id);
-      continue;
-    }
-
-    const legacyTargetId = String(article.legacyTargetId ?? "");
-    const legacy = legacyTargetId ? byId.get(legacyTargetId) : null;
-    if (legacy) {
-      const rebuilt = deepClone(legacy) as Article;
-      rebuilt.id = article.id;
-      rebuilt.dataset = article.dataset;
-      rebuilt.category = "Personnages";
-      rebuilt.sourceCategory = String(legacy.sourceCategory ?? "VÃ©ritÃ©");
-      rebuilt.rebuildV2 = true;
-      delete rebuilt.__legacy;
-      delete rebuilt.legacyCategory;
-      byId.set(article.id, mergeFleauxPnj(rebuilt, article));
-    } else {
-      byId.set(article.id, article);
-    }
-    fleauxPnjResolvedIds.set(article.id, article.id);
-  }
-
-  for (const sourceArticle of COMPENDIUM_VERITE_FLEAUX_NEW_PNJ_ARTICLES) {
-    const article = deepClone(sourceArticle) as Article;
-    const existing = findMatchingActivePnj(byId, article);
-    if (existing) {
-      byId.set(existing.id, mergeFleauxPnj(existing, article));
-      fleauxPnjResolvedIds.set(article.id, existing.id);
-      continue;
-    }
-    byId.set(article.id, article);
-    fleauxPnjResolvedIds.set(article.id, article.id);
-  }
-
-  const mageLogesHub = byId.get(COMPENDIUM_VERITE_LOGES_MAGES_HUB_ID);
-  if (!mageLogesHub) {
-    throw new Error(`Hub Mages absent pour l'intÃ©gration des Loges: ${COMPENDIUM_VERITE_LOGES_MAGES_HUB_ID}`);
-  }
-  const mageLogesSectionIds = new Set(
-    (mageLogesHub.sections ?? []).map((section) => String(section?.id ?? ""))
-  );
-  for (const section of COMPENDIUM_VERITE_LOGES_MAGES_HUB_SECTIONS) {
-    const id = String(section?.id ?? "");
-    if (!id || mageLogesSectionIds.has(id)) continue;
-    mageLogesHub.sections = [...(mageLogesHub.sections ?? []), deepClone(section) as JsonObject];
-    mageLogesSectionIds.add(id);
-  }
-  mageLogesHub.source = [
-    ...new Set(
-      [mageLogesHub.source, COMPENDIUM_VERITE_LOGES_MAGES_SOURCE]
-        .flatMap((value) => String(value ?? "").split(" ; "))
-        .map((value) => value.trim())
-        .filter(Boolean)
-    )
-  ].join(" ; ");
-  mageLogesHub.tags = [
-    ...new Set([...(mageLogesHub.tags ?? []), "Loges des Mages", "New-York", "Los Angeles", "San Diejuana", "Las Vegas", "Phoenix", "Grande RÃ©serve"])
-  ];
-  mageLogesHub.status = "canon_enrichi";
-  mageLogesHub.rebuildV2 = true;
-
-  for (const sourceArticle of COMPENDIUM_VERITE_LOGES_MAGES_PNJ_ARTICLES) {
-    const article = deepClone(sourceArticle) as Article;
-    const existing = findMatchingActivePnj(byId, article);
-    if (existing) {
-      byId.set(existing.id, mergeFleauxPnj(existing, article));
-      mageLogesPnjResolvedIds.set(article.id, existing.id);
-      continue;
-    }
-    byId.set(article.id, article);
-    mageLogesPnjResolvedIds.set(article.id, article.id);
-  }
-
-  const templesDaemoniaquesHub = byId.get(COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_HUB_ID);
-  if (!templesDaemoniaquesHub) {
-    throw new Error(`Hub Daemons absent pour l'intÃ©gration des Temples dÃ©moniaques: ${COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_HUB_ID}`);
-  }
-  const templesDaemoniaquesHubSectionIds = new Set(
-    (templesDaemoniaquesHub.sections ?? []).map((section) => String(section?.id ?? ""))
-  );
-  for (const section of COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_HUB_SECTIONS) {
-    const id = String(section?.id ?? "");
-    if (!id || templesDaemoniaquesHubSectionIds.has(id)) continue;
-    templesDaemoniaquesHub.sections = [
-      ...(templesDaemoniaquesHub.sections ?? []),
-      deepClone(section) as JsonObject
-    ];
-    templesDaemoniaquesHubSectionIds.add(id);
-  }
-  const templesDaemoniaquesHubSources = [
-    templesDaemoniaquesHub.source,
-    COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_SOURCE,
-    COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_ANGELUS_SOURCE
-  ]
-    .flatMap((value) => String(value ?? "").split(" ; "))
-    .map((value) => value.trim())
-    .filter(Boolean);
-  templesDaemoniaquesHub.source = [...new Set(templesDaemoniaquesHubSources)].join(" ; ");
-  templesDaemoniaquesHub.tags = [
-    ...new Set([
-      ...(templesDaemoniaquesHub.tags ?? []),
-      "Temples dÃ©moniaques",
-      "Temples fantÃ´mes",
-      "Multi-source"
-    ])
-  ];
-  templesDaemoniaquesHub.status = "canon_enrichi";
-  templesDaemoniaquesHub.rebuildV2 = true;
-
-  for (const sourceArticle of COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_PNJ_ARTICLES) {
-    const article = deepClone(sourceArticle) as Article;
-    // Public PNJ metadata must not reveal daemon nature, patron deity or Temple.
-    article.tags = (article.tags ?? []).filter((tag) => !/daemon|temple/i.test(String(tag)));
-
-    const existing = findMatchingActivePnj(byId, article);
-    if (existing && String(existing.dataset ?? "").includes("angelus")) {
-      throw new Error(`Fusion Angelus/Daemon interdite pour ${article.title ?? article.id}: ${existing.id}`);
-    }
-
-    if (existing) {
-      const merged = mergeCrawlerPnj(existing, article);
-      const targetPnj = existing.pnj ?? {};
-      const sourcePnj = article.pnj ?? {};
-      merged.pnj = {
-        ...targetPnj,
-        ...sourcePnj,
-        relations: [
-          ...new Set([
-            ...((Array.isArray(targetPnj.relations) ? targetPnj.relations : []) as string[]),
-            ...((Array.isArray(sourcePnj.relations) ? sourcePnj.relations : []) as string[])
-          ])
-        ],
-        source_documents: [
-          ...new Set([
-            ...((Array.isArray(targetPnj.source_documents) ? targetPnj.source_documents : []) as string[]),
-            ...((Array.isArray(sourcePnj.source_documents) ? sourcePnj.source_documents : []) as string[]),
-            ...String(existing.source ?? "").split(" ; "),
-            ...String(article.source ?? "").split(" ; ")
-          ].map((value) => String(value ?? "").trim()).filter(Boolean))
-        ]
-      };
-      merged.pnj.identity_keys = [
-        ...new Set([
-          ...articlePnjIdentityKeys(existing),
-          ...articlePnjIdentityKeys(article),
-          ...articlePnjIdentityKeys(merged)
-        ])
-      ];
-      if (String(sourcePnj.real_name ?? "").trim() === "Nick Edison") {
-        merged.pnj.identity_keys = merged.pnj.identity_keys.filter(
-          (key: string) => !normalizedPnjIdentity(key).includes("balam")
-        );
-        merged.pnj.nom_verite = sourcePnj.nom_verite;
-        merged.pnj.nom_verite_source = sourcePnj.nom_verite_source;
-      }
-      byId.set(existing.id, merged);
-      templesDaemoniaquesPnjResolvedIds.set(article.id, existing.id);
-      continue;
-    }
-
-    if (String(article.pnj?.real_name ?? "").trim() === "Nick Edison") {
-      article.pnj.identity_keys = (article.pnj.identity_keys ?? []).filter(
-        (key: string) => !normalizedPnjIdentity(key).includes("balam")
-      );
-    }
-    byId.set(article.id, article);
-    templesDaemoniaquesPnjResolvedIds.set(article.id, article.id);
-  }
-
-  const leslieSourceId = String(COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_LESLIE_ENRICHMENT.targetId ?? "");
-  const leslieResolvedId = mageLogesPnjResolvedIds.get(leslieSourceId) ?? leslieSourceId;
-  const leslie = byId.get(leslieResolvedId);
-  if (!leslie) {
-    throw new Error(`Leslie Wright absente pour le lien Abrasax: ${leslieSourceId} -> ${leslieResolvedId}`);
-  }
-  const abrasaxSourceId = String(COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_LESLIE_ENRICHMENT.relationId ?? "");
-  const abrasaxResolvedId =
-    templesDaemoniaquesPnjResolvedIds.get(abrasaxSourceId) ??
-    abrasaxSourceId;
-  const abrasax = byId.get(abrasaxResolvedId);
-  if (!abrasax) {
-    throw new Error(`Abrasax absent pour le lien Leslie Wright: ${abrasaxSourceId} -> ${abrasaxResolvedId}`);
-  }
-
-  leslie.pnj = { ...(leslie.pnj ?? {}) };
-  leslie.pnj.relations = [
-    ...new Set([
-      ...((Array.isArray(leslie.pnj.relations) ? leslie.pnj.relations : []) as string[]),
-      abrasaxResolvedId
-    ].filter(Boolean))
-  ];
-  abrasax.pnj = { ...(abrasax.pnj ?? {}) };
-  abrasax.pnj.relations = [
-    ...new Set([
-      ...((Array.isArray(abrasax.pnj.relations) ? abrasax.pnj.relations : []) as string[])
-        .filter((id) => id !== leslieSourceId || leslieSourceId === leslieResolvedId),
-      leslieResolvedId
-    ].filter(Boolean))
-  ];
-  leslie.pnj.source_documents = [
-    ...new Set([
-      ...((Array.isArray(leslie.pnj.source_documents) ? leslie.pnj.source_documents : []) as string[]),
-      COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_SOURCE
-    ])
-  ];
-  const leslieSection = deepClone(COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_LESLIE_ENRICHMENT.section) as JsonObject;
-  if (!(leslie.sections ?? []).some((section) => String(section?.id ?? "") === String(leslieSection.id ?? ""))) {
-    leslie.sections = [...(leslie.sections ?? []), leslieSection];
-  }
-  leslie.tags = [...new Set([...(leslie.tags ?? []), "Multi-source"])];
-  leslie.status = "canon_enrichi";
-  leslie.rebuildV2 = true;
-
-  const addProtectedPnjRelation = (
-    article: Article,
-    relatedId: string,
-    note: string,
-    relationKey: string
-  ) => {
-    article.pnj = { ...(article.pnj ?? {}) };
-    article.pnj.relations = [
-      ...new Set([
-        ...((Array.isArray(article.pnj.relations) ? article.pnj.relations : []) as string[]),
-        relatedId
-      ].filter(Boolean))
-    ];
-    article.pnj.source_documents = [
-      ...new Set([
-        ...((Array.isArray(article.pnj.source_documents) ? article.pnj.source_documents : []) as string[]),
-        COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_SOURCE,
-        COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_ANGELUS_SOURCE
-      ])
-    ];
-    const sectionId = `temples-daemoniaques-relation-${relationKey.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`;
-    if (!(article.sections ?? []).some((section) => String(section?.id ?? "") === sectionId)) {
-      article.sections = [
-        ...(article.sections ?? []),
-        {
-          id: sectionId,
-          title: "Lien MJ Â· Angelus & Daemons",
-          level: 2,
-          audience: "mj",
-          blocks: [{ type: "p", style: "lore", text: note }]
-        }
-      ];
-    }
-    article.status = "canon_enrichi";
-    article.rebuildV2 = true;
-  };
-
-  for (const relation of COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_ANGELUS_RELATIONS) {
-    const daemonId =
-      templesDaemoniaquesPnjResolvedIds.get(String(relation.daemonSourceId ?? "")) ??
-      String(relation.daemonSourceId ?? "");
-    const angelusId =
-      angelusPnjResolvedIds.get(String(relation.angelusId ?? "")) ??
-      String(relation.angelusId ?? "");
-    const daemon = byId.get(daemonId);
-    const angelus = byId.get(angelusId);
-    if (!daemon || !angelus) {
-      throw new Error(`Relation Angelus/Daemon introuvable: ${daemonId} â†” ${angelusId}`);
-    }
-    const key = `${String(relation.daemonSourceId ?? "")}-${String(relation.angelusId ?? "")}`;
-    addProtectedPnjRelation(daemon, angelusId, String(relation.note ?? ""), key);
-    addProtectedPnjRelation(angelus, daemonId, String(relation.note ?? ""), key);
-  }
-
-  for (const article of COMPENDIUM_VERITE_VAMPIRE_COURTS_ARTICLES) byId.set(String(article.id), deepClone(article) as Article);
-  for (const enrichment of COMPENDIUM_VERITE_VAMPIRE_COURTS_ENRICHMENTS) {
-    const target=byId.get(String(enrichment.targetId??"")); if(!target) throw new Error(`Cible d'enrichissement Cours vampiriques absente: ${String(enrichment.targetId??"")}`);
-    const ids=new Set((target.sections??[]).map((section)=>String(section?.id??""))); const ss=deepClone(enrichment.sections??[]).filter((section:JsonObject)=>!ids.has(String(section?.id??""))); if(ss.length)target.sections=[...(target.sections??[]),...ss];
-    const sources=[target.source,COMPENDIUM_VERITE_VAMPIRE_COURTS_SOURCE].flatMap((v)=>String(v??"").split(" ; ")).map((v)=>v.trim()).filter(Boolean); target.source=[...new Set(sources)].join(" ; "); target.tags=[...new Set([...(target.tags??[]),"Vampires","Cours vampiriques",...(new Set(sources).size>1?["Multi-source"]:[])])]; target.status="canon_enrichi"; target.rebuildV2=true;
-  }
-  for (const sourceArticle of COMPENDIUM_VERITE_VAMPIRE_COURTS_PNJ_ARTICLES) {
-    const article=deepClone(sourceArticle) as Article; const existing=findMatchingActivePnj(byId,article);
-    if(existing){byId.set(existing.id,mergeVampireCourtPnj(existing,article));vampireCourtPnjResolvedIds.set(article.id,existing.id);continue;}
-    byId.set(article.id,article);vampireCourtPnjResolvedIds.set(article.id,article.id);
-  }
-  for (const article of COMPENDIUM_VERITE_PELAGES_ARTICLES) {
-    byId.set(String(article.id), deepClone(article) as Article);
-  }
-
-  for (const enrichment of COMPENDIUM_VERITE_PELAGES_ENRICHMENTS) {
-    const target = byId.get(String(enrichment.targetId ?? ""));
-    if (!target) {
-      throw new Error(`Cible d'enrichissement Pelages absente: ${String(enrichment.targetId ?? "")}`);
-    }
-
-    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
-    const sections = deepClone(enrichment.sections ?? []).filter(
-      (section: JsonObject) => !existingIds.has(String(section?.id ?? ""))
-    );
-    if (sections.length) target.sections = [...(target.sections ?? []), ...sections];
-
-    const sources = [target.source, enrichment.source]
-      .flatMap((value) => String(value ?? "").split(" ; "))
-      .map((value) => value.trim())
-      .filter(Boolean);
-    target.source = [...new Set(sources)].join(" ; ");
-    target.tags = [
-      ...new Set([
-        ...(target.tags ?? []),
-        ...(enrichment.tags ?? []),
-        ...(new Set(sources).size > 1 ? ["Multi-source"] : [])
-      ])
-    ];
-    target.status = "canon_enrichi";
-    target.rebuildV2 = true;
-  }
-
-  for (const sourceArticle of COMPENDIUM_VERITE_PELAGES_PNJ_ARTICLES) {
-    const article = deepClone(sourceArticle) as Article;
-    const existing = findMatchingActivePnj(byId, article);
-    if (existing) {
-      byId.set(existing.id, mergePelagePnj(existing, article));
-      pelagePnjResolvedIds.set(article.id, existing.id);
-      continue;
-    }
-
-    byId.set(article.id, article);
-    pelagePnjResolvedIds.set(article.id, article.id);
-  }
-
-  for (const sourceArticle of COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_PNJ_ARTICLES) {
-    const article = deepClone(sourceArticle) as Article;
-    const existing = findMatchingAserynPnj(byId, article);
-    if (existing) {
-      byId.set(existing.id, mergeAserynPnj(existing, article));
-      aserynTerresTemplesPnjResolvedIds.set(article.id, existing.id);
-      continue;
-    }
-    byId.set(article.id, article);
-    aserynTerresTemplesPnjResolvedIds.set(article.id, article.id);
-  }
-
-  for (const sourceArticle of COMPENDIUM_VERITE_GRANDS_EXILES_PNJ_ARTICLES) {
-    const article = deepClone(sourceArticle) as Article;
-    const existing = findMatchingAserynPnj(byId, article);
-    if (existing) {
-      const merged = mergeAserynPnj(existing, article);
-      const sources = [existing.source, article.source]
-        .flatMap((value) => String(value ?? "").split(" ; "))
-        .map((value) => value.trim())
-        .filter(Boolean);
-      merged.source = [...new Set(sources)].join(" ; ");
-      merged.tags = [
-        ...new Set([
-          ...(merged.tags ?? []),
-          "ExilÃ©s",
-          "Grands ExilÃ©s 2026-09",
-          ...(new Set(sources).size > 1 ? ["Multi-source"] : [])
-        ])
-      ];
-      merged.status = "canon_enrichi";
-      merged.rebuildV2 = true;
-      byId.set(existing.id, merged);
-      grandsExilesPnjResolvedIds.set(article.id, existing.id);
-      continue;
-    }
-
-    byId.set(article.id, article);
-    grandsExilesPnjResolvedIds.set(article.id, article.id);
-  }
-
-  for (const article of COMPENDIUM_POINTS_RENCONTRE_ARTICLES) {
-    byId.set(String(article.id), deepClone(article) as Article);
-  }
-
-  for (const sourceArticle of COMPENDIUM_POINTS_RENCONTRE_PNJ_ARTICLES) {
-    const article = deepClone(sourceArticle) as Article;
-    const existing = findMatchingAserynPnj(byId, article);
-    if (existing) {
-      byId.set(existing.id, mergeAngelusPnj(existing, article));
-      pointsRencontrePnjResolvedIds.set(article.id, existing.id);
-      continue;
-    }
-    byId.set(article.id, article);
-    pointsRencontrePnjResolvedIds.set(article.id, article.id);
-  }
-
-  for (const article of COMPENDIUM_SHI_QI_ARTICLES) {
-    byId.set(String(article.id), deepClone(article) as Article);
-  }
-
-  const resolveShiQiTarget = (enrichment: JsonObject): Article | null => {
-    const direct = byId.get(String(enrichment.id ?? ""));
-    if (direct && direct.rebuildV2 !== false) return direct;
-    const wanted = new Set(
-      (enrichment.identityKeys ?? []).map((value: unknown) => normalizedPnjIdentity(value)).filter(Boolean)
-    );
-    if (!wanted.size) return null;
-    for (const candidate of byId.values()) {
-      if (candidate.rebuildV2 !== true || !candidate.pnj) continue;
-      const keys = [
-        candidate.title,
-        candidate.pnj.real_name,
-        candidate.pnj.nom_reel,
-        candidate.pnj.nom_realite,
-        candidate.pnj.nom_verite,
-        ...(Array.isArray(candidate.pnj.identity_keys) ? candidate.pnj.identity_keys : [])
-      ].map((value) => normalizedPnjIdentity(value)).filter(Boolean);
-      if (keys.some((key) => wanted.has(key))) return candidate;
-    }
-    return null;
-  };
-
-  for (const enrichment of COMPENDIUM_SHI_QI_ENRICHMENTS) {
-    const target = resolveShiQiTarget(enrichment);
-    if (!target) throw new Error(`Shi/Qi Â· cible absente: ${String(enrichment.id ?? "")}`);
-
-    const replacementId = String(enrichment.replaceSectionId ?? "");
-    const incoming = deepClone(enrichment.sections ?? []) as JsonObject[];
-    const incomingIds = new Set(incoming.map((section) => String(section?.id ?? "")).filter(Boolean));
-    target.sections = [
-      ...(target.sections ?? []).filter((section) => {
-        const id = String(section?.id ?? "");
-        if (replacementId && id === replacementId) return false;
-        return !incomingIds.has(id);
-      }),
-      ...incoming
-    ];
-
-    target.source = [...new Set(
-      [target.source, enrichment.source]
-        .flatMap((value) => String(value ?? "").split(" ; "))
-        .map((value) => value.trim())
-        .filter(Boolean)
-    )].join(" ; ");
-    target.tags = [...new Set([...(target.tags ?? []), ...(enrichment.tags ?? []), "Shi/Qi 2026-09"])];
-    target.status = "canon_enrichi";
-    target.rebuildV2 = true;
-
-    if (target.pnj) {
-      target.pnj = { ...target.pnj };
-      target.pnj.identity_keys = [...new Set([
-        ...(Array.isArray(target.pnj.identity_keys) ? target.pnj.identity_keys : []),
-        ...(enrichment.identityKeys ?? [])
-      ])];
-    }
-  }
-
-  const generatedTalentHubs = generatedTalentHubCorpus();
-  for (const hub of generatedTalentHubs.articles) {
-    if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
-  }
-
-  const generatedBuilderReferences = generatedBuilderReferenceCorpus();
-  for (const reference of generatedBuilderReferences.articles) {
-    if (!byId.has(String(reference.id))) {
-      byId.set(String(reference.id), deepClone(reference) as Article);
-    }
-  }
-
-  const overrideSummary = await applyCommittedOverrides(byId, overridePayload);
-
-  const customArticles = await pool.query<{ articleId: string; baseDocument: Article }>(
-    `SELECT article_id AS "articleId", base_document AS "baseDocument"
-     FROM compendium_custom_articles
-     WHERE is_published = true`
-  );
-  const customArticleIds = new Set<string>();
-  for (const row of customArticles.rows) {
-    if (!row.baseDocument?.id || byId.has(row.articleId)) continue;
-    const article = deepClone(row.baseDocument);
-    article.dataset = "custom";
-    byId.set(row.articleId, article);
-    customArticleIds.add(row.articleId);
-  }
-
-  const editorBaseById = new Map<string, { hash: string; article: Article }>();
-  for (const [id, article] of byId) {
-    editorBaseById.set(id, { hash: articleHash(article), article: deepClone(article) });
-  }
-
-  for (const id of customArticleIds) {
-    const article = byId.get(id);
-    if (article) article.__customWikiPage = true;
-  }
-
-  let databaseEditApplied = 0;
-  let databaseEditConflicts = 0;
-  const publishedEdits = await pool.query<{
-    articleId: string;
-    baseHash: string;
-    published: JsonObject;
-  }>(
-    `SELECT
-       article_id AS "articleId",
-       base_hash AS "baseHash",
-       published
-     FROM compendium_article_edits
-     WHERE published IS NOT NULL`
-  );
-
-  for (const row of publishedEdits.rows) {
-    const base = editorBaseById.get(row.articleId);
-    const current = byId.get(row.articleId);
-    if (!base || !current) continue;
-    if (row.baseHash !== base.hash) {
-      databaseEditConflicts += 1;
-      continue;
-    }
-
-    const effective = editableArticle(current, row.published);
-    effective.__wikiPublishedEdit = true;
-    byId.set(row.articleId, effective);
-    databaseEditApplied += 1;
-  }
-
-  const manualMediaFiles = new Set(
-    await readdir(resolve(COMPENDIUM_MEDIA_DIR, "images/manual")).catch(() => [] as string[])
-  );
-  const manualGalleryByArticle = new Map<string, string[]>();
-  for (const filename of manualMediaFiles) {
-    if (!filename.endsWith(".webp")) continue;
-    const marker = filename.indexOf("--");
-    if (marker <= 0) continue;
-    const articleId = filename.slice(0, marker);
-    const gallery = manualGalleryByArticle.get(articleId) ?? [];
-    gallery.push(filename);
-    manualGalleryByArticle.set(articleId, gallery);
-  }
-  for (const gallery of manualGalleryByArticle.values()) gallery.sort();
-
-  const mergeTenSource = (target: Article, source: string, tags: string[]) => {
-    const sources = [target.source, source]
-      .flatMap((value) => String(value ?? "").split(" ; "))
-      .map((value) => value.trim())
-      .filter(Boolean);
-    target.source = [...new Set(sources)].join(" ; ");
-    target.tags = [...new Set([...(target.tags ?? []), ...tags, ...(new Set(sources).size > 1 ? ["Multi-source"] : [])])];
-    target.status = "canon_enrichi";
-    target.rebuildV2 = true;
-    target.pnj = { ...(target.pnj ?? {}) };
-    target.pnj.source_documents = [
-      ...new Set([
-        ...((Array.isArray(target.pnj.source_documents) ? target.pnj.source_documents : []) as string[]),
-        ...sources
-      ])
-    ];
-  };
-
-  const appendTenSections = (target: Article, sections: JsonObject[]) => {
-    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
-    for (const sourceSection of sections) {
-      const id = String(sourceSection?.id ?? "");
-      if (!id || existingIds.has(id)) continue;
-      const copy = deepClone(sourceSection) as JsonObject;
-      if (copy.audience === "mj") {
-        target.sections = [...(target.sections ?? []), copy];
-      } else {
-        const current = [...(target.sections ?? [])];
-        const mjIndex = current.findIndex((section) => section?.audience === "mj");
-        if (mjIndex >= 0) current.splice(mjIndex, 0, copy);
-        else current.push(copy);
-        target.sections = current;
-      }
-      existingIds.add(id);
-    }
-  };
-
-  const mergeTenMjBlocks = (target: Article, sourceSection: JsonObject) => {
-    const current = [...(target.sections ?? [])];
-    let mjIndex = current.findIndex((section) => String(section?.id ?? "") === "dossier-mj");
-    if (mjIndex < 0) {
-      mjIndex = current.findIndex(
-        (section) => section?.audience === "mj" && String(section?.id ?? "") !== "profil-statistique"
-      );
-    }
-    const sourceBlocks = deepClone((sourceSection?.blocks ?? []) as JsonObject[]) as JsonObject[];
-    if (mjIndex >= 0) {
-      const existing = current[mjIndex] as JsonObject;
-      const existingBlocks = ((existing?.blocks ?? []) as JsonObject[]).map((block) => deepClone(block) as JsonObject);
-      const signatures = new Set(existingBlocks.map((block) => JSON.stringify(block)));
-      for (const block of sourceBlocks) {
-        const signature = JSON.stringify(block);
-        if (signatures.has(signature)) continue;
-        existingBlocks.push(block);
-        signatures.add(signature);
-      }
-      current[mjIndex] = { ...existing, audience: "mj", blocks: existingBlocks };
-    } else {
-      const copy = deepClone(sourceSection) as JsonObject;
-      copy.id = "dossier-mj";
-      copy.title = "Dossier MJ Â· VÃ©ritÃ© & informations cachÃ©es";
-      copy.audience = "mj";
-      const statsIndex = current.findIndex((section) => String(section?.id ?? "") === "profil-statistique");
-      if (statsIndex >= 0) current.splice(statsIndex, 0, copy);
-      else current.push(copy);
-    }
-    target.sections = current;
-  };
-
-  const svetlanaCandidates = [...byId.values()].filter((article) => {
-    const names = [
-      String(article?.title ?? ""),
-      String(article?.pnj?.real_name ?? ""),
-      ...((Array.isArray(article?.pnj?.identity_keys) ? article.pnj.identity_keys : []) as string[])
-    ];
-    return names.some(
-      (name) => normalizedPnjIdentity(name) === normalizedPnjIdentity("Svetlana Konstantinovna")
-    );
-  });
-  if (svetlanaCandidates.length !== 1) {
-    throw new Error(`Ten Â· fiche Svetlana canonique ambiguÃ«: ${svetlanaCandidates.map((article) => article.id).join(", ") || "aucune"}`);
-  }
-  const svetlana = svetlanaCandidates[0];
-
-  // The legacy active sheet mixed public Reality fields with Truth/Arkhangel secrets.
-  // The Ten pass replaces those mixed public sections with the clean Reality fiche below.
-  svetlana.sections = (svetlana.sections ?? []).filter((sourceSection) => {
-    if (sourceSection?.audience === "mj") return true;
-    const id = normalizedPnjIdentity(String(sourceSection?.id ?? ""));
-    const title = normalizedPnjIdentity(String(sourceSection?.title ?? ""));
-    const payload = normalizedPnjIdentity(JSON.stringify(sourceSection ?? {}));
-    const legacyProfile =
-      (id === "profil" || title === "profil") &&
-      (payload.includes("nom de la verite") ||
-        payload.includes("nature reelle") ||
-        payload.includes("mashia") ||
-        payload.includes("arkhangel"));
-    const legacyMixedReality =
-      (id.includes("info-realite") || id.includes("informations-realite") || title.includes("informations realite")) &&
-      payload.includes("arkhangel");
-    return !(legacyProfile || legacyMixedReality);
-  });
-
-  for (const section of (COMPENDIUM_TEN_SVETLANA_ARTICLE.sections ?? []) as JsonObject[]) {
-    const sectionId = String(section?.id ?? "");
-    if (sectionId === "profil-statistique") continue;
-    if (section?.audience === "mj") mergeTenMjBlocks(svetlana, section);
-    else appendTenSections(svetlana, [deepClone(section) as JsonObject]);
-  }
-  mergeTenSource(
-    svetlana,
-    String(COMPENDIUM_TEN_SVETLANA_ARTICLE.source ?? ""),
-    COMPENDIUM_TEN_SVETLANA_ARTICLE.tags ?? []
-  );
-  const svetlanaSourcePnj = deepClone(COMPENDIUM_TEN_SVETLANA_ARTICLE.pnj ?? {}) as JsonObject;
-  const svetlanaExistingPnj = deepClone(svetlana.pnj ?? {}) as JsonObject;
-  svetlana.pnj = { ...svetlanaSourcePnj, ...svetlanaExistingPnj };
-  svetlana.pnj.identity_keys = [
-    ...new Set([
-      ...((Array.isArray(svetlanaSourcePnj.identity_keys) ? svetlanaSourcePnj.identity_keys : []) as string[]),
-      ...((Array.isArray(svetlanaExistingPnj.identity_keys) ? svetlanaExistingPnj.identity_keys : []) as string[])
-    ])
-  ];
-
-  const resolveTenTargetId = (sourceId: string) =>
-    sourceId === String(COMPENDIUM_TEN_SVETLANA_ARTICLE.id)
-      ? svetlana.id
-      : crawlerPnjResolvedIds.get(sourceId) ??
-        corporationPnjResolvedIds.get(sourceId) ??
-        sourceId;
-
-  for (const enrichment of COMPENDIUM_TEN_BACKGROUND_ENRICHMENTS) {
-    const sourceTargetId = String(enrichment.targetId ?? "");
-    const targetId = resolveTenTargetId(sourceTargetId);
-    const target = byId.get(targetId);
-    if (!target) throw new Error(`Ten Â· cible BG absente: ${sourceTargetId} -> ${targetId}`);
-    appendTenSections(target, deepClone(enrichment.sections ?? []) as JsonObject[]);
-    mergeTenSource(target, String(enrichment.source ?? ""), enrichment.tags ?? []);
-  }
-
-  const arkhangel = byId.get(String(COMPENDIUM_TEN_ARKHANGEL_LINK.targetId ?? ""));
-  if (!arkhangel) throw new Error("Ten Â· lien Svetlana/Arkhangel impossible");
-  mergeTenMjBlocks(arkhangel, deepClone(COMPENDIUM_TEN_ARKHANGEL_LINK.section) as JsonObject);
-  mergeTenSource(arkhangel, String(COMPENDIUM_TEN_ARKHANGEL_LINK.source ?? ""), COMPENDIUM_TEN_ARKHANGEL_LINK.tags ?? []);
-  arkhangel.pnj = { ...(arkhangel.pnj ?? {}) };
-  svetlana.pnj = { ...(svetlana.pnj ?? {}) };
-  arkhangel.pnj.relations = [...new Set([...(arkhangel.pnj.relations ?? []), svetlana.id])];
-  svetlana.pnj.relations = [...new Set([...(svetlana.pnj.relations ?? []), arkhangel.id])];
-  // Deliberately keep the identities separate: the secret is a protected relation, never a merge key.
-  arkhangel.pnj.identity_keys = (arkhangel.pnj.identity_keys ?? []).filter((key: string) => normalizedPnjIdentity(key) !== normalizedPnjIdentity("Svetlana Konstantinovna"));
-  svetlana.pnj.identity_keys = (svetlana.pnj.identity_keys ?? []).filter((key: string) => normalizedPnjIdentity(key) !== normalizedPnjIdentity("Arkhangel"));
-
-  byId.set(COMPENDIUM_TEN_PAGE_ARTICLE.id, deepClone(COMPENDIUM_TEN_PAGE_ARTICLE) as Article);
-  for (const enrichment of COMPENDIUM_TEN_TRUTH_ENRICHMENTS) {
-    const sourceTargetId = String(enrichment.targetId ?? "");
-    const targetId = resolveTenTargetId(sourceTargetId);
-    const target = byId.get(targetId);
-    if (!target) throw new Error(`Ten Â· cible canonique absente: ${sourceTargetId} -> ${targetId}`);
-    mergeTenMjBlocks(target, deepClone(enrichment.section) as JsonObject);
-    target.tags = [...new Set([...(target.tags ?? []), "Ten", "Ancre de VÃ©ritÃ©"])];
-    target.status = "canon_enrichi";
-    target.rebuildV2 = true;
-  }
-
-  byId.set(COMPENDIUM_VERITE_TEN_CHRONOLOGY_ARTICLE.id, deepClone(COMPENDIUM_VERITE_TEN_CHRONOLOGY_ARTICLE) as Article);
-  for (const enrichment of COMPENDIUM_VERITE_TEN_ENRICHMENTS) {
-    const sourceTargetId = String(enrichment.targetId ?? "");
-    const targetId = resolveTenTargetId(sourceTargetId);
-    const target = byId.get(targetId);
-    if (!target) throw new Error(`Ten Â· cible Catastrophes absente: ${sourceTargetId} -> ${targetId}`);
-    appendTenSections(target, deepClone(enrichment.sections ?? []) as JsonObject[]);
-    mergeTenSource(target, COMPENDIUM_VERITE_TEN_SOURCE, enrichment.tags ?? []);
-  }
-
-  const normalizeTenPresentation = (target: Article) => {
-    const publicSections: JsonObject[] = [];
-    const mjSections: JsonObject[] = [];
-    const statsSections: JsonObject[] = [];
-
-    for (const sourceSection of target.sections ?? []) {
-      const section = deepClone(sourceSection) as JsonObject;
-      const id = normalizedPnjIdentity(String(section?.id ?? ""));
-      const title = normalizedPnjIdentity(String(section?.title ?? ""));
-      if (id === "profil-statistique" || title === "profil statistique" || title === "statistiques") {
-        statsSections.push(section);
-      } else if (section?.audience === "mj") {
-        mjSections.push(section);
-      } else {
-        publicSections.push(section);
-      }
-    }
-
-    target.sections = [...publicSections, ...mjSections, ...statsSections];
-
-    let sawMj = false;
-    for (const section of target.sections) {
-      const id = normalizedPnjIdentity(String(section?.id ?? ""));
-      const title = normalizedPnjIdentity(String(section?.title ?? ""));
-      const isStats = id === "profil-statistique" || title === "profil statistique" || title === "statistiques";
-      if (section?.audience === "mj" || isStats) sawMj = true;
-      else if (sawMj) throw new Error(`Ten Â· section publique aprÃ¨s le MJ: ${target.id} / ${String(section?.id ?? section?.title ?? "?")}`);
-    }
-    if (statsSections.length && target.sections[target.sections.length - 1] !== statsSections[statsSections.length - 1]) {
-      throw new Error(`Ten Â· statistiques non terminales: ${target.id}`);
-    }
-  };
-
-  const tenPresentationIds = new Set<string>([
-    svetlana.id,
-    arkhangel.id,
-    ...COMPENDIUM_TEN_BACKGROUND_ENRICHMENTS.map((entry) => resolveTenTargetId(String(entry.targetId ?? ""))),
-    ...COMPENDIUM_TEN_TRUTH_ENRICHMENTS.map((entry) => resolveTenTargetId(String(entry.targetId ?? ""))),
-    ...COMPENDIUM_VERITE_TEN_ENRICHMENTS.map((entry) => resolveTenTargetId(String(entry.targetId ?? "")))
-  ]);
-  for (const targetId of tenPresentationIds) {
-    const target = byId.get(targetId);
-    if (target) normalizeTenPresentation(target);
-  }
-
-  const svetlanaPublicSurface = normalizedPnjIdentity(
-    JSON.stringify((svetlana.sections ?? []).filter((section) => section?.audience !== "mj"))
-  );
-  if (
-    svetlanaPublicSurface.includes("arkhangel") ||
-    svetlanaPublicSurface.includes("mashia") ||
-    svetlanaPublicSurface.includes("nom de la verite") ||
-    svetlanaPublicSurface.includes("nature reelle")
-  ) {
-    throw new Error("Ten Â· fuite publique dÃ©tectÃ©e sur la fiche Svetlana");
-  }
-
-  applyCompendiumPnjRepairs(byId);
-
-  const navigation = new Map(
-    [
-      ...(navigationPayload.entries ?? []),
-      ...COMPENDIUM_GUIDE_NAVIGATION,
-      ...COMPENDIUM_MOTEUR_V4_NAVIGATION,
-      ...COMPENDIUM_REALITE_V9_LORE_NAVIGATION,
-      ...COMPENDIUM_REALITE_V9_CORPORATIONS_NAVIGATION,
-      ...COMPENDIUM_REALITE_V9_CORPORATIONS_PNJ_NAVIGATION.filter(
-        (entry) => corporationPnjResolvedIds.get(entry.id) === entry.id
-      ),
-      ...COMPENDIUM_REALITE_V9_PEGRE_NAVIGATION,
-      ...COMPENDIUM_REALITE_V9_PEGRE_PNJ_NAVIGATION,
-      ...COMPENDIUM_REALITE_V9_POLICE_NAVIGATION,
-      ...COMPENDIUM_REALITE_V9_POLICE_PNJ_NAVIGATION,
-      ...COMPENDIUM_REALITE_V9_GOVERNMENT_NAVIGATION,
-      ...COMPENDIUM_REALITE_V9_GOVERNMENT_PNJ_NAVIGATION,
-      ...COMPENDIUM_REALITE_V9_AGENCIES_NAVIGATION,
-      ...COMPENDIUM_REALITE_V9_AGENCIES_PNJ_NAVIGATION,
-      ...COMPENDIUM_REALITE_V9_CRAWLERS_NAVIGATION,
-      ...COMPENDIUM_REALITE_V9_CRAWLERS_PNJ_NAVIGATION.filter(
-        (entry) => crawlerPnjResolvedIds.get(entry.id) === entry.id
-      ),
-      ...COMPENDIUM_REALITE_V9_RELIGION_NAVIGATION,
-      ...COMPENDIUM_REALITE_V9_RELIGION_PNJ_NAVIGATION.map((entry) => ({
-        ...entry,
-        id: activeReligionPnjId(entry.id)
-      })),
-      ...COMPENDIUM_REALITE_V9_CHRISTIANITY_NAVIGATION,
-      ...COMPENDIUM_REALITE_V9_RULE_NAVIGATION,
-      ...COMPENDIUM_VERITE_V7_LORE_NAVIGATION,
-      ...COMPENDIUM_VERITE_V7_RULE_NAVIGATION,
-      ...COMPENDIUM_VERITE_V7_KHINAE_LORE_NAVIGATION,
-      ...COMPENDIUM_VERITE_V7_KHINAE_RULE_NAVIGATION,
-      ...COMPENDIUM_VERITE_V7_MAGE_NAVIGATION,
-      ...COMPENDIUM_VERITE_LOGES_MAGES_PNJ_NAVIGATION.filter(
-        (entry) => mageLogesPnjResolvedIds.get(entry.id) === entry.id
-      ),
-      ...COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_PNJ_NAVIGATION.filter(
-        (entry) => templesDaemoniaquesPnjResolvedIds.get(entry.id) === entry.id
-      ),
-      ...COMPENDIUM_TEN_PAGE_NAVIGATION,
-      ...COMPENDIUM_TEN_SVETLANA_NAVIGATION.map((entry) => ({
-        ...entry,
-        id: svetlana.id,
-        dataset: svetlana.dataset ?? entry.dataset
-      })),
-      ...COMPENDIUM_VERITE_TEN_NAVIGATION,
-      ...COMPENDIUM_VERITE_VAMPIRE_COURTS_NAVIGATION,
-      ...COMPENDIUM_VERITE_VAMPIRE_COURTS_PNJ_NAVIGATION.filter((entry) => vampireCourtPnjResolvedIds.get(entry.id) === entry.id),
-      ...COMPENDIUM_VERITE_PELAGES_NAVIGATION,
-      ...COMPENDIUM_VERITE_PELAGES_PNJ_NAVIGATION.filter(
-        (entry) => pelagePnjResolvedIds.get(entry.id) === entry.id
-      ),
-      ...COMPENDIUM_VERITE_V7_DAEMON_NAVIGATION,
-      ...COMPENDIUM_VERITE_V7_ANGELUS_NAVIGATION,
-      ...COMPENDIUM_VERITE_ANGELUS_NAVIGATION,
-      ...COMPENDIUM_VERITE_ANGELUS_PNJ_NAVIGATION.filter(
-        (entry) => angelusPnjResolvedIds.get(entry.id) === entry.id
-      ),
-      ...COMPENDIUM_VERITE_V7_ASERYN_NAVIGATION,
-      ...COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_NAVIGATION,
-      ...COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_PNJ_NAVIGATION.filter(
-        (entry) => aserynTerresTemplesPnjResolvedIds.get(entry.id) === entry.id
-      ),
-      ...COMPENDIUM_VERITE_GRANDS_EXILES_NAVIGATION,
-      ...COMPENDIUM_VERITE_GRANDS_EXILES_PNJ_NAVIGATION.filter(
-        (entry) => grandsExilesPnjResolvedIds.get(entry.id) === entry.id
-      ),
-      ...COMPENDIUM_VERITE_V7_PASS_B_NAVIGATION,
-      ...COMPENDIUM_VERITE_HUNTERS_NAVIGATION,
-      ...COMPENDIUM_VERITE_HUNTERS_PNJ_NAVIGATION.filter(
-        (entry) => hunterPnjResolvedIds.get(entry.id) === entry.id
-      ),
-      ...COMPENDIUM_VERITE_FLEAUX_NAVIGATION,
-      ...COMPENDIUM_VERITE_FLEAUX_PNJ_NAVIGATION.filter(
-        (entry) => fleauxPnjResolvedIds.get(entry.id) === entry.id
-      ),
-      ...COMPENDIUM_VERITE_V7_PASS_B_RULE_NAVIGATION,
-      ...COMPENDIUM_VERITE_SPECIES_LORE_NAVIGATION,
-      ...COMPENDIUM_VERITE_SPECIES_PNJ_NAVIGATION.filter((entry) => byId.has(entry.id)),
-      ...COMPENDIUM_VERITE_FANTASTIQUES_NAVIGATION,
-      ...COMPENDIUM_VERITE_FANTASTIQUES_PNJ_NAVIGATION.filter((entry) => byId.has(entry.id)),
-      ...COMPENDIUM_VERITE_EXTRATERRESTRES_NAVIGATION,
-      ...COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_NAVIGATION.filter(
-        (entry) => extraterrestrialPnjResolvedIds.get(entry.id) === entry.id
-      ),
-      ...COMPENDIUM_VERITE_GALACTIC_LORE_NAVIGATION,
-      ...COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_NAVIGATION.filter(
-        (entry) => extralsGroupsPnjResolvedIds.get(entry.id) === entry.id
-      ),
-      ...COMPENDIUM_VERITE_HUMAN_GALACTIC_PNJ_NAVIGATION.filter(
-        (entry) => humanGalacticPnjResolvedIds.get(entry.id) === entry.id
-      ),
-      ...COMPENDIUM_POINTS_RENCONTRE_NAVIGATION,
-      ...COMPENDIUM_SHI_QI_NAVIGATION,
-      ...COMPENDIUM_POINTS_RENCONTRE_PNJ_NAVIGATION.filter(
-        (entry) => pointsRencontrePnjResolvedIds.get(entry.id) === entry.id
-      ),
-      ...generatedTalentHubs.navigation,
-      ...generatedBuilderReferences.navigation
-    ]
-      .filter((entry) => entry?.id && byId.has(String(entry.id)))
-      .map((entry) => [entry.id, entry as NavigationEntry])
-  );
-
-  for (const article of byId.values()) {
-    const manualImage = `${article.id}.webp`;
-    const currentMedia = article.illustration ?? article.image;
-    if (manualMediaFiles.has(manualImage) && (!currentMedia || isPlaceholderMedia(currentMedia))) {
-      const media = {
-        src: `images/manual/${manualImage}`,
-        alt: article.title ?? article.id,
-        caption: article.title ?? article.id
-      };
-      if (Object.prototype.hasOwnProperty.call(article, "illustration")) article.illustration = media;
-      else article.image = media;
-    }
-
-    const gallery = (manualGalleryByArticle.get(article.id) ?? [])
-      .map((filename) => ({
-        src: `images/manual/${filename}`,
-        alt: article.title ?? article.id,
-        caption: filename
-          .slice(article.id.length + 2, -5)
-          .replace(/[-_]+/g, " ")
-          .replace(/^./, (value) => value.toUpperCase())
-      }));
-    if (gallery.length) article.gallery = gallery;
-
-    article.title = ARTICLE_TITLE_FIXES[article.id] ?? article.title;
-    article.sourceCategory = article.sourceCategory ?? article.category;
-
-    const navEntry = navigation.get(article.id);
-    article.category = navEntry?.category ?? displayCategory(article);
-    if (navEntry) {
-      article.navigation = {
-        group: navEntry.group ?? "",
-        groupOrder: navEntry.groupOrder ?? 0,
-        subgroup: navEntry.subgroup ?? "",
-        subgroupOrder: navEntry.subgroupOrder ?? 0,
-        pageOrder: navEntry.pageOrder ?? 0
-      };
-    }
-
-    applyNavigationTaxonomy(article, navEntry);
-    applyTargetedEditorialCorrections(article);
-    article.manufacturer = manufacturerFor(article);
-    article.__searchText = norm(flattenText(article));
-  }
-
-  const legacyRows = await pool.query<{ articleId: string }>(
-    `SELECT article_id AS "articleId"
-     FROM compendium_legacy_articles`
-  );
-  let legacyIds = new Set(legacyRows.rows.map((row) => row.articleId));
-
-  // One-time cut-over: snapshot every article that exists at deployment time,
-  // except Equipment and Bestiary. Future pages are not automatically archived.
-  if (!legacyIds.size) {
-    const initialLegacyIds = [...byId.values()]
-      .filter((article) => !PROTECTED_REBUILD_CATEGORIES.has(String(article.category ?? "")))
-      .filter((article) => article.rebuildV2 !== true)
-      .map((article) => article.id);
-
-    if (initialLegacyIds.length) {
-      await pool.query(
-        `INSERT INTO compendium_legacy_articles (article_id)
-         SELECT unnest($1::text[])
-         ON CONFLICT (article_id) DO NOTHING`,
-        [initialLegacyIds]
-      );
-      legacyIds = new Set(initialLegacyIds);
-    }
-  }
-
-  for (const article of byId.values()) {
-    if (!legacyIds.has(article.id)) continue;
-    if (article.rebuildV2 === true) continue;
-    article.legacyCategory = article.category ?? "";
-    article.category = LEGACY_CATEGORY;
-    article.__legacy = true;
-    article.__searchText = norm(flattenText(article));
-  }
-
-  const articles = [...byId.values()].sort(compareArticles);
-  const publicArticles = articles.filter((article) => !isMjOnlyArticle(article)).map((article) => { const publicArticle=articleForAudience(article,false); publicArticle.__searchText=norm(flattenText(publicArticle)); return publicArticle; });
-  const publicById = new Map(publicArticles.map((article) => [article.id, article]));
-  const wikiIndexCompact = articles
-    .filter((article) => article.category !== LEGACY_CATEGORY)
-    .map((article) => {
-      const navigation = article.navigation as JsonObject | undefined;
-      return {
-        id: article.id,
-        title: article.title ?? article.id,
-        category: article.category ?? "",
-        dataset: article.dataset ?? "",
-        group: navigation?.group ?? "",
-        subgroup: navigation?.subgroup ?? "",
-        manufacturer: String(article.manufacturer ?? "")
-      };
-    });
-
-  const counts = new Map<string, number>();
-  for (const article of articles) {
-    if (article.category) counts.set(article.category, (counts.get(article.category) ?? 0) + 1);
-  }
-
-  const categories = [
-    ...CATEGORY_ORDER.filter((name) => counts.has(name)),
-    ...[...counts.keys()].filter((name) => !CATEGORY_ORDER.includes(name)).sort((a, b) => a.localeCompare(b, "fr"))
-  ].map((name) => ({ name, count: counts.get(name) ?? 0 }));
-
-  const manufacturerCounts = new Map<string, number>();
-  for (const article of articles) {
-    const manufacturer = String(article.manufacturer ?? "");
-    if (!manufacturer) continue;
-    manufacturerCounts.set(manufacturer, (manufacturerCounts.get(manufacturer) ?? 0) + 1);
-  }
-  const manufacturers = [...manufacturerCounts.entries()]
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, "fr"));
-
-  return {
-    manifest,
-    articles,
-    publicArticles,
-    byId,
-    publicById,
-    wikiIndexCompact,
-    editorBaseById,
-    navigation,
-    categories,
-    manufacturers,
-    overrideSummary,
-    databaseEditSummary: {
-      applied: databaseEditApplied,
-      conflicts: databaseEditConflicts
-    }
-  };
-}
-
-function getCorpus(): Promise<Corpus> {
-  if (!corpusPromise) corpusPromise = loadCorpus();
-  return corpusPromise;
-}
-
-export async function getCompendiumQualityCorpus() {
-  const corpus = await getCorpus();
-  return {
-    articles: corpus.articles,
-    publicArticles: corpus.publicArticles,
-    navigationIds: [...corpus.navigation.keys()],
-    databaseEditSummary: corpus.databaseEditSummary,
-    overrideSummary: corpus.overrideSummary
-  };
-}
-
-export async function preloadCompendium(): Promise<void> {
-  const started = performance.now();
-  const corpus = await getCorpus();
-  const elapsed = Math.round(performance.now() - started);
-  console.info(
-    `Compendium preloaded: ${corpus.articles.length} articles in ${elapsed} ms`
-  );
-}
-
-function navSort(article: Article): [number, number, number, string] {
-  const navigation = article.navigation as JsonObject | undefined;
-  return [
-    Number(navigation?.groupOrder ?? 9999),
-    Number(navigation?.subgroupOrder ?? 9999),
-    Number(navigation?.pageOrder ?? 9999),
-    article.title ?? article.id
-  ];
-}
-
-function compareArticles(a: Article, b: Article): number {
-  const left = navSort(a);
-  const right = navSort(b);
-  for (let index = 0; index < 3; index += 1) {
-    const difference = Number(left[index]) - Number(right[index]);
-    if (difference) return difference;
-  }
-  return String(left[3]).localeCompare(String(right[3]), "fr", {
-    numeric: true,
-    sensitivity: "base"
-  });
-}
-
-function searchScore(article: Article, query: string): number {
-  if (!query) return 0;
-  const title = norm(article.title);
-  const q = norm(query);
-  let score = 0;
-  if (title === q) score += 1000;
-  else if (title.startsWith(q)) score += 500;
-  else if (title.includes(q)) score += 250;
-
-  const tags = norm((article.tags ?? []).join(" "));
-  if (tags.includes(q)) score += 100;
-
-  const navigation = article.navigation as JsonObject | undefined;
-  if (norm(`${navigation?.group ?? ""} ${navigation?.subgroup ?? ""}`).includes(q)) score += 80;
-
-  return score;
-}
-
-function searchItem(article: Article, query: string) {
-  const navigation = article.navigation as JsonObject | undefined;
-  return {
-    id: article.id,
-    title: article.title ?? article.id,
-    category: article.category ?? "",
-    dataset: article.dataset ?? "",
-    source: article.source ?? "",
-    status: article.status ?? "",
-    group: navigation?.group ?? "",
-    subgroup: navigation?.subgroup ?? "",
-    tags: article.tags ?? [],
-    manufacturer: String(article.manufacturer ?? ""),
-    edited: Boolean(article.__editorialOverride),
-    snippet: articleSnippet(article, query)
-  };
-}
-
-async function loadUserLibrary(userId: string, corpus: Corpus, includeMj: boolean) {
-  const [favoriteRows, collectionRows, itemRows, historyRows] = await Promise.all([
-    pool.query<{ articleId: string }>(
-      `SELECT article_id AS "articleId"
-       FROM compendium_favorites
-       WHERE user_id = $1
-       ORDER BY created_at DESC`,
-      [userId]
-    ),
-    pool.query<{
-      id: string;
-      name: string;
-      createdAt: string;
-      updatedAt: string;
-    }>(
-      `SELECT
-         id,
-         name,
-         created_at::text AS "createdAt",
-         updated_at::text AS "updatedAt"
-       FROM compendium_collections
-       WHERE owner_id = $1
-       ORDER BY updated_at DESC, name ASC`,
-      [userId]
-    ),
-    pool.query<{ collectionId: string; articleId: string }>(
-      `SELECT
-         i.collection_id AS "collectionId",
-         i.article_id AS "articleId"
-       FROM compendium_collection_items i
-       JOIN compendium_collections c ON c.id = i.collection_id
-       WHERE c.owner_id = $1
-       ORDER BY i.created_at DESC`,
-      [userId]
-    ),
-    pool.query<{ articleId: string; viewedAt: string; viewCount: number }>(
-      `SELECT
-         article_id AS "articleId",
-         viewed_at::text AS "viewedAt",
-         view_count AS "viewCount"
-       FROM compendium_history
-       WHERE user_id = $1
-       ORDER BY viewed_at DESC
-       LIMIT 50`,
-      [userId]
-    )
-  ]);
-
-  const visibleItem = (id: string) => {
-    const article = corpus.byId.get(id);
-    if (!article || article.category === LEGACY_CATEGORY) return null;
-    return searchItem(articleForAudience(article, includeMj), "");
-  };
-
-  const favorites = favoriteRows.rows.map((row) => row.articleId);
-  const favoriteItems = favorites
-    .map(visibleItem)
-    .filter((article): article is ReturnType<typeof searchItem> => Boolean(article));
-
-  const idsByCollection = new Map<string, string[]>();
-  for (const row of itemRows.rows) {
-    const ids = idsByCollection.get(row.collectionId) ?? [];
-    ids.push(row.articleId);
-    idsByCollection.set(row.collectionId, ids);
-  }
-
-  const collections = collectionRows.rows.map((collection) => {
-    const articleIds = idsByCollection.get(collection.id) ?? [];
-    return {
-      ...collection,
-      articleIds,
-      items: articleIds
-        .map(visibleItem)
-        .filter((article): article is ReturnType<typeof searchItem> => Boolean(article))
-    };
-  });
-
-  const recentItems = historyRows.rows
-    .map((row) => {
-      const item = visibleItem(row.articleId);
-      return item ? { ...item, viewedAt: row.viewedAt, viewCount: row.viewCount } : null;
-    })
-    .filter((item): item is ReturnType<typeof searchItem> & { viewedAt: string; viewCount: number } => Boolean(item));
-
-  return { favorites, favoriteItems, collections, recentItems };
-}
-
-async function ownedCollection(collectionId: string, userId: string): Promise<boolean> {
-  const result = await pool.query(
-    `SELECT 1
-     FROM compendium_collections
-     WHERE id = $1 AND owner_id = $2`,
-    [collectionId, userId]
-  );
-  return Boolean(result.rowCount);
-}
-
-export async function registerCompendiumRoutes(app: FastifyInstance) {
-  app.get("/api/compendium/meta", async (request) => {
-    const corpus = await getCorpus();
-    const user = await currentUser(request);
-    const canAuditLegacy = isEditorRole(user?.role);
-    const activeTotal = corpus.articles.filter((article) => article.category !== LEGACY_CATEGORY).length;
-    const archivedTotal = corpus.articles.length - activeTotal;
-    return {
-      version: corpus.manifest.version,
-      generated: corpus.manifest.generated ?? null,
-      total: activeTotal,
-      archivedTotal,
-      expectedTotal: null,
-      categories: corpus.categories.filter((entry) => entry.name !== LEGACY_CATEGORY || canAuditLegacy),
-      manufacturers: corpus.manufacturers,
-      overrides: corpus.overrideSummary,
-      databaseEdits: corpus.databaseEditSummary
-    };
-  });
-
-  app.get<{
-    Querystring: { compact?: string };
-  }>("/api/compendium/wiki-index", async (request) => {
-    const corpus = await getCorpus();
-    const user = await currentUser(request);
-    const includeMj = canReadMj(user?.role);
-    if (request.query.compact === "1") {
-      if (includeMj) return { entries: corpus.wikiIndexCompact };
-      return {
-        entries: [...corpus.publicById.values()]
-          .filter((article) => article.category !== LEGACY_CATEGORY)
-          .map((article) => {
-            const navigation = article.navigation as JsonObject | undefined;
-            return {
-              id: article.id,
-              title: article.title ?? article.id,
-              category: article.category ?? "",
-              dataset: article.dataset ?? "",
-              group: navigation?.group ?? "",
-              subgroup: navigation?.subgroup ?? "",
-              manufacturer: String(article.manufacturer ?? "")
-            };
-          })
-      };
-    }
-    const articles = (includeMj ? corpus.articles : corpus.publicArticles)
-      .filter((article) => article.category !== LEGACY_CATEGORY);
-    return {
-      entries: articles.map((article) => {
-        const navigation = article.navigation as JsonObject | undefined;
-        return {
-          id: article.id,
-          title: article.title ?? article.id,
-          category: article.category ?? "",
-          dataset: article.dataset ?? "",
-          group: navigation?.group ?? "",
-          subgroup: navigation?.subgroup ?? "",
-          manufacturer: String(article.manufacturer ?? ""),
-          snippet: wikiPreviewText(article),
-          media: article.illustration ?? article.image ?? null
-        };
-      })
-    };
-  });
-
-  app.get<{
-    Params: { id: string };
-  }>("/api/compendium/wiki-preview/:id", async (request, reply) => {
-    const id = request.params.id.trim();
-    if (!id || id.length > 240) return bad(reply, "invalid_compendium_article_id");
-
-    const corpus = await getCorpus();
-    const user = await currentUser(request);
-    const includeMj = canReadMj(user?.role);
-    const article = (includeMj ? corpus.byId : corpus.publicById).get(id);
-    if (!article) return reply.code(404).send({ error: "compendium_article_not_found" });
-
-    return {
-      id: article.id,
-      snippet: wikiPreviewText(article),
-      media: article.illustration ?? article.image ?? null
-    };
-  });
-
-  app.get<{
-    Querystring: {
-      q?: string;
-      category?: string;
-      dataset?: string;
-      manufacturer?: string;
-      limit?: string;
-      offset?: string;
-    };
-  }>("/api/compendium/search", async (request) => {
-    const corpus = await getCorpus();
-    const user = await currentUser(request);
-    const includeMj = canReadMj(user?.role);
-    const query = String(request.query.q ?? "").trim();
-    const normalizedQuery = norm(query);
-    const category = String(request.query.category ?? "").trim();
-    const dataset = String(request.query.dataset ?? "").trim();
-    const manufacturer = String(request.query.manufacturer ?? "").trim();
-    const limit = Math.min(100, Math.max(1, Number.parseInt(request.query.limit ?? "40", 10) || 40));
-    const offset = Math.max(0, Number.parseInt(request.query.offset ?? "0", 10) || 0);
-    const tokens = normalizedQuery.split(" ").filter(Boolean);
-
-    const sourceArticles = includeMj ? corpus.articles : corpus.publicArticles;
-    const canAuditLegacy = isEditorRole(user?.role);
-    let rows =
-      category === LEGACY_CATEGORY && canAuditLegacy
-        ? sourceArticles.filter((article) => article.category === LEGACY_CATEGORY)
-        : sourceArticles.filter((article) => article.category !== LEGACY_CATEGORY);
-
-    if (category && category !== LEGACY_CATEGORY) {
-      rows = rows.filter((article) => article.category === category);
-    }
-    if (category === LEGACY_CATEGORY && !canAuditLegacy) rows = [];
-    if (dataset) rows = rows.filter((article) => article.dataset === dataset);
-    if (manufacturer) {
-      const normalizedManufacturer = norm(manufacturer);
-      rows = rows.filter((article) => norm(article.manufacturer) === normalizedManufacturer);
-    }
-    if (tokens.length) {
-      rows = rows.filter((article) => {
-        const searchable = String(article.__searchText ?? "");
-        return tokens.every((token) => searchable.includes(token));
-      });
-    }
-
-    if (normalizedQuery) {
-      rows = [...rows].sort((a, b) => {
-        const scoreDifference = searchScore(b, query) - searchScore(a, query);
-        return scoreDifference || compareArticles(a, b);
-      });
-    }
-
-    const total = rows.length;
-    return {
-      q: query,
-      category,
-      dataset,
-      manufacturer,
-      total,
-      offset,
-      limit,
-      items: rows.slice(offset, offset + limit).map((article) => searchItem(article, query))
-    };
-  });
-
-  app.get("/api/compendium/onboarding", async () => {
-    const corpus = await getCorpus();
-    const exists = (id?: string) => {
-      if (!id) return false;
-      const article = corpus.byId.get(id);
-      return Boolean(article && article.category !== LEGACY_CATEGORY);
-    };
-    const activeCategories = new Set(
-      corpus.articles
-        .filter((article) => article.category !== LEGACY_CATEGORY)
-        .map((article) => String(article.category ?? ""))
-        .filter(Boolean)
-    );
-    const sanitizeNature = (item: JsonObject) => {
-      const rulesId = exists(String(item.rulesId ?? "")) ? String(item.rulesId) : undefined;
-      const loreId = exists(String(item.loreId ?? "")) ? String(item.loreId) : undefined;
-      return rulesId || loreId ? { ...deepClone(item), rulesId, loreId } : null;
-    };
-    return {
-      ...deepClone(COMPENDIUM_PLAYER_START),
-      basics: COMPENDIUM_PLAYER_START.basics.filter((item) => exists(item.id)),
-      loreHubs: COMPENDIUM_PLAYER_START.loreHubs.filter((item) => exists(item.id)),
-      natures: COMPENDIUM_PLAYER_START.natures
-        .map((item) => sanitizeNature(item as JsonObject))
-        .filter(Boolean),
-      restricted: COMPENDIUM_PLAYER_START.restricted
-        .map((item) => sanitizeNature(item as JsonObject))
-        .filter(Boolean),
-      categories: COMPENDIUM_PLAYER_START.categories
-        .filter((item) => activeCategories.has(item.category)),
-      available: {
-        basics: COMPENDIUM_PLAYER_START.basics.filter((item) => exists(item.id)).map((item) => item.id),
-        loreHubs: COMPENDIUM_PLAYER_START.loreHubs.filter((item) => exists(item.id)).map((item) => item.id)
-      }
-    };
-  });
-
-  app.get("/api/compendium/library", async (request, reply) => {
-    const user = await requireUser(request, reply);
-    if (!user) return;
-
-    const corpus = await getCorpus();
-    return loadUserLibrary(user.id, corpus, canReadMj(user.role));
-  });
-
-  app.put<{
-    Params: { id: string };
-  }>("/api/compendium/history/:id", async (request, reply) => {
-    const user = await requireUser(request, reply);
-    if (!user) return;
-
-    const id = request.params.id.trim();
-    const corpus = await getCorpus();
-    if (!id || id.length > 240 || !corpus.byId.has(id)) {
-      return reply.code(404).send({ error: "compendium_article_not_found" });
-    }
-
-    await pool.query(
-      `INSERT INTO compendium_history (user_id, article_id, viewed_at, view_count)
-       VALUES ($1, $2, now(), 1)
-       ON CONFLICT (user_id, article_id) DO UPDATE SET
-         viewed_at = now(),
-         view_count = compendium_history.view_count + 1`,
-      [user.id, id]
-    );
-
-    await pool.query(
-      `DELETE FROM compendium_history
-       WHERE user_id = $1
-         AND article_id NOT IN (
-           SELECT article_id
-           FROM compendium_history
-           WHERE user_id = $1
-           ORDER BY viewed_at DESC
-           LIMIT 100
-         )`,
-      [user.id]
-    );
-
-    return { articleId: id, recorded: true };
-  });
-
-  app.delete("/api/compendium/history", async (request, reply) => {
-    const user = await requireUser(request, reply);
-    if (!user) return;
-
-    await pool.query("DELETE FROM compendium_history WHERE user_id = $1", [user.id]);
-    return { cleared: true };
-  });
-
-  app.put<{
-    Params: { id: string };
-  }>("/api/compendium/favorites/:id", async (request, reply) => {
-    const user = await requireUser(request, reply);
-    if (!user) return;
-
-    const id = request.params.id.trim();
-    const corpus = await getCorpus();
-    if (!id || id.length > 240 || !corpus.byId.has(id)) {
-      return reply.code(404).send({ error: "compendium_article_not_found" });
-    }
-
-    await pool.query(
-      `INSERT INTO compendium_favorites (user_id, article_id)
-       VALUES ($1, $2)
-       ON CONFLICT (user_id, article_id) DO NOTHING`,
-      [user.id, id]
-    );
-
-    return { articleId: id, favorite: true };
-  });
-
-  app.delete<{
-    Params: { id: string };
-  }>("/api/compendium/favorites/:id", async (request, reply) => {
-    const user = await requireUser(request, reply);
-    if (!user) return;
-
-    const id = request.params.id.trim();
-    if (!id || id.length > 240) return bad(reply, "invalid_compendium_article_id");
-
-    await pool.query(
-      `DELETE FROM compendium_favorites
-       WHERE user_id = $1 AND article_id = $2`,
-      [user.id, id]
-    );
-
-    return { articleId: id, favorite: false };
-  });
-
-  app.post<{
-    Body: { name?: string };
-  }>("/api/compendium/collections", async (request, reply) => {
-    const user = await requireUser(request, reply);
-    if (!user) return;
-
-    const name = request.body?.name?.trim();
-    if (!validCollectionName(name)) return bad(reply, "invalid_collection_name");
-
-    try {
-      const result = await pool.query<{
-        id: string;
-        name: string;
-        createdAt: string;
-        updatedAt: string;
-      }>(
-        `INSERT INTO compendium_collections (owner_id, name)
-         VALUES ($1, $2)
-         RETURNING
-           id,
-           name,
-           created_at::text AS "createdAt",
-           updated_at::text AS "updatedAt"`,
-        [user.id, name]
-      );
-      return reply.code(201).send({
-        collection: { ...result.rows[0], articleIds: [], items: [] }
-      });
-    } catch (cause: any) {
-      if (cause?.code === "23505") {
-        return reply.code(409).send({ error: "collection_name_conflict" });
-      }
-      throw cause;
-    }
-  });
-
-  app.patch<{
-    Params: { id: string };
-    Body: { name?: string };
-  }>("/api/compendium/collections/:id", async (request, reply) => {
-    const user = await requireUser(request, reply);
-    if (!user) return;
-
-    if (!UUID_RE.test(request.params.id)) return bad(reply, "invalid_collection_id");
-    const name = request.body?.name?.trim();
-    if (!validCollectionName(name)) return bad(reply, "invalid_collection_name");
-
-    try {
-      const result = await pool.query<{
-        id: string;
-        name: string;
-        createdAt: string;
-        updatedAt: string;
-      }>(
-        `UPDATE compendium_collections
-         SET name = $1, updated_at = now()
-         WHERE id = $2 AND owner_id = $3
-         RETURNING
-           id,
-           name,
-           created_at::text AS "createdAt",
-           updated_at::text AS "updatedAt"`,
-        [name, request.params.id, user.id]
-      );
-
-      if (!result.rows[0]) {
-        return reply.code(404).send({ error: "collection_not_found" });
-      }
-
-      return { collection: result.rows[0] };
-    } catch (cause: any) {
-      if (cause?.code === "23505") {
-        return reply.code(409).send({ error: "collection_name_conflict" });
-      }
-      throw cause;
-    }
-  });
-
-  app.delete<{
-    Params: { id: string };
-  }>("/api/compendium/collections/:id", async (request, reply) => {
-    const user = await requireUser(request, reply);
-    if (!user) return;
-
-    if (!UUID_RE.test(request.params.id)) return bad(reply, "invalid_collection_id");
-
-    const result = await pool.query(
-      `DELETE FROM compendium_collections
-       WHERE id = $1 AND owner_id = $2
-       RETURNING id`,
-      [request.params.id, user.id]
-    );
-
-    if (!result.rowCount) {
-      return reply.code(404).send({ error: "collection_not_found" });
-    }
-
-    return { deleted: true, id: request.params.id };
-  });
-
-  app.put<{
-    Params: { collectionId: string; articleId: string };
-  }>("/api/compendium/collections/:collectionId/articles/:articleId", async (request, reply) => {
-    const user = await requireUser(request, reply);
-    if (!user) return;
-
-    const { collectionId } = request.params;
-    const articleId = request.params.articleId.trim();
-    if (!UUID_RE.test(collectionId)) return bad(reply, "invalid_collection_id");
-
-    const corpus = await getCorpus();
-    if (!articleId || articleId.length > 240 || !corpus.byId.has(articleId)) {
-      return reply.code(404).send({ error: "compendium_article_not_found" });
-    }
-
-    if (!(await ownedCollection(collectionId, user.id))) {
-      return reply.code(404).send({ error: "collection_not_found" });
-    }
-
-    await pool.query(
-      `INSERT INTO compendium_collection_items (collection_id, article_id)
-       VALUES ($1, $2)
-       ON CONFLICT (collection_id, article_id) DO NOTHING`,
-      [collectionId, articleId]
-    );
-    await pool.query(
-      `UPDATE compendium_collections
-       SET updated_at = now()
-       WHERE id = $1`,
-      [collectionId]
-    );
-
-    return { collectionId, articleId, included: true };
-  });
-
-  app.delete<{
-    Params: { collectionId: string; articleId: string };
-  }>("/api/compendium/collections/:collectionId/articles/:articleId", async (request, reply) => {
-    const user = await requireUser(request, reply);
-    if (!user) return;
-
-    const { collectionId } = request.params;
-    const articleId = request.params.articleId.trim();
-    if (!UUID_RE.test(collectionId)) return bad(reply, "invalid_collection_id");
-
-    if (!(await ownedCollection(collectionId, user.id))) {
-      return reply.code(404).send({ error: "collection_not_found" });
-    }
-
-    await pool.query(
-      `DELETE FROM compendium_collection_items
-       WHERE collection_id = $1 AND article_id = $2`,
-      [collectionId, articleId]
-    );
-    await pool.query(
-      `UPDATE compendium_collections
-       SET updated_at = now()
-       WHERE id = $1`,
-      [collectionId]
-    );
-
-    return { collectionId, articleId, included: false };
-  });
-
-  app.get<{
-    Params: { "*": string };
-  }>("/api/compendium/media/*", async (request, reply) => {
-    const relative = safeMediaRelativePath(String(request.params["*"] ?? ""));
-    if (!relative) return bad(reply, "invalid_compendium_media_path");
-
-    try {
-      const body = await readFile(resolve(COMPENDIUM_MEDIA_DIR, relative));
-      reply.header("Content-Type", mediaContentType(relative));
-      reply.header("Cache-Control", "private, max-age=86400");
-      return reply.send(body);
-    } catch {
-      return reply.code(404).send({ error: "compendium_media_not_found" });
-    }
-  });
-
-  app.get<{
-    Params: { "*": string };
-  }>("/api/compendium/uploads/*", async (request, reply) => {
-    const filename = safeUploadFilename(String(request.params["*"] ?? ""));
-    if (!filename) return bad(reply, "invalid_compendium_upload_path");
-
-    try {
-      const body = await readFile(resolve(COMPENDIUM_UPLOAD_DIR, filename));
-      reply.header("Content-Type", mediaContentType(filename));
-      reply.header("Cache-Control", "public, max-age=31536000, immutable");
-      reply.header("X-Content-Type-Options", "nosniff");
-      return reply.send(body);
-    } catch {
-      return reply.code(404).send({ error: "compendium_media_not_found" });
-    }
-  });
-
-  app.post<{
-    Params: { id: string };
-    Body: {
-      data?: string;
-      slot?: "page" | "portrait";
-    };
-  }>(
-    "/api/compendium/editor/articles/:id/media",
-    { bodyLimit: 24 * 1024 * 1024 },
-    async (request, reply) => {
-      const user = await requireEditor(request, reply);
-      if (!user) return;
-
-      const id = String(request.params.id ?? "").trim();
-      if (!id || id.length > 240) return bad(reply, "invalid_compendium_article_id");
-
-      const corpus = await getCorpus();
-      const article = await editorCurrentArticle(id, corpus);
-      if (!article) {
-        return reply.code(404).send({ error: "compendium_article_not_found" });
-      }
-
-      const slot = request.body?.slot === "portrait" ? "portrait" : "page";
-      const encoded = String(request.body?.data ?? "").trim();
-      if (!encoded) return bad(reply, "compendium_image_required");
-      if (encoded.length > 21 * 1024 * 1024) {
-        return reply.code(413).send({ error: "compendium_image_too_large" });
-      }
-
-      const data = Buffer.from(encoded, "base64");
-      if (!data.length) return bad(reply, "invalid_compendium_image");
-      if (data.length > 15 * 1024 * 1024) {
-        return reply.code(413).send({ error: "compendium_image_too_large" });
-      }
-
-      const extension = uploadedImageExtension(data);
-      if (!extension) return bad(reply, "unsupported_compendium_image");
-
-      const safeId = id.replace(/[^a-zA-Z0-9_.-]+/g, "-").slice(0, 180);
-      const token = randomBytes(5).toString("hex");
-      const filename = `${safeId}--${slot}-${Date.now()}-${token}.${extension}`;
-
-      await mkdir(COMPENDIUM_UPLOAD_DIR, { recursive: true });
-      await writeFile(resolve(COMPENDIUM_UPLOAD_DIR, filename), data, { flag: "wx" });
-
-      return reply.code(201).send({
-        src: `/api/compendium/uploads/${filename}`,
-        filename,
-        slot,
-        contentType: mediaContentType(filename),
-        size: data.length
-      });
-    }
-  );
-
-  app.post<{
-    Body: {
-      title?: string;
-      category?: string;
-      source?: string;
-      status?: string;
-      tags?: string[];
-    };
-  }>("/api/compendium/editor/articles", async (request, reply) => {
-    const user = await requireEditor(request, reply);
-    if (!user) return;
-
-    const title = String(request.body?.title ?? "").trim();
-    const category = String(request.body?.category ?? "RÃ©alitÃ©").trim() || "RÃ©alitÃ©";
-    const source = String(request.body?.source ?? "").trim();
-    const status = String(request.body?.status ?? "canon_enrichi").trim() || "canon_enrichi";
-    const tags = Array.isArray(request.body?.tags)
-      ? request.body.tags.map((tag) => String(tag).trim()).filter(Boolean).slice(0, 100)
-      : [];
-
-    if (!title || title.length > 240) return bad(reply, "invalid_compendium_article_title");
-
-    const slug = slugifyArticleTitle(title);
-    if (!slug) return bad(reply, "invalid_compendium_article_title");
-
-    const corpus = await getCorpus();
-    let id = `wiki-${slug}`;
-    let suffix = 2;
-    while (
-      corpus.byId.has(id) ||
-      (await pool.query("SELECT 1 FROM compendium_custom_articles WHERE article_id = $1", [id])).rowCount
-    ) {
-      id = `wiki-${slug}-${suffix}`;
-      suffix += 1;
-    }
-
-    const base: Article = {
-      id,
-      title,
-      category,
-      sourceCategory: category,
-      dataset: "custom",
-      source,
-      status,
-      tags,
-      sections: []
-    };
-    const baseHash = articleHash(base);
-
-    const client = await pool.connect();
-    try {
-      await client.query("BEGIN");
-      await client.query(
-        `INSERT INTO compendium_custom_articles
-           (article_id, base_document, created_by)
-         VALUES ($1, $2::jsonb, $3)`,
-        [id, JSON.stringify(base), user.id]
-      );
-      await client.query(
-        `INSERT INTO compendium_article_edits
-           (article_id, base_hash, draft, draft_by, draft_updated_at, updated_at)
-         VALUES ($1, $2, $3::jsonb, $4, now(), now())`,
-        [id, baseHash, JSON.stringify(base), user.id]
-      );
-      await client.query("COMMIT");
-    } catch (cause) {
-      await client.query("ROLLBACK").catch(() => undefined);
-      throw cause;
-    } finally {
-      client.release();
-    }
-
-    return reply.code(201).send({ articleId: id, article: base });
-  });
-
-  app.get<{
-    Params: { id: string };
-  }>("/api/compendium/editor/articles/:id", async (request, reply) => {
-    const user = await requireEditor(request, reply);
-    if (!user) return;
-
-    const id = request.params.id.trim();
-    const corpus = await getCorpus();
-    const article = await editorCurrentArticle(id, corpus);
-    const base = await editorBaseFor(id, corpus);
-    if (!article || !base) {
-      return reply.code(404).send({ error: "compendium_article_not_found" });
-    }
-
-    const state = await pool.query<{
-      baseHash: string;
-      draft: Article | null;
-      draftUpdatedAt: string | null;
-      publishedAt: string | null;
-    }>(
-      `SELECT
-         base_hash AS "baseHash",
-         draft,
-         draft_updated_at::text AS "draftUpdatedAt",
-         published_at::text AS "publishedAt"
-       FROM compendium_article_edits
-       WHERE article_id = $1`,
-      [id]
-    );
-
-    const row = state.rows[0] ?? null;
-    const publicArticle = deepClone(article);
-    delete publicArticle.__searchText;
-
-    return {
-      article: publicArticle,
-      baseHash: base.hash,
-      draft: row?.draft ?? null,
-      draftUpdatedAt: row?.draftUpdatedAt ?? null,
-      publishedAt: row?.publishedAt ?? null,
-      conflict: Boolean(row && row.baseHash !== base.hash)
-    };
-  });
-
-  app.put<{
-    Params: { id: string };
-    Body: { article?: Article };
-  }>("/api/compendium/editor/articles/:id/draft", async (request, reply) => {
-    const user = await requireEditor(request, reply);
-    if (!user) return;
-
-    const id = request.params.id.trim();
-    const corpus = await getCorpus();
-    const current = await editorCurrentArticle(id, corpus);
-    const base = await editorBaseFor(id, corpus);
-    if (!current || !base) {
-      return reply.code(404).send({ error: "compendium_article_not_found" });
-    }
-
-    if (!validEditableArticle(request.body?.article)) {
-      return bad(reply, "invalid_compendium_article");
-    }
-
-    const draft = editableArticle(current, request.body.article);
-    await pool.query(
-      `INSERT INTO compendium_article_edits
-         (article_id, base_hash, draft, draft_by, draft_updated_at, updated_at)
-       VALUES ($1, $2, $3::jsonb, $4, now(), now())
-       ON CONFLICT (article_id) DO UPDATE SET
-         base_hash = EXCLUDED.base_hash,
-         draft = EXCLUDED.draft,
-         draft_by = EXCLUDED.draft_by,
-         draft_updated_at = now(),
-         updated_at = now()`,
-      [id, base.hash, JSON.stringify(draft), user.id]
-    );
-
-    return { articleId: id, draft, saved: true };
-  });
-
-  app.delete<{
-    Params: { id: string };
-  }>("/api/compendium/editor/articles/:id/draft", async (request, reply) => {
-    const user = await requireEditor(request, reply);
-    if (!user) return;
-
-    const id = request.params.id.trim();
-    await pool.query(
-      `UPDATE compendium_article_edits
-       SET draft = NULL,
-           draft_by = NULL,
-           draft_updated_at = NULL,
-           updated_at = now()
-       WHERE article_id = $1`,
-      [id]
-    );
-    return { articleId: id, draft: null };
-  });
-
-  app.post<{
-    Params: { id: string };
-  }>("/api/compendium/editor/articles/:id/publish", async (request, reply) => {
-    const user = await requireEditor(request, reply);
-    if (!user) return;
-
-    const id = request.params.id.trim();
-    const corpus = await getCorpus();
-    const base = await editorBaseFor(id, corpus);
-    if (!base) return reply.code(404).send({ error: "compendium_article_not_found" });
-
-    const client = await pool.connect();
-    try {
-      await client.query("BEGIN");
-      const state = await client.query<{
-        baseHash: string;
-        draft: Article | null;
-      }>(
-        `SELECT base_hash AS "baseHash", draft
-         FROM compendium_article_edits
-         WHERE article_id = $1
-         FOR UPDATE`,
-        [id]
-      );
-      const row = state.rows[0];
-      if (!row?.draft) {
-        await client.query("ROLLBACK");
-        return reply.code(409).send({ error: "compendium_draft_required" });
-      }
-      if (row.baseHash !== base.hash) {
-        await client.query("ROLLBACK");
-        return reply.code(409).send({ error: "compendium_source_changed" });
-      }
-
-      await client.query(
-        `INSERT INTO compendium_article_edit_revisions
-           (article_id, base_hash, document, published_by)
-         VALUES ($1, $2, $3::jsonb, $4)`,
-        [id, base.hash, JSON.stringify(row.draft), user.id]
-      );
-
-      await client.query(
-        `UPDATE compendium_article_edits
-         SET published = draft,
-             published_by = $2,
-             published_at = now(),
-             draft = NULL,
-             draft_by = NULL,
-             draft_updated_at = NULL,
-             updated_at = now()
-         WHERE article_id = $1`,
-        [id, user.id]
-      );
-      await client.query(
-        `UPDATE compendium_custom_articles
-         SET is_published = true,
-             published_at = COALESCE(published_at, now()),
-             updated_at = now()
-         WHERE article_id = $1`,
-        [id]
-      );
-      await client.query("COMMIT");
-    } catch (cause) {
-      await client.query("ROLLBACK").catch(() => undefined);
-      throw cause;
-    } finally {
-      client.release();
-    }
-
-    corpusPromise = null;
-    const refreshed = await getCorpus();
-    const article = refreshed.byId.get(id);
-    if (!article) return reply.code(404).send({ error: "compendium_article_not_found" });
-    const result = deepClone(article);
-    delete result.__searchText;
-    return { article: result, published: true };
-  });
-
-  app.get<{
-    Params: { id: string };
-  }>("/api/compendium/articles/:id", async (request, reply) => {
-    const id = request.params.id.trim();
-    if (!id || id.length > 240) return bad(reply, "invalid_compendium_article_id");
-
-    const corpus = await getCorpus();
-    const user = await currentUser(request);
-    const includeMj = canReadMj(user?.role);
-    const article = (includeMj ? corpus.byId : corpus.publicById).get(id);
-    if (!article) {
-      return reply.code(404).send({ error: "compendium_article_not_found" });
-    }
-
-    if (!includeMj) {
-      const { __searchText: _searchText, ...publicArticle } = article;
-      return { article: publicArticle };
-    }
-    return { article: articleForAudience(article, true) };
-  });
-}
+YªçŠx-®éÜj×¢ëiºÚ+Š§j[h‘éÜ¢éíçöí:-jZ.¶›­–)Ş³V–×÷'B²7&VFT†6‚Â&æFöÔ'—FW2Òg&öÒ&æöFS¦7'—Fò#°¦–×÷'B²Ö¶F—"Â&VDf–ÆRÂ&VFF—"Âw&—FTf–ÆRÒg&öÒ&æöFS¦g2÷&öÖ—6W2#°¦–×÷'B²&W6öÇfRÒg&öÒ&æöFS§F‚#°¦–×÷'B²wVç¦—7–æ2Òg&öÒ&æöFS§¦Æ–"#°¦–×÷'BG—R²f7F–g”–ç7Fæ6RÂf7F–g•&WÇ’Òg&öÒ&f7F–g’#°¦–×÷'B²7W'&VçEW6W"Â&WV—&UW6W"Òg&öÒ"âöWF‚æ§2#°¦–×÷'B²ööÂÒg&öÒ"âöF"æ§2#°¦–×÷'B°¢4ôÕTäD•TÕôuT”DUô%D”4ÄU2À¢4ôÕTäD•TÕôuT”DUôäd”tD”ôâÀ¢4ôÕTäD•TÕõÄ”U%õ5D%@§Òg&öÒ"âö6ö×VæF—VÒÖöæ&ö&F–æræ§2#°¦–×÷'B²vVæW&FVEFÆVçD‡V$6÷'W2Òg&öÒ"âö6ö×VæF—VÒ×FÆVçBÖ‡V'2æ§2#°¦–×÷'B²vVæW&FVD'V–ÆFW%&VfW&Væ6T6÷'W2Òg&öÒ"âö6ö×VæF—VÒÖ'V–ÆFW"×&VfW&Væ6W2æ§2#°¦–×÷'B°¢4ôÕTäD•TÕôÔõDUU%õcEô%D”4ÄU2À¢4ôÕTäD•TÕôÔõDUU%õcEôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒÖÖ÷FWW"×cBæ§2#°¦–×÷'B°¢4ôÕTäD•TÕõ$TÄ•DUõc•ôÄõ$Uô%D”4ÄU2À¢4ôÕTäD•TÕõ$TÄ•DUõc•ôÄõ$Uôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×&VÆ—FR×c’ÖÆ÷&Ræ§2#°¦–×÷'B°¢4ôÕTäD•TÕõ$TÄ•DUõc•ô4õ%õ$D”ôå5ô…T%ô”BÀ¢4ôÕTäD•TÕõ$TÄ•DUõc•ô4õ%õ$D”ôå5ô…T%ôTå$”4„ÔTåBÀ¢4ôÕTäD•TÕõ$TÄ•DUõc•ô4õ%õ$D”ôå5ô%D”4ÄU2À¢4ôÕTäD•TÕõ$TÄ•DUõc•ô4õ%õ$D”ôå5ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×&VÆ—FR×c’Ö6÷'÷&F–öç2æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõ$TÄ•DUõc•ô4õ%õ$D”ôå5õä¥ô%D”4ÄU2À¢4ôÕTäD•TÕõ$TÄ•DUõc•ô4õ%õ$D”ôå5õä¥ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×&VÆ—FR×c’Ö6÷'÷&F–öç2×æ¢æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõ$TÄ•DUõc•õTu$Uô%D”4ÄU2À¢4ôÕTäD•TÕõ$TÄ•DUõc•õTu$Uôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×&VÆ—FR×c’×Vw&Ræ§2#°¦–×÷'B°¢4ôÕTäD•TÕõ$TÄ•DUõc•õTu$Uõä¥ô%D”4ÄU2À¢4ôÕTäD•TÕõ$TÄ•DUõc•õTu$Uõä¥ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×&VÆ—FR×c’×Vw&R×æ¢æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõ$TÄ•DUõc•õôÄ”4Uô…T%õ4T5D”ôå2À¢4ôÕTäD•TÕõ$TÄ•DUõc•õôÄ”4Uô%D”4ÄU2À¢4ôÕTäD•TÕõ$TÄ•DUõc•õôÄ”4Uôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×&VÆ—FR×c’×öÆ–6Ræ§2#°¦–×÷'B°¢4ôÕTäD•TÕõ$TÄ•DUõc•õôÄ”4Uõä¥ô%D”4ÄU2À¢4ôÕTäD•TÕõ$TÄ•DUõc•õôÄ”4Uõä¥ôäd”tD”ôâÀ¢4ôÕTäD•TÕõ$TÄ•DUõc•õôÄ”4Uõä¥ôTå$”4„ÔTåE0§Òg&öÒ"âö6ö×VæF—VÒ×&VÆ—FR×c’×öÆ–6R×æ¢æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõ$TÄ•DUõc•ôtõdU$äÔTåEô…T%õ4T5D”ôå2À¢4ôÕTäD•TÕõ$TÄ•DUõc•ôtõdU$äÔTåEô%D”4ÄU2À¢4ôÕTäD•TÕõ$TÄ•DUõc•ôtõdU$äÔTåEôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×&VÆ—FR×c’Öv÷fW&æÖVçBæ§2#°¦–×÷'B°¢4ôÕTäD•TÕõ$TÄ•DUõc•ôtõdU$äÔTåEõä¥ô%D”4ÄU2À¢4ôÕTäD•TÕõ$TÄ•DUõc•ôtõdU$äÔTåEõä¥ôäd”tD”ôâÀ¢4ôÕTäD•TÕõ$TÄ•DUõc•ôtõdU$äÔTåEõä¥ôTå$”4„ÔTåE2À¢4ôÕTäD•TÕõ$TÄ•DUõc•ôtõdU$äÔTåEõE%UD…õä¥ôTå$”4„ÔTåE0§Òg&öÒ"âö6ö×VæF—VÒ×&VÆ—FR×c’Öv÷fW&æÖVçB×æ¢æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõ$TÄ•DUõc•ôtTä4”U5ô…T%ô”BÀ¢4ôÕTäD•TÕõ$TÄ•DUõc•ôtTä4”U5ô…T"À¢4ôÕTäD•TÕõ$TÄ•DUõc•ôtTä4”U5ô%D”4ÄU2À¢4ôÕTäD•TÕõ$TÄ•DUõc•ôtTä4”U5ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×&VÆ—FR×c’ÖvVæ6–W2æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõ$TÄ•DUõc•ôtTä4”U5õä¥ô%D”4ÄU2À¢4ôÕTäD•TÕõ$TÄ•DUõc•ôtTä4”U5õä¥ôäd”tD”ôâÀ¢4ôÕTäD•TÕõ$TÄ•DUõc•ôtTä4”U5õä¥ôTå$”4„ÔTåE0§Òg&öÒ"âö6ö×VæF—VÒ×&VÆ—FR×c’ÖvVæ6–W2×æ¢æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõ$TÄ•DUõc•ô5$tÄU%5ô…T%ô”BÀ¢4ôÕTäD•TÕõ$TÄ•DUõc•ô5$tÄU%5ô…T%õ4õU$4RÀ¢4ôÕTäD•TÕõ$TÄ•DUõc•ô5$tÄU%5ô…T%õDu2À¢4ôÕTäD•TÕõ$TÄ•DUõc•ô5$tÄU%5ô…T%õ4T5D”ôå2À¢4ôÕTäD•TÕõ$TÄ•DUõc•ô5$tÄU%5ô%D”4ÄUôTå$”4„ÔTåE2À¢4ôÕTäD•TÕõ$TÄ•DUõc•ô5$tÄU%5ô%D”4ÄU2À¢4ôÕTäD•TÕõ$TÄ•DUõc•ô5$tÄU%5ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×&VÆ—FR×c’Ö7&vÆW'2æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõ$TÄ•DUõc•ô5$tÄU%5õä¥ô%D”4ÄU2À¢4ôÕTäD•TÕõ$TÄ•DUõc•ô5$tÄU%5õä¥ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×&VÆ—FR×c’Ö7&vÆW'2×æ¢æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõ$TÄ•DUõc•õ$TÄ”t”ôåô%D”4ÄU2À¢4ôÕTäD•TÕõ$TÄ•DUõc•õ$TÄ”t”ôåôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×&VÆ—FR×c’×&VÆ–v–öç2æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõ$TÄ•DUõc•õ$TÄ”t”ôåõä¥ô%D”4ÄU2À¢4ôÕTäD•TÕõ$TÄ•DUõc•õ$TÄ”t”ôåõä¥ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×&VÆ—FR×c’×&VÆ–v–öâ×æ¢æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõ$TÄ•DUõc•ô4…$•5D”ä•E•ô%D”4ÄU2À¢4ôÕTäD•TÕõ$TÄ•DUõc•ô4…$•5D”ä•E•ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×&VÆ—FR×c’Ö6‡&—7F–æ—G’æ§2#°¦–×÷'B²4ôÕTäD•TÕõ$TÄ•DUõc•ô4…$•5D”ä•E•ôÄõ$Uô%D”4ÄRÒg&öÒ"âö6ö×VæF—VÒ×&VÆ—FR×c’Ö6‡&—7F–æ—G’ÖÆ÷&Ræ§2#°¦–×÷'B°¢4ôÕTäD•TÕõ$TÄ•DUõc•õ%TÄUô%D”4ÄU2À¢4ôÕTäD•TÕõ$TÄ•DUõc•õ%TÄUôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×&VÆ—FR×c’×'VÆW2æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUõcuôÄõ$Uô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUõcuôÄõ$Uôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FR×crÖÆ÷&Ræ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUõcuõ%TÄUô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUõcuõ%TÄUôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FR×cr×'VÆW2æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUõcuô´„”äUôÄõ$Uô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUõcuô´„”äUõ%TÄUô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUõcuô´„”äUôÄõ$Uôäd”tD”ôâÀ¢4ôÕTäD•TÕõdU$•DUõcuô´„”äUõ%TÄUôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FR×crÖ¶†–æRæ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUõcuôÔtUô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUõcuôÔtUôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FR×crÖÖvW2æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUôÄôtU5ôÔtU5õ4õU$4RÀ¢4ôÕTäD•TÕõdU$•DUôÄôtU5ôÔtU5ô…T%ô”BÀ¢4ôÕTäD•TÕõdU$•DUôÄôtU5ôÔtU5ô…T%õ4T5D”ôå2À¢4ôÕTäD•TÕõdU$•DUôÄôtU5ôÔtU5õä¥ô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUôÄôtU5ôÔtU5õä¥ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FRÖÆövW2ÖÖvW2æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUõcuôDTÔôåô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUõcuôDTÔôåôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FR×crÖFVÖöç2æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUõcuôätTÅU5ô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUõcuôätTÅU5ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FR×crÖævVÇW2æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUôätTÅU5ô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUôätTÅU5ôTå$”4„ÔTåE2À¢4ôÕTäD•TÕõdU$•DUôätTÅU5ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FRÖævVÇW2×6÷W&6Ræ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUôätTÅU5õä¥ô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUôätTÅU5õä¥ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FRÖævVÇW2×æ¢æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUõDTÕÄU5ôDTÔôä”TU5õ4õU$4RÀ¢4ôÕTäD•TÕõdU$•DUõDTÕÄU5ôDTÔôä”TU5ôätTÅU5õ4õU$4RÀ¢4ôÕTäD•TÕõdU$•DUõDTÕÄU5ôDTÔôä”TU5ô…T%ô”BÀ¢4ôÕTäD•TÕõdU$•DUõDTÕÄU5ôDTÔôä”TU5ô…T%õ4T5D”ôå2À¢4ôÕTäD•TÕõdU$•DUõDTÕÄU5ôDTÔôä”TU5ôÄU4Ä”UôTå$”4„ÔTåBÀ¢4ôÕTäD•TÕõdU$•DUõDTÕÄU5ôDTÔôä”TU5ôätTÅU5õ$TÄD”ôå0§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FR×FV×ÆW2ÖFVÖöæ–VW2æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUõDTÕÄU5ôDTÔôä”TU5õä¥ô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUõDTÕÄU5ôDTÔôä”TU5õä¥ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FR×FV×ÆW2ÖFVÖöæ–VW2×æ¢æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõDTåô$4´u$õTäEôTå$”4„ÔTåE2À¢4ôÕTäD•TÕõDTåõ5dUDÄäô%D”4ÄRÀ¢4ôÕTäD•TÕõDTåõ5dUDÄäôäd”tD”ôâÀ¢4ôÕTäD•TÕõDTåô$´„ätTÅôÄ”ä°§Òg&öÒ"âö6ö×VæF—VÒ×FVâÖ&6¶w&÷VæG2æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõDTåõtUô%D”4ÄRÀ¢4ôÕTäD•TÕõDTåõtUôäd”tD”ôâÀ¢4ôÕTäD•TÕõDTåõE%UD…ôTå$”4„ÔTåE0§Òg&öÒ"âö6ö×VæF—VÒ×FVâÖ6æöâæ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUõDTåõ4õU$4RÀ¢4ôÕTäD•TÕõdU$•DUõDTåô4…$ôäôÄôu•ô%D”4ÄRÀ¢4ôÕTäD•TÕõdU$•DUõDTåôTå$”4„ÔTåE2À¢4ôÕTäD•TÕõdU$•DUõDTåôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FR×FVâÖ6F7G&÷†W2æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUõcuô4U%”åô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUõcuô4U%”åôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FR×crÖ6W'–ç2æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUô4U%”åõDU%$U5õDTÕÄU5õ4õU$4RÀ¢4ôÕTäD•TÕõdU$•DUô4U%”åô…T%ô”BÀ¢4ôÕTäD•TÕõdU$•DUô4U%”åô…T%õ4T5D”ôå2À¢4ôÕTäD•TÕõdU$•DUô4U%”åõDU%$U5õDTÕÄU5ô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUô4U%”åõDU%$U5õDTÕÄU5ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FRÖ6W'–â×FW'&W2×FV×ÆW2æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUô4U%”åõDU%$U5õDTÕÄU5õä¥ô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUô4U%”åõDU%$U5õDTÕÄU5õä¥ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FRÖ6W'–â×FW'&W2×FV×ÆW2×æ¢æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUôu$äE5ôU„”ÄU5õ4õU$4RÀ¢4ôÕTäD•TÕõdU$•DUôu$äE5ôU„”ÄU5ô…T%ô”BÀ¢4ôÕTäD•TÕõdU$•DUôu$äE5ôU„”ÄU5ô…T%õ4T5D”ôå2À¢4ôÕTäD•TÕõdU$•DUôu$äE5ôU„”ÄU5ô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUôu$äE5ôU„”ÄU5ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FRÖw&æG2ÖW†–ÆW2æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUôu$äE5ôU„”ÄU5ô…T%ôÄõ$Uõ4T5D”ôå2À¢4ôÕTäD•TÕõdU$•DUôu$äE5ôU„”ÄU5ô%D”4ÄUôÄõ$Uõ4T5D”ôå0§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FRÖw&æG2ÖW†–ÆW2ÖÆ÷&Ræ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUôu$äE5ôU„”ÄU5õä¥ô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUôu$äE5ôU„”ÄU5õä¥ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FRÖw&æG2ÖW†–ÆW2×æ¢æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUõcuõ55ô%ô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUõcuõ55ô%ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FR×cr×72Ö"æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUô…TåDU%5õ4õU$4RÀ¢4ôÕTäD•TÕõdU$•DUô…TåDU%5ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FRÖ‡VçFW'2×6÷W&6Ræ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUô…TåDU%5ôÄõ$Uô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUô…TåDU%5ôÄõ$UôTå$”4„ÔTåE2À¢4ôÕTäD•TÕõdU$•DUô…TåDU%5ô4„54UôdåD5D•TUô…T%ôTå$”4„ÔTå@§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FRÖ‡VçFW'2ÖÆ÷&Ræ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUô…TåDU%5õä¥ô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUô…TåDU%5õä¥ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FRÖ‡VçFW'2×æ¢æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUôdÄTU…õ4õU$4RÀ¢4ôÕTäD•TÕõdU$•DUôdÄTU…ôU„•5D”äuõä¥õ4õU$4U2À¢4ôÕTäD•TÕõdU$•DUôdÄTU…ôäUuõä¥ô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUôdÄTU…ôäd”tD”ôâÀ¢4ôÕTäD•TÕõdU$•DUôdÄTU…õä¥ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FRÖfÆVW‚Öfö7W2æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUôdÄTU…ôÄõ$Uô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUôdÄTU…ôÄõ$UôTå$”4„ÔTåE0§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FRÖfÆVW‚ÖÆ÷&Ræ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUõcuõ55ô%õ%TÄUô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUõcuõ55ô%õ%TÄUôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FR×cr×72Ö"×'VÆW2æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUõ5T4”U5ôÄõ$Uô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUõ5T4”U5ôÄõ$Uôäd”tD”ôâÀ¢4ôÕTäD•TÕõdU$•DUõ5T4”U5ôTå$”4„ÔTåE0§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FR×7V6–W2ÖÆ÷&Ræ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUõ5T4”U5õä¥ô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUõ5T4”U5õä¥ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FR×7V6–W2×æ¢æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUôdåD5D•TU5ô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUôdåD5D•TU5ôäd”tD”ôâÀ¢4ôÕTäD•TÕõdU$•DUôdåD5D•TU5ôTå$”4„ÔTåE0§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FRÖfçF7F—VW2ÖÆ÷&Ræ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUôdåD5D•TU5õä¥ô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUôdåD5D•TU5õä¥ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FRÖfçF7F—VW2×æ¢æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUôU…E$DU%$U5E$U5ô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUôU…E$DU%$U5E$U5ôäd”tD”ôâÀ¢4ôÕTäD•TÕõdU$•DUôU…E$DU%$U5E$U5ôTå$”4„ÔTåE0§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FRÖW‡G&FW'&W7G&W2ÖÆ÷&Ræ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUôU…E$DU%$U5E$U5õä¥ô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUôU…E$DU%$U5E$U5õä¥ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FRÖW‡G&FW'&W7G&W2×æ¢æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUôtÄ5D”5ôÄõ$Uô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUôtÄ5D”5ôÄõ$Uôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FRÖvÆ7F–2Öf7F–öç2ÖÆ÷&Ræ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUôU…E$Å5ôu$õU5õä¥ô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUôU…E$Å5ôu$õU5õä¥ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FRÖW‡G&Ç2Öw&÷W2×æ¢æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUô…TÔåôtÄ5D”5õä¥ô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUô…TÔåôtÄ5D”5õä¥ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FRÖ‡VÖç2ÖvÆ7F–2×æ¢æ§2#°¦–×÷'B²4ôÕTäD•TÕõdU$•DUõdÕ•$Uô4õU%E5õ4õU$4RÂ4ôÕTäD•TÕõdU$•DUõdÕ•$Uô4õU%E5ô%D”4ÄU2Â4ôÕTäD•TÕõdU$•DUõdÕ•$Uô4õU%E5ôTå$”4„ÔTåE2Â4ôÕTäD•TÕõdU$•DUõdÕ•$Uô4õU%E5ôäd”tD”ôâÒg&öÒ"âö6ö×VæF—VÒ×fW&—FR×f×—&RÖ6÷W'G2ÖÆ÷&Ræ§2#°¦–×÷'B²4ôÕTäD•TÕõdU$•DUõdÕ•$Uô4õU%E5õä¥ô%D”4ÄU2Â4ôÕTäD•TÕõdU$•DUõdÕ•$Uô4õU%E5õä¥ôäd”tD”ôâÒg&öÒ"âö6ö×VæF—VÒ×fW&—FR×f×—&RÖ6÷W'G2×æ¢æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUõTÄtU5ô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUõTÄtU5ôTå$”4„ÔTåE2À¢4ôÕTäD•TÕõdU$•DUõTÄtU5ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FR×VÆvW2ÖÆ÷&Ræ§2#°¦–×÷'B°¢4ôÕTäD•TÕõdU$•DUõTÄtU5õä¥ô%D”4ÄU2À¢4ôÕTäD•TÕõdU$•DUõTÄtU5õä¥ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×fW&—FR×VÆvW2×æ¢æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõô”åE5õ$Tä4ôåE$Uô%D”4ÄU2À¢4ôÕTäD•TÕõô”åE5õ$Tä4ôåE$Uôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×ö–çG2×&Væ6öçG&Ræ§2#°¦–×÷'B°¢4ôÕTäD•TÕõô”åE5õ$Tä4ôåE$Uõä¥ô%D”4ÄU2À¢4ôÕTäD•TÕõô”åE5õ$Tä4ôåE$Uõä¥ôäd”tD”ôà§Òg&öÒ"âö6ö×VæF—VÒ×ö–çG2×&Væ6öçG&R×æ¢æ§2#°¦–×÷'B°¢4ôÕTäD•TÕõ4„•õ•ô%D”4ÄU2À¢4ôÕTäD•TÕõ4„•õ•ôäd”tD”ôâÀ¢4ôÕTäD•TÕõ4„•õ•ôTå$”4„ÔTåE0§Òg&öÒ"âö6ö×VæF—VÒ×6†’×’æ§2#°¦–×÷'B²Ç”6ö×VæF—VÕæ¥&W—'2Òg&öÒ"âö6ö×VæF—VÒ×æ¢×&W—'2æ§2#° §G—R§6öäö&¦V7BÒ&V6÷&CÇ7G&–ærÂç“ã°¦W‡÷'BG—R'F–6ÆRÒ§6öäö&¦V7Bb°¢–C¢7G&–æs°¢F—FÆSó¢7G&–æs°¢6FVv÷'“ó¢7G&–æs°¢6÷W&6T6FVv÷'“ó¢7G&–æs°¢FF6WCó¢7G&–æs°¢6÷W&6Só¢7G&–æs°¢7FGW3ó¢7G&–æs°¢Fw3ó¢7G&–æuµÓ°¢6V7F–öç3ó¢§6öäö&¦V7EµÓ°§Ó° §G—RFF6WE7V2Ò°¢–C¢7G&–æs°¢&Vf—ƒ¢7G&–æs°¢'G3¢çVÖ&W#°¢6÷VçC¢çVÖ&W#°§Ó° §G—RÖæ–fW7BÒ°¢fW'6–öã¢çVÖ&W#°¢vVæW&FVCó¢7G&–æs°¢6FVv÷&–W3¢7G&–æuµÓ°¢7FGW4Æ&VÇ3ó¢&V6÷&CÇ7G&–ærÂ7G&–æsã°¢FF6WG3¢FF6WE7V5µÓ°¢W‡V7FVEF÷FÃó¢çVÖ&W#°§Ó° §G—Ræf–vF–öäVçG'’Ò°¢–C¢7G&–æs°¢FF6WCó¢7G&–æs°¢6FVv÷'“ó¢7G&–æs°¢w&÷Wó¢7G&–æs°¢w&÷W÷&FW#ó¢çVÖ&W#°¢7V&w&÷Wó¢7G&–æs°¢7V&w&÷W÷&FW#ó¢çVÖ&W#°¢vT÷&FW#ó¢çVÖ&W#°¢F—7Æ•F—FÆSó¢7G&–æs°§Ó° §G—R6÷'W2Ò°¢Öæ–fW7C¢Öæ–fW7C°¢'F–6ÆW3¢'F–6ÆUµÓ°¢V&Æ–4'F–6ÆW3¢'F–6ÆUµÓ°¢'”–C¢ÖÇ7G&–ærÂ'F–6ÆSã°¢V&Æ–4'”–C¢ÖÇ7G&–ærÂ'F–6ÆSã°¢v–¶”–æFW„6ö×7C¢'&“Å&V6÷&CÇ7G&–ærÂVæ¶æ÷vããã°¢VF—F÷$&6T'”–C¢ÖÇ7G&–ærÂ²†6ƒ¢7G&–æs²'F–6ÆS¢'F–6ÆRÓã°¢æf–vF–öã¢ÖÇ7G&–ærÂæf–vF–öäVçG'“ã°¢6FVv÷&–W3¢'&“Ç²æÖS¢7G&–æs²6÷VçC¢çVÖ&W"Óã°¢ÖçVf7GW&W'3¢'&“Ç²æÖS¢7G&–æs²6÷VçC¢çVÖ&W"Óã°¢÷fW'&–FU7VÖÖ'“¢²Æ–VC¢çVÖ&W#²6öæfÆ–7G3¢çVÖ&W#²Ö—76–æs¢çVÖ&W"Ó°¢FF&6TVF—E7VÖÖ'“¢²Æ–VC¢çVÖ&W#²6öæfÆ–7G3¢çVÖ&W"Ó°§Ó° ¦6öç7BÄTt5•ô4DTtõ%’Ò$ôÄB#°¦6öç7B$TÄ”t”ôåô$4„•dUô”Eõ$TÔ¢&V6÷&CÇ7G&–ærÂ7G&–æsâÒ°¢'æ¢ÓS’Ö&†–Ö×6†—&fF¶"#¢'æ¢×&VÆ–v–öç2Ö&†–Ö×6†—&fF¶""À¢'æ¢Óc"Ö6–&ÖÖ6f&ÆæR#¢'æ¢×&VÆ–v–öç2Ö6–&ÖÖ6f&ÆæR §Ó°¦6öç7B7F—fU&VÆ–v–öåæ¤–BÒ†–C¢7G&–ær’Óâ$TÄ”t”ôåô$4„•dUô”Eõ$TÔ¶–EÒóò–C°¦6öç7B$õDT5DTEõ$T%T”ÄEô4DTtõ$”U2ÒæWr6WB…²,8—V—VÖVçBbö&¦WG2"Â$&W7F–—&R%Ò“° ¦6öç7B4DTtõ%•ôõ$DU"Ò°¢%,:†vÆW2"À¢%,:–Æ—L:’"À¢%l:—&—L:’"À¢%W'6öæævW2"À¢,8—V—VÖVçBbö&¦WG2"À¢$&W7F–—&R"À¢ÄTt5•ô4DTtõ%¥Ó° ¦6öç7BUT•ÔTåEôÔåTd5EU$U%2Ò°¢%&fVâÕ6V†F–"À¢%&fVâÕ7Vçv—2"À¢$'&–FvTVÆV7G&–72"À¢$ö6VâÖ7FW""À¢$&6æWGv÷&²"À¢%6Vv&W2"À¢%†öVæ—‚"À¢%&fVâ"À¢$÷vÂ"À¢$'—&öâ"À¢$&–÷7Vâ"À¢%7Vçv—2"À¢$–6V6÷'2"À¢%FÆ"À¢%4$"À¢%4eR"À¢$Ööæ&6‚"À¢%F÷'Fö—6R ¥Ó° ¦6öç7B%D”4ÄUõD•DÄUôd•„U3¢&V6÷&CÇ7G&–ærÂ7G&–æsâÒ°¢'&VvÆW2×fW&—FRÖævVÇW2×6W†—&‚ÖæW6‚ÖÆ×f–7Fö—&R#¢$æW6‚(	BÆf–7Fö—&R §Ó° ¦6öç7B4ôÕTäD•TÕôDDôD•"Ğ¢&ö6W72æVçbä4ôÕTäD•TÕôDDôD•"óğ¢‡&ö6W72æVçbääôDUôTåbÓÓÒ'&öGV7F–öâ ¢ò"öö6ö×VæF—VÒÖFF ¢¢&W6öÇfR‡&ö6W72æ7vB‚’Â"ââòââö6ö×VæF—VÒöFF"’“° ¦6öç7B4ôÕTäD•TÕôÔTD”ôD•"Ğ¢&ö6W72æVçbä4ôÕTäD•TÕôÔTD”ôD•"óğ¢‡&ö6W72æVçbääôDUôTåbÓÓÒ'&öGV7F–öâ ¢ò"öö6ö×VæF—VÒÖÖVF– ¢¢&W6öÇfR‡&ö6W72æ7vB‚’Â"ââòââö6ö×VæF—VÒ"’“° ¦6öç7B4ôÕTäD•TÕõUÄôEôD•"Ğ¢&ö6W72æVçbä4ôÕTäD•TÕõUÄôEôD•"óğ¢‡&ö6W72æVçbääôDUôTåbÓÓÒ'&öGV7F–öâ ¢ò"ööVF—F÷"ÖÖVF– ¢¢&W6öÇfR‡&ö6W72æ7vB‚’Â"ââòââòæVF—F÷"ÖÖVF–"’“° ¦ÆWB6÷'W5&öÖ—6S¢&öÖ—6SÄ6÷'W3âÂçVÆÂÒçVÆÃ° ¦6öç7BUT”Eõ$RĞ¢õå³Ó–Öe×³‡ÒÕ³Ó–Öe×³GÒÕ³ÓUÕ³Ó–Öe×³7ÒÕ³ƒ–%Õ³Ó–Öe×³7ÒÕ³Ó–Öe×³'ÒBö“° ¦gVæ7F–öâfÆ–D6öÆÆV7F–öäæÖR‡fÇVS¢Væ¶æ÷vâ“¢fÇVR—27G&–ær°¢&WGW&âG—VöbfÇVRÓÓÒ'7G&–ær"bbfÇVRçG&–Ò‚’æÆVæwF‚ãÒbbfÇVRçG&–Ò‚’æÆVæwF‚ÃÒƒ°§Ğ ¦gVæ7F–öâ—4VF—F÷%&öÆR‡&öÆS¢Væ¶æ÷vâ“¢&ööÆVâ°¢&WGW&â&öÆRÓÓÒ&VF—F÷""ÇÂ&öÆRÓÓÒ&FÖ–â#°§Ğ ¦7–æ2gVæ7F–öâ&WV—&TVF—F÷"‡&WVW7C¢ç’Â&WÇ“¢f7F–g•&WÇ’’°¢6öç7BW6W"Òv—B&WV—&UW6W"‡&WVW7BÂ&WÇ’“°¢–b‚W6W"’&WGW&âçVÆÃ°¢–b‚—4VF—F÷%&öÆR‡W6W"ç&öÆR’’°¢&WÇ’æ6öFRƒC2’ç6VæB‡²W'&÷#¢&VF—F÷%÷&WV—&VB"Ò“°¢&WGW&âçVÆÃ°¢Ğ¢&WGW&âW6W#°§Ğ ¦gVæ7F–öâ6å&VDÖ¢‡&öÆS¢Væ¶æ÷vâ“¢&ööÆVâ°¢&WGW&â&öÆRÓÓÒ&vÒ"ÇÂ&öÆRÓÓÒ&VF—F÷""ÇÂ&öÆRÓÓÒ&FÖ–â#°§Ğ ¦gVæ7F–öâ—4Ö¤öæÇ”'F–6ÆR†'F–6ÆS¢'F–6ÆR“¢&ööÆVâ²&WGW&â'F–6ÆSòæVF–Væ6RÓÓÒ&Ö¢#²Ğ¦gVæ7F–öâ†5&÷FV7FVEæ¤–FVçF—G’†'F–6ÆS¢'F–6ÆR“¢&ööÆVâ°¢–b†'F–6ÆRæ6FVv÷'’ÓÒ%W'6öæævW2"ÇÂ'F–6ÆRçæ¢ÇÂG—Vöb'F–6ÆRçæ¢ÓÒ&ö&¦V7B"’&WGW&âfÇ6S°¢6öç7Bæ¢Ò'F–6ÆRçæ¢2§6öäö&¦V7C°¢6öç7B&VÄæÖRÒæ÷&Ò‡æ¢ç&VÅöæÖRóòæ¢ææöÕ÷&VVÂóòæ¢ææöÕ÷&VÆ—FRóò""“°¢6öç7BG'WF„æÖRÒæ÷&Ò‡æ¢ææöÕ÷fW&—FRóò""“°¢&WGW&â&ööÆVâ‡&VÄæÖRbbG'WF„æÖRbb&VÄæÖRÓÒG'WF„æÖR“°§Ğ ¦gVæ7F–öâ'F–6ÆTf÷$VF–Væ6R†'F–6ÆS¢'F–6ÆRÂ–æ6ÇVFTÖ£¢&ööÆVâ“¢'F–6ÆR°¢6öç7B&W7VÇBÒFVW6ÆöæR†'F–6ÆR“°¢–b‚–æ6ÇVFTÖ¢’°¢6öç7B&÷FV7FVD–FVçF—G’Ò†5&÷FV7FVEæ¤–FVçF—G’†'F–6ÆR“°¢–b„'&’æ—4'&’‡&W7VÇBç6V7F–öç2’’&W7VÇBç6V7F–öç2Ò&W7VÇBç6V7F–öç2æf–ÇFW"‚‡6V7F–öâ’Óâ6V7F–öãòæVF–Væ6RÓÒ&Ö¢"“°¢–b‡&W7VÇBçæ¢bbG—Vöb&W7VÇBçæ¢ÓÓÒ&ö&¦V7B"’°¢6öç7Bæ¢Ò&W7VÇBçæ¢2§6öäö&¦V7C°¢&W7VÇBçæ¢Ò²âââ‡æ¢ç÷'G&—C÷·÷'G&—C§æ¢ç÷'G&—GÓ§·Ò’Ââââ‡æ¢ç÷'G&—EöÇC÷·÷'G&—EöÇC§æ¢ç÷'G&—EöÇGÓ§·Ò’Ââââ‡æ¢ç÷'G&—Eö6F–öã÷·÷'G&—Eö6F–öã§æ¢ç÷'G&—Eö6F–öçÓ§·Ò—Ó°¢Ğ¢–b‡&÷FV7FVD–FVçF—G’’°¢FVÆWFR&W7VÇBæFF6WC°¢FVÆWFR&W7VÇBç6÷W&6S°¢FVÆWFR&W7VÇBç6÷W&6T6FVv÷'“°¢&W7VÇBçFw2ÒµÓ°¢–b‡&W7VÇBææf–vF–öâbbG—Vöb&W7VÇBææf–vF–öâÓÓÒ&ö&¦V7B"’°¢6öç7Bæf–vF–öâÒ&W7VÇBææf–vF–öâ2§6öäö&¦V7C°¢&W7VÇBææf–vF–öâÒ°¢w&÷W¢%W'6öæævW2"À¢w&÷W÷&FW#¢æf–vF–öâæw&÷W÷&FW"óòCRÀ¢7V&w&÷W¢""À¢7V&w&÷W÷&FW#¢æf–vF–öâç7V&w&÷W÷&FW"óòÀ¢vT÷&FW#¢æf–vF–öâçvT÷&FW"óò ¢Ó°¢Ğ¢Ğ¢Ğ¢FVÆWFR&W7VÇBåõ÷6V&6…FW‡C°¢&WGW&â&W7VÇC°§Ğ ¦gVæ7F–öâ6æöæ–6Ä6FVv÷'’†'F–6ÆS¢'F–6ÆR“¢7G&–ær°¢&WGW&â7G&–ær†'F–6ÆRæÆVv7”6FVv÷'’óò'F–6ÆRæ6FVv÷'’óò""“°§Ğ ¦W‡÷'B7–æ2gVæ7F–öâf–æD6ö×VæF—VÔÖF6†W2€¢Æ&VÃ¢7G&–ærÀ¢6FVv÷'’Ò" ¢“¢&öÖ—6SÄ'&“Ç²–C¢7G&–æs²F—FÆS¢7G&–æs²6FVv÷'“¢7G&–ærÓãâ°¢6öç7BF&vWBÒæ÷&Ò†Æ&VÂ“°¢–b‚F&vWB’&WGW&âµÓ°¢6öç7B6÷'W2Òv—BvWD6÷'W2‚“°¢ÆWBÖF6†W2Ò6÷'W2æ'F–6ÆW2æf–ÇFW"‚†'F–6ÆR’Óâæ÷&Ò†'F–6ÆRçF—FÆR’ÓÓÒF&vWB“°¢–b†6FVv÷'’’°¢6öç7B6FVv÷&—¦VBÒÖF6†W2æf–ÇFW"‚†'F–6ÆR’Óâ6æöæ–6Ä6FVv÷'’†'F–6ÆR’ÓÓÒ6FVv÷'’“°¢–b†6FVv÷&—¦VBæÆVæwF‚’ÖF6†W2Ò6FVv÷&—¦VC°¢Ğ¢&WGW&âÖF6†W2æÖ‚†'F–6ÆR’Óâ‡°¢–C¢'F–6ÆRæ–BÀ¢F—FÆS¢7G&–ær†'F–6ÆRçF—FÆRóò'F–6ÆRæ–B’À¢6FVv÷'“¢7G&–ær†'F–6ÆRæ6FVv÷'’óò""¢Ò’“°§Ğ ¦W‡÷'B7–æ2gVæ7F–öâ&W6öÇfT6ö×VæF—VÔ–B€¢Æ&VÃ¢7G&–ærÀ¢6FVv÷'’Ò" ¢“¢&öÖ—6SÇ7G&–ærÂçVÆÃâ°¢6öç7BÖF6†W2Òv—Bf–æD6ö×VæF—VÔÖF6†W2†Æ&VÂÂ6FVv÷'’“°¢&WGW&âÖF6†W2æÆVæwF‚ÓÓÒòÖF6†W5³Òæ–B¢çVÆÃ°§Ğ ¦W‡÷'B7–æ2gVæ7F–öâf–æD7F—fT6ö×VæF—VÔ'F–6ÆT'”–B€¢–C¢7G&–æp¢“¢&öÖ—6SÇ²–C¢7G&–æs²F—FÆS¢7G&–æs²6FVv÷'“¢7G&–ærÒÂçVÆÃâ°¢6öç7BF&vWBÒ7G&–ær†–Bóò""’çG&–Ò‚“°¢–b‚F&vWB’&WGW&âçVÆÃ°¢6öç7B6÷'W2Òv—BvWD6÷'W2‚“°¢6öç7B'F–6ÆRÒ6÷'W2æ'”–BævWB‡F&vWB“°¢–b‚'F–6ÆRÇÂ'F–6ÆRæ6FVv÷'’ÓÓÒÄTt5•ô4DTtõ%’’&WGW&âçVÆÃ°¢&WGW&â°¢–C¢'F–6ÆRæ–BÀ¢F—FÆS¢7G&–ær†'F–6ÆRçF—FÆRóò'F–6ÆRæ–B’À¢6FVv÷'“¢7G&–ær†'F–6ÆRæ6FVv÷'’óò""¢Ó°§Ğ  §G—R‡V$Æ&VÄf÷&ÒÒ²fÇVS¢7G&–æs²FWFƒ¢çVÖ&W"Ó° ¦gVæ7F–öâ‡V$Æ&VÄf÷&×2†Æ&VÃ¢7G&–ær“¢‡V$Æ&VÄf÷&ÕµÒ°¢6öç7B&rÒ7G&–ær†Æ&VÂóò""’çG&–Ò‚“°¢–b‚&r’&WGW&âµÓ° ¢6öç7Bf÷&×2ÒæWrÖÇ7G&–ærÂçVÖ&W#â‚“°¢6öç7BW6‚Ò‡fÇVS¢7G&–ærÂFWFƒ¢çVÖ&W"’Óâ°¢6öç7B6ÆVæVBÒfÇVP¢ç&WÆ6R‚õÇ2µ¾(	BÕÕÇ2µÆBµÇ2¥EeÆ"öv’Â""¢ç&WÆ6R‚õäf6WGFUÇ2£¥Ç2¢ö’Â""¢ç&WÆ6R‚õäæGW&UÇ2£¥Ç2¢ö’Â""¢ç&WÆ6R‚õÇ2µ¾(	BÕÕÇ2µFÆVçG3òFR6÷W%Ç2¢Bö’Â""¢ç&WÆ6R‚õÇ2µ¾(	BÕÕÇ2µFÆVçG3òFRÆ–vì:–UÇ2¢Bö’Â""¢çG&–Ò‚“°¢6öç7Bæ÷&ÖÆ—¦VBÒæ÷&Ò†6ÆVæVB“°¢–b†æ÷&ÖÆ—¦VBæÆVæwF‚ÂB’&WGW&ã°¢f÷&×2ç6WB†æ÷&ÖÆ—¦VBÂÖF‚æÖ‚†f÷&×2ævWB†æ÷&ÖÆ—¦VB’óòÂFWF‚’“°¢Ó° ¢6öç7B6VvÖVçG2Ò&rç7Æ—B‚õÇ2®(¥Ç2¢ò’æf–ÇFW"„&ööÆVâ“°¢W6‚‡&rÂ6VvÖVçG2æÆVæwF‚²“°¢6VvÖVçG2æf÷$V6‚‚‡6VvÖVçBÂ–æFW‚’ÓâW6‚‡6VvÖVçBÂ–æFW‚²’“° ¢–b‚õÆ&6öÖ×Vâƒó¦WÇ2“õÆ"ö’çFW7B‡&r’’W6‚‚%FÆVçG26öÖ×Vç2"Â6VvÖVçG2æÆVæwF‚²"“° ¢&WGW&â²ââæf÷&×2æVçG&–W2‚•Ğ¢æÖ‚…·fÇVRÂFWF…Ò’Óâ‡²fÇVRÂFWF‚Ò’¢ç6÷'B‚†Â"’Óâ"æFWF‚ÒæFWF‚ÇÂ"çfÇVRæÆVæwF‚ÒçfÇVRæÆVæwF‚“°§Ğ ¦gVæ7F–öâ'F–6ÆTÖF6†W4æGW&T‡V"†'F–6ÆT–C¢7G&–ærÂæGW&T–C¢7G&–ær“¢&ööÆVâ°¢–b‚æGW&T–B’&WGW&âG'VS°¢6öç7B–BÒæ÷&Ò†'F–6ÆT–B’ç&WÆ6R‚õÇ2²örÂ"Ò"“°¢6öç7BæGW&RÒæ÷&Ò†æGW&T–B’ç&WÆ6R‚õÇ2²örÂ"Ò"“°¢–b‚æGW&R’&WGW&âG'VS° ¢6öç7B&Vf—†W2ÒæWr6WB…°¢&VvÆW2×fW&—FRÒG¶æGW&WÒÖÀ¢&VvÆW2×fW&—FR×crÒG¶æGW&WÒÖÀ¢&VvÆW2×fW&—FR×cbÒG¶æGW&WÒÖÀ¢&VvÆW2×fW&—FRÖæGW&RÒG¶æGW&WÖ ¢Ò“°¢–b†æGW&RÓÓÒ&‡VÖ–â"’&Vf—†W2æFB‚'&VvÆW2×fW&—FRÖ6†76WW"Ò"“° ¢&WGW&â²ââç&Vf—†W5Òç6öÖR‚‡&Vf—‚’Óâ–Bæ–æ6ÇVFW2‡&Vf—‚’“°§Ğ ¦W‡÷'B7–æ2gVæ7F–öâf–æD6ö×VæF—VÔ‡V$ÖF6†W2€¢Æ&VÃ¢7G&–ærÀ¢æGW&T–BÒ""À¢–æ6ÇVFTÆVv7’ÒfÇ6P¢“¢&öÖ—6SÄ'&“Ç²–C¢7G&–æs²F—FÆS¢7G&–æs²6FVv÷'“¢7G&–ærÓãâ°¢6öç7BW†7BÒ†v—Bf–æD6ö×VæF—VÔÖF6†W2†Æ&VÂÂ%,:†vÆW2"’¢æf–ÇFW"‚†'F–6ÆR’Óâ–æ6ÇVFTÆVv7’ÇÂ'F–6ÆRæ6FVv÷'’ÓÒÄTt5•ô4DTtõ%’“°¢–b†W†7BæÆVæwF‚’&WGW&âW†7C° ¢6öç7Bf÷&×2Ò‡V$Æ&VÄf÷&×2†Æ&VÂ“°¢–b‚f÷&×2æÆVæwF‚’&WGW&âµÓ° ¢6öç7B6÷'W2Òv—BvWD6÷'W2‚“°¢6öç7B66÷&VBÒ6÷'W2æ'F–6ÆW0¢æf–ÇFW"‚†'F–6ÆR’Óà¢–æ6ÇVFTÆVv7¢ò6æöæ–6Ä6FVv÷'’†'F–6ÆR’ÓÓÒ%,:†vÆW2 ¢¢'F–6ÆRæ6FVv÷'’ÓÓÒ%,:†vÆW2 ¢¢æf–ÇFW"‚†'F–6ÆR’Óâ'F–6ÆTÖF6†W4æGW&T‡V"†'F–6ÆRæ–BÂæGW&T–B’¢æÖ‚†'F–6ÆR’Óâ°¢6öç7BæeF—FÆRÒ6÷'W2ææf–vF–öâævWB†'F–6ÆRæ–B“òæF—7Æ•F—FÆRóò"#°¢6öç7B6V7F–öåF—FÆW2Ò†'F–6ÆRç6V7F–öç2óòµÒ¢æÖ‚‡6V7F–öâ’Óâæ÷&Ò‡6V7F–öãòçF—FÆRóò""’¢æf–ÇFW"„&ööÆVâ“°¢6öç7BÆ&VÇ2Ò°¢æ÷&Ò†'F–6ÆRçF—FÆRóò""’À¢æ÷&Ò†æeF—FÆR’À¢ââç6V7F–öåF—FÆW0¢Òæf–ÇFW"„&ööÆVâ“° ¢ÆWB66÷&RÒ°¢f÷"†6öç7Bf÷&Òöbf÷&×2’°¢6öç7BFWF„&öçW2Òf÷&ÒæFWF‚¢°¢f÷"†6öç7B6æF–FFRöbÆ&VÇ2’°¢–b†6æF–FFRÓÓÒf÷&ÒçfÇVR’°¢66÷&RÒÖF‚æÖ‚‡66÷&RÂ²FWF„&öçW2²f÷&ÒçfÇVRæÆVæwF‚“°¢ÒVÇ6R–b†6æF–FFRæ–æ6ÇVFW2†f÷&ÒçfÇVR’’°¢6öç7BW‡G&ÒÖF‚æÖ‚ƒÂ6æF–FFRæÆVæwF‚Òf÷&ÒçfÇVRæÆVæwF‚“°¢66÷&RÒÖF‚æÖ‚‡66÷&RÂS²FWF„&öçW2²f÷&ÒçfÇVRæÆVæwF‚ÒW‡G&“°¢ÒVÇ6R–b†f÷&ÒçfÇVRæ–æ6ÇVFW2†6æF–FFR’bb6æF–FFRæÆVæwF‚ãÒr’°¢66÷&RÒÖF‚æÖ‚‡66÷&RÂC²FWF„&öçW2²6æF–FFRæÆVæwF‚“°¢Ğ¢Ğ¢Ğ¢&WGW&â²'F–6ÆRÂ66÷&RÓ°¢Ò¢æf–ÇFW"‚‡&÷r’Óâ&÷rç66÷&Râ¢ç6÷'B‚†Â"’Óâ"ç66÷&RÒç66÷&RÇÂ6ö×&T'F–6ÆW2†æ'F–6ÆRÂ"æ'F–6ÆR’“° ¢–b‚66÷&VBæÆVæwF‚’&WGW&âµÓ°¢6öç7B&W7BÒ66÷&VE³Òç66÷&S°¢&WGW&â66÷&V@¢æf–ÇFW"‚‡&÷r’Óâ&÷rç66÷&RÓÓÒ&W7B¢æÖ‚‡²'F–6ÆRÒ’Óâ‡°¢–C¢'F–6ÆRæ–BÀ¢F—FÆS¢7G&–ær†'F–6ÆRçF—FÆRóò'F–6ÆRæ–B’À¢6FVv÷'“¢7G&–ær†'F–6ÆRæ6FVv÷'’óò""¢Ò’“°§Ğ ¦W‡÷'B7–æ2gVæ7F–öâ&W6öÇfT6ö×VæF—VÔ‡V$–B€¢Æ&VÃ¢7G&–ærÀ¢æGW&T–BÒ" ¢“¢&öÖ—6SÇ7G&–ærÂçVÆÃâ°¢6öç7BÖF6†W2Òv—Bf–æD6ö×VæF—VÔ‡V$ÖF6†W2†Æ&VÂÂæGW&T–BÂG'VR“°¢–b†ÖF6†W2æÆVæwF‚ÓÓÒ’&WGW&âÖF6†W5³Òæ–C° ¢òò'V–ÆFW"&÷fVææ6R&VÖ–ç2G&6V&ÆRv†–ÆRÆVv7’fÖ–Ç’—2v—F–æp¢òò—G2c"‡V"â–çFW&7F—fR‡V"VF—G26ÆÂf–æD6ö×VæF—VÔ‡V$ÖF6†W2F—&V7FÇ¢òòæBF†W&Vf÷&R7F–ÆÂ&WV—&Râ7F—fRvRà¢–b‚ÖF6†W2æÆVæwF‚’°¢6öç7B†—7F÷&–6ÂÒv—Bf–æD6ö×VæF—VÔÖF6†W2†Æ&VÂÂ%,:†vÆW2"“°¢–b††—7F÷&–6ÂæÆVæwF‚ÓÓÒ’&WGW&â†—7F÷&–6Å³Òæ–C°¢Ğ¢&WGW&âçVÆÃ°§Ğ ¦gVæ7F–öâÖVF–6÷W&6R†ÖVF–¢Væ¶æ÷vâ“¢7G&–ær°¢–b‡G—VöbÖVF–ÓÓÒ'7G&–ær"’&WGW&âÖVF–çG&–Ò‚“°¢–b†ÖVF–bbG—VöbÖVF–ÓÓÒ&ö&¦V7B"’&WGW&â7G&–ær‚†ÖVF–2§6öäö&¦V7B’ç7&2óò""’çG&–Ò‚“°¢&WGW&â"#°§Ğ ¦gVæ7F–öâ—5Æ6V†öÆFW$ÖVF–†ÖVF–¢Væ¶æ÷vâ“¢&ööÆVâ°¢&WGW&âòƒó¦WV—ÖVçGÆVvÖVçFF–öçÇG'WF‚Òƒó¦'F–f7GÆ6FÆör’’×Æ6V†öÆFW%Âç7frƒó¢GÅ³ò5Ò’ö’çFW7B€¢ÖVF–6÷W&6R†ÖVF–¢“°§Ğ ¦gVæ7F–öâVF—F&ÆT'F–6ÆR†&6S¢'F–6ÆRÂ–çWC¢Væ¶æ÷vâ“¢'F–6ÆR°¢6öç7B6÷W&6RÒ–çWBbbG—Vöb–çWBÓÓÒ&ö&¦V7B"ò†–çWB2§6öäö&¦V7B’¢·Ó°¢6öç7B&W7VÇBÒFVW6ÆöæR†&6R“°¢6öç7B6–×ÆTf–VÆG2Ò²'F—FÆR"Â&6FVv÷'’"Â'6÷W&6R"Â'7FGW2"Â'Fw2"Â'6V7F–öç2"Â'æ¢"Â&–ÖvR"Â&–ÆÇW7G&F–öâ%Ó° ¢f÷"†6öç7Bf–VÆBöb6–×ÆTf–VÆG2’°¢–b‚ö&¦V7Bç&÷F÷G—Ræ†4÷vå&÷W'G’æ6ÆÂ‡6÷W&6RÂf–VÆB’’6öçF–çVS°¢6öç7BfÇVRÒFVW6ÆöæR‡6÷W&6U¶f–VÆEÒ“°¢–b‡fÇVRÓÓÒçVÆÂÇÂfÇVRÓÓÒVæFVf–æVBÇÂfÇVRÓÓÒ""’FVÆWFR&W7VÇE¶f–VÆEÓ°¢VÇ6R&W7VÇE¶f–VÆEÒÒfÇVS°¢Ğ ¢&W7VÇBæ–BÒ&6Ræ–C°¢&W7VÇBæFF6WBÒ&6RæFF6WC°¢&W7VÇBæ6FVv÷'’Ò7G&–ær‡&W7VÇBæ6FVv÷'’óò&6Ræ6FVv÷'’óò%,:–Æ—L:’"“°¢&W7VÇBç6÷W&6T6FVv÷'’Ò&W7VÇBæ6FVv÷'“°¢FVÆWFR&W7VÇBææf–vF–öã°¢FVÆWFR&W7VÇBæÖçVf7GW&W#°¢FVÆWFR&W7VÇBåõ÷6V&6…FW‡C°¢FVÆWFR&W7VÇBåõ÷v–¶•V&Æ—6†VDVF—C°¢&WGW&â&W7VÇC°§Ğ ¦gVæ7F–öâ6ÇVv–g”'F–6ÆUF—FÆR‡fÇVS¢7G&–ær“¢7G&–ær°¢&WGW&âfÇVP¢ææ÷&ÖÆ—¦R‚$ädB"¢ç&WÆ6R‚õµÇS3ÕÇS3feÒörÂ""¢çFôÆ÷vW$66R‚¢ç&WÆ6R‚õµæ×£Ó•Ò²örÂ"Ò"¢ç&WÆ6R‚õâÒ·ÂÒ²BörÂ""¢ç6Æ–6RƒÂ“°§Ğ ¦7–æ2gVæ7F–öâVF—F÷$&6Tf÷"€¢–C¢7G&–ærÀ¢6÷'W3¢6÷'W0¢“¢&öÖ—6SÇ²†6ƒ¢7G&–æs²'F–6ÆS¢'F–6ÆRÒÂçVÆÃâ°¢6öç7BW†—7F–ærÒ6÷'W2æVF—F÷$&6T'”–BævWB†–B“°¢–b†W†—7F–ær’&WGW&âW†—7F–æs° ¢6öç7B7W7FöÒÒv—BööÂçVW'“Ç²&6TFö7VÖVçC¢'F–6ÆRÓâ€¢4TÄT5B&6UöFö7VÖVçB2&&6TFö7VÖVçB ¢e$ôÒ6ö×VæF—VÕö7W7FöÕö'F–6ÆW0¢t„U$R'F–6ÆUö–BÒCÀ¢¶–EĞ¢“°¢6öç7B'F–6ÆRÒ7W7FöÒç&÷w5³Óòæ&6TFö7VÖVçC°¢–b‚'F–6ÆR’&WGW&âçVÆÃ°¢&WGW&â²†6ƒ¢'F–6ÆT†6‚†'F–6ÆR’Â'F–6ÆS¢FVW6ÆöæR†'F–6ÆR’Ó°§Ğ ¦7–æ2gVæ7F–öâVF—F÷$7W'&VçD'F–6ÆR†–C¢7G&–ærÂ6÷'W3¢6÷'W2“¢&öÖ—6SÄ'F–6ÆRÂçVÆÃâ°¢6öç7B7W'&VçBÒ6÷'W2æ'”–BævWB†–B“°¢–b†7W'&VçB’&WGW&â7W'&VçC°¢6öç7B&6RÒv—BVF—F÷$&6Tf÷"†–BÂ6÷'W2“°¢&WGW&â&6Sòæ'F–6ÆRóòçVÆÃ°§Ğ ¦gVæ7F–öâfÆ–DVF—F&ÆT'F–6ÆR‡fÇVS¢Væ¶æ÷vâ“¢fÇVR—2'F–6ÆR°¢–b‚fÇVRÇÂG—VöbfÇVRÓÒ&ö&¦V7B"’&WGW&âfÇ6S°¢6öç7B'F–6ÆRÒfÇVR2§6öäö&¦V7C°¢6öç7BF—FÆRÒ7G&–ær†'F–6ÆRçF—FÆRóò""’çG&–Ò‚“°¢–b‚F—FÆRÇÂF—FÆRæÆVæwF‚â#C’&WGW&âfÇ6S°¢–b†'F–6ÆRçFw2ÓÒVæFVf–æVB’°¢–b‚'&’æ—4'&’†'F–6ÆRçFw2’ÇÂ'F–6ÆRçFw2æÆVæwF‚â’&WGW&âfÇ6S°¢–b†'F–6ÆRçFw2ç6öÖR‚‡Fs¢Væ¶æ÷vâ’ÓâG—VöbFrÓÒ'7G&–ær"ÇÂFræÆVæwF‚â#’’&WGW&âfÇ6S°¢Ğ¢–b†'F–6ÆRç6V7F–öç2ÓÒVæFVf–æVB’°¢–b‚'&’æ—4'&’†'F–6ÆRç6V7F–öç2’ÇÂ'F–6ÆRç6V7F–öç2æÆVæwF‚âc’&WGW&âfÇ6S°¢f÷"†6öç7B6V7F–öâöb'F–6ÆRç6V7F–öç2’°¢–b‚6V7F–öâÇÂG—Vöb6V7F–öâÓÒ&ö&¦V7B"’&WGW&âfÇ6S°¢–b‚'&’æ—4'&’‡6V7F–öâæ&Æö6·2’ÇÂ6V7F–öâæ&Æö6·2æÆVæwF‚â3’&WGW&âfÇ6S°¢f÷"†6öç7B&Æö6²öb6V7F–öâæ&Æö6·2’°¢–b‚&Æö6²ÇÂG—Vöb&Æö6²ÓÒ&ö&¦V7B"’&WGW&âfÇ6S°¢–b‚²'"Â'F&ÆR%Òæ–æ6ÇVFW2…7G&–ær†&Æö6²çG—Róò""’’’&WGW&âfÇ6S°¢–b†&Æö6²çG—RÓÓÒ'"bb7G&–ær†&Æö6²çFW‡Bóò""’æÆVæwF‚â#’&WGW&âfÇ6S°¢–b†&Æö6²çG—RÓÓÒ'F&ÆR"bb'&’æ—4'&’†&Æö6²ç&÷w2’’&WGW&âfÇ6S°¢Ğ¢Ğ¢Ğ¢&WGW&âG'VS°§Ğ ¦gVæ7F–öâ6fTÖVF–&VÆF—fUF‚‡fÇVS¢7G&–ær“¢7G&–ærÂçVÆÂ°¢6öç7B6ÆVâÒfÇVRç&WÆ6R‚õÅÂörÂ"ò"’ç&WÆ6R‚õåÂò²òÂ""“°¢–b‚6ÆVâÇÂ6ÆVâæ–æ6ÇVFW2‚%Ã"’ÇÂ6ÆVâç7Æ—B‚"ò"’æ–æ6ÇVFW2‚"ââ"’’&WGW&âçVÆÃ°¢–b‚6ÆVâç7F'G5v—F‚‚&–ÖvW2ò"’bb6ÆVâç7F'G5v—F‚‚&76WG2ò"’’&WGW&âçVÆÃ°¢&WGW&â6ÆVã°§Ğ ¦gVæ7F–öâÖVF–6öçFVçEG—R‡Fƒ¢7G&–ær“¢7G&–ær°¢6öç7BÆ÷vW"ÒF‚çFôÆ÷vW$66R‚“°¢–b†Æ÷vW"æVæG5v—F‚‚"çvV'"’’&WGW&â&–ÖvR÷vV'#°¢–b†Æ÷vW"æVæG5v—F‚‚"çær"’’&WGW&â&–ÖvR÷ær#°¢–b†Æ÷vW"æVæG5v—F‚‚"æ§r"’ÇÂÆ÷vW"æVæG5v—F‚‚"æ§Vr"’’&WGW&â&–ÖvRö§Vr#°¢–b†Æ÷vW"æVæG5v—F‚‚"æv–b"’’&WGW&â&–ÖvRöv–b#°¢–b†Æ÷vW"æVæG5v—F‚‚"ç7fr"’’&WGW&â&–ÖvR÷7fr·†ÖÃ²6†'6WC×WFbÓ‚#°¢&WGW&â&Æ–6F–öâöö7FWB×7G&VÒ#°§Ğ ¦gVæ7F–öâWÆöFVD–ÖvTW‡FVç6–öâ†FF¢'VffW"“¢&§r"Â'ær"Â'vV'"Â&v–b"ÂçVÆÂ°¢–b†FFæÆVæwF‚ãÒ2bbFF³ÒÓÓÒ†fbbbFF³ÒÓÓÒ†C‚bbFF³%ÒÓÓÒ†fb’&WGW&â&§r#°¢–b€¢FFæÆVæwF‚ãÒ‚b`¢FF³ÒÓÓÒƒƒ’b`¢FF³ÒÓÓÒƒSb`¢FF³%ÒÓÓÒƒFRb`¢FF³5ÒÓÓÒƒCrb`¢FF³EÒÓÓÒƒBb`¢FF³UÒÓÓÒƒb`¢FF³eÒÓÓÒƒb`¢FF³uÒÓÓÒƒ¢’&WGW&â'ær#°¢–b€¢FFæÆVæwF‚ãÒ"b`¢FFç7V&'&’ƒÂB’çFõ7G&–ær‚&66–’"’ÓÓÒ%$”db"b`¢FFç7V&'&’ƒ‚Â"’çFõ7G&–ær‚&66–’"’ÓÓÒ%tT% ¢’&WGW&â'vV'#°¢–b†FFæÆVæwF‚ãÒb’°¢6öç7B6–væGW&RÒFFç7V&'&’ƒÂb’çFõ7G&–ær‚&66–’"“°¢–b‡6–væGW&RÓÓÒ$t”cƒv"ÇÂ6–væGW&RÓÓÒ$t”cƒ–"’&WGW&â&v–b#°¢Ğ¢&WGW&âçVÆÃ°§Ğ ¦gVæ7F–öâ6fUWÆöDf–ÆVæÖR‡fÇVS¢7G&–ær“¢7G&–ærÂçVÆÂ°¢6öç7B6ÆVâÒfÇVRçG&–Ò‚“°¢–b‚õå¶×¤Õ£Ó•òâÕÒµÂâƒó¦§wÇæwÇvV'Æv–b’Bö’çFW7B†6ÆVâ’’&WGW&âçVÆÃ°¢&WGW&â6ÆVã°§Ğ ¦gVæ7F–öâ&B‡&WÇ“¢f7F–g•&WÇ’ÂW'&÷#¢7G&–ær’°¢&WGW&â&WÇ’æ6öFRƒC’ç6VæB‡²W'&÷"Ò“°§Ğ ¦gVæ7F–öâFVW6ÆöæSÅCâ‡fÇVS¢B“¢B°¢–b‡fÇVRÓÓÒVæFVf–æVBÇÂfÇVRÓÓÒçVÆÂ’&WGW&âfÇVS°¢&WGW&â¥4ôâç'6R„¥4ôâç7G&–æv–g’‡fÇVR’’2C°§Ğ ¦gVæ7F–öâæ÷&ÖÆ—¦VEæ¤–FVçF—G’‡fÇVS¢Væ¶æ÷vâ“¢7G&–ær°¢&WGW&â7G&–ær‡fÇVRóò""¢ææ÷&ÖÆ—¦R‚$ädB"¢ç&WÆ6R‚õµÇS3ÕÇS3feÒörÂ""¢çFôÆ÷vW$66R‚¢ç&WÆ6R‚õ¾(	(	†ÒörÂ"r"¢ç&WÆ6R‚õµæ×£Ó’uÒ²örÂ""¢çG&–Ò‚“°§Ğ ¦gVæ7F–öâW6&ÆUæ¤–FVçF—G’‡fÇVS¢Væ¶æ÷vâ“¢7G&–ærÂçVÆÂ°¢6öç7Bæ÷&ÖÆ—¦VBÒæ÷&ÖÆ—¦VEæ¤–FVçF—G’‡fÇVR“°¢–b‚æ÷&ÖÆ—¦VBÇÂæ÷&ÖÆ—¦VBÓÓÒ#ò"ÇÂæ÷&ÖÆ—¦VBÓÓÒ%ò"ÇÂæ÷&ÖÆ—¦VBæÆVæwF‚ÂB’&WGW&âçVÆÃ°¢&WGW&âæ÷&ÖÆ—¦VC°§Ğ ¦gVæ7F–öâ'F–6ÆUæ¤–FVçF—G”¶W—2†'F–6ÆS¢'F–6ÆR“¢6WCÇ7G&–æsâ°¢6öç7B¶W—2ÒæWr6WCÇ7G&–æsâ‚“°¢6öç7BFBÒ‡fÇVS¢Væ¶æ÷vâ’Óâ°¢6öç7B¶W’ÒW6&ÆUæ¤–FVçF—G’‡fÇVR“°¢–b†¶W’’¶W—2æFB†¶W’“°¢Ó° ¢FB†'F–6ÆRçF—FÆR“°¢6öç7Bæ¢Ò'F–6ÆRçæ¢óò·Ó°¢f÷"†6öç7Bf–VÆBöb²'&VÅöæÖR"Â&æöÕ÷&VVÂ"Â&æöÕ÷&VÆ—FR"Â&æöÕ÷fW&—FR"Â&æÖR"Â&Æ–2%Ò’FB‡æ¥¶f–VÆEÒ“°¢f÷"†6öç7BfÇVRöb'&’æ—4'&’‡æ¢æ–FVçF—G•ö¶W—2’òæ¢æ–FVçF—G•ö¶W—2¢µÒ’FB‡fÇVR“° ¢f÷"†6öç7B6V7F–öâöb'F–6ÆRç6V7F–öç2óòµÒ’°¢f÷"†6öç7B&Æö6²öb6V7F–öãòæ&Æö6·2óòµÒ’°¢–b†&Æö6³òçG—RÓÒ'F&ÆR"ÇÂ'&’æ—4'&’†&Æö6²ç&÷w2’’6öçF–çVS°¢f÷"†6öç7B&÷röb&Æö6²ç&÷w2’°¢–b‚'&’æ—4'&’‡&÷r’ÇÂ&÷ræÆVæwF‚Â"’6öçF–çVS°¢6öç7BÆ&VÂÒæ÷&ÖÆ—¦VEæ¤–FVçF—G’‡&÷u³Ò“°¢–b€¢Æ&VÂæ–æ6ÇVFW2‚&æöÒFRÆ&VÆ—FR"’ÇÀ¢Æ&VÂæ–æ6ÇVFW2‚&æöÒFRÆfW&—FR"’ÇÀ¢Æ&VÂÓÓÒ&æöÒ"ÇÀ¢Æ&VÂæ–æ6ÇVFW2‚&–FVçF—FR"¢’°¢FB‡&÷u³Ò“°¢Ğ¢Ğ¢Ğ¢Ğ ¢&WGW&â¶W—3°§Ğ ¦gVæ7F–öâÖW&vUVæ—VUFW‡D&Æö6·2‡F&vWC¢§6öäö&¦V7BÂ&Æö6·3¢§6öäö&¦V7EµÒ’°¢F&vWBæ&Æö6·2Ò'&’æ—4'&’‡F&vWBæ&Æö6·2’òF&vWBæ&Æö6·2¢µÓ°¢6öç7BW†—7F–ærÒæWr6WB€¢F&vWBæ&Æö6·0¢æÖ‚†&Æö6³¢§6öäö&¦V7B’Óâ†&Æö6³òçG—RÓÓÒ'"ò7G&–ær†&Æö6²çFW‡Bóò""’çG&–Ò‚’¢""’¢æf–ÇFW"„&ööÆVâ¢“°¢f÷"†6öç7B&Æö6²öb&Æö6·2’°¢6öç7BFW‡BÒ&Æö6³òçG—RÓÓÒ'"ò7G&–ær†&Æö6²çFW‡Bóò""’çG&–Ò‚’¢"#°¢–b‡FW‡BbbW†—7F–æræ†2‡FW‡B’’6öçF–çVS°¢F&vWBæ&Æö6·2çW6‚†FVW6ÆöæR†&Æö6²’“°¢–b‡FW‡B’W†—7F–æræFB‡FW‡B“°¢Ğ§Ğ ¦gVæ7F–öâÖW&vT7&vÆW%æ¢‡F&vWC¢'F–6ÆRÂ6÷W&6S¢'F–6ÆR“¢'F–6ÆR°¢6öç7BÖW&vVBÒFVW6ÆöæR‡F&vWB“°¢ÖW&vVBçFw2Ò²ââææWr6WB…²âââ†ÖW&vVBçFw2óòµÒ’Ââââ‡6÷W&6RçFw2óòµÒ•Ò•Ó° ¢6öç7B6÷W&6W2Ò¶ÖW&vVBç6÷W&6RÂ6÷W&6Rç6÷W&6UĞ¢æfÆDÖ‚‡fÇVR’Óâ7G&–ær‡fÇVRóò""’ç7Æ—B‚"²"’¢æÖ‚‡fÇVR’ÓâfÇVRçG&–Ò‚’¢æf–ÇFW"„&ööÆVâ“°¢ÖW&vVBç6÷W&6RÒ²ââææWr6WB‡6÷W&6W2•Òæ¦ö–â‚"²"“°¢–b†æWr6WB‡6÷W&6W2’ç6—¦Râ’ÖW&vVBçFw2Ò²ââææWr6WB…²âââ†ÖW&vVBçFw2óòµÒ’Â$×VÇF’×6÷W&6R%Ò•Ó° ¢ÖW&vVBçæ¢Ò²âââ†ÖW&vVBçæ¢óò·Ò’Ââââ‡6÷W&6Rçæ¢óò·Ò’Ó°¢ÖW&vVBçæ¢æ–FVçF—G•ö¶W—2Ò°¢ââææWr6WB…°¢ââæ'F–6ÆUæ¤–FVçF—G”¶W—2†ÖW&vVB’À¢ââæ'F–6ÆUæ¤–FVçF—G”¶W—2‡6÷W&6R¢Ò¢Ó° ¢6öç7B6V7F–öç2Ò²âââ†ÖW&vVBç6V7F–öç2óòµÒ•Ó°¢6öç7BW†—7F–æt–G2ÒæWr6WB‡6V7F–öç2æÖ‚‡6V7F–öâ’Óâ7G&–ær‡6V7F–öãòæ–Bóò""’’“° ¢6öç7B–ç6W'EV&Æ–56V7F–öâÒ‡6V7F–öã¢§6öäö&¦V7B’Óâ°¢6öç7B6÷’ÒFVW6ÆöæR‡6V7F–öâ“°¢6öç7BÖ¤–æFW‚Ò6V7F–öç2æf–æD–æFW‚‚†—FVÒ’Óâ—FVÓòæVF–Væ6RÓÓÒ&Ö¢"“°¢–b†Ö¤–æFW‚ãÒ’6V7F–öç2ç7Æ–6R†Ö¤–æFW‚ÂÂ6÷’“°¢VÇ6R6V7F–öç2çW6‚†6÷’“°¢W†—7F–æt–G2æFB…7G&–ær†6÷“òæ–Bóò""’“°¢Ó° ¢f÷"†6öç7B6V7F–öâöb6÷W&6Rç6V7F–öç2óòµÒ’°¢6öç7B–BÒ7G&–ær‡6V7F–öãòæ–Bóò""“°¢–b‚–BÇÂ–BÓÓÒ'&öf–Â×7FF—7F—VR"ÇÂ6V7F–öãòæVF–Væ6RÓÓÒ&Ö¢"ÇÂW†—7F–æt–G2æ†2†–B’’6öçF–çVS°¢–ç6W'EV&Æ–56V7F–öâ‡6V7F–öâ“°¢Ğ ¢f÷"†6öç7B6V7F–öâöb6÷W&6Rç6V7F–öç2óòµÒ’°¢6öç7B–BÒ7G&–ær‡6V7F–öãòæ–Bóò""“°¢–b‚–BÇÂ–BÓÓÒ'&öf–Â×7FF—7F—VR"ÇÂ6V7F–öãòæVF–Væ6RÓÒ&Ö¢"ÇÂW†—7F–æt–G2æ†2†–B’’6öçF–çVS°¢6öç7B&Æö6·2Ò'&’æ—4'&’‡6V7F–öãòæ&Æö6·2’ò6V7F–öâæ&Æö6·2¢µÓ°¢–b‚&Æö6·2æÆVæwF‚’6öçF–çVS°¢6V7F–öç2çW6‚†FVW6ÆöæR‡6V7F–öâ’“°¢W†—7F–æt–G2æFB†–B“°¢Ğ ¢–b‚W†—7F–æt–G2æ†2‚'&öf–Â×7FF—7F—VR"’’°¢6V7F–öç2çW6‚‡°¢–C¢'&öf–Â×7FF—7F—VR"À¢F—FÆS¢%&öf–Â7FF—7F—VR"À¢ÆWfVÃ¢"À¢VF–Væ6S¢&Ö¢"À¢&Æö6·3¢µĞ¢Ò“°¢Ğ ¢ÖW&vVBç6V7F–öç2Ò6V7F–öç3°¢ÖW&vVBç7FGW2Ò&6æöåöVç&–6†’#°¢ÖW&vVBç&V'V–ÆEc"ÒG'VS°¢&WGW&âÖW&vVC°§Ğ ¦gVæ7F–öâÖW&vT6÷'÷&F–öåæ¢‡F&vWC¢'F–6ÆRÂ6÷W&6S¢'F–6ÆR“¢'F–6ÆR°¢6öç7BÖW&vVBÒÖW&vT7&vÆW%æ¢‡F&vWBÂ6÷W&6R“°¢ÖW&vVBçæ¢Ò²âââ‡6÷W&6Rçæ¢óò·Ò’Ââââ‡F&vWBçæ¢óò·Ò’Ó°¢ÖW&vVBçæ¢æ–FVçF—G•ö¶W—2Ò°¢ââææWr6WB…°¢ââæ'F–6ÆUæ¤–FVçF—G”¶W—2‡F&vWB’À¢ââæ'F–6ÆUæ¤–FVçF—G”¶W—2‡6÷W&6R’À¢ââæ'F–6ÆUæ¤–FVçF—G”¶W—2†ÖW&vVB¢Ò¢Ó°¢&WGW&âÖW&vVC°§Ğ ¦gVæ7F–öâÖW&vTfÆVW…æ¢‡F&vWC¢'F–6ÆRÂ6÷W&6S¢'F–6ÆR“¢'F–6ÆR°¢6öç7BÖW&vVBÒÖW&vT7&vÆW%æ¢‡F&vWBÂ6÷W&6R“°¢6öç7BF&vWEæ¢ÒF&vWBçæ¢óò·Ó°¢6öç7B6÷W&6Uæ¢Ò6÷W&6Rçæ¢óò·Ó°¢ÖW&vVBçæ¢Ò²ââç6÷W&6Uæ¢ÂââçF&vWEæ¢Ó°¢ÖW&vVBçæ¢çFw2Ò°¢ââææWr6WB…²âââ‡6÷W&6Uæ¢çFw2óòµÒ’Ââââ‡F&vWEæ¢çFw2óòµÒ•Ò¢Ó°¢ÖW&vVBçæ¢ç&VÆF–öç2Ò°¢ââææWr6WB…²âââ‡6÷W&6Uæ¢ç&VÆF–öç2óòµÒ’Ââââ‡F&vWEæ¢ç&VÆF–öç2óòµÒ•Ò¢Ó°¢ÖW&vVBçæ¢æ–FVçF—G•ö¶W—2Ò°¢ââææWr6WB…°¢ââæ'F–6ÆUæ¤–FVçF—G”¶W—2‡F&vWB’À¢ââæ'F–6ÆUæ¤–FVçF—G”¶W—2‡6÷W&6R’À¢ââæ'F–6ÆUæ¤–FVçF—G”¶W—2†ÖW&vVB¢Ò¢Ó°¢ÖW&vVBç7FGW2Ò&6æöåöVç&–6†’#°¢ÖW&vVBç&V'V–ÆEc"ÒG'VS°¢&WGW&âÖW&vVC°§Ğ ¦gVæ7F–öâÖW&vUf×—&T6÷W'Eæ¢‡F&vWC¢'F–6ÆRÂ6÷W&6S¢'F–6ÆR“¢'F–6ÆR°¢6öç7BÖW&vVBÒÖW&vTfÆVW…æ¢‡F&vWBÂ6÷W&6R“°¢6öç7BF&vWE&VÆ—G”–FVçF—G’ÒW6&ÆUæ¤–FVçF—G’‡F&vWBçæ£òç&VÅöæÖR’óòW6&ÆUæ¤–FVçF—G’‡F&vWBçæ£òææöÕ÷&VVÂ’óòW6&ÆUæ¤–FVçF—G’‡F&vWBçæ£òææöÕ÷&VÆ—FR“°¢6öç7B6÷W&6U&VÆ—G”–FVçF—G’Ò7G&–ær‡6÷W&6Rçæ£òç&VÅöæÖRóò""’çG&–Ò‚“°¢–b‚F&vWE&VÆ—G”–FVçF—G’bb6÷W&6U&VÆ—G”–FVçF—G’’ÖW&vVBçF—FÆRÒ6÷W&6U&VÆ—G”–FVçF—G“°¢–b‡6÷W&6RæVF–Væ6RÓÓÒ&Ö¢"bbF&vWE&VÆ—G”–FVçF—G’bb6÷W&6U&VÆ—G”–FVçF—G’’ÖW&vVBæVF–Væ6RÒ&Ö¢#°¢&WGW&âÖW&vVC°§Ğ¦gVæ7F–öâf–æDÖF6†–æt6W'–åæ¢†'”–C¢ÖÇ7G&–ærÂ'F–6ÆSâÂ6÷W&6S¢'F–6ÆR“¢'F–6ÆRÂçVÆÂ°¢6öç7B7FæF&BÒf–æDÖF6†–æt7F—fUæ¢†'”–BÂ6÷W&6R“°¢–b‡7FæF&B’&WGW&â7FæF&C° ¢6öç7B6÷W&6T¶W—2Ò'F–6ÆUæ¤–FVçF—G”¶W—2‡6÷W&6R“°¢–b‚6÷W&6T¶W—2ç6—¦R’&WGW&âçVÆÃ° ¢6öç7B6æF–FFW2Ò²ââæ'”–BçfÇVW2‚•Òæf–ÇFW"‚†6æF–FFR’Óâ°¢–b†6æF–FFRæ–BÓÓÒ6÷W&6Ræ–BÇÂ6æF–FFRç&V'V–ÆEc"ÓÒG'VR’&WGW&âfÇ6S°¢6öç7B6FVv÷'’Ò7G&–ær†6æF–FFRæ6FVv÷'’óò6æF–FFRç6÷W&6T6FVv÷'’óò""“°¢&WGW&â6FVv÷'’ÓÓÒ%W'6öæævW2"ÇÂ7G&–ær†6æF–FFRæFF6WBóò""’æ–æ6ÇVFW2‚'æ¢"“°¢Ò“° ¢6öç7B66÷&VC¢'&“Ç²'F–6ÆS¢'F–6ÆS²66÷&S¢çVÖ&W"ÓâÒµÓ°¢f÷"†6öç7B6æF–FFRöb6æF–FFW2’°¢6öç7B6æF–FFT¶W—2Ò'F–6ÆUæ¤–FVçF—G”¶W—2†6æF–FFR“°¢6öç7B÷fW&ÆÒ²ââç6÷W&6T¶W—5Òæf–ÇFW"‚†¶W’’Óâ6æF–FFT¶W—2æ†2†¶W’’“°¢–b‚÷fW&ÆæÆVæwF‚’6öçF–çVS° ¢ÆWB66÷&RÒ÷fW&ÆæÆVæwF‚¢°¢6öç7BF—&V7D6æF–FFRÒæWr6WCÇ7G&–æsâ‚“°¢6öç7BFBÒ‡fÇVS¢Væ¶æ÷vâ’Óâ°¢6öç7B¶W’ÒW6&ÆUæ¤–FVçF—G’‡fÇVR“°¢–b†¶W’’F—&V7D6æF–FFRæFB†¶W’“°¢Ó°¢FB†6æF–FFRçF—FÆR“°¢f÷"†6öç7Bf–VÆBöb²'&VÅöæÖR"Â&æöÕ÷&VVÂ"Â&æöÕ÷&VÆ—FR"Â&æöÕ÷fW&—FR"Â&æÖR"Â&Æ–2%Ò’°¢FB†6æF–FFRçæ£òå¶f–VÆEÒ“°¢Ğ¢–b†÷fW&Æç6öÖR‚†¶W’’ÓâF—&V7D6æF–FFRæ†2†¶W’’’’66÷&R³Ò°¢66÷&VBçW6‚‡²'F–6ÆS¢6æF–FFRÂ66÷&RÒ“°¢Ğ ¢–b‚66÷&VBæÆVæwF‚’&WGW&âçVÆÃ°¢6öç7B&W7E66÷&RÒÖF‚æÖ‚‚ââç66÷&VBæÖ‚‡&÷r’Óâ&÷rç66÷&R’“°¢6öç7B&W7BÒ66÷&VBæf–ÇFW"‚‡&÷r’Óâ&÷rç66÷&RÓÓÒ&W7E66÷&R“°¢–b†&W7BæÆVæwF‚â’°¢F‡&÷ræWrW'&÷"€¢–FVçF—L:’ä¢6W'–âÖ&–w\:²÷W"G·6÷W&6RçF—FÆRóò6÷W&6Ræ–GÓ¢G¶&W7BæÖ‚‡&÷r’Óâ&÷ræ'F–6ÆRæ–B’æ¦ö–â‚"Â"—Ö ¢“°¢Ğ¢&WGW&â&W7E³Òæ'F–6ÆS°§Ğ ¦gVæ7F–öâÖW&vT6W'–åæ¢‡F&vWC¢'F–6ÆRÂ6÷W&6S¢'F–6ÆR“¢'F–6ÆR°¢6öç7BÖW&vVBÒÖW&vTfÆVW…æ¢‡F&vWBÂ6÷W&6R“°¢6öç7BF&vWEæ¢ÒF&vWBçæ¢óò·Ó°¢6öç7B6÷W&6Uæ¢Ò6÷W&6Rçæ¢óò·Ó° ¢6öç7B6÷W&6TFö7VÖVçG2Ò°¢âââ‚„'&’æ—4'&’‡F&vWEæ¢ç6÷W&6UöFö7VÖVçG2’òF&vWEæ¢ç6÷W&6UöFö7VÖVçG2¢µÒ’27G&–æuµÒ’À¢âââ‚„'&’æ—4'&’‡6÷W&6Uæ¢ç6÷W&6UöFö7VÖVçG2’ò6÷W&6Uæ¢ç6÷W&6UöFö7VÖVçG2¢µÒ’27G&–æuµÒ’À¢ââå7G&–ær‡F&vWBç6÷W&6Róò""’ç7Æ—B‚"²"’À¢ââå7G&–ær‡6÷W&6Rç6÷W&6Róò""’ç7Æ—B‚"²"¢ÒæÖ‚‡fÇVR’Óâ7G&–ær‡fÇVRóò""’çG&–Ò‚’’æf–ÇFW"„&ööÆVâ“° ¢6öç7B6÷W&6Tff–Æ–F–öç2Ò°¢âââ‚„'&’æ—4'&’‡F&vWEæ¢ç6÷W&6Uöff–Æ–F–öç2’òF&vWEæ¢ç6÷W&6Uöff–Æ–F–öç2¢µÒ’27G&–æuµÒ’À¢âââ‚„'&’æ—4'&’‡6÷W&6Uæ¢ç6÷W&6Uöff–Æ–F–öç2’ò6÷W&6Uæ¢ç6÷W&6Uöff–Æ–F–öç2¢µÒ’27G&–æuµÒ’À¢F&vWEæ¢æff–Æ–F–öç2À¢6÷W&6Uæ¢æff–Æ–F–öç0¢ÒæÖ‚‡fÇVR’Óâ7G&–ær‡fÇVRóò""’çG&–Ò‚’’æf–ÇFW"€¢‡fÇVR’ÓâfÇVRbb²%ò"Â#ò"Â"Ò"Â#óóò"Â#óóóò%Òæ–æ6ÇVFW2‡fÇVR¢“° ¢ÖW&vVBçæ¢Ò°¢âââ†ÖW&vVBçæ¢óò·Ò’À¢6÷W&6UöFö7VÖVçG3¢²ââææWr6WB‡6÷W&6TFö7VÖVçG2•ÒÀ¢6÷W&6Uöff–Æ–F–öç3¢²ââææWr6WB‡6÷W&6Tff–Æ–F–öç2•Ğ¢Ó° ¢6öç7B6V7&WDÆ&VÇ2Ò°¢&æöÒFRÆfW&—FR"À¢&æGW&R&VVÆÆR"À¢&WF†æ–R&VVÆÆR"À¢'7FGWBfW&—FR"À¢&–FVçF—FRFRfW&—FR ¢Ó° ¢ÖW&vVBç6V7F–öç2Ò†ÖW&vVBç6V7F–öç2óòµÒ’æÖ‚‡6V7F–öâ’Óâ°¢–b‡6V7F–öãòæVF–Væ6RÓÓÒ&Ö¢"’&WGW&â6V7F–öã°¢6öç7B6÷’ÒFVW6ÆöæR‡6V7F–öâ’2§6öäö&¦V7C°¢6÷’æ&Æö6·2Ò†6÷’æ&Æö6·2óòµÒ’æÖ‚†&Æö6³¢§6öäö&¦V7B’Óâ°¢–b†&Æö6³òçG—RÓÒ'F&ÆR"ÇÂ'&’æ—4'&’†&Æö6²ç&÷w2’’&WGW&â&Æö6³°¢6öç7B&÷w2Ò&Æö6²ç&÷w2æf–ÇFW"‚‡&÷s¢Væ¶æ÷våµÒ’Óâ°¢6öç7BÆ&VÂÒæ÷&ÖÆ—¦VEæ¤–FVçF—G’‡&÷sòå³Ò“°¢&WGW&â6V7&WDÆ&VÇ2ç6öÖR‚‡6V7&WB’ÓâÆ&VÂæ–æ6ÇVFW2‡6V7&WB’“°¢Ò“°¢&WGW&â²ââæ&Æö6²Â&÷w2Ó°¢Ò“°¢&WGW&â6÷“°¢Ò“° ¢&WGW&âÖW&vVC°§Ğ ¦gVæ7F–öâÖW&vUVÆvUæ¢‡F&vWC¢'F–6ÆRÂ6÷W&6S¢'F–6ÆR“¢'F–6ÆR°¢6öç7BÖW&vVBÒÖW&vUf×—&T6÷W'Eæ¢‡F&vWBÂ6÷W&6R“° ¢òòöÆFW"7F—fR7V6–W26†VWG26öÖWF–ÖW2W‡÷6VBG'WF‚&÷w2–âF†V—"V&Æ–0¢òò&öf–ÆR6V7F–öââ¶VWÆÂ6÷W&6R–æf÷&ÖF–öâ'WB&VÖ÷fRF†÷6R&÷w2g&öĞ¢òòF†RV&Æ–2&öf–ÆRv†VâF†—2æWvW"VÆvW26÷W&6R—2ÖW&vVBà¢ÖW&vVBç6V7F–öç2Ò†ÖW&vVBç6V7F–öç2óòµÒ’æÖ‚‡6V7F–öâ’Óâ°¢6öç7B6÷’ÒFVW6ÆöæR‡6V7F–öâ’2§6öäö&¦V7C° ¢–b…7G&–ær†6÷’æ–Bóò""’ÓÓÒ'&öf–Â"’°¢6÷’æ&Æö6·2Ò†6÷’æ&Æö6·2óòµÒ’æÖ‚†&Æö6³¢§6öäö&¦V7B’Óâ°¢–b†&Æö6³òçG—RÓÒ'F&ÆR"ÇÂ'&’æ—4'&’†&Æö6²ç&÷w2’’&WGW&â&Æö6³°¢6öç7B&÷w2Ò&Æö6²ç&÷w2æf–ÇFW"‚‡&÷s¢Væ¶æ÷våµÒ’Óâ°¢6öç7BÆ&VÂÒæ÷&ÖÆ—¦VEæ¤–FVçF—G’‡&÷sòå³Ò“°¢&WGW&â€¢Æ&VÂæ–æ6ÇVFW2‚&æöÒFRÆfW&—FR"’ÇÀ¢Æ&VÂæ–æ6ÇVFW2‚&æGW&R&VVÆÆR"’ÇÀ¢Æ&VÂæ–æ6ÇVFW2‚&WF†æ–R&VVÆÆR"’ÇÀ¢Æ&VÂæ–æ6ÇVFW2‚&w&æBÖVæWW""’ÇÀ¢Æ&VÂæ–æ6ÇVFW2‚'÷Wfö—"GR6ær"’ÇÀ¢Æ&VÂæ–æ6ÇVFW2‚'7FGWBfW&—FR"¢“°¢Ò“°¢&WGW&â²ââæ&Æö6²Â&÷w2Ó°¢Ò“°¢Ğ ¢òò6öÖR&Wf–÷W2$–æf÷&ÖF–öç2,:–Æ—L:’"&w&‡2Ö—†VBV&Æ–2&–öw&‡¢òòæB7WW&æGW&Â–FVçF—G’âF†RæWrVÆvW26÷W&6R&÷f–FW26ÆVà¢òòV&Æ–26V7F–öâÂ6ò&WF–âF†RöÆFW"Ö—†VBFW‡B2tÒÖöæÇ’–ç7FVBö`¢òòÆV¶–ær—Bà¢–b…7G&–ær†6÷’æ–Bóò""’ÓÓÒ&–æfò×&VÆ—FR"’°¢6öç7B6÷W&6UFW‡BÒ¥4ôâç7G&–æv–g’†6÷’“°¢–b‚öÆ÷Wãöv&÷WÆv&÷WÇVÆvWÆÖWWFWÆÖVæWW'Ç6ærf–gÇ6ær¶×¥×ÆæGW&R&VVÆÆWÇ&WfVÆRö’çFW7B‡6÷W&6UFW‡B’’°¢6÷’æVF–Væ6RÒ&Ö¢#°¢6÷’çF—FÆRÒ$–æf÷&ÖF–öç26÷W&6RçL:—&–WW&R+rÔ¢#°¢Ğ¢Ğ ¢&WGW&â6÷“°¢Ò“° ¢&WGW&âÖW&vVC°§Ğ ¦gVæ7F–öâÖW&vTævVÇW5æ¢‡F&vWC¢'F–6ÆRÂ6÷W&6S¢'F–6ÆR“¢'F–6ÆR°¢6öç7BÖW&vVBÒFVW6ÆöæR‡F&vWB“°¢ÖW&vVBçFw2Ò²ââææWr6WB…²âââ†ÖW&vVBçFw2óòµÒ’Ââââ‡6÷W&6RçFw2óòµÒ•Ò•Ó° ¢6öç7B6÷W&6W2Ò¶ÖW&vVBç6÷W&6RÂ6÷W&6Rç6÷W&6UĞ¢æfÆDÖ‚‡fÇVR’Óâ7G&–ær‡fÇVRóò""’ç7Æ—B‚"²"’¢æÖ‚‡fÇVR’ÓâfÇVRçG&–Ò‚’¢æf–ÇFW"„&ööÆVâ“°¢ÖW&vVBç6÷W&6RÒ²ââææWr6WB‡6÷W&6W2•Òæ¦ö–â‚"²"“°¢–b†æWr6WB‡6÷W&6W2’ç6—¦Râ’°¢ÖW&vVBçFw2Ò²ââææWr6WB…²âââ†ÖW&vVBçFw2óòµÒ’Â$×VÇF’×6÷W&6R%Ò•Ó°¢Ğ ¢6öç7BF&vWEæ¢ÒÖW&vVBçæ¢óò·Ó°¢6öç7B6÷W&6Uæ¢Ò6÷W&6Rçæ¢óò·Ó°¢ÖW&vVBçæ¢Ò²ââç6÷W&6Uæ¢ÂââçF&vWEæ¢Ó°¢ÖW&vVBçæ¢æ–FVçF—G•ö¶W—2Ò°¢ââææWr6WB…°¢ââæ'F–6ÆUæ¤–FVçF—G”¶W—2‡F&vWB’À¢ââæ'F–6ÆUæ¤–FVçF—G”¶W—2‡6÷W&6R’À¢ââæ'F–6ÆUæ¤–FVçF—G”¶W—2†ÖW&vVB¢Ò¢Ó°¢ÖW&vVBçæ¢ç6÷W&6UöFö7VÖVçG2Ò°¢ââææWr6WB…°¢âââ‚„'&’æ—4'&’‡F&vWEæ¢ç6÷W&6UöFö7VÖVçG2’òF&vWEæ¢ç6÷W&6UöFö7VÖVçG2¢µÒ’27G&–æuµÒ’À¢âââ‚„'&’æ—4'&’‡6÷W&6Uæ¢ç6÷W&6UöFö7VÖVçG2’ò6÷W&6Uæ¢ç6÷W&6UöFö7VÖVçG2¢µÒ’27G&–æuµÒ’À¢ââç6÷W&6W0¢Ò¢Ó° ¢6öç7B6V7F–öç2Ò²âââ†ÖW&vVBç6V7F–öç2óòµÒ•Ó°¢6öç7B6÷W&6U&öf–ÆRÒ‡6÷W&6Rç6V7F–öç2óòµÒ’æf–æB‚‡6V7F–öâ’Óâ6V7F–öâæ–BÓÓÒ'&öf–Â"“°¢6öç7B6÷W&6U&VÆ—G’Ò‡6÷W&6Rç6V7F–öç2óòµÒ’æf–æB‚‡6V7F–öâ’Óâ6V7F–öâæ–BÓÓÒ&–æf÷&ÖF–öç2×&VÆ—FR"“°¢6öç7B6÷W&6UG'WF‚Ò‡6÷W&6Rç6V7F–öç2óòµÒ’æf–æB‚‡6V7F–öâ’Óâ6V7F–öâæ–BÓÓÒ&–æf÷&ÖF–öç2ÖÖ¢"“° ¢ÆWBÖ¢Ò6V7F–öç2æf–æB€¢‡6V7F–öâ’Óâ6V7F–öãòæVF–Væ6RÓÓÒ&Ö¢"bböÖ§ÆF÷76–W'ÇfW&—FRö’çFW7B…7G&–ær‡6V7F–öâæ–Bóò""’¢“°¢–b‚Ö¢’°¢Ö¢Ò°¢–C¢&–æf÷&ÖF–öç2ÖÖ¢"À¢F—FÆS¢$–æf÷&ÖF–öç2Ô¢"À¢ÆWfVÃ¢"À¢VF–Væ6S¢&Ö¢"À¢&Æö6·3¢µĞ¢Ó°¢6V7F–öç2çW6‚†Ö¢“°¢Ğ¢–b‡6÷W&6UG'WF‚’ÖW&vUVæ—VUFW‡D&Æö6·2†Ö¢Â6÷W&6UG'WF‚æ&Æö6·2óòµÒ“° ¢6öç7B–ç6W'D&Vf÷&TÖ¢Ò‡6V7F–öã¢§6öäö&¦V7B’Óâ°¢6öç7B–æFW‚Ò6V7F–öç2æf–æD–æFW‚‚†—FVÒ’Óâ—FVÓòæVF–Væ6RÓÓÒ&Ö¢"“°¢–b†–æFW‚ãÒ’6V7F–öç2ç7Æ–6R†–æFW‚ÂÂ6V7F–öâ“°¢VÇ6R6V7F–öç2çW6‚‡6V7F–öâ“°¢Ó° ¢6öç7BW†—7F–æt–G2ÒæWr6WB‡6V7F–öç2æÖ‚‡6V7F–öâ’Óâ7G&–ær‡6V7F–öãòæ–Bóò""’’“°¢–b‡6÷W&6U&VÆ—G“òæ&Æö6·3òæÆVæwF‚bbW†—7F–æt–G2æ†2‚'6÷W&6RÖævVÇW2×&VÆ—FR"’’°¢–ç6W'D&Vf÷&TÖ¢‡°¢–C¢'6÷W&6RÖævVÇW2×&VÆ—FR"À¢F—FÆS¢$6ö×Ì:–ÖVçB,:–Æ—L:’+rF÷76–W"ævVÇW2"À¢ÆWfVÃ¢"À¢&Æö6·3¢FVW6ÆöæR‡6÷W&6U&VÆ—G’æ&Æö6·2¢Ò“°¢W†—7F–æt–G2æFB‚'6÷W&6RÖævVÇW2×&VÆ—FR"“°¢Ğ ¢–b‡6÷W&6U&öf–ÆRbbW†—7F–æt–G2æ†2‚'6÷W&6RÖævVÇW2Ö–FVçF—FR"’’°¢6öç7B&÷w2Ò‡6÷W&6U&öf–ÆRæ&Æö6·2óòµÒ¢æfÆDÖ‚†&Æö6³¢§6öäö&¦V7B’Óâ†&Æö6³òçG—RÓÓÒ'F&ÆR"bb'&’æ—4'&’†&Æö6²ç&÷w2’ò&Æö6²ç&÷w2¢µÒ’¢æf–ÇFW"‚‡&÷s¢Væ¶æ÷våµÒ’Óâ°¢6öç7BÆ&VÂÒæ÷&ÖÆ—¦VEæ¤–FVçF—G’‡&÷sòå³Ò“°¢&WGW&âÆ&VÂæ–æ6ÇVFW2‚&vR"’ÇÂÆ&VÂæ–æ6ÇVFW2‚&ff–Æ–F–öç2"’ÇÂÆ&VÂæ–æ6ÇVFW2‚&æF–öæÆ—FR"“°¢Ò“°¢–b‡&÷w2æÆVæwF‚’°¢–ç6W'D&Vf÷&TÖ¢‡°¢–C¢'6÷W&6RÖævVÇW2Ö–FVçF—FR"À¢F—FÆS¢$6ö×Ì:–ÖVçBFRf–6†R+rF÷76–W"ævVÇW2"À¢ÆWfVÃ¢"À¢&Æö6·3¢·²G—S¢'F&ÆR"Â&÷w2ÕĞ¢Ò“°¢Ğ¢Ğ ¢6öç7B6V7&WDÆ&VÇ2Ò°¢&æöÒFRÆfW&—FR"À¢&æGW&R&VVÆÆR"À¢&WF†æ–R&VVÆÆR"À¢&&6†ævRGWFVÆ—&R"À¢&F—f–æ—FR"À¢'÷Wfö—"&–æ6—Â"À¢'7FGWBfW&—FR ¢Ó°¢ÖW&vVBç6V7F–öç2Ò6V7F–öç2æÖ‚‡6V7F–öâ’Óâ°¢–b‡6V7F–öãòæVF–Væ6RÓÓÒ&Ö¢"’&WGW&â6V7F–öã°¢6öç7B6÷’ÒFVW6ÆöæR‡6V7F–öâ’2§6öäö&¦V7C°¢6÷’æ&Æö6·2Ò†6÷’æ&Æö6·2óòµÒ’æÖ‚†&Æö6³¢§6öäö&¦V7B’Óâ°¢–b†&Æö6³òçG—RÓÒ'F&ÆR"ÇÂ'&’æ—4'&’†&Æö6²ç&÷w2’’&WGW&â&Æö6³°¢&WGW&â°¢ââæ&Æö6²À¢&÷w3¢&Æö6²ç&÷w2æf–ÇFW"‚‡&÷s¢Væ¶æ÷våµÒ’Óâ°¢6öç7BÆ&VÂÒæ÷&ÖÆ—¦VEæ¤–FVçF—G’‡&÷sòå³Ò“°¢&WGW&â6V7&WDÆ&VÇ2ç6öÖR‚‡6V7&WB’ÓâÆ&VÂæ–æ6ÇVFW2‡6V7&WB’“°¢Ò¢Ó°¢Ò“°¢&WGW&â6÷“°¢Ò“° ¢ÖW&vVBç7FGW2Ò&6æöåöVç&–6†’#°¢ÖW&vVBç&V'V–ÆEc"ÒG'VS°¢&WGW&âÖW&vVC°§Ğ ¦gVæ7F–öâÖW&vT‡VçFW%æ¢‡F&vWC¢'F–6ÆRÂ6÷W&6S¢'F–6ÆR“¢'F–6ÆR°¢6öç7BÖW&vVBÒÖW&vTfÆVW…æ¢‡F&vWBÂ6÷W&6R“°¢6öç7BF&vWEæ¢ÒF&vWBçæ¢óò·Ó°¢6öç7B6÷W&6Uæ¢Ò6÷W&6Rçæ¢óò·Ó°¢ÖW&vVBçæ¢Ò°¢âââ†ÖW&vVBçæ¢óò·Ò’À¢‡VçFW%÷6÷W&6UöW‡G&7C¢6÷W&6Uæ¢ç6÷W&6UöW‡G&7Bóò""À¢‡VçFW%÷6÷W&6U÷fW&—FS¢FVW6ÆöæR‡6÷W&6Uæ¢ç6÷W&6U÷fW&—FRóòµÒ’À¢6÷W&6UöFö7VÖVçG3¢°¢ââææWr6WB…°¢âââ‚„'&’æ—4'&’‡F&vWEæ¢ç6÷W&6UöFö7VÖVçG2’òF&vWEæ¢ç6÷W&6UöFö7VÖVçG2¢µÒ’27G&–æuµÒ’À¢âââ‚„'&’æ—4'&’‡6÷W&6Uæ¢ç6÷W&6UöFö7VÖVçG2’ò6÷W&6Uæ¢ç6÷W&6UöFö7VÖVçG2¢µÒ’27G&–æuµÒ’À¢4ôÕTäD•TÕõdU$•DUô…TåDU%5õ4õU$4P¢Ò¢Ğ¢Ó°¢ÖW&vVBçFw2Ò²ââææWr6WB…²âââ†ÖW&vVBçFw2óòµÒ’Â$6†76WW'2"Â$Æ÷&R6†76WW'2##bÓ’%Ò•Ó°¢&WGW&âÖW&vVC°§Ğ ¦gVæ7F–öâÖW&vTW‡G&FW'&W7G&–Åæ¢‡F&vWC¢'F–6ÆRÂ6÷W&6S¢'F–6ÆR“¢'F–6ÆR°¢6öç7BÖW&vVBÒFVW6ÆöæR‡F&vWB“°¢ÖW&vVBçFw2Ò²ââææWr6WB…²âââ†ÖW&vVBçFw2óòµÒ’Ââââ‡6÷W&6RçFw2óòµÒ•Ò•Ó° ¢6öç7B6÷W&6W2Ò¶ÖW&vVBç6÷W&6RÂ6÷W&6Rç6÷W&6UĞ¢æfÆDÖ‚‡fÇVR’Óâ7G&–ær‡fÇVRóò""’ç7Æ—B‚"²"’¢æÖ‚‡fÇVR’ÓâfÇVRçG&–Ò‚’¢æf–ÇFW"„&ööÆVâ“°¢ÖW&vVBç6÷W&6RÒ²ââææWr6WB‡6÷W&6W2•Òæ¦ö–â‚"²"“° ¢ÖW&vVBçæ¢Ò²âââ‡6÷W&6Rçæ¢óò·Ò’Ââââ†ÖW&vVBçæ¢óò·Ò’Ó°¢6öç7B–FVçF—G”¶W—2ÒæWr6WCÇ7G&–æsâ…°¢ââæ'F–6ÆUæ¤–FVçF—G”¶W—2†ÖW&vVB’À¢ââæ'F–6ÆUæ¤–FVçF—G”¶W—2‡6÷W&6R¢Ò“°¢ÖW&vVBçæ¢æ–FVçF—G•ö¶W—2Ò²ââæ–FVçF—G”¶W—5Ó° ¢6öç7B6÷W&6U&öf–ÆRÒ‡6÷W&6Rç6V7F–öç2óòµÒ’æf–æB‚‡6V7F–öâ’Óâ6V7F–öâæ–BÓÓÒ'&öf–Â"“°¢6öç7B6÷W&6UG'WF‚Ò‡6÷W&6Rç6V7F–öç2óòµÒ’æf–æB‚‡6V7F–öâ’Óâ6V7F–öâæ–BÓÓÒ&–æf÷&ÖF–öç2ÖÖ¢"“°¢6öç7B6÷W&6U&VÆ—G’Ò‡6÷W&6Rç6V7F–öç2óòµÒ’æf–ÇFW"‚‡6V7F–öâ’Óà¢6V7F–öâæ–BÓÓÒ&–æf÷&ÖF–öç2×&VÆ—FR"ÇÂ6V7F–öâæ–BÓÓÒ&–æf÷&ÖF–öç2×6WV–Â ¢“° ¢ÆWBÖ¢Ò†ÖW&vVBç6V7F–öç2óòµÒ’æf–æB‚‡6V7F–öâ’Óâ6V7F–öãòæVF–Væ6RÓÓÒ&Ö¢"bböÖ§ÆF÷76–W"ö’çFW7B…7G&–ær‡6V7F–öâæ–Bóò""’’“°¢–b‚Ö¢’°¢Ö¢Ò°¢–C¢&–æf÷&ÖF–öç2ÖÖ¢"À¢F—FÆS¢$–æf÷&ÖF–öç2Ô¢"À¢ÆWfVÃ¢"À¢VF–Væ6S¢&Ö¢"À¢&Æö6·3¢µĞ¢Ó°¢ÖW&vVBç6V7F–öç2Ò²âââ†ÖW&vVBç6V7F–öç2óòµÒ’ÂÖ¥Ó°¢Ğ ¢6öç7B–FVçF—G”Æ–æW2Ò°¢6÷W&6Rçæ£òææöÕ÷fW&—FRòæöÒFRÆl:—&—L:’¢G·6÷W&6Rçæ¢ææöÕ÷fW&—FWÖ¢""À¢6÷W&6Rçæ£òç&6RòæGW&R,:–VÆÆR¢G·6÷W&6Rçæ¢ç&6WÖ¢" ¢Òæf–ÇFW"„&ööÆVâ“°¢–b†–FVçF—G”Æ–æW2æÆVæwF‚’°¢ÖW&vUVæ—VUFW‡D&Æö6·2†Ö¢Â·²G—S¢'"ÂFW‡C¢–FVçF—G”Æ–æW2æ¦ö–â‚"+r"’ÕÒ“°¢Ğ¢–b‡6÷W&6UG'WF‚’ÖW&vUVæ—VUFW‡D&Æö6·2†Ö¢Â6÷W&6UG'WF‚æ&Æö6·2óòµÒ“° ¢6öç7B–ç6W'EV&Æ–56V7F–öä&Vf÷&TÖ¢Ò‡6V7F–öã¢§6öäö&¦V7B’Óâ°¢6öç7B6V7F–öç2Ò²âââ†ÖW&vVBç6V7F–öç2óòµÒ•Ó°¢6öç7BÖ¤–æFW‚Ò6V7F–öç2æf–æD–æFW‚‚†—FVÒ’Óâ—FVÓòæVF–Væ6RÓÓÒ&Ö¢"“°¢–b†Ö¤–æFW‚ãÒ’6V7F–öç2ç7Æ–6R†Ö¤–æFW‚ÂÂ6V7F–öâ“°¢VÇ6R6V7F–öç2çW6‚‡6V7F–öâ“°¢ÖW&vVBç6V7F–öç2Ò6V7F–öç3°¢Ó° ¢6öç7BW†—7F–æu6V7F–öä–G2ÒæWr6WB‚†ÖW&vVBç6V7F–öç2óòµÒ’æÖ‚‡6V7F–öâ’Óâ7G&–ær‡6V7F–öãòæ–Bóò""’’“°¢–b‡6÷W&6U&VÆ—G’æÆVæwF‚bbW†—7F–æu6V7F–öä–G2æ†2‚'6÷W&6RÖW‡G&FW'&W7G&W2×&VÆ—FR"’’°¢–ç6W'EV&Æ–56V7F–öä&Vf÷&TÖ¢‡°¢–C¢'6÷W&6RÖW‡G&FW'&W7G&W2×&VÆ—FR"À¢F—FÆS¢$6ö×Ì:–ÖVçB,:–Æ—L:’+rF÷76–W"W‡G&FW'&W7G&R"À¢ÆWfVÃ¢"À¢&Æö6·3¢6÷W&6U&VÆ—G’æfÆDÖ‚‡6V7F–öâ’ÓâFVW6ÆöæR‡6V7F–öâæ&Æö6·2óòµÒ’¢Ò“°¢W†—7F–æu6V7F–öä–G2æFB‚'6÷W&6RÖW‡G&FW'&W7G&W2×&VÆ—FR"“°¢Ğ ¢–b‡6÷W&6U&öf–ÆRbbW†—7F–æu6V7F–öä–G2æ†2‚'6÷W&6RÖW‡G&FW'&W7G&W2Ö–FVçF—FR"’’°¢6öç7B&÷w2Ò‡6÷W&6U&öf–ÆRæ&Æö6·2óòµÒ¢æfÆDÖ‚†&Æö6³¢§6öäö&¦V7B’Óâ†&Æö6³òçG—RÓÓÒ'F&ÆR"bb'&’æ—4'&’†&Æö6²ç&÷w2’ò&Æö6²ç&÷w2¢µÒ’¢æf–ÇFW"‚‡&÷s¢Væ¶æ÷våµÒ’Óâ°¢6öç7BÆ&VÂÒæ÷&ÖÆ—¦VEæ¤–FVçF—G’‡&÷sòå³Ò“°¢&WGW&âÆ&VÂÓÓÒ&vR"ÇÂÆ&VÂæ–æ6ÇVFW2‚&ff–Æ–F–öç2"’ÇÂÆ&VÂæ–æ6ÇVFW2‚&æF–öæÆ—FR"’ÇÂÆ&VÂæ–æ6ÇVFW2‚'W'6öæævW2Æ–W2"’ÇÂÆ&VÂæ–æ6ÇVFW2‚'&WW&R"“°¢Ò“°¢–b‡&÷w2æÆVæwF‚’°¢–ç6W'EV&Æ–56V7F–öä&Vf÷&TÖ¢‡°¢–C¢'6÷W&6RÖW‡G&FW'&W7G&W2Ö–FVçF—FR"À¢F—FÆS¢$6ö×Ì:–ÖVçBFRf–6†R+rF÷76–W"W‡G&FW'&W7G&R"À¢ÆWfVÃ¢"À¢&Æö6·3¢·²G—S¢'F&ÆR"Â&÷w2ÕĞ¢Ò“°¢Ğ¢Ğ ¢&WGW&âÖW&vVC°§Ğ ¦gVæ7F–öâf–æDÖF6†–æt7F—fUæ¢†'”–C¢ÖÇ7G&–ærÂ'F–6ÆSâÂ6÷W&6S¢'F–6ÆR“¢'F–6ÆRÂçVÆÂ°¢6öç7B&VÄ¶W’ÒW6&ÆUæ¤–FVçF—G’‡6÷W&6Rçæ£òç&VÅöæÖR“°¢6öç7BG'WF„¶W’ÒW6&ÆUæ¤–FVçF—G’‡6÷W&6Rçæ£òææöÕ÷fW&—FR“°¢–b‚&VÄ¶W’bbG'WF„¶W’’&WGW&âçVÆÃ° ¢6öç7B6æF–FFW2Ò²ââæ'”–BçfÇVW2‚•Òæf–ÇFW"‚†6æF–FFR’Óâ°¢–b†6æF–FFRæ–BÓÓÒ6÷W&6Ræ–B’&WGW&âfÇ6S°¢òòôÄBöÆVv7’6÷'W2—2ÆöFVB&Vf÷&R—G2f–æÂ6FVv÷'’&VÖâöæÇ’&V'V–ÇBc ¢òò&öf–ÆW2Ö’'6÷&"æWr7&÷72ÖFö7VÖVçB6÷W&6S²&6†—fW2&VÖ–âVF—BÖöæÇ’à¢–b†6æF–FFRç&V'V–ÆEc"ÓÒG'VR’&WGW&âfÇ6S°¢6öç7B6FVv÷'’Ò7G&–ær†6æF–FFRæ6FVv÷'’óò6æF–FFRç6÷W&6T6FVv÷'’óò""“°¢&WGW&â6FVv÷'’ÓÓÒ%W'6öæævW2"ÇÂ7G&–ær†6æF–FFRæFF6WBóò""’æ–æ6ÇVFW2‚'æ¢"“°¢Ò“° ¢6öç7BF—&V7D–FVçF—G”¶W—2Ò†6æF–FFS¢'F–6ÆR’Óâ°¢6öç7B¶W—2ÒæWr6WCÇ7G&–æsâ‚“°¢6öç7BFBÒ‡fÇVS¢Væ¶æ÷vâ’Óâ°¢6öç7B¶W’ÒW6&ÆUæ¤–FVçF—G’‡fÇVR“°¢–b†¶W’’¶W—2æFB†¶W’“°¢Ó°¢FB†6æF–FFRçF—FÆR“°¢6öç7Bæ¢Ò6æF–FFRçæ¢óò·Ó°¢f÷"†6öç7Bf–VÆBöb²'&VÅöæÖR"Â&æöÕ÷&VVÂ"Â&æöÕ÷&VÆ—FR"Â&æöÕ÷fW&—FR"Â&æÖR"Â&Æ–2%Ò’FB‡æ¥¶f–VÆEÒ“°¢&WGW&â¶W—3°¢Ó° ¢òò&VfW"6–ævÆRW‡Æ–6—BF—FÆRõä¢Öf–VÆBÖF6‚÷fW"–FVçF—F–W2&V6÷fW&VBg&öÒF&ÆW2à¢òò6öÖRÆVv7’6†VWG26öçF–â6÷–VB$æöÒFRÆ,:–Æ—L:’"&÷w2g&öÒæ÷F†W"6†&7FW"à¢f÷"†6öç7B¶W’öb·G'WF„¶W’Â&VÄ¶W•Òæf–ÇFW"„&ööÆVâ’27G&–æuµÒ’°¢6öç7BF—&V7BÒ6æF–FFW2æf–ÇFW"‚†6æF–FFR’ÓâF—&V7D–FVçF—G”¶W—2†6æF–FFR’æ†2†¶W’’“°¢–b†F—&V7BæÆVæwF‚ÓÓÒ’&WGW&âF—&V7E³Ó°¢–b†F—&V7BæÆVæwF‚â’°¢6öç7BF—FÆTÖF6†W2ÒF—&V7Bæf–ÇFW"€¢†6æF–FFR’ÓâW6&ÆUæ¤–FVçF—G’†6æF–FFRçF—FÆR’ÓÓÒ¶W¢“°¢–b‡F—FÆTÖF6†W2æÆVæwF‚ÓÓÒ’&WGW&âF—FÆTÖF6†W5³Ó°¢Ğ¢Ğ ¢6öç7BÖF6†W3¢'&“Ç²'F–6ÆS¢'F–6ÆS²66÷&S¢çVÖ&W"ÓâÒµÓ°¢f÷"†6öç7B6æF–FFRöb6æF–FFW2’°¢6öç7B¶W—2Ò'F–6ÆUæ¤–FVçF—G”¶W—2†6æF–FFR“°¢ÆWB66÷&RÒ°¢–b‡G'WF„¶W’bb¶W—2æ†2‡G'WF„¶W’’’66÷&RÒÖF‚æÖ‚‡66÷&RÂR“°¢–b‡&VÄ¶W’bb¶W—2æ†2‡&VÄ¶W’’’66÷&RÒÖF‚æÖ‚‡66÷&RÂB“°¢–b‡66÷&Râ’ÖF6†W2çW6‚‡²'F–6ÆS¢6æF–FFRÂ66÷&RÒ“°¢Ğ ¢–b‚ÖF6†W2æÆVæwF‚’&WGW&âçVÆÃ°¢6öç7B&W7E66÷&RÒÖF‚æÖ‚‚ââæÖF6†W2æÖ‚†ÖF6‚’ÓâÖF6‚ç66÷&R’“°¢6öç7B&W7BÒÖF6†W2æf–ÇFW"‚†ÖF6‚’ÓâÖF6‚ç66÷&RÓÓÒ&W7E66÷&R“°¢–b†&W7BæÆVæwF‚â’°¢F‡&÷ræWrW'&÷"€¢–FVçF—L:’ä¢Ö&–w\:²÷W"G·6÷W&6RçF—FÆRóò6÷W&6Ræ–GÓ¢G¶&W7BæÖ‚†ÖF6‚’ÓâÖF6‚æ'F–6ÆRæ–B’æ¦ö–â‚"Â"—Ö ¢“°¢Ğ¢&WGW&â&W7E³Òæ'F–6ÆS°§Ğ ¦gVæ7F–öâ6æöæ–6Æ—¦R‡fÇVS¢Væ¶æ÷vâ“¢Væ¶æ÷vâ°¢–b„'&’æ—4'&’‡fÇVR’’&WGW&âfÇVRæÖ†6æöæ–6Æ—¦R“°¢–b‡fÇVRbbG—VöbfÇVRÓÓÒ&ö&¦V7B"’°¢6öç7B÷WGWC¢§6öäö&¦V7BÒ·Ó°¢f÷"†6öç7B¶W’öbö&¦V7Bæ¶W—2‡fÇVR2§6öäö&¦V7B’ç6÷'B‚’’°¢–b†¶W’ÓÓÒ&FF6WB"’6öçF–çVS°¢÷WGWE¶¶W•ÒÒ6æöæ–6Æ—¦R‚‡fÇVR2§6öäö&¦V7B•¶¶W•Ò“°¢Ğ¢&WGW&â÷WGWC°¢Ğ¢&WGW&âfÇVS°§Ğ ¦gVæ7F–öâ7F&ÆU7G&–æv–g’‡fÇVS¢Væ¶æ÷vâ“¢7G&–ær°¢&WGW&â¥4ôâç7G&–æv–g’†6æöæ–6Æ—¦R‡fÇVR’“°§Ğ ¦gVæ7F–öâ'F–6ÆT†6‚†'F–6ÆS¢'F–6ÆR“¢7G&–ær°¢&WGW&â7&VFT†6‚‚'6†#Sb"’çWFFR‡7F&ÆU7G&–æv–g’†'F–6ÆR’’æF–vW7B‚&†W‚"“°§Ğ ¦gVæ7F–öâFV6öFUö–çFW%Fö¶Vâ‡Fö¶Vã¢7G&–ær“¢7G&–ær°¢&WGW&âFö¶Vâç&WÆ6R‚÷ãörÂ"ò"’ç&WÆ6R‚÷ãörÂ'â"“°§Ğ ¦gVæ7F–öâö–çFW%'G2‡Fƒ¢7G&–ær“¢7G&–æuµÒ°¢–b‚F‚ç7F'G5v—F‚‚"ò"’’F‡&÷ræWrW'&÷"†6†VÖ–â¥4ôâö–çFW"–çfÆ–FS¢G·F‡Ö“°¢–b‡F‚ÓÓÒ"ò"’&WGW&â²"%Ó°¢&WGW&âF‚ç6Æ–6Rƒ’ç7Æ—B‚"ò"’æÖ†FV6öFUö–çFW%Fö¶Vâ“°§Ğ ¦gVæ7F–öâ&W6öÇfU&VçB‡&ö÷C¢§6öäö&¦V7BÂFƒ¢7G&–ærÂ7&VFRÒfÇ6R’°¢6öç7B'G2Òö–çFW%'G2‡F‚“°¢6öç7B¶W’Ò'G2ç÷‚’óò"#°¢ÆWBæöFS¢ç’Ò&ö÷C° ¢f÷"†6öç7B'Böb'G2’°¢–b„'&’æ—4'&’†æöFR’’°¢6öç7B–æFW‚ÒçVÖ&W"‡'B“°¢–b‚çVÖ&W"æ—4–çFVvW"†–æFW‚’ÇÂ–æFW‚ÂÇÂ–æFW‚ãÒæöFRæÆVæwF‚’°¢F‡&÷ræWrW'&÷"†–æFW‚–çG&÷Wf&ÆS¢G·'GÖ“°¢Ğ¢æöFRÒæöFU¶–æFW…Ó°¢6öçF–çVS°¢Ğ ¢–b‚æöFRÇÂG—VöbæöFRÓÒ&ö&¦V7B"’°¢F‡&÷ræWrW'&÷"†&VçBæöâö&¦WB÷W"G·F‡Ö“°¢Ğ ¢–b‚ö&¦V7Bç&÷F÷G—Ræ†4÷vå&÷W'G’æ6ÆÂ†æöFRÂ'B’’°¢–b‚7&VFR’F‡&÷ræWrW'&÷"†6†VÖ–â–çG&÷Wf&ÆS¢G·F‡Ö“°¢æöFU·'EÒÒ·Ó°¢Ğ ¢æöFRÒæöFU·'EÓ°¢Ğ ¢&WGW&â²&VçC¢æöFRÂ¶W’Ó°§Ğ ¦gVæ7F–öâ'&”–æFW‚†¶W“¢7G&–ærÂÆVæwFƒ¢çVÖ&W"ÂÆÆ÷tVæBÒfÇ6R“¢çVÖ&W"°¢–b†¶W’ÓÓÒ"Ò"bbÆÆ÷tVæB’&WGW&âÆVæwFƒ°¢6öç7B–æFW‚ÒçVÖ&W"†¶W’“°¢6öç7BÖ‚ÒÆÆ÷tVæBòÆVæwF‚¢ÆVæwF‚Ò°¢–b‚çVÖ&W"æ—4–çFVvW"†–æFW‚’ÇÂ–æFW‚ÂÇÂ–æFW‚âÖ‚’°¢F‡&÷ræWrW'&÷"†–æFW‚FRF&ÆVR–çfÆ–FS¢G¶¶W—Ö“°¢Ğ¢&WGW&â–æFWƒ°§Ğ ¦gVæ7F–öâÇ”÷W&F–öâ‡F&vWC¢§6öäö&¦V7BÂ÷W&F–öã¢§6öäö&¦V7B“¢fö–B°¢6öç7B÷Ò7G&–ær†÷W&F–öâæ÷óò""“°¢6öç7BF‚Ò7G&–ær†÷W&F–öâçF‚óò""“°¢–b‚²&FB"Â'&WÆ6R"Â'&VÖ÷fR%Òæ–æ6ÇVFW2†÷’’°¢F‡&÷ræWrW'&÷"†÷:—&F–öâ–æ6öæçVS¢G¶÷Ö“°¢Ğ ¢6öç7B²&VçBÂ¶W’ÒÒ&W6öÇfU&VçB‡F&vWBÂF‚Â÷ÓÓÒ&FB"“° ¢–b„'&’æ—4'&’‡&VçB’’°¢–b†÷ÓÓÒ&FB"’°¢&VçBç7Æ–6R†'&”–æFW‚†¶W’Â&VçBæÆVæwF‚ÂG'VR’ÂÂFVW6ÆöæR†÷W&F–öâçfÇVR’“°¢ÒVÇ6R°¢6öç7B–æFW‚Ò'&”–æFW‚†¶W’Â&VçBæÆVæwF‚“°¢–b†÷ÓÓÒ'&WÆ6R"’&VçE¶–æFW…ÒÒFVW6ÆöæR†÷W&F–öâçfÇVR“°¢VÇ6R&VçBç7Æ–6R†–æFW‚Â“°¢Ğ¢&WGW&ã°¢Ğ ¢–b‚&VçBÇÂG—Vöb&VçBÓÒ&ö&¦V7B"’°¢F‡&÷ræWrW'&÷"†&VçBæöâö&¦WB÷W"G·F‡Ö“°¢Ğ ¢–b†÷ÓÓÒ'&VÖ÷fR"’°¢–b‚ö&¦V7Bç&÷F÷G—Ræ†4÷vå&÷W'G’æ6ÆÂ‡&VçBÂ¶W’’’°¢F‡&÷ræWrW'&÷"†6†VÖ–â–çG&÷Wf&ÆS¢G·F‡Ö“°¢Ğ¢FVÆWFR&VçE¶¶W•Ó°¢ÒVÇ6R–b†÷ÓÓÒ'&WÆ6R"’°¢–b‚ö&¦V7Bç&÷F÷G—Ræ†4÷vå&÷W'G’æ6ÆÂ‡&VçBÂ¶W’’’°¢F‡&÷ræWrW'&÷"†6†VÖ–â–çG&÷Wf&ÆS¢G·F‡Ö“°¢Ğ¢&VçE¶¶W•ÒÒFVW6ÆöæR†÷W&F–öâçfÇVR“°¢ÒVÇ6R°¢&VçE¶¶W•ÒÒFVW6ÆöæR†÷W&F–öâçfÇVR“°¢Ğ§Ğ ¦gVæ7F–öâæ÷&Ò‡fÇVS¢Væ¶æ÷vâ“¢7G&–ær°¢&WGW&â7G&–ær‡fÇVRóò""¢ææ÷&ÖÆ—¦R‚$ädB"¢ç&WÆ6R‚õµÇS3ÕÇS3feÒörÂ""¢çFôÆ÷vW$66R‚¢ç&WÆ6R‚õµæ×£Ó•Ò²örÂ""¢çG&–Ò‚“°§Ğ ¦gVæ7F–öâ÷&væ—6F–öå&VÆÒ†'F–6ÆS¢'F–6ÆR“¢7G&–ær°¢6öç7BFw2Ò†'F–6ÆRçFw2óòµÒ’æÖ†æ÷&Ò“°¢–b‡Fw2æ–æ6ÇVFW2‚'fW&—FR"’’&WGW&â%l:—&—L:’#°¢–b‡Fw2æ–æ6ÇVFW2‚'&VÆ—FR"’’&WGW&â%,:–Æ—L:’#° ¢6öç7BFW‡BÒæ÷&Ò†G¶'F–6ÆRçF—FÆRóò"'ÒG²†'F–6ÆRçFw2óòµÒ’æ¦ö–â‚""—ÒG¶'F–6ÆRç6÷W&6Róò"'Ö“°¢&WGW&â÷f×—'Æv&÷WÆÆ÷Wv&÷WÆÖvWÆFVÖöçÆævVÇW7Æ6W'–çÆFÆçFWÆW†–ÆWÆW‡G&ÇÆ6†76WW'ÆfÆVWÆö67VÇFWÆ¶†–æRòçFW7B€¢FW‡@¢¢ò%l:—&—L:’ ¢¢%,:–Æ—L:’#°§Ğ ¦gVæ7F–öâF—7Æ”6FVv÷'’†'F–6ÆS¢'F–6ÆR“¢7G&–ær°¢6öç7B6÷W&6RÒ'F–6ÆRç6÷W&6T6FVv÷'’óò'F–6ÆRæ6FVv÷'’óò"#°¢–b…²,8—V—VÖVçB"Â$VvÖVçFF–öç2"Â$6FÆöwVRl:—&—L:’%Òæ–æ6ÇVFW2‡6÷W&6R’’°¢&WGW&â,8—V—VÖVçBbö&¦WG2#°¢Ğ¢–b‡6÷W&6RÓÓÒ$÷&væ—6F–öç2"’&WGW&â÷&væ—6F–öå&VÆÒ†'F–6ÆR“°¢&WGW&â6÷W&6S°§Ğ ¦gVæ7F–öâÖçVf7GW&W$g&öÕF—FÆR‡F—FÆS¢Væ¶æ÷vâ“¢7G&–ær°¢6öç7B&rÒ7G&–ær‡F—FÆRóò""’çG&–Ò‚“°¢6öç7B¶W’Òæ÷&Ò‡&r“° ¢f÷"†6öç7BÖçVf7GW&W"öbUT•ÔTåEôÔåTd5EU$U%2’°¢6öç7BÖ¶W"Òæ÷&Ò†ÖçVf7GW&W"“°¢–b†¶W’ÓÓÒÖ¶W"ÇÂ¶W’ç7F'G5v—F‚†G¶Ö¶W'Ò’’&WGW&âÖçVf7GW&W#°¢Ğ ¢6öç7B7Vff—‚Ò&rç7Æ—B‚õÇ2µ¾(	N(	2ÕÕÇ2²ò’æB‚Ó“°¢6öç7B7Vff—„¶W’Òæ÷&Ò‡7Vff—‚“°¢&WGW&âUT•ÔTåEôÔåTd5EU$U%2æf–æB‚†ÖçVf7GW&W"’Óâæ÷&Ò†ÖçVf7GW&W"’ÓÓÒ7Vff—„¶W’’óò"#°§Ğ ¦gVæ7F–öâÖçVf7GW&W$f÷"†'F–6ÆS¢'F–6ÆR“¢7G&–ær°¢&WGW&â'F–6ÆRæFF6WBÓÓÒ&WV—VÖVçB"òÖçVf7GW&W$g&öÕF—FÆR†'F–6ÆRçF—FÆR’¢"#°§Ğ ¦gVæ7F–öâÇ”æf–vF–öåF†öæö×’†'F–6ÆS¢'F–6ÆRÂVçG'“ó¢æf–vF–öäVçG'’“¢fö–B°¢6öç7B7V&w&÷WÒ7G&–ær†VçG'“òç7V&w&÷Wóò""’çG&–Ò‚“°¢–b†'F–6ÆRæFF6WBÓÒ&WV—VÖVçB"ÇÂõä&ÖVÖVçEÇ2¾(	EÇ2²ö’çFW7B‡7V&w&÷W’’&WGW&ã° ¢–b„'&’æ—4'&’†'F–6ÆRçFw2’’°¢ÆWB&WÆ6VBÒfÇ6S°¢'F–6ÆRçFw2Ò'F–6ÆRçFw2æÖ‚‡Fr’Óâ°¢–b‚õâƒó¤&ÖW7Ä&ÖVÖVçB•Ç2¾(	EÇ2²ö’çFW7B…7G&–ær‡Fróò""’’’°¢&WÆ6VBÒG'VS°¢&WGW&â7V&w&÷W°¢Ğ¢&WGW&âFs°¢Ò“°¢–b‚&WÆ6VB’'F–6ÆRçFw2çW6‚‡7V&w&÷W“°¢Ğ ¢f÷"†6öç7B6V7F–öâöb'F–6ÆRç6V7F–öç2óòµÒ’°¢f÷"†6öç7B&Æö6²öb6V7F–öâæ&Æö6·2óòµÒ’°¢–b†&Æö6³òçG—RÓÒ'F&ÆR"ÇÂ'&’æ—4'&’†&Æö6²ç&÷w2’’6öçF–çVS°¢&Æö6²ç&÷w2Ò&Æö6²ç&÷w2æÖ‚‡&÷s¢Væ¶æ÷vâ’Óâ°¢–b‚'&’æ—4'&’‡&÷r’ÇÂ&÷ræÆVæwF‚Â"ÇÂæ÷&Ò‡&÷u³Ò’ÓÒ&6FVv÷&–R"’&WGW&â&÷s°¢–b‚õâƒó¤&ÖW7Ä&ÖVÖVçB•Ç2¾(	EÇ2²ö’çFW7B…7G&–ær‡&÷u³Òóò""’’’&WGW&â&÷s°¢6öç7B6÷’Ò²ââç&÷uÓ°¢6÷•³ÒÒ7V&w&÷W°¢&WGW&â6÷“°¢Ò“°¢Ğ¢Ğ§Ğ ¦gVæ7F–öâÇ•F&vWFVDVF—F÷&–Ä6÷'&V7F–öç2†'F–6ÆS¢'F–6ÆR“¢fö–B°¢–b†'F–6ÆRæ–BÓÒ&WV—VÖVçBÓCRÖ÷vÂ×6rÓbÖ&÷72"’&WGW&ã° ¢f÷"†6öç7B6V7F–öâöb'F–6ÆRç6V7F–öç2óòµÒ’°¢f÷"†6öç7B&Æö6²öb6V7F–öâæ&Æö6·2óòµÒ’°¢–b†&Æö6³òçG—RÓÒ'"ÇÂG—Vöb&Æö6²çFW‡BÓÒ'7G&–ær"’6öçF–çVS°¢&Æö6²çFW‡BÒ&Æö6²çFW‡Bç&WÆ6R€¢õ6w&æFR,:—6W'fRå¾(	’uÖVâf—B2VæR&ÖRFRÖ÷–VææR÷'L:–UÇ2£¥Ç2¦Æ†–Æ÷6÷†–RGRÖöL:†ÆR&W7FR6VÆÆRE¾(	’u×Vâ6†÷FwVâf–&ÆRÂVff–66RFçBU¾(	’uÖöâ66WFR6öâFöÖ–æRE¾(	’uÖV×Æö’G,:‡2&&ö6Œ:•Âãòö’À¢%666—L:’FR×Væ—F–öç27W:—&–WW&R:ÆÖ÷–VææRÆ–Ö—FRÆW2&V6†&vVÖVçG2ÂÖ—2æR6†ævR26öâFöÖ–æRN(	–V×Æö’¢ÆR&÷72&W7FRVâ6†÷FwVâf–&ÆRÂ6öì:wR÷W"ÆR6öÖ&B:G,:‡26÷W'FR÷'L:–Râ ¢“°¢Ğ¢Ğ§Ğ ¦gVæ7F–öâV&Æ–56æ—WEFW‡B‡fÇVS¢Væ¶æ÷vâ“¢7G&–ær°¢&WGW&â7G&–ær‡fÇVRóò""¢ç&WÆ6R‚õÇµÇµFÆVçG5ÇÅµç·ÕÒ¥ÇÕÇÒöv’Â""¢ç&WÆ6R‚õÇµÇ²ƒó¤Ô§ÄÆ÷&WÄVæ6G,:’•ÇÕÇÒöv’Â""¢ç&WÆ6R‚õÇ2²örÂ""¢çG&–Ò‚“°§Ğ ¦gVæ7F–öâfÆGFVåFW‡B†'F–6ÆS¢'F–6ÆR“¢7G&–ær°¢6öç7B&—G3¢7G&–æuµÒÒ°¢'F–6ÆRçF—FÆRóò""À¢'F–6ÆRç6÷W&6Róò""À¢7G&–ær†'F–6ÆRæÖçVf7GW&W"óò""’À¢âââ†'F–6ÆRçFw2óòµÒ¢Ó° ¢6öç7Bæ¢Ò'F–6ÆRçæ¢2§6öäö&¦V7BÂVæFVf–æVC°¢–b‡æ¢’°¢&—G2çW6‚€¢7G&–ær‡æ¢ææöÕ÷fW&—FRóò""’À¢7G&–ær‡æ¢ç&6Róò""’À¢7G&–ær‡æ¢ævRóò""’À¢7G&–ær‡æ¢æ÷&–v–æRóò""’À¢7G&–ær‡æ¢ç7FGWBóò""’À¢7G&–ær‡æ¢ç7FGWE÷fW&—FRóò""’À¢âââ„'&’æ—4'&’‡æ¢ç&VÆF–öç2’òæ¢ç&VÆF–öç2æÖ…7G&–ær’¢µÒ¢“°¢Ğ ¢f÷"†6öç7B6V7F–öâöb'F–6ÆRç6V7F–öç2óòµÒ’°¢&—G2çW6‚…7G&–ær‡6V7F–öâçF—FÆRóò""’“°¢f÷"†6öç7B&Æö6²öb6V7F–öâæ&Æö6·2óòµÒ’°¢–b†&Æö6³òçG—RÓÓÒ'"’°¢6öç7BFW‡BÒV&Æ–56æ—WEFW‡B†&Æö6²çFW‡B“°¢–b‡FW‡B’&—G2çW6‚‡FW‡B“°¢Ğ¢–b†&Æö6³òçG—RÓÓÒ'F&ÆR"bb'&’æ—4'&’†&Æö6²ç&÷w2’’°¢f÷"†6öç7B&÷röb&Æö6²ç&÷w2’°¢–b„'&’æ—4'&’‡&÷r’’°¢&—G2çW6‚‚ââç&÷ræÖ‚†6VÆÂ’ÓâV&Æ–56æ—WEFW‡B†6VÆÂ’’æf–ÇFW"„&ööÆVâ’“°¢Ğ¢Ğ¢Ğ¢Ğ¢Ğ ¢&WGW&â&—G2æ¦ö–â‚""“°§Ğ ¦gVæ7F–öâ'F–6ÆU6æ—WB†'F–6ÆS¢'F–6ÆRÂVW'’Ò""ÂÆ–Ö—BÒ#c“¢7G&–ær°¢6öç7BFW‡BÒfÆGFVåFW‡B†'F–6ÆR’ç&WÆ6R‚õÇ2²örÂ""’çG&–Ò‚“°¢–b‚FW‡B’&WGW&â"#° ¢–b‡VW'’’°¢6öç7Bæ÷&ÖÆ—¦VEFW‡BÒæ÷&Ò‡FW‡B“°¢6öç7Bf—'7EFö¶VâÒæ÷&Ò‡VW'’’ç7Æ—B‚""’æf–æB„&ööÆVâ“°¢–b†f—'7EFö¶Vâ’°¢6öç7B–æFW‚Òæ÷&ÖÆ—¦VEFW‡Bæ–æFW„öb†f—'7EFö¶Vâ“°¢–b†–æFW‚âƒ’°¢6öç7B7F'BÒÖF‚æÖ‚ƒÂ–æFW‚Òs“°¢6öç7BW†6W'BÒFW‡Bç6Æ–6R‡7F'BÂ7F'B²Æ–Ö—B“°¢&WGW&â(
+bG¶W†6W'GÒG·7F'B²Æ–Ö—BÂFW‡BæÆVæwF‚ò.(
+b"¢"'Ö°¢Ğ¢Ğ¢Ğ ¢&WGW&âFW‡Bç6Æ–6RƒÂÆ–Ö—B’²‡FW‡BæÆVæwF‚âÆ–Ö—Bò.(
+b"¢""“°§Ğ ¦gVæ7F–öâv–¶•&Wf–WuFW‡B†'F–6ÆS¢'F–6ÆRÂÆ–Ö—BÒ3c“¢7G&–ær°¢6öç7B6‡Væ·3¢7G&–æuµÒÒµÓ° ¢f÷"†6öç7B6V7F–öâöb'F–6ÆRç6V7F–öç2óòµÒ’°¢–b‡6V7F–öãòæVF–Væ6RÓÓÒ&Ö¢"’6öçF–çVS° ¢f÷"†6öç7B&Æö6²öb6V7F–öâæ&Æö6·2óòµÒ’°¢–b†&Æö6³òçG—RÓÓÒ'"’°¢6öç7BFW‡BÒV&Æ–56æ—WEFW‡B†&Æö6²çFW‡B“°¢–b‡FW‡B’6‡Væ·2çW6‚‡FW‡B“°¢Ğ¢–b†6‡Væ·2æ¦ö–â‚""’æÆVæwF‚ãÒÆ–Ö—B¢ãB’'&V³°¢Ğ ¢–b†6‡Væ·2æ¦ö–â‚""’æÆVæwF‚ãÒÆ–Ö—B¢ãB’'&V³°¢Ğ ¢6öç7BFW‡BÒV&Æ–56æ—WEFW‡B†6‡Væ·2æ¦ö–â‚""’ÇÂ'F–6ÆU6æ—WB†'F–6ÆRÂ""ÂÆ–Ö—B’“° ¢–b‡FW‡BæÆVæwF‚ÃÒÆ–Ö—B’&WGW&âFW‡C°¢&WGW&âFW‡Bç6Æ–6RƒÂÆ–Ö—B’ç&WÆ6R‚õÇ2µÅ2¢BòÂ""’².(
+b#°§Ğ ¦7–æ2gVæ7F–öâ&VD§6öãÅCâ†f–ÆVæÖS¢7G&–ær“¢&öÖ—6SÅCâ°¢&WGW&â¥4ôâç'6R†v—B&VDf–ÆR‡&W6öÇfR„4ôÕTäD•TÕôDDôD•"Âf–ÆVæÖR’Â'WFc‚"’’2C°§Ğ ¦7–æ2gVæ7F–öâÆöDFF6WB‡7V3¢FF6WE7V2“¢&öÖ—6SÄ'F–6ÆUµÓâ°¢6öç7B'G2Òv—B&öÖ—6RæÆÂ€¢'&’æg&öÒ‡²ÆVæwFƒ¢7V2ç'G2ÒÂ7–æ2…òÂ–æFW‚’Óâ°¢6öç7Bf–ÆVæÖRÒG·7V2ç&Vf—‡ÒÒGµ7G&–ær†–æFW‚’çE7F'Bƒ"Â#"—Òæ#cG'F°¢&WGW&â&VDf–ÆR‡&W6öÇfR„4ôÕTäD•TÕôDDôD•"Âf–ÆVæÖR’Â'WFc‚"“°¢Ò¢“° ¢6öç7B6ö×&W76VBÒ'VffW"æg&öÒ‡'G2æ¦ö–â‚""’ç&WÆ6R‚õÇ2²örÂ""’Â&&6ScB"“°¢6öç7B'6VBÒ¥4ôâç'6R†wVç¦—7–æ2†6ö×&W76VB’çFõ7G&–ær‚'WFc‚"’’2'F–6ÆUµÓ°¢–b‚'&’æ—4'&’‡'6VB’’F‡&÷ræWrW'&÷"†G·7V2æ–GÒ+r&6–æRæöâF'VÆ—&V“°¢&WGW&â'6VC°§Ğ ¦7–æ2gVæ7F–öâÇ”6öÖÖ—GFVD÷fW'&–FW2€¢'F–6ÆTÖ¢ÖÇ7G&–ærÂ'F–6ÆSâÀ¢–ÆöC¢§6öäö&¦V7@¢“¢&öÖ—6SÇ²Æ–VC¢çVÖ&W#²6öæfÆ–7G3¢çVÖ&W#²Ö—76–æs¢çVÖ&W"Óâ°¢6öç7BVçG&–W2Ò'&’æ—4'&’‡–ÆöBæVçG&–W2’ò–ÆöBæVçG&–W2¢µÓ°¢6öç7Bw&÷WVBÒæWrÖÇ7G&–ærÂ§6öäö&¦V7EµÓâ‚“° ¢f÷"†6öç7BVçG'’öbVçG&–W2’°¢–b‚VçG'“òæ'F–6ÆT–B’6öçF–çVS°¢6öç7B–BÒ7G&–ær†VçG'’æ'F–6ÆT–B“°¢6öç7BÆ—7BÒw&÷WVBævWB†–B’óòµÓ°¢Æ—7BçW6‚†VçG'’“°¢w&÷WVBç6WB†–BÂÆ—7B“°¢Ğ ¢ÆWBÆ–VBÒ°¢ÆWB6öæfÆ–7G2Ò°¢ÆWBÖ—76–ærÒ° ¢f÷"†6öç7B¶'F–6ÆT–BÂ'F–6ÆTVçG&–W5Òöbw&÷WVB’°¢6öç7B&6RÒ'F–6ÆTÖævWB†'F–6ÆT–B“°¢–b‚&6R’°¢Ö—76–ær³Ò°¢6öçF–çVS°¢Ğ ¢6öç7B&6T†6‚Ò'F–6ÆT†6‚†&6R“°¢ÆWBVffV7F—fRÒFVW6ÆöæR†&6R“°¢ÆWBÆ–VD†W&RÒ°¢ÆWBÖVF–÷fW'&–FRÒfÇ6S° ¢f÷"†6öç7BVçG'’öb'F–6ÆTVçG&–W2’°¢–b†VçG'’æ&6T†6‚ÓÒ&6T†6‚’°¢6öæfÆ–7G2³Ò°¢6öçF–çVS°¢Ğ ¢f÷"†6öç7B÷W&F–öâöb'&’æ—4'&’†VçG'’æ÷W&F–öç2’òVçG'’æ÷W&F–öç2¢µÒ’°¢Ç”÷W&F–öâ†VffV7F—fRÂ÷W&F–öâ“°¢–b…²"ö–ÆÇW7G&F–öâ"Â"ö–ÖvR%Òæ–æ6ÇVFW2…7G&–ær†÷W&F–öãòçF‚óò""’’’°¢ÖVF–÷fW'&–FRÒG'VS°¢Ğ¢Ğ ¢Æ–VB³Ò°¢Æ–VD†W&R³Ò°¢Ğ ¢–b†Æ–VD†W&Râ’°¢VffV7F—fRæFF6WBÒVffV7F—fRæFF6WBóò&6RæFF6WC°¢VffV7F—fRåõöVF—F÷&–Ä÷fW'&–FRÒG'VS°¢VffV7F—fRåõöVF—F÷&–Ä÷fW'&–FT6÷VçBÒÆ–VD†W&S°¢VffV7F—fRåõöVF—F÷&–ÄÖVF–÷fW'&–FRÒÖVF–÷fW'&–FS°¢'F–6ÆTÖç6WB†'F–6ÆT–BÂVffV7F—fR“°¢Ğ¢Ğ ¢&WGW&â²Æ–VBÂ6öæfÆ–7G2ÂÖ—76–ærÓ°§Ğ ¦7–æ2gVæ7F–öâÆöD6÷'W2‚“¢&öÖ—6SÄ6÷'W3â°¢6öç7BÖæ–fW7BÒv—B&VD§6öãÄÖæ–fW7Câ‚&Öæ–fW7B×c2æ§6öâ"“°¢6öç7Bæf–vF–öå–ÆöBÒv—B&VD§6öãÇ²VçG&–W3ó¢æf–vF–öäVçG'•µÒÓâ‚&æf–vF–öâ×cæ§6öâ"“°¢6öç7B÷fW'&–FU–ÆöBÒv—B&VD§6öãÄ§6öäö&¦V7Câ‚&ÖçVÂÖ÷fW'&–FW2æ§6öâ"“° ¢–b‚'&’æ—4'&’†Öæ–fW7BæFF6WG2’’F‡&÷ræWrW'&÷"‚$Öæ–fW7B6ö×VæF—VÒc2–çfÆ–FR"“° ¢6öç7B'”–BÒæWrÖÇ7G&–ærÂ'F–6ÆSâ‚“°¢6öç7BW‡G&FW'&W7G&–Åæ¥&W6öÇfVD–G2ÒæWrÖÇ7G&–ærÂ7G&–æsâ‚“°¢6öç7BW‡G&Ç4w&÷W5æ¥&W6öÇfVD–G2ÒæWrÖÇ7G&–ærÂ7G&–æsâ‚“°¢6öç7B‡VÖävÆ7F–5æ¥&W6öÇfVD–G2ÒæWrÖÇ7G&–ærÂ7G&–æsâ‚“°¢6öç7B7&vÆW%æ¥&W6öÇfVD–G2ÒæWrÖÇ7G&–ærÂ7G&–æsâ‚“°¢6öç7B6÷'÷&F–öåæ¥&W6öÇfVD–G2ÒæWrÖÇ7G&–ærÂ7G&–æsâ‚“°¢6öç7B‡VçFW%æ¥&W6öÇfVD–G2ÒæWrÖÇ7G&–ærÂ7G&–æsâ‚“°¢6öç7BfÆVW…æ¥&W6öÇfVD–G2ÒæWrÖÇ7G&–ærÂ7G&–æsâ‚“°¢6öç7BÖvTÆövW5æ¥&W6öÇfVD–G2ÒæWrÖÇ7G&–ærÂ7G&–æsâ‚“°¢6öç7Bf×—&T6÷W'Eæ¥&W6öÇfVD–G2ÒæWrÖÇ7G&–ærÂ7G&–æsâ‚“°¢6öç7BVÆvUæ¥&W6öÇfVD–G2ÒæWrÖÇ7G&–ærÂ7G&–æsâ‚“°¢6öç7BævVÇW5æ¥&W6öÇfVD–G2ÒæWrÖÇ7G&–ærÂ7G&–æsâ‚“°¢6öç7BFV×ÆW4FVÖöæ–VW5æ¥&W6öÇfVD–G2ÒæWrÖÇ7G&–ærÂ7G&–æsâ‚“°¢6öç7B6W'–åFW'&W5FV×ÆW5æ¥&W6öÇfVD–G2ÒæWrÖÇ7G&–ærÂ7G&–æsâ‚“°¢6öç7Bw&æG4W†–ÆW5æ¥&W6öÇfVD–G2ÒæWrÖÇ7G&–ærÂ7G&–æsâ‚“°¢6öç7Bö–çG5&Væ6öçG&Uæ¥&W6öÇfVD–G2ÒæWrÖÇ7G&–ærÂ7G&–æsâ‚“°¢6öç7BÆöFVBÒv—B&öÖ—6RæÆÂ€¢Öæ–fW7BæFF6WG2æÖ†7–æ2‡7V2’Óâ·7V2æ–BÂv—BÆöDFF6WB‡7V2•Ò26öç7B¢“° ¢f÷"†6öç7B¶FF6WBÂ&÷w5ÒöbÆöFVB’°¢f÷"†6öç7B6÷W&6Röb&÷w2’°¢–b‚6÷W&6Sòæ–B’6öçF–çVS°¢6öç7B'F–6ÆRÒFVW6ÆöæR‡6÷W&6R“°¢'F–6ÆRæFF6WBÒ'F–6ÆRæFF6WBóòFF6WC°¢'”–Bç6WB†'F–6ÆRæ–BÂ'F–6ÆR“°¢Ğ¢Ğ ¢f÷"†6öç7BwV–FRöb4ôÕTäD•TÕôuT”DUô%D”4ÄU2’°¢–b‚'”–Bæ†2†wV–FRæ–B’’'”–Bç6WB†wV–FRæ–BÂFVW6ÆöæR†wV–FR’2'F–6ÆR“°¢Ğ ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕôÔõDUU%õcEô%D”4ÄU2’°¢òòF†R&V'V–ÇBÖ÷FWW"6÷'W2FVÆ–&W&FVÇ’7WW'6VFW2ç’ÆVv7’vRv—F‚F†R6ÖR”Bà¢'”–Bç6WB†'F–6ÆRæ–BÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõ$TÄ•DUõc•ôÄõ$Uô%D”4ÄU2’°¢òò&VÆ—G’c’—2F†R&V'V–ÇB6æöæ–6ÂV&Æ–2Æ÷&R6÷'W2f÷"F†—26÷W&6Rà¢'”–Bç6WB†'F–6ÆRæ–BÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢6öç7B6÷'÷&F–öç4‡V"Ò'”–BævWB„4ôÕTäD•TÕõ$TÄ•DUõc•ô4õ%õ$D”ôå5ô…T%ô”B“°¢–b†6÷'÷&F–öç4‡V"’°¢6öç7BW†—7F–æt–G2ÒæWr6WB‚†6÷'÷&F–öç4‡V"ç6V7F–öç2óòµÒ’æÖ‚‡6V7F–öâ’Óâ7G&–ær‡6V7F–öãòæ–Bóò""’’“°¢6öç7BFF—F–öç2Ò„4ôÕTäD•TÕõ$TÄ•DUõc•ô4õ%õ$D”ôå5ô…T%ôTå$”4„ÔTåBç6V7F–öç2óòµÒ¢æf–ÇFW"‚‡6V7F–öã¢§6öäö&¦V7B’ÓâW†—7F–æt–G2æ†2…7G&–ær‡6V7F–öãòæ–Bóò""’’“°¢6÷'÷&F–öç4‡V"ç6V7F–öç2Ò²âââ†6÷'÷&F–öç4‡V"ç6V7F–öç2óòµÒ’Ââââ†FVW6ÆöæR†FF—F–öç2’2§6öäö&¦V7EµÒ•Ó°¢6öç7B6÷W&6W2Ò¶6÷'÷&F–öç4‡V"ç6÷W&6RÂ4ôÕTäD•TÕõ$TÄ•DUõc•ô4õ%õ$D”ôå5ô…T%ôTå$”4„ÔTåBç6÷W&6UĞ¢æfÆDÖ‚‡fÇVR’Óâ7G&–ær‡fÇVRóò""’ç7Æ—B‚"²"’¢æÖ‚‡fÇVR’ÓâfÇVRçG&–Ò‚’¢æf–ÇFW"„&ööÆVâ“°¢6÷'÷&F–öç4‡V"ç6÷W&6RÒ²ââææWr6WB‡6÷W&6W2•Òæ¦ö–â‚"²"“°¢6÷'÷&F–öç4‡V"çFw2Ò²ââææWr6WB…°¢âââ†6÷'÷&F–öç4‡V"çFw2óòµÒ’À¢âââ„4ôÕTäD•TÕõ$TÄ•DUõc•ô4õ%õ$D”ôå5ô…T%ôTå$”4„ÔTåBçFw2óòµÒ¢Ò•Ó°¢6÷'÷&F–öç4‡V"ç7FGW2Ò&6æöåöVç&–6†’#°¢6÷'÷&F–öç4‡V"ç&V'V–ÆEc"ÒG'VS°¢Ğ ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõ$TÄ•DUõc•ô4õ%õ$D”ôå5ô%D”4ÄU2’°¢'”–Bç6WB…7G&–ær†'F–6ÆRæ–B’ÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõ$TÄ•DUõc•õTu$Uô%D”4ÄU2’°¢òòFWF–ÆVB6Æ–f÷&æ–VæFW'v÷&ÆB73¢÷fW'&–FW2F†R&VÆ—G’‡V"æBFG2öæRvRW"7&–Ö–æÂ÷&væ—¦F–öâà¢'”–Bç6WB†'F–6ÆRæ–BÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõ$TÄ•DUõc•õTu$Uõä¥ô%D”4ÄU2’°¢òò7F—fRVæFW'v÷&ÆBä§2W6RFVF–6FVB”G3²&6†—fVBä¢vW2&VÖ–âVF—BÖFW&–ÂöæÇ’à¢'”–Bç6WB†'F–6ÆRæ–BÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢6öç7BÆW4‡V"Ò'”–BævWB‚'&VÆ—FR×c’ÖÆ÷2ÖævVÆW2ÖÆW2×6V7W&—FW2"“°¢–b†ÆW4‡V"’°¢òò&W6W'fRF†R6öç6öÆ–FFVB&VÆ—G’vRæBVæBF†R6÷W&6RÖ6ö×ÆWFRöÆ–6RôÄU2FWF–Â72à¢ÆW4‡V"ç6V7F–öç2Ò°¢âââ†ÆW4‡V"ç6V7F–öç2óòµÒ’À¢âââ†FVW6ÆöæR„4ôÕTäD•TÕõ$TÄ•DUõc•õôÄ”4Uô…T%õ4T5D”ôå2’2§6öäö&¦V7EµÒ¢Ó°¢Ğ ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõ$TÄ•DUõc•õôÄ”4Uô%D”4ÄU2’°¢'”–Bç6WB†'F–6ÆRæ–BÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõ$TÄ•DUõc•õôÄ”4Uõä¥ô%D”4ÄU2’°¢òò7F—fRöÆ–6RôÖ÷7BÕvçFVB&öf–ÆW2W6RFVF–6FVB”G3²ÖF6†–ærôÄBvW2&VÖ–âVF—BÖöæÇ’à¢'”–Bç6WB†'F–6ÆRæ–BÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢f÷"†6öç7BVç&–6†ÖVçBöb4ôÕTäD•TÕõ$TÄ•DUõc•õôÄ”4Uõä¥ôTå$”4„ÔTåE2’°¢6öç7BF&vWBÒ'”–BævWB†Vç&–6†ÖVçBæ–B“°¢–b‚F&vWB’6öçF–çVS°¢F&vWBç6V7F–öç2Ò°¢âââ‡F&vWBç6V7F–öç2óòµÒ’À¢FVW6ÆöæR†Vç&–6†ÖVçBç6V7F–öâ’2§6öäö&¦V7@¢Ó°¢Ğ ¢6öç7Bv÷fW&æÖVçD‡V"Ò'”–BævWB‚'&VÆ—FR×c’ÖWFBÖ–ç7F—GWF–öç2Öw&æFR×&W6W'fR"“°¢–b†v÷fW&æÖVçD‡V"’°¢v÷fW&æÖVçD‡V"ç6V7F–öç2Ò°¢âââ†v÷fW&æÖVçD‡V"ç6V7F–öç2óòµÒ’À¢âââ†FVW6ÆöæR„4ôÕTäD•TÕõ$TÄ•DUõc•ôtõdU$äÔTåEô…T%õ4T5D”ôå2’2§6öäö&¦V7EµÒ¢Ó°¢–b‚7G&–ær†v÷fW&æÖVçD‡V"ç6÷W&6Róò""’æ–æ6ÇVFW2‚%ET5ö÷&væ—6F–öç5öv÷WfW&æVÖVçBƒ’æFö7‚"’’°¢v÷fW&æÖVçD‡V"ç6÷W&6RÒ¶v÷fW&æÖVçD‡V"ç6÷W&6RÂ%ET5ö÷&væ—6F–öç5öv÷WfW&æVÖVçBƒ’æFö7‚%Òæf–ÇFW"„&ööÆVâ’æ¦ö–â‚"²"“°¢Ğ¢Ğ ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõ$TÄ•DUõc•ôtõdU$äÔTåEô%D”4ÄU2’°¢'”–Bç6WB†'F–6ÆRæ–BÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõ$TÄ•DUõc•ôtõdU$äÔTåEõä¥ô%D”4ÄU2’°¢'”–Bç6WB†'F–6ÆRæ–BÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢f÷"†6öç7BVç&–6†ÖVçBöb4ôÕTäD•TÕõ$TÄ•DUõc•ôtõdU$äÔTåEõä¥ôTå$”4„ÔTåE2’°¢6öç7BF&vWBÒ'”–BævWB†Vç&–6†ÖVçBæ–B“°¢–b‚F&vWB’6öçF–çVS°¢6öç7BW†—7F–æt–G2ÒæWr6WB‚‡F&vWBç6V7F–öç2óòµÒ’æÖ‚‡6V7F–öâ’Óâ7G&–ær‡6V7F–öãòæ–Bóò""’’“°¢–b‚W†—7F–æt–G2æ†2…7G&–ær†Vç&–6†ÖVçBç6V7F–öãòæ–Bóò""’’’°¢F&vWBç6V7F–öç2Ò°¢âââ‡F&vWBç6V7F–öç2óòµÒ’À¢FVW6ÆöæR†Vç&–6†ÖVçBç6V7F–öâ’2§6öäö&¦V7@¢Ó°¢Ğ¢–b‚7G&–ær‡F&vWBç6÷W&6Róò""’æ–æ6ÇVFW2‚%ET5ö÷&væ—6F–öç5öv÷WfW&æVÖVçBƒ’æFö7‚"’’°¢F&vWBç6÷W&6RÒ·F&vWBç6÷W&6RÂ%ET5ö÷&væ—6F–öç5öv÷WfW&æVÖVçBƒ’æFö7‚%Òæf–ÇFW"„&ööÆVâ’æ¦ö–â‚"²"“°¢Ğ¢F&vWBçFw2Ò'&’æg&öÒ†æWr6WB…²âââ‡F&vWBçFw2óòµÒ’Â$v÷WfW&æVÖVçB%Ò’“°¢Ğ ¢6öç7BvVæ6–W4‡V"Ò'”–BævWB„4ôÕTäD•TÕõ$TÄ•DUõc•ôtTä4”U5ô…T%ô”B“°¢–b†vVæ6–W4‡V"’°¢vVæ6–W4‡V"çF—FÆRÒ7G&–ær„4ôÕTäD•TÕõ$TÄ•DUõc•ôtTä4”U5ô…T"çF—FÆRóòvVæ6–W4‡V"çF—FÆR“°¢vVæ6–W4‡V"ç6÷W&6RÒ7G&–ær„4ôÕTäD•TÕõ$TÄ•DUõc•ôtTä4”U5ô…T"ç6÷W&6RóòvVæ6–W4‡V"ç6÷W&6R“°¢vVæ6–W4‡V"çFw2ÒFVW6ÆöæR„4ôÕTäD•TÕõ$TÄ•DUõc•ôtTä4”U5ô…T"çFw2óòvVæ6–W4‡V"çFw2óòµÒ“°¢vVæ6–W4‡V"ç6V7F–öç2ÒFVW6ÆöæR„4ôÕTäD•TÕõ$TÄ•DUõc•ôtTä4”U5ô…T"ç6V7F–öç2óòµÒ’2§6öäö&¦V7EµÓ°¢vVæ6–W4‡V"ç7FGW2Ò&6æöåöVç&–6†’#°¢vVæ6–W4‡V"ç&V'V–ÆEc"ÒG'VS°¢Ğ ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõ$TÄ•DUõc•ôtTä4”U5ô%D”4ÄU2’°¢'”–Bç6WB†'F–6ÆRæ–BÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõ$TÄ•DUõc•ôtTä4”U5õä¥ô%D”4ÄU2’°¢'”–Bç6WB†'F–6ÆRæ–BÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõ$TÄ•DUõc•õ$TÄ”t”ôåô%D”4ÄU2’°¢òò&VÆ–v–öâ6öç6öÆ–FF–öâ÷fW'&–FW2F†R&VÆ—G’‡V"æBFG2öæR–ÖÖW'6—fRvRW"Ö¦÷"G&F—F–öâà¢'”–Bç6WB†'F–6ÆRæ–BÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢f÷"†6öç7B6÷W&6T'F–6ÆRöb4ôÕTäD•TÕõ$TÄ•DUõc•õ$TÄ”t”ôåõä¥ô%D”4ÄU2’°¢òò7F—fR&VÆ–v–÷W2&öf–ÆW2æWfW"&WW6R&6†—fVBÆVv7’”G3¢&6†—fW2&VÖ–â–æFWVæFVçBVF—BÖFW&–Âà¢6öç7B'F–6ÆRÒFVW6ÆöæR‡6÷W&6T'F–6ÆR’2'F–6ÆS°¢'F–6ÆRæ–BÒ7F—fU&VÆ–v–öåæ¤–B†'F–6ÆRæ–B“°¢'”–Bç6WB†'F–6ÆRæ–BÂ'F–6ÆR“°¢Ğ ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõ$TÄ•DUõc•ô4…$•5D”ä•E•ô%D”4ÄU2’°¢òògVÆÂ6‡&—7F–æ—G’73¢Vç&–6†W2F†RV&Æ–26‡W&6‚vRæBFG27F—fRä§2g&öÒF†RFWF–ÆVB6÷W&6Rà¢'”–Bç6WB†'F–6ÆRæ–BÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢òòf–æÂ6÷W&6RÖ6ö×ÆWFRV&Æ–2&VÆ—G’6öç6öÆ–FF–öâf÷"F†RVæ–f–VB6‡&—7F–â6‡W&6‚à¢'”–Bç6WB€¢4ôÕTäD•TÕõ$TÄ•DUõc•ô4…$•5D”ä•E•ôÄõ$Uô%D”4ÄRæ–BÀ¢FVW6ÆöæR„4ôÕTäD•TÕõ$TÄ•DUõc•ô4…$•5D”ä•E•ôÄõ$Uô%D”4ÄR’2'F–6ÆP¢“° ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõ$TÄ•DUõc•õ%TÄUô%D”4ÄU2’°¢òòG&ç7fW'6Â'VÆW2†–FFVâÖöær6FÆör6†FW'2&R&öÖ÷FVB†W&Rv—F†÷WBGWÆ–6F–ær6FÆörVçG&–W2à¢'”–Bç6WB†'F–6ÆRæ–BÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõdU$•DUõcuôÄõ$Uô%D”4ÄU2’°¢òòG'WF‚cr—2&V'V–ÇB6÷W&6RÖf—'7C²—B7WW'6VFW2&6†—fVBÆVv7’vW2v—F†÷WB&W7F÷&–ærF†RöÆB6÷'W2à¢'”–Bç6WB†'F–6ÆRæ–BÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõdU$•DUõcuõ%TÄUô%D”4ÄU2’°¢òò6öÖÖöâG'WF‚'VÆW2&R&öÖ÷FVBg&öÒF†R6æöæ–6Âcr6÷W&6RæB&VÖ–â6W&FRg&öÒ&öGV7B6FÆöw2à¢'”–Bç6WB†'F–6ÆRæ–BÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõdU$•DUõcuô´„”äUôÄõ$Uô%D”4ÄU2’°¢'”–Bç6WB†'F–6ÆRæ–BÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõdU$•DUõcuô´„”äUõ%TÄUô%D”4ÄU2’°¢'”–Bç6WB†'F–6ÆRæ–BÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõdU$•DUõcuôÔtUô%D”4ÄU2’°¢'”–Bç6WB†'F–6ÆRæ–BÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõdU$•DUõcuôDTÔôåô%D”4ÄU2’°¢'”–Bç6WB†'F–6ÆRæ–BÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõdU$•DUõcuôätTÅU5ô%D”4ÄU2’°¢'”–Bç6WB†'F–6ÆRæ–BÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢f÷"†6öç7BVç&–6†ÖVçBöb4ôÕTäD•TÕõdU$•DUôätTÅU5ôTå$”4„ÔTåE2’°¢6öç7BF&vWBÒ'”–BævWB…7G&–ær†Vç&–6†ÖVçBçF&vWD–Bóò""’“°¢–b‚F&vWB’°¢F‡&÷ræWrW'&÷"†6–&ÆRBvVç&–6†—76VÖVçBævVÇW2'6VçFS¢Gµ7G&–ær†Vç&–6†ÖVçBçF&vWD–Bóò""—Ö“°¢Ğ ¢6öç7BW†—7F–æt–G2ÒæWr6WB‚‡F&vWBç6V7F–öç2óòµÒ’æÖ‚‡6V7F–öâ’Óâ7G&–ær‡6V7F–öãòæ–Bóò""’’“°¢6öç7B6V7F–öç2Ò†FVW6ÆöæR†Vç&–6†ÖVçBç6V7F–öç2óòµÒ’2§6öäö&¦V7EµÒ’æf–ÇFW"€¢‡6V7F–öâ’ÓâW†—7F–æt–G2æ†2…7G&–ær‡6V7F–öãòæ–Bóò""’¢“°¢–b‡6V7F–öç2æÆVæwF‚’F&vWBç6V7F–öç2Ò²âââ‡F&vWBç6V7F–öç2óòµÒ’Âââç6V7F–öç5Ó° ¢6öç7B6÷W&6W2Ò·F&vWBç6÷W&6RÂVç&–6†ÖVçBç6÷W&6UĞ¢æfÆDÖ‚‡fÇVR’Óâ7G&–ær‡fÇVRóò""’ç7Æ—B‚"²"’¢æÖ‚‡fÇVR’ÓâfÇVRçG&–Ò‚’¢æf–ÇFW"„&ööÆVâ“°¢F&vWBç6÷W&6RÒ²ââææWr6WB‡6÷W&6W2•Òæ¦ö–â‚"²"“°¢F&vWBçFw2Ò°¢ââææWr6WB…°¢âââ‡F&vWBçFw2óòµÒ’À¢âââ†Vç&–6†ÖVçBçFw2óòµÒ’À¢âââ†æWr6WB‡6÷W&6W2’ç6—¦Râò²$×VÇF’×6÷W&6R%Ò¢µÒ¢Ò¢Ó°¢F&vWBç7FGW2Ò&6æöåöVç&–6†’#°¢F&vWBç&V'V–ÆEc"ÒG'VS°¢Ğ ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõdU$•DUôätTÅU5ô%D”4ÄU2’°¢'”–Bç6WB…7G&–ær†'F–6ÆRæ–B’ÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢f÷"†6öç7B6÷W&6T'F–6ÆRöb4ôÕTäD•TÕõdU$•DUôätTÅU5õä¥ô%D”4ÄU2’°¢6öç7B'F–6ÆRÒFVW6ÆöæR‡6÷W&6T'F–6ÆR’2'F–6ÆS°¢6öç7BW†—7F–ærÒf–æDÖF6†–æt6W'–åæ¢†'”–BÂ'F–6ÆR“°¢–b†W†—7F–ær’°¢'”–Bç6WB†W†—7F–æræ–BÂÖW&vTævVÇW5æ¢†W†—7F–ærÂ'F–6ÆR’“°¢ævVÇW5æ¥&W6öÇfVD–G2ç6WB†'F–6ÆRæ–BÂW†—7F–æræ–B“°¢6öçF–çVS°¢Ğ¢'”–Bç6WB†'F–6ÆRæ–BÂ'F–6ÆR“°¢ævVÇW5æ¥&W6öÇfVD–G2ç6WB†'F–6ÆRæ–BÂ'F–6ÆRæ–B“°¢Ğ ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõdU$•DUõcuô4U%”åô%D”4ÄU2’°¢'”–Bç6WB†'F–6ÆRæ–BÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°¢Ğ ¢6öç7B6W'–ä‡V"Ò'”–BævWB„4ôÕTäD•TÕõdU$•DUô4U%”åô…T%ô”B“°¢–b‚6W'–ä‡V"’°¢F‡&÷ræWrW'&÷"†‡V"6W'–â'6VçB÷W"Âv–çL:–w&F–öâFW2FW'&W2WBFV×ÆW3¢G´4ôÕTäD•TÕõdU$•DUô4U%”åô…T%ô”GÖ“°¢Ğ ¢6öç7B6W'–ä‡V%6V7F–öä–G2ÒæWr6WB€¢†6W'–ä‡V"ç6V7F–öç2óòµÒ’æÖ‚‡6V7F–öâ’Óâ7G&–ær‡6V7F–öãòæ–Bóò""’¢“°¢f÷"†6öç7B6V7F–öâöb4ôÕTäD•TÕõdU$•DUô4U%”åô…T%õ4T5D”ôå2’°¢6öç7B–BÒ7G&–ær‡6V7F–öãòæ–Bóò""“°¢–b‚–BÇÂ6W'–ä‡V%6V7F–öä–G2æ†2†–B’’6öçF–çVS°¢6W'–ä‡V"ç6V7F–öç2Ò²âââ†6W'–ä‡V"ç6V7F–öç2óòµÒ’ÂFVW6ÆöæR‡6V7F–öâ’2§6öäö&¦V7EÓ°¢6W'–ä‡V%6V7F–öä–G2æFB†–B“°¢Ğ ¢6W'–ä‡V"ç6÷W&6RÒ°¢ââææWr6WB€¢¶6W'–ä‡V"ç6÷W&6RÂ4ôÕTäD•TÕõdU$•DUô4U%”åõDU%$U5õDTÕÄU5õ4õU$4UĞ¢æfÆDÖ‚‡fÇVR’Óâ7G&–ær‡fÇVRóò""’ç7Æ—B‚"²"’¢æÖ‚‡fÇVR’ÓâfÇVRçG&–Ò‚’¢æf–ÇFW"„&ööÆVâ¢¢Òæ¦ö–â‚"²"“°¢6W'–ä‡V"çFw2Ò°¢ââææWr6WB…²âââ†6W'–ä‡V"çFw2óòµÒ’Â%FW'&W26W'–æW2"Â%FV×ÆW26W'–ç2"Â$×VÇF’×6÷W&6R%Ò¢Ó°¢6W'–ä‡V"ç7FGW2Ò&6æöåöVç&–6†’#°¢6W'–ä‡V"ç&V'V–ÆEc"ÒG'VS° ¢f÷"†6öç7B'F–6ÆRöb4ôÕTäD•TÕõdU$•DUô4U%”åõDU%$U5õDTÕÄU5ô%D”4ÄU2’°¢'”–Bç6WB…7G&–ær†'F–6ÆRæ–B’ÂFVW6ÆöæR†'F–6ÆR’2'F–6ÆR“°®wÛ»h‘éì¶»§q«^u±Í”ì(€€€€€‰å%¹Í•Ğ¡…ÉÑ¥±”¹¥°…ÉÑ¥±”¤ì(€€€ô(€€€™±•…ÕáA¹©I•Í½±Ù•‘%‘Ì¹Í•Ğ¡…ÉÑ¥±”¹¥°…ÉÑ¥±”¹¥¤ì(€ô((€™½È€¡½¹ÍĞÍ½ÕÉ•ÉÑ¥±”½˜=5A9%U5}YI%Q}1Ua}9]}A9)}IQ%1L¤ì(€€€½¹ÍĞ…ÉÑ¥±”€ô‘••Á±½¹”¡Í½ÕÉ•ÉÑ¥±”¤…ÌÉÑ¥±”ì(€€€½¹ÍĞ•á¥ÍÑ¥¹œ€ô™¥¹‘5…Ñ¡¥¹Ñ¥Ù•A¹¨¡‰å%°…ÉÑ¥±”¤ì(€€€¥˜€¡•á¥ÍÑ¥¹œ¤ì(€€€€€‰å%¹Í•Ğ¡•á¥ÍÑ¥¹œ¹¥°µ•É•±•…ÕáA¹¨¡•á¥ÍÑ¥¹œ°…ÉÑ¥±”¤¤ì(€€€€€™±•…ÕáA¹©I•Í½±Ù•‘%‘Ì¹Í•Ğ¡…ÉÑ¥±”¹¥°•á¥ÍÑ¥¹œ¹¥¤ì(€€€€€½¹Ñ¥¹Õ”ì(€€€ô(€€€‰å%¹Í•Ğ¡…ÉÑ¥±”¹¥°…ÉÑ¥±”¤ì(€€€™±•…ÕáA¹©I•Í½±Ù•‘%‘Ì¹Í•Ğ¡…ÉÑ¥±”¹¥°…ÉÑ¥±”¹¥¤ì(€ô((€½¹ÍĞµ…•1½•Í!Õˆ€ô‰å%¹•Ğ¡=5A9%U5}YI%Q}1=M}5M}!U	}%¤ì(€¥˜€ …µ…•1½•Í!Õˆ¤ì(€€€Ñ¡É½Ü¹•ÜÉÉ½È¡!Õˆ5…•Ì…‰Í•¹ĞÁ½ÕÈ°¥¹Ó¥É…Ñ¥½¸‘•Ì1½•Ìè€‘í=5A9%U5}YI%Q}1=M}5M}!U	}%õ€¤ì(€ô(€½¹ÍĞµ…•1½•ÍM•Ñ¥½¹%‘Ì€ô¹•ÜM•Ğ (€€€€¡µ…•1½•Í!Õˆ¹Í•Ñ¥½¹Ì€üümt¤¹µ…À ¡Í•Ñ¥½¸¤€ôøMÑÉ¥¹œ¡Í•Ñ¥½¸ü¹¥€üü€ˆˆ¤¤(€€¤ì(€™½È€¡½¹ÍĞÍ•Ñ¥½¸½˜=5A9%U5}YI%Q}1=M}5M}!U	}MQ%=9L¤ì(€€€½¹ÍĞ¥€ôMÑÉ¥¹œ¡Í•Ñ¥½¸ü¹¥€üü€ˆˆ¤ì(€€€¥˜€ …¥ñğµ…•1½•ÍM•Ñ¥½¹%‘Ì¹¡…Ì¡¥¤¤½¹Ñ¥¹Õ”ì(€€€µ…•1½•Í!Õˆ¹Í•Ñ¥½¹Ì€ôl¸¸¸¡µ…•1½•Í!Õˆ¹Í•Ñ¥½¹Ì€üümt¤°‘••Á±½¹”¡Í•Ñ¥½¸¤…Ì)Í½¹=‰©•Ñtì(€€€µ…•1½•ÍM•Ñ¥½¹%‘Ì¹…‘¡¥¤ì(€ô(€µ…•1½•Í!Õˆ¹Í½ÕÉ”€ôl(€€€€¸¸¹¹•ÜM•Ğ (€€€€€mµ…•1½•Í!Õˆ¹Í½ÕÉ”°=5A9%U5}YI%Q}1=M}5M}M=UIt(€€€€€€€€¹™±…Ñ5…À ¡Ù…±Õ”¤€ôøMÑÉ¥¹œ¡Ù…±Õ”€üü€ˆˆ¤¹ÍÁ±¥Ğ ˆ€ì€ˆ¤¤(€€€€€€€€¹µ…À ¡Ù…±Õ”¤€ôøÙ…±Õ”¹ÑÉ¥´ ¤¤(€€€€€€€€¹™¥±Ñ•È¡	½½±•…¸¤(€€€€¤(€t¹©½¥¸ ˆ€ì€ˆ¤ì(€µ…•1½•Í!Õˆ¹Ñ…Ì€ôl(€€€€¸¸¹¹•ÜM•Ğ¡l¸¸¸¡µ…•1½•Í!Õˆ¹Ñ…Ì€üümt¤°€‰1½•Ì‘•Ì5…•Ìˆ°€‰9•Üµe½É¬ˆ°€‰1½Ì¹•±•Ìˆ°€‰M…¸¥•©Õ…¹„ˆ°€‰1…ÌY•…Ìˆ°€‰A¡½•¹¥àˆ°€‰É…¹‘”K¥Í•ÉÙ”‰t¤(€tì(€µ…•1½•Í!Õˆ¹ÍÑ…ÑÕÌ€ô€‰…¹½¹}•¹É¥¡¤ˆì(€µ…•1½•Í!Õˆ¹É•‰Õ¥±‘XÈ€ôÑÉÕ”ì((€™½È€¡½¹ÍĞÍ½ÕÉ•ÉÑ¥±”½˜=5A9%U5}YI%Q}1=M}5M}A9)}IQ%1L¤ì(€€€½¹ÍĞ…ÉÑ¥±”€ô‘••Á±½¹”¡Í½ÕÉ•ÉÑ¥±”¤…ÌÉÑ¥±”ì(€€€½¹ÍĞ•á¥ÍÑ¥¹œ€ô™¥¹‘5…Ñ¡¥¹Ñ¥Ù•A¹¨¡‰å%°…ÉÑ¥±”¤ì(€€€¥˜€¡•á¥ÍÑ¥¹œ¤ì(€€€€€‰å%¹Í•Ğ¡•á¥ÍÑ¥¹œ¹¥°µ•É•±•…ÕáA¹¨¡•á¥ÍÑ¥¹œ°…ÉÑ¥±”¤¤ì(€€€€€µ…•1½•ÍA¹©I•Í½±Ù•‘%‘Ì¹Í•Ğ¡…ÉÑ¥±”¹¥°•á¥ÍÑ¥¹œ¹¥¤ì(€€€€€½¹Ñ¥¹Õ”ì(€€€ô(€€€‰å%¹Í•Ğ¡…ÉÑ¥±”¹¥°…ÉÑ¥±”¤ì(€€€µ…•1½•ÍA¹©I•Í½±Ù•‘%‘Ì¹Í•Ğ¡…ÉÑ¥±”¹¥°…ÉÑ¥±”¹¥¤ì(€ô((€½¹ÍĞÑ•µÁ±•Í…•µ½¹¥…ÅÕ•Í!Õˆ€ô‰å%¹•Ğ¡=5A9%U5}YI%Q}Q5A1M}5=9%EUM}!U	}%¤ì(€¥˜€ …Ñ•µÁ±•Í…•µ½¹¥…ÅÕ•Í!Õˆ¤ì(€€€Ñ¡É½Ü¹•ÜÉÉ½È¡!Õˆ…•µ½¹Ì…‰Í•¹ĞÁ½ÕÈ°¥¹Ó¥É…Ñ¥½¸‘•ÌQ•µÁ±•Ì“¥µ½¹¥…ÅÕ•Ìè€‘í=5A9%U5}YI%Q}Q5A1M}5=9%EUM}!U	}%õ€¤ì(€ô(€½¹ÍĞÑ•µÁ±•Í…•µ½¹¥…ÅÕ•Í!Õ‰M•Ñ¥½¹%‘Ì€ô¹•ÜM•Ğ (€€€€¡Ñ•µÁ±•Í…•µ½¹¥…ÅÕ•Í!Õˆ¹Í•Ñ¥½¹Ì€üümt¤¹µ…À ¡Í•Ñ¥½¸¤€ôøMÑÉ¥¹œ¡Í•Ñ¥½¸ü¹¥€üü€ˆˆ¤¤(€€¤ì(€™½È€¡½¹ÍĞÍ•Ñ¥½¸½˜=5A9%U5}YI%Q}Q5A1M}5=9%EUM}!U	}MQ%=9L¤ì(€€€½¹ÍĞ¥€ôMÑÉ¥¹œ¡Í•Ñ¥½¸ü¹¥€üü€ˆˆ¤ì(€€€¥˜€ …¥ñğÑ•µÁ±•Í…•µ½¹¥…ÅÕ•Í!Õ‰M•Ñ¥½¹%‘Ì¹¡…Ì¡¥¤¤½¹Ñ¥¹Õ”ì(€€€Ñ•µÁ±•Í…•µ½¹¥…ÅÕ•Í!Õˆ¹Í•Ñ¥½¹Ì€ôl(€€€€€€¸¸¸¡Ñ•µÁ±•Í…•µ½¹¥…ÅÕ•Í!Õˆ¹Í•Ñ¥½¹Ì€üümt¤°(€€€€€‘••Á±½¹”¡Í•Ñ¥½¸¤…Ì)Í½¹=‰©•Ğ(€€€tì(€€€Ñ•µÁ±•Í…•µ½¹¥…ÅÕ•Í!Õ‰M•Ñ¥½¹%‘Ì¹…‘¡¥¤ì(€ô(€½¹ÍĞÑ•µÁ±•Í…•µ½¹¥…ÅÕ•Í!Õ‰M½ÕÉ•Ì€ôl(€€€Ñ•µÁ±•Í…•µ½¹¥…ÅÕ•Í!Õˆ¹Í½ÕÉ”°(€€€=5A9%U5}YI%Q}Q5A1M}5=9%EUM}M=UI°(€€€=5A9%U5}YI%Q}Q5A1M}5=9%EUM}91UM}M=UI(€t(€€€€¹™±…Ñ5…À ¡Ù…±Õ”¤€ôøMÑÉ¥¹œ¡Ù…±Õ”€üü€ˆˆ¤¹ÍÁ±¥Ğ ˆ€ì€ˆ¤¤(€€€€¹µ…À ¡Ù…±Õ”¤€ôøÙ…±Õ”¹ÑÉ¥´ ¤¤(€€€€¹™¥±Ñ•È¡	½½±•…¸¤ì(€Ñ•µÁ±•Í…•µ½¹¥…ÅÕ•Í!Õˆ¹Í½ÕÉ”€ôl¸¸¹¹•ÜM•Ğ¡Ñ•µÁ±•Í…•µ½¹¥…ÅÕ•Í!Õ‰M½ÕÉ•Ì¥t¹©½¥¸ ˆ€ì€ˆ¤ì(€Ñ•µÁ±•Í…•µ½¹¥…ÅÕ•Í!Õˆ¹Ñ…Ì€ôl(€€€€¸¸¹¹•ÜM•Ğ¡l(€€€€€€¸¸¸¡Ñ•µÁ±•Í…•µ½¹¥…ÅÕ•Í!Õˆ¹Ñ…Ì€üümt¤°(€€€€€€‰Q•µÁ±•Ì“¥µ½¹¥…ÅÕ•Ìˆ°(€€€€€€‰Q•µÁ±•Ì™…¹ÓÑµ•Ìˆ°(€€€€€€‰5Õ±Ñ¤µÍ½ÕÉ”ˆ(€€€t¤(€tì(€Ñ•µÁ±•Í…•µ½¹¥…ÅÕ•Í!Õˆ¹ÍÑ…ÑÕÌ€ô€‰…¹½¹}•¹É¥¡¤ˆì(€Ñ•µÁ±•Í…•µ½¹¥…ÅÕ•Í!Õˆ¹É•‰Õ¥±‘XÈ€ôÑÉÕ”ì((€™½È€¡½¹ÍĞÍ½ÕÉ•ÉÑ¥±”½˜=5A9%U5}YI%Q}Q5A1M}5=9%EUM}A9)}IQ%1L¤ì(€€€½¹ÍĞ…ÉÑ¥±”€ô‘••Á±½¹”¡Í½ÕÉ•ÉÑ¥±”¤…ÌÉÑ¥±”ì(€€€€¼¼AÕ‰±¥ŒA9(µ•Ñ…‘…Ñ„µÕÍĞ¹½ĞÉ•Ù•…°‘…•µ½¸¹…ÑÕÉ”°Á…ÑÉ½¸‘•¥Ñä½ÈQ•µÁ±”¸(€€€…ÉÑ¥±”¹Ñ…Ì€ô€¡…ÉÑ¥±”¹Ñ…Ì€üümt¤¹™¥±Ñ•È ¡Ñ…œ¤€ôø€„½‘…•µ½¹ñÑ•µÁ±”½¤¹Ñ•ÍĞ¡MÑÉ¥¹œ¡Ñ…œ¤¤¤ì((€€€½¹ÍĞ•á¥ÍÑ¥¹œ€ô™¥¹‘5…Ñ¡¥¹Ñ¥Ù•A¹¨¡‰å%°…ÉÑ¥±”¤ì(€€€¥˜€¡•á¥ÍÑ¥¹œ€˜˜MÑÉ¥¹œ¡•á¥ÍÑ¥¹œ¹‘…Ñ…Í•Ğ€üü€ˆˆ¤¹¥¹±Õ‘•Ì ‰…¹•±ÕÌˆ¤¤ì(€€€€€Ñ¡É½Ü¹•ÜÉÉ½È¡ÕÍ¥½¸¹•±ÕÌ½…•µ½¸¥¹Ñ•É‘¥Ñ”Á½ÕÈ€‘í…ÉÑ¥±”¹Ñ¥Ñ±”€üü…ÉÑ¥±”¹¥‘ôè€‘í•á¥ÍÑ¥¹œ¹¥‘õ€¤ì(€€€ô((€€€¥˜€¡•á¥ÍÑ¥¹œ¤ì(€€€€€½¹ÍĞµ•É•€ôµ•É•É…İ±•ÉA¹¨¡•á¥ÍÑ¥¹œ°…ÉÑ¥±”¤ì(€€€€€½¹ÍĞÑ…É•ÑA¹¨€ô•á¥ÍÑ¥¹œ¹Á¹¨€üüíôì(€€€€€½¹ÍĞÍ½ÕÉ•A¹¨€ô…ÉÑ¥±”¹Á¹¨€üüíôì(€€€€€µ•É•¹Á¹¨€ôì(€€€€€€€€¸¸¹Ñ…É•ÑA¹¨°(€€€€€€€€¸¸¹Í½ÕÉ•A¹¨°(€€€€€€€É•±…Ñ¥½¹Ìèl(€€€€€€€€€€¸¸¹¹•ÜM•Ğ¡l(€€€€€€€€€€€€¸¸¸ ¡ÉÉ…ä¹¥ÍÉÉ…ä¡Ñ…É•ÑA¹¨¹É•±…Ñ¥½¹Ì¤€üÑ…É•ÑA¹¨¹É•±…Ñ¥½¹Ì€èmt¤…ÌÍÑÉ¥¹mt¤°(€€€€€€€€€€€€¸¸¸ ¡ÉÉ…ä¹¥ÍÉÉ…ä¡Í½ÕÉ•A¹¨¹É•±…Ñ¥½¹Ì¤€üÍ½ÕÉ•A¹¨¹É•±…Ñ¥½¹Ì€èmt¤…ÌÍÑÉ¥¹mt¤(€€€€€€€€€t¤(€€€€€€€t°(€€€€€€€Í½ÕÉ•}‘½Õµ•¹ÑÌèl(€€€€€€€€€€¸¸¹¹•ÜM•Ğ¡l(€€€€€€€€€€€€¸¸¸ ¡ÉÉ…ä¹¥ÍÉÉ…ä¡Ñ…É•ÑA¹¨¹Í½ÕÉ•}‘½Õµ•¹ÑÌ¤€üÑ…É•ÑA¹¨¹Í½ÕÉ•}‘½Õµ•¹ÑÌ€èmt¤…ÌÍÑÉ¥¹mt¤°(€€€€€€€€€€€€¸¸¸ ¡ÉÉ…ä¹¥ÍÉÉ…ä¡Í½ÕÉ•A¹¨¹Í½ÕÉ•}‘½Õµ•¹ÑÌ¤€üÍ½ÕÉ•A¹¨¹Í½ÕÉ•}‘½Õµ•¹ÑÌ€èmt¤…ÌÍÑÉ¥¹mt¤°(€€€€€€€€€€€€¸¸¹MÑÉ¥¹œ¡•á¥ÍÑ¥¹œ¹Í½ÕÉ”€üü€ˆˆ¤¹ÍÁ±¥Ğ ˆ€ì€ˆ¤°(€€€€€€€€€€€€¸¸¹MÑÉ¥¹œ¡…ÉÑ¥±”¹Í½ÕÉ”€üü€ˆˆ¤¹ÍÁ±¥Ğ ˆ€ì€ˆ¤(€€€€€€€€€t¹µ…À ¡Ù…±Õ”¤€ôøMÑÉ¥¹œ¡Ù…±Õ”€üü€ˆˆ¤¹ÑÉ¥´ ¤¤¹™¥±Ñ•È¡	½½±•…¸¤¤(€€€€€€€t(€€€€€ôì(€€€€€µ•É•¹Á¹¨¹¥‘•¹Ñ¥Ñå}­•åÌ€ôl(€€€€€€€€¸¸¹¹•ÜM•Ğ¡l(€€€€€€€€€€¸¸¹…ÉÑ¥±•A¹©%‘•¹Ñ¥Ñå-•åÌ¡•á¥ÍÑ¥¹œ¤°(€€€€€€€€€€¸¸¹…ÉÑ¥±•A¹©%‘•¹Ñ¥Ñå-•åÌ¡…ÉÑ¥±”¤°(€€€€€€€€€€¸¸¹…ÉÑ¥±•A¹©%‘•¹Ñ¥Ñå-•åÌ¡µ•É•¤(€€€€€€€t¤(€€€€€tì(€€€€€¥˜€¡MÑÉ¥¹œ¡Í½ÕÉ•A¹¨¹É•…±}¹…µ”€üü€ˆˆ¤¹ÑÉ¥´ ¤€ôôô€‰9¥¬‘¥Í½¸ˆ¤ì(€€€€€€€µ•É•¹Á¹¨¹¥‘•¹Ñ¥Ñå}­•åÌ€ôµ•É•¹Á¹¨¹¥‘•¹Ñ¥Ñå}­•åÌ¹™¥±Ñ•È (€€€€€€€€€€¡­•äèÍÑÉ¥¹œ¤€ôø€…¹½Éµ…±¥é•‘A¹©%‘•¹Ñ¥Ñä¡­•ä¤¹¥¹±Õ‘•Ì ‰‰…±…´ˆ¤(€€€€€€€€¤ì(€€€€€€€µ•É•¹Á¹¨¹¹½µ}Ù•É¥Ñ”€ôÍ½ÕÉ•A¹¨¹¹½µ}Ù•É¥Ñ”ì(€€€€€€€µ•É•¹Á¹¨¹¹½µ}Ù•É¥Ñ•}Í½ÕÉ”€ôÍ½ÕÉ•A¹¨¹¹½µ}Ù•É¥Ñ•}Í½ÕÉ”ì(€€€€€ô(€€€€€‰å%¹Í•Ğ¡•á¥ÍÑ¥¹œ¹¥°µ•É•¤ì(€€€€€Ñ•µÁ±•Í…•µ½¹¥…ÅÕ•ÍA¹©I•Í½±Ù•‘%‘Ì¹Í•Ğ¡…ÉÑ¥±”¹¥°•á¥ÍÑ¥¹œ¹¥¤ì(€€€€€½¹Ñ¥¹Õ”ì(€€€ô((€€€¥˜€¡MÑÉ¥¹œ¡…ÉÑ¥±”¹Á¹¨ü¹É•…±}¹…µ”€üü€ˆˆ¤¹ÑÉ¥´ ¤€ôôô€‰9¥¬‘¥Í½¸ˆ¤ì(€€€€€…ÉÑ¥±”¹Á¹¨¹¥‘•¹Ñ¥Ñå}­•åÌ€ô€¡…ÉÑ¥±”¹Á¹¨¹¥‘•¹Ñ¥Ñå}­•åÌ€üümt¤¹™¥±Ñ•È (€€€€€€€€¡­•äèÍÑÉ¥¹œ¤€ôø€…¹½Éµ…±¥é•‘A¹©%‘•¹Ñ¥Ñä¡­•ä¤¹¥¹±Õ‘•Ì ‰‰…±…´ˆ¤(€€€€€€¤ì(€€€ô(€€€‰å%¹Í•Ğ¡…ÉÑ¥±”¹¥°…ÉÑ¥±”¤ì(€€€Ñ•µÁ±•Í…•µ½¹¥…ÅÕ•ÍA¹©I•Í½±Ù•‘%‘Ì¹Í•Ğ¡…ÉÑ¥±”¹¥°…ÉÑ¥±”¹¥¤ì(€ô((€½¹ÍĞ±•Í±¥•M½ÕÉ•%€ôMÑÉ¥¹œ¡=5A9%U5}YI%Q}Q5A1M}5=9%EUM}1M1%}9I%!59P¹Ñ…É•Ñ%€üü€ˆˆ¤ì(€½¹ÍĞ±•Í±¥•I•Í½±Ù•‘%€ôµ…•1½•ÍA¹©I•Í½±Ù•‘%‘Ì¹•Ğ¡±•Í±¥•M½ÕÉ•%¤€üü±•Í±¥•M½ÕÉ•%ì(€½¹ÍĞ±•Í±¥”€ô‰å%¹•Ğ¡±•Í±¥•I•Í½±Ù•‘%¤ì(€¥˜€ …±•Í±¥”¤ì(€€€Ñ¡É½Ü¹•ÜÉÉ½È¡1•Í±¥”]É¥¡Ğ…‰Í•¹Ñ”Á½ÕÈ±”±¥•¸‰É…Í…àè€‘í±•Í±¥•M½ÕÉ•%‘ô€´ø€‘í±•Í±¥•I•Í½±Ù•‘%‘õ€¤ì(€ô(€½¹ÍĞ…‰É…Í…áM½ÕÉ•%€ôMÑÉ¥¹œ¡=5A9%U5}YI%Q}Q5A1M}5=9%EUM}1M1%}9I%!59P¹É•±…Ñ¥½¹%€üü€ˆˆ¤ì(€½¹ÍĞ…‰É…Í…áI•Í½±Ù•‘%€ô(€€€Ñ•µÁ±•Í…•µ½¹¥…ÅÕ•ÍA¹©I•Í½±Ù•‘%‘Ì¹•Ğ¡…‰É…Í…áM½ÕÉ•%¤€üü(€€€…‰É…Í…áM½ÕÉ•%ì(€½¹ÍĞ…‰É…Í…à€ô‰å%¹•Ğ¡…‰É…Í…áI•Í½±Ù•‘%¤ì(€¥˜€ ……‰É…Í…à¤ì(€€€Ñ¡É½Ü¹•ÜÉÉ½È¡‰É…Í…à…‰Í•¹ĞÁ½ÕÈ±”±¥•¸1•Í±¥”]É¥¡Ğè€‘í…‰É…Í…áM½ÕÉ•%‘ô€´ø€‘í…‰É…Í…áI•Í½±Ù•‘%‘õ€¤ì(€ô((€±•Í±¥”¹Á¹¨€ôì€¸¸¸¡±•Í±¥”¹Á¹¨€üüíô¤ôì(€±•Í±¥”¹Á¹¨¹É•±…Ñ¥½¹Ì€ôl(€€€€¸¸¹¹•ÜM•Ğ¡l(€€€€€€¸¸¸ ¡ÉÉ…ä¹¥ÍÉÉ…ä¡±•Í±¥”¹Á¹¨¹É•±…Ñ¥½¹Ì¤€ü±•Í±¥”¹Á¹¨¹É•±…Ñ¥½¹Ì€èmt¤…ÌÍÑÉ¥¹mt¤°(€€€€€…‰É…Í…áI•Í½±Ù•‘%(€€€t¹™¥±Ñ•È¡	½½±•…¸¤¤(€tì(€…‰É…Í…à¹Á¹¨€ôì€¸¸¸¡…‰É…Í…à¹Á¹¨€üüíô¤ôì(€…‰É…Í…à¹Á¹¨¹É•±…Ñ¥½¹Ì€ôl(€€€€¸¸¹¹•ÜM•Ğ¡l(€€€€€€¸¸¸ ¡ÉÉ…ä¹¥ÍÉÉ…ä¡…‰É…Í…à¹Á¹¨¹É•±…Ñ¥½¹Ì¤€ü…‰É…Í…à¹Á¹¨¹É•±…Ñ¥½¹Ì€èmt¤…ÌÍÑÉ¥¹mt¤(€€€€€€€€¹™¥±Ñ•È ¡¥¤€ôø¥€„ôô±•Í±¥•M½ÕÉ•%ñğ±•Í±¥•M½ÕÉ•%€ôôô±•Í±¥•I•Í½±Ù•‘%¤°(€€€€€±•Í±¥•I•Í½±Ù•‘%(€€€t¹™¥±Ñ•È¡	½½±•…¸¤¤(€tì(€±•Í±¥”¹Á¹¨¹Í½ÕÉ•}‘½Õµ•¹ÑÌ€ôl(€€€€¸¸¹¹•ÜM•Ğ¡l(€€€€€€¸¸¸ ¡ÉÉ…ä¹¥ÍÉÉ…ä¡±•Í±¥”¹Á¹¨¹Í½ÕÉ•}‘½Õµ•¹ÑÌ¤€ü±•Í±¥”¹Á¹¨¹Í½ÕÉ•}‘½Õµ•¹ÑÌ€èmt¤…ÌÍÑÉ¥¹mt¤°(€€€€€=5A9%U5}YI%Q}Q5A1M}5=9%EUM}M=UI(€€€t¤(€tì(€½¹ÍĞ±•Í±¥•M•Ñ¥½¸€ô‘••Á±½¹”¡=5A9%U5}YI%Q}Q5A1M}5=9%EUM}1M1%}9I%!59P¹Í•Ñ¥½¸¤…Ì)Í½¹=‰©•Ğì(€¥˜€ „¡±•Í±¥”¹Í•Ñ¥½¹Ì€üümt¤¹Í½µ” ¡Í•Ñ¥½¸¤€ôøMÑÉ¥¹œ¡Í•Ñ¥½¸ü¹¥€üü€ˆˆ¤€ôôôMÑÉ¥¹œ¡±•Í±¥•M•Ñ¥½¸¹¥€üü€ˆˆ¤¤¤ì(€€€±•Í±¥”¹Í•Ñ¥½¹Ì€ôl¸¸¸¡±•Í±¥”¹Í•Ñ¥½¹Ì€üümt¤°±•Í±¥•M•Ñ¥½¹tì(€ô(€±•Í±¥”¹Ñ…Ì€ôl¸¸¹¹•ÜM•Ğ¡l¸¸¸¡±•Í±¥”¹Ñ…Ì€üümt¤°€‰5Õ±Ñ¤µÍ½ÕÉ”‰t¥tì(€±•Í±¥”¹ÍÑ…ÑÕÌ€ô€‰…¹½¹}•¹É¥¡¤ˆì(€±•Í±¥”¹É•‰Õ¥±‘XÈ€ôÑÉÕ”ì((€½¹ÍĞ…‘‘AÉ½Ñ•Ñ•‘A¹©I•±…Ñ¥½¸€ô€ (€€€…ÉÑ¥±”èÉÑ¥±”°(€€€É•±…Ñ•‘%èÍÑÉ¥¹œ°(€€€¹½Ñ”èÍÑÉ¥¹œ°(€€€É•±…Ñ¥½¹-•äèÍÑÉ¥¹œ(€€¤€ôøì(€€€…ÉÑ¥±”¹Á¹¨€ôì€¸¸¸¡…ÉÑ¥±”¹Á¹¨€üüíô¤ôì(€€€…ÉÑ¥±”¹Á¹¨¹É•±…Ñ¥½¹Ì€ôl(€€€€€€¸¸¹¹•ÜM•Ğ¡l(€€€€€€€€¸¸¸ ¡ÉÉ…ä¹¥ÍÉÉ…ä¡…ÉÑ¥±”¹Á¹¨¹É•±…Ñ¥½¹Ì¤€ü…ÉÑ¥±”¹Á¹¨¹É•±…Ñ¥½¹Ì€èmt¤…ÌÍÑÉ¥¹mt¤°(€€€€€€€É•±…Ñ•‘%(€€€€€t¹™¥±Ñ•È¡	½½±•…¸¤¤(€€€tì(€€€…ÉÑ¥±”¹Á¹¨¹Í½ÕÉ•}‘½Õµ•¹ÑÌ€ôl(€€€€€€¸¸¹¹•ÜM•Ğ¡l(€€€€€€€€¸¸¸ ¡ÉÉ…ä¹¥ÍÉÉ…ä¡…ÉÑ¥±”¹Á¹¨¹Í½ÕÉ•}‘½Õµ•¹ÑÌ¤€ü…ÉÑ¥±”¹Á¹¨¹Í½ÕÉ•}‘½Õµ•¹ÑÌ€èmt¤…ÌÍÑÉ¥¹mt¤°(€€€€€€€=5A9%U5}YI%Q}Q5A1M}5=9%EUM}M=UI°(€€€€€€€=5A9%U5}YI%Q}Q5A1M}5=9%EUM}91UM}M=UI(€€€€€t¤(€€€tì(€€€½¹ÍĞÍ•Ñ¥½¹%€ôÑ•µÁ±•Ìµ‘…•µ½¹¥…ÅÕ•ÌµÉ•±…Ñ¥½¸´‘íÉ•±…Ñ¥½¹-•ä¹É•Á±…” ½my„µèÀ´åt¬½¤°€ˆ´ˆ¤¹Ñ½1½İ•É…Í” ¥õ€ì(€€€¥˜€ „¡…ÉÑ¥±”¹Í•Ñ¥½¹Ì€üümt¤¹Í½µ” ¡Í•Ñ¥½¸¤€ôøMÑÉ¥¹œ¡Í•Ñ¥½¸ü¹¥€üü€ˆˆ¤€ôôôÍ•Ñ¥½¹%¤¤ì(€€€€€…ÉÑ¥±”¹Í•Ñ¥½¹Ì€ôl(€€€€€€€€¸¸¸¡…ÉÑ¥±”¹Í•Ñ¥½¹Ì€üümt¤°(€€€€€€€ì(€€€€€€€€€¥èÍ•Ñ¥½¹%°(€€€€€€€€€Ñ¥Ñ±”è€‰1¥•¸5(ƒ
+Ü¹•±ÕÌ€˜…•µ½¹Ìˆ°(€€€€€€€€€±•Ù•°è€È°(€€€€€€€€€…Õ‘¥•¹”è€‰µ¨ˆ°(€€€€€€€€€‰±½­ÌèmìÑåÁ”è€‰Àˆ°ÍÑå±”è€‰±½É”ˆ°Ñ•áĞè¹½Ñ”õt(€€€€€€€ô(€€€€€tì(€€€ô(€€€…ÉÑ¥±”¹ÍÑ…ÑÕÌ€ô€‰…¹½¹}•¹É¥¡¤ˆì(€€€…ÉÑ¥±”¹É•‰Õ¥±‘XÈ€ôÑÉÕ”ì(€ôì((€™½È€¡½¹ÍĞÉ•±…Ñ¥½¸½˜=5A9%U5}YI%Q}Q5A1M}5=9%EUM}91UM}I1Q%=9L¤ì(€€€½¹ÍĞ‘…•µ½¹%€ô(€€€€€Ñ•µÁ±•Í…•µ½¹¥…ÅÕ•ÍA¹©I•Í½±Ù•‘%‘Ì¹•Ğ¡MÑÉ¥¹œ¡É•±…Ñ¥½¸¹‘…•µ½¹M½ÕÉ•%€üü€ˆˆ¤¤€üü(€€€€€MÑÉ¥¹œ¡É•±…Ñ¥½¸¹‘…•µ½¹M½ÕÉ•%€üü€ˆˆ¤ì(€€€½¹ÍĞ…¹•±ÕÍ%€ô(€€€€€…¹•±ÕÍA¹©I•Í½±Ù•‘%‘Ì¹•Ğ¡MÑÉ¥¹œ¡É•±…Ñ¥½¸¹…¹•±ÕÍ%€üü€ˆˆ¤¤€üü(€€€€€MÑÉ¥¹œ¡É•±…Ñ¥½¸¹…¹•±ÕÍ%€üü€ˆˆ¤ì(€€€½¹ÍĞ‘…•µ½¸€ô‰å%¹•Ğ¡‘…•µ½¹%¤ì(€€€½¹ÍĞ…¹•±ÕÌ€ô‰å%¹•Ğ¡…¹•±ÕÍ%¤ì(€€€¥˜€ …‘…•µ½¸ñğ€……¹•±ÕÌ¤ì(€€€€€Ñ¡É½Ü¹•ÜÉÉ½È¡I•±…Ñ¥½¸¹•±ÕÌ½…•µ½¸¥¹ÑÉ½ÕÙ…‰±”è€‘í‘…•µ½¹%‘ôƒŠP€‘í…¹•±ÕÍ%‘õ€¤ì(€€€ô(€€€½¹ÍĞ­•ä€ô€‘íMÑÉ¥¹œ¡É•±…Ñ¥½¸¹‘…•µ½¹M½ÕÉ•%€üü€ˆˆ¥ô´‘íMÑÉ¥¹œ¡É•±…Ñ¥½¸¹…¹•±ÕÍ%€üü€ˆˆ¥õ€ì(€€€…‘‘AÉ½Ñ•Ñ•‘A¹©I•±…Ñ¥½¸¡‘…•µ½¸°…¹•±ÕÍ%°MÑÉ¥¹œ¡É•±…Ñ¥½¸¹¹½Ñ”€üü€ˆˆ¤°­•ä¤ì(€€€…‘‘AÉ½Ñ•Ñ•‘A¹©I•±…Ñ¥½¸¡…¹•±ÕÌ°‘…•µ½¹%°MÑÉ¥¹œ¡É•±…Ñ¥½¸¹¹½Ñ”€üü€ˆˆ¤°­•ä¤ì(€ô((€™½È€¡½¹ÍĞ…ÉÑ¥±”½˜=5A9%U5}YI%Q}Y5A%I}=UIQM}IQ%1L¤‰å%¹Í•Ğ¡MÑÉ¥¹œ¡…ÉÑ¥±”¹¥¤°‘••Á±½¹”¡…ÉÑ¥±”¤…ÌÉÑ¥±”¤ì(€™½È€¡½¹ÍĞ•¹É¥¡µ•¹Ğ½˜=5A9%U5}YI%Q}Y5A%I}=UIQM}9I%!59QL¤ì(€€€½¹ÍĞÑ…É•Ğõ‰å%¹•Ğ¡MÑÉ¥¹œ¡•¹É¥¡µ•¹Ğ¹Ñ…É•Ñ%üüˆˆ¤¤ì¥˜ …Ñ…É•Ğ¤Ñ¡É½Ü¹•ÜÉÉ½È¡¥‰±”•¹É¥¡¥ÍÍ•µ•¹Ğ½ÕÉÌÙ…µÁ¥É¥ÅÕ•Ì…‰Í•¹Ñ”è€‘íMÑÉ¥¹œ¡•¹É¥¡µ•¹Ğ¹Ñ…É•Ñ%üüˆˆ¥õ€¤ì(€€€½¹ÍĞ¥‘Ìõ¹•ÜM•Ğ ¡Ñ…É•Ğ¹Í•Ñ¥½¹Ìüımt¤¹µ…À ¡Í•Ñ¥½¸¤ôùMÑÉ¥¹œ¡Í•Ñ¥½¸ü¹¥üüˆˆ¤¤¤ì½¹ÍĞÍÌõ‘••Á±½¹”¡•¹É¥¡µ•¹Ğ¹Í•Ñ¥½¹Ìüımt¤¹™¥±Ñ•È ¡Í•Ñ¥½¸é)Í½¹=‰©•Ğ¤ôø…¥‘Ì¹¡…Ì¡MÑÉ¥¹œ¡Í•Ñ¥½¸ü¹¥üüˆˆ¤¤¤ì¥˜¡ÍÌ¹±•¹Ñ ¥Ñ…É•Ğ¹Í•Ñ¥½¹Ìõl¸¸¸¡Ñ…É•Ğ¹Í•Ñ¥½¹Ìüımt¤°¸¸¹ÍÍtì(€€€½¹ÍĞÍ½ÕÉ•ÌõmÑ…É•Ğ¹Í½ÕÉ”±=5A9%U5}YI%Q}Y5A%I}=UIQM}M=UIt¹™±…Ñ5…À ¡Ø¤ôùMÑÉ¥¹œ¡Øüüˆˆ¤¹ÍÁ±¥Ğ ˆ€ì€ˆ¤¤¹µ…À ¡Ø¤ôùØ¹ÑÉ¥´ ¤¤¹™¥±Ñ•È¡	½½±•…¸¤ìÑ…É•Ğ¹Í½ÕÉ”õl¸¸¹¹•ÜM•Ğ¡Í½ÕÉ•Ì¥t¹©½¥¸ ˆ€ì€ˆ¤ìÑ…É•Ğ¹Ñ…Ìõl¸¸¹¹•ÜM•Ğ¡l¸¸¸¡Ñ…É•Ğ¹Ñ…Ìüımt¤°‰Y…µÁ¥É•Ìˆ°‰½ÕÉÌÙ…µÁ¥É¥ÅÕ•Ìˆ°¸¸¸¡¹•ÜM•Ğ¡Í½ÕÉ•Ì¤¹Í¥é”øÄıl‰5Õ±Ñ¤µÍ½ÕÉ”‰témt¥t¥tìÑ…É•Ğ¹ÍÑ…ÑÕÌô‰…¹½¹}•¹É¥¡¤ˆìÑ…É•Ğ¹É•‰Õ¥±‘XÈõÑÉÕ”ì(€ô(€™½È€¡½¹ÍĞÍ½ÕÉ•ÉÑ¥±”½˜=5A9%U5}YI%Q}Y5A%I}=UIQM}A9)}IQ%1L¤ì(€€€½¹ÍĞ…ÉÑ¥±”õ‘••Á±½¹”¡Í½ÕÉ•ÉÑ¥±”¤…ÌÉÑ¥±”ì½¹ÍĞ•á¥ÍÑ¥¹œõ™¥¹‘5…Ñ¡¥¹Ñ¥Ù•A¹¨¡‰å%±…ÉÑ¥±”¤ì(€€€¥˜¡•á¥ÍÑ¥¹œ¥í‰å%¹Í•Ğ¡•á¥ÍÑ¥¹œ¹¥±µ•É•Y…µÁ¥É•½ÕÉÑA¹¨¡•á¥ÍÑ¥¹œ±…ÉÑ¥±”¤¤íÙ…µÁ¥É•½ÕÉÑA¹©I•Í½±Ù•‘%‘Ì¹Í•Ğ¡…ÉÑ¥±”¹¥±•á¥ÍÑ¥¹œ¹¥¤í½¹Ñ¥¹Õ”íô(€€€‰å%¹Í•Ğ¡…ÉÑ¥±”¹¥±…ÉÑ¥±”¤íÙ…µÁ¥É•½ÕÉÑA¹©I•Í½±Ù•‘%‘Ì¹Í•Ğ¡…ÉÑ¥±”¹¥±…ÉÑ¥±”¹¥¤ì(€ô(€™½È€¡½¹ÍĞ…ÉÑ¥±”½˜=5A9%U5}YI%Q}A1M}IQ%1L¤ì(€€€‰å%¹Í•Ğ¡MÑÉ¥¹œ¡…ÉÑ¥±”¹¥¤°‘••Á±½¹”¡…ÉÑ¥±”¤…ÌÉÑ¥±”¤ì(€ô((€™½È€¡½¹ÍĞ•¹É¥¡µ•¹Ğ½˜=5A9%U5}YI%Q}A1M}9I%!59QL¤ì(€€€½¹ÍĞÑ…É•Ğ€ô‰å%¹•Ğ¡MÑÉ¥¹œ¡•¹É¥¡µ•¹Ğ¹Ñ…É•Ñ%€üü€ˆˆ¤¤ì(€€€¥˜€ …Ñ…É•Ğ¤ì(€€€€€Ñ¡É½Ü¹•ÜÉÉ½È¡¥‰±”•¹É¥¡¥ÍÍ•µ•¹ĞA•±…•Ì…‰Í•¹Ñ”è€‘íMÑÉ¥¹œ¡•¹É¥¡µ•¹Ğ¹Ñ…É•Ñ%€üü€ˆˆ¥õ€¤ì(€€€ô((€€€½¹ÍĞ•á¥ÍÑ¥¹%‘Ì€ô¹•ÜM•Ğ ¡Ñ…É•Ğ¹Í•Ñ¥½¹Ì€üümt¤¹µ…À ¡Í•Ñ¥½¸¤€ôøMÑÉ¥¹œ¡Í•Ñ¥½¸ü¹¥€üü€ˆˆ¤¤¤ì(€€€½¹ÍĞÍ•Ñ¥½¹Ì€ô‘••Á±½¹”¡•¹É¥¡µ•¹Ğ¹Í•Ñ¥½¹Ì€üümt¤¹™¥±Ñ•È (€€€€€€¡Í•Ñ¥½¸è)Í½¹=‰©•Ğ¤€ôø€…•á¥ÍÑ¥¹%‘Ì¹¡…Ì¡MÑÉ¥¹œ¡Í•Ñ¥½¸ü¹¥€üü€ˆˆ¤¤(€€€€¤ì(€€€¥˜€¡Í•Ñ¥½¹Ì¹±•¹Ñ ¤Ñ…É•Ğ¹Í•Ñ¥½¹Ì€ôl¸¸¸¡Ñ…É•Ğ¹Í•Ñ¥½¹Ì€üümt¤°€¸¸¹Í•Ñ¥½¹Ítì((€€€½¹ÍĞÍ½ÕÉ•Ì€ômÑ…É•Ğ¹Í½ÕÉ”°•¹É¥¡µ•¹Ğ¹Í½ÕÉ•t(€€€€€€¹™±…Ñ5…À ¡Ù…±Õ”¤€ôøMÑÉ¥¹œ¡Ù…±Õ”€üü€ˆˆ¤¹ÍÁ±¥Ğ ˆ€ì€ˆ¤¤(€€€€€€¹µ…À ¡Ù…±Õ”¤€ôøÙ…±Õ”¹ÑÉ¥´ ¤¤(€€€€€€¹™¥±Ñ•È¡	½½±•…¸¤ì(€€€Ñ…É•Ğ¹Í½ÕÉ”€ôl¸¸¹¹•ÜM•Ğ¡Í½ÕÉ•Ì¥t¹©½¥¸ ˆ€ì€ˆ¤ì(€€€Ñ…É•Ğ¹Ñ…Ì€ôl(€€€€€€¸¸¹¹•ÜM•Ğ¡l(€€€€€€€€¸¸¸¡Ñ…É•Ğ¹Ñ…Ì€üümt¤°(€€€€€€€€¸¸¸¡•¹É¥¡µ•¹Ğ¹Ñ…Ì€üümt¤°(€€€€€€€€¸¸¸¡¹•ÜM•Ğ¡Í½ÕÉ•Ì¤¹Í¥é”€ø€Ä€ül‰5Õ±Ñ¤µÍ½ÕÉ”‰t€èmt¤(€€€€€t¤(€€€tì(€€€Ñ…É•Ğ¹ÍÑ…ÑÕÌ€ô€‰…¹½¹}•¹É¥¡¤ˆì(€€€Ñ…É•Ğ¹É•‰Õ¥±‘XÈ€ôÑÉÕ”ì(€ô((€™½È€¡½¹ÍĞÍ½ÕÉ•ÉÑ¥±”½˜=5A9%U5}YI%Q}A1M}A9)}IQ%1L¤ì(€€€½¹ÍĞ…ÉÑ¥±”€ô‘••Á±½¹”¡Í½ÕÉ•ÉÑ¥±”¤…ÌÉÑ¥±”ì(€€€½¹ÍĞ•á¥ÍÑ¥¹œ€ô™¥¹‘5…Ñ¡¥¹Ñ¥Ù•A¹¨¡‰å%°…ÉÑ¥±”¤ì(€€€¥˜€¡•á¥ÍÑ¥¹œ¤ì(€€€€€‰å%¹Í•Ğ¡•á¥ÍÑ¥¹œ¹¥°µ•É•A•±…•A¹¨¡•á¥ÍÑ¥¹œ°…ÉÑ¥±”¤¤ì(€€€€€Á•±…•A¹©I•Í½±Ù•‘%‘Ì¹Í•Ğ¡…ÉÑ¥±”¹¥°•á¥ÍÑ¥¹œ¹¥¤ì(€€€€€½¹Ñ¥¹Õ”ì(€€€ô((€€€‰å%¹Í•Ğ¡…ÉÑ¥±”¹¥°…ÉÑ¥±”¤ì(€€€Á•±…•A¹©I•Í½±Ù•‘%‘Ì¹Í•Ğ¡…ÉÑ¥±”¹¥°…ÉÑ¥±”¹¥¤ì(€ô((€™½È€¡½¹ÍĞÍ½ÕÉ•ÉÑ¥±”½˜=5A9%U5}YI%Q}MIe9}QIIM}Q5A1M}A9)}IQ%1L¤ì(€€€½¹ÍĞ…ÉÑ¥±”€ô‘••Á±½¹”¡Í½ÕÉ•ÉÑ¥±”¤…ÌÉÑ¥±”ì(€€€½¹ÍĞ•á¥ÍÑ¥¹œ€ô™¥¹‘5…Ñ¡¥¹Í•Éå¹A¹¨¡‰å%°…ÉÑ¥±”¤ì(€€€¥˜€¡•á¥ÍÑ¥¹œ¤ì(€€€€€‰å%¹Í•Ğ¡•á¥ÍÑ¥¹œ¹¥°µ•É•Í•Éå¹A¹¨¡•á¥ÍÑ¥¹œ°…ÉÑ¥±”¤¤ì(€€€€€…Í•Éå¹Q•ÉÉ•ÍQ•µÁ±•ÍA¹©I•Í½±Ù•‘%‘Ì¹Í•Ğ¡…ÉÑ¥±”¹¥°•á¥ÍÑ¥¹œ¹¥¤ì(€€€€€½¹Ñ¥¹Õ”ì(€€€ô(€€€‰å%¹Í•Ğ¡…ÉÑ¥±”¹¥°…ÉÑ¥±”¤ì(€€€…Í•Éå¹Q•ÉÉ•ÍQ•µÁ±•ÍA¹©I•Í½±Ù•‘%‘Ì¹Í•Ğ¡…ÉÑ¥±”¹¥°…ÉÑ¥±”¹¥¤ì(€ô((€™½È€¡½¹ÍĞÍ½ÕÉ•ÉÑ¥±”½˜=5A9%U5}YI%Q}I9M}a%1M}A9)}IQ%1L¤ì(€€€½¹ÍĞ…ÉÑ¥±”€ô‘••Á±½¹”¡Í½ÕÉ•ÉÑ¥±”¤…ÌÉÑ¥±”ì(€€€½¹ÍĞ•á¥ÍÑ¥¹œ€ô™¥¹‘5…Ñ¡¥¹Í•Éå¹A¹¨¡‰å%°…ÉÑ¥±”¤ì(€€€¥˜€¡•á¥ÍÑ¥¹œ¤ì(€€€€€½¹ÍĞµ•É•€ôµ•É•Í•Éå¹A¹¨¡•á¥ÍÑ¥¹œ°…ÉÑ¥±”¤ì(€€€€€½¹ÍĞÍ½ÕÉ•Ì€ôm•á¥ÍÑ¥¹œ¹Í½ÕÉ”°…ÉÑ¥±”¹Í½ÕÉ•t(€€€€€€€€¹™±…Ñ5…À ¡Ù…±Õ”¤€ôøMÑÉ¥¹œ¡Ù…±Õ”€üü€ˆˆ¤¹ÍÁ±¥Ğ ˆ€ì€ˆ¤¤(€€€€€€€€¹µ…À ¡Ù…±Õ”¤€ôøÙ…±Õ”¹ÑÉ¥´ ¤¤(€€€€€€€€¹™¥±Ñ•È¡	½½±•…¸¤ì(€€€€€µ•É•¹Í½ÕÉ”€ôl¸¸¹¹•ÜM•Ğ¡Í½ÕÉ•Ì¥t¹©½¥¸ ˆ€ì€ˆ¤ì(€€€€€µ•É•¹Ñ…Ì€ôl(€€€€€€€€¸¸¹¹•ÜM•Ğ¡l(€€€€€€€€€€¸¸¸¡µ•É•¹Ñ…Ì€üümt¤°(€€€€€€€€€€‰á¥³¥Ìˆ°(€€€€€€€€€€‰É…¹‘Ìá¥³¥Ì€ÈÀÈØ´Àäˆ°(€€€€€€€€€€¸¸¸¡¹•ÜM•Ğ¡Í½ÕÉ•Ì¤¹Í¥é”€ø€Ä€ül‰5Õ±Ñ¤µÍ½ÕÉ”‰t€èmt¤(€€€€€€€t¤(€€€€€tì(€€€€€µ•É•¹ÍÑ…ÑÕÌ€ô€‰…¹½¹}•¹É¥¡¤ˆì(€€€€€µ•É•¹É•‰Õ¥±‘XÈ€ôÑÉÕ”ì(€€€€€‰å%¹Í•Ğ¡•á¥ÍÑ¥¹œ¹¥°µ•É•¤ì(€€€€€É…¹‘Íá¥±•ÍA¹©I•Í½±Ù•‘%‘Ì¹Í•Ğ¡…ÉÑ¥±”¹¥°•á¥ÍÑ¥¹œ¹¥¤ì(€€€€€½¹Ñ¥¹Õ”ì(€€€ô((€€€‰å%¹Í•Ğ¡…ÉÑ¥±”¹¥°…ÉÑ¥±”¤ì(€€€É…¹‘Íá¥±•ÍA¹©I•Í½±Ù•‘%‘Ì¹Í•Ğ¡…ÉÑ¥±”¹¥°…ÉÑ¥±”¹¥¤ì(€ô((€™½È€¡½¹ÍĞ…ÉÑ¥±”½˜=5A9%U5}A=%9QM}I9=9QI}IQ%1L¤ì(€€€‰å%¹Í•Ğ¡MÑÉ¥¹œ¡…ÉÑ¥±”¹¥¤°‘••Á±½¹”¡…ÉÑ¥±”¤…ÌÉÑ¥±”¤ì(€ô((€™½È€¡½¹ÍĞÍ½ÕÉ•ÉÑ¥±”½˜=5A9%U5}A=%9QM}I9=9QI}A9)}IQ%1L¤ì(€€€½¹ÍĞ…ÉÑ¥±”€ô‘••Á±½¹”¡Í½ÕÉ•ÉÑ¥±”¤…ÌÉÑ¥±”ì(€€€½¹ÍĞ•á¥ÍÑ¥¹œ€ô™¥¹‘5…Ñ¡¥¹Í•Éå¹A¹¨¡‰å%°…ÉÑ¥±”¤ì(€€€¥˜€¡•á¥ÍÑ¥¹œ¤ì(€€€€€‰å%¹Í•Ğ¡•á¥ÍÑ¥¹œ¹¥°µ•É•¹•±ÕÍA¹¨¡•á¥ÍÑ¥¹œ°…ÉÑ¥±”¤¤ì(€€€€€Á½¥¹ÑÍI•¹½¹ÑÉ•A¹©I•Í½±Ù•‘%‘Ì¹Í•Ğ¡…ÉÑ¥±”¹¥°•á¥ÍÑ¥¹œ¹¥¤ì(€€€€€½¹Ñ¥¹Õ”ì(€€€ô(€€€‰å%¹Í•Ğ¡…ÉÑ¥±”¹¥°…ÉÑ¥±”¤ì(€€€Á½¥¹ÑÍI•¹½¹ÑÉ•A¹©I•Í½±Ù•‘%‘Ì¹Í•Ğ¡…ÉÑ¥±”¹¥°…ÉÑ¥±”¹¥¤ì(€ô((€™½È€¡½¹ÍĞ…ÉÑ¥±”½˜=5A9%U5}M!%}E%}IQ%1L¤ì(€€€‰å%¹Í•Ğ¡MÑÉ¥¹œ¡…ÉÑ¥±”¹¥¤°‘••Á±½¹”¡…ÉÑ¥±”¤…ÌÉÑ¥±”¤ì(€ô((€½¹ÍĞÉ•Í½±Ù•M¡¥E¥Q…É•Ğ€ô€¡•¹É¥¡µ•¹Ğè)Í½¹=‰©•Ğ¤èÉÑ¥±”ğ¹Õ±°€ôøì(€€€½¹ÍĞ‘¥É•Ğ€ô‰å%¹•Ğ¡MÑÉ¥¹œ¡•¹É¥¡µ•¹Ğ¹¥€üü€ˆˆ¤¤ì(€€€¥˜€¡‘¥É•Ğ€˜˜‘¥É•Ğ¹É•‰Õ¥±‘XÈ€„ôô™…±Í”¤É•ÑÕÉ¸‘¥É•Ğì(€€€½¹ÍĞİ…¹Ñ•€ô¹•ÜM•Ğ (€€€€€€¡•¹É¥¡µ•¹Ğ¹¥‘•¹Ñ¥Ñå-•åÌ€üümt¤¹µ…À ¡Ù…±Õ”èÕ¹­¹½İ¸¤€ôø¹½Éµ…±¥é•‘A¹©%‘•¹Ñ¥Ñä¡Ù…±Õ”¤¤¹™¥±Ñ•È¡	½½±•…¸¤(€€€€¤ì(€€€¥˜€ …İ…¹Ñ•¹Í¥é”¤É•ÑÕÉ¸¹Õ±°ì(€€€™½È€¡½¹ÍĞ…¹‘¥‘…Ñ”½˜‰å%¹Ù…±Õ•Ì ¤¤ì(€€€€€¥˜€¡…¹‘¥‘…Ñ”¹É•‰Õ¥±‘XÈ€„ôôÑÉÕ”ñğ€……¹‘¥‘…Ñ”¹Á¹¨¤½¹Ñ¥¹Õ”ì(€€€€€½¹ÍĞ­•åÌ€ôl(€€€€€€€…¹‘¥‘…Ñ”¹Ñ¥Ñ±”°(€€€€€€€…¹‘¥‘…Ñ”¹Á¹¨¹É•…±}¹…µ”°(€€€€€€€…¹‘¥‘…Ñ”¹Á¹¨¹¹½µ}É••°°(€€€€€€€…¹‘¥‘…Ñ”¹Á¹¨¹¹½µ}É•…±¥Ñ”°(€€€€€€€…¹‘¥‘…Ñ”¹Á¹¨¹¹½µ}Ù•É¥Ñ”°(€€€€€€€€¸¸¸¡ÉÉ…ä¹¥ÍÉÉ…ä¡…¹‘¥‘…Ñ”¹Á¹¨¹¥‘•¹Ñ¥Ñå}­•åÌ¤€ü…¹‘¥‘…Ñ”¹Á¹¨¹¥‘•¹Ñ¥Ñå}­•åÌ€èmt¤(€€€€€t¹µ…À ¡Ù…±Õ”¤€ôø¹½Éµ…±¥é•‘A¹©%‘•¹Ñ¥Ñä¡Ù…±Õ”¤¤¹™¥±Ñ•È¡	½½±•…¸¤ì(€€€€€¥˜€¡­•åÌ¹Í½µ” ¡­•ä¤€ôøİ…¹Ñ•¹¡…Ì¡­•ä¤¤¤É•ÑÕÉ¸…¹‘¥‘…Ñ”ì(€€€ô(€€€É•ÑÕÉ¸¹Õ±°ì(€ôì((€™½È€¡½¹ÍĞ•¹É¥¡µ•¹Ğ½˜=5A9%U5}M!%}E%}9I%!59QL¤ì(€€€½¹ÍĞÑ…É•Ğ€ôÉ•Í½±Ù•M¡¥E¥Q…É•Ğ¡•¹É¥¡µ•¹Ğ¤ì(€€€¥˜€ …Ñ…É•Ğ¤Ñ¡É½Ü¹•ÜÉÉ½È¡M¡¤½E¤ƒ
+Ü¥‰±”…‰Í•¹Ñ”è€‘íMÑÉ¥¹œ¡•¹É¥¡µ•¹Ğ¹¥€üü€ˆˆ¥õ€¤ì((€€€½¹ÍĞÉ•Á±…•µ•¹Ñ%€ôMÑÉ¥¹œ¡•¹É¥¡µ•¹Ğ¹É•Á±…•M•Ñ¥½¹%€üü€ˆˆ¤ì(€€€½¹ÍĞ¥¹½µ¥¹œ€ô‘••Á±½¹”¡•¹É¥¡µ•¹Ğ¹Í•Ñ¥½¹Ì€üümt¤…Ì)Í½¹=‰©•Ñmtì(€€€½¹ÍĞ¥¹½µ¥¹%‘Ì€ô¹•ÜM•Ğ¡¥¹½µ¥¹œ¹µ…À ¡Í•Ñ¥½¸¤€ôøMÑÉ¥¹œ¡Í•Ñ¥½¸ü¹¥€üü€ˆˆ¤¤¹™¥±Ñ•È¡	½½±•…¸¤¤ì(€€€Ñ…É•Ğ¹Í•Ñ¥½¹Ì€ôl(€€€€€€¸¸¸¡Ñ…É•Ğ¹Í•Ñ¥½¹Ì€üümt¤¹™¥±Ñ•È ¡Í•Ñ¥½¸¤€ôøì(€€€€€€€½¹ÍĞ¥€ôMÑÉ¥¹œ¡Í•Ñ¥½¸ü¹¥€üü€ˆˆ¤ì(€€€€€€€¥˜€¡É•Á±…•µ•¹Ñ%€˜˜¥€ôôôÉ•Á±…•µ•¹Ñ%¤É•ÑÕÉ¸™…±Í”ì(€€€€€€€É•ÑÕÉ¸€…¥¹½µ¥¹%‘Ì¹¡…Ì¡¥¤ì(€€€€€ô¤°(€€€€€€¸¸¹¥¹½µ¥¹œ(€€€tì((€€€Ñ…É•Ğ¹Í½ÕÉ”€ôl¸¸¹¹•ÜM•Ğ (€€€€€mÑ…É•Ğ¹Í½ÕÉ”°•¹É¥¡µ•¹Ğ¹Í½ÕÉ•t(€€€€€€€€¹™±…Ñ5…À ¡Ù…±Õ”¤€ôøMÑÉ¥¹œ¡Ù…±Õ”€üü€ˆˆ¤¹ÍÁ±¥Ğ ˆ€ì€ˆ¤¤(€€€€€€€€¹µ…À ¡Ù…±Õ”¤€ôøÙ…±Õ”¹ÑÉ¥´ ¤¤(€€€€€€€€¹™¥±Ñ•È¡	½½±•…¸¤(€€€€¥t¹©½¥¸ ˆ€ì€ˆ¤ì(€€€Ñ…É•Ğ¹Ñ…Ì€ôl¸¸¹¹•ÜM•Ğ¡l¸¸¸¡Ñ…É•Ğ¹Ñ…Ì€üümt¤°€¸¸¸¡•¹É¥¡µ•¹Ğ¹Ñ…Ì€üümt¤°€‰M¡¤½E¤€ÈÀÈØ´Àä‰t¥tì(€€€Ñ…É•Ğ¹ÍÑ…ÑÕÌ€ô€‰…¹½¹}•¹É¥¡¤ˆì(€€€Ñ…É•Ğ¹É•‰Õ¥±‘XÈ€ôÑÉÕ”ì((€€€¥˜€¡Ñ…É•Ğ¹Á¹¨¤ì(€€€€€Ñ…É•Ğ¹Á¹¨€ôì€¸¸¹Ñ…É•Ğ¹Á¹¨ôì(€€€€€Ñ…É•Ğ¹Á¹¨¹¥‘•¹Ñ¥Ñå}­•åÌ€ôl¸¸¹¹•ÜM•Ğ¡l(€€€€€€€€¸¸¸¡ÉÉ…ä¹¥ÍÉÉ…ä¡Ñ…É•Ğ¹Á¹¨¹¥‘•¹Ñ¥Ñå}­•åÌ¤€üÑ…É•Ğ¹Á¹¨¹¥‘•¹Ñ¥Ñå}­•åÌ€èmt¤°(€€€€€€€€¸¸¸¡•¹É¥¡µ•¹Ğ¹¥‘•¹Ñ¥Ñå-•åÌ€üümt¤(€€€€€t¥tì(€€€ô(€ô((€½¹ÍĞ•¹•É…Ñ•‘Q…±•¹Ñ!Õ‰Ì€ô•¹•É…Ñ•‘Q…±•¹Ñ!Õ‰½ÉÁÕÌ ¤ì(€™½È€¡½¹ÍĞ¡Õˆ½˜•¹•É…Ñ•‘Q…±•¹Ñ!Õ‰Ì¹…ÉÑ¥±•Ì¤ì(€€€¥˜€ …‰å%¹¡…Ì¡¡Õˆ¹¥¤¤‰å%¹Í•Ğ¡¡Õˆ¹¥°‘••Á±½¹”¡¡Õˆ¤…ÌÉÑ¥±”¤ì(€ô((€½¹ÍĞ•¹•É…Ñ•‘	Õ¥±‘•ÉI•™•É•¹•Ì€ô•¹•É…Ñ•‘	Õ¥±‘•ÉI•™•É•¹•½ÉÁÕÌ ¤ì(€™½È€¡½¹ÍĞÉ•™•É•¹”½˜•¹•É…Ñ•‘	Õ¥±‘•ÉI•™•É•¹•Ì¹…ÉÑ¥±•Ì¤ì(€€€¥˜€ …‰å%¹¡…Ì¡MÑÉ¥¹œ¡É•™•É•¹”¹¥¤¤¤ì(€€€€€‰å%¹Í•Ğ¡MÑÉ¥¹œ¡É•™•É•¹”¹¥¤°‘••Á±½¹”¡É•™•É•¹”¤…ÌÉÑ¥±”¤ì(€€€ô(€ô((€½¹ÍĞ½Ù•ÉÉ¥‘•MÕµµ…Éä€ô…İ…¥Ğ…ÁÁ±å½µµ¥ÑÑ•‘=Ù•ÉÉ¥‘•Ì¡‰å%°½Ù•ÉÉ¥‘•A…å±½…¤ì((€½¹ÍĞÕÍÑ½µÉÑ¥±•Ì€ô…İ…¥ĞÁ½½°¹ÅÕ•Éäñì…ÉÑ¥±•%èÍÑÉ¥¹œì‰…Í•½Õµ•¹ĞèÉÑ¥±”ôø (€€€M1P…ÉÑ¥±•}¥L€‰…ÉÑ¥±•%ˆ°‰…Í•}‘½Õµ•¹ĞL€‰‰…Í•½Õµ•¹Ğˆ(€€€€I=4½µÁ•¹‘¥Õµ}ÕÍÑ½µ}…ÉÑ¥±•Ì(€€€€]!I¥Í}ÁÕ‰±¥Í¡•€ôÑÉÕ•€(€€¤ì(€½¹ÍĞÕÍÑ½µÉÑ¥±•%‘Ì€ô¹•ÜM•ĞñÍÑÉ¥¹œø ¤ì(€™½È€¡½¹ÍĞÉ½Ü½˜ÕÍÑ½µÉÑ¥±•Ì¹É½İÌ¤ì(€€€¥˜€ …É½Ü¹‰…Í•½Õµ•¹Ğü¹¥ñğ‰å%¹¡…Ì¡É½Ü¹…ÉÑ¥±•%¤¤½¹Ñ¥¹Õ”ì(€€€½¹ÍĞ…ÉÑ¥±”€ô‘••Á±½¹”¡É½Ü¹‰…Í•½Õµ•¹Ğ¤ì(€€€…ÉÑ¥±”¹‘…Ñ…Í•Ğ€ô€‰ÕÍÑ½´ˆì(€€€‰å%¹Í•Ğ¡É½Ü¹…ÉÑ¥±•%°…ÉÑ¥±”¤ì(€€€ÕÍÑ½µÉÑ¥±•%‘Ì¹…‘¡É½Ü¹…ÉÑ¥±•%¤ì(€ô((€½¹ÍĞ•‘¥Ñ½É	…Í•	å%€ô¹•Ü5…ÀñÍÑÉ¥¹œ°ì¡…Í èÍÑÉ¥¹œì…ÉÑ¥±”èÉÑ¥±”ôø ¤ì(€™½È€¡½¹ÍĞm¥°…ÉÑ¥±•t½˜‰å%¤ì(€€€•‘¥Ñ½É	…Í•	å%¹Í•Ğ¡¥°ì¡…Í è…ÉÑ¥±•!…Í ¡…ÉÑ¥±”¤°…ÉÑ¥±”è‘••Á±½¹”¡…ÉÑ¥±”¤ô¤ì(€ô((€™½È€¡½¹ÍĞ¥½˜ÕÍÑ½µÉÑ¥±•%‘Ì¤ì(€€€½¹ÍĞ…ÉÑ¥±”€ô‰å%¹•Ğ¡¥¤ì(€€€¥˜€¡…ÉÑ¥±”¤…ÉÑ¥±”¹}}ÕÍÑ½µ]¥­¥A…”€ôÑÉÕ”ì(€ô((€±•Ğ‘…Ñ…‰…Í•‘¥ÑÁÁ±¥•€ô€Àì(€±•Ğ‘…Ñ…‰…Í•‘¥Ñ½¹™±¥ÑÌ€ô€Àì(€½¹ÍĞÁÕ‰±¥Í¡•‘‘¥ÑÌ€ô…İ…¥ĞÁ½½°¹ÅÕ•Éäñì(€€€…ÉÑ¥±•%èÍÑÉ¥¹œì(€€€‰…Í•!…Í èÍÑÉ¥¹œì(€€€ÁÕ‰±¥Í¡•è)Í½¹=‰©•Ğì(€ôø (€€€M1P(€€€€€€…ÉÑ¥±•}¥L€‰…ÉÑ¥±•%ˆ°(€€€€€€‰…Í•}¡…Í L€‰‰…Í•!…Í ˆ°(€€€€€€ÁÕ‰±¥Í¡•(€€€€I=4½µÁ•¹‘¥Õµ}…ÉÑ¥±•}•‘¥ÑÌ(€€€€]!IÁÕ‰±¥Í¡•%L9=P9U11€(€€¤ì((€™½È€¡½¹ÍĞÉ½Ü½˜ÁÕ‰±¥Í¡•‘‘¥ÑÌ¹É½İÌ¤ì(€€€½¹ÍĞ‰…Í”€ô•‘¥Ñ½É	…Í•	å%¹•Ğ¡É½Ü¹…ÉÑ¥±•%¤ì(€€€½¹ÍĞÕÉÉ•¹Ğ€ô‰å%¹•Ğ¡É½Ü¹…ÉÑ¥±•%¤ì(€€€¥˜€ …‰…Í”ñğ€…ÕÉÉ•¹Ğ¤½¹Ñ¥¹Õ”ì(€€€¥˜€¡É½Ü¹‰…Í•!…Í €„ôô‰…Í”¹¡…Í ¤ì(€€€€€‘…Ñ…‰…Í•‘¥Ñ½¹™±¥ÑÌ€¬ô€Äì(€€€€€½¹Ñ¥¹Õ”ì(€€€ô((€€€½¹ÍĞ•™™•Ñ¥Ù”€ô•‘¥Ñ…‰±•ÉÑ¥±”¡ÕÉÉ•¹Ğ°É½Ü¹ÁÕ‰±¥Í¡•¤ì(€€€•™™•Ñ¥Ù”¹}}İ¥­¥AÕ‰±¥Í¡•‘‘¥Ğ€ôÑÉÕ”ì(€€€‰å%¹Í•Ğ¡É½Ü¹…ÉÑ¥±•%°•™™•Ñ¥Ù”¤ì(€€€‘…Ñ…‰…Í•‘¥ÑÁÁ±¥•€¬ô€Äì(€ô((€½¹ÍĞµ…¹Õ…±5•‘¥…¥±•Ì€ô¹•ÜM•Ğ (€€€…İ…¥ĞÉ•…‘‘¥È¡É•Í½±Ù”¡=5A9%U5}5%}%H°€‰¥µ…•Ì½µ…¹Õ…°ˆ¤¤¹…Ñ   ¤€ôømt…ÌÍÑÉ¥¹mt¤(€€¤ì(€½¹ÍĞµ…¹Õ…±…±±•Éå	åÉÑ¥±”€ô¹•Ü5…ÀñÍÑÉ¥¹œ°ÍÑÉ¥¹mtø ¤ì(€™½È€¡½¹ÍĞ™¥±•¹…µ”½˜µ…¹Õ…±5•‘¥…¥±•Ì¤ì(€€€¥˜€ …™¥±•¹…µ”¹•¹‘Í]¥Ñ  ˆ¹İ•‰Àˆ¤¤½¹Ñ¥¹Õ”ì(€€€½¹ÍĞµ…É­•È€ô™¥±•¹…µ”¹¥¹‘•á=˜ ˆ´´ˆ¤ì(€€€¥˜€¡µ…É­•È€ğô€À¤½¹Ñ¥¹Õ”ì(€€€½¹ÍĞ…ÉÑ¥±•%€ô™¥±•¹…µ”¹Í±¥” À°µ…É­•È¤ì(€€€½¹ÍĞ…±±•Éä€ôµ…¹Õ…±…±±•Éå	åÉÑ¥±”¹•Ğ¡…ÉÑ¥±•%¤€üümtì(€€€…±±•Éä¹ÁÕÍ ¡™¥±•¹…µ”¤ì(€€€µ…¹Õ…±…±±•Éå	åÉÑ¥±”¹Í•Ğ¡…ÉÑ¥±•%°…±±•Éä¤ì(€ô(€™½È€¡½¹ÍĞ…±±•Éä½˜µ…¹Õ…±…±±•Éå	åÉÑ¥±”¹Ù…±Õ•Ì ¤¤…±±•Éä¹Í½ÉĞ ¤ì((€½¹ÍĞµ•É•Q•¹M½ÕÉ”€ô€¡Ñ…É•ĞèÉÑ¥±”°Í½ÕÉ”èÍÑÉ¥¹œ°Ñ…ÌèÍÑÉ¥¹mt¤€ôøì(€€€½¹ÍĞÍ½ÕÉ•Ì€ômÑ…É•Ğ¹Í½ÕÉ”°Í½ÕÉ•t(€€€€€€¹™±…Ñ5…À ¡Ù…±Õ”¤€ôøMÑÉ¥¹œ¡Ù…±Õ”€üü€ˆˆ¤¹ÍÁ±¥Ğ ˆ€ì€ˆ¤¤(€€€€€€¹µ…À ¡Ù…±Õ”¤€ôøÙ…±Õ”¹ÑÉ¥´ ¤¤(€€€€€€¹™¥±Ñ•È¡	½½±•…¸¤ì(€€€Ñ…É•Ğ¹Í½ÕÉ”€ôl¸¸¹¹•ÜM•Ğ¡Í½ÕÉ•Ì¥t¹©½¥¸ ˆ€ì€ˆ¤ì(€€€Ñ…É•Ğ¹Ñ…Ì€ôl¸¸¹¹•ÜM•Ğ¡l¸¸¸¡Ñ…É•Ğ¹Ñ…Ì€üümt¤°€¸¸¹Ñ…Ì°€¸¸¸¡¹•ÜM•Ğ¡Í½ÕÉ•Ì¤¹Í¥é”€ø€Ä€ül‰5Õ±Ñ¤µÍ½ÕÉ”‰t€èmt¥t¥tì(€€€Ñ…É•Ğ¹ÍÑ…ÑÕÌ€ô€‰…¹½¹}•¹É¥¡¤ˆì(€€€Ñ…É•Ğ¹É•‰Õ¥±‘XÈ€ôÑÉÕ”ì(€€€Ñ…É•Ğ¹Á¹¨€ôì€¸¸¸¡Ñ…É•Ğ¹Á¹¨€üüíô¤ôì(€€€Ñ…É•Ğ¹Á¹¨¹Í½ÕÉ•}‘½Õµ•¹ÑÌ€ôl(€€€€€€¸¸¹¹•ÜM•Ğ¡l(€€€€€€€€¸¸¸ ¡ÉÉ…ä¹¥ÍÉÉ…ä¡Ñ…É•Ğ¹Á¹¨¹Í½ÕÉ•}‘½Õµ•¹ÑÌ¤€üÑ…É•Ğ¹Á¹¨¹Í½ÕÉ•}‘½Õµ•¹ÑÌ€èmt¤…ÌÍÑÉ¥¹mt¤°(€€€€€€€€¸¸¹Í½ÕÉ•Ì(€€€€€t¤(€€€tì(€ôì((€½¹ÍĞ…ÁÁ•¹‘Q•¹M•Ñ¥½¹Ì€ô€¡Ñ…É•ĞèÉÑ¥±”°Í•Ñ¥½¹Ìè)Í½¹=‰©•Ñmt¤€ôøì(€€€½¹ÍĞ•á¥ÍÑ¥¹%‘Ì€ô¹•ÜM•Ğ ¡Ñ…É•Ğ¹Í•Ñ¥½¹Ì€üümt¤¹µ…À ¡Í•Ñ¥½¸¤€ôøMÑÉ¥¹œ¡Í•Ñ¥½¸ü¹¥€üü€ˆˆ¤¤¤ì(€€€™½È€¡½¹ÍĞÍ½ÕÉ•M•Ñ¥½¸½˜Í•Ñ¥½¹Ì¤ì(€€€€€½¹ÍĞ¥€ôMÑÉ¥¹œ¡Í½ÕÉ•M•Ñ¥½¸ü¹¥€üü€ˆˆ¤ì(€€€€€¥˜€ …¥ñğ•á¥ÍÑ¥¹%‘Ì¹¡…Ì¡¥¤¤½¹Ñ¥¹Õ”ì(€€€€€½¹ÍĞ½Áä€ô‘••Á±½¹”¡Í½ÕÉ•M•Ñ¥½¸¤…Ì)Í½¹=‰©•Ğì(€€€€€¥˜€¡½Áä¹…Õ‘¥•¹”€ôôô€‰µ¨ˆ¤ì(€€€€€€€Ñ…É•Ğ¹Í•Ñ¥½¹Ì€ôl¸¸¸¡Ñ…É•Ğ¹Í•Ñ¥½¹Ì€üümt¤°½Áåtì(€€€€€ô•±Í”ì(€€€€€€€½¹ÍĞÕÉÉ•¹Ğ€ôl¸¸¸¡Ñ…É•Ğ¹Í•Ñ¥½¹Ì€üümt¥tì(€€€€€€€½¹ÍĞµ©%¹‘•à€ôÕÉÉ•¹Ğ¹™¥¹‘%¹‘•à ¡Í•Ñ¥½¸¤€ôøÍ•Ñ¥½¸ü¹…Õ‘¥•¹”€ôôô€‰µ¨ˆ¤ì(€€€€€€€¥˜€¡µ©%¹‘•à€øô€À¤ÕÉÉ•¹Ğ¹ÍÁ±¥”¡µ©%¹‘•à°€À°½Áä¤ì(€€€€€€€•±Í”ÕÉÉ•¹Ğ¹ÁÕÍ ¡½Áä¤ì(€€€€€€€Ñ…É•Ğ¹Í•Ñ¥½¹Ì€ôÕÉÉ•¹Ğì(€€€€€ô(€€€€€•á¥ÍÑ¥¹%‘Ì¹…‘¡¥¤ì(€€€ô(€ôì((€½¹ÍĞµ•É•Q•¹5©	±½­Ì€ô€¡Ñ…É•ĞèÉÑ¥±”°Í½ÕÉ•M•Ñ¥½¸è)Í½¹=‰©•Ğ¤€ôøì(€€€½¹ÍĞÕÉÉ•¹Ğ€ôl¸¸¸¡Ñ…É•Ğ¹Í•Ñ¥½¹Ì€üümt¥tì(€€€±•Ğµ©%¹‘•à€ôÕÉÉ•¹Ğ¹™¥¹‘%¹‘•à ¡Í•Ñ¥½¸¤€ôøMÑÉ¥¹œ¡Í•Ñ¥½¸ü¹¥€üü€ˆˆ¤€ôôô€‰‘½ÍÍ¥•Èµµ¨ˆ¤ì(€€€¥˜€¡µ©%¹‘•à€ğ€À¤ì(€€€€€µ©%¹‘•à€ôÕÉÉ•¹Ğ¹™¥¹‘%¹‘•à (€€€€€€€€¡Í•Ñ¥½¸¤€ôøÍ•Ñ¥½¸ü¹…Õ‘¥•¹”€ôôô€‰µ¨ˆ€˜˜MÑÉ¥¹œ¡Í•Ñ¥½¸ü¹¥€üü€ˆˆ¤€„ôô€‰ÁÉ½™¥°µÍÑ…Ñ¥ÍÑ¥ÅÕ”ˆ(€€€€€€¤ì(€€€ô(€€€½¹ÍĞÍ½ÕÉ•	±½­Ì€ô‘••Á±½¹” ¡Í½ÕÉ•M•Ñ¥½¸ü¹‰±½­Ì€üümt¤…Ì)Í½¹=‰©•Ñmt¤…Ì)Í½¹=‰©•Ñmtì(€€€¥˜€¡µ©%¹‘•à€øô€À¤ì(€€€€€½¹ÍĞ•á¥ÍÑ¥¹œ€ôÕÉÉ•¹Ñmµ©%¹‘•át…Ì)Í½¹=‰©•Ğì(€€€€€½¹ÍĞ•á¥ÍÑ¥¹	±½­Ì€ô€ ¡•á¥ÍÑ¥¹œü¹‰±½­Ì€üümt¤…Ì)Í½¹=‰©•Ñmt¤¹µ…À ¡‰±½¬¤€ôø‘••Á±½¹”¡‰±½¬¤…Ì)Í½¹=‰©•Ğ¤ì(€€€€€½¹ÍĞÍ¥¹…ÑÕÉ•Ì€ô¹•ÜM•Ğ¡•á¥ÍÑ¥¹	±½­Ì¹µ…À ¡‰±½¬¤€ôø)M=8¹ÍÑÉ¥¹¥™ä¡‰±½¬¤¤¤ì(€€€€€™½È€¡½¹ÍĞ‰±½¬½˜Í½ÕÉ•	±½­Ì¤ì(€€€€€€€½¹ÍĞÍ¥¹…ÑÕÉ”€ô)M=8¹ÍÑÉ¥¹¥™ä¡‰±½¬¤ì(€€€€€€€¥˜€¡Í¥¹…ÑÕÉ•Ì¹¡…Ì¡Í¥¹…ÑÕÉ”¤¤½¹Ñ¥¹Õ”ì(€€€€€€€•á¥ÍÑ¥¹	±½­Ì¹ÁÕÍ ¡‰±½¬¤ì(€€€€€€€Í¥¹…ÑÕÉ•Ì¹…‘¡Í¥¹…ÑÕÉ”¤ì(€€€€€ô(€€€€€ÕÉÉ•¹Ñmµ©%¹‘•át€ôì€¸¸¹•á¥ÍÑ¥¹œ°…Õ‘¥•¹”è€‰µ¨ˆ°‰±½­Ìè•á¥ÍÑ¥¹	±½­Ìôì(€€€ô•±Í”ì(€€€€€½¹ÍĞ½Áä€ô‘••Á±½¹”¡Í½ÕÉ•M•Ñ¥½¸¤…Ì)Í½¹=‰©•Ğì(€€€€€½Áä¹¥€ô€‰‘½ÍÍ¥•Èµµ¨ˆì(€€€€€½Áä¹Ñ¥Ñ±”€ô€‰½ÍÍ¥•È5(ƒ
+Ü[¥É¥Ó¤€˜¥¹™½Éµ…Ñ¥½¹Ì…£¥•Ìˆì(€€€€€½Áä¹…Õ‘¥•¹”€ô€‰µ¨ˆì(€€€€€½¹ÍĞÍÑ…ÑÍ%¹‘•à€ôÕÉÉ•¹Ğ¹™¥¹‘%¹‘•à ¡Í•Ñ¥½¸¤€ôøMÑÉ¥¹œ¡Í•Ñ¥½¸ü¹¥€üü€ˆˆ¤€ôôô€‰ÁÉ½™¥°µÍÑ…Ñ¥ÍÑ¥ÅÕ”ˆ¤ì(€€€€€¥˜€¡ÍÑ…ÑÍ%¹‘•à€øô€À¤ÕÉÉ•¹Ğ¹ÍÁ±¥”¡ÍÑ…ÑÍ%¹‘•à°€À°½Áä¤ì(€€€€€•±Í”ÕÉÉ•¹Ğ¹ÁÕÍ ¡½Áä¤ì(€€€ô(€€€Ñ…É•Ğ¹Í•Ñ¥½¹Ì€ôÕÉÉ•¹Ğì(€ôì((€½¹ÍĞÍÙ•Ñ±…¹……¹‘¥‘…Ñ•Ì€ôl¸¸¹‰å%¹Ù…±Õ•Ì ¥t¹™¥±Ñ•È ¡…ÉÑ¥±”¤€ôøì(€€€½¹ÍĞ¹…µ•Ì€ôl(€€€€€MÑÉ¥¹œ¡…ÉÑ¥±”ü¹Ñ¥Ñ±”€üü€ˆˆ¤°(€€€€€MÑÉ¥¹œ¡…ÉÑ¥±”ü¹Á¹¨ü¹É•…±}¹…µ”€üü€ˆˆ¤°(€€€€€€¸¸¸ ¡ÉÉ…ä¹¥ÍÉÉ…ä¡…ÉÑ¥±”ü¹Á¹¨ü¹¥‘•¹Ñ¥Ñå}­•åÌ¤€ü…ÉÑ¥±”¹Á¹¨¹¥‘•¹Ñ¥Ñå}­•åÌ€èmt¤…ÌÍÑÉ¥¹mt¤(€€€tì(€€€É•ÑÕÉ¸¹…µ•Ì¹Í½µ” (€€€€€€¡¹…µ”¤€ôø¹½Éµ…±¥é•‘A¹©%‘•¹Ñ¥Ñä¡¹…µ”¤€ôôô¹½Éµ…±¥é•‘A¹©%‘•¹Ñ¥Ñä ‰MÙ•Ñ±…¹„-½¹ÍÑ…¹Ñ¥¹½Ù¹„ˆ¤(€€€€¤ì(€ô¤ì(€¥˜€¡ÍÙ•Ñ±…¹……¹‘¥‘…Ñ•Ì¹±•¹Ñ €„ôô€Ä¤ì(€€€Ñ¡É½Ü¹•ÜÉÉ½È¡Q•¸ƒ
+Ü™¥¡”MÙ•Ñ±…¹„…¹½¹¥ÅÕ”…µ‰¥×¬è€‘íÍÙ•Ñ±…¹……¹‘¥‘…Ñ•Ì¹µ…À ¡…ÉÑ¥±”¤€ôø…ÉÑ¥±”¹¥¤¹©½¥¸ ˆ°€ˆ¤ñğ€‰…ÕÕ¹”‰õ€¤ì(€ô(€½¹ÍĞÍÙ•Ñ±…¹„€ôÍÙ•Ñ±…¹……¹‘¥‘…Ñ•ÍlÁtì((€€¼¼Q¡”±•…ä…Ñ¥Ù”Í¡••Ğµ¥á•ÁÕ‰±¥ŒI•…±¥Ñä™¥•±‘Ìİ¥Ñ QÉÕÑ ½É­¡…¹•°Í•É•ÑÌ¸(€€¼¼Q¡”Q•¸Á…ÍÌÉ•Á±…•ÌÑ¡½Í”µ¥á•ÁÕ‰±¥ŒÍ•Ñ¥½¹Ìİ¥Ñ Ñ¡”±•…¸I•…±¥Ñä™¥¡”‰•±½Ü¸(€ÍÙ•Ñ±…¹„¹Í•Ñ¥½¹Ì€ô€¡ÍÙ•Ñ±…¹„¹Í•Ñ¥½¹Ì€üümt¤¹™¥±Ñ•È ¡Í½ÕÉ•M•Ñ¥½¸¤€ôøì(€€€¥˜€¡Í½ÕÉ•M•Ñ¥½¸ü¹…Õ‘¥•¹”€ôôô€‰µ¨ˆ¤É•ÑÕÉ¸ÑÉÕ”ì(€€€½¹ÍĞ¥€ô¹½Éµ…±¥é•‘A¹©%‘•¹Ñ¥Ñä¡MÑÉ¥¹œ¡Í½ÕÉ•M•Ñ¥½¸ü¹¥€üü€ˆˆ¤¤ì(€€€½¹ÍĞÑ¥Ñ±”€ô¹½Éµ…±¥é•‘A¹©%‘•¹Ñ¥Ñä¡MÑÉ¥¹œ¡Í½ÕÉ•M•Ñ¥½¸ü¹Ñ¥Ñ±”€üü€ˆˆ¤¤ì(€€€½¹ÍĞÁ…å±½…€ô¹½Éµ…±¥é•‘A¹©%‘•¹Ñ¥Ñä¡)M=8¹ÍÑÉ¥¹¥™ä¡Í½ÕÉ•M•Ñ¥½¸€üüíô¤¤ì(€€€½¹ÍĞ±•…åAÉ½™¥±”€ô(€€€€€€¡¥€ôôô€‰ÁÉ½™¥°ˆñğÑ¥Ñ±”€ôôô€‰ÁÉ½™¥°ˆ¤€˜˜(€€€€€€¡Á…å±½…¹¥¹±Õ‘•Ì ‰¹½´‘”±„Ù•É¥Ñ”ˆ¤ñğ(€€€€€€€Á…å±½…¹¥¹±Õ‘•Ì ‰¹…ÑÕÉ”É••±±”ˆ¤ñğ(€€€€€€€Á…å±½…¹¥¹±Õ‘•Ì ‰µ…Í¡¥„ˆ¤ñğ(€€€€€€€Á…å±½…¹¥¹±Õ‘•Ì ‰…É­¡…¹•°ˆ¤¤ì(€€€½¹ÍĞ±•…å5¥á•‘I•…±¥Ñä€ô(€€€€€€¡¥¹¥¹±Õ‘•Ì ‰¥¹™¼µÉ•…±¥Ñ”ˆ¤ñğ¥¹¥¹±Õ‘•Ì ‰¥¹™½Éµ…Ñ¥½¹ÌµÉ•…±¥Ñ”ˆ¤ñğÑ¥Ñ±”¹¥¹±Õ‘•Ì ‰¥¹™½Éµ…Ñ¥½¹ÌÉ•…±¥Ñ”ˆ¤¤€˜˜(€€€€€Á…å±½…¹¥¹±Õ‘•Ì ‰…É­¡…¹•°ˆ¤ì(€€€É•ÑÕÉ¸€„¡±•…åAÉ½™¥±”ñğ±•…å5¥á•‘I•…±¥Ñä¤ì(€ô¤ì((€™½È€¡½¹ÍĞÍ•Ñ¥½¸½˜€¡=5A9%U5}Q9}MYQ19}IQ%1¹Í•Ñ¥½¹Ì€üümt¤…Ì)Í½¹=‰©•Ñmt¤ì(€€€½¹ÍĞÍ•Ñ¥½¹%€ôMÑÉ¥¹œ¡Í•Ñ¥½¸ü¹¥€üü€ˆˆ¤ì(€€€¥˜€¡Í•Ñ¥½¹%€ôôô€‰ÁÉ½™¥°µÍÑ…Ñ¥ÍÑ¥ÅÕ”ˆ¤½¹Ñ¥¹Õ”ì(€€€¥˜€¡Í•Ñ¥½¸ü¹…Õ‘¥•¹”€ôôô€‰µ¨ˆ¤µ•É•Q•¹5©	±½­Ì¡ÍÙ•Ñ±…¹„°Í•Ñ¥½¸¤ì(€€€•±Í”…ÁÁ•¹‘Q•¹M•Ñ¥½¹Ì¡ÍÙ•Ñ±…¹„°m‘••Á±½¹”¡Í•Ñ¥½¸¤…Ì)Í½¹=‰©•Ñt¤ì(€ô(€µ•É•Q•¹M½ÕÉ” (€€€ÍÙ•Ñ±…¹„°(€€€MÑÉ¥¹œ¡=5A9%U5}Q9}MYQ19}IQ%1¹Í½ÕÉ”€üü€ˆˆ¤°(€€€=5A9%U5}Q9}MYQ19}IQ%1¹Ñ…Ì€üümt(€€¤ì(€½¹ÍĞÍÙ•Ñ±…¹…M½ÕÉ•A¹¨€ô‘••Á±½¹”¡=5A9%U5}Q9}MYQ19}IQ%1¹Á¹¨€üüíô¤…Ì)Í½¹=‰©•Ğì(€½¹ÍĞÍÙ•Ñ±…¹…á¥ÍÑ¥¹A¹¨€ô‘••Á±½¹”¡ÍÙ•Ñ±…¹„¹Á¹¨€üüíô¤…Ì)Í½¹=‰©•Ğì(€ÍÙ•Ñ±…¹„¹Á¹¨€ôì€¸¸¹ÍÙ•Ñ±…¹…M½ÕÉ•A¹¨°€¸¸¹ÍÙ•Ñ±…¹…á¥ÍÑ¥¹A¹¨ôì(€ÍÙ•Ñ±…¹„¹Á¹¨¹¥‘•¹Ñ¥Ñå}­•åÌ€ôl(€€€€¸¸¹¹•ÜM•Ğ¡l(€€€€€€¸¸¸ ¡ÉÉ…ä¹¥ÍÉÉ…ä¡ÍÙ•Ñ±…¹…M½ÕÉ•A¹¨¹¥‘•¹Ñ¥Ñå}­•åÌ¤€üÍÙ•Ñ±…¹…M½ÕÉ•A¹¨¹¥‘•¹Ñ¥Ñå}­•åÌ€èmt¤…ÌÍÑÉ¥¹mt¤°(€€€€€€¸¸¸ ¡ÉÉ…ä¹¥ÍÉÉ…ä¡ÍÙ•Ñ±…¹…á¥ÍÑ¥¹A¹¨¹¥‘•¹Ñ¥Ñå}­•åÌ¤€üÍÙ•Ñ±…¹…á¥ÍÑ¥¹A¹¨¹¥‘•¹Ñ¥Ñå}­•åÌ€èmt¤…ÌÍÑÉ¥¹mt¤(€€€t¤(€tì((€½¹ÍĞÉ•Í½±Ù•Q•¹Q…É•Ñ%€ô€¡Í½ÕÉ•%èÍÑÉ¥¹œ¤€ôø(€€€Í½ÕÉ•%€ôôôMÑÉ¥¹œ¡=5A9%U5}Q9}MYQ19}IQ%1¹¥¤(€€€€€€üÍÙ•Ñ±…¹„¹¥(€€€€€€èÉ…İ±•ÉA¹©I•Í½±Ù•‘%‘Ì¹•Ğ¡Í½ÕÉ•%¤€üü(€€€€€€€½ÉÁ½É…Ñ¥½¹A¹©I•Í½±Ù•‘%‘Ì¹•Ğ¡Í½ÕÉ•%¤€üü(€€€€€€€Í½ÕÉ•%ì((€™½È€¡½¹ÍĞ•¹É¥¡µ•¹Ğ½˜=5A9%U5}Q9}	-I=U9}9I%!59QL¤ì(€€€½¹ÍĞÍ½ÕÉ•Q…É•Ñ%€ôMÑÉ¥¹œ¡•¹É¥¡µ•¹Ğ¹Ñ…É•Ñ%€üü€ˆˆ¤ì(€€€½¹ÍĞÑ…É•Ñ%€ôÉ•Í½±Ù•Q•¹Q…É•Ñ%¡Í½ÕÉ•Q…É•Ñ%¤ì(€€€½¹ÍĞÑ…É•Ğ€ô‰å%¹•Ğ¡Ñ…É•Ñ%¤ì(€€€¥˜€ …Ñ…É•Ğ¤Ñ¡É½Ü¹•ÜÉÉ½È¡Q•¸ƒ
+Ü¥‰±”	…‰Í•¹Ñ”è€‘íÍ½ÕÉ•Q…É•Ñ%‘ô€´ø€‘íÑ…É•Ñ%‘õ€¤ì(€€€…ÁÁ•¹‘Q•¹M•Ñ¥½¹Ì¡Ñ…É•Ğ°‘••Á±½¹”¡•¹É¥¡µ•¹Ğ¹Í•Ñ¥½¹Ì€üümt¤…Ì)Í½¹=‰©•Ñmt¤ì(€€€µ•É•Q•¹M½ÕÉ”¡Ñ…É•Ğ°MÑÉ¥¹œ¡•¹É¥¡µ•¹Ğ¹Í½ÕÉ”€üü€ˆˆ¤°•¹É¥¡µ•¹Ğ¹Ñ…Ì€üümt¤ì(€ô((€½¹ÍĞ…É­¡…¹•°€ô‰å%¹•Ğ¡MÑÉ¥¹œ¡=5A9%U5}Q9}I-!91}1%9,¹Ñ…É•Ñ%€üü€ˆˆ¤¤ì(€¥˜€ ……É­¡…¹•°¤Ñ¡É½Ü¹•ÜÉÉ½È ‰Q•¸ƒ
+Ü±¥•¸MÙ•Ñ±…¹„½É­¡…¹•°¥µÁ½ÍÍ¥‰±”ˆ¤ì(€µ•É•Q•¹5©	±½­Ì¡…É­¡…¹•°°‘••Á±½¹”¡=5A9%U5}Q9}I-!91}1%9,¹Í•Ñ¥½¸¤…Ì)Í½¹=‰©•Ğ¤ì(€µ•É•Q•¹M½ÕÉ”¡…É­¡…¹•°°MÑÉ¥¹œ¡=5A9%U5}Q9}I-!91}1%9,¹Í½ÕÉ”€üü€ˆˆ¤°=5A9%U5}Q9}I-!91}1%9,¹Ñ…Ì€üümt¤ì(€…É­¡…¹•°¹Á¹¨€ôì€¸¸¸¡…É­¡…¹•°¹Á¹¨€üüíô¤ôì(€ÍÙ•Ñ±…¹„¹Á¹¨€ôì€¸¸¸¡ÍÙ•Ñ±…¹„¹Á¹¨€üüíô¤ôì(€…É­¡…¹•°¹Á¹¨¹É•±…Ñ¥½¹Ì€ôl¸¸¹¹•ÜM•Ğ¡l¸¸¸¡…É­¡…¹•°¹Á¹¨¹É•±…Ñ¥½¹Ì€üümt¤°ÍÙ•Ñ±…¹„¹¥‘t¥tì(€ÍÙ•Ñ±…¹„¹Á¹¨¹É•±…Ñ¥½¹Ì€ôl¸¸¹¹•ÜM•Ğ¡l¸¸¸¡ÍÙ•Ñ±…¹„¹Á¹¨¹É•±…Ñ¥½¹Ì€üümt¤°…É­¡…¹•°¹¥‘t¥tì(€€¼¼•±¥‰•É…Ñ•±ä­••ÀÑ¡”¥‘•¹Ñ¥Ñ¥•ÌÍ•Á…É…Ñ”èÑ¡”Í•É•Ğ¥Ì„ÁÉ½Ñ•Ñ•É•±…Ñ¥½¸°¹•Ù•È„µ•É”­•ä¸(€…É­¡…¹•°¹Á¹¨¹¥‘•¹Ñ¥Ñå}­•åÌ€ô€¡…É­¡…¹•°¹Á¹¨¹¥‘•¹Ñ¥Ñå}­•åÌ€üümt¤¹™¥±Ñ•È ¡­•äèÍÑÉ¥¹œ¤€ôø¹½Éµ…±¥é•‘A¹©%‘•¹Ñ¥Ñä¡­•ä¤€„ôô¹½Éµ…±¥é•‘A¹©%‘•¹Ñ¥Ñä ‰MÙ•Ñ±…¹„-½¹ÍÑ…¹Ñ¥¹½Ù¹„ˆ¤¤ì(€ÍÙ•Ñ±…¹„¹Á¹¨¹¥‘•¹Ñ¥Ñå}­•åÌ€ô€¡ÍÙ•Ñ±…¹„¹Á¹¨¹¥‘•¹Ñ¥Ñå}­•åÌ€üümt¤¹™¥±Ñ•È ¡­•äèÍÑÉ¥¹œ¤€ôø¹½Éµ…±¥é•‘A¹©%‘•¹Ñ¥Ñä¡­•ä¤€„ôô¹½Éµ…±¥é•‘A¹©%‘•¹Ñ¥Ñä ‰É­¡…¹•°ˆ¤¤ì((€‰å%¹Í•Ğ¡=5A9%U5}Q9}A}IQ%1¹¥°‘••Á±½¹”¡=5A9%U5}Q9}A}IQ%1¤…ÌÉÑ¥±”¤ì(€™½È€¡½¹ÍĞ•¹É¥¡µ•¹Ğ½˜=5A9%U5}Q9}QIUQ!}9I%!59QL¤ì(€€€½¹ÍĞÍ½ÕÉ•Q…É•Ñ%€ôMÑÉ¥¹œ¡•¹É¥¡µ•¹Ğ¹Ñ…É•Ñ%€üü€ˆˆ¤ì(€€€½¹ÍĞÑ…É•Ñ%€ôÉ•Í½±Ù•Q•¹Q…É•Ñ%¡Í½ÕÉ•Q…É•Ñ%¤ì(€€€½¹ÍĞÑ…É•Ğ€ô‰å%¹•Ğ¡Ñ…É•Ñ%¤ì(€€€¥˜€ …Ñ…É•Ğ¤Ñ¡É½Ü¹•ÜÉÉ½È¡Q•¸ƒ
+Ü¥‰±”…¹½¹¥ÅÕ”…‰Í•¹Ñ”è€‘íÍ½ÕÉ•Q…É•Ñ%‘ô€´ø€‘íÑ…É•Ñ%‘õ€¤ì(€€€µ•É•Q•¹5©	±½­Ì¡Ñ…É•Ğ°‘••Á±½¹”¡•¹É¥¡µ•¹Ğ¹Í•Ñ¥½¸¤…Ì)Í½¹=‰©•Ğ¤ì(€€€Ñ…É•Ğ¹Ñ…Ì€ôl¸¸¹¹•ÜM•Ğ¡l¸¸¸¡Ñ…É•Ğ¹Ñ…Ì€üümt¤°€‰Q•¸ˆ°€‰¹É”‘”[¥É¥Ó¤‰t¥tì(€€€Ñ…É•Ğ¹ÍÑ…ÑÕÌ€ô€‰…¹½¹}•¹É¥¡¤ˆì(€€€Ñ…É•Ğ¹É•‰Õ¥±‘XÈ€ôÑÉÕ”ì(€ô((€‰å%¹Í•Ğ¡=5A9%U5}YI%Q}Q9}!I=9=1=e}IQ%1¹¥°‘••Á±½¹”¡=5A9%U5}YI%Q}Q9}!I=9=1=e}IQ%1¤…ÌÉÑ¥±”¤ì(€™½È€¡½¹ÍĞ•¹É¥¡µ•¹Ğ½˜=5A9%U5}YI%Q}Q9}9I%!59QL¤ì(€€€½¹ÍĞÍ½ÕÉ•Q…É•Ñ%€ôMÑÉ¥¹œ¡•¹É¥¡µ•¹Ğ¹Ñ…É•Ñ%€üü€ˆˆ¤ì(€€€½¹ÍĞÑ…É•Ñ%€ôÉ•Í½±Ù•Q•¹Q…É•Ñ%¡Í½ÕÉ•Q…É•Ñ%¤ì(€€€½¹ÍĞÑ…É•Ğ€ô‰å%¹•Ğ¡Ñ…É•Ñ%¤ì(€€€¥˜€ …Ñ…É•Ğ¤Ñ¡É½Ü¹•ÜÉÉ½È¡Q•¸ƒ
+Ü¥‰±”…Ñ…ÍÑÉ½Á¡•Ì…‰Í•¹Ñ”è€‘íÍ½ÕÉ•Q…É•Ñ%‘ô€´ø€‘íÑ…É•Ñ%‘õ€¤ì(€€€…ÁÁ•¹‘Q•¹M•Ñ¥½¹Ì¡Ñ…É•Ğ°‘••Á±½¹”¡•¹É¥¡µ•¹Ğ¹Í•Ñ¥½¹Ì€üümt¤…Ì)Í½¹=‰©•Ñmt¤ì(€€€µ•É•Q•¹M½ÕÉ”¡Ñ…É•Ğ°=5A9%U5}YI%Q}Q9}M=UI°•¹É¥¡µ•¹Ğ¹Ñ…Ì€üümt¤ì(€ô((€½¹ÍĞ¹½Éµ…±¥é•Q•¹AÉ•Í•¹Ñ…Ñ¥½¸€ô€¡Ñ…É•ĞèÉÑ¥±”¤€ôøì(€€€½¹ÍĞÁÕ‰±¥M•Ñ¥½¹Ìè)Í½¹=‰©•Ñmt€ômtì(€€€½¹ÍĞµ©M•Ñ¥½¹Ìè)Í½¹=‰©•Ñmt€ômtì(€€€½¹ÍĞÍÑ…ÑÍM•Ñ¥½¹Ìè)Í½¹=‰©•Ñmt€ômtì((€€€™½È€¡½¹ÍĞÍ½ÕÉ•M•Ñ¥½¸½˜Ñ…É•Ğ¹Í•Ñ¥½¹Ì€üümt¤ì(€€€€€½¹ÍĞÍ•Ñ¥½¸€ô‘••Á±½¹”¡Í½ÕÉ•M•Ñ¥½¸¤…Ì)Í½¹=‰©•Ğì(€€€€€½¹ÍĞ¥€ô¹½Éµ…±¥é•‘A¹©%‘•¹Ñ¥Ñä¡MÑÉ¥¹œ¡Í•Ñ¥½¸ü¹¥€üü€ˆˆ¤¤ì(€€€€€½¹ÍĞÑ¥Ñ±”€ô¹½Éµ…±¥é•‘A¹©%‘•¹Ñ¥Ñä¡MÑÉ¥¹œ¡Í•Ñ¥½¸ü¹Ñ¥Ñ±”€üü€ˆˆ¤¤ì(€€€€€¥˜€¡¥€ôôô€‰ÁÉ½™¥°µÍÑ…Ñ¥ÍÑ¥ÅÕ”ˆñğÑ¥Ñ±”€ôôô€‰ÁÉ½™¥°ÍÑ…Ñ¥ÍÑ¥ÅÕ”ˆñğÑ¥Ñ±”€ôôô€‰ÍÑ…Ñ¥ÍÑ¥ÅÕ•Ìˆ¤ì(€€€€€€€ÍÑ…ÑÍM•Ñ¥½¹Ì¹ÁÕÍ ¡Í•Ñ¥½¸¤ì(€€€€€ô•±Í”¥˜€¡Í•Ñ¥½¸ü¹…Õ‘¥•¹”€ôôô€‰µ¨ˆ¤ì(€€€€€€€µ©M•Ñ¥½¹Ì¹ÁÕÍ ¡Í•Ñ¥½¸¤ì(€€€€€ô•±Í”ì(€€€€€€€ÁÕ‰±¥M•Ñ¥½¹Ì¹ÁÕÍ ¡Í•Ñ¥½¸¤ì(€€€€€ô(€€€ô((€€€Ñ…É•Ğ¹Í•Ñ¥½¹Ì€ôl¸¸¹ÁÕ‰±¥M•Ñ¥½¹Ì°€¸¸¹µ©M•Ñ¥½¹Ì°€¸¸¹ÍÑ…ÑÍM•Ñ¥½¹Ítì((€€€±•ĞÍ…İ5¨€ô™…±Í”ì(€€€™½È€¡½¹ÍĞÍ•Ñ¥½¸½˜Ñ…É•Ğ¹Í•Ñ¥½¹Ì¤ì(€€€€€½¹ÍĞ¥€ô¹½Éµ…±¥é•‘A¹©%‘•¹Ñ¥Ñä¡MÑÉ¥¹œ¡Í•Ñ¥½¸ü¹¥€üü€ˆˆ¤¤ì(€€€€€½¹ÍĞÑ¥Ñ±”€ô¹½Éµ…±¥é•‘A¹©%‘•¹Ñ¥Ñä¡MÑÉ¥¹œ¡Í•Ñ¥½¸ü¹Ñ¥Ñ±”€üü€ˆˆ¤¤ì(€€€€€½¹ÍĞ¥ÍMÑ…ÑÌ€ô¥€ôôô€‰ÁÉ½™¥°µÍÑ…Ñ¥ÍÑ¥ÅÕ”ˆñğÑ¥Ñ±”€ôôô€‰ÁÉ½™¥°ÍÑ…Ñ¥ÍÑ¥ÅÕ”ˆñğÑ¥Ñ±”€ôôô€‰ÍÑ…Ñ¥ÍÑ¥ÅÕ•Ìˆì(€€€€€¥˜€¡Í•Ñ¥½¸ü¹…Õ‘¥•¹”€ôôô€‰µ¨ˆñğ¥ÍMÑ…ÑÌ¤Í…İ5¨€ôÑÉÕ”ì(€€€€€•±Í”¥˜€¡Í…İ5¨¤Ñ¡É½Ü¹•ÜÉÉ½È¡Q•¸ƒ
+ÜÍ•Ñ¥½¸ÁÕ‰±¥ÅÕ”…ÁË¡Ì±”5(è€‘íÑ…É•Ğ¹¥‘ô€¼€‘íMÑÉ¥¹œ¡Í•Ñ¥½¸ü¹¥€üüÍ•Ñ¥½¸ü¹Ñ¥Ñ±”€üü€ˆüˆ¥õ€¤ì(€€€ô(€€€¥˜€¡ÍÑ…ÑÍM•Ñ¥½¹Ì¹±•¹Ñ €˜˜Ñ…É•Ğ¹Í•Ñ¥½¹ÍmÑ…É•Ğ¹Í•Ñ¥½¹Ì¹±•¹Ñ €´€Åt€„ôôÍÑ…ÑÍM•Ñ¥½¹ÍmÍÑ…ÑÍM•Ñ¥½¹Ì¹±•¹Ñ €´€Åt¤ì(€€€€€Ñ¡É½Ü¹•ÜÉÉ½È¡Q•¸ƒ
+ÜÍÑ…Ñ¥ÍÑ¥ÅÕ•Ì¹½¸Ñ•Éµ¥¹…±•Ìè€‘íÑ…É•Ğ¹¥‘õ€¤ì(€€€ô(€ôì((€½¹ÍĞÑ•¹AÉ•Í•¹Ñ…Ñ¥½¹%‘Ì€ô¹•ÜM•ĞñÍÑÉ¥¹œø¡l(€€€ÍÙ•Ñ±…¹„¹¥°(€€€…É­¡…¹•°¹¥°(€€€€¸¸¹=5A9%U5}Q9}	-I=U9}9I%!59QL¹µ…À ¡•¹ÑÉä¤€ôøÉ•Í½±Ù•Q•¹Q…É•Ñ%¡MÑÉ¥¹œ¡•¹ÑÉä¹Ñ…É•Ñ%€üü€ˆˆ¤¤¤°(€€€€¸¸¹=5A9%U5}Q9}QIUQ!}9I%!59QL¹µ…À ¡•¹ÑÉä¤€ôøÉ•Í½±Ù•Q•¹Q…É•Ñ%¡MÑÉ¥¹œ¡•¹ÑÉä¹Ñ…É•Ñ%€üü€ˆˆ¤¤¤°(€€€€¸¸¹=5A9%U5}YI%Q}Q9}9I%!59QL¹µ…À ¡•¹ÑÉä¤€ôøÉ•Í½±Ù•Q•¹Q…É•Ñ%¡MÑÉ¥¹œ¡•¹ÑÉä¹Ñ…É•Ñ%€üü€ˆˆ¤¤¤(€t¤ì(€™½È€¡½¹ÍĞÑ…É•Ñ%½˜Ñ•¹AÉ•Í•¹Ñ…Ñ¥½¹%‘Ì¤ì(€€€½¹ÍĞÑ…É•Ğ€ô‰å%¹•Ğ¡Ñ…É•Ñ%¤ì(€€€¥˜€¡Ñ…É•Ğ¤¹½Éµ…±¥é•Q•¹AÉ•Í•¹Ñ…Ñ¥½¸¡Ñ…É•Ğ¤ì(€ô((€½¹ÍĞÍÙ•Ñ±…¹…AÕ‰±¥MÕÉ™…”€ô¹½Éµ…±¥é•‘A¹©%‘•¹Ñ¥Ñä (€€€)M=8¹ÍÑÉ¥¹¥™ä ¡ÍÙ•Ñ±…¹„¹Í•Ñ¥½¹Ì€üümt¤¹™¥±Ñ•È ¡Í•Ñ¥½¸¤€ôøÍ•Ñ¥½¸ü¹…Õ‘¥•¹”€„ôô€‰µ¨ˆ¤¤(€€¤ì(€¥˜€ (€€€ÍÙ•Ñ±…¹…AÕ‰±¥MÕÉ™…”¹¥¹±Õ‘•Ì ‰…É­¡…¹•°ˆ¤ñğ(€€€ÍÙ•Ñ±…¹…AÕ‰±¥MÕÉ™…”¹¥¹±Õ‘•Ì ‰µ…Í¡¥„ˆ¤ñğ(€€€ÍÙ•Ñ±…¹…AÕ‰±¥MÕÉ™…”¹¥¹±Õ‘•Ì ‰¹½´‘”±„Ù•É¥Ñ”ˆ¤ñğ(€€€ÍÙ•Ñ±…¹…AÕ‰±¥MÕÉ™…”¹¥¹±Õ‘•Ì ‰¹…ÑÕÉ”É••±±”ˆ¤(€€¤ì(€€€Ñ¡É½Ü¹•ÜÉÉ½È ‰Q•¸ƒ
+Ü™Õ¥Ñ”ÁÕ‰±¥ÅÕ”“¥Ñ•Ó¥”ÍÕÈ±„™¥¡”MÙ•Ñ±…¹„ˆ¤ì(€ô((€…ÁÁ±å½µÁ•¹‘¥ÕµA¹©I•Á…¥ÉÌ¡‰å%¤ì((€½¹ÍĞ¹…Ù¥…Ñ¥½¸€ô¹•Ü5…À (€€€l(€€€€€€¸¸¸¡¹…Ù¥…Ñ¥½¹A…å±½…¹•¹ÑÉ¥•Ì€üümt¤°(€€€€€€¸¸¹=5A9%U5}U%}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}5=QUI}XÑ}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}I1%Q}Xå}1=I}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}I1%Q}Xå}=IA=IQ%=9M}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}I1%Q}Xå}=IA=IQ%=9M}A9)}9Y%Q%=8¹™¥±Ñ•È (€€€€€€€€¡•¹ÑÉä¤€ôø½ÉÁ½É…Ñ¥½¹A¹©I•Í½±Ù•‘%‘Ì¹•Ğ¡•¹ÑÉä¹¥¤€ôôô•¹ÑÉä¹¥(€€€€€€¤°(€€€€€€¸¸¹=5A9%U5}I1%Q}Xå}AI}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}I1%Q}Xå}AI}A9)}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}I1%Q}Xå}A=1%}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}I1%Q}Xå}A=1%}A9)}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}I1%Q}Xå}=YI959Q}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}I1%Q}Xå}=YI959Q}A9)}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}I1%Q}Xå}9%M}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}I1%Q}Xå}9%M}A9)}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}I1%Q}Xå}I]1IM}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}I1%Q}Xå}I]1IM}A9)}9Y%Q%=8¹™¥±Ñ•È (€€€€€€€€¡•¹ÑÉä¤€ôøÉ…İ±•ÉA¹©I•Í½±Ù•‘%‘Ì¹•Ğ¡•¹ÑÉä¹¥¤€ôôô•¹ÑÉä¹¥(€€€€€€¤°(€€€€€€¸¸¹=5A9%U5}I1%Q}Xå}I1%%=9}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}I1%Q}Xå}I1%%=9}A9)}9Y%Q%=8¹µ…À ¡•¹ÑÉä¤€ôø€¡ì(€€€€€€€€¸¸¹•¹ÑÉä°(€€€€€€€¥è…Ñ¥Ù•I•±¥¥½¹A¹©%¡•¹ÑÉä¹¥¤(€€€€€ô¤¤°(€€€€€€¸¸¹=5A9%U5}I1%Q}Xå}!I%MQ%9%Qe}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}I1%Q}Xå}IU1}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}Xİ}1=I}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}Xİ}IU1}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}Xİ}-!%9}1=I}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}Xİ}-!%9}IU1}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}Xİ}5}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}1=M}5M}A9)}9Y%Q%=8¹™¥±Ñ•È (€€€€€€€€¡•¹ÑÉä¤€ôøµ…•1½•ÍA¹©I•Í½±Ù•‘%‘Ì¹•Ğ¡•¹ÑÉä¹¥¤€ôôô•¹ÑÉä¹¥(€€€€€€¤°(€€€€€€¸¸¹=5A9%U5}YI%Q}Q5A1M}5=9%EUM}A9)}9Y%Q%=8¹™¥±Ñ•È (€€€€€€€€¡•¹ÑÉä¤€ôøÑ•µÁ±•Í…•µ½¹¥…ÅÕ•ÍA¹©I•Í½±Ù•‘%‘Ì¹•Ğ¡•¹ÑÉä¹¥¤€ôôô•¹ÑÉä¹¥(€€€€€€¤°(€€€€€€¸¸¹=5A9%U5}Q9}A}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}Q9}MYQ19}9Y%Q%=8¹µ…À ¡•¹ÑÉä¤€ôø€¡ì(€€€€€€€€¸¸¹•¹ÑÉä°(€€€€€€€¥èÍÙ•Ñ±…¹„¹¥°(€€€€€€€‘…Ñ…Í•ĞèÍÙ•Ñ±…¹„¹‘…Ñ…Í•Ğ€üü•¹ÑÉä¹‘…Ñ…Í•Ğ(€€€€€ô¤¤°(€€€€€€¸¸¹=5A9%U5}YI%Q}Q9}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}Y5A%I}=UIQM}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}Y5A%I}=UIQM}A9)}9Y%Q%=8¹™¥±Ñ•È ¡•¹ÑÉä¤€ôøÙ…µÁ¥É•½ÕÉÑA¹©I•Í½±Ù•‘%‘Ì¹•Ğ¡•¹ÑÉä¹¥¤€ôôô•¹ÑÉä¹¥¤°(€€€€€€¸¸¹=5A9%U5}YI%Q}A1M}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}A1M}A9)}9Y%Q%=8¹™¥±Ñ•È (€€€€€€€€¡•¹ÑÉä¤€ôøÁ•±…•A¹©I•Í½±Ù•‘%‘Ì¹•Ğ¡•¹ÑÉä¹¥¤€ôôô•¹ÑÉä¹¥(€€€€€€¤°(€€€€€€¸¸¹=5A9%U5}YI%Q}Xİ}5=9}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}Xİ}91UM}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}91UM}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}91UM}A9)}9Y%Q%=8¹™¥±Ñ•È (€€€€€€€€¡•¹ÑÉä¤€ôø…¹•±ÕÍA¹©I•Í½±Ù•‘%‘Ì¹•Ğ¡•¹ÑÉä¹¥¤€ôôô•¹ÑÉä¹¥(€€€€€€¤°(€€€€€€¸¸¹=5A9%U5}YI%Q}Xİ}MIe9}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}MIe9}QIIM}Q5A1M}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}MIe9}QIIM}Q5A1M}A9)}9Y%Q%=8¹™¥±Ñ•È (€€€€€€€€¡•¹ÑÉä¤€ôø…Í•Éå¹Q•ÉÉ•ÍQ•µÁ±•ÍA¹©I•Í½±Ù•‘%‘Ì¹•Ğ¡•¹ÑÉä¹¥¤€ôôô•¹ÑÉä¹¥(€€€€€€¤°(€€€€€€¸¸¹=5A9%U5}YI%Q}I9M}a%1M}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}I9M}a%1M}A9)}9Y%Q%=8¹™¥±Ñ•È (€€€€€€€€¡•¹ÑÉä¤€ôøÉ…¹‘Íá¥±•ÍA¹©I•Í½±Ù•‘%‘Ì¹•Ğ¡•¹ÑÉä¹¥¤€ôôô•¹ÑÉä¹¥(€€€€€€¤°(€€€€€€¸¸¹=5A9%U5}YI%Q}Xİ}AMM}	}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}!U9QIM}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}!U9QIM}A9)}9Y%Q%=8¹™¥±Ñ•È (€€€€€€€€¡•¹ÑÉä¤€ôø¡Õ¹Ñ•ÉA¹©I•Í½±Ù•‘%‘Ì¹•Ğ¡•¹ÑÉä¹¥¤€ôôô•¹ÑÉä¹¥(€€€€€€¤°(€€€€€€¸¸¹=5A9%U5}YI%Q}1Ua}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}1Ua}A9)}9Y%Q%=8¹™¥±Ñ•È (€€€€€€€€¡•¹ÑÉä¤€ôø™±•…ÕáA¹©I•Í½±Ù•‘%‘Ì¹•Ğ¡•¹ÑÉä¹¥¤€ôôô•¹ÑÉä¹¥(€€€€€€¤°(€€€€€€¸¸¹=5A9%U5}YI%Q}Xİ}AMM}	}IU1}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}MA%M}1=I}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}MA%M}A9)}9Y%Q%=8¹™¥±Ñ•È ¡•¹ÑÉä¤€ôø‰å%¹¡…Ì¡•¹ÑÉä¹¥¤¤°(€€€€€€¸¸¹=5A9%U5}YI%Q}9QMQ%EUM}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}9QMQ%EUM}A9)}9Y%Q%=8¹™¥±Ñ•È ¡•¹ÑÉä¤€ôø‰å%¹¡…Ì¡•¹ÑÉä¹¥¤¤°(€€€€€€¸¸¹=5A9%U5}YI%Q}aQIQIIMQIM}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}aQIQIIMQIM}A9)}9Y%Q%=8¹™¥±Ñ•È (€€€€€€€€¡•¹ÑÉä¤€ôø•áÑÉ…Ñ•ÉÉ•ÍÑÉ¥…±A¹©I•Í½±Ù•‘%‘Ì¹•Ğ¡•¹ÑÉä¹¥¤€ôôô•¹ÑÉä¹¥(€€€€€€¤°(€€€€€€¸¸¹=5A9%U5}YI%Q}1Q%}1=I}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}YI%Q}aQI1M}I=UAM}A9)}9Y%Q%=8¹™¥±Ñ•È (€€€€€€€€¡•¹ÑÉä¤€ôø•áÑÉ…±ÍÉ½ÕÁÍA¹©I•Í½±Ù•‘%‘Ì¹•Ğ¡•¹ÑÉä¹¥¤€ôôô•¹ÑÉä¹¥(€€€€€€¤°(€€€€€€¸¸¹=5A9%U5}YI%Q}!U59}1Q%}A9)}9Y%Q%=8¹™¥±Ñ•È (€€€€€€€€¡•¹ÑÉä¤€ôø¡Õµ…¹…±…Ñ¥A¹©I•Í½±Ù•‘%‘Ì¹•Ğ¡•¹ÑÉä¹¥¤€ôôô•¹ÑÉä¹¥(€€€€€€¤°(€€€€€€¸¸¹=5A9%U5}A=%9QM}I9=9QI}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}M!%}E%}9Y%Q%=8°(€€€€€€¸¸¹=5A9%U5}A=%9QM}I9=9QI}A9)}9Y%Q%=8¹™¥±Ñ•È (€€€€€€€€¡•¹ÑÉä¤€ôøÁ½¥¹ÑÍI•¹½¹ÑÉ•A¹©I•Í½±Ù•‘%‘Ì¹•Ğ¡•¹ÑÉä¹¥¤€ôôô•¹ÑÉä¹¥(€€€€€€¤°(€€€€€€¸¸¹•¹•É…Ñ•‘Q…±•¹Ñ!Õ‰Ì¹¹…Ù¥…Ñ¥½¸°(€€€€€€¸¸¹•¹•É…Ñ•‘	Õ¥±‘•ÉI•™•É•¹•Ì¹¹…Ù¥…Ñ¥½¸(€€€t(€€€€€€¹™¥±Ñ•È ¡•¹ÑÉä¤€ôø•¹ÑÉäü¹¥€˜˜‰å%¹¡…Ì¡MÑÉ¥¹œ¡•¹ÑÉä¹¥¤¤¤(€€€€€€¹µ…À ¡•¹ÑÉä¤€ôøm•¹ÑÉä¹¥°•¹ÑÉä…Ì9…Ù¥…Ñ¥½¹¹ÑÉåt¤(€€¤ì((€™½È€¡½¹ÍĞ…ÉÑ¥±”½˜‰å%¹Ù…±Õ•Ì ¤¤ì(€€€½¹ÍĞµ…¹Õ…±%µ…”€ô€‘í…ÉÑ¥±”¹¥‘ô¹İ•‰Á€ì(€€€½¹ÍĞÕÉÉ•¹Ñ5•‘¥„€ô…ÉÑ¥±”¹¥±±ÕÍÑÉ…Ñ¥½¸€üü…ÉÑ¥±”¹¥µ…”ì(€€€¥˜€¡µ…¹Õ…±5•‘¥…¥±•Ì¹¡…Ì¡µ…¹Õ…±%µ…”¤€˜˜€ …ÕÉÉ•¹Ñ5•‘¥„ñğ¥ÍA±…•¡½±‘•É5•‘¥„¡ÕÉÉ•¹Ñ5•‘¥„¤¤¤ì(€€€€€½¹ÍĞµ•‘¥„€ôì(€€€€€€€ÍÉŒè¥µ…•Ì½µ…¹Õ…°¼‘íµ…¹Õ…±%µ…•õ€°(€€€€€€€…±Ğè…ÉÑ¥±”¹Ñ¥Ñ±”€üü…ÉÑ¥±”¹¥°(€€€€€€€…ÁÑ¥½¸è…ÉÑ¥±”¹Ñ¥Ñ±”€üü…ÉÑ¥±”¹¥(€€€€€ôì(€€€€€¥˜€¡=‰©•Ğ¹ÁÉ½Ñ½ÑåÁ”¹¡…Í=İ¹AÉ½Á•ÉÑä¹…±°¡…ÉÑ¥±”°€‰¥±±ÕÍÑÉ…Ñ¥½¸ˆ¤¤…ÉÑ¥±”¹¥±±ÕÍÑÉ…Ñ¥½¸€ôµ•‘¥„ì(€€€€€•±Í”…ÉÑ¥±”¹¥µ…”€ôµ•‘¥„ì(€€€ô((€€€½¹ÍĞ…±±•Éä€ô€¡µ…¹Õ…±…±±•Éå	åÉÑ¥±”¹•Ğ¡…ÉÑ¥±”¹¥¤€üümt¤(€€€€€€¹µ…À ¡™¥±•¹…µ”¤€ôø€¡ì(€€€€€€€ÍÉŒè¥µ…•Ì½µ…¹Õ…°¼‘í™¥±•¹…µ•õ€°(€€€€€€€…±Ğè…ÉÑ¥±”¹Ñ¥Ñ±”€üü…ÉÑ¥±”¹¥°(€€€€€€€…ÁÑ¥½¸è™¥±•¹…µ”(€€€€€€€€€€¹Í±¥”¡…ÉÑ¥±”¹¥¹±•¹Ñ €¬€È°€´Ô¤(€€€€€€€€€€¹É•Á±…” ½lµ}t¬½œ°€ˆ€ˆ¤(€€€€€€€€€€¹É•Á±…” ½x¸¼°€¡Ù…±Õ”¤€ôøÙ…±Õ”¹Ñ½UÁÁ•É…Í” ¤¤(€€€€€ô¤¤ì(€€€¥˜€¡…±±•Éä¹±•¹Ñ ¤…ÉÑ¥±”¹…±±•Éä€ô…±±•Éäì((€€€…ÉÑ¥±”¹Ñ¥Ñ±”€ôIQ%1}Q%Q1}%aMm…ÉÑ¥±”¹¥‘t€üü…ÉÑ¥±”¹Ñ¥Ñ±”ì(€€€…ÉÑ¥±”¹Í½ÕÉ•…Ñ•½Éä€ô…ÉÑ¥±”¹Í½ÕÉ•…Ñ•½Éä€üü…ÉÑ¥±”¹…Ñ•½Éäì((€€€½¹ÍĞ¹…Ù¹ÑÉä€ô¹…Ù¥…Ñ¥½¸¹•Ğ¡…ÉÑ¥±”¹¥¤ì(€€€…ÉÑ¥±”¹…Ñ•½Éä€ô¹…Ù¹ÑÉäü¹…Ñ•½Éä€üü‘¥ÍÁ±…å…Ñ•½Éä¡…ÉÑ¥±”¤ì(€€€¥˜€¡¹…Ù¹ÑÉä¤ì(€€€€€…ÉÑ¥±”¹¹…Ù¥…Ñ¥½¸€ôì(€€€€€€€É½ÕÀè¹…Ù¹ÑÉä¹É½ÕÀ€üü€ˆˆ°(€€€€€€€É½ÕÁ=É‘•Èè¹…Ù¹ÑÉä¹É½ÕÁ=É‘•È€üü€À°(€€€€€€€ÍÕ‰É½ÕÀè¹…Ù¹ÑÉä¹ÍÕ‰É½ÕÀ€üü€ˆˆ°(€€€€€€€ÍÕ‰É½ÕÁ=É‘•Èè¹…Ù¹ÑÉä¹ÍÕ‰É½ÕÁ=É‘•È€üü€À°(€€€€€€€Á…•=É‘•Èè¹…Ù¹ÑÉä¹Á…•=É‘•È€üü€À(€€€€€ôì(€€€ô((€€€…ÁÁ±å9…Ù¥…Ñ¥½¹Q…á½¹½µä¡…ÉÑ¥±”°¹…Ù¹ÑÉä¤ì(€€€…ÁÁ±åQ…É•Ñ•‘‘¥Ñ½É¥…±½ÉÉ•Ñ¥½¹Ì¡…ÉÑ¥±”¤ì(€€€…ÉÑ¥±”¹µ…¹Õ™…ÑÕÉ•È€ôµ…¹Õ™…ÑÕÉ•É½È¡…ÉÑ¥±”¤ì(€€€…ÉÑ¥±”¹}}Í•…É¡Q•áĞ€ô¹½É´¡™±…ÑÑ•¹Q•áĞ¡…ÉÑ¥±”¤¤ì(€ô((€½¹ÍĞ±•…åI½İÌ€ô…İ…¥ĞÁ½½°¹ÅÕ•Éäñì…ÉÑ¥±•%èÍÑÉ¥¹œôø (€€€M1P…ÉÑ¥±•}¥L€‰…ÉÑ¥±•%ˆ(€€€€I=4½µÁ•¹‘¥Õµ}±•…å}…ÉÑ¥±•Í€(€€¤ì(€±•Ğ±•…å%‘Ì€ô¹•ÜM•Ğ¡±•…åI½İÌ¹É½İÌ¹µ…À ¡É½Ü¤€ôøÉ½Ü¹…ÉÑ¥±•%¤¤ì((€€¼¼=¹”µÑ¥µ”ÕĞµ½Ù•ÈèÍ¹…ÁÍ¡½Ğ•Ù•Éä…ÉÑ¥±”Ñ¡…Ğ•á¥ÍÑÌ…Ğ‘•Á±½åµ•¹ĞÑ¥µ”°(€€¼¼•á•ÁĞÅÕ¥Áµ•¹Ğ…¹	•ÍÑ¥…Éä¸ÕÑÕÉ”Á…•Ì…É”¹½Ğ…ÕÑ½µ…Ñ¥…±±ä…É¡¥Ù•¸(€¥˜€ …±•…å%‘Ì¹Í¥é”¤ì(€€€½¹ÍĞ¥¹¥Ñ¥…±1•…å%‘Ì€ôl¸¸¹‰å%¹Ù…±Õ•Ì ¥t(€€€€€€¹™¥±Ñ•È ¡…ÉÑ¥±”¤€ôø€…AI=QQ}I	U%1}Q=I%L¹¡…Ì¡MÑÉ¥¹œ¡…ÉÑ¥±”¹…Ñ•½Éä€üü€ˆˆ¤¤¤(€€€€€€¹™¥±Ñ•È ¡…ÉÑ¥±”¤€ôø…ÉÑ¥±”¹É•‰Õ¥±‘XÈ€„ôôÑÉÕ”¤(€€€€€€¹µ…À ¡…ÉÑ¥±”¤€ôø…ÉÑ¥±”¹¥¤ì((€€€¥˜€¡¥¹¥Ñ¥…±1•…å%‘Ì¹±•¹Ñ ¤ì(€€€€€…İ…¥ĞÁ½½°¹ÅÕ•Éä (€€€€€€€%9MIP%9Q<½µÁ•¹‘¥Õµ}±•…å}…ÉÑ¥±•Ì€¡…ÉÑ¥±•}¥¤(€€€€€€€€M1PÕ¹¹•ÍĞ ÄèéÑ•áÑmt¤(€€€€€€€€=8=91%P€¡…ÉÑ¥±•}¥¤<9=Q!%9€°(€€€€€€€m¥¹¥Ñ¥…±1•…å%‘Ít(€€€€€€¤ì(€€€€€±•…å%‘Ì€ô¹•ÜM•Ğ¡¥¹¥Ñ¥…±1•…å%‘Ì¤ì(€€€ô(€ô((€™½È€¡½¹ÍĞ…ÉÑ¥±”½˜‰å%¹Ù…±Õ•Ì ¤¤ì(€€€¥˜€ …±•…å%‘Ì¹¡…Ì¡…ÉÑ¥±”¹¥¤¤½¹Ñ¥¹Õ”ì(€€€¥˜€¡…ÉÑ¥±”¹É•‰Õ¥±‘XÈ€ôôôÑÉÕ”¤½¹Ñ¥¹Õ”ì(€€€…ÉÑ¥±”¹±•…å…Ñ•½Éä€ô…ÉÑ¥±”¹…Ñ•½Éä€üü€ˆˆì(€€€…ÉÑ¥±”¹…Ñ•½Éä€ô1e}Q=Idì(€€€…ÉÑ¥±”¹}}±•…ä€ôÑÉÕ”ì(€€€…ÉÑ¥±”¹}}Í•…É¡Q•áĞ€ô¹½É´¡™±…ÑÑ•¹Q•áĞ¡…ÉÑ¥±”¤¤ì(€ô((€½¹ÍĞ…ÉÑ¥±•Ì€ôl¸¸¹‰å%¹Ù…±Õ•Ì ¥t¹Í½ÉĞ¡½µÁ…É•ÉÑ¥±•Ì¤ì(€½¹ÍĞÁÕ‰±¥ÉÑ¥±•Ì€ô…ÉÑ¥±•Ì¹™¥±Ñ•È ¡…ÉÑ¥±”¤€ôø€…¥Í5©=¹±åÉÑ¥±”¡…ÉÑ¥±”¤¤¹µ…À ¡…ÉÑ¥±”¤€ôøì½¹ÍĞÁÕ‰±¥ÉÑ¥±”õ…ÉÑ¥±•½ÉÕ‘¥•¹”¡…ÉÑ¥±”±™…±Í”¤ìÁÕ‰±¥ÉÑ¥±”¹}}Í•…É¡Q•áĞõ¹½É´¡™±…ÑÑ•¹Q•áĞ¡ÁÕ‰±¥ÉÑ¥±”¤¤ìÉ•ÑÕÉ¸ÁÕ‰±¥ÉÑ¥±”ìô¤ì(€½¹ÍĞÁÕ‰±¥	å%€ô¹•Ü5…À¡ÁÕ‰±¥ÉÑ¥±•Ì¹µ…À ¡…ÉÑ¥±”¤€ôøm…ÉÑ¥±”¹¥°…ÉÑ¥±•t¤¤ì(€½¹ÍĞİ¥­¥%¹‘•á½µÁ…Ğ€ô…ÉÑ¥±•Ì(€€€€¹™¥±Ñ•È ¡…ÉÑ¥±”¤€ôø…ÉÑ¥±”¹…Ñ•½Éä€„ôô1e}Q=Id¤(€€€€¹µ…À ¡…ÉÑ¥±”¤€ôøì(€€€€€½¹ÍĞ¹…Ù¥…Ñ¥½¸€ô…ÉÑ¥±”¹¹…Ù¥…Ñ¥½¸…Ì)Í½¹=‰©•ĞğÕ¹‘•™¥¹•ì(€€€€€É•ÑÕÉ¸ì(€€€€€€€¥è…ÉÑ¥±”¹¥°(€€€€€€€Ñ¥Ñ±”è…ÉÑ¥±”¹Ñ¥Ñ±”€üü…ÉÑ¥±”¹¥°(€€€€€€€…Ñ•½Éäè…ÉÑ¥±”¹…Ñ•½Éä€üü€ˆˆ°(€€€€€€€‘…Ñ…Í•Ğè…ÉÑ¥±”¹‘…Ñ…Í•Ğ€üü€ˆˆ°(€€€€€€€É½ÕÀè¹…Ù¥…Ñ¥½¸ü¹É½ÕÀ€üü€ˆˆ°(€€€€€€€ÍÕ‰É½ÕÀè¹…Ù¥…Ñ¥½¸ü¹ÍÕ‰É½ÕÀ€üü€ˆˆ°(€€€€€€€µ…¹Õ™…ÑÕÉ•ÈèMÑÉ¥¹œ¡…ÉÑ¥±”¹µ…¹Õ™…ÑÕÉ•È€üü€ˆˆ¤(€€€€€ôì(€€€ô¤ì((€½¹ÍĞ½Õ¹ÑÌ€ô¹•Ü5…ÀñÍÑÉ¥¹œ°¹Õµ‰•Èø ¤ì(€™½È€¡½¹ÍĞ…ÉÑ¥±”½˜…ÉÑ¥±•Ì¤ì(€€€¥˜€¡…ÉÑ¥±”¹…Ñ•½Éä¤½Õ¹ÑÌ¹Í•Ğ¡…ÉÑ¥±”¹…Ñ•½Éä°€¡½Õ¹ÑÌ¹•Ğ¡…ÉÑ¥±”¹…Ñ•½Éä¤€üü€À¤€¬€Ä¤ì(€ô((€½¹ÍĞ…Ñ•½É¥•Ì€ôl(€€€€¸¸¹Q=Ie}=IH¹™¥±Ñ•È ¡¹…µ”¤€ôø½Õ¹ÑÌ¹¡…Ì¡¹…µ”¤¤°(€€€€¸¸¹l¸¸¹½Õ¹ÑÌ¹­•åÌ ¥t¹™¥±Ñ•È ¡¹…µ”¤€ôø€…Q=Ie}=IH¹¥¹±Õ‘•Ì¡¹…µ”¤¤¹Í½ÉĞ ¡„°ˆ¤€ôø„¹±½…±•½µÁ…É”¡ˆ°€‰™Èˆ¤¤(€t¹µ…À ¡¹…µ”¤€ôø€¡ì¹…µ”°½Õ¹Ğè½Õ¹ÑÌ¹•Ğ¡¹…µ”¤€üü€Àô¤¤ì((€½¹ÍĞµ…¹Õ™…ÑÕÉ•É½Õ¹ÑÌ€ô¹•Ü5…ÀñÍÑÉ¥¹œ°¹Õµ‰•Èø ¤ì(€™½È€¡½¹ÍĞ…ÉÑ¥±”½˜…ÉÑ¥±•Ì¤ì(€€€½¹ÍĞµ…¹Õ™…ÑÕÉ•È€ôMÑÉ¥¹œ¡…ÉÑ¥±”¹µ…¹Õ™…ÑÕÉ•È€üü€ˆˆ¤ì(€€€¥˜€ …µ…¹Õ™…ÑÕÉ•È¤½¹Ñ¥¹Õ”ì(€€€µ…¹Õ™…ÑÕÉ•É½Õ¹ÑÌ¹Í•Ğ¡µ…¹Õ™…ÑÕÉ•È°€¡µ…¹Õ™…ÑÕÉ•É½Õ¹ÑÌ¹•Ğ¡µ…¹Õ™…ÑÕÉ•È¤€üü€À¤€¬€Ä¤ì(€ô(€½¹ÍĞµ…¹Õ™…ÑÕÉ•ÉÌ€ôl¸¸¹µ…¹Õ™…ÑÕÉ•É½Õ¹ÑÌ¹•¹ÑÉ¥•Ì ¥t(€€€€¹µ…À ¡m¹…µ”°½Õ¹Ñt¤€ôø€¡ì¹…µ”°½Õ¹Ğô¤¤(€€€€¹Í½ÉĞ ¡„°ˆ¤€ôøˆ¹½Õ¹Ğ€´„¹½Õ¹Ğñğ„¹¹…µ”¹±½…±•½µÁ…É”¡ˆ¹¹…µ”°€‰™Èˆ¤¤ì((€É•ÑÕÉ¸ì(€€€µ…¹¥™•ÍĞ°(€€€…ÉÑ¥±•Ì°(€€€ÁÕ‰±¥ÉÑ¥±•Ì°(€€€‰å%°(€€€ÁÕ‰±¥	å%°(€€€İ¥­¥%¹‘•á½µÁ…Ğ°(€€€•‘¥Ñ½É	…Í•	å%°(€€€¹…Ù¥…Ñ¥½¸°(€€€…Ñ•½É¥•Ì°(€€€µ…¹Õ™…ÑÕÉ•ÉÌ°(€€€½Ù•ÉÉ¥‘•MÕµµ…Éä°(€€€‘…Ñ…‰…Í•‘¥ÑMÕµµ…Éäèì(€€€€€…ÁÁ±¥•è‘…Ñ…‰…Í•‘¥ÑÁÁ±¥•°(€€€€€½¹™±¥ÑÌè‘…Ñ…‰…Í•‘¥Ñ½¹™±¥ÑÌ(€€€ô(€ôì)ô()™Õ¹Ñ¥½¸•Ñ½ÉÁÕÌ ¤èAÉ½µ¥Í”ñ½ÉÁÕÌøì(€¥˜€ …½ÉÁÕÍAÉ½µ¥Í”¤½ÉÁÕÍAÉ½µ¥Í”€ô±½…‘½ÉÁÕÌ ¤ì(€É•ÑÕÉ¸½ÉÁÕÍAÉ½µ¥Í”ì)ô()•áÁ½ÉĞ…Íå¹Œ™Õ¹Ñ¥½¸•Ñ½µÁ•¹‘¥ÕµEÕ…±¥Ñå½ÉÁÕÌ ¤ì(€½¹ÍĞ½ÉÁÕÌ€ô…İ…¥Ğ•Ñ½ÉÁÕÌ ¤ì(€É•ÑÕÉ¸ì(€€€…ÉÑ¥±•Ìè½ÉÁÕÌ¹…ÉÑ¥±•Ì°(€€€ÁÕ‰±¥ÉÑ¥±•Ìè½ÉÁÕÌ¹ÁÕ‰±¥ÉÑ¥±•Ì°(€€€¹…Ù¥…Ñ¥½¹%‘Ìèl¸¸¹½ÉÁÕÌ¹¹…Ù¥…Ñ¥½¸¹­•åÌ ¥t°(€€€‘…Ñ…‰…Í•‘¥ÑMÕµµ…Éäè½ÉÁÕÌ¹‘…Ñ…‰…Í•‘¥ÑMÕµµ…Éä°(€€€½Ù•ÉÉ¥‘•MÕµµ…Éäè½ÉÁÕÌ¹½Ù•ÉÉ¥‘•MÕµµ…Éä(€ôì)ô()•áÁ½ÉĞ…Íå¹Œ™Õ¹Ñ¥½¸ÁÉ•±½…‘½µÁ•¹‘¥Õ´ ¤èAÉ½µ¥Í”ñÙ½¥øì(€½¹ÍĞÍÑ…ÉÑ•€ôÁ•É™½Éµ…¹”¹¹½Ü ¤ì(€½¹ÍĞ½ÉÁÕÌ€ô…İ…¥Ğ•Ñ½ÉÁÕÌ ¤ì(€½¹ÍĞ•±…ÁÍ•€ô5…Ñ ¹É½Õ¹¡Á•É™½Éµ…¹”¹¹½Ü ¤€´ÍÑ…ÉÑ•¤ì(€½¹Í½±”¹¥¹™¼ (€€€½µÁ•¹‘¥Õ´ÁÉ•±½…‘•è€‘í½ÉÁÕÌ¹…ÉÑ¥±•Ì¹±•¹Ñ¡ô…ÉÑ¥±•Ì¥¸€‘í•±…ÁÍ•‘ôµÍ€(€€¤ì)ô()™Õ¹Ñ¥½¸¹…ÙM½ÉĞ¡…ÉÑ¥±”èÉÑ¥±”¤èm¹Õµ‰•È°¹Õµ‰•È°¹Õµ‰•È°ÍÑÉ¥¹tì(€½¹ÍĞ¹…Ù¥…Ñ¥½¸€ô…ÉÑ¥±”¹¹…Ù¥…Ñ¥½¸…Ì)Í½¹=‰©•ĞğÕ¹‘•™¥¹•ì(€É•ÑÕÉ¸l(€€€9Õµ‰•È¡¹…Ù¥…Ñ¥½¸ü¹É½ÕÁ=É‘•È€üü€ääää¤°(€€€9Õµ‰•È¡¹…Ù¥…Ñ¥½¸ü¹ÍÕ‰É½ÕÁ=É‘•È€üü€ääää¤°(€€€9Õµ‰•È¡¹…Ù¥…Ñ¥½¸ü¹Á…•=É‘•È€üü€ääää¤°(€€€…ÉÑ¥±”¹Ñ¥Ñ±”€üü…ÉÑ¥±”¹¥(€tì)ô()™Õ¹Ñ¥½¸½µÁ…É•ÉÑ¥±•Ì¡„èÉÑ¥±”°ˆèÉÑ¥±”¤è¹Õµ‰•Èì(€½¹ÍĞ±•™Ğ€ô¹…ÙM½ÉĞ¡„¤ì(€½¹ÍĞÉ¥¡Ğ€ô¹…ÙM½ÉĞ¡ˆ¤ì(€™½È€¡±•Ğ¥¹‘•à€ô€Àì¥¹‘•à€ğ€Ìì¥¹‘•à€¬ô€Ä¤ì(€€€½¹ÍĞ‘¥™™•É•¹”€ô9Õµ‰•È¡±•™Ñm¥¹‘•át¤€´9Õµ‰•È¡É¥¡Ñm¥¹‘•át¤ì(€€€¥˜€¡‘¥™™•É•¹”¤É•ÑÕÉ¸‘¥™™•É•¹”ì(€ô(€É•ÑÕÉ¸MÑÉ¥¹œ¡±•™ÑlÍt¤¹±½…±•½µÁ…É”¡MÑÉ¥¹œ¡É¥¡ÑlÍt¤°€‰™Èˆ°ì(€€€¹Õµ•É¥ŒèÑÉÕ”°(€€€Í•¹Í¥Ñ¥Ù¥Ñäè€‰‰…Í”ˆ(€ô¤ì)ô()™Õ¹Ñ¥½¸Í•…É¡M½É”¡…ÉÑ¥±”èÉÑ¥±”°ÅÕ•ÉäèÍÑÉ¥¹œ¤è¹Õµ‰•Èì(€¥˜€ …ÅÕ•Éä¤É•ÑÕÉ¸€Àì(€½¹ÍĞÑ¥Ñ±”€ô¹½É´¡…ÉÑ¥±”¹Ñ¥Ñ±”¤ì(€½¹ÍĞÄ€ô¹½É´¡ÅÕ•Éä¤ì(€±•ĞÍ½É”€ô€Àì(€¥˜€¡Ñ¥Ñ±”€ôôôÄ¤Í½É”€¬ô€ÄÀÀÀì(€•±Í”¥˜€¡Ñ¥Ñ±”¹ÍÑ…ÉÑÍ]¥Ñ ¡Ä¤¤Í½É”€¬ô€ÔÀÀì(€•±Í”¥˜€¡Ñ¥Ñ±”¹¥¹±Õ‘•Ì¡Ä¤¤Í½É”€¬ô€ÈÔÀì((€½¹ÍĞÑ…Ì€ô¹½É´ ¡…ÉÑ¥±”¹Ñ…Ì€üümt¤¹©½¥¸ ˆ€ˆ¤¤ì(€¥˜€¡Ñ…Ì¹¥¹±Õ‘•Ì¡Ä¤¤Í½É”€¬ô€ÄÀÀì((€½¹ÍĞ¹…Ù¥…Ñ¥½¸€ô…ÉÑ¥±”¹¹…Ù¥…Ñ¥½¸…Ì)Í½¹=‰©•ĞğÕ¹‘•™¥¹•ì(€¥˜€¡¹½É´¡€‘í¹…Ù¥…Ñ¥½¸ü¹É½ÕÀ€üü€ˆ‰ô€‘í¹…Ù¥…Ñ¥½¸ü¹ÍÕ‰É½ÕÀ€üü€ˆ‰õ€¤¹¥¹±Õ‘•Ì¡Ä¤¤Í½É”€¬ô€àÀì((€É•ÑÕÉ¸Í½É”ì)ô()™Õ¹Ñ¥½¸Í•…É¡%Ñ•´¡…ÉÑ¥±”èÉÑ¥±”°ÅÕ•ÉäèÍÑÉ¥¹œ¤ì(€½¹ÍĞ¹…Ù¥…Ñ¥½¸€ô…ÉÑ¥±”¹¹…Ù¥…Ñ¥½¸…Ì)Í½¹=‰©•ĞğÕ¹‘•™¥¹•ì(€É•ÑÕÉ¸ì(€€€¥è…ÉÑ¥±”¹¥°(€€€Ñ¥Ñ±”è…ÉÑ¥±”¹Ñ¥Ñ±”€üü…ÉÑ¥±”¹¥°(€€€…Ñ•½Éäè…ÉÑ¥±”¹…Ñ•½Éä€üü€ˆˆ°(€€€‘…Ñ…Í•Ğè…ÉÑ¥±”¹‘…Ñ…Í•Ğ€üü€ˆˆ°(€€€Í½ÕÉ”è…ÉÑ¥±”¹Í½ÕÉ”€üü€ˆˆ°(€€€ÍÑ…ÑÕÌè…ÉÑ¥±”¹ÍÑ…ÑÕÌ€üü€ˆˆ°(€€€É½ÕÀè¹…Ù¥…Ñ¥½¸ü¹É½ÕÀ€üü€ˆˆ°(€€€ÍÕ‰É½ÕÀè¹…Ù¥…Ñ¥½¸ü¹ÍÕ‰É½ÕÀ€üü€ˆˆ°(€€€Ñ…Ìè…ÉÑ¥±”¹Ñ…Ì€üümt°(€€€µ…¹Õ™…ÑÕÉ•ÈèMÑÉ¥¹œ¡…ÉÑ¥±”¹µ…¹Õ™…ÑÕÉ•È€üü€ˆˆ¤°(€€€•‘¥Ñ•è	½½±•…¸¡…ÉÑ¥±”¹}}•‘¥Ñ½É¥…±=Ù•ÉÉ¥‘”¤°(€€€Í¹¥ÁÁ•Ğè…ÉÑ¥±•M¹¥ÁÁ•Ğ¡…ÉÑ¥±”°ÅÕ•Éä¤(€ôì)ô()…Íå¹Œ™Õ¹Ñ¥½¸±½…‘UÍ•É1¥‰É…Éä¡ÕÍ•É%èÍÑÉ¥¹œ°½ÉÁÕÌè½ÉÁÕÌ°¥¹±Õ‘•5¨è‰½½±•…¸¤ì(€½¹ÍĞm™…Ù½É¥Ñ•I½İÌ°½±±•Ñ¥½¹I½İÌ°¥Ñ•µI½İÌ°¡¥ÍÑ½ÉåI½İÍt€ô…İ…¥ĞAÉ½µ¥Í”¹…±°¡l(€€€Á½½°¹ÅÕ•Éäñì…ÉÑ¥±•%èÍÑÉ¥¹œôø (€€€€€M1P…ÉÑ¥±•}¥L€‰…ÉÑ¥±•%ˆ(€€€€€€I=4½µÁ•¹‘¥Õµ}™…Ù½É¥Ñ•Ì(€€€€€€]!IÕÍ•É}¥€ô€Ä(€€€€€€=IH	dÉ•…Ñ•‘}…ĞM€°(€€€€€mÕÍ•É%‘t(€€€€¤°(€€€Á½½°¹ÅÕ•Éäñì(€€€€€¥èÍÑÉ¥¹œì(€€€€€¹…µ”èÍÑÉ¥¹œì(€€€€€É•…Ñ•‘ĞèÍÑÉ¥¹œì(€€€€€ÕÁ‘…Ñ•‘ĞèÍÑÉ¥¹œì(€€€ôø (€€€€€M1P(€€€€€€€€¥°(€€€€€€€€¹…µ”°(€€€€€€€€É•…Ñ•‘}…ĞèéÑ•áĞL€‰É•…Ñ•‘Ğˆ°(€€€€€€€€ÕÁ‘…Ñ•‘}…ĞèéÑ•áĞL€‰ÕÁ‘…Ñ•‘Ğˆ(€€€€€€I=4½µÁ•¹‘¥Õµ}½±±•Ñ¥½¹Ì(€€€€€€]!I½İ¹•É}¥€ô€Ä(€€€€€€=IH	dÕÁ‘…Ñ•‘}…ĞM°¹…µ”M€°(€€€€€mÕÍ•É%‘t(€€€€¤°(€€€Á½½°¹ÅÕ•Éäñì½±±•Ñ¥½¹%èÍÑÉ¥¹œì…ÉÑ¥±•%èÍÑÉ¥¹œôø (€€€€€M1P(€€€€€€€€¤¹½±±•Ñ¥½¹}¥L€‰½±±•Ñ¥½¹%ˆ°(€€€€€€€€¤¹…ÉÑ¥±•}¥L€‰…ÉÑ¥±•%ˆ(€€€€€€I=4½µÁ•¹‘¥Õµ}½±±•Ñ¥½¹}¥Ñ•µÌ¤(€€€€€€)=%8½µÁ•¹‘¥Õµ}½±±•Ñ¥½¹ÌŒ=8Œ¹¥€ô¤¹½±±•Ñ¥½¹}¥(€€€€€€]!IŒ¹½İ¹•É}¥€ô€Ä(€€€€€€=IH	d¤¹É•…Ñ•‘}…ĞM€°(€€€€€mÕÍ•É%‘t(€€€€¤°(€€€Á½½°¹ÅÕ•Éäñì…ÉÑ¥±•%èÍÑÉ¥¹œìÙ¥•İ•‘ĞèÍÑÉ¥¹œìÙ¥•İ½Õ¹Ğè¹Õµ‰•Èôø (€€€€€M1P(€€€€€€€€…ÉÑ¥±•}¥L€‰…ÉÑ¥±•%ˆ°(€€€€€€€€Ù¥•İ•‘}…ĞèéÑ•áĞL€‰Ù¥•İ•‘Ğˆ°(€€€€€€€€Ù¥•İ}½Õ¹ĞL€‰Ù¥•İ½Õ¹Ğˆ(€€€€€€I=4½µÁ•¹‘¥Õµ}¡¥ÍÑ½Éä(€€€€€€]!IÕÍ•É}¥€ô€Ä(€€€€€€=IH	dÙ¥•İ•‘}…ĞM(€€€€€€1%5%P€ÔÁ€°(€€€€€mÕÍ•É%‘t(€€€€¤(€t¤ì((€½¹ÍĞÙ¥Í¥‰±•%Ñ•´€ô€¡¥èÍÑÉ¥¹œ¤€ôøì(€€€½¹ÍĞ…ÉÑ¥±”€ô½ÉÁÕÌ¹‰å%¹•Ğ¡¥¤ì(€€€¥˜€ ……ÉÑ¥±”ñğ…ÉÑ¥±”¹…Ñ•½Éä€ôôô1e}Q=Id¤É•ÑÕÉ¸¹Õ±°ì(€€€É•ÑÕÉ¸Í•…É¡%Ñ•´¡…ÉÑ¥±•½ÉÕ‘¥•¹”¡…ÉÑ¥±”°¥¹±Õ‘•5¨¤°€ˆˆ¤ì(€ôì((€½¹ÍĞ™…Ù½É¥Ñ•Ì€ô™…Ù½É¥Ñ•I½İÌ¹É½İÌ¹µ…À ¡É½Ü¤€ôøÉ½Ü¹…ÉÑ¥±•%¤ì(€½¹ÍĞ™…Ù½É¥Ñ•%Ñ•µÌ€ô™…Ù½É¥Ñ•Ì(€€€€¹µ…À¡Ù¥Í¥‰±•%Ñ•´¤(€€€€¹™¥±Ñ•È ¡…ÉÑ¥±”¤è…ÉÑ¥±”¥ÌI•ÑÕÉ¹QåÁ”ñÑåÁ•½˜Í•…É¡%Ñ•´ø€ôø	½½±•…¸¡…ÉÑ¥±”¤¤ì((€½¹ÍĞ¥‘Í	å½±±•Ñ¥½¸€ô¹•Ü5…ÀñÍÑÉ¥¹œ°ÍÑÉ¥¹mtø ¤ì(€™½È€¡½¹ÍĞÉ½Ü½˜¥Ñ•µI½İÌ¹É½İÌ¤ì(€€€½¹ÍĞ¥‘Ì€ô¥‘Í	å½±±•Ñ¥½¸¹•Ğ¡É½Ü¹½±±•Ñ¥½¹%¤€üümtì(€€€¥‘Ì¹ÁÕÍ ¡É½Ü¹…ÉÑ¥±•%¤ì(€€€¥‘Í	å½±±•Ñ¥½¸¹Í•Ğ¡É½Ü¹½±±•Ñ¥½¹%°¥‘Ì¤ì(€ô((€½¹ÍĞ½±±•Ñ¥½¹Ì€ô½±±•Ñ¥½¹I½İÌ¹É½İÌ¹µ…À ¡½±±•Ñ¥½¸¤€ôøì(€€€½¹ÍĞ…ÉÑ¥±•%‘Ì€ô¥‘Í	å½±±•Ñ¥½¸¹•Ğ¡½±±•Ñ¥½¸¹¥¤€üümtì(€€€É•ÑÕÉ¸ì(€€€€€€¸¸¹½±±•Ñ¥½¸°(€€€€€…ÉÑ¥±•%‘Ì°(€€€€€¥Ñ•µÌè…ÉÑ¥±•%‘Ì(€€€€€€€€¹µ…À¡Ù¥Í¥‰±•%Ñ•´¤(€€€€€€€€¹™¥±Ñ•È ¡…ÉÑ¥±”¤è…ÉÑ¥±”¥ÌI•ÑÕÉ¹QåÁ”ñÑåÁ•½˜Í•…É¡%Ñ•´ø€ôø	½½±•…¸¡…ÉÑ¥±”¤¤(€€€ôì(€ô¤ì((€½¹ÍĞÉ••¹Ñ%Ñ•µÌ€ô¡¥ÍÑ½ÉåI½İÌ¹É½İÌ(€€€€¹µ…À ¡É½Ü¤€ôøì(€€€€€½¹ÍĞ¥Ñ•´€ôÙ¥Í¥‰±•%Ñ•´¡É½Ü¹…ÉÑ¥±•%¤ì(€€€€€É•ÑÕÉ¸¥Ñ•´€üì€¸¸¹¥Ñ•´°Ù¥•İ•‘ĞèÉ½Ü¹Ù¥•İ•‘Ğ°Ù¥•İ½Õ¹ĞèÉ½Ü¹Ù¥•İ½Õ¹Ğô€è¹Õ±°ì(€€€ô¤(€€€€¹™¥±Ñ•È ¡¥Ñ•´¤è¥Ñ•´¥ÌI•ÑÕÉ¹QåÁ”ñÑåÁ•½˜Í•…É¡%Ñ•´ø€˜ìÙ¥•İ•‘ĞèÍÑÉ¥¹œìÙ¥•İ½Õ¹Ğè¹Õµ‰•Èô€ôø	½½±•…¸¡¥Ñ•´¤¤ì((€É•ÑÕÉ¸ì™…Ù½É¥Ñ•Ì°™…Ù½É¥Ñ•%Ñ•µÌ°½±±•Ñ¥½¹Ì°É••¹Ñ%Ñ•µÌôì)ô()…Íå¹Œ™Õ¹Ñ¥½¸½İ¹•‘½±±•Ñ¥½¸¡½±±•Ñ¥½¹%èÍÑÉ¥¹œ°ÕÍ•É%èÍÑÉ¥¹œ¤èAÉ½µ¥Í”ñ‰½½±•…¸øì(€½¹ÍĞÉ•ÍÕ±Ğ€ô…İ…¥ĞÁ½½°¹ÅÕ•Éä (€€€M1P€Ä(€€€€I=4½µÁ•¹‘¥Õµ}½±±•Ñ¥½¹Ì(€€€€]!I¥€ô€Ä9½İ¹•É}¥€ô€É€°(€€€m½±±•Ñ¥½¹%°ÕÍ•É%‘t(€€¤ì(€É•ÑÕÉ¸	½½±•…¸¡É•ÍÕ±Ğ¹É½İ½Õ¹Ğ¤ì)ô()•áÁ½ÉĞ…Íå¹Œ™Õ¹Ñ¥½¸É•¥ÍÑ•É½µÁ•¹‘¥ÕµI½ÕÑ•Ì¡…ÁÀè…ÍÑ¥™å%¹ÍÑ…¹”¤ì(€…ÁÀ¹•Ğ ˆ½…Á¤½½µÁ•¹‘¥Õ´½µ•Ñ„ˆ°…Íå¹Œ€¡É•ÅÕ•ÍĞ¤€ôøì(€€€½¹ÍĞ½ÉÁÕÌ€ô…İ…¥Ğ•Ñ½ÉÁÕÌ ¤ì(€€€½¹ÍĞÕÍ•È€ô…İ…¥ĞÕÉÉ•¹ÑUÍ•È¡É•ÅÕ•ÍĞ¤ì(€€€½¹ÍĞ…¹Õ‘¥Ñ1•…ä€ô¥Í‘¥Ñ½ÉI½±”¡ÕÍ•Èü¹É½±”¤ì(€€€½¹ÍĞ…Ñ¥Ù•Q½Ñ…°€ô½ÉÁÕÌ¹…ÉÑ¥±•Ì¹™¥±Ñ•È ¡…ÉÑ¥±”¤€ôø…ÉÑ¥±”¹…Ñ•½Éä€„ôô1e}Q=Id¤¹±•¹Ñ ì(€€€½¹ÍĞ…É¡¥Ù•‘Q½Ñ…°€ô½ÉÁÕÌ¹…ÉÑ¥±•Ì¹±•¹Ñ €´…Ñ¥Ù•Q½Ñ…°ì(€€€É•ÑÕÉ¸ì(€€€€€Ù•ÉÍ¥½¸è½ÉÁÕÌ¹µ…¹¥™•ÍĞ¹Ù•ÉÍ¥½¸°(€€€€€•¹•É…Ñ•è½ÉÁÕÌ¹µ…¹¥™•ÍĞ¹•¹•É…Ñ•€üü¹Õ±°°(€€€€€Ñ½Ñ…°è…Ñ¥Ù•Q½Ñ…°°(€€€€€…É¡¥Ù•‘Q½Ñ…°°(€€€€€•áÁ•Ñ•‘Q½Ñ…°è¹Õ±°°(€€€€€…Ñ•½É¥•Ìè½ÉÁÕÌ¹…Ñ•½É¥•Ì¹™¥±Ñ•È ¡•¹ÑÉä¤€ôø•¹ÑÉä¹¹…µ”€„ôô1e}Q=Idñğ…¹Õ‘¥Ñ1•…ä¤°(€€€€€µ…¹Õ™…ÑÕÉ•ÉÌè½ÉÁÕÌ¹µ…¹Õ™…ÑÕÉ•ÉÌ°(€€€€€½Ù•ÉÉ¥‘•Ìè½ÉÁÕÌ¹½Ù•ÉÉ¥‘•MÕµµ…Éä°(€€€€€‘…Ñ…‰…Í•‘¥ÑÌè½ÉÁÕÌ¹‘…Ñ…‰…Í•‘¥ÑMÕµµ…Éä(€€€ôì(€ô¤ì((€…ÁÀ¹•Ğñì(€€€EÕ•ÉåÍÑÉ¥¹œèì½µÁ…ĞüèÍÑÉ¥¹œôì(€ôø ˆ½…Á¤½½µÁ•¹‘¥Õ´½İ¥­¤µ¥¹‘•àˆ°…Íå¹Œ€¡É•ÅÕ•ÍĞ¤€ôøì(€€€½¹ÍĞ½ÉÁÕÌ€ô…İ…¥Ğ•Ñ½ÉÁÕÌ ¤ì(€€€½¹ÍĞÕÍ•È€ô…İ…¥ĞÕÉÉ•¹ÑUÍ•È¡É•ÅÕ•ÍĞ¤ì(€€€½¹ÍĞ¥¹±Õ‘•5¨€ô…¹I•…‘5¨¡ÕÍ•Èü¹É½±”¤ì(€€€¥˜€¡É•ÅÕ•ÍĞ¹ÅÕ•Éä¹½µÁ…Ğ€ôôô€ˆÄˆ¤ì(€€€€€¥˜€¡¥¹±Õ‘•5¨¤É•ÑÕÉ¸ì•¹ÑÉ¥•Ìè½ÉÁÕÌ¹İ¥­¥%¹‘•á½µÁ…Ğôì(€€€€€É•ÑÕÉ¸ì(€€€€€€€•¹ÑÉ¥•Ìèl¸¸¹½ÉÁÕÌ¹ÁÕ‰±¥	å%¹Ù…±Õ•Ì ¥t(€€€€€€€€€€¹™¥±Ñ•È ¡…ÉÑ¥±”¤€ôø…ÉÑ¥±”¹…Ñ•½Éä€„ôô1e}Q=Id¤(€€€€€€€€€€¹µ…À ¡…ÉÑ¥±”¤€ôøì(€€€€€€€€€€€½¹ÍĞ¹…Ù¥…Ñ¥½¸€ô…ÉÑ¥±”¹¹…Ù¥…Ñ¥½¸…Ì)Í½¹=‰©•ĞğÕ¹‘•™¥¹•ì(€€€€€€€€€€€É•ÑÕÉ¸ì(€€€€€€€€€€€€€¥è…ÉÑ¥±”¹¥°(€€€€€€€€€€€€€Ñ¥Ñ±”è…ÉÑ¥±”¹Ñ¥Ñ±”€üü…ÉÑ¥±”¹¥°(€€€€€€€€€€€€€…Ñ•½Éäè…ÉÑ¥±”¹…Ñ•½Éä€üü€ˆˆ°(€€€€€€€€€€€€€‘…Ñ…Í•Ğè…ÉÑ¥±”¹‘…Ñ…Í•Ğ€üü€ˆˆ°(€€€€€€€€€€€€€É½ÕÀè¹…Ù¥…Ñ¥½¸ü¹É½ÕÀ€üü€ˆˆ°(€€€€€€€€€€€€€ÍÕ‰É½ÕÀè¹…Ù¥…Ñ¥½¸ü¹ÍÕ‰É½ÕÀ€üü€ˆˆ°(€€€€€€€€€€€€€µ…¹Õ™…ÑÕÉ•ÈèMÑÉ¥¹œ¡…ÉÑ¥±”¹µ…¹Õ™…ÑÕÉ•È€üü€ˆˆ¤(€€€€€€€€€€€ôì(€€€€€€€€€ô¤(€€€€€ôì(€€€ô(€€€½¹ÍĞ…ÉÑ¥±•Ì€ô€¡¥¹±Õ‘•5¨€ü½ÉÁÕÌ¹…ÉÑ¥±•Ì€è½ÉÁÕÌ¹ÁÕ‰±¥ÉÑ¥±•Ì¤(€€€€€€¹™¥±Ñ•È ¡…ÉÑ¥±”¤€ôø…ÉÑ¥±”¹…Ñ•½Éä€„ôô1e}Q=Id¤ì(€€€É•ÑÕÉ¸ì(€€€€€•¹ÑÉ¥•Ìè…ÉÑ¥±•Ì¹µ…À ¡…ÉÑ¥±”¤€ôøì(€€€€€€€½¹ÍĞ¹…Ù¥…Ñ¥½¸€ô…ÉÑ¥±”¹¹…Ù¥…Ñ¥½¸…Ì)Í½¹=‰©•ĞğÕ¹‘•™¥¹•ì(€€€€€€€É•ÑÕÉ¸ì(€€€€€€€€€¥è…ÉÑ¥±”¹¥°(€€€€€€€€€Ñ¥Ñ±”è…ÉÑ¥±”¹Ñ¥Ñ±”€üü…ÉÑ¥±”¹¥°(€€€€€€€€€…Ñ•½Éäè…ÉÑ¥±”¹…Ñ•½Éä€üü€ˆˆ°(€€€€€€€€€‘…Ñ…Í•Ğè…ÉÑ¥±”¹‘…Ñ…Í•Ğ€üü€ˆˆ°(€€€€€€€€€É½ÕÀè¹…Ù¥…Ñ¥½¸ü¹É½ÕÀ€üü€ˆˆ°(€€€€€€€€€ÍÕ‰É½ÕÀè¹…Ù¥…Ñ¥½¸ü¹ÍÕ‰É½ÕÀ€üü€ˆˆ°(€€€€€€€€€µ…¹Õ™…ÑÕÉ•ÈèMÑÉ¥¹œ¡…ÉÑ¥±”¹µ…¹Õ™…ÑÕÉ•È€üü€ˆˆ¤°(€€€€€€€€€Í¹¥ÁÁ•Ğèİ¥­¥AÉ•Ù¥•İQ•áĞ¡…ÉÑ¥±”¤°(€€€€€€€€€µ•‘¥„è…ÉÑ¥±”¹¥±±ÕÍÑÉ…Ñ¥½¸€üü…ÉÑ¥±”¹¥µ…”€üü¹Õ±°(€€€€€€€ôì(€€€€€ô¤(€€€ôì(€ô¤ì((€…ÁÀ¹•Ğñì(€€€A…É…µÌèì¥èÍÑÉ¥¹œôì(€ôø ˆ½…Á¤½½µÁ•¹‘¥Õ´½İ¥­¤µÁÉ•Ù¥•Ü¼é¥ˆ°…Íå¹Œ€¡É•ÅÕ•ÍĞ°É•Á±ä¤€ôøì(€€€½¹ÍĞ¥€ôÉ•ÅÕ•ÍĞ¹Á…É…µÌ¹¥¹ÑÉ¥´ ¤ì(€€€¥˜€ …¥ñğ¥¹±•¹Ñ €ø€ÈĞÀ¤É•ÑÕÉ¸‰…¡É•Á±ä°€‰¥¹Ù…±¥‘}½µÁ•¹‘¥Õµ}…ÉÑ¥±•}¥ˆ¤ì((€€€½¹ÍĞ½ÉÁÕÌ€ô…İ…¥Ğ•Ñ½ÉÁÕÌ ¤ì(€€€½¹ÍĞÕÍ•È€ô…İ…¥ĞÕÉÉ•¹ÑUÍ•È¡É•ÅÕ•ÍĞ¤ì(€€€½¹ÍĞ¥¹±Õ‘•5¨€ô…¹I•…‘5¨¡ÕÍ•Èü¹É½±”¤ì(€€€½¹ÍĞ…ÉÑ¥±”€ô€¡¥¹±Õ‘•5¨€ü½ÉÁÕÌ¹‰å%€è½ÉÁÕÌ¹ÁÕ‰±¥	å%¤¹•Ğ¡¥¤ì(€€€¥˜€ ……ÉÑ¥±”¤É•ÑÕÉ¸É•Á±ä¹½‘” ĞÀĞ¤¹Í•¹¡ì•ÉÉ½Èè€‰½µÁ•¹‘¥Õµ}…ÉÑ¥±•}¹½Ñ}™½Õ¹ˆô¤ì((€€€É•ÑÕÉ¸ì(€€€€€¥è…ÉÑ¥±”¹¥°(€€€€€Í¹¥ÁÁ•Ğèİ¥­¥AÉ•Ù¥•İQ•áĞ¡…ÉÑ¥±”¤°(€€€€€µ•‘¥„è…ÉÑ¥±”¹¥±±ÕÍÑÉ…Ñ¥½¸€üü…ÉÑ¥±”¹¥µ…”€üü¹Õ±°(€€€ôì(€ô¤ì((€…ÁÀ¹•Ğñì(€€€EÕ•ÉåÍÑÉ¥¹œèì(€€€€€ÄüèÍÑÉ¥¹œì(€€€€€…Ñ•½ÉäüèÍÑÉ¥¹œì(€€€€€‘…Ñ…Í•ĞüèÍÑÉ¥¹œì(€€€€€µ…¹Õ™…ÑÕÉ•ÈüèÍÑÉ¥¹œì(€€€€€±¥µ¥ĞüèÍÑÉ¥¹œì(€€€€€½™™Í•ĞüèÍÑÉ¥¹œì(€€€ôì(€ôø ˆ½…Á¤½½µÁ•¹‘¥Õ´½Í•…É ˆ°…Íå¹Œ€¡É•ÅÕ•ÍĞ¤€ôøì(€€€½¹ÍĞ½ÉÁÕÌ€ô…İ…¥Ğ•Ñ½ÉÁÕÌ ¤ì(€€€½¹ÍĞÕÍ•È€ô…İ…¥ĞÕÉÉ•¹ÑUÍ•È¡É•ÅÕ•ÍĞ¤ì(€€€½¹ÍĞ¥¹±Õ‘•5¨€ô…¹I•…‘5¨¡ÕÍ•Èü¹É½±”¤ì(€€€½¹ÍĞÅÕ•Éä€ôMÑÉ¥¹œ¡É•ÅÕ•ÍĞ¹ÅÕ•Éä¹Ä€üü€ˆˆ¤¹ÑÉ¥´ ¤ì(€€€½¹ÍĞ¹½Éµ…±¥é•‘EÕ•Éä€ô¹½É´¡ÅÕ•Éä¤ì(€€€½¹ÍĞ…Ñ•½Éä€ôMÑÉ¥¹œ¡É•ÅÕ•ÍĞ¹ÅÕ•Éä¹…Ñ•½Éä€üü€ˆˆ¤¹ÑÉ¥´ ¤ì(€€€½¹ÍĞ‘…Ñ…Í•Ğ€ôMÑÉ¥¹œ¡É•ÅÕ•ÍĞ¹ÅÕ•Éä¹‘…Ñ…Í•Ğ€üü€ˆˆ¤¹ÑÉ¥´ ¤ì(€€€½¹ÍĞµ…¹Õ™…ÑÕÉ•È€ôMÑÉ¥¹œ¡É•ÅÕ•ÍĞ¹ÅÕ•Éä¹µ…¹Õ™…ÑÕÉ•È€üü€ˆˆ¤¹ÑÉ¥´ ¤ì(€€€½¹ÍĞ±¥µ¥Ğ€ô5…Ñ ¹µ¥¸ ÄÀÀ°5…Ñ ¹µ…à Ä°9Õµ‰•È¹Á…ÉÍ•%¹Ğ¡É•ÅÕ•ÍĞ¹ÅÕ•Éä¹±¥µ¥Ğ€üü€ˆĞÀˆ°€ÄÀ¤ñğ€ĞÀ¤¤ì(€€€½¹ÍĞ½™™Í•Ğ€ô5…Ñ ¹µ…à À°9Õµ‰•È¹Á…ÉÍ•%¹Ğ¡É•ÅÕ•ÍĞ¹ÅÕ•Éä¹½™™Í•Ğ€üü€ˆÀˆ°€ÄÀ¤ñğ€À¤ì(€€€½¹ÍĞÑ½­•¹Ì€ô¹½Éµ…±¥é•‘EÕ•Éä¹ÍÁ±¥Ğ ˆ€ˆ¤¹™¥±Ñ•È¡	½½±•…¸¤ì((€€€½¹ÍĞÍ½ÕÉ•ÉÑ¥±•Ì€ô¥¹±Õ‘•5¨€ü½ÉÁÕÌ¹…ÉÑ¥±•Ì€è½ÉÁÕÌ¹ÁÕ‰±¥ÉÑ¥±•Ìì(€€€½¹ÍĞ…¹Õ‘¥Ñ1•…ä€ô¥Í‘¥Ñ½ÉI½±”¡ÕÍ•Èü¹É½±”¤ì(€€€±•ĞÉ½İÌ€ô(€€€€€…Ñ•½Éä€ôôô1e}Q=Id€˜˜…¹Õ‘¥Ñ1•…ä(€€€€€€€€üÍ½ÕÉ•ÉÑ¥±•Ì¹™¥±Ñ•È ¡…ÉÑ¥±”¤€ôø…ÉÑ¥±”¹…Ñ•½Éä€ôôô1e}Q=Id¤(€€€€€€€€èÍ½ÕÉ•ÉÑ¥±•Ì¹™¥±Ñ•È ¡…ÉÑ¥±”¤€ôø…ÉÑ¥±”¹…Ñ•½Éä€„ôô1e}Q=Id¤ì((€€€¥˜€¡…Ñ•½Éä€˜˜…Ñ•½Éä€„ôô1e}Q=Id¤ì(€€€€€É½İÌ€ôÉ½İÌ¹™¥±Ñ•È ¡…ÉÑ¥±”¤€ôø…ÉÑ¥±”¹…Ñ•½Éä€ôôô…Ñ•½Éä¤ì(€€€ô(€€€¥˜€¡…Ñ•½Éä€ôôô1e}Q=Id€˜˜€……¹Õ‘¥Ñ1•…ä¤É½İÌ€ômtì(€€€¥˜€¡‘…Ñ…Í•Ğ¤É½İÌ€ôÉ½İÌ¹™¥±Ñ•È ¡…ÉÑ¥±”¤€ôø…ÉÑ¥±”¹‘…Ñ…Í•Ğ€ôôô‘…Ñ…Í•Ğ¤ì(€€€¥˜€¡µ…¹Õ™…ÑÕÉ•È¤ì(€€€€€½¹ÍĞ¹½Éµ…±¥é•‘5…¹Õ™…ÑÕÉ•È€ô¹½É´¡µ…¹Õ™…ÑÕÉ•È¤ì(€€€€€É½İÌ€ôÉ½İÌ¹™¥±Ñ•È ¡…ÉÑ¥±”¤€ôø¹½É´¡…ÉÑ¥±”¹µ…¹Õ™…ÑÕÉ•È¤€ôôô¹½Éµ…±¥é•‘5…¹Õ™…ÑÕÉ•È¤ì(€€€ô(€€€¥˜€¡Ñ½­•¹Ì¹±•¹Ñ ¤ì(€€€€€É½İÌ€ôÉ½İÌ¹™¥±Ñ•È ¡…ÉÑ¥±”¤€ôøì(€€€€€€€½¹ÍĞÍ•…É¡…‰±”€ôMÑÉ¥¹œ¡…ÉÑ¥±”¹}}Í•…É¡Q•áĞ€üü€ˆˆ¤ì(€€€€€€€É•ÑÕÉ¸Ñ½­•¹Ì¹•Ù•Éä ¡Ñ½­•¸¤€ôøÍ•…É¡…‰±”¹¥¹±Õ‘•Ì¡Ñ½­•¸¤¤ì(€€€€€ô¤ì(€€€ô((€€€¥˜€¡¹½Éµ…±¥é•‘EÕ•Éä¤ì(€€€€€É½İÌ€ôl¸¸¹É½İÍt¹Í½ÉĞ ¡„°ˆ¤€ôøì(€€€€€€€½¹ÍĞÍ½É•¥™™•É•¹”€ôÍ•…É¡M½É”¡ˆ°ÅÕ•Éä¤€´Í•…É¡M½É”¡„°ÅÕ•Éä¤ì(€€€€€€€É•ÑÕÉ¸Í½É•¥™™•É•¹”ñğ½µÁ…É•ÉÑ¥±•Ì¡„°ˆ¤ì(€€€€€ô¤ì(€€€ô((€€€½¹ÍĞÑ½Ñ…°€ôÉ½İÌ¹±•¹Ñ ì(€€€É•ÑÕÉ¸ì(€€€€€ÄèÅÕ•Éä°(€€€€€…Ñ•½Éä°(€€€€€‘…Ñ…Í•Ğ°(€€€€€µ…¹Õ™…ÑÕÉ•È°(€€€€€Ñ½Ñ…°°(€€€€€½™™Í•Ğ°(€€€€€±¥µ¥Ğ°(€€€€€¥Ñ•µÌèÉ½İÌ¹Í±¥”¡½™™Í•Ğ°½™™Í•Ğ€¬±¥µ¥Ğ¤¹µ…À ¡…ÉÑ¥±”¤€ôøÍ•…É¡%Ñ•´¡…ÉÑ¥±”°ÅÕ•Éä¤¤(€€€ôì(€ô¤ì((€…ÁÀ¹•Ğ ˆ½…Á¤½½µÁ•¹‘¥Õ´½½¹‰½…É‘¥¹œˆ°…Íå¹Œ€ ¤€ôøì(€€€½¹ÍĞ½ÉÁÕÌ€ô…İ…¥Ğ•Ñ½ÉÁÕÌ ¤ì(€€€½¹ÍĞ•á¥ÍÑÌ€ô€¡¥üèÍÑÉ¥¹œ¤€ôøì(€€€€€¥˜€ …¥¤É•ÑÕÉ¸™…±Í”ì(€€€€€½¹ÍĞ…ÉÑ¥±”€ô½ÉÁÕÌ¹‰å%¹•Ğ¡¥¤ì(€€€€€É•ÑÕÉ¸	½½±•…¸¡…ÉÑ¥±”€˜˜…ÉÑ¥±”¹…Ñ•½Éä€„ôô1e}Q=Id¤ì(€€€ôì(€€€½¹ÍĞ…Ñ¥Ù•…Ñ•½É¥•Ì€ô¹•ÜM•Ğ (€€€€€½ÉÁÕÌ¹…ÉÑ¥±•Ì(€€€€€€€€¹™¥±Ñ•È ¡…ÉÑ¥±”¤€ôø…ÉÑ¥±”¹…Ñ•½Éä€„ôô1e}Q=Id¤(€€€€€€€€¹µ…À ¡…ÉÑ¥±”¤€ôøMÑÉ¥¹œ¡…ÉÑ¥±”¹…Ñ•½Éä€üü€ˆˆ¤¤(€€€€€€€€¹™¥±Ñ•È¡	½½±•…¸¤(€€€€¤ì(€€€½¹ÍĞÍ…¹¥Ñ¥é•9…ÑÕÉ”€ô€¡¥Ñ•´è)Í½¹=‰©•Ğ¤€ôøì(€€€€€½¹ÍĞÉÕ±•Í%€ô•á¥ÍÑÌ¡MÑÉ¥¹œ¡¥Ñ•´¹ÉÕ±•Í%€üü€ˆˆ¤¤€üMÑÉ¥¹œ¡¥Ñ•´¹ÉÕ±•Í%¤€èÕ¹‘•™¥¹•ì(€€€€€½¹ÍĞ±½É•%€ô•á¥ÍÑÌ¡MÑÉ¥¹œ¡¥Ñ•´¹±½É•%€üü€ˆˆ¤¤€üMÑÉ¥¹œ¡¥Ñ•´¹±½É•%¤€èÕ¹‘•™¥¹•ì(€€€€€É•ÑÕÉ¸ÉÕ±•Í%ñğ±½É•%€üì€¸¸¹‘••Á±½¹”¡¥Ñ•´¤°ÉÕ±•Í%°±½É•%ô€è¹Õ±°ì(€€€ôì(€€€É•ÑÕÉ¸ì(€€€€€€¸¸¹‘••Á±½¹”¡=5A9%U5}A1eI}MQIP¤°(€€€€€‰…Í¥Ìè=5A9%U5}A1eI}MQIP¹‰…Í¥Ì¹™¥±Ñ•È ¡¥Ñ•´¤€ôø•á¥ÍÑÌ¡¥Ñ•´¹¥¤¤°(€€€€€±½É•!Õ‰Ìè=5A9%U5}A1eI}MQIP¹±½É•!Õ‰Ì¹™¥±Ñ•È ¡¥Ñ•´¤€ôø•á¥ÍÑÌ¡¥Ñ•´¹¥¤¤°(€€€€€¹…ÑÕÉ•Ìè=5A9%U5}A1eI}MQIP¹¹…ÑÕÉ•Ì(€€€€€€€€¹µ…À ¡¥Ñ•´¤€ôøÍ…¹¥Ñ¥é•9…ÑÕÉ”¡¥Ñ•´…Ì)Í½¹=‰©•Ğ¤¤(€€€€€€€€¹™¥±Ñ•È¡	½½±•…¸¤°(€€€€€É•ÍÑÉ¥Ñ•è=5A9%U5}A1eI}MQIP¹É•ÍÑÉ¥Ñ•(€€€€€€€€¹µ…À ¡¥Ñ•´¤€ôøÍ…¹¥Ñ¥é•9…ÑÕÉ”¡¥Ñ•´…Ì)Í½¹=‰©•Ğ¤¤(€€€€€€€€¹™¥±Ñ•È¡	½½±•…¸¤°(€€€€€…Ñ•½É¥•Ìè=5A9%U5}A1eI}MQIP¹…Ñ•½É¥•Ì(€€€€€€€€¹™¥±Ñ•È ¡¥Ñ•´¤€ôø…Ñ¥Ù•…Ñ•½É¥•Ì¹¡…Ì¡¥Ñ•´¹…Ñ•½Éä¤¤°(€€€€€…Ù…¥±…‰±”èì(€€€€€€€‰…Í¥Ìè=5A9%U5}A1eI}MQIP¹‰…Í¥Ì¹™¥±Ñ•È ¡¥Ñ•´¤€ôø•á¥ÍÑÌ¡¥Ñ•´¹¥¤¤¹µ…À ¡¥Ñ•´¤€ôø¥Ñ•´¹¥¤°(€€€€€€€±½É•!Õ‰Ìè=5A9%U5}A1eI}MQIP¹±½É•!Õ‰Ì¹™¥±Ñ•È ¡¥Ñ•´¤€ôø•á¥ÍÑÌ¡¥Ñ•´¹¥¤¤¹µ…À ¡¥Ñ•´¤€ôø¥Ñ•´¹¥¤(€€€€€ô(€€€ôì(€ô¤ì((€…ÁÀ¹•Ğ ˆ½…Á¤½½µÁ•¹‘¥Õ´½±¥‰É…Éäˆ°…Íå¹Œ€¡É•ÅÕ•ÍĞ°É•Á±ä¤€ôøì(€€€½¹ÍĞÕÍ•È€ô…İ…¥ĞÉ•ÅÕ¥É•UÍ•È¡É•ÅÕ•ÍĞ°É•Á±ä¤ì(€€€¥˜€ …ÕÍ•È¤É•ÑÕÉ¸ì((€€€½¹ÍĞ½ÉÁÕÌ€ô…İ…¥Ğ•Ñ½ÉÁÕÌ ¤ì(€€€É•ÑÕÉ¸±½…‘UÍ•É1¥‰É…Éä¡ÕÍ•È¹¥°½ÉÁÕÌ°…¹I•…‘5¨¡ÕÍ•È¹É½±”¤¤ì(€ô¤ì((€…ÁÀ¹ÁÕĞñì(€€€A…É…µÌèì¥èÍÑÉ¥¹œôì(€ôø ˆ½…Á¤½½µÁ•¹‘¥Õ´½¡¥ÍÑ½Éä¼é¥ˆ°…Íå¹Œ€¡É•ÅÕ•ÍĞ°É•Á±ä¤€ôøì(€€€½¹ÍĞÕÍ•È€ô…İ…¥ĞÉ•ÅÕ¥É•UÍ•È¡É•ÅÕ•ÍĞ°É•Á±ä¤ì(€€€¥˜€ …ÕÍ•È¤É•ÑÕÉ¸ì((€€€½¹ÍĞ¥€ôÉ•ÅÕ•ÍĞ¹Á…É…µÌ¹¥¹ÑÉ¥´ ¤ì(€€€½¹ÍĞ½ÉÁÕÌ€ô…İ…¥Ğ•Ñ½ÉÁÕÌ ¤ì(€€€¥˜€ …¥ñğ¥¹±•¹Ñ €ø€ÈĞÀñğ€…½ÉÁÕÌ¹‰å%¹¡…Ì¡¥¤¤ì(€€€€€É•ÑÕÉ¸É•Á±ä¹½‘” ĞÀĞ¤¹Í•¹¡ì•ÉÉ½Èè€‰½µÁ•¹‘¥Õµ}…ÉÑ¥±•}¹½Ñ}™½Õ¹ˆô¤ì(€€€ô((€€€…İ…¥ĞÁ½½°¹ÅÕ•Éä (€€€€€%9MIP%9Q<½µÁ•¹‘¥Õµ}¡¥ÍÑ½Éä€¡ÕÍ•É}¥°…ÉÑ¥±•}¥°Ù¥•İ•‘}…Ğ°Ù¥•İ}½Õ¹Ğ¤(€€€€€€Y1UL€ Ä°€È°¹½Ü ¤°€Ä¤(€€€€€€=8=91%P€¡ÕÍ•É}¥°…ÉÑ¥±•}¥¤<UAQMP(€€€€€€€€Ù¥•İ•‘}…Ğ€ô¹½Ü ¤°(€€€€€€€€Ù¥•İ}½Õ¹Ğ€ô½µÁ•¹‘¥Õµ}¡¥ÍÑ½Éä¹Ù¥•İ}½Õ¹Ğ€¬€Å€°(€€€€€mÕÍ•È¹¥°¥‘t(€€€€¤ì((€€€…İ…¥ĞÁ½½°¹ÅÕ•Éä (€€€€€1QI=4½µÁ•¹‘¥Õµ}¡¥ÍÑ½Éä(€€€€€€]!IÕÍ•É}¥€ô€Ä(€€€€€€€€9…ÉÑ¥±•}¥9=P%8€ (€€€€€€€€€€M1P…ÉÑ¥±•}¥(€€€€€€€€€€I=4½µÁ•¹‘¥Õµ}¡¥ÍÑ½Éä(€€€€€€€€€€]!IÕÍ•É}¥€ô€Ä(€€€€€€€€€€=IH	dÙ¥•İ•‘}…ĞM(€€€€€€€€€€1%5%P€ÄÀÀ(€€€€€€€€€¥€°(€€€€€mÕÍ•È¹¥‘t(€€€€¤ì((€€€É•ÑÕÉ¸ì…ÉÑ¥±•%è¥°É•½É‘•èÑÉÕ”ôì(€ô¤ì((€…ÁÀ¹‘•±•Ñ” ˆ½…Á¤½½µÁ•¹‘¥Õ´½¡¥ÍÑ½Éäˆ°…Íå¹Œ€¡É•ÅÕ•ÍĞ°É•Á±ä¤€ôøì(€€€½¹ÍĞÕÍ•È€ô…İ…¥ĞÉ•ÅÕ¥É•UÍ•È¡É•ÅÕ•ÍĞ°É•Á±ä¤ì(€€€¥˜€ …ÕÍ•È¤É•ÑÕÉ¸ì((€€€…İ…¥ĞÁ½½°¹ÅÕ•Éä ‰1QI=4½µÁ•¹‘¥Õµ}¡¥ÍÑ½Éä]!IÕÍ•É}¥€ô€Äˆ°mÕÍ•È¹¥‘t¤ì(€€€É•ÑÕÉ¸ì±•…É•èÑÉÕ”ôì(€ô¤ì((€…ÁÀ¹ÁÕĞñì(€€€A…É…µÌèì¥èÍÑÉ¥¹œôì(€ôø ˆ½…Á¤½½µÁ•¹‘¥Õ´½™…Ù½É¥Ñ•Ì¼é¥ˆ°…Íå¹Œ€¡É•ÅÕ•ÍĞ°É•Á±ä¤€ôøì(€€€½¹ÍĞÕÍ•È€ô…İ…¥ĞÉ•ÅÕ¥É•UÍ•È¡É•ÅÕ•ÍĞ°É•Á±ä¤ì(€€€¥˜€ …ÕÍ•È¤É•ÑÕÉ¸ì((€€€½¹ÍĞ¥€ôÉ•ÅÕ•ÍĞ¹Á…É…µÌ¹¥¹ÑÉ¥´ ¤ì(€€€½¹ÍĞ½ÉÁÕÌ€ô…İ…¥Ğ•Ñ½ÉÁÕÌ ¤ì(€€€¥˜€ …¥ñğ¥¹±•¹Ñ €ø€ÈĞÀñğ€…½ÉÁÕÌ¹‰å%¹¡…Ì¡¥¤¤ì(€€€€€É•ÑÕÉ¸É•Á±ä¹½‘” ĞÀĞ¤¹Í•¹¡ì•ÉÉ½Èè€‰½µÁ•¹‘¥Õµ}…ÉÑ¥±•}¹½Ñ}™½Õ¹ˆô¤ì(€€€ô((€€€…İ…¥ĞÁ½½°¹ÅÕ•Éä (€€€€€%9MIP%9Q<½µÁ•¹‘¥Õµ}™…Ù½É¥Ñ•Ì€¡ÕÍ•É}¥°…ÉÑ¥±•}¥¤(€€€€€€Y1UL€ Ä°€È¤(€€€€€€=8=91%P€¡ÕÍ•É}¥°…ÉÑ¥±•}¥¤<9=Q!%9€°(€€€€€mÕÍ•È¹¥°¥‘t(€€€€¤ì((€€€É•ÑÕÉ¸ì…ÉÑ¥±•%è¥°™…Ù½É¥Ñ”èÑÉÕ”ôì(€ô¤ì((€…ÁÀ¹‘•±•Ñ”ñì(€€€A…É…µÌèì¥èÍÑÉ¥¹œôì(€ôø ˆ½…Á¤½½µÁ•¹‘¥Õ´½™…Ù½É¥Ñ•Ì¼é¥ˆ°…Íå¹Œ€¡É•ÅÕ•ÍĞ°É•Á±ä¤€ôøì(€€€½¹ÍĞÕÍ•È€ô…İ…¥ĞÉ•ÅÕ¥É•UÍ•È¡É•ÅÕ•ÍĞ°É•Á±ä¤ì(€€€¥˜€ …ÕÍ•È¤É•ÑÕÉ¸ì((€€€½¹ÍĞ¥€ôÉ•ÅÕ•ÍĞ¹Á…É…µÌ¹¥¹ÑÉ¥´ ¤ì(€€€¥˜€ …¥ñğ¥¹±•¹Ñ €ø€ÈĞÀ¤É•ÑÕÉ¸‰…¡É•Á±ä°€‰¥¹Ù…±¥‘}½µÁ•¹‘¥Õµ}…ÉÑ¥±•}¥ˆ¤ì((€€€…İ…¥ĞÁ½½°¹ÅÕ•Éä (€€€€€1QI=4½µÁ•¹‘¥Õµ}™…Ù½É¥Ñ•Ì(€€€€€€]!IÕÍ•É}¥€ô€Ä9…ÉÑ¥±•}¥€ô€É€°(€€€€€mÕÍ•È¹¥°¥‘t(€€€€¤ì((€€€É•ÑÕÉ¸ì…ÉÑ¥±•%è¥°™…Ù½É¥Ñ”è™…±Í”ôì(€ô¤ì((€…ÁÀ¹Á½ÍĞñì(€€€	½‘äèì¹…µ”üèÍÑÉ¥¹œôì(€ôø ˆ½…Á¤½½µÁ•¹‘¥Õ´½½±±•Ñ¥½¹Ìˆ°…Íå¹Œ€¡É•ÅÕ•ÍĞ°É•Á±ä¤€ôøì(€€€½¹ÍĞÕÍ•È€ô…İ…¥ĞÉ•ÅÕ¥É•UÍ•È¡É•ÅÕ•ÍĞ°É•Á±ä¤ì(€€€¥˜€ …ÕÍ•È¤É•ÑÕÉ¸ì((€€€½¹ÍĞ¹…µ”€ôÉ•ÅÕ•ÍĞ¹‰½‘äü¹¹…µ”ü¹ÑÉ¥´ ¤ì(€€€¥˜€ …Ù…±¥‘½±±•Ñ¥½¹9…µ”¡¹…µ”¤¤É•ÑÕÉ¸‰…¡É•Á±ä°€‰¥¹Ù…±¥‘}½±±•Ñ¥½¹}¹…µ”ˆ¤ì((€€€ÑÉäì(€€€€€½¹ÍĞÉ•ÍÕ±Ğ€ô…İ…¥ĞÁ½½°¹ÅÕ•Éäñì(€€€€€€€¥èÍÑÉ¥¹œì(€€€€€€€¹…µ”èÍÑÉ¥¹œì(€€€€€€€É•…Ñ•‘ĞèÍÑÉ¥¹œì(€€€€€€€ÕÁ‘…Ñ•‘ĞèÍÑÉ¥¹œì(€€€€€ôø (€€€€€€€%9MIP%9Q<½µÁ•¹‘¥Õµ}½±±•Ñ¥½¹Ì€¡½İ¹•É}¥°¹…µ”¤(€€€€€€€€Y1UL€ Ä°€È¤(€€€€€€€€IQUI9%9(€€€€€€€€€€¥°(€€€€€€€€€€¹…µ”°(€€€€€€€€€€É•…Ñ•‘}…ĞèéÑ•áĞL€‰É•…Ñ•‘Ğˆ°(€€€€€€€€€€ÕÁ‘…Ñ•‘}…ĞèéÑ•áĞL€‰ÕÁ‘…Ñ•‘Ğ‰€°(€€€€€€€mÕÍ•È¹¥°¹…µ•t(€€€€€€¤ì(€€€€€É•ÑÕÉ¸É•Á±ä¹½‘” ÈÀÄ¤¹Í•¹¡ì(€€€€€€€½±±•Ñ¥½¸èì€¸¸¹É•ÍÕ±Ğ¹É½İÍlÁt°…ÉÑ¥±•%‘Ìèmt°¥Ñ•µÌèmtô(€€€€€ô¤ì(€€€ô…Ñ €¡…ÕÍ”è…¹ä¤ì(€€€€€¥˜€¡…ÕÍ”ü¹½‘”€ôôô€ˆÈÌÔÀÔˆ¤ì(€€€€€€€É•ÑÕÉ¸É•Á±ä¹½‘” ĞÀä¤¹Í•¹¡ì•ÉÉ½Èè€‰½±±•Ñ¥½¹}¹…µ•}½¹™±¥Ğˆô¤ì(€€€€€ô(€€€€€Ñ¡É½Ü…ÕÍ”ì(€€€ô(€ô¤ì((€…ÁÀ¹Á…Ñ ñì(€€€A…É…µÌèì¥èÍÑÉ¥¹œôì(€€€	½‘äèì¹…µ”üèÍÑÉ¥¹œôì(€ôø ˆ½…Á¤½½µÁ•¹‘¥Õ´½½±±•Ñ¥½¹Ì¼é¥ˆ°…Íå¹Œ€¡É•ÅÕ•ÍĞ°É•Á±ä¤€ôøì(€€€½¹ÍĞÕÍ•È€ô…İ…¥ĞÉ•ÅÕ¥É•UÍ•È¡É•ÅÕ•ÍĞ°É•Á±ä¤ì(€€€¥˜€ …ÕÍ•È¤É•ÑÕÉ¸ì((€€€¥˜€ …UU%}I¹Ñ•ÍĞ¡É•ÅÕ•ÍĞ¹Á…É…µÌ¹¥¤¤É•ÑÕÉ¸‰…¡É•Á±ä°€‰¥¹Ù…±¥‘}½±±•Ñ¥½¹}¥ˆ¤ì(€€€½¹ÍĞ¹…µ”€ôÉ•ÅÕ•ÍĞ¹‰½‘äü¹¹…µ”ü¹ÑÉ¥´ ¤ì(€€€¥˜€ …Ù…±¥‘½±±•Ñ¥½¹9…µ”¡¹…µ”¤¤É•ÑÕÉ¸‰…¡É•Á±ä°€‰¥¹Ù…±¥‘}½±±•Ñ¥½¹}¹…µ”ˆ¤ì((€€€ÑÉäì(€€€€€½¹ÍĞÉ•ÍÕ±Ğ€ô…İ…¥ĞÁ½½°¹ÅÕ•Éäñì(€€€€€€€¥èÍÑÉ¥¹œì(€€€€€€€¹…µ”èÍÑÉ¥¹œì(€€€€€€€É•…Ñ•‘ĞèÍÑÉ¥¹œì(€€€€€€€ÕÁ‘…Ñ•‘ĞèÍÑÉ¥¹œì(€€€€€ôø (€€€€€€€UAQ½µÁ•¹‘¥Õµ}½±±•Ñ¥½¹Ì(€€€€€€€€MP¹…µ”€ô€Ä°ÕÁ‘…Ñ•‘}…Ğ€ô¹½Ü ¤(€€€€€€€€]!I¥€ô€È9½İ¹•É}¥€ô€Ì(€€€€€€€€IQUI9%9(€€€€€€€€€€¥°(€€€€€€€€€€¹…µ”°(€€€€€€€€€€É•…Ñ•‘}…ĞèéÑ•áĞL€‰É•…Ñ•‘Ğˆ°(€€€€€€€€€€ÕÁ‘…Ñ•‘}…ĞèéÑ•áĞL€‰ÕÁ‘…Ñ•‘Ğ‰€°(€€€€€€€m¹…µ”°É•ÅÕ•ÍĞ¹Á…É…µÌ¹¥°ÕÍ•È¹¥‘t(€€€€€€¤ì((€€€€€¥˜€ …É•ÍÕ±Ğ¹É½İÍlÁt¤ì(€€€€€€€É•ÑÕÉ¸É•Á±ä¹½‘” ĞÀĞ¤¹Í•¹¡ì•ÉÉ½Èè€‰½±±•Ñ¥½¹}¹½Ñ}™½Õ¹ˆô¤ì(€€€€€ô((€€€€€É•ÑÕÉ¸ì½±±•Ñ¥½¸èÉ•ÍÕ±Ğ¹É½İÍlÁtôì(€€€ô…Ñ €¡…ÕÍ”è…¹ä¤ì(€€€€€¥˜€¡…ÕÍ”ü¹½‘”€ôôô€ˆÈÌÔÀÔˆ¤ì(€€€€€€€É•ÑÕÉ¸É•Á±ä¹½‘” ĞÀä¤¹Í•¹¡ì•ÉÉ½Èè€‰½±±•Ñ¥½¹}¹…µ•}½¹™±¥Ğˆô¤ì(€€€€€ô(€€€€€Ñ¡É½Ü…ÕÍ”ì(€€€ô(€ô¤ì((€…ÁÀ¹‘•±•Ñ”ñì(€€€A…É…µÌèì¥èÍÑÉ¥¹œôì(€ôø ˆ½…Á¤½½µÁ•¹‘¥Õ´½½±±•Ñ¥½¹Ì¼é¥ˆ°…Íå¹Œ€¡É•ÅÕ•ÍĞ°É•Á±ä¤€ôøì(€€€½¹ÍĞÕÍ•È€ô…İ…¥ĞÉ•ÅÕ¥É•UÍ•È¡É•ÅÕ•ÍĞ°É•Á±ä¤ì(€€€¥˜€ …ÕÍ•È¤É•ÑÕÉ¸ì((€€€¥˜€ …UU%}I¹Ñ•ÍĞ¡É•ÅÕ•ÍĞ¹Á…É…µÌ¹¥¤¤É•ÑÕÉ¸‰…¡É•Á±ä°€‰¥¹Ù…±¥‘}½±±•Ñ¥½¹}¥ˆ¤ì((€€€½¹ÍĞÉ•ÍÕ±Ğ€ô…İ…¥ĞÁ½½°¹ÅÕ•Éä (€€€€€1QI=4½µÁ•¹‘¥Õµ}½±±•Ñ¥½¹Ì(€€€€€€]!I¥€ô€Ä9½İ¹•É}¥€ô€È(€€€€€€IQUI9%9¥‘€°(€€€€€mÉ•ÅÕ•ÍĞ¹Á…É…µÌ¹¥°ÕÍ•È¹¥‘t(€€€€¤ì((€€€¥˜€ …É•ÍÕ±Ğ¹É½İ½Õ¹Ğ¤ì(€€€€€É•ÑÕÉ¸É•Á±ä¹½‘” ĞÀĞ¤¹Í•¹¡ì•ÉÉ½Èè€‰½±±•Ñ¥½¹}¹½Ñ}™½Õ¹ˆô¤ì(€€€ô((€€€É•ÑÕÉ¸ì‘•±•Ñ•èÑÉÕ”°¥èÉ•ÅÕ•ÍĞ¹Á…É…µÌ¹¥ôì(€ô¤ì((€…ÁÀ¹ÁÕĞñì(€€€A…É…µÌèì½±±•Ñ¥½¹%èÍÑÉ¥¹œì…ÉÑ¥±•%èÍÑÉ¥¹œôì(€ôø ˆ½…Á¤½½µÁ•¹‘¥Õ´½½±±•Ñ¥½¹Ì¼é½±±•Ñ¥½¹%½…ÉÑ¥±•Ì¼é…ÉÑ¥±•%ˆ°…Íå¹Œ€¡É•ÅÕ•ÍĞ°É•Á±ä¤€ôøì(€€€½¹ÍĞÕÍ•È€ô…İ…¥ĞÉ•ÅÕ¥É•UÍ•È¡É•ÅÕ•ÍĞ°É•Á±ä¤ì(€€€¥˜€ …ÕÍ•È¤É•ÑÕÉ¸ì((€€€½¹ÍĞì½±±•Ñ¥½¹%ô€ôÉ•ÅÕ•ÍĞ¹Á…É…µÌì(€€€½¹ÍĞ…ÉÑ¥±•%€ôÉ•ÅÕ•ÍĞ¹Á…É…µÌ¹…ÉÑ¥±•%¹ÑÉ¥´ ¤ì(€€€¥˜€ …UU%}I¹Ñ•ÍĞ¡½±±•Ñ¥½¹%¤¤É•ÑÕÉ¸‰…¡É•Á±ä°€‰¥¹Ù…±¥‘}½±±•Ñ¥½¹}¥ˆ¤ì((€€€½¹ÍĞ½ÉÁÕÌ€ô…İ…¥Ğ•Ñ½ÉÁÕÌ ¤ì(€€€¥˜€ ……ÉÑ¥±•%ñğ…ÉÑ¥±•%¹±•¹Ñ €ø€ÈĞÀñğ€…½ÉÁÕÌ¹‰å%¹¡…Ì¡…ÉÑ¥±•%¤¤ì(€€€€€É•ÑÕÉ¸É•Á±ä¹½‘” ĞÀĞ¤¹Í•¹¡ì•ÉÉ½Èè€‰½µÁ•¹‘¥Õµ}…ÉÑ¥±•}¹½Ñ}™½Õ¹ˆô¤ì(€€€ô((€€€¥˜€ „¡…İ…¥Ğ½İ¹•‘½±±•Ñ¥½¸¡½±±•Ñ¥½¹%°ÕÍ•È¹¥¤¤¤ì(€€€€€É•ÑÕÉ¸É•Á±ä¹½‘” ĞÀĞ¤¹Í•¹¡ì•ÉÉ½Èè€‰½±±•Ñ¥½¹}¹½Ñ}™½Õ¹ˆô¤ì(€€€ô((€€€…İ…¥ĞÁ½½°¹ÅÕ•Éä (€€€€€%9MIP%9Q<½µÁ•¹‘¥Õµ}½±±•Ñ¥½¹}¥Ñ•µÌ€¡½±±•Ñ¥½¹}¥°…ÉÑ¥±•}¥¤(€€€€€€Y1UL€ Ä°€È¤(€€€€€€=8=91%P€¡½±±•Ñ¥½¹}¥°…ÉÑ¥±•}¥¤<9=Q!%9€°(€€€€€m½±±•Ñ¥½¹%°…ÉÑ¥±•%‘t(€€€€¤ì(€€€…İ…¥ĞÁ½½°¹ÅÕ•Éä (€€€€€UAQ½µÁ•¹‘¥Õµ}½±±•Ñ¥½¹Ì(€€€€€€MPÕÁ‘…Ñ•‘}…Ğ€ô¹½Ü ¤(€€€€€€]!I¥€ô€Å€°(€€€€€m½±±•Ñ¥½¹%‘t(€€€€¤ì((€€€É•ÑÕÉ¸ì½±±•Ñ¥½¹%°…ÉÑ¥±•%°¥¹±Õ‘•èÑÉÕ”ôì(€ô¤ì((€…ÁÀ¹‘•±•Ñ”ñì(€€€A…É…µÌèì½±±•Ñ¥½¹%èÍÑÉ¥¹œì…ÉÑ¥±•%èÍÑÉ¥¹œôì(€ôø ˆ½…Á¤½½µÁ•¹‘¥Õ´½½±±•Ñ¥½¹Ì¼é½±±•Ñ¥½¹%½…ÉÑ¥±•Ì¼é…ÉÑ¥±•%ˆ°…Íå¹Œ€¡É•ÅÕ•ÍĞ°É•Á±ä¤€ôøì(€€€½¹ÍĞÕÍ•È€ô…İ…¥ĞÉ•ÅÕ¥É•UÍ•È¡É•ÅÕ•ÍĞ°É•Á±ä¤ì(€€€¥˜€ …ÕÍ•È¤É•ÑÕÉ¸ì((€€€½¹ÍĞì½±±•Ñ¥½¹%ô€ôÉ•ÅÕ•ÍĞ¹Á…É…µÌì(€€€½¹ÍĞ…ÉÑ¥±•%€ôÉ•ÅÕ•ÍĞ¹Á…É…µÌ¹…ÉÑ¥±•%¹ÑÉ¥´ ¤ì(€€€¥˜€ …UU%}I¹Ñ•ÍĞ¡½±±•Ñ¥½¹%¤¤É•ÑÕÉ¸‰…¡É•Á±ä°€‰¥¹Ù…±¥‘}½±±•Ñ¥½¹}¥ˆ¤ì((€€€¥˜€ „¡…İ…¥Ğ½İ¹•‘½±±•Ñ¥½¸¡½±±•Ñ¥½¹%°ÕÍ•È¹¥¤¤¤ì(€€€€€É•ÑÕÉ¸É•Á±ä¹½‘” ĞÀĞ¤¹Í•¹¡ì•ÉÉ½Èè€‰½±±•Ñ¥½¹}¹½Ñ}™½Õ¹ˆô¤ì(€€€ô((€€€…İ…¥ĞÁ½½°¹ÅÕ•Éä (€€€€€1QI=4½µÁ•¹‘¥Õµ}½±±•Ñ¥½¹}¥Ñ•µÌ(€€€€€€]!I½±±•Ñ¥½¹}¥€ô€Ä9…ÉÑ¥±•}¥€ô€É€°(€€€€€m½±±•Ñ¥½¹%°…ÉÑ¥±•%‘t(€€€€¤ì(€€€…İ…¥ĞÁ½½°¹ÅÕ•Éä (€€€€€UAQ½µÁ•¹‘¥Õµ}½±±•Ñ¥½¹Ì(€€€€€€MPÕÁ‘…Ñ•‘}…Ğ€ô¹½Ü ¤(€€€€€€]!I¥€ô€Å€°(€€€€€m½±±•Ñ¥½¹%‘t(€€€€¤ì((€€€É•ÑÕÉ¸ì½±±•Ñ¥½¹%°…ÉÑ¥±•%°¥¹±Õ‘•è™…±Í”ôì(€ô¤ì((€…ÁÀ¹•Ğñì(€€€A…É…µÌèì€ˆ¨ˆèÍÑÉ¥¹œôì(€ôø ˆ½…Á¤½½µÁ•¹‘¥Õ´½µ•‘¥„¼¨ˆ°…Íå¹Œ€¡É•ÅÕ•ÍĞ°É•Á±ä¤€ôøì(€€€½¹ÍĞÉ•±…Ñ¥Ù”€ôÍ…™•5•‘¥…I•±…Ñ¥Ù•A…Ñ ¡MÑÉ¥¹œ¡É•ÅÕ•ÍĞ¹Á…É…µÍlˆ¨‰t€üü€ˆˆ¤¤ì(€€€¥˜€ …É•±…Ñ¥Ù”¤É•ÑÕÉ¸‰…¡É•Á±ä°€‰¥¹Ù…±¥‘}½µÁ•¹‘¥Õµ}µ•‘¥…}Á…Ñ ˆ¤ì((€€€ÑÉäì(€€€€€½¹ÍĞ‰½‘ä€ô…İ…¥ĞÉ•…‘¥±”¡É•Í½±Ù”¡=5A9%U5}5%}%H°É•±…Ñ¥Ù”¤¤ì(€€€€€É•Á±ä¹¡•…‘•È ‰½¹Ñ•¹ĞµQåÁ”ˆ°µ•‘¥…½¹Ñ•¹ÑQåÁ”¡É•±…Ñ¥Ù”¤¤ì(€€€€€É•Á±ä¹¡•…‘•È ‰…¡”µ½¹ÑÉ½°ˆ°€‰ÁÉ¥Ù…Ñ”°µ…àµ…”ôàØĞÀÀˆ¤ì(€€€€€É•ÑÕÉ¸É•Á±ä¹Í•¹¡‰½‘ä¤ì(€€€ô…Ñ ì(€€€€€É•ÑÕÉ¸É•Á±ä¹½‘” ĞÀĞ¤¹Í•¹¡ì•ÉÉ½Èè€‰½µÁ•¹‘¥Õµ}µ•‘¥…}¹½Ñ}™½Õ¹ˆô¤ì(€€€ô(€ô¤ì((€…ÁÀ¹•Ğñì(€€€A…É…µÌèì€ˆ¨ˆèÍÑÉ¥¹œôì(€ôø ˆ½…Á¤½½µÁ•¹‘¥Õ´½ÕÁ±½…‘Ì¼¨ˆ°…Íå¹Œ€¡É•ÅÕ•ÍĞ°É•Á±ä¤€ôøì(€€€½¹ÍĞ™¥±•¹…µ”€ôÍ…™•UÁ±½…‘¥±•¹…µ”¡MÑÉ¥¹œ¡É•ÅÕ•ÍĞ¹Á…É…µÍlˆ¨‰t€üü€ˆˆ¤¤ì(€€€¥˜€ …™¥±•¹…µ”¤É•ÑÕÉ¸‰…¡É•Á±ä°€‰¥¹Ù…±¥‘}½µÁ•¹‘¥Õµ}ÕÁ±½…‘}Á…Ñ ˆ¤ì((€€€ÑÉäì(€€€€€½¹ÍĞ‰½‘ä€ô…İ…¥ĞÉ•…‘¥±”¡É•Í½±Ù”¡=5A9%U5}UA1=}%H°™¥±•¹…µ”¤¤ì(€€€€€É•Á±ä¹¡•…‘•È ‰½¹Ñ•¹ĞµQåÁ”ˆ°µ•‘¥…½¹Ñ•¹ÑQåÁ”¡™¥±•¹…µ”¤¤ì(€€€€€É•Á±ä¹¡•…‘•È ‰…¡”µ½¹ÑÉ½°ˆ°€‰ÁÕ‰±¥Œ°µ…àµ…”ôÌÄÔÌØÀÀÀ°¥µµÕÑ…‰±”ˆ¤ì(€€€€€É•Á±ä¹¡•…‘•È ‰`µ½¹Ñ•¹ĞµQåÁ”µ=ÁÑ¥½¹Ìˆ°€‰¹½Í¹¥™˜ˆ¤ì(€€€€€É•ÑÕÉ¸É•Á±ä¹Í•¹¡‰½‘ä¤ì(€€€ô…Ñ ì(€€€€€É•ÑÕÉ¸É•Á±ä¹½‘” ĞÀĞ¤¹Í•¹¡ì•ÉÉ½Èè€‰½µÁ•¹‘¥Õµ}µ•‘¥…}¹½Ñ}™½Õ¹ˆô¤ì(€€€ô(€ô¤ì((€…ÁÀ¹Á½ÍĞñì(€€€A…É…µÌèì¥èÍÑÉ¥¹œôì(€€€	½‘äèì(€€€€€‘…Ñ„üèÍÑÉ¥¹œì(€€€€€Í±½Ğüè€‰Á…”ˆğ€‰Á½ÉÑÉ…¥Ğˆì(€€€ôì(€ôø (€€€€ˆ½…Á¤½½µÁ•¹‘¥Õ´½•‘¥Ñ½È½…ÉÑ¥±•Ì¼é¥½µ•‘¥„ˆ°(€€€ì‰½‘å1¥µ¥Ğè€ÈĞ€¨€ÄÀÈĞ€¨€ÄÀÈĞô°(€€€…Íå¹Œ€¡É•ÅÕ•ÍĞ°É•Á±ä¤€ôøì(€€€€€½¹ÍĞÕÍ•È€ô…İ…¥ĞÉ•ÅÕ¥É•‘¥Ñ½È¡É•ÅÕ•ÍĞ°É•Á±ä¤ì(€€€€€¥˜€ …ÕÍ•È¤É•ÑÕÉ¸ì((€€€€€½¹ÍĞ¥€ôMÑÉ¥¹œ¡É•ÅÕ•ÍĞ¹Á…É…µÌ¹¥€üü€ˆˆ¤¹ÑÉ¥´ ¤ì(€€€€€¥˜€ …¥ñğ¥¹±•¹Ñ €ø€ÈĞÀ¤É•ÑÕÉ¸‰…¡É•Á±ä°€‰¥¹Ù…±¥‘}½µÁ•¹‘¥Õµ}…ÉÑ¥±•}¥ˆ¤ì((€€€€€½¹ÍĞ½ÉÁÕÌ€ô…İ…¥Ğ•Ñ½ÉÁÕÌ ¤ì(€€€€€½¹ÍĞ…ÉÑ¥±”€ô…İ…¥Ğ•‘¥Ñ½ÉÕÉÉ•¹ÑÉÑ¥±”¡¥°½ÉÁÕÌ¤ì(€€€€€¥˜€ ……ÉÑ¥±”¤ì(€€€€€€€É•ÑÕÉ¸É•Á±ä¹½‘” ĞÀĞ¤¹Í•¹¡ì•ÉÉ½Èè€‰½µÁ•¹‘¥Õµ}…ÉÑ¥±•}¹½Ñ}™½Õ¹ˆô¤ì(€€€€€ô((€€€€€½¹ÍĞÍ±½Ğ€ôÉ•ÅÕ•ÍĞ¹‰½‘äü¹Í±½Ğ€ôôô€‰Á½ÉÑÉ…¥Ğˆ€ü€‰Á½ÉÑÉ…¥Ğˆ€è€‰Á…”ˆì(€€€€€½¹ÍĞ•¹½‘•€ôMÑÉ¥¹œ¡É•ÅÕ•ÍĞ¹‰½‘äü¹‘…Ñ„€üü€ˆˆ¤¹ÑÉ¥´ ¤ì(€€€€€¥˜€ …•¹½‘•¤É•ÑÕÉ¸‰…¡É•Á±ä°€‰½µÁ•¹‘¥Õµ}¥µ…•}É•ÅÕ¥É•ˆ¤ì(€€€€€¥˜€¡•¹½‘•¹±•¹Ñ €ø€ÈÄ€¨€ÄÀÈĞ€¨€ÄÀÈĞ¤ì(€€€€€€€É•ÑÕÉ¸É•Á±ä¹½‘” ĞÄÌ¤¹Í•¹¡ì•ÉÉ½Èè€‰½µÁ•¹‘¥Õµ}¥µ…•}Ñ½½}±…É”ˆô¤ì(€€€€€ô((€€€€€½¹ÍĞ‘…Ñ„€ô	Õ™™•È¹™É½´¡•¹½‘•°€‰‰…Í”ØĞˆ¤ì(€€€€€¥˜€ …‘…Ñ„¹±•¹Ñ ¤É•ÑÕÉ¸‰…¡É•Á±ä°€‰¥¹Ù…±¥‘}½µÁ•¹‘¥Õµ}¥µ…”ˆ¤ì(€€€€€¥˜€¡‘…Ñ„¹±•¹Ñ €ø€ÄÔ€¨€ÄÀÈĞ€¨€ÄÀÈĞ¤ì(€€€€€€€É•ÑÕÉ¸É•Á±ä¹½‘” ĞÄÌ¤¹Í•¹¡ì•ÉÉ½Èè€‰½µÁ•¹‘¥Õµ}¥µ…•}Ñ½½}±…É”ˆô¤ì(€€€€€ô((€€€€€½¹ÍĞ•áÑ•¹Í¥½¸€ôÕÁ±½…‘•‘%µ…•áÑ•¹Í¥½¸¡‘…Ñ„¤ì(€€€€€¥˜€ …•áÑ•¹Í¥½¸¤É•ÑÕÉ¸‰…¡É•Á±ä°€‰Õ¹ÍÕÁÁ½ÉÑ•‘}½µÁ•¹‘¥Õµ}¥µ…”ˆ¤ì((€€€€€½¹ÍĞÍ…™•%€ô¥¹É•Á±…” ½my„µéµhÀ´å|¸µt¬½œ°€ˆ´ˆ¤¹Í±¥” À°€ÄàÀ¤ì(€€€€€½¹ÍĞÑ½­•¸€ôÉ…¹‘½µ	åÑ•Ì Ô¤¹Ñ½MÑÉ¥¹œ ‰¡•àˆ¤ì(€€€€€½¹ÍĞ™¥±•¹…µ”€ô€‘íÍ…™•%‘ô´´‘íÍ±½Ñô´‘í…Ñ”¹¹½Ü ¥ô´‘íÑ½­•¹ô¸‘í•áÑ•¹Í¥½¹õ€ì((€€€€€…İ…¥Ğµ­‘¥È¡=5A9%U5}UA1=}%H°ìÉ•ÕÉÍ¥Ù”èÑÉÕ”ô¤ì(€€€€€…İ…¥ĞİÉ¥Ñ•¥±”¡É•Í½±Ù”¡=5A9%U5}UA1=}%H°™¥±•¹…µ”¤°‘…Ñ„°ì™±…œè€‰İàˆô¤ì((€€€€€É•ÑÕÉ¸É•Á±ä¹½‘” ÈÀÄ¤¹Í•¹¡ì(€€€€€€€ÍÉŒè€½…Á¤½½µÁ•¹‘¥Õ´½ÕÁ±½…‘Ì¼‘í™¥±•¹…µ•õ€°(€€€€€€€™¥±•¹…µ”°(€€€€€€€Í±½Ğ°(€€€€€€€½¹Ñ•¹ÑQåÁ”èµ•‘¥…½¹Ñ•¹ÑQåÁ”¡™¥±•¹…µ”¤°(€€€€€€€Í¥é”è‘…Ñ„¹±•¹Ñ (€€€€€ô¤ì(€€€ô(€€¤ì((€…ÁÀ¹Á½ÍĞñì(€€€	½‘äèì(€€€€€Ñ¥Ñ±”üèÍÑÉ¥¹œì(€€€€€…Ñ•½ÉäüèÍÑÉ¥¹œì(€€€€€Í½ÕÉ”üèÍÑÉ¥¹œì(€€€€€ÍÑ…ÑÕÌüèÍÑÉ¥¹œì(€€€€€Ñ…ÌüèÍÑÉ¥¹mtì(€€€ôì(€ôø ˆ½…Á¤½½µÁ•¹‘¥Õ´½•‘¥Ñ½È½…ÉÑ¥±•Ìˆ°…Íå¹Œ€¡É•ÅÕ•ÍĞ°É•Á±ä¤€ôøì(€€€½¹ÍĞÕÍ•È€ô…İ…¥ĞÉ•ÅÕ¥É•‘¥Ñ½È¡É•ÅÕ•ÍĞ°É•Á±ä¤ì(€€€¥˜€ …ÕÍ•È¤É•ÑÕÉ¸ì((€€€½¹ÍĞÑ¥Ñ±”€ôMÑÉ¥¹œ¡É•ÅÕ•ÍĞ¹‰½‘äü¹Ñ¥Ñ±”€üü€ˆˆ¤¹ÑÉ¥´ ¤ì(€€€½¹ÍĞ…Ñ•½Éä€ôMÑÉ¥¹œ¡É•ÅÕ•ÍĞ¹‰½‘äü¹…Ñ•½Éä€üü€‰K¥…±¥Ó¤ˆ¤¹ÑÉ¥´ ¤ñğ€‰K¥…±¥Ó¤ˆì(€€€½¹ÍĞÍ½ÕÉ”€ôMÑÉ¥¹œ¡É•ÅÕ•ÍĞ¹‰½‘äü¹Í½ÕÉ”€üü€ˆˆ¤¹ÑÉ¥´ ¤ì(€€€½¹ÍĞÍÑ…ÑÕÌ€ôMÑÉ¥¹œ¡É•ÅÕ•ÍĞ¹‰½‘äü¹ÍÑ…ÑÕÌ€üü€‰…¹½¹}•¹É¥¡¤ˆ¤¹ÑÉ¥´ ¤ñğ€‰…¹½¹}•¹É¥¡¤ˆì(€€€½¹ÍĞÑ…Ì€ôÉÉ…ä¹¥ÍÉÉ…ä¡É•ÅÕ•ÍĞ¹‰½‘äü¹Ñ…Ì¤(€€€€€€üÉ•ÅÕ•ÍĞ¹‰½‘ä¹Ñ…Ì¹µ…À ¡Ñ…œ¤€ôøMÑÉ¥¹œ¡Ñ…œ¤¹ÑÉ¥´ ¤¤¹™¥±Ñ•È¡	½½±•…¸¤¹Í±¥” À°€ÄÀÀ¤(€€€€€€èmtì((€€€¥˜€ …Ñ¥Ñ±”ñğÑ¥Ñ±”¹±•¹Ñ €ø€ÈĞÀ¤É•ÑÕÉ¸‰…¡É•Á±ä°€‰¥¹Ù…±¥‘}½µÁ•¹‘¥Õµ}…ÉÑ¥±•}Ñ¥Ñ±”ˆ¤ì((€€€½¹ÍĞÍ±Õœ€ôÍ±Õ¥™åÉÑ¥±•Q¥Ñ±”¡Ñ¥Ñ±”¤ì(€€€¥˜€ …Í±Õœ¤É•ÑÕÉ¸‰…¡É•Á±ä°€‰¥¹Ù…±¥‘}½µÁ•¹‘¥Õµ}…ÉÑ¥±•}Ñ¥Ñ±”ˆ¤ì((€€€½¹ÍĞ½ÉÁÕÌ€ô…İ…¥Ğ•Ñ½ÉÁÕÌ ¤ì(€€€±•Ğ¥€ôİ¥­¤´‘íÍ±Õõ€ì(€€€±•ĞÍÕ™™¥à€ô€Èì(€€€İ¡¥±”€ (€€€€€½ÉÁÕÌ¹‰å%¹¡…Ì¡¥¤ñğ(€€€€€€¡…İ…¥ĞÁ½½°¹ÅÕ•Éä ‰M1P€ÄI=4½µÁ•¹‘¥Õµ}ÕÍÑ½µ}…ÉÑ¥±•Ì]!I…ÉÑ¥±•}¥€ô€Äˆ°m¥‘t¤¤¹É½İ½Õ¹Ğ(€€€€¤ì(€€€€€¥€ôİ¥­¤´‘íÍ±Õô´‘íÍÕ™™¥áõ€ì(€€€€€ÍÕ™™¥à€¬ô€Äì(€€€ô((€€€½¹ÍĞ‰…Í”èÉÑ¥±”€ôì(€€€€€¥°(€€€€€Ñ¥Ñ±”°(€€€€€…Ñ•½Éä°(€€€€€Í½ÕÉ•…Ñ•½Éäè…Ñ•½Éä°(€€€€€‘…Ñ…Í•Ğè€‰ÕÍÑ½´ˆ°(€€€€€Í½ÕÉ”°(€€€€€ÍÑ…ÑÕÌ°(€€€€€Ñ…Ì°(€€€€€Í•Ñ¥½¹Ìèmt(€€€ôì(€€€½¹ÍĞ‰…Í•!…Í €ô…ÉÑ¥±•!…Í ¡‰…Í”¤ì((€€€½¹ÍĞ±¥•¹Ğ€ô…İ…¥ĞÁ½½°¹½¹¹•Ğ ¤ì(€€€ÑÉäì(€€€€€…İ…¥Ğ±¥•¹Ğ¹ÅÕ•Éä ‰	%8ˆ¤ì(€€€€€…İ…¥Ğ±¥•¹Ğ¹ÅÕ•Éä (€€€€€€€%9MIP%9Q<½µÁ•¹‘¥Õµ}ÕÍÑ½µ}…ÉÑ¥±•Ì(€€€€€€€€€€€¡…ÉÑ¥±•}¥°‰…Í•}‘½Õµ•¹Ğ°É•…Ñ•‘}‰ä¤(€€€€€€€€Y1UL€ Ä°€Èèé©Í½¹ˆ°€Ì¥€°(€€€€€€€m¥°)M=8¹ÍÑÉ¥¹¥™ä¡‰…Í”¤°ÕÍ•È¹¥‘t(€€€€€€¤ì(€€€€€…İ…¥Ğ±¥•¹Ğ¹ÅÕ•Éä (€€€€€€€%9MIP%9Q<½µÁ•¹‘¥Õµ}…ÉÑ¥±•}•‘¥ÑÌ(€€€€€€€€€€€¡…ÉÑ¥±•}¥°‰…Í•}¡…Í °‘É…™Ğ°‘É…™Ñ}‰ä°‘É…™Ñ}ÕÁ‘…Ñ•‘}…Ğ°ÕÁ‘…Ñ•‘}…Ğ¤(€€€€€€€€Y1UL€ Ä°€È°€Ìèé©Í½¹ˆ°€Ğ°¹½Ü ¤°¹½Ü ¤¥€°(€€€€€€€m¥°‰…Í•!…Í °)M=8¹ÍÑÉ¥¹¥™ä¡‰…Í”¤°ÕÍ•È¹¥‘t(€€€€€€¤ì(€€€€€…İ…¥Ğ±¥•¹Ğ¹ÅÕ•Éä ‰=55%Pˆ¤ì(€€€ô…Ñ €¡…ÕÍ”¤ì(€€€€€…İ…¥Ğ±¥•¹Ğ¹ÅÕ•Éä ‰I=11	,ˆ¤¹…Ñ   ¤€ôøÕ¹‘•™¥¹•¤ì(€€€€€Ñ¡É½Ü…ÕÍ”ì(€€€ô™¥¹…±±äì(€€€€€±¥•¹Ğ¹É•±•…Í” ¤ì(€€€ô((€€€É•ÑÕÉ¸É•Á±ä¹½‘” ÈÀÄ¤¹Í•¹¡ì…ÉÑ¥±•%è¥°…ÉÑ¥±”è‰…Í”ô¤ì(€ô¤ì((€…ÁÀ¹•Ğñì(€€€A…É…µÌèì¥èÍÑÉ¥¹œôì(€ôø ˆ½…Á¤½½µÁ•¹‘¥Õ´½•‘¥Ñ½È½…ÉÑ¥±•Ì¼é¥ˆ°…Íå¹Œ€¡É•ÅÕ•ÍĞ°É•Á±ä¤€ôøì(€€€½¹ÍĞÕÍ•È€ô…İ…¥ĞÉ•ÅÕ¥É•‘¥Ñ½È¡É•ÅÕ•ÍĞ°É•Á±ä¤ì(€€€¥˜€ …ÕÍ•È¤É•ÑÕÉ¸ì((€€€½¹ÍĞ¥€ôÉ•ÅÕ•ÍĞ¹Á…É…µÌ¹¥¹ÑÉ¥´ ¤ì(€€€½¹ÍĞ½ÉÁÕÌ€ô…İ…¥Ğ•Ñ½ÉÁÕÌ ¤ì(€€€½¹ÍĞ…ÉÑ¥±”€ô…İ…¥Ğ•‘¥Ñ½ÉÕÉÉ•¹ÑÉÑ¥±”¡¥°½ÉÁÕÌ¤ì(€€€½¹ÍĞ‰…Í”€ô…İ…¥Ğ•‘¥Ñ½É	…Í•½È¡¥°½ÉÁÕÌ¤ì(€€€¥˜€ ……ÉÑ¥±”ñğ€…‰…Í”¤ì(€€€€€É•ÑÕÉ¸É•Á±ä¹½‘” ĞÀĞ¤¹Í•¹¡ì•ÉÉ½Èè€‰½µÁ•¹‘¥Õµ}…ÉÑ¥±•}¹½Ñ}™½Õ¹ˆô¤ì(€€€ô((€€€½¹ÍĞÍÑ…Ñ”€ô…İ…¥ĞÁ½½°¹ÅÕ•Éäñì(€€€€€‰…Í•!…Í èÍÑÉ¥¹œì(€€€€€‘É…™ĞèÉÑ¥±”ğ¹Õ±°ì(€€€€€‘É…™ÑUÁ‘…Ñ•‘ĞèÍÑÉ¥¹œğ¹Õ±°ì(€€€€€ÁÕ‰±¥Í¡•‘ĞèÍÑÉ¥¹œğ¹Õ±°ì(€€€ôø (€€€€€M1P(€€€€€€€€‰…Í•}¡…Í L€‰‰…Í•!…Í ˆ°(€€€€€€€€‘É…™Ğ°(€€€€€€€€‘É…™Ñ}ÕÁ‘…Ñ•‘}…ĞèéÑ•áĞL€‰‘É…™ÑUÁ‘…Ñ•‘Ğˆ°(€€€€€€€€ÁÕ‰±¥Í¡•‘}…ĞèéÑ•áĞL€‰ÁÕ‰±¥Í¡•‘Ğˆ(€€€€€€I=4½µÁ•¹‘¥Õµ}…ÉÑ¥±•}•‘¥ÑÌ(€€€€€€]!I…ÉÑ¥±•}¥€ô€Å€°(€€€€€m¥‘t(€€€€¤ì((€€€½¹ÍĞÉ½Ü€ôÍÑ…Ñ”¹É½İÍlÁt€üü¹Õ±°ì(€€€½¹ÍĞÁÕ‰±¥ÉÑ¥±”€ô‘••Á±½¹”¡…ÉÑ¥±”¤ì(€€€‘•±•Ñ”ÁÕ‰±¥ÉÑ¥±”¹}}Í•…É¡Q•áĞì((€€€É•ÑÕÉ¸ì(€€€€€…ÉÑ¥±”èÁÕ‰±¥ÉÑ¥±”°(€€€€€‰…Í•!…Í è‰…Í”¹¡…Í °(€€€€€‘É…™ĞèÉ½Üü¹‘É…™Ğ€üü¹Õ±°°(€€€€€‘É…™ÑUÁ‘…Ñ•‘ĞèÉ½Üü¹‘É…™ÑUÁ‘…Ñ•‘Ğ€üü¹Õ±°°(€€€€€ÁÕ‰±¥Í¡•‘ĞèÉ½Üü¹ÁÕ‰±¥Í¡•‘Ğ€üü¹Õ±°°(€€€€€½¹™±¥Ğè	½½±•…¸¡É½Ü€˜˜É½Ü¹‰…Í•!…Í €„ôô‰…Í”¹¡…Í ¤(€€€ôì(€ô¤ì((€…ÁÀ¹ÁÕĞñì(€€€A…É…µÌèì¥èÍÑÉ¥¹œôì(€€€	½‘äèì…ÉÑ¥±”üèÉÑ¥±”ôì(€ôø ˆ½…Á¤½½µÁ•¹‘¥Õ´½•‘¥Ñ½È½…ÉÑ¥±•Ì¼é¥½‘É…™Ğˆ°…Íå¹Œ€¡É•ÅÕ•ÍĞ°É•Á±ä¤€ôøì(€€€½¹ÍĞÕÍ•È€ô…İ…¥ĞÉ•ÅÕ¥É•‘¥Ñ½È¡É•ÅÕ•ÍĞ°É•Á±ä¤ì(€€€¥˜€ …ÕÍ•È¤É•ÑÕÉ¸ì((€€€½¹ÍĞ¥€ôÉ•ÅÕ•ÍĞ¹Á…É…µÌ¹¥¹ÑÉ¥´ ¤ì(€€€½¹ÍĞ½ÉÁÕÌ€ô…İ…¥Ğ•Ñ½ÉÁÕÌ ¤ì(€€€½¹ÍĞÕÉÉ•¹Ğ€ô…İ…¥Ğ•‘¥Ñ½ÉÕÉÉ•¹ÑÉÑ¥±”¡¥°½ÉÁÕÌ¤ì(€€€½¹ÍĞ‰…Í”€ô…İ…¥Ğ•‘¥Ñ½É	…Í•½È¡¥°½ÉÁÕÌ¤ì(€€€¥˜€ …ÕÉÉ•¹Ğñğ€…‰…Í”¤ì(€€€€€É•ÑÕÉ¸É•Á±ä¹½‘” ĞÀĞ¤¹Í•¹¡ì•ÉÉ½Èè€‰½µÁ•¹‘¥Õµ}…ÉÑ¥±•}¹½Ñ}™½Õ¹ˆô¤ì(€€€ô((€€€¥˜€ …Ù…±¥‘‘¥Ñ…‰±•ÉÑ¥±”¡É•ÅÕ•ÍĞ¹‰½‘äü¹…ÉÑ¥±”¤¤ì(€€€€€É•ÑÕÉ¸‰…¡É•Á±ä°€‰¥¹Ù…±¥‘}½µÁ•¹‘¥Õµ}…ÉÑ¥±”ˆ¤ì(€€€ô((€€€½¹ÍĞ‘É…™Ğ€ô•‘¥Ñ…‰±•ÉÑ¥±”¡ÕÉÉ•¹Ğ°É•ÅÕ•ÍĞ¹‰½‘ä¹…ÉÑ¥±”¤ì(€€€…İ…¥ĞÁ½½°¹ÅÕ•Éä (€€€€€%9MIP%9Q<½µÁ•¹‘¥Õµ}…ÉÑ¥±•}•‘¥ÑÌ(€€€€€€€€€¡…ÉÑ¥±•}¥°‰…Í•}¡…Í °‘É…™Ğ°‘É…™Ñ}‰ä°‘É…™Ñ}ÕÁ‘…Ñ•‘}…Ğ°ÕÁ‘…Ñ•‘}…Ğ¤(€€€€€€Y1UL€ Ä°€È°€Ìèé©Í½¹ˆ°€Ğ°¹½Ü ¤°¹½Ü ¤¤(€€€€€€=8=91%P€¡…ÉÑ¥±•}¥¤<UAQMP(€€€€€€€€‰…Í•}¡…Í €ôa1U¹‰…Í•}¡…Í °(€€€€€€€€‘É…™Ğ€ôa1U¹‘É…™Ğ°(€€€€€€€€‘É…™Ñ}‰ä€ôa1U¹‘É…™Ñ}‰ä°(€€€€€€€€‘É…™Ñ}ÕÁ‘…Ñ•‘}…Ğ€ô¹½Ü ¤°(€€€€€€€€ÕÁ‘…Ñ•‘}…Ğ€ô¹½Ü ¥€°(€€€€€m¥°‰…Í”¹¡…Í °)M=8¹ÍÑÉ¥¹¥™ä¡‘É…™Ğ¤°ÕÍ•È¹¥‘t(€€€€¤ì((€€€É•ÑÕÉ¸ì…ÉÑ¥±•%è¥°‘É…™Ğ°Í…Ù•èÑÉÕ”ôì(€ô¤ì((€…ÁÀ¹‘•±•Ñ”ñì(€€€A…É…µÌèì¥èÍÑÉ¥¹œôì(€ôø ˆ½…Á¤½½µÁ•¹‘¥Õ´½•‘¥Ñ½È½…ÉÑ¥±•Ì¼é¥½‘É…™Ğˆ°…Íå¹Œ€¡É•ÅÕ•ÍĞ°É•Á±ä¤€ôøì(€€€½¹ÍĞÕÍ•È€ô…İ…¥ĞÉ•ÅÕ¥É•‘¥Ñ½È¡É•ÅÕ•ÍĞ°É•Á±ä¤ì(€€€¥˜€ …ÕÍ•È¤É•ÑÕÉ¸ì((€€€½¹ÍĞ¥€ôÉ•ÅÕ•ÍĞ¹Á…É…µÌ¹¥¹ÑÉ¥´ ¤ì(€€€…İ…¥ĞÁ½½°¹ÅÕ•Éä (€€€€€UAQ½µÁ•¹‘¥Õµ}…ÉÑ¥±•}•‘¥ÑÌ(€€€€€€MP‘É…™Ğ€ô9U10°(€€€€€€€€€€‘É…™Ñ}‰ä€ô9U10°(€€€€€€€€€€‘É…™Ñ}ÕÁ‘…Ñ•‘}…Ğ€ô9U10°(€€€€€€€€€€ÕÁ‘…Ñ•‘}…Ğ€ô¹½Ü ¤(€€€€€€]!I…ÉÑ¥±•}¥€ô€Å€°(€€€€€m¥‘t(€€€€¤ì(€€€É•ÑÕÉ¸ì…ÉÑ¥±•%è¥°‘É…™Ğè¹Õ±°ôì(€ô¤ì((€…ÁÀ¹Á½ÍĞñì(€€€A…É…µÌèì¥èÍÑÉ¥¹œôì(€ôø ˆ½…Á¤½½µÁ•¹‘¥Õ´½•‘¥Ñ½È½…ÉÑ¥±•Ì¼é¥½ÁÕ‰±¥Í ˆ°…Íå¹Œ€¡É•ÅÕ•ÍĞ°É•Á±ä¤€ôøì(€€€½¹ÍĞÕÍ•È€ô…İ…¥ĞÉ•ÅÕ¥É•‘¥Ñ½È¡É•ÅÕ•ÍĞ°É•Á±ä¤ì(€€€¥˜€ …ÕÍ•È¤É•ÑÕÉ¸ì((€€€½¹ÍĞ¥€ôÉ•ÅÕ•ÍĞ¹Á…É…µÌ¹¥¹ÑÉ¥´ ¤ì(€€€½¹ÍĞ½ÉÁÕÌ€ô…İ…¥Ğ•Ñ½ÉÁÕÌ ¤ì(€€€½¹ÍĞ‰…Í”€ô…İ…¥Ğ•‘¥Ñ½É	…Í•½È¡¥°½ÉÁÕÌ¤ì(€€€¥˜€ …‰…Í”¤É•ÑÕÉ¸É•Á±ä¹½‘” ĞÀĞ¤¹Í•¹¡ì•ÉÉ½Èè€‰½µÁ•¹‘¥Õµ}…ÉÑ¥±•}¹½Ñ}™½Õ¹ˆô¤ì((€€€½¹ÍĞ±¥•¹Ğ€ô…İ…¥ĞÁ½½°¹½¹¹•Ğ ¤ì(€€€ÑÉäì(€€€€€…İ…¥Ğ±¥•¹Ğ¹ÅÕ•Éä ‰	%8ˆ¤ì(€€€€€½¹ÍĞÍÑ…Ñ”€ô…İ…¥Ğ±¥•¹Ğ¹ÅÕ•Éäñì(€€€€€€€‰…Í•!…Í èÍÑÉ¥¹œì(€€€€€€€‘É…™ĞèÉÑ¥±”ğ¹Õ±°ì(€€€€€ôø (€€€€€€€M1P‰…Í•}¡…Í L€‰‰…Í•!…Í ˆ°‘É…™Ğ(€€€€€€€€I=4½µÁ•¹‘¥Õµ}…ÉÑ¥±•}•‘¥ÑÌ(€€€€€€€€]!I…ÉÑ¥±•}¥€ô€Ä(€€€€€€€€=HUAQ€°(€€€€€€€m¥‘t(€€€€€€¤ì(€€€€€½¹ÍĞÉ½Ü€ôÍÑ…Ñ”¹É½İÍlÁtì(€€€€€¥˜€ …É½Üü¹‘É…™Ğ¤ì(€€€€€€€…İ…¥Ğ±¥•¹Ğ¹ÅÕ•Éä ‰I=11	,ˆ¤ì(€€€€€€€É•ÑÕÉ¸É•Á±ä¹½‘” ĞÀä¤¹Í•¹¡ì•ÉÉ½Èè€‰½µÁ•¹‘¥Õµ}‘É…™Ñ}É•ÅÕ¥É•ˆô¤ì(€€€€€ô(€€€€€¥˜€¡É½Ü¹‰…Í•!…Í €„ôô‰…Í”¹¡…Í ¤ì(€€€€€€€…İ…¥Ğ±¥•¹Ğ¹ÅÕ•Éä ‰I=11	,ˆ¤ì(€€€€€€€É•ÑÕÉ¸É•Á±ä¹½‘” ĞÀä¤¹Í•¹¡ì•ÉÉ½Èè€‰½µÁ•¹‘¥Õµ}Í½ÕÉ•}¡…¹•ˆô¤ì(€€€€€ô((€€€€€…İ…¥Ğ±¥•¹Ğ¹ÅÕ•Éä (€€€€€€€%9MIP%9Q<½µÁ•¹‘¥Õµ}…ÉÑ¥±•}•‘¥Ñ}É•Ù¥Í¥½¹Ì(€€€€€€€€€€€¡…ÉÑ¥±•}¥°‰…Í•}¡…Í °‘½Õµ•¹Ğ°ÁÕ‰±¥Í¡•‘}‰ä¤(€€€€€€€€Y1UL€ Ä°€È°€Ìèé©Í½¹ˆ°€Ğ¥€°(€€€€€€€m¥°‰…Í”¹¡…Í °)M=8¹ÍÑÉ¥¹¥™ä¡É½Ü¹‘É…™Ğ¤°ÕÍ•È¹¥‘t(€€€€€€¤ì((€€€€€…İ…¥Ğ±¥•¹Ğ¹ÅÕ•Éä (€€€€€€€UAQ½µÁ•¹‘¥Õµ}…ÉÑ¥±•}•‘¥ÑÌ(€€€€€€€€MPÁÕ‰±¥Í¡•€ô‘É…™Ğ°(€€€€€€€€€€€€ÁÕ‰±¥Í¡•‘}‰ä€ô€È°(€€€€€€€€€€€€ÁÕ‰±¥Í¡•‘}…Ğ€ô¹½Ü ¤°(€€€€€€€€€€€€‘É…™Ğ€ô9U10°(€€€€€€€€€€€€‘É…™Ñ}‰ä€ô9U10°(€€€€€€€€€€€€‘É…™Ñ}ÕÁ‘…Ñ•‘}…Ğ€ô9U10°(€€€€€€€€€€€€ÕÁ‘…Ñ•‘}…Ğ€ô¹½Ü ¤(€€€€€€€€]!I…ÉÑ¥±•}¥€ô€Å€°(€€€€€€€m¥°ÕÍ•È¹¥‘t(€€€€€€¤ì(€€€€€…İ…¥Ğ±¥•¹Ğ¹ÅÕ•Éä (€€€€€€€UAQ½µÁ•¹‘¥Õµ}ÕÍÑ½µ}…ÉÑ¥±•Ì(€€€€€€€€MP¥Í}ÁÕ‰±¥Í¡•€ôÑÉÕ”°(€€€€€€€€€€€€ÁÕ‰±¥Í¡•‘}…Ğ€ô=1M¡ÁÕ‰±¥Í¡•‘}…Ğ°¹½Ü ¤¤°(€€€€€€€€€€€€ÕÁ‘…Ñ•‘}…Ğ€ô¹½Ü ¤(€€€€€€€€]!I…ÉÑ¥±•}¥€ô€Å€°(€€€€€€€m¥‘t(€€€€€€¤ì(€€€€€…İ…¥Ğ±¥•¹Ğ¹ÅÕ•Éä ‰=55%Pˆ¤ì(€€€ô…Ñ €¡…ÕÍ”¤ì(€€€€€…İ…¥Ğ±¥•¹Ğ¹ÅÕ•Éä ‰I=11	,ˆ¤¹…Ñ   ¤€ôøÕ¹‘•™¥¹•¤ì(€€€€€Ñ¡É½Ü…ÕÍ”ì(€€€ô™¥¹…±±äì(€€€€€±¥•¹Ğ¹É•±•…Í” ¤ì(€€€ô((€€€½ÉÁÕÍAÉ½µ¥Í”€ô¹Õ±°ì(€€€½¹ÍĞÉ•™É•Í¡•€ô…İ…¥Ğ•Ñ½ÉÁÕÌ ¤ì(€€€½¹ÍĞ…ÉÑ¥±”€ôÉ•™É•Í¡•¹‰å%¹•Ğ¡¥¤ì(€€€¥˜€ ……ÉÑ¥±”¤É•ÑÕÉ¸É•Á±ä¹½‘” ĞÀĞ¤¹Í•¹¡ì•ÉÉ½Èè€‰½µÁ•¹‘¥Õµ}…ÉÑ¥±•}¹½Ñ}™½Õ¹ˆô¤ì(€€€½¹ÍĞÉ•ÍÕ±Ğ€ô‘••Á±½¹”¡…ÉÑ¥±”¤ì(€€€‘•±•Ñ”É•ÍÕ±Ğ¹}}Í•…É¡Q•áĞì(€€€É•ÑÕÉ¸ì…ÉÑ¥±”èÉ•ÍÕ±Ğ°ÁÕ‰±¥Í¡•èÑÉÕ”ôì(€ô¤ì((€…ÁÀ¹•Ğñì(€€€A…É…µÌèì¥èÍÑÉ¥¹œôì(€ôø ˆ½…Á¤½½µÁ•¹‘¥Õ´½…ÉÑ¥±•Ì¼é¥ˆ°…Íå¹Œ€¡É•ÅÕ•ÍĞ°É•Á±ä¤€ôøì(€€€½¹ÍĞ¥€ôÉ•ÅÕ•ÍĞ¹Á…É…µÌ¹¥¹ÑÉ¥´ ¤ì(€€€¥˜€ …¥ñğ¥¹±•¹Ñ €ø€ÈĞÀ¤É•ÑÕÉ¸‰…¡É•Á±ä°€‰¥¹Ù…±¥‘}½µÁ•¹‘¥Õµ}…ÉÑ¥±•}¥ˆ¤ì((€€€½¹ÍĞ½ÉÁÕÌ€ô…İ…¥Ğ•Ñ½ÉÁÕÌ ¤ì(€€€½¹ÍĞÕÍ•È€ô…İ…¥ĞÕÉÉ•¹ÑUÍ•È¡É•ÅÕ•ÍĞ¤ì(€€€½¹ÍĞ¥¹±Õ‘•5¨€ô…¹I•…‘5¨¡ÕÍ•Èü¹É½±”¤ì(€€€½¹ÍĞ…ÉÑ¥±”€ô€¡¥¹±Õ‘•5¨€ü½ÉÁÕÌ¹‰å%€è½ÉÁÕÌ¹ÁÕ‰±¥	å%¤¹•Ğ¡¥¤ì(€€€¥˜€ ……ÉÑ¥±”¤ì(€€€€€É•ÑÕÉ¸É•Á±ä¹½‘” ĞÀĞ¤¹Í•¹¡ì•ÉÉ½Èè€‰½µÁ•¹‘¥Õµ}…ÉÑ¥±•}¹½Ñ}™½Õ¹ˆô¤ì(€€€ô((€€€¥˜€ …¥¹±Õ‘•5¨¤ì(€€€€€½¹ÍĞì}}Í•…É¡Q•áĞè}Í•…É¡Q•áĞ°€¸¸¹ÁÕ‰±¥ÉÑ¥±”ô€ô…ÉÑ¥±”ì(€€€€€É•ÑÕÉ¸ì…ÉÑ¥±”èÁÕ‰±¥ÉÑ¥±”ôì(€€€ô(€€€É•ÑÕÉ¸ì…ÉÑ¥±”è…ÉÑ¥±•½ÉÕ‘¥•¹”¡…ÉÑ¥±”°ÑÉÕ”¤ôì(€ô¤ì)ô
