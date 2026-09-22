@@ -2932,6 +2932,12 @@ onBeforeUnmount(() => {
   color: #c5d4d9;
 }
 
+.article-paragraph.source-heading {
+  margin: 1.25rem 0 .35rem;
+  color: #d5e5e9;
+  font-weight: 700;
+}
+
 .article-paragraph.list {
   padding-left: 1rem;
   border-left: 2px solid rgba(43,146,255, .35);

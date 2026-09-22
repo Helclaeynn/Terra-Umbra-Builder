@@ -314,6 +314,7 @@ import {
 } from "./compendium-shi-qi.js";
 import { COMPENDIUM_SHI_QI_EDITORIAL_ARTICLES } from "./compendium-shi-qi-editorial.js";
 import { applyCompendiumPnjRepairs } from "./compendium-pnj-repairs.js";
+import { consolidateActivePnjSections } from "./compendium-pnj-consolidation.js";
 
 type JsonObject = Record<string, any>;
 export type Article = JsonObject & {
@@ -372,6 +373,15 @@ type Corpus = {
 };
 
 const LEGACY_CATEGORY = "OLD";
+// Conservative public Reality vocabulary while the PNJ taxonomy is curated.
+// Legacy tags outside this list can encode a hidden species or faction.
+const PUBLIC_PNJ_TAGS = new Set([
+  "pnj", "realite", "crawlers", "anti systeme", "neopunks", "freerunners",
+  "gundrivers", "deathrunners", "neurodivers", "meditechs", "fixers",
+  "insurges", "enders", "corporations", "corporatiste", "pegre",
+  "gouvernement", "police", "agences", "religions", "justice", "presidence",
+  "associatif", "mafia", "journalisme", "citoyens", "transport"
+]);
 // Opaque public slugs for protected civilian identities. The source IDs stay
 // stable for editorial overrides and existing references; public indexes use
 // these slugs, while article lookups continue to accept older links.
@@ -513,6 +523,10 @@ function articleForAudience(article: Article, includeMj: boolean): Article {
   if (!includeMj) {
     applyLoreQualityCleanup(result);
     removeInternalPublicMetadata(result);
+    delete result.secretTags;
+    if (result.category === "Personnages") {
+      result.tags = (result.tags ?? []).filter((tag: string) => PUBLIC_PNJ_TAGS.has(norm(tag)));
+    }
   }
   else delete result.__searchText;
   if (!includeMj && PROTECTED_PNJ_PUBLIC_IDS[article.id]) result.id = PROTECTED_PNJ_PUBLIC_IDS[article.id];
@@ -1712,7 +1726,8 @@ function flattenText(article: Article): string {
     article.title ?? "",
     article.source ?? "",
     String(article.manufacturer ?? ""),
-    ...(article.tags ?? [])
+    ...(article.tags ?? []),
+    ...(article.secretTags ?? [])
   ];
 
   const pnj = article.pnj as JsonObject | undefined;
@@ -3315,6 +3330,7 @@ async function loadCorpus(): Promise<Corpus> {
   }
 
   applyCompendiumPnjRepairs(byId);
+  consolidateActivePnjSections(byId);
 
   const navigation = new Map(
     [
@@ -3636,6 +3652,7 @@ function searchItem(article: Article, query: string) {
     group: navigation?.group ?? "",
     subgroup: navigation?.subgroup ?? "",
     tags: article.tags ?? [],
+    truthTags: article.secretTags ?? [],
     manufacturer: String(article.manufacturer ?? ""),
     edited: Boolean(article.__editorialOverride),
     snippet: articleSnippet(article, query)
@@ -3837,9 +3854,13 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
   }>("/api/compendium/search", async (request) => {
     const corpus = await getCorpus();
     const user = await currentUser(request);
-    const includeMj = canReadMj(user?.role);
+    // Reading an editor dossier and searching the whole occult corpus are
+    // distinct permissions. Administrators retain the GM search capability.
+    const includeMj = user?.role === "gm" || user?.role === "admin";
     const query = String(request.query.q ?? "").trim();
-    const normalizedQuery = norm(query);
+    const tagSyntax = /(?:^|\s)tag:(?:"([^"]+)"|(\S+))/gi;
+    const tagTerms = [...query.matchAll(tagSyntax)].map((match) => norm(match[1] ?? match[2])).filter(Boolean);
+    const normalizedQuery = norm(query.replace(tagSyntax, " "));
     const category = String(request.query.category ?? "").trim();
     const dataset = String(request.query.dataset ?? "").trim();
     const manufacturer = String(request.query.manufacturer ?? "").trim();
@@ -3862,6 +3883,13 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     if (manufacturer) {
       const normalizedManufacturer = norm(manufacturer);
       rows = rows.filter((article) => norm(article.manufacturer) === normalizedManufacturer);
+    }
+    if (tagTerms.length) {
+      rows = rows.filter((article) => {
+        const tags = [...(article.tags ?? []), ...(includeMj ? article.secretTags ?? [] : [])]
+          .map((tag) => norm(tag));
+        return tagTerms.every((term) => tags.some((tag) => tag.includes(term)));
+      });
     }
     if (tokens.length) {
       rows = rows.filter((article) => {
