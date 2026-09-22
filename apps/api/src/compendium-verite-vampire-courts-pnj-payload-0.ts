@@ -1837,7 +1837,7 @@ const PAYLOAD = [
       "real_name": "Sarah Kellington",
       "nom_verite": "Alukah",
       "race": "Vampire",
-      "age": "«50 ans » - 4364",
+      "age": "50 ans",
       "origine": "Américaine",
       "statut": "corporation : Nextar media",
       "statut_verite": "« Masque de l’occulte »",
@@ -1880,7 +1880,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«50 ans »"
+                "50 ans"
               ],
               [
                 "Affiliations",
@@ -1891,6 +1891,10 @@ const PAYLOAD = [
                 "Américaine"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Sarah Kellington dirige l’administration des chaînes de Nextar Media. Ancienne amante et amie du précédent directeur — le père de Gabriella Austin — elle s’oppose régulièrement à la présidente actuelle. Sa position est fragilisée par Lys, vedette majeure des chaînes, qui apprécie peu Sarah et reste au contraire proche de Gabriella. Sarah entretient également une amitié avec Tiana Hawkins, de Monarch System."
           }
         ]
       },
@@ -1931,7 +1935,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Sarah Kellington est la grande patronne de l’administration des chaines à Nextar , ancienne amante et amie du précédent directeur de la corporation, le père de Gabriella Austin, elle est une opposante régulière à la présidente. Elle a du mal néanmoins à tenir sa place, la Star de toutes les chaines, Lys, n’appréciant pas du tout sa directrice de branche et s’avère être une proche de la présidente. Elle est amie avec Tiana Hawkins, de Monarch system. Masque de l’occulte c’est une grande prêtresse vampirique qui s’assure que chaque vampire maitrise bien ses pouvoirs et possède quelques bases en magie, elle assure aussi l’enseignement de la magie aux Moroï assez importants dans l’Alghul. Née vers 2329 avant notre ère, cette prêtresse aida le prophète Marduk à tuer le Dive corrompu, Kingu qui protégeait le gouffre de Shaoggith (Tiamat), hélas l’élu divin ne voulait pas partager la gloire, il jeta toutes les prêtresses l’ayant aidé dans le gouffre. Elle en réchappa, mais la puissance de Shaoggith la corrompit. Nigsummu, un vampire, l’amena au « masque de la"
+            "text": "Sarah est en vérité Alukah, « Masque de l’Occulte » de l’Alghul. Grande prêtresse vampirique, elle veille à ce que chaque vampire maîtrise correctement ses pouvoirs et possède au moins quelques bases en magie ; elle assure aussi l’enseignement magique des Moroï importants de la Cour. Née vers 2329 avant notre ère, cette prêtresse aida le prophète Marduk à tuer le Dive corrompu Kingu qui protégeait le gouffre de Shaoggith — Tiamat. Marduk refusant de partager la gloire, il jeta les prêtresses qui l’avaient assisté dans le gouffre. Alukah survécut mais fut corrompue par la puissance de Shaoggith. Nigsummu, un vampire, l’amena alors au « Masque de la Honte », qui la sauva en la transformant parce que son sang le permettait."
           }
         ]
       },
