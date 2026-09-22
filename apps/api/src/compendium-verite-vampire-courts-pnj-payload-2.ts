@@ -1465,7 +1465,7 @@ const PAYLOAD = [
     "dataset": "verite-vampire-courts-pnj",
     "category": "Personnages",
     "sourceCategory": "Personnages",
-    "title": "kadeena Jackson",
+    "title": "Kadeena Jackson",
     "source": "Factions_Les cours vampiriques(1)(2).pdf",
     "status": "canon_source",
     "rebuildV2": true,
@@ -1478,18 +1478,26 @@ const PAYLOAD = [
     ],
     "pnj": {
       "completeness": "detailed",
-      "real_name": "kadeena Jackson",
-      "nom_verite": "Kealagoga",
+      "real_name": "Kadeena Jackson",
+      "nom_verite": "Kealaboga",
       "race": "Vampire",
-      "age": "« 31 ans » 321 ans",
+      "age": "31 ans",
       "origine": "Américaine",
       "statut": "Corporation : Aces",
-      "statut_verite": "« Makoko »",
+      "statut_verite": "Makoko",
       "organisation": "Oru Ayeraye",
       "relations": [],
       "identity_keys": [
-        "kadeena Jackson",
-        "Kealagoga"
+        "Kadeena Jackson",
+        "Kealaboga",
+        "Kealagoga",
+        "Keala",
+        "Kea"
+      ],
+      "aliases_source": [
+        "Kealagoga",
+        "Keala",
+        "Kea"
       ],
       "source_group": "Oru Ayeraye",
       "source_order": 48,
@@ -1497,7 +1505,7 @@ const PAYLOAD = [
         33,
         33
       ],
-      "source_designation": "en colère, il se révèle être un vampire tout à fait effrayant.",
+      "source_designation": "Makoko : Kealaboga",
       "source_reality_raw": "kadeena Jackson",
       "source_truth_raw": "Kealagoga",
       "source_extract": "en colère, il se révèle être un vampire tout à fait effrayant. Nom de la Réalité : kadeena Jackson Nom de la Vérité : Kealagoga Age : « 31 ans » 321 ans Affiliations : Corporation : Aces Nationalité d’origine : Américaine Ethnie réelle : Vampire Statut : « Makoko » Maison vampirique : Grootslang Kadeena est la vice-présidence d’Aces corporation, elle est officieusement la seule dirigeante, puisque le président est atteint de graves soucis mentaux, proche amie d’Elianna Knowles, la fille d’un des fondateurs de Aces, elle a été fortement déçue par l’échec que fut Masterky, la branche qu’Elianna dirigeait. Sans pitié et mythomane, elle ment constamment pour se faire aimer et bien voir des gens. Elle a un besoin énorme de reconnaissance et d’admiration du fait d’un manque profond d’estime pour elle￾même. Kealagoga est à la tête de la maison Grootslang, qui, comme son nom l’indique, est la maison du monstre éponyme. Keala est la petite fille de l’archidiacresse Temilade, elles descendent de l’archivampire « Sulwana ». C’est la seule femme détentrice du titre de Makoko à la cour de l’Oru Ayeraye, c’est un titre rude à porter, qui demande constamment de relever les défis de ses opposants au sein de sa maison, les vampires femelles ancienne visent plutôt le statut de reine généralement mais pas Kealagoga. Elle a longtemps été l’amante de Nayshya, prêtresse de l’alghul qui tentait de la recruter. Kea est une femme autoritaire, loin de manquer d’estime, elle est très ambitieuse pour sa Maison.",
@@ -1520,11 +1528,11 @@ const PAYLOAD = [
               ],
               [
                 "Nom / identité de Réalité",
-                "kadeena Jackson"
+                "Kadeena Jackson"
               ],
               [
                 "Âge apparent",
-                "« 31 ans » 321 ans"
+                "31 ans"
               ],
               [
                 "Affiliations",
@@ -1535,6 +1543,10 @@ const PAYLOAD = [
                 "Américaine"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Kadeena Jackson est vice-présidente d’Aces Corporation et, officieusement, sa seule véritable dirigeante, le président souffrant de graves troubles mentaux. Proche d’Elianna Knowles, fille de l’un des fondateurs d’Aces, elle a été très déçue par l’échec de Masterky, la branche que dirigeait son amie. Impitoyable et mythomane, Kadeena ment constamment pour susciter l’affection et l’approbation. Ce besoin de reconnaissance et d’admiration masque un profond manque d’estime d’elle-même."
           }
         ]
       },
@@ -1553,11 +1565,11 @@ const PAYLOAD = [
               ],
               [
                 "Nom de la Vérité",
-                "Kealagoga"
+                "Kealaboga"
               ],
               [
                 "Âge complet",
-                "« 31 ans » 321 ans"
+                "31 ans en apparence ; 321 ans"
               ],
               [
                 "Nature réelle",
@@ -1565,7 +1577,7 @@ const PAYLOAD = [
               ],
               [
                 "Statut vampirique",
-                "« Makoko »"
+                "Makoko"
               ],
               [
                 "Maison vampirique",
@@ -1575,7 +1587,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Kadeena est la vice-présidence d’Aces corporation, elle est officieusement la seule dirigeante, puisque le président est atteint de graves soucis mentaux, proche amie d’Elianna Knowles, la fille d’un des fondateurs de Aces, elle a été fortement déçue par l’échec que fut Masterky, la branche qu’Elianna dirigeait. Sans pitié et mythomane, elle ment constamment pour se faire aimer et bien voir des gens. Elle a un besoin énorme de reconnaissance et d’admiration du fait d’un manque profond d’estime pour elle￾même. Kealagoga est à la tête de la maison Grootslang, qui, comme son nom l’indique, est la maison du monstre éponyme. Keala est la petite fille de l’archidiacresse Temilade, elles descendent de l’archivampire « Sulwana ». C’est la seule femme détentrice du titre de Makoko à la cour de l’Oru Ayeraye, c’est un titre rude à porter, qui demande constamment de relever les défis de ses opposants au sein de sa maison, les vampires femelles ancienne visent plutôt le statut de reine généralement mais pas Kealagoga. Elle a longtemps été l’amante de Nayshya, prêtresse de l’alghul qui tentait de la recruter. Kea est une femme autoritaire, loin de manquer d’estime, elle est très ambitieuse pour sa Maison."
+            "text": "Kealaboga est à la tête de la maison Grootslang, nommée d’après le monstre éponyme. Petite-fille de l’archidiacresse Temilade, elle descend avec elle de l’archivampire Sulwana. Seule femme à détenir le titre de Makoko au sein de l’Oru Ayeraye, elle doit constamment relever les défis lancés par les opposants de sa propre maison ; les anciennes vampires visent généralement le statut de reine, mais ce n’est pas son cas. Elle fut longtemps l’amante de Nayshya, prêtresse de l’Alghul qui cherchait à la recruter. Autoritaire, ambitieuse pour sa maison et loin de manquer d’estime d’elle-même, Kealaboga révèle en Vérité un caractère très différent de sa façade publique."
           }
         ]
       },
