@@ -195,6 +195,10 @@ import {
   COMPENDIUM_VERITE_GRANDS_EXILES_HUNTER_ENRICHMENT
 } from "./compendium-verite-grands-exiles.js";
 import {
+  COMPENDIUM_VERITE_GRANDS_EXILES_HUB_LORE_SECTIONS,
+  COMPENDIUM_VERITE_GRANDS_EXILES_ARTICLE_LORE_SECTIONS
+} from "./compendium-verite-grands-exiles-lore.js";
+import {
   COMPENDIUM_VERITE_GRANDS_EXILES_PNJ_ARTICLES,
   COMPENDIUM_VERITE_GRANDS_EXILES_PNJ_NAVIGATION
 } from "./compendium-verite-grands-exiles-pnj.js";
@@ -2074,7 +2078,11 @@ async function loadCorpus(): Promise<Corpus> {
   for (const section of COMPENDIUM_VERITE_GRANDS_EXILES_HUB_SECTIONS) {
     const id = String(section?.id ?? "");
     if (!id || grandsExilesHubSectionIds.has(id)) continue;
-    grandsExilesHub.sections = [...(grandsExilesHub.sections ?? []), deepClone(section) as JsonObject];
+    const repairedSection = COMPENDIUM_VERITE_GRANDS_EXILES_HUB_LORE_SECTIONS[id] ?? section;
+    grandsExilesHub.sections = [
+      ...(grandsExilesHub.sections ?? []),
+      deepClone(repairedSection) as JsonObject
+    ];
     grandsExilesHubSectionIds.add(id);
   }
   grandsExilesHub.source = [
@@ -2092,7 +2100,12 @@ async function loadCorpus(): Promise<Corpus> {
   grandsExilesHub.rebuildV2 = true;
 
   for (const article of COMPENDIUM_VERITE_GRANDS_EXILES_ARTICLES) {
-    byId.set(String(article.id), deepClone(article) as Article);
+    const id = String(article.id);
+    const repairedSections = COMPENDIUM_VERITE_GRANDS_EXILES_ARTICLE_LORE_SECTIONS[id];
+    byId.set(
+      id,
+      deepClone(repairedSections ? { ...article, sections: repairedSections } : article) as Article
+    );
   }
 
   for (const article of COMPENDIUM_VERITE_HUNTERS_ARTICLES) {
