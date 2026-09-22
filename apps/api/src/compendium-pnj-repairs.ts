@@ -66,8 +66,176 @@ function repairClassicCrawlerOrganisations(byId: Map<string, A>) {
   ]);
 }
 
+// Corrections vérifiées sur les fiches actives, après les fusions documentaires.
+function repairFinalPnjSurfaces(byId: Map<string, A>) {
+  // Ces deux lignes de l'import V3 ne désignent aucun personnage.
+  byId.delete("pnj-080-section");
+  byId.delete("pnj-060-terre");
+
+  const racheyl = byId.get("personnages-points-rencontre-racheyl-rosemann");
+  if (racheyl) {
+    for (const section of racheyl.sections ?? []) {
+      if (section.audience === "mj") continue;
+      for (const block of section.blocks ?? []) {
+        if (block.type === "p" && typeof block.text === "string") {
+          block.text = block.text.replace(/\s*Sa nature artificielle d’Ashmyn K’Na reste MJ\./g, "");
+        }
+      }
+    }
+  }
+
+  const noah = byId.get("pnj-fleaux-focus-noah-brenneman-6-noah-brenneman");
+  if (noah) {
+    const hidden = (noah.sections ?? []).filter((section) => section.audience === "mj");
+    let dossier = hidden.find((section) => section.id === "dossier-mj-consolidation");
+    if (!dossier) {
+      dossier = { id: "dossier-mj-consolidation", title: "Informations MJ", audience: "mj", level: 2, blocks: [] };
+      noah.sections = [...(noah.sections ?? []), dossier];
+    }
+    for (const section of noah.sections ?? []) {
+      if (section.audience === "mj") continue;
+      const keep: J[] = [];
+      for (const block of section.blocks ?? []) {
+        if (block.type === "p" && /Rnael[’']gem|V[’']Aagor|fragments de V|Effismes|dimension de la matière noire/i.test(String(block.text ?? ""))) {
+          dossier.blocks.push(block);
+        } else keep.push(block);
+      }
+      section.blocks = keep;
+    }
+  }
+
+  const amunthosis = byId.get("personnages-verite-chasseurs-aymn-salib");
+  if (amunthosis) amunthosis.title = "Aymn Salib";
+
+  const mira = byId.get("pnj-fleaux-focus-mira-stephens-5-mir-a-stephens");
+  if (mira) {
+    mira.title = "Mira Stephens";
+    // Ces deux sections sont déjà recopiées dans le dossier Focus Fléaux MJ.
+    mira.sections = (mira.sections ?? []).filter((section) => !["pnj-095-s1", "pnj-095-s2"].includes(section.id));
+  }
+
+  const olisha = byId.get("personnages-verite-extraterrestres-olishia-harmon");
+  if (olisha) {
+    let dossier = (olisha.sections ?? []).find((section) => section.id === "dossier-mj-parentage");
+    if (!dossier) {
+      dossier = { id: "dossier-mj-parentage", title: "Parentage protégé", audience: "mj", level: 2, blocks: [] };
+      olisha.sections = [...(olisha.sections ?? []), dossier];
+    }
+    for (const section of olisha.sections ?? []) {
+      if (section.audience === "mj") continue;
+      section.blocks = (section.blocks ?? []).filter((block: J) => {
+        if (block.type !== "p" || !/Kelford Bentley|père n’est autre que Kelford/i.test(String(block.text ?? ""))) return true;
+        dossier.blocks.push(block);
+        return false;
+      });
+    }
+  }
+
+  // Chaque identifiant ci-dessous a été contrôlé : la section indiquée contient
+  // des phrases d'un même paragraphe coupées à la mise en page de la source.
+  const fragmented = new Set([
+    "pnj-police-ryan-isaiah-burton", "pnj-police-ryan-rowe", "pnj-police-kristina-ruiz",
+    "pnj-police-osheena-payne", "pnj-police-todd-larsen", "pnj-police-calvin-barron",
+    "pnj-police-arthur-bartram", "pnj-police-casey-vaughn",
+    "pnj-crawlers-docx-adam-nevine-qigang-xuyin-carmello-shen", "pnj-crawlers-docx-brittany-smith-cavaletty",
+    "pnj-crawlers-docx-shuren-shi", "pnj-crawlers-docx-zeeka-steele", "pnj-crawlers-docx-jacob-delisle",
+    "pnj-crawlers-docx-henry-edwards", "pnj-crawlers-docx-josefin-drescher", "pnj-crawlers-docx-stella-hardin",
+    "pnj-crawlers-docx-karl-henry", "pnj-crawlers-docx-hailey-powell", "pnj-crawlers-docx-jakeline-bates",
+    "pnj-crawlers-docx-tia-reynolds", "pnj-crawlers-docx-carlos-saez", "pnj-crawlers-docx-kiandra-price",
+    "pnj-crawlers-docx-goro-kazuma", "pnj-crawlers-docx-zoya-ryukana", "pnj-crawlers-docx-rayne-carter",
+    "pnj-crawlers-docx-domingo-valerio", "pnj-crawlers-docx-ashuna-kimble", "pnj-crawlers-docx-khristina-yaroslavovna",
+    "pnj-crawlers-docx-dragoslav-memic", "pnj-crawlers-docx-zemirah-sherah", "pnj-crawlers-docx-taishara-jibson",
+    "pnj-crawlers-docx-lenny-falk", "pnj-crawlers-docx-dushane-murray", "pnj-crawlers-docx-narako-austin",
+    "pnj-crawlers-docx-aisha-white", "pnj-crawlers-docx-arnstein-gill", "pnj-crawlers-docx-kashrim-el-khayat",
+    "pnj-crawlers-docx-kendasha-roberts", "pnj-crawlers-docx-yan-xiao", "pnj-crawlers-docx-tuuwa-kolenya",
+    "pnj-crawlers-docx-kerlyn-sherres", "pnj-crawlers-docx-leslie-wright", "pnj-crawlers-docx-damon-harrington",
+    "pnj-crawlers-docx-damian-escribano", "pnj-crawlers-docx-gerrika-reese", "pnj-crawlers-docx-daft-vador-kaine-reid",
+    "pnj-crawlers-docx-dan-shelong", "pnj-crawlers-docx-mi-yeon-ryong", "pnj-crawlers-docx-yong-gi-mangjol",
+    "pnj-crawlers-docx-ogshaata-otto", "personnages-verite-especes-elizabeth-mircalla-karnstein",
+    "personnages-verite-especes-veronica-silver", "personnages-verite-extrals-groupes-mustafa-dzeko",
+    "personnages-verite-extraterrestres-tejana"
+  ]);
+  for (const id of fragmented) {
+    const article = byId.get(id);
+    const section = (article?.sections ?? []).find((item) => item.id === "crawlers-v2-realite");
+    if (!section) throw new Error(`Biographie fragmentée introuvable : ${id}`);
+    const joined: J[] = [];
+    for (const block of section.blocks ?? []) {
+      const previous = joined.at(-1);
+      if (block.type === "p" && previous?.type === "p" &&
+          !/[.!?…»:]\s*$/.test(String(previous.text ?? "").trim())) {
+        previous.text = `${String(previous.text).trimEnd()} ${String(block.text ?? "").trimStart()}`;
+      } else joined.push(block);
+    }
+    section.blocks = joined;
+  }
+
+  // Les anciennes fiches qui ont réellement été promues dans le corpus actif
+  // gardent parfois leur profil mixte importé de Word. Conserver chaque bloc
+  // original dans le dossier MJ ; les biographies Réalité restent publiques.
+  for (const article of byId.values()) {
+    if (article.dataset !== "pnj" || article.rebuildV2 !== true) continue;
+    let dossier = (article.sections ?? []).find((section) => section.id === "profil-source-protege");
+    for (const section of article.sections ?? []) {
+      if (section.audience === "mj") continue;
+      const keep: J[] = [];
+      for (const block of section.blocks ?? []) {
+        if (block.type !== "p" || !/Nom de la Vérité\s*:|Ethnie réelle\s*:|Nature réelle\s*:/i.test(String(block.text ?? ""))) {
+          keep.push(block);
+          continue;
+        }
+        if (!dossier) {
+          dossier = { id: "profil-source-protege", title: "Profil source", audience: "mj", level: 2, blocks: [] };
+          article.sections = [...(article.sections ?? []), dossier];
+        }
+        dossier.blocks.push(block);
+      }
+      section.blocks = keep;
+    }
+  }
+
+  const unresolvedWordCells = new Set([
+    "pnj-pegre-dante-guzman", "pnj-police-calvin-barron", "pnj-crawlers-docx-rayne-carter",
+    "pnj-crawlers-docx-domingo-valerio", "pnj-crawlers-docx-ashuna-kimble",
+    "pnj-crawlers-docx-dragoslav-memic", "pnj-crawlers-docx-zemirah-sherah",
+    "pnj-crawlers-docx-aisha-white", "pnj-crawlers-docx-arnstein-gill",
+    "pnj-crawlers-docx-yan-xiao", "pnj-crawlers-docx-tuuwa-kolenya",
+    "pnj-crawlers-docx-damon-harrington", "pnj-crawlers-docx-darielle-power",
+    "pnj-crawlers-docx-dan-shelong", "pnj-crawlers-docx-mi-yeon-ryong",
+    "pnj-crawlers-antisysteme-p46-raghnaid-peutan", "pnj-crawlers-antisysteme-p48-zaketa-harris",
+    "pnj-crawlers-antisysteme-p50-honda-daisuke", "pnj-crawlers-antisysteme-p52-wenona",
+    "personnages-verite-especes-elizabeth-mircalla-karnstein"
+  ]);
+  for (const id of unresolvedWordCells) {
+    const article = byId.get(id);
+    if (!article) throw new Error(`Fiche à nettoyer introuvable : ${id}`);
+    for (const section of article.sections ?? []) {
+      if (section.audience === "mj") continue;
+      for (const block of section.blocks ?? []) {
+        if (block.type !== "table" || !Array.isArray(block.rows)) continue;
+        block.rows = block.rows
+          .map((row: unknown[]) => row.map((cell) => typeof cell === "string"
+            ? cell.replace(/\s*-\s*\?{3,}\s*$/, "").trim() : cell))
+          .filter((row: unknown[]) => !row.some((cell) => /^\?{3,}$/.test(String(cell ?? "").trim())));
+      }
+    }
+  }
+
+  for (const article of byId.values()) {
+    if (article.category !== "Personnages" && !String(article.dataset ?? "").includes("pnj")) continue;
+    for (const section of article.sections ?? []) {
+      if (section.audience === "mj") continue;
+      if (/^Complément Réalité · dossier /.test(section.title ?? "") ||
+          /^Informations Réalité — Focus /.test(section.title ?? "")) section.title = "Informations Réalité";
+      if (/^Complément de fiche · dossier /.test(section.title ?? "")) section.title = "Complément d’identité";
+      if (/^Dossier — Focus /.test(section.title ?? "")) section.title = "Dossier";
+    }
+  }
+}
+
 export function applyCompendiumPnjRepairs(byId: Map<string, A>) {
   const result = applyBaseCompendiumPnjRepairs(byId);
   repairClassicCrawlerOrganisations(byId);
+  repairFinalPnjSurfaces(byId);
   return result;
 }

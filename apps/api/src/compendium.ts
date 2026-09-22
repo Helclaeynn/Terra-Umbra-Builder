@@ -372,6 +372,21 @@ type Corpus = {
 };
 
 const LEGACY_CATEGORY = "OLD";
+// Opaque public slugs for protected civilian identities. The source IDs stay
+// stable for editorial overrides and existing references; public indexes use
+// these slugs, while article lookups continue to accept older links.
+const PROTECTED_PNJ_PUBLIC_IDS: Record<string, string> = {
+  "personnages-verite-especes-ascanius": "personnages-verite-especes-nathan-chappelle",
+  "personnages-verite-especes-anahita": "personnages-verite-especes-anna-hita",
+  "personnages-verite-especes-mithridate": "personnages-verite-especes-mickael-date",
+  "personnages-verite-fantastiques-izchara": "personnages-verite-fantastiques-neekolas-hara",
+  "pnj-fleaux-siadara": "pnj-fleaux-sianna-danein",
+  "pnj-fleaux-dagon": "pnj-fleaux-aberration-z-19",
+  "pnj-fleaux-telipinu": "pnj-fleaux-aberration-z-75"
+};
+const PROTECTED_PNJ_SOURCE_IDS = Object.fromEntries(
+  Object.entries(PROTECTED_PNJ_PUBLIC_IDS).map(([source, publicId]) => [publicId, source])
+);
 const RELIGION_ARCHIVE_ID_REMAP: Record<string, string> = {
   "pnj-059-bhima-shiravadakar": "pnj-religions-bhima-shiravadakar",
   "pnj-062-ciara-mcfarlane": "pnj-religions-ciara-mcfarlane"
@@ -497,6 +512,7 @@ function articleForAudience(article: Article, includeMj: boolean): Article {
   }
   if (!includeMj) removeInternalPublicMetadata(result);
   else delete result.__searchText;
+  if (!includeMj && PROTECTED_PNJ_PUBLIC_IDS[article.id]) result.id = PROTECTED_PNJ_PUBLIC_IDS[article.id];
   return result;
 }
 
@@ -3794,7 +3810,9 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const corpus = await getCorpus();
     const user = await currentUser(request);
     const includeMj = canReadMj(user?.role);
-    const article = (includeMj ? corpus.byId : corpus.publicById).get(id);
+    const article = includeMj
+      ? corpus.byId.get(PROTECTED_PNJ_SOURCE_IDS[id] ?? id)
+      : corpus.publicById.get(PROTECTED_PNJ_PUBLIC_IDS[id] ?? id);
     if (!article) return reply.code(404).send({ error: "compendium_article_not_found" });
 
     return {
@@ -4512,7 +4530,9 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const corpus = await getCorpus();
     const user = await currentUser(request);
     const includeMj = canReadMj(user?.role);
-    const article = (includeMj ? corpus.byId : corpus.publicById).get(id);
+    const article = includeMj
+      ? corpus.byId.get(PROTECTED_PNJ_SOURCE_IDS[id] ?? id)
+      : corpus.publicById.get(PROTECTED_PNJ_PUBLIC_IDS[id] ?? id);
     if (!article) {
       return reply.code(404).send({ error: "compendium_article_not_found" });
     }
