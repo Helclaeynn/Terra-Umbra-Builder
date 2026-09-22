@@ -93,7 +93,8 @@ function publicIdentityRows(article: Article): { name: string; affiliations: str
         const label = String(row[0] ?? "").trim();
         const value = String(row[1] ?? "").trim();
         if (!value || value.length > 120 || /[￾]/.test(value)) continue;
-        if (/^nom\s*\/\s*identit[ée] de r[ée]alit[ée]$/i.test(label)) name ||= value;
+        if (/^nom\s*\/\s*identit[ée] de r[ée]alit[ée]$/i.test(label) ||
+            (article.dataset === "realite-v9-religions-pnj" && label === "Nom")) name ||= value;
         if (/^affiliations?$/i.test(label)) affiliations.push(value.replace(/[«»]/g, "").trim());
       }
     }
@@ -156,7 +157,7 @@ function addPnjTaxonomy(article: Article): void {
     }
     const subgroup = String(article.navigation?.subgroup ?? "").trim();
     if (subgroup && subgroup.length <= 80 &&
-        /^(?:realite-v9-(?:corporations|pegre|crawlers|agencies|police|government|christianity))/.test(String(article.dataset ?? ""))) {
+        /^(?:realite-v9-(?:corporations|pegre|crawlers|agencies|police|government|christianity|religions))/.test(String(article.dataset ?? ""))) {
       publicTags.push(`réalité/groupe/${subgroup}`);
     }
   }
