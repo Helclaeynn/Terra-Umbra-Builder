@@ -1948,12 +1948,14 @@ const PAYLOAD = [
       "race": "Vampire",
       "age": "45 ans",
       "origine": "Allemande",
-      "statut": "Crawlers : voidrunner/chasseurs/ police",
-      "statut_verite": "« « Huitztlampaehecatl»",
+      "statut": "Crawlers : Voidrunners / Chasseurs / Police",
+      "statut_verite": "Huitztlampaehecatl",
       "organisation": "Ihuito Meztzi",
       "relations": [],
       "identity_keys": [
         "Daniella Götz / Daniel Goethe",
+        "Daniella Götz",
+        "Daniel Goethe",
         "Daniella"
       ],
       "source_group": "Ihuito Meztzi",
@@ -1962,7 +1964,7 @@ const PAYLOAD = [
         24,
         24
       ],
-      "source_designation": "a le sang du rêve.",
+      "source_designation": "K’uhul Ajaw « Huitztlampaehecatl » : Daniella",
       "source_reality_raw": "Daniella Götz / Daniel Goethe",
       "source_truth_raw": "Daniella",
       "source_extract": "a le sang du rêve. Nom de la Réalité : Daniella Götz / Daniel Goethe Nom de la Vérité : Daniella Age : 45 ans Affiliations : Crawlers : voidrunner/chasseurs/ police Nationalité d’origine : Allemande Ethnie réelle : Vampire Statut : « « Huitztlampaehecatl» Maison vampirique : «Huitztla » Daniella est officiellement une orpheline récupérée par l’ordre des Saintes lagunes. Elevée dans la foi, elle était nonne jusqu’à la dissolution de l’ordre. En vérité, c’était la fille d’un grand chevalier renégat, un ami du maitre de l’ordre. Hélas dotée du sang de Sharith, c’était une sorcière instable, capable de se transformer en homme et d’avoir des sursauts de violence. Aberration de la nature, elle fut rejetée même par ses pairs dans l’ordre. En vérité, elle est la fille de Quetzal et d’une sorcière, c’est une princesse Dhampire et ses pouvoirs de sorcière lui assure sa survie dans l’Ihuito, sans quoi, en tant que demi-vampire, elle aurait été sacrifiée. Instable à cause de ses nombreuses natures (chevalier traqueur de sorcière et sorcière, vampire et humaine, homme et femme), elle possède le « sang masqué » lui permettant en plus de changer de visage. Folle et sadique selon certains, elle cherche surtout à être aimée, harcelant Catalina de la Caza pour cela. Elle reste une sadique à tendance psychopathique et obsédée sexuelle. Abimée par ses natures, Daniela a du mal à trouver sa place dans l’Ihuito bien qu’elle y soit importante.",
@@ -1993,13 +1995,17 @@ const PAYLOAD = [
               ],
               [
                 "Affiliations",
-                "Crawlers : voidrunner/chasseurs/ police"
+                "Crawlers : Voidrunners / Chasseurs / Police"
               ],
               [
                 "Nationalité d’origine",
                 "Allemande"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Daniella Götz est officiellement une orpheline recueillie par l’ordre des Saintes Lagunes. Élevée dans la foi, elle fut nonne jusqu’à la dissolution de l’ordre. Elle emploie également l’identité Daniel Goethe."
           }
         ]
       },
@@ -2030,17 +2036,17 @@ const PAYLOAD = [
               ],
               [
                 "Statut vampirique",
-                "« « Huitztlampaehecatl»"
+                "Huitztlampaehecatl"
               ],
               [
                 "Maison vampirique",
-                "«Huitztla »"
+                "Huitztla"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "Daniella est officiellement une orpheline récupérée par l’ordre des Saintes lagunes. Elevée dans la foi, elle était nonne jusqu’à la dissolution de l’ordre. En vérité, c’était la fille d’un grand chevalier renégat, un ami du maitre de l’ordre. Hélas dotée du sang de Sharith, c’était une sorcière instable, capable de se transformer en homme et d’avoir des sursauts de violence. Aberration de la nature, elle fut rejetée même par ses pairs dans l’ordre. En vérité, elle est la fille de Quetzal et d’une sorcière, c’est une princesse Dhampire et ses pouvoirs de sorcière lui assure sa survie dans l’Ihuito, sans quoi, en tant que demi-vampire, elle aurait été sacrifiée. Instable à cause de ses nombreuses natures (chevalier traqueur de sorcière et sorcière, vampire et humaine, homme et femme), elle possède le « sang masqué » lui permettant en plus de changer de visage. Folle et sadique selon certains, elle cherche surtout à être aimée, harcelant Catalina de la Caza pour cela. Elle reste une sadique à tendance psychopathique et obsédée sexuelle. Abimée par ses natures, Daniela a du mal à trouver sa place dans l’Ihuito bien qu’elle y soit importante."
+            "text": "Daniella est la fille d’un grand chevalier renégat, ami du maître de l’ordre des Saintes Lagunes. Dotée du sang de Sharith, cette sorcière instable peut se transformer en homme et subir de violents sursauts ; considérée comme une aberration, elle fut rejetée jusque par ses pairs dans l’ordre. Elle est en outre la fille de Quetzal et d’une sorcière : princesse dhampire, elle ne survit au sein de l’Ihuito que grâce à ses pouvoirs, sans lesquels son statut de demi-vampire lui aurait valu d’être sacrifiée. Ses natures contradictoires — chevalier traqueur de sorcières et sorcière, vampire et humaine, homme et femme — alimentent son instabilité. Le « Sang masqué » lui permet aussi de changer de visage. Certains la disent folle et sadique ; elle cherche surtout à être aimée et harcèle Catalina de la Caza dans ce but. Elle demeure néanmoins sadique, à tendance psychopathique et marquée par une forte obsession sexuelle. Abîmée par ces natures multiples, Daniella peine à trouver sa place dans l’Ihuito malgré son importance."
           }
         ]
       },
