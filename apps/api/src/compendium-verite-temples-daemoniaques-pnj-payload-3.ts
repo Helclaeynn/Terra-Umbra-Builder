@@ -971,7 +971,7 @@ const PAYLOAD = [
       "nom_verite": "Abalim - Lakshmi",
       "nom_verite_source": "Abalim - Lakshmi",
       "race": "Daemons",
-      "age": "«25ans », ????",
+      "age": "25 ans",
       "origine": "britannique",
       "statut": "Duchesse",
       "affiliations": "Corporative : Tuatha",
@@ -1012,7 +1012,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "25ans"
+                "25 ans"
               ],
               [
                 "Affiliations",
@@ -1027,7 +1027,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Navati est une chanteuse et une actrice de la Tuatha. Malgré un comportement de diva hautaine, elle a une voix enchanteresse qui la caractérise, aussi cristalline que féminine."
+            "text": "Navati Rajamalla est chanteuse et actrice chez Tuatha. Malgré un comportement souvent hautain et une réputation de diva, elle se distingue par une voix enchanteresse, aussi cristalline que féminine."
           }
         ]
       },
@@ -1093,7 +1093,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Navati est une chanteuse et une actrice de la Tuatha. Malgré un comportement de diva hautaine, elle a une voix enchanteresse qui la caractérise, aussi cristalline que féminine. De son vivant, ce n’était pas une humaine mais une dive, une reine dive de l’est, c’est d’ailleurs une des amazones la servant avec qui Lucifer a engendré la mage Circé. C’est une rares dives ayant totalement cédé face aux dieux, une traitresse, elle était appelée Lakshmi, et était vénérée comme telle même après la chute de Lucifer. Elle possède quatre bras car elle a fusionné son âme à celle du précédent détenteur du titre Abalim plutôt que de le déposséder et le renvoyer au cycle des âmes. Contrairement à Merlin, qui possède un spectre de Mageius, elle a perdu le sien en étant tuée par Angrboda après sa trahison, le mageius de Lakshmi a été offert à Anahita en cadeau, mais l’Archimage le renvoya subtilement sur Terre, ne prenant pas parti pour les dieux ou les Dives. Navati s’entend très mal avec les Mages néanmoins, quand elle le peut, elle essaye d’amoindrir leurs forces. 0. Autres"
+            "text": "Navati est en vérité Abalim–Lakshmi. De son vivant, elle n’était pas humaine mais Dive : une reine de l’Est, servie notamment par l’une des Amazones avec lesquelles Lucifer engendra la Mage Circé. Lakshmi compte parmi les rares Dives à avoir totalement cédé aux dieux, devenant une traîtresse à son propre peuple tout en continuant à être vénérée sous ce nom après la chute de Lucifer. Elle possède quatre bras parce qu’elle fusionna son âme avec celle du précédent détenteur du titre Abalim au lieu de simplement le déposséder et de le renvoyer au cycle des âmes. Après sa trahison, Angrboda la tua et son Mageius fut offert à Anahita ; l’Archimage le renvoya discrètement sur Terre, refusant de prendre parti entre dieux et Dives. Navati nourrit depuis une profonde hostilité envers les Mages et cherche à réduire leur influence chaque fois qu’elle le peut."
           }
         ]
       },
