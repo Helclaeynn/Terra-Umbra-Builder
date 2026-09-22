@@ -510,7 +510,10 @@ function articleForAudience(article: Article, includeMj: boolean): Article {
       }
     }
   }
-  if (!includeMj) removeInternalPublicMetadata(result);
+  if (!includeMj) {
+    applyLoreQualityCleanup(result);
+    removeInternalPublicMetadata(result);
+  }
   else delete result.__searchText;
   if (!includeMj && PROTECTED_PNJ_PUBLIC_IDS[article.id]) result.id = PROTECTED_PNJ_PUBLIC_IDS[article.id];
   return result;
