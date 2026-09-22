@@ -1445,7 +1445,7 @@ const PAYLOAD = [
       "real_name": "Ariana Lenitz",
       "nom_verite": "Razielle",
       "race": "archangelus",
-      "age": "«32 ans » - ????",
+      "age": "32 ans",
       "origine": "américaine",
       "statut": "Pègre : la blanchisserie",
       "statut_verite": "Archange renégat",
@@ -1486,7 +1486,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«32 ans » - ????"
+                "32 ans"
               ],
               [
                 "Affiliations",
@@ -1507,7 +1507,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Ariana Lenitz est un agent de la Blanchisserie. Elle n’est pas réellement un assassin ni un fixer, c’est une sorte d’espionne pour le compte de cette organisation de gestion des contrats. Si elle n’est pas vraiment ce qu’on peut appeler une crawler, elle ‘n’est pas totalement une criminelle endurcie pour autant. C’est surtout un agent de renseignement, s’observation ayant des talents de séductions, de neurodive, de piloatage, d’infiltration et sachant tirer."
+            "text": "Ariana Lenitz est une agente de la Blanchisserie. Elle n’est ni véritablement assassine ni Fixer : elle agit surtout comme espionne et agente de renseignement pour cette organisation de gestion des contrats. Sans être réellement une Crawler ni une criminelle endurcie, elle dispose de solides compétences en observation, séduction, Neurodive, pilotage, infiltration et tir."
           }
         ]
       },
@@ -1552,7 +1552,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Razielle était l’archange des Secrets. Elle était d’une incroyable efficacité et pendant longtemps, il n’y avait qu’elle sur le sephira de Bina. Razielle changeait de corps souvent pour profiter de pouvoir des fléaux avant que son âme ne soit touchée, elle n’avait aucun respect pour ceux qu’elle possédait, voulant explorer tous les secrets de ces prodigieux mais interdits pouvoirs. Elle avait pour meilleure amie l’Ancienne, la première babayaga, elle-même très versée dans les pouvoirs des Fléaux et essaya de rallier la Nymphe primordiale, Gaïa. Elle fut gravement punie pour cet intérêt"
+            "text": "Razielle était l’Archange des Secrets. D’une efficacité extraordinaire, elle occupa longtemps seule la Sephira Bina. Elle changeait fréquemment de corps afin d’expérimenter les pouvoirs des Fléaux avant que son âme ne soit affectée, sans le moindre respect pour ceux qu’elle possédait, uniquement pour explorer les secrets de ces pouvoirs prodigieux mais interdits. Sa meilleure amie était l’Ancienne, la première Baba Yaga, elle-même très versée dans les pouvoirs des Fléaux, et Razielle tenta également de rallier la Nymphe primordiale Gaïa. Elle fut sévèrement punie pour cet intérêt déplacé envers les Fléaux. Elle vient tout juste de prendre possession du corps d’Ariana et ses pouvoirs y restent limités."
           }
         ]
       },
