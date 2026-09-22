@@ -1285,10 +1285,10 @@ const PAYLOAD = [
       "completeness": "detailed",
       "real_name": "Meryl West",
       "real_name_source": "Meryl West",
-      "nom_verite": "Byamee Waagal - hypnos",
+      "nom_verite": "Byamee Waagal – Hypnos",
       "nom_verite_source": "Byamee Waagal - hypnos",
       "race": "Daemons",
-      "age": "«20 ans », ????",
+      "age": "20 ans",
       "origine": "australienne",
       "statut": "Déesse",
       "affiliations": "crawler : hooker",
@@ -1301,8 +1301,10 @@ const PAYLOAD = [
       ],
       "identity_keys": [
         "Meryl West",
-        "Byamee Waagal - hypnos",
-        "Birrahgnooloo"
+        "Birrahgnooloo",
+        "Byamee Waagal",
+        "Hypnos",
+        "Byamee Waagal – Hypnos"
       ],
       "relations": [],
       "source_documents": [
@@ -1344,7 +1346,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Meryl West est une prostituée d’une rare beauté qui est essentiellement au service de Todd Larsen. Elle n’est pas très influente dans la Réalité, elle est assez discrète et est souvent un peu endormie ou effacée."
+            "text": "Meryl West est une prostituée australienne d’une rare beauté, principalement au service de Todd Larsen. Peu influente dans la Réalité, elle se montre discrète, effacée et donne souvent l’impression d’être à moitié endormie."
           }
         ]
       },
@@ -1367,7 +1369,7 @@ const PAYLOAD = [
               ],
               [
                 "Nom de la Vérité",
-                "Byamee Waagal - hypnos"
+                "Byamee Waagal – Hypnos"
               ],
               [
                 "Âge source",
@@ -1410,7 +1412,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Meryl West est une prostituée d’une rare beauté qui est essentiellement au service de Todd Larsen. Elle n’est pas très influente dans la Réalité, elle est assez discrète et est souvent un peu endormie ou effacée. Dans la Vérité, elle est une daemone indépendante, une divinité médiane oubliée, elle est la créatrice du temps du rêve, d’une dimension onirique lui étant propre, son propre petit enfer et bien qu’elle servît un temps de dieu Mephisto, elle n’était ni vraiment princesse ni vraiment inférieure en termes d’ancienneté, juste moins puissante. Elle est une divinité des rêves de fait, Hypnos en quelque sorte. Elle est très indépendante des plans divins et de la Vérité, car elle préfère combattre les fléaux dans les rêves, son royaume où elle a ses propres daemons, des humains qui rêvent et qui retourne à la mortalité en se réveillant, au lieu de les récupérer une fois morts."
+            "text": "Meryl est en vérité Byamee Waagal–Hypnos, une Daemone indépendante et une divinité médiane oubliée associée au rêve. Elle est la créatrice du Temps du Rêve, dimension onirique qui constitue son propre royaume, comparable à un petit Enfer personnel. Elle servit un temps Méphisto sans jamais devenir véritablement sa princesse ni son inférieure en ancienneté, seulement moins puissante que lui. Très indépendante des plans divins, elle préfère combattre les Fléaux dans les rêves. Son royaume abrite ses propres Daemons ainsi que des humains rêvant temporairement sous son autorité, qui retournent à la mortalité au réveil plutôt que d’être récupérés après leur mort."
           }
         ]
       },
