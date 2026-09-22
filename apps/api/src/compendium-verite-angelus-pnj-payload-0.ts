@@ -164,7 +164,7 @@ const PAYLOAD = [
       "real_name": "Zivko Voronov",
       "nom_verite": "Ochotiel",
       "race": "Angelus",
-      "age": "«35ans », ????",
+      "age": "35 ans",
       "origine": "Américaine",
       "statut": "Corporation : First Lawyers",
       "statut_verite": "séraphin",
@@ -205,7 +205,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«35ans », ????"
+                "35 ans"
               ],
               [
                 "Affiliations",
@@ -226,7 +226,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Zivko est un Américain d’origine russe. Cet avocat est aussi charmeur qu’il ‘n’est efficace. Directeur de la sous-branche des cabinets « Bratchov », c’est un des hommes les plus riches de Los Angeles. Il est connu pour toujours porter des costumes blancs parfaitement repassés et propres. On le surnomme ainsi « Whiteman », ce qui a tendance à irriter celui de la Blanchisserie."
+            "text": "Zivko est un Américain d’origine russe. Cet avocat est aussi charmeur qu’efficace. Directeur de la sous-branche des cabinets « Bratchov », c’est l’un des hommes les plus riches de Los Angeles. Il est connu pour toujours porter des costumes blancs parfaitement repassés et propres. On le surnomme ainsi « Whiteman », ce qui a tendance à irriter celui de la Blanchisserie."
           }
         ]
       },
@@ -271,7 +271,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "C’est un séraphin de Remiel. Comme les autres séraphins de Remiel, il lui manque une aile, en punition de la déchéance de son archange. Il a la capacité d’accabler ses cibles, plus elles se sentent coupables ou inférieures, plus il les écrase par de l’eau qui s’infiltre en eux ou sur eux, les alourdissant. C’est un maitre des vents, la grêle, la pluie et la foudre. C’est un séraphin d’une cruauté rare, un grand sadique aussi toxique et mal intentionné qu’on peut l’attendre d’un tel manipulateur narcissique. Il aime sentir la dépression chez ses interlocuteurs . Il a comme sale passe-temps de détruire psychologiquement ses ex. Il a un besoin constant de se sentit dominant qui peut le rendre très audacieux."
+            "text": "C’est un Séraphin de Remiel. Comme les autres séraphins de Remiel, il lui manque une aile en punition de la déchéance de son archange. Il peut accabler ses cibles : plus elles se sentent coupables ou inférieures, plus il les écrase par de l’eau qui s’infiltre en elles ou s’accumule sur elles, les alourdissant. C’est un maître des vents, de la grêle, de la pluie et de la foudre. Séraphin d’une cruauté rare, c’est un grand sadique, aussi toxique et mal intentionné qu’on peut l’attendre d’un tel manipulateur narcissique. Il aime sentir la dépression chez ses interlocuteurs et a pour sale passe-temps de détruire psychologiquement ses ex. Son besoin constant de se sentir dominant peut le rendre très audacieux."
           }
         ]
       },
