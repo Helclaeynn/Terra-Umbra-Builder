@@ -1586,7 +1586,7 @@ const PAYLOAD = [
       "real_name": "Shihoko BAISHO",
       "nom_verite": "Thirielle",
       "race": "Angelus",
-      "age": "«32 ans », ????",
+      "age": "32 ans",
       "origine": "américaine",
       "statut": "associatif",
       "statut_verite": "séraphin",
@@ -1627,7 +1627,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«32 ans », ????"
+                "32 ans"
               ],
               [
                 "Affiliations",
@@ -1648,7 +1648,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Shihoko est une Américaine d’origine japonaise. Née en Californie, elle a vaguement connu le Japon un peu avant la guerre mais n’a jamais été réellement Japonaise ni de mentalité ni de culture. Femme d’affaire à l’américaine, elle a monté sa propre marque de vêtements seule à 16 ans, en 2026, en pleine crise mondiale. Avec la Légalisation de la prostitution, pour compenser les maigres ventes, elle s’est lancée dans ce domaine sans honte ni hésitation. Rattrapée par les Yakuza, elle a intégré les hotels Shinoda dont elle fournit serveuses et autres membres du personnel, ses prostituées et hôtesses. Elle n’est pas yakuza et bien qu’ils l’emploient, qu’elle respecte Fuyumi, sa patronne, elle ne fait rien d’illégale elle-même."
+            "text": "Shihoko est une Américaine d’origine japonaise. Née en Californie, elle a connu brièvement le Japon avant la guerre mais n’a jamais été réellement japonaise dans sa mentalité ni dans sa culture. Femme d’affaires à l’américaine, elle lança seule sa propre marque de vêtements à 16 ans, en 2026, au cœur de la crise mondiale. Après la légalisation de la prostitution, elle se tourna également vers ce secteur pour compenser des ventes modestes. Rattrapée par les Yakuzas, elle intégra les hôtels Shinoda, auxquels elle fournit serveuses, prostituées, hôtesses et autres membres du personnel. Elle n’est pas elle-même yakuza et, bien qu’elle travaille pour eux et respecte Fuyumi, sa patronne, elle ne commet personnellement rien d’illégal."
           }
         ]
       },
@@ -1693,7 +1693,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Séraphin du charme, elle joue infiniment sur sa capacité à séduire pour réussir. Elle est en grande rivalité avec « Luxure ». Elle est très proche des religieux Shintaoïstes aussi, qu’elle surveille, énormément de Miko , de prêtresses, étant de ses anges tout comme des anges de Jcube sont des nonnes chrétiennes. Elle était fiancée à Goro, le fils de l’Oyabun, leur fille, une nephilim de 9 ans se nomme Yuno et pose quelques soucis puisqu’elle a déjà des pouvoirs."
+            "text": "Séraphine du charme, Thirielle joue énormément sur sa capacité de séduction pour réussir. Elle entretient une forte rivalité avec « Luxure ». Très proche des religieux shientaoïstes, elle les surveille également : de nombreuses Miko et prêtresses sont de ses anges, tout comme certaines nonnes chrétiennes servent les anges de Jcube. Elle était fiancée à Goro, le fils de l’Oyabun. Leur fille Yuno, une Nephilim de neuf ans, pose déjà quelques problèmes car ses pouvoirs commencent à se manifester."
           }
         ]
       },
