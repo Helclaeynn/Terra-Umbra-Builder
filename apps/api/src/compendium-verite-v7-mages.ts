@@ -115,11 +115,27 @@ const SOURCE_PAYLOAD={
       "blocks": [
         {
           "type": "p",
-          "text": "Les Mages se regroupent en Loges qui servent à la fois d’écoles, de refuges, d’autorités et de réseaux de transmission. Elles coopèrent sans former un gouvernement mondial cohérent. Leur organisation valorise fortement la maîtrise et l’enseignement: apprentis, Singularis, Tutors, Referrers, Magisters et quelques figures hors norme structurent un milieu où le savoir est à la fois prestige et moyen de survie."
+          "text": "Les Mages sont organisés sans former de gouvernement mondial. Chaque pays possède cinq Grandes Loges, établies dans ses cinq plus grandes villes. Dans chacune de ces villes, la Grande Loge, située au centre du réseau local, est associée à cinq Loges. Les Hautes Loges nationales peuvent échanger entre elles, mais aucune structure supérieure ne les oblige à coopérer : la discrétion et l’indépendance restent fondamentales."
         },
         {
           "type": "p",
-          "text": "La naissance de la Grande Californie a provoqué une crise très concrète parmi elles. Les anciennes juridictions américaines et mexicaines ne correspondaient plus au territoire politique, ouvrant un conflit entre Los Angeles et Tijuana pour le contrôle de la nouvelle organisation régionale. Los Angeles l’emporta, mais les affrontements affaiblirent durablement la communauté magique locale."
+          "text": "Chaque Haute Loge réunit vingt-cinq Mages choisis parmi les plus anciens et les plus influents du pays. Elle défend le territoire et ses habitants contre les Créatures nées sur Terre, les peuples fantastiques et les « chasseurs d’âmes », c’est-à-dire les Démons et les Anges. Cette mission ne signifie pas que chaque Mage maîtrise concrètement toutes ces menaces : pour beaucoup, leur connaissance demeure surtout théorique."
+        },
+        {
+          "type": "p",
+          "text": "La société magique reste très individualiste. Comme les Mages sont peu nombreux dans une ville, chacun peut participer aux délibérations de la Loge la plus proche. Le rang dépend principalement du niveau de connaissance et de la transmission : l’apprenti reçoit encore sa formation ; le Singularis, ou Singulier, a dépassé l’apprentissage ; le Tutor, ou Tuteur, a enseigné à au moins deux autres Mages ; le Referrer, ou Référent, est reconnu par ses pairs ; le Magister, ou Maître, occupe le plus haut niveau et siège souvent dans une Loge."
+        },
+        {
+          "type": "p",
+          "text": "Les apprentis sont formés dans des classes spécialisées, des orphelinats ou des laboratoires liés aux Loges. L’apprentissage solitaire reste rare tant la Magie est difficile à manier, même avec un excellent enseignant, et la formation commence souvent très jeune afin de favoriser le développement des affinités."
+        },
+        {
+          "type": "p",
+          "text": "La fondation de la Grande Californie a rompu les anciennes juridictions. Los Angeles et Tijuana se sont affrontées pour devenir la Haute Loge du nouveau pays, tandis que les Hautes Loges de New York et de Mexico s’alliaient contre les partisans de cette nouvelle autorité. Ces guerres sont restées secrètes. Seul le conflit entre Los Angeles et Tijuana s’est achevé, par la victoire de Los Angeles ; la double guerre a rendu les Mages californiens rares et particulièrement discrets."
+        },
+        {
+          "type": "p",
+          "text": "Au-dessus de cette organisation décentralisée demeure une figure exceptionnelle : l’Archimage, également appelée « maîtresse des Loges ». Son existence ne transforme toutefois pas les Hautes Loges en administration mondiale unifiée."
         }
       ]
     },
