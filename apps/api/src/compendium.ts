@@ -970,6 +970,33 @@ function mergeFleauxPnj(target: Article, source: Article): Article {
 
 function mergeVampireCourtPnj(target: Article, source: Article): Article {
   const merged = mergeFleauxPnj(target, source);
+  const sectionTargets = source.merge_section_targets;
+  if (sectionTargets && typeof sectionTargets === "object" && !Array.isArray(sectionTargets)) {
+    const sourceSections = new Map(
+      (source.sections ?? []).map((section) => [String(section?.id ?? ""), section])
+    );
+    const sourceIds = new Set(Object.keys(sectionTargets));
+    const sections = (merged.sections ?? []).filter(
+      (section) => !sourceIds.has(String(section?.id ?? ""))
+    );
+
+    for (const [sourceId, rawTargetId] of Object.entries(sectionTargets)) {
+      const targetId = String(rawTargetId ?? "");
+      const sourceSection = sourceSections.get(sourceId);
+      const targetIndex = sections.findIndex((section) => String(section?.id ?? "") === targetId);
+      if (!sourceSection || !targetId || targetIndex < 0) {
+        throw new Error(`Fusion de section vampirique invalide: ${source.id} (${sourceId} → ${targetId})`);
+      }
+      const targetSection = sections[targetIndex];
+      sections[targetIndex] = {
+        ...deepClone(sourceSection),
+        id: targetId,
+        title: targetSection.title ?? sourceSection.title,
+        level: targetSection.level ?? sourceSection.level
+      };
+    }
+    merged.sections = sections;
+  }
   const targetRealityIdentity = usablePnjIdentity(target.pnj?.real_name) ?? usablePnjIdentity(target.pnj?.nom_reel) ?? usablePnjIdentity(target.pnj?.nom_realite);
   const sourceRealityIdentity = String(source.pnj?.real_name ?? "").trim();
   if (!targetRealityIdentity && sourceRealityIdentity) merged.title = sourceRealityIdentity;
