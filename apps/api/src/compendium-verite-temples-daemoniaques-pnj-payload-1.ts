@@ -968,10 +968,10 @@ const PAYLOAD = [
       "completeness": "detailed",
       "real_name": "Addison Andrews",
       "real_name_source": "Addison Andrews",
-      "nom_verite": "Abrahel –",
+      "nom_verite": "Abrahel",
       "nom_verite_source": "Abrahel –",
       "race": "Daemons",
-      "age": "«40 ans », ????",
+      "age": "40 ans",
       "origine": "américaine",
       "statut": "Duchesse",
       "affiliations": "Crawler : Fixer",
@@ -984,7 +984,7 @@ const PAYLOAD = [
       ],
       "identity_keys": [
         "Addison Andrews",
-        "Abrahel –"
+        "Abrahel"
       ],
       "relations": [],
       "source_documents": [
@@ -1026,7 +1026,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "La beauté d’Addison Andrew est trompeuse. C’est une Fixer appréciée de la mafia irlandaise, russe et de nombreuse corporation, elle a pour projet de destituer la Blanchisserie et les quatre grands Fixers de Los Angeles avec son propre réseau qui ne cesse de monter."
+            "text": "La beauté d’Addison Andrews est trompeuse. Cette Fixer est appréciée de la mafia irlandaise, de la mafia russe et de nombreuses corporations. Son ambition est de supplanter la Blanchisserie et les quatre grands Fixers de Los Angeles grâce à son propre réseau, qui ne cesse de gagner en influence."
           }
         ]
       },
@@ -1049,7 +1049,7 @@ const PAYLOAD = [
               ],
               [
                 "Nom de la Vérité",
-                "Abrahel –"
+                "Abrahel"
               ],
               [
                 "Âge source",
@@ -1092,7 +1092,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "La beauté d’Addison Andrew est trompeuse. C’est une Fixer appréciée de la mafia irlandaise, russe et de nombreuse corporation, elle a pour projet de destituer la Blanchisserie et les quatre grands Fixers de Los Angeles avec son propre réseau qui ne cesse de monter. Dans les légendes, Abrahel était un succube qui exige la mort d’un enfant en échange de son amour puis le rend, vivant, l’enfant se décomposant vivant au gré des années. De son vivant, loin d’être une sorcière malfaisante, c’était la fille d’un druide, une guérisseuse que des romains tuèrent. Mammon appréciant comment elle soulagea la vieillesse et la mort de nombreuses personnes, fit d’elle un de ses daemons. Elle incarne la déchéance, la décrépitude des corps et donc l’âge, telle qu’une fatalité et une évolution inéluctable. Elle n’a pas perdu sa beauté passée. Certain lui prêteraient un lien avec Arianwen."
+            "text": "Addison est en vérité Abrahel. Dans les légendes, Abrahel est une Succube qui exige la mort d’un enfant en échange de son amour avant de le rendre vivant, condamné à se décomposer à mesure que passent les années. De son vivant, elle n’était pourtant pas une sorcière malfaisante : fille d’un druide et guérisseuse, elle fut tuée par des Romains. Mammon apprécia la façon dont elle avait soulagé la vieillesse et la mort de nombreuses personnes et fit d’elle l’une de ses Daemones. Abrahel incarne désormais la déchéance, la décrépitude des corps et l’âge comme fatalité et évolution inéluctable, sans avoir elle-même perdu sa beauté passée. Certaines traditions lui prêtent un lien avec Arianwen."
           }
         ]
       },
