@@ -181,10 +181,10 @@ const PAYLOAD = [
       "nom_verite": "Ereshkigal– Esh",
       "nom_verite_source": "Ereshkigal– Esh",
       "race": "Daemons - psychopompes",
-      "age": "«44 ans » - ????",
+      "age": "44 ans",
       "origine": "américaine",
       "statut": "Duchesse",
-      "affiliations": "corporation : Phoenix",
+      "affiliations": "Corporation : Phoenix",
       "divinite": "Baal",
       "pouvoir_principal": "le meurtre",
       "titre_infernal": "Duchesse",
@@ -226,7 +226,7 @@ const PAYLOAD = [
               ],
               [
                 "Affiliations",
-                "corporation : Phoenix"
+                "Corporation : Phoenix"
               ],
               [
                 "Nationalité d’origine",
@@ -237,7 +237,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Eres est une « vendeuse » de la Phoenix corporation. Il faut donc la voir comme une sorte de démarcheuse, une vendeuse d’armes, ce n’est pas un haut cadre, elle est toutefois amenée à négocier aussi bien avec des criminels qu’avec des présidents d’états bien que son style neopunk ne plaise pas toujours."
+            "text": "Eres Kamal est commerciale chez Phoenix Corporation, spécialisée dans la vente d’armes. Sans appartenir au sommet de la hiérarchie, elle négocie avec une clientèle allant des criminels aux chefs d’État. Son style Neopunk ne plaît pas toujours à ses interlocuteurs, mais ne l’empêche pas d’être efficace."
           }
         ]
       },
@@ -268,7 +268,7 @@ const PAYLOAD = [
               ],
               [
                 "Affiliations",
-                "corporation : Phoenix"
+                "Corporation : Phoenix"
               ],
               [
                 "Nationalité d’origine",
@@ -303,7 +303,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Eres est une « vendeuse » de la Phoenix corporation. Il faut donc la voir comme une sorte de démarcheuse, une vendeuse d’armes, ce n’est pas un haut cadre, elle est toutefois amenée à négocier aussi bien avec des criminels qu’avec des présidents d’états bien que son style neopunk ne plaise pas toujours. Dotée du titre de duchesse et du nom divin d’Ereshkigal, déesse des enfers mésopotamiens, c’est une des daemones assez anciennes puisqu’elle préexistait à l’arrivée humaine, étant une psychopompe, une entité de la mort. Esh résidait dans la dimension de « Helheim » elle n’avait de lien qu’avec les amazones, surtout nordiques (valkyries) et les corneilles de Morrighan qui passaient dans ce plan. Elle a été séduite par Baal, le dieu et bien qu’elle ne soit jamais morte, elle a accepté sa marque. En 2035, elle est sa plus loyale et utile alliée."
+            "text": "Eres est en vérité Ereshkigal–Esh, Duchesse de Baal et très ancienne Psychopompe associée à la déesse mésopotamienne des Enfers. Esh existait avant l’arrivée de l’humanité. Elle résidait dans la dimension de Helheim et n’entretenait alors des liens qu’avec les Amazones, particulièrement les Valkyries nordiques, et les corneilles de Morrighan qui traversaient ce plan. Séduite par Baal, elle accepta sa Marque bien qu’elle ne soit jamais morte. En 2035, elle reste l’une de ses alliées les plus loyales et les plus utiles."
           }
         ]
       },
