@@ -1762,10 +1762,10 @@ const PAYLOAD = [
       "nom_verite": "Amon - Sésostris",
       "nom_verite_source": "Amon - Sésostris",
       "race": "daemons",
-      "age": "« »30 ans », ????",
-      "origine": "Egyptienne",
+      "age": "30 ans",
+      "origine": "Égyptienne",
       "statut": "Duc",
-      "affiliations": "« crawler : hooker» - Religieux (musulman)",
+      "affiliations": "crawler : hooker — religieux (musulman)",
       "divinite": "Diablo",
       "pouvoir_principal": "l’obscurité",
       "titre_infernal": "Duc",
@@ -1802,19 +1802,23 @@ const PAYLOAD = [
                 "Nazeem Al’Allih"
               ],
               [
+                "Âge apparent",
+                "30 ans"
+              ],
+              [
                 "Affiliations",
-                "« crawler : hooker» - Religieux (musulman)"
+                "crawler : hooker — religieux (musulman)"
               ],
               [
                 "Nationalité d’origine",
-                "Egyptienne"
+                "Égyptienne"
               ]
             ]
           },
           {
             "type": "p",
             "style": "lore",
-            "text": "Nazeem est un crawler du genre « hooker », un prostitué-informateur, il est aussi un religieux musulman puisqu’il est imam même s’il est un peu critiqué, trop libre de mœurs malgré les profondes réformes."
+            "text": "Nazeem est un Crawler de type Hooker, à la fois prostitué et informateur. Il est également imam. Malgré les profondes réformes de l’Islam, son mode de vie très libre lui vaut encore des critiques au sein de certains milieux religieux."
           }
         ]
       },
@@ -1845,11 +1849,11 @@ const PAYLOAD = [
               ],
               [
                 "Affiliations",
-                "« crawler : hooker» - Religieux (musulman)"
+                "crawler : hooker — religieux (musulman)"
               ],
               [
                 "Nationalité d’origine",
-                "Egyptienne"
+                "Égyptienne"
               ],
               [
                 "Nature réelle",
@@ -1880,7 +1884,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Nazeem est un crawler du genre « hooker », un prostitué-informateur, il est aussi un religieux musulman puisqu’il est imam même s’il est un peu critiqué, trop libre de mœurs malgré les profondes réformes. En tant que Daemon, il est l’un des plus connus des démons : Amon. C’est un des plus puissants ducs démoniaques car il incarne les ténèbres parfaitement. Amon-Ré était une divinité solaire, Amon le démon semble être capable de dévorer la lumière et tout pouvoir y étant associé. C’est le pire ennemi de l’archange Urielle et des renégats de Lucifer. De son vivant, il était Sésostris, père d’Amenemhat Ier. Prêtre, il a grandement influencé la croyance en Amon, dieu, relativement local de Thèbe qui devint national par la suite. Il ne cautionne pas le plan de Diablo concernant la papesse Innocentia."
+            "text": "Nazeem est en vérité Amon–Sésostris, l’un des Daemons les plus connus et l’un des plus puissants ducs de Diablo. Il incarne les ténèbres de manière presque parfaite. Là où Amon-Rê fut associé à une divinité solaire, Amon semble capable de dévorer la lumière et les pouvoirs qui s’y rattachent. Il est l’un des pires ennemis d’Urielle et des renégats de Lucifer. De son vivant, il fut Sésostris, père d’Amenemhat Ier. Prêtre, il contribua fortement à faire passer le culte d’Amon d’une croyance relativement locale de Thèbes à une religion d’envergure nationale. Il désapprouve le plan de Diablo concernant la papesse Innocentia."
           }
         ]
       },
