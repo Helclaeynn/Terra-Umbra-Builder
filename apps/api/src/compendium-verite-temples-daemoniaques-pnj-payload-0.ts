@@ -1122,7 +1122,7 @@ const PAYLOAD = [
       "nom_verite": "Demona",
       "nom_verite_source": "Demona",
       "race": "Daemons",
-      "age": "«24 ans », ????",
+      "age": "24 ans",
       "origine": "Américaine",
       "statut": "Duchesse",
       "affiliations": "« Corporatiste »",
@@ -1173,6 +1173,11 @@ const PAYLOAD = [
                 "Américaine"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Demona Prince est une Américaine de 24 ans évoluant dans le milieu corporatiste."
           }
         ]
       },
@@ -1238,7 +1243,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Demona n’est pas un démon connu depuis l’antiquité ou le Moyen-âge, c’était une orpheline britannique du XXème siècle, née d’une mère Indienne et d’un père Anglais. Elle a été sous la coupe du Mage Aleister Crowley dont elle fut un jouet et qu’il sacrifia lors d’un rituel. En un siècle à peine, elle monta dans la hiérarchie de l’enfer de Belial, la reine-divine lui accordant beaucoup de confiance. Chambellan du palais infernal, elle obtint sa première réincarnation pour suivre sa maitresse au cabinet Faith."
+            "text": "Demona n’est pas un démon connu depuis l’Antiquité ou le Moyen Âge. À l’origine, elle était une orpheline britannique du XXe siècle, née d’une mère indienne et d’un père anglais. Tombée sous l’emprise du Mage Aleister Crowley, elle fut utilisée puis sacrifiée au cours d’un rituel. En à peine un siècle, elle gravit la hiérarchie de l’Enfer de Belial, gagnant une confiance considérable de la reine-divine. Devenue chambellane du palais infernal, elle obtint sa première réincarnation afin de suivre sa maîtresse au cabinet Faith."
           }
         ]
       },
