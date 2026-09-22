@@ -36,6 +36,144 @@ function truthSpecies(value: unknown): string {
   return source;
 }
 
+const REALITY_FACTIONS: Record<string, string> = {
+  Crawlers: "crawlers", "Anti-système": "anti-système", Corporations: "corporatiste",
+  Corporatiste: "corporatiste", Gouvernement: "gouvernement", Agences: "gouvernement",
+  Police: "gouvernement", police: "gouvernement", Pègre: "pègre", Religion: "religieux",
+  Chrétienté: "religieux", Insurgés: "insurgés", Association: "associatif"
+};
+const REALITY_ROLES = new Set([
+  "Freerunners", "Gundrivers", "DeathRunners", "Neurodivers", "Meditechs",
+  "Fixers", "Neopunks", "Enders", "Motards", "Justice", "Présidence"
+]);
+const TRUTH_GROUPS: Record<string, string> = {
+  Vampires: "vampires", Vampire: "vampires", "Loups-garous": "loups-garous",
+  Mages: "mages", Daemons: "daemons", Angelus: "angelus", Exilés: "exilés",
+  Extrals: "extrals", Aseryns: "aseryns", Chasseurs: "chasseurs",
+  Fléaux: "fléaux", "Humanité galactique": "humanité galactique",
+  Pelages: "pelages", "Autres créatures": "créatures"
+};
+const SPECIES_ALIASES: Array<[RegExp, string]> = [
+  [/^loups?[\s-]*garous?$/i, "loup-garou"],
+  [/^vampires?$/i, "vampire"], [/^daemons?$/i, "daemon"],
+  [/^angelus$/i, "angelus"], [/^archangelus$/i, "archangelus"],
+  [/^mages?$/i, "mage"], [/^humain(?:e|s|es)?$/i, "humain"],
+  [/^aseryn(?:e|s|es)?$/i, "aseryn"], [/^elfes?$/i, "elfe"],
+  [/^nains?|^naines?$/i, "nain"], [/^orques?$/i, "orque"],
+  [/^gobelin(?:e|s|es)?$/i, "gobelin"], [/^fl[ée]aux?$/i, "fléau"],
+  [/^abominations?$/i, "abomination"], [/^dragons?$/i, "dragon"],
+  [/^voyageurs?$/i, "voyageur"], [/^rocr[ée]enn?e?$/i, "rocréen"],
+  [/^mo[’']senn?e?$/i, "mo’sen"], [/^thalsioss?e?$/i, "thalsios"],
+  [/^talass?e?$/i, "talass"], [/^azm[ée]norienn?e?$/i, "azménorien"],
+  [/^bas[ée]ann?e?$/i, "baséen"], [/^s[ée]ryss?e?$/i, "sérys"]
+];
+
+function canonicalSpecies(value: unknown): string {
+  const raw = truthSpecies(value).replace(/[«»]/g, "").trim();
+  if (!raw || /^[_?\s]+$/.test(raw) || raw.includes("￾") || raw.length > 100) return "";
+  const stem = raw.replace(/\s*\([^)]*\).*/, "").trim();
+  for (const [pattern, label] of SPECIES_ALIASES) if (pattern.test(stem)) return label;
+  // Preserve unfamiliar species exactly; no species is inferred from a dossier's folder.
+  return raw.toLocaleLowerCase("fr");
+}
+
+function distinct(values: string[]): string[] {
+  return [...new Set(values.filter(Boolean))];
+}
+
+function publicIdentityRows(article: Article): { name: string; affiliations: string[] } {
+  let name = "";
+  const affiliations: string[] = [];
+  for (const section of article.sections ?? []) {
+    if (section.audience === "mj" || isExplicitSecret(section)) continue;
+    for (const block of section.blocks ?? []) {
+      if (block.type !== "table" || !Array.isArray(block.rows)) continue;
+      for (const row of block.rows) {
+        if (!Array.isArray(row) || row.length < 2) continue;
+        const label = String(row[0] ?? "").trim();
+        const value = String(row[1] ?? "").trim();
+        if (!value || value.length > 120 || /[￾]/.test(value)) continue;
+        if (/^nom\s*\/\s*identit[ée] de r[ée]alit[ée]$/i.test(label)) name ||= value;
+        if (/^affiliations?$/i.test(label)) affiliations.push(value.replace(/[«»]/g, "").trim());
+      }
+    }
+  }
+  return { name, affiliations: distinct(affiliations) };
+}
+
+function publicAffiliationTags(affiliations: string[]): string[] {
+  const tags: string[] = [];
+  for (const affiliation of affiliations) {
+    if (/^(?:corporati|corporation\b)/i.test(affiliation)) {
+      tags.push("réalité/faction/corporatiste");
+      const corporation = affiliation.match(/^corporation\s*:\s*(.{2,65})$/i)?.[1]?.trim();
+      if (corporation && !/[?￾]/.test(corporation)) tags.push(`réalité/organisation/${corporation}`);
+    } else if (/^(?:p[èe]gre|mafias?\b|cartels?\b)/i.test(affiliation)) {
+      tags.push("réalité/faction/pègre");
+    } else if (/^crawlers?\b/i.test(affiliation)) {
+      tags.push("réalité/faction/crawlers");
+      for (const role of REALITY_ROLES) {
+        if (new RegExp(`\\b${role}\\b`, "i").test(affiliation))
+          tags.push(`réalité/rôle/${role.toLocaleLowerCase("fr")}`);
+      }
+    } else if (/^(?:gouvernement|police|agences?\b)/i.test(affiliation)) {
+      tags.push("réalité/faction/gouvernement");
+    } else if (/^(?:religion|religieux|chr[ée]tiens?\b)/i.test(affiliation)) {
+      tags.push("réalité/faction/religieux");
+    } else if (/^insurg[ée]s?\b/i.test(affiliation)) {
+      tags.push("réalité/faction/insurgés");
+    }
+  }
+  return tags;
+}
+
+function addPnjTaxonomy(article: Article): void {
+  const sourceTags: string[] = Array.isArray(article.tags) ? article.tags : [];
+  const dataset = String(article.dataset ?? "");
+  const reality = sourceTags.includes("Réalité") || dataset.startsWith("realite-");
+  const publicIdentity = publicIdentityRows(article);
+  const publicTags = ["réalité/type/personnage", ...publicAffiliationTags(publicIdentity.affiliations)];
+  // Her public profile names the corporation; the affiliation cell only says
+  // "Corporatiste". Keep this documented Reality affiliation searchable.
+  if (article.id === "pnj-loges-mages-nina-le-guellec-03" &&
+      publicTags.includes("réalité/faction/corporatiste") &&
+      (article.sections ?? []).some((section: Section) => section.audience !== "mj" &&
+        (section.blocks ?? []).some((block: Record<string, unknown>) =>
+          block.type === "p" && /directrice de branche de la Tuatha/i.test(String(block.text ?? ""))))) {
+    publicTags.push("réalité/organisation/Tuatha");
+  }
+  if (reality) {
+    if (dataset === "realite-v9-police-pnj") publicTags.push("réalité/faction/gouvernement");
+    for (const tag of sourceTags) {
+      if (REALITY_FACTIONS[tag]) publicTags.push(`réalité/faction/${REALITY_FACTIONS[tag]}`);
+      if (REALITY_ROLES.has(tag)) publicTags.push(`réalité/rôle/${tag.toLocaleLowerCase("fr")}`);
+    }
+    const organisation = String(article.pnj?.organisation ?? "").trim();
+    // A named affiliation is public only when documented in a Reality dossier.
+    if (organisation && organisation.length <= 80 && !/[?￾]/.test(organisation) &&
+        /^(?:realite-v9-(?:corporations|pegre|agencies|police|government)|points-rencontre)/.test(String(article.dataset ?? ""))) {
+      publicTags.push(`réalité/organisation/${organisation}`);
+    }
+    const subgroup = String(article.navigation?.subgroup ?? "").trim();
+    if (subgroup && subgroup.length <= 80 &&
+        /^(?:realite-v9-(?:corporations|pegre|crawlers|agencies|police|government|christianity))/.test(String(article.dataset ?? ""))) {
+      publicTags.push(`réalité/groupe/${subgroup}`);
+    }
+  }
+  article.tags = distinct([...publicTags, ...sourceTags]);
+
+  const truthName = String(article.pnj?.nom_verite ?? "").trim();
+  const species = canonicalSpecies(article.pnj?.race);
+  article.secretTags = distinct([
+    ...(truthName && truthName.length <= 120 && !/^[_?\s]+$/.test(truthName)
+      ? [`vérité/nom/${truthName}`] : []),
+    ...(species ? [`vérité/espèce/${species}`] : []),
+    ...sourceTags.filter((tag) => TRUTH_GROUPS[tag]).map((tag) => `vérité/groupe/${TRUTH_GROUPS[tag]}`)
+  ]);
+  const realityName = String(article.pnj?.real_name ?? publicIdentity.name).trim();
+  if (realityName && realityName.length <= 120 && !/^[_?\s]+$/.test(realityName)) article.realityName = realityName;
+}
+
 /** Consolidate only promoted PNJ, leaving the OLD archive intact. */
 export function consolidateActivePnjSections(byId: Map<string, Article>): void {
   for (const article of byId.values()) {
@@ -46,14 +184,7 @@ export function consolidateActivePnjSections(byId: Map<string, Article>): void {
     // already present in this profile and must lead its public entry.
     if (article.id === "pnj-loges-mages-naalnish-09") article.title = "Naalnish";
 
-    const truthName = String(article.pnj?.nom_verite ?? "").trim();
-    const species = truthSpecies(article.pnj?.race);
-    article.secretTags = [
-      ...(truthName && truthName.length <= 120 && !/^[_?\s]+$/.test(truthName)
-        ? [`vérité/nom/${truthName}`] : []),
-      ...(species && species.length <= 100 && !/^[_?\s]+$/.test(species)
-        ? [`vérité/espèce/${species}`] : [])
-    ];
+    addPnjTaxonomy(article);
 
     const publicSections: Section[] = [];
     const secretSections: Section[] = [];

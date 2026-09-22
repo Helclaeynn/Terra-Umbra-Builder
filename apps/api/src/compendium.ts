@@ -373,8 +373,8 @@ type Corpus = {
 };
 
 const LEGACY_CATEGORY = "OLD";
-// Conservative public Reality vocabulary while the PNJ taxonomy is curated.
-// Legacy tags outside this list can encode a hidden species or faction.
+// Legacy labels outside this list can encode a hidden species or faction.
+// Newly curated Reality tags have an explicit namespace.
 const PUBLIC_PNJ_TAGS = new Set([
   "pnj", "realite", "crawlers", "anti systeme", "neopunks", "freerunners",
   "gundrivers", "deathrunners", "neurodivers", "meditechs", "fixers",
@@ -507,7 +507,7 @@ function articleForAudience(article: Article, includeMj: boolean): Article {
       delete result.dataset;
       delete result.source;
       delete result.sourceCategory;
-      result.tags = [];
+      result.tags = (result.tags ?? []).filter((tag: string) => tag.startsWith("réalité/"));
       if (result.navigation && typeof result.navigation === "object") {
         const navigation = result.navigation as JsonObject;
         result.navigation = {
@@ -525,7 +525,8 @@ function articleForAudience(article: Article, includeMj: boolean): Article {
     removeInternalPublicMetadata(result);
     delete result.secretTags;
     if (result.category === "Personnages") {
-      result.tags = (result.tags ?? []).filter((tag: string) => PUBLIC_PNJ_TAGS.has(norm(tag)));
+      result.tags = (result.tags ?? []).filter((tag: string) =>
+        tag.startsWith("réalité/") || PUBLIC_PNJ_TAGS.has(norm(tag)));
     }
   }
   else delete result.__searchText;
