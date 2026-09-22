@@ -980,7 +980,7 @@ const PAYLOAD = [
       "nom_verite": "Barbatos -Jurojin/Shouxing - Junxing",
       "nom_verite_source": "Barbatos -Jurojin/Shouxing - Junxing",
       "race": "daemons",
-      "age": "« »61 ans », ????",
+      "age": "61 ans",
       "origine": "japonaise",
       "statut": "Duc",
       "affiliations": "indépendant",
@@ -1020,6 +1020,10 @@ const PAYLOAD = [
                 "Shin Arata"
               ],
               [
+                "Âge apparent",
+                "61 ans"
+              ],
+              [
                 "Affiliations",
                 "indépendant"
               ],
@@ -1032,7 +1036,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Arata Shin est un maitre d’arts martiaux ayant été primé en karaté, judo, kendo, wushu, taekwondo et d’autres domaines. Légende-vivante pour les pratiquants d’arts anciens, après la guerre qu’il mena comme un simple soldat, il se retira en Californie pour ouvrir un restaurant de sushis indépendant, luttant contre les Corporations."
+            "text": "Shin Arata est un maître d’arts martiaux récompensé en karaté, judo, kendo, wushu, taekwondo et dans plusieurs autres disciplines. Véritable légende vivante pour les pratiquants des arts anciens, il participa à la guerre comme simple soldat avant de se retirer en Californie. Il y ouvrit un restaurant de sushis indépendant, refusant de céder aux corporations."
           }
         ]
       },
@@ -1098,7 +1102,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Arata Shin est un maitre d’arts martiaux ayant été primé en karaté, judo, kendo, wushu, taekwondo et d’autres domaines. Légende-vivante pour les pratiquants d’arts anciens, après la guerre qu’il mena comme un simple soldat, il se retira en Californie pour ouvrir un restaurant de sushis indépendant, luttant contre les Corporations. Barbatos est, dans les légendes, c’est un daemon philosophe qui parle aux animaux. En tant que divinité « mineure », il était Jurojin, un dieu du bonheur ou bien aussi Shouxing. Il incarnait la prospérité, la longévité, la paix durable. Sa vie mortelle n’est pas si exceptionnelle, loin des légendes, c’était un homme simple voulant vivre loin des conflits, qui perdit ses fils lors d’une guerre, ses filles lors d’épidémies, ses épouses par manque d’amour. Malgré tout, il ne fut jamais en colère et Satan admira cette capacité à protéger l’ordre et la paix au fil des années."
+            "text": "Shin est en vérité Barbatos–Jurojin/Shouxing–Junxing. Dans les légendes, Barbatos est un Daemon philosophe capable de parler aux animaux. Comme divinité mineure, il fut aussi rapproché de Jurojin et de Shouxing, figures de prospérité, de longévité et de paix durable. Sa vie mortelle fut bien moins spectaculaire : homme simple cherchant à rester loin des conflits, il perdit ses fils à la guerre, ses filles lors d’épidémies et ses épouses par manque d’amour. Malgré ces pertes, il ne céda jamais à la colère. Satan admira cette capacité à préserver l’ordre et la paix au fil des années et fit de lui l’un de ses ducs."
           }
         ]
       },
