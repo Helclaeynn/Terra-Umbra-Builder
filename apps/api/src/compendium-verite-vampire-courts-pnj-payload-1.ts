@@ -1284,10 +1284,10 @@ const PAYLOAD = [
       "real_name": "Alfredo Necahual",
       "nom_verite": "Yoalli",
       "race": "Vampire",
-      "age": "«29 ans » - 1313 ans",
+      "age": "29 ans",
       "origine": "Américaine",
       "statut": "Gouvernement (médical)",
-      "statut_verite": "« Dzahui »",
+      "statut_verite": "Dzahui",
       "organisation": "Ihuito Meztzi",
       "relations": [],
       "identity_keys": [
@@ -1300,7 +1300,7 @@ const PAYLOAD = [
         22,
         22
       ],
-      "source_designation": "Ah’kin Ajaw « Xolotl» : Xolotl",
+      "source_designation": "Ah’kin Ajaw « Dzahui » : Yoalli",
       "source_reality_raw": "Alfredo Necahual",
       "source_truth_raw": "Yoalli",
       "source_extract": "Ah’kin Ajaw « Xolotl» : Xolotl Nom de la Réalité : Alfredo Necahual Nom de la Vérité : Yoalli Age : «29 ans » - 1313 ans Affiliations : Gouvernement (médical) Nationalité d’origine : Américaine Ethnie réelle : Vampire Statut : « Dzahui » Maison vampirique : «Yotzacatl » Alfedo est né à Las Vegas, de parents issus de l’immigration Salvadorienne, il s’est marié assez tôt à María José Saavedra, afin de devenir américains et de pouvoir finir ses études. Brillant médecin, c’est un homme bon et dévoué qui a une haine profonde contre les corporations de la santé. Il est un grand admirateur de Keysha Richards, sa supérieure. Parce que les vampires de l’Ihuito ont une culture du sacrifice et du meurtre, fournir du sang en grande quantiré est un enjeu difficile. Le prince Yoalli et le pourvoyeur de sang par son statut de médecin. Il a plus de vampires dans sa Maison que les autres de l’ihuito, cependant, il est détesté par les siens. En effet, il n’hésite pas à droguer le sang et tenter des expériences sur ses vampires afin de les rendre totalement dépendants de son approvisionnement, parfois il les fait même muter. Véritable dealer, il cache un sadisme rare derrière son visage de bellâtre latin, né dans la civilisation Maya à l’époque classique, c’était déjà un prêtre du sang. Il couvrait le corps de ses vampires de sang et de cendres pour",
@@ -1327,7 +1327,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«29 ans »"
+                "29 ans"
               ],
               [
                 "Affiliations",
@@ -1338,6 +1338,10 @@ const PAYLOAD = [
                 "Américaine"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Alfredo Necahual est né à Las Vegas de parents issus de l’immigration salvadorienne. Il épousa assez jeune María José Saavedra ; ce mariage devait leur permettre d’acquérir la citoyenneté américaine et à Alfredo d’achever ses études. Brillant médecin, il passe pour un homme bon et dévoué, tout en nourrissant une haine profonde envers les corporations de la santé. Il admire beaucoup sa supérieure, Keysha Richards."
           }
         ]
       },
@@ -1360,7 +1364,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "«29 ans » - 1313 ans"
+                "29 ans en apparence ; 1 313 ans"
               ],
               [
                 "Nature réelle",
@@ -1368,17 +1372,17 @@ const PAYLOAD = [
               ],
               [
                 "Statut vampirique",
-                "« Dzahui »"
+                "Dzahui"
               ],
               [
                 "Maison vampirique",
-                "«Yotzacatl »"
+                "Yotzacatl"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "Alfedo est né à Las Vegas, de parents issus de l’immigration Salvadorienne, il s’est marié assez tôt à María José Saavedra, afin de devenir américains et de pouvoir finir ses études. Brillant médecin, c’est un homme bon et dévoué qui a une haine profonde contre les corporations de la santé. Il est un grand admirateur de Keysha Richards, sa supérieure. Parce que les vampires de l’Ihuito ont une culture du sacrifice et du meurtre, fournir du sang en grande quantiré est un enjeu difficile. Le prince Yoalli et le pourvoyeur de sang par son statut de médecin. Il a plus de vampires dans sa Maison que les autres de l’ihuito, cependant, il est détesté par les siens. En effet, il n’hésite pas à droguer le sang et tenter des expériences sur ses vampires afin de les rendre totalement dépendants de son approvisionnement, parfois il les fait même muter. Véritable dealer, il cache un sadisme rare derrière son visage de bellâtre latin, né dans la civilisation Maya à l’époque classique, c’était déjà un prêtre du sang. Il couvrait le corps de ses vampires de sang et de cendres pour"
+            "text": "La culture du sacrifice et du meurtre de l’Ihuito rend difficile l’approvisionnement en grandes quantités de sang. Grâce à sa position de médecin, le prince Yoalli est le pourvoyeur de la Cour. Sa maison rassemble davantage de vampires que les autres maisons de l’Ihuito, mais les siens le détestent : il drogue le sang, expérimente sur ses vampires pour les rendre totalement dépendants de ses réserves et va parfois jusqu’à les faire muter. Ce véritable trafiquant dissimule un sadisme rare derrière son visage de bellâtre. Né dans la civilisation maya classique, il était déjà prêtre du sang. Il couvrait le corps de ses vampires de sang et de cendres pour les protéger du soleil, puis les lançait au combat. Il était un ennemi des anges de Raphael."
           }
         ]
       },
