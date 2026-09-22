@@ -338,7 +338,7 @@ const PAYLOAD = [
       "nom_verite": "Forneus – Ziusudra",
       "nom_verite_source": "Forneus – Ziusudra",
       "race": "Daemons",
-      "age": "«65 ans », ????",
+      "age": "65 ans",
       "origine": "russe",
       "statut": "Duc",
       "affiliations": "Mafia : bratva",
@@ -394,7 +394,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Appelé Seigei Makrovich, c’est un vétéran des mafias russes, notamment de Moscou, il a récemment été envoyé au nouveau QG, à Los Angeles où il a du mal avec les « jeunes » issus de la mafia de Vladivostok."
+            "text": "Sergei Makarovich est un vétéran des mafias russes, particulièrement de Moscou. Récemment envoyé au nouveau QG de Los Angeles, il s’adapte difficilement aux « jeunes » issus de la mafia de Vladivostok."
           }
         ]
       },
@@ -460,7 +460,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "La figure de Njord, Poséidon, un vieil homme puissant mais impétueux colle à merveille à Forneus. Appelé Seigei Makrovich, c’est un vétéran des mafias russes, notamment de Moscou, il a récemment été envoyé au nouveau QG, à Los Angeles où il a du mal avec les « jeunes » issus de la mafia de Vladivostok. En tant que mortel, quand la déesse Alabor décida de noyer la Terre, débutant un énième Déluge, un roi sumérien décida de sauver sa famille. L’arche véritable contint donc sa famille, ses serviteurs, sa ménagerie, des troupeaux, il ne sauva, évidemment pas un couple de chaque créature, mais de quoi refonder une ferme une fois l’inondation massive passée. Les hébreux dérobèrent le mythe pour le renommer Noé, ignorant que Ziusudra fit naufrage dès le premier jour, mais, face à son ingéniosité et sa ténacité, Alabor récupéra son âme. Elle renferma toutefois quand, à l’époque de la Grèce antique, c’est son visage à lui qu’elle découvrit comme avatar de la divinité des eaux."
+            "text": "Forneus correspond à la figure du vieux dieu des eaux puissant mais impétueux que l’on retrouve notamment derrière Njord ou Poséidon. Mortel, il fut Ziusudra, roi sumérien confronté à l’un des Déluges provoqués par Alabor. Son arche n’emportait pas un couple de chaque créature : elle contenait sa famille, ses serviteurs, sa ménagerie et suffisamment de troupeaux pour refonder une ferme après l’inondation. Les Hébreux reprirent plus tard ce récit sous la figure de Noé. Ziusudra fit pourtant naufrage dès le premier jour ; impressionnée par son ingéniosité et sa ténacité, Alabor récupéra son âme. La source ajoute qu’à l’époque de la Grèce antique, son visage fut repris comme avatar de la divinité des eaux."
           }
         ]
       },
