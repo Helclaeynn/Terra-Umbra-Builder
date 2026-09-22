@@ -732,7 +732,7 @@ const PAYLOAD = [
       "real_name": "Zamari Wilkerson",
       "nom_verite": "Razael",
       "race": "Angelus",
-      "age": "«65ans », ????",
+      "age": "65 ans",
       "origine": "américaine",
       "statut": "Associatif",
       "statut_verite": "séraphin",
@@ -773,7 +773,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«65ans », ????"
+                "65 ans"
               ],
               [
                 "Affiliations",
@@ -794,7 +794,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Zamari est né à San Diego en 1970. Ouvrier, serveur, livreur, il a enchainé les boulots avec calme et philosophie, en 2010, il s’installa à Compton, avec sa femme et son fils, Leodarius. En 2013, Leodarius fut renversé par des petites frappes d’un gang de bloods, en voiture, venus tuer un Crips près d’un jardin résidentiel. L’échange de feu tua un gosse nommé Kendrick également. Leodarius s’en sortit, mais fut handicapé à vie. Le reste de sa vie, Zamari créa des associations et des orphelinats pour lutter et aider les familles face à la violence des gangs. Grand penseur des années 2030, Dina Page le récompensa plusieurs fois pour ses livres et ses conférences, particulièrement concernée par son histoire personnelle."
+            "text": "Zamari est né à San Diego en 1970. Ouvrier, serveur puis livreur, il enchaîna les emplois avec calme et philosophie. En 2010, il s’installa à Compton avec sa femme et son fils, Leodarius. En 2013, celui-ci fut renversé par de jeunes membres d’un gang de Bloods venus en voiture tuer un Crip près d’un quartier résidentiel. L’échange de tirs tua également un enfant nommé Kendrick. Leodarius survécut, mais resta handicapé à vie. Zamari consacra alors le reste de son existence à créer des associations et des orphelinats pour aider les familles confrontées à la violence des gangs. Devenu un grand penseur des années 2030, il fut récompensé à plusieurs reprises par Dina Page pour ses livres et ses conférences, celle-ci étant particulièrement sensible à son histoire personnelle."
           }
         ]
       },
@@ -839,7 +839,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Razael est le séraphin de la sagesse, ce n’est pas un ange qu’on va voir ou qu’on invoque pour la violence. Il a une certaine résignation dans son caractère, il a l’aptitude rare d’avoir souvent la bonne solution pour le plus grand nombre, mais souvent, ça implique une issue tragique pour certains. il n’est pas dénué de haine ou de vices, J.T. Dobson ne décéda pas de ses blessures par exemple, l’ange lui grava sur le torse la marque de Belzebuth et le garde pour le tuer en boucle."
+            "text": "Razael est le Séraphin de la sagesse ; ce n’est pas un ange que l’on va voir ou invoquer pour la violence. Il possède une certaine résignation et l’aptitude rare de trouver souvent la meilleure solution pour le plus grand nombre, même lorsque celle-ci implique une issue tragique pour certains. Il n’est toutefois pas dénué de haine ni de vices : J.T. Dobson ne mourut pas de ses blessures, par exemple ; l’ange lui grava sur le torse la marque de Belzébuth et le garde pour le tuer en boucle."
           }
         ]
       },
