@@ -1,3 +1,5 @@
+import { repairCommonRuleSections } from "./compendium-verite-v7-common-rule-repairs.js";
+
 type Block={type:"p";text:string;style?:string}|{type:"table";rows:unknown[][]};
 type Section={id:string;title:string;level:number;audience?:"mj";blocks:Block[]};
 type Article={id:string;dataset:string;category:string;sourceCategory:string;title:string;source:string;status:string;rebuildV2:true;tags:string[];sections:Section[]};
@@ -252,7 +254,7 @@ const SOURCE_ARTICLES=[
     ]
   }
 ] as const;
-export const COMPENDIUM_VERITE_V7_RULE_ARTICLES:Article[]=SOURCE_ARTICLES.map(a=>({...a,tags:[...a.tags],dataset:"verite-v7",category:"Règles",sourceCategory:"Règles",source:SOURCE,status:"canon_enrichi",rebuildV2:true,sections:a.sections as unknown as Section[]}));
+export const COMPENDIUM_VERITE_V7_RULE_ARTICLES:Article[]=SOURCE_ARTICLES.map(a=>({...a,tags:[...a.tags],dataset:"verite-v7",category:"Règles",sourceCategory:"Règles",source:SOURCE,status:"canon_enrichi",rebuildV2:true,sections:repairCommonRuleSections(a.sections as unknown as Section[]) as Section[]}));
 export const COMPENDIUM_VERITE_V7_RULE_NAVIGATION=[
 {id:"regles-verite-v7-architecture-ptv-acces",dataset:"verite-v7",category:"Règles",group:"Socle Vérité",groupOrder:40,subgroup:"Architecture & progression",subgroupOrder:10,pageOrder:10,displayTitle:"Architecture, PTV & accès"},
 {id:"regles-verite-v7-pa-reactions-defense-puissance",dataset:"verite-v7",category:"Règles",group:"Socle Vérité",groupOrder:40,subgroup:"Action & opposition",subgroupOrder:20,pageOrder:10,displayTitle:"PA, Réactions, Défense occulte & Puissance"},
