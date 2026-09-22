@@ -1129,7 +1129,7 @@ const PAYLOAD = [
       "nom_verite": "Focalor – Maximilien de Robespierre",
       "nom_verite_source": "Focalor – Maximilien de Robespierre",
       "race": "Daemons",
-      "age": "«31 ans » - ????",
+      "age": "31 ans",
       "origine": "américaine",
       "statut": "Duc",
       "affiliations": "Crawlers : Insurgés",
@@ -1186,7 +1186,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Max Sharp est le bras droit de « Raiser », l’un des trois grands noms de l’insurrection américano- californienne. Max est probablement encore plus violent et extrême que Raiser, au point d’être surnommé « Max Murder » un nom obtenu en 2031 quand il lança un raid sur une usine-village de yellowfood corp, près de Phoenix, ne laissant aucun corporatiste en réchapper."
+            "text": "Max Sharp est le bras droit de « Raiser », l’un des trois grands noms de l’insurrection américano-californienne. Plus violent et plus extrême encore que son supérieur, il est surnommé « Max Murder » depuis 2031, lorsqu’il mena un raid contre une usine-village de Yellowfood Corporation près de Phoenix sans laisser survivre aucun corporatiste."
           }
         ]
       },
@@ -1252,7 +1252,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Max Sharp est le bras droit de « Raiser », l’un des trois grands noms de l’insurrection américano- californienne. Max est probablement encore plus violent et extrême que Raiser, au point d’être surnommé « Max Murder » un nom obtenu en 2031 quand il lança un raid sur une usine-village de yellowfood corp, près de Phoenix, ne laissant aucun corporatiste en réchapper. Focalor n’est pas un nom de démon très connu et pourtant c’est un duc actuel de Baal, créé récemment puisqu’il n’a que quelques siècles. Autrefois, on le connaissait comme l’humain Maximilien de Robespierre et si, comme souvent on a autant terni son image qu’on n’a pu enjoliver ses actions, il reste une grande figure de l’Histoire Française au point que Baal, même déchu ne s’acharne à en faire un subordonné. Il incarne la dignité humaine, l’insoumission de fait, tous les mortels se valent pour lui."
+            "text": "Max est en vérité Focalor–Maximilien de Robespierre. Focalor n’est pas un nom démoniaque très célèbre, mais ce Duc de Baal est relativement récent à l’échelle infernale, n’ayant que quelques siècles. De son vivant, il fut Maximilien de Robespierre. Son image historique a été autant noircie qu’idéalisée, mais il demeure une figure majeure de l’Histoire française, suffisamment importante pour que Baal, malgré sa propre déchéance, cherche à en faire un subordonné. Focalor incarne la dignité humaine et l’insoumission : à ses yeux, tous les mortels se valent."
           }
         ]
       },
