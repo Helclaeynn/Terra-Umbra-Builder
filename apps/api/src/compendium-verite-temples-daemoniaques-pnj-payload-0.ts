@@ -965,7 +965,7 @@ const PAYLOAD = [
       "nom_verite": "Moloch",
       "nom_verite_source": "Moloch",
       "race": "Daemons",
-      "age": "«31 ans » - ????",
+      "age": "31 ans",
       "origine": "Américaine",
       "statut": "Duc",
       "affiliations": "Crawlers : hookers",
@@ -1016,6 +1016,11 @@ const PAYLOAD = [
                 "Américaine"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Jimmy Brazier est un Crawler américain de 31 ans lié au milieu des Hookers."
           }
         ]
       },
@@ -1081,7 +1086,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Quand Belial s’énerva autrefois, sa colère fut telle qu’elle donna naissance à une flamme si puissante et si durable qu’elle développa sa propre conscience. Ainsi naquit Moloch. Considéré comme un duc, par ses pouvoirs, c’est une entité « divine » qui refuse de retourner dans l’enfer de Belial, souvent associé à un traitre par les autres daemons, il est surtout indépendant et n’obéit qu’à Belial directement."
+            "text": "Moloch naquit autrefois de la colère de Belial : une flamme si puissante et si durable qu’elle finit par développer sa propre conscience. Ses pouvoirs lui valent le rang de duc, bien qu’il soit en réalité une entité presque « divine ». Refusant de retourner dans l’Enfer de Belial, il est souvent considéré comme un traître par les autres Daemons. Il est surtout profondément indépendant et n’obéit directement qu’à Belial."
           }
         ]
       },
