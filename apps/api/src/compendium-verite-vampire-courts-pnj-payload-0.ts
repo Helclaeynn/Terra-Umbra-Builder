@@ -896,7 +896,7 @@ const PAYLOAD = [
     "dataset": "verite-vampire-courts-pnj",
     "category": "Personnages",
     "sourceCategory": "Personnages",
-    "title": "Elody Katherine SKOTIA",
+    "title": "Elody Katherine Skotia",
     "source": "Factions_Les cours vampiriques(1)(2).pdf",
     "status": "canon_source",
     "rebuildV2": true,
@@ -909,17 +909,19 @@ const PAYLOAD = [
     ],
     "pnj": {
       "completeness": "detailed",
-      "real_name": "Elody Katherine SKOTIA",
+      "real_name": "Elody Katherine Skotia",
       "nom_verite": "Hécate SKOTIA",
       "race": "Vampires",
-      "age": "« 30 ans » -3130 ans",
+      "age": "30 ans",
       "origine": "Roumaine",
       "statut": "corporatistes : sunways",
       "statut_verite": "Première princesse",
       "organisation": "Krovni Rytsari",
       "relations": [],
       "identity_keys": [
+        "Elody Katherine Skotia",
         "Elody Katherine SKOTIA",
+        "Hécate Skotia",
         "Hécate SKOTIA"
       ],
       "source_group": "Krovni Rytsari",
@@ -951,11 +953,11 @@ const PAYLOAD = [
               ],
               [
                 "Nom / identité de Réalité",
-                "Elody Katherine SKOTIA"
+                "Elody Katherine Skotia"
               ],
               [
                 "Âge apparent",
-                "« 30 ans » -3130 ans"
+                "30 ans"
               ],
               [
                 "Affiliations",
@@ -966,6 +968,10 @@ const PAYLOAD = [
                 "Roumaine"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Elody Katherine Skotia est une scientifique roumaine employée par Sunways Corporation. Elle dirige la branche Recherche et figure parmi les personnalités les plus influentes de l’entreprise, derrière la présidence et la vice-présidence. Trop jeune pour avoir intégré le PCRC pendant la guerre, elle se présente volontiers comme supérieure à Levana Uriel, qu’elle considère comme sa grande rivale. Sérieuse jusqu’à l’obsession lorsqu’il est question de progrès médical, elle peut faire preuve d’une cruauté extrême pour atteindre ses objectifs scientifiques."
           }
         ]
       },
@@ -1006,7 +1012,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Née dans les actuelles Carpathes, elle n’est pas le premier enfant de Dragoy, cependant elle est sa première-née vampirique. Fille du fléau R’Gahanath, sa mère l’a éduqué comme l’aurait fait une humaine, s’en amusant, mais la formant aussi pour façonnerla Krovni, à l’époque une pauvre famille nomade de cavaliers. Avec son père, elle écrasa les autres factions vampiriques vénérant les archivampires et instaura la marque de Caïn, faisant des vampires occidentaux, les plus nombreux au monde en fiabilisant le difficile réveil du sang (descendant de khinae). Extrêmement manipulatrice, elle est froide et d’une intelligence malsaine, cependant, sa dévotion totale est pour les vampires et contrairement aux attentes de sa mère, elle respecte son père comme personne, n’envisageant pas de le remplacer. Elle est, toutefois, le vampire le plus puissant de la krovni et possiblement de toutes les cours. Elle est l’amante de Mircalla, sa servante et c’est elle qui en fait une concubine de son père, pour élever la maison Karnstein. Elle a créé bien d’autres maisons sur ce modèle."
+            "text": "Elody est en vérité Hécate Skotia, première princesse de la Krovni et première-née vampirique de Dragoy. Fille de R’Gahanath, elle fut élevée par sa mère presque comme une humaine tout en étant préparée à façonner la Krovni, qui n’était alors qu’une famille nomade de cavaliers. Avec son père, elle écrasa les autres factions vampiriques vénérant les Archivampires et généralisa la Marque de Caïn, rendant le réveil du sang Khinae bien plus fiable et faisant des vampires occidentaux les plus nombreux au monde. Froide, manipulatrice et d’une intelligence malsaine, elle demeure pourtant totalement dévouée aux vampires et respecte profondément Dragoy, contrairement aux attentes de sa mère. Elle n’envisage pas de remplacer son père malgré le fait qu’elle soit probablement le vampire le plus puissant de la Krovni, voire de toutes les cours. Mircalla est son amante et sa servante ; Hécate la fit entrer parmi les concubines de Dragoy afin d’élever la maison Karnstein et créa de nombreuses autres maisons selon le même modèle."
           }
         ]
       },
