@@ -13,6 +13,10 @@ import {
 import { generatedTalentHubCorpus } from "./compendium-talent-hubs.js";
 import { generatedBuilderReferenceCorpus } from "./compendium-builder-references.js";
 import { applyFinalEditorialCleanup } from "./compendium-final-editorial-cleanup.js";
+import {
+  applyLoreQualityCleanup,
+  removeInternalPublicMetadata
+} from "./compendium-lore-quality-cleanup.js";
 import { applyCompendiumVeriteLogesMagesLore } from "./compendium-verite-loges-mages-lore.js";
 import { applyCompendiumVeriteClosureLore } from "./compendium-verite-closure-lore.js";
 import { applyCompendiumRealiteV9ClosureLore } from "./compendium-realite-v9-closure-lore.js";
@@ -491,7 +495,8 @@ function articleForAudience(article: Article, includeMj: boolean): Article {
       }
     }
   }
-  delete result.__searchText;
+  if (!includeMj) removeInternalPublicMetadata(result);
+  else delete result.__searchText;
   return result;
 }
 
@@ -3438,6 +3443,7 @@ async function loadCorpus(): Promise<Corpus> {
 
     applyNavigationTaxonomy(article, navEntry);
     applyTargetedEditorialCorrections(article);
+    applyLoreQualityCleanup(article);
     article.manufacturer = manufacturerFor(article);
     article.__searchText = norm(flattenText(article));
   }

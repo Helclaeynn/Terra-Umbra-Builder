@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
 import { gunzipSync } from "node:zlib";
 
@@ -28,7 +29,7 @@ const SOURCE_DIR =
   process.env.HUNTER_LORE_SOURCE_DIR ??
   (process.env.NODE_ENV === "production"
     ? "/app/rules-data/hunters"
-    : resolve(process.cwd(), "../../compendium/source"));
+    : fileURLToPath(new URL("../../../compendium/source/", import.meta.url)));
 
 const encoded = Array.from({ length: PARTS }, (_, index) => {
   const filename = `${PREFIX}${String(index).padStart(2, "0")}.b64part`;

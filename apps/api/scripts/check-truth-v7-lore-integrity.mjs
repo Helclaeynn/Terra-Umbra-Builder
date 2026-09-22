@@ -7,6 +7,7 @@ import { COMPENDIUM_VERITE_V7_DAEMON_ARTICLES } from "../dist/compendium-verite-
 import { COMPENDIUM_VERITE_V7_ANGELUS_ARTICLES } from "../dist/compendium-verite-v7-angelus.js";
 import { COMPENDIUM_VERITE_V7_ASERYN_ARTICLES } from "../dist/compendium-verite-v7-aseryns.js";
 import { COMPENDIUM_VERITE_V7_PASS_B_ARTICLES } from "../dist/compendium-verite-v7-pass-b.js";
+import { applyLoreQualityCleanup } from "../dist/compendium-lore-quality-cleanup.js";
 
 const all = [
   ...COMPENDIUM_VERITE_V7_LORE_ARTICLES,
@@ -18,7 +19,11 @@ const all = [
   ...COMPENDIUM_VERITE_V7_PASS_B_ARTICLES
 ];
 
-const lore = all.filter((article) => article.category === "Vérité");
+const lore = all.filter((article) => article.category === "Vérité").map((article) => {
+  const cleaned = structuredClone(article);
+  applyLoreQualityCleanup(cleaned);
+  return cleaned;
+});
 assert.equal(lore.length, 17, `expected 17 Truth lore pages, found ${lore.length}`);
 assert.equal(new Set(lore.map((article) => article.id)).size, 17, "duplicate Truth lore article ids");
 

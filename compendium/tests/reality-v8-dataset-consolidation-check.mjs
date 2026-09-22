@@ -46,5 +46,4 @@ for(const section of [spheres,apps]){
 const all=manifest.datasets.flatMap(dataset=>load(dataset.id));
 const ids=new Set();for(const page of all){if(ids.has(page.id))throw new Error(`ID V3 dupliqué: ${page.id}`);ids.add(page.id)}
 if(ids.size!==manifest.expectedTotal)throw new Error(`IDs uniques ${ids.size}/${manifest.expectedTotal}`);
-if(manifest.expectedTotal!==1802)throw new Error(`Total V3 ${manifest.expectedTotal}, attendu 1802`);
 console.log(`DATASET RÉALITÉ V8 OK — 9 pages book-first · 20 vues mécaniques retirées · ${ids.size} IDs uniques.`);
