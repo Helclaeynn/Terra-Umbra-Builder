@@ -1279,7 +1279,7 @@ const PAYLOAD = [
       "nom_verite": "Marchosias – Jeanne d’Arc",
       "nom_verite_source": "Marchosias – Jeanne d’Arc",
       "race": "daemons",
-      "age": "«30 ans », ????",
+      "age": "30 ans",
       "origine": "Française",
       "statut": "Duchesse",
       "affiliations": "crawler : fixers",
@@ -1336,7 +1336,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Jane de March est un fixer de Los Angeles, elle assure surtout le service après-vente des avocats et autres corporatistes liés aux cabinets de loi."
+            "text": "Jane de March est une Fixer de Los Angeles. Elle assure principalement le service après-vente et la gestion pratique des besoins d’avocats et de corporatistes liés aux cabinets juridiques."
           }
         ]
       },
@@ -1402,7 +1402,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Jane de March est un fixer de Los Angeles, elle assure surtout le service après-vente des avocats et autres corporatistes liés aux cabinets de loi. Son identité véritable est celle de la Duchesse Marchosias, « la louve cracheuse de feu ». C’est un titre qu’à obtenu Jeanne d’Arc après sa mort, ne rejoignant pas les cieux étant donné les conditions de sa mort, Prophète de la Victoire, c’est Belial qui récupéra son âme. Bien que choquée d’arriver en enfer, Jeanne ayant été abandonnée par « Dieu », resta loyale à la reine divine Belial et devint rapidement une duchesse de son enfer."
+            "text": "Jane de March est en vérité la Duchesse Marchosias, « la louve cracheuse de feu » : un titre obtenu par Jeanne d’Arc après sa mort. Les conditions de son supplice l’empêchèrent de rejoindre les Cieux ; Prophète de la Victoire abandonnée par « Dieu », son âme fut récupérée par Belial. D’abord bouleversée de se retrouver en Enfer, Jeanne resta finalement loyale à la reine-divine et gravit rapidement la hiérarchie jusqu’au rang de duchesse."
           }
         ]
       },
