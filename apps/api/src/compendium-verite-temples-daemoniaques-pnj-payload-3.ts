@@ -653,10 +653,10 @@ const PAYLOAD = [
       "completeness": "detailed",
       "real_name": "Ziyad Al’Aydin",
       "real_name_source": "Ziyad Al’Aydin",
-      "nom_verite": "Baphomet -",
+      "nom_verite": "Baphomet",
       "nom_verite_source": "Baphomet -",
       "race": "Daemons",
-      "age": "«32 ans », ????",
+      "age": "32 ans",
       "origine": "américaine",
       "statut": "Duc",
       "affiliations": "Religieux : néopaïens",
@@ -669,7 +669,6 @@ const PAYLOAD = [
       ],
       "identity_keys": [
         "Ziyad Al’Aydin",
-        "Baphomet -",
         "Baphomet"
       ],
       "relations": [],
@@ -712,7 +711,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Ziyad est un prêcheur néopaïen. Cultiste convaincu et fervent anti-monithéïste, il est régulièrement accusé de financer des terroristes et des insurgés pour attaquer Neovatican et différentes mosquées. Outre ses talents d’orateur incontestés, c’est aussi un défenseur acharné du droit de disposer de son corps, assumant pleinement un corps modifié pour être réellement hermaphrodite, ayant déjà eu un enfant de son mari , qu’il porta et ayant inséminé son épouse avec succès."
+            "text": "Ziyad est un prêcheur néopaïen, orateur reconnu et fervent adversaire des monothéismes. Il est régulièrement accusé de financer des terroristes ou des insurgés visant Neovatican et différentes mosquées. Il défend aussi avec virulence le droit de chacun à disposer de son corps et assume publiquement une morphologie profondément modifiée ainsi qu’une vie familiale atypique."
           }
         ]
       },
@@ -735,7 +734,7 @@ const PAYLOAD = [
               ],
               [
                 "Nom de la Vérité",
-                "Baphomet -"
+                "Baphomet"
               ],
               [
                 "Âge source",
@@ -778,7 +777,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Ziyad est un prêcheur néopaïen. Cultiste convaincu et fervent anti-monithéïste, il est régulièrement accusé de financer des terroristes et des insurgés pour attaquer Neovatican et différentes mosquées. Outre ses talents d’orateur incontestés, c’est aussi un défenseur acharné du droit de disposer de son corps, assumant pleinement un corps modifié pour être réellement hermaphrodite, ayant déjà eu un enfant de son mari , qu’il porta et ayant inséminé son épouse avec succès. Baphomet est probablement un nom de démon extrêmement connu et forcément le duc qui le porte est un terrifiant et redouté daemon. Il se plait à modifier et faire évoluer son corps à sa guise. De son vivant, c’était un musulman anonyme très respectueux de sa religion, il fut horrifié de voir comment les occidentaux créèrent le mythe de Baphomet à partir du Prophète, au point de tout faire pour les provoquer, se faisant vite tuer par ses propres frères. Récupéré par Belzébuth, il assuma de devenir l’incarnation de l’évolution, du changement, de l’altération, toujours plus provocateur et sans aucune forme de retenue morale. Il serait la mère de Daniela Götz qu’il abandonna aux Saintes lagunes, ignorant tout du père, le roi vampire Quetzalcoatl. 12. Temple de Lucifer"
+            "text": "Ziyad est en vérité Baphomet, l’un des noms démoniaques les plus célèbres et un Duc de Belzébuth particulièrement redouté. Il se plaît à modifier et faire évoluer son propre corps, incarnation vivante du changement et de l’altération. De son vivant, il fut un musulman anonyme et profondément respectueux de sa religion. Horrifié par la manière dont les Occidentaux avaient créé le mythe de Baphomet à partir de références au Prophète, il chercha à les provoquer jusqu’à être tué par ses propres frères. Belzébuth récupéra son âme et il assuma alors pleinement ce rôle, devenant toujours plus provocateur et dépourvu de retenue morale. Il serait la mère de Daniela Götz, abandonnée aux Saintes Lagunes, et ignorerait que son père est le roi vampire Quetzalcoatl."
           }
         ]
       },
