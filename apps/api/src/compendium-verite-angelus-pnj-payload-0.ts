@@ -1728,7 +1728,7 @@ const PAYLOAD = [
       "real_name": "Nei Helm",
       "nom_verite": "Nehemiel",
       "race": "Angelus",
-      "age": "«23 ans » - ????",
+      "age": "23 ans",
       "origine": "américaine",
       "statut": "Crawler : insurrection",
       "statut_verite": "séraphin",
@@ -1769,7 +1769,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«23 ans » - ????"
+                "23 ans"
               ],
               [
                 "Affiliations",
@@ -1790,7 +1790,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Nei est une Américaine, elle a essentiellement grandi durant la guerre et a commencé sa vie adulte durant la grande crise, suite aux catastrophes, dépressions et aux grandes vagues d’insurrections. Elle habitait dans une petite ville, Floringtown. Yellowfood acheta la mairie, changea la police par de la sécurité corporative, changea les prix des supermarchés et épiceries locales, fit raser le petit hôpital pour un centre de soin corporatif, ouvert seulement aux employés ou aux contractants. La ville fut évacuée d’urgence un mois après, seul le personnel qualifié et quelques ouvriers ont été déplacés. Nei a survécu mais a joint l’insurrection Californienne après ce massacre méconnu."
+            "text": "Nei est une Américaine qui a essentiellement grandi pendant la guerre et commencé sa vie adulte au cœur de la grande crise, entre catastrophes, dépression économique et grandes vagues d’insurrection. Elle vivait à Floringtown, une petite ville dont Yellowfood racheta la mairie, remplaça la police par une sécurité corporative, modifia les prix des commerces locaux et fit raser le petit hôpital pour construire un centre de soins réservé aux employés et contractants. Un mois plus tard, la ville fut évacuée d’urgence ; seuls le personnel qualifié et quelques ouvriers furent relogés. Nei survécut et rejoignit ensuite l’insurrection californienne après ce massacre méconnu."
           }
         ]
       },
@@ -1835,7 +1835,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Séraphin d’Azazel, il incarne la « fin de l’amour », la haine à l’état brut. Glaciale mais perpétuellement furieuse, Nehemiel n’est pas un ange"
+            "text": "Séraphine d’Azazel, Nehemiel incarne la « fin de l’amour », la haine à l’état brut. Glaciale mais perpétuellement furieuse, elle n’est pas un ange particulièrement gentil ni protecteur : c’est une tueuse de tentateurs et de séducteurs, capable de retourner leurs propres pouvoirs contre eux."
           }
         ]
       },
