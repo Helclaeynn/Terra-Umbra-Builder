@@ -877,7 +877,7 @@ const PAYLOAD = [
       "real_name": "Mickael Lorn",
       "nom_verite": "Metatron",
       "race": "archangelus",
-      "age": "«38 ans » - ????",
+      "age": "38 ans",
       "origine": "américaine",
       "statut": "Religieux : chrétiens",
       "statut_verite": "Archange renégat",
@@ -918,7 +918,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«38 ans » - ????"
+                "38 ans"
               ],
               [
                 "Affiliations",
@@ -939,7 +939,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Mickael Lorn est un prêtre et un ancien athlète olympique ayant perdu l’usage de ses jambes, invalide, il a dédié sa vie à aider les autres et créer des nouveaux talents. En 2035, alors qu’il perdit l’orphelinat qu’il gérait dans la destruction d’un quartier abandonné, près de la Plage, il fut si inconsolable qu’il tenta de mettre fin à ses jours,"
+            "text": "Mickael Lorn est un prêtre et un ancien athlète olympique ayant perdu l’usage de ses jambes. Devenu invalide, il consacra sa vie à aider les autres et à faire émerger de nouveaux talents. En 2035, l’orphelinat qu’il dirigeait fut détruit avec un quartier abandonné près de la Plage. Inconsolable, Mickael tenta alors de mettre fin à ses jours."
           }
         ]
       },
@@ -984,7 +984,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "L’archange Metatron décida de l’élever au paradis et de prendre son corps, régénérant son corps d’athlète. Metatron est un archange « renégats », il n’a jamais vraiment comploté contre Elynea, mais ses puissants pouvoirs créateurs de forgeron d’âme le firent travailler sur sa propre marque, frôlant le divin et l’hérésie. Il était adoré par de nombreux anges et surclassait de loin Remiel à l’époque, incarnant incroyablement mieux la Sephira Kether. Parce qu’il aurait pu être source de dissidence et qu’une seconde marque reposant sur les Sephira aurait affaibli celle d’Elynea, elle le condamna et l’enferma, sachant bien qu’il était loyal, cela ne remettant pas en cause sa dangerosité. Après avoir possédé brièvement Drasko Vladic, il a perdu ses yeux célestes qu’il laissa dans le corps de l’Ukrainien, désormais, pour voir la vérité, il chasse l’hologramme d’un battement d’aile, de temps en"
+            "text": "L’Archange Metatron décida alors de l’élever au Paradis et de prendre son corps, régénérant au passage son physique d’athlète. Metatron est un Archange « renégat » : il n’a jamais réellement comploté contre Elynea, mais ses immenses talents de forgeron d’âme le poussèrent à travailler sur sa propre Marque, frôlant ainsi le divin et l’hérésie. Adoré par de nombreux anges, il surclassait autrefois très largement Remiel et incarnait bien mieux la Sephira Kether. Parce qu’il aurait pu devenir une source de dissidence et qu’une seconde Marque reposant sur les Sephiroth aurait affaibli celle d’Elynea, celle-ci le condamna et l’enferma tout en sachant qu’il lui restait loyal : sa loyauté ne diminuait en rien sa dangerosité. Après avoir brièvement possédé Drasko Vladic, Metatron perdit ses yeux célestes et les laissa dans le corps de l’Ukrainien. Désormais, lorsqu’il veut voir la Vérité, il chasse l’Hologramme d’un battement d’aile, ce qui est loin de passer inaperçu."
           }
         ]
       },
