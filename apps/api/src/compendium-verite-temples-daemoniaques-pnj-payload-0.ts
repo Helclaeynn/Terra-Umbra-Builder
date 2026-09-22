@@ -808,7 +808,7 @@ const PAYLOAD = [
       "nom_verite": "Cúchulainn",
       "nom_verite_source": "Cúchulainn",
       "race": "Daemons",
-      "age": "«40 ans », ????",
+      "age": "40 ans",
       "origine": "américaine",
       "statut": "Duc",
       "affiliations": "gouvernement : CBII",
@@ -863,7 +863,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Ciaran Lainn est un soldat d’origine galloise par sa mère. Cet américain a enchainé les champs de bataille depuis qu’il est en âge d’être recruté, forte tête néanmoins, il a souvent été sanctionné, s’il s’avère un soldat plutôt travailleur, loyal et efficace, il n’a que deux défauts lui ayant beaucoup couté : son besoin irrépressible d’aller au corps à corps et son refus de porter la coupe réglementaire."
+            "text": "Ciaran Lainn est un soldat américain d’origine galloise par sa mère. Depuis qu’il est en âge d’être recruté, il enchaîne les champs de bataille. Forte tête régulièrement sanctionnée, il reste un soldat travailleur, loyal et efficace. Deux défauts lui ont toutefois beaucoup coûté : son besoin irrépressible d’aller au corps à corps et son refus obstiné d’adopter la coupe réglementaire."
           }
         ]
       },
@@ -929,7 +929,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Ciaran Lainn est un soldat d’origine galloise par sa mère. Cet américain a enchainé les champs de bataille depuis qu’il est en âge d’être recruté, forte tête néanmoins, il a souvent été sanctionné, s’il s’avère un soldat plutôt travailleur, loyal et efficace, il n’a que deux défauts lui ayant beaucoup couté : son besoin irrépressible d’aller au corps à corps et son refus de porter la coupe réglementaire. Il n’est autre que le légendaire héros celtique Cúchulainn, qui, comme dans la légende a été emmené par Morrighan. Probablement un ancien amant de la déesse il était certain qu’armé de l’épée « Cruaidin Calcidheann » et de « Gae Bolga », le javelot-foudre, il était réputé invincible. Sa mort a été causée car il était le détenteur de l’attribut de la guerre, archanges et ducs démoniaques la harcelant pour le récupérer. En tant que duc daemoniaque, sa seule présence décuple le courage des croyants de Morrighan et de leurs alliés. Désormais c’est un membre des Cyclops du CBII, l’unité d’intervention lourde. 1. Temple de Belial"
+            "text": "Ciaran est en vérité le légendaire héros celtique Cúchulainn qui, comme dans les récits, fut emmené par Morrighan. Probablement ancien amant de la déesse, il était réputé invincible lorsqu’il maniait l’épée « Cruaidin Calcidheann » et « Gae Bolga », le javelot-foudre. Sa mort fut provoquée par le fait qu’il détenait l’attribut de la guerre : Archanges et ducs daemoniaques le harcelèrent pour le récupérer. Devenu duc daemoniaque, sa seule présence décuple le courage des croyants de Morrighan et de leurs alliés. Il est aujourd’hui membre des Cyclops du CBII, l’unité d’intervention lourde."
           }
         ]
       },
