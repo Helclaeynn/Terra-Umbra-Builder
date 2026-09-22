@@ -435,13 +435,38 @@ function canReadMj(role: unknown): boolean {
 }
 
 function isMjOnlyArticle(article: Article): boolean { return article?.audience === "mj"; }
+function hasProtectedPnjIdentity(article: Article): boolean {
+  if (article.category !== "Personnages" || !article.pnj || typeof article.pnj !== "object") return false;
+  const pnj = article.pnj as JsonObject;
+  const realName = norm(pnj.real_name ?? pnj.nom_reel ?? pnj.nom_realite ?? "");
+  const truthName = norm(pnj.nom_verite ?? "");
+  return Boolean(realName && truthName && realName !== truthName);
+}
+
 function articleForAudience(article: Article, includeMj: boolean): Article {
   const result = deepClone(article);
   if (!includeMj) {
+    const protectedIdentity = hasProtectedPnjIdentity(article);
     if (Array.isArray(result.sections)) result.sections = result.sections.filter((section) => section?.audience !== "mj");
     if (result.pnj && typeof result.pnj === "object") {
       const pnj = result.pnj as JsonObject;
       result.pnj = {...(pnj.portrait?{portrait:pnj.portrait}:{}),...(pnj.portrait_alt?{portrait_alt:pnj.portrait_alt}:{}),...(pnj.portrait_caption?{portrait_caption:pnj.portrait_caption}:{})};
+    }
+    if (protectedIdentity) {
+      delete result.dataset;
+      delete result.source;
+      delete result.sourceCategory;
+      result.tags = [];
+      if (result.navigation && typeof result.navigation === "object") {
+        const navigation = result.navigation as JsonObject;
+        result.navigation = {
+          group: "Personnages",
+          groupOrder: navigation.groupOrder ?? 45,
+          subgroup: "",
+          subgroupOrder: navigation.subgroupOrder ?? 0,
+          pageOrder: navigation.pageOrder ?? 0
+        };
+      }
     }
   }
   delete result.__searchText;
@@ -3607,7 +3632,25 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const corpus = await getCorpus();
     const user = await currentUser(request);
     const includeMj = canReadMj(user?.role);
-    if (request.query.compact === "1") return { entries: includeMj ? corpus.wikiIndexCompact : corpus.wikiIndexCompact.filter((entry) => corpus.publicById.has(String(entry.id ?? ""))) };
+    if (request.query.compact === "1") {
+      if (includeMj) return { entries: corpus.wikiIndexCompact };
+      return {
+        entries: [...corpus.publicById.values()]
+          .filter((article) => article.category !== LEGACY_CATEGORY)
+          .map((article) => {
+            const navigation = article.navigation as JsonObject | undefined;
+            return {
+              id: article.id,
+              title: article.title ?? article.id,
+              category: article.category ?? "",
+              dataset: article.dataset ?? "",
+              group: navigation?.group ?? "",
+              subgroup: navigation?.subgroup ?? "",
+              manufacturer: String(article.manufacturer ?? "")
+            };
+          })
+      };
+    }
     const articles = (includeMj ? corpus.articles : corpus.publicArticles)
       .filter((article) => article.category !== LEGACY_CATEGORY);
     return {
