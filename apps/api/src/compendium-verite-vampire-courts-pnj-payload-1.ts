@@ -1548,10 +1548,10 @@ const PAYLOAD = [
       "real_name": "Xephia Mila de la Vega",
       "nom_verite": "Xizohca",
       "race": "Vampire",
-      "age": "- «35 ans » 835 ns",
+      "age": "35 ans",
       "origine": "Mexicaine",
-      "statut": "religieux : neopaïens",
-      "statut_verite": "« « Tlacoccayotl»",
+      "statut": "Religions : Néopaïens",
+      "statut_verite": "Tlacoccayotl",
       "organisation": "Ihuito Meztzi",
       "relations": [],
       "identity_keys": [
@@ -1564,7 +1564,7 @@ const PAYLOAD = [
         23,
         23
       ],
-      "source_designation": "Ah’kin Ajaw « Mictlanpachecatl » : Cuallima",
+      "source_designation": "Ah’kin Ajaw « Tlacoccayotl » : Xizohca",
       "source_reality_raw": "Xephia Mila de la Vega",
       "source_truth_raw": "Xizohca",
       "source_extract": "Ah’kin Ajaw « Mictlanpachecatl » : Cuallima Nom de la Réalité : Xephia Mila de la Vega Nom de la Vérité : Xizohca Age : - «35 ans » 835 ns Affiliations : religieux : neopaïens Nationalité d’origine : Mexicaine Ethnie réelle : Vampire Statut : « « Tlacoccayotl» Maison vampirique : «Azlaticue » Xephia De la Vega est une grande prêtresse des cultes neopaïens des Aztèques, si les sacrifices humains ne sont pas autorisés par la loi Californienne, le don du sang l’est et Xephia encourage ses adeptes à le faire, non pas pour l’hôpital public mais pour les cérémonies. Malgré ses airs de grande dame respectable, elle est issue de bas quartiers mexicains, d’une mère prostituée et droguée, elle est très recherchée au Mexique sous une autre identité pour une série de meurtres. Xizohca est un monstre, si elle est plus jeune que ses frères et sœurs, ses origines sont un tabou absolu de l’Ihuito :Quetzalcoatl a forcé Xolotl, son faux jumeau, pour l’engendrer. Malgré tout, elle semble relativement stable quoi que son potentiel ne se soit jamais réveillé. Elle rêve souvent d’Am’Mleeac qui l’appelle à lui, alors Quetzalcoatl lui a gravé à la lame d’obsidienne un enchantement dans le dos pour l’en préserver. Elle a une soif extrêmement plus grande que celle d’autres vampires et a de très forts instincts prédateurs difficiles à contenir. Elle tue les mâles avec qui elle couche en les vidant de leur sang mais elle épargne les femmes. Elle fut réveillée par Hernán Cortés en personne en 1519, quand il fouilla",
@@ -1591,17 +1591,21 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "- «35 ans » 835 ns"
+                "35 ans"
               ],
               [
                 "Affiliations",
-                "religieux : neopaïens"
+                "Religions : Néopaïens"
               ],
               [
                 "Nationalité d’origine",
                 "Mexicaine"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Xephia Mila de la Vega est une grande prêtresse des cultes néopaïens aztèques. Les sacrifices humains étant interdits par la loi californienne mais le don du sang autorisé, elle encourage ses adeptes à donner leur sang pour les cérémonies plutôt que pour l’hôpital public. Malgré ses airs de grande dame respectable, elle vient des quartiers pauvres du Mexique et est la fille d’une prostituée toxicomane. Sous une autre identité, elle est très recherchée au Mexique pour une série de meurtres."
           }
         ]
       },
@@ -1624,7 +1628,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "- «35 ans » 835 ns"
+                "35 ans en apparence ; 835 ans"
               ],
               [
                 "Nature réelle",
@@ -1632,17 +1636,17 @@ const PAYLOAD = [
               ],
               [
                 "Statut vampirique",
-                "« « Tlacoccayotl»"
+                "Tlacoccayotl"
               ],
               [
                 "Maison vampirique",
-                "«Azlaticue »"
+                "Azlaticue"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "Xephia De la Vega est une grande prêtresse des cultes neopaïens des Aztèques, si les sacrifices humains ne sont pas autorisés par la loi Californienne, le don du sang l’est et Xephia encourage ses adeptes à le faire, non pas pour l’hôpital public mais pour les cérémonies. Malgré ses airs de grande dame respectable, elle est issue de bas quartiers mexicains, d’une mère prostituée et droguée, elle est très recherchée au Mexique sous une autre identité pour une série de meurtres. Xizohca est un monstre, si elle est plus jeune que ses frères et sœurs, ses origines sont un tabou absolu de l’Ihuito :Quetzalcoatl a forcé Xolotl, son faux jumeau, pour l’engendrer. Malgré tout, elle semble relativement stable quoi que son potentiel ne se soit jamais réveillé. Elle rêve souvent d’Am’Mleeac qui l’appelle à lui, alors Quetzalcoatl lui a gravé à la lame d’obsidienne un enchantement dans le dos pour l’en préserver. Elle a une soif extrêmement plus grande que celle d’autres vampires et a de très forts instincts prédateurs difficiles à contenir. Elle tue les mâles avec qui elle couche en les vidant de leur sang mais elle épargne les femmes. Elle fut réveillée par Hernán Cortés en personne en 1519, quand il fouilla"
+            "text": "Xizohca est un monstre plus jeune que ses frères et sœurs, dont les origines constituent un tabou absolu de l’Ihuito : Quetzalcoatl força Xolotl, son faux jumeau, à l’engendrer. Elle paraît néanmoins relativement stable, bien que son potentiel ne se soit jamais éveillé. Elle rêve souvent d’Am’Mleeac, qui l’appelle à lui ; pour l’en préserver, Quetzalcoatl lui grava dans le dos un enchantement à la lame d’obsidienne. Sa soif dépasse largement celle des autres vampires et ses instincts prédateurs sont difficiles à contenir. Elle tue les hommes avec lesquels elle couche en les vidant de leur sang, mais épargne les femmes. Hernán Cortés en personne la réveilla en 1519, lorsqu’il fouilla les lieux à la recherche de trésors."
           }
         ]
       },
