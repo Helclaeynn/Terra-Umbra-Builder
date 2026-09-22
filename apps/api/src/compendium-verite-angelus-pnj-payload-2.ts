@@ -878,7 +878,7 @@ const PAYLOAD = [
       "real_name": "Angel Graff",
       "nom_verite": "Sandalphon",
       "race": "Archangelus",
-      "age": "«24 ans » - ????",
+      "age": "24 ans",
       "origine": "américaine",
       "statut": "Aucune",
       "statut_verite": "Archange renégat",
@@ -919,7 +919,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«24 ans » - ????"
+                "24 ans"
               ],
               [
                 "Affiliations",
@@ -940,7 +940,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Angel est le fils naturel du révérend Graff, mal dans sa peau et complexé, c’est un drogué que son père a tenté maintes fois de mettre en clinique privée afin de le cacher. Récemment, très récemment, il a commencé à changer, devenant bien plus séducteur, se tenant droit, ses cheveux ayant blanchi d’un coup. C’est un autre homme, un miracle."
+            "text": "Angel est le fils naturel du révérend Graff. Mal dans sa peau et complexé, il souffrait d’addictions que son père tenta à plusieurs reprises de dissimuler en l’envoyant dans des cliniques privées. Très récemment, son comportement changea brutalement : il devint plus séducteur, se redressa et ses cheveux blanchirent d’un coup. Pour son entourage, c’est presque un autre homme — un miracle."
           }
         ]
       },
@@ -985,7 +985,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Une possession angélique très peu discrète, mais rien de choquant avec Sandalphon, l’archange de la Grandeur. Seul vrai rival d’Urielle pour la sephira de Hod, il avait la préférence d’Elynea initialement. Frère de Metatron, Sandalphon était un séducteur incroyable et un meneur rare. Stratège mais aussi duelliste efficace, on parle plus souvent de son ainé mais c’était un génie rare chez les archanges. Officiellement il a pour seule erreur d’être infiniment loyal à son frère. Officieusement, il était amoureux de Morrighan et passait plus de temps à essayer de la séduire qu’œuvrer pour le paradis. Revenu sur Terre, il n’a pas abandonné son désir pour la reine des corbeaux. Son but est d’être recruté à la Raven, bien qu’il ne sache pas comment faire. Il est capable de noircir ses"
+            "text": "Il s’agit d’une possession angélique particulièrement peu discrète, ce qui correspond bien à Sandalphon, Archange de la Grandeur. Seul véritable rival d’Urielle pour la Sephira Hod, il avait initialement la préférence d’Elynea. Frère de Metatron, Sandalphon était un séducteur remarquable, un meneur rare, stratège et duelliste accompli. On parle plus souvent de son aîné, mais il comptait lui aussi parmi les génies des Archanges. Officiellement, sa seule faute fut sa loyauté absolue envers son frère. Officieusement, il était amoureux de Morrighan et passait davantage de temps à tenter de la séduire qu’à œuvrer pour le Paradis. Revenu sur Terre, il n’a pas abandonné son désir pour la reine des corbeaux et cherche à rejoindre Raven, sans savoir comment s’y prendre. Il peut noircir ses ailes et obtenir des pouvoirs de corneille de Morrighan, mais s’il le fait, il sera probablement puni."
           }
         ]
       },
