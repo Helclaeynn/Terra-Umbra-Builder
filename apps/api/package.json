@@ -7,6 +7,7 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc -p tsconfig.json",
     "check:editorial-closure": "npm run build && node scripts/check-editorial-closure.mjs",
+    "check:lore-quality": "npm run build && node scripts/check-lore-quality-cleanup.mjs",
     "check:truth-v7": "npm run build && node scripts/check-truth-v7-readability.mjs && node scripts/check-truth-v7-pass-b.mjs && node scripts/check-truth-v7-lore-integrity.mjs",
     "start": "node dist/server.js",
     "verify:mail": "node dist/verify-mail.js",

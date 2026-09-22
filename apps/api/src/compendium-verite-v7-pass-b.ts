@@ -1329,7 +1329,7 @@ const DELANIAL: Section[] = [
     blocks: [
       {
         type: "p",
-        text: "Delanial n’est pas un Fléau. C’est un Légionnaire des Puissances, avant tout un réfugié cherchant à demeurer caché des autres Puissances. Sa cosmologie est différente de celle des six Sources, même lorsqu’il peut exercer une influence comparable à la leur."
+        text: "Delanial n’est pas un Fléau. C’est un Légionnaire des Puissances, avant tout un réfugié cherchant à demeurer caché des autres Puissances. Sa cosmologie est différente de celle des six Sources, même lorsqu’il peut exercer une influence comparable à la leur. Il n’existe donc aucune Source de Corruption Delanial."
       },
       {
         type: "p",
