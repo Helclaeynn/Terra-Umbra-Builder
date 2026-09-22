@@ -548,7 +548,7 @@ const PAYLOAD = [
       "real_name": "Evelin Bogdan",
       "nom_verite": "Erzsebeth Bathory",
       "race": "Vampire",
-      "age": "«26 ans » - 475 ans",
+      "age": "26 ans",
       "origine": "Hongrie",
       "statut": "crawlers : fixers -neurodiver",
       "statut_verite": "Quatrième concubine",
@@ -591,7 +591,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«26 ans »"
+                "26 ans"
               ],
               [
                 "Affiliations",
@@ -602,6 +602,10 @@ const PAYLOAD = [
                 "Hongrie"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Evelin Bogdan est une émigrée hongroise très diplômée : elle possède notamment un master en sciences du signal, un doctorat en langages informatiques et un autre en sociologie. Malgré ce parcours, son Logifate déplorable et ses faux papiers l’empêchèrent de trouver facilement un emploi. Elle rebondit rapidement en construisant son propre réseau et en devenant Fixer et Neurodiver."
           }
         ]
       },
@@ -642,7 +646,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Evilin Bogdan est une émigrée Hongroise, bien que très diplômée, ayant un master en sciences du signal, un doctorat en science des langages informatique, un autre doctorat en sociologie, elle n’a pas trouvé de travail aisément du fait d’un logifate déplorable et de faux papiers. Elle a très vite su rebondir en nouant un réseau et faisant fixer. Qui ne connait pas la légende d’Elizabeth Bathory ? 300 témoignages, l’incriminant dans des maltraitances sur des jeunes femmes, une centaine, la légende en évoquant plus de 600 pour des bains de sangs. Même pas appelée à comparaitre, tout cela ne fut qu’une machination des Hasbourg contre ma maison Bathory si riche et puissante. Possiblement sa bisexualité et son pouvoir dérangeaient bien trop. C’est son assignation à résidence et la honte de l’accusation qui la menèrent à être approchée par des vampires, Mordue en 1614, elle fut déclarée morte, sans la marque de Caïn, elle l’aurait été, il lui fallut une année entière pour se réveiller en tant que vampire. Elle n’est pas sanguinaire de nature, c’est un génie de la politique qui assure la paix entre les maisons de la krovni . Elle ne devient violente que face"
+            "text": "Evelin est en vérité Erzsébeth Báthory. La légende de la « baronne sanglante » repose sur des centaines de témoignages l’accusant de violences envers de jeunes femmes, les récits allant jusqu’à évoquer des bains de sang. Báthory soutient au contraire qu’il s’agissait d’une machination des Habsbourg contre sa maison, extrêmement riche et puissante, possiblement aggravée par sa bisexualité et son influence politique. Son assignation à résidence et la honte de ces accusations la rendirent vulnérable aux vampires. Mordue en 1614, elle fut déclarée morte ; sans la Marque de Caïn, elle l’aurait réellement été, puisqu’il lui fallut près d’un an pour se réveiller comme vampire. Elle n’est pas sanguinaire de nature : c’est surtout un génie politique qui assure la paix entre les maisons de la Krovni. Elle ne devient véritablement violente que face à ceux qui entretiennent la légende la présentant comme une meurtrière monstrueuse."
           }
         ]
       },
