@@ -12,6 +12,7 @@ import {
 } from "./compendium-onboarding.js";
 import { generatedTalentHubCorpus } from "./compendium-talent-hubs.js";
 import { generatedBuilderReferenceCorpus } from "./compendium-builder-references.js";
+import { applyFinalEditorialCleanup } from "./compendium-final-editorial-cleanup.js";
 import {
   COMPENDIUM_MOTEUR_V4_ARTICLES,
   COMPENDIUM_MOTEUR_V4_NAVIGATION
@@ -1631,6 +1632,8 @@ function applyNavigationTaxonomy(article: Article, entry?: NavigationEntry): voi
 }
 
 function applyTargetedEditorialCorrections(article: Article): void {
+  applyFinalEditorialCleanup(article);
+
   if (article.id !== "equipement-045-owl-sg-016-boss") return;
 
   for (const section of article.sections ?? []) {
