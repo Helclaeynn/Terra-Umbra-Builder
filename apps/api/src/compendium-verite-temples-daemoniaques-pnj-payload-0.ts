@@ -1596,7 +1596,7 @@ const PAYLOAD = [
       "nom_verite": "Meririm- Messaline",
       "nom_verite_source": "– Meririm- Messaline",
       "race": "Daemons",
-      "age": "«26 ans » - ????",
+      "age": "26 ans",
       "origine": "Américaine",
       "statut": "Duchesse",
       "affiliations": "Crawlers : hookers",
@@ -1648,6 +1648,11 @@ const PAYLOAD = [
                 "Américaine"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Aessa Lee Love est une Crawler américaine de 26 ans liée au milieu des Hookers. Elle gère également le Purple Embers, un nightclub californien réputé."
           }
         ]
       },
@@ -1713,7 +1718,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Dans les Légendes bibliques et kabbalistes, Agrat, Mahalath, Naamah et Eisheth sont associées à Lilith. « d’Agrat » est une duchesse depuis longtemps, dotée d’une beauté rare et d’une sagesse infinie, elle est bienveillante, soumise et masochiste, hélas, on oublie trop vite que c’est une des grandes duchesses de Lilith. En 2031, Belphébor, son associé avec qui elle créa le Purple Embers, fut tué et déchiqueté par l’Archange Camael. Elle considère les autres duchesses de Lilith comme des sœurs et réciproquement. Autrefois, elle était Messalina, la « putain impériale », épouse du quatrième empereur romain : Claude. C’est le fait qu’on la salisse autant qui séduisit Lilith et qui proposa à cette femme de se venger et devenir une vraie Succube. Aessa, qu’elle ait été ou non nymphomane à l’époque, assume pleinement sa liberté sexuelle désormais, ne refreinant plus rien et prodiguant des conseils inestimables dans le domaine."
+            "text": "La source présente Aessa sous le nom de Meririm–Messaline et l’inscrit parmi les grandes duchesses de Lilith associées aux traditions d’Agrat, Mahalath, Naamah et Eisheth. D’une beauté rare et d’une grande sagesse, elle peut paraître bienveillante et soumise, mais son rang de duchesse ne doit pas être sous-estimé. En 2031, Belphébor, son associé avec lequel elle avait créé le Purple Embers, fut tué et déchiqueté par l’Archange Camael. Aessa considère les autres duchesses de Lilith comme des sœurs, sentiment réciproque. Autrefois, elle était Messalina, épouse de l’empereur Claude. La réputation infamante qui lui fut attribuée séduisit Lilith, qui lui proposa de se venger et de devenir une véritable Succube. Aessa assume désormais pleinement sa liberté sexuelle et prodigue des conseils particulièrement recherchés dans ce domaine."
           }
         ]
       },
