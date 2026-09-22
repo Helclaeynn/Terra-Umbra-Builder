@@ -664,7 +664,7 @@ const PAYLOAD = [
     "dataset": "verite-vampire-courts-pnj",
     "category": "Personnages",
     "sourceCategory": "Personnages",
-    "title": "Elizabeth M. Karnstein",
+    "title": "Elizabeth Mircalla Karnstein",
     "source": "Factions_Les cours vampiriques(1)(2).pdf",
     "status": "canon_source",
     "rebuildV2": true,
@@ -677,16 +677,17 @@ const PAYLOAD = [
     ],
     "pnj": {
       "completeness": "detailed",
-      "real_name": "Elizabeth M. Karnstein",
+      "real_name": "Elizabeth Mircalla Karnstein",
       "nom_verite": "Mircalla Karnstein",
       "race": "Vampire",
-      "age": "«38 ans » - 355 ans",
+      "age": "38 ans",
       "origine": "Autriche (Styrie)",
       "statut": "crawlers : meditech",
       "statut_verite": "Cinquième concubine",
       "organisation": "Krovni Rytsari",
       "relations": [],
       "identity_keys": [
+        "Elizabeth Mircalla Karnstein",
         "Elizabeth M. Karnstein",
         "Mircalla Karnstein"
       ],
@@ -702,7 +703,8 @@ const PAYLOAD = [
       "source_extract": "à ceux entretenant la légende la salissant en la décrivant comme « baronne sanglante ». Nom de la Réalité : Elizabeth M. Karnstein Nom de la Vérité : Mircalla Karnstein Age : «38 ans » - 355 ans Affiliations : crawlers : meditech Nationalité d’origine : Autriche (Styrie) Ethnie réelle : Vampire Statut : Cinquième concubine Maison vampirique : Karnstein Née en Autriche et ayant fait carrière en Allemagne, ce médecin de grande renommée mondiale a intégré Sunways où elle monta les échelons si vite que sa chute fut très douloureuse. A cause d’une sordide affaire de mœurs, elle fut désavouée et virée, son logifate étant exécrable, on ne prit pas sa défense. Envoyée à la rue, elle est à la tête d’une clinique de crawlers où elle fait du trafic d’organe, de sang, de biogmentations et d’ADN. Sublime noble de la maison Karnstein, elle en est la fondatrice en 1680, elle a été mordue par Hécate, la princesse. Assez belle elle a été éduquée par la princesse pour plaire au roi et sans trop de surprise a rapidement intégré les rangs des concubines. Elle est la mère de Carmilla Karnstein, avec qui, elle a beaucoup de mal, la princesse étant naturellement rivale de la maitresse de Mircalla, le courant ne passe pas souvent entre la mère et la fille. Aussi séductrice que froide, c’est une intrigante douée dans la politique vampirique.",
       "source_documents": [
         "Factions_Les cours vampiriques(1)(2).pdf"
-      ]
+      ],
+      "real_name_source": "Elizabeth M. Karnstein"
     },
     "sections": [
       {
@@ -719,11 +721,11 @@ const PAYLOAD = [
               ],
               [
                 "Nom / identité de Réalité",
-                "Elizabeth M. Karnstein"
+                "Elizabeth Mircalla Karnstein"
               ],
               [
                 "Âge apparent",
-                "«38 ans »"
+                "38 ans"
               ],
               [
                 "Affiliations",
@@ -734,6 +736,10 @@ const PAYLOAD = [
                 "Autriche (Styrie)"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Elizabeth Mircalla Karnstein est une médecin née en Autriche qui fit carrière en Allemagne avant de rejoindre Sunways. Après une affaire de mœurs, elle fut désavouée puis licenciée, son Logifate exécrable empêchant toute protection institutionnelle. Elle dirige désormais une clinique des quartiers abandonnés de Los Angeles où elle pratique notamment le trafic d’organes, de sang, de biogmentations et d’ADN, tout en disposant de banques biologiques considérables et de capacités de clonage partiel. Une partie de ses moyens serait fournie par Elody Katherine Skotia, directrice de recherche chez Sunways."
           }
         ]
       },
@@ -774,7 +780,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Née en Autriche et ayant fait carrière en Allemagne, ce médecin de grande renommée mondiale a intégré Sunways où elle monta les échelons si vite que sa chute fut très douloureuse. A cause d’une sordide affaire de mœurs, elle fut désavouée et virée, son logifate étant exécrable, on ne prit pas sa défense. Envoyée à la rue, elle est à la tête d’une clinique de crawlers où elle fait du trafic d’organe, de sang, de biogmentations et d’ADN. Sublime noble de la maison Karnstein, elle en est la fondatrice en 1680, elle a été mordue par Hécate, la princesse. Assez belle elle a été éduquée par la princesse pour plaire au roi et sans trop de surprise a rapidement intégré les rangs des concubines. Elle est la mère de Carmilla Karnstein, avec qui, elle a beaucoup de mal, la princesse étant naturellement rivale de la maitresse de Mircalla, le courant ne passe pas souvent entre la mère et la fille. Aussi séductrice que froide, c’est une intrigante douée dans la politique vampirique."
+            "text": "Elizabeth est en vérité Mircalla Karnstein, fondatrice de la maison Karnstein. Née en Styrie dans une très haute noblesse, elle fut mordue jeune par Hécate Skotia. Cette dernière l’éduqua afin qu’elle plaise à Dragoy et Mircalla rejoignit rapidement les concubines du roi. Elle donna naissance à Carmilla Karnstein, avec laquelle les relations sont difficiles : Carmilla, princesse, est naturellement rivale d’Hécate, la maîtresse de Mircalla. Séductrice, froide et excellente intrigante, Mircalla maîtrise parfaitement la politique vampirique."
           }
         ]
       },
