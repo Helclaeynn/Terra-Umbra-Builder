@@ -736,7 +736,7 @@ const PAYLOAD = [
       "real_name": "Min-Kyung RA",
       "nom_verite": "Phanaelle",
       "race": "Angelus",
-      "age": "«21 ans », ????",
+      "age": "21 ans",
       "origine": "Coréenne",
       "statut": "Corporation : Omegacoustic",
       "statut_verite": "séraphin",
@@ -777,7 +777,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«21 ans », ????"
+                "21 ans"
               ],
               [
                 "Affiliations",
@@ -798,7 +798,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Min-Kyung est une jeune artiste d’IOmegacoustic, ou plutôt, elle était l’un des membres de « Black Angel », un groupe de K-pop, top20 de la saison estivale 2034. Dans les années 2030, un exploit de durer au sommet des ventes une saison entière, ensuite, les artistes sont redistribués ailleurs ou retombe dans l’anonymat. Min-Kyung avait assez investi et a pu s’acheter une formation de management. Bien qu’elle n’ait que 21 ans, elle entraine donc des jeunes femmes à devenir les prochaines chanteuses-danseuses à usage quasi-unique d’Omegacoustic. Glaciale et manipulatrice, elle a un management extrêmement toxique."
+            "text": "Min-Kyung est une jeune artiste d’Omegacoustic. Elle fut membre de « Black Angel », groupe de K-pop classé dans le top 20 de l’été 2034 — une performance notable dans les années 2030, où les artistes restent rarement au sommet plus d’une saison avant d’être redistribués ou de retomber dans l’anonymat. Ayant suffisamment investi ses gains, Min-Kyung put financer une formation en management. À seulement 21 ans, elle entraîne désormais de jeunes femmes destinées à devenir les prochaines chanteuses-danseuses à usage presque unique d’Omegacoustic. Glaciale et manipulatrice, elle pratique un management extrêmement toxique."
           }
         ]
       },
@@ -843,7 +843,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Séraphin de la prudence, Phanaelle est un ange insensible qui prend possession de corps d’homme ou de femme sans distinction. Une fois les 30 ans atteints, ou à la moindre blessure ou déformation, elle en change, car elle est obsédée par avoir un corps presque parfait. Elle a trahi Hanaelle en rapportant à Elynea chaque fois que l’ange accouchait ou ruinait les plans d’un autre archange, craignant d’être elle aussi punie. Ça ne lui a pas profité, la délation n’estpas appréciée généralement, bien qu’utile, après avoir été ramenée à un rang de simple ange, elle remonta sous la surveillance d’Azazel."
+            "text": "Séraphine de la prudence, Phanaelle est un Ange insensible qui prend possession de corps masculins ou féminins sans distinction. Une fois le cap des 30 ans atteint, ou à la moindre blessure ou déformation, elle change de corps, obsédée par l’idée d’en conserver un presque parfait. Elle trahit Hanaelle en rapportant à Elynea chaque occasion où l’Archange accouchait ou perturbait les plans d’un autre Archange, par peur d’être elle-même punie. Cette délation ne lui profita guère : ramenée au rang de simple Ange, Phanaelle remonta ensuite dans la hiérarchie sous la surveillance d’Azazel."
           }
         ]
       },
