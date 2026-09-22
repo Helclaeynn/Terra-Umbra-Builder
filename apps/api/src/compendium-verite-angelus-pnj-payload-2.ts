@@ -452,7 +452,7 @@ const PAYLOAD = [
       "real_name": "Chinyu DAO",
       "nom_verite": "Chiloel",
       "race": "Angelus",
-      "age": "«65 ans », ????",
+      "age": "65 ans",
       "origine": "Chinoise",
       "statut": "aucune",
       "statut_verite": "séraphin",
@@ -493,7 +493,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«65 ans », ????"
+                "65 ans"
               ],
               [
                 "Affiliations",
@@ -514,7 +514,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Le « clodp chinois » du quartier chinois est une personne absolument méconnue à Los Angeles. Il boit sans interruption une bière médiocre de Yellowfood vaguement inspirée des alcools chinois, il n’est jamais ivre, il est sale et mal habillé d’une chemise hawaïenne turquoise usée et délavée."
+            "text": "Le « clodo chinois » du quartier chinois est une figure presque inconnue à Los Angeles. Chinyu boit sans interruption une bière médiocre de Yellowfood vaguement inspirée des alcools chinois. Il n’est pourtant jamais ivre. Sale et mal vêtu, il porte généralement une chemise hawaïenne turquoise, usée et délavée."
           }
         ]
       },
@@ -559,7 +559,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Si personne ne retient son nom c’est parce qu’il est la résignation incarnée, l’inexistence de motivation, pas la paresse mais la destruction de toute énergie mentale liée à l’action, l’innovation, le progrès, le mouvement, la résistance. Rien de tout cela n’émane de lui, il ne souffre pas seulement « d’Impuissance apprise » mais il l’émane comme une maladie. A son contact, ls rêves, l’ambition, la motivation, tout ça se brise comme de petites vaguelettes sur une digue épaisse. Séraphin de la résignation, cette ancienne Vertu était l’ancienen « Paresse » des sept péchés capitaux, il a dépassé ce statut. Il est une ruine de l’esprit désormais. Il ne sert pas Zophielle, restant loyal à Sachielle. Son seuil ami est « le vieux », qu’il pense être un ange déchu et abimé comme lui. (Alors que c’est un vieux thalsios)"
+            "text": "Si personne ne retient son nom, c’est parce que Chiloel incarne la résignation : non pas la paresse, mais la destruction de toute énergie mentale liée à l’action, à l’innovation, au progrès, au mouvement ou à la résistance. Il ne souffre pas simplement d’« impuissance apprise » : il la diffuse comme une maladie. À son contact, rêves, ambitions et motivations se brisent comme de petites vaguelettes sur une digue. Séraphin de la résignation, cette ancienne Vertu fut jadis la « Paresse » des sept péchés capitaux avant de dépasser ce statut. Il est désormais une véritable ruine de l’esprit. Il ne sert pas Zophielle et reste loyal à Sachielle. Son seul ami est « le Vieux », qu’il croit être un Ange déchu et abîmé comme lui, alors qu’il s’agit en réalité d’un vieux Thalsios."
           }
         ]
       },
