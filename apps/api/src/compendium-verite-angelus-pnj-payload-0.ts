@@ -22,7 +22,7 @@ const PAYLOAD = [
       "real_name": "Adriana Bienvenida",
       "nom_verite": "Purim",
       "race": "Angelus",
-      "age": "«26 ans » - ????",
+      "age": "26 ans",
       "origine": "américaine",
       "statut": "crawlers : neurodiver",
       "statut_verite": "séraphin",
@@ -63,7 +63,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«26 ans » - ????"
+                "26 ans"
               ],
               [
                 "Affiliations",
@@ -84,7 +84,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Adriana est une neurodiver assez douée, on la trouve entre Las Vegas et Los Angeles, bougeant régulièrement dans son camion tout équipé. C’est une pro de la surveillance et de la traque sur l’Holonet. Elle est toujours en équipe avec une sniper du nom de Nyoko MYABE."
+            "text": "Adriana est une neurodiver assez douée que l’on trouve entre Las Vegas et Los Angeles, se déplaçant régulièrement dans son camion entièrement équipé. C’est une spécialiste de la surveillance et de la traque sur l’Holonet. Elle travaille toujours en équipe avec une tireuse d’élite nommée Nyoko MYABE."
           }
         ]
       },
@@ -129,7 +129,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "C’est une Séraphine de Remiel, elle incarne le jugement dernier car elle est capable d’accabler une âme par ses erreurs au point que l’âme s’arrache du corps de sa victime. Comme tous les anges de Remiel, c’est une maitresse des vents. Les séraphins ont six ailes, ils sont dotés des pouvoirs des trônes, des dominations et des vertus à la fois. Purim n’en posséde que cinq, une de ses ailes de domination lui a été retirée à la déchéance de Remiel. Sur l’holonet, elle utilise la foudre pour griller les neurones de ses"
+            "text": "C’est une Séraphine de Remiel. Elle incarne le jugement dernier : elle est capable d’accabler une âme par ses erreurs au point de l’arracher du corps de sa victime. Comme tous les anges de Remiel, c’est une maîtresse des vents. Les séraphins ont six ailes et disposent à la fois des pouvoirs des trônes, des dominations et des vertus. Purim n’en possède que cinq : une de ses ailes de domination lui fut retirée lors de la déchéance de Remiel. Sur l’Holonet, elle utilise la foudre pour griller à distance les neurones de ses cibles."
           }
         ]
       },
