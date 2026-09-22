@@ -813,7 +813,7 @@ const PAYLOAD = [
       "nom_verite": "Adramalech – Rodrigo Diaz de Vivar",
       "nom_verite_source": "Adramalech – Rodrigo Diaz de Vivar",
       "race": "Daemons",
-      "age": "«36 ans » - ????",
+      "age": "36 ans",
       "origine": "mexicaine",
       "statut": "Duc",
       "affiliations": "Religion : chrétien",
@@ -869,7 +869,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Pablo est un chasseur de l’Eglise chrétienne unifiée. Père Pablo fait ainsi partie de l’ordre d’Arianwen même s’il est très peu souvent en contact avec les autres chasseurs de l’ordre étant donné son caractère grincheux et ses méthodes qu’il refuse de montrer."
+            "text": "Pablo Parejano est chasseur pour l’Église chrétienne unifiée. Le père Pablo appartient à l’ordre d’Arianwen, mais reste rarement en contact avec ses autres membres en raison de son caractère grincheux et de méthodes qu’il refuse de dévoiler."
           }
         ]
       },
@@ -935,7 +935,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Pablo est un chasseur de l’Eglise chrétienne unifiée. Père Pablo fait ainsi partie de l’ordre d’Arianwen même s’il est très peu souvent en contact avec les autres chasseurs de l’ordre étant donné son caractère grincheux et ses méthodes qu’il refuse de montrer. De son vivant, Rodrigo n’était autre que « el Cid » , le mercenaire castillan. Combattant exceptionnel qui fut glorifié après sa mort, c’était un prophète détenant l’attribut de « la Gloire ». Récupéré par Lucifer bien que ce dernier n’ait plus de temple, Rodrigo a pourfendu le précédent Adramalech pour prouver sa valeur et en obtenir le titre. Adramalech était possiblement le nom d’une divinité solaire assyrienne notamment. Bien qu’il soit assez « jeune » comme daemon et bien qu’il ait joint un dieu déchu, Adramalech est incroyablement puissant puisque son pouvoir de rayonnement lui permet d'étendre la portée de tout ce qui le concerne."
+            "text": "Pablo est en vérité Adramalech–Rodrigo Díaz de Vivar, c’est-à-dire le Cid, mercenaire castillan et combattant exceptionnel glorifié après sa mort. Prophète détenteur de l’attribut de « Gloire », il fut récupéré par Lucifer malgré la disparition du Temple de ce dernier. Rodrigo pourfendit le précédent Adramalech afin de prouver sa valeur et de s’approprier le titre, lui-même possiblement dérivé d’une ancienne divinité solaire assyrienne. Bien qu’il soit relativement « jeune » comme Daemon et qu’il serve un dieu déchu, Adramalech reste extraordinairement puissant : son pouvoir de rayonnement lui permet d’étendre la portée de tout ce qui le concerne."
           }
         ]
       },
