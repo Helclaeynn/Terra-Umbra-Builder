@@ -306,7 +306,7 @@ const PAYLOAD = [
       "real_name": "Brandon Smith",
       "nom_verite": "Belohim",
       "race": "Angelus",
-      "age": "«24 ans » - ????",
+      "age": "24 ans",
       "origine": "américaine",
       "statut": "Corporation : Eversor",
       "statut_verite": "séraphin",
@@ -347,7 +347,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«24 ans » - ????"
+                "24 ans"
               ],
               [
                 "Affiliations",
@@ -368,7 +368,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Brandon est un simple ouvrier de chantier. Il est né en 2011 et avait donc 11 ans quand son père a été tué lors de la guerre de 22-28. Durant la grande crise économique et la grande régression sociale, sa mère a été tué en 2026, à cause de ses dettes. Sa tante est morte lors du Big One. Brandon est continuellement accablé de malheurs, en 2030, c’est sa petite amie qui fut tuée dans un accident de la route, la petite sœur de cette dernière finissant en soin intensifs. Sans famille, il travaille avec acharnement sur des chantiers pour maintenir en vie la jeune sœur de sa défunte copine, malgré les dettes de sa mère et divers soucis qu’il a eu."
+            "text": "Brandon est un simple ouvrier de chantier. Né en 2011, il avait 11 ans lorsque son père fut tué pendant la guerre de 2022-2028. Durant la grande crise économique et la régression sociale, sa mère fut tuée en 2026 à cause de ses dettes. Sa tante mourut lors du Big One. Les malheurs continuèrent : en 2030, sa petite amie fut tuée dans un accident de la route et la jeune sœur de cette dernière termina en soins intensifs. Sans famille, Brandon travaille avec acharnement sur les chantiers afin de maintenir en vie la sœur de sa défunte compagne, malgré les dettes laissées par sa mère et les nombreux problèmes qu’il a traversés."
           }
         ]
       },
@@ -413,7 +413,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Séraphin de la volonté, c’est un ange imperturbable qui trime comme un mortel sans broncher, d’une bonté et d’une volonté inhumaine, il a pour sombre face d’obéir aveuglément à son"
+            "text": "Séraphin de la volonté, Belohim est un ange imperturbable qui trime comme un mortel sans broncher, doté d’une bonté et d’une volonté inhumaines. Sa face sombre est son obéissance aveugle à son Archange, notamment lorsqu’il provoqua l’accident de sa compagne, qui était une Prophétesse de Satan."
           }
         ]
       },
