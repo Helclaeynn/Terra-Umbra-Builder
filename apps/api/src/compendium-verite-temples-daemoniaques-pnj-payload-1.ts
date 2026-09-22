@@ -478,7 +478,7 @@ const PAYLOAD = [
     "dataset": "verite-temples-daemoniaques-pnj",
     "category": "Personnages",
     "sourceCategory": "Vérité",
-    "title": "CHENG Guanlong",
+    "title": "Cheng Guanlong",
     "source": "factions_Temples Daemoniaques(3).pdf",
     "status": "canon_source",
     "rebuildV2": true,
@@ -491,15 +491,15 @@ const PAYLOAD = [
     ],
     "pnj": {
       "completeness": "detailed",
-      "real_name": "CHENG Guanlong",
+      "real_name": "Cheng Guanlong",
       "real_name_source": "CHENG Guanlong",
       "nom_verite": "Zagan - Ao Guang",
       "nom_verite_source": "Zagan - Ao Guang",
       "race": "daemons",
-      "age": "« »45 ans », ????",
+      "age": "45 ans",
       "origine": "chinoise",
       "statut": "Duc",
-      "affiliations": "« crawler : deathrunner »",
+      "affiliations": "crawler : deathrunner",
       "divinite": "Alabor",
       "pouvoir_principal": "la pression",
       "titre_infernal": "Duc",
@@ -508,9 +508,10 @@ const PAYLOAD = [
         10
       ],
       "identity_keys": [
-        "CHENG Guanlong",
         "Zagan - Ao Guang",
-        "Zagan"
+        "Zagan",
+        "Cheng Guanlong",
+        "Ao Guang"
       ],
       "relations": [],
       "source_documents": [
@@ -533,11 +534,15 @@ const PAYLOAD = [
               ],
               [
                 "Nom",
-                "CHENG Guanlong"
+                "Cheng Guanlong"
+              ],
+              [
+                "Âge apparent",
+                "45 ans"
               ],
               [
                 "Affiliations",
-                "« crawler : deathrunner »"
+                "crawler : deathrunner"
               ],
               [
                 "Nationalité d’origine",
@@ -548,7 +553,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Guanlong est un crawler, un mercenaire, ancien subordonné d’une certaine Wei pendant la guerre, avec un logifate si déplorable qu’il ne peut être engagé nulle part."
+            "text": "Guanlong est un Crawler et mercenaire chinois. Ancien subordonné d’une certaine Wei pendant la guerre, il possède un Logifate si mauvais qu’il ne parvient pratiquement plus à être engagé dans les circuits professionnels ordinaires."
           }
         ]
       },
@@ -579,7 +584,7 @@ const PAYLOAD = [
               ],
               [
                 "Affiliations",
-                "« crawler : deathrunner »"
+                "crawler : deathrunner"
               ],
               [
                 "Nationalité d’origine",
@@ -614,7 +619,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Zagan est présenté comme un roi des enfers, il ressemblerait à un buffle aux ailes de griffon. En tant que Daemon, c’est un duc, possiblement un des plus puissants en effet, bien qu’il ne soit pas un roi (dieu). C’était Ao Guang, le roi-dragon de la mer de l’est, celui des légendes chinoises, un roi des « Nymphes ». Polymorphe, il apparaissait comme un dragon et vivait sous l’eau, il fut séduit par Alabor qui fit de lui un Daemon. Le dragon est à l’origine de plusieurs lignées, telle que celle des « gardiens » d’un des katanas maudits (Cf. Iwashita Koji) mais aussi la lignée du Pacte. Guanlong, de son identité actuelle, est un crawler, un mercenaire, ancien subordonné d’une certaine Wei pendant la guerre, il a un logifate si déplorable qu’il ne peut être engagé nulle part."
+            "text": "Zagan est parfois présenté comme un roi des Enfers à l’apparence de buffle doté d’ailes de griffon. En tant que Daemon, il est en réalité un duc — probablement l’un des plus puissants — mais pas un roi divin. Il fut autrefois Ao Guang, le roi-dragon de la mer de l’Est des légendes chinoises, souverain d’un peuple de « Nymphes ». Polymorphe, il apparaissait comme un dragon et vivait sous l’eau avant d’être séduit par Alabor, qui fit de lui un Daemon. Il est à l’origine de plusieurs lignées, notamment celle des « gardiens » d’un des katanas maudits liés à Iwashita Koji, ainsi que de la lignée du Pacte."
           }
         ]
       },
