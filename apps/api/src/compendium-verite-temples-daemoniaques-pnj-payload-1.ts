@@ -1125,13 +1125,13 @@ const PAYLOAD = [
       "completeness": "detailed",
       "real_name": "Angelino Molina",
       "real_name_source": "Angelino Molina",
-      "nom_verite": "Apollyon -",
+      "nom_verite": "Apollyon",
       "nom_verite_source": "Apollyon -",
       "race": "daemons",
-      "age": "« »30 ans », ????",
+      "age": "30 ans",
       "origine": "Argentin",
       "statut": "Duc",
-      "affiliations": "« crawler : gundriver»",
+      "affiliations": "crawler : gundriver",
       "divinite": "Mammon",
       "pouvoir_principal": "la destruction",
       "titre_infernal": "Duc",
@@ -1141,8 +1141,8 @@ const PAYLOAD = [
       ],
       "identity_keys": [
         "Angelino Molina",
-        "Apollyon -",
-        "Apollyon"
+        "Apollyon",
+        "Abaddon"
       ],
       "relations": [],
       "source_documents": [
@@ -1168,14 +1168,23 @@ const PAYLOAD = [
                 "Angelino Molina"
               ],
               [
+                "Âge apparent",
+                "30 ans"
+              ],
+              [
                 "Affiliations",
-                "« crawler : gundriver»"
+                "crawler : gundriver"
               ],
               [
                 "Nationalité d’origine",
                 "Argentin"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Angelino Molina est un Crawler argentin spécialisé comme Gundriver. Sa réputation est mauvaise : ses passagers finissent fréquemment blessés ou tués et ses cargaisons arrivent trop souvent endommagées."
           }
         ]
       },
@@ -1198,7 +1207,7 @@ const PAYLOAD = [
               ],
               [
                 "Nom de la Vérité",
-                "Apollyon -"
+                "Apollyon"
               ],
               [
                 "Âge source",
@@ -1206,7 +1215,7 @@ const PAYLOAD = [
               ],
               [
                 "Affiliations",
-                "« crawler : gundriver»"
+                "crawler : gundriver"
               ],
               [
                 "Nationalité d’origine",
@@ -1241,7 +1250,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Dans les mythes tels que la Bible, Apollyon, ou Abaddon, était l’ange Muriel, déchu qui incarna alors la destruction et l’abîme. Actuellement c’est un crawler qui est ironiquement appelé Angelino Molina, il n’est pas très réputé car il a tendance à voir ceux qu’il transporte être blessés voire tués et ses cargaisons souvent arriver en morceaux. C’était un pillard préhistorique dont le frère, un certain Dragoy Skotialov (de son nom actuel) s’acoquina avec un Fléau. Sentant le danger de cette union, il se fit tuer par Dragoy en essayant de tuer son engeance. Mammon récupéra le pillard et fit de lui « Abaddon », la destruction qui apporte la Mort. C’est l’ennemi des vampires qu’il doit ramener en « Helheim » pour les emprisonner."
+            "text": "Angelino est en vérité Apollyon, également associé au nom d’Abaddon. Dans certains mythes bibliques, cette figure de la destruction et de l’abîme est rapprochée de l’ange déchu Muriel. Le Daemon lui-même fut autrefois un pillard préhistorique. Son frère — aujourd’hui connu sous le nom de Dragoy Skotialov — s’allia à un Fléau ; comprenant le danger, Apollyon tenta de tuer l’engeance née de cette union mais fut tué par Dragoy. Mammon récupéra alors son âme et fit de lui « Abaddon », la destruction qui apporte la Mort. Ennemi des vampires, il est chargé de les ramener en Helheim pour les y emprisonner."
           }
         ]
       },
