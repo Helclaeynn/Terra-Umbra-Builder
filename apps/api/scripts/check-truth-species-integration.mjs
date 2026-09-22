@@ -57,7 +57,29 @@ for (const article of COMPENDIUM_VERITE_SPECIES_PNJ_ARTICLES) {
     `${article.id}: MJ block must reproduce all source Informations Vérité sections`
   );
   assert.ok(String(article.pnj?.source_extract ?? "").length > 0, `${article.id}: missing complete source extract`);
+  assert.equal(article.pnj?.protect_truth_metadata, true, `${article.id}: public metadata protection is required`);
+
+  const publicPayload = JSON.stringify((article.sections ?? []).filter((section) => section.audience !== "mj"));
+  assert.doesNotMatch(
+    publicPayload,
+    /Nom de la Vérité|Nature réelle|vampir|loup-garou|\bgarou\b|Mageius|\bDaemon\b|\bAngelus\b|\bAseryn|\bFléau\b|Ombre-Monde|sang condamné|sang masqué/i,
+    `${article.id}: occult information leaked into public sections`
+  );
 }
+
+assert.deepEqual(
+  COMPENDIUM_VERITE_SPECIES_PNJ_ARTICLES.filter((article) => article.audience === "mj").map((article) => article.title),
+  ["Quetzalcoatl", "Mloxol V’Aagor", "Vhodhal’nact’ru", "Gajh’ Shaoggith", "C’Thath Vhadhi"],
+  "Species profiles without an exploitable public cover must remain MJ-only"
+);
+
+const laurie = COMPENDIUM_VERITE_SPECIES_PNJ_ARTICLES.find((article) => article.id === "personnages-verite-especes-lorinae-athegos");
+assert.equal(laurie?.title, "Laurie D. Sun", "Lorinae must use her canonical public identity");
+assert.doesNotMatch(JSON.stringify(laurie?.sections ?? []), /Veronica Silver/, "Laurie must not retain Veronica's copied biography");
+
+const vhodhal = COMPENDIUM_VERITE_SPECIES_PNJ_ARTICLES.find((article) => article.id === "personnages-verite-especes-vhodhalnactru");
+assert.equal(vhodhal?.pnj?.nom_verite, "Vhodhal", "Vhodhal must not inherit Gajh’ Shaoggith's identity");
+assert.doesNotMatch(JSON.stringify(vhodhal?.sections ?? []), /Gajh|Shaoggith/, "Vhodhal must not retain Gajh’ Shaoggith's copied biography");
 
 assert.equal(COMPENDIUM_VERITE_SPECIES_LORE_ARTICLES.length, 4, "Four dedicated Other Creatures lore pages are expected");
 assert.equal(COMPENDIUM_VERITE_SPECIES_LORE_NAVIGATION.length, 4, "Every Other Creatures lore page needs navigation");
