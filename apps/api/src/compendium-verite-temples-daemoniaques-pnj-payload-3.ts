@@ -1603,10 +1603,10 @@ const PAYLOAD = [
       "completeness": "detailed",
       "real_name": "Nina Allen",
       "real_name_source": "Nina Allen",
-      "nom_verite": "Alocer – Augusta Ada King (née byron)",
+      "nom_verite": "Alocer – Augusta Ada King (née Byron)",
       "nom_verite_source": "Alocer – Augusta Ada King (née byron)",
       "race": "Daemons",
-      "age": "«22 ans », ????",
+      "age": "22 ans",
       "origine": "américaine",
       "statut": "Duchesse",
       "affiliations": "Corporative : Tuatha",
@@ -1619,10 +1619,10 @@ const PAYLOAD = [
       ],
       "identity_keys": [
         "Nina Allen",
-        "Alocer – Augusta Ada King (née byron)",
         "Alocer",
         "Augusta Ada King",
-        "Ada Lovelace"
+        "Ada Lovelace",
+        "Alocer – Augusta Ada King (née Byron)"
       ],
       "relations": [],
       "source_documents": [
@@ -1664,7 +1664,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Nina est la fille de Melina Byron-Smith, la grande présidente de la megacorporation Byron Industries. Très tôt, elle s’est très peu entendue avec sa mère, dès l’enfance, en 2029, elle s’émancipa à 16 ans pour tenter des études supérieures, shuntant le lycée par une fasse carte d’identité. Elle n’acheva aucune formation mais en 2035, elle est un des 5 neurodivers les plus craints de la Grande Californie."
+            "text": "Nina Allen est la fille de Melina Byron-Smith, présidente de Byron Industries. En conflit avec sa mère dès l’enfance, elle s’émancipa à 16 ans en 2029 et tenta d’intégrer directement des études supérieures grâce à une fausse carte d’identité, sans terminer de formation. En 2035, elle compte néanmoins parmi les cinq Neurodivers les plus redoutés de Grande Californie."
           }
         ]
       },
@@ -1687,7 +1687,7 @@ const PAYLOAD = [
               ],
               [
                 "Nom de la Vérité",
-                "Alocer – Augusta Ada King (née byron)"
+                "Alocer – Augusta Ada King (née Byron)"
               ],
               [
                 "Âge source",
@@ -1734,7 +1734,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Nina est la fille de Melina Byron-Smith, la grande présidente de la megacorporation Byron Industries. Très tôt, elle s’est très peu entendue avec sa mère, dès l’enfance, en 2029, elle s’émancipa à 16 ans pour tenter des études supérieures, shuntant le lycée par une fasse carte d’identité. Elle n’acheva aucune formation mais en 2035, elle est un des 5 neurodivers les plus craints de la Grande Californie. Quand on connait le nom d’Alocer, on n’imagine pas vraiment un chevalier montant un cheval aux pattes de dragon être une petite femme neurodiver, et forcément, la légende à peu avoir avec la duchesse d’Astaroth actuellement. Alocer était Augusta Ada King de Loveplace, mieux connue comme Ada Loveplace, la toute première personne à avoir écrit un programme informatique dans l’Histoire. Elle décéda en 1852 et fut récupérée par Astaroth. Elle a été incarnée de force en 2013 quand Astaroth sentit que le mage Zebediah JACOBSEN commença à travailler sur l’Holonet, même s’il ne finalisa rien avant le début 2030. Même si elle a la souillure de Sharith, sa mère étant une sorcière psycolor, Nina mécanise son corps pour limiter la souillure et protéger son âme. Elle traque Thar’lal rark, la plus grande menace pour la Terre selon elle."
+            "text": "Nina est en vérité Alocer–Augusta Ada King, mieux connue sous le nom d’Ada Lovelace. L’image traditionnelle d’Alocer — chevalier chevauchant une monture aux pattes de dragon — correspond peu à cette petite Neurodiver, mais la Duchesse d’Astaroth fut bien l’une des pionnières de l’informatique. Elle mourut en 1852 et Astaroth récupéra son âme. Elle fut incarnée de force en 2013 lorsque la déesse comprit que le Mage Zebediah Jacobsen commençait à travailler sur ce qui deviendrait l’Holonet, bien qu’il ne finalisât rien avant le début des années 2030. Nina porte aussi la souillure de Sharith, sa mère étant une sorcière psycolor ; elle mécanise son corps afin de limiter cette influence et de protéger son âme. Elle traque Thar’lal Rark, qu’elle considère comme la plus grande menace pesant sur la Terre."
           }
         ]
       },
