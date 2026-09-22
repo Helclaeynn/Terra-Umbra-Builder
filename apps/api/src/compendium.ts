@@ -276,10 +276,12 @@ import { COMPENDIUM_VERITE_VAMPIRE_COURTS_SOURCE, COMPENDIUM_VERITE_VAMPIRE_COUR
 import { COMPENDIUM_VERITE_VAMPIRE_COURTS_EDITORIAL_ARTICLES } from "./compendium-verite-vampire-courts-editorial.js";
 import { COMPENDIUM_VERITE_VAMPIRE_COURTS_PNJ_ARTICLES, COMPENDIUM_VERITE_VAMPIRE_COURTS_PNJ_NAVIGATION } from "./compendium-verite-vampire-courts-pnj.js";
 import {
-  COMPENDIUM_VERITE_PELAGES_ARTICLES,
-  COMPENDIUM_VERITE_PELAGES_ENRICHMENTS,
   COMPENDIUM_VERITE_PELAGES_NAVIGATION
 } from "./compendium-verite-pelages-lore.js";
+import {
+  COMPENDIUM_VERITE_PELAGES_EDITORIAL_ARTICLES,
+  COMPENDIUM_VERITE_PELAGES_EDITORIAL_ENRICHMENTS
+} from "./compendium-verite-pelages-editorial.js";
 import {
   COMPENDIUM_VERITE_PELAGES_PNJ_ARTICLES,
   COMPENDIUM_VERITE_PELAGES_PNJ_NAVIGATION
@@ -2750,11 +2752,11 @@ async function loadCorpus(): Promise<Corpus> {
     if(existing){byId.set(existing.id,mergeVampireCourtPnj(existing,article));vampireCourtPnjResolvedIds.set(article.id,existing.id);continue;}
     byId.set(article.id,article);vampireCourtPnjResolvedIds.set(article.id,article.id);
   }
-  for (const article of COMPENDIUM_VERITE_PELAGES_ARTICLES) {
+  for (const article of COMPENDIUM_VERITE_PELAGES_EDITORIAL_ARTICLES) {
     byId.set(String(article.id), deepClone(article) as Article);
   }
 
-  for (const enrichment of COMPENDIUM_VERITE_PELAGES_ENRICHMENTS) {
+  for (const enrichment of COMPENDIUM_VERITE_PELAGES_EDITORIAL_ENRICHMENTS) {
     const target = byId.get(String(enrichment.targetId ?? ""));
     if (!target) {
       throw new Error(`Cible d'enrichissement Pelages absente: ${String(enrichment.targetId ?? "")}`);
