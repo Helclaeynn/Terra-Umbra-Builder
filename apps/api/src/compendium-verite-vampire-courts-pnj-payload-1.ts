@@ -1415,11 +1415,11 @@ const PAYLOAD = [
       "completeness": "detailed",
       "real_name": "Xavio Nabarez",
       "nom_verite": "Xolotl",
-      "race": "Khinae Corrompu",
-      "age": "«34 ans » - 49 000 ans ?",
-      "origine": "Nicaragua",
-      "statut": "Crawlers : gundrivers",
-      "statut_verite": "« « Xolotl»",
+      "race": "Khinae corrompu",
+      "age": "34 ans",
+      "origine": "Nicaraguayenne",
+      "statut": "Crawlers : Gundrivers",
+      "statut_verite": "Xolotl",
       "organisation": "Ihuito Meztzi",
       "relations": [],
       "identity_keys": [
@@ -1432,7 +1432,7 @@ const PAYLOAD = [
         22,
         22
       ],
-      "source_designation": "le protéger du soleil et les lançait au combat, c’était un ennemi des anges de Raphael.",
+      "source_designation": "Ah’kin Ajaw « Xolotl » : Xolotl",
       "source_reality_raw": "Xavio Nabarez",
       "source_truth_raw": "Xolotl",
       "source_extract": "le protéger du soleil et les lançait au combat, c’était un ennemi des anges de Raphael. Nom de la Réalité : Xavio Nabarez Nom de la Vérité : Xolotl Age : «34 ans » - 49 000 ans ? Affiliations : Crawlers : gundrivers Nationalité d’origine : Nicaragua Ethnie réelle : Khinae Corrompu Statut : « « Xolotl» Maison vampirique : «Xatzlotl » Xavio Nabarez est un motard, membre des « Blackcoatl », un gang de bikers criminels (1%), ils ont un territoire assez vaste au Mexique et avec les récentes guerres entre le cartel Sinaloa et le comité du Crime que préside la Bratva, les Blackcoatl ont migré en Californie. Ils ont débuté leur propre guerre contre les Hellangels et les Cruisers, les principaux motards régnant sur les routes désertiques. Ils ont des accords avec le grand gang des Reapers. Comme s’il venait du film madmax Fury Road, Xavio est un punk drogué à l’adrénaline. Lui et sa bande n’ont pas peur des pires exactions et du danger, ils sont craints par la police pour leurs actions presque suicidaires. D’apparence sadique, avec un sourire dément aux lèvres, il est en vérité tout aussi masochiste, cependant, l’héritier vampirique cache une facette plus sérieuse. il n’est pas né de Quetzalcoatl. Xolotl est le faux-jumeau de Quetzal. Xolotl n’a pas, évidemment, pas de Mageius mais il est asservi à son frère, quand Quetzal meurt, il meurt et quand il ressuscite, lui aussi est réincarné de force. Lassé par cette existence de servitude, il cherche à s’en libérer, à moitié fou de mourir et ressusciter sans rien pouvoir faire. Pour avoir sa liberté, il est prêt à affronter n’importe quel danger.",
@@ -1459,17 +1459,21 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«34 ans »"
+                "34 ans"
               ],
               [
                 "Affiliations",
-                "Crawlers : gundrivers"
+                "Crawlers : Gundrivers"
               ],
               [
                 "Nationalité d’origine",
-                "Nicaragua"
+                "Nicaraguayenne"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Xavio Nabarez est membre des « Blackcoatl », un gang de motards criminels de type 1 % qui contrôle un vaste territoire au Mexique. Les guerres récentes entre le cartel de Sinaloa et le Comité du Crime présidé par la Bratva ont poussé les Blackcoatl à migrer vers la Californie. Ils y ont engagé leur propre guerre contre les Hell Angels et les Cruisers, principaux gangs régnant sur les routes désertiques, tout en concluant des accords avec les Reapers. Évoquant un personnage de Mad Max: Fury Road, Xavio est un punk drogué à l’adrénaline. Sa bande et lui ne reculent devant aucune exaction ni aucun danger ; leurs actions presque suicidaires les rendent particulièrement redoutés de la police."
           }
         ]
       },
@@ -1492,25 +1496,25 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "«34 ans » - 49 000 ans ?"
+                "34 ans en apparence ; environ 49 000 ans ?"
               ],
               [
                 "Nature réelle",
-                "Khinae Corrompu"
+                "Khinae corrompu"
               ],
               [
                 "Statut vampirique",
-                "« « Xolotl»"
+                "Xolotl"
               ],
               [
                 "Maison vampirique",
-                "«Xatzlotl »"
+                "Xatzlotl"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "Xavio Nabarez est un motard, membre des « Blackcoatl », un gang de bikers criminels (1%), ils ont un territoire assez vaste au Mexique et avec les récentes guerres entre le cartel Sinaloa et le comité du Crime que préside la Bratva, les Blackcoatl ont migré en Californie. Ils ont débuté leur propre guerre contre les Hellangels et les Cruisers, les principaux motards régnant sur les routes désertiques. Ils ont des accords avec le grand gang des Reapers. Comme s’il venait du film madmax Fury Road, Xavio est un punk drogué à l’adrénaline. Lui et sa bande n’ont pas peur des pires exactions et du danger, ils sont craints par la police pour leurs actions presque suicidaires. D’apparence sadique, avec un sourire dément aux lèvres, il est en vérité tout aussi masochiste, cependant, l’héritier vampirique cache une facette plus sérieuse. il n’est pas né de Quetzalcoatl. Xolotl est le faux-jumeau de Quetzal. Xolotl n’a pas, évidemment, pas de Mageius mais il est asservi à son frère, quand Quetzal meurt, il meurt et quand il ressuscite, lui aussi est réincarné de force. Lassé par cette existence de servitude, il cherche à s’en libérer, à moitié fou de mourir et ressusciter sans rien pouvoir faire. Pour avoir sa liberté, il est prêt à affronter n’importe quel danger."
+            "text": "Sous son apparence sadique et son sourire dément, Xolotl se révèle tout aussi masochiste, mais l’héritier cache une facette plus sérieuse. Il n’est pas né de Quetzalcoatl : Xolotl est le faux jumeau de Quetzal. Dépourvu de Mageius, il demeure asservi à son frère. Lorsque Quetzal meurt, Xolotl meurt avec lui ; lorsque Quetzal ressuscite, Xolotl est lui aussi réincarné de force. Lassé de cette servitude et rendu à moitié fou par des morts et des résurrections qu’il ne contrôle pas, il cherche à rompre ce lien. Pour conquérir sa liberté, il est prêt à affronter n’importe quel danger."
           }
         ]
       },
