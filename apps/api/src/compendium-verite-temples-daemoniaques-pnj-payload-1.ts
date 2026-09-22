@@ -19,7 +19,7 @@ const PAYLOAD = [
       "completeness": "detailed",
       "real_name": "Scott McFadden",
       "real_name_source": "Scott McFadden",
-      "nom_verite": "Sytry -",
+      "nom_verite": "Sytry",
       "nom_verite_source": "Sytry -",
       "race": "daemons",
       "age": "25 ans",
@@ -34,7 +34,6 @@ const PAYLOAD = [
         8
       ],
       "identity_keys": [
-        "Sytry -",
         "Sytry",
         "Scott McFadden"
       ],
@@ -101,7 +100,7 @@ const PAYLOAD = [
               ],
               [
                 "Nom de la Vérité",
-                "Sytry -"
+                "Sytry"
               ],
               [
                 "Âge source",
