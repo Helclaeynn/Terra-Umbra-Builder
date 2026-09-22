@@ -2080,10 +2080,10 @@ const PAYLOAD = [
       "real_name": "Saheeda al-Sahli",
       "nom_verite": "Shaamiti Ayshin",
       "race": "Vampire",
-      "age": "«22 ans » - 229 ans",
+      "age": "22 ans",
       "origine": "Tunisienne",
-      "statut": "Associatif : Night hotels",
-      "statut_verite": "« « Peuchen»",
+      "statut": "Association : Night Hotels",
+      "statut_verite": "Peuchen",
       "organisation": "Ihuito Meztzi",
       "relations": [],
       "identity_keys": [
@@ -2096,7 +2096,7 @@ const PAYLOAD = [
         25,
         25
       ],
-      "source_designation": "K’uhul Ajaw: Trauco",
+      "source_designation": "Ah’kin Ajaw « Peuchen » : Shaamiti",
       "source_reality_raw": "Saheeda al-Sahli",
       "source_truth_raw": "Shaamiti Ayshin",
       "source_extract": "K’uhul Ajaw: Trauco Nom de la Réalité : Saheeda al-Sahli Nom de la Vérité : Shaamiti Ayshin Age : «22 ans » - 229 ans Affiliations : Associatif : Night hotels Nationalité d’origine : Tunisienne Ethnie réelle : Vampire Statut : « « Peuchen» Maison vampirique : «Ayshin » Saheeda est un cadre de l’Association lucrative « Night Hotels », une entreprise(non-corporative) d’hôtellerie fondée par Thelesa Night. Proche des Hotels Shinoda avec qui un partenariat existe, on dit aussi qu’Eversor corporation lorgne sur l’acquisition des « Nigh Hotels » étant donné le très haut standing de cette chaine. Concernant Saheeda elle-même, c’est une très jeune femme de 22 ans qui ne se laisse intimider par rien, froide et intelligent, elle est dévouée à son entreprise et a des liens très forts avec la directrice Thelesa. Elle répugne la violence et la vulgarité. Shaamiti est née des efforts diplomatiques de la Reine Megda de la cour de l’Alghul, Quetzalcoatl exigea leur union pour obtenir un statut quo avec l’Alghul. Shaamiti est aussi bien une héritière qu’un otage de fait. Parce que la cour de l’Alghul ne donne aucun crédit au lignage, elle n’y a pas une importance similaire qu’à l’Ihuito. Elle est aussi calculatrice que sa mère, œuvrant pour essayer de susciter un peu de compétition dans l’Ihuito, afin d’en freiner les conflits. Elle s’est ironiquement approchée d’une déesse d’un autre monde pour espérer sauver sa maison des Fléaux après avoir été",
@@ -2123,17 +2123,21 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«22 ans »"
+                "22 ans"
               ],
               [
                 "Affiliations",
-                "Associatif : Night hotels"
+                "Association : Night Hotels"
               ],
               [
                 "Nationalité d’origine",
                 "Tunisienne"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Saheeda al-Sahli est cadre de l’association lucrative Night Hotels, une entreprise hôtelière non corporative fondée par Thelesa Night. La chaîne entretient un partenariat avec les hôtels Shinoda ; Eversor Corporation lorgnerait sur son acquisition en raison de son très haut standing. Âgée de 22 ans, Saheeda se laisse difficilement intimider. Froide et intelligente, elle est dévouée à son entreprise et entretient des liens très étroits avec Thelesa, sa directrice. Elle répugne à la violence comme à la vulgarité."
           }
         ]
       },
@@ -2156,7 +2160,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "«22 ans » - 229 ans"
+                "22 ans en apparence ; 229 ans"
               ],
               [
                 "Nature réelle",
@@ -2164,17 +2168,17 @@ const PAYLOAD = [
               ],
               [
                 "Statut vampirique",
-                "« « Peuchen»"
+                "Peuchen"
               ],
               [
                 "Maison vampirique",
-                "«Ayshin »"
+                "Ayshin"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "Saheeda est un cadre de l’Association lucrative « Night Hotels », une entreprise(non-corporative) d’hôtellerie fondée par Thelesa Night. Proche des Hotels Shinoda avec qui un partenariat existe, on dit aussi qu’Eversor corporation lorgne sur l’acquisition des « Nigh Hotels » étant donné le très haut standing de cette chaine. Concernant Saheeda elle-même, c’est une très jeune femme de 22 ans qui ne se laisse intimider par rien, froide et intelligent, elle est dévouée à son entreprise et a des liens très forts avec la directrice Thelesa. Elle répugne la violence et la vulgarité. Shaamiti est née des efforts diplomatiques de la Reine Megda de la cour de l’Alghul, Quetzalcoatl exigea leur union pour obtenir un statut quo avec l’Alghul. Shaamiti est aussi bien une héritière qu’un otage de fait. Parce que la cour de l’Alghul ne donne aucun crédit au lignage, elle n’y a pas une importance similaire qu’à l’Ihuito. Elle est aussi calculatrice que sa mère, œuvrant pour essayer de susciter un peu de compétition dans l’Ihuito, afin d’en freiner les conflits. Elle s’est ironiquement approchée d’une déesse d’un autre monde pour espérer sauver sa maison des Fléaux après avoir été"
+            "text": "Shaamiti naquit des efforts diplomatiques de la reine Megda de l’Alghul : Quetzalcoatl exigea leur union afin d’obtenir un statu quo avec cette Cour. Elle est à la fois héritière et otage de fait. L’Alghul n’accordant aucun crédit au lignage, elle n’y jouit pas de la même importance qu’au sein de l’Ihuito. Aussi calculatrice que sa mère, Shaamiti cherche à susciter une compétition mesurée entre les membres de l’Ihuito afin de contenir leurs conflits. Pour sauver sa maison des Fléaux, elle s’est ironiquement rapprochée d’une déesse d’un autre monde après son initiation au culte du Grand Savoir et son apprentissage auprès d’Anadia."
           }
         ]
       },
