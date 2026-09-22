@@ -822,7 +822,7 @@ const PAYLOAD = [
       "nom_verite": "Cali- Sekhmet- Shilani",
       "nom_verite_source": "Cali- Sekhmet- Shilani",
       "race": "Daemons",
-      "age": "«32 ans », ????",
+      "age": "32 ans",
       "origine": "Indienne",
       "statut": "Duchesse",
       "affiliations": "crawlers : voidrunner",
@@ -878,7 +878,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Shalini est une voidrunner de la Blanchisserie, une assassine, une des meilleures en 2035, lorsque le massacre du tunnel des Nord-coréens a été perpétré, beaucoup ont pensé que c’était elle vu la ressemblance des méthodes."
+            "text": "Karlyn Chamunda est une Voidrunner de la Blanchisserie et compte parmi les meilleures assassines en activité en 2035. Lorsque survint le massacre du tunnel des Nord-Coréens, beaucoup pensèrent qu’elle pouvait en être responsable tant les méthodes employées ressemblaient aux siennes."
           }
         ]
       },
@@ -944,7 +944,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Shalini est une voidrunner de la Blanchisserie, une assassine, une des meilleures en 2035, lorsque le massacre du tunnel des Nord-coréens a été perpétré, beaucoup ont pensé que c’était elle vu la ressemblance des méthodes. La démone Cali n’est pas la plus connue dans les légendes, on connait surtout la déesse Kali, de l’hindouisme qui l’a inspirée, déesse du massacre, de la préservation et de la destruction. Elle était aussi connue comme Sekhmet, la déesse de la vengeance même si c’est un des noms de Satan. Mortelle, Shilani appartenait à une famille durant un âge très reculé. La famille fut massacrée et la plus jeune enfant laissée pour morte, elle survécut et poursuivit les pillards, les tuant un à un, par embuscade, pendant trois ans avant de mourir d’infection. Satan respecta l’enfant et au lieu d’en faire une démone directement, la réincarna. A la mort de sa seconde vie, plus confortable, il en fit une démone."
+            "text": "Karlyn est en vérité Cali–Sekhmet–Shilani. Cali est moins connue dans les légendes que la déesse Kali de l’hindouisme qui semble l’avoir inspirée, figure associée au massacre, à la préservation et à la destruction. Elle fut également connue sous le nom de Sekhmet, liée à la vengeance. Mortelle, Shilani appartenait à une famille d’un âge très reculé. Après le massacre des siens, laissée pour morte alors qu’elle était la plus jeune enfant, elle survécut et traqua les pillards pendant trois ans, les tuant un à un par embuscade avant de mourir d’infection. Satan respecta suffisamment cette volonté pour la réincarner plutôt que de la transformer immédiatement en Daemone. Ce n’est qu’à la mort de sa seconde vie, beaucoup plus paisible, qu’il fit d’elle une Duchesse."
           }
         ]
       },
