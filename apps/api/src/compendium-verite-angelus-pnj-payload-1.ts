@@ -1019,7 +1019,7 @@ const PAYLOAD = [
       "real_name": "Anna-Lynn Kimber",
       "nom_verite": "Aralim",
       "race": "Angelus",
-      "age": "«45 ans », ????",
+      "age": "45 ans",
       "origine": "américaine",
       "statut": "Corporation : Byron industries",
       "statut_verite": "séraphin",
@@ -1060,7 +1060,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«45 ans », ????"
+                "45 ans"
               ],
               [
                 "Affiliations",
@@ -1081,7 +1081,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Anna-lynn est une grande architecte de Byron industries. Elle conduit de nombreux chantiers dans le monde et a quelques projets de navires géants en préparation. C’est une scientifique assez pointue en mécanique mais ce n’est pas une grande sportive loin de là."
+            "text": "Anna-Lynn est une grande architecte de Byron Industries. Elle dirige de nombreux chantiers à travers le monde et travaille aussi sur plusieurs projets de navires géants. C’est une scientifique très compétente en mécanique, mais certainement pas une grande sportive."
           }
         ]
       },
@@ -1126,7 +1126,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Aralim est le séraphin de la construction, elle peut façonner par la lumière d’Elynea des structures solides mais éphémères. Elle était la plus loyale de Metatron et n’a jamais compris pourquoi il avait été emprisonné. Elle a été emprisonnée avant d’être libérée par Gabrielle, la servant désormais même si sa loyauté va à Metatron encore. C’est une amie de Naalnish, le corbeau de Morrighan. Les objets qu’elle façonne par sa lumière sont uniquement fonctionnels si elle en a consulté un plan préalablement, elle ne peut donc pas créer quelque chose d’imaginaire ou d’inconnu ni quelque chose de trop compliqué à retenir."
+            "text": "Aralim est la Séraphine de la construction. Par la lumière d’Elynea, elle peut façonner des structures solides mais éphémères. Elle fut la plus loyale servante de Metatron et n’a jamais compris les raisons de son emprisonnement. Elle-même fut emprisonnée avant d’être libérée par Gabrielle, qu’elle sert désormais même si sa véritable loyauté demeure acquise à Metatron. Elle est amie avec Nankil’slas, le corbeau de Morrighan. Les objets qu’elle façonne avec sa lumière ne sont fonctionnels que si elle en a consulté un plan au préalable : elle ne peut donc créer ni quelque chose d’inconnu ou d’imaginaire, ni une structure trop complexe pour être mémorisée."
           }
         ]
       },
