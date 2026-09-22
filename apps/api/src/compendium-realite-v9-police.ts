@@ -277,263 +277,156 @@ export const COMPENDIUM_REALITE_V9_POLICE_ARTICLES = [
         "blocks": [
           {
             "type": "p",
-            "text": "Le policier de 2035, à Los Angeles n’est pas simplement engagé pour ses beaux yeux et son sourire ravageur, c’est un individu ayant réussi un test d’entrée relativement difficile, ayant accompli sa compétences certaines lui étant utile pour servir au LAPD."
-          },
-          {
-            "type": "p",
-            "text": "Le concours du LAUS est, en vérité, composé de deux tests distincts, le premier est le « concours californien d’aptitude policière » (Californian Police Ability Test : CPAT), qui permet d’être engagé dans toutes les polices du grand état de Californie. Le second concours est propre à Los Angeles, c’est le « concours spécifique de Los Angeles » (Los Angeles Specific Test : LAST)."
-          },
-          {
-            "type": "p",
-            "text": "Ce second concours est propre à l’entrée au LAUS, il n’est pas officiellement reconnu ailleurs en Californie mais s’avère entouré d’une aura d’excellence."
-          },
-          {
-            "type": "p",
-            "text": "Les concurrents ne savent pas forcément quelles épreuves tiennent plus d’un test que de l’autre, les épreuves sont bien plus nombreuses que les anciens tests d’entrée et s’étalent sur une semaine entière."
-          },
-          {
-            "type": "p",
-            "text": "Les conditions pour postuler sont minimales : il faut détenir la citoyenneté Californienne, qu’on ne peut avoir en dessous de 18 ans, le concours est ouvert à tout âge, mais étant physique, il reste élitiste et un dossier médical exigeant est à fournir, mettant souvent de côté les personnes trop âgées."
-          },
-          {
-            "type": "p",
-            "text": "La première épreuve - Physique La première épreuve s’étale sur 2 jours."
-          },
-          {
-            "type": "p",
-            "text": "C’est l’épreuve d’endurance, elle est décomposée en 10 parties se répétant deux jours :"
-          },
-          {
-            "type": "p",
-            "text": "Jour 1 et 2 - Course d’endurance"
-          },
-          {
-            "type": "p",
-            "text": "Jour 1 et 2 - Corps à corps"
-          },
-          {
-            "type": "p",
-            "text": "Jour 1 et 2 - Course de vitesse"
-          },
-          {
-            "type": "p",
-            "text": "Jour 1 et 2 - Tir"
-          },
-          {
-            "type": "p",
-            "text": "Jour 1 et 2 - Course d’endurance"
-          },
-          {
-            "type": "p",
-            "text": "Jour 1 et 2 - Course d’orientation"
-          },
-          {
-            "type": "p",
-            "text": "Jour 1 et 2 - Corps à corps"
-          },
-          {
-            "type": "p",
-            "text": "Jour 1 et 2 - Course de vitesse"
-          },
-          {
-            "type": "p",
-            "text": "Jour 1 et 2 - Pilotage"
-          },
-          {
-            "type": "p",
-            "text": "Jour 1 et 2 - Course d’endurance Terriblement éprouvante, elle sert à éprouver l’aptitude à la poursuite de suspects, leur maîtrise que ce soit par l’usage de la force physique ou des armes, ainsi que la poursuite véhiculée."
-          },
-          {
-            "type": "p",
-            "text": "L’épreuve ne laisse que peu de temps de repos, la redondance des étapes sert à comparer la résistance à la fatigue physique essentiellement."
-          },
-          {
-            "type": "p",
-            "text": "La deuxième épreuve - Intellect La deuxième épreuve s’étale sur 1 jour."
-          },
-          {
-            "type": "p",
-            "text": "C’est l’épreuve d’intelligence et de connaissances."
-          },
-          {
-            "type": "p",
-            "text": "Jour 3 - QCM de lecture"
-          },
-          {
-            "type": "p",
-            "text": "Jour 3 - QCM d’écriture"
-          },
-          {
-            "type": "p",
-            "text": "Jour 3 - QCM culture générale"
-          },
-          {
-            "type": "p",
-            "text": "Jour 3 - QCM de droit"
-          },
-          {
-            "type": "p",
-            "text": "Jour 3 - Rédaction personnelle – simulation de crise Après deux jours éprouvants physiquement, les candidats sont enfermés une journée entière dans une sombre salle pour répondre à une suite de questionnaires."
-          },
-          {
-            "type": "p",
-            "text": "On y teste leurs savoirs généraux, leur capacité à bien comprendre ce qui est dit, à bien savoir le transmettre puis on teste leurs connaissances en droit, c’est là qu’un niveau d’étude dans le domaine n’est souvent pas un luxe, bien qu’il ne soit pas obligatoire."
-          },
-          {
-            "type": "p",
-            "text": "Enfin, la dernière épreuve est une mise en situation où le candidat doit trouver une solution La troisième épreuve - Relationnel La troisième épreuve s’étale sur 2 jours."
-          },
-          {
-            "type": "p",
-            "text": "C’est l’épreuve des entretiens."
-          },
-          {
-            "type": "p",
-            "text": "Jour 4 - Entretien médical"
-          },
-          {
-            "type": "p",
-            "text": "Jour 4 - Entretien casier judiciaire"
-          },
-          {
-            "type": "p",
-            "text": "Jour 5 - Entretien motivation"
-          },
-          {
-            "type": "p",
-            "text": "Jour 5 - Entretien projection"
-          },
-          {
-            "type": "p",
-            "text": "Jour 6 - Entretien diplomatie La dernière épreuve est sans aucun doute la plus difficile à préparer."
-          },
-          {
-            "type": "p",
-            "text": "On interroge le candidat sur sa santé, son passé pénal, sa motivation et sa perception de l’avenir au sein de la LAPD."
-          },
-          {
-            "type": "p",
-            "text": "Le dernier entretien est celui « diplomatique », où le candidat doit faire preuve de ses capacités de négociations et de composition, sa tolérance vis-à-vis de situations complexes mettant en jeu les corporations, les politiques et autres sources."
-          },
-          {
-            "type": "p",
-            "text": "Résultats Les résultats sont notés de A+ à F-, (équivalent à une notation allant de 20 à 3), l’obtention du concours se fait sur une moyenne de « C » aux trois épreuves, le « F » à l’une des trois parties est éliminatoire. (Il ne l’est pas dans le détail des tests, par exemple, avoir un F- au test de tir n’invalide pas l’épreuve physique)"
-          },
-          {
-            "type": "p",
-            "text": "L’obtention d’une moyenne supérieure à B ouvre une mention pour le concours des agents , aussi (sous condition de ne pas avoir de « E » éliminatoire pour cette mention)."
-          },
-          {
-            "type": "p",
-            "text": "L’obtention d’une moyenne supérieure à A ouvre une mention pour le concours d’officier supérieur (sous condition de ne pas avoir de « D » éliminatoire pour cette mention)"
-          },
-          {
-            "type": "p",
-            "text": "Ces mentions servent à avoir le droit de passer les concours après l’académie de Police, le concours d’officier supérieur reste soumis à une réussite au concours de détective."
-          },
-          {
-            "type": "p",
-            "text": "L’ultime épreuve – L’entretien de validation avec le COP Une fois les épreuves achevées, le sixième jour, on ramène les candidats au pas de course, moins pour les tester que les chahuter, le candidat doit attendre la fin de l’étude des résultats pendant un mois."
-          },
-          {
-            "type": "p",
-            "text": "Lorsque le candidat est accepté à l’école de police, il lui reste une épreuve surprise, un entretien privé avec le Chef de Police en personne, dans son bureau, cela peut être avec le chef en second néanmoins, l’entretien est très bref en vérité vu le nombre de postulants acceptés."
-          },
-          {
-            "type": "p",
-            "text": "On ne sait ce qui s’y dit, mais en général le candidat est félicité et motivé à devenir un agent de l’ordre des plus exemplaire."
-          },
-          {
-            "type": "p",
-            "text": "Le concours du LAUS obtenu, la première étape est passée et le candidat devient alors un cadet."
-          },
-          {
-            "type": "p",
-            "text": "Le cadet perçoit un uniforme traditionnel et suit des cours pendant une durée de 15 semaines, à peu près trois mois qui vont s’avérer intensifs."
-          },
-          {
-            "type": "p",
-            "text": "L’académie de Police de Los Angeles a été sujette aux réformes Caza."
-          },
-          {
-            "type": "p",
-            "text": "Le nouvel établissement est un USC spécifique, cependant le personnel n’est généralement policier que d’une petite partie."
-          },
-          {
-            "type": "p",
-            "text": "La PA est une structure semi-dépendante du LAUS, elle emploie des professionnels du droit, de la sécurité, de l’armement et de la tactique urbaine."
-          },
-          {
-            "type": "p",
-            "text": "Les différents cours portent sur :"
-          },
-          {
-            "type": "p",
-            "text": "Sécurité et survie"
-          },
-          {
-            "type": "p",
-            "text": "Techniques de communication et interrogatoires"
-          },
-          {
-            "type": "p",
-            "text": "Droit pénal"
-          },
-          {
-            "type": "p",
-            "text": "Technique d’arrestation"
-          },
-          {
-            "type": "p",
-            "text": "Tactiques de défense"
-          },
-          {
-            "type": "p",
-            "text": "Drogues illégales"
-          },
-          {
-            "type": "p",
-            "text": "Terrorisme"
-          },
-          {
-            "type": "p",
-            "text": "Cyberterrorisme"
-          },
-          {
-            "type": "p",
-            "text": "Protection rapprochée"
-          },
-          {
-            "type": "p",
-            "text": "Entrainement au tir"
-          },
-          {
-            "type": "p",
-            "text": "Tactiques du support aérien"
-          },
-          {
-            "type": "p",
-            "text": "Entrainement au pilotage"
-          },
+            "text": "Les policiers de Los Angeles doivent réussir le concours d’entrée, la formation initiale à l’académie et leur période d’insertion dans un service."
+          },
+          {
+            "type": "p",
+            "text": "Le recrutement combine le Californian Police Ability Test (CPAT), reconnu par toutes les polices de Grande Californie, et le Los Angeles Specific Test (LAST), propre au LAUS. Le LAST n’est pas officiellement reconnu ailleurs, mais bénéficie d’une réputation d’excellence."
+          },
+          {
+            "type": "p",
+            "text": "Les candidats ne savent pas toujours de quel concours relève chaque épreuve. La sélection occupe une semaine entière. Il faut posséder la citoyenneté californienne, accessible à partir de 18 ans, et fournir un dossier médical exigeant. Il n’existe pas de limite d’âge supérieure, mais les exigences physiques écartent souvent les candidats les plus âgés."
+          }
+        ]
+      },
+      {
+        "id": "epreuve-physique",
+        "title": "Jours 1 et 2 — endurance physique",
+        "level": 3,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "La même succession de dix exercices est répétée pendant deux jours, avec peu de repos. Elle mesure la poursuite à pied ou en véhicule, la maîtrise physique des suspects, l’usage des armes et la résistance à la fatigue."
+          },
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Ordre",
+                "Exercice répété chaque jour"
+              ],
+              [
+                "1",
+                "Course d’endurance"
+              ],
+              [
+                "2",
+                "Corps à corps"
+              ],
+              [
+                "3",
+                "Course de vitesse"
+              ],
+              [
+                "4",
+                "Tir"
+              ],
+              [
+                "5",
+                "Course d’endurance"
+              ],
+              [
+                "6",
+                "Course d’orientation"
+              ],
+              [
+                "7",
+                "Corps à corps"
+              ],
+              [
+                "8",
+                "Course de vitesse"
+              ],
+              [
+                "9",
+                "Pilotage"
+              ],
+              [
+                "10",
+                "Course d’endurance"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "epreuve-intellect",
+        "title": "Jour 3 — connaissances et raisonnement",
+        "level": 3,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Après les deux journées physiques, les candidats passent une journée entière dans une salle sombre à répondre à des QCM de lecture, d’écriture, de culture générale et de droit."
+          },
+          {
+            "type": "p",
+            "text": "Les tests évaluent la compréhension, la transmission de l’information et les connaissances juridiques. Des études de droit constituent un avantage sans être obligatoires. Une rédaction clôt l’épreuve : le candidat doit proposer une solution théorique à une crise à partir des informations fournies."
+          }
+        ]
+      },
+      {
+        "id": "epreuve-relationnel",
+        "title": "Entretiens et diplomatie",
+        "level": 3,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Les entretiens portent sur la santé, le passé pénal, la motivation et l’avenir envisagé dans la police. L’entretien diplomatique évalue la négociation, la capacité à composer et la tolérance face à des situations complexes impliquant les corporations ou les responsables politiques."
+          },
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Jour",
+                "Entretiens"
+              ],
+              [
+                "4",
+                "Médical ; casier judiciaire"
+              ],
+              [
+                "5",
+                "Motivation ; projection"
+              ],
+              [
+                "6",
+                "Diplomatie"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "resultats",
+        "title": "Résultats et mentions",
+        "level": 3,
+        "blocks": [
           {
             "type": "p",
-            "text": "Entrainement physique"
+            "text": "Les notes vont de A+ à F−, soit une échelle équivalente à 20–3. Il faut une moyenne de C aux trois épreuves. Un F dans une épreuve entière est éliminatoire ; un F− dans un seul exercice, par exemple le tir, ne suffit pas à invalider toute l’épreuve physique."
           },
           {
             "type": "p",
-            "text": "Géographie par secteur de LA"
+            "text": "Une moyenne supérieure à B ouvre la mention permettant de présenter le concours d’agent, sous réserve de ne pas avoir de E éliminatoire pour cette mention. Une moyenne supérieure à A ouvre la mention pour le concours d’officier supérieur, sans D éliminatoire pour cette mention."
           },
           {
             "type": "p",
-            "text": "Criminologie"
-          },
+            "text": "Ces mentions donnent accès aux concours après l’académie. Le concours d’officier supérieur exige d’avoir d’abord réussi celui d’agent, anciennement appelé concours de détective."
+          }
+        ]
+      },
+      {
+        "id": "validation-cop",
+        "title": "Validation par le chef de police",
+        "level": 3,
+        "blocks": [
           {
             "type": "p",
-            "text": "Sciences"
+            "text": "À la fin des épreuves, le sixième jour, les candidats sont ramenés au pas de course. L’étude des résultats dure ensuite un mois. Les admis passent un bref entretien privé et inattendu avec le chef de police ou son adjoint, dans son bureau."
           },
           {
             "type": "p",
-            "text": "Travail en équipe"
+            "text": "Le contenu exact de l’entretien n’est pas connu. Il sert généralement à féliciter le candidat et à l’encourager à devenir un agent exemplaire."
           }
         ]
       },
@@ -544,175 +437,86 @@ export const COMPENDIUM_REALITE_V9_POLICE_ARTICLES = [
         "blocks": [
           {
             "type": "p",
-            "text": "L’ultime épreuve – L’entretien de validation avec le COP Une fois les épreuves achevées, le sixième jour, on ramène les candidats au pas de course, moins pour les tester que les chahuter, le candidat doit attendre la fin de l’étude des résultats pendant un mois."
+            "text": "L’admis devient cadet, reçoit un uniforme traditionnel et suit quinze semaines de formation intensive. Réorganisée par les réformes Caza, la Police Academy (PA) occupe un USC spécifique et reste partiellement dépendante du LAUS."
           },
           {
             "type": "p",
-            "text": "Lorsque le candidat est accepté à l’école de police, il lui reste une épreuve surprise, un entretien privé avec le Chef de Police en personne, dans son bureau, cela peut être avec le chef en second néanmoins, l’entretien est très bref en vérité vu le nombre de postulants acceptés."
+            "text": "Seule une minorité de ses enseignants sont policiers : elle emploie aussi des professionnels du droit, de la sécurité, de l’armement et de la tactique urbaine."
+          },
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Enseignements"
+              ],
+              [
+                "Sécurité et survie"
+              ],
+              [
+                "Communication et interrogatoires"
+              ],
+              [
+                "Droit pénal"
+              ],
+              [
+                "Techniques d’arrestation"
+              ],
+              [
+                "Tactiques de défense"
+              ],
+              [
+                "Drogues illégales"
+              ],
+              [
+                "Terrorisme"
+              ],
+              [
+                "Cyberterrorisme"
+              ],
+              [
+                "Protection rapprochée"
+              ],
+              [
+                "Tir"
+              ],
+              [
+                "Support aérien"
+              ],
+              [
+                "Pilotage"
+              ],
+              [
+                "Entraînement physique"
+              ],
+              [
+                "Géographie des secteurs de Los Angeles"
+              ],
+              [
+                "Criminologie"
+              ],
+              [
+                "Sciences"
+              ],
+              [
+                "Travail en équipe"
+              ]
+            ]
           },
           {
             "type": "p",
-            "text": "On ne sait ce qui s’y dit, mais en général le candidat est félicité et motivé à devenir un agent de l’ordre des plus exemplaire."
+            "text": "La formation développe l’efficacité individuelle et collective. Les liens noués entre cadets peuvent conduire à des affectations par groupes de quatre, ou au moins par binômes. Des options approfondissent les matières principales, comme la psychologie en complément de la criminologie ou le management pour le travail d’équipe."
           },
           {
             "type": "p",
-            "text": "Le concours du LAUS obtenu, la première étape est passée et le candidat devient alors un cadet."
+            "text": "Les cadets reçoivent quotidiennement des injections d’activateurs cellulaires pour densifier leurs os et leurs muscles, sous suivi médical. Ils se familiarisent également avec l’équipement de base de l’officier."
           },
           {
             "type": "p",
-            "text": "Le cadet perçoit un uniforme traditionnel et suit des cours pendant une durée de 15 semaines, à peu près trois mois qui vont s’avérer intensifs."
+            "text": "Des résultats insuffisants, un échec du traitement cellulaire ou une dégradation de la santé liée au stress entraînent l’exclusion de l’académie."
           },
           {
             "type": "p",
-            "text": "L’académie de Police de Los Angeles a été sujette aux réformes Caza."
-          },
-          {
-            "type": "p",
-            "text": "Le nouvel établissement est un USC spécifique, cependant le personnel n’est généralement policier que d’une petite partie."
-          },
-          {
-            "type": "p",
-            "text": "La PA est une structure semi-dépendante du LAUS, elle emploie des professionnels du droit, de la sécurité, de l’armement et de la tactique urbaine."
-          },
-          {
-            "type": "p",
-            "text": "La formation est courte mais intense."
-          },
-          {
-            "type": "p",
-            "text": "Les différents cours portent sur :"
-          },
-          {
-            "type": "p",
-            "text": "Sécurité et survie"
-          },
-          {
-            "type": "p",
-            "text": "Techniques de communication et interrogatoires"
-          },
-          {
-            "type": "p",
-            "text": "Droit pénal"
-          },
-          {
-            "type": "p",
-            "text": "Technique d’arrestation"
-          },
-          {
-            "type": "p",
-            "text": "Tactiques de défense"
-          },
-          {
-            "type": "p",
-            "text": "Drogues illégales"
-          },
-          {
-            "type": "p",
-            "text": "Terrorisme"
-          },
-          {
-            "type": "p",
-            "text": "Cyberterrorisme"
-          },
-          {
-            "type": "p",
-            "text": "Protection rapprochée"
-          },
-          {
-            "type": "p",
-            "text": "Entrainement au tir"
-          },
-          {
-            "type": "p",
-            "text": "Tactiques du support aérien"
-          },
-          {
-            "type": "p",
-            "text": "Entrainement au pilotage"
-          },
-          {
-            "type": "p",
-            "text": "Entrainement physique"
-          },
-          {
-            "type": "p",
-            "text": "Géographie par secteur de LA"
-          },
-          {
-            "type": "p",
-            "text": "Criminologie"
-          },
-          {
-            "type": "p",
-            "text": "Sciences"
-          },
-          {
-            "type": "p",
-            "text": "Travail en équipe La nouvelle PA de la réforme Caza met l’accent sur l’efficacité et de l’individu et du groupe dans lequel il est."
-          },
-          {
-            "type": "p",
-            "text": "Il n’est pas rare que les cadets tissent un lien si étroit qu’ils sont affectés par quatuor, dans le pire des cas par duo."
-          },
-          {
-            "type": "p",
-            "text": "Les cours optionnels s’ajoutent à la liste des principaux, en général c’est un approfondissement des bases enseignées, par exemple, des cours en psychologie en ajout de la criminologie, des cours de management en support au travail d’équipe et ainsi de suite."
-          },
-          {
-            "type": "p",
-            "text": "Outre les cours et les entrainements, le cadet subit des injections quotidiennes d’activateurs cellulaires, lui permettant de densifier sa masse osseuse et musculaire, d’où le suivi médical, i est aussi fortement invité à se familiariser avec les équipements de base de l’officier de police."
-          },
-          {
-            "type": "p",
-            "text": "Si le cadet montre des signes de faiblesse trop grande dans un des cours, qu’il n’obtient pas les notes nécessaires à son maintien dans le programme de formation, il est impitoyablement rejeté de la PA."
-          },
-          {
-            "type": "p",
-            "text": "Il en va de même si le traitement cellulaire échoue ou si sa santé se dégrade à cause du stress de la formation."
-          },
-          {
-            "type": "p",
-            "text": "Après les 15 semaines de formation, le cadet de la PA est affecté à un service, selon ses demandes et les disponibilités."
-          },
-          {
-            "type": "p",
-            "text": "Durant cette période de transition entre cadet et officier de police, il est associé à un officier plus expérimenté lui servant de tuteur pendant un mois supplémentaire, la validation par cet officier est indispensable à l’entrée en activité officielle. En général, l’officier choisi est proche de la retraite."
-          },
-          {
-            "type": "p",
-            "text": "Une fois officier de police, le policier est régulièrement soumis à des formations continues, tous les deux mois, il dispose d’une semaine d’approfondissement dans un des domaines cités plus haut (les cours), ou d’une spécialisation, par exemple, le pilotage d’hélicoptère."
-          },
-          {
-            "type": "p",
-            "text": "Une fois par an, le policier est soumis à un examen similaire à celui d’entrée à la PA, bien que plus léger."
-          },
-          {
-            "type": "p",
-            "text": "La dégradation de sa note n’entraine aucune conséquence s’il n’est soumis à aucune remontrance de ses supérieurs en service."
-          },
-          {
-            "type": "p",
-            "text": "L’amélioration de sa note entraine comme conséquence l’accession aux examens supérieurs s’il parvient au score minimal exigé pour ces derniers."
-          },
-          {
-            "type": "p",
-            "text": "C’est la hiérarchie qui décide si un officier peut passer le concours d’agent (anciennement concours de détective), ou si un agent peut passer le concours des officiers supérieurs."
-          },
-          {
-            "type": "p",
-            "text": "Une fois réussit le concours des officiers supérieurs, l’évolution se fait au mérite seul."
-          },
-          {
-            "type": "p",
-            "text": "Il y a des exceptions pour les spécialisations lourdes, c’est le cas des médecins légistes par exemple."
-          },
-          {
-            "type": "p",
-            "text": "(Ils débutent au grade « d’Agent scientifique », équivalent d’un bac+2 en science, spécialisé en médecine, progressent au rang de sergent, passent le concours des officiers supérieurs, équivalent à un Bac+5, au grade de lieutenant en Forensique, ils doivent justifier de 5 ans de spécialisation de plus en médecine légale pour passer capitaine en forensique et se soumettre à un examen pour vérifier leur aptitude en tant que médecin avec un équivalent bac+10."
-          },
-          {
-            "type": "p",
-            "text": "Les capitaines classiques, eux, n’ont pas cette exigence)"
+            "text": "Après quinze semaines, l’affectation dépend des demandes du cadet et des places disponibles. Un officier expérimenté, souvent proche de la retraite, le prend en tutorat pendant un mois supplémentaire. Sa validation est indispensable à l’entrée officielle en activité."
           }
         ]
       },
@@ -723,119 +527,15 @@ export const COMPENDIUM_REALITE_V9_POLICE_ARTICLES = [
         "blocks": [
           {
             "type": "p",
-            "text": "La nouvelle PA de la réforme Caza met l’accent sur l’efficacité et de l’individu et du groupe dans lequel il est."
+            "text": "Tous les deux mois, un officier suit une semaine de perfectionnement ou de spécialisation, par exemple en pilotage d’hélicoptère. Un examen annuel, plus léger que le concours d’entrée, actualise son niveau."
           },
           {
             "type": "p",
-            "text": "Il n’est pas rare que les cadets tissent un lien si étroit qu’ils sont affectés par quatuor, dans le pire des cas par duo."
+            "text": "Une baisse de note n’a pas de conséquence si les supérieurs ne lui adressent aucune remontrance en service. Une progression peut ouvrir l’accès aux concours supérieurs, lorsque le niveau requis est atteint. La hiérarchie décide de l’autorisation de se présenter au concours d’agent puis à celui d’officier supérieur."
           },
           {
             "type": "p",
-            "text": "Les cours optionnels s’ajoutent à la liste des principaux, en général c’est un approfondissement des bases enseignées, par exemple, des cours en psychologie en ajout de la criminologie, des cours de management en support au travail d’équipe et ainsi de suite."
-          },
-          {
-            "type": "p",
-            "text": "Outre les cours et les entrainements, le cadet subit des injections quotidiennes d’activateurs cellulaires, lui permettant de densifier sa masse osseuse et musculaire, d’où le suivi médical, i est aussi fortement invité à se familiariser avec les équipements de base de l’officier de police."
-          },
-          {
-            "type": "p",
-            "text": "Si le cadet montre des signes de faiblesse trop grande dans un des cours, qu’il n’obtient pas les notes nécessaires à son maintien dans le programme de formation, il est impitoyablement rejeté de la PA."
-          },
-          {
-            "type": "p",
-            "text": "Il en va de même si le traitement cellulaire échoue ou si sa santé se dégrade à cause du stress de la formation."
-          },
-          {
-            "type": "p",
-            "text": "Après les 15 semaines de formation, le cadet de la PA est affecté à un service, selon ses demandes et les disponibilités."
-          },
-          {
-            "type": "p",
-            "text": "Durant cette période de transition entre cadet et officier de police, il est associé à un officier plus expérimenté lui servant de tuteur pendant un mois supplémentaire, la validation par cet officier est indispensable à l’entrée en activité officielle. En général, l’officier choisi est proche de la retraite."
-          },
-          {
-            "type": "p",
-            "text": "Une fois officier de police, le policier est régulièrement soumis à des formations continues, tous les deux mois, il dispose d’une semaine d’approfondissement dans un des domaines cités plus haut (les cours), ou d’une spécialisation, par exemple, le pilotage d’hélicoptère."
-          },
-          {
-            "type": "p",
-            "text": "Une fois par an, le policier est soumis à un examen similaire à celui d’entrée à la PA, bien que plus léger."
-          },
-          {
-            "type": "p",
-            "text": "La dégradation de sa note n’entraine aucune conséquence s’il n’est soumis à aucune remontrance de ses supérieurs en service."
-          },
-          {
-            "type": "p",
-            "text": "L’amélioration de sa note entraine comme conséquence l’accession aux examens supérieurs s’il parvient au score minimal exigé pour ces derniers."
-          },
-          {
-            "type": "p",
-            "text": "C’est la hiérarchie qui décide si un officier peut passer le concours d’agent (anciennement concours de détective), ou si un agent peut passer le concours des officiers supérieurs."
-          },
-          {
-            "type": "p",
-            "text": "Une fois réussit le concours des officiers supérieurs, l’évolution se fait au mérite seul."
-          },
-          {
-            "type": "p",
-            "text": "Il y a des exceptions pour les spécialisations lourdes, c’est le cas des médecins légistes par exemple."
-          },
-          {
-            "type": "p",
-            "text": "(Ils débutent au grade « d’Agent scientifique », équivalent d’un bac+2 en science, spécialisé en médecine, progressent au rang de sergent, passent le concours des officiers supérieurs, équivalent à un Bac+5, au grade de lieutenant en Forensique, ils doivent justifier de 5 ans de spécialisation de plus en médecine légale pour passer capitaine en forensique et se soumettre à un examen pour vérifier leur aptitude en tant que médecin avec un équivalent bac+10."
-          },
-          {
-            "type": "p",
-            "text": "Les capitaines classiques, eux, n’ont pas cette exigence)"
-          },
-          {
-            "type": "p",
-            "text": "Le travail d’un policier peut varier, l’officier de police est le rang le bas de la hiérarchie, lors de sa montée en grade, il peut accéder aux différents grades :"
-          },
-          {
-            "type": "p",
-            "text": "Candidat ayant réussi le test d'entrée, il étudie à l'académie de police."
-          },
-          {
-            "type": "p",
-            "text": "Cadet Premier grade. Il patrouille dans un secteur désigné."
-          },
-          {
-            "type": "p",
-            "text": "Officier Deuxième grade, c'est un officier qui va se spécialiser (voir spécialisations)"
-          },
-          {
-            "type": "p",
-            "text": "\"Agent \" Troisième grade, c'est le supérieur des agents, il organise un groupe d'officiers ou quelques agents au sein d'une division."
-          },
-          {
-            "type": "p",
-            "text": "Sergent Quatrième grade, c'est le supérieur des sergents, il organise un groupe de ces derniers au sein d'une division."
-          },
-          {
-            "type": "p",
-            "text": "Lieutenant Cinquième grade, c'est le supérieur des lieutenants, il commande une division."
-          },
-          {
-            "type": "p",
-            "text": "Capitaine Sixième grade, c'est le supérieur des capitaines, il commande un groupe de division."
-          },
-          {
-            "type": "p",
-            "text": "Commandant Septième grade. c'est le supérieur des commandants, il commande un bureau entier."
-          },
-          {
-            "type": "p",
-            "text": "Sous-chef Huitième grade. c'est le supérieur des sous-chefs, il supervise une branche entière du LAPD."
-          },
-          {
-            "type": "p",
-            "text": "Chef auxiliaire Neuvième grade, c'est le Chef de la Police de Los Angeles, il commande toutes les branches."
-          },
-          {
-            "type": "p",
-            "text": "Chef"
+            "text": "Après le concours d’officier supérieur, la progression repose sur le mérite, sauf exigences supplémentaires de certaines spécialités lourdes. Les médecins légistes débutent comme agents scientifiques, avec un niveau équivalent à bac+2 en sciences spécialisé en médecine, puis deviennent sergents. Le concours d’officier supérieur correspond à bac+5. Un lieutenant en forensique doit justifier de cinq années supplémentaires de médecine légale et réussir un examen équivalent à bac+10 pour devenir capitaine. Cette exigence ne concerne pas les capitaines des autres filières."
           }
         ]
       },
@@ -846,114 +546,105 @@ export const COMPENDIUM_REALITE_V9_POLICE_ARTICLES = [
         "blocks": [
           {
             "type": "p",
-            "text": "Le travail d’un policier peut varier, l’officier de police est le rang le bas de la hiérarchie, lors de sa montée en grade, il peut accéder aux différents grades :"
+            "text": "Les réformes Caza ont supprimé les sous-niveaux qui existaient au sein des grades : trois chez les officiers et capitaines, deux chez les sergents et lieutenants. Chaque grade ne comporte désormais qu’un niveau."
+          },
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Grade",
+                "Fonction"
+              ],
+              [
+                "Cadet",
+                "Admis au concours, en formation à l’académie."
+              ],
+              [
+                "Officier",
+                "Premier grade ; patrouille dans un secteur."
+              ],
+              [
+                "Agent",
+                "Deuxième grade ; officier spécialisé."
+              ],
+              [
+                "Sergent",
+                "Troisième grade ; encadre des officiers ou des agents dans une division."
+              ],
+              [
+                "Lieutenant",
+                "Quatrième grade ; encadre plusieurs sergents dans une division."
+              ],
+              [
+                "Capitaine",
+                "Cinquième grade ; commande une division."
+              ],
+              [
+                "Commandant",
+                "Sixième grade ; commande un groupe de divisions."
+              ],
+              [
+                "Sous-chef",
+                "Septième grade ; commande un bureau."
+              ],
+              [
+                "Chef auxiliaire",
+                "Huitième grade ; supervise une branche du LAUS."
+              ],
+              [
+                "Chef",
+                "Neuvième grade ; commande toutes les branches."
+              ]
+            ]
           },
           {
             "type": "p",
-            "text": "Candidat ayant réussi le test d'entrée, il étudie à l'académie de police."
+            "text": "À partir du grade d’agent, les spécialisations se répartissent entre Surveillance, Enquête et Intervention. Une spécialité recouvre plusieurs métiers : pilote peut désigner un motard ou un pilote d’hélicoptère, scientifique un chimiste ou un analyste statistique."
           },
           {
-            "type": "p",
-            "text": "Cadet Premier grade. Il patrouille dans un secteur désigné."
-          },
-          {
-            "type": "p",
-            "text": "Officier Deuxième grade, c'est un officier qui va se spécialiser (voir spécialisations)"
-          },
-          {
-            "type": "p",
-            "text": "\"Agent \" Troisième grade, c'est le supérieur des agents, il organise un groupe d'officiers ou quelques agents au sein d'une division."
-          },
-          {
-            "type": "p",
-            "text": "Sergent Quatrième grade, c'est le supérieur des sergents, il organise un groupe de ces derniers au sein d'une division."
-          },
-          {
-            "type": "p",
-            "text": "Lieutenant Cinquième grade, c'est le supérieur des lieutenants, il commande une division."
-          },
-          {
-            "type": "p",
-            "text": "Capitaine Sixième grade, c'est le supérieur des capitaines, il commande un groupe de division."
-          },
-          {
-            "type": "p",
-            "text": "Commandant Septième grade. c'est le supérieur des commandants, il commande un bureau entier."
-          },
-          {
-            "type": "p",
-            "text": "Sous-chef Huitième grade. c'est le supérieur des sous-chefs, il supervise une branche entière du LAPD."
-          },
-          {
-            "type": "p",
-            "text": "Chef auxiliaire Neuvième grade, c'est le Chef de la Police de Los Angeles, il commande toutes les branches."
-          },
-          {
-            "type": "p",
-            "text": "Chef Autrefois, les officiers étaient rangés en 3 niveaux, les sergents en 2 niveaux, les lieutenants en 2 niveaux, les capitaines en 3."
-          },
-          {
-            "type": "p",
-            "text": "Désormais, la réforme Caza a néanmoins lissé ces rangs il n’y en a qu’un par grade."
-          },
-          {
-            "type": "p",
-            "text": "A partir du grade « Agent », le policier va se spécialiser selon les trois orientations possibles qui sont :"
-          },
-          {
-            "type": "p",
-            "text": "« Surveillance », « Enquête », « Intervention »."
-          },
-          {
-            "type": "p",
-            "text": "Voici une liste de quelques spécialisations possibles :"
-          },
-          {
-            "type": "p",
-            "text": "Chaque spécialisation possède ses propres ramifications, par exemple « pilote » peut désigner aussi bien le motard que le pilote d’hélicoptère, les deux n’ont rien avoir pour autant, de même, « scientifique » peut désigner un chimiste ou un analyste statistique."
-          },
-          {
-            "type": "p",
-            "text": "Agent de police spécialisé dans la surveillance mobile."
-          },
-          {
-            "type": "p",
-            "text": "Pilote Agent de police infiltré et spécialisé dans la collecte d'informations en milieu hostile."
-          },
-          {
-            "type": "p",
-            "text": "Infiltré Agent de police spécialisé dans l'analyse des données."
-          },
-          {
-            "type": "p",
-            "text": "Cyberanalyste Agent de police spécialisé dans l'enquête de délit ou de crime Détective Agent de police spécialisé dans l'analyse forensique, via les différentes sciences."
-          },
-          {
-            "type": "p",
-            "text": "Scientifique Agent de police spécialisé dans l'enquête de délits dans l'Holonet Holotraqueur Agent de police spécialisé dans l'inverntion lourde armée."
-          },
-          {
-            "type": "p",
-            "text": "Opératif Agent de police infiltré et spécialisé dans la provocation de délits."
-          },
-          {
-            "type": "p",
-            "text": "Provocateur Agent de police spécialisé dans l'inverntion lourde dans l'holonet."
-          },
-          {
-            "type": "p",
-            "text": "Déconstructeur I I E E S S I E S"
-          }
-        ]
-      },
-      {
-        "id": "equipement-exclu",
-        "title": "Équipement : source explicitement obsolète",
-        "level": 2,
-        "blocks": [
-          {
-            "type": "p",
-            "text": "Le document source marque explicitement son chapitre d’équipement « à refaire, ne pas en tenir compte ». Cette version n’est donc pas intégrée au canon actif du Compendium."
+            "type": "table",
+            "rows": [
+              [
+                "Spécialité",
+                "Fonction"
+              ],
+              [
+                "Pilote",
+                "Surveillance mobile."
+              ],
+              [
+                "Infiltré",
+                "Collecte d’informations sous couverture en milieu hostile."
+              ],
+              [
+                "Cyberanalyste",
+                "Analyse des données."
+              ],
+              [
+                "Détective",
+                "Enquête sur les délits et les crimes."
+              ],
+              [
+                "Scientifique",
+                "Analyse forensique par les sciences."
+              ],
+              [
+                "Holotraqueur",
+                "Enquête sur les délits dans l’Holonet."
+              ],
+              [
+                "Opératif",
+                "Intervention lourde armée."
+              ],
+              [
+                "Provocateur",
+                "Action sous couverture visant à provoquer des délits."
+              ],
+              [
+                "Déconstructeur",
+                "Intervention lourde dans l’Holonet."
+              ]
+            ]
           }
         ]
       }
@@ -2562,10 +2253,6 @@ export const COMPENDIUM_REALITE_V9_POLICE_ARTICLES = [
           {
             "type": "p",
             "text": "L’organisation de chacune de ces Polices possède certaines différences avec le LAUS."
-          },
-          {
-            "type": "p",
-            "text": "T u cs o n P h o e ni x M e xi ca li S a n Di ej u L os A n ge le L as V eg as S a n Jo sé S a n Fr a n"
           }
         ]
       },
@@ -2580,10 +2267,6 @@ export const COMPENDIUM_REALITE_V9_POLICE_ARTICLES = [
           },
           {
             "type": "p",
-            "text": "Direction :"
-          },
-          {
-            "type": "p",
             "text": "Olivia Ada de la Cruz en est la cheffe de police depuis 2035."
           },
           {
@@ -2592,59 +2275,27 @@ export const COMPENDIUM_REALITE_V9_POLICE_ARTICLES = [
           },
           {
             "type": "p",
-            "text": "Contexte :"
+            "text": "San Diego est la deuxième ville la plus peuplée de l’ancien état de Californie, elle était une ville frontalière avec le Mexique avant l’assimilation d’une partie dans la Grande Californie. La police de San Diego était spécialisée dans la lutte contre l’immigration. San Diego bénéficiait de vastes bases militaires, du Marines Corps mais surtout de gros chantiers navals appartenant désormais aux Corporations."
           },
           {
             "type": "p",
-            "text": "San Diego est la deuxième ville la plus peuplée de l’ancien état de Californie, elle était une ville frontalière avec le Mexique avant l’assimilation d’une partie dans la Grande Californie. La police de San Diego était spécialisée dans la lutte contre l’immigration."
+            "text": "Tijuana, surnommée TJ était la ville mexicaine de l’autre côté de la frontière, elle était fortement industrialisée avec les maquiladoras, ces usines d’assemblage à bas coût. C’était néanmoins le point de passage principal de la drogue pour le cartel de Tijuana, grand rival du cartel Sinaloa et Juarez. Tijuana était une des villes à la plus grande criminalité au monde avant son assimilation à San Diego."
           },
           {
             "type": "p",
-            "text": "San Diego bénéficiait de vastes bases militaires, du Marines Corps mais surtout de gros chantiers navals appartenant désormais aux Corporations."
+            "text": "« San Diejuana », la ville double, est née dans la douleur avant l’officialisation de la Grande Californie, elle est née par les corporations implantant de plus grandes usines sur la frontière pour joindre les grands chantiers navals de San Diego aux maquiladoras de TJ."
           },
           {
             "type": "p",
-            "text": "Tijuana, surnommée TJ était la ville mexicaine de l’autre côté de la frontière, elle était fortement industrialisée avec les maquiladoras, ces usines d’assemblage à bas coût."
+            "text": "Les forces de police de « Diejuana » ont dû faire face aux énormes soulèvements sociaux des travailleurs mexicains mais aussi contre les forces armées des Cartels, s’étant renforcé pendant la grande crise. Lors de la fusion officielle des deux villes, elle a aussi dû faire face à l’insurrection neonazie, des fanatiques d’extrême droite déclarant la guerre à la nouvelle mairie contre l’intégration de plus d’un million de mexicains, insurrection que les forces armées du cartel ont sauvement maté dans le sang face à l’échec de la police."
           },
           {
             "type": "p",
-            "text": "C’était néanmoins le point de passage principal de la drogue pour le cartel de Tijuana, grand rival du cartel Sinaloa et Juarez."
+            "text": "Après les sanglants évènements, la SDUS s’est réformée pour être apte à faire face aux masses hostiles. Elle possède les plus gros effectifs de tout l’état de Grande Californie. Elle recrute majoritairement dans les anciens US Marines et des gardes de côtes."
           },
           {
             "type": "p",
-            "text": "Tijuana était une des villes à la plus grande criminalité au monde avant son assimilation à San Diego."
-          },
-          {
-            "type": "p",
-            "text": "elle est née par les corporations implantant de plus grandes usines sur la frontière pour joindre les grands chantiers navals de San Diego aux maquiladoras de TJ."
-          },
-          {
-            "type": "p",
-            "text": "Les forces de police de « Diejuana » ont dû faire face aux énormes soulèvements sociaux des travailleurs mexicains mais aussi contre les forces armées des Cartels, s’étant renforcé pendant la grande crise."
-          },
-          {
-            "type": "p",
-            "text": "Lors de la fusion officielle des deux villes, elle a aussi dû faire face à l’insurrection neonazie, des fanatiques d’extrême droite déclarant la guerre à la nouvelle mairie contre l’intégration de plus d’un million de mexicains, insurrection que les forces armées du cartel ont sauvement maté dans le sang face à l’échec de la police."
-          },
-          {
-            "type": "p",
-            "text": "Spécialités :"
-          },
-          {
-            "type": "p",
-            "text": "hostiles."
-          },
-          {
-            "type": "p",
-            "text": "Elle possède les plus gros effectifs de tout l’état de Grande Californie."
-          },
-          {
-            "type": "p",
-            "text": "Elle recrute majoritairement dans les anciens US Marines et des gardes de côtes."
-          },
-          {
-            "type": "p",
-            "text": "faute de temps."
+            "text": "On peut noter qu’avec la très forte criminalité de San Diejuana, le côté « enquête » du SIII est souvent mis en retrait au sein du SDUS qui passe de l’observation à l’intervention le plus souvent faute de temps."
           }
         ]
       },
@@ -2659,27 +2310,15 @@ export const COMPENDIUM_REALITE_V9_POLICE_ARTICLES = [
           },
           {
             "type": "p",
-            "text": "Direction :"
+            "text": "La Phoenix Surveillance, Investigation and Intervention Force (PSIIIF) est la nouvelle force policière de Phoenix, la troisième plus grande ville de la Grande Californie."
           },
           {
             "type": "p",
-            "text": "Rudolph Hoover en est le chef de police depuis 2028."
+            "text": "Rudolph Hoover en est le chef de police depuis 2028. Il a adopté le système SII des réformes Caza dès leurs premiers résultats. Il bénéficie d’un gros contrat privilégiant Phoenix corporation, spécialisée dans les armes."
           },
           {
             "type": "p",
-            "text": "Il a adopté le système SII des réformes Caza dès leurs premiers résultats."
-          },
-          {
-            "type": "p",
-            "text": "Contexte :"
-          },
-          {
-            "type": "p",
-            "text": "longtemps les plus grands projets de gratte-ciels."
-          },
-          {
-            "type": "p",
-            "text": "La nouvelle ville de 2035 a été fortement soumise à l’influence des Corporations spécialisées dans l’armement."
+            "text": "Phoenix est une ville qui a toujours préféré l’urbanisme extensif plutôt qu’intensif, refusant pendant longtemps les plus grands projets de gratte-ciels. La nouvelle ville de 2035 a été fortement soumise à l’influence des Corporations spécialisées dans l’armement."
           },
           {
             "type": "p",
@@ -2687,27 +2326,19 @@ export const COMPENDIUM_REALITE_V9_POLICE_ARTICLES = [
           },
           {
             "type": "p",
-            "text": "et communautés religieuses, la forte présence de mormons et l’apparitions de nouveaux illuminés se disant prophètes mène à de régulières confrontations."
+            "text": "Outre le gros marché des armes, Phoenix souffre régulièrement de violent affrontement entre sectes et communautés religieuses, la forte présence de mormons et l’apparitions de nouveaux illuminés se disant prophètes mène à de régulières confrontations."
           },
           {
             "type": "p",
-            "text": "progressé en quelques années pendant la guerre et possède un lien unique avec la ville éponyme, s’y étant fondée."
+            "text": "On peut noter que la « Phoenix corporation », spécialisée dans l’armement a redoutablement progressé en quelques années pendant la guerre et possède un lien unique avec la ville éponyme, s’y étant fondée. Ce sont les contrats privilégiés avec la mairie de Phoenix qui assurent d’ailleurs l’armement unique de la PSIIF, sans quoi, elle n’aurait jamais eu les moyens de se restructurer. La corporation finance en partie la mairie afin d’alimenter la PSIIF et s’assure une immunité totale dans la ville par cet investissement."
           },
           {
             "type": "p",
-            "text": "de la PSIIF, sans quoi, elle n’aurait jamais eu les moyens de se restructurer."
+            "text": "La PSIIIF possède un armement plus développé que les autres polices. Elle possède une Division blindée assez conséquente pour faire face à la criminalité augmentée, plus redoutable que dans toute autre ville."
           },
           {
             "type": "p",
-            "text": "La corporation finance en partie la mairie afin d’alimenter la PSIIF et s’assure une immunité totale dans la ville par cet investissement."
-          },
-          {
-            "type": "p",
-            "text": "Spécialités :"
-          },
-          {
-            "type": "p",
-            "text": "Elle possède une Division blindée assez conséquente pour faire face à la criminalité augmentée, plus redoutable que dans toute autre ville."
+            "text": "En revanche, la cybercriminalité est minime à Phoenix contrairement à LA, les divisions d’anti-cybercriminalité sont donc moins bien développées."
           }
         ]
       },
@@ -2722,63 +2353,31 @@ export const COMPENDIUM_REALITE_V9_POLICE_ARTICLES = [
           },
           {
             "type": "p",
-            "text": "Direction :"
+            "text": "Le San José Urban and Cyber Office (SJUCO) est la nouvelle force policière de San José."
           },
           {
             "type": "p",
-            "text": "Kemal Bolden en est le chef de police depuis 2031."
+            "text": "Kemal Bolden en est le chef de police depuis 2031. Il est à noter qu’avant l’adoption du SII par la SJPD, Kemal Bolden avait déjà mis en place un GCSS (Great Cyber Security System) et réformé la police de San José une première fois, après les changements de la LAPD, il a été invité à poursuivre ses efforts sur les mêmes bases."
           },
           {
             "type": "p",
-            "text": "Il est à noter qu’avant l’adoption du SII par la SJPD, Kemal Bolden avait déjà mis en place un GCSS changements de la LAPD, il a été invité à poursuivre ses efforts sur les mêmes bases."
+            "text": "San José est la capitale de la Silicon Valley. Pendant la guerre et les grandes crises économiques ayant ravagé le monde, c’est l’une des villes s’en étant le mieux sorti grâce à l’essor des Corporations.  En effet, dans les premiers temps de la crise, les entreprises se sont réduites et reconcentrées près de leurs sièges sociaux, de leurs racines, la Silicon Valley a été fortement impactée mais a tout de suite chercher à tirer profit des changements sociaux et économiques. C’est ainsi qu’elles ont bien plus encore qu’ailleurs prit le pas sur la ville."
           },
           {
             "type": "p",
-            "text": "Contexte :"
+            "text": "La municipalité ruinée a été rachetée par les principales Corporations, le conseil municipal s’est alors constitué comme une assemblée de hauts administratifs des corporation et San José est devenu un bac à sable des nouvelles technologies, libéré d’un grand nombre de lois, devenant une zone corporative presque exclusive comme la majorité de la Silicon Valley. On peut noter l’importance notable de la Byron Corporation dans les premiers temps de crise, avant que le leadership de Tuatha Corporation ne s’installe en rachetant les GAFAM au fil des années."
           },
           {
             "type": "p",
-            "text": "Pendant la guerre et les grandes crises économiques ayant ravagé le monde, c’est l’une des villes s’en étant le mieux sorti grâce à l’essor des Corporations. En effet, dans les premiers temps de la crise, les entreprises se sont réduites et reconcentrées près de leurs sièges sociaux, de leurs racines, la Silicon Valley a été fortement impactée mais a tout de suite chercher à tirer profit des changements sociaux et économiques. C’est ainsi qu’elles ont bien plus encore qu’ailleurs prit le pas sur la ville."
+            "text": "L’holonet a été développé bien au-delà des autres grandes cités et les augmentations en phase de test bénéficiaient de prix follement attractifs, parfois même s’avéraient gratuites. Tant et si bien que San José a été surnommé « San Boosted ». On y trouve désormais le taux d’augmentations le plus élevé du continent américain grâce à cette politique d’essais."
           },
           {
             "type": "p",
-            "text": "La municipalité ruinée a été rachetée par les principales Corporations, le conseil municipal s’est alors bac à sable des nouvelles technologies, libéré d’un grand nombre de lois, devenant une zone corporative presque exclusive comme la majorité de la Silicon Valley."
+            "text": "Le conseil municipal a beau appartenir aux corporations, c’est d’un commun accord avec l’état que cette situation particulière demeure, si aucun financement de l’état ne parvient à San José, les échanges existent même si le gouvernement Page n’a pas grand-chose à dire sur la façon dont est gérée San Boosted. Avec ce développement outrancier des améliorations et de l’holonet, la cybercriminalité est la plus forte qu’ailleurs dans le monde, seules quelques villes japonaises étant comparables."
           },
           {
             "type": "p",
-            "text": "On peut noter l’importance notable de la Byron Corporation dans les premiers temps de crise, avant que le leadership de Tuatha Corporation ne s’installe en rachetant les GAFAM au fil des années."
-          },
-          {
-            "type": "p",
-            "text": "L’holonet a été développé bien au-delà des autres grandes cités et les augmentations en phase de test bénéficiaient de prix follement attractifs, parfois même s’avéraient gratuites. Tant et si bien que On y trouve désormais le taux d’augmentations le plus élevé du continent américain grâce à cette politique d’essais."
-          },
-          {
-            "type": "p",
-            "text": "Le conseil municipal a beau appartenir aux corporations, c’est d’un commun accord avec l’état que échanges existent même si le gouvernement Page n’a pas grand-chose à dire sur la façon dont est gérée San Boosted. Avec ce développement outrancier des améliorations et de l’holonet, la cybercriminalité est la plus forte qu’ailleurs dans le monde, seules quelques villes japonaises étant comparables."
-          },
-          {
-            "type": "p",
-            "text": "Spécialités :"
-          },
-          {
-            "type": "p",
-            "text": "C’est une police bâtarde, en effet, c’est un service de sécurité privé puisqu’il appartient aux appartenant aux corporations de la Silicon Valley."
-          },
-          {
-            "type": "p",
-            "text": "Le Juco est mal vu par les autres policiers de l’état, qui n’y voient que des agents de sécurité se prenant pour de vrais policiers."
-          },
-          {
-            "type": "p",
-            "text": "La division cybercriminalité n’a pas son égal dans cette police."
-          },
-          {
-            "type": "p",
-            "text": "L’intégralité des agents sont augmentés également, c’est une partie non négociable de leur contrat."
-          },
-          {
-            "type": "p",
-            "text": "L’équipement est changé chaque trimestre gracieusement, ce qui perturbe souvent les agents."
+            "text": "Le SJUCO est souvent appelé « Juco ». C’est une police bâtarde, en effet, c’est un service de sécurité privé puisqu’il appartient aux corporations exclusivement, cependant, il est au service de la municipalité de San José, elle-même appartenant aux corporations de la Silicon Valley. Le Juco est mal vu par les autres policiers de l’état, qui n’y voient que des agents de sécurité se prenant pour de vrais policiers. La division cybercriminalité n’a pas son égal dans cette police. L’intégralité des agents sont augmentés également, c’est une partie non négociable de leur contrat. L’équipement est changé chaque trimestre gracieusement, ce qui perturbe souvent les agents."
           }
         ]
       },
@@ -2793,59 +2392,35 @@ export const COMPENDIUM_REALITE_V9_POLICE_ARTICLES = [
           },
           {
             "type": "p",
-            "text": "Direction :"
+            "text": "Juan Manuel Romero en est le chef de police depuis 2026. L’adoption du système SII s’est faite par mimétisme avec sa voisine San Diejuana. Juan Romero est allé se former au SIII à LA pendant quelques mois."
           },
           {
             "type": "p",
-            "text": "Juan Manuel Romero en est le chef de police depuis 2026."
+            "text": "Mexicali et Calexico ont fusionné avant la création de la grande Californie. La ville mexicaine était fortement industrialisée par les maquiladoras, à l’instar de Tijuana dont elle est proche."
           },
           {
             "type": "p",
-            "text": "L’adoption du système SII s’est faite par mimétisme avec sa voisine San Diejuana."
+            "text": "Mexicali est la grande ville la plus proche de l’ancien état de Sonora. Cette petite sœur de Tijuana était donc une ville tampon dans la guerre des cartels, le cartel de Tijuana et de Sonora se massacrant plus que jamais dans la ville, la majorité des Corporations utilisant les gangs et cette guerre des cartels pour prendre la main car contrairement à Tijuana, Mexicali n’appartient pas vraiment à l’un des deux cartels."
           },
           {
             "type": "p",
-            "text": "Juan Romero est allé se former au SIII à LA pendant quelques mois."
+            "text": "Outre la guerre des narcotrafiquants, Mexicali a énormément souffert pendant la grande crise, en 2027, des militaires mexicains s’étant rebellés contre leur gouvernement, avec l’affaiblissement du contrôle frontalier, ils ont tenté plusieurs fois de prendre du territoire à la Californie, assimilant Calexico sans difficulté. Les Etats-unis n’apprécièrent pas cela, mais encre en guerre contre la Corée du nord, ils négocièrent avec les Corporations pour calmer le principal général mexicain, Joaquin Carvallo. Ushkoll security corporation fit une démonstration de force à l’entrée de 2028, peu avant la fin de la guerre contre la Corée du nord."
           },
           {
             "type": "p",
-            "text": "Contexte :"
+            "text": "Mexicali a été dévasté et ses quartiers sont fortement segmentés, entre murs, forteresses modernes, vastes entrepôts désaffectés, les corporations sécuritaires ont profité de l’acquisition des brevets développés à la guerre pour les tester dans un autre environnement. Malgré cette dévastation, elle reste une des plus grandes villes du grand état de Californie."
           },
           {
             "type": "p",
-            "text": "La ville mexicaine était fortement industrialisée par les maquiladoras, à l’instar de Tijuana dont elle est proche."
+            "text": "Du fait de l’immense pauvreté locale, il y a très peu d’augmentés dans la population en dehors des corporatistes et des Cartels, l’holonet est très peu développé et Mexicali est un vaste chantier en reconstruction sur lequel les corporations du bâtiment lorgnent avec intérêt. La ville reste un lieu de criminalité assez barbare, et possédant le plus grand nombre de quartiers de non-droit qu’ailleurs dans l’état, elle a été l’objet d’une très forte immigration asiatique, on y retrouve principalement chinois et nord-coréens, ce qui ajoute quelques conflits de plus, car Mexicali semble faire office d quartier général à un terrorisme post-guerre, sur le sol américain."
           },
           {
             "type": "p",
-            "text": "Cette petite sœur de Tijuana était donc une ville tampon dans la guerre des cartels, le cartel de Tijuana et de Sonora se massacrant plus que jamais dans la ville, la majorité des Corporations utilisant les gangs et cette guerre des cartels pour prendre la main car contrairement à Tijuana, 2027, des militaires mexicains s’étant rebellés contre leur gouvernement, avec l’affaiblissement du contrôle frontalier, ils ont tenté plusieurs fois de prendre du territoire à la Californie, assimilant Calexico sans difficulté. Les Etats-unis n’apprécièrent pas cela, mais encre en guerre contre la Corée du nord, ils négocièrent avec les Corporations pour calmer le principal général mexicain, Joaquin Carvallo."
+            "text": "La MUS est une force policière adoptant parfaitement le système SII."
           },
           {
             "type": "p",
-            "text": "Ushkoll security corporation fit une démonstration de force à l’entrée de 2028, peu avant la fin de la guerre contre la Corée du nord."
-          },
-          {
-            "type": "p",
-            "text": "vastes entrepôts désaffectés, les corporations sécuritaires ont profité de l’acquisition des brevets développés à la guerre pour les tester dans un autre environnement."
-          },
-          {
-            "type": "p",
-            "text": "Malgré cette dévastation, elle reste une des plus grandes villes du grand état de Californie."
-          },
-          {
-            "type": "p",
-            "text": "Du fait de l’immense pauvreté locale, il y a très peu d’augmentés dans la population en dehors des reconstruction sur lequel les corporations du bâtiment lorgnent avec intérêt."
-          },
-          {
-            "type": "p",
-            "text": "La ville reste un lieu de criminalité assez barbare, et possédant le plus grand nombre de quartiers de non-droit qu’ailleurs dans l’état, elle a été l’objet d’une très forte immigration asiatique, on y semble faire office d quartier général à un terrorisme post-guerre, sur le sol américain."
-          },
-          {
-            "type": "p",
-            "text": "Spécialités :"
-          },
-          {
-            "type": "p",
-            "text": "Néanmoins, elle dispose de beaucoup moins de moyens financiers que la LAUS et n’a pas autant développé ses divisions de cybercriminalité ou de lutte contre les augmentations illégales."
+            "text": "Néanmoins, elle dispose de beaucoup moins de moyens financiers que la LAUS et n’a pas autant développé ses divisions de cybercriminalité ou de lutte contre les augmentations illégales. En revanche, la MUS est perfectionnée dans la lutte anti-terroriste coréenne."
           }
         ]
       },
@@ -2860,43 +2435,19 @@ export const COMPENDIUM_REALITE_V9_POLICE_ARTICLES = [
           },
           {
             "type": "p",
-            "text": "Francisco."
+            "text": "La San Francisco Urban Defense Organisation (SFUDO) est la nouvelle force policière de San Francisco."
           },
           {
             "type": "p",
-            "text": "Direction :"
+            "text": "Yatakala Honiahaka-Smith en est la cheffe de police depuis 2031. Elle n’a pas adopté le système SIII mais a composé avec la grande vague des changements des polices de Californie pour proposer sa version. Officieusement, elle a beaucoup repris des réformes Caza néanmoins."
           },
           {
             "type": "p",
-            "text": "Yatakala Honiahaka-Smith en est la cheffe de police depuis 2031."
+            "text": "San Francisco est géographiquement proche de San José, mais par sa prodigieuse diversité d’activités, d’influence et son éternelle tolérance et volonté à entretenir la contre-culture l’ont préservé d’une destinée comparable et d’une assimilation totale par les corporations."
           },
           {
             "type": "p",
-            "text": "Elle n’a pas adopté le système SIII mais a composé avec la grande vague des changements des polices de Californie pour proposer sa version. Officieusement, elle a beaucoup repris des réformes Caza néanmoins."
-          },
-          {
-            "type": "p",
-            "text": "Contexte :"
-          },
-          {
-            "type": "p",
-            "text": "d’activités, d’influence et son éternelle tolérance et volonté à entretenir la contre-culture l’ont préservé d’une destinée comparable et d’une assimilation totale par les corporations."
-          },
-          {
-            "type": "p",
-            "text": "Sans Francisco a véritablement su se préserver des crises sanitaires, financières et sociales des années 2020 à 2030."
-          },
-          {
-            "type": "p",
-            "text": "Ville d’ouverture, c’est la ville des homosexuels mais aussi possédant la plus grande portion d’immigrés asiatiques et européens en Californie."
-          },
-          {
-            "type": "p",
-            "text": "Il n’y a que 5% d’afroaméricains cependant, 10% de latino, 40% d’asiatiques et 45% de blancs, dont un plus fort pourcentage de russes qu’ailleurs dans l’état, c’est un paradoxe assez fort pour cette ville prônant la tolérance, d’être si peu mixée en ethnies."
-          },
-          {
-            "type": "p",
-            "text": "On trouve la plus forte concentration de japonais que dans le reste de l’état également."
+            "text": "Sans Francisco a véritablement su se préserver des crises sanitaires, financières et sociales des années 2020 à 2030. Ville d’ouverture, c’est la ville des homosexuels mais aussi possédant la plus grande portion d’immigrés asiatiques et européens en Californie. Il n’y a que 5% d’afroaméricains cependant, 10% de latino, 40% d’asiatiques et 45% de blancs, dont un plus fort pourcentage de russes qu’ailleurs dans l’état, c’est un paradoxe assez fort pour cette ville prônant la tolérance, d’être si peu mixée en ethnies. On trouve la plus forte concentration de japonais que dans le reste de l’état également."
           },
           {
             "type": "p",
@@ -2904,23 +2455,15 @@ export const COMPENDIUM_REALITE_V9_POLICE_ARTICLES = [
           },
           {
             "type": "p",
-            "text": "également farouchement défendus, faisant de SF un lieu d’affrontements idéologiques contre la monté des religions, e transhumanisme y étant très fortement implanté, l’idée d’une Humanité transcendant son ADN, son genre, ses besoins primaires étant mise en avant par de nombreux notables."
+            "text": "La culture et la contreculture sont très en avant à San Francisco, le droit des femmes et l’égalité sont également farouchement défendus, faisant de SF un lieu d’affrontements idéologiques contre la monté des religions, e transhumanisme y étant très fortement implanté, l’idée d’une Humanité transcendant son ADN, son genre, ses besoins primaires étant mise en avant par de nombreux notables."
           },
           {
             "type": "p",
-            "text": "La Sillicon valley influence grandement la vie à SF, et si la ville bénéficie d’une aura de petit paradis intellectuel harmonieux, elle cache de plus sombres réalités, la ville est en effet fortement impactée par sa protection de la contre-culture et sa vie nocturne fortement exubérante."
+            "text": "La Sillicon valley influence grandement la vie à SF, et si la ville bénéficie d’une aura de petit paradis intellectuel harmonieux, elle cache de plus sombres réalités, la ville est en effet fortement impactée par sa protection de la contre-culture et sa vie nocturne fortement exubérante. On voit ainsi pointer un nouvel âge du neo-punk où San Francisco semble être la capitale dans ses quartiers les plus mal fréquentés, s’y confronte souvent l’équivalent asiatique « Hard-pop » les deux partageant la même essence d’opposition a système et à l’influence des corporations, sans pour autant réussir à se tolérer , les ressortissant chinois ayant beau maitriser les augmentations et l’holonet, ayant fortement souffert de ces technologie pendant la guerre."
           },
           {
             "type": "p",
-            "text": "quartiers les plus mal fréquentés, s’y confronte souvent l’équivalent asiatique « Hard-pop » les deux partageant la même essence d’opposition a système et à l’influence des corporations, sans pour autant réussir à se tolérer , les ressortissant chinois ayant beau maitriser les augmentations et l’holonet, ayant fortement souffert de ces technologie pendant la guerre."
-          },
-          {
-            "type": "p",
-            "text": "Spécialités :"
-          },
-          {
-            "type": "p",
-            "text": "Elle est toutefois plus compétente dans l’identification des personnes puisqu’à SF, hologramme portable et chirurgies faciale sont encore plus développés qu’ailleurs."
+            "text": "La SFUDO, surnommée « Fudo » est une police similaire à la LAUS. Elle est toutefois plus compétente dans l’identification des personnes puisqu’à SF, hologramme portable et chirurgies faciale sont encore plus développés qu’ailleurs."
           }
         ]
       },
@@ -2935,59 +2478,31 @@ export const COMPENDIUM_REALITE_V9_POLICE_ARTICLES = [
           },
           {
             "type": "p",
-            "text": "Direction :"
+            "text": "La Vegas Investigation and Intervention Police (VIIP) est la nouvelle force policière de Las Vegas."
           },
           {
             "type": "p",
-            "text": "Dakota Morton en est le chef de police en 2034."
+            "text": "Dakota Morton en est le chef de police en 2034. Avec lui, Vegas passe de la LVMPD à la VIIP en une seule année. Morton s’est forcément inspiré des réformes Caza, mais cet ancien membre de la Naca Security a su mettre à profit son changement de statut pour appliquer ce qu’il avait appris en tant que chef de sécurité de Casino, cela dit, certains affirment que Dakota n’a jamais démissionné de Naca pour devenir chef de Police, qu’il en est encore officiellement salarié."
           },
           {
             "type": "p",
-            "text": "Morton s’est forcément inspiré des réformes Caza, mais cet ancien membre de la Naca Security a su mettre à profit son changement de statut pour appliquer ce qu’il avait appris en tant que chef de sécurité de Casino, cela dit, certains affirment que Dakota n’a jamais démissionné de Naca pour devenir chef de Police, qu’il en est encore officiellement salarié."
+            "text": "Las Vegas est appelée « Sin City » depuis les années 1950, et ce n’est pas un titre usurpé, le développement des casinos et de l’immobilier étant le fait de grands mafieux, elle n’a pas perdu son essence malgré leur disparition officielle. Vegas est une ville pleine de dualité, l’immense débauche d’argent et de luxe de ses célèbres casinos et hôtels tranche avec ses quartiers défavorisés, dès les années 2010, six habitants sur 10 étaient en dessous du seuil de pauvreté, au cours des années 2020, ils sont montés à 9 sur 10, et la misère n’a fait que s’accroitre. « Ville sans horloges », Vegas est un lieu de perversion sans repos qui aurait pu s’effondrer en ruines, mais bénéficiant d’une chance certaine, la ville a connu un rebond dès les années 2030."
           },
           {
             "type": "p",
-            "text": "Contexte :"
+            "text": "« La Machine » est un consortium de casinos et de divertissement, qui devint la Tala corporation avec la prise de pouvoir de Tokala à tête. En association avec la Tuatha corporation, une autre corporation de divertissement et diverses autres, Las vegas est devenue la ville de l’illusion."
           },
           {
             "type": "p",
-            "text": "développement des casinos et de l’immobilier étant le fait de grands mafieux, elle n’a pas perdu son essence malgré leur disparition officielle."
+            "text": "Le développement d’hologramme et de l’holonet, de projection lumineuse et la démocratisation du pilotage par neurodrive que ce soit de véhicule ou de corps artificiels ont changé l’apparence de Las Vegas, lui donnant des airs de science-fiction encore plus aboutie que dans le reste de l’état de Grande Californie. Evidemment, avec 9 personne sur 10 en dessous du seuil de pauvreté, cette outrance technologique de luxe cause de grave écarts entre les ultra-riches de Sin City et le reste des gens, la criminalité explosant plus encore."
           },
           {
             "type": "p",
-            "text": "Vegas est une ville pleine de dualité, l’immense débauche d’argent et de luxe de ses célèbres casinos et hôtels tranche avec ses quartiers défavorisés, dès les années 2010, six habitants sur 10 étaient en dessous du seuil de pauvreté, au cours des années 2020, ils sont montés à 9 sur 10, et la misère n’a fait que s’accroitre."
+            "text": "En réaction à cette extrême criminalité, chaque USC (ancien poste de police) est sponsorisé par les corporations qui leur fournit l’équipement et véhicules, les résultats des USC déterminent la part des profits que les corporations reversent en addition de la municipalité, constituant le salaire des policiers. Ces résultats sont moins les PV que les interpellations et le fichage, les données personnelles étant revendues à bon prix et les prisonniers peuvent être racheté par les corporation pour faire de la main d’œuvre très bon marché, un véritable système d’esclavage moderne."
           },
           {
             "type": "p",
-            "text": "« Ville sans horloges », Vegas est un lieu de perversion sans repos qui aurait pu s’effondrer en ruines, mais bénéficiant d’une chance certaine, la ville a connu un rebond dès les années 2030."
-          },
-          {
-            "type": "p",
-            "text": "« La Machine » est un consortium de casinos et de divertissement, qui devint la Tala corporation avec la prise de pouvoir de Tokala à tête. En association avec la Tuatha corporation, une autre corporation Le développement d’hologramme et de l’holonet, de projection lumineuse et la démocratisation du pilotage par neurodrive que ce soit de véhicule ou de corps artificiels ont changé l’apparence de Las Vegas, lui donnant des airs de science-fiction encore plus aboutie que dans le reste de l’état de Grande Californie."
-          },
-          {
-            "type": "p",
-            "text": "Evidemment, avec 9 personne sur 10 en dessous du seuil de pauvreté, cette outrance technologique de luxe cause de grave écarts entre les ultra-riches de Sin City et le reste des gens, la criminalité explosant plus encore."
-          },
-          {
-            "type": "p",
-            "text": "En réaction à cette extrême criminalité, chaque USC (ancien poste de police) est sponsorisé par les corporations qui leur fournit l’équipement et véhicules, les résultats des USC déterminent la part des profits que les corporations reversent en addition de la municipalité, constituant le salaire des policiers."
-          },
-          {
-            "type": "p",
-            "text": "Ces résultats sont moins les PV que les interpellations et le fichage, les données personnelles étant revendues à bon prix et les prisonniers peuvent être racheté par les corporation pour faire de la main d’œuvre très bon marché, un véritable système d’esclavage moderne."
-          },
-          {
-            "type": "p",
-            "text": "Spécialités :"
-          },
-          {
-            "type": "p",
-            "text": "Bien que s’inspirant des réformes Caza par certains aspects, elle souffre du caractère véreux de Sin city et de sa municipalité."
-          },
-          {
-            "type": "p",
-            "text": "C’est la police usant le plus d’agent infiltrés et d’agents provocateurs au point qu’elle est souvent soupçonnée d’être à la fois la Justice et le Crime à la fois."
+            "text": "La VIIP est une force de police assez explosive. Bien que s’inspirant des réformes Caza par certains aspects, elle souffre du caractère véreux de Sin city et de sa municipalité. C’est la police usant le plus d’agent infiltrés et d’agents provocateurs au point qu’elle est souvent soupçonnée d’être à la fois la Justice et le Crime à la fois."
           }
         ]
       },
@@ -3002,23 +2517,15 @@ export const COMPENDIUM_REALITE_V9_POLICE_ARTICLES = [
           },
           {
             "type": "p",
-            "text": "Direction :"
+            "text": "Tucson a survécu difficilement aux crises des années 2020–2030. Son climat reste aride une grande partie de l’année."
           },
           {
             "type": "p",
-            "text": "Mila Herbert en est la cheffe de police depuis 2035."
+            "text": "La Tucson Urban Force (TUF) est la nouvelle force policière de Tucson."
           },
           {
             "type": "p",
-            "text": "Ancienne militaire des Navy Seals, elle a servi avec Catalina de la Caza pendant la guerre et a quitté le Comprenant plus finement le système SIII que les autres officiers supérieurs, elle proposa un plan de réorganisation se basant dessus et fut choisie par la mairie pour ce plan audacieux."
-          },
-          {
-            "type": "p",
-            "text": "Contexte :"
-          },
-          {
-            "type": "p",
-            "text": "Elle ne se distingue pas énormément d’autres villes si ce n’est pas un climat aride une bonne partie de l’année. Avec la grande crise des années 2020-2030, elle a survécu non sans mal, comme bien des villes."
+            "text": "Mila Herbert en est la cheffe de police depuis 2035. Ancienne militaire des Navy Seals, elle a servi avec Catalina de la Caza pendant la guerre et a quitté le service après la victoire pour entrer à la police de Tucson. Comprenant plus finement le système SIII que les autres officiers supérieurs, elle proposa un plan de réorganisation se basant dessus et fut choisie par la mairie pour ce plan audacieux."
           },
           {
             "type": "p",
@@ -3026,11 +2533,11 @@ export const COMPENDIUM_REALITE_V9_POLICE_ARTICLES = [
           },
           {
             "type": "p",
-            "text": "Spécialités :"
+            "text": "La TUF est une police polyvalente. Les moyens de Tucson pour sa police restent très inférieurs à ceux de Los Angeles néanmoins et la municipalité se refuse à laisser les Corporation investir autant que dans d’autres villes, telle que la Juco ou la VIIP."
           },
           {
             "type": "p",
-            "text": "municipalité se refuse à laisser les Corporation investir autant que dans d’autres villes, telle que la Juco ou la VIIP."
+            "text": "On peut toutefois reconnaitre un réel développement des moyens aéroportés au sein de la TUF."
           }
         ]
       }
@@ -3426,17 +2933,6 @@ export const COMPENDIUM_REALITE_V9_POLICE_ARTICLES = [
             ]
           }
         ]
-      },
-      {
-        "id": "note",
-        "title": "Un titre historique resté faux",
-        "level": 2,
-        "blocks": [
-          {
-            "type": "p",
-            "text": "Le chapitre source s’intitule « Les 25 plus grands ennemis publics », mais il contient vingt-quatre entrées numérotées de 5.1 à 5.24. Le Compendium conserve donc les vingt-quatre dossiers réellement présents sans inventer un vingt-cinquième nom."
-          }
-        ]
       }
     ]
   },
@@ -3459,110 +2955,106 @@ export const COMPENDIUM_REALITE_V9_POLICE_ARTICLES = [
     ],
     "sections": [
       {
+        "id": "chronologie",
+        "title": "Repères de la crise",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Année",
+                "Événements"
+              ],
+              [
+                "2020",
+                "Grande épidémie de Covid-19"
+              ],
+              [
+                "2021",
+                "Début de la crise économique"
+              ],
+              [
+                "2022",
+                "Début de la Grande guerre du Pacifique contre la Corée du Nord, de nombreux réfugiés sud-coréens émigres vers les Etats-Unis, mais aussi des Japonais et des Chinois."
+              ],
+              [
+                "2023",
+                "Début de la Grande crise économique, sociale et politique mondiale, éruption de l’Etna en Italie impliquant de grands vagues d’immigrations vers les Etats-Unis."
+              ],
+              [
+                "2024",
+                "La Corée du Nord envahit une partie de la Sibérie, nombre d’immigrés russes sont évacués vers les Etats-Unis."
+              ],
+              [
+                "2025",
+                "la dégradation du pouvoir et l’appauvrissement général mène à un exode rural de plus en plus massif, c’est la désertification des campagnes. Les gangs de motards prennent le contrôle des stations-services par endroit."
+              ],
+              [
+                "2027",
+                "élection de Robert Hamilton entant que maire de Los Angeles"
+              ],
+              [
+                "2028",
+                "Fin de la Grande guerre du Pacifique contre la Corée du Nord. De nombreux militaires traumatisés, mutilés et parfois violents sont à peine glorifiés et reçoivent une prime de vétéran totalement dérisoire, les Etats-Unis étant à sec, ils sont donc victimes d’une campagne de mépris pour ne pas payer ce qu’on leur doit."
+              ],
+              [
+                "2029",
+                "élections de la présidence des Etats-Unis d’Amérique, Seth Jordan Dirckman est élu avec un score écrasant de 59 % des votes face à un Stanley Vandendriessche, président de Yum !Brand corporation. On suspecte une ingérence des cartels de la drogue."
+              ],
+              [
+                "2030",
+                "Grand Choc technologique, démocratisation des technologies augmentiques et lancement du grand Holonet. Fin de la grande crise économique."
+              ],
+              [
+                "2031",
+                "15 février, entrée de Catalina de la Caza au LAPD Prolongation à 10 ans par mandat pour le maire Robert Hamilton à Los Angeles. Election de Marilyn Reid-Osborn à mairie de Las Vegas. C’est aussi le début des grandes guerres corporatistes, notamment au Mexique, en Israël ou ailleurs dans le monde. Outre les corporations, on constate une forte hausse du crime organisé."
+              ],
+              [
+                "2031",
+                "08 mars, démocratisation du logifate comme principal outil de recrutement et de détermination sociale"
+              ],
+              [
+                "2032",
+                "élection de Dina Page en tant que Gouverneur de Californie"
+              ],
+              [
+                "2033",
+                "grands mouvements d’insurrection civile à Detroit puis dans de nombreuses villes. les émeutes ravagent le mobilier urbain, les vitrines, les forces de polices sont submergées, les mairies les plus touchées sont forcées de céder la sécurité aux corporations, les confrontations s’enveniment alors d’autant plus."
+              ],
+              [
+                "2033",
+                ", le 04 juillet, le jour de la fête nationale des Etats-Unis, la grande Californie est déclarée."
+              ],
+              [
+                "2033",
+                ", le 25 aout, Tokala perçoit un vaste territoire pour former la grande réserve amérindienne."
+              ],
+              [
+                "2033",
+                ", le 12 aout, Renzo MIKAMI, un homme d’affaire, est tué à son domicile, découpé au katana thermique, c’est le premier d’une série de 19 victimes lors d’une purge entre yakuzas."
+              ],
+              [
+                "2034",
+                ", le 20 février, nomination de Catalina de la Caza en tant que chef du LAPD"
+              ],
+              [
+                "2034",
+                ", le 02 avril, Grandes réformes policières et mise en place du système « LAUS » par Catalina, la police de Los Angeles s’adapte à l’époque, elle devient la seule force de police vraiment capable de faire face à la criminalité de l’époque et sous toutes ses formes de plus."
+              ],
+              [
+                "2034",
+                ", le 14 septembre, mort de Theemas JEFFERSON, jeune officier de police dans un parc d’une « zone gouvernementale », mais régulièrement utilisée par des gangs, s’en suit une vaste traque et 289 arrestations de membres de gangs en représailles."
+              ]
+            ]
+          }
+        ]
+      },
+      {
         "id": "effondrement",
         "title": "Effondrement pénal et saturation carcérale",
         "level": 2,
         "blocks": [
-          {
-            "type": "p",
-            "text": "2020 – Grande épidémie de Covid-19"
-          },
-          {
-            "type": "p",
-            "text": "2021 – Début de la crise économique"
-          },
-          {
-            "type": "p",
-            "text": "2022 – Début de la Grande guerre du Pacifique contre la Corée du Nord, de nombreux réfugiés sud-coréens émigres vers les Etats-Unis, mais aussi des Japonais et des Chinois."
-          },
-          {
-            "type": "p",
-            "text": "2023 – Début de la Grande crise économique, sociale et politique mondiale, éruption de l’Etna en Italie impliquant de grands vagues d’immigrations vers les Etats-Unis."
-          },
-          {
-            "type": "p",
-            "text": "2024 – La Corée du Nord envahit une partie de la Sibérie, nombre d’immigrés russes sont évacués vers les Etats-Unis."
-          },
-          {
-            "type": "p",
-            "text": "2025– la dégradation du pouvoir et l’appauvrissement général mène à un exode rural de plus en plus massif, c’est la désertification des campagnes. Les gangs de motards prennent le contrôle des stations-services par endroit."
-          },
-          {
-            "type": "p",
-            "text": "2027 – élection de Robert Hamilton entant que maire de Los Angeles"
-          },
-          {
-            "type": "p",
-            "text": "2028 – Fin de la Grande guerre du Pacifique contre la Corée du Nord."
-          },
-          {
-            "type": "p",
-            "text": "De nombreux militaires traumatisés, mutilés et parfois violents sont à peine glorifiés et reçoivent une prime de vétéran totalement dérisoire, les Etats-Unis étant à sec, ils sont donc victimes d’une campagne de mépris pour ne pas payer ce qu’on leur doit."
-          },
-          {
-            "type": "p",
-            "text": "2029 – élections de la présidence des Etats-Unis d’Amérique, Seth Jordan Dirckman est élu avec un score écrasant de 59 % des votes face à un Stanley Vandendriessche, président de Yum !Brand corporation. On suspecte une ingérence des cartels de la drogue."
-          },
-          {
-            "type": "p",
-            "text": "2030 – Grand Choc technologique, démocratisation des technologies augmentiques et lancement du grand Holonet. Fin de la grande crise économique."
-          },
-          {
-            "type": "p",
-            "text": "2031 – 15 février, entrée de Catalina de la Caza au LAPD Prolongation à 10 ans par mandat pour le maire Robert Hamilton à Los Angeles."
-          },
-          {
-            "type": "p",
-            "text": "Election de Marilyn Reid-Osborn à mairie de Las Vegas."
-          },
-          {
-            "type": "p",
-            "text": "C’est aussi le début des grandes guerres corporatistes, notamment au Mexique, en Israël ou ailleurs dans le monde."
-          },
-          {
-            "type": "p",
-            "text": "Outre les corporations, on constate une forte hausse du crime organisé."
-          },
-          {
-            "type": "p",
-            "text": "2031-08 mars, démocratisation du logifate comme principal outil de recrutement et de détermination sociale"
-          },
-          {
-            "type": "p",
-            "text": "2032 – élection de Dina Page en tant que Gouverneur de Californie"
-          },
-          {
-            "type": "p",
-            "text": "2033 – grands mouvements d’insurrection civile à Detroit puis dans de nombreuses villes."
-          },
-          {
-            "type": "p",
-            "text": "les émeutes ravagent le mobilier urbain, les vitrines, les forces de polices sont submergées, les mairies les plus touchées sont forcées de céder la sécurité aux corporations, les confrontations s’enveniment alors d’autant plus."
-          },
-          {
-            "type": "p",
-            "text": "2033, le 04 juillet, le jour de la fête nationale des Etats-Unis, la grande Californie est déclarée."
-          },
-          {
-            "type": "p",
-            "text": "2033, le 25 aout, Tokala perçoit un vaste territoire pour former la grande réserve amérindienne."
-          },
-          {
-            "type": "p",
-            "text": "2033, le 12 aout, Renzo MIKAMI, un homme d’affaire, est tué à son domicile, découpé au katana thermique, c’est le premier d’une série de 19 victimes lors d’une purge entre yakuzas."
-          },
-          {
-            "type": "p",
-            "text": "2034, le 20 février, nomination de Catalina de la Caza en tant que chef du LAPD"
-          },
-          {
-            "type": "p",
-            "text": "2034, le 02 avril, Grandes réformes policières et mise en place du système « LAUS » par Catalina, la police de Los Angeles s’adapte à l’époque, elle devient la seule force de police vraiment capable de faire face à la criminalité de l’époque et sous toutes ses formes de plus."
-          },
-          {
-            "type": "p",
-            "text": "2034, le 14 septembre, mort de Theemas JEFFERSON, jeune officier de police dans un parc d’une « zone gouvernementale », mais régulièrement utilisée par des gangs, s’en suit une vaste traque et 289 arrestations de membres de gangs en représailles."
-          },
           {
             "type": "p",
             "text": "Entre 2022 et 2035, durant la guerre, la Police californienne et le système judiciaires ont fait face à une explosion de la criminalité qu’elle soit une criminalité « banale » ou « organisé », elle s’est lentement installée dans toutes le strates de la sociétés, les ultra-riches passaient de plus en plus aisément dans les mailles du filet, embourbant les procédures et corrompant de plus en plus aisément les autorité, les ultra-pauvres étaient si peu considérés que les délits mineurs devinrent invisibles pour les polices qui n’avait pas le temps vu les sous-effectifs, laissant passer les délits pour se concentrer uniquement sur les crimes. Avec la conscription massive, ne restaient pas les plus brillants ni les plus patriotes des policiers, de même, les citoyens restés au pays étaient des malades, des anciens, des jeunes ou des étrangers, ce qui accentua une fracture sociale qui n’avait pas attendue pour se creuser."
@@ -3570,34 +3062,6 @@ export const COMPENDIUM_REALITE_V9_POLICE_ARTICLES = [
           {
             "type": "p",
             "text": "L’année noire fut 2026, les prisons Californiennes étaient à saturation totale, le gouverneur Californien signa donc un décret, la justice ne pouvait plus condamner à la prison à moins que le plaignant n’ait les moyens de construire une cellule pour la personne jugée coupable. A une époque de privations et de grande crise économique, remporter un long jugement pour se voir devoir payer des frais de construction d’une prison personnelle sachant que le prisonnier n’ayant pas d’argent, ne payerait rien, c’était une solution inenvisageable pour la totalité des plaignants. Mais il ne fallait pas y voir une solution avantageant les prisonniers puisque tous les prisonniers à partir de 2024 étaient des criminels endurcis, les cours de justice ne condamnant plus les fraudes fiscales et les délits mineurs, l’ensemble des criminels étaient souvent des gens jugés pour agression grave et souvent meurtre ou viol, pas de place signifiait donc simplement la mise à mort à l’issue du procès."
-          },
-          {
-            "type": "p",
-            "text": "Cette mise à mort était instaurée de trois façons :"
-          },
-          {
-            "type": "p",
-            "text": "« L’injection-verdict »"
-          },
-          {
-            "type": "p",
-            "text": "A l’instant-même où le juge rendait le verdict, un médecin était dépêché pour pratiquer l’injection létale, pas d’attente, pas le temps de réaliser."
-          },
-          {
-            "type": "p",
-            "text": "« La mort civique »"
-          },
-          {
-            "type": "p",
-            "text": "Le condamné perdait son nom, sa nationalité, il recevait un matricule et était engageait d’office dans les troupes militaires sur le front asiatique, ces troupes spéciales étaient nommées « troupes StrayDogs », car une fois déployée, on ne leur accordait pas de retour aux Etats-Unis, ils servaient de soutien dans les situations calamiteuse et de chair à canon souvent."
-          },
-          {
-            "type": "p",
-            "text": "« Camps de travaux »"
-          },
-          {
-            "type": "p",
-            "text": "Rappelant les heures sombres du siècle précédent, l’état californien cédait tout prisonnier excédentaire aux entreprises pour soutenir l’effort de guerre, de vrais esclaves."
           }
         ]
       },
@@ -3607,52 +3071,25 @@ export const COMPENDIUM_REALITE_V9_POLICE_ARTICLES = [
         "level": 2,
         "blocks": [
           {
-            "type": "p",
-            "text": "2034, le 20 février, nomination de Catalina de la Caza en tant que chef du LAPD"
-          },
-          {
-            "type": "p",
-            "text": "2034, le 02 avril, Grandes réformes policières et mise en place du système « LAUS » par Catalina, la police de Los Angeles s’adapte à l’époque, elle devient la seule force de police vraiment capable de faire face à la criminalité de l’époque et sous toutes ses formes de plus."
-          },
-          {
-            "type": "p",
-            "text": "2034, le 14 septembre, mort de Theemas JEFFERSON, jeune officier de police dans un parc d’une « zone gouvernementale », mais régulièrement utilisée par des gangs, s’en suit une vaste traque et 289 arrestations de membres de gangs en représailles."
-          },
-          {
-            "type": "p",
-            "text": "Entre 2022 et 2035, durant la guerre, la Police californienne et le système judiciaires ont fait face à une explosion de la criminalité qu’elle soit une criminalité « banale » ou « organisé », elle s’est lentement installée dans toutes le strates de la sociétés, les ultra-riches passaient de plus en plus aisément dans les mailles du filet, embourbant les procédures et corrompant de plus en plus aisément les autorité, les ultra-pauvres étaient si peu considérés que les délits mineurs devinrent invisibles pour les polices qui n’avait pas le temps vu les sous-effectifs, laissant passer les délits pour se concentrer uniquement sur les crimes. Avec la conscription massive, ne restaient pas les plus brillants ni les plus patriotes des policiers, de même, les citoyens restés au pays étaient des malades, des anciens, des jeunes ou des étrangers, ce qui accentua une fracture sociale qui n’avait pas attendue pour se creuser."
-          },
-          {
-            "type": "p",
-            "text": "L’année noire fut 2026, les prisons Californiennes étaient à saturation totale, le gouverneur Californien signa donc un décret, la justice ne pouvait plus condamner à la prison à moins que le plaignant n’ait les moyens de construire une cellule pour la personne jugée coupable. A une époque de privations et de grande crise économique, remporter un long jugement pour se voir devoir payer des frais de construction d’une prison personnelle sachant que le prisonnier n’ayant pas d’argent, ne payerait rien, c’était une solution inenvisageable pour la totalité des plaignants. Mais il ne fallait pas y voir une solution avantageant les prisonniers puisque tous les prisonniers à partir de 2024 étaient des criminels endurcis, les cours de justice ne condamnant plus les fraudes fiscales et les délits mineurs, l’ensemble des criminels étaient souvent des gens jugés pour agression grave et souvent meurtre ou viol, pas de place signifiait donc simplement la mise à mort à l’issue du procès."
-          },
-          {
-            "type": "p",
-            "text": "Cette mise à mort était instaurée de trois façons :"
-          },
-          {
-            "type": "p",
-            "text": "« L’injection-verdict »"
-          },
-          {
-            "type": "p",
-            "text": "A l’instant-même où le juge rendait le verdict, un médecin était dépêché pour pratiquer l’injection létale, pas d’attente, pas le temps de réaliser."
-          },
-          {
-            "type": "p",
-            "text": "« La mort civique »"
-          },
-          {
-            "type": "p",
-            "text": "Le condamné perdait son nom, sa nationalité, il recevait un matricule et était engageait d’office dans les troupes militaires sur le front asiatique, ces troupes spéciales étaient nommées « troupes StrayDogs », car une fois déployée, on ne leur accordait pas de retour aux Etats-Unis, ils servaient de soutien dans les situations calamiteuse et de chair à canon souvent."
-          },
-          {
-            "type": "p",
-            "text": "« Camps de travaux »"
-          },
-          {
-            "type": "p",
-            "text": "Rappelant les heures sombres du siècle précédent, l’état californien cédait tout prisonnier excédentaire aux entreprises pour soutenir l’effort de guerre, de vrais esclaves."
+            "type": "table",
+            "rows": [
+              [
+                "Condamnation",
+                "Application"
+              ],
+              [
+                "L’injection-verdict",
+                "A l’instant-même où le juge rendait le verdict, un médecin était dépêché pour pratiquer l’injection létale, pas d’attente, pas le temps de réaliser."
+              ],
+              [
+                "La mort civique",
+                "Le condamné perdait son nom, sa nationalité, il recevait un matricule et était engageait d’office dans les troupes militaires sur le front asiatique, ces troupes spéciales étaient nommées « troupes StrayDogs », car une fois déployée, on ne leur accordait pas de retour aux Etats-Unis, ils servaient de soutien dans les situations calamiteuse et de chair à canon souvent."
+              ],
+              [
+                "Camps de travaux",
+                "Rappelant les heures sombres du siècle précédent, l’état californien cédait tout prisonnier excédentaire aux entreprises pour soutenir l’effort de guerre, de vrais esclaves."
+              ]
+            ]
           }
         ]
       },
@@ -3676,42 +3113,6 @@ export const COMPENDIUM_REALITE_V9_POLICE_ARTICLES = [
           {
             "type": "p",
             "text": "En 2035, bien que l’état Californien tente de reprendre la main sur de nombreux sujets, Dina Page fait face au plus grand défi de sa carrière pour défaire le contrôle totale des corporations sur les prisons californiennes, hélas, ce n’est pas l’urgence dans son mandat et c’est possiblement une des rares concessions qu’elle semble faire aux corporations. Toutefois, ce n’est pas un abandon, en effet, courant 2035, en février, elle mit en place une décision pour entamer sa reconquête du milieu carcéral : le diplôme d’état de direction carcérale (PMSD), obligeant les Corporations à se doter d’un directeur de prison formé par l’Etat de Californie et possédant un mandat pour ça de la part de la Gouverneure."
-          },
-          {
-            "type": "p",
-            "text": "Actuellement il existe 8 très grandes prisons Californiennes :"
-          },
-          {
-            "type": "p",
-            "text": "Corcoran – Ushkoll Penitentiary (surnommée « Death’koll » ou « Corpsescoran »)"
-          },
-          {
-            "type": "p",
-            "text": "Los Angeles Bay - Biosun Sea Undertower (surnommée « Aqua hell »)"
-          },
-          {
-            "type": "p",
-            "text": "Silicon Valley – Byron Gigafactories (surnommée «workcity »)"
-          },
-          {
-            "type": "p",
-            "text": "Carson City – Yellowfood Dump (surnommée « la décharge »)"
-          },
-          {
-            "type": "p",
-            "text": "Pacific ocean – Underwater big factory of Seawares (surnommée « abyss prison »)"
-          },
-          {
-            "type": "p",
-            "text": "Nevada desert – Tala corporation stronghold (surnommée « le bastion »)"
-          },
-          {
-            "type": "p",
-            "text": "Limitcity – Raven Underground penitentiary resort (surnommée « Darkness »)"
-          },
-          {
-            "type": "p",
-            "text": "Caballocity – Caballocity of Sunways (pas de surnom, la ville entière est la prison)"
           },
           {
             "type": "p",
@@ -3805,27 +3206,7 @@ export const COMPENDIUM_REALITE_V9_POLICE_ARTICLES = [
           },
           {
             "type": "p",
-            "text": "Directeur : Zoe HURST"
-          },
-          {
-            "type": "p",
-            "text": "Directeur adjoint : YAMASHINA Kenjiro"
-          },
-          {
-            "type": "p",
-            "text": "Commandant de la sécurité : Renell WEBB"
-          },
-          {
-            "type": "p",
-            "text": "Commandant en second de la sécurité : Youri GIRARDIN"
-          },
-          {
-            "type": "p",
-            "text": "Chef du personnel médical : Zeke LEVY"
-          },
-          {
-            "type": "p",
-            "text": "Chef du personnel technique : Elna WOLLEN La directrice Zoe HURST est mandaté par l’état de Californie afin de diriger cet établissement pénitencier modernisé pour les besoins d’Ushkoll security. Assistée par Kenjiro YAMASHINA, elle programmes d’entrainement des prisonniers."
+            "text": "Mandatée par l’État de Californie, Zoe Hurst dirige l’établissement modernisé pour Ushkoll Security. Assistée de Kenjiro Yamashina, elle conserve une autorité relative sur son organisation tant qu’elle ne s’immisce pas dans les programmes d’entraînement des prisonniers."
           }
         ]
       },
