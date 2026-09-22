@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 79020)
-Total output lines: 5465
-
 export const COMPENDIUM_REALITE_V9_PEGRE_ARTICLES = [
   {
     "id": "realite-v9-pegre-mafias-gangs",
@@ -2158,7 +2155,1395 @@ export const COMPENDIUM_REALITE_V9_PEGRE_ARTICLES = [
           },
           {
             "type": "p",
-            "text": "L’Usure L’usure consiste à pratiquer des prêts financiers et percevoir des intérêts élevé…19020 tokens truncated…es villes californiennes, les « Japonisant » énormément sous prétexte d’avoir un style architectural propre à leurs entreprises."
+            "text": "L’Usure L’usure consiste à pratiquer des prêts financiers et percevoir des intérêts élevés."
+          },
+          {
+            "type": "p",
+            "text": "Le seuil en dessous duquel les intérêts ne tiennent pas de l’usure sont déterminé par l’Etat."
+          },
+          {
+            "type": "p",
+            "text": "Concernant la mafia italoaméricaine, elle ne se gêne pas pour faire jeu égal avec les Corporations bancaire, désormais libre de pratiquer les taux d’intérêt qu’elles désirent."
+          },
+          {
+            "type": "p",
+            "text": "La pègre italo-américaine dispose d’un réseau bancaire assez vaste entre toutes les familles en Amérique mais aussi la pègre en Italie."
+          },
+          {
+            "type": "p",
+            "text": "Le blanchiment La mafia italo-américaine dispose de fonds colossaux, elle investit régulièrement et gagne encore plus par le mélange d’activités légales et illégales, mais la différence entre les gains normaux et ceux anormaux demeure souvent énorme, la nécessité de diviser ces sommes et de les réintégrer légalement s’appelle le blanchiment d’argent."
+          },
+          {
+            "type": "p",
+            "text": "Souvent, c’est avec la Machine de Vegas et Hollywood que cet argent est blanchi."
+          },
+          {
+            "type": "p",
+            "text": "Les assassinats et contrats associés Cette activité consiste à gérer l’élimination d’individus."
+          },
+          {
+            "type": "p",
+            "text": "Il existe trois types d’assassinats mafieux :"
+          },
+          {
+            "type": "p",
+            "text": "L’élimination des menaces internes"
+          },
+          {
+            "type": "p",
+            "text": "Elle est moins pratiquée mais la Famille a souvent nécessité quelques « ajustements »"
+          },
+          {
+            "type": "p",
+            "text": "internes pour redistribuer les bonnes cartes."
+          },
+          {
+            "type": "p",
+            "text": "L’élimination des menaces externes"
+          },
+          {
+            "type": "p",
+            "text": "Elle est souvent pratiquée, il s’agit de tuer des gens d’influences pouvant nuire aux activités de la mafia, la mafia italo-américaine l’utilise autant que la corruption."
+          },
+          {
+            "type": "p",
+            "text": "L’élimination sous contrat"
+          },
+          {
+            "type": "p",
+            "text": "Elle est la plus pratiquée, les assassins de la mafia tuent pour toucher de l’argent, des cibles que des employeurs extérieurs désignent, la seule condition étant de ne pas tuer d’’alliée à la Famille pour éviter un conflit « mafio-diplomatique »."
+          },
+          {
+            "type": "p",
+            "text": "La mafia Italo-américaine étant la créatrice du Murder Incorporated, elle a un lien très étroit avec les assassins à Los Angeles notamment, et plus encore à Vegas où cette association est encore vivace."
+          },
+          {
+            "type": "p",
+            "text": "A Los Angeles, le MI a été absorbé par « La blanchisserie ». Malgré l’existence de cette organisation, détachée de la Famille depuis le Comité, les mafieux disposent toujours de leurs propres tueurs à gages."
+          },
+          {
+            "type": "p",
+            "text": "La mafia italo-américaine a donc comme 5 activités phares :"
+          },
+          {
+            "type": "p",
+            "text": "Le jeu et les paris"
+          },
+          {
+            "type": "p",
+            "text": "La corruption"
+          }
+        ]
+      },
+      {
+        "id": "zone-influence",
+        "title": "Zone d’influence",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "Le trafic alimentaire"
+          },
+          {
+            "type": "p",
+            "text": "La pornographie"
+          },
+          {
+            "type": "p",
+            "text": "L’assassinat"
+          },
+          {
+            "type": "p",
+            "text": "On peut souligner un gout pour le luxe chez cette mafia, où bien manger, bien s’habiller, bien gérer l’argent, sont autant de choses qui importent, exactement comme la Vladivostokskaïa."
+          },
+          {
+            "type": "p",
+            "text": "2.4. ZONE D’INFLUENCE La mafia italienne est essentiellement sur la cote-ouest de la Californie, principalement San￾Francisco, San José, San Diejuana et Los Angeles."
+          },
+          {
+            "type": "p",
+            "text": "Tuc son Pho eni x Me xic ali San Diej uan a Los Ang eles Las Veg as San Jos é San Fra ncis co"
+          }
+        ]
+      },
+      {
+        "id": "complements",
+        "title": "Alliances, ennemis et compléments",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "2.6. COMPLEMENT Possédant deux sièges au Comité du Crime, La Famiglia peut compter sur tous les autres membres de ce groupe comme alliés."
+          },
+          {
+            "type": "p",
+            "text": "Le comité contenant :"
+          },
+          {
+            "type": "p",
+            "text": "La mafia Russe (la bravta) -2 sièges"
+          },
+          {
+            "type": "p",
+            "text": "La mafia italo-américaine (La Famille) – 2 sièges"
+          },
+          {
+            "type": "p",
+            "text": "La Triade chinoise (les vingt-deux dragons) – 2 sièges"
+          },
+          {
+            "type": "p",
+            "text": "Le clan Yakuza (les Yamaguchi) – 2 sièges"
+          },
+          {
+            "type": "p",
+            "text": "La mafia irlandaise (Oglaigh) – 2 sièges"
+          },
+          {
+            "type": "p",
+            "text": "La mafia juive (New Yiddish Californian Connection) -1 siège"
+          },
+          {
+            "type": "p",
+            "text": "La mafia française (French Connection) -1 siège"
+          },
+          {
+            "type": "p",
+            "text": "L’Arbitre (Veronica Silver) – 1 siège"
+          },
+          {
+            "type": "p",
+            "text": "Soit, 12 criminels au total et une détective privée, tous sont de haute importance et de grande influence en Californie mais aussi dans le monde entier."
+          },
+          {
+            "type": "p",
+            "text": "On notera que la Famille a des liens très étroits avec la mafia juive et celle irlandaise par leur histoire commune, mais aussi avec « La Machine » de Las Vegas, officiellement une table des directeurs de la megacorporation des casinos."
+          },
+          {
+            "type": "p",
+            "text": "Outre ces alliés du Comité, la mafia italienne dispose d’autres alliés à travers les Etats-Unis, les 25 familles mafieuses italo-américaines constituent toujours « La commission », cependant, le ton est clair, « Le comité californien » a le dernier mot sur la « Commission »."
+          },
+          {
+            "type": "p",
+            "text": "Du coté des alliés non criminels, la Famille est la mafia la plus influente à Hollywood, énormément d’acteurs, réalisateurs et producteurs sont des Associés ou des parents d’Affranchis."
+          },
+          {
+            "type": "p",
+            "text": "De manière officieuse, évidemment, l’Eglise Chrétienne semble avoir une certaine tendance à protéger les criminels de la Famille, fervents croyants et donateurs généreux."
+          },
+          {
+            "type": "p",
+            "text": "Ennemis Les Italiens négocient plus préférentiellement que ne cherchent le combat, leurs ennemis sont généralement économiques, les corporations notamment."
+          },
+          {
+            "type": "p",
+            "text": "Cependant, il serait une erreur de croire que cette mafia est plus pacifique que la Bratva, moins démonstrative, elle est au moins aussi pugnace, la vengeance italienne concerne les lignées, si elle n’est obtenue dans le sang de ses ennemis, elle sera prise avec celui de leurs descendants."
+          },
+          {
+            "type": "p",
+            "text": "La mafia italo-américaine ne s’entend pas avec les Cartels mexicains, mais elle a souvent réussi à négocier un statut quo jusqu’en 2013, après cette date, elle s’est imposée et n’a plus négocié."
+          },
+          {
+            "type": "p",
+            "text": "Les italo-américains ont souvent des frictions avec les gangs, elle les utilise mais n’a pas de considération pour eux, elle favorise beaucoup plus de traiter avec des organisations mafieuses plus organisées et sérieuses."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "realite-v9-vingt-deux-dragons",
+    "dataset": "realite-v9",
+    "category": "Réalité",
+    "sourceCategory": "Réalité",
+    "title": "Les Vingt-deux Dragons — Triades californiennes",
+    "source": "TUC_organisations_Pegre LA_V2(1).docx",
+    "status": "canon_enrichi",
+    "rebuildV2": true,
+    "tags": [
+      "Réalité",
+      "Pègre",
+      "Triades",
+      "Vingt-deux Dragons"
+    ],
+    "sections": [
+      {
+        "id": "histoire",
+        "title": "Histoire",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "3.MAFIA CHINOISE : TRIADES 3.1. HISTOIRE La triade des vingt-deux dragons est une Triade chinoise propre à la Californie."
+          },
+          {
+            "type": "p",
+            "text": "Elle est l’héritière d’une longue culture criminelle des Triades chinoises."
+          },
+          {
+            "type": "p",
+            "text": "L’origine des Triades remonte au XVIIème siècle. « Les trois harmonies » est l’origine du nom de « Triade », celle du ciel, de la terre et de l’humain."
+          },
+          {
+            "type": "p",
+            "text": "En 1640, Beijing fut prise par les mandchous, la dynastie Qing supplanta la dynastie Ming totalement pendant les années suivantes, notamment en écrasant le sud de la Chine."
+          },
+          {
+            "type": "p",
+            "text": "Le règne des Mandchous mena à la fermeture de la Chine et à de nombreuses révoltes pro-Ming, ces résistants patriotes usaient de codes des signes et se formaient à des arts-martiaux qu’ils tenaient secrets, comme souvent, la création de cet état dans l’état soutenant les révoltes nombreuses mena à l’apparition d’une organisation, d’un point de vue moderne, ce n’était qu’une communauté terroriste."
+          },
+          {
+            "type": "p",
+            "text": "Durant le XIXème siècle, alors que la Chine des Qing subissait de très grosses perturbations, pourtant fermée, elle se vit forcée à des traités par la Grande Bretagne, entre les défaites de la Chine, le pouvoir administratif rigide et sclérosé, le fort développement des industries, la dynastie Qing chancelait et peinait. Les Triades se développèrent, fonctionnant comme des syndicats agressifs, elles avaient la mainmise sur nombre d’exploitations, par exemple dans les mines, n’autorisant pas les non-membres à y travailler. Les sociétés secrètes détenaient aussi des cagnottes communes, afin de protéger leurs membres en cas de procès ou pour des obsèques, tels des sociétés d’assurance."
+          },
+          {
+            "type": "p",
+            "text": "La triade originelle que constituait ces sociétés secrètes occupait un rôle déterminant pour nombre de travailleurs dont l’émigration était forte, les marchés de la prostitution, de l’opium ou des jeux d’argent étaient géré par ces sociétés à travers le monde, dès qu’une communauté chinoise s’installait."
+          },
+          {
+            "type": "p",
+            "text": "Soutenant ses membres, la Triade originelle des Trois harmonies contribua à l’effondrement des Qing, par exemple, le premier président de la République de Chine, Sun Yat-sen, était un « 426 », aussi nommé « Bâton rouge », c’est-à-dire un responsable de la sécurité et du respect des lois de la Triade."
+          },
+          {
+            "type": "p",
+            "text": "En 1949, néanmoins, le régime Communiste de Chine se mit à lutter contre les Triades, ce fut un exode massif des membres vers les comptoirs tels que Hong Kong, Macao ou Taiwan mais aussi à travers le monde entier dont les Etats-Unis. Les triades devinrent plus criminelles en perdant dès lors tout aspect patriotique."
+          },
+          {
+            "type": "p",
+            "text": "En 1997, Hong Kong revint à la Chine et ce fut loin de faire le malheur des mobsters. Le gouvernement les accueillit à bras ouvert, permettant le blanchiment d’énormes sommes en percevant des investissements de la part des Triades en échange."
+          },
+          {
+            "type": "p",
+            "text": "Le 14K ou 14-Kowloon fut fondée en 1945, à Hong kong, dans la rue du nom de la Triade."
+          },
+          {
+            "type": "p",
+            "text": "C’était une des triades les plus violentes de Hong Kong, le trafic de drogue était sa principale source d’enrichissement à l’origine."
+          },
+          {
+            "type": "p",
+            "text": "La triade se diversifia en déployant ses branches, ses « factions », à travers le monde, elle trouva vite sa place aux Etats-Unis, à San Francisco notamment où elle s’allia à Wah Ching, une autre Triade plus locale."
+          },
+          {
+            "type": "p",
+            "text": "Comme toujours avec les mafias, elle s’appuyait sur les gangs communautaires, dans les quartiers chinois, dont elle prenait le contrôle des commerces avec l’éternel mélange d’intimidation-protection dont raffole les mafias."
+          },
+          {
+            "type": "p",
+            "text": "Guo JING était un chef de la faction de Los Angeles, il détenait un gros trafic d’émigration et travaillait étroitement avec les Yakuzas au Japon, une faction des 14k d’Hawaï, une autre en Chine pour faire tourner ce trafic humain."
+          },
+          {
+            "type": "p",
+            "text": "En parallèle, il assurait au Cartel Sinaloa un approvisionnement de matières premières, au Mexique."
+          },
+          {
+            "type": "p",
+            "text": "C’était un boss plutôt discret, en 2015, un an après la fin de la guerre d’Afghanistan, il accueillit dans la Triade un ancien soldat des Etats-Unis, Zeng XIAO, combattant des US Navy SEAL, assez aigri et traumatisé. Mais XIAO s’avérait d’une audace et d’une efficacité particulièrement appréciée du Boss, n’ayant plus rien à perdre dans la vie."
+          },
+          {
+            "type": "p",
+            "text": "Pendant des années, XIAO resta à sa place néanmoins, envoyé en Chine, au Japon et au Mexique, il était un homme de confiance et quand le Cartel Sinaloa commença à perdre du terrain aux Etats￾Unis, il continua le trafic de matière première, la triade commençant à les transformer elle-même pour compenser les pertes occasionnées."
+          },
+          {
+            "type": "p",
+            "text": "Alors que le monde s’écroulait et se perdait durant les grandes crises de la décennie 2020-2030, la triade des 14k de Los Angeles prospérait, fournissant la drogue sans plus avoir besoin des Cartels, sous l’initiative de XIAO, cependant, JING sentait son officier prendre ses aises, il l’envoya à la tête d’un groupe soutenir la résistance Chinoise pendant la guerre."
+          },
+          {
+            "type": "p",
+            "text": "« Forteam K » était un groupe paramilitaire privé que finançait la Triade, il assistait les troupes américaines mais l’idée étant d’y sacrifier XIAO et ses partisans plus qu’autre chose."
+          },
+          {
+            "type": "p",
+            "text": "JING avait très mal jugé la situation, l’ancien SEAL passa énormément d’accords avec des entrepreneurs et des officiers américains, en effet, l’équipement classique de la décennie précédente était obsolète face aux Nord-Coréens, il fallait rééquiper au plus vite et débloquer des fonds, XIAO acheta donc énormément de l’ancien matériel pendant son voyage, en parallèle, il vida des villages entiers et les fit voguer en direction de LA, la désertion de villes et villages en Chine occupée ou en Corée permettant des pièges aux Coréens par les forces Alliées, peu regardantes sur la destination des déportés."
+          },
+          {
+            "type": "p",
+            "text": "Il fut toutefois éborgné au cours des affrontements."
+          },
+          {
+            "type": "p",
+            "text": "Au lieu d’y perdre ses partisans, XIAO se forma une armée d’immigrants, s’équipa en matériel de guerre et en 2026, conscient d’avoir été sacrifié, il entama une purge systématique des quartiers chinois quant aux Triades et gangs, allant jusqu’à bombarder un véhicule familial du Boss Yi YIMU à la tête de la faction 14k de San Francisco à l’aide d’un Reaper."
+          },
+          {
+            "type": "p",
+            "text": "Particulièrement sanglant, XIAO devint l’empereur des Triades américaines de l’ouest, et renomma les factions 14k les « 22 dragons », ayant sous sa coupe 22 factions en tout."
+          },
+          {
+            "type": "p",
+            "text": "Bien que fournissant sa propre drogue, XIAO passa de nouveaux accords, avec le Cartel de Tijuana notamment, afin de limiter les conflits avec les mexicains."
+          },
+          {
+            "type": "p",
+            "text": "Les 22 dragons ne sontt pas aussi militaires que la mafia russe mais c’est la seconde mafia la plus militarisée de la Grande Californie."
+          },
+          {
+            "type": "p",
+            "text": "Elle est aussi celle disposant du plus prodigieux arsenal, quoi que « désuet », vis-à-vis des nouvelles technologies, particulièrement l’armement défensif le plus récent, la triade des 22 dragons dispose de réserves colossales d’anciennes armes de la décennie 2010-2020, néanmoins, elle semble favoriser son utilisation plutôt que sa revente."
+          },
+          {
+            "type": "p",
+            "text": "Zheng XIAO fait office de chef particulièrement charismatique et violent, il a noué des liens très forts pendant la guerre avec des militaires chinois, américains et coréens, mais aussi avec les Megacorporations dont il a simplement inondé les services de recrutements de travailleurs immigrés si peu cher et dénué de droits Californiens ou Américains, esclaves de leurs employeurs."
+          },
+          {
+            "type": "p",
+            "text": "Malgré sa violence, XIAO est un homme intelligent, il aurait aussi des liens avec la presse, en 2032, par exemple, la plus célèbre journaliste d’investigation, Wei SHI, ayant infiltré la triade des mois, elle ne l’aurait pas été à l’insu du boss, mais bien au contraire, aurait servi ses intérêts, bien que le reportage ait mené à de nombreuses arrestations et changements, possiblement ayant épuré la Triade. La rumeur voudrait que la journaliste serait elle-même un membre de cette mafia ou du moins la servirait à l’occasion."
+          }
+        ]
+      },
+      {
+        "id": "organisation",
+        "title": "Organisation et intégration",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "3.2. ORGANISATION Voici l’organisation générale connue en Californie :"
+          },
+          {
+            "type": "p",
+            "text": "La triade des 22 dragons est une des mafias les plus structurées."
+          },
+          {
+            "type": "p",
+            "text": "En bas de l’échelle, les troupes sont composées des simples membres, « la lanterne bleue » désigne les membres non-initiés, c’est à dire les « Associés », ceux qui travaillent pour la Triade mais n’ont de protection que contre rémunération."
+          },
+          {
+            "type": "p",
+            "text": "Les « forty-niners » sont les membres officiels, les soldats, ils ont été initiés rituellement et sont formés aux arts-martiaux, au maniement des armes et sont généralement dotés d’un travail utile à la mafia à coté de leur activité criminelle."
+          },
+          {
+            "type": "p",
+            "text": "Les « 22 dragons » et les « 22 chiens » sont une strate qui n’existe pas dans les Triades conventionnelles, elle répond au fait que XIAO a intégré de nombreuses factions de force."
+          },
+          {
+            "type": "p",
+            "text": "Les anciens chefs, autrefois « têtes de dragon » de leur faction, sont devenus des « Chiens », chaque « chien » conseille un « dragon », un officier choisi par le Boss afin de recevoir ses ordres, le « Chien »"
+          },
+          {
+            "type": "p",
+            "text": "n’a qu’un rôle de conseiller, il n’a pas le droit de donner d’ordres directement à un soldat et peut être dénoncé s’il s’y hasarde, néanmoins, il conserve sa richesse et des privilèges."
+          },
+          {
+            "type": "p",
+            "text": "Chaque officier est un relais du Boss localement, grâce à l’holonet, il est en contact direct qu’importe la distance, il n’a donc pas un pouvoir si grand dans l’organisation."
+          },
+          {
+            "type": "p",
+            "text": "« Le bâton rouge » a la charge de faire respecter la loi de la triade, il fait appliquer les ordres, il est juge et jury, parfois bourreau. Actuellement, cette place est occupée par une femme, Xia SHI, elle n’a aucun lien de parenté avec Wei SHI, la journaliste célèbre ni Shuren SHI, une prostituée de la Triade."
+          },
+          {
+            "type": "p",
+            "text": "Par son statut, c’est elle qui supervise les officiers."
+          },
+          {
+            "type": "p",
+            "text": "Zheng XIAO \"Tête de dragon\" (489)"
+          },
+          {
+            "type": "p",
+            "text": "Chin XEONG \"Avant-Garde\" (438)"
+          },
+          {
+            "type": "p",
+            "text": "Ken LONG \"Second maitre\" (438)"
+          },
+          {
+            "type": "p",
+            "text": "Wuhan ZHEN \"Eventail de papier\" (415)"
+          },
+          {
+            "type": "p",
+            "text": "Xia SHI \"Baton rouge\" (426)"
+          },
+          {
+            "type": "p",
+            "text": "Officiers \"22 Dragons\" (20)"
+          },
+          {
+            "type": "p",
+            "text": "Membres officiels \"49ers\" (49)"
+          },
+          {
+            "type": "p",
+            "text": "Membres Associés \"Lanterne bleue\" Conseillers \"22 chiens\" (10)"
+          },
+          {
+            "type": "p",
+            "text": "Lin WEI \"Sandale de paille\" (432)"
+          },
+          {
+            "type": "p",
+            "text": "Jie DHENG \"Maitre des encens\" (438)"
+          },
+          {
+            "type": "p",
+            "text": "« La sandale de paille » est en charge des affaires extérieures de l’organisation, c’est Lin WEI qui est actuellement à cette place. C’est lui qui négocie et discute avec les autres organisations criminelles, les autres associés d’importance et les fournisseurs ou clients de la triade, c’est un rôle de première importance de fait et la confiance du boss en cette personne doit être totale, en effet, c’était la place de Zheng XIAO quand il trahit son propre boss, ayant noué des amitiés et passé des accords grâce à cette fonction. Il est conseillé régulièrement par Shuren SHI."
+          },
+          {
+            "type": "p",
+            "text": "« L‘éventail de papier blanc » est en charge des finances de l’organisation, avec plus d’une dizaine de milliers de membres rien qu’en Californie, les recettes sont fortes."
+          },
+          {
+            "type": "p",
+            "text": "Le trésorier s’assure de blanchir l’argent et de le réinvestir, la place est actuellement à Wuhan ZHEN."
+          },
+          {
+            "type": "p",
+            "text": "Positionnés au-dessus de ces trois officiers supérieurs, « le maitre des encens », en l’occurrence une femme actuellement, Jie DHENG, est un « maître des cérémonies », la Triade suit des codes et des rites traditionnels notamment lors de l’intronisation d’un membre dans l’organisation ou lors de sa promotion, de fait, le « maitre des encens » est un recruteur. Jie DHENG est d’ailleurs particulièrement observatrice et utilise les nouvelles technologies pour interroger les membres associés lors d’un véritable interrogatoire mental, aux allures de tortures pour estimer la fiabilité ou non d’un futur membre."
+          },
+          {
+            "type": "p",
+            "text": "« L’avant-garde » est le chargé des opérations spéciales, ayant officié au rang de « bâton rouge »"
+          },
+          {
+            "type": "p",
+            "text": "préalablement. C’est un conseiller proche du Boss car il planifie et organise les vengeances, les prises de territoires et autre assauts armés. Le plus souvent, son rôle est donc celui d’un superviseur, et de prospecteur, ayant à s’assurer que le territoire est bien sous contrôle, il n’interfère pas dans la tâche du « bâton rouge » car la sienne se focalise moins sur les hommes que sur le matériel ou la géographie."
+          },
+          {
+            "type": "p",
+            "text": "« le Second maitre de la montagne » ou Sous-boss est le supérieur direct du bâton-rouge, c’est le seul officier supérieur à pouvoir donner des ordres aux officiers(en dehors du recrutement), il commande au « Bâton rouge », à « la sandale de paille » et à « l’éventail de papier blanc », reléguant les ordres du boss ou donnant ses propres directives s’il estime devoir en ajouter, il ne rend des comptes qu’au Boss, en revanche en cas de mécontentement des membres, il est celui qui endosse la responsabilité pour le groupe. C’est donc une place aussi prestigieuse que difficile à tenir, puisque le sous-boss sert de fusible régulièrement."
+          },
+          {
+            "type": "p",
+            "text": "INTEGRATION Pour entrer dans la Triade, il faut forcément avoir été un associé, et avoir subi l’interrogation virtuelle du « maître des encens »."
+          },
+          {
+            "type": "p",
+            "text": "Il faut être capable de parler chinois également et avoir un lien de famille avec un membre initié (lien de sang ou par mariage)."
+          },
+          {
+            "type": "p",
+            "text": "Le futur membre sera alors soumis à un rituel, un coq sera décapité, le sang de l’animal est mélangé à de l’alcool et au sang (quelques gouttes) du futur membre. Autrefois, le pouce était entaillé, mais pour marquer à vie les membres, c’est le signe « 22 » qui est gravé, sur une partie du corps pouvant être cachée, le poignet, le dos ou le torse chez les hommes, le ventre, la nuque ou la cheville chez les femmes."
+          },
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Fonction",
+                "Nom / effectif"
+              ],
+              [
+                "Tête de dragon",
+                "Zheng Xiao — 489"
+              ],
+              [
+                "Avant-Garde",
+                "Ching Xeong — 438"
+              ],
+              [
+                "Second maître",
+                "Ken Long — 438"
+              ],
+              [
+                "Éventail de papier",
+                "Wuhan Zhen — 415"
+              ],
+              [
+                "Bâton rouge",
+                "Xia Shi — 426"
+              ],
+              [
+                "Sandale de paille",
+                "Lin Wei — 432"
+              ],
+              [
+                "Maître des encens",
+                "Jie Dheng — 438"
+              ],
+              [
+                "Officiers",
+                "« 22 Dragons » — 20"
+              ],
+              [
+                "Conseillers",
+                "« 22 chiens » — 10"
+              ],
+              [
+                "Membres officiels",
+                "« 49ers » — 49"
+              ],
+              [
+                "Associés",
+                "« Lanterne bleue »"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "activites",
+        "title": "Activités",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "3.3. ACTIVITES Contrairement aux deux mafias présentées auparavant, les Triades n’associent pas un « officier » à une activité précise, laquelle dépend souvent de sa zone, les chinois procèdent autrement en étant plus mobiles et plus souples."
+          },
+          {
+            "type": "p",
+            "text": "Le plus souvent le boss et ses proches identifient une activité, ils n’y nomment non pas un mais une dizaine d’officiers par zone."
+          },
+          {
+            "type": "p",
+            "text": "Les officiers choisis ont fort à faire, la concurrence entre eux est rude, quand un nom se détache, les autres officiers sont alors redéployés sur autre activité et le vainqueur reste seul maitre."
+          },
+          {
+            "type": "p",
+            "text": "Cependant, si un gang vassal à la mafia se montre plus performant que l’officier en charge, la Triade se débarrassera de ce dernier pour le remplacer par le chef de gang quand celui-ci sera membre des 22 dragons."
+          },
+          {
+            "type": "p",
+            "text": "Les 22 dragons possèdent comme activités illégales référencées :"
+          },
+          {
+            "type": "p",
+            "text": "Le trafic de stupéfiants"
+          },
+          {
+            "type": "p",
+            "text": "Le trafic biochimique"
+          },
+          {
+            "type": "p",
+            "text": "Le trafic d’êtres humains"
+          },
+          {
+            "type": "p",
+            "text": "La prostitution"
+          },
+          {
+            "type": "p",
+            "text": "La corruption"
+          },
+          {
+            "type": "p",
+            "text": "Le racket"
+          },
+          {
+            "type": "p",
+            "text": "Le trafic de matières premières"
+          },
+          {
+            "type": "p",
+            "text": "L’espionnage industriel"
+          },
+          {
+            "type": "p",
+            "text": "L’assassinat"
+          },
+          {
+            "type": "p",
+            "text": "Le trafic de stupéfiants C’est le commerce parallèle de toute substances psychotropes."
+          },
+          {
+            "type": "p",
+            "text": "Cela concerne essentiellement les drogues chimiques classiques."
+          },
+          {
+            "type": "p",
+            "text": "Les chinois commercent l’opium, la cocaïne, l’héroïne, ils sont essentiellement importateurs e Californie bien qu’ils disposent de moyens de production pour ne pas dépendre totalement de fournisseurs."
+          },
+          {
+            "type": "p",
+            "text": "Les 22 dragons fournissent aussi des « drogues complémentaires », qui n’ont pas de gros effets IRL, mais provoquent des effets sans égaux pendant une connexion à l’Holonet."
+          },
+          {
+            "type": "p",
+            "text": "Le trafic biochimique « 22 »"
+          },
+          {
+            "type": "p",
+            "text": "C’est peut-être l’un des plus gros marchés des Triades californiennes, il consiste à fournir un marché parallèle de produits chimiques de base, molécules élémentaires et autres, ils fournissent aussi bien les Cartels que les Megacorporations car leurs tarifs de transport et de conditionnement sont bien moins chers. Les Triades détiennent pas mal de travailleurs dans le monde donc ces matières premières viennent de ce qu’ils détournent, parfois aux Megacorporations à qui ils revendent."
+          },
+          {
+            "type": "p",
+            "text": "Le trafic humain La mafia chinoise achemine des centaines, parfois milliers de ressortissants asiatiques chaque mois en Californie, ils assurent aux megacorporations une main d’œuvre incroyablement moins chère que les robots les plus bas de gamme."
+          },
+          {
+            "type": "p",
+            "text": "Dépourvus de droits sur le sol Californien, ces esclaves modernes n’ont pas de meilleure option que de rester dans leur entreprise. La triade des 22 dragons est sans pitié sur le commerce d’humains, peu importe l’âge ou le sexe, outre l’import, cela comprend l’export, la triade rapatriant les chinois ayant assez pour payer une évasion."
+          },
+          {
+            "type": "p",
+            "text": "La prostitution La prostitution est légale en Californie de 2035."
+          },
+          {
+            "type": "p",
+            "text": "Mais elle l’est dans un cadre précis."
+          },
+          {
+            "type": "p",
+            "text": "La triade des 22 dragons sort totalement de ce cadre avec ses émigrés, n’étant pas californiens d’une part et n’étant pas forcément majeurs de l’autre."
+          },
+          {
+            "type": "p",
+            "text": "Il est régulier que les prostitués soient gavés d’hormones et de drogues, leur corps devenant parfaitement adultes et leur esprit totalement réduit au strict minimum."
+          },
+          {
+            "type": "p",
+            "text": "La Triade n’hésite pas à déposséder des citoyens californiens du libre arbitre pour insérer des non￾asiatique à ses réseaux de prostitution illégale."
+          },
+          {
+            "type": "p",
+            "text": "La corruption La triade des 22 dragons génère énormément de profits, elle a beau être d’une rare violence, il est souvent bien plus rentable de régler pacifiquement les conflits, c’est pourquoi elle pratique la corruption, souvent des élus ou des gens d’importance dans les quartiers asiatiques. C’est une méthode risquée mais rapide pour assurer le bon fonctionnement des affaires."
+          },
+          {
+            "type": "p",
+            "text": "Le racket Le racket des triades est particulier, il se distingue en deux cas."
+          },
+          {
+            "type": "p",
+            "text": "Le premier cas est le racket sur les communautés asiatiques, chinoise, vietnamien, laotienne et parfois les coréens. Aucune de ces communautés n’a le droit d’exercer le moindre métier sans participer à la caisse commune dans les quartiers possédés par les 22 dragons. En proportion des gains, les commerçants et entreprises reversent un tribut supplémentaire. En échange, aucun membre qui s’acquitte de ce tribut n’est menacé par un gang ou une autre mafia, ni même intimidé par le moindre individu extérieur, la protection est réelle et farouche."
+          },
+          {
+            "type": "p",
+            "text": "En dehors des asiatiques, tout individu ou tout groupe ayant des affaires sur le territoire des 22 dragons est taxé, sans aucune forme de retours en dehors du droit d’exercer."
+          },
+          {
+            "type": "p",
+            "text": "Le trafic de matières premières Il s’agit du trafic le plus déterminant pour la triade des 22 dragons."
+          },
+          {
+            "type": "p",
+            "text": "Presque la moitié des terres rares en Californie est acheminée par la triade. Un cinquième des métaux et des minéraux, énormément d’autres matières du genre viennent de ce marché secondaire qu’elle gère et achemine, car la force des 22 dragons ce sont ses moyens de transport en vérité et son réseau à travers le Pacifique."
+          },
+          {
+            "type": "p",
+            "text": "L’espionnage industriel L’énorme trafic d’êtres humains que pratique la triade des 22 dragons n’a pas pour seul but d’être l’exploitation des miséreux, en vérité, c’est plus précisément l’espionnage industriel qui est le but final."
+          },
+          {
+            "type": "p",
+            "text": "Evidemment, 99.5% des employés fournis par la Triade ne détiennent pas d’information utile sur les brevets ou les projets, cependant 0.5% accèdent à des fonctions au bout d’un moment et peut communiquer sur des données sensibles que les concurrents corporatifs achètent à prix d’or."
+          },
+          {
+            "type": "p",
+            "text": "Outre les 0.5% qui s’élèvent, les autres fournissent des informations fragmentaires qu’il est possible de recomposer, cela demande du temps et reste approximatif, mais les Megacorporations rachètent aussi ces constellations d’informations de projets concurrents."
+          },
+          {
+            "type": "p",
+            "text": "L’assassinat Cette activité consiste à gérer l’élimination d’individus."
+          },
+          {
+            "type": "p",
+            "text": "Il existe trois types d’assassinats mafieux :"
+          },
+          {
+            "type": "p",
+            "text": "L’élimination des menaces internes"
+          },
+          {
+            "type": "p",
+            "text": "Elle est très pratiquée, comme énoncé, le milieu des Triade est très compétitif, quand un membre déçoit, il a très souvent des myriades de remplaçants, contrairement aux mafias précédentes, l’élimination interne est une activité régulière loin d’être extraordinaire."
+          },
+          {
+            "type": "p",
+            "text": "L’élimination des menaces externes"
+          },
+          {
+            "type": "p",
+            "text": "Elle est souvent pratiquée, il s’agit de tuer des gens d’influences pouvant nuire aux activités de la mafia."
+          },
+          {
+            "type": "p",
+            "text": "L’élimination sous contrat"
+          },
+          {
+            "type": "p",
+            "text": "Elle est assez pratiquée, les assassins de la Triade tuent pour toucher de l’argent, des cibles que des employeurs extérieurs désignent, la seule condition étant de ne pas tuer d’’alliée à la Famille pour éviter un conflit « mafio-diplomatique »."
+          },
+          {
+            "type": "p",
+            "text": "La triade des 22 dragons a donc comme 5 activités phares :"
+          },
+          {
+            "type": "p",
+            "text": "Le trafic biochimique"
+          },
+          {
+            "type": "p",
+            "text": "Le trafic de ressources premières"
+          },
+          {
+            "type": "p",
+            "text": "Le trafic humain"
+          },
+          {
+            "type": "p",
+            "text": "La prostitution"
+          },
+          {
+            "type": "p",
+            "text": "L’espionnage industriel"
+          },
+          {
+            "type": "p",
+            "text": "Le trafic de stupéfiants est très rentable pour la mafia chinoise, cependant la Triade des 22 dragons sert essentiellement à fournir les autres mafias, elle est moins performante dans la distribution des produits finis et c’est pourquoi le trafic de drogue ne compte pas comme une de ces cinq activités majeures, malgré la part monstrueuse des gains."
+          }
+        ]
+      },
+      {
+        "id": "zone-influence",
+        "title": "Zone d’influence",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "3.4. ZONE D’INFLUENCE La mafia chinoise est essentiellement sur la cote-ouest de la Californie, principalement San-Francisco, San Diejuana Los Angeles mais aussi Mexicali."
+          },
+          {
+            "type": "p",
+            "text": "Elle est peu implantée à Phoenix, Tucson et Fresno."
+          },
+          {
+            "type": "p",
+            "text": "On la retrouve néanmoins dans toutes les grandes villes de Californie mais elle est plus préférentiellement liée aux ports."
+          },
+          {
+            "type": "p",
+            "text": "Tuc son Pho eni x Me xic ali San Diej uan a Los Ang eles Las Veg as San Jos é San Fra ncis co"
+          },
+          {
+            "type": "p",
+            "text": "Bien évidemment, en dehors de la Californie, la Triade couvre Hawaï, le Japon, les Philippines, Taïwan et bien entendu la Chine."
+          }
+        ]
+      },
+      {
+        "id": "complements",
+        "title": "Alliances, ennemis et compléments",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "3.6. COMPLEMENT Possédant deux sièges au Comité du Crime du Crime, la Triade peut compter sur tous les autres membres de ce groupe en tant qu’alliés."
+          },
+          {
+            "type": "p",
+            "text": "Possédant deux sièges au Comité du Crime, La Famiglia peut compter sur tous les autres membres de ce groupe comme alliés."
+          },
+          {
+            "type": "p",
+            "text": "Le comité contenant :"
+          },
+          {
+            "type": "p",
+            "text": "La mafia Russe (la bravta) -2 sièges"
+          },
+          {
+            "type": "p",
+            "text": "La mafia italo-américaine (La Famille) – 2 sièges"
+          },
+          {
+            "type": "p",
+            "text": "La Triade chinoise (les vingt-deux dragons) – 2 sièges"
+          },
+          {
+            "type": "p",
+            "text": "Le clan Yakuza (les Yamaguchi) – 2 sièges"
+          },
+          {
+            "type": "p",
+            "text": "La mafia irlandaise (Oglaigh) – 2 sièges"
+          },
+          {
+            "type": "p",
+            "text": "La mafia juive (New Yiddish Californian Connection) -1 siège"
+          },
+          {
+            "type": "p",
+            "text": "La mafia française (French Connection) -1 siège"
+          },
+          {
+            "type": "p",
+            "text": "L’Arbitre (Veronica Silver) – 1 siège"
+          },
+          {
+            "type": "p",
+            "text": "Soit, 12 criminels au total et une détective privée, tous sont de haute importance et de grande influence en Californie mais aussi dans le monde entier."
+          },
+          {
+            "type": "p",
+            "text": "On notera que la triade a pour alliés les autres factions du 14k, à travers le monde, s’en réclamant encore pour tisser des liens en Chine comme ailleurs."
+          },
+          {
+            "type": "p",
+            "text": "En outre, le cartel de Diejuana et le cartel Sinaloa conservent d’excellents liens avec les Chinois, la triade demeure un fournisseur fiable en matières premières."
+          },
+          {
+            "type": "p",
+            "text": "De manière officieuse, la majorité des ressortissants chinois en Californie sont plus ou moins liés à la Triade et forcément la communauté qu’ils forment protège autant sa mafia qu’elle n’en est victime."
+          },
+          {
+            "type": "p",
+            "text": "La triade des 22 dragons est, ironiquement, une des mafias les plus liées aux corporations, bien loin de ses origines patriotes de résistance face à l’oppresseur, c’est une mafia qui résiste le moins à la progression des corporations, sachant astucieusement ronger les os derrière elles."
+          },
+          {
+            "type": "p",
+            "text": "Ennemis La mafia chinoise n’a pas de véritables ennemis à l’origine, néanmoins, la collaboration avec les Yakuzas est de plus en plus difficile, en effet, au japon, les yakuzas avec qui la triade des 14k travaille sont des clans rivaux de ceux alliés aux Yamaguchi, forcément, avec le temps, les inimités du Japon se sont transportées en Californie jusqu’à voir une haine profonde entre le boss chinois et celui japonais."
+          },
+          {
+            "type": "p",
+            "text": "Le comité restreint les conflits, mais les Russes, les Italiens et les autres restent bénéficiaires si quatre sièges s’affaiblissent sans que cela ne les impacte négativement."
+          },
+          {
+            "type": "p",
+            "text": "La mafia coréenne est une ennemie farouche aux 22 dragons également, reprochant aux chinois d’avoir participé aux ravages en Corée du Nord comme du Sud."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "realite-v9-tenshi-yamaguchi-gumi",
+    "dataset": "realite-v9",
+    "category": "Réalité",
+    "sourceCategory": "Réalité",
+    "title": "Tenshi Yamaguchi-gumi — Yakuza californiens",
+    "source": "TUC_organisations_Pegre LA_V2(1).docx",
+    "status": "canon_enrichi",
+    "rebuildV2": true,
+    "tags": [
+      "Réalité",
+      "Pègre",
+      "Yakuza",
+      "Yamaguchi"
+    ],
+    "sections": [
+      {
+        "id": "histoire",
+        "title": "Histoire",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "4.MAFIA JAPONAISE : YAKUZAS YAMAGUCHI 4.1. HISTOIRE Le clan Yakuza des Yamaguchi Californien est la mafia japonaise maitresse en Californie."
+          },
+          {
+            "type": "p",
+            "text": "Elle est l’héritière d’une longue culture mafieuse des clans Yakuza aux codes strictes tel que seul le Japon peut en instaurer."
+          },
+          {
+            "type": "p",
+            "text": "Le mot « Yakuza » aurait plusieurs origines, la première vient sous l’ère du Shogunat Tokugawa, soit il viendrait de « Ya(ttsu)-Ku-San », qui signifie littéralement « 8-9-3 », or, selon les règles d’un jeu de carte japonais (oicho-kabu), il faut additionner en fin de manche les cartes, le résultat est celui des unités, ici 20, donc 0. « Yakuza » désignait donc une main perdante, par extension « perdant » tout court, inutile."
+          },
+          {
+            "type": "p",
+            "text": "L’autre origine viendrait des guetteurs à l’entrée des temples Shintoïste, les « Yaku » (rôle) « Za »"
+          },
+          {
+            "type": "p",
+            "text": "(chaise), qui servaient à retenir les policiers venant déloger les joueurs cachés dans les temples."
+          },
+          {
+            "type": "p",
+            "text": "Tout comme le nom lui-même a plusieurs origines, celle des Yakuzas est divisée selon deux théories."
+          },
+          {
+            "type": "p",
+            "text": "La première théorie est celle des Bakuto (joueurs professionnels) et des Tekiya (camelots)."
+          },
+          {
+            "type": "p",
+            "text": "Il s’agissait de parias, vivant sur les chemins, issus des classes inférieures, ils vivaient de jeu pour les premiers ou du commerce de petits objets de peu de valeur pour les seconds."
+          },
+          {
+            "type": "p",
+            "text": "Sous le shogunat Tokugawa, les seigneurs japonais avaient à se rendre une année sur deux jusqu’à la capitale Edo."
+          },
+          {
+            "type": "p",
+            "text": "Ces parias profitèrent de cette loi pour installer des auberges, des relais sur les routes où ils pouvaient ainsi profiter du passage régulier pour faire fructifier leurs commerces de vente ou de jeux, se diversifiant en usuriers également."
+          },
+          {
+            "type": "p",
+            "text": "Etant sans maîtres ni protecteurs, ils s’organisaient en groupes armés afin de défendre ces relais, pratiquant l’art de l’irezumi (tatouages) et la pratique yubitsume (coupage de doigt)."
+          },
+          {
+            "type": "p",
+            "text": "L’autre théorie datant aussi de l’ère Edo serait qu’avec la paix sous le règne Tokugawa, une grande partie des samurais se retrouvèrent sans utilité aucune, n’ayant pas le droit de changer de maitre ou de se lier à un autre clan que le leur, errant sur les routes en tant que rônin (homme prison)."
+          },
+          {
+            "type": "p",
+            "text": "Ces Rônins étaient loin d’être des chevaliers errants valeureux et représentaient une menace réelle pour les strates les plus basses de la société japonaise, telles que les hinin (non-humains)ou les eta (souillés) qu’ils tyrannisaient et tuaient impunément. Ces classes étaient composées d’artistes, de gens du divertissement, de gardiens de prison, de bourreaux pour les premiers, de bouchers, de fossoyeurs et d’autres métiers liés à la mort et au sang pour les seconds."
+          },
+          {
+            "type": "p",
+            "text": "En réponse aux exactions des Rônins, les machi-yokko, les yakuzas, représentaient des groupes armés défendant les « gens du hameau »."
+          },
+          {
+            "type": "p",
+            "text": "Durant les siècles suivants, les yakuzas prospérèrent, la modernisation leur profita grandement, la peur du marxisme par exemple va exacerber les idées nationalistes qu’ils défendaient en tant que traditionnalistes, c’est ainsi qu’ils assassinèrent des ministres régulièrement pour ralentir l’ouverture du pays."
+          },
+          {
+            "type": "p",
+            "text": "La véritable expansion des Yakuzas néanmoins s’effectua après la Seconde Guerre mondiale. Le lendemain de la défaite, avec l’occupation, ils fournissent des prostituées aux Américains, de la drogue, ils récupèrent aussi des territoires en profitant de la disparition de plans cadastraux."
+          },
+          {
+            "type": "p",
+            "text": "La colonisation japonaise ayant été brisée, l’après-guerre voit aussi l’émergence d’une criminalité des émigrés des anciennes colonies, notamment coréennes et japonaise, qui ne ratent pas l’occasion de profiter d’un Japon dévasté."
+          },
+          {
+            "type": "p",
+            "text": "Parallèlement, la progression des maoïstes, en Chine, inquiétait les forces américaines postées au Japon."
+          },
+          {
+            "type": "p",
+            "text": "Afin de réguler la criminalité des immigrés et d’endiguer toute insertion communiste au cœur-même du Japon, les américains favorisèrent grandement l’installation des Yakuzas, locaux et plus orientés d’extrême-droite, les laissant former des « forces régulatrices », ne sanctionnant pas les activités criminelles yakuzas et les laissant s’armer."
+          },
+          {
+            "type": "p",
+            "text": "L’émergence de gangs de jeunes ultraviolents et furieux par l’état du pays favorisa aussi l’agrandissement des clans yakuzas, qui les assimilèrent, formant de grandes Familles plus puissantes à cette époque."
+          },
+          {
+            "type": "p",
+            "text": "Ce n’est qu’en 1992 que le Japon commence à réprimer les Yakuza réellement, avec une Loi Anti￾gangs."
+          },
+          {
+            "type": "p",
+            "text": "Affaiblissant fortement les quatre grands syndicats yakuza, la loi provoqua une drastique diminution des effectifs, une restructuration de façade pour opérer en toute légalité ainsi qu’une sélection plus rigoureuse des membres."
+          },
+          {
+            "type": "p",
+            "text": "Le Yamaguchi-gumi se cacha derrière « la ligue nationale pour l’épuration des terres », une"
+          },
+          {
+            "type": "p",
+            "text": "association caritative luttant, ironiquement, contre l’abus de drogues."
+          },
+          {
+            "type": "p",
+            "text": "(Ils représentent encore 750 clans à travers le monde)"
+          },
+          {
+            "type": "p",
+            "text": "L’Inagawa-kai devint les Industries Inagawa."
+          },
+          {
+            "type": "p",
+            "text": "(Ils représentent encore 320 clans à travers le monde)"
+          },
+          {
+            "type": "p",
+            "text": "Le Sumiyoshi-kai devint l’entreprise Hor."
+          },
+          {
+            "type": "p",
+            "text": "(Ils représentent encore 150 clans à travers le monde)"
+          },
+          {
+            "type": "p",
+            "text": "Toa-kai n’a pas changé fondamentalement grand-chose en revanche."
+          },
+          {
+            "type": "p",
+            "text": "(Ils représentent encore 15 clans à travers le monde)"
+          },
+          {
+            "type": "p",
+            "text": "Fondé en 1872, le clan Oshiro était un des clans des Yamaguchi-gumi. En 1992, l’année de la loi anti￾gang, le clan intégra le délinquant nommé OSHIRO Ishikawa, vague parent du boss, OSHIRO Shinenaga."
+          },
+          {
+            "type": "p",
+            "text": "Très vite, Ishikawa fit preuve d’un sens tactique et d’une cruauté certaine, le boss le fit mettre au pas régulièrement. En 2012, Shinenaga décéda néanmoins et de manière surprenante, Ishikawa succéda, changeant radicalement l‘orientation du petit clan."
+          },
+          {
+            "type": "p",
+            "text": "Nourrissant des rêves plus grands pour ses activités, il était ambitieux et lorgnait du côté des Etats￾Unis bien avant sa nomination."
+          },
+          {
+            "type": "p",
+            "text": "Alors qu’il était en voyage à Los Angeles en 2015, le grand clan Yamaguchi-gumi se divisa brutalement entre sa branche située à Kobé et celle à Tokyo, la branche dissidente, le clan Kobé Yamaguchi-gumi regroupant 72 clans, officieusement, Ishikawa nomme son petit clan « Yamaguchi »"
+          },
+          {
+            "type": "p",
+            "text": "En 2017, le grand clan se fragmenta encore plus, le clan Ninkyō Yamaguchi-gumi se forma au Japon, prélevant 20 clans. Pour le chef du petit clans, l’occasion devenait trop belle et en 2021, une fois ses activités californiennes sécurisées, il lança une sécession violente lui aussi."
+          },
+          {
+            "type": "p",
+            "text": "Le massacre de Tachikawa, près de Tokyo, brisa le clan en deux, près de 494 clans rejoignant les OSHIRO devenus Tenshi Yamaguchi-gumi, laissant 165 clans au clan original."
+          },
+          {
+            "type": "p",
+            "text": "Détenant de grandes Kereitsu (corporations nippones), « le Typhon » profita de ses moyens légaux pour protéger les japonais quand courant 2022, la guerre éclata."
+          },
+          {
+            "type": "p",
+            "text": "Les clans Yakuzas de tous le Japon, toujours à tendance d’extrême-droite, s’armèrent pour faire face aux nord-coréens, dans les rangs des yakuzas il y avait en effet de très nombreux sud-coréens, le Toa￾kaï, un des quatre syndicats, était très majoritairement composé de coréens par exemple et formèrent des milices dès le début."
+          },
+          {
+            "type": "p",
+            "text": "Ces yakuzas se firent massacrer néanmoins, bien moins équipés et entrainés que les armées, comme celle américaine ou Russe, qui furent tout aussi repoussées dans un premier temps de la guerre."
+          },
+          {
+            "type": "p",
+            "text": "Ce massacre changea un peu plus encore les Yakuzas, perdant de nombreux soldats, la porte ouverte sur les Etats-Unis par Ishikawa fut de plus en plus considérée et l’émigration des Japonais fut massive pour fuir avant que la Corée du Nord ne tente l’invasion."
+          },
+          {
+            "type": "p",
+            "text": "Tenshi Yamaguchi-gumi gonfla et servit à réorganiser des forces logistiques criminelles, détenant plusieurs Kereistu, le clan participa activement au développement de l’armement de guerre des forces alliées du Pacifique."
+          },
+          {
+            "type": "p",
+            "text": "En parallèle, avec une partie de ces entreprises, le clan avança une partie des réparations suite au Big One, les entreprises japonaises étaient expertes en système antisismiques, elles prirent la main sur la grande majorité du domaine du bâtiment, profitant pour négocier les meilleurs terrains de construction."
+          },
+          {
+            "type": "p",
+            "text": "Contrairement aux russes et aux italiens, les japonais se focalisèrent uniquement sur les bâtiments de grand luxe à Los Angeles et San Francisco, telle que la « tour Shinoda », peut être l’hôtel le plus luxueux en 2035 de toute la Californie."
+          },
+          {
+            "type": "p",
+            "text": "Par ses Kereitsu qui devinrent une partie des Megacorporations, le clan Tenshi Yamaguchi-gumi est une des mafias les plus technologiques de la Californie, détenant énormément de moyens de haute technologie, même si les industries sont en Chine, les bureaux au Japon, le siège social reste en Californie."
+          },
+          {
+            "type": "p",
+            "text": "Par l’alliance des clans Yakuzas qu’imposa « le Typhon », en 2033, au Japon, le clan est une mafia des plus puissantes dans le monde, même si elle est moins étalée en Californie que ses rivales."
+          }
+        ]
+      },
+      {
+        "id": "organisation",
+        "title": "Organisation et intégration",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "4.2. ORGANISATION Voici l’organisation générale connue à Los Angeles :"
+          },
+          {
+            "type": "p",
+            "text": "Le Tenshi Yamaguchi-gumi est une très vaste organisation. Elle se distingue nettement des mafias évoquées plus tôt par son caractère assumé au grand jour."
+          },
+          {
+            "type": "p",
+            "text": "Les mafias sont des organisations de l’ombre, secrètes, la loi du silence est une composante fondamentale, le marché est parallèle, ce n’est absolument pas le cas des yakuzas, qui ont, jusqu’en 1992, très aisément œuvré au grand jour, arborant des signes caractéristiques pour être reconnus et ne cachant en rien leurs organisations, souvent parfaitement légales concernant des branches entières."
+          },
+          {
+            "type": "p",
+            "text": "Les Yakuzas de Californie s’affichent tout autant que leurs ancêtres et ne se considèrent pas comme une mafia mais une megacorporation, attaquant régulièrement en Justice les polices et les agences gouvernementales pour harcèlement et diffamation, se décrétant discriminés par pur racisme."
+          },
+          {
+            "type": "p",
+            "text": "Au plus bas de l’échelle de l’organisation, ce sont les « Junkoseiin », les apprentis, ils n’ont aucunement le droit de porter un costume, la coupe de cheveux, les chaines d’or ou bien les tatouages des membres, ce sont de simples gangsters, la nuance avec un gang conventionnel reste qu’ils se doivent être d’une loyauté réelle envers le clan, toute trahison, même sans lui appartenir, scellerait vite le destin de l’apprenti."
+          },
+          {
+            "type": "p",
+            "text": "Ishikawa OSHIRO Oyabun Fuyumi SHINODA Saiki-Komon Kenjiro OSHIRO Shingiin Daisuke SANADA Kaikei Yoshida SHINODA Wakagashira Kei HADA Shoshiki iinchô Eikichi SANADA Hunbuchô Officiers Kyodai Membres Shatei Apprentis Junkoseiin Chimaki AKIBA Jimukyokuchô Toshiyuki YODOKAWA Shateigashira Chefs clans Oyabun"
+          },
+          {
+            "type": "p",
+            "text": "Ensuite viennent les vrais membres, les « Shatei », « les petits frères », ce sont souvent de jeunes membres, tous les membres sont appelés « Kobuns »."
+          },
+          {
+            "type": "p",
+            "text": "Avec l’expérience, ils passent officiers, « Kyodai », « les grands frères », et commandent à des petits groupes soudés de Shatei."
+          },
+          {
+            "type": "p",
+            "text": "Au-dessus, se trouve un comité composé de trois cadres : L’Hunbuchô, le Shoshiki Iinchô et le Jimukyokuchô, respectivement « Directeur général », « directeur du comité d’organisation » et « le chef du secrétariat »."
+          },
+          {
+            "type": "p",
+            "text": "Eux-mêmes en répondent directement au « Wakagashira », le « premier lieutenant » du clan."
+          },
+          {
+            "type": "p",
+            "text": "Le premier lieutenant dirige le comité, le second Lieutenant, « Shateigashira » a le même rang que le premier, mais son autorité est inférieure, il n’ordonne directement qu’aux Kyodai, tout comme les cadres du comité."
+          },
+          {
+            "type": "p",
+            "text": "D’un rang égal aux « Kashira » mais doté d’une fonction différente, le Saiki-komon est « le premier conseiller », il préside un comité de « Komons », les conseillers tels que le « Shingiin » et le « Kaikei », respectivement le conseiller juridique et le conseiller financier."
+          },
+          {
+            "type": "p",
+            "text": "Au sommet, l’Oyabun, ou Kumichô, le boss. Il dirige le clan (kumi) d’une main de maitre, il est le « patriarche » du clan et tous les Kobuns sont ses « fils » lui devant une loyauté et une dévotion sans faille."
+          },
+          {
+            "type": "p",
+            "text": "Cependant tous les Kobuns peuvent fonder leur famille, un nouveau clan, allant reproduire la structure du clan principal, le Kumichô principal accueille alors cette ramification avec joie."
+          },
+          {
+            "type": "p",
+            "text": "Son « fils » devient l’Oyabun de son propre clan, il monte dans la hiérarchie alors, toutefois, il n’est absolument pas libéré de son devoir envers son « père », il reste un vassal, et le plus souvent, son Saiki-komon et son Yateigashira lui sont imposés par le Boss."
+          },
+          {
+            "type": "p",
+            "text": "Le clan possède 494 clans mineurs, dont 250 en Californie et 230 au Japon et 14 à travers le reste du monde."
+          },
+          {
+            "type": "p",
+            "text": "INTEGRATION Pour entrer dans un des clans, il n’y a aucune restriction d’origine, de langue et d’âge, les yakuzas étaient à l’origine des parias de toutes horizons la tradition fait perdurer ce caractère ouvert. En revanche, il faut se montrer particulièrement respectueux de ces traditions du clan, de la hiérarchie et avoir réussi les 6 mois de formation, bien entendu, il doit savoir parler japonais."
+          },
+          {
+            "type": "p",
+            "text": "La cérémonie d’entrée est nommée Sakazuki."
+          },
+          {
+            "type": "p",
+            "text": "Elle consiste au partage d’une tasse de Sake entre l’oyabun et le futur membre, le sake représente le sang du clan, partagé."
+          },
+          {
+            "type": "p",
+            "text": "Les membres présents n’ont absolument aucun droit de parole, seul l’Oyabun rompt le silence par un discours sur les neuf règles du Yakuza, les valeurs du clan et les devoirs de chacun, après quoi, après un nouveau silence, il souhaite au nouveau membre la bienvenue, les autres membres du clan lui souhaitant alors à leur tour."
+          },
+          {
+            "type": "p",
+            "text": "Par la suite, le membre pourra arborer des signes distinctifs, chaine en or, costume, il sera aussi autorisé à porter les tatouages du clan, que l’Oyabun Ishikawa décide pour chacun en présent pour la fidélité que cela représente."
+          },
+          {
+            "type": "p",
+            "text": "On reconnait vite les Yakuzas, hormis la garde de la tour Shinoda, ils ont généralement des costumes blancs, rouges ou doré, rarement gris ou noir, porte une chaine d’or et des lunettes de soleil, ils sont arrogants et défiants d’attitude, nullement secrets et sage à l’inverse de l’image répandue des Japonais."
+          },
+          {
+            "type": "p",
+            "text": "Les tatouages du Tenshi Yamaguchi-gumi reste globalement les mêmes :"
+          },
+          {
+            "type": "p",
+            "text": "Des jambes aux motifs floraux décorés de crânes."
+          },
+          {
+            "type": "p",
+            "text": "Des bras aux motifs de dragons entremêlés"
+          },
+          {
+            "type": "p",
+            "text": "Des épaules aux motifs de dragons regardant le torse"
+          },
+          {
+            "type": "p",
+            "text": "Le dos porte un dragon noir si le membre est Komon, Kashira ou Oyabun."
+          },
+          {
+            "type": "p",
+            "text": "Chez les TYG, l’oyabun a pris l’habitude de changer le motif classique du bras droit de ses kobuns s’ils se sont distingués avant d’être tatoués."
+          },
+          {
+            "type": "p",
+            "text": "Si le Yakuza s’est montré extrêmement prudent et sage, il portera alors un tigre et un Oni, tous deux rouges, agressifs, violents."
+          },
+          {
+            "type": "p",
+            "text": "Si le yakuza s’est montré violent, agressif et sanguinaire, il portera une carpe koï et un lotus, tous deux bleus, calmes et harmonieux."
+          },
+          {
+            "type": "p",
+            "text": "Si le Yakuza s’est montré compatissant, aimant et protecteur, il portera un samurai blanc entouré de cranes eux aussi blancs."
+          },
+          {
+            "type": "p",
+            "text": "Enfin si le Yakuza s’est montré insensible, incisif et courageux, il portera des cerisiers en fleur, rose entourant une déesse au kimono lui aussi de cette couleur."
+          },
+          {
+            "type": "p",
+            "text": "Toujours l’opposé de la personnalité pour la contrebalancer et tromper les ennemis."
+          },
+          {
+            "type": "table",
+            "rows": [
+              [
+                "Fonction",
+                "Nom"
+              ],
+              [
+                "Oyabun",
+                "Ishikawa Oshiro"
+              ],
+              [
+                "Saiki-Komon",
+                "Fuyumi Shinoda"
+              ],
+              [
+                "Shingiin",
+                "Kenjiro Oshiro"
+              ],
+              [
+                "Kaikei",
+                "Daisuke Sanada"
+              ],
+              [
+                "Wakagashira",
+                "Yoshida Shinoda"
+              ],
+              [
+                "Shoshiki iinchô",
+                "Kei Hada"
+              ],
+              [
+                "Hunbuchô",
+                "Eikichi Sanada"
+              ],
+              [
+                "Jimukyokuchô",
+                "Chimaki Akiba"
+              ],
+              [
+                "Shateigashira",
+                "Toshiyuki Yodokawa"
+              ],
+              [
+                "Échelons",
+                "Oyabun de clans ; officiers Kyodai ; membres Shatei ; apprentis Junkoseiin"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "id": "activites",
+        "title": "Activités",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "text": "4.3. ACTIVITES Contrairement aux mafias présentées auparavant, ce n’est pas les officiers qui sont associés à une activité mais un clan entier."
+          },
+          {
+            "type": "p",
+            "text": "Chaque clan inférieur se spécialise dans une activité principale, il peut se diversifier dans une moindre mesure à la seule condition de ne pas empiéter sur un autre clan."
+          },
+          {
+            "type": "p",
+            "text": "La structure est très rigide chez les Yakuzas, tout à l’inverse des Triades, si une activité décline, il n’est pas rare que les clans associés déclinent eux aussi."
+          },
+          {
+            "type": "p",
+            "text": "Il faut noter qu’un membre cotise pour son clan, il donne à son supérieur qui donne aux siens jusqu’à son oyabun, lequel donne au Boss principal."
+          },
+          {
+            "type": "p",
+            "text": "Ce n’est pas l’ancienneté qui prime, ni la notoriété mais la quantité d’argent donnée au Boss qui détermine la place dans le clan."
+          },
+          {
+            "type": "p",
+            "text": "De fait, plus un clan vassal décline, plus il perd d’influence au sein des Tenshi Yamaguchi-gumi, plus le clan a besoin d’actions décisives et rentables, ce qui pousse ses membres à des extrémités parfois d’une rare violence."
+          },
+          {
+            "type": "p",
+            "text": "Au contraire, un clan qui monte sera plus attaché à la légaliser le plus d’activités pour augmenter son prestige, méprisant les clans les moins honorables."
+          },
+          {
+            "type": "p",
+            "text": "Il faut rappeler les Yakuzas viennent du Japon, et qu’au Japon, pendant des siècles, ils ont parfaitement été tolérés et n’étaient en rien des organisations secrètes, tout au contraire, possédant des bureaux officiels, ils n’ont pas énormément changé cette pratique, se défendant d’être un clan, de revendiquer des origines culturelles riches et d’être une corporation unie."
+          },
+          {
+            "type": "p",
+            "text": "Le Tenshi Yamaguchi-gumi possède comme activités référencées :"
+          },
+          {
+            "type": "p",
+            "text": "Le racket"
+          },
+          {
+            "type": "p",
+            "text": "L’usure"
+          },
+          {
+            "type": "p",
+            "text": "Les trafics"
+          },
+          {
+            "type": "p",
+            "text": "Le sport"
+          },
+          {
+            "type": "p",
+            "text": "Les paris"
+          },
+          {
+            "type": "p",
+            "text": "L’immobilier"
+          },
+          {
+            "type": "p",
+            "text": "L’hôtellerie"
+          },
+          {
+            "type": "p",
+            "text": "La prostitution"
+          },
+          {
+            "type": "p",
+            "text": "L’industrie de haute technologie"
+          },
+          {
+            "type": "p",
+            "text": "L’industrie mécanique"
+          },
+          {
+            "type": "p",
+            "text": "L’espionnage"
+          },
+          {
+            "type": "p",
+            "text": "Le racket Le racket est l’activité consistant à extorquer de l’argent par l’intimidation ou le chantage."
+          },
+          {
+            "type": "p",
+            "text": "En général, c’est une protection offerte aux marchands et restaurateurs, contre un tribut mensuel, le choix est inexistant puisqu’en cas de refus, c’est un saccage systématique de leurs commerces jusqu’à ce qu’ils ne changent d’avis ou ne revendent."
+          },
+          {
+            "type": "p",
+            "text": "Une expertise des Yakuzas est le contre-syndicalisme, tandis que les triades ou les italo-américains parasitent les syndicats pour faire pression sur les patrons, les yakuzas, eux offrent leur service pour réprimer toute contestation syndicale, jusqu’à affronter les grévistes au besoin, contre rémunération."
+          },
+          {
+            "type": "p",
+            "text": "L’usure Les yakuzas se sont fait experts d’une forme particulière, visant les entreprises, les clans achètent des parts de plus en plus importantes d’actions jusqu’à devenir une force décisionnelle décisive dans les entreprises."
+          },
+          {
+            "type": "p",
+            "text": "C’est le « Wa », « l’harmonie de l’assemblée », les yakuzas font taire les autres actionnaires, contre rémunération des directeurs."
+          },
+          {
+            "type": "p",
+            "text": "Ils en profitent pour faire chanter les administratifs sur les pratiques des compagnies ou des individus, le silence s‘achetant contre une partie détournée des profits."
+          },
+          {
+            "type": "p",
+            "text": "A termes, ils rachètent les entreprises pour le Groupe TYG K. (Tenshi Yamaguchi-gum Keirestsui)."
+          },
+          {
+            "type": "p",
+            "text": "Les trafics Pour la majorité des criminels, le trafic représente de gros gains, les Yakuzas ne font pas exception à la règle."
+          },
+          {
+            "type": "p",
+            "text": "Jusqu’à la grande dépression décennale, la majorité des gains des Yakuzas venaient du trafic de la drogue, qui était un des marchés les plus récents pour les clans, le Japon étant assez strict sur la réglementation."
+          },
+          {
+            "type": "p",
+            "text": "Le trafic d’armes était traditionnel, depuis le shogunat Tokugawa déjà, le marché américain a beaucoup aidé à dépasser les lois strictes du Japon, rayonnant aussi à travers toute l’Asie."
+          },
+          {
+            "type": "p",
+            "text": "Les sports Comme les Yakuzas disposent d’activités plus légales que les autres mafias, ils sont des actionnaires très importants dans de nombreuses ligues sportives, et plus précisément dans les sports de combat."
+          },
+          {
+            "type": "p",
+            "text": "Le TYG group a une grande partie du divertissement sportifs lié à la boxe, au MMA, au judo, karaté et autres compétitions de combats."
+          },
+          {
+            "type": "p",
+            "text": "Les paris Et comme il s’agit d’une organisation mafieuse, forcément, outre l’organisation et la diffusion des compétitions, les Yakuzas ont une partie des paris associés à ces sports."
+          },
+          {
+            "type": "p",
+            "text": "Ils ont d’ailleurs aussi des parts importantes sur les arènes illégales des irlandais."
+          },
+          {
+            "type": "p",
+            "text": "Etonnamment, les Yakuzas trucs assez rarement les compétitions qu’ils financent, arguant d’un sens de l’honneur aiguisé en tant que « guerriers », plus prosaïquement, n’en ayant juste pas besoin, détenant les droits de diffusion et les paris."
+          },
+          {
+            "type": "p",
+            "text": "Le bâtiment Les yakuzas possèdent d’énormes moyens et savoirs en bâtiment et en immobilier."
+          },
+          {
+            "type": "p",
+            "text": "Lors du Big One, ils ont installé un vaste réseau en Californie, pour investir des milliards dans la reconstruction selon des normes anti-sismiques plus performantes, bénéficiant de l’avant-garde des brevets « Wrightiens » sur les matériaux et technologies, exactement comme après la Seconde Guerre mondiales, ils se sont jeté sur les plans cadastraux pour s’accaparer des terrains, devançant les autres mafias qui ne manquèrent pas de suivre leur exemple."
+          },
+          {
+            "type": "p",
+            "text": "L’hôtellerie C’est ainsi qu’en installant leurs entreprises du Bâtiment, les Yakuzas ont totalement changé des villes californiennes, les « Japonisant » énormément sous prétexte d’avoir un style architectural propre à leurs entreprises."
           },
           {
             "type": "p",
