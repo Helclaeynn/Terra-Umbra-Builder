@@ -1561,7 +1561,7 @@ const PAYLOAD = [
     "dataset": "verite-vampire-courts-pnj",
     "category": "Personnages",
     "sourceCategory": "Personnages",
-    "title": "Megda AYSHIN",
+    "title": "Megda Ayshin",
     "source": "Factions_Les cours vampiriques(1)(2).pdf",
     "status": "canon_source",
     "rebuildV2": true,
@@ -1574,16 +1574,17 @@ const PAYLOAD = [
     ],
     "pnj": {
       "completeness": "detailed",
-      "real_name": "Megda AYSHIN",
-      "nom_verite": "Megda AYSHIN",
+      "real_name": "Megda Ayshin",
+      "nom_verite": "Megda Ayshin",
       "race": "Vampire",
-      "age": "«29 ans » - 3024 ans",
+      "age": "29 ans",
       "origine": "Irakienne",
       "statut": "pègre : irakienne",
       "statut_verite": "Reine",
       "organisation": "Alghul Almalakiu",
       "relations": [],
       "identity_keys": [
+        "Megda Ayshin",
         "Megda AYSHIN"
       ],
       "source_group": "Alghul Almalakiu",
@@ -1615,11 +1616,11 @@ const PAYLOAD = [
               ],
               [
                 "Nom / identité de Réalité",
-                "Megda AYSHIN"
+                "Megda Ayshin"
               ],
               [
                 "Âge apparent",
-                "«29 ans »"
+                "29 ans"
               ],
               [
                 "Affiliations",
@@ -1630,6 +1631,10 @@ const PAYLOAD = [
                 "Irakienne"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Megda Ayshin quitta l’Irak alors qu’elle était encore mineure et se maria très jeune avec un Américain afin d’obtenir la nationalité. Elle nourrit une haine profonde envers les États-Unis et rêve de voir le pays se fragmenter ; l’indépendance de la Californie représente à ses yeux une première étape. Elle dirige aujourd’hui un groupuscule terroriste sans affiliation religieuse claire et traite régulièrement avec les cartels mexicains."
           }
         ]
       },
@@ -1666,7 +1671,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Expatriée d’Irak alors qu’elle était encore mineure, elle s’est mariée très jeune à un Américain pour avoir la nationalité. Elle a une haine profonde pour les Etats-Unis et rêve de voir le pays se décomposer, l’indépendance de la Californie est une partie de son rêve, les Etats-Unis commençant à sombrer et se diviser. Elle dirige un groupuscule terroriste sans affiliation religieuse et traite souvent avec les cartels mexicains. C’est la neuvième reine de l’Alghul, c’était une servante de la troisième reine, Manatum. Surnommée la « Lamia », elle a gangréné par ses agents des sectes de chasseurs religieux, comme les nizarites, la pègre ou bien encore divers crawlers sont à son services. Vampires comme humains la servent. Elle a comme lourd secret d’être une disciple d’Ashlutm et fut la maitresse d’Anadia au sein de la secte du « Grand Savoir », elle cherche à s’émanciper de sa condition de vampire et l’œil d’or est une méthode. Elle craint néanmoins le courroux de la divinité Arawn, le créateur des vampires s’il savait qu’elle s’était devenue la servant de Sharith. Si Anadia l’a surpassé dans la maitrise de l’œil d’or, elle reste une"
+            "text": "Megda est la neuvième reine de l’Alghul Almalakiu. Ancienne servante de la troisième reine, Manatum, elle est surnommée la « Lamia ». Par ses agents, elle a infiltré des sectes de chasseurs religieux — notamment certains Nizarites — ainsi que la pègre et divers groupes de Crawlers ; vampires et humains la servent indistinctement. Son plus lourd secret est son appartenance à Ashlutum : elle fut la maîtresse d’Anadia dans la secte du « Grand Savoir » et cherche à s’émanciper de sa condition vampirique grâce, entre autres, à l’Œil d’or. Elle craint toutefois la colère d’Arawn, créateur des vampires, s’il découvrait qu’elle sert Sharith. Anadia l’a dépassée dans la maîtrise de l’Œil d’or, mais Megda demeure à la fois une cultiste et une vampire extrêmement puissantes."
           }
         ]
       },
