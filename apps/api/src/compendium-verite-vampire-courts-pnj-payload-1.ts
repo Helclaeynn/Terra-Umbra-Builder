@@ -250,8 +250,8 @@ const PAYLOAD = [
       "real_name": "Hassan El’Shadir",
       "nom_verite": "Nigsummu",
       "race": "Vampire (dhampyre)",
-      "age": "«45 ans » - 4127 ans",
-      "origine": "Irakienne (Summérienne)",
+      "age": "45 ans",
+      "origine": "Irakienne (sumérienne)",
       "statut": "Corporation : Undertakers inc.",
       "statut_verite": "« Masque de la Mort »",
       "organisation": "Alghul Almalakiu",
@@ -293,7 +293,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«45 ans »"
+                "45 ans"
               ],
               [
                 "Affiliations",
@@ -301,9 +301,13 @@ const PAYLOAD = [
               ],
               [
                 "Nationalité d’origine",
-                "Irakienne (Summérienne)"
+                "Irakienne (sumérienne)"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Hassan El’Shadir est le président d’Undertakers Incorporated, un ensemble d’entreprises tournées autour de la mort : pompes funèbres, assurances-vie et santé, crédits, soins palliatifs, rachat de dettes, reconditionnement des corps, cabinets de notaires, équarrissage ou taxidermie. Selon la rumeur, Hassan fonda cette corporation après avoir eu énormément de mal à trouver des services de qualité pour sa mère mourante."
           }
         ]
       },
@@ -344,7 +348,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Il est le président d’une corporation singulière, l’Undertakers incorporated est un ensemble d’entreprise autour de la mort. Funérailles, assurance-vie, assurance santé, crédits, soins palliatifs, rachat de dettes, reconditionnement des corps, cabinets de notaires et d’autres services comme équarisseurs ou taxidermistes sont dans cette corporation de pompes funèbres. Hassan est à la tête de cette corporation, il l’a fondée parce qu’il avait du mal à trouver de services de qualité pour sa mère mourante selon la rumeur. Nisgummu est le fils de Mammon, le dieu de la Mort qui fut trompé par une femme vampire qui lui cacha sa nature. Il succéda à la reine Arahunaa en tant que roi de l’Alghul. Il régna trois siècles sur la faction, ses immenses pouvoirs de demi-dieu lui valant d’être craints, cependant, pour les utiliser, il devrait sacrifier des vampires sinon son corps dépérissait comme une vengeance du dieu de la Mort pour utiliser ses pouvoirs par des aberrations servant les Fléaux. Après une violente guerre contre l’Oru, il fut"
+            "text": "Hassan est en vérité Nigsummu, « Masque de la Mort » de l’Alghul. Fils de Mammon, dieu de la Mort, et d’une vampire ayant dissimulé sa nature, il succéda à la reine Arahunaa et régna trois siècles sur la Cour. Ses immenses pouvoirs de demi-dieu inspiraient la crainte, mais leur utilisation exigeait le sacrifice de vampires ; faute de tribut, son corps dépérissait, vengeance de Mammon contre l’usage de ses dons par des aberrations servant les Fléaux. Après une guerre particulièrement violente contre l’Oru Ayeraye, Nigsummu fut remplacé : les sacrifices nécessaires à ses pouvoirs avaient causé autant de morts que l’ennemi."
           }
         ]
       },
