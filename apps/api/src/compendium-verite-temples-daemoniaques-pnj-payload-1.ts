@@ -1920,7 +1920,7 @@ const PAYLOAD = [
       "nom_verite": "Anammalech – Nix – Tel’Aagor",
       "nom_verite_source": "Anammalech – Nix – Tel’Aagor",
       "race": "daemons – Deimons- fléaux",
-      "age": "«39 ans », ????",
+      "age": "39 ans",
       "origine": "britannique",
       "statut": "Duchesse",
       "affiliations": "Religieux (chrétiens)",
@@ -1976,7 +1976,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Sœur Lucia est une nonne de haut rang servant la papesse personnellement. C’est une femme glaciale et étrange, au passé assez dramatique."
+            "text": "Sœur Lucia est une religieuse de haut rang qui sert personnellement la papesse. Glaciale et étrange, elle porte les traces d’un passé manifestement dramatique."
           }
         ]
       },
@@ -2042,7 +2042,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Sœur Lucia est une nonne de haut rang servant la papesse personnellement. C’est une femme glaciale et étrange, au passé assez dramatique. Annamalech est le titre de cette duchesse infernale de Diablo, une créature ténébreuse et représentant la une et la nuit. C’est celle qui murmure aux rois et dirigeants des conseils avisés. Elle est si ancienne que si Diablo était Erèbe, elle était Nix, dès que Diablo avait une parèdre de même nature que lui, il est probable qu’Annamalech soit cette entité. Annamalech est l’ombre de Diablo, littéralement. C’est donc un Deimon-Daimon. Elle fut corrompue par V’aagor autrefois et prisonnière de Nilfheim, le monde de ténèbres, Diablo la sauva. C’est avec l’aide d’une déesse étrangère, Teldéas, qu’il rendit sa conscience à l’ombre divine, cette dernière prit des traits très proches de la déesse étrangère d’ailleurs. Loin d’être une duchesse classique ce fragment de V’aagor est indépendant et loyal aux dieux. Récemment, à la libération du Fléau, Lucia a grandement souffert. Sa santé vacille depuis mais les rituels de Teldéas l’ont rendu capable de ne pas obéir à son maitre. Parfois, elle est appelée la « reine « des Deimons. 6. Temple d’Astaroth"
+            "text": "Anammalech–Nix–Tel’Aagor est une Duchesse infernale de Diablo, créature profondément ténébreuse associée à la nuit. Elle murmure aux rois et aux dirigeants des conseils réputés avisés. Son ancienneté est telle que, si Diablo correspondait à Erèbe, elle correspondrait à Nix : il est probable qu’elle ait été sa parèdre de même nature. Anammalech est littéralement l’Ombre de Diablo, un Deimon-Daimon. Autrefois corrompue par V’aagor et prisonnière de Niflheim, le monde des ténèbres, elle fut sauvée par Diablo. Avec l’aide de la déesse étrangère Teldéas, il rendit sa conscience à cette ombre divine, qui prit d’ailleurs des traits proches de ceux de la déesse. Loin d’être une Duchesse classique, ce fragment de V’aagor reste indépendant mais loyal aux dieux. Lors de la récente libération du Fléau, Lucia souffrit énormément ; sa santé demeure fragile, mais les rituels de Teldéas l’ont rendue capable de résister aux ordres de son ancien maître. Elle est parfois appelée la « reine » des Deimons."
           }
         ]
       },
