@@ -1870,7 +1870,7 @@ const PAYLOAD = [
       "real_name": "Shaheed El’Kabir",
       "nom_verite": "Hassiel",
       "race": "Angelus",
-      "age": "«27 ans », ????",
+      "age": "27 ans",
       "origine": "Américaine",
       "statut": "Gouvernement : police – crawlers : deathrunner",
       "statut_verite": "séraphin",
@@ -1911,7 +1911,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«27 ans », ????"
+                "27 ans"
               ],
               [
                 "Affiliations",
@@ -1932,7 +1932,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Shaheed est officiellement un « mercs », un crawler sans papier qui ne peut survivre au jour le jour que par des missions de mercenariat, dans les quartiers abandonnés, côtoyant l’insurrection et la pègre constamment."
+            "text": "Shaheed est officiellement un « Merc », un Crawler sans papiers qui survit au jour le jour grâce à des missions de mercenariat dans les quartiers abandonnés, au contact permanent de l’insurrection et de la pègre."
           }
         ]
       },
@@ -1977,7 +1977,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "En vérité, c’est un agent de police, un infiltré du « bureau fantôme », ultra-entrainé, augmenté et volontaire, il risque sa vie comme personne aussi bien en faisant crawler qu’en étant un flic dans ces milieux. Il est aussi proche du milieu religieux, puisque son père est imam. Séraphin de la défense, c’est un bouclier des cieux qui semble avoir comme pouvoir de pratiquement nier tout pouvoir le ciblant directement, tant qu’il est dans son champ de vision et à l’air libre. Il sert l’archange Azazel, archange de la domination. Il en a d’ailleurs hérité la plus puissante des barrières : la « seconde porte du paradis », qui ne s’ouvrent que pour les séraphins et les archanges, servant de mur infranchissable à n’importe qui d’autre. Shaheed est doté d’un bon fond, mais il ne sait pas s’attacher aux humains, il en a trop vu mourir, en revanche, pour un chat ou un chien, il semble"
+            "text": "En vérité, Shaheed est un agent de police infiltré du « Bureau fantôme », ultra-entraîné, augmenté et volontaire. Il risque sa vie aussi bien comme Crawler que comme policier infiltré dans ces milieux. Il est également proche du monde religieux, son père étant imam. Séraphin de la défense, Hassiel est un bouclier des Cieux capable de pratiquement nier tout pouvoir qui le cible directement, tant que la menace reste dans son champ de vision et à l’air libre. Il sert Azazel, archange de la domination, dont il a hérité la plus puissante des barrières : la « seconde porte du paradis », qui ne s’ouvre que pour les Séraphins et les Archanges et forme un mur infranchissable pour tout autre être. Shaheed est doté d’un bon fond, mais il s’attache difficilement aux humains, en ayant trop vu mourir."
           }
         ]
       },
