@@ -2153,10 +2153,10 @@ const PAYLOAD = [
       "real_name": "An Nhật Khương",
       "nom_verite": "An Dương Vương",
       "race": "Vampire",
-      "age": "«25 ans » - 2335 ans",
+      "age": "25 ans",
       "origine": "Vietnamienne",
-      "statut": "Religieux : Shientaoïste",
-      "statut_verite": "« Taichang »",
+      "statut": "Religion : shientaoïsme",
+      "statut_verite": "Taichang",
       "organisation": "Shì hun zhe",
       "relations": [],
       "identity_keys": [
@@ -2169,7 +2169,7 @@ const PAYLOAD = [
         38,
         38
       ],
-      "source_designation": "Guangluxun (Ministre de la maison): Suriawati",
+      "source_designation": "Taichang (ministre des cérémonies) : An Dương Vương",
       "source_reality_raw": "An Nhật Khương",
       "source_truth_raw": "An Dương Vương",
       "source_extract": "Guangluxun (Ministre de la maison): Suriawati Nom de la Réalité : An Nhật Khương Nom de la Vérité : An Dương Vương Age : «25 ans » - 2335 ans Affiliations : Religieux : Shientaoïste Nationalité d’origine : Vietnamienne Ethnie réelle : Vampire Statut : « Taichang » Clan vampirique : « Maitrika » Religieux shientaoïste, il est peut-être assez jeune mais c’est la figure la plus influente de cette mouvance en Asie. Séduisant et charismatique, Ce vietnamien parlant presque toutes les langues d’extrême orient est un érudit calme et pacifiste. Officieusement, il s’est installé en Californie car il déteste proprement les figures d’autorité associées au Shientaoïsme en Californie. Nommé Thuc Phan, c’était un roi fondateur d’Au Lac, il vécut 121 ans avant d’être poussé au suicide par un général de Qin Shi Huang, après sa défaite. Loin d’être tué, le roi, vampire depuis plusieurs décennies revint à sa maitresse, Xinya qui lui rendit sa jeunesse. Il est le maitre des cérémonies à la cour. C’est non seulement le plus puissant sorcier après l’impératrice mais c’est aussi et surtout le plus grand maitre taoïste. En 1167, Wang Chongyang, après avoir eu l’illumination, commença à enseigner le « Quanzhen Dao », une école Taoïste favorisée par la dynastie Yuan au siècle suivant, ce fut un coup dur pour les vampires, et le Taoïsme véritable se forgea en opposition de celui ancestrale, sur ces bases de pensées. Shi Han Zhong, du clan Shi, s’en servit pour le Taoïsme Shi, Vuong essaya de le tuer mais ce fut lui qui fut vaincu.. Sa maison, « Maitrika » fait référence à",
@@ -2196,11 +2196,11 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«25 ans »"
+                "25 ans"
               ],
               [
                 "Affiliations",
-                "Religieux : Shientaoïste"
+                "Religion : shientaoïsme"
               ],
               [
                 "Nationalité d’origine",
@@ -2210,7 +2210,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Religieux shientaoïste, il est peut-être assez jeune mais c’est la figure la plus influente de cette mouvance en Asie. Séduisant et charismatique, Ce vietnamien parlant presque toutes les langues d’extrême orient est un érudit calme et pacifiste. Officieusement, il s’est installé en Californie car il déteste proprement les figures d’autorité associées au Shientaoïsme en Californie."
+            "text": "Religieux shientaoïste, An Nhật Khương est peut-être jeune, mais il constitue la figure la plus influente de cette mouvance en Asie. Séduisant et charismatique, ce Vietnamien qui parle presque toutes les langues d’Extrême-Orient est un érudit calme et pacifiste. Officieusement, il s’est installé en Californie parce qu’il déteste les figures d’autorité associées au shientaoïsme local."
           }
         ]
       },
@@ -2233,7 +2233,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "«25 ans » - 2335 ans"
+                "25 ans en apparence ; 2 335 ans"
               ],
               [
                 "Nature réelle",
@@ -2241,17 +2241,17 @@ const PAYLOAD = [
               ],
               [
                 "Statut vampirique",
-                "« Taichang »"
+                "Taichang"
               ],
               [
                 "Clan vampirique",
-                "« Maitrika »"
+                "Maitrika"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "Nommé Thuc Phan, c’était un roi fondateur d’Au Lac, il vécut 121 ans avant d’être poussé au suicide par un général de Qin Shi Huang, après sa défaite. Loin d’être tué, le roi, vampire depuis plusieurs décennies revint à sa maitresse, Xinya qui lui rendit sa jeunesse. Il est le maitre des cérémonies à la cour. C’est non seulement le plus puissant sorcier après l’impératrice mais c’est aussi et surtout le plus grand maitre taoïste. En 1167, Wang Chongyang, après avoir eu l’illumination, commença à enseigner le « Quanzhen Dao », une école Taoïste favorisée par la dynastie Yuan au siècle suivant, ce fut un coup dur pour les vampires, et le Taoïsme véritable se forgea en opposition de celui ancestrale, sur ces bases de pensées. Shi Han Zhong, du clan Shi, s’en servit pour le Taoïsme Shi, Vuong essaya de le tuer mais ce fut lui qui fut vaincu.. Sa maison, « Maitrika » fait référence à"
+            "text": "Connu autrefois sous le nom de Thuc Phan, An Dương Vương fut le roi fondateur d’Au Lac. Il vécut cent vingt et un ans avant qu’un général de Qin Shi Huang ne le pousse au suicide après sa défaite. Loin d’être mort, le roi, vampire depuis plusieurs décennies, retourna auprès de sa maîtresse Xinya, qui lui rendit sa jeunesse. Maître des cérémonies de la Cour, il est à la fois son plus puissant sorcier après l’impératrice et son plus grand maître taoïste. En 1167, après son illumination, Wang Chongyang commença à enseigner le Quanzhen Dao, école taoïste favorisée par la dynastie Yuan au siècle suivant. Ce fut un coup dur pour les vampires : le Taoïsme véritable se construisit sur ces bases en opposition à leur tradition ancestrale. Shi Han Zhong, du clan Shi, s’en servit pour le Taoïsme Shi. Vuong tenta de le tuer, mais fut vaincu. La maison Maitrika fait référence à des divinités féminines hindouistes corrompues cédées par Kali. Xinya ressuscita Vuong après sa défaite."
           }
         ]
       },
