@@ -1162,7 +1162,7 @@ const PAYLOAD = [
       "real_name": "Melias Abel",
       "nom_verite": "Mebahel",
       "race": "Archangelus",
-      "age": "«30 ans » - ????",
+      "age": "30 ans",
       "origine": "Canadienne",
       "statut": "Chasseurs : Association",
       "statut_verite": "Archange renégat",
@@ -1203,7 +1203,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«30 ans » - ????"
+                "30 ans"
               ],
               [
                 "Affiliations",
@@ -1224,7 +1224,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Melias est un chasseur de l’Association. Il est dans le Hunt100. Très équipé et doté d’une camionnette un peu pourrie remplie d’armes, on le confond parfois avec Luke Cypher avec leur grand manteau blanc et leurs yeux dorés. La ressemblance s’arrête là, n’est pas du Hunt15 qui le veut, encore moins en se baladant avec une épée. Melias utilise de la technologie, c’est un ancien ingénieur de Byron industrie viré parce que son logifate avait 2 points en dessous des standards de la corporation."
+            "text": "Melias est un chasseur de l’Association classé dans le Hunt100. Très équipé et doté d’une camionnette un peu délabrée remplie d’armes, il est parfois confondu avec Luke Cypher à cause de leur grand manteau blanc et de leurs yeux dorés. La ressemblance s’arrête là : n’entre pas dans le Hunt15 qui veut, encore moins simplement en portant une épée. Melias s’appuie surtout sur la technologie. Ancien ingénieur de Byron Industries, il fut licencié parce que son Logifate se situait deux points sous les standards de la corporation."
           }
         ]
       },
@@ -1269,7 +1269,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Mebahel est un archange renégat, il a pour pouvoir « la vérité », il voit par ses yeux dorés le « souffle » de la sincérité, comme si la couleur du souffle des paroles était dotée d’une teinte selon si on lui ment ou non. Il est insensible aux illusions de plus, peut forcer la révélation de presque n’importe qui. Il peut causer de la douleur physique proportionnelles aux mensonges vociférés, en corps à corps, les feintes tentées contre lui font également de la douleur physique. Elynea ne l’a jamais vraiment apprécié, il était incapable de mentir et s’entendait très mal avec nombre d’Archanges à cause de cette obsession, sa loyauté était"
+            "text": "Mebahel est un Archange renégat dont le pouvoir est « la Vérité ». Grâce à ses yeux dorés, il perçoit le « souffle » de la sincérité, comme si les paroles changeaient de teinte selon qu’elles sont vraies ou mensongères. Il est également insensible aux illusions et peut forcer la révélation de presque n’importe qui. Ses pouvoirs peuvent infliger une douleur physique proportionnelle aux mensonges proférés ; au corps à corps, les feintes tentées contre lui provoquent elles aussi de la douleur. Elynea ne l’apprécia jamais vraiment : incapable de mentir, Mebahel s’entendait mal avec de nombreux Archanges à cause de cette obsession. Sa loyauté était grande, mais sa franchise constituait une faiblesse dont Astaroth abusa pour lui faire révéler des secrets."
           }
         ]
       },
