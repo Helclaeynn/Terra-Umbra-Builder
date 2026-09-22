@@ -2212,10 +2212,10 @@ const PAYLOAD = [
       "completeness": "detailed",
       "nom_verite": "Trauco",
       "race": "Vampire (strygoï noire)",
-      "age": "- 12 255 ans",
-      "origine": "aucune (Mésoaméricaine)",
-      "statut": "aucune",
-      "statut_verite": "« héritier honorifique »",
+      "age": "12 255 ans",
+      "origine": "Aucune (Mésoaméricaine)",
+      "statut": "Aucune",
+      "statut_verite": "Héritier honorifique",
       "organisation": "Ihuito Meztzi",
       "relations": [],
       "identity_keys": [
@@ -2227,7 +2227,7 @@ const PAYLOAD = [
         25,
         25
       ],
-      "source_designation": "introduite au culte du Grand Savoir et été une disciple d’Annadia.",
+      "source_designation": "K’uhul Ajaw : Trauco",
       "source_reality_raw": "Aucun",
       "source_truth_raw": "Trauco",
       "source_extract": "introduite au culte du Grand Savoir et été une disciple d’Annadia. Nom de la Réalité : Aucun Nom de la Vérité : Trauco Age : - 12 255 ans Affiliations : aucune Nationalité d’origine : aucune (Mésoaméricaine) Ethnie réelle : Vampire (strygoï noire) Statut : « héritier honorifique » Secte vampirique : aucune Le Trauco est un monstre du folklore chilien, il est décrit comme une sorte d’incube malfaisant semblable physiquement à un gobelin et qui malgré sa laideur et sa petite taille aurait un magnétisme sexuel implacable. Trauco est une créature complexe, une très ancienne Strygoï que créa Quetzalcoatl et qu’il gorgea de pouvoirs au fil des millénaires, jusqu’à ce qu’elle se contrôle. On ignore si c’était bien un humain, ou si Quetzal tua un elfe, un nain ou autre pour sa créature, mais gorgée de pouvoir ténébreux, Trauco n’est de toute façon plus ce qu’il était avant sa mort puis sa transformation. Cadavre simiesque à cause de son crane de Strygoï aux dents longues et tranchantes, c’est un puissant sorcier qui, comme le mythe l’indique a un puissant pouvoir d’attraction malgré sa laideur. C’est le vampire le plus agile de l’ihuito, malgré sa maigreur et sa petite taille, il pourrait démembrer n’importe quel prince vampirique. Sa vie est dépendante de celle de Quetzal, comme Xolotl, quand son maitre est tué, Trauco est tué lui aussi, quand son maitre revient à la vie, il régénère de ses cendres. A la différence de Xolotl néanmoins, Trauco ressuscite comme simple strygoï, que Quetzal doit transformer en strygoï noire puis en « Trauco » à chaque fois pour qu’il ne retrouve ses souvenirs. Très sensible à la lumière même avec l’hologramme, c’est un chien de chasse à Fléau de V’aagor au service de Quetzal.",
@@ -2255,7 +2255,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "- 12 255 ans"
+                "12 255 ans"
               ],
               [
                 "Nature réelle",
@@ -2263,17 +2263,17 @@ const PAYLOAD = [
               ],
               [
                 "Statut vampirique",
-                "« héritier honorifique »"
+                "Héritier honorifique"
               ],
               [
                 "Secte vampirique",
-                "aucune"
+                "Aucune"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "Le Trauco est un monstre du folklore chilien, il est décrit comme une sorte d’incube malfaisant semblable physiquement à un gobelin et qui malgré sa laideur et sa petite taille aurait un magnétisme sexuel implacable. Trauco est une créature complexe, une très ancienne Strygoï que créa Quetzalcoatl et qu’il gorgea de pouvoirs au fil des millénaires, jusqu’à ce qu’elle se contrôle. On ignore si c’était bien un humain, ou si Quetzal tua un elfe, un nain ou autre pour sa créature, mais gorgée de pouvoir ténébreux, Trauco n’est de toute façon plus ce qu’il était avant sa mort puis sa transformation. Cadavre simiesque à cause de son crane de Strygoï aux dents longues et tranchantes, c’est un puissant sorcier qui, comme le mythe l’indique a un puissant pouvoir d’attraction malgré sa laideur. C’est le vampire le plus agile de l’ihuito, malgré sa maigreur et sa petite taille, il pourrait démembrer n’importe quel prince vampirique. Sa vie est dépendante de celle de Quetzal, comme Xolotl, quand son maitre est tué, Trauco est tué lui aussi, quand son maitre revient à la vie, il régénère de ses cendres. A la différence de Xolotl néanmoins, Trauco ressuscite comme simple strygoï, que Quetzal doit transformer en strygoï noire puis en « Trauco » à chaque fois pour qu’il ne retrouve ses souvenirs. Très sensible à la lumière même avec l’hologramme, c’est un chien de chasse à Fléau de V’aagor au service de Quetzal."
+            "text": "Dans le folklore chilien, le Trauco est un monstre semblable à un gobelin : une sorte d’incube malfaisant dont la laideur et la petite taille n’empêchent pas un magnétisme sexuel implacable. Le vampire qui porte ce nom est une créature complexe, une très ancienne strygoï créée par Quetzalcoatl et gorgée de pouvoirs au fil des millénaires jusqu’à acquérir le contrôle d’elle-même. Nul ne sait si son cadavre d’origine était celui d’un humain, d’un elfe, d’un nain ou d’un autre être ; saturé de puissance ténébreuse, Trauco n’est de toute façon plus ce qu’il était avant sa mort et sa transformation. Son corps simiesque, son crâne de strygoï et ses longues dents tranchantes dissimulent un puissant sorcier doté, comme la créature du mythe, d’un extraordinaire pouvoir d’attraction. Malgré sa maigreur et sa petite taille, il est le vampire le plus agile de l’Ihuito et pourrait démembrer n’importe quel prince vampirique. Sa vie dépend de celle de Quetzal, à l’instar de Xolotl : lorsque son maître meurt, Trauco meurt avec lui ; lorsqu’il revient à la vie, Trauco se régénère depuis ses cendres. À la différence de Xolotl, il ressuscite cependant comme une simple strygoï. Quetzal doit alors le transformer de nouveau en strygoï noire, puis en « Trauco », pour lui rendre ses souvenirs. Extrêmement sensible à la lumière, même avec l’Hologramme, il sert Quetzal comme chien de chasse contre les Fléaux de V’aagor."
           }
         ]
       },
