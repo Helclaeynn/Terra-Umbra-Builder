@@ -153,14 +153,15 @@ const PAYLOAD = [
       "completeness": "detailed",
       "nom_verite": "Ankhsebek",
       "race": "Vampires",
-      "age": "» -3771 ans",
-      "origine": "aucune (égyptienne)",
+      "age": "3 771 ans",
+      "origine": "Égyptienne",
       "statut": "crawlers : voidrunners",
       "statut_verite": "« Masque des lames »",
       "organisation": "Alghul Almalakiu",
       "relations": [],
       "identity_keys": [
-        "Ankhsebek"
+        "Ankhsebek",
+        "Anksebek"
       ],
       "source_group": "Alghul Almalakiu",
       "source_order": 20,
@@ -196,11 +197,11 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "» -3771 ans"
+                "3 771 ans"
               ],
               [
                 "Nature réelle",
-                "Vampires"
+                "Vampire"
               ],
               [
                 "Statut vampirique",
@@ -214,7 +215,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Anksebek est le fils unique de la reine Ankhsetis, reine de l’Alghul. Il était réputé aussi beau qu’adroit au combat, aussi élégant que vif d’esprit et aussi fort de caractère qu’il était craint dans l’alghul. Il avait une énorme faction le soutenant politiquement et il était pressenti pour provoquer un schisme dans l’Alghul, cependant, en pleine crise en Egypte, après le règne d’Akhenaton, il fut envoyé faire diversion face aux Daemons des dieux. Il attaqua un temple mais il se retrouva à combattre jusqu’au lever du jour, faute de temps, il remplaça un mort que les prêtres préparaient pour l’embaumement. Hélas, il fut momifié vivant, et se retrouva marqué à vie par la puissance de Mammon, le dieu de la Mort, défiguré et sa peau en devint d’un gris-bleuté. Il fut libéré en 1419, par des vampires sans affiliation qu’il dévora. Il souffre constamment, mais s’il a perdu tout son charisme, sa beauté, son élégance, il n’a rien perdu de sa maitrise tactique et martiale. Il est le « masque des lames », le vizir de la guerre."
+            "text": "Ankhsebek est le fils unique de l’ancienne reine Ankhsetis. Autrefois réputé aussi beau qu’habile au combat, aussi élégant que vif d’esprit, il disposait d’une immense faction prête à le soutenir et semblait capable de provoquer un schisme au sein de l’Alghul. Durant la crise égyptienne qui suivit le règne d’Akhénaton, il fut envoyé créer une diversion contre les Daemons des dieux. Piégé dans un Temple jusqu’au lever du jour, il remplaça le cadavre qu’un groupe de prêtres préparait pour l’embaumement. Ankhsebek fut ainsi momifié vivant et marqué à jamais par la puissance de Mammon, dieu de la Mort : défiguré, la peau gris-bleu, il resta enfermé jusqu’en 1419, lorsqu’un groupe de vampires sans affiliation le libéra avant d’être dévoré. Sa souffrance est constante, mais il n’a rien perdu de sa maîtrise tactique et martiale. Il est aujourd’hui le « Masque des Lames », vizir de la guerre de l’Alghul."
           }
         ]
       },
