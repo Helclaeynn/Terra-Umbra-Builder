@@ -1125,7 +1125,7 @@ const PAYLOAD = [
       "age": "24 ans",
       "origine": "Américaine",
       "statut": "Duchesse",
-      "affiliations": "« Corporatiste »",
+      "affiliations": "Corporatiste",
       "divinite": "Belial",
       "pouvoir_principal": "La Destruction",
       "titre_infernal": "Duchesse",
@@ -1166,7 +1166,7 @@ const PAYLOAD = [
               ],
               [
                 "Affiliations",
-                "« Corporatiste »"
+                "Corporatiste"
               ],
               [
                 "Nationalité d’origine",
@@ -1208,7 +1208,7 @@ const PAYLOAD = [
               ],
               [
                 "Affiliations",
-                "« Corporatiste »"
+                "Corporatiste"
               ],
               [
                 "Nationalité d’origine",
