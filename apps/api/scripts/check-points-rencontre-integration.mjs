@@ -90,19 +90,19 @@ const raven = locations.find((article) => article.id === "points-rencontre-raven
 assert.ok(raven?.sections?.some((section) => section.id === "dossier-daemons-25"), "Raven HQ: dossier Daemons p.25 absent");
 assert.ok(raven?.sections?.some((section) => section.id === "dossier-rocreens-aliens-51"), "Raven HQ: dossier Rocréens p.51 absent");
 
-const byTitle = new Map(COMPENDIUM_POINTS_RENCONTRE_PNJ_ARTICLES.map((article) => [article.title, article]));
-for (const [title, truthName] of [
-  ["Jamal Jace Jayson", "Georah"],
-  ["Jimmy Brazier", "Moloch"],
-  ["Belyandra Queen", "Belial"],
-  ["Benedicte VILHELMSEN", "Thorunn"],
-  ["Sikya HAWKINS", "Talatuwa"],
-  ["Rached KELLEY", "Raysh’kan’Feeshri"]
+const byId = new Map(COMPENDIUM_POINTS_RENCONTRE_PNJ_ARTICLES.map((article) => [article.id, article]));
+for (const [id, truthName] of [
+  ["personnages-points-rencontre-jamal-jace-jayson", "Georah"],
+  ["personnages-points-rencontre-jimmy-brazier", "Moloch"],
+  ["personnages-points-rencontre-belyandra-queen", "Belial"],
+  ["personnages-points-rencontre-benedicte-vilhelmsen", "Thorunn"],
+  ["personnages-points-rencontre-sikya-hawkins", "Talatuwa"],
+  ["personnages-points-rencontre-rached-kelley", "Raysh’kan’Feeshri"]
 ]) {
-  assert.equal(byTitle.get(title)?.pnj?.nom_verite, truthName, `${title}: identité Vérité canonique incorrecte`);
+  assert.equal(byId.get(id)?.pnj?.nom_verite, truthName, `${id}: identité Vérité canonique incorrecte`);
 }
 
-const jcube = byTitle.get("Jamal Jace Jayson");
+const jcube = byId.get("personnages-points-rencontre-jamal-jace-jayson");
 assert.ok(jcube?.pnj?.identity_keys?.includes("J3"), "Jcube: alias J3 absent");
 assert.ok(jcube?.pnj?.identity_keys?.includes("Jcube"), "Jcube: alias Jcube absent");
 
