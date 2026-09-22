@@ -336,7 +336,7 @@ const PAYLOAD = [
       "nom_verite": "Ibn al-berih",
       "nom_verite_source": "Ibn al-berih",
       "race": "daemons/ keltas",
-      "age": "« »30 ans », ????",
+      "age": "30 ans",
       "origine": "marocaine",
       "statut": "grand Corbeau",
       "affiliations": "corporatiste : Tuatha",
@@ -375,6 +375,10 @@ const PAYLOAD = [
                 "Ishaa El Jabara"
               ],
               [
+                "Âge apparent",
+                "30 ans"
+              ],
+              [
                 "Affiliations",
                 "corporatiste : Tuatha"
               ],
@@ -387,7 +391,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Ishaa est une actrice californienne née au Maroc. Sa carrière avait commencé à décoller en parallèle d’une autre actrice aussi jeune qu’elle : Siobhain. Hélas, la concurrence n’a jamais existé, alors que Siobhain est devenu une légende vivante du cinema, Ishaa est restée une actrice de moyenne renommée, non sans la rendre jalouse."
+            "text": "Ishaa est une actrice californienne née au Maroc. Sa carrière commença à décoller en parallèle de celle d’une autre jeune actrice, Siobhain. La concurrence ne dura cependant jamais vraiment : tandis que Siobhain devint une légende vivante du cinéma, Ishaa resta une actrice de notoriété moyenne, situation qu’elle vit avec une jalousie persistante."
           }
         ]
       },
@@ -453,7 +457,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Ishaa est une actrice californienne née au Maroc. Sa carrière avait commencé à décoller en parallèle d’une autre actrice aussi jeune qu’elle : Siobhain. Hélas, la concurrence n’a jamais existé, alors que Siobhain est devenu une légende vivante du cinema, Ishaa est restée une actrice de moyenne renommée, non sans la rendre jalouse. « Fils du malheur » est une kelta un peu plus jeune que les autres grands corbeaux les plus influents. Alors que Bodb devait surveiller Siobhain en Irlande et Huginn à New- York, Ishaa devait être celle le faisant en Californie, cependant, enivrée par sa vie humaine et extrêmement jalouse de Siobhain, par sa seule naissance, elle n’a pas vraiment cherché à jouer son rôle. Malgré tout, Morrighan lui a pardonné, Siobhain s’en étant très bien sortie, seule."
+            "text": "Ishaa est en vérité Ibn al-berih, le « Fils du malheur », une Kelta un peu plus jeune que les autres Grands Corbeaux les plus influents. Bodb devait surveiller Siobhain en Irlande et Huginn à New York ; Ibn al-berih devait remplir le même rôle en Californie. Enivrée par sa vie humaine et extrêmement jalouse de Siobhain dès la naissance de cette dernière, elle négligea largement sa mission. Morrighan lui pardonna néanmoins, Siobhain s’étant finalement très bien débrouillée seule."
           }
         ]
       },
