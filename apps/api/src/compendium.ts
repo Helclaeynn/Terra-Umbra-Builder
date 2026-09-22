@@ -236,28 +236,30 @@ import {
   COMPENDIUM_VERITE_V7_PASS_B_RULE_NAVIGATION
 } from "./compendium-verite-v7-pass-b-rules.js";
 import {
-  COMPENDIUM_VERITE_SPECIES_LORE_ARTICLES,
-  COMPENDIUM_VERITE_SPECIES_LORE_NAVIGATION,
-  COMPENDIUM_VERITE_SPECIES_ENRICHMENTS
+  COMPENDIUM_VERITE_SPECIES_LORE_NAVIGATION
 } from "./compendium-verite-species-lore.js";
 import {
   COMPENDIUM_VERITE_SPECIES_PNJ_ARTICLES,
   COMPENDIUM_VERITE_SPECIES_PNJ_NAVIGATION
 } from "./compendium-verite-species-pnj.js";
 import {
-  COMPENDIUM_VERITE_FANTASTIQUES_ARTICLES,
-  COMPENDIUM_VERITE_FANTASTIQUES_NAVIGATION,
-  COMPENDIUM_VERITE_FANTASTIQUES_ENRICHMENTS
+  COMPENDIUM_VERITE_FANTASTIQUES_NAVIGATION
 } from "./compendium-verite-fantastiques-lore.js";
 import {
   COMPENDIUM_VERITE_FANTASTIQUES_PNJ_ARTICLES,
   COMPENDIUM_VERITE_FANTASTIQUES_PNJ_NAVIGATION
 } from "./compendium-verite-fantastiques-pnj.js";
 import {
-  COMPENDIUM_VERITE_EXTRATERRESTRES_ARTICLES,
-  COMPENDIUM_VERITE_EXTRATERRESTRES_NAVIGATION,
-  COMPENDIUM_VERITE_EXTRATERRESTRES_ENRICHMENTS
+  COMPENDIUM_VERITE_EXTRATERRESTRES_NAVIGATION
 } from "./compendium-verite-extraterrestres-lore.js";
+import {
+  COMPENDIUM_VERITE_SPECIES_EDITORIAL_ARTICLES,
+  COMPENDIUM_VERITE_SPECIES_EDITORIAL_ENRICHMENTS,
+  COMPENDIUM_VERITE_FANTASTIQUES_EDITORIAL_ARTICLES,
+  COMPENDIUM_VERITE_FANTASTIQUES_EDITORIAL_ENRICHMENTS,
+  COMPENDIUM_VERITE_EXTRATERRESTRES_EDITORIAL_ARTICLES,
+  COMPENDIUM_VERITE_EXTRATERRESTRES_EDITORIAL_ENRICHMENTS
+} from "./compendium-verite-import-voice-editorial.js";
 import {
   COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_ARTICLES,
   COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_NAVIGATION
@@ -2152,18 +2154,18 @@ async function loadCorpus(): Promise<Corpus> {
     byId.set(article.id, deepClone(article) as Article);
   }
 
-  for (const article of COMPENDIUM_VERITE_SPECIES_LORE_ARTICLES) {
+  for (const article of COMPENDIUM_VERITE_SPECIES_EDITORIAL_ARTICLES) {
     // Detailed terrestrial-creature source: adds families not already promoted by Truth V7.
     byId.set(article.id, deepClone(article) as Article);
   }
 
-  for (const enrichment of COMPENDIUM_VERITE_SPECIES_ENRICHMENTS) {
+  for (const enrichment of COMPENDIUM_VERITE_SPECIES_EDITORIAL_ENRICHMENTS) {
     const target = byId.get(enrichment.targetId);
     if (!target) continue;
     const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
     target.sections = [
       ...(target.sections ?? []),
-      ...deepClone(enrichment.sections).filter((section) => !existingIds.has(String(section?.id ?? "")))
+      ...deepClone(enrichment.sections).filter((section: JsonObject) => !existingIds.has(String(section?.id ?? "")))
     ];
   }
 
@@ -2172,17 +2174,17 @@ async function loadCorpus(): Promise<Corpus> {
     byId.set(article.id, deepClone(article) as Article);
   }
 
-  for (const article of COMPENDIUM_VERITE_FANTASTIQUES_ARTICLES) {
+  for (const article of COMPENDIUM_VERITE_FANTASTIQUES_EDITORIAL_ARTICLES) {
     byId.set(article.id, deepClone(article) as Article);
   }
 
-  for (const enrichment of COMPENDIUM_VERITE_FANTASTIQUES_ENRICHMENTS) {
+  for (const enrichment of COMPENDIUM_VERITE_FANTASTIQUES_EDITORIAL_ENRICHMENTS) {
     const target = byId.get(enrichment.targetId);
     if (!target) continue;
     const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
     target.sections = [
       ...(target.sections ?? []),
-      ...deepClone(enrichment.sections).filter((section) => !existingIds.has(String(section?.id ?? "")))
+      ...deepClone(enrichment.sections).filter((section: JsonObject) => !existingIds.has(String(section?.id ?? "")))
     ];
   }
 
@@ -2190,17 +2192,17 @@ async function loadCorpus(): Promise<Corpus> {
     byId.set(article.id, deepClone(article) as Article);
   }
 
-  for (const article of COMPENDIUM_VERITE_EXTRATERRESTRES_ARTICLES) {
+  for (const article of COMPENDIUM_VERITE_EXTRATERRESTRES_EDITORIAL_ARTICLES) {
     byId.set(article.id, deepClone(article) as Article);
   }
 
-  for (const enrichment of COMPENDIUM_VERITE_EXTRATERRESTRES_ENRICHMENTS) {
+  for (const enrichment of COMPENDIUM_VERITE_EXTRATERRESTRES_EDITORIAL_ENRICHMENTS) {
     const target = byId.get(enrichment.targetId);
     if (!target) continue;
     const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
     target.sections = [
       ...(target.sections ?? []),
-      ...deepClone(enrichment.sections).filter((section) => !existingIds.has(String(section?.id ?? "")))
+      ...deepClone(enrichment.sections).filter((section: JsonObject) => !existingIds.has(String(section?.id ?? "")))
     ];
   }
 
