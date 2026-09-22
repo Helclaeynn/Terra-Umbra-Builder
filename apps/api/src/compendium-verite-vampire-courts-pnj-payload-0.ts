@@ -284,8 +284,8 @@ const PAYLOAD = [
       "real_name": "Lana Loss",
       "nom_verite": "Thanew Lodainn (Lothian) - Laudine",
       "race": "Vampire/ semi-kelta",
-      "age": "«30 ans » - 1596",
-      "origine": "Ecossaise",
+      "age": "30 ans",
+      "origine": "Écossaise",
       "statut": "chasseurs : Observateurs (Association)",
       "statut_verite": "deuxième concubine",
       "organisation": "Krovni Rytsari",
@@ -327,7 +327,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«30 ans »"
+                "30 ans"
               ],
               [
                 "Affiliations",
@@ -335,9 +335,13 @@ const PAYLOAD = [
               ],
               [
                 "Nationalité d’origine",
-                "Ecossaise"
+                "Écossaise"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Lana Loss est une secrétaire aussi belle que froide qui travaille pour plusieurs cabinets d’avocats, notamment le cabinet Fangs. Elle agit surtout comme « Observatrice » de l’Association : une espionne, parfois assassine, chargée de surveiller des chasseurs — surtout des Hunt100 et parfois des Hunt15 — afin d’enrichir les rapports sur les cibles comme sur les chasseurs eux-mêmes. Elle fut notamment l’Observatrice de Tia Reynolds à son insu et garde Siobhain sous surveillance à distance."
           }
         ]
       },
@@ -378,7 +382,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Lana King est une secrétaire aussi belle que froide qui travaille dans quelques cabinets d’avocats, notamment le cabinet Fangs. C’est aussi et surtout une « observatrice » de l’Association c’est-à-dire une sorte d’espionne, d’assassine aussi qui surveille quelques chasseurs, surtout des Hunt100, parfois des hunt15, afin d’enrichir les rapports sur les cibles mais aussi les chasseurs. Elle a notamment été Observatrice de Tia Reynolds à son insu et surveille Siobhain de loin. C’est une des plus anciennes concubines de Dragoy. C’est la fille du roi Lot (Leudonnus - Lleuddun Luyddog) et dans les légendes de la sœur d’Arthur. Ce n’est pas une fille de Morrighan cependant, mais du grand corbeau Bodb qui, souvent faisait doublure. Sœur adoptive de Mordred et amante de ce dernier, elle est la mère du saint évêque Kertigern qu’elle eut avec Yvain (Owain). Elle fut décrite comme une femme-cygne noir, même si c’est un semi-corbeau. Par son père elle avait du sang khinae, elle plaida pour intégrer le chevalier « Adraigon » à la table ronde, mais Merlin veillait et le vampire Dragoy ne fut pas"
+            "text": "Lana est en vérité Thanew Lodainn, également appelée Laudine. L’une des plus anciennes concubines de Dragoy, elle est fille du roi Lot — Leudonnus ou Lleuddun Luyddog — et, dans certaines légendes, d’une sœur d’Arthur. Elle n’est pourtant pas fille de Morrighan mais du Grand Corbeau Bodb, qui servait parfois de doublure. Sœur adoptive et amante de Mordred, elle est la mère du saint évêque Kentigern qu’elle eut avec Yvain — Owain. Décrite comme une femme-cygne noire, elle est en réalité une semi-corbeau. Par son père, elle portait également du sang Khinae. Elle plaida pour l’intégration du chevalier « Adraigon » à la Table ronde, mais Merlin s’y opposa et le vampire Dragoy ne fut pas accepté. Il demeura cependant son amant et la transforma en vampire lorsque Yvain commença à devenir violent."
           }
         ]
       },
