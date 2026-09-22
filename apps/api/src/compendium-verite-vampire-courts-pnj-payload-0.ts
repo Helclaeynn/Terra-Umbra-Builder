@@ -1705,7 +1705,7 @@ const PAYLOAD = [
       "real_name": "Youssef Hareef",
       "nom_verite": "Yugrazal Harron",
       "race": "vampire",
-      "age": "« 45 ans » - ???? ans",
+      "age": "45 ans",
       "origine": "française",
       "statut": "pègre : new french connection (le Milieu)",
       "statut_verite": "« Masque des lois »",
@@ -1748,7 +1748,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "« 45 ans »"
+                "45 ans"
               ],
               [
                 "Affiliations",
@@ -1759,6 +1759,10 @@ const PAYLOAD = [
                 "française"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Youssef Hareef est né en France dans une famille issue de l’immigration marocaine. Élève puis étudiant modèle, il réussit presque tout ce qu’il entreprend : études, affaires, politique, sport ou relations amoureuses. Derrière son visage fermé se cache un homme chaleureux et plein d’humour, mais également un mafieux. La récente soumission de la patronne de la mafia française l’a poussé à faire sécession et à se rapprocher de l’insurrection française, l’une des plus puissantes au monde."
           }
         ]
       },
@@ -1799,7 +1803,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Youssef est né en France, petit-fils d’émigrés marocains, il a toujours été un élève et un étudiant modèle, réussissant dans tout ce qu’il entreprenait, les études, les affaires, la politique, le sport ou en amour. Derrière un visage fermé se cache un homme chaleureux et plein d’humour. Ces qualités cachent aussi une sombre facette, celle d’un mafieux. Récemment, la soumission de la patronne de la mafia française n’a pas du tout plu à Youssef qui fait sécession en s’étant rapproché d l’insurrection française, une des plus puissantes au monde. Vampire de l’Alghul, il est le masque des lois, ministre promulguant les règles de la faction. Juge de l’Alghul, son clan se charge de traquer les vampires renégats ou criminels vis-à-vis de ces lois. C’est un très grand séducteur, il a 100 concubines dont 80 mortelles. Il travaille avec les garous des pelages gris pour ses affaires de la Réalité mais il déteste les pelages d’or."
+            "text": "Youssef est en vérité Yugrazal Harron, « Masque des Lois » de l’Alghul. Ministre chargé de promulguer les règles de la faction, il exerce également une fonction de juge ; son clan traque les vampires renégats ou criminels au regard de ces lois. Immense séducteur, il entretient une centaine de concubines, dont environ quatre-vingts mortelles. Pour ses activités dans la Réalité, il collabore avec les garous des Pelages gris mais déteste profondément les Pelages d’or."
           }
         ]
       },
