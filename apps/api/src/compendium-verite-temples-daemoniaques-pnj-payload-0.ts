@@ -493,7 +493,7 @@ const PAYLOAD = [
       "nom_verite": "Nankil’slas",
       "nom_verite_source": "Nankil’slas",
       "race": "Daemon/ keltas",
-      "age": "«38 ans », ????",
+      "age": "38 ans",
       "origine": "Navajo",
       "statut": "grand Corbeau",
       "affiliations": "« Corporatiste »/ associatif",
@@ -548,7 +548,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Naalnish est un corporatiste singulier, on le trouve parfois à la Raven corporation, parfois à la Tala corporation, parfois il est à son propre compte, sa situation change presque tous les mois. Aussi charmeur qu’intelligent, il a étudié en économie, en médecine, en droit et en chimie, sans obtenir aucun diplôme, changeant de branche en se lassant à chaque fois. C’est un des premiers à avoir parié sur Siobhain quand elle débuta sa carrière à Hollywood."
+            "text": "Naalnish est un corporatiste singulier : on le retrouve tantôt chez Raven Corporation, tantôt chez Tala Corporation, tantôt à son propre compte, sa situation changeant presque tous les mois. Aussi charmeur qu’intelligent, il a étudié l’économie, la médecine, le droit et la chimie sans jamais obtenir de diplôme, se lassant et changeant de voie à chaque fois. Il fut aussi l’un des premiers à parier sur Siobhain lorsqu’elle débuta sa carrière à Hollywood."
           }
         ]
       },
@@ -614,7 +614,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Naalnish est un corporatiste singulier, on le trouve parfois à la Raven corporation, parfois à la Tala corporation, parfois il est à son propre compte, sa situation change presque tous les mois. Aussi charmeur qu’intelligent, il a étudié en économie, en médecine, en droit et en chimie, sans obtenir aucun diplôme, changeant de branche en se lassant à chaque fois. C’est un des premiers à avoir parié sur Siobhain quand elle débuta sa carrière à Hollywood. De tous les grands corbeaux, il est le plus sournois et le plus indépendant, il s faisait vénérer lui-même par des peuples amérindiens autrefois sans toujours reverser les prières en proportion à sa déesse. Il a aussi souvent fourré son nez dans des affaires divines ne le concernant pas et s’amuse grandement à se faire passer pour un mage ou un deimon , ayant piqué un Mageius qu’il utilise pour invoquer ou créer des Ombres. Les autres corneilles le craignent comme la peste car ils ne savent jamais s’il est un allié ou un fourbe emmerdeur. Sa loyauté pour Morrighan est toutefois gigantesque, il est particulier et têtu, s’acharnant dans ses plans sans jamais communiquer, parfois il est son atout majeur de fait, sa carte piège, parfois, il est trop brouillon et s’avère gênant."
+            "text": "Nankil’slas est le plus sournois et le plus indépendant des Grands Corbeaux. Autrefois, il alla jusqu’à se faire vénérer lui-même par certains peuples amérindiens sans toujours reverser à Morrighan une part proportionnelle des prières reçues. Il s’est souvent mêlé d’affaires divines ne le concernant pas et prend un grand plaisir à se faire passer pour un Mage ou un Deimon. Il a volé un Mageius qu’il utilise pour invoquer ou créer des Ombres. Les autres corneilles le craignent comme la peste, incapables de savoir s’il se comportera en allié ou en fourbe perturbateur. Sa loyauté envers Morrighan demeure pourtant immense : têtu et secret, il s’acharne dans ses plans sans communiquer. Il peut ainsi devenir l’atout majeur de la déesse, sa véritable carte piège, ou au contraire se révéler trop brouillon et gênant."
           }
         ]
       },
