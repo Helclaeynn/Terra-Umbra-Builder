@@ -264,26 +264,68 @@ export const COMPENDIUM_VERITE_VAMPIRE_COURTS_ARTICLES = [
     "category": "Vérité",
     "sourceCategory": "Vérité",
     "title": "Les Lavandières",
-    "source": "Factions_Les cours vampiriques(1)(2).pdf",
+    "source": "TUC_Vérité_ les chasseurs(1).docx",
     "status": "canon_source",
     "rebuildV2": true,
     "tags": [
       "Vérité",
       "Vampires",
-      "Cours vampiriques",
       "Lavandières",
-      "Chasseurs de vampires"
+      "Chasseurs de vampires",
+      "Indépendants",
+      "Secret vampirique"
     ],
     "sections": [
       {
-        "id": "source-complete",
-        "title": "Dossier source",
+        "id": "linge-sale",
+        "title": "Le linge sale des Cours",
         "level": 2,
         "blocks": [
           {
             "type": "p",
             "style": "lore",
-            "text": "Il serait simpliste d’imaginer uniquement cinq factions uniques chez les vampirs alors qu’une de leur caractéristique reste leur individualisme exacerbée. Comme il a pu être évoqué plus haut, les cours actuelles se sont toutes formées au détriments de cours rivales, parfois ralliées puis assimilées, souvent soumises puis redistribuées et plus rarement absolument massacrées et anéanties. Officiellement, ces cours vampiriques ne sont pas reconnues par les 5 autres, ou plutôt, si leur faction est vaguement connue, la perssonalité à la tête de la cour n’est jamais reconnue comme royale. Anciennes cours ayant vécu une défaite mémorable, jeune cour en devenir ou bien encore cours de vampires se vouant à des Fléaux, il y a aisément une centaines de cas différents qu’il serait trop long de détailler. De plus, le nombre de vampires au sein des cours usuelles et au sein de celles non reconnues n’est absolument pas comparable. Par exemple avec le système quinaire de la Krovni, on sait qu’il existe 5 grandes maisons, chaque grande maison a 5 maisons ducales sous ses ordres, chaque maison ducale a 5 marquis, ayant 5 comtes, ayant eux-mêmes 5 barons, lesquels ont généralement entre 2 et 10 chevaliers, soit, on peut estimer la Krovni à environ 20 000 vampires dans le monde entier, les autres factions comptent environs le même ordre de grandeur, plus ou moins. Les cours officieuses, quant à elles sont moins d’un millier de représentants par faction, parfois une centaine à peine. C’est pour ça qu’il est dans leur intérêt de ne pas faire beaucoup de bruit, de rester discrets, car en guerre ouverte, même très doués, ils n’ont aucune chance. On peut ainsi trouver « l’elfenbeinblutt » mieux nommé « sang d’ivoire », qui est une cour dérivée de la Krovni mais corrompue par le Fléau Vhodhal et sa faim destructrice qui les rapproche des Wendigos, d’autres abominations de Vhodhal. Il existe les vestiges de la cour de la » Nemma Moogura », la cour australienne qui régna longtemps sur un vaste domaine avant d’être décimée par l’alliance krovni-Shi afin de la dépecer et d’anéantir le » sang du rêve », un pouvoir bien trop gênant. Outre ces cours assez classiques, on peut aussi citer les « Lavandières », ces vampires qui nettoient le merdier des autres, indifféremment des cours, des nettoyeurs et des chasseurs spécialisés dans la destruction d’autres vampires. La » cour de l’Ombre-monde » est aussi singulière, puisqu’il s’agit de Veilleurs et d’abominations difformes coincés dans l’Ombre-monde et refusant autant d’en sortir qu’ils n’attaquent ce qui pénètre. Enfin, il existe de toutes petites cours autoproclamées comme la « Notte Nostra », une cour mafieuse de vampires traitres à la krovni ou bien encore la « ditele Caya » née des restes renégats de l’Oru Ayeraye."
+            "text": "Lorsqu’un chambellan parle de « linge sale », il désigne les membres de sa faction devenus trop visibles dans la Réalité. Les humains commencent à se méfier d’eux, puis les Chasseurs s’intéressent à leurs activités ; si personne n’intervient, l’exposition d’un seul Vampire peut finir par menacer toute sa Cour. Les Vampires appellent donc « Lavandières » ceux des leurs qui traquent et neutralisent ces congénères compromettants."
+          }
+        ]
+      },
+      {
+        "id": "statut-independant",
+        "title": "Des chasseurs indépendants",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Lavandières ne constituent pas une Cour vampirique et n’appartiennent à aucune faction, à l’image des Veilleurs. Elles peuvent entretenir des amitiés assumées avec des figures importantes des grandes Cours, mais ces relations ne les placent pas sous l’autorité d’une Maison. Leur indépendance leur permet d’intervenir sans distinction de Cour lorsque la discrétion collective est en jeu."
+          },
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Le titre de « Lavandière » est traditionnellement féminin, mais il peut être porté aussi bien par un homme que par une femme. Il désigne une fonction et une catégorie singulière de Vampires, non un rang de noblesse."
+          }
+        ]
+      },
+      {
+        "id": "crainte-et-pouvoirs",
+        "title": "La crainte des Vampires",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Chasseurs humains ignorent généralement ce que sont les Lavandières. Leur nom paraît inoffensif, mais les Vampires les craignent : elles boivent le sang de leurs proies vampiriques et peuvent ainsi acquérir une part de leurs pouvoirs. Cette pratique fait de chaque traque une menace particulière, y compris pour un Vampire qui se croit protégé par les dons de son lignage."
+          }
+        ]
+      },
+      {
+        "id": "limites-de-la-fonction",
+        "title": "Une fonction propre à la société vampirique",
+        "level": 2,
+        "blocks": [
+          {
+            "type": "p",
+            "style": "lore",
+            "text": "Les Vampires considèrent en général qu’ils sont assez puissants pour régler eux-mêmes les problèmes surnaturels qui les concernent. Ils ne développent donc pas de tradition comparable aux Chasseurs humains parcourant l’occulte dans son ensemble. Un Vampire qui traquerait indistinctement toutes les créatures surnaturelles passerait auprès des siens pour un paria étrange. Les Lavandières ont un domaine plus précis : elles chassent les Vampires dont les actes mettent en danger le secret et l’équilibre de leur espèce."
           }
         ]
       }
