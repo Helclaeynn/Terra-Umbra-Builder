@@ -99,6 +99,47 @@ for (const article of COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_ARTICLES) {
   assert.deepEqual(stats.blocks, [], `${article.id}: statistics stay empty until consolidation`);
   assert.ok(Array.isArray(article.pnj?.identity_keys) && article.pnj.identity_keys.length >= 1, `${article.id}: identity keys missing`);
   assert.ok(String(article.pnj?.source_extract ?? "").length > 0, `${article.id}: full source extract missing`);
+  assert.equal(article.pnj?.protect_truth_metadata, true, `${article.id}: Truth metadata protection missing`);
+  assert.equal(
+    article.sections?.find((section) => section.id === "profil")?.audience,
+    "mj",
+    `${article.id}: occult profile must be MJ-only`
+  );
+  for (const section of article.sections ?? []) {
+    if (/seuil/i.test(String(section.title ?? ""))) {
+      assert.equal(section.audience, "mj", `${article.id}: threshold information must be MJ-only`);
+    }
+  }
+}
+
+assert.deepEqual(
+  COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_ARTICLES.filter((article) => article.audience === "mj").map((article) => article.title),
+  ["Peste des vases"],
+  "Only the profile without any Reality identity must remain entirely MJ-only"
+);
+
+for (const id of [
+  "personnages-verite-extraterrestres-maximilian-marshall",
+  "personnages-verite-extraterrestres-dhanuka-samara"
+]) {
+  const article = COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_ARTICLES.find((item) => item.id === id);
+  assert.ok(
+    article?.sections?.some((section) => section.id === "informations-seuil-restaurees" && section.audience === "mj"),
+    `${id}: malformed Reality/Threshold source block must be restored as MJ material`
+  );
+}
+
+const publicTitles = new Map([
+  ["personnages-verite-extraterrestres-arkinas", "Apollo Gaines"],
+  ["personnages-verite-extraterrestres-shykrerath", "Aberration Z-87"],
+  ["personnages-verite-extraterrestres-rsheraag", "Aberration Z-45"],
+  ["personnages-verite-extraterrestres-dsherraneth", "Aberration Z-47"],
+  ["personnages-verite-extraterrestres-zeelthan", "Jack Tang"],
+  ["personnages-verite-extraterrestres-assymedira-fel", "Asheylinn Medira"],
+  ["personnages-verite-extraterrestres-beltor-rixil", "Bryan Rixil"]
+]);
+for (const [id, title] of publicTitles) {
+  assert.equal(COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_ARTICLES.find((article) => article.id === id)?.title, title, `${id}: wrong public title`);
 }
 
 const activeOtherPnjs = [
