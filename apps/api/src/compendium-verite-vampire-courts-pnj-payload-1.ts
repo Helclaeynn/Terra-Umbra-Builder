@@ -871,7 +871,7 @@ const PAYLOAD = [
     "dataset": "verite-vampire-courts-pnj",
     "category": "Personnages",
     "sourceCategory": "Personnages",
-    "title": "« Nana » Nandoa",
+    "title": "Nana Nandoa",
     "source": "Factions_Les cours vampiriques(1)(2).pdf",
     "status": "canon_source",
     "rebuildV2": true,
@@ -884,16 +884,17 @@ const PAYLOAD = [
     ],
     "pnj": {
       "completeness": "detailed",
-      "real_name": "« Nana » Nandoa",
+      "real_name": "Nana Nandoa",
       "nom_verite": "Skenandoa",
-      "race": "vampire",
-      "age": "« 50 ans » - 8 000 ans",
-      "origine": "Américaine (Cheyenne)",
-      "statut": "crawlers : Endrunners",
-      "statut_verite": "« Ehecatl »",
+      "race": "Vampire",
+      "age": "50 ans",
+      "origine": "Américaine (cheyenne)",
+      "statut": "Crawlers : Endrunners",
+      "statut_verite": "Ehecatl",
       "organisation": "Ihuito Meztzi",
       "relations": [],
       "identity_keys": [
+        "Nana Nandoa",
         "« Nana » Nandoa",
         "Skenandoa"
       ],
@@ -903,7 +904,7 @@ const PAYLOAD = [
         20,
         20
       ],
-      "source_designation": "arrogance est le trait commun qui ressort toujours, il n’a aucun respect, pour personne de plus.",
+      "source_designation": "K’uhul Ajaw « Ehecatl » : Skenandoa",
       "source_reality_raw": "« Nana » Nandoa",
       "source_truth_raw": "Skenandoa",
       "source_extract": "arrogance est le trait commun qui ressort toujours, il n’a aucun respect, pour personne de plus. Nom de la Réalité : « Nana » Nandoa Nom de la Vérité : Skenandoa Age : « 50 ans » - 8 000 ans Affiliations : crawlers : Endrunners Nationalité d’origine : Américaine (Cheyenne) Ethnie réelle : vampire Statut : « Ehecatl » Maison vampirique : «Skayenne » Nana est une grande figure de l’insurrection native américaine, Elle fut surtout connue à partie de 2026, quand l’économie américaine commença à s’affaisser, réclamant plus de pouvoirs aux natifs, plus de compensations financières face à leur génocide non reconnu. Lorsque Tokala fonda la grande réserve, elle s’y opposa par des attaques terroristes, mais sans se rattacher au « front des crocs » que menait Talatuwa, une autre figure insurgée. C’est un ancien vampire né de Quetzalccoatl et d’une femelle vampire d’Amérique du Nord. C’est la plus ancienne née du Roi divin vampirique et elle estime ses pouvoirs égaux à ceux d’une Megda ou d’un Dragoy. Elle est extrêmement intransigeante envers sa maison, exigeant de tuer un advervsaire puissant pour l’intégrer. Contrairement à son homologue garou, Talatuwa, elle se fout totalement des natifs américains en vérité, la cause qu’elle défend n’est qu’une hypocrisie qui l’amuse.",
@@ -926,21 +927,25 @@ const PAYLOAD = [
               ],
               [
                 "Nom / identité de Réalité",
-                "« Nana » Nandoa"
+                "Nana Nandoa"
               ],
               [
                 "Âge apparent",
-                "« 50 ans »"
+                "50 ans"
               ],
               [
                 "Affiliations",
-                "crawlers : Endrunners"
+                "Crawlers : Endrunners"
               ],
               [
                 "Nationalité d’origine",
-                "Américaine (Cheyenne)"
+                "Américaine (cheyenne)"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Nana Nandoa est une grande figure de l’insurrection autochtone américaine. Elle se fait surtout connaître à partir de 2026, lorsque l’économie américaine commence à s’affaisser, en réclamant davantage de pouvoirs pour les peuples autochtones et des compensations financières pour leur génocide non reconnu. Lorsque Tokala fonde la Grande Réserve, Nana s’y oppose par des attaques terroristes sans rejoindre le « Front des Crocs » mené par Talatuwa, une autre figure insurgée."
           }
         ]
       },
@@ -963,25 +968,25 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "« 50 ans » - 8 000 ans"
+                "50 ans en apparence ; 8 000 ans"
               ],
               [
                 "Nature réelle",
-                "vampire"
+                "Vampire"
               ],
               [
                 "Statut vampirique",
-                "« Ehecatl »"
+                "Ehecatl"
               ],
               [
                 "Maison vampirique",
-                "«Skayenne »"
+                "Skayenne"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "Nana est une grande figure de l’insurrection native américaine, Elle fut surtout connue à partie de 2026, quand l’économie américaine commença à s’affaisser, réclamant plus de pouvoirs aux natifs, plus de compensations financières face à leur génocide non reconnu. Lorsque Tokala fonda la grande réserve, elle s’y opposa par des attaques terroristes, mais sans se rattacher au « front des crocs » que menait Talatuwa, une autre figure insurgée. C’est un ancien vampire né de Quetzalccoatl et d’une femelle vampire d’Amérique du Nord. C’est la plus ancienne née du Roi divin vampirique et elle estime ses pouvoirs égaux à ceux d’une Megda ou d’un Dragoy. Elle est extrêmement intransigeante envers sa maison, exigeant de tuer un advervsaire puissant pour l’intégrer. Contrairement à son homologue garou, Talatuwa, elle se fout totalement des natifs américains en vérité, la cause qu’elle défend n’est qu’une hypocrisie qui l’amuse."
+            "text": "Skenandoa est une ancienne vampire, née de Quetzalcoatl et d’une vampire d’Amérique du Nord. Elle est la fille la plus âgée du Roi divin et estime ses pouvoirs comparables à ceux de Megda ou de Dragoy. D’une extrême intransigeance envers sa maison, elle exige de tout candidat qu’il tue un adversaire puissant avant d’y entrer. Contrairement à Talatuwa, son homologue garou, Skenandoa ne se soucie pas réellement de la cause autochtone : elle l’instrumentalise par pure hypocrisie et s’en amuse."
           }
         ]
       },
