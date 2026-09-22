@@ -179,7 +179,7 @@ const PAYLOAD = [
       "nom_verite": "Huginn",
       "nom_verite_source": "Huginn",
       "race": "Daemons/ keltas",
-      "age": "«55ans », ????",
+      "age": "55 ans",
       "origine": "Norvégienne",
       "statut": "grand Corbeau",
       "affiliations": "Corporation : Ushkoll",
@@ -219,7 +219,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "55ans"
+                "55 ans"
               ],
               [
                 "Affiliations",
@@ -234,7 +234,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Hugue est né en Norvège. Ce n’est pas un physique de colosse puissant dès son adolescence qu’il en est venu à une carrière militaire après huit ans an tant que soldat, il s’engagea à la Black Crow comme mercenaire et se lié d’amitié quelques années après avec Liam Siridean, le père de la célèbre Siobhain."
+            "text": "Hugue est né en Norvège. Doté dès l’adolescence d’un physique de colosse, il s’orienta vers une carrière militaire. Après huit années comme soldat, il rejoignit Black Crow comme mercenaire et se lia quelques années plus tard d’amitié avec Liam Siridean, le père de la célèbre Siobhain."
           }
         ]
       },
@@ -300,7 +300,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Hugue est né en Norvège. Ce n’est pas un physique de colosse puissant dès son adolescence qu’il en est venu à une carrière militaire après huit ans an tant que soldat, il s’engagea à la Black Crow comme mercenaire et se lié d’amitié quelques années après avec Liam Siridean, le père de la célèbre Siobhain. C’est une « corneille » de Morrighan, un Kelta ancien qui la sert depuis très longtemps. Au titre de « Grand Corbeau », il est un des plus puissants et craints parmi les siens, sa sagesse et son expérience étant incroyables. Si son physique est hors norme dans son apparence humaine c’est parce qu’en tant que kelta, il est aussi un des plus redoutables, cependant, le vrai secret d’Huginn est sa capacité à penser plus vite et à plus grande échelle que bien des entités de son rang, secret qu’il a appris de sa déesse. Huginn est un cadre de terrain pour un groupe mercenaire secret qu’Ushkoll loue à la Raven corporation."
+            "text": "Hugue est en vérité Huginn, une « corneille » de Morrighan : un Kelta ancien qui sert la déesse depuis très longtemps. Au titre de « Grand Corbeau », il compte parmi les plus puissants et les plus craints des siens, notamment pour sa sagesse et son expérience. Son physique humain hors norme reflète déjà sa puissance de Kelta, mais son véritable atout réside dans sa capacité à penser plus vite et à une échelle bien supérieure à celle de nombreuses entités de son rang, secret appris auprès de Morrighan. Huginn agit comme cadre de terrain pour un groupe mercenaire secret qu’Ushkoll loue à Raven Corporation."
           }
         ]
       },
