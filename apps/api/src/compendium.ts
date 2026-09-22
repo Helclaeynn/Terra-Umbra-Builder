@@ -1056,7 +1056,16 @@ function findMatchingAserynPnj(byId: Map<string, Article>, source: Article): Art
 }
 
 function mergeAserynPnj(target: Article, source: Article): Article {
-  const merged = mergeFleauxPnj(target, source);
+  const obsoleteSpeciesSections: Record<string, Set<string>> = {
+    "personnages-verite-especes-lorinae-athegos": new Set(["info-realite", "informations-mj"]),
+    "personnages-verite-especes-kyriakos-zenos": new Set(["informations-mj"]),
+    "personnages-verite-especes-veronica-silver": new Set(["informations-mj"])
+  };
+  const obsolete = obsoleteSpeciesSections[String(target.id ?? "")];
+  const currentTarget = obsolete
+    ? { ...target, sections: (target.sections ?? []).filter((section) => !obsolete.has(String(section?.id ?? ""))) }
+    : target;
+  const merged = mergeFleauxPnj(currentTarget, source);
   const targetPnj = target.pnj ?? {};
   const sourcePnj = source.pnj ?? {};
 
