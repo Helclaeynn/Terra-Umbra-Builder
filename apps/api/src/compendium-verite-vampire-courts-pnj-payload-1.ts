@@ -382,7 +382,7 @@ const PAYLOAD = [
       "real_name": "Muntir Ashab",
       "nom_verite": "Muhuttin",
       "race": "Vampire",
-      "age": "«40 ans » - 603 ans",
+      "age": "40 ans",
       "origine": "Irakienne",
       "statut": "Corporations : Pixie security",
       "statut_verite": "« Masque de l’avenir »",
@@ -425,7 +425,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«40 ans »"
+                "40 ans"
               ],
               [
                 "Affiliations",
@@ -436,6 +436,10 @@ const PAYLOAD = [
                 "Irakienne"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Muntir Ashab est un ancien résistant issu des armées irakiennes. Il fut formé par des soldats américains pour combattre les intégristes après la dévastation de l’Irak, sans pour autant nourrir de haine particulière envers les États-Unis. Émigré en 2024, il rejoignit ensuite des troupes mercenaires pour aider le pays face aux forces coréennes. Chez Black Crow, il resta discret. Taciturne, calme et vif, c’est un combattant passionné par la technologie."
           }
         ]
       },
@@ -476,7 +480,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Muntir est un résistant, issu des armées irakiennes, il a été formé par les soldats américains pour lutter contre les intégristes en Irak après que le pays ne fut dévasté par ces mêmes américains. Ce n’est pas un homme tourné vers la haine ou la revanche mais vers l’avenir. Emigré aux Etats-Unis en 2024, il s’engagea dans des troupes mercenaires pour aider le pays à faire face aux Coréens. Au sein de la Black Crow il ne fit pas beaucoup parler de lui. Taciturne et vif, c’est un combattant assez calme qui adore la technologie. « Masque de l’avenir », il est le ministre des sciences et de la recherche. Il naquit en 1432 d’une noble lignée vampirique de l’empire Ottoman et fut de toutes les campagnes de Mehmed II, même s’il ne combattait que la nuit. Son clan est porté sur la recherche scientifique, il a une phobie des sursauts de l’Hologramme et fait développer des équipements vampiriques comme des balles « sunflash » spécifiquement faites pour blesser des vampires même non révélés."
+            "text": "Muntir est en vérité Muhuttin, « Masque de l’Avenir » de l’Alghul et ministre des sciences et de la recherche. Né en 1432 dans une noble lignée vampirique de l’Empire ottoman, il participa à toutes les campagnes de Mehmed II, en combattant uniquement la nuit. Son clan est entièrement tourné vers la recherche scientifique. Muhuttin souffre d’une véritable phobie des sursauts de l’Hologramme et fait développer des équipements spécifiquement conçus pour les vampires, notamment des munitions « Sunflash » capables de blesser des vampires même lorsqu’ils ne sont pas révélés."
           }
         ]
       },
