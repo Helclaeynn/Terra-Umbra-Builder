@@ -1211,10 +1211,10 @@ const PAYLOAD = [
       "real_name": "Napoléon Kukabango",
       "nom_verite": "Kakango",
       "race": "Vampire",
-      "age": "«65 ans » - 10 252 ans",
+      "age": "65 ans",
       "origine": "Camerounaise",
-      "statut": "Corporation : Tortoise security",
-      "statut_verite": "« « Makoko»",
+      "statut": "Corporation : Tortoise Security",
+      "statut_verite": "Makoko",
       "organisation": "Oru Ayeraye",
       "relations": [],
       "identity_keys": [
@@ -1227,7 +1227,7 @@ const PAYLOAD = [
         32,
         32
       ],
-      "source_designation": "régulièrement Temilade afin de comploter.",
+      "source_designation": "Makoko : Kakango",
       "source_reality_raw": "Napoléon Kukabango",
       "source_truth_raw": "Kakango",
       "source_extract": "régulièrement Temilade afin de comploter. Nom de la Réalité : Napoléon Kukabango Nom de la Vérité : Kakango Age : «65 ans » - 10 252 ans Affiliations : Corporation : Tortoise security Nationalité d’origine : Camerounaise Ethnie réelle : Vampire Statut : « « Makoko» Maison vampirique : «Adze » Napoléon est un mercenaire de la corporation Tortoise Security. Certains l’appellent « le seigneur de guerre ». C’est un ancien colonel camerounais qui a été dans la légion étrangère, s’il n’a pas une fonction de cadre, quand Tortoise le mobilise, c’est en général que la corporation ne rigole plus du tout. Impitoyable et redoutablement ingénieux, ce chef charismatique sait transcender la pire des troupes, même avec peu de moyens et peu de temps. Il méprise les crawlers et les membres de la. S’il a l’occasion de supprimer des criminels, il aura tendance à outrepasser ses ordres pour le faire. Ancien roi de l’Akunka, une des cours déchues, il respecte Neeba, le Sauveur des Vampires. Il est son plus loyal seigneur même s’il est fou amoureux de Temilade, laquelle complote souvent. Coincé entre sa dévotion et ses rares sentiments, il préfère se tenir loin des querelles de la cour pour ne pas avoir à choisir. Il est le maitre de l’Adze, le deimon vampirique luciole au puissant contrôle mental. Il n’a jamais bu à la fontaine des Ténèbres, car il se méfie d’Oyalinka.",
@@ -1254,17 +1254,21 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«65 ans »"
+                "65 ans"
               ],
               [
                 "Affiliations",
-                "Corporation : Tortoise security"
+                "Corporation : Tortoise Security"
               ],
               [
                 "Nationalité d’origine",
                 "Camerounaise"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Napoléon Kukabango est mercenaire chez Tortoise Security. Surnommé par certains « le seigneur de guerre », cet ancien colonel camerounais a servi dans la Légion étrangère. Il n’occupe pas une fonction de cadre, mais sa mobilisation signifie généralement que la corporation prend une situation très au sérieux. Impitoyable, ingénieux et charismatique, il sait transcender les troupes les plus médiocres avec peu de moyens et en très peu de temps. Lorsqu’il peut éliminer des criminels, il tend à outrepasser ses ordres pour le faire."
           }
         ]
       },
@@ -1287,7 +1291,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "«65 ans » - 10 252 ans"
+                "65 ans en apparence ; 10 252 ans"
               ],
               [
                 "Nature réelle",
@@ -1295,17 +1299,17 @@ const PAYLOAD = [
               ],
               [
                 "Statut vampirique",
-                "« « Makoko»"
+                "Makoko"
               ],
               [
                 "Maison vampirique",
-                "«Adze »"
+                "Adze"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "Napoléon est un mercenaire de la corporation Tortoise Security. Certains l’appellent « le seigneur de guerre ». C’est un ancien colonel camerounais qui a été dans la légion étrangère, s’il n’a pas une fonction de cadre, quand Tortoise le mobilise, c’est en général que la corporation ne rigole plus du tout. Impitoyable et redoutablement ingénieux, ce chef charismatique sait transcender la pire des troupes, même avec peu de moyens et peu de temps. Il méprise les crawlers et les membres de la. S’il a l’occasion de supprimer des criminels, il aura tendance à outrepasser ses ordres pour le faire. Ancien roi de l’Akunka, une des cours déchues, il respecte Neeba, le Sauveur des Vampires. Il est son plus loyal seigneur même s’il est fou amoureux de Temilade, laquelle complote souvent. Coincé entre sa dévotion et ses rares sentiments, il préfère se tenir loin des querelles de la cour pour ne pas avoir à choisir. Il est le maitre de l’Adze, le deimon vampirique luciole au puissant contrôle mental. Il n’a jamais bu à la fontaine des Ténèbres, car il se méfie d’Oyalinka."
+            "text": "Ancien roi de l’Akunka, l’une des Cours déchues, Kakango respecte Neeba comme le Sauveur des Vampires et demeure son seigneur le plus loyal. Il est pourtant éperdument amoureux de Temilade, qui complote souvent. Partagé entre sa dévotion et ses rares sentiments, il se tient à l’écart des querelles de la Cour pour ne pas devoir choisir. Kakango est le maître de l’Adze, Deimon vampirique semblable à une luciole et doté d’un puissant contrôle mental. Il n’a jamais bu à la Fontaine des Ténèbres, car il se méfie d’Olayinka."
           }
         ]
       },
