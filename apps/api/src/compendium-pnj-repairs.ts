@@ -233,9 +233,57 @@ function repairFinalPnjSurfaces(byId: Map<string, A>) {
   }
 }
 
+function restoreMageRealityProfiles(byId: Map<string, A>) {
+  // Ces 27 fiches n'ont aucune section publique après les consolidations.
+  // La source donne pourtant leur identité et leurs données de Réalité.
+  const ids = [
+    "pnj-loges-mages-nina-le-guellec-03", "pnj-loges-mages-morgane-o-broin-04",
+    "pnj-loges-mages-arash-ostaan-05", "pnj-loges-mages-gwendoleen-macguire-06",
+    "pnj-loges-mages-zhao-guanyu-10", "pnj-loges-mages-anayah-kumba-11",
+    "pnj-loges-mages-sergio-venegas-12", "pnj-loges-mages-adrien-daigremont-14",
+    "pnj-loges-mages-melina-apapoulos-15", "pnj-loges-mages-adalardo-gravina-16",
+    "pnj-loges-mages-zephia-brummer-17", "pnj-loges-mages-shane-rosenberg-18",
+    "pnj-loges-mages-mada-oromo-nerayo-19", "pnj-loges-mages-mertkan-sabanci-20",
+    "pnj-loges-mages-bassaam-el-akram-21", "pnj-loges-mages-hassan-abate-yideg-22",
+    "pnj-loges-mages-asuka-yamamuro-23", "pnj-loges-mages-anggriawan-yang-24",
+    "pnj-loges-mages-jin-tian-myong-25", "pnj-loges-mages-robert-peng-26",
+    "pnj-loges-mages-roowinu-27", "pnj-loges-mages-mike-michabou-28",
+    "pnj-loges-mages-muna-29", "pnj-loges-mages-lara-steven-30",
+    "pnj-loges-mages-edwin-kelly-31", "pnj-loges-mages-nike-celio-37",
+    "pnj-loges-mages-alice-carroll-38"
+  ];
+
+  for (const id of ids) {
+    const article = byId.get(id);
+    if (!article?.pnj?.real_name) throw new Error(`Profil Réalité du Mage introuvable : ${id}`);
+    const source = (article.sections ?? []).find((section) => section.id === "profil-loges-mages");
+    const table = (source?.blocks ?? []).find((block: J) => block.type === "table");
+    if (!table?.rows) throw new Error(`Profil source du Mage introuvable : ${id}`);
+    const field = (label: string) => String(table.rows.find((row: unknown[]) => row[0] === label)?.[1] ?? "").trim();
+    const civilName = String(article.pnj.real_name).trim();
+    const age = /[«" ]\s*(\d+)\s*ans/i.exec(field("Âge"))?.[1];
+    const affiliation = field("Affiliations").replace(/^[«"\s]+|[»"\s]+$/g, "");
+    const nationality = field("Nationalité d’origine");
+    const rows: string[][] = [["Champ", "Valeur"], ["Nom / identité de Réalité", civilName]];
+    if (age) rows.push(["Âge apparent", `${age} ans`]);
+    if (affiliation && !/^\?+$/.test(affiliation) && !/\b(?:mages?|chasseurs?|créatures?)\b/i.test(affiliation)) {
+      rows.push(["Affiliations", affiliation]);
+    }
+    if (nationality && !/^\?+$/.test(nationality)) rows.push(["Nationalité déclarée", nationality]);
+    const blocks: J[] = [{ type: "table", rows }];
+    if (id === "pnj-loges-mages-nina-le-guellec-03") {
+      blocks.push({ type: "p", text: "Officiellement française, elle est directrice de branche de la Tuatha." });
+    }
+    article.title = civilName;
+    const publicSection = { id: "identite-realite-restauree", title: "Identité · Réalité", level: 2, blocks };
+    article.sections = [publicSection, ...(article.sections ?? [])];
+  }
+}
+
 export function applyCompendiumPnjRepairs(byId: Map<string, A>) {
   const result = applyBaseCompendiumPnjRepairs(byId);
   repairClassicCrawlerOrganisations(byId);
   repairFinalPnjSurfaces(byId);
+  restoreMageRealityProfiles(byId);
   return result;
 }
