@@ -23,7 +23,7 @@ const DECISIONS: Record<string, EditorialDecision> = {
   "personnages-verite-extraterrestres-dai-zhenya": { publicTitle: "Dai Zhenya", realName: "Dai Zhenya" },
   "personnages-verite-extraterrestres-leona-elliott": { publicTitle: "Leona Elliott", realName: "Leona Elliott" },
   "personnages-verite-extraterrestres-malcolm-moss": { publicTitle: "Malcolm Moss", realName: "Malcolm Moss (« Mammoth »)" },
-  "personnages-verite-extraterrestres-shykrerath": { publicTitle: "Aberration Z-87", realName: "Aberration Z-87" },
+  "personnages-verite-extraterrestres-shykrerath": { publicTitle: "Honoka", realName: "Honoka" },
   "personnages-verite-extraterrestres-eyteliana-guwundha": { publicTitle: "Eyteliana Guwunda", realName: "Eyteliana Guwunda" },
   "personnages-verite-extraterrestres-ramaesh-talavalakr": { publicTitle: "Ramaesh Talavalakr", realName: "Ramaesh Talavalakr" },
   "personnages-verite-extraterrestres-meira-zoegell": { publicTitle: "Meira Zoegell", realName: "Meira Zoegell" },
@@ -151,6 +151,10 @@ export function editorializeExtraterrestresPnj(source: Array<Record<string, any>
         section.audience = "mj";
       }
       if (/seuil/i.test(title)) section.audience = "mj";
+      if (article.id === "personnages-verite-extraterrestres-shykrerath" && section?.id === "informations-realite") {
+        section.audience = "mj";
+        section.title = "Signalement Z-87 · MJ";
+      }
       for (const block of section?.blocks ?? []) {
         if (typeof block?.text === "string") block.text = cleanText(block.text);
       }

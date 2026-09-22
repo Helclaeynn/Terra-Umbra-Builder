@@ -9,6 +9,7 @@ import {
   COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_ARTICLES,
   COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_NAVIGATION
 } from "../dist/compendium-verite-extraterrestres-pnj.js";
+import { COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_ARTICLES } from "../dist/compendium-verite-extrals-groups-pnj.js";
 import { COMPENDIUM_REALITE_V9_PEGRE_PNJ_ARTICLES } from "../dist/compendium-realite-v9-pegre-pnj.js";
 import { COMPENDIUM_REALITE_V9_POLICE_PNJ_ARTICLES } from "../dist/compendium-realite-v9-police-pnj.js";
 import { COMPENDIUM_REALITE_V9_GOVERNMENT_PNJ_ARTICLES } from "../dist/compendium-realite-v9-government-pnj.js";
@@ -131,7 +132,7 @@ for (const id of [
 
 const publicTitles = new Map([
   ["personnages-verite-extraterrestres-arkinas", "Apollo Gaines"],
-  ["personnages-verite-extraterrestres-shykrerath", "Aberration Z-87"],
+  ["personnages-verite-extraterrestres-shykrerath", "Honoka"],
   ["personnages-verite-extraterrestres-rsheraag", "Aberration Z-45"],
   ["personnages-verite-extraterrestres-dsherraneth", "Aberration Z-47"],
   ["personnages-verite-extraterrestres-zeelthan", "Jack Tang"],
@@ -141,6 +142,32 @@ const publicTitles = new Map([
 for (const [id, title] of publicTitles) {
   assert.equal(COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_ARTICLES.find((article) => article.id === id)?.title, title, `${id}: wrong public title`);
 }
+
+assert.equal(COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_ARTICLES.length, 58, "58 group source PNJs expected");
+assert.ok(
+  COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_ARTICLES.every((article) => article.pnj?.protect_truth_metadata === true),
+  "All group profiles must protect Truth metadata"
+);
+assert.deepEqual(
+  COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_ARTICLES.filter((article) => article.audience === "mj").map((article) => article.title),
+  ["Elleth-Dyx", "Zirine fa’Meonn", "Otrax-01"],
+  "Group profiles without a Reality cover must stay MJ-only"
+);
+for (const article of COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_ARTICLES) {
+  const profile = article.sections?.find((section) => section.id === "profil");
+  if (profile) assert.equal(profile.audience, "mj", `${article.id}: occult group profile must be MJ-only`);
+  for (const section of article.sections ?? []) {
+    for (const block of section.blocks ?? []) {
+      if (typeof block?.text !== "string" || !block.text.trim()) continue;
+      assert.match(block.text.trim(), /[.!?…»)]$/, `${article.id}/${section.id}: truncated active paragraph`);
+    }
+  }
+}
+assert.equal(
+  COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_ARTICLES.find((article) => article.id === "personnages-verite-extrals-groupes-elsa-rys")?.pnj?.nom_verite,
+  "",
+  "Elsa Rys must not inherit Nehemiah Hooley's Truth identity"
+);
 
 const activeOtherPnjs = [
   ...COMPENDIUM_REALITE_V9_PEGRE_PNJ_ARTICLES,
