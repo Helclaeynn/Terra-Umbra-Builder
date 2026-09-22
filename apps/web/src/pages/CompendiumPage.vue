@@ -1787,7 +1787,7 @@ onBeforeUnmount(() => {
 
                     <div class="article-meta">
                       <span v-if="selected.status">{{ selected.status }}</span>
-                      <span v-if="selected.source">{{ selected.source }}</span>
+                      <span v-if="canEdit && selected.source">{{ selected.source }}</span>
                       <button
                         v-if="selected.manufacturer"
                         class="manufacturer-badge"
@@ -1796,8 +1796,8 @@ onBeforeUnmount(() => {
                       >
                         Fabricant · {{ selected.manufacturer }}
                       </button>
-                      <span v-if="selected.__editorialOverride">Surcharge éditoriale</span>
-                      <span v-if="selected.__wikiPublishedEdit">Édition wiki publiée</span>
+                      <span v-if="canEdit && selected.__editorialOverride">Surcharge éditoriale</span>
+                      <span v-if="canEdit && selected.__wikiPublishedEdit">Édition wiki publiée</span>
                     </div>
 
                     <div v-if="currentUser" class="article-library-actions">
