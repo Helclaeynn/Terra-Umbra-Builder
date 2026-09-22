@@ -1446,7 +1446,7 @@ const PAYLOAD = [
       "real_name": "Murton Blade",
       "nom_verite": "Muriel",
       "race": "Archangelus",
-      "age": "«31 ans » - ????",
+      "age": "31 ans",
       "origine": "américaine/ japonaise",
       "statut": "crawlers : voidrunner / pègre : yakuzas",
       "statut_verite": "Archange renégat",
@@ -1454,7 +1454,9 @@ const PAYLOAD = [
       "relations": [],
       "identity_keys": [
         "Murton Blade",
-        "Muriel"
+        "Muriel",
+        "Goro Ishikawa",
+        "Goro Oshiro"
       ],
       "source_group": "Malkhouth · Muriel",
       "source_order": 39,
@@ -1487,7 +1489,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«31 ans » - ????"
+                "31 ans"
               ],
               [
                 "Affiliations",
@@ -1508,7 +1510,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Murton Blade est un assassin, américain redoutablement weeb , il a pratiqué l’art du katana seul avant la guerre, gagnant une petite compétition New-Yorkaise. Voidrunner, il a sa réputation, notamment à cause de sa carrure presque inhumaine avec ses 2,20 m tout en muscles. Les yakuzas aimaient s’en moquer, le « singe des ténèbres » était son surnom entre eux. Quand Goro Oshiro a été tué Murton a tout de suite été engagé par sa fiancée. Il ne fuit pas engager pour le venger néanmoins mais servir de corps de transplantation à son cerveau à Sunways. La greffe n’a pas été totale pour certaines raisons pratiques mais elle avait presque réussi. Hélas, les douleurs étaient trop grandes pour Goro. C’est ainsi, qu’au soir du 27 février 2035, Goro se planta un doigt dans la carotide pour en finir."
+            "text": "Murton Blade est un assassin américain profondément fasciné par la culture japonaise. Avant la guerre, il pratiquait seul le katana et remporta une petite compétition new-yorkaise. Devenu Voidrunner, il acquit une solide réputation, notamment grâce à sa carrure presque inhumaine : 2,20 mètres de muscles. Les Yakuzas se moquaient de lui en le surnommant le « singe des ténèbres ». Après la mort de Goro, Murton fut engagé par sa fiancée non pour le venger, mais pour servir de corps à une transplantation cérébrale chez Sunways. L’opération fut presque un succès, mais les douleurs devinrent insupportables pour Goro. Le 27 février 2035, celui-ci se planta un doigt dans la carotide pour mettre fin à ses souffrances."
           }
         ]
       },
@@ -1553,7 +1555,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Muriel s’incarna en lui à ce moment, le possédant pour prendre ce corps exceptionnel. Archange de la destruction, il était un partenaire de l’archange de la mort, Azrael qu’il adorait bien qu’elle ne le considérait pas. La marque de Muriel est unique, elle n’a pas de limite à sa transcendance, dès qu’il détruit le lien entre une âme et son corps, il voit sa marque se renforcer. Les anges ne sont pas des gentils mais Muriel était un amateur de"
+            "text": "Muriel s’incarna dans le corps au moment de la mort de Goro et le posséda afin de s’approprier ce physique exceptionnel. Archange de la destruction, il fut autrefois le partenaire d’Azrael, Archange de la mort, qu’il adorait sans être réellement considéré en retour. La Marque de Muriel est unique : sa transcendance n’a pas de limite fixe et se renforce chaque fois qu’il détruit le lien entre une âme et son corps. Les Anges ne sont pas nécessairement bienveillants, mais Muriel était un amateur de carnage suffisamment excessif pour inquiéter les siens. Devenant toujours plus puissant, il fut finalement enfermé par Azrael elle-même."
           }
         ]
       },
