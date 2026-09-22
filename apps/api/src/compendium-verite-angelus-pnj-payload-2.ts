@@ -1455,7 +1455,6 @@ const PAYLOAD = [
       "identity_keys": [
         "Murton Blade",
         "Muriel",
-        "Goro Ishikawa",
         "Goro Oshiro"
       ],
       "source_group": "Malkhouth · Muriel",
