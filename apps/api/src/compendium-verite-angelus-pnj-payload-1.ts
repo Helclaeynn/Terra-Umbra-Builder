@@ -1161,7 +1161,7 @@ const PAYLOAD = [
       "real_name": "Harmony Melinda Mannan",
       "nom_verite": "Manakielle",
       "race": "archangelus",
-      "age": "«46 ans » - ????",
+      "age": "46 ans",
       "origine": "américaine",
       "statut": "crawler : enders",
       "statut_verite": "Archange renégat",
@@ -1202,7 +1202,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«46 ans » - ????"
+                "46 ans"
               ],
               [
                 "Affiliations",
@@ -1223,7 +1223,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Harmony Mannan est une ender, des crawlers renonçant à la vie urbaine pour vivre en communautés ou en solitaires sans dépendre des Corporations ou des vestiges de gouvernements. Elle est à la tête de la ferme Mannan, qu’elle tient avec ses deux filles et quelques proches. Si elle ne fait pas ses presque cinquante ans ni ne semble très dangereuse dans ses robes d’été et avec son grand chapeau de paille, c’est un ancien agent de la CIA qui a vu l’influence corporative monter et a préféré s’en éloigner."
+            "text": "Harmony Mannan est une Ender : l’une de ces Crawlers qui renoncent à la vie urbaine pour vivre en communauté ou en solitaire, sans dépendre des corporations ni des vestiges des gouvernements. Elle dirige la ferme Mannan avec ses deux filles et quelques proches. Malgré son apparence paisible, ses robes d’été et son grand chapeau de paille, c’est une ancienne agente de la CIA qui vit monter l’influence corporative et préféra s’en éloigner."
           }
         ]
       },
@@ -1268,7 +1268,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Manakielle est l’archange de la connaissance. Elle a été considérée comme renégate car son pouvoir lui permettait de savoir presque tout sur une cible à la seconde où elle se connectait à son essence. Envieuse d’avoir toujours plus de savoirs, elle s’était un peu trop rapprochée d’Astaroth, la déesse. La véritable raison à sa déchéance et de la victoire totale de Gabrielle survint quand Manakielle s’approcha d’Ashlutum, de la secte du grand Savoir, vénérant Sharith, déjà mise de côté, l’archange fut"
+            "text": "Manakielle est l’Archange de la connaissance. Elle fut considérée comme renégate parce que son pouvoir lui permettait de savoir presque tout d’une cible dès qu’elle se connectait à son essence. Toujours avide de nouveaux savoirs, elle s’était déjà trop rapprochée d’Astaroth. La véritable cause de sa déchéance et de la victoire définitive de Gabrielle survint lorsqu’elle approcha Ashlutum et la secte du Grand Savoir, qui vénère Sharith. Déjà marginalisée, Manakielle fut définitivement emprisonnée lorsqu’on la soupçonna d’avoir cherché à obtenir les « yeux d’or »."
           }
         ]
       },
