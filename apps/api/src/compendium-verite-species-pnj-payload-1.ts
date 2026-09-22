@@ -16,12 +16,12 @@ const PAYLOAD = [
       "Humaine-Atlante"
     ],
     "pnj": {
-      "nom_verite": "_",
-      "race": "Humaine-Atlante",
-      "age": "« 34 ans » -",
+      "nom_verite": "Veronica Visilas Athegos",
+      "race": "Aseryne (Serathèenne)",
+      "age": "34 ans",
       "origine": "Américaine",
-      "statut": "Crawlers",
-      "statut_verite": "L’Arbitre",
+      "statut": "Crawlers : tous",
+      "statut_verite": "Princesse inconnue de Mû et de l’Atlantide",
       "relations": [],
       "source_group": "Atlantes",
       "source_order": 23,
@@ -35,49 +35,18 @@ const PAYLOAD = [
           "text": "Veronica n’a aucune conscience de sa nature de demi-aseryn, mais sa mère était une aseryn, dit-on une Mulienne, et certaines rumeurs de la communauté des Atlantes fantasment que la Silver serait l’héritière du trône de Mu et de l’Atlantide, une demi-humaine. Si rien n’est confirmé quant à l’identité de sa mère, pour Veronica, les choses ne sont pas simple, son sang Aseryn lui confère une capacité de réflexion et une vitesse de réaction outrancières, faisant d’elle une des guerrières les plus puissante au corps à corps, mais aussi une des tireuses les plus précises, en effet, les aseryn ont une vue meilleure que les humains, certes, de peu, ils ne souffrent surtout d’aucune maladie oculaire, Veronica est dotée d’une vision bien supérieure à la moyenne atlante de son coté, en cela, combiné à une capacité de réflexion éclair et des réflexes inimaginables, elle est une tireuse de précision bien souvent sous-estimée même quand on connait bien sa réputation. Son sang Aseryn lui coute néanmoins de gros ennuis avec les Créatures de la Vérité, les monstres sentent en elle quelque chose, particulièrement les Abyssaux et leurs maitres. Veronica sait qu’il existe quelques créatures surnaturelles, elle en a déjà croisé et tué, cependant, elle est encore loin de comprendre la nature exacte de ces créatures, notamment celle de son amie Olla."
         }
       ],
-      "source_extract": "Veronica Silver\nL’Arbitre\nNom de la Réalité : Veronica SILVER\nNom de la Vérité : _\nAge : « 34 ans » -\nAffiliations :\nCrawlers\nNationalité d’origine : Américaine\nEthnie réelle : Humaine-Atlante\nPersonnages liés :\n ?\n ?\n___________________________________________________________________________\nInformations Réalité :\nVeronica Silver est une ancienne militaire de l’Army ayant brillé pendant la guerre contre la Corée du\nNord, génie autodestructeur à la jeunesse ravagée à cause de la mort de son seul parent, son père,\nelle a réussi à s’épanouir dans ce monde déconstruit, précisément parce qu’elle était encore plus\nchaotique que ce dernier.\nIl existe peu de génies de son niveau, c’est pourquoi, malgré son physique extraordinaire, ses\ncapacités de combat, de tir mais aussi son réseau démentiel, elle est plus encore admirée par sa\nperspicacité et sa logique, hélas trop intelligente pour une société aussi artificielle, elle souffre d’un\ncynisme démesuré et possède un comportement autodestructeur en tant que détective privé.\nInformations Vérité :\nVeronica n’a aucune conscience de sa nature de demi-aseryn, mais sa mère était une aseryn, dit-on\nune Mulienne, et certaines rumeurs de la communauté des Atlantes fantasment que la Silver serait\nl’héritière du trône de Mu et de l’Atlantide, une demi-humaine.\nSi rien n’est confirmé quant à l’identité de sa mère, pour Veronica, les choses ne sont pas simple, son\nsang Aseryn lui confère une capacité de réflexion et une vitesse de réaction outrancières, faisant\nd’elle une des guerrières les plus puissante au corps à corps, mais aussi une des tireuses les plus\nprécises, en effet, les aseryn ont une vue meilleure que les humains, certes, de peu, ils ne souffrent\nsurtout d’aucune maladie oculaire, Veronica est dotée d’une vision bien supérieure à la moyenne\natlante de son coté, en cela, combiné à une capacité de réflexion éclair et des réflexes inimaginables,\nelle est une tireuse de précision bien souvent sous-estimée même quand on connait bien sa\nréputation.\nSon sang Aseryn lui coute néanmoins de gros ennuis avec les Créatures de la Vérité, les monstres\nsentent en elle quelque chose, particulièrement les Abyssaux et leurs maitres. Veronica sait qu’il\nexiste quelques créatures surnaturelles, elle en a déjà croisé et tué, cependant, elle est encore loin\nde comprendre la nature exacte de ces créatures, notamment celle de son amie Olla."
+      "source_extract": "Veronica Silver\nL’Arbitre\nNom de la Réalité : Veronica SILVER\nNom de la Vérité : _\nAge : « 34 ans » -\nAffiliations :\nCrawlers\nNationalité d’origine : Américaine\nEthnie réelle : Humaine-Atlante\nPersonnages liés :\n ?\n ?\n___________________________________________________________________________\nInformations Réalité :\nVeronica Silver est une ancienne militaire de l’Army ayant brillé pendant la guerre contre la Corée du\nNord, génie autodestructeur à la jeunesse ravagée à cause de la mort de son seul parent, son père,\nelle a réussi à s’épanouir dans ce monde déconstruit, précisément parce qu’elle était encore plus\nchaotique que ce dernier.\nIl existe peu de génies de son niveau, c’est pourquoi, malgré son physique extraordinaire, ses\ncapacités de combat, de tir mais aussi son réseau démentiel, elle est plus encore admirée par sa\nperspicacité et sa logique, hélas trop intelligente pour une société aussi artificielle, elle souffre d’un\ncynisme démesuré et possède un comportement autodestructeur en tant que détective privé.\nInformations Vérité :\nVeronica n’a aucune conscience de sa nature de demi-aseryn, mais sa mère était une aseryn, dit-on\nune Mulienne, et certaines rumeurs de la communauté des Atlantes fantasment que la Silver serait\nl’héritière du trône de Mu et de l’Atlantide, une demi-humaine.\nSi rien n’est confirmé quant à l’identité de sa mère, pour Veronica, les choses ne sont pas simple, son\nsang Aseryn lui confère une capacité de réflexion et une vitesse de réaction outrancières, faisant\nd’elle une des guerrières les plus puissante au corps à corps, mais aussi une des tireuses les plus\nprécises, en effet, les aseryn ont une vue meilleure que les humains, certes, de peu, ils ne souffrent\nsurtout d’aucune maladie oculaire, Veronica est dotée d’une vision bien supérieure à la moyenne\natlante de son coté, en cela, combiné à une capacité de réflexion éclair et des réflexes inimaginables,\nelle est une tireuse de précision bien souvent sous-estimée même quand on connait bien sa\nréputation.\nSon sang Aseryn lui coute néanmoins de gros ennuis avec les Créatures de la Vérité, les monstres\nsentent en elle quelque chose, particulièrement les Abyssaux et leurs maitres. Veronica sait qu’il\nexiste quelques créatures surnaturelles, elle en a déjà croisé et tué, cependant, elle est encore loin\nde comprendre la nature exacte de ces créatures, notamment celle de son amie Olla.",
+      "completeness": "detailed",
+      "real_name": "Veronica Silver",
+      "real_name_source": "Veronica Silver",
+      "nom_verite_source": "Veronica Visilas Athegos",
+      "organisation": "Diaspora & Altéras",
+      "identity_keys": [
+        "Veronica Silver",
+        "Veronica Visilas Athegos"
+      ]
     },
     "sections": [
-      {
-        "id": "profil",
-        "title": "Profil",
-        "level": 2,
-        "blocks": [
-          {
-            "type": "table",
-            "rows": [
-              [
-                "Nom de la Réalité",
-                "Veronica SILVER"
-              ],
-              [
-                "Nom de la Vérité",
-                "_"
-              ],
-              [
-                "Âge",
-                "« 34 ans » -"
-              ],
-              [
-                "Affiliations",
-                "Crawlers"
-              ],
-              [
-                "Nationalité d’origine",
-                "Américaine"
-              ],
-              [
-                "Nature réelle",
-                "Humaine-Atlante"
-              ],
-              [
-                "Repère",
-                "L’Arbitre"
-              ]
-            ]
-          }
-        ]
-      },
       {
         "id": "info-realite",
         "title": "Informations Réalité",
@@ -125,12 +94,12 @@ const PAYLOAD = [
       "Atlante"
     ],
     "pnj": {
-      "nom_verite": "Kyriak ZENOS ATHEGOS",
-      "race": "Atlante",
-      "age": "«64 ans »,????",
+      "nom_verite": "Kyriak Zenos Athegos",
+      "race": "Aseryne (paleo-atlante)",
+      "age": "64 ans",
       "origine": "grecque",
-      "statut": "Corporatistes",
-      "statut_verite": "L’Archimage",
+      "statut": "corporatiste : seawares",
+      "statut_verite": "Roi des Mûliens",
       "relations": [],
       "source_group": "Atlantes",
       "source_order": 24,
@@ -144,49 +113,18 @@ const PAYLOAD = [
           "text": "Kyriak est né peu après la destruction de l’Atlantide, son père était un cousin à quelques degrés de la reine Kalira Athegos. La vie pour le jeune Kyriak ne fut pas simple, il apprit à la dure la survie et comment s’intégré dans des communautés. Avec les siècles, ce marin s’illustra et devint un protecteur des Aseryns Terrestres, il les mena dans diverses parties du monde à travers l’Histoire, l’exode des Aseryns fut long et rassembler les communautés fut difficile, il vécut très longtemps en Grèce antique notamment, et aurait été proche de la déesse Abigor. Kyriak accusa les abyssaux, ces êtres infâmes servant les Fléaux, d’être à l’origine de la chute de l’Atlantide, immortel, il était le seul Aseryn assez vieux pour savoir la vérité, notamment concernant Sil’Elaith, ainsi, les Muliens associèrent les créatures pisciformes maudites à la destruction de leur continent, un mensonge éhonté qui permit à Kyriak de justifier la suite de ses plans. Quand il eut assez de puissance avec ses magiciens, Kyriak fit créer le continent de Mu, soulevant hors des flots les immenses citées d’abyssaux, les purgeant alors pour prendre ces nouvelles terres. A l’époque moderne, il eut de longues discussions avec Sil’Elaith, qui vint à lui d’elle-même, ils fondèrent Seawares, un but de la corporation étant de préserver Mu comme pour que Sil ne fasse pénitence de ses actions contre l’Atlantide. Kyriak pose soucis chez les Muliens, ses deux filles et uniques héritières se cacheraient à Los Angeles."
         }
       ],
-      "source_extract": "Kyriakos Zenos\nL’Archimage\nNom de la Réalité : Kyriakos ZENOS\nNom de la Vérité : Kyriak ZENOS ATHEGOS\nAge : «64 ans », ????\nAffiliations :\nCorporatistes\nNationalité d’origine : grecque\nEthnie réelle : Atlante\nPersonnages liés :\n ?\n________________________________________________________________________\nInformations Réalité :\nKyriakos est un vieux renard dans le jeu industriel, méconnu, il roule sa bosse dans le milieu depuis\ndes décennies, il a travaillé dans de nombreuses compagnies de forage, sur des plateformes marines\ndont il avait la direction. Cet ancien pêcheur sportif a toujours adoré la mer et a laissé la compagnie\nqu’il fonda en 2022, Neptultimate, pour voyager seul sur son voilier dans le pacifique, une grossière\nerreur avec la guerre opposant la Corée du nord aux forces alliées du Pacifique.\nSe retrouvant vite capturé mais loin d’être sans défense néanmoins, il coula le navire de transport\nl’amenant en Corée et fut sauvé par la flotte américaine. Considéré comme mort par ses\nactionnaires, il se rangea aux coté de Silia-Ellen pour la production de scaphandres de combat et\nparticipa au développement de Seawares corp les années suivantes, devenant le vice-président tout\nnaturellement.\nInformations Vérité :\nKyriak est né peu après la destruction de l’Atlantide, son père était un cousin à quelques degrés de la\nreine Kalira Athegos.\nLa vie pour le jeune Kyriak ne fut pas simple, il apprit à la dure la survie et comment s’intégré dans\ndes communautés.\nAvec les siècles, ce marin s’illustra et devint un protecteur des Aseryns Terrestres, il les mena dans\ndiverses parties du monde à travers l’Histoire, l’exode des Aseryns fut long et rassembler les\ncommunautés fut difficile, il vécut très longtemps en Grèce antique notamment, et aurait été proche\nde la déesse Abigor.\nKyriak accusa les abyssaux, ces êtres infâmes servant les Fléaux, d’être à l’origine de la chute de\nl’Atlantide, immortel, il était le seul Aseryn assez vieux pour savoir la vérité, notamment concernant\nSil’Elaith, ainsi, les Muliens associèrent les créatures pisciformes maudites à la destruction de leur\ncontinent, un mensonge éhonté qui permit à Kyriak de justifier la suite de ses plans. Quand il eut\nassez de puissance avec ses magiciens, Kyriak fit créer le continent de Mu, soulevant hors des flots\nles immenses citées d’abyssaux, les purgeant alors pour prendre ces nouvelles terres.\nA l’époque moderne, il eut de longues discussions avec Sil’Elaith, qui vint à lui d’elle-même, ils\nfondèrent Seawares, un but de la corporation étant de préserver Mu comme pour que Sil ne fasse\npénitence de ses actions contre l’Atlantide.\nKyriak pose soucis chez les Muliens, ses deux filles et uniques héritières se cacheraient à Los Angeles."
+      "source_extract": "Kyriakos Zenos\nL’Archimage\nNom de la Réalité : Kyriakos ZENOS\nNom de la Vérité : Kyriak ZENOS ATHEGOS\nAge : «64 ans », ????\nAffiliations :\nCorporatistes\nNationalité d’origine : grecque\nEthnie réelle : Atlante\nPersonnages liés :\n ?\n________________________________________________________________________\nInformations Réalité :\nKyriakos est un vieux renard dans le jeu industriel, méconnu, il roule sa bosse dans le milieu depuis\ndes décennies, il a travaillé dans de nombreuses compagnies de forage, sur des plateformes marines\ndont il avait la direction. Cet ancien pêcheur sportif a toujours adoré la mer et a laissé la compagnie\nqu’il fonda en 2022, Neptultimate, pour voyager seul sur son voilier dans le pacifique, une grossière\nerreur avec la guerre opposant la Corée du nord aux forces alliées du Pacifique.\nSe retrouvant vite capturé mais loin d’être sans défense néanmoins, il coula le navire de transport\nl’amenant en Corée et fut sauvé par la flotte américaine. Considéré comme mort par ses\nactionnaires, il se rangea aux coté de Silia-Ellen pour la production de scaphandres de combat et\nparticipa au développement de Seawares corp les années suivantes, devenant le vice-président tout\nnaturellement.\nInformations Vérité :\nKyriak est né peu après la destruction de l’Atlantide, son père était un cousin à quelques degrés de la\nreine Kalira Athegos.\nLa vie pour le jeune Kyriak ne fut pas simple, il apprit à la dure la survie et comment s’intégré dans\ndes communautés.\nAvec les siècles, ce marin s’illustra et devint un protecteur des Aseryns Terrestres, il les mena dans\ndiverses parties du monde à travers l’Histoire, l’exode des Aseryns fut long et rassembler les\ncommunautés fut difficile, il vécut très longtemps en Grèce antique notamment, et aurait été proche\nde la déesse Abigor.\nKyriak accusa les abyssaux, ces êtres infâmes servant les Fléaux, d’être à l’origine de la chute de\nl’Atlantide, immortel, il était le seul Aseryn assez vieux pour savoir la vérité, notamment concernant\nSil’Elaith, ainsi, les Muliens associèrent les créatures pisciformes maudites à la destruction de leur\ncontinent, un mensonge éhonté qui permit à Kyriak de justifier la suite de ses plans. Quand il eut\nassez de puissance avec ses magiciens, Kyriak fit créer le continent de Mu, soulevant hors des flots\nles immenses citées d’abyssaux, les purgeant alors pour prendre ces nouvelles terres.\nA l’époque moderne, il eut de longues discussions avec Sil’Elaith, qui vint à lui d’elle-même, ils\nfondèrent Seawares, un but de la corporation étant de préserver Mu comme pour que Sil ne fasse\npénitence de ses actions contre l’Atlantide.\nKyriak pose soucis chez les Muliens, ses deux filles et uniques héritières se cacheraient à Los Angeles.",
+      "completeness": "detailed",
+      "real_name": "Kyriakos Zenos",
+      "real_name_source": "Kyriakos Zenos",
+      "nom_verite_source": "Kyriak Zenos Athegos",
+      "organisation": "Mû",
+      "identity_keys": [
+        "Kyriak Zenos Athegos",
+        "Kyriakos Zenos"
+      ]
     },
     "sections": [
-      {
-        "id": "profil",
-        "title": "Profil",
-        "level": 2,
-        "blocks": [
-          {
-            "type": "table",
-            "rows": [
-              [
-                "Nom de la Réalité",
-                "Kyriakos ZENOS"
-              ],
-              [
-                "Nom de la Vérité",
-                "Kyriak ZENOS ATHEGOS"
-              ],
-              [
-                "Âge",
-                "«64 ans »,????"
-              ],
-              [
-                "Affiliations",
-                "Corporatistes"
-              ],
-              [
-                "Nationalité d’origine",
-                "grecque"
-              ],
-              [
-                "Nature réelle",
-                "Atlante"
-              ],
-              [
-                "Repère",
-                "L’Archimage"
-              ]
-            ]
-          }
-        ]
-      },
       {
         "id": "info-realite",
         "title": "Informations Réalité",
@@ -224,7 +162,7 @@ const PAYLOAD = [
     "dataset": "verite-species-pnj",
     "category": "Personnages",
     "sourceCategory": "Personnages",
-    "title": "Kalira Athegos",
+    "title": "Katelyn Attenborough",
     "source": "TUC_Vérité_ les espèces  surnaturelles(1).docx",
     "status": "canon_source",
     "rebuildV2": true,
@@ -234,12 +172,12 @@ const PAYLOAD = [
       "Atlante"
     ],
     "pnj": {
-      "nom_verite": "Kalira ATHEGOS",
-      "race": "Atlante",
-      "age": "« 57 ans » -",
+      "nom_verite": "Kalira Athegos",
+      "race": "aseryne (paleo-atlante)",
+      "age": "57 ans",
       "origine": "Américaine",
       "statut": "Gouvernement",
-      "statut_verite": "La plus grande reine de l’Atlantide",
+      "statut_verite": "Ancienne Reine",
       "relations": [
         "Veronica SILVER (fille)"
       ],
@@ -255,53 +193,18 @@ const PAYLOAD = [
           "text": "Kalira ATHEGOS est la plus grande et la plus prodigieuse reine Atlante ayant existé. Les muliens la voient comme la cause du naufrage de l’Atlantide, ils ne la considèrent donc pas en vie, et la respectent pour celle qu’elle était, les Aseryn expatriés sur Aèr la considèrent avec beaucoup plus de respect encore et ne nient pas qu’elle soit encore en vie. Bien qu’elle ait beaucoup voyager, pour installer des duchés Atlantes sur des mondes propices, elle chercha dans les années 1990-2000 à renouer entre muliens et neo-atlantes. Sa relation avec John Silver était fortuite mais elle l’apprécia d’autant plus en réalisant qu’il était le fils d’une princesse mulienne. Hélas, Kalira ignorait que la mère de John avait été maudite par R’Sheraag, le rocréen calamiteux, elle découvrit la malédiction sur sa fille, Veronica, marquée d’un symbole en forme de tentacule à la base de sa nuque, tout comme John en avait un. Kalira brula la malédiction de Veronica par sa grande maitrise de la foudre et décida de quitter John pour faire élever Veronica par une famille prestigieuse atlante, néanmoins, elle n’eut pasq le cœur d’arracher l’enfant à son père et retourna sur l’Aèr en renonçant à eux, réalisant son erreur après coup, trop tard hélas, quand elle revint à L’Atlantide. Désormais, elle doit malheureusement s’assurer de faire assassiner Olla, la petite amie de Veronica afin de couper tout lien avec R’sheraag qui en descend."
         }
       ],
-      "source_extract": "Kalira Athegos\nLa plus grande reine de l’Atlantide\nNom de la Réalité : Katelyn ATTENBOROUGH\nNom de la Vérité : Kalira ATHEGOS\nAge : « 57 ans » -\nAffiliations :\nGouvernement\nNationalité d’origine : Américaine\nEthnie réelle : Atlante\nPersonnages liés :\n Veronica SILVER (fille)\n ?\n___________________________________________________________________________\nInformations Réalité :\nNée en 1978, Katelyn Attenborough était une Américaine.\nPremière au concours de droit qu’elle passa, elle s’engagea comme experte juridique pour le LAPD\nen 1998.\nTrès tôt, elle fut relativement séduite par un tout jeune inspecteur nommé John SILVER mais les\nméthodes de ces derniers jouaient en sa défaveur, les supérieurs de John lui collèrent donc Katelyn\ndans les pieds pour l’évaluer régulièrement afin de lui éviter l’inspection. Malgré des conflits enragés\nterrorisant le jeune Henry EDWARDS, le compère de John.\nFinalement, Katelyn et John eurent une fille, hélas, « Kaly » décéda mystérieusement peu après cette\nnaissance.\nInformations Vérité :\nKalira ATHEGOS est la plus grande et la plus prodigieuse reine Atlante ayant existé. Les muliens la\nvoient comme la cause du naufrage de l’Atlantide, ils ne la considèrent donc pas en vie, et la\nrespectent pour celle qu’elle était, les Aseryn expatriés sur Aèr la considèrent avec beaucoup plus de\nrespect encore et ne nient pas qu’elle soit encore en vie.\nBien qu’elle ait beaucoup voyager, pour installer des duchés Atlantes sur des mondes propices, elle\nchercha dans les années 1990-2000 à renouer entre muliens et neo-atlantes. Sa relation avec John\nSilver était fortuite mais elle l’apprécia d’autant plus en réalisant qu’il était le fils d’une princesse\nmulienne.\nHélas, Kalira ignorait que la mère de John avait été maudite par R’Sheraag, le rocréen calamiteux, elle\ndécouvrit la malédiction sur sa fille, Veronica, marquée d’un symbole en forme de tentacule à la\nbase de sa nuque, tout comme John en avait un.\nKalira brula la malédiction de Veronica par sa grande maitrise de la foudre et décida de quitter John\npour faire élever Veronica par une famille prestigieuse atlante, néanmoins, elle n’eut pasq le cœur\nd’arracher l’enfant à son père et retourna sur l’Aèr en renonçant à eux, réalisant son erreur après\ncoup, trop tard hélas, quand elle revint à L’Atlantide. Désormais, elle doit malheureusement\ns’assurer de faire assassiner Olla, la petite amie de Veronica afin de couper tout lien avec R’sheraag\nqui en descend."
+      "source_extract": "Kalira Athegos\nLa plus grande reine de l’Atlantide\nNom de la Réalité : Katelyn ATTENBOROUGH\nNom de la Vérité : Kalira ATHEGOS\nAge : « 57 ans » -\nAffiliations :\nGouvernement\nNationalité d’origine : Américaine\nEthnie réelle : Atlante\nPersonnages liés :\n Veronica SILVER (fille)\n ?\n___________________________________________________________________________\nInformations Réalité :\nNée en 1978, Katelyn Attenborough était une Américaine.\nPremière au concours de droit qu’elle passa, elle s’engagea comme experte juridique pour le LAPD\nen 1998.\nTrès tôt, elle fut relativement séduite par un tout jeune inspecteur nommé John SILVER mais les\nméthodes de ces derniers jouaient en sa défaveur, les supérieurs de John lui collèrent donc Katelyn\ndans les pieds pour l’évaluer régulièrement afin de lui éviter l’inspection. Malgré des conflits enragés\nterrorisant le jeune Henry EDWARDS, le compère de John.\nFinalement, Katelyn et John eurent une fille, hélas, « Kaly » décéda mystérieusement peu après cette\nnaissance.\nInformations Vérité :\nKalira ATHEGOS est la plus grande et la plus prodigieuse reine Atlante ayant existé. Les muliens la\nvoient comme la cause du naufrage de l’Atlantide, ils ne la considèrent donc pas en vie, et la\nrespectent pour celle qu’elle était, les Aseryn expatriés sur Aèr la considèrent avec beaucoup plus de\nrespect encore et ne nient pas qu’elle soit encore en vie.\nBien qu’elle ait beaucoup voyager, pour installer des duchés Atlantes sur des mondes propices, elle\nchercha dans les années 1990-2000 à renouer entre muliens et neo-atlantes. Sa relation avec John\nSilver était fortuite mais elle l’apprécia d’autant plus en réalisant qu’il était le fils d’une princesse\nmulienne.\nHélas, Kalira ignorait que la mère de John avait été maudite par R’Sheraag, le rocréen calamiteux, elle\ndécouvrit la malédiction sur sa fille, Veronica, marquée d’un symbole en forme de tentacule à la\nbase de sa nuque, tout comme John en avait un.\nKalira brula la malédiction de Veronica par sa grande maitrise de la foudre et décida de quitter John\npour faire élever Veronica par une famille prestigieuse atlante, néanmoins, elle n’eut pasq le cœur\nd’arracher l’enfant à son père et retourna sur l’Aèr en renonçant à eux, réalisant son erreur après\ncoup, trop tard hélas, quand elle revint à L’Atlantide. Désormais, elle doit malheureusement\ns’assurer de faire assassiner Olla, la petite amie de Veronica afin de couper tout lien avec R’sheraag\nqui en descend.",
+      "completeness": "detailed",
+      "real_name": "Katelyn Attenborough",
+      "real_name_source": "Katelyn Attenborough",
+      "nom_verite_source": "Kalira Athegos",
+      "organisation": "Atlantide",
+      "identity_keys": [
+        "Kalira Athegos",
+        "Katelyn Attenborough"
+      ]
     },
     "sections": [
-      {
-        "id": "profil",
-        "title": "Profil",
-        "level": 2,
-        "blocks": [
-          {
-            "type": "table",
-            "rows": [
-              [
-                "Nom de la Réalité",
-                "Katelyn ATTENBOROUGH"
-              ],
-              [
-                "Nom de la Vérité",
-                "Kalira ATHEGOS"
-              ],
-              [
-                "Âge",
-                "« 57 ans » -"
-              ],
-              [
-                "Affiliations",
-                "Gouvernement"
-              ],
-              [
-                "Nationalité d’origine",
-                "Américaine"
-              ],
-              [
-                "Nature réelle",
-                "Atlante"
-              ],
-              [
-                "Personnages liés",
-                "Veronica SILVER (fille)"
-              ],
-              [
-                "Repère",
-                "La plus grande reine de l’Atlantide"
-              ]
-            ]
-          }
-        ]
-      },
       {
         "id": "info-realite",
         "title": "Informations Réalité",
@@ -339,7 +242,7 @@ const PAYLOAD = [
     "dataset": "verite-species-pnj",
     "category": "Personnages",
     "sourceCategory": "Personnages",
-    "title": "Sagarion Nagilia",
+    "title": "Collin Perez",
     "source": "TUC_Vérité_ les espèces  surnaturelles(1).docx",
     "status": "canon_source",
     "rebuildV2": true,
@@ -349,12 +252,12 @@ const PAYLOAD = [
       "Atlante"
     ],
     "pnj": {
-      "nom_verite": "Sagarion NAGILIA",
-      "race": "Atlante",
-      "age": "« 31 ans » -???",
-      "origine": "Américaine",
-      "statut": "gouvernement",
-      "statut_verite": "Duc d’Amrica",
+      "nom_verite": "Sagarion Nagilia",
+      "race": "aseryne (mûlienne)",
+      "age": "31 ans",
+      "origine": "américaine",
+      "statut": "gouvernemental : maire (Phoenix)",
+      "statut_verite": "duc",
       "relations": [],
       "source_group": "Atlantes",
       "source_order": 26,
@@ -368,49 +271,18 @@ const PAYLOAD = [
           "text": "Seigneur aseryn à la tête du duché d’Amrica sur le continent de Mû, il est le principal administratif gérant les muliens (aseryns du continent de Mu) sur le continent américain. Il déteste corps et âme Kyriak Zenos, le roi de Mu, il en est jaloux au plus au haut point et déteste encore plus ses innombrables aventures donnant des princesses bâtardes un peu partout sur Terre. S’il déteste Kyriak, il n’apprécie pas plus les neo-atlantes (aseryns du continent de l’Atlantide) revenus d’Aèr, ayant pendant longtemps cherché à les faire assassiner dès qu’il en repérait un dans la société américaine. Loin d’être manichéen, il sait qu’il n’a aucune fenêtre pour accéder au trône Mulien, encore moins celui Atlante, c’est ainsi qu’entre en scène les intrigues politiques aserynes. Bien qu’il méprise corps et âmes les « princesses bâtardes », Sagarion est le protecteur de l’une d’elles: Deidea Eina (Zenos). Le but de Sagarion est de destituer Kyriak, instaurer Deidea, la marier à un prétendant Atlante que proposera Kelrana Nateas, la duchesse neoatlante d’Elisiel, avec qui Sagarion complote pour unir Muliens et atlantes tout en écartant les couronnes actuelles. Le problème se posant, Kelrana ne propose pas de prétendant, un temps, elle parla de Lavian Alganos, un cousin de la reine Lorinae Athegos, mais Sagarion ne trouva aucune preuve de son existence, tués précocement ou mensonge de son « alliée », rien ne fut établi. Le fait que Kalira Athegos existe encore est d’autant plus problématique concernant la légitimité Mulienne, c’est d’ailleurs pour ça que Sagarion avait approché la mafia Italienne en 2013, pour s’assurer que la famille de Kalira ne soit éliminée, lui refusant toute nouvelle descendance."
         }
       ],
-      "source_extract": "Sagarion Nagilia\nDuc d’Amrica\nNom de la Réalité : Collin PEREZ\nNom de la Vérité : Sagarion NAGILIA\nAge : « 31 ans » - ???\nAffiliations :\ngouvernement\nNationalité d’origine : Américaine\nEthnie réelle : Atlante\nPersonnages liés :\n ?\n ?\n___________________________________________________________________________\nInformations Réalité :\nCollin PEREZ est le maire de Phoenix. C’est un ami proche de Seth DIRKMAN, le président actuel des\nEtats-Unis. Têtu et redoutablement incisif, il n’aime pas du tout l’installation massive d’usines et\nd’entrepôts corporatifs dans sa ville, en effet, les corporations ont lourdement bénéficié des faveurs\nde son prédécesseur pour s’implanter de manière bien moins « harmonieuse » qu’à Los Angeles ou\nLas Vegas.\nInformations Vérité :\nSeigneur aseryn à la tête du duché d’Amrica sur le continent de Mû, il est le principal administratif\ngérant les muliens (aseryns du continent de Mu) sur le continent américain.\nIl déteste corps et âme Kyriak Zenos, le roi de Mu, il en est jaloux au plus au haut point et déteste\nencore plus ses innombrables aventures donnant des princesses bâtardes un peu partout sur Terre.\nS’il déteste Kyriak, il n’apprécie pas plus les neo-atlantes (aseryns du continent de l’Atlantide)\nrevenus d’Aèr, ayant pendant longtemps cherché à les faire assassiner dès qu’il en repérait un dans\nla société américaine.\nLoin d’être manichéen, il sait qu’il n’a aucune fenêtre pour accéder au trône Mulien, encore moins\ncelui Atlante, c’est ainsi qu’entre en scène les intrigues politiques aserynes. Bien qu’il méprise corps\net âmes les « princesses bâtardes », Sagarion est le protecteur de l’une d’elles : Deidea Eina (Zenos).\nLe but de Sagarion est de destituer Kyriak, instaurer Deidea, la marier à un prétendant Atlante que\nproposera Kelrana Nateas, la duchesse neoatlante d’Elisiel, avec qui Sagarion complote pour unir\nMuliens et atlantes tout en écartant les couronnes actuelles.\nLe problème se posant, Kelrana ne propose pas de prétendant, un temps, elle parla de Lavian\nAlganos, un cousin de la reine Lorinae Athegos, mais Sagarion ne trouva aucune preuve de son\nexistence, tués précocement ou mensonge de son « alliée », rien ne fut établi.\nLe fait que Kalira Athegos existe encore est d’autant plus problématique concernant la légitimité\nMulienne, c’est d’ailleurs pour ça que Sagarion avait approché la mafia Italienne en 2013, pour\ns’assurer que la famille de Kalira ne soit éliminée, lui refusant toute nouvelle descendance."
+      "source_extract": "Sagarion Nagilia\nDuc d’Amrica\nNom de la Réalité : Collin PEREZ\nNom de la Vérité : Sagarion NAGILIA\nAge : « 31 ans » - ???\nAffiliations :\ngouvernement\nNationalité d’origine : Américaine\nEthnie réelle : Atlante\nPersonnages liés :\n ?\n ?\n___________________________________________________________________________\nInformations Réalité :\nCollin PEREZ est le maire de Phoenix. C’est un ami proche de Seth DIRKMAN, le président actuel des\nEtats-Unis. Têtu et redoutablement incisif, il n’aime pas du tout l’installation massive d’usines et\nd’entrepôts corporatifs dans sa ville, en effet, les corporations ont lourdement bénéficié des faveurs\nde son prédécesseur pour s’implanter de manière bien moins « harmonieuse » qu’à Los Angeles ou\nLas Vegas.\nInformations Vérité :\nSeigneur aseryn à la tête du duché d’Amrica sur le continent de Mû, il est le principal administratif\ngérant les muliens (aseryns du continent de Mu) sur le continent américain.\nIl déteste corps et âme Kyriak Zenos, le roi de Mu, il en est jaloux au plus au haut point et déteste\nencore plus ses innombrables aventures donnant des princesses bâtardes un peu partout sur Terre.\nS’il déteste Kyriak, il n’apprécie pas plus les neo-atlantes (aseryns du continent de l’Atlantide)\nrevenus d’Aèr, ayant pendant longtemps cherché à les faire assassiner dès qu’il en repérait un dans\nla société américaine.\nLoin d’être manichéen, il sait qu’il n’a aucune fenêtre pour accéder au trône Mulien, encore moins\ncelui Atlante, c’est ainsi qu’entre en scène les intrigues politiques aserynes. Bien qu’il méprise corps\net âmes les « princesses bâtardes », Sagarion est le protecteur de l’une d’elles : Deidea Eina (Zenos).\nLe but de Sagarion est de destituer Kyriak, instaurer Deidea, la marier à un prétendant Atlante que\nproposera Kelrana Nateas, la duchesse neoatlante d’Elisiel, avec qui Sagarion complote pour unir\nMuliens et atlantes tout en écartant les couronnes actuelles.\nLe problème se posant, Kelrana ne propose pas de prétendant, un temps, elle parla de Lavian\nAlganos, un cousin de la reine Lorinae Athegos, mais Sagarion ne trouva aucune preuve de son\nexistence, tués précocement ou mensonge de son « alliée », rien ne fut établi.\nLe fait que Kalira Athegos existe encore est d’autant plus problématique concernant la légitimité\nMulienne, c’est d’ailleurs pour ça que Sagarion avait approché la mafia Italienne en 2013, pour\ns’assurer que la famille de Kalira ne soit éliminée, lui refusant toute nouvelle descendance.",
+      "completeness": "detailed",
+      "real_name": "Collin Perez",
+      "real_name_source": "Collin Perez",
+      "nom_verite_source": "Sagarion Nagilia",
+      "organisation": "Mû",
+      "identity_keys": [
+        "Sagarion Nagilia",
+        "Collin Perez"
+      ]
     },
     "sections": [
-      {
-        "id": "profil",
-        "title": "Profil",
-        "level": 2,
-        "blocks": [
-          {
-            "type": "table",
-            "rows": [
-              [
-                "Nom de la Réalité",
-                "Collin PEREZ"
-              ],
-              [
-                "Nom de la Vérité",
-                "Sagarion NAGILIA"
-              ],
-              [
-                "Âge",
-                "« 31 ans » -???"
-              ],
-              [
-                "Affiliations",
-                "gouvernement"
-              ],
-              [
-                "Nationalité d’origine",
-                "Américaine"
-              ],
-              [
-                "Nature réelle",
-                "Atlante"
-              ],
-              [
-                "Repère",
-                "Duc d’Amrica"
-              ]
-            ]
-          }
-        ]
-      },
       {
         "id": "info-realite",
         "title": "Informations Réalité",
@@ -448,7 +320,7 @@ const PAYLOAD = [
     "dataset": "verite-species-pnj",
     "category": "Personnages",
     "sourceCategory": "Personnages",
-    "title": "Kelrana Nateas",
+    "title": "Carolina Nates",
     "source": "TUC_Vérité_ les espèces  surnaturelles(1).docx",
     "status": "canon_source",
     "rebuildV2": true,
@@ -458,12 +330,12 @@ const PAYLOAD = [
       "Atlante"
     ],
     "pnj": {
-      "nom_verite": "Kelrana NATEAS",
-      "race": "Atlante",
-      "age": "« 40 ans » -",
-      "origine": "Américaines",
-      "statut": "Corporatiste",
-      "statut_verite": "Duchesse d’Elisiel",
+      "nom_verite": "Hkelarana Nateas",
+      "race": "aseryne (neo-atlante)",
+      "age": "40 ans",
+      "origine": "Américaine",
+      "statut": "Corporatiste : Wellspring et Tuatha",
+      "statut_verite": "duchesse",
       "relations": [],
       "source_group": "Atlantes",
       "source_order": 27,
@@ -477,49 +349,21 @@ const PAYLOAD = [
           "text": "Kelrana est la noble aseryne en charge du duché d’Elisiel, sur le continent de l’Atlantide, cependant, la tâche est aisée pour elle et elle sait parfaitement s’organiser pour déléguer la gouvernance de son territoire afin de vivre en Californie la majorité du temps. Bien qu’elle n’ait rien contre Lorinae Athegos, la reine de l’Atlantide, elle aspire à de bien plus grands projets pour son espèce, un nouvel d’âge d’or Atlante et pourrait être considérée comme traitresse par ses manigances avec les Muliens. En vérité, elle ne va jamais contre les intérêts de l’Atlantide, elle fait passer le continent oublié en premier, puis elle considère le cas des muliens, et ensuite celui de tous les Aseryns. Son projet est celui de la « Grande couronne » qui gouvernerait à nouveau tous les aseryns et si elle semble aider Sagarion pour destituer Kyriak, elle ne partage pas vraiment ses petites méthodes « minables » et surtout ses choix « par défaut », ayant abandonné l’idée de placer Deidea EINA à la première rencontre avec elle, ne la trouvant ni charismatique ni intelligente à peine charmante et surtout, peu intéressante. Kelrana a néanmoins peu d’options, elle préférerait tout simplement marier Kyriak à Lorinae, mais rien ne semble s’orienter vers ça, elle essaye également de convaincre Kalira de tout simplement succéder à Lorinae, mais n’est pas née la personne capable de faire fléchir la plus grande reine Atlante ayant vécu, ses dernières options sont la fille cachée de Kalira, Veronica SILVER, bien plus intéressante de personnalité que ses tantes, mais absolument pas « atlante » de culture, la dernière option étant de jouer avec la génétique."
         }
       ],
-      "source_extract": "Kelrana Nateas\nDuchesse d’Elisiel\nNom de la Réalité : Katrin RUTHBURG\nNom de la Vérité : Kelrana NATEAS\nAge : « 40 ans » -\nAffiliations :\nCorporatiste\nNationalité d’origine : Américaines\nEthnie réelle : Atlante\nPersonnages liés :\n ?\n ?\n___________________________________________________________________________\nInformations Réalité :\nKatrin RUTHBURG est une femme d’affaires parmi les plus subtiles et les plus fines stratèges qu’on\npuisse croiser dans les corporations. Directrice de la branche biochimie de Wellspring corporation,\nelle vise la place de Ntando ZIYANE en tant que vice-présidente.\nElle ne se limite pas aux affaires puisqu’elle a des contrats à la Tuatha en tant que mannequin et\nactrice sous l’identité de « Carolina NATE » avec laquelle, elle connait un succès certains, bien qu’elle\nn’ait que très peu de temps à accorder à cette fantaisie.\nInformations Vérité :\nKelrana est la noble aseryne en charge du duché d’Elisiel, sur le continent de l’Atlantide, cependant,\nla tâche est aisée pour elle et elle sait parfaitement s’organiser pour déléguer la gouvernance de son\nterritoire afin de vivre en Californie la majorité du temps.\nBien qu’elle n’ait rien contre Lorinae Athegos, la reine de l’Atlantide, elle aspire à de bien plus grands\nprojets pour son espèce, un nouvel d’âge d’or Atlante et pourrait être considérée comme traitresse\npar ses manigances avec les Muliens. En vérité, elle ne va jamais contre les intérêts de l’Atlantide,\nelle fait passer le continent oublié en premier, puis elle considère le cas des muliens, et ensuite celui\nde tous les Aseryns.\nSon projet est celui de la « Grande couronne » qui gouvernerait à nouveau tous les aseryns et si elle\nsemble aider Sagarion pour destituer Kyriak, elle ne partage pas vraiment ses petites méthodes\n« minables » et surtout ses choix « par défaut », ayant abandonné l’idée de placer Deidea EINA à la\npremière rencontre avec elle, ne la trouvant ni charismatique ni intelligente à peine charmante et\nsurtout, peu intéressante.\nKelrana a néanmoins peu d’options, elle préférerait tout simplement marier Kyriak à Lorinae, mais\nrien ne semble s’orienter vers ça, elle essaye également de convaincre Kalira de tout simplement\nsuccéder à Lorinae, mais n’est pas née la personne capable de faire fléchir la plus grande reine\nAtlante ayant vécu, ses dernières options sont la fille cachée de Kalira, Veronica SILVER, bien plus\nintéressante de personnalité que ses tantes, mais absolument pas « atlante » de culture, la dernière\noption étant de jouer avec la génétique."
+      "source_extract": "Kelrana Nateas\nDuchesse d’Elisiel\nNom de la Réalité : Katrin RUTHBURG\nNom de la Vérité : Kelrana NATEAS\nAge : « 40 ans » -\nAffiliations :\nCorporatiste\nNationalité d’origine : Américaines\nEthnie réelle : Atlante\nPersonnages liés :\n ?\n ?\n___________________________________________________________________________\nInformations Réalité :\nKatrin RUTHBURG est une femme d’affaires parmi les plus subtiles et les plus fines stratèges qu’on\npuisse croiser dans les corporations. Directrice de la branche biochimie de Wellspring corporation,\nelle vise la place de Ntando ZIYANE en tant que vice-présidente.\nElle ne se limite pas aux affaires puisqu’elle a des contrats à la Tuatha en tant que mannequin et\nactrice sous l’identité de « Carolina NATE » avec laquelle, elle connait un succès certains, bien qu’elle\nn’ait que très peu de temps à accorder à cette fantaisie.\nInformations Vérité :\nKelrana est la noble aseryne en charge du duché d’Elisiel, sur le continent de l’Atlantide, cependant,\nla tâche est aisée pour elle et elle sait parfaitement s’organiser pour déléguer la gouvernance de son\nterritoire afin de vivre en Californie la majorité du temps.\nBien qu’elle n’ait rien contre Lorinae Athegos, la reine de l’Atlantide, elle aspire à de bien plus grands\nprojets pour son espèce, un nouvel d’âge d’or Atlante et pourrait être considérée comme traitresse\npar ses manigances avec les Muliens. En vérité, elle ne va jamais contre les intérêts de l’Atlantide,\nelle fait passer le continent oublié en premier, puis elle considère le cas des muliens, et ensuite celui\nde tous les Aseryns.\nSon projet est celui de la « Grande couronne » qui gouvernerait à nouveau tous les aseryns et si elle\nsemble aider Sagarion pour destituer Kyriak, elle ne partage pas vraiment ses petites méthodes\n« minables » et surtout ses choix « par défaut », ayant abandonné l’idée de placer Deidea EINA à la\npremière rencontre avec elle, ne la trouvant ni charismatique ni intelligente à peine charmante et\nsurtout, peu intéressante.\nKelrana a néanmoins peu d’options, elle préférerait tout simplement marier Kyriak à Lorinae, mais\nrien ne semble s’orienter vers ça, elle essaye également de convaincre Kalira de tout simplement\nsuccéder à Lorinae, mais n’est pas née la personne capable de faire fléchir la plus grande reine\nAtlante ayant vécu, ses dernières options sont la fille cachée de Kalira, Veronica SILVER, bien plus\nintéressante de personnalité que ses tantes, mais absolument pas « atlante » de culture, la dernière\noption étant de jouer avec la génétique.",
+      "completeness": "detailed",
+      "real_name": "Carolina Nates",
+      "real_name_source": "Katryn Ruthberg / Carolina Nates",
+      "nom_verite_source": "Hkelarana Nateas",
+      "organisation": "Atlantide",
+      "identity_keys": [
+        "Kelrana Nateas",
+        "Katryn Ruthberg / Carolina Nates",
+        "Katryn Ruthberg",
+        "Carolina Nates",
+        "Hkelarana Nateas"
+      ]
     },
     "sections": [
-      {
-        "id": "profil",
-        "title": "Profil",
-        "level": 2,
-        "blocks": [
-          {
-            "type": "table",
-            "rows": [
-              [
-                "Nom de la Réalité",
-                "Katrin RUTHBURG"
-              ],
-              [
-                "Nom de la Vérité",
-                "Kelrana NATEAS"
-              ],
-              [
-                "Âge",
-                "« 40 ans » -"
-              ],
-              [
-                "Affiliations",
-                "Corporatiste"
-              ],
-              [
-                "Nationalité d’origine",
-                "Américaines"
-              ],
-              [
-                "Nature réelle",
-                "Atlante"
-              ],
-              [
-                "Repère",
-                "Duchesse d’Elisiel"
-              ]
-            ]
-          }
-        ]
-      },
       {
         "id": "info-realite",
         "title": "Informations Réalité",
@@ -557,7 +401,7 @@ const PAYLOAD = [
     "dataset": "verite-species-pnj",
     "category": "Personnages",
     "sourceCategory": "Personnages",
-    "title": "Laetheas Sundosia",
+    "title": "Larry SUNDOWN",
     "source": "TUC_Vérité_ les espèces  surnaturelles(1).docx",
     "status": "canon_source",
     "rebuildV2": true,
@@ -568,11 +412,11 @@ const PAYLOAD = [
     ],
     "pnj": {
       "nom_verite": "Laetheas SUNDOSIA",
-      "race": "Atlante",
-      "age": "« 44 ans » -",
-      "origine": "Américaines",
-      "statut": "Pègre",
-      "statut_verite": "Le duc de Relaïa",
+      "race": "Aseryne (neo-atlante)",
+      "age": "44 ans",
+      "origine": "Américaine",
+      "statut": "pègre : mafia navale",
+      "statut_verite": "duc",
       "relations": [],
       "source_group": "Atlantes",
       "source_order": 28,
@@ -586,49 +430,19 @@ const PAYLOAD = [
           "text": "Larry SUNDOWN est un des pires criminels au monde, pourtant, il s’agir d’un des nobles Atlantes les plus respectables de l’Atlantide. Duc de Relaïa c’est possiblement l’homme le plus loyal à Lorinae Darksun, la reine actuelle. Son jeu en tant que maitre de la flotte pirate la plus colossale du monde n’est qu’un amusement pour cet illustre duc si noble, qui se perçoit comme un corsaire plus qu’autre chose, il navigue essentiellement autour du continent de Mu, défiant les Muliens en vérité, sa flotte ne sert pas à les attaquer mais les tenir en respect, en effet, dans les navires désuets des humains, il s’y trouve de nombreux navires neoatlantes, mêlant technologie et magie n’ayant plus rien avoir avec ce qu’étaient les bateaux humains. Il est également prêt à intervenir contre toute forme d’assaut massifs des peuples sous-marins d’hommes-poissons ou de créatures tentaculaires que sont les rocréens abyssaux. Il est convaincu, à tort, que Siobhain Nic SIRIDEAN est une princesse Mulienne et a pour objectif de la rallier un jour, les espions de Sagarion NAGILIA assurant assez de contre-informations pour le maintenir dans l’erreur. Il s’entends très mal avec la duchesse atlante Kelrana NATEAS."
         }
       ],
-      "source_extract": "Laetheas Sundosia\nLe duc de Relaïa\nNom de la Réalité : Larry SUNDOWN\nNom de la Vérité : Laetheas SUNDOSIA\nAge : « 44 ans » -\nAffiliations :\nPègre\nNationalité d’origine : Américaines\nEthnie réelle : Atlante\nPersonnages liés :\n ?\n ?\n___________________________________________________________________________\nInformations Réalité :\nLarry SUNDOWN est un membre de la pègre californienne, c’est un homme parmi les plus dangereux\net pourtant, il n’est pas vraiment associé à de grandes organisations criminelles.\nC’est le véritable patron d’Asgall MacARTAIN, le « red captain », c’est lui le riche homme d’affaires\nqui acheta les navires de guerre américains qui étaient désuets face à la flotte coréenne. C’est\nactuellement, l’homme possédant donc la plus vaste flotte de guerre au monde, ayant acheté aux\naméricains, aux russes, aux chinois, japonais, australiens, et forcément, ce qui restait des coréens du\nsud comme du nord.\nBien qu’on ne considère pas son immense flotte comme une mafia maritime, il a la mainmise sur les\ndocks de tous les ports américains dont ceux des deux côtes.\nInformations Vérité :\nLarry SUNDOWN est un des pires criminels au monde, pourtant, il s’agir d’un des nobles Atlantes les\nplus respectables de l’Atlantide. Duc de Relaïa c’est possiblement l’homme le plus loyal à Lorinae\nDarksun, la reine actuelle.\nSon jeu en tant que maitre de la flotte pirate la plus colossale du monde n’est qu’un amusement\npour cet illustre duc si noble, qui se perçoit comme un corsaire plus qu’autre chose, il navigue\nessentiellement autour du continent de Mu, défiant les Muliens en vérité, sa flotte ne sert pas à les\nattaquer mais les tenir en respect, en effet, dans les navires désuets des humains, il s’y trouve de\nnombreux navires neoatlantes, mêlant technologie et magie n’ayant plus rien avoir avec ce\nqu’étaient les bateaux humains.\nIl est également prêt à intervenir contre toute forme d’assaut massifs des peuples sous-marins\nd’hommes-poissons ou de créatures tentaculaires que sont les rocréens abyssaux.\nIl est convaincu, à tort, que Siobhain Nic SIRIDEAN est une princesse Mulienne et a pour objectif de\nla rallier un jour, les espions de Sagarion NAGILIA assurant assez de contre-informations pour le\nmaintenir dans l’erreur.\nIl s’entends très mal avec la duchesse atlante Kelrana NATEAS."
+      "source_extract": "Laetheas Sundosia\nLe duc de Relaïa\nNom de la Réalité : Larry SUNDOWN\nNom de la Vérité : Laetheas SUNDOSIA\nAge : « 44 ans » -\nAffiliations :\nPègre\nNationalité d’origine : Américaines\nEthnie réelle : Atlante\nPersonnages liés :\n ?\n ?\n___________________________________________________________________________\nInformations Réalité :\nLarry SUNDOWN est un membre de la pègre californienne, c’est un homme parmi les plus dangereux\net pourtant, il n’est pas vraiment associé à de grandes organisations criminelles.\nC’est le véritable patron d’Asgall MacARTAIN, le « red captain », c’est lui le riche homme d’affaires\nqui acheta les navires de guerre américains qui étaient désuets face à la flotte coréenne. C’est\nactuellement, l’homme possédant donc la plus vaste flotte de guerre au monde, ayant acheté aux\naméricains, aux russes, aux chinois, japonais, australiens, et forcément, ce qui restait des coréens du\nsud comme du nord.\nBien qu’on ne considère pas son immense flotte comme une mafia maritime, il a la mainmise sur les\ndocks de tous les ports américains dont ceux des deux côtes.\nInformations Vérité :\nLarry SUNDOWN est un des pires criminels au monde, pourtant, il s’agir d’un des nobles Atlantes les\nplus respectables de l’Atlantide. Duc de Relaïa c’est possiblement l’homme le plus loyal à Lorinae\nDarksun, la reine actuelle.\nSon jeu en tant que maitre de la flotte pirate la plus colossale du monde n’est qu’un amusement\npour cet illustre duc si noble, qui se perçoit comme un corsaire plus qu’autre chose, il navigue\nessentiellement autour du continent de Mu, défiant les Muliens en vérité, sa flotte ne sert pas à les\nattaquer mais les tenir en respect, en effet, dans les navires désuets des humains, il s’y trouve de\nnombreux navires neoatlantes, mêlant technologie et magie n’ayant plus rien avoir avec ce\nqu’étaient les bateaux humains.\nIl est également prêt à intervenir contre toute forme d’assaut massifs des peuples sous-marins\nd’hommes-poissons ou de créatures tentaculaires que sont les rocréens abyssaux.\nIl est convaincu, à tort, que Siobhain Nic SIRIDEAN est une princesse Mulienne et a pour objectif de\nla rallier un jour, les espions de Sagarion NAGILIA assurant assez de contre-informations pour le\nmaintenir dans l’erreur.\nIl s’entends très mal avec la duchesse atlante Kelrana NATEAS.",
+      "completeness": "detailed",
+      "real_name": "Larry SUNDOWN",
+      "real_name_source": "Larry SUNDOWN",
+      "nom_verite_source": "Laetheas SUNDOSIA",
+      "organisation": "Atlantide",
+      "identity_keys": [
+        "Latheas Sundosia",
+        "Larry SUNDOWN",
+        "Laetheas SUNDOSIA"
+      ]
     },
     "sections": [
-      {
-        "id": "profil",
-        "title": "Profil",
-        "level": 2,
-        "blocks": [
-          {
-            "type": "table",
-            "rows": [
-              [
-                "Nom de la Réalité",
-                "Larry SUNDOWN"
-              ],
-              [
-                "Nom de la Vérité",
-                "Laetheas SUNDOSIA"
-              ],
-              [
-                "Âge",
-                "« 44 ans » -"
-              ],
-              [
-                "Affiliations",
-                "Pègre"
-              ],
-              [
-                "Nationalité d’origine",
-                "Américaines"
-              ],
-              [
-                "Nature réelle",
-                "Atlante"
-              ],
-              [
-                "Repère",
-                "Le duc de Relaïa"
-              ]
-            ]
-          }
-        ]
-      },
       {
         "id": "info-realite",
         "title": "Informations Réalité",
@@ -666,7 +480,7 @@ const PAYLOAD = [
     "dataset": "verite-species-pnj",
     "category": "Personnages",
     "sourceCategory": "Personnages",
-    "title": "Lorinae Athegos",
+    "title": "Laurie D. Sun",
     "source": "TUC_Vérité_ les espèces  surnaturelles(1).docx",
     "status": "canon_source",
     "rebuildV2": true,
@@ -676,12 +490,12 @@ const PAYLOAD = [
       "Humaine-Atlante"
     ],
     "pnj": {
-      "nom_verite": "_",
-      "race": "Humaine-Atlante",
-      "age": "« 31 ans » -",
-      "origine": "Américaines",
-      "statut": "Crawlers",
-      "statut_verite": "La reine de l’Atlantide",
+      "nom_verite": "Lorinae Athegos (Darksun)",
+      "race": "Aseryne (paleo-atlante)",
+      "age": "30 ans",
+      "origine": "Américaine",
+      "statut": "Crawlers : Gunwatcher",
+      "statut_verite": "Reine des Atlantes et des aseryns",
       "relations": [],
       "source_group": "Atlantes",
       "source_order": 29,
@@ -695,49 +509,20 @@ const PAYLOAD = [
           "text": "Veronica n’a aucune conscience de sa nature de demi-aseryn, mais sa mère était une aseryn, dit-on une Mulienne, et certaines rumeurs de la communauté des Atlantes fantasment que la Silver serait l’héritière du trône de Mu et de l’Atlantide, une demi-humaine. Si rien n’est confirmé quant à l’identité de sa mère, pour Veronica, les choses ne sont pas simple, son sang Aseryn lui confère une capacité de réflexion et une vitesse de réaction outrancières, faisant d’elle une des guerrières les plus puissante au corps à corps, mais aussi une des tireuses les plus précises, en effet, les aseryn ont une vue meilleure que les humains, certes, de peu, ils ne souffrent surtout d’aucune maladie oculaire, Veronica est dotée d’une vision bien supérieure à la moyenne atlante de son coté, en cela, combiné à une capacité de réflexion éclair et des réflexes inimaginables, elle est une tireuse de précision bien souvent sous-estimée même quand on connait bien sa réputation. Son sang Aseryn lui coute néanmoins de gros ennuis avec les Créatures de la Vérité, les monstres sentent en elle quelque chose, particulièrement les Abyssaux et leurs maitres. Veronica sait qu’il existe quelques créatures surnaturelles, elle en a déjà croisé et tué, cependant, elle est encore loin de comprendre la nature exacte de ces créatures, notamment celle de son amie Olla."
         }
       ],
-      "source_extract": "Lorinae Athegos\nLa reine de l’Atlantide\nNom de la Réalité : Veronica SILVER\nNom de la Vérité : _\nAge : « 31 ans » -\nAffiliations :\nCrawlers\nNationalité d’origine : Américaines\nEthnie réelle : Humaine-Atlante\nPersonnages liés :\n ?\n ?\n___________________________________________________________________________\nInformations Réalité :\nVeronica Silver est une ancienne militaire de l’Army ayant brillé pendant la guerre contre la Corée du\nNord, génie autodestructeur à la jeunesse ravagée à cause de la mort de son seul parent, son père,\nelle a réussi à s’épanouir dans ce monde déconstruit, précisément parce qu’elle était encore plus\nchaotique que ce dernier.\nIl existe peu de génies de son niveau, c’est pourquoi, malgré son physique extraordinaire, ses\ncapacités de combat, de tir mais aussi son réseau démentiel, elle est plus encore admirée par sa\nperspicacité et sa logique, hélas trop intelligente pour une société aussi artificielle, elle souffre d’un\ncynisme démesuré et possède un comportement autodestructeur en tant que détective privé.\nInformations Vérité :\nVeronica n’a aucune conscience de sa nature de demi-aseryn, mais sa mère était une aseryn, dit-on\nune Mulienne, et certaines rumeurs de la communauté des Atlantes fantasment que la Silver serait\nl’héritière du trône de Mu et de l’Atlantide, une demi-humaine.\nSi rien n’est confirmé quant à l’identité de sa mère, pour Veronica, les choses ne sont pas simple, son\nsang Aseryn lui confère une capacité de réflexion et une vitesse de réaction outrancières, faisant\nd’elle une des guerrières les plus puissante au corps à corps, mais aussi une des tireuses les plus\nprécises, en effet, les aseryn ont une vue meilleure que les humains, certes, de peu, ils ne souffrent\nsurtout d’aucune maladie oculaire, Veronica est dotée d’une vision bien supérieure à la moyenne\natlante de son coté, en cela, combiné à une capacité de réflexion éclair et des réflexes inimaginables,\nelle est une tireuse de précision bien souvent sous-estimée même quand on connait bien sa\nréputation.\nSon sang Aseryn lui coute néanmoins de gros ennuis avec les Créatures de la Vérité, les monstres\nsentent en elle quelque chose, particulièrement les Abyssaux et leurs maitres. Veronica sait qu’il\nexiste quelques créatures surnaturelles, elle en a déjà croisé et tué, cependant, elle est encore loin\nde comprendre la nature exacte de ces créatures, notamment celle de son amie Olla."
+      "source_extract": "Lorinae Athegos\nLa reine de l’Atlantide\nNom de la Réalité : Veronica SILVER\nNom de la Vérité : _\nAge : « 31 ans » -\nAffiliations :\nCrawlers\nNationalité d’origine : Américaines\nEthnie réelle : Humaine-Atlante\nPersonnages liés :\n ?\n ?\n___________________________________________________________________________\nInformations Réalité :\nVeronica Silver est une ancienne militaire de l’Army ayant brillé pendant la guerre contre la Corée du\nNord, génie autodestructeur à la jeunesse ravagée à cause de la mort de son seul parent, son père,\nelle a réussi à s’épanouir dans ce monde déconstruit, précisément parce qu’elle était encore plus\nchaotique que ce dernier.\nIl existe peu de génies de son niveau, c’est pourquoi, malgré son physique extraordinaire, ses\ncapacités de combat, de tir mais aussi son réseau démentiel, elle est plus encore admirée par sa\nperspicacité et sa logique, hélas trop intelligente pour une société aussi artificielle, elle souffre d’un\ncynisme démesuré et possède un comportement autodestructeur en tant que détective privé.\nInformations Vérité :\nVeronica n’a aucune conscience de sa nature de demi-aseryn, mais sa mère était une aseryn, dit-on\nune Mulienne, et certaines rumeurs de la communauté des Atlantes fantasment que la Silver serait\nl’héritière du trône de Mu et de l’Atlantide, une demi-humaine.\nSi rien n’est confirmé quant à l’identité de sa mère, pour Veronica, les choses ne sont pas simple, son\nsang Aseryn lui confère une capacité de réflexion et une vitesse de réaction outrancières, faisant\nd’elle une des guerrières les plus puissante au corps à corps, mais aussi une des tireuses les plus\nprécises, en effet, les aseryn ont une vue meilleure que les humains, certes, de peu, ils ne souffrent\nsurtout d’aucune maladie oculaire, Veronica est dotée d’une vision bien supérieure à la moyenne\natlante de son coté, en cela, combiné à une capacité de réflexion éclair et des réflexes inimaginables,\nelle est une tireuse de précision bien souvent sous-estimée même quand on connait bien sa\nréputation.\nSon sang Aseryn lui coute néanmoins de gros ennuis avec les Créatures de la Vérité, les monstres\nsentent en elle quelque chose, particulièrement les Abyssaux et leurs maitres. Veronica sait qu’il\nexiste quelques créatures surnaturelles, elle en a déjà croisé et tué, cependant, elle est encore loin\nde comprendre la nature exacte de ces créatures, notamment celle de son amie Olla.",
+      "completeness": "detailed",
+      "real_name": "Laurie D. Sun",
+      "real_name_source": "Laurie D. Sun",
+      "nom_verite_source": "Lorinae Athegos (Darksun)",
+      "organisation": "Atlantide",
+      "identity_keys": [
+        "Lorinae Athegos",
+        "Laurie D. Sun",
+        "Lorinae Athegos (Darksun)",
+        "Darksun"
+      ]
     },
     "sections": [
-      {
-        "id": "profil",
-        "title": "Profil",
-        "level": 2,
-        "blocks": [
-          {
-            "type": "table",
-            "rows": [
-              [
-                "Nom de la Réalité",
-                "Veronica SILVER"
-              ],
-              [
-                "Nom de la Vérité",
-                "_"
-              ],
-              [
-                "Âge",
-                "« 31 ans » -"
-              ],
-              [
-                "Affiliations",
-                "Crawlers"
-              ],
-              [
-                "Nationalité d’origine",
-                "Américaines"
-              ],
-              [
-                "Nature réelle",
-                "Humaine-Atlante"
-              ],
-              [
-                "Repère",
-                "La reine de l’Atlantide"
-              ]
-            ]
-          }
-        ]
-      },
       {
         "id": "info-realite",
         "title": "Informations Réalité",
