@@ -24,7 +24,7 @@ for(const a of COMPENDIUM_VERITE_HUNTERS_PNJ_ARTICLES){
  const truth=String(a.pnj?.nom_verite||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
  const key=`${real}|${truth}`;assert.ok(!identities.has(key),`Identité source dupliquée ${key}`);identities.add(key);
 }
-for(const title of ["La faucheuse noire","Hell Soldier","Shadow Lion / Wolfkiller","Neera Athren","Sœur Maria","Verawati Yenny Pranoto","Amunthoris","Yurey Lysenko"])assert.ok(COMPENDIUM_VERITE_HUNTERS_PNJ_ARTICLES.some(a=>a.title===title),`Profil attendu absent: ${title}`);
+for(const title of ["Az","Hailey POWELL","Tia REYNOLDS","Neera Athren","sœur Maria","Verawati Yenny PRANOTO","Aymn SALIB","Zarey LYSENKO"])assert.ok(COMPENDIUM_VERITE_HUNTERS_PNJ_ARTICLES.some(a=>a.title===title),`Profil attendu absent: ${title}`);
 const truthCount=COMPENDIUM_VERITE_HUNTERS_PNJ_ARTICLES.filter(a=>a.pnj?.source_verite?.length).length;
 const realityCount=COMPENDIUM_VERITE_HUNTERS_PNJ_ARTICLES.filter(a=>a.sections?.some(s=>s.id==="chasseurs-informations-realite")).length;
 console.log(`TRUTH HUNTERS PNJ OK — 61 profils uniques · ${truthCount} avec bloc MJ source · ${realityCount} avec Informations Réalité · stats vides · aucun portrait`);
