@@ -16,6 +16,9 @@ const PAYLOAD = [
       "Cours vampiriques",
       "Oru Ayeraye"
     ],
+    "merge_section_targets": {
+      "vampires-realite": "info-realite"
+    },
     "pnj": {
       "completeness": "detailed",
       "real_name": "Neeba Ngubenani",
