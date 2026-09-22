@@ -728,7 +728,7 @@ const PAYLOAD = [
     "dataset": "verite-vampire-courts-pnj",
     "category": "Personnages",
     "sourceCategory": "Personnages",
-    "title": "Jimmy Chavez",
+    "title": "Quetzalcoatl",
     "source": "Factions_Les cours vampiriques(1)(2).pdf",
     "status": "canon_source",
     "rebuildV2": true,
@@ -741,18 +741,21 @@ const PAYLOAD = [
     ],
     "pnj": {
       "completeness": "detailed",
-      "real_name": "Jimmy Chavez",
       "nom_verite": "Quetzalcoatl",
       "race": "Vampire (khinae corrompu)",
-      "age": "«49 ans » - 49 000 ans ?",
-      "origine": "mexicaine",
-      "statut": "pègre : cartel Sinaloa",
+      "age": "49 000 ans ?",
+      "origine": "Mexicaine",
+      "statut": "Pègre : cartel de Sinaloa",
       "statut_verite": "Roi",
       "organisation": "Ihuito Meztzi",
       "relations": [],
       "identity_keys": [
+        "Quetzalcoatl",
         "Jimmy Chavez",
-        "Quetzalcoatl"
+        "Xitlalxoch",
+        "Cynthia Lyd",
+        "Karl Gotz",
+        "Shanana Salvarez"
       ],
       "aliases_source": [
         "Xitlalxoch",
@@ -766,7 +769,7 @@ const PAYLOAD = [
         20,
         20
       ],
-      "source_designation": "K’uhul Ajaw « Ehecatl » : Skenandoa",
+      "source_designation": "Trône royal : Quetzalcoatl",
       "source_reality_raw": "Jimmy Chavez- Xitlalxoch-Cynthia Lyd - Karl Gotz- Shanana Salvarez – bien d’autres …",
       "source_truth_raw": "Quetzalcoatl",
       "source_extract": "K’uhul Ajaw « Ehecatl » : Skenandoa Nom de la Réalité : Jimmy Chavez- Xitlalxoch-Cynthia Lyd - Karl Gotz- Shanana Salvarez – bien d’autres … Nom de la Vérité : Quetzalcoatl Age : «49 ans » - 49 000 ans ? Affiliations : pègre : cartel Sinaloa Nationalité d’origine : mexicaine Ethnie réelle : Vampire (khinae corrompu) Statut : Roi Shanana Salvarez est une assassine de Los Anthrax. C’est l’élite des combattants du Cartel Sinaloa, elle est très augmentée et protégerait personnellement Dante Guzman. Karl Gotz était un chevalier de l’ordre des Saintes Lagunes, il eut une fille avec une sorcière avant de trahir l’ordre une fois détourné de l’argent et déplacé les sœurs d’un couvent qu’il dirige désormais. Le nombre d’identités actuelles du Quetzal est inconnu, mais ce roi vampire est un ancien Khinae corrompu par les pouvoirs de V’aagor. Il chassait les Ombres depuis sa jeunesse. Avec les premiers humains arrivant sur le continent, il créa des premiers vampires américains. C’est un être au-delà des genres, des races, des espèces, en ce sens, il a une tolérance infinie pour toutes les formes de vie, sauf les vampires, il ne tolère que ceux étant ses descendants. Il possède le Mageius de Brimhild, une Dive ancienne. On dit qu’il ne tua pas la créature, il la consomma, son être, sa magie, son sang, son esprit, tout, avant de « mordre » le Mageius lui-même. C’est un ancien amant de la Babayaga. Avec toutes ses apparences et personnalités, Quetzal est difficile à cerner, mais son",
@@ -776,34 +779,43 @@ const PAYLOAD = [
     },
     "sections": [
       {
-        "id": "vampires-realite",
-        "title": "Informations Réalité",
+        "id": "vampires-couvertures",
+        "title": "Couvertures de Réalité · réservé MJ",
         "level": 2,
+        "audience": "mj",
         "blocks": [
           {
             "type": "table",
             "rows": [
               [
-                "Champ",
+                "Champ MJ",
                 "Valeur"
               ],
               [
-                "Nom / identité de Réalité",
-                "Jimmy Chavez- Xitlalxoch-Cynthia Lyd - Karl Gotz- Shanana Salvarez – bien d’autres …"
+                "Identités de Réalité connues",
+                "Jimmy Chavez ; Xitlalxoch ; Cynthia Lyd ; Karl Gotz ; Shanana Salvarez ; autres identités inconnues"
               ],
               [
-                "Âge apparent",
-                "«49 ans »"
+                "Âge apparent cité",
+                "49 ans"
               ],
               [
                 "Affiliations",
-                "pègre : cartel Sinaloa"
+                "Pègre : cartel de Sinaloa"
               ],
               [
                 "Nationalité d’origine",
-                "mexicaine"
+                "Mexicaine"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Shanana Salvarez est une assassine des Los Ántrax, combattante d’élite du cartel de Sinaloa. Très augmentée, elle protégerait personnellement Dante Guzman."
+          },
+          {
+            "type": "p",
+            "text": "Karl Gotz fut chevalier de l’ordre des Saintes Lagunes et eut une fille avec une sorcière. Il trahit ensuite l’ordre après avoir détourné de l’argent et déplacé les sœurs d’un couvent qu’il dirige désormais."
           }
         ]
       },
@@ -826,7 +838,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "«49 ans » - 49 000 ans ?"
+                "49 000 ans ?"
               ],
               [
                 "Nature réelle",
@@ -840,7 +852,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Shanana Salvarez est une assassine de Los Anthrax. C’est l’élite des combattants du Cartel Sinaloa, elle est très augmentée et protégerait personnellement Dante Guzman. Karl Gotz était un chevalier de l’ordre des Saintes Lagunes, il eut une fille avec une sorcière avant de trahir l’ordre une fois détourné de l’argent et déplacé les sœurs d’un couvent qu’il dirige désormais. Le nombre d’identités actuelles du Quetzal est inconnu, mais ce roi vampire est un ancien Khinae corrompu par les pouvoirs de V’aagor. Il chassait les Ombres depuis sa jeunesse. Avec les premiers humains arrivant sur le continent, il créa des premiers vampires américains. C’est un être au-delà des genres, des races, des espèces, en ce sens, il a une tolérance infinie pour toutes les formes de vie, sauf les vampires, il ne tolère que ceux étant ses descendants. Il possède le Mageius de Brimhild, une Dive ancienne. On dit qu’il ne tua pas la créature, il la consomma, son être, sa magie, son sang, son esprit, tout, avant de « mordre » le Mageius lui-même. C’est un ancien amant de la Babayaga. Avec toutes ses apparences et personnalités, Quetzal est difficile à cerner, mais son"
+            "text": "Le nombre d’identités actuelles de Quetzalcoatl est inconnu. Cet ancien Khinae, corrompu par les pouvoirs de V’aagor, chassait les Ombres dès sa jeunesse. Avec l’arrivée des premiers humains sur le continent, il créa les premiers vampires américains. Être au-delà des genres, des races et des espèces, il manifeste une tolérance infinie envers toutes les formes de vie ; parmi les vampires, toutefois, il n’accepte que ses propres descendants. Il possède le Mageius de Brimhild, une ancienne Dive. Selon la tradition, il ne se contenta pas de tuer la créature : il consomma son être, sa magie, son sang et son esprit avant de « mordre » le Mageius lui-même. Il fut autrefois l’amant de la Babayaga. Malgré ses apparences et ses personnalités multiples, un trait demeure constant : une arrogance extrême et une absence totale de respect."
           }
         ]
       },
@@ -851,7 +863,8 @@ const PAYLOAD = [
         "audience": "mj",
         "blocks": []
       }
-    ]
+    ],
+    "audience": "mj"
   },
   {
     "id": "personnages-verite-vampires-p20-nana-nandoa",
