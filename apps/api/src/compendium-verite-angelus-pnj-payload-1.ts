@@ -1587,7 +1587,7 @@ const PAYLOAD = [
       "real_name": "Jason Fraguenaud",
       "nom_verite": "Jessim",
       "race": "Angelus",
-      "age": "«24 ans », ????",
+      "age": "24 ans",
       "origine": "Franco-américain",
       "statut": "Religieux : chrétiens",
       "statut_verite": "séraphin",
@@ -1628,7 +1628,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«24 ans », ????"
+                "24 ans"
               ],
               [
                 "Affiliations",
@@ -1649,7 +1649,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Jason est né en France d’un père américain. En couple avec l’héritière de grands vignobles, le père arriva à convaincre la famille Fraguenaud de déplacer ses pieds de vignes vers la Californie, un pari risqué qui malgré tout sembla couronné de succès. Hélas, l’essor des corporations en 2029 mena à ce que tout le domaine Fraguenaud ne soit brulé, Jason se faisant prêtre, traumatisé. Mais avide de vengeance, l’ordre des Inquisiteurs lui trouva de nombreuses compétences très utiles."
+            "text": "Jason est né en France d’un père américain. En couple avec l’héritière d’importants vignobles, son père parvint à convaincre la famille Fraguenaud de déplacer une partie de ses vignes en Californie, pari risqué mais d’abord couronné de succès. L’essor des corporations en 2029 entraîna cependant l’incendie du domaine Fraguenaud. Traumatisé, Jason devint prêtre. Avide de vengeance, il attira aussi l’attention de l’ordre des Inquisiteurs, qui lui trouva de nombreuses compétences utiles."
           }
         ]
       },
@@ -1694,7 +1694,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Jessim est le séraphin de la mystique, le culte des choses mystérieuses, cependant son pouvoir est trompeur, il n’a pas pour capacité de dévoiler les mystères, mais d’en créer. Il déforme les pouvoirs et les fonctionnements de ce qu’il vise, il créer de l’aléatoire là où il n’y en a pas ou peu. Par exemple, il peut créer un faux domaine magique dans les Mageius « l’angéomancie », il peut changer la trajectoire des balles. Même les autres anges ne l’apprécient pas du tout. Il sert désormais Barrachiel comme informateur sur les agissements de l’Eglise."
+            "text": "Jessim est le Séraphin de la mystique et du culte des choses mystérieuses. Son pouvoir est trompeur : il ne dévoile pas les mystères, il en crée. Il déforme les pouvoirs et le fonctionnement de ce qu’il vise, introduisant de l’aléatoire là où il n’y en avait pas ou très peu. Il peut par exemple créer un faux domaine magique dans un Mageius — « l’angéomancie » — ou modifier la trajectoire de balles. Même les autres anges l’apprécient peu. Il sert désormais Barachiel comme informateur sur les agissements de l’Église."
           }
         ]
       },
