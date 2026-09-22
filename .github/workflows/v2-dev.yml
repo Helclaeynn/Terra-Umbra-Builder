@@ -1341,7 +1341,7 @@ jobs:
           assert "CI-MJ-SECRET-" not in json.dumps(article,ensure_ascii=False), article
           PY
 
-          echo "Wiki smoke: verifying GM/editor-only content gating"
+          echo "Wiki smoke: verifying editor dossier access and GM-only search"
           curl --fail --silent --show-error             -b "$COOKIE_JAR"             "https://dev.terra-umbra.fr/api/compendium/articles/$COMPENDIUM_NEW_ID" > "$COMPENDIUM_NEW"
           python3 - "$COMPENDIUM_NEW" "$COMPENDIUM_NEW_ID" <<'PY'
           import json,sys
@@ -1360,10 +1360,10 @@ jobs:
           PY
 
           curl --fail --silent --show-error             -b "$COOKIE_JAR"             --get             --data-urlencode "q=$SECRET_TERM"             --data-urlencode "limit=10"             https://dev.terra-umbra.fr/api/compendium/search > "$COMPENDIUM_NEW"
-          python3 - "$COMPENDIUM_NEW" "$COMPENDIUM_NEW_ID" <<'PY'
+          python3 - "$COMPENDIUM_NEW" <<'PY'
           import json,sys
           payload=json.load(open(sys.argv[1],encoding="utf-8"))
-          assert any(item["id"] == sys.argv[2] for item in payload["items"]), payload
+          assert payload["total"] == 0, payload
           PY
 
           curl --fail --silent --show-error https://dev.terra-umbra.fr/compendium | grep -q 'id="app"'
