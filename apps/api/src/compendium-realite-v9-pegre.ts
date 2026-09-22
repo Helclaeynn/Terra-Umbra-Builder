@@ -4770,11 +4770,11 @@ export const COMPENDIUM_REALITE_V9_PEGRE_ARTICLES = [
           },
           {
             "type": "p",
-            "text": "L’essentiel de ses cadres sont corses tandis que l’essentiels de ses soldats ont une origine souvent maghrébine ce qui la pousse à avoir des liens étroits avec la Mocro maffia (la mafia marocaine) dont ses membres sont parfois des deux camps."
+            "text": "L’essentiel de ses cadres est corse, tandis que l’essentiel de ses soldats est souvent d’origine maghrébine. Cette composition la pousse à entretenir des liens étroits avec la Mocro Maffia (la mafia marocaine), certains de ses membres étant actifs dans les deux organisations."
           },
           {
             "type": "p",
-            "text": "C’est la mafia la plus hétéroclite dans ses profils, la moins raciste en ce sens, bien que les cadres soient plutôt siciliens, ils recrutent des soldats sans discrimination de couleur ou de religion."
+            "text": "C’est la mafia la plus hétéroclite dans ses profils et, en ce sens, la moins raciste : bien que ses cadres soient plutôt corses, elle recrute des soldats sans discrimination de couleur ou de religion."
           },
           {
             "type": "p",
