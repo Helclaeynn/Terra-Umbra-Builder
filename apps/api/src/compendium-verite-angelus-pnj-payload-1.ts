@@ -166,7 +166,7 @@ const PAYLOAD = [
       "real_name": "Hans Griever",
       "nom_verite": "Agriel",
       "race": "Angelus",
-      "age": "«30 ans », ????",
+      "age": "30 ans",
       "origine": "Allemande",
       "statut": "crawler : fixers – Corporation : Tuatha",
       "statut_verite": "séraphin",
@@ -207,7 +207,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«30 ans », ????"
+                "30 ans"
               ],
               [
                 "Affiliations",
@@ -228,7 +228,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Hans est un acteur de la Tuatha, il a sa petite réputation et est adoré du public par son élégance, sa beauté et son charisme naturel. Hélas, il a la très mauvaise réputation d’être asexuel, de n’être sensible à aucun charme, de personne et d’être manipulateur. Quand il n’est ni en promotion ni en tournage, il fait fixer, car avant d’être connu, il utilisait son charisme pour faire coach de vie, entremetteur et chasseur de tête, venant naturellement au job de fixer. Son carnet d’adresses est monstrueux, la rumeur veut qu’il ait ses entrées partout, il est réputé d’une neutralité totale."
+            "text": "Hans est un acteur de Tuatha qui jouit d’une petite notoriété et reste apprécié du public pour son élégance, sa beauté et son charisme naturel. Il traîne toutefois la réputation d’être asexuel, insensible au charme de quiconque et manipulateur. Lorsqu’il n’est ni en promotion ni en tournage, il travaille comme Fixer. Avant d’être connu, il utilisait déjà son charisme comme coach de vie, entremetteur et chasseur de têtes, ce qui le mena naturellement à cette activité. Son carnet d’adresses est considérable ; la rumeur veut qu’il ait ses entrées partout et il est réputé pour sa neutralité totale."
           }
         ]
       },
@@ -273,7 +273,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Ce séraphin sert Urielle avec loyauté et efficacité. C’est le tout premier angelus à avoir reçu des dons d’Urielle, il est aussi glacial et calme qu’elle est enjouée, joueuse et exubérante. Il a une aversion pour les conflits et encore plus pour la violence physique. Comme il maitrise les pouvoirs de lumière mais n’aime pas la violence il les utilise essentiellement pour distordre la lumière et faire échouer les tentatives de violence sur lui, il n’est jamais là où on le pense de fait, ne laissant qu’un mirage, un reflet, de sa propre réflexion dans l’air."
+            "text": "Agriel sert Urielle avec loyauté et efficacité. C’est le tout premier Angelus à avoir reçu des dons d’Urielle. Il est aussi glacial et calme qu’elle est enjouée, joueuse et exubérante. Il éprouve une forte aversion pour les conflits et plus encore pour la violence physique. Maîtrisant les pouvoirs de lumière sans aimer combattre, il les utilise surtout pour distordre la lumière et faire échouer les attaques dirigées contre lui : il n’est jamais exactement là où on le pense, ne laissant qu’un mirage ou un reflet dans l’air."
           }
         ]
       },
