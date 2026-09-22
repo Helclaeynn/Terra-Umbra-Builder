@@ -180,7 +180,7 @@ const PAYLOAD = [
       "nom_verite": "Byleth – Nikola Tesla",
       "nom_verite_source": "Balam – Nikola Tesla",
       "race": "Daemons",
-      "age": "«24 ans », ????",
+      "age": "24 ans",
       "origine": "américaine",
       "statut": "Duc",
       "affiliations": "crawlers : meditech/neurodiver",
@@ -237,7 +237,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Trop jeune pour avoir pu intégrer le PCRC pendant la guerre, n’ayant que 17 ans quand elle s’acheva, c’est pourtant un des plus grands génies chez les crawlers. « Neurotech » bien qu’il soit le seul, c’est un ingénieur-bricoleur-hacker qui brise toutes les sécurités corporatives et recombine leurs productions à sa guise."
+            "text": "Nick Edison était trop jeune pour intégrer le PCRC pendant la guerre : il n’avait que 17 ans lorsqu’elle prit fin. Il est pourtant déjà l’un des plus grands génies parmi les Crawlers. Seul représentant de son profil de « Neurotech », cet ingénieur-bricoleur-hacker casse les sécurités corporatives et recombine leurs productions à sa guise."
           }
         ]
       },
@@ -307,12 +307,12 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Canon validé : Nick Edison est Byleth, âme de Nikola Tesla. Le champ « Nom de la Vérité » du document affiche « Balam – Nikola Tesla » ; ce libellé brut est conservé comme trace de source mais ne sert pas d’identité canonique."
+            "text": "Canon validé : Nick Edison est Byleth, âme de Nikola Tesla. Le document source affiche par erreur « Balam – Nikola Tesla » dans le champ « Nom de la Vérité » ; ce libellé brut est conservé uniquement comme trace de source et ne constitue pas une identité canonique."
           },
           {
             "type": "p",
             "style": "lore",
-            "text": "Trop jeune pour avoir pu intégrer le PCRC pendant la guerre, n’ayant que 17 ans quand elle s’acheva, c’est pourtant un des plus grands génies chez les crawlers. « Neurotech » bien qu’il soit le seul, c’est un ingénieur-bricoleur-hacker qui brise toutes les sécurités corporatives et recombine leurs productions à sa guise. Byleth, de son nom démoniaque est décrit comme un démon terrifiant. En vérité, c’est un démon fou, qui n’attache d’importance qu’à la créativité, l’expérimentation et l’innocation, peu importe le coût ou la difficulté. De son vivant, il était Nikola Tesla, ni plus ni moins. Sa relation amoureuse avec Astaroth est certainement la cause de la relative folie qu’on lui attribue, seule la déesse semblait capable de l’intéresser, toujours admirative de ses projets et progrès. Il est assez jaloux désormais, qu’en 2035, ce soit Leslie Wright qui l’ait remplacé et , désormais, il a pour projet de créer quelque chose d’encore plus grand que tout ce qui a été inventé."
+            "text": "Byleth est décrit comme un démon terrifiant, mais sa véritable folie tient surtout à son obsession pour la créativité, l’expérimentation et l’innovation, quels qu’en soient le coût et la difficulté. De son vivant, il fut Nikola Tesla. Sa relation amoureuse avec Astaroth explique probablement une partie de l’excentricité qu’on lui attribue : seule la déesse semblait réellement capable de retenir son attention, toujours admirative de ses projets et de ses progrès. En 2035, il vit assez mal le fait d’avoir été remplacé dans l’imaginaire collectif par Leslie Wright et nourrit désormais le projet de créer quelque chose de plus grand encore que tout ce qui a été inventé."
           }
         ]
       },
