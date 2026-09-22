@@ -1590,7 +1590,7 @@ const PAYLOAD = [
       "real_name": "Kyu-Bok NURA",
       "nom_verite": "Osael",
       "race": "Angelus",
-      "age": "«41 ans », ????",
+      "age": "41 ans",
       "origine": "coréenne",
       "statut": "Corporation : Tortoise security",
       "statut_verite": "séraphin",
@@ -1631,7 +1631,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«41 ans », ????"
+                "41 ans"
               ],
               [
                 "Affiliations",
@@ -1652,7 +1652,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Kyu-Bok était un jeune policier de Seoul quand la Corée du sud fut envahie. Il a passé l’essentiel de la guerre dans une cellule ou sur un lit d’hôpital. Il a été déporté aux Etats-Unis après la grande défaite des premières batailles de l’Alliance Pacifique. Il n’a participé qu’à une seule bataille après avoir été intégré aux US. Rangers, une défaite de plus. C’est un agent de sécurité de Tortoise security, mais c’est un homme plein de haine et de ressentiment, son seul objectif est de se venger des Nord-coréens."
+            "text": "Kyu-Bok était un jeune policier de Séoul lorsque la Corée du Sud fut envahie. Il passa l’essentiel de la guerre en cellule ou sur un lit d’hôpital, puis fut déporté aux États-Unis après les premières grandes défaites de l’Alliance Pacifique. Intégré ensuite aux U.S. Rangers, il ne participa qu’à une seule bataille — une défaite supplémentaire. Aujourd’hui agent de sécurité chez Tortoise Security, il reste rongé par la haine et le ressentiment, avec pour seul objectif de se venger des Nord-Coréens."
           }
         ]
       },
@@ -1697,7 +1697,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Séraphin de la colère, il servait l’archange Muriel assez loyalement. Quand il fut enfermé, Osael se rangea au service d’Azrael bien que sa nature ne fût pas parfaitement en coïncidence avec ses anges. Il agit souvent indépendamment, c’est un excellent combattant bien qu’assez impétueux. Il fait souvent mine d’être un maitre d’arts-martiaux, cependant, c’est pour tromper les idiots le pensant assez stupide pour défier au corps à corps des ennemis en 2035, possédant un pistolet mitrailleur intégré à son bras gauche pour les buter au besoin. Il est au service de Ye-bin RYONG même si elle fait peu appel à lui."
+            "text": "Séraphin de la colère, Osael servait autrefois Muriel avec loyauté. Après l’emprisonnement de l’Archange, il passa au service d’Azrael, même si sa nature s’accorde imparfaitement avec celle de ses anges. Il agit souvent de façon indépendante et reste un excellent combattant malgré son caractère impétueux. Il aime donner l’impression d’être un maître d’arts martiaux prêt au combat rapproché, précisément pour tromper ceux qui le croiraient assez stupide pour affronter ainsi ses ennemis en 2035 : son bras gauche intègre un pistolet-mitrailleur qu’il utilise dès que nécessaire. Il sert Ye-bin RYONG, même si elle fait rarement appel à lui."
           }
         ]
       },
