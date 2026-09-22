@@ -2,8 +2,9 @@ import P0 from "./compendium-verite-extraterrestres-pnj-payload-0.js";
 import P1 from "./compendium-verite-extraterrestres-pnj-payload-1.js";
 import P2 from "./compendium-verite-extraterrestres-pnj-payload-2.js";
 import P3 from "./compendium-verite-extraterrestres-pnj-payload-3.js";
+import { editorializeExtraterrestresPnj } from "./compendium-verite-extraterrestres-pnj-editorial.js";
 
-export const COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_ARTICLES = [...P0, ...P1, ...P2, ...P3];
+export const COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_ARTICLES = editorializeExtraterrestresPnj([...P0, ...P1, ...P2, ...P3]);
 
 const GROUP_ORDER: Record<string, number> = {
   "Talass": 10,
