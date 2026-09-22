@@ -1864,9 +1864,9 @@ const PAYLOAD = [
     "pnj": {
       "completeness": "detailed",
       "real_name": "Lex Huria",
-      "nom_verite": "Lexael",
+      "nom_verite": "Lexael / Luxure",
       "race": "Angelus",
-      "age": "«25 ans », ????",
+      "age": "25 ans",
       "origine": "Américaine",
       "statut": "Corporation : Nextar",
       "statut_verite": "Péché capital",
@@ -1874,7 +1874,9 @@ const PAYLOAD = [
       "relations": [],
       "identity_keys": [
         "Lex Huria",
-        "Lexael"
+        "Lexael",
+        "Luxure",
+        "Lexael / Luxure"
       ],
       "source_group": "Autres Angelus",
       "source_order": 42,
@@ -1907,7 +1909,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«25 ans », ????"
+                "25 ans"
               ],
               [
                 "Affiliations",
@@ -1928,7 +1930,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Lex Huria est une assistante de production sur les différentes émissions au taux d’audimat le plus élevé Elle est notamment sur des émissions de Lys depuis quelques années et a récemment été placée sur les émissions culinaires de Svetlana. Enjouée et volontaire, c’est une femme efficace malgré une apparence assez frivole."
+            "text": "Lex Huria est assistante de production sur plusieurs des émissions aux plus fortes audiences. Elle travaille depuis quelques années sur des programmes de Lys et a récemment été affectée aux émissions culinaires de Svetlana. Enjouée, volontaire et efficace, elle donne parfois une impression frivole qui masque son sérieux professionnel."
           }
         ]
       },
@@ -1947,7 +1949,7 @@ const PAYLOAD = [
               ],
               [
                 "Nom de la Vérité",
-                "Lexael > Luxure"
+                "Lexael / Luxure"
               ],
               [
                 "Nature réelle",
@@ -1969,7 +1971,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Lexael est en effet l’incarnation de la Luxure, c’est une ancienne Vertu qui a tellement aspiré de luxure chez les mortels qu’elle en est devenue une manifestation. Elle est, inévitablement, obsédée sexuelle et si elle est capable de travailler en tant qu’humaine, absolument tout son temps libre n'est dédié qu’à draguer et coucher, absolument tout ce qui existe. Peu lui importe le « vecteur » du plaisir, pour elle, tout se justifie si l’extase est là, elle ne parle pas de partenaires ou de sextoy, mais de « vecteurs », n’attachant pas plus d’importance à une amante qu’a un vibro, un sans-abri ou un bouc. Elle terrifie les incubes et les succubes des daemons, puisqu’elle pompe leurs pouvoirs. Elle a été envoyée pour surveiller Svetlana mais sa présence à provoquer l’apparition d’un fantasme dans la Réalité. Lors de la « pluie des anges », d’anciennes « Luxures » ont été renvoyées sur Terre, elle a pour mission de les vaincre même si cela l’éloigne de sa Svetlana adorée."
+            "text": "Lexael, désormais appelée Luxure, est l’incarnation du péché capital correspondant. Ancienne Vertu, elle a absorbé tant de luxure chez les mortels qu’elle en est devenue une manifestation. Inévitablement obsédée par la sexualité, elle reste capable de fonctionner comme une humaine au travail mais consacre presque tout son temps libre à rechercher le plaisir avec tout ce qui existe. Elle ne parle guère de partenaires ou de jouets sexuels, mais de « vecteurs », n’accordant pas davantage d’importance à une amante qu’à un objet, un inconnu ou un animal. Les Incubes et Succubes Daemons la craignent parce qu’elle absorbe leurs pouvoirs. Envoyée pour surveiller Svetlana, sa présence provoqua l’apparition d’un fantasme dans la Réalité. Lors de la « pluie des anges », d’anciennes incarnations de Luxure furent renvoyées sur Terre ; Lexael a pour mission de les vaincre, même si cela l’éloigne de sa Svetlana adorée."
           }
         ]
       },
