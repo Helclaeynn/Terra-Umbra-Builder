@@ -1296,7 +1296,7 @@ const PAYLOAD = [
       "nom_verite": "Crocell – Winston Churchill",
       "nom_verite_source": "Crocell – Winston Churchill",
       "race": "Daemons",
-      "age": "«56 ans » - ????",
+      "age": "56 ans",
       "origine": "américaine",
       "statut": "Duc",
       "affiliations": "Gouvernement : sénateur – crawlers : fixers",
@@ -1352,7 +1352,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Finton est un sénateur californien et un des plus grands orateurs de la décennie, ancien démocrate il est désormais de « l’influence associative », du côté de Dina Page pendant sa campagne, il était un des soutiens les plus farouches et son sens de la répartie a énormément marqué de points en la faveur de Dina, déjà écrasante de popularité. C’est un des politiciens les plus craints en talkshow."
+            "text": "Finton Francehill est sénateur californien et compte parmi les grands orateurs de la décennie. Ancien démocrate désormais rattaché à « l’influence associative », il soutint très activement Dina Page pendant sa campagne. Son sens de la répartie contribua encore à renforcer une candidate déjà extrêmement populaire. Il est aujourd’hui l’un des politiciens les plus redoutés dans les talk-shows."
           }
         ]
       },
@@ -1418,7 +1418,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Finton est un sénateur californien et un des plus grands orateurs de la décennie, ancien démocrate il est désormais de « l’influence associative », du côté de Dina Page pendant sa campagne, il était un des soutiens les plus farouches et son sens de la répartie a énormément marqué de points en la faveur de Dina, déjà écrasante de popularité. C’est un des politiciens les plus craints en talkshow. Crocell n’est pas le démon le plus connu des enfers. Le titre a été pris et élevé au rang de Duc par Winston Churchill, dont la verve légendaire était adorée de Mephisto. Il a choisi spécifiquement de s’incarné en afro- américain en supposant un ancien nazi d’être réincarné en tant que daemon pour le compte d’Astaroth. En tant que Duc démoniaque, il a encore un peu de mal, son ascension est très récente et Crocell ne sait pas encore parfaitement tout sur les vérités du monde, incarné en urgence."
+            "text": "Finton est en vérité Crocell–Winston Churchill. Crocell n’était pas l’un des démons les plus célèbres des Enfers avant que Winston Churchill ne reprenne ce titre et ne l’élève au rang de Duc ; Méphisto adorait sa verve légendaire. Churchill choisit spécifiquement de s’incarner dans le corps d’un Afro-Américain, soupçonnant qu’un ancien nazi avait lui-même été réincarné comme Daemon pour le compte d’Astaroth. Son ascension étant très récente et son incarnation ayant été réalisée dans l’urgence, Crocell maîtrise encore imparfaitement certaines réalités du monde surnaturel."
           }
         ]
       },
