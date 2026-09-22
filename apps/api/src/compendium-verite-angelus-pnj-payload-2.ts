@@ -1304,7 +1304,7 @@ const PAYLOAD = [
       "real_name": "Henna Vatryov",
       "nom_verite": "Henael- Baba Hena",
       "race": "Angelus/ Kochtchei",
-      "age": "«26 ans », ????",
+      "age": "26 ans",
       "origine": "russe",
       "statut": "crawlers : hookers",
       "statut_verite": "séraphin",
@@ -1345,7 +1345,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«26 ans », ????"
+                "26 ans"
               ],
               [
                 "Affiliations",
@@ -1366,7 +1366,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Henna est une escort que l’on retrouve régulièrement dans les soirées de « Jesus Jack » . On la trouve dans toutes la Californie, elle voyage beaucoup. C’est toujours près d’un comptoir qu’on la rencontre, un vert d’alcool à la menthe, généralement d’une couleur assortie à ses yeux. Sensuelle et cynique à la fois, elle ne parle jamais longtemps à moins qu’on ne l’engage, mais elle a toujours un bon conseil à donner."
+            "text": "Henna est une escort régulièrement présente aux soirées de « Jesus Jack ». Elle voyage beaucoup et peut être rencontrée un peu partout en Californie, souvent près d’un comptoir avec un verre d’alcool à la menthe dont la couleur rappelle ses yeux. Sensuelle et cynique, elle parle peu à moins d’être engagée, mais trouve presque toujours un bon conseil à donner."
           }
         ]
       },
@@ -1411,7 +1411,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Et pour cause, cet « Angelus » est le séraphin de l’Avertissement. On la surnomme aussi « Dame Blanche » même si elle n’est pas un spectre. Les voyageurs ont été vaincus avant qu’Elynea ne vienne sur Terre, cependant quand elle se rebella, si peu de dives ne vinrent à elle, beaucoup ayant cédé aux fléaux, les Babayaga et Kochtchei jugèrent l’occasion bonne pour se venger des dieux. S’ils se ravisèrent vite, certains ont reçu la marque d’Elynea et n’ont pas dévié du chemin emprunté. C’est le cas d’Hena, une fille de l’ancienne. Elle n’a pas de gros don, mais elle a une grande clairvoyance."
+            "text": "Henael, également appelée Baba Hena, est la Séraphine de l’Avertissement. On la surnomme parfois « Dame Blanche », bien qu’elle ne soit pas un spectre. Les Voyageurs avaient déjà été vaincus avant l’arrivée d’Elynea sur Terre ; lorsque celle-ci se rebella, peu de Dives la rejoignirent, beaucoup ayant déjà cédé aux Fléaux, mais plusieurs Baba Yaga et Kochtchei virent là une occasion de se venger des dieux. La plupart reculèrent ensuite, mais certains reçurent la Marque d’Elynea et ne quittèrent jamais ce chemin. Hena, fille de l’Ancienne, est l’une d’eux. Elle ne possède pas de pouvoir spectaculaire, mais bénéficie d’une remarquable clairvoyance."
           }
         ]
       },
