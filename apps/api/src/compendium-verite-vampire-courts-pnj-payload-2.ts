@@ -548,10 +548,10 @@ const PAYLOAD = [
       "real_name": "Maarina Ogaufi",
       "nom_verite": "Maatla Ogaufi",
       "race": "Vampire",
-      "age": "«26 ans » - 455 ans",
+      "age": "26 ans",
       "origine": "Américaine",
       "statut": "Corporation : Omegacoustic",
-      "statut_verite": "« Reine consort »",
+      "statut_verite": "Reine consort",
       "organisation": "Oru Ayeraye",
       "relations": [],
       "identity_keys": [
@@ -564,7 +564,7 @@ const PAYLOAD = [
         30,
         30
       ],
-      "source_designation": "Reine consort : Malefu",
+      "source_designation": "Reine consort : Maatla Ogaufi",
       "source_reality_raw": "Maarina Ogaufi",
       "source_truth_raw": "Maatla Ogaufi",
       "source_extract": "Reine consort : Malefu Nom de la Réalité : Maarina Ogaufi Nom de la Vérité : Maatla Ogaufi Age : «26 ans » - 455 ans Affiliations : Corporation : Omegacoustic Nationalité d’origine : Américaine Ethnie réelle : Vampire Statut : « Reine consort » Maison vampirique : «Asanbosam» Maarina est une chanteuse, danseuse et performeuse d’Omegacoustic. Elle ne se laisse absolument pas distancer par ses rivales et possède un girlsband nommé « Blood of Love ». Ses clips sont clairement pornographiques et l’image construite est celle d’un groupe rebelle, bien que rien ne soit neopunk, tout étant calibré et ajusté. Malgré tout, elle est fichée par la police, on la suspecte d’avoir déjà fait disparaitre des rivales et elle n’est pas en reste niveau agression physique, elle a d’ailleurs la réputation de toujours être armée d’au moins deux flingues Beauté sombre au derrière large, elle incarne la femme africaine parfaite, impétueuse et impitoyable, c’est une reine vampire du harem de Neeba. Elle servait les vampires, convertie à la secte de la fontaine des ténèbres, elle est un vampire Oshirique, elle a été transformée en vampire en étant saignée et noyée dans un bain de « sombre vérité » une fois qu’Oyalinka l’estima avoir des chances de devenir vampire. Elle est totalement dévouée à L’archevêque comme toutes les reines. Elle se fout toutefois de la politique",
@@ -591,7 +591,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«26 ans »"
+                "26 ans"
               ],
               [
                 "Affiliations",
@@ -602,6 +602,10 @@ const PAYLOAD = [
                 "Américaine"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Maarina Ogaufi est chanteuse, danseuse et performeuse chez Omegacoustic. Refusant de se laisser distancer par ses rivales, elle dirige le groupe féminin « Blood of Love ». Ses clips sont ouvertement pornographiques et cultivent une image rebelle, quoique soigneusement calibrée et sans véritable dimension néopunk. Fichée par la police, Maarina est soupçonnée d’avoir fait disparaître certaines rivales et possède une solide réputation de violence physique. Elle porterait toujours au moins deux armes à feu."
           }
         ]
       },
@@ -624,7 +628,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "«26 ans » - 455 ans"
+                "26 ans en apparence ; 455 ans"
               ],
               [
                 "Nature réelle",
@@ -632,17 +636,17 @@ const PAYLOAD = [
               ],
               [
                 "Statut vampirique",
-                "« Reine consort »"
+                "Reine consort"
               ],
               [
                 "Maison vampirique",
-                "«Asanbosam»"
+                "Asanbosam"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "Maarina est une chanteuse, danseuse et performeuse d’Omegacoustic. Elle ne se laisse absolument pas distancer par ses rivales et possède un girlsband nommé « Blood of Love ». Ses clips sont clairement pornographiques et l’image construite est celle d’un groupe rebelle, bien que rien ne soit neopunk, tout étant calibré et ajusté. Malgré tout, elle est fichée par la police, on la suspecte d’avoir déjà fait disparaitre des rivales et elle n’est pas en reste niveau agression physique, elle a d’ailleurs la réputation de toujours être armée d’au moins deux flingues Beauté sombre au derrière large, elle incarne la femme africaine parfaite, impétueuse et impitoyable, c’est une reine vampire du harem de Neeba. Elle servait les vampires, convertie à la secte de la fontaine des ténèbres, elle est un vampire Oshirique, elle a été transformée en vampire en étant saignée et noyée dans un bain de « sombre vérité » une fois qu’Oyalinka l’estima avoir des chances de devenir vampire. Elle est totalement dévouée à L’archevêque comme toutes les reines. Elle se fout toutefois de la politique"
+            "text": "Maatla affiche une beauté sombre et un tempérament impétueux autant qu’impitoyable. Reine vampire du harem de Neeba, elle servait autrefois les vampires avant sa conversion à la secte de la Fontaine des Ténèbres. Olayinka la fit saigner puis noyer dans un bain de Sombre-Vérité lorsqu’elle estima que la jeune femme avait une chance de survivre à sa transformation en vampire oshirique. Comme toutes les reines, Maatla est entièrement dévouée à l’archevêque. Elle se désintéresse toutefois de la politique vampirique : son seul but est de profiter de la vie."
           }
         ]
       },
