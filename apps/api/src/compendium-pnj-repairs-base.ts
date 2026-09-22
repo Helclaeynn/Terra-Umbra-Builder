@@ -275,6 +275,7 @@ export function applyCompendiumPnjRepairs(byId:Map<string,A>){
   const jord=article(byId,["Jordel Sharzmann"]);if(jord){if(jord.pnj&&n(jord.pnj.statut).includes("wakagashira"))delete jord.pnj.statut;dropRows(jord,["Fonction / désignation","Statut"]);}
   const tos=article(byId,["Toshiyuki Yodokawa","Yoshiyuki Yodokawa"]);if(tos)replace(tos,[[/Yoshiyuki YODOKAWA/gi,"Toshiyuki YODOKAWA"],[/Shateigashura/gi,"Shateigashira"]]);
 
+  const relHaadir=article(byId,["Haadir Bennani"]);if(relHaadir)replace(relHaadir,[[/les plus pauvre\b/gi,"les plus pauvres"],[/ce que els médias/gi,"ce que les médias"],[/il reçu une certaine notoriété/gi,"il reçut une certaine notoriété"],[/prit pour un extrémiste/gi,"pris pour un extrémiste"],[/c’est surtout les musulmans du monde entier qui assurent/gi,"ce sont surtout les musulmans du monde entier qui assurent"]]);
   const xi=article(byId,["Xieren Song"]);if(xi){xi.pnj={...(xi.pnj??{}),statut:"Grande figure shientaoïste californienne"};setTable(xi,"Statut","Grande figure shientaoïste californienne");setTable(xi,"Fonction / désignation","Grande figure shientaoïste californienne");}
   for(const [name,re] of [["Durgawati Ghandi",/subterfuge|aura/i],["Meina Korgovski",/douzaine|aucune enquête/i],["Rafaella",/viol de paladia/i]] as Array<[string,RegExp]>){const a=article(byId,[name]);if(a)moveParagraphs(a,t=>re.test(t));}
 
