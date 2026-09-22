@@ -1754,8 +1754,8 @@ const PAYLOAD = [
       "nom_verite": "Babalon - Sif",
       "nom_verite_source": "Babalon - Sif",
       "race": "Daemons",
-      "age": "«35 ans », ????",
-      "origine": "Suèdoise",
+      "age": "35 ans",
+      "origine": "Suédoise",
       "statut": "Duchesse",
       "affiliations": "« Corporatiste »",
       "divinite": "Lilith",
@@ -1803,14 +1803,14 @@ const PAYLOAD = [
               ],
               [
                 "Nationalité d’origine",
-                "Suèdoise"
+                "Suédoise"
               ]
             ]
           },
           {
             "type": "p",
             "style": "lore",
-            "text": "Syfia est une présentatrice et actrice de la Tuatha corporation. Dotée d’une beauté glaciale, elle est aussi adorée qu’elle ne semble épanouie."
+            "text": "Syfia est présentatrice et actrice pour Tuatha Corporation. Dotée d’une beauté glaciale, elle bénéficie d’une forte popularité publique et donne l’image d’une femme parfaitement épanouie."
           }
         ]
       },
@@ -1845,7 +1845,7 @@ const PAYLOAD = [
               ],
               [
                 "Nationalité d’origine",
-                "Suèdoise"
+                "Suédoise"
               ],
               [
                 "Nature réelle",
@@ -1876,7 +1876,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Syfia est une présentatrice et actrice de la Tuatha corporation. Dotée d’une beauté glaciale, elle est aussi adorée qu’elle ne semble épanouie. Duchesse démoniaque, son nom est Sif, comme la déesse nordique, épouse de Thor. On ne sait pas si elle a inspiré les légendes sur la déesse ou l’inverse, mais Sif est une très ancienne démone servant Lilith dont le passé humain est méconnu. Amoureuse de la déesse Abigor (Thor), elle se languit de leur passion passée. Le pouvoir « fertilité » lui permet de totalement contrôler les hormones de son corps ou de ses cibles. La plus malsaine de ses utilisations est qu’elle peut utiliser les pouvoirs de tout fœtus en elle, pourchassant sans cesse des mâles lui permettant d’avoir les pouvoirs qu’elle désire."
+            "text": "Syfia est en vérité Babalon–Sif, une très ancienne Duchesse daemoniaque servant Lilith. Son nom renvoie à Sif, épouse de Thor dans les légendes nordiques, sans que l’on sache si elle inspira ces récits ou si elle en adopta ensuite l’identité. Son passé humain demeure inconnu. Amoureuse d’Abigor, associée à Thor dans cette tradition, elle se languit de leur ancienne passion. Son pouvoir de « Fertilité » lui permet de contrôler totalement les hormones de son propre corps ou de ses cibles. Son utilisation la plus malsaine consiste à exploiter les pouvoirs de tout fœtus qu’elle porte, ce qui la pousse à rechercher des géniteurs capables de lui donner accès aux facultés qu’elle désire."
           }
         ]
       },
