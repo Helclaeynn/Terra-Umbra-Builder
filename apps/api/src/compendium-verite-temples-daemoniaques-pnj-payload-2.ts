@@ -1138,7 +1138,7 @@ const PAYLOAD = [
       "nom_verite": "Acham– Diké -Chiomara",
       "nom_verite_source": "Acham– Diké -Chiomara",
       "race": "daemons",
-      "age": "«39 ans », ????",
+      "age": "39 ans",
       "origine": "Américaine",
       "statut": "Duchesse",
       "affiliations": "gouvernement : juge",
@@ -1194,7 +1194,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Evelyn Forbes est un des 6 hauts juges de la cour suprême de Californie, en ajoutant la présidente du tribunal ; Farah El’Arshad et l’ancien président, le suppléant Connor K. McDougals, l’ensemble de la cour suprême est ainsi cité. Evelyn est une femme intransigeante et terrifiante, incorruptible et droite."
+            "text": "Evelyn Forbes compte parmi les hauts juges de la Cour suprême de Californie. Intransigeante, impressionnante et réputée incorruptible, elle défend une conception particulièrement rigoureuse du droit."
           }
         ]
       },
@@ -1260,7 +1260,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Evelyn Forbes est un des 6 hauts juges de la cour suprême de Californie, en ajoutant la présidente du tribunal ; Farah El’Arshad et l’ancien président, le suppléant Connor K. McDougals, l’ensemble de la cour suprême est ainsi cité. Evelyn est une femme intransigeante et terrifiante, incorruptible et droite. En tant que démon, elle est « Acham », une daemone que les légendes décrivent comme mineur, qui préside à la réussite, la gloire et aux gains surprises, mais surtout aux procès victorieux. Daemone assez récente on l’associe à Diké, la déesse de la justice morale chez les Grecs mais elle est née en tant que mortelle bien après. En effet, son identité à l’origine est la celte Galate, Chiomara. Epouse d’un noble, elle fut capturée durant une campagne romaine et fut violée par le centurion en charge des captifs quand elle se refusa à lui. Le centurion exigea ensuite une rançon pour rendre Chiomara. Alors qu’il s’assurait que le tribut versé était le bon, elle le décapita et ramena la tête à son mari, ne partageant son intimité qu’avec un seul homme vivant. Forte d’une intégrité morale et d’une volonté inflexible, le dieu Satan la récupéra avec respect et bien qu’aucun de ses noms n’est connu, elle est une Duchesse très influente. 8. Temple de Mephisto"
+            "text": "Evelyn est en vérité Acham–Diké–Chiomara. Acham est une Daemone parfois décrite dans les légendes comme une entité mineure liée à la réussite, à la gloire, aux gains inattendus et surtout aux procès victorieux. Plus récente que bien des Daemons, elle fut associée à Diké, déesse grecque de la justice morale, bien qu’elle soit née bien après cette période. Mortelle, elle fut Chiomara, femme galate mariée à un noble. Capturée durant une campagne romaine, elle fut violée par le centurion chargé des prisonniers après avoir refusé ses avances. Celui-ci exigea ensuite une rançon pour la rendre ; alors qu’il vérifiait le tribut, Chiomara le décapita et rapporta sa tête à son mari. Satan admira son intégrité morale et sa volonté inflexible et récupéra son âme. Malgré la relative discrétion de ses noms démoniaques, elle est devenue une Duchesse très influente."
           }
         ]
       },
