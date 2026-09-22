@@ -1343,18 +1343,21 @@ const PAYLOAD = [
       "real_name": "Alfonse N’Vigenza",
       "nom_verite": "Afamefuna",
       "race": "Vampire",
-      "age": "«22 ans » - 469 ans",
+      "age": "22 ans",
       "origine": "Nigériane",
       "statut": "Crawlers : neurodivers",
-      "statut_verite": "« « Makoko »",
+      "statut_verite": "Makoko",
       "organisation": "Oru Ayeraye",
       "relations": [],
       "identity_keys": [
         "Alfonse N’Vigenza",
-        "Afamefuna"
+        "Afamefuna",
+        "Al’Vi",
+        "Yellion"
       ],
       "aliases_source": [
-        "Al’ Vi"
+        "Al’ Vi",
+        "Yellion"
       ],
       "source_group": "Oru Ayeraye",
       "source_order": 47,
@@ -1362,7 +1365,7 @@ const PAYLOAD = [
         33,
         33
       ],
-      "source_designation": "Makoko : Kealaboga",
+      "source_designation": "Makoko : Afamefuna",
       "source_reality_raw": "« Al’ Vi » - Alfonse N’Vigenza",
       "source_truth_raw": "Afamefuna",
       "source_extract": "Makoko : Kealaboga Nom de la Réalité : « Al’ Vi » - Alfonse N’Vigenza Nom de la Vérité : Afamefuna Age : «22 ans » - 469 ans Affiliations : Crawlers : neurodivers Nationalité d’origine : Nigériane Ethnie réelle : Vampire Statut : « « Makoko » Maison vampirique : «asanbosan » Al’Vi est un neurodiver excentrique qui vénère la couleur jaune. Il adore la mode et le style, il ne sait pas s’habiller avec des sous-marques bien qu’il ait un logifate dangereux l’empêchant de faire ses emplettes dans des Megacenters. Doué sur l’holonet comme peu de neurodivers, il répugne à aller sur le terrain, faisant aisément preuve de couardise et de lâcheté. Ainsi, bien que doué, certains crawlers lui en veulent puisqu’il les a abandonné en mission, son pseudonyme le plus courant est « Yellion » (yellow+lion). Seigneur de la maison Asanbosam qui porte le nom des très dangereux deimons éponymes, Afamefuna est un trompeur et un menteur. Loin d’être faible ou peureux c’est un être qui adore se jouer des mortels, il aime se faire des ennemis et trahir les petits humains jusqu’à ce que l’un d’eux ne commette l’erreur de vouloir lui faire payer. Il ne tue jamais ceux qui s’en prennent à lui, il leur réserve 5 à 25 ans de torture, toujours plus atroce. Il déteste la Fontaine des Ténèbres et le caractère religieux trop présent dans l’Oru. C’est un farceur et un arnaqueur de nature, malgré son haut statut de Makoko, Yellion peut sembler plus insignifiant qu’il ne l’est par ses moqueries et son attitude aisément juvénile mais ce n’est qu’une façade,",
@@ -1385,11 +1388,11 @@ const PAYLOAD = [
               ],
               [
                 "Nom / identité de Réalité",
-                "« Al’ Vi » - Alfonse N’Vigenza"
+                "Alfonse N’Vigenza, dit « Al’Vi »"
               ],
               [
                 "Âge apparent",
-                "«22 ans »"
+                "22 ans"
               ],
               [
                 "Affiliations",
@@ -1400,6 +1403,10 @@ const PAYLOAD = [
                 "Nigériane"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Alfonse N’Vigenza, dit Al’Vi, est un Neurodiver excentrique qui voue un culte à la couleur jaune. Passionné de mode et de style, il refuse les sous-marques malgré un logifate dangereux qui l’empêche de faire ses achats dans les Megacenters. Exceptionnellement doué sur l’Holonet, il répugne toutefois à intervenir sur le terrain et peut se montrer lâche. Certains Crawlers lui reprochent ainsi de les avoir abandonnés en mission. Son pseudonyme le plus courant est « Yellion », contraction de yellow et lion."
           }
         ]
       },
@@ -1422,7 +1429,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "«22 ans » - 469 ans"
+                "22 ans en apparence ; 469 ans"
               ],
               [
                 "Nature réelle",
@@ -1430,17 +1437,17 @@ const PAYLOAD = [
               ],
               [
                 "Statut vampirique",
-                "« « Makoko »"
+                "Makoko"
               ],
               [
                 "Maison vampirique",
-                "«asanbosan »"
+                "Asanbosam"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "Al’Vi est un neurodiver excentrique qui vénère la couleur jaune. Il adore la mode et le style, il ne sait pas s’habiller avec des sous-marques bien qu’il ait un logifate dangereux l’empêchant de faire ses emplettes dans des Megacenters. Doué sur l’holonet comme peu de neurodivers, il répugne à aller sur le terrain, faisant aisément preuve de couardise et de lâcheté. Ainsi, bien que doué, certains crawlers lui en veulent puisqu’il les a abandonné en mission, son pseudonyme le plus courant est « Yellion » (yellow+lion). Seigneur de la maison Asanbosam qui porte le nom des très dangereux deimons éponymes, Afamefuna est un trompeur et un menteur. Loin d’être faible ou peureux c’est un être qui adore se jouer des mortels, il aime se faire des ennemis et trahir les petits humains jusqu’à ce que l’un d’eux ne commette l’erreur de vouloir lui faire payer. Il ne tue jamais ceux qui s’en prennent à lui, il leur réserve 5 à 25 ans de torture, toujours plus atroce. Il déteste la Fontaine des Ténèbres et le caractère religieux trop présent dans l’Oru. C’est un farceur et un arnaqueur de nature, malgré son haut statut de Makoko, Yellion peut sembler plus insignifiant qu’il ne l’est par ses moqueries et son attitude aisément juvénile mais ce n’est qu’une façade,"
+            "text": "Seigneur de la maison Asanbosam, qui porte le nom des très dangereux Deimons éponymes, Afamefuna est un trompeur et un menteur. Loin d’être faible ou peureux, il adore se jouer des mortels, se faire des ennemis et trahir les humains jusqu’à ce que l’un d’eux tente de lui faire payer ses actes. Il ne tue jamais ceux qui s’en prennent à lui : il leur réserve de cinq à vingt-cinq ans de tortures toujours plus atroces. Il déteste la Fontaine des Ténèbres et la place excessive de la religion dans l’Oru. Farceur et arnaqueur par nature, Yellion peut, malgré son haut statut de Makoko, paraître insignifiant par ses moqueries et son attitude juvénile. Ce n’est qu’une façade : en colère, il se révèle être un vampire tout à fait effrayant."
           }
         ]
       },
