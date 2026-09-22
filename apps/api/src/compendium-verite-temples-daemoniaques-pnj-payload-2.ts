@@ -1454,7 +1454,7 @@ const PAYLOAD = [
       "nom_verite": "Abrasax- Myrddin/Merlin",
       "nom_verite_source": "Abrasax- Myrddin/Merlin",
       "race": "Daemons",
-      "age": "«25ans », ????",
+      "age": "25 ans",
       "origine": "britannique",
       "statut": "Duc",
       "affiliations": "chasseurs",
@@ -1497,7 +1497,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "25ans"
+                "25 ans"
               ],
               [
                 "Affiliations",
@@ -1512,7 +1512,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Miles est un chasseur indépendant, il se refuse à être de l’Association ou d’une secte. C’est un chasseur spécialisé dans les sorciers et les mages de plus, lui-même sorcier."
+            "text": "Miles Forest est un chasseur indépendant qui refuse d’appartenir à l’Association ou à une secte. Sorcier lui-même, il s’est spécialisé dans la traque des sorciers et des Mages."
           }
         ]
       },
@@ -1578,12 +1578,12 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Canon validé : Abrasax est l’âme de l’ancien Merlin (Myrddin). Le Mageius de Merlin ne s’est pas réincarné avec lui : il s’est attaché à l’âme de Leslie Wright, qui demeure un personnage distinct."
+            "text": "Canon validé : Abrasax est l’âme de l’ancien Merlin, Myrddin. Le Mageius de Merlin ne s’est pas réincarné avec lui : il s’est attaché à l’âme de Leslie Wright, qui demeure un personnage distinct."
           },
           {
             "type": "p",
             "style": "lore",
-            "text": "Miles est un chasseur indépendant, il se refuse à être de l’Association ou d’une secte. C’est un chasseur spécialisé dans les sorciers et les mages de plus, lui-même sorcier. Abrasax, son nom démoniaque est celui d’un Duc servant Mephisto, décrit comme séducteur, « abracadabra » vient de son nom : «\" abreg ad hâbra \" ». C’est un daemon puissant en magie. De son vivant, il était Myrddin, un puissant humain « fils d’un incube », son père n’était autre que Mephisto en personne. On ne sait pas vraiment la vérité derrière les mythes Arthurien, mais Merlin, Morgan, Viviane et d’autres formèrent la loge de Bretagne et la Table Ronde pour la protéger. C’est Morgan qui tua Merlin vraisemblablement, l’enchanteur ayant fait entrer en résonnance son Mageius, il était devenu capable d’aspirer toute la magie du monde à lui, souffrant atrocement, elle le libéra de cette douleur. L’âme de merlin aurait dû revenir à Morrighan, son amie, afin d’en devenir une corneille, mais Mephisto s’en empara. Merlin le sert mais avec rancœur de fait, regrettant de ne pas être allé servir son amie. Le « spectre de son Mageius » le rend plus fort qu’un mage puisqu’il possède l’équivalent de son ancien Mageius pour 1 sort de chaque domaine par jour."
+            "text": "Abrasax est un Duc de Méphisto, réputé séducteur et puissamment versé dans la magie. Son nom est rapproché de la formule « abreg ad hâbra », à l’origine du mot « abracadabra ». De son vivant, il fut Myrddin — Merlin — puissant humain décrit comme « fils d’un Incube », Méphisto lui-même. La vérité exacte des mythes arthuriens reste incertaine, mais Merlin, Morgane, Viviane et d’autres fondèrent la Loge de Bretagne et la Table ronde pour la protéger. Morgane aurait vraisemblablement tué Merlin lorsqu’une résonance incontrôlée de son Mageius le rendit capable d’aspirer à lui toute la magie du monde, le libérant ainsi d’une souffrance atroce. Son âme aurait dû revenir à Morrighan afin de devenir l’une de ses corneilles, mais Méphisto s’en empara. Merlin le sert donc avec rancœur, regrettant de ne pas avoir rejoint son amie. Le « spectre » de son ancien Mageius lui confère encore l’équivalent d’un sort de chaque domaine par jour."
           }
         ]
       },
