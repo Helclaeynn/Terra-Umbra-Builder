@@ -3638,6 +3638,12 @@ function searchScore(article: Article, query: string): number {
   else if (title.startsWith(q)) score += 500;
   else if (title.includes(q)) score += 250;
 
+  // Truth names belong only to the MJ corpus. A match on the identity itself
+  // should rank ahead of another dossier that merely mentions that identity.
+  const truthName = norm(article.pnj?.nom_verite ?? "");
+  if (truthName === q) score += 900;
+  else if (truthName && truthName.includes(q)) score += 400;
+
   const tags = norm((article.tags ?? []).join(" "));
   if (tags.includes(q)) score += 100;
 

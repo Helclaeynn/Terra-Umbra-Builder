@@ -360,6 +360,8 @@ const canSearchTruthTags = computed(() =>
 );
 
 function searchForTag(tag: string) {
+  category.value = "";
+  manufacturer.value = "";
   query.value = `tag:"${tag.replace(/"/g, "")}"`;
   void search();
 }
@@ -1037,9 +1039,13 @@ function handleSearchBlur() {
   }, 120);
 }
 
-watch(query, () => {
-  if (searchFocused.value) scheduleSuggestions();
-});
+function handleSearchInput() {
+  // This is a global search. An earlier navigation filter must not silently
+  // hide an identity from another category when the user enters a new term.
+  category.value = "";
+  manufacturer.value = "";
+  scheduleSuggestions();
+}
 
 async function search() {
   searchFocused.value = false;
@@ -1089,7 +1095,6 @@ async function openArticle(id: string, syncRoute = true) {
     // Primary content becomes visible immediately. Builder context, dynamic
     // Talents and history enrich the already rendered article afterwards.
     selected.value = result.article;
-    if (result.article.category) category.value = result.article.category;
     articleLoading.value = false;
 
     if (syncRoute && route.query.article !== id) {
@@ -1486,6 +1491,7 @@ onBeforeUnmount(() => {
                   autocomplete="off"
                   aria-label="Recherche dans le Compendium"
                   @focus="searchFocused=true; scheduleSuggestions()"
+                  @input="handleSearchInput"
                   @blur="handleSearchBlur"
                   @keydown="handleSearchKeydown"
                 />

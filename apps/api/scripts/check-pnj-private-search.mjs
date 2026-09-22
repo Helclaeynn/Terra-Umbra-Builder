@@ -39,6 +39,7 @@ for (const audience of [null, "editor"]) {
   assert.equal((await search('tag:"vérité/espèce/loup-garou"')).total, 0);
   assert.equal((await search('tag:"vérité/nom/Mirrissi"')).total, 0);
   assert.equal((await search("Mirrissi")).total, 0);
+  assert.ok(!(await search("Viviane")).items.some((item) => item.id === "pnj-loges-mages-nina-le-guellec-03"));
   assert.ok((await search('tag:"réalité/faction/corporatiste"')).total > 0);
 }
 
@@ -46,6 +47,9 @@ for (const audience of ["gm", "admin"]) {
   role = audience;
   assert.ok((await search('tag:"vérité/espèce/loup-garou"')).total > 0);
   assert.ok((await search('tag:"vérité/nom/Mirrissi"')).total > 0);
+  assert.equal((await search("Viviane")).items[0]?.id, "pnj-loges-mages-nina-le-guellec-03");
+  assert.ok((await search('tag:"vérité/nom/Fée Viviane – Dame du lac"')).items
+    .some((item) => item.id === "pnj-loges-mages-nina-le-guellec-03"));
 }
 
 role = null;
