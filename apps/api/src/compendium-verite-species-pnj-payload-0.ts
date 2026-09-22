@@ -343,13 +343,20 @@ const PAYLOAD = [
       "Vampire"
     ],
     "pnj": {
-      "nom_verite": "Neeba NGUBENANI",
+      "real_name": "Neeba Ngubenani",
+      "nom_verite": "Neeba « l’Oba Okunkun »",
       "race": "Vampire",
-      "age": "«35 ans » -???? ans",
+      "age": "49 ans",
       "origine": "Zambienne",
-      "statut": "Corporatiste",
-      "statut_verite": "Le plus traditionnel des vampires",
+      "statut": "Corporation : First Lawyers Inc.",
+      "statut_verite": "Roi",
+      "organisation": "Oru Ayeraye",
       "relations": [],
+      "identity_keys": [
+        "Neeba Ngubenani",
+        "Neeba NGUBENANI",
+        "Neeba « l’Oba Okunkun »"
+      ],
       "source_group": "Vampires",
       "source_order": 3,
       "source_pages": [
@@ -366,53 +373,13 @@ const PAYLOAD = [
     },
     "sections": [
       {
-        "id": "profil",
-        "title": "Profil",
-        "level": 2,
-        "blocks": [
-          {
-            "type": "table",
-            "rows": [
-              [
-                "Nom de la Réalité",
-                "Neeba NGUBENANI"
-              ],
-              [
-                "Nom de la Vérité",
-                "Neeba NGUBENANI"
-              ],
-              [
-                "Âge",
-                "«35 ans » -???? ans"
-              ],
-              [
-                "Affiliations",
-                "Corporatiste"
-              ],
-              [
-                "Nationalité d’origine",
-                "Zambienne"
-              ],
-              [
-                "Nature réelle",
-                "Vampire"
-              ],
-              [
-                "Repère",
-                "Le plus traditionnel des vampires"
-              ]
-            ]
-          }
-        ]
-      },
-      {
         "id": "info-realite",
         "title": "Informations Réalité",
         "level": 2,
         "blocks": [
           {
             "type": "p",
-            "text": "Neeba est né en Zambie en 2000. Après des études de droit, et une carrière modeste, il a décidé de vivre en grande Californie en faisant émigré sa famille. Très riche avocat, il possède le cabinet « Fangs » qui, bien que membre des First Lawyers incorporated, est un cabinet très en conflit avec le cabinet Fate. Les subordonnés de Neeba le décrivent comme un homme aussi charismatique qu’effrayant."
+            "text": "Fondateur de Fangs, cabinet d’avocats et de notaires membre de First Lawyers Inc., Neeba Ngubenani compte parmi les cadres les plus importants de la corporation. Son charisme et son regard en font un avocat qui terrifie les personnes appelées à la barre. Malgré sa carrure et son air intimidant, il se montre élégant et chevaleresque. Sage et calme, il témoigne d’un profond respect pour les femmes et emploie presque exclusivement des collaboratrices dans son cabinet."
           }
         ]
       },
