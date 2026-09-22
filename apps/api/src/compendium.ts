@@ -285,9 +285,9 @@ import {
   COMPENDIUM_VERITE_PELAGES_PNJ_NAVIGATION
 } from "./compendium-verite-pelages-pnj.js";
 import {
-  COMPENDIUM_POINTS_RENCONTRE_ARTICLES,
   COMPENDIUM_POINTS_RENCONTRE_NAVIGATION
 } from "./compendium-points-rencontre.js";
+import { COMPENDIUM_POINTS_RENCONTRE_EDITORIAL_ARTICLES } from "./compendium-points-rencontre-editorial.js";
 import {
   COMPENDIUM_POINTS_RENCONTRE_PNJ_ARTICLES,
   COMPENDIUM_POINTS_RENCONTRE_PNJ_NAVIGATION
@@ -2809,7 +2809,7 @@ async function loadCorpus(): Promise<Corpus> {
     grandsExilesPnjResolvedIds.set(article.id, article.id);
   }
 
-  for (const article of COMPENDIUM_POINTS_RENCONTRE_ARTICLES) {
+  for (const article of COMPENDIUM_POINTS_RENCONTRE_EDITORIAL_ARTICLES) {
     byId.set(String(article.id), deepClone(article) as Article);
   }
 
