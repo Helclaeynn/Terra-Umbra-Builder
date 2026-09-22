@@ -667,7 +667,7 @@ const PAYLOAD = [
       "age": "26 ans",
       "origine": "américaine",
       "statut": "Duc",
-      "affiliations": "Crawler : « voidwatcher »",
+      "affiliations": "Crawler : voidwatcher",
       "divinite": "Satan",
       "pouvoir_principal": "la sentence",
       "titre_infernal": "Duc",
@@ -709,7 +709,7 @@ const PAYLOAD = [
               ],
               [
                 "Affiliations",
-                "Crawler : « voidwatcher »"
+                "Crawler : voidwatcher"
               ],
               [
                 "Nationalité d’origine",
@@ -751,7 +751,7 @@ const PAYLOAD = [
               ],
               [
                 "Affiliations",
-                "Crawler : « voidwatcher »"
+                "Crawler : voidwatcher"
               ],
               [
                 "Nationalité d’origine",
