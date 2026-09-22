@@ -1934,10 +1934,10 @@ const PAYLOAD = [
       "completeness": "detailed",
       "real_name": "Shala Stevens",
       "real_name_source": "Shala Stevens",
-      "nom_verite": "Astarte– Kubaba",
+      "nom_verite": "Astarté–Kubaba",
       "nom_verite_source": "Astarte– Kubaba",
       "race": "Daemons",
-      "age": "«26 ans » - ????",
+      "age": "26 ans",
       "origine": "américaine",
       "statut": "Duc",
       "affiliations": "crawlers : Hooker",
@@ -1951,7 +1951,9 @@ const PAYLOAD = [
       "identity_keys": [
         "Shala Stevens",
         "Astarte– Kubaba",
-        "Astarté"
+        "Astarté",
+        "Astarté–Kubaba",
+        "Kubaba"
       ],
       "relations": [],
       "source_documents": [
@@ -1993,7 +1995,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Shala est une crawler qui excelle dans l’art de l’espionnage mondain. Courtisane moderne, on la trouve dans toutes les fêtes des riches corporatistes ou autres personnes d’influences. Sa beauté irrationnelle lui permet de s’inviter un peu partout très aisément, elle ne reste jamais assez longtemps pour gêner."
+            "text": "Shala Stevens est une Crawler spécialisée dans l’espionnage mondain. Courtisane moderne, elle fréquente les soirées des riches corporatistes et d’autres personnes influentes. Sa beauté remarquable lui permet de s’inviter presque partout, mais elle veille à ne jamais rester assez longtemps pour devenir encombrante."
           }
         ]
       },
@@ -2016,7 +2018,7 @@ const PAYLOAD = [
               ],
               [
                 "Nom de la Vérité",
-                "Astarte– Kubaba"
+                "Astarté–Kubaba"
               ],
               [
                 "Âge source",
@@ -2059,7 +2061,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Shala est une crawler qui excelle dans l’art de l’espionnage mondain. Courtisane moderne, on la trouve dans toutes les fêtes des riches corporatistes ou autres personnes d’influences. Sa beauté irrationnelle lui permet de s’inviter un peu partout très aisément, elle ne reste jamais assez longtemps pour gêner. Astarté est le nom de cette très puissante démone, daemone d’Abigor, c’est l’âme de la reine Kubaba, une reine sumérienne ayant régné sans roi et autrefois tavernière selon les rares traces qu’on a d’elle. Divinité céleste qu’est Astarté, lunaire et représentant la fertilité, c’est une âme ayant été disputée. Initialement, elle était une épouse mortelle de Baal, mais à sa mort, Lilith la récupéra, Son intelligence séduisit Astaroth qui négocia avec Lilith pour l’obtenir, toutefois, la déesse de l’intelligence se lassa, c’est ainsi qu’Abigor la récupéra."
+            "text": "Shala est en vérité Astarté–Kubaba, puissante Daemone d’Abigor. Elle porte l’âme de Kubaba, reine sumérienne qui aurait régné sans roi et aurait été tavernière avant son accession au pouvoir. Sous le nom d’Astarté, elle fut associée à une divinité céleste, lunaire et liée à la fertilité. Son âme fut longtemps disputée : épouse mortelle de Baal, elle fut d’abord récupérée par Lilith après sa mort ; son intelligence séduisit ensuite Astaroth, qui négocia son transfert, avant de s’en lasser. C’est finalement Abigor qui la recueillit."
           }
         ]
       },
