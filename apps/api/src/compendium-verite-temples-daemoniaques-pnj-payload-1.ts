@@ -655,10 +655,10 @@ const PAYLOAD = [
       "nom_verite": "Shax - Matlalcueitl",
       "nom_verite_source": "Shax - Matlalcueitl",
       "race": "daemons",
-      "age": "«35 ans », ????",
+      "age": "35 ans",
       "origine": "mexicaine",
       "statut": "Duc",
-      "affiliations": "Corporatif : oceanmaster",
+      "affiliations": "Corporatif : Ocean Master",
       "divinite": "Alabor",
       "pouvoir_principal": "la pluie",
       "titre_infernal": "Duc",
@@ -700,7 +700,7 @@ const PAYLOAD = [
               ],
               [
                 "Affiliations",
-                "Corporatif : oceanmaster"
+                "Corporatif : Ocean Master"
               ],
               [
                 "Nationalité d’origine",
@@ -711,7 +711,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Mercedes est un cadre dans la corporation Ocean master. Elle est connue pour être très coquette et excessivement dépensière, elle adore le luxe et se vautre allégrement dedans sans aucun état d’âme."
+            "text": "Mercedes est cadre chez Ocean Master. Très coquette et particulièrement dépensière, elle affectionne le luxe et l’assume sans le moindre état d’âme."
           }
         ]
       },
@@ -742,7 +742,7 @@ const PAYLOAD = [
               ],
               [
                 "Affiliations",
-                "Corporatif : oceanmaster"
+                "Corporatif : Ocean Master"
               ],
               [
                 "Nationalité d’origine",
@@ -777,7 +777,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Mercedes est un cadre dans la corporation Ocean master. Elle est connue pour être très coquette et excessivement dépensière, elle adore le luxe et se vautre allégrement dedans sans aucun état d’âme. Le démon Shax dont elle a le titre ducal est décrit comme une cigogne versée dans le mensonge, même si elle préfère de loin des plumes plus vertes et bleu quand elle porte sa robe traditionnellement constituée de plumes. Reine mésoaméricaine durant la période préclassique dans la préhistoire, c’était une sorcière et une prêtresse d’Alabor, qui abreuvait la terre de pluies quand il en manquait et asséchait les champs de ses rivaux. Elle a donné lieu à kla croyance bien plus tardive en Atlacoaya et Matlalcueitl, déesse de la sécheresse et déesse de la pluie, dont elle a pris les noms, ayant oublié celui qu’elle portait autrefois. Sa terrible cruauté plaisait à Alabor. Elle était en couple avec Annashadeh, un des grands tops models de la Tuatha jusqu’à ce que la duchesse vampire ne joigne Eversor. 4. Temple de Mammon"
+            "text": "Mercedes est en vérité Shax–Matlalcueitl. Le démon Shax est décrit comme une cigogne versée dans le mensonge ; elle préfère toutefois des plumages verts et bleus lorsqu’elle porte sa robe traditionnelle composée de plumes. Dans la préhistoire mésoaméricaine, elle fut une reine, sorcière et prêtresse d’Alabor capable d’abreuver ses terres lorsque la pluie manquait ou, à l’inverse, d’assécher les champs de ses rivaux. Elle donna plus tard naissance aux croyances autour d’Atlacoaya et de Matlalcueitl, déesses de la sécheresse et de la pluie, dont elle adopta les noms après avoir oublié celui qu’elle portait autrefois. Sa cruauté plaisait à Alabor. Elle fut également en couple avec Annashadeh, grand mannequin de Tuatha, jusqu’au départ de la Duchesse vampire pour Eversor."
           }
         ]
       },
