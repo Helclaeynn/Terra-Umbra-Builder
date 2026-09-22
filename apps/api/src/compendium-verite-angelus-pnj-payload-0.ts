@@ -1016,7 +1016,7 @@ const PAYLOAD = [
       "real_name": "Scarlet MacBride",
       "nom_verite": "Sobronielle",
       "race": "Angelus",
-      "age": "«36 ans », ????",
+      "age": "36 ans",
       "origine": "américaine",
       "statut": "Corporation : nextar",
       "statut_verite": "séraphin",
@@ -1057,7 +1057,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«36 ans », ????"
+                "36 ans"
               ],
               [
                 "Affiliations",
@@ -1078,7 +1078,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Scarlet est l’amie d’enfance de Gabriella Austin. Elle a fait les mêmes études, côtoyer les mêmes soirées mondaines et forcément, elle a participé à sa prise de pouvoir à nextar. Présentatrice phare de certaines chaines, elle a été préférée à lys qu’elle a grandement aidé en laissant sa place pour se tourner ve rs la création de concepts d’émission plus que la présentation."
+            "text": "Scarlet est l’amie d’enfance de Gabriella Austin. Elles ont suivi les mêmes études et fréquenté les mêmes soirées mondaines ; Scarlet participa naturellement à la prise de pouvoir de Gabriella chez Nextar. Présentatrice phare de plusieurs chaînes, elle fut un temps préférée à Lys, qu’elle a ensuite largement aidée en lui laissant sa place pour se consacrer davantage à la création de concepts d’émissions qu’à leur présentation."
           }
         ]
       },
@@ -1123,7 +1123,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Sobronielle est l’ange de la créativité, elle inspire les mortels et a une forte présence chez les neopunk à leur insu où elle est « Bloody Carrie », une organisatrice de concerts. Elle sert l’archange Raphael et l’épanouissement dans les arts est un soin de l’esprit comme de l’âme pour elle, le divertissement est un chemin pour l’harmonie. C’est un puissant Séraphin mais la personnalité alme et effacée qu’elle possède dissimule énormément son intelligence et ses manipulations nombreuses. Elle aime profondément Gabriella Austin et a une jalousie monstrueuse pour Wei de fait au point qu’elle s’est rapprochée du père de Gabriella pour nuire à la chinoise."
+            "text": "Sobronielle est l’ange de la créativité. Elle inspire les mortels et possède, à leur insu, une forte présence chez les Neopunks sous l’identité de « Bloody Carrie », organisatrice de concerts. Elle sert l’archange Raphael et considère que l’épanouissement artistique soigne l’esprit comme l’âme ; pour elle, le divertissement est un chemin vers l’harmonie. C’est un puissant Séraphin, mais sa personnalité calme et effacée dissimule une intelligence redoutable et de nombreuses manipulations. Elle aime profondément Gabriella Austin et nourrit une jalousie monstrueuse envers Wei, au point de s’être rapprochée du père de Gabriella pour nuire à la Chinoise."
           }
         ]
       },
