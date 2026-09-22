@@ -732,9 +732,9 @@ const PAYLOAD = [
     "pnj": {
       "completeness": "detailed",
       "real_name": "Rei Shinkai",
-      "nom_verite": "Pithormim",
+      "nom_verite": "Pithormim / Rei Shinkai",
       "race": "mi-Vala’erai mi-Kochtchei",
-      "age": "«27 ans », ????",
+      "age": "27 ans",
       "origine": "Japonaise",
       "statut": "« chasseurs »",
       "statut_verite": "séraphin",
@@ -742,7 +742,8 @@ const PAYLOAD = [
       "relations": [],
       "identity_keys": [
         "Rei Shinkai",
-        "Pithormim"
+        "Pithormim",
+        "Pithormim / Rei Shinkai"
       ],
       "source_group": "Malkhouth · Azrael",
       "source_order": 20,
@@ -775,7 +776,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«27 ans », ????"
+                "27 ans"
               ],
               [
                 "Affiliations",
@@ -796,7 +797,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Rei SHINKAI est un homme relativement énigmatique, il est un fantôme que l’on croise dans les quartiers abandonnés, il est chasseur car il traque et tue, scelle ou renvoie les créatures qui dénotent, mais il n’appartient à aucune organisation, aucune secte, aucun mouvement de pensée, il ne connait pas les bars de chasseur, c’est juste un errant qui agit contextuellement."
+            "text": "Rei SHINKAI est un homme relativement énigmatique, une sorte de fantôme que l’on croise dans les quartiers abandonnés. Il peut être considéré comme chasseur parce qu’il traque, tue, scelle ou renvoie les créatures qui détonnent, mais il n’appartient à aucune organisation, secte ni courant de pensée. Il ne fréquente pas les bars de chasseurs : c’est un errant qui intervient selon les circonstances."
           }
         ]
       },
@@ -815,7 +816,7 @@ const PAYLOAD = [
               ],
               [
                 "Nom de la Vérité",
-                "Pithormim – Rei Shinkai"
+                "Pithormim / Rei Shinkai"
               ],
               [
                 "Nature réelle",
@@ -841,7 +842,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Azrael a sauvé Rei d’une mort certaine, quand il était enfant. C’est le fils de Rae’Kath, la Vala’Eraï, mais son père était l’Ancien, le plus vioeux des Kochtchei. Frère de R’Gahanath, il fut envoyé par sa sœur pour attaquer les anges, dans le paradis, directement, c’était une bombe vivante, ce qu’il touchait voyait son âme se défaire du noyau d’existence de cette dernière. Azrael l’éduqua, le forma, elle utilisa la marque d’Elynea pour le contenir et non le transcender, ce qui le sauva d’une déchirure certaine de son âme. Il voit Azrael comme une mère et un mentor. Il est la « clé des enfers », par sa nature mi-Vala’erai mi voyageur, il peut invoquer des portails sur les enfers des dieux comme du paradis, heureusement, scellé, il ne fait rien de plus. Il refuse de retourner aux cieux tant qu’Azrael n’y est pas et n’a pas avancé avec son temps, se battant au katana, en kimono, parlant la langue des kochtchei et n’obéit à personne hormis Elynea et Azrael."
+            "text": "Azrael sauva Rei d’une mort certaine lorsqu’il était enfant. Fils de Rae’Kath, la Vala’Eraï, et de l’Ancien, le plus vieux des Kochtchei, il est le frère de R’Gahanath. Sa sœur l’envoya autrefois attaquer directement les anges au Paradis : véritable bombe vivante, ce qu’il touchait voyait son âme se détacher de son propre noyau d’existence. Azrael l’éduqua et le forma, utilisant la Marque d’Elynea pour le contenir plutôt que le transcender, ce qui le sauva d’une déchirure certaine de son âme. Rei considère Azrael comme une mère et un mentor. Il est la « clé des enfers » : sa nature mi-Vala’Eraï, mi-Voyageur lui permet d’ouvrir des portails vers les enfers des dieux comme vers le Paradis. Heureusement, son état scellé limite fortement cette capacité. Il refuse de retourner aux Cieux tant qu’Azrael n’y est pas et demeure anachronique, combattant au katana, en kimono, parlant la langue des Kochtchei et n’obéissant qu’à Elynea et Azrael."
           }
         ]
       },
