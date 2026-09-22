@@ -874,7 +874,7 @@ const PAYLOAD = [
       "real_name": "Hazel Salz",
       "nom_verite": "Hazel",
       "race": "Angelus",
-      "age": "«40 ans » - ????",
+      "age": "40 ans",
       "origine": "allemande",
       "statut": "crawler : gunwatcher",
       "statut_verite": "séraphin",
@@ -915,7 +915,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«40 ans » - ????"
+                "40 ans"
               ],
               [
                 "Affiliations",
@@ -936,7 +936,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Hazel Salz est un informateur, un peu enquêteur mais surtout le point de chute d’informations nombreuses. Il sait beaucoup de chose sur beaucoup de gens. Surnommé « L’omnichiant » par les crawlers, il est connu pour être dépressif, accablé, démotivé, triste, fatigué, malade souvent, sa toux ne s’arrête jamais, tantôt il est en obésité, tantôt il est en maigreur. Il crache du sang parfois… Ceux qui l’entourent meurent souvent, alors les Crawlers prennent les infos, compatissent mais ne voulant pas devenir ami avec lui."
+            "text": "Hazel Salz est un informateur, parfois enquêteur, mais surtout un point de chute pour d’innombrables informations. Il sait beaucoup de choses sur beaucoup de gens. Surnommé « l’Omnichiant » par les Crawlers, il est connu pour être dépressif, accablé, démotivé, triste, constamment fatigué et souvent malade. Sa toux ne s’arrête presque jamais ; il passe de l’obésité à la maigreur et crache parfois du sang. Ceux qui l’entourent meurent souvent : les Crawlers prennent donc ses informations et compatissent, mais évitent de devenir ses amis."
           }
         ]
       },
@@ -981,7 +981,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Ange du « sel », de la tristesse, des larmes, il est un porte-poisse naturel, la tristesse et la malchance sont ses armes, son seul ami est Ochotiel, le duo étant terrifiant, Hazel insufflant la culpabilité et la tristesse, Ochotiel en fait du poids. Hazel n’est pas heureux, il n’a rien à faire de tout, au point de porter son nom d’ange et son pouvoir « le sel : Salz » en son nom. Il est partisan d’une forme"
+            "text": "Ange du « sel », de la tristesse et des larmes, Hazel est un porte-poisse naturel : tristesse et malchance sont ses armes. Son seul ami est Ochotiel ; leur duo est terrifiant, Hazel insufflant culpabilité et tristesse tandis qu’Ochotiel leur donne du poids. Hazel n’est pas heureux et semble indifférent à tout, au point de porter dans son nom d’ange et son identité civile la trace de son pouvoir, « le sel » — Salz. Il est partisan d’une forme d’apocalypse qui lui permettrait de retourner aux Cieux, car il n’aime ni sa mission ni son pouvoir."
           }
         ]
       },
