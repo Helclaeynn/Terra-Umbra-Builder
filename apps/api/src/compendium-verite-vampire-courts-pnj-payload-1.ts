@@ -646,14 +646,16 @@ const PAYLOAD = [
       "completeness": "detailed",
       "nom_verite": "Shul’alghul dite « Shula »",
       "race": "Archivampire",
-      "age": "- 12 542 ans",
+      "age": "12 542 ans",
       "origine": "aucune (Mésopotamienne)",
       "statut": "aucune",
       "statut_verite": "« Masque de la Honte »",
       "organisation": "Alghul Almalakiu",
       "relations": [],
       "identity_keys": [
-        "Shul’alghul dite « Shula »"
+        "Shul’alghul dite « Shula »",
+        "Shula",
+        "Shul’alghul"
       ],
       "source_group": "Alghul Almalakiu",
       "source_order": 24,
@@ -685,11 +687,11 @@ const PAYLOAD = [
               ],
               [
                 "Nom de la Vérité",
-                "-Shul’alghul dite « Shula »"
+                "Shul’alghul dite « Shula »"
               ],
               [
                 "Âge complet",
-                "- 12 542 ans"
+                "12 542 ans"
               ],
               [
                 "Nature réelle",
@@ -707,7 +709,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Le « masque de la Honte » ne retire jamais son masque et ne sort jamais du « tombeau des savoirs », il dort presque tout le temps et son corps porte les veines de ténèbres de son âge gigantesque. Silencieuse et crainte on ne la nomme jamais et seule la reine Megda s’adresse à elle. Elle siège au conseil des masques, cependant, elle ne prend presque jamais la parole. Elle ne se nourrit presque plus. Shula n’est autre que shul’Alghul, fondatrice de cette cour éponyme vampirique, elle fut défaite par les héros d’Uruk que les dieux dirigèrent contre les vampires et les deimons, leurs alliés de l’époque. Les vampires de l’alghul sont ses descendants. Tous sans exception ont son sang ou sont des descendants de khinae éveillés par ses descendants. Elle a été retenue 7404 ans par les humains, avant que Megda ne la libère et ne restaure son corps. Elle accepta de porter le masque, de renoncer à la couronne et de conseiller Megda plus en privé. Son rôle est de purifier le sang des vampires, en effet, elle est capable de dévorer la corruption des Fléaux ou les malédictions divines pour s’en nourrir, c’est pour ça que le « sang d’ivoire » ne touche jamais les membres de l’Alghul ni aucun pouvoir de Fléau hormis V’aagor et Sharith."
+            "text": "Le « Masque de la Honte » ne retire jamais son masque et ne quitte presque jamais le « Tombeau des savoirs ». Il dort l’essentiel du temps et son corps porte les veines de ténèbres caractéristiques de son âge immense. Silencieuse et crainte, elle n’est presque jamais nommée ; seule la reine Megda s’adresse régulièrement à elle. Shula siège au Conseil des Masques mais prend rarement la parole et se nourrit à peine. Elle n’est autre que Shul’alghul, fondatrice de la Cour vampirique éponyme. Elle fut vaincue par les héros d’Uruk, envoyés par les dieux contre les vampires et les Deimons qui étaient alors leurs alliés. Tous les vampires de l’Alghul descendent d’elle : ils portent son sang ou sont issus de Khinae éveillés par ses descendants. Retenue captive pendant 7 404 ans par les humains, Shula fut finalement libérée par Megda, qui restaura son corps. Elle accepta alors de porter le Masque, de renoncer à la couronne et de conseiller Megda dans l’ombre. Son rôle est aussi de purifier le sang des vampires : elle peut dévorer la corruption des Fléaux et les malédictions divines pour s’en nourrir. C’est pourquoi le « Sang d’ivoire » n’affecte jamais les membres de l’Alghul, pas plus que les pouvoirs de Fléau à l’exception de V’aagor et Sharith."
           }
         ]
       },
