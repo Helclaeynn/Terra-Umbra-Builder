@@ -180,7 +180,7 @@ const PAYLOAD = [
       "nom_verite": "Vephar - Scylla",
       "nom_verite_source": "Vephar - Scylla",
       "race": "Daemons",
-      "age": "«29 ans » - ????",
+      "age": "29 ans",
       "origine": "Américaine",
       "statut": "Duchesse",
       "affiliations": "Gouvernement : NRMD",
@@ -236,7 +236,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Virginia Echis est un membre du NRMD. C’est un agent de terrain qui, le plus souvent enquête sur les plages ou en mer puisqu’elle est chargée de s’occuper des ressources maritimes."
+            "text": "Virginia Echis est membre du NRMD. Agente de terrain, elle enquête principalement sur les plages et en mer dans le cadre de ses missions liées aux ressources maritimes."
           }
         ]
       },
@@ -302,7 +302,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Virginia Echis est un membre du NRMD. C’est un agent de terrain qui, le plus souvent enquête sur les plages ou en mer puisqu’elle est chargée de s’occuper des ressources maritimes. Dans la Vérité, c’est une duchesse d’Alabor, la déesse des flots, « Vephar » est son nom démoniaque et « Scylla » son identité passée. C’était une sorcière de la mage Circé, si belle et désirée qu’une amante de Circé en tomba amoureuse, la magicienne ne l’accepta pas et, comme dans la légende, fit de la beauté une atrocité inhumaine. Alabor récupéra l’âme de la sorcière qui devint une duchesse puissante."
+            "text": "Virginia est en vérité Vephar–Scylla, Duchesse d’Alabor, déesse des flots. « Vephar » est son nom daemoniaque et « Scylla » son ancienne identité. Scylla fut autrefois une sorcière liée à la Mage Circé. Sa beauté attira l’amour d’une amante de Circé ; la magicienne, jalouse, refusa cette situation et transforma la beauté de Scylla en une apparence monstrueuse, comme dans la légende. Alabor récupéra ensuite l’âme de la sorcière et en fit une puissante duchesse."
           }
         ]
       },
