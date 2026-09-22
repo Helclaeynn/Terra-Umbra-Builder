@@ -1759,7 +1759,7 @@ const PAYLOAD = [
     "dataset": "verite-temples-daemoniaques-pnj",
     "category": "Personnages",
     "sourceCategory": "Vérité",
-    "title": "Bayarmaa JIN",
+    "title": "Bayarmaa Jin",
     "source": "factions_Temples Daemoniaques(3).pdf",
     "status": "canon_source",
     "rebuildV2": true,
@@ -1772,12 +1772,12 @@ const PAYLOAD = [
     ],
     "pnj": {
       "completeness": "detailed",
-      "real_name": "Bayarmaa JIN",
+      "real_name": "Bayarmaa Jin",
       "real_name_source": "Bayarmaa JIN",
       "nom_verite": "Vinea– Khutulun",
       "nom_verite_source": "Vinea– Khutulun",
       "race": "daemons",
-      "age": "«36 ans », ????",
+      "age": "36 ans",
       "origine": "sino-mongole",
       "statut": "Duchesse",
       "affiliations": "Crawlers : deathrunner",
@@ -1789,9 +1789,11 @@ const PAYLOAD = [
         20
       ],
       "identity_keys": [
-        "Bayarmaa JIN",
         "Vinea– Khutulun",
-        "Vinea"
+        "Vinea",
+        "Bayarmaa Jin",
+        "Vinea–Khutulun",
+        "Khutulun"
       ],
       "relations": [],
       "source_documents": [
@@ -1814,7 +1816,7 @@ const PAYLOAD = [
               ],
               [
                 "Nom",
-                "Bayarmaa JIN"
+                "Bayarmaa Jin"
               ],
               [
                 "Âge apparent",
@@ -1833,7 +1835,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Bayarmaa était une chinoise née d’un père mongol, elle était de l’armée chinoise lors du conflit de 22-28. Elle a été capturée quelques jours avant de s’échapper. Elle a ensuite fait partie des immigrés amenés en Californie. C’est une mercenaire assez farouche chez les Crawlers, elle est à a tête de sept équipes, essentiellement des asiatiques et anciens militaire traquant des ex nord-coréens."
+            "text": "Bayarmaa Jin est une Chinoise née d’un père mongol. Elle servit dans l’armée chinoise pendant le conflit de 2022-2028, fut capturée puis s’échappa quelques jours plus tard avant de rejoindre les vagues d’immigration vers la Californie. Devenue mercenaire chez les Crawlers, elle dirige sept équipes composées principalement d’Asiatiques et d’anciens militaires qui traquent d’ex-Nord-Coréens."
           }
         ]
       },
@@ -1899,7 +1901,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Bayarmaa était une chinoise née d’un père mongol, elle était de l’armée chinoise lors du conflit de 22-28. Elle a été capturée quelques jours avant de s’échapper. Elle a ensuite fait partie des immigrés amenés en Californie. C’est une mercenaire assez farouche chez les Crawlers, elle est à a tête de sept équipes, essentiellement des asiatiques et anciens militaire traquant des ex nord-coréens. La duchesse démoniaque Vinea ou Vine est réputée pour créer des tempêtes, enfler les rivières et être un cruel combattant à tête de lion. La personnalité humaine était la princesse Khutulun, fille de Qaidu, lui-même arrière-petit-fils de Gengis Khan. Princesse-guerrière extrêmement farouche, elle refusait de se marier avec un homme incapable de la vaincre à la lutte. Elle fut probablement tuée en essayant de faire valoir la décision de son père quant à ce qu’elle lui succède. Mephisto en fit une démone, faisant d’elle une gardienne des vérités, adorant sa témérité à se battre pour ce qui lui revenait, ce qui était vérité, indépendamment de tout."
+            "text": "Bayarmaa est en vérité Vinea–Khutulun. Vinea, également appelée Vine, est décrite comme une Duchesse capable de provoquer des tempêtes et de faire gonfler les rivières, parfois sous l’apparence d’un combattant cruel à tête de lion. Sa vie mortelle fut celle de la princesse Khutulun, fille de Qaidu, lui-même arrière-petit-fils de Gengis Khan. Princesse-guerrière farouche, elle refusait d’épouser un homme incapable de la vaincre à la lutte. Elle fut probablement tuée en essayant de faire respecter la volonté de son père qui souhaitait la voir lui succéder. Méphisto fit d’elle une Daemone puis une gardienne de la Vérité, admirant sa témérité à défendre ce qui lui revenait de droit."
           }
         ]
       },
