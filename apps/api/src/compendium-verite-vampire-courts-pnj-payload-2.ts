@@ -946,11 +946,11 @@ const PAYLOAD = [
       "completeness": "detailed",
       "real_name": "Eliott Lock",
       "nom_verite": "Moyotaji",
-      "race": "Vampires",
-      "age": "« 45 ans » -24 000 ans",
+      "race": "Vampire",
+      "age": "45 ans",
       "origine": "Sud-africaine",
-      "statut": "pègre : sud-africaine",
-      "statut_verite": "« « Makoko »",
+      "statut": "Pègre sud-africaine",
+      "statut_verite": "Makoko",
       "organisation": "Oru Ayeraye",
       "relations": [],
       "identity_keys": [
@@ -963,7 +963,7 @@ const PAYLOAD = [
         31,
         31
       ],
-      "source_designation": "de l’Oru. Elle fit condamner sa lignée d’origine pour se venger.",
+      "source_designation": "Makoko : Moyotaji",
       "source_reality_raw": "Eliott Lock",
       "source_truth_raw": "Moyotaji",
       "source_extract": "de l’Oru. Elle fit condamner sa lignée d’origine pour se venger. Nom de la Réalité : Eliott Lock Nom de la Vérité : Moyotaji Age : « 45 ans » -24 000 ans Affiliations : pègre : sud-africaine Nationalité d’origine : Sud-africaine Ethnie réelle : Vampires Statut : « « Makoko » Maison vampirique : «Eloko» Bien qu’il souffre de nanisme, Eliott Lock est un des plus riches hommes du XXIème siècle en 2035. On ne sait sur quoi il a basé sa fortune, on sait juste qu’il est issu d’une famille très humble. Le CBII enquête intensément sur lui pour déterminer s’il n’est pas lié à la mafia sud-africaine, peu influente en Californie mais écrasante en Afrique. Cet hédoniste adore l’art et l’hygiène corporelle, il ne s’entoure que de belles femmes plus grandes que la moyenne. Roi d’une ancienne cour vampirique préexistante à l’Oru ayeraye, cet être de petite taille était le roi des vampires de la Lokodoko, il commandait aux vampires pygmées et aux Biloko, ces deimons velus des forêts. Eloko, le seigneur des Biloko, est son ombre, ils sont en synergie totale, ressentant l’un l’autre ce que le vampire ou le deimons ressent. Moyotaji est extrêmement intelligent, il est doté d’une agilité et d’une force colossale également malgré son apparence. il surclasse physiquement Neeba. Cependant, il est très fragile, s’il est blessé, il ne régénère pas et les blessures sont plus importantes.",
@@ -990,17 +990,21 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "« 45 ans » -24 000 ans"
+                "45 ans"
               ],
               [
                 "Affiliations",
-                "pègre : sud-africaine"
+                "Pègre sud-africaine"
               ],
               [
                 "Nationalité d’origine",
                 "Sud-africaine"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Eliott Lock, qui souffre de nanisme, compte en 2035 parmi les hommes les plus riches du XXIe siècle. Nul ne sait sur quoi repose sa fortune ; seule son origine familiale très modeste est connue. Le CBII enquête intensément pour déterminer ses liens éventuels avec la mafia sud-africaine, peu influente en Californie mais dominante en Afrique. Hédoniste, Eliott aime l’art et l’hygiène corporelle, et ne s’entoure que de belles femmes plus grandes que la moyenne."
           }
         ]
       },
@@ -1023,25 +1027,25 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "« 45 ans » -24 000 ans"
+                "45 ans en apparence ; 24 000 ans"
               ],
               [
                 "Nature réelle",
-                "Vampires"
+                "Vampire"
               ],
               [
                 "Statut vampirique",
-                "« « Makoko »"
+                "Makoko"
               ],
               [
                 "Maison vampirique",
-                "«Eloko»"
+                "Eloko"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "Bien qu’il souffre de nanisme, Eliott Lock est un des plus riches hommes du XXIème siècle en 2035. On ne sait sur quoi il a basé sa fortune, on sait juste qu’il est issu d’une famille très humble. Le CBII enquête intensément sur lui pour déterminer s’il n’est pas lié à la mafia sud-africaine, peu influente en Californie mais écrasante en Afrique. Cet hédoniste adore l’art et l’hygiène corporelle, il ne s’entoure que de belles femmes plus grandes que la moyenne. Roi d’une ancienne cour vampirique préexistante à l’Oru ayeraye, cet être de petite taille était le roi des vampires de la Lokodoko, il commandait aux vampires pygmées et aux Biloko, ces deimons velus des forêts. Eloko, le seigneur des Biloko, est son ombre, ils sont en synergie totale, ressentant l’un l’autre ce que le vampire ou le deimons ressent. Moyotaji est extrêmement intelligent, il est doté d’une agilité et d’une force colossale également malgré son apparence. il surclasse physiquement Neeba. Cependant, il est très fragile, s’il est blessé, il ne régénère pas et les blessures sont plus importantes."
+            "text": "Moyotaji régnait sur la Lokodoko, une ancienne Cour vampirique antérieure à l’Oru Ayeraye. Il commandait aux vampires pygmées et aux Biloko, Deimons velus des forêts. Eloko, seigneur des Biloko, est son ombre ; leur synergie est totale et chacun ressent ce que perçoit l’autre. Moyotaji est d’une intelligence extrême et possède, malgré son apparence, une agilité ainsi qu’une force colossales qui lui permettent de surpasser physiquement Neeba. Il demeure toutefois très fragile : lorsqu’il est blessé, il ne se régénère pas et ses blessures sont anormalement graves."
           }
         ]
       },
