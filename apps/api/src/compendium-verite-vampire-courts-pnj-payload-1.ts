@@ -514,8 +514,8 @@ const PAYLOAD = [
       "real_name": "Lockart Feunos",
       "nom_verite": "Nesuferitu",
       "race": "Vampire",
-      "age": "«74 ans » - 7422 ans",
-      "origine": "Hongrie)",
+      "age": "74 ans",
+      "origine": "Hongrie",
       "statut": "crawlers : hookers",
       "statut_verite": "« Masque des crocs »",
       "organisation": "Alghul Almalakiu",
@@ -557,7 +557,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«74 ans »"
+                "74 ans"
               ],
               [
                 "Affiliations",
@@ -565,9 +565,13 @@ const PAYLOAD = [
               ],
               [
                 "Nationalité d’origine",
-                "Hongrie)"
+                "Hongrie"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Lockart Feunos est un milliardaire sans activité professionnelle ni corporation déclarée. Il possède surtout un vaste complexe ressemblant à un manoir isolé près de San Diejuana. Le personnel y change régulièrement et Lockart, très malade en apparence, semble approcher de la fin de sa vie."
           }
         ]
       },
@@ -608,7 +612,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Lockart Feunos est un milliardaire, il ne travaille pas, Il ne possède pas de corporation, il possède juste un grand complexe, une sorte de manoir à l’écart, près de San Diejuana. Le personnel change régulièrement et le pauvre type, assez malade semble sur sa fin de vie. Il a une vie cachée, celle d’un gourou de secte vénérant l’Ombre-pape et son Dieu. Cliché de Nosferatu, il est pourtant bien antérieur au film de 1922. C’est un très vieux vampire qui servait la première reine de l’Alghul déjà à l’époque de la création de la faction. Cynique, désabusé, pessimiste voire déprimé, c’est un être fatigué qui a tout de même le statut de « masque des crocs ». Le titre a pour fonction d’être le ministre de « l’agriculture », même si, ici, c’est le « ministre du sang ». Il gère la consommation de sang, les petites sectes liées à l’ordre de Longinus pour l’Alghul, ces sectes servent pour avoir des volontaires humains qui donnent leur sang pour leur foi. Dans son manoir, le personnel"
+            "text": "Lockart est en vérité Nesuferitu, « Masque des Crocs » de l’Alghul. Dans la Réalité, il mène également une vie cachée de gourou d’une secte vouée à l’Ombre-Pape et à son dieu. Bien antérieur au cliché du Nosferatu popularisé par le film de 1922, Nesuferitu servait déjà la première reine lors de la fondation de l’Alghul. Cynique, désabusé, pessimiste et épuisé par les millénaires, il occupe pourtant une fonction essentielle : ministre du « sang », équivalent vampirique de l’agriculture. Il régule la consommation de sang et supervise de petites sectes liées à l’ordre de Longinus, qui fournissent des volontaires humains consentant à donner leur sang au nom de leur foi. Dans son manoir, le personnel n’est d’ailleurs pas uniquement vampirique : il recrute surtout des personnes désespérées, prêtes à tout."
           }
         ]
       },
