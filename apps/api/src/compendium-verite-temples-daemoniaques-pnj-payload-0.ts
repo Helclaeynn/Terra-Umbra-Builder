@@ -1438,10 +1438,10 @@ const PAYLOAD = [
       "nom_verite": "Seere –Nero Claudius Caesar Augustus Germanicus",
       "nom_verite_source": "Seere –Nero Claudius Caesar Augustus Germanicus",
       "race": "daemons",
-      "age": "«45 ans », ????",
+      "age": "45 ans",
       "origine": "Italienne",
       "statut": "Duc",
-      "affiliations": "« pègre : Mafia italienne",
+      "affiliations": "pègre : Mafia italienne",
       "divinite": "Belial",
       "pouvoir_principal": "le nombre de la Bête",
       "titre_infernal": "Duc",
@@ -1483,7 +1483,7 @@ const PAYLOAD = [
               ],
               [
                 "Affiliations",
-                "« pègre : Mafia italienne"
+                "pègre : Mafia italienne"
               ],
               [
                 "Nationalité d’origine",
@@ -1494,7 +1494,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Luciano est un des plus sages et des plus calmes mafieux de la Famille. Il est respecté et craint pour son calme et ses yeux bleus font assez peur. Même le parrain des parrains semble être mal à l’aise avec ce capo."
+            "text": "Luciano est l’un des mafieux les plus calmes et les plus posés de la Famille. Son sang-froid lui vaut autant de respect que de crainte, et son regard bleu met facilement ses interlocuteurs mal à l’aise. Même le parrain des parrains paraît inconfortable en présence de ce capo."
           }
         ]
       },
@@ -1525,7 +1525,7 @@ const PAYLOAD = [
               ],
               [
                 "Affiliations",
-                "« pègre : Mafia italienne"
+                "pègre : Mafia italienne"
               ],
               [
                 "Nationalité d’origine",
@@ -1560,7 +1560,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Luciano est un des plus sages et des plus calmes mafieux de la Famille. Il est respecté et craint pour son calme et ses yeux bleus font assez peur. Même le parrain des parrains semble être mal à l’aise avec ce capo. Il semble probablement impossible à le voir qu’il est en vérité le Duc démoniaque Seere, le cavalier du pégase infernal le plus rapide, le duc le plus sage et le plus riche de Belial et surtout…. Nul autre que Néron, l’empereur romain si mal réputé. Grand acteur, Néron est maitre de ses émotions et peut assumer n’importe quel rôle, c’est l’unique daemon pour qui 666 représente quelque chose, puisque c’est une transcription numérique de son pouvoir le plus puissant. C’est un des ducs de Belial les plus puissants actuellement, et s’il est probable qu’il n’ait pas incendié Rome à l’époque, depuis qu’il est un démon, il n’est pas étranger à quelques incendies célèbres dans l’Histoire. 2. Temple de Lilith"
+            "text": "Luciano est en vérité le duc daemoniaque Seere, cavalier du pégase infernal le plus rapide, réputé comme l’un des ducs les plus sages et les plus riches de Belial — et surtout comme nul autre que Néron, l’empereur romain à la réputation sinistre. Grand acteur, Néron maîtrise parfaitement ses émotions et peut endosser presque n’importe quel rôle. Il est le seul Daemon pour lequel le nombre 666 possède une signification particulière, puisqu’il constitue une transcription numérique de son pouvoir le plus puissant. Seere compte aujourd’hui parmi les ducs les plus puissants de Belial. S’il est probable qu’il n’ait pas incendié Rome de son vivant, sa carrière démoniaque l’a en revanche mêlé à plusieurs incendies célèbres de l’Histoire."
           }
         ]
       },
