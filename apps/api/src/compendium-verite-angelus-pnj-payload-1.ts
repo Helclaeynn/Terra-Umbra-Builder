@@ -1729,7 +1729,7 @@ const PAYLOAD = [
       "real_name": "Tshaddy el’Sharif",
       "nom_verite": "Tsadqiel",
       "race": "Archangelus",
-      "age": "«19 ans » - ????",
+      "age": "19 ans",
       "origine": "américaine",
       "statut": "crawlers : neurodivers – religieux : islam",
       "statut_verite": "Archange renégat",
@@ -1770,7 +1770,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge source",
-                "«19 ans » - ????"
+                "19 ans"
               ],
               [
                 "Affiliations",
@@ -1791,7 +1791,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "Saabiq El’Sharif est le fils du Mollah Abdul Sharif, un intégriste terroriste ayant très peu accépté les profonds bouleversements de l’Islam. Comme son père Saabiq était révolté et écoeuré jusqu’en 2035 où, alors qu’il était devant une bombe qu’il construisait, il changea du tout au tout, s’inscrivit à une inversité et changea de sexualité, de style, montant très dans les réseaux sociaux musulmans et déployant un talent rare dans le neurodive."
+            "text": "Tshaddy el’Sharif est une jeune figure des réseaux sociaux musulmans, étudiante et Neurodiver particulièrement douée. Son style, sa sexualité assumée et son discours très éloigné de l’intégrisme familial lui ont donné une visibilité rapide au sein des communautés musulmanes en ligne."
           }
         ]
       },
@@ -1836,7 +1836,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Archange du Pardon, Tsadqiel était un Archange opposé à Raphael, qu’il jugeait trop peu émotif, trop scientifique, il se liait d’amitié avec tout le monde, dieux, daemons, dives, nymphes et même fléaux mineurs. Son émotivité le rendait un peu ridicule parfois à pleurer pour des ennemis que ses anges avaient eu du mal à vaincre. Constamment avec les daemons de Lilith, Elynea le fit emprisonner pour le punir. Récemment rétrogradé et puni, il avait possédé un enfant et tenté de se cacher. Il a changé le nom de Saabiq et toute son identité en le sauvant de l’explosion de sa bombe. Il"
+            "text": "Avant de devenir Tshaddy, le corps appartenait à Saabiq El’Sharif, fils du mollah Abdul Sharif, intégriste terroriste ayant très mal accepté les profondes transformations de l’Islam. Révolté et écœuré comme son père, Saabiq préparait en 2035 une bombe lorsqu’une explosion menaça de le tuer. Tsadqiel, Archange du Pardon, le sauva en le possédant puis changea son nom et toute son identité. Ancien rival idéologique de Raphael, qu’il jugeait trop froid et trop scientifique, Tsadqiel se liait volontiers d’amitié avec dieux, Daemons, Dives, Nymphes et même certains Fléaux mineurs. Sa proximité constante avec les Daemons de Lilith conduisit Elynea à l’emprisonner. Récemment rétrogradé et libéré, il cherche activement Siibhax, un Myrmidon corrompu par Sharith qu’il aimait avant son enfermement."
           }
         ]
       },
