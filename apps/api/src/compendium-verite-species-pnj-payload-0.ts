@@ -449,16 +449,28 @@ const PAYLOAD = [
     "tags": [
       "Vérité",
       "Vampires",
-      "Vampire"
+      "Vampire",
+      "Cours vampiriques",
+      "Ihuito Meztzi",
+      "MJ uniquement"
     ],
     "pnj": {
-      "nom_verite": "« Quetzalcoatl »",
-      "race": "Vampire",
-      "age": "«??? ans » -???? ans",
+      "nom_verite": "Quetzalcoatl",
+      "race": "Vampire (khinae corrompu)",
+      "age": "49 000 ans ?",
       "origine": "Mexicaine",
-      "statut": "???",
-      "statut_verite": "Le roi sanglant",
+      "statut": "Roi",
+      "statut_verite": "Roi",
+      "organisation": "Ihuito Meztzi",
       "relations": [],
+      "identity_keys": [
+        "Quetzalcoatl",
+        "Jimmy Chavez",
+        "Xitlalxoch",
+        "Cynthia Lyd",
+        "Karl Gotz",
+        "Shanana Salvarez"
+      ],
       "source_group": "Vampires",
       "source_order": 4,
       "source_pages": [
@@ -468,7 +480,7 @@ const PAYLOAD = [
       "source_verite": [
         {
           "label": "Informations Vérité",
-          "text": "« L’Ihuito Meztzi» est la faction vampirique la plus commune sur le continent américain. Elle touche essentiellement le sud et le centre des Amériques, le nord ayant plus souvent été un territoire de loups-garous, cependant, elle s’est extrêmement liée aux populations hispaniques à travers le temps. La fête des morts « Día de Muertos” est une fête mexicaine qui glorifiait les vampires de cette faction à l’origine. Quetzalcoatl est un vampire unique en son genre, il a été tué et dispersé dans l’ombre-monde plusieurs fois, à chaque fois, il est revenu, sa faction pense que les vampires sont ses créations, il est un véritable dieu pour les siens. Le culte du sang qu’ils pratiquent a été transmis aux Olmèques, Mayas ou bien encore Aztecs chez les humains des Amériques. Quetzal change de visage aisément par son « sang masqué », en outre il possède aussi « le sang primal », pouvant prendre la forme d’un serpent ailé géant selon les légendes. Il possède un troisième « sang », le sang « Coatl » qui lui est propre, lui permettant de renaitre dans le corps du vampire qui le boit, d’où son immortalité presque parfaite. Le vampire qui devient Quetzal est intégralement écrasée par la personnalité du roi vampirique, en revanche, il en conserve le corps de base qu’il peut à loisir changer de forme mais qui demeure celui basique, ainsi, Quetzalcoatl n’est ni roi ni reine, il est les deux selon l’époque et sa volonté. Il n’est possiblement pas le plus puissant des vampires royaux, pour ce qui est des prouesses physiques, très loin d’égaler le roi de la « Krovni » ou son égal, celui de « l’Oru », il semble plus fragile que la reine Xinya également mais cela s’explique par le fait qu’il change de corps plus souvent, ayant donc des compétences physiques proches d’un jeune vampire, en revanche, ses pouvoirs sont incroyablement plus développés,"
+          "text": "L’Ihuito Meztzi est la Cour vampirique la plus répandue sur le continent américain. Elle domine surtout le centre et le sud des Amériques, le nord étant plus souvent un territoire de loups-garous, et s’est étroitement liée aux populations hispaniques au fil du temps. À l’origine, la fête mexicaine du Día de Muertos glorifiait les vampires de cette Cour. Quetzalcoatl est un vampire unique : tué et dispersé plusieurs fois dans l’Ombre-Monde, il est toujours revenu. Les siens le tiennent pour un véritable dieu et pensent que les vampires sont ses créations ; leur culte du sang fut transmis aux Olmèques, aux Mayas et aux Aztèques. Quetzal change aisément de visage grâce au Sang masqué. Le Sang primal lui permettrait de prendre la forme d’un serpent ailé géant. Son propre Sang Coatl lui permet de renaître dans le corps du vampire qui le boit, ce qui lui confère une immortalité presque parfaite. La personnalité du vampire hôte est entièrement écrasée par celle du souverain, mais Quetzal conserve son corps de base, qu’il peut remodeler à loisir : selon les époques et sa volonté, Quetzalcoatl peut être roi ou reine. Il n’est peut-être pas le plus puissant des souverains vampiriques sur le plan physique : il reste loin du roi de la Krovni ou de son égal de l’Oru et paraît plus fragile que la reine Xinya. Ses changements de corps fréquents lui laissent souvent les capacités physiques d’un jeune vampire ; ses pouvoirs occultes sont en revanche bien plus développés."
         }
       ],
       "source_extract": "Quetzalcoatl\nLe roi sanglant\nNom de la Réalité : ???\nNom de la Vérité : « Quetzalcoatl »\nAge : « ??? ans » - ???? ans\nAffiliations :\n???\nNationalité d’origine : Mexicaine\nEthnie réelle : Vampire\nPersonnages liés :\n ?\n ?\n___________________________________________________________________________\nInformations Réalité :\nOn ne sait rien des identités de Quetzal, on sait qu’il en a plus d’une dizaine, différentes dont des\nhommes, des femmes, des enfants, des adultes et des anciens.\nInformations Vérité :\n« L’Ihuito Meztzi» est la faction vampirique la plus commune sur le continent américain.\nElle touche essentiellement le sud et le centre des Amériques, le nord ayant plus souvent été un\nterritoire de loups-garous, cependant, elle s’est extrêmement liée aux populations hispaniques à\ntravers le temps.\nLa fête des morts « Día de Muertos” est une fête mexicaine qui glorifiait les vampires de cette faction\nà l’origine.\nQuetzalcoatl est un vampire unique en son genre, il a été tué et dispersé dans l’ombre-monde\nplusieurs fois, à chaque fois, il est revenu, sa faction pense que les vampires sont ses créations, il est\nun véritable dieu pour les siens. Le culte du sang qu’ils pratiquent a été transmis aux Olmèques,\nMayas ou bien encore Aztecs chez les humains des Amériques.\nQuetzal change de visage aisément par son « sang masqué », en outre il possède aussi « le sang\nprimal », pouvant prendre la forme d’un serpent ailé géant selon les légendes. Il possède un\ntroisième « sang », le sang « Coatl » qui lui est propre, lui permettant de renaitre dans le corps du\nvampire qui le boit, d’où son immortalité presque parfaite.\nLe vampire qui devient Quetzal est intégralement écrasée par la personnalité du roi vampirique, en\nrevanche, il en conserve le corps de base qu’il peut à loisir changer de forme mais qui demeure celui\nbasique, ainsi, Quetzalcoatl n’est ni roi ni reine, il est les deux selon l’époque et sa volonté.\nIl n’est possiblement pas le plus puissant des vampires royaux, pour ce qui est des prouesses\nphysiques, très loin d’égaler le roi de la « Krovni » ou son égal, celui de « l’Oru », il semble plus fragile\nque la reine Xinya également mais cela s’explique par le fait qu’il change de corps plus souvent, ayant\ndonc des compétences physiques proches d’un jeune vampire, en revanche, ses pouvoirs sont\nincroyablement plus développés,"
@@ -478,25 +490,26 @@ const PAYLOAD = [
         "id": "profil",
         "title": "Profil",
         "level": 2,
+        "audience": "mj",
         "blocks": [
           {
             "type": "table",
             "rows": [
               [
                 "Nom de la Réalité",
-                "???"
+                "Couvertures multiples ; réservé MJ"
               ],
               [
                 "Nom de la Vérité",
-                "« Quetzalcoatl »"
+                "Quetzalcoatl"
               ],
               [
                 "Âge",
-                "«??? ans » -???? ans"
+                "49 000 ans ?"
               ],
               [
                 "Affiliations",
-                "???"
+                "Ihuito Meztzi"
               ],
               [
                 "Nationalité d’origine",
@@ -504,7 +517,7 @@ const PAYLOAD = [
               ],
               [
                 "Nature réelle",
-                "Vampire"
+                "Vampire (khinae corrompu)"
               ],
               [
                 "Repère",
@@ -516,12 +529,13 @@ const PAYLOAD = [
       },
       {
         "id": "info-realite",
-        "title": "Informations Réalité",
+        "title": "Couvertures de Réalité · réservé MJ",
         "level": 2,
+        "audience": "mj",
         "blocks": [
           {
             "type": "p",
-            "text": "On ne sait rien des identités de Quetzal, on sait qu’il en a plus d’une dizaine, différentes dont des hommes, des femmes, des enfants, des adultes et des anciens."
+            "text": "Le nombre exact des identités de Quetzal demeure inconnu. Il en possède plus d’une dizaine et adopte des apparences d’hommes, de femmes, d’enfants, d’adultes ou de personnes âgées."
           }
         ]
       },
@@ -533,7 +547,7 @@ const PAYLOAD = [
         "blocks": [
           {
             "type": "p",
-            "text": "« L’Ihuito Meztzi» est la faction vampirique la plus commune sur le continent américain. Elle touche essentiellement le sud et le centre des Amériques, le nord ayant plus souvent été un territoire de loups-garous, cependant, elle s’est extrêmement liée aux populations hispaniques à travers le temps. La fête des morts « Día de Muertos” est une fête mexicaine qui glorifiait les vampires de cette faction à l’origine. Quetzalcoatl est un vampire unique en son genre, il a été tué et dispersé dans l’ombre-monde plusieurs fois, à chaque fois, il est revenu, sa faction pense que les vampires sont ses créations, il est un véritable dieu pour les siens. Le culte du sang qu’ils pratiquent a été transmis aux Olmèques, Mayas ou bien encore Aztecs chez les humains des Amériques. Quetzal change de visage aisément par son « sang masqué », en outre il possède aussi « le sang primal », pouvant prendre la forme d’un serpent ailé géant selon les légendes. Il possède un troisième « sang », le sang « Coatl » qui lui est propre, lui permettant de renaitre dans le corps du vampire qui le boit, d’où son immortalité presque parfaite. Le vampire qui devient Quetzal est intégralement écrasée par la personnalité du roi vampirique, en revanche, il en conserve le corps de base qu’il peut à loisir changer de forme mais qui demeure celui basique, ainsi, Quetzalcoatl n’est ni roi ni reine, il est les deux selon l’époque et sa volonté. Il n’est possiblement pas le plus puissant des vampires royaux, pour ce qui est des prouesses physiques, très loin d’égaler le roi de la « Krovni » ou son égal, celui de « l’Oru », il semble plus fragile que la reine Xinya également mais cela s’explique par le fait qu’il change de corps plus souvent, ayant donc des compétences physiques proches d’un jeune vampire, en revanche, ses pouvoirs sont incroyablement plus développés,"
+            "text": "L’Ihuito Meztzi est la Cour vampirique la plus répandue sur le continent américain. Elle domine surtout le centre et le sud des Amériques, le nord étant plus souvent un territoire de loups-garous, et s’est étroitement liée aux populations hispaniques au fil du temps. À l’origine, la fête mexicaine du Día de Muertos glorifiait les vampires de cette Cour. Quetzalcoatl est un vampire unique : tué et dispersé plusieurs fois dans l’Ombre-Monde, il est toujours revenu. Les siens le tiennent pour un véritable dieu et pensent que les vampires sont ses créations ; leur culte du sang fut transmis aux Olmèques, aux Mayas et aux Aztèques. Quetzal change aisément de visage grâce au Sang masqué. Le Sang primal lui permettrait de prendre la forme d’un serpent ailé géant. Son propre Sang Coatl lui permet de renaître dans le corps du vampire qui le boit, ce qui lui confère une immortalité presque parfaite. La personnalité du vampire hôte est entièrement écrasée par celle du souverain, mais Quetzal conserve son corps de base, qu’il peut remodeler à loisir : selon les époques et sa volonté, Quetzalcoatl peut être roi ou reine. Il n’est peut-être pas le plus puissant des souverains vampiriques sur le plan physique : il reste loin du roi de la Krovni ou de son égal de l’Oru et paraît plus fragile que la reine Xinya. Ses changements de corps fréquents lui laissent souvent les capacités physiques d’un jeune vampire ; ses pouvoirs occultes sont en revanche bien plus développés."
           }
         ]
       },
@@ -544,7 +558,8 @@ const PAYLOAD = [
         "audience": "mj",
         "blocks": []
       }
-    ]
+    ],
+    "audience": "mj"
   },
   {
     "id": "personnages-verite-especes-elody-katherine-skotia",
