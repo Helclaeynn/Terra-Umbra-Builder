@@ -1286,7 +1286,7 @@ const PAYLOAD = [
       "nom_verite": "Eurymone - Yewa",
       "nom_verite_source": "Eurymone - Yewa",
       "race": "daemons - Psychopompes",
-      "age": "«29 ans », ????",
+      "age": "29 ans",
       "origine": "Américano-nigériane",
       "statut": "Duchesse",
       "affiliations": "Corporatif : Omegacoustic",
@@ -1300,7 +1300,9 @@ const PAYLOAD = [
       "identity_keys": [
         "Yalonda Reese",
         "Eurymone - Yewa",
-        "Eurynome"
+        "Eurynome",
+        "Eurymone",
+        "Yewa"
       ],
       "relations": [],
       "source_documents": [
@@ -1342,7 +1344,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Yalonda Reese est une artiste assez appréciée par ses fans, même si ses thèmes sont moins enjoués que la majorité des productions Omegacoustic."
+            "text": "Yalonda Reese est une artiste d’Omegacoustic appréciée de son public, même si ses thèmes sont sensiblement plus sombres et moins enjoués que ceux de la majorité des productions de la corporation."
           }
         ]
       },
@@ -1408,7 +1410,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Yalonda Reese est une artiste assez appréciée par ses fans, même si ses thèmes sont moins enjoués que la majorité des productions Omegacoustic. C’est une beauté glaciale qui n’est autre qu’une duchesse de Mammon, le dieu de la Mort. Eurymone de son nom démoniaque, elle est aussi Yewa, une divinité de la vie et la mort. Lors de l’antique fusion des dimensions, « Niflheim » était perdu, dévoré par V’Aagor, mais Mammon s’acharna pour sauver Helheim, qu’il purgea de V’aagor. Il y découvrit les « Psychopompes », Guédés, Shinigamis, Ankou, et autres créatures de cette famille, ni voyageurs ni nymphes, ces esprits de la mort. Par un pacte ancien, la reine des Psychopompes s’allia à Mammon, le reconnaissant comme souverain des psychopompes à la seule condition qu’il ne s’implique dans aucune guerre qui ne concernerait pas ces entités de la mort. Quand Azrael fut amenée sur Terre par Elynea, Yewa proposa le même pacte à l’archange de la Mort et dans le secret le plus complet, anges de la mort, daemons de Mammon et Psychopompes vécurent dans l’enfer de Mammon, tous alliés, protégés par le « Gardien », Papa Legba, fils de Yewa et Mammon. 5. Temple de Diablo"
+            "text": "Yalonda est en vérité Eurymone–Yewa, Duchesse de Mammon et reine des Psychopompes. Lors de l’antique fusion des dimensions, Niflheim fut perdu, dévoré par V’aagor, mais Mammon s’acharna à préserver Helheim et le purgea de l’influence du Fléau. Il y découvrit les Psychopompes — Guédés, Shinigamis, Ankou et autres esprits de la mort, qui ne sont ni Voyageurs ni Nymphes. Par un ancien pacte, Yewa reconnut Mammon comme souverain des Psychopompes à condition qu’il ne les entraîne dans aucune guerre étrangère à leurs intérêts. Quand Elynea amena Azrael sur Terre, Yewa proposa le même accord à l’Archange de la Mort. Dans le plus grand secret, Anges de la mort, Daemons de Mammon et Psychopompes cohabitèrent ainsi dans l’Enfer de Mammon, protégés par le « Gardien », Papa Legba, fils de Yewa et Mammon."
           }
         ]
       },
