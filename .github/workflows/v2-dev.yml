@@ -965,7 +965,8 @@ jobs:
             article=payload["article"]
             assert article["category"]==category,(article_id,article.get("category"),category)
             assert article["dataset"]=="verite-v7",(article_id,article.get("dataset"))
-            assert article.get("rebuildV2") is True,(article_id,article.get("rebuildV2"))
+            for internal_key in ("source","sourceCategory","rebuildV2","loreBook","legacyTargetId","__searchText"):
+              assert internal_key not in article,(article_id,internal_key)
             assert not article.get("__legacy"),article_id
             haystack=flatten(article)
             for sentinel in sentinels:
@@ -1061,7 +1062,8 @@ jobs:
             assert article["title"]==title,(article_id,article.get("title"),title)
             assert article["category"]==expected_category,(article_id,article.get("category"),expected_category)
             assert article["dataset"]=="verite-v7",(article_id,article.get("dataset"))
-            assert article.get("rebuildV2") is True,(article_id,article.get("rebuildV2"))
+            for internal_key in ("source","sourceCategory","rebuildV2","loreBook","legacyTargetId","__searchText"):
+              assert internal_key not in article,(article_id,internal_key)
             assert not article.get("__legacy"),article_id
 
           dynamic_pages={

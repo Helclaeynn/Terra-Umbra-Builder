@@ -207,6 +207,20 @@ function reflowParagraphs(article: ArticleLike, stats: LoreQualityCleanupStats):
   }
 }
 
+function clarifyDelanialClassification(article: ArticleLike): void {
+  if (article.id !== "verite-v7-delanial-pere-ombre") return;
+  const explicit = "Il n’existe donc aucune Source de Corruption Delanial.";
+  if (JSON.stringify(article.sections ?? []).includes(explicit)) return;
+  for (const section of article.sections ?? []) {
+    const paragraph = (section.blocks ?? []).find((block: JsonObject) =>
+      block?.type === "p" && /Delanial n[’']est pas un Fléau/u.test(String(block.text ?? ""))
+    );
+    if (!paragraph) continue;
+    paragraph.text = `${String(paragraph.text ?? "").trim()} ${explicit}`;
+    return;
+  }
+}
+
 export function applyLoreQualityCleanup(article: ArticleLike): LoreQualityCleanupStats {
   const stats: LoreQualityCleanupStats = {
     damagedGlyphs: 0,
@@ -219,6 +233,7 @@ export function applyLoreQualityCleanup(article: ArticleLike): LoreQualityCleanu
   cleanVisibleText(article, stats);
   coalesceSections(article, stats);
   reflowParagraphs(article, stats);
+  clarifyDelanialClassification(article);
   return stats;
 }
 
