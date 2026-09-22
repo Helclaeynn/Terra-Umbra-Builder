@@ -321,7 +321,7 @@ const PAYLOAD = [
     "dataset": "verite-temples-daemoniaques-pnj",
     "category": "Personnages",
     "sourceCategory": "Vérité",
-    "title": "Shin XEONG",
+    "title": "Shin Xeong",
     "source": "factions_Temples Daemoniaques(3).pdf",
     "status": "canon_source",
     "rebuildV2": true,
@@ -334,13 +334,13 @@ const PAYLOAD = [
     ],
     "pnj": {
       "completeness": "detailed",
-      "real_name": "Shin XEONG",
+      "real_name": "Shin Xeong",
       "real_name_source": "Shin XEONG",
-      "nom_verite": "leraje - Houyi",
+      "nom_verite": "Leraje–Houyi",
       "nom_verite_source": "leraje - Houyi",
       "race": "Daemons",
-      "age": "«45ans », ????",
-      "origine": "chinoises",
+      "age": "45 ans",
+      "origine": "chinoise",
       "statut": "Duc",
       "affiliations": "pègre : triades",
       "divinite": "Baal",
@@ -351,9 +351,10 @@ const PAYLOAD = [
         23
       ],
       "identity_keys": [
-        "Shin XEONG",
-        "leraje - Houyi",
-        "Leraje"
+        "Leraje",
+        "Shin Xeong",
+        "Leraje–Houyi",
+        "Houyi"
       ],
       "relations": [],
       "source_documents": [
@@ -376,11 +377,11 @@ const PAYLOAD = [
               ],
               [
                 "Nom",
-                "Shin XEONG"
+                "Shin Xeong"
               ],
               [
                 "Âge apparent",
-                "45ans"
+                "45 ans"
               ],
               [
                 "Affiliations",
@@ -388,14 +389,14 @@ const PAYLOAD = [
               ],
               [
                 "Nationalité d’origine",
-                "chinoises"
+                "chinoise"
               ]
             ]
           },
           {
             "type": "p",
             "style": "lore",
-            "text": "Shin XEONG était un soldat de l’armée chinoise pendant la guerre, il était sous le commandement de plusieurs officiers incompétents avant d’être sous les ordres de Wei SHI. C’était un sniper d’élite et bien que désormais « Avant-garde » au sein de la Triade, il reste possiblement le tireur d’élite de Californie le plus efficace qui existe, même devant les TEN."
+            "text": "Shin Xeong servit comme soldat dans l’armée chinoise pendant la guerre. Après avoir subi les ordres de plusieurs officiers incompétents, il passa sous le commandement de Wei Shi. Tireur d’élite exceptionnel, il est désormais « Avant-garde » au sein de la Triade et compte probablement parmi les snipers les plus efficaces de Californie, y compris face aux Ten."
           }
         ]
       },
@@ -418,7 +419,7 @@ const PAYLOAD = [
               ],
               [
                 "Nom de la Vérité",
-                "leraje - Houyi"
+                "Leraje–Houyi"
               ],
               [
                 "Âge source",
@@ -430,7 +431,7 @@ const PAYLOAD = [
               ],
               [
                 "Nationalité d’origine",
-                "chinoises"
+                "chinoise"
               ],
               [
                 "Nature réelle",
@@ -461,7 +462,7 @@ const PAYLOAD = [
           {
             "type": "p",
             "style": "lore",
-            "text": "Shin XEONG était un soldat de l’armée chinoise pendant la guerre, il était sous le commandement de plusieurs officiers incompétents avant d’être sous les ordres de Wei SHI. C’était un sniper d’élite et bien que désormais « Avant-garde » au sein de la Triade, il reste possiblement le tireur d’élite de Californie le plus efficace qui existe, même devant les TEN. Leraje est un démon réputé aussi beau et élégant qu’il est bon archer, ce duc est toutefois surtout un tireur de précision, qu’importe l’arme, les blessures qu’il cause sont très aggravées d’une part, d’autres part, elles s’infectent automatiquement. En tant que mortel, il est Houyi, l’archer Yi légendaire qui aurait, selon les mythes, abattu neuf soleils et dont l’épouse serait devenue immortelle et serait allée sur la lune. C’était un archer réputé en vérité vers les années 2170 avant notre ère qui aurait combattu la dynastie Xia. Il aurait caché le décès de sa femme et aurait été réputé pour empoisonner les flèches de ses archers. Stratège et bon combattant, Baal fit de lui un de ses daemons les plus loyaux. Il respecte infiniment SHI Wei, plus que le boss de la triade. 11. Temple de Beelzebuth"
+            "text": "Shin est en vérité Leraje–Houyi. Leraje est un Daemon réputé aussi beau et élégant qu’excellent archer. Ce Duc est surtout un tireur de précision, quelle que soit l’arme : les blessures qu’il inflige sont anormalement graves et s’infectent automatiquement. Mortel, il fut Houyi, l’archer Yi des légendes, auquel les mythes attribuent la destruction de neuf soleils et une épouse devenue immortelle avant de rejoindre la Lune. En réalité, il aurait vécu vers 2170 avant notre ère et combattu la dynastie Xia. Il aurait dissimulé la mort de sa femme et utilisé des flèches empoisonnées. Stratège et combattant remarquable, il devint l’un des Daemons les plus loyaux de Baal. Il respecte Wei Shi plus encore que le chef de la Triade."
           }
         ]
       },
