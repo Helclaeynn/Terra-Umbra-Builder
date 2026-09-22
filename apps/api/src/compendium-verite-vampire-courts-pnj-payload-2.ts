@@ -414,8 +414,8 @@ const PAYLOAD = [
       "completeness": "detailed",
       "real_name": "Morris Yama",
       "nom_verite": "Munyama",
-      "race": "Vampire",
-      "age": "«40 ans » - 8900 ans",
+      "race": "Vampire (strygoï noire)",
+      "age": "40 ans",
       "origine": "Américaine",
       "statut": "Crawlers : Mercs",
       "statut_verite": "Archipaladin des ténèbres",
@@ -423,7 +423,8 @@ const PAYLOAD = [
       "relations": [],
       "identity_keys": [
         "Morris Yama",
-        "Munyama"
+        "Munyama",
+        "Ténèbres"
       ],
       "source_group": "Oru Ayeraye",
       "source_order": 40,
@@ -431,7 +432,7 @@ const PAYLOAD = [
         29,
         29
       ],
-      "source_designation": "maison Grrotslang. Plutôt mal intentionnée et manipulatrice, elle déteste et méprise les humains.",
+      "source_designation": "Archipaladin des ténèbres : Munyama",
       "source_reality_raw": "Morris Yama",
       "source_truth_raw": "Munyama",
       "source_extract": "maison Grrotslang. Plutôt mal intentionnée et manipulatrice, elle déteste et méprise les humains. Nom de la Réalité : Morris Yama Nom de la Vérité : Munyama Age : «40 ans » - 8900 ans Affiliations : Crawlers : Mercs Nationalité d’origine : Américaine Ethnie réelle : Vampire Statut : Archipaladin des ténèbres Maison vampirique : Ordre Oshirique Morris Yama est un mercenaire qu’on peut croiser parfois dans les quartiers abandonnés, il ne parle pas ou presque pas, c’est un afroaméricain alcoolique qui boit souvent à sa flasque quand il ne fait pas une mission. On peut aisément l’engager mais il ne travaillera qu’avec des afroaméricains. En vérité « Ténèbres » est une strygoï noire, il a été forgé avec le cadavre d’un nouveau-né du roi Neeba, qu’Oyalinka trempa dans la Sombre-vérité de la Fontaine des Ténèbres, plusieurs jours, jusqu’à ce que la créature ressuscite bestialement. C’est tout simplement la Strygoï noire la plus puissante de la Terre mais aussi un vampire « inférieur » surclassant presque tous les vampires véritables. Neeba ne le considère pas comme son fils, mais il respecte ce paladin au service d’Oyalinka. Bien qu’il ait l’air d’un vampire « normal » en apparence, sa soif est frénétique, très violente et il a de très forts instincts, qu’il réprime difficilement. Sa flasque contient de la sombre-vérité et du sang de Neeba, son roi ; c’est la seule chose qui peut le calmer. Entièrement dévoué à Oyalinka, il lui obéit au doigt et à l’œil. Etant un cadavre vampirique, il semble craindre la lumière même à travers l’Hologramme, à l’instar de Trauco.",
@@ -458,7 +459,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«40 ans »"
+                "40 ans"
               ],
               [
                 "Affiliations",
@@ -469,6 +470,10 @@ const PAYLOAD = [
                 "Américaine"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Morris Yama est un mercenaire que l’on croise parfois dans les quartiers abandonnés. Afro-Américain taciturne et alcoolique, il parle peu et boit souvent à sa flasque lorsqu’il n’est pas en mission. Il est facile à engager, mais n’accepte de travailler qu’avec des Afro-Américains."
           }
         ]
       },
@@ -491,11 +496,11 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "«40 ans » - 8900 ans"
+                "40 ans en apparence ; 8 900 ans"
               ],
               [
                 "Nature réelle",
-                "Vampire"
+                "Vampire (strygoï noire)"
               ],
               [
                 "Statut vampirique",
@@ -509,7 +514,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Morris Yama est un mercenaire qu’on peut croiser parfois dans les quartiers abandonnés, il ne parle pas ou presque pas, c’est un afroaméricain alcoolique qui boit souvent à sa flasque quand il ne fait pas une mission. On peut aisément l’engager mais il ne travaillera qu’avec des afroaméricains. En vérité « Ténèbres » est une strygoï noire, il a été forgé avec le cadavre d’un nouveau-né du roi Neeba, qu’Oyalinka trempa dans la Sombre-vérité de la Fontaine des Ténèbres, plusieurs jours, jusqu’à ce que la créature ressuscite bestialement. C’est tout simplement la Strygoï noire la plus puissante de la Terre mais aussi un vampire « inférieur » surclassant presque tous les vampires véritables. Neeba ne le considère pas comme son fils, mais il respecte ce paladin au service d’Oyalinka. Bien qu’il ait l’air d’un vampire « normal » en apparence, sa soif est frénétique, très violente et il a de très forts instincts, qu’il réprime difficilement. Sa flasque contient de la sombre-vérité et du sang de Neeba, son roi ; c’est la seule chose qui peut le calmer. Entièrement dévoué à Oyalinka, il lui obéit au doigt et à l’œil. Etant un cadavre vampirique, il semble craindre la lumière même à travers l’Hologramme, à l’instar de Trauco."
+            "text": "« Ténèbres » est une strygoï noire façonnée à partir du cadavre d’un nouveau-né du roi Neeba. Olayinka plongea le corps plusieurs jours dans la Sombre-Vérité de la Fontaine des Ténèbres, jusqu’à sa résurrection bestiale. Il s’agit de la plus puissante strygoï noire de la Terre : ce vampire dit « inférieur » surclasse presque tous les vampires véritables. Neeba ne le considère pas comme son fils, mais respecte ce paladin au service d’Olayinka. Sous son apparence de vampire ordinaire, Munyama dissimule une soif frénétique, une violence extrême et de puissants instincts qu’il réprime difficilement. Sa flasque contient de la Sombre-Vérité et du sang de Neeba ; seule cette mixture peut le calmer. Entièrement dévoué à Olayinka, il lui obéit au doigt et à l’œil. Cadavre vampirique, il craint la lumière jusque sous l’Hologramme, à l’instar de Trauco."
           }
         ]
       },
