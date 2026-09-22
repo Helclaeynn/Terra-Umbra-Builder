@@ -680,10 +680,10 @@ const PAYLOAD = [
       "real_name": "Laureen Clayton",
       "nom_verite": "Malefu",
       "race": "Vampire",
-      "age": "«42 ans » - 842 ans",
+      "age": "42 ans",
       "origine": "Nicaragua",
       "statut": "Gouvernement : La Commission (corporations)",
-      "statut_verite": "« Reine consort »",
+      "statut_verite": "Reine consort",
       "organisation": "Oru Ayeraye",
       "relations": [],
       "identity_keys": [
@@ -696,7 +696,7 @@ const PAYLOAD = [
         30,
         30
       ],
-      "source_designation": "vampirique, ses seuls buts sont de profiter de la vie.",
+      "source_designation": "Reine consort : Malefu",
       "source_reality_raw": "Laureen Clayton",
       "source_truth_raw": "Malefu",
       "source_extract": "vampirique, ses seuls buts sont de profiter de la vie. Nom de la Réalité : Laureen Clayton Nom de la Vérité : Malefu Age : «42 ans » - 842 ans Affiliations : Gouvernement : La Commission (corporations) Nationalité d’origine : Nicaragua Ethnie réelle : Vampire Statut : « Reine consort » Maison vampirique : « Obayifo » Laureen Clayton est un membre du gouvernement, elle est Commissaire supérieur de l’influence Corporative à la Commission, une institution Californienne. L’observatoire de l’influence Corporative a pour but d’encadrer les débordements des corporations, pour cette raison, l’Agence CSCO est un outil très souvent lié à l’Observatoire. Laureen est donc LA personne que toutes les corporations cherchent à corrompre ou séduire, officiellement elle est intransigeante, officieusement, elle accepte souvent des pots-de-vin, qu’elle déclare dans un carnet au CSCO néanmoins, comme autant de preuves à charge contre les corporations lui permettant de faire pression ultérieurement. Reine de la cour de l’Oru Ayeraye, c’est une ancienne personnalité antique du peuple San. Le seigneur de la maison Obayifo la transforma en vampire pour sa fertilité. Elle a été noyée dans la fontaine des ténèbres pour assurer qu’elle devienne bien un vampire, loyale à Olayinka de fait. Le roi Neeba décida qu’elle était digne de lui, alors il en fit une reine de la cour, la prenant simplement à son vassal, ce que ce dernier a peu apprécié ayant déjà eu un héritier avec elle. Elle donna une fausse-coucheauRoi mais par son sens des responsabilités s’imposa comme la plus grande des trois reines.",
@@ -723,7 +723,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«42 ans »"
+                "42 ans"
               ],
               [
                 "Affiliations",
@@ -734,6 +734,10 @@ const PAYLOAD = [
                 "Nicaragua"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Laureen Clayton est commissaire supérieure de l’influence corporative au sein de la Commission, une institution californienne. L’Observatoire de l’influence corporative encadre les débordements des corporations et travaille fréquemment avec l’agence CSCO. Laureen est donc la personne que toutes les corporations cherchent à corrompre ou à séduire. Officiellement intransigeante, elle accepte officieusement de nombreux pots-de-vin, mais les consigne dans un carnet remis au CSCO afin d’accumuler des preuves et de faire ensuite pression sur les entreprises concernées."
           }
         ]
       },
@@ -756,7 +760,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "«42 ans » - 842 ans"
+                "42 ans en apparence ; 842 ans"
               ],
               [
                 "Nature réelle",
@@ -764,17 +768,17 @@ const PAYLOAD = [
               ],
               [
                 "Statut vampirique",
-                "« Reine consort »"
+                "Reine consort"
               ],
               [
                 "Maison vampirique",
-                "« Obayifo »"
+                "Obayifo"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "Laureen Clayton est un membre du gouvernement, elle est Commissaire supérieur de l’influence Corporative à la Commission, une institution Californienne. L’observatoire de l’influence Corporative a pour but d’encadrer les débordements des corporations, pour cette raison, l’Agence CSCO est un outil très souvent lié à l’Observatoire. Laureen est donc LA personne que toutes les corporations cherchent à corrompre ou séduire, officiellement elle est intransigeante, officieusement, elle accepte souvent des pots-de-vin, qu’elle déclare dans un carnet au CSCO néanmoins, comme autant de preuves à charge contre les corporations lui permettant de faire pression ultérieurement. Reine de la cour de l’Oru Ayeraye, c’est une ancienne personnalité antique du peuple San. Le seigneur de la maison Obayifo la transforma en vampire pour sa fertilité. Elle a été noyée dans la fontaine des ténèbres pour assurer qu’elle devienne bien un vampire, loyale à Olayinka de fait. Le roi Neeba décida qu’elle était digne de lui, alors il en fit une reine de la cour, la prenant simplement à son vassal, ce que ce dernier a peu apprécié ayant déjà eu un héritier avec elle. Elle donna une fausse-coucheauRoi mais par son sens des responsabilités s’imposa comme la plus grande des trois reines."
+            "text": "Reine de l’Oru Ayeraye, Malefu est une ancienne personnalité du peuple San. Le seigneur de la maison Obayifo la transforma en vampire pour sa fertilité. Elle fut ensuite noyée dans la Fontaine des Ténèbres afin d’assurer sa transformation, ce qui la rendit de fait loyale à Olayinka. Jugeant Malefu digne de lui, le roi Neeba la prit simplement à son vassal, qui apprécia d’autant moins cette décision qu’il avait déjà eu un héritier avec elle. Malefu fit une fausse couche après avoir conçu un enfant du roi, mais son sens des responsabilités lui permit de s’imposer comme la plus importante des trois reines."
           }
         ]
       },
