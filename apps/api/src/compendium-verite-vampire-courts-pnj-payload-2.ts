@@ -1619,6 +1619,9 @@ const PAYLOAD = [
       "Cours vampiriques",
       "Shì hun zhe"
     ],
+    "merge_section_targets": {
+      "vampires-realite": "info-realite"
+    },
     "pnj": {
       "completeness": "detailed",
       "real_name": "Ming Xinya",
