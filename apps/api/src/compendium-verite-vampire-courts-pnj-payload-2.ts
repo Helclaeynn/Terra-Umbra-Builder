@@ -2285,10 +2285,10 @@ const PAYLOAD = [
       "real_name": "Maya binti Ishak",
       "nom_verite": "Suriawati",
       "race": "Vampire",
-      "age": "«34 ans » - 645 ans",
+      "age": "34 ans",
       "origine": "Malaisienne",
       "statut": "Gouvernement : CBII",
-      "statut_verite": "« Guanluxun »",
+      "statut_verite": "Guangluxun",
       "organisation": "Shì hun zhe",
       "relations": [],
       "identity_keys": [
@@ -2301,7 +2301,7 @@ const PAYLOAD = [
         38,
         38
       ],
-      "source_designation": "des divinités féminines hindouistes corrompues cédées par Kali. Xinya l’a ressucité après sa défaite.",
+      "source_designation": "Guangluxun (ministre de la Maison) : Suriawati",
       "source_reality_raw": "Maya binti Ishak",
       "source_truth_raw": "Suriawati",
       "source_extract": "des divinités féminines hindouistes corrompues cédées par Kali. Xinya l’a ressucité après sa défaite. Nom de la Réalité : Maya binti Ishak Nom de la Vérité : Suriawati Age : «34 ans » - 645 ans Affiliations : Gouvernement : CBII Nationalité d’origine : Malaisienne Ethnie réelle : Vampire Statut : « Guanluxun » Clan vampirique : « Langsuir » Maya était une jeune femme quand le conflit en Corée éclata en 2022, au début, cela ne touchait pas vraiment les pays comme la Malaisie, l’Indonésie ou les Philippines, cependant, l’immigration massive de Chinois força à considérer le conflit, d’autant plus qu’après la conquête de la moitié du Japon, d’une part de Russie et de Chine, Taiwan était une cible évidente. Beaucoup de membres de sa famille furent enrôlés de force dans « l’armée du Pacifique ». Elle émigra aux Etats-Unis pour chercher ses frères disparus, elle fit des études et intégra le CBII une fois sa nationalité californienne achetée. « Ministre de la Maison », Suriawati gère la sécurité de la cour et de l’impératrice, elle est subordonnée à Nobunaga de fait. Lors des rassemblements vampiriques de la cour, elle a la charge de l’harmonie et de la sécurité. Elle est assez méthodique et redoutée, par exemple, la maison « Berbalang » a complétement été supplantée par celle des Langsuir qu’elle a fondé. Comme beaucoup de maisons du Shi Hun Zhe, les Langsuir sont des vampires surtout féminins et séducteurs.",
@@ -2328,7 +2328,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge apparent",
-                "«34 ans »"
+                "34 ans"
               ],
               [
                 "Affiliations",
@@ -2339,6 +2339,10 @@ const PAYLOAD = [
                 "Malaisienne"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Maya binti Ishak était encore jeune lorsque la guerre de Corée éclata en 2022. La Malaisie, l’Indonésie et les Philippines semblaient d’abord peu concernées, mais l’immigration massive de Chinois força ces pays à prendre la mesure du conflit ; après la conquête d’une moitié du Japon et de portions de la Russie et de la Chine, Taïwan apparaissait comme une cible évidente. De nombreux membres de sa famille furent enrôlés de force dans « l’armée du Pacifique ». Maya émigra aux États-Unis à la recherche de ses frères disparus, poursuivit des études puis intégra le CBII après avoir acheté sa nationalité californienne."
           }
         ]
       },
@@ -2361,7 +2365,7 @@ const PAYLOAD = [
               ],
               [
                 "Âge complet",
-                "«34 ans » - 645 ans"
+                "34 ans en apparence ; 645 ans"
               ],
               [
                 "Nature réelle",
@@ -2369,17 +2373,17 @@ const PAYLOAD = [
               ],
               [
                 "Statut vampirique",
-                "« Guanluxun »"
+                "Guangluxun"
               ],
               [
                 "Clan vampirique",
-                "« Langsuir »"
+                "Langsuir"
               ]
             ]
           },
           {
             "type": "p",
-            "text": "Maya était une jeune femme quand le conflit en Corée éclata en 2022, au début, cela ne touchait pas vraiment les pays comme la Malaisie, l’Indonésie ou les Philippines, cependant, l’immigration massive de Chinois força à considérer le conflit, d’autant plus qu’après la conquête de la moitié du Japon, d’une part de Russie et de Chine, Taiwan était une cible évidente. Beaucoup de membres de sa famille furent enrôlés de force dans « l’armée du Pacifique ». Elle émigra aux Etats-Unis pour chercher ses frères disparus, elle fit des études et intégra le CBII une fois sa nationalité californienne achetée. « Ministre de la Maison », Suriawati gère la sécurité de la cour et de l’impératrice, elle est subordonnée à Nobunaga de fait. Lors des rassemblements vampiriques de la cour, elle a la charge de l’harmonie et de la sécurité. Elle est assez méthodique et redoutée, par exemple, la maison « Berbalang » a complétement été supplantée par celle des Langsuir qu’elle a fondé. Comme beaucoup de maisons du Shi Hun Zhe, les Langsuir sont des vampires surtout féminins et séducteurs."
+            "text": "Ministre de la Maison, Suriawati gère la sécurité de la Cour et de l’impératrice ; elle est de fait subordonnée à Nobunaga. Lors des rassemblements vampiriques, elle veille à l’harmonie et à la sécurité. Méthodique et redoutée, elle a notamment vu la maison Berbalang être entièrement supplantée par celle des Langsuir, qu’elle a fondée. Comme beaucoup de maisons du Shì hun zhe, les Langsuir regroupent surtout des vampires féminins et séducteurs."
           }
         ]
       },
