@@ -5,7 +5,7 @@ const PAYLOAD = [
     "dataset": "verite-vampire-courts-pnj",
     "category": "Personnages",
     "sourceCategory": "Personnages",
-    "title": "Neeba NGUBENANI",
+    "title": "Neeba Ngubenani",
     "source": "Factions_Les cours vampiriques(1)(2).pdf",
     "status": "canon_source",
     "rebuildV2": true,
@@ -18,18 +18,19 @@ const PAYLOAD = [
     ],
     "pnj": {
       "completeness": "detailed",
-      "real_name": "Neeba NGUBENANI",
-      "nom_verite": "Neeba « L’Oba Okunkun”",
+      "real_name": "Neeba Ngubenani",
+      "nom_verite": "Neeba « l’Oba Okunkun »",
       "race": "Vampire",
-      "age": "«49 ans » - 8949 ans",
+      "age": "49 ans",
       "origine": "Zambienne",
-      "statut": "Corporation : First Lawyers inc.",
+      "statut": "Corporation : First Lawyers Inc.",
       "statut_verite": "Roi",
       "organisation": "Oru Ayeraye",
       "relations": [],
       "identity_keys": [
+        "Neeba Ngubenani",
         "Neeba NGUBENANI",
-        "Neeba « L’Oba Okunkun”"
+        "Neeba « l’Oba Okunkun »"
       ],
       "source_group": "Oru Ayeraye",
       "source_order": 37,
@@ -37,7 +38,7 @@ const PAYLOAD = [
         28,
         28
       ],
-      "source_designation": "Archevêque des ténèbres : Olayinka",
+      "source_designation": "Trône royal : Neeba",
       "source_reality_raw": "Neeba NGUBENANI",
       "source_truth_raw": "Neeba « L’Oba Okunkun”",
       "source_extract": "Archevêque des ténèbres : Olayinka Nom de la Réalité : Neeba NGUBENANI Nom de la Vérité : Neeba « L’Oba Okunkun” Age : «49 ans » - 8949 ans Affiliations : Corporation : First Lawyers inc. Nationalité d’origine : Zambienne Ethnie réelle : Vampire Statut : Roi Fondateur du cabinet Fangs, un cabinet d’avocats et de notaires, il est un des cadres les plus importants de la corporation. Son charisme et son regard en font un avocat qui terrifie les gens appelés à la barre. Malgré tout, il a des tendances chevaleresques, il est assez élégant malgré sa carrure et son air terrifiant. Sage et calme de nature, il a un profond respect pour les femmes au point de n’avoir presque que des femmes dans son cabinet comme employées. Roi suprême de l’Oru Ayeraye, Neeba en est le fondateur. Il est aussi le plus grand héros vampirique de toute l’Afrique. Descendant de puissants noms vampiriques et trempé dans la Fontaine des Ténèbres il est le Messie des Vampires selon ses serviteurs. Sa maitrise des Deimons est sans pareille, il est associé à Gundura, une deimone ancienne surpuissante qu’il peut invoquer ou utiliser comme arme et qui fait secrétaire le reste du temps. Neeba est obsédé par avoir une descendance, c’est pourquoi il a",
@@ -60,21 +61,25 @@ const PAYLOAD = [
               ],
               [
                 "Nom / identité de Réalité",
-                "Neeba NGUBENANI"
+                "Neeba Ngubenani"
               ],
               [
                 "Âge apparent",
-                "«49 ans »"
+                "49 ans"
               ],
               [
                 "Affiliations",
-                "Corporation : First Lawyers inc."
+                "Corporation : First Lawyers Inc."
               ],
               [
                 "Nationalité d’origine",
                 "Zambienne"
               ]
             ]
+          },
+          {
+            "type": "p",
+            "text": "Fondateur de Fangs, cabinet d’avocats et de notaires membre de First Lawyers Inc., Neeba Ngubenani compte parmi les cadres les plus importants de la corporation. Son charisme et son regard en font un avocat qui terrifie les personnes appelées à la barre. Malgré sa carrure et son air intimidant, il se montre élégant et chevaleresque. Sage et calme, il témoigne d’un profond respect pour les femmes et emploie presque exclusivement des collaboratrices dans son cabinet."
           }
         ]
       },
@@ -93,11 +98,11 @@ const PAYLOAD = [
               ],
               [
                 "Nom de la Vérité",
-                "Neeba « L’Oba Okunkun”"
+                "Neeba « l’Oba Okunkun »"
               ],
               [
                 "Âge complet",
-                "«49 ans » - 8949 ans"
+                "49 ans en apparence ; 8 949 ans"
               ],
               [
                 "Nature réelle",
@@ -111,7 +116,7 @@ const PAYLOAD = [
           },
           {
             "type": "p",
-            "text": "Fondateur du cabinet Fangs, un cabinet d’avocats et de notaires, il est un des cadres les plus importants de la corporation. Son charisme et son regard en font un avocat qui terrifie les gens appelés à la barre. Malgré tout, il a des tendances chevaleresques, il est assez élégant malgré sa carrure et son air terrifiant. Sage et calme de nature, il a un profond respect pour les femmes au point de n’avoir presque que des femmes dans son cabinet comme employées. Roi suprême de l’Oru Ayeraye, Neeba en est le fondateur. Il est aussi le plus grand héros vampirique de toute l’Afrique. Descendant de puissants noms vampiriques et trempé dans la Fontaine des Ténèbres il est le Messie des Vampires selon ses serviteurs. Sa maitrise des Deimons est sans pareille, il est associé à Gundura, une deimone ancienne surpuissante qu’il peut invoquer ou utiliser comme arme et qui fait secrétaire le reste du temps. Neeba est obsédé par avoir une descendance, c’est pourquoi il a"
+            "text": "Roi suprême et fondateur de l’Oru Ayeraye, Neeba est considéré comme le plus grand héros vampirique d’Afrique. Descendant de puissantes lignées et trempé dans la Fontaine des Ténèbres, il est le Messie des Vampires selon ses serviteurs. Sa maîtrise des Deimons est sans égale. Il est lié à Gundura, une ancienne Deimone surpuissante qu’il peut invoquer ou manier comme une arme et qui, le reste du temps, lui sert de secrétaire. Obsédé par l’idée d’avoir une descendance, Neeba souffre d’une mauvaise réputation parmi les vampires : il ne considère jamais les femmes autrement que comme des matrices."
           }
         ]
       },
