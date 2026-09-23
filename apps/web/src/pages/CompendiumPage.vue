@@ -475,7 +475,14 @@ async function focusSearch() {
 }
 function compendiumKeydown(event: KeyboardEvent) {
   if (event.key === "Escape" && wikiPreview.value.visible) hideWikiPreview();
-  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") { event.preventDefault(); void focusSearch(); }
+  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+    event.preventDefault();
+    window.clearTimeout(suggestionTimer);
+    ++suggestionRequest;
+    query.value = "";
+    clearSuggestions();
+    void focusSearch();
+  }
   if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key)) readingIntent(event);
 }
 function openContents(event: MouseEvent) {
