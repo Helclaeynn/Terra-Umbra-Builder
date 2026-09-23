@@ -33,9 +33,9 @@ const hunterProfiles = active.filter((person) => person.dataset === "verite-hunt
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
 assert.equal(hunterProfiles.length, 10);
 const exileRealityProfiles = active.filter((person) =>
-  ["verite-pelages-pnj", "verite-grands-exiles-pnj", "verite-vampire-courts-pnj"].includes(person.dataset) &&
+  ["verite-pelages-pnj", "verite-grands-exiles-pnj", "verite-vampire-courts-pnj", "verite-extrals-groupes-pnj"].includes(person.dataset) &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(exileRealityProfiles.length, 50);
+assert.equal(exileRealityProfiles.length, 100);
 for (const [id, secret, retained] of [
   ["personnages-points-rencontre-kristina-moon", "magie familiale de l’empire vert", "empire vert"],
   ["personnages-points-rencontre-murck-date", "projection spectrale", "magie spectrale"],
