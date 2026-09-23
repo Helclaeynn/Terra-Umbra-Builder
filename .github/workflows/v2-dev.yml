@@ -30,6 +30,18 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: tuc
+          POSTGRES_PASSWORD: ci-only-placeholder
+          POSTGRES_DB: tuc_sheet_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U tuc -d tuc_sheet_test"
+          --health-interval 5s --health-timeout 5s --health-retries 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -44,6 +56,22 @@ jobs:
         run: |
           npm ci
           npm run build
+
+      - name: Check standalone character sheet permissions on PostgreSQL
+        working-directory: apps/api
+        env:
+          DATABASE_URL: postgres://tuc:ci-only-placeholder@127.0.0.1:5432/tuc_sheet_test
+          TUC_SHEET_SMOKE: ci
+        run: |
+          node --input-type=module <<'NODE'
+          import {readFile,readdir} from 'node:fs/promises';
+          import {pool} from './dist/db.js';
+          for(const name of (await readdir('../../infrastructure/migrations')).filter(n=>n.endsWith('.sql')).sort()) {
+            await pool.query(await readFile('../../infrastructure/migrations/'+name,'utf8'));
+          }
+          await pool.end();
+          NODE
+          node scripts/check-character-sheet-access.mjs
 
       - name: Check password hashing and account migration
         working-directory: apps/api
@@ -341,6 +369,14 @@ jobs:
           ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" \
             'cd /opt/terra-umbra/infrastructure && docker compose --env-file .env exec -T -e TUC_GM_SMOKE=dev api node --input-type=module' \
             < apps/api/scripts/check-gm-access-live.mjs
+
+      - name: Verify deployed character sheet sharing
+        if: steps.deployment.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" \
+            'cd /opt/terra-umbra/infrastructure && docker compose --env-file .env exec -T -e TUC_SHEET_SMOKE=dev api node --input-type=module' \
+            < apps/api/scripts/check-character-sheet-access.mjs
 
       - name: Character and Compendium V2 smoke test
         if: steps.deployment.outputs.enabled == 'true'

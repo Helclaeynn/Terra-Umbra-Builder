@@ -6,7 +6,6 @@ import { api, ApiError } from "../lib/api";
 import TalentSelector, {
   type TalentChoiceOption,
   type TalentChoiceSpec,
-  type TalentOption
 } from "../components/builder/TalentSelector.vue";
 import BuilderWikiLink from "../components/builder/BuilderWikiLink.vue";
 import TruthEquipmentPanel from "../components/builder/TruthEquipmentPanel.vue";
@@ -15,7 +14,7 @@ import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
 import EquipmentStep from "../components/builder/EquipmentStep.vue";
 import FinalizationStep from "../components/builder/FinalizationStep.vue";
 import CharacterSummary from "../components/builder/CharacterSummary.vue";
-import { characterDerivedStats, type CharacterSheet, type SheetEntry } from "../lib/character-sheet";
+import { characterDerivedStats, type CharacterSheet } from "../lib/character-sheet";
 import ProgressionStep from "../components/builder/ProgressionStep.vue";
 import {
   augmentationAccess,
@@ -34,7 +33,7 @@ import {
   type RealityRulesPackage,
   type RealityState
 } from "../lib/reality";
-import { campaignCash, ensureProgression, currentAttribute, currentSkillRaw, currentSkillFinal, xpRemaining, ptvRemaining, type ProgressionState } from "../lib/progression";
+import { campaignCash, ensureProgression, type ProgressionState } from "../lib/progression";
 import type { Character, CharacterDataV2 } from "../types/character";
 import {
   ensureTruthRulesPackage,
@@ -58,83 +57,8 @@ import {
   type TruthTalent
 } from "../lib/truth";
 
-type RuleAttribute={id:string;name:string};
-type RuleSkill={id:string;name:string;attribute:string};
-type RuleOrigin={name:string;compendiumId?:string};
-type RuleSphere={name:string;compendiumId?:string;originId:string;support:string;fixedSkills:string[]};
-type RuleStyle={
-  id:string;
-  sphere:string;
-  name:string;
-  compendiumId?:string;
-  skills:string[];
-  expertiseFamilies:string[];
-  lifestyle:string;
-  account:number;
-  augmentationEnvelope:number;
-  gen2SlotsBase:number;
-  vehicleCapital:number;
-};
-type RuleTalent=TalentOption&{
-  category?:string;
-  sphere?:string;
-  attribute?:string;
-  skill?:string;
-  prerequisite?:string|null;
-};
-type CreationLore={
-  origin:Record<string,string>;
-  originTalent:Record<string,string>;
-  sphere:Record<string,string>;
-  style:Record<string,string>;
-  skill:Record<string,string>;
-  attribute:Record<string,string>;
-  talent:Record<string,string>;
-  sphereTalent:Record<string,string>;
-};
-type CreationRules={
-  id:string;
-  name:string;
-  sourceVersion:string;
-  attributes:RuleAttribute[];
-  skills:RuleSkill[];
-  creation:{
-    attributes:{baseTotal:number;min:number;max:number;edgePackPoints:number;edgePackMax:number};
-    skills:{sphereFixedPoints:number;stylePoints:number;stylePerSkillMax:number;freePoints:number;rawMax:number;edgePackPoints:number;edgePackMax:number};
-  };
-  origins:Record<string,RuleOrigin>;
-  spheres:Record<string,RuleSphere>;
-  styles:RuleStyle[];
-  talents:{
-    origin:Record<string,RuleTalent[]>;
-    sphere:Record<string,RuleTalent[]>;
-    common:RuleTalent[];
-    expertise:RuleTalent[];
-  };
-};
-
-type DisadvantageOption={
-  id:string;
-  name:string;
-  compendiumId?:string;
-  effect:string;
-  category:"common"|"attribute"|"sphere";
-  attribute?:string;
-  sphere?:string;
-};
-type DisadvantageCatalog={
-  common:readonly DisadvantageOption[];
-  attribute:readonly DisadvantageOption[];
-  sphere:Record<string,readonly DisadvantageOption[]>;
-};
-type EdgeOptionRule={max:number;points?:number;amount?:number;steps?:number;gen2Windows?:number};
-type EdgeLore={lore:string;mechanic:string};
-type EdgeRules={
-  base:number;
-  maxHeld:number;
-  options:Record<string,EdgeOptionRule>;
-  lore:Record<string,EdgeLore>;
-};
+import type { CreationRules, CreationLore, DisadvantageOption, DisadvantageCatalog, EdgeRules, RuleTalent } from "../lib/creation-types";
+import { buildCharacterSheet } from "../lib/character-sheet-model";
 
 type StepId="identity"|"origin"|"sphere"|"attributes"|"skills"|"talents"|"truth"|"disadvantages"|"edge"|"equipment"|"finish"|"progression"|"sheet";
 type KnowledgeRef={
@@ -932,11 +856,6 @@ const progressionSkillFinalBases=computed(()=>Object.fromEntries(
 const progressionAttributeBases=computed(()=>Object.fromEntries(
   (rules.value?.attributes??[]).map(attribute=>[attribute.id,finalAttribute(attribute.id)])
 ));
-const truthNatureName=computed(()=>
-  currentTruthState.value&&truthRules.value
-    ? truthRules.value.structure.natures[currentTruthState.value.nature]?.name??currentTruthState.value.nature
-    : ""
-);
 const truthConsciousnessName=computed(()=>
   currentTruthState.value&&truthRules.value
     ? truthRules.value.structure.consciousness.find(item=>item.id===currentTruthState.value?.consciousness)?.name??currentTruthState.value.consciousness
@@ -961,58 +880,11 @@ const campaignCashValue=computed(()=>{
 });
 
 const characterSheet=computed<CharacterSheet|null>(()=>{
-  if(!draft.value||!rules.value||!truthRules.value||!realityRules.value||!currentTruthState.value)return null;
-  const data=draft.value, creation=rules.value, truth=truthRules.value, state=currentTruthState.value;
-  const progress=data.progression as unknown as ProgressionState;
-  const campaign=progressionMode;
-  const attribute=(id:string)=>campaign?currentAttribute(progress,progressionAttributeBases.value,id):finalAttribute(id);
-  const rawSkill=(id:string)=>campaign?currentSkillRaw(progress,progressionSkillBases.value,id):skillRaw(id);
-  const skill=(id:string)=>campaign?currentSkillFinal(progress,progressionSkillBases.value,progressionSkillFinalBases.value,skillTalentMap.value,id):skillFinal(id);
-  const realityIds=[...new Set([...selectedRealityTalentIds(),...(campaign?progress.realityTalents:[])])];
-  const truthState={...state,truthTalents:[...new Set([...state.truthTalents,...(campaign?progress.truthTalents:[])])]};
-  const truthMap=new Map(Object.values(truth.catalogs).flat().map(item=>[item.id,item]));
-  for(const item of truthAvailableTalents(truth,truthState))truthMap.set(item.id,item);
-  const corruptionMap=new Map(truth.corruption.talents.map(item=>[item.id,item]));
-  const truthCost=(id:string)=>Number(truthMap.get(id)?.cost??0);
-  const toRealityTalent=(id:string):SheetEntry=>{
-    const talent=talentById(id);
-    const choice=talentChoiceValue(id);
-    return {id,name:talent?.name??id,compendiumId:talent?.compendiumId,detail:talent?.effect,lore:talentNarrative(talent),group:choice?`Choix : ${creation.skills.find(item=>item.id===choice)?.name??choice}`:undefined};
-  };
-  const inventory:SheetEntry[]=[];
-  for(const purchase of [...(realityState.value?.equipment??[]),...(realityState.value?.augmentations??[])]){
-    if(!campaign&&purchase.acquiredInCampaign)continue;
-    const item=realityItems.value.get(purchase.itemId);
-    inventory.push({id:purchase.uid,name:item?.name??purchase.itemId,detail:item?.effect,compendiumId:item?.compendiumId,
-      group:[purchase.kind==="augmentation"?"Augmentation":"Équipement",purchase.sphereSupport?"Appui de Sphère":"",purchase.loaded?"Chargé":""].filter(Boolean).join(" · ")});
-  }
-  for(const id of state.truthEquipment){
-    const item=truth.equipment.find(item=>item.id===id);
-    inventory.push({id:`truth-${id}`,name:item?.name??id,detail:item?.lore,compendiumId:item?.compendiumId,group:"Objet de Vérité"});
-  }
-  const strings=(value:unknown)=>Array.isArray(value)?value.filter((item):item is string=>typeof item==="string"&&Boolean(item.trim())):[];
-  return {
-    mode:campaign?"campaign":"creation",name:identityDisplayName.value,identity:data.identity,
-    origin:originNameValue.value,sphere:sphereNameValue.value,style:styleNameValue.value,
-    lifestyle:lifestylePressureValue.value?.effective??lifestyleBaseValue.value,lifestyleBase:lifestyleBaseValue.value,renown:renownScore.value,
-    attributes:creation.attributes.map(item=>({...item,value:attribute(item.id),base:finalAttribute(item.id)})),
-    skills:creation.skills.map(item=>({...item,value:skill(item.id),raw:rawSkill(item.id),bonus:skill(item.id)-rawSkill(item.id)})),
-    derived:characterDerivedStats(attribute,skill,data.disadvantages),edge:edgeRemaining.value,
-    xpRemaining:xpRemaining(progress,progressionSkillBases.value,progressionAttributeBases.value),
-    ptvRemaining:campaign?ptvRemaining(progress,Math.max(0,truthPtvRemaining.value),truthCost):truthPtvRemaining.value,
-    account:realityEconomyValue.value?.account??0,cash:campaignCashValue.value,
-    realityTalents:realityIds.map(toRealityTalent),
-    truthTalents:[...truthState.truthTalents.map(id=>({id,name:truthMap.get(id)?.name??id,detail:truthMap.get(id)?.effect,lore:truthMap.get(id)?.runtimeLore,compendiumId:truthMap.get(id)?.compendiumId})),
-      ...state.corruptionTalents.map(id=>{
-        const item=corruptionMap.get(id);
-        const dormant=item?.kind==="DON"&&(!state.corruption||item.sourceId!==state.corruptionSource);
-        return {id,name:item?.name??id,detail:item?.effect,compendiumId:item?.compendiumId,group:[item?.sourceName,dormant?"Dormant":""].filter(Boolean).join(" · ")};
-      })],
-    disadvantages:selectedDisadvantageItems().map(item=>({id:item.id,name:item.name,detail:item.effect,compendiumId:item.compendiumId})),inventory,
-    truthNature:truthNatureName.value,truthConsciousness:truthConsciousnessName.value,corruption:state.corruption,
-    corruptionSource:truth.corruption.sources.find(item=>item.id===state.corruptionSource)?.name??state.corruptionSource,
-    languages:strings(data.social.languages),contacts:strings(data.social.contacts),reputation:String(data.social.reputation??""),renownMilieu:String(data.social.renownMilieu??"")
-  };
+  if(!draft.value||!rules.value||!lore.value||!disadvantages.value||!edgeRules.value||!truthRules.value||!realityRules.value)return null;
+  return buildCharacterSheet(draft.value,{
+    rules:rules.value,lore:lore.value,talentChoiceSpecs:talentChoiceSpecs.value,skillTalentMap:skillTalentMap.value,
+    disadvantages:disadvantages.value,edgeRules:edgeRules.value
+  },truthRules.value,realityRules.value,progressionMode,character.value?.name);
 });
 
 const knowledgeRefs=computed<KnowledgeRef[]>(()=>{

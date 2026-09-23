@@ -1,5 +1,6 @@
 import type { FastifyInstance, FastifyReply } from "fastify";
 import { pool } from "./db.js";
+import { registerCharacterSheetRoutes } from "./character-sheets.js";
 import { requireUser } from "./auth.js";
 import {
   blankCharacterData,
@@ -76,7 +77,8 @@ async function insertCharacter(
 }
 
 export async function registerCharacterRoutes(app: FastifyInstance) {
-  app.get("/api/characters", async (request, reply) => {
+  await registerCharacterSheetRoutes(app);
+  app.get<{Querystring:{summary?:string}}>("/api/characters", async (request, reply) => {
     const user = await requireUser(request, reply);
     if (!user) return;
 
@@ -84,7 +86,7 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
       `SELECT
          id,
          name,
-         data,
+         ${request.query.summary === "1" ? "" : "data,"}
          version,
          created_at::text AS "createdAt",
          updated_at::text AS "updatedAt"

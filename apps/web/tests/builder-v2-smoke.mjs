@@ -6,6 +6,7 @@ if(!executablePath)throw new Error("CHROME_BIN manquant.");
 
 const characterId="11111111-1111-4111-8111-111111111111";
 let savedPayload=null;
+let sheetOwner=true;
 
 const skillIds=[
   ["constitution","Constitution","vigueur"],
@@ -246,6 +247,15 @@ await page.route("**/api/**",async route=>{
   const url=new URL(request.url());
   const method=request.method();
 
+  if(url.pathname===`/api/characters/${characterId}/sheet`){
+    return route.fulfill({status:200,contentType:"application/json",body:JSON.stringify({
+      character:{id:characterId,name:savedPayload?.name||"V2 Smoke",data:savedPayload?.data||characterData,version:9,createdAt:new Date(0).toISOString(),updatedAt:new Date(0).toISOString()},
+      canEdit:sheetOwner,ownerName:"Joueur Smoke"
+    })});
+  }
+  if(url.pathname===`/api/characters/${characterId}/readers`){
+    return route.fulfill({status:200,contentType:"application/json",body:JSON.stringify({readers:[]})});
+  }
   if(url.pathname==="/api/characters/"+characterId&&method==="GET"){
     const currentVersion=savedPayload?Number(savedPayload.version||7)+1:7;
     return route.fulfill({
@@ -340,6 +350,28 @@ await page.waitForFunction(()=>{
   const buttons=[...document.querySelectorAll(".choice-card.style-card")];
   return buttons.some(button=>button.textContent?.includes("Smoke Style Alt")&&button.classList.contains("selected"));
 },{timeout:5000});
+// Standalone route must display the very same saved campaign values without mounting editing tools.
+const savedBeforeSheet=JSON.stringify(savedPayload);
+await page.goto(`${baseUrl}/characters/${characterId}/sheet`);
+await page.locator('.character-sheet[data-mode="campaign"]').waitFor();
+if(Number(await page.locator('[data-stat="pvMax"] strong').innerText())!==creationPv+2)throw new Error('Fiche autonome différente de la progression');
+if(await page.locator('.builder-sidebar,.progression-step,input,textarea,select').filter({visible:true}).count())throw new Error('Outils de modification visibles sur la fiche autonome');
+await page.getByRole('link',{name:'Talents',exact:true}).click();
+if(!await page.locator('#sheet-reality').evaluate(node=>node.open))throw new Error('Le raccourci doit ouvrir les Talents');
+for(const width of [1440,390,320]){
+  await page.setViewportSize({width,height:1000});
+  await assertBuilderReflow(`Fiche autonome ${width}px`);
+}
+await page.locator('.sheet-sharing summary').click();
+await page.getByLabel('Adresse e-mail du compte MJ').waitFor();
+await assertBuilderReflow('Partage MJ sur téléphone');
+sheetOwner=false;
+await page.reload();
+await page.locator('.character-sheet').waitFor();
+if(await page.locator('.sheet-sharing,input,textarea,select').count())throw new Error('Le MJ ne doit voir aucun outil de modification ou partage');
+if(JSON.stringify(savedPayload)!==savedBeforeSheet)throw new Error('La consultation a changé la sauvegarde');
+console.log('Standalone sheet browser OK — same campaign values, direct route, anchors, 320/390/1440px, owner sharing, MJ read-only and no mutation');
+
 if(browserErrors.length)throw new Error("Erreur lors du changement de Style :\n"+browserErrors.join("\n"));
 
 async function assertBuilderReflow(context) {
@@ -571,6 +603,28 @@ for(const legacyKey of ["sphereSupportDetail","possessionsNotes","networks","sta
     throw new Error("Champ Réalité legacy encore sauvegardé : "+legacyKey);
   }
 }
+
+// Standalone route must display the very same saved campaign values without mounting editing tools.
+const savedBeforeSheet=JSON.stringify(savedPayload);
+await page.goto(`${baseUrl}/characters/${characterId}/sheet`);
+await page.locator('.character-sheet[data-mode="campaign"]').waitFor();
+if(Number(await page.locator('[data-stat="pvMax"] strong').innerText())!==creationPv+2)throw new Error('Fiche autonome différente de la progression');
+if(await page.locator('.builder-sidebar,.progression-step,input,textarea,select').filter({visible:true}).count())throw new Error('Outils de modification visibles sur la fiche autonome');
+await page.getByRole('link',{name:'Talents',exact:true}).click();
+if(!await page.locator('#sheet-reality').evaluate(node=>node.open))throw new Error('Le raccourci doit ouvrir les Talents');
+for(const width of [1440,390,320]){
+  await page.setViewportSize({width,height:1000});
+  await assertBuilderReflow(`Fiche autonome ${width}px`);
+}
+await page.locator('.sheet-sharing summary').click();
+await page.getByLabel('Adresse e-mail du compte MJ').waitFor();
+await assertBuilderReflow('Partage MJ sur téléphone');
+sheetOwner=false;
+await page.reload();
+await page.locator('.character-sheet').waitFor();
+if(await page.locator('.sheet-sharing,input,textarea,select').count())throw new Error('Le MJ ne doit voir aucun outil de modification ou partage');
+if(JSON.stringify(savedPayload)!==savedBeforeSheet)throw new Error('La consultation a changé la sauvegarde');
+console.log('Standalone sheet browser OK — same campaign values, direct route, anchors, 320/390/1440px, owner sharing, MJ read-only and no mutation');
 
 if(browserErrors.length)throw new Error("Erreurs navigateur :\n"+browserErrors.join("\n"));
 

@@ -1,9 +1,16 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from "vue";
-import { RouterLink } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 import CharactersPanel from "./components/CharactersPanel.vue";
 import AccountLastReading from "./components/AccountLastReading.vue";
 import TerraUmbraBrand from "./components/TerraUmbraBrand.vue";
+
+import { api } from "./lib/api";
+import SharedCharacterSheets from "./components/SharedCharacterSheets.vue";
+const router=useRouter();
+const identifying=ref(true);
+let sessionGeneration=0;
+let refreshing=false;
 
 type Role = "player" | "gm" | "editor" | "admin";
 
@@ -123,56 +130,17 @@ function humanError(code: string): string {
   return labels[code] ?? "Une erreur est survenue.";
 }
 
-async function api<T>(
-  path: string,
-  options: RequestInit = {}
-): Promise<T> {
-  const headers = new Headers(options.headers ?? {});
-  if (options.body !== undefined && !headers.has("Content-Type")) {
-    headers.set("Content-Type", "application/json");
-  }
-
-  const response = await fetch(path, {
-    ...options,
-    credentials: "same-origin",
-    headers
-  });
-
-  const body = await response.json().catch(() => ({}));
-
-  if (!response.ok) {
-    throw new Error(body.error ?? `http_${response.status}`);
-  }
-
-  return body as T;
-}
-
 async function bootstrap() {
-  const [healthResult, setupResult, capabilitiesResult] = await Promise.allSettled([
-    api<{ status: string }>("/api/health"),
-    api<{ setupRequired: boolean }>("/api/auth/setup-status"),
-    api<{ passwordResetAvailable: boolean }>("/api/auth/capabilities")
-  ]);
-
-  health.value =
-    healthResult.status === "fulfilled" ? healthResult.value.status : "hors ligne";
-
-  if (setupResult.status === "fulfilled") {
-    setupRequired.value = setupResult.value.setupRequired;
-  }
-
-  if (capabilitiesResult.status === "fulfilled") {
-    passwordResetAvailable.value = capabilitiesResult.value.passwordResetAvailable;
-  }
-
-  if (!setupRequired.value) {
-    try {
-      const result = await api<{ user: User }>("/api/auth/me");
-      applyUser(result.user);
-    } catch {
-      user.value = null;
-    }
-  }
+  const generation=sessionGeneration;
+  // Secondary service information must not delay identity or the character list.
+  void api<{status:string}>("/api/health").then(result=>{health.value=result.status;}).catch(()=>{health.value="hors ligne";});
+  void api<{setupRequired:boolean}>("/api/auth/setup-status").then(result=>{if(generation===sessionGeneration)setupRequired.value=result.setupRequired;}).catch(()=>{});
+  void api<{passwordResetAvailable:boolean}>("/api/auth/capabilities").then(result=>{passwordResetAvailable.value=result.passwordResetAvailable;}).catch(()=>{});
+  try {
+    const result=await api<{user:User}>("/api/auth/me");
+    if(generation===sessionGeneration)applyUser(result.user);
+  } catch { if(generation===sessionGeneration)user.value=null; }
+  finally { if(generation===sessionGeneration)identifying.value=false; }
 }
 
 function applyUser(nextUser: User, preserveDraft = false) {
@@ -213,18 +181,22 @@ async function loadGmRequest() {
 }
 
 async function refreshAccess() {
-  if (!user.value || gmBusy.value || busy.value) return;
+  if (!user.value || gmBusy.value || busy.value || refreshing) return;
+  const generation=sessionGeneration;
+  refreshing=true;
   try {
     const result = await api<{ user: User }>("/api/auth/me");
+    if(generation!==sessionGeneration)return;
     applyUser(result.user, result.user.id === user.value?.id);
   } catch (cause) {
-    if ((cause as Error).message === "authentication_required") {
+    if (generation===sessionGeneration && (cause as Error).message === "authentication_required") {
       user.value = null;
       gmRequests.value = [];
       adminUsers.value = [];
       auditEvents.value = [];
     }
   }
+  finally { refreshing=false; }
 }
 
 async function submitGmRequest() {
@@ -288,6 +260,7 @@ async function submitSetup() {
 }
 
 async function submitAuth() {
+  sessionGeneration++;
   resetFeedback();
   busy.value = true;
 
@@ -310,6 +283,8 @@ async function submitAuth() {
       applyUser(result.user);
       message.value = "Connexion réussie.";
     }
+    const redirect=new URLSearchParams(window.location.search).get("redirect");
+    if(redirect && /^\/characters\/[0-9a-f-]{36}\/sheet$/.test(redirect))await router.replace(redirect);
   } catch (cause) {
     error.value = humanError((cause as Error).message);
   } finally {
@@ -362,6 +337,7 @@ async function resetPassword() {
 }
 
 async function logout() {
+  sessionGeneration++;
   resetFeedback();
   busy.value = true;
 
@@ -370,16 +346,6 @@ async function logout() {
       method: "POST",
       body: "{}"
     });
-
-    const check = await fetch("/api/auth/me", {
-      method: "GET",
-      credentials: "same-origin",
-      cache: "no-store"
-    });
-
-    if (check.status !== 401) {
-      throw new Error("logout_failed");
-    }
 
     user.value = null;
     adminUsers.value = [];
@@ -542,7 +508,7 @@ function formatDate(value: string | null): string {
 
 onMounted(bootstrap);
 onMounted(() => window.addEventListener("focus", refreshAccess));
-onUnmounted(() => window.removeEventListener("focus", refreshAccess));
+onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refreshAccess);});
 </script>
 
 <template>
@@ -573,7 +539,8 @@ onUnmounted(() => window.removeEventListener("focus", refreshAccess));
       <div v-if="message || error" class="feedback account-feedback" :class="{ error: !!error }" :role="error ? 'alert' : 'status'">
         {{ error || message }}
       </div>
-      <section v-if="setupRequired" class="auth-layout">
+      <p v-if="identifying" role="status">Ouverture de ton espace…</p>
+      <section v-else-if="setupRequired" class="auth-layout">
         <div class="intro">
           <p class="eyebrow">PREMIÈRE OUVERTURE</p>
           <h1>Créer l’administrateur initial</h1>
@@ -813,7 +780,8 @@ onUnmounted(() => window.removeEventListener("focus", refreshAccess));
         <AccountLastReading :key="`${user.id}:${user.role}`" :user-id="user.id" />
 
         <section class="account-grid" aria-label="Personnages et préférences">
-          <CharactersPanel />
+          <CharactersPanel :key="user.id" />
+          <SharedCharacterSheets v-if="['gm','editor','admin'].includes(user.role)" :key="`${user.id}:${user.role}`" />
 
           <article class="panel account-panel">
             <div class="section-heading">

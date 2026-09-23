@@ -5,8 +5,9 @@ import { api } from "../lib/api";
 import type { Character, Revision } from "../types/character";
 
 const router = useRouter();
-const characters = ref<Character[]>([]);
-const selected = ref<Character | null>(null);
+type CharacterListItem=Omit<Character,"data">;
+const characters = ref<CharacterListItem[]>([]);
+const selected = ref<CharacterListItem | null>(null);
 const revisions = ref<Revision[]>([]);
 const editName = ref("");
 const loading = ref(false);
@@ -34,7 +35,7 @@ function humanError(code: string): string {
   return labels[code] ?? "Une erreur est survenue.";
 }
 
-function setSelected(character: Character | null) {
+function setSelected(character: CharacterListItem | null) {
   selected.value = character;
   editName.value = character?.name ?? "";
   revisions.value = [];
@@ -45,7 +46,7 @@ async function loadCharacters() {
   loading.value = true;
   error.value = "";
   try {
-    const result = await api<{ characters: Character[] }>("/api/characters");
+    const result = await api<{ characters: CharacterListItem[] }>("/api/characters?summary=1");
     characters.value = result.characters;
 
     if (selected.value) {
@@ -71,10 +72,7 @@ async function createCharacter() {
       method: "POST",
       body: JSON.stringify({})
     });
-    await loadCharacters();
-    const created = characters.value.find((item) => item.id === result.character.id) ?? result.character;
-    setSelected(created);
-    await router.push(`/characters/${created.id}/builder`);
+    await router.push(`/characters/${result.character.id}/builder`);
   } catch (cause) {
     error.value = humanError((cause as Error).message);
   } finally {
@@ -285,7 +283,8 @@ onMounted(loadCharacters);
             <h3>{{ selected.name }}</h3>
           </div>
           <div class="character-detail-actions">
-            <RouterLink class="primary compact builder-link" :to="`/characters/${selected.id}/builder`">
+            <RouterLink class="primary compact builder-link" :to="`/characters/${selected.id}/sheet`">Voir la fiche actuelle</RouterLink>
+            <RouterLink class="ghost compact builder-link" :to="`/characters/${selected.id}/builder`">
               Ouvrir le Builder
             </RouterLink>
             <RouterLink class="ghost compact builder-link" :to="`/characters/${selected.id}/progression`">
