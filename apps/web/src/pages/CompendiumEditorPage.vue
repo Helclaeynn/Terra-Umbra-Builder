@@ -699,6 +699,12 @@ async function load() {
   error.value = "";
   try {
     if (isNew.value) {
+      // Match the Compendium's editor entry points before accepting any input.
+      // Write permissions remain enforced by the editor API.
+      const { user } = await api<{ user: { role: string } }>("/api/auth/me");
+      if (!["editor", "admin"].includes(user.role)) {
+        throw new ApiError(403, "editor_required", {});
+      }
       const requestedCategory = String(route.query.category ?? "Réalité").trim();
       article.value = {
         id: "",
