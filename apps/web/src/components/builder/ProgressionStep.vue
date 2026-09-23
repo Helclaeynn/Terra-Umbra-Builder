@@ -366,9 +366,6 @@ function initiateTruth(){
   emit("update:truth",{...props.truthState,consciousness:"initie"});
 }
 
-function authorize(kind:'truthTalentsMjAuthorized'|'truthEquipmentMjAuthorized',value:boolean){
-  const next=structuredClone(state.value);next[kind]=value;emitProgression(next);
-}
 function updateCampaignCorruption(value:TruthState){
   const next=structuredClone(state.value);
   next.corruptionTalents=value.corruptionTalents.filter(id=>!props.truthState.corruptionTalents.includes(id));
@@ -692,21 +689,18 @@ function sellCampaignItem(){
       </div>
     </details>
 
-    <section class="progress-panel campaign-corruption">
+    <details class="progress-panel campaign-corruption">
+      <summary><strong>Corruption &amp; Fléaux</strong><span>{{ truthState.corruption || 0 }} point(s) de Corruption · {{ combinedTruthState.corruptionTalents.length }} capacité(s) acquise(s)</span></summary>
       <CorruptionPanel :model-value="combinedTruthState" :rules="truthRules" :integrity="campaignIntegrity" :ptv-remaining="ptvRemainingValue" :locked-talent-ids="truthState.corruptionTalents" campaign @update:model-value="updateCampaignCorruption" @request-initiation="initiateTruth" />
       <p class="rule-note">Les acquisitions de campagne utilisent la même réserve de PTV que les Talents de Vérité. Les capacités acquises à la création restent conservées. Changer de Source ou revenir à Sain ne rembourse aucun Don.</p>
-    </section>
+    </details>
     <section class="progress-panel campaign-truth-equipment">
-      <label class="campaign-approval"><span><strong>Accord MJ — Objets de Vérité en campagne</strong><small>Confirme que le MJ autorise les acquisitions dans la fiction. L’accès exceptionnel aux autres filières reste une autorisation distincte dans le catalogue.</small></span><input type="checkbox" role="switch" :checked="state.truthEquipmentMjAuthorized" @change="authorize('truthEquipmentMjAuthorized',($event.target as HTMLInputElement).checked)" /></label>
-      <TruthEquipmentPanel v-if="state.truthEquipmentMjAuthorized" :model-value="combinedTruthState" :rules="truthRules" @update:model-value="updateCampaignEquipment" />
-      <p v-else class="rule-note">Les possessions déjà enregistrées restent sur la fiche actuelle. Le catalogue d’acquisition s’ouvre après confirmation de l’accord MJ.</p>
+      <TruthEquipmentPanel :model-value="combinedTruthState" :rules="truthRules" @update:model-value="updateCampaignEquipment" />
     </section>
 
-    <section class="progress-panel">
-      <div class="subsection-title">
-        <div><h3>Argent & possessions de campagne</h3><p>Le premier mouvement fige le solde issu de la création. Les achats de campagne ne consomment jamais rétroactivement les enveloppes initiales.</p></div>
-        <span class="cash-badge">{{ money(cashValue) }}</span>
-      </div>
+    <details class="progress-panel campaign-money" open>
+      <summary><strong>Argent &amp; possessions de campagne</strong><span>{{ money(cashValue) }}</span></summary>
+      <p class="rule-note">Le premier mouvement fige le solde issu de la création. Les achats de campagne ne consomment jamais rétroactivement les enveloppes initiales.</p>
 
       <div class="money-grid">
         <label>Libellé<input v-model="moneyLabel" placeholder="Prime de mission, loyer exceptionnel…" /></label>
@@ -768,13 +762,12 @@ function sellCampaignItem(){
           </div>
         </div>
       </details>
-    </section>
+    </details>
   </article>
 </template>
 
 <style scoped>
 
-.campaign-approval{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px;border:1px solid #35566b;border-radius:8px;background:#102331;margin:12px 0 22px}.campaign-approval span{display:grid;gap:8px;min-width:0}.campaign-approval small{line-height:1.6;color:#adc4d7}.campaign-approval input{appearance:none;flex:0 0 44px;width:44px;height:26px;min-height:26px;padding:0;border:1px solid #668399;border-radius:20px;background:radial-gradient(circle at 12px 50%,#97afc0 0 8px,transparent 9px),#1a2d3a;cursor:pointer}.campaign-approval input:checked{background:radial-gradient(circle at 30px 50%,#08242c 0 8px,transparent 9px),#80deec;border-color:#80deec}.campaign-approval input:focus-visible{outline:2px solid #a4edff;outline-offset:4px}
 .progression-step{display:grid;gap:1rem}
 .progress-card-title{display:grid;gap:.18rem;min-width:0}
 .progress-card-title :deep(.builder-wiki-ref){font-size:.875rem;color:#b1cbe3}

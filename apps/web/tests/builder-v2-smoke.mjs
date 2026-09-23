@@ -448,6 +448,7 @@ await truthEquipmentMj.focus();
 await truthEquipmentMj.press("Space");
 if(!await truthEquipmentMj.isChecked())throw new Error("Autorisation Objets de Vérité inaccessible au clavier.");
 await page.getByRole("button",{name:"Objets à acquérir",exact:true}).click();
+if(await page.locator('.truth-equipment-toolbar select option[value="22"]').count())throw new Error('Propriétés communes proposées dans les achats');
 for(const label of ["Arme de Chasse Smoke","Objet d’Aèr Smoke","Relique corrompue Smoke"]){
   await page.getByText(label,{exact:true}).waitFor({state:"attached",timeout:5000});
 }
@@ -601,6 +602,7 @@ if (Number(await page.locator('[data-stat="pvMax"] strong').innerText()) !== cre
 await page.getByRole('button',{name:'Revenir à la progression',exact:true}).click();
 // Campaign corruption spends the same PTV reserve, keeps creation purchases separate and survives Sain.
 const campaignCorruption=page.locator('.campaign-corruption');
+await campaignCorruption.locator(':scope>summary').click();
 await campaignCorruption.getByRole('checkbox',{name:'Autorisation MJ — Corruption & Fléaux',exact:true}).check();
 await campaignCorruption.getByLabel('Choisir la Source dominante').selectOption('vhodhal');
 await campaignCorruption.locator('.capacity-disclosure>summary').filter({hasText:'Don de Faim Smoke'}).click();
@@ -610,8 +612,15 @@ await campaignCorruption.locator('.corruption-owned-row').filter({hasText:'Don d
 await campaignCorruption.locator('.capacity-disclosure>summary').filter({hasText:'Rite Smoke'}).click();
 await campaignCorruption.getByRole('button',{name:'Acquérir Rite Smoke pour 1 PTV',exact:true}).click();
 const campaignObjects=page.locator('.campaign-truth-equipment');
-if(await campaignObjects.locator('.truth-equipment-panel').count())throw new Error('Objets ouverts sans accord MJ');
-await campaignObjects.getByRole('switch').check();
+const objectSection=campaignObjects.locator('details.truth-equipment-panel');
+await objectSection.locator(':scope>summary').click();
+if(await objectSection.getAttribute('open')!==null)throw new Error('Le bloc objets ne se replie pas');
+await objectSection.locator(':scope>summary').click();
+const moneySection=page.locator('details.campaign-money');
+await moneySection.locator(':scope>summary').click();
+if(await moneySection.getAttribute('open')!==null)throw new Error('Le bloc argent ne se replie pas');
+await moneySection.locator(':scope>summary').click();
+if(await campaignObjects.getByRole('switch',{includeHidden:true}).count()!==1)throw new Error('Une seule autorisation MJ attendue pour les objets');
 await campaignObjects.locator('.truth-equipment-catalog>summary').click();
 await campaignObjects.locator('.catalog-help>summary').click();
 await campaignObjects.getByLabel(/Autorisation MJ d’accès exceptionnel aux objets de Vérité/).check();
