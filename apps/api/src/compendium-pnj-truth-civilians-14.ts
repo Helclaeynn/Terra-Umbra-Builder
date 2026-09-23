@@ -1,0 +1,59 @@
+import { applyNamedPnjStatProfile, type StatProfile } from "./compendium-pnj-corporate-stats.js";
+
+type Article={id:string;dataset?:string;audience?:string;sections?:Array<Record<string,any>>;[key:string]:any};
+type Entry=StatProfile & {id:string};
+
+const PROFILES:Entry[]=[
+  {"id":"pnj-loges-mages-nina-le-guellec-03","tier":"haute","shape":"social","skills":["Commerce","Autorité","Diplomatie","Investigation"],"anchor":"Nina Le Guellec est directrice de branche chez Tuatha et possède une couverture française.","talents":["Réseau mobilisable — Tuatha","Dossier préparé — direction"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"pnj-loges-mages-naalnish-09","tier":"haute","shape":"social","skills":["Commerce","Diplomatie","Investigation","Perception"],"anchor":"Naalnish travaille tour à tour avec Raven et Tala ou à son compte selon les contrats.","talents":["Dossier préparé — contrat","Expertise éprouvée — Commerce"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"personnages-verite-especes-anahita","tier":"haute","shape":"terrain","skills":["Investigation","Survie","Mêlée","Perception"],"anchor":"Anna Hita mène une vie de chasseuse sans papiers et accepte des missions illégales de Crawler.","talents":["Dossier préparé — cible","Terrain reconnu — chasse"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"personnages-verite-especes-mithridate","tier":"heroique","shape":"esprit","skills":["Savoirs","Commerce","Investigation","Soin"],"anchor":"Mickael Date est Fixer et Venomer à San Diejuana, exploitant des usines chimiques indépendantes des cartels.","talents":["Dossier préparé — industrie","Expertise éprouvée — Savoirs"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"personnages-verite-especes-ramon-payne","tier":"haute","shape":"esprit","skills":["Investigation","Perception","Tir","Survie"],"anchor":"Ramon Payne est un détective Gunwatcher indépendant spécialisé dans les affaires réputées paranormales.","talents":["Dossier préparé — enquête","Lecture des failles — piste"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"personnages-verite-extraterrestres-murak-maar","tier":"heroique","shape":"terrain","skills":["Investigation","Survie","Tir","Perception"],"anchor":"Murak est chasseur de l'Association doté d'une accréditation étendue aux créatures de Terra Umbra.","talents":["Dossier préparé — cible","Terrain reconnu — chasse"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"personnages-verite-extraterrestres-tejana","tier":"heroique","shape":"terrain","skills":["Pugilat","Mêlée","Esquive","Perception"],"anchor":"Tejana Aguilar est une Crawler reconnue en mercenariat et sports de combat, spécialiste de la lutte sans arme.","talents":["Lutte brève — Pugilat","Désarmement net — Mêlée"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"personnages-verite-chasseurs-xuegang-shi","tier":"heroique","shape":"social","skills":["Autorité","Savoirs","Diplomatie","Investigation"],"anchor":"Xuegang Shi est une figure centrale du Grand Clan et de la famille Shi.","talents":["Réseau mobilisable — clan","Dossier préparé — lignées"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"personnages-verite-chasseurs-gunhild-wollen","tier":"haute","shape":"terrain","skills":["Mêlée","Survie","Perception","Savoirs"],"anchor":"Gunhild est la première Valkyrie d'un ordre de chasseurs associé aux traditions nordiques.","talents":["Terrain reconnu — traque","Expertise éprouvée — Mêlée"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"personnages-verite-chasseurs-v-sin-cynthia-vearn","tier":"haute","shape":"terrain","skills":["Tir","Survie","Pugilat","Perception"],"anchor":"Cynthia Vearn est passée de maisons de correction à l'armée durant la guerre.","talents":["Terrain reconnu — guerre","Expertise éprouvée — Tir"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"personnages-verite-chasseurs-luigi-zarelli","tier":"haute","shape":"terrain","skills":["Tir","Survie","Constitution","Perception"],"anchor":"Ancien mercenaire de 51 ans portant un squelette renforcé et des prothèses de bras.","talents":["Terrain reconnu — contrats","Expertise éprouvée — Tir"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"pnj-141-chamunda-dhavale","tier":"heroique","shape":"social","skills":["Autorité","Investigation","Survie","Savoirs"],"anchor":"Chamunda appartient à un clan familial indien impliqué dans la pègre ; la magie et la lycanthropie relèvent du MJ.","talents":["Dossier préparé — famille","Réseau mobilisable — clan"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"pnj-truth-alexander-shorolth","tier":"heroique","shape":"terrain","skills":["Autorité","Survie","Investigation","Tir"],"anchor":"Alexander Shorolth dirige les équipes de sécurité de Seawares, notamment sous-marines.","talents":["Chef de manœuvre — équipes","Terrain reconnu — fonds marins"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"pnj-truth-andrea-shield","tier":"heroique","shape":"terrain","skills":["Autorité","Tir","Survie","Diplomatie"],"anchor":"Andrea Shield commande un groupe paramilitaire impliqué dans les conflits contre les corporations.","talents":["Chef de manœuvre — paramilitaires","Terrain reconnu — guerre"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"pnj-truth-helmi-liikanen","tier":"heroique","shape":"esprit","skills":["Mécanique","Savoirs","Commerce","Investigation"],"anchor":"Helmi Liikanen travaille comme Crawler Cypper et possède une forte compétence de forge.","talents":["Expertise éprouvée — Mécanique","Dossier préparé — fabrication"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"pnj-truth-jay-bentley","tier":"elite","shape":"terrain","skills":["Tir","Survie","Autorité","Perception"],"anchor":"Jay Bentley sert dans une structure militaire gouvernementale ; aucun fait de guerre civil majeur n'est attesté.","talents":["Terrain reconnu — patrouille","Expertise éprouvée — Tir"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"pnj-139-barret-kelvin","tier":"haute","shape":"esprit","skills":["Investigation","Perception","Furtivité","Commerce"],"anchor":"Barret Kelvin opère en renseignement et en chasse, au contact des Crawlers et de la pègre.","talents":["Dossier préparé — renseignement","Lecture des failles — surveillance"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"pnj-114-maximilian-marshall","tier":"haute","shape":"social","skills":["Commerce","Investigation","Diplomatie","Perception"],"anchor":"Maximilian Marshall est un très riche corporatiste fréquentant les clubs d'affaires privés.","talents":["Dossier préparé — relations","Expertise éprouvée — Commerce"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"pnj-fleaux-focus-maximilian-valentin-von-stroheim-tin-von-stroheim","tier":"haute","shape":"social","skills":["Représentation","Séduction","Commerce","Investigation"],"anchor":"Mannequin et Fixer occasionnel, bien introduit dans la vie nocturne et les projets de mode.","talents":["Expertise éprouvée — Représentation","Dossier préparé — clientèle"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"pnj-fleaux-ryong-myung-sook","tier":"haute","shape":"esprit","skills":["Neurodive","Commerce","Investigation","Séduction"],"anchor":"Propriétaire du cybercafé Goth'n'Gohuls, Hooker et Neurodiver Crawler.","talents":["Expertise éprouvée — Neurodive","Dossier préparé — réseau"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"pnj-fleaux-focus-olla-berwick-099-olla-berwick","tier":"haute","shape":"social","skills":["Commerce","Autorité","Diplomatie","Investigation"],"anchor":"Olla Berwick dirige la branche restauration d'Eversor Corporation.","talents":["Réseau mobilisable — Eversor","Expertise éprouvée — Commerce"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"pnj-fleaux-focus-arthur-savas-085-arthur-savas","tier":"haute","shape":"social","skills":["Savoirs","Diplomatie","Investigation","Perception"],"anchor":"Prêtre grec installé en Californie, passé de l'orthodoxie à l'Église chrétienne réformée.","talents":["Expertise éprouvée — Savoirs","Dossier préparé — paroisse"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"pnj-fleaux-rolf-de-vandrick","tier":"haute","shape":"terrain","skills":["Tir","Survie","Investigation","Perception"],"anchor":"Mercenaire suisse associé à un ordre de chasseurs, sans pouvoir surnaturel déduit de son dossier.","talents":["Terrain reconnu — contrats","Expertise éprouvée — Tir"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+  {"id":"pnj-truth-alayna-daewynn","tier":"heroique","shape":"terrain","skills":["Mêlée","Survie","Perception","Autorité"],"anchor":"Alayna Daewynn protège une parcelle forestière en Californie et agit comme combattante Ender.","talents":["Terrain reconnu — forêt","Désarmement net — Mêlée"],"truth":"La forme révélée et les éventuelles dépenses de PTV restent distinctes de la Réalité."},
+];
+
+export function applyPnjStatBatch14(byId:Map<string,Article>):void {
+  if(PROFILES.length!==24||new Set(PROFILES.map(p=>p.id)).size!==24)throw new Error("PNJ · lot 14 incomplet ou dupliqué");
+  const mageIds=[...byId.values()].filter(article=>article.dataset==="verite-loges-mages-pnj"&&
+    !["pnj-loges-mages-nina-le-guellec-03","pnj-loges-mages-naalnish-09"].includes(article.id));
+  if(mageIds.length!==26)throw new Error("PNJ · coquilles des Mages modifiées dans la source");
+  for(const article of mageIds){
+    if(article.sections?.some(section=>section.audience!=="mj"&&section.blocks?.some((block:Record<string,any>)=>block.type==="p"&&String(block.text??"").trim())))throw new Error(`PNJ · biographie publique de Mage : ${article.id}`);
+    article.audience="mj";
+  }
+  for(const profile of PROFILES){
+    const article=byId.get(profile.id);
+    if(!article)throw new Error(`PNJ · fiche active introuvable : ${profile.id}`);
+    if(profile.id==="pnj-141-chamunda-dhavale")protectChamunda(article);
+    if(!article.sections?.some(section=>section.id==="profil-statistique")){
+      (article.sections??=[]).push({id:"profil-statistique",title:"Profil statistique",audience:"mj",blocks:[]});
+    }
+    applyNamedPnjStatProfile(article,profile);
+  }
+}
+
+function protectChamunda(article:Article):void {
+  const section=article.sections?.find(item=>item.id==="pnj-141-s2");
+  const dossier=article.sections?.find(item=>item.id==="dossier-mj-consolide"&&item.audience==="mj");
+  if(!section||!dossier||section.blocks?.length!==3||!String(section.blocks[1].text).includes("louve-garou"))throw new Error("PNJ · récit de Chamunda modifié");
+  dossier.blocks.push(...section.blocks.slice(1).map((block:Record<string,any>)=>({...block})));
+  section.blocks=section.blocks.slice(0,1);
+}

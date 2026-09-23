@@ -31,12 +31,12 @@ const meetingProfiles = active.filter((person) => person.dataset === "points-ren
 assert.equal(meetingProfiles.length, 24);
 const hunterProfiles = active.filter((person) => person.dataset === "verite-hunters-pnj" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(hunterProfiles.length, 19);
+assert.equal(hunterProfiles.length, 23);
 const speciesRealityProfiles = active.filter((person) =>
   ["verite-species-pnj", "verite-fantastiques-pnj"].includes(person.dataset) &&
   person.id !== "personnages-verite-especes-tokala" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(speciesRealityProfiles.length, 40);
+assert.equal(speciesRealityProfiles.length, 43);
 const angelicRealityProfiles = active.filter((person) =>
   ["verite-angelus-pnj", "verite-humains-galactiques-pnj"].includes(person.dataset) &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
@@ -48,7 +48,16 @@ assert.equal(templeTerrestrialProfiles.length, 32);
 const olderActiveProfiles = active.filter((person) =>
   person.dataset === "pnj" && person.id !== "pnj-148-kai-gehrman" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(olderActiveProfiles.length, 50);
+assert.equal(olderActiveProfiles.length, 58);
+const finalProfiles = active.filter((person) =>
+  ["verite-fleaux-pnj", "verite-loges-mages-pnj"].includes(person.dataset) &&
+  person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
+assert.equal(finalProfiles.length, 7);
+assert.equal(active.filter((person) => person.dataset === "verite-loges-mages-pnj" && person.audience === "mj").length, 26);
+for (const mage of active.filter((person) => person.dataset === "verite-loges-mages-pnj" && person.audience === "mj"))
+  assert.equal(article(mage.id, true), undefined, `${mage.id}: coquille de Mage dans la navigation publique`);
+assert.ok(!JSON.stringify(article("pnj-141-chamunda-dhavale", true)).includes("louve-garou"));
+assert.ok(JSON.stringify(article("pnj-141-chamunda-dhavale")).includes("louve-garou"));
 const exileRealityProfiles = active.filter((person) =>
   ["verite-pelages-pnj", "verite-grands-exiles-pnj", "verite-vampire-courts-pnj", "verite-extrals-groupes-pnj"].includes(person.dataset) &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
@@ -59,7 +68,7 @@ const alienRealityProfiles = active.filter((person) =>
   person.dataset === "verite-extraterrestres-pnj" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
 assert.equal(templeRealityProfiles.length, 45);
-assert.equal(alienRealityProfiles.length, 38);
+assert.equal(alienRealityProfiles.length, 40);
 assert.equal(exileRealityProfiles.length, 121);
 for (const [id, forbidden] of [
   ["personnages-verite-extrals-groupes-axelle-monroy", "ième siège du SMRC"],
@@ -76,7 +85,7 @@ for (const [id, secret, retained] of [
   assert.ok(JSON.stringify(article(id)).toLowerCase().includes(retained), `${id}: information MJ perdue`);
 }
 const civilPrerequisiteFailures = [];
-for (const person of [...religiousCards, ...agencies, ...meetingProfiles, ...hunterProfiles, ...exileRealityProfiles, ...templeRealityProfiles, ...alienRealityProfiles, ...speciesRealityProfiles, ...angelicRealityProfiles, ...templeTerrestrialProfiles, ...olderActiveProfiles]) {
+for (const person of [...religiousCards, ...agencies, ...meetingProfiles, ...hunterProfiles, ...exileRealityProfiles, ...templeRealityProfiles, ...alienRealityProfiles, ...speciesRealityProfiles, ...angelicRealityProfiles, ...templeTerrestrialProfiles, ...olderActiveProfiles, ...finalProfiles]) {
   const blocks = person.sections.at(-1).blocks;
   const ranks = new Map(blocks[2].rows.slice(1,-1).map(([name, value]) => [name, Number(value)]));
   const rank = (name) => ranks.get(name) ?? 0;
