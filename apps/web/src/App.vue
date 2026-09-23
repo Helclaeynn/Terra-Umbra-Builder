@@ -4,6 +4,7 @@ import { RouterLink } from "vue-router";
 import CharactersPanel from "./components/CharactersPanel.vue";
 import "./brand-signal.css";
 import TerraUmbraLockup from "./components/TerraUmbraLockup.vue";
+import TerraUmbraBrand from "./components/TerraUmbraBrand.vue";
 
 type Role = "player" | "gm" | "editor" | "admin";
 
@@ -434,7 +435,7 @@ onMounted(bootstrap);
   <div class="app-shell brand-signal">
     <header class="topbar">
       <RouterLink class="brand brand-lockup-link" to="/">
-        <TerraUmbraLockup compact />
+        <TerraUmbraBrand />
       </RouterLink>
 
       <div class="top-actions">
@@ -642,7 +643,7 @@ onMounted(bootstrap);
 
       <template v-else>
         <section class="welcome dashboard-hero brand-dashboard-hero">
-          <div class="brand-horizon-art" aria-hidden="true"></div>
+          <img class="brand-horizon-art" src="/brand/orbital/orbital-earth.webp" width="1536" height="1024" alt="" decoding="async" />
 
           <div class="brand-masthead brand-masthead-final">
             <TerraUmbraLockup class="brand-masthead-lockup" />

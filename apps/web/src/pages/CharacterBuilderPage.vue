@@ -10,7 +10,7 @@ import TalentSelector, {
 import BuilderWikiLink from "../components/builder/BuilderWikiLink.vue";
 import TruthEquipmentPanel from "../components/builder/TruthEquipmentPanel.vue";
 import CorruptionPanel from "../components/builder/CorruptionPanel.vue";
-import TerraUmbraLockup from "../components/TerraUmbraLockup.vue";
+import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
 import EquipmentStep from "../components/builder/EquipmentStep.vue";
 import FinalizationStep from "../components/builder/FinalizationStep.vue";
 import ProgressionStep from "../components/builder/ProgressionStep.vue";
@@ -170,6 +170,7 @@ const baseline=ref("");
 const activeStep=ref<StepId>(progressionMode?"progression":"identity");
 const knowledgeOpen=ref(false);
 const portraitInput=ref<HTMLInputElement|null>(null);
+const truthConsciousnessInput=ref<HTMLSelectElement|null>(null);
 
 const sections:Array<[StepId,string,boolean]>=progressionMode
   ? [["progression","Progression",true]]
@@ -1434,6 +1435,11 @@ function setTruthConsciousness(id:string){
   writeTruthState(next);
 }
 
+function focusTruthConsciousness(){
+  truthConsciousnessInput.value?.focus();
+  truthConsciousnessInput.value?.scrollIntoView({block:"center"});
+}
+
 function truthConsciousnessHelp(id:string){
   return id==="profane"
     ? "Ignore encore la Vérité ou n’y a pas accès consciemment. Aucun PTV de Vérité ne peut être dépensé tant que le personnage reste Profane."
@@ -1615,7 +1621,7 @@ onBeforeUnmount(()=>{
     <header class="topbar builder-topbar">
       <div class="builder-topbar-start">
         <RouterLink class="brand builder-brand-lockup" to="/">
-          <TerraUmbraLockup compact />
+          <TerraUmbraBrand />
         </RouterLink>
         <a class="builder-compendium-return" href="/compendium" target="_blank" rel="noopener">
           Compendium ↗
@@ -2298,6 +2304,7 @@ onBeforeUnmount(()=>{
                   <span>Conscience</span>
                   <div class="v1-select-shell">
                     <select
+                      ref="truthConsciousnessInput"
                       :value="currentTruthState.consciousness"
                       @change="setTruthConsciousness(($event.target as HTMLSelectElement).value)"
                     >
@@ -2565,6 +2572,7 @@ onBeforeUnmount(()=>{
                 :integrity="derivedStats.integrity"
                 :ptv-remaining="truthPtvRemaining"
                 @update:model-value="writeTruthState($event)"
+                @request-initiation="focusTruthConsciousness"
               />
 
               <div class="rule-note" :class="{ bad: !stepDone('truth') }">

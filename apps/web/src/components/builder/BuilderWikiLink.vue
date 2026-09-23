@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { api } from "../../lib/api";
+import { compendiumHref } from "../../lib/compendium-navigation";
 
 type SearchItem={
   id:string;
@@ -19,12 +20,14 @@ const props=withDefaults(defineProps<{
   label:string;
   category?:string;
   articleId?:string;
+  sectionId?:string;
   compact?:boolean;
   detail?:string;
   badges?:string[];
 }>(),{
   category:"",
   articleId:"",
+  sectionId:"",
   compact:false,
   detail:"",
   badges:()=>[]
@@ -138,7 +141,8 @@ async function togglePreview(){
 }
 
 const href=computed(()=>{
-  if(resolved.value?.id)return `/compendium?article=${encodeURIComponent(resolved.value.id)}`;
+  const id=props.articleId || resolved.value?.id;
+  if(id)return compendiumHref(id,props.sectionId);
   const params=new URLSearchParams({q:props.label});
   if(props.category)params.set("category",props.category);
   return `/compendium?${params.toString()}`;

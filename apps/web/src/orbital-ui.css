@@ -1,0 +1,17 @@
+/* Shared orbital identity. Page-specific layouts remain in their components. */
+:root{color-scheme:dark;--tu-bg:#050a12;--tu-surface:rgba(10,18,30,.94);--tu-surface-strong:#0a121e;--tu-border:#203247;--tu-gold:#64def5;--tu-gold-strong:#399fea;--tu-text:#edf4ff;--tu-muted:#a1b5cc}
+body{background:radial-gradient(ellipse at 90% 15%,#14162b66,transparent 60%),#050a12}
+:where(button,a,input,select,textarea,summary):focus-visible{outline:2px solid #64def5;outline-offset:4px}
+button,a{touch-action:manipulation}
+.brand-signal{--usb-void:#050a12;--usb-surface:#0a121e;--usb-line:#203247;--usb-cyan:#64def5;--usb-violet:#b79aff;--usb-muted:#a1b5cc}
+.brand-signal .brand-lockup-link{min-width:0}
+.brand-signal .brand-dashboard-hero>img.brand-horizon-art{inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:center 47%;border:0;border-radius:0;opacity:.62;box-shadow:none;mask-image:linear-gradient(90deg,transparent 10%,#000 85%)}
+.brand-signal .brand-masthead{z-index:1}
+.brand-signal .brand-tagline{color:#c0d7ec}
+.brand-signal .topbar{min-height:80px}
+.builder-v2-shell .builder-brand-lockup{padding:0}
+.builder-v2-shell .builder-topbar{border-bottom:1px solid #203247;background:rgba(5,10,18,.97);flex-wrap:wrap}
+.builder-v2-shell .builder-topbar .top-actions{flex-wrap:wrap}
+.builder-v2-shell :is(.builder-card,.builder-sidebar){border-color:#203247;border-radius:8px}
+.builder-v2-shell :is(.step-title h1,.step-title h2,.subsection-title h3){font-family:Inter,"Segoe UI",sans-serif;letter-spacing:-.025em}
+@media(max-width:650px){.brand-signal .topbar{padding:10px 14px;flex-wrap:wrap}.brand-signal .top-actions{flex-wrap:wrap;gap:8px}.builder-v2-shell .builder-topbar-start{gap:8px}.builder-v2-shell .builder-compendium-return{font-size:11px;padding-left:8px}}

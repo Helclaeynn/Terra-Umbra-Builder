@@ -1,6 +1,7 @@
 import { createApp, h, Transition } from "vue";
 import { createRouter, createWebHistory, RouterView } from "vue-router";
 import "./style.css";
+import "./orbital-ui.css";
 
 const router=createRouter({
   history:createWebHistory(),
