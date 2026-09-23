@@ -178,6 +178,7 @@ jobs:
 
           TUC_V2_SMOKE_BASE_URL='http://127.0.0.1:4173' CHROME_BIN="$CHROME_BIN" node tests/builder-v2-smoke.mjs
           TUC_V2_SMOKE_BASE_URL='http://127.0.0.1:4173' CHROME_BIN="$CHROME_BIN" node tests/orbital-ui-smoke.mjs
+          TUC_V2_SMOKE_BASE_URL='http://127.0.0.1:4173' CHROME_BIN="$CHROME_BIN" node tests/campaigns-smoke.mjs
 
       - name: Validate Compose
         working-directory: infrastructure

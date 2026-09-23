@@ -1,3 +1,4 @@
+import { registerCampaignRoutes } from "./campaigns.js";
 import type { FastifyInstance, FastifyReply } from "fastify";
 import { registerCharacterHistoryRoutes } from "./character-history.js";
 import { pool } from "./db.js";
@@ -79,6 +80,7 @@ async function insertCharacter(
 }
 
 export async function registerCharacterRoutes(app: FastifyInstance) {
+  await registerCampaignRoutes(app);
   await registerCharacterHistoryRoutes(app);
   await registerCharacterSheetRoutes(app);
   await registerCharacterJournalRoutes(app);

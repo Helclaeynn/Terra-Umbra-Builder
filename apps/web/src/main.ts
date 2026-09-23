@@ -12,6 +12,8 @@ const router=createRouter({
   },
   routes:[
     { path:"/", component:()=>import("./pages/CompendiumPage.vue") },
+    { path:"/campaigns", component:()=>import("./pages/CampaignsPage.vue") },
+    { path:"/campaigns/:id", component:()=>import("./pages/CampaignsPage.vue") },
     { path:"/account", component:()=>import("./App.vue") },
     { path:"/characters/:id/history", component:()=>import("./pages/CharacterHistoryPage.vue") },
     { path:"/characters/:id/journal", component:()=>import("./pages/CharacterJournalPage.vue") },

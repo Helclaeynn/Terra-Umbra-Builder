@@ -79,6 +79,7 @@ app.addHook("onSend", async (request, reply, payload) => {
     request.url.startsWith("/api/auth/") ||
     request.url.startsWith("/api/admin/") ||
     request.url.startsWith("/api/characters") ||
+    request.url.startsWith("/api/campaigns") ||
     privateCompendium
   ) {
     reply.header("Cache-Control", "no-store, private");
