@@ -21,7 +21,8 @@ on:
 
 concurrency:
   group: tuc-v2-dev
-  cancel-in-progress: true
+  # Finish deployment and live checks before starting the latest pending revision.
+  cancel-in-progress: false
 
 permissions:
   contents: read
