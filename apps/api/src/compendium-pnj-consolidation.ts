@@ -138,11 +138,15 @@ function consolidateRealityIdentity(article: Article, sections: Section[]): Sect
   }
   if (!identityTables.length) return retained;
   const fields = new Map<string, string[]>();
+  const civilNames = [article.title, article.pnj?.real_name]
+    .map((name) => String(name ?? "").trim().toLocaleLowerCase("fr"))
+    .filter(Boolean);
   for (const { rows } of identityTables) {
     for (const row of rows.slice(1)) {
       const key = identityLabel(row[0]);
       const value = String(row[1] ?? "").trim();
-      if ([...protectedNames].some((name) => value.toLocaleLowerCase("fr").includes(name.toLocaleLowerCase("fr")))) {
+      const isPublicCivilName = key === "Nom" && civilNames.includes(value.toLocaleLowerCase("fr"));
+      if (!isPublicCivilName && [...protectedNames].some((name) => value.toLocaleLowerCase("fr").includes(name.toLocaleLowerCase("fr")))) {
         article.__realityIdentityConflicts = distinct([...(article.__realityIdentityConflicts ?? []), "Identité protégée"]);
         continue;
       }
@@ -164,6 +168,70 @@ function consolidateRealityIdentity(article: Article, sections: Section[]): Sect
       [field, (fields.get(field) ?? []).join(" / ")])] }]
   };
   return [card, ...retained.filter((section) => section.blocks?.length)];
+}
+
+// Decisions on equivalent public labels in individual dossiers. Conflicting
+// nationalities, organisations and secret identities remain untouched.
+function tidyReviewedRealityIdentity(article: Article): void {
+  const card = article.sections?.find((section) => section.id === "identite-realite-consolidee");
+  const rows = card?.blocks?.find((block: Record<string, any>) => block.type === "table")?.rows as string[][] | undefined;
+  if (!rows) return;
+  const choices: Record<string, Record<string, [string, string]>> = {
+    "personnages-verite-humains-galactiques-alladava-kjoll": {
+      "Fonction / statut": ["Vice-Présidente / Vice-présidente de corporation", "Vice-présidente de Space Force Union"]
+    },
+    "personnages-verite-especes-elizabeth-mircalla-karnstein": {
+      Affiliations: ["meditech / Meditechs / crawlers : meditech", "Crawlers : Meditech"],
+      Nationalité: ["Autriche (Styrie) / Autrichienne", "Autrichienne (Styrie)"]
+    },
+    "pnj-pegre-fuyumi-shinoda": { Nationalité: ["Japon / Japonaise", "Japonaise"] },
+    "personnages-verite-especes-az-la-faucheuse-noire": {
+      Nom: ["La Faucheuse noire (Az) / Az", "La Faucheuse noire (Az)"]
+    },
+    "personnages-verite-especes-liliana-shera": {
+      Nom: ["Liliana Shera / « lili Divine » - Liliana SHERA", "Liliana Shera"],
+      "Fonction / statut": ["Présidente / présidente de corporation", "Présidente de Redwheels"]
+    },
+    "personnages-verite-especes-neeba-ngubenani": {
+      Affiliations: ["Corporation : First Lawyers Inc. / Corporatiste", "Corporation : First Lawyers Inc."]
+    },
+    "pnj-police-ryan-rowe": {
+      Alias: ["THE RAISER / Un chef de l’insurrection. / The Raiser : Ryan Rowe", "The Raiser"]
+    },
+    "personnages-verite-humains-galactiques-saskia": {
+      "Fonction / statut": ["Présidente / présidente de corporation", "Présidente d’Eversor"]
+    },
+    "personnages-verite-pelages-shingen-inukawa": {
+      Nom: ["Shingen Inukawa / Inukawa Shingen", "Shingen Inukawa"],
+      Affiliations: ["mafias : yakuzas / mafias", "Mafia : yakuzas"]
+    },
+    "personnages-verite-fantastiques-silia-ellen-sky": {
+      Nom: ["Silia Ellen Sky / Silia-Ellen SKY", "Silia Ellen Sky"],
+      "Fonction / statut": ["Présidente / présidente de corporation", "Présidente de Seawares"]
+    }
+  };
+  const resolved: string[] = [];
+  for (const [field, [expected, value]] of Object.entries(choices[article.id] ?? {})) {
+    const row = rows.find(([label]) => label === field);
+    if (!row || row[1] !== expected) throw new Error(`PNJ · valeur de Réalité modifiée : ${article.id} / ${field}`);
+    row[1] = value;
+    resolved.push(field);
+  }
+  if (["pnj-124-ciliren-faelen-flamy", "personnages-verite-vampires-p31-kanika-onyesha"].includes(article.id)) {
+    if (rows.some(([label]) => label === "Nom")) throw new Error(`PNJ · nom déjà présent : ${article.id}`);
+    const name = String(article.title ?? "").trim();
+    if (!name) throw new Error(`PNJ · nom public absent : ${article.id}`);
+    rows.splice(1, 0, ["Nom", name]);
+    article.realityName = name;
+    if (article.id === "pnj-124-ciliren-faelen-flamy") resolved.push("Identité protégée");
+  }
+  // "Baron moteur" was correctly withheld; Zaketa Harris is already the
+  // public civilian name. No editorial decision is required for that alert.
+  if (article.id === "pnj-crawlers-antisysteme-p48-zaketa-harris") resolved.push("Identité protégée");
+  if (Array.isArray(article.__realityIdentityConflicts)) {
+    article.__realityIdentityConflicts = article.__realityIdentityConflicts.filter((field: string) => !resolved.includes(field));
+    if (!article.__realityIdentityConflicts.length) delete article.__realityIdentityConflicts;
+  }
 }
 
 function publicIdentityRows(article: Article): { name: string; affiliations: string[] } {
@@ -287,5 +355,6 @@ export function consolidateActivePnjSections(byId: Map<string, Article>): void {
     const statistics = combineSections(statisticSections, "profil-statistique", "Profil statistique");
     article.sections = [...consolidateRealityIdentity(article, publicSections),
       ...(dossier ? [dossier] : []), ...(statistics ? [statistics] : [])];
+    tidyReviewedRealityIdentity(article);
   }
 }

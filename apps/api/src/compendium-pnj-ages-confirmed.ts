@@ -22,13 +22,21 @@ export function applyConfirmedPnjRealityAges(byId: Map<string, Article>): void {
     if (!article) throw new Error(`PNJ · âge confirmé, fiche absente : ${id}`);
     let changed = false;
     for (const section of article.sections ?? []) {
-      if (section.audience === "mj") continue;
       for (const block of section.blocks ?? []) {
         if (block.type !== "table" || !Array.isArray(block.rows)) continue;
         for (const row of block.rows) {
-          if (!Array.isArray(row) || !/^âge(?: apparent)?$/i.test(String(row[0] ?? "").trim())) continue;
-          row[1] = `${age} ans`;
-          changed = true;
+          if (!Array.isArray(row)) continue;
+          const label = String(row[0] ?? "").trim();
+          if (section.audience === "mj") {
+            // Keep the age of Vérité after the separator; correct only the
+            // apparent civilian age reproduced in the source MJ.
+            if (/^âge\b/i.test(label) && !/^âge réel\b/i.test(label)) {
+              row[1] = String(row[1] ?? "").replace(/\b\d{1,3}\s*ans\b/i, `${age} ans`);
+            }
+          } else if (/^âge(?: apparent)?$/i.test(label)) {
+            row[1] = `${age} ans`;
+            changed = true;
+          }
         }
       }
     }

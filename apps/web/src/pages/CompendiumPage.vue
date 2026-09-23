@@ -1531,9 +1531,15 @@ function blockText(block: ArticleBlock): string {
   return "";
 }
 
-function tableRows(block: ArticleBlock): unknown[][] {
+function tableRows(block: ArticleBlock, section?: ArticleSection): unknown[][] {
   if (block && block.type === "table" && "rows" in block && Array.isArray(block.rows)) {
-    return block.rows;
+    const rows = block.rows;
+    if (
+      (section?.id === "identite-realite-consolidee" || section?.id === "identite-realite-restauree") &&
+      String(rows[0]?.[0] ?? "").trim().toLowerCase() === "champ" &&
+      String(rows[0]?.[1] ?? "").trim().toLowerCase() === "valeur"
+    ) return rows.slice(1);
+    return rows;
   }
   return [];
 }
@@ -2168,7 +2174,7 @@ onBeforeUnmount(() => {
                           <div v-else-if="block.type === 'table'" class="article-table-wrap">
                             <table class="article-table">
                               <tbody>
-                                <tr v-for="(row, rowIndex) in tableRows(block)" :key="rowIndex">
+                                <tr v-for="(row, rowIndex) in tableRows(block, section)" :key="rowIndex">
                                   <td v-for="(cell, cellIndex) in row" :key="cellIndex">
                                     <span v-html="linkifyText(formatCell(cell), selected)"></span>
                                   </td>
@@ -2218,7 +2224,7 @@ onBeforeUnmount(() => {
                         <div v-else-if="block.type === 'table'" class="article-table-wrap">
                           <table class="article-table">
                             <tbody>
-                              <tr v-for="(row, rowIndex) in tableRows(block)" :key="rowIndex">
+                              <tr v-for="(row, rowIndex) in tableRows(block, section)" :key="rowIndex">
                                 <td v-for="(cell, cellIndex) in row" :key="cellIndex">
                                   <span v-html="linkifyText(formatCell(cell), selected)"></span>
                                 </td>
