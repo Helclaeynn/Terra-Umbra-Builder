@@ -136,6 +136,7 @@ onUnmounted(()=>{++generation;controller?.abort();resetSearch();window.removeEve
       <p v-if="loading" role="status">Chargement de la fiche actuelle…</p>
       <div v-else-if="error" class="panel" role="alert"><p>{{ error }}</p><RouterLink v-if="needsLogin" class="primary" :to="loginLink">Se connecter</RouterLink><button v-else class="ghost" @click="load">Réessayer</button></div>
       <template v-else-if="sheet">
+        <p v-if="character?.campaignId" class="sheet-version">Version de campagne · <RouterLink :to="`/campaigns/${character.campaignId}`">{{ character.campaignName }}</RouterLink> · Progression indépendante</p>
         <p class="sheet-version">{{ owner ? 'Ta fiche sauvegardée' : `Partagée par ${ownerName}` }} · Mise à jour le {{ updated }} · v{{ character?.version }}</p>
         <nav class="sheet-jumps" @click="jump" aria-label="Sections de la fiche"><a href="#sheet-main">Vue d’ensemble</a><a href="#sheet-skills">Compétences</a><a href="#sheet-reality">Talents</a><a href="#sheet-truth">Vérité</a><a href="#sheet-inventory">Équipement</a></nav>
         <CharacterSummary :sheet="sheet" />

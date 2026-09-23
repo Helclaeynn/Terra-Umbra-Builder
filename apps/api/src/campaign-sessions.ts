@@ -68,10 +68,12 @@ export async function registerCampaignSessionRoutes(app:FastifyInstance){
       if(!session.rows.length)return await denied(404,'session_not_found');
       if(session.rows[0].status!=='played')return await denied(400,'session_not_played');
       // Lock memberships against withdrawal and characters against concurrent saves.
-      const members=await client.query(`SELECT m.user_id,m.character_id FROM campaign_members m WHERE m.campaign_id=$1 AND m.status='accepted' AND m.character_id=ANY($2::uuid[]) ORDER BY m.user_id FOR SHARE`,[req.params.id,ids]);
+      const members=await client.query(`SELECT m.user_id,m.character_id FROM campaign_members m JOIN characters ch ON ch.id=m.character_id AND ch.campaign_id=m.campaign_id WHERE m.campaign_id=$1 AND m.status='accepted' AND m.admission_status='approved' AND m.approved_basis=campaign_character_basis(ch.data) AND m.character_id=ANY($2::uuid[]) ORDER BY m.user_id FOR SHARE OF m`,[req.params.id,ids]);
       if(members.rows.length!==ids.length)return await denied(409,'reward_recipient_unavailable');
       const chars=await client.query('SELECT id,owner_id,name,data,version FROM characters WHERE id=ANY($1::uuid[]) AND archived_at IS NULL ORDER BY id FOR UPDATE',[ids]);
       if(chars.rows.length!==ids.length||chars.rows.some(c=>!members.rows.some(m=>m.character_id===c.id&&m.user_id===c.owner_id)))return await denied(409,'reward_recipient_unavailable');
+      const stillApproved=await client.query(`SELECT count(*)::int AS count FROM campaign_members m JOIN characters ch ON ch.id=m.character_id WHERE m.campaign_id=$1 AND ch.id=ANY($2::uuid[]) AND m.admission_status='approved' AND m.approved_basis=campaign_character_basis(ch.data)`,[req.params.id,ids]);
+      if(stillApproved.rows[0].count!==ids.length)return await denied(409,'reward_recipient_unavailable');
       const previous=await client.query('SELECT character_id FROM campaign_session_rewards WHERE session_id=$1 AND character_id=ANY($2::uuid[])',[req.params.sessionId,ids]);
       if(previous.rows.length)return await denied(409,'rewards_already_applied');
       for(const c of chars.rows){

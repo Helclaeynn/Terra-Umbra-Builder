@@ -11,7 +11,7 @@ export async function registerCampaignEffectRoutes(app:FastifyInstance){
   if(!gm(user.role)||!uuid.test(req.params.id))return reply.code(404).send({error:'campaign_not_found'});
   const own=await pool.query('SELECT id FROM campaigns WHERE id=$1 AND owner_id=$2 AND archived_at IS NULL',[req.params.id,user.id]);
   if(!own.rows.length)return reply.code(404).send({error:'campaign_not_found'});
-  const r=await pool.query(`SELECT ch.id,ch.name,ch.version,ch.data FROM campaign_members m JOIN characters ch ON ch.id=m.character_id AND ch.owner_id=m.user_id WHERE m.campaign_id=$1 AND m.status='accepted' AND ch.archived_at IS NULL ORDER BY ch.name,ch.id`,[req.params.id]);
+  const r=await pool.query(`SELECT ch.id,ch.name,ch.version,ch.data FROM campaign_members m JOIN characters ch ON ch.id=m.character_id AND ch.owner_id=m.user_id WHERE m.campaign_id=$1 AND m.status='accepted' AND ch.campaign_id=m.campaign_id AND m.admission_status='approved' AND m.approved_basis=campaign_character_basis(ch.data) AND ch.archived_at IS NULL ORDER BY ch.name,ch.id`,[req.params.id]);
   return {characters:r.rows.map(c=>{try{return {id:c.id,name:c.name,version:c.version,...campaignCharacterState(c.data)};}catch{return {id:c.id,name:c.name,unavailable:true};}}),sources:corruptionSources};
  });
  app.post<{Params:{id:string;sessionId:string};Body:{requestId:string;characterId:string;version:number;money:number;corruptionDelta:number;corruptionSource:string;reason:string}}>('/api/campaigns/:id/sessions/:sessionId/effects',async(req,reply)=>{
@@ -28,7 +28,7 @@ export async function registerCampaignEffectRoutes(app:FastifyInstance){
    const session=await client.query('SELECT id,title,status FROM campaign_sessions WHERE id=$1 AND campaign_id=$2 FOR UPDATE',[req.params.sessionId,req.params.id]);
    if(!session.rows.length)return await deny(404,'session_not_found');
    if(session.rows[0].status!=='played')return await deny(400,'session_not_played');
-   const member=await client.query("SELECT user_id FROM campaign_members WHERE campaign_id=$1 AND character_id=$2 AND status='accepted' FOR SHARE",[req.params.id,b.characterId]);
+   const member=await client.query("SELECT m.user_id FROM campaign_members m JOIN characters ch ON ch.id=m.character_id AND ch.campaign_id=m.campaign_id WHERE m.campaign_id=$1 AND m.character_id=$2 AND m.status='accepted' AND m.admission_status='approved' AND m.approved_basis=campaign_character_basis(ch.data) FOR SHARE OF m",[req.params.id,b.characterId]);
    if(!member.rows.length)return await deny(409,'reward_recipient_unavailable');
    const chars=await client.query('SELECT id,name,data,version FROM characters WHERE id=$1 AND owner_id=$2 AND archived_at IS NULL FOR UPDATE',[b.characterId,member.rows[0].user_id]);
    if(!chars.rows.length)return await deny(409,'reward_recipient_unavailable');
@@ -38,6 +38,8 @@ export async function registerCampaignEffectRoutes(app:FastifyInstance){
     if(e.session_id!==req.params.sessionId||e.character_id!==b.characterId||Number(e.money)!==b.money||e.corruption_delta!==b.corruptionDelta||e.corruption_source!==b.corruptionSource||e.reason!==b.reason.trim())return await deny(409,'effect_request_conflict');
     await client.query('COMMIT');return {ok:true,alreadyApplied:true};
    }
+   const approval=await client.query(`SELECT 1 FROM campaign_members m JOIN characters ch ON ch.id=m.character_id WHERE m.campaign_id=$1 AND ch.id=$2 AND m.admission_status='approved' AND m.approved_basis=campaign_character_basis(ch.data)`,[req.params.id,b.characterId]);
+   if(!approval.rows.length)return await deny(409,'reward_recipient_unavailable');
    const c=chars.rows[0];if(c.version!==b.version)return await deny(409,'effect_version_conflict');
    const before=campaignCharacterState(c.data);
    if(b.corruptionDelta>0&&before.corruption+b.corruptionDelta>before.integrity)return await deny(400,'corruption_limit');

@@ -33,6 +33,7 @@ onUnmounted(()=>{seq++;});
   <form v-if="open&&canManage" class="effect-form" @submit.prevent="apply">
    <h3>Effet individuel de séance</h3><p>L’argent et la corruption sont indépendants des récompenses XP/PTV. Chaque application laisse une trace.</p>
    <p v-if="loading" role="status">Chargement des fiches…</p>
+   <p v-if="!loading&&!targets.length">Aucune fiche acceptée disponible. Valide d’abord les admissions des personnages.</p>
    <fieldset :disabled="busy||loading"><legend>Personnage et conséquences</legend>
     <label>Personnage concerné<select v-model="selected" aria-label="Personnage concerné"><option value="">Choisir une fiche</option><option v-for="t in targets" :key="t.id" :value="t.id" :disabled="t.unavailable">{{ t.name }}{{ t.unavailable?' · Données à vérifier':'' }}</option></select></label>
     <div v-if="target&&!target.unavailable" class="fields"><label>Argent à verser ($)<input v-model.number="money" type="number" min="0" max="1000000000" step="1" required /></label><label>Points de corruption à ajouter<input v-model.number="delta" type="number" min="0" :max="remaining" step="1" required /></label></div>

@@ -1626,7 +1626,7 @@ onBeforeUnmount(()=>{
           </div>
           <div>
             <p class="eyebrow">{{ progressionMode ? "SUIVI PERSONNAGE" : "PERSONNAGE" }}</p>
-            <h1>{{ identityDisplayName || character.name }}</h1>
+            <h1>{{ identityDisplayName || character.name }}</h1><p v-if="character.campaignName" class="builder-campaign-context">Campagne · {{ character.campaignName }} — cette version progresse indépendamment des autres campagnes.</p>
             <small>
               {{ originNameValue || "Origine à choisir" }} · {{ sphereNameValue || "Sphère à choisir" }}
             </small>

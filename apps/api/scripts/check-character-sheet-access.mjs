@@ -172,7 +172,23 @@ try {
   const oc=(await call(other,'POST','/api/characters',{name:'CI autre joueur'},201)).character;
   await call(gm,'GET',`/api/characters/${pc.id}/sheet`,undefined,404);
   await call(player,'PUT',url+'/membership',{characterId:oc.id},404);
-  await call(player,'PUT',url+'/membership',{characterId:pc.id});
+  const originalPc=pc.id;
+  const attached=(await call(player,'PUT',url+'/membership',{characterId:pc.id})).character;
+  assert.notEqual(attached.id,originalPc);pc.id=attached.id;
+  await call(gm,'GET',`/api/characters/${originalPc}/sheet`,undefined,404);
+  const admission=async(campaignUrl,manager,decision='approved',message='')=>{
+    const r=(await call(manager,'GET',campaignUrl+'/admissions')).admissions.find(r=>r.userId===player.id);
+    await call(manager,'PATCH',campaignUrl+'/admissions/'+player.id,{status:decision,message,version:r.version,characterId:r.characterId,characterVersion:r.characterVersion});
+  };
+  let proposal=(await call(gm,'GET',url+'/admissions')).admissions[0];assert.equal(proposal.status,'pending');
+  assert.equal((await call(gm,'GET',url+'/effect-targets')).characters.length,0,'Pending sheets receive no effects');
+  await call(player,'PATCH',url+'/admissions/'+player.id,{status:'approved',message:'',version:proposal.version,characterId:pc.id,characterVersion:1},404);
+  await call(stranger,'GET',url+'/admissions',undefined,404);
+  await admission(url,gm,'changes_requested','Seulement des Crawlers à cette table.');
+  assert.equal((await call(player,'GET',url+'/admissions')).admissions[0].status,'changes_requested');
+  const resubmitted=(await call(player,'PUT',url+'/membership',{characterId:pc.id,message:'Version corrigée'})).character;assert.equal(resubmitted.id,pc.id,'Resubmit edits the same campaign copy');
+  await admission(url,gm);
+
   assert.equal((await call(gm,'GET',`/api/characters/${pc.id}/sheet`)).canEdit,false);
   await call(gm,'GET',`/api/characters/${pc.id}/journal`,undefined,404);
   await call(gm,'GET',`/api/characters/${pc.id}/history`,undefined,404);
@@ -188,6 +204,7 @@ try {
   await call(player,'PUT',url+'/membership',{characterId:null});
   await call(gm,'GET',`/api/characters/${pc.id}/sheet`,undefined,404);
   await call(player,'PUT',url+'/membership',{characterId:pc.id});
+  await admission(url,gm);
   // Sessions: preparation never leaves the GM API, publication and rewards are explicit.
   const sb={scenes:[{id:'scene-1',title:'PRIVATE SCENE',notes:'SECRET SCENE',done:false,references:[{articleId:'pnj-test',title:'PRIVATE NPC',category:'Personnages',quantity:2,notes:'SECRET REF'}]}],title:'CI séance',playedOn:'2026-09-23',status:'planned',preparation:'SECRET PREPARATION',report:'SECRET DRAFT',published:false};
   for(const who of [null,player,stranger,admin])await call(who,'POST',url+'/sessions',sb,who?404:401);
@@ -251,6 +268,32 @@ try {
   const mine=(await call(player,'GET',url+'/sessions')).sessions.find(s=>s.id===ss.id);assert.equal(mine.effects.length,2);assert.equal('scenes' in mine,false);
   assert.equal((await call(other,'GET',url+'/sessions')).sessions.find(s=>s.id===ss.id).effects.length,0);
   const effectHistory=(await call(player,'GET',`/api/characters/${pc.id}/history`)).revisions[0];assert.equal(effectHistory.reason,'campaign-effect:CI séance');assert.equal(effectHistory.snapshot.progression.cashTransactions.length,2);
+  // The same source in two campaigns never shares gains, and carried-over gains need approval.
+  const secondCampaign=(await call(stranger,'POST','/api/campaigns',{name:'CI deuxième campagne'},201)).campaign;
+  const secondUrl='/api/campaigns/'+secondCampaign.id;
+  await call(stranger,'POST',secondUrl+'/invitations',{userId:player.id},201);
+  const secondCopy=(await call(player,'PUT',secondUrl+'/membership',{characterId:originalPc})).character;
+  assert.notEqual(secondCopy.id,pc.id);await admission(secondUrl,stranger);
+  const secondSession=(await call(stranger,'POST',secondUrl+'/sessions',{...sb,status:'played'},201)).session;
+  await call(stranger,'POST',secondUrl+'/sessions/'+secondSession.id+'/rewards',{characterIds:[secondCopy.id],xp:11,ptv:0});
+  assert.equal((await call(player,'GET',`/api/characters/${secondCopy.id}`)).character.data.progression.xpEarned,11);
+  assert.equal((await call(player,'GET',`/api/characters/${pc.id}`)).character.data.progression.xpEarned,7);
+  assert.equal((await call(player,'GET',`/api/characters/${originalPc}`)).character.data.progression.xpEarned,0);
+  await call(gm,'GET',`/api/characters/${secondCopy.id}/sheet`,undefined,404);
+  await call(stranger,'GET',`/api/characters/${pc.id}/sheet`,undefined,404);
+  const importedCopy=(await call(player,'PUT',secondUrl+'/membership',{characterId:pc.id})).character;
+  const importedProposal=(await call(stranger,'GET',secondUrl+'/admissions')).admissions[0];assert.equal(importedProposal.status,'pending');assert.equal(importedProposal.baseline.progression.xpEarned,7);assert.equal(importedProposal.data.progression.cashTransactions.length,2);
+  await call(stranger,'POST',secondUrl+'/sessions/'+secondSession.id+'/rewards',{characterIds:[importedCopy.id],xp:1,ptv:0},409);
+  const approvedBefore=(await call(gm,'GET',url+'/admissions')).admissions.find(r=>r.userId===player.id);
+  const editCopy=(await call(player,'GET',`/api/characters/${pc.id}`)).character;editCopy.data.creation.origin='crawler';
+  await call(player,'PATCH',`/api/characters/${pc.id}`,{version:editCopy.version,data:editCopy.data});
+  assert.equal((await call(gm,'GET',url+'/admissions')).admissions.find(r=>r.userId===player.id).status,'pending');
+  await call(gm,'PATCH',url+'/admissions/'+player.id,{status:'approved',message:'',version:approvedBefore.version,characterId:pc.id,characterVersion:approvedBefore.characterVersion},409);
+  assert.equal((await call(gm,'GET',url+'/effect-targets')).characters.length,0,'Creation edits require renewed approval');
+  await admission(url,gm);
+  const normal=(await call(player,'GET',`/api/characters/${pc.id}`)).character;normal.data.progression.skillRanks={humanite:1};
+  await call(player,'PATCH',`/api/characters/${pc.id}`,{version:normal.version,data:normal.data});
+  assert.equal((await call(gm,'GET',url+'/admissions')).admissions.find(r=>r.userId===player.id).status,'approved','Normal progression needs no new admission');
   await call(gm,'PATCH',url,{name:'CI campagne',description:'',gmNotes:'SECRET MJ',archived:true,version:2});
   await call(gm,'GET',url+'/effect-targets',undefined,404);
   await call(gm,'POST',su+'/effects',{...effect,requestId:randomUUID()},404);

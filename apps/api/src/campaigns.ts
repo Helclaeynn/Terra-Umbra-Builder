@@ -1,3 +1,4 @@
+import {registerCampaignAdmissionRoutes} from './campaign-admissions.js';
 import {registerCampaignEffectRoutes} from './campaign-effects.js';
 import {registerCampaignSessionRoutes} from "./campaign-sessions.js";
 import type { FastifyInstance } from 'fastify';
@@ -7,11 +8,12 @@ import { requireUser } from './auth.js';
 const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const gm=(role:string)=>['gm','editor','admin'].includes(role);
 const missing={error:'campaign_not_found'};
-const fields=`c.id,c.name,c.description,c.version,c.archived_at::text AS "archivedAt",c.owner_id AS "ownerId",u.display_name AS "gmName",c.updated_at::text AS "updatedAt"`;
+const fields=`c.id,c.name,c.description,c.admission_rules AS "admissionRules",c.version,c.archived_at::text AS "archivedAt",c.owner_id AS "ownerId",u.display_name AS "gmName",c.updated_at::text AS "updatedAt"`;
 const validText=(v:unknown,max:number,min=0)=>typeof v==='string'&&v.trim().length>=min&&v.trim().length<=max;
 // Every campaign query rechecks the owner's current eligibility, including after demotion.
 const eligible=`u.is_active AND u.role IN ('gm','editor','admin')`;
 export async function registerCampaignRoutes(app:FastifyInstance){
+  await registerCampaignAdmissionRoutes(app);
   await registerCampaignSessionRoutes(app);
   await registerCampaignEffectRoutes(app);
   app.get('/api/campaigns',async(req,reply)=>{
@@ -40,20 +42,20 @@ export async function registerCampaignRoutes(app:FastifyInstance){
     if(!campaign.canManage)delete campaign.gmNotes;
     // Invitees only receive the campaign invitation, not the roster.
     const members=campaign.canManage||campaign.membershipStatus==='accepted'?await pool.query(`SELECT m.user_id AS "userId",u.display_name AS "displayName",m.status,
-      c.id AS "characterId",c.name AS "characterName",c.updated_at::text AS "updatedAt",
+      CASE WHEN m.admission_status='approved' AND m.approved_basis IS DISTINCT FROM campaign_character_basis(c.data) THEN 'pending' ELSE m.admission_status END AS "admissionStatus",c.id AS "characterId",c.name AS "characterName",c.updated_at::text AS "updatedAt",
       (m.user_id=$2 OR $3) AND c.id IS NOT NULL AS "canReadSheet"
       FROM campaign_members m JOIN users u ON u.id=m.user_id
       LEFT JOIN characters c ON c.id=m.character_id AND c.owner_id=m.user_id AND c.archived_at IS NULL
       WHERE m.campaign_id=$1 ORDER BY m.status,lower(u.display_name),m.user_id`,[req.params.id,user.id,campaign.canManage&&!campaign.archivedAt]):{rows:[]};
     return {campaign,members:members.rows,userId:user.id};
   });
-  app.patch<{Params:{id:string};Body:{name?:unknown;description?:unknown;gmNotes?:unknown;archived?:unknown;version?:unknown}}>('/api/campaigns/:id',async(req,reply)=>{
+  app.patch<{Params:{id:string};Body:{name?:unknown;description?:unknown;gmNotes?:unknown;admissionRules?:unknown;archived?:unknown;version?:unknown}}>('/api/campaigns/:id',async(req,reply)=>{
     const user=await requireUser(req,reply);if(!user)return;
     if(!gm(user.role)||!uuid.test(req.params.id))return reply.code(404).send(missing);
     const b=req.body;
-    if(!b||!validText(b.name,120,1)||!validText(b.description,2000)||!validText(b.gmNotes,20000)||typeof b.archived!=='boolean'||!Number.isSafeInteger(b.version))return reply.code(400).send({error:'invalid_campaign'});
-    const result=await pool.query(`UPDATE campaigns SET name=$3,description=$4,gm_notes=$5,archived_at=CASE WHEN $6 THEN COALESCE(archived_at,now()) ELSE NULL END,version=version+1,updated_at=now()
-      WHERE id=$1 AND owner_id=$2 AND version=$7 RETURNING id`,[req.params.id,user.id,String(b.name).trim(),String(b.description).trim(),String(b.gmNotes).trim(),b.archived,b.version]);
+    if(!b||!validText(b.name,120,1)||!validText(b.description,2000)||!validText(b.gmNotes,20000)||!validText(b.admissionRules??'',4000)||typeof b.archived!=='boolean'||!Number.isSafeInteger(b.version))return reply.code(400).send({error:'invalid_campaign'});
+    const result=await pool.query(`UPDATE campaigns SET name=$3,description=$4,gm_notes=$5,admission_rules=COALESCE($8,admission_rules),archived_at=CASE WHEN $6 THEN COALESCE(archived_at,now()) ELSE NULL END,version=version+1,updated_at=now()
+      WHERE id=$1 AND owner_id=$2 AND version=$7 RETURNING id`,[req.params.id,user.id,String(b.name).trim(),String(b.description).trim(),String(b.gmNotes).trim(),b.archived,b.version,b.admissionRules===undefined?null:String(b.admissionRules).trim()]);
     if(result.rows.length)return {ok:true};
     const own=await pool.query('SELECT id FROM campaigns WHERE id=$1 AND owner_id=$2',[req.params.id,user.id]);
     return reply.code(own.rows.length?409:404).send(own.rows.length?{error:'campaign_version_conflict'}:missing);
@@ -80,18 +82,6 @@ export async function registerCampaignRoutes(app:FastifyInstance){
       ON CONFLICT DO NOTHING RETURNING user_id`,[req.params.id,user.id,target]);
     if(!result.rows.length)return reply.code(409).send({error:'invitation_unavailable'});
     return reply.code(201).send({ok:true});
-  });
-  app.put<{Params:{id:string};Body:{characterId?:unknown}}>('/api/campaigns/:id/membership',async(req,reply)=>{
-    const user=await requireUser(req,reply);if(!user)return;
-    if(!uuid.test(req.params.id))return reply.code(404).send(missing);
-    const characterId=req.body?.characterId;
-    if(characterId!==null&&(typeof characterId!=='string'||!uuid.test(characterId)))return reply.code(400).send({error:'invalid_character'});
-    const result=await pool.query(`UPDATE campaign_members m SET status='accepted',character_id=$3
-      FROM campaigns c JOIN users u ON u.id=c.owner_id WHERE m.campaign_id=c.id AND c.id=$1 AND m.user_id=$2
-      AND c.archived_at IS NULL AND ${eligible}
-      AND ($3::uuid IS NULL OR EXISTS(SELECT 1 FROM characters ch WHERE ch.id=$3 AND ch.owner_id=$2 AND ch.archived_at IS NULL)) RETURNING m.user_id`,[req.params.id,user.id,characterId]);
-    if(!result.rows.length)return reply.code(404).send({error:'membership_unavailable'});
-    return {ok:true};
   });
   app.delete<{Params:{id:string;userId:string}}>('/api/campaigns/:id/members/:userId',async(req,reply)=>{
     const user=await requireUser(req,reply);if(!user)return;

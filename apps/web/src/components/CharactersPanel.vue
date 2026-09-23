@@ -271,7 +271,7 @@ onMounted(loadCharacters);
           :disabled="loading"
           @click="setSelected(character)"
         >
-          <strong>{{ character.name }}</strong>
+          <strong>{{ character.name }}</strong><small>{{ character.campaignName?`Campagne · ${character.campaignName}`:'Fiche hors campagne' }}</small>
           <small>v{{ character.version }} · {{ formatDate(character.updatedAt) }}</small>
         </button>
       </nav>
@@ -280,7 +280,7 @@ onMounted(loadCharacters);
         <div class="character-detail-head">
           <div>
             <p class="eyebrow">FICHE #{{ selected.version }}</p>
-            <h3>{{ selected.name }}</h3>
+            <h3>{{ selected.name }}</h3><p v-if="selected.campaignName">Version indépendante · {{ selected.campaignName }}</p>
           </div>
           <div class="character-detail-actions">
             <RouterLink class="primary compact builder-link" :to="`/characters/${selected.id}/sheet`">Voir la fiche actuelle</RouterLink>

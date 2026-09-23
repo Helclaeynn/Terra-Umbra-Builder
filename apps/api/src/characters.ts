@@ -58,7 +58,8 @@ async function insertCharacter(
          data,
          version,
          created_at::text AS "createdAt",
-         updated_at::text AS "updatedAt"`,
+         updated_at::text AS "updatedAt",
+         campaign_id AS "campaignId",(SELECT name FROM campaigns WHERE id=characters.campaign_id) AS "campaignName"`,
       [ownerId, name, JSON.stringify(data)]
     );
 
@@ -95,7 +96,8 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
          ${request.query.summary === "1" ? "" : "data,"}
          version,
          created_at::text AS "createdAt",
-         updated_at::text AS "updatedAt"
+         updated_at::text AS "updatedAt",
+         campaign_id AS "campaignId",(SELECT name FROM campaigns WHERE id=characters.campaign_id) AS "campaignName"
        FROM characters
        WHERE owner_id = $1
          AND archived_at IS NULL
@@ -175,7 +177,8 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
          data,
          version,
          created_at::text AS "createdAt",
-         updated_at::text AS "updatedAt"
+         updated_at::text AS "updatedAt",
+         campaign_id AS "campaignId",(SELECT name FROM campaigns WHERE id=characters.campaign_id) AS "campaignName"
        FROM characters
        WHERE id = $1
          AND owner_id = $2
@@ -232,7 +235,8 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
            data,
            version,
            created_at::text AS "createdAt",
-           updated_at::text AS "updatedAt"
+           updated_at::text AS "updatedAt",
+         campaign_id AS "campaignId",(SELECT name FROM campaigns WHERE id=characters.campaign_id) AS "campaignName"
          FROM characters
          WHERE id = $1
            AND owner_id = $2
@@ -276,7 +280,8 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
            data,
            version,
            created_at::text AS "createdAt",
-           updated_at::text AS "updatedAt"`,
+           updated_at::text AS "updatedAt",
+         campaign_id AS "campaignId",(SELECT name FROM campaigns WHERE id=characters.campaign_id) AS "campaignName"`,
         [nextName, JSON.stringify(nextData), nextVersion, current.id]
       );
 
@@ -322,7 +327,8 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
            data,
            version,
            created_at::text AS "createdAt",
-           updated_at::text AS "updatedAt"
+           updated_at::text AS "updatedAt",
+         campaign_id AS "campaignId",(SELECT name FROM campaigns WHERE id=characters.campaign_id) AS "campaignName"
          FROM characters
          WHERE id = $1
            AND owner_id = $2
@@ -426,7 +432,8 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
            data,
            version,
            created_at::text AS "createdAt",
-           updated_at::text AS "updatedAt"
+           updated_at::text AS "updatedAt",
+         campaign_id AS "campaignId",(SELECT name FROM campaigns WHERE id=characters.campaign_id) AS "campaignName"
          FROM characters
          WHERE id = $1
            AND owner_id = $2
@@ -474,7 +481,8 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
            data,
            version,
            created_at::text AS "createdAt",
-           updated_at::text AS "updatedAt"`,
+           updated_at::text AS "updatedAt",
+         campaign_id AS "campaignId",(SELECT name FROM campaigns WHERE id=characters.campaign_id) AS "campaignName"`,
         [snapshot.name, JSON.stringify(restoredData), nextVersion, current.id]
       );
 
