@@ -31,7 +31,7 @@ const meetingProfiles = active.filter((person) => person.dataset === "points-ren
 assert.equal(meetingProfiles.length, 24);
 const hunterProfiles = active.filter((person) => person.dataset === "verite-hunters-pnj" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(hunterProfiles.length, 29);
+assert.equal(hunterProfiles.length, 33);
 const speciesRealityProfiles = active.filter((person) =>
   ["verite-species-pnj", "verite-fantastiques-pnj"].includes(person.dataset) &&
   person.id !== "personnages-verite-especes-tokala" &&
@@ -48,7 +48,19 @@ assert.equal(templeTerrestrialProfiles.length, 32);
 const olderActiveProfiles = active.filter((person) =>
   person.dataset === "pnj" && person.id !== "pnj-148-kai-gehrman" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(olderActiveProfiles.length, 62);
+assert.equal(olderActiveProfiles.length, 67);
+const realityResolutions = active.filter((person) =>
+  person.sections.at(-1)?.id === "profil-statistique" &&
+  person.sections.at(-1).blocks.length === 1 &&
+  /non applicable|Arbitrage éditorial requis/.test(person.sections.at(-1).blocks[0].text));
+assert.equal(realityResolutions.length, 112);
+for(const person of realityResolutions){
+  assert.equal(person.sections.at(-1).audience, "mj", person.id);
+  assert.ok(!article(person.id,true)?.sections.some(section=>section.id==="profil-statistique"),person.id);
+}
+assert.equal(article("pnj-crawlers-docx-adam-nevine-qigang-xuyin-carmello-shen").title,"Adam Nevine");
+assert.ok(article("pnj-crawlers-docx-adam-nevine-qigang-xuyin-carmello-shen").sections[0].blocks[0].rows.some(row=>row[0]==="Alias"&&row[1].includes("Qigang Xuyin")));
+assert.ok(article("pnj-115-myra-allan",true).sections.some(section=>section.blocks?.some(block=>block.text?.startsWith("Myra Allan est une Crawler"))));
 const finalProfiles = active.filter((person) =>
   ["verite-fleaux-pnj", "verite-loges-mages-pnj"].includes(person.dataset) &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
@@ -173,7 +185,7 @@ for (const person of staffed) {
 }
 const crawlerProfiles = active.filter((person) => person.dataset === "realite-v9-crawlers-pnj" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(crawlerProfiles.length, 123);
+assert.equal(crawlerProfiles.length, 124);
 const pegreProfiles = active.filter((person) => person.dataset === "realite-v9-pegre-pnj" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
 assert.equal(pegreProfiles.length, 36);
