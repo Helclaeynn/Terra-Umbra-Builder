@@ -54,7 +54,7 @@ onUnmounted(()=>{generation++;window.removeEventListener('beforeunload',beforeUn
   <form v-if="editing!==null&&canManage&&!archived" class="editor" @submit.prevent="save">
    <h3>{{ editing==='new'?'Nouvelle séance':'Modifier la séance' }}</h3>
    <label>Titre de la séance<input v-model="draft.title" required maxlength="120" /></label>
-   <div class="fields"><label>Date prévue ou jouée<input v-model="draft.playedOn" type="date" /></label><label>État de la séance<select v-model="draft.status"><option value="planned">À jouer</option><option value="played">Jouée</option></select></label></div>
+   <div class="fields"><label>Date prévue ou jouée<input v-model="draft.playedOn" type="date" /></label><label>État de la séance<select v-model="draft.status" aria-label="État de la séance"><option value="planned">À jouer</option><option value="played">Jouée</option></select></label></div>
    <label>Préparation privée du MJ<textarea v-model="draft.preparation" rows="6" maxlength="20000" placeholder="Scènes, indices, PNJ et secrets…" /></label><small>Seul le MJ de cette campagne peut lire cette préparation. Le titre et la date sont visibles par le groupe.</small>
    <label>Compte rendu de la séance<textarea v-model="draft.report" rows="5" maxlength="20000" /></label>
    <label class="check"><input v-model="draft.published" type="checkbox" />Publier ce compte rendu pour le groupe</label><small>Décoché, le texte reste un brouillon réservé au MJ.</small>
