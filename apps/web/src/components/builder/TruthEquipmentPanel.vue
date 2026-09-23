@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { cloneJson } from "../../lib/json";
 import BuilderWikiLink from "./BuilderWikiLink.vue";
 import {
@@ -44,6 +44,10 @@ const visibleCatalog=computed(()=>props.rules.equipment.filter(item=>truthEquipm
 const chapters=computed(()=>[...new Set(visibleCatalog.value.map(item=>item.chapter))]
   .sort((a,b)=>Number(a)-Number(b))
   .map(id=>({id,label:chapterLabels[id]??`Chapitre ${id}`})));
+
+watch(chapters,(available)=>{
+  if(chapter.value&&!available.some(entry=>entry.id===chapter.value))chapter.value="";
+});
 
 const filtered=computed(()=>{
   const q=norm(query.value.trim());
@@ -158,7 +162,7 @@ function propertyPreview(item:TruthEquipmentItem){
       <summary class="truth-disclosure-summary">
         <span>
           <strong>Catalogue de Vérité</strong>
-          <small>{{ visibleCatalog.length }} accessibles · 229 entrées source · Livre V</small>
+          <small>{{ visibleCatalog.length }} entrées consultables selon votre accès · Livre V</small>
         </span>
         <span class="schema-badge">{{ filtered.length }}</span>
       </summary>
@@ -180,18 +184,21 @@ function propertyPreview(item:TruthEquipmentItem){
       </div>
 
       <label class="truth-equipment-mj">
+        <span class="truth-equipment-mj-copy">
+          <strong>Autorisation MJ d’accès exceptionnel aux objets de Vérité</strong>
+          <small id="truth-equipment-mj-help">
+            Avec l’accord explicite du MJ, ouvre les filières qui ne correspondent pas naturellement au personnage
+            ainsi que les objets uniques, hors catalogue et corrompus. Aucun objet n’est accordé automatiquement.
+          </small>
+        </span>
         <input
           type="checkbox"
+          role="switch"
+          aria-label="Autorisation MJ d’accès exceptionnel aux objets de Vérité"
+          aria-describedby="truth-equipment-mj-help"
           :checked="modelValue.truthEquipmentMjOverride"
           @change="setMjOverride(($event.target as HTMLInputElement).checked)"
         />
-        <span>
-          <strong>Autorisation MJ d’accès exceptionnel aux objets de Vérité</strong>
-          <small>
-            Ouvre les filières qui ne correspondent pas naturellement au personnage ainsi que les objets uniques,
-            hors catalogue et corrompus. Aucun objet n’est accordé automatiquement.
-          </small>
-        </span>
       </label>
 
       <div class="rule-note">
@@ -200,6 +207,10 @@ function propertyPreview(item:TruthEquipmentItem){
         Les entrées de référence restent consultables sans pouvoir être ajoutées. Les marchés d’Aèr, xéno, AIDH,
         de Chasse et corrompus ne sont affichés que si la Nature, la voie ou l’autorisation MJ de la fiche y donne réellement accès.
       </div>
+
+      <p v-if="!groups.length" class="empty-line" role="status">
+        Aucun objet ne correspond à ces filtres. Essayez un autre nom ou choisissez tous les chapitres.
+      </p>
 
       <details v-for="group in groups" :key="group.label" class="truth-equipment-group">
         <summary>
@@ -257,33 +268,70 @@ function propertyPreview(item:TruthEquipmentItem){
 </template>
 
 <style scoped>
-.truth-equipment-panel{margin-top:24px;border-top:1px solid var(--line);padding-top:22px}
-.truth-equipment-owned{display:grid;gap:8px;margin:14px 0}
-.truth-equipment-owned-row{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:12px}
-.truth-equipment-owned-row div{display:grid;gap:4px}
-.truth-equipment-owned-row span{font-size:12px;color:var(--muted)}
-.truth-equipment-catalog{margin-top:16px}
-.truth-equipment-toolbar{display:grid;grid-template-columns:minmax(0,2fr) minmax(180px,1fr);gap:12px;margin:16px 0}
-.truth-equipment-toolbar label{display:grid;gap:6px}
-.truth-equipment-mj{display:flex;gap:10px;align-items:flex-start;margin:12px 0;padding:12px;border:1px solid var(--line);border-radius:12px}
-.truth-equipment-mj span{display:grid;gap:3px}
-.truth-equipment-mj small{color:var(--muted)}
-.truth-equipment-group{margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:0 12px}
-.truth-equipment-group>summary{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;cursor:pointer;font-weight:700}
-.truth-equipment-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;padding-bottom:12px}
-.truth-equipment-card{padding:12px;border:1px solid var(--line);border-radius:12px;display:grid;gap:10px;align-content:start}
-.truth-equipment-card-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
-.truth-equipment-card-head>div{display:grid;gap:3px}
-.truth-equipment-card-head small{color:var(--muted)}
-.truth-equipment-card p{margin:0;font-size:13px;line-height:1.45}
-.truth-equipment-properties{display:grid;gap:5px;font-size:12px}
-.truth-equipment-properties span{padding:5px 7px;border-radius:8px;background:var(--panel-soft)}
-.truth-equipment-details summary{cursor:pointer;font-size:12px;color:var(--muted)}
-.truth-equipment-details dl{display:grid;grid-template-columns:minmax(90px,.6fr) minmax(0,1.4fr);gap:5px 10px;margin:10px 0 0;font-size:12px}
-.truth-equipment-details dt{font-weight:700}
-.truth-equipment-details dd{margin:0}
+
+.truth-equipment-panel{--truth-accent:#b79aff;--truth-line:#35405c;margin-top:28px;border-top:1px solid #25374c;padding-top:26px;color:#edf4ff;font-family:Inter,"Segoe UI",sans-serif}
+.subsection-title{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
+.subsection-title>div{min-width:0}
+.subsection-title h3{margin:0;font:650 1.15rem/1.35 Inter,"Segoe UI",sans-serif;letter-spacing:-.02em}
+.subsection-title p{margin:10px 0 0;max-width:78ch;color:#b3c5d9;font-size:14px;line-height:1.65}
+.schema-badge{flex:none;align-self:flex-start;padding:6px 10px;border:1px solid var(--truth-line);border-radius:6px;background:#17192c;color:#d2c2ff;font-size:12px;font-weight:650;white-space:nowrap;font-variant-numeric:tabular-nums}
+.truth-equipment-owned{display:grid;gap:10px;margin:18px 0}
+.truth-equipment-owned-row{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:16px;border:1px solid #2b3b51;border-radius:8px;background:#0e1a2b}
+.truth-equipment-owned-row>div{display:grid;gap:6px;min-width:0}
+.truth-equipment-owned-row span{font-size:13px;line-height:1.5;color:#a1b5cc}
+.truth-equipment-catalog{margin-top:20px;border:1px solid #2b3b51;border-radius:8px;background:#0a1422;padding:0 20px 4px}
+.truth-disclosure-summary{display:flex;align-items:center;gap:16px;min-height:76px;padding:18px 0;list-style:none;cursor:pointer}
+.truth-disclosure-summary::-webkit-details-marker{display:none}
+.truth-disclosure-summary>span:first-child{display:grid;gap:6px;flex:1;min-width:0}
+.truth-disclosure-summary strong{font-size:16px;line-height:1.4}
+.truth-disclosure-summary small{color:#a1b5cc;font-size:13px;line-height:1.5}
+.truth-disclosure-summary::after,.truth-equipment-group>summary::after{content:"";flex:none;width:8px;height:8px;border-right:1.5px solid var(--truth-accent);border-bottom:1.5px solid var(--truth-accent);transform:rotate(45deg);transition:transform .16s ease;margin-right:3px}
+.truth-equipment-catalog[open]>.truth-disclosure-summary::after,.truth-equipment-group[open]>summary::after{transform:rotate(225deg)}
+.truth-equipment-catalog[open]>.truth-disclosure-summary{border-bottom:1px solid #25374c}
+.truth-equipment-toolbar{display:grid;grid-template-columns:minmax(0,2fr) minmax(180px,1fr);gap:16px;margin:20px 0}
+.truth-equipment-toolbar label{display:grid;gap:8px;color:#b3c5d9;font-size:14px}
+.truth-equipment-toolbar :is(input,select){width:100%;min-width:0;min-height:44px;border:1px solid #344a62;border-radius:6px;background-color:#08121f;color:#edf4ff;font:inherit}
+.truth-equipment-mj{display:flex;justify-content:space-between;gap:24px;align-items:center;margin:20px 0;padding:18px;border:1px solid var(--truth-line);border-radius:8px;background:linear-gradient(120deg,#16192a,#0d1726);cursor:pointer}
+.truth-equipment-mj-copy{display:grid;gap:7px;min-width:0}
+.truth-equipment-mj strong{color:#d2c2ff;font-size:14px;line-height:1.5}
+.truth-equipment-mj small{color:#b3c5d9;font-size:13px;line-height:1.6}
+.truth-equipment-mj input{appearance:none;flex:0 0 44px;display:block;width:44px;min-width:44px;max-width:44px;height:26px;min-height:26px;margin:0;padding:3px;border:1px solid #62718b;border-radius:20px;background:#263348;cursor:pointer;transition:background .16s ease,border-color .16s ease}
+.truth-equipment-mj input::before{content:"";display:block;width:18px;height:18px;border-radius:50%;background:#b9c9db;transition:transform .16s ease}
+.truth-equipment-mj input:checked{border-color:#b79aff;background:#634b93}
+.truth-equipment-mj input:checked::before{background:#f0eaff;transform:translateX(18px)}
+.truth-equipment-mj input:focus-visible{outline:2px solid #cbb8ff;outline-offset:5px}
+.rule-note{margin:18px 0;padding:16px;border:1px solid #2b3b51;border-radius:8px;color:#b3c5d9;background:#101b2b;font-size:14px;line-height:1.65}
+.rule-note strong{color:#edf4ff}
+.rule-note.bad{border-color:#794850;background:#241820;color:#f0bdc0}
+.empty-line{margin:18px 0;padding:16px;border:1px dashed #354860;border-radius:8px;color:#a1b5cc;font-size:14px;line-height:1.6}
+.truth-equipment-group{margin:14px 0;border:1px solid #2b3b51;border-radius:8px;padding:0 16px;background:#0e1a2b}
+.truth-equipment-group>summary{display:flex;align-items:center;gap:14px;min-height:60px;padding:14px 0;cursor:pointer;font-size:15px;font-weight:650;list-style:none}
+.truth-equipment-group>summary::-webkit-details-marker{display:none}
+.truth-equipment-group>summary>span:first-child{flex:1;min-width:0}
+.truth-equipment-group>summary>.schema-badge{align-self:center}
+.truth-equipment-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:14px;padding-bottom:16px}
+.truth-equipment-card{min-width:0;padding:18px;border:1px solid #34425a;border-radius:8px;background:#0b1524;display:grid;gap:14px;align-content:start}
+.truth-equipment-card-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+.truth-equipment-card-head>div{min-width:0;display:grid;gap:7px}
+.truth-equipment-card-head strong{font-size:15px;line-height:1.4}
+.truth-equipment-card-head small{color:#b5a2da;font-size:12px;line-height:1.5}
+.truth-equipment-card p{margin:0;color:#b3c5d9;font-size:14px;line-height:1.6}
+.truth-equipment-properties{display:grid;gap:7px;font-size:13px;line-height:1.55}
+.truth-equipment-properties span{padding:8px 10px;border-radius:6px;background:#152035;color:#c0cde0;overflow-wrap:anywhere}
+.truth-equipment-properties strong{color:#edf4ff}
+.truth-equipment-details summary{min-height:44px;align-content:center;cursor:pointer;font-size:13px;color:#cbb8ff}
+.truth-equipment-details dl{display:grid;grid-template-columns:minmax(90px,.6fr) minmax(0,1.4fr);gap:8px 14px;margin:12px 0 0;font-size:13px;line-height:1.55;overflow-wrap:anywhere}
+.truth-equipment-details dt{font-weight:650;color:#edf4ff}
+.truth-equipment-details dd{margin:0;color:#b3c5d9}
+.truth-equipment-panel button{min-height:44px;padding:10px 14px;border-radius:6px;font-size:13px;flex:none}
 @media(max-width:720px){
   .truth-equipment-toolbar{grid-template-columns:1fr}
   .truth-equipment-owned-row,.truth-equipment-card-head{align-items:stretch;flex-direction:column}
+  .subsection-title{flex-wrap:wrap;gap:12px}
+  .truth-equipment-catalog{padding-inline:14px}
+  .truth-equipment-mj{gap:16px;padding:16px}
+  .truth-equipment-group{padding-inline:12px}
+  .truth-equipment-card{padding:14px}
 }
+@media(prefers-reduced-motion:reduce){.truth-equipment-mj input,.truth-equipment-mj input::before,.truth-disclosure-summary::after,.truth-equipment-group>summary::after{transition:none}}
 </style>

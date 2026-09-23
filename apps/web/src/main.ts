@@ -5,6 +5,11 @@ import "./orbital-ui.css";
 
 const router=createRouter({
   history:createWebHistory(),
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) return savedPosition;
+    // Compendium query navigation manages article sections and reading positions.
+    if (to.path !== from.path) return { top: 0, left: 0 };
+  },
   routes:[
     { path:"/", component:()=>import("./pages/CompendiumPage.vue") },
     { path:"/account", component:()=>import("./App.vue") },

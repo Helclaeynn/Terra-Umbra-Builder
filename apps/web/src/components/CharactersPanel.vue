@@ -10,6 +10,7 @@ const selected = ref<Character | null>(null);
 const revisions = ref<Revision[]>([]);
 const editName = ref("");
 const loading = ref(false);
+const creating = ref(false);
 const notice = ref("");
 const error = ref("");
 const importInput = ref<HTMLInputElement | null>(null);
@@ -62,6 +63,7 @@ async function loadCharacters() {
 
 async function createCharacter() {
   loading.value = true;
+  creating.value = true;
   notice.value = "";
   error.value = "";
   try {
@@ -77,6 +79,7 @@ async function createCharacter() {
     error.value = humanError((cause as Error).message);
   } finally {
     loading.value = false;
+    creating.value = false;
   }
 }
 
@@ -221,18 +224,18 @@ onMounted(loadCharacters);
 </script>
 
 <template>
-  <article id="characters" class="panel characters-panel">
+  <article id="characters" class="panel characters-panel" aria-labelledby="characters-title" :aria-busy="loading">
     <div class="section-heading">
       <div>
         <p class="eyebrow">MES PERSONNAGES</p>
-        <h2>Fiches sauvegardées</h2>
+        <h2 id="characters-title">Fiches sauvegardées</h2>
       </div>
       <span class="character-count">{{ characters.length }}</span>
     </div>
 
     <div class="character-entry-actions">
-      <button class="secondary character-create-direct" :disabled="loading" type="button" @click="createCharacter">
-        {{ loading ? "Création…" : "Créer un personnage" }}
+      <button class="primary character-create-direct" :disabled="loading" type="button" @click="createCharacter">
+        {{ creating ? "Création…" : "Créer un personnage" }}
       </button>
 
       <button class="ghost import-v1" type="button" :disabled="loading" @click="importInput?.click()">
@@ -243,18 +246,21 @@ onMounted(loadCharacters);
         type="file"
         accept=".json,application/json"
         hidden
+        aria-label="Choisir un export JSON V1"
         @change="importV1Character"
       />
     </div>
 
-    <div v-if="notice || error" class="character-feedback" :class="{ error: !!error }">
+    <div v-if="notice || error" class="character-feedback" :class="{ error: !!error }" :role="error ? 'alert' : 'status'">
       {{ error || notice }}
     </div>
 
     <div v-if="!hasCharacters && !loading" class="characters-empty">
       <p>Aucun personnage pour le moment.</p>
-      <small>Crée ta première fiche : elle sera stockée directement dans PostgreSQL.</small>
+      <small>Crée ta première fiche pour la retrouver ici et la reprendre à tout moment.</small>
     </div>
+
+    <p v-else-if="!hasCharacters" class="characters-loading" role="status">Chargement de tes personnages…</p>
 
     <div v-else class="characters-layout">
       <nav class="character-list" aria-label="Mes personnages">
@@ -263,6 +269,8 @@ onMounted(loadCharacters);
           :key="character.id"
           type="button"
           :class="{ active: selected?.id === character.id }"
+          :aria-pressed="selected?.id === character.id"
+          :disabled="loading"
           @click="setSelected(character)"
         >
           <strong>{{ character.name }}</strong>
@@ -292,7 +300,7 @@ onMounted(loadCharacters);
         <form class="rename-form" @submit.prevent="saveName">
           <label>
             Nom du personnage
-            <input v-model="editName" maxlength="120" required />
+            <input v-model="editName" maxlength="120" autocomplete="off" required />
           </label>
           <button
             class="secondary"
@@ -310,7 +318,7 @@ onMounted(loadCharacters);
           </div>
           <p>
             La création se modifie dans le Builder. Une fois la fiche en jeu, les dépenses XP/PTV
-            et l’évolution du personnage disposent désormais de leur propre espace Progression.
+            et l’évolution du personnage se suivent dans l’espace Progression.
           </p>
         </div>
 
@@ -346,233 +354,86 @@ onMounted(loadCharacters);
 
 <style scoped>
 .characters-panel {
-  padding: 1.5rem;
+  min-width: 0;
+  padding: clamp(22px, 3vw, 36px);
+  scroll-margin-top: 100px;
+  border: 1px solid #293f55;
+  border-radius: 8px;
+  color: #e8f0ff;
+  background: #0c1725;
+  box-shadow: none;
+  font-family: Inter, "Segoe UI", sans-serif;
 }
 
-.character-count {
-  min-width: 2rem;
-  min-height: 2rem;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(88,220,197,.26);
-  color: #58dcc5;
-  font-size: .8rem;
-}
+.characters-panel .section-heading { align-items: center; }
+.characters-panel h2 { color: #edf4ff; font-family: inherit; font-size: clamp(22px, 2vw, 28px); font-weight: 650; letter-spacing: -.035em; }
+.characters-panel .eyebrow { color: #8edff5; font: 600 11px/1.5 "SFMono-Regular", Consolas, monospace; letter-spacing: .14em; }
+.characters-panel :is(button, a, input):focus-visible { outline: 2px solid #85e6ff; outline-offset: 4px; }
+.characters-panel :is(.primary, .secondary, .ghost) { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 11px 16px; border: 1px solid #35536e; border-radius: 6px; color: #cedef0; background: #0c1725; font-size: 14px; line-height: 1.4; text-align: center; }
+.characters-panel .primary { color: #071522; border-color: #a4edff; background: #a4edff; }
+.characters-panel .primary:not(:disabled):hover { border-color: #c2f3ff; background: #c2f3ff; }
+.characters-panel :is(.secondary, .ghost):not(:disabled):hover { color: #fff; border-color: #80d4ee; background: #142739; }
+.characters-panel .danger { color: #ffafb9; border-color: #724453; }
+.character-count { min-width: 36px; min-height: 36px; flex: none; display: grid; place-items: center; border: 1px solid #355c74; border-radius: 6px; color: #a4edff; background: #112539; font-size: 14px; }
+.character-entry-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+.character-feedback { margin-bottom: 20px; padding: 14px 18px; border: 1px solid #375f69; border-radius: 6px; color: #c5f4e8; background: #112d32; font-size: 14px; line-height: 1.6; }
+.character-feedback.error { border-color: #845063; color: #ffd3da; background: #321c2b; }
+.characters-empty { min-height: 180px; display: grid; align-content: center; gap: 10px; padding: 24px; border: 1px dashed #35536e; border-radius: 8px; color: #a4b8cf; background: #09131f; text-align: center; }
+.characters-empty p { margin: 0; color: #e8f0ff; font-size: 18px; }
+.characters-empty small { font-size: 14px; line-height: 1.7; }
+.characters-loading { padding: 24px 0; color: #a4b8cf; font-size: 15px; }
+.characters-layout { display: grid; grid-template-columns: minmax(210px, .65fr) minmax(0, 1.65fr); min-height: 300px; gap: 28px; border-top: 1px solid #293f55; }
+.character-list { min-width: 0; max-height: 560px; overflow-y: auto; padding: 20px 18px 20px 0; border-right: 1px solid #293f55; scrollbar-width: thin; scrollbar-color: #35536e transparent; }
+.character-list button { width: 100%; min-height: 70px; display: grid; gap: 7px; margin-bottom: 8px; padding: 15px; border: 1px solid transparent; border-radius: 6px; text-align: left; color: #c5d7ec; background: transparent; overflow-wrap: anywhere; }
+.character-list button:hover { border-color: #35536e; background: #102337; }
+.character-list button.active { border-color: #477895; background: #132b40; box-shadow: inset 3px 0 #85e6ff; }
+.character-list strong { font-size: 16px; line-height: 1.5; }
+.character-list small { color: #a4b8cf; font-size: 12px; line-height: 1.5; }
+.character-detail { min-width: 0; padding: 24px 0 0; }
+.character-detail-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 18px 24px; }
+.character-detail-head > div:first-child { min-width: 0; flex: 1 1 220px; }
+.character-detail h3 { margin: 0; color: #edf4ff; font-family: inherit; font-size: 25px; line-height: 1.2; font-weight: 650; letter-spacing: -.025em; overflow-wrap: anywhere; }
+.character-detail-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.builder-link { text-decoration: none; }
+.rename-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 12px; margin-top: 28px; }
+.rename-form label { min-width: 0; color: #c8d8e9; font-size: 14px; gap: 8px; }
+.rename-form input { min-width: 0; min-height: 46px; border: 1px solid #35536e; border-radius: 6px; color: #e8f0ff; background: #09121e; }
+.rename-form input:focus { border-color: #85e6ff; box-shadow: 0 0 0 3px #85e6ff1f; }
+.builder-slot { display: grid; gap: 10px; margin-top: 26px; padding: 18px; border: 1px solid #304b65; border-radius: 6px; color: #b6cade; background: #0e1d2d; line-height: 1.7; }
+.builder-slot > div { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.builder-slot span { color: #8edff5; font: 11px/1.5 Consolas, monospace; letter-spacing: .1em; }
+.builder-slot strong { color: #e0edff; font-size: 14px; }
+.builder-slot p { margin: 0; font-size: 14px; }
+.revision-block { margin-top: 30px; }
+.revision-title { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.revision-title h4 { margin: 0; color: #e8f0ff; font-size: 17px; }
+.revision-title small { color: #a4b8cf; font-size: 12px; }
+.revision-list { margin-top: 14px; max-height: 390px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #35536e transparent; }
+.revision-list article { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 4px 16px 0; border-top: 1px solid #263d54; }
+.revision-list article > div { min-width: 0; }
+.revision-list strong, .revision-list small { display: block; overflow-wrap: anywhere; }
+.revision-list strong { color: #cfdef0; font-size: 14px; line-height: 1.5; }
+.revision-list small { margin-top: 5px; color: #a4b8cf; font-size: 12px; line-height: 1.5; }
+.revision-list button { flex: none; }
+.current-revision { flex: none; padding: 6px 9px; border: 1px solid #355c74; border-radius: 4px; color: #a4edff; font-size: 12px; }
 
-.character-entry-actions {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: .65rem;
-  align-items: start;
-  margin-bottom: 1rem;
-}
-
-.character-create-direct {
-  justify-self: start;
-}
-
-.import-v1 {
-  white-space: nowrap;
-}
-
-.character-feedback {
-  margin-bottom: 1rem;
-  padding: .65rem .8rem;
-  border: 1px solid rgba(92, 142, 99, .28);
-  color: #b8d2b6;
-  background: rgba(49, 80, 54, .14);
-  font-size: .82rem;
-}
-
-.character-feedback.error {
-  border-color: rgba(166, 81, 72, .3);
-  color: #dab0aa;
-  background: rgba(93, 42, 37, .16);
-}
-
-.characters-empty {
-  min-height: 190px;
-  display: grid;
-  place-content: center;
-  text-align: center;
-  color: #91a7b1;
-}
-
-.characters-empty p {
-  margin: 0 0 .4rem;
-  color: #d7e3e7;
-}
-
-.characters-layout {
-  display: grid;
-  grid-template-columns: minmax(170px, .72fr) minmax(0, 1.28fr);
-  min-height: 340px;
-  border-top: 1px solid rgba(255, 255, 255, .07);
-}
-
-.character-list {
-  padding: .7rem .7rem .7rem 0;
-  border-right: 1px solid rgba(255, 255, 255, .07);
-}
-
-.character-list button {
-  width: 100%;
-  display: grid;
-  gap: .25rem;
-  padding: .75rem;
-  border: 0;
-  border-left: 2px solid transparent;
-  text-align: left;
-  color: #c5d4d9;
-  background: transparent;
-}
-
-.character-list button:hover,
-.character-list button.active {
-  border-left-color: #58dcc5;
-  background: linear-gradient(90deg,rgba(88,220,197,.10),rgba(88,220,197,.02));
-}
-.character-list button.active{box-shadow:inset 0 0 0 1px rgba(88,220,197,.08)}
-
-.character-list strong,
-.character-list small {
-  display: block;
-}
-
-.character-list small {
-  color: #7f929b;
-  font-size: .7rem;
-}
-
-.character-detail {
-  padding: 1rem 0 0 1.2rem;
-}
-
-.character-detail-head,
-.revision-title,
-.revision-list article {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: .8rem;
-}
-
-.character-detail h3 {
-  margin: 0;
-  font-family: Georgia, serif;
-  font-size: 1.5rem;
-  font-weight: 500;
-}
-
-.character-detail-actions {
-  display: flex;
-  align-items: center;
-  gap: .55rem;
-  flex-wrap: wrap;
-}
-
-.builder-link {
-  text-decoration: none;
-}
-
-.danger {
-  color: #e39ba4;
-}
-
-.rename-form {
-  margin-top: 1.2rem;
-}
-
-.builder-slot {
-  display:grid;
-  gap:.55rem;
-  margin-top: 1.3rem;
-  padding: 1rem;
-  border: 1px solid rgba(88,220,197,.22);
-  color: #91a7b1;
-  line-height: 1.55;
-  background:linear-gradient(135deg,rgba(88,220,197,.055),rgba(255,255,255,.01));
-}
-
-.builder-slot>div{display:flex;align-items:center;justify-content:space-between;gap:.7rem;flex-wrap:wrap}
-.builder-slot span{color:#67c9b7;font-size:.62rem;letter-spacing:.08em}
-.builder-slot strong {
-  color: #e1ecef;
-  font-size:.78rem;
-}
-
-.builder-slot p {
-  margin: 0;
-  font-size:.76rem;
-}
-
-.revision-block {
-  margin-top: 1.4rem;
-}
-
-.revision-title h4 {
-  margin: 0;
-  font-size: .95rem;
-}
-
-.revision-title small {
-  color: #748891;
-}
-
-.revision-list {
-  margin-top: .6rem;
-}
-
-.revision-list article {
-  padding: .65rem 0;
-  border-top: 1px solid rgba(255, 255, 255, .06);
-}
-
-.revision-list strong,
-.revision-list small {
-  display: block;
-}
-
-.revision-list strong {
-  color: #c1d0d5;
-  font-size: .78rem;
-}
-
-.revision-list small {
-  margin-top: .2rem;
-  color: #748891;
-  font-size: .68rem;
-}
-
-.current-revision {
-  color: #8addc3;
-  font-size: .72rem;
+@media (max-width: 1000px) {
+  .characters-layout { grid-template-columns: minmax(180px, .7fr) minmax(0, 1.3fr); gap: 22px; }
+  .rename-form { grid-template-columns: 1fr; }
+  .rename-form button { justify-self: start; }
 }
 
 @media (max-width: 720px) {
-  .characters-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .character-entry-actions {
-    grid-template-columns: 1fr;
-  }
-
-  .character-list {
-    display: flex;
-    gap: .4rem;
-    overflow-x: auto;
-    padding-right: 0;
-    border-right: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, .07);
-  }
-
-  .character-list button {
-    min-width: 180px;
-  }
-
-  .character-detail {
-    padding-left: 0;
-  }
+  .characters-panel { padding: 22px; scroll-margin-top: 20px; }
+  .characters-layout { grid-template-columns: 1fr; gap: 0; }
+  .character-list { display: flex; gap: 10px; max-height: none; overflow-x: auto; padding: 16px 0; border-right: 0; border-bottom: 1px solid #293f55; }
+  .character-list button { flex: 0 0 210px; margin-bottom: 0; }
+  .character-detail { padding-top: 22px; }
+  .character-detail h3 { font-size: 23px; }
+  .character-detail-actions { width: 100%; }
+  .character-detail-actions > * { flex: 1 1 auto; }
+  .character-entry-actions > *, .rename-form button { width: 100%; }
+  .revision-list article { flex-wrap: wrap; }
+  .revision-list article > div { flex: 1 1 160px; }
 }
 </style>

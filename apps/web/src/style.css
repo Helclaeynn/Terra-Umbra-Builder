@@ -100,7 +100,8 @@ body::before {
 
 button,
 input,
-select {
+select,
+textarea {
   font: inherit;
 }
 
@@ -158,7 +159,7 @@ button:disabled {
   height: 40px;
   border: 1px solid #365f73;
   color: #91cfe0;
-  font-family: Georgia, serif;
+  font-family: var(--tu-font);
   background: linear-gradient(145deg, rgba(43,146,255,.12), rgba(255,255,255,.015));
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.025), 0 10px 24px rgba(0,0,0,.22);
 }
@@ -215,7 +216,7 @@ button:disabled {
 .intro h1,
 .welcome h1 {
   margin: .25rem 0 1.25rem;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--tu-font);
   font-size: clamp(2.8rem, 7vw, 6.2rem);
   font-weight: 500;
   line-height: .98;
@@ -265,8 +266,9 @@ label small {
   color: #667f8b;
 }
 
-input,
-select {
+input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"]),
+select,
+textarea {
   width: 100%;
   min-height: 44px;
   padding: .65rem .75rem;
@@ -422,16 +424,16 @@ select:focus {
 .dashboard-lead { max-width:62ch; margin:0; color:#a6bac2; line-height:1.65; }
 .dashboard-identity { display:flex; flex-wrap:wrap; align-items:center; gap:.65rem 1rem; margin-top:1.15rem; font-size:.78rem; }
 .dashboard-mark { position:relative; z-index:1; display:grid; grid-template-columns:repeat(2,54px); gap:.35rem; opacity:.52; }
-.dashboard-mark span { display:grid; place-items:center; height:72px; border:1px solid rgba(88,220,197,.2); color:#58dcc5; font:500 2rem/1 Georgia,serif; background:rgba(43,146,255,.035); }
+.dashboard-mark span { display:grid; place-items:center; height:72px; border:1px solid rgba(88,220,197,.2); color:#58dcc5; font:500 2rem/1 var(--tu-font); background:rgba(43,146,255,.035); }
 
 .dashboard-portals { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; margin-bottom:1.25rem; }
 .dashboard-portal { position:relative; min-height:210px; display:flex; flex-direction:column; justify-content:space-between; gap:1.25rem; padding:1.4rem; overflow:hidden; border:1px solid rgba(70,126,148,.15); color:inherit; text-decoration:none; background:linear-gradient(145deg,rgba(16,27,37,.86),rgba(18,17,15,.82)); box-shadow:0 18px 52px rgba(0,0,0,.19); transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease; }
 .dashboard-portal::after { content:""; position:absolute; inset:auto -3rem -5rem auto; width:11rem; height:11rem; border:1px solid rgba(88,220,197,.1); transform:rotate(28deg); }
 .dashboard-portal:hover { transform:translateY(-3px); border-color:rgba(88,220,197,.38); box-shadow:0 26px 68px rgba(0,0,0,.28); }
-.dashboard-portal h2 { margin:.12rem 0 .45rem; font:500 1.75rem/1.1 Georgia,serif; }
+.dashboard-portal h2 { margin:.12rem 0 .45rem; font:500 1.75rem/1.1 var(--tu-font); }
 .dashboard-portal p:not(.eyebrow) { max-width:45ch; margin:0; color:#7f98a3; line-height:1.55; }
 .dashboard-portal>strong { color:#b8dfea; font-size:.76rem; letter-spacing:.03em; }
-.portal-index { position:absolute; top:1rem; right:1rem; color:rgba(88,220,197,.25); font:500 2rem/1 Georgia,serif; }
+.portal-index { position:absolute; top:1rem; right:1rem; color:rgba(88,220,197,.25); font:500 2rem/1 var(--tu-font); }
 .builder-portal { background:linear-gradient(145deg,rgba(18,51,57,.24),rgba(9,20,28,.84)); }
 .compendium-portal { background:linear-gradient(145deg,rgba(53,40,79,.18),rgba(9,20,28,.84)); }
 
@@ -458,7 +460,7 @@ select:focus {
 .section-heading h2,
 .panel h2 {
   margin: 0;
-  font-family: Georgia, serif;
+  font-family: var(--tu-font);
   font-size: 1.8rem;
   font-weight: 500;
 }

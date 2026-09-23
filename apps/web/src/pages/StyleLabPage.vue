@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useRoute } from "vue-router";
+import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
 
 type ThemeKey = "interface-2035" | "livre-vivant" | "codex-hybride" | "dossier-umbra" | "umbra-archive" | "umbra-signal" | "umbra-signal-final";
 type ViewKey = "builder" | "compendium";
@@ -133,13 +134,9 @@ const results = [
 <template>
   <div class="style-lab" :class="`lab--${themeKey}`">
     <header class="lab-topbar">
-      <div class="lab-brand">
-        <span class="lab-sigil">TU</span>
-        <div>
-          <small>STYLE LAB · V2</small>
-          <strong>{{ activeTheme.short }} — {{ activeTheme.title }}</strong>
-        </div>
-      </div>
+      <RouterLink class="lab-brand" to="/" aria-label="Terra Umbra · Accueil">
+        <TerraUmbraBrand />
+      </RouterLink>
 
       <nav class="theme-switcher" aria-label="Concepts graphiques">
         <RouterLink
@@ -147,16 +144,18 @@ const results = [
           :key="theme.key"
           :to="`/style-lab/${theme.key}/${viewKey}`"
           :class="{ active: theme.key === themeKey }"
+          :aria-current="theme.key === themeKey ? 'page' : undefined"
         >
           <span>{{ theme.short }}</span>
           {{ theme.title }}
         </RouterLink>
       </nav>
 
-      <RouterLink class="lab-exit" to="/">← V2 réelle</RouterLink>
+      <RouterLink class="lab-exit" to="/">← Retour au site</RouterLink>
     </header>
 
     <main class="lab-page">
+      <p class="lab-archive-notice"><strong>Archives des propositions graphiques.</strong> Ces sept maquettes permettent de comparer les anciennes pistes ; elles ne modifient ni le site actuel ni vos personnages.</p>
       <section class="lab-intro">
         <div>
           <p class="lab-kicker">CONCEPT {{ activeTheme.short }}</p>
@@ -168,12 +167,14 @@ const results = [
           <RouterLink
             :to="`/style-lab/${themeKey}/builder`"
             :class="{ active: viewKey === 'builder' }"
+            :aria-current="viewKey === 'builder' ? 'page' : undefined"
           >
             Builder
           </RouterLink>
           <RouterLink
             :to="`/style-lab/${themeKey}/compendium`"
             :class="{ active: viewKey === 'compendium' }"
+            :aria-current="viewKey === 'compendium' ? 'page' : undefined"
           >
             Compendium
           </RouterLink>
@@ -1073,4 +1074,9 @@ const results = [
   .sheet-head{flex-direction:column}
   .hero-media img{height:220px}
 }
+/* The archive navigation stays in the current identity; samples retain their own themes. */
+.style-lab .lab-topbar{grid-template-columns:auto minmax(0,1fr) auto;min-height:80px;padding:12px 24px;gap:24px;background:#050b13;color:#edf4ff;border-bottom:1px solid #263c51;font-family:Inter,"Segoe UI",sans-serif}
+.style-lab .lab-brand{text-decoration:none}.style-lab .theme-switcher{min-width:0;overflow-x:auto;scrollbar-width:thin;padding-bottom:4px}.style-lab .theme-switcher a,.style-lab .lab-exit{display:inline-flex;align-items:center;min-height:44px;padding:10px 12px;background:#0d1927;color:#bdd5e9;border:1px solid #314d63;border-radius:6px;font-size:12px;white-space:nowrap}.style-lab .theme-switcher a.active{background:#173148;border-color:#64def5;color:#b2efff}.style-lab .theme-switcher a:hover,.style-lab .lab-exit:hover{background:#14273a;border-color:#64def5}.lab-archive-notice{margin:0 0 24px;padding:16px 20px;border:1px solid #314d63;border-radius:8px;background:#0c1726;color:#b9ccdf;font:14px/1.6 Inter,"Segoe UI",sans-serif}.lab-archive-notice strong{color:#edf4ff}.style-lab .view-switcher a{min-height:44px;display:inline-flex;align-items:center}
+@media(max-width:1100px){.style-lab .lab-topbar{grid-template-columns:1fr auto}.style-lab .theme-switcher{grid-column:1/-1;grid-row:2}.style-lab .lab-exit{display:inline-flex}}
+@media(max-width:640px){.style-lab .lab-topbar{padding:12px;gap:12px}.style-lab .lab-exit{font-size:11px;padding:8px}.lab-archive-notice{margin:0 4px 20px;padding:16px;font-size:13px}}
 </style>
