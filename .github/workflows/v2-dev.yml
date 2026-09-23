@@ -57,6 +57,10 @@ jobs:
           npm ci
           npm run build
 
+      - name: Check bestiary illustrations
+        working-directory: apps/api
+        run: node scripts/check-bestiary-illustrations.mjs
+
       - name: Check standalone character sheet permissions on PostgreSQL
         working-directory: apps/api
         env:
