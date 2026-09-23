@@ -1,42 +1,18 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { cloneJson } from "../../lib/json";
+import CharacterSummary from "./CharacterSummary.vue";
+import type { CharacterSheet } from "../../lib/character-sheet";
 
 type StatusRow={id:string;label:string;ok:boolean;reason:string};
-type NamedValue={id:string;name:string;value:number;raw?:number;bonus?:number};
-type DerivedStats={
-  pvMax:number;death:number;initiative:number;passiveDefense:number;occultDefense:number;
-  movement:number;integrity:number;augmentStressMax:number;melee:number;pugilat:number;
-  shooting:number;neurodive:number;
-};
-
 const props=defineProps<{
   social:Record<string,unknown>;
   sphereId:string;
   requiredLanguageCount:number;
   statuses:StatusRow[];
   valid:boolean;
-  derived:DerivedStats;
-  attributes:NamedValue[];
-  skills:NamedValue[];
-  identityName:string;
-  originName:string;
-  sphereName:string;
-  styleName:string;
-  realityTalentNames:string[];
-  disadvantageNames:string[];
-  truthNatureName:string;
-  truthConsciousnessName:string;
-  truthTalentNames:string[];
-  truthPtvSpent:number;
-  truthPtvInitial:number;
-  lifestyleBase:string;
-  lifestyleEffective:string;
-  account:number;
+  sheet:CharacterSheet|null;
   renownScore:number;
-  campaignCash:number;
-  equipmentCount:number;
-  augmentationCount:number;
 }>();
 
 const emit=defineEmits<{
@@ -190,100 +166,8 @@ function setContacts(value:string){
       </div>
     </section>
 
-    <section class="final-panel final-sheet">
-      <div class="final-sheet-head">
-        <div>
-          <p class="eyebrow">FICHE RÉCAPITULATIVE</p>
-          <h3>{{ identityName || "Personnage sans nom" }}</h3>
-          <p>Les valeurs ci-dessous décrivent la fiche au début de la campagne.</p>
-        </div>
-        <span class="schema-badge" :class="{bad:!valid}">{{ valid ? "Création valide" : "À vérifier" }}</span>
-      </div>
-
-      <div class="recap-grid">
-        <section>
-          <h4>Parcours</h4>
-          <p class="card-lore">Origine, Sphère et Style décrivent le milieu d’enfance, le monde social actuel et la manière de vivre ou d’agir.</p>
-          <span>Origine : <strong>{{ originName || "à compléter" }}</strong></span>
-          <span>Sphère : <strong>{{ sphereName || "à compléter" }}</strong></span>
-          <span>Style : <strong>{{ styleName || "à compléter" }}</strong></span>
-          <span>Train de vie : <strong>{{ lifestyleEffective || lifestyleBase }}</strong></span>
-          <span>Renommée : <strong>{{ renownScore }}</strong></span>
-        </section>
-
-        <section>
-          <h4>Ressources</h4>
-          <p class="card-lore">État final des ressources de création après achats et charges déjà saisis.</p>
-          <span>Compte restant : <strong>{{ account.toLocaleString("fr-FR") }} $</strong></span>
-          <span>Solde de campagne : <strong>{{ campaignCash.toLocaleString("fr-FR") }} $</strong></span>
-          <span>Équipement : <strong>{{ equipmentCount }}</strong></span>
-          <span>Augmentations : <strong>{{ augmentationCount }}</strong></span>
-          <span v-if="lifestyleEffective!==lifestyleBase">Train de vie de base : <strong>{{ lifestyleBase }}</strong></span>
-        </section>
-
-        <section>
-          <h4>Dérivés</h4>
-          <p class="card-lore">Valeurs calculées automatiquement à partir des choix déjà effectués.</p>
-          <div class="derived-compact">
-            <span>PV <strong>{{ derived.pvMax }}</strong></span>
-            <span>Mort <strong>{{ derived.death }}</strong></span>
-            <span>Init. <strong>{{ derived.initiative }}</strong></span>
-            <span>Déf. <strong>{{ derived.passiveDefense }}</strong></span>
-            <span>Déf. occ. <strong>{{ derived.occultDefense }}</strong></span>
-            <span>Mvt <strong>{{ derived.movement }} m</strong></span>
-            <span>Intégrité <strong>{{ derived.integrity }}</strong></span>
-            <span>Stress aug. <strong>{{ derived.augmentStressMax }}</strong></span>
-            <span>Mêlée <strong>{{ derived.melee }}</strong></span>
-            <span>Pugilat <strong>{{ derived.pugilat }}</strong></span>
-            <span>Tir <strong>{{ derived.shooting }}</strong></span>
-            <span>Neurodive <strong>{{ derived.neurodive }}</strong></span>
-          </div>
-        </section>
-
-        <section>
-          <h4>Vérité</h4>
-          <p class="card-lore">Nature, niveau de conscience et capacités réellement acquises dans la Vérité.</p>
-          <span>Nature : <strong>{{ truthNatureName || "à compléter" }}</strong></span>
-          <span>Conscience : <strong>{{ truthConsciousnessName || "à compléter" }}</strong></span>
-          <span>PTV : <strong>{{ truthPtvSpent }}/{{ truthPtvInitial }}</strong></span>
-          <span>Talents achetés : <strong>{{ truthTalentNames.length }}</strong></span>
-          <p v-if="truthTalentNames.length">{{ truthTalentNames.join(" · ") }}</p>
-        </section>
-
-        <section>
-          <h4>Talents & Désavantages</h4>
-          <p class="card-lore">Expériences particulières et complications qui distinguent le personnage dans la Réalité.</p>
-          <span>Talents de Réalité : <strong>{{ realityTalentNames.length }}</strong></span>
-          <span>Désavantages : <strong>{{ disadvantageNames.length }}</strong></span>
-          <p v-if="realityTalentNames.length">{{ realityTalentNames.join(" · ") }}</p>
-          <p v-if="disadvantageNames.length">{{ disadvantageNames.join(" · ") }}</p>
-        </section>
-      </div>
-
-      <details class="values-details">
-        <summary>
-          <span>
-            <strong>Attributs et Compétences finales</strong>
-            <small>Détail chiffré complet</small>
-          </span>
-        </summary>
-        <div class="value-columns">
-          <section>
-            <h4>Attributs</h4>
-            <div v-for="item in attributes" :key="item.id" class="value-row">
-              <span>{{ item.name }}</span><strong>{{ item.value }}</strong>
-            </div>
-          </section>
-          <section>
-            <h4>Compétences</h4>
-            <div v-for="item in skills" :key="item.id" class="value-row">
-              <span>{{ item.name }}</span>
-              <strong>{{ item.value }}</strong>
-            </div>
-          </section>
-        </div>
-      </details>
-    </section>
+    <CharacterSummary v-if="sheet" :sheet="sheet" class="final-panel final-sheet" />
+    <p v-else class="rule-note" role="status">La fiche récapitulative sera disponible une fois les catalogues chargés.</p>
 
     <div class="rule-note" :class="{bad:!valid}">
       <strong>{{ valid ? "Validation mécanique : aucune erreur bloquante détectée." : "La fiche n’est pas encore validée." }}</strong>
@@ -327,46 +211,20 @@ function setContacts(value:string){
 
 .support-reminder strong{color:#edf4ff}
 
-.final-sheet-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;padding-bottom:1rem;border-bottom:1px solid rgba(255,255,255,.07)}
 
-.final-sheet-head h3{margin:.2rem 0 .25rem;font:600 1.45rem/1.15 Inter,"Segoe UI",sans-serif}
-.final-sheet-head p{margin:0;color:#a1b5cc;font-size:.875rem}
 
-.recap-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem;margin-top:1rem}
 
-.recap-grid>section{display:flex;flex:0 1 calc(33.333% - .55rem);min-width:240px;flex-direction:column;gap:.38rem;padding:.9rem;border:1px solid #2b3b51;border-radius:10px;background:rgba(255,255,255,.012)}
 
-.recap-grid h4,.value-columns h4{margin:0 0 .2rem;font-family:Inter,"Segoe UI",sans-serif}
-.recap-grid span,.recap-grid p{margin:0;color:#a1b5cc;font-size:.875rem;line-height:1.5}
-.recap-grid span strong,.recap-grid p strong{color:#d8e5f5}
-.card-lore{margin:-.05rem 0 .45rem!important;color:#a1b5cc!important;font-style:italic}
 
-.derived-compact{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.28rem .7rem}
-.derived-compact span{display:flex;justify-content:space-between;gap:.4rem;padding:.2rem 0;border-bottom:1px solid rgba(255,255,255,.045)}
-
-.values-details{margin-top:1rem;border-top:1px solid rgba(255,255,255,.07);padding-top:.8rem}
-.values-details summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:.8rem;list-style:none;color:#c3d2e4}
-.values-details summary::-webkit-details-marker{display:none}
-.values-details summary>span{display:grid;gap:.15rem}
-.values-details summary small{color:#a1b5cc;font-size:.875rem}
-.values-details summary::after{content:"›";color:#64def5;font-size:1.05rem;transform:rotate(90deg);transition:transform .15s ease}
-.values-details[open] summary::after{transform:rotate(-90deg)}
-
-.value-columns{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.8rem}
-.value-row{display:flex;justify-content:space-between;gap:.75rem;padding:.35rem 0;border-bottom:1px solid rgba(255,255,255,.05);color:#a1b5cc;font-size:.875rem}
-.value-row strong{color:#64def5}
-
-@media(max-width:980px){.recap-grid>section{flex-basis:calc(50% - .5rem)}
+@media(max-width:980px){
 .language-grid label{flex-basis:calc(50% - .4rem)}
 }
 
-@media(max-width:760px){.final-top-fields,.final-relations-grid,.value-columns{grid-template-columns:1fr}
+@media(max-width:760px){.final-top-fields,.final-relations-grid{grid-template-columns:1fr}
 }
 
-@media(max-width:620px){.recap-grid>section,.language-grid label{flex-basis:100%;min-width:0}
-.final-sheet-head{flex-direction:column}
+@media(max-width:620px){.language-grid label{flex-basis:100%;min-width:0}
 }
-
 
 :where(.section-heading,.subsection-title){display:flex;justify-content:space-between;align-items:flex-start;gap:18px}
 .subsection-title h3{margin:0;font-size:18px;line-height:1.4;letter-spacing:-.02em}
@@ -395,15 +253,5 @@ label{font-size:14px;line-height:1.5}
 .final-top-fields,.final-relations-grid{gap:20px}
 .language-grid{justify-content:flex-start;gap:16px}
 .support-reminder{padding:18px;background:#102738;border-color:#36596b;border-radius:8px;line-height:1.65}
-.final-sheet-head h3{font-weight:650;letter-spacing:-.02em}
-.recap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
-.recap-grid>section{min-width:0;gap:9px;padding:18px;background:#101d30;border-radius:8px}
-.recap-grid h4{font-size:16px;font-weight:650;line-height:1.4}
-.recap-grid p,.recap-grid span{font-size:14px;line-height:1.6}
-.card-lore{font-style:normal}
-.derived-compact{grid-template-columns:1fr;gap:7px}
-.values-details summary{min-height:58px;font-size:15px}
-.values-details summary small{font-size:13px}
-.value-row{min-height:40px;align-items:center;font-size:14px;padding:8px 0}
-@media(max-width:620px){.final-panel{padding:16px}.final-sheet-head{gap:14px}.language-grid label{min-width:0}}
+@media(max-width:620px){.final-panel{padding:16px}.language-grid label{min-width:0}}
 </style>

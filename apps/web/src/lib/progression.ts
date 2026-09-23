@@ -20,6 +20,19 @@ export type ProgressionState={
   cashTransactions:CashTransaction[];
 };
 
+// Shared by the progression controls and the read-only character sheet.
+export function currentSkillRaw(state:ProgressionState,bases:Record<string,number>,id:string){
+  return Number(bases[id]||0)+Number(state.skillRanks[id]||0);
+}
+export function currentSkillFinal(state:ProgressionState,bases:Record<string,number>,finalBases:Record<string,number>,talentSkills:Record<string,string>,id:string){
+  const creationBonus=Number(finalBases[id]||0)-Number(bases[id]||0);
+  const learnedBonus=state.realityTalents.reduce((sum,talentId)=>sum+(talentSkills[talentId]===id?1:0),0);
+  return currentSkillRaw(state,bases,id)+creationBonus+learnedBonus;
+}
+export function currentAttribute(state:ProgressionState,bases:Record<string,number>,id:string){
+  return Number(bases[id]||0)+Number(state.attributeRanks[id]||0);
+}
+
 export const commerceDegrees=[
   {id:0,label:"Sans jet de Commerce",sale:.50,buy:1.00,delta:0},
   {id:1,label:"Réussite simple · DR 0–2",sale:.55,buy:.95,delta:5},

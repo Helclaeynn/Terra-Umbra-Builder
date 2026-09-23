@@ -3,6 +3,9 @@ import { computed, ref } from "vue";
 import { cloneJson } from "../../lib/json";
 import BuilderWikiLink from "./BuilderWikiLink.vue";
 import {
+  currentSkillRaw as campaignSkillRaw,
+  currentSkillFinal as campaignSkillFinal,
+  currentAttribute as campaignAttribute,
   addCashTransaction,
   attributeStepCost,
   campaignCash,
@@ -116,20 +119,9 @@ function emitReality(next=realityState.value){
 function money(value:number){
   return new Intl.NumberFormat("fr-FR",{maximumFractionDigits:0}).format(value)+" $";
 }
-function currentSkillRaw(id:string){
-  return Number(props.skillBases[id]||0)+Number(state.value.skillRanks[id]||0);
-}
-function currentSkillFinal(id:string){
-  const creationBonus=Number(props.skillFinalBases[id]||0)-Number(props.skillBases[id]||0);
-  const learnedBonus=state.value.realityTalents.reduce(
-    (sum,talentId)=>sum+(props.skillTalentMap[talentId]===id?1:0),
-    0
-  );
-  return currentSkillRaw(id)+creationBonus+learnedBonus;
-}
-function currentAttribute(id:string){
-  return Number(props.attributeBases[id]||0)+Number(state.value.attributeRanks[id]||0);
-}
+function currentSkillRaw(id:string){ return campaignSkillRaw(state.value,props.skillBases,id); }
+function currentSkillFinal(id:string){ return campaignSkillFinal(state.value,props.skillBases,props.skillFinalBases,props.skillTalentMap,id); }
+function currentAttribute(id:string){ return campaignAttribute(state.value,props.attributeBases,id); }
 const xpSpentValue=computed(()=>xpSpent(state.value,props.skillBases,props.attributeBases));
 const xpRemainingValue=computed(()=>xpRemaining(state.value,props.skillBases,props.attributeBases));
 

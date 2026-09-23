@@ -120,6 +120,7 @@ try {
       if (path === "/api/auth/capabilities") return send({ passwordResetAvailable: true });
       if (path === "/api/auth/me") return role === "public"
         ? send({ error: "authentication_required" }, 401) : send({ user: fixtureUser(role) });
+      if (path === "/api/compendium/library") return send({ recentItems: [{ id: articleId, title: article.title, category: article.category }] });
       if (path === "/api/auth/login") return send({ error: "invalid_credentials" }, 401);
       if (path === "/api/auth/gm-request" && method === "GET") return send({ request: gmRequest });
       if (path === "/api/auth/gm-request" && method === "POST") {
@@ -180,7 +181,11 @@ try {
     assert.equal(await page.getByRole("heading", { name: "Gestion des comptes", exact: true }).count(), 0,
       "Les outils administrateur ne doivent pas être proposés au Joueur.");
     await assertLayout(page, `Compte Joueur et fiche longue ${width}`);
+    const readingLink = page.locator('.account-last-reading').getByRole('link', { name: 'Reprendre ma lecture →' });
+    await readingLink.waitFor();
+    assert.ok((await readingLink.getAttribute('href')).includes(`article=${articleId}`));
     const gmPanel = page.locator(".gm-access-panel");
+    assert.ok(await page.evaluate(() => Boolean(document.querySelector('.account-settings-grid').compareDocumentPosition(document.querySelector('.account-gm-settings')) & Node.DOCUMENT_POSITION_FOLLOWING)), 'MJ request follows profile/password settings');
     await page.getByRole("button", { name: "Demander l’accès MJ", exact: true }).waitFor();
     assert.ok((await gmPanel.innerText()).includes("l’accès aux secrets de l’univers et aux outils MJ"));
     await page.locator("#gm-comment").fill("Je souhaite mener une campagne pour notre groupe de joueurs.");
