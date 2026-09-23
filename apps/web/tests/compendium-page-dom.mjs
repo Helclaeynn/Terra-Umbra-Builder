@@ -114,7 +114,7 @@ async function mount({ role = null, initialRoute = articleUrl(coleId), authDelay
   const virtualConsole = new VirtualConsole();
   for (const kind of ["warn", "error"]) virtualConsole.on(kind, (...messages) => errors.push(messages.map(message => typeof message === "string" ? message : inspect(message, { depth: 1 })).join(" ")));
   virtualConsole.on("jsdomError", error => errors.push(error.message));
-  const canReadMj = ["gm", "admin"].includes(role);
+  const canReadMj = ["gm", "editor", "admin"].includes(role);
   let authFinished = false;
   const fakeApi = async (request, options = {}) => {
     const url = new URL(request, "https://dom-test.invalid");
@@ -203,7 +203,7 @@ function verifyProfile(reader, sourceProfile = profile) {
   assert.equal(titleCopies.length, 1, "The MJ summary must not duplicate the section title");
 }
 
-for (const role of [null, "player", "editor"]) {
+for (const role of [null, "player"]) {
   const reader = await mount({ role, sendPrivateToUnauthorized: role !== null, initialRoute: articleUrl(coleId, "profil-statistique") });
   try {
     await waitFor(() => reader.authReady() && reader.d.querySelector(".article-header h1"), "Public article loaded");
@@ -219,7 +219,7 @@ for (const role of [null, "player", "editor"]) {
   } finally { reader.close(); }
 }
 
-for (const role of ["gm", "admin"]) {
+for (const role of ["gm", "editor", "admin"]) {
   const reader = await mount({ role, initialRoute: articleUrl(coleId, "profil-statistique"), authDelay: 35 });
   try {
     await waitFor(() => reader.authReady() && reader.d.querySelector(".npc-stat-profile"), `${role}: NPC profile mounted after authentication`);
