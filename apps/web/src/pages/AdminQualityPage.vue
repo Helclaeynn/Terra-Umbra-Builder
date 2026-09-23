@@ -16,6 +16,7 @@ type QualityItem = {
   subgroup: string;
   source: string;
   media: unknown;
+  portraits: Array<{ lot: string; media: string; visibility: string }>;
   issues: Issue[];
   firstSeenAt: string | null;
   reviewStatus: ReviewStatus;
@@ -59,6 +60,11 @@ const error = ref("");
 const notice = ref("");
 const search = ref("");
 const category = ref("");
+const group = ref("");
+const subgroup = ref("");
+const portraitLot = ref("");
+const page = ref(1);
+const pageSize = 50;
 const review = ref("");
 const issue = ref("");
 const recentOnly = ref(false);
@@ -81,6 +87,8 @@ const categories = computed(() =>
   [...new Set((quality.value?.items ?? []).map((item) => item.category).filter(Boolean))]
     .sort((a, b) => a.localeCompare(b, "fr"))
 );
+const groups = computed(() => [...new Set((quality.value?.items ?? []).filter((item) => !category.value || item.category === category.value).map((item) => item.group).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr")));
+const subgroups = computed(() => [...new Set((quality.value?.items ?? []).filter((item) => (!category.value || item.category === category.value) && (!group.value || item.group === group.value)).map((item) => item.subgroup).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr")));
 
 const issueOptions = computed(() => {
   const codes = new Set<string>();
@@ -97,6 +105,9 @@ const filteredItems = computed(() => {
 
   return (quality.value?.items ?? [])
     .filter((item) => !category.value || item.category === category.value)
+    .filter((item) => !group.value || item.group === group.value)
+    .filter((item) => !subgroup.value || item.subgroup === subgroup.value)
+    .filter((item) => !portraitLot.value || (portraitLot.value === "__none" ? !item.portraits.length : item.portraits.some((portrait) => portrait.lot === portraitLot.value)))
     .filter((item) => !review.value || item.reviewStatus === review.value)
     .filter((item) => !issue.value || item.issues.some((entry) => issue.value === "__critical" ? entry.severity === "critical" : entry.code === issue.value))
     .filter((item) => {
@@ -131,10 +142,21 @@ const filteredItems = computed(() => {
       return new Date(b.firstSeenAt ?? 0).getTime() - new Date(a.firstSeenAt ?? 0).getTime();
     });
 });
+const pageCount = computed(() => Math.max(1, Math.ceil(filteredItems.value.length / pageSize)));
+const visibleItems = computed(() => filteredItems.value.slice((Math.min(page.value, pageCount.value) - 1) * pageSize, Math.min(page.value, pageCount.value) * pageSize));
+function filtersChanged() {
+  page.value = 1;
+  if (!groups.value.includes(group.value)) group.value = "";
+  if (!subgroups.value.includes(subgroup.value)) subgroup.value = "";
+}
 
 function resetFilters() {
   search.value = "";
   category.value = "";
+  group.value = "";
+  subgroup.value = "";
+  portraitLot.value = "";
+  page.value = 1;
   review.value = "";
   issue.value = "";
   recentOnly.value = false;
@@ -156,6 +178,9 @@ function mediaUrl(value: unknown): string {
   const clean = src.replace(/^\/?compendium\//, "").replace(/^\/+/, "");
   if (!clean.startsWith("images/") && !clean.startsWith("assets/")) return "";
   return "/api/compendium/media/" + clean;
+}
+function recipePortrait(item: QualityItem): string | unknown {
+  return item.portraits.find((portrait) => portrait.lot === portraitLot.value)?.media ?? item.portraits[0]?.media ?? item.media;
 }
 
 function formatDate(value: string | null): string {
@@ -347,15 +372,18 @@ onMounted(load);
           </div>
 
           <div class="filters">
-            <label>Recherche<input v-model="search" type="search" placeholder="Titre, identifiant, source…" /></label>
-            <label>Catégorie<select v-model="category">
+            <label>Recherche<input v-model="search" type="search" placeholder="Titre, identifiant, source…" @input="filtersChanged" /></label>
+            <label>Catégorie<select v-model="category" @change="filtersChanged">
               <option value="">Toutes les catégories</option>
               <option v-for="value in categories" :key="value" :value="value">{{ value }}</option>
             </select></label>
-            <label>État de recette<select v-model="review">
+            <label>Groupe<select v-model="group" @change="filtersChanged"><option value="">Tous les groupes</option><option v-for="value in groups" :key="value" :value="value">{{ value }}</option></select></label>
+            <label>Sous-groupe<select v-model="subgroup" @change="filtersChanged"><option value="">Tous les sous-groupes</option><option v-for="value in subgroups" :key="value" :value="value">{{ value }}</option></select></label>
+            <label>Lot de portraits<select v-model="portraitLot" @change="filtersChanged"><option value="">Tous les lots et sans portrait</option><option value="lot1">Lot 1 · originaux</option><option value="lot2">Lot 2 · à venir</option><option value="__none">Sans lot</option></select></label>
+            <label>État de recette<select v-model="review" @change="filtersChanged">
               <option value="">Tous les états</option><option value="pending">À recetter</option><option value="rework">À revoir</option><option value="approved">Validés</option>
             </select></label>
-            <label>Contrôle<select v-model="issue">
+            <label>Contrôle<select v-model="issue" @change="filtersChanged">
               <option value="">Tous les contrôles</option>
               <option value="__critical">Toutes les anomalies critiques</option>
               <option v-for="value in issueOptions" :key="value.code" :value="value.code">{{ value.label }}</option>
@@ -368,10 +396,10 @@ onMounted(load);
             <table class="quality-table">
               <thead><tr><th scope="col">Entrée</th><th scope="col">Contrôles</th><th scope="col">Recette</th><th scope="col">Première détection</th><th scope="col">Actions</th></tr></thead>
               <tbody>
-                <tr v-for="item in filteredItems" :key="item.id">
+                <tr v-for="item in visibleItems" :key="item.id">
                   <td class="entry-cell" data-label="Entrée">
-                    <img v-if="mediaUrl(item.media)" :src="mediaUrl(item.media)" :alt="item.title" loading="lazy" />
-                    <div class="entry-copy"><strong>{{ item.title }}</strong><span>{{ item.category }} · {{ item.group || item.dataset || "—" }}</span><small>{{ item.id }}</small></div>
+                    <img v-if="mediaUrl(recipePortrait(item))" :src="mediaUrl(recipePortrait(item))" :alt="item.title" loading="lazy" />
+                    <div class="entry-copy"><strong>{{ item.title }}</strong><span>{{ item.category }} · {{ item.group || item.dataset || "—" }}<template v-if="item.subgroup"> · {{ item.subgroup }}</template></span><small v-for="portrait in item.portraits" :key="portrait.lot">{{ portrait.lot === 'lot1' ? 'Lot 1 · original' : 'Lot 2' }} · {{ portrait.visibility === 'mj' ? 'MJ' : 'public' }}</small><small>{{ item.id }}</small></div>
                   </td>
                   <td data-label="Contrôles">
                     <div v-if="item.issues.length" class="issue-list">
@@ -396,6 +424,7 @@ onMounted(load);
               </tbody>
             </table>
           </div>
+          <nav v-if="pageCount > 1" class="pagination" aria-label="Pages de recette"><button type="button" :disabled="page <= 1" @click="page--">Précédent</button><span>Page {{ Math.min(page, pageCount) }} / {{ pageCount }} · {{ visibleItems.length }} affichées</span><button type="button" :disabled="page >= pageCount" @click="page++">Suivant</button></nav>
         </section>
       </template>
     </main>
@@ -422,7 +451,8 @@ onMounted(load);
 .score-card{display:grid;gap:6px;min-width:0;text-align:left;padding:22px;border:1px solid #2c4358;border-radius:8px;background:#0e1b2b;color:#edf4ff;cursor:pointer}.score-card:hover{border-color:#64def5;background:#12263a}.score-card strong{font-size:34px;line-height:1.2;font-weight:600}.score-card span{font-size:15px}.score-card small{color:#a1b5cc;font-size:13px}.score-card.critical strong{color:#ffb1be}.score-card.rework strong{color:#edcb98}.score-card.ok strong{color:#97e4ce}
 .audit-card,.queue-panel{min-width:0;border:1px solid #2c4358;border-radius:8px;background:#0c1726;padding:22px}.audit-card h2{font-size:18px;line-height:1.35;margin:8px 0 20px}.metric-row{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-top:1px solid #203247;color:#b3c5d8;font-size:14px}.metric-row strong{color:#edf4ff;font-variant-numeric:tabular-nums}.danger-line strong{color:#ffb1be}
 .queue-heading{display:flex;align-items:center;justify-content:space-between;gap:20px}.queue-heading h2{margin:6px 0;font-size:26px}.recent-toggle.active{background:#173a50;border-color:#64def5;color:#b2efff}
-.filters{display:grid;grid-template-columns:minmax(200px,1.5fr) repeat(3,minmax(145px,1fr)) auto;gap:12px;align-items:end;margin:24px 0}.filters label{display:grid;min-width:0;gap:7px;color:#b9ccdf;font-size:13px}.filters input,.filters select{width:100%;min-width:0;min-height:46px;padding:11px 12px;border:1px solid #314d63;border-radius:6px;background:#08121e;color:#edf4ff}.filters input::placeholder{color:#92a8be}.clear{font-size:13px}
+.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;align-items:end;margin:24px 0}.filters label{display:grid;min-width:0;gap:7px;color:#b9ccdf;font-size:13px}.filters input,.filters select{width:100%;min-width:0;min-height:46px;padding:11px 12px;border:1px solid #314d63;border-radius:6px;background:#08121e;color:#edf4ff}.filters input::placeholder{color:#92a8be}.clear{font-size:13px}
+.pagination{display:flex;align-items:center;justify-content:center;gap:18px;padding:20px}.pagination button{min-height:42px;padding:8px 14px;border:1px solid #314d63;border-radius:6px;background:#0d1927;color:#edf4ff;cursor:pointer}.pagination button:disabled{opacity:.5;cursor:default}
 .quality-table-wrap{overflow:auto;border-top:1px solid #2c4358}.quality-table{width:100%;border-collapse:collapse;table-layout:fixed}.quality-table th{text-align:left;padding:16px 12px;color:#a1b5cc;font:11px/1.5 Consolas,monospace;letter-spacing:.08em;text-transform:uppercase}.quality-table th:first-child{width:30%}.quality-table th:nth-child(4){width:14%}.quality-table td{padding:20px 12px;border-top:1px solid #203247;vertical-align:top;overflow-wrap:anywhere;font-size:13px}.quality-table tbody tr:hover{background:#101f30}.entry-cell img{float:left;margin:0 12px 8px 0;width:56px;height:64px;object-fit:cover;border:1px solid #314d63;border-radius:5px;background:#08121e}.entry-copy{display:grid;gap:6px;min-width:0}.entry-copy strong{color:#edf4ff;font-size:15px}.entry-copy span,.entry-copy small{color:#a1b5cc;font-size:12px;line-height:1.45}
 .issue-list{display:flex;flex-wrap:wrap;gap:6px}.issue-chip{padding:5px 8px;border:1px solid #314d63;border-radius:5px;font-size:12px;color:#bdd5e9}.issue-chip.critical{color:#ffb6c1;border-color:#805266;background:#271c2d}.issue-chip.warning{color:#edcb98;border-color:#67543c;background:#272321}.issue-chip.info{color:#a8ddf1}.clean-state{color:#97d9c7;font-size:13px}
 .review-state{display:inline-block;padding:5px 8px;border:1px solid #314d63;border-radius:5px;font-size:12px;color:#c2d8ec}.review-state.rework{color:#edcb98;border-color:#67543c}.review-state.approved{color:#97e4ce;border-color:#335f5b}.review-meta,.review-note{display:block;margin-top:9px;color:#a1b5cc;font-size:12px;line-height:1.5}.review-note{color:#dfc49f}.action-cell :is(a,button){margin:0 6px 6px 0;min-height:40px;padding:8px 10px;font-size:12px}.action-cell button.warn{color:#edcb98}.action-cell .ghost-action{color:#b3c5d8}

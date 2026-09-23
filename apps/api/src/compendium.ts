@@ -522,6 +522,11 @@ function hasProtectedPnjIdentity(article: Article): boolean {
 function articleForAudience(article: Article, includeMj: boolean): Article {
   const result = deepClone(article);
   if (!includeMj) {
+    const isPrivatePortrait = (media: unknown) =>
+      /(?:^|\/)images\/portraits\/lot-[^/]+\/mj\//.test(String(typeof media === "string" ? media : (media as JsonObject | null)?.src ?? ""));
+    if (isPrivatePortrait(result.image)) delete result.image;
+    if (isPrivatePortrait(result.illustration)) delete result.illustration;
+    if (Array.isArray(result.gallery)) result.gallery = result.gallery.filter((media) => !isPrivatePortrait(media));
     const protectedIdentity = hasProtectedPnjIdentity(article);
     if (Array.isArray(result.sections)) result.sections = result.sections.filter((section) => section?.audience !== "mj");
     if (result.pnj && typeof result.pnj === "object") {
@@ -3117,6 +3122,18 @@ async function loadCorpus(): Promise<Corpus> {
   const manualMediaFiles = new Set(
     await readdir(resolve(COMPENDIUM_MEDIA_DIR, "images/manual")).catch(() => [] as string[])
   );
+  const portraitManifest = await readFile(resolve(COMPENDIUM_MEDIA_DIR, "images/portraits/manifest.json"), "utf8")
+    .then((content) => JSON.parse(content) as { lot1?: { items?: Array<{ id: string; src: string; visibility: string }> }; lot2?: { items?: Array<{ id: string; src: string; visibility: string }> } })
+    .catch(() => ({ lot1: { items: [] }, lot2: { items: [] } }));
+  const portraitsByArticle = new Map<string, Array<{ src: string; visibility: string; lot: string }>>();
+  for (const [lot, group] of Object.entries(portraitManifest)) {
+    for (const item of group?.items ?? []) {
+      if (!item.id || !/^images\/portraits\/lot-[12]\/(?:public|mj)\/[a-z0-9-]+\.webp$/.test(item.src)) continue;
+      const items = portraitsByArticle.get(item.id) ?? [];
+      items.push({ src: item.src, visibility: item.visibility, lot });
+      portraitsByArticle.set(item.id, items);
+    }
+  }
   const manualGalleryByArticle = new Map<string, string[]>();
   for (const filename of manualMediaFiles) {
     if (!filename.endsWith(".webp")) continue;
@@ -3511,7 +3528,12 @@ async function loadCorpus(): Promise<Corpus> {
           .replace(/[-_]+/g, " ")
           .replace(/^./, (value) => value.toUpperCase())
       }));
-    if (gallery.length) article.gallery = gallery;
+    if (gallery.length) article.gallery = [...(article.gallery ?? []), ...gallery];
+    for (const portrait of portraitsByArticle.get(article.id) ?? []) {
+      const media = { src: portrait.src, alt: article.title ?? article.id, caption: `Portrait original · ${portrait.lot === "lot1" ? "lot 1" : "lot 2"}` };
+      if (!article.illustration && !article.image && !article.pnj?.portrait) article.image = media;
+      else if (article.image?.src !== portrait.src && article.illustration?.src !== portrait.src) article.gallery = [...(article.gallery ?? []), media];
+    }
 
     article.title = ARTICLE_TITLE_FIXES[article.id] ?? article.title;
     article.sourceCategory = article.sourceCategory ?? article.category;
@@ -4273,6 +4295,10 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
   }>("/api/compendium/media/*", async (request, reply) => {
     const relative = safeMediaRelativePath(String(request.params["*"] ?? ""));
     if (!relative) return bad(reply, "invalid_compendium_media_path");
+    if (relative === "images/portraits/manifest.json" || /^images\/portraits\/lot-[^/]+\/mj\//.test(relative)) {
+      const user = await currentUser(request);
+      if (!canReadMj(user?.role)) return reply.code(403).send({ error: "mj_required" });
+    }
 
     try {
       const body = await readFile(resolve(COMPENDIUM_MEDIA_DIR, relative));
