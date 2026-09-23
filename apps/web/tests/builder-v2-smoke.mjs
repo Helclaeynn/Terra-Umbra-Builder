@@ -428,11 +428,13 @@ for(const label of ["Voilé","Semi-Révélé","Révélé"]){
 await page.getByRole("heading",{name:"Objets de Vérité"}).waitFor({state:"visible",timeout:5000});
 const truthCatalog=page.locator("summary.truth-disclosure-summary").filter({hasText:"Catalogue de Vérité"});
 await truthCatalog.click();
+await page.getByRole("button",{name:"Règles et références",exact:true}).click();
 await page.getByText("Propriété Smoke",{exact:true}).waitFor({state:"attached",timeout:5000});
 if(await page.getByText("Arme de Chasse Smoke",{exact:true}).count())throw new Error("Équipement de Chasse visible sans tradition de Chasse.");
 if(await page.getByText("Objet d’Aèr Smoke",{exact:true}).count())throw new Error("Objet d’Aèr visible pour un non-Exilé.");
 if(await page.getByText("Relique corrompue Smoke",{exact:true}).count())throw new Error("Équipement corrompu visible sans autorisation MJ.");
 
+await page.locator(".catalog-help>summary").click();
 const truthEquipmentMj=page.getByLabel(/Autorisation MJ d’accès exceptionnel aux objets de Vérité/);
 const approvalLayout=await truthEquipmentMj.evaluate(input=>{
   const hit=input.closest("label").getBoundingClientRect();
@@ -445,6 +447,7 @@ if(approvalLayout.hitHeight<44 || approvalLayout.controlWidth>48 || approvalLayo
 await truthEquipmentMj.focus();
 await truthEquipmentMj.press("Space");
 if(!await truthEquipmentMj.isChecked())throw new Error("Autorisation Objets de Vérité inaccessible au clavier.");
+await page.getByRole("button",{name:"Objets à acquérir",exact:true}).click();
 for(const label of ["Arme de Chasse Smoke","Objet d’Aèr Smoke","Relique corrompue Smoke"]){
   await page.getByText(label,{exact:true}).waitFor({state:"attached",timeout:5000});
 }
