@@ -9,6 +9,7 @@ const summary=n=>({id:n.id,name:n.data.name,tierId:n.data.tierId,role:n.data.rol
 await page.route('**/api/**',async route=>{
  const req=route.request(),url=new URL(req.url()),path=url.pathname,method=req.method();let body={},status=200;
  if(path===`/api/campaigns/${cid}`)body={campaign:{id:cid,name:'Table des PNJ',description:'',gmName:'Morgan',ownerId:gid,canManage:role==='gm',membershipStatus:role==='gm'?null:'accepted',memberCount:0,archivedAt:null,version:1,gmNotes:''},members:[],userId:gid};
+ else if(path==='/api/characters')body={characters:[]};
  else if(path.endsWith('/admissions'))body={canManage:role==='gm',rules:'',admissions:[]};
  else if(path.endsWith('/sessions')&&method==='GET')body={sessions:session?[session]:[],hasMore:false,calendarMailAvailable:false};
  else if(path.endsWith('/sessions')&&method==='POST'){session={...req.postDataJSON(),id:sid,version:1,rewards:[],effects:[],attendance:[]};body={session:{id:sid,version:1}};status=201;}
@@ -45,7 +46,7 @@ try{
  await click('Ajouter Morgan · contact à la scène');await page.getByRole('status').filter({hasText:'Morgan · contact ajouté'}).waitFor();
  await page.getByRole('button',{name:'Morgan · contact · Ouvrir la fiche',exact:true}).click();await page.locator('.reference .npc-sheet').waitFor();assert.match(await page.locator('.reference').textContent(),/Secret de test/);
  await click('Fermer la préparation');await page.locator('.notebook').waitFor({state:'detached'});assert.equal(session.scenes[0].references[0].npcId,record.id);
- await page.reload();await page.locator('details.private > summary').click();await page.getByRole('button',{name:'Morgan · contact · Ouvrir la fiche',exact:true}).click();await page.locator('.reference .npc-sheet').waitFor();
+ await page.reload();await page.locator('.session > summary').click();await page.locator('details.private > summary').click();await page.getByRole('button',{name:'Morgan · contact · Ouvrir la fiche',exact:true}).click();await page.locator('.reference .npc-sheet').waitFor();
  await page.getByText('Mes PNJ de campagne · générateur et fiches',{exact:true}).click();await click('Modifier Morgan · contact');await click('Retirer l’image');await click('Enregistrer le PNJ');await page.getByRole('status').filter({hasText:'1 PNJ enregistré'}).waitFor();assert.equal(records.get(record.id).data.portrait,'');
  role='player';await page.reload();await page.getByRole('heading',{name:'Le groupe',exact:true}).waitFor();assert.equal(await page.getByText('Mes PNJ de campagne · générateur et fiches',{exact:true}).count(),0);
  assert.deepEqual(errors,[]);console.log('NPC BROWSER OK — tiers, preview, editable preset, real image compression/persistence/removal, tags, scene selection and saved preview, private manager, 1440/390/320px reflow');
