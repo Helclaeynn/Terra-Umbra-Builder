@@ -9,6 +9,7 @@ import CompendiumHologramComparison from "../components/CompendiumHologramCompar
 import NpcStatProfile from "../components/NpcStatProfile.vue";
 import { isNpcStatProfileSection } from "../lib/npc-stat-profile";
 import { parseReadingPositions, rememberReading, type ReadingPositions } from "../lib/compendium-reading";
+import { createRenderCache } from "../lib/render-cache";
 import { createWikiLinker } from "../lib/wiki-linker";
 import {
   compendiumHref, compendiumLinkTarget, compendiumTarget, positionCompendiumArticle,
@@ -714,7 +715,13 @@ function wikiContext(article: Article | null) {
   };
 }
 
+const textRenderCache=createRenderCache();
 function linkifyText(value: unknown, article: Article | null = selected.value): string {
+  void wikiReady.value;
+  const text=String(value??"");
+  return textRenderCache.get(JSON.stringify([wikiContext(article),text]),()=>renderLinkedText(text,article));
+}
+function renderLinkedText(value: unknown, article: Article | null = selected.value): string {
   void wikiReady.value;
   const text = String(value ?? "");
   const renderText = (part: string) => wikiLinker?.linkify(part, wikiContext(article)) ?? escapeHtml(part);
@@ -779,6 +786,7 @@ async function loadOnboarding() {
 async function loadWikiIndex() {
   try {
     const payload = await api<{ entries: WikiEntry[] }>("/api/compendium/wiki-index?compact=1");
+    textRenderCache.clear();
     wikiById.clear();
     for (const entry of payload.entries) wikiById.set(entry.id, entry);
 
@@ -1258,6 +1266,7 @@ async function loadArticle(id: string, section = "") {
   articleUnavailable.value = false;
   selected.value = null;
   error.value = "";
+  textRenderCache.clear();
   builderUsage.value = [];
   builderSources.value = [];
   talentEmbeds.value = {};
@@ -1585,6 +1594,7 @@ function syncRouteView() {
 
 watch(() => currentUser.value?.id, loadReadingPositions);
 watch(canReadMjSections, async () => {
+  textRenderCache.clear();
   await nextTick();
   const target = compendiumTarget(route.query, route.hash);
   if (target?.section && selected.value?.id === target.articleId) await positionArticle(target.section, articleRequest);
@@ -1631,6 +1641,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   pageMounted = false;
+  textRenderCache.clear();
   ++articleRequest;
   window.history.scrollRestoration = previousScrollRestoration;
   window.clearTimeout(suggestionTimer);

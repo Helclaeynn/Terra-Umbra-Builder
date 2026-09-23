@@ -1,7 +1,7 @@
 import type { CharacterIdentity } from "../types/character";
 
 export type SheetValue = { id:string; name:string; value:number; raw?:number; bonus?:number; attribute?:string; base?:number };
-export type SheetEntry = { id:string; name:string; detail?:string; compendiumId?:string; group?:string };
+export type SheetEntry = { id:string; name:string; detail?:string; lore?:string; compendiumId?:string; group?:string };
 export type DerivedStats = ReturnType<typeof characterDerivedStats>;
 
 /** Existing Builder formulas, shared unchanged by creation and campaign views. */

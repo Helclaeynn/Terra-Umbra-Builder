@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { sortedNames, compareTruthTalents, compareLabels } from "../../lib/catalog-order";
 import { cloneJson } from "../../lib/json";
 import BuilderWikiLink from "./BuilderWikiLink.vue";
 import {
@@ -36,6 +37,7 @@ import {
 } from "../../lib/reality";
 import {
   truthAvailableTalents,
+  truthNorm,
   truthPrerequisiteSatisfied,
   type TruthRulesPackage,
   type TruthState,
@@ -64,6 +66,7 @@ type ProgressionRules={
 };
 
 const props=defineProps<{
+  talentLore?:Record<string,string>;
   progression:Record<string,unknown>;
   reality:Record<string,unknown>;
   truthState:TruthState;
@@ -299,13 +302,21 @@ function ruleTalentById(id:string){
   return null;
 }
 
+const realitySearch=ref("");
+const searchableRealityGroups=computed(()=>{
+  const q=truthNorm(realitySearch.value);
+  return realityTalentGroups.value.map(group=>({...group,items:sortedNames(group.items).filter(talent=>!q||truthNorm(`${talent.name} ${talent.effect} ${props.talentLore?.[talent.id]??''}`).includes(q))})).filter(group=>group.items.length);
+});
+const learnedRealityIds=computed(()=>[...state.value.realityTalents].sort((a,b)=>compareLabels(ruleTalentById(a)?.name??a,ruleTalentById(b)?.name??b)));
+const learnedTruthIds=computed(()=>[...state.value.truthTalents].sort((a,b)=>compareLabels(truthById.value.get(a)?.name??a,truthById.value.get(b)?.name??b)));
 const truthCandidates=computed(()=>{
-  const q=truthSearch.value.trim().toLocaleLowerCase("fr");
+  const q=truthNorm(truthSearch.value);
   return truthAvailable.value
     .filter(talent=>!combinedTruthState.value.truthTalents.includes(talent.id))
     .filter(talent=>!q||[
       talent.name,talent.group,talent.effect,talent.runtimeLore,talent.prerequisiteName
-    ].some(value=>String(value||"").toLocaleLowerCase("fr").includes(q)));
+    ].some(value=>truthNorm(String(value||"")).includes(q)))
+    .sort(compareTruthTalents);
 });
 function truthCanBuy(talent:TruthTalent){
   return truthPrerequisiteSatisfied(
@@ -598,30 +609,25 @@ function sellCampaignItem(){
         Les Talents de Sphère demandent un accès réel. Les Talents d’Origine restent normalement réservés à la création.
       </div>
       <div v-if="state.realityTalents.length" class="owned-list">
-        <div v-for="id in state.realityTalents" :key="id" class="owned-row">
-          <div><strong>{{ ruleTalentById(id)?.name || id }}</strong><span>Talent de Réalité · 10 XP</span></div>
+        <div v-for="id in learnedRealityIds" :key="id" class="owned-row">
+          <div><strong>{{ ruleTalentById(id)?.name || id }}</strong><span>Talent de Réalité · 10 XP</span><p>{{ ruleTalentById(id)?.effect }}</p><details v-if="talentLore?.[id]" class="talent-lore"><summary>Contexte et lore</summary><p>{{ talentLore[id] }}</p></details></div>
           <button class="ghost danger compact" type="button" @click="removeRealityTalent(id)">Retirer</button>
         </div>
       </div>
-      <section v-for="group in realityTalentGroups" :key="group.label" class="talent-group">
+      <label class="truth-search">Rechercher un Talent de Réalité<input v-model="realitySearch" type="search" placeholder="Nom, effet, lore…" /></label>
+      <p class="catalog-sort-hint">Par famille, puis par ordre alphabétique.</p>
+      <p v-if="!searchableRealityGroups.length" class="rule-note">Aucun Talent ne correspond à cette recherche.</p>
+      <section v-for="group in searchableRealityGroups" :key="group.label" class="talent-group">
         <div class="subsection-title"><div><h3>{{ group.label }}</h3><p>{{ group.help }}</p></div><span class="schema-badge">{{ group.items.length }}</span></div>
-        <div class="talent-grid">
+        <div class="talent-list">
           <article v-for="talent in group.items" :key="talent.id" :class="{locked:!realityTalentAllowed(talent).ok}">
             <div class="card-head">
               <div class="progress-card-title">
                 <strong>{{ talent.name }}</strong>
-                <BuilderWikiLink
-                  :label="talent.name"
-                  :article-id="talent.compendiumId"
-                  category="Règles"
-                  :detail="talent.effect"
-                  compact
-                >
-                  <span>Compendium</span>
-                </BuilderWikiLink>
               </div>
               <span>10 XP</span>
             </div>
+            <details v-if="talentLore?.[talent.id]" class="talent-lore"><summary>Contexte et lore</summary><p>{{ talentLore[talent.id] }}</p></details>
             <p>{{ talent.effect || "—" }}</p>
             <small v-if="!realityTalentAllowed(talent).ok">{{ realityTalentAllowed(talent).reason }}</small>
             <button class="primary compact" type="button" :disabled="!realityTalentAllowed(talent).ok||xpRemainingValue<10" @click="buyRealityTalent(talent)">Apprendre · 10 XP</button>
@@ -637,8 +643,8 @@ function sellCampaignItem(){
         <button class="primary compact" type="button" @click="initiateTruth">Devenir Initié</button>
       </div>
       <div v-if="state.truthTalents.length" class="owned-list">
-        <div v-for="id in state.truthTalents" :key="id" class="owned-row">
-          <div><strong>{{ truthById.get(id)?.name || id }}</strong><span>{{ truthCost(id) }} PTV · {{ truthById.get(id)?.group || "Vérité" }}</span></div>
+        <div v-for="id in learnedTruthIds" :key="id" class="owned-row">
+          <div><strong>{{ truthById.get(id)?.name || id }}</strong><span>{{ truthCost(id) }} PTV · {{ truthById.get(id)?.group || "Vérité" }}</span><p>{{ truthById.get(id)?.effect }}</p><details v-if="truthById.get(id)?.runtimeLore" class="talent-lore"><summary>Contexte et lore</summary><p>{{ truthById.get(id)?.runtimeLore }}</p></details></div>
           <button class="ghost danger compact" type="button" @click="removeTruthTalent(id)">Retirer</button>
         </div>
       </div>
@@ -646,26 +652,18 @@ function sellCampaignItem(){
         Rechercher dans les Talents accessibles
         <input v-model="truthSearch" type="search" placeholder="Nom, branche, effet, prérequis…" />
       </label>
-      <div class="talent-grid">
+      <p class="catalog-sort-hint">Par famille, puis coût croissant et nom.</p>
+      <p v-if="!truthCandidates.length" class="rule-note">Aucun Talent ne correspond aux choix actuels ou à la recherche.</p>
+      <div class="talent-list">
         <article v-for="talent in truthCandidates" :key="talent.id" :class="{locked:!truthCanBuy(talent)}">
           <div class="card-head">
             <div class="progress-card-title">
               <strong>{{ talent.name }}</strong>
               <small>{{ talent.group }}</small>
-              <BuilderWikiLink
-                :label="talent.name"
-                :article-id="talent.compendiumId"
-                category="Règles"
-                :detail="talent.effect"
-                :badges="[talent.group, talent.cost + ' PTV']"
-                compact
-              >
-                <span>Compendium</span>
-              </BuilderWikiLink>
             </div>
             <span>{{ talent.cost }} PTV</span>
           </div>
-          <em v-if="talent.runtimeLore">{{ talent.runtimeLore }}</em>
+          <details v-if="talent.runtimeLore" class="talent-lore"><summary>Contexte et lore</summary><p>{{ talent.runtimeLore }}</p></details>
           <p v-if="talent.prerequisiteName"><b>Prérequis :</b> {{ talent.prerequisiteName }}</p>
           <p>{{ talent.effect }}</p>
           <button class="primary compact" type="button" :disabled="!truthCanBuy(talent)" @click="buyTruthTalent(talent)">Apprendre · {{ talent.cost }} PTV</button>
@@ -862,4 +860,14 @@ label{font-size:14px;line-height:1.5}
 .empty-line{padding:16px;border:1px dashed #344a62;border-radius:8px;font-size:14px;line-height:1.6}
 @media(max-width:1100px){.money-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.progress-panel,.flash-panel{padding:16px}.money-grid{grid-template-columns:1fr}.card-head{flex-wrap:wrap}}
+
+/* Stable 3 + 2 attribute layout, including wide screens. */
+.progress-grid{display:flex;flex-wrap:wrap;justify-content:center}.progress-grid>article{box-sizing:border-box;flex:0 1 calc((100% - 28px)/3)}
+.talent-list{display:grid;gap:10px;margin-top:16px}.talent-list>article{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 24px;padding:16px 18px;border:1px solid #344b63;border-radius:6px;background:#0c192a;min-width:0}
+.talent-list .card-head{grid-column:1;gap:16px}.talent-list .card-head>span{color:#a3ecfa;white-space:nowrap}.talent-list .progress-card-title{min-width:0}.talent-list .progress-card-title>strong{font-size:16px;color:#edf4ff}
+.talent-list article>p,.talent-list article>small,.talent-list .talent-lore{grid-column:1;margin:0;color:#c0d2e2;font-size:14px;line-height:1.6;overflow-wrap:anywhere}
+.talent-list article>.primary{grid-column:2;grid-row:1 / span 4;align-self:center;min-height:44px;white-space:nowrap;margin:0}.talent-list article.locked{border-style:dashed}.talent-list article.locked>.primary{opacity:.6}
+.talent-lore summary{cursor:pointer;min-height:44px;display:list-item;padding:10px 0;color:#a5def0}.talent-lore p{margin:4px 0 0;white-space:pre-line;color:#c0c6e1}.catalog-sort-hint{color:#a7bdcf;font-size:13px;line-height:1.5;margin:12px 0}
+@media(max-width:760px){.progress-grid>article{flex-basis:calc((100% - 14px)/2)}}
+@media(max-width:600px){.progress-grid>article{flex-basis:100%}.talent-list>article{grid-template-columns:1fr;padding:16px}.talent-list article>.primary{grid-column:1;grid-row:auto;justify-self:stretch}.talent-list .card-head{flex-wrap:wrap}}
 </style>

@@ -67,6 +67,18 @@ try{
     );
   }
 
+  // Compare a second visit in the same authenticated browser: static catalogues
+  // can reuse the HTTP cache, while the character is still fetched from the server.
+  const warmStart=performance.now();
+  await page.goto(`${baseUrl}/characters/${encodeURIComponent(characterId)}/progression`,{waitUntil:"domcontentloaded",timeout:30000});
+  await page.getByRole("heading",{name:"Progression de campagne",exact:true}).waitFor({state:"visible",timeout:30000});
+  const warmMs=Math.round(performance.now()-warmStart);
+  const warmResources=await page.evaluate(()=>performance.getEntriesByType("resource")
+    .filter(entry=>entry.name.includes("/api/rulesets/terra-umbra/"))
+    .map(entry=>({name:entry.name.split("/api/")[1],duration:Math.round(entry.duration),transferSize:entry.transferSize})));
+  console.log(`BUILDER WARM PERF — progression prête ${warmMs} ms · ${warmResources.filter(r=>r.transferSize===0).length}/${warmResources.length} catalogues sans retransfert réseau`);
+  for(const resource of warmResources)console.log(`BUILDER WARM RESOURCE — ${resource.name} · ${resource.duration} ms · ${resource.transferSize} octets transférés`);
+
   await context.close();
 }finally{
   await browser.close();

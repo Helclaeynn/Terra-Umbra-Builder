@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, shallowRef, watch } from "vue";
 import { onBeforeRouteLeave, useRoute } from "vue-router";
 import { api, ApiError } from "../lib/api";
 import TalentSelector, {
@@ -150,15 +150,15 @@ const route=useRoute();
 const progressionMode=route.path.endsWith("/progression");
 const character=ref<Character|null>(null);
 const draft=ref<CharacterDataV2|null>(null);
-const rules=ref<CreationRules|null>(null);
-const lore=ref<CreationLore|null>(null);
+const rules=shallowRef<CreationRules|null>(null);
+const lore=shallowRef<CreationLore|null>(null);
 const talentChoiceSpecs=ref<Record<string,TalentChoiceSpec>>({});
 const skillTalentMap=ref<Record<string,string>>({});
-const disadvantages=ref<DisadvantageCatalog|null>(null);
+const disadvantages=shallowRef<DisadvantageCatalog|null>(null);
 const disadvantageLore=ref<Record<string,string>>({});
-const edgeRules=ref<EdgeRules|null>(null);
-const truthRules=ref<TruthRulesPackage|null>(null);
-const realityRules=ref<RealityRulesPackage|null>(null);
+const edgeRules=shallowRef<EdgeRules|null>(null);
+const truthRules=shallowRef<TruthRulesPackage|null>(null);
+const realityRules=shallowRef<RealityRulesPackage|null>(null);
 const disadvantageCategory=ref("common");
 const disadvantagePick=ref("");
 const truthSearch=ref("");
@@ -976,7 +976,7 @@ const characterSheet=computed<CharacterSheet|null>(()=>{
   const toRealityTalent=(id:string):SheetEntry=>{
     const talent=talentById(id);
     const choice=talentChoiceValue(id);
-    return {id,name:talent?.name??id,compendiumId:talent?.compendiumId,detail:talent?.effect,group:choice?`Choix : ${creation.skills.find(item=>item.id===choice)?.name??choice}`:undefined};
+    return {id,name:talent?.name??id,compendiumId:talent?.compendiumId,detail:talent?.effect,lore:talentNarrative(talent),group:choice?`Choix : ${creation.skills.find(item=>item.id===choice)?.name??choice}`:undefined};
   };
   const inventory:SheetEntry[]=[];
   for(const purchase of [...(realityState.value?.equipment??[]),...(realityState.value?.augmentations??[])]){
@@ -1001,7 +1001,7 @@ const characterSheet=computed<CharacterSheet|null>(()=>{
     ptvRemaining:campaign?ptvRemaining(progress,Math.max(0,truthPtvRemaining.value),truthCost):truthPtvRemaining.value,
     account:realityEconomyValue.value?.account??0,cash:campaignCashValue.value,
     realityTalents:realityIds.map(toRealityTalent),
-    truthTalents:[...truthState.truthTalents.map(id=>({id,name:truthMap.get(id)?.name??id,detail:truthMap.get(id)?.effect,compendiumId:truthMap.get(id)?.compendiumId})),
+    truthTalents:[...truthState.truthTalents.map(id=>({id,name:truthMap.get(id)?.name??id,detail:truthMap.get(id)?.effect,lore:truthMap.get(id)?.runtimeLore,compendiumId:truthMap.get(id)?.compendiumId})),
       ...state.corruptionTalents.map(id=>{
         const item=corruptionMap.get(id);
         const dormant=item?.kind==="DON"&&(!state.corruption||item.sourceId!==state.corruptionSource);
@@ -1053,7 +1053,7 @@ const knowledgeRefs=computed<KnowledgeRef[]>(()=>{
     const talent=talentById(id);
     if(talent)add({
       key:`talent-reality-${id}`,label:talent.name,kind:"Talent",category:"Règles",
-      articleId:talent.compendiumId,detail:talent.effect??talent.description??"",
+      articleId:talent.compendiumId,detail:[talentNarrative(talent),talent.effect??talent.description??""].filter(Boolean).join("\n\n"),
       badges:["Réalité"]
     });
   }
@@ -1063,7 +1063,7 @@ const knowledgeRefs=computed<KnowledgeRef[]>(()=>{
     const talent=truthById.get(id);
     if(talent)add({
       key:`talent-truth-${id}`,label:talent.name,kind:"Talent",category:"Règles",
-      articleId:talent.compendiumId,detail:talent.effect,
+      articleId:talent.compendiumId,detail:[talent.runtimeLore,talent.effect].filter(Boolean).join("\n\n"),
       badges:[`${talent.cost} PTV`,talent.access??"Vérité"].filter(Boolean)
     });
   }
@@ -1716,7 +1716,8 @@ onBeforeUnmount(()=>{
       <section v-for="group in knowledgeGroups" :key="group.name" class="knowledge-group">
         <h3>{{ group.name }}</h3>
         <article v-for="item in group.items" :key="item.key" class="knowledge-item">
-          <BuilderWikiLink
+          <strong v-if="item.kind.includes('Talent') || item.kind.includes('Fléau')">{{ item.label }}</strong>
+          <BuilderWikiLink v-else
             :label="item.label"
             :article-id="item.articleId"
             :category="item.category"
@@ -2580,11 +2581,6 @@ onBeforeUnmount(()=>{
                           <em v-if="talent.runtimeLore">{{ talent.runtimeLore }}</em>
                           <p><b>Effet :</b> {{ talent.effect }}</p>
                         </button>
-                        <div class="truth-talent-wiki">
-                          <BuilderWikiLink :label="talent.name" :article-id="talent.compendiumId" category="Règles" compact>
-                            <span>Compendium</span>
-                          </BuilderWikiLink>
-                        </div>
                       </div>
                     </div>
                   </details>
@@ -2927,6 +2923,7 @@ onBeforeUnmount(()=>{
           </section>
         <ProgressionStep
           class="panel builder-card"
+          :talent-lore="{...lore?.originTalent,...lore?.sphereTalent,...lore?.talent}"
           :progression="draft.progression"
           :reality="draft.reality"
           :truth-state="currentTruthState"
@@ -3340,4 +3337,6 @@ textarea:focus{border-color:#6cb5ff;box-shadow:0 0 0 2px rgba(108,181,255,.14)}
  .builder-topbar-start{flex-wrap:wrap}
 }
 @media(prefers-reduced-motion:reduce){.builder-card{animation:none}.knowledge-drawer,.choice-card,.builder-progress-track span{transition:none}}
+
+.truth-talent-grid{display:grid;grid-template-columns:1fr!important;gap:10px}.truth-talent-entry{min-width:0}.truth-talent-card{text-align:left;width:100%;padding:16px 20px}.truth-talent-head{display:flex;justify-content:space-between;gap:20px}.truth-talent-head>span{white-space:nowrap;color:#a3ecfa}.knowledge-item>p{white-space:pre-line}
 </style>

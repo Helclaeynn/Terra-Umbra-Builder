@@ -94,7 +94,9 @@ const rules={
       crawler:[{id:"sphere_smoke",name:"Réseau Crawler",effect:"Contact",category:"sphere",sphere:"crawler"}],
       corporatiste:[{id:"sphere_corp_smoke",name:"Dotation smoke",effect:"Support",category:"sphere",sphere:"corporatiste"}]
     },
-    common:[{id:"common_smoke",name:"Brave",compendiumId:"wiki-brave",effect:"Test commun",category:"common"}],
+    common:[{id:"common_smoke",name:"Brave",compendiumId:"wiki-brave",effect:"Test commun",category:"common"},
+      {id:"zulu_smoke",name:"Zèle Smoke",effect:"Effet Zèle",category:"common",compendiumId:"removed-zulu"},
+      {id:"aube_smoke",name:"Aube Smoke",effect:"Effet Aube",category:"common",compendiumId:"removed-aube"}],
     expertise:[{id:"expertise_smoke",name:"Athlète",effect:"+1 Athlétisme",category:"expertise",attribute:"vigueur"}]
   }
 };
@@ -133,7 +135,11 @@ const truthRules={
       }
     }
   },
-  catalogs:{humain:[]},
+  catalogs:{humain:[
+    {id:"truth-expensive",name:"Aube supérieure",group:"Groupe Smoke",cost:3,effect:"Effet supérieur",when:{hunterTradition:"aucune"},runtimeLore:"Lore supérieur"},
+    {id:"truth-zulu",name:"Zèle occulte",group:"Groupe Smoke",cost:1,effect:"Effet Zèle occulte",when:{hunterTradition:"aucune"},runtimeLore:"Lore Zèle occulte"},
+    {id:"truth-aube",name:"Aube occulte",group:"Groupe Smoke",cost:1,effect:"Effet Aube occulte",when:{hunterTradition:"aucune"},runtimeLore:"Lore Aube occulte"}
+  ]},
   equipment:[
     {
       id:"truth-ref-smoke",name:"Propriété Smoke",chapter:"22",section:"Propriétés communes",
@@ -368,12 +374,9 @@ for(const width of [1440,390]){
 }
 await page.setViewportSize({width:1440,height:1000});
 await page.locator(".builder-nav").getByRole("button",{name:/Talents/}).click();
-const braveWiki=page.getByRole("link",{name:/Brave/}).first();
-await braveWiki.waitFor({state:"visible",timeout:5000});
-await braveWiki.hover();
-await page.getByText("Talent Brave documenté dans le Compendium.",{exact:false}).waitFor({state:"visible",timeout:5000});
-const braveHref=await braveWiki.getAttribute("href");
-if(!braveHref?.includes("article=wiki-brave"))throw new Error("Talent Brave non résolu vers le Compendium: "+braveHref);
+await page.locator('.talent-detail').filter({hasText:'Brave'}).waitFor();
+if (await page.locator('.talent-detail a').count()) throw new Error('Les talents ne doivent plus proposer de lien d’article');
+await page.locator('.talent-detail').filter({hasText:'Brave'}).getByText('Test commun',{exact:false}).waitFor();
 
 await page.locator(".builder-nav").getByRole("button",{name:/Vérité/}).click();
 const revealDisclosure=page.locator("summary.truth-disclosure-summary").filter({hasText:"Voile & Révélation"});
@@ -463,6 +466,8 @@ for(const removedLabel of ["Réseaux","Statuts","Patrimoine","Dettes"]){
 await page.locator(".builder-nav").getByRole("button",{name:/Finalisation/}).click();
 await page.getByRole("heading",{name:"Contrôle final de la fiche"}).waitFor();
 await page.locator('.character-sheet[data-mode="creation"] [data-stat="pvMax"] strong').waitFor();
+const attributeRows = await page.locator('.sheet-attributes>div').evaluateAll(nodes=>nodes.map(node=>Math.round(node.getBoundingClientRect().top)));
+if (attributeRows.length!==5 || attributeRows[0]!==attributeRows[2] || attributeRows[3]!==attributeRows[4] || attributeRows[0]===attributeRows[3]) throw new Error('La fiche doit présenter les Attributs sur deux rangées 3 + 2');
 const creationPv = Number(await page.locator('[data-stat="pvMax"] strong').innerText());
 for (const width of [1440,390]) {
   await page.setViewportSize({width,height:1000});
@@ -511,6 +516,22 @@ await page.getByRole("link",{name:"Builder"}).waitFor();
 if(await page.locator(".builder-nav").count()){
   throw new Error("La route Progression ne doit pas réafficher la navigation de création.");
 }
+// Both talent catalogues use full-width rows, retain local details and no article links.
+for (const name of ['Apprendre un Talent de Réalité','Dépenser des PTV']) {
+  const block = page.locator('details.progress-panel').filter({has:page.locator('summary>strong').filter({hasText:new RegExp('^'+name+'$')})});
+  if ((await block.getAttribute('open'))===null) await block.locator(':scope>summary').click();
+  const names = await block.locator('.talent-list .progress-card-title>strong').allTextContents();
+  const expected = name==='Dépenser des PTV' ? ['Aube occulte','Zèle occulte','Aube supérieure'] : ['Aube Smoke','Zèle Smoke'];
+  if(JSON.stringify(names)!==JSON.stringify(expected))throw new Error('Tri des talents incorrect : '+JSON.stringify(names));
+  if (await block.locator('.talent-list a').count()) throw new Error('Lien Compendium résiduel dans les talents');
+  for (const width of [1440,390]) {
+    await page.setViewportSize({width,height:1000});
+    await assertBuilderReflow(`Liste ${name}, ${width}px`);
+    const rows=await block.locator('.talent-list>article').evaluateAll(nodes=>nodes.map(node=>({top:node.getBoundingClientRect().top,left:node.getBoundingClientRect().left})));
+    if(rows.some((row,i)=>i && (row.top<=rows[i-1].top || Math.abs(row.left-rows[i-1].left)>1)))throw new Error('Les talents doivent être en liste verticale');
+  }
+}
+await page.setViewportSize({width:1440,height:1000});
 await page.getByRole("button",{name:/Normale.*\+3 XP/}).click();
 await page.getByText("3",{exact:true}).first().waitFor();
 await page.getByRole('button',{name:'Consulter la fiche complète',exact:true}).click();
@@ -553,5 +574,5 @@ for(const legacyKey of ["sphereSupportDetail","possessionsNotes","networks","sta
 
 if(browserErrors.length)throw new Error("Erreurs navigateur :\n"+browserErrors.join("\n"));
 
-console.log("Builder Web V2 smoke OK — 11 étapes de création, progression séparée, tiroir Références, wiki Talents/Équipement, V/SR/R, Finalisation et sauvegarde validés.");
+console.log("Builder Web V2 smoke OK — 11 étapes de création, progression séparée, tiroir Références, Talents locaux triés, wiki Équipement, V/SR/R, Finalisation et sauvegarde validés.");
 await browser.close();
