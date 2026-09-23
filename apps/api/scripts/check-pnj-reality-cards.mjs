@@ -10,6 +10,43 @@ const article = (id, publicView = false) =>
   (publicView ? corpus.publicArticles : corpus.articles).find((item) => item.id === id);
 const rows = (id) => article(id).sections[0].blocks[0].rows;
 
+const religiousCards = active.filter((item) =>
+  ["realite-v9-religions-pnj", "realite-v9-christianity-pnj"].includes(item.dataset) &&
+  item.sections.at(-1)?.id === "profil-statistique" && item.sections.at(-1).blocks.length >= 6);
+assert.equal(religiousCards.length, 30);
+for (const person of religiousCards) {
+  assert.equal(person.sections[0].id, "identite-realite-consolidee", person.id);
+  assert.equal(person.sections.filter((s) => s.id === "identite-realite-consolidee").length, 1, person.id);
+  assert.ok(!person.sections.some((s) => s.id === "reperes"), person.id);
+  const fields = person.sections[0].blocks[0].rows;
+  assert.equal(fields[0][0], "Champ", person.id);
+  assert.ok(fields.some(([label]) => label === "Fonction"), person.id);
+  assert.ok(!article(person.id, true).sections.some((s) => s.id === "profil-statistique"), person.id);
+}
+const agencies = active.filter((person) => person.dataset === "realite-v9-agencies-pnj" &&
+  person.id !== "pnj-agences-cole-gallagher" && person.sections.at(-1)?.blocks.length >= 6);
+assert.equal(agencies.length, 18);
+const civilPrerequisiteFailures = [];
+for (const person of [...religiousCards, ...agencies]) {
+  const blocks = person.sections.at(-1).blocks;
+  const ranks = new Map(blocks[2].rows.slice(1,-1).map(([name, value]) => [name, Number(value)]));
+  const rank = (name) => ranks.get(name) ?? 0;
+  const intro = blocks[0].text;
+  assert.equal(blocks[1].rows[1].slice(1).reduce((sum, value) => sum + Number(value), 0),
+    Number(intro.match(/(\d+) points d'Attributs/)?.[1]), person.id);
+  assert.equal([...ranks.values()].reduce((sum, value) => sum + value, 0),
+    Number(intro.match(/(\d+) points de Compétences/)?.[1]), person.id);
+  for (const [talent, valid] of [
+    ["Réseau mobilisable", rank("Autorité") >= 6], ["Dossier préparé", rank("Investigation") >= 6],
+    ["Chef de manœuvre", rank("Autorité") >= 6],
+    ["Terrain reconnu", Math.max(rank("Survie"),rank("Perception")) >= 7],
+    ["Lecture des failles", Math.max(rank("Investigation"),rank("Perception")) >= 7],
+    ["Désarmement net", Math.max(rank("Mêlée"),rank("Pugilat")) >= 8]
+  ]) if (blocks[4].text.includes(talent) && !valid) civilPrerequisiteFailures.push(`${person.id}: ${talent}`);
+}
+assert.deepEqual(civilPrerequisiteFailures, []);
+assert.ok(!JSON.stringify(article("pnj-religions-chretiente-aureliana-longo-austin", true)).includes("Aara’lo"));
+
 assert.equal(article("pnj-148-kai-gehrman").sections[0].title, "Identité · Réalité");
 assert.ok(!article("pnj-148-kai-gehrman").sections.some((s) => /source antérieure/i.test(s.title)));
 assert.equal(article("pnj-corporations-baldwin-vandrick").sections
@@ -57,7 +94,7 @@ const institutions = active.filter((item) =>
   ["realite-v9-police-pnj", "realite-v9-government-pnj", "realite-v9-agencies-pnj"].includes(item.dataset));
 const staffed = institutions.filter((person) => person.sections.at(-1)?.id === "profil-statistique" &&
   person.sections.at(-1).blocks.length >= 6);
-assert.equal(staffed.length, 51); // Fifty in this batch plus Cole Gallagher.
+assert.equal(staffed.length, 62); // All agencies, police and government, including Cole Gallagher.
 for (const person of staffed) {
   const section = person.sections.at(-1);
   assert.equal(section.audience, "mj", person.id);
@@ -75,7 +112,7 @@ const crawlerProfiles = active.filter((person) => person.dataset === "realite-v9
 assert.equal(crawlerProfiles.length, 123);
 const pegreProfiles = active.filter((person) => person.dataset === "realite-v9-pegre-pnj" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(pegreProfiles.length, 27);
+assert.equal(pegreProfiles.length, 36);
 for (const [id, forbidden, retained] of [
   ["pnj-crawlers-antisysteme-p15-jane-costa", "En tant que louve", "En tant que louve"],
   ["pnj-crawlers-antisysteme-p18-sahamena-lannis", "origine elfes sylvains", "origine elfes sylvains"],
