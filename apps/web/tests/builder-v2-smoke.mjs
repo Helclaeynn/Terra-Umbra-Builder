@@ -520,7 +520,7 @@ if(await page.locator(".builder-nav").count()){
 for (const name of ['Apprendre un Talent de Réalité','Dépenser des PTV']) {
   const block = page.locator('details.progress-panel').filter({has:page.locator('summary>strong').filter({hasText:new RegExp('^'+name+'$')})});
   if ((await block.getAttribute('open'))===null) await block.locator(':scope>summary').click();
-  const names = await block.locator('.talent-list .progress-card-title>strong').allTextContents();
+  const names = await (name==='Dépenser des PTV' ? block : block.locator('.talent-group').filter({has:page.getByRole('heading',{name:'Talents communs',exact:true})})).locator('.talent-list .progress-card-title>strong').allTextContents();
   const expected = name==='Dépenser des PTV' ? ['Aube occulte','Zèle occulte','Aube supérieure'] : ['Aube Smoke','Zèle Smoke'];
   if(JSON.stringify(names)!==JSON.stringify(expected))throw new Error('Tri des talents incorrect : '+JSON.stringify(names));
   if (await block.locator('.talent-list a').count()) throw new Error('Lien Compendium résiduel dans les talents');
