@@ -486,7 +486,7 @@ async function requireEditor(request: any, reply: FastifyReply) {
 }
 
 function canReadMj(role: unknown): boolean {
-  return role === "gm" || role === "admin";
+  return role === "gm" || role === "editor" || role === "admin";
 }
 
 function isMjOnlyArticle(article: Article): boolean { return article?.audience === "mj"; }
