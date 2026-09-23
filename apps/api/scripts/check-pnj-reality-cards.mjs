@@ -35,7 +35,15 @@ assert.equal(hunterProfiles.length, 10);
 const exileRealityProfiles = active.filter((person) =>
   ["verite-pelages-pnj", "verite-grands-exiles-pnj", "verite-vampire-courts-pnj", "verite-extrals-groupes-pnj"].includes(person.dataset) &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(exileRealityProfiles.length, 100);
+const templeRealityProfiles = active.filter((person) =>
+  person.dataset === "verite-temples-daemoniaques-pnj" &&
+  person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
+assert.equal(templeRealityProfiles.length, 29);
+assert.equal(exileRealityProfiles.length, 121);
+for (const [id, forbidden] of [
+  ["personnages-verite-extrals-groupes-axelle-monroy", "ième siège du SMRC"],
+  ["pnj-temples-daemoniaques-ludovic-yersin", "ne soit pas vampire"]
+]) assert.ok(!JSON.stringify(article(id, true)).includes(forbidden), `${id}: Vérité dans le récit public`);
 for (const [id, secret, retained] of [
   ["personnages-points-rencontre-kristina-moon", "magie familiale de l’empire vert", "empire vert"],
   ["personnages-points-rencontre-murck-date", "projection spectrale", "magie spectrale"],
@@ -47,7 +55,7 @@ for (const [id, secret, retained] of [
   assert.ok(JSON.stringify(article(id)).toLowerCase().includes(retained), `${id}: information MJ perdue`);
 }
 const civilPrerequisiteFailures = [];
-for (const person of [...religiousCards, ...agencies, ...meetingProfiles, ...hunterProfiles, ...exileRealityProfiles]) {
+for (const person of [...religiousCards, ...agencies, ...meetingProfiles, ...hunterProfiles, ...exileRealityProfiles, ...templeRealityProfiles]) {
   const blocks = person.sections.at(-1).blocks;
   const ranks = new Map(blocks[2].rows.slice(1,-1).map(([name, value]) => [name, Number(value)]));
   const rank = (name) => ranks.get(name) ?? 0;
