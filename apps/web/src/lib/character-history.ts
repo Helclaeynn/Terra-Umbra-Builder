@@ -78,6 +78,7 @@ export function compareHistory(current:HistoryRevision,previous:HistoryRevision|
 export function revisionLabel(row:HistoryRevision){
   if(row.reason==='created')return 'Création du personnage';
   if(row.reason==='imported')return 'Import du personnage';
+  if(row.reason.startsWith('campaign-reward:'))return `Récompense de séance · ${row.reason.slice(16)}`;
   if(/^restored:\d+$/.test(row.reason))return `Restauration de la version ${row.reason.split(':')[1]}`;
   return 'Personnage enregistré';
 }
