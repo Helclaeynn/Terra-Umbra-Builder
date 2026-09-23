@@ -10,7 +10,7 @@ let role='gm',status='invited',attached=null,invited=false,version=1,notes='Note
 const name='<script>Campagne</script> · California';
 const campaign=()=>({id:cid,name,description:'Une campagne de test',gmName:'Morgan',ownerId:gid,canManage:role==='gm',membershipStatus:role==='gm'?null:status,memberCount:status==='accepted'?1:0,archivedAt:archived?'2026-09-23':null,version,...(role==='gm'?{gmNotes:notes}:{})});
 const members=()=>invited?[{userId:pid,displayName:'Camille',status,admissionStatus,characterId:attached,characterName:attached?'Alexandra':null,canReadSheet:!!attached,updatedAt:null}]:[];
-let attendanceResponse=null;
+let attendanceResponse=null,sessionCount=0;
 let session=null,effectConflict=false,admissionStatus='pending',admissionVersion=1,admissionMessage='';
 const effectTarget={id:chid,name:'Alexandra',version:1,money:1000,corruption:0,integrity:4,source:''};
 const errors=[];const page=await browser.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
@@ -31,8 +31,8 @@ await page.route('**/api/**',async route=>{
  else if(path.endsWith('/preparation-library'))body={references:[],previous:[]};
  else if(path.includes('/attendance/')&&method==='PUT'){attendanceResponse=req.postDataJSON().response;session.attendance=[{userId:pid,displayName:'Camille',characterId:chid,response:attendanceResponse}];body={ok:true};}
  else if(path.endsWith('/sessions')&&method==='GET')body={calendarMailAvailable:true,sessions:session?[role==='gm'?session:{...session,preparation:undefined,scenes:undefined,report:session.published?session.report:''}]:[],hasMore:false};
- else if(path.endsWith('/sessions')&&method==='POST'){session={...req.postDataJSON(),id:gid,version:1,rewards:[],effects:[],attendance:[{userId:pid,displayName:'Camille',characterId:chid,response:attendanceResponse}]};body={session:{id:gid,version:1}};code=201;}
- else if((path.endsWith('/preparation')||path.endsWith('/sessions/'+gid))&&method==='PATCH'){const b=req.postDataJSON();assert.equal(b.version,session.version);session={...session,...b,version:session.version+1};body={session:{id:gid,version:session.version}};}
+ else if(path.endsWith('/sessions')&&method==='POST'){session={...req.postDataJSON(),id:++sessionCount===1?gid:'55555555-5555-4555-8555-555555555555',version:1,rewards:[],effects:[],attendance:[{userId:pid,displayName:'Camille',characterId:chid,response:attendanceResponse}]};body={session:{id:session.id,version:1}};code=201;}
+ else if((path.endsWith('/preparation')||path.endsWith('/sessions/'+session?.id))&&method==='PATCH'){const b=req.postDataJSON();assert.equal(b.version,session.version);session={...session,...b,version:session.version+1};body={session:{id:session.id,version:session.version}};}
  else if(path.endsWith('/rewards')){const b=req.postDataJSON();assert.equal(b.rewards.length,1);assert.equal(b.rewards[0].characterId,chid);session.rewards=[{characterId:chid,characterName:'Alexandra',xp:b.rewards[0].xp,ptv:b.rewards[0].ptv,awardedAt:'2026-09-23'}];body={ok:true};}
  else if(path==='/api/compendium/search'){body={items:[{id:url.searchParams.get('category')==='Bestiaire'?'bestiaire-loup':'pnj-cole',title:url.searchParams.get('category')==='Bestiaire'?'Loup sombre':'Cole Gallagher',category:url.searchParams.get('category'),snippet:'Référence pour la scène.'}]};}
  else if(path.endsWith('/effect-targets'))body={characters:[effectTarget],sources:[{id:'vhodhal',name:'Vhodhal',corruption:'Famine Blanche'}]};
