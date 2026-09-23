@@ -1,11 +1,15 @@
 FROM node:24-alpine AS build
-WORKDIR /app
-COPY package.json ./
+WORKDIR /app/apps/web
+COPY apps/web/package.json ./
 RUN npm install
-COPY . .
+COPY apps/web/src ./src
+COPY apps/web/public ./public
+COPY apps/web/index.html apps/web/vite.config.ts apps/web/tsconfig*.json ./
+COPY apps/api/src/rules/economy-model.ts /app/apps/api/src/rules/economy-model.ts
+COPY apps/api/src/campaign-preparation.ts /app/apps/api/src/campaign-preparation.ts
 RUN npm run build
 
 FROM nginx:1.29-alpine
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY apps/web/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/apps/web/dist /usr/share/nginx/html
 EXPOSE 80

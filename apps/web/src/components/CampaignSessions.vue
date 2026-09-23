@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import {computed,onMounted,onUnmounted,ref} from 'vue';
 import {onBeforeRouteLeave} from 'vue-router';
+import CampaignPreparation from './CampaignPreparation.vue';
+import CampaignSessionEffects from './CampaignSessionEffects.vue';
+import type {CampaignScene} from '../../../api/src/campaign-preparation';
 import {api,ApiError} from '../lib/api';
 type Reward={characterId:string;characterName:string;xp:number;ptv:number;awardedAt:string};
-type Session={id:string;title:string;playedOn:string|null;status:'planned'|'played';preparation?:string;report:string;published:boolean;version:number;rewards:Reward[]};
+type Session={scenes?:CampaignScene[];effects?:any[];id:string;title:string;playedOn:string|null;status:'planned'|'played';preparation?:string;report:string;published:boolean;version:number;rewards:Reward[]};
 const props=defineProps<{campaignId:string;canManage:boolean;archived:boolean;members:{status:string;characterId:string|null;characterName:string|null}[]}>();
 const sessions=ref<Session[]>([]),hasMore=ref(false),loading=ref(false),busy=ref(false),error=ref(''),notice=ref('');
 const editing=ref<string|null>(null),baseline=ref('');
-const blank=()=>({title:'',playedOn:'',status:'planned' as 'planned'|'played',preparation:'',report:'',published:false,version:1});
+const blank=()=>({scenes:[] as CampaignScene[],title:'',playedOn:'',status:'planned' as 'planned'|'played',preparation:'',report:'',published:false,version:1});
 const draft=ref(blank()),dirty=computed(()=>editing.value!==null&&JSON.stringify(draft.value)!==baseline.value);
 const awarding=ref<string|null>(null),selected=ref<string[]>([]),xp=ref(0),ptv=ref(0);
 const eligible=computed(()=>props.members.filter(m=>m.status==='accepted'&&m.characterId&&!sessions.value.find(s=>s.id===awarding.value)?.rewards.some(r=>r.characterId===m.characterId)));
@@ -25,7 +28,7 @@ async function load(more=false){
 }
 function edit(s?:Session){
  if(dirty.value&&!window.confirm('Abandonner les modifications de séance non enregistrées ?'))return;
- draft.value=s?{title:s.title,playedOn:s.playedOn||'',status:s.status,preparation:s.preparation||'',report:s.report,published:s.published,version:s.version}:blank();
+ draft.value=s?{scenes:JSON.parse(JSON.stringify(s.scenes||[])),title:s.title,playedOn:s.playedOn||'',status:s.status,preparation:s.preparation||'',report:s.report,published:s.published,version:s.version}:blank();
  baseline.value=JSON.stringify(draft.value);editing.value=s?.id||'new';awarding.value=null;error.value='';notice.value='';
 }
 function cancel(){if(dirty.value&&!window.confirm('Abandonner les modifications non enregistrées ?'))return;editing.value=null;}
@@ -56,6 +59,7 @@ onUnmounted(()=>{generation++;window.removeEventListener('beforeunload',beforeUn
    <label>Titre de la séance<input v-model="draft.title" required maxlength="120" /></label>
    <div class="fields"><label>Date prévue ou jouée<input v-model="draft.playedOn" type="date" /></label><label>État de la séance<select v-model="draft.status" aria-label="État de la séance"><option value="planned">À jouer</option><option value="played">Jouée</option></select></label></div>
    <label>Préparation privée du MJ<textarea v-model="draft.preparation" rows="6" maxlength="20000" placeholder="Scènes, indices, PNJ et secrets…" /></label><small>Seul le MJ de cette campagne peut lire cette préparation. Le titre et la date sont visibles par le groupe.</small>
+   <CampaignPreparation v-model="draft.scenes" />
    <label>Compte rendu de la séance<textarea v-model="draft.report" rows="5" maxlength="20000" /></label>
    <label class="check"><input v-model="draft.published" type="checkbox" />Publier ce compte rendu pour le groupe</label><small>Décoché, le texte reste un brouillon réservé au MJ.</small>
    <div class="actions"><button class="primary" :disabled="busy||!draft.title.trim()">Enregistrer la séance</button><button type="button" :disabled="busy" @click="cancel">Annuler</button></div><small v-if="dirty">Modifications non enregistrées.</small>
@@ -65,10 +69,11 @@ onUnmounted(()=>{generation++;window.removeEventListener('beforeunload',beforeUn
   <details v-for="s in sessions" :key="s.id" class="session">
    <summary><span><strong>{{ s.title }}</strong><small>{{ s.playedOn?s.playedOn.split('-').reverse().join('/'):'Date à préciser' }} · {{ s.status==='played'?'Jouée':'À jouer' }} · {{ s.published?'Compte rendu publié':'Compte rendu non publié' }}</small></span></summary>
    <div class="body">
-    <details v-if="canManage" class="private"><summary>Préparation privée du MJ</summary><p class="prose">{{ s.preparation||'Aucune préparation enregistrée.' }}</p></details>
+    <details v-if="canManage" class="private"><summary>Préparation privée du MJ</summary><p class="prose">{{ s.preparation||'Aucune préparation enregistrée.' }}</p><CampaignPreparation :model-value="s.scenes||[]" readonly /></details>
     <h3>Compte rendu {{ !s.published&&canManage?'· Brouillon privé':'' }}</h3><p class="prose">{{ s.report||(s.published?'Aucun texte publié.':'Le compte rendu n’est pas encore publié.') }}</p>
     <div v-if="canManage&&!archived" class="actions"><button :disabled="busy" @click="edit(s)">Modifier la séance</button><button v-if="s.status==='played'" :disabled="busy" @click="prepareRewards(s)">Attribuer les récompenses</button><small v-else>Les récompenses s’ouvrent une fois la séance marquée « Jouée ».</small></div>
     <details v-if="s.rewards.length" class="rewards"><summary>Récompenses attribuées · {{ s.rewards.length }}</summary><div v-for="r in s.rewards" :key="r.characterId" class="reward-row"><strong>{{ r.characterName }}</strong><span>{{ r.xp }} XP · {{ r.ptv }} PTV</span><small>{{ new Date(r.awardedAt).toLocaleDateString('fr-FR') }}</small></div></details>
+    <CampaignSessionEffects :campaign-id="campaignId" :session-id="s.id" :can-manage="canManage&&!archived&&s.status==='played'" :effects="s.effects||[]" @applied="load()" />
     <form v-if="awarding===s.id&&canManage&&!archived" class="editor" @submit.prevent="award">
      <h3>Récompenses de cette séance</h3><p>Les points sont ajoutés à la progression de chaque personnage sélectionné. Chaque fiche ne peut être récompensée qu’une fois par séance.</p>
      <fieldset><legend>Personnages à récompenser</legend><label v-for="m in eligible" :key="m.characterId!" class="check"><input v-model="selected" type="checkbox" :value="m.characterId" />{{ m.characterName||'Personnage' }}</label><p v-if="!eligible.length">Aucune nouvelle fiche rattachée à récompenser.</p></fieldset>

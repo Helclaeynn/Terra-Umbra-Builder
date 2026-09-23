@@ -1,6 +1,6 @@
 // Real SQL and session authorization, on disposable accounts only.
 import assert from 'node:assert/strict';
-import { randomBytes } from 'node:crypto';
+import { randomBytes,randomUUID } from 'node:crypto';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 const mode=process.env.TUC_SHEET_SMOKE;
@@ -189,14 +189,14 @@ try {
   await call(gm,'GET',`/api/characters/${pc.id}/sheet`,undefined,404);
   await call(player,'PUT',url+'/membership',{characterId:pc.id});
   // Sessions: preparation never leaves the GM API, publication and rewards are explicit.
-  const sb={title:'CI séance',playedOn:'2026-09-23',status:'planned',preparation:'SECRET PREPARATION',report:'SECRET DRAFT',published:false};
+  const sb={scenes:[{id:'scene-1',title:'PRIVATE SCENE',notes:'SECRET SCENE',done:false,references:[{articleId:'pnj-test',title:'PRIVATE NPC',category:'Personnages',quantity:2,notes:'SECRET REF'}]}],title:'CI séance',playedOn:'2026-09-23',status:'planned',preparation:'SECRET PREPARATION',report:'SECRET DRAFT',published:false};
   for(const who of [null,player,stranger,admin])await call(who,'POST',url+'/sessions',sb,who?404:401);
   await call(gm,'POST',url+'/sessions',{...sb,playedOn:'2026-02-30'},400);
   const ss=(await call(gm,'POST',url+'/sessions',sb,201)).session;
   const su=url+'/sessions/'+ss.id;
   for(const who of [stranger,admin])await call(who,'GET',url+'/sessions',undefined,404);
   const hidden=(await call(player,'GET',url+'/sessions')).sessions[0];
-  assert.equal('preparation' in hidden,false);assert.equal(hidden.report,'');assert.ok(!JSON.stringify(hidden).includes('SECRET'));
+  assert.equal('scenes' in hidden,false);assert.equal('preparation' in hidden,false);assert.equal(hidden.report,'');assert.ok(!JSON.stringify(hidden).includes('SECRET'));
   assert.equal((await call(gm,'GET',url+'/sessions')).sessions[0].preparation,sb.preparation);
   await call(player,'PATCH',su,{...sb,version:1},404);
   await call(gm,'POST',su+'/rewards',{characterIds:[pc.id],xp:5,ptv:2},400);
@@ -223,7 +223,37 @@ try {
   assert.equal((await call(player,'GET',`/api/characters/${pc.id}`)).character.data.progression.xpEarned,7);
   await call(gm,'PATCH',su,{...sb,status:'played',published:false,version:2});
   assert.equal((await call(player,'GET',url+'/sessions')).sessions.find(s=>s.id===ss.id).report,'');
+  // Structured preparation is GM-only, including referenced NPC names and annotations.
+  await call(gm,'PATCH',su,{...sb,scenes:undefined,status:'played',version:3}); // Older clients preserve scenes.
+
+  assert.equal((await call(gm,'GET',url+'/sessions')).sessions.find(s=>s.id===ss.id).scenes[0].references[0].quantity,2);
+  await call(gm,'POST',url+'/sessions',{...sb,scenes:[{...sb.scenes[0],references:[{...sb.scenes[0].references[0],quantity:0}]}]},400);
+  for(const who of [null,player,other,stranger,admin])await call(who,'GET',url+'/effect-targets',undefined,who?404:401);
+  const target=(await call(gm,'GET',url+'/effect-targets')).characters.find(c=>c.id===pc.id);
+  assert.equal(target.corruption,0);assert.equal(target.integrity,1);
+  const effect={requestId:randomUUID(),characterId:pc.id,version:target.version,money:125,corruptionDelta:1,corruptionSource:'vhodhal',reason:'Prime et exposition'};
+  for(const who of [player,other,stranger,admin])await call(who,'POST',su+'/effects',effect,404);
+  await call(gm,'POST',su+'/effects',{...effect,corruptionSource:'inconnue'},400);
+  await call(gm,'POST',su+'/effects',{...effect,corruptionDelta:2},400);
+  await call(gm,'POST',su+'/effects',effect);
+  await call(gm,'POST',su+'/effects',effect); // Lost response: same request is idempotent.
+  await call(gm,'POST',su+'/effects',{...effect,money:126},409);
+  await call(gm,'POST',su+'/effects',{...effect,requestId:randomUUID()},409); // Stale preview.
+  const changed=(await call(player,'GET',`/api/characters/${pc.id}`)).character;
+  assert.equal(changed.data.progression.cashBase,target.base);assert.equal(changed.data.progression.cashTransactions.length,1);
+  assert.equal(changed.data.progression.cashTransactions[0].amount,125);assert.equal(changed.data.progression.xpEarned,7);assert.equal(changed.data.progression.ptvEarned,2);
+  assert.equal(changed.data.truth.corruption,1);assert.equal(changed.data.truth.corruptionSource,'vhodhal');assert.equal(changed.data.truth.corruptionMjAuthorized,true);
+  assert.deepEqual(changed.data.truth.corruptionTalents,[],'Corruption never grants a Don for free');
+  const newTarget=(await call(gm,'GET',url+'/effect-targets')).characters.find(c=>c.id===pc.id);assert.equal(newTarget.money,target.money+125);
+  const moneyOnly={...effect,requestId:randomUUID(),version:changed.version,money:50,corruptionDelta:0,corruptionSource:''};
+  await call(gm,'POST',su+'/effects',moneyOnly);
+  assert.equal((await call(gm,'GET',url+'/effect-targets')).characters.find(c=>c.id===pc.id).money,target.money+175);
+  const mine=(await call(player,'GET',url+'/sessions')).sessions.find(s=>s.id===ss.id);assert.equal(mine.effects.length,2);assert.equal('scenes' in mine,false);
+  assert.equal((await call(other,'GET',url+'/sessions')).sessions.find(s=>s.id===ss.id).effects.length,0);
+  const effectHistory=(await call(player,'GET',`/api/characters/${pc.id}/history`)).revisions[0];assert.equal(effectHistory.reason,'campaign-effect:CI séance');assert.equal(effectHistory.snapshot.progression.cashTransactions.length,2);
   await call(gm,'PATCH',url,{name:'CI campagne',description:'',gmNotes:'SECRET MJ',archived:true,version:2});
+  await call(gm,'GET',url+'/effect-targets',undefined,404);
+  await call(gm,'POST',su+'/effects',{...effect,requestId:randomUUID()},404);
   await call(player,'GET',url+'/sessions',undefined,404);
   await call(gm,'POST',url+'/sessions',sb,404);
   await call(gm,'POST',su+'/rewards',{characterIds:[pc.id],xp:1,ptv:0},404);

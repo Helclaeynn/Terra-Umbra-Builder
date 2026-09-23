@@ -51,3 +51,8 @@ const purified=structuredClone(corruptionAfter);purified.truth.corruption=0;puri
 const purifiedChanges=compareHistory(rev(4,purified),rev(3,corruptionAfter),rules,truthRules).changes;
 assert.ok(!purifiedChanges.some(c=>c.label.startsWith('PTV engagés')||c.label.startsWith('Capacité de Fléau')),'Purification is not a refund or deletion');
 console.log('TRUTH HISTORY OK — corruption level/source, declared approvals, acquired abilities/objects and purification without refund');
+
+const cashAfter=structuredClone(after);cashAfter.progression.cashBase=200;cashAfter.progression.cashTransactions=[{uid:'gm-event',amount:125,label:'Prime de séance',type:'campaign-gm',at:'2026-09-23'}];
+const cashChange=compareHistory(rev(3,cashAfter),rev(2,after),rules,truthRules).changes.find(c=>c.label==='Argent · Prime de séance');assert.equal(cashChange.before,'Absent');assert.equal(cashChange.after,'125 $');
+assert.equal(revisionLabel({...rev(3,cashAfter),reason:'campaign-effect:Le port'}),'Événement de séance · Le port');
+console.log('CASH HISTORY OK — individual GM transactions visible in character history');
