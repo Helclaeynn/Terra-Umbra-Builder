@@ -70,4 +70,28 @@ for (const person of staffed) {
   }
   assert.ok(!article(person.id, true).sections.some((s) => s.id === "profil-statistique"), person.id);
 }
+const crawlerProfiles = active.filter((person) => person.dataset === "realite-v9-crawlers-pnj" &&
+  person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
+assert.equal(crawlerProfiles.length, 50);
+const crawlerTalentErrors = [];
+for (const person of crawlerProfiles) {
+  const blocks = person.sections.at(-1).blocks;
+  const attrs = blocks[1].rows[1].slice(1).map(Number);
+  const ranks = new Map(blocks[2].rows.slice(1,-1).map((row) => [row[0], Number(row[1])]));
+  const intro = blocks[0].text;
+  const rank = (skill) => ranks.get(skill) ?? 0;
+  assert.equal(attrs.reduce((sum, value) => sum + value, 0), Number(intro.match(/(\d+) points d'Attributs/)?.[1]), person.id);
+  assert.equal([...ranks.values()].reduce((sum, value) => sum + value, 0), Number(intro.match(/(\d+) points de Compétences/)?.[1]), person.id);
+  for (const [talent, valid] of [
+    ["Réseau mobilisable", rank("Autorité") >= 6], ["Dossier préparé", rank("Investigation") >= 6],
+    ["Chef de manœuvre", rank("Autorité") >= 6],
+    ["Terrain reconnu", Math.max(rank("Survie"), rank("Perception")) >= 7],
+    ["Lecture des failles", Math.max(rank("Investigation"), rank("Perception")) >= 7],
+    ["Désarmement net", Math.max(rank("Mêlée"), rank("Pugilat")) >= 8],
+    ["Lutte brève", rank("Pugilat") >= 7],
+    ["Décrochage préparé", Math.max(rank("Athlétisme"), rank("Esquive")) >= 6]
+  ]) if (blocks[4].text.includes(talent) && !valid) crawlerTalentErrors.push(`${person.id}: ${talent}`);
+  assert.ok(!article(person.id,true).sections.some((section) => section.id === "profil-statistique"), person.id);
+}
+assert.deepEqual(crawlerTalentErrors, []);
 console.log("PNJ REALITY CARDS OK — identity first; duplicates merged; profiles MJ only");
