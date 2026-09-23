@@ -43,9 +43,9 @@ try{
  await click('Fermer la fiche PNJ');await page.getByText('Mes PNJ de campagne · générateur et fiches',{exact:true}).click();
  await click('Préparer une séance');await page.getByLabel('Titre de la séance',{exact:true}).fill('La rencontre');await click('Ajouter une scène');await click('Ajouter une référence');await click('Mes PNJ de campagne');
  await click('Ajouter Morgan · contact à la scène');await page.getByRole('status').filter({hasText:'Morgan · contact ajouté'}).waitFor();
- await page.getByRole('button',{name:'Morgan · contact · Ouvrir la fiche',exact:true}).click();await page.locator('.scene-roster .npc-sheet').waitFor();assert.match(await page.locator('.scene-roster').textContent(),/Secret de test/);
+ await page.getByRole('button',{name:'Morgan · contact · Ouvrir la fiche',exact:true}).click();await page.locator('.reference .npc-sheet').waitFor();assert.match(await page.locator('.reference').textContent(),/Secret de test/);
  await click('Terminer la préparation');assert.equal(session.scenes[0].references[0].npcId,record.id);
- await page.reload();await page.locator('details.private > summary').click();await page.getByRole('button',{name:'Morgan · contact · Ouvrir la fiche',exact:true}).click();await page.locator('.scene-roster .npc-sheet').waitFor();
+ await page.reload();await page.locator('details.private > summary').click();await page.getByRole('button',{name:'Morgan · contact · Ouvrir la fiche',exact:true}).click();await page.locator('.reference .npc-sheet').waitFor();
  await page.getByText('Mes PNJ de campagne · générateur et fiches',{exact:true}).click();await click('Modifier Morgan · contact');await click('Retirer l’image');await click('Enregistrer le PNJ');await page.getByRole('button',{name:'Consulter Morgan · contact',exact:true}).waitFor();assert.equal(records.get(record.id).data.portrait,'');
  role='player';await page.reload();await page.getByRole('heading',{name:'Le groupe',exact:true}).waitFor();assert.equal(await page.getByText('Mes PNJ de campagne · générateur et fiches',{exact:true}).count(),0);
  assert.deepEqual(errors,[]);console.log('NPC BROWSER OK — tiers, preview, editable preset, real image compression/persistence/removal, tags, scene selection and saved preview, private manager, 1440/390/320px reflow');
