@@ -1,5 +1,6 @@
 import {terraUmbraCreationRules as rules} from './rules/terra-umbra-creation.js';
-import {NPC_TIERS,NPC_TALENTS,npcTalentEligible,type NpcCatalog,type NpcData} from './campaign-npc-model.js';
+import {NPC_TALENTS} from './npc-rules.js';
+import {NPC_TIERS,npcTalentEligible,type NpcCatalog,type NpcData} from './campaign-npc-model.js';
 type Preset={id:string;name:string;description:string;attributes:string[];skills:string[];talents:string[]};
 export const NPC_PRESETS:Preset[]=[
  {id:'civil',name:'Civil / témoin',description:'Un intervenant ordinaire, attentif à ce qui l’entoure.',attributes:['charisme','esprit','volonte','agilite','vigueur'],skills:['perception','diplomatie','savoirs','langages_argot','commerce','investigation','force_mentale','constitution'],talents:['Lecture des failles','Expertise éprouvée','Dossier préparé']},
