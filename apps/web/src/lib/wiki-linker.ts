@@ -211,7 +211,8 @@ export function createWikiLinker(articles,{explicitTargets={},strictSurfaceAlias
         : found.candidate.search
           ? ` data-wiki-search="${escapeAttr(found.candidate.alias)}"`
           : '';
-      html+=`<a class="wiki-link" href="${escapeAttr(found.candidate.href)}"${data} title="Voir : ${escapeAttr(found.candidate.title||'')}">${escapeHtml(source.slice(start,end))}</a>`;
+      const title=found.candidate.id ? '' : ` title="Voir : ${escapeAttr(found.candidate.title||'')}"`;
+      html+=`<a class="wiki-link" href="${escapeAttr(found.candidate.href)}"${data}${title}>${escapeHtml(source.slice(start,end))}</a>`;
       cursor=end;index+=found.size;
     }
     html+=escapeHtml(source.slice(cursor));return html;
