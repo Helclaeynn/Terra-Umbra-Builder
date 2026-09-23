@@ -236,6 +236,12 @@ try {
         { exact: true }).waitFor();
       assert.equal(await page.locator("textarea.wiki-source").count(), 0);
       await assertLayout(page, `Éditeur accès refusé ${role} ${width}`);
+      await page.goto(baseUrl + "/compendium/new", { waitUntil: "domcontentloaded" });
+      await page.getByText(role === "public" ? "Connexion requise." : "Cette page est réservée aux éditeurs et administrateurs.",
+        { exact: true }).waitFor();
+      assert.equal(await page.locator("textarea.wiki-source").count(), 0,
+        "La création ne doit pas inviter à saisir un texte impossible à enregistrer.");
+      await assertLayout(page, `Nouvelle page accès refusé ${role} ${width}`);
     }
     assert.deepEqual(unhandled, [], "Requêtes non couvertes par les fixtures UI.");
     assert.deepEqual(errors, [], "Erreurs JavaScript pendant les parcours UI.");
