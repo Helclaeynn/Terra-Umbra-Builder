@@ -72,7 +72,10 @@ for (const person of staffed) {
 }
 const crawlerProfiles = active.filter((person) => person.dataset === "realite-v9-crawlers-pnj" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(crawlerProfiles.length, 100);
+assert.equal(crawlerProfiles.length, 123);
+const pegreProfiles = active.filter((person) => person.dataset === "realite-v9-pegre-pnj" &&
+  person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
+assert.equal(pegreProfiles.length, 27);
 for (const [id, forbidden, retained] of [
   ["pnj-crawlers-antisysteme-p15-jane-costa", "En tant que louve", "En tant que louve"],
   ["pnj-crawlers-antisysteme-p18-sahamena-lannis", "origine elfes sylvains", "origine elfes sylvains"],
@@ -82,7 +85,7 @@ for (const [id, forbidden, retained] of [
   assert.ok(JSON.stringify(article(id, false)).includes(retained), `${id}: secret MJ perdu`);
 }
 const crawlerTalentErrors = [];
-for (const person of crawlerProfiles) {
+for (const person of [...crawlerProfiles, ...pegreProfiles]) {
   const blocks = person.sections.at(-1).blocks;
   const attrs = blocks[1].rows[1].slice(1).map(Number);
   const ranks = new Map(blocks[2].rows.slice(1,-1).map((row) => [row[0], Number(row[1])]));
