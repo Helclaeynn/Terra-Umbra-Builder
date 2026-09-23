@@ -1,13 +1,15 @@
 import type {FastifyInstance} from 'fastify';
+import {validScenes,cleanScenes} from './campaign-preparation.js';
 import {pool} from './db.js';
 import {requireUser} from './auth.js';
 const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const gm=(role:string)=>['gm','editor','admin'].includes(role);
 const eligible=`u.is_active AND u.role IN ('gm','editor','admin')`;
 const missing={error:'campaign_not_found'};
-type SessionBody={title?:unknown;playedOn?:unknown;status?:unknown;preparation?:unknown;report?:unknown;published?:unknown;version?:unknown};
+type SessionBody={scenes?:unknown;title?:unknown;playedOn?:unknown;status?:unknown;preparation?:unknown;report?:unknown;published?:unknown;version?:unknown};
 function valid(b:SessionBody){
   if(!b||typeof b.title!=='string'||!b.title.trim()||b.title.trim().length>120||!['planned','played'].includes(String(b.status))||typeof b.preparation!=='string'||b.preparation.length>20000||typeof b.report!=='string'||b.report.length>20000||typeof b.published!=='boolean')return false;
+  if(b.scenes!==undefined&&!validScenes(b.scenes))return false;
   if(b.playedOn===null)return true;
   if(typeof b.playedOn!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(b.playedOn)||Number(b.playedOn.slice(0,4))<1)return false;
   const d=new Date(b.playedOn+'T00:00:00Z');return Number.isFinite(d.getTime())&&d.toISOString().slice(0,10)===b.playedOn;
@@ -22,9 +24,11 @@ export async function registerCampaignSessionRoutes(app:FastifyInstance){
     if(!allowed.rows.length)return reply.code(404).send(missing);
     const manage=allowed.rows[0].manage;
     const result=await pool.query(`SELECT s.id,s.title,s.played_on::text AS "playedOn",s.status,s.published,s.version,
-      ${manage?'s.preparation,s.report':"CASE WHEN s.published THEN s.report ELSE '' END AS report"},
+      ${manage?'s.preparation,s.report,s.scenes':"CASE WHEN s.published THEN s.report ELSE '' END AS report"},
       COALESCE((SELECT jsonb_agg(jsonb_build_object('characterId',r.character_id,'characterName',r.character_name,'xp',r.xp,'ptv',r.ptv,'awardedAt',r.awarded_at) ORDER BY r.awarded_at,r.character_id)
-        FROM campaign_session_rewards r JOIN characters ch ON ch.id=r.character_id WHERE r.session_id=s.id AND ($4 OR ch.owner_id=$3)),'[]') AS rewards
+        FROM campaign_session_rewards r JOIN characters ch ON ch.id=r.character_id WHERE r.session_id=s.id AND ($4 OR ch.owner_id=$3)),'[]') AS rewards,
+      COALESCE((SELECT jsonb_agg(jsonb_build_object('id',e.id,'characterName',e.character_name,'money',e.money,'corruptionDelta',e.corruption_delta,'corruptionSource',e.corruption_source,'reason',e.reason,'before',e.before_state,'after',e.after_state,'appliedAt',e.applied_at) ORDER BY e.applied_at,e.id)
+        FROM campaign_session_effects e JOIN characters ch ON ch.id=e.character_id WHERE e.session_id=s.id AND ($4 OR ch.owner_id=$3)),'[]') AS effects
       FROM campaign_sessions s WHERE s.campaign_id=$1 ORDER BY s.created_at DESC,s.id LIMIT 21 OFFSET $2`,[req.params.id,offset,user.id,manage]);
     return {sessions:result.rows.slice(0,20),hasMore:result.rows.length>20};
   });
@@ -33,8 +37,8 @@ export async function registerCampaignSessionRoutes(app:FastifyInstance){
     if(!gm(user.role)||!uuid.test(req.params.id))return reply.code(404).send(missing);
     if(!valid(req.body))return reply.code(400).send({error:'invalid_session'});
     const b=req.body;
-    const r=await pool.query(`INSERT INTO campaign_sessions(campaign_id,title,played_on,status,preparation,report,published)
-      SELECT id,$3,$4::date,$5,$6,$7,$8 FROM campaigns WHERE id=$1 AND owner_id=$2 AND archived_at IS NULL RETURNING id`,[req.params.id,user.id,String(b.title).trim(),b.playedOn,b.status,b.preparation,b.report,b.published]);
+    const r=await pool.query(`INSERT INTO campaign_sessions(campaign_id,title,played_on,status,preparation,report,published,scenes)
+      SELECT id,$3,$4::date,$5,$6,$7,$8,$9::jsonb FROM campaigns WHERE id=$1 AND owner_id=$2 AND archived_at IS NULL RETURNING id`,[req.params.id,user.id,String(b.title).trim(),b.playedOn,b.status,b.preparation,b.report,b.published,JSON.stringify(validScenes(b.scenes)?cleanScenes(b.scenes):[])]);
     if(!r.rows.length)return reply.code(404).send(missing);
     return reply.code(201).send({session:r.rows[0]});
   });
@@ -43,8 +47,8 @@ export async function registerCampaignSessionRoutes(app:FastifyInstance){
     if(!gm(user.role)||!uuid.test(req.params.id)||!uuid.test(req.params.sessionId))return reply.code(404).send(missing);
     if(!valid(req.body)||!Number.isSafeInteger(req.body.version)||Number(req.body.version)<1)return reply.code(400).send({error:'invalid_session'});
     const b=req.body;
-    const result=await pool.query(`UPDATE campaign_sessions s SET title=$4,played_on=$5::date,status=$6,preparation=$7,report=$8,published=$9,version=s.version+1,updated_at=now()
-      FROM campaigns c WHERE s.campaign_id=c.id AND c.id=$1 AND c.owner_id=$2 AND c.archived_at IS NULL AND s.id=$3 AND s.version=$10 RETURNING s.id`,[req.params.id,user.id,req.params.sessionId,String(b.title).trim(),b.playedOn,b.status,b.preparation,b.report,b.published,b.version]);
+    const result=await pool.query(`UPDATE campaign_sessions s SET title=$4,played_on=$5::date,status=$6,preparation=$7,report=$8,published=$9,scenes=COALESCE($11::jsonb,s.scenes),version=s.version+1,updated_at=now()
+      FROM campaigns c WHERE s.campaign_id=c.id AND c.id=$1 AND c.owner_id=$2 AND c.archived_at IS NULL AND s.id=$3 AND s.version=$10 RETURNING s.id`,[req.params.id,user.id,req.params.sessionId,String(b.title).trim(),b.playedOn,b.status,b.preparation,b.report,b.published,b.version,validScenes(b.scenes)?JSON.stringify(cleanScenes(b.scenes)):null]);
     if(result.rows.length)return {ok:true};
     const owned=await pool.query('SELECT s.id FROM campaign_sessions s JOIN campaigns c ON c.id=s.campaign_id WHERE c.id=$1 AND c.owner_id=$2 AND s.id=$3 AND c.archived_at IS NULL',[req.params.id,user.id,req.params.sessionId]);
     return reply.code(owned.rows.length?409:404).send(owned.rows.length?{error:'session_version_conflict'}:missing);

@@ -1,3 +1,4 @@
+import {registerCampaignEffectRoutes} from './campaign-effects.js';
 import {registerCampaignSessionRoutes} from "./campaign-sessions.js";
 import type { FastifyInstance } from 'fastify';
 import { pool } from './db.js';
@@ -12,6 +13,7 @@ const validText=(v:unknown,max:number,min=0)=>typeof v==='string'&&v.trim().leng
 const eligible=`u.is_active AND u.role IN ('gm','editor','admin')`;
 export async function registerCampaignRoutes(app:FastifyInstance){
   await registerCampaignSessionRoutes(app);
+  await registerCampaignEffectRoutes(app);
   app.get('/api/campaigns',async(req,reply)=>{
     const user=await requireUser(req,reply);if(!user)return;
     const result=await pool.query(`SELECT ${fields},c.owner_id=$1 AS "canManage",m.status AS "membershipStatus",

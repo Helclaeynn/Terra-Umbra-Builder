@@ -52,6 +52,12 @@ export function compareHistory(current:HistoryRevision,previous:HistoryRevision|
     const changed=[...new Set([...old,...next])].filter(id=>old.has(id)!==next.has(id)).sort((a,b)=>(map.get(a)?.name??a).localeCompare(map.get(b)?.name??b,'fr'));
     for(const id of changed)add(`${group} · ${map.get(id)?.name??id}`,old.has(id)?'Acquis':'Non acquis',next.has(id)?'Acquis':'Retiré');
   }
+  const oldCash=new Map(before.progress.cashTransactions.map(t=>[t.uid,t]));
+  const nextCash=new Map(after.progress.cashTransactions.map(t=>[t.uid,t]));
+  for(const id of new Set([...oldCash.keys(),...nextCash.keys()])){
+    const old=oldCash.get(id),next=nextCash.get(id);
+    add(`Argent · ${next?.label||old?.label||'Mouvement'}`,old?`${format(old.amount)} $`:'Absent',next?`${format(next.amount)} $`:'Retiré');
+  }
   numeric('Corruption · niveau',number(previous.snapshot.truth.corruption),number(current.snapshot.truth.corruption));
   const sourceName=(raw:unknown)=>truth.corruption.sources.find(s=>s.id===raw)?.name||String(raw||'Aucune');
   add('Corruption · Source dominante',sourceName(previous.snapshot.truth.corruptionSource),sourceName(current.snapshot.truth.corruptionSource));
@@ -78,6 +84,7 @@ export function compareHistory(current:HistoryRevision,previous:HistoryRevision|
 export function revisionLabel(row:HistoryRevision){
   if(row.reason==='created')return 'Création du personnage';
   if(row.reason==='imported')return 'Import du personnage';
+  if(row.reason.startsWith('campaign-effect:'))return `Événement de séance · ${row.reason.slice(16)}`;
   if(row.reason.startsWith('campaign-reward:'))return `Récompense de séance · ${row.reason.slice(16)}`;
   if(/^restored:\d+$/.test(row.reason))return `Restauration de la version ${row.reason.split(':')[1]}`;
   return 'Personnage enregistré';

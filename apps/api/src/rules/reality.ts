@@ -70,6 +70,7 @@ const lifestyle={
 } as const;
 
 function sourceRoot(){
+  if(process.env.TUC_REALITY_RULES_ROOT)return process.env.TUC_REALITY_RULES_ROOT;
   if(existsSync("/app/rules-data"))return "/app/rules-data";
   return path.resolve(process.cwd(),"../../.v2-rules-data");
 }
