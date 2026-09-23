@@ -9,6 +9,23 @@ assert.equal(active.length, 918);
 const article = (id, publicView = false) =>
   (publicView ? corpus.publicArticles : corpus.articles).find((item) => item.id === id);
 const rows = (id) => article(id).sections[0].blocks[0].rows;
+for (const [id, field, expected] of [
+  ["personnages-verite-humains-galactiques-alladava-kjoll", "Nationalité", "Sud-africaine"],
+  ["pnj-pegre-fuyumi-shinoda", "Affaires liées", "320"],
+  ["pnj-fleaux-focus-olayinka-najja-8-olayinka-najja", "Nationalité", "Nigériane"],
+  ["pnj-police-ryan-rowe", "Organisation", "Raising Freedom (Front de libération des droits universels)"],
+  ["pnj-crawlers-antisysteme-p70-ulfric-tamer", "Nationalité", "Suédoise"]
+]) {
+  const card = article(id, true).sections.find((section) => section.id === "identite-realite-consolidee");
+  assert.equal(card.blocks[0].rows.find(([label]) => label === field)?.[1], expected, id);
+}
+const kanikaPublic = article("personnages-verite-vampires-p31-kanika-onyesha", true);
+const kanikaMj = article("personnages-verite-vampires-p31-kanika-onyesha");
+assert.ok(!JSON.stringify(kanikaPublic).includes("Hailey Powell"), "Kanika : identité usurpée dans la vue joueur");
+assert.ok(JSON.stringify(kanikaMj).includes("Hailey Powell"), "Kanika : identité usurpée perdue dans le dossier MJ");
+assert.ok(corpus.articles.some((person) => person.id === "pnj-crawlers-docx-hailey-powell"), "Hailey : fiche canonique distincte absente");
+assert.equal(article("pnj-crawlers-antisysteme-p64-jayceon-osborn").pnj.nom_verite, "Jacyr Oceriol");
+assert.ok(!JSON.stringify(article("pnj-crawlers-antisysteme-p64-jayceon-osborn", true)).includes("Jacyr Oceriol"));
 for (const [id, civilName, forbiddenTruth] of [
   ["pnj-truth-alexander-shorolth", "Alexander Shorolth", "Nom de la Vérité"],
   ["pnj-loges-mages-alice-carroll-38", "Alice Carroll", "Nom de la Vérité"],
