@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "test:ui": "node tests/compendium-navigation-check.mjs && node tests/compendium-reading-check.mjs && node tests/wiki-active-aliases.mjs && node tests/npc-stat-profile-dom.mjs && node tests/compendium-page-dom.mjs && node tests/corruption-panel-dom.mjs"
+    "test:ui": "node tests/compendium-navigation-check.mjs && node tests/compendium-reading-check.mjs && node tests/wiki-active-aliases.mjs && node tests/npc-stat-profile-dom.mjs && node tests/compendium-page-dom.mjs && node tests/corruption-panel-dom.mjs && node tests/gm-access-dom.mjs"
   },
   "dependencies": {
     "vue": "3.5.21",
