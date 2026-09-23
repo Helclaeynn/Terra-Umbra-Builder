@@ -41,6 +41,18 @@ for (const audience of [null, "editor"]) {
   assert.equal((await search("Mirrissi")).total, 0);
   assert.ok(!(await search("Viviane")).items.some((item) => item.id === "pnj-loges-mages-nina-le-guellec-03"));
   assert.ok((await search('tag:"réalité/faction/corporatiste"')).total > 0);
+  const response = await app.inject({
+    method: "GET",
+    url: "/api/compendium/articles/pnj-agences-cole-gallagher",
+    headers: role ? { cookie: "__Host-tuc_session=audit" } : {}
+  });
+  assert.equal(response.statusCode, 200);
+  assert.ok(!response.json().article.sections.some((section) => section.id === "profil-statistique"));
+  const privateArticle = await app.inject({
+    method: "GET", url: "/api/compendium/articles/regles-pnj-talents-statistiques",
+    headers: role ? { cookie: "__Host-tuc_session=audit" } : {}
+  });
+  assert.equal(privateArticle.statusCode, 404);
 }
 
 for (const audience of ["gm", "admin"]) {
