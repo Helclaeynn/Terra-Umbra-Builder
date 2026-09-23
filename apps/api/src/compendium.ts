@@ -744,7 +744,7 @@ function mediaSource(media: unknown): string {
 }
 
 function isPlaceholderMedia(media: unknown): boolean {
-  return /(?:equipment|augmentation|truth-(?:artifact|catalog))-placeholder\.svg(?:$|[?#])/i.test(
+  return /(?:bestiary|equipment|augmentation|truth-(?:artifact|catalog))-placeholder\.svg(?:$|[?#])/i.test(
     mediaSource(media)
   );
 }
