@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {calendarMessage,validSchedule} from '../dist/campaign-calendar-message.js';
+const e={id:'11111111-1111-4111-8111-111111111111',campaignId:'22222222-2222-4222-8222-222222222222',campaignName:'Été, campagne',title:'Rencontre; forêt '+ 'é'.repeat(100),playedOn:'2026-10-25',startsAt:'2026-10-25T18:00:00.000Z',endsAt:'2026-10-25T22:00:00.000Z',location:'Salon\nATTENDEE:malicious@example.invalid',version:2,preparation:'SECRET PREPARATION',scenes:[{title:'SECRET SCENE'}],report:'SECRET REPORT'};
+const ics=calendarMessage(e,'player@example.invalid','Terra Umbra <calendar@example.invalid>','https://dev.terra-umbra.fr',new Date('2026-09-23T10:00:00Z'));
+for(const line of ics.split('\r\n'))assert.ok(Buffer.byteLength(line)<=75,'Folded lines respect the octet limit');
+const unfolded=ics.replace(/\r\n /g,'');
+assert.match(unfolded,/METHOD:REQUEST\r\n/);assert.match(unfolded,/DTSTART:20261025T180000Z\r\nDTEND:20261025T220000Z/);assert.match(unfolded,/SEQUENCE:2/);
+assert.equal(unfolded.split('\r\n').filter(s=>s.startsWith('ATTENDEE')).length,1,'No injected attendee');
+assert.ok(!unfolded.includes('SECRET'));assert.ok(unfolded.includes('Été\\, campagne'));assert.ok(unfolded.includes('Rencontre\\; forêt'));
+const allDay=calendarMessage({...e,playedOn:'2026-12-31',startsAt:null,endsAt:null},'player@example.invalid','calendar@example.invalid','https://dev.terra-umbra.fr');
+assert.match(allDay,/DTSTART;VALUE=DATE:20261231\r\nDTEND;VALUE=DATE:20270101/);
+const changed=calendarMessage({...e,version:3,startsAt:'2026-10-26T18:00:00Z'},'player@example.invalid','calendar@example.invalid','https://dev.terra-umbra.fr');
+assert.equal(unfolded.match(/UID:(.*)/)[1],changed.match(/UID:(.*)/)[1]);assert.match(changed,/SEQUENCE:3/);
+assert.throws(()=>calendarMessage(e,'player@example.invalid\r\nATTENDEE:hijack@example.invalid','calendar@example.invalid','https://dev.terra-umbra.fr'));
+assert.equal(validSchedule(e),true);assert.equal(validSchedule({startsAt:null,endsAt:null}),true);
+for(const invalid of [{...e,endsAt:e.startsAt},{...e,endsAt:null},{...e,startsAt:'2026-02-30T18:00:00Z'},{...e,location:'x'.repeat(1001)},{...e,playedOn:null},{startsAt:null}])assert.equal(validSchedule(invalid),false);
+console.log('CALENDAR FORMAT OK — UTC times, all-day rollover, stable event UID, version updates, Unicode folding, single-recipient privacy, injection resistance and no private preparation');

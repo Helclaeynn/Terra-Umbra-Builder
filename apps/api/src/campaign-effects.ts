@@ -17,8 +17,8 @@ export async function registerCampaignEffectRoutes(app:FastifyInstance){
  app.post<{Params:{id:string;sessionId:string};Body:{requestId:string;characterId:string;version:number;money:number;corruptionDelta:number;corruptionSource:string;reason:string}}>('/api/campaigns/:id/sessions/:sessionId/effects',async(req,reply)=>{
   const user=await requireUser(req,reply);if(!user)return;
   if(!gm(user.role)||![req.params.id,req.params.sessionId].every(id=>uuid.test(id)))return reply.code(404).send({error:'campaign_not_found'});
-  const b=req.body;
-  if(!b||![b.requestId,b.characterId].every(id=>typeof id==='string'&&uuid.test(id))||!Number.isSafeInteger(b.version)||b.version<1||!Number.isSafeInteger(b.money)||b.money<0||b.money>1e9||!Number.isInteger(b.corruptionDelta)||b.corruptionDelta<0||b.corruptionDelta>100||b.money+b.corruptionDelta===0||typeof b.reason!=='string'||!b.reason.trim()||b.reason.length>500||typeof b.corruptionSource!=='string'||(b.corruptionDelta>0&&!corruptionSources.some(s=>s.id===b.corruptionSource))||(b.corruptionDelta===0&&b.corruptionSource!==''))return reply.code(400).send({error:'invalid_effect'});
+  const b=req.body;if(b&&b.reason===undefined)b.reason='';
+  if(!b||![b.requestId,b.characterId].every(id=>typeof id==='string'&&uuid.test(id))||!Number.isSafeInteger(b.version)||b.version<1||!Number.isSafeInteger(b.money)||b.money<0||b.money>1e9||!Number.isInteger(b.corruptionDelta)||b.corruptionDelta<0||b.corruptionDelta>100||b.money+b.corruptionDelta===0||typeof b.reason!=='string'||b.reason.length>500||typeof b.corruptionSource!=='string'||(b.corruptionDelta>0&&!corruptionSources.some(s=>s.id===b.corruptionSource))||(b.corruptionDelta===0&&b.corruptionSource!==''))return reply.code(400).send({error:'invalid_effect'});
   const client=await pool.connect();
   try{
    await client.query('BEGIN');
@@ -49,7 +49,7 @@ export async function registerCampaignEffectRoutes(app:FastifyInstance){
     if(progress.cashBase==null)progress.cashBase=before.base;
     progress.cashTransactions??=[];
     if(!Array.isArray(progress.cashTransactions))return await deny(409,'invalid_character_progression');
-    progress.cashTransactions.push({uid:b.requestId,amount:b.money,label:`Séance · ${session.rows[0].title} — ${b.reason.trim()}`,type:'campaign-gm',at:new Date().toISOString()});
+    progress.cashTransactions.push({uid:b.requestId,amount:b.money,label:`Séance · ${session.rows[0].title}${b.reason.trim()?' — '+b.reason.trim():''}`,type:'campaign-gm',at:new Date().toISOString()});
    }
    c.data.progression=progress;
    if(b.corruptionDelta){c.data.truth={...c.data.truth,corruption:before.corruption+b.corruptionDelta,corruptionSource:b.corruptionSource,corruptionMjAuthorized:true};}

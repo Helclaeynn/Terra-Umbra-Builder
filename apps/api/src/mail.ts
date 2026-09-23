@@ -1,3 +1,4 @@
+import {calendarMessage,type CalendarEvent} from "./campaign-calendar-message.js";
 import { readFileSync } from "node:fs";
 import nodemailer from "nodemailer";
 
@@ -35,6 +36,9 @@ function createTransporter() {
     host,
     port,
     secure,
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 20000,
     auth: {
       user,
       pass: password
@@ -98,4 +102,15 @@ function escapeHtml(value: string): string {
     };
     return entities[character] ?? character;
   });
+}
+
+export async function sendCampaignCalendarEmail(email:string,event:CalendarEvent):Promise<boolean>{
+  const transporter=createTransporter();
+  if(!transporter||!from)return false;
+  const url=`${appBaseUrl}/campaigns/${event.campaignId}`;
+  const result=await transporter.sendMail({from,to:email,subject:`Invitation Terra Umbra · ${event.title}`,
+    text:`Une séance est planifiée pour ${event.campaignName} : ${event.title}.\n\nDate : ${event.playedOn}\n${event.location?'Lieu : '+event.location+'\n':''}Accepte l’invitation calendrier jointe pour retrouver les horaires dans ton agenda.\n\n${url}`,
+    icalEvent:{method:'REQUEST',filename:'seance-terra-umbra.ics',content:calendarMessage(event,email,from,appBaseUrl)}
+  });
+  return result.accepted.length>0&&result.rejected.length===0;
 }

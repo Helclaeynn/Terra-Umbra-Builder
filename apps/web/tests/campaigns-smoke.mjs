@@ -27,13 +27,14 @@ await page.route('**/api/**',async route=>{
  else if(path==='/api/rulesets/terra-umbra/truth')body=fixtures.truthRules;
  else if(path==='/api/rulesets/terra-umbra/reality')body=fixtures.realityRules;
  else if(path==='/api/compendium/library')body={favoriteItems:[{id:'pnj-favori',title:'Contact favori',category:'Personnages',snippet:'Contact de la campagne'}],recentItems:[]};
- else if(path.endsWith('/sessions')&&method==='GET')body={sessions:session?[role==='gm'?session:{...session,preparation:undefined,scenes:undefined,report:session.published?session.report:''}]:[],hasMore:false};
- else if(path.endsWith('/sessions')&&method==='POST'){session={...req.postDataJSON(),id:gid,version:1,rewards:[],effects:[]};body={session:{id:gid}};code=201;}
- else if(path.endsWith('/rewards')){const b=req.postDataJSON();assert.deepEqual(b.characterIds,[chid]);session.rewards=[{characterId:chid,characterName:'Alexandra',xp:b.xp,ptv:b.ptv,awardedAt:'2026-09-23'}];body={ok:true};}
+ else if(path.endsWith('/sessions')&&method==='GET')body={calendarMailAvailable:true,sessions:session?[role==='gm'?session:{...session,preparation:undefined,scenes:undefined,report:session.published?session.report:''}]:[],hasMore:false};
+ else if(path.endsWith('/sessions')&&method==='POST'){session={...req.postDataJSON(),id:gid,version:1,rewards:[],effects:[]};body={session:{id:gid,version:1}};code=201;}
+ else if(path.endsWith('/rewards')){const b=req.postDataJSON();assert.equal(b.rewards.length,1);assert.equal(b.rewards[0].characterId,chid);session.rewards=[{characterId:chid,characterName:'Alexandra',xp:b.rewards[0].xp,ptv:b.rewards[0].ptv,awardedAt:'2026-09-23'}];body={ok:true};}
  else if(path==='/api/compendium/search'){body={items:[{id:url.searchParams.get('category')==='Bestiaire'?'bestiaire-loup':'pnj-cole',title:url.searchParams.get('category')==='Bestiaire'?'Loup sombre':'Cole Gallagher',category:url.searchParams.get('category'),snippet:'Référence pour la scène.'}]};}
  else if(path.endsWith('/effect-targets'))body={characters:[effectTarget],sources:[{id:'vhodhal',name:'Vhodhal',corruption:'Famine Blanche'}]};
  else if(path.endsWith('/effects')){const b=req.postDataJSON();if(effectConflict){code=409;body={error:'effect_version_conflict'};}else{assert.equal(b.characterId,chid);assert.equal(b.money,250);assert.equal(b.corruptionDelta,1);effectTarget.money+=250;effectTarget.corruption=1;effectTarget.source='vhodhal';effectTarget.version++;session.effects=[{id:b.requestId,characterName:'Alexandra',money:b.money,corruptionDelta:1,corruptionSource:'vhodhal',reason:b.reason,before:{money:1000,corruption:0,source:''},after:{money:1250,corruption:1,source:'vhodhal'},appliedAt:'2026-09-23'}];body={ok:true};}}
  else if(path.endsWith('/accounts'))body={accounts:[{id:pid,displayName:'Camille'}]};
+ else if(path.endsWith('/calendar-invitations')){assert.equal(req.postDataJSON().version,1);assert.equal(session.title,'Rendez-vous calendrier');assert.ok(session.startsAt.endsWith('Z'));body={sent:1,alreadySent:0,failed:0,uncertain:0,total:1};}
  else if(path.endsWith('/invitations')){assert.equal(req.postDataJSON().userId,pid);invited=true;code=201;body={ok:true};}
  else if(path.endsWith('/membership')){admissionStatus='pending';status='accepted';attached=req.postDataJSON().characterId;body={ok:true};}
  else if(path.includes('/members/')&&method==='DELETE'){invited=false;body={ok:true};}
@@ -114,9 +115,19 @@ try{
  await page.getByRole('button',{name:'Enregistrer la séance',exact:true}).click();
  await page.getByText('Séance enregistrée.',{exact:true}).waitFor();
  await page.locator('.session > summary').click();
+ assert.equal(await page.getByRole('link',{name:'Cole Gallagher ↗',exact:true}).isVisible(),true);
+ assert.equal(await page.getByRole('link',{name:'Loup sombre ↗',exact:true}).isVisible(),true);
+ assert.equal(await page.getByRole('link',{name:'Contact favori ↗',exact:true}).count(),2);
  await page.getByRole('button',{name:'Attribuer les récompenses',exact:true}).click();
- await page.getByLabel('Alexandra',{exact:true}).check();
- await page.getByLabel('XP par personnage',{exact:true}).fill('5');
+ assert.equal(await page.getByLabel('Alexandra',{exact:true}).isChecked(),true);
+ await page.getByRole('button',{name:'Courte / transition · 2 XP',exact:true}).click();
+ assert.equal(await page.getByLabel('XP · Alexandra',{exact:true}).inputValue(),'2');
+ await page.getByRole('button',{name:'Finale / événement majeur · 4 XP',exact:true}).click();
+ assert.equal(await page.getByLabel('XP · Alexandra',{exact:true}).inputValue(),'4');
+ await page.getByRole('button',{name:'2 PTV pour tous',exact:true}).click();
+ await page.getByLabel('XP par personnage',{exact:true}).fill('3');
+ assert.equal(await page.getByLabel('XP · Alexandra',{exact:true}).inputValue(),'3');
+ await page.getByLabel('XP · Alexandra',{exact:true}).fill('5');
  await page.getByLabel('PTV par personnage',{exact:true}).fill('2');
  await page.getByRole('button',{name:'Confirmer l’attribution',exact:true}).click();
  await page.getByText('Récompenses ajoutées aux fiches et à leur historique.',{exact:true}).waitFor();
@@ -127,7 +138,7 @@ try{
  await page.getByLabel('Argent à verser ($)',{exact:true}).fill('250');
  await page.getByLabel('Points de corruption à ajouter',{exact:true}).fill('1');
  await page.getByLabel('Source dominante après l’effet',{exact:true}).selectOption('vhodhal');
- await page.getByLabel('Motif visible par le joueur',{exact:true}).fill('Prime et exposition au port');
+ assert.equal(await page.getByLabel('Motif visible par le joueur (facultatif)',{exact:true}).inputValue(),'');
  effectConflict=true;await page.getByRole('button',{name:'Confirmer l’effet',exact:true}).click();
  await page.getByRole('alert').filter({hasText:'La fiche a changé'}).waitFor();
  assert.equal(await page.getByLabel('Argent à verser ($)',{exact:true}).inputValue(),'250');
@@ -147,6 +158,14 @@ try{
  assert.equal(await page.getByRole('link',{name:'← Retour à Mon espace',exact:true}).count(),2);
  role='gm';await page.goto(base+'/campaigns/'+cid);await page.getByText('La piste du port',{exact:true}).waitFor();
  await page.getByText('Gérer la campagne',{exact:true}).click();
+ await page.getByRole('button',{name:'Préparer une séance',exact:true}).click();
+ await page.getByLabel('Titre de la séance',{exact:true}).fill('Rendez-vous calendrier');
+ await page.getByLabel('Début de la séance',{exact:true}).fill('2026-10-01T18:00');
+ await page.getByLabel('Fin de la séance',{exact:true}).fill('2026-10-01T22:00');
+ await page.getByLabel('Lieu ou lien de visioconférence',{exact:true}).fill('Chez le MJ');
+ assert.equal(await page.getByLabel('Envoyer une invitation calendrier aux joueurs en enregistrant',{exact:true}).isChecked(),true);
+ await page.getByRole('button',{name:'Enregistrer la séance',exact:true}).click();
+ await page.getByText('Séance enregistrée. Invitations : 1 envoyée(s), 0 déjà envoyée(s).',{exact:true}).waitFor();
  await page.getByRole('button',{name:'Archiver la campagne',exact:true}).click();
  await page.getByText('Campagne archivée.',{exact:true}).waitFor();
  assert.equal(await page.getByRole('heading',{name:'Inviter un joueur'}).count(),0);
