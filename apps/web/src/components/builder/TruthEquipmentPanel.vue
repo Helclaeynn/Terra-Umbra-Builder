@@ -42,7 +42,11 @@ const ownedItems=computed(()=>owned.value.map(id=>itemMap.value.get(id)).filter(
 const inaccessibleOwned=computed(()=>ownedItems.value.filter(item=>!truthEquipmentAccess(item,props.modelValue).ok));
 const visibleCatalog=computed(()=>props.rules.equipment.filter(item=>truthEquipmentVisible(item,props.modelValue)));
 
-const chapters=computed(()=>[...new Set(visibleCatalog.value.map(item=>item.chapter))]
+const modeCatalog=computed(()=>{
+  if(catalogMode.value==='owned')return ownedItems.value;
+  return visibleCatalog.value.filter(item=>catalogMode.value==='references' ? item.referenceOnly : !item.referenceOnly);
+});
+const chapters=computed(()=>[...new Set(modeCatalog.value.map(item=>item.chapter))]
   .sort((a,b)=>Number(a)-Number(b))
   .map(id=>({id,label:chapterLabels[id]??`Chapitre ${id}`})));
 
@@ -52,10 +56,7 @@ watch(chapters,(available)=>{
 
 const filtered=computed(()=>{
   const q=norm(query.value.trim());
-  return visibleCatalog.value.filter(item=>{
-    if(catalogMode.value==='objects'&&item.referenceOnly)return false;
-    if(catalogMode.value==='references'&&!item.referenceOnly)return false;
-    if(catalogMode.value==='owned'&&!owned.value.includes(item.id))return false;
+  return modeCatalog.value.filter(item=>{
     if(chapter.value&&item.chapter!==chapter.value)return false;
     if(!q)return true;
     const haystack=[
@@ -124,8 +125,8 @@ function propertyPreview(item:TruthEquipmentItem){
 </script>
 
 <template>
-  <section class="truth-equipment-panel">
-    <div class="subsection-title">
+  <details class="truth-equipment-panel" open>
+    <summary class="subsection-title equipment-section-summary">
       <div>
         <h3>Objets de Vérité</h3>
         <p>
@@ -134,7 +135,7 @@ function propertyPreview(item:TruthEquipmentItem){
         </p>
       </div>
       <span class="schema-badge">{{ ownedItems.length }} possédé(s)</span>
-    </div>
+    </summary>
 
     <div v-if="ownedItems.length" class="truth-equipment-owned">
       <article v-for="item in ownedItems" :key="item.id" class="truth-equipment-owned-row">
@@ -166,7 +167,7 @@ function propertyPreview(item:TruthEquipmentItem){
       <summary class="truth-disclosure-summary">
         <span>
           <strong>Catalogue de Vérité</strong>
-          <small>{{ visibleCatalog.length }} entrées consultables selon votre accès · Livre V</small>
+          <small>{{ modeCatalog.length }} entrée(s) dans cette vue · Livre V</small>
         </span>
         <span class="schema-badge">{{ filtered.length }}</span>
       </summary>
@@ -218,7 +219,10 @@ function propertyPreview(item:TruthEquipmentItem){
 
       </details>
       <p class="catalog-count" role="status">{{ filtered.length }} résultat(s) · {{ catalogMode==='references' ? 'Consultation uniquement' : 'La possession ne débite pas automatiquement vos ressources' }}</p>
-      <p v-if="!groups.length" class="empty-line" role="status">
+      <p v-if="catalogMode==='objects'&&!modeCatalog.length" class="empty-line" role="status">
+        Aucun objet accessible avec les choix actuels du personnage. Les propriétés communes sont des règles à consulter dans « Règles et références ». Un accord MJ peut ouvrir un accès exceptionnel.
+      </p>
+      <p v-else-if="!groups.length" class="empty-line" role="status">
         Aucun objet ne correspond à ces filtres. Essayez un autre nom, une autre vue ou réinitialisez les filtres.
         <button type="button" @click="query='';chapter=''">Réinitialiser les filtres</button>
       </p>
@@ -245,6 +249,7 @@ function propertyPreview(item:TruthEquipmentItem){
                 <small>{{ statusLabel(item) }}</small>
               </div>
               <button
+                v-if="!item.referenceOnly"
                 class="secondary compact"
                 type="button"
                 :disabled="!canAdd(item)"
@@ -276,7 +281,7 @@ function propertyPreview(item:TruthEquipmentItem){
         </div>
       </details>
     </details>
-  </section>
+  </details>
 </template>
 
 <style scoped>
@@ -355,4 +360,8 @@ function propertyPreview(item:TruthEquipmentItem){
 .truth-equipment-grid{grid-template-columns:minmax(0,1fr);gap:8px}
 .truth-equipment-card{padding:12px 16px;gap:4px}
 .equipment-description[open]>p{margin:8px 0 12px}
+.equipment-section-summary{cursor:pointer;min-height:56px;padding-bottom:12px}
+.equipment-section-summary::after{content:'＋';color:#b79aff;align-self:center}
+.truth-equipment-panel[open]>.equipment-section-summary::after{content:'−'}
+.equipment-section-summary:focus-visible{outline:2px solid #b79aff;outline-offset:4px}
 </style>

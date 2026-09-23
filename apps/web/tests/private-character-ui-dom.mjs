@@ -177,7 +177,9 @@ const approval=label=>[...cw.document.querySelectorAll('label')].find(l=>l.textC
 const check=el=>{el.checked=true;el.dispatchEvent(new cw.Event('change',{bubbles:true}));};
 const clickName=name=>{const b=[...cw.document.querySelectorAll('button')].find(b=>b.getAttribute('aria-label')===name);assert.ok(b,name);assert.equal(b.disabled,false,name);b.click();};
 assert.equal(cw.document.querySelector('.corruption-panel'),null);
-assert.equal(cw.document.querySelector('.truth-equipment-panel'),null);
+assert.ok(cw.document.querySelector('.truth-equipment-panel'));
+assert.equal(cw.document.querySelector('.campaign-corruption').open,false);
+assert.equal(cw.document.querySelectorAll('.campaign-truth-equipment input[role="switch"]').length,1,'One object authorization only');
 assert.ok(!cw.document.body.textContent.includes('Accord MJ — Talents de Vérité en campagne'));
 assert.equal(Boolean(campaignSnapshot().progression.truthTalentsMjAuthorized),false);
 const truthCard=[...cw.document.querySelectorAll('.talent-list>article')].find(a=>a.textContent.includes('Aube occulte'));
@@ -194,13 +196,16 @@ assert.match(cw.document.querySelector('.corruption-owned-row').textContent,/Dor
 clickName('Acquérir Rite Smoke pour 1 PTV');await wait(5);
 const ptvBox=[...cw.document.querySelectorAll('.pool-grid>div')].find(e=>e.textContent.includes('PTV disponibles'));
 assert.equal(ptvBox.querySelector('strong').textContent,'1','Native talent + Don + Rite share the same 5 PTV reserve');
-check(approval('Accord MJ — Objets de Vérité en campagne'));await until(()=>cw.document.querySelector('.truth-equipment-panel'));
+assert.ok(!cw.document.body.textContent.includes('Accord MJ — Objets de Vérité en campagne'));
 check(approval('Autorisation MJ d’accès exceptionnel aux objets de Vérité'));await wait(5);
 const objectCard=[...cw.document.querySelectorAll('.truth-equipment-card')].find(a=>a.textContent.includes('Relique corrompue Smoke'));
 [...objectCard.querySelectorAll('button')].find(b=>b.textContent.trim()==='Ajouter').click();await wait(5);
 assert.deepEqual(campaignSnapshot().truth.truthEquipment,['truth-corrupt-smoke']);
 const modeButton=name=>[...cw.document.querySelectorAll('.catalog-modes button')].find(b=>b.textContent===name);
+assert.ok(![...cw.document.querySelectorAll('.truth-equipment-toolbar select option')].some(o=>o.value==='22'),'No common properties chapter in purchases');
 modeButton('Règles et références').click();await wait(5);
+assert.ok([...cw.document.querySelectorAll('.truth-equipment-toolbar select option')].some(o=>o.value==='22'),'Common properties available as references');
+assert.equal(cw.document.querySelectorAll('.truth-equipment-card button.secondary').length,0,'Reference rules have no acquisition action');
 assert.ok([...cw.document.querySelectorAll('.truth-equipment-card')].every(card=>!card.textContent.includes('Relique corrompue Smoke')),'Reference view excludes acquirable objects');
 modeButton('Mes possessions').click();await wait(5);
 assert.equal(cw.document.querySelectorAll('.truth-equipment-card').length,1,'Owned view retains acquired object');
