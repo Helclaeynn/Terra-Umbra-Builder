@@ -36,7 +36,7 @@ const quality = {
     editorConflicts: 0, overrideConflicts: 0, overrideMissing: 0
   },
   items: [{ ...article, dataset: "fixture", group: "Grande Californie & société",
-    subgroup: "Institutions", media: null, issues: [], firstSeenAt: timestamp,
+    subgroup: "Institutions", media: null, portraits: [], issues: [], firstSeenAt: timestamp,
     reviewStatus: "pending", reviewNote: null, reviewedAt: null, reviewerName: null }]
 };
 
