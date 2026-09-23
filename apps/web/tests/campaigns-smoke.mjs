@@ -45,7 +45,7 @@ try{
  await page.getByRole('heading',{name:'Tu es invité à cette campagne'}).waitFor();
  assert.equal(await page.getByText('Nouvelles notes privées',{exact:true}).count(),0);
  assert.equal(await page.getByRole('button',{name:'Notes et paramètres'}).count(),0);
- await page.getByLabel('Personnage',{exact:true}).selectOption(chid);
+ await page.getByRole('combobox',{name:/^Personnage/}).selectOption(chid);
  await page.getByRole('button',{name:'Accepter l’invitation'}).click();
  await page.getByRole('link',{name:'Ouvrir la fiche →'}).waitFor();
  assert.match(await page.getByRole('link',{name:'Ouvrir la fiche →'}).getAttribute('href'),/campaign=/);
