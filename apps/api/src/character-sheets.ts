@@ -37,32 +37,49 @@ export async function registerCharacterSheetRoutes(app:FastifyInstance){
     return {character,canEdit,ownerName};
   });
 
+  app.get<{Params:{id:string};Querystring:{q?:string}}>("/api/characters/:id/reader-search",async(request,reply)=>{
+    const user=await requireUser(request,reply);
+    if(!user)return;
+    if(!UUID.test(request.params.id))return reply.code(404).send(notFound);
+    const owned=await pool.query("SELECT id FROM characters WHERE id=$1 AND owner_id=$2 AND archived_at IS NULL",[request.params.id,user.id]);
+    if(!owned.rows.length)return reply.code(404).send(notFound);
+    const q=typeof request.query.q==="string"?request.query.q.trim():"";
+    if(q.length<2||q.length>80)return {accounts:[]};
+    // Literal substring matching, bounded results, no email or private profile fields.
+    const result=await pool.query(`SELECT u.id,u.display_name AS "displayName",u.role,
+      EXISTS(SELECT 1 FROM character_sheet_readers r WHERE r.character_id=$1 AND r.reader_id=u.id) AS shared
+      FROM users u WHERE u.id<>$2 AND u.is_active AND u.role IN ('gm','editor','admin')
+        AND strpos(lower(u.display_name),lower($3))>0
+      ORDER BY (lower(u.display_name)=lower($3)) DESC,lower(u.display_name),u.id LIMIT 12`,[request.params.id,user.id,q]);
+    return {accounts:result.rows};
+  });
+
   app.get<{Params:{id:string}}>("/api/characters/:id/readers",async(request,reply)=>{
     const user=await requireUser(request,reply);
     if(!user)return;
     if(!UUID.test(request.params.id))return reply.code(404).send(notFound);
     const owned=await pool.query("SELECT id FROM characters WHERE id=$1 AND owner_id=$2 AND archived_at IS NULL",[request.params.id,user.id]);
     if(!owned.rows.length)return reply.code(404).send(notFound);
-    const result=await pool.query(`SELECT u.id,u.display_name AS "displayName",u.email,
+    const result=await pool.query(`SELECT u.id,u.display_name AS "displayName",u.role,
       (u.is_active AND u.role IN ('gm','editor','admin')) AS active
       FROM character_sheet_readers r JOIN users u ON u.id=r.reader_id WHERE r.character_id=$1
       ORDER BY u.display_name,u.id`,[request.params.id]);
     return {readers:result.rows};
   });
 
-  app.post<{Params:{id:string};Body:{email?:unknown}}>("/api/characters/:id/readers",async(request,reply)=>{
+  app.post<{Params:{id:string};Body:{readerId?:unknown}}>("/api/characters/:id/readers",async(request,reply)=>{
     const user=await requireUser(request,reply);
     if(!user)return;
     if(!UUID.test(request.params.id))return reply.code(404).send(notFound);
-    const email=typeof request.body?.email==="string"?request.body.email.trim().toLowerCase():"";
-    if(!email||email.length>254)return reply.code(400).send({error:"reader_not_eligible"});
+    const readerId=typeof request.body?.readerId==="string"?request.body.readerId:"";
+    if(!UUID.test(readerId))return reply.code(400).send({error:"reader_not_eligible"});
     // Ownership and reader eligibility are checked together, including on duplicate grants.
     const result=await pool.query(`INSERT INTO character_sheet_readers (character_id,reader_id)
       SELECT c.id,u.id FROM characters c CROSS JOIN users u
-      WHERE c.id=$1 AND c.owner_id=$2 AND c.archived_at IS NULL AND u.email=$3
+      WHERE c.id=$1 AND c.owner_id=$2 AND c.archived_at IS NULL AND u.id=$3
         AND u.id<>$2 AND u.is_active AND u.role IN ('gm','editor','admin')
       ON CONFLICT (character_id,reader_id) DO UPDATE SET reader_id=EXCLUDED.reader_id
-      RETURNING reader_id`,[request.params.id,user.id,email]);
+      RETURNING reader_id`,[request.params.id,user.id,readerId]);
     if(!result.rows.length)return reply.code(400).send({error:"reader_not_eligible"});
     return {ok:true};
   });

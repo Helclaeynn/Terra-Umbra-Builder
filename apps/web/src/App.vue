@@ -794,6 +794,7 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
             <div class="account-settings-grid">
               <form :aria-busy="busy" @submit.prevent="saveProfile">
                 <h3>Mon profil</h3>
+                <p class="muted">Code de compte : <strong>{{ user.id.slice(0,8) }}</strong> · Pour distinguer les homonymes lors d’un partage.</p>
                 <label>
                   Nom affiché
                   <input

@@ -7,6 +7,8 @@ if(!executablePath)throw new Error("CHROME_BIN manquant.");
 const characterId="11111111-1111-4111-8111-111111111111";
 let savedPayload=null;
 let sheetOwner=true;
+let readerGrant=null;
+const readerId="33333333-3333-4333-8333-333333333333";
 
 const skillIds=[
   ["constitution","Constitution","vigueur"],
@@ -253,8 +255,16 @@ await page.route("**/api/**",async route=>{
       canEdit:sheetOwner,ownerName:"Joueur Smoke"
     })});
   }
+  if(url.pathname===`/api/characters/${characterId}/reader-search`){
+    const q=url.searchParams.get('q')||'';
+    return route.fulfill({status:200,contentType:"application/json",body:JSON.stringify({accounts:q.toLowerCase().includes('alex')?[
+      {id:readerId,displayName:"Alex",role:"gm",shared:Boolean(readerGrant)},
+      {id:"44444444-4444-4444-8444-444444444444",displayName:"Alex",role:"gm",shared:false}
+    ]:[]})});
+  }
   if(url.pathname===`/api/characters/${characterId}/readers`){
-    return route.fulfill({status:200,contentType:"application/json",body:JSON.stringify({readers:[]})});
+    if(method==="POST")readerGrant=JSON.parse(request.postData()||"{}");
+    return route.fulfill({status:200,contentType:"application/json",body:JSON.stringify({readers:readerGrant?[{id:readerId,displayName:"Alex",role:"gm",active:true}]:[]})});
   }
   if(url.pathname==="/api/characters/"+characterId&&method==="GET"){
     const currentVersion=savedPayload?Number(savedPayload.version||7)+1:7;
@@ -595,7 +605,21 @@ for(const width of [1440,390,320]){
   await assertBuilderReflow(`Fiche autonome ${width}px`);
 }
 await page.locator('.sheet-sharing summary').click();
-await page.getByLabel('Adresse e-mail du compte MJ').waitFor();
+const accountSearch=page.getByLabel('Rechercher un compte MJ par son nom');
+await accountSearch.fill('Alex');
+await page.getByRole('list',{name:'Comptes MJ trouvés'}).waitFor();
+if(await page.locator('.reader-option').count()!==2)throw new Error('Homonymes manquants');
+await page.locator('.reader-option').first().focus();
+await page.keyboard.press('Enter');
+await page.getByText('Compte sélectionné :',{exact:false}).waitFor();
+await accountSearch.fill('Introuvable');
+await page.getByText('Aucun compte MJ correspondant.',{exact:false}).waitFor();
+if(!await page.getByRole('button',{name:'Accorder l’accès',exact:true}).isDisabled())throw new Error('Une recherche modifiée doit annuler la sélection');
+await accountSearch.fill('Alex');
+await page.locator('.reader-option').first().click();
+await page.getByRole('button',{name:'Accorder l’accès',exact:true}).click();
+await page.getByText('Accès accordé.',{exact:false}).waitFor();
+if(readerGrant?.readerId!==readerId || 'email' in readerGrant)throw new Error('Le partage doit utiliser le compte sélectionné');
 await assertBuilderReflow('Partage MJ sur téléphone');
 sheetOwner=false;
 await page.reload();
