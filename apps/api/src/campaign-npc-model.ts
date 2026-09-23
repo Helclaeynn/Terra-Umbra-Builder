@@ -9,7 +9,7 @@ const checks:Record<string,{skills:string[];min:number}>={
  'Dossier préparé':{skills:['investigation'],min:6},'Expertise éprouvée':{skills:[],min:7},'Lecture des failles':{skills:['investigation','perception'],min:7},'Fausse piste administrative':{skills:['investigation','savoirs'],min:6},
  'Tir maîtrisé':{skills:['tir'],min:7},'Désarmement net':{skills:['melee','pugilat'],min:8},'Lutte brève':{skills:['pugilat'],min:7},'Décrochage préparé':{skills:['athletisme','esquive'],min:6},'Terrain reconnu':{skills:['survie','perception'],min:7},'Chef de manœuvre':{skills:['autorite'],min:6},'Réseau mobilisable':{skills:['autorite'],min:6},'Chaîne de commandement':{skills:['autorite'],min:7},'Plan de sortie':{skills:['investigation','autorite'],min:6}
 };
-export function npcTalentEligible(id:string,skills:Record<string,number>){const c=checks[id];return !!c&&(c.skills.length?c.skills.map(s=>skills[s]||0):Object.values(skills)).some(v=>v>=c.min);}
+export function npcTalentEligible(id:string,skills:Record<string,number>){if(typeof id!=='string'||!Object.hasOwn(checks,id))return false;const c=checks[id];return (c.skills.length?c.skills.map(s=>skills[s]||0):Object.values(skills)).some(v=>v>=c.min);}
 export function npcBudgetIssues(d:NpcData){
  const issues:string[]=[],tier=NPC_TIERS.find(t=>t.id===d.tierId);if(!tier)return ['Palier inconnu.'];
  const sum=(values:Record<string,number>)=>Object.values(values).reduce((a,b)=>a+b,0);
