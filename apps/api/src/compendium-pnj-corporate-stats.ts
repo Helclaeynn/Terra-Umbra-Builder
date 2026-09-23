@@ -1,7 +1,8 @@
 type Article = { id:string; sections?:Array<Record<string,any>>; [key:string]:any };
-type Tier = "entraine"|"elite"|"haute"|"heroique";
-type Shape = "esprit"|"social"|"terrain"|"equilibre";
-type Profile = { slug:string; tier:Tier; shape:Shape; skills:string[]; anchor:string; talents:string[]; truth?:string };
+export type Tier = "entraine"|"elite"|"haute"|"heroique";
+export type Shape = "esprit"|"social"|"terrain"|"equilibre";
+export type StatProfile = { tier:Tier; shape:Shape; skills:string[]; anchor:string; talents:string[]; truth?:string };
+type Profile = StatProfile & { slug:string };
 
 // Each entry records an editorial reading of one active corporate dossier.
 // The shared renderer performs only arithmetic and layout; it does not infer a
@@ -89,31 +90,36 @@ export function applyCorporatePnjStats(byId:Map<string,Article>):void {
     const id=`pnj-corporations-${profile.slug}`;
     const article=byId.get(id);
     if(!article||article.dataset!=="realite-v9-corporations-pnj")throw new Error(`PNJ · fiche corporation introuvable : ${id}`);
-    const tier=TIERS[profile.tier];
-    const attributes=ATTRIBUTES[profile.tier][profile.shape];
-    if(attributes.reduce((sum,value)=>sum+value,0)!==tier.attributes||
-       tier.ranks.reduce((sum,value)=>sum+value,0)!==tier.budget)throw new Error(`PNJ · budget incohérent : ${id}`);
-    const skills=[...new Set([...profile.skills,...FALLBACKS[profile.shape]])].slice(0,tier.ranks.length);
-    if(skills.length!==tier.ranks.length||profile.skills.length<4)throw new Error(`PNJ · compétences insuffisantes : ${id}`);
-    const ranks=new Map(skills.map((skill,index)=>[skill,tier.ranks[index]]));
-    const [vigor,agility,,will]=attributes;
-    const constitution=ranks.get("Constitution")??0;
-    const evasion=ranks.get("Esquive")??0;
-    const mental=ranks.get("Force Mentale")??0;
-    const athletics=ranks.get("Athlétisme")??0;
-    const blocks=[
-      p(`${tier.label} · Réalité · ${tier.attributes} points d'Attributs · ${tier.budget} points de Compétences. Ancrage dans la fiche : ${profile.anchor}`),
-      table([["Attribut","Vigueur","Agilité","Esprit","Volonté","Charisme"],["Valeur",...attributes.map(String)]]),
-      table([["Compétence","Rang"],...skills.map((skill)=>[skill,String(ranks.get(skill))]),["Autres compétences","0"]]),
-      table([["Valeur dérivée","Résultat"],["PV maximum / Seuil de Mort",`${2*vigor+constitution} / −${vigor+constitution}`],["Défense passive / active",`${agility+evasion} / ${agility+evasion} + 1d10e`],["Défense occulte passive / active",`${will+mental} / ${will+mental} + 1d10e`],["Initiative / déplacement",`${agility+athletics} + 1d10e / ${5+athletics} m par PA`]]),
-      p(`Talents proposés : ${profile.talents.join(" ; ")}. Chaque effet suit ses prérequis et ses limites du catalogue MJ. Les personnels, armes, implants et armures ne sont jamais supposés disponibles sans scène ou source.`),
-      p(profile.truth??"Vérité : aucune capacité surnaturelle, forme révélée ou dépense de PTV n'est déduite de la fonction corporative. Le dossier MJ conserve les éventuels secrets sans leur attribuer de chiffres supplémentaires.")
-    ];
-    const sections=article.sections??[];
-    const statistics=sections.filter(section=>section.id==="profil-statistique");
-    if(statistics.length!==1||sections.at(-1)!==statistics[0]||statistics[0].blocks?.length)throw new Error(`PNJ · profil déjà rempli ou ambigu : ${id}`);
-    statistics[0].title=`Profil statistique · ${article.title}`;
-    statistics[0].audience="mj";
-    statistics[0].blocks=blocks;
+    applyNamedPnjStatProfile(article,profile);
   }
+}
+
+export function applyNamedPnjStatProfile(article:Article,profile:StatProfile):void {
+  const id=article.id;
+  const tier=TIERS[profile.tier];
+  const attributes=ATTRIBUTES[profile.tier][profile.shape];
+  if(attributes.reduce((sum,value)=>sum+value,0)!==tier.attributes||
+     tier.ranks.reduce((sum,value)=>sum+value,0)!==tier.budget)throw new Error(`PNJ · budget incohérent : ${id}`);
+  const skills=[...new Set([...profile.skills,...FALLBACKS[profile.shape]])].slice(0,tier.ranks.length);
+  if(skills.length!==tier.ranks.length||profile.skills.length<4)throw new Error(`PNJ · compétences insuffisantes : ${id}`);
+  const ranks=new Map(skills.map((skill,index)=>[skill,tier.ranks[index]]));
+  const [vigor,agility,,will]=attributes;
+  const constitution=ranks.get("Constitution")??0;
+  const evasion=ranks.get("Esquive")??0;
+  const mental=ranks.get("Force Mentale")??0;
+  const athletics=ranks.get("Athlétisme")??0;
+  const blocks=[
+    p(`${tier.label} · Réalité · ${tier.attributes} points d'Attributs · ${tier.budget} points de Compétences. Ancrage dans la fiche : ${profile.anchor}`),
+    table([["Attribut","Vigueur","Agilité","Esprit","Volonté","Charisme"],["Valeur",...attributes.map(String)]]),
+    table([["Compétence","Rang"],...skills.map((skill)=>[skill,String(ranks.get(skill))]),["Autres compétences","0"]]),
+    table([["Valeur dérivée","Résultat"],["PV maximum / Seuil de Mort",`${2*vigor+constitution} / −${vigor+constitution}`],["Défense passive / active",`${agility+evasion} / ${agility+evasion} + 1d10e`],["Défense occulte passive / active",`${will+mental} / ${will+mental} + 1d10e`],["Initiative / déplacement",`${agility+athletics} + 1d10e / ${5+athletics} m par PA`]]),
+    p(`Talents proposés : ${profile.talents.join(" ; ")}. Chaque effet suit ses prérequis et ses limites du catalogue MJ. Les personnels, armes, implants et armures ne sont jamais supposés disponibles sans scène ou source.`),
+    p(profile.truth??"Vérité : aucune capacité surnaturelle, forme révélée ou dépense de PTV n'est déduite de la biographie publique. Le dossier MJ conserve les éventuels secrets sans leur attribuer de chiffres supplémentaires.")
+  ];
+  const sections=article.sections??[];
+  const statistics=sections.filter(section=>section.id==="profil-statistique");
+  if(statistics.length!==1||sections.at(-1)!==statistics[0]||statistics[0].blocks?.length)throw new Error(`PNJ · profil déjà rempli ou ambigu : ${id}`);
+  statistics[0].title=`Profil statistique · ${article.title}`;
+  statistics[0].audience="mj";
+  statistics[0].blocks=blocks;
 }
