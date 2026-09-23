@@ -60,17 +60,18 @@ export async function registerCampaignRoutes(app:FastifyInstance){
     const own=await pool.query('SELECT id FROM campaigns WHERE id=$1 AND owner_id=$2',[req.params.id,user.id]);
     return reply.code(own.rows.length?409:404).send(own.rows.length?{error:'campaign_version_conflict'}:missing);
   });
-  app.get<{Params:{id:string};Querystring:{q?:string}}>('/api/campaigns/:id/accounts',async(req,reply)=>{
+  app.get<{Params:{id:string};Querystring:{q?:string;offset?:string}}>('/api/campaigns/:id/accounts',async(req,reply)=>{
     const user=await requireUser(req,reply);if(!user)return;
     if(!gm(user.role)||!uuid.test(req.params.id))return reply.code(404).send(missing);
     const own=await pool.query('SELECT id FROM campaigns WHERE id=$1 AND owner_id=$2 AND archived_at IS NULL',[req.params.id,user.id]);
     if(!own.rows.length)return reply.code(404).send(missing);
     const q=typeof req.query.q==='string'?req.query.q.trim():'';
-    if(q.length<2||q.length>80)return {accounts:[]};
+    const offset=Number(req.query.offset??0);
+    if(q.length>80||!Number.isSafeInteger(offset)||offset<0||offset>100000)return reply.code(400).send({error:'invalid_account_page'});
     const result=await pool.query(`SELECT u.id,u.display_name AS "displayName" FROM users u WHERE u.is_active AND u.id<>$2
       AND strpos(lower(u.display_name),lower($3))>0 AND NOT EXISTS(SELECT 1 FROM campaign_members m WHERE m.campaign_id=$1 AND m.user_id=u.id)
-      ORDER BY (lower(u.display_name)=lower($3)) DESC,lower(u.display_name),u.id LIMIT 12`,[req.params.id,user.id,q]);
-    return {accounts:result.rows};
+      ORDER BY (lower(u.display_name)=lower($3)) DESC,lower(u.display_name),u.id LIMIT 21 OFFSET $4`,[req.params.id,user.id,q,offset]);
+    return {accounts:result.rows.slice(0,20),hasMore:result.rows.length>20};
   });
   app.post<{Params:{id:string};Body:{userId?:unknown}}>('/api/campaigns/:id/invitations',async(req,reply)=>{
     const user=await requireUser(req,reply);if(!user)return;

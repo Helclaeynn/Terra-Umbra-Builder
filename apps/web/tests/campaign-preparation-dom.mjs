@@ -14,7 +14,8 @@ const bundle=await build({stdin:{resolveDir:root,loader:'ts',contents:`
 const errors=[],vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));vc.on('error',(...a)=>errors.push(a.map(String).join(' ')));vc.on('warn',(...a)=>errors.push(a.map(String).join(' ')));
 const dom=new JSDOM('<div id="app"></div>',{url:'https://test.invalid/',runScripts:'outside-only',virtualConsole:vc});const w=dom.window;
 w.Headers=Headers;w.structuredClone=structuredClone;w.confirm=()=>true;
-w.fetch=async(url)=>({ok:true,status:200,json:async()=>url.includes('/library')?{favoriteItems:[],recentItems:[]}:{items:[{id:'pnj-cole',title:'Cole Gallagher',category:'Personnages',snippet:'PNJ'},{id:'bestiaire-loup',title:'Loup sombre',category:'Bestiaire',snippet:'Créature'}],total:2}});
+const searches=[];
+w.fetch=async(url)=>{searches.push(url);return ({ok:true,status:200,json:async()=>url.includes('/library')?{favoriteItems:[],recentItems:[]}:{items:[{id:'pnj-cole',title:'Cole Gallagher',category:'Personnages',snippet:'PNJ',tags:['Faction du port']},{id:'bestiaire-loup',title:'Loup sombre',category:'Bestiaire',snippet:'Créature'}],total:3,...(url.includes('offset=2')?{items:[{id:'lieu-port',title:'Le port',category:'Réalité',snippet:'Lieu'}]}:{})}});};
 const wait=ms=>new Promise(r=>setTimeout(r,ms));async function until(fn){for(let i=0;i<100;i++){if(fn())return;await wait(10);}assert.ok(fn(),JSON.stringify({errors,scenes:w.snapshot(),dom:w.document.body.textContent}));}
 function button(label){const b=[...w.document.querySelectorAll('button')].find(b=>b.textContent.trim()===label||b.getAttribute('aria-label')===label);assert.ok(b,label);return b;}
 try{
@@ -23,8 +24,11 @@ try{
  button('Ajouter Cole Gallagher').click();await until(()=>w.document.querySelectorAll('.reference').length===1);
  button('Ajouter Loup sombre').click();await until(()=>w.document.querySelectorAll('.reference').length===2);
  assert.equal(JSON.stringify(w.snapshot()[0].references.map(r=>r.articleId)),JSON.stringify(['pnj-cole','bestiaire-loup']));
- assert.match(w.document.querySelector('.selected-references').textContent,/Cole Gallagher/);assert.match(w.document.querySelector('.selected-references').textContent,/Loup sombre/);
+ assert.match(w.document.querySelector('.scene-roster').textContent,/Cole Gallagher/);assert.match(w.document.querySelector('.scene-roster').textContent,/Loup sombre/);
  assert.match(w.document.querySelector('[role=status]').textContent,/Loup sombre ajouté/);
+ button('Faction du port').click();await until(()=>searches.some(url=>decodeURIComponent(url).includes('tag:"Faction du port"')));await until(()=>w.document.querySelector('.results-list .result'));
+ w.document.querySelector('.results-list').dispatchEvent(new w.Event('scroll'));await until(()=>w.document.querySelector('[aria-label="Ajouter Le port"]'));
+ assert.ok(searches.some(url=>url.includes('offset=2')));
  button('Dupliquer la scène').click();await until(()=>w.snapshot().length===2);
  assert.notEqual(w.snapshot()[0].id,w.snapshot()[1].id);assert.equal(w.snapshot()[1].references.length,2);
  w.saved();await until(()=>!w.document.querySelector('.picker'));

@@ -1,15 +1,22 @@
 <script setup lang="ts">
 import {computed,onMounted,onUnmounted,ref} from 'vue';
 import {onBeforeRouteLeave} from 'vue-router';
+import CampaignNotebook from './CampaignNotebook.vue';
+import CampaignAttendance,{type Attendance} from './CampaignAttendance.vue';
 import CampaignPreparation from './CampaignPreparation.vue';
 import CampaignSessionEffects from './CampaignSessionEffects.vue';
 import type {CampaignScene} from '../../../api/src/campaign-preparation';
 import {api,ApiError} from '../lib/api';
 type Reward={characterId:string;characterName:string;xp:number;ptv:number;awardedAt:string};
-type Session={startsAt?:string|null;endsAt?:string|null;location?:string;scenes?:CampaignScene[];effects?:any[];id:string;title:string;playedOn:string|null;status:'planned'|'played';preparation?:string;report:string;published:boolean;version:number;rewards:Reward[]};
-const props=defineProps<{campaignId:string;canManage:boolean;archived:boolean;members:{admissionStatus?:string;status:string;characterId:string|null;characterName:string|null}[]}>();
+type Session={attendance?:Attendance[];startsAt?:string|null;endsAt?:string|null;location?:string;scenes?:CampaignScene[];effects?:any[];id:string;title:string;playedOn:string|null;status:'planned'|'played';preparation?:string;report:string;published:boolean;version:number;rewards:Reward[]};
+const props=defineProps<{campaignId:string;userId?:string;canManage:boolean;archived:boolean;members:{userId?:string;admissionStatus?:string;status:string;characterId:string|null;characterName:string|null}[]}>();
 const sessions=ref<Session[]>([]),hasMore=ref(false),loading=ref(false),busy=ref(false),error=ref(''),notice=ref('');
 const editing=ref<string|null>(null),baseline=ref('');
+const notebook=ref<Session|null|undefined>(undefined),notebookPlaying=ref(false);
+function prepare(s?:Session,play=false){if(dirty.value&&!window.confirm('Abandonner les modifications non enregistrées ?'))return;editing.value=null;awarding.value=null;notebookPlaying.value=play;notebook.value=s||null;}
+function prepared(v:{id:string;title:string;preparation?:string;scenes?:CampaignScene[];version:number}){const old=sessions.value.find(s=>s.id===v.id);if(old)Object.assign(old,v);else sessions.value.unshift({playedOn:null,status:'planned',report:'',published:false,rewards:[],...v});}
+function closeNotebook(){notebook.value=undefined;void load();}
+function schedule(id:string){notebook.value=undefined;const s=sessions.value.find(s=>s.id===id);if(s)edit(s);}
 const mailAvailable=ref(false),notifyPlayers=ref(false);
 const localTimezone=Intl.DateTimeFormat().resolvedOptions().timeZone;
 function localInput(value?:string|null){if(!value)return '';const d=new Date(value);return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16);}
@@ -32,6 +39,7 @@ async function load(more=false){
  catch(e){if(seq===generation)failure(e);}finally{if(seq===generation)loading.value=false;}
 }
 function edit(s?:Session){
+ notebook.value=undefined;
  if(dirty.value&&!window.confirm('Abandonner les modifications de séance non enregistrées ?'))return;
  notifyPlayers.value=!s&&mailAvailable.value;
  draft.value=s?{startsAt:localInput(s.startsAt),endsAt:localInput(s.endsAt),location:s.location||'',scenes:JSON.parse(JSON.stringify(s.scenes||[])),title:s.title,playedOn:s.playedOn||'',status:s.status,preparation:s.preparation||'',report:s.report,published:s.published,version:s.version}:blank();
@@ -56,7 +64,7 @@ async function save(){
   if(send)await sendInvitations(r.session);
  }catch(e){failure(e);}finally{busy.value=false;}
 }
-function prepareRewards(s:Session){awarding.value=s.id;xp.value=3;ptv.value=0;selected.value=eligible.value.map(m=>m.characterId!);amounts.value=Object.fromEntries(eligible.value.map(m=>[m.characterId!,{xp:3,ptv:0}]));notice.value='';error.value='';}
+function prepareRewards(s:Session){awarding.value=s.id;xp.value=3;ptv.value=0;selected.value=eligible.value.filter(m=>s.attendance?.some(a=>a.userId===m.userId&&a.response==='present')).map(m=>m.characterId!);amounts.value=Object.fromEntries(eligible.value.map(m=>[m.characterId!,{xp:3,ptv:0}]));notice.value='';error.value='';}
 const validRewards=computed(()=>rewardRows.value.length>0&&rewardRows.value.every(r=>[r.xp,r.ptv].every(n=>Number.isSafeInteger(n)&&n>=0&&n<=100000)&&r.xp+r.ptv>0));
 async function award(){
  if(busy.value||!validRewards.value)return;
@@ -72,8 +80,9 @@ onUnmounted(()=>{generation++;window.removeEventListener('beforeunload',beforeUn
 </script>
 <template>
  <section class="sessions" aria-label="Séances de campagne">
-  <div class="heading"><div><h2>Les séances</h2><p>{{ canManage?'Prépare ta table, partage le récit et attribue les récompenses.':'Les rendez-vous, comptes rendus et récompenses de ta table.' }}</p></div><button v-if="canManage&&!archived" :disabled="busy" class="primary" @click="edit()">Préparer une séance</button></div>
+  <div class="heading"><div><h2>Les séances</h2><p>{{ canManage?'Prépare ta table, partage le récit et attribue les récompenses.':'Les rendez-vous, comptes rendus et récompenses de ta table.' }}</p></div><button v-if="canManage&&!archived" :disabled="busy||notebook!==undefined" class="primary" @click="prepare()">Préparer une séance</button></div>
   <p v-if="error" role="alert" class="feedback">{{ error }}</p><p v-if="notice" role="status" class="feedback">{{ notice }}</p>
+  <CampaignNotebook v-if="notebook!==undefined&&canManage&&!archived" :key="notebook?.id||'new'" :campaign-id="campaignId" :session="notebook||undefined" :start-playing="notebookPlaying" @saved="prepared" @close="closeNotebook" @schedule="schedule" />
   <form v-if="editing!==null&&canManage&&!archived" class="editor" @submit.prevent="save">
    <h3>{{ editing==='new'?'Nouvelle séance':'Modifier la séance' }}</h3>
    <label>Titre de la séance<input v-model="draft.title" required maxlength="120" /></label>
@@ -82,20 +91,19 @@ onUnmounted(()=>{generation++;window.removeEventListener('beforeunload',beforeUn
    <small>Horaires dans ton fuseau : {{ localTimezone }}. Sans horaire, l’invitation occupe la journée indiquée.</small>
    <label>Lieu ou lien de visioconférence<input v-model="draft.location" maxlength="1000" /></label>
    <label v-if="draft.status==='planned'" class="check"><input v-model="notifyPlayers" type="checkbox" :disabled="!mailAvailable" />Envoyer une invitation calendrier aux joueurs en enregistrant</label><small v-if="draft.status==='planned'">{{ mailAvailable?'Envoi individuel aux joueurs ayant accepté la campagne. Une date est nécessaire. Les notes privées et les scènes restent dans ton espace MJ.':'L’envoi d’e-mails n’est pas configuré ; tu peux enregistrer la séance.' }}</small>
-   <label>Préparation privée du MJ<textarea v-model="draft.preparation" rows="6" maxlength="20000" placeholder="Scènes, indices, PNJ et secrets…" /></label><small>Seul le MJ de cette campagne peut lire cette préparation. Le titre et la date sont visibles par le groupe.</small>
-   <CampaignPreparation v-model="draft.scenes" />
-   <label>Compte rendu de la séance<textarea v-model="draft.report" rows="5" maxlength="20000" /></label>
-   <label class="check"><input v-model="draft.published" type="checkbox" />Publier ce compte rendu pour le groupe</label><small>Décoché, le texte reste un brouillon réservé au MJ.</small>
+   <details class="report-editor"><summary>Compte rendu pour le groupe</summary><label>Compte rendu de la séance<textarea v-model="draft.report" rows="5" maxlength="20000" /></label>
+   <label class="check"><input v-model="draft.published" type="checkbox" />Publier ce compte rendu pour le groupe</label><small>Décoché, le texte reste un brouillon réservé au MJ.</small></details>
    <div class="actions"><button class="primary" :disabled="busy||!draft.title.trim()">Enregistrer la séance</button><button type="button" :disabled="busy" @click="cancel">Annuler</button></div><small v-if="dirty">Modifications non enregistrées.</small>
   </form>
   <p v-if="loading" role="status">Chargement des séances…</p>
   <p v-else-if="!sessions.length&&!error">{{ canManage?'Aucune séance pour le moment. Prépare la première pour réunir tes notes et le récit de la table.':'Ton MJ n’a pas encore préparé de séance.' }}</p>
-  <details v-for="s in sessions" :key="s.id" class="session">
+  <details v-for="s in notebook===undefined?sessions:[]" :key="s.id" class="session">
    <summary><span><strong>{{ s.title }}</strong><small>{{ s.playedOn?s.playedOn.split('-').reverse().join('/'):'Date à préciser' }} · {{ s.status==='played'?'Jouée':'À jouer' }} · {{ s.published?'Compte rendu publié':'Compte rendu non publié' }}</small></span></summary>
    <div class="body"><p v-if="s.startsAt">{{ new Date(s.startsAt).toLocaleString('fr-FR') }} → {{ s.endsAt?new Date(s.endsAt).toLocaleString('fr-FR'):'' }} · {{ localTimezone }}</p><p v-if="s.location">Lieu : {{ s.location }}</p>
-    <details v-if="canManage" class="private" open><summary>Préparation privée du MJ</summary><p class="prose">{{ s.preparation||'Aucune préparation enregistrée.' }}</p><CampaignPreparation :model-value="s.scenes||[]" readonly /></details>
+    <CampaignAttendance :campaign-id="campaignId" :session-id="s.id" :rows="s.attendance||[]" :user-id="userId||''" :can-manage="canManage" :archived="archived" :played="s.status==='played'" @updated="load()" />
+    <details v-if="canManage" class="private"><summary>Préparation privée du MJ</summary><p class="prose">{{ s.preparation||'Aucune préparation enregistrée.' }}</p><CampaignPreparation :model-value="s.scenes||[]" readonly /></details>
     <h3>Compte rendu {{ !s.published&&canManage?'· Brouillon privé':'' }}</h3><p class="prose">{{ s.report||(s.published?'Aucun texte publié.':'Le compte rendu n’est pas encore publié.') }}</p>
-    <div v-if="canManage&&!archived" class="actions"><button :disabled="busy" @click="edit(s)">Modifier la séance</button><button v-if="s.status==='planned'&&s.playedOn&&mailAvailable" :disabled="busy" @click="invite(s)">Envoyer les invitations calendrier</button><button v-if="s.status==='played'" :disabled="busy" @click="prepareRewards(s)">Attribuer les récompenses</button><small v-else>Les récompenses s’ouvrent une fois la séance marquée « Jouée ».</small></div>
+    <div v-if="canManage&&!archived" class="actions"><button :disabled="busy" @click="prepare(s)">Préparer cette séance</button><button :disabled="busy" @click="prepare(s,true)">Ouvrir en partie</button><button :disabled="busy" @click="edit(s)">Date, invitations et compte rendu</button><button v-if="s.status==='planned'&&s.playedOn&&mailAvailable" :disabled="busy" @click="invite(s)">Envoyer les invitations calendrier</button><button v-if="s.status==='played'" :disabled="busy" @click="prepareRewards(s)">Attribuer les récompenses</button><small v-else>Les récompenses s’ouvrent une fois la séance marquée « Jouée ».</small></div>
     <details v-if="s.rewards.length" class="rewards"><summary>Récompenses attribuées · {{ s.rewards.length }}</summary><div v-for="r in s.rewards" :key="r.characterId" class="reward-row"><strong>{{ r.characterName }}</strong><span>{{ r.xp }} XP · {{ r.ptv }} PTV</span><small>{{ new Date(r.awardedAt).toLocaleDateString('fr-FR') }}</small></div></details>
     <CampaignSessionEffects :campaign-id="campaignId" :session-id="s.id" :can-manage="canManage&&!archived&&s.status==='played'" :effects="s.effects||[]" @applied="load()" />
     <form v-if="awarding===s.id&&canManage&&!archived" class="editor" @submit.prevent="award">
@@ -103,13 +111,13 @@ onUnmounted(()=>{generation++;window.removeEventListener('beforeunload',beforeUn
      <div class="presets" role="group" aria-label="Barème XP de la séance"><button type="button" :aria-pressed="xp===2" @click="common('xp',2)">Courte / transition · 2 XP</button><button type="button" :aria-pressed="xp===3" @click="common('xp',3)">Normale · 3 XP</button><button type="button" :aria-pressed="xp===4" @click="common('xp',4)">Finale / événement majeur · 4 XP</button></div>
      <div class="fields"><label>XP par personnage<input :value="xp" type="number" min="0" max="100000" step="1" required @input="common('xp',Number(($event.target as HTMLInputElement).value))" /></label><label>PTV par personnage<input :value="ptv" type="number" min="0" max="100000" step="1" required @input="common('ptv',Number(($event.target as HTMLInputElement).value))" /></label></div>
      <div class="presets" role="group" aria-label="PTV communs"><button v-for="n in [0,1,2,3]" :key="n" type="button" :aria-pressed="ptv===n" @click="common('ptv',n)">{{ n }} PTV pour tous</button></div>
-     <p>Le barème commun s’applique à toutes les fiches ci-dessous. Ajuste ensuite les exceptions ou décoche les absents.</p>
-     <fieldset><legend>Détail par personnage</legend><div v-for="m in eligible" :key="m.characterId!" class="individual-reward"><label class="check"><input v-model="selected" type="checkbox" :value="m.characterId" />{{ m.characterName||'Personnage' }}</label><div class="fields" v-if="amounts[m.characterId!]"><label>XP · {{ m.characterName }}<input v-model.number="amounts[m.characterId!].xp" :disabled="!selected.includes(m.characterId!)" type="number" min="0" max="100000" step="1" required /></label><label>PTV · {{ m.characterName }}<input v-model.number="amounts[m.characterId!].ptv" :disabled="!selected.includes(m.characterId!)" type="number" min="0" max="100000" step="1" required /></label></div></div><p v-if="!eligible.length">Aucune nouvelle fiche acceptée par le MJ à récompenser.</p></fieldset>
+     <p>Le barème commun s’applique à toutes les fiches ci-dessous. Les présents sont présélectionnés. Ajuste ensuite les exceptions.</p>
+     <div class="actions"><button type="button" @click="selected=eligible.map(m=>m.characterId!)">Sélectionner tout le groupe</button><button type="button" @click="selected=[]">Tout décocher</button></div><fieldset><legend>Détail par personnage</legend><div v-for="m in eligible" :key="m.characterId!" class="individual-reward"><label class="check"><input v-model="selected" type="checkbox" :value="m.characterId" />{{ m.characterName||'Personnage' }}</label><div class="fields" v-if="amounts[m.characterId!]"><label>XP · {{ m.characterName }}<input v-model.number="amounts[m.characterId!].xp" :disabled="!selected.includes(m.characterId!)" type="number" min="0" max="100000" step="1" required /></label><label>PTV · {{ m.characterName }}<input v-model.number="amounts[m.characterId!].ptv" :disabled="!selected.includes(m.characterId!)" type="number" min="0" max="100000" step="1" required /></label></div></div><p v-if="!eligible.length">Aucune nouvelle fiche acceptée par le MJ à récompenser.</p></fieldset>
      <p aria-live="polite">{{ selected.length }} personnage(s) sélectionné(s). Vérifie les montants individuels avant de confirmer.</p><div class="actions"><button class="primary" :disabled="busy||!validRewards">Confirmer l’attribution</button><button type="button" :disabled="busy" @click="awarding=null">Annuler l’attribution</button></div>
     </form>
    </div>
   </details>
-  <div class="actions"><button v-if="hasMore" :disabled="loading||busy||dirty" @click="load(true)">Séances précédentes</button><button :disabled="loading||busy||dirty" @click="load()">Actualiser les séances</button></div>
+  <div class="actions"><button v-if="hasMore" :disabled="loading||busy||dirty||notebook!==undefined" @click="load(true)">Séances précédentes</button><button :disabled="loading||busy||dirty||notebook!==undefined" @click="load()">Actualiser les séances</button></div>
  </section>
 </template>
 <style scoped>
