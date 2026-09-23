@@ -161,7 +161,7 @@ function profileParts(rawTitle:string){
   const cost=Number(profile.match(/(\d+)\s*PTV/i)?.[1]??0);
   const kind=(profile.match(/\b(DON|RITE|FAVEUR)\b/i)?.[1]??"").toUpperCase() as CorruptionTalentKind;
   if(!name||!cost||!["DON","RITE","FAVEUR"].includes(kind))return null;
-  const depthMatch=profile.match(/Au bord de la Rupture|Envahi|Marqué/i)?.[0]??"";
+  const depthMatch=profile.match(/Au bord(?: de la Rupture)?|Envahi|Marqué/i)?.[0]??"";
   const depth=(depthMatch
     ? depthMatch.toLocaleLowerCase("fr").startsWith("au bord")?"Au bord de la Rupture"
       :depthMatch.toLocaleLowerCase("fr").startsWith("envahi")?"Envahi":"Marqué"
@@ -208,6 +208,24 @@ function buildCatalog():CorruptionTalent[]{
 
   if(rows.length!==227)throw new Error(`Catalogue Fléaux: ${rows.length} capacités, 227 attendues.`);
   if(new Set(rows.map(row=>row.id)).size!==rows.length)throw new Error("Catalogue Fléaux: IDs dupliqués.");
+
+  // Exported card titles can end in the middle of a prerequisite, or before it.
+  // The full card preserves the profile. Some DON profiles join the prerequisite
+  // directly to the effect, so resolve its leading canonical name, not the prose.
+  for(const row of rows){
+    const profileStart=row.effect.search(/Profil\s*:/i);
+    const profile=profileStart>=0?row.effect.slice(profileStart):row.access;
+    const raw=(profile.match(/Pr[eé]requis\s*:\s*([^•|]+)/i)?.[1]??"").trim();
+    if(!raw){row.prerequisiteName="";continue;}
+    const candidates=rows.filter(other=>
+      other.id!==row.id&&other.sourceId===row.sourceId&&norm(raw).startsWith(norm(other.name))
+    ).sort((a,b)=>b.name.length-a.name.length);
+    const prerequisite=candidates[0];
+    if(!prerequisite||(candidates[1]&&candidates[1].name.length===prerequisite.name.length)){
+      throw new Error(`Catalogue Fléaux: prérequis indéterminé pour ${row.name}: ${raw}`);
+    }
+    row.prerequisiteName=prerequisite.name;
+  }
 
   const total=rows.reduce((sum,row)=>sum+row.cost,0);
   if(total!==493)throw new Error(`Catalogue Fléaux: ${total} PTV, 493 attendus.`);

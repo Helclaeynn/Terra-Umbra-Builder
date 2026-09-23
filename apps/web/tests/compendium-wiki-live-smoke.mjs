@@ -52,21 +52,32 @@ const publicContext=await browser.newContext();
 const publicPage=await publicContext.newPage();
 try{
   await publicPage.goto(baseUrl+"/",{waitUntil:"domcontentloaded",timeout:30000});
-  await publicPage.locator(".newcomer-hero").waitFor({state:"visible",timeout:20000});
+  await publicPage.locator(".discovery-hero").waitFor({state:"visible",timeout:20000});
   await publicPage.locator(".compendium-topbar .tu-brand-lockup").waitFor({state:"visible",timeout:10000});
   await publicPage.waitForFunction(
     ()=>document.querySelector(".compendium-topbar .tu-brand-lockup")?.naturalWidth>0,
     null,
     {timeout:10000}
   );
-  const newcomerTitle=(await publicPage.locator(".newcomer-hero h2").innerText()).trim();
-  if(newcomerTitle!=="Entrer dans Terra Umbra")throw new Error("Portail nouveau joueur absent: "+newcomerTitle);
+  const homeTitle=(await publicPage.locator(".discovery-hero h1").innerText()).replace(/\s+/g," ").trim();
+  if(!homeTitle.includes("Un même monde.") || !homeTitle.includes("Une autre réalité."))throw new Error("Accueil orbital absent: "+homeTitle);
+  await publicPage.getByRole("button",{name:"Bien commencer",exact:true}).click();
+  await publicPage.locator('.discovery[data-mode="guide"] h1').filter({hasText:"Entrer dans Terra Umbra"}).waitFor({state:"visible",timeout:10000});
+  for(const asset of ["guide-realite-2035", "guide-verite-voile"]){
+    const illustration=publicPage.locator(`.discovery-illustration img[src$="${asset}.webp"]`);
+    await illustration.scrollIntoViewIfNeeded();
+    await illustration.evaluate(img=>img.decode());
+    if(!(await illustration.evaluate(img=>img.naturalWidth===1536&&img.naturalHeight===1024)))throw new Error("Illustration guide invalide: "+asset);
+  }
+  await publicPage.locator(".rules-onboarding > summary").click();
+  await publicPage.locator(".newcomer-hero h2").filter({hasText:"Entrer dans Terra Umbra"}).waitFor({state:"visible",timeout:10000});
 
   if(await publicPage.getByRole("button",{name:/Archives · ancien Compendium/}).count()){
     throw new Error("La rubrique OLD ne doit pas être proposée au public.");
   }
 
   const searchInput=publicPage.locator('input[aria-label="Recherche dans le Compendium"]');
+  await publicPage.getByRole("button",{name:"Ouvrir la recherche",exact:true}).click();
   await searchInput.fill("Afa");
   const afancSuggestion=publicPage.getByRole("option").filter({hasText:"Afanc"}).first();
   await afancSuggestion.waitFor({state:"visible",timeout:10000});
@@ -75,6 +86,7 @@ try{
   const afancFromSuggestion=(await publicPage.locator(".article-header h1").innerText()).trim();
   if(afancFromSuggestion!=="Afanc")throw new Error("Suggestion Afanc incorrecte: "+afancFromSuggestion);
 
+  await publicPage.getByRole("button",{name:"Ouvrir la recherche",exact:true}).click();
   const rulesChip=publicPage.locator(".category-strip .category-chip").filter({hasText:"Règles"}).first();
   await rulesChip.click();
   await publicPage.waitForURL(
@@ -115,6 +127,10 @@ try{
   if(await publicPage.locator(".wiki-edit-link").count()){
     throw new Error("Une archive OLD ne doit pas être éditable dans le Compendium public.");
   }
+
+  await publicPage.goto(baseUrl+"/compendium?article=pnj-agences-cole-gallagher&section=profil-statistique",{waitUntil:"domcontentloaded",timeout:30000});
+  await publicPage.getByRole("heading",{name:"Cole Gallagher",exact:true}).waitFor({state:"visible",timeout:20000});
+  if(await publicPage.locator(".npc-stat-profile, #wiki-section-profil-statistique").count())throw new Error("Le profil MJ de Cole est visible sans session.");
 
   // Builder provenance belongs to the rebuilt active article, never to its OLD archive.
   await publicPage.goto(baseUrl+"/compendium?article=verite-v7-vampires-civilisation-cours-sangs",{waitUntil:"domcontentloaded",timeout:30000});
@@ -229,6 +245,7 @@ try{
   if(!wikiDebug?.hasAfancTarget)throw new Error("Afanc absent de l’index actif: "+JSON.stringify(wikiDebug));
   if(wikiDebug?.hasLegacyEntry)throw new Error("OLD présent dans l’index actif: "+JSON.stringify(wikiDebug));
 
+  await page.getByRole("button",{name:"Ouvrir la recherche",exact:true}).click();
   const archiveChip=page.getByRole("button",{name:/Archives · ancien Compendium/});
   await archiveChip.waitFor({state:"visible",timeout:10000});
   await archiveChip.click();
@@ -239,6 +256,19 @@ try{
   await page.goto(baseUrl+"/compendium?article=verite-046-10-vampires",{waitUntil:"domcontentloaded",timeout:30000});
   await page.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
   await page.getByText("Archive de l’ancien Compendium",{exact:true}).waitFor({state:"visible",timeout:10000});
+
+  await page.goto(baseUrl+"/compendium?article=pnj-agences-cole-gallagher&section=profil-statistique",{waitUntil:"domcontentloaded",timeout:30000});
+  await page.getByRole("heading",{name:"Cole Gallagher",exact:true}).waitFor({state:"visible",timeout:20000});
+  await page.locator(".npc-stat-profile").waitFor({state:"visible",timeout:10000});
+  await page.waitForFunction(()=>{
+    const section=document.getElementById("wiki-section-profil-statistique");
+    return section?.querySelector("details.mj-section")?.open && document.activeElement===section;
+  },null,{timeout:10000});
+  const attributes=await page.locator(".npc-profile-attribute").evaluateAll(items=>items.map(item=>[item.querySelector("dt")?.textContent?.trim(),item.querySelector("dd")?.textContent?.trim()]));
+  if(JSON.stringify(attributes)!==JSON.stringify([["Vigueur","5"],["Agilité","5"],["Esprit","7"],["Volonté","6"],["Charisme","5"]]))throw new Error("Attributs canoniques de Cole altérés: "+JSON.stringify(attributes));
+  const talents=await page.locator(".npc-profile-talent h5").allTextContents();
+  if(JSON.stringify(talents.map(text=>text.trim()))!==JSON.stringify(["Dossier préparé","Lecture des failles","Réseau mobilisable — CBII"]))throw new Error("Talents canoniques de Cole altérés: "+JSON.stringify(talents));
+  console.log("PNJ LIVE OK — Cole privé au public · profil et valeurs canoniques MJ · lien ciblé ouvert/focalisé");
 
   await page.goto(`${baseUrl}/compendium?article=bestiaire-v15-afanc`,{
     waitUntil:"domcontentloaded",
