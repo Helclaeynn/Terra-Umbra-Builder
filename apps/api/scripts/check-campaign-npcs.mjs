@@ -7,11 +7,20 @@ const {hashSessionToken}=await import('../dist/auth.js');
 const {registerCampaignRoutes}=await import('../dist/campaigns.js');
 const {generateNpc}=await import('../dist/campaign-npc-generator.js');
 const {npcPortrait}=await import('../dist/campaign-npcs.js');
-const app=Fastify(),ids=[];await registerCampaignRoutes(app);
+const {registerCanonicalNpcGenerator}=await import('../dist/canonical-npc-generator.js');
+const app=Fastify(),ids=[];await registerCampaignRoutes(app);await registerCanonicalNpcGenerator(app);
 async function account(role){const id=randomUUID(),token=randomBytes(32).toString('base64url');ids.push(id);await pool.query('INSERT INTO users(id,email,display_name,role) VALUES($1,$2,$3,$4)',[id,`ci-npcs-${id}@example.invalid`,'NPC CI '+role,role]);await pool.query("INSERT INTO sessions(token_hash,user_id,expires_at) VALUES($1,$2,now()+interval '5 minutes')",[hashSessionToken(token),id]);return {id,cookie:`__Host-tuc_session=${token}`};}
 async function call(who,method,url,payload,status=200){const r=await app.inject({method,url,headers:who?{cookie:who.cookie}:{},...(payload===undefined?{}:{payload})});assert.equal(r.statusCode,status,`${method} ${url} ${r.body}`);return r.json();}
 try{
  const gm=await account('gm'),other=await account('gm'),player=await account('player');
+ const admin=await account('admin'),editor=await account('editor'),canonical='/api/compendium/editor/npc-generator';
+ for(const who of [gm,other,player,editor,null])for(const [method,path,payload] of [['GET','/catalog'],['POST','/generate',{}],['POST','/preview',{}]])await call(who,method,canonical+path,payload,who?403:401);
+ assert.equal((await call(admin,'GET',canonical+'/catalog')).variety.names,15360);
+ const canonNpc=(await call(admin,'POST',canonical+'/generate',{tierId:'elite',presetId:'garde',seed:'admin',count:1,faction:'Private faction',sex:'female'})).npcs[0];assert.equal(canonNpc.sex,'female');
+ await call(admin,'POST',canonical+'/generate',{tierId:'elite',presetId:'garde',seed:'admin',count:2,faction:''},400);
+ await call(admin,'POST',canonical+'/generate',{tierId:'elite',presetId:'garde',seed:'admin',count:1,faction:'',sex:'invalid'},400);
+ const preview=await app.inject({method:'POST',url:canonical+'/preview',headers:{cookie:admin.cookie},payload:{npc:canonNpc}});assert.equal(preview.statusCode,200);assert.match(preview.headers['cache-control'],/no-store/);assert.equal(preview.json().article.category,'Personnages');assert.ok(!JSON.stringify(preview.json().article.sections.filter(s=>s.audience!=='mj')).includes('Private faction'));
+ await call(admin,'POST',canonical+'/preview',{npc:{...canonNpc,portrait:'data:image/png;base64,SGVsbG8='}},400);
  const cid=(await call(gm,'POST','/api/campaigns',{name:'NPC CI'},201)).campaign.id;
  const cid2=(await call(gm,'POST','/api/campaigns',{name:'NPC CI second'},201)).campaign.id;
  await pool.query("INSERT INTO campaign_members(campaign_id,user_id,status) VALUES($1,$2,'accepted')",[cid,player.id]);

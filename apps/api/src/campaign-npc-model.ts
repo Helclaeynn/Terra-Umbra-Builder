@@ -1,10 +1,12 @@
 import {NPC_TIERS} from './npc-tiers.js';
 import type {NPC_TALENTS} from './npc-rules.js';
 export {NPC_TIERS};
-export type NpcData={name:string;tierId:string;presetId:string;role:string;faction:string;appearance:string;personality:string;motivation:string;secret:string;notes:string;equipment:string;truthNotes:string;tags:string[];attributes:Record<string,number>;skills:Record<string,number>;talentIds:string[];expertiseSkill:string;apexSkill:string;apexReason:string;armor:number;portrait:string};
+export const NPC_SEXES=[{id:'male',name:'Masculin'},{id:'female',name:'Féminin'},{id:'other',name:'Autre'},{id:'unspecified',name:'Non précisé'}] as const;
+export type NpcSex=typeof NPC_SEXES[number]['id'];
+export type NpcData={sex?:NpcSex;name:string;tierId:string;presetId:string;role:string;faction:string;appearance:string;personality:string;motivation:string;secret:string;notes:string;equipment:string;truthNotes:string;tags:string[];attributes:Record<string,number>;skills:Record<string,number>;talentIds:string[];expertiseSkill:string;apexSkill:string;apexReason:string;armor:number;portrait:string};
 export type NpcSummary={id:string;name:string;tierId:string;role:string;faction:string;tags:string[];hasPortrait:boolean;version:number;archived:boolean};
 export type NpcRecord=NpcSummary&{data:NpcData};
-export type NpcCatalog={tiers:typeof NPC_TIERS;talents:typeof NPC_TALENTS;attributes:{id:string;name:string}[];skills:{id:string;name:string;attribute:string}[];presets:{id:string;name:string;description:string}[]};
+export type NpcCatalog={variety?:{names:number;appearances:number;personalities:number;motivations:number;secrets:number};tiers:typeof NPC_TIERS;talents:typeof NPC_TALENTS;attributes:{id:string;name:string}[];skills:{id:string;name:string;attribute:string}[];presets:{id:string;name:string;description:string}[]};
 const checks:Record<string,{skills:string[];min:number}>={
  'Dossier préparé':{skills:['investigation'],min:6},'Expertise éprouvée':{skills:[],min:7},'Lecture des failles':{skills:['investigation','perception'],min:7},'Fausse piste administrative':{skills:['investigation','savoirs'],min:6},
  'Tir maîtrisé':{skills:['tir'],min:7},'Désarmement net':{skills:['melee','pugilat'],min:8},'Lutte brève':{skills:['pugilat'],min:7},'Décrochage préparé':{skills:['athletisme','esquive'],min:6},'Terrain reconnu':{skills:['survie','perception'],min:7},'Chef de manœuvre':{skills:['autorite'],min:6},'Réseau mobilisable':{skills:['autorite'],min:6},'Chaîne de commandement':{skills:['autorite'],min:7},'Plan de sortie':{skills:['investigation','autorite'],min:6}
@@ -23,6 +25,7 @@ export function npcBudgetIssues(d:NpcData){
 }
 export function validNpcData(value:unknown,catalog:Pick<NpcCatalog,'attributes'|'skills'>):value is NpcData{
  if(!value||typeof value!=='object'||Array.isArray(value))return false;const d=value as NpcData;
+ if(d.sex!==undefined&&!NPC_SEXES.some(s=>s.id===d.sex))return false;
  const fields:Record<string,number>={name:120,tierId:40,presetId:40,role:160,faction:160,appearance:1000,personality:1000,motivation:1000,secret:3000,notes:6000,equipment:2000,truthNotes:3000,expertiseSkill:80,apexSkill:80,apexReason:1000,portrait:700000};
  if(Object.entries(fields).some(([key,max])=>typeof (d as any)[key]!=='string'||(d as any)[key].length>max)||!d.name.trim())return false;
  if(!Array.isArray(d.tags)||d.tags.length>12||d.tags.some(t=>typeof t!=='string'||!t.trim()||t.length>60))return false;
@@ -32,4 +35,7 @@ export function validNpcData(value:unknown,catalog:Pick<NpcCatalog,'attributes'|
  if(d.apexSkill&&!catalog.skills.some(s=>s.id===d.apexSkill))return false;
  return !npcBudgetIssues(d).length;
 }
-export function cleanNpcData(d:NpcData):NpcData{return {name:d.name.trim(),tierId:d.tierId,presetId:d.presetId,role:d.role,faction:d.faction,appearance:d.appearance,personality:d.personality,motivation:d.motivation,secret:d.secret,notes:d.notes,equipment:d.equipment,truthNotes:d.truthNotes,tags:[...new Set(d.tags.map(t=>t.trim()))],attributes:d.attributes,skills:d.skills,talentIds:d.talentIds,expertiseSkill:d.expertiseSkill,apexSkill:d.apexSkill,apexReason:d.apexReason,armor:d.armor,portrait:d.portrait};}
+export function cleanNpcData(d:NpcData):NpcData{return {sex:d.sex??'unspecified',name:d.name.trim(),tierId:d.tierId,presetId:d.presetId,role:d.role,faction:d.faction,appearance:d.appearance,personality:d.personality,motivation:d.motivation,secret:d.secret,notes:d.notes,equipment:d.equipment,truthNotes:d.truthNotes,tags:[...new Set(d.tags.map(t=>t.trim()))],attributes:d.attributes,skills:d.skills,talentIds:d.talentIds,expertiseSkill:d.expertiseSkill,apexSkill:d.apexSkill,apexReason:d.apexReason,armor:d.armor,portrait:d.portrait};}
+
+export type NpcArticleBlock={type:'p';text:string}|{type:'table';rows:string[][]};
+export type NpcArticleDraft={id:string;title:string;category:string;source:string;status:string;tags:string[];pnj:Record<string,unknown>;sections:{id:string;title:string;level:number;audience?:string;blocks:NpcArticleBlock[]}[]};

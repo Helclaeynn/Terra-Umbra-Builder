@@ -1,3 +1,4 @@
+import {registerCanonicalNpcGenerator} from './canonical-npc-generator.js';
 import { createHash, randomBytes } from "node:crypto";
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
@@ -3846,6 +3847,7 @@ async function ownedCollection(collectionId: string, userId: string): Promise<bo
 }
 
 export async function registerCompendiumRoutes(app: FastifyInstance) {
+  await registerCanonicalNpcGenerator(app);
   app.get("/api/compendium/meta", async () => {
     const corpus = await getCorpus();
     return {

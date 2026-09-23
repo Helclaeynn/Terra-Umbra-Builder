@@ -18,7 +18,7 @@ await page.route('**/api/**',async route=>{
  else if(path==='/api/compendium/library')body={favoriteItems:[],recentItems:[]};
  else if(path==='/api/compendium/search')body={items:[],total:0};
  else if(path.endsWith('/npcs/catalog'))body=NPC_CATALOG;
- else if(path.endsWith('/npcs/generate')){const b=req.postDataJSON();body={npcs:Array.from({length:b.count},(_,i)=>generateNpc(b.tierId,b.presetId,b.seed+i,b.faction))};}
+ else if(path.endsWith('/npcs/generate')){const b=req.postDataJSON();body={npcs:Array.from({length:b.count},(_,i)=>generateNpc(b.tierId,b.presetId,b.seed+i,b.faction,b.sex))};}
  else if(path.endsWith('/npcs')&&method==='POST'){for(const n of req.postDataJSON().npcs){records.set(n.id,{...n,version:1,archived:false});saves++;}status=201;body={ok:true};}
  else if(path.endsWith('/npcs')){const q=(url.searchParams.get('q')||'').toLowerCase();body={npcs:[...records.values()].filter(n=>n.archived===(url.searchParams.get('archived')==='true')&&JSON.stringify(n.data).toLowerCase().includes(q)).map(summary),hasMore:false};}
  else if(path.includes('/npcs/')){const id=path.split('/npcs/')[1].split('/')[0],n=records.get(id);assert.ok(n,path);if(path.endsWith('/portrait')){const [head,data]=n.data.portrait.split(',');await route.fulfill({contentType:head.slice(5).split(';')[0],body:Buffer.from(data,'base64')});return;}if(method==='PATCH'){const b=req.postDataJSON();assert.equal(b.version,n.version);records.set(id,{id,data:b.data,version:n.version+1,archived:b.archived});body={ok:true};}else body={npc:{...summary(n),data:n.data}};}
@@ -29,14 +29,14 @@ const click=name=>page.getByRole('button',{name,exact:true}).click();
 try{
  await page.goto(base+'/campaigns/'+cid);await page.getByText('Mes PNJ de campagne · générateur et fiches',{exact:true}).click();
  await click('Créer des PNJ');assert.equal(await page.getByLabel('Palier du PNJ',{exact:true}).locator('option').count(),8);
- await page.getByLabel('Palier du PNJ',{exact:true}).selectOption('elite');await page.getByLabel('Prétiré',{exact:true}).selectOption('enqueteur');await click('Générer un aperçu');
+ await page.getByLabel('Palier du PNJ',{exact:true}).selectOption('elite');await page.getByLabel('Prétiré',{exact:true}).selectOption('enqueteur');await page.getByLabel('Sexe à la génération',{exact:true}).selectOption('female');await click('Générer un aperçu');assert.equal(await page.getByLabel('Sexe du PNJ',{exact:true}).inputValue(),'female');
  await page.getByLabel('Nom du PNJ',{exact:true}).fill('Morgan · témoin');assert.equal(saves,0);
  await page.getByLabel('Tags du PNJ',{exact:true}).fill('port, témoin');await page.getByLabel('Secret ou accroche MJ',{exact:true}).fill('Secret de test');
  // Real decoding and canvas compression, then database-shaped persistence and reload.
  const png=await page.evaluate(()=>{const c=document.createElement('canvas');c.width=1200;c.height=800;const x=c.getContext('2d');x.fillStyle='#267eb1';x.fillRect(0,0,1200,800);return c.toDataURL('image/png').split(',')[1];});
  await page.getByLabel('Ajouter ou remplacer l’image',{exact:true}).setInputFiles({name:'portrait.png',mimeType:'image/png',buffer:Buffer.from(png,'base64')});
  await page.locator('.portrait > img').waitFor();await click('Enregistrer les PNJ');await page.getByRole('status').filter({hasText:'1 PNJ enregistré'}).waitFor();assert.equal(saves,1);
- let record=[...records.values()][0];assert.match(record.data.portrait,/^data:image\/(webp|jpeg);base64,/);assert.ok(record.data.portrait.length<700000);assert.deepEqual(record.data.tags,['port','témoin']);
+ let record=[...records.values()][0];assert.equal(record.data.sex,'female');assert.match(record.data.portrait,/^data:image\/(webp|jpeg);base64,/);assert.ok(record.data.portrait.length<700000);assert.deepEqual(record.data.tags,['port','témoin']);
  await click('Consulter Morgan · témoin');assert.equal(await page.locator('.preview .portrait img').evaluate(img=>img.naturalWidth),640);await click('Fermer la fiche PNJ');
  await click('Modifier Morgan · témoin');await page.getByLabel('Nom du PNJ',{exact:true}).fill('Morgan · contact');await click('Enregistrer le PNJ');await page.getByRole('button',{name:'Consulter Morgan · contact',exact:true}).waitFor();
  await click('Consulter Morgan · contact');

@@ -1,7 +1,7 @@
 import type {FastifyInstance} from 'fastify';
 import {pool} from './db.js';
 import {requireUser} from './auth.js';
-import {NPC_CATALOG,NPC_PRESETS,generateNpc} from './campaign-npc-generator.js';
+import {NPC_CATALOG,generateNpcBatch} from './campaign-npc-generator.js';
 import {cleanNpcData,validNpcData} from './campaign-npc-model.js';
 const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const owned=`SELECT c.id FROM campaigns c JOIN users u ON u.id=c.owner_id WHERE c.id=$1 AND c.owner_id=$2 AND u.is_active AND u.role IN ('gm','editor','admin')`;
@@ -20,8 +20,7 @@ export async function registerCampaignNpcRoutes(app:FastifyInstance){
  });
  app.post<{Params:{id:string};Body:{tierId?:unknown;presetId?:unknown;seed?:unknown;count?:unknown;faction?:unknown}}>('/api/campaigns/:id/npcs/generate',async(req,reply)=>{
   const user=await requireUser(req,reply);if(!user)return;if(!uuid.test(req.params.id)||!(await pool.query(owned+' AND c.archived_at IS NULL',[req.params.id,user.id])).rows.length)return reply.code(404).send({error:'campaign_not_found'});
-  const b=req.body;if(!b||!NPC_CATALOG.tiers.some(t=>t.id===b.tierId)||!NPC_PRESETS.some(t=>t.id===b.presetId)||typeof b.seed!=='string'||b.seed.length<1||b.seed.length>100||!Number.isInteger(b.count)||Number(b.count)<1||Number(b.count)>10||typeof b.faction!=='string'||b.faction.length>160)return reply.code(400).send({error:'invalid_npc_generator'});
-  const npcs=[];const names=new Set();for(let i=0;i<Number(b.count);i++){const npc=generateNpc(String(b.tierId),String(b.presetId),b.seed+':'+i,b.faction);if(names.has(npc.name))npc.name+=' '+(i+1);names.add(npc.name);npcs.push(npc);}return {npcs};
+  const npcs=generateNpcBatch(req.body);if(!npcs)return reply.code(400).send({error:'invalid_npc_generator'});return {npcs};
  });
  app.get<{Params:{id:string};Querystring:{q?:string;offset?:string;archived?:string}}>('/api/campaigns/:id/npcs',async(req,reply)=>{
   const user=await requireUser(req,reply);if(!user)return;if(!uuid.test(req.params.id)||!(await pool.query(owned,[req.params.id,user.id])).rows.length)return reply.code(404).send({error:'campaign_not_found'});
