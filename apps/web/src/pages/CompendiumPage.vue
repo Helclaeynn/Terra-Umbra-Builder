@@ -255,6 +255,7 @@ const articleReturnHref = ref("/compendium");
 const articleReturnLabel = ref("Vue d’ensemble");
 const wikiReady = ref(false);
 const wikiPreviewEl = ref<HTMLElement | null>(null);
+const WIKI_PREVIEW_ID = "compendium-wiki-preview";
 const wikiPreview = ref({
   visible: false,
   id: "",
@@ -475,6 +476,7 @@ async function focusSearch() {
   document.querySelector<HTMLInputElement>('input[aria-label="Recherche dans le Compendium"]')?.focus();
 }
 function compendiumKeydown(event: KeyboardEvent) {
+  if (event.key === "Escape" && wikiPreview.value.visible) hideWikiPreview();
   if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") { event.preventDefault(); void focusSearch(); }
   if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key)) readingIntent(event);
 }
@@ -1351,6 +1353,11 @@ function closestWikiLink(event: Event): HTMLAnchorElement | null {
 function hideWikiPreview() {
   if (wikiPreviewTimer !== undefined) window.clearTimeout(wikiPreviewTimer);
   wikiPreviewTimer = undefined;
+  if (wikiPreviewLink) {
+    const descriptions = (wikiPreviewLink.getAttribute("aria-describedby") || "").split(/\s+/).filter(id => id && id !== WIKI_PREVIEW_ID);
+    if (descriptions.length) wikiPreviewLink.setAttribute("aria-describedby", descriptions.join(" "));
+    else wikiPreviewLink.removeAttribute("aria-describedby");
+  }
   wikiPreviewLink = null;
   wikiPreview.value.visible = false;
 }
@@ -1380,7 +1387,9 @@ async function showWikiPreview(link: HTMLAnchorElement) {
   const entry = wikiById.get(id);
   if (!entry) return;
 
+  hideWikiPreview();
   wikiPreviewLink = link;
+  link.setAttribute("aria-describedby", [link.getAttribute("aria-describedby"), WIKI_PREVIEW_ID].filter(Boolean).join(" "));
   const cached = wikiPreviewCache.get(id);
   wikiPreview.value = {
     visible: true,
@@ -1659,7 +1668,130 @@ onBeforeUnmount(() => {
       </div>
     </header>
 
-    <main id="compendium-main" class="compendium-page" tabindex="-1">
+    <div class="compendium-page">
+      <aside class="panel compendium-navigation" aria-label="Explorer le Compendium">
+        <details class="navigation-disclosure" :open="!smallScreen || navigationOpen" @toggle="navigationOpen = ($event.target as HTMLDetailsElement).open">
+          <summary>Explorer les rubriques</summary>
+        <div class="navigation-heading">
+          <h2>LE COMPENDIUM</h2>
+        </div>
+
+        <nav class="navigation-categories" aria-label="Rubriques du Compendium">
+          <button type="button" class="navigation-category" :class="{ active: showOnboarding && discoveryMode === 'home' }" :aria-current="showOnboarding && discoveryMode === 'home' ? 'page' : undefined" @click="closeNewcomer">
+            <svg class="navigation-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v11h-7v-7h-4v7H3Z"/></svg>
+            <span>Vue d’ensemble</span>
+          </button>
+          <button type="button" class="navigation-category" :class="{ active: showOnboarding && discoveryMode !== 'home' }" :aria-current="showOnboarding && discoveryMode !== 'home' ? 'page' : undefined" @click="openNewcomer">
+            <svg class="navigation-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h6l3 2 3-2h6v15h-6l-3 2-3-2H3Zm9 2v15"/></svg>
+            <span>Bien commencer</span>
+          </button>
+          <button
+            type="button"
+            class="navigation-category"
+            :class="{ active: !showOnboarding && !category && !activeLibraryView }"
+            @click="chooseCategory('')"
+          >
+            <svg class="navigation-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h7v7H3Zm11 0h7v7h-7ZM3 14h7v7H3Zm11 0h7v7h-7Z"/></svg>
+            <span>Tous les articles</span>
+            <small>{{ meta?.total?.toLocaleString('fr-FR') || '—' }}</small>
+          </button>
+          <div class="navigation-divider" aria-hidden="true"></div>
+          <button
+            v-for="item in meta?.categories || []"
+            :key="item.name"
+            type="button"
+            class="navigation-category"
+            :class="{ active: category === item.name }"
+            :data-layer="item.name"
+            :aria-current="category === item.name ? 'page' : undefined"
+            @click="chooseCategory(item.name)"
+          >
+            <span v-if="item.name === 'Réalité' || item.name === 'Vérité'" class="navigation-layer-icon" aria-hidden="true"></span>
+            <svg v-else class="navigation-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path v-if="item.name === 'Règles'" d="M4 3h16v18H4ZM8 7h8M8 12h8M8 17h5"/>
+              <path v-else-if="item.name === 'Personnages'" d="M12 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8ZM4 21v-2a8 5 0 0 1 16 0v2"/>
+              <path v-else-if="item.name === 'Équipement & Objets'" d="m3 7 9-4 9 4v11l-9 4-9-4Zm0 0 9 4 9-4M12 11v11"/>
+              <path v-else-if="item.name === 'Bestiaire'" d="m5 4 5 4h4l5-4 2 10-9 8-9-8Zm2 8h2m6 0h2m-7 5h4"/>
+              <path v-else d="M3 3h18v5H3Zm2 5v13h14V8M9 12h6"/>
+            </svg>
+            <span>{{ categoryLabel(item.name) }}</span>
+            <small>{{ item.count }}</small>
+          </button>
+          <div class="navigation-divider" aria-hidden="true"></div>
+          <button v-if="currentUser" type="button" class="navigation-category" :class="{ active: activeLibraryView === 'favorites' }" @click="showFavorites()">
+            <svg class="navigation-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4Z"/></svg>
+            <span>Mes favoris</span><small>{{ favoriteIds.length }}</small>
+          </button>
+          <button type="button" class="navigation-category" :class="{ active: activeLibraryView === 'recent' }" @click="showRecent()">
+            <svg class="navigation-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10a9 9 0 1 1 1 7M3 4v6h6m3-3v6l4 2"/></svg>
+            <span>Historique</span><small>{{ recentItems.length }}</small>
+          </button>
+        </nav>
+
+        <div v-if="category && category !== 'OLD'" class="navigation-tree">
+          <div class="navigation-tree-kicker">
+            <strong>{{ categoryLabel(category) }}</strong>
+            <span>{{ navigationEntries.length }} page{{ navigationEntries.length > 1 ? 's' : '' }}</span>
+          </div>
+
+          <details
+            v-for="group in navigationGroups"
+            :key="group.name"
+            class="navigation-group"
+            :open="navigationGroupOpen(group.name)"
+          >
+            <summary>
+              <span>{{ group.name }}</span>
+              <small>{{ group.count }}</small>
+            </summary>
+
+            <div class="navigation-group-body">
+              <section
+                v-for="subgroup in group.subgroups"
+                :key="`${group.name}-${subgroup.name}`"
+                class="navigation-subgroup"
+              >
+                <header v-if="subgroup.name !== 'Pages'">
+                  <span>{{ subgroup.name }}</span>
+                  <small>{{ subgroup.entries.length }}</small>
+                </header>
+                <button
+                  v-for="entry in subgroup.entries"
+                  :key="entry.id"
+                  type="button"
+                  class="navigation-page"
+                  :class="{ active: selected?.id === entry.id }"
+                  @click="openArticle(entry.id)"
+                >
+                  {{ entry.title }}
+                </button>
+              </section>
+            </div>
+          </details>
+
+          <p v-if="wikiReady && !navigationGroups.length" class="navigation-empty">
+            Aucune page active dans cette rubrique.
+          </p>
+        </div>
+
+        <div v-else-if="category === 'OLD'" class="navigation-archive-note">
+          Les archives sont volontairement absentes de l’arborescence active. Leur contenu apparaît dans la zone principale.
+        </div>
+
+        <section class="navigation-guide" aria-label="Premiers pas">
+          <h3>PREMIERS PAS</h3>
+          <p>Un monde.<br>Deux niveaux de lecture.</p>
+          <button type="button" @click="openArticle('realite-v9-grande-californie-2035')">Découvrir la Réalité <span aria-hidden="true">↗</span></button>
+          <button type="button" @click="openArticle('verite-v7-derriere-le-voile')">Franchir le Voile <span aria-hidden="true">↗</span></button>
+        </section>
+        <section v-if="recentItems.length" class="navigation-recent" aria-label="Dernières lectures">
+          <h3>DERNIÈRES LECTURES</h3>
+          <button v-for="item in recentItems.slice(0, 3)" :key="item.id" type="button" :title="item.title" @click="openArticle(item.id)">{{ item.title }}</button>
+        </section>
+        </details>
+      </aside>
+
+    <main id="compendium-main" class="compendium-content" tabindex="-1">
 
       <div v-if="error" class="feedback error compendium-feedback">
         {{ error }}
@@ -1862,97 +1994,7 @@ onBeforeUnmount(() => {
         </details>
 
         <section v-if="!showOnboarding" class="compendium-workspace">
-          <aside class="panel compendium-navigation">
-            <details class="navigation-disclosure" :open="!smallScreen || navigationOpen" @toggle="navigationOpen = ($event.target as HTMLDetailsElement).open">
-              <summary>Explorer les rubriques</summary>
-            <div class="navigation-heading">
-              <div>
-                <p class="eyebrow">NAVIGATION</p>
-                <h2>Compendium</h2>
-              </div>
-              <span v-if="category">{{ categoryLabel(category) }}</span>
-            </div>
 
-            <nav class="navigation-categories" aria-label="Rubriques du Compendium">
-              <button type="button" class="navigation-category" @click="closeNewcomer">Vue d’ensemble</button>
-              <button type="button" class="navigation-category" @click="openNewcomer">Bien commencer</button>
-              <button
-                type="button"
-                class="navigation-category"
-                :class="{ active: !category }"
-                @click="chooseCategory('')"
-              >
-                <span>Toutes les rubriques</span>
-                <small>{{ meta?.total?.toLocaleString('fr-FR') || '—' }}</small>
-              </button>
-              <button
-                v-for="item in meta?.categories || []"
-                :key="item.name"
-                type="button"
-                class="navigation-category"
-                :class="{ active: category === item.name }"
-                @click="chooseCategory(item.name)"
-              >
-                <span>{{ categoryLabel(item.name) }}</span>
-                <small>{{ item.count }}</small>
-              </button>
-            </nav>
-
-            <div v-if="category && category !== 'OLD'" class="navigation-tree">
-              <div class="navigation-tree-kicker">
-                <strong>{{ categoryLabel(category) }}</strong>
-                <span>{{ navigationEntries.length }} page{{ navigationEntries.length > 1 ? 's' : '' }}</span>
-              </div>
-
-              <details
-                v-for="group in navigationGroups"
-                :key="group.name"
-                class="navigation-group"
-                :open="navigationGroupOpen(group.name)"
-              >
-                <summary>
-                  <span>{{ group.name }}</span>
-                  <small>{{ group.count }}</small>
-                </summary>
-
-                <div class="navigation-group-body">
-                  <section
-                    v-for="subgroup in group.subgroups"
-                    :key="`${group.name}-${subgroup.name}`"
-                    class="navigation-subgroup"
-                  >
-                    <header v-if="subgroup.name !== 'Pages'">
-                      <span>{{ subgroup.name }}</span>
-                      <small>{{ subgroup.entries.length }}</small>
-                    </header>
-                    <button
-                      v-for="entry in subgroup.entries"
-                      :key="entry.id"
-                      type="button"
-                      class="navigation-page"
-                      :class="{ active: selected?.id === entry.id }"
-                      @click="openArticle(entry.id)"
-                    >
-                      {{ entry.title }}
-                    </button>
-                  </section>
-                </div>
-              </details>
-
-              <p v-if="wikiReady && !navigationGroups.length" class="navigation-empty">
-                Aucune page active dans cette rubrique.
-              </p>
-            </div>
-
-            <div v-else-if="category === 'OLD'" class="navigation-archive-note">
-              Les archives sont volontairement absentes de l’arborescence active. Leur contenu apparaît dans la zone principale.
-            </div>
-
-            <div v-else class="navigation-hint">
-              Choisis une rubrique pour afficher ses groupes, sous-groupes et pages.
-            </div>
-            </details>
-          </aside>
 
           <article
             ref="articlePanel"
@@ -2449,7 +2491,9 @@ onBeforeUnmount(() => {
       <div
         v-if="wikiPreview.visible"
         ref="wikiPreviewEl"
+        :id="WIKI_PREVIEW_ID"
         class="wiki-hover-preview"
+        :data-layer="wikiPreview.category === 'Vérité' ? 'truth' : 'reality'"
         role="tooltip"
         :style="{
           left: wikiPreview.left + 'px',
@@ -2470,6 +2514,7 @@ onBeforeUnmount(() => {
         <span>Cliquer pour ouvrir l’article →</span>
       </div>
     </main>
+    </div>
   </div>
 </template>
 
@@ -2517,9 +2562,9 @@ onBeforeUnmount(() => {
 }
 
 .compendium-page {
-  width: min(1480px, calc(100% - 2rem));
-  margin: 0 auto;
-  padding: clamp(2rem, 4vw, 4rem) 0 5rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .compendium-hero {
@@ -3291,15 +3336,30 @@ onBeforeUnmount(() => {
 }
 
 .wiki-hover-preview {
+  --preview-accent: #64def5;
   position: fixed;
   z-index: 80;
   display: grid;
-  gap: .45rem;
-  padding: 1rem 1.05rem;
-  border: 1px solid rgba(216, 189, 133, .34);
-  background: rgba(16, 15, 13, .98);
-  box-shadow: 0 18px 60px rgba(0, 0, 0, .48);
+  gap: 9px;
+  box-sizing: border-box;
+  padding: 20px;
+  border: 1px solid #36536b;
+  border-top: 2px solid var(--preview-accent);
+  border-radius: 8px;
+  background: #101e2e;
+  color: #dce8f5;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  text-align: left;
+  overflow-wrap: anywhere;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, .45);
   pointer-events: none;
+}
+
+.wiki-hover-preview[data-layer="truth"] {
+  --preview-accent: #b79aff;
+  border-color: #524669;
+  border-top-color: var(--preview-accent);
+  background: #171b2b;
 }
 
 .wiki-hover-image {
@@ -3307,33 +3367,42 @@ onBeforeUnmount(() => {
   max-height: 150px;
   object-fit: cover;
   margin-bottom: .25rem;
-  border: 1px solid rgba(255,255,255,.08);
+  border: 1px solid #344b62;
+  border-radius: 4px;
 }
 
 .wiki-hover-preview strong {
-  color: #eef6f8;
-  font: 500 1.15rem/1.2 Georgia, serif;
+  color: #eef5ff;
+  font: 600 18px/1.35 Inter, "Segoe UI", Arial, sans-serif;
 }
 
 .wiki-hover-preview small {
-  color: #91a7b1;
+  color: #a5bbd3;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .wiki-hover-preview p {
   margin: 0;
-  color: #afc1c8;
-  font-size: .84rem;
-  line-height: 1.55;
+  color: #c1d1e4;
+  font-size: 14px;
+  line-height: 1.65;
 }
 
 .wiki-hover-preview > span {
-  color: #58dcc5;
-  font-size: .72rem;
+  margin-top: 3px;
+  padding-top: 10px;
+  border-top: 1px solid #34435a;
+  color: var(--preview-accent);
+  font-size: 12px;
+  line-height: 1.4;
 }
 
 .wiki-hover-kicker {
-  color: #58dcc5;
-  font-size: .68rem;
+  color: var(--preview-accent);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.5;
   letter-spacing: .14em;
   text-transform: uppercase;
 }
@@ -3890,8 +3959,10 @@ onBeforeUnmount(() => {
 .compendium-top-actions .compact-link{min-height:38px;align-items:center;padding:9px 12px;border:1px solid #2b4056;border-radius:5px;color:#b9cadd;background:#0d1725;font-size:12px;line-height:1.2;white-space:nowrap}
 .compendium-top-actions .compact-link:hover{border-color:#64def5;color:#edf4ff}
 kbd{margin-left:12px;color:#819bb5;font:10px/1.3 Consolas,monospace}
-.compendium-page{width:min(1480px,calc(100% - 48px));padding:28px 0 70px;scroll-margin-top:var(--orbital-topbar)}
-.compendium-page:focus{outline:none}
+.compendium-page{--compendium-gutter:clamp(24px,3vw,64px);display:grid;grid-template-columns:clamp(232px,13vw,260px) minmax(0,1fr);align-items:start;width:100%;margin:0;padding:0;gap:0}
+.compendium-content{min-width:0;padding:0 0 70px;scroll-margin-top:var(--orbital-topbar)}
+.compendium-content:focus{outline:none}
+.compendium-content>:is(.compendium-feedback,.compendium-search,.library-panel,.rules-onboarding,.compendium-workspace){margin:28px var(--compendium-gutter) 0}
 .compendium-search{padding:24px;margin-bottom:24px;border:1px solid #294056;border-radius:8px;background:#0d1725}
 .compendium-search label{color:#b8cadd;font-size:12px;letter-spacing:.025em}
 .compendium-search input{min-height:48px;border-color:#324d68;border-radius:5px;background:#080f1a;color:#edf4ff;font-size:16px}
@@ -3905,21 +3976,38 @@ kbd{margin-left:12px;color:#819bb5;font:10px/1.3 Consolas,monospace}
 .library-panel[open]{padding:0 20px 20px}.library-panel[open]>summary{margin:0 -20px 20px;border-bottom:1px solid #293d51}
 .rules-onboarding> :not(summary){margin:20px}
 .library-heading h2{font:500 20px/1.4 Inter,"Segoe UI",sans-serif}
-.compendium-workspace{grid-template-columns:232px minmax(0,1fr);gap:24px;align-items:start}
-.compendium-navigation{top:calc(var(--orbital-topbar) + 20px);max-height:calc(100vh - var(--orbital-topbar) - 40px);border:1px solid #26394c;border-radius:8px;background:#0d1725;scrollbar-color:#344c64 #0d1725}
+.compendium-workspace{display:block;min-width:0}
+.compendium-navigation{position:sticky;top:var(--orbital-topbar);height:calc(100dvh - var(--orbital-topbar));max-height:none;margin:0;padding:16px 8px 28px;border:0;border-right:1px solid #26394c;border-radius:0;background:#0a1420;box-shadow:none;scrollbar-color:#344c64 #0a1420}
 .navigation-disclosure>summary{display:none;padding:16px 18px;cursor:pointer;color:#d5e3f2;font-size:14px}
-.navigation-heading{position:static;padding:20px 16px;border-color:#26394c;background:transparent}
-.navigation-heading h2{font:500 18px/1.3 Inter,"Segoe UI",sans-serif}
+.navigation-heading{position:static;padding:20px 20px 16px;border:0;background:transparent}
+.navigation-heading h2,.navigation-guide h3,.navigation-recent h3{margin:0;color:#94aec8;font:500 10px/1.7 Consolas,"Liberation Mono",monospace;letter-spacing:.18em}
 .navigation-heading>span{font-size:10px;color:var(--tu-accent)}
 .navigation-heading .eyebrow{color:#8da8c3}
-.navigation-category{min-height:43px;color:#b9cadd;border-radius:4px;font-size:12px}
+.navigation-categories{gap:5px;padding:8px;border:0}
+.navigation-category{justify-content:flex-start;gap:12px;min-height:46px;padding:10px 12px;color:#b9cadd;border-radius:4px;font-size:13px;line-height:1.5}
+.navigation-category>span:not(.navigation-layer-icon){min-width:0;flex:1}
 .navigation-category.active{border-color:#344e69;background:#17293b;color:var(--tu-accent)}
-.navigation-category small{color:#8ca7c4;font-size:10px}
+.navigation-category small{flex:none;margin-left:auto;color:#8ca7c4;font:10px/1.5 Consolas,monospace}
+.navigation-icon{flex:none;width:18px;height:18px;fill:none;stroke:#7896b1;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.navigation-category.active .navigation-icon{stroke:var(--tu-accent)}
+.navigation-layer-icon{position:relative;flex:none;width:14px;height:14px;margin:0 2px;border:1px solid #64def5;transform:rotate(45deg)}
+.navigation-category[data-layer="Vérité"] .navigation-layer-icon{border-color:#b79aff}
+.navigation-category[data-layer="Vérité"] .navigation-layer-icon:after{content:"";position:absolute;inset:3px;border:1px solid #b79aff}
+.navigation-category[data-layer="Vérité"].active{border-color:#594774;background:linear-gradient(100deg,#271e3b,#111827);color:#dfcefa}
+.navigation-divider{grid-column:1/-1;height:1px;margin:10px 12px;background:#243447}
+.navigation-guide,.navigation-recent{margin:26px 20px 0}
+.navigation-guide p{margin:12px 0 16px;color:#c8d8e8;font-size:15px;line-height:1.6}
+.navigation-guide button,.navigation-recent button{min-height:44px;width:100%;padding:10px 0;border:0;background:none;color:#a4bbd3;text-align:left;font-size:12px;line-height:1.6;cursor:pointer}
+.navigation-guide button{display:flex;justify-content:space-between;gap:12px}
+.navigation-guide button:last-child{color:#c0a6ef}
+.navigation-recent button{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.navigation-recent h3{margin-bottom:8px}
+.navigation-guide button:hover,.navigation-recent button:hover{color:#edf4ff}
 .navigation-page{min-height:40px;color:#adbed3;font-size:12px;line-height:1.6}
 .navigation-group>summary{min-height:42px;color:#c6d6e7;font-size:12px;line-height:1.6}
 .navigation-subgroup>strong,.navigation-tree-kicker,.navigation-hint,.navigation-empty{color:#93abc5;font-size:11px;line-height:1.7}
-.article-panel{min-width:0;padding:clamp(20px,2.5vw,36px);border:1px solid #283c51;border-radius:8px;background:#0d1725;box-shadow:none}
-.wiki-article-grid{grid-template-columns:minmax(0,1fr) 220px;gap:32px}
+.article-panel{min-width:0;padding:clamp(24px,3vw,48px);border:1px solid #283c51;border-radius:8px;background:#0d1725;box-shadow:none}
+.wiki-article-grid{grid-template-columns:minmax(0,1fr) clamp(220px,16vw,280px);gap:clamp(24px,3vw,48px);max-width:1440px;margin-inline:auto}
 .wiki-article-enter{animation:none;transform:none}
 .wiki-article-main{min-width:0}
 .article-header{position:relative;isolation:isolate;overflow:hidden;margin:0 0 26px;padding:0 0 26px;border-bottom:1px solid #294057}
@@ -3947,7 +4035,7 @@ kbd{margin-left:12px;color:#819bb5;font:10px/1.3 Consolas,monospace}
 .article-section :is(h2,h3){color:#edf4ff;font-family:Inter,"Segoe UI",Arial,sans-serif;font-weight:500;line-height:1.35;letter-spacing:-.018em}
 .article-section h2{font-size:clamp(22px,2.2vw,28px);margin:34px 0 18px}
 .article-section h3{font-size:21px;margin:28px 0 16px}
-.article-section :deep(p){font-size:var(--reader-font-size);line-height:1.95;color:#c2d0e1;overflow-wrap:break-word}
+.article-section :deep(p){max-width:78ch;font-size:var(--reader-font-size);line-height:1.95;color:#c2d0e1;overflow-wrap:break-word}
 .article-section :deep(a){color:var(--tu-accent);text-underline-offset:3px}
 .article-section :deep(table){font-size:14px;line-height:1.7}
 .article-section :deep(th){color:#d5e5f6;background:#15283b}.article-section :deep(td){color:#bfcfe1}
@@ -3965,7 +4053,7 @@ kbd{margin-left:12px;color:#819bb5;font:10px/1.3 Consolas,monospace}
 .reader-contents-heading{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:20px}.reader-contents-heading h2{margin:0;font:500 23px/1.3 Inter,"Segoe UI",sans-serif}
 .reader-contents-dialog ol{padding-left:24px;color:#7e99b8}.reader-contents-dialog li{padding:5px 0}.reader-contents-dialog li.level-3{margin-left:18px;font-size:14px}
 .reader-contents-dialog a{display:block;padding:8px;color:#c9d9eb;text-decoration:none;line-height:1.55}.reader-contents-dialog a[aria-current]{color:var(--tu-accent)}
-.reader-focus .compendium-workspace{display:block;max-width:900px;margin-inline:auto}.reader-focus :is(.compendium-navigation,.wiki-infobox,.library-panel){display:none}.reader-focus .wiki-article-grid{grid-template-columns:1fr}.reader-focus .article-panel{padding:clamp(24px,5vw,64px)}
+.reader-focus .compendium-page{grid-template-columns:minmax(0,1fr)}.reader-focus .compendium-workspace{width:calc(100% - 2 * var(--compendium-gutter));max-width:1000px;margin-inline:auto}.reader-focus :is(.compendium-navigation,.wiki-infobox,.library-panel){display:none}.reader-focus .wiki-article-grid{grid-template-columns:1fr}.reader-focus .article-panel{padding:clamp(24px,5vw,64px)}
 .surface-heading{position:relative;isolation:isolate;overflow:hidden;padding-bottom:28px;border-color:#30465b;gap:24px}
 .surface-heading h1{font:500 clamp(28px,3vw,40px)/1.2 Inter,"Segoe UI",sans-serif;color:#edf4ff;letter-spacing:-.03em}
 .surface-heading p{font-size:14px;line-height:1.8;color:#a5bad0}.surface-count{color:var(--tu-accent)}
@@ -3973,10 +4061,10 @@ kbd{margin-left:12px;color:#819bb5;font:10px/1.3 Consolas,monospace}
 .main-result-card{padding:22px;border-color:#30465d;border-radius:6px;background:#101e2f}.main-result-card:hover{border-color:var(--tu-accent);background:#15263a}.main-result-card>strong{font:500 20px/1.3 Inter,"Segoe UI",sans-serif;color:#e5effa}.main-result-card>p{color:#abc0d5;font-size:14px;line-height:1.8}.result-path{color:var(--tu-accent);font-size:11px}
 .result-limit-note,.category-more{color:#91aac4;font-size:12px;line-height:1.7}
 .category-group-card{border-color:#2d445b;border-radius:6px;background:#101d2d}.category-group-card>header{padding:20px;border-color:#2d445b}.category-group-card>header h2{font:500 22px/1.3 Inter,"Segoe UI",sans-serif}.category-subgroup-list{padding:20px;gap:20px}.category-page-links button{min-height:46px;padding:12px;color:#bccde0;border-color:#2b4158;font-size:12px;line-height:1.6}.category-subgroup-title strong{color:#a7bdd5;font-size:11px}
-@media(max-width:1250px){.compendium-top-nav{display:none}.compendium-workspace{grid-template-columns:210px minmax(0,1fr);gap:20px}.wiki-article-grid{grid-template-columns:minmax(0,1fr) 190px;gap:22px}.compendium-top-actions kbd{display:none}}
+@media(max-width:1250px){.compendium-top-nav{display:none}.compendium-page{grid-template-columns:224px minmax(0,1fr)}.wiki-article-grid{grid-template-columns:minmax(0,1fr) 190px;gap:22px}.compendium-top-actions kbd{display:none}}
 @media(max-width:1100px){.wiki-article-grid{grid-template-columns:1fr}.wiki-infobox{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.wiki-infobox>*{margin:0}.wiki-toc{grid-column:1/-1}}
-@media(max-width:900px){.compendium-shell{--orbital-topbar:80px}.compendium-topbar{gap:12px;flex-wrap:wrap}.compendium-top-actions .wiki-create-link{display:none}.compendium-page{width:calc(100% - 32px);padding-top:20px}.compendium-workspace{grid-template-columns:1fr}.compendium-navigation{position:static;max-height:none;overflow:visible}.navigation-disclosure>summary{display:list-item;margin-left:20px;padding-left:0}.navigation-heading{display:none}.navigation-categories{grid-template-columns:repeat(2,minmax(0,1fr))}.navigation-tree{max-height:55vh;overflow:auto}.article-panel{padding:24px}.reader-focus .article-panel{padding:24px}}
-@media(max-width:650px){.compendium-shell{--orbital-topbar:115px}.compendium-topbar{padding:9px 16px;gap:8px;align-content:center}.compendium-brand-lockup{margin-right:auto}.compendium-top-actions{display:flex;gap:6px}.compendium-top-actions .compact-link{min-height:34px;padding:7px 9px;font-size:11px}.compendium-top-actions .compact-link:nth-child(2){display:none}.compendium-page{width:calc(100% - 24px);padding-top:14px}.compendium-search{padding:18px}.category-strip{gap:6px}.category-chip{padding:8px 10px}.article-panel{padding:20px 16px}.reader-topline{margin-bottom:20px}.reader-tools{gap:4px}.reader-back{font-size:11px}.reader-progress-bar{gap:10px;padding:12px 0}.reader-progress-bar span{font-size:10px}.article-section :deep(p){line-height:1.9}.wiki-infobox{grid-template-columns:1fr}.wiki-toc{grid-column:auto}.category-page-links{grid-template-columns:1fr}.library-panel>summary span{display:block;margin-left:0}.category-group-card>header,.category-subgroup-list{padding:16px}.reader-contents-dialog{padding:20px}}
+@media(max-width:900px){.compendium-shell{--orbital-topbar:80px}.compendium-topbar{gap:12px;flex-wrap:wrap}.compendium-top-actions .wiki-create-link{display:none}.compendium-page{--compendium-gutter:20px;grid-template-columns:minmax(0,1fr);width:100%;padding:0}.compendium-navigation{position:static;height:auto;max-height:none;padding:0;border-right:0;border-bottom:1px solid #26394c;overflow:visible}.compendium-content>:is(.compendium-feedback,.compendium-search,.library-panel,.rules-onboarding,.compendium-workspace){margin-top:20px}.navigation-disclosure>summary{display:list-item;margin-left:20px;padding-left:0}.navigation-heading{display:none}.navigation-categories{grid-template-columns:repeat(2,minmax(0,1fr))}.navigation-tree{max-height:55vh;overflow:auto}.article-panel{padding:24px}.reader-focus .article-panel{padding:24px}}
+@media(max-width:650px){.compendium-shell{--orbital-topbar:115px}.compendium-topbar{padding:9px 16px;gap:8px;align-content:center}.compendium-brand-lockup{margin-right:auto}.compendium-top-actions{display:flex;gap:6px}.compendium-top-actions .compact-link{min-height:34px;padding:7px 9px;font-size:11px}.compendium-top-actions .compact-link:nth-child(2){display:none}.compendium-page{--compendium-gutter:12px;width:100%;padding:0}.compendium-search{padding:18px}.category-strip{gap:6px}.category-chip{padding:8px 10px}.article-panel{padding:20px 16px}.reader-topline{margin-bottom:20px}.reader-tools{gap:4px}.reader-back{font-size:11px}.reader-progress-bar{gap:10px;padding:12px 0}.reader-progress-bar span{font-size:10px}.article-section :deep(p){line-height:1.9}.wiki-infobox{grid-template-columns:1fr}.wiki-toc{grid-column:auto}.category-page-links{grid-template-columns:1fr}.library-panel>summary span{display:block;margin-left:0}.category-group-card>header,.category-subgroup-list{padding:16px}.reader-contents-dialog{padding:20px}}
 @media(prefers-reduced-motion:reduce){.compendium-shell *{scroll-behavior:auto;animation:none;transition:none}}
 
 </style>

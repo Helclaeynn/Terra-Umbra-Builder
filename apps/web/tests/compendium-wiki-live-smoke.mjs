@@ -61,7 +61,26 @@ try{
   );
   const homeTitle=(await publicPage.locator(".discovery-hero h1").innerText()).replace(/\s+/g," ").trim();
   if(!homeTitle.includes("Un même monde.") || !homeTitle.includes("Une autre réalité."))throw new Error("Accueil orbital absent: "+homeTitle);
-  await publicPage.getByRole("button",{name:"Bien commencer",exact:true}).click();
+  for(const width of [1920,2560,390]){
+    await publicPage.setViewportSize({width,height:1000});
+    await publicPage.waitForFunction(
+      mobile=>document.querySelector(".navigation-disclosure")?.open===!mobile,
+      width<=900
+    );
+    const layout=await publicPage.evaluate(()=>{
+      const rail=document.querySelector(".compendium-navigation").getBoundingClientRect();
+      const hero=document.querySelector(".discovery-hero").getBoundingClientRect();
+      return {width:document.documentElement.clientWidth,overflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+1,railRight:rail.right,heroLeft:hero.left,heroRight:hero.right,mainContainsRail:document.querySelector("main").contains(document.querySelector(".compendium-navigation"))};
+    });
+    if(layout.overflow || layout.mainContainsRail || Math.abs(layout.heroRight-layout.width)>2 || Math.abs(layout.heroLeft-(width>900?layout.railRight:0))>2){
+      throw new Error("Disposition pleine largeur incorrecte à "+width+"px: "+JSON.stringify(layout));
+    }
+  }
+  await publicPage.locator(".navigation-disclosure > summary").click();
+  await publicPage.locator(".compendium-navigation").getByRole("button",{name:"Bien commencer",exact:true}).click();
+  await publicPage.locator('.discovery[data-mode="guide"]').waitFor({state:"visible",timeout:10000});
+  await publicPage.setViewportSize({width:1280,height:720});
+  console.log("COMPENDIUM LAYOUT OK — accueil bord à bord à1920/2560px · navigation mobile à390px · contenu hors rail");
   await publicPage.locator('.discovery[data-mode="guide"] h1').filter({hasText:"Entrer dans Terra Umbra"}).waitFor({state:"visible",timeout:10000});
   for(const asset of ["guide-realite-2035", "guide-verite-voile"]){
     const illustration=publicPage.locator(`.discovery-illustration img[src$="${asset}.webp"]`);
