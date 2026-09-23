@@ -1,10 +1,19 @@
 <script setup lang="ts">
-import TerraUmbraLockup from "../components/TerraUmbraLockup.vue";
+import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
-import { RouterLink, useRoute, useRouter } from "vue-router";
+import { isNavigationFailure, NavigationFailureType, RouterLink, useRoute, useRouter } from "vue-router";
 import { api, ApiError } from "../lib/api";
 import CompendiumOnboarding from "../components/CompendiumOnboarding.vue";
+import CompendiumDiscovery from "../components/CompendiumDiscovery.vue";
+import CompendiumHologramComparison from "../components/CompendiumHologramComparison.vue";
+import NpcStatProfile from "../components/NpcStatProfile.vue";
+import { isNpcStatProfileSection } from "../lib/npc-stat-profile";
+import { parseReadingPositions, rememberReading, type ReadingPositions } from "../lib/compendium-reading";
 import { createWikiLinker } from "../lib/wiki-linker";
+import {
+  compendiumHref, compendiumLinkTarget, compendiumTarget, positionCompendiumArticle,
+  searchResultTarget, sectionDomId, sectionTargetId
+} from "../lib/compendium-navigation";
 import {
   WIKI_CASE_SENSITIVE_ALIASES,
   WIKI_EXPLICIT_TARGETS,
@@ -45,6 +54,9 @@ type SearchItem = {
   manufacturer: string;
   edited: boolean;
   snippet: string;
+  sectionId?: string;
+  section?: string;
+  href?: string;
 };
 
 type ArticleBlock = {
@@ -204,6 +216,11 @@ const suggestionIndex = ref(-1);
 let suggestionTimer: number | undefined;
 let suggestionRequest = 0;
 const selected = ref<Article | null>(null);
+const articlePanel = ref<HTMLElement | null>(null);
+let articleRequest = 0;
+let pageMounted = false;
+const mountedPath = route.path;
+let previousScrollRestoration: ScrollRestoration = "auto";
 const builderUsage = ref<BuilderUsage[]>([]);
 const builderSources = ref<BuilderSourceRecord[]>([]);
 const talentEmbeds = ref<Record<string, TalentRegistryRow[]>>({});
@@ -221,6 +238,21 @@ const libraryBusy = ref(false);
 const libraryNotice = ref("");
 const activeLibraryView = ref<"" | "favorites" | "recent" | string>("");
 const currentUser = ref<CurrentUser | null>(null);
+const searchOpen = ref(false);
+const libraryOpen = ref(false);
+const navigationOpen = ref(false);
+const smallScreen = ref(false);
+const readerFontSize = ref(17);
+const readerFocus = ref(false);
+const currentSectionId = ref("");
+const readingPositions = ref<ReadingPositions>({});
+const readingNotice = ref("");
+const contentsDialog = ref<HTMLDialogElement | null>(null);
+let contentsOpener: HTMLElement | null = null;
+let readingObserver: IntersectionObserver | null = null;
+let readingArmed = false;
+const articleReturnHref = ref("/compendium");
+const articleReturnLabel = ref("Vue d’ensemble");
 const wikiReady = ref(false);
 const wikiPreviewEl = ref<HTMLElement | null>(null);
 const wikiPreview = ref({
@@ -244,6 +276,9 @@ let wikiPreviewLink: HTMLAnchorElement | null = null;
 
 const RECENT_STORAGE_KEY = "tuc-compendium-recent-v1";
 const RECENT_LOCAL_LIMIT = 30;
+const discoveryMode = computed<"home" | "guide" | "journey">(() => route.query.view === "journey" ? "journey" : route.query.view === "guide" || route.query.start === "1" ? "guide" : "home");
+const activeLayer = computed(() => (selected.value?.category || category.value) === "Vérité" ? "truth" : "reality");
+const orbitalImage = computed(() => `/brand/orbital/orbital-earth${activeLayer.value === "truth" ? "-truth" : ""}.webp`);
 
 const resultLabel = computed(() => {
   if (loading.value) return "Recherche…";
@@ -308,7 +343,7 @@ const hasResultSurface = computed(() =>
     query.value.trim() ||
     manufacturer.value ||
     activeLibraryView.value ||
-    category.value === "OLD"
+    category.value === "OLD" || route.query.view === "all"
   )
 );
 
@@ -330,7 +365,7 @@ const resultSurfaceTitle = computed(() => {
   if (query.value.trim()) return `Recherche · « ${query.value.trim()} »`;
   if (manufacturer.value) return `Fabricant · ${manufacturer.value}`;
   if (category.value === "OLD") return "Archives · ancien Compendium";
-  return "Résultats";
+  return "Tous les articles";
 });
 
 function resultBreadcrumb(item: SearchItem | WikiEntry): string {
@@ -358,6 +393,12 @@ const canEdit = computed(() =>
 const canSearchTruthTags = computed(() =>
   currentUser.value?.role === "gm" || currentUser.value?.role === "admin"
 );
+const canReadMjSections = computed(() => ["gm", "admin"].includes(currentUser.value?.role || ""));
+const articleSections = computed(() => (selected.value?.sections || []).map((section, index) => ({ section, index })).filter(({ section }) => section.audience !== "mj" || canReadMjSections.value));
+function hasNpcStatProfile(section: ArticleSection): boolean {
+  return selected.value?.category === "Personnages" && isNpcStatProfileSection(section)
+    && (section.blocks || []).every(block => block.type === "p" || block.type === "table");
+}
 
 function searchForTag(tag: string) {
   category.value = "";
@@ -369,14 +410,89 @@ function searchForTag(tag: string) {
 const selectedMedia = computed(() => primaryArticleMedia(selected.value));
 
 const articleToc = computed(() =>
-  (selected.value?.sections ?? [])
-    .map((section, index) => ({
+  articleSections.value
+    .map(({ section, index }) => ({
       id: sectionDomId(section, index),
       title: String(section.title ?? "").trim(),
       level: Number(section.level ?? 2)
     }))
     .filter((item) => item.title)
 );
+const currentSection = computed(() => articleToc.value.find(item => item.id === currentSectionId.value) || articleToc.value[0]);
+const selectedResume = computed(() => {
+  if (!selected.value) return null;
+  const saved = readingPositions.value[selected.value.id];
+  const id = saved ? sectionTargetId(selected.value.sections || [], saved.sectionId) : null;
+  return id ? articleToc.value.find(item => item.id === id) || null : null;
+});
+const latestResume = computed(() => {
+  void wikiReady.value;
+  for (const [id, saved] of Object.entries(readingPositions.value).sort((a, b) => b[1].updatedAt - a[1].updatedAt)) {
+    const entry = wikiById.get(id);
+    if (entry) return { id, title: entry.title, sectionId: saved.sectionId, sectionTitle: "Votre dernière section" };
+  }
+  return undefined;
+});
+
+function readingStorageKey() { return `tuc-compendium-reading-v1:${currentUser.value?.id || "public"}`; }
+function loadReadingPositions() {
+  try { readingPositions.value = parseReadingPositions(localStorage.getItem(readingStorageKey())); } catch { readingPositions.value = {}; }
+}
+function saveReading(sectionId: string) {
+  if (!selected.value || !articleToc.value.some(item => item.id === sectionId)) return;
+  readingPositions.value = rememberReading(readingPositions.value, selected.value.id, sectionId);
+  try { localStorage.setItem(readingStorageKey(), JSON.stringify(readingPositions.value)); } catch { readingNotice.value = "Reprise disponible pour cette session uniquement."; }
+}
+function installReadingObserver() {
+  readingObserver?.disconnect();
+  if (!selected.value || !articlePanel.value || typeof IntersectionObserver === "undefined") return;
+  const visible = new Set<Element>();
+  readingObserver = new IntersectionObserver(entries => {
+    for (const entry of entries) { if (entry.isIntersecting) visible.add(entry.target); else visible.delete(entry.target); }
+    const first = [...visible].sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top)[0];
+    if (first) { currentSectionId.value = first.id; if (readingArmed) saveReading(first.id); }
+  }, { rootMargin: "-170px 0px -45% 0px", threshold: 0 });
+  articlePanel.value.querySelectorAll(".article-section").forEach(section => readingObserver?.observe(section));
+}
+function readingIntent(event: Event) {
+  if (!selected.value || (event.target instanceof Element && event.target.closest("button,a,input,select,textarea,dialog"))) return;
+  readingArmed = true;
+}
+function updateScreen() {
+  const nextSmall = window.innerWidth <= 900;
+  if (nextSmall !== smallScreen.value) navigationOpen.value = false;
+  smallScreen.value = nextSmall;
+}
+function skipToContent(event: MouseEvent) {
+  event.preventDefault();
+  const main = document.getElementById("compendium-main");
+  main?.focus({ preventScroll: true });
+  main?.scrollIntoView({ behavior: "instant", block: "start" });
+}
+async function focusSearch() {
+  searchOpen.value = true;
+  await nextTick();
+  document.querySelector<HTMLInputElement>('input[aria-label="Recherche dans le Compendium"]')?.focus();
+}
+function compendiumKeydown(event: KeyboardEvent) {
+  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") { event.preventDefault(); void focusSearch(); }
+  if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key)) readingIntent(event);
+}
+function openContents(event: MouseEvent) {
+  contentsOpener = event.currentTarget as HTMLElement;
+  contentsDialog.value?.showModal();
+  contentsDialog.value?.querySelector<HTMLButtonElement>("button")?.focus();
+}
+function closeContents(restore = true) {
+  if (!restore) contentsOpener = null;
+  contentsDialog.value?.close();
+}
+function contentsClosed() { if (contentsOpener?.isConnected) contentsOpener.focus(); contentsOpener = null; }
+function followSection(event: MouseEvent, section: string) {
+  if (event.button || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || !selected.value) return;
+  event.preventDefault(); closeContents(false); void openArticle(selected.value.id, section);
+}
+function resumeLastReading() { if (latestResume.value) void openArticle(latestResume.value.id, latestResume.value.sectionId); }
 
 const relatedArticles = computed(() => {
   void wikiReady.value;
@@ -568,14 +684,17 @@ function primaryArticleMedia(article: Article | null): MediaRef | null {
   return portrait ? { ...portrait, src: mediaUrl(portrait) } : null;
 }
 
-function sectionDomId(section: ArticleSection, index: number): string {
-  const raw = String(section.id ?? "").trim();
-  if (raw) return `wiki-section-${raw.replace(/[^a-zA-Z0-9_-]+/g, "-")}`;
-  return `wiki-section-${index + 1}`;
-}
-
-function scrollToSection(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+async function positionArticle(section: string, request: number) {
+  await nextTick();
+  if (!pageMounted || request !== articleRequest || !selected.value || !articlePanel.value) return;
+  const headerHeight = document.querySelector(".compendium-topbar")?.getBoundingClientRect().height ?? 74;
+  articlePanel.value.style.setProperty("--compendium-anchor-offset", `${headerHeight + 88}px`);
+  readingArmed = false;
+  positionCompendiumArticle(articlePanel.value, selected.value.sections ?? [], section);
+  const targetId = sectionTargetId(selected.value.sections || [], section);
+  currentSectionId.value = articleToc.value.find(item => item.id === targetId)?.id || articleToc.value[0]?.id || "";
+  if (section && targetId) saveReading(targetId);
+  installReadingObserver();
 }
 
 function escapeHtml(value: unknown): string {
@@ -603,7 +722,18 @@ function wikiContext(article: Article | null) {
 function linkifyText(value: unknown, article: Article | null = selected.value): string {
   void wikiReady.value;
   const text = String(value ?? "");
-  const html = wikiLinker?.linkify(text, wikiContext(article)) ?? escapeHtml(text);
+  const renderText = (part: string) => wikiLinker?.linkify(part, wikiContext(article)) ?? escapeHtml(part);
+  // Preserve explicit Compendium Markdown links before automatic wiki linking.
+  // Labels stay escaped and only same-origin article destinations are enabled.
+  let html = "", offset = 0;
+  for (const match of text.matchAll(/\[([^\]\n]+)\]\(([^\s)]+)\)/g)) {
+    const target = compendiumLinkTarget(match[2], window.location.href);
+    if (!target) continue;
+    html += renderText(text.slice(offset, match.index));
+    html += `<a class="wiki-link" data-wiki-id="${escapeHtml(target.articleId)}" href="${escapeHtml(compendiumHref(target.articleId, target.section))}">${escapeHtml(match[1])}</a>`;
+    offset = match.index! + match[0].length;
+  }
+  html += renderText(text.slice(offset));
   return html
     .replace(/&#39;&#39;&#39;([^\n]+?)&#39;&#39;&#39;/g, "<strong>$1</strong>")
     .replace(/&#39;&#39;([^\n]+?)&#39;&#39;/g, "<em>$1</em>");
@@ -662,7 +792,7 @@ async function loadWikiIndex() {
       strictSurfaceAliases: WIKI_STRICT_SURFACE_ALIASES,
       caseSensitiveAliases: WIKI_CASE_SENSITIVE_ALIASES,
       searchFallbacks: WIKI_SEARCH_FALLBACKS,
-      hrefForId: (id: string) => `/compendium?article=${encodeURIComponent(id)}`,
+      hrefForId: (id: string) => compendiumHref(id),
       searchHref: (term: string) => `/compendium?q=${encodeURIComponent(term)}`
     });
     wikiReady.value = true;
@@ -820,7 +950,8 @@ function refreshActiveLibraryView() {
   }
 }
 
-function showRecent() {
+function showRecent(syncRoute = true) {
+  if (syncRoute) { void router.push({ path: "/compendium", query: { view: "recent" } }); return; }
   showOnboarding.value = false;
   selected.value = null;
   activeLibraryView.value = "recent";
@@ -831,7 +962,8 @@ function showRecent() {
   total.value = recentItems.value.length;
 }
 
-function showFavorites() {
+function showFavorites(syncRoute = true) {
+  if (syncRoute) { void router.push({ path: "/compendium", query: { view: "favorites" } }); return; }
   showOnboarding.value = false;
   selected.value = null;
   activeLibraryView.value = "favorites";
@@ -842,7 +974,8 @@ function showFavorites() {
   total.value = favoriteItems.value.length;
 }
 
-function showCollection(collection: LibraryCollection) {
+function showCollection(collection: LibraryCollection, syncRoute = true) {
+  if (syncRoute) { void router.push({ path: "/compendium", query: { view: "collection", collection: collection.id } }); return; }
   showOnboarding.value = false;
   selected.value = null;
   activeLibraryView.value = collection.id;
@@ -1003,7 +1136,12 @@ async function chooseSuggestion(item: SearchItem) {
   query.value = item.title;
   searchFocused.value = false;
   clearSuggestions();
-  await openArticle(item.id);
+  await openSearchResult(item);
+}
+
+async function openSearchResult(item: SearchItem) {
+  const target = searchResultTarget(item, window.location.href);
+  await openArticle(target.articleId, target.section);
 }
 
 function handleSearchKeydown(event: KeyboardEvent) {
@@ -1047,13 +1185,25 @@ function handleSearchInput() {
   scheduleSuggestions();
 }
 
-async function search() {
+async function search(syncRoute = true) {
+  if (syncRoute) {
+    const destination: Record<string, string> = {};
+    if (query.value.trim()) destination.q = query.value.trim();
+    if (category.value) destination.category = category.value;
+    if (manufacturer.value) destination.manufacturer = manufacturer.value;
+    if (!Object.keys(destination).length) destination.view = "all";
+    const failure = await router.push({ path: "/compendium", query: destination });
+    if (isNavigationFailure(failure, NavigationFailureType.duplicated)) await search(false);
+    return;
+  }
+  const request = ++articleRequest;
+  articleLoading.value = false;
   searchFocused.value = false;
   clearSuggestions();
   activeLibraryView.value = "";
   loading.value = true;
   error.value = "";
-  if (query.value.trim() || category.value || manufacturer.value) showOnboarding.value = false;
+  showOnboarding.value = false;
 
   try {
     const params = new URLSearchParams();
@@ -1066,22 +1216,51 @@ async function search() {
       total: number;
       items: SearchItem[];
     }>(`/api/compendium/search?${params.toString()}`);
+    if (request !== articleRequest || !pageMounted) return;
 
     results.value = result.items;
     total.value = result.total;
     selected.value = null;
   } catch (cause) {
+    if (request !== articleRequest || !pageMounted) return;
     results.value = [];
     total.value = 0;
     error.value = humanError(cause);
   } finally {
-    loading.value = false;
+    if (request === articleRequest) loading.value = false;
   }
 }
 
-async function openArticle(id: string, syncRoute = true) {
+async function openArticle(id: string, section = "") {
+  if (!selected.value) { articleReturnHref.value = route.fullPath; articleReturnLabel.value = showOnboarding.value ? (discoveryMode.value === "home" ? "Vue d’ensemble" : discoveryMode.value === "journey" ? "Parcours de lecture" : "Bien commencer") : activeLibraryView.value ? resultSurfaceTitle.value : category.value || resultSurfaceTitle.value; }
+  closeContents(false);
+  navigationOpen.value = false;
+  searchOpen.value = false;
+  const href = compendiumHref(id, section);
+  // Vue Router suppresses duplicate navigations. An explicit second click must
+  // still return to the requested section, or to the beginning of this article.
+  if (route.fullPath === href) {
+    await loadArticle(id, section);
+  } else {
+    const failure = await router.push(href);
+    if (isNavigationFailure(failure, NavigationFailureType.duplicated)) await loadArticle(id, section);
+  }
+}
+
+async function loadArticle(id: string, section = "") {
+  const request = ++articleRequest;
+  loading.value = false;
   showOnboarding.value = false;
+  readingArmed = false;
+  readerFocus.value = false;
+  navigationOpen.value = false;
+  closeContents(false);
+  if (selected.value?.id === id && !articleLoading.value) {
+    await positionArticle(section, request);
+    return;
+  }
   articleLoading.value = true;
+  selected.value = null;
   error.value = "";
   builderUsage.value = [];
   builderSources.value = [];
@@ -1091,40 +1270,38 @@ async function openArticle(id: string, syncRoute = true) {
     const result = await api<{ article: Article }>(
       `/api/compendium/articles/${encodeURIComponent(id)}`
     );
+    if (request !== articleRequest || !pageMounted) return;
 
     // Primary content becomes visible immediately. Builder context, dynamic
     // Talents and history enrich the already rendered article afterwards.
     selected.value = result.article;
-    articleLoading.value = false;
 
-    if (syncRoute && route.query.article !== id) {
-      void router.push({
-        path: "/compendium",
-        query: { article: id }
-      });
-    }
-
-    const usageResult = await api<{ usage: BuilderUsage[]; sources: BuilderSourceRecord[] }>(
+    // Do not wait for optional Builder enrichment before showing the article.
+    const usage = api<{ usage: BuilderUsage[]; sources: BuilderSourceRecord[] }>(
       `/api/compendium/builder-usage/${encodeURIComponent(id)}`
     ).catch(() => ({
       usage: [] as BuilderUsage[],
       sources: [] as BuilderSourceRecord[]
     }));
-    if (selected.value?.id !== id) return;
-    builderUsage.value = usageResult.usage;
-    builderSources.value = usageResult.sources;
-
-    await Promise.all([
-      loadTalentEmbeds(result.article),
-      rememberArticle(id)
-    ]);
+    void usage.then(usageResult => {
+      if (request !== articleRequest || !pageMounted) return;
+      builderUsage.value = usageResult.usage;
+      builderSources.value = usageResult.sources;
+    });
+    void rememberArticle(id);
+    // Dynamic Talent blocks can move a later section. Resolve them before the
+    // section landing; an ordinary article link can land immediately at its top.
+    if (!section) await positionArticle("", request);
+    await loadTalentEmbeds(result.article, request);
+    if (section) await positionArticle(section, request);
   } catch (cause) {
+    if (request !== articleRequest || !pageMounted) return;
     builderUsage.value = [];
     builderSources.value = [];
     talentEmbeds.value = {};
     error.value = humanError(cause);
   } finally {
-    articleLoading.value = false;
+    if (request === articleRequest) articleLoading.value = false;
   }
 }
 
@@ -1136,24 +1313,20 @@ async function chooseCategory(name: string) {
   category.value = category.value === name ? "" : name;
   if (category.value !== "Équipement & Objets") manufacturer.value = "";
   await search();
-  await router.replace({
-    path: "/compendium",
-    query: category.value ? { category: category.value } : {}
-  });
 }
 
 async function openNewcomer() {
-  selected.value = null;
-  query.value = "";
-  category.value = "";
-  manufacturer.value = "";
-  showOnboarding.value = true;
-  await router.push({ path: "/compendium", query: { start: "1" } });
+  await router.push({ path: "/compendium", query: { view: "guide" } });
 }
 
 async function closeNewcomer() {
-  showOnboarding.value = false;
   await router.push({ path: "/compendium" });
+}
+
+async function openJourney(id: string) { await router.push({ path: "/compendium", query: { view: "journey", journey: id } }); }
+async function browseDiscovery(payload: { category?: string; query?: string }) {
+  category.value = payload.category || ""; query.value = payload.query || ""; manufacturer.value = "";
+  await search();
 }
 
 async function openOnboardingCategory(name: string) {
@@ -1172,7 +1345,7 @@ async function chooseManufacturer(name: string) {
 function closestWikiLink(event: Event): HTMLAnchorElement | null {
   const target = event.target;
   if (!(target instanceof Element)) return null;
-  return target.closest("a.wiki-link");
+  return target.closest("a");
 }
 
 function hideWikiPreview() {
@@ -1265,8 +1438,10 @@ function handleWikiFocusout(event: FocusEvent) {
 async function handleWikiClick(event: MouseEvent) {
   const link = closestWikiLink(event);
   if (!link) return;
+  if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || link.target === "_blank" || link.hasAttribute("download")) return;
 
-  const id = link.dataset.wikiId;
+  const target = compendiumLinkTarget(link.href, window.location.href);
+  const id = target?.articleId || link.dataset.wikiId;
   const searchTerm = link.dataset.wikiSearch;
   if (!id && !searchTerm) return;
 
@@ -1274,10 +1449,7 @@ async function handleWikiClick(event: MouseEvent) {
   hideWikiPreview();
 
   if (id) {
-    await openArticle(id);
-    if (window.innerWidth < 940) {
-      document.querySelector(".article-panel")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    await openArticle(id, target?.section || link.dataset.wikiSection || "");
     return;
   }
 
@@ -1321,7 +1493,7 @@ function talentsForBlock(block:ArticleBlock):TalentRegistryRow[]{
   return talentEmbeds.value[talentEmbedKey(block)]??[];
 }
 
-async function loadTalentEmbeds(article:Article){
+async function loadTalentEmbeds(article:Article, request: number){
   const directives=new Map<string,TalentDirective>();
   for(const section of article.sections??[]){
     for(const block of section.blocks??[]){
@@ -1347,7 +1519,7 @@ async function loadTalentEmbeds(article:Article){
       return [key,[] as TalentRegistryRow[]] as const;
     }
   }));
-  talentEmbeds.value=Object.fromEntries(entries);
+  if (request === articleRequest && pageMounted) talentEmbeds.value=Object.fromEntries(entries);
 }
 
 function blockText(block: ArticleBlock): string {
@@ -1373,35 +1545,58 @@ function sectionHeadingLevel(section: ArticleSection): "h2" | "h3" | "h4" {
   return "h2";
 }
 
+function syncRouteView() {
+  closeContents(false);
+  navigationOpen.value = false;
+  const target = compendiumTarget(route.query, route.hash);
+  if (target) { void loadArticle(target.articleId, target.section); return; }
+  ++articleRequest;
+  articleLoading.value = false;
+  selected.value = null;
+  readerFocus.value = false;
+  readingObserver?.disconnect();
+  query.value = typeof route.query.q === "string" ? route.query.q : "";
+  category.value = typeof route.query.category === "string" ? route.query.category : "";
+  manufacturer.value = typeof route.query.manufacturer === "string" ? route.query.manufacturer : "";
+  activeLibraryView.value = "";
+  if (route.query.view === "recent") { showRecent(false); return; }
+  if (route.query.view === "favorites") { showFavorites(false); return; }
+  if (route.query.view === "collection" && typeof route.query.collection === "string") {
+    showOnboarding.value = false;
+    activeLibraryView.value = route.query.collection;
+    refreshActiveLibraryView();
+    return;
+  }
+  showOnboarding.value = route.query.view === "guide" || route.query.view === "journey" || route.query.start === "1" || (!query.value.trim() && !category.value && !manufacturer.value && route.query.view !== "all");
+  if (!showOnboarding.value) void search(false);
+}
+
+watch(() => currentUser.value?.id, loadReadingPositions);
+watch(canReadMjSections, async () => {
+  await nextTick();
+  const target = compendiumTarget(route.query, route.hash);
+  if (target?.section && selected.value?.id === target.articleId) await positionArticle(target.section, articleRequest);
+  else installReadingObserver();
+});
 watch(
-  () => route.query.article,
-  (value) => {
-    const id = typeof value === "string" ? value : "";
-    if (id && id !== selected.value?.id) {
-      void openArticle(id, false);
-    } else if (!id) {
-      selected.value = null;
-    }
+  () => route.fullPath,
+  () => {
+    if (!pageMounted || route.path !== mountedPath) return;
+    syncRouteView();
   }
 );
 
 onMounted(() => {
-  if (typeof route.query.q === "string") query.value = route.query.q;
-  if (typeof route.query.category === "string") category.value = route.query.category;
+  pageMounted = true;
+  previousScrollRestoration = window.history.scrollRestoration;
+  window.history.scrollRestoration = "manual";
+  updateScreen(); loadReadingPositions();
 
-  const initialArticleId =
-    typeof route.query.article === "string" ? route.query.article : "";
-
-  showOnboarding.value =
-    route.query.start === "1" ||
-    (!initialArticleId && !query.value.trim() && !category.value);
+  const initialTarget = compendiumTarget(route.query, route.hash);
+  const initialArticleId = initialTarget?.articleId || "";
 
   // The requested content is always the highest-priority network call.
-  if (initialArticleId) {
-    void openArticle(initialArticleId, false);
-  } else if (!showOnboarding.value || query.value.trim() || category.value) {
-    void search();
-  }
+  syncRouteView();
 
   void loadMeta();
   void loadOnboarding();
@@ -1417,27 +1612,43 @@ onMounted(() => {
 
   window.addEventListener("scroll", repositionWikiPreview, { passive: true });
   window.addEventListener("resize", repositionWikiPreview);
+  window.addEventListener("resize", updateScreen);
+  window.addEventListener("keydown", compendiumKeydown);
+  for (const type of ["wheel", "pointerdown", "touchmove"]) window.addEventListener(type, readingIntent, { passive: true });
 });
 
 onBeforeUnmount(() => {
+  pageMounted = false;
+  ++articleRequest;
+  window.history.scrollRestoration = previousScrollRestoration;
   window.clearTimeout(suggestionTimer);
   window.clearTimeout(wikiBootstrapTimer);
   hideWikiPreview();
+  readingObserver?.disconnect();
   window.removeEventListener("scroll", repositionWikiPreview);
   window.removeEventListener("resize", repositionWikiPreview);
+  window.removeEventListener("resize", updateScreen);
+  window.removeEventListener("keydown", compendiumKeydown);
+  for (const type of ["wheel", "pointerdown", "touchmove"]) window.removeEventListener(type, readingIntent);
 });
 </script>
 
 <template>
-  <div class="compendium-shell">
+  <div class="compendium-shell" :class="{ 'reader-active': selected, 'reader-focus': readerFocus }" :data-layer="activeLayer" :style="{ '--reader-font-size': `${readerFontSize}px` }">
+    <a class="compendium-skip" href="#compendium-main" @click="skipToContent">Aller au contenu</a>
     <header class="compendium-topbar">
       <RouterLink class="brand compendium-brand-lockup" to="/">
-        <TerraUmbraLockup compact />
+        <TerraUmbraBrand />
       </RouterLink>
 
+      <nav class="compendium-top-nav" aria-label="Navigation principale">
+        <button type="button" @click="closeNewcomer">Compendium</button>
+        <RouterLink to="/account">Builder <span aria-hidden="true">↗</span></RouterLink>
+      </nav>
       <div class="compendium-top-actions">
+        <button class="ghost compact-link" type="button" aria-label="Ouvrir la recherche" @click="focusSearch">Rechercher <kbd>⌘/Ctrl K</kbd></button>
         <button class="ghost compact-link" type="button" @click="openNewcomer">
-          Nouveau joueur
+          Bien commencer
         </button>
         <RouterLink v-if="canEdit" class="ghost compact-link wiki-create-link" to="/compendium/new">
           ＋ Nouvelle page
@@ -1448,28 +1659,7 @@ onBeforeUnmount(() => {
       </div>
     </header>
 
-    <main class="compendium-page">
-      <section class="compendium-hero">
-        <div class="compendium-earth-horizon" aria-hidden="true"></div>
-        <div>
-          <TerraUmbraLockup class="compendium-hero-logo" />
-          <p class="eyebrow">CORPUS NATIF V2</p>
-          <h1>Compendium</h1>
-          <p>
-            Wiki public de Terra Umbra California : règles, Réalité, Vérité, personnages,
-            créatures et équipement. Aucun compte n’est nécessaire pour lire ou rechercher.
-          </p>
-        </div>
-
-        <div v-if="meta" class="compendium-stats panel">
-          <strong>{{ meta.total.toLocaleString("fr-FR") }}</strong>
-          <span>entrées chargées</span>
-          <small>
-            Corpus V{{ meta.version }}
-            <template v-if="meta.generated"> · {{ meta.generated }}</template>
-          </small>
-        </div>
-      </section>
+    <main id="compendium-main" class="compendium-page" tabindex="-1">
 
       <div v-if="error" class="feedback error compendium-feedback">
         {{ error }}
@@ -1479,8 +1669,8 @@ onBeforeUnmount(() => {
       </div>
 
       <template v-if="true">
-        <section class="panel compendium-search">
-          <form @submit.prevent="search">
+        <section v-show="searchOpen || (!selected && !showOnboarding)" class="panel compendium-search">
+          <form @submit.prevent="search()">
             <label>
               Recherche globale
               <div class="search-line">
@@ -1559,18 +1749,31 @@ onBeforeUnmount(() => {
           </div>
         </section>
 
-        <CompendiumOnboarding
+        <CompendiumDiscovery
           v-if="showOnboarding"
-          :data="onboarding"
+          :mode="discoveryMode"
+          :journey-id="typeof route.query.journey === 'string' ? route.query.journey : undefined"
+          :item-count="meta?.total"
+          :resume="latestResume"
+          :article-href="compendiumHref"
           @open-article="openArticle"
-          @open-category="openOnboardingCategory"
-          @close="closeNewcomer"
+          @browse="browseDiscovery"
+          @guide="openNewcomer"
+          @journey="openJourney"
+          @resume="resumeLastReading"
         />
+        <details v-if="showOnboarding && discoveryMode === 'guide'" class="panel rules-onboarding">
+          <summary>Règles de création et natures de personnage</summary>
+          <CompendiumOnboarding :data="onboarding" @open-article="openArticle" @open-category="openOnboardingCategory" @close="closeNewcomer" />
+        </details>
 
-        <section
-          v-if="!showOnboarding && (currentUser || recentItems.length)"
+        <details
+          v-if="currentUser || recentItems.length"
           class="panel library-panel"
+          :open="libraryOpen || !!activeLibraryView"
+          @toggle="libraryOpen = ($event.target as HTMLDetailsElement).open"
         >
+          <summary>{{ currentUser ? 'Ma bibliothèque' : 'Mes dernières lectures' }} <span>{{ recentItems.length }} récentes<span v-if="currentUser"> · {{ favoriteIds.length }} favoris</span></span></summary>
           <div class="library-heading">
             <div>
               <p class="eyebrow">{{ currentUser ? "MA BIBLIOTHÈQUE" : "MA NAVIGATION" }}</p>
@@ -1581,7 +1784,7 @@ onBeforeUnmount(() => {
                 class="library-scope"
                 :class="{ active: activeLibraryView === 'recent' }"
                 type="button"
-                @click="showRecent"
+                @click="showRecent()"
               >
                 ◷ Historique · {{ recentItems.length }}
               </button>
@@ -1598,7 +1801,7 @@ onBeforeUnmount(() => {
                 class="library-scope"
                 :class="{ active: activeLibraryView === 'favorites' }"
                 type="button"
-                @click="showFavorites"
+                @click="showFavorites()"
               >
                 ★ Favoris · {{ favoriteIds.length }}
               </button>
@@ -1656,10 +1859,12 @@ onBeforeUnmount(() => {
           <p v-else class="library-empty">
             Cet historique reste uniquement dans ce navigateur tant que tu n’es pas connecté.
           </p>
-        </section>
+        </details>
 
         <section v-if="!showOnboarding" class="compendium-workspace">
           <aside class="panel compendium-navigation">
+            <details class="navigation-disclosure" :open="!smallScreen || navigationOpen" @toggle="navigationOpen = ($event.target as HTMLDetailsElement).open">
+              <summary>Explorer les rubriques</summary>
             <div class="navigation-heading">
               <div>
                 <p class="eyebrow">NAVIGATION</p>
@@ -1669,6 +1874,8 @@ onBeforeUnmount(() => {
             </div>
 
             <nav class="navigation-categories" aria-label="Rubriques du Compendium">
+              <button type="button" class="navigation-category" @click="closeNewcomer">Vue d’ensemble</button>
+              <button type="button" class="navigation-category" @click="openNewcomer">Bien commencer</button>
               <button
                 type="button"
                 class="navigation-category"
@@ -1744,9 +1951,11 @@ onBeforeUnmount(() => {
             <div v-else class="navigation-hint">
               Choisis une rubrique pour afficher ses groupes, sous-groupes et pages.
             </div>
+            </details>
           </aside>
 
           <article
+            ref="articlePanel"
             class="panel article-panel"
             @mouseover="handleWikiMouseover"
             @mouseout="handleWikiMouseout"
@@ -1770,6 +1979,15 @@ onBeforeUnmount(() => {
               <div :key="selected.id" class="wiki-article-grid wiki-article-enter">
                 <div class="wiki-article-main">
                   <header class="article-header">
+                    <img class="reader-orbital-art" :src="orbitalImage" alt="" width="1536" height="1024" decoding="async" />
+                    <div class="reader-topline">
+                      <button class="reader-back" type="button" @click="router.push(articleReturnHref)">← {{ articleReturnLabel }}</button>
+                      <div class="reader-tools" aria-label="Confort de lecture">
+                        <button type="button" aria-label="Réduire la taille du texte" :disabled="readerFontSize <= 15" @click="readerFontSize--">A−</button>
+                        <button type="button" aria-label="Agrandir la taille du texte" :disabled="readerFontSize >= 21" @click="readerFontSize++">A+</button>
+                        <button type="button" :aria-pressed="readerFocus" @click="readerFocus = !readerFocus">{{ readerFocus ? 'Vue complète' : 'Lecture' }}</button>
+                      </div>
+                    </div>
                     <div class="article-breadcrumb">
                       <span>{{ categoryLabel(selected.category || "") }}</span>
                       <template v-if="selected.navigation?.group">
@@ -1865,10 +2083,17 @@ onBeforeUnmount(() => {
                         {{ tag }}
                       </button>
                     </div>
+                    <button v-if="selectedResume" class="reader-resume" type="button" @click="openArticle(selected.id, selectedResume.id)">Reprendre : {{ selectedResume.title }} <span aria-hidden="true">→</span></button>
+                    <p v-if="readingNotice" class="reader-notice" role="status">{{ readingNotice }}</p>
                   </header>
 
+                  <CompendiumHologramComparison v-if="selected.id === 'verite-v7-voile-hologramme'" />
+                  <div class="reader-progress-bar">
+                    <div><strong>{{ selected.title }}</strong><span v-if="currentSection">{{ articleToc.findIndex(item => item.id === currentSection.id) + 1 }} / {{ articleToc.length }} · {{ currentSection.title }}</span></div>
+                    <button type="button" aria-haspopup="dialog" @click="openContents">Sommaire</button>
+                  </div>
                   <section
-                    v-for="(section, sectionIndex) in selected.sections || []"
+                    v-for="{ section, index: sectionIndex } in articleSections"
                     :id="sectionDomId(section, sectionIndex)"
                     :key="section.id || sectionIndex"
                     class="article-section"
@@ -1876,11 +2101,12 @@ onBeforeUnmount(() => {
                     <details v-if="section.audience === 'mj'" class="mj-section">
                       <summary>{{ section.title || "Informations MJ" }}</summary>
                       <div class="mj-content">
-                        <component :is="sectionHeadingLevel(section)" v-if="section.title">
+                        <component :is="sectionHeadingLevel(section)" v-if="section.title && !hasNpcStatProfile(section)">
                           {{ section.title }}
                         </component>
 
-                        <template v-for="(block, blockIndex) in section.blocks || []" :key="blockIndex">
+                        <NpcStatProfile v-if="hasNpcStatProfile(section)" :blocks="section.blocks || []" :render-inline="text => linkifyText(text, selected)" />
+                        <template v-for="(block, blockIndex) in section.blocks || []" v-else :key="blockIndex">
                           <div v-if="isTalentEmbed(block)" class="talent-registry-block">
                             <div v-if="talentsForBlock(block).length" class="talent-card-grid">
                               <article v-for="talent in talentsForBlock(block)" :key="talent.talentId" class="talent-wiki-card">
@@ -1929,7 +2155,8 @@ onBeforeUnmount(() => {
                         {{ section.title }}
                       </component>
 
-                      <template v-for="(block, blockIndex) in section.blocks || []" :key="blockIndex">
+                      <NpcStatProfile v-if="hasNpcStatProfile(section)" :blocks="section.blocks || []" :render-inline="text => linkifyText(text, selected)" />
+                      <template v-for="(block, blockIndex) in section.blocks || []" v-else :key="blockIndex">
                         <div v-if="isTalentEmbed(block)" class="talent-registry-block">
                           <div v-if="talentsForBlock(block).length" class="talent-card-grid">
                             <article v-for="talent in talentsForBlock(block)" :key="talent.talentId" class="talent-wiki-card">
@@ -2076,15 +2303,15 @@ onBeforeUnmount(() => {
 
                   <nav v-if="articleToc.length" class="wiki-toc" aria-label="Sommaire de l'article">
                     <p class="eyebrow">SOMMAIRE</p>
-                    <button
+                    <a
                       v-for="item in articleToc"
                       :key="item.id"
-                      type="button"
-                      :class="`level-${item.level}`"
-                      @click="scrollToSection(item.id)"
+                      :href="compendiumHref(selected.id, item.id)"
+                      :class="[`level-${item.level}`, { active: currentSectionId === item.id }]"
+                      :aria-current="currentSectionId === item.id ? 'location' : undefined"
                     >
                       {{ item.title }}
-                    </button>
+                    </a>
                   </nav>
 
                   <div v-if="selected.gallery?.length" class="wiki-gallery">
@@ -2124,7 +2351,7 @@ onBeforeUnmount(() => {
                     :key="item.id"
                     class="result-card main-result-card"
                     type="button"
-                    @click="openArticle(item.id)"
+                    @click="openSearchResult(item)"
                   >
                     <span class="result-path">{{ resultBreadcrumb(item) }}</span>
                     <strong>{{ item.title }}</strong>
@@ -2148,6 +2375,7 @@ onBeforeUnmount(() => {
 
             <section v-else-if="hasCategorySurface" class="category-overview">
               <header class="surface-heading">
+                <img v-if="category === 'Réalité' || category === 'Vérité'" class="category-orbital-art" :src="orbitalImage" alt="" width="1536" height="1024" decoding="async" />
                 <div>
                   <p class="eyebrow">RUBRIQUE</p>
                   <h1>{{ categoryLabel(category) }}</h1>
@@ -2213,6 +2441,11 @@ onBeforeUnmount(() => {
         </section>
       </template>
 
+      <dialog ref="contentsDialog" class="reader-contents-dialog" aria-labelledby="reader-contents-title" @close="contentsClosed">
+        <div class="reader-contents-heading"><h2 id="reader-contents-title">Dans cet article</h2><button type="button" aria-label="Fermer le sommaire" @click="closeContents()">Fermer</button></div>
+        <nav v-if="selected" aria-label="Sommaire rapide"><ol><li v-for="item in articleToc" :key="item.id" :class="`level-${item.level}`"><a :href="compendiumHref(selected.id, item.id)" :aria-current="currentSectionId === item.id ? 'location' : undefined" @click="followSection($event, item.id)">{{ item.title }}</a></li></ol></nav>
+      </dialog>
+
       <div
         v-if="wikiPreview.visible"
         ref="wikiPreviewEl"
@@ -2241,6 +2474,10 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
+.article-header, .article-section {
+  scroll-margin-top: var(--compendium-anchor-offset, 90px);
+}
+
 .compendium-shell {
   min-height: 100vh;
   background:
@@ -2815,7 +3052,7 @@ onBeforeUnmount(() => {
   gap: .15rem;
 }
 
-.wiki-toc button {
+.wiki-toc a {
   padding: .35rem .2rem;
   border: 0;
   color: #a6bac2;
@@ -2824,12 +3061,12 @@ onBeforeUnmount(() => {
   font-size: .78rem;
 }
 
-.wiki-toc button:hover {
+.wiki-toc a:hover {
   color: #c7eaf2;
 }
 
-.wiki-toc button.level-3 { padding-left: .8rem; }
-.wiki-toc button.level-4 { padding-left: 1.4rem; }
+.wiki-toc a.level-3 { padding-left: .8rem; }
+.wiki-toc a.level-4 { padding-left: 1.4rem; }
 
 .wiki-gallery {
   display: grid;
@@ -3635,5 +3872,111 @@ onBeforeUnmount(() => {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Orbital Compendium — scoped presentation; canonical blocks remain unchanged. */
+.compendium-shell{--tu-accent:#64def5;--orbital-topbar:78px;color:#dbe6f3;background:#080f1a;font-family:Inter,"Segoe UI",Arial,sans-serif}
+.compendium-shell[data-layer="truth"]{--tu-accent:#b79aff}
+.compendium-shell :is(button,a,summary,input,select):focus-visible{outline:2px solid var(--tu-accent);outline-offset:4px}
+.compendium-skip{position:fixed;left:16px;top:-100px;z-index:100;padding:14px 20px;border:2px solid #64def5;border-radius:5px;background:#101f30;color:#edf4ff}
+.compendium-skip:focus{top:12px}
+.compendium-topbar{min-height:var(--orbital-topbar);padding:10px clamp(16px,3vw,44px);gap:24px;border-color:#25384a;background:rgba(8,15,26,.98);box-shadow:none}
+.compendium-brand-lockup{flex:none;line-height:1;text-decoration:none}
+.compendium-top-nav{display:flex;align-items:center;gap:24px;margin-right:auto}
+.compendium-top-nav :is(a,button){display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0;border:0;background:none;color:#c5d4e6;text-decoration:none;font:500 13px/1.3 Inter,"Segoe UI",sans-serif;cursor:pointer}
+.compendium-top-nav button{color:#edf4ff}
+.compendium-top-nav :is(a,button):hover{color:#64def5}
+.compendium-top-actions{flex-wrap:wrap;justify-content:flex-end;gap:8px}
+.compendium-top-actions .compact-link{min-height:38px;align-items:center;padding:9px 12px;border:1px solid #2b4056;border-radius:5px;color:#b9cadd;background:#0d1725;font-size:12px;line-height:1.2;white-space:nowrap}
+.compendium-top-actions .compact-link:hover{border-color:#64def5;color:#edf4ff}
+kbd{margin-left:12px;color:#819bb5;font:10px/1.3 Consolas,monospace}
+.compendium-page{width:min(1480px,calc(100% - 48px));padding:28px 0 70px;scroll-margin-top:var(--orbital-topbar)}
+.compendium-page:focus{outline:none}
+.compendium-search{padding:24px;margin-bottom:24px;border:1px solid #294056;border-radius:8px;background:#0d1725}
+.compendium-search label{color:#b8cadd;font-size:12px;letter-spacing:.025em}
+.compendium-search input{min-height:48px;border-color:#324d68;border-radius:5px;background:#080f1a;color:#edf4ff;font-size:16px}
+.compendium-search :is(select,button){min-height:40px}
+.category-chip{font-size:12px;padding:9px 13px;color:#b6c8dc;border-color:#2a4055;border-radius:5px}
+.category-chip.active{border-color:var(--tu-accent);color:var(--tu-accent);background:#162638}
+.search-help{color:#99b0c8;font-size:12px;line-height:1.7}
+.library-panel,.rules-onboarding{padding:0;margin:20px 0;border:1px solid #293d51;border-radius:8px;background:#0d1725}
+.library-panel>summary,.rules-onboarding>summary{padding:17px 20px;cursor:pointer;color:#d3e0ef;font-size:13px;line-height:1.6}
+.library-panel>summary span{margin-left:14px;color:#8ea7c2;font-size:11px}
+.library-panel[open]{padding:0 20px 20px}.library-panel[open]>summary{margin:0 -20px 20px;border-bottom:1px solid #293d51}
+.rules-onboarding> :not(summary){margin:20px}
+.library-heading h2{font:500 20px/1.4 Inter,"Segoe UI",sans-serif}
+.compendium-workspace{grid-template-columns:232px minmax(0,1fr);gap:24px;align-items:start}
+.compendium-navigation{top:calc(var(--orbital-topbar) + 20px);max-height:calc(100vh - var(--orbital-topbar) - 40px);border:1px solid #26394c;border-radius:8px;background:#0d1725;scrollbar-color:#344c64 #0d1725}
+.navigation-disclosure>summary{display:none;padding:16px 18px;cursor:pointer;color:#d5e3f2;font-size:14px}
+.navigation-heading{position:static;padding:20px 16px;border-color:#26394c;background:transparent}
+.navigation-heading h2{font:500 18px/1.3 Inter,"Segoe UI",sans-serif}
+.navigation-heading>span{font-size:10px;color:var(--tu-accent)}
+.navigation-heading .eyebrow{color:#8da8c3}
+.navigation-category{min-height:43px;color:#b9cadd;border-radius:4px;font-size:12px}
+.navigation-category.active{border-color:#344e69;background:#17293b;color:var(--tu-accent)}
+.navigation-category small{color:#8ca7c4;font-size:10px}
+.navigation-page{min-height:40px;color:#adbed3;font-size:12px;line-height:1.6}
+.navigation-group>summary{min-height:42px;color:#c6d6e7;font-size:12px;line-height:1.6}
+.navigation-subgroup>strong,.navigation-tree-kicker,.navigation-hint,.navigation-empty{color:#93abc5;font-size:11px;line-height:1.7}
+.article-panel{min-width:0;padding:clamp(20px,2.5vw,36px);border:1px solid #283c51;border-radius:8px;background:#0d1725;box-shadow:none}
+.wiki-article-grid{grid-template-columns:minmax(0,1fr) 220px;gap:32px}
+.wiki-article-enter{animation:none;transform:none}
+.wiki-article-main{min-width:0}
+.article-header{position:relative;isolation:isolate;overflow:hidden;margin:0 0 26px;padding:0 0 26px;border-bottom:1px solid #294057}
+.reader-orbital-art{position:absolute;right:-30px;top:0;z-index:-1;width:72%;height:300px;object-fit:cover;opacity:.19;pointer-events:none;mask-image:linear-gradient(90deg,transparent,#000 45%,#000 85%,transparent)}
+.reader-topline{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:28px;padding:6px}
+.reader-back{min-height:40px;padding:0;border:0;background:transparent;color:#9fb7d2;text-align:left;font-size:12px;cursor:pointer}
+.reader-tools{display:flex;gap:6px}
+.reader-tools button{min-height:36px;min-width:36px;padding:7px 10px;border:1px solid #344b64;border-radius:4px;background:#102032;color:#d0e1f4;font-size:12px;cursor:pointer}
+.reader-tools button[aria-pressed="true"]{border-color:var(--tu-accent);color:var(--tu-accent)}
+.reader-tools button:disabled{opacity:.45;cursor:default}
+.wiki-breadcrumbs{color:#91adc9;font-size:11px;line-height:1.7}
+.wiki-title-line{gap:14px;margin:14px 0}
+.article-header h1{margin:0;font:500 clamp(28px,3.1vw,46px)/1.13 Inter,"Segoe UI",Arial,sans-serif;letter-spacing:-.035em;color:#edf4ff;overflow-wrap:anywhere}
+.article-meta{color:#9eb6d0;font-size:12px;line-height:1.7}
+.article-tags button,.article-library-actions button{min-height:34px;font-size:11px;color:#b9cbe0;border-color:#34495f;border-radius:4px;background:#101f2f}
+.article-tags{gap:6px;margin-top:16px}
+.reader-resume{display:flex;align-items:center;justify-content:space-between;gap:18px;max-width:100%;margin-top:22px;padding:12px 16px;border:1px solid #435575;border-radius:5px;background:#182740;color:var(--tu-accent);font-size:12px;text-align:left;cursor:pointer}
+.reader-notice{color:#afc1d6;font-size:12px}
+.reader-progress-bar{position:sticky;top:calc(var(--orbital-topbar) - 1px);z-index:12;display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 -1px 32px;padding:14px 0;border-top:1px solid #294057;border-bottom:1px solid #294057;background:rgba(13,23,37,.98)}
+.reader-progress-bar>div{display:grid;gap:5px;min-width:0}
+.reader-progress-bar strong{color:#d7e4f3;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.reader-progress-bar span{color:#95aec9;font-size:11px;line-height:1.5}
+.reader-progress-bar button,.reader-contents-heading button{flex:none;min-height:40px;padding:9px 12px;border:1px solid #3e536e;border-radius:5px;background:#132237;color:#dceafb;font-size:12px;cursor:pointer}
+.article-section{margin-bottom:36px}
+.article-section :is(h2,h3){color:#edf4ff;font-family:Inter,"Segoe UI",Arial,sans-serif;font-weight:500;line-height:1.35;letter-spacing:-.018em}
+.article-section h2{font-size:clamp(22px,2.2vw,28px);margin:34px 0 18px}
+.article-section h3{font-size:21px;margin:28px 0 16px}
+.article-section :deep(p){font-size:var(--reader-font-size);line-height:1.95;color:#c2d0e1;overflow-wrap:break-word}
+.article-section :deep(a){color:var(--tu-accent);text-underline-offset:3px}
+.article-section :deep(table){font-size:14px;line-height:1.7}
+.article-section :deep(th){color:#d5e5f6;background:#15283b}.article-section :deep(td){color:#bfcfe1}
+.mj-section{padding:16px 18px;border:1px solid #67547f;border-radius:6px;background:#19182a}
+.mj-section>summary{min-height:30px;color:#cdb6f0;font-size:14px;line-height:1.6;cursor:pointer}
+.wiki-infobox{font-size:12px}
+.wiki-infobox-card,.wiki-mechanics-card,.wiki-builder-usage,.wiki-toc{border-color:#2b4055;border-radius:6px;background:#101d2d}
+.wiki-infobox :is(dt,p,small){color:#99b0ca}.wiki-infobox dd{color:#d1e0ef}
+.wiki-toc{padding:18px 16px}.wiki-toc a{padding:8px 0;color:#a3b9d0;font-size:12px;line-height:1.5}
+.wiki-toc a.active{color:var(--tu-accent)}.wiki-toc .level-3{padding-left:12px;border-left:1px solid #354a62}
+.wiki-media{border-color:#30485f;border-radius:6px}.wiki-media img{width:100%;height:auto}
+.wiki-see-also h2,.wiki-nearby h2{font:500 22px/1.4 Inter,"Segoe UI",sans-serif}
+.reader-contents-dialog{width:min(580px,calc(100% - 32px));max-height:80vh;margin:auto;padding:26px;border:1px solid #46607e;border-radius:9px;background:#0f1a2a;color:#dce8f7;box-shadow:0 24px 100px #0009}
+.reader-contents-dialog::backdrop{background:#030710bb;backdrop-filter:blur(5px)}
+.reader-contents-heading{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:20px}.reader-contents-heading h2{margin:0;font:500 23px/1.3 Inter,"Segoe UI",sans-serif}
+.reader-contents-dialog ol{padding-left:24px;color:#7e99b8}.reader-contents-dialog li{padding:5px 0}.reader-contents-dialog li.level-3{margin-left:18px;font-size:14px}
+.reader-contents-dialog a{display:block;padding:8px;color:#c9d9eb;text-decoration:none;line-height:1.55}.reader-contents-dialog a[aria-current]{color:var(--tu-accent)}
+.reader-focus .compendium-workspace{display:block;max-width:900px;margin-inline:auto}.reader-focus :is(.compendium-navigation,.wiki-infobox,.library-panel){display:none}.reader-focus .wiki-article-grid{grid-template-columns:1fr}.reader-focus .article-panel{padding:clamp(24px,5vw,64px)}
+.surface-heading{position:relative;isolation:isolate;overflow:hidden;padding-bottom:28px;border-color:#30465b;gap:24px}
+.surface-heading h1{font:500 clamp(28px,3vw,40px)/1.2 Inter,"Segoe UI",sans-serif;color:#edf4ff;letter-spacing:-.03em}
+.surface-heading p{font-size:14px;line-height:1.8;color:#a5bad0}.surface-count{color:var(--tu-accent)}
+.category-orbital-art{position:absolute;z-index:-1;right:-40px;top:-50px;width:72%;height:300px;object-fit:cover;opacity:.2;mask-image:linear-gradient(90deg,transparent,#000)}
+.main-result-card{padding:22px;border-color:#30465d;border-radius:6px;background:#101e2f}.main-result-card:hover{border-color:var(--tu-accent);background:#15263a}.main-result-card>strong{font:500 20px/1.3 Inter,"Segoe UI",sans-serif;color:#e5effa}.main-result-card>p{color:#abc0d5;font-size:14px;line-height:1.8}.result-path{color:var(--tu-accent);font-size:11px}
+.result-limit-note,.category-more{color:#91aac4;font-size:12px;line-height:1.7}
+.category-group-card{border-color:#2d445b;border-radius:6px;background:#101d2d}.category-group-card>header{padding:20px;border-color:#2d445b}.category-group-card>header h2{font:500 22px/1.3 Inter,"Segoe UI",sans-serif}.category-subgroup-list{padding:20px;gap:20px}.category-page-links button{min-height:46px;padding:12px;color:#bccde0;border-color:#2b4158;font-size:12px;line-height:1.6}.category-subgroup-title strong{color:#a7bdd5;font-size:11px}
+@media(max-width:1250px){.compendium-top-nav{display:none}.compendium-workspace{grid-template-columns:210px minmax(0,1fr);gap:20px}.wiki-article-grid{grid-template-columns:minmax(0,1fr) 190px;gap:22px}.compendium-top-actions kbd{display:none}}
+@media(max-width:1100px){.wiki-article-grid{grid-template-columns:1fr}.wiki-infobox{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.wiki-infobox>*{margin:0}.wiki-toc{grid-column:1/-1}}
+@media(max-width:900px){.compendium-shell{--orbital-topbar:80px}.compendium-topbar{gap:12px;flex-wrap:wrap}.compendium-top-actions .wiki-create-link{display:none}.compendium-page{width:calc(100% - 32px);padding-top:20px}.compendium-workspace{grid-template-columns:1fr}.compendium-navigation{position:static;max-height:none;overflow:visible}.navigation-disclosure>summary{display:list-item;margin-left:20px;padding-left:0}.navigation-heading{display:none}.navigation-categories{grid-template-columns:repeat(2,minmax(0,1fr))}.navigation-tree{max-height:55vh;overflow:auto}.article-panel{padding:24px}.reader-focus .article-panel{padding:24px}}
+@media(max-width:650px){.compendium-shell{--orbital-topbar:115px}.compendium-topbar{padding:9px 16px;gap:8px;align-content:center}.compendium-brand-lockup{margin-right:auto}.compendium-top-actions{display:flex;gap:6px}.compendium-top-actions .compact-link{min-height:34px;padding:7px 9px;font-size:11px}.compendium-top-actions .compact-link:nth-child(2){display:none}.compendium-page{width:calc(100% - 24px);padding-top:14px}.compendium-search{padding:18px}.category-strip{gap:6px}.category-chip{padding:8px 10px}.article-panel{padding:20px 16px}.reader-topline{margin-bottom:20px}.reader-tools{gap:4px}.reader-back{font-size:11px}.reader-progress-bar{gap:10px;padding:12px 0}.reader-progress-bar span{font-size:10px}.article-section :deep(p){line-height:1.9}.wiki-infobox{grid-template-columns:1fr}.wiki-toc{grid-column:auto}.category-page-links{grid-template-columns:1fr}.library-panel>summary span{display:block;margin-left:0}.category-group-card>header,.category-subgroup-list{padding:16px}.reader-contents-dialog{padding:20px}}
+@media(prefers-reduced-motion:reduce){.compendium-shell *{scroll-behavior:auto;animation:none;transition:none}}
 
 </style>

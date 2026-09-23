@@ -375,15 +375,15 @@ await truthEquipmentMj.uncheck();
 await page.getByText("Objet d’Aèr Smoke",{exact:true}).waitFor({state:"detached",timeout:5000});
 
 // Corruption is not a normal creation choice: it stays closed until explicit GM approval.
-await page.getByText("Personnage sain par défaut.",{exact:false}).waitFor({state:"visible",timeout:5000});
-if(await page.getByText("Source dominante",{exact:true}).count())throw new Error("Corruption ouverte sans autorisation MJ.");
-const corruptionApproval=page.getByLabel(/Autorisation MJ : ouvrir Corruption & Fléaux/);
-await corruptionApproval.click();
+const corruptionApproval=page.getByRole("checkbox",{name:"Autorisation MJ — Corruption & Fléaux",exact:true});
+await corruptionApproval.waitFor({state:"visible",timeout:5000});
+if(await page.locator(".corruption-panel").count())throw new Error("Corruption ouverte sans autorisation MJ.");
+await corruptionApproval.check();
 await page.getByText("Source dominante",{exact:true}).waitFor({state:"visible",timeout:5000});
-await page.getByRole("option",{name:/Vhodhal/}).waitFor({state:"attached",timeout:5000});
-const activeApproval=page.getByLabel(/Autorisation MJ active/);
-await activeApproval.click();
-await page.getByText("Personnage sain par défaut.",{exact:false}).waitFor({state:"visible",timeout:5000});
+await page.locator(".corruption-source-card").getByRole("option",{name:/Vhodhal/}).waitFor({state:"attached",timeout:5000});
+await corruptionApproval.uncheck();
+await page.locator(".corruption-panel").waitFor({state:"detached",timeout:5000});
+await corruptionApproval.waitFor({state:"visible",timeout:5000});
 
 await page.locator(".builder-nav").getByRole("button",{name:/Équipement/}).click();
 await page.getByRole("heading",{name:"Réalité, équipement & augmentations"}).waitFor();
