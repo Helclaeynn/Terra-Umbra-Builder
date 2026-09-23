@@ -46,6 +46,7 @@ const publicArticle = {
   ]
 };
 const fixtures = new Map([cole, ...additionalNpcs, publicArticle].map(article => [article.id, article]));
+const retiredArticleId = "guide-realite-nouveau-joueur";
 const articleUrl = (id, section = "") => `/compendium?article=${id}${section ? `&section=${section}` : ""}`;
 
 const bundle = await build({
@@ -94,6 +95,7 @@ const bundle = await build({
       export class ApiError extends Error {
         constructor(public status: number, code: string, public body: Record<string, unknown>) { super(code); }
       }
+      window.__ApiError = ApiError;
       export const api = (...args: unknown[]) => window.__fakeApi(...args);
     ` }));
   } }]
@@ -128,6 +130,9 @@ async function mount({ role = null, initialRoute = articleUrl(coleId), authDelay
     if (url.pathname.startsWith("/api/compendium/articles/")) {
       await pause(1);
       const id = decodeURIComponent(url.pathname.split("/").at(-1));
+      if (id === retiredArticleId) {
+        throw new w.__ApiError(404, "compendium_article_not_found", { error: "compendium_article_not_found" });
+      }
       const original = fixtures.get(id);
       if (!original) {
         errors.push(`Unexpected article fetch: ${id}`);
@@ -149,7 +154,15 @@ async function mount({ role = null, initialRoute = articleUrl(coleId), authDelay
     if (url.pathname === "/api/compendium/wiki-index") return { entries: [...fixtures.values()].map(article => ({
       id: article.id, title: article.title, category: article.category, dataset: "test", group: "Test", subgroup: "", manufacturer: ""
     })) };
-    if (url.pathname === "/api/compendium/search") return { items: [], total: 0 };
+    if (url.pathname === "/api/compendium/search") {
+      const category = url.searchParams.get("category");
+      const query = (url.searchParams.get("q") || "").toLocaleLowerCase("fr");
+      const items = [...fixtures.values()]
+        .filter(article => !category || article.category === category)
+        .filter(article => !query || article.title.toLocaleLowerCase("fr").includes(query))
+        .map(article => ({ id: article.id, title: article.title, category: article.category, dataset: "test", group: "Test", subgroup: "", snippet: "Article actif." }));
+      return { items, total: items.length };
+    }
     errors.push(`Unexpected API call: ${request}`);
     assert.fail(errors.at(-1));
   };
@@ -269,6 +282,56 @@ for (const npc of additionalNpcs) {
       assert(reader.d.querySelector('.npc-profile-block[data-profile-kind="derived"] .npc-profile-result'));
       assert.equal(reader.d.querySelector(".npc-profile-calculation"), null);
       assert.equal(reader.d.activeElement, reader.d.getElementById("wiki-section-profil-statistique"));
+      assert.deepEqual(reader.errors, []);
+    });
+  } finally { reader.close(); }
+}
+{
+  const reader = await mount({ role: "admin", initialRoute: "/compendium?category=OLD" });
+  try {
+    await waitFor(() => reader.authReady() && reader.d.querySelector(".main-result-card"), "Retired category recovers the active article list");
+    check("ancienne rubrique OLD : avis de suppression et articles actifs, sans filtre OLD envoyé à l’API", () => {
+      const notice = reader.d.querySelector(".archive-retirement-notice");
+      assert(notice?.textContent.includes("ont été supprimées"));
+      assert.equal(notice.getAttribute("role"), "status");
+      const searches = reader.requests.filter(request => request.path === "/api/compendium/search");
+      assert(searches.length > 0, "The active corpus is fetched");
+      assert(searches.every(request => !new URLSearchParams(request.search).has("category")), "OLD is never sent as a search filter");
+      const cards = [...reader.d.querySelectorAll(".main-result-card")];
+      assert.equal(cards.length, fixtures.size);
+      assert(cards.some(card => card.textContent.includes(publicArticle.title)));
+      assert.equal(reader.d.querySelector(".article-unavailable"), null);
+      assert.deepEqual(reader.errors, []);
+    });
+  } finally { reader.close(); }
+}
+
+{
+  const reader = await mount({ role: "admin", initialRoute: articleUrl(retiredArticleId) });
+  try {
+    await waitFor(() => reader.authReady() && reader.d.querySelector(".article-unavailable"), "A retired direct URL returns the recovery screen");
+    const unavailable = reader.d.querySelector(".article-unavailable");
+    const browse = unavailable.querySelector('a[href="/compendium?view=all"]');
+    check("article retiré : le 404 affiche une explication et deux liens de repli accessibles", () => {
+      assert.equal(unavailable.querySelector("h1").textContent, "Article indisponible");
+      assert.equal(unavailable.getAttribute("role"), "status");
+      assert(unavailable.textContent.includes("supprimée ou n’est pas accessible"));
+      assert.equal(browse?.textContent.trim(), "Parcourir les articles");
+      assert.equal(unavailable.querySelector('a[href="/compendium"]')?.textContent.trim(), "Retour à l’accueil");
+      assert.equal(reader.d.querySelector(".article-header"), null);
+      assert(!reader.requests.some(request => request.path === `/api/compendium/history/${retiredArticleId}`), "Unavailable articles are not recorded as read");
+      assert.deepEqual(reader.errors, []);
+    });
+    browse.click();
+    await waitFor(() => reader.d.querySelector(".main-result-card"), "Recovery link opens active articles");
+    const activeCard = [...reader.d.querySelectorAll(".main-result-card")].find(card => card.textContent.includes(publicArticle.title));
+    assert(activeCard, "The active public article is available in recovery results");
+    activeCard.click();
+    await waitFor(() => reader.d.querySelector(".article-header h1")?.textContent === publicArticle.title, "An active article opens after the retired-page recovery");
+    check("après un article retiré : navigation vers un article actif sans message d’erreur résiduel", () => {
+      assert.equal(reader.page.route(), articleUrl(publicArticle.id));
+      assert.equal(reader.d.querySelector(".article-unavailable,.compendium-feedback.error"), null);
+      assert(reader.d.body.textContent.includes("Contenu public de la seconde section."));
       assert.deepEqual(reader.errors, []);
     });
   } finally { reader.close(); }

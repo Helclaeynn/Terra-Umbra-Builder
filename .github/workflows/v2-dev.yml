@@ -45,6 +45,10 @@ jobs:
           npm install
           npm run build
 
+      - name: Check retired Compendium archives
+        working-directory: apps/api
+        run: node scripts/check-compendium-retirement.mjs
+
       - name: Check Truth V7 editorial readability
         working-directory: apps/api
         run: node scripts/check-truth-v7-readability.mjs
@@ -510,8 +514,8 @@ jobs:
           wiki=json.load(open(sys.argv[5],encoding="utf-8"))["entries"]
 
           assert meta["total"] >= 500, meta
-          # Canonical PNJ deduplication removes redundant OLD identities from the live corpus; keep a floor that still catches archive loss.
-          assert meta.get("archivedTotal",0) >= 850, meta
+          # The audited legacy archive has been retired for every role.
+          assert meta.get("archivedTotal",0) == 0, meta
           assert any(item["name"] == "Bestiaire" for item in meta["categories"]), meta["categories"]
           assert all(item["name"] != "OLD" for item in meta["categories"]), meta["categories"]
           assert meta["overrides"]["applied"] > 0, meta["overrides"]
@@ -590,17 +594,15 @@ jobs:
           assert user["role"] == "editor", user
           PY
 
-          echo "Wiki smoke: verifying OLD archive audit"
+          echo "Wiki smoke: verifying legacy archives are retired"
           curl --fail --silent --show-error \
             -b "$COOKIE_JAR" \
             'https://dev.terra-umbra.fr/api/compendium/search?category=OLD&limit=10' > "$COMPENDIUM_SEARCH"
           python3 - "$COMPENDIUM_SEARCH" <<'PY'
           import json,sys
           payload=json.load(open(sys.argv[1],encoding="utf-8"))
-          # Canonical PNJ deduplication lowers the OLD archive count while preserving the source corpus.
-          assert payload["total"] >= 850, payload
-          assert payload["items"], payload
-          assert all(item["category"] == "OLD" for item in payload["items"]), payload["items"]
+          assert payload["total"] == 0, payload
+          assert payload["items"] == [], payload
           PY
 
           echo "Wiki smoke: verifying canonical Moteur V4"

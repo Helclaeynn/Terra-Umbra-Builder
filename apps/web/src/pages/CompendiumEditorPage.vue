@@ -107,7 +107,7 @@ const talentMeta = ref<TalentRegistryMeta | null>(null);
 const talentInsertMode = ref<"nature" | "group">("nature");
 const talentInsertNature = ref("vampire");
 const talentInsertGroup = ref("");
-const categories = ["Règles", "Réalité", "Vérité", "Personnages", "Équipement & Objets", "Bestiaire", "OLD"];
+const categories = ["Règles", "Réalité", "Vérité", "Personnages", "Équipement & Objets", "Bestiaire"];
 
 function clone<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T;
@@ -709,7 +709,7 @@ async function load() {
       article.value = {
         id: "",
         title: String(route.query.title ?? ""),
-        category: requestedCategory || "Réalité",
+        category: categories.includes(requestedCategory) ? requestedCategory : "Réalité",
         source: String(route.query.source ?? ""),
         status: "canon_enrichi",
         tags: String(route.query.tags ?? "")

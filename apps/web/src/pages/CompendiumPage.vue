@@ -30,7 +30,6 @@ type Meta = {
   version: number;
   generated: string | null;
   total: number;
-  archivedTotal?: number;
   expectedTotal: number | null;
   categories: CategoryCount[];
   manufacturers: CategoryCount[];
@@ -194,8 +193,6 @@ type Article = {
   image?: string | MediaRef;
   illustration?: string | MediaRef;
   gallery?: MediaRef[];
-  legacyCategory?: string;
-  __legacy?: boolean;
   __editorialOverride?: boolean;
   __wikiPublishedEdit?: boolean;
 };
@@ -226,6 +223,7 @@ const builderSources = ref<BuilderSourceRecord[]>([]);
 const talentEmbeds = ref<Record<string, TalentRegistryRow[]>>({});
 const loading = ref(false);
 const articleLoading = ref(false);
+const articleUnavailable = ref(false);
 const error = ref("");
 const onboarding = ref<OnboardingData | null>(null);
 const showOnboarding = ref(false);
@@ -277,6 +275,7 @@ let wikiPreviewLink: HTMLAnchorElement | null = null;
 
 const RECENT_STORAGE_KEY = "tuc-compendium-recent-v1";
 const RECENT_LOCAL_LIMIT = 30;
+const retiredCategoryRequested = computed(() => route.query.category === "OLD");
 const discoveryMode = computed<"home" | "guide" | "journey">(() => route.query.view === "journey" ? "journey" : route.query.view === "guide" || route.query.start === "1" ? "guide" : "home");
 const activeLayer = computed(() => (selected.value?.category || category.value) === "Vérité" ? "truth" : "reality");
 const orbitalImage = computed(() => `/brand/orbital/orbital-earth${activeLayer.value === "truth" ? "-truth" : ""}.webp`);
@@ -305,7 +304,7 @@ const resultGroups = computed(() => {
 const navigationEntries = computed(() => {
   void wikiReady.value;
   const activeCategory = category.value || selected.value?.category || "";
-  if (!activeCategory || activeCategory === "OLD") return [] as WikiEntry[];
+  if (!activeCategory) return [] as WikiEntry[];
 
   return [...wikiById.values()]
     .filter((entry) => entry.category === activeCategory)
@@ -344,14 +343,13 @@ const hasResultSurface = computed(() =>
     query.value.trim() ||
     manufacturer.value ||
     activeLibraryView.value ||
-    category.value === "OLD" || route.query.view === "all"
+    retiredCategoryRequested.value || route.query.view === "all"
   )
 );
 
 const hasCategorySurface = computed(() =>
   !selected.value &&
   Boolean(category.value) &&
-  category.value !== "OLD" &&
   !query.value.trim() &&
   !manufacturer.value &&
   !activeLibraryView.value
@@ -365,13 +363,12 @@ const resultSurfaceTitle = computed(() => {
   }
   if (query.value.trim()) return `Recherche · « ${query.value.trim()} »`;
   if (manufacturer.value) return `Fabricant · ${manufacturer.value}`;
-  if (category.value === "OLD") return "Archives · ancien Compendium";
   return "Tous les articles";
 });
 
 function resultBreadcrumb(item: SearchItem | WikiEntry): string {
   return [
-    categoryLabel(item.category || ""),
+    item.category || "",
     item.group || "",
     item.subgroup || "",
     item.manufacturer ? `Fabricant · ${item.manufacturer}` : ""
@@ -619,10 +616,6 @@ function visibleMechanics(source: BuilderSourceRecord) {
   return Object.entries(source.mechanics).filter(([key, value]) =>
     !hidden.has(key) && value !== undefined && value !== null && value !== ""
   );
-}
-
-function categoryLabel(value: string): string {
-  return value === "OLD" ? "Archives · ancien Compendium" : value;
 }
 
 function builderStepLabel(step: BuilderUsage["step"]): string {
@@ -1262,6 +1255,7 @@ async function loadArticle(id: string, section = "") {
     return;
   }
   articleLoading.value = true;
+  articleUnavailable.value = false;
   selected.value = null;
   error.value = "";
   builderUsage.value = [];
@@ -1301,7 +1295,8 @@ async function loadArticle(id: string, section = "") {
     builderUsage.value = [];
     builderSources.value = [];
     talentEmbeds.value = {};
-    error.value = humanError(cause);
+    articleUnavailable.value = cause instanceof ApiError && cause.status === 404;
+    if (!articleUnavailable.value) error.value = humanError(cause);
   } finally {
     if (request === articleRequest) articleLoading.value = false;
   }
@@ -1555,6 +1550,8 @@ function sectionHeadingLevel(section: ArticleSection): "h2" | "h3" | "h4" {
 }
 
 function syncRouteView() {
+  articleUnavailable.value = false;
+  error.value = "";
   closeContents(false);
   navigationOpen.value = false;
   const target = compendiumTarget(route.query, route.hash);
@@ -1565,7 +1562,7 @@ function syncRouteView() {
   readerFocus.value = false;
   readingObserver?.disconnect();
   query.value = typeof route.query.q === "string" ? route.query.q : "";
-  category.value = typeof route.query.category === "string" ? route.query.category : "";
+  category.value = !retiredCategoryRequested.value && typeof route.query.category === "string" ? route.query.category : "";
   manufacturer.value = typeof route.query.manufacturer === "string" ? route.query.manufacturer : "";
   activeLibraryView.value = "";
   if (route.query.view === "recent") { showRecent(false); return; }
@@ -1576,7 +1573,7 @@ function syncRouteView() {
     refreshActiveLibraryView();
     return;
   }
-  showOnboarding.value = route.query.view === "guide" || route.query.view === "journey" || route.query.start === "1" || (!query.value.trim() && !category.value && !manufacturer.value && route.query.view !== "all");
+  showOnboarding.value = !retiredCategoryRequested.value && (route.query.view === "guide" || route.query.view === "journey" || route.query.start === "1" || (!query.value.trim() && !category.value && !manufacturer.value && route.query.view !== "all"));
   if (!showOnboarding.value) void search(false);
 }
 
@@ -1714,7 +1711,7 @@ onBeforeUnmount(() => {
               <path v-else-if="item.name === 'Bestiaire'" d="m5 4 5 4h4l5-4 2 10-9 8-9-8Zm2 8h2m6 0h2m-7 5h4"/>
               <path v-else d="M3 3h18v5H3Zm2 5v13h14V8M9 12h6"/>
             </svg>
-            <span>{{ categoryLabel(item.name) }}</span>
+            <span>{{ item.name }}</span>
             <small>{{ item.count }}</small>
           </button>
           <div class="navigation-divider" aria-hidden="true"></div>
@@ -1728,9 +1725,9 @@ onBeforeUnmount(() => {
           </button>
         </nav>
 
-        <div v-if="category && category !== 'OLD'" class="navigation-tree">
+        <div v-if="category" class="navigation-tree">
           <div class="navigation-tree-kicker">
-            <strong>{{ categoryLabel(category) }}</strong>
+            <strong>{{ category }}</strong>
             <span>{{ navigationEntries.length }} page{{ navigationEntries.length > 1 ? 's' : '' }}</span>
           </div>
 
@@ -1774,10 +1771,6 @@ onBeforeUnmount(() => {
           </p>
         </div>
 
-        <div v-else-if="category === 'OLD'" class="navigation-archive-note">
-          Les archives sont volontairement absentes de l’arborescence active. Leur contenu apparaît dans la zone principale.
-        </div>
-
         <section class="navigation-guide" aria-label="Premiers pas">
           <h3>PREMIERS PAS</h3>
           <p>Un monde.<br>Deux niveaux de lecture.</p>
@@ -1793,6 +1786,9 @@ onBeforeUnmount(() => {
 
     <main id="compendium-main" class="compendium-content" tabindex="-1">
 
+      <div v-if="retiredCategoryRequested" class="feedback compendium-feedback archive-retirement-notice" role="status">
+        Les archives de l’ancien Compendium ont été supprimées. Les rubriques actuelles restent disponibles ci-dessous et dans la recherche.
+      </div>
       <div v-if="error" class="feedback error compendium-feedback">
         {{ error }}
       </div>
@@ -1875,7 +1871,7 @@ onBeforeUnmount(() => {
               type="button"
               @click="chooseCategory(item.name)"
             >
-              <span>{{ categoryLabel(item.name) }}</span>
+              <span>{{ item.name }}</span>
               <small>{{ item.count }}</small>
             </button>
           </div>
@@ -2031,7 +2027,7 @@ onBeforeUnmount(() => {
                       </div>
                     </div>
                     <div class="article-breadcrumb">
-                      <span>{{ categoryLabel(selected.category || "") }}</span>
+                      <span>{{ selected.category || "" }}</span>
                       <template v-if="selected.navigation?.group">
                         <span>›</span>
                         <span>{{ selected.navigation.group }}</span>
@@ -2040,14 +2036,6 @@ onBeforeUnmount(() => {
                         <span>›</span>
                         <span>{{ selected.navigation.subgroup }}</span>
                       </template>
-                    </div>
-
-                    <div v-if="selected.__legacy" class="legacy-article-notice">
-                      <strong>Archive de l’ancien Compendium</strong>
-                      <span>
-                        Conservée pour audit{{ selected.legacyCategory ? ` · ancienne rubrique : ${selected.legacyCategory}` : "" }}.
-                        Cette fiche n’apparaît plus dans la navigation normale.
-                      </span>
                     </div>
 
                     <div class="wiki-title-line">
@@ -2292,7 +2280,7 @@ onBeforeUnmount(() => {
                     <p class="eyebrow">FICHE</p>
                     <dl>
                       <template v-if="selected.category">
-                        <dt>Rubrique</dt><dd>{{ categoryLabel(selected.category) }}</dd>
+                        <dt>Rubrique</dt><dd>{{ selected.category }}</dd>
                       </template>
                       <template v-if="selected.navigation?.group">
                         <dt>Groupe</dt><dd>{{ selected.navigation.group }}</dd>
@@ -2367,6 +2355,16 @@ onBeforeUnmount(() => {
               </div>
             </template>
 
+            <section v-else-if="articleUnavailable" class="article-unavailable" role="status">
+              <p class="eyebrow">COMPENDIUM</p>
+              <h1>Article indisponible</h1>
+              <p>Cette page a été supprimée ou n’est pas accessible avec votre compte. Retrouvez les contenus actuels dans les rubriques ou avec la recherche.</p>
+              <div class="article-unavailable-actions">
+                <RouterLink class="primary" to="/compendium?view=all">Parcourir les articles</RouterLink>
+                <RouterLink class="ghost" to="/compendium">Retour à l’accueil</RouterLink>
+              </div>
+            </section>
+
             <section v-else-if="hasResultSurface" class="search-results-main">
               <header class="surface-heading">
                 <div>
@@ -2385,7 +2383,7 @@ onBeforeUnmount(() => {
               <div v-if="results.length" class="main-result-list">
                 <section v-for="group in resultGroups" :key="group.name" class="main-result-group">
                   <header>
-                    <strong>{{ categoryLabel(group.name) }}</strong>
+                    <strong>{{ group.name }}</strong>
                     <span>{{ group.items.length }}</span>
                   </header>
                   <button
@@ -2420,7 +2418,7 @@ onBeforeUnmount(() => {
                 <img v-if="category === 'Réalité' || category === 'Vérité'" class="category-orbital-art" :src="orbitalImage" alt="" width="1536" height="1024" decoding="async" />
                 <div>
                   <p class="eyebrow">RUBRIQUE</p>
-                  <h1>{{ categoryLabel(category) }}</h1>
+                  <h1>{{ category }}</h1>
                   <p>
                     Parcours la rubrique par dossier. Les mêmes groupes restent disponibles dans l’arborescence à gauche pendant la lecture.
                   </p>
@@ -2973,26 +2971,12 @@ onBeforeUnmount(() => {
   min-width: 0;
 }
 
-.legacy-article-notice {
-  display: grid;
-  gap: .22rem;
-  margin: 0 0 .85rem;
-  padding: .7rem .85rem;
-  border: 1px solid rgba(176,132,77,.34);
-  border-radius: 9px;
-  background: rgba(176,132,77,.055);
-  color: #b9a58b;
-}
-.legacy-article-notice strong {
-  color: #d8c4a4;
-  font-size: .76rem;
-  text-transform: uppercase;
-  letter-spacing: .06em;
-}
-.legacy-article-notice span {
-  font-size: .72rem;
-  line-height: 1.45;
-}
+/* Retired or inaccessible article URLs keep a clear path to the active corpus. */
+.article-unavailable { padding: clamp(24px, 4vw, 56px); }
+.article-unavailable h1 { margin: 12px 0 20px; font-size: clamp(1.8rem, 3vw, 2.5rem); }
+.article-unavailable > p:not(.eyebrow) { max-width: 65ch; color: #bdcfe0; line-height: 1.8; }
+.article-unavailable-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.article-unavailable-actions a { display: inline-flex; align-items: center; min-height: 44px; padding: 12px 18px; border-radius: 6px; text-decoration: none; }
 
 .wiki-title-line {
   display: flex;
@@ -3700,8 +3684,7 @@ onBeforeUnmount(() => {
 }
 
 .navigation-hint,
-.navigation-empty,
-.navigation-archive-note {
+.navigation-empty {
   margin: .7rem;
   padding: .75rem;
   border: 1px solid rgba(255,255,255,.06);
