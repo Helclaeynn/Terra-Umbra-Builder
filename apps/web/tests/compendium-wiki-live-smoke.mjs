@@ -265,7 +265,7 @@ try{
   if(wikiDebug?.hasLegacyEntry)throw new Error("OLD présent dans l’index actif: "+JSON.stringify(wikiDebug));
 
   await page.getByRole("button",{name:"Ouvrir la recherche",exact:true}).click();
-  const archiveChip=page.getByRole("button",{name:/Archives · ancien Compendium/});
+  const archiveChip=page.locator(".category-strip").getByRole("button",{name:/Archives · ancien Compendium/});
   await archiveChip.waitFor({state:"visible",timeout:10000});
   await archiveChip.click();
   await page.getByText(/entrées?/).first().waitFor({state:"visible",timeout:10000});
