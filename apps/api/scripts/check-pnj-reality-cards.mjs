@@ -9,6 +9,17 @@ assert.equal(active.length, 918);
 const article = (id, publicView = false) =>
   (publicView ? corpus.publicArticles : corpus.articles).find((item) => item.id === id);
 const rows = (id) => article(id).sections[0].blocks[0].rows;
+for (const [id, civilName, forbiddenTruth] of [
+  ["pnj-truth-alexander-shorolth", "Alexander Shorolth", "Nom de la Vérité"],
+  ["pnj-loges-mages-alice-carroll-38", "Alice Carroll", "Nom de la Vérité"],
+  ["personnages-verite-vampires-p31-kanika-onyesha", "Kanika Onyesha", "Reine consort"]
+]) {
+  const publicPerson = article(id, true);
+  if (!publicPerson) continue;
+  const card = publicPerson.sections.find((section) => section.id === "identite-realite-consolidee");
+  assert.equal(card?.blocks?.[0]?.rows?.find(([field]) => field === "Nom")?.[1], civilName, id);
+  assert.ok(!JSON.stringify(publicPerson).includes(forbiddenTruth), `${id} : données MJ dans la fiche publique`);
+}
 for (const [id, age] of Object.entries({
   "pnj-crawlers-docx-aisha-white": 25,
   "personnages-verite-humains-galactiques-alladava-kjoll": 45,
