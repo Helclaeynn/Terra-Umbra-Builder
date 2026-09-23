@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import { RouterLink } from "vue-router";
 import CharactersPanel from "./components/CharactersPanel.vue";
 import TerraUmbraBrand from "./components/TerraUmbraBrand.vue";
@@ -26,6 +26,20 @@ type AuditEvent = {
   afterState: { role?: Role; active?: boolean } | null;
   createdAt: string;
 };
+
+type GmRequest = {
+  id: string; userId: string; comment: string; createdAt: string; decidedAt: string | null;
+  status: "pending" | "approved" | "rejected";
+};
+type PendingGmRequest = GmRequest & { displayName: string; email: string; active: boolean; role: Role };
+const gmRequest = ref<GmRequest | null>(null);
+const gmRequests = ref<PendingGmRequest[]>([]);
+const gmComment = ref("");
+const gmBusy = ref(false);
+const gmLoading = ref(true);
+const gmError = ref("");
+const gmMessage = ref("");
+const gmLoaded = ref(false);
 
 const roleLabels: Record<Role, string> = {
   player: "Joueur",
@@ -91,6 +105,10 @@ function humanError(code: string): string {
     too_many_attempts: "Trop de tentatives. Réessaie dans quelques minutes.",
     authentication_required: "Connexion requise.",
     admin_required: "Droits administrateur requis.",
+    gm_request_pending: "Une demande est déjà en attente de validation.",
+    gm_request_decided: "Cette demande a déjà été traitée. La liste a été actualisée.",
+    gm_request_not_found: "Cette demande n’existe plus. La liste a été actualisée.",
+    gm_request_not_eligible: "Le rôle ou l’état du compte a changé. Actualise ton espace.",
     cannot_modify_self: "Ton propre rôle ne se modifie pas depuis ce panneau.",
     last_admin_protected: "Le dernier administrateur actif est protégé.",
     invalid_current_password: "Le mot de passe actuel est incorrect.",
@@ -156,14 +174,95 @@ async function bootstrap() {
   }
 }
 
-function applyUser(nextUser: User) {
+function applyUser(nextUser: User, preserveDraft = false) {
+  if (user.value?.id !== nextUser.id) {
+    gmRequest.value = null;
+    gmRequests.value = [];
+    gmLoaded.value = false;
+    gmComment.value = "";
+    gmError.value = "";
+    gmMessage.value = "";
+  }
   user.value = nextUser;
-  profileForm.value.displayName = nextUser.displayName;
+  if (!preserveDraft) profileForm.value.displayName = nextUser.displayName;
   authForm.value.password = "";
   authForm.value.passwordConfirmation = "";
 
   if (nextUser.role === "admin") {
     void loadAdmin();
+  } else {
+    void loadGmRequest();
+  }
+}
+
+async function loadGmRequest() {
+  const userId = user.value?.id;
+  gmLoading.value = true;
+  gmError.value = "";
+  try {
+    const result = await api<{ request: GmRequest | null }>("/api/auth/gm-request");
+    if (user.value?.id !== userId) return;
+    gmRequest.value = result.request;
+    gmLoaded.value = true;
+  } catch {
+    if (user.value?.id !== userId) return;
+    gmError.value = "Impossible de charger le statut de l’accès MJ. Réessaie avec Actualiser.";
+    gmLoaded.value = false;
+  } finally { gmLoading.value = false; }
+}
+
+async function refreshAccess() {
+  if (!user.value || gmBusy.value || busy.value) return;
+  try {
+    const result = await api<{ user: User }>("/api/auth/me");
+    applyUser(result.user, result.user.id === user.value?.id);
+  } catch (cause) {
+    if ((cause as Error).message === "authentication_required") {
+      user.value = null;
+      gmRequests.value = [];
+      adminUsers.value = [];
+      auditEvents.value = [];
+    }
+  }
+}
+
+async function submitGmRequest() {
+  if (gmBusy.value) return;
+  gmBusy.value = true;
+  gmError.value = "";
+  gmMessage.value = "";
+  try {
+    const result = await api<{ request: GmRequest }>("/api/auth/gm-request", {
+      method: "POST", body: JSON.stringify({ comment: gmComment.value })
+    });
+    gmRequest.value = result.request;
+    gmComment.value = "";
+    gmMessage.value = "Demande envoyée. Un administrateur doit autoriser ton accès MJ.";
+  } catch (cause) {
+    await loadGmRequest();
+    gmError.value = humanError((cause as Error).message);
+  } finally { gmBusy.value = false; }
+}
+
+async function decideGmRequest(target: PendingGmRequest, decision: "approved" | "rejected") {
+  if (gmBusy.value) return;
+  const prompt = decision === "approved"
+    ? `Autoriser ${target.displayName} à devenir MJ ? Cette autorisation ouvre l’accès aux secrets de l’univers et aux outils MJ.`
+    : `Refuser la demande d’accès MJ de ${target.displayName} ? Le compte conservera son rôle actuel.`;
+  if (!window.confirm(prompt)) return;
+  gmBusy.value = true;
+  gmError.value = "";
+  gmMessage.value = "";
+  try {
+    await api(`/api/admin/gm-requests/${target.id}/decision`, {
+      method: "POST", body: JSON.stringify({ decision })
+    });
+    gmMessage.value = decision === "approved" ? `Accès MJ accordé à ${target.displayName}.` : `Demande de ${target.displayName} refusée.`;
+  } catch (cause) {
+    gmError.value = humanError((cause as Error).message);
+  } finally {
+    await loadAdmin();
+    gmBusy.value = false;
   }
 }
 
@@ -284,6 +383,12 @@ async function logout() {
     user.value = null;
     adminUsers.value = [];
     auditEvents.value = [];
+    gmRequest.value = null;
+    gmRequests.value = [];
+    gmComment.value = "";
+    gmError.value = "";
+    gmMessage.value = "";
+    gmLoaded.value = false;
     authMode.value = "login";
   } catch (cause) {
     error.value = humanError((cause as Error).message);
@@ -334,17 +439,23 @@ async function changePassword() {
 
 async function loadAdmin() {
   if (!isAdmin.value) return;
-
+  const userId = user.value?.id;
+  gmLoading.value = true;
   try {
-    const [usersResult, auditResult] = await Promise.all([
+    const [usersResult, auditResult, requestsResult] = await Promise.all([
       api<{ users: User[] }>("/api/admin/users"),
-      api<{ events: AuditEvent[] }>("/api/admin/audit")
+      api<{ events: AuditEvent[] }>("/api/admin/audit"),
+      api<{ requests: PendingGmRequest[] }>("/api/admin/gm-requests")
     ]);
+    if (user.value?.id !== userId || !isAdmin.value) return;
     adminUsers.value = usersResult.users;
     auditEvents.value = auditResult.events;
+    gmRequests.value = requestsResult.requests;
+    gmLoaded.value = true;
   } catch (cause) {
+    gmLoaded.value = false;
     error.value = humanError((cause as Error).message);
-  }
+  } finally { gmLoading.value = false; }
 }
 
 async function setRole(target: User, role: Role) {
@@ -415,6 +526,8 @@ async function updateAdminUser(
 }
 
 function auditActionLabel(event: AuditEvent): string {
+  if (event.action === "gm_request_approved") return "a accepté la demande MJ de";
+  if (event.action === "gm_request_rejected") return "a refusé la demande MJ de";
   return event.action === "account_delete" ? "a supprimé" : "a modifié";
 }
 
@@ -427,6 +540,8 @@ function formatDate(value: string | null): string {
 }
 
 onMounted(bootstrap);
+onMounted(() => window.addEventListener("focus", refreshAccess));
+onUnmounted(() => window.removeEventListener("focus", refreshAccess));
 </script>
 
 <template>
@@ -665,6 +780,9 @@ onMounted(bootstrap);
               <strong>{{ user.displayName }}</strong>
               <span class="role-badge">{{ roleLabels[user.role] }}</span>
               <span class="muted">{{ user.email }}</span>
+              <a v-if="isAdmin && gmLoaded" class="gm-notification" href="#gm-requests">
+                {{ gmRequests.length }} demande{{ gmRequests.length > 1 ? 's' : '' }} MJ en attente ↓
+              </a>
             </div>
           </div>
         </section>
@@ -689,6 +807,32 @@ onMounted(bootstrap);
             </div>
             <strong>Ouvrir le wiki →</strong>
           </RouterLink>
+        </section>
+
+        <section v-if="!isAdmin" class="panel gm-access-panel" aria-labelledby="gm-access-title" :aria-busy="gmBusy || gmLoading">
+          <div class="section-heading">
+            <div><p class="eyebrow">MENER UNE PARTIE</p><h2 id="gm-access-title">Accès Maître du Jeu</h2></div>
+            <button class="ghost compact" type="button" :disabled="gmBusy || gmLoading" @click="refreshAccess">Actualiser</button>
+          </div>
+          <p>Le rôle MJ ouvre <strong>l’accès aux secrets de l’univers et aux outils MJ</strong>. Il révèle les informations confidentielles du Compendium : demande-le si tu souhaites mener des parties.</p>
+          <p class="muted">Les outils MJ seront enrichis au fil des prochaines mises à jour.</p>
+          <p v-if="gmError" class="gm-feedback error" role="alert">{{ gmError }}</p>
+          <p v-if="gmMessage" class="gm-feedback" role="status">{{ gmMessage }}</p>
+          <p v-if="user.role !== 'player'" class="gm-state">Ton rôle {{ roleLabels[user.role] }} te donne déjà l’accès MJ.</p>
+          <p v-else-if="gmLoading" role="status">Chargement du statut…</p>
+          <template v-else-if="gmLoaded">
+            <div v-if="gmRequest?.status === 'pending'" class="gm-state" role="status">
+              <strong>En attente de validation</strong>
+              <p>Demande envoyée le {{ formatDate(gmRequest.createdAt) }}. Tu conserves ton accès joueur jusqu’à la décision d’un administrateur.</p>
+            </div>
+            <form v-else @submit.prevent="submitGmRequest">
+              <p v-if="gmRequest?.status === 'rejected'" class="gm-state">Ta demande a été refusée le {{ formatDate(gmRequest.decidedAt) }}. Tu peux contacter un administrateur ou envoyer une nouvelle demande.</p>
+              <p v-else-if="gmRequest?.status === 'approved'" class="gm-state">Ton compte ne dispose plus du rôle MJ. Tu peux demander une nouvelle autorisation.</p>
+              <label for="gm-comment">Un mot pour l’administrateur <span class="muted">(facultatif, 1 000 caractères maximum)</span></label>
+              <textarea id="gm-comment" v-model="gmComment" rows="3" maxlength="1000" placeholder="Par exemple, la partie que tu souhaites mener…" :disabled="gmBusy"></textarea>
+              <button type="submit" :disabled="gmBusy">{{ gmBusy ? 'Envoi…' : 'Demander l’accès MJ' }}</button>
+            </form>
+          </template>
         </section>
 
         <section class="account-grid" aria-label="Personnages et préférences">
@@ -760,6 +904,30 @@ onMounted(bootstrap);
         </section>
 
         <section v-if="isAdmin" class="admin-section">
+          <section id="gm-requests" class="panel gm-access-panel" aria-labelledby="gm-requests-title" :aria-busy="gmBusy || gmLoading">
+            <div class="section-heading">
+              <div><p class="eyebrow">AUTORISATIONS</p><h2 id="gm-requests-title">Demandes d’accès MJ <span v-if="gmLoaded" class="role-badge">{{ gmRequests.length }}</span></h2></div>
+              <button class="ghost compact" type="button" :disabled="gmBusy || gmLoading" @click="loadAdmin">Actualiser les demandes</button>
+            </div>
+            <p>Accepter accorde le rôle MJ et ouvre <strong>l’accès aux secrets de l’univers et aux outils MJ</strong>, dont les informations confidentielles du Compendium.</p>
+            <p v-if="gmError" class="gm-feedback error" role="alert">{{ gmError }}</p>
+            <p v-if="gmMessage" class="gm-feedback" role="status">{{ gmMessage }}</p>
+            <p v-if="gmLoading && !gmLoaded" role="status">Chargement des demandes…</p>
+            <p v-else-if="!gmLoaded" role="alert">Impossible de charger les demandes. Réessaie avec Actualiser.</p>
+            <p v-else-if="!gmRequests.length" class="muted">Aucune demande en attente.</p>
+            <article v-for="item in gmRequests" v-else :key="item.id" class="gm-request-card">
+              <div>
+                <h3>{{ item.displayName }}</h3>
+                <p class="muted">{{ item.email }} · {{ formatDate(item.createdAt) }}</p>
+                <p class="gm-comment">{{ item.comment || 'Aucun commentaire ajouté.' }}</p>
+                <p v-if="!item.active" class="muted">Compte désactivé : réactive-le avant d’accorder l’accès MJ.</p>
+              </div>
+              <div class="gm-request-actions">
+                <button type="button" :disabled="gmBusy || gmLoading || !item.active || item.role !== 'player'" :aria-label="`Accepter la demande MJ de ${item.displayName}`" @click="decideGmRequest(item, 'approved')">Accepter</button>
+                <button class="ghost" type="button" :disabled="gmBusy || gmLoading" :aria-label="`Refuser la demande MJ de ${item.displayName}`" @click="decideGmRequest(item, 'rejected')">Refuser</button>
+              </div>
+            </article>
+          </section>
           <div class="section-heading">
             <div>
               <p class="eyebrow">ADMINISTRATION</p>
@@ -775,7 +943,7 @@ onMounted(bootstrap);
             </div>
           </div>
 
-          <p id="account-table-help" class="muted admin-table-help">Les rôles et accès se gèrent ici. La suppression d’un compte demande une confirmation.</p>
+          <p id="account-table-help" class="muted admin-table-help">Les rôles et accès se gèrent ici. Les rôles MJ, Éditeur et Administrateur ouvrent l’accès aux secrets de l’univers et aux outils MJ. La suppression d’un compte demande une confirmation.</p>
           <div class="panel table-wrap" role="region" aria-label="Comptes utilisateurs" aria-describedby="account-table-help" tabindex="0">
             <table>
               <caption class="visually-hidden">Comptes, rôles et accès des utilisateurs</caption>
@@ -954,6 +1122,27 @@ onMounted(bootstrap);
 .account-settings-grid form button { justify-self: start; margin-top: 4px; }
 
 .admin-section { min-width: 0; margin-top: 44px; }
+.gm-access-panel { margin: 24px 0; padding: clamp(20px, 3vw, 32px); scroll-margin-top: 100px; }
+.gm-access-panel p { line-height: 1.65; }
+.gm-access-panel form { display: grid; gap: 12px; max-width: 760px; }
+.gm-access-panel textarea { width: 100%; box-sizing: border-box; resize: vertical; min-height: 88px; padding: 12px; color: #e6f0fb; background: #091522; border: 1px solid #36536a; border-radius: 6px; font: inherit; }
+.gm-access-panel button { min-height: 44px; }
+.gm-access-panel form button { justify-self: start; }
+.gm-state { padding: 16px 20px; border-left: 3px solid #80dded; background: #122638; }
+.gm-state p { margin-bottom: 0; }
+.gm-notification { color: #a4edff; border: 1px solid #3d6580; border-radius: 5px; padding: 8px 12px; text-decoration: none; }
+.gm-request-card { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px 0; border-top: 1px solid #304458; }
+.gm-request-card > div:first-child { min-width: 0; overflow-wrap: anywhere; }
+.gm-request-card h3 { margin: 0; }
+.gm-comment { white-space: pre-wrap; }
+.gm-request-actions { display: flex; flex-wrap: wrap; gap: 10px; flex-shrink: 0; }
+.gm-feedback { padding: 12px 16px; color: #a4edff; background: #122638; }
+.gm-feedback.error { color: #ffc1c1; border-left: 3px solid #ea9999; }
+@media (max-width: 650px) {
+  .gm-request-card { align-items: stretch; flex-direction: column; gap: 12px; }
+  .gm-access-panel .section-heading { flex-wrap: wrap; gap: 12px; }
+  .gm-request-actions button { flex: 1; }
+}
 .admin-section .section-heading { flex-wrap: wrap; }
 .admin-table-help { margin: 0 0 16px; font-size: 14px; line-height: 1.7; }
 .table-wrap { max-width: 100%; overscroll-behavior-x: contain; }

@@ -26,6 +26,7 @@ import { databaseStatus, pool } from "./db.js";
 import { registerCharacterRoutes } from "./characters.js";
 import { preloadCompendium, registerCompendiumRoutes } from "./compendium.js";
 import { registerQualityRoutes } from "./quality.js";
+import { approvePendingGmRequest, registerGmAccessRoutes } from "./gm-access.js";
 import { preloadBuilderRules, registerRulesRoutes } from "./rules/index.js";
 import { passwordResetMailAvailable, sendPasswordResetEmail } from "./mail.js";
 
@@ -762,6 +763,9 @@ app.patch<{
       [nextRole, nextActive, targetId]
     );
 
+    if (nextRole !== "player") {
+      await approvePendingGmRequest(client, targetId, admin.id);
+    }
     if (!nextActive) {
       await client.query("DELETE FROM sessions WHERE user_id = $1", [targetId]);
     }
@@ -926,6 +930,7 @@ await registerCharacterRoutes(app);
 await registerRulesRoutes(app);
 await registerCompendiumRoutes(app);
 await registerQualityRoutes(app);
+await registerGmAccessRoutes(app);
 
 // Build the Compendium once during service startup so the first visitor
 // never pays the corpus decode/indexing cost.
