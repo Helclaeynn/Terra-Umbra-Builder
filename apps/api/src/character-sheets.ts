@@ -25,7 +25,7 @@ export async function registerCharacterSheetRoutes(app:FastifyInstance){
     if(!user)return;
     if(!UUID.test(request.params.id))return reply.code(404).send(notFound);
     const result=await pool.query(`SELECT c.id,c.name,c.data,c.version,c.created_at::text AS "createdAt",
-      c.updated_at::text AS "updatedAt",c.owner_id=$2 AS "canEdit",u.display_name AS "ownerName"
+      c.updated_at::text AS "updatedAt",c.campaign_id AS "campaignId",(SELECT name FROM campaigns WHERE id=c.campaign_id) AS "campaignName",c.owner_id=$2 AS "canEdit",u.display_name AS "ownerName"
       FROM characters c JOIN users u ON u.id=c.owner_id
       WHERE c.id=$1 AND c.archived_at IS NULL AND (c.owner_id=$2 OR ($3 AND EXISTS (
         SELECT 1 FROM character_sheet_readers r WHERE r.character_id=c.id AND r.reader_id=$2) OR $3 AND EXISTS (

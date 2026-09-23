@@ -7,13 +7,13 @@ import type {CampaignScene} from '../../../api/src/campaign-preparation';
 import {api,ApiError} from '../lib/api';
 type Reward={characterId:string;characterName:string;xp:number;ptv:number;awardedAt:string};
 type Session={scenes?:CampaignScene[];effects?:any[];id:string;title:string;playedOn:string|null;status:'planned'|'played';preparation?:string;report:string;published:boolean;version:number;rewards:Reward[]};
-const props=defineProps<{campaignId:string;canManage:boolean;archived:boolean;members:{status:string;characterId:string|null;characterName:string|null}[]}>();
+const props=defineProps<{campaignId:string;canManage:boolean;archived:boolean;members:{admissionStatus?:string;status:string;characterId:string|null;characterName:string|null}[]}>();
 const sessions=ref<Session[]>([]),hasMore=ref(false),loading=ref(false),busy=ref(false),error=ref(''),notice=ref('');
 const editing=ref<string|null>(null),baseline=ref('');
 const blank=()=>({scenes:[] as CampaignScene[],title:'',playedOn:'',status:'planned' as 'planned'|'played',preparation:'',report:'',published:false,version:1});
 const draft=ref(blank()),dirty=computed(()=>editing.value!==null&&JSON.stringify(draft.value)!==baseline.value);
 const awarding=ref<string|null>(null),selected=ref<string[]>([]),xp=ref(0),ptv=ref(0);
-const eligible=computed(()=>props.members.filter(m=>m.status==='accepted'&&m.characterId&&!sessions.value.find(s=>s.id===awarding.value)?.rewards.some(r=>r.characterId===m.characterId)));
+const eligible=computed(()=>props.members.filter(m=>m.status==='accepted'&&m.admissionStatus==='approved'&&m.characterId&&!sessions.value.find(s=>s.id===awarding.value)?.rewards.some(r=>r.characterId===m.characterId)));
 const endpoint=`/api/campaigns/${props.campaignId}/sessions`;
 let generation=0;
 function failure(e:unknown){
@@ -76,7 +76,7 @@ onUnmounted(()=>{generation++;window.removeEventListener('beforeunload',beforeUn
     <CampaignSessionEffects :campaign-id="campaignId" :session-id="s.id" :can-manage="canManage&&!archived&&s.status==='played'" :effects="s.effects||[]" @applied="load()" />
     <form v-if="awarding===s.id&&canManage&&!archived" class="editor" @submit.prevent="award">
      <h3>Récompenses de cette séance</h3><p>Les points sont ajoutés à la progression de chaque personnage sélectionné. Chaque fiche ne peut être récompensée qu’une fois par séance.</p>
-     <fieldset><legend>Personnages à récompenser</legend><label v-for="m in eligible" :key="m.characterId!" class="check"><input v-model="selected" type="checkbox" :value="m.characterId" />{{ m.characterName||'Personnage' }}</label><p v-if="!eligible.length">Aucune nouvelle fiche rattachée à récompenser.</p></fieldset>
+     <fieldset><legend>Personnages à récompenser</legend><label v-for="m in eligible" :key="m.characterId!" class="check"><input v-model="selected" type="checkbox" :value="m.characterId" />{{ m.characterName||'Personnage' }}</label><p v-if="!eligible.length">Aucune nouvelle fiche acceptée par le MJ à récompenser.</p></fieldset>
      <div class="fields"><label>XP par personnage<input v-model.number="xp" type="number" min="0" max="100000" step="1" required /></label><label>PTV par personnage<input v-model.number="ptv" type="number" min="0" max="100000" step="1" required /></label></div>
      <p aria-live="polite">{{ selected.length }} personnage(s) · {{ xp||0 }} XP et {{ ptv||0 }} PTV chacun</p><div class="actions"><button class="primary" :disabled="busy||!validRewards">Confirmer l’attribution</button><button type="button" :disabled="busy" @click="awarding=null">Annuler l’attribution</button></div>
     </form>

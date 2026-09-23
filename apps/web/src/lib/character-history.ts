@@ -82,6 +82,7 @@ export function compareHistory(current:HistoryRevision,previous:HistoryRevision|
   return {changes,initial:false,missing:false};
 }
 export function revisionLabel(row:HistoryRevision){
+  if(row.reason==='campaign-fork')return 'Création de la version de campagne · acquis antérieurs conservés';
   if(row.reason==='created')return 'Création du personnage';
   if(row.reason==='imported')return 'Import du personnage';
   if(row.reason.startsWith('campaign-effect:'))return `Événement de séance · ${row.reason.slice(16)}`;

@@ -1,13 +1,16 @@
 import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
 import {chromium} from 'playwright-core';
+const fixtureSource=await readFile(new URL('./builder-v2-smoke.mjs',import.meta.url),'utf8');
+const fixtures=Function(fixtureSource.slice(fixtureSource.indexOf('const skillIds='),fixtureSource.indexOf('const browser='))+'; return {characterData,rules,lore,edgeRules,truthRules,realityRules};')();
 const base=process.env.TUC_V2_SMOKE_BASE_URL||'http://127.0.0.1:4173';
 const browser=await chromium.launch({executablePath:process.env.CHROME_BIN,headless:true,args:['--no-sandbox']});
 const cid='11111111-1111-4111-8111-111111111111',gid='22222222-2222-4222-8222-222222222222',pid='33333333-3333-4333-8333-333333333333',chid='44444444-4444-4444-8444-444444444444';
 let role='gm',status='invited',attached=null,invited=false,version=1,notes='Notes secrètes du MJ',archived=false,conflict=false;
 const name='<script>Campagne</script> · California';
 const campaign=()=>({id:cid,name,description:'Une campagne de test',gmName:'Morgan',ownerId:gid,canManage:role==='gm',membershipStatus:role==='gm'?null:status,memberCount:status==='accepted'?1:0,archivedAt:archived?'2026-09-23':null,version,...(role==='gm'?{gmNotes:notes}:{})});
-const members=()=>invited?[{userId:pid,displayName:'Camille',status,characterId:attached,characterName:attached?'Alexandra':null,canReadSheet:!!attached,updatedAt:null}]:[];
-let session=null,effectConflict=false;
+const members=()=>invited?[{userId:pid,displayName:'Camille',status,admissionStatus,characterId:attached,characterName:attached?'Alexandra':null,canReadSheet:!!attached,updatedAt:null}]:[];
+let session=null,effectConflict=false,admissionStatus='pending',admissionVersion=1,admissionMessage='';
 const effectTarget={id:chid,name:'Alexandra',version:1,money:1000,corruption:0,integrity:4,source:''};
 const errors=[];const page=await browser.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
 await page.route('**/api/**',async route=>{
@@ -18,6 +21,12 @@ await page.route('**/api/**',async route=>{
  else if(path===`/api/campaigns/${cid}`&&method==='PATCH'){
   if(conflict){code=409;body={error:'campaign_version_conflict'};}else{const b=req.postDataJSON();notes=b.gmNotes;archived=b.archived;version++;body={ok:true};}
  }
+ else if(path.endsWith('/admissions')&&method==='GET')body={canManage:role==='gm',rules:'Uniquement des Crawlers.',admissions:invited?[{userId:pid,displayName:'Camille',version:admissionVersion,status:attached?admissionStatus:'none',characterId:attached,name:attached?'Alexandra':null,characterVersion:1,data:fixtures.characterData,baseline:fixtures.characterData,sourceVersion:1,sourceName:'Alexandra',sourceCampaign:null,messages:admissionMessage?[{kind:admissionStatus,message:admissionMessage,at:'2026-09-23',author:'Morgan'}]:[]}]:[]};
+ else if(path.includes('/admissions/')&&method==='PATCH'){admissionStatus=req.postDataJSON().status;admissionMessage=req.postDataJSON().message;admissionVersion++;body={ok:true};}
+ else if(path==='/api/rulesets/terra-umbra/creation')body={rules:fixtures.rules,lore:fixtures.lore,edgeRules:fixtures.edgeRules,talentChoiceSpecs:{},skillTalentMap:{},disadvantages:{common:[],attribute:[],sphere:{}}};
+ else if(path==='/api/rulesets/terra-umbra/truth')body=fixtures.truthRules;
+ else if(path==='/api/rulesets/terra-umbra/reality')body=fixtures.realityRules;
+ else if(path==='/api/compendium/library')body={favoriteItems:[{id:'pnj-favori',title:'Contact favori',category:'Personnages',snippet:'Contact de la campagne'}],recentItems:[]};
  else if(path.endsWith('/sessions')&&method==='GET')body={sessions:session?[role==='gm'?session:{...session,preparation:undefined,scenes:undefined,report:session.published?session.report:''}]:[],hasMore:false};
  else if(path.endsWith('/sessions')&&method==='POST'){session={...req.postDataJSON(),id:gid,version:1,rewards:[],effects:[]};body={session:{id:gid}};code=201;}
  else if(path.endsWith('/rewards')){const b=req.postDataJSON();assert.deepEqual(b.characterIds,[chid]);session.rewards=[{characterId:chid,characterName:'Alexandra',xp:b.xp,ptv:b.ptv,awardedAt:'2026-09-23'}];body={ok:true};}
@@ -26,7 +35,7 @@ await page.route('**/api/**',async route=>{
  else if(path.endsWith('/effects')){const b=req.postDataJSON();if(effectConflict){code=409;body={error:'effect_version_conflict'};}else{assert.equal(b.characterId,chid);assert.equal(b.money,250);assert.equal(b.corruptionDelta,1);effectTarget.money+=250;effectTarget.corruption=1;effectTarget.source='vhodhal';effectTarget.version++;session.effects=[{id:b.requestId,characterName:'Alexandra',money:b.money,corruptionDelta:1,corruptionSource:'vhodhal',reason:b.reason,before:{money:1000,corruption:0,source:''},after:{money:1250,corruption:1,source:'vhodhal'},appliedAt:'2026-09-23'}];body={ok:true};}}
  else if(path.endsWith('/accounts'))body={accounts:[{id:pid,displayName:'Camille'}]};
  else if(path.endsWith('/invitations')){assert.equal(req.postDataJSON().userId,pid);invited=true;code=201;body={ok:true};}
- else if(path.endsWith('/membership')){status='accepted';attached=req.postDataJSON().characterId;body={ok:true};}
+ else if(path.endsWith('/membership')){admissionStatus='pending';status='accepted';attached=req.postDataJSON().characterId;body={ok:true};}
  else if(path.includes('/members/')&&method==='DELETE'){invited=false;body={ok:true};}
  else if(path==='/api/characters')body={characters:[{id:chid,name:'Alexandra'}]};
  else{throw new Error('Unexpected API '+method+' '+path);}
@@ -67,6 +76,13 @@ try{
   await page.setViewportSize({width,height:1000});
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'GM layout '+width);
  }
+ await page.getByLabel('Retour au joueur',{exact:true}).fill('Uniquement des Crawlers, adapte ton Origine.');
+ await page.getByRole('button',{name:'Demander des modifications',exact:true}).click();
+ await page.getByText('Décision enregistrée et visible par le joueur.',{exact:true}).waitFor();
+ assert.equal(admissionStatus,'changes_requested');
+ await page.getByRole('button',{name:'Accepter la fiche',exact:true}).click();
+ await page.getByText('Fiche acceptée',{exact:false}).waitFor();
+ assert.equal(admissionStatus,'approved');
  await page.getByRole('button',{name:'Préparer une séance',exact:true}).click();
  await page.getByLabel('Titre de la séance',{exact:true}).fill('La piste du port');
  await page.getByLabel('Préparation privée du MJ',{exact:true}).fill('SECRET DU PORT');
@@ -84,6 +100,16 @@ try{
  await page.getByLabel('Rechercher une référence',{exact:true}).fill('Loup');
  await page.getByRole('button',{name:'Ajouter Loup sombre',exact:true}).click();
  await page.getByLabel('Quantité',{exact:true}).nth(1).fill('3');
+ await page.getByRole('button',{name:'Un PNJ',exact:true}).click();
+ await page.getByLabel('Rechercher une référence',{exact:true}).fill('');
+ await page.getByRole('button',{name:'Mes favoris',exact:true}).click();
+ await page.getByRole('button',{name:'Ajouter Contact favori',exact:true}).click();
+ await page.getByRole('button',{name:'Préparer : Enquête',exact:true}).click();
+ assert.match(await page.getByLabel('Notes de la scène',{exact:true}).nth(1).inputValue(),/Indices accessibles/);
+ await page.getByRole('button',{name:'Ajouter une référence',exact:true}).last().click();
+ await page.getByRole('button',{name:'Déjà dans la préparation',exact:true}).last().click();
+ await page.getByRole('button',{name:'Ajouter Contact favori',exact:true}).last().click();
+
  for(const width of [1440,390,320]){await page.setViewportSize({width,height:1000});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'Preparation layout '+width);}
  await page.getByRole('button',{name:'Enregistrer la séance',exact:true}).click();
  await page.getByText('Séance enregistrée.',{exact:true}).waitFor();
@@ -95,7 +121,7 @@ try{
  await page.getByRole('button',{name:'Confirmer l’attribution',exact:true}).click();
  await page.getByText('Récompenses ajoutées aux fiches et à leur historique.',{exact:true}).waitFor();
  assert.equal(session.rewards[0].xp,5);
- assert.equal(session.scenes[0].references.length,2);assert.equal(session.scenes[0].references[1].quantity,3);
+ assert.equal(session.scenes[0].references.length,3);assert.equal(session.scenes[1].references[0].articleId,'pnj-favori');assert.equal(session.scenes[0].references[1].quantity,3);
  await page.getByRole('button',{name:'Argent et corruption',exact:true}).click();
  await page.getByLabel('Personnage concerné',{exact:true}).selectOption(chid);
  await page.getByLabel('Argent à verser ($)',{exact:true}).fill('250');
@@ -125,5 +151,5 @@ try{
  await page.getByText('Campagne archivée.',{exact:true}).waitFor();
  assert.equal(await page.getByRole('heading',{name:'Inviter un joueur'}).count(),0);
  assert.deepEqual(errors,[]);
- console.log('CAMPAIGNS UI OK — create, invite, player consent, sheet link, private notes, version conflict retains draft, private scenes, NPC and bestiary references, money/corruption preview, stale effect protection, archive and 1440/390/320px reflow');
+ console.log('CAMPAIGNS UI OK — create, invite, player consent, sheet link, private notes, version conflict retains draft, admissions with requested changes and approval, guided search, favorites and reusable scenes, private scenes, NPC and bestiary references, money/corruption preview, stale effect protection, archive and 1440/390/320px reflow');
 }finally{await browser.close();}

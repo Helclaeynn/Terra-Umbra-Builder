@@ -36,6 +36,8 @@ export type CharacterDataV2 = {
 };
 
 export type Character = {
+  campaignId?:string|null;
+  campaignName?:string|null;
   id: string;
   name: string;
   data: CharacterDataV2;
