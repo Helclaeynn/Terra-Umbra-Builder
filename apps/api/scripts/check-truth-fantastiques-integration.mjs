@@ -89,11 +89,16 @@ assert.ok(
 );
 
 const mjOnlyIds = new Set([
-  "personnages-verite-fantastiques-theoderid",
   "personnages-verite-fantastiques-fredegonda",
-  "personnages-verite-fantastiques-lidira",
-  "personnages-verite-fantastiques-tharlal-rark"
+  "personnages-verite-fantastiques-lidira"
 ]);
+// Approved civilian profiles expose Reality identities while Truth remains restricted.
+for (const [id,title] of [["personnages-verite-fantastiques-theoderid","Theoderid"],["personnages-verite-fantastiques-tharlal-rark","Thor"]]) {
+  const article=COMPENDIUM_VERITE_FANTASTIQUES_PNJ_ARTICLES.find(item=>item.id===id);
+  assert.equal(article?.title,title);
+  assert.ok(article?.sections?.some(section=>section.id==="identite-realite"&&section.audience!=="mj"),`${id}: public Reality identity required`);
+  assert.equal(article?.sections?.find(section=>section.id==="informations-mj")?.audience,"mj",`${id}: Truth must remain private`);
+}
 for (const article of COMPENDIUM_VERITE_FANTASTIQUES_PNJ_ARTICLES) {
   assert.equal(article.audience === "mj", mjOnlyIds.has(article.id), `${article.id}: wrong article audience`);
   const profile = article.sections?.find((section) => section.id === "profil");
