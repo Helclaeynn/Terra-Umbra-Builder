@@ -87,6 +87,7 @@ jobs:
         run: |
           node scripts/check-password-hashing.mjs
           node scripts/check-auth-password-routes.mjs
+          node scripts/check-auth-response-lifecycle.mjs
           node scripts/check-gm-access.mjs
 
       - name: Check retired Compendium archives

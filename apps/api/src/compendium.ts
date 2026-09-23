@@ -500,7 +500,7 @@ async function requireEditor(request: any, reply: FastifyReply) {
   const user = await requireUser(request, reply);
   if (!user) return null;
   if (!isEditorRole(user.role)) {
-    reply.code(403).send({ error: "editor_required" });
+    await reply.code(403).send({ error: "editor_required" });
     return null;
   }
   return user;

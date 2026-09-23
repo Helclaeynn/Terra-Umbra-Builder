@@ -281,7 +281,8 @@ export async function requireUser(
 ): Promise<PublicUser | null> {
   const user = await currentUser(request);
   if (!user) {
-    reply.code(401).send({ error: "authentication_required" });
+    // Keep the authorization helper pending until asynchronous response hooks finish.
+    await reply.code(401).send({ error: "authentication_required" });
     return null;
   }
 
@@ -296,7 +297,7 @@ export async function requireAdmin(
   if (!user) return null;
 
   if (user.role !== "admin") {
-    reply.code(403).send({ error: "admin_required" });
+    await reply.code(403).send({ error: "admin_required" });
     return null;
   }
 
