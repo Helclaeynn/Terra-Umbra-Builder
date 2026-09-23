@@ -1,4 +1,5 @@
 import type { FastifyInstance, FastifyReply } from "fastify";
+import { registerCharacterHistoryRoutes } from "./character-history.js";
 import { pool } from "./db.js";
 import { registerCharacterJournalRoutes } from "./character-journal.js";
 import { registerCharacterSheetRoutes } from "./character-sheets.js";
@@ -78,6 +79,7 @@ async function insertCharacter(
 }
 
 export async function registerCharacterRoutes(app: FastifyInstance) {
+  await registerCharacterHistoryRoutes(app);
   await registerCharacterSheetRoutes(app);
   await registerCharacterJournalRoutes(app);
   app.get<{Querystring:{summary?:string}}>("/api/characters", async (request, reply) => {
