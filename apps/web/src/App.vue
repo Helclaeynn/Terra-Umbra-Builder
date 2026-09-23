@@ -2,6 +2,7 @@
 import { computed, onMounted, onUnmounted, ref } from "vue";
 import { RouterLink } from "vue-router";
 import CharactersPanel from "./components/CharactersPanel.vue";
+import AccountLastReading from "./components/AccountLastReading.vue";
 import TerraUmbraBrand from "./components/TerraUmbraBrand.vue";
 
 type Role = "player" | "gm" | "editor" | "admin";
@@ -809,31 +810,7 @@ onUnmounted(() => window.removeEventListener("focus", refreshAccess));
           </RouterLink>
         </section>
 
-        <section v-if="!isAdmin" class="panel gm-access-panel" aria-labelledby="gm-access-title" :aria-busy="gmBusy || gmLoading">
-          <div class="section-heading">
-            <div><p class="eyebrow">MENER UNE PARTIE</p><h2 id="gm-access-title">Accès Maître du Jeu</h2></div>
-            <button class="ghost compact" type="button" :disabled="gmBusy || gmLoading" @click="refreshAccess">Actualiser</button>
-          </div>
-          <p>Le rôle MJ ouvre <strong>l’accès aux secrets de l’univers et aux outils MJ</strong>. Il révèle les informations confidentielles du Compendium : demande-le si tu souhaites mener des parties.</p>
-          <p class="muted">Les outils MJ seront enrichis au fil des prochaines mises à jour.</p>
-          <p v-if="gmError" class="gm-feedback error" role="alert">{{ gmError }}</p>
-          <p v-if="gmMessage" class="gm-feedback" role="status">{{ gmMessage }}</p>
-          <p v-if="user.role !== 'player'" class="gm-state">Ton rôle {{ roleLabels[user.role] }} te donne déjà l’accès MJ.</p>
-          <p v-else-if="gmLoading" role="status">Chargement du statut…</p>
-          <template v-else-if="gmLoaded">
-            <div v-if="gmRequest?.status === 'pending'" class="gm-state" role="status">
-              <strong>En attente de validation</strong>
-              <p>Demande envoyée le {{ formatDate(gmRequest.createdAt) }}. Tu conserves ton accès joueur jusqu’à la décision d’un administrateur.</p>
-            </div>
-            <form v-else @submit.prevent="submitGmRequest">
-              <p v-if="gmRequest?.status === 'rejected'" class="gm-state">Ta demande a été refusée le {{ formatDate(gmRequest.decidedAt) }}. Tu peux contacter un administrateur ou envoyer une nouvelle demande.</p>
-              <p v-else-if="gmRequest?.status === 'approved'" class="gm-state">Ton compte ne dispose plus du rôle MJ. Tu peux demander une nouvelle autorisation.</p>
-              <label for="gm-comment">Un mot pour l’administrateur <span class="muted">(facultatif, 1 000 caractères maximum)</span></label>
-              <textarea id="gm-comment" v-model="gmComment" rows="3" maxlength="1000" placeholder="Par exemple, la partie que tu souhaites mener…" :disabled="gmBusy"></textarea>
-              <button type="submit" :disabled="gmBusy">{{ gmBusy ? 'Envoi…' : 'Demander l’accès MJ' }}</button>
-            </form>
-          </template>
-        </section>
+        <AccountLastReading :key="`${user.id}:${user.role}`" :user-id="user.id" />
 
         <section class="account-grid" aria-label="Personnages et préférences">
           <CharactersPanel />
@@ -900,6 +877,31 @@ onUnmounted(() => window.removeEventListener("focus", refreshAccess));
                 </button>
               </form>
             </div>
+            <section v-if="!isAdmin" class="gm-access-panel account-gm-settings" aria-labelledby="gm-access-title" :aria-busy="gmBusy || gmLoading">
+              <div class="section-heading">
+                <div><p class="eyebrow">MENER UNE PARTIE</p><h3 id="gm-access-title">Accès Maître du Jeu</h3></div>
+                <button class="ghost compact" type="button" :disabled="gmBusy || gmLoading" @click="refreshAccess">Actualiser</button>
+              </div>
+              <p>Le rôle MJ ouvre <strong>l’accès aux secrets de l’univers et aux outils MJ</strong>. Il révèle les informations confidentielles du Compendium : demande-le si tu souhaites mener des parties.</p>
+              <p class="muted">Les outils MJ seront enrichis au fil des prochaines mises à jour.</p>
+              <p v-if="gmError" class="gm-feedback error" role="alert">{{ gmError }}</p>
+              <p v-if="gmMessage" class="gm-feedback" role="status">{{ gmMessage }}</p>
+              <p v-if="user.role !== 'player'" class="gm-state">Ton rôle {{ roleLabels[user.role] }} te donne déjà l’accès MJ.</p>
+              <p v-else-if="gmLoading" role="status">Chargement du statut…</p>
+              <template v-else-if="gmLoaded">
+                <div v-if="gmRequest?.status === 'pending'" class="gm-state" role="status">
+                  <strong>En attente de validation</strong>
+                  <p>Demande envoyée le {{ formatDate(gmRequest.createdAt) }}. Tu conserves ton accès joueur jusqu’à la décision d’un administrateur.</p>
+                </div>
+                <form v-else @submit.prevent="submitGmRequest">
+                  <p v-if="gmRequest?.status === 'rejected'" class="gm-state">Ta demande a été refusée le {{ formatDate(gmRequest.decidedAt) }}. Tu peux contacter un administrateur ou envoyer une nouvelle demande.</p>
+                  <p v-else-if="gmRequest?.status === 'approved'" class="gm-state">Ton compte ne dispose plus du rôle MJ. Tu peux demander une nouvelle autorisation.</p>
+                  <label for="gm-comment">Un mot pour l’administrateur <span class="muted">(facultatif, 1 000 caractères maximum)</span></label>
+                  <textarea id="gm-comment" v-model="gmComment" rows="3" maxlength="1000" placeholder="Par exemple, la partie que tu souhaites mener…" :disabled="gmBusy"></textarea>
+                  <button type="submit" :disabled="gmBusy">{{ gmBusy ? 'Envoi…' : 'Demander l’accès MJ' }}</button>
+                </form>
+              </template>
+            </section>
           </article>
         </section>
 
@@ -1128,6 +1130,8 @@ onUnmounted(() => window.removeEventListener("focus", refreshAccess));
 .gm-access-panel textarea { width: 100%; box-sizing: border-box; resize: vertical; min-height: 88px; padding: 12px; color: #e6f0fb; background: #091522; border: 1px solid #36536a; border-radius: 6px; font: inherit; }
 .gm-access-panel button { min-height: 44px; }
 .gm-access-panel form button { justify-self: start; }
+.account-gm-settings { margin: 28px 0 0; padding: 24px 0 0; border-top: 1px solid #304458; }
+.account-gm-settings h3 { margin: 0; font-size: 19px; }
 .gm-state { padding: 16px 20px; border-left: 3px solid #80dded; background: #122638; }
 .gm-state p { margin-bottom: 0; }
 .gm-notification { color: #a4edff; border: 1px solid #3d6580; border-radius: 5px; padding: 8px 12px; text-decoration: none; }

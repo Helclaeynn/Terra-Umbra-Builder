@@ -56,6 +56,7 @@ async function mount(role = 'player', initial = null) {
     if (url === '/api/health') body = { status: 'ok' };
     else if (url === '/api/auth/setup-status') body = { setupRequired: false };
     else if (url === '/api/auth/capabilities') body = { passwordResetAvailable: true };
+    else if (url === '/api/compendium/library') body = { recentItems: [] };
     else if (url === '/api/auth/me') body = { user: { id: role, role: state.role, displayName: 'Test', email: 'test@example.invalid' } };
     else if (url === '/api/auth/gm-request' && method === 'GET') {
       if (state.failLoad) { status = 500; body = {}; } else body = { request: state.request };
@@ -78,6 +79,7 @@ async function mount(role = 'player', initial = null) {
 
 const player = await mount();
 assert.match(player.panel().textContent, /secrets de l’univers et aux outils MJ/);
+assert.ok(player.w.document.querySelector('.account-settings-grid').compareDocumentPosition(player.panel()) & player.w.Node.DOCUMENT_POSITION_FOLLOWING, 'MJ request follows account settings');
 const textarea = player.panel().querySelector('textarea');
 textarea.value = 'Je prépare une campagne'; textarea.dispatchEvent(new player.w.Event('input', { bubbles: true }));
 player.panel().querySelector('form').dispatchEvent(new player.w.Event('submit', { bubbles: true, cancelable: true }));

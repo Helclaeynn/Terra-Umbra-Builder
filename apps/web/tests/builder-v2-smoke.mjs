@@ -462,8 +462,17 @@ for(const removedLabel of ["Réseaux","Statuts","Patrimoine","Dettes"]){
 
 await page.locator(".builder-nav").getByRole("button",{name:/Finalisation/}).click();
 await page.getByRole("heading",{name:"Contrôle final de la fiche"}).waitFor();
-await page.getByRole("heading",{name:"Dérivés"}).waitFor();
-await page.locator(".derived-compact span").filter({hasText:"PV"}).first().waitFor({state:"visible",timeout:5000});
+await page.locator('.character-sheet[data-mode="creation"] [data-stat="pvMax"] strong').waitFor();
+const creationPv = Number(await page.locator('[data-stat="pvMax"] strong').innerText());
+for (const width of [1440,390]) {
+  await page.setViewportSize({width,height:1000});
+  await assertBuilderReflow(`Fiche création, ${width}px`);
+}
+await page.setViewportSize({width:1440,height:1000});
+await page.getByRole('button',{name:'Fiche du personnage',exact:true}).click();
+await page.locator('.character-sheet[data-mode="creation"]').waitFor();
+await page.getByRole('button',{name:'Revenir à la création',exact:true}).click();
+await page.getByRole('heading',{name:'Contrôle final de la fiche'}).waitFor();
 
 if(await page.locator(".builder-nav").getByRole("button",{name:/Dépense XP & PTV/}).count()){
   throw new Error("La progression ne doit plus être une étape du Builder de création.");
@@ -504,12 +513,35 @@ if(await page.locator(".builder-nav").count()){
 }
 await page.getByRole("button",{name:/Normale.*\+3 XP/}).click();
 await page.getByText("3",{exact:true}).first().waitFor();
+await page.getByRole('button',{name:'Consulter la fiche complète',exact:true}).click();
+await page.locator('.character-sheet[data-mode="campaign"]').waitFor();
+if (Number(await page.locator('[data-stat="pvMax"] strong').innerText()) !== creationPv) throw new Error('La consultation modifie les PV sans achat de progression');
+await page.locator('.sheet-resources dl>div').filter({hasText:'XP disponibles'}).getByText('3',{exact:true}).waitFor();
+for (const width of [1440,390]) {
+  await page.setViewportSize({width,height:1000});
+  await assertBuilderReflow(`Fiche campagne, ${width}px`);
+}
+await page.setViewportSize({width:1440,height:1000});
+await page.getByRole('button',{name:'Revenir à la progression',exact:true}).click();
+await page.getByRole('heading',{name:'Progression de campagne'}).waitFor();
 
+// A real campaign purchase must update the shared sheet without changing creation data.
+const xpInput = page.getByLabel('XP reçus depuis la création',{exact:true});
+await xpInput.fill('100'); await xpInput.blur();
+await page.locator('summary').filter({hasText:'Augmenter les Attributs'}).click();
+const vigorCard = page.locator('.progress-grid article').filter({has:page.locator('.card-head strong').filter({hasText:/^Vigueur$/})});
+await vigorCard.getByRole('button',{name:/Passer à/}).click();
+await page.getByRole('button',{name:'Consulter la fiche complète',exact:true}).click();
+await page.locator('.character-sheet[data-mode="campaign"]').waitFor();
+if (Number(await page.locator('[data-stat="pvMax"] strong').innerText()) !== creationPv+2) throw new Error('Les gains de Vigueur ne mettent pas à jour les PV de campagne');
+await page.getByRole('button',{name:'Revenir à la progression',exact:true}).click();
 const saveButton=page.getByRole("button",{name:/Enregistrer/}).first();
 await saveButton.click();
 await page.getByText(/Fiche enregistrée · version 9/).waitFor();
 if(!savedPayload)throw new Error("La sauvegarde versionnée n’a pas été envoyée.");
 if(savedPayload.version!==8)throw new Error("Version optimiste de progression incorrecte.");
+if(savedPayload.data?.progression?.attributeRanks?.vigueur!==1) throw new Error('Gain de Vigueur perdu après consultation de la fiche');
+if(savedPayload.data?.attributes?.vigueur!==characterData.attributes.vigueur) throw new Error('La consultation a modifié la création');
 if(savedPayload.data?.schemaVersion!==2)throw new Error("La sauvegarde n’est pas en schema v2.");
 if(savedPayload.data?.reality?.sphereSupportType!=="vehicle")throw new Error("Appui Corporatiste non persisté.");
 if(savedPayload.data?.reality?.sphereSupportItemId!=="vehicle-smoke")throw new Error("Véhicule de fonction non persisté.");

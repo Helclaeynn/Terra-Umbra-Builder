@@ -13,6 +13,8 @@ import CorruptionPanel from "../components/builder/CorruptionPanel.vue";
 import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
 import EquipmentStep from "../components/builder/EquipmentStep.vue";
 import FinalizationStep from "../components/builder/FinalizationStep.vue";
+import CharacterSummary from "../components/builder/CharacterSummary.vue";
+import { characterDerivedStats, type CharacterSheet, type SheetEntry } from "../lib/character-sheet";
 import ProgressionStep from "../components/builder/ProgressionStep.vue";
 import {
   augmentationAccess,
@@ -31,7 +33,7 @@ import {
   type RealityRulesPackage,
   type RealityState
 } from "../lib/reality";
-import { campaignCash, ensureProgression, type ProgressionState } from "../lib/progression";
+import { campaignCash, ensureProgression, currentAttribute, currentSkillRaw, currentSkillFinal, xpRemaining, ptvRemaining, type ProgressionState } from "../lib/progression";
 import type { Character, CharacterDataV2 } from "../types/character";
 import {
   ensureTruthRulesPackage,
@@ -133,7 +135,7 @@ type EdgeRules={
   lore:Record<string,EdgeLore>;
 };
 
-type StepId="identity"|"origin"|"sphere"|"attributes"|"skills"|"talents"|"truth"|"disadvantages"|"edge"|"equipment"|"finish"|"progression";
+type StepId="identity"|"origin"|"sphere"|"attributes"|"skills"|"talents"|"truth"|"disadvantages"|"edge"|"equipment"|"finish"|"progression"|"sheet";
 type KnowledgeRef={
   key:string;
   label:string;
@@ -168,6 +170,7 @@ const error=ref("");
 const notice=ref("");
 const baseline=ref("");
 const activeStep=ref<StepId>(progressionMode?"progression":"identity");
+const sheetReturnStep=ref<StepId>(progressionMode?"progression":"identity");
 const knowledgeOpen=ref(false);
 const stepNavigationOpen=ref(false);
 const knowledgeTrigger=ref<HTMLButtonElement|null>(null);
@@ -212,12 +215,22 @@ const nextBuilderStep=computed(()=>{
   return null;
 });
 function goToBuilderStep(id:StepId){
+  if(id!=="sheet")sheetReturnStep.value=id;
   activeStep.value=id;
   stepNavigationOpen.value=false;
   requestAnimationFrame(()=>{
     const reduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     document.querySelector<HTMLElement>(".builder-main")?.scrollIntoView({block:"start",behavior:reduceMotion?"auto":"smooth"});
   });
+}
+
+async function toggleCharacterSheet(){
+  const opening=activeStep.value!=="sheet";
+  goToBuilderStep(opening?"sheet":sheetReturnStep.value);
+  await nextTick();
+  const target=document.querySelector<HTMLElement>(opening?".character-sheet h2":".sheet-toggle");
+  if(opening)target?.setAttribute("tabindex","-1");
+  target?.focus({preventScroll:true});
 }
 
 const edgeOptionUi=[
@@ -693,38 +706,7 @@ function finalAttribute(id:string){
   return Number(draft.value.attributes[id]||0)+Number(draft.value.edgeAttributes[id]||0)+truthBonus;
 }
 
-const derivedStats=computed(()=>{
-  const vigor=finalAttribute("vigueur");
-  const agility=finalAttribute("agilite");
-  const will=finalAttribute("volonte");
-  const constitution=skillFinal("constitution");
-  const athletics=skillFinal("athletisme");
-  const dodge=skillFinal("esquive");
-  const fortitude=skillFinal("force_mentale");
-  const humanity=skillFinal("humanite");
-  const meleeSkill=skillFinal("melee");
-  const pugilatSkill=skillFinal("pugilat");
-  const shootingSkill=skillFinal("tir");
-  const neuro=skillFinal("neurodive");
-  const integrity=Math.max(
-    1,
-    fortitude+humanity-(draft.value?.disadvantages.includes("integrite_defaillante")?2:0)
-  );
-  return {
-    pvMax:2*vigor+constitution,
-    death:-(vigor+constitution),
-    initiative:agility+athletics-(draft.value?.disadvantages.includes("lent_a_reagir")?2:0),
-    passiveDefense:agility+dodge,
-    occultDefense:will+fortitude,
-    movement:5+athletics,
-    integrity,
-    augmentStressMax:vigor+humanity,
-    melee:vigor+meleeSkill,
-    pugilat:vigor+pugilatSkill,
-    shooting:agility+shootingSkill,
-    neurodive:will+neuro
-  };
-});
+const derivedStats=computed(()=>characterDerivedStats(finalAttribute,skillFinal,draft.value?.disadvantages??[]));
 
 const realityState=computed<RealityState|null>(()=>
   draft.value ? draft.value.reality as unknown as RealityState : null
@@ -940,22 +922,6 @@ const finalValidationStatuses=computed(()=>
   })
 );
 
-const finalAttributeRows=computed(()=>
-  (rules.value?.attributes??[]).map(attribute=>({
-    id:attribute.id,
-    name:attribute.name,
-    value:finalAttribute(attribute.id)
-  }))
-);
-const finalSkillRows=computed(()=>
-  (rules.value?.skills??[]).map(skill=>({
-    id:skill.id,
-    name:skill.name,
-    raw:skillRaw(skill.id),
-    bonus:skillTalentBonus(skill.id),
-    value:skillFinal(skill.id)
-  }))
-);
 const progressionSkillBases=computed(()=>Object.fromEntries(
   (rules.value?.skills??[]).map(skill=>[skill.id,skillRaw(skill.id)])
 ));
@@ -965,13 +931,6 @@ const progressionSkillFinalBases=computed(()=>Object.fromEntries(
 const progressionAttributeBases=computed(()=>Object.fromEntries(
   (rules.value?.attributes??[]).map(attribute=>[attribute.id,finalAttribute(attribute.id)])
 ));
-const selectedRealityTalentNames=computed(()=>
-  selectedRealityTalentIds()
-    .map(id=>talentById(id)?.name??id)
-);
-const selectedDisadvantageNames=computed(()=>
-  selectedDisadvantageItems().map(item=>item.name)
-);
 const truthNatureName=computed(()=>
   currentTruthState.value&&truthRules.value
     ? truthRules.value.structure.natures[currentTruthState.value.nature]?.name??currentTruthState.value.nature
@@ -982,25 +941,12 @@ const truthConsciousnessName=computed(()=>
     ? truthRules.value.structure.consciousness.find(item=>item.id===currentTruthState.value?.consciousness)?.name??currentTruthState.value.consciousness
     : ""
 );
-const selectedTruthTalentNames=computed(()=>{
-  if(!currentTruthState.value)return [];
-  const nativeById=new Map(availableTruthTalents.value.map(item=>[item.id,item.name]));
-  const corruptionById=new Map((truthRules.value?.corruption.talents??[]).map(item=>[item.id,item.name]));
-  return [
-    ...currentTruthState.value.truthTalents.map(id=>nativeById.get(id)??id),
-    ...currentTruthState.value.corruptionTalents.map(id=>corruptionById.get(id)??id)
-  ];
-});
 const originNameValue=computed(()=>draft.value&&rules.value
   ? rules.value.origins[draft.value.creation.origin]?.name??""
   : ""
 );
 const sphereNameValue=computed(()=>selectedSphere.value?.name??"");
 const styleNameValue=computed(()=>selectedStyle.value?.name??"");
-const equipmentCount=computed(()=>
-  (realityState.value?.equipment.length??0)+(currentTruthState.value?.truthEquipment.length??0)
-);
-const augmentationCount=computed(()=>realityState.value?.augmentations.length??0);
 const renownScore=computed(()=>{
   if(!draft.value)return 0;
   if(hasUnknownDisadvantage.value)return 0;
@@ -1011,6 +957,61 @@ const campaignCashValue=computed(()=>{
   if(!draft.value)return 0;
   const progression=draft.value.progression as unknown as ProgressionState;
   return campaignCash(progression,Math.max(0,realityEconomyValue.value?.account||0));
+});
+
+const characterSheet=computed<CharacterSheet|null>(()=>{
+  if(!draft.value||!rules.value||!truthRules.value||!realityRules.value||!currentTruthState.value)return null;
+  const data=draft.value, creation=rules.value, truth=truthRules.value, state=currentTruthState.value;
+  const progress=data.progression as unknown as ProgressionState;
+  const campaign=progressionMode;
+  const attribute=(id:string)=>campaign?currentAttribute(progress,progressionAttributeBases.value,id):finalAttribute(id);
+  const rawSkill=(id:string)=>campaign?currentSkillRaw(progress,progressionSkillBases.value,id):skillRaw(id);
+  const skill=(id:string)=>campaign?currentSkillFinal(progress,progressionSkillBases.value,progressionSkillFinalBases.value,skillTalentMap.value,id):skillFinal(id);
+  const realityIds=[...new Set([...selectedRealityTalentIds(),...(campaign?progress.realityTalents:[])])];
+  const truthState={...state,truthTalents:[...new Set([...state.truthTalents,...(campaign?progress.truthTalents:[])])]};
+  const truthMap=new Map(Object.values(truth.catalogs).flat().map(item=>[item.id,item]));
+  for(const item of truthAvailableTalents(truth,truthState))truthMap.set(item.id,item);
+  const corruptionMap=new Map(truth.corruption.talents.map(item=>[item.id,item]));
+  const truthCost=(id:string)=>Number(truthMap.get(id)?.cost??0);
+  const toRealityTalent=(id:string):SheetEntry=>{
+    const talent=talentById(id);
+    const choice=talentChoiceValue(id);
+    return {id,name:talent?.name??id,compendiumId:talent?.compendiumId,detail:talent?.effect,group:choice?`Choix : ${creation.skills.find(item=>item.id===choice)?.name??choice}`:undefined};
+  };
+  const inventory:SheetEntry[]=[];
+  for(const purchase of [...(realityState.value?.equipment??[]),...(realityState.value?.augmentations??[])]){
+    if(!campaign&&purchase.acquiredInCampaign)continue;
+    const item=realityItems.value.get(purchase.itemId);
+    inventory.push({id:purchase.uid,name:item?.name??purchase.itemId,detail:item?.effect,compendiumId:item?.compendiumId,
+      group:[purchase.kind==="augmentation"?"Augmentation":"Équipement",purchase.sphereSupport?"Appui de Sphère":"",purchase.loaded?"Chargé":""].filter(Boolean).join(" · ")});
+  }
+  for(const id of state.truthEquipment){
+    const item=truth.equipment.find(item=>item.id===id);
+    inventory.push({id:`truth-${id}`,name:item?.name??id,detail:item?.lore,compendiumId:item?.compendiumId,group:"Objet de Vérité"});
+  }
+  const strings=(value:unknown)=>Array.isArray(value)?value.filter((item):item is string=>typeof item==="string"&&Boolean(item.trim())):[];
+  return {
+    mode:campaign?"campaign":"creation",name:identityDisplayName.value,identity:data.identity,
+    origin:originNameValue.value,sphere:sphereNameValue.value,style:styleNameValue.value,
+    lifestyle:lifestylePressureValue.value?.effective??lifestyleBaseValue.value,lifestyleBase:lifestyleBaseValue.value,renown:renownScore.value,
+    attributes:creation.attributes.map(item=>({...item,value:attribute(item.id),base:finalAttribute(item.id)})),
+    skills:creation.skills.map(item=>({...item,value:skill(item.id),raw:rawSkill(item.id),bonus:skill(item.id)-rawSkill(item.id)})),
+    derived:characterDerivedStats(attribute,skill,data.disadvantages),edge:edgeRemaining.value,
+    xpRemaining:xpRemaining(progress,progressionSkillBases.value,progressionAttributeBases.value),
+    ptvRemaining:campaign?ptvRemaining(progress,Math.max(0,truthPtvRemaining.value),truthCost):truthPtvRemaining.value,
+    account:realityEconomyValue.value?.account??0,cash:campaignCashValue.value,
+    realityTalents:realityIds.map(toRealityTalent),
+    truthTalents:[...truthState.truthTalents.map(id=>({id,name:truthMap.get(id)?.name??id,detail:truthMap.get(id)?.effect,compendiumId:truthMap.get(id)?.compendiumId})),
+      ...state.corruptionTalents.map(id=>{
+        const item=corruptionMap.get(id);
+        const dormant=item?.kind==="DON"&&(!state.corruption||item.sourceId!==state.corruptionSource);
+        return {id,name:item?.name??id,detail:item?.effect,compendiumId:item?.compendiumId,group:[item?.sourceName,dormant?"Dormant":""].filter(Boolean).join(" · ")};
+      })],
+    disadvantages:selectedDisadvantageItems().map(item=>({id:item.id,name:item.name,detail:item.effect,compendiumId:item.compendiumId})),inventory,
+    truthNature:truthNatureName.value,truthConsciousness:truthConsciousnessName.value,corruption:state.corruption,
+    corruptionSource:truth.corruption.sources.find(item=>item.id===state.corruptionSource)?.name??state.corruptionSource,
+    languages:strings(data.social.languages),contacts:strings(data.social.contacts),reputation:String(data.social.reputation??""),renownMilieu:String(data.social.renownMilieu??"")
+  };
 });
 
 const knowledgeRefs=computed<KnowledgeRef[]>(()=>{
@@ -1654,6 +1655,9 @@ onBeforeUnmount(()=>{
 
       <div class="top-actions">
         <span v-if="character" class="api-pill ok">v{{ character.version }}</span>
+        <button class="ghost compact sheet-toggle" type="button" :disabled="!characterSheet" :aria-pressed="activeStep==='sheet'" @click="toggleCharacterSheet">
+          {{ activeStep==='sheet' ? 'Revenir à '+(progressionMode?'la progression':'la création') : 'Fiche du personnage' }}
+        </button>
         <button
           ref="knowledgeTrigger"
           class="ghost compact references-button"
@@ -1784,7 +1788,7 @@ onBeforeUnmount(()=>{
           aria-controls="builder-step-navigation"
           @click="stepNavigationOpen=!stepNavigationOpen"
         >
-          <span>Étape {{ activeStepIndex + 1 }} / {{ sections.length }} · {{ sections[activeStepIndex]?.[1] }}</span>
+          <span v-if="activeStep==='sheet'">Fiche du personnage</span><span v-else>Étape {{ activeStepIndex + 1 }} / {{ sections.length }} · {{ sections[activeStepIndex]?.[1] }}</span>
           <strong>{{ stepNavigationOpen ? "Masquer" : "Changer" }}</strong>
         </button>
         <nav v-if="!progressionMode" id="builder-step-navigation" class="builder-nav" :class="{ 'mobile-open': stepNavigationOpen }" aria-label="Étapes du Builder">
@@ -1810,7 +1814,11 @@ onBeforeUnmount(()=>{
           {{ error || notice }}
         </div>
 
-        <article v-if="activeStep === 'identity'" class="panel builder-card">
+        <article v-if="activeStep === 'sheet' && characterSheet" class="panel builder-card sheet-view">
+          <p class="sheet-save-state">{{ dirty ? 'La fiche reflète tes modifications non enregistrées.' : 'La fiche reflète les données enregistrées.' }}</p>
+          <CharacterSummary :sheet="characterSheet" />
+        </article>
+        <article v-else-if="activeStep === 'identity'" class="panel builder-card">
           <div class="section-heading builder-heading">
             <div>
               <p class="eyebrow">01 · IDENTITÉ</p>
@@ -2897,27 +2905,8 @@ onBeforeUnmount(()=>{
           :required-language-count="requiredLanguageCount"
           :statuses="finalValidationStatuses"
           :valid="stepDone('finish')"
-          :derived="derivedStats"
-          :attributes="finalAttributeRows"
-          :skills="finalSkillRows"
-          :identity-name="identityDisplayName"
-          :origin-name="originNameValue"
-          :sphere-name="sphereNameValue"
-          :style-name="styleNameValue"
-          :reality-talent-names="selectedRealityTalentNames"
-          :disadvantage-names="selectedDisadvantageNames"
-          :truth-nature-name="truthNatureName"
-          :truth-consciousness-name="truthConsciousnessName"
-          :truth-talent-names="selectedTruthTalentNames"
-          :truth-ptv-spent="truthPtvSpentValue"
-          :truth-ptv-initial="truthRules?.structure.ptvInitial || 0"
-          :lifestyle-base="lifestyleBaseValue"
-          :lifestyle-effective="lifestylePressureValue?.effective || lifestyleBaseValue"
-          :account="realityEconomyValue?.account || 0"
+          :sheet="characterSheet"
           :renown-score="renownScore"
-          :campaign-cash="campaignCashValue"
-          :equipment-count="equipmentCount"
-          :augmentation-count="augmentationCount"
           @update:social="draft.social=$event"
           @navigate="navigateFromFinalization"
         />
@@ -2931,8 +2920,12 @@ onBeforeUnmount(()=>{
           <p class="builder-intro">La progression sera disponible dès que les règles Vérité et Réalité auront fini de charger.</p>
         </article>
 
+        <template v-else-if="activeStep === 'progression' && truthRules && realityRules && currentTruthState">
+          <section v-if="characterSheet" class="panel progression-sheet-preview" aria-label="Aperçu de la fiche actuelle">
+            <div><p class="eyebrow">FICHE ACTUELLE</p><h2>{{ characterSheet.name }}</h2><p>PV max. <strong>{{ characterSheet.derived.pvMax }}</strong> · Défense <strong>{{ characterSheet.derived.passiveDefense }}</strong> · Intégrité <strong>{{ characterSheet.derived.integrity }}</strong></p></div>
+            <button type="button" class="ghost" @click="toggleCharacterSheet">Consulter la fiche complète</button>
+          </section>
         <ProgressionStep
-          v-else-if="activeStep === 'progression' && truthRules && realityRules && currentTruthState"
           class="panel builder-card"
           :progression="draft.progression"
           :reality="draft.reality"
@@ -2956,6 +2949,7 @@ onBeforeUnmount(()=>{
           @update:reality="draft.reality=$event"
           @update:truth="writeTruthState($event)"
         />
+        </template>
 
         <article v-else class="panel builder-card">
           <p class="eyebrow">BUILDER V2</p>
@@ -2966,7 +2960,7 @@ onBeforeUnmount(()=>{
           </p>
         </article>
 
-        <nav v-if="!progressionMode" class="builder-step-controls" aria-label="Navigation entre les étapes">
+        <nav v-if="!progressionMode && activeStep!=='sheet'" class="builder-step-controls" aria-label="Navigation entre les étapes">
           <button
             v-if="previousBuilderStep"
             class="ghost"
@@ -2995,6 +2989,11 @@ onBeforeUnmount(()=>{
 <style scoped>
 
 .builder-v2-shell{min-height:100vh}
+.sheet-save-state{margin:0 0 22px;color:#a8bfd2;font-size:13px;line-height:1.6}
+.progression-sheet-preview{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px;margin-bottom:24px;background:linear-gradient(110deg,#142937,#101d30);border-color:#36576d}
+.progression-sheet-preview h2{margin:6px 0;font-size:23px;overflow-wrap:anywhere}.progression-sheet-preview p{margin:0;color:#adc4d7;line-height:1.7}.progression-sheet-preview strong{color:#9ce5f4}.progression-sheet-preview button{min-height:44px}
+@media(max-width:650px){.progression-sheet-preview{align-items:stretch;flex-direction:column;padding:20px}.progression-sheet-preview button{white-space:normal}}
+
 .references-button{display:inline-flex;align-items:center;gap:.4rem}
 .references-button span{display:grid;place-items:center;min-width:1.2rem;height:1.2rem;padding:0 .25rem;border:1px solid rgba(100,222,245,.25);color:#c5ddf3;font-size:.8125rem}
 .knowledge-backdrop{position:fixed;inset:0;z-index:39;border:0;background:rgba(0,0,0,.48);backdrop-filter:blur(2px)}
