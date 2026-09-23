@@ -28,7 +28,9 @@ export async function registerCharacterSheetRoutes(app:FastifyInstance){
       c.updated_at::text AS "updatedAt",c.owner_id=$2 AS "canEdit",u.display_name AS "ownerName"
       FROM characters c JOIN users u ON u.id=c.owner_id
       WHERE c.id=$1 AND c.archived_at IS NULL AND (c.owner_id=$2 OR ($3 AND EXISTS (
-        SELECT 1 FROM character_sheet_readers r WHERE r.character_id=c.id AND r.reader_id=$2)))`,
+        SELECT 1 FROM character_sheet_readers r WHERE r.character_id=c.id AND r.reader_id=$2) OR $3 AND EXISTS (
+        SELECT 1 FROM campaign_members m JOIN campaigns camp ON camp.id=m.campaign_id
+        WHERE m.character_id=c.id AND m.user_id=c.owner_id AND m.status='accepted' AND camp.owner_id=$2 AND camp.archived_at IS NULL)))`,
       [request.params.id,user.id,isGm(user.role)]);
     const row=result.rows[0];
     if(!row)return reply.code(404).send(notFound);

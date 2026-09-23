@@ -777,6 +777,10 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
           </RouterLink>
         </section>
 
+        <RouterLink class="dashboard-portal" to="/campaigns" style="margin-bottom:24px">
+          <div><p class="eyebrow">À VOTRE TABLE</p><h2>Mes campagnes</h2><p>Invitations, groupe et fiches partagées avec ton MJ.</p></div><strong>Retrouver mes tables →</strong>
+        </RouterLink>
+
         <AccountLastReading :key="`${user.id}:${user.role}`" :user-id="user.id" />
 
         <section class="account-grid" aria-label="Personnages et préférences">

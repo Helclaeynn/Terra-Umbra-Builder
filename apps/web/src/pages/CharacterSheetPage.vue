@@ -11,6 +11,7 @@ import type { RealityRulesPackage } from "../lib/reality";
 
 const route=useRoute();
 const id=String(route.params.id);
+const campaignBack=computed(()=>typeof route.query.campaign==='string'&&/^[0-9a-f-]{36}$/i.test(route.query.campaign)?`/campaigns/${route.query.campaign}`:null);
 const endpoint=`/api/characters/${id}`;
 const character=shallowRef<Character|null>(null);
 const core=shallowRef<SheetCore|null>(null), truth=shallowRef<TruthRulesPackage|null>(null), reality=shallowRef<RealityRulesPackage|null>(null);
@@ -129,6 +130,7 @@ onUnmounted(()=>{++generation;controller?.abort();resetSearch();window.removeEve
   <div class="standalone-sheet-page">
     <a class="skip-link" href="#sheet-main">Aller à la fiche</a>
     <header class="sheet-topbar"><RouterLink to="/" aria-label="Terra Umbra — accueil"><TerraUmbraBrand /></RouterLink><RouterLink class="ghost" to="/account">Mon espace</RouterLink></header>
+    <RouterLink v-if="campaignBack" class="campaign-back" :to="campaignBack">← Retour au groupe</RouterLink>
     <main id="sheet-main" class="standalone-sheet-main" tabindex="-1" :aria-busy="loading">
       <div class="sheet-toolbar"><div><p class="eyebrow">CONSULTATION · LECTURE SEULE</p><h1>Fiche actuelle</h1></div><button class="ghost" :disabled="loading" @click="load">Actualiser</button></div>
       <p v-if="loading" role="status">Chargement de la fiche actuelle…</p>
@@ -165,6 +167,8 @@ onUnmounted(()=>{++generation;controller?.abort();resetSearch();window.removeEve
 </template>
 
 <style scoped>
+.campaign-back{display:inline-block;margin:20px 32px 0;padding:12px 16px;color:#a3e9fa;border:1px solid #355267;border-radius:6px;text-decoration:none;min-height:44px}
+
 .standalone-sheet-page{min-height:100vh;background:#080f18;color:#e6eef8}.sheet-topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:16px clamp(16px,3vw,48px);border-bottom:1px solid #284255}.standalone-sheet-main{max-width:1380px;margin:auto;padding:clamp(16px,3vw,40px)}.sheet-toolbar{display:flex;justify-content:space-between;align-items:center;gap:1rem}.sheet-toolbar h1{font-size:clamp(26px,4vw,38px);margin:8px 0}.sheet-version{color:#adc2d4;font-size:14px}.sheet-jumps{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.sheet-jumps a{padding:12px 16px;border:1px solid #355267;border-radius:6px;color:#a3e9fa;text-decoration:none}.sheet-sharing{margin-top:28px}.sheet-sharing summary{min-height:44px;cursor:pointer;font-weight:600}.sheet-sharing form{display:flex;align-items:end;gap:12px;flex-wrap:wrap}.sheet-sharing label{flex:1;min-width:200px}.sheet-sharing input{width:100%;margin-top:8px}.sheet-sharing p{line-height:1.65}.sheet-readers{list-style:none;padding:0}.sheet-readers li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0;border-bottom:1px solid #284255}.sheet-readers small{display:block;overflow-wrap:anywhere;margin-top:5px}.sheet-topbar .ghost,.sheet-toolbar button,.sheet-readers button{min-height:44px}@media(max-width:600px){.sheet-readers li{align-items:start;flex-direction:column}.sheet-sharing form button{width:100%}.sheet-jumps a{flex:1;text-align:center;font-size:14px}.sheet-sharing{padding:18px}}
 .sheet-sharing .reader-search{display:block}.reader-search label{display:block}.reader-search>button{margin-top:12px;min-height:44px}.reader-results{list-style:none;padding:0;display:grid;gap:8px;max-height:320px;overflow:auto}.reader-option{display:grid;gap:6px;width:100%;text-align:left;min-height:58px;background:#102033;border:1px solid #355267;color:#e6eef8;padding:12px;border-radius:6px;overflow-wrap:anywhere;white-space:normal}.reader-option.selected{border-color:#9ce5f4;background:#173547}.reader-option small{color:#adc2d4}.reader-option:disabled{opacity:.65}.search-hint{font-size:14px}
 </style>
