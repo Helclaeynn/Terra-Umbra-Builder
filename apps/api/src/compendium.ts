@@ -318,6 +318,7 @@ import { consolidateActivePnjSections } from "./compendium-pnj-consolidation.js"
 import { applyCompendiumPnjStatProfiles, COMPENDIUM_PNJ_TALENTS_NAVIGATION } from "./compendium-pnj-stat-profiles.js";
 import { applyCorporatePnjStats } from "./compendium-pnj-corporate-stats.js";
 import { applyInstitutionPnjStats } from "./compendium-pnj-institutions-stats.js";
+import { applyCrawlerStatBatch01 } from "./compendium-pnj-crawlers-stats-01.js";
 
 type JsonObject = Record<string, any>;
 export type Article = JsonObject & {
@@ -3344,6 +3345,7 @@ async function loadCorpus(): Promise<Corpus> {
   applyCompendiumPnjStatProfiles(byId);
   applyCorporatePnjStats(byId);
   applyInstitutionPnjStats(byId);
+  applyCrawlerStatBatch01(byId);
 
   const navigation = new Map(
     [
