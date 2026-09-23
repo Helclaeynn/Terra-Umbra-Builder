@@ -98,6 +98,7 @@ try {
     const errors = [];
     const unhandled = [];
     let role = "public";
+    let gmRequest = null;
     const fixtureUser = userRole => ({
       id: "ui-audit-" + userRole,
       email: "alexandra.archiviste.grande.californie@example.test",
@@ -120,6 +121,18 @@ try {
       if (path === "/api/auth/me") return role === "public"
         ? send({ error: "authentication_required" }, 401) : send({ user: fixtureUser(role) });
       if (path === "/api/auth/login") return send({ error: "invalid_credentials" }, 401);
+      if (path === "/api/auth/gm-request" && method === "GET") return send({ request: gmRequest });
+      if (path === "/api/auth/gm-request" && method === "POST") {
+        gmRequest = { id: "gm-request-fixture", userId: "ui-audit-player", status: "pending",
+          comment: request.postDataJSON().comment, createdAt: timestamp, decidedAt: null };
+        return send({ request: gmRequest }, 201);
+      }
+      if (path === "/api/admin/gm-requests") return send({ requests: gmRequest?.status === "pending"
+        ? [{ ...fixtureUser("player"), ...gmRequest }] : [] });
+      if (path === "/api/admin/gm-requests/gm-request-fixture/decision" && method === "POST") {
+        gmRequest = { ...gmRequest, status: request.postDataJSON().decision, decidedAt: timestamp };
+        return send({ request: gmRequest });
+      }
       if (path === "/api/characters") return send({ characters: [character] });
       if (path === `/api/characters/${characterId}/revisions`) return send({ revisions: [
         { revision: 3, name: character.name, reason: "saved", createdAt: timestamp },
@@ -167,6 +180,16 @@ try {
     assert.equal(await page.getByRole("heading", { name: "Gestion des comptes", exact: true }).count(), 0,
       "Les outils administrateur ne doivent pas être proposés au Joueur.");
     await assertLayout(page, `Compte Joueur et fiche longue ${width}`);
+    const gmPanel = page.locator(".gm-access-panel");
+    await page.getByRole("button", { name: "Demander l’accès MJ", exact: true }).waitFor();
+    assert.ok((await gmPanel.innerText()).includes("l’accès aux secrets de l’univers et aux outils MJ"));
+    await page.locator("#gm-comment").fill("Je souhaite mener une campagne pour notre groupe de joueurs.");
+    await assertKeyboardFocus(page, page.locator("#gm-comment"));
+    await assertLayout(page, `Demande MJ ${width}`);
+    await page.getByRole("button", { name: "Demander l’accès MJ", exact: true }).click();
+    await page.getByText("En attente de validation", { exact: true }).waitFor();
+    assert.equal(await page.locator("#gm-comment").count(), 0, "Pas de nouvelle demande pendant l’attente.");
+    await assertLayout(page, `Demande MJ en attente ${width}`);
     await assertKeyboardFocus(page, page.getByLabel("Nom affiché", { exact: true }));
     assert.ok((await page.getByRole("link", { name: "Ouvrir le Builder", exact: true }).getAttribute("href"))
       ?.endsWith(`/characters/${characterId}/builder`), "Le Builder doit ouvrir la fiche sélectionnée.");
@@ -176,6 +199,17 @@ try {
     await page.getByRole("heading", { name: "Gestion des comptes", exact: true }).waitFor();
     await page.getByRole("heading", { name: "Journal administrateur", exact: true }).waitFor();
     await assertLayout(page, `Compte Administrateur ${width}`);
+    await page.getByRole("link", { name: "1 demande MJ en attente ↓", exact: true }).waitFor();
+    const approve = page.getByRole("button", { name: "Accepter la demande MJ de Alexandra des Archives de Grande Californie", exact: true });
+    await approve.waitFor();
+    for (const button of await page.locator(".gm-request-actions button").all()) {
+      assert.ok((await button.boundingBox()).height >= 44, "Les décisions MJ doivent garder une cible tactile de 44 px.");
+    }
+    await assertLayout(page, `Validation MJ ${width}`);
+    page.once("dialog", dialog => dialog.accept());
+    await approve.click();
+    await page.getByText("Aucune demande en attente.", { exact: true }).waitFor();
+    await page.getByRole("link", { name: "0 demande MJ en attente ↓", exact: true }).waitFor();
     // A client-side transition also exercises the shared stylesheet cascade.
     await page.getByRole("link", { name: "Contrôle qualité", exact: true }).click();
     await page.getByRole("heading", { name: "Recette du Compendium", exact: true }).waitFor();
