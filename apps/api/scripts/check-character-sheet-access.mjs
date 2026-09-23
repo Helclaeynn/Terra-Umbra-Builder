@@ -74,6 +74,28 @@ try {
   assert.equal('email' in readers[0],false);
   assert.equal((await call(player,'GET',`${path}/reader-search?q=CI`)).accounts.find(a=>a.id===gm.id).shared,true);
   assert.equal((await call(gm,'GET','/api/characters/shared')).characters[0].id,character.id);
+  // Journal notes are owner-only even when the character sheet is shared.
+  const noteBody={title:'Première séance',playedOn:'2026-09-23',content:'Une piste secrète au port.'};
+  await call(null,'GET',`${path}/journal`,undefined,401);
+  for(const who of [other,gm,admin])await call(who,'GET',`${path}/journal`,undefined,404);
+  assert.equal((await call(player,'GET',`${path}/journal`)).entries.length,0);
+  await call(player,'POST',`${path}/journal`,{...noteBody,playedOn:'2026-02-31'},400);
+  await call(player,'POST',`${path}/journal`,{...noteBody,playedOn:'0000-01-01'},400);
+  await call(player,'POST',`${path}/journal`,{...noteBody,content:'x'.repeat(20001)},400);
+  await call(gm,'POST',`${path}/journal`,noteBody,404);
+  const note=(await call(player,'POST',`${path}/journal`,noteBody,201)).entry;
+  assert.equal(note.version,1);
+  assert.equal((await call(player,'GET',`${path}/journal`)).entries[0].content,noteBody.content);
+  await call(gm,'PATCH',`${path}/journal/${note.id}`,{...noteBody,version:1},404);
+  const edited=(await call(player,'PATCH',`${path}/journal/${note.id}`,{...noteBody,title:'Piste confirmée',version:1})).entry;
+  assert.equal(edited.version,2);
+  await call(player,'PATCH',`${path}/journal/${note.id}`,{...noteBody,version:1},409);
+  await call(player,'DELETE',`${path}/journal/${note.id}`,{version:1},409);
+  await call(gm,'DELETE',`${path}/journal/${note.id}`,{version:2},404);
+  assert.equal((await call(player,'GET',`${path}/journal`)).entries[0].title,'Piste confirmée');
+  await call(player,'DELETE',`${path}/journal/${note.id}`,{version:2});
+  assert.equal((await call(player,'GET',`${path}/journal`)).entries.length,0);
+  await call(player,'POST',`${path}/journal`,noteBody,201);
   const shared=await call(gm,'GET',`${path}/sheet`);
   assert.equal(shared.canEdit,false);assert.equal(shared.character.name,character.name);
   for(const method of ['GET','PATCH','DELETE'])await call(gm,method,path,method==='GET'?undefined:{name:'Forbidden',version:1},404);
@@ -98,8 +120,10 @@ try {
   await call(player,'DELETE',path,{version:2});
   await call(gm,'GET',`${path}/sheet`,undefined,404);
   await call(player,'GET',`${path}/sheet`,undefined,404);
+  await call(player,'GET',`${path}/journal`,undefined,404);
+  await call(player,'POST',`${path}/journal`,noteBody,404);
   assert.equal((await call(gm,'GET','/api/characters/shared')).characters.length,0);
-  console.log(`CHARACTER SHEET ACCESS OK — ${checks} HTTP checks, real SQL, compact list, owner isolation, explicit grant, no write access, live update, revocation, role downgrade, disabled account and archive`);
+  console.log(`CHARACTER SHEET ACCESS OK — ${checks} HTTP checks, real SQL, compact list, owner isolation, explicit grant, no write access, live update, revocation, role downgrade, disabled account, archive, private journal CRUD and stale-version protection`);
 } finally {
   if(ids.length)await pool.query("DELETE FROM users WHERE id=ANY($1::uuid[]) AND email LIKE 'ci-sheet-%@example.invalid'",[ids]);
   if(app)await app.close();

@@ -13,6 +13,7 @@ const router=createRouter({
   routes:[
     { path:"/", component:()=>import("./pages/CompendiumPage.vue") },
     { path:"/account", component:()=>import("./App.vue") },
+    { path:"/characters/:id/journal", component:()=>import("./pages/CharacterJournalPage.vue") },
     { path:"/characters/:id/sheet", component:()=>import("./pages/CharacterSheetPage.vue") },
     { path:"/characters/:id/builder", component:()=>import("./pages/CharacterBuilderPage.vue") },
     { path:"/characters/:id/progression", component:()=>import("./pages/CharacterBuilderPage.vue") },

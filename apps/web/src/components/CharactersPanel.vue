@@ -290,6 +290,7 @@ onMounted(loadCharacters);
             <RouterLink class="ghost compact builder-link" :to="`/characters/${selected.id}/progression`">
               Progression
             </RouterLink>
+            <RouterLink class="ghost compact builder-link" :to="`/characters/${selected.id}/journal`">Journal d’aventure</RouterLink>
             <button class="ghost compact danger" type="button" :disabled="loading" @click="archiveCharacter">
               Archiver
             </button>
