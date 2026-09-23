@@ -610,6 +610,7 @@ if(await campaignObjects.locator('.truth-equipment-panel').count())throw new Err
 await campaignObjects.getByRole('switch').check();
 await campaignObjects.locator('.truth-equipment-catalog>summary').click();
 await campaignObjects.getByLabel(/Autorisation MJ d’accès exceptionnel aux objets de Vérité/).check();
+await campaignObjects.locator('.truth-equipment-group>summary').filter({hasText:'Calamitechnologie'}).click();
 await campaignObjects.locator('.truth-equipment-card').filter({hasText:'Relique corrompue Smoke'}).getByRole('button',{name:'Ajouter',exact:true}).click();
 for(const width of [1440,390,320]){
  await page.setViewportSize({width,height:1000});await assertBuilderReflow(`Corruption et Objets en campagne ${width}px`);
