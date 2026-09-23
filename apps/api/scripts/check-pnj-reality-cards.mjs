@@ -83,16 +83,16 @@ const meetingProfiles = active.filter((person) => person.dataset === "points-ren
 assert.equal(meetingProfiles.length, 24);
 const hunterProfiles = active.filter((person) => person.dataset === "verite-hunters-pnj" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(hunterProfiles.length, 33);
+assert.equal(hunterProfiles.length, 39);
 const speciesRealityProfiles = active.filter((person) =>
   ["verite-species-pnj", "verite-fantastiques-pnj"].includes(person.dataset) &&
   person.id !== "personnages-verite-especes-tokala" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(speciesRealityProfiles.length, 44);
+assert.equal(speciesRealityProfiles.length, 49);
 const angelicRealityProfiles = active.filter((person) =>
   ["verite-angelus-pnj", "verite-humains-galactiques-pnj"].includes(person.dataset) &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(angelicRealityProfiles.length, 67);
+assert.equal(angelicRealityProfiles.length, 70);
 const templeTerrestrialProfiles = active.filter((person) =>
   person.dataset === "verite-aseryns-terres-temples-pnj" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
@@ -100,12 +100,61 @@ assert.equal(templeTerrestrialProfiles.length, 32);
 const olderActiveProfiles = active.filter((person) =>
   person.dataset === "pnj" && person.id !== "pnj-148-kai-gehrman" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(olderActiveProfiles.length, 67);
+assert.equal(olderActiveProfiles.length, 73);
 const realityResolutions = active.filter((person) =>
   person.sections.at(-1)?.id === "profil-statistique" &&
   person.sections.at(-1).blocks.length === 1 &&
   /non applicable|Arbitrage éditorial requis/.test(person.sections.at(-1).blocks[0].text));
-assert.equal(realityResolutions.length, 112);
+assert.equal(realityResolutions.length, 63);
+assert.equal(realityResolutions.filter((person) => /non applicable/.test(person.sections.at(-1).blocks[0].text)).length, 54);
+assert.equal(realityResolutions.filter((person) => /Arbitrage éditorial requis/.test(person.sections.at(-1).blocks[0].text)).length, 9);
+for (const id of [
+  "pnj-136-alisa-svalisdottir", "pnj-108-asheylinn-medira", "pnj-truth-beatrix-kruger",
+  "pnj-truth-cassandra-helen", "pnj-truth-kevin-eckker", "pnj-121-zoran-kozic",
+  "personnages-verite-fantastiques-koldraalsheroh", "personnages-verite-fantastiques-marjolein-enneman"
+]) {
+  assert.equal(article(id).sections.at(-1).blocks.length, 6, id);
+  assert.ok(article(id, true)?.sections.some((section) => section.id === "parcours-realite-role"), id);
+  assert.ok(!article(id, true)?.sections.some((section) => section.id === "dossier-mj-consolide"), id);
+}
+assert.ok(article("pnj-truth-cassandra-helen", true).sections.some((section) =>
+  section.blocks?.some((block) => block.text?.includes("YODOKAWA Ryunosuke"))));
+assert.ok(article("pnj-truth-kevin-eckker", true).sections.some((section) =>
+  section.blocks?.some((block) => block.text?.includes("Bobby REMSIDE"))));
+assert.ok(article("pnj-121-zoran-kozic", true).sections.some((section) =>
+  section.blocks?.some((block) => block.text?.includes("Mediaforce"))));
+assert.ok(!JSON.stringify(article("pnj-108-asheylinn-medira", true)).includes("ultrasons"));
+assert.ok(!JSON.stringify(article("personnages-verite-fantastiques-marjolein-enneman", true)).includes("Arianwen"));
+assert.ok(!article("personnages-verite-fantastiques-fredegonda", true));
+assert.equal(article("personnages-verite-fantastiques-fredegonda").sections.at(-1).blocks.length, 6);
+assert.equal(article("personnages-verite-fantastiques-thor", true)?.title, "Thor");
+assert.ok(!JSON.stringify(article("personnages-verite-fantastiques-thor", true)).includes("Thar’lal"));
+assert.ok(!article("personnages-verite-fantastiques-tharlal-rark", true));
+assert.ok(article("personnages-verite-fantastiques-theoderid", true).sections.some((section) =>
+  section.blocks?.some((block) => block.text?.includes("Killdrillers"))));
+for (const id of ["pnj-fleaux-focus-ana-diana-de-la-caza-diana-de-la-caza", "pnj-fleaux-focus-arkady-karamov-4-arkady-karamov", "pnj-fleaux-focus-mila-shilove-094-mila-shilove"]) {
+  assert.equal(article(id).sections.at(-1).blocks.length, 6, id);
+  assert.ok(article(id, true)?.sections.some((section) => section.id === "parcours-realite-role"), id);
+}
+assert.ok(!JSON.stringify(article("pnj-fleaux-focus-ana-diana-de-la-caza-diana-de-la-caza", true)).includes("79 ans"));
+assert.ok(!JSON.stringify(article("pnj-fleaux-focus-arkady-karamov-4-arkady-karamov", true)).includes("synthétique"));
+assert.ok(!JSON.stringify(article("pnj-fleaux-focus-mila-shilove-094-mila-shilove", true)).includes("cannibales"));
+for(const [id,privateId,forbidden] of [
+  ["pnj-fleaux-focus-nora-shakir--097-nora-shakir","pnj-097-s2","Sharith"],
+  ["pnj-fleaux-focus-olayinka-najja-8-olayinka-najja","pnj-098-s2","homme-hyènes"],
+  ["pnj-fleaux-focus-yegor-karamov-05-yegor-karamov","pnj-105-s2","Grand Savoir"]
+]){
+  const publicPerson=article(id,true);
+  assert.ok(!publicPerson.sections.some((section)=>section.id===privateId),id);
+  assert.ok(!JSON.stringify(publicPerson).includes(forbidden),id);
+  assert.ok(JSON.stringify(article(id).sections.find((section)=>section.id==="dossier-mj-consolide")).includes(forbidden),id);
+}
+assert.equal(article("pnj-fleaux-focus-olayinka-najja-8-olayinka-najja",true).sections.filter(s=>s.id==="vampires-realite").length,1);
+assert.ok(article("pnj-fleaux-focus-olayinka-najja-8-olayinka-najja",true).sections.find(s=>s.id==="vampires-realite").blocks.some(b=>b.text?.includes("travail du sexe")));
+assert.equal(article("pnj-fleaux-sianna-danein",true)?.title,"Sianna Danein");
+assert.ok(!JSON.stringify(article("pnj-fleaux-sianna-danein",true)).includes("Siadara"));
+assert.ok(article("personnages-verite-humains-galactiques-moira-blake").secretTags.includes("vérité/nom/Morrighan"));
+assert.ok(!JSON.stringify(article("personnages-verite-humains-galactiques-moira-blake",true)).includes("Morrighan"));
 for(const person of realityResolutions){
   assert.equal(person.sections.at(-1).audience, "mj", person.id);
   assert.ok(!article(person.id,true)?.sections.some(section=>section.id==="profil-statistique"),person.id);
@@ -116,13 +165,32 @@ assert.ok(article("pnj-115-myra-allan",true).sections.some(section=>section.bloc
 const finalProfiles = active.filter((person) =>
   ["verite-fleaux-pnj", "verite-loges-mages-pnj"].includes(person.dataset) &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(finalProfiles.length, 9);
+assert.equal(finalProfiles.length, 38);
 const occultOnly = active.filter((person) => person.audience === "mj" &&
   ["verite-aseryns-terres-temples-pnj", "verite-vampire-courts-pnj", "verite-extrals-groupes-pnj", "verite-species-pnj"].includes(person.dataset));
 assert.equal(occultOnly.length, 36); // 35 newly hidden and one pre-existing MJ-only species dossier.
 for (const person of occultOnly) assert.equal(article(person.id, true), undefined, person.id);
 assert.ok(JSON.stringify(article("personnages-verite-especes-veronica-silver")).includes("grande reine Aseryn"));
-assert.equal(active.filter((person) => person.dataset === "verite-loges-mages-pnj" && person.audience === "mj").length, 26);
+assert.equal(active.filter((person) => person.dataset === "verite-loges-mages-pnj" && person.audience === "mj").length, 11);
+for (const id of ["pnj-loges-mages-anggriawan-yang-24", "pnj-loges-mages-anayah-kumba-11", "pnj-loges-mages-alice-carroll-38", "pnj-loges-mages-adrien-daigremont-14", "pnj-loges-mages-adalardo-gravina-16", "pnj-loges-mages-arash-ostaan-05", "pnj-loges-mages-asuka-yamamuro-23", "pnj-loges-mages-bassaam-el-akram-21", "pnj-loges-mages-edwin-kelly-31", "pnj-loges-mages-gwendoleen-macguire-06", "pnj-loges-mages-hassan-abate-yideg-22", "pnj-loges-mages-jin-tian-myong-25", "pnj-loges-mages-lara-steven-30", "pnj-loges-mages-melina-apapoulos-15", "pnj-loges-mages-mertkan-sabanci-20"]) {
+  const publicMage = article(id, true);
+  assert.ok(publicMage?.sections.some((section) => section.id === "parcours-realite-role"), id);
+  assert.ok(!publicMage.sections.some((section) => section.id === "dossier-mj-consolide" || section.id === "profil-statistique"), id);
+  assert.ok(!JSON.stringify(publicMage).includes("Profil magique"), id);
+  assert.equal(article(id).sections.at(-1).blocks.length, 6, id);
+}
+for (const [id, fact] of [
+  ["pnj-loges-mages-arash-ostaan-05", "Mairie de New York"],
+  ["pnj-loges-mages-asuka-yamamuro-23", "mercenaire"],
+  ["pnj-loges-mages-bassaam-el-akram-21", "Wellspring"],
+  ["pnj-loges-mages-edwin-kelly-31", "personnes défavorisées"],
+  ["pnj-loges-mages-gwendoleen-macguire-06", "Raven"],
+  ["pnj-loges-mages-hassan-abate-yideg-22", "Tala"],
+  ["pnj-loges-mages-jin-tian-myong-25", "Blanchisserie"],
+  ["pnj-loges-mages-lara-steven-30", "conseil des tribus"],
+  ["pnj-loges-mages-melina-apapoulos-15", "livraisons"],
+  ["pnj-loges-mages-mertkan-sabanci-20", "Tala"]
+]) assert.ok(JSON.stringify(article(id, true).sections).includes(fact), id);
 for (const mage of active.filter((person) => person.dataset === "verite-loges-mages-pnj" && person.audience === "mj"))
   assert.equal(article(mage.id, true), undefined, `${mage.id}: coquille de Mage dans la navigation publique`);
 assert.ok(!JSON.stringify(article("pnj-141-chamunda-dhavale", true)).includes("louve-garou"));

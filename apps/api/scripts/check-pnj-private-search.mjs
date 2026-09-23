@@ -39,6 +39,10 @@ for (const audience of [null, "editor"]) {
   assert.equal((await search('tag:"vérité/espèce/loup-garou"')).total, 0);
   assert.equal((await search('tag:"vérité/nom/Mirrissi"')).total, 0);
   assert.equal((await search("Mirrissi")).total, 0);
+  assert.ok(!(await search("Thar’lal Rark")).items.some((item) => item.title === "Thor"));
+  assert.ok(!(await search("Siadara")).items.some((item) => item.title === "Sianna Danein"));
+  assert.ok(!(await search("Morrighan")).items.some((item) => item.title === "Moira Blake"));
+  assert.ok((await search("Thor")).items.some((item) => item.id === "personnages-verite-fantastiques-thor"));
   assert.ok(!(await search("Viviane")).items.some((item) => item.id === "pnj-loges-mages-nina-le-guellec-03"));
   assert.ok((await search('tag:"réalité/faction/corporatiste"')).total > 0);
   const response = await app.inject({
@@ -60,6 +64,8 @@ for (const audience of ["gm", "admin"]) {
   assert.ok((await search('tag:"vérité/espèce/loup-garou"')).total > 0);
   assert.ok((await search('tag:"vérité/nom/Mirrissi"')).total > 0);
   assert.equal((await search("Viviane")).items[0]?.id, "pnj-loges-mages-nina-le-guellec-03");
+  assert.ok((await search("Thar’lal Rark")).items.some((item) => item.id === "personnages-verite-fantastiques-tharlal-rark"));
+  assert.ok((await search('tag:"vérité/nom/Morrighan"')).items.some((item) => item.id === "personnages-verite-humains-galactiques-moira-blake"));
   assert.ok((await search('tag:"vérité/nom/Fée Viviane – Dame du lac"')).items
     .some((item) => item.id === "pnj-loges-mages-nina-le-guellec-03"));
 }
@@ -95,6 +101,8 @@ assert.ok(amaya.tags.includes("réalité/faction/religieux"));
 assert.equal(amaya.secretTags, undefined);
 assert.equal((await article("pnj-crawlers-antisysteme-p52-ciara-macfarlane")).id,
   "pnj-religions-ciara-mcfarlane");
+assert.equal((await article("personnages-verite-fantastiques-tharlal-rark")).id,
+  "personnages-verite-fantastiques-thor");
 role = "gm";
 const gmMilda = await article("pnj-pegre-milda-tarasknovna");
 assert.ok(gmMilda.secretTags.includes("vérité/nom/Selaphielle"));
