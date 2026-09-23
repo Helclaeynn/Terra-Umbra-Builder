@@ -558,8 +558,7 @@ for (const name of ['Apprendre un Talent de Réalité','Dépenser des PTV']) {
   const block = page.locator('details.progress-panel').filter({has:page.locator('summary>strong').filter({hasText:new RegExp('^'+name+'$')})});
   if ((await block.getAttribute('open'))===null) await block.locator(':scope>summary').click();
   if(name==='Dépenser des PTV'){
-    if(await block.locator('.talent-list').count())throw new Error('Catalogue Vérité ouvert sans accord MJ');
-    await block.getByRole('switch').check();
+    if(await block.getByRole('switch').count())throw new Error('Accord MJ inutile pour les talents de sa Nature');
   }
   const names = await (name==='Dépenser des PTV' ? block : block.locator('.talent-group').filter({has:page.getByRole('heading',{name:'Talents communs',exact:true})})).locator('.talent-list .progress-card-title>strong').allTextContents();
   const expected = name==='Dépenser des PTV' ? ['Aube occulte','Zèle occulte','Aube supérieure'] : ['Aube Smoke','Zèle Smoke'];
@@ -601,14 +600,17 @@ await page.getByRole('button',{name:'Revenir à la progression',exact:true}).cli
 const campaignCorruption=page.locator('.campaign-corruption');
 await campaignCorruption.getByRole('checkbox',{name:'Autorisation MJ — Corruption & Fléaux',exact:true}).check();
 await campaignCorruption.getByLabel('Choisir la Source dominante').selectOption('vhodhal');
+await campaignCorruption.locator('.capacity-disclosure>summary').filter({hasText:'Don de Faim Smoke'}).click();
 await campaignCorruption.getByRole('button',{name:'Acquérir Don de Faim Smoke pour 2 PTV',exact:true}).click();
 await campaignCorruption.getByLabel('Choisir la Source dominante').selectOption('');
 await campaignCorruption.locator('.corruption-owned-row').filter({hasText:'Don de Faim Smoke'}).getByText('Dormant',{exact:true}).waitFor();
+await campaignCorruption.locator('.capacity-disclosure>summary').filter({hasText:'Rite Smoke'}).click();
 await campaignCorruption.getByRole('button',{name:'Acquérir Rite Smoke pour 1 PTV',exact:true}).click();
 const campaignObjects=page.locator('.campaign-truth-equipment');
 if(await campaignObjects.locator('.truth-equipment-panel').count())throw new Error('Objets ouverts sans accord MJ');
 await campaignObjects.getByRole('switch').check();
 await campaignObjects.locator('.truth-equipment-catalog>summary').click();
+await campaignObjects.locator('.catalog-help>summary').click();
 await campaignObjects.getByLabel(/Autorisation MJ d’accès exceptionnel aux objets de Vérité/).check();
 await campaignObjects.locator('.truth-equipment-group>summary').filter({hasText:'Calamitechnologie'}).click();
 await campaignObjects.locator('.truth-equipment-card').filter({hasText:'Relique corrompue Smoke'}).getByRole('button',{name:'Ajouter',exact:true}).click();

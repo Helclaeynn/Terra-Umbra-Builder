@@ -21,6 +21,7 @@ const emit=defineEmits<{
 
 const query=ref("");
 const chapter=ref("");
+const catalogMode=ref("objects");
 
 const chapterLabels:Record<string,string>={
   "22":"Propriétés communes",
@@ -52,6 +53,9 @@ watch(chapters,(available)=>{
 const filtered=computed(()=>{
   const q=norm(query.value.trim());
   return visibleCatalog.value.filter(item=>{
+    if(catalogMode.value==='objects'&&item.referenceOnly)return false;
+    if(catalogMode.value==='references'&&!item.referenceOnly)return false;
+    if(catalogMode.value==='owned'&&!owned.value.includes(item.id))return false;
     if(chapter.value&&item.chapter!==chapter.value)return false;
     if(!q)return true;
     const haystack=[
@@ -167,6 +171,9 @@ function propertyPreview(item:TruthEquipmentItem){
         <span class="schema-badge">{{ filtered.length }}</span>
       </summary>
 
+      <div class="catalog-modes" role="group" aria-label="Afficher dans le catalogue">
+        <button v-for="mode in [{id:'objects',label:'Objets à acquérir'},{id:'owned',label:'Mes possessions'},{id:'references',label:'Règles et références'}]" :key="mode.id" type="button" :aria-pressed="catalogMode===mode.id" @click="catalogMode=mode.id;chapter=''">{{ mode.label }}</button>
+      </div>
       <div class="truth-equipment-toolbar">
         <label>
           Rechercher
@@ -183,6 +190,7 @@ function propertyPreview(item:TruthEquipmentItem){
         </label>
       </div>
 
+      <details class="catalog-help"><summary>Accès exceptionnel et règles d’acquisition</summary>
       <label class="truth-equipment-mj">
         <span class="truth-equipment-mj-copy">
           <strong>Autorisation MJ d’accès exceptionnel aux objets de Vérité</strong>
@@ -208,8 +216,11 @@ function propertyPreview(item:TruthEquipmentItem){
         de Chasse et corrompus ne sont affichés que si la Nature, la voie ou l’autorisation MJ de la fiche y donne réellement accès.
       </div>
 
+      </details>
+      <p class="catalog-count" role="status">{{ filtered.length }} résultat(s) · {{ catalogMode==='references' ? 'Consultation uniquement' : 'La possession ne débite pas automatiquement vos ressources' }}</p>
       <p v-if="!groups.length" class="empty-line" role="status">
-        Aucun objet ne correspond à ces filtres. Essayez un autre nom ou choisissez tous les chapitres.
+        Aucun objet ne correspond à ces filtres. Essayez un autre nom, une autre vue ou réinitialisez les filtres.
+        <button type="button" @click="query='';chapter=''">Réinitialiser les filtres</button>
       </p>
 
       <details v-for="group in groups" :key="group.label" class="truth-equipment-group">
@@ -243,7 +254,7 @@ function propertyPreview(item:TruthEquipmentItem){
               </button>
             </div>
 
-            <p v-if="item.lore">{{ item.lore }}</p>
+            <details class="equipment-description"><summary>Effets, propriétés et lore</summary><p v-if="item.lore">{{ item.lore }}</p>
 
             <div v-if="propertyPreview(item).length" class="truth-equipment-properties">
               <span v-for="property in propertyPreview(item)" :key="property.label">
@@ -259,6 +270,7 @@ function propertyPreview(item:TruthEquipmentItem){
                   <dd>{{ property.value }}</dd>
                 </template>
               </dl>
+            </details>
             </details>
           </article>
         </div>
@@ -334,4 +346,13 @@ function propertyPreview(item:TruthEquipmentItem){
   .truth-equipment-card{padding:14px}
 }
 @media(prefers-reduced-motion:reduce){.truth-equipment-mj input,.truth-equipment-mj input::before,.truth-disclosure-summary::after,.truth-equipment-group>summary::after{transition:none}}
+
+.catalog-modes{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.catalog-modes button{border:1px solid #344a62;background:#101b2b;color:#b3c5d9}
+.catalog-modes button[aria-pressed=true]{border-color:#b79aff;color:#eee6ff;background:#28213b}
+.catalog-help>summary,.equipment-description>summary{min-height:44px;cursor:pointer;align-content:center;color:#cbb8ff;font-size:13px}
+.catalog-count{font-size:13px;color:#a1b5cc;margin:12px 0}
+.truth-equipment-grid{grid-template-columns:minmax(0,1fr);gap:8px}
+.truth-equipment-card{padding:12px 16px;gap:4px}
+.equipment-description[open]>p{margin:8px 0 12px}
 </style>
