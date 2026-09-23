@@ -9,6 +9,30 @@ assert.equal(active.length, 918);
 const article = (id, publicView = false) =>
   (publicView ? corpus.publicArticles : corpus.articles).find((item) => item.id === id);
 const rows = (id) => article(id).sections[0].blocks[0].rows;
+for (const [id, age] of Object.entries({
+  "pnj-crawlers-docx-aisha-white": 25,
+  "personnages-verite-humains-galactiques-alladava-kjoll": 45,
+  "personnages-verite-especes-anahita": 28,
+  "pnj-pegre-dante-guzman": 31,
+  "pnj-pegre-fuyumi-shinoda": 38,
+  "personnages-verite-humains-galactiques-kay-salzer": 42,
+  "personnages-verite-especes-lorinae-athegos": 30,
+  "personnages-verite-especes-neeba-ngubenani": 49,
+  "pnj-fleaux-focus-olayinka-najja-8-olayinka-najja": 29,
+  "pnj-police-ryan-rowe": 42,
+  "personnages-verite-humains-galactiques-saskia": 34,
+  "pnj-crawlers-antisysteme-p70-ulfric-tamer": 48
+})) {
+  const person = article(id);
+  assert.equal(person.pnj.age, `${age} ans`, id);
+  const card = person.sections.find((section) => section.id === "identite-realite-consolidee");
+  assert.equal(card?.blocks?.[0]?.rows?.find(([label]) => label === "Âge")?.[1], `${age} ans`, id);
+  const publicPerson = article(id, true);
+  if (publicPerson) {
+    const publicCard = publicPerson.sections.find((section) => section.id === "identite-realite-consolidee");
+    assert.equal(publicCard?.blocks?.[0]?.rows?.find(([label]) => label === "Âge")?.[1], `${age} ans`, id);
+  }
+}
 
 const religiousCards = active.filter((item) =>
   ["realite-v9-religions-pnj", "realite-v9-christianity-pnj"].includes(item.dataset) &&
