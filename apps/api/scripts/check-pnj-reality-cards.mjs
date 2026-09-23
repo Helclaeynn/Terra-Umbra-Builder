@@ -72,7 +72,15 @@ for (const person of staffed) {
 }
 const crawlerProfiles = active.filter((person) => person.dataset === "realite-v9-crawlers-pnj" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(crawlerProfiles.length, 50);
+assert.equal(crawlerProfiles.length, 100);
+for (const [id, forbidden, retained] of [
+  ["pnj-crawlers-antisysteme-p15-jane-costa", "En tant que louve", "En tant que louve"],
+  ["pnj-crawlers-antisysteme-p18-sahamena-lannis", "origine elfes sylvains", "origine elfes sylvains"],
+  ["pnj-crawlers-antisysteme-p49-toxicity-norton", "pouvoir angélique", "poison céleste"]
+]) {
+  assert.ok(!JSON.stringify(article(id, true)).includes(forbidden), `${id}: fuite dans la vue publique`);
+  assert.ok(JSON.stringify(article(id, false)).includes(retained), `${id}: secret MJ perdu`);
+}
 const crawlerTalentErrors = [];
 for (const person of crawlerProfiles) {
   const blocks = person.sections.at(-1).blocks;
