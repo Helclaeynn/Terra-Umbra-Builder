@@ -97,5 +97,43 @@ export function applyCompendiumPnjStatProfiles(byId:Map<string,Article>):void {
     ]),
     paragraph("Scène étalon : tenue civile, communicateur professionnel, sans arme ni armure portée. Cole cherche à identifier les PJ et leurs preuves, négocie ou appelle des appuis. Ses liens passés et ses pratiques confidentielles concernant les Logifate restent dans le dossier MJ. Une attaque réussie contre lui a les conséquences normales.")
   ];
+  const replaceStats=(id:string,title:string,blocks:Block[]):void=>{
+    const person=byId.get(id);
+    if(!person)throw new Error(`PNJ · fiche canonique introuvable : ${id}`);
+    const all=person.sections??[];
+    const matches=all.filter((section)=>section.id==="profil-statistique");
+    if(matches.length>1||(matches.length===1&&all.at(-1)!==matches[0]))throw new Error(`PNJ · profil statistique ambigu : ${id}`);
+    if(!matches.length){
+      person.sections=[...all,{id:"profil-statistique",level:2,title:`Profil statistique · ${title}`,audience:"mj",blocks}];
+    }else{
+      matches[0].title=`Profil statistique · ${title}`;
+      matches[0].audience="mj";
+      matches[0].blocks=blocks;
+    }
+  };
+  replaceStats("pnj-148-kai-gehrman","Kai Gehrman",[
+    paragraph("Élite · Réalité · 28 points d'Attributs · 55 points de Compétences. Spécialités documentées : économie et holomatique au service d'Arcanet. Ce profil estime sa capacité professionnelle ; il ne chiffre pas sa magie."),
+    table([["Attribut","Vigueur","Agilité","Esprit","Volonté","Charisme"],["Valeur","3","4","9","7","5"]]),
+    table([["Compétence","Rang"],["Savoirs (économie, holomatique)","9"],["Investigation","7"],["Mécanique","5"],["Perception, Diplomatie","6 chacun"],["Autorité","5"],["Force Mentale, Langages & Argot","4 chacun"],["Esquive, Athlétisme","2 chacun"],["Constitution","1"],["Autres","0"]]),
+    table([["Valeur dérivée","Résultat"],["PV maximum / Seuil de Mort","7 / −4"],["Défense passive / active","6 / 6 + 1d10e"],["Défense occulte passive / active","11 / 11 + 1d10e"],["Initiative / déplacement","6 + 1d10e / 7 m par PA"]]),
+    paragraph("Talents : Expertise éprouvée (Savoirs, 1/scène) ; Dossier préparé (recherches économiques ou holomatiques préalables, 1/scène) ; Lecture des failles (Investigation, 1/scène). Équipement : aucun armement déduit du dossier."),
+    paragraph("Vérité : le dossier MJ atteste une identité de Mage, sans caractéristiques magiques chiffrées assez sûres pour fixer ses PTV, son amplitude ou sa maîtrise. Arbitrage requis avant tout bloc de Vérité.")
+  ]);
+  replaceStats("pnj-corporations-baldwin-vandrick","Baldwin Vandrick",[
+    paragraph("Élite · Réalité · 28 points d'Attributs · 55 points de Compétences. Banquier et président de Laguna Bank Corporation : ses moyens sont institutionnels et soumis à des délais."),
+    table([["Attribut","Vigueur","Agilité","Esprit","Volonté","Charisme"],["Valeur","4","4","8","7","5"]]),
+    table([["Compétence","Rang"],["Autorité","9"],["Diplomatie","8"],["Investigation, Savoirs (finance)","7 chacun"],["Force Mentale, Perception","5 chacun"],["Langages & Argot","4"],["Esquive","3"],["Tir, Athlétisme, Constitution","2 chacun"],["Pugilat","1"],["Autres","0"]]),
+    table([["Valeur dérivée","Résultat"],["PV maximum / Seuil de Mort","10 / −6"],["Défense passive / active","7 / 7 + 1d10e"],["Défense occulte passive / active","12 / 12 + 1d10e"],["Initiative / déplacement","6 + 1d10e / 7 m par PA"]]),
+    paragraph("Talents : Réseau mobilisable (Laguna Bank, 1/scénario) ; Chaîne de commandement (ressources de la corporation dans le cadre de ses fonctions) ; Dossier préparé (finance et dossiers institutionnels, après recherches réelles). Aucun garde ou équipement de combat automatique."),
+    paragraph("Profil de Vérité : la fiche conserve son dossier MJ ; aucun PTV ni pouvoir supplémentaire n'est déduit de sa fonction publique.")
+  ]);
+  replaceStats("personnages-verite-especes-tokala","Tokala",[
+    paragraph("Légendaire · Réalité · Ten · 42 points d'Attributs · 140 points de Compétences. Ancienne béret vert, spécialiste du tomahawk et du pugilat ; son Tir 9 rappelle sa formation militaire. Le profil chiffré décrit sa présence dans la Réalité, sans limiter sa forme révélée."),
+    table([["Attribut","Vigueur","Agilité","Esprit","Volonté","Charisme"],["Valeur","9","9","7","9","8"]]),
+    table([["Compétence","Rang"],["Mêlée (tomahawk)","15 · Apex"],["Pugilat, Athlétisme, Esquive","12 chacun"],["Survie","11"],["Perception, Autorité","10 chacun"],["Tir, Force Mentale","9 chacun"],["Constitution","8"],["Diplomatie, Investigation","7 chacun"],["Savoirs, Furtivité","6 chacun"],["Langages & Argot","5"],["Mécanique","1"],["Autres","0"]]),
+    table([["Valeur dérivée","Résultat"],["PV maximum / Seuil de Mort","26 / −17"],["Défense passive / active","21 / 21 + 1d10e"],["Défense occulte passive / active","18 / 18 + 1d10e"],["Initiative / déplacement","21 + 1d10e / 17 m par PA"]]),
+    paragraph("Talents : Apex — Mêlée ; Désarmement net ; Terrain reconnu ; Chef de manœuvre. Aucun talent de tir ne suppose qu'elle porte systématiquement une arme à feu. Ses ressources de présidente et de cheffe politique requièrent les délais et alliés du scénario."),
+    paragraph("Vérité révélée : Khinae devenue Nnyrss après plusieurs éveils. Éveil singulier décrit ses transformations et la mémoire des reines Khinae. À ce stade, elle est hors de portée d'un PJ ; aucune valeur finie de défense ou de PV ne prétend représenter la Nnyrss. PTV, amplitude et maîtrise exacts restent à fixer avec le canon des Ten.")
+  ]);
   byId.set(COMPENDIUM_PNJ_TALENTS_ARTICLE.id,COMPENDIUM_PNJ_TALENTS_ARTICLE as unknown as Article);
 }

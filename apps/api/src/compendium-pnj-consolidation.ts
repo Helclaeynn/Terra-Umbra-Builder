@@ -81,6 +81,91 @@ function distinct(values: string[]): string[] {
   return [...new Set(values.filter(Boolean))];
 }
 
+const REALITY_FIELDS: Array<[RegExp, string]> = [
+  [/^(nom(?:\s*\/\s*identit[ée] de r[ée]alit[ée])?|identit[ée] connue)$/i, "Nom"],
+  [/^alias(?:\s*\/\s*d[ée]signation)?$|^alias policier$/i, "Alias"],
+  [/^\u00e2ge(?: apparent)?$/i, "Âge"],
+  [/^nationalit[ée](?: d.origine| d[ée]clar[ée]e)?$/i, "Nationalité"],
+  [/^affiliations?$|^affiliation publique$/i, "Affiliations"],
+  [/^corporation$|^organisation(?:\s*\/\s*affiliation)?$/i, "Organisation"],
+  [/^fonction$|^statut$/i, "Fonction / statut"]
+];
+
+function identityLabel(value: unknown): string {
+  const label = String(value ?? "").trim();
+  return REALITY_FIELDS.find(([pattern]) => pattern.test(label))?.[1] ?? label;
+}
+
+function isRealityIdentityTable(block: Record<string, any>): boolean {
+  if (block.type !== "table" || !Array.isArray(block.rows)) return false;
+  const rows: unknown[][] = block.rows;
+  if (rows.length < 2 || !rows.every((row) => Array.isArray(row) && row.length === 2)) return false;
+  const header = rows[0].map((cell) => String(cell ?? "").trim().toLowerCase());
+  if (header[0] !== "champ" || header[1] !== "valeur") return false;
+  return rows.slice(1).some((row) => ["Nom", "Âge", "Affiliations", "Organisation"]
+    .includes(identityLabel(row[0])));
+}
+
+function consolidateRealityIdentity(article: Article, sections: Section[]): Section[] {
+  const identityTables: Array<{ rows: unknown[][]; title: string }> = [];
+  const retained: Section[] = [];
+  const protectedNames = new Set<string>();
+  for (const section of article.sections ?? []) {
+    if (section.audience !== "mj" && !isExplicitSecret(section)) continue;
+    for (const block of section.blocks ?? []) {
+      if (block.type !== "table" || !Array.isArray(block.rows)) continue;
+      for (const row of block.rows) {
+        if (!Array.isArray(row) || !/^nom de la v[ée]rit[ée]$/i.test(String(row[0] ?? "").trim())) continue;
+        const name = String(row[1] ?? "").trim();
+        if (name.length > 3 && name.toLocaleLowerCase("fr") !== String(article.title ?? "").toLocaleLowerCase("fr")) protectedNames.add(name);
+      }
+    }
+  }
+  for (const section of sections) {
+    if (section.audience === "mj" || isExplicitSecret(section) || isStatistics(section)) {
+      retained.push(section);
+      continue;
+    }
+    const blocks: Array<Record<string, any>> = [];
+    for (const block of section.blocks ?? []) {
+      if (isRealityIdentityTable(block)) identityTables.push({ rows: block.rows, title: section.title });
+      else blocks.push(block);
+    }
+    if (blocks.length || !identityTables.length) {
+      retained.push({ ...section, blocks,
+        title: String(section.title ?? "").replace(/\s*[·—]\s*source ant[ée]rieure\s*$/i, "").trim() });
+    }
+  }
+  if (!identityTables.length) return retained;
+  const fields = new Map<string, string[]>();
+  for (const { rows } of identityTables) {
+    for (const row of rows.slice(1)) {
+      const key = identityLabel(row[0]);
+      const value = String(row[1] ?? "").trim();
+      if ([...protectedNames].some((name) => value.toLocaleLowerCase("fr").includes(name.toLocaleLowerCase("fr")))) {
+        article.__realityIdentityConflicts = distinct([...(article.__realityIdentityConflicts ?? []), "Identité protégée"]);
+        continue;
+      }
+      if (!key || !value || /^champ$/i.test(key)) continue;
+      const values = fields.get(key) ?? [];
+      if (!values.some((existing) => existing.localeCompare(value, "fr", { sensitivity: "base" }) === 0)) values.push(value);
+      fields.set(key, values);
+    }
+  }
+  const preferred = ["Nom", "Alias", "Âge", "Affiliations", "Organisation", "Fonction / statut", "Nationalité"];
+  const ordered = [...preferred.filter((field) => fields.has(field)), ...[...fields.keys()].filter((field) => !preferred.includes(field))];
+  // A source may disagree with another on age or function. Keep every value in
+  // the displayed card and flag the disagreement for fiche-by-fiche review.
+  const conflicts = ordered.filter((field) => (fields.get(field)?.length ?? 0) > 1);
+  if (conflicts.length) article.__realityIdentityConflicts = distinct([...(article.__realityIdentityConflicts ?? []), ...conflicts]);
+  const card: Section = {
+    id: "identite-realite-consolidee", title: "Identité · Réalité", level: 2,
+    blocks: [{ type: "table", rows: [["Champ", "Valeur"], ...ordered.map((field) =>
+      [field, (fields.get(field) ?? []).join(" / ")])] }]
+  };
+  return [card, ...retained.filter((section) => section.blocks?.length)];
+}
+
 function publicIdentityRows(article: Article): { name: string; affiliations: string[] } {
   let name = "";
   const affiliations: string[] = [];
@@ -200,6 +285,7 @@ export function consolidateActivePnjSections(byId: Map<string, Article>): void {
     // single private dossier. The statistics remain the final, private section.
     const dossier = combineSections(secretSections, "dossier-mj-consolide", "Dossier MJ · Vérité et secrets");
     const statistics = combineSections(statisticSections, "profil-statistique", "Profil statistique");
-    article.sections = [...publicSections, ...(dossier ? [dossier] : []), ...(statistics ? [statistics] : [])];
+    article.sections = [...consolidateRealityIdentity(article, publicSections),
+      ...(dossier ? [dossier] : []), ...(statistics ? [statistics] : [])];
   }
 }
