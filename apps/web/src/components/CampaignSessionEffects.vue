@@ -8,7 +8,7 @@ const emit=defineEmits<{(e:'applied'):void}>();
 const open=ref(false),targets=ref<Target[]>([]),sources=ref<{id:string;name:string;corruption:string}[]>([]),selected=ref(''),money=ref(0),delta=ref(0),source=ref(''),reason=ref(''),busy=ref(false),loading=ref(false),error=ref(''),notice=ref('');
 const target=computed(()=>targets.value.find(t=>t.id===selected.value));
 const remaining=computed(()=>Math.max(0,(target.value?.integrity||0)-(target.value?.corruption||0)));
-const valid=computed(()=>target.value&&!target.value.unavailable&&reason.value.trim()&&Number.isSafeInteger(money.value)&&money.value>=0&&money.value<=1e9&&Number.isInteger(delta.value)&&delta.value>=0&&delta.value<=remaining.value&&money.value+delta.value>0&&(!delta.value||!!source.value));
+const valid=computed(()=>target.value&&!target.value.unavailable&&Number.isSafeInteger(money.value)&&money.value>=0&&money.value<=1e9&&Number.isInteger(delta.value)&&delta.value>=0&&delta.value<=remaining.value&&money.value+delta.value>0&&(!delta.value||!!source.value));
 let seq=0,requestId=crypto.randomUUID();
 watch([selected,money,delta,source,reason],()=>{requestId=crypto.randomUUID();});
 watch(selected,()=>{source.value=target.value?.source||'';delta.value=0;});
@@ -18,7 +18,7 @@ function sourceName(id:string){return sources.value.find(s=>s.id===id)?.name||({
 async function apply(){
  if(!valid.value||busy.value||!target.value)return;
  const t=target.value;
- if(!window.confirm(`Appliquer à ${t.name} : +${money.value} $ et +${delta.value} point(s) de corruption${delta.value?' · '+sourceName(source.value):''} ?\n\nMotif : ${reason.value.trim()}\nCes changements seront enregistrés sur la fiche et dans son historique.`))return;
+ if(!window.confirm(`Appliquer à ${t.name} : +${money.value} $ et +${delta.value} point(s) de corruption${delta.value?' · '+sourceName(source.value):''} ?\n\nMotif : ${reason.value.trim()||'Non précisé'}\nCes changements seront enregistrés sur la fiche et dans son historique.`))return;
  busy.value=true;error.value='';notice.value='';
  try{await api(`/api/campaigns/${props.campaignId}/sessions/${props.sessionId}/effects`,{method:'POST',body:JSON.stringify({requestId,characterId:t.id,version:t.version,money:money.value,corruptionDelta:delta.value,corruptionSource:delta.value?source.value:'',reason:reason.value})});money.value=0;delta.value=0;reason.value='';notice.value='Effet appliqué à la fiche et enregistré dans son historique.';emit('applied');await load();}
  catch(e){const msg=e instanceof Error?e.message:'';error.value=msg==='effect_version_conflict'?'La fiche a changé. Actualise les valeurs, puis vérifie à nouveau le récapitulatif.':msg==='corruption_limit'?'Le total dépasserait l’Intégrité du personnage. Actualise les valeurs.':msg==='reward_recipient_unavailable'?'Cette fiche n’est plus disponible dans le groupe.':msg==='effect_request_conflict'?'Cette demande a déjà été utilisée pour un autre effet. Ferme puis rouvre le panneau.':'L’attribution n’a pas pu être confirmée. Réessaie sans modifier les champs pour éviter un doublon.';if(e instanceof ApiError&&[401,403,404].includes(e.status)){targets.value=[];open.value=false;}}
@@ -38,7 +38,7 @@ onUnmounted(()=>{seq++;});
     <label>Personnage concerné<select v-model="selected" aria-label="Personnage concerné"><option value="">Choisir une fiche</option><option v-for="t in targets" :key="t.id" :value="t.id" :disabled="t.unavailable">{{ t.name }}{{ t.unavailable?' · Données à vérifier':'' }}</option></select></label>
     <div v-if="target&&!target.unavailable" class="fields"><label>Argent à verser ($)<input v-model.number="money" type="number" min="0" max="1000000000" step="1" required /></label><label>Points de corruption à ajouter<input v-model.number="delta" type="number" min="0" :max="remaining" step="1" required /></label></div>
     <label v-if="delta>0">Source dominante après l’effet<select v-model="source" aria-label="Source dominante après l’effet" required><option value="">Choisir la Source</option><option v-for="s in sources" :key="s.id" :value="s.id">{{ s.name }} — {{ s.corruption }}</option></select></label>
-    <label>Motif visible par le joueur<textarea v-model="reason" rows="2" maxlength="500" required placeholder="Prime de mission, exposition à une Source…" /></label>
+    <label>Motif visible par le joueur (facultatif)<textarea v-model="reason" rows="2" maxlength="500" placeholder="Prime de mission, exposition à une Source…" /></label>
    </fieldset>
    <div v-if="target&&!target.unavailable" class="preview" aria-live="polite"><strong>{{ target.name }} · Avant → après</strong><p>Solde : {{ target.money.toLocaleString('fr-FR') }} $ → {{ (target.money+(Number(money)||0)).toLocaleString('fr-FR') }} $</p><p>Corruption : {{ target.corruption }} → {{ target.corruption+(Number(delta)||0) }} / {{ target.integrity }}</p><p v-if="delta>0">Source : {{ sourceName(target.source) }} → {{ sourceName(source) }}</p><p v-if="delta>0&&source!==target.source&&target.source">Les Dons d’une autre Source deviennent dormants ; leurs PTV restent engagés.</p><p v-if="delta>0&&target.corruption+delta>=target.integrity">Seuil de Bascule atteint : le test contre DD 18 et ses conséquences restent à résoudre à la table.</p></div>
    <small>Ajouter de la corruption n’accorde aucun Don automatiquement et ne dépense aucun PTV.</small>
