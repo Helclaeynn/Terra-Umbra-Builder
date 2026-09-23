@@ -61,6 +61,10 @@ jobs:
         working-directory: apps/api
         run: node scripts/check-bestiary-illustrations.mjs
 
+      - name: Check equipment illustrations
+        working-directory: apps/api
+        run: node scripts/check-equipment-illustrations.mjs
+
       - name: Check standalone character sheet permissions on PostgreSQL
         working-directory: apps/api
         env:
