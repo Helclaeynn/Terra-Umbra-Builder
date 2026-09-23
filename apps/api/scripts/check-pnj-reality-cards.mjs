@@ -32,6 +32,10 @@ assert.equal(meetingProfiles.length, 24);
 const hunterProfiles = active.filter((person) => person.dataset === "verite-hunters-pnj" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
 assert.equal(hunterProfiles.length, 10);
+const exileRealityProfiles = active.filter((person) =>
+  ["verite-pelages-pnj", "verite-grands-exiles-pnj", "verite-vampire-courts-pnj"].includes(person.dataset) &&
+  person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
+assert.equal(exileRealityProfiles.length, 50);
 for (const [id, secret, retained] of [
   ["personnages-points-rencontre-kristina-moon", "magie familiale de l’empire vert", "empire vert"],
   ["personnages-points-rencontre-murck-date", "projection spectrale", "magie spectrale"],
@@ -43,7 +47,7 @@ for (const [id, secret, retained] of [
   assert.ok(JSON.stringify(article(id)).toLowerCase().includes(retained), `${id}: information MJ perdue`);
 }
 const civilPrerequisiteFailures = [];
-for (const person of [...religiousCards, ...agencies, ...meetingProfiles, ...hunterProfiles]) {
+for (const person of [...religiousCards, ...agencies, ...meetingProfiles, ...hunterProfiles, ...exileRealityProfiles]) {
   const blocks = person.sections.at(-1).blocks;
   const ranks = new Map(blocks[2].rows.slice(1,-1).map(([name, value]) => [name, Number(value)]));
   const rank = (name) => ranks.get(name) ?? 0;
