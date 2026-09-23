@@ -13,8 +13,9 @@ const bundle = await build({
     import { createRouter, createMemoryHistory } from 'vue-router';
     import Account from './src/pages/CharacterSheetPage.vue';
     import Journal from './src/pages/CharacterJournalPage.vue';
+    import History from './src/pages/CharacterHistoryPage.vue';
     const router = createRouter({ history: createMemoryHistory(), routes: [{ path: '/characters/:id/:view', component: Account }] });
-    const app = createApp(window.testJournal?Journal:Account).use(router);
+    const app = createApp(window.testHistory?History:window.testJournal?Journal:Account).use(router);
     router.push('/characters/11111111-1111-4111-8111-111111111111/sheet').then(() => { app.mount('#app'); });
     window.unmount = () => app.unmount();
   ` },
@@ -118,3 +119,37 @@ jw.confirm=()=>false;button('Supprimer').click();await wait(5);assert.equal(jour
 jw.confirm=()=>true;button('Supprimer').click();await until(()=>!jw.document.querySelector('.journal-entry'));
 assert.equal(writes,3);assert.deepEqual(errors,[]);jw.unmount();jw.close();
 console.log('JOURNAL DOM OK — create/read/edit/delete, escaped text, conflict retains draft, explicit reload, deletion confirmation');
+
+const historyDom=new JSDOM('<!doctype html><div id="app"></div>',{url:'https://test.invalid/characters/'+id+'/history',runScripts:'outside-only',virtualConsole:vc});
+const hw=historyDom.window;hw.Headers=Headers;hw.testHistory=true;
+const historyBase=structuredClone(fixture.characterData);historyBase.progression={};
+const historyNext=structuredClone(historyBase);historyNext.progression={xpEarned:30,ptvEarned:4,attributeRanks:{vigueur:1}};
+const historyRow=(revision,snapshot)=>({revision,snapshot,reason:revision===1?'created':'saved',createdAt:'2026-09-23T12:00:00Z'});
+let historyDenied=false,historyFails=false,historyRequests=[];
+hw.fetch=async(url,options={})=>{
+ assert.ok(!options.method||options.method==='GET','History is read-only');historyRequests.push(url);
+ let body,status=200;
+ if(url.includes('/history')){
+   if(historyDenied){status=404;body={error:'character_not_found'};}
+   else if(historyFails){status=503;body={error:'unavailable'};}
+   else body={character:{id,name:'<script>Alex</script>',version:2},revisions:url.includes('before=2')?[historyRow(1,historyBase)]:[historyRow(2,historyNext)],predecessor:url.includes('before=2')?null:historyRow(1,historyBase),nextBefore:url.includes('before=2')?null:2};
+ }else if(url.endsWith('/creation'))body={rules:fixture.rules};
+ else if(url.endsWith('/truth'))body=fixture.truthRules;
+ else throw Error('Unexpected history fetch '+url);
+ return {ok:status<400,status,json:async()=>body};
+};
+hw.eval(bundle.outputFiles[0].text);
+const historyButton=text=>[...hw.document.querySelectorAll('button')].find(b=>b.textContent.trim()===text);
+await until(()=>hw.document.querySelector('.history-changes'));
+assert.equal(hw.document.querySelector('.history-name script'),null);
+assert.match(hw.document.querySelector('.history-changes').textContent,/XP reçus/);
+historyFails=true;historyButton('Voir les versions précédentes').click();await until(()=>hw.document.querySelector('[role="alert"]'));
+assert.equal(hw.document.querySelectorAll('.history-entry').length,1,'Failed pagination retains loaded rows');
+historyFails=false;historyButton('Réessayer').click();await until(()=>hw.document.querySelectorAll('.history-entry').length===2);
+assert.match(hw.document.body.textContent,/Point de départ enregistré/);
+assert.equal(historyRequests.filter(url=>url.endsWith('/creation')).length,1,'Catalogues reused during pagination');
+historyDenied=true;historyButton('Actualiser').click();await until(()=>hw.document.querySelector('[role="alert"]'));
+assert.equal(hw.document.querySelectorAll('.history-entry').length,0,'Permission failure clears private history');
+assert.equal(hw.document.querySelector('.history-name'),null);
+assert.deepEqual(errors,[]);hw.unmount();hw.close();
+console.log('HISTORY DOM OK — escaped content, saved comparisons, pagination retry retains data, catalog reuse, read-only requests and privacy on access loss');

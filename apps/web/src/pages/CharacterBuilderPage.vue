@@ -1548,6 +1548,7 @@ onBeforeUnmount(()=>{
         >
           {{ progressionMode ? "Builder" : "Progression" }}
         </RouterLink>
+        <RouterLink v-if="character&&progressionMode" class="ghost compact back-link" :to="`/characters/${character.id}/history`">Historique</RouterLink>
         <RouterLink class="ghost compact back-link" to="/account">Mes personnages</RouterLink>
         <button class="primary compact" type="button" :disabled="saving || loading || !dirty" @click="saveCharacter">
           {{ saving ? "Enregistrement…" : dirty ? "Enregistrer" : "Enregistré" }}

@@ -291,6 +291,7 @@ onMounted(loadCharacters);
               Progression
             </RouterLink>
             <RouterLink class="ghost compact builder-link" :to="`/characters/${selected.id}/journal`">Journal d’aventure</RouterLink>
+            <RouterLink class="ghost compact builder-link" :to="`/characters/${selected.id}/history`">Historique de progression</RouterLink>
             <button class="ghost compact danger" type="button" :disabled="loading" @click="archiveCharacter">
               Archiver
             </button>
@@ -324,7 +325,7 @@ onMounted(loadCharacters);
 
         <div class="revision-block">
           <div class="revision-title">
-            <h4>Historique</h4>
+            <h4>Sauvegardes et restauration</h4>
             <small>{{ revisions.length }} révision{{ revisions.length > 1 ? "s" : "" }}</small>
           </div>
 

@@ -263,6 +263,13 @@ await page.route("**/api/**",async route=>{
       {id:"44444444-4444-4444-8444-444444444444",displayName:"Alex",role:"gm",shared:false}
     ]:[]})});
   }
+  if(url.pathname===`/api/characters/${characterId}/history`){
+    const initial={...characterData,progression:{}};
+    const progressed={...characterData,progression:{xpEarned:100,ptvEarned:4,attributeRanks:{vigueur:1}}};
+    const row=(revision,snapshot)=>({revision,snapshot,reason:revision===1?'created':'saved',createdAt:'2026-09-23T12:00:00Z'});
+    const older=url.searchParams.has('before');
+    return route.fulfill({status:200,contentType:"application/json",body:JSON.stringify({character:{id:characterId,name:"Smoke",version:2},revisions:older?[row(1,initial)]:[row(2,progressed)],predecessor:older?null:row(1,initial),nextBefore:older?null:2})});
+  }
   if(url.pathname.startsWith(`/api/characters/${characterId}/journal`)){
     if(method==="POST")journalEntries=[{id:"55555555-5555-4555-8555-555555555555",...JSON.parse(request.postData()),version:1,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()}];
     if(method==="PATCH")journalEntries=[{...journalEntries[0],...JSON.parse(request.postData()),version:journalEntries[0].version+1}];
@@ -656,6 +663,19 @@ await page.getByRole('button',{name:'Supprimer Une nouvelle piste',exact:true}).
 await page.getByText('Note supprimée.',{exact:true}).waitFor();
 if(journalEntries.length)throw new Error('Note non supprimée');
 console.log('Private adventure journal browser OK — creation, escaped text, edition, deletion and 320/390/1440px');
+
+await page.goto(`${baseUrl}/characters/${characterId}/history`);
+await page.locator('.history-changes').waitFor();
+await page.getByText('XP reçus depuis la création',{exact:true}).waitFor();
+for(const width of [1440,390,320]){
+  await page.setViewportSize({width,height:1000});
+  await assertBuilderReflow(`Historique ${width}px`);
+}
+await page.getByRole('button',{name:'Voir les versions précédentes',exact:true}).click();
+await page.getByText('Point de départ enregistré.',{exact:false}).waitFor();
+if(await page.locator('.history-entry').count()!==2)throw new Error('Pagination de l’historique incorrecte');
+if(await page.locator('input,textarea,select').count())throw new Error('L’historique doit rester en lecture seule');
+console.log('Progression history browser OK — saved values, pagination, read-only and 320/390/1440px');
 
 if(browserErrors.length)throw new Error("Erreurs navigateur :\n"+browserErrors.join("\n"));
 

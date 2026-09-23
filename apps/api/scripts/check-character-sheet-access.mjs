@@ -96,6 +96,29 @@ try {
   await call(player,'DELETE',`${path}/journal/${note.id}`,{version:2});
   assert.equal((await call(player,'GET',`${path}/journal`)).entries.length,0);
   await call(player,'POST',`${path}/journal`,noteBody,201);
+  await call(null,'GET',`${path}/history`,undefined,401);
+  for(const who of [other,gm,admin])await call(who,'GET',`${path}/history`,undefined,404);
+  for(const cursor of ['-1','nope','1.5','2147483648'])await call(player,'GET',`${path}/history?before=${cursor}`,undefined,400);
+  const historyCharacter=(await call(player,'POST','/api/characters',{name:'CI historique'},201)).character;
+  const historyPath=`/api/characters/${historyCharacter.id}`;
+  const historyData=structuredClone(historyCharacter.data);
+  historyData.identity.notes='PRIVATE NOTE NOT IN HISTORY';historyData.identity.portraitDataUrl='data:image/png;base64,PRIVATE';
+  for(let version=1;version<24;version++){
+    historyData.progression={xpEarned:version*10,ptvEarned:version,skillRanks:{athletisme:1},attributeRanks:{},truthTalents:[],realityTalents:[]};
+    await call(player,'PATCH',historyPath,{version,data:historyData});
+  }
+  const first=await call(player,'GET',`${historyPath}/history`);
+  assert.equal(first.revisions.length,20);assert.equal(first.revisions[0].revision,24);assert.equal(first.nextBefore,5);assert.equal(first.predecessor.revision,4);
+  assert.equal(first.revisions[0].snapshot.progression.xpEarned,230);
+  assert.ok(!JSON.stringify(first).includes('PRIVATE'),'No portraits or identity notes in history response');
+  await call(player,'PATCH',historyPath,{version:24,name:'CI historique actualisé'});
+  await call(player,'PATCH',historyPath,{version:24,name:'Stale'},409);
+  const second=await call(player,'GET',`${historyPath}/history?before=${first.nextBefore}`);
+  assert.deepEqual(second.revisions.map(r=>r.revision),[4,3,2,1]);assert.equal(second.nextBefore,null);assert.equal(second.predecessor,null);
+  assert.equal(new Set([...first.revisions,...second.revisions].map(r=>r.revision)).size,24,'Stable cursor with concurrent save');
+  await call(player,'POST',`${historyPath}/revisions/1/restore`,{});
+  const restored=await call(player,'GET',`${historyPath}/history`);
+  assert.equal(restored.revisions[0].revision,26);assert.equal(restored.revisions[0].reason,'restored:1');
   const shared=await call(gm,'GET',`${path}/sheet`);
   assert.equal(shared.canEdit,false);assert.equal(shared.character.name,character.name);
   for(const method of ['GET','PATCH','DELETE'])await call(gm,method,path,method==='GET'?undefined:{name:'Forbidden',version:1},404);
@@ -120,10 +143,11 @@ try {
   await call(player,'DELETE',path,{version:2});
   await call(gm,'GET',`${path}/sheet`,undefined,404);
   await call(player,'GET',`${path}/sheet`,undefined,404);
+  await call(player,'GET',`${path}/history`,undefined,404);
   await call(player,'GET',`${path}/journal`,undefined,404);
   await call(player,'POST',`${path}/journal`,noteBody,404);
   assert.equal((await call(gm,'GET','/api/characters/shared')).characters.length,0);
-  console.log(`CHARACTER SHEET ACCESS OK — ${checks} HTTP checks, real SQL, compact list, owner isolation, explicit grant, no write access, live update, revocation, role downgrade, disabled account, archive, private journal CRUD and stale-version protection`);
+  console.log(`CHARACTER SHEET ACCESS OK — ${checks} HTTP checks, real SQL, compact list, owner isolation, explicit grant, no write access, live update, revocation, role downgrade, disabled account, archive, private journal CRUD, paginated progression history and stale-version protection`);
 } finally {
   if(ids.length)await pool.query("DELETE FROM users WHERE id=ANY($1::uuid[]) AND email LIKE 'ci-sheet-%@example.invalid'",[ids]);
   if(app)await app.close();
