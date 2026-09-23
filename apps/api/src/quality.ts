@@ -1,4 +1,4 @@
-import { access } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import type { FastifyInstance, FastifyReply } from "fastify";
 import { requireAdmin } from "./auth.js";
@@ -260,6 +260,13 @@ export async function registerQualityRoutes(app: FastifyInstance) {
 
     const corpus = await getCompendiumQualityCorpus();
     const articles = corpus.articles.filter((article) => article.category !== "OLD");
+    const portraitLots = await readFile(resolve(MEDIA_DIR, "images/portraits/manifest.json"), "utf8")
+      .then((content) => JSON.parse(content) as Record<string, { items?: Array<{ id: string; src: string; visibility: string }> }>)
+      .catch(() => ({} as Record<string, { items?: Array<{ id: string; src: string; visibility: string }> }>));
+    const portraits = new Map<string, Array<{ lot: string; media: string; visibility: string }>>();
+    for (const [lot, group] of Object.entries(portraitLots)) {
+      for (const portrait of group.items ?? []) portraits.set(portrait.id, [...(portraits.get(portrait.id) ?? []), { lot, media: portrait.src, visibility: portrait.visibility }]);
+    }
     const ids = articles.map((article) => article.id);
     const idSet = new Set(ids);
     const articleById = new Map(articles.map((article) => [article.id, article]));
@@ -306,6 +313,7 @@ export async function registerQualityRoutes(app: FastifyInstance) {
         subgroup: navigation?.subgroup ?? "",
         source: article.source ?? "",
         media: primaryMedia(article),
+        portraits: portraits.get(article.id) ?? [],
         issues,
         firstSeenAt: review.firstSeenAt ?? null,
         reviewStatus: review.reviewStatus ?? "pending",
