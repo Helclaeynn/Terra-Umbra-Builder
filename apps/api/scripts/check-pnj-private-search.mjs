@@ -47,12 +47,12 @@ for (const audience of [null, "editor"]) {
     headers: role ? { cookie: "__Host-tuc_session=audit" } : {}
   });
   assert.equal(response.statusCode, 200);
-  assert.ok(!response.json().article.sections.some((section) => section.id === "profil-statistique"));
+  assert.equal(response.json().article.sections.some((section) => section.id === "profil-statistique"), audience === "editor");
   const privateArticle = await app.inject({
     method: "GET", url: "/api/compendium/articles/regles-pnj-talents-statistiques",
     headers: role ? { cookie: "__Host-tuc_session=audit" } : {}
   });
-  assert.equal(privateArticle.statusCode, 404);
+  assert.equal(privateArticle.statusCode, audience === "editor" ? 200 : 404);
 }
 
 for (const audience of ["gm", "admin"]) {
@@ -102,4 +102,4 @@ assert.ok(gmMilda.secretTags.includes("vérité/groupe/angelus"));
 assert.ok((await search('tag:"vérité/groupe/angelus"')).total > 0);
 
 await app.close();
-console.log("PNJ PRIVATE SEARCH OK — public/editor blocked; MJ/admin enabled; public payload sanitized");
+console.log("PNJ PRIVATE SEARCH OK — public/editor truth-tag search blocked; editor dossier access preserved; MJ/admin search enabled");
