@@ -230,13 +230,6 @@ function souillureDifficulty(talent:CorruptionTalent){
   return "";
 }
 
-function talentExcerpt(talent:CorruptionTalent){
-  // Only the preview is shortened; the complete canonical effect stays in the disclosure.
-  const start=talent.effect.search(/Le porteur|Lorsqu[’']une|Lorsque |Ce rite |Le rite |La cible |Le fidèle |Le bénéficiaire |Le personnage |La Faveur |Une fois |Un porteur |Il peut |Elle permet /);
-  const text=start>=0?talent.effect.slice(start):talent.effect;
-  return text.length>180?text.slice(0,180).replace(/\s+\S*$/,"")+"…":text;
-}
-
 function talentState(talent:CorruptionTalent){
   if(!selected(talent))return buyBlockReason(talent);
   if(talent.kind==="DON"&&!active(talent))return "Dormant";
@@ -362,12 +355,12 @@ function talentState(talent:CorruptionTalent){
           <div v-if="!visibleTalents.length" class="catalog-empty"><h4>Aucune capacité correspondante</h4><p>Essayez un autre terme ou élargissez vos filtres.</p><button class="secondary" type="button" @click="resetFilters">Réinitialiser les filtres</button></div>
           <div v-else class="corruption-grid">
             <article v-for="talent in visibleTalents" :key="talent.id" class="corruption-talent-card" :class="{selected:selected(talent),dormant:selected(talent)&&talent.kind==='DON'&&!active(talent)}">
-              <div class="corruption-talent-head"><div><span :data-kind="talent.kind">{{ talent.kind }} · {{ talent.cost }} PTV</span><strong>{{ talent.name }}</strong></div></div>
+              <details class="capacity-disclosure"><summary class="corruption-talent-head"><div><span :data-kind="talent.kind">{{ talent.kind }} · {{ talent.cost }} PTV</span><strong>{{ talent.name }}</strong></div><span>{{ selected(talent)?talentState(talent):buyBlockReason(talent) }}</span></summary>
               <div class="truth-talent-meta"><span>{{ talent.depth || talent.family }}</span><span v-if="souillureDifficulty(talent)">{{ souillureDifficulty(talent) }}</span></div>
-              <p class="talent-excerpt">{{ talentExcerpt(talent) }}</p>
-              <details class="talent-detail"><summary>Lire l’effet complet</summary><p>{{ talent.effect }}</p><p v-if="talent.prerequisiteName"><strong>Prérequis :</strong> {{ talent.prerequisiteName }}</p><p>{{ talent.sourceName }} · {{ talent.family }}</p></details>
+              <div class="talent-detail"><p>{{ talent.effect }}</p><p v-if="talent.prerequisiteName"><strong>Prérequis :</strong> {{ talent.prerequisiteName }}</p><p>{{ talent.sourceName }} · {{ talent.family }}</p></div>
               <div class="talent-actions"><p class="buy-reason">{{ selected(talent)?talentState(talent):buyBlockReason(talent) }}</p><button class="purchase-button" type="button" :class="{remove:selected(talent)}" :disabled="lockedTalentIds?.includes(talent.id)||(!selected(talent)&&!canBuy(talent))" :aria-label="selected(talent)?`Retirer ${talent.name}`:`Acquérir ${talent.name} pour ${talent.cost} PTV`" @click="toggle(talent)">{{ lockedTalentIds?.includes(talent.id)?'Acquis à la création':selected(talent)?'Retirer':`Acquérir · ${talent.cost} PTV` }}</button></div>
-            </article>
+            </details>
+</article>
           </div>
         </div>
 
@@ -1356,4 +1349,13 @@ function talentState(talent:CorruptionTalent){
   }
 }
 
+
+.corruption-grid{grid-template-columns:minmax(0,1fr);gap:8px}
+.corruption-talent-card{display:block;padding:0}
+.capacity-disclosure>summary{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:56px;padding:12px 16px;cursor:pointer}
+.capacity-disclosure>summary::after{content:'＋';color:#a3ecfa}
+.capacity-disclosure[open]>summary::after{content:'−'}
+.capacity-disclosure>summary strong{font-size:15px;line-height:1.4}
+.capacity-disclosure>summary>span{font-size:12px;color:#b4c8d9}
+.capacity-disclosure>.truth-talent-meta,.capacity-disclosure>.talent-detail,.capacity-disclosure>.talent-actions{margin:12px 16px}
 </style>

@@ -325,7 +325,7 @@ const truthCandidates=computed(()=>{
     .sort(compareTruthTalents);
 });
 function truthCanBuy(talent:TruthTalent){
-  return state.value.truthTalentsMjAuthorized&&truthPrerequisiteSatisfied(
+  return truthPrerequisiteSatisfied(
     props.truthRules,
     combinedTruthState.value,
     talent,
@@ -640,16 +640,17 @@ function sellCampaignItem(){
         <div class="subsection-title"><div><h3>{{ group.label }}</h3><p>{{ group.help }}</p></div><span class="schema-badge">{{ group.items.length }}</span></div>
         <div class="talent-list">
           <article v-for="talent in group.items" :key="talent.id" :class="{locked:!realityTalentAllowed(talent).ok}">
-            <div class="card-head">
+            <details class="talent-disclosure"><summary class="card-head">
               <div class="progress-card-title">
                 <strong>{{ talent.name }}</strong>
               </div>
               <span>10 XP</span>
-            </div>
+            </summary>
             <details v-if="talentLore?.[talent.id]" class="talent-lore"><summary>Contexte et lore</summary><p>{{ talentLore[talent.id] }}</p></details>
             <p>{{ talent.effect || "—" }}</p>
             <small v-if="!realityTalentAllowed(talent).ok">{{ realityTalentAllowed(talent).reason }}</small>
             <button class="primary compact" type="button" :disabled="!realityTalentAllowed(talent).ok||xpRemainingValue<10" @click="buyRealityTalent(talent)">Apprendre · 10 XP</button>
+          </details>
           </article>
         </div>
       </section>
@@ -657,7 +658,7 @@ function sellCampaignItem(){
 
     <details class="progress-panel" :open="state.truthTalents.length>0">
       <summary><strong>Dépenser des PTV</strong><span>La Vérité progresse par les PTV, jamais par l’XP</span></summary>
-      <div v-if="state.truthTalentsMjAuthorized&&truthState.consciousness==='profane'" class="initiation-row">
+      <div v-if="truthState.consciousness==='profane'" class="initiation-row">
         <div><strong>Passer de Profane à Initié</strong><span>Changement fictionnel permanent validé par le MJ ; aucun coût automatique en XP ou PTV.</span></div>
         <button class="primary compact" type="button" @click="initiateTruth">Devenir Initié</button>
       </div>
@@ -667,8 +668,6 @@ function sellCampaignItem(){
           <button class="ghost danger compact" type="button" @click="removeTruthTalent(id)">Retirer</button>
         </div>
       </div>
-      <label class="campaign-approval"><span><strong>Accord MJ — Talents de Vérité en campagne</strong><small>Confirme l’accord du MJ pour ouvrir les acquisitions. Chaque achat consomme les PTV disponibles.</small></span><input type="checkbox" role="switch" :checked="state.truthTalentsMjAuthorized" @change="authorize('truthTalentsMjAuthorized',($event.target as HTMLInputElement).checked)" /></label>
-      <template v-if="state.truthTalentsMjAuthorized">
       <label class="truth-search">
         Rechercher dans les Talents accessibles
         <input v-model="truthSearch" type="search" placeholder="Nom, branche, effet, prérequis…" />
@@ -677,20 +676,20 @@ function sellCampaignItem(){
       <p v-if="!truthCandidates.length" class="rule-note">Aucun Talent ne correspond aux choix actuels ou à la recherche.</p>
       <div class="talent-list">
         <article v-for="talent in truthCandidates" :key="talent.id" :class="{locked:!truthCanBuy(talent)}">
-          <div class="card-head">
+          <details class="talent-disclosure"><summary class="card-head">
             <div class="progress-card-title">
               <strong>{{ talent.name }}</strong>
               <small>{{ talent.group }}</small>
             </div>
             <span>{{ talent.cost }} PTV</span>
-          </div>
+          </summary>
           <details v-if="talent.runtimeLore" class="talent-lore"><summary>Contexte et lore</summary><p>{{ talent.runtimeLore }}</p></details>
           <p v-if="talent.prerequisiteName"><b>Prérequis :</b> {{ talent.prerequisiteName }}</p>
           <p>{{ talent.effect }}</p>
           <button class="primary compact" type="button" :disabled="!truthCanBuy(talent)" @click="buyTruthTalent(talent)">Apprendre · {{ talent.cost }} PTV</button>
-        </article>
+        </details>
+          </article>
       </div>
-      </template>
     </details>
 
     <section class="progress-panel campaign-corruption">
@@ -903,4 +902,12 @@ label{font-size:14px;line-height:1.5}
 .talent-lore summary{cursor:pointer;min-height:44px;display:list-item;padding:10px 0;color:#a5def0}.talent-lore p{margin:4px 0 0;white-space:pre-line;color:#c0c6e1}.catalog-sort-hint{color:#a7bdcf;font-size:13px;line-height:1.5;margin:12px 0}
 @media(max-width:760px){.progress-grid>article{flex-basis:calc((100% - 14px)/2)}}
 @media(max-width:600px){.progress-grid>article{flex-basis:100%}.talent-list>article{grid-template-columns:1fr;padding:16px}.talent-list article>.primary{grid-column:1;grid-row:auto;justify-self:stretch}.talent-list .card-head{flex-wrap:wrap}}
+
+.talent-list>article{display:block;padding:0}
+.talent-disclosure>summary{display:flex;align-items:center;justify-content:space-between;min-height:56px;padding:12px 16px;cursor:pointer;list-style:revert}
+.talent-disclosure>summary::after{content:'＋';color:#a3ecfa}
+.talent-disclosure[open]>summary::after{content:'−'}
+.talent-disclosure>p,.talent-disclosure>small,.talent-disclosure>.talent-lore{display:block;margin:12px 16px;line-height:1.6}
+.talent-disclosure>button{margin:0 16px 16px;min-height:44px}
+.talent-disclosure .progress-card-title{flex:1;display:grid;gap:4px}
 </style>

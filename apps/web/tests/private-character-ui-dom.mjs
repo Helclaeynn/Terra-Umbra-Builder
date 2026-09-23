@@ -178,9 +178,10 @@ const check=el=>{el.checked=true;el.dispatchEvent(new cw.Event('change',{bubbles
 const clickName=name=>{const b=[...cw.document.querySelectorAll('button')].find(b=>b.getAttribute('aria-label')===name);assert.ok(b,name);assert.equal(b.disabled,false,name);b.click();};
 assert.equal(cw.document.querySelector('.corruption-panel'),null);
 assert.equal(cw.document.querySelector('.truth-equipment-panel'),null);
-check(approval('Accord MJ — Talents de Vérité en campagne'));await wait(5);
+assert.ok(!cw.document.body.textContent.includes('Accord MJ — Talents de Vérité en campagne'));
+assert.equal(Boolean(campaignSnapshot().progression.truthTalentsMjAuthorized),false);
 const truthCard=[...cw.document.querySelectorAll('.talent-list>article')].find(a=>a.textContent.includes('Aube occulte'));
-assert.ok(truthCard);truthCard.querySelector('button').click();await wait(5);
+assert.ok(truthCard);assert.equal(truthCard.querySelector('details').open,false);truthCard.querySelector('summary').click();truthCard.querySelector('button').click();await wait(5);
 check(approval('Autorisation MJ — Corruption & Fléaux'));await until(()=>cw.document.querySelector('.corruption-panel'));
 const sourceSelect=cw.document.querySelector('.source-choice select');sourceSelect.value='vhodhal';sourceSelect.dispatchEvent(new cw.Event('change',{bubbles:true}));await wait(5);
 clickName('Augmenter la corruption');await wait(5);assert.equal(campaignSnapshot().truth.corruption,2);
@@ -198,6 +199,11 @@ check(approval('Autorisation MJ d’accès exceptionnel aux objets de Vérité')
 const objectCard=[...cw.document.querySelectorAll('.truth-equipment-card')].find(a=>a.textContent.includes('Relique corrompue Smoke'));
 [...objectCard.querySelectorAll('button')].find(b=>b.textContent.trim()==='Ajouter').click();await wait(5);
 assert.deepEqual(campaignSnapshot().truth.truthEquipment,['truth-corrupt-smoke']);
+const modeButton=name=>[...cw.document.querySelectorAll('.catalog-modes button')].find(b=>b.textContent===name);
+modeButton('Règles et références').click();await wait(5);
+assert.ok([...cw.document.querySelectorAll('.truth-equipment-card')].every(card=>!card.textContent.includes('Relique corrompue Smoke')),'Reference view excludes acquirable objects');
+modeButton('Mes possessions').click();await wait(5);
+assert.equal(cw.document.querySelectorAll('.truth-equipment-card').length,1,'Owned view retains acquired object');
 assert.equal(ptvBox.querySelector('strong').textContent,'1','Object possession does not silently spend PTV');
 assert.equal(campaignSnapshot().truth.truthTalents.length,0,'Combined native talents were not copied into creation');
 assert.deepEqual(errors,[]);cw.unmount();cw.close();
