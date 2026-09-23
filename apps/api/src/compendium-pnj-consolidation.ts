@@ -178,13 +178,17 @@ function tidyReviewedRealityIdentity(article: Article): void {
   if (!rows) return;
   const choices: Record<string, Record<string, [string, string]>> = {
     "personnages-verite-humains-galactiques-alladava-kjoll": {
-      "Fonction / statut": ["Vice-Présidente / Vice-présidente de corporation", "Vice-présidente de Space Force Union"]
+      "Fonction / statut": ["Vice-Présidente / Vice-présidente de corporation", "Vice-présidente de Space Force Union"],
+      Nationalité: ["Mexicaine / Sud-Africaine", "Sud-africaine"]
     },
     "personnages-verite-especes-elizabeth-mircalla-karnstein": {
       Affiliations: ["meditech / Meditechs / crawlers : meditech", "Crawlers : Meditech"],
       Nationalité: ["Autriche (Styrie) / Autrichienne", "Autrichienne (Styrie)"]
     },
-    "pnj-pegre-fuyumi-shinoda": { Nationalité: ["Japon / Japonaise", "Japonaise"] },
+    "pnj-pegre-fuyumi-shinoda": {
+      Nationalité: ["Japon / Japonaise", "Japonaise"],
+      "Affaires liées": [">320 / >120", "320"]
+    },
     "personnages-verite-especes-az-la-faucheuse-noire": {
       Nom: ["La Faucheuse noire (Az) / Az", "La Faucheuse noire (Az)"]
     },
@@ -196,7 +200,15 @@ function tidyReviewedRealityIdentity(article: Article): void {
       Affiliations: ["Corporation : First Lawyers Inc. / Corporatiste", "Corporation : First Lawyers Inc."]
     },
     "pnj-police-ryan-rowe": {
-      Alias: ["THE RAISER / Un chef de l’insurrection. / The Raiser : Ryan Rowe", "The Raiser"]
+      Alias: ["THE RAISER / Un chef de l’insurrection. / The Raiser : Ryan Rowe", "The Raiser"],
+      Affiliations: ["Freerunners / Crawlers : Insurgés", "Crawlers : Freerunners, insurgés"],
+      Organisation: ["Front de libération des droits universels / Raising Freedom", "Raising Freedom (Front de libération des droits universels)"]
+    },
+    "pnj-fleaux-focus-olayinka-najja-8-olayinka-najja": {
+      Nationalité: ["Nigériane / Congolaise", "Nigériane"]
+    },
+    "pnj-crawlers-antisysteme-p70-ulfric-tamer": {
+      Nationalité: ["britannique / Suédoise", "Suédoise"]
     },
     "personnages-verite-humains-galactiques-saskia": {
       "Fonction / statut": ["Présidente / présidente de corporation", "Présidente d’Eversor"]
@@ -217,13 +229,30 @@ function tidyReviewedRealityIdentity(article: Article): void {
     row[1] = value;
     resolved.push(field);
   }
+  const confirmedNationalities: Record<string, string> = {
+    "personnages-verite-humains-galactiques-alladava-kjoll": "Sud-africaine",
+    "pnj-fleaux-focus-olayinka-najja-8-olayinka-najja": "Nigériane",
+    "pnj-crawlers-antisysteme-p70-ulfric-tamer": "Suédoise"
+  };
+  const nationality = confirmedNationalities[article.id];
+  if (nationality && article.pnj) {
+    if ("origine" in article.pnj) article.pnj.origine = nationality;
+    if ("nationalite" in article.pnj) article.pnj.nationalite = nationality;
+  }
   if (["pnj-124-ciliren-faelen-flamy", "personnages-verite-vampires-p31-kanika-onyesha"].includes(article.id)) {
-    if (rows.some(([label]) => label === "Nom")) throw new Error(`PNJ · nom déjà présent : ${article.id}`);
     const name = String(article.title ?? "").trim();
     if (!name) throw new Error(`PNJ · nom public absent : ${article.id}`);
-    rows.splice(1, 0, ["Nom", name]);
+    const current = rows.find(([label]) => label === "Nom");
+    if (current && current[1] !== name) throw new Error(`PNJ · nom civil inattendu : ${article.id}`);
+    if (!current) rows.splice(1, 0, ["Nom", name]);
     article.realityName = name;
-    if (article.id === "pnj-124-ciliren-faelen-flamy") resolved.push("Identité protégée");
+    resolved.push("Identité protégée");
+  }
+  if (article.id === "pnj-crawlers-antisysteme-p64-jayceon-osborn") {
+    const dossier = article.sections?.find((section) => section.id === "dossier-mj-consolide");
+    if (!dossier) throw new Error("PNJ · dossier MJ de Jayceon absent");
+    dossier.blocks.unshift({type: "p", text: "Arbitrage canonique : Jayceon Osborn est le nom civil ; Jacyr Oceriol est le nom de Vérité. Une ancienne source inverse ces deux noms ; elle est conservée ci-dessous à titre de provenance."});
+    resolved.push("Identité protégée");
   }
   // "Baron moteur" was correctly withheld; Zaketa Harris is already the
   // public civilian name. No editorial decision is required for that alert.
@@ -338,7 +367,30 @@ export function consolidateActivePnjSections(byId: Map<string, Article>): void {
     // already present in this profile and must lead its public entry.
     if (article.id === "pnj-loges-mages-naalnish-09") article.title = "Naalnish";
 
+    if (article.id === "pnj-crawlers-antisysteme-p64-jayceon-osborn") {
+      if (article.pnj?.real_name !== "Jayceon Osborn") throw new Error("PNJ · nom civil de Jayceon modifié");
+      article.pnj.nom_verite = "Jacyr Oceriol";
+    }
+    if (article.id === "personnages-verite-vampires-p31-kanika-onyesha") {
+      const reality = article.sections?.find((section) => section.id === "vampires-realite");
+      const identity = reality?.blocks?.find((block: Record<string, any>) => block.type === "table")?.rows?.find((row: string[]) => row[0] === "Nom / identité de Réalité");
+      const biography = reality?.blocks?.find((block: Record<string, any>) => block.type === "p" && String(block.text ?? "").includes("Elle usurpa alors l’identité"));
+      const truth = article.sections?.find((section) => section.id === "vampires-verite");
+      if (identity?.[1] !== "Kanika Onyesha (alias : Hailey Powell)" || !biography || !truth) {
+        throw new Error("PNJ · source Kanika / Hailey modifiée");
+      }
+      const cut = biography.text.indexOf(" Elle usurpa alors l’identité");
+      if (cut < 0) throw new Error("PNJ · récit de l'usurpation introuvable");
+      identity[1] = "Kanika Onyesha";
+      truth.blocks.push({type: "p", text: biography.text.slice(cut).trim()});
+      truth.blocks.push({type: "p", text: "Hailey Powell est une personne distincte : héroïne de guerre, officiellement morte, elle possède sa propre fiche canonique de chasseuse Hunt 15 (pnj-crawlers-docx-hailey-powell). Kanika a usurpé son identité après la guerre."});
+      biography.text = biography.text.slice(0, cut);
+    }
+
     addPnjTaxonomy(article);
+    if (article.id === "personnages-verite-vampires-p31-kanika-onyesha") {
+      article.secretTags = [...new Set([...(article.secretTags ?? []), "vérité/identité usurpée/Hailey Powell"])];
+    }
 
     const publicSections: Section[] = [];
     const secretSections: Section[] = [];
