@@ -67,7 +67,7 @@ export function applyCivilPnjStatBatch04(byId:Map<string,Article>):void {
   }
 }
 
-function consolidateReligiousRealityCard(article:Article):void {
+export function consolidateReligiousRealityCard(article:Article):void {
   const sections=article.sections??[];
   const reperes=sections.find(section=>section.id==="reperes");
   const source=reperes?.blocks?.find((block:Record<string,any>)=>block.type==="table")?.rows;

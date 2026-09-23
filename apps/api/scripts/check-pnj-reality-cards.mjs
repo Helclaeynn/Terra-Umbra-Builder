@@ -13,7 +13,7 @@ const rows = (id) => article(id).sections[0].blocks[0].rows;
 const religiousCards = active.filter((item) =>
   ["realite-v9-religions-pnj", "realite-v9-christianity-pnj"].includes(item.dataset) &&
   item.sections.at(-1)?.id === "profil-statistique" && item.sections.at(-1).blocks.length >= 6);
-assert.equal(religiousCards.length, 30);
+assert.equal(religiousCards.length, 46);
 for (const person of religiousCards) {
   assert.equal(person.sections[0].id, "identite-realite-consolidee", person.id);
   assert.equal(person.sections.filter((s) => s.id === "identite-realite-consolidee").length, 1, person.id);
@@ -26,8 +26,24 @@ for (const person of religiousCards) {
 const agencies = active.filter((person) => person.dataset === "realite-v9-agencies-pnj" &&
   person.id !== "pnj-agences-cole-gallagher" && person.sections.at(-1)?.blocks.length >= 6);
 assert.equal(agencies.length, 18);
+const meetingProfiles = active.filter((person) => person.dataset === "points-rencontre-pnj" &&
+  person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
+assert.equal(meetingProfiles.length, 24);
+const hunterProfiles = active.filter((person) => person.dataset === "verite-hunters-pnj" &&
+  person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
+assert.equal(hunterProfiles.length, 10);
+for (const [id, secret, retained] of [
+  ["personnages-points-rencontre-kristina-moon", "magie familiale de l’empire vert", "empire vert"],
+  ["personnages-points-rencontre-murck-date", "projection spectrale", "magie spectrale"],
+  ["personnages-points-rencontre-mukna", "magie du sang", "magie du sang"],
+  ["personnages-points-rencontre-lana-alvarez", "tueur de mageius", "tueur de mageius"],
+  ["personnages-points-rencontre-james-hopper", "origine clonale", "clones de"]
+]) {
+  assert.ok(!JSON.stringify(article(id, true)).toLowerCase().includes(secret), `${id}: secret révélé publiquement`);
+  assert.ok(JSON.stringify(article(id)).toLowerCase().includes(retained), `${id}: information MJ perdue`);
+}
 const civilPrerequisiteFailures = [];
-for (const person of [...religiousCards, ...agencies]) {
+for (const person of [...religiousCards, ...agencies, ...meetingProfiles, ...hunterProfiles]) {
   const blocks = person.sections.at(-1).blocks;
   const ranks = new Map(blocks[2].rows.slice(1,-1).map(([name, value]) => [name, Number(value)]));
   const rank = (name) => ranks.get(name) ?? 0;
@@ -36,6 +52,7 @@ for (const person of [...religiousCards, ...agencies]) {
     Number(intro.match(/(\d+) points d'Attributs/)?.[1]), person.id);
   assert.equal([...ranks.values()].reduce((sum, value) => sum + value, 0),
     Number(intro.match(/(\d+) points de Compétences/)?.[1]), person.id);
+  assert.ok(!article(person.id, true).sections.some((s) => s.id === "profil-statistique"), person.id);
   for (const [talent, valid] of [
     ["Réseau mobilisable", rank("Autorité") >= 6], ["Dossier préparé", rank("Investigation") >= 6],
     ["Chef de manœuvre", rank("Autorité") >= 6],
