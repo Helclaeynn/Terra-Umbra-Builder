@@ -18,6 +18,8 @@ const props=defineProps<{
   rules:TruthRulesPackage;
   integrity:number;
   ptvRemaining:number;
+  lockedTalentIds?:string[];
+  campaign?:boolean;
 }>();
 
 const emit=defineEmits<{
@@ -174,6 +176,7 @@ function canBuy(talent:CorruptionTalent){
 }
 
 function removeCascade(id:string){
+  if(props.lockedTalentIds?.includes(id))return;
   update(next=>{
     let ids=next.corruptionTalents.filter(value=>value!==id);
     let changed=true;
@@ -182,7 +185,7 @@ function removeCascade(id:string){
       const state={...next,corruptionTalents:ids};
       const pruned=ids.filter(value=>{
         const talent=talentMap.value.get(value);
-        return !talent||truthCorruptionPrerequisiteSatisfied(props.rules,state,talent);
+        return props.lockedTalentIds?.includes(value)||!talent||truthCorruptionPrerequisiteSatisfied(props.rules,state,talent);
       });
       if(pruned.length!==ids.length){
         ids=pruned;
@@ -246,7 +249,7 @@ function talentState(talent:CorruptionTalent){
   <label class="corruption-authorization" :class="{ active: modelValue.corruptionMjAuthorized }">
     <span class="authorization-copy">
       <strong>Autorisation MJ — Corruption & Fléaux</strong>
-      <small>Ouvre ce bloc pour une création corrompue ou l’acquisition de Rites et Faveurs, avec l’accord explicite du MJ.</small>
+      <small>{{ campaign ? "Ouvre le suivi de la Corruption et les acquisitions de Dons, Rites et Faveurs en campagne, avec l’accord explicite du MJ." : "Ouvre ce bloc pour une création corrompue ou l’acquisition de Rites et Faveurs, avec l’accord explicite du MJ." }}</small>
       <small v-if="modelValue.corruptionMjAuthorized && hasCorruptionState">Retirez d’abord toute Corruption et toute capacité de Fléau pour refermer ce bloc.</small>
       <small v-else-if="hasCorruptionState">Des données de Corruption sont conservées. Réactivez l’autorisation pour les consulter.</small>
       <small v-else-if="modelValue.corruptionMjAuthorized">Peut être retirée tant qu’aucune Corruption ni capacité n’a été enregistrée.</small>
@@ -363,7 +366,7 @@ function talentState(talent:CorruptionTalent){
               <div class="truth-talent-meta"><span>{{ talent.depth || talent.family }}</span><span v-if="souillureDifficulty(talent)">{{ souillureDifficulty(talent) }}</span></div>
               <p class="talent-excerpt">{{ talentExcerpt(talent) }}</p>
               <details class="talent-detail"><summary>Lire l’effet complet</summary><p>{{ talent.effect }}</p><p v-if="talent.prerequisiteName"><strong>Prérequis :</strong> {{ talent.prerequisiteName }}</p><p>{{ talent.sourceName }} · {{ talent.family }}</p></details>
-              <div class="talent-actions"><p class="buy-reason">{{ selected(talent)?talentState(talent):buyBlockReason(talent) }}</p><button class="purchase-button" type="button" :class="{remove:selected(talent)}" :disabled="!selected(talent)&&!canBuy(talent)" :aria-label="selected(talent)?`Retirer ${talent.name}`:`Acquérir ${talent.name} pour ${talent.cost} PTV`" @click="toggle(talent)">{{ selected(talent)?'Retirer':`Acquérir · ${talent.cost} PTV` }}</button></div>
+              <div class="talent-actions"><p class="buy-reason">{{ selected(talent)?talentState(talent):buyBlockReason(talent) }}</p><button class="purchase-button" type="button" :class="{remove:selected(talent)}" :disabled="lockedTalentIds?.includes(talent.id)||(!selected(talent)&&!canBuy(talent))" :aria-label="selected(talent)?`Retirer ${talent.name}`:`Acquérir ${talent.name} pour ${talent.cost} PTV`" @click="toggle(talent)">{{ lockedTalentIds?.includes(talent.id)?'Acquis à la création':selected(talent)?'Retirer':`Acquérir · ${talent.cost} PTV` }}</button></div>
             </article>
           </div>
         </div>
@@ -371,7 +374,7 @@ function talentState(talent:CorruptionTalent){
         <aside class="corruption-owned" :aria-labelledby="`${panelId}-owned-heading`">
           <header class="owned-heading"><p class="eyebrow">MON PERSONNAGE</p><h4 :id="`${panelId}-owned-heading`" ref="ownedHeading" tabindex="-1">Capacités acquises <span>{{ selectedTalents.length }}</span></h4></header>
           <div v-if="!selectedTalents.length" class="owned-empty"><strong>Aucune capacité acquise</strong><p>Explorez le catalogue. Vos choix et leur état apparaîtront ici.</p></div>
-          <article v-for="talent in selectedTalents" :key="talent.id" class="corruption-owned-row"><div class="owned-copy"><strong>{{ talent.name }}</strong><span>{{ talent.sourceName }} · {{ talent.cost }} PTV</span><small :class="{dormant:talentState(talent)==='Dormant'}">{{ talentState(talent) }}</small></div><button type="button" :aria-label="`Retirer ${talent.name} des capacités acquises`" @click="removeOwned(talent.id)">Retirer</button></article>
+          <article v-for="talent in selectedTalents" :key="talent.id" class="corruption-owned-row"><div class="owned-copy"><strong>{{ talent.name }}</strong><span>{{ talent.sourceName }} · {{ talent.cost }} PTV</span><small :class="{dormant:talentState(talent)==='Dormant'}">{{ talentState(talent) }}</small></div><button v-if="!lockedTalentIds?.includes(talent.id)" type="button" :aria-label="`Retirer ${talent.name} des capacités acquises`" @click="removeOwned(talent.id)">Retirer</button><small v-else>Acquis à la création</small></article>
           <p class="owned-note">Un Don dormant reste acquis et conserve son coût en PTV.</p>
         </aside>
       </div>

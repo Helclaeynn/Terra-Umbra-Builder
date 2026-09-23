@@ -35,3 +35,19 @@ assert.equal(compareHistory(rev(3,unknown),rev(2,after),rules,truthRules).change
 unknown.progression.attributeRanks.vigueur=1000000000;
 assert.equal(compareHistory(rev(3,unknown),rev(2,after),rules,truthRules).changes.find(c=>c.label.startsWith('XP engagés')).after,'Coût inconnu');
 console.log('HISTORY MODEL OK — saved differences, shared sheet cost agreement, Flash discount, restored versions, missing baseline, unknown costs, bounded calculation and no mutation');
+
+const corruptionAfter=structuredClone(after);
+corruptionAfter.progression.corruptionTalents=['don-smoke','rite-smoke'];
+corruptionAfter.progression.truthEquipmentMjAuthorized=true;
+corruptionAfter.truth.corruption=2;corruptionAfter.truth.corruptionSource='vhodhal';
+corruptionAfter.truth.corruptionMjAuthorized=true;corruptionAfter.truth.truthEquipment=['truth-corrupt-smoke'];
+const corruptionChanges=compareHistory(rev(3,corruptionAfter),rev(2,after),rules,truthRules).changes;
+assert.equal(corruptionChanges.find(c=>c.label==='Corruption · niveau').after,'2');
+assert.equal(corruptionChanges.find(c=>c.label==='Corruption · Source dominante').after,'Vhodhal');
+assert.equal(corruptionChanges.find(c=>c.label.startsWith('PTV engagés')).after,'3');
+assert.ok(corruptionChanges.some(c=>c.label==='Capacité de Fléau · Don de Faim Smoke'&&c.after==='Acquis'));
+assert.ok(corruptionChanges.some(c=>c.label==='Objet de Vérité · Relique corrompue Smoke'&&c.after==='Acquis'));
+const purified=structuredClone(corruptionAfter);purified.truth.corruption=0;purified.truth.corruptionSource='';
+const purifiedChanges=compareHistory(rev(4,purified),rev(3,corruptionAfter),rules,truthRules).changes;
+assert.ok(!purifiedChanges.some(c=>c.label.startsWith('PTV engagés')||c.label.startsWith('Capacité de Fléau')),'Purification is not a refund or deletion');
+console.log('TRUTH HISTORY OK — corruption level/source, declared approvals, acquired abilities/objects and purification without refund');

@@ -1093,7 +1093,7 @@ async function loadCharacter(){
           truthEquipment:[...loadedTruth.truthEquipment],
           truthEquipmentMjOverride:Boolean(loadedTruth.truthEquipmentMjOverride),
           corruptionMjAuthorized:Boolean(loadedTruth.corruptionMjAuthorized),
-          corruption:Math.min(derivedStats.value.integrity,Math.max(0,loadedTruth.corruption)),
+          corruption:Math.max(0,loadedTruth.corruption),
           corruptionSource:loadedTruth.corruption>0?loadedTruth.corruptionSource:"",
           corruptionTalents:[...loadedTruth.corruptionTalents]
         };
@@ -1650,7 +1650,7 @@ onBeforeUnmount(()=>{
 
         <div class="builder-quick-summary" aria-label="Résumé des ressources">
           <div><small>Edge</small><strong>{{ edgeRemaining }}/{{ edgeTotal }}</strong></div>
-          <div><small>PTV</small><strong>{{ truthPtvRemaining }}</strong></div>
+          <div><small>PTV</small><strong>{{ progressionMode ? (characterSheet?.ptvRemaining ?? truthPtvRemaining) : truthPtvRemaining }}</strong></div>
           <div><small>Train de vie</small><strong>{{ lifestylePressureValue?.effective || lifestyleBaseValue }}</strong></div>
           <div><small>Compte</small><strong>{{ formatMoney(Math.max(0,realityEconomyValue?.account || 0)) }}</strong></div>
         </div>

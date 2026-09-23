@@ -13,6 +13,9 @@ export type ProgressionState={
   attributeRanks:Record<string,number>;
   realityTalents:string[];
   truthTalents:string[];
+  corruptionTalents:string[];
+  truthTalentsMjAuthorized:boolean;
+  truthEquipmentMjAuthorized:boolean;
   flashUses:string[];
   flashReady:boolean;
   flashArmed:boolean;
@@ -80,6 +83,9 @@ export function ensureProgression(
     attributeRanks:Object.fromEntries(attributeIds.map(id=>[id,nonNegativeInt(attributeRanks[id])])),
     realityTalents:stringArray(raw.realityTalents),
     truthTalents:stringArray(raw.truthTalents),
+    corruptionTalents:stringArray(raw.corruptionTalents),
+    truthTalentsMjAuthorized:Boolean(raw.truthTalentsMjAuthorized),
+    truthEquipmentMjAuthorized:Boolean(raw.truthEquipmentMjAuthorized),
     flashUses:stringArray(raw.flashUses),
     flashReady:raw.flashReady!==false,
     flashArmed:Boolean(raw.flashArmed),
@@ -165,17 +171,20 @@ export function xpRemaining(
 
 export function ptvSpent(
   state:ProgressionState,
-  costOf:(id:string)=>number
+  costOf:(id:string)=>number,
+  corruptionCostOf:(id:string)=>number=()=>0
 ){
-  return state.truthTalents.reduce((sum,id)=>sum+Math.max(0,Number(costOf(id))||0),0);
+  return state.truthTalents.reduce((sum,id)=>sum+Math.max(0,Number(costOf(id))||0),0)+
+    (state.corruptionTalents??[]).reduce((sum,id)=>sum+Math.max(0,Number(corruptionCostOf(id))||0),0);
 }
 
 export function ptvRemaining(
   state:ProgressionState,
   creationReserve:number,
-  costOf:(id:string)=>number
+  costOf:(id:string)=>number,
+  corruptionCostOf:(id:string)=>number=()=>0
 ){
-  return Math.max(0,creationReserve)+Math.max(0,Number(state.ptvEarned)||0)-ptvSpent(state,costOf);
+  return Math.max(0,creationReserve)+Math.max(0,Number(state.ptvEarned)||0)-ptvSpent(state,costOf,corruptionCostOf);
 }
 
 export function campaignCashBase(state:ProgressionState,creationAccount:number){
