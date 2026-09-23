@@ -407,6 +407,7 @@ const PUBLIC_PNJ_TAGS = new Set([
 // stable for editorial overrides and existing references; public indexes use
 // these slugs, while article lookups continue to accept older links.
 const PROTECTED_PNJ_PUBLIC_IDS: Record<string, string> = {
+  "pnj-loges-mages-mike-michabou-28": "pnj-loges-mages-mike-28",
   "personnages-verite-fantastiques-tharlal-rark": "personnages-verite-fantastiques-thor",
   "personnages-verite-especes-ascanius": "personnages-verite-especes-nathan-chappelle",
   "personnages-verite-especes-anahita": "personnages-verite-especes-anna-hita",

@@ -42,6 +42,10 @@ for (const audience of [null, "editor"]) {
   assert.ok(!(await search("Thar’lal Rark")).items.some((item) => item.title === "Thor"));
   assert.ok(!(await search("Siadara")).items.some((item) => item.title === "Sianna Danein"));
   assert.ok(!(await search("Morrighan")).items.some((item) => item.title === "Moira Blake"));
+  assert.ok(!(await search("Michabou")).items.some((item) => item.id === "pnj-loges-mages-mike-28"));
+  assert.ok(!(await search("triades")).items.some((item) => item.id === "pnj-loges-mages-zhao-guanyu-10"));
+  assert.ok(!(await search("Arianwen")).items.some((item) => item.id === "pnj-loges-mages-nike-celio-37"));
+  assert.ok((await search("Mike")).items.some((item) => item.id === "pnj-loges-mages-mike-28"));
   assert.ok((await search("Thor")).items.some((item) => item.id === "personnages-verite-fantastiques-thor"));
   assert.ok(!(await search("Viviane")).items.some((item) => item.id === "pnj-loges-mages-nina-le-guellec-03"));
   assert.ok((await search('tag:"réalité/faction/corporatiste"')).total > 0);
@@ -66,6 +70,7 @@ for (const audience of ["gm", "admin"]) {
   assert.equal((await search("Viviane")).items[0]?.id, "pnj-loges-mages-nina-le-guellec-03");
   assert.ok((await search("Thar’lal Rark")).items.some((item) => item.id === "personnages-verite-fantastiques-tharlal-rark"));
   assert.ok((await search('tag:"vérité/nom/Morrighan"')).items.some((item) => item.id === "personnages-verite-humains-galactiques-moira-blake"));
+  assert.ok((await search("Michabou")).items.some((item) => item.id === "pnj-loges-mages-mike-michabou-28"));
   assert.ok((await search('tag:"vérité/nom/Fée Viviane – Dame du lac"')).items
     .some((item) => item.id === "pnj-loges-mages-nina-le-guellec-03"));
 }
@@ -103,6 +108,8 @@ assert.equal((await article("pnj-crawlers-antisysteme-p52-ciara-macfarlane")).id
   "pnj-religions-ciara-mcfarlane");
 assert.equal((await article("personnages-verite-fantastiques-tharlal-rark")).id,
   "personnages-verite-fantastiques-thor");
+assert.equal((await article("pnj-loges-mages-mike-michabou-28")).id,
+  "pnj-loges-mages-mike-28");
 role = "gm";
 const gmMilda = await article("pnj-pegre-milda-tarasknovna");
 assert.ok(gmMilda.secretTags.includes("vérité/nom/Selaphielle"));

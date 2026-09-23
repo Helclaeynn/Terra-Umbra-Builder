@@ -65,6 +65,15 @@ const PROFILES:Entry[]=[
   {id:"pnj-loges-mages-lara-steven-30",tier:"haute",shape:"social",skills:["Diplomatie","Autorité","Savoirs","Investigation"],anchor:"Lara Steven siège au conseil des tribus de la Grande Réserve ; sa magie n'entre pas dans ce profil de Réalité.",talents:["Réseau mobilisable — Grande Réserve","Dossier préparé — conseil des tribus"]},
   {id:"pnj-loges-mages-melina-apapoulos-15",tier:"elite",shape:"terrain",skills:["Pilotage","Perception","Survie","Athlétisme"],anchor:"Melina Apapoulos est Crawler et Freerunner, chauffeur affectée aux livraisons et aux déplacements fréquents.",talents:["Expertise éprouvée — Pilotage","Terrain reconnu — itinéraires de livraison"]},
   {id:"pnj-loges-mages-mertkan-sabanci-20",tier:"elite",shape:"social",skills:["Commerce","Autorité","Diplomatie","Investigation"],anchor:"Mertkan Sabanci est cadre chez Tala ; sa fonction exacte n'est pas encore documentée.",talents:["Réseau mobilisable — Tala","Dossier préparé — dossiers corporatifs"]},
+  {id:"pnj-loges-mages-morgane-o-broin-04",tier:"haute",shape:"social",skills:["Autorité","Investigation","Commerce","Diplomatie"],anchor:"Morgane O Broin est cadre de la mafia irlandaise à New York et y dirige les affaires du réseau ; son identité de Vérité reste MJ.",talents:["Réseau mobilisable — mafia irlandaise","Dossier préparé — affaires new-yorkaises"]},
+  {id:"pnj-loges-mages-zhao-guanyu-10",tier:"elite",shape:"social",skills:["Commerce","Investigation","Autorité","Diplomatie"],anchor:"Zhao Guanyu occupe un petit poste de cadre chez YellowFood et sert secrètement comme officier subalterne des triades.",talents:["Dossier préparé — affaires YellowFood","Réseau mobilisable — triades"],truth:"Son appartenance aux triades et son nom de Vérité sont réservés au MJ ; ses ressources criminelles ne sont disponibles que si la scène établit son accès au réseau."},
+  {id:"pnj-loges-mages-sergio-venegas-12",tier:"elite",shape:"terrain",skills:["Tir","Survie","Commerce","Pilotage"],anchor:"Sergio Venegas est Crawler mercenaire et trafiquant d'antiquités ; ses contrats mêlent déplacements, échanges et protection de marchandises.",talents:["Terrain reconnu — missions itinérantes","Expertise éprouvée — Commerce"]},
+  {id:"pnj-loges-mages-zephia-brummer-17",tier:"elite",shape:"social",skills:["Représentation","Commerce","Diplomatie","Perception"],anchor:"Zephia Brummer chante et joue dans un petit groupe néopunk qui se produit à l'occasion ; sa nécromancie relève du dossier MJ.",talents:["Expertise éprouvée — Représentation","Réseau mobilisable — scène néopunk"]},
+  {id:"pnj-loges-mages-robert-peng-26",tier:"haute",shape:"esprit",skills:["Soin","Mécanique","Savoirs","Investigation"],anchor:"Robert Peng est un Meditech Crawler reconnu pour la qualité de ses poses d'implants et leur synergie avec les patients ; l'effet sur le stress augmentique n'est pas chiffré ici.",talents:["Expertise éprouvée — Soin","Dossier préparé — implantation"]},
+  {id:"pnj-loges-mages-roowinu-27",tier:"haute",shape:"social",skills:["Autorité","Commerce","Investigation","Diplomatie"],anchor:"Roowinu est cadre de Tala Corporation et gère un de ses casinos dans la Grande Réserve ; sa magie reste réservée au MJ.",talents:["Chaîne de commandement — casino Tala","Dossier préparé — exploitation du casino"]},
+  {id:"pnj-loges-mages-mike-michabou-28",tier:"elite",shape:"social",skills:["Représentation","Diplomatie","Perception","Survie"],anchor:"Mike est un strip-teaseur et travailleur du sexe Crawler souvent engagé par Tala dans la Grande Réserve ; son surnom protégé reste MJ.",talents:["Expertise éprouvée — Représentation","Terrain reconnu — Grande Réserve"]},
+  {id:"pnj-loges-mages-muna-29",tier:"haute",shape:"social",skills:["Commerce","Autorité","Investigation","Diplomatie"],anchor:"Muna dirige des activités de pègre et le marché noir au sein de la Grande Réserve ; ses mythes et sa magie restent MJ.",talents:["Réseau mobilisable — pègre de la Grande Réserve","Dossier préparé — marché noir"]},
+  {id:"pnj-loges-mages-nike-celio-37",tier:"haute",shape:"esprit",skills:["Savoirs","Diplomatie","Investigation","Survie"],anchor:"Nike Celio est prêtre de l'ordre d'Arianwen, membre de l'AUC ; ses activités de Crawler ne suffisent pas à chiffrer sa magie.",talents:["Dossier préparé — doctrine religieuse","Terrain reconnu — vie itinérante"],truth:"Son appartenance à l'ordre d'Arianwen et à l'AUC, son histoire de Voidrunner et son identité de Vérité restent dans le dossier MJ. Le titre public de prêtre ne divulgue pas ces affiliations."},
 ];
 const NO_PROJECTION:string[]=[
   "pnj-122-steeve-golden-hood",
@@ -122,22 +131,12 @@ const NO_PROJECTION:string[]=[
   "personnages-verite-vampires-p25-trauco",
   "personnages-verite-extrals-groupes-zirine-fa-meonn"
 ];
-const NEEDS_ARBITRATION:string[]=[
-  "pnj-loges-mages-morgane-o-broin-04",
-  "pnj-loges-mages-zhao-guanyu-10",
-  "pnj-loges-mages-sergio-venegas-12",
-  "pnj-loges-mages-zephia-brummer-17",
-  "pnj-loges-mages-robert-peng-26",
-  "pnj-loges-mages-roowinu-27",
-  "pnj-loges-mages-mike-michabou-28",
-  "pnj-loges-mages-muna-29",
-  "pnj-loges-mages-nike-celio-37"
-];
+const NEEDS_ARBITRATION:string[]=[];
 
 // Several merged dossiers retained the source's Truth paragraphs but lost
 // their separately authored Reality biographies. Restore only those public
 // source sections; keep supernatural details in the consolidated MJ dossier.
-const ROLE_REALITY:Record<string,{role:string;organisation?:string;source?:[Array<Record<string,any>>,string,string];text?:string;mjOnly?:boolean;hideAge?:boolean}>={
+const ROLE_REALITY:Record<string,{role:string;organisation?:string;source?:[Array<Record<string,any>>,string,string];text?:string;secret?:string;mjOnly?:boolean;hideAge?:boolean}>={
   "pnj-136-alisa-svalisdottir":{role:"Crawler · mercenaire et combattante clandestine",text:"Alisa est une Crawler qui travaille comme mercenaire et participe régulièrement à des combats clandestins d'arts martiaux. Elle exerce aussi occasionnellement le travail du sexe."},
   "pnj-108-asheylinn-medira":{role:"Chanteuse",organisation:"Omegacoustic",source:[extralSources,"personnages-verite-extrals-groupes-asheylinn-medira","informations-realite"]},
   "pnj-truth-beatrix-kruger":{role:"Directrice d'Eversor Industries",organisation:"Eversor",text:"Beatrix Krüger dirige Eversor Industries. Cette branche transforme les matières premières non alimentaires en pièces et systèmes de base indispensables aux autres branches du groupe, des clous aux panneaux et autres fournitures courantes."},
@@ -186,7 +185,62 @@ const ROLE_REALITY:Record<string,{role:string;organisation?:string;source?:[Arra
   "pnj-loges-mages-jin-tian-myong-25":{role:"Crawler · assassin",organisation:"La Blanchisserie",text:"Jin-Tian Myong évolue parmi les Crawlers et exécute des contrats d'assassinat pour la Blanchisserie. Ses missions supposent de repérer une cible, de préparer une approche et de quitter les lieux ; ses méthodes exactes dépendent du contrat."},
   "pnj-loges-mages-lara-steven-30":{role:"Membre du conseil des tribus",organisation:"Grande Réserve",text:"Lara Steven siège au conseil des tribus de la Grande Réserve. Elle participe aux échanges et aux décisions communes, dans un rôle où l'écoute des représentants compte autant que la défense de leurs intérêts. Ses autres responsabilités civiles restent à préciser."},
   "pnj-loges-mages-melina-apapoulos-15":{role:"Crawler · chauffeuse Freerunner",text:"Melina Apapoulos est une Crawler Freerunner. Chauffeuse, elle assure des livraisons et passe beaucoup de temps sur la route. Son activité l'amène à préparer ses trajets, tenir ses délais et s'adapter aux changements de destination."},
-  "pnj-loges-mages-mertkan-sabanci-20":{role:"Cadre corporatiste",organisation:"Tala",text:"Mertkan Sabanci travaille comme cadre chez Tala. Il suit des dossiers et échange avec les autres équipes de la corporation ; son poste précis et la branche à laquelle il appartient ne sont pas encore documentés."}
+  "pnj-loges-mages-mertkan-sabanci-20":{role:"Cadre corporatiste",organisation:"Tala",text:"Mertkan Sabanci travaille comme cadre chez Tala. Il suit des dossiers et échange avec les autres équipes de la corporation ; son poste précis et la branche à laquelle il appartient ne sont pas encore documentés."},
+  "pnj-loges-mages-morgane-o-broin-04":{role:"Cadre de la mafia irlandaise · New York",text:"Morgane O Broin est restée à New York pour gérer les affaires locales de la mafia irlandaise. Elle suit les intérêts du réseau dans la ville et coordonne les personnes chargées des différents dossiers. Son autorité repose sur cette présence durable, autant que sur sa position dans l'organisation."},
+  "pnj-loges-mages-zhao-guanyu-10":{role:"Cadre subalterne",organisation:"YellowFood",text:"Zhao Guanyu travaille comme petit cadre chez YellowFood. Son poste lui donne des dossiers à suivre et des interlocuteurs dans la corporation, sans lui conférer une autorité de premier rang. Sa place au sein de l'entreprise constitue sa couverture publique.",secret:"Derrière sa fonction chez YellowFood, Zhao Guanyu travaille surtout pour les triades, dont il est un officier subalterne. Cette allégeance criminelle est réservée au MJ."},
+  "pnj-loges-mages-sergio-venegas-12":{role:"Crawler · mercenaire et trafiquant d'antiquités",text:"Sergio Venegas appartient aux Crawlers et accepte des contrats de mercenaire. Il est aussi actif dans le trafic d'antiquités : il recherche des occasions d'achat et de revente et doit faire circuler des objets entre ses contacts. La provenance et les enjeux particuliers de chaque pièce dépendent de l'affaire en cours."},
+  "pnj-loges-mages-zephia-brummer-17":{role:"Musicienne · chanteuse néopunk",text:"Zephia Brummer chante et joue de la musique dans un petit groupe néopunk. Elle se produit de temps à autre, entre répétitions, préparation des morceaux et dates trouvées sur la scène locale. Son groupe reste modeste, mais lui donne une vraie présence dans ces milieux."},
+  "pnj-loges-mages-robert-peng-26":{role:"Meditech · spécialiste des implants",text:"Robert Peng est un Meditech Crawler qui s'est fait un nom dans la pose d'implants. Ses patients recherchent notamment la forte synergie qu'il obtient entre implant et porteur ; dans certains cas, celle-ci peut même réduire le stress augmentique. Cette réputation attire ceux qui veulent un résultat particulièrement soigné, sans garantir le même effet à chaque intervention."},
+  "pnj-loges-mages-roowinu-27":{role:"Cadre · direction d'un casino",organisation:"Tala Corporation",text:"Roowinu dirige pour Tala Corporation l'un de ses casinos de la Grande Réserve. À ce poste, il suit l'exploitation de l'établissement, son personnel et les affaires liées à sa clientèle. Son autorité est celle d'un cadre local, au contact quotidien des activités du casino."},
+  "pnj-loges-mages-mike-michabou-28":{role:"Strip-teaseur · travailleur du sexe",text:"Mike est un Crawler qui travaille comme strip-teaseur et exerce aussi le travail du sexe. Tala l'emploie fréquemment dans la Grande Réserve. Sa vie professionnelle le fait circuler entre spectacles, clients et établissements, selon les contrats qui lui sont proposés."},
+  "pnj-loges-mages-muna-29":{role:"Mafieuse · direction du marché noir",text:"Muna est une mafieuse installée dans la Grande Réserve. Elle y dirige des activités de pègre et s'occupe surtout du marché noir : elle connaît les circuits d'échange, négocie avec ses contacts et garde une place centrale dans ce commerce clandestin."},
+  "pnj-loges-mages-nike-celio-37":{role:"Prêtre",text:"Nike Celio est désormais prêtre. Il en a rarement l'apparence attendue, mais exerce cette fonction et continue de circuler parmi des milieux très différents. Sa tenue et ses habitudes peuvent surprendre ceux qui ne connaissent que son titre.",secret:"Nike Celio est prêtre de l'ordre d'Arianwen et membre de l'AUC. Ses liens religieux et ses activités de Crawler Voidrunner sont documentés pour le MJ, sans exposer son affiliation de chasseur dans la fiche publique."}
+};
+
+// Revisits forty-one earlier civilian biographies one by one: a mundane
+// consequence of each documented occupation, never a new secret or power.
+const REALITY_CONTEXT:Record<string,string>={
+  "pnj-136-alisa-svalisdottir":"Son activité la mène entre contrats ponctuels et circuits de combat, où sa réputation se bâtit au contact direct des autres combattants.",
+  "pnj-truth-beatrix-kruger":"Ce travail de direction la place au contact de la production courante et des besoins exprimés par les autres branches d'Eversor.",
+  "personnages-verite-fantastiques-koldraalsheroh":"Sur le terrain, Connor doit tenir ensemble la préparation des assauts, l'organisation de ses hommes et l'imprévu des engagements.",
+  "personnages-verite-fantastiques-marjolein-enneman":"Sa vie publique s'inscrit dans des pratiques religieuses ordinaires ; l'étendue de ses engagements ne se lit pas dans cette seule qualité de religieuse.",
+  "personnages-verite-fantastiques-tharlal-rark":"Il peut négocier une réparation aussi bien qu'une traque, au gré des demandes qui parviennent jusqu'à lui.",
+  "personnages-verite-fantastiques-theoderid":"Diriger ce groupe lui impose de rassembler des combattants, de défendre son territoire et de composer avec des alliés de circonstance.",
+  "pnj-fleaux-focus-ana-diana-de-la-caza-diana-de-la-caza":"Dans ce milieu, son quotidien dépend des commandes, des artisans et des exigences d'une clientèle qui attend des pièces rares.",
+  "pnj-fleaux-focus-anastasia-vargas-awan-aklima-anastasia-vargas":"Ses contrats l'entraînent là où un employeur a besoin de protection ou d'une intervention armée, sans attache fixe documentée.",
+  "pnj-fleaux-focus-arkady-karamov-4-arkady-karamov":"Sa carrière dans la pègre tient autant aux loyautés et aux rivalités locales qu'aux compétences acquises sous les armes.",
+  "pnj-fleaux-focus-azaliah-springer-azaliah-springer":"À ce titre, elle partage les obligations et la vie collective de sa communauté religieuse, sans afficher de fonction combattante.",
+  "pnj-fleaux-focus-margareta-diaconescu-areta-diaconescu":"La petite taille de sa communauté donne à ses échanges avec les fidèles une place importante dans son quotidien.",
+  "pnj-fleaux-focus-mila-shilove-094-mila-shilove":"À la tête de cet endroit retiré, elle représente la communauté auprès des rares personnes qui l'approchent.",
+  "pnj-fleaux-focus-mira-stephens-5-mir-a-stephens":"Elle doit préparer chaque contrat en fonction d'une cible et d'un contexte, plutôt que de compter sur une identité publique stable.",
+  "pnj-fleaux-focus-noah-brenneman-6-noah-brenneman":"Sa charge religieuse reste sa couverture civile, même lorsque ses absences rendent difficile la continuité de ses activités.",
+  "pnj-fleaux-focus-nora-shakir--097-nora-shakir":"Son activité la met en contact avec des clients et des lieux variés ; aucune appartenance occulte ne peut en être déduite.",
+  "pnj-fleaux-focus-olayinka-najja-8-olayinka-najja":"Ces deux activités la font rencontrer des personnes très différentes, entre pratiques religieuses publiques et clientèle privée.",
+  "pnj-fleaux-raghnaid-maccalmain":"Ses rencontres professionnelles et ses déplacements quotidiens ne renseignent pas sur son histoire cachée.",
+  "pnj-fleaux-siadara":"Son expérience du jeu d'actrice et son emploi actuel dessinent deux étapes publiques distinctes de son parcours.",
+  "pnj-fleaux-focus-tellia-fedirivna-skrypnyk-dirivna-skrypnyk":"Elle choisit ses engagements au cas par cas et conserve une certaine mobilité entre les groupes qu'elle fréquente.",
+  "pnj-fleaux-focus-yegor-karamov-05-yegor-karamov":"Ses patients et commanditaires viennent de milieux où les soins officiels ne sont pas toujours accessibles ou souhaités.",
+  "personnages-verite-humains-galactiques-kay-salzer":"Chaque mission demande de réunir des renseignements sur sa cible et de préparer une approche adaptée.",
+  "personnages-verite-humains-galactiques-kenneth-shatter":"Entre recherche d'informations et mise en relation de clients, il passe d'un dossier d'enquête à un service d'intermédiaire selon la demande.",
+  "personnages-verite-humains-galactiques-moira-blake":"Ses interlocuteurs la connaissent pour ses avis et ses échanges professionnels avec la SFU, sans accès à son histoire personnelle.",
+  "personnages-verite-chasseurs-charunee-sawasdipon":"Elle reçoit des personnes venues chercher un accompagnement spirituel dans le cadre de sa pratique publique.",
+  "personnages-verite-chasseurs-isabella-mironescu":"Elle peut ainsi passer d'une consultation de voyance à un contrat rémunéré, sans dépendre uniquement de ses ressources familiales.",
+  "pnj-loges-mages-anggriawan-yang-24":"La gestion de l'établissement lui demande aussi d'organiser le travail quotidien et de traiter avec une clientèle régulière ou de passage.",
+  "pnj-loges-mages-anayah-kumba-11":"Son poste conjugue travail scientifique et encadrement des projets : elle doit faire dialoguer recherche génétique et applications de soin.",
+  "pnj-loges-mages-alice-carroll-38":"Elle peut choisir ses étapes et prolonger ses séjours sans devoir chercher un emploi à chaque déplacement.",
+  "pnj-loges-mages-adrien-daigremont-14":"Il doit choisir ses contrats, se renseigner sur la cible et conserver assez de mobilité pour enchaîner les missions.",
+  "pnj-loges-mages-adalardo-gravina-16":"Avant chaque coup, il étudie les accès et les issues possibles, tirant parti de son aisance à grimper pour éviter les parcours attendus.",
+  "personnages-verite-chasseurs-verawati-yenny-pranoto":"Dans ses entretiens, elle conjugue écoute, accompagnement psychologique et repères spirituels, selon les besoins de la personne reçue.",
+  "personnages-verite-chasseurs-tiamandra-vecellio":"Son agenda se partage entre séances de mannequinat, entretien physique et entraînement à l'épée, sans que sa carrière de modèle suffise à expliquer sa Vérité.",
+  "personnages-verite-chasseurs-raekath-lee":"Cette indépendance lui laisse la liberté de reprendre la route dès qu'un travail se termine ou qu'un autre se présente.",
+  "personnages-verite-chasseurs-jude-riot":"Les tournages et la préparation des rôles lui donnent l'occasion de retrouver régulièrement l'équipe de Shmira.",
+  "pnj-loges-mages-arash-ostaan-05":"Ses échanges professionnels s'inscrivent dans les procédures d'une grande ville, avec des interlocuteurs dont les priorités peuvent diverger.",
+  "pnj-loges-mages-asuka-yamamuro-23":"Cette vie de contrats la conduit à garder son matériel et ses contacts prêts pour la prochaine mission.",
+  "pnj-loges-mages-bassaam-el-akram-21":"Son influence visible tient à son travail de cadre, sans présumer d'un pouvoir sur toute la corporation.",
+  "pnj-loges-mages-edwin-kelly-31":"Il doit répartir son attention entre les besoins des personnes accueillies et les contraintes pratiques d'une structure de petite taille.",
+  "pnj-loges-mages-gwendoleen-macguire-06":"À New York, sa fonction la met face aux décisions quotidiennes d'une branche, des demandes remontant de ses équipes aux attentes du groupe.",
+  "pnj-loges-mages-hassan-abate-yideg-22":"Ses relations professionnelles passent d'abord par les équipes et les dossiers de Tala ; ses moyens personnels restent à documenter.",
+  "pnj-loges-mages-jin-tian-myong-25":"En dehors de ces contrats, son appartenance aux Crawlers lui permet de circuler dans des réseaux éloignés des structures corporatistes."
 };
 
 function concealRedundantRealitySecret(article:Article,id:string):void {
@@ -217,6 +271,10 @@ function repairRoleReality(article:Article,id:string):void {
     ? sourceSection?.blocks?.filter((b:Record<string,any>)=>b.type==="p").map((b:Record<string,any>)=>String(b.text).trim())
     : [entry.text];
   if(!texts?.length||texts.some((value:string|undefined)=>!value))throw new Error(`PNJ · biographie source absente : ${id}`);
+  if(REALITY_CONTEXT[id]){
+    if(entry.source||!entry.text)throw new Error(`PNJ · complément de Réalité sans texte civil : ${id}`);
+    texts[0]+=` ${REALITY_CONTEXT[id]}`;
+  }
   // The source attributes an exceptional vocal range to Asheylinn. Do not
   // publish a possibly supernatural capability alongside her civil career.
   if(id==="pnj-108-asheylinn-medira"){
@@ -231,6 +289,20 @@ function repairRoleReality(article:Article,id:string):void {
   }
   const card=article.sections?.find(section=>section.id==="identite-realite-consolidee")?.blocks?.find((block:Record<string,any>)=>block.type==="table");
   if(!card?.rows||card.rows[0]?.[0]!=="Champ")throw new Error(`PNJ · identité publique absente : ${id}`);
+  if(id==="pnj-loges-mages-mike-michabou-28"){
+    const name=card.rows.find((row:string[])=>row[0]==="Nom");
+    if(article.title!=="Mike - « michabou »"||article.realityName!=="Mike - « michabou »"||name?.[1]!=="Mike - « michabou »")throw new Error("PNJ · identité source de Mike modifiée");
+    article.title="Mike";
+    article.realityName="Mike";
+    name[1]="Mike";
+  }
+  if(id==="pnj-loges-mages-zhao-guanyu-10"||id==="pnj-loges-mages-nike-celio-37"){
+    const affiliation=card.rows.find((row:string[])=>row[0]==="Affiliations");
+    const expected=id==="pnj-loges-mages-zhao-guanyu-10"?"mafia":"crawlers : voidrunner »/ religion";
+    if(affiliation?.[1]!==expected)throw new Error(`PNJ · affiliation source modifiée : ${id} (${JSON.stringify(affiliation)})`);
+    affiliation[1]=id==="pnj-loges-mages-zhao-guanyu-10"?"YellowFood":"Religieux";
+  }
+  if(entry.secret)dossier.blocks.push({type:"p",text:entry.secret});
   if(entry.hideAge){
     const age=card.rows.find((row:string[])=>row[0]==="Âge");
     if(!age||age[1]!=="79 ans")throw new Error(`PNJ · âge source d'Ana Diana modifié : ${id}`);
@@ -256,6 +328,10 @@ function repairRoleReality(article:Article,id:string):void {
   if(id==="personnages-verite-chasseurs-verawati-yenny-pranoto")article.tags=[...new Set([...(article.tags??[]),"réalité/faction/religieux"])];
   if(["pnj-loges-mages-adrien-daigremont-14","pnj-loges-mages-adalardo-gravina-16","pnj-loges-mages-asuka-yamamuro-23","pnj-loges-mages-jin-tian-myong-25","pnj-loges-mages-melina-apapoulos-15"].includes(id))article.tags=[...new Set([...(article.tags??[]),"réalité/faction/crawlers"])];
   if(id==="pnj-loges-mages-adalardo-gravina-16")article.tags=[...new Set([...(article.tags??[]),"réalité/faction/pègre"])];
+  if(["pnj-loges-mages-morgane-o-broin-04","pnj-loges-mages-muna-29"].includes(id))article.tags=[...new Set([...(article.tags??[]),"réalité/faction/pègre"])];
+  if(["pnj-loges-mages-sergio-venegas-12","pnj-loges-mages-robert-peng-26","pnj-loges-mages-mike-michabou-28"].includes(id))article.tags=[...new Set([...(article.tags??[]),"réalité/faction/crawlers"])];
+  if(id==="pnj-loges-mages-zephia-brummer-17")article.tags=[...new Set([...(article.tags??[]),"réalité/faction/neopunks"])];
+  if(id==="pnj-loges-mages-nike-celio-37")article.tags=[...new Set([...(article.tags??[]),"réalité/faction/religieux"])];
   if(id==="pnj-fleaux-focus-yegor-karamov-05-yegor-karamov")article.tags=[...new Set([...(article.tags??[]),"réalité/faction/pègre"])];
   if(entry.organisation){
     article.tags=[...new Set([...(article.tags??[]),`réalité/organisation/${entry.organisation}`])];
@@ -266,7 +342,8 @@ function repairRoleReality(article:Article,id:string):void {
 }
 
 export function applyPnjStatBatch16(byId:Map<string,Article>):void {
-  if(PROFILES.length!==59||NO_PROJECTION.length+NEEDS_ARBITRATION.length!==63||
+  if(PROFILES.length!==68||NO_PROJECTION.length+NEEDS_ARBITRATION.length!==54||Object.keys(REALITY_CONTEXT).length!==41||
+     Object.keys(REALITY_CONTEXT).some(id=>!ROLE_REALITY[id])||
      new Set([...PROFILES.map(p=>p.id),...NO_PROJECTION,...NEEDS_ARBITRATION]).size!==122)
      throw new Error("PNJ · résolution finale incomplète ou dupliquée");
   for(const profile of PROFILES){
