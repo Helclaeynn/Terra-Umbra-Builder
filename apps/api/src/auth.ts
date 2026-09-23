@@ -5,6 +5,8 @@ import {
   timingSafeEqual
 } from "node:crypto";
 import type { FastifyReply, FastifyRequest } from "fastify";
+import type { PoolClient } from "pg";
+import * as argon2 from "argon2";
 import { pool } from "./db.js";
 
 export const ROLES = ["player", "gm", "editor", "admin"] as const;
@@ -23,6 +25,16 @@ export type PublicUser = {
 const SESSION_COOKIE = "__Host-tuc_session";
 const LEGACY_SESSION_COOKIE = "tuc_session";
 const SESSION_TTL_DAYS = Number(process.env.SESSION_TTL_DAYS ?? 30);
+// Explicit work factors, independent of library defaults (memoryCost is KiB).
+const ARGON2_OPTIONS = {
+  type: argon2.argon2id,
+  version: 0x13,
+  memoryCost: 65536,
+  timeCost: 3,
+  parallelism: 1,
+  hashLength: 32
+} as const;
+// Read-only compatibility with hashes written before the Argon2id migration.
 const SCRYPT_N = 32768;
 const SCRYPT_R = 8;
 const SCRYPT_P = 1;
@@ -70,23 +82,28 @@ export function validatePassword(value: string): boolean {
 }
 
 export async function hashPassword(password: string): Promise<string> {
-  const salt = randomBytes(16);
-  const hash = await scryptAsync(password, salt, SCRYPT_KEYLEN);
+  return argon2.hash(password, { ...ARGON2_OPTIONS, salt: randomBytes(16) });
+}
 
-  return [
-    "scrypt",
-    String(SCRYPT_N),
-    String(SCRYPT_R),
-    String(SCRYPT_P),
-    salt.toString("base64url"),
-    hash.toString("base64url")
-  ].join("$");
+// Call only after successful verification. The login transaction performs the
+// replacement only if the stored password still matches the verified hash.
+export function passwordNeedsRehash(encoded: string): boolean {
+  if (!encoded.startsWith("$argon2id$")) return true;
+  return argon2.needsRehash(encoded, ARGON2_OPTIONS);
 }
 
 export async function verifyPassword(
   password: string,
   encoded: string
 ): Promise<boolean> {
+  if (encoded.startsWith("$argon2id$")) {
+    try {
+      return await argon2.verify(encoded, password);
+    } catch {
+      return false;
+    }
+  }
+
   const parts = encoded.split("$");
   if (parts.length !== 6 || parts[0] !== "scrypt") return false;
 
@@ -101,7 +118,11 @@ export async function verifyPassword(
 
   const salt = Buffer.from(saltValue, "base64url");
   const expected = Buffer.from(hashValue, "base64url");
-  const actual = await scryptAsync(password, salt, expected.length);
+  // Reject truncated/noncanonical stored values before invoking the KDF.
+  if (salt.length !== 16 || expected.length !== SCRYPT_KEYLEN ||
+      salt.toString("base64url") !== saltValue ||
+      expected.toString("base64url") !== hashValue) return false;
+  const actual = await scryptAsync(password, salt, SCRYPT_KEYLEN);
 
   return expected.length === actual.length && timingSafeEqual(expected, actual);
 }
@@ -170,12 +191,13 @@ export function clearSessionCookie(reply: FastifyReply): void {
 
 export async function createSession(
   userId: string,
-  request: FastifyRequest
+  request: FastifyRequest,
+  executor: Pick<PoolClient, "query"> = pool
 ): Promise<string> {
   const token = randomBytes(32).toString("base64url");
   const tokenHash = hashSessionToken(token);
 
-  await pool.query(
+  await executor.query(
     `INSERT INTO sessions
       (token_hash, user_id, expires_at, user_agent, ip_address)
      VALUES

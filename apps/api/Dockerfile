@@ -1,7 +1,7 @@
 FROM node:24-alpine AS build
 WORKDIR /app
-COPY apps/api/package.json ./
-RUN npm install
+COPY apps/api/package.json apps/api/package-lock.json ./
+RUN npm ci
 COPY apps/api/tsconfig.json ./
 COPY apps/api/src ./src
 RUN npm run build
@@ -9,9 +9,13 @@ RUN npm run build
 FROM node:24-alpine AS runtime
 ENV NODE_ENV=production
 WORKDIR /app
-COPY apps/api/package.json ./
-RUN npm install --omit=dev && npm cache clean --force
+COPY apps/api/package.json apps/api/package-lock.json ./
+RUN npm ci --omit=dev && npm cache clean --force
 COPY --from=build /app/dist ./dist
+
+# Verify the native Argon2 module in the actual musl/Alpine runtime before deploy.
+RUN DATABASE_URL=postgres://build:build@127.0.0.1:1/build node --input-type=module -e \
+  'import { hashPassword, verifyPassword, passwordNeedsRehash } from "./dist/auth.js"; const hash = await hashPassword("Build-only-Argon2-check"); if (!hash.startsWith("$argon2id$v=19$") || passwordNeedsRehash(hash) || !await verifyPassword("Build-only-Argon2-check", hash)) throw new Error("Argon2 runtime check failed"); console.log("ARGON2 ALPINE OK");'
 
 COPY compendium/source/current-equipment-catalog-v1.json ./rules-data/current-equipment-catalog-v1.json
 COPY compendium/source/reality-lore-v3-*.json ./rules-data/lore/

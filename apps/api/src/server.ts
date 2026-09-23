@@ -11,6 +11,7 @@ import {
   hashPassword,
   hashSessionToken,
   normalizeEmail,
+  passwordNeedsRehash,
   readSessionToken,
   requireAdmin,
   requireUser,
@@ -331,12 +332,51 @@ app.post<{
     return reply.code(403).send({ error: "account_disabled" });
   }
 
-  clearLoginAttempts(key);
-  await pool.query("UPDATE users SET last_login_at = now() WHERE id = $1", [
-    row.id
-  ]);
+  // Keep expensive password work outside the row lock. Re-read under lock so
+  // a concurrent reset or deactivation cannot be overwritten by this login.
+  const upgradedHash = passwordNeedsRehash(row.password_hash!)
+    ? await hashPassword(password)
+    : null;
+  const client = await pool.connect();
+  let token: string;
+  try {
+    await client.query("BEGIN");
+    const current = await client.query<{
+      password_hash: string | null;
+      is_active: boolean;
+    }>(
+      "SELECT password_hash, is_active FROM users WHERE id = $1 FOR UPDATE",
+      [row.id]
+    );
+    const locked = current.rows[0];
+    if (!locked || locked.password_hash !== row.password_hash) {
+      await client.query("ROLLBACK");
+      return reply.code(401).send({ error: "invalid_credentials" });
+    }
+    if (!locked.is_active) {
+      await client.query("ROLLBACK");
+      return reply.code(403).send({ error: "account_disabled" });
+    }
 
-  const token = await createSession(row.id, request);
+    if (upgradedHash) {
+      await client.query(
+        "UPDATE users SET password_hash = $1, updated_at = now() WHERE id = $2",
+        [upgradedHash, row.id]
+      );
+    }
+    await client.query("UPDATE users SET last_login_at = now() WHERE id = $1", [
+      row.id
+    ]);
+    token = await createSession(row.id, request, client);
+    await client.query("COMMIT");
+  } catch (error) {
+    await client.query("ROLLBACK").catch(() => undefined);
+    throw error;
+  } finally {
+    client.release();
+  }
+
+  clearLoginAttempts(key);
   setSessionCookie(reply, token);
 
   return { user: await loadUser(row.id) };
@@ -555,10 +595,16 @@ app.post<{
   const client = await pool.connect();
   try {
     await client.query("BEGIN");
-    await client.query(
-      "UPDATE users SET password_hash = $1, updated_at = now() WHERE id = $2",
-      [passwordHash, user.id]
+    const changed = await client.query<{ id: string }>(
+      `UPDATE users SET password_hash = $1, updated_at = now()
+       WHERE id = $2 AND password_hash = $3 AND is_active = true
+       RETURNING id`,
+      [passwordHash, user.id, stored]
     );
+    if (changed.rowCount !== 1) {
+      await client.query("ROLLBACK");
+      return reply.code(401).send({ error: "invalid_current_password" });
+    }
 
     if (currentHash) {
       await client.query(
