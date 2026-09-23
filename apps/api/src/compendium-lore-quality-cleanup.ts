@@ -244,4 +244,5 @@ export function removeInternalPublicMetadata(article: ArticleLike): void {
   delete article.loreBook;
   delete article.legacyTargetId;
   delete article.__searchText;
+  delete article.__realityIdentityConflicts;
 }
