@@ -53,4 +53,21 @@ for (const person of corporations) {
   assert.ok(!article(person.id, true).sections.some((s) => s.id === "profil-statistique"), person.id);
 }
 assert.deepEqual(talentPrerequisiteFailures, []);
+const institutions = active.filter((item) =>
+  ["realite-v9-police-pnj", "realite-v9-government-pnj", "realite-v9-agencies-pnj"].includes(item.dataset));
+const staffed = institutions.filter((person) => person.sections.at(-1)?.id === "profil-statistique" &&
+  person.sections.at(-1).blocks.length >= 6);
+assert.equal(staffed.length, 51); // Fifty in this batch plus Cole Gallagher.
+for (const person of staffed) {
+  const section = person.sections.at(-1);
+  assert.equal(section.audience, "mj", person.id);
+  if (person.id !== "pnj-agences-cole-gallagher") {
+    const intro = section.blocks[0].text;
+    const attrs = section.blocks[1].rows[1].slice(1).map(Number);
+    const ranks = section.blocks[2].rows.slice(1,-1).map((row) => Number(row[1]));
+    assert.equal(attrs.reduce((sum, value) => sum + value, 0), Number(intro.match(/(\d+) points d'Attributs/)?.[1]), person.id);
+    assert.equal(ranks.reduce((sum, value) => sum + value, 0), Number(intro.match(/(\d+) points de Compétences/)?.[1]), person.id);
+  }
+  assert.ok(!article(person.id, true).sections.some((s) => s.id === "profil-statistique"), person.id);
+}
 console.log("PNJ REALITY CARDS OK — identity first; duplicates merged; profiles MJ only");

@@ -317,6 +317,7 @@ import { applyCompendiumPnjRepairs } from "./compendium-pnj-repairs.js";
 import { consolidateActivePnjSections } from "./compendium-pnj-consolidation.js";
 import { applyCompendiumPnjStatProfiles, COMPENDIUM_PNJ_TALENTS_NAVIGATION } from "./compendium-pnj-stat-profiles.js";
 import { applyCorporatePnjStats } from "./compendium-pnj-corporate-stats.js";
+import { applyInstitutionPnjStats } from "./compendium-pnj-institutions-stats.js";
 
 type JsonObject = Record<string, any>;
 export type Article = JsonObject & {
@@ -3342,6 +3343,7 @@ async function loadCorpus(): Promise<Corpus> {
   consolidateActivePnjSections(byId);
   applyCompendiumPnjStatProfiles(byId);
   applyCorporatePnjStats(byId);
+  applyInstitutionPnjStats(byId);
 
   const navigation = new Map(
     [
