@@ -316,6 +316,7 @@ import { COMPENDIUM_SHI_QI_EDITORIAL_ARTICLES } from "./compendium-shi-qi-editor
 import { applyCompendiumPnjRepairs } from "./compendium-pnj-repairs.js";
 import { consolidateActivePnjSections } from "./compendium-pnj-consolidation.js";
 import { applyCompendiumPnjStatProfiles, COMPENDIUM_PNJ_TALENTS_NAVIGATION } from "./compendium-pnj-stat-profiles.js";
+import { applyCorporatePnjStats } from "./compendium-pnj-corporate-stats.js";
 
 type JsonObject = Record<string, any>;
 export type Article = JsonObject & {
@@ -3340,6 +3341,7 @@ async function loadCorpus(): Promise<Corpus> {
   applyCompendiumPnjRepairs(byId);
   consolidateActivePnjSections(byId);
   applyCompendiumPnjStatProfiles(byId);
+  applyCorporatePnjStats(byId);
 
   const navigation = new Map(
     [
