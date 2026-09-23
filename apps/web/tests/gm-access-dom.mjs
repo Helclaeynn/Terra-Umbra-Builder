@@ -56,6 +56,7 @@ async function mount(role = 'player', initial = null) {
     if (url === '/api/health') body = { status: 'ok' };
     else if (url === '/api/auth/setup-status') body = { setupRequired: false };
     else if (url === '/api/auth/capabilities') body = { passwordResetAvailable: true };
+    else if (url === '/api/campaigns') body = { campaigns: [], userId: 'test' };
     else if (url === '/api/characters/shared') body = { characters: [] };
     else if (url === '/api/compendium/library') body = { recentItems: [] };
     else if (url === '/api/auth/me') body = { user: { id: role, role: state.role, displayName: 'Test', email: 'test@example.invalid' } };

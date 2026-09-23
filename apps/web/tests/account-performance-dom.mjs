@@ -20,7 +20,7 @@ const bundle = await build({
   bundle: true, write: false, format: 'iife', platform: 'browser',
   define: { 'process.env.NODE_ENV': '"test"', __VUE_OPTIONS_API__: 'true', __VUE_PROD_DEVTOOLS__: 'false', __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false' },
   plugins: [{ name: 'vue', setup(b) {
-    b.onLoad({ filter: /(CharactersPanel|AccountLastReading|SharedCharacterSheets)\.vue$/ }, () => ({ contents: 'export default { template: "<section>Personnages</section>" }', loader: 'js' }));
+    b.onLoad({ filter: /(CharactersPanel|AccountLastReading|SharedCharacterSheets|AccountCampaigns)\.vue$/ }, () => ({ contents: 'export default { template: "<section>Personnages</section>" }', loader: 'js' }));
     b.onLoad({ filter: /\.vue$/ }, async ({ path: filename }) => {
       const { descriptor, errors } = parse(await readFile(filename, 'utf8'), { filename });
       assert.equal(errors.length, 0);
