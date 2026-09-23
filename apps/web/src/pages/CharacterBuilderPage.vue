@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, shallowRef, watch } from "vue";
 import { onBeforeRouteLeave, useRoute } from "vue-router";
+import { compareLabels, compareTruthTalents } from "../lib/catalog-order";
 import { api, ApiError } from "../lib/api";
 import TalentSelector, {
   type TalentChoiceOption,
@@ -449,7 +450,7 @@ const truthPtvRemaining=computed(()=>
 );
 
 const visibleTruthGroups=computed(()=>{
-  const groups=truthGroups(availableTruthTalents.value);
+  const groups=truthGroups(availableTruthTalents.value).map(group=>({...group,items:[...group.items].sort(compareTruthTalents)})).sort((a,b)=>compareLabels(a.name,b.name));
   const query=truthSearch.value.trim().toLocaleLowerCase("fr");
   if(!query)return groups;
   return groups
