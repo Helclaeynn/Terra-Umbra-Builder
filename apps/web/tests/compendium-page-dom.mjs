@@ -336,4 +336,18 @@ for (const npc of additionalNpcs) {
     });
   } finally { reader.close(); }
 }
+{
+  const reader = await mount({ initialRoute: "/compendium?q=Cole" });
+  try {
+    const input = () => reader.d.querySelector('input[aria-label="Recherche dans le Compendium"]');
+    await waitFor(() => input()?.value === "Cole", "Previous search query restored from URL");
+    reader.w.dispatchEvent(new reader.w.KeyboardEvent("keydown", { key: "k", ctrlKey: true, bubbles: true }));
+    await waitFor(() => reader.page.route() === "/compendium?view=all" && input()?.value === "", "Ctrl K clears URL and search field");
+    check("Ctrl K ouvre une recherche vierge, sans rétablir l’ancienne requête de l’URL", () => {
+      assert.equal(input().value, "");
+      assert.equal(reader.d.activeElement, input());
+      assert.deepEqual(reader.errors, []);
+    });
+  } finally { reader.close(); }
+}
 console.log(`${checks} integration checks passed using the actual CompendiumPage, router, and NPC profile. No browser layout claim.`);
