@@ -24,7 +24,7 @@ n.skills=Object.fromEntries(c.skills.map(s=>[s.id,0]));n.talentIds=[];n.skills.t
 assert.ok(validNpcData(n,c));assert.ok(!validNpcData({...n,apexReason:''},c));assert.ok(!validNpcData({...n,tierId:'elite'},c));
 assert.ok(!validNpcData({...n,skills:{...n.skills,melee:15}},c));
 assert.ok(!validNpcData({...n,armor:NaN},c));assert.ok(!validNpcData({...n,attributes:{...n.attributes,vigueur:-1}},c));
-assert.ok(!validNpcData({...n,talentIds:['Enveloppe vide']},c));
+for(const id of ['Enveloppe vide','toString','__proto__',null,{}])assert.ok(!validNpcData({...n,talentIds:[id]},c));
 const id='11111111-1111-4111-8111-111111111111',ref={npcId:id,articleId:'campaign-npc:'+id,title:'Contact',category:'PNJ de campagne',quantity:2,notes:''};
 const scenes=[{id:'scene',title:'Rencontre',notes:'',done:false,references:[ref]}];
 assert.ok(validScenes(scenes));assert.equal(cleanScenes(scenes)[0].references[0].npcId,id);
