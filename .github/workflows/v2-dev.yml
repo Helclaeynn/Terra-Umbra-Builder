@@ -74,6 +74,7 @@ jobs:
           node scripts/check-character-sheet-access.mjs
           node scripts/check-campaign-calendar-format.mjs
           node scripts/check-campaign-calendar-delivery.mjs
+          node scripts/check-campaign-workspace.mjs
 
       - name: Check password hashing and account migration
         working-directory: apps/api

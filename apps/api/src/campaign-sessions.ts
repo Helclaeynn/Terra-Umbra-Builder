@@ -1,3 +1,4 @@
+import {registerCampaignWorkspaceRoutes} from './campaign-session-workspace.js';
 import {registerCampaignCalendarRoutes} from './campaign-calendar.js';
 import {validSchedule} from './campaign-calendar-message.js';
 import {passwordResetMailAvailable} from './mail.js';
@@ -9,7 +10,7 @@ const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]
 const gm=(role:string)=>['gm','editor','admin'].includes(role);
 const eligible=`u.is_active AND u.role IN ('gm','editor','admin')`;
 const missing={error:'campaign_not_found'};
-type SessionBody={startsAt?:unknown;endsAt?:unknown;location?:unknown;scenes?:unknown;title?:unknown;playedOn?:unknown;status?:unknown;preparation?:unknown;report?:unknown;published?:unknown;version?:unknown};
+type SessionBody={requestId?:unknown;startsAt?:unknown;endsAt?:unknown;location?:unknown;scenes?:unknown;title?:unknown;playedOn?:unknown;status?:unknown;preparation?:unknown;report?:unknown;published?:unknown;version?:unknown};
 function valid(b:SessionBody){
   if(!b||typeof b.title!=='string'||!b.title.trim()||b.title.trim().length>120||!['planned','played'].includes(String(b.status))||typeof b.preparation!=='string'||b.preparation.length>20000||typeof b.report!=='string'||b.report.length>20000||typeof b.published!=='boolean')return false;
   if(!validSchedule(b))return false;
@@ -20,6 +21,7 @@ function valid(b:SessionBody){
 }
 export async function registerCampaignSessionRoutes(app:FastifyInstance){
   await registerCampaignCalendarRoutes(app);
+  await registerCampaignWorkspaceRoutes(app);
   app.get<{Params:{id:string};Querystring:{offset?:string}}>('/api/campaigns/:id/sessions',async(req,reply)=>{
     const user=await requireUser(req,reply);if(!user)return;
     if(!uuid.test(req.params.id))return reply.code(404).send(missing);
@@ -29,6 +31,8 @@ export async function registerCampaignSessionRoutes(app:FastifyInstance){
     if(!allowed.rows.length)return reply.code(404).send(missing);
     const manage=allowed.rows[0].manage;
     const result=await pool.query(`SELECT s.id,s.title,s.played_on::text AS "playedOn",s.status,s.published,s.version,s.starts_at AS "startsAt",s.ends_at AS "endsAt",s.location,
+      COALESCE((SELECT jsonb_agg(jsonb_build_object('userId',m.user_id,'displayName',p.display_name,'characterId',m.character_id,'response',a.response) ORDER BY lower(p.display_name),m.user_id)
+        FROM campaign_members m JOIN users p ON p.id=m.user_id LEFT JOIN campaign_session_attendance a ON a.session_id=s.id AND a.user_id=m.user_id WHERE m.campaign_id=s.campaign_id AND m.status='accepted' AND p.is_active),'[]') AS attendance,
       ${manage?'s.preparation,s.report,s.scenes':"CASE WHEN s.published THEN s.report ELSE '' END AS report"},
       COALESCE((SELECT jsonb_agg(jsonb_build_object('characterId',r.character_id,'characterName',r.character_name,'xp',r.xp,'ptv',r.ptv,'awardedAt',r.awarded_at) ORDER BY r.awarded_at,r.character_id)
         FROM campaign_session_rewards r JOIN characters ch ON ch.id=r.character_id WHERE r.session_id=s.id AND ($4 OR ch.owner_id=$3)),'[]') AS rewards,
@@ -40,10 +44,10 @@ export async function registerCampaignSessionRoutes(app:FastifyInstance){
   app.post<{Params:{id:string};Body:SessionBody}>('/api/campaigns/:id/sessions',async(req,reply)=>{
     const user=await requireUser(req,reply);if(!user)return;
     if(!gm(user.role)||!uuid.test(req.params.id))return reply.code(404).send(missing);
-    if(!valid(req.body))return reply.code(400).send({error:'invalid_session'});
+    if(!valid(req.body)||(req.body.requestId!==undefined&&(typeof req.body.requestId!=='string'||!uuid.test(req.body.requestId))))return reply.code(400).send({error:'invalid_session'});
     const b=req.body;
-    const r=await pool.query(`INSERT INTO campaign_sessions(campaign_id,title,played_on,status,preparation,report,published,scenes,starts_at,ends_at,location)
-      SELECT id,$3,$4::date,$5,$6,$7,$8,$9::jsonb,$10::timestamptz,$11::timestamptz,$12 FROM campaigns WHERE id=$1 AND owner_id=$2 AND archived_at IS NULL RETURNING id,version`,[req.params.id,user.id,String(b.title).trim(),b.playedOn,b.status,b.preparation,b.report,b.published,JSON.stringify(validScenes(b.scenes)?cleanScenes(b.scenes):[]),b.startsAt??null,b.endsAt??null,b.location??'']);
+    const r=await pool.query(`INSERT INTO campaign_sessions(campaign_id,title,played_on,status,preparation,report,published,scenes,starts_at,ends_at,location,creation_request_id)
+      SELECT id,$3,$4::date,$5,$6,$7,$8,$9::jsonb,$10::timestamptz,$11::timestamptz,$12,$13::uuid FROM campaigns WHERE id=$1 AND owner_id=$2 AND archived_at IS NULL ON CONFLICT(campaign_id,creation_request_id) DO UPDATE SET creation_request_id=EXCLUDED.creation_request_id RETURNING id,version`,[req.params.id,user.id,String(b.title).trim(),b.playedOn,b.status,b.preparation,b.report,b.published,JSON.stringify(validScenes(b.scenes)?cleanScenes(b.scenes):[]),b.startsAt??null,b.endsAt??null,b.location??'',b.requestId??null]);
     if(!r.rows.length)return reply.code(404).send(missing);
     return reply.code(201).send({session:r.rows[0]});
   });

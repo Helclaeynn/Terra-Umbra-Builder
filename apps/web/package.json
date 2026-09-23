@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "test:ui": "node tests/compendium-navigation-check.mjs && node tests/compendium-reading-check.mjs && node tests/wiki-active-aliases.mjs && node tests/npc-stat-profile-dom.mjs && node tests/compendium-page-dom.mjs && node tests/corruption-panel-dom.mjs && node tests/gm-access-dom.mjs && node tests/account-performance-dom.mjs && node tests/private-character-ui-dom.mjs && node tests/character-summary-dom.mjs && node tests/character-sheet-model-check.mjs && node tests/catalog-performance-check.mjs && node tests/character-history-check.mjs && node tests/campaign-character-check.mjs && node tests/campaign-preparation-dom.mjs"
+    "test:ui": "node tests/compendium-navigation-check.mjs && node tests/compendium-reading-check.mjs && node tests/wiki-active-aliases.mjs && node tests/npc-stat-profile-dom.mjs && node tests/compendium-page-dom.mjs && node tests/corruption-panel-dom.mjs && node tests/gm-access-dom.mjs && node tests/account-performance-dom.mjs && node tests/private-character-ui-dom.mjs && node tests/character-summary-dom.mjs && node tests/character-sheet-model-check.mjs && node tests/catalog-performance-check.mjs && node tests/character-history-check.mjs && node tests/campaign-character-check.mjs && node tests/campaign-preparation-dom.mjs && node tests/campaign-notebook-dom.mjs"
   },
   "dependencies": {
     "vue": "3.5.21",
