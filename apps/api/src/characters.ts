@@ -1,5 +1,6 @@
 import type { FastifyInstance, FastifyReply } from "fastify";
 import { pool } from "./db.js";
+import { registerCharacterJournalRoutes } from "./character-journal.js";
 import { registerCharacterSheetRoutes } from "./character-sheets.js";
 import { requireUser } from "./auth.js";
 import {
@@ -78,6 +79,7 @@ async function insertCharacter(
 
 export async function registerCharacterRoutes(app: FastifyInstance) {
   await registerCharacterSheetRoutes(app);
+  await registerCharacterJournalRoutes(app);
   app.get<{Querystring:{summary?:string}}>("/api/characters", async (request, reply) => {
     const user = await requireUser(request, reply);
     if (!user) return;

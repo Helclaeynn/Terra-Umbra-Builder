@@ -238,6 +238,7 @@ const browser=await chromium.launch({headless:true,executablePath,args:["--no-sa
 const page=await browser.newPage();
 const browserErrors=[];
 const failedRequests=[];
+let journalEntries=[];
 page.on("pageerror",error=>browserErrors.push("pageerror: "+String(error)));
 page.on("console",message=>{
   if(message.type()==="error")browserErrors.push("console: "+message.text());
@@ -261,6 +262,12 @@ await page.route("**/api/**",async route=>{
       {id:readerId,displayName:"Alex",role:"gm",shared:Boolean(readerGrant)},
       {id:"44444444-4444-4444-8444-444444444444",displayName:"Alex",role:"gm",shared:false}
     ]:[]})});
+  }
+  if(url.pathname.startsWith(`/api/characters/${characterId}/journal`)){
+    if(method==="POST")journalEntries=[{id:"55555555-5555-4555-8555-555555555555",...JSON.parse(request.postData()),version:1,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()}];
+    if(method==="PATCH")journalEntries=[{...journalEntries[0],...JSON.parse(request.postData()),version:journalEntries[0].version+1}];
+    if(method==="DELETE")journalEntries=[];
+    return route.fulfill({status:method==="POST"?201:200,contentType:"application/json",body:JSON.stringify(method==="GET"?{character:{id:characterId,name:"Smoke"},entries:journalEntries,hasMore:false}:{entry:journalEntries[0],ok:true})});
   }
   if(url.pathname===`/api/characters/${characterId}/readers`){
     if(method==="POST")readerGrant=JSON.parse(request.postData()||"{}");
@@ -627,6 +634,28 @@ await page.locator('.character-sheet').waitFor();
 if(await page.locator('.sheet-sharing,input,textarea,select').count())throw new Error('Le MJ ne doit voir aucun outil de modification ou partage');
 if(JSON.stringify(savedPayload)!==savedBeforeSheet)throw new Error('La consultation a changé la sauvegarde');
 console.log('Standalone sheet browser OK — same campaign values, direct route, anchors, 320/390/1440px, owner sharing, MJ read-only and no mutation');
+
+await page.goto(`${baseUrl}/characters/${characterId}/journal`);
+await page.getByRole('button',{name:'Nouvelle note',exact:true}).click();
+await page.getByLabel('Titre',{exact:true}).fill('Séance à California');
+await page.getByLabel('Date de la séance').fill('2026-09-23');
+await page.getByLabel('Notes d’aventure',{exact:true}).fill('Piste personnelle <script>alert(1)</script>');
+for(const width of [1440,390,320]){
+  await page.setViewportSize({width,height:1000});
+  await assertBuilderReflow(`Journal mobile ${width}px`);
+}
+await page.getByRole('button',{name:'Enregistrer la note',exact:true}).click();
+await page.getByText('Note enregistrée.',{exact:true}).waitFor();
+await page.locator('.journal-content').getByText('Piste personnelle <script>alert(1)</script>',{exact:true}).waitFor();
+await page.getByRole('button',{name:'Modifier Séance à California',exact:true}).click();
+await page.getByLabel('Titre',{exact:true}).fill('Une nouvelle piste');
+await page.getByRole('button',{name:'Enregistrer la note',exact:true}).click();
+await page.getByRole('heading',{name:'Une nouvelle piste',exact:true}).waitFor();
+page.once('dialog',dialog=>dialog.accept());
+await page.getByRole('button',{name:'Supprimer Une nouvelle piste',exact:true}).click();
+await page.getByText('Note supprimée.',{exact:true}).waitFor();
+if(journalEntries.length)throw new Error('Note non supprimée');
+console.log('Private adventure journal browser OK — creation, escaped text, edition, deletion and 320/390/1440px');
 
 if(browserErrors.length)throw new Error("Erreurs navigateur :\n"+browserErrors.join("\n"));
 

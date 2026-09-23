@@ -92,7 +92,7 @@ function resetSearch(){
   ++searchGeneration;clearTimeout(searchTimer);searchController?.abort();
   accountQuery.value="";chosen.value=null;matches.value=[];searching.value=false;searched.value=false;searchError.value="";
 }
-watch(accountQuery,()=>{
+watch([accountQuery,shareOpen],()=>{
   const current=++searchGeneration;
   clearTimeout(searchTimer);searchController?.abort();
   chosen.value=null;matches.value=[];searched.value=false;searchError.value="";searching.value=false;
@@ -139,7 +139,7 @@ onUnmounted(()=>{++generation;controller?.abort();resetSearch();window.removeEve
         <CharacterSummary :sheet="sheet" />
         <details v-if="owner" class="sheet-sharing panel" @toggle="toggleShares">
           <summary>Partager cette fiche avec mon MJ</summary>
-          <p>Le partage donne accès à toute cette fiche sauvegardée, y compris sa Vérité et ses notes, en lecture seule. Il ne donne aucun droit de modification. Tu peux retirer cet accès à tout moment.</p>
+          <p>Le partage donne accès à toute cette fiche sauvegardée, y compris sa Vérité et les notes de la fiche, en lecture seule. Le journal d’aventure reste privé. Ce partage ne donne aucun droit de modification. Tu peux retirer cet accès à tout moment.</p>
           <form class="reader-search" @submit.prevent="changeReader()">
             <label for="mj-account-search">Rechercher un compte MJ par son nom<input id="mj-account-search" v-model="accountQuery" type="search" autocomplete="off" maxlength="80" aria-describedby="mj-search-help" :disabled="shareBusy" /></label>
             <p id="mj-search-help">Saisis au moins deux caractères du nom affiché. Seuls les comptes ayant l’accès MJ validé sont proposés. Le code de compte permet de distinguer les homonymes.</p>
