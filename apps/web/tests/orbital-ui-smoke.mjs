@@ -134,6 +134,7 @@ try {
         gmRequest = { ...gmRequest, status: request.postDataJSON().decision, decidedAt: timestamp };
         return send({ request: gmRequest });
       }
+      if (path === "/api/characters/shared") return send({characters:[]});
       if (path === "/api/characters") return send({ characters: [character] });
       if (path === `/api/characters/${characterId}/revisions`) return send({ revisions: [
         { revision: 3, name: character.name, reason: "saved", createdAt: timestamp },

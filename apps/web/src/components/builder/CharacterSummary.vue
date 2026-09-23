@@ -85,7 +85,7 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
       </dl>
     </section>
 
-    <details class="sheet-details" open>
+    <details id="sheet-skills" class="sheet-details" open>
       <summary>Compétences <span>{{ sheet.skills.length }}</span></summary>
       <p class="sheet-hint">Le total inclut les bonus permanents de Talents. Le rang brut reste indiqué séparément.</p>
       <div class="sheet-skill-groups">
@@ -106,7 +106,7 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
       <div v-if="sheet.corruption"><strong>Corruption {{ sheet.corruption }} / {{ sheet.derived.integrity }}</strong><p>{{ sheet.corruptionSource }}</p></div>
     </section>
 
-    <details v-for="list in lists" :key="list.id" class="sheet-details" :data-list="list.id">
+    <details v-for="list in lists" :id="`sheet-${list.id}`" :key="list.id" class="sheet-details" :data-list="list.id">
       <summary>{{ list.title }} <span>{{ list.items.length }}</span></summary>
       <p v-if="!list.items.length" class="sheet-hint">Aucun élément enregistré.</p>
       <ul v-else class="sheet-entries">

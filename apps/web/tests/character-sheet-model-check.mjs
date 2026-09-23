@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {build} from 'esbuild';
+import {fileURLToPath} from 'node:url';
+const source=await readFile(new URL('./builder-v2-smoke.mjs',import.meta.url),'utf8');
+const fixtures=source.slice(source.indexOf('const skillIds='),source.indexOf('const browser='));
+const result=await build({stdin:{resolveDir:fileURLToPath(new URL('../',import.meta.url)),loader:'ts',contents:`
+import {buildCharacterSheet} from './src/lib/character-sheet-model';
+${fixtures}
+export const core={rules,lore,talentChoiceSpecs:{},skillTalentMap:{expertise_smoke:'athletisme'},disadvantages:{common:[],attribute:[],sphere:{crawler:[]}},edgeRules};
+export {buildCharacterSheet,characterData,truthRules,realityRules};
+`},bundle:true,write:false,format:'esm',platform:'node'});
+const {buildCharacterSheet,characterData,core,truthRules,realityRules}=await import('data:text/javascript;base64,'+Buffer.from(result.outputFiles[0].text).toString('base64'));
+const before=JSON.stringify({characterData,core,truthRules,realityRules});
+const creation=buildCharacterSheet(characterData,core,truthRules,realityRules,false,'Fallback');
+assert.equal(creation.name,'V2 Smoke');
+assert.equal(creation.derived.pvMax,6);
+assert.equal(creation.skills.find(s=>s.id==='athletisme').value,1);
+assert.equal(creation.attributes.length,5);
+assert.equal(JSON.stringify({characterData,core,truthRules,realityRules}),before,'Projection must not mutate character data or catalogues');
+const campaignData=structuredClone(characterData);
+campaignData.progression={xpEarned:100,attributeRanks:{vigueur:1},skillRanks:{constitution:1},realityTalents:[],truthTalents:[],cashBase:100,cashTransactions:[{uid:'purchase',amount:-20,type:'manual',label:'Achat',at:'2026-01-01'}]};
+const campaignBefore=JSON.stringify(campaignData);
+const campaign=buildCharacterSheet(campaignData,core,truthRules,realityRules);
+assert.equal(campaign.derived.pvMax,9);
+assert.equal(campaign.derived.death,-5);
+assert.equal(campaign.cash,80);
+assert.equal(campaign.attributes.find(a=>a.id==='vigueur').value,4);
+assert.equal(campaign.attributes.find(a=>a.id==='vigueur').base,3);
+assert.ok(campaign.xpRemaining<100);
+assert.equal(buildCharacterSheet(campaignData,core,truthRules,realityRules,false).derived.pvMax,6,'Creation stays separate from campaign gains');
+assert.equal(JSON.stringify(campaignData),campaignBefore,'Campaign calculation is read-only');
+console.log('SHEET MODEL OK — real projection, permanent talent bonus, campaign attributes/skills/derived values/cash/XP, creation isolation and no mutation');
