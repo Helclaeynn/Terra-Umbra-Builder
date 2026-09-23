@@ -22,7 +22,7 @@ try{
     {timeout:15000}
   );
   const started=Date.now();
-  await perfPage.goto(baseUrl+"/compendium?article=guide-realite-nouveau-joueur",{
+  await perfPage.goto(baseUrl+"/compendium?article=realite-v9-grande-californie-2035",{
     waitUntil:"domcontentloaded",
     timeout:30000
   });
@@ -134,18 +134,14 @@ try{
   await publicPage.locator(".main-result-card").first().waitFor({state:"visible",timeout:10000});
   await publicPage.locator(".compendium-navigation").waitFor({state:"visible",timeout:10000});
 
-  await publicPage.goto(baseUrl+"/compendium?article=guide-realite-nouveau-joueur",{waitUntil:"domcontentloaded",timeout:30000});
-  await publicPage.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
-  const guideTitle=(await publicPage.locator(".article-header h1").innerText()).trim();
-  if(guideTitle!=="Réalité — Guide du nouveau joueur")throw new Error("Guide archive inattendu: "+guideTitle);
-  await publicPage.getByText("Archive de l’ancien Compendium",{exact:true}).waitFor({state:"visible",timeout:10000});
-
-  await publicPage.goto(baseUrl+"/compendium?article=verite-046-10-vampires",{waitUntil:"domcontentloaded",timeout:30000});
-  await publicPage.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
-  await publicPage.getByText("Archive de l’ancien Compendium",{exact:true}).waitFor({state:"visible",timeout:10000});
-  if(await publicPage.locator(".wiki-edit-link").count()){
-    throw new Error("Une archive OLD ne doit pas être éditable dans le Compendium public.");
+  // Retired articles are absent from the API and have a useful recovery screen.
+  for(const articleId of ["guide-realite-nouveau-joueur","guide-verite-nouveau-joueur","verite-046-10-vampires"]){
+    const retiredResponse=await publicContext.request.get(baseUrl+"/api/compendium/articles/"+articleId);
+    if(retiredResponse.status()!==404)throw new Error("Archive encore servie au public : "+articleId);
   }
+  await publicPage.goto(baseUrl+"/compendium?article=guide-realite-nouveau-joueur",{waitUntil:"domcontentloaded",timeout:30000});
+  await publicPage.getByRole("heading",{name:"Article indisponible",exact:true}).waitFor({state:"visible",timeout:10000});
+  if(await publicPage.locator(".article-header h1").count())throw new Error("Un article retiré est encore rendu.");
 
   await publicPage.goto(baseUrl+"/compendium?article=pnj-agences-cole-gallagher&section=profil-statistique",{waitUntil:"domcontentloaded",timeout:30000});
   await publicPage.getByRole("heading",{name:"Cole Gallagher",exact:true}).waitFor({state:"visible",timeout:20000});
@@ -202,34 +198,14 @@ try{
     if(rawDirective)throw new Error("Directive Talents brute encore visible.");
   }
 
-  const styleThemes=[
-    ["interface-2035","Interface 2035"],
-    ["livre-vivant","Livre vivant"],
-    ["codex-hybride","Codex hybride"],
-    ["dossier-umbra","Dossier Umbra"],
-    ["umbra-archive","Umbra Archive"],
-    ["umbra-signal","Umbra Signal"],
-    ["umbra-signal-final","Umbra Signal Final"]
-  ];
-  for(const [slug,label] of styleThemes){
-    await publicPage.goto(`${baseUrl}/style-lab/${slug}/builder`,{waitUntil:"domcontentloaded",timeout:30000});
-    await publicPage.getByRole("heading",{name:label,exact:true}).waitFor({state:"visible",timeout:10000});
-    await publicPage.getByRole("heading",{name:"Équipement & patrimoine",exact:true}).waitFor({state:"visible",timeout:10000});
-    await publicPage.waitForFunction(
-      ()=>[...document.querySelectorAll(".equipment-image img")].every(img=>img.naturalWidth>0),
-      null,
-      {timeout:10000}
-    );
-
-    await publicPage.getByRole("link",{name:"Compendium",exact:true}).click();
-    await publicPage.getByRole("heading",{name:"OWL LC-014 Chasseur",exact:true}).waitFor({state:"visible",timeout:10000});
-    await publicPage.waitForFunction(
-      ()=>document.querySelector(".hero-media img")?.naturalWidth>0,
-      null,
-      {timeout:10000}
-    );
+  for(const removedPath of ["/style-lab","/style-lab/umbra-signal/builder"]){
+    await publicPage.goto(baseUrl+removedPath,{waitUntil:"domcontentloaded",timeout:30000});
+    await publicPage.locator(".discovery-hero").waitFor({state:"visible",timeout:10000});
+    if(new URL(publicPage.url()).pathname!=="/" || await publicPage.locator(".style-lab").count()){
+      throw new Error("L’ancienne URL du laboratoire ne ramène pas à l’accueil : "+removedPath);
+    }
   }
-  console.log("STYLE LAB OK — 7 thèmes · Builder + Compendium · médias chargés");
+  console.log("ARCHIVES RETIRED OK — anciennes pages absentes · laboratoire supprimé · anciens liens récupérables");
 
   await publicPage.goto(baseUrl+"/",{waitUntil:"domcontentloaded",timeout:30000});
   const loginLink=publicPage.getByRole("link",{name:"Connexion"});
@@ -265,16 +241,17 @@ try{
   if(wikiDebug?.hasLegacyEntry)throw new Error("OLD présent dans l’index actif: "+JSON.stringify(wikiDebug));
 
   await page.getByRole("button",{name:"Ouvrir la recherche",exact:true}).click();
-  const archiveChip=page.locator(".category-strip").getByRole("button",{name:/Archives · ancien Compendium/});
-  await archiveChip.waitFor({state:"visible",timeout:10000});
-  await archiveChip.click();
-  await page.getByText(/entrées?/).first().waitFor({state:"visible",timeout:10000});
-  const archiveResult=page.locator(".result-card").first();
-  await archiveResult.waitFor({state:"visible",timeout:10000});
-
-  await page.goto(baseUrl+"/compendium?article=verite-046-10-vampires",{waitUntil:"domcontentloaded",timeout:30000});
-  await page.locator(".article-header h1").waitFor({state:"visible",timeout:20000});
-  await page.getByText("Archive de l’ancien Compendium",{exact:true}).waitFor({state:"visible",timeout:10000});
+  if(await page.getByRole("button",{name:/Archives · ancien Compendium/}).count()){
+    throw new Error("La rubrique des archives est encore proposée aux éditeurs.");
+  }
+  for(const articleId of ["guide-realite-nouveau-joueur","verite-046-10-vampires"]){
+    const retiredResponse=await context.request.get(baseUrl+"/api/compendium/articles/"+articleId);
+    if(retiredResponse.status()!==404)throw new Error("Archive encore accessible à l’éditeur : "+articleId);
+  }
+  await page.goto(baseUrl+"/compendium?category=OLD",{waitUntil:"domcontentloaded",timeout:30000});
+  await page.locator(".search-results-main").waitFor({state:"visible",timeout:10000});
+  await page.locator(".main-result-card").first().waitFor({state:"visible",timeout:10000});
+  if(await page.getByRole("button",{name:/Archives · ancien Compendium/}).count())throw new Error("Ancienne catégorie encore proposée.");
 
   await page.goto(baseUrl+"/compendium?article=pnj-agences-cole-gallagher&section=profil-statistique",{waitUntil:"domcontentloaded",timeout:30000});
   await page.getByRole("heading",{name:"Cole Gallagher",exact:true}).waitFor({state:"visible",timeout:20000});
@@ -344,7 +321,7 @@ try{
 
   if(browserErrors.length)throw new Error(browserErrors.join("\n"));
 
-  console.log("WIKI V2 OK — Compendium actif isolé des archives OLD · média + éditeur + registre Talents + source Builder + audit + création OK");
+  console.log("WIKI V2 OK — Compendium actif sans archives OLD · média + éditeur + registre Talents + source Builder + audit + création OK");
 }finally{
   await browser.close();
 }

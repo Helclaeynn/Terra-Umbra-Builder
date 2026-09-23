@@ -209,31 +209,30 @@ export const COMPENDIUM_GUIDE_NAVIGATION = [
 export const COMPENDIUM_PLAYER_START = {
   basics: [
     { id: "regles-moteur-de-jeu", label: "Moteur de jeu — règles fondamentales", summary: "Le socle commun : faire un test, agir en combat, gérer les PA, les blessures, les soins et le Stress." },
-    { id: "guide-realite-nouveau-joueur", label: "Réalité — Guide du nouveau joueur", summary: "Comprendre le monde visible, ce qu’un personnage ordinaire connaît et comment la Réalité rencontre la Vérité." },
-    { id: "guide-verite-nouveau-joueur", label: "Vérité — Guide du nouveau joueur", summary: "Comprendre la superposition Réalité/Vérité, la révélation, le Voile et la manière dont le surnaturel agit sur le monde visible." },
-    { id: "verite-002-le-voile-et-l-hologramme", label: "Le Voile et l’Hologramme", summary: "Comprendre pourquoi le surnaturel n’apparaît pas de la même manière à tous." },
-    { id: "realite-005-4-creation-et-progression", label: "Création et progression", summary: "Passer du cadre de jeu à la construction concrète d’un personnage." }
+    { id: "realite-v9-grande-californie-2035", label: "Grande Californie en 2035", summary: "Comprendre le monde visible, ce qu’un personnage ordinaire connaît et comment la Réalité rencontre la Vérité." },
+    { id: "verite-v7-derriere-le-voile", label: "Vérité — derrière le Voile", summary: "Comprendre la superposition Réalité/Vérité, la révélation, le Voile et la manière dont le surnaturel agit sur le monde visible." },
+    { id: "verite-v7-voile-hologramme", label: "Le Voile et l’Hologramme", summary: "Comprendre pourquoi le surnaturel n’apparaît pas de la même manière à tous." },
   ],
   natures: [
-    { label: "Humain / Chasseur", summary: "Le point d’entrée humain dans la Vérité, avec les règles et la doctrine propres aux Chasseurs.", rulesId: "regles-verite-nature-humain", loreId: "verite-055-19-formation-et-doctrine-de-chasseur" },
-    { label: "Vampire", summary: "La Nature vampirique, ses règles communes et les sociétés de Vampires.", rulesId: "regles-verite-nature-vampire", loreId: "verite-046-10-vampires" },
-    { label: "Garou", summary: "Les loups descendants de Khinae, leurs règles de Nature et leurs Pelages.", rulesId: "regles-verite-nature-garou", loreId: "verite-047-11-garous-loups-descendants-de-khinae" },
-    { label: "Descendant de Khinae", summary: "Les autres lignées issues de Khinae au-delà des Garous.", rulesId: "regles-verite-nature-khinae", loreId: "verite-048-12-autres-descendants-de-khinae" },
-    { label: "Mage", summary: "La Nature mage, ses Talents communs et ses différentes affinités magiques.", rulesId: "regles-verite-nature-mage", loreId: "verite-049-13-mages" },
-    { label: "Daemon", summary: "Une Nature liée aux Divinités daemoniaques, à leurs Maisonnées et à leurs Faveurs.", rulesId: "regles-verite-nature-daemon", loreId: "verite-050-14-daemons" },
-    { label: "Angelus", summary: "La Nature céleste des Angelus, reliée à l’Arbre de Vie et à la Transcendance.", rulesId: "regles-verite-nature-angelus", loreId: "verite-051-15-angelus" },
-    { label: "Aseryn", summary: "La Nature aseryne, ses capacités propres et les peuples de la diaspora aseryne.", rulesId: "regles-verite-nature-aseryn", loreId: "verite-052-16-aseryns" },
-    { label: "Exilé", summary: "Les peuples exilés, leurs traditions et leurs règles de Nature communes ou spécifiques.", rulesId: "regles-verite-nature-exile", loreId: "verite-053-17-exiles-peuples-fonctions-et-traditions" },
-    { label: "Extral / Humain galactique", summary: "Les origines galactiques regroupées sous les règles Extrals et Humains galactiques.", rulesId: "regles-verite-nature-extral", loreId: "verite-054-18-extrals-homo-superior-et-adrak" }
+    { label: "Humain / Chasseur", summary: "Le point d’entrée humain dans la Vérité, avec les règles et la doctrine propres aux Chasseurs.", rulesId: "regles-verite-v7-chasseurs-doctrine-association-gt-hunt", loreId: "verite-v7-chasseurs-doctrine-association-traditions" },
+    { label: "Vampire", summary: "La Nature vampirique, ses règles communes et les sociétés de Vampires.", rulesId: "regles-verite-v7-vampire-nature-predation-cours", loreId: "verite-v7-vampires-civilisation-cours-sangs" },
+    { label: "Garou", summary: "Les loups descendants de Khinae, leurs règles de Nature et leurs Pelages.", rulesId: "regles-verite-v7-garou-nature-formes-frenesie-pelages", loreId: "verite-v7-garous-khinae-meutes-pelages" },
+    { label: "Descendant de Khinae", summary: "Les autres lignées issues de Khinae au-delà des Garous.", rulesId: "regles-verite-v7-khinae-moteur-lignees", loreId: "verite-v7-descendants-khinae" },
+    { label: "Mage", summary: "La Nature mage, ses Talents communs et ses différentes affinités magiques.", rulesId: "regles-verite-v7-mage-maitrise-amplitude-lancement", loreId: "verite-v7-mages-mageius-roue-loges" },
+    { label: "Daemon", summary: "Une Nature liée aux Divinités daemoniaques, à leurs Maisonnées et à leurs Faveurs.", rulesId: "regles-verite-v7-daemon-nature-fonctions-divinites-facettes", loreId: "verite-v7-daemons-divinites-maisonnees-temples" },
+    { label: "Angelus", summary: "La Nature céleste des Angelus, reliée à l’Arbre de Vie et à la Transcendance.", rulesId: "regles-verite-v7-angelus-nature-revelation-transcendance", loreId: "verite-v7-angelus-elynea-arbre-vie" },
+    { label: "Aseryn", summary: "La Nature aseryne, ses capacités propres et les peuples de la diaspora aseryne.", rulesId: "regles-verite-v7-aseryn-nature-accelyr-origines", loreId: "verite-v7-aseryns-serathe-atlantide-treize" },
+    { label: "Exilé", summary: "Les peuples exilés, leurs traditions et leurs règles de Nature communes ou spécifiques.", rulesId: "regles-verite-v7-exiles-profils-cinq-peuples", loreId: "verite-v7-exiles-peuples-silcenters-traditions" },
+    { label: "Extral / Humain galactique", summary: "Les origines galactiques regroupées sous les règles Extrals et Humains galactiques.", rulesId: "regles-verite-v7-extrals-profils-physiologies", loreId: "verite-v7-extrals-gaac-aidh-diasporas" }
   ],
   restricted: [
-    { label: "Ad’rak", summary: "Une origine extrale disposant de sa propre page de lore et d’un accès de création restreint.", rulesId: "regles-verite-extral-ad-rak-origine-restreinte", loreId: "verite-lore-adrak", note: "Origine restreinte" }
+    { label: "Ad’rak", summary: "Une origine extrale disposant de sa propre page de lore et d’un accès de création restreint.", rulesId: "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak", loreId: "verite-v7-homo-superior-adrak-profils-rares", note: "Origine restreinte" }
   ],
   loreHubs: [
-    { id: "verite-lore-khinae-originels", label: "Khinae", summary: "Comprendre les superprédateurs originels, les lignées changeformes et la racine ancienne des Vampires." },
-    { id: "verite-056-20-corruption", label: "Corruption", summary: "Souillure, Sources, Fléaux et Rupture : comment une influence extérieure réécrit progressivement un être." },
-    { id: "verite-lore-aer-monde-et-heritages", label: "Aèr", summary: "Relier les passages, les Exilés et plusieurs héritages divins, angéliques et magiques sans confondre Aèr avec toute la Vérité." },
-    { id: "verite-033-le-cycle-le-neant-et-ce-que-la-mort-revele", label: "Cycle & Néant", summary: "Un repère cosmologique pour comprendre ce que la mort révèle et pourquoi certaines lignées n’ont pas le même destin." }
+    { id: "verite-v7-garous-khinae-meutes-pelages", label: "Khinae", summary: "Comprendre les superprédateurs originels, les lignées changeformes et la racine ancienne des Vampires." },
+    { id: "verite-v7-six-fleaux-sources-rupture", label: "Corruption", summary: "Souillure, Sources, Fléaux et Rupture : comment une influence extérieure réécrit progressivement un être." },
+    { id: "verite-v7-exiles-peuples-silcenters-traditions", label: "Aèr", summary: "Relier les passages, les Exilés et plusieurs héritages divins, angéliques et magiques sans confondre Aèr avec toute la Vérité." },
+    { id: "verite-v7-cycle-neant-ombremonde-histoire-cachee", label: "Cycle & Néant", summary: "Un repère cosmologique pour comprendre ce que la mort révèle et pourquoi certaines lignées n’ont pas le même destin." }
   ],
   categories: [
     { label: "Règles", category: "Règles", summary: "Création, moteur, combat, progression et règles de Nature." },

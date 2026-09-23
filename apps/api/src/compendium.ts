@@ -383,6 +383,7 @@ type Corpus = {
   publicById: Map<string, Article>;
   wikiIndexCompact: Array<Record<string, unknown>>;
   editorBaseById: Map<string, { hash: string; article: Article }>;
+  retiredIds: Set<string>;
   navigation: Map<string, NavigationEntry>;
   categories: Array<{ name: string; count: number }>;
   manufacturers: Array<{ name: string; count: number }>;
@@ -431,8 +432,7 @@ const CATEGORY_ORDER = [
   "Vérité",
   "Personnages",
   "Équipement & Objets",
-  "Bestiaire",
-  LEGACY_CATEGORY
+  "Bestiaire"
 ];
 
 const EQUIPMENT_MANUFACTURERS = [
@@ -777,6 +777,7 @@ async function editorBaseFor(
   id: string,
   corpus: Corpus
 ): Promise<{ hash: string; article: Article } | null> {
+  if (corpus.retiredIds.has(id)) return null;
   const existing = corpus.editorBaseById.get(id);
   if (existing) return existing;
 
@@ -787,7 +788,7 @@ async function editorBaseFor(
     [id]
   );
   const article = custom.rows[0]?.baseDocument;
-  if (!article) return null;
+  if (!article || article.category === LEGACY_CATEGORY) return null;
   return { hash: articleHash(article), article: deepClone(article) };
 }
 
@@ -802,6 +803,7 @@ function validEditableArticle(value: unknown): value is Article {
   if (!value || typeof value !== "object") return false;
   const article = value as JsonObject;
   const title = String(article.title ?? "").trim();
+  if (String(article.category ?? "").trim() === LEGACY_CATEGORY) return false;
   if (!title || title.length > 240) return false;
   if (article.tags !== undefined) {
     if (!Array.isArray(article.tags) || article.tags.length > 100) return false;
@@ -3096,7 +3098,7 @@ async function loadCorpus(): Promise<Corpus> {
   for (const row of publishedEdits.rows) {
     const base = editorBaseById.get(row.articleId);
     const current = byId.get(row.articleId);
-    if (!base || !current) continue;
+    if (!base || !current || String(row.published.category ?? "").trim() === LEGACY_CATEGORY) continue;
     if (row.baseHash !== base.hash) {
       databaseEditConflicts += 1;
       continue;
@@ -3552,13 +3554,21 @@ async function loadCorpus(): Promise<Corpus> {
     }
   }
 
+  // The audited OLD corpus is retired from every reading/editorial surface.
+  // Keep the snapshot as tombstones: erasing it would archive newer custom pages
+  // at the next boot. Source imports above still supply rebuilt V2 profiles.
+  const retiredIds = new Set(legacyIds);
   for (const article of byId.values()) {
-    if (!legacyIds.has(article.id)) continue;
-    if (article.rebuildV2 === true) continue;
-    article.legacyCategory = article.category ?? "";
-    article.category = LEGACY_CATEGORY;
-    article.__legacy = true;
-    article.__searchText = norm(flattenText(article));
+    const retired = article.category === LEGACY_CATEGORY ||
+      (legacyIds.has(article.id) && article.rebuildV2 !== true);
+    if (!retired) {
+      retiredIds.delete(article.id);
+      continue;
+    }
+    retiredIds.add(article.id);
+    byId.delete(article.id);
+    editorBaseById.delete(article.id);
+    navigation.delete(article.id);
   }
 
   const articles = [...byId.values()].sort(compareArticles);
@@ -3607,6 +3617,7 @@ async function loadCorpus(): Promise<Corpus> {
     publicById,
     wikiIndexCompact,
     editorBaseById,
+    retiredIds,
     navigation,
     categories,
     manufacturers,
@@ -3763,7 +3774,7 @@ async function loadUserLibrary(userId: string, corpus: Corpus, includeMj: boolea
     return searchItem(articleForAudience(article, includeMj), "");
   };
 
-  const favorites = favoriteRows.rows.map((row) => row.articleId);
+  const favorites = favoriteRows.rows.map((row) => row.articleId).filter((id) => visibleItem(id));
   const favoriteItems = favorites
     .map(visibleItem)
     .filter((article): article is ReturnType<typeof searchItem> => Boolean(article));
@@ -3776,7 +3787,7 @@ async function loadUserLibrary(userId: string, corpus: Corpus, includeMj: boolea
   }
 
   const collections = collectionRows.rows.map((collection) => {
-    const articleIds = idsByCollection.get(collection.id) ?? [];
+    const articleIds = (idsByCollection.get(collection.id) ?? []).filter((id) => visibleItem(id));
     return {
       ...collection,
       articleIds,
@@ -3807,19 +3818,15 @@ async function ownedCollection(collectionId: string, userId: string): Promise<bo
 }
 
 export async function registerCompendiumRoutes(app: FastifyInstance) {
-  app.get("/api/compendium/meta", async (request) => {
+  app.get("/api/compendium/meta", async () => {
     const corpus = await getCorpus();
-    const user = await currentUser(request);
-    const canAuditLegacy = isEditorRole(user?.role);
-    const activeTotal = corpus.articles.filter((article) => article.category !== LEGACY_CATEGORY).length;
-    const archivedTotal = corpus.articles.length - activeTotal;
     return {
       version: corpus.manifest.version,
       generated: corpus.manifest.generated ?? null,
-      total: activeTotal,
-      archivedTotal,
+      total: corpus.articles.length,
+      archivedTotal: 0,
       expectedTotal: null,
-      categories: corpus.categories.filter((entry) => entry.name !== LEGACY_CATEGORY || canAuditLegacy),
+      categories: corpus.categories,
       manufacturers: corpus.manufacturers,
       overrides: corpus.overrideSummary,
       databaseEdits: corpus.databaseEditSummary
@@ -3919,17 +3926,8 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const offset = Math.max(0, Number.parseInt(request.query.offset ?? "0", 10) || 0);
     const tokens = normalizedQuery.split(" ").filter(Boolean);
 
-    const sourceArticles = includeMj ? corpus.articles : corpus.publicArticles;
-    const canAuditLegacy = isEditorRole(user?.role);
-    let rows =
-      category === LEGACY_CATEGORY && canAuditLegacy
-        ? sourceArticles.filter((article) => article.category === LEGACY_CATEGORY)
-        : sourceArticles.filter((article) => article.category !== LEGACY_CATEGORY);
-
-    if (category && category !== LEGACY_CATEGORY) {
-      rows = rows.filter((article) => article.category === category);
-    }
-    if (category === LEGACY_CATEGORY && !canAuditLegacy) rows = [];
+    let rows = includeMj ? corpus.articles : corpus.publicArticles;
+    if (category) rows = rows.filter((article) => article.category === category);
     if (dataset) rows = rows.filter((article) => article.dataset === dataset);
     if (manufacturer) {
       const normalizedManufacturer = norm(manufacturer);
@@ -4365,6 +4363,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
 
     const title = String(request.body?.title ?? "").trim();
     const category = String(request.body?.category ?? "Réalité").trim() || "Réalité";
+    if (category === LEGACY_CATEGORY) return bad(reply, "invalid_compendium_article_category");
     const source = String(request.body?.source ?? "").trim();
     const status = String(request.body?.status ?? "canon_enrichi").trim() || "canon_enrichi";
     const tags = Array.isArray(request.body?.tags)
@@ -4513,6 +4512,10 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     if (!user) return;
 
     const id = request.params.id.trim();
+    const corpus = await getCorpus();
+    if (!(await editorBaseFor(id, corpus))) {
+      return reply.code(404).send({ error: "compendium_article_not_found" });
+    }
     await pool.query(
       `UPDATE compendium_article_edits
        SET draft = NULL,
@@ -4557,6 +4560,10 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       if (row.baseHash !== base.hash) {
         await client.query("ROLLBACK");
         return reply.code(409).send({ error: "compendium_source_changed" });
+      }
+      if (!validEditableArticle(row.draft)) {
+        await client.query("ROLLBACK");
+        return bad(reply, "invalid_compendium_article");
       }
 
       await client.query(

@@ -19,8 +19,6 @@ const router=createRouter({
     { path:"/compendium/new", component:()=>import("./pages/CompendiumEditorPage.vue") },
     { path:"/compendium/edit/:id", component:()=>import("./pages/CompendiumEditorPage.vue") },
     { path:"/admin/quality", component:()=>import("./pages/AdminQualityPage.vue") },
-    { path:"/style-lab", redirect:"/style-lab/interface-2035/builder" },
-    { path:"/style-lab/:theme/:view?", component:()=>import("./pages/StyleLabPage.vue") },
     { path:"/:pathMatch(.*)*", redirect:"/" }
   ]
 });

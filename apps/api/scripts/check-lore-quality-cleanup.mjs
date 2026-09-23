@@ -72,8 +72,11 @@ const mergedDelanial = {
 applyLoreQualityCleanup(mergedDelanial);
 assert.match(articleText(mergedDelanial), /aucune Source de Corruption Delanial/u, "classification Delanial conservée après fusion");
 
-for (const file of ["apps/web/src/lib/wiki-data.ts", "compendium/onboarding-data.js"]) {
-  assert.match(fs.readFileSync(new URL(`../../../${file}`, import.meta.url), "utf8"), /['"]Cycle['"]\s*:\s*['"]verite-033-le-cycle-le-neant-et-ce-que-la-mort-revele['"]/u, `${file}: alias Cycle`);
+for (const [file, target] of [
+  ["apps/web/src/lib/wiki-data.ts", "verite-v7-cycle-neant-ombremonde-histoire-cachee"],
+  ["compendium/onboarding-data.js", "verite-033-le-cycle-le-neant-et-ce-que-la-mort-revele"]
+]) {
+  assert.match(fs.readFileSync(new URL(`../../../${file}`, import.meta.url), "utf8"), new RegExp(`["']Cycle["']\\s*:\\s*["']${target}["']`, "u"), `${file}: alias Cycle`);
 }
 
 console.log(
