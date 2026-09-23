@@ -79,6 +79,32 @@ try{
   console.log(`BUILDER WARM PERF — progression prête ${warmMs} ms · ${warmResources.filter(r=>r.transferSize===0).length}/${warmResources.length} catalogues sans retransfert réseau`);
   for(const resource of warmResources)console.log(`BUILDER WARM RESOURCE — ${resource.name} · ${resource.duration} ms · ${resource.transferSize} octets transférés`);
 
+  // Measure actual account navigation and mobile consultation with a disposable account.
+  const accountStarted=performance.now();
+  await page.goto(`${baseUrl}/account`,{waitUntil:"domcontentloaded"});
+  const sheetLink=page.locator(`a[href="/characters/${characterId}/sheet"]`);
+  await sheetLink.waitFor({state:"visible",timeout:30000});
+  const accountMs=Math.round(performance.now()-accountStarted);
+  const listPayload=await page.request.get(`${baseUrl}/api/characters?summary=1`);
+  const list=await listPayload.json();
+  if(list.characters.some(character=>Object.hasOwn(character,"data")))throw new Error("Compact list still transfers character data");
+  await page.setViewportSize({width:390,height:844});
+  const sheetStarted=performance.now();
+  await sheetLink.click();
+  await page.locator('.character-sheet[data-mode="campaign"]').waitFor({state:"visible"});
+  const sheetMs=Math.round(performance.now()-sheetStarted);
+  if(await page.locator('.builder-sidebar,.progression-step').count())throw new Error("Standalone sheet mounts editing UI");
+  if(await page.evaluate(()=>document.documentElement.scrollWidth>document.documentElement.clientWidth+1))throw new Error("Mobile sheet overflows");
+  const accountLink=page.getByRole('link',{name:'Mon espace',exact:true});
+  await accountLink.click();
+  const logout=page.getByRole('button',{name:'Déconnexion',exact:true});
+  await logout.waitFor();
+  const logoutStarted=performance.now();
+  await logout.click();
+  await logout.waitFor({state:'detached'});
+  const logoutMs=Math.round(performance.now()-logoutStarted);
+  if((await page.request.get(`${baseUrl}/api/auth/me`)).status()!==401)throw new Error("Logout session still valid");
+  console.log(`ACCOUNT PERF — session restored and sheets ready ${accountMs} ms · account link to mobile sheet ${sheetMs} ms · confirmed logout ${logoutMs} ms · compact list ${Buffer.byteLength(JSON.stringify(list))} bytes`);
   await context.close();
 }finally{
   await browser.close();
