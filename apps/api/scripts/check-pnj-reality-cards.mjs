@@ -21,7 +21,7 @@ for (const person of religiousCards) {
   const fields = person.sections[0].blocks[0].rows;
   assert.equal(fields[0][0], "Champ", person.id);
   assert.ok(fields.some(([label]) => label === "Fonction"), person.id);
-  assert.ok(!article(person.id, true).sections.some((s) => s.id === "profil-statistique"), person.id);
+  assert.ok(!article(person.id, true)?.sections.some((s) => s.id === "profil-statistique"), person.id);
 }
 const agencies = active.filter((person) => person.dataset === "realite-v9-agencies-pnj" &&
   person.id !== "pnj-agences-cole-gallagher" && person.sections.at(-1)?.blocks.length >= 6);
@@ -31,7 +31,12 @@ const meetingProfiles = active.filter((person) => person.dataset === "points-ren
 assert.equal(meetingProfiles.length, 24);
 const hunterProfiles = active.filter((person) => person.dataset === "verite-hunters-pnj" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(hunterProfiles.length, 10);
+assert.equal(hunterProfiles.length, 16);
+const speciesRealityProfiles = active.filter((person) =>
+  ["verite-species-pnj", "verite-fantastiques-pnj"].includes(person.dataset) &&
+  person.id !== "personnages-verite-especes-tokala" &&
+  person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
+assert.equal(speciesRealityProfiles.length, 40);
 const exileRealityProfiles = active.filter((person) =>
   ["verite-pelages-pnj", "verite-grands-exiles-pnj", "verite-vampire-courts-pnj", "verite-extrals-groupes-pnj"].includes(person.dataset) &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
@@ -42,7 +47,7 @@ const alienRealityProfiles = active.filter((person) =>
   person.dataset === "verite-extraterrestres-pnj" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
 assert.equal(templeRealityProfiles.length, 45);
-assert.equal(alienRealityProfiles.length, 34);
+assert.equal(alienRealityProfiles.length, 38);
 assert.equal(exileRealityProfiles.length, 121);
 for (const [id, forbidden] of [
   ["personnages-verite-extrals-groupes-axelle-monroy", "ième siège du SMRC"],
@@ -59,7 +64,7 @@ for (const [id, secret, retained] of [
   assert.ok(JSON.stringify(article(id)).toLowerCase().includes(retained), `${id}: information MJ perdue`);
 }
 const civilPrerequisiteFailures = [];
-for (const person of [...religiousCards, ...agencies, ...meetingProfiles, ...hunterProfiles, ...exileRealityProfiles, ...templeRealityProfiles, ...alienRealityProfiles]) {
+for (const person of [...religiousCards, ...agencies, ...meetingProfiles, ...hunterProfiles, ...exileRealityProfiles, ...templeRealityProfiles, ...alienRealityProfiles, ...speciesRealityProfiles]) {
   const blocks = person.sections.at(-1).blocks;
   const ranks = new Map(blocks[2].rows.slice(1,-1).map(([name, value]) => [name, Number(value)]));
   const rank = (name) => ranks.get(name) ?? 0;
@@ -68,7 +73,7 @@ for (const person of [...religiousCards, ...agencies, ...meetingProfiles, ...hun
     Number(intro.match(/(\d+) points d'Attributs/)?.[1]), person.id);
   assert.equal([...ranks.values()].reduce((sum, value) => sum + value, 0),
     Number(intro.match(/(\d+) points de Compétences/)?.[1]), person.id);
-  assert.ok(!article(person.id, true).sections.some((s) => s.id === "profil-statistique"), person.id);
+  assert.ok(!article(person.id, true)?.sections.some((s) => s.id === "profil-statistique"), person.id);
   for (const [talent, valid] of [
     ["Réseau mobilisable", rank("Autorité") >= 6], ["Dossier préparé", rank("Investigation") >= 6],
     ["Chef de manœuvre", rank("Autorité") >= 6],
@@ -120,7 +125,7 @@ for (const person of corporations) {
       ["Lutte brève", rank("Pugilat") >= 7]
     ]) if (talents.includes(talent) && !valid) talentPrerequisiteFailures.push(`${person.id}: ${talent}`);
   }
-  assert.ok(!article(person.id, true).sections.some((s) => s.id === "profil-statistique"), person.id);
+  assert.ok(!article(person.id, true)?.sections.some((s) => s.id === "profil-statistique"), person.id);
 }
 assert.deepEqual(talentPrerequisiteFailures, []);
 const institutions = active.filter((item) =>
@@ -138,7 +143,7 @@ for (const person of staffed) {
     assert.equal(attrs.reduce((sum, value) => sum + value, 0), Number(intro.match(/(\d+) points d'Attributs/)?.[1]), person.id);
     assert.equal(ranks.reduce((sum, value) => sum + value, 0), Number(intro.match(/(\d+) points de Compétences/)?.[1]), person.id);
   }
-  assert.ok(!article(person.id, true).sections.some((s) => s.id === "profil-statistique"), person.id);
+  assert.ok(!article(person.id, true)?.sections.some((s) => s.id === "profil-statistique"), person.id);
 }
 const crawlerProfiles = active.filter((person) => person.dataset === "realite-v9-crawlers-pnj" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
