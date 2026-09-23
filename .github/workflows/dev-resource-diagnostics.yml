@@ -1,0 +1,36 @@
+name: Dev resource diagnostics
+on:
+  workflow_dispatch:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/dev-resource-diagnostics.yml]
+permissions:
+  contents: read
+jobs:
+  resources:
+    runs-on: ubuntu-latest
+    environment: tuc-dev
+    timeout-minutes: 3
+    env:
+      TUC_DEV_HOST: ${{ secrets.TUC_DEV_HOST }}
+      TUC_DEV_USER: ${{ secrets.TUC_DEV_USER }}
+      TUC_DEV_SSH_KEY: ${{ secrets.TUC_DEV_SSH_KEY }}
+    steps:
+      - name: Read server memory and process termination evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -m 700 -d ~/.ssh
+          trap 'rm -f ~/.ssh/tuc_dev' EXIT
+          printf '%s\n' "$TUC_DEV_SSH_KEY" > ~/.ssh/tuc_dev
+          chmod 600 ~/.ssh/tuc_dev
+          ssh-keyscan -H "$TUC_DEV_HOST" >> ~/.ssh/known_hosts
+          ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" <<'REMOTE'
+            set -euo pipefail
+            free -m
+            docker stats --no-stream --format "{{.Name}} {{.MemUsage}} {{.MemPerc}} {{.CPUPerc}}"
+            docker inspect --format "{{.Name}} OOMKilled={{.State.OOMKilled}} ExitCode={{.State.ExitCode}} Restarts={{.RestartCount}} MemoryLimit={{.HostConfig.Memory}} PidsLimit={{.HostConfig.PidsLimit}}" tuc-v2-api-1 tuc-v2-db-1
+            ps -eo comm,rss --sort=-rss | head -15
+            journalctl -k --since "-30 minutes" --no-pager 2>/dev/null | grep -Ei "out of memory|oom-kill|killed process" | tail -20 || true
+            curl --fail --silent --show-error --max-time 15 http://127.0.0.1:3000/api/health || curl --fail --silent --show-error --max-time 15 https://dev.terra-umbra.fr/api/health
+          REMOTE
