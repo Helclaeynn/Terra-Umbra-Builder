@@ -31,16 +31,16 @@ const meetingProfiles = active.filter((person) => person.dataset === "points-ren
 assert.equal(meetingProfiles.length, 24);
 const hunterProfiles = active.filter((person) => person.dataset === "verite-hunters-pnj" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(hunterProfiles.length, 23);
+assert.equal(hunterProfiles.length, 29);
 const speciesRealityProfiles = active.filter((person) =>
   ["verite-species-pnj", "verite-fantastiques-pnj"].includes(person.dataset) &&
   person.id !== "personnages-verite-especes-tokala" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(speciesRealityProfiles.length, 43);
+assert.equal(speciesRealityProfiles.length, 44);
 const angelicRealityProfiles = active.filter((person) =>
   ["verite-angelus-pnj", "verite-humains-galactiques-pnj"].includes(person.dataset) &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(angelicRealityProfiles.length, 65);
+assert.equal(angelicRealityProfiles.length, 67);
 const templeTerrestrialProfiles = active.filter((person) =>
   person.dataset === "verite-aseryns-terres-temples-pnj" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
@@ -48,11 +48,16 @@ assert.equal(templeTerrestrialProfiles.length, 32);
 const olderActiveProfiles = active.filter((person) =>
   person.dataset === "pnj" && person.id !== "pnj-148-kai-gehrman" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(olderActiveProfiles.length, 58);
+assert.equal(olderActiveProfiles.length, 62);
 const finalProfiles = active.filter((person) =>
   ["verite-fleaux-pnj", "verite-loges-mages-pnj"].includes(person.dataset) &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(finalProfiles.length, 7);
+assert.equal(finalProfiles.length, 9);
+const occultOnly = active.filter((person) => person.audience === "mj" &&
+  ["verite-aseryns-terres-temples-pnj", "verite-vampire-courts-pnj", "verite-extrals-groupes-pnj", "verite-species-pnj"].includes(person.dataset));
+assert.equal(occultOnly.length, 36); // 35 newly hidden and one pre-existing MJ-only species dossier.
+for (const person of occultOnly) assert.equal(article(person.id, true), undefined, person.id);
+assert.ok(JSON.stringify(article("personnages-verite-especes-veronica-silver")).includes("grande reine Aseryn"));
 assert.equal(active.filter((person) => person.dataset === "verite-loges-mages-pnj" && person.audience === "mj").length, 26);
 for (const mage of active.filter((person) => person.dataset === "verite-loges-mages-pnj" && person.audience === "mj"))
   assert.equal(article(mage.id, true), undefined, `${mage.id}: coquille de Mage dans la navigation publique`);
