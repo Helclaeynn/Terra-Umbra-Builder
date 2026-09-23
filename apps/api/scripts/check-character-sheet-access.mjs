@@ -102,14 +102,18 @@ try {
   const historyCharacter=(await call(player,'POST','/api/characters',{name:'CI historique'},201)).character;
   const historyPath=`/api/characters/${historyCharacter.id}`;
   const historyData=structuredClone(historyCharacter.data);
+  historyData.truth.corruption=2;historyData.truth.corruptionSource='vhodhal';historyData.truth.corruptionMjAuthorized=true;historyData.truth.truthEquipment=['test-object'];
   historyData.identity.notes='PRIVATE NOTE NOT IN HISTORY';historyData.identity.portraitDataUrl='data:image/png;base64,PRIVATE';
   for(let version=1;version<24;version++){
-    historyData.progression={xpEarned:version*10,ptvEarned:version,skillRanks:{athletisme:1},attributeRanks:{},truthTalents:[],realityTalents:[]};
+    historyData.progression={xpEarned:version*10,ptvEarned:version,corruptionTalents:['test-don'],truthEquipmentMjAuthorized:true,truthTalentsMjAuthorized:true,skillRanks:{athletisme:1},attributeRanks:{},truthTalents:[],realityTalents:[]};
     await call(player,'PATCH',historyPath,{version,data:historyData});
   }
   const first=await call(player,'GET',`${historyPath}/history`);
   assert.equal(first.revisions.length,20);assert.equal(first.revisions[0].revision,24);assert.equal(first.nextBefore,5);assert.equal(first.predecessor.revision,4);
   assert.equal(first.revisions[0].snapshot.progression.xpEarned,230);
+  assert.equal(first.revisions[0].snapshot.truth.corruption,2);
+  assert.deepEqual(first.revisions[0].snapshot.progression.corruptionTalents,['test-don']);
+  assert.deepEqual(first.revisions[0].snapshot.truth.truthEquipment,['test-object']);
   assert.ok(!JSON.stringify(first).includes('PRIVATE'),'No portraits or identity notes in history response');
   await call(player,'PATCH',historyPath,{version:24,name:'CI historique actualisé'});
   await call(player,'PATCH',historyPath,{version:24,name:'Stale'},409);

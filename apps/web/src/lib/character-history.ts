@@ -21,12 +21,13 @@ function project(data:HistorySnapshot,rules:CreationRules,truth:TruthRulesPackag
   const attributeBases=Object.fromEntries(rules.attributes.map(a=>[a.id,number(data.attributes[a.id])+number(data.edgeAttributes[a.id])+truthPermanentAttributeBonus(state,a.id)]));
   const truthMap=new Map(Object.values(truth.catalogs).flat().map(t=>[t.id,t]));
   for(const t of truthAvailableTalents(truth,{...state,truthTalents:[...new Set([...state.truthTalents,...progress.truthTalents])]}))truthMap.set(t.id,t);
+  const corruptionMap=new Map(truth.corruption.talents.map(t=>[t.id,t]));
   const realityMap=new Map([...Object.values(rules.talents.origin).flat(),...Object.values(rules.talents.sphere).flat(),...rules.talents.expertise,...rules.talents.common].map(t=>[t.id,t]));
   // Historical imports may contain invalid ranks: never run an unbounded cost loop.
   const validRanks=[...Object.values(progress.attributeRanks),...Object.values(progress.skillRanks)].every(n=>Number.isInteger(n)&&n>=0&&n<=100);
-  return {progress,skillBases,attributeBases,truthMap,realityMap,
+  return {progress,skillBases,attributeBases,truthMap,realityMap,corruptionMap,
     xp:validRanks&&progress.realityTalents.every(id=>realityMap.has(id))?xpSpent(progress,skillBases,attributeBases):null,
-    ptv:progress.truthTalents.every(id=>truthMap.has(id))?ptvSpent(progress,id=>Number(truthMap.get(id)?.cost||0)):null};
+    ptv:progress.truthTalents.every(id=>truthMap.has(id))&&progress.corruptionTalents.every(id=>corruptionMap.has(id))?ptvSpent(progress,id=>Number(truthMap.get(id)?.cost||0),id=>Number(corruptionMap.get(id)?.cost||0)):null};
 }
 export function compareHistory(current:HistoryRevision,previous:HistoryRevision|null,rules:CreationRules,truth:TruthRulesPackage){
   if(!previous||previous.revision!==current.revision-1)return {changes:[] as HistoryChange[],initial:current.revision===1,missing:current.revision!==1};
@@ -50,6 +51,25 @@ export function compareHistory(current:HistoryRevision,previous:HistoryRevision|
     const old=new Set(before.progress[key]),next=new Set(after.progress[key]);
     const changed=[...new Set([...old,...next])].filter(id=>old.has(id)!==next.has(id)).sort((a,b)=>(map.get(a)?.name??a).localeCompare(map.get(b)?.name??b,'fr'));
     for(const id of changed)add(`${group} · ${map.get(id)?.name??id}`,old.has(id)?'Acquis':'Non acquis',next.has(id)?'Acquis':'Retiré');
+  }
+  numeric('Corruption · niveau',number(previous.snapshot.truth.corruption),number(current.snapshot.truth.corruption));
+  const sourceName=(raw:unknown)=>truth.corruption.sources.find(s=>s.id===raw)?.name||String(raw||'Aucune');
+  add('Corruption · Source dominante',sourceName(previous.snapshot.truth.corruptionSource),sourceName(current.snapshot.truth.corruptionSource));
+  add('Éveil à la Vérité',previous.snapshot.truth.consciousness==='initie'?'Initié':'Profane',current.snapshot.truth.consciousness==='initie'?'Initié':'Profane');
+  for(const [label,key,from,to] of [
+    ['Accord MJ déclaré · Corruption','corruptionMjAuthorized',previous.snapshot.truth,current.snapshot.truth],
+    ['Accord MJ déclaré · Talents de Vérité','truthTalentsMjAuthorized',previous.snapshot.progression,current.snapshot.progression],
+    ['Accord MJ déclaré · Objets de Vérité','truthEquipmentMjAuthorized',previous.snapshot.progression,current.snapshot.progression],
+    ['Accord MJ déclaré · Accès exceptionnel aux objets','truthEquipmentMjOverride',previous.snapshot.truth,current.snapshot.truth]
+  ] as const)add(label,from[key]?'Confirmé':'Non confirmé',to[key]?'Confirmé':'Non confirmé');
+  for(const [label,oldIds,newIds,names] of [
+    ['Capacité de Fléau',[...ids(previous.snapshot.truth.corruptionTalents),...before.progress.corruptionTalents],[...ids(current.snapshot.truth.corruptionTalents),...after.progress.corruptionTalents],new Map(truth.corruption.talents.map(t=>[t.id,t.name]))],
+    ['Objet de Vérité',ids(previous.snapshot.truth.truthEquipment),ids(current.snapshot.truth.truthEquipment),new Map(truth.equipment.map(t=>[t.id,t.name]))]
+  ] as const){
+    const old=new Set(oldIds),next=new Set(newIds);
+    for(const id of [...new Set([...old,...next])].sort((a,b)=>(names.get(a)??a).localeCompare(names.get(b)??b,'fr'))){
+      if(old.has(id)!==next.has(id))add(`${label} · ${names.get(id)??id}`,old.has(id)?'Acquis':'Non acquis',next.has(id)?'Acquis':'Retiré');
+    }
   }
   const flashes=(values:string[])=>values.map(value=>{const [id,step]=value.split(':');return `${rules.skills.find(s=>s.id===id)?.name??id} · rang +${step}`;}).sort((a,b)=>a.localeCompare(b,'fr')).join(', ')||'Aucune';
   add('Éclair de génie · réductions appliquées',flashes(before.progress.flashUses),flashes(after.progress.flashUses));

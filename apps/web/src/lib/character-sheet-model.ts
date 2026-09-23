@@ -4,7 +4,7 @@ import type { TalentChoiceSpec } from "../components/builder/TalentSelector.vue"
 import { characterDerivedStats, type CharacterSheet, type SheetEntry } from "./character-sheet";
 import { ensureProgression, currentAttribute, currentSkillRaw, currentSkillFinal, campaignCash, xpRemaining, ptvRemaining } from "./progression";
 import { ensureRealityState, realityEconomic, realityItemMap, realityLifestyleBase, lifestylePressure, type RealityRulesPackage } from "./reality";
-import { truthAvailableTalents, truthPermanentAttributeBonus, truthPtvSpent, type TruthRulesPackage, type TruthState } from "./truth";
+import { truthCorruptionTalentActive, truthAvailableTalents, truthPermanentAttributeBonus, truthPtvSpent, type TruthRulesPackage, type TruthState } from "./truth";
 
 export type SheetCore = {
   rules:CreationRules; lore:CreationLore; talentChoiceSpecs:Record<string,TalentChoiceSpec>;
@@ -46,6 +46,7 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
   const attribute=(id:string)=>campaign?currentAttribute(progress,attributeBases,id):finalAttribute(id);
   const rawSkill=(id:string)=>campaign?currentSkillRaw(progress,skillBases,id):skillRaw(id);
   const skill=(id:string)=>campaign?currentSkillFinal(progress,skillBases,skillFinalBases,core.skillTalentMap,id):skillFinal(id);
+  const derived=characterDerivedStats(attribute,skill,data.disadvantages);
   const items=realityItemMap(reality);
   const economy=style?realityEconomic(reality,realityState,style,data.edge):null;
   const lifestyleBase=style?realityLifestyleBase(reality,style,data.edge,creationIds,data.disadvantages):"Standard";
@@ -57,7 +58,7 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
   const allDisadvantages=[...(core.disadvantages.sphere[data.creation.sphere]??[]),...core.disadvantages.common,...core.disadvantages.attribute,...Object.values(core.disadvantages.sphere).flat()];
   const selectedDisadvantages=data.disadvantages.flatMap(id=>{const item=allDisadvantages.find(item=>item.id===id);return item?[item]:[];});
   const realityIds=[...new Set([...creationIds,...(campaign?progress.realityTalents:[])])];
-  const truthState={...state,truthTalents:[...new Set([...state.truthTalents,...(campaign?progress.truthTalents:[])])]};
+  const truthState={...state,corruptionTalents:[...new Set([...state.corruptionTalents,...(campaign?progress.corruptionTalents:[])])],truthTalents:[...new Set([...state.truthTalents,...(campaign?progress.truthTalents:[])])]};
   const truthMap=new Map(Object.values(truth.catalogs).flat().map(item=>[item.id,item]));
   for(const item of truthAvailableTalents(truth,truthState))truthMap.set(item.id,item);
   const corruptionMap=new Map(truth.corruption.talents.map(item=>[item.id,item]));
@@ -85,15 +86,15 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
     lifestyle:pressure?.effective??lifestyleBase,lifestyleBase:lifestyleBase,renown:renown,
     attributes:creation.attributes.map(item=>({...item,value:attribute(item.id),base:finalAttribute(item.id)})),
     skills:creation.skills.map(item=>({...item,value:skill(item.id),raw:rawSkill(item.id),bonus:skill(item.id)-rawSkill(item.id)})),
-    derived:characterDerivedStats(attribute,skill,data.disadvantages),edge:edgeRemaining,
+    derived,edge:edgeRemaining,
     xpRemaining:xpRemaining(progress,skillBases,attributeBases),
-    ptvRemaining:campaign?ptvRemaining(progress,Math.max(0,ptvReserve),truthCost):ptvReserve,
+    ptvRemaining:campaign?ptvRemaining(progress,Math.max(0,ptvReserve),truthCost,id=>Number(corruptionMap.get(id)?.cost||0)):ptvReserve,
     account:economy?.account??0,cash:cash,
     realityTalents:realityIds.map(toRealityTalent),
     truthTalents:[...truthState.truthTalents.map(id=>({id,name:truthMap.get(id)?.name??id,detail:truthMap.get(id)?.effect,lore:truthMap.get(id)?.runtimeLore,compendiumId:truthMap.get(id)?.compendiumId})),
-      ...state.corruptionTalents.map(id=>{
+      ...truthState.corruptionTalents.map(id=>{
         const item=corruptionMap.get(id);
-        const dormant=item?.kind==="DON"&&(!state.corruption||item.sourceId!==state.corruptionSource);
+        const dormant=item?.kind==="DON"&&!truthCorruptionTalentActive(item,state,derived.integrity);
         return {id,name:item?.name??id,detail:item?.effect,compendiumId:item?.compendiumId,group:[item?.sourceName,dormant?"Dormant":""].filter(Boolean).join(" · ")};
       })],
     disadvantages:selectedDisadvantages.map(item=>({id:item.id,name:item.name,detail:item.effect,compendiumId:item.compendiumId})),inventory,

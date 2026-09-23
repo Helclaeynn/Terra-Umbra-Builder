@@ -60,7 +60,7 @@ onUnmounted(()=>{++generation;controller?.abort();document.removeEventListener('
           <p v-if="row.initial">Point de départ enregistré. Les acquisitions antérieures à cette version ne peuvent pas être reconstituées.</p>
           <p v-else-if="row.missing">La version précédente n’est pas disponible : aucune comparaison fiable n’est possible.</p>
           <dl v-else-if="row.changes.length" class="history-changes"><div v-for="(change,index) in row.changes" :key="index"><dt>{{ change.label }}</dt><dd><span><small>Avant</small>{{ change.before }}</span><span aria-hidden="true">→</span><span><small>Après</small>{{ change.after }}</span></dd></div></dl>
-          <p v-else>Aucun changement d’XP, de PTV, de rang ou de talent de progression dans cette sauvegarde.</p>
+          <p v-else>Aucun changement de progression, de Corruption ou d’objet de Vérité dans cette sauvegarde.</p>
         </li>
       </ol>
       <button v-if="nextBefore" class="ghost history-more" :disabled="loading" @click="load(true)">Voir les versions précédentes</button>

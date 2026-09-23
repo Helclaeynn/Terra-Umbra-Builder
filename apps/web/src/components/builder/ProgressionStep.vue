@@ -2,6 +2,9 @@
 import { computed, ref } from "vue";
 import { sortedNames, compareTruthTalents, compareLabels } from "../../lib/catalog-order";
 import { cloneJson } from "../../lib/json";
+import CorruptionPanel from "./CorruptionPanel.vue";
+import TruthEquipmentPanel from "./TruthEquipmentPanel.vue";
+import { characterDerivedStats } from "../../lib/character-sheet";
 import BuilderWikiLink from "./BuilderWikiLink.vue";
 import {
   currentSkillRaw as campaignSkillRaw,
@@ -130,6 +133,7 @@ const xpRemainingValue=computed(()=>xpRemaining(state.value,props.skillBases,pro
 
 const combinedTruthState=computed<TruthState>(()=>({
   ...props.truthState,
+  corruptionTalents:[...new Set([...props.truthState.corruptionTalents,...state.value.corruptionTalents])],
   truthTalents:[...new Set([...props.truthState.truthTalents,...state.value.truthTalents])]
 }));
 const truthAvailable=computed(()=>truthAvailableTalents(props.truthRules,combinedTruthState.value));
@@ -144,11 +148,13 @@ const truthById=computed(()=>{
 function truthCost(id:string){
   return Number(truthById.value.get(id)?.cost||0);
 }
-const ptvSpentValue=computed(()=>ptvSpent(state.value,truthCost));
+const corruptionCost=(id:string)=>Number(props.truthRules.corruption.talents.find(t=>t.id===id)?.cost||0);
+const campaignIntegrity=computed(()=>characterDerivedStats(currentAttribute,currentSkillFinal,props.disadvantages).integrity);
+const ptvSpentValue=computed(()=>ptvSpent(state.value,truthCost,corruptionCost));
 const ptvRemainingValue=computed(()=>ptvRemaining(
   state.value,
   props.creationPtvReserve,
-  truthCost
+  truthCost,corruptionCost
 ));
 const cashValue=computed(()=>campaignCash(state.value,props.creationAccount));
 
@@ -319,7 +325,7 @@ const truthCandidates=computed(()=>{
     .sort(compareTruthTalents);
 });
 function truthCanBuy(talent:TruthTalent){
-  return truthPrerequisiteSatisfied(
+  return state.value.truthTalentsMjAuthorized&&truthPrerequisiteSatisfied(
     props.truthRules,
     combinedTruthState.value,
     talent,
@@ -358,6 +364,19 @@ function initiateTruth(){
   if(props.truthState.consciousness!=="profane")return;
   if(!window.confirm("Confirmer que le personnage a été initié à la Vérité en campagne ?"))return;
   emit("update:truth",{...props.truthState,consciousness:"initie"});
+}
+
+function authorize(kind:'truthTalentsMjAuthorized'|'truthEquipmentMjAuthorized',value:boolean){
+  const next=structuredClone(state.value);next[kind]=value;emitProgression(next);
+}
+function updateCampaignCorruption(value:TruthState){
+  const next=structuredClone(state.value);
+  next.corruptionTalents=value.corruptionTalents.filter(id=>!props.truthState.corruptionTalents.includes(id));
+  emitProgression(next);
+  emit('update:truth',{...props.truthState,corruption:value.corruption,corruptionSource:value.corruptionSource,corruptionMjAuthorized:value.corruptionMjAuthorized});
+}
+function updateCampaignEquipment(value:TruthState){
+  emit('update:truth',{...props.truthState,truthEquipment:value.truthEquipment,truthEquipmentMjOverride:value.truthEquipmentMjOverride});
 }
 
 function addMoneyMovement(){
@@ -638,7 +657,7 @@ function sellCampaignItem(){
 
     <details class="progress-panel" :open="state.truthTalents.length>0">
       <summary><strong>Dépenser des PTV</strong><span>La Vérité progresse par les PTV, jamais par l’XP</span></summary>
-      <div v-if="truthState.consciousness==='profane'" class="initiation-row">
+      <div v-if="state.truthTalentsMjAuthorized&&truthState.consciousness==='profane'" class="initiation-row">
         <div><strong>Passer de Profane à Initié</strong><span>Changement fictionnel permanent validé par le MJ ; aucun coût automatique en XP ou PTV.</span></div>
         <button class="primary compact" type="button" @click="initiateTruth">Devenir Initié</button>
       </div>
@@ -648,6 +667,8 @@ function sellCampaignItem(){
           <button class="ghost danger compact" type="button" @click="removeTruthTalent(id)">Retirer</button>
         </div>
       </div>
+      <label class="campaign-approval"><span><strong>Accord MJ — Talents de Vérité en campagne</strong><small>Confirme l’accord du MJ pour ouvrir les acquisitions. Chaque achat consomme les PTV disponibles.</small></span><input type="checkbox" role="switch" :checked="state.truthTalentsMjAuthorized" @change="authorize('truthTalentsMjAuthorized',($event.target as HTMLInputElement).checked)" /></label>
+      <template v-if="state.truthTalentsMjAuthorized">
       <label class="truth-search">
         Rechercher dans les Talents accessibles
         <input v-model="truthSearch" type="search" placeholder="Nom, branche, effet, prérequis…" />
@@ -669,7 +690,18 @@ function sellCampaignItem(){
           <button class="primary compact" type="button" :disabled="!truthCanBuy(talent)" @click="buyTruthTalent(talent)">Apprendre · {{ talent.cost }} PTV</button>
         </article>
       </div>
+      </template>
     </details>
+
+    <section class="progress-panel campaign-corruption">
+      <CorruptionPanel :model-value="combinedTruthState" :rules="truthRules" :integrity="campaignIntegrity" :ptv-remaining="ptvRemainingValue" :locked-talent-ids="truthState.corruptionTalents" campaign @update:model-value="updateCampaignCorruption" @request-initiation="initiateTruth" />
+      <p class="rule-note">Les acquisitions de campagne utilisent la même réserve de PTV que les Talents de Vérité. Les capacités acquises à la création restent conservées. Changer de Source ou revenir à Sain ne rembourse aucun Don.</p>
+    </section>
+    <section class="progress-panel campaign-truth-equipment">
+      <label class="campaign-approval"><span><strong>Accord MJ — Objets de Vérité en campagne</strong><small>Confirme que le MJ autorise les acquisitions dans la fiction. L’accès exceptionnel aux autres filières reste une autorisation distincte dans le catalogue.</small></span><input type="checkbox" role="switch" :checked="state.truthEquipmentMjAuthorized" @change="authorize('truthEquipmentMjAuthorized',($event.target as HTMLInputElement).checked)" /></label>
+      <TruthEquipmentPanel v-if="state.truthEquipmentMjAuthorized" :model-value="combinedTruthState" :rules="truthRules" @update:model-value="updateCampaignEquipment" />
+      <p v-else class="rule-note">Les possessions déjà enregistrées restent sur la fiche actuelle. Le catalogue d’acquisition s’ouvre après confirmation de l’accord MJ.</p>
+    </section>
 
     <section class="progress-panel">
       <div class="subsection-title">
@@ -743,6 +775,7 @@ function sellCampaignItem(){
 
 <style scoped>
 
+.campaign-approval{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px;border:1px solid #35566b;border-radius:8px;background:#102331;margin:12px 0 22px}.campaign-approval span{display:grid;gap:8px;min-width:0}.campaign-approval small{line-height:1.6;color:#adc4d7}.campaign-approval input{appearance:none;flex:0 0 44px;width:44px;height:26px;min-height:26px;padding:0;border:1px solid #668399;border-radius:20px;background:radial-gradient(circle at 12px 50%,#97afc0 0 8px,transparent 9px),#1a2d3a;cursor:pointer}.campaign-approval input:checked{background:radial-gradient(circle at 30px 50%,#08242c 0 8px,transparent 9px),#80deec;border-color:#80deec}.campaign-approval input:focus-visible{outline:2px solid #a4edff;outline-offset:4px}
 .progression-step{display:grid;gap:1rem}
 .progress-card-title{display:grid;gap:.18rem;min-width:0}
 .progress-card-title :deep(.builder-wiki-ref){font-size:.875rem;color:#b1cbe3}

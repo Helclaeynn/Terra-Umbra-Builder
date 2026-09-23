@@ -172,7 +172,10 @@ const truthRules={
   corruption:{
     sources:[{id:"vhodhal",name:"Vhodhal",corruption:"Faim",principle:"Dévoration",compendiumId:"wiki-vhodhal-smoke"}],
     precedence:["vhodhal"],
-    talents:[]
+    talents:[
+      {id:"don-smoke",name:"Don de Faim Smoke",cost:2,kind:"DON",depth:"Marqué",sourceId:"vhodhal",sourceName:"Vhodhal",family:"Test",access:"",prerequisiteName:"",effect:"Le porteur ressent la faim.",group:"Test"},
+      {id:"rite-smoke",name:"Rite Smoke",cost:1,kind:"RITE",depth:"",sourceId:"vhodhal",sourceName:"Vhodhal",family:"Test",access:"",prerequisiteName:"",effect:"Ce rite laisse une trace.",group:"Test"}
+    ]
   },
   visibility:{needles:{humain:{}},sharedHunterNatures:[]},
   revelation:{
@@ -554,6 +557,10 @@ if(await page.locator(".builder-nav").count()){
 for (const name of ['Apprendre un Talent de Réalité','Dépenser des PTV']) {
   const block = page.locator('details.progress-panel').filter({has:page.locator('summary>strong').filter({hasText:new RegExp('^'+name+'$')})});
   if ((await block.getAttribute('open'))===null) await block.locator(':scope>summary').click();
+  if(name==='Dépenser des PTV'){
+    if(await block.locator('.talent-list').count())throw new Error('Catalogue Vérité ouvert sans accord MJ');
+    await block.getByRole('switch').check();
+  }
   const names = await (name==='Dépenser des PTV' ? block : block.locator('.talent-group').filter({has:page.getByRole('heading',{name:'Talents communs',exact:true})})).locator('.talent-list .progress-card-title>strong').allTextContents();
   const expected = name==='Dépenser des PTV' ? ['Aube occulte','Zèle occulte','Aube supérieure'] : ['Aube Smoke','Zèle Smoke'];
   if(JSON.stringify(names)!==JSON.stringify(expected))throw new Error('Tri des talents incorrect : '+JSON.stringify(names));
@@ -590,6 +597,24 @@ await page.getByRole('button',{name:'Consulter la fiche complète',exact:true}).
 await page.locator('.character-sheet[data-mode="campaign"]').waitFor();
 if (Number(await page.locator('[data-stat="pvMax"] strong').innerText()) !== creationPv+2) throw new Error('Les gains de Vigueur ne mettent pas à jour les PV de campagne');
 await page.getByRole('button',{name:'Revenir à la progression',exact:true}).click();
+// Campaign corruption spends the same PTV reserve, keeps creation purchases separate and survives Sain.
+const campaignCorruption=page.locator('.campaign-corruption');
+await campaignCorruption.getByRole('checkbox',{name:'Autorisation MJ — Corruption & Fléaux',exact:true}).check();
+await campaignCorruption.getByLabel('Choisir la Source dominante').selectOption('vhodhal');
+await campaignCorruption.getByRole('button',{name:'Acquérir Don de Faim Smoke pour 2 PTV',exact:true}).click();
+await campaignCorruption.getByLabel('Choisir la Source dominante').selectOption('');
+await campaignCorruption.locator('.corruption-owned-row').filter({hasText:'Don de Faim Smoke'}).getByText('Dormant',{exact:true}).waitFor();
+await campaignCorruption.getByRole('button',{name:'Acquérir Rite Smoke pour 1 PTV',exact:true}).click();
+const campaignObjects=page.locator('.campaign-truth-equipment');
+if(await campaignObjects.locator('.truth-equipment-panel').count())throw new Error('Objets ouverts sans accord MJ');
+await campaignObjects.getByRole('switch').check();
+await campaignObjects.locator('.truth-equipment-catalog>summary').click();
+await campaignObjects.getByLabel(/Autorisation MJ d’accès exceptionnel aux objets de Vérité/).check();
+await campaignObjects.locator('.truth-equipment-card').filter({hasText:'Relique corrompue Smoke'}).getByRole('button',{name:'Ajouter',exact:true}).click();
+for(const width of [1440,390,320]){
+ await page.setViewportSize({width,height:1000});await assertBuilderReflow(`Corruption et Objets en campagne ${width}px`);
+}
+await page.setViewportSize({width:1440,height:1000});
 const saveButton=page.getByRole("button",{name:/Enregistrer/}).first();
 await saveButton.click();
 await page.getByText(/Fiche enregistrée · version 9/).waitFor();
@@ -597,6 +622,9 @@ if(!savedPayload)throw new Error("La sauvegarde versionnée n’a pas été envo
 if(savedPayload.version!==8)throw new Error("Version optimiste de progression incorrecte.");
 if(savedPayload.data?.progression?.attributeRanks?.vigueur!==1) throw new Error('Gain de Vigueur perdu après consultation de la fiche');
 if(savedPayload.data?.attributes?.vigueur!==characterData.attributes.vigueur) throw new Error('La consultation a modifié la création');
+if(JSON.stringify(savedPayload.data.progression.corruptionTalents)!==JSON.stringify(['don-smoke','rite-smoke']))throw new Error('Capacités de campagne perdues');
+if(savedPayload.data.truth.corruptionTalents.length||savedPayload.data.truth.corruption!==0)throw new Error('Budget de création changé ou retour Sain perdu');
+if(!savedPayload.data.truth.truthEquipment.includes('truth-corrupt-smoke'))throw new Error('Objet de campagne non sauvegardé');
 if(savedPayload.data?.schemaVersion!==2)throw new Error("La sauvegarde n’est pas en schema v2.");
 if(savedPayload.data?.reality?.sphereSupportType!=="vehicle")throw new Error("Appui Corporatiste non persisté.");
 if(savedPayload.data?.reality?.sphereSupportItemId!=="vehicle-smoke")throw new Error("Véhicule de fonction non persisté.");
@@ -611,6 +639,8 @@ const savedBeforeSheet=JSON.stringify(savedPayload);
 await page.goto(`${baseUrl}/characters/${characterId}/sheet`);
 await page.locator('.character-sheet[data-mode="campaign"]').waitFor();
 if(Number(await page.locator('[data-stat="pvMax"] strong').innerText())!==creationPv+2)throw new Error('Fiche autonome différente de la progression');
+await page.getByText('Don de Faim Smoke',{exact:true}).waitFor({state:'attached'});
+if(!await page.locator('.sheet-resources').getByText('2',{exact:true}).count())throw new Error('PTV de Corruption non déduits sur la fiche');
 if(await page.locator('.builder-sidebar,.progression-step,input,textarea,select').filter({visible:true}).count())throw new Error('Outils de modification visibles sur la fiche autonome');
 await page.getByRole('link',{name:'Talents',exact:true}).click();
 if(!await page.locator('#sheet-reality').evaluate(node=>node.open))throw new Error('Le raccourci doit ouvrir les Talents');

@@ -31,3 +31,16 @@ assert.ok(campaign.xpRemaining<100);
 assert.equal(buildCharacterSheet(campaignData,core,truthRules,realityRules,false).derived.pvMax,6,'Creation stays separate from campaign gains');
 assert.equal(JSON.stringify(campaignData),campaignBefore,'Campaign calculation is read-only');
 console.log('SHEET MODEL OK — real projection, permanent talent bonus, campaign attributes/skills/derived values/cash/XP, creation isolation and no mutation');
+
+const corrupted=structuredClone(campaignData);
+corrupted.truth.corruptionMjAuthorized=true;corrupted.truth.consciousness='initie';
+corrupted.progression.corruptionTalents=['don-smoke','rite-smoke'];
+corrupted.progression.ptvEarned=5;
+corrupted.truth.corruption=0;corrupted.truth.corruptionSource='';
+const corruptedSheet=buildCharacterSheet(corrupted,core,truthRules,realityRules);
+assert.equal(corruptedSheet.ptvRemaining,7,'Campaign corruption deducts 3 from initial 5 plus earned 5');
+assert.equal(corruptedSheet.truthTalents.find(t=>t.id==='don-smoke').group,'Vhodhal · Dormant');
+assert.equal(buildCharacterSheet(corrupted,core,truthRules,realityRules,false).truthTalents.some(t=>t.id==='don-smoke'),false,'Campaign abilities never become creation purchases');
+corrupted.truth.corruption=1;corrupted.truth.corruptionSource='vhodhal';
+assert.equal(buildCharacterSheet(corrupted,core,truthRules,realityRules).ptvRemaining,7,'Changing corruption level never refunds PTV');
+console.log('CAMPAIGN TRUTH MODEL OK — shared PTV reserve, dormant Don retained, creation budget unchanged');

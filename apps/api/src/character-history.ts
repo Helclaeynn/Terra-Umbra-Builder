@@ -9,8 +9,8 @@ function snapshot(raw:Record<string,unknown>,name:string){
   const pick=(source:Record<string,unknown>,keys:string[])=>Object.fromEntries(keys.filter(key=>key in source).map(key=>[key,source[key]]));
   return {
     creation:{sphere:data.creation.sphere},attributes:data.attributes,edgeAttributes:data.edgeAttributes,skills:data.skills,
-    truth:pick(data.truth,['nature','consciousness','choices','truthTalents']),
-    progression:pick(data.progression,['xpEarned','ptvEarned','skillRanks','attributeRanks','realityTalents','truthTalents','flashUses'])
+    truth:pick(data.truth,['nature','consciousness','choices','truthTalents','truthEquipment','truthEquipmentMjOverride','corruption','corruptionSource','corruptionTalents','corruptionMjAuthorized']),
+    progression:pick(data.progression,['xpEarned','ptvEarned','skillRanks','attributeRanks','realityTalents','truthTalents','corruptionTalents','truthTalentsMjAuthorized','truthEquipmentMjAuthorized','flashUses'])
   };
 }
 export async function registerCharacterHistoryRoutes(app:FastifyInstance){

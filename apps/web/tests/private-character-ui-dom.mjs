@@ -9,13 +9,25 @@ import { JSDOM, VirtualConsole } from 'jsdom';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const bundle = await build({
   stdin: { resolveDir: root, loader: 'ts', contents: `
-    import { createApp } from 'vue';
+    import { createApp, h, ref } from 'vue';
     import { createRouter, createMemoryHistory } from 'vue-router';
     import Account from './src/pages/CharacterSheetPage.vue';
     import Journal from './src/pages/CharacterJournalPage.vue';
     import History from './src/pages/CharacterHistoryPage.vue';
+    import Progression from './src/components/builder/ProgressionStep.vue';
     const router = createRouter({ history: createMemoryHistory(), routes: [{ path: '/characters/:id/:view', component: Account }] });
-    const app = createApp(window.testHistory?History:window.testJournal?Journal:Account).use(router);
+    const campaign=ref(window.testCampaignData);
+    window.campaignSnapshot=()=>JSON.parse(JSON.stringify(campaign.value));
+    const Campaign={setup(){return ()=>h(Progression,{
+      progression:campaign.value.progression,reality:campaign.value.reality,truthState:campaign.value.truth,
+      rules:window.testFixture.rules,truthRules:window.testFixture.truthRules,realityRules:window.testFixture.realityRules,
+      style:window.testFixture.rules.styles[0],edge:{},sphereId:'crawler',sphereName:'Crawler',creationTalentIds:[],
+      skillTalentMap:{},disadvantages:[],skillBases:Object.fromEntries(window.testFixture.rules.skills.map(s=>[s.id,2])),
+      skillFinalBases:Object.fromEntries(window.testFixture.rules.skills.map(s=>[s.id,2])),
+      attributeBases:Object.fromEntries(window.testFixture.rules.attributes.map(s=>[s.id,3])),creationPtvReserve:5,creationAccount:100,
+      'onUpdate:progression':v=>campaign.value.progression=v,'onUpdate:truth':v=>campaign.value.truth=v,'onUpdate:reality':v=>campaign.value.reality=v
+    });}};
+    const app = createApp(window.testCampaignData?Campaign:window.testHistory?History:window.testJournal?Journal:Account).use(router);
     router.push('/characters/11111111-1111-4111-8111-111111111111/sheet').then(() => { app.mount('#app'); });
     window.unmount = () => app.unmount();
   ` },
@@ -153,3 +165,40 @@ assert.equal(hw.document.querySelectorAll('.history-entry').length,0,'Permission
 assert.equal(hw.document.querySelector('.history-name'),null);
 assert.deepEqual(errors,[]);hw.unmount();hw.close();
 console.log('HISTORY DOM OK — escaped content, saved comparisons, pagination retry retains data, catalog reuse, read-only requests and privacy on access loss');
+
+const campaignDom=new JSDOM('<!doctype html><div id="app"></div>',{url:'https://test.invalid/characters/'+id+'/progression',runScripts:'outside-only',virtualConsole:vc});
+const cw=campaignDom.window;cw.Headers=Headers;cw.structuredClone=structuredClone;cw.confirm=()=>true;cw.testFixture=fixture;
+cw.testCampaignData=structuredClone(fixture.characterData);cw.testCampaignData.progression={};cw.testCampaignData.truth.consciousness='initie';
+cw.fetch=async()=>({ok:true,status:200,json:async()=>({entries:[],items:[]})});
+cw.eval(bundle.outputFiles[0].text);
+const campaignSnapshot=()=>JSON.parse(JSON.stringify(cw.campaignSnapshot()));
+await until(()=>cw.document.querySelector('.campaign-corruption'));
+const approval=label=>[...cw.document.querySelectorAll('label')].find(l=>l.textContent.includes(label)).querySelector('input');
+const check=el=>{el.checked=true;el.dispatchEvent(new cw.Event('change',{bubbles:true}));};
+const clickName=name=>{const b=[...cw.document.querySelectorAll('button')].find(b=>b.getAttribute('aria-label')===name);assert.ok(b,name);assert.equal(b.disabled,false,name);b.click();};
+assert.equal(cw.document.querySelector('.corruption-panel'),null);
+assert.equal(cw.document.querySelector('.truth-equipment-panel'),null);
+check(approval('Accord MJ — Talents de Vérité en campagne'));await wait(5);
+const truthCard=[...cw.document.querySelectorAll('.talent-list>article')].find(a=>a.textContent.includes('Aube occulte'));
+assert.ok(truthCard);truthCard.querySelector('button').click();await wait(5);
+check(approval('Autorisation MJ — Corruption & Fléaux'));await until(()=>cw.document.querySelector('.corruption-panel'));
+const sourceSelect=cw.document.querySelector('.source-choice select');sourceSelect.value='vhodhal';sourceSelect.dispatchEvent(new cw.Event('change',{bubbles:true}));await wait(5);
+clickName('Augmenter la corruption');await wait(5);assert.equal(campaignSnapshot().truth.corruption,2);
+clickName('Acquérir Don de Faim Smoke pour 2 PTV');await wait(5);
+assert.deepEqual(campaignSnapshot().progression.corruptionTalents,['don-smoke']);
+assert.deepEqual(campaignSnapshot().truth.corruptionTalents,[],'Creation corruption purchases unchanged');
+sourceSelect.value='';sourceSelect.dispatchEvent(new cw.Event('change',{bubbles:true}));await wait(5);
+assert.equal(campaignSnapshot().truth.corruption,0);
+assert.match(cw.document.querySelector('.corruption-owned-row').textContent,/Dormant/);
+clickName('Acquérir Rite Smoke pour 1 PTV');await wait(5);
+const ptvBox=[...cw.document.querySelectorAll('.pool-grid>div')].find(e=>e.textContent.includes('PTV disponibles'));
+assert.equal(ptvBox.querySelector('strong').textContent,'1','Native talent + Don + Rite share the same 5 PTV reserve');
+check(approval('Accord MJ — Objets de Vérité en campagne'));await until(()=>cw.document.querySelector('.truth-equipment-panel'));
+check(approval('Autorisation MJ d’accès exceptionnel aux objets de Vérité'));await wait(5);
+const objectCard=[...cw.document.querySelectorAll('.truth-equipment-card')].find(a=>a.textContent.includes('Relique corrompue Smoke'));
+[...objectCard.querySelectorAll('button')].find(b=>b.textContent.trim()==='Ajouter').click();await wait(5);
+assert.deepEqual(campaignSnapshot().truth.truthEquipment,['truth-corrupt-smoke']);
+assert.equal(ptvBox.querySelector('strong').textContent,'1','Object possession does not silently spend PTV');
+assert.equal(campaignSnapshot().truth.truthTalents.length,0,'Combined native talents were not copied into creation');
+assert.deepEqual(errors,[]);cw.unmount();cw.close();
+console.log('CAMPAIGN TRUTH DOM OK — separate MJ disclosures, native/Fléau shared PTV, corruption increments, Sain/dormant without refund, exceptional object access and preserved creation data');
