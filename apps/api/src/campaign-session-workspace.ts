@@ -1,3 +1,4 @@
+import {campaignNpcReferencesAvailable} from './campaign-npcs.js';
 import type {FastifyInstance} from 'fastify';
 import {pool} from './db.js';
 import {requireUser} from './auth.js';
@@ -10,6 +11,7 @@ export async function registerCampaignWorkspaceRoutes(app:FastifyInstance){
   if(!uuid.test(req.params.id)||!uuid.test(req.params.sessionId))return reply.code(404).send({error:'campaign_not_found'});
   const b=req.body;
   if(!b||typeof b.title!=='string'||!b.title.trim()||b.title.length>120||typeof b.preparation!=='string'||b.preparation.length>20000||!validScenes(b.scenes)||!Number.isSafeInteger(b.version)||Number(b.version)<1)return reply.code(400).send({error:'invalid_session'});
+  if(!await campaignNpcReferencesAvailable(req.params.id,user.id,b.scenes))return reply.code(400).send({error:'invalid_npc_reference'});
   const r=await pool.query(`UPDATE campaign_sessions s SET title=$4,preparation=$5,scenes=$6::jsonb,version=s.version+1,updated_at=now()
    FROM campaigns c JOIN users u ON u.id=c.owner_id WHERE s.campaign_id=c.id AND c.id=$1 AND c.owner_id=$2 AND c.archived_at IS NULL AND ${eligible} AND s.id=$3 AND s.version=$7 RETURNING s.id,s.version`,[req.params.id,user.id,req.params.sessionId,b.title.trim(),b.preparation,JSON.stringify(cleanScenes(b.scenes)),b.version]);
   if(r.rows.length)return {session:r.rows[0]};
@@ -21,7 +23,7 @@ export async function registerCampaignWorkspaceRoutes(app:FastifyInstance){
   if(!uuid.test(req.params.id))return reply.code(404).send({error:'campaign_not_found'});
   const own=await pool.query(`SELECT c.id FROM campaigns c JOIN users u ON u.id=c.owner_id WHERE c.id=$1 AND c.owner_id=$2 AND ${eligible}`,[req.params.id,user.id]);
   if(!own.rows.length)return reply.code(404).send({error:'campaign_not_found'});
-  const references=await pool.query(`SELECT DISTINCT ON (r->>'articleId') r->>'articleId' AS id,r->>'title' AS title,r->>'category' AS category,'' AS snippet FROM campaign_sessions s CROSS JOIN LATERAL jsonb_array_elements(s.scenes) scene CROSS JOIN LATERAL jsonb_array_elements(scene->'references') r WHERE s.campaign_id=$1 ORDER BY r->>'articleId',s.created_at DESC LIMIT 1000`,[req.params.id]);
+  const references=await pool.query(`SELECT DISTINCT ON (r->>'articleId') r->>'articleId' AS id,r->>'title' AS title,r->>'category' AS category,r->>'npcId' AS "npcId",'' AS snippet FROM campaign_sessions s CROSS JOIN LATERAL jsonb_array_elements(s.scenes) scene CROSS JOIN LATERAL jsonb_array_elements(scene->'references') r WHERE s.campaign_id=$1 ORDER BY r->>'articleId',s.created_at DESC LIMIT 1000`,[req.params.id]);
   const previous=await pool.query(`SELECT id,title,scenes FROM campaign_sessions WHERE campaign_id=$1 AND EXISTS(SELECT 1 FROM jsonb_array_elements(scenes) scene WHERE scene->>'done'='false') ORDER BY created_at DESC,id LIMIT 30`,[req.params.id]);
   return {references:references.rows,previous:previous.rows};
  });

@@ -1,3 +1,4 @@
+import {registerCampaignNpcRoutes} from './campaign-npcs.js';
 import {registerCampaignAdmissionRoutes} from './campaign-admissions.js';
 import {registerCampaignEffectRoutes} from './campaign-effects.js';
 import {registerCampaignSessionRoutes} from "./campaign-sessions.js";
@@ -13,6 +14,7 @@ const validText=(v:unknown,max:number,min=0)=>typeof v==='string'&&v.trim().leng
 // Every campaign query rechecks the owner's current eligibility, including after demotion.
 const eligible=`u.is_active AND u.role IN ('gm','editor','admin')`;
 export async function registerCampaignRoutes(app:FastifyInstance){
+  await registerCampaignNpcRoutes(app);
   await registerCampaignAdmissionRoutes(app);
   await registerCampaignSessionRoutes(app);
   await registerCampaignEffectRoutes(app);

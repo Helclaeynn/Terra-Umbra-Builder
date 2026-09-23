@@ -1,0 +1,46 @@
+import assert from 'node:assert/strict';
+import {randomUUID,randomBytes} from 'node:crypto';
+import Fastify from 'fastify';
+assert.equal(process.env.TUC_SHEET_SMOKE,'ci','Disposable CI database only');
+const {pool}=await import('../dist/db.js');
+const {hashSessionToken}=await import('../dist/auth.js');
+const {registerCampaignRoutes}=await import('../dist/campaigns.js');
+const {generateNpc}=await import('../dist/campaign-npc-generator.js');
+const {npcPortrait}=await import('../dist/campaign-npcs.js');
+const app=Fastify(),ids=[];await registerCampaignRoutes(app);
+async function account(role){const id=randomUUID(),token=randomBytes(32).toString('base64url');ids.push(id);await pool.query('INSERT INTO users(id,email,display_name,role) VALUES($1,$2,$3,$4)',[id,`ci-npcs-${id}@example.invalid`,'NPC CI '+role,role]);await pool.query("INSERT INTO sessions(token_hash,user_id,expires_at) VALUES($1,$2,now()+interval '5 minutes')",[hashSessionToken(token),id]);return {id,cookie:`__Host-tuc_session=${token}`};}
+async function call(who,method,url,payload,status=200){const r=await app.inject({method,url,headers:who?{cookie:who.cookie}:{},...(payload===undefined?{}:{payload})});assert.equal(r.statusCode,status,`${method} ${url} ${r.body}`);return r.json();}
+try{
+ const gm=await account('gm'),other=await account('gm'),player=await account('player');
+ const cid=(await call(gm,'POST','/api/campaigns',{name:'NPC CI'},201)).campaign.id;
+ const cid2=(await call(gm,'POST','/api/campaigns',{name:'NPC CI second'},201)).campaign.id;
+ await pool.query("INSERT INTO campaign_members(campaign_id,user_id,status) VALUES($1,$2,'accepted')",[cid,player.id]);
+ const base=`/api/campaigns/${cid}`,url=base+'/npcs',id=randomUUID();
+ const portrait='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aDasAAAAASUVORK5CYII=';
+ const data={...generateNpc('elite','enqueteur','test'),portrait,secret:'PRIVATE SECRET',tags:['港','test-tag']};
+ assert.ok(npcPortrait(portrait));assert.equal(npcPortrait('data:image/svg+xml;base64,PHN2Zz4='),null);assert.equal(npcPortrait('https://example.invalid/test.png'),null);assert.equal(npcPortrait('data:image/png;base64,SGVsbG8='),null);
+ for(const who of [player,other,null])for(const suffix of ['/catalog','',`/${id}`,`/${id}/portrait`])await call(who,'GET',url+suffix,undefined,who?404:401);
+ for(const who of [player,other])await call(who,'POST',url+'/generate',{tierId:'elite',presetId:'garde',seed:'x',count:1,faction:''},404);
+ assert.equal((await call(gm,'GET',url+'/catalog')).tiers.length,8);
+ const generated=await call(gm,'POST',url+'/generate',{tierId:'elite',presetId:'garde',seed:'x',count:10,faction:'Faction'});assert.equal(generated.npcs.length,10);assert.equal(new Set(generated.npcs.map(n=>n.name)).size,10);assert.equal((await call(gm,'GET',url)).npcs.length,0);
+ const batch={npcs:[{id,data}]};await call(gm,'POST',url,batch,201);await call(gm,'POST',url,batch,201);
+ assert.equal((await call(gm,'GET',url+'?q=test-tag')).npcs.length,1);assert.equal((await call(gm,'GET',url+'?q=missing')).npcs.length,0);
+ const list=await call(gm,'GET',url);assert.equal(list.npcs.length,1);assert.ok(!JSON.stringify(list).includes('PRIVATE SECRET'));assert.ok(!JSON.stringify(list).includes('data:image'));
+ const record=(await call(gm,'GET',url+'/'+id)).npc;assert.equal(record.data.portrait,portrait);
+ const pic=await app.inject({url:url+'/'+id+'/portrait',headers:{cookie:gm.cookie}});assert.equal(pic.statusCode,200);assert.equal(pic.headers['content-type'],'image/png');assert.match(pic.headers['cache-control'],/no-store/);assert.equal(pic.headers['x-content-type-options'],'nosniff');assert.deepEqual(pic.rawPayload,npcPortrait(portrait).buffer);
+ await call(gm,'GET',`/api/campaigns/${cid2}/npcs/${id}`,undefined,404);
+ const fresh=randomUUID();await call(gm,'POST',url,{npcs:[{id:fresh,data},{id,data:{...data,name:'Conflict'}}]},409);assert.equal((await call(gm,'GET',url)).npcs.length,1);
+ await call(gm,'PATCH',url+'/'+id,{data:{...data,name:'Saved change'},version:1,archived:false});await call(gm,'PATCH',url+'/'+id,{data,version:1,archived:false},409);
+ const scene={id:'scene',title:'Private NPC scene',notes:'',done:false,references:[{npcId:id,articleId:'campaign-npc:'+id,title:data.name,category:'PNJ de campagne',quantity:1,notes:''}]};
+ const session={title:'NPC session',preparation:'',scenes:[scene],playedOn:null,status:'planned',report:'',published:false,requestId:randomUUID()};
+ await call(gm,'POST',`/api/campaigns/${cid2}/sessions`,session,400);
+ const sid=(await call(gm,'POST',base+'/sessions',session,201)).session.id;
+ assert.equal((await call(gm,'GET',base+'/preparation-library')).references[0].npcId,id);
+ assert.equal((await call(player,'GET',base+'/sessions')).sessions[0].scenes,undefined);
+ await call(gm,'PATCH',url+'/'+id,{data,version:2,archived:true});assert.equal((await call(gm,'GET',url)).npcs.length,0);assert.equal((await call(gm,'GET',url+'?archived=true')).npcs.length,1);
+ await call(gm,'PATCH',base+'/sessions/'+sid+'/preparation',{title:'NPC session',preparation:'',scenes:[scene],version:1});
+ await call(gm,'PATCH',url+'/'+id,{data:{...data,portrait:''},version:3,archived:false});await call(gm,'GET',url+'/'+id+'/portrait',undefined,404);
+ await pool.query('UPDATE campaigns SET archived_at=now() WHERE id=$1',[cid]);await call(gm,'POST',url,batch,404);await call(gm,'PATCH',url+'/'+id,{data,version:4,archived:false},404);await call(gm,'GET',url+'/'+id);
+ await pool.query("UPDATE users SET role='player' WHERE id=$1",[gm.id]);await call(gm,'GET',url,undefined,404);
+ console.log('CAMPAIGN NPCS OK — private catalogue/profiles/images, preview without save, idempotent atomic batches, optimistic editing, cross-campaign isolation, scene integration, archives and role revocation');
+}finally{await app.close();if(ids.length)await pool.query("DELETE FROM users WHERE id=ANY($1::uuid[]) AND email LIKE 'ci-npcs-%@example.invalid'",[ids]);await pool.end();}

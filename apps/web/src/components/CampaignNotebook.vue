@@ -7,6 +7,7 @@ import CampaignPreparation from './CampaignPreparation.vue';
 type Prep={id:string;title:string;preparation?:string;scenes?:CampaignScene[];version:number};
 const props=defineProps<{campaignId:string;session?:Prep;startPlaying?:boolean}>();
 const emit=defineEmits<{(e:'saved',v:Prep):void;(e:'close'):void;(e:'schedule',id:string):void}>();
+const npcDirty=ref(false);
 const currentId=ref(props.session?.id||''),version=ref(props.session?.version||1),playing=ref(!!props.startPlaying);
 const draft=ref({title:props.session?.title||'',preparation:props.session?.preparation||'',scenes:JSON.parse(JSON.stringify(props.session?.scenes||[])) as CampaignScene[]});
 const serialized=()=>JSON.stringify(draft.value),baseline=ref(serialized());
@@ -36,12 +37,12 @@ async function persist(){
 }
 async function flush():Promise<boolean>{clearTimeout(timer);if(inflight){await inflight;if(blocked.value)return false;}if(!dirty.value)return true;inflight=persist();try{return await inflight;}finally{inflight=null;}}
 async function retry(){blocked.value=false;await flush();}
-async function finish(schedule=false){if(saving.value)await inflight;if(dirty.value&&!await flush())return;if(dirty.value&&!await flush())return;if(schedule&&currentId.value)emit('schedule',currentId.value);else emit('close');}
+async function finish(schedule=false){if(npcDirty.value&&!window.confirm('Abandonner les PNJ non enregistrés avant de quitter la préparation ?'))return;if(saving.value)await inflight;if(dirty.value&&!await flush())return;if(dirty.value&&!await flush())return;if(schedule&&currentId.value)emit('schedule',currentId.value);else emit('close');}
 function close(){if(blocked.value||(!draft.value.title.trim()&&dirty.value)){if(window.confirm('Fermer et abandonner les modifications non enregistrées ?'))emit('close');return;}void finish();}
 async function library(){libraryError.value='';try{const r=await api<{references:typeof references.value;previous:Prep[]}>(`/api/campaigns/${props.campaignId}/preparation-library`);if(live){references.value=r.references;previous.value=r.previous;}}catch{if(live)libraryError.value='Les références des séances précédentes sont indisponibles.';}}
 function carry(){const source=previous.value.find(s=>s.id===fromSession.value);if(!source)return;const pending=source.scenes?.filter(s=>!s.done)||[];if(draft.value.scenes.length+pending.length>30){libraryError.value='La préparation est limitée à 30 scènes. Retire une scène avant de reprendre ce lot.';return;}draft.value.scenes.push(...JSON.parse(JSON.stringify(pending)).map((s:CampaignScene)=>({...s,id:crypto.randomUUID()})));fromSession.value='';}
 function idea(){const text=selection.value.trim();if(!text||draft.value.scenes.length>=30)return;draft.value.scenes.push({id:crypto.randomUUID(),title:text.split('\n')[0].slice(0,120),notes:text.slice(0,6000),done:false,references:[]});selection.value='';}
-function beforeUnload(e:BeforeUnloadEvent){if(dirty.value||saving.value){e.preventDefault();e.returnValue='';}}
+function beforeUnload(e:BeforeUnloadEvent){if(dirty.value||saving.value||npcDirty.value){e.preventDefault();e.returnValue='';}}
 watch(draft,queue,{deep:true});
 onBeforeRouteLeave(()=>!(dirty.value||saving.value)||window.confirm('La préparation n’est pas encore enregistrée. Quitter quand même ?'));
 onMounted(()=>{void library();window.addEventListener('beforeunload',beforeUnload);});
@@ -54,7 +55,7 @@ onUnmounted(()=>{live=false;clearTimeout(timer);window.removeEventListener('befo
   <p v-if="error" role="alert">{{ error }} <button v-if="blocked" type="button" :disabled="saving" @click="retry">Réessayer l’enregistrement</button></p>
   <template v-if="!playing"><label>Titre de la séance<input v-model="draft.title" maxlength="120" placeholder="Ex. : Une piste au port" /></label><label>Mes notes de séance<textarea v-model="draft.preparation" rows="9" maxlength="20000" placeholder="Une idée, quelques pistes, ce qui pourrait arriver…" @select="selection=($event.target as HTMLTextAreaElement).value.slice(($event.target as HTMLTextAreaElement).selectionStart,($event.target as HTMLTextAreaElement).selectionEnd)" /></label><small>Notes et scènes réservées au MJ. Le titre est visible par le groupe.</small><button v-if="selection.trim()" type="button" :disabled="draft.scenes.length>=30" @click="idea">Créer une scène avec le texte sélectionné</button></template>
   <template v-else><h2>{{ draft.title||'Séance sans titre' }}</h2><p class="prose">{{ draft.preparation||'Aucune note.' }}</p></template>
-  <CampaignPreparation v-model="draft.scenes" :readonly="playing" :play="playing" :campaign-references="references" />
+  <CampaignPreparation :campaign-id="campaignId" @npc-dirty="npcDirty=$event" v-model="draft.scenes" :readonly="playing" :play="playing" :campaign-references="references" />
   <details v-if="!playing" class="reuse"><summary>Reprendre des scènes non jouées</summary><p v-if="libraryError" role="alert">{{ libraryError }} <button type="button" @click="library">Réessayer</button></p><p v-if="!previousOptions.length&&!libraryError">Aucune scène non jouée dans les séances précédentes.</p><template v-if="previousOptions.length"><label>Séance à reprendre<select v-model="fromSession"><option value="">Choisir une séance…</option><option v-for="s in previousOptions" :key="s.id" :value="s.id">{{ s.title }} · {{ s.scenes?.filter(s=>!s.done).length }} scène(s)</option></select></label><button type="button" :disabled="!fromSession" @click="carry">Copier les scènes non jouées</button><small>La séance d’origine est conservée.</small></template></details>
   <div class="toolbar"><button type="button" :disabled="saving||!draft.title.trim()" @click="finish(true)">Date, invitations et compte rendu</button><button type="button" :disabled="saving" @click="close">Fermer la préparation</button></div>
  </section>
