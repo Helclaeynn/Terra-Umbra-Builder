@@ -13,7 +13,7 @@ const domRequire = createRequire(process.env.TUC_DOM_TEST_MODULE_ROOT || new URL
 const { build } = webRequire("esbuild");
 const { parse, compileScript } = webRequire("@vue/compiler-sfc");
 const { JSDOM, VirtualConsole } = domRequire("jsdom");
-const { applyCompendiumPnjStatProfiles } = await import("../../api/src/compendium-pnj-stat-profiles.ts");
+const { applyCompendiumPnjStatProfiles } = await import("../../api/dist/compendium-pnj-stat-profiles.js");
 const { isNpcStatProfileSection, profileBlockKind, profileTableRows } = await import("../src/lib/npc-stat-profile.ts");
 
 // Exercise the canonical API producer, rather than copying its statistics here.

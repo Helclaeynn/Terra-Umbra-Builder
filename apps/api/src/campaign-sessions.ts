@@ -1,3 +1,4 @@
+import {campaignNpcReferencesAvailable} from './campaign-npcs.js';
 import {registerCampaignWorkspaceRoutes} from './campaign-session-workspace.js';
 import {registerCampaignCalendarRoutes} from './campaign-calendar.js';
 import {validSchedule} from './campaign-calendar-message.js';
@@ -46,6 +47,7 @@ export async function registerCampaignSessionRoutes(app:FastifyInstance){
     if(!gm(user.role)||!uuid.test(req.params.id))return reply.code(404).send(missing);
     if(!valid(req.body)||(req.body.requestId!==undefined&&(typeof req.body.requestId!=='string'||!uuid.test(req.body.requestId))))return reply.code(400).send({error:'invalid_session'});
     const b=req.body;
+    if(!await campaignNpcReferencesAvailable(req.params.id,user.id,b.scenes))return reply.code(400).send({error:'invalid_npc_reference'});
     const r=await pool.query(`INSERT INTO campaign_sessions(campaign_id,title,played_on,status,preparation,report,published,scenes,starts_at,ends_at,location,creation_request_id)
       SELECT id,$3,$4::date,$5,$6,$7,$8,$9::jsonb,$10::timestamptz,$11::timestamptz,$12,$13::uuid FROM campaigns WHERE id=$1 AND owner_id=$2 AND archived_at IS NULL ON CONFLICT(campaign_id,creation_request_id) DO UPDATE SET creation_request_id=EXCLUDED.creation_request_id RETURNING id,version`,[req.params.id,user.id,String(b.title).trim(),b.playedOn,b.status,b.preparation,b.report,b.published,JSON.stringify(validScenes(b.scenes)?cleanScenes(b.scenes):[]),b.startsAt??null,b.endsAt??null,b.location??'',b.requestId??null]);
     if(!r.rows.length)return reply.code(404).send(missing);
@@ -56,6 +58,7 @@ export async function registerCampaignSessionRoutes(app:FastifyInstance){
     if(!gm(user.role)||!uuid.test(req.params.id)||!uuid.test(req.params.sessionId))return reply.code(404).send(missing);
     if(!valid(req.body)||!Number.isSafeInteger(req.body.version)||Number(req.body.version)<1)return reply.code(400).send({error:'invalid_session'});
     const b=req.body;
+    if(!await campaignNpcReferencesAvailable(req.params.id,user.id,b.scenes))return reply.code(400).send({error:'invalid_npc_reference'});
     const result=await pool.query(`UPDATE campaign_sessions s SET title=$4,played_on=$5::date,status=$6,preparation=$7,report=$8,published=$9,scenes=COALESCE($11::jsonb,s.scenes),starts_at=CASE WHEN $12 THEN $13::timestamptz ELSE s.starts_at END,ends_at=CASE WHEN $12 THEN $14::timestamptz ELSE s.ends_at END,location=COALESCE($15,s.location),version=s.version+1,updated_at=now()
       FROM campaigns c WHERE s.campaign_id=c.id AND c.id=$1 AND c.owner_id=$2 AND c.archived_at IS NULL AND s.id=$3 AND s.version=$10 RETURNING s.id,s.version`,[req.params.id,user.id,req.params.sessionId,String(b.title).trim(),b.playedOn,b.status,b.preparation,b.report,b.published,b.version,validScenes(b.scenes)?JSON.stringify(cleanScenes(b.scenes)):null,b.startsAt!==undefined,b.startsAt??null,b.endsAt??null,b.location??null]);
     if(result.rows.length)return {ok:true,session:result.rows[0]};

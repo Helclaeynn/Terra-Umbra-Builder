@@ -2,6 +2,7 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { onBeforeRouteLeave, RouterLink, useRoute, useRouter } from 'vue-router';
 import { api, ApiError } from '../lib/api';
+import CampaignNpcs from '../components/CampaignNpcs.vue';
 import CampaignAdmissions from '../components/CampaignAdmissions.vue';
 import CampaignSessions from '../components/CampaignSessions.vue';
 import TerraUmbraBrand from '../components/TerraUmbraBrand.vue';
@@ -14,7 +15,8 @@ const userId=ref(''),canCreate=ref(false),loading=ref(true),busy=ref(false),erro
 const showCreate=ref(false),createName=ref(''),createDescription=ref(''),query=ref(''),accounts=ref<Account[]>([]),searching=ref(false),searchError=ref('');
 const accountsOpen=ref(false),accountsMore=ref(false),moreSearching=ref(false);
 const chosenCharacter=ref(''),editing=ref(false),draft=ref({name:'',description:'',gmNotes:'',admissionRules:''}),baseline=ref(''),editVersion=ref(0);
-const admissionRefresh=ref(0);
+const admissionRefresh=ref(0),npcsOpen=ref(false),npcDirty=ref(false);
+function toggleNpcs(e:Event){const el=e.target as HTMLDetailsElement;if(!el.open&&npcDirty.value&&!window.confirm('Abandonner les PNJ non enregistrés ?')){el.open=true;return;}npcsOpen.value=el.open;}
 const dirty=computed(()=>editing.value&&JSON.stringify(draft.value)!==baseline.value);
 const me=computed(()=>members.value.find(m=>m.userId===userId.value));
 const invited=computed(()=>campaigns.value.filter(c=>c.membershipStatus==='invited'));
@@ -109,6 +111,7 @@ onUnmounted(()=>{clearInterval(refreshTimer);document.removeEventListener('visib
         <section v-if="campaign.membershipStatus==='invited'" class="panel form"><h2>Tu es invité à cette campagne</h2><p v-if="campaign.admissionRules" class="description"><strong>Conditions de la table :</strong><br />{{ campaign.admissionRules }}</p><p>Une copie indépendante de la fiche choisie sera proposée à {{ campaign.gmName }}, avec ses acquis actuels et sa Vérité. Le MJ doit la valider. Les gains de cette campagne resteront sur cette version. Ton journal personnel reste privé.</p><label>Personnage<select v-model="chosenCharacter"><option value="">Je choisirai plus tard</option><option v-for="c in characters" :key="c.id" :value="c.id">{{ c.name }} · {{ c.campaignName||'Hors campagne' }}</option></select></label><div class="actions"><button class="primary" :disabled="busy" @click="join">Accepter l’invitation</button><button :disabled="busy" @click="decline">Décliner</button></div></section>
         <template v-if="campaign.canManage||campaign.membershipStatus==='accepted'">
           <CampaignSessions :user-id="userId" :campaign-id="id" :can-manage="campaign.canManage" :archived="!!campaign.archivedAt" :members="members" />
+          <details v-if="campaign.canManage" class="panel" @toggle="toggleNpcs"><summary>Mes PNJ de campagne · générateur et fiches</summary><CampaignNpcs v-if="npcsOpen" :campaign-id="id" :archived="!!campaign.archivedAt" @dirty="npcDirty=$event" /></details>
           <section class="panel"><div class="section-heading"><h2>Le groupe</h2><span>{{ members.filter(m=>m.status==='accepted').length }} joueur(s)</span></div><p v-if="!members.length" class="empty">Invite tes joueurs pour réunir leurs fiches ici.</p>
             <div v-for="m in members" :key="m.userId" class="member-row"><div><strong>{{ m.characterName||m.displayName }}</strong><p>{{ m.displayName }} <span v-if="m.status==='invited'">· Invitation en attente</span><span v-else-if="!m.characterId">· Personnage à choisir</span><span v-else>· {{ m.admissionStatus==='approved'?'Fiche acceptée':'Fiche à valider' }}</span></p><small v-if="m.updatedAt">Fiche mise à jour le {{ new Date(m.updatedAt).toLocaleDateString('fr-FR') }}</small></div><div class="actions"><RouterLink v-if="m.canReadSheet" class="primary sheet-link" :to="{path:`/characters/${m.characterId}/sheet`,query:{campaign:id}}">Ouvrir la fiche →</RouterLink><button v-if="campaign.canManage&&!campaign.archivedAt" :disabled="busy" :aria-label="`Retirer ${m.displayName}`" @click="remove(m)">{{ m.status==='invited'?'Annuler l’invitation':'Retirer' }}</button></div></div>
           </section>

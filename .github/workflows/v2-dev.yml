@@ -75,6 +75,8 @@ jobs:
           node scripts/check-campaign-calendar-format.mjs
           node scripts/check-campaign-calendar-delivery.mjs
           node scripts/check-campaign-workspace.mjs
+          node scripts/check-npc-generator.mjs
+          node scripts/check-campaign-npcs.mjs
 
       - name: Check password hashing and account migration
         working-directory: apps/api
@@ -182,6 +184,7 @@ jobs:
           TUC_V2_SMOKE_BASE_URL='http://127.0.0.1:4173' CHROME_BIN="$CHROME_BIN" node tests/builder-v2-smoke.mjs
           TUC_V2_SMOKE_BASE_URL='http://127.0.0.1:4173' CHROME_BIN="$CHROME_BIN" node tests/orbital-ui-smoke.mjs
           TUC_V2_SMOKE_BASE_URL='http://127.0.0.1:4173' CHROME_BIN="$CHROME_BIN" node tests/campaigns-smoke.mjs
+          TUC_V2_SMOKE_BASE_URL='http://127.0.0.1:4173' CHROME_BIN="$CHROME_BIN" node tests/campaign-npcs-smoke.mjs
 
       - name: Validate Compose
         working-directory: infrastructure

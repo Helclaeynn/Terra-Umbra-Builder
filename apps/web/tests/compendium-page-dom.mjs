@@ -6,7 +6,7 @@ import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { inspect } from "node:util";
-import { applyCompendiumPnjStatProfiles } from "../../api/src/compendium-pnj-stat-profiles.ts";
+import { applyCompendiumPnjStatProfiles } from "../../api/dist/compendium-pnj-stat-profiles.js";
 
 const repoRoot = fileURLToPath(new URL("../../../", import.meta.url));
 const webRequire = createRequire(process.env.TUC_WEB_TEST_MODULE_ROOT || new URL("../package.json", import.meta.url));
