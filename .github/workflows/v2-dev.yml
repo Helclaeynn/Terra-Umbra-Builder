@@ -42,8 +42,14 @@ jobs:
       - name: Build API
         working-directory: apps/api
         run: |
-          npm install
+          npm ci
           npm run build
+
+      - name: Check password hashing and account migration
+        working-directory: apps/api
+        run: |
+          node scripts/check-password-hashing.mjs
+          node scripts/check-auth-password-routes.mjs
 
       - name: Check retired Compendium archives
         working-directory: apps/api
@@ -318,6 +324,14 @@ jobs:
             sleep 5
           done
           exit 1
+
+      - name: Verify deployed password hashing and migration
+        if: steps.deployment.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          ssh -i ~/.ssh/tuc_dev -o IdentitiesOnly=yes "$TUC_DEV_USER@$TUC_DEV_HOST" \
+            'cd /opt/terra-umbra/infrastructure && docker compose --env-file .env exec -T -e TUC_PASSWORD_SMOKE=dev api node --input-type=module' \
+            < apps/api/scripts/check-password-migration-live.mjs
 
       - name: Character and Compendium V2 smoke test
         if: steps.deployment.outputs.enabled == 'true'
