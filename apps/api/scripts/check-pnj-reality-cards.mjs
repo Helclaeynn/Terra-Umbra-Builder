@@ -31,7 +31,7 @@ const meetingProfiles = active.filter((person) => person.dataset === "points-ren
 assert.equal(meetingProfiles.length, 24);
 const hunterProfiles = active.filter((person) => person.dataset === "verite-hunters-pnj" &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(hunterProfiles.length, 16);
+assert.equal(hunterProfiles.length, 19);
 const speciesRealityProfiles = active.filter((person) =>
   ["verite-species-pnj", "verite-fantastiques-pnj"].includes(person.dataset) &&
   person.id !== "personnages-verite-especes-tokala" &&
@@ -40,7 +40,11 @@ assert.equal(speciesRealityProfiles.length, 40);
 const angelicRealityProfiles = active.filter((person) =>
   ["verite-angelus-pnj", "verite-humains-galactiques-pnj"].includes(person.dataset) &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
-assert.equal(angelicRealityProfiles.length, 50);
+assert.equal(angelicRealityProfiles.length, 65);
+const templeTerrestrialProfiles = active.filter((person) =>
+  person.dataset === "verite-aseryns-terres-temples-pnj" &&
+  person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
+assert.equal(templeTerrestrialProfiles.length, 32);
 const exileRealityProfiles = active.filter((person) =>
   ["verite-pelages-pnj", "verite-grands-exiles-pnj", "verite-vampire-courts-pnj", "verite-extrals-groupes-pnj"].includes(person.dataset) &&
   person.sections.at(-1)?.id === "profil-statistique" && person.sections.at(-1).blocks.length >= 6);
@@ -68,7 +72,7 @@ for (const [id, secret, retained] of [
   assert.ok(JSON.stringify(article(id)).toLowerCase().includes(retained), `${id}: information MJ perdue`);
 }
 const civilPrerequisiteFailures = [];
-for (const person of [...religiousCards, ...agencies, ...meetingProfiles, ...hunterProfiles, ...exileRealityProfiles, ...templeRealityProfiles, ...alienRealityProfiles, ...speciesRealityProfiles, ...angelicRealityProfiles]) {
+for (const person of [...religiousCards, ...agencies, ...meetingProfiles, ...hunterProfiles, ...exileRealityProfiles, ...templeRealityProfiles, ...alienRealityProfiles, ...speciesRealityProfiles, ...angelicRealityProfiles, ...templeTerrestrialProfiles]) {
   const blocks = person.sections.at(-1).blocks;
   const ranks = new Map(blocks[2].rows.slice(1,-1).map(([name, value]) => [name, Number(value)]));
   const rank = (name) => ranks.get(name) ?? 0;
