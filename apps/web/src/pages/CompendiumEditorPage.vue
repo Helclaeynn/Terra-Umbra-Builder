@@ -2,7 +2,7 @@
 import { computed, nextTick, onMounted, ref } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import { api, ApiError } from "../lib/api";
-import TerraUmbraLockup from "../components/TerraUmbraLockup.vue";
+import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
 
 type MediaRef = { src: string; alt?: string; caption?: string };
 type ArticleBlock = {
@@ -97,7 +97,9 @@ const publishedAt = ref<string | null>(null);
 const builderSources = ref<BuilderSourceRecord[]>([]);
 const coverage = ref<CoveragePayload | null>(null);
 const coverageOpen = ref(false);
+const coverageDialog = ref<HTMLDialogElement | null>(null);
 const coverageLoading = ref(false);
+const coverageError = ref("");
 const coverageFamily = ref("");
 const coverageStatus = ref<"" | "missing" | "ambiguous" | "linked">("missing");
 const talentInsertOpen = ref(false);
@@ -654,24 +656,32 @@ async function loadBuilderSource(articleId: string) {
 }
 
 async function toggleCoverage() {
-  coverageOpen.value = !coverageOpen.value;
-  if (!coverageOpen.value || coverage.value || coverageLoading.value) return;
+  if (coverageOpen.value) {
+    closeCoverage();
+    return;
+  }
+  coverageOpen.value = true;
+  await nextTick();
+  coverageDialog.value?.showModal();
+  if (coverage.value || coverageLoading.value) return;
   coverageLoading.value = true;
+  coverageError.value = "";
   try {
     coverage.value = await api<CoveragePayload>("/api/compendium/editor/builder-coverage");
   } catch (cause) {
-    error.value = humanError(cause);
+    coverageError.value = humanError(cause);
   } finally {
     coverageLoading.value = false;
   }
 }
 
 function closeCoverage() {
+  coverageDialog.value?.close();
   coverageOpen.value = false;
 }
 
 async function createCoveragePage(item: CoverageItem) {
-  coverageOpen.value = false;
+  closeCoverage();
   await router.push({
     path: "/compendium/new",
     query: {
@@ -926,10 +936,10 @@ onMounted(load);
   <div class="wiki-editor-shell">
     <header class="wiki-editor-topbar">
       <RouterLink class="brand editor-brand-lockup" to="/">
-        <TerraUmbraLockup compact />
+        <TerraUmbraBrand />
       </RouterLink>
       <div class="editor-top-actions">
-        <button class="ghost compact" type="button" :aria-expanded="coverageOpen" @click="toggleCoverage">
+        <button class="ghost compact" type="button" :aria-expanded="coverageOpen" aria-controls="coverage-dialog" aria-haspopup="dialog" @click="toggleCoverage">
           Couverture Builder
           <span v-if="coverage" class="coverage-mini">{{ coveragePercent }}%</span>
         </button>
@@ -937,18 +947,19 @@ onMounted(load);
       </div>
     </header>
 
-    <button
-      v-if="coverageOpen"
-      class="coverage-backdrop"
-      type="button"
-      aria-label="Fermer l’audit de couverture"
-      @click="closeCoverage"
-    ></button>
-    <aside class="coverage-drawer" :class="{ open: coverageOpen }" :aria-hidden="!coverageOpen">
+    <dialog
+      ref="coverageDialog"
+      id="coverage-dialog"
+      class="coverage-drawer"
+      :class="{ open: coverageOpen }"
+      aria-labelledby="coverage-dialog-title"
+      @cancel.prevent="closeCoverage"
+      @close="coverageOpen = false"
+    >
       <header class="coverage-head">
         <div>
           <p class="eyebrow">AUDIT BUILDER → WIKI</p>
-          <h2>Couverture du Compendium</h2>
+          <h2 id="coverage-dialog-title">Couverture du Compendium</h2>
           <p>Les associations exactes entre les catalogues mécaniques et leurs pages encyclopédiques.</p>
         </div>
         <button class="ghost compact" type="button" @click="closeCoverage">Fermer</button>
@@ -957,6 +968,8 @@ onMounted(load);
       <div v-if="coverageLoading" class="coverage-loading">
         <span></span><span></span><span></span>
       </div>
+
+      <p v-else-if="coverageError" class="feedback error" role="alert">{{ coverageError }}</p>
 
       <template v-else-if="coverage">
         <div class="coverage-score">
@@ -1040,13 +1053,13 @@ onMounted(load);
           </article>
         </div>
       </template>
-    </aside>
+    </dialog>
 
     <main class="wiki-editor-page">
       <div v-if="loading" class="panel editor-loading editor-skeleton" aria-label="Chargement de l’éditeur">
         <span></span><span></span><span></span><span></span>
       </div>
-      <div v-else-if="error && !article" class="feedback error">{{ error }}</div>
+      <div v-else-if="error && !article" class="feedback error" role="alert">{{ error }}</div>
 
       <template v-else-if="article">
         <header class="editor-heading">
@@ -1064,8 +1077,8 @@ onMounted(load);
           </div>
         </header>
 
-        <div v-if="error" class="feedback error">{{ error }}</div>
-        <div v-if="notice" class="feedback">{{ notice }}</div>
+        <div v-if="error" class="feedback error" role="alert">{{ error }}</div>
+        <div v-if="notice" class="feedback" role="status">{{ notice }}</div>
         <div v-if="conflict" class="feedback error">
           Le corpus source a changé depuis ce brouillon. Recharge ou réenregistre le brouillon avant publication.
         </div>
@@ -1204,11 +1217,11 @@ onMounted(load);
             </div>
 
             <div class="panel wiki-source-card">
-              <div class="wiki-toolbar" aria-label="Outils d’édition wiki">
-                <button type="button" title="Titre de section" @click="insertHeading(2)">H2</button>
-                <button type="button" title="Sous-section" @click="insertHeading(3)">H3</button>
-                <button type="button" title="Gras" @click="insertBold"><strong>B</strong></button>
-                <button type="button" title="Italique" @click="insertItalic"><em>I</em></button>
+              <div class="wiki-toolbar" role="group" aria-label="Outils d’édition wiki">
+                <button type="button" title="Titre de section" aria-label="Titre de section" @click="insertHeading(2)">H2</button>
+                <button type="button" title="Sous-section" aria-label="Sous-section" @click="insertHeading(3)">H3</button>
+                <button type="button" title="Gras" aria-label="Gras" @click="insertBold"><strong>B</strong></button>
+                <button type="button" title="Italique" aria-label="Italique" @click="insertItalic"><em>I</em></button>
                 <button type="button" title="Liste" @click="insertBullet">• Liste</button>
                 <button type="button" title="Tableau" @click="insertTable">▦ Tableau</button>
                 <button type="button" title="Section MJ" @click="insertMjSection">MJ</button>
@@ -1243,6 +1256,7 @@ onMounted(load);
                 ref="sourceArea"
                 v-model="wikiText"
                 class="wiki-source"
+                aria-label="Contenu de la page"
                 spellcheck="true"
                 placeholder="Rédige ici…
 
@@ -1272,7 +1286,7 @@ Encore du texte.
               <img :src="previewMedia" :alt="mediaAlt || article.title" />
               <figcaption v-if="mediaCaption">{{ mediaCaption }}</figcaption>
             </figure>
-            <h1>{{ article.title }}</h1>
+            <h2 class="preview-title">{{ article.title }}</h2>
             <div class="preview-meta">
               <span v-if="article.category">{{ article.category }}</span>
               <span v-if="article.status">{{ article.status }}</span>
@@ -1321,11 +1335,10 @@ Encore du texte.
 <style scoped>
 .wiki-editor-shell { min-height: 100vh; background:radial-gradient(circle at 82% 8%,rgba(43,146,255,.1),transparent 30rem); }
 .editor-top-actions{display:flex;align-items:center;gap:.55rem}.coverage-mini{margin-left:.35rem;color:#b8dfea;font-size:.68rem}
-.coverage-backdrop{position:fixed;inset:0;z-index:44;border:0;background:rgba(0,0,0,.52);backdrop-filter:blur(3px)}
 .coverage-drawer{position:fixed;top:0;right:0;z-index:45;width:min(560px,94vw);height:100vh;padding:1.2rem;overflow:auto;border-left:1px solid rgba(70,126,148,.16);background:linear-gradient(180deg,#101b25,#081119);box-shadow:-30px 0 80px rgba(0,0,0,.45);transform:translateX(104%);opacity:0;pointer-events:none;transition:transform .24s cubic-bezier(.2,.7,.2,1),opacity .18s ease}.coverage-drawer.open{transform:none;opacity:1;pointer-events:auto}
-.coverage-head{display:flex;justify-content:space-between;gap:1rem;padding:.25rem 0 1rem;border-bottom:1px solid rgba(255,255,255,.08)}.coverage-head h2{margin:.12rem 0 .35rem;font:500 1.65rem/1.1 Georgia,serif}.coverage-head p:not(.eyebrow){margin:0;color:#718a95;font-size:.76rem;line-height:1.5}
-.coverage-score{display:flex;align-items:center;gap:1rem;padding:1rem 0}.coverage-score>strong{font:500 2.8rem/1 Georgia,serif;color:#b8dfea}.coverage-score>div{display:grid;gap:.15rem}.coverage-score span{color:#b8c9cf}.coverage-score small{color:#667f8b}
-.coverage-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem}.coverage-stats article{display:grid;gap:.2rem;padding:.75rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.018)}.coverage-stats strong{font:500 1.45rem/1 Georgia,serif}.coverage-stats span{color:#718a95;font-size:.68rem;text-transform:uppercase;letter-spacing:.06em}
+.coverage-head{display:flex;justify-content:space-between;gap:1rem;padding:.25rem 0 1rem;border-bottom:1px solid rgba(255,255,255,.08)}.coverage-head h2{margin:.12rem 0 .35rem;font:500 1.65rem/1.1 Inter,"Segoe UI",sans-serif}.coverage-head p:not(.eyebrow){margin:0;color:#718a95;font-size:.76rem;line-height:1.5}
+.coverage-score{display:flex;align-items:center;gap:1rem;padding:1rem 0}.coverage-score>strong{font:500 2.8rem/1 Inter,"Segoe UI",sans-serif;color:#b8dfea}.coverage-score>div{display:grid;gap:.15rem}.coverage-score span{color:#b8c9cf}.coverage-score small{color:#667f8b}
+.coverage-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem}.coverage-stats article{display:grid;gap:.2rem;padding:.75rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.018)}.coverage-stats strong{font:500 1.45rem/1 Inter,"Segoe UI",sans-serif}.coverage-stats span{color:#718a95;font-size:.68rem;text-transform:uppercase;letter-spacing:.06em}
 .coverage-family-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.55rem;margin:1rem 0}
 .coverage-family-grid article{padding:.65rem;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.012)}
 .coverage-family-grid article>div:first-child{display:flex;justify-content:space-between;gap:.5rem;align-items:center}.coverage-family-grid strong{color:#c5d4d9;font-size:.7rem}.coverage-family-grid article>div:first-child span{color:#6fb9d6;font-size:.65rem}
@@ -1343,7 +1356,7 @@ Encore du texte.
 .wiki-editor-page { width:min(1540px,calc(100% - 2rem)); margin:0 auto; padding:2rem 0 7rem; }
 .editor-loading { padding:2rem; }.editor-skeleton{display:grid;gap:.75rem;min-height:180px;align-content:center}.editor-skeleton span{height:18px}.editor-skeleton span:nth-child(3){width:88%}.editor-skeleton span:nth-child(4){width:58%}
 .editor-heading { display:flex; justify-content:space-between; gap:2rem; align-items:end; margin-bottom:1.2rem; }
-.editor-heading h1 { margin:.2rem 0 .5rem; font:500 clamp(2rem,4vw,3.8rem)/1.04 Georgia,serif; }
+.editor-heading h1 { margin:.2rem 0 .5rem; font:500 clamp(2rem,4vw,3.8rem)/1.04 Inter,"Segoe UI",sans-serif; }
 .editor-heading p:not(.eyebrow) { margin:0; max-width:72ch; color:#91a7b1; }
 .editor-state { display:flex; gap:.45rem; flex-wrap:wrap; justify-content:flex-end; }
 .editor-state span { padding:.35rem .55rem; border:1px solid rgba(255,255,255,.1); color:#91a7b1; font-size:.72rem; }
@@ -1353,7 +1366,7 @@ Encore du texte.
 .editor-card,.editor-section-card,.editor-preview-column { padding:1rem; }
 .editor-card { display:grid; gap:.8rem; border-color:rgba(70,126,148,.12); background:linear-gradient(145deg,rgba(26,24,20,.9),rgba(20,18,15,.78)); }.editor-card:hover{border-color:rgba(70,126,148,.2)}
 .editor-card-title,.editor-sections-head { display:flex; justify-content:space-between; align-items:end; gap:1rem; }
-.editor-card h2,.editor-sections-head h2 { margin:.15rem 0 0; font:500 1.45rem/1.2 Georgia,serif; }
+.editor-card h2,.editor-sections-head h2 { margin:.15rem 0 0; font:500 1.45rem/1.2 Inter,"Segoe UI",sans-serif; }
 .editor-two { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem; }
 .editor-card label,.editor-section-card label { display:grid; gap:.35rem; color:#7f98a3; font-size:.76rem; }
 .editor-card input,.editor-card textarea,.editor-card select,.editor-section-card input,.editor-section-card textarea,.editor-section-card select {
@@ -1368,7 +1381,7 @@ Encore du texte.
 .editor-sections-head { margin-top:.3rem; }
 .editor-section-card { display:grid; gap:.8rem; }
 .editor-section-card > header { display:grid; grid-template-columns:minmax(0,1fr) 80px 100px auto; gap:.5rem; }
-.section-title-input { font-family:Georgia,serif; font-size:1.08rem; }
+.section-title-input { font-family:Inter,"Segoe UI",sans-serif; font-size:1.08rem; }
 .editor-blocks { display:grid; gap:.7rem; }
 .editor-block { border:1px solid rgba(255,255,255,.08); padding:.65rem; background:rgba(255,255,255,.015); }
 .editor-block-toolbar { display:flex; align-items:center; justify-content:space-between; gap:.5rem; margin-bottom:.5rem; color:#91a7b1; font-size:.75rem; }
@@ -1379,8 +1392,8 @@ Encore du texte.
 .editor-section-card footer { display:flex; gap:.5rem; }
 .danger-button { border:1px solid rgba(190,105,95,.35); color:#d59a91; background:transparent; padding:.45rem .65rem; }
 .editor-preview-column { position:sticky; top:88px; max-height:calc(100vh - 110px); overflow:auto; }
-.editor-preview-column h1 { margin:.6rem 0 .8rem; font:500 2.2rem/1.05 Georgia,serif; }
-.editor-preview-column h2 { margin:1.4rem 0 .5rem; font:500 1.35rem/1.2 Georgia,serif; }
+.editor-preview-column h1 { margin:.6rem 0 .8rem; font:500 2.2rem/1.05 Inter,"Segoe UI",sans-serif; }
+.editor-preview-column h2 { margin:1.4rem 0 .5rem; font:500 1.35rem/1.2 Inter,"Segoe UI",sans-serif; }
 .editor-preview-column p { color:#afc1c8; line-height:1.65; white-space:pre-line; }
 .editor-preview-column p.lore { color:#c5d4d9; }
 .editor-preview-column p.list { padding-left:.8rem; border-left:2px solid rgba(43,146,255,.35); }
@@ -1401,7 +1414,7 @@ Encore du texte.
 .talent-insert-panel{display:grid;grid-template-columns:minmax(180px,1fr) auto auto auto auto;gap:.5rem;align-items:center;padding:.7rem .8rem;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);background:linear-gradient(90deg,rgba(43,146,255,.08),rgba(255,255,255,.012));position:relative;z-index:6;scroll-margin-block:96px}
 .talent-insert-panel>div{display:grid;gap:.15rem}.talent-insert-panel strong{color:#c5d4d9;font-size:.76rem}.talent-insert-panel small{color:#718a95;font-size:.63rem}.talent-insert-panel select{min-width:130px}.talent-insert-panel button{scroll-margin-block:112px}
 .wiki-toolbar button.active{border-color:#2b92ff;color:#c7eaf2;background:rgba(43,146,255,.1)}
-.preview-talent-embed{display:grid;gap:.28rem;margin:.75rem 0;padding:.8rem;border:1px solid rgba(88,220,197,.2);background:linear-gradient(145deg,rgba(43,146,255,.07),rgba(255,255,255,.012))}.preview-talent-embed span{color:#6fb9d6;font-size:.58rem;letter-spacing:.08em}.preview-talent-embed strong{color:#dce8ec;font-family:Georgia,serif}.preview-talent-embed small{color:#718a95}
+.preview-talent-embed{display:grid;gap:.28rem;margin:.75rem 0;padding:.8rem;border:1px solid rgba(88,220,197,.2);background:linear-gradient(145deg,rgba(43,146,255,.07),rgba(255,255,255,.012))}.preview-talent-embed span{color:#6fb9d6;font-size:.58rem;letter-spacing:.08em}.preview-talent-embed strong{color:#dce8ec;font-family:Inter,"Segoe UI",sans-serif}.preview-talent-embed small{color:#718a95}
 @media(max-width:900px){.talent-insert-panel{grid-template-columns:1fr 1fr}.talent-insert-panel>div{grid-column:1/-1}}
 .wiki-source-card { padding:0; overflow:hidden; }
 .wiki-toolbar {
@@ -1427,7 +1440,7 @@ Encore du texte.
 }
 .syntax-help code { color:#6fb9d6; }
 .editor-preview-column h3,.editor-preview-column h4 {
-  font-family:Georgia,serif; font-weight:500; margin:1.1rem 0 .45rem;
+  font-family:Inter,"Segoe UI",sans-serif; font-weight:500; margin:1.1rem 0 .45rem;
 }
 .editor-preview-column p.callout {
   padding:.8rem; border-left:3px solid #365f73; background:rgba(54,95,115,.08);
@@ -1449,28 +1462,22 @@ Encore du texte.
   .editor-actions .spacer { display:none; }
 }
 
-/* Approved V2 visual system */
-.wiki-editor-shell{
-  background:
-    radial-gradient(circle at 85% 5%,rgba(111,67,145,.11),transparent 30rem),
-    radial-gradient(circle at 10% 15%,rgba(32,96,111,.17),transparent 28rem),
-    linear-gradient(180deg,#09121a,#071019);
-}
-.wiki-editor-topbar{
-  min-height:68px;
-  border-bottom-color:rgba(82,134,151,.34);
-  background:rgba(8,15,23,.97);
-  backdrop-filter:blur(18px);
-}
-.wiki-editor-page{padding:1.4rem 0 5rem}
-.coverage-drawer{
-  border-left-color:#294452;
-  background:linear-gradient(180deg,#101b25,#081119);
-}
-.coverage-family-track span{background:linear-gradient(90deg,#58dcc5,#2b92ff 58%,#a67ce6)}
-.editor-card,.editor-section-card,.editor-preview-card{
-  border-color:#203f4d;
-  background:linear-gradient(145deg,rgba(13,25,34,.97),rgba(8,17,24,.95));
-}
-
+/* Orbital workspace: the editor and its preview share the reading identity. */
+.wiki-editor-shell{min-height:100vh;background:#070e18;color:#edf4ff;font:400 15px/1.6 Inter,"Segoe UI",sans-serif}
+.wiki-editor-shell :is(h1,h2,h3,h4){font-family:inherit;color:#edf4ff;letter-spacing:-.025em}
+.wiki-editor-shell :is(button,input,select,textarea){font-family:inherit}
+.wiki-editor-shell :is(button,a,input,select,textarea):focus-visible{outline:2px solid #64def5;outline-offset:3px}
+.wiki-editor-shell button{min-height:44px;border-radius:6px;cursor:pointer;font-size:14px}.wiki-editor-shell button:disabled{opacity:.5;cursor:not-allowed}
+.wiki-editor-shell .eyebrow{margin:0 0 8px;color:#85dff1;font:11px/1.5 Consolas,monospace;letter-spacing:.14em}
+.wiki-editor-topbar{min-height:80px;padding:10px clamp(16px,3vw,48px);border-bottom-color:#263c51;background:rgba(5,11,19,.97);backdrop-filter:blur(16px)}
+.editor-brand-lockup{display:flex;min-width:0;text-decoration:none}.editor-top-actions{flex-wrap:wrap;justify-content:flex-end;gap:10px}.editor-top-actions button{padding:10px 14px;border:1px solid #314d63;background:#0d1927;color:#cee1f2}.coverage-mini{font-size:12px;color:#9eeaff}
+.wiki-editor-page{width:min(1640px,calc(100% - 64px));padding:36px 0 140px;min-width:0}.editor-heading{padding:24px 0 28px;margin-bottom:28px;border-bottom:1px solid #2c4358}.editor-heading h1{font-size:clamp(30px,3.2vw,48px);line-height:1.2;overflow-wrap:anywhere}.editor-heading p:not(.eyebrow){color:#bacce0}.editor-state span{border-color:#314d63;border-radius:5px;color:#bdd5e9;font-size:12px}.editor-state .danger{color:#ffb6c1;border-color:#805266}
+.wiki-editor-grid{gap:24px;grid-template-columns:minmax(0,1fr) minmax(340px,.85fr)}.editor-form-column{gap:24px;min-width:0}.editor-card,.editor-section-card,.editor-preview-column,.wiki-source-card{min-width:0;border:1px solid #2c4358;border-radius:8px;background:#0c1726;box-shadow:none}.editor-card,.editor-section-card,.editor-preview-column{padding:24px}.editor-card:hover{border-color:#43617b}.editor-card{gap:18px}.editor-card h2,.editor-sections-head h2{font-size:23px;line-height:1.3}.editor-card label,.editor-section-card label{color:#bbcee0;font-size:14px;gap:8px}.editor-card :is(input,textarea,select),.coverage-filters select,.talent-insert-panel select{min-width:0;min-height:46px;padding:11px 12px;border:1px solid #314d63;border-radius:6px;background:#07111e;color:#edf4ff;font-size:15px}.editor-card :is(input,textarea)::placeholder{color:#92a8be}.editor-two{gap:16px}.editor-hint{color:#a8bed4;font-size:14px;line-height:1.6}.editor-upload-field{border-color:#43617b;border-radius:6px;background:#101f30}.editor-upload-field small{color:#a8bed4;font-size:12px}.editor-media-preview{border-color:#314d63;border-radius:6px;background:#07111e}
+.builder-source-card{border-left:3px solid #b79aff}.builder-source-card.linked{border-left-color:#64def5}.builder-source-state{color:#bdd5e9;font-size:11px;border-radius:5px}.builder-source-state.ok{color:#97e4ce}.builder-source-record{padding:16px;background:#081321;border-color:#263c51;border-radius:6px}.builder-source-record :is(dt,dd){font-size:13px}.builder-source-record dt{color:#a1b5cc}.builder-source-record dd{color:#d6e5f5}.builder-source-record>header{flex-wrap:wrap}.builder-source-record>header span{color:#85dff1;font-size:11px}.builder-source-record>header small{color:#a1b5cc;font-size:12px}
+.editor-preview-column{top:104px;max-height:calc(100dvh - 204px);overflow-wrap:anywhere}.editor-preview-column .preview-title{font-size:32px;line-height:1.15;margin:16px 0}.editor-preview-column h2{font-size:23px;line-height:1.3}.editor-preview-column :is(h3,h4){font-size:19px}.editor-preview-column p{color:#c0d2e5;line-height:1.75}.editor-preview-column p.lore{color:#dce7f5}.preview-meta span{border-color:#314d63;border-radius:4px;color:#a8bed4;font-size:12px}.preview-figure figcaption{color:#a8bed4;font-size:13px}.editor-preview-column table{display:block;overflow:auto;max-width:100%;border-color:#314d63;font-size:14px}.editor-preview-column td{border-color:#314d63;color:#bfd2e7;min-width:100px}.editor-preview-column .mj-preview{border-color:#615078;background:#1d1a32;border-radius:6px}.editor-preview-column p.callout{border-left-color:#64def5;background:#102539}
+.editor-actions{padding:16px max(24px,calc((100vw - 1640px)/2));border-top-color:#314d63;background:rgba(5,11,19,.98)}.editor-actions button{padding:11px 16px}.editor-actions .primary{border:1px solid #9eeaff;background:#9eeaff;color:#05131e}.editor-actions .secondary,.editor-card .secondary,.talent-insert-panel .secondary{border:1px solid #43617b;background:#173148;color:#c9eeff}.danger-button{border-color:#805266;color:#ffb6c1;padding:10px 14px}.wiki-toolbar{padding:14px;gap:8px;border-bottom-color:#2c4358;background:#101f30}.wiki-toolbar button{min-width:44px;padding:9px 12px;border-color:#314d63;color:#c5d9ec;background:#081321}.wiki-toolbar button:hover,.wiki-toolbar button.active{border-color:#64def5;background:#173148;color:#b2efff}.wiki-source{padding:24px;background:#07111e;color:#dce7f5;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:15px}.wiki-source:focus{outline-offset:-3px}.syntax-help{padding:16px;color:#a1b5cc;font-size:12px;gap:12px}.syntax-help code{color:#85dff1}.talent-insert-panel{grid-template-columns:repeat(2,minmax(0,1fr));padding:18px;background:#132439}.talent-insert-panel>div{grid-column:1/-1}.talent-insert-panel :is(strong,small){font-size:13px;color:#bbcee0}.preview-talent-embed{border-color:#365a70;border-radius:6px;background:#102539}.preview-talent-embed span{color:#85dff1;font-size:11px}.preview-talent-embed strong{font-family:inherit}.preview-talent-embed small{color:#b1c7db}
+.coverage-drawer{left:auto;right:0;top:0;bottom:0;margin:0;width:min(640px,100vw);max-width:none;height:100dvh;max-height:none;padding:28px;border:0;border-left:1px solid #43617b;background:#0c1726;color:#edf4ff;transform:none;opacity:1;pointer-events:auto;transition:none}.coverage-drawer::backdrop{background:#030811bf;backdrop-filter:blur(4px)}.coverage-head{gap:20px;border-color:#2c4358}.coverage-head h2{font-size:26px;line-height:1.2}.coverage-head p:not(.eyebrow){color:#a8bed4;font-size:14px}.coverage-head button{flex:none;align-self:start;padding:10px 14px;border:1px solid #43617b;background:#14263a;color:#d9edff}.coverage-score>strong{font-size:48px;color:#9eeaff}.coverage-score small{color:#a1b5cc;font-size:13px}.coverage-stats article,.coverage-family-grid article,.coverage-list article{border-color:#2c4358;border-radius:6px;background:#101f30}.coverage-stats strong{font-size:26px}.coverage-stats span,.coverage-family-grid small{color:#a8bed4;font-size:12px}.coverage-family-grid strong{font-size:13px}.coverage-family-grid article>div:first-child span{font-size:12px;color:#9eeaff}.coverage-family-track{height:4px;border-radius:4px;background:#263c51}.coverage-family-track span{background:linear-gradient(90deg,#64def5,#b79aff)}.coverage-list article{padding:16px}.coverage-list article span{color:#85dff1;font-size:11px}.coverage-list article strong{color:#edf4ff;font-size:15px}.coverage-list article small,.coverage-item-state b{color:#a8bed4;font-size:12px}.coverage-matches a{border-color:#43617b;border-radius:4px;padding:10px}.coverage-create{font-size:13px;padding:10px 12px;border-color:#43617b;background:#173148;color:#c9eeff}.coverage-filters select{font-size:14px}.feedback{padding:18px 20px;border:1px solid #314d63;border-radius:8px;background:#102233;color:#c6e6f6}.feedback.error{border-color:#805266;background:#241824;color:#ffb6c1}
+@media(max-width:1100px){.wiki-editor-grid{grid-template-columns:1fr}.editor-preview-column{position:static;max-height:none}.wiki-editor-page{width:calc(100% - 40px)}}
+@media(max-width:700px){.wiki-editor-topbar{position:static;flex-wrap:wrap;gap:12px}.editor-top-actions{justify-content:flex-start}.wiki-editor-page{width:calc(100% - 24px);padding:20px 0 40px}.editor-heading{padding-top:8px;gap:16px}.editor-card,.editor-section-card,.editor-preview-column{padding:20px}.editor-actions{position:static;margin-top:24px;padding:18px;border:1px solid #314d63;border-radius:8px;display:grid;grid-template-columns:1fr;gap:12px;box-shadow:none}.editor-actions .spacer{display:none}.editor-actions button{width:100%}.editor-top-actions button{font-size:13px}.wiki-source{padding:18px}.coverage-drawer{padding:20px}.coverage-family-grid{grid-template-columns:1fr}.talent-insert-panel{grid-template-columns:1fr}.coverage-head{gap:12px}.coverage-head h2{font-size:24px}.editor-preview-column .preview-title{font-size:28px}}
+@media(prefers-reduced-motion:reduce){.coverage-loading span,.editor-skeleton span{animation:none}}
 </style>

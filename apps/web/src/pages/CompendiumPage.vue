@@ -2626,7 +2626,7 @@ onBeforeUnmount(() => {
 
 .compendium-hero h1 {
   margin: .2rem 0 .7rem;
-  font: 500 clamp(2.8rem, 7vw, 5.6rem)/1 Georgia, serif;
+  font: 500 clamp(2.8rem, 7vw, 5.6rem)/1 var(--tu-font);
 }
 
 .compendium-hero p:not(.eyebrow) {
@@ -2647,7 +2647,7 @@ onBeforeUnmount(() => {
 
 .compendium-stats strong {
   color: #91cfe0;
-  font: 500 2rem/1 Georgia, serif;
+  font: 500 2rem/1 var(--tu-font);
 }
 
 .compendium-stats span,
@@ -2733,7 +2733,7 @@ onBeforeUnmount(() => {
 
 .library-heading h2 {
   margin: 0;
-  font: 500 1.45rem/1.2 Georgia, serif;
+  font: 500 1.45rem/1.2 var(--tu-font);
 }
 
 .library-scopes {
@@ -2878,7 +2878,7 @@ onBeforeUnmount(() => {
 
 .result-heading h2 {
   margin: 0;
-  font: 500 1.45rem/1.2 Georgia, serif;
+  font: 500 1.45rem/1.2 var(--tu-font);
 }
 
 .result-heading > span {
@@ -2917,7 +2917,7 @@ onBeforeUnmount(() => {
 }
 
 .result-card strong {
-  font-family: Georgia, serif;
+  font-family: var(--tu-font);
   font-size: 1.05rem;
 }
 
@@ -3076,13 +3076,13 @@ onBeforeUnmount(() => {
 .talent-registry-block{margin:1.1rem 0 1.6rem}
 .talent-card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.75rem}
 .talent-wiki-card{display:flex;flex-direction:column;gap:.7rem;padding:1rem;border:1px solid rgba(88,220,197,.16);background:linear-gradient(145deg,rgba(43,146,255,.055),rgba(255,255,255,.012));box-shadow:0 10px 28px rgba(0,0,0,.12)}
-.talent-wiki-card header{display:flex;align-items:flex-start;justify-content:space-between;gap:.8rem}.talent-wiki-card header span{color:#709aad;font-size:.6rem;text-transform:uppercase;letter-spacing:.06em}.talent-wiki-card h3{margin:.16rem 0 0;color:#dce8ec;font:500 1.05rem/1.2 Georgia,serif}.talent-wiki-card header>strong{flex:0 0 auto;color:#91cfe0;font-size:.72rem}
+.talent-wiki-card header{display:flex;align-items:flex-start;justify-content:space-between;gap:.8rem}.talent-wiki-card header span{color:#709aad;font-size:.6rem;text-transform:uppercase;letter-spacing:.06em}.talent-wiki-card h3{margin:.16rem 0 0;color:#dce8ec;font:500 1.05rem/1.2 var(--tu-font)}.talent-wiki-card header>strong{flex:0 0 auto;color:#91cfe0;font-size:.72rem}
 .talent-wiki-meta{display:flex;flex-wrap:wrap;gap:.35rem}.talent-wiki-meta span{padding:.24rem .38rem;border:1px solid rgba(255,255,255,.07);color:#718a95;font-size:.62rem}
 .talent-wiki-lore{margin:0;color:#91a7b1;font-size:.76rem;line-height:1.55}
 .talent-wiki-mechanics{margin-top:auto;padding:.7rem .75rem;border-left:2px solid rgba(88,220,197,.36);background:rgba(0,0,0,.13)}.talent-wiki-mechanics small{display:block;margin-bottom:.28rem;color:#6fb9d6;font-size:.58rem;letter-spacing:.08em}.talent-wiki-mechanics p{margin:0;color:#afc1c8;font-size:.72rem;line-height:1.5}
 .talent-registry-empty{padding:.9rem;border:1px dashed rgba(255,255,255,.1);color:#718a95;font-size:.75rem}
 .wiki-mechanics-card{padding:1rem;border:1px solid rgba(88,220,197,.24);background:linear-gradient(145deg,rgba(43,146,255,.08),rgba(255,255,255,.014));box-shadow:inset 0 1px rgba(255,255,255,.025)}
-.wiki-mechanics-head{display:flex;justify-content:space-between;gap:.8rem;align-items:flex-start;margin-bottom:.7rem}.wiki-mechanics-head strong{display:block;color:#dce8ec;font:500 1rem/1.2 Georgia,serif}.wiki-mechanics-head>span{padding:.2rem .38rem;border:1px solid rgba(112,168,121,.22);color:#9fbd9d;font-size:.58rem;text-transform:uppercase;letter-spacing:.05em}
+.wiki-mechanics-head{display:flex;justify-content:space-between;gap:.8rem;align-items:flex-start;margin-bottom:.7rem}.wiki-mechanics-head strong{display:block;color:#dce8ec;font:500 1rem/1.2 var(--tu-font)}.wiki-mechanics-head>span{padding:.2rem .38rem;border:1px solid rgba(112,168,121,.22);color:#9fbd9d;font-size:.58rem;text-transform:uppercase;letter-spacing:.05em}
 .wiki-mechanics-record+.wiki-mechanics-record{margin-top:.8rem;padding-top:.8rem;border-top:1px solid rgba(255,255,255,.07)}.wiki-mechanics-record header{display:flex;justify-content:space-between;gap:.6rem;margin-bottom:.5rem}.wiki-mechanics-record header strong{color:#c5d4d9;font-size:.76rem}.wiki-mechanics-record header small{color:#718a95;font-size:.62rem}
 .wiki-mechanics-record dl{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:.34rem .65rem;margin:0}.wiki-mechanics-record dt{color:#718a95;font-size:.64rem}.wiki-mechanics-record dd{margin:0;color:#afc1c8;font-size:.68rem;text-align:right;overflow-wrap:anywhere}.wiki-mechanics-note{margin:.75rem 0 0;padding-top:.65rem;border-top:1px solid rgba(255,255,255,.06);color:#667f8b;font-size:.62rem;line-height:1.4}
 .wiki-builder-usage{padding:1rem;border:1px solid rgba(88,220,197,.18);background:rgba(43,146,255,.045)}
@@ -3126,7 +3126,7 @@ onBeforeUnmount(() => {
 
 .wiki-see-also h2 {
   margin: .2rem 0 1rem;
-  font: 500 1.65rem/1.2 Georgia, serif;
+  font: 500 1.65rem/1.2 var(--tu-font);
 }
 
 .wiki-related-grid {
@@ -3158,7 +3158,7 @@ onBeforeUnmount(() => {
 }
 
 .wiki-related-grid strong {
-  font-family: Georgia, serif;
+  font-family: var(--tu-font);
   font-weight: 500;
 }
 
@@ -3183,7 +3183,7 @@ onBeforeUnmount(() => {
 
 .article-header h1 {
   margin: .65rem 0 .9rem;
-  font: 500 clamp(2rem, 4vw, 3.4rem)/1.06 Georgia, serif;
+  font: 500 clamp(2rem, 4vw, 3.4rem)/1.06 var(--tu-font);
 }
 
 .article-meta,
@@ -3228,7 +3228,7 @@ onBeforeUnmount(() => {
 .article-section h2,
 .article-section h3,
 .article-section h4 {
-  font-family: Georgia, serif;
+  font-family: var(--tu-font);
   font-weight: 500;
   color: #dce8ec;
 }
@@ -3294,7 +3294,7 @@ onBeforeUnmount(() => {
 .mj-section summary {
   cursor: pointer;
   color: #ca9d86;
-  font-family: Georgia, serif;
+  font-family: var(--tu-font);
   font-size: 1.1rem;
 }
 
@@ -3315,7 +3315,7 @@ onBeforeUnmount(() => {
 .article-placeholder h2 {
   margin: .2rem 0 .7rem;
   color: #d3e0e4;
-  font-family: Georgia, serif;
+  font-family: var(--tu-font);
   font-weight: 500;
 }
 
@@ -3540,7 +3540,7 @@ onBeforeUnmount(() => {
 
 .navigation-heading h2 {
   margin: 0;
-  font: 500 1.35rem/1.2 Georgia, serif;
+  font: 500 1.35rem/1.2 var(--tu-font);
 }
 
 .navigation-heading > span {
@@ -3728,7 +3728,7 @@ onBeforeUnmount(() => {
 
 .surface-heading h1 {
   margin: .1rem 0 .35rem;
-  font: 500 clamp(1.7rem, 3vw, 2.5rem)/1.05 Georgia, serif;
+  font: 500 clamp(1.7rem, 3vw, 2.5rem)/1.05 var(--tu-font);
 }
 
 .surface-heading p {
@@ -3848,7 +3848,7 @@ onBeforeUnmount(() => {
 
 .category-group-card > header h2 {
   margin: .1rem 0 0;
-  font: 500 1.25rem/1.2 Georgia, serif;
+  font: 500 1.25rem/1.2 var(--tu-font);
 }
 
 .category-group-card > header > span {

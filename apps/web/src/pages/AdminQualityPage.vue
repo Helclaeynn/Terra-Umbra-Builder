@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, nextTick, onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
-import TerraUmbraLockup from "../components/TerraUmbraLockup.vue";
+import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
 import { ApiError, api } from "../lib/api";
-import "../brand-signal.css";
 
 type ReviewStatus = "pending" | "approved" | "rework";
 type Severity = "critical" | "warning" | "info";
@@ -63,6 +62,9 @@ const category = ref("");
 const review = ref("");
 const issue = ref("");
 const recentOnly = ref(false);
+const reviewDialog = ref<HTMLDialogElement | null>(null);
+const reviewTarget = ref<QualityItem | null>(null);
+const reviewDraft = ref("");
 
 const issueLabels: Record<string, string> = {
   missing_media: "Sans image",
@@ -96,7 +98,7 @@ const filteredItems = computed(() => {
   return (quality.value?.items ?? [])
     .filter((item) => !category.value || item.category === category.value)
     .filter((item) => !review.value || item.reviewStatus === review.value)
-    .filter((item) => !issue.value || item.issues.some((entry) => entry.code === issue.value))
+    .filter((item) => !issue.value || item.issues.some((entry) => issue.value === "__critical" ? entry.severity === "critical" : entry.code === issue.value))
     .filter((item) => {
       if (!recentOnly.value) return true;
       return (
@@ -129,6 +131,14 @@ const filteredItems = computed(() => {
       return new Date(b.firstSeenAt ?? 0).getTime() - new Date(a.firstSeenAt ?? 0).getTime();
     });
 });
+
+function resetFilters() {
+  search.value = "";
+  category.value = "";
+  review.value = "";
+  issue.value = "";
+  recentOnly.value = false;
+}
 
 function mediaSource(value: unknown): string {
   if (typeof value === "string") return value.trim();
@@ -176,7 +186,7 @@ async function load() {
     if (cause instanceof ApiError) {
       if (cause.message === "authentication_required") {
         error.value = "Connexion requise.";
-      } else if (cause.message === "admin_required") {
+      } else if (cause.message === "admin_required" || cause.message === "editor_required") {
         error.value = "Cette page est réservée aux administrateurs.";
       } else {
         error.value = cause.message;
@@ -189,18 +199,17 @@ async function load() {
   }
 }
 
-async function setReview(item: QualityItem, status: ReviewStatus) {
+async function setReview(item: QualityItem, status: ReviewStatus, noteOverride?: string) {
   let note = item.reviewNote ?? "";
-  if (status === "rework") {
-    const answer = window.prompt(
-      "Note de recette — indique ce qui doit être corrigé :",
-      note
-    );
-    if (answer === null) return;
-    note = answer.trim();
-  } else if (status === "pending") {
-    note = "";
+  if (status === "rework" && noteOverride === undefined) {
+    reviewTarget.value = item;
+    reviewDraft.value = note;
+    await nextTick();
+    reviewDialog.value?.showModal();
+    return;
   }
+  if (status === "rework") note = (noteOverride ?? "").trim();
+  else if (status === "pending") note = "";
 
   busyId.value = item.id;
   error.value = "";
@@ -224,21 +233,43 @@ async function setReview(item: QualityItem, status: ReviewStatus) {
   }
 }
 
+function submitReview() {
+  if (!reviewTarget.value) return;
+  const item = reviewTarget.value;
+  const note = reviewDraft.value;
+  reviewDialog.value?.close();
+  void setReview(item, "rework", note);
+}
+
 onMounted(load);
 </script>
 
 <template>
-  <div class="quality-shell brand-signal">
+  <div class="quality-shell">
     <header class="quality-topbar">
       <RouterLink to="/" class="brand-link">
-        <TerraUmbraLockup compact />
+        <TerraUmbraBrand />
       </RouterLink>
-      <nav>
-        <RouterLink to="/account">Compte</RouterLink>
+      <nav aria-label="Navigation de la recette">
+        <RouterLink to="/account">Mon espace</RouterLink>
         <RouterLink to="/compendium">Compendium</RouterLink>
-        <button type="button" @click="load">Actualiser</button>
+        <button type="button" :disabled="loading || Boolean(busyId)" @click="load">{{ loading ? "Actualisation…" : "Actualiser" }}</button>
       </nav>
     </header>
+
+    <dialog ref="reviewDialog" class="review-dialog" aria-labelledby="review-dialog-title">
+      <form @submit.prevent="submitReview">
+        <p class="eyebrow">RETOUR DE RECETTE</p>
+        <h2 id="review-dialog-title">À revoir</h2>
+        <p class="review-dialog-target">{{ reviewTarget?.title }}</p>
+        <label for="review-note">Ce qui doit être corrigé</label>
+        <textarea id="review-note" v-model="reviewDraft" rows="5" autofocus placeholder="Précise les points à reprendre…"></textarea>
+        <div class="review-dialog-actions">
+          <button type="button" @click="reviewDialog?.close()">Annuler</button>
+          <button class="review-confirm" type="submit">Enregistrer le retour</button>
+        </div>
+      </form>
+    </dialog>
 
     <main class="quality-page">
       <section class="quality-hero">
@@ -253,22 +284,22 @@ onMounted(load);
         </div>
       </section>
 
-      <p v-if="error" class="feedback error">{{ error }}</p>
-      <p v-if="notice" class="feedback">{{ notice }}</p>
-      <section v-if="loading" class="loading-panel">Analyse du corpus…</section>
+      <p v-if="error" class="feedback error" role="alert">{{ error }}</p>
+      <p v-if="notice" class="feedback" role="status">{{ notice }}</p>
+      <section v-if="loading" class="loading-panel" role="status">Analyse du corpus…</section>
 
       <template v-else-if="quality">
         <section class="score-grid">
-          <button class="score-card critical" type="button" @click="issue = quality.summary.mjLeaks ? 'mj_leak' : ''">
+          <button class="score-card critical" type="button" @click="resetFilters(); issue = '__critical'">
             <span>Critiques</span><strong>{{ quality.summary.bySeverity.critical }}</strong><small>{{ quality.summary.mjLeaks }} fuite(s) MJ</small>
           </button>
-          <button class="score-card" type="button" @click="review = 'pending'; recentOnly = false">
+          <button class="score-card" type="button" @click="resetFilters(); review = 'pending'">
             <span>À recetter</span><strong>{{ quality.summary.pending }}</strong><small>{{ quality.summary.recentPending }} récent(s)</small>
           </button>
-          <button class="score-card rework" type="button" @click="review = 'rework'; recentOnly = false">
+          <button class="score-card rework" type="button" @click="resetFilters(); review = 'rework'">
             <span>À revoir</span><strong>{{ quality.summary.rework }}</strong><small>retours de recette</small>
           </button>
-          <button class="score-card ok" type="button" @click="review = 'approved'; recentOnly = false">
+          <button class="score-card ok" type="button" @click="resetFilters(); review = 'approved'">
             <span>Validés</span><strong>{{ quality.summary.approved }}</strong><small>recette terminée</small>
           </button>
         </section>
@@ -310,54 +341,56 @@ onMounted(load);
         <section class="queue-panel">
           <div class="queue-heading">
             <div><p class="eyebrow">FILE DE RECETTE</p><h2>{{ filteredItems.length }} entrée(s)</h2></div>
-            <button type="button" class="recent-toggle" :class="{ active: recentOnly }" @click="recentOnly = !recentOnly">
+            <button type="button" class="recent-toggle" :class="{ active: recentOnly }" :aria-pressed="recentOnly" @click="recentOnly = !recentOnly">
               Ajoutés récemment · non recettés
             </button>
           </div>
 
           <div class="filters">
-            <input v-model="search" type="search" placeholder="Rechercher un titre, ID, source…" />
-            <select v-model="category">
+            <label>Recherche<input v-model="search" type="search" placeholder="Titre, identifiant, source…" /></label>
+            <label>Catégorie<select v-model="category">
               <option value="">Toutes les catégories</option>
               <option v-for="value in categories" :key="value" :value="value">{{ value }}</option>
-            </select>
-            <select v-model="review">
+            </select></label>
+            <label>État de recette<select v-model="review">
               <option value="">Tous les états</option><option value="pending">À recetter</option><option value="rework">À revoir</option><option value="approved">Validés</option>
-            </select>
-            <select v-model="issue">
+            </select></label>
+            <label>Contrôle<select v-model="issue">
               <option value="">Tous les contrôles</option>
+              <option value="__critical">Toutes les anomalies critiques</option>
               <option v-for="value in issueOptions" :key="value.code" :value="value.code">{{ value.label }}</option>
-            </select>
-            <button type="button" class="clear" @click="search = ''; category = ''; review = ''; issue = ''; recentOnly = false">Réinitialiser</button>
+            </select></label>
+            <button type="button" class="clear" @click="resetFilters">Réinitialiser</button>
           </div>
 
-          <div class="quality-table-wrap">
+          <p v-if="!filteredItems.length" class="queue-empty" role="status">Aucune entrée ne correspond à ces filtres.</p>
+          <div v-else class="quality-table-wrap">
             <table class="quality-table">
-              <thead><tr><th>Entrée</th><th>Contrôles</th><th>Recette</th><th>Première détection</th><th>Actions</th></tr></thead>
+              <thead><tr><th scope="col">Entrée</th><th scope="col">Contrôles</th><th scope="col">Recette</th><th scope="col">Première détection</th><th scope="col">Actions</th></tr></thead>
               <tbody>
                 <tr v-for="item in filteredItems" :key="item.id">
-                  <td class="entry-cell">
+                  <td class="entry-cell" data-label="Entrée">
                     <img v-if="mediaUrl(item.media)" :src="mediaUrl(item.media)" :alt="item.title" loading="lazy" />
                     <div class="entry-copy"><strong>{{ item.title }}</strong><span>{{ item.category }} · {{ item.group || item.dataset || "—" }}</span><small>{{ item.id }}</small></div>
                   </td>
-                  <td>
+                  <td data-label="Contrôles">
                     <div v-if="item.issues.length" class="issue-list">
                       <span v-for="entry in item.issues" :key="entry.code + entry.label" class="issue-chip" :class="entry.severity">{{ entry.label }}</span>
                     </div>
                     <span v-else class="clean-state">Aucune anomalie détectée</span>
                   </td>
-                  <td>
+                  <td data-label="Recette">
                     <span class="review-state" :class="item.reviewStatus">{{ reviewLabel(item.reviewStatus) }}</span>
                     <small v-if="item.reviewerName" class="review-meta">{{ item.reviewerName }} · {{ formatDate(item.reviewedAt) }}</small>
                     <small v-if="item.reviewNote" class="review-note">{{ item.reviewNote }}</small>
                   </td>
-                  <td>{{ formatDate(item.firstSeenAt) }}</td>
-                  <td class="action-cell">
-                    <a :href="'/compendium?article=' + encodeURIComponent(item.id)" target="_blank">Voir</a>
-                    <a :href="'/compendium/edit/' + encodeURIComponent(item.id)" target="_blank">Éditer</a>
-                    <button type="button" :disabled="busyId === item.id" @click="setReview(item, 'approved')">Valider</button>
-                    <button type="button" class="warn" :disabled="busyId === item.id" @click="setReview(item, 'rework')">À revoir</button>
-                    <button v-if="item.reviewStatus !== 'pending'" type="button" class="ghost-action" :disabled="busyId === item.id" @click="setReview(item, 'pending')">Repasser en recette</button>
+                  <td data-label="Première détection">{{ formatDate(item.firstSeenAt) }}</td>
+                  <td class="action-cell" data-label="Actions">
+                    <a :href="'/compendium?article=' + encodeURIComponent(item.id)" target="_blank" rel="noopener" :aria-label="`Voir ${item.title} (nouvel onglet)`">Voir ↗</a>
+                    <a :href="'/compendium/edit/' + encodeURIComponent(item.id)" target="_blank" rel="noopener" :aria-label="`Éditer ${item.title} (nouvel onglet)`">Éditer ↗</a>
+                    <button type="button" :disabled="Boolean(busyId)" @click="setReview(item, 'approved')">Valider</button>
+                    <button type="button" class="warn" :disabled="Boolean(busyId)" @click="setReview(item, 'rework')">À revoir</button>
+                    <button v-if="item.reviewStatus !== 'pending'" type="button" class="ghost-action" :disabled="Boolean(busyId)" @click="setReview(item, 'pending')">Repasser en recette</button>
                   </td>
                 </tr>
               </tbody>
@@ -370,14 +403,32 @@ onMounted(load);
 </template>
 
 <style scoped>
-.quality-shell{min-height:100vh;background:radial-gradient(circle at 80% 5%,rgba(43,146,255,.12),transparent 32rem),#071014;color:#d8e5e9}
-.quality-topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.65rem 1.25rem;border-bottom:1px solid rgba(134,192,211,.12);background:rgba(7,16,20,.94);backdrop-filter:blur(16px)}
-.brand-link{display:flex;max-width:260px;text-decoration:none}.quality-topbar nav{display:flex;align-items:center;gap:.55rem}.quality-topbar nav a,.quality-topbar nav button{border:1px solid rgba(128,181,199,.18);background:rgba(255,255,255,.025);color:#9cb7c1;padding:.5rem .7rem;text-decoration:none;font:inherit;cursor:pointer}
-.quality-page{width:min(1580px,calc(100% - 2rem));margin:0 auto;padding:2rem 0 6rem}.quality-hero{display:flex;align-items:end;justify-content:space-between;gap:2rem;padding:1.5rem 0 2rem;border-bottom:1px solid rgba(255,255,255,.08)}.quality-hero h1{font-size:clamp(2rem,4vw,4.2rem);margin:.2rem 0}.quality-hero>div>p:last-child{color:#7f9ba5;max-width:760px}.hero-score{display:grid;text-align:right}.hero-score strong{font-size:3rem;color:#b9e7ef}.hero-score span{font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;color:#6f8e99}.eyebrow{font-size:.68rem;letter-spacing:.16em;color:#5aa9bd;text-transform:uppercase}
-.feedback,.loading-panel{margin:1rem 0;padding:.8rem 1rem;border:1px solid rgba(78,177,200,.22);background:rgba(24,91,107,.1)}.feedback.error{border-color:rgba(211,89,75,.3);color:#e6a198}.score-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin:1.25rem 0}.score-card{display:grid;gap:.2rem;text-align:left;padding:1rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);color:#c7d9df;cursor:pointer}.score-card strong{font-size:2rem}.score-card span,.score-card small{color:#75939e}.score-card.critical strong{color:#e38479}.score-card.rework strong{color:#d5ae6d}.score-card.ok strong{color:#8cc69a}
-.audit-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin:0 0 1.25rem}.audit-card,.queue-panel{border:1px solid rgba(255,255,255,.08);background:rgba(9,25,31,.86);padding:1rem}.audit-card h2{font-size:1rem;margin:.3rem 0 1rem}.metric-row{display:flex;justify-content:space-between;gap:1rem;padding:.42rem 0;border-top:1px solid rgba(255,255,255,.05);color:#809ba5}.metric-row strong{color:#d4e2e6}.danger-line strong{color:#e38479}
-.queue-heading{display:flex;align-items:center;justify-content:space-between;gap:1rem}.queue-heading h2{margin:.2rem 0}.recent-toggle{padding:.55rem .75rem;border:1px solid rgba(79,175,197,.24);background:transparent;color:#8eabb5;cursor:pointer}.recent-toggle.active{background:rgba(43,146,255,.12);border-color:#3f9fba;color:#bee9f1}.filters{display:grid;grid-template-columns:minmax(240px,1.8fr) repeat(3,minmax(150px,.8fr)) auto;gap:.55rem;margin:1rem 0}.filters input,.filters select,.filters button{min-width:0;padding:.6rem .65rem;border:1px solid rgba(255,255,255,.09);background:#08171c;color:#bcd0d6}.filters button{cursor:pointer}
-.quality-table-wrap{overflow:auto;border-top:1px solid rgba(255,255,255,.08)}.quality-table{width:100%;border-collapse:collapse;min-width:1160px}.quality-table th{text-align:left;padding:.7rem .55rem;color:#6f8b95;font-size:.66rem;letter-spacing:.09em;text-transform:uppercase}.quality-table td{padding:.65rem .55rem;border-top:1px solid rgba(255,255,255,.055);vertical-align:top}.entry-cell{display:flex;gap:.65rem;min-width:310px}.entry-cell img{width:56px;height:56px;object-fit:cover;border:1px solid rgba(255,255,255,.08);background:#0c1b20}.entry-copy{display:grid;gap:.08rem}.entry-copy strong{color:#dbe8eb}.entry-copy span{color:#78949e;font-size:.72rem}.entry-copy small{color:#4f6c76;font-size:.64rem}.issue-list{display:flex;flex-wrap:wrap;gap:.3rem;max-width:390px}.issue-chip{padding:.25rem .38rem;border:1px solid rgba(255,255,255,.1);font-size:.65rem;color:#91aab2}.issue-chip.critical{color:#e69b92;border-color:rgba(208,83,67,.32);background:rgba(208,83,67,.08)}.issue-chip.warning{color:#d8bc83;border-color:rgba(205,154,76,.28);background:rgba(205,154,76,.07)}.issue-chip.info{color:#8bbbc7}.clean-state{color:#6f9b78;font-size:.7rem}.review-state{display:inline-block;padding:.25rem .4rem;border:1px solid rgba(255,255,255,.09);font-size:.65rem}.review-state.pending{color:#9bb4bd}.review-state.rework{color:#d8bc83}.review-state.approved{color:#8fc59b}.review-meta,.review-note{display:block;margin-top:.35rem;max-width:260px;color:#637f89;font-size:.63rem}.review-note{color:#9b8c72}.action-cell{display:flex;flex-wrap:wrap;gap:.3rem;max-width:270px}.action-cell a,.action-cell button{padding:.35rem .45rem;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.02);color:#a7c2ca;text-decoration:none;font:inherit;font-size:.67rem;cursor:pointer}.action-cell button.warn{color:#d8bc83}.action-cell .ghost-action{color:#6f8b95}
-@media (max-width:1100px){.score-grid,.audit-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.filters{grid-template-columns:1fr 1fr}.quality-hero{align-items:start}.hero-score{display:none}}
-@media (max-width:680px){.quality-page{width:min(100% - 1rem,1580px)}.quality-topbar{align-items:flex-start}.quality-topbar nav{flex-wrap:wrap;justify-content:flex-end}.score-grid,.audit-grid,.filters{grid-template-columns:1fr}.queue-heading{align-items:flex-start;flex-direction:column}}
+.quality-shell{min-height:100vh;background:#070e18;color:#edf4ff;font:400 15px/1.55 Inter,"Segoe UI",sans-serif}
+.quality-shell :is(h1,h2,h3){font-family:inherit;color:#edf4ff;letter-spacing:-.025em}
+.quality-shell :is(button,input,select){font:inherit}
+.quality-shell :is(button,a,input,select):focus-visible{outline:2px solid #64def5;outline-offset:3px}
+.quality-shell button:disabled{opacity:.55;cursor:wait}
+.quality-topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:80px;padding:10px clamp(16px,3vw,48px);border-bottom:1px solid #263c51;background:rgba(5,11,19,.97);backdrop-filter:blur(16px)}
+.brand-link{display:flex;min-width:0;text-decoration:none}.quality-topbar nav{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.quality-topbar nav :is(a,button),.recent-toggle,.clear,.action-cell :is(a,button){display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;border:1px solid #314d63;border-radius:6px;background:#0d1927;color:#cee1f2;text-decoration:none;cursor:pointer}
+.quality-topbar nav :is(a,button):hover,.recent-toggle:hover,.clear:hover,.action-cell :is(a,button):hover{border-color:#64def5;background:#14273a;color:#edf4ff}
+.review-dialog{width:min(560px,calc(100vw - 32px));max-height:calc(100dvh - 32px);padding:28px;border:1px solid #43617b;border-radius:10px;background:#0c1726;color:#edf4ff;box-shadow:0 24px 80px #0008}.review-dialog::backdrop{background:#030811bf;backdrop-filter:blur(4px)}.review-dialog h2{font-size:26px;margin:8px 0}.review-dialog-target{color:#b9ccdf;overflow-wrap:anywhere}.review-dialog label{display:block;margin:24px 0 8px;color:#c6d9ea;font-size:14px}.review-dialog textarea{display:block;resize:vertical;width:100%;padding:12px;border:1px solid #43617b;border-radius:6px;background:#07111e;color:#edf4ff;font:inherit}.review-dialog-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px;margin-top:20px}.review-dialog-actions button{min-height:44px;padding:10px 16px;border:1px solid #43617b;border-radius:6px;background:#14263a;color:#d9edff;cursor:pointer}.review-dialog-actions .review-confirm{background:#9eeaff;border-color:#9eeaff;color:#05131e}
+.quality-page{width:min(1640px,calc(100% - 64px));margin:0 auto;padding:36px 0 72px;min-width:0}
+.quality-hero{display:flex;align-items:center;justify-content:space-between;gap:32px;padding:clamp(24px,3vw,48px);margin-bottom:28px;border:1px solid #2c4358;border-radius:10px;background:linear-gradient(90deg,#09131ff2,#09131fb0),url('/brand/orbital/orbital-earth.webp') right center/cover}
+.quality-hero h1{font-size:clamp(30px,3vw,48px);line-height:1.15;margin:12px 0 16px}.quality-hero>div>p:last-child{color:#bacce0;max-width:72ch;margin:0}
+.hero-score{display:grid;text-align:right;flex:none}.hero-score strong{font-size:48px;line-height:1.15;color:#9eeaff}.hero-score span{color:#a1b5cc}.eyebrow{margin:0 0 8px;font:11px/1.5 Consolas,monospace;letter-spacing:.14em;color:#85dff1;text-transform:uppercase}
+.feedback,.loading-panel,.queue-empty{margin:20px 0;padding:18px 20px;border:1px solid #314d63;border-radius:8px;background:#102233;color:#c6e6f6}.feedback.error{border-color:#885967;background:#241824;color:#ffb6c1}
+.score-grid,.audit-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin:0 0 24px}
+.score-card{display:grid;gap:6px;min-width:0;text-align:left;padding:22px;border:1px solid #2c4358;border-radius:8px;background:#0e1b2b;color:#edf4ff;cursor:pointer}.score-card:hover{border-color:#64def5;background:#12263a}.score-card strong{font-size:34px;line-height:1.2;font-weight:600}.score-card span{font-size:15px}.score-card small{color:#a1b5cc;font-size:13px}.score-card.critical strong{color:#ffb1be}.score-card.rework strong{color:#edcb98}.score-card.ok strong{color:#97e4ce}
+.audit-card,.queue-panel{min-width:0;border:1px solid #2c4358;border-radius:8px;background:#0c1726;padding:22px}.audit-card h2{font-size:18px;line-height:1.35;margin:8px 0 20px}.metric-row{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-top:1px solid #203247;color:#b3c5d8;font-size:14px}.metric-row strong{color:#edf4ff;font-variant-numeric:tabular-nums}.danger-line strong{color:#ffb1be}
+.queue-heading{display:flex;align-items:center;justify-content:space-between;gap:20px}.queue-heading h2{margin:6px 0;font-size:26px}.recent-toggle.active{background:#173a50;border-color:#64def5;color:#b2efff}
+.filters{display:grid;grid-template-columns:minmax(200px,1.5fr) repeat(3,minmax(145px,1fr)) auto;gap:12px;align-items:end;margin:24px 0}.filters label{display:grid;min-width:0;gap:7px;color:#b9ccdf;font-size:13px}.filters input,.filters select{width:100%;min-width:0;min-height:46px;padding:11px 12px;border:1px solid #314d63;border-radius:6px;background:#08121e;color:#edf4ff}.filters input::placeholder{color:#92a8be}.clear{font-size:13px}
+.quality-table-wrap{overflow:auto;border-top:1px solid #2c4358}.quality-table{width:100%;border-collapse:collapse;table-layout:fixed}.quality-table th{text-align:left;padding:16px 12px;color:#a1b5cc;font:11px/1.5 Consolas,monospace;letter-spacing:.08em;text-transform:uppercase}.quality-table th:first-child{width:30%}.quality-table th:nth-child(4){width:14%}.quality-table td{padding:20px 12px;border-top:1px solid #203247;vertical-align:top;overflow-wrap:anywhere;font-size:13px}.quality-table tbody tr:hover{background:#101f30}.entry-cell img{float:left;margin:0 12px 8px 0;width:56px;height:64px;object-fit:cover;border:1px solid #314d63;border-radius:5px;background:#08121e}.entry-copy{display:grid;gap:6px;min-width:0}.entry-copy strong{color:#edf4ff;font-size:15px}.entry-copy span,.entry-copy small{color:#a1b5cc;font-size:12px;line-height:1.45}
+.issue-list{display:flex;flex-wrap:wrap;gap:6px}.issue-chip{padding:5px 8px;border:1px solid #314d63;border-radius:5px;font-size:12px;color:#bdd5e9}.issue-chip.critical{color:#ffb6c1;border-color:#805266;background:#271c2d}.issue-chip.warning{color:#edcb98;border-color:#67543c;background:#272321}.issue-chip.info{color:#a8ddf1}.clean-state{color:#97d9c7;font-size:13px}
+.review-state{display:inline-block;padding:5px 8px;border:1px solid #314d63;border-radius:5px;font-size:12px;color:#c2d8ec}.review-state.rework{color:#edcb98;border-color:#67543c}.review-state.approved{color:#97e4ce;border-color:#335f5b}.review-meta,.review-note{display:block;margin-top:9px;color:#a1b5cc;font-size:12px;line-height:1.5}.review-note{color:#dfc49f}.action-cell :is(a,button){margin:0 6px 6px 0;min-height:40px;padding:8px 10px;font-size:12px}.action-cell button.warn{color:#edcb98}.action-cell .ghost-action{color:#b3c5d8}
+@media(max-width:1200px){.audit-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.filters{grid-template-columns:repeat(2,minmax(0,1fr))}.filters .clear{justify-self:start}.review-dialog{width:min(560px,calc(100vw - 32px));max-height:calc(100dvh - 32px);padding:28px;border:1px solid #43617b;border-radius:10px;background:#0c1726;color:#edf4ff;box-shadow:0 24px 80px #0008}.review-dialog::backdrop{background:#030811bf;backdrop-filter:blur(4px)}.review-dialog h2{font-size:26px;margin:8px 0}.review-dialog-target{color:#b9ccdf;overflow-wrap:anywhere}.review-dialog label{display:block;margin:24px 0 8px;color:#c6d9ea;font-size:14px}.review-dialog textarea{display:block;resize:vertical;width:100%;padding:12px;border:1px solid #43617b;border-radius:6px;background:#07111e;color:#edf4ff;font:inherit}.review-dialog-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px;margin-top:20px}.review-dialog-actions button{min-height:44px;padding:10px 16px;border:1px solid #43617b;border-radius:6px;background:#14263a;color:#d9edff;cursor:pointer}.review-dialog-actions .review-confirm{background:#9eeaff;border-color:#9eeaff;color:#05131e}
+.quality-page{width:calc(100% - 40px)}}
+@media(max-width:900px){.score-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.quality-topbar{position:static;flex-wrap:wrap}.quality-topbar nav{margin-left:auto}.quality-table,.quality-table tbody{display:block}.quality-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.quality-table tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));padding:16px 0;border-bottom:1px solid #314d63}.quality-table td{display:block;padding:10px 8px;border:0}.quality-table td::before{content:attr(data-label);display:block;margin-bottom:8px;color:#a1b5cc;font:11px/1.5 Consolas,monospace;text-transform:uppercase;letter-spacing:.08em}.quality-table .entry-cell,.quality-table .action-cell{grid-column:1/-1}.quality-table .entry-cell::before{display:none}.quality-table .action-cell :is(a,button){min-height:44px}.entry-cell img{width:64px;height:76px}.entry-copy strong{font-size:17px}}
+@media(max-width:600px){.review-dialog{width:min(560px,calc(100vw - 32px));max-height:calc(100dvh - 32px);padding:28px;border:1px solid #43617b;border-radius:10px;background:#0c1726;color:#edf4ff;box-shadow:0 24px 80px #0008}.review-dialog::backdrop{background:#030811bf;backdrop-filter:blur(4px)}.review-dialog h2{font-size:26px;margin:8px 0}.review-dialog-target{color:#b9ccdf;overflow-wrap:anywhere}.review-dialog label{display:block;margin:24px 0 8px;color:#c6d9ea;font-size:14px}.review-dialog textarea{display:block;resize:vertical;width:100%;padding:12px;border:1px solid #43617b;border-radius:6px;background:#07111e;color:#edf4ff;font:inherit}.review-dialog-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px;margin-top:20px}.review-dialog-actions button{min-height:44px;padding:10px 16px;border:1px solid #43617b;border-radius:6px;background:#14263a;color:#d9edff;cursor:pointer}.review-dialog-actions .review-confirm{background:#9eeaff;border-color:#9eeaff;color:#05131e}
+.quality-page{width:calc(100% - 24px);padding-top:20px}.quality-hero{padding:24px 20px;gap:16px;align-items:start}.hero-score{display:none}.score-grid,.audit-grid{gap:12px}.score-card{padding:16px}.audit-grid,.filters{grid-template-columns:1fr}.audit-card,.queue-panel{padding:18px}.queue-heading{align-items:stretch;flex-direction:column}.recent-toggle{justify-content:flex-start}.filters .clear{justify-self:stretch}.quality-table tr{grid-template-columns:1fr}.quality-table td{padding:10px 0}.quality-topbar nav{margin-left:0}.quality-topbar nav :is(a,button){padding:9px 12px;font-size:13px}}
 </style>

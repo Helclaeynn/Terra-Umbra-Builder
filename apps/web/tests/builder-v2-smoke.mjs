@@ -322,7 +322,9 @@ const referencesButton=page.getByRole("button",{name:/Références/});
 await referencesButton.waitFor({state:"visible",timeout:5000});
 await referencesButton.click();
 await page.getByRole("heading",{name:"Comprendre mes choix"}).waitFor({state:"visible",timeout:5000});
-await page.getByRole("button",{name:"Fermer",exact:true}).click();
+await page.keyboard.press("Escape");
+await page.waitForFunction(()=>document.activeElement?.classList.contains("references-button"));
+if(await page.locator(".knowledge-drawer").isVisible())throw new Error("Le tiroir Références reste visible après Échap.");
 
 await page.locator(".builder-nav").getByRole("button",{name:/Sphère & Style/}).click();
 const styleAlt=page.getByRole("button",{name:/Smoke Style Alt/});
@@ -334,12 +336,37 @@ await page.waitForFunction(()=>{
 },{timeout:5000});
 if(browserErrors.length)throw new Error("Erreur lors du changement de Style :\n"+browserErrors.join("\n"));
 
+async function assertBuilderReflow(context) {
+  const layout=await page.evaluate(()=>({
+    viewport:document.documentElement.clientWidth,
+    width:document.documentElement.scrollWidth,
+    overflow:[...document.querySelectorAll(".builder-card, .builder-sidebar, .builder-topbar, input, select, textarea")]
+      .filter(el=>el.getClientRects().length && getComputedStyle(el).visibility!=="hidden" && el.getBoundingClientRect().width>2 && (el.getBoundingClientRect().right>document.documentElement.clientWidth+1 || el.getBoundingClientRect().left < -1))
+      .map(el=>el.className || el.tagName).slice(0,8)
+  }));
+  if(layout.width>layout.viewport+1 || layout.overflow.length) throw new Error(context+" déborde : "+JSON.stringify(layout));
+}
+
 const nav=page.locator(".builder-nav button");
 if(await nav.count()!==11)throw new Error("Le Builder V2 doit exposer exactement 11 étapes de création.");
 for(let i=0;i<11;i++){
   if(await nav.nth(i).isDisabled())throw new Error("Étape "+(i+1)+" encore désactivée.");
 }
 
+// Exercise every creation screen at both desktop and phone widths, before purchases.
+for(const width of [1440,390]){
+  await page.setViewportSize({width,height:1000});
+  for(let index=0;index<11;index++){
+    if(width<=900){
+      const stepMenu=page.locator("button.builder-mobile-steps");
+      if(await stepMenu.getAttribute("aria-expanded")==="false") await stepMenu.click();
+    }
+    await nav.nth(index).click();
+    await page.waitForFunction(i=>document.querySelectorAll(".builder-nav button")[i]?.classList.contains("active"),index);
+    await assertBuilderReflow(`Création, étape ${index+1}, ${width}px`);
+  }
+}
+await page.setViewportSize({width:1440,height:1000});
 await page.locator(".builder-nav").getByRole("button",{name:/Talents/}).click();
 const braveWiki=page.getByRole("link",{name:/Brave/}).first();
 await braveWiki.waitFor({state:"visible",timeout:5000});
@@ -367,10 +394,23 @@ if(await page.getByText("Objet d’Aèr Smoke",{exact:true}).count())throw new E
 if(await page.getByText("Relique corrompue Smoke",{exact:true}).count())throw new Error("Équipement corrompu visible sans autorisation MJ.");
 
 const truthEquipmentMj=page.getByLabel(/Autorisation MJ d’accès exceptionnel aux objets de Vérité/);
-await truthEquipmentMj.check();
+const approvalLayout=await truthEquipmentMj.evaluate(input=>{
+  const hit=input.closest("label").getBoundingClientRect();
+  const control=input.getBoundingClientRect();
+  return {hitHeight:hit.height,controlWidth:control.width,controlHeight:control.height};
+});
+if(approvalLayout.hitHeight<44 || approvalLayout.controlWidth>48 || approvalLayout.controlHeight>28){
+  throw new Error("Autorisation Objets de Vérité disproportionnée : "+JSON.stringify(approvalLayout));
+}
+await truthEquipmentMj.focus();
+await truthEquipmentMj.press("Space");
+if(!await truthEquipmentMj.isChecked())throw new Error("Autorisation Objets de Vérité inaccessible au clavier.");
 for(const label of ["Arme de Chasse Smoke","Objet d’Aèr Smoke","Relique corrompue Smoke"]){
   await page.getByText(label,{exact:true}).waitFor({state:"attached",timeout:5000});
 }
+await page.setViewportSize({width:390,height:1000});
+await assertBuilderReflow("Catalogue de Vérité ouvert avec autorisation, 390px");
+await page.setViewportSize({width:1440,height:1000});
 await truthEquipmentMj.uncheck();
 await page.getByText("Objet d’Aèr Smoke",{exact:true}).waitFor({state:"detached",timeout:5000});
 
@@ -449,6 +489,12 @@ try{
   console.error(failedRequests.join("\n")||"(aucune)");
   throw error;
 }
+for(const width of [1440,390]){
+  await page.setViewportSize({width,height:1000});
+  await assertBuilderReflow(`Progression, ${width}px`);
+}
+await page.setViewportSize({width:1440,height:1000});
+console.log("BUILDER UI OK — 11 étapes + progression à1440/390px · autorisation Vérité au clavier et zone tactile44px");
 await page.getByText("XP disponibles",{exact:true}).waitFor();
 await page.getByText("PTV disponibles",{exact:true}).waitFor();
 await page.getByText("Argent & possessions de campagne",{exact:true}).waitFor();

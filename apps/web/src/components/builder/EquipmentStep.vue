@@ -438,8 +438,8 @@ function setCorporateSupportItem(itemId:string){
     </div>
 
     <p class="builder-intro">
-      Ce bloc utilise le catalogue Réalité consolidé côté serveur. Les achats comptants,
-      enveloppes augmentiques, véhicules, Neuroprogrammes et charges fixes restent des mécanismes distincts.
+      Équipez votre personnage et suivez ce qu’il vous reste à dépenser. Les achats comptants,
+      enveloppes augmentiques, véhicules, Neuroprogrammes et charges fixes suivent des règles distinctes.
     </p>
 
     <div v-if="!style" class="rule-note bad">Choisissez d’abord une Sphère et un Style.</div>
@@ -705,6 +705,8 @@ function setCorporateSupportItem(itemId:string){
               <label v-if="row.item.neuro" class="neuro-toggle">
                 <input
                   type="checkbox"
+                  role="switch"
+                  :aria-label="`Charger le Neuroprogramme ${row.item.name}`"
                   :checked="!!row.purchase.loaded"
                   :disabled="!row.purchase.loaded && loadedNeuroCount >= neuroCap"
                   @change="toggleNeuro(row.purchase.uid)"
@@ -747,17 +749,27 @@ function setCorporateSupportItem(itemId:string){
           </div>
 
           <div class="override-grid">
-            <label>
-              <input v-model="state.mjAdvancedOverride" type="checkbox" @change="notify" />
-              Accord MJ pour achats/augmentations avancés &gt; {{ money(rules.economy.advancedPurchaseThreshold) }}
+            <label class="permission-switch">
+              <span>
+                <strong>Autorisation MJ — achats avancés</strong>
+                <small>Permet les achats et augmentations au-delà de {{ money(rules.economy.advancedPurchaseThreshold) }}, avec l’accord du MJ.</small>
+              </span>
+              <input v-model="state.mjAdvancedOverride" type="checkbox" role="switch" aria-label="Autorisation MJ pour les achats avancés" @change="notify" />
             </label>
-            <label>
-              <input v-model="state.mjAccessOverride" type="checkbox" @change="notify" />
-              Accord MJ pour sortir du package augmentique du Style
+            <label class="permission-switch">
+              <span>
+                <strong>Autorisation MJ — accès aux augmentations</strong>
+                <small>Ouvre les augmentations hors du package de votre Style, avec l’accord du MJ.</small>
+              </span>
+              <input v-model="state.mjAccessOverride" type="checkbox" role="switch" aria-label="Autorisation MJ pour les augmentations hors du Style" @change="notify" />
             </label>
           </div>
 
-          <div class="catalog-count">{{ augmentationGroups.length }} augmentation(s) correspondante(s)</div>
+          <div class="catalog-count" role="status">{{ augmentationGroups.length }} augmentation(s) correspondante(s)</div>
+          <div v-if="!augmentationGroups.length" class="empty-line">
+            Aucune augmentation ne correspond à ces critères et aux accès de votre personnage.
+            <button v-if="augmentationQuery || augmentationCategory" class="ghost compact" type="button" @click="augmentationQuery=''; augmentationCategory=''">Effacer les filtres</button>
+          </div>
           <div class="catalog-category-stack">
             <section v-for="family in augmentationCatalogGroups" :key="family.label" class="catalog-family">
               <h4>
@@ -787,7 +799,7 @@ function setCorporateSupportItem(itemId:string){
 
                   <label v-if="group.variants.length > 1">
                     Génération / version
-                    <select v-model="variantChoice[group.key]">
+                    <select :value="selectedVariant(group).id" @change="variantChoice[group.key]=($event.target as HTMLSelectElement).value">
                       <option v-for="variant in group.variants" :key="variant.id" :value="variant.id">
                         {{ variant.generation ? `Gen ${variant.generation}` : "Version" }} · {{ realityPriceSpec(variant).label }}
                       </option>
@@ -858,13 +870,20 @@ function setCorporateSupportItem(itemId:string){
           </div>
 
           <div class="override-grid">
-            <label>
-              <input v-model="state.mjAdvancedOverride" type="checkbox" @change="notify" />
-              Accord MJ pour achats avancés &gt; {{ money(rules.economy.advancedPurchaseThreshold) }}
+            <label class="permission-switch">
+              <span>
+                <strong>Autorisation MJ — achats avancés</strong>
+                <small>Permet les achats au-delà de {{ money(rules.economy.advancedPurchaseThreshold) }}, avec l’accord du MJ. Ce réglage est commun aux deux catalogues.</small>
+              </span>
+              <input v-model="state.mjAdvancedOverride" type="checkbox" role="switch" aria-label="Autorisation MJ pour les achats avancés" @change="notify" />
             </label>
           </div>
 
-          <div class="catalog-count">{{ filteredEquipment.length }} entrée(s) correspondante(s)</div>
+          <div class="catalog-count" role="status">{{ filteredEquipment.length }} entrée(s) correspondante(s)</div>
+          <div v-if="!filteredEquipment.length" class="empty-line">
+            Aucun équipement ne correspond à ces critères.
+            <button v-if="equipmentQuery || equipmentCategory" class="ghost compact" type="button" @click="equipmentQuery=''; equipmentCategory=''">Effacer les filtres</button>
+          </div>
           <div class="catalog-category-stack">
             <section v-for="group in equipmentCatalogGroups" :key="group.label" class="catalog-family">
               <h4>
@@ -916,5 +935,139 @@ function setCorporateSupportItem(itemId:string){
 </template>
 
 <style scoped>
-.equipment-step{display:grid;gap:1rem}.economy-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem}.economy-grid>div{display:grid;gap:.3rem;padding:.85rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.015)}.economy-grid small{color:#667f8b}.economy-grid strong{font-family:Georgia,serif;font-size:1.25rem}.economy-grid span{color:#a7bbc3;font-size:.75rem}.reality-panel{margin-top:.4rem;padding:1rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.012)}.reality-panel h3{margin:.1rem 0 .55rem;font-family:Georgia,serif}.charge-summary{display:flex;flex-wrap:wrap;gap:.45rem;margin:.8rem 0}.lifestyle-tier-box{display:grid;gap:.55rem;margin:.75rem 0 1rem;padding:.75rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.012)}.lifestyle-tier-box p{margin:0;color:#7f98a3;font-size:.75rem}.lifestyle-tier-track{display:flex;flex-wrap:wrap;gap:.35rem}.lifestyle-tier{display:flex;align-items:center;gap:.3rem;padding:.35rem .5rem;border:1px solid rgba(255,255,255,.08);color:#667f8b;font-size:.72rem}.lifestyle-tier.base{border-color:rgba(88,220,197,.3);color:#58dcc5}.lifestyle-tier.effective{border-color:rgba(112,168,121,.38);color:#b6cfb4;background:rgba(49,80,54,.1)}.lifestyle-tier.lost{opacity:.42;text-decoration:line-through}.lifestyle-tier small{font-size:.58rem;text-transform:uppercase;letter-spacing:.05em}.corporate-support-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;margin-top:.9rem}.charge-summary>span,.pillbar span,.statbar span{padding:.28rem .45rem;border:1px solid rgba(255,255,255,.08);color:#7f98a3;font-size:.68rem}.charge-add-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(120px,1fr) auto;gap:.7rem;align-items:end;margin-top:.7rem}.charge-add-grid.custom{padding-top:.7rem;border-top:1px solid rgba(255,255,255,.06)}.picked-list{display:grid;gap:.5rem;margin-top:.85rem}.picked-row{display:flex;justify-content:space-between;align-items:center;gap:.8rem;padding:.7rem .8rem;border:1px solid rgba(255,255,255,.08)}.picked-row>div{display:grid;gap:.2rem}.picked-row span,.picked-row small{color:#7f98a3;font-size:.72rem}.picked-row.rich{align-items:flex-start}.inline-select,.neuro-toggle{display:flex;align-items:center;gap:.5rem;margin-top:.4rem;color:#7f98a3;font-size:.72rem}.inline-select select{width:auto}.catalog-tools{display:grid;grid-template-columns:minmax(180px,.7fr) minmax(240px,1.3fr);gap:.7rem;margin:1rem 0}.catalog-tools label{display:grid;gap:.4rem;color:#91a7b1;font-size:.72rem}.catalog-count{margin:-.25rem 0 .85rem;color:#718a95;font-size:.72rem}.override-grid{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1rem;color:#7f98a3;font-size:.76rem}.override-grid label{display:flex;gap:.45rem;align-items:center}.catalog-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}.catalog-disclosure{padding:0!important;overflow:hidden}.catalog-summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem;list-style:none}.catalog-summary::-webkit-details-marker{display:none}.catalog-summary>span:first-child{display:grid;gap:.2rem}.catalog-summary strong{font:500 1.2rem/1.2 Georgia,serif;color:#dce8ec}.catalog-summary small{color:#718a95;font-size:.72rem}.catalog-summary::after{content:"›";color:#58dcc5;font-size:1.2rem;transform:rotate(90deg);transition:transform .15s ease}.catalog-disclosure[open]>.catalog-summary::after{transform:rotate(-90deg)}.catalog-body{padding:0 1rem 1rem;border-top:1px solid rgba(255,255,255,.06)}.catalog-category-stack{display:grid;gap:1.1rem}.catalog-family{padding-top:.9rem;border-top:1px solid rgba(88,220,197,.10)}.catalog-family:first-child{border-top:0;padding-top:.2rem}.catalog-family>h4{display:flex;align-items:center;gap:.55rem;margin:.35rem 0 .65rem;color:#c5d4d9;font:600 .8rem/1.2 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase}.family-count{display:inline-flex;align-items:center;justify-content:center;min-width:1.7rem;height:1.35rem;padding:0 .35rem;border:1px solid rgba(88,220,197,.22);color:#58dcc5;font-size:.64rem}.catalog-card{display:flex;flex-direction:column;gap:.65rem;padding:.9rem;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.012)}.catalog-head{display:flex;justify-content:space-between;gap:.8rem;align-items:flex-start}.catalog-head>div{display:grid;gap:.2rem}.catalog-head small{color:#667f8b}.pillbar,.statbar{display:flex;flex-wrap:wrap;gap:.35rem}.catalog-card em{color:#7f98a3;font-size:.77rem;line-height:1.5}.catalog-card p{margin:0;color:#a7bbc3;font-size:.77rem;line-height:1.5}.price-config{max-width:220px}.support-line{padding:.45rem .55rem;border:1px solid rgba(112,168,121,.18);color:#a7bca5;font-size:.72rem}.support-line.bad{border-color:rgba(166,81,72,.28);color:#d0a29c}.bad-text{color:#d0a29c!important}.schema-badge.bad{border-color:rgba(166,81,72,.35);color:#d0a29c}.empty-line{color:#667f8b;font-size:.8rem}@media(max-width:1180px){.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:900px){.economy-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.charge-add-grid,.catalog-tools,.corporate-support-grid{grid-template-columns:1fr}.catalog-grid{grid-template-columns:1fr}}@media(max-width:560px){.economy-grid{grid-template-columns:1fr}.picked-row{align-items:stretch;flex-direction:column}.catalog-head{flex-direction:column}}
+.equipment-step{
+  --equipment-border:#30465b;
+  --equipment-muted:#a4b8ca;
+  display:grid;
+  gap:24px;
+  min-width:0;
+  color:#e7eef8;
+  font:400 15px/1.6 Inter,"Segoe UI",sans-serif;
+  container-type:inline-size;
+}
+.equipment-step h2,.equipment-step h3,.equipment-step h4{
+  color:#e7eef8;
+  font-family:Inter,"Segoe UI",sans-serif;
+  letter-spacing:-.02em;
+}
+.section-heading,.subsection-title{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.section-heading h2{margin:4px 0 0;font-size:clamp(22px,2.4vw,30px);line-height:1.25}
+.eyebrow{margin:0;color:#86dff4;font-size:12px;font-weight:600;letter-spacing:.14em}
+.builder-intro{margin:0;color:var(--equipment-muted);max-width:82ch}
+.equipment-step label{display:grid;gap:8px;color:#c5d4e2;font-size:14px;min-width:0}
+.equipment-step input:not([type="checkbox"]),.equipment-step select{
+  box-sizing:border-box;width:100%;max-width:100%;min-width:0;min-height:44px;margin:0;padding:10px 12px;
+  border:1px solid #3a5267;border-radius:7px;background:#091522;color:#e7eef8;font:inherit;
+}
+.equipment-step input::placeholder{color:#8da3b8;opacity:1}
+.equipment-step button{min-height:44px;padding:10px 15px;border-radius:7px;font:600 14px/1.35 Inter,"Segoe UI",sans-serif;white-space:normal}
+.equipment-step button.primary{border:1px solid #98e5f6;background:#9ce8fb;color:#06151e}
+.equipment-step button.secondary,.equipment-step button.ghost{border:1px solid #3b5268;background:#101e2d;color:#d5e6f4}
+.equipment-step button.danger{color:#ffc0bc}
+.equipment-step button:disabled{opacity:.5;cursor:not-allowed}
+.equipment-step button:not(:disabled):hover{filter:brightness(1.12)}
+.equipment-step :is(input,select,button,summary):focus-visible{outline:2px solid #92e7fc;outline-offset:3px}
+.schema-badge{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;min-height:28px;padding:3px 10px;border:1px solid #34576a;border-radius:5px;color:#99e5f5;font-size:12px;line-height:1.4;text-align:center}
+.schema-badge.bad{border-color:#78505a;color:#ffc0bc}
+.economy-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.economy-grid>div{display:grid;align-content:start;gap:6px;padding:18px;border:1px solid var(--equipment-border);border-radius:8px;background:linear-gradient(135deg,#132638,#0d1927)}
+.economy-grid small{color:#b4c7d9;font-size:13px}
+.economy-grid strong{color:#b1edfb;font:600 clamp(20px,2vw,26px)/1.2 Inter,"Segoe UI",sans-serif;font-variant-numeric:tabular-nums}
+.economy-grid span{color:var(--equipment-muted);font-size:14px}
+.reality-panel{min-width:0;margin:0;padding:22px;border:1px solid var(--equipment-border);border-radius:9px;background:#0e1a28}
+.reality-panel h3{margin:0 0 8px;font-size:19px;line-height:1.3}
+.subsection-title p{margin:0;color:var(--equipment-muted);font-size:14px}
+.charge-summary{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+.charge-summary>span,.pillbar span,.statbar span{padding:5px 9px;border:1px solid #334c60;border-radius:5px;background:#0b1623;color:#bed0e0;font-size:13px}
+.charge-summary strong{color:#e4eff9;font-weight:600}
+.lifestyle-tier-box{display:grid;gap:14px;margin:16px 0 20px;padding:16px;border:1px solid #2c4255;border-radius:8px;background:#0a1522}
+.lifestyle-tier-box p{margin:0;color:var(--equipment-muted);font-size:14px}
+.lifestyle-tier-track{display:flex;flex-wrap:wrap;gap:7px}
+.lifestyle-tier{display:flex;align-items:center;flex-wrap:wrap;gap:6px;padding:7px 10px;border:1px solid #2f4356;border-radius:5px;color:#a6b9ca;font-size:14px}
+.lifestyle-tier.base{border-color:#456c84;color:#b6e6f2}
+.lifestyle-tier.effective{border-color:#72c9e0;color:#b4effc;background:#153749}
+.lifestyle-tier.lost{color:#899ba9;text-decoration:line-through}
+.lifestyle-tier small{font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+.corporate-support-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:20px}
+.charge-add-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(120px,1fr) auto;gap:14px;align-items:end;margin-top:16px}
+.charge-add-grid.custom{padding-top:18px;border-top:1px solid #293e52}
+.picked-list{display:grid;gap:10px;margin-top:18px}
+.picked-row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px;border:1px solid #30465b;border-radius:7px;background:#0a1623}
+.picked-row>div{display:grid;gap:5px;min-width:0;overflow-wrap:anywhere}
+.picked-row>button{flex-shrink:0}
+.picked-row span,.picked-row small{color:var(--equipment-muted);font-size:14px}
+.picked-row.rich{align-items:flex-start}
+.equipment-step .inline-select,.equipment-step .neuro-toggle{display:flex;align-items:center;flex-wrap:wrap;gap:10px;min-height:44px;margin-top:8px;color:#b8cada;font-size:14px}
+.inline-select select{width:auto;max-width:100%}
+.catalog-tools{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:16px;margin:20px 0}
+.catalog-count{margin:0 0 16px;color:var(--equipment-muted);font-size:14px}
+.override-grid{display:grid;gap:12px;margin-bottom:20px}
+.equipment-step .permission-switch{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:64px;padding:16px 18px;border:1px solid #365267;border-radius:8px;background:#102330;cursor:pointer}
+.permission-switch>span{display:grid;gap:5px;min-width:0}
+.permission-switch strong{color:#c8eefa;font-size:14px;font-weight:600}
+.permission-switch small{color:#a9c0d2;font-size:13px;line-height:1.5}
+.equipment-step input[type="checkbox"]{
+  appearance:none;-webkit-appearance:none;position:relative;display:block;flex:0 0 42px;width:42px!important;min-width:42px!important;max-width:42px;height:24px;min-height:24px!important;max-height:24px;padding:0;margin:0;
+  border:1px solid #57788e;border-radius:999px;background:#203749;cursor:pointer;box-shadow:none;transition:background .15s,border-color .15s;
+}
+.equipment-step input[type="checkbox"]::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#b2c8d9;transition:transform .15s}
+.equipment-step input[type="checkbox"]:checked{background:#8adcf0;border-color:#a6edfc}
+.equipment-step input[type="checkbox"]:checked::after{background:#0e2735;transform:translateX(18px)}
+.equipment-step input[type="checkbox"]:disabled{opacity:.5;cursor:not-allowed}
+.catalog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:16px}
+.catalog-disclosure{padding:0!important}
+.catalog-summary{cursor:pointer;display:flex;align-items:center;gap:16px;min-height:78px;padding:20px 22px;list-style:none}
+.catalog-summary::-webkit-details-marker{display:none}
+.catalog-summary>span:first-child{display:grid;flex:1;gap:6px;min-width:0}
+.catalog-summary strong{font:600 18px/1.35 Inter,"Segoe UI",sans-serif;color:#e7eef8}
+.catalog-summary small{color:var(--equipment-muted);font-size:14px;line-height:1.5}
+.catalog-summary::after{content:"›";flex-shrink:0;color:#9be5f8;font-size:25px;line-height:1;transform:rotate(90deg);transition:transform .15s}
+.catalog-disclosure[open]>.catalog-summary::after{transform:rotate(-90deg)}
+.catalog-body{padding:0 22px 22px;border-top:1px solid var(--equipment-border)}
+.catalog-category-stack{display:grid;gap:24px}
+.catalog-family{min-width:0;padding-top:22px;border-top:1px solid #30475b}
+.catalog-family:first-child{border-top:0;padding-top:4px}
+.catalog-family>h4{display:flex;align-items:center;gap:10px;margin:0 0 14px;color:#d5e8f6;font:600 14px/1.4 Inter,"Segoe UI",sans-serif;letter-spacing:.05em;text-transform:uppercase}
+.family-count{display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:24px;padding:2px 6px;border:1px solid #416276;border-radius:5px;color:#a1e5f5;font-size:12px}
+.catalog-card{display:flex;flex-direction:column;gap:14px;min-width:0;padding:18px;border:1px solid #344d63;border-radius:8px;background:#101f30;overflow-wrap:anywhere}
+.catalog-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+.catalog-head>div{display:grid;gap:6px;min-width:0}
+.catalog-head>button{flex-shrink:0}
+.catalog-head small{color:var(--equipment-muted);font-size:13px}
+.pillbar,.statbar{display:flex;flex-wrap:wrap;gap:7px}
+.catalog-card em{color:#b5c8d9;font-size:14px;line-height:1.6;font-style:normal}
+.catalog-card p{margin:0;color:#c5d6e5;font-size:14px;line-height:1.6}
+.price-config{max-width:260px}
+.support-line{padding:10px 12px;border:1px solid #3b6074;border-radius:6px;background:#112b3b;color:#c3e5f1;font-size:14px}
+.support-line.bad{border-color:#78515a;background:#30232e;color:#ffc4bc}
+.bad-text{color:#ffc4bc!important;font-size:14px;line-height:1.5}
+.rule-note{margin-top:16px;padding:14px 16px;border:1px solid #3f6072;border-radius:7px;background:#112838;color:#c5e7f2;font-size:14px;line-height:1.6}
+.rule-note.bad{border-color:#79535c;background:#30232e;color:#ffc4bc}
+.rule-note.good{border-color:#41667b;background:#112d3c;color:#c9eaf4}
+.empty-line{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;padding:16px;border:1px dashed #3b5368;border-radius:7px;color:#b9cbdb;font-size:14px}
+@container (max-width:850px){
+  .economy-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .charge-add-grid{grid-template-columns:minmax(0,1.5fr) minmax(100px,1fr)}
+  .charge-add-grid>button{grid-column:1/-1;justify-self:start}
+}
+@container (max-width:540px){
+  .section-heading,.subsection-title{flex-wrap:wrap}
+  .reality-panel{padding:16px}
+  .catalog-summary{padding:18px 16px;gap:12px}
+  .catalog-summary strong{font-size:16px}
+  .catalog-summary small{font-size:13px}
+  .catalog-body{padding:0 16px 16px}
+  .catalog-tools,.corporate-support-grid,.charge-add-grid{grid-template-columns:minmax(0,1fr)}
+  .charge-add-grid>button{justify-self:stretch}
+  .equipment-step .permission-switch{gap:16px;padding:14px}
+  .picked-row{align-items:stretch;flex-direction:column}
+  .picked-row>button{align-self:flex-start}
+}
+@container (max-width:360px){
+  .economy-grid{grid-template-columns:minmax(0,1fr)}
+  .catalog-head{flex-direction:column}
+}
+@media(prefers-reduced-motion:reduce){
+  .equipment-step input[type="checkbox"],.equipment-step input[type="checkbox"]::after,.catalog-summary::after{transition:none}
+}
 </style>

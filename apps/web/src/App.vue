@@ -2,8 +2,6 @@
 import { computed, onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
 import CharactersPanel from "./components/CharactersPanel.vue";
-import "./brand-signal.css";
-import TerraUmbraLockup from "./components/TerraUmbraLockup.vue";
 import TerraUmbraBrand from "./components/TerraUmbraBrand.vue";
 
 type Role = "player" | "gm" | "editor" | "admin";
@@ -432,29 +430,33 @@ onMounted(bootstrap);
 </script>
 
 <template>
-  <div class="app-shell brand-signal">
+  <div class="app-shell account-shell">
+    <a class="account-skip-link" href="#account-main">Aller à mon espace</a>
     <header class="topbar">
       <RouterLink class="brand brand-lockup-link" to="/">
         <TerraUmbraBrand />
       </RouterLink>
 
       <div class="top-actions">
-                <a v-if="user" class="ghost compact top-product-link brand-nav-link" href="#characters">
+        <a v-if="user" class="ghost compact top-product-link brand-nav-link" href="#characters">
           Builder
         </a>
         <RouterLink class="ghost compact top-product-link brand-nav-link" to="/compendium">
-          Explorer
+          Compendium
         </RouterLink>
-        <span class="api-pill" :class="{ ok: health === 'ok' }">
-          API {{ health }}
+        <span v-if="health === 'hors ligne'" class="service-status" role="status">
+          Service indisponible
         </span>
-        <button v-if="user" class="ghost" type="button" @click="logout">
+        <button v-if="user" class="ghost" type="button" :disabled="busy" @click="logout">
           Déconnexion
         </button>
       </div>
     </header>
 
-    <main class="page">
+    <main id="account-main" class="page" tabindex="-1">
+      <div v-if="message || error" class="feedback account-feedback" :class="{ error: !!error }" :role="error ? 'alert' : 'status'">
+        {{ error || message }}
+      </div>
       <section v-if="setupRequired" class="auth-layout">
         <div class="intro">
           <p class="eyebrow">PREMIÈRE OUVERTURE</p>
@@ -466,7 +468,8 @@ onMounted(bootstrap);
           </p>
         </div>
 
-        <form class="panel auth-card" @submit.prevent="submitSetup">
+        <form class="panel auth-card" :aria-busy="busy" @submit.prevent="submitSetup">
+          <h2>Compte administrateur</h2>
           <label>
             Nom affiché
             <input
@@ -524,24 +527,28 @@ onMounted(bootstrap);
         </div>
 
         <div class="panel auth-card">
-          <div v-if="authMode === 'login' || authMode === 'register'" class="tabs">
+          <div v-if="authMode === 'login' || authMode === 'register'" class="tabs" role="group" aria-label="Accès à mon espace">
             <button
               type="button"
               :class="{ active: authMode === 'login' }"
-              @click="authMode = 'login'"
+              :aria-pressed="authMode === 'login'"
+              :disabled="busy"
+              @click="authMode = 'login'; resetFeedback()"
             >
               Connexion
             </button>
             <button
               type="button"
               :class="{ active: authMode === 'register' }"
-              @click="authMode = 'register'"
+              :aria-pressed="authMode === 'register'"
+              :disabled="busy"
+              @click="authMode = 'register'; resetFeedback()"
             >
               Créer un compte
             </button>
           </div>
 
-          <form v-if="authMode === 'login' || authMode === 'register'" @submit.prevent="submitAuth">
+          <form v-if="authMode === 'login' || authMode === 'register'" :aria-busy="busy" @submit.prevent="submitAuth">
             <label v-if="authMode === 'register'">
               Nom affiché
               <input
@@ -589,13 +596,15 @@ onMounted(bootstrap);
               v-if="authMode === 'login' && passwordResetAvailable"
               class="link-button"
               type="button"
-              @click="authMode = 'forgot'"
+              :disabled="busy"
+              @click="authMode = 'forgot'; resetFeedback()"
             >
               Mot de passe oublié ?
             </button>
           </form>
 
-          <form v-if="authMode === 'forgot'" @submit.prevent="requestPasswordReset">
+          <form v-if="authMode === 'forgot'" :aria-busy="busy" @submit.prevent="requestPasswordReset">
+            <h2>Retrouver mon accès</h2>
             <p class="auth-help">
               Renseigne l’adresse e-mail de ton compte. Si elle existe, nous t’enverrons
               un lien valable 30 minutes.
@@ -607,12 +616,13 @@ onMounted(bootstrap);
             <button class="primary" :disabled="busy" type="submit">
               Envoyer le lien
             </button>
-            <button class="link-button" type="button" @click="authMode = 'login'">
+            <button class="link-button" type="button" :disabled="busy" @click="authMode = 'login'; resetFeedback()">
               Retour à la connexion
             </button>
           </form>
 
-          <form v-if="authMode === 'reset'" @submit.prevent="resetPassword">
+          <form v-if="authMode === 'reset'" :aria-busy="busy" @submit.prevent="resetPassword">
+            <h2>Nouveau mot de passe</h2>
             <p class="auth-help">Choisis ton nouveau mot de passe.</p>
             <label>
               Nouveau mot de passe
@@ -642,33 +652,22 @@ onMounted(bootstrap);
       </section>
 
       <template v-else>
-        <section class="welcome dashboard-hero brand-dashboard-hero">
-          <img class="brand-horizon-art" src="/brand/orbital/orbital-earth.webp" width="1536" height="1024" alt="" decoding="async" />
-
-          <div class="brand-masthead brand-masthead-final">
-            <TerraUmbraLockup class="brand-masthead-lockup" />
-
-            <div class="brand-masthead-copy">
-              <div class="brand-title-rule" aria-hidden="true"></div>
-              <p class="brand-tagline">SAME WORLD&nbsp;&nbsp;//&nbsp;&nbsp;A DEEPER LAYER&nbsp;&nbsp;//&nbsp;&nbsp;BUILT TO UNCOVER</p>
-
-              <p class="dashboard-lead">
-                Personnages, règles et encyclopédie dans un même espace. Reprends une fiche
-                ou explore le monde sans changer d’outil.
-              </p>
-
-              <div class="dashboard-identity">
-                <strong>{{ user.displayName }}</strong>
-                <span class="role-badge">{{ roleLabels[user.role] }}</span>
-                <span class="muted">{{ user.email }}</span>
-              </div>
+        <section class="account-hero" aria-labelledby="account-title">
+          <img class="account-horizon-art" src="/brand/orbital/orbital-earth.webp" width="1536" height="1024" alt="" decoding="async" />
+          <div class="account-hero-copy">
+            <p class="eyebrow">TERRA UMBRA / TON ESPACE</p>
+            <h1 id="account-title">Mon espace</h1>
+            <p class="dashboard-lead">
+              Tes personnages, tes lectures, ton univers. Reprends une fiche
+              ou pars explorer le Compendium.
+            </p>
+            <div class="dashboard-identity">
+              <strong>{{ user.displayName }}</strong>
+              <span class="role-badge">{{ roleLabels[user.role] }}</span>
+              <span class="muted">{{ user.email }}</span>
             </div>
           </div>
         </section>
-
-        <div v-if="message || error" class="feedback" :class="{ error: !!error }">
-          {{ error || message }}
-        </div>
 
         <section class="dashboard-portals">
           <a class="dashboard-portal builder-portal" href="#characters">
@@ -692,70 +691,72 @@ onMounted(bootstrap);
           </RouterLink>
         </section>
 
-        <section class="grid">
+        <section class="account-grid" aria-label="Personnages et préférences">
+          <CharactersPanel />
+
           <article class="panel account-panel">
             <div class="section-heading">
               <div>
                 <p class="eyebrow">MON COMPTE</p>
-                <h2>Profil</h2>
+                <h2>Profil et sécurité</h2>
               </div>
             </div>
 
-            <form @submit.prevent="saveProfile">
-              <label>
-                Nom affiché
-                <input
-                  v-model="profileForm.displayName"
-                  minlength="2"
-                  maxlength="80"
-                  required
-                />
-              </label>
-              <button class="secondary" :disabled="busy" type="submit">
-                Enregistrer
-              </button>
-            </form>
+            <div class="account-settings-grid">
+              <form :aria-busy="busy" @submit.prevent="saveProfile">
+                <h3>Mon profil</h3>
+                <label>
+                  Nom affiché
+                  <input
+                    v-model="profileForm.displayName"
+                    autocomplete="name"
+                    minlength="2"
+                    maxlength="80"
+                    required
+                  />
+                </label>
+                <button class="secondary" :disabled="busy" type="submit">
+                  Enregistrer
+                </button>
+              </form>
 
-            <hr />
-
-            <form @submit.prevent="changePassword">
-              <h3>Changer le mot de passe</h3>
-              <label>
-                Mot de passe actuel
-                <input
-                  v-model="passwordForm.currentPassword"
-                  type="password"
-                  autocomplete="current-password"
-                  required
-                />
-              </label>
-              <label>
-                Nouveau mot de passe
-                <input
-                  v-model="passwordForm.newPassword"
-                  type="password"
-                  autocomplete="new-password"
-                  minlength="12"
-                  required
-                />
-              </label>
-              <label>
-                Confirmer le nouveau mot de passe
-                <input
-                  v-model="passwordForm.newPasswordConfirmation"
-                  type="password"
-                  autocomplete="new-password"
-                  minlength="12"
-                  required
-                />
-              </label>
-              <button class="secondary" :disabled="busy" type="submit">
-                Modifier le mot de passe
-              </button>
-            </form>
+              <form :aria-busy="busy" @submit.prevent="changePassword">
+                <h3>Changer le mot de passe</h3>
+                <label>
+                  Mot de passe actuel
+                  <input
+                    v-model="passwordForm.currentPassword"
+                    type="password"
+                    autocomplete="current-password"
+                    required
+                  />
+                </label>
+                <label>
+                  Nouveau mot de passe
+                  <input
+                    v-model="passwordForm.newPassword"
+                    type="password"
+                    autocomplete="new-password"
+                    minlength="12"
+                    required
+                  />
+                </label>
+                <label>
+                  Confirmer le nouveau mot de passe
+                  <input
+                    v-model="passwordForm.newPasswordConfirmation"
+                    type="password"
+                    autocomplete="new-password"
+                    minlength="12"
+                    required
+                  />
+                </label>
+                <button class="secondary" :disabled="busy" type="submit">
+                  Modifier le mot de passe
+                </button>
+              </form>
+            </div>
           </article>
-
-          <CharactersPanel />
         </section>
 
         <section v-if="isAdmin" class="admin-section">
@@ -774,15 +775,17 @@ onMounted(bootstrap);
             </div>
           </div>
 
-          <div class="panel table-wrap">
+          <p id="account-table-help" class="muted admin-table-help">Les rôles et accès se gèrent ici. La suppression d’un compte demande une confirmation.</p>
+          <div class="panel table-wrap" role="region" aria-label="Comptes utilisateurs" aria-describedby="account-table-help" tabindex="0">
             <table>
+              <caption class="visually-hidden">Comptes, rôles et accès des utilisateurs</caption>
               <thead>
                 <tr>
                   <th>Utilisateur</th>
                   <th>Rôle</th>
                   <th>État</th>
                   <th>Dernière connexion</th>
-                  <th></th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -794,6 +797,7 @@ onMounted(bootstrap);
                   </td>
                   <td>
                     <select
+                      :aria-label="`Rôle de ${account.displayName}`"
                       :value="account.role"
                       :disabled="account.id === user.id"
                       @change="setRole(account, ($event.target as HTMLSelectElement).value as Role)"
@@ -818,6 +822,7 @@ onMounted(bootstrap);
                       class="ghost compact"
                       type="button"
                       :disabled="account.id === user.id"
+                      :aria-label="`${account.active ? 'Désactiver' : 'Réactiver'} le compte de ${account.displayName}`"
                       @click="toggleActive(account)"
                     >
                       {{ account.active ? "Désactiver" : "Réactiver" }}
@@ -826,6 +831,7 @@ onMounted(bootstrap);
                       class="ghost compact danger"
                       type="button"
                       :disabled="account.id === user.id"
+                      :aria-label="`Supprimer le compte de ${account.displayName}`"
                       @click="deleteAccount(account)"
                     >
                       Supprimer
@@ -859,9 +865,147 @@ onMounted(bootstrap);
         </section>
       </template>
 
-      <div v-if="!user && (message || error)" class="feedback floating" :class="{ error: !!error }">
-        {{ error || message }}
-      </div>
     </main>
   </div>
 </template>
+
+<style scoped>
+.account-shell {
+  color: #e8f0ff;
+  background: #070e18;
+  font-family: Inter, "Segoe UI", sans-serif;
+}
+
+.account-shell .topbar {
+  min-height: 78px;
+  padding: 12px clamp(18px, 2.5vw, 40px);
+  border-color: #283e55;
+  background: #080f19f5;
+  box-shadow: none;
+}
+
+.account-shell .top-actions { flex-wrap: wrap; gap: 10px; }
+.account-shell .brand-lockup-link { min-width: 0; }
+.account-shell .page { width: min(1480px, calc(100% - 48px)); padding: 32px 0 72px; }
+.account-shell .page:focus { outline: none; }
+.account-skip-link { position: fixed; top: -100px; left: 16px; z-index: 100; padding: 12px 18px; color: #06111e; background: #a4edff; }
+.account-skip-link:focus { top: 12px; }
+.service-status { color: #ffc0a0; font-size: 13px; }
+
+.account-shell :is(h1, h2, h3) { color: #edf4ff; font-family: inherit; letter-spacing: -.035em; }
+.account-shell .eyebrow { color: #8edff5; font: 600 11px/1.5 "SFMono-Regular", Consolas, monospace; letter-spacing: .14em; }
+.account-shell .panel { border: 1px solid #293f55; border-radius: 8px; background: #0c1725; box-shadow: none; }
+.account-shell .section-heading h2 { font-size: clamp(22px, 2vw, 28px); font-weight: 650; }
+.account-shell .muted { color: #a4b8cf; }
+.account-shell label { min-width: 0; gap: 8px; color: #c8d8e9; font-size: 14px; }
+.account-shell label small { color: #a4b8cf; font-size: 13px; }
+.account-shell :is(input, select) { min-width: 0; min-height: 46px; border: 1px solid #35536e; border-radius: 6px; background: #09121e; color: #e8f0ff; }
+.account-shell :is(input, select):focus { border-color: #85e6ff; box-shadow: 0 0 0 3px #85e6ff1f; }
+.account-shell :is(.primary, .secondary, .ghost, .link-button) { min-height: 44px; border-radius: 6px; font-size: 14px; line-height: 1.4; }
+.account-shell :is(.primary, .secondary, .ghost) { display: inline-flex; align-items: center; justify-content: center; text-align: center; text-decoration: none; }
+.account-shell .primary { border-color: #a4edff; background: #a4edff; color: #071522; box-shadow: none; }
+.account-shell .primary:not(:disabled):hover { background: #c2f3ff; border-color: #c2f3ff; }
+.account-shell :is(.secondary, .ghost) { color: #cedef0; background: #0c1725; border-color: #35536e; }
+.account-shell :is(.secondary, .ghost):not(:disabled):hover { color: #fff; border-color: #80d4ee; background: #142739; }
+.account-shell .link-button { color: #9ae8fc; }
+.account-shell .danger { color: #ffafb9; border-color: #724453; }
+.account-shell :is(a, button, input, select):focus-visible { outline: 2px solid #85e6ff; outline-offset: 4px; }
+
+.auth-layout { min-height: min(720px, calc(100vh - 160px)); grid-template-columns: minmax(0, 1fr) minmax(320px, 440px); gap: clamp(32px, 7vw, 100px); max-width: 1200px; margin: auto; }
+.auth-layout .intro { min-width: 0; padding: 32px 0; }
+.auth-layout .intro h1 { max-width: 12ch; margin: 14px 0 24px; font-size: clamp(36px, 4.5vw, 62px); font-weight: 650; line-height: 1.06; }
+.auth-layout .intro p:not(.eyebrow) { max-width: 48ch; color: #b9cce0; font-size: 16px; line-height: 1.8; }
+.account-shell .auth-card { min-width: 0; padding: clamp(22px, 3vw, 36px); }
+.auth-card h2 { margin: 0 0 8px; font-size: 24px; font-weight: 650; }
+.auth-card .tabs { gap: 6px; margin: 0 0 26px; padding: 5px; border: 1px solid #293f55; border-radius: 8px; background: #07101b; }
+.auth-card .tabs button { min-height: 48px; padding: 10px; border: 1px solid transparent; border-radius: 5px; color: #b7cbe0; font-size: 14px; }
+.auth-card .tabs button.active { color: #a4edff; border-color: #355a74; background: #142638; }
+.auth-help { color: #b7cbe0; font-size: 15px; line-height: 1.7; }
+.auth-card form { gap: 20px; }
+.account-feedback { position: sticky; top: 90px; z-index: 11; margin-bottom: 20px; padding: 16px 20px; border-radius: 8px; border-color: #375f69; color: #c5f4e8; background: #112d32; box-shadow: 0 8px 28px #0005; }
+.account-feedback.error { border-color: #845063; color: #ffd3da; background: #321c2b; }
+
+.account-hero { position: relative; min-height: 300px; display: flex; align-items: center; overflow: hidden; margin-bottom: 24px; padding: clamp(28px, 4vw, 56px); border: 1px solid #293f55; border-radius: 8px; background: #050c16; }
+.account-horizon-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 44%; opacity: .75; mask-image: linear-gradient(90deg, transparent 10%, #000 85%); }
+.account-hero-copy { position: relative; z-index: 1; max-width: 710px; min-width: 0; }
+.account-hero h1 { margin: 14px 0 20px; font-size: clamp(38px, 4vw, 58px); line-height: 1.07; font-weight: 650; }
+.account-hero .dashboard-lead { max-width: 48ch; color: #c4d6e9; font-size: 16px; line-height: 1.7; }
+.account-hero .dashboard-identity { margin-top: 26px; gap: 10px 14px; font-size: 14px; overflow-wrap: anywhere; }
+.account-hero .dashboard-identity .muted { flex-basis: 100%; }
+.account-shell .role-badge { border: 1px solid #3d6580; border-radius: 4px; color: #a4edff; background: #0e2136c9; font-size: 12px; }
+
+.dashboard-portals { gap: 20px; margin-bottom: 28px; }
+.dashboard-portal { min-height: 185px; padding: 26px; border-color: #304a63; border-radius: 8px; background: linear-gradient(120deg, #102535, #0b1625); box-shadow: none; }
+.dashboard-portal.compendium-portal { border-color: #484264; background: linear-gradient(120deg, #211d33, #0b1625); }
+.dashboard-portal::after { border-color: #6da7c32a; }
+.dashboard-portal:hover { transform: translateY(-2px); border-color: #7bdcf5; box-shadow: none; }
+.dashboard-portal.compendium-portal:hover { border-color: #b79aff; }
+.dashboard-portal h2 { margin: 10px 0 12px; padding-right: 24px; font-size: 25px; font-weight: 600; line-height: 1.15; }
+.dashboard-portal p:not(.eyebrow) { color: #bacde1; font-size: 15px; line-height: 1.65; }
+.dashboard-portal > strong { color: #a4edff; font-size: 14px; }
+.dashboard-portal.compendium-portal > strong, .compendium-portal .eyebrow { color: #c4acff; }
+.portal-index { color: #7798b2; font: 12px/1.5 Consolas, monospace; }
+.account-grid { display: grid; gap: 28px; }
+.account-grid > * { min-width: 0; }
+.account-panel { padding: clamp(22px, 3vw, 36px); }
+.account-settings-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); }
+.account-settings-grid form { align-content: start; }
+.account-settings-grid h3 { margin: 0 0 2px; color: #d7e7f6; font-size: 17px; font-weight: 600; }
+.account-settings-grid form button { justify-self: start; margin-top: 4px; }
+
+.admin-section { min-width: 0; margin-top: 44px; }
+.admin-section .section-heading { flex-wrap: wrap; }
+.admin-table-help { margin: 0 0 16px; font-size: 14px; line-height: 1.7; }
+.table-wrap { max-width: 100%; overscroll-behavior-x: contain; }
+.table-wrap table { min-width: 850px; }
+.table-wrap th { color: #a1b9d3; font-size: 11px; border-color: #263d54; }
+.table-wrap td { color: #c8d8e9; font-size: 14px; border-color: #263d54; }
+.table-wrap td:first-child { max-width: 340px; overflow-wrap: anywhere; }
+.table-wrap td:first-child strong { color: #edf4ff; }
+.table-wrap td:first-child span { color: #a4b8cf; }
+.table-wrap select { min-width: 155px; }
+.table-wrap .actions-cell { display: table-cell; white-space: nowrap; }
+.table-wrap .actions-cell button + button { margin-left: 8px; }
+.account-shell .state { padding: 7px 10px; border-radius: 4px; color: #b1ecd8; border-color: #32675e; background: #12332c; }
+.account-shell .state.disabled { color: #ffc1c9; border-color: #704151; background: #2b1927; }
+.audit-list { padding: 8px 22px; }
+.audit-list article { padding: 18px 0; color: #b9cce0; border-color: #263d54; font-size: 14px; line-height: 1.6; }
+.audit-list article > div { min-width: 0; overflow-wrap: anywhere; }
+.audit-list strong { color: #edf4ff; }
+.audit-list small { color: #a4b8cf; font-size: 12px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+@media (max-width: 850px) {
+  .account-shell .topbar { position: relative; flex-wrap: wrap; gap: 14px; }
+  .account-shell .top-actions { width: 100%; }
+  .account-feedback { top: 12px; }
+  .auth-layout { grid-template-columns: 1fr; max-width: 600px; min-height: 0; gap: 20px; }
+  .auth-layout .intro { padding: 14px 0; }
+  .auth-layout .intro h1 { max-width: 18ch; font-size: 42px; }
+  .account-settings-grid { grid-template-columns: 1fr; gap: 32px; }
+  .account-settings-grid form + form { padding-top: 28px; border-top: 1px solid #293f55; }
+}
+
+@media (max-width: 600px) {
+  .account-shell .page { width: calc(100% - 28px); padding-top: 18px; }
+  .account-shell .topbar { padding: 14px; }
+  .account-shell .top-actions { gap: 8px; }
+  .account-shell .top-actions :is(.ghost, .secondary) { padding: 10px 12px; font-size: 13px; }
+  .auth-layout .intro h1 { font-size: 36px; }
+  .account-hero { min-height: 290px; padding: 26px 22px; }
+  .account-horizon-art { object-position: 65% center; opacity: .35; mask-image: linear-gradient(90deg, transparent, #000); }
+  .account-hero h1 { font-size: 38px; }
+  .dashboard-portals { grid-template-columns: 1fr; gap: 14px; }
+  .dashboard-portal { min-height: 175px; padding: 22px; }
+  .dashboard-portal h2 { font-size: 23px; }
+  .account-grid { gap: 20px; }
+  .account-panel { padding: 22px; }
+  .account-settings-grid form button { width: 100%; }
+  .admin-section .top-actions { width: auto; }
+  .audit-list article { flex-direction: column; gap: 6px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-portal:hover { transform: none; }
+}
+</style>
