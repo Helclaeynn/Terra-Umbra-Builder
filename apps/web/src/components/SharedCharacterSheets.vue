@@ -22,7 +22,7 @@ onUnmounted(()=>{generation++;window.removeEventListener("focus",load);});
     <p class="eyebrow">OUTILS MJ · LECTURE SEULE</p><h2 id="shared-sheets-title">Fiches partagées avec moi</h2>
     <p v-if="loading" role="status">Chargement des partages…</p>
     <div v-else-if="error" role="alert"><p>{{ error }}</p><button class="ghost" @click="load">Réessayer</button></div>
-    <p v-else-if="!characters.length">Aucune fiche partagée pour le moment. Chaque joueur peut te donner accès depuis sa fiche actuelle, avec l’adresse e-mail de ton compte.</p>
+    <p v-else-if="!characters.length">Aucune fiche partagée pour le moment. Chaque joueur peut te donner accès depuis sa fiche actuelle, en recherchant ton nom de compte.</p>
     <ul v-else><li v-for="character in characters" :key="character.id"><div><strong>{{ character.name }}</strong><small>{{ character.ownerName }}</small></div><RouterLink class="ghost" :to="`/characters/${character.id}/sheet`">Consulter la fiche</RouterLink></li></ul>
   </section>
 </template>
