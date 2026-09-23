@@ -393,7 +393,7 @@ const canEdit = computed(() =>
 const canSearchTruthTags = computed(() =>
   currentUser.value?.role === "gm" || currentUser.value?.role === "admin"
 );
-const canReadMjSections = computed(() => ["gm", "admin"].includes(currentUser.value?.role || ""));
+const canReadMjSections = computed(() => ["gm", "editor", "admin"].includes(currentUser.value?.role || ""));
 const articleSections = computed(() => (selected.value?.sections || []).map((section, index) => ({ section, index })).filter(({ section }) => section.audience !== "mj" || canReadMjSections.value));
 function hasNpcStatProfile(section: ArticleSection): boolean {
   return selected.value?.category === "Personnages" && isNpcStatProfileSection(section)
