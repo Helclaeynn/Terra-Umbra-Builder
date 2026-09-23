@@ -24,4 +24,33 @@ for (const id of ["pnj-148-kai-gehrman", "pnj-corporations-baldwin-vandrick",
   assert.equal(article(id).sections.at(-1).audience, "mj", id);
   assert.ok(!article(id, true).sections.some((s) => s.id === "profil-statistique"), id);
 }
+const corporations = active.filter((item) => item.dataset === "realite-v9-corporations-pnj");
+assert.equal(corporations.length, 54);
+const talentPrerequisiteFailures = [];
+for (const person of corporations) {
+  const section = person.sections.at(-1);
+  assert.equal(section.id, "profil-statistique", person.id);
+  assert.equal(section.audience, "mj", person.id);
+  assert.ok(section.blocks.length >= 6, person.id);
+  const attrs = section.blocks[1].rows[1].slice(1).map(Number);
+  const rankRows = section.blocks[2].rows.slice(1).filter((row) => row[0] !== "Autres compétences" && row[0] !== "Autres");
+  const rankSum = rankRows.reduce((sum, row) => sum + Number(row[1]), 0);
+  const intro = section.blocks[0].text;
+  assert.equal(attrs.reduce((sum, value) => sum + value, 0), Number(intro.match(/(\d+) points d'Attributs/)?.[1]), person.id);
+  if (person.id !== "pnj-corporations-baldwin-vandrick") {
+    assert.equal(rankSum, Number(intro.match(/(\d+) points de Compétences/)?.[1]), person.id);
+    const rank = (skill) => Number(rankRows.find((row) => row[0] === skill)?.[1] ?? 0);
+    const talents = section.blocks[4].text;
+    for (const [talent, valid] of [
+      ["Réseau mobilisable", rank("Autorité") >= 6],
+      ["Dossier préparé", rank("Investigation") >= 6],
+      ["Chaîne de commandement", rank("Autorité") >= 7],
+      ["Terrain reconnu", Math.max(rank("Survie"), rank("Perception")) >= 7],
+      ["Lecture des failles", Math.max(rank("Investigation"), rank("Perception")) >= 7],
+      ["Lutte brève", rank("Pugilat") >= 7]
+    ]) if (talents.includes(talent) && !valid) talentPrerequisiteFailures.push(`${person.id}: ${talent}`);
+  }
+  assert.ok(!article(person.id, true).sections.some((s) => s.id === "profil-statistique"), person.id);
+}
+assert.deepEqual(talentPrerequisiteFailures, []);
 console.log("PNJ REALITY CARDS OK — identity first; duplicates merged; profiles MJ only");
