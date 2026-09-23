@@ -314,6 +314,7 @@ import {
 } from "./compendium-shi-qi.js";
 import { COMPENDIUM_SHI_QI_EDITORIAL_ARTICLES } from "./compendium-shi-qi-editorial.js";
 import { applyCompendiumPnjRepairs } from "./compendium-pnj-repairs.js";
+import { applyConfirmedPnjRealityAges } from "./compendium-pnj-ages-confirmed.js";
 import { consolidateActivePnjSections } from "./compendium-pnj-consolidation.js";
 import { applyCompendiumPnjStatProfiles, COMPENDIUM_PNJ_TALENTS_NAVIGATION } from "./compendium-pnj-stat-profiles.js";
 import { applyCorporatePnjStats } from "./compendium-pnj-corporate-stats.js";
@@ -3378,6 +3379,7 @@ async function loadCorpus(): Promise<Corpus> {
   applyPnjStatBatch14(byId);
   applyPnjStatBatch15(byId);
   applyPnjStatBatch16(byId);
+  applyConfirmedPnjRealityAges(byId);
 
   const navigation = new Map(
     [
