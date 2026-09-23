@@ -24,7 +24,7 @@ window.start=async(kind,props)=>{
 };`},bundle:true,write:false,format:'iife',platform:'browser',
  define:{'process.env.NODE_ENV':'"test"',__VUE_OPTIONS_API__:'true',__VUE_PROD_DEVTOOLS__:'false',__VUE_PROD_HYDRATION_MISMATCH_DETAILS__:'false'},
  plugins:[{name:'vue',setup(b){
- b.onLoad({filter:/BuilderWikiLink\.vue$/},()=>({contents:'export default { render(){return null} }',loader:'js'}));
+ b.onLoad({filter:/BuilderWikiLink\.vue$/},()=>({contents:"import {h} from 'vue'; export default { render(){return h('a',{href:'/compendium?article=should-not-open'},'Compendium')} }",loader:'js'}));
  b.onLoad({filter:/\.vue$/},async({path:filename})=>{
   const {descriptor,errors}=parse(await readFile(filename,'utf8'),{filename});assert.equal(errors.length,0);
   return {contents:compileScript(descriptor,{id:'sheet-test',inlineTemplate:true}).content,loader:'ts',resolveDir:path.dirname(filename)};
@@ -59,7 +59,7 @@ const sheet={mode:'creation',name:'Alexandra',identity:{alias:'Aube',concept:'En
  lifestyle:'Standard',lifestyleBase:'Standard',renown:1,
  attributes:Object.keys(attrs).map(id=>({id,name:id,value:attrs[id],base:attrs[id]})),
  skills:Object.keys(raw).map(id=>({id,name:id,attribute:'vigueur',value:finals[id],raw:raw[id],bonus:finals[id]-raw[id]})),derived:creation,
- edge:1,xpRemaining:0,ptvRemaining:5,account:100,cash:75,realityTalents:[{id:'athlete',name:'Athlète',detail:'+1 Athlétisme'}],truthTalents:[],disadvantages:[],inventory:[],
+ edge:1,xpRemaining:0,ptvRemaining:5,account:100,cash:75,realityTalents:[{id:'athlete',name:'Athlète',detail:'+1 Athlétisme',compendiumId:'removed-page',lore:'Une discipline quotidienne'}],truthTalents:[],disadvantages:[],inventory:[],
  truthNature:'Humain',truthConsciousness:'Profane',corruption:0,corruptionSource:'',languages:['Anglais'],contacts:[],reputation:'',renownMilieu:''};
 const sheetBefore=JSON.stringify(sheet);
 await w.start('summary',{sheet});
@@ -68,6 +68,8 @@ assert.equal(w.document.querySelector('[data-skill="athletisme"] dd').textConten
 assert.equal(w.document.querySelector('.character-sheet script'),null);
 assert.equal(w.document.querySelectorAll('input,select,textarea').length,0,'Sheet is read-only');
 assert.equal(JSON.stringify(sheet),sheetBefore);
+assert.equal(w.document.querySelector('[data-list="reality"] a'),null,'Talent details stay local even with a legacy compendium ID');
+assert.match(w.document.querySelector('[data-list="reality"]').textContent,/Une discipline quotidienne/);
 w.setProps({sheet:{...sheet,mode:'campaign',derived:campaign,attributes:sheet.attributes.map(a=>({...a,value:currentAttribute(a.id)})),skills:sheet.skills.map(s=>({...s,value:currentSkill(s.id)})),xpRemaining:42}});
 await until(()=>w.document.querySelector('[data-stat="pvMax"] strong').textContent==='13');
 assert.equal(w.document.querySelector('[data-attribute="vigueur"] strong').textContent,'5');

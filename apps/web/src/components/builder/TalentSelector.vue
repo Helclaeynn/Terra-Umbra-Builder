@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import BuilderWikiLink from "./BuilderWikiLink.vue";
+import { sortedNames } from "../../lib/catalog-order";
 
 export type TalentOption={
   id:string;
@@ -79,7 +79,7 @@ function updateChoice(event:Event){
             :label="group.label.toUpperCase()"
           >
             <option
-              v-for="talent in group.items"
+              v-for="talent in sortedNames(group.items)"
               :key="talent.id"
               :value="talent.id"
             >
@@ -115,15 +115,7 @@ function updateChoice(event:Event){
       </div>
 
       <div class="talent-detail">
-        <strong>
-          <BuilderWikiLink
-            :label="selected.name"
-            :article-id="selected.compendiumId"
-            category="Règles"
-            :detail="selected.effect || selected.description || ''"
-            :badges="[label]"
-          />
-        </strong>
+        <strong>{{ selected.name }}</strong>
         <em v-if="selectedLore">{{ selectedLore }}</em>
         <p><b>Effet mécanique :</b> {{ selected.effect || selected.description || "—" }}</p>
       </div>

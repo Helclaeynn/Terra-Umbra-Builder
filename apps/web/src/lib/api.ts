@@ -10,6 +10,15 @@ export class ApiError extends Error {
   }
 }
 
+// Only invariant catalogues may use their existing server cache policy.
+// Article bodies, search/index (MJ permissions), accounts and characters always reload.
+const cacheableCatalogues=new Set([
+  '/api/rulesets/terra-umbra/creation',
+  '/api/rulesets/terra-umbra/truth',
+  '/api/rulesets/terra-umbra/reality',
+  '/api/compendium/meta',
+  '/api/compendium/onboarding'
+]);
 export async function api<T>(path:string, options:RequestInit={}): Promise<T> {
   const headers=new Headers(options.headers??{});
   if(options.body!==undefined && !headers.has("Content-Type")) {
@@ -19,7 +28,7 @@ export async function api<T>(path:string, options:RequestInit={}): Promise<T> {
   const response=await fetch(path,{
     ...options,
     credentials:"same-origin",
-    cache:"no-store",
+    cache:(!options.method || options.method.toUpperCase()==="GET") && cacheableCatalogues.has(path) ? "default" : "no-store",
     headers
   });
 

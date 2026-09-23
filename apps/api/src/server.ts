@@ -40,6 +40,11 @@ await app.register(cors, {
 });
 
 app.addHook("onSend", async (request, reply, payload) => {
+  if (reply.statusCode >= 400) {
+    reply.header("Cache-Control", "no-store, private");
+    return payload;
+  }
+
   const privateCompendium =
     request.url.startsWith("/api/compendium/library") ||
     request.url.startsWith("/api/compendium/favorites") ||

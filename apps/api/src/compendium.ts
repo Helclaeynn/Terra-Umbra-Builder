@@ -3952,10 +3952,11 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     }
 
     if (normalizedQuery) {
-      rows = [...rows].sort((a, b) => {
-        const scoreDifference = searchScore(b, query) - searchScore(a, query);
-        return scoreDifference || compareArticles(a, b);
-      });
+      // Calculate each score once; sort comparisons must not repeatedly normalize
+      // the same titles, tags and private identities across thousands of rows.
+      rows = rows.map(article => ({article, score: searchScore(article, query)}))
+        .sort((a, b) => b.score - a.score || compareArticles(a.article, b.article))
+        .map(row => row.article);
     }
 
     const total = rows.length;

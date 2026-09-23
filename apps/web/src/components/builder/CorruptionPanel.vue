@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, useId, watch } from "vue";
 import { cloneJson } from "../../lib/json";
+import { compareLabels, compareNames } from "../../lib/catalog-order";
 import BuilderWikiLink from "./BuilderWikiLink.vue";
 import {
   truthCorruptionDepth,
@@ -52,7 +53,7 @@ const currentSource=computed(()=>sourceMap.value.get(props.modelValue.corruption
 const selectedTalents=computed(()=>
   (props.modelValue.corruptionTalents??[])
     .map(id=>talentMap.value.get(id))
-    .filter((talent):talent is CorruptionTalent=>!!talent)
+    .filter((talent):talent is CorruptionTalent=>!!talent).sort(compareNames)
 );
 const hasCorruptionState=computed(()=>
   props.modelValue.corruption>0||(props.modelValue.corruptionTalents??[]).length>0
@@ -87,7 +88,7 @@ const visibleTalents=computed(()=>{
     (catalogKind.value==="all"||talent.kind===catalogKind.value)&&
     (!query||truthNorm(`${talent.name} ${talent.family} ${talent.effect} ${talent.prerequisiteName}`).includes(query))&&
     (!availableOnly.value||canBuy(talent))
-  );
+  ).sort((a,b)=>compareLabels(a.sourceName,b.sourceName)||compareLabels(a.kind,b.kind)||a.cost-b.cost||compareNames(a,b));
 });
 
 function update(mutator:(state:TruthState)=>void){
@@ -361,7 +362,7 @@ function talentState(talent:CorruptionTalent){
               <div class="corruption-talent-head"><div><span :data-kind="talent.kind">{{ talent.kind }} · {{ talent.cost }} PTV</span><strong>{{ talent.name }}</strong></div></div>
               <div class="truth-talent-meta"><span>{{ talent.depth || talent.family }}</span><span v-if="souillureDifficulty(talent)">{{ souillureDifficulty(talent) }}</span></div>
               <p class="talent-excerpt">{{ talentExcerpt(talent) }}</p>
-              <details class="talent-detail"><summary>Lire l’effet complet</summary><p>{{ talent.effect }}</p><p v-if="talent.prerequisiteName"><strong>Prérequis :</strong> {{ talent.prerequisiteName }}</p><p>{{ talent.sourceName }} · {{ talent.family }}</p><BuilderWikiLink :label="talent.name" :article-id="talent.compendiumId" category="Règles" compact><span>Règles du Fléau</span></BuilderWikiLink></details>
+              <details class="talent-detail"><summary>Lire l’effet complet</summary><p>{{ talent.effect }}</p><p v-if="talent.prerequisiteName"><strong>Prérequis :</strong> {{ talent.prerequisiteName }}</p><p>{{ talent.sourceName }} · {{ talent.family }}</p></details>
               <div class="talent-actions"><p class="buy-reason">{{ selected(talent)?talentState(talent):buyBlockReason(talent) }}</p><button class="purchase-button" type="button" :class="{remove:selected(talent)}" :disabled="!selected(talent)&&!canBuy(talent)" :aria-label="selected(talent)?`Retirer ${talent.name}`:`Acquérir ${talent.name} pour ${talent.cost} PTV`" @click="toggle(talent)">{{ selected(talent)?'Retirer':`Acquérir · ${talent.cost} PTV` }}</button></div>
             </article>
           </div>

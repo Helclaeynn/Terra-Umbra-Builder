@@ -1,3 +1,4 @@
+import { compareLabels, compareTruthTalents } from "./catalog-order";
 export type TruthChoiceOption={
   id:string;
   name:string;
@@ -800,5 +801,5 @@ export function truthGroups(talents:TruthTalent[]){
     if(!groups.has(group))groups.set(group,[]);
     groups.get(group)!.push(talent);
   }
-  return [...groups.entries()].map(([name,items])=>({name,items}));
+  return [...groups.entries()].map(([name,items])=>({name,items:[...items].sort(compareTruthTalents)})).sort((a,b)=>compareLabels(a.name,b.name));
 }
