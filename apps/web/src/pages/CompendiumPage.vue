@@ -469,6 +469,15 @@ function skipToContent(event: MouseEvent) {
   main?.scrollIntoView({ behavior: "instant", block: "start" });
 }
 async function focusSearch() {
+  // Clear the URL query too: route changes otherwise restore its old value
+  // into the input after Ctrl K has already cleared the local Vue ref.
+  await router.push({ path: "/compendium", query: { view: "all" } });
+  window.clearTimeout(suggestionTimer);
+  ++suggestionRequest;
+  query.value = "";
+  category.value = "";
+  manufacturer.value = "";
+  clearSuggestions();
   searchOpen.value = true;
   await nextTick();
   document.querySelector<HTMLInputElement>('input[aria-label="Recherche dans le Compendium"]')?.focus();
@@ -477,10 +486,6 @@ function compendiumKeydown(event: KeyboardEvent) {
   if (event.key === "Escape" && wikiPreview.value.visible) hideWikiPreview();
   if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
     event.preventDefault();
-    window.clearTimeout(suggestionTimer);
-    ++suggestionRequest;
-    query.value = "";
-    clearSuggestions();
     void focusSearch();
   }
   if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key)) readingIntent(event);
