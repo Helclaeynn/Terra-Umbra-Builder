@@ -329,6 +329,7 @@ import { applyPnjStatBatch08 } from "./compendium-pnj-truth-civilians-08.js";
 import { applyPnjStatBatch09 } from "./compendium-pnj-truth-civilians-09.js";
 import { applyPnjStatBatch10 } from "./compendium-pnj-truth-civilians-10.js";
 import { applyPnjStatBatch11 } from "./compendium-pnj-truth-civilians-11.js";
+import { applyPnjStatBatch12 } from "./compendium-pnj-truth-civilians-12.js";
 
 type JsonObject = Record<string, any>;
 export type Article = JsonObject & {
@@ -3366,6 +3367,7 @@ async function loadCorpus(): Promise<Corpus> {
   applyPnjStatBatch09(byId);
   applyPnjStatBatch10(byId);
   applyPnjStatBatch11(byId);
+  applyPnjStatBatch12(byId);
 
   const navigation = new Map(
     [
