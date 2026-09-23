@@ -2,6 +2,8 @@
 import { computed, nextTick, onMounted, ref } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import { api, ApiError } from "../lib/api";
+import CanonicalNpcGenerator from '../components/CanonicalNpcGenerator.vue';
+import type {NpcArticleDraft} from '../../../api/src/campaign-npc-model';
 import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
 
 type MediaRef = { src: string; alt?: string; caption?: string };
@@ -87,6 +89,8 @@ const pnjForm = ref({
   portraitAlt: "",
   portraitCaption: ""
 });
+const isAdmin = ref(false);
+const npcGeneratorOpen = ref(false);
 const loading = ref(true);
 const busy = ref(false);
 const error = ref("");
@@ -705,6 +709,8 @@ async function load() {
       if (!["editor", "admin"].includes(user.role)) {
         throw new ApiError(403, "editor_required", {});
       }
+      isAdmin.value = user.role === 'admin';
+      npcGeneratorOpen.value = isAdmin.value && route.query.template === 'npc';
       const requestedCategory = String(route.query.category ?? "Réalité").trim();
       article.value = {
         id: "",
@@ -830,6 +836,17 @@ function setTableEvent(block: ArticleBlock, event: Event) {
   if (target instanceof HTMLTextAreaElement) setTableText(block, target.value);
 }
 
+async function applyNpcDraft(value: NpcArticleDraft) {
+  if (busy.value || pageId.value || !isAdmin.value) return;
+  if ((article.value?.title?.trim() || wikiText.value.trim()) && !window.confirm('Remplacer le contenu de cette nouvelle page par le PNJ préparé ?')) return;
+  article.value = clone(value);
+  fillForms(article.value);
+  if (await saveDraft(false)) {
+    npcGeneratorOpen.value = false;
+    notice.value = 'Brouillon PNJ enregistré. Relis la partie publique et les blocs MJ avant de publier.';
+  }
+}
+
 async function ensureCreated(): Promise<boolean> {
   if (pageId.value) return true;
   if (!article.value?.title?.trim()) {
@@ -854,7 +871,6 @@ async function ensureCreated(): Promise<boolean> {
     );
     pageId.value = payload.articleId;
     article.value.id = payload.articleId;
-    await router.replace("/compendium/edit/" + encodeURIComponent(payload.articleId));
     await loadBuilderSource(payload.articleId);
     return true;
   } catch (cause) {
@@ -863,14 +879,19 @@ async function ensureCreated(): Promise<boolean> {
   }
 }
 
-async function saveDraft(showNotice = true): Promise<boolean> {
-  if (!article.value || !(await ensureCreated())) return false;
-  syncForms();
+async function saveDraft(showNotice = true, navigate = true): Promise<boolean> {
+  if (!article.value || busy.value) return false;
   busy.value = true;
   error.value = "";
   notice.value = "";
 
   try {
+    if (!(await ensureCreated())) return false;
+    if (/^data:image\/(?:png|jpeg|webp);base64,/.test(pnjForm.value.portrait)) {
+      const image = await api<{src:string}>(`/api/compendium/editor/articles/${encodeURIComponent(pageId.value)}/media`, {method:'POST',body:JSON.stringify({data:pnjForm.value.portrait.split(',')[1],slot:'portrait'})});
+      pnjForm.value.portrait = image.src;
+    }
+    syncForms();
     await api(`/api/compendium/editor/articles/${encodeURIComponent(pageId.value)}/draft`, {
       method: "PUT",
       body: JSON.stringify({ article: article.value })
@@ -878,6 +899,8 @@ async function saveDraft(showNotice = true): Promise<boolean> {
     draftUpdatedAt.value = new Date().toISOString();
     conflict.value = false;
     if (showNotice) notice.value = "Brouillon enregistré.";
+    // A new editor route remounts this component: persist text and portrait first.
+    if (navigate && isNew.value) await router.replace("/compendium/edit/" + encodeURIComponent(pageId.value));
     return true;
   } catch (cause) {
     error.value = humanError(cause);
@@ -888,7 +911,7 @@ async function saveDraft(showNotice = true): Promise<boolean> {
 }
 
 async function publish() {
-  const saved = await saveDraft(false);
+  const saved = await saveDraft(false, false);
   if (!saved) return;
 
   busy.value = true;
@@ -904,6 +927,7 @@ async function publish() {
     publishedAt.value = new Date().toISOString();
     draftUpdatedAt.value = null;
     notice.value = "Modification publiée dans le wiki.";
+    if (isNew.value) await router.replace("/compendium/edit/" + encodeURIComponent(pageId.value));
   } catch (cause) {
     error.value = humanError(cause);
   } finally {
@@ -1089,6 +1113,10 @@ onMounted(load);
           Le corpus source a changé depuis ce brouillon. Recharge ou réenregistre le brouillon avant publication.
         </div>
 
+        <div v-if="isAdmin && !pageId" class="panel editor-card">
+          <button type="button" :disabled="busy" @click="npcGeneratorOpen=true">Préparer un PNJ canonique</button>
+          <CanonicalNpcGenerator v-if="npcGeneratorOpen" :disabled="busy" @apply="applyNpcDraft" />
+        </div>
         <div class="wiki-editor-grid">
           <section class="editor-form-column">
             <div class="panel editor-card">

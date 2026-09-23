@@ -1688,6 +1688,7 @@ onBeforeUnmount(() => {
         <RouterLink v-if="canEdit" class="ghost compact-link wiki-create-link" to="/compendium/new">
           ＋ Nouvelle page
         </RouterLink>
+        <RouterLink v-if="currentUser?.role==='admin'" class="ghost compact-link" to="/compendium/new?category=Personnages&amp;template=npc">＋ PNJ canonique</RouterLink>
         <RouterLink class="ghost compact-link" to="/account">
           {{ currentUser ? "Mon espace" : "Connexion" }}
         </RouterLink>
