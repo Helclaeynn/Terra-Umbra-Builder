@@ -1,0 +1,254 @@
+{
+  "items": [
+    {
+      "id": "equipement-001-couteau-de-combat",
+      "src": "images/manual/equipement-001-couteau-de-combat.webp",
+      "sha256": "5b30b8a2d08719e88dea111f5b2b39dd60b80de11d65580fd69f0bbc7b130def"
+    },
+    {
+      "id": "equipement-283-byron-ginette",
+      "src": "images/manual/equipement-283-byron-ginette.webp",
+      "sha256": "8ec1fb02f8e02cf1000c37e3b64ea58a9bd1d5f8ba10b9633c038d7a0904404c"
+    },
+    {
+      "id": "equipement-011-owl-lc-014-chasseur",
+      "src": "images/manual/equipement-011-owl-lc-014-chasseur.webp",
+      "sha256": "3d2703f08b2c212d972275a031cf05f078c92a2f543ef2d51b4f6ebc56a28f84"
+    },
+    {
+      "id": "equipement-015-owl-mb-014-bolas-monofilament",
+      "src": "images/manual/equipement-015-owl-mb-014-bolas-monofilament.webp",
+      "sha256": "0b81df867d3a8134a2317e5fd26e71349153af725bd7ba03397b77a3d521c934"
+    },
+    {
+      "id": "equipement-056-silencieux",
+      "src": "images/manual/equipement-056-silencieux.webp",
+      "sha256": "cccb57620e53bf892737ac7a64ca0b194a534383c87b602d40b95fbc6a012b7f"
+    },
+    {
+      "id": "equipement-057-optique-de-precision",
+      "src": "images/manual/equipement-057-optique-de-precision.webp",
+      "sha256": "abacd9373dedb044b14e5607299cd96f92425ba5652fce0f710a1dda991a6884"
+    },
+    {
+      "id": "equipement-058-chargeur-etendu",
+      "src": "images/manual/equipement-058-chargeur-etendu.webp",
+      "sha256": "9743fc07f07b656f3520cff93e8bcfd17cf71c91680ba88a244034dadd5621c7"
+    },
+    {
+      "id": "equipement-059-bipied",
+      "src": "images/manual/equipement-059-bipied.webp",
+      "sha256": "0dad355b82cc971099d68237fb7e67b554586d89736d9d34055d1be144026d2d"
+    },
+    {
+      "id": "equipement-060-smartlink",
+      "src": "images/manual/equipement-060-smartlink.webp",
+      "sha256": "0a1b6dbefb87a8ac76cba63d0e5588f5d7da23691b2524095869473562f9b092"
+    },
+    {
+      "id": "equipement-299-raven-sunways-savior-dg",
+      "src": "images/manual/equipement-299-raven-sunways-savior-dg.webp",
+      "sha256": "bbad22616608a7d6670a5e89d3858c09ea3247df5c88770f236aae6407906141"
+    },
+    {
+      "id": "equipement-308-byron-florette",
+      "src": "images/manual/equipement-308-byron-florette.webp",
+      "sha256": "db72870184ff814ad8dd7513adcdf03bf1497c2c5370cc8f1189c032383bebd2"
+    },
+    {
+      "id": "equipement-047-bastion",
+      "src": "images/manual/equipement-047-bastion.webp",
+      "sha256": "4ebb5b91736a0fca49ecb157101221b9d8fa3a53053b38eb8d4c615bae13ffa6"
+    },
+    {
+      "id": "equipement-049-hellstorm",
+      "src": "images/manual/equipement-049-hellstorm.webp",
+      "sha256": "81d276b33907dd9e2f8d3557d1ff094564b7ee740b55ff92bcd8a05cd674e8ba"
+    },
+    {
+      "id": "equipement-048-manticore",
+      "src": "images/manual/equipement-048-manticore.webp",
+      "sha256": "e201a37cb84d64e821852a86449ec8e81d4c0ee13b76516b4c67c7743d88ffd7"
+    },
+    {
+      "id": "equipement-050-doorbell",
+      "src": "images/manual/equipement-050-doorbell.webp",
+      "sha256": "ab2ea5882c24088d83db2c925c4a002edb87f2cfd286693b3ad3518c2658aa14"
+    },
+    {
+      "id": "equipement-051-breacher",
+      "src": "images/manual/equipement-051-breacher.webp",
+      "sha256": "01d5b67ca94555bd23f2ee6576a5ad1588ffcc67fb3f2ce653f0ef7960b9f117"
+    },
+    {
+      "id": "equipement-052-wasp",
+      "src": "images/manual/equipement-052-wasp.webp",
+      "sha256": "f72420f9cace7a94771d070fc8b70cd08f878ea45b6d11bd31eca2872454ede0"
+    },
+    {
+      "id": "equipement-053-wallbreaker",
+      "src": "images/manual/equipement-053-wallbreaker.webp",
+      "sha256": "d3d54fd0ee14683d050d9d1ceaf56fed4a0f1fca9951a4d26817aa7915877068"
+    },
+    {
+      "id": "equipement-054-salamander",
+      "src": "images/manual/equipement-054-salamander.webp",
+      "sha256": "ecbdf91a6ddd50c2a254c00d0f12a3c765587e653aea1584680a5723c2d3e091"
+    },
+    {
+      "id": "equipement-055-purifier",
+      "src": "images/manual/equipement-055-purifier.webp",
+      "sha256": "076fcd7dd900557d27e9f98ccb885805d050179a2750533ef85fb70f20f7a840"
+    },
+    {
+      "id": "equipement-243-pistolet-leger-pm-raven",
+      "src": "images/manual/equipement-243-pistolet-leger-pm-raven.webp",
+      "sha256": "b2ba997ac20e5761de2f35e57d15917729265c17e13e75a9000d68899b43498b"
+    },
+    {
+      "id": "equipement-244-pistolet-leger-pm-phoenix",
+      "src": "images/manual/equipement-244-pistolet-leger-pm-phoenix.webp",
+      "sha256": "17ff5d0e2f1777d78096460ba067c1b5edabc0773d2d577925e6ccada0310dfe"
+    },
+    {
+      "id": "equipement-245-pistolet-leger-pm-owl",
+      "src": "images/manual/equipement-245-pistolet-leger-pm-owl.webp",
+      "sha256": "44c7589107936b21c281ad5cc6eec4a4dcf484cc8ebbd141756800ac22a83a98"
+    },
+    {
+      "id": "equipement-246-pistolet-lourd-raven",
+      "src": "images/manual/equipement-246-pistolet-lourd-raven.webp",
+      "sha256": "5362f6220a58a5c8fe947a311cecf27ae7655b38b10a77eed98e6684b1c7e1f8"
+    },
+    {
+      "id": "equipement-247-pistolet-lourd-phoenix",
+      "src": "images/manual/equipement-247-pistolet-lourd-phoenix.webp",
+      "sha256": "27a908ad3b2b7f70ebc1c0021855ea223a66b54ccb9c19135fe7418f651db296"
+    },
+    {
+      "id": "equipement-248-pistolet-lourd-owl",
+      "src": "images/manual/equipement-248-pistolet-lourd-owl.webp",
+      "sha256": "288312cd8b3d96a25325a4464ea3f9a9c15f896841de031758da163289762a48"
+    },
+    {
+      "id": "equipement-249-mitraillette-raven",
+      "src": "images/manual/equipement-249-mitraillette-raven.webp",
+      "sha256": "c5b7addf5b5194fbf53754e9d510b6ce831ad5c8bfbc61f125133697f49c94a4"
+    },
+    {
+      "id": "equipement-250-mitraillette-phoenix",
+      "src": "images/manual/equipement-250-mitraillette-phoenix.webp",
+      "sha256": "bd44f1817c6ef9e79d8c9d1d415ca154f88935ed1fd902d9e33a5cdf4e25bcf3"
+    },
+    {
+      "id": "equipement-251-mitraillette-owl",
+      "src": "images/manual/equipement-251-mitraillette-owl.webp",
+      "sha256": "5827464bf80ed59ca99a5c5cf7b6f18aaac826c92c0d91d09c38818239bfa71b"
+    },
+    {
+      "id": "equipement-252-fusil-d-assaut-raven",
+      "src": "images/manual/equipement-252-fusil-d-assaut-raven.webp",
+      "sha256": "8d0d0eaf74e8a7539ae27849895ef8467acffe5f33e9e4ada7f60455fb066e46"
+    },
+    {
+      "id": "equipement-253-fusil-d-assaut-phoenix",
+      "src": "images/manual/equipement-253-fusil-d-assaut-phoenix.webp",
+      "sha256": "da7d2c918cd3802fecc2a70b1c9620d285d4836df8a9e35d723090cd2f60147e"
+    },
+    {
+      "id": "equipement-254-fusil-d-assaut-owl",
+      "src": "images/manual/equipement-254-fusil-d-assaut-owl.webp",
+      "sha256": "e346f20db7e05f1a7000344271cb8f03ee3cafb51e98bddf75cb54b0dfe8755c"
+    },
+    {
+      "id": "equipement-255-precision-raven",
+      "src": "images/manual/equipement-255-precision-raven.webp",
+      "sha256": "a332408b91af9f09b1072828935e0e614eac85e6ef7aac2d001e87ffb965aab0"
+    },
+    {
+      "id": "equipement-256-precision-phoenix",
+      "src": "images/manual/equipement-256-precision-phoenix.webp",
+      "sha256": "7436b2967846ef54e860684c5344f30e9a5eacc919541bd6020675cd8cc9b4a0"
+    },
+    {
+      "id": "equipement-257-precision-owl",
+      "src": "images/manual/equipement-257-precision-owl.webp",
+      "sha256": "400dbbb439bc546c05efa807140669b8d959c526492115ebb641b3bdafdfc856"
+    },
+    {
+      "id": "equipement-258-shotgun-raven",
+      "src": "images/manual/equipement-258-shotgun-raven.webp",
+      "sha256": "fdd6fbc1a7075a780009d53e82903980f182e5f7e71276477b676a1e80ef1df0"
+    },
+    {
+      "id": "equipement-259-shotgun-phoenix",
+      "src": "images/manual/equipement-259-shotgun-phoenix.webp",
+      "sha256": "382d09dc2dfa9ed17298544dd66205a6ffa4ec34f08fc4fb78b091dae48275aa"
+    },
+    {
+      "id": "equipement-260-shotgun-owl",
+      "src": "images/manual/equipement-260-shotgun-owl.webp",
+      "sha256": "13e24e3f232d8f8bc93a7ff01044e91c5f060d884fa2323ddea58b5ea5727aef"
+    },
+    {
+      "id": "equipement-061-raven-flash",
+      "src": "images/manual/equipement-061-raven-flash.webp",
+      "sha256": "0c52422ee92da5fa6ef23ab98f6f5559be3684480e81a013a283b617b5458cbc"
+    },
+    {
+      "id": "equipement-062-raven-volto",
+      "src": "images/manual/equipement-062-raven-volto.webp",
+      "sha256": "65082c2e5248bccabe4564281f2b4dd6a607ded91009064fdd0e7e2f79634727"
+    },
+    {
+      "id": "equipement-063-raven-drill",
+      "src": "images/manual/equipement-063-raven-drill.webp",
+      "sha256": "f2c44d9acc877d017adf48e9e003419abb807b9d4a524140fbb8232e0d516eb9"
+    },
+    {
+      "id": "equipement-064-raven-night",
+      "src": "images/manual/equipement-064-raven-night.webp",
+      "sha256": "10eeecfa0a5a856bf50c9b04d31d6d19a008163c886192612d99ffaab59c717f"
+    },
+    {
+      "id": "equipement-065-phoenix-pyro",
+      "src": "images/manual/equipement-065-phoenix-pyro.webp",
+      "sha256": "5b400703f4788c9a30895b598887f4f3e412bb0fadfe1a6af1c8d53cf88c30ae"
+    },
+    {
+      "id": "equipement-066-phoenix-hack",
+      "src": "images/manual/equipement-066-phoenix-hack.webp",
+      "sha256": "af7eee33b586ee8e21ae3dd8e40d379bc3020301a5ca2ffb88e65a9cc83de421"
+    },
+    {
+      "id": "equipement-067-phoenix-blast",
+      "src": "images/manual/equipement-067-phoenix-blast.webp",
+      "sha256": "741124093444d4c4400cdc0046b4d08a4109a222bc158a89d327d3003d935c7e"
+    },
+    {
+      "id": "equipement-068-owl-venom",
+      "src": "images/manual/equipement-068-owl-venom.webp",
+      "sha256": "916b1b513840a48b7d587f0baaf2d9af386f7a01bd1af510a2ad7e2496c01bfb"
+    },
+    {
+      "id": "equipement-069-owl-liquid",
+      "src": "images/manual/equipement-069-owl-liquid.webp",
+      "sha256": "ae5c87a46d3a30644f575d4b2250c47516893df4d53ed2d41551c1cebdb8a5f5"
+    },
+    {
+      "id": "equipement-070-owl-rust",
+      "src": "images/manual/equipement-070-owl-rust.webp",
+      "sha256": "3b61dadf2a3871889c577de1f90ae0aba73e2ae7596e6b5cd6c268ba78acca62"
+    },
+    {
+      "id": "equipement-071-bande-bastion",
+      "src": "images/manual/equipement-071-bande-bastion.webp",
+      "sha256": "f4d1131fd7b241c5b9016704bf42a8fb04f3b5de8b399cf17d11b859916f45af"
+    },
+    {
+      "id": "equipement-072-charge-manticore",
+      "src": "images/manual/equipement-072-charge-manticore.webp",
+      "sha256": "7797a14ea1288ba86af0282a17531489a630b958fd4d67ebe588e83d3e1dfe38"
+    }
+  ]
+}
