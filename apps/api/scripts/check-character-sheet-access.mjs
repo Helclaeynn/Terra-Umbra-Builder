@@ -34,7 +34,7 @@ async function call(who, method, endpoint, payload, expected = 200) {
     headers: { ...(who ? { Cookie: who.cookie } : {}), ...(payload !== undefined ? { 'Content-Type': 'application/json' } : {}) },
     ...(payload === undefined ? {} : { body: JSON.stringify(payload) }), signal: AbortSignal.timeout(15000) });
   assert.equal(r.status, expected, `${method} ${endpoint}: unexpected HTTP status`);
-  if (endpoint.startsWith('/api/characters')) assert.match(r.headers.get('cache-control') || '', /no-store/);
+  if (endpoint.startsWith('/api/characters')||endpoint.startsWith('/api/campaigns')) assert.match(r.headers.get('cache-control') || '', /no-store/);
   checks++; return r.json();
 }
 try {
@@ -165,6 +165,7 @@ try {
   await call(gm,'POST',url+'/invitations',{userId:player.id},201);
   await call(gm,'POST',url+'/invitations',{userId:player.id},409);
   assert.ok((await call(player,'GET','/api/campaigns')).campaigns.some(c=>c.id===cp.id&&c.membershipStatus==='invited'));
+  await call(player,'GET',url+'/sessions',undefined,404);
   const pending=await call(player,'GET',url);
   assert.equal('gmNotes' in pending.campaign,false);assert.equal(pending.members.length,0);
   const pc=(await call(player,'POST','/api/characters',{name:'CI personnage de campagne'},201)).character;
@@ -187,7 +188,46 @@ try {
   await call(player,'PUT',url+'/membership',{characterId:null});
   await call(gm,'GET',`/api/characters/${pc.id}/sheet`,undefined,404);
   await call(player,'PUT',url+'/membership',{characterId:pc.id});
+  // Sessions: preparation never leaves the GM API, publication and rewards are explicit.
+  const sb={title:'CI séance',playedOn:'2026-09-23',status:'planned',preparation:'SECRET PREPARATION',report:'SECRET DRAFT',published:false};
+  for(const who of [null,player,stranger,admin])await call(who,'POST',url+'/sessions',sb,who?404:401);
+  await call(gm,'POST',url+'/sessions',{...sb,playedOn:'2026-02-30'},400);
+  const ss=(await call(gm,'POST',url+'/sessions',sb,201)).session;
+  const su=url+'/sessions/'+ss.id;
+  for(const who of [stranger,admin])await call(who,'GET',url+'/sessions',undefined,404);
+  const hidden=(await call(player,'GET',url+'/sessions')).sessions[0];
+  assert.equal('preparation' in hidden,false);assert.equal(hidden.report,'');assert.ok(!JSON.stringify(hidden).includes('SECRET'));
+  assert.equal((await call(gm,'GET',url+'/sessions')).sessions[0].preparation,sb.preparation);
+  await call(player,'PATCH',su,{...sb,version:1},404);
+  await call(gm,'POST',su+'/rewards',{characterIds:[pc.id],xp:5,ptv:2},400);
+  await call(gm,'PATCH',su,{...sb,status:'played',report:'Récit partagé',published:true,version:1});
+  await call(gm,'PATCH',su,{...sb,version:1},409);
+  assert.equal((await call(player,'GET',url+'/sessions')).sessions[0].report,'Récit partagé');
+  await call(gm,'POST',su+'/rewards',{characterIds:[pc.id,oc.id],xp:5,ptv:2},409);
+  assert.equal((await call(player,'GET',`/api/characters/${pc.id}`)).character.version,1,'Invalid recipient rolls back every award');
+  for(const who of [player,other,stranger,admin])await call(who,'POST',su+'/rewards',{characterIds:[pc.id],xp:5,ptv:2},404);
+  await call(gm,'POST',su+'/rewards',{characterIds:[pc.id,pc.id],xp:5,ptv:2},400);
+  await call(gm,'POST',su+'/rewards',{characterIds:[pc.id],xp:-1,ptv:2},400);
+  await call(gm,'POST',su+'/rewards',{characterIds:[pc.id],xp:5,ptv:2});
+  await call(gm,'POST',su+'/rewards',{characterIds:[pc.id],xp:5,ptv:2},409);
+  const rewarded=(await call(player,'GET',`/api/characters/${pc.id}`)).character;
+  assert.equal(rewarded.data.progression.xpEarned,5);assert.equal(rewarded.data.progression.ptvEarned,2);assert.equal(rewarded.version,2);
+  await call(player,'PATCH',`/api/characters/${pc.id}`,{version:1,name:'Stale'},409);
+  assert.equal((await call(player,'GET',`/api/characters/${pc.id}/history`)).revisions[0].reason,'campaign-reward:CI séance');
+  assert.equal((await call(player,'GET',url+'/sessions')).sessions[0].rewards.length,1);
+  assert.equal((await call(other,'GET',url+'/sessions')).sessions[0].rewards.length,0);
+  const raceSession=(await call(gm,'POST',url+'/sessions',{...sb,title:'CI séance concurrente',status:'played'},201)).session;
+  const raceUrl=url+'/sessions/'+raceSession.id+'/rewards';
+  const race=await Promise.all([1,2].map(()=>fetch(base+raceUrl,{method:'POST',headers:{Cookie:gm.cookie,'Content-Type':'application/json'},body:JSON.stringify({characterIds:[pc.id],xp:2,ptv:0}),signal:AbortSignal.timeout(15000)})));
+  assert.deepEqual(race.map(r=>r.status).sort(),[200,409],'Concurrent submissions award once');checks+=2;
+  assert.equal((await call(player,'GET',`/api/characters/${pc.id}`)).character.data.progression.xpEarned,7);
+  await call(gm,'PATCH',su,{...sb,status:'played',published:false,version:2});
+  assert.equal((await call(player,'GET',url+'/sessions')).sessions.find(s=>s.id===ss.id).report,'');
   await call(gm,'PATCH',url,{name:'CI campagne',description:'',gmNotes:'SECRET MJ',archived:true,version:2});
+  await call(player,'GET',url+'/sessions',undefined,404);
+  await call(gm,'POST',url+'/sessions',sb,404);
+  await call(gm,'POST',su+'/rewards',{characterIds:[pc.id],xp:1,ptv:0},404);
+  assert.equal((await call(gm,'GET',url+'/sessions')).sessions.length,2);
   await call(gm,'GET',`/api/characters/${pc.id}/sheet`,undefined,404);
   await call(player,'GET',url,undefined,404);
   await call(player,'PUT',url+'/membership',{characterId:pc.id},404);
@@ -196,6 +236,7 @@ try {
   await call(gm,'GET',url,undefined,404);
   await call(gm,'GET',`/api/characters/${pc.id}/sheet`,undefined,404);
   await call(player,'GET',url,undefined,404);
+  await call(player,'GET',url+'/sessions',undefined,404);
   await pool.query("UPDATE users SET role='gm' WHERE id=$1",[gm.id]);
   await call(player,'POST',`/api/characters/${pc.id}/readers`,{readerId:gm.id});
   await call(player,'DELETE',url+`/members/${player.id}`);
@@ -206,7 +247,7 @@ try {
   await call(other,'DELETE',url+`/members/${other.id}`);
   assert.equal((await call(gm,'GET',url)).members.length,0);
 
-  console.log(`CHARACTER SHEET ACCESS OK — ${checks} HTTP checks, real SQL, compact list, owner isolation, explicit grant, no write access, live update, revocation, role downgrade, disabled account, archive, private journal CRUD, paginated progression history and stale-version protection`);
+  console.log(`CHARACTER SHEET ACCESS OK — ${checks} HTTP checks, real SQL, compact list, owner isolation, explicit grant, no write access, live update, revocation, role downgrade, disabled account, archive, private journal CRUD, paginated progression history and stale-version protection, private session preparation, publication, atomic XP/PTV awards and duplicate protection`);
 } finally {
   if(ids.length)await pool.query("DELETE FROM users WHERE id=ANY($1::uuid[]) AND email LIKE 'ci-sheet-%@example.invalid'",[ids]);
   if(app)await app.close();
