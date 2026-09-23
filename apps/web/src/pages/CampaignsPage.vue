@@ -16,6 +16,7 @@ const me=computed(()=>members.value.find(m=>m.userId===userId.value));
 const invited=computed(()=>campaigns.value.filter(c=>c.membershipStatus==='invited'));
 const active=computed(()=>campaigns.value.filter(c=>!c.archivedAt&&c.membershipStatus!=='invited'));
 const archived=computed(()=>campaigns.value.filter(c=>c.archivedAt));
+let refreshTimer:ReturnType<typeof setInterval>|undefined;
 let generation=0,searchGeneration=0,timer:ReturnType<typeof setTimeout>|undefined;
 function failure(e:unknown){
   const messages:Record<string,string>={campaign_version_conflict:'La campagne a changé ailleurs. Ton texte est conservé : copie-le avant de recharger la dernière version.',invalid_campaign:'Vérifie le nom (120 caractères), la présentation (2 000) et les notes (20 000).',gm_required:'Le rôle MJ est nécessaire pour créer une campagne.',invitation_unavailable:'Ce compte est déjà invité ou la campagne n’est plus disponible.',membership_unavailable:'La campagne ou la fiche choisie n’est plus disponible.',campaign_not_found:'Cette campagne n’est pas accessible avec ton compte.',authentication_required:'Connecte-toi pour retrouver tes campagnes.'};
@@ -71,9 +72,10 @@ async function archive(){
 }
 function beforeUnload(e:BeforeUnloadEvent){if(dirty.value){e.preventDefault();e.returnValue='';}}
 onBeforeRouteLeave(()=>!dirty.value||window.confirm('Quitter sans enregistrer les notes de campagne ?'));
-function focus(){if(!dirty.value&&!busy.value&&!loading.value)void load();}
-onMounted(()=>{void load();window.addEventListener('focus',focus);window.addEventListener('beforeunload',beforeUnload);});
-onUnmounted(()=>{window.removeEventListener('focus',focus);generation++;searchGeneration++;clearTimeout(timer);window.removeEventListener('beforeunload',beforeUnload);});
+function focus(){if(document.visibilityState!=='hidden'&&!dirty.value&&!busy.value&&!loading.value)void load();}
+function visible(){if(document.visibilityState!=='hidden')focus();}
+onMounted(()=>{void load();refreshTimer=setInterval(()=>{if(!id)focus();},30000);document.addEventListener('visibilitychange',visible);window.addEventListener('focus',focus);window.addEventListener('beforeunload',beforeUnload);});
+onUnmounted(()=>{clearInterval(refreshTimer);document.removeEventListener('visibilitychange',visible);window.removeEventListener('focus',focus);generation++;searchGeneration++;clearTimeout(timer);window.removeEventListener('beforeunload',beforeUnload);});
 </script>
 
 <template>
@@ -84,7 +86,7 @@ onUnmounted(()=>{window.removeEventListener('focus',focus);generation++;searchGe
       <p v-if="notice" role="status" class="notice">{{ notice }}</p>
       <p v-if="loading" role="status">Chargement des campagnes…</p>
       <template v-if="!id">
-        <header class="page-heading"><div><p class="eyebrow">À VOTRE TABLE</p><h1>Mes campagnes</h1><p>Retrouve ton groupe et ouvre les fiches en un clic.</p></div><button v-if="canCreate" class="primary" @click="showCreate=!showCreate">Créer une campagne</button></header>
+        <header class="page-heading"><button type="button" :disabled="loading" @click="load">Actualiser les invitations</button><div><p class="eyebrow">À VOTRE TABLE</p><h1>Mes campagnes</h1><p>Retrouve ton groupe et ouvre les fiches en un clic.</p></div><button v-if="canCreate" class="primary" @click="showCreate=!showCreate">Créer une campagne</button></header>
         <form v-if="showCreate&&canCreate" class="panel form" @submit.prevent="create"><h2>Une nouvelle table</h2><label>Nom de la campagne<input v-model="createName" required maxlength="120" autofocus /></label><label>Présentation aux joueurs<textarea v-model="createDescription" maxlength="2000" rows="3" /></label><div class="actions"><button class="primary" :disabled="busy||!createName.trim()">Créer</button><button type="button" @click="showCreate=false">Annuler</button></div></form>
         <section v-if="invited.length" aria-label="Invitations" class="invitations"><h2>Invitations à rejoindre une table <span>{{ invited.length }}</span></h2><RouterLink v-for="c in invited" :key="c.id" class="campaign-card" :to="`/campaigns/${c.id}`"><div><strong>{{ c.name }}</strong><p>Invitation de {{ c.gmName }}</p></div><span>Répondre →</span></RouterLink></section>
         <section class="campaign-list" aria-label="Campagnes actives"><RouterLink v-for="c in active" :key="c.id" class="campaign-card" :to="`/campaigns/${c.id}`"><div><p class="eyebrow">{{ c.canManage?'MA TABLE MJ':'JOUEUR' }}</p><h2>{{ c.name }}</h2><p>{{ c.gmName }} · {{ c.memberCount }} joueur(s)</p></div><span>Ouvrir →</span></RouterLink></section>

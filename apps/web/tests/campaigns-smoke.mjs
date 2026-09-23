@@ -41,7 +41,8 @@ try{
  assert.equal(await page.getByLabel('Notes privées du MJ',{exact:true}).inputValue(),'Nouvelles notes privées');
  conflict=false;await page.getByRole('button',{name:'Enregistrer',exact:true}).click();
  await page.getByText('Campagne enregistrée.',{exact:true}).waitFor();
- role='player';await page.goto(base+'/campaigns/'+cid);
+ role='player';await page.goto(base+'/campaigns');
+ await page.getByRole('link').filter({hasText:'Répondre →'}).click();
  await page.getByRole('heading',{name:'Tu es invité à cette campagne'}).waitFor();
  assert.equal(await page.getByText('Nouvelles notes privées',{exact:true}).count(),0);
  assert.equal(await page.getByRole('button',{name:'Notes et paramètres'}).count(),0);

@@ -134,6 +134,7 @@ try {
         gmRequest = { ...gmRequest, status: request.postDataJSON().decision, decidedAt: timestamp };
         return send({ request: gmRequest });
       }
+      if (path === "/api/campaigns") return send({userId:fixtureUser(role).id,campaigns:role==='player'?[{id:'campaign-invite',name:'La table de Morgan',gmName:'Morgan',membershipStatus:'invited'}]:[]});
       if (path === "/api/characters/shared") return send({characters:[]});
       if (path === "/api/characters") return send({ characters: [character] });
       if (path === `/api/characters/${characterId}/revisions`) return send({ revisions: [
@@ -182,6 +183,9 @@ try {
     assert.equal(await page.getByRole("heading", { name: "Gestion des comptes", exact: true }).count(), 0,
       "Les outils administrateur ne doivent pas être proposés au Joueur.");
     await assertLayout(page, `Compte Joueur et fiche longue ${width}`);
+    const invitationLink=page.locator('.account-campaigns').getByRole('link',{name:'Voir l’invitation →'});
+    await invitationLink.waitFor();
+    assert.equal(await invitationLink.getAttribute('href'),'/campaigns/campaign-invite');
     const readingLink = page.locator('.account-last-reading').getByRole('link', { name: 'Reprendre ma lecture →' });
     await readingLink.waitFor();
     assert.ok((await readingLink.getAttribute('href')).includes(`article=${articleId}`));
