@@ -30,7 +30,8 @@ jobs:
             free -m
             docker stats --no-stream --format "{{.Name}} {{.MemUsage}} {{.MemPerc}} {{.CPUPerc}}"
             docker inspect --format "{{.Name}} OOMKilled={{.State.OOMKilled}} ExitCode={{.State.ExitCode}} Restarts={{.RestartCount}} MemoryLimit={{.HostConfig.Memory}} PidsLimit={{.HostConfig.PidsLimit}}" tuc-v2-api-1 tuc-v2-db-1
+            docker logs --tail=120 tuc-v2-api-1 2>&1
             ps -eo comm,rss --sort=-rss | head -15
             journalctl -k --since "-30 minutes" --no-pager 2>/dev/null | grep -Ei "out of memory|oom-kill|killed process" | tail -20 || true
-            curl --fail --silent --show-error --max-time 15 http://127.0.0.1:3000/api/health || curl --fail --silent --show-error --max-time 15 https://dev.terra-umbra.fr/api/health
+            curl --fail --silent --show-error --max-time 15 https://dev.terra-umbra.fr/api/health
           REMOTE
