@@ -15,7 +15,7 @@ pool.query=async sql=>{
 const {getCompendiumQualityCorpus,registerCompendiumRoutes}=await import(root+'/apps/api/dist/compendium.js');
 const {default:Fastify}=await import(root+'/apps/api/node_modules/fastify/fastify.js');
 const manifest=JSON.parse(await readFile(root+'/compendium/source/rules-diagrams-v1.json','utf8'));
-assert.equal(manifest.diagrams.length,16);
+assert.equal(manifest.diagrams.length,25);
 const corpus=await getCompendiumQualityCorpus();
 const byId=new Map(corpus.articles.map(article=>[article.id,article]));
 assert.equal(corpus.articles.filter(article=>article.category==='Règles').length,65);

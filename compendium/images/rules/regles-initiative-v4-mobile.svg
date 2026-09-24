@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 977" role="img" aria-labelledby="title desc">
+<title id="title">Une Réaction consomme une passe future</title>
+<desc id="desc">1 · Initiative : Agilité + Athlétisme + 1d10e : 1 à 10 = 1 PA ; 11 à 15 = 2 ; 16+ = 3. ; 2 · Passes : Avec 4 PA, agir aux passes 1, 2, 3 et 4 ; la passe 1 est commune à tous. ; 3 · Réagir : Après la passe 1, Défense active : dépenser 1 PA du round. ; 4 · Déduire : Supprimer la plus haute passe future disponible : ici la passe 4. ; 5 · Reprendre : Le personnage agit encore aux passes 2 et 3, puis son round est fini.. Un 1 naturel à l’Initiative plafonne à 1 PA, quel que soit le total.</desc>
+<rect width="540" height="977" rx="20" fill="#0c1820"/>
+<rect x="1" y="1" width="538" height="975" rx="19" fill="none" stroke="#476775" stroke-width="2"/>
+<text x="25" y="42" font-family="system-ui,sans-serif" font-size="24" font-weight="700" fill="#eef7f7">Une Réaction consomme une</text>
+<text x="25" y="72" font-family="system-ui,sans-serif" font-size="24" font-weight="700" fill="#eef7f7">passe future</text>
+<rect x="20" y="104" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="104" width="5" height="133" rx="2" fill="#5de0d0"/>
+<text x="39" y="138" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#5de0d0">1 · Initiative</text>
+<text x="39" y="172" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Agilité + Athlétisme + 1d10e : 1 à 10 = 1</text>
+<text x="39" y="198" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">PA ; 11 à 15 = 2 ; 16+ = 3.</text>
+<text x="263" y="253" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="20" y="255" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="255" width="5" height="133" rx="2" fill="#8ab9ff"/>
+<text x="39" y="289" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#8ab9ff">2 · Passes</text>
+<text x="39" y="323" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Avec 4 PA, agir aux passes 1, 2, 3 et 4 ;</text>
+<text x="39" y="349" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">la passe 1 est commune à tous.</text>
+<text x="263" y="404" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="20" y="406" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="406" width="5" height="133" rx="2" fill="#f2bd78"/>
+<text x="39" y="440" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#f2bd78">3 · Réagir</text>
+<text x="39" y="474" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Après la passe 1, Défense active :</text>
+<text x="39" y="500" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">dépenser 1 PA du round.</text>
+<text x="263" y="555" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="20" y="557" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="557" width="5" height="133" rx="2" fill="#8fdea7"/>
+<text x="39" y="591" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#8fdea7">4 · Déduire</text>
+<text x="39" y="625" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Supprimer la plus haute passe future</text>
+<text x="39" y="651" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">disponible : ici la passe 4.</text>
+<text x="263" y="706" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="20" y="708" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="708" width="5" height="133" rx="2" fill="#ca9bdf"/>
+<text x="39" y="742" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#ca9bdf">5 · Reprendre</text>
+<text x="39" y="776" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Le personnage agit encore aux passes 2 et</text>
+<text x="39" y="802" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">3, puis son round est fini.</text>
+<text x="24" y="877" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#f1cfa1">Un 1 naturel à l’Initiative plafonne à 1 PA,</text>
+<text x="24" y="904" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#f1cfa1">quel que soit le total.</text>
+</svg>

@@ -2,100 +2,12 @@
   "version": 1,
   "diagrams": [
     {
-      "articleId": "regles-resolution-des-tests",
-      "sectionId": "test-standard",
-      "src": "images/rules/regles-resolution-v2.svg",
-      "mobileSrc": "images/rules/regles-resolution-v2-mobile.svg",
-      "title": "Quand le total suffit… sauf sur 1 naturel",
-      "alt": "Quand le total suffit… sauf sur 1 naturel : Seuil — Difficulté normale : 15 ; Jet ordinaire — Base 16 + dé 2 = 18 : réussite ; Même base, dé 1 — Total 17 ≥ 15, mais échec narratif. Le 1 naturel prime sur une réussite numérique."
-    },
-    {
-      "articleId": "regles-initiative-pa-deplacement",
-      "sectionId": "initiative-et-pa",
-      "src": "images/rules/regles-initiative-v2.svg",
-      "mobileSrc": "images/rules/regles-initiative-v2-mobile.svg",
-      "title": "Un 1 naturel malgré un bon total",
-      "alt": "Un 1 naturel malgré un bon total : Profil — Agilité + Athlétisme = 16 ; Jet — Dé naturel 1 : total d’Initiative 17 ; PA accordés — 1 PA maximum, malgré le total ≥ 16. Sans ce 1 naturel, un total de 17 donnerait 3 PA."
-    },
-    {
-      "articleId": "regles-combat-defenses",
-      "sectionId": "defenses",
-      "src": "images/rules/regles-combat-v2.svg",
-      "mobileSrc": "images/rules/regles-combat-v2-mobile.svg",
-      "title": "Une attaque face à deux défenses",
-      "alt": "Une attaque face à deux défenses : Attaque — Résultat de l’attaque : 16 ; Passive — Agilité + Esquive = 12 : attaque touche ; Active — 1 PA ; 12 + dé 4 = 16 : égalité. À égalité, aucun dégât ni effet ; la Réaction exige 1 PA."
-    },
-    {
-      "articleId": "regles-sante-blessures-soins",
-      "sectionId": "pv-et-seuils",
-      "src": "images/rules/regles-sante-v2.svg",
-      "mobileSrc": "images/rules/regles-sante-v2-mobile.svg",
-      "title": "Seuils pour un maximum de 14 PV",
-      "alt": "Seuils pour un maximum de 14 PV : Calcul — Vigueur 5, Constitution 4 : 14 PV ; Blessé — 7 PV ou moins : Tendu au minimum ; Très blessé — 3 PV ou moins : Paniqué au minimum. À 0 PV, le personnage devient Agonisant."
-    },
-    {
-      "articleId": "regles-stress-etats-psychologiques",
-      "sectionId": "normal-tendu-panique",
-      "src": "images/rules/regles-stress-v2.svg",
-      "mobileSrc": "images/rules/regles-stress-v2-mobile.svg",
-      "title": "Que devient un 9 naturel ?",
-      "alt": "Que devient un 9 naturel ? : Normal — 9 : pas d’explosion ; Tendu — 9 : le dé explose ; Paniqué — 9 : pas d’explosion. Un 9 change donc de comportement selon l’état."
-    },
-    {
-      "articleId": "regles-realite-v9-charge-stress-frenesie",
-      "sectionId": "difficultes",
-      "src": "images/rules/regles-augmentations-v2.svg",
-      "mobileSrc": "images/rules/regles-augmentations-v2-mobile.svg",
-      "title": "Deux seuils atteints en même temps",
-      "alt": "Deux seuils atteints en même temps : Charge — Intégrité + 2 : difficulté 21 ; Stress — Maximum + 3 : difficulté 25 ; Crise — Un seul test de Maîtrise contre 25. On retient la difficulté la plus élevée, sans doubler le jet."
-    },
-    {
-      "articleId": "regles-realite-v9-neurodive-actions-intrusion",
-      "sectionId": "intrusion-controle",
-      "src": "images/rules/regles-intrusion-v2.svg",
-      "mobileSrc": "images/rules/regles-intrusion-v2-mobile.svg",
-      "title": "Accès local et fonctions distinctes",
-      "alt": "Accès local et fonctions distinctes : Obstacle franchi — Intrusion réussie sur le nœud A ; Fonction atteinte — La porte du nœud A peut être contrôlée ; Autre nœud — Caméra sur B : nouvel accès à obtenir. Franchir une porte logique ne donne pas tout le réseau."
-    },
-    {
-      "articleId": "regles-realite-v9-economie-compte-train-vie",
-      "sectionId": "charges-fixes",
-      "src": "images/rules/regles-train-de-vie-v2.svg",
-      "mobileSrc": "images/rules/regles-train-de-vie-v2-mobile.svg",
-      "title": "Tranches fixes : base à 1 200 $",
-      "alt": "Tranches fixes : base à 1 200 $ : Charges : 900 $ — 0 tranche complète : aucun cran perdu ; Charges : 1 300 $ — 1 tranche complète : −1 cran ; Charges : 2 500 $ — 2 tranches complètes : −2 crans. Chaque seuil reste calculé sur 1 200 $, même après la baisse."
-    },
-    {
-      "articleId": "regles-verite-v7-pa-reactions-defense-puissance",
-      "sectionId": "4-defense-occulte-et-puissance-des-effets",
-      "src": "images/rules/regles-defense-occulte-v2.svg",
-      "mobileSrc": "images/rules/regles-defense-occulte-v2-mobile.svg",
-      "title": "Quelle Défense contre la magie ?",
-      "alt": "Quelle Défense contre la magie ? : Pierre projetée — Évitable physiquement : Défense physique ; Malédiction — Imposition directe : Défense occulte ; Réaction — Si permise : défense active pour 1 PA. Une même attaque n’utilise jamais les deux Défenses."
-    },
-    {
-      "articleId": "regles-verite-v7-voile-continuite-objets-reseaux-interfaces",
-      "sectionId": "5-hologramme-voile-semi-revelation-et-revelation",
-      "src": "images/rules/regles-voile-v2.svg",
-      "mobileSrc": "images/rules/regles-voile-v2-mobile.svg",
-      "title": "Qui voit la Vérité de la cible ?",
-      "alt": "Qui voit la Vérité de la cible ? : Cible Voilée — Même un observateur R voit la traduction ; Cible Semi-Révélée — V voit la traduction ; SR/R la Vérité partielle ; Cible Révélée — La Vérité exprimée est visible par tous. Voir sous le Voile ne Révèle pas la cible."
-    },
-    {
       "articleId": "regles-verite-v7-mage-maitrise-amplitude-lancement",
       "sectionId": "construire-et-lancer-un-sort",
       "src": "images/rules/regles-lancer-sort-v3.svg",
       "mobileSrc": "images/rules/regles-lancer-sort-v3-mobile.svg",
       "title": "Construire puis lancer un sort",
       "alt": "Construire puis lancer un sort : Définir — Intention, Affinité, Essence et Polarité ; Vérifier — Affinité éveillée ou improvisation limitée ; Maîtrise, cible et Amplitude ; Résoudre — Coût, portée, jet, défense et Tension. Sans Affinité éveillée : effet Initial / Mineur et +1 niveau de difficulté."
-    },
-    {
-      "articleId": "regles-verite-v7-corruption-integrite-bascule",
-      "sectionId": "exposition",
-      "src": "images/rules/regles-corruption-v2.svg",
-      "mobileSrc": "images/rules/regles-corruption-v2-mobile.svg",
-      "title": "Résister à une exposition forte",
-      "alt": "Résister à une exposition forte : Vecteur mental — Volonté + Force Mentale contre 18 ; Jet manqué — Total 17 : +1 Corruption de la Source ; Dé naturel 1 — Même avec un total ≥ 18 : +2. L’Humanité fixe l’Intégrité, pas le résultat du test."
     },
     {
       "articleId": "regles-verite-v7-mage-maitrise-amplitude-lancement",
@@ -128,6 +40,166 @@
       "mobileSrc": "images/rules/regles-mage-canalisation-v1-mobile.svg",
       "title": "Canalisation : investir du temps",
       "alt": "Chaque PA supplémentaire investi avant le jet réduit la difficulté d’un niveau, minimum 12. Un sort Cataclysmique de base coûte 4 PA à difficulté 25 ; deux PA de Canalisation donnent 6 PA à difficulté 18. La Tension reste celle du sort libéré."
+    },
+    {
+      "articleId": "regles-tir-portee-tirs-particuliers",
+      "sectionId": "rafale",
+      "src": "images/rules/regles-tir-v4.svg",
+      "mobileSrc": "images/rules/regles-tir-v4-mobile.svg",
+      "title": "Tir : ordinaire, Rafale ou Suppression ?",
+      "alt": "Tir : ordinaire, Rafale ou Suppression ? : 1 · Choisir le mode — Tir ordinaire ; Rafale si l’arme porte Rafale ; Suppression si Automatique. ; 2 · Préparer si possible — Viser : 1 PA, +3 au Tir suivant ; incompatible avec Rafale et Suppression. ; 3 · Tir ordinaire — Marge 1–5 : DGT − Armure ; 6–10 : idem + Altération ; 11+ : 2 × DGT − Armure + Altération. ; 4 · Rafale — Un jet : 1 / 2 / 3 impacts pour marges 1–5 / 6–10 / 11+ ; chacun DGT − Armure. ; 5 · Suppression — Valeur du jet jusqu’à fin du round ; cible exposée avec Défense passive plus faible : 1 impact.. Rafale et Suppression ne produisent pas d’Altération ; Suppression ne permet pas de Défense active."
+    },
+    {
+      "articleId": "regles-resolution-des-tests",
+      "sectionId": "test-standard",
+      "src": "images/rules/regles-resolution-v4.svg",
+      "mobileSrc": "images/rules/regles-resolution-v4-mobile.svg",
+      "title": "Résoudre un test et compter les DR",
+      "alt": "Résoudre un test et compter les DR : 1 · Fixer le seuil — Facile 12 · Normal 15 · Difficile 18 · Très difficile 21 · Impossible 25. ; 2 · Lancer — Attribut + Compétence + 1d10e ; appliquer les circonstances réellement distinctes. ; 3 · Échec narratif ? — Oui : échec même si le total dépasse le seuil. Normal : 1 naturel. ; 4 · Comparer — Sinon, total sous le seuil : échec ; total égal ou supérieur : réussite. ; 5 · Qualifier — Marge = total − seuil. 0–2 : 0 DR ; 3–5 : 1 DR ; +1 DR tous les 3 points, max 5.. Exemple : base 7 + dé 9 = 16 contre 15 → marge 1, donc 0 DR."
+    },
+    {
+      "articleId": "regles-initiative-pa-deplacement",
+      "sectionId": "ordre-des-passes",
+      "src": "images/rules/regles-initiative-v4.svg",
+      "mobileSrc": "images/rules/regles-initiative-v4-mobile.svg",
+      "title": "Une Réaction consomme une passe future",
+      "alt": "Une Réaction consomme une passe future : 1 · Initiative — Agilité + Athlétisme + 1d10e : 1 à 10 = 1 PA ; 11 à 15 = 2 ; 16+ = 3. ; 2 · Passes — Avec 4 PA, agir aux passes 1, 2, 3 et 4 ; la passe 1 est commune à tous. ; 3 · Réagir — Après la passe 1, Défense active : dépenser 1 PA du round. ; 4 · Déduire — Supprimer la plus haute passe future disponible : ici la passe 4. ; 5 · Reprendre — Le personnage agit encore aux passes 2 et 3, puis son round est fini.. Un 1 naturel à l’Initiative plafonne à 1 PA, quel que soit le total."
+    },
+    {
+      "articleId": "regles-combat-defenses",
+      "sectionId": "defenses",
+      "src": "images/rules/regles-combat-v4.svg",
+      "mobileSrc": "images/rules/regles-combat-v4-mobile.svg",
+      "title": "Résoudre une attaque physique",
+      "alt": "Résoudre une attaque physique : 1 · Attaque — Mêlée : Vigueur + Mêlée + 1d10e ; Pugilat : Vigueur + Pugilat + 1d10e. ; 2 · Défense possible ? — Passive : Agilité + Esquive. Active : +1d10e en Réaction pour 1 PA, sauf surprise. ; 3 · Comparer — Attaque ≤ Défense : aucun effet. Attaque > Défense : marge positive. ; 4 · Dégâts — Mêlée : marge + DGT de l’arme − Armure ; Pugilat : marge + DGT 1 − Armure. ; 5 · Appliquer — Déduire les dégâts des PV ; l’Armure réduit les dégâts, jamais la Défense.. En Zone : un jet d’attaque, mais défense, marge et dégâts séparés pour chaque cible."
+    },
+    {
+      "articleId": "regles-sante-blessures-soins",
+      "sectionId": "agonisant",
+      "src": "images/rules/regles-sante-v4.svg",
+      "mobileSrc": "images/rules/regles-sante-v4-mobile.svg",
+      "title": "Blessure, Agonie et stabilisation",
+      "alt": "Blessure, Agonie et stabilisation : 1 · Suivre les PV — PV max = 2 × Vigueur + Constitution ; à 50 % : Tendu minimum ; à 25 % : Paniqué. ; 2 · À 0 PV — Agonisant : 1 PA maximum ; ni attaque ni Défense active. ; 3 · Fin de chaque round — Si non Stabilisé : Vigueur + Constitution + 1d10e contre 15. ; 4 · Test manqué — −1 PV ; échec narratif : −2 PV. Mort à −(Vigueur + Constitution). ; 5 · Stabiliser — Esprit + Soin contre 15 : retour exactement à 0 PV, plus de test d’Agonie.. Pour agir normalement après stabilisation, récupérer au moins 1 PV."
+    },
+    {
+      "articleId": "regles-stress-etats-psychologiques",
+      "sectionId": "stress-impose-blessures",
+      "src": "images/rules/regles-stress-v4.svg",
+      "mobileSrc": "images/rules/regles-stress-v4-mobile.svg",
+      "title": "Quel état régit réellement le dé ?",
+      "alt": "Quel état régit réellement le dé ? : 1 · Identifier les sources — Stress subi ou imposé ; blessures ≤ 50 % PV : Tendu minimum ; ≤ 25 % : Paniqué. ; 2 · Retenir l’état — Normal : échec 1 / explosion 10 ; Tendu : échec 1–2 / explosion 9–10. ; 3 · Si Paniqué — Échec narratif 1–3 ; explosion seulement sur 10 naturel. ; 4 · Soigner les blessures — Au-dessus d’un seuil de PV, retirer aussitôt le minimum imposé par ce seuil. ; 5 · Autre cause ? — Si oui, conserver son Stress ; sinon redescendre au minimum encore applicable.. Le repos ne descend jamais sous le minimum de Stress encore imposé par les blessures."
+    },
+    {
+      "articleId": "regles-realite-v9-charge-stress-frenesie",
+      "sectionId": "difficultes",
+      "src": "images/rules/regles-augmentations-v4.svg",
+      "mobileSrc": "images/rules/regles-augmentations-v4-mobile.svg",
+      "title": "Déclencher une crise augmentique",
+      "alt": "Déclencher une crise augmentique : 1 · Calculer les limites — Intégrité = Force Mentale + Humanité ; Stress max = Vigueur + Humanité. ; 2 · Chercher le déclencheur — Déclencheur majeur en Saturation/Surcharge ou Stress au moins égal au maximum. ; 3 · Chiffrer chaque dépassement — Au seuil : 15 ; +1 : 18 ; +2 : 21 ; +3 ou plus : 25. ; 4 · Deux jauges ? — Charge et Stress simultanés : un seul test contre la difficulté la plus haute. ; 5 · Résoudre — Volonté + Maîtrise spirituelle ; en échec, suivre la Frénésie et son impulsion.. N-Sta réduit le Stress effectif de 1, mais ne modifie ni Charge ni Intégrité."
+    },
+    {
+      "articleId": "regles-realite-v9-neurodive-actions-intrusion",
+      "sectionId": "intrusion-controle",
+      "src": "images/rules/regles-intrusion-v4.svg",
+      "mobileSrc": "images/rules/regles-intrusion-v4-mobile.svg",
+      "title": "Intrusion : atteindre une fonction",
+      "alt": "Intrusion : atteindre une fonction : 1 · Vérifier la voie — Connexion et protocole compatibles ; nommer le système et le nœud visé. ; 2 · Franchir l’obstacle — Intrusion sur authentification, verrou ou porte logique ; 1 PA sous pression. ; 3 · Échec ? — Aucun accès ; sécurité peut déclencher alerte, verrouillage, IA ou trace. ; 4 · Réussite ? — Seul l’obstacle nommé est franchi ; atteindre la fonction réellement accessible. ; 5 · Agir puis couvrir ses traces — Contrôle de la porte A ; caméra du nœud B = nouvel accès. Masquage si requis.. Réussir l’objectif n’efface pas automatiquement les traces."
+    },
+    {
+      "articleId": "regles-realite-v9-economie-compte-train-vie",
+      "sectionId": "charges-fixes",
+      "src": "images/rules/regles-train-de-vie-v4.svg",
+      "mobileSrc": "images/rules/regles-train-de-vie-v4-mobile.svg",
+      "title": "Train de vie : calculer le cran effectif",
+      "alt": "Train de vie : calculer le cran effectif : 1 · Choisir la base — Prendre la valeur mensuelle de référence du Train de vie de base. ; 2 · Additionner — Compter les Charges fixes durables ; un achat comptant unique n’en est pas une. ; 3 · Diviser — Nombre de crans perdus = tranches complètes de la référence dans les charges. ; 4 · Exemple — Référence 1 200 $ ; charges 2 500 $ → 2 tranches complètes → −2 crans. ; 5 · Dépenser — Quotidien selon le cran effectif ; biens durables ou rares payés par le Compte.. La référence du calcul reste celle du Train de vie de base après la baisse."
+    },
+    {
+      "articleId": "regles-verite-v7-pa-reactions-defense-puissance",
+      "sectionId": "4-defense-occulte-et-puissance-des-effets",
+      "src": "images/rules/regles-defense-occulte-v4.svg",
+      "mobileSrc": "images/rules/regles-defense-occulte-v4-mobile.svg",
+      "title": "Choisir la Défense contre un effet",
+      "alt": "Choisir la Défense contre un effet : 1 · Quel effet atteint la cible ? — Imposition directe sur esprit, âme ou intérieur du corps : occultement imposé. ; 2 · Ou phénomène évitable ? — Projectile ou manifestation physiquement évitable : Défense physique. ; 3 · Défense passive — Occulte = Volonté + Force Mentale ; physique = Agilité + Esquive. ; 4 · Réaction permise ? — Dépenser 1 PA : ajouter 1d10e à la Défense du type retenu. ; 5 · Résolution — Comparer l’attaque à cette seule Défense ; égalité = statu quo.. Une même attaque ne sollicite jamais Défense physique et occulte ensemble."
+    },
+    {
+      "articleId": "regles-verite-v7-voile-continuite-objets-reseaux-interfaces",
+      "sectionId": "5-hologramme-voile-semi-revelation-et-revelation",
+      "src": "images/rules/regles-voile-v4.svg",
+      "mobileSrc": "images/rules/regles-voile-v4-mobile.svg",
+      "title": "Ce que voit un observateur du Voile",
+      "alt": "Ce que voit un observateur du Voile : 1 · État de la cible : V — Forme traduite par l’Hologramme ; même un observateur R voit la traduction. ; 2 · Cible : SR — Observateur V : traduction ; observateur SR/R : Vérité partielle. ; 3 · Cible : R — Vérité exprimée visible de tous, même d’un observateur V. ; 4 · Transition sous pression — Normalement 1 PA ; jet seulement si opposition ou contrainte significative. ; 5 · Corriger si nécessaire — Le Voile peut corriger le souvenir civil ; un Chasseur reconnu conserve ce qu’il a vu.. Voir sous le Voile ne Révèle pas automatiquement une cible encore Voilée."
+    },
+    {
+      "articleId": "regles-verite-v7-vampire-nature-predation-cours",
+      "sectionId": "etats",
+      "src": "images/rules/regles-vampire-etats-v4.svg",
+      "mobileSrc": "images/rules/regles-vampire-etats-v4-mobile.svg",
+      "title": "Vampire : ce que change chaque état",
+      "alt": "Vampire : ce que change chaque état : 1 · Voilé — Corps humain ; aucun bonus de Nature ; vieillissement si l’état dure anormalement. ; 2 · Semi-Révélé — +1 Vigueur et +1 Volonté ; sens surnaturels et pouvoirs subtils. ; 3 · Révélé — +2 Vigueur, +1 Agilité, +1 Volonté ; prédation, stase et régénération. ; 4 · Vérifier le Sang — La majorité des Talents de Sang et l’Empreinte de Cour exigent R. ; 5 · Changer d’allégeance — Cela ne change jamais la Cour d’origine ni son Empreinte gratuite.. Les bonus de R remplacent ceux de SR : ils ne s’ajoutent pas aux précédents."
+    },
+    {
+      "articleId": "regles-verite-v7-angelus-nature-revelation-transcendance",
+      "sectionId": "aura-aureole-et-arbre-de-vie",
+      "src": "images/rules/regles-angelus-aura-v4.svg",
+      "mobileSrc": "images/rules/regles-angelus-aura-v4-mobile.svg",
+      "title": "Angelus : Aura, Éveil et rang",
+      "alt": "Angelus : Aura, Éveil et rang : 1 · Éveil — Comprendre ou retrouver sa nature est distinct de passer en SR ou R. ; 2 · Déterminer le rang — Angelus : 1 Nature ; Chérubin : 2 ; Séraphin exceptionnel : 3. ; 3 · Calculer l’Aura max — 3 + Force Mentale ; Chérubin +2 ; Séraphin +4, plafonds 8 / 10 / 12. ; 4 · Payer les pouvoirs — Chaque Talent ou Don dépense l’Aura indiquée ; le rang ne rend pas les dons gratuits. ; 5 · Activer les ailes — Un Chérubin paie 1 Aura pour toutes ses ailes ; +1 Agilité au total.. Séraphin est un rang exceptionnel de campagne, sans achat standard de Talent."
+    },
+    {
+      "articleId": "regles-verite-v7-corruption-integrite-bascule",
+      "sectionId": "exposition",
+      "src": "images/rules/regles-corruption-v4.svg",
+      "mobileSrc": "images/rules/regles-corruption-v4-mobile.svg",
+      "title": "Exposition, profondeur et Bascule",
+      "alt": "Exposition, profondeur et Bascule : 1 · Déterminer le vecteur — Physique : Vigueur + Constitution ; mental : Volonté + Force Mentale. ; 2 · Résister — Ajouter 1d10e contre 12 / 15 / 18 / 21 / 25 selon l’intensité. ; 3 · Reporter le résultat — Réussite : +0 ; échec : +1 ; échec narratif : +2 Corruption de la Source. ; 4 · Comparer à l’Intégrité — Intégrité = Force Mentale + Humanité ; atteindre ce score : Bascule immédiate. ; 5 · Tenter de tenir — Volonté + Maîtrise spirituelle + 1d10e contre 18 ; échec : Rupture.. Un succès de Bascule laisse la jauge au maximum ; une nouvelle exposition reteste."
+    },
+    {
+      "articleId": "regles-realite-v9-supports-slots-compatibilites",
+      "sectionId": "support-et-module",
+      "src": "images/rules/regles-supports-v4.svg",
+      "mobileSrc": "images/rules/regles-supports-v4-mobile.svg",
+      "title": "Augmentations : support, slot et bonus",
+      "alt": "Augmentations : support, slot et bonus : 1 · Repérer le support — Une augmentation support ouvre ses slots ; un module doit être compatible. ; 2 · Vérifier l’emplacement — Chaque module occupe ses slots ; un œil est un support séparé de l’autre. ; 3 · Appliquer l’exclusivité — Une peau globale principale ; armure et camouflage dermiques exigent un modèle compatible. ; 4 · Vérifier les bonus — Visée, Viser, Verrouillage : garder le meilleur bonus de ciblage. ; 5 · Reporter le coût — Charge et Stress de chaque élément installé suivent leurs règles propres.. Un support ne confère pas automatiquement les propriétés de ses modules."
+    },
+    {
+      "articleId": "regles-realite-v9-equipement-proprietes-protections",
+      "sectionId": "armure-reductions",
+      "src": "images/rules/regles-equipement-reel-v4.svg",
+      "mobileSrc": "images/rules/regles-equipement-reel-v4-mobile.svg",
+      "title": "Couches de protection : retenir quoi ?",
+      "alt": "Couches de protection : retenir quoi ? : 1 · Identifier le vecteur — L’attaque concerne dégâts matériels, balistiques, choc, feu ou autre type explicite. ; 2 · Armure de base — Meilleure Armure portée + meilleure Armure corporelle applicables ; pas deux de chaque. ; 3 · Réduction typée — Appliquer seulement celles qui correspondent au vecteur et sont réellement compatibles. ; 4 · Perforant X — Ignorer X points de l’Armure matérielle concernée, jamais une Défense. ; 5 · Soustraire les PV — Le reliquat après protections atteint les PV ; vérifier ensuite les seuils de blessure.. Une protection ne s’ajoute jamais au score de Défense passive ou active."
+    },
+    {
+      "articleId": "regles-realite-v9-neurocombat-integrite-logicielle",
+      "sectionId": "sacrifice",
+      "src": "images/rules/regles-neurocombat-v4.svg",
+      "mobileSrc": "images/rules/regles-neurocombat-v4-mobile.svg",
+      "title": "Neurocombat : cible, impact et sacrifice",
+      "alt": "Neurocombat : cible, impact et sacrifice : 1 · Attaquer — Programme offensif chargé : Volonté + Neurodive + 1d10e contre Défense Neuro. ; 2 · Cible vivante ? — Marge en dégâts sur ses PV ; seule une réduction [Neuro] protège, pas l’Armure. ; 3 · Calculer le reliquat — Après Défense, effet défensif et réductions [Neuro], compter les PV encore à perdre. ; 4 · Sacrifier si souhaité — Chaque programme chargé sacrifié annule 3 PV restants ; l’excédent est perdu. ; 5 · Appliquer — Retrancher les PV non annulés ; programmes sacrifiés grillés et slots indisponibles.. Contre IA ou programme : marge 1–5 perturbé ; 6–10 désactivé ; 11+ détruit."
+    },
+    {
+      "articleId": "regles-realite-v9-vehicules-poursuites-reparations",
+      "sectionId": "tir-occupants",
+      "src": "images/rules/regles-vehicules-v4.svg",
+      "mobileSrc": "images/rules/regles-vehicules-v4-mobile.svg",
+      "title": "Véhicule attaqué : qui encaisse ?",
+      "alt": "Véhicule attaqué : qui encaisse ? : 1 · Identifier la cible — Attaque dirigée contre le véhicule ou contre un occupant exposé ? ; 2 · Véhicule — Comparer l’attaque à sa Défense, puis appliquer son Blindage avant la Structure. ; 3 · Occupant — Si ciblé : couvert de carrosserie +3 Défense ; Blindage traversé puis Armure perso. ; 4 · Dommages annexes — Un choc ou accident peut blesser les passagers selon sa règle. ; 5 · Réparer — Les réparations portent sur la Structure et exigent les conditions indiquées.. Une attaque contre la carrosserie ne retranche pas automatiquement les PV de chaque passager."
+    },
+    {
+      "articleId": "regles-verite-v7-garou-nature-formes-frenesie-pelages",
+      "sectionId": "mue",
+      "src": "images/rules/regles-garou-mue-v4.svg",
+      "mobileSrc": "images/rules/regles-garou-mue-v4-mobile.svg",
+      "title": "Mue hybride : quand arrive le +1 PA ?",
+      "alt": "Mue hybride : quand arrive le +1 PA ? : 1 · Déclarer la Mue — De V, SR ou humain révélé vers hybride : réserver un round entier. ; 2 · Compter les Mues — Depuis le dernier repos : 1re automatique ; 2e 15 ; 3e 18 ; 4e 21 ; 5e+ 25. ; 3 · Si le test échoue — Forcer : 3 PV irréductibles ; échec narratif : round perdu, plus de Mue cette scène. ; 4 · Round suivant — La forme hybride est achevée au début du round suivant. ; 5 · Rounds ultérieurs — Le +1 PA hybride commence seulement après ce round d’achèvement.. Passer de l’humain révélé à l’animal coûte 1 PA, sans épuisement hybride normal."
+    },
+    {
+      "articleId": "regles-verite-v7-corruption-integrite-bascule",
+      "sectionId": "souillure",
+      "src": "images/rules/regles-corruption-rites-v4.svg",
+      "mobileSrc": "images/rules/regles-corruption-rites-v4-mobile.svg",
+      "title": "DON, RITE ou FAVEUR : tester la Souillure ?",
+      "alt": "DON, RITE ou FAVEUR : tester la Souillure ? : 1 · DON personnel — Aucun test de Souillure à chaque usage, sauf mention explicite. ; 2 · RITE ou FAVEUR — Chaque activation surnaturelle déclenche un test, même si le pouvoir échoue. ; 3 · Fixer la difficulté — Coût 1 PTV : 15 ; 2 PTV : 18 ; 3 PTV : 21 ; exception explicite : 25. ; 4 · Résister — Volonté + Force Mentale ; si explicitement corporel : Vigueur + Constitution. ; 5 · Maintenir — Un maintien ne reteste pas ; nouvelle activation, nouveau test.. Purifier le porteur à 0 endort ses Dons ; les Rites appris restent connus."
     }
   ]
 }
