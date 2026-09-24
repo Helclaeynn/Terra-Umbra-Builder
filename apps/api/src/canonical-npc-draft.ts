@@ -12,6 +12,15 @@ export function canonicalNpcDraft(n:NpcData):NpcArticleDraft{
  const derived=characterDerivedStats(id=>n.attributes[id]||0,id=>n.skills[id]||0,[]);
  const sex=NPC_SEXES.find(s=>s.id===(n.sex??'unspecified'))!.name;
  const privateFields=[['Faction ou groupe',n.faction],['Motivation',n.motivation],['Secret ou accroche',n.secret],['Équipement réellement porté',n.equipment],['Vérité et pouvoirs particuliers',n.truthNotes],['Notes',n.notes],['Tags de travail',n.tags.join(', ')]];
+ const truth=n.truth;
+ const truthBlocks:NpcArticleBlock[]=truth?[
+  paragraph(`Nature : ${c.truthNatures.find(x=>x.id===truth.natureId)?.name}. Puissance : ${c.truthPowers.find(x=>x.id===truth.powerId)?.name}. Archétype : ${c.truthArchetypes.find(x=>x.id===truth.archetypeId)?.name}. État : ${truth.state}. PTV estimés dépensés : ${truth.ptv}. Les valeurs R ci-dessous sont finales.`),
+  table([['Attribut de Vérité',...c.attributes.map(a=>a.name)],['Révélé',...c.attributes.map(a=>String(truth.attributes[a.id]))]]),
+  table([['Compétence de Vérité','Rang'],...c.skills.filter(s=>truth.skills[s.id]>0).map(s=>[s.name,String(truth.skills[s.id])])]),
+  paragraph(`Spécialités : ${c.skills.find(s=>s.id===truth.specialtySkill)?.name||'à préciser'}${truth.secondSpecialtySkill?' / '+c.skills.find(s=>s.id===truth.secondSpecialtySkill)?.name:''}.`),
+  ...truth.talentIds.map(id=>{const t=c.truthTalents.find(x=>x.name===id)!;return paragraph(`${t.name} — ${t.cost} PTV. ${t.prerequisite}. ${t.effect}`);}),
+  ...(truth.abilities?[paragraph(`Capacités propres : ${truth.abilities}`)]:[]),...(truth.notes?[paragraph(`Notes de Vérité : ${truth.notes}`)]:[])
+ ]:[];
  const profile:NpcArticleBlock[]=[
   paragraph(`Palier : ${tier.name}. Budgets : ${tier.attributes} points d’attributs et ${tier.skills} points de compétences ; plafond ordinaire ${tier.cap}.`),
   table([['Attribut',...c.attributes.map(a=>a.name)],['Valeur',...c.attributes.map(a=>String(n.attributes[a.id]))]]),
@@ -21,8 +30,9 @@ export function canonicalNpcDraft(n:NpcData):NpcArticleDraft{
   ...(n.apexSkill?[paragraph(`Apex — ${c.skills.find(s=>s.id===n.apexSkill)?.name} : ${n.apexReason}`)]:[])
  ];
  return {id:'',title:n.name.trim(),category:'Personnages',source:'Création originale',status:'canon_recent',tags:['réalité/PNJ'],pnj:{real_name:n.name.trim(),sexe:sex,protect_truth_metadata:true,...(n.portrait?{portrait:n.portrait,portrait_alt:n.name.trim()}:{}),generator_profile:{tierId:n.tierId,presetId:n.presetId}},sections:[
-  {id:'identite-apparente',title:'Identité apparente',level:2,blocks:[table([['Identité','Valeur'],['Nom',n.name],['Rôle',n.role],['Sexe',sex]]),...(n.appearance?[paragraph(n.appearance)]:[]),...(n.personality?[paragraph(n.personality)]:[])]},
+  {id:'identite-apparente',title:'Identité apparente',level:2,blocks:[table([['Identité','Valeur'],['Nom',n.name],['Prénom',n.firstName||''],['Nom de famille',n.lastName||''],['Nationalité d’origine',c.nationalities.find(x=>x.id===n.nationality)?.name||n.nationality||''],['Rôle',n.role],['Sexe',sex]]),...(n.appearance?[paragraph(n.appearance)]:[]),...(n.personality?[paragraph(n.personality)]:[])]},
   {id:'dossier-mj',title:'Dossier MJ',level:2,audience:'mj',blocks:privateFields.filter(([,value])=>value.trim()).map(([label,value])=>paragraph(`${label} : ${value}`))},
-  {id:'profil-statistique',title:'Profil statistique',level:2,audience:'mj',blocks:profile}
+  {id:'profil-statistique',title:'Profil statistique',level:2,audience:'mj',blocks:profile},
+  ...(truth?[{id:'profil-verite',title:'Profil de Vérité',level:2,audience:'mj',blocks:truthBlocks}]:[])
  ]};
 }

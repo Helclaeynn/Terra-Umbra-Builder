@@ -49,9 +49,9 @@ for(const role of ['admin','editor']){
   if(role==='editor'){assert.equal(w.document.querySelector('.canonical-generator'),null);assert.equal(calls.filter(c=>c.url.includes('npc-generator')).length,0);continue;}
   await until(()=>w.document.querySelector('.canonical-generator select'));
   await fill(w.document.querySelectorAll('.canonical-generator .choices select')[2],'female','change');await pause(0);button('Générer un aperçu').click();
-  await until(()=>field('Nom du PNJ'));
+  await until(()=>field('Nom affiché / alias'));
   assert.equal(w.document.querySelector('[aria-label="Sexe du PNJ"]').value,'female');
-  await fill(field('Nom du PNJ'),'Alex Test');
+  await fill(field('Nom affiché / alias'),'Alex Test');
   await fill(field('Secret ou accroche MJ'),'SECRET\n== Heading injection ==\nHIDDEN TEXT\n{{MJ}}\nStill private');
   await fill(w.document.querySelector('[aria-label="Sexe du PNJ"]'),'other','change');await pause(0);
   assert.ok(!published);button('Créer le brouillon PNJ').click();
