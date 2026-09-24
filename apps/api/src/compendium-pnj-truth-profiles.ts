@@ -1,5 +1,6 @@
 type Block = {type:'p';text:string}|{type:'table';rows:string[][]};
 import {applyPnjTruthBatch001, REVIEWED_TRUTH_BATCH_001_IDS} from './compendium-pnj-truth-batch-001.js';
+import {applyPnjTruthBatch002, REVIEWED_TRUTH_BATCH_002_IDS} from './compendium-pnj-truth-batch-002.js';
 type Article = {id:string;sections?:Array<{id?:string;audience?:string;blocks?:Block[]}>;[key:string]:any};
 const p=(text:string):Block=>({type:'p',text});
 const table=(rows:string[][]):Block=>({type:'table',rows});
@@ -11,7 +12,8 @@ export const INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS = [
   'personnages-verite-especes-ming-xinya',
   'pnj-fleaux-focus-olayinka-najja-8-olayinka-najja',
   'personnages-verite-especes-megda-ayshin',
-  ...REVIEWED_TRUTH_BATCH_001_IDS
+  ...REVIEWED_TRUTH_BATCH_001_IDS,
+  ...REVIEWED_TRUTH_BATCH_002_IDS
 ] as const;
 
 // Editorial, source-anchored Truth profiles are separate from Reality. The
@@ -181,4 +183,5 @@ export function applyCompendiumPnjTruthProfiles(byId:Map<string,Article>):void {
     p('Autorité 16 et Furtivité 16 sont des exceptions MJ liées à la manipulation de sa Cour et à ses infiltrations documentées. Les valeurs SR/R comprennent les bonus de Nature vampire. Talent signature : Venin de la Lamia, à résoudre sur exposition réelle et résistance appropriée ; il n’ouvre pas automatiquement l’arbre de Sang Venimeux d’une autre Cour. Son appartenance secrète à Ashlutum et l’Œil d’or demandent des achats et prérequis vérifiés avant de chiffrer les pouvoirs correspondants.')
   );
   applyPnjTruthBatch001(byId);
+  applyPnjTruthBatch002(byId);
 }

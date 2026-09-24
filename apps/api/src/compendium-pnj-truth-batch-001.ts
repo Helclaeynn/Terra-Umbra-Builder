@@ -3,8 +3,10 @@
 // Les rangs listés sont les compétences saillantes ; les autres conservent le
 // profil de Réalité jusqu'à un achat documenté. Aucun PTV n'est inventé.
 type Block = {type:'p';text:string}|{type:'table';rows:string[][]};
-type Article = {id:string;title?:string;sections?:Array<{id?:string;title?:string;level?:number;audience?:string;blocks?:Block[]}>;[key:string]:any};
-type Decision = readonly [id:string, attributes:readonly [number,number,number,number,number], skills:readonly (readonly [string,number])[], evidence:string, limit:string];
+export type TruthBatchArticle = {id:string;title?:string;sections?:Array<{id?:string;title?:string;level?:number;audience?:string;blocks?:Block[]}>;[key:string]:any};
+export type TruthDecision = readonly [id:string, attributes:readonly [number,number,number,number,number], skills:readonly (readonly [string,number])[], evidence:string, limit:string];
+type Article = TruthBatchArticle;
+type Decision = TruthDecision;
 const choices:Decision[] = [
   ['pnj-pegre-milda-tarasknovna',[10,9,10,11,10],[['Force Mentale',17],['Autorité',16],['Mêlée',15]],'Selaphielle, ancienne Archange du devoir, rivalisait avec Michel ; son incarnation est consentie et Milda conserve souvent le contrôle de son corps.','Talent signature : Devoir partagé — 1/scène, 1 PA, Selaphielle peut guider une décision ou une défense de Milda ; aucune prise de contrôle automatique contre sa volonté.'],
   ['pnj-police-casey-vaughn',[6,8,11,10,10],[['Savoirs',16],['Furtivité',15],['Représentation',13]],'Celeasa est une elfe de plusieurs siècles, magicienne autrefois, devenue pirate informatique et maîtresse des identités masquées.','Sa grande affinité magique ne signifie pas que ses sorts délaissés soient immédiatement disponibles.'],
@@ -108,8 +110,8 @@ const choices:Decision[] = [
 
 export const REVIEWED_TRUTH_BATCH_001_IDS = choices.map(choice=>choice[0]);
 
-export function applyPnjTruthBatch001(byId:Map<string,Article>):void {
-  for(const [id, values, skills, evidence, limit] of choices){
+export function applyPnjTruthDecisions(byId:Map<string,Article>, decisions:readonly Decision[]):void {
+  for(const [id, values, skills, evidence, limit] of decisions){
     const article=byId.get(id);
     if(!article?.sections)throw new Error(`Fiche Vérité introuvable : ${id}`);
     const reality=article.sections.find(section=>section.id==='profil-statistique');
@@ -126,4 +128,7 @@ export function applyPnjTruthBatch001(byId:Map<string,Article>):void {
       id:`profil-verite-${id}`,title:`Profil de Vérité · ${article.title??id}`,level:2,audience:'mj',blocks
     });
   }
+}
+export function applyPnjTruthBatch001(byId:Map<string,Article>):void {
+  applyPnjTruthDecisions(byId,choices);
 }
