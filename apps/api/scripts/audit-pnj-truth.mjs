@@ -7,8 +7,10 @@ import pg from 'pg';
 
 pg.Pool.prototype.query = async () => ({ rows: [], rowCount: 0 });
 const { getCompendiumQualityCorpus } = await import('../dist/compendium.js');
+const { INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS } = await import('../dist/compendium-pnj-truth-profiles.js');
 const corpus = await getCompendiumQualityCorpus();
 const people = corpus.articles.filter(article => article.category === 'Personnages');
+const reviewed = new Set(INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS);
 
 const entries = people.map(article => {
   const pnj = article.pnj ?? {};
@@ -28,6 +30,7 @@ const entries = people.map(article => {
     dataset: article.dataset ?? null,
     realityTier: realityIntro.match(/^(Sbire|Ennemi lambda|Entraîné|Élite|Haute élite|Héroïque|Légendaire|Supérieur)/)?.[1] ?? null,
     hasRealityStats: Boolean(realitySection?.blocks?.length > 1),
+    individuallyReviewedTruthProfile: reviewed.has(article.id),
     truth: {
       identity: pnj.nom_verite ?? null,
       natureRaw: pnj.race ?? null,
@@ -42,6 +45,7 @@ const summary = {
   active: entries.length,
   truthMetadata: entries.filter(entry => entry.truth.hasTruthMetadata).length,
   realityStats: entries.filter(entry => entry.hasRealityStats).length,
+  individuallyReviewedTruthProfiles: entries.filter(entry => entry.individuallyReviewedTruthProfile).length,
   natureCounts: Object.fromEntries([...new Set(entries.map(entry => entry.truth.natureRaw).filter(Boolean))]
     .sort((a, b) => a.localeCompare(b, 'fr'))
     .map(nature => [nature, entries.filter(entry => entry.truth.natureRaw === nature).length]))

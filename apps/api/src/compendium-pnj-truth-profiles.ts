@@ -1,7 +1,18 @@
 type Block = {type:'p';text:string}|{type:'table';rows:string[][]};
+import {applyPnjTruthBatch001, REVIEWED_TRUTH_BATCH_001_IDS} from './compendium-pnj-truth-batch-001.js';
 type Article = {id:string;sections?:Array<{id?:string;audience?:string;blocks?:Block[]}>;[key:string]:any};
 const p=(text:string):Block=>({type:'p',text});
 const table=(rows:string[][]):Block=>({type:'table',rows});
+export const INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS = [
+  'personnages-verite-especes-neeba-ngubenani',
+  'pnj-142-dan-harrington',
+  'personnages-verite-especes-quetzalcoatl',
+  'personnages-verite-especes-elody-katherine-skotia',
+  'personnages-verite-especes-ming-xinya',
+  'pnj-fleaux-focus-olayinka-najja-8-olayinka-najja',
+  'personnages-verite-especes-megda-ayshin',
+  ...REVIEWED_TRUTH_BATCH_001_IDS
+] as const;
 
 // Editorial, source-anchored Truth profiles are separate from Reality. The
 // purchaser catalog and the exact PTV total stay unset until individual Dons
@@ -125,4 +136,49 @@ export function applyCompendiumPnjTruthProfiles(byId:Map<string,Article>):void {
     ]),
     p('Savoirs 18 et Force Mentale 16 sont des exceptions MJ fondées sur sa pratique millénaire ; elles ne donnent aucune immunité au taoïsme véritable. Talent signature : Équilibre impérial, une préparation défensive limitée liée aux recherches décrites dans son dossier. Les propriétés propres aux Archivampires et les Talents de Sang ne sont ajoutés qu’après vérification de leurs prérequis et de leurs coûts ; aucune règle commune de Vampire ne se cumule aveuglément avec sa Nature singulière.')
   );
+
+  const olayinka=byId.get('pnj-fleaux-focus-olayinka-najja-8-olayinka-najja');
+  const olayinkaReality=olayinka?.sections?.find(section=>section.id==='profil-statistique');
+  if(!olayinkaReality||olayinkaReality.audience!=='mj')throw new Error('Profil Vérité : Olayinka introuvable');
+  olayinkaReality.blocks??=[];
+  olayinkaReality.blocks.push(
+    p('Vérité · Olayinka Najja. Son profil de Réalité décrit une dirigeante religieuse ; le dossier MJ décrit l’ancienne chamane devenue archiprêtresse de la Fontaine des Ténèbres, mère adoptive et mentor de Neeba, dont le sang peut engendrer une Strygoï noire. La puissance religieuse et vampirique est évaluée indépendamment de son métier apparent. Les nombres suivants sont une estimation éditoriale pour le jeu.'),
+    table([
+      ['État','Profil','Attributs','Compétences','Vigueur','Agilité','Esprit','Volonté','Charisme'],
+      ['Voilé','Haute élite · Réalité','32','75','5','5','7','7','8'],
+      ['Semi-Révélé','Légendaire · estimation MJ','42','140','7','7','9','9','10'],
+      ['Révélé','Supérieur · estimation MJ','46','170','9','7','10','10','10']
+    ]),
+    table([
+      ['Compétence de Vérité révélée','Rang proposé'],
+      ['Savoirs','17'],['Force Mentale','16'],['Autorité','15'],['Diplomatie','14'],
+      ['Constitution','13'],['Perception','12'],['Pugilat','12'],['Représentation','11'],
+      ['Survie','10'],['Investigation','10'],['Esquive','9'],['Athlétisme','8'],
+      ['Furtivité','7'],['Mêlée','6'],['Commerce','5'],['Tir','5']
+    ]),
+    p('Savoirs 17 et Force Mentale 16 sont des exceptions MJ propres à sa pratique et à son ancienneté. Les valeurs SR/R comprennent les bonus de Nature vampire. Talent signature : Sang de la Fontaine ; la transformation éventuelle d’un humain est un événement de scénario et demande un contact réel. Son sang ne lui confère aucun achat gratuit de Sang d’une autre Cour ; les PTV et les règles de la Fontaine restent à documenter séparément.')
+  );
+
+  const megda=byId.get('personnages-verite-especes-megda-ayshin');
+  const megdaReality=megda?.sections?.find(section=>section.id==='profil-statistique');
+  if(!megdaReality||megdaReality.audience!=='mj')throw new Error('Profil Vérité : Megda introuvable');
+  megdaReality.blocks??=[];
+  megdaReality.blocks.push(
+    p('Vérité · Megda Ayshin, la Lamia. Sa Haute élite de Réalité reflète sa couverture d’insurgée ; le dossier MJ atteste une reine de l’Alghul manipulatrice, infiltrant chasseurs et réseaux criminels, et un venin surnaturel transmis par baiser, morsure ou effluve. Sa puissance occulte et son influence sont chiffrées à part de son activité apparente. Les valeurs suivantes sont une estimation éditoriale.'),
+    table([
+      ['État','Profil','Attributs','Compétences','Vigueur','Agilité','Esprit','Volonté','Charisme'],
+      ['Voilé','Haute élite · Réalité','32','75','8','8','5','6','5'],
+      ['Semi-Révélé','Légendaire · estimation MJ','42','140','8','8','8','9','9'],
+      ['Révélé','Supérieur · estimation MJ','46','170','9','9','9','10','9']
+    ]),
+    table([
+      ['Compétence de Vérité révélée','Rang proposé'],
+      ['Autorité','16'],['Furtivité','16'],['Force Mentale','15'],['Diplomatie','14'],
+      ['Savoirs','13'],['Perception','12'],['Constitution','12'],['Pugilat','11'],
+      ['Investigation','10'],['Esquive','10'],['Survie','9'],['Commerce','8'],
+      ['Tir','7'],['Athlétisme','6'],['Mêlée','6'],['Représentation','5']
+    ]),
+    p('Autorité 16 et Furtivité 16 sont des exceptions MJ liées à la manipulation de sa Cour et à ses infiltrations documentées. Les valeurs SR/R comprennent les bonus de Nature vampire. Talent signature : Venin de la Lamia, à résoudre sur exposition réelle et résistance appropriée ; il n’ouvre pas automatiquement l’arbre de Sang Venimeux d’une autre Cour. Son appartenance secrète à Ashlutum et l’Œil d’or demandent des achats et prérequis vérifiés avant de chiffrer les pouvoirs correspondants.')
+  );
+  applyPnjTruthBatch001(byId);
 }
