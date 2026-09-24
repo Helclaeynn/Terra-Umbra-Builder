@@ -3,6 +3,7 @@ import {applyPnjTruthBatch001, REVIEWED_TRUTH_BATCH_001_IDS} from './compendium-
 import {applyPnjTruthBatch002, REVIEWED_TRUTH_BATCH_002_IDS} from './compendium-pnj-truth-batch-002.js';
 import {applyPnjTruthBatch003, REVIEWED_TRUTH_BATCH_003_IDS} from './compendium-pnj-truth-batch-003.js';
 import {applyPnjTruthBatch004, REVIEWED_TRUTH_BATCH_004_IDS} from './compendium-pnj-truth-batch-004.js';
+import {applyPnjTruthBatch005, REVIEWED_TRUTH_BATCH_005_IDS} from './compendium-pnj-truth-batch-005.js';
 type Article = {id:string;sections?:Array<{id?:string;audience?:string;blocks?:Block[]}>;[key:string]:any};
 const p=(text:string):Block=>({type:'p',text});
 const table=(rows:string[][]):Block=>({type:'table',rows});
@@ -17,7 +18,8 @@ export const INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS = [
   ...REVIEWED_TRUTH_BATCH_001_IDS,
   ...REVIEWED_TRUTH_BATCH_002_IDS,
   ...REVIEWED_TRUTH_BATCH_003_IDS,
-  ...REVIEWED_TRUTH_BATCH_004_IDS
+  ...REVIEWED_TRUTH_BATCH_004_IDS,
+  ...REVIEWED_TRUTH_BATCH_005_IDS
 ] as const;
 
 // Editorial, source-anchored Truth profiles are separate from Reality. The
@@ -190,4 +192,5 @@ export function applyCompendiumPnjTruthProfiles(byId:Map<string,Article>):void {
   applyPnjTruthBatch002(byId);
   applyPnjTruthBatch003(byId);
   applyPnjTruthBatch004(byId);
+  applyPnjTruthBatch005(byId);
 }
