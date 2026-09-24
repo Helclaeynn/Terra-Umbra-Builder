@@ -1,6 +1,7 @@
 type Block = {type:'p';text:string}|{type:'table';rows:string[][]};
 import {applyPnjTruthBatch001, REVIEWED_TRUTH_BATCH_001_IDS} from './compendium-pnj-truth-batch-001.js';
 import {applyPnjTruthBatch002, REVIEWED_TRUTH_BATCH_002_IDS} from './compendium-pnj-truth-batch-002.js';
+import {applyPnjTruthBatch003, REVIEWED_TRUTH_BATCH_003_IDS} from './compendium-pnj-truth-batch-003.js';
 type Article = {id:string;sections?:Array<{id?:string;audience?:string;blocks?:Block[]}>;[key:string]:any};
 const p=(text:string):Block=>({type:'p',text});
 const table=(rows:string[][]):Block=>({type:'table',rows});
@@ -13,7 +14,8 @@ export const INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS = [
   'pnj-fleaux-focus-olayinka-najja-8-olayinka-najja',
   'personnages-verite-especes-megda-ayshin',
   ...REVIEWED_TRUTH_BATCH_001_IDS,
-  ...REVIEWED_TRUTH_BATCH_002_IDS
+  ...REVIEWED_TRUTH_BATCH_002_IDS,
+  ...REVIEWED_TRUTH_BATCH_003_IDS
 ] as const;
 
 // Editorial, source-anchored Truth profiles are separate from Reality. The
@@ -184,4 +186,5 @@ export function applyCompendiumPnjTruthProfiles(byId:Map<string,Article>):void {
   );
   applyPnjTruthBatch001(byId);
   applyPnjTruthBatch002(byId);
+  applyPnjTruthBatch003(byId);
 }
