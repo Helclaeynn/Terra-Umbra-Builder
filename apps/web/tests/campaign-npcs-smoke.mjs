@@ -28,17 +28,17 @@ await page.route('**/api/**',async route=>{
 const click=name=>page.getByRole('button',{name,exact:true}).click();
 try{
  await page.goto(base+'/campaigns/'+cid);await page.getByText('Mes PNJ de campagne · générateur et fiches',{exact:true}).click();
- await click('Créer des PNJ');assert.equal(await page.getByLabel('Palier du PNJ',{exact:true}).locator('option').count(),8);
- await page.getByLabel('Palier du PNJ',{exact:true}).selectOption('elite');await page.getByLabel('Prétiré',{exact:true}).selectOption('enqueteur');await page.getByLabel('Sexe à la génération',{exact:true}).selectOption('female');await click('Générer un aperçu');assert.equal(await page.getByLabel('Sexe du PNJ',{exact:true}).inputValue(),'female');
- await page.getByLabel('Nom du PNJ',{exact:true}).fill('Morgan · témoin');assert.equal(saves,0);
+ await click('Créer un PNJ');assert.equal(await page.getByLabel('Palier du PNJ',{exact:true}).locator('option').count(),8);
+ await page.getByLabel('Palier du PNJ',{exact:true}).selectOption('elite');await page.getByLabel('Prétiré',{exact:true}).selectOption('enqueteur');await page.getByLabel('Sexe à la génération',{exact:true}).selectOption('female');await click('Ouvrir la fiche personnalisée');assert.equal(await page.getByLabel('Sexe du PNJ',{exact:true}).inputValue(),'female');
+ await page.getByLabel('Nom affiché / alias',{exact:true}).fill('Morgan · témoin');assert.equal(saves,0);
  await page.getByLabel('Tags du PNJ',{exact:true}).fill('port, témoin');await page.getByLabel('Secret ou accroche MJ',{exact:true}).fill('Secret de test');
  // Real decoding and canvas compression, then database-shaped persistence and reload.
  const png=await page.evaluate(()=>{const c=document.createElement('canvas');c.width=1200;c.height=800;const x=c.getContext('2d');x.fillStyle='#267eb1';x.fillRect(0,0,1200,800);return c.toDataURL('image/png').split(',')[1];});
  await page.getByLabel('Ajouter ou remplacer l’image',{exact:true}).setInputFiles({name:'portrait.png',mimeType:'image/png',buffer:Buffer.from(png,'base64')});
- await page.locator('.portrait > img').waitFor();await click('Enregistrer les PNJ');await page.getByRole('status').filter({hasText:'1 PNJ enregistré'}).waitFor();assert.equal(saves,1);
+ await page.locator('.portrait > img').waitFor();await click('Enregistrer le PNJ');await page.getByRole('status').filter({hasText:'1 PNJ enregistré'}).waitFor();assert.equal(saves,1);
  let record=[...records.values()][0];assert.equal(record.data.sex,'female');assert.match(record.data.portrait,/^data:image\/(webp|jpeg);base64,/);assert.ok(record.data.portrait.length<700000);assert.deepEqual(record.data.tags,['port','témoin']);
  await click('Consulter Morgan · témoin');assert.equal(await page.locator('.preview .portrait img').evaluate(img=>img.naturalWidth),640);await click('Fermer la fiche PNJ');
- await click('Modifier Morgan · témoin');await page.getByLabel('Nom du PNJ',{exact:true}).fill('Morgan · contact');await click('Enregistrer le PNJ');await page.getByRole('button',{name:'Consulter Morgan · contact',exact:true}).waitFor();
+ await click('Modifier Morgan · témoin');await page.getByLabel('Nom affiché / alias',{exact:true}).fill('Morgan · contact');await click('Enregistrer les modifications');await page.getByRole('button',{name:'Consulter Morgan · contact',exact:true}).waitFor();
  await click('Consulter Morgan · contact');
  for(const width of [1440,390,320]){await page.setViewportSize({width,height:1000});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'NPC layout '+width);}
  await click('Fermer la fiche PNJ');await page.getByText('Mes PNJ de campagne · générateur et fiches',{exact:true}).click();
@@ -47,7 +47,7 @@ try{
  await page.getByRole('button',{name:'Morgan · contact · Ouvrir la fiche',exact:true}).click();await page.locator('.reference .npc-sheet').waitFor();assert.match(await page.locator('.reference').textContent(),/Secret de test/);
  await click('Fermer la préparation');await page.locator('.notebook').waitFor({state:'detached'});assert.equal(session.scenes[0].references[0].npcId,record.id);
  await page.reload();await page.locator('.session > summary').click();await page.locator('details.private > summary').click();await page.getByRole('button',{name:'Morgan · contact · Ouvrir la fiche',exact:true}).click();await page.locator('.reference .npc-sheet').waitFor();
- await page.getByText('Mes PNJ de campagne · générateur et fiches',{exact:true}).click();await click('Modifier Morgan · contact');await click('Retirer l’image');await click('Enregistrer le PNJ');await page.getByRole('status').filter({hasText:'1 PNJ enregistré'}).waitFor();assert.equal(records.get(record.id).data.portrait,'');
+ await page.getByText('Mes PNJ de campagne · générateur et fiches',{exact:true}).click();await click('Modifier Morgan · contact');await click('Retirer l’image');await click('Enregistrer les modifications');await page.getByRole('status').filter({hasText:'1 PNJ enregistré'}).waitFor();assert.equal(records.get(record.id).data.portrait,'');
  role='player';await page.reload();await page.getByRole('heading',{name:'Le groupe',exact:true}).waitFor();assert.equal(await page.getByText('Mes PNJ de campagne · générateur et fiches',{exact:true}).count(),0);
- assert.deepEqual(errors,[]);console.log('NPC BROWSER OK — tiers, preview, editable preset, real image compression/persistence/removal, tags, scene selection and saved preview, private manager, 1440/390/320px reflow');
+ assert.deepEqual(errors,[]);console.log('NPC BROWSER OK — tiers, custom editable sheet, image compression/persistence/removal, tags, scene selection and saved sheet, private manager, 1440/390/320px reflow');
 }finally{await browser.close();}
