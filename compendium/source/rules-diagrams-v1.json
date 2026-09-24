@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "diagrams": [
+    {
+      "articleId": "regles-resolution-des-tests",
+      "sectionId": "test-standard",
+      "src": "images/rules/regles-resolution.svg",
+      "mobileSrc": "images/rules/regles-resolution-mobile.svg",
+      "title": "Résoudre un test",
+      "alt": "Résoudre un test : Composer — Attribut + Compétence + 1d10e ; Comparer — Total ≥ Difficulté : réussite ; Lire la marge — Total − Difficulté : degrés de réussite",
+      "caption": "Un échec narratif naturel prime sur le total."
+    },
+    {
+      "articleId": "regles-initiative-pa-deplacement",
+      "sectionId": "initiative-et-pa",
+      "src": "images/rules/regles-initiative.svg",
+      "mobileSrc": "images/rules/regles-initiative-mobile.svg",
+      "title": "Initiative et PA",
+      "alt": "Initiative et PA : Lancer — Agilité + Athlétisme + 1d10e ; Attribuer les PA — 1–10 : 1 PA · 11–15 : 2 PA · 16+ : 3 PA ; Jouer les passes — Actions selon les PA disponibles",
+      "caption": "Sur 1 naturel : 1 PA maximum."
+    },
+    {
+      "articleId": "regles-combat-defenses",
+      "sectionId": "defenses",
+      "src": "images/rules/regles-combat.svg",
+      "mobileSrc": "images/rules/regles-combat-mobile.svg",
+      "title": "Résoudre une attaque",
+      "alt": "Résoudre une attaque : Attaquer — Mêlée ou Tir : Attribut + Compétence + 1d10e ; Défendre — Défense passive ou active pour 1 PA ; Calculer — Si attaque > Défense : marge, puis dégâts − armure",
+      "caption": "Une égalité n’inflige ni dégât ni effet."
+    },
+    {
+      "articleId": "regles-sante-blessures-soins",
+      "sectionId": "pv-et-seuils",
+      "src": "images/rules/regles-sante.svg",
+      "mobileSrc": "images/rules/regles-sante-mobile.svg",
+      "title": "Blessures et soins",
+      "alt": "Blessures et soins : PV ≤ 50 % — État minimum : Tendu ; PV ≤ 25 % — État minimum : Paniqué ; PV ≤ 0 — Agonisant ; test en fin de round",
+      "caption": "Stabiliser : Esprit + Soin contre 15, retour à 0 PV."
+    },
+    {
+      "articleId": "regles-stress-etats-psychologiques",
+      "sectionId": "normal-tendu-panique",
+      "src": "images/rules/regles-stress.svg",
+      "mobileSrc": "images/rules/regles-stress-mobile.svg",
+      "title": "Les trois états de Stress",
+      "alt": "Les trois états de Stress : Normal — Échec narratif : 1 · explosion : 10 ; Tendu — Échec narratif : 1–2 · explosion : 9–10 ; Paniqué — Échec narratif : 1–3 · explosion : 10",
+      "caption": "Les blessures peuvent imposer un état minimum."
+    },
+    {
+      "articleId": "regles-realite-v9-charge-stress-frenesie",
+      "sectionId": "difficultes",
+      "src": "images/rules/regles-augmentations.svg",
+      "mobileSrc": "images/rules/regles-augmentations-mobile.svg",
+      "title": "Charge et Stress augmentique",
+      "alt": "Charge et Stress augmentique : Mesurer — Intégrité = Force Mentale + Humanité ; Comparer — Charge et Stress à leurs limites respectives ; Maîtriser — À la limite : 15 ; au-delà : 18, 21 ou 25",
+      "caption": "Le Stress de base des implants ne disparaît pas au repos."
+    },
+    {
+      "articleId": "regles-realite-v9-neurodive-actions-intrusion",
+      "sectionId": "intrusion-controle",
+      "src": "images/rules/regles-intrusion.svg",
+      "mobileSrc": "images/rules/regles-intrusion-mobile.svg",
+      "title": "Intrusion Neurodive",
+      "alt": "Intrusion Neurodive : Choisir le seuil — Sécurité : difficulté 12 à 25 ; Franchir — Test de Neurodive contre l’obstacle ; Contrôler — Une fonction accessible du nœud atteint",
+      "caption": "Un accès réussi ne donne pas tout le système."
+    },
+    {
+      "articleId": "regles-realite-v9-economie-compte-train-vie",
+      "sectionId": "charges-fixes",
+      "src": "images/rules/regles-train-de-vie.svg",
+      "mobileSrc": "images/rules/regles-train-de-vie-mobile.svg",
+      "title": "Train de vie et charges fixes",
+      "alt": "Train de vie et charges fixes : Point de départ — Train de vie de base ; Déduire les charges — Logement, véhicule, dettes et autres charges fixes ; Recalculer — Train de vie effectif, puis reste disponible",
+      "caption": "Le Train de vie n’est pas le salaire du personnage."
+    },
+    {
+      "articleId": "regles-verite-v7-pa-reactions-defense-puissance",
+      "sectionId": "4-defense-occulte-et-puissance-des-effets",
+      "src": "images/rules/regles-defense-occulte.svg",
+      "mobileSrc": "images/rules/regles-defense-occulte-mobile.svg",
+      "title": "Choisir la Défense",
+      "alt": "Choisir la Défense : Effet évitable — Phénomène physique : Défense physique ; Imposition directe — Esprit, âme, identité ou intérieur du corps : Défense occulte ; Réagir — Défense active : 1 PA si elle est autorisée",
+      "caption": "Pour un même effet, on ne cumule pas les deux Défenses."
+    },
+    {
+      "articleId": "regles-verite-v7-voile-continuite-objets-reseaux-interfaces",
+      "sectionId": "5-hologramme-voile-semi-revelation-et-revelation",
+      "src": "images/rules/regles-voile.svg",
+      "mobileSrc": "images/rules/regles-voile-mobile.svg",
+      "title": "États de Révélation",
+      "alt": "États de Révélation : Voilé — Forme traduite ; capacités compatibles V ; Semi-Révélé — Vérité partielle, normalement une scène au plus ; Révélé — Vérité pleinement exprimée selon la Nature",
+      "caption": "Transition sous pression : normalement 1 PA."
+    },
+    {
+      "articleId": "regles-verite-v7-mage-maitrise-amplitude-lancement",
+      "sectionId": "construire-et-lancer-un-sort",
+      "src": "images/rules/regles-lancer-sort.svg",
+      "mobileSrc": "images/rules/regles-lancer-sort-mobile.svg",
+      "title": "Construire et lancer un sort",
+      "alt": "Construire et lancer un sort : Décrire — Affinité → Essence → Polarité ; Dimensionner — Maîtrise → Amplitude → portée ; Résoudre — Volonté + Maîtrise spirituelle + 1d10e",
+      "caption": "Amplitude choisie : difficulté, PA et Tension à la libération."
+    },
+    {
+      "articleId": "regles-verite-v7-corruption-integrite-bascule",
+      "sectionId": "exposition",
+      "src": "images/rules/regles-corruption.svg",
+      "mobileSrc": "images/rules/regles-corruption-mobile.svg",
+      "title": "Exposition et Corruption",
+      "alt": "Exposition et Corruption : Identifier — Source et voie d’exposition ; Résister — Test adapté : physique ou mental ; Conséquence — Succès : 0 · échec : +1 · échec narratif : +2",
+      "caption": "L’Humanité fixe l’Intégrité ; elle ne s’ajoute pas au test."
+    }
+  ]
+}

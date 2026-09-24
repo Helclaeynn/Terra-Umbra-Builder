@@ -3124,6 +3124,18 @@ async function loadCorpus(): Promise<Corpus> {
   const manualMediaFiles = new Set(
     await readdir(resolve(COMPENDIUM_MEDIA_DIR, "images/manual")).catch(() => [] as string[])
   );
+  const ruleDiagrams = await readFile(resolve(COMPENDIUM_MEDIA_DIR, "source/rules-diagrams-v1.json"), "utf8")
+    .then((content) => JSON.parse(content) as { diagrams?: Array<{ articleId: string; sectionId: string; src: string; mobileSrc: string; title: string; alt: string; caption: string }> })
+    .then((data) => data.diagrams ?? [])
+    .catch(() => []);
+  const ruleDiagramsByArticle = new Map<string, typeof ruleDiagrams>();
+  for (const diagram of ruleDiagrams) {
+    if (!/^images\/rules\/regles-[a-z0-9-]+\.svg$/.test(diagram.src) ||
+        !/^images\/rules\/regles-[a-z0-9-]+-mobile\.svg$/.test(diagram.mobileSrc)) continue;
+    const entries = ruleDiagramsByArticle.get(diagram.articleId) ?? [];
+    entries.push(diagram);
+    ruleDiagramsByArticle.set(diagram.articleId, entries);
+  }
   const portraitManifest = await readFile(resolve(COMPENDIUM_MEDIA_DIR, "images/portraits/manifest.json"), "utf8")
     .then((content) => JSON.parse(content) as { lot1?: { items?: Array<{ id: string; src: string; visibility: string }> }; lot2?: { items?: Array<{ id: string; src: string; visibility: string }> } })
     .catch(() => ({ lot1: { items: [] }, lot2: { items: [] } }));
@@ -3510,6 +3522,14 @@ async function loadCorpus(): Promise<Corpus> {
   );
 
   for (const article of byId.values()) {
+    for (const diagram of ruleDiagramsByArticle.get(article.id) ?? []) {
+      const section = (article.sections ?? []).find((entry: JsonObject) => entry.id === diagram.sectionId);
+      if (!section || !Array.isArray(section.blocks) || section.blocks.some((block: JsonObject) => block.src === diagram.src)) continue;
+      section.blocks.splice(Math.min(1, section.blocks.length), 0, {
+        type: "image", src: diagram.src, mobileSrc: diagram.mobileSrc,
+        alt: diagram.alt, caption: diagram.caption, style: "rule-diagram"
+      });
+    }
     if (article.category === "Augmentations" && Array.isArray(article.catalog?.variants)) {
       const variants = article.catalog.variants as JsonObject[];
       const variantImages = variants.map((variant) => {
