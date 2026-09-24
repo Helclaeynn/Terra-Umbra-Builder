@@ -4,7 +4,8 @@ import {applyPnjTruthBatch002, REVIEWED_TRUTH_BATCH_002_IDS} from './compendium-
 import {applyPnjTruthBatch003, REVIEWED_TRUTH_BATCH_003_IDS} from './compendium-pnj-truth-batch-003.js';
 import {applyPnjTruthBatch004, REVIEWED_TRUTH_BATCH_004_IDS} from './compendium-pnj-truth-batch-004.js';
 import {applyPnjTruthBatch005, REVIEWED_TRUTH_BATCH_005_IDS} from './compendium-pnj-truth-batch-005.js';
-type Article = {id:string;sections?:Array<{id?:string;audience?:string;blocks?:Block[]}>;[key:string]:any};
+import {applyPnjTruthBatch006, REVIEWED_TRUTH_BATCH_006_IDS} from './compendium-pnj-truth-batch-006.js';
+type Article = {id:string;sections?:Array<{id?:string;title?:string;level?:number;audience?:string;blocks?:Block[]}>;[key:string]:any};
 const p=(text:string):Block=>({type:'p',text});
 const table=(rows:string[][]):Block=>({type:'table',rows});
 export const INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS = [
@@ -13,13 +14,15 @@ export const INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS = [
   'personnages-verite-especes-quetzalcoatl',
   'personnages-verite-especes-elody-katherine-skotia',
   'personnages-verite-especes-ming-xinya',
+  'personnages-verite-especes-tokala',
   'pnj-fleaux-focus-olayinka-najja-8-olayinka-najja',
   'personnages-verite-especes-megda-ayshin',
   ...REVIEWED_TRUTH_BATCH_001_IDS,
   ...REVIEWED_TRUTH_BATCH_002_IDS,
   ...REVIEWED_TRUTH_BATCH_003_IDS,
   ...REVIEWED_TRUTH_BATCH_004_IDS,
-  ...REVIEWED_TRUTH_BATCH_005_IDS
+  ...REVIEWED_TRUTH_BATCH_005_IDS,
+  ...REVIEWED_TRUTH_BATCH_006_IDS
 ] as const;
 
 // Editorial, source-anchored Truth profiles are separate from Reality. The
@@ -193,4 +196,23 @@ export function applyCompendiumPnjTruthProfiles(byId:Map<string,Article>):void {
   applyPnjTruthBatch003(byId);
   applyPnjTruthBatch004(byId);
   applyPnjTruthBatch005(byId);
+  applyPnjTruthBatch006(byId);
+  const tokala=byId.get('personnages-verite-especes-tokala');
+  const tokalaReality=tokala?.sections?.find(section=>section.id==='profil-statistique');
+  if(!tokalaReality||tokalaReality.audience!=='mj'||!tokala?.sections)throw new Error('Profil Vérité : Tokala introuvable');
+  tokala.sections.splice(tokala.sections.indexOf(tokalaReality),0,{
+    id:'profil-verite-tokala',title:'Profil de Vérité · Tokala',level:2,audience:'mj',blocks:[
+      p('Tokala est une Khinae et non une louve-garou. Le profil Légendaire de Réalité représente son état avant les éveils décrits dans les Catastrophes des Ten. Après son premier éveil Khinae, estimation MJ : Révélé Supérieur, Vigueur 13, Agilité 11, Esprit 9, Volonté 8, Charisme 5 ; Pugilat 22, Survie 20, Autorité 18. Ces valeurs ne remplacent sa fiche actuelle qu après cet événement de récit.'),
+      table([['État','Chiffrage','Condition'],['Avant les éveils','Profil de Réalité Légendaire','Situation initiale de la source'],['Khinae éveillée','13 / 11 / 9 / 8 / 5 ; Pugilat 22','Après son premier éveil'],['Nnyrss parfaite','Hors échelle numérique commune','Après mémoire de la Ssrynn, rétrovolution et purge des souillures']]),
+      p('Talent signature : mémoire de la Ssrynn — après la rétrovolution documentée, elle peut accéder aux formes effectivement absorbées par sa lignée ; le MJ définit la forme et son coût avant usage. Les souillures de Vhadhi et V’aagor imposent un risque jusqu à leur purge. Nnyrss est un état terminal exceptionnel : aucun bonus de Nature garoue ni rang inventé ne s ajoute à ce profil de scène.')
+    ]
+  });
+  const isabella=byId.get('personnages-verite-chasseurs-isabella-mironescu');
+  const isabellaReality=isabella?.sections?.find(section=>section.id==='profil-statistique');
+  if(!isabellaReality||isabellaReality.audience!=='mj'||!isabella?.sections)throw new Error('Dossier Vérité : Isabella introuvable');
+  isabella.sections.splice(isabella.sections.indexOf(isabellaReality),0,{
+    id:'verite-indeterminee-isabella',title:'Vérité à définir · Isabella Mironescu',level:2,audience:'mj',blocks:[
+      p('Examen individuel de la source : la Nature est notée « ??? (à définir) » et la seule indication est sa troisième place au Hunt XV. Ce classement mesure sa réputation de chasseuse et ne révèle ni forme, ni pouvoirs, ni écart de puissance avec sa Réalité. Aucun profil de Vérité chiffré ne peut être établi honnêtement avant une décision de canon du MJ.')
+    ]
+  });
 }
