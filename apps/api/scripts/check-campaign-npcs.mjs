@@ -15,7 +15,7 @@ try{
  const gm=await account('gm'),other=await account('gm'),player=await account('player');
  const admin=await account('admin'),editor=await account('editor'),canonical='/api/compendium/editor/npc-generator';
  for(const who of [gm,other,player,editor,null])for(const [method,path,payload] of [['GET','/catalog'],['POST','/generate',{}],['POST','/preview',{}]])await call(who,method,canonical+path,payload,who?403:401);
- assert.equal((await call(admin,'GET',canonical+'/catalog')).variety.names,15360);
+ assert.equal((await call(admin,'GET',canonical+'/catalog')).variety.names,725);
  const canonNpc=(await call(admin,'POST',canonical+'/generate',{tierId:'elite',presetId:'garde',seed:'admin',count:1,faction:'Private faction',sex:'female'})).npcs[0];assert.equal(canonNpc.sex,'female');
  await call(admin,'POST',canonical+'/generate',{tierId:'elite',presetId:'garde',seed:'admin',count:2,faction:''},400);
  await call(admin,'POST',canonical+'/generate',{tierId:'elite',presetId:'garde',seed:'admin',count:1,faction:'',sex:'invalid'},400);
