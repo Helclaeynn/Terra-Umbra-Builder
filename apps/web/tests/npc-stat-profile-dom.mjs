@@ -168,6 +168,7 @@ try {
     assert.equal(document.querySelectorAll(".npc-profile-attribute").length, 5);
     assert.equal(document.querySelectorAll(".npc-profile-skill-group").length, 3);
   });
+  assert.equal(profileBlockKind({ type: "table", rows: [["Compétence de Vérité révélée", "Rang proposé"], ["Autorité", "21"]] }), "skills");
   await test.set(canonicalBlocks);
   check("Chaque paragraphe et cellule canonique paraît en entier une seule fois, dans l’ordre des blocs", () => verifySourceBlocks(canonicalBlocks));
   check("Le titre porté par le parent n’est pas dupliqué dans le composant", () => {

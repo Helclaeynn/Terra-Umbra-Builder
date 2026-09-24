@@ -5,6 +5,7 @@ import {applyPnjTruthBatch003, REVIEWED_TRUTH_BATCH_003_IDS} from './compendium-
 import {applyPnjTruthBatch004, REVIEWED_TRUTH_BATCH_004_IDS} from './compendium-pnj-truth-batch-004.js';
 import {applyPnjTruthBatch005, REVIEWED_TRUTH_BATCH_005_IDS} from './compendium-pnj-truth-batch-005.js';
 import {applyPnjTruthBatch006, REVIEWED_TRUTH_BATCH_006_IDS} from './compendium-pnj-truth-batch-006.js';
+import {NPC_TRUTH_GENERIC_TALENTS,npcTruthTalentPack} from './npc-truth-generic-talents.js';
 type Article = {id:string;sections?:Array<{id?:string;title?:string;level?:number;audience?:string;blocks?:Block[]}>;[key:string]:any};
 const p=(text:string):Block=>({type:'p',text});
 const table=(rows:string[][]):Block=>({type:'table',rows});
@@ -25,9 +26,9 @@ export const INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS = [
   ...REVIEWED_TRUTH_BATCH_006_IDS
 ] as const;
 
-// Editorial, source-anchored Truth profiles are separate from Reality. The
-// purchaser catalog and the exact PTV total stay unset until individual Dons
-// and Talents have been selected and checked against their prerequisites.
+// Editorial, source-anchored Truth profiles are separate from Reality. NPC
+// generic PTV purchases are estimated per dossier; canonical Dons and Rites
+// remain separate and still require verified prerequisites.
 export function applyCompendiumPnjTruthProfiles(byId:Map<string,Article>):void {
   const neeba=byId.get('personnages-verite-especes-neeba-ngubenani');
   if(!neeba)throw new Error('Profil Vérité : Neeba introuvable');
@@ -49,7 +50,7 @@ export function applyCompendiumPnjTruthProfiles(byId:Map<string,Article>):void {
       ['Survie','10'],['Savoirs','10'],['Furtivité','9'],['Investigation','8'],
       ['Diplomatie','8'],['Commerce','7'],['Représentation','7'],['Tir','7']
     ]),
-    p('Les valeurs des états Semi-Révélé et Révélé incluent déjà les modificateurs de Nature vampire (+1 Vigueur et +1 Volonté en SR ; +2 Vigueur et +1 Volonté en R) : ne pas les ajouter une seconde fois. Le passage à Révélé remplace Semi-Révélé. Les 170 points de compétences révélées sont une répartition éditoriale ancrée dans son règne et ses conquêtes, distincte de sa formation d’avocat. Les pouvoirs précis, valeurs dérivées et PTV attendent le choix vérifié des Talents et Dons ; leur total n’est pas inféré de son âge ni de son titre.'),
+    p('Les valeurs des états Semi-Révélé et Révélé incluent déjà les modificateurs de Nature vampire (+1 Vigueur et +1 Volonté en SR ; +2 Vigueur et +1 Volonté en R) : ne pas les ajouter une seconde fois. Le passage à Révélé remplace Semi-Révélé. Les 170 points de compétences révélées sont une répartition éditoriale ancrée dans son règne et ses conquêtes, distincte de sa formation d’avocat. Les achats génériques MJ et leurs PTV sont détaillés plus bas ; Gundura et les Dons de Sang demandent encore leurs règles et prérequis propres.'),
     table([
       ['Capacité documentée','Portée sur la fiche'],
       ['Souverain de l’Oru Ayeraye','Autorité et ressources de sa cour ; une faction et ses délais, pas une armée instantanée.'],
@@ -79,7 +80,7 @@ export function applyCompendiumPnjTruthProfiles(byId:Map<string,Article>):void {
       ['Autorité','10'],['Furtivité','10'],['Investigation','9'],['Savoirs','8'],
       ['Tir','8'],['Diplomatie','7'],['Commerce','7'],['Représentation','5']
     ]),
-    p('Révélé : 46 points d’Attributs et 170 de Compétences ; le Pugilat 17 est une exception MJ personnelle fondée sur son passé de guerrier exceptionnel et ses millénaires de combats. Talent signature : Renversement du roi — Dragoy (déclencheur, opposition et limite dans la page des règles PNJ). Ces totaux incluent déjà le bonus de Nature vampire (+2 Vigueur et +1 Volonté en R) et ne se cumulent pas avec les valeurs SR. La Marque de Caïn et son état incomplet d’Archivampire sont documentés, mais leurs effets et leur coût PTV exacts restent à sélectionner dans les règles avant de les chiffrer.')
+    p('Révélé : 46 points d’Attributs et 170 de Compétences ; le Pugilat 17 est une exception MJ personnelle fondée sur son passé de guerrier exceptionnel et ses millénaires de combats. Talent signature : Renversement du roi — Dragoy (déclencheur, opposition et limite dans la page des règles PNJ). Ces totaux incluent déjà le bonus de Nature vampire (+2 Vigueur et +1 Volonté en R) et ne se cumulent pas avec les valeurs SR. Les achats génériques MJ sont chiffrés plus bas ; la Marque de Caïn et son état incomplet d’Archivampire ont des effets et coûts propres non compris dans ce total.')
   );
 
   const quetzal=byId.get('personnages-verite-especes-quetzalcoatl');
@@ -95,7 +96,7 @@ export function applyCompendiumPnjTruthProfiles(byId:Map<string,Article>):void {
       table([
         ['Axe','Évaluation MJ fondée sur le dossier'],
         ['Combat physique','Variable selon l’hôte ; le dossier le situe sous Dragoy ou Neeba sur cet axe.'],
-        ['Puissance occulte','Exceptionnelle ; capacités de Sang et Mageius documentées, PTV exacts à établir par achats vérifiés.'],
+        ['Puissance occulte','Exceptionnelle ; Sang et Mageius documentés, dont les achats canoniques restent distincts du budget de talents génériques MJ ci-dessous.'],
         ['Sang masqué','Changements d’apparence documentés ; utiliser les effets et prérequis du catalogue pour chaque usage.'],
         ['Sang primal','Forme de serpent ailé géant rapportée au conditionnel dans la source : garder ce statut tant que confirmée en jeu.'],
         ['Sang Coatl · signature','Si un vampire a bu son Sang selon les conditions préparées, Quetzal peut renaître dans cet hôte et écraser sa personnalité ; le corps de base demeure. Ni retour sans hôte ni statistiques de l’hôte inventées.']
@@ -123,7 +124,7 @@ export function applyCompendiumPnjTruthProfiles(byId:Map<string,Article>):void {
       ['Investigation','11'],['Soin','11'],['Athlétisme','10'],['Furtivité','9'],
       ['Diplomatie','9'],['Survie','8'],['Mécanique','7'],['Commerce','7']
     ]),
-    p('Savoirs 18 et Force Mentale 16 sont des exceptions MJ explicites. Les attributs SR/R comprennent les modificateurs vampiriques et ne s’additionnent pas. Talent signature : Héritage de la Krovni, lié à ses recherches et à la transformation des lignées ; ses effets à long terme se préparent comme une intrigue. Les achats PTV, la Marque de Caïn et les pouvoirs exacts demeurent à déterminer dans leurs catalogues ; aucun Don n’est octroyé automatiquement par ce talent.')
+    p('Savoirs 18 et Force Mentale 16 sont des exceptions MJ explicites. Les attributs SR/R comprennent les modificateurs vampiriques et ne s’additionnent pas. Talent signature : Héritage de la Krovni, lié à ses recherches et à la transformation des lignées ; ses effets à long terme se préparent comme une intrigue. Les PTV génériques sont chiffrés plus bas ; la Marque de Caïn et ses pouvoirs propres demeurent distincts, sans Don accordé automatiquement par cette signature.')
   );
 
   const xinya=byId.get('personnages-verite-especes-ming-xinya');
@@ -167,7 +168,7 @@ export function applyCompendiumPnjTruthProfiles(byId:Map<string,Article>):void {
       ['Survie','10'],['Investigation','10'],['Esquive','9'],['Athlétisme','8'],
       ['Furtivité','7'],['Mêlée','6'],['Commerce','5'],['Tir','5']
     ]),
-    p('Savoirs 17 et Force Mentale 16 sont des exceptions MJ propres à sa pratique et à son ancienneté. Les valeurs SR/R comprennent les bonus de Nature vampire. Talent signature : Sang de la Fontaine ; la transformation éventuelle d’un humain est un événement de scénario et demande un contact réel. Son sang ne lui confère aucun achat gratuit de Sang d’une autre Cour ; les PTV et les règles de la Fontaine restent à documenter séparément.')
+    p('Savoirs 17 et Force Mentale 16 sont des exceptions MJ propres à sa pratique et à son ancienneté. Les valeurs SR/R comprennent les bonus de Nature vampire. Talent signature : Sang de la Fontaine ; la transformation éventuelle d’un humain est un événement de scénario et demande un contact réel. Les achats génériques MJ chiffrés plus bas n’accordent pas un Sang d’une autre Cour ; la Fontaine conserve ses règles propres.')
   );
 
   const megda=byId.get('personnages-verite-especes-megda-ayshin');
@@ -197,6 +198,33 @@ export function applyCompendiumPnjTruthProfiles(byId:Map<string,Article>):void {
   applyPnjTruthBatch004(byId);
   applyPnjTruthBatch005(byId);
   applyPnjTruthBatch006(byId);
+  const karina=byId.get('personnages-verite-humains-galactiques-karina-kelack');
+  const karinaTruth=karina?.sections?.find(section=>section.id==='profil-verite-personnages-verite-humains-galactiques-karina-kelack');
+  if(!karinaTruth||karinaTruth.audience!=='mj')throw new Error('Profil Vérité : Karina Kelack introuvable');
+  karinaTruth.blocks=[
+    p('Vérité · Karina Kelack, seigneur-général de la 322e armée de l’AIDH. Le dossier raconte sa résistance dès l’enfance sur Astebyon II, son sauvetage par Lisa Eredhès, sa réussite au test Ackèld et sa traque personnelle de Thor’lal rark. Profil de scène MJ estimé pour Karina présente en personne, équipée normalement et sans unité militaire dans la scène. Ses attributs ne découlent d’aucune couverture civile chiffrée.'),
+    table([['Attribut révélé','Vigueur','Agilité','Esprit','Volonté','Charisme'],['Valeur proposée','10','10','12','13','11']]),
+    table([['Compétence de Vérité révélée','Rang proposé'],
+      ['Autorité','21'],['Tir','19'],['Diplomatie','18'],['Perception','14'],
+      ['Investigation','13'],['Force Mentale','12'],['Esquive','10'],['Savoirs','10'],
+      ['Survie','9'],['Athlétisme','8'],['Constitution','8'],['Furtivité','7'],
+      ['Pilotage','6'],['Mêlée','5'],['Pugilat','5'],['Langages & Argot','5'],
+      ['Autres compétences canoniques (9)','0']
+    ]),
+    table([['Valeur dérivée','Résultat · sans armure ni pouvoir personnel'],
+      ['PV maximum / Seuil de Mort','28 / −18'],
+      ['Défense physique passive / active','20 / 20 + 1d10e'],
+      ['Défense occulte passive / active','25 / 25 + 1d10e'],
+      ['Initiative / déplacement','18 + 1d10e / 13 m par PA']
+    ]),
+    table([['Talent PNJ','Application sur la fiche'],
+      ['Chef de manœuvre — 322e armée','1/scène, ordre tactique audible à un allié présent : +2 à son prochain test avant la fin du round ; ne se cumule pas avec Assistance.'],
+      ['Tir maîtrisé','Après 1 PA consacré à Viser avec une arme portée et une ligne de vue, 1/scène : relancer le premier d10 d’une attaque de Tir et garder le second.'],
+      ['Piste énergétique de Thor’lal — signature','1/scène, après accès réel à un relevé exploitable, +2 à une Investigation pour comparer la trace à celle déjà rencontrée ; ne détecte aucune cible à distance sans données.'],
+      ['Réseau mobilisable — 322e armée','1/scénario : demander des moyens qui relèvent de son commandement ; délais, localisation et chaîne de décision s’appliquent.']
+    ]),
+    p('170 points de compétences proposés, répartis pour la générale et enquêtrice documentée ; les neuf autres compétences de la liste canonique sont à 0 sur cette fiche MJ simplifiée. Attributs et dérivées correspondent à son corps présent ; les modifier si une transformation ou un équipement identifié les change. Les achats PTV génériques de la table ci-dessous sont un calibrage MJ, pas des pouvoirs personnels attestés dans le dossier. Sa reconnaissance envers Lisa ne place pas la 322e armée sous les ordres de la 783e ; Lisa a déjà refusé une traque terrestre dans le contexte de la guerre.')
+  ];
   const tokala=byId.get('personnages-verite-especes-tokala');
   const tokalaReality=tokala?.sections?.find(section=>section.id==='profil-statistique');
   if(!tokalaReality||tokalaReality.audience!=='mj'||!tokala?.sections)throw new Error('Profil Vérité : Tokala introuvable');
@@ -231,5 +259,36 @@ export function applyCompendiumPnjTruthProfiles(byId:Map<string,Article>):void {
     stats.title=`Profil statistique · Vérité · ${article.title??id}`;
     stats.blocks=truth.blocks;
     article.sections.splice(article.sections.indexOf(truth),1);
+  }
+  // Individual editorial anchors (attributes, three signature ranks and lore)
+  // decide which generic NPC-only purchases are attached to each dossier.
+  for(const id of INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS){
+    const article=byId.get(id);
+    const section=article?.sections?.find(s=>s.id===`profil-verite-${id}`
+      || (id==='personnages-verite-especes-tokala'&&s.id==='profil-verite-tokala'))
+      ?? article?.sections?.find(s=>s.id==='profil-statistique');
+    if(!section?.blocks||section.audience!=='mj')throw new Error(`Achats PTV : dossier MJ introuvable : ${id}`);
+    const tables=section.blocks.filter((block):block is Extract<Block,{type:'table'}>=>block.type==='table');
+    const attrs=tables.find(block=>block.rows[0]?.[0]==='Attribut révélé');
+    const stages=tables.find(block=>block.rows[0]?.[0]==='État');
+    const attrTotal=attrs?attrs.rows[1].slice(1).reduce((sum,n)=>sum+Number(n),0)
+      :stages?Number(stages.rows.find(row=>row[0]==='Révélé')?.[2]??0):0;
+    const skills=tables.find(block=>/^Compétence de Vérité/.test(block.rows[0]?.[0]??''));
+    const signature=skills?.rows[1]?.[0]??(id.includes('tokala')?'Pugilat':'Force Mentale');
+    const second=skills?.rows[2]?.[0]??(id.includes('tokala')?'Survie':'Perception');
+    const topRank=skills?Math.max(...skills.rows.slice(1).map(row=>Number(row[1])||0))
+      :(id.includes('tokala')?22:0);
+    const pack=id.includes('quetzalcoatl')?[0,1,2,3,4,5]:id.includes('tokala')?[0,1,2,3,4,5]
+      :npcTruthTalentPack(attrTotal,topRank);
+    if((!attrTotal||!topRank)&&!id.includes('quetzalcoatl')&&!id.includes('tokala'))
+      throw new Error(`Achats PTV : rangs insuffisants : ${id}`);
+    const rows=pack.map(index=>{
+      const talent=NPC_TRUTH_GENERIC_TALENTS[index];
+      const chosen=index===0||index===2||index===5?signature:index===4?second:'';
+      return [`${talent.name}${chosen?` · ${chosen}`:''}`,String(talent.cost),talent.prerequisite,talent.effect];
+    });
+    const spent=pack.reduce((sum,index)=>sum+NPC_TRUTH_GENERIC_TALENTS[index].cost,0);
+    section.blocks.push(table([['Talent de Vérité PNJ acheté','Coût PTV','Prérequis','Effet et limite'],...rows,
+      [`Total PTV dépensés · ${article?.title??id}`,String(spent),'Talents génériques MJ',`Budget éditorial MJ pour ${id.includes('tokala')?'son éveil Khinae (pas la Nnyrss)':id.includes('quetzalcoatl')?'ses capacités propres, à adapter au corps hôte':'cet état'} ; capacités de Nature, Dons et Rites canoniques distincts.`]]));
   }
 }

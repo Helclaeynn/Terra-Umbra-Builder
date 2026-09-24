@@ -31,7 +31,7 @@ export function profileBlockKind(block: NpcProfileBlock): NpcProfileBlockKind {
   if (rows.length < 2 || !rows[0].length || !rows.every(row => row.length === rows[0].length)) return "table";
   const headers = rows[0].map(normalized);
   if (rows.length === 2 && headers.length > 1 && /^(?:attribut|attribut revele)$/.test(headers[0]) && /^(?:valeur|valeur proposee)$/.test(normalized(rows[1][0]))) return "attributes";
-  if (headers.length === 2 && /^(?:competences?|competence de verite saillante)$/.test(headers[0]) && /^(?:rang|rang propose)$/.test(headers[1])) return "skills";
+  if (headers.length === 2 && /^(?:competences?|competence de verite (?:saillante|revelee))$/.test(headers[0]) && /^(?:rang|rang propose)$/.test(headers[1])) return "skills";
   if (headers.join("|") === "valeur derivee|calcul|resultat" || headers.join("|") === "valeur derivee|resultat") return "derived";
   if (headers.length === 2 && headers.join("|") === "talent pnj|application sur la fiche") return "talents";
   if (headers.length === 3 && headers.join("|") === "talent|prerequis|effet et limite") return "talents";

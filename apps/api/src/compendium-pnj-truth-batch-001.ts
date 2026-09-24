@@ -1,8 +1,10 @@
 // Chaque ligne de cette sélection est une décision éditoriale sur un dossier MJ
 // identifié, et non une déduction automatique de la Nature ou du métier public.
 // Les rangs listés sont les compétences saillantes ; les autres conservent le
-// profil de Réalité jusqu'à un achat documenté. Aucun PTV n'est inventé.
+// profil de Réalité, sauf décision individuelle. Les achats génériques MJ
+// sont chiffrés séparément des Dons et Rites canoniques.
 type Block = {type:'p';text:string}|{type:'table';rows:string[][]};
+import {standaloneTruthSecondary} from './compendium-pnj-truth-standalone.js';
 export type TruthBatchArticle = {id:string;title?:string;sections?:Array<{id?:string;title?:string;level?:number;audience?:string;blocks?:Block[]}>;[key:string]:any};
 export type TruthDecision = readonly [id:string, attributes:readonly [number,number,number,number,number], skills:readonly (readonly [string,number])[], evidence:string, limit:string];
 type Article = TruthBatchArticle;
@@ -118,12 +120,48 @@ export function applyPnjTruthDecisions(byId:Map<string,Article>, decisions:reado
     if(!reality||reality.audience!=='mj')throw new Error(`Profil MJ de Réalité introuvable : ${id}`);
     const rows=[['Attribut révélé','Vigueur','Agilité','Esprit','Volonté','Charisme'],['Valeur proposée',...values.map(String)]];
     const hasRealityNumbers=Boolean(reality.blocks?.some(block=>block.type==='table'&&block.rows[0]?.[0]==='Attribut'));
+    const secondary=hasRealityNumbers?undefined:standaloneTruthSecondary(id);
+    if(!hasRealityNumbers&&!secondary&&id!=='personnages-verite-humains-galactiques-karina-kelack')
+      throw new Error(`Compétences complémentaires de Vérité absentes : ${id}`);
+    if(secondary&&new Set([...skills,...secondary].map(([name])=>name)).size!==skills.length+secondary.length)
+      throw new Error(`Compétence de Vérité doublonnée : ${id}`);
+    const allSkills=[...skills,...(secondary??[])];
     const blocks:Block[]=[
       {type:'p',text:`Vérité · ${article.title??id}. ${evidence} Ces caractéristiques révélées sont une estimation MJ propre à cette fiche. ${hasRealityNumbers?'Le profil de Réalité décrit le corps Voilé et ne constitue pas un plafond de puissance.':'Aucun corps Voilé chiffré n’est établi par la source.'}`},
       {type:'table',rows},
-      {type:'table',rows:[['Compétence de Vérité saillante','Rang proposé'],...skills.map(([name,rank])=>[name,String(rank)])]},
-      {type:'p',text:`${limit} ${hasRealityNumbers?'Les autres compétences conservent provisoirement leurs rangs de Réalité, sauf effet vérifié d’un pouvoir.':'Les autres compétences ne sont pas encore chiffrées faute de profil civil de référence.'} Les PTV et les capacités achetées restent à détailler avec leurs prérequis ; les valeurs dérivées dépendent de la forme et de l’équipement réellement en scène. Les valeurs révélées sont déjà finales pour cet état : ne pas y ajouter une seconde fois les bonus de Nature.`}
+      {type:'table',rows:[['Compétence de Vérité saillante','Rang proposé'],...allSkills.map(([name,rank])=>[name,String(rank)]),...(secondary?[['Autres compétences canoniques (14)','0']]:[])]},
+      {type:'p',text:`${limit} ${hasRealityNumbers?'Les autres compétences conservent leurs rangs chiffrés de Réalité pour cet état, sauf différence établie sur cette fiche.':'Les compétences non spécialisées sont à 0 dans cette estimation de scène ; le dossier de Réalité ne fournit aucun rang civil.'} Les talents de Vérité achetés par ce PNJ et leur dépense PTV figurent dans le tableau de sa fiche. Les valeurs révélées sont déjà finales pour cet état : ne pas y ajouter une seconde fois les bonus de Nature.`}
     ];
+    if(hasRealityNumbers){
+      const civilSkills=reality.blocks?.find(block=>block.type==='table'&&/^(Compétence|Compétences)$/.test(block.rows[0]?.[0]??''));
+      if(!civilSkills||civilSkills.type!=='table')throw new Error(`Compétences de Réalité non exploitables : ${id}`);
+      const rank=(name:string):number=>{
+        const individual=skills.find(([skill])=>skill===name);
+        if(individual)return individual[1];
+        const row=civilSkills.rows.slice(1).find(([labels])=>labels.split(',').some(label=>label.trim()===name));
+        return row?Number(row[1].match(/^\d+/)?.[0]??0):0;
+      };
+      const [vig,agi,,vol]=values;
+      const con=rank('Constitution'),esq=rank('Esquive'),ath=rank('Athlétisme'),fm=rank('Force Mentale');
+      blocks.splice(3,0,{type:'table',rows:[['Valeur dérivée','Résultat · état Révélé proposé, sans équipement'],
+        ['PV maximum / Seuil de Mort',`${2*vig+con} / −${vig+con}`],
+        ['Défense physique passive / active',`${agi+esq} / ${agi+esq} + 1d10e`],
+        ['Défense occulte passive / active',`${vol+fm} / ${vol+fm} + 1d10e`],
+        ['Initiative / déplacement',`${agi+ath} + 1d10e / ${5+ath} m par PA`]]});
+    }
+    if(secondary){
+      const rank=(name:string)=>allSkills.find(([skill])=>skill===name)?.[1]??0;
+      const [vig,agi,,vol]=values;
+      const variableBody=/^(personnages-verite-especes-(?:lombre-pape|mloxol-vaagor|vhodhalnactru|gajh-shaoggith|cthath-vhadhi)|personnages-verite-extraterrestres-(?:rsheraag|dsherraneth|peste-des-vases)|pnj-(?:088-cthulhu|fleaux-|091-lidira)|personnages-verite-vampires-p(?:46-adinhazu|48-kragen-aagor)|personnages-verite-extrals-groupes-(?:elleth-dyx|zirine-fa-meonn))/.test(id);
+      if(!variableBody){
+        const con=rank('Constitution'),esq=rank('Esquive'),ath=rank('Athlétisme'),fm=rank('Force Mentale');
+        blocks.splice(3,0,{type:'table',rows:[['Valeur dérivée','Résultat · corps révélé proposé, sans équipement'],
+          ['PV maximum / Seuil de Mort',`${2*vig+con} / −${vig+con}`],
+          ['Défense physique passive / active',`${agi+esq} / ${agi+esq} + 1d10e`],
+          ['Défense occulte passive / active',`${vol+fm} / ${vol+fm} + 1d10e`],
+          ['Initiative / déplacement',`${agi+ath} + 1d10e / ${5+ath} m par PA`]]});
+      }else blocks.push({type:'p',text:'Corps, équipement ou manifestation variables : les PV et défenses se calculent à partir de l’incarnation effectivement rencontrée. Les attributs et compétences ci-dessus servent de repères MJ, sans attribuer une forme physique permanente.'});
+    }
     article.sections.splice(article.sections.indexOf(reality),0,{
       id:`profil-verite-${id}`,title:`Profil de Vérité · ${article.title??id}`,level:2,audience:'mj',blocks
     });
