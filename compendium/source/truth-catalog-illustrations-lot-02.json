@@ -1,0 +1,455 @@
+{
+  "lot": 2,
+  "items": [
+    {
+      "id": "verite-catalogue-052-ruban-de-veille",
+      "title": "Ruban de Veille",
+      "src": "images/manual/verite-catalogue-052-ruban-de-veille.webp",
+      "sha256": "f32018e87f3fcbd71aef0bab108e1deae2dfaf1c8a23f0d3ce5992c3945111f5",
+      "width": 1200,
+      "height": 800,
+      "bytes": 212082
+    },
+    {
+      "id": "verite-catalogue-053-jeton-de-garde",
+      "title": "Jeton de Garde",
+      "src": "images/manual/verite-catalogue-053-jeton-de-garde.webp",
+      "sha256": "d8ddc541739c3bc6e3db49b9e9e9ad984044d8e59b2f1e89f3d8adfa8b50c4ac",
+      "width": 1200,
+      "height": 973,
+      "bytes": 235134
+    },
+    {
+      "id": "verite-catalogue-054-capteur-biphysique-portatif",
+      "title": "Capteur biphysique portatif",
+      "src": "images/manual/verite-catalogue-054-capteur-biphysique-portatif.webp",
+      "sha256": "ad73c5e6a986d1dfe5d723a275c45fe91a3a028f3d7d9e0ea586a6f707532cb9",
+      "width": 1200,
+      "height": 800,
+      "bytes": 142748
+    },
+    {
+      "id": "verite-catalogue-055-relais-de-declenchement-croise",
+      "title": "Relais de déclenchement croisé",
+      "src": "images/manual/verite-catalogue-055-relais-de-declenchement-croise.webp",
+      "sha256": "5d083250fd99dcf71d36a476bd7432f5fc424e510b42a43788a9c82ba00b4059",
+      "width": 1200,
+      "height": 800,
+      "bytes": 198056
+    },
+    {
+      "id": "verite-catalogue-056-convertisseur-biphysique-de-secours",
+      "title": "Convertisseur biphysique de secours",
+      "src": "images/manual/verite-catalogue-056-convertisseur-biphysique-de-secours.webp",
+      "sha256": "f757a86b19a7a3151f332f40a056efcebd3fc3fccc96ba82ff82a4a2b78d2837",
+      "width": 1200,
+      "height": 800,
+      "bytes": 271986
+    },
+    {
+      "id": "verite-catalogue-057-relais-discontinu",
+      "title": "Relais discontinu",
+      "src": "images/manual/verite-catalogue-057-relais-discontinu.webp",
+      "sha256": "42bb3ace4d3a9db642281e3ec7510afa37a07d895b92d1631e02c5aeab292256",
+      "width": 1200,
+      "height": 800,
+      "bytes": 159444
+    },
+    {
+      "id": "verite-catalogue-058-optique-de-phase",
+      "title": "Optique de phase",
+      "src": "images/manual/verite-catalogue-058-optique-de-phase.webp",
+      "sha256": "07a41e07061667f30739f374ca8bc4f669f7d95ac9ac9ada9238d66ac43dfd75",
+      "width": 1200,
+      "height": 800,
+      "bytes": 166528
+    },
+    {
+      "id": "verite-catalogue-059-module-de-trajectoire-decalee",
+      "title": "Module de trajectoire décalée",
+      "src": "images/manual/verite-catalogue-059-module-de-trajectoire-decalee.webp",
+      "sha256": "4cbe70a62bafada26d2a87f1e0789810547103c42be6446964efb1af37187262",
+      "width": 1200,
+      "height": 800,
+      "bytes": 130158
+    },
+    {
+      "id": "verite-catalogue-060-kit-microbreche",
+      "title": "Kit Microbrèche",
+      "src": "images/manual/verite-catalogue-060-kit-microbreche.webp",
+      "sha256": "99164d3badb6883718fa63ccd8244d2e531896a0ab180f80bedaadeb0029cbc3",
+      "width": 1200,
+      "height": 800,
+      "bytes": 257786
+    },
+    {
+      "id": "verite-catalogue-061-optique-de-verite",
+      "title": "Optique de Vérité",
+      "src": "images/manual/verite-catalogue-061-optique-de-verite.webp",
+      "sha256": "021729715c34a324f662f27486f8334ed28aca042db4d7ff479b209d6eeae62e",
+      "width": 1200,
+      "height": 800,
+      "bytes": 174554
+    },
+    {
+      "id": "verite-catalogue-062-enregistreur-invariant",
+      "title": "Enregistreur invariant",
+      "src": "images/manual/verite-catalogue-062-enregistreur-invariant.webp",
+      "sha256": "ff65e1f40ddef001c6813f5815d6e0ccbc71dc4b3f13b00828e5b0ba9b730912",
+      "width": 1200,
+      "height": 800,
+      "bytes": 171626
+    },
+    {
+      "id": "verite-catalogue-063-scanner-de-signature-de-verite",
+      "title": "Scanner de Signature de Vérité",
+      "src": "images/manual/verite-catalogue-063-scanner-de-signature-de-verite.webp",
+      "sha256": "fca206a861655420f93a39583ab358193ae5408f1249fe54766abb9ba6049574",
+      "width": 1200,
+      "height": 800,
+      "bytes": 168238
+    },
+    {
+      "id": "verite-catalogue-064-fenetre-de-verite",
+      "title": "Fenêtre de Vérité",
+      "src": "images/manual/verite-catalogue-064-fenetre-de-verite.webp",
+      "sha256": "1dd0b899ad40a7867b5013c7a0c884efe43fcd73f21bbf3455507bce80453e6f",
+      "width": 1200,
+      "height": 800,
+      "bytes": 231758
+    },
+    {
+      "id": "verite-catalogue-065-module-d-interference",
+      "title": "Module d’Interférence",
+      "src": "images/manual/verite-catalogue-065-module-d-interference.webp",
+      "sha256": "702173b2322bb9fadb143a85cbb029b8494a483ef068c8b66fcd39c067b8213f",
+      "width": 1200,
+      "height": 800,
+      "bytes": 160822
+    },
+    {
+      "id": "verite-catalogue-066-ancre-d-ombre",
+      "title": "Ancre d’Ombre",
+      "src": "images/manual/verite-catalogue-066-ancre-d-ombre.webp",
+      "sha256": "a13fbbf9928e47e84efa3fd3a6676adf13c2aca65db7c56e517cf2ce6d993826",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 250308
+    },
+    {
+      "id": "verite-catalogue-067-cage-de-verite",
+      "title": "Cage de Vérité",
+      "src": "images/manual/verite-catalogue-067-cage-de-verite.webp",
+      "sha256": "2f0c2e8189eb0f7a4e93bf11bad0ec5dba9f7e86135d838980722b3e0d678301",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 483226
+    },
+    {
+      "id": "verite-catalogue-068-module-de-desancrage",
+      "title": "Module de Désancrage",
+      "src": "images/manual/verite-catalogue-068-module-de-desancrage.webp",
+      "sha256": "1347df7329ddd9ebc413c9c01f88f1f3b1b1b814ec3c5d7c16150e516fa7f663",
+      "width": 1200,
+      "height": 800,
+      "bytes": 200990
+    },
+    {
+      "id": "verite-catalogue-069-jadehook",
+      "title": "Jadehook",
+      "src": "images/manual/verite-catalogue-069-jadehook.webp",
+      "sha256": "efbc78b2356371703bea576a8c4dae76bd35d3483805a01b61a5bdde8ef2aaf1",
+      "width": 1200,
+      "height": 800,
+      "bytes": 218182
+    },
+    {
+      "id": "verite-catalogue-070-black-nail",
+      "title": "Black Nail",
+      "src": "images/manual/verite-catalogue-070-black-nail.webp",
+      "sha256": "0437d3e01466d8b991cc2b1fb834b5226ae71845ca705b9e4daec7c7564e9a09",
+      "width": 1200,
+      "height": 800,
+      "bytes": 97914
+    },
+    {
+      "id": "verite-catalogue-071-lanternette-biphysique",
+      "title": "Lanternette biphysique",
+      "src": "images/manual/verite-catalogue-071-lanternette-biphysique.webp",
+      "sha256": "6a37b2d3b293c3b6d6375e9f9953576a6027b838d8394763c397c3434a63b382",
+      "width": 1074,
+      "height": 1200,
+      "bytes": 239956
+    },
+    {
+      "id": "verite-catalogue-072-coffret-du-passeur",
+      "title": "Coffret du passeur",
+      "src": "images/manual/verite-catalogue-072-coffret-du-passeur.webp",
+      "sha256": "c710fe398c4fa0ed3df034f01a2bf1dd16f0f1953a30ef6cd3c9dbf53d3cb171",
+      "width": 1200,
+      "height": 800,
+      "bytes": 301166
+    },
+    {
+      "id": "verite-catalogue-073-epee-nibelungen-runique-ready",
+      "title": "Épée nibelungen runique-ready",
+      "src": "images/manual/verite-catalogue-073-epee-nibelungen-runique-ready.webp",
+      "sha256": "e5890f20b5bdc9bcc4e039f3d44f0417da6cf2f6fd7e10a726397e749d6fa757",
+      "width": 1000,
+      "height": 1200,
+      "bytes": 96498
+    },
+    {
+      "id": "verite-catalogue-074-hache-de-clan-runique-ready",
+      "title": "Hache de clan runique-ready",
+      "src": "images/manual/verite-catalogue-074-hache-de-clan-runique-ready.webp",
+      "sha256": "448990432d7e2f4dd712ca932bb118652da6e60c7c1beb6d6da9ca2b60ba843d",
+      "width": 800,
+      "height": 1200,
+      "bytes": 130122
+    },
+    {
+      "id": "verite-catalogue-075-armure-de-clan",
+      "title": "Armure de clan",
+      "src": "images/manual/verite-catalogue-075-armure-de-clan.webp",
+      "sha256": "64fe7f630df2a22ef50bf101d8383f8857af471546c1abc31262b5a5bd71ffb6",
+      "width": 800,
+      "height": 1200,
+      "bytes": 232100
+    },
+    {
+      "id": "verite-catalogue-076-manteau-de-jade",
+      "title": "Manteau de Jade",
+      "src": "images/manual/verite-catalogue-076-manteau-de-jade.webp",
+      "sha256": "e7ea5701604a4458131f1f8b454c4e346851c2eb361e30fe51bffbd3789019e1",
+      "width": 800,
+      "height": 1200,
+      "bytes": 145644
+    },
+    {
+      "id": "verite-catalogue-077-viseur-technomagique-neutre",
+      "title": "Viseur technomagique neutre",
+      "src": "images/manual/verite-catalogue-077-viseur-technomagique-neutre.webp",
+      "sha256": "67fc27fb0997b803c8326e1ceee6ec0e22369f31203ae727a8ea02f475b47eae",
+      "width": 1200,
+      "height": 800,
+      "bytes": 140420
+    },
+    {
+      "id": "verite-catalogue-078-batterie-de-flux-stabilisee",
+      "title": "Batterie de Flux stabilisée",
+      "src": "images/manual/verite-catalogue-078-batterie-de-flux-stabilisee.webp",
+      "sha256": "1c4653d271f16253a6271025607f0b8de40bae6c10b382f53888703e9efec95e",
+      "width": 1200,
+      "height": 960,
+      "bytes": 230574
+    },
+    {
+      "id": "verite-catalogue-079-craie-de-flux",
+      "title": "Craie de Flux",
+      "src": "images/manual/verite-catalogue-079-craie-de-flux.webp",
+      "sha256": "1d98786a691abc97e99f6e8914dc494af8ee63db7cbbcccd51338352eab0c3e9",
+      "width": 1200,
+      "height": 800,
+      "bytes": 159170
+    },
+    {
+      "id": "verite-catalogue-080-encre-runique-whurtenne",
+      "title": "Encre runique whurtenne",
+      "src": "images/manual/verite-catalogue-080-encre-runique-whurtenne.webp",
+      "sha256": "fbe59d1d984a7c1fa965718d00b2e55c181401696fa3dac56432f06829c36d27",
+      "width": 1200,
+      "height": 1000,
+      "bytes": 197764
+    },
+    {
+      "id": "verite-catalogue-081-fil-d-ancrage-azmenorien",
+      "title": "Fil d’ancrage azménorien",
+      "src": "images/manual/verite-catalogue-081-fil-d-ancrage-azmenorien.webp",
+      "sha256": "885734209aee4b2f121563ea84a29b91f99adb33d0176569462a4a4758244fcd",
+      "width": 1200,
+      "height": 1000,
+      "bytes": 296786
+    },
+    {
+      "id": "verite-catalogue-082-cristal-de-phase",
+      "title": "Cristal de phase",
+      "src": "images/manual/verite-catalogue-082-cristal-de-phase.webp",
+      "sha256": "ec38c456ae314d8aef8667ad9e5073dbdbf5f1d330364954ca5a82b702ac4a6d",
+      "width": 1200,
+      "height": 1000,
+      "bytes": 164884
+    },
+    {
+      "id": "verite-catalogue-083-cle-invariante",
+      "title": "Clé invariante",
+      "src": "images/manual/verite-catalogue-083-cle-invariante.webp",
+      "sha256": "c8ba13308b901bceb674d1631a9224de7836e6559281a2f35edaa1ba441d5c07",
+      "width": 1200,
+      "height": 800,
+      "bytes": 154478
+    },
+    {
+      "id": "verite-catalogue-084-matrice-de-rune-vide",
+      "title": "Matrice de rune vide",
+      "src": "images/manual/verite-catalogue-084-matrice-de-rune-vide.webp",
+      "sha256": "5fb4f778bb21c7f4d83a0095235956275bf83b7c961ade97cc0af4591e8b513a",
+      "width": 1200,
+      "height": 1067,
+      "bytes": 287602
+    },
+    {
+      "id": "verite-catalogue-085-runes-de-marche",
+      "title": "Runes de marché",
+      "src": "images/manual/verite-catalogue-085-runes-de-marche.webp",
+      "sha256": "f23071cbe7ed86371c973f6acdfd2d66d2b2c57f4d50e54fa5c16882e123b703",
+      "width": 1200,
+      "height": 800,
+      "bytes": 270708
+    },
+    {
+      "id": "verite-catalogue-086-excalibur-ymir",
+      "title": "Excalibur / Ymir",
+      "src": "images/manual/verite-catalogue-086-excalibur-ymir.webp",
+      "sha256": "05599dcf3b35cf4fbd718f4599d12ac423fc510440d824c129cce5fea998ede3",
+      "width": 800,
+      "height": 1200,
+      "bytes": 249012
+    },
+    {
+      "id": "verite-catalogue-087-pistolet-laser",
+      "title": "Pistolet laser",
+      "src": "images/manual/verite-catalogue-087-pistolet-laser.webp",
+      "sha256": "6d54e1b64438b62f205fd340b993c628996d92d7f062bc1996f7e95f0de19d97",
+      "width": 1200,
+      "height": 800,
+      "bytes": 114590
+    },
+    {
+      "id": "verite-catalogue-088-pistolet-laser-lourd",
+      "title": "Pistolet laser lourd",
+      "src": "images/manual/verite-catalogue-088-pistolet-laser-lourd.webp",
+      "sha256": "3da1273cc20981d09b9e4999278af6b8a41c6531ac176a7afb57017458f4f145",
+      "width": 1200,
+      "height": 800,
+      "bytes": 159754
+    },
+    {
+      "id": "verite-catalogue-089-fusil-laser",
+      "title": "Fusil laser",
+      "src": "images/manual/verite-catalogue-089-fusil-laser.webp",
+      "sha256": "55f7aa292a9299048760e555caf48ff7663aa05b3cf5c45934212ea24a41257f",
+      "width": 1200,
+      "height": 800,
+      "bytes": 110194
+    },
+    {
+      "id": "verite-catalogue-090-fusil-laser-de-precision",
+      "title": "Fusil laser de précision",
+      "src": "images/manual/verite-catalogue-090-fusil-laser-de-precision.webp",
+      "sha256": "ced60defcad3a80b3c65db0efb824d0f4bc0d880ca2840bc2ca7480c321c2752",
+      "width": 1200,
+      "height": 600,
+      "bytes": 99016
+    },
+    {
+      "id": "verite-catalogue-091-pistolet-a-ions",
+      "title": "Pistolet à ions",
+      "src": "images/manual/verite-catalogue-091-pistolet-a-ions.webp",
+      "sha256": "ca35d4bc35742194f22acbf4ca2bc54f4a170b3bf9c6cbda409e292500597eb1",
+      "width": 1200,
+      "height": 800,
+      "bytes": 160628
+    },
+    {
+      "id": "verite-catalogue-092-fusil-a-ions",
+      "title": "Fusil à ions",
+      "src": "images/manual/verite-catalogue-092-fusil-a-ions.webp",
+      "sha256": "f77127b3820f8a6adc6c38cc887cf9c8ea6ca87cbea02e3265888c56ff9b5a10",
+      "width": 1200,
+      "height": 800,
+      "bytes": 130306
+    },
+    {
+      "id": "verite-catalogue-093-pistolet-a-plasma",
+      "title": "Pistolet à plasma",
+      "src": "images/manual/verite-catalogue-093-pistolet-a-plasma.webp",
+      "sha256": "b5b40ea1dfc65d840548e85437c204f460dede8e8a999dfeb7dc9a6044d19c65",
+      "width": 1200,
+      "height": 800,
+      "bytes": 186824
+    },
+    {
+      "id": "verite-catalogue-094-fusil-a-plasma",
+      "title": "Fusil à plasma",
+      "src": "images/manual/verite-catalogue-094-fusil-a-plasma.webp",
+      "sha256": "6dd2d25add1a76191403d180bc3b43b7111dadd5367c9cf2ce6b171993cb9688",
+      "width": 1200,
+      "height": 800,
+      "bytes": 163038
+    },
+    {
+      "id": "verite-catalogue-095-sniper-plasma",
+      "title": "Sniper plasma",
+      "src": "images/manual/verite-catalogue-095-sniper-plasma.webp",
+      "sha256": "92fc5142c1b0b3953b1afc95ea9576f0cc8719a173ebfb798600c9e9f6bfb454",
+      "width": 1200,
+      "height": 800,
+      "bytes": 131734
+    },
+    {
+      "id": "verite-catalogue-096-grenade-plasma",
+      "title": "Grenade plasma",
+      "src": "images/manual/verite-catalogue-096-grenade-plasma.webp",
+      "sha256": "05242b3c7c652dca26ae7110d662b0a231187ee7697781962fc2f4a60b49701e",
+      "width": 1125,
+      "height": 1200,
+      "bytes": 282882
+    },
+    {
+      "id": "verite-catalogue-097-fusil-projectile-galactique",
+      "title": "Fusil projectile galactique",
+      "src": "images/manual/verite-catalogue-097-fusil-projectile-galactique.webp",
+      "sha256": "593f96d7286de482c8f60c6e3b289b2b276cdb79c740a4196ef7a0d7daeab9ae",
+      "width": 1200,
+      "height": 800,
+      "bytes": 128630
+    },
+    {
+      "id": "verite-catalogue-098-sniper-projectile-galactique",
+      "title": "Sniper projectile galactique",
+      "src": "images/manual/verite-catalogue-098-sniper-projectile-galactique.webp",
+      "sha256": "3b4de78d83582350d26fc0c112f863892112b55217d2b4363603e906526f4680",
+      "width": 1200,
+      "height": 600,
+      "bytes": 89586
+    },
+    {
+      "id": "verite-catalogue-099-blaster-atomus",
+      "title": "Blaster Atomus",
+      "src": "images/manual/verite-catalogue-099-blaster-atomus.webp",
+      "sha256": "174c21dc9a8fe530f4af2247c9c05fe3c4f0af6b16d0e88c5cb3670cda8ffd96",
+      "width": 1200,
+      "height": 800,
+      "bytes": 160386
+    },
+    {
+      "id": "verite-catalogue-100-module-hydro-atomus",
+      "title": "Module Hydro-Atomus",
+      "src": "images/manual/verite-catalogue-100-module-hydro-atomus.webp",
+      "sha256": "57914c56e4c945c27d0cab353de0f483f019751ff4888f088610291752976414",
+      "width": 1200,
+      "height": 800,
+      "bytes": 152686
+    },
+    {
+      "id": "verite-catalogue-101-karpan-trius",
+      "title": "Karpan Trius",
+      "src": "images/manual/verite-catalogue-101-karpan-trius.webp",
+      "sha256": "0ee9970ad43aa71b334bccf9392c4303707e1d310b3d34649b02cfea55c84682",
+      "width": 1200,
+      "height": 800,
+      "bytes": 112676
+    }
+  ]
+}

@@ -1,0 +1,257 @@
+{
+  "lot": 5,
+  "items": [
+    {
+      "id": "verite-catalogue-202-prothese-metastable-vhi-6",
+      "title": "Prothèse Métastable VHI-6",
+      "src": "images/manual/verite-catalogue-202-prothese-metastable-vhi-6.webp",
+      "sha256": "62fedab36633ba8139b757370f6b2b37e5cce852e8b015d309aff0443c71ad22",
+      "width": 1200,
+      "height": 1000,
+      "bytes": 148602
+    },
+    {
+      "id": "verite-catalogue-203-reaffecteur-d-urgence-vhi-7",
+      "title": "Réaffecteur d’Urgence VHI-7",
+      "src": "images/manual/verite-catalogue-203-reaffecteur-d-urgence-vhi-7.webp",
+      "sha256": "f0323199ee28cf62a698b6b6aaca6be583e7e8886a61556ea07a9c6e94219406",
+      "width": 1200,
+      "height": 800,
+      "bytes": 254718
+    },
+    {
+      "id": "verite-catalogue-204-convertisseur-morphofonctionnel-vhi-9",
+      "title": "Convertisseur Morphofonctionnel VHI-9",
+      "src": "images/manual/verite-catalogue-204-convertisseur-morphofonctionnel-vhi-9.webp",
+      "sha256": "b7e702454d44121788f89392a5b6ee1fee3549fd8ac499b5224088bae53444ce",
+      "width": 1200,
+      "height": 960,
+      "bytes": 285384
+    },
+    {
+      "id": "verite-catalogue-205-graine-sentinelle",
+      "title": "Graine Sentinelle",
+      "src": "images/manual/verite-catalogue-205-graine-sentinelle.webp",
+      "sha256": "dae4c7fd8e2156301a681cc6ed5b0b53b6259bb27c60d84f773ed9abc04ec29d",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 327660
+    },
+    {
+      "id": "verite-catalogue-206-suture-vermiforme",
+      "title": "Suture Vermiforme",
+      "src": "images/manual/verite-catalogue-206-suture-vermiforme.webp",
+      "sha256": "9299d754b5d2437b2f6890147ab8ee468d6f3ae31e2dc95f5fa7a7cb3512a6b1",
+      "width": 1200,
+      "height": 800,
+      "bytes": 227498
+    },
+    {
+      "id": "verite-catalogue-207-carapace-de-couvee",
+      "title": "Carapace de Couvée",
+      "src": "images/manual/verite-catalogue-207-carapace-de-couvee.webp",
+      "sha256": "b607d8ef02f51c1bc98e2bf1eec005df5faecb311db10833b43c6f69631abc49",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 365424
+    },
+    {
+      "id": "verite-catalogue-208-munition-larvaire",
+      "title": "Munition larvaire",
+      "src": "images/manual/verite-catalogue-208-munition-larvaire.webp",
+      "sha256": "f2c50e810108e0ae2d46cf681a0ddd7ff01a1eb7e57d90030044d277cc490d0e",
+      "width": 1200,
+      "height": 800,
+      "bytes": 181976
+    },
+    {
+      "id": "verite-catalogue-209-nid-instantane-shg-4",
+      "title": "Nid instantané SHG-4",
+      "src": "images/manual/verite-catalogue-209-nid-instantane-shg-4.webp",
+      "sha256": "c4cea90a1ed88dcbca7054920aacbf4923e1c721105e03aa47b8a9f2645ded44",
+      "width": 1200,
+      "height": 994,
+      "bytes": 272170
+    },
+    {
+      "id": "verite-catalogue-210-capsule-outil-graine-shg-6",
+      "title": "Capsule Outil-Graine SHG-6",
+      "src": "images/manual/verite-catalogue-210-capsule-outil-graine-shg-6.webp",
+      "sha256": "d61f9a6de7f4bd181d6de36d8262d1483430aef72ad06d65a956d7ecad5b1672",
+      "width": 1200,
+      "height": 800,
+      "bytes": 177024
+    },
+    {
+      "id": "verite-catalogue-211-bioforge-shg-12",
+      "title": "Bioforge SHG-12",
+      "src": "images/manual/verite-catalogue-211-bioforge-shg-12.webp",
+      "sha256": "cf7b46161fec04c561203bee583ba40b09e8a991a4b48ddca396963117d1cc2e",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 340072
+    },
+    {
+      "id": "verite-catalogue-212-clou-de-stase",
+      "title": "Clou de Stase",
+      "src": "images/manual/verite-catalogue-212-clou-de-stase.webp",
+      "sha256": "a876e9deb93eba8cc3ace3b5b905aaea6662387369d0275f5b8ec33397816428",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 102894
+    },
+    {
+      "id": "verite-catalogue-213-munition-immuable",
+      "title": "Munition Immuable",
+      "src": "images/manual/verite-catalogue-213-munition-immuable.webp",
+      "sha256": "80874a1d647104ed69fc17e4c74261d7e2a64c3ee14e6ccb85d1caed94cc477a",
+      "width": 1200,
+      "height": 800,
+      "bytes": 167134
+    },
+    {
+      "id": "verite-catalogue-214-bracelet-de-stase-medicale",
+      "title": "Bracelet de Stase Médicale",
+      "src": "images/manual/verite-catalogue-214-bracelet-de-stase-medicale.webp",
+      "sha256": "11ff3c4f9dbc724acb4bc8cd26076b94b67c8a6668702685e9a7d6b3dbb74601",
+      "width": 1200,
+      "height": 800,
+      "bytes": 264886
+    },
+    {
+      "id": "verite-catalogue-215-coffre-d-etat-thu-2",
+      "title": "Coffre d’État THU-2",
+      "src": "images/manual/verite-catalogue-215-coffre-d-etat-thu-2.webp",
+      "sha256": "3306d24a462e8ac4b5d26256838752ae1c9104d527704ca03717934dd70d4e7c",
+      "width": 1200,
+      "height": 1000,
+      "bytes": 333302
+    },
+    {
+      "id": "verite-catalogue-216-boite-noire-abyssale-thu-4",
+      "title": "Boîte noire Abyssale THU-4",
+      "src": "images/manual/verite-catalogue-216-boite-noire-abyssale-thu-4.webp",
+      "sha256": "19b7b50e8a906647a9cf0fb3e02279a5d1973540239b01dd4edbedb75e04daa6",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 376556
+    },
+    {
+      "id": "verite-catalogue-217-projecteur-chronostatique-thu-7",
+      "title": "Projecteur Chronostatique THU-7",
+      "src": "images/manual/verite-catalogue-217-projecteur-chronostatique-thu-7.webp",
+      "sha256": "98fd8786cb25cee5e9855412908600a6593b3ef4ad89b1f4ae2837d664524c94",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 363748
+    },
+    {
+      "id": "verite-catalogue-218-grenade-d-inertie-thu-9",
+      "title": "Grenade d’Inertie THU-9",
+      "src": "images/manual/verite-catalogue-218-grenade-d-inertie-thu-9.webp",
+      "sha256": "50bcb96d54e80f9e422b28b084b3d297e74bfd6a3417b333970d4d5416d9aaba",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 333170
+    },
+    {
+      "id": "verite-catalogue-219-grande-orbe",
+      "title": "Grande Orbe",
+      "src": "images/manual/verite-catalogue-219-grande-orbe.webp",
+      "sha256": "c84b0463439f0bdf050c99e16443d73666ae052fed121d466bf87434b8909e57",
+      "width": 1200,
+      "height": 1155,
+      "bytes": 463504
+    },
+    {
+      "id": "verite-catalogue-220-nacres-noires",
+      "title": "Nacres noires",
+      "src": "images/manual/verite-catalogue-220-nacres-noires.webp",
+      "sha256": "ce4b023f81d16a3da7cb9f4880d4630766855fa9cd4db84302266e46b0676e50",
+      "width": 1200,
+      "height": 995,
+      "bytes": 294636
+    },
+    {
+      "id": "verite-catalogue-221-nahfr",
+      "title": "Nahfr",
+      "src": "images/manual/verite-catalogue-221-nahfr.webp",
+      "sha256": "46479d63403e8d103fdbbdf1153c8449da3ad755547e5193adc6c663acfaf8c3",
+      "width": 1139,
+      "height": 1200,
+      "bytes": 438364
+    },
+    {
+      "id": "verite-catalogue-222-mue-de-rulfam",
+      "title": "Mue de Rulfam",
+      "src": "images/manual/verite-catalogue-222-mue-de-rulfam.webp",
+      "sha256": "5cc8c7902ab8d1b5318d385d6f1b83aaa435beae9243b10aa5fb5e345a4c3397",
+      "width": 1145,
+      "height": 1200,
+      "bytes": 450354
+    },
+    {
+      "id": "verite-catalogue-223-lance-de-longinus",
+      "title": "Lance de Longinus",
+      "src": "images/manual/verite-catalogue-223-lance-de-longinus.webp",
+      "sha256": "330903ce4b74d66bc2ca1df1b30a4ecb09f760e35208e3935f56b6adc5ba3c1f",
+      "width": 800,
+      "height": 1200,
+      "bytes": 92542
+    },
+    {
+      "id": "verite-catalogue-224-marche-de-verite-des-exiles-acces-et-rarete",
+      "title": "Marché de Vérité des Exilés — accès et rareté",
+      "src": "images/manual/verite-catalogue-224-marche-de-verite-des-exiles-acces-et-rarete.webp",
+      "sha256": "c2ca75c59e4c6bf919174a811d4a1ff6da7d5c136ec664db4a32e9995609abad",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 415116
+    },
+    {
+      "id": "verite-catalogue-225-marche-xeno-circuits-acces-et-dettes",
+      "title": "Marché xéno — circuits, accès et dettes",
+      "src": "images/manual/verite-catalogue-225-marche-xeno-circuits-acces-et-dettes.webp",
+      "sha256": "db8315fcb84875d6b9df9182cba21c3c82bae07e324184afa48edc2a0797ffa7",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 477722
+    },
+    {
+      "id": "verite-catalogue-226-conventions-techniques-aidh",
+      "title": "Conventions techniques AIDH",
+      "src": "images/manual/verite-catalogue-226-conventions-techniques-aidh.webp",
+      "sha256": "8f9e33ccee88c5a108644e2575496a677a912c6ade61b5ae90d735a70a2ede1c",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 299408
+    },
+    {
+      "id": "verite-catalogue-227-protocoles-de-coherence-compatibilite-materielle",
+      "title": "Protocoles de Cohérence — compatibilité matérielle",
+      "src": "images/manual/verite-catalogue-227-protocoles-de-coherence-compatibilite-materielle.webp",
+      "sha256": "9d975f34938f2469816e46e5712e67d7707375b707a622cdd3c0444562630077",
+      "width": 1200,
+      "height": 800,
+      "bytes": 287350
+    },
+    {
+      "id": "verite-catalogue-228-dotations-types-aidh",
+      "title": "Dotations types AIDH",
+      "src": "images/manual/verite-catalogue-228-dotations-types-aidh.webp",
+      "sha256": "232864163d91e8326b6e31073cf932f7f8676123780e3062f111d9c0b03481df",
+      "width": 1200,
+      "height": 800,
+      "bytes": 333296
+    },
+    {
+      "id": "verite-catalogue-229-equipement-corrompu-et-calamitechnologie-principes",
+      "title": "Équipement corrompu et Calamitechnologie — principes",
+      "src": "images/manual/verite-catalogue-229-equipement-corrompu-et-calamitechnologie-principes.webp",
+      "sha256": "a7c77112d08c3e57ee39539d820bbc4b96f3b8991a859a58d56c085d521ee255",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 459576
+    }
+  ]
+}
