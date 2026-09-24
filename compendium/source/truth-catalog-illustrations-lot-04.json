@@ -1,0 +1,455 @@
+{
+  "lot": 4,
+  "items": [
+    {
+      "id": "verite-catalogue-152-null-lance-ie-4",
+      "title": "Null Lance IE-4",
+      "src": "images/manual/verite-catalogue-152-null-lance-ie-4.webp",
+      "sha256": "d13dc3fd1067c549cbc4e7f1e3ba530d85a59ace950af4a9bb64a543c7b2394c",
+      "width": 1200,
+      "height": 800,
+      "bytes": 93782
+    },
+    {
+      "id": "verite-catalogue-153-judicator-rl-5",
+      "title": "Judicator RL-5",
+      "src": "images/manual/verite-catalogue-153-judicator-rl-5.webp",
+      "sha256": "bb2e8c8796600c943df0e6b79bfc684354ba14264329859ef12502fd8258bae1",
+      "width": 1200,
+      "height": 800,
+      "bytes": 98050
+    },
+    {
+      "id": "verite-catalogue-154-blackstar-gr-1",
+      "title": "Blackstar GR-1",
+      "src": "images/manual/verite-catalogue-154-blackstar-gr-1.webp",
+      "sha256": "e316c1488f99b556cac5b9b67fd4cbd48eeee13f30205f89568456592c91b514",
+      "width": 1200,
+      "height": 1066,
+      "bytes": 162174
+    },
+    {
+      "id": "verite-catalogue-155-ward-m-6",
+      "title": "Ward M-6",
+      "src": "images/manual/verite-catalogue-155-ward-m-6.webp",
+      "sha256": "b842dd2d4c1e992bf82585760cd37a69784a7317e9a74e47ac1baa64fa92c749",
+      "width": 1200,
+      "height": 800,
+      "bytes": 77460
+    },
+    {
+      "id": "verite-catalogue-156-breacher-b-9",
+      "title": "Breacher B-9",
+      "src": "images/manual/verite-catalogue-156-breacher-b-9.webp",
+      "sha256": "5d03179ee1924144e060bcee1756b3b0d96740a1854ba037abcd28dd8ff160ed",
+      "width": 1200,
+      "height": 800,
+      "bytes": 104648
+    },
+    {
+      "id": "verite-catalogue-157-second-skin",
+      "title": "Second Skin",
+      "src": "images/manual/verite-catalogue-157-second-skin.webp",
+      "sha256": "34c485138fac95555de54449247380583a63a1a04d6021c3f0cedd25720bc2a9",
+      "width": 1000,
+      "height": 1200,
+      "bytes": 128616
+    },
+    {
+      "id": "verite-catalogue-158-vesper-recon",
+      "title": "Vesper Recon",
+      "src": "images/manual/verite-catalogue-158-vesper-recon.webp",
+      "sha256": "6624c5d92318bae93ae5e13d80a212f790e9de331519fee319a85135c240facf",
+      "width": 1000,
+      "height": 1200,
+      "bytes": 173392
+    },
+    {
+      "id": "verite-catalogue-159-urgent-matter",
+      "title": "Urgent Matter",
+      "src": "images/manual/verite-catalogue-159-urgent-matter.webp",
+      "sha256": "be15cd33d13b1d10d9acc2f253539ffdd1fb62aec876cae86fd0c1c162d6cace",
+      "width": 1018,
+      "height": 1200,
+      "bytes": 172274
+    },
+    {
+      "id": "verite-catalogue-160-bastion",
+      "title": "Bastion",
+      "src": "images/manual/verite-catalogue-160-bastion.webp",
+      "sha256": "39823f7c44a738649d64ff7c44d56aeb10c7fcdf200cc246cefd063d3c8d5a50",
+      "width": 1119,
+      "height": 1200,
+      "bytes": 324476
+    },
+    {
+      "id": "verite-catalogue-161-argus-t",
+      "title": "ARGUS-T",
+      "src": "images/manual/verite-catalogue-161-argus-t.webp",
+      "sha256": "bf28317a50f45d4b0a265f6ab80c41c9a199eeed68d60b1bcb6a6d5286618d44",
+      "width": 1200,
+      "height": 800,
+      "bytes": 173162
+    },
+    {
+      "id": "verite-catalogue-162-mnemosyne",
+      "title": "Mnemosyne",
+      "src": "images/manual/verite-catalogue-162-mnemosyne.webp",
+      "sha256": "a7ccf82cd2b43dd7d6c610db5daa514989b4ec3d5cdc422472de0d96cdf15cf5",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 373104
+    },
+    {
+      "id": "verite-catalogue-163-stator",
+      "title": "STATOR",
+      "src": "images/manual/verite-catalogue-163-stator.webp",
+      "sha256": "6c4738073d01033f14cd305c53976a941621be2e434107fdbe5189447420f309",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 236642
+    },
+    {
+      "id": "verite-catalogue-164-clearsky",
+      "title": "CLEARSKY",
+      "src": "images/manual/verite-catalogue-164-clearsky.webp",
+      "sha256": "8e09e785837a85ff6001bf00181b075920e0a1e5a67071d9ebe117de3a9ba6d3",
+      "width": 1200,
+      "height": 1125,
+      "bytes": 274274
+    },
+    {
+      "id": "verite-catalogue-165-iris-0",
+      "title": "IRIS-0",
+      "src": "images/manual/verite-catalogue-165-iris-0.webp",
+      "sha256": "2085b0c9d65c3047be2728c6e5fb35b242a7425561b5bb60d209a0f63cfedcab",
+      "width": 1200,
+      "height": 960,
+      "bytes": 235260
+    },
+    {
+      "id": "verite-catalogue-166-triad-r",
+      "title": "TRIAD-R",
+      "src": "images/manual/verite-catalogue-166-triad-r.webp",
+      "sha256": "90fb0423a94ad391feafeb9523b397cd6913e21ef7ad7afe263c0842a3be7b35",
+      "width": 1200,
+      "height": 800,
+      "bytes": 143314
+    },
+    {
+      "id": "verite-catalogue-167-twinkey",
+      "title": "TwinKey",
+      "src": "images/manual/verite-catalogue-167-twinkey.webp",
+      "sha256": "f598b17429c33ddbf1af3d7f697a88617b5d35565d3e72670ee568a155074ab1",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 261610
+    },
+    {
+      "id": "verite-catalogue-168-q-lock",
+      "title": "Q-Lock",
+      "src": "images/manual/verite-catalogue-168-q-lock.webp",
+      "sha256": "4d937682f6c8533bfd60217b7df90b3dc9d58faf405ea0b664040119f7b82356",
+      "width": 1200,
+      "height": 1000,
+      "bytes": 152922
+    },
+    {
+      "id": "verite-catalogue-169-needle-t",
+      "title": "Needle-T",
+      "src": "images/manual/verite-catalogue-169-needle-t.webp",
+      "sha256": "1f291956a948edc6df9db772f30a8dacd963fcf2bfa7e8027d38f2a8c2815cc8",
+      "width": 1200,
+      "height": 1000,
+      "bytes": 160688
+    },
+    {
+      "id": "verite-catalogue-170-janus-b",
+      "title": "JANUS-B",
+      "src": "images/manual/verite-catalogue-170-janus-b.webp",
+      "sha256": "e32aaa71f2bbdd1eb1d12cd22cd7eca757137dd006d5eceb4e5e71166ef45bf5",
+      "width": 1200,
+      "height": 800,
+      "bytes": 178500
+    },
+    {
+      "id": "verite-catalogue-171-ark-6",
+      "title": "ARK-6",
+      "src": "images/manual/verite-catalogue-171-ark-6.webp",
+      "sha256": "08a79d77b37bb51cce3f6fab00b910672ff2862d506dc9653e046a94e018bb1d",
+      "width": 1200,
+      "height": 800,
+      "bytes": 239808
+    },
+    {
+      "id": "verite-catalogue-172-sentinel-n",
+      "title": "SENTINEL-N",
+      "src": "images/manual/verite-catalogue-172-sentinel-n.webp",
+      "sha256": "f5903f9a01aa3a375697ccc54feac3d23718aa62877f5b976282176555efc551",
+      "width": 1200,
+      "height": 1000,
+      "bytes": 140954
+    },
+    {
+      "id": "verite-catalogue-173-wake-3",
+      "title": "WAKE-3",
+      "src": "images/manual/verite-catalogue-173-wake-3.webp",
+      "sha256": "a44f2cd17d93f80338220f6762ecc7fd6148e5cc37b61964cf09a8921bea811f",
+      "width": 1200,
+      "height": 1000,
+      "bytes": 168228
+    },
+    {
+      "id": "verite-catalogue-174-hds-4-veil-lock",
+      "title": "HDS-4 Veil Lock",
+      "src": "images/manual/verite-catalogue-174-hds-4-veil-lock.webp",
+      "sha256": "8bd08471f4d68ac994c631a441e64bd1af0824266cff7b307bc66d619c2078c7",
+      "width": 1200,
+      "height": 800,
+      "bytes": 202068
+    },
+    {
+      "id": "verite-catalogue-175-caliban-s",
+      "title": "CALIBAN-S",
+      "src": "images/manual/verite-catalogue-175-caliban-s.webp",
+      "sha256": "39ba678fcbf5d76d37af10e4bfe2d8e09a778653d8cb484dc13832da708a361b",
+      "width": 1200,
+      "height": 800,
+      "bytes": 148070
+    },
+    {
+      "id": "verite-catalogue-176-calamitechnologie",
+      "title": "Calamitechnologie",
+      "src": "images/manual/verite-catalogue-176-calamitechnologie.webp",
+      "sha256": "59f757a8a5de007344d11d9f64c059f9699639bf31ac1627c839e6e4e654768f",
+      "width": 1200,
+      "height": 1037,
+      "bytes": 341932
+    },
+    {
+      "id": "verite-catalogue-177-dotation-et-acces-aidh",
+      "title": "Dotation et accès AIDH",
+      "src": "images/manual/verite-catalogue-177-dotation-et-acces-aidh.webp",
+      "sha256": "1cd2ba8d1d140189a16986abc55f7d29ca05e0541178f7d66b8e21945e396c8d",
+      "width": 1200,
+      "height": 1155,
+      "bytes": 498876
+    },
+    {
+      "id": "verite-catalogue-178-croc-de-la-faim",
+      "title": "Croc de la Faim",
+      "src": "images/manual/verite-catalogue-178-croc-de-la-faim.webp",
+      "sha256": "b974126fd8f469d5e82cc4af5fb4f1c1cf19189be2bebfae26d7095a8cf99213",
+      "width": 1200,
+      "height": 800,
+      "bytes": 169258
+    },
+    {
+      "id": "verite-catalogue-179-coffret-de-l-inassouvi",
+      "title": "Coffret de l’Inassouvi",
+      "src": "images/manual/verite-catalogue-179-coffret-de-l-inassouvi.webp",
+      "sha256": "b3a93e72fac50f1bc78e7b190544a6c4f74535531409191d40f2b4b799ab35d3",
+      "width": 1200,
+      "height": 1113,
+      "bytes": 399952
+    },
+    {
+      "id": "verite-catalogue-180-munition-affamee",
+      "title": "Munition affamée",
+      "src": "images/manual/verite-catalogue-180-munition-affamee.webp",
+      "sha256": "83cf1031ecb1f7d62a4fe74108f49b90a8029f20126ba16fea8259236c4c4477",
+      "width": 1200,
+      "height": 1000,
+      "bytes": 209766
+    },
+    {
+      "id": "verite-catalogue-181-extracteur-entropique-vhd-4",
+      "title": "Extracteur entropique VHD-4",
+      "src": "images/manual/verite-catalogue-181-extracteur-entropique-vhd-4.webp",
+      "sha256": "151d4fa8a2e700cec793e14ee65dc47f961c546bcfd6535c41e174c2836e14b8",
+      "width": 1200,
+      "height": 800,
+      "bytes": 195610
+    },
+    {
+      "id": "verite-catalogue-182-grenade-de-jeune-vhd-7",
+      "title": "Grenade de Jeûne VHD-7",
+      "src": "images/manual/verite-catalogue-182-grenade-de-jeune-vhd-7.webp",
+      "sha256": "26c4c86cfa0ff9c37955a9d4f662d8e964815b9caf01c1b1a57f86222fd7e772",
+      "width": 1200,
+      "height": 1141,
+      "bytes": 311984
+    },
+    {
+      "id": "verite-catalogue-183-effaceur-vhd-0",
+      "title": "Effaceur VHD-0",
+      "src": "images/manual/verite-catalogue-183-effaceur-vhd-0.webp",
+      "sha256": "78e36c7ce2141517f8d3e88eb59e5315cc6627eead3ab8158b15ac6dc6698c6a",
+      "width": 1200,
+      "height": 960,
+      "bytes": 200176
+    },
+    {
+      "id": "verite-catalogue-184-clou-d-annexe",
+      "title": "Clou d’Annexe",
+      "src": "images/manual/verite-catalogue-184-clou-d-annexe.webp",
+      "sha256": "14ba96dbf54cc2a65365aa31b457b04aef3d394956f83764781b50079ae131bf",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 136374
+    },
+    {
+      "id": "verite-catalogue-185-lame-de-l-interstice",
+      "title": "Lame de l’Interstice",
+      "src": "images/manual/verite-catalogue-185-lame-de-l-interstice.webp",
+      "sha256": "9b2ff38d937f2b4c06f5ef7d6852cb13518774717edde90c4cf2e46f99f3b75a",
+      "width": 1200,
+      "height": 800,
+      "bytes": 82216
+    },
+    {
+      "id": "verite-catalogue-186-cartouche-interstitielle",
+      "title": "Cartouche interstitielle",
+      "src": "images/manual/verite-catalogue-186-cartouche-interstitielle.webp",
+      "sha256": "b08a971fab56bf94753b50cde92587e38e86d7cd63614ee47b9e99cb6c5ff1e3",
+      "width": 1200,
+      "height": 800,
+      "bytes": 147634
+    },
+    {
+      "id": "verite-catalogue-187-mantelet-de-non-presence-vag-3",
+      "title": "Mantelet de Non-Présence VAG-3",
+      "src": "images/manual/verite-catalogue-187-mantelet-de-non-presence-vag-3.webp",
+      "sha256": "a54eacbe68916d65536caad0adc4874089fa140fec9a049fc40e7de7b382d8cc",
+      "width": 1000,
+      "height": 1200,
+      "bytes": 304566
+    },
+    {
+      "id": "verite-catalogue-188-variateur-de-masse-vag-8",
+      "title": "Variateur de Masse VAG-8",
+      "src": "images/manual/verite-catalogue-188-variateur-de-masse-vag-8.webp",
+      "sha256": "d6de686f03040b39a7434ce7565b96283f475087cda70fd664f7b1df4d9fae5c",
+      "width": 1200,
+      "height": 1000,
+      "bytes": 300938
+    },
+    {
+      "id": "verite-catalogue-189-gantelet-de-fusion-vag-9",
+      "title": "Gantelet de Fusion VAG-9",
+      "src": "images/manual/verite-catalogue-189-gantelet-de-fusion-vag-9.webp",
+      "sha256": "69278f485418b9d9ab2d6a1aea1722c88c19cd2b1255d4dbf8c224c2e1c51143",
+      "width": 1200,
+      "height": 800,
+      "bytes": 228102
+    },
+    {
+      "id": "verite-catalogue-190-passe-mur-vag-12",
+      "title": "Passe-Mur VAG-12",
+      "src": "images/manual/verite-catalogue-190-passe-mur-vag-12.webp",
+      "sha256": "26f6587e58e96237d3cd021e7c63370cfcda9a23fc5257cfc99a6b79d20b09e8",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 494414
+    },
+    {
+      "id": "verite-catalogue-191-scalpel-du-prisme",
+      "title": "Scalpel du Prisme",
+      "src": "images/manual/verite-catalogue-191-scalpel-du-prisme.webp",
+      "sha256": "559083a9814164d552deb2fa9e18c75115344ef88a03b5f00ead8df208968848",
+      "width": 1200,
+      "height": 800,
+      "bytes": 136672
+    },
+    {
+      "id": "verite-catalogue-192-lentille-des-jointures",
+      "title": "Lentille des Jointures",
+      "src": "images/manual/verite-catalogue-192-lentille-des-jointures.webp",
+      "sha256": "9051804c6f47407d567a38d75fafd226ae01ff8130deeb70d31ad0d6b246ec8d",
+      "width": 1200,
+      "height": 800,
+      "bytes": 151008
+    },
+    {
+      "id": "verite-catalogue-193-munition-delaminante",
+      "title": "Munition délaminante",
+      "src": "images/manual/verite-catalogue-193-munition-delaminante.webp",
+      "sha256": "03d0af5f4d091cf0e0f538cb758325e8338ba4505559a0150ef1365df7113bb9",
+      "width": 1200,
+      "height": 800,
+      "bytes": 133592
+    },
+    {
+      "id": "verite-catalogue-194-dissecteur-shr-11",
+      "title": "Dissecteur SHR-11",
+      "src": "images/manual/verite-catalogue-194-dissecteur-shr-11.webp",
+      "sha256": "c6cee4a4a7949b12e67fc4a842bdc8709ce9b8b80fd039daa8a5c935617aa3a4",
+      "width": 1200,
+      "height": 1000,
+      "bytes": 292208
+    },
+    {
+      "id": "verite-catalogue-195-prismateur-de-flux-shr-4",
+      "title": "Prismateur de Flux SHR-4",
+      "src": "images/manual/verite-catalogue-195-prismateur-de-flux-shr-4.webp",
+      "sha256": "44c60be6f7c3a9ecbc6374e4afba094313c4439dc8bedc65e680d58b71ef1fe9",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 293920
+    },
+    {
+      "id": "verite-catalogue-196-charge-prismatique-shr-7",
+      "title": "Charge prismatique SHR-7",
+      "src": "images/manual/verite-catalogue-196-charge-prismatique-shr-7.webp",
+      "sha256": "29f3e357134677693c562bfe421c96f4c6bf5aa9b661643c8bf2fcdd1c2226c3",
+      "width": 1200,
+      "height": 1000,
+      "bytes": 255604
+    },
+    {
+      "id": "verite-catalogue-197-ecran-de-scission-shr-9",
+      "title": "Écran de Scission SHR-9",
+      "src": "images/manual/verite-catalogue-197-ecran-de-scission-shr-9.webp",
+      "sha256": "e7a299a0a5a24ce1f253ecbf244dfaf4b9fee4dcd87fd792c178e365d7aa8c29",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 325418
+    },
+    {
+      "id": "verite-catalogue-198-cle-metastasique",
+      "title": "Clé Métastasique",
+      "src": "images/manual/verite-catalogue-198-cle-metastasique.webp",
+      "sha256": "fd9ec0be91d217e9533b7557c14f77d367307b30d73b7fcc288e26ecb22fe748",
+      "width": 1200,
+      "height": 800,
+      "bytes": 189112
+    },
+    {
+      "id": "verite-catalogue-199-manchette-d-interface-variable",
+      "title": "Manchette d’Interface Variable",
+      "src": "images/manual/verite-catalogue-199-manchette-d-interface-variable.webp",
+      "sha256": "98074e0a46d29b9dd303c62c3b189626e9e55c7d7b9b65a82f1989573ce0accc",
+      "width": 1200,
+      "height": 800,
+      "bytes": 181062
+    },
+    {
+      "id": "verite-catalogue-200-masque-de-survie-metastable",
+      "title": "Masque de Survie Métastable",
+      "src": "images/manual/verite-catalogue-200-masque-de-survie-metastable.webp",
+      "sha256": "81f14eeadf851734dcd89cdab05bd84887f3d4f169b7d22aeea8b7108ca30212",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 301960
+    },
+    {
+      "id": "verite-catalogue-201-pont-fonctionnel-vhi-5",
+      "title": "Pont Fonctionnel VHI-5",
+      "src": "images/manual/verite-catalogue-201-pont-fonctionnel-vhi-5.webp",
+      "sha256": "0c9a73443d546c3492ced7d40787ff31aaeff24adc017bd1adb11fb61255dd0f",
+      "width": 1200,
+      "height": 960,
+      "bytes": 268722
+    }
+  ]
+}

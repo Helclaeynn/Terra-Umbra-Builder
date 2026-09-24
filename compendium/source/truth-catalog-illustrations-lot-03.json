@@ -1,0 +1,455 @@
+{
+  "lot": 3,
+  "items": [
+    {
+      "id": "verite-catalogue-102-vultar-trius",
+      "title": "Vultar Trius",
+      "src": "images/manual/verite-catalogue-102-vultar-trius.webp",
+      "sha256": "7c42f6384b6c84c140ca6918145e6da66c0d536ff68ed5bddb195cf37629be97",
+      "width": 1200,
+      "height": 800,
+      "bytes": 149372
+    },
+    {
+      "id": "verite-catalogue-103-lantarksan-trius",
+      "title": "Lantarksan Trius",
+      "src": "images/manual/verite-catalogue-103-lantarksan-trius.webp",
+      "sha256": "e8d5bd9ec9aca36791ddd4f5bbbcb9b77c221db33f02e3caf0a8dd31c88e5b86",
+      "width": 1200,
+      "height": 800,
+      "bytes": 186718
+    },
+    {
+      "id": "verite-catalogue-104-go-02",
+      "title": "GO-02",
+      "src": "images/manual/verite-catalogue-104-go-02.webp",
+      "sha256": "abbdabaee23129ef4527ce596d0b82d84f3da94569a51166f44a01a185bf6937",
+      "width": 1200,
+      "height": 800,
+      "bytes": 191502
+    },
+    {
+      "id": "verite-catalogue-105-resonateur-feeshri-de-volonte",
+      "title": "Résonateur Feeshri de volonté",
+      "src": "images/manual/verite-catalogue-105-resonateur-feeshri-de-volonte.webp",
+      "sha256": "9f3ad0b7898f2dd50defff2325223e2c09e702b95f3f669de8a0077f1e73d530",
+      "width": 1200,
+      "height": 800,
+      "bytes": 276254
+    },
+    {
+      "id": "verite-catalogue-106-carabine-feeshri-n-ud-bleu",
+      "title": "Carabine Feeshri « Nœud bleu »",
+      "src": "images/manual/verite-catalogue-106-carabine-feeshri-n-ud-bleu.webp",
+      "sha256": "3a94224757d90e4d7d918eec29420f86aa1ee3f97404d28af0f64c29cbfb2074",
+      "width": 1200,
+      "height": 800,
+      "bytes": 130106
+    },
+    {
+      "id": "verite-catalogue-107-pistolet-plasma-serys",
+      "title": "Pistolet plasma Sérys",
+      "src": "images/manual/verite-catalogue-107-pistolet-plasma-serys.webp",
+      "sha256": "340fe1132ceda8596e7eb17955237345e4e15810c002d4dc5cae59c93fb7c6a5",
+      "width": 1200,
+      "height": 800,
+      "bytes": 197382
+    },
+    {
+      "id": "verite-catalogue-108-fusil-plasma-serys",
+      "title": "Fusil plasma Sérys",
+      "src": "images/manual/verite-catalogue-108-fusil-plasma-serys.webp",
+      "sha256": "f67ba2dbd781831ae2933dec4ba343f0dc9f8b9745f96d559a83061fdaabf039",
+      "width": 1200,
+      "height": 600,
+      "bytes": 121972
+    },
+    {
+      "id": "verite-catalogue-109-repetiteur-serys",
+      "title": "Répétiteur Sérys",
+      "src": "images/manual/verite-catalogue-109-repetiteur-serys.webp",
+      "sha256": "b0f0be31318152d86962fc8c92ecb0dda865b659698c593b28e96b6b3a912b96",
+      "width": 1200,
+      "height": 800,
+      "bytes": 167052
+    },
+    {
+      "id": "verite-catalogue-110-sniper-serys",
+      "title": "Sniper Sérys",
+      "src": "images/manual/verite-catalogue-110-sniper-serys.webp",
+      "sha256": "0a6ff6a131a525e0307aa950eb51beb73674e4152a3b1051056e2f99cdc7115c",
+      "width": 1200,
+      "height": 600,
+      "bytes": 102278
+    },
+    {
+      "id": "verite-catalogue-111-mitrailleuse-serys",
+      "title": "Mitrailleuse Sérys",
+      "src": "images/manual/verite-catalogue-111-mitrailleuse-serys.webp",
+      "sha256": "b8964da1b6d14cf74d5467887580ccf2c138716c7ea705b9c1a74a0f1fb9e61d",
+      "width": 1200,
+      "height": 800,
+      "bytes": 197526
+    },
+    {
+      "id": "verite-catalogue-112-lance-plasma-serys",
+      "title": "Lance-plasma Sérys",
+      "src": "images/manual/verite-catalogue-112-lance-plasma-serys.webp",
+      "sha256": "064c1c31b87b74559c8d06a3bd9e8dd65150cd0d23661598e2ea928760c936e9",
+      "width": 1200,
+      "height": 800,
+      "bytes": 210362
+    },
+    {
+      "id": "verite-catalogue-113-lance-roquette-serys",
+      "title": "Lance-roquette Sérys",
+      "src": "images/manual/verite-catalogue-113-lance-roquette-serys.webp",
+      "sha256": "da4800cb6439af7f194df31b288ffbfdf3398bb1568bb4e33ac8a4effe35ce59",
+      "width": 1200,
+      "height": 800,
+      "bytes": 197138
+    },
+    {
+      "id": "verite-catalogue-114-sellecion-12",
+      "title": "Sellecion 12",
+      "src": "images/manual/verite-catalogue-114-sellecion-12.webp",
+      "sha256": "714bc04f322769da0a069509532adc35807358e0f8865db7e32b2e960b35a18e",
+      "width": 1200,
+      "height": 600,
+      "bytes": 148220
+    },
+    {
+      "id": "verite-catalogue-115-tk-x",
+      "title": "TK X",
+      "src": "images/manual/verite-catalogue-115-tk-x.webp",
+      "sha256": "a8adcb1a17d587bc8acef6b8ae809f646d511e5a9d38dd9261e05595941ae6d4",
+      "width": 1200,
+      "height": 800,
+      "bytes": 249892
+    },
+    {
+      "id": "verite-catalogue-116-tanax-alpha",
+      "title": "Tanax Alpha",
+      "src": "images/manual/verite-catalogue-116-tanax-alpha.webp",
+      "sha256": "0d443a27133edf445ae23fe985ae24633403d0b2d8181b4ae67a4e67ccdaae72",
+      "width": 1200,
+      "height": 800,
+      "bytes": 177938
+    },
+    {
+      "id": "verite-catalogue-117-pistolet-aidh-2e-generation",
+      "title": "Pistolet AIDH — 2e génération",
+      "src": "images/manual/verite-catalogue-117-pistolet-aidh-2e-generation.webp",
+      "sha256": "04e3c344755e4a60e8c6e8038dcd19a290b1fdd49ecf8f1ea48235eee45f3fbd",
+      "width": 1200,
+      "height": 800,
+      "bytes": 188974
+    },
+    {
+      "id": "verite-catalogue-118-fusil-aidh-1re-generation",
+      "title": "Fusil AIDH — 1re génération",
+      "src": "images/manual/verite-catalogue-118-fusil-aidh-1re-generation.webp",
+      "sha256": "b92a071ba1028fc30cd8e1d03409653c0f93e6b3477dbfd9a1b3859af97d3c5c",
+      "width": 1200,
+      "height": 600,
+      "bytes": 105306
+    },
+    {
+      "id": "verite-catalogue-119-pastille-d-armement-aidh-1re-generation",
+      "title": "Pastille d’armement AIDH - 1re génération",
+      "src": "images/manual/verite-catalogue-119-pastille-d-armement-aidh-1re-generation.webp",
+      "sha256": "2093c60115b2d5689ffb0d932f8f5a4dc9c2cb646e6efe53586334bb813805d5",
+      "width": 1200,
+      "height": 800,
+      "bytes": 123258
+    },
+    {
+      "id": "verite-catalogue-120-couteau-de-survie-vibrant",
+      "title": "Couteau de survie vibrant",
+      "src": "images/manual/verite-catalogue-120-couteau-de-survie-vibrant.webp",
+      "sha256": "a34bfe19992c58e3b81d79fdd0cadb6e2e645f8c1818f7c657175f249a4d8e96",
+      "width": 1200,
+      "height": 800,
+      "bytes": 94490
+    },
+    {
+      "id": "verite-catalogue-121-dague-mono-filament",
+      "title": "Dague mono-filament",
+      "src": "images/manual/verite-catalogue-121-dague-mono-filament.webp",
+      "sha256": "2ccc347736e3325232f0c88d0660cd07733509f3a265a5c381b88ead30ab712d",
+      "width": 1200,
+      "height": 800,
+      "bytes": 72912
+    },
+    {
+      "id": "verite-catalogue-122-spectrale-s40",
+      "title": "Spectrale S40",
+      "src": "images/manual/verite-catalogue-122-spectrale-s40.webp",
+      "sha256": "3e3cbe409dbee76e589923d6ca98e5ba5a695ad8a6f037d9af6e9730f7a5547c",
+      "width": 1200,
+      "height": 800,
+      "bytes": 70760
+    },
+    {
+      "id": "verite-catalogue-123-hache-mono-filament",
+      "title": "Hache mono-filament",
+      "src": "images/manual/verite-catalogue-123-hache-mono-filament.webp",
+      "sha256": "268343ef8c71ec320fcbe15031b3d955cbad4d3c0528cf3ee1039eb683d89562",
+      "width": 1139,
+      "height": 1200,
+      "bytes": 200734
+    },
+    {
+      "id": "verite-catalogue-124-lc-108x",
+      "title": "LC-108X",
+      "src": "images/manual/verite-catalogue-124-lc-108x.webp",
+      "sha256": "a78cc858ba520d23ce39b621fecc3c7e0a464147a6f5370a523114b4e17c3ae8",
+      "width": 1200,
+      "height": 800,
+      "bytes": 107432
+    },
+    {
+      "id": "verite-catalogue-125-cellule-universelle-shaediri",
+      "title": "Cellule universelle Shaediri",
+      "src": "images/manual/verite-catalogue-125-cellule-universelle-shaediri.webp",
+      "sha256": "a227763c0baba8deef5542b7d12ff112e99bab83ba0b25f6ebb161250b3cb330",
+      "width": 1200,
+      "height": 1000,
+      "bytes": 296022
+    },
+    {
+      "id": "verite-catalogue-126-kit-d-ergonomie-xeno",
+      "title": "Kit d’ergonomie xéno",
+      "src": "images/manual/verite-catalogue-126-kit-d-ergonomie-xeno.webp",
+      "sha256": "bdce068f8edd7fe31eecef30e7920d07469f7d1aeb846b56f5ab55683692c79d",
+      "width": 1200,
+      "height": 800,
+      "bytes": 269002
+    },
+    {
+      "id": "verite-catalogue-127-brouilleur-de-telemetrie",
+      "title": "Brouilleur de télémétrie",
+      "src": "images/manual/verite-catalogue-127-brouilleur-de-telemetrie.webp",
+      "sha256": "a3242d00d83c4205a2a142b3d01641b91c18066e47c852ba89ab8e41dca37b68",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 205248
+    },
+    {
+      "id": "verite-catalogue-128-etui-de-quarantaine-energetique",
+      "title": "Étui de quarantaine énergétique",
+      "src": "images/manual/verite-catalogue-128-etui-de-quarantaine-energetique.webp",
+      "sha256": "4eaeee1e69bca946abb63917f258c7d3947316d88c40282793abad752d2c3756",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 214014
+    },
+    {
+      "id": "verite-catalogue-129-balise-de-rappel-cislunaire",
+      "title": "Balise de rappel cislunaire",
+      "src": "images/manual/verite-catalogue-129-balise-de-rappel-cislunaire.webp",
+      "sha256": "a3b868fc255510fac4b5bd2b5680f8f88aa41de643018f14dacfa1e154e0249e",
+      "width": 1200,
+      "height": 800,
+      "bytes": 140798
+    },
+    {
+      "id": "verite-catalogue-130-cartouche-de-matiere-aidh-ancienne",
+      "title": "Cartouche de matière AIDH ancienne",
+      "src": "images/manual/verite-catalogue-130-cartouche-de-matiere-aidh-ancienne.webp",
+      "sha256": "f946dc6788ba528db43010ce37168343e366dc013086314e43d6e7670b17eef5",
+      "width": 1200,
+      "height": 800,
+      "bytes": 227634
+    },
+    {
+      "id": "verite-catalogue-131-ce-qui-n-est-pas-un-achat-normal-marche-xeno",
+      "title": "Ce qui n’est pas un achat normal — Marché xéno",
+      "src": "images/manual/verite-catalogue-131-ce-qui-n-est-pas-un-achat-normal-marche-xeno.webp",
+      "sha256": "b85f32edce9af9a2abf88fc78bc2d2d1185db2265bdb9c7139d6211cefb0dda9",
+      "width": 1200,
+      "height": 800,
+      "bytes": 195070
+    },
+    {
+      "id": "verite-catalogue-132-ergonomie-etrangere",
+      "title": "Ergonomie étrangère",
+      "src": "images/manual/verite-catalogue-132-ergonomie-etrangere.webp",
+      "sha256": "574fa060b2ed2facf3ea3727d40dacc9d9492406527f97b341e8e6317cf71650",
+      "width": 1200,
+      "height": 800,
+      "bytes": 220368
+    },
+    {
+      "id": "verite-catalogue-133-cipherline-c-9",
+      "title": "Cipherline C-9",
+      "src": "images/manual/verite-catalogue-133-cipherline-c-9.webp",
+      "sha256": "51001834d69c92b49025eb67610d778fe2e9f6fddd4d8d5f46c48a1a4631cd92",
+      "width": 1200,
+      "height": 800,
+      "bytes": 171750
+    },
+    {
+      "id": "verite-catalogue-134-omnispectre-os-6",
+      "title": "Omnispectre OS-6",
+      "src": "images/manual/verite-catalogue-134-omnispectre-os-6.webp",
+      "sha256": "56c7301d4a7896dbdf72fe72729eb444a79d33073b1a4e79f496b7ecce02df9e",
+      "width": 1200,
+      "height": 800,
+      "bytes": 177804
+    },
+    {
+      "id": "verite-catalogue-135-handshake-iu-4",
+      "title": "Handshake IU-4",
+      "src": "images/manual/verite-catalogue-135-handshake-iu-4.webp",
+      "sha256": "a7aabd3c855af7fe03cab215cf4072c09de1bd12aea2a8566993a49d0b8db609",
+      "width": 1200,
+      "height": 960,
+      "bytes": 221864
+    },
+    {
+      "id": "verite-catalogue-136-mantis-field-tool",
+      "title": "Mantis Field Tool",
+      "src": "images/manual/verite-catalogue-136-mantis-field-tool.webp",
+      "sha256": "e0c18d4cf6778050349968a5acfee1fb3c186421cca3eacbc9e388d889e4063c",
+      "width": 1200,
+      "height": 800,
+      "bytes": 244910
+    },
+    {
+      "id": "verite-catalogue-137-wisp-r-3",
+      "title": "Wisp R-3",
+      "src": "images/manual/verite-catalogue-137-wisp-r-3.webp",
+      "sha256": "9c5bb48957e681e7b793cb3dee31d0dfabf0f59bce5505ab79afa3bffa70ecc3",
+      "width": 1200,
+      "height": 800,
+      "bytes": 215970
+    },
+    {
+      "id": "verite-catalogue-138-nightjar-ew-5",
+      "title": "Nightjar EW-5",
+      "src": "images/manual/verite-catalogue-138-nightjar-ew-5.webp",
+      "sha256": "cf62caeb75be3a810f680d080727f891707b6435afc9a7acfc3d43e5962aad62",
+      "width": 1200,
+      "height": 960,
+      "bytes": 223572
+    },
+    {
+      "id": "verite-catalogue-139-lattice-cell-lc-12",
+      "title": "Lattice Cell LC-12",
+      "src": "images/manual/verite-catalogue-139-lattice-cell-lc-12.webp",
+      "sha256": "b3e6145e37c3ef59386a75f6d7ca58599b6336252f2a75c6f4d68a40c9f6c142",
+      "width": 1200,
+      "height": 800,
+      "bytes": 178720
+    },
+    {
+      "id": "verite-catalogue-140-homecall-br-7",
+      "title": "Homecall BR-7",
+      "src": "images/manual/verite-catalogue-140-homecall-br-7.webp",
+      "sha256": "57570aad338bea5b7fc5bf495b53cca701feb6d5ecb3886b54249769e354aaac",
+      "width": 1200,
+      "height": 1117,
+      "bytes": 264288
+    },
+    {
+      "id": "verite-catalogue-141-aegis-medpack-m-8",
+      "title": "Aegis Medpack M-8",
+      "src": "images/manual/verite-catalogue-141-aegis-medpack-m-8.webp",
+      "sha256": "adafd4792b7201b7078c1492ceca5a2ba80512c890419ce6e7f8f90977442e3d",
+      "width": 1200,
+      "height": 800,
+      "bytes": 168110
+    },
+    {
+      "id": "verite-catalogue-142-farwalker-es-4",
+      "title": "Farwalker ES-4",
+      "src": "images/manual/verite-catalogue-142-farwalker-es-4.webp",
+      "sha256": "a7287d371d604cd24609407abb2be8e14a19b2de809356b08712b42d8d968c27",
+      "width": 800,
+      "height": 1200,
+      "bytes": 154596
+    },
+    {
+      "id": "verite-catalogue-143-ghostbox-d-10",
+      "title": "Ghostbox D-10",
+      "src": "images/manual/verite-catalogue-143-ghostbox-d-10.webp",
+      "sha256": "4ed6da82992c11035361a95d6c58f4cb4deb640b278a924af8a7bee52f89b48a",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 246744
+    },
+    {
+      "id": "verite-catalogue-144-forgelet-f-2",
+      "title": "Forgelet F-2",
+      "src": "images/manual/verite-catalogue-144-forgelet-f-2.webp",
+      "sha256": "b76b6235a991a1bda98ae07f6bb932d6c5230e6fd1110fb6c396b636c71c7c82",
+      "width": 1200,
+      "height": 1097,
+      "bytes": 295904
+    },
+    {
+      "id": "verite-catalogue-145-defensor",
+      "title": "Defensor",
+      "src": "images/manual/verite-catalogue-145-defensor.webp",
+      "sha256": "dbd7fbe7580c687615d3072b9f137a9023b497de7fb4c9b87740cec5376eb510",
+      "width": 1200,
+      "height": 800,
+      "bytes": 187704
+    },
+    {
+      "id": "verite-catalogue-146-praetor-c-14",
+      "title": "Praetor C-14",
+      "src": "images/manual/verite-catalogue-146-praetor-c-14.webp",
+      "sha256": "1abb1acc467242226179fdc7a0438f2da4991e1a5688e9e5738053ecf13c3c51",
+      "width": 1200,
+      "height": 800,
+      "bytes": 171114
+    },
+    {
+      "id": "verite-catalogue-147-custodian-ar-9",
+      "title": "Custodian AR-9",
+      "src": "images/manual/verite-catalogue-147-custodian-ar-9.webp",
+      "sha256": "41d13e09156f69b540b077f48c48a7488d8fa9e52e16b70e7bbdc889b9746a52",
+      "width": 1200,
+      "height": 800,
+      "bytes": 130974
+    },
+    {
+      "id": "verite-catalogue-148-long-watch-sr-6",
+      "title": "Long Watch SR-6",
+      "src": "images/manual/verite-catalogue-148-long-watch-sr-6.webp",
+      "sha256": "4099a3f0309792eb452ce2ad86f32a32ce660b82d4ff90f78d5f08382ef33a75",
+      "width": 1200,
+      "height": 800,
+      "bytes": 110614
+    },
+    {
+      "id": "verite-catalogue-149-cerberus-hmg-3",
+      "title": "Cerberus HMG-3",
+      "src": "images/manual/verite-catalogue-149-cerberus-hmg-3.webp",
+      "sha256": "e60da5d59a7510939ecbe9cff26d9e117fc3a17fbc35bde15f41c73ae36a4e87",
+      "width": 1200,
+      "height": 800,
+      "bytes": 169306
+    },
+    {
+      "id": "verite-catalogue-150-helios-pr-8",
+      "title": "Helios PR-8",
+      "src": "images/manual/verite-catalogue-150-helios-pr-8.webp",
+      "sha256": "e13f58671a72af95eaff1b1c488afcd4c5fd91f33ddfb24999272c8fee002af3",
+      "width": 1200,
+      "height": 800,
+      "bytes": 135566
+    },
+    {
+      "id": "verite-catalogue-151-prometheus-px-2",
+      "title": "Prometheus PX-2",
+      "src": "images/manual/verite-catalogue-151-prometheus-px-2.webp",
+      "sha256": "9d6fa6f6233ee8e9024608a60e79e02d6775b88ea9de8c4ff6dc4b8ed04e5fed",
+      "width": 1200,
+      "height": 800,
+      "bytes": 186884
+    }
+  ]
+}
