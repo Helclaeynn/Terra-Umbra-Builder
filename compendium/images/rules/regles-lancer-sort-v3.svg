@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 790" role="img" aria-labelledby="title desc">
+<title id="title">Construire puis lancer un sort</title>
+<desc id="desc">Formuler l’effet et son Affinité ; si elle n’est pas éveillée, limiter à Maîtrise Initiale et Amplitude Mineure avec un niveau de difficulté supplémentaire. Vérifier la cible et l’échelle, déterminer difficulté, PA et Tension, ajuster pour la portée, investir les PA, lancer le jet si nécessaire, appliquer la défense et ajouter la Tension à la libération.</desc>
+<rect width="1060" height="790" rx="22" fill="#0c1820"/>
+<rect x="1" y="1" width="1058" height="788" rx="21" fill="none" stroke="#476775" stroke-width="2"/>
+<text x="32" y="47" fill="#eef7f7" font-size="28" font-weight="700" font-family="system-ui, sans-serif">Du projet de sort à la libération</text>
+<rect x="30" y="73" width="1000" height="150" rx="15" fill="#162a34" stroke="#49606b"/>
+<rect x="30" y="73" width="1000" height="5" rx="2" fill="#5de0d0"/>
+<rect x="30" y="248" width="1000" height="150" rx="15" fill="#162a34" stroke="#49606b"/>
+<rect x="30" y="248" width="1000" height="5" rx="2" fill="#8ab9ff"/>
+<rect x="30" y="424" width="1000" height="150" rx="15" fill="#162a34" stroke="#49606b"/>
+<rect x="30" y="424" width="1000" height="5" rx="2" fill="#f2bd78"/>
+<rect x="30" y="599" width="1000" height="150" rx="15" fill="#162a34" stroke="#49606b"/>
+<rect x="30" y="599" width="1000" height="5" rx="2" fill="#8fdea7"/>
+<text x="52" y="111" fill="#5de0d0" font-size="19" font-weight="700" font-family="system-ui, sans-serif">1 · DÉFINIR</text>
+<text x="275" y="112" fill="#f0f7f6" font-size="20" font-weight="700" font-family="system-ui, sans-serif">Exemple : éclairer une pièce.</text>
+<text x="275" y="151" fill="#d1e1e3" font-size="17" font-weight="400" font-family="system-ui, sans-serif">Photomancie (lumière) → Créative (produire) → Stato (la pièce).</text>
+<text x="275" y="186" fill="#f1cfa1" font-size="18" font-weight="400" font-family="system-ui, sans-serif">Une seule fonction principale.</text>
+<text x="52" y="286" fill="#8ab9ff" font-size="19" font-weight="700" font-family="system-ui, sans-serif">2 · VÉRIFIER</text>
+<text x="275" y="288" fill="#d1e1e3" font-size="17" font-weight="400" font-family="system-ui, sans-serif">Affinité éveillée ? Sinon Initiale / Mineure, difficulté +1.</text>
+<text x="275" y="326" fill="#d1e1e3" font-size="17" font-weight="400" font-family="system-ui, sans-serif">Maîtrise suffisante ? Cible désignable ? Échelle possible ?</text>
+<rect x="738" y="347" width="270" height="52" rx="15" fill="#30252b" stroke="#a66465"/>
+<text x="754" y="380" fill="#ffcbbe" font-size="17" font-weight="700" font-family="system-ui, sans-serif">NON → revoir le projet</text>
+<text x="52" y="461" fill="#f2bd78" font-size="19" font-weight="700" font-family="system-ui, sans-serif">3 · CHIFFRER</text>
+<text x="275" y="463" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">Amplitude utilisée → difficulté, PA et Tension.</text>
+<text x="275" y="501" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">Ajuster la difficulté : portée et avance d’Amplitude.</text>
+<text x="275" y="539" fill="#f1cfa1" font-size="18" font-weight="400" font-family="system-ui, sans-serif">Au-delà de 25 → Canalisation obligatoire avant le jet.</text>
+<text x="52" y="637" fill="#8fdea7" font-size="19" font-weight="700" font-family="system-ui, sans-serif">4 · LIBÉRER</text>
+<text x="275" y="638" fill="#d1e1e3" font-size="17" font-weight="400" font-family="system-ui, sans-serif">Investir les PA (sur plusieurs rounds si besoin) ; faire le jet si requis.</text>
+<text x="275" y="677" fill="#d1e1e3" font-size="17" font-weight="400" font-family="system-ui, sans-serif">Volonté + Maîtrise spirituelle + 1d10e contre la difficulté finale.</text>
+<text x="275" y="714" fill="#f1cfa1" font-size="17" font-weight="400" font-family="system-ui, sans-serif">Défense de la cible si applicable ; Tension même en cas d’échec.</text>
+<path d="M 530 224 v 19 m -8 -8 l 8 8 8 -8" fill="none" stroke="#a6d6d6" stroke-width="3"/>
+<path d="M 530 399 v 19 m -8 -8 l 8 8 8 -8" fill="none" stroke="#a6d6d6" stroke-width="3"/>
+<path d="M 530 575 v 19 m -8 -8 l 8 8 8 -8" fill="none" stroke="#a6d6d6" stroke-width="3"/>
+</svg>

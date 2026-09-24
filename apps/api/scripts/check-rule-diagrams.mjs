@@ -15,7 +15,7 @@ pool.query=async sql=>{
 const {getCompendiumQualityCorpus,registerCompendiumRoutes}=await import(root+'/apps/api/dist/compendium.js');
 const {default:Fastify}=await import(root+'/apps/api/node_modules/fastify/fastify.js');
 const manifest=JSON.parse(await readFile(root+'/compendium/source/rules-diagrams-v1.json','utf8'));
-assert.equal(manifest.diagrams.length,12);
+assert.equal(manifest.diagrams.length,16);
 const corpus=await getCompendiumQualityCorpus();
 const byId=new Map(corpus.articles.map(article=>[article.id,article]));
 assert.equal(corpus.articles.filter(article=>article.category==='Règles').length,65);
@@ -36,4 +36,4 @@ for(const diagram of manifest.diagrams){
   assert.match(mobile.headers['content-type'],/image\/svg\+xml/);
 }
 await app.close();await pool.end();
-console.log('12 rule diagrams appear once in the intended section and all SVGs are served.');
+console.log(`${manifest.diagrams.length} rule diagrams appear once in the intended section and all SVGs are served.`);

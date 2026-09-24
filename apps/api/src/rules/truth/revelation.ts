@@ -23,7 +23,7 @@ export const truthRevelationRules = {
     mage: {
       v:"Le Mageius reste refermé : pas de lancement direct par le Mageius.",
       sr:"Le Mageius affleure ; Vision du Voile, Perception magique et Protection du Mageius sont accessibles, avec Amplitude Mineure.",
-      r:"Le Mageius est pleinement ouvert ; toutes les Affinités, Maîtrises et Amplitudes réellement acquises deviennent disponibles."
+      r:"Le Mageius est pleinement ouvert ; toutes les Affinités, Maîtrises et Amplitudes réellement acquises deviennent disponibles. Une Affinité non éveillée peut aussi être improvisée en Initiale / Mineure avec +1 niveau de difficulté."
     },
     daemon: {
       v:"Incarnation mortelle maintenue par l’Hologramme ; seuls les effets explicitement V restent disponibles.",

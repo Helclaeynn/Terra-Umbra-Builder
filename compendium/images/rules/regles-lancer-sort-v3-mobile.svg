@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 1190" role="img" aria-labelledby="title desc">
+<title id="title">Construire puis lancer un sort</title>
+<desc id="desc">Formuler l’effet et son Affinité ; si elle n’est pas éveillée, limiter à Maîtrise Initiale et Amplitude Mineure avec un niveau de difficulté supplémentaire. Vérifier la cible et l’échelle, déterminer difficulté, PA et Tension, ajuster pour la portée, investir les PA, lancer le jet si nécessaire, appliquer la défense et ajouter la Tension à la libération.</desc>
+<rect width="540" height="1190" rx="22" fill="#0c1820"/>
+<rect x="1" y="1" width="538" height="1188" rx="21" fill="none" stroke="#476775" stroke-width="2"/>
+<text x="24" y="43" fill="#eef7f7" font-size="24" font-weight="700" font-family="system-ui, sans-serif">Du projet de sort à la libération</text>
+<rect x="20" y="74" width="500" height="232" rx="15" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="74" width="500" height="5" rx="2" fill="#5de0d0"/>
+<rect x="20" y="330" width="500" height="252" rx="15" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="330" width="500" height="5" rx="2" fill="#8ab9ff"/>
+<rect x="20" y="606" width="500" height="246" rx="15" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="606" width="500" height="5" rx="2" fill="#f2bd78"/>
+<rect x="20" y="877" width="500" height="276" rx="15" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="877" width="500" height="5" rx="2" fill="#8fdea7"/>
+<text x="40" y="113" fill="#5de0d0" font-size="22" font-weight="700" font-family="system-ui, sans-serif">1 · Définir l’effet</text>
+<text x="40" y="151" fill="#d1e1e3" font-size="19" font-weight="400" font-family="system-ui, sans-serif">Ex. éclairer une pièce :</text>
+<text x="40" y="183" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">Affinité : Photomancie (lumière)</text>
+<text x="40" y="215" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">Essence : Créative (produire)</text>
+<text x="40" y="247" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">Polarité : Stato (la pièce)</text>
+<text x="40" y="280" fill="#f1cfa1" font-size="18" font-weight="400" font-family="system-ui, sans-serif">Une seule fonction principale.</text>
+<text x="40" y="370" fill="#8ab9ff" font-size="22" font-weight="700" font-family="system-ui, sans-serif">2 · Vérifier les permissions</text>
+<text x="40" y="404" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">Affinité éveillée ? Sinon improviser :</text>
+<text x="40" y="432" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">Initiale / Mineure, +1 difficulté.</text>
+<text x="40" y="460" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">Maîtrise et cible désignable ?</text>
+<text x="40" y="488" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">Amplitude : échelle suffisante ?</text>
+<rect x="40" y="513" width="460" height="53" rx="15" fill="#30252b" stroke="#a66465"/>
+<text x="54" y="546" fill="#ffcbbe" font-size="16" font-weight="700" font-family="system-ui, sans-serif">Si non → revoir effet, cible ou échelle</text>
+<text x="40" y="647" fill="#f2bd78" font-size="22" font-weight="700" font-family="system-ui, sans-serif">3 · Fixer le coût</text>
+<text x="40" y="685" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">Amplitude utilisée → difficulté,</text>
+<text x="40" y="714" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">PA à payer et Tension à la libération.</text>
+<text x="40" y="755" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">Ajuster par portée / avance acquise.</text>
+<text x="40" y="787" fill="#f1cfa1" font-size="18" font-weight="400" font-family="system-ui, sans-serif">Au-delà de 25 → Canalisation.</text>
+<text x="40" y="918" fill="#8fdea7" font-size="22" font-weight="700" font-family="system-ui, sans-serif">4 · Libérer et résoudre</text>
+<text x="40" y="956" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">Investir les PA, puis jet si requis :</text>
+<text x="40" y="986" fill="#d1e1e3" font-size="16" font-weight="400" font-family="system-ui, sans-serif">Volonté + Maîtrise spirituelle + 1d10e</text>
+<text x="40" y="1026" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">Comparer à la difficulté finale ;</text>
+<text x="40" y="1057" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">défense de la cible si applicable.</text>
+<text x="40" y="1110" fill="#f1cfa1" font-size="17" font-weight="400" font-family="system-ui, sans-serif">Tension à la libération, succès ou échec.</text>
+<path d="M 270 309 v 20 m -8 -8 l 8 8 8 -8" fill="none" stroke="#a6d6d6" stroke-width="3"/>
+<path d="M 270 585 v 20 m -8 -8 l 8 8 8 -8" fill="none" stroke="#a6d6d6" stroke-width="3"/>
+<path d="M 270 855 v 20 m -8 -8 l 8 8 8 -8" fill="none" stroke="#a6d6d6" stroke-width="3"/>
+</svg>

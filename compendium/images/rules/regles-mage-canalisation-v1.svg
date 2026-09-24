@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 540" role="img" aria-labelledby="title desc">
+<title id="title">Canalisation : investir du temps</title>
+<desc id="desc">Chaque PA supplémentaire investi avant le jet réduit la difficulté d’un niveau, minimum 12. Un sort Cataclysmique de base coûte 4 PA à difficulté 25 ; deux PA de Canalisation donnent 6 PA à difficulté 18. La Tension reste celle du sort libéré.</desc>
+<rect width="1060" height="540" rx="22" fill="#0c1820"/>
+<rect x="1" y="1" width="1058" height="538" rx="21" fill="none" stroke="#476775" stroke-width="2"/>
+<text x="32" y="47" fill="#eef7f7" font-size="26" font-weight="700" font-family="system-ui, sans-serif">Canalisation : échanger du temps contre de la fiabilité</text>
+<text x="32" y="83" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">Chaque PA investi en plus avant le jet réduit la difficulté d’un niveau, jusqu’à 12.</text>
+<rect x="30" y="142" width="316" height="222" rx="15" fill="#162a34" stroke="#49606b"/>
+<text x="48" y="190" fill="#5de0d0" font-size="22" font-weight="700" font-family="system-ui, sans-serif">Départ</text>
+<text x="48" y="248" fill="#d1e1e3" font-size="17" font-weight="400" font-family="system-ui, sans-serif">Cataclysmique : difficulté 25</text>
+<text x="48" y="296" fill="#d1e1e3" font-size="16" font-weight="400" font-family="system-ui, sans-serif">4 PA de base · +4 Tension</text>
+<rect x="372" y="142" width="316" height="222" rx="15" fill="#162a34" stroke="#49606b"/>
+<text x="390" y="190" fill="#8ab9ff" font-size="22" font-weight="700" font-family="system-ui, sans-serif">Investir</text>
+<text x="390" y="248" fill="#d1e1e3" font-size="17" font-weight="400" font-family="system-ui, sans-serif">2 PA de Canalisation</text>
+<text x="390" y="296" fill="#d1e1e3" font-size="16" font-weight="400" font-family="system-ui, sans-serif">avant de lancer</text>
+<rect x="714" y="142" width="316" height="222" rx="15" fill="#162a34" stroke="#49606b"/>
+<text x="732" y="190" fill="#f2bd78" font-size="22" font-weight="700" font-family="system-ui, sans-serif">Résoudre</text>
+<text x="732" y="248" fill="#d1e1e3" font-size="17" font-weight="400" font-family="system-ui, sans-serif">25 → 21 → 18</text>
+<text x="732" y="296" fill="#d1e1e3" font-size="16" font-weight="400" font-family="system-ui, sans-serif">6 PA au total · +4 Tension</text>
+<text x="32" y="423" fill="#f1cfa1" font-size="19" font-weight="400" font-family="system-ui, sans-serif">Avec seulement 2 PA disponibles par round, investir 6 PA prend trois rounds.</text>
+<text x="32" y="477" fill="#d1e1e3" font-size="18" font-weight="400" font-family="system-ui, sans-serif">La Canalisation ne diminue ni la Défense d’une cible ni la Tension.</text>
+</svg>
