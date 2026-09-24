@@ -69,6 +69,10 @@ jobs:
         working-directory: apps/api
         run: node scripts/check-augmentation-illustrations.mjs
 
+      - name: Check truth catalog illustrations
+        working-directory: apps/api
+        run: node scripts/check-truth-catalog-illustrations.mjs
+
       - name: Check standalone character sheet permissions on PostgreSQL
         working-directory: apps/api
         env:
