@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 360" role="img" aria-labelledby="title desc">
+<title id="title">Deux seuils atteints en même temps</title>
+<desc id="desc">Charge : Intégrité + 2 : difficulté 21 ; Stress : Maximum + 3 : difficulté 25 ; Crise : Un seul test de Maîtrise contre 25. On retient la difficulté la plus élevée, sans doubler le jet.</desc>
+<rect width="1060" height="360" rx="22" fill="#0c1820"/>
+<rect x="1" y="1" width="1058" height="358" rx="21" fill="none" stroke="#476775" stroke-width="2"/>
+<text x="34" y="50" fill="#eef7f7" font-size="28" font-weight="700" font-family="system-ui, sans-serif">Deux seuils atteints en même temps</text>
+<rect x="32" y="82" width="312" height="190" rx="16" fill="#162a34" stroke="#49606b"/>
+<rect x="32" y="82" width="312" height="5" rx="2" fill="#5de0d0"/>
+<text x="52" y="129" fill="#5de0d0" font-size="23" font-weight="700" font-family="system-ui, sans-serif">01</text>
+<text x="52" y="164" fill="#f0f7f6" font-size="21" font-weight="700" font-family="system-ui, sans-serif">Charge</text>
+<text x="52" y="202" fill="#d1e1e3" font-size="17" font-family="system-ui, sans-serif">Intégrité + 2 : difficulté 21</text>
+<rect x="374" y="82" width="312" height="190" rx="16" fill="#162a34" stroke="#49606b"/>
+<rect x="374" y="82" width="312" height="5" rx="2" fill="#8ab9ff"/>
+<text x="394" y="129" fill="#8ab9ff" font-size="23" font-weight="700" font-family="system-ui, sans-serif">02</text>
+<text x="394" y="164" fill="#f0f7f6" font-size="21" font-weight="700" font-family="system-ui, sans-serif">Stress</text>
+<text x="394" y="202" fill="#d1e1e3" font-size="17" font-family="system-ui, sans-serif">Maximum + 3 : difficulté 25</text>
+<rect x="716" y="82" width="312" height="190" rx="16" fill="#162a34" stroke="#49606b"/>
+<rect x="716" y="82" width="312" height="5" rx="2" fill="#f2bd78"/>
+<text x="736" y="129" fill="#f2bd78" font-size="23" font-weight="700" font-family="system-ui, sans-serif">03</text>
+<text x="736" y="164" fill="#f0f7f6" font-size="21" font-weight="700" font-family="system-ui, sans-serif">Crise</text>
+<text x="736" y="202" fill="#d1e1e3" font-size="17" font-family="system-ui, sans-serif">Un seul test de Maîtrise contre</text>
+<text x="736" y="229" fill="#d1e1e3" font-size="17" font-family="system-ui, sans-serif">25</text>
+<text x="34" y="322" fill="#f1cfa1" font-size="18" font-family="system-ui, sans-serif">On retient la difficulté la plus élevée, sans doubler le jet.</text>
+</svg>
