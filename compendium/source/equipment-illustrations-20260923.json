@@ -249,6 +249,256 @@
       "id": "equipement-072-charge-manticore",
       "src": "images/manual/equipement-072-charge-manticore.webp",
       "sha256": "7797a14ea1288ba86af0282a17531489a630b958fd4d67ebe588e83d3e1dfe38"
+    },
+    {
+      "id": "equipement-073-bande-hellstorm",
+      "src": "images/manual/equipement-073-bande-hellstorm.webp",
+      "sha256": "1f4821cdcad5dd2621af3b6131660caa25f8fe4018797c1050a674edf01100a2"
+    },
+    {
+      "id": "equipement-074-grenade-fragmentation-doorbell",
+      "src": "images/manual/equipement-074-grenade-fragmentation-doorbell.webp",
+      "sha256": "75bdd0c4825732af1fcddd74e2a9d3a5b4241048e9e534a7ab90848bd4a79c07"
+    },
+    {
+      "id": "equipement-075-grenade-emp-doorbell",
+      "src": "images/manual/equipement-075-grenade-emp-doorbell.webp",
+      "sha256": "1ccc6287a2a84801da8d7fc4f50cad5d99cd50b12036b537db81e1ca98e41248"
+    },
+    {
+      "id": "equipement-076-grenade-flash-doorbell",
+      "src": "images/manual/equipement-076-grenade-flash-doorbell.webp",
+      "sha256": "5825b873cab64012a9733b825a699b4f72ec4790d6e99335c6da53dedb6137d6"
+    },
+    {
+      "id": "equipement-077-grenade-fumigene-doorbell",
+      "src": "images/manual/equipement-077-grenade-fumigene-doorbell.webp",
+      "sha256": "2c03d465a9c1e081fa796b3b10fc2993f17105a5529e5e866f052b3e0c36c22c"
+    },
+    {
+      "id": "equipement-078-roquette-breacher",
+      "src": "images/manual/equipement-078-roquette-breacher.webp",
+      "sha256": "3405720ca885a84c4163760064c7d7f0aeaeb6bd93c5d98a861c71ebe96351af"
+    },
+    {
+      "id": "equipement-079-missile-wasp",
+      "src": "images/manual/equipement-079-missile-wasp.webp",
+      "sha256": "9b955c2c46a52e69251dfa02a1ada4b825106c1d06e833fece1fbd6f1f98264c"
+    },
+    {
+      "id": "equipement-080-munition-wallbreaker",
+      "src": "images/manual/equipement-080-munition-wallbreaker.webp",
+      "sha256": "b5b156c50608b054878c643361aafab149ab0304304e20848fbb95d31c874e56"
+    },
+    {
+      "id": "equipement-081-reservoir-salamander",
+      "src": "images/manual/equipement-081-reservoir-salamander.webp",
+      "sha256": "69ad1a8ddf92f2bd7724d65720fe8718b126a05ff426979daba250c1eaf2a999"
+    },
+    {
+      "id": "equipement-082-reservoir-purifier",
+      "src": "images/manual/equipement-082-reservoir-purifier.webp",
+      "sha256": "a06477ed397cc55550fdfc46a9a565a6343999572b5b350981a18c3cfcdb724a"
+    },
+    {
+      "id": "equipement-101-sunways-desert-survivor",
+      "src": "images/manual/equipement-101-sunways-desert-survivor.webp",
+      "sha256": "5646291f3d298b306d050c96fcc55930ab9399387c366d28d8d03db09cb5779a"
+    },
+    {
+      "id": "equipement-102-seawares-scaph-iv",
+      "src": "images/manual/equipement-102-seawares-scaph-iv.webp",
+      "sha256": "15e4950625144e7c355b26cb13e33333ef51c173567ecfa9e1a2ff334bbaccc9"
+    },
+    {
+      "id": "equipement-103-arcanetwork-neuromaster",
+      "src": "images/manual/equipement-103-arcanetwork-neuromaster.webp",
+      "sha256": "3d7fc7e4dfc058451e9e7834ee9b0d4bfb7a8f12b716b3b747fb52b1478d9e98"
+    },
+    {
+      "id": "equipement-104-byron-ghillie-basic",
+      "src": "images/manual/equipement-104-byron-ghillie-basic.webp",
+      "sha256": "408804a16405ad68bfb40509ba901ec379028f8e31cbfa5998e5ca973423f1e5"
+    },
+    {
+      "id": "equipement-105-raven-squid-skin",
+      "src": "images/manual/equipement-105-raven-squid-skin.webp",
+      "sha256": "e346d945421fd5c23680cc43e607df07d52f5543d4e1f43bcb4e97cb8631aa7d"
+    },
+    {
+      "id": "equipement-106-phoenix-dirty-sniper",
+      "src": "images/manual/equipement-106-phoenix-dirty-sniper.webp",
+      "sha256": "7df0a57a1d2a72a4d996338d22251b93f01bc125362d5e952bbe33bef6beccff"
+    },
+    {
+      "id": "equipement-107-owl-zero-guard",
+      "src": "images/manual/equipement-107-owl-zero-guard.webp",
+      "sha256": "7d9f2fd853610e3337d6b8166f970508b37a81a09fac9baae2aed45e60249237"
+    },
+    {
+      "id": "equipement-108-arcanetwork-holo-rmor-v2",
+      "src": "images/manual/equipement-108-arcanetwork-holo-rmor-v2.webp",
+      "sha256": "9fe56c8d1daa0373dac3b2207e0c97070e0f3f303e9ba694571a3dfe4216bd88"
+    },
+    {
+      "id": "equipement-109-sba-ninja",
+      "src": "images/manual/equipement-109-sba-ninja.webp",
+      "sha256": "415a4e9942dfd66fcdbd64d8d0b6e19752c97ce93073f95bacdffd071ef6a1e9"
+    },
+    {
+      "id": "equipement-110-renfort-balistique",
+      "src": "images/manual/equipement-110-renfort-balistique.webp",
+      "sha256": "887957a9e888501ff299d5a201d4cd4c8ef2cfe33acea71a6ab16a64932851bf"
+    },
+    {
+      "id": "equipement-111-renfort-melee",
+      "src": "images/manual/equipement-111-renfort-melee.webp",
+      "sha256": "ee11bbceff9aeecafafedb6c9b24437959ec4c3b947bbb2b4f61aa08819e3414"
+    },
+    {
+      "id": "equipement-112-renfort-antichoc",
+      "src": "images/manual/equipement-112-renfort-antichoc.webp",
+      "sha256": "387ef0eefd7ccbb7f84c8a83c1a149a82d608a7f0bc974a1a3121f1a3261191e"
+    },
+    {
+      "id": "equipement-113-plaques-ablatives",
+      "src": "images/manual/equipement-113-plaques-ablatives.webp",
+      "sha256": "19edde030f298592fa943bb4033b824cfa28b2462220c10b332a6abaed56951b"
+    },
+    {
+      "id": "equipement-114-anti-emp",
+      "src": "images/manual/equipement-114-anti-emp.webp",
+      "sha256": "78a58970d21ccf1ba6170919ee99413fbeb3c1eac03de4ad79c8d1bd94dd5948"
+    },
+    {
+      "id": "equipement-115-anti-hack",
+      "src": "images/manual/equipement-115-anti-hack.webp",
+      "sha256": "2dc6de1f6c677b8dc6c961c581c94901e00fd188955b918635b7a98d2a896fdb"
+    },
+    {
+      "id": "equipement-116-etanche",
+      "src": "images/manual/equipement-116-etanche.webp",
+      "sha256": "737a50f1493be89423ec829f2d0f7a44bab1ec5a634835ffc71d19c8e10401d7"
+    },
+    {
+      "id": "equipement-117-respirateur",
+      "src": "images/manual/equipement-117-respirateur.webp",
+      "sha256": "b627981be2b1338ec2f3aa7c086137a3b911d46650dcbf6c5ec976a4938792b1"
+    },
+    {
+      "id": "equipement-118-thermique",
+      "src": "images/manual/equipement-118-thermique.webp",
+      "sha256": "8eaf7c498a61388b4170d96d2c0dec3d704bee335914d5836fa54b3249bba7f1"
+    },
+    {
+      "id": "equipement-119-electrique",
+      "src": "images/manual/equipement-119-electrique.webp",
+      "sha256": "3efaffe427670100734bbe1bb9bc066b68547a326d9a317fe613f87676fd5c81"
+    },
+    {
+      "id": "equipement-120-suite-capteurs",
+      "src": "images/manual/equipement-120-suite-capteurs.webp",
+      "sha256": "fe01eae1d66fb17a4b91f2d09bb154aa33a915b8e61b53c920365de90c2080eb"
+    },
+    {
+      "id": "equipement-121-interface-de-ciblage",
+      "src": "images/manual/equipement-121-interface-de-ciblage.webp",
+      "sha256": "db98f63bd7e911efd77d435b6f49838cb98a69939b2a8658c8ad22dafe2630be"
+    },
+    {
+      "id": "equipement-122-exosquelette-leger",
+      "src": "images/manual/equipement-122-exosquelette-leger.webp",
+      "sha256": "c5dca5f1dbe36144d5fbdcfa4c4444f2a1c8fa520c928d456cb16e5bc9359756"
+    },
+    {
+      "id": "equipement-123-compensation-mobilite",
+      "src": "images/manual/equipement-123-compensation-mobilite.webp",
+      "sha256": "1d4721cbca561805e88dca4a3b674b13db97d2aa702aa0c75b91a703f116453f"
+    },
+    {
+      "id": "equipement-124-camo-adaptatif",
+      "src": "images/manual/equipement-124-camo-adaptatif.webp",
+      "sha256": "a22a953fc1a43d43c238692ab9eee0e90056c4da87de56f02f087892f5729b98"
+    },
+    {
+      "id": "equipement-125-navia",
+      "src": "images/manual/equipement-125-navia.webp",
+      "sha256": "00d07dfdd88e636b0fc45ca458cd1362f8bc6fcef1396a7f5b098deb2c6400cb"
+    },
+    {
+      "id": "equipement-126-celtx",
+      "src": "images/manual/equipement-126-celtx.webp",
+      "sha256": "5ecbaf6da15bd72b4e18cdd094d54a6ce69e89060c6808b230495138da9155a1"
+    },
+    {
+      "id": "equipement-127-securio",
+      "src": "images/manual/equipement-127-securio.webp",
+      "sha256": "625ff6a1b432603fd4db78c28ea75f54b9421f5329db815c27cbba7f61e0a712"
+    },
+    {
+      "id": "equipement-128-shelov",
+      "src": "images/manual/equipement-128-shelov.webp",
+      "sha256": "197c8078bc7bb28f450da5c922124caa0e3b313b7567582f17bd5e189abfb918"
+    },
+    {
+      "id": "equipement-129-blackflag",
+      "src": "images/manual/equipement-129-blackflag.webp",
+      "sha256": "2c97564d8be05596437ba47f7158c9c0a062fe4887e2820c432c7be5bff2c281"
+    },
+    {
+      "id": "equipement-130-allbrains",
+      "src": "images/manual/equipement-130-allbrains.webp",
+      "sha256": "d66800915d672e12e2e9d0051d3ce50845190dc869a9f04b0caaccfba592b5b8"
+    },
+    {
+      "id": "equipement-131-ladydolla",
+      "src": "images/manual/equipement-131-ladydolla.webp",
+      "sha256": "94a6654c3eeb13ddb4502deeb6e5dd058e12ea4541c30f69fbe3380cb3ca1bac"
+    },
+    {
+      "id": "equipement-132-redwish",
+      "src": "images/manual/equipement-132-redwish.webp",
+      "sha256": "2c26755225ba0754f5f5d8f002ec9d72b3e0c73ebd9f8b70660b2b1d6a7c117c"
+    },
+    {
+      "id": "equipement-133-boudicca",
+      "src": "images/manual/equipement-133-boudicca.webp",
+      "sha256": "175aa2d88115e09b26e1b716f587d1771be9ca18764d5cf2dadaf0f43e288ef7"
+    },
+    {
+      "id": "equipement-134-call-infornia",
+      "src": "images/manual/equipement-134-call-infornia.webp",
+      "sha256": "fa07566c5f7ca35faafacc0aed2f0efe0a46bb2b68e52ab30a7597bcdf915973"
+    },
+    {
+      "id": "equipement-135-vatican",
+      "src": "images/manual/equipement-135-vatican.webp",
+      "sha256": "01ec56da46503e9368239922d715de4e3b4c30d3f4f37c3121df66645f7a3346"
+    },
+    {
+      "id": "equipement-136-islamaster",
+      "src": "images/manual/equipement-136-islamaster.webp",
+      "sha256": "363088223e9e34bbdaaa1ac909af49197cf532160aad6b4a41aa3249eee057ec"
+    },
+    {
+      "id": "equipement-137-rampage-x",
+      "src": "images/manual/equipement-137-rampage-x.webp",
+      "sha256": "f09fb719bf769430b5039d4174278920c7d252c000b8597a01eeccfaafc08b81"
+    },
+    {
+      "id": "equipement-138-n-sta",
+      "src": "images/manual/equipement-138-n-sta.webp",
+      "sha256": "ab71fd6cd2b408bbf4f1570d7064f6538c1138d1da498def9062877d386dc26c"
+    },
+    {
+      "id": "equipement-139-holophone",
+      "src": "images/manual/equipement-139-holophone.webp",
+      "sha256": "13888d6eddfce2fc77c73c1b4ef4cd88ff30a00bd8d68b47991ef84eeb1455fc"
+    },
+    {
+      "id": "equipement-140-hololentilles",
+      "src": "images/manual/equipement-140-hololentilles.webp",
+      "sha256": "1011a6100c081f4727485e4a0975a4d76ee9cdee72ebb550f9a6cc8590cb2ab6"
     }
   ]
 }
