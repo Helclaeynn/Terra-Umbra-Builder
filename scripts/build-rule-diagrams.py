@@ -9,20 +9,20 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'compendium/images/rules'
 OUT.mkdir(parents=True, exist_ok=True)
 
-# Each short label comes from the article indicated in the manifest below.
+# Each worked case or comparison is checked against the article indicated below.
 DIAGRAMS = [
- ('resolution', 'Résoudre un test', [('Composer', 'Attribut + Compétence + 1d10e'), ('Comparer', 'Total ≥ Difficulté : réussite'), ('Lire la marge', 'Total − Difficulté : degrés de réussite')], 'Un échec narratif naturel prime sur le total.', 'regles-resolution-des-tests', 'test-standard'),
- ('initiative', 'Initiative et PA', [('Lancer', 'Agilité + Athlétisme + 1d10e'), ('Attribuer les PA', '1–10 : 1 PA · 11–15 : 2 PA · 16+ : 3 PA'), ('Jouer les passes', 'Actions selon les PA disponibles')], 'Sur 1 naturel : 1 PA maximum.', 'regles-initiative-pa-deplacement', 'initiative-et-pa'),
- ('combat', 'Résoudre une attaque', [('Attaquer', 'Mêlée ou Tir : Attribut + Compétence + 1d10e'), ('Défendre', 'Défense passive ou active pour 1 PA'), ('Calculer', 'Si attaque > Défense : marge, puis dégâts − armure')], 'Une égalité n’inflige ni dégât ni effet.', 'regles-combat-defenses', 'defenses'),
- ('sante', 'Blessures et soins', [('PV ≤ 50 %', 'État minimum : Tendu'), ('PV ≤ 25 %', 'État minimum : Paniqué'), ('PV ≤ 0', 'Agonisant ; test en fin de round')], 'Stabiliser : Esprit + Soin contre 15, retour à 0 PV.', 'regles-sante-blessures-soins', 'pv-et-seuils'),
- ('stress', 'Les trois états de Stress', [('Normal', 'Échec narratif : 1 · explosion : 10'), ('Tendu', 'Échec narratif : 1–2 · explosion : 9–10'), ('Paniqué', 'Échec narratif : 1–3 · explosion : 10')], 'Les blessures peuvent imposer un état minimum.', 'regles-stress-etats-psychologiques', 'normal-tendu-panique'),
- ('augmentations', 'Charge et Stress augmentique', [('Mesurer', 'Intégrité = Force Mentale + Humanité'), ('Comparer', 'Charge et Stress à leurs limites respectives'), ('Maîtriser', 'À la limite : 15 ; au-delà : 18, 21 ou 25')], 'Le Stress de base des implants ne disparaît pas au repos.', 'regles-realite-v9-charge-stress-frenesie', 'difficultes'),
- ('intrusion', 'Intrusion Neurodive', [('Choisir le seuil', 'Sécurité : difficulté 12 à 25'), ('Franchir', 'Test de Neurodive contre l’obstacle'), ('Contrôler', 'Une fonction accessible du nœud atteint')], 'Un accès réussi ne donne pas tout le système.', 'regles-realite-v9-neurodive-actions-intrusion', 'intrusion-controle'),
- ('train-de-vie', 'Train de vie et charges fixes', [('Point de départ', 'Train de vie de base'), ('Déduire les charges', 'Logement, véhicule, dettes et autres charges fixes'), ('Recalculer', 'Train de vie effectif, puis reste disponible')], 'Le Train de vie n’est pas le salaire du personnage.', 'regles-realite-v9-economie-compte-train-vie', 'charges-fixes'),
- ('defense-occulte', 'Choisir la Défense', [('Effet évitable', 'Phénomène physique : Défense physique'), ('Imposition directe', 'Esprit, âme, identité ou intérieur du corps : Défense occulte'), ('Réagir', 'Défense active : 1 PA si elle est autorisée')], 'Pour un même effet, on ne cumule pas les deux Défenses.', 'regles-verite-v7-pa-reactions-defense-puissance', '4-defense-occulte-et-puissance-des-effets'),
- ('voile', 'États de Révélation', [('Voilé', 'Forme traduite ; capacités compatibles V'), ('Semi-Révélé', 'Vérité partielle, normalement une scène au plus'), ('Révélé', 'Vérité pleinement exprimée selon la Nature')], 'Transition sous pression : normalement 1 PA.', 'regles-verite-v7-voile-continuite-objets-reseaux-interfaces', '5-hologramme-voile-semi-revelation-et-revelation'),
- ('lancer-sort', 'Construire et lancer un sort', [('Décrire', 'Affinité → Essence → Polarité'), ('Dimensionner', 'Maîtrise → Amplitude → portée'), ('Résoudre', 'Volonté + Maîtrise spirituelle + 1d10e')], 'Amplitude choisie : difficulté, PA et Tension à la libération.', 'regles-verite-v7-mage-maitrise-amplitude-lancement', 'construire-et-lancer-un-sort'),
- ('corruption', 'Exposition et Corruption', [('Identifier', 'Source et voie d’exposition'), ('Résister', 'Test adapté : physique ou mental'), ('Conséquence', 'Succès : 0 · échec : +1 · échec narratif : +2')], 'L’Humanité fixe l’Intégrité ; elle ne s’ajoute pas au test.', 'regles-verite-v7-corruption-integrite-bascule', 'exposition'),
+ ('resolution', 'Quand le total suffit… sauf sur 1 naturel', [('Seuil', 'Difficulté normale : 15'), ('Jet ordinaire', 'Base 16 + dé 2 = 18 : réussite'), ('Même base, dé 1', 'Total 17 ≥ 15, mais échec narratif')], 'Le 1 naturel prime sur une réussite numérique.', 'regles-resolution-des-tests', 'test-standard'),
+ ('initiative', 'Un 1 naturel malgré un bon total', [('Profil', 'Agilité + Athlétisme = 16'), ('Jet', 'Dé naturel 1 : total d’Initiative 17'), ('PA accordés', '1 PA maximum, malgré le total ≥ 16')], 'Sans ce 1 naturel, un total de 17 donnerait 3 PA.', 'regles-initiative-pa-deplacement', 'initiative-et-pa'),
+ ('combat', 'Une attaque face à deux défenses', [('Attaque', 'Résultat de l’attaque : 16'), ('Passive', 'Agilité + Esquive = 12 : attaque touche'), ('Active', '1 PA ; 12 + dé 4 = 16 : égalité')], 'À égalité, aucun dégât ni effet ; la Réaction exige 1 PA.', 'regles-combat-defenses', 'defenses'),
+ ('sante', 'Seuils pour un maximum de 14 PV', [('Calcul', 'Vigueur 5, Constitution 4 : 14 PV'), ('Blessé', '7 PV ou moins : Tendu au minimum'), ('Très blessé', '3 PV ou moins : Paniqué au minimum')], 'À 0 PV, le personnage devient Agonisant.', 'regles-sante-blessures-soins', 'pv-et-seuils'),
+ ('stress', 'Que devient un 9 naturel ?', [('Normal', '9 : pas d’explosion'), ('Tendu', '9 : le dé explose'), ('Paniqué', '9 : pas d’explosion')], 'Un 9 change donc de comportement selon l’état.', 'regles-stress-etats-psychologiques', 'normal-tendu-panique'),
+ ('augmentations', 'Deux seuils atteints en même temps', [('Charge', 'Intégrité + 2 : difficulté 21'), ('Stress', 'Maximum + 3 : difficulté 25'), ('Crise', 'Un seul test de Maîtrise contre 25')], 'On retient la difficulté la plus élevée, sans doubler le jet.', 'regles-realite-v9-charge-stress-frenesie', 'difficultes'),
+ ('intrusion', 'Accès local et fonctions distinctes', [('Obstacle franchi', 'Intrusion réussie sur le nœud A'), ('Fonction atteinte', 'La porte du nœud A peut être contrôlée'), ('Autre nœud', 'Caméra sur B : nouvel accès à obtenir')], 'Franchir une porte logique ne donne pas tout le réseau.', 'regles-realite-v9-neurodive-actions-intrusion', 'intrusion-controle'),
+ ('train-de-vie', 'Tranches fixes : base à 1 200 $', [('Charges : 900 $', '0 tranche complète : aucun cran perdu'), ('Charges : 1 300 $', '1 tranche complète : −1 cran'), ('Charges : 2 500 $', '2 tranches complètes : −2 crans')], 'Chaque seuil reste calculé sur 1 200 $, même après la baisse.', 'regles-realite-v9-economie-compte-train-vie', 'charges-fixes'),
+ ('defense-occulte', 'Quelle Défense contre la magie ?', [('Pierre projetée', 'Évitable physiquement : Défense physique'), ('Malédiction', 'Imposition directe : Défense occulte'), ('Réaction', 'Si permise : défense active pour 1 PA')], 'Une même attaque n’utilise jamais les deux Défenses.', 'regles-verite-v7-pa-reactions-defense-puissance', '4-defense-occulte-et-puissance-des-effets'),
+ ('voile', 'Qui voit la Vérité de la cible ?', [('Cible Voilée', 'Même un observateur R voit la traduction'), ('Cible Semi-Révélée', 'V voit la traduction ; SR/R la Vérité partielle'), ('Cible Révélée', 'La Vérité exprimée est visible par tous')], 'Voir sous le Voile ne Révèle pas la cible.', 'regles-verite-v7-voile-continuite-objets-reseaux-interfaces', '5-hologramme-voile-semi-revelation-et-revelation'),
+ ('lancer-sort', 'Exemple : Amplitude et portée d’un sort', [('Amplitude', 'Possédée Majeure ; utilisée Significative'), ('Difficulté', 'Base 18 → 15 (avance) → 18 (à vue)'), ('Libération', 'Difficulté 18 ; 2 PA ; +2 Tension')], 'La portée annule ici le cran de difficulté gagné.', 'regles-verite-v7-mage-maitrise-amplitude-lancement', 'construire-et-lancer-un-sort'),
+ ('corruption', 'Résister à une exposition forte', [('Vecteur mental', 'Volonté + Force Mentale contre 18'), ('Jet manqué', 'Total 17 : +1 Corruption de la Source'), ('Dé naturel 1', 'Même avec un total ≥ 18 : +2')], 'L’Humanité fixe l’Intégrité, pas le résultat du test.', 'regles-verite-v7-corruption-integrite-bascule', 'exposition'),
 ]
 
 def lines(text, width=33):
@@ -45,8 +45,6 @@ def render(slug, title, cards, note):
                    f'<text x="{bx+20}" y="164" fill="#f0f7f6" font-size="21" font-weight="700" font-family="system-ui, sans-serif">{escape(heading)}</text>']
         for j, line in enumerate(lines(body)):
             chunks.append(f'<text x="{bx+20}" y="{202+j*27}" fill="#d1e1e3" font-size="17" font-family="system-ui, sans-serif">{escape(line)}</text>')
-        if idx < 2:
-            chunks.append(f'<path d="M {bx+316} 177 h 22 m -8 -8 l 8 8 -8 8" fill="none" stroke="#a6d6d6" stroke-width="3"/>')
     chunks += [f'<text x="34" y="322" fill="#f1cfa1" font-size="18" font-family="system-ui, sans-serif">{escape(note)}</text>', '</svg>']
     return '\n'.join(chunks) + '\n'
 
@@ -77,13 +75,13 @@ def render_mobile(title, cards, note):
 
 manifest=[]
 for slug,title,cards,note,article,section in DIAGRAMS:
-    filename=f'regles-{slug}.svg'
+    filename=f'regles-{slug}-v2.svg'
     (OUT / filename).write_text(render(slug,title,cards,note),encoding='utf-8')
-    mobile_filename=f'regles-{slug}-mobile.svg'
+    mobile_filename=f'regles-{slug}-v2-mobile.svg'
     (OUT / mobile_filename).write_text(render_mobile(title,cards,note),encoding='utf-8')
     manifest.append(dict(articleId=article,sectionId=section,src='images/rules/'+filename,
                          mobileSrc='images/rules/'+mobile_filename,title=title,
-                         alt=title+' : '+' ; '.join(a+' — '+b for a,b in cards),caption=note))
+                         alt=title+' : '+' ; '.join(a+' — '+b for a,b in cards)+'. '+note))
 (ROOT/'compendium/source/rules-diagrams-v1.json').write_text(
     json.dumps({'version':1,'diagrams':manifest},ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 print(f'{len(manifest)} diagrams generated')

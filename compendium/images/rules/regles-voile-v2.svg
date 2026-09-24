@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 360" role="img" aria-labelledby="title desc">
+<title id="title">Qui voit la Vérité de la cible ?</title>
+<desc id="desc">Cible Voilée : Même un observateur R voit la traduction ; Cible Semi-Révélée : V voit la traduction ; SR/R la Vérité partielle ; Cible Révélée : La Vérité exprimée est visible par tous. Voir sous le Voile ne Révèle pas la cible.</desc>
+<rect width="1060" height="360" rx="22" fill="#0c1820"/>
+<rect x="1" y="1" width="1058" height="358" rx="21" fill="none" stroke="#476775" stroke-width="2"/>
+<text x="34" y="50" fill="#eef7f7" font-size="28" font-weight="700" font-family="system-ui, sans-serif">Qui voit la Vérité de la cible ?</text>
+<rect x="32" y="82" width="312" height="190" rx="16" fill="#162a34" stroke="#49606b"/>
+<rect x="32" y="82" width="312" height="5" rx="2" fill="#5de0d0"/>
+<text x="52" y="129" fill="#5de0d0" font-size="23" font-weight="700" font-family="system-ui, sans-serif">01</text>
+<text x="52" y="164" fill="#f0f7f6" font-size="21" font-weight="700" font-family="system-ui, sans-serif">Cible Voilée</text>
+<text x="52" y="202" fill="#d1e1e3" font-size="17" font-family="system-ui, sans-serif">Même un observateur R voit la</text>
+<text x="52" y="229" fill="#d1e1e3" font-size="17" font-family="system-ui, sans-serif">traduction</text>
+<rect x="374" y="82" width="312" height="190" rx="16" fill="#162a34" stroke="#49606b"/>
+<rect x="374" y="82" width="312" height="5" rx="2" fill="#8ab9ff"/>
+<text x="394" y="129" fill="#8ab9ff" font-size="23" font-weight="700" font-family="system-ui, sans-serif">02</text>
+<text x="394" y="164" fill="#f0f7f6" font-size="21" font-weight="700" font-family="system-ui, sans-serif">Cible Semi-Révélée</text>
+<text x="394" y="202" fill="#d1e1e3" font-size="17" font-family="system-ui, sans-serif">V voit la traduction ; SR/R la</text>
+<text x="394" y="229" fill="#d1e1e3" font-size="17" font-family="system-ui, sans-serif">Vérité partielle</text>
+<rect x="716" y="82" width="312" height="190" rx="16" fill="#162a34" stroke="#49606b"/>
+<rect x="716" y="82" width="312" height="5" rx="2" fill="#f2bd78"/>
+<text x="736" y="129" fill="#f2bd78" font-size="23" font-weight="700" font-family="system-ui, sans-serif">03</text>
+<text x="736" y="164" fill="#f0f7f6" font-size="21" font-weight="700" font-family="system-ui, sans-serif">Cible Révélée</text>
+<text x="736" y="202" fill="#d1e1e3" font-size="17" font-family="system-ui, sans-serif">La Vérité exprimée est visible</text>
+<text x="736" y="229" fill="#d1e1e3" font-size="17" font-family="system-ui, sans-serif">par tous</text>
+<text x="34" y="322" fill="#f1cfa1" font-size="18" font-family="system-ui, sans-serif">Voir sous le Voile ne Révèle pas la cible.</text>
+</svg>
