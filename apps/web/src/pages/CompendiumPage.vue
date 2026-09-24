@@ -2158,7 +2158,7 @@ onBeforeUnmount(() => {
                     :key="section.id || sectionIndex"
                     class="article-section"
                   >
-                    <details v-if="section.audience === 'mj'" class="mj-section">
+                    <details v-if="section.audience === 'mj'" class="mj-section" :open="hasNpcStatProfile(section) && section.title?.includes('Vérité')">
                       <summary>{{ section.title || "Informations MJ" }}</summary>
                       <div class="mj-content">
                         <component :is="sectionHeadingLevel(section)" v-if="section.title && !hasNpcStatProfile(section)">

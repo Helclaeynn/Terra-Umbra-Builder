@@ -215,4 +215,21 @@ export function applyCompendiumPnjTruthProfiles(byId:Map<string,Article>):void {
       p('Examen individuel de la source : la Nature est notée « ??? (à définir) » et la seule indication est sa troisième place au Hunt XV. Ce classement mesure sa réputation de chasseuse et ne révèle ni forme, ni pouvoirs, ni écart de puissance avec sa Réalité. Aucun profil de Vérité chiffré ne peut être établi honnêtement avant une décision de canon du MJ.')
     ]
   });
+  // A Reality profile is intentionally absent for some beings. In that case,
+  // the Truth profile is the sole statistical profile and must occupy the
+  // canonical PNJ stats section instead of leaving a misleading placeholder.
+  for(const id of INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS){
+    const article=byId.get(id);
+    const stats=article?.sections?.find(section=>section.id==='profil-statistique');
+    const truth=article?.sections?.find(section=>section.id===`profil-verite-${id}`
+      || (id==='personnages-verite-especes-quetzalcoatl'&&section.id==='profil-verite-quetzalcoatl'));
+    if(!stats||!truth||!article?.sections)continue;
+    const hasRealityValues=stats.blocks?.some(block=>block.type==='table');
+    if(hasRealityValues)continue;
+    if(stats.audience!=='mj'||truth.audience!=='mj'||!truth.blocks?.length)
+      throw new Error(`Profil de Vérité non publiable dans les statistiques MJ : ${id}`);
+    stats.title=`Profil statistique · Vérité · ${article.title??id}`;
+    stats.blocks=truth.blocks;
+    article.sections.splice(article.sections.indexOf(truth),1);
+  }
 }

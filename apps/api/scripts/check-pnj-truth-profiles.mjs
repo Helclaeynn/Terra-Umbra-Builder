@@ -27,7 +27,8 @@ for(const id of [...REVIEWED_TRUTH_BATCH_001_IDS,...REVIEWED_TRUTH_BATCH_002_IDS
   const section=person.sections.find(section=>section.id==='profil-statistique');
   assert.equal(section.audience,'mj',id);
   assert.equal(person.sections.at(-1),section,id);
-  const truthSection=person.sections.find(section=>section.id===`profil-verite-${id}`);
+  const truthSection=person.sections.find(section=>section.id===`profil-verite-${id}`)
+    ?? (section.blocks.some(block=>block.type==='table'&&block.rows[0]?.[0]==='Attribut révélé')?section:null);
   assert.ok(truthSection,id);
   const truth=truthSection.blocks.find(block=>block.type==='table'&&block.rows[0]?.[0]==='Attribut révélé');
   const skills=truthSection.blocks.find(block=>block.type==='table'&&block.rows[0]?.[0]==='Compétence de Vérité saillante');
@@ -43,9 +44,19 @@ assert.ok(byId.get('personnages-verite-especes-tokala')?.sections.some(section=>
 assert.ok(byId.get('personnages-verite-chasseurs-isabella-mironescu')?.sections.some(section=>section.id==='verite-indeterminee-isabella'&&section.audience==='mj'));
 assert.ok(!publicById.get('personnages-verite-especes-tokala')?.sections.some(section=>section.id==='profil-verite-tokala'));
 assert.ok(!publicById.get('personnages-verite-chasseurs-isabella-mironescu')?.sections.some(section=>section.id==='verite-indeterminee-isabella'));
-assert.ok(quetzal.sections.some(section=>section.id==='profil-verite-quetzalcoatl'&&section.audience==='mj'));
+assert.ok(quetzal.sections.some(section=>section.id==='profil-statistique'&&section.audience==='mj'&&section.title.includes('Vérité')));
 assert.equal(quetzal.sections.at(-1)?.id,'profil-statistique');
 assert.ok(!publicById.get(quetzal.id)?.sections.some(section=>section.id==='profil-verite-quetzalcoatl'));
+const truthOnlyProfiles=corpus.articles.filter(article=>article.category==='Personnages'
+  &&article.sections?.find(section=>section.id==='profil-statistique')?.title?.startsWith('Profil statistique · Vérité'));
+assert.equal(truthOnlyProfiles.length,54);
+for(const person of truthOnlyProfiles){
+  const stats=person.sections.find(section=>section.id==='profil-statistique');
+  assert.ok(stats.blocks.length>=4||person.id===quetzal.id,person.id);
+  assert.ok(!person.sections.some(section=>section.id===`profil-verite-${person.id}`),person.id);
+}
+const karina=byId.get('personnages-verite-humains-galactiques-karina-kelack');
+assert.equal(karina.sections.find(section=>section.id==='profil-statistique').blocks.find(block=>block.type==='table'&&block.rows[0]?.[0]==='Attribut révélé').rows[1].slice(1).join('/'),'10/10/12/13/11');
 for(const id of ['personnages-verite-especes-neeba-ngubenani','pnj-142-dan-harrington']){
   const person=byId.get(id),publicPerson=publicById.get(id);
   const stats=person?.sections.find(section=>section.id==='profil-statistique');
