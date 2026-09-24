@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 780" role="img" aria-labelledby="title desc">
+<title id="title">Exposition et Corruption</title>
+<desc id="desc">Identifier : Source et voie d’exposition ; Résister : Test adapté : physique ou mental ; Conséquence : Succès : 0 · échec : +1 · échec narratif : +2. L’Humanité fixe l’Intégrité ; elle ne s’ajoute pas au test.</desc>
+<rect width="540" height="780" rx="20" fill="#0c1820"/>
+<rect x="1" y="1" width="538" height="778" rx="19" fill="none" stroke="#476775" stroke-width="2"/>
+<text x="25" y="42" fill="#eef7f7" font-size="26" font-weight="700" font-family="system-ui, sans-serif">Exposition et Corruption</text>
+<rect x="22" y="95" width="496" height="182" rx="15" fill="#162a34" stroke="#49606b"/>
+<rect x="22" y="95" width="496" height="5" rx="2" fill="#5de0d0"/>
+<text x="42" y="137" fill="#5de0d0" font-size="22" font-weight="700" font-family="system-ui, sans-serif">01 · Identifier</text>
+<text x="42" y="177" fill="#d1e1e3" font-size="21" font-family="system-ui, sans-serif">Source et voie d’exposition</text>
+<rect x="22" y="299" width="496" height="182" rx="15" fill="#162a34" stroke="#49606b"/>
+<rect x="22" y="299" width="496" height="5" rx="2" fill="#8ab9ff"/>
+<text x="42" y="341" fill="#8ab9ff" font-size="22" font-weight="700" font-family="system-ui, sans-serif">02 · Résister</text>
+<text x="42" y="381" fill="#d1e1e3" font-size="21" font-family="system-ui, sans-serif">Test adapté : physique ou mental</text>
+<rect x="22" y="503" width="496" height="182" rx="15" fill="#162a34" stroke="#49606b"/>
+<rect x="22" y="503" width="496" height="5" rx="2" fill="#f2bd78"/>
+<text x="42" y="545" fill="#f2bd78" font-size="22" font-weight="700" font-family="system-ui, sans-serif">03 · Conséquence</text>
+<text x="42" y="585" fill="#d1e1e3" font-size="21" font-family="system-ui, sans-serif">Succès : 0 · échec : +1 · échec</text>
+<text x="42" y="614" fill="#d1e1e3" font-size="21" font-family="system-ui, sans-serif">narratif : +2</text>
+<text x="25" y="717" fill="#f1cfa1" font-size="19" font-family="system-ui, sans-serif">L’Humanité fixe l’Intégrité ; elle ne</text>
+<text x="25" y="744" fill="#f1cfa1" font-size="19" font-family="system-ui, sans-serif">s’ajoute pas au test.</text>
+</svg>

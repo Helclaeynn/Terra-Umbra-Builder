@@ -64,6 +64,10 @@ type ArticleBlock = {
   text?: unknown;
   style?: unknown;
   rows?: unknown[][];
+  src?: string;
+  mobileSrc?: string;
+  alt?: string;
+  caption?: string;
 };
 
 type ArticleSection = {
@@ -2195,6 +2199,10 @@ onBeforeUnmount(() => {
                             :class="['article-paragraph', String(block.style || '')]"
                             v-html="linkifyText(blockText(block), selected)"
                           ></p>
+                          <figure v-else-if="block.type === 'image' && block.src" class="article-rule-diagram">
+                            <picture><source v-if="block.mobileSrc" :srcset="mediaUrl(block.mobileSrc)" media="(max-width: 700px)" /><img :src="mediaUrl(block.src)" :alt="block.alt || ''" loading="lazy" decoding="async" /></picture>
+                            <figcaption v-if="block.caption">{{ block.caption }}</figcaption>
+                          </figure>
                           <div v-else-if="block.type === 'table'" class="article-table-wrap">
                             <table class="article-table">
                               <tbody>
@@ -2245,6 +2253,10 @@ onBeforeUnmount(() => {
                           :class="['article-paragraph', String(block.style || '')]"
                           v-html="linkifyText(blockText(block), selected)"
                         ></p>
+                        <figure v-else-if="block.type === 'image' && block.src" class="article-rule-diagram">
+                          <picture><source v-if="block.mobileSrc" :srcset="mediaUrl(block.mobileSrc)" media="(max-width: 700px)" /><img :src="mediaUrl(block.src)" :alt="block.alt || ''" loading="lazy" decoding="async" /></picture>
+                          <figcaption v-if="block.caption">{{ block.caption }}</figcaption>
+                        </figure>
                         <div v-else-if="block.type === 'table'" class="article-table-wrap">
                           <table class="article-table">
                             <tbody>
@@ -3281,6 +3293,16 @@ onBeforeUnmount(() => {
   border-radius: .5rem;
   background: rgba(16, 32, 42, .45);
 }
+
+.article-rule-diagram {
+  margin: 1.35rem 0 1.7rem;
+  padding: .55rem;
+  border: 1px solid rgba(88, 220, 197, .25);
+  border-radius: .85rem;
+  background: #0c1820;
+}
+.article-rule-diagram img { display: block; width: 100%; height: auto; }
+.article-rule-diagram figcaption { margin: .35rem .65rem .2rem; color: #b9cbd0; font-size: .87rem; line-height: 1.45; }
 
 .article-table-wrap {
   overflow-x: auto;
