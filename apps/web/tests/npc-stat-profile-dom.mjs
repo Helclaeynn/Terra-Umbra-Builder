@@ -157,6 +157,18 @@ try {
     assert.deepEqual(canonicalBlocks.map(profileBlockKind), ["paragraph", "attributes", "skills", "derived", "paragraph", "talents", "paragraph"]);
     for (const block of canonicalBlocks.filter(block => block.type === "table")) assert.deepEqual(profileTableRows(block), block.rows);
   });
+  const truthBlocks = [
+    { type: "table", rows: [["Attribut révélé", "Vigueur", "Agilité", "Esprit", "Volonté", "Charisme"], ["Valeur proposée", "10", "10", "12", "13", "11"]] },
+    { type: "table", rows: [["Compétence de Vérité saillante", "Rang proposé"], ["Autorité", "21"], ["Tir", "19"], ["Diplomatie", "18"]] }
+  ];
+  await test.set(truthBlocks);
+  check("Karina : attributs et compétences de Vérité sont visibles dans le profil statistique", () => {
+    assert.deepEqual(truthBlocks.map(profileBlockKind), ["attributes", "skills"]);
+    verifySourceBlocks(truthBlocks);
+    assert.equal(document.querySelectorAll(".npc-profile-attribute").length, 5);
+    assert.equal(document.querySelectorAll(".npc-profile-skill-group").length, 3);
+  });
+  await test.set(canonicalBlocks);
   check("Chaque paragraphe et cellule canonique paraît en entier une seule fois, dans l’ordre des blocs", () => verifySourceBlocks(canonicalBlocks));
   check("Le titre porté par le parent n’est pas dupliqué dans le composant", () => {
     const titles = [...document.querySelectorAll("h1,h2,h3,h4,h5,h6,summary")].filter(node => node.textContent === section.title);
