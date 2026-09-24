@@ -35,6 +35,7 @@ COPY compendium/data/v3-*.b64part ./compendium-data/
 
 COPY compendium/images ./compendium-media/images
 COPY compendium/assets ./compendium-media/assets
+COPY compendium/source/rules-diagrams-v1.json ./compendium-media/source/rules-diagrams-v1.json
 
 RUN mkdir -p /app/editor-media && chown -R node:node /app/editor-media
 
