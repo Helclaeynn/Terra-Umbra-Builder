@@ -1,0 +1,880 @@
+{
+  "items": [
+    {
+      "id": "augmentation-001-amplificateur-interne",
+      "generation": 1,
+      "src": "images/manual/augmentation-001-amplificateur-interne--g1.webp",
+      "sha256": "846aa2d10d7914e1930ac109f76dcb2760cc6fb40bd8be75f8c3982c9681b32f"
+    },
+    {
+      "id": "augmentation-001-amplificateur-interne",
+      "generation": 2,
+      "src": "images/manual/augmentation-001-amplificateur-interne--g2.webp",
+      "sha256": "6cb381eb6644766744ee8c21105a104c3f14f9ce843b4817eeaf2e1f0a2ae7bf"
+    },
+    {
+      "id": "augmentation-002-analyseur-chimique",
+      "generation": 1,
+      "src": "images/manual/augmentation-002-analyseur-chimique--g1.webp",
+      "sha256": "c3dafccf835b9cf1dcaba025ed87c908da495dcf3bbd4e59a95c113f31892e6b"
+    },
+    {
+      "id": "augmentation-002-analyseur-chimique",
+      "generation": 2,
+      "src": "images/manual/augmentation-002-analyseur-chimique--g2.webp",
+      "sha256": "53840d304fc638649fff9f8d6cad6fdc87e37fa9a7cb3302eb11a43685bf76a5"
+    },
+    {
+      "id": "augmentation-003-analyseur-de-stress-vocal",
+      "generation": 2,
+      "src": "images/manual/augmentation-003-analyseur-de-stress-vocal--g2.webp",
+      "sha256": "88da6dcd1ff4e73bf27d5a6ca2e4233fd2a7c42b7b39d980b0f71c2f50ac8986"
+    },
+    {
+      "id": "augmentation-004-anti-eblouissement",
+      "generation": 2,
+      "src": "images/manual/augmentation-004-anti-eblouissement--g2.webp",
+      "sha256": "602a4f5fc198cfbf8a2d2b30c0e96cf1915d3c10f86c315ed5d5d95ef1cabf2f"
+    },
+    {
+      "id": "augmentation-005-anticorps-robotiques",
+      "generation": 2,
+      "src": "images/manual/augmentation-005-anticorps-robotiques--g2.webp",
+      "sha256": "035d97149f03ca35e6d9eed01f152b7965eba2ec8ce8a79203d05130f52b1ea6"
+    },
+    {
+      "id": "augmentation-006-armure-dermique",
+      "generation": 1,
+      "src": "images/manual/augmentation-006-armure-dermique--g1.webp",
+      "sha256": "acd3a9ac20240b4aa3751423cfda0fe765f4a252b79bcfcca17443b8870a8201"
+    },
+    {
+      "id": "augmentation-006-armure-dermique",
+      "generation": 2,
+      "src": "images/manual/augmentation-006-armure-dermique--g2.webp",
+      "sha256": "35327c1a79f00ff6629a0077499603f4dea6d9712983335739ecc45e889babee"
+    },
+    {
+      "id": "augmentation-007-articulations-elastiques",
+      "generation": null,
+      "src": "images/manual/augmentation-007-articulations-elastiques.webp",
+      "sha256": "201fbf7744bf1777f679e21f4bc3f13b2704d0244776d9cc0080664a67885eb0"
+    },
+    {
+      "id": "augmentation-008-audiovox",
+      "generation": 1,
+      "src": "images/manual/augmentation-008-audiovox--g1.webp",
+      "sha256": "e77b755098389f4ab869ef4bea2c2a9e2a4e890667a3738b1d1cbc114f6f44f6"
+    },
+    {
+      "id": "augmentation-008-audiovox",
+      "generation": 2,
+      "src": "images/manual/augmentation-008-audiovox--g2.webp",
+      "sha256": "4da76f172fe6e195e4bebd6e261757ebe043160d19c30be6eafe7c7058328d00"
+    },
+    {
+      "id": "augmentation-009-autoinjecteur",
+      "generation": 2,
+      "src": "images/manual/augmentation-009-autoinjecteur--g2.webp",
+      "sha256": "594b5967bb986d46ab0a50a5218e3ba62de3e98f9bfc1ef58757631210541e58"
+    },
+    {
+      "id": "augmentation-010-bio-tatouage",
+      "generation": null,
+      "src": "images/manual/augmentation-010-bio-tatouage.webp",
+      "sha256": "5d518ad6598fa75b50d469a82720deaa75b8ecf97bcff596980ef6a4421b6662"
+    },
+    {
+      "id": "augmentation-011-bioarme-crocs",
+      "generation": null,
+      "src": "images/manual/augmentation-011-bioarme-crocs.webp",
+      "sha256": "09cd59690d7dbf6e43f87fc34e287ab247c49e8f524847ab5628845f5ac88920"
+    },
+    {
+      "id": "augmentation-012-bioarme-decharge-electrique",
+      "generation": null,
+      "src": "images/manual/augmentation-012-bioarme-decharge-electrique.webp",
+      "sha256": "b05a8b364cb9e6b2cc0d4887c90e5be27356ec2112e011c89dacf02f5204411b"
+    },
+    {
+      "id": "augmentation-013-bioarme-epines",
+      "generation": null,
+      "src": "images/manual/augmentation-013-bioarme-epines.webp",
+      "sha256": "e56c9152564d765fa37981d91c8cb43b80170fda38a2fddb74af6bacccf74721"
+    },
+    {
+      "id": "augmentation-014-bioarme-griffes",
+      "generation": null,
+      "src": "images/manual/augmentation-014-bioarme-griffes.webp",
+      "sha256": "954b0c1617d40cc7eb34a8d2b2489747a959cb00ed2e7462ad7cde8c573bbeb4"
+    },
+    {
+      "id": "augmentation-015-bioware-membre",
+      "generation": null,
+      "src": "images/manual/augmentation-015-bioware-membre.webp",
+      "sha256": "db4d27c43e1cc798416f07e9f48239793cc1be4a5b33c788fb2c7ec9f55c5f81"
+    },
+    {
+      "id": "augmentation-016-bloqueur-de-douleur",
+      "generation": 1,
+      "src": "images/manual/augmentation-016-bloqueur-de-douleur--g1.webp",
+      "sha256": "de85174afa2368a434073d495ac54bc20b0381258890d270c6d8f996f2978df3"
+    },
+    {
+      "id": "augmentation-016-bloqueur-de-douleur",
+      "generation": 2,
+      "src": "images/manual/augmentation-016-bloqueur-de-douleur--g2.webp",
+      "sha256": "f886e50497b6c72a2930688ad34548de1e8ba2d4e4d681627bcd28e6b74eac05"
+    },
+    {
+      "id": "augmentation-017-booster-d-adrenaline",
+      "generation": 1,
+      "src": "images/manual/augmentation-017-booster-d-adrenaline--g1.webp",
+      "sha256": "5123f9154c2e83610216773a0926a417d076b5aa4a6076cccbac0c9cac5d4105"
+    },
+    {
+      "id": "augmentation-017-booster-d-adrenaline",
+      "generation": 2,
+      "src": "images/manual/augmentation-017-booster-d-adrenaline--g2.webp",
+      "sha256": "518daf5c333892bc0b7651da7361936753b76edb0f59a653acec186ee570aefd"
+    },
+    {
+      "id": "augmentation-018-booster-sensoriel",
+      "generation": 1,
+      "src": "images/manual/augmentation-018-booster-sensoriel--g1.webp",
+      "sha256": "46728513d04b894c426cd01851a5671d7399ead9c19363eadcb4925320c0643f"
+    },
+    {
+      "id": "augmentation-018-booster-sensoriel",
+      "generation": 2,
+      "src": "images/manual/augmentation-018-booster-sensoriel--g2.webp",
+      "sha256": "e9eaa4aa2dd8831c2250b9fc9157725b28db50e641ba528b25cb680d378e67af"
+    },
+    {
+      "id": "augmentation-019-branchies",
+      "generation": null,
+      "src": "images/manual/augmentation-019-branchies.webp",
+      "sha256": "f7b228320a4b5e4a99ad1d7e04d5e4d286a7c528834164ef90277297a0b01df0"
+    },
+    {
+      "id": "augmentation-020-branchies-cybernetiques",
+      "generation": 2,
+      "src": "images/manual/augmentation-020-branchies-cybernetiques--g2.webp",
+      "sha256": "dd8b2cae610bad60a0d22dba20708979033c303eb9bed2e1e8c3cefd230730a8"
+    },
+    {
+      "id": "augmentation-021-brouilleur-decrypteur",
+      "generation": 1,
+      "src": "images/manual/augmentation-021-brouilleur-decrypteur--g1.webp",
+      "sha256": "abbc3efa70a60bf4a960b32052e83500eeff9e42afc6e4b71d19f89e74c3aae6"
+    },
+    {
+      "id": "augmentation-021-brouilleur-decrypteur",
+      "generation": 2,
+      "src": "images/manual/augmentation-021-brouilleur-decrypteur--g2.webp",
+      "sha256": "0eb4e0552a8d9a7656e6482df8b4130d042b025f93109e3b27659532f99decb3"
+    },
+    {
+      "id": "augmentation-022-cablage-neuronal",
+      "generation": 1,
+      "src": "images/manual/augmentation-022-cablage-neuronal--g1.webp",
+      "sha256": "4d49adfb26229176db00365bed42a25b89067ae822364490f4ce36d4ee01c2cb"
+    },
+    {
+      "id": "augmentation-022-cablage-neuronal",
+      "generation": 2,
+      "src": "images/manual/augmentation-022-cablage-neuronal--g2.webp",
+      "sha256": "8a12893c1702e6fa68118a77ce142f516c3d4e2253560e7ee9a2a4825394232d"
+    },
+    {
+      "id": "augmentation-023-cable-monofilament",
+      "generation": 2,
+      "src": "images/manual/augmentation-023-cable-monofilament--g2.webp",
+      "sha256": "9b519794132d9830095cb5a1b859a47854de0d529636fc42b104684f2b72950a"
+    },
+    {
+      "id": "augmentation-024-camera-integree",
+      "generation": 1,
+      "src": "images/manual/augmentation-024-camera-integree--g1.webp",
+      "sha256": "cecfff40843dca89462d14aec688ea59854cb236729184ce42a39e2e9a7465e0"
+    },
+    {
+      "id": "augmentation-024-camera-integree",
+      "generation": 2,
+      "src": "images/manual/augmentation-024-camera-integree--g2.webp",
+      "sha256": "d90798c01242e194183bd9942f1df0454578600909382cf00d748a37d286a077"
+    },
+    {
+      "id": "augmentation-025-camouflage-dermique",
+      "generation": 2,
+      "src": "images/manual/augmentation-025-camouflage-dermique--g2.webp",
+      "sha256": "d2c8003ef82ea8a9f50651d0ac9b9c95bc564c8b92f9f190609306d71032f5ea"
+    },
+    {
+      "id": "augmentation-026-cheveux-artificiels",
+      "generation": null,
+      "src": "images/manual/augmentation-026-cheveux-artificiels.webp",
+      "sha256": "d01f00b09bf0274550cd1751f7e4f76045d46745061e57cbfec30302f73b7965"
+    },
+    {
+      "id": "augmentation-027-croissance-capillaire",
+      "generation": null,
+      "src": "images/manual/augmentation-027-croissance-capillaire.webp",
+      "sha256": "d571ccb408739fce1073c4ba30edbf3e49e15776eff5fd5a33e44b914a92cddb"
+    },
+    {
+      "id": "augmentation-028-cyberaudio",
+      "generation": 1,
+      "src": "images/manual/augmentation-028-cyberaudio--g1.webp",
+      "sha256": "ef38ebcb56a086348e3d05b5f25da7a7a5b54300d4f6da0a0b3c8f1bc158012d"
+    },
+    {
+      "id": "augmentation-028-cyberaudio",
+      "generation": 2,
+      "src": "images/manual/augmentation-028-cyberaudio--g2.webp",
+      "sha256": "de2ff9edc53f1ad8bd9cd83e18ab3a7dd62d54006d1cbec3aa18d5492cad2fc5"
+    },
+    {
+      "id": "augmentation-029-cyberbras",
+      "generation": 1,
+      "src": "images/manual/augmentation-029-cyberbras--g1.webp",
+      "sha256": "de120446ce35858da06cd7278e29d18620c2920df87542ae6c289aee875e2145"
+    },
+    {
+      "id": "augmentation-029-cyberbras",
+      "generation": 2,
+      "src": "images/manual/augmentation-029-cyberbras--g2.webp",
+      "sha256": "91804fc28ce8e9ec5769d6850efdde496a0f88454ac2ff8b5d08c5272ca7a0ba"
+    },
+    {
+      "id": "augmentation-030-cyberjambe",
+      "generation": 1,
+      "src": "images/manual/augmentation-030-cyberjambe--g1.webp",
+      "sha256": "f2c90607399cd894b2027f8306fe83fd1052e5299e34ae94da1c51768a51d282"
+    },
+    {
+      "id": "augmentation-030-cyberjambe",
+      "generation": 2,
+      "src": "images/manual/augmentation-030-cyberjambe--g2.webp",
+      "sha256": "4b42ebac7fac8c57254d2373c588469af3628150b040ef546d3c1bfc0cea789c"
+    },
+    {
+      "id": "augmentation-031-cybermain",
+      "generation": 1,
+      "src": "images/manual/augmentation-031-cybermain--g1.webp",
+      "sha256": "7c1197fa0f455a832d641613f098359300eb6a61ed92c788c00998dacac162fc"
+    },
+    {
+      "id": "augmentation-031-cybermain",
+      "generation": 2,
+      "src": "images/manual/augmentation-031-cybermain--g2.webp",
+      "sha256": "86b837dc79bf390310f6f5871ac19bbec1f97482ef78b3b1f684e85d053fbdf5"
+    },
+    {
+      "id": "augmentation-032-cyberoeil",
+      "generation": 1,
+      "src": "images/manual/augmentation-032-cyberoeil--g1.webp",
+      "sha256": "4725a93d7133665762f8b88ac280405f7e01d4b219ad88d2353e44ab4cca0ee9"
+    },
+    {
+      "id": "augmentation-032-cyberoeil",
+      "generation": 2,
+      "src": "images/manual/augmentation-032-cyberoeil--g2.webp",
+      "sha256": "050f0a2e66df3b5fc5eddb2f0575a7c448607bf785181833631c0d7e9ebed713"
+    },
+    {
+      "id": "augmentation-033-cyberpied",
+      "generation": 1,
+      "src": "images/manual/augmentation-033-cyberpied--g1.webp",
+      "sha256": "287289686b320ea5bf2cbc36ca66b81713deffc122ea1f5fbf2a495a97528245"
+    },
+    {
+      "id": "augmentation-033-cyberpied",
+      "generation": 2,
+      "src": "images/manual/augmentation-033-cyberpied--g2.webp",
+      "sha256": "a7a7dc4192e1c072e665d06353ad79c9f5b924994b8787501573563e898ac2a8"
+    },
+    {
+      "id": "augmentation-034-defense-electronique",
+      "generation": 1,
+      "src": "images/manual/augmentation-034-defense-electronique--g1.webp",
+      "sha256": "9902c605deab2200aa7272b097e930524914ddacd6a9a4ec6718ac671f582824"
+    },
+    {
+      "id": "augmentation-034-defense-electronique",
+      "generation": 2,
+      "src": "images/manual/augmentation-034-defense-electronique--g2.webp",
+      "sha256": "94f6f12faa7c0848c39b85dabfa58345684e276ad43ad316b23bec32074645cc"
+    },
+    {
+      "id": "augmentation-035-detecteur-de-radiation",
+      "generation": 1,
+      "src": "images/manual/augmentation-035-detecteur-de-radiation--g1.webp",
+      "sha256": "7d4f5ac870654cd163683939c22742fd26af974dc3bc44ad76eb9b624586c1dd"
+    },
+    {
+      "id": "augmentation-035-detecteur-de-radiation",
+      "generation": 2,
+      "src": "images/manual/augmentation-035-detecteur-de-radiation--g2.webp",
+      "sha256": "93d97f44dbcfcf6e6c66c56b3a484c5b30234bc3a82ab16bb06801eab722cf0e"
+    },
+    {
+      "id": "augmentation-036-detecteur-echolocation",
+      "generation": 2,
+      "src": "images/manual/augmentation-036-detecteur-echolocation--g2.webp",
+      "sha256": "57e9dd9b09072645c1c44e1db3e1b0c4069d33662a3e58c7e0aedfad5d0e8235"
+    },
+    {
+      "id": "augmentation-037-digestion-efficace",
+      "generation": null,
+      "src": "images/manual/augmentation-037-digestion-efficace.webp",
+      "sha256": "12e56dff17891c3be266331275519970e58db688ae399cc1306a153dd7902926"
+    },
+    {
+      "id": "augmentation-038-dispositif-de-visee",
+      "generation": 1,
+      "src": "images/manual/augmentation-038-dispositif-de-visee--g1.webp",
+      "sha256": "9efcd78146291dc451ea93fc39bed389aaa6239cec3b1df35526b0347bfb04e9"
+    },
+    {
+      "id": "augmentation-038-dispositif-de-visee",
+      "generation": 2,
+      "src": "images/manual/augmentation-038-dispositif-de-visee--g2.webp",
+      "sha256": "f57b623d31a5a2a44f993f84f6734cb5bf601a981134787ffd10db4fd298d456"
+    },
+    {
+      "id": "augmentation-039-doigts-outils",
+      "generation": 2,
+      "src": "images/manual/augmentation-039-doigts-outils--g2.webp",
+      "sha256": "90557ca569602e1796a49222dce6956914a9beddc48d98606782f2d6927091d0"
+    },
+    {
+      "id": "augmentation-040-electrochoc",
+      "generation": null,
+      "src": "images/manual/augmentation-040-electrochoc.webp",
+      "sha256": "5ad620a97af1930f1a8889097db24d9beac8de2020fc42a817d26a93c7ea6508"
+    },
+    {
+      "id": "augmentation-041-enregistreur-audio",
+      "generation": 1,
+      "src": "images/manual/augmentation-041-enregistreur-audio--g1.webp",
+      "sha256": "96995d5bef6630951376ce2e964993190ebbef4fdc6647f1bce30e8cd560f339"
+    },
+    {
+      "id": "augmentation-041-enregistreur-audio",
+      "generation": 2,
+      "src": "images/manual/augmentation-041-enregistreur-audio--g2.webp",
+      "sha256": "c8747bb8c20edd35d24e51d64754ab081494c89b57760a30bcbf3fa482e94dc1"
+    },
+    {
+      "id": "augmentation-042-enregistreur-neural",
+      "generation": 2,
+      "src": "images/manual/augmentation-042-enregistreur-neural--g2.webp",
+      "sha256": "8d07cbb3322342aee4c1b16756c3e4f84686ad6611d808f1b5bdc9ecfd00adc1"
+    },
+    {
+      "id": "augmentation-043-ergot-griffes-de-pied",
+      "generation": 1,
+      "src": "images/manual/augmentation-043-ergot-griffes-de-pied--g1.webp",
+      "sha256": "e1903242abb58520dbddab78245306fffdbd00811e5796283f06f69beac3a119"
+    },
+    {
+      "id": "augmentation-043-ergot-griffes-de-pied",
+      "generation": 2,
+      "src": "images/manual/augmentation-043-ergot-griffes-de-pied--g2.webp",
+      "sha256": "d9f38203db2c04652c39d267c885931f65cfe469a37fd85094f34b3c035f8332"
+    },
+    {
+      "id": "augmentation-044-estomac-blinde",
+      "generation": 2,
+      "src": "images/manual/augmentation-044-estomac-blinde--g2.webp",
+      "sha256": "d1980c9ac1157f3d9b49147e915d80978e14fc7014297f3de4174c9b7664ad62"
+    },
+    {
+      "id": "augmentation-045-filtrage-audio",
+      "generation": 1,
+      "src": "images/manual/augmentation-045-filtrage-audio--g1.webp",
+      "sha256": "678682877dddf081c56aa77843fb0948eedccfd80d4883d952bff09fe63cd173"
+    },
+    {
+      "id": "augmentation-045-filtrage-audio",
+      "generation": 2,
+      "src": "images/manual/augmentation-045-filtrage-audio--g2.webp",
+      "sha256": "929ef01304a9ee85063a6ac774b064ae5ecbba6c855793393e7c59912e9e4041"
+    },
+    {
+      "id": "augmentation-046-filtre-a-toxines",
+      "generation": 2,
+      "src": "images/manual/augmentation-046-filtre-a-toxines--g2.webp",
+      "sha256": "f65c30d5a7f52ee66152a1bac29425cd5101a0ef43e25d9d0d033f9e0d233008"
+    },
+    {
+      "id": "augmentation-047-glande-a-venin",
+      "generation": null,
+      "src": "images/manual/augmentation-047-glande-a-venin.webp",
+      "sha256": "a93cf6fa26b398ee29b346a77536a54d17efd32145fd5cb22a8699c7e8550be9"
+    },
+    {
+      "id": "augmentation-048-glandes-chimiques",
+      "generation": null,
+      "src": "images/manual/augmentation-048-glandes-chimiques.webp",
+      "sha256": "59394b18f30bc809823c628cbb03ef06eff608e375ec469e9e5cba6313f26e7e"
+    },
+    {
+      "id": "augmentation-049-grappin",
+      "generation": 1,
+      "src": "images/manual/augmentation-049-grappin--g1.webp",
+      "sha256": "707fb3051bba8ff3f4b6ec532e876e7c76646a6e6faa25e417186c0e54ec28a4"
+    },
+    {
+      "id": "augmentation-049-grappin",
+      "generation": 2,
+      "src": "images/manual/augmentation-049-grappin--g2.webp",
+      "sha256": "8268686168026a72ebf98480e0fe388d0b19623e6a8760857c9b8753e04937f6"
+    },
+    {
+      "id": "augmentation-050-griffes-ongles",
+      "generation": 1,
+      "src": "images/manual/augmentation-050-griffes-ongles--g1.webp",
+      "sha256": "86806adc85bedff013ddfe9d07d4c6ab4de2f9c90b2add7de8be3e76466ff256"
+    },
+    {
+      "id": "augmentation-050-griffes-ongles",
+      "generation": 2,
+      "src": "images/manual/augmentation-050-griffes-ongles--g2.webp",
+      "sha256": "f5376eb602b8389d499e83aa383bc9ec228fba960ce26748d3ac81da36ddcd5a"
+    },
+    {
+      "id": "augmentation-051-implant-contraceptif",
+      "generation": null,
+      "src": "images/manual/augmentation-051-implant-contraceptif.webp",
+      "sha256": "6019d9f11a2b0cb3b3e331a36ab1fe2fac0a84bdcded14f2c696a713591b0563"
+    },
+    {
+      "id": "augmentation-052-implant-radar-sonar",
+      "generation": 2,
+      "src": "images/manual/augmentation-052-implant-radar-sonar--g2.webp",
+      "sha256": "52835f8564ed2a4ef49d419e418eca3899ded679fa8a43ec81357ce63a713d55"
+    },
+    {
+      "id": "augmentation-053-implant-sexuel",
+      "generation": null,
+      "src": "images/manual/augmentation-053-implant-sexuel.webp",
+      "sha256": "6da148e57b7227e4bedc3bcdfca22f8633071efc9a34698288f4f42b69bfcc3c"
+    },
+    {
+      "id": "augmentation-054-implants-mammaires-modulaires",
+      "generation": null,
+      "src": "images/manual/augmentation-054-implants-mammaires-modulaires.webp",
+      "sha256": "325f643d219e8907ae952c8c3a214a1ee883518a456ec27ef21bcd3957cf878c"
+    },
+    {
+      "id": "augmentation-055-injection-hormonale",
+      "generation": null,
+      "src": "images/manual/augmentation-055-injection-hormonale.webp",
+      "sha256": "a509963a4af7db886b188ee53d2e05e3b5c501706ba190dd54a63dbaddfee550"
+    },
+    {
+      "id": "augmentation-056-isolation-electrique",
+      "generation": null,
+      "src": "images/manual/augmentation-056-isolation-electrique.webp",
+      "sha256": "98eb3563275f9403f0603e59d7a3a71c3c0433082e0bf2ca52a31d53cd5f7624"
+    },
+    {
+      "id": "augmentation-057-jambes-renforcees",
+      "generation": 1,
+      "src": "images/manual/augmentation-057-jambes-renforcees--g1.webp",
+      "sha256": "75aa12dd62e48f7d46aab009b4c5335362a2eaa6ee710f304b4009cdd0096bbc"
+    },
+    {
+      "id": "augmentation-057-jambes-renforcees",
+      "generation": 2,
+      "src": "images/manual/augmentation-057-jambes-renforcees--g2.webp",
+      "sha256": "86ab47bd04ae2c69e9564ea0536cbd5166dbbbccfcc169ebc206d8e153c8ddfb"
+    },
+    {
+      "id": "augmentation-058-lame-cachee",
+      "generation": 1,
+      "src": "images/manual/augmentation-058-lame-cachee--g1.webp",
+      "sha256": "96721b494f1ab386164eb865f3a772acebf2bee532ec6cf98671350a0293e04c"
+    },
+    {
+      "id": "augmentation-058-lame-cachee",
+      "generation": 2,
+      "src": "images/manual/augmentation-058-lame-cachee--g2.webp",
+      "sha256": "3283d9982124ae206867ac9b27abe37391129394ab13027102fc13df647d37fe"
+    },
+    {
+      "id": "augmentation-059-lampes-oculaires",
+      "generation": 1,
+      "src": "images/manual/augmentation-059-lampes-oculaires--g1.webp",
+      "sha256": "e1c0a9c8a473ad50dc7a728e50cacfd32c56a9b0273c900c9bc1ddc2ea8d09c9"
+    },
+    {
+      "id": "augmentation-059-lampes-oculaires",
+      "generation": 2,
+      "src": "images/manual/augmentation-059-lampes-oculaires--g2.webp",
+      "sha256": "eea793fa10dcb420bd1229fcb837fe23679b891d3b1071b38a5d4f2492acac7e"
+    },
+    {
+      "id": "augmentation-060-lentilles-polychromes",
+      "generation": null,
+      "src": "images/manual/augmentation-060-lentilles-polychromes.webp",
+      "sha256": "3758d0538257c667319783a9f44337879132636c5442129f8c5518a6422cafb2"
+    },
+    {
+      "id": "augmentation-061-maillage-dermique-decoratif",
+      "generation": null,
+      "src": "images/manual/augmentation-061-maillage-dermique-decoratif.webp",
+      "sha256": "ea009ab9706a8cec15fe820054ddf2faa27ca35ef27714a19336963f4a7b0c4a"
+    },
+    {
+      "id": "augmentation-062-maillage-squelettique",
+      "generation": 1,
+      "src": "images/manual/augmentation-062-maillage-squelettique--g1.webp",
+      "sha256": "b8f4b6f5780bd0bd393d8d1efce21001910d451e6f7847545fd720ec2d0e1ebf"
+    },
+    {
+      "id": "augmentation-062-maillage-squelettique",
+      "generation": 2,
+      "src": "images/manual/augmentation-062-maillage-squelettique--g2.webp",
+      "sha256": "f9ca48764b3f20cfa7a5071753b4ea060d2cce9994ae38360f22b0527d78f78a"
+    },
+    {
+      "id": "augmentation-063-main-gecko",
+      "generation": 2,
+      "src": "images/manual/augmentation-063-main-gecko--g2.webp",
+      "sha256": "7cb077e4c5484001a57fd5e151fc612a1edd861c7a7f5759be0c9a9e8bf25202"
+    },
+    {
+      "id": "augmentation-064-mains-pieds-palmes",
+      "generation": null,
+      "src": "images/manual/augmentation-064-mains-pieds-palmes.webp",
+      "sha256": "d30cf8b74615d2e621091991ccb94c0c58f8f33ec82b90fe4a7c7961ce4dc834"
+    },
+    {
+      "id": "augmentation-065-membrane-oculaire",
+      "generation": null,
+      "src": "images/manual/augmentation-065-membrane-oculaire.webp",
+      "sha256": "57c4d6261d291d82474fbb1b72c1337ea2990d12292b25bf448b5e27ca1b57ca"
+    },
+    {
+      "id": "augmentation-066-memoire-amplifiee",
+      "generation": null,
+      "src": "images/manual/augmentation-066-memoire-amplifiee.webp",
+      "sha256": "64d77144848a746a08948aee098a7909778f78425984346dca7402813a412834"
+    },
+    {
+      "id": "augmentation-067-metabolisme-propre",
+      "generation": null,
+      "src": "images/manual/augmentation-067-metabolisme-propre.webp",
+      "sha256": "c44023344391599d7c8ef5800e1b04242638534868760a8bfe1508b2de856f7d"
+    },
+    {
+      "id": "augmentation-068-montre-sous-cutanee",
+      "generation": null,
+      "src": "images/manual/augmentation-068-montre-sous-cutanee.webp",
+      "sha256": "6c0b2b02657e0504ae2b2430b1a838fc324b24d393a3aa0c3b683864313546c3"
+    },
+    {
+      "id": "augmentation-069-organes-reproducteurs",
+      "generation": null,
+      "src": "images/manual/augmentation-069-organes-reproducteurs.webp",
+      "sha256": "ebca2f30554509ab46475c8a81a1175a49eb0f517e1949cc12dd926aa0f4f725"
+    },
+    {
+      "id": "augmentation-070-ouie-amelioree",
+      "generation": null,
+      "src": "images/manual/augmentation-070-ouie-amelioree.webp",
+      "sha256": "81ea849366a23c15e92df2bc9bc8c2f1bf2014d3a8f270556f606e06b5177ed0"
+    },
+    {
+      "id": "augmentation-071-palmes-cybernetiques",
+      "generation": 1,
+      "src": "images/manual/augmentation-071-palmes-cybernetiques--g1.webp",
+      "sha256": "fdd02e1dd6133c53ec5715ff071c85ee9096a1faa2a35cf679f13c44a6699f81"
+    },
+    {
+      "id": "augmentation-071-palmes-cybernetiques",
+      "generation": 2,
+      "src": "images/manual/augmentation-071-palmes-cybernetiques--g2.webp",
+      "sha256": "fa0e78551d7666d41b99266fdae2846161b6d349941e99d2fa61e5fab24a0a1d"
+    },
+    {
+      "id": "augmentation-072-peau-de-cuir",
+      "generation": null,
+      "src": "images/manual/augmentation-072-peau-de-cuir.webp",
+      "sha256": "95fb7ca0504c45b8ae08b21d868d00be88a1df9373de12e9d6ce1217d360d1eb"
+    },
+    {
+      "id": "augmentation-073-pheromones-optimisees",
+      "generation": null,
+      "src": "images/manual/augmentation-073-pheromones-optimisees.webp",
+      "sha256": "223635d09241ab64c82b3c4220be82a3d2a0b864900a6c8958a4c278228af485"
+    },
+    {
+      "id": "augmentation-074-photosynthese",
+      "generation": null,
+      "src": "images/manual/augmentation-074-photosynthese.webp",
+      "sha256": "1893bf32f2a2e811368dab913af711876f5f03d385431e6fb65772b48a67c533"
+    },
+    {
+      "id": "augmentation-075-pied-gecko",
+      "generation": 2,
+      "src": "images/manual/augmentation-075-pied-gecko--g2.webp",
+      "sha256": "33a0ec27b27351f5d36549bb94c63e19f762fc3dc624a8d9fc66149dc653ee32"
+    },
+    {
+      "id": "augmentation-076-pigmentation-dermique",
+      "generation": null,
+      "src": "images/manual/augmentation-076-pigmentation-dermique.webp",
+      "sha256": "bedf85db6fcd64f906b7cc39d682f0ac3a1871369d0131de579c8a0f00f601ee"
+    },
+    {
+      "id": "augmentation-077-pistolet-integre",
+      "generation": 1,
+      "src": "images/manual/augmentation-077-pistolet-integre--g1.webp",
+      "sha256": "e06022e69a9acf6a09f10821b38e8f140571dc78b3927feb28ac844d54694a2a"
+    },
+    {
+      "id": "augmentation-077-pistolet-integre",
+      "generation": 2,
+      "src": "images/manual/augmentation-077-pistolet-integre--g2.webp",
+      "sha256": "1079672704ca960dbfe9964bf920d78fef28be490eccaacc3b0966b86fd09db0"
+    },
+    {
+      "id": "augmentation-078-poche-dermique",
+      "generation": 2,
+      "src": "images/manual/augmentation-078-poche-dermique--g2.webp",
+      "sha256": "854aace7585dba9583371a32d61c97b820ec000ab4f6d17cbf97cfd15c11c94e"
+    },
+    {
+      "id": "augmentation-079-poings-renforces",
+      "generation": 1,
+      "src": "images/manual/augmentation-079-poings-renforces--g1.webp",
+      "sha256": "f182e7253042fa33ea33ab43f86b65c35092070de5d7c2ad00d385f85a12e0f7"
+    },
+    {
+      "id": "augmentation-079-poings-renforces",
+      "generation": 2,
+      "src": "images/manual/augmentation-079-poings-renforces--g2.webp",
+      "sha256": "5c72c783f5e51cb5c28b823f6e489818961d819d65f45ccca35c8ab4eadf66f2"
+    },
+    {
+      "id": "augmentation-080-ports-d-interface",
+      "generation": 1,
+      "src": "images/manual/augmentation-080-ports-d-interface--g1.webp",
+      "sha256": "b303007914544a443b82ac662936d4cd5f9c4c06de74990c4e13722157b7ede2"
+    },
+    {
+      "id": "augmentation-080-ports-d-interface",
+      "generation": 2,
+      "src": "images/manual/augmentation-080-ports-d-interface--g2.webp",
+      "sha256": "e864a14db77edcc6f9350f824acab1ae8b8c2dfcfbd6bdaa972b32a1b3e086f7"
+    },
+    {
+      "id": "augmentation-081-poumon-cybernetique",
+      "generation": 2,
+      "src": "images/manual/augmentation-081-poumon-cybernetique--g2.webp",
+      "sha256": "876033762ff119915250c964e425d8951583a6ec3299371332e2fe4850620bdf"
+    },
+    {
+      "id": "augmentation-082-processeur-mathematique",
+      "generation": 2,
+      "src": "images/manual/augmentation-082-processeur-mathematique--g2.webp",
+      "sha256": "df34a13129357caaf059a95013bd4546b58c996491e8db88380965fbf61073c4"
+    },
+    {
+      "id": "augmentation-083-protection-auditive",
+      "generation": 2,
+      "src": "images/manual/augmentation-083-protection-auditive--g2.webp",
+      "sha256": "d480c849d955e2960f94dafcbc462f417b4808155c8359ce13e4569aa2eb7f76"
+    },
+    {
+      "id": "augmentation-084-radio-integree",
+      "generation": null,
+      "src": "images/manual/augmentation-084-radio-integree.webp",
+      "sha256": "f3b7283562f9f3d015cdaab756f1c3b9344dd3c633b9d7f45838a233a9231ed8"
+    },
+    {
+      "id": "augmentation-085-realignement-spinal",
+      "generation": null,
+      "src": "images/manual/augmentation-085-realignement-spinal.webp",
+      "sha256": "cc0caa80b428ea06c0d6674aa2415c200a0532b818ee8b7b9577569d198c5316"
+    },
+    {
+      "id": "augmentation-086-realite-augmentee-holonet",
+      "generation": 2,
+      "src": "images/manual/augmentation-086-realite-augmentee-holonet--g2.webp",
+      "sha256": "5a274a9c3a0598b4ba14c2461a98ef3e3a4193b520adbabda3cbafe753b09c45"
+    },
+    {
+      "id": "augmentation-087-regeneration-passive",
+      "generation": null,
+      "src": "images/manual/augmentation-087-regeneration-passive.webp",
+      "sha256": "34e7e44c9e168a7969cfb7beee0fb70df245fdac4057d05394e88cd1a3a92d63"
+    },
+    {
+      "id": "augmentation-088-rein-ameliore",
+      "generation": null,
+      "src": "images/manual/augmentation-088-rein-ameliore.webp",
+      "sha256": "720951179ad190687a97d61f89682dffb875ad565197a4633138e0290f9ee2e2"
+    },
+    {
+      "id": "augmentation-089-scanner-meditech",
+      "generation": 2,
+      "src": "images/manual/augmentation-089-scanner-meditech--g2.webp",
+      "sha256": "c04d8ee6f8613ee3b2dbc6c3196dce06d0521d1817ff69d8251a21e0a283c589"
+    },
+    {
+      "id": "augmentation-090-scanner-technique",
+      "generation": 2,
+      "src": "images/manual/augmentation-090-scanner-technique--g2.webp",
+      "sha256": "e30557d55f2ab9cbcbcaeac08ec630847a2f6edf09edca4008a093240be5d373"
+    },
+    {
+      "id": "augmentation-091-sensibilite-tactile",
+      "generation": null,
+      "src": "images/manual/augmentation-091-sensibilite-tactile.webp",
+      "sha256": "64b13a91df2ac81e5b2523b3d345f2e5bc7934502618000ce3593c4fc4008c08"
+    },
+    {
+      "id": "augmentation-092-spectre-auditif",
+      "generation": null,
+      "src": "images/manual/augmentation-092-spectre-auditif.webp",
+      "sha256": "99121dfc272d1eea0c1a8160a88d77a58084c2c87a32edf27bb259e20e8e185f"
+    },
+    {
+      "id": "augmentation-093-spectre-auditif-etendu",
+      "generation": 2,
+      "src": "images/manual/augmentation-093-spectre-auditif-etendu--g2.webp",
+      "sha256": "1a1224d6afd42a517b73522f0c928abee85d84387c890320a2ec686f311a88ae"
+    },
+    {
+      "id": "augmentation-094-spectre-visuel",
+      "generation": null,
+      "src": "images/manual/augmentation-094-spectre-visuel.webp",
+      "sha256": "ad4fe21ebebe2175fc765fbe2dfee575c71ed423d17746bd15c829b2e47534da"
+    },
+    {
+      "id": "augmentation-095-spectre-vocal",
+      "generation": null,
+      "src": "images/manual/augmentation-095-spectre-vocal.webp",
+      "sha256": "48647bcdc28baf908b79588477e51b243ec9ca34d7f1afad1bce76acfe95ec2b"
+    },
+    {
+      "id": "augmentation-096-stabilite-gyroscopique",
+      "generation": 2,
+      "src": "images/manual/augmentation-096-stabilite-gyroscopique--g2.webp",
+      "sha256": "945cb8a988a3b98aac829a97f1081aa70fd421a4a0346bfbc31d38a6e277efaf"
+    },
+    {
+      "id": "augmentation-097-support-de-membres-surnumeraires",
+      "generation": 2,
+      "src": "images/manual/augmentation-097-support-de-membres-surnumeraires--g2.webp",
+      "sha256": "7eb3a07f137769381bc73d692f058e6d0b7d67d6a0143399c5706736969ba1d2"
+    },
+    {
+      "id": "augmentation-098-support-multioptique",
+      "generation": 2,
+      "src": "images/manual/augmentation-098-support-multioptique--g2.webp",
+      "sha256": "4db1756943f5b581e8b7712c69cb9e240e568364e2bc8615a7ceb83498235f07"
+    },
+    {
+      "id": "augmentation-099-support-multisenseur",
+      "generation": 2,
+      "src": "images/manual/augmentation-099-support-multisenseur--g2.webp",
+      "sha256": "9437094f771d86c62607b91df7d0a1b501052fcdfa9d3c6d41d5d7a4ae5736b8"
+    },
+    {
+      "id": "augmentation-100-synthederm-de-couverture",
+      "generation": null,
+      "src": "images/manual/augmentation-100-synthederm-de-couverture.webp",
+      "sha256": "6995fed0712e056eb4b4abad31226d6ffc1df8fb32f1edbb1df52b75dd21a2d6"
+    },
+    {
+      "id": "augmentation-101-systeme-d-orientation",
+      "generation": 2,
+      "src": "images/manual/augmentation-101-systeme-d-orientation--g2.webp",
+      "sha256": "ec9ce65ba73cec181ab7a82c9e89dc4c075feeb4ac1725f627298796db96ebbc"
+    },
+    {
+      "id": "augmentation-102-systeme-immunitaire-amplifie",
+      "generation": null,
+      "src": "images/manual/augmentation-102-systeme-immunitaire-amplifie.webp",
+      "sha256": "4673009f2f2a19f980acec0234ae87ee79bc3bb46fceb39b83aac1439d07f8a6"
+    },
+    {
+      "id": "augmentation-103-systeme-magnetique",
+      "generation": 2,
+      "src": "images/manual/augmentation-103-systeme-magnetique--g2.webp",
+      "sha256": "11bb8c23243ada1d9efaa725ef74295ae7eee86a183b9ba2ce47f7543fa1914f"
+    },
+    {
+      "id": "augmentation-104-tatouage-lumineux",
+      "generation": null,
+      "src": "images/manual/augmentation-104-tatouage-lumineux.webp",
+      "sha256": "1cb1179d8b0d9dc7596acf180a2b8e21008666de6a48ed63931dfb1811dc9aaf"
+    },
+    {
+      "id": "augmentation-105-teinte-dermique-modulable",
+      "generation": null,
+      "src": "images/manual/augmentation-105-teinte-dermique-modulable.webp",
+      "sha256": "9ab5e6ff125e9677528e1882f22a6df39097b087b12246b8815c5bbcf13ce5c4"
+    },
+    {
+      "id": "augmentation-106-temps-de-reaction-surhumain",
+      "generation": null,
+      "src": "images/manual/augmentation-106-temps-de-reaction-surhumain.webp",
+      "sha256": "fb9c2989344ec5a8c501dc13606e3585bd32c83795648e9cbbdddd1091b9c588"
+    },
+    {
+      "id": "augmentation-107-traducteur",
+      "generation": 1,
+      "src": "images/manual/augmentation-107-traducteur--g1.webp",
+      "sha256": "e2316da7abecd5143f4f0988e17a573d2e84e3064bb0051e371fbac4850e0875"
+    },
+    {
+      "id": "augmentation-107-traducteur",
+      "generation": 2,
+      "src": "images/manual/augmentation-107-traducteur--g2.webp",
+      "sha256": "2b89b3aa93ae61fa7e32deb18dd62dfabc88df09d267d290c4422009349acee0"
+    },
+    {
+      "id": "augmentation-108-uv-infrarouge",
+      "generation": 1,
+      "src": "images/manual/augmentation-108-uv-infrarouge--g1.webp",
+      "sha256": "71a24e57d07d423f54a23c23f3ac2d43bc26ab992b1a1f2c7027ab1e4781295e"
+    },
+    {
+      "id": "augmentation-108-uv-infrarouge",
+      "generation": 2,
+      "src": "images/manual/augmentation-108-uv-infrarouge--g2.webp",
+      "sha256": "8f8319d3c00c81f317494938bbff768cbb7bcb0f14ee50654868505df77ed807"
+    },
+    {
+      "id": "augmentation-109-volume-respiratoire-etendu",
+      "generation": null,
+      "src": "images/manual/augmentation-109-volume-respiratoire-etendu.webp",
+      "sha256": "0cfa64eb3a1721181065673209bc0891a72ee10ae7f0dfc5c4aea42e8aca8476"
+    },
+    {
+      "id": "augmentation-110-yeux-parfaits",
+      "generation": null,
+      "src": "images/manual/augmentation-110-yeux-parfaits.webp",
+      "sha256": "47cfb02e2dda7a84140eb29d6c020d0fde61fc7aaeb965c3986def5b7d682bbe"
+    },
+    {
+      "id": "augmentation-111-zoom-optique",
+      "generation": 1,
+      "src": "images/manual/augmentation-111-zoom-optique--g1.webp",
+      "sha256": "5eac1a3f4f82f2b3903c08aa6c3bdcf5cc13e77b2e21055adf68a4527b3365e0"
+    },
+    {
+      "id": "augmentation-111-zoom-optique",
+      "generation": 2,
+      "src": "images/manual/augmentation-111-zoom-optique--g2.webp",
+      "sha256": "8ee44237afcaecc016fb65a30345182e4d5625598f4ea44ddca0909b948e1b08"
+    }
+  ]
+}

@@ -3508,6 +3508,28 @@ async function loadCorpus(): Promise<Corpus> {
   );
 
   for (const article of byId.values()) {
+    if (article.category === "Augmentations" && Array.isArray(article.catalog?.variants)) {
+      const variants = article.catalog.variants as JsonObject[];
+      const variantImages = variants.map((variant) => {
+        const suffix = variant.generation === 1 || variant.generation === 2 ? `--g${variant.generation}` : "";
+        const filename = `${article.id}${suffix}.webp`;
+        if (!manualMediaFiles.has(filename)) return null;
+        const caption = `${article.title}${variant.generation ? ` — Génération ${variant.generation}` : ""}`;
+        const media = { src: `images/manual/${filename}`, alt: caption, caption };
+        if (!variant.illustration || isPlaceholderMedia(variant.illustration)) variant.illustration = media;
+        return media;
+      });
+      const preferred = variantImages[variants.findIndex((variant) => variant.generation === 2)]
+        ?? variantImages.find(Boolean);
+      if (preferred && (!article.illustration || isPlaceholderMedia(article.illustration))) article.illustration = preferred;
+      (article.sections ?? []).filter((section) => section.id !== "contexte").forEach((section, index) => {
+        const media = variantImages[index];
+        if (!media) return;
+        const placeholder = section.blocks?.find((block: JsonObject) =>
+          block.type === "p" && String(block.style ?? "").includes("illustration-placeholder"));
+        if (placeholder) Object.assign(placeholder, { type: "image", src: media.src, alt: media.alt, caption: media.caption });
+      });
+    }
     const manualImage = `${article.id}.webp`;
     const currentMedia = article.illustration ?? article.image;
     if (manualMediaFiles.has(manualImage) && (!currentMedia || isPlaceholderMedia(currentMedia))) {
