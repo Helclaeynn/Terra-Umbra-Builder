@@ -1653,7 +1653,7 @@ export const truthRuntimeStructure = {
     "mage": {
       "id": "mage",
       "name": "Mage",
-      "description": "Un Mage est un Humain lié à un Mageius, structure magique quasi autonome qui lui permet d’imposer sa volonté au réel. Sa magie n’est pas une liste fermée de sorts : elle dépend d’Affinités, de Maîtrise, d’Amplitude et surtout de ce que le personnage comprend réellement du phénomène qu’il veut modifier. Le Mageius peut aussi porter des Échos de porteurs plus anciens sans remplacer l’identité actuelle du Mage.",
+      "description": "Un Mage est un Humain lié à un Mageius, structure magique quasi autonome qui lui permet d’imposer sa volonté au réel. Sa magie n’est pas une liste fermée de sorts : elle dépend d’Affinités, de Maîtrise, d’Amplitude et surtout de ce que le personnage comprend réellement du phénomène qu’il veut modifier. Il peut improviser dans une Affinité non éveillée en Maîtrise Initiale / Amplitude Mineure avec +1 niveau de difficulté ; les rangs supérieurs exigent son éveil. Le Mageius peut aussi porter des Échos de porteurs plus anciens sans remplacer l’identité actuelle du Mage.",
       "choices": [
         {
           "key": "mageiusType",

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 540" role="img" aria-labelledby="title desc">
+<title id="title">Affinité : peut-on lancer ?</title>
+<desc id="desc">Une Affinité non éveillée permet une improvisation en Maîtrise Initiale et Amplitude Mineure avec un niveau de difficulté en plus, par exemple 15 devient 18. Pour progresser dans cette Affinité, il faut ensuite l’éveiller par les dépenses et prérequis prévus.</desc>
+<rect width="1060" height="540" rx="22" fill="#0c1820"/>
+<rect x="1" y="1" width="1058" height="538" rx="21" fill="none" stroke="#476775" stroke-width="2"/>
+<text x="32" y="48" fill="#eef7f7" font-size="27" font-weight="700" font-family="system-ui, sans-serif">Affinité : peut-on lancer ?</text>
+<rect x="30" y="75" width="1000" height="76" rx="15" fill="#162a34" stroke="#49606b"/>
+<text x="52" y="107" fill="#f0f7f6" font-size="22" font-weight="700" font-family="system-ui, sans-serif">L’Affinité de l’effet est-elle déjà éveillée ?</text>
+<text x="52" y="135" fill="#d1e1e3" font-size="17" font-weight="400" font-family="system-ui, sans-serif">Le Mageius peut aussi improviser dans un domaine non appris.</text>
+<rect x="30" y="179" width="485" height="91" rx="15" fill="#18302b" stroke="#83cba1"/>
+<text x="49" y="213" fill="#a8e9b9" font-size="20" font-weight="700" font-family="system-ui, sans-serif">OUI → envisager le lancement</text>
+<text x="49" y="244" fill="#d1e1e3" font-size="17" font-weight="400" font-family="system-ui, sans-serif">Maîtrise et Amplitude restent à vérifier.</text>
+<rect x="545" y="179" width="485" height="91" rx="15" fill="#30281f" stroke="#f2bd78"/>
+<text x="564" y="213" fill="#f2bd78" font-size="18" font-weight="700" font-family="system-ui, sans-serif">NON → improviser Initiale / Mineure</text>
+<text x="564" y="244" fill="#d1e1e3" font-size="17" font-weight="400" font-family="system-ui, sans-serif">Difficulté +1 niveau : 15 → 18.</text>
+<text x="32" y="317" fill="#f2bd78" font-size="21" font-weight="700" font-family="system-ui, sans-serif">Pour dépasser Initiale / Mineure : éveiller l’Affinité</text>
+<rect x="30" y="344" width="316" height="144" rx="15" fill="#162a34" stroke="#49606b"/>
+<text x="46" y="377" fill="#f0f7f6" font-size="19" font-weight="700" font-family="system-ui, sans-serif">2e / 3e native</text>
+<text x="46" y="416" fill="#d1e1e3" font-size="17" font-weight="400" font-family="system-ui, sans-serif">1 PTV chacune</text>
+<text x="46" y="450" fill="#d1e1e3" font-size="16" font-weight="400" font-family="system-ui, sans-serif">avec progression préalable</text>
+<rect x="372" y="344" width="316" height="144" rx="15" fill="#162a34" stroke="#49606b"/>
+<text x="388" y="377" fill="#f0f7f6" font-size="19" font-weight="700" font-family="system-ui, sans-serif">Type adjacent</text>
+<text x="388" y="416" fill="#d1e1e3" font-size="17" font-weight="400" font-family="system-ui, sans-serif">3 PTV pour l’Accord</text>
+<text x="388" y="450" fill="#d1e1e3" font-size="16" font-weight="400" font-family="system-ui, sans-serif">native à Maîtrise Supérieure</text>
+<rect x="714" y="344" width="316" height="144" rx="15" fill="#162a34" stroke="#49606b"/>
+<text x="730" y="377" fill="#f0f7f6" font-size="19" font-weight="700" font-family="system-ui, sans-serif">Type éloigné</text>
+<text x="730" y="416" fill="#d1e1e3" font-size="17" font-weight="400" font-family="system-ui, sans-serif">Accord intermédiaire</text>
+<text x="730" y="450" fill="#d1e1e3" font-size="16" font-weight="400" font-family="system-ui, sans-serif">puis 2 PTV supplémentaires</text>
+<text x="32" y="519" fill="#f1cfa1" font-size="17" font-weight="400" font-family="system-ui, sans-serif">Un Mageius n’est pas limité à ses Affinités éveillées, mais la progression exige leur apprentissage.</text>
+</svg>

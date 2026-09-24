@@ -521,6 +521,11 @@ const SOURCE_PAYLOAD={
       "blocks": [
         {
           "type": "p",
+          "style": "tech",
+          "text": "Une Affinité non éveillée n'interdit pas de tenter un sort : le Mageius peut improviser dans ce domaine en Maîtrise Initiale / Amplitude Mineure uniquement. La difficulté intrinsèque augmente d'un niveau sur l'échelle 12 → 15 → 18 → 21 → 25 (Mineure 15 → 18 avant les autres ajustements). Au-delà de 25, appliquer la Canalisation obligatoire. Pour dépasser ces limites, il faut éveiller l'Affinité selon les règles ci-dessous."
+        },
+        {
+          "type": "p",
           "text": "Éveiller une deuxième Affinité native coûte 1 PTV et exige d’avoir déjà progressé au moins une fois dans la première Affinité. Éveiller la troisième coûte également 1 PTV et exige une nouvelle progression dans une Affinité native."
         },
         {
@@ -549,7 +554,7 @@ const SOURCE_PAYLOAD={
         },
         {
           "type": "p",
-          "text": "Le Mage ne choisit pas un sort dans une liste. Il décrit ce qu’il veut imposer à la Réalité puis fixe les paramètres suivants : Affinité → intention/Essence → Polarité → Amplitude → portée. La Maîtrise doit rendre l’effet concevable ; l’Amplitude doit rendre son échelle possible."
+          "text": "Le Mage ne choisit pas un sort dans une liste. Il décrit ce qu’il veut imposer à la Réalité puis fixe les paramètres suivants : Affinité → intention/Essence → Polarité → Amplitude → portée. La Maîtrise doit rendre l’effet concevable ; l’Amplitude doit rendre son échelle possible. Une Affinité non éveillée reste utilisable pour improviser un effet Initial / Mineur avec +1 niveau de difficulté ; elle ne donne pas accès aux Maîtrises et Amplitudes supérieures."
         }
       ]
     },

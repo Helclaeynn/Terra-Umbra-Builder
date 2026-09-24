@@ -84,10 +84,10 @@
     {
       "articleId": "regles-verite-v7-mage-maitrise-amplitude-lancement",
       "sectionId": "construire-et-lancer-un-sort",
-      "src": "images/rules/regles-lancer-sort-v2.svg",
-      "mobileSrc": "images/rules/regles-lancer-sort-v2-mobile.svg",
-      "title": "Exemple : Amplitude et portée d’un sort",
-      "alt": "Exemple : Amplitude et portée d’un sort : Amplitude — Possédée Majeure ; utilisée Significative ; Difficulté — Base 18 → 15 (avance) → 18 (à vue) ; Libération — Difficulté 18 ; 2 PA ; +2 Tension. La portée annule ici le cran de difficulté gagné."
+      "src": "images/rules/regles-lancer-sort-v3.svg",
+      "mobileSrc": "images/rules/regles-lancer-sort-v3-mobile.svg",
+      "title": "Construire puis lancer un sort",
+      "alt": "Construire puis lancer un sort : Définir — Intention, Affinité, Essence et Polarité ; Vérifier — Affinité éveillée ou improvisation limitée ; Maîtrise, cible et Amplitude ; Résoudre — Coût, portée, jet, défense et Tension. Sans Affinité éveillée : effet Initial / Mineur et +1 niveau de difficulté."
     },
     {
       "articleId": "regles-verite-v7-corruption-integrite-bascule",
@@ -96,6 +96,38 @@
       "mobileSrc": "images/rules/regles-corruption-v2-mobile.svg",
       "title": "Résister à une exposition forte",
       "alt": "Résister à une exposition forte : Vecteur mental — Volonté + Force Mentale contre 18 ; Jet manqué — Total 17 : +1 Corruption de la Source ; Dé naturel 1 — Même avec un total ≥ 18 : +2. L’Humanité fixe l’Intégrité, pas le résultat du test."
+    },
+    {
+      "articleId": "regles-verite-v7-mage-maitrise-amplitude-lancement",
+      "sectionId": "affinites-supplementaires",
+      "src": "images/rules/regles-mage-affinite-v1.svg",
+      "mobileSrc": "images/rules/regles-mage-affinite-v1-mobile.svg",
+      "title": "Affinité : peut-on lancer ?",
+      "alt": "Une Affinité non éveillée permet une improvisation en Maîtrise Initiale et Amplitude Mineure avec un niveau de difficulté en plus, par exemple 15 devient 18. Pour progresser dans cette Affinité, il faut ensuite l’éveiller par les dépenses et prérequis prévus."
+    },
+    {
+      "articleId": "regles-verite-v7-mage-maitrise-amplitude-lancement",
+      "sectionId": "difficulte-pa-et-tension-par-amplitude",
+      "src": "images/rules/regles-mage-amplitude-v1.svg",
+      "mobileSrc": "images/rules/regles-mage-amplitude-v1-mobile.svg",
+      "title": "Amplitude : niveau possédé ou utilisé ?",
+      "alt": "L’Amplitude utilisée fixe difficulté, PA et Tension. Chaque palier possédé en plus réduit la difficulté d’un niveau sans réduire les PA ni la Tension. Deux paliers d’avance rendent l’effet automatique seulement sans opposition, urgence ni difficulté réelle."
+    },
+    {
+      "articleId": "regles-verite-v7-mage-maitrise-amplitude-lancement",
+      "sectionId": "portee",
+      "src": "images/rules/regles-mage-portee-v1.svg",
+      "mobileSrc": "images/rules/regles-mage-portee-v1-mobile.svg",
+      "title": "Portée : modifier la difficulté",
+      "alt": "Endo ou contact réduit la difficulté d’un niveau ; Volonté fois cinq mètres la laisse normale ; à vue ajoute un niveau. Hors vue exige une permission spéciale. Chaque niveau au-dessus de 25 impose au moins un PA de Canalisation."
+    },
+    {
+      "articleId": "regles-verite-v7-mage-maitrise-amplitude-lancement",
+      "sectionId": "canalisation-concentration",
+      "src": "images/rules/regles-mage-canalisation-v1.svg",
+      "mobileSrc": "images/rules/regles-mage-canalisation-v1-mobile.svg",
+      "title": "Canalisation : investir du temps",
+      "alt": "Chaque PA supplémentaire investi avant le jet réduit la difficulté d’un niveau, minimum 12. Un sort Cataclysmique de base coûte 4 PA à difficulté 25 ; deux PA de Canalisation donnent 6 PA à difficulté 18. La Tension reste celle du sort libéré."
     }
   ]
 }
