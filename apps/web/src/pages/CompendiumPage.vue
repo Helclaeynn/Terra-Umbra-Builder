@@ -411,6 +411,9 @@ function searchForTag(tag: string) {
 }
 
 const selectedMedia = computed(() => primaryArticleMedia(selected.value));
+const showLargeArticleMedia = computed(() =>
+  Boolean(selectedMedia.value && ["Équipement & Objets", "Bestiaire"].includes(selected.value?.category || ""))
+);
 
 const articleToc = computed(() =>
   articleSections.value
@@ -2151,6 +2154,15 @@ onBeforeUnmount(() => {
                     <p v-if="readingNotice" class="reader-notice" role="status">{{ readingNotice }}</p>
                   </header>
 
+                  <figure v-if="showLargeArticleMedia && selectedMedia" class="wiki-featured-media">
+                    <img
+                      :src="selectedMedia.src"
+                      :alt="selectedMedia.alt || selected.title || selected.id"
+                      decoding="async"
+                    />
+                    <figcaption v-if="selectedMedia.caption">{{ selectedMedia.caption }}</figcaption>
+                  </figure>
+
                   <CompendiumHologramComparison v-if="selected.id === 'verite-v7-voile-hologramme'" />
                   <div class="reader-progress-bar">
                     <div><strong>{{ selected.title }}</strong><span v-if="currentSection">{{ articleToc.findIndex(item => item.id === currentSection.id) + 1 }} / {{ articleToc.length }} · {{ currentSection.title }}</span></div>
@@ -3053,6 +3065,31 @@ onBeforeUnmount(() => {
   margin: 0;
   border: 1px solid rgba(255,255,255,.10);
   background: rgba(255,255,255,.025);
+}
+
+.wiki-featured-media {
+  display: grid;
+  justify-items: center;
+  margin: 0 0 32px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.025);
+}
+
+.wiki-featured-media img {
+  display: block;
+  width: 100%;
+  max-height: min(72vh, 720px);
+  object-fit: contain;
+  background: rgba(0,0,0,.20);
+}
+
+.wiki-featured-media figcaption {
+  width: 100%;
+  padding: .65rem .9rem;
+  color: #91a7b1;
+  font-size: .78rem;
+  line-height: 1.5;
+  text-align: center;
 }
 
 .wiki-media img,
