@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 710" role="img" aria-labelledby="title desc">
+<title id="title">Couches de protection : retenir quoi ?</title>
+<desc id="desc">1 · Identifier le vecteur : L’attaque concerne dégâts matériels, balistiques, choc, feu ou autre type explicite. ; 2 · Armure de base : Meilleure Armure portée + meilleure Armure corporelle applicables ; pas deux de chaque. ; 3 · Réduction typée : Appliquer seulement celles qui correspondent au vecteur et sont réellement compatibles. ; 4 · Perforant X : Ignorer X points de l’Armure matérielle concernée, jamais une Défense. ; 5 · Soustraire les PV : Le reliquat après protections atteint les PV ; vérifier ensuite les seuils de blessure.. Une protection ne s’ajoute jamais au score de Défense passive ou active.</desc>
+<rect width="1060" height="710" rx="20" fill="#0c1820"/>
+<rect x="1" y="1" width="1058" height="708" rx="19" fill="none" stroke="#476775" stroke-width="2"/>
+<text x="32" y="42" font-family="system-ui,sans-serif" font-size="27" font-weight="700" fill="#eef7f7">Couches de protection : retenir quoi ?</text>
+<rect x="31" y="98" width="998" height="86" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="31" y="98" width="5" height="86" rx="2" fill="#5de0d0"/>
+<text x="50" y="132" font-family="system-ui,sans-serif" font-size="19" font-weight="700" fill="#5de0d0">1 · Identifier le vecteur</text>
+<text x="50" y="167" font-family="system-ui,sans-serif" font-size="18" font-weight="400" fill="#d1e1e3">L’attaque concerne dégâts matériels, balistiques, choc, feu ou autre type explicite.</text>
+<text x="523" y="200" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="31" y="202" width="998" height="86" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="31" y="202" width="5" height="86" rx="2" fill="#8ab9ff"/>
+<text x="50" y="236" font-family="system-ui,sans-serif" font-size="19" font-weight="700" fill="#8ab9ff">2 · Armure de base</text>
+<text x="50" y="271" font-family="system-ui,sans-serif" font-size="18" font-weight="400" fill="#d1e1e3">Meilleure Armure portée + meilleure Armure corporelle applicables ; pas deux de</text>
+<text x="50" y="294" font-family="system-ui,sans-serif" font-size="18" font-weight="400" fill="#d1e1e3">chaque.</text>
+<text x="523" y="304" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="31" y="306" width="998" height="86" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="31" y="306" width="5" height="86" rx="2" fill="#f2bd78"/>
+<text x="50" y="340" font-family="system-ui,sans-serif" font-size="19" font-weight="700" fill="#f2bd78">3 · Réduction typée</text>
+<text x="50" y="375" font-family="system-ui,sans-serif" font-size="18" font-weight="400" fill="#d1e1e3">Appliquer seulement celles qui correspondent au vecteur et sont réellement</text>
+<text x="50" y="398" font-family="system-ui,sans-serif" font-size="18" font-weight="400" fill="#d1e1e3">compatibles.</text>
+<text x="523" y="408" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="31" y="410" width="998" height="86" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="31" y="410" width="5" height="86" rx="2" fill="#8fdea7"/>
+<text x="50" y="444" font-family="system-ui,sans-serif" font-size="19" font-weight="700" fill="#8fdea7">4 · Perforant X</text>
+<text x="50" y="479" font-family="system-ui,sans-serif" font-size="18" font-weight="400" fill="#d1e1e3">Ignorer X points de l’Armure matérielle concernée, jamais une Défense.</text>
+<text x="523" y="512" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="31" y="514" width="998" height="86" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="31" y="514" width="5" height="86" rx="2" fill="#ca9bdf"/>
+<text x="50" y="548" font-family="system-ui,sans-serif" font-size="19" font-weight="700" fill="#ca9bdf">5 · Soustraire les PV</text>
+<text x="50" y="583" font-family="system-ui,sans-serif" font-size="18" font-weight="400" fill="#d1e1e3">Le reliquat après protections atteint les PV ; vérifier ensuite les seuils de</text>
+<text x="50" y="606" font-family="system-ui,sans-serif" font-size="18" font-weight="400" fill="#d1e1e3">blessure.</text>
+<text x="33" y="636" font-family="system-ui,sans-serif" font-size="18" font-weight="400" fill="#f1cfa1">Une protection ne s’ajoute jamais au score de Défense passive ou active.</text>
+</svg>

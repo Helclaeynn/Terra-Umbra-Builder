@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 977" role="img" aria-labelledby="title desc">
+<title id="title">Exposition, profondeur et Bascule</title>
+<desc id="desc">1 · Déterminer le vecteur : Physique : Vigueur + Constitution ; mental : Volonté + Force Mentale. ; 2 · Résister : Ajouter 1d10e contre 12 / 15 / 18 / 21 / 25 selon l’intensité. ; 3 · Reporter le résultat : Réussite : +0 ; échec : +1 ; échec narratif : +2 Corruption de la Source. ; 4 · Comparer à l’Intégrité : Intégrité = Force Mentale + Humanité ; atteindre ce score : Bascule immédiate. ; 5 · Tenter de tenir : Volonté + Maîtrise spirituelle + 1d10e contre 18 ; échec : Rupture.. Un succès de Bascule laisse la jauge au maximum ; une nouvelle exposition reteste.</desc>
+<rect width="540" height="977" rx="20" fill="#0c1820"/>
+<rect x="1" y="1" width="538" height="975" rx="19" fill="none" stroke="#476775" stroke-width="2"/>
+<text x="25" y="42" font-family="system-ui,sans-serif" font-size="24" font-weight="700" fill="#eef7f7">Exposition, profondeur et</text>
+<text x="25" y="72" font-family="system-ui,sans-serif" font-size="24" font-weight="700" fill="#eef7f7">Bascule</text>
+<rect x="20" y="104" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="104" width="5" height="133" rx="2" fill="#5de0d0"/>
+<text x="39" y="138" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#5de0d0">1 · Déterminer le vecteur</text>
+<text x="39" y="172" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Physique : Vigueur + Constitution ; mental</text>
+<text x="39" y="198" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">: Volonté + Force Mentale.</text>
+<text x="263" y="253" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="20" y="255" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="255" width="5" height="133" rx="2" fill="#8ab9ff"/>
+<text x="39" y="289" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#8ab9ff">2 · Résister</text>
+<text x="39" y="323" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Ajouter 1d10e contre 12 / 15 / 18 / 21 /</text>
+<text x="39" y="349" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">25 selon l’intensité.</text>
+<text x="263" y="404" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="20" y="406" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="406" width="5" height="133" rx="2" fill="#f2bd78"/>
+<text x="39" y="440" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#f2bd78">3 · Reporter le résultat</text>
+<text x="39" y="474" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Réussite : +0 ; échec : +1 ; échec</text>
+<text x="39" y="500" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">narratif : +2 Corruption de la Source.</text>
+<text x="263" y="555" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="20" y="557" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="557" width="5" height="133" rx="2" fill="#8fdea7"/>
+<text x="39" y="591" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#8fdea7">4 · Comparer à l’Intégrité</text>
+<text x="39" y="625" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Intégrité = Force Mentale + Humanité ;</text>
+<text x="39" y="651" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">atteindre ce score : Bascule immédiate.</text>
+<text x="263" y="706" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="20" y="708" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="708" width="5" height="133" rx="2" fill="#ca9bdf"/>
+<text x="39" y="742" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#ca9bdf">5 · Tenter de tenir</text>
+<text x="39" y="776" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Volonté + Maîtrise spirituelle + 1d10e</text>
+<text x="39" y="802" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">contre 18 ; échec : Rupture.</text>
+<text x="24" y="877" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#f1cfa1">Un succès de Bascule laisse la jauge au</text>
+<text x="24" y="904" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#f1cfa1">maximum ; une nouvelle exposition reteste.</text>
+</svg>

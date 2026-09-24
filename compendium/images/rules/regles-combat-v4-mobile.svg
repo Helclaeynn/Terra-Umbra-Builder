@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 977" role="img" aria-labelledby="title desc">
+<title id="title">Résoudre une attaque physique</title>
+<desc id="desc">1 · Attaque : Mêlée : Vigueur + Mêlée + 1d10e ; Pugilat : Vigueur + Pugilat + 1d10e. ; 2 · Défense possible ? : Passive : Agilité + Esquive. Active : +1d10e en Réaction pour 1 PA, sauf surprise. ; 3 · Comparer : Attaque ≤ Défense : aucun effet. Attaque &gt; Défense : marge positive. ; 4 · Dégâts : Mêlée : marge + DGT de l’arme − Armure ; Pugilat : marge + DGT 1 − Armure. ; 5 · Appliquer : Déduire les dégâts des PV ; l’Armure réduit les dégâts, jamais la Défense.. En Zone : un jet d’attaque, mais défense, marge et dégâts séparés pour chaque cible.</desc>
+<rect width="540" height="977" rx="20" fill="#0c1820"/>
+<rect x="1" y="1" width="538" height="975" rx="19" fill="none" stroke="#476775" stroke-width="2"/>
+<text x="25" y="42" font-family="system-ui,sans-serif" font-size="24" font-weight="700" fill="#eef7f7">Résoudre une attaque physique</text>
+<rect x="20" y="104" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="104" width="5" height="133" rx="2" fill="#5de0d0"/>
+<text x="39" y="138" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#5de0d0">1 · Attaque</text>
+<text x="39" y="172" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Mêlée : Vigueur + Mêlée + 1d10e ; Pugilat</text>
+<text x="39" y="198" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">: Vigueur + Pugilat + 1d10e.</text>
+<text x="263" y="253" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="20" y="255" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="255" width="5" height="133" rx="2" fill="#8ab9ff"/>
+<text x="39" y="289" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#8ab9ff">2 · Défense possible ?</text>
+<text x="39" y="323" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Passive : Agilité + Esquive. Active :</text>
+<text x="39" y="349" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">+1d10e en Réaction pour 1 PA, sauf</text>
+<text x="39" y="375" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">surprise.</text>
+<text x="263" y="404" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="20" y="406" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="406" width="5" height="133" rx="2" fill="#f2bd78"/>
+<text x="39" y="440" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#f2bd78">3 · Comparer</text>
+<text x="39" y="474" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Attaque ≤ Défense : aucun effet. Attaque &gt;</text>
+<text x="39" y="500" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Défense : marge positive.</text>
+<text x="263" y="555" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="20" y="557" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="557" width="5" height="133" rx="2" fill="#8fdea7"/>
+<text x="39" y="591" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#8fdea7">4 · Dégâts</text>
+<text x="39" y="625" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Mêlée : marge + DGT de l’arme − Armure ;</text>
+<text x="39" y="651" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Pugilat : marge + DGT 1 − Armure.</text>
+<text x="263" y="706" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="20" y="708" width="500" height="133" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="20" y="708" width="5" height="133" rx="2" fill="#ca9bdf"/>
+<text x="39" y="742" font-family="system-ui,sans-serif" font-size="20" font-weight="700" fill="#ca9bdf">5 · Appliquer</text>
+<text x="39" y="776" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">Déduire les dégâts des PV ; l’Armure</text>
+<text x="39" y="802" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#d1e1e3">réduit les dégâts, jamais la Défense.</text>
+<text x="24" y="877" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#f1cfa1">En Zone : un jet d’attaque, mais défense,</text>
+<text x="24" y="904" font-family="system-ui,sans-serif" font-size="17" font-weight="400" fill="#f1cfa1">marge et dégâts séparés pour chaque cible.</text>
+</svg>

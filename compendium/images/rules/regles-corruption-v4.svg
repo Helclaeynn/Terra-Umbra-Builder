@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 710" role="img" aria-labelledby="title desc">
+<title id="title">Exposition, profondeur et Bascule</title>
+<desc id="desc">1 · Déterminer le vecteur : Physique : Vigueur + Constitution ; mental : Volonté + Force Mentale. ; 2 · Résister : Ajouter 1d10e contre 12 / 15 / 18 / 21 / 25 selon l’intensité. ; 3 · Reporter le résultat : Réussite : +0 ; échec : +1 ; échec narratif : +2 Corruption de la Source. ; 4 · Comparer à l’Intégrité : Intégrité = Force Mentale + Humanité ; atteindre ce score : Bascule immédiate. ; 5 · Tenter de tenir : Volonté + Maîtrise spirituelle + 1d10e contre 18 ; échec : Rupture.. Un succès de Bascule laisse la jauge au maximum ; une nouvelle exposition reteste.</desc>
+<rect width="1060" height="710" rx="20" fill="#0c1820"/>
+<rect x="1" y="1" width="1058" height="708" rx="19" fill="none" stroke="#476775" stroke-width="2"/>
+<text x="32" y="42" font-family="system-ui,sans-serif" font-size="27" font-weight="700" fill="#eef7f7">Exposition, profondeur et Bascule</text>
+<rect x="31" y="98" width="998" height="86" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="31" y="98" width="5" height="86" rx="2" fill="#5de0d0"/>
+<text x="50" y="132" font-family="system-ui,sans-serif" font-size="19" font-weight="700" fill="#5de0d0">1 · Déterminer le vecteur</text>
+<text x="50" y="167" font-family="system-ui,sans-serif" font-size="18" font-weight="400" fill="#d1e1e3">Physique : Vigueur + Constitution ; mental : Volonté + Force Mentale.</text>
+<text x="523" y="200" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="31" y="202" width="998" height="86" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="31" y="202" width="5" height="86" rx="2" fill="#8ab9ff"/>
+<text x="50" y="236" font-family="system-ui,sans-serif" font-size="19" font-weight="700" fill="#8ab9ff">2 · Résister</text>
+<text x="50" y="271" font-family="system-ui,sans-serif" font-size="18" font-weight="400" fill="#d1e1e3">Ajouter 1d10e contre 12 / 15 / 18 / 21 / 25 selon l’intensité.</text>
+<text x="523" y="304" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="31" y="306" width="998" height="86" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="31" y="306" width="5" height="86" rx="2" fill="#f2bd78"/>
+<text x="50" y="340" font-family="system-ui,sans-serif" font-size="19" font-weight="700" fill="#f2bd78">3 · Reporter le résultat</text>
+<text x="50" y="375" font-family="system-ui,sans-serif" font-size="18" font-weight="400" fill="#d1e1e3">Réussite : +0 ; échec : +1 ; échec narratif : +2 Corruption de la Source.</text>
+<text x="523" y="408" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="31" y="410" width="998" height="86" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="31" y="410" width="5" height="86" rx="2" fill="#8fdea7"/>
+<text x="50" y="444" font-family="system-ui,sans-serif" font-size="19" font-weight="700" fill="#8fdea7">4 · Comparer à l’Intégrité</text>
+<text x="50" y="479" font-family="system-ui,sans-serif" font-size="18" font-weight="400" fill="#d1e1e3">Intégrité = Force Mentale + Humanité ; atteindre ce score : Bascule immédiate.</text>
+<text x="523" y="512" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#a6d6d6">↓</text>
+<rect x="31" y="514" width="998" height="86" rx="13" fill="#162a34" stroke="#49606b"/>
+<rect x="31" y="514" width="5" height="86" rx="2" fill="#ca9bdf"/>
+<text x="50" y="548" font-family="system-ui,sans-serif" font-size="19" font-weight="700" fill="#ca9bdf">5 · Tenter de tenir</text>
+<text x="50" y="583" font-family="system-ui,sans-serif" font-size="18" font-weight="400" fill="#d1e1e3">Volonté + Maîtrise spirituelle + 1d10e contre 18 ; échec : Rupture.</text>
+<text x="33" y="636" font-family="system-ui,sans-serif" font-size="18" font-weight="400" fill="#f1cfa1">Un succès de Bascule laisse la jauge au maximum ; une nouvelle exposition reteste.</text>
+</svg>
