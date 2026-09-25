@@ -4014,6 +4014,1027 @@
           "audience": "public"
         }
       ]
+    },
+    {
+      "id": "verite-v7-derriere-le-voile",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "1644e198e8d462a75d0719006209b5bcfd9825bc",
+      "sectionsRead": [
+        "la-verite-n-est-pas-un-second-monde",
+        "entrer-dans-la-verite-savoir-n-est-pas-voir",
+        "le-cas-particulier-des-chasseurs-reconnus",
+        "aucune-capitale-du-monde-cache",
+        "la-limite-la-plus-importante-le-monde-doit-rester-jouable",
+        "les-limites-de-la-connaissance-ce-que-meme-ce-livre-ne-rend-pas-banal"
+      ],
+      "references": [
+        "regles-verite-v7-voile-continuite-objets-reseaux-interfaces#wiki-section-5-hologramme-voile-semi-revelation-et-revelation",
+        "verite-v7-cycle-neant-ombremonde-histoire-cachee#wiki-section-fissures-catastrophes-et-opportunistes",
+        "regles-verite-v7-aseryn-nature-accelyr-origines#wiki-section-origines-exceptionnelles-non-proposees-normalement-aux-pj"
+      ],
+      "note": "Lecture intégrale des six sections. Profane/Éveillé/Initié sont des situations narratives et non des bonus. Reconnaissance Chasseur protège des corrections ordinaires sans vision universelle. Réalité et Vérité partagent un monde; aucune diplomatie centrale.",
+      "tagsBefore": [
+        "Vérité",
+        "Voile",
+        "Profane",
+        "Éveillé",
+        "Initié",
+        "Chasseurs",
+        "monde caché"
+      ],
+      "tagsAfter": [
+        "Vérité",
+        "Voile",
+        "Profane",
+        "Éveillé",
+        "Initié",
+        "Chasseurs",
+        "monde caché",
+        "Initiation"
+      ],
+      "linksAdded": [
+        {
+          "articleId": "verite-v7-derriere-le-voile",
+          "sectionId": "le-cas-particulier-des-chasseurs-reconnus",
+          "quote": "Cette reconnaissance ne lui accorde pas pour autant une vision surnaturelle universelle",
+          "label": "vision surnaturelle universelle",
+          "targetId": "regles-verite-v7-voile-continuite-objets-reseaux-interfaces",
+          "targetSection": "5-hologramme-voile-semi-revelation-et-revelation"
+        },
+        {
+          "articleId": "verite-v7-derriere-le-voile",
+          "sectionId": "la-limite-la-plus-importante-le-monde-doit-rester-jouable",
+          "quote": "Une fissure attire l'attention",
+          "label": "Une fissure",
+          "targetId": "verite-v7-cycle-neant-ombremonde-histoire-cachee",
+          "targetSection": "fissures-catastrophes-et-opportunistes"
+        },
+        {
+          "articleId": "verite-v7-derriere-le-voile",
+          "sectionId": "les-limites-de-la-connaissance-ce-que-meme-ce-livre-ne-rend-pas-banal",
+          "quote": "Un Aseryn peut n'avoir jamais rencontré de Paleo-Atlante",
+          "label": "Paleo-Atlante",
+          "targetId": "regles-verite-v7-aseryn-nature-accelyr-origines",
+          "targetSection": "origines-exceptionnelles-non-proposees-normalement-aux-pj"
+        }
+      ],
+      "stage": "contextual-edits-applied",
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "la-verite-n-est-pas-un-second-monde",
+          "title": "La Vérité n'est pas un second monde",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "entrer-dans-la-verite-savoir-n-est-pas-voir",
+          "title": "Entrer dans la Vérité : savoir n'est pas voir",
+          "audience": "public"
+        },
+        {
+          "index": 2,
+          "id": "le-cas-particulier-des-chasseurs-reconnus",
+          "title": "Le cas particulier des Chasseurs reconnus",
+          "audience": "public"
+        },
+        {
+          "index": 3,
+          "id": "aucune-capitale-du-monde-cache",
+          "title": "Aucune capitale du monde caché",
+          "audience": "public"
+        },
+        {
+          "index": 4,
+          "id": "la-limite-la-plus-importante-le-monde-doit-rester-jouable",
+          "title": "La limite la plus importante : le monde doit rester jouable",
+          "audience": "public"
+        },
+        {
+          "index": 5,
+          "id": "les-limites-de-la-connaissance-ce-que-meme-ce-livre-ne-rend-pas-banal",
+          "title": "Les limites de la connaissance : ce que même ce livre ne rend pas banal",
+          "audience": "public"
+        }
+      ]
+    },
+    {
+      "id": "verite-v7-cycle-neant-ombremonde-histoire-cachee",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "1644e198e8d462a75d0719006209b5bcfd9825bc",
+      "sectionsRead": [
+        "religions-mythes-et-souvenirs-deformes",
+        "l-ombremonde-le-reste-du-monde",
+        "fissures-catastrophes-et-opportunistes",
+        "science-magie-et-technologie-sous-le-voile",
+        "religions-mythes-et-souvenirs-mal-classes",
+        "le-cycle-le-neant-et-ce-que-la-mort-revele",
+        "reperes-chronologiques-especes-fantastiques",
+        "chronologie-source-extraterrestres"
+      ],
+      "references": [
+        "regles-verite-v7-daemon-nature-fonctions-divinites-facettes#wiki-section-concept-et-architecture",
+        "verite-v7-homo-superior-adrak-profils-rares#wiki-section-aidh-hologramme",
+        "regles-verite-v7-mage-maitrise-amplitude-lancement#wiki-section-principe-de-designation-et-role-des-savoirs"
+      ],
+      "note": "Lecture intégrale des huit sections, deux chronologies incluses. Dates inconnues laissées inconnues. Cycle/Néant dépendent des Natures; fissures non assimilées à un transport sûr. Les deux sections sur les mythes sont partiellement redondantes, sans suppression de matière. Ne pas assimiler sans autre vérification Ombremonde et tous les usages d’Ombre-Monde.",
+      "tagsBefore": [
+        "Vérité",
+        "Cycle",
+        "Néant",
+        "Ombremonde",
+        "Atlantide",
+        "science",
+        "magie",
+        "religions",
+        "mythes"
+      ],
+      "tagsAfter": [
+        "Vérité",
+        "Cycle",
+        "Néant",
+        "Ombremonde",
+        "Atlantide",
+        "science",
+        "magie",
+        "religions",
+        "mythes",
+        "Cosmologie",
+        "Histoire cachée"
+      ],
+      "linksAdded": [
+        {
+          "articleId": "verite-v7-cycle-neant-ombremonde-histoire-cachee",
+          "sectionId": "le-cycle-le-neant-et-ce-que-la-mort-revele",
+          "quote": "Les Daemons constituent encore un autre cas : leur âme a été choisie, retirée du Cycle et reforgée par une ancienne divinité",
+          "label": "leur âme a été choisie, retirée du Cycle et reforgée",
+          "targetId": "regles-verite-v7-daemon-nature-fonctions-divinites-facettes",
+          "targetSection": "concept-et-architecture"
+        },
+        {
+          "articleId": "verite-v7-cycle-neant-ombremonde-histoire-cachee",
+          "sectionId": "science-magie-et-technologie-sous-le-voile",
+          "quote": "œuvre à laquelle l'AIDH a participé et qu'elle continue d'aider à stabiliser",
+          "label": "l'AIDH a participé",
+          "targetId": "verite-v7-homo-superior-adrak-profils-rares",
+          "targetSection": "aidh-hologramme"
+        },
+        {
+          "articleId": "verite-v7-cycle-neant-ombremonde-histoire-cachee",
+          "sectionId": "science-magie-et-technologie-sous-le-voile",
+          "quote": "comprendre ce qu'une force devrait faire lui permet de savoir exactement ce qu'il est en train de modifier",
+          "label": "comprendre ce qu'une force devrait faire",
+          "targetId": "regles-verite-v7-mage-maitrise-amplitude-lancement",
+          "targetSection": "principe-de-designation-et-role-des-savoirs"
+        }
+      ],
+      "stage": "contextual-edits-applied",
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "religions-mythes-et-souvenirs-deformes",
+          "title": "Religions, mythes et souvenirs déformés",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "l-ombremonde-le-reste-du-monde",
+          "title": "L'Ombremonde, le reste du monde",
+          "audience": "public"
+        },
+        {
+          "index": 2,
+          "id": "fissures-catastrophes-et-opportunistes",
+          "title": "Fissures, catastrophes et opportunistes",
+          "audience": "public"
+        },
+        {
+          "index": 3,
+          "id": "science-magie-et-technologie-sous-le-voile",
+          "title": "Science, Magie et technologie sous le Voile",
+          "audience": "public"
+        },
+        {
+          "index": 4,
+          "id": "religions-mythes-et-souvenirs-mal-classes",
+          "title": "Religions, mythes et souvenirs mal classés",
+          "audience": "public"
+        },
+        {
+          "index": 5,
+          "id": "le-cycle-le-neant-et-ce-que-la-mort-revele",
+          "title": "Le Cycle, le Néant et ce que la mort révèle",
+          "audience": "public"
+        },
+        {
+          "index": 6,
+          "id": "reperes-chronologiques-especes-fantastiques",
+          "title": "Repères chronologiques des Expatriés",
+          "audience": "public"
+        },
+        {
+          "index": 7,
+          "id": "chronologie-source-extraterrestres",
+          "title": "Repères chronologiques du dossier extral",
+          "audience": "public"
+        }
+      ]
+    },
+    {
+      "id": "verite-v7-homo-superior-adrak-profils-rares",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "1644e198e8d462a75d0719006209b5bcfd9825bc",
+      "sectionsRead": [
+        "aidh-ichei",
+        "aidh-hologramme",
+        "homo-superior",
+        "adrak",
+        "nelakna",
+        "deux-profils-rares",
+        "adrak-refugies-source-extraterrestres"
+      ],
+      "references": [
+        "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak#wiki-section-homo-superior",
+        "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak#wiki-section-adrak",
+        "regles-verite-v7-equipement-proprietes-acquisition#wiki-section-aidh",
+        "regles-verite-v7-voile-continuite-objets-reseaux-interfaces#wiki-section-5-hologramme-voile-semi-revelation-et-revelation"
+      ],
+      "note": "Lecture intégrale des sept sections. Homo Superior humain; Ad’rak Extral et espèce distincte de l’Armée noire. Ichéi berceau culturel supposé, origine ancienne liée à Aèr. Nel’Akna/Tejana : identité à lier après lecture de sa fiche, non par nom seul.",
+      "tagsBefore": [
+        "Vérité",
+        "AIDH",
+        "Homo Superior",
+        "Ad’rak",
+        "Profils rares",
+        "Armée noire"
+      ],
+      "tagsAfter": [
+        "Vérité",
+        "AIDH",
+        "Homo Superior",
+        "Ad’rak",
+        "Profils rares",
+        "Armée noire",
+        "Extrals",
+        "Humains galactiques"
+      ],
+      "linksAdded": [
+        {
+          "articleId": "verite-v7-homo-superior-adrak-profils-rares",
+          "sectionId": "homo-superior",
+          "quote": "Les Homo Superior ne sont pas une espèce. Ils restent Humains",
+          "label": "Homo Superior",
+          "targetId": "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak",
+          "targetSection": "homo-superior"
+        },
+        {
+          "articleId": "verite-v7-homo-superior-adrak-profils-rares",
+          "sectionId": "adrak",
+          "quote": "Sur Terre, les profils ordinaires ou jouables sont surtout des réfugiés, dissidents, descendants de communautés libres ou anciens sujets ayant échappé à l’Armée noire",
+          "label": "profils ordinaires ou jouables",
+          "targetId": "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak",
+          "targetSection": "adrak"
+        },
+        {
+          "articleId": "verite-v7-homo-superior-adrak-profils-rares",
+          "sectionId": "aidh-hologramme",
+          "quote": "invariants, capteurs, enregistrements invariants, confinement, biphysique, anti-possession et protocoles de terrain",
+          "label": "invariants, capteurs, enregistrements invariants",
+          "targetId": "regles-verite-v7-equipement-proprietes-acquisition",
+          "targetSection": "aidh"
+        },
+        {
+          "articleId": "verite-v7-homo-superior-adrak-profils-rares",
+          "sectionId": "aidh-ichei",
+          "quote": "Magie, peuples d’Aèr et surtout Hologramme rendent la planète stratégiquement unique",
+          "label": "Hologramme",
+          "targetId": "regles-verite-v7-voile-continuite-objets-reseaux-interfaces",
+          "targetSection": "5-hologramme-voile-semi-revelation-et-revelation"
+        }
+      ],
+      "stage": "contextual-edits-applied",
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "aidh-ichei",
+          "title": "AIDH — une Humanité qui ne vient pas de la Terre",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "aidh-hologramme",
+          "title": "L’AIDH & l’Hologramme",
+          "audience": "public"
+        },
+        {
+          "index": 2,
+          "id": "homo-superior",
+          "title": "Homo Superior — une extrémité de la science humaine",
+          "audience": "public"
+        },
+        {
+          "index": 3,
+          "id": "adrak",
+          "title": "Ad’rak — les géants qui ne résument pas leur empire",
+          "audience": "public"
+        },
+        {
+          "index": 4,
+          "id": "nelakna",
+          "title": "Les Arts de Nel’Akna",
+          "audience": "public"
+        },
+        {
+          "index": 5,
+          "id": "deux-profils-rares",
+          "title": "Deux profils rares, deux statuts différents",
+          "audience": "public"
+        },
+        {
+          "index": 6,
+          "id": "adrak-refugies-source-extraterrestres",
+          "title": "Ad’raks sur Terre — réfugiés sous contrôle",
+          "audience": "public"
+        }
+      ]
+    },
+    {
+      "id": "verite-v7-delanial-pere-ombre",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "1644e198e8d462a75d0719006209b5bcfd9825bc",
+      "sectionsRead": [
+        "rumeur",
+        "classification-mj",
+        "ombremonde-mj",
+        "fleaux-focus-pere-ombre"
+      ],
+      "references": [
+        "regles-verite-v7-corruption-integrite-bascule#wiki-section-sources-concurrentes"
+      ],
+      "note": "Lecture des quatre sections publiques et MJ. Classification de Légionnaire et absence de Source Delanial réservées MJ. Phrase publique révélatrice déplacée côté MJ et titre neutralisé. Tag d’import supprimé; ne pas classer Delanial comme espèce Fléau.",
+      "tagsBefore": [
+        "Vérité",
+        "Delanial",
+        "Ombre-Monde",
+        "Père de l’Ombre",
+        "MJ",
+        "Fléaux",
+        "Focus Fléaux 2026-09"
+      ],
+      "tagsAfter": [
+        "Vérité",
+        "Delanial",
+        "Ombre-Monde",
+        "Père de l’Ombre",
+        "Cultes",
+        "Rumeurs"
+      ],
+      "linksAdded": [
+        {
+          "articleId": "verite-v7-delanial-pere-ombre",
+          "sectionId": "classification-mj",
+          "quote": "Il n’existe donc aucune Source de Corruption Delanial",
+          "label": "Source de Corruption",
+          "targetId": "regles-verite-v7-corruption-integrite-bascule",
+          "targetSection": "sources-concurrentes"
+        }
+      ],
+      "stage": "contextual-edits-applied",
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "rumeur",
+          "title": "Le Père de l’Ombre",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "classification-mj",
+          "title": "Classification MJ — le faux Septième",
+          "audience": "mj"
+        },
+        {
+          "index": 2,
+          "id": "ombremonde-mj",
+          "title": "Ombre-Monde, Anahita & Morrighan",
+          "audience": "mj"
+        },
+        {
+          "index": 3,
+          "id": "fleaux-focus-pere-ombre",
+          "title": "Le Père de l’Ombre — histoire et fonctionnement",
+          "audience": "public"
+        }
+      ]
+    },
+    {
+      "id": "bestiaire-v15-delanial-le-faux-septieme-fleau",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "1644e198e8d462a75d0719006209b5bcfd9825bc",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "references": [
+        "regles-verite-v7-corruption-integrite-bascule#wiki-section-bascule"
+      ],
+      "note": "Lecture complète de la description et du dossier MJ. Même fuite de classification dans description publique; passage déplacé côté MJ, titre/alt neutralisés, identifiant public sans révélation. Ancien identifiant reste accepté comme alias.",
+      "tagsBefore": [
+        "2.12 Dossiers majeurs de scénario",
+        "Figures hors échelle"
+      ],
+      "tagsAfter": [
+        "Vérité",
+        "Delanial",
+        "Père de l’Ombre",
+        "Figures hors échelle"
+      ],
+      "linksAdded": [
+        {
+          "articleId": "bestiaire-v15-delanial-le-faux-septieme-fleau",
+          "sectionId": "dossier-mj",
+          "quote": "cela ne fait pas de lui un « super-Fléau » et ne lui donne ni Bascule ni arbre de Dons",
+          "label": "Bascule",
+          "targetId": "regles-verite-v7-corruption-integrite-bascule",
+          "targetSection": "bascule"
+        }
+      ],
+      "stage": "contextual-edits-applied",
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ]
+    },
+    {
+      "id": "verite-v7-garous-khinae-meutes-pelages",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "1644e198e8d462a75d0719006209b5bcfd9825bc",
+      "sectionsRead": [
+        "heritage-khinae",
+        "appel-meute",
+        "formes",
+        "pelages",
+        "societe",
+        "sangs-vifs",
+        "heritage-devorant",
+        "ville-2035",
+        "meutes-familles-primes-et-meneur",
+        "besoin-de-meute-en-2035",
+        "pelages-source-identite",
+        "pelages-source-heritage",
+        "pelages-source-hierarchie",
+        "pelages-source-geographie",
+        "khinae-chasse-activite-meute",
+        "khinae-latents-partenaires-parente"
+      ],
+      "references": [
+        "verite-v7-cycle-neant-ombremonde-histoire-cachee#wiki-section-le-cycle-le-neant-et-ce-que-la-mort-revele",
+        "regles-verite-v7-garou-nature-formes-frenesie-pelages#wiki-section-mue",
+        "regles-verite-v7-garou-nature-formes-frenesie-pelages#wiki-section-frenesie",
+        "verite-v7-garous-khinae-meutes-pelages#wiki-section-pelages-source-hierarchie",
+        "verite-v7-garous-khinae-meutes-pelages#wiki-section-khinae-chasse-activite-meute"
+      ],
+      "note": "Lecture intégrale des 16 sections. Chasse = activité collective de Meute ici, sans lien automatique vers doctrine de Chasse. Familles = niveau de société garoue, jamais faction mafieuse. Mue et Frénésie renvoient aux procédures propres, sans assimilation aux augmentations. Hiérarchies et Dévoration contiennent des redites conservées; Pelage culturel différent de Sang vif.",
+      "tagsBefore": [
+        "Vérité",
+        "Garous",
+        "Khinae",
+        "Meute",
+        "Pelages",
+        "Sangs vifs",
+        "Héritage dévorant",
+        "Appel de la Meute",
+        "Multi-source",
+        "Meutes",
+        "Chasse",
+        "Latents"
+      ],
+      "tagsAfter": [
+        "Vérité",
+        "Garous",
+        "Khinae",
+        "Pelages",
+        "Sangs vifs",
+        "Héritage dévorant",
+        "Appel de la Meute",
+        "Meutes",
+        "Chasse",
+        "Latents"
+      ],
+      "linksAdded": [
+        {
+          "articleId": "verite-v7-garous-khinae-meutes-pelages",
+          "sectionId": "heritage-khinae",
+          "quote": "Les Garous sont des descendants de Khinae restés liés au Cycle",
+          "label": "liés au Cycle",
+          "targetId": "verite-v7-cycle-neant-ombremonde-histoire-cachee",
+          "targetSection": "le-cycle-le-neant-et-ce-que-la-mort-revele"
+        },
+        {
+          "articleId": "verite-v7-garous-khinae-meutes-pelages",
+          "sectionId": "formes",
+          "quote": "La Mue exige un effort réel",
+          "label": "Mue",
+          "targetId": "regles-verite-v7-garou-nature-formes-frenesie-pelages",
+          "targetSection": "mue"
+        },
+        {
+          "articleId": "verite-v7-garous-khinae-meutes-pelages",
+          "sectionId": "formes",
+          "quote": "la Frénésie ne représente pas une disparition totale de l'intelligence",
+          "label": "Frénésie",
+          "targetId": "regles-verite-v7-garou-nature-formes-frenesie-pelages",
+          "targetSection": "frenesie"
+        },
+        {
+          "articleId": "verite-v7-garous-khinae-meutes-pelages",
+          "sectionId": "societe",
+          "quote": "La société garoue commence par la Meute puis s'élargit en Familles, clans et structures de Pelage",
+          "label": "Familles, clans et structures de Pelage",
+          "targetId": "verite-v7-garous-khinae-meutes-pelages",
+          "targetSection": "pelages-source-hierarchie"
+        },
+        {
+          "articleId": "verite-v7-garous-khinae-meutes-pelages",
+          "sectionId": "besoin-de-meute-en-2035",
+          "quote": "une « Chasse » peut être une traque animale, une mission d’infiltration",
+          "label": "« Chasse »",
+          "targetId": "verite-v7-garous-khinae-meutes-pelages",
+          "targetSection": "khinae-chasse-activite-meute"
+        }
+      ],
+      "stage": "contextual-edits-applied",
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "heritage-khinae",
+          "title": "L'héritage de Khinae",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "appel-meute",
+          "title": "L'Appel de la Meute",
+          "audience": "public"
+        },
+        {
+          "index": 2,
+          "id": "formes",
+          "title": "Trois formes et un corps de guerre",
+          "audience": "public"
+        },
+        {
+          "index": 3,
+          "id": "pelages",
+          "title": "Les six Pelages",
+          "audience": "public"
+        },
+        {
+          "index": 4,
+          "id": "societe",
+          "title": "Meutes, familles et mémoire",
+          "audience": "public"
+        },
+        {
+          "index": 5,
+          "id": "sangs-vifs",
+          "title": "Pelage, Sang vif et héritages",
+          "audience": "public"
+        },
+        {
+          "index": 6,
+          "id": "heritage-devorant",
+          "title": "L'Héritage dévorant",
+          "audience": "public"
+        },
+        {
+          "index": 7,
+          "id": "ville-2035",
+          "title": "Les Garous dans la ville moderne",
+          "audience": "public"
+        },
+        {
+          "index": 8,
+          "id": "meutes-familles-primes-et-meneur",
+          "title": "Meutes, familles, Primes & Meneur",
+          "audience": "public"
+        },
+        {
+          "index": 9,
+          "id": "besoin-de-meute-en-2035",
+          "title": "Le besoin de Meute en 2035",
+          "audience": "public"
+        },
+        {
+          "index": 10,
+          "id": "pelages-source-identite",
+          "title": "Pelage, symbole et Appel de la Meute",
+          "audience": "public"
+        },
+        {
+          "index": 11,
+          "id": "pelages-source-heritage",
+          "title": "L’Héritage dévorant",
+          "audience": "public"
+        },
+        {
+          "index": 12,
+          "id": "pelages-source-hierarchie",
+          "title": "Faction, clans, familles et meutes",
+          "audience": "public"
+        },
+        {
+          "index": 13,
+          "id": "pelages-source-geographie",
+          "title": "Territoires, mixité et lignées périphériques",
+          "audience": "public"
+        },
+        {
+          "index": 14,
+          "id": "khinae-chasse-activite-meute",
+          "title": "La Chasse comme activité de Meute",
+          "audience": "public"
+        },
+        {
+          "index": 15,
+          "id": "khinae-latents-partenaires-parente",
+          "title": "Latents, partenaires et parenté de Meute",
+          "audience": "public"
+        }
+      ]
+    },
+    {
+      "id": "verite-v7-descendants-khinae",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "1644e198e8d462a75d0719006209b5bcfd9825bc",
+      "sectionsRead": [
+        "famille",
+        "eveil",
+        "sans-pelage",
+        "milieux",
+        "lignees",
+        "rarete-corruption",
+        "therianthropes-complement-intro",
+        "therianthropes-complement-canides",
+        "therianthropes-complement-felides",
+        "therianthropes-complement-oiseaux",
+        "therianthropes-complement-requins",
+        "therianthropes-complement-serpents",
+        "therianthropes-complement-autres"
+      ],
+      "references": [
+        "verite-v7-garous-khinae-meutes-pelages#wiki-section-appel-meute",
+        "verite-v7-cycle-neant-ombremonde-histoire-cachee#wiki-section-le-cycle-le-neant-et-ce-que-la-mort-revele",
+        "regles-verite-v7-khinae-moteur-lignees#wiki-section-renards",
+        "regles-verite-v7-khinae-moteur-lignees#wiki-section-requins",
+        "regles-verite-v7-khinae-moteur-lignees#wiki-section-berserkirs"
+      ],
+      "note": "Lecture intégrale des 13 sections et listes de variantes. Khinae non lupins sans Appel de Meute automatique. Renard libre rare; Requin non immunisé à Thul; culte serpent de Shaoggith différent de Corruption acquise. Les listes géographiques contiennent des marqueurs incomplets (? casoar, tirets): conservés comme incertitudes source. Berserkirs Khinae différents des Berserks d’Aèr.",
+      "tagsBefore": [
+        "Vérité",
+        "Khinae",
+        "thérianthropes",
+        "Lignées",
+        "Sangs vifs",
+        "Thérianthropes",
+        "Descendants de Khinae",
+        "Multi-source"
+      ],
+      "tagsAfter": [
+        "Vérité",
+        "Khinae",
+        "Lignées",
+        "Sangs vifs",
+        "Thérianthropes",
+        "Descendants de Khinae"
+      ],
+      "linksAdded": [
+        {
+          "articleId": "verite-v7-descendants-khinae",
+          "sectionId": "famille",
+          "quote": "Un Tigre n'éprouve pas automatiquement l'Appel de la Meute",
+          "label": "Appel de la Meute",
+          "targetId": "verite-v7-garous-khinae-meutes-pelages",
+          "targetSection": "appel-meute"
+        },
+        {
+          "articleId": "verite-v7-descendants-khinae",
+          "sectionId": "famille",
+          "quote": "Ils restent liés au Cycle",
+          "label": "Cycle",
+          "targetId": "verite-v7-cycle-neant-ombremonde-histoire-cachee",
+          "targetSection": "le-cycle-le-neant-et-ce-que-la-mort-revele"
+        },
+        {
+          "articleId": "verite-v7-descendants-khinae",
+          "sectionId": "rarete-corruption",
+          "quote": "Un Renard libre est exceptionnel parce que la majorité historique connue a cédé à V’Aagor",
+          "label": "Renard libre",
+          "targetId": "regles-verite-v7-khinae-moteur-lignees",
+          "targetSection": "renards"
+        },
+        {
+          "articleId": "verite-v7-descendants-khinae",
+          "sectionId": "rarete-corruption",
+          "quote": "Les Requins ne sont pas immunisés à Thul",
+          "label": "Requins",
+          "targetId": "regles-verite-v7-khinae-moteur-lignees",
+          "targetSection": "requins"
+        },
+        {
+          "articleId": "verite-v7-descendants-khinae",
+          "sectionId": "therianthropes-complement-autres",
+          "quote": "les berserkirs ont été les amis des ulfhednars",
+          "label": "berserkirs",
+          "targetId": "regles-verite-v7-khinae-moteur-lignees",
+          "targetSection": "berserkirs"
+        }
+      ],
+      "stage": "contextual-edits-applied",
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "famille",
+          "title": "Une famille beaucoup plus vaste",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "eveil",
+          "title": "Lignage, secret et éveil tardif",
+          "audience": "public"
+        },
+        {
+          "index": 2,
+          "id": "sans-pelage",
+          "title": "Sans Pelage et sans capitale commune",
+          "audience": "public"
+        },
+        {
+          "index": 3,
+          "id": "milieux",
+          "title": "Des instincts qui changent avec le milieu",
+          "audience": "public"
+        },
+        {
+          "index": 4,
+          "id": "lignees",
+          "title": "Lignées majeures",
+          "audience": "public"
+        },
+        {
+          "index": 5,
+          "id": "rarete-corruption",
+          "title": "Rareté et cas corrompus",
+          "audience": "public"
+        },
+        {
+          "index": 6,
+          "id": "therianthropes-complement-intro",
+          "title": "Rareté des autres thérianthropes",
+          "audience": "public"
+        },
+        {
+          "index": 7,
+          "id": "therianthropes-complement-canides",
+          "title": "Autres Canidés",
+          "audience": "public"
+        },
+        {
+          "index": 8,
+          "id": "therianthropes-complement-felides",
+          "title": "Félidés",
+          "audience": "public"
+        },
+        {
+          "index": 9,
+          "id": "therianthropes-complement-oiseaux",
+          "title": "Oiseaux ou Dinosaures",
+          "audience": "public"
+        },
+        {
+          "index": 10,
+          "id": "therianthropes-complement-requins",
+          "title": "Requins",
+          "audience": "public"
+        },
+        {
+          "index": 11,
+          "id": "therianthropes-complement-serpents",
+          "title": "Serpents",
+          "audience": "public"
+        },
+        {
+          "index": 12,
+          "id": "therianthropes-complement-autres",
+          "title": "Boudas, Berserkirs et autres lignées",
+          "audience": "public"
+        }
+      ]
+    },
+    {
+      "id": "verite-v7-vampires-civilisation-cours-sangs",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "1644e198e8d462a75d0719006209b5bcfd9825bc",
+      "sectionsRead": [
+        "branche-maudite",
+        "vivants",
+        "couches-identite",
+        "krovni",
+        "alghul",
+        "ihuito",
+        "oru",
+        "shi",
+        "torpeur",
+        "civilisation-2035",
+        "sangs-noirs",
+        "sangs-exceptionnels",
+        "cryptes-profondes-et-veilleurs",
+        "principautes-serfs-et-implantation-2035",
+        "fleaux-focus-fontaine-tenebres",
+        "fleaux-focus-sang-ivoire",
+        "cours-vampiriques-source-complete"
+      ],
+      "references": [
+        "verite-v7-cycle-neant-ombremonde-histoire-cachee#wiki-section-le-cycle-le-neant-et-ce-que-la-mort-revele",
+        "regles-verite-v7-vampire-nature-predation-cours#wiki-section-architecture",
+        "regles-verite-v7-vampire-nature-predation-cours#wiki-section-proprietes",
+        "regles-verite-v7-vampire-sangs-transformations#wiki-section-principe"
+      ],
+      "note": "Lecture intégrale des 17 sections. Vampire vivant différent de revenant; Cour, Maison et Sang noir distingués. Âge chronologique et torpeur ne donnent pas XP. Transformés, Sang-pur et Marque de Caïn non confondus. Renvois vers cultes de V’Aagor/Vhodhal et PNJ nommés différés jusqu’à lecture de leurs destinations. Mentions privées potentielles à rapprocher des dossiers PNJ avant liaison.",
+      "tagsBefore": [
+        "Vérité",
+        "Vampires",
+        "Khinae",
+        "Cours",
+        "Maisons",
+        "Sangs noirs",
+        "torpeur",
+        "Fléaux",
+        "Focus Fléaux 2026-09",
+        "Cours vampiriques",
+        "Multi-source"
+      ],
+      "tagsAfter": [
+        "Vérité",
+        "Vampires",
+        "Khinae",
+        "Cours",
+        "Maisons",
+        "Sangs noirs",
+        "torpeur",
+        "Fléaux",
+        "Cours vampiriques"
+      ],
+      "linksAdded": [
+        {
+          "articleId": "verite-v7-vampires-civilisation-cours-sangs",
+          "sectionId": "branche-maudite",
+          "quote": "la vraie mort du Vampire conduit son âme au Néant",
+          "label": "Néant",
+          "targetId": "verite-v7-cycle-neant-ombremonde-histoire-cachee",
+          "targetSection": "le-cycle-le-neant-et-ce-que-la-mort-revele"
+        },
+        {
+          "articleId": "verite-v7-vampires-civilisation-cours-sangs",
+          "sectionId": "couches-identite",
+          "quote": "La société vampirique superpose trois couches qu'il ne faut jamais confondre",
+          "label": "trois couches qu'il ne faut jamais confondre",
+          "targetId": "regles-verite-v7-vampire-nature-predation-cours",
+          "targetSection": "architecture"
+        },
+        {
+          "articleId": "verite-v7-vampires-civilisation-cours-sangs",
+          "sectionId": "vivants",
+          "quote": "Sa physiologie est maudite et capable de ralentir ses fonctions jusqu'à paraître cliniquement morte",
+          "label": "ralentir ses fonctions jusqu'à paraître cliniquement morte",
+          "targetId": "regles-verite-v7-vampire-nature-predation-cours",
+          "targetSection": "proprietes"
+        },
+        {
+          "articleId": "verite-v7-vampires-civilisation-cours-sangs",
+          "sectionId": "sangs-noirs",
+          "quote": "Le Sang Masqué constitue une exception de conception importante",
+          "label": "Sang Masqué",
+          "targetId": "regles-verite-v7-vampire-sangs-transformations",
+          "targetSection": "principe"
+        }
+      ],
+      "stage": "contextual-edits-applied",
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "branche-maudite",
+          "title": "Une branche maudite de Khinae",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "vivants",
+          "title": "Des vivants, pas des cadavres",
+          "audience": "public"
+        },
+        {
+          "index": 2,
+          "id": "couches-identite",
+          "title": "Cour, Maison et Sang noir",
+          "audience": "public"
+        },
+        {
+          "index": 3,
+          "id": "krovni",
+          "title": "Krovni Rytsari — la Couronne de Sang",
+          "audience": "public"
+        },
+        {
+          "index": 4,
+          "id": "alghul",
+          "title": "Alghul Almalakiu — l'Assemblée des Goules",
+          "audience": "public"
+        },
+        {
+          "index": 5,
+          "id": "ihuito",
+          "title": "Ihuito Meztzi — la Cour du Sang",
+          "audience": "public"
+        },
+        {
+          "index": 6,
+          "id": "oru",
+          "title": "Oru Ayeraye — la Cour des Ténèbres",
+          "audience": "public"
+        },
+        {
+          "index": 7,
+          "id": "shi",
+          "title": "Shi Hun Zhe — la Cour des Anciens",
+          "audience": "public"
+        },
+        {
+          "index": 8,
+          "id": "torpeur",
+          "title": "Torpeur et temps perdu",
+          "audience": "public"
+        },
+        {
+          "index": 9,
+          "id": "civilisation-2035",
+          "title": "Une civilisation de prédateurs en 2035",
+          "audience": "public"
+        },
+        {
+          "index": 10,
+          "id": "sangs-noirs",
+          "title": "Les douze Sangs noirs",
+          "audience": "public"
+        },
+        {
+          "index": 11,
+          "id": "sangs-exceptionnels",
+          "title": "Lignées rares et transformations exceptionnelles",
+          "audience": "public"
+        },
+        {
+          "index": 12,
+          "id": "cryptes-profondes-et-veilleurs",
+          "title": "Cryptes profondes & Veilleurs",
+          "audience": "public"
+        },
+        {
+          "index": 13,
+          "id": "principautes-serfs-et-implantation-2035",
+          "title": "Principautés, serfs & implantation en 2035",
+          "audience": "public"
+        },
+        {
+          "index": 14,
+          "id": "fleaux-focus-fontaine-tenebres",
+          "title": "La Fontaine des Ténèbres et l’héritage oshirique",
+          "audience": "public"
+        },
+        {
+          "index": 15,
+          "id": "fleaux-focus-sang-ivoire",
+          "title": "Le Sang d’Ivoire",
+          "audience": "public"
+        },
+        {
+          "index": 16,
+          "id": "cours-vampiriques-source-complete",
+          "title": "Origines, transformation et naissance des Cours",
+          "audience": "public"
+        }
+      ]
     }
   ],
   "coverage": {
@@ -4023,7 +5044,10 @@
     "rulesRead": 65,
     "rulesTotal": 65,
     "globalReviewComplete": false,
-    "note": "A read entry is not a completed taxonomy pass. Earlier entries still contain pending decisions. Talent transclusion markers were read as references; generated talent pages require their own review."
+    "note": "A read entry is not a completed taxonomy pass. Earlier entries still contain pending decisions. Talent transclusion markers were read as references; generated talent pages require their own review.",
+    "pagesRead": 73,
+    "lorePagesRead": 7,
+    "bestiaryPagesRead": 1
   },
   "openFindings": [
     {

@@ -1,3 +1,4 @@
+import { applyReviewedLoreTaxonomy } from "./compendium-reviewed-lore-taxonomy.js";
 import { applyReviewedRuleTaxonomy, repairReviewedAserynOverview } from "./compendium-reviewed-rule-taxonomy.js";
 import {registerCanonicalNpcGenerator} from './canonical-npc-generator.js';
 import { createHash, randomBytes } from "node:crypto";
@@ -409,7 +410,8 @@ const PUBLIC_PNJ_TAGS = new Set([
 // Opaque public slugs for protected civilian identities. The source IDs stay
 // stable for editorial overrides and existing references; public indexes use
 // these slugs, while article lookups continue to accept older links.
-const PROTECTED_PNJ_PUBLIC_IDS: Record<string, string> = {
+const PROTECTED_ARTICLE_PUBLIC_IDS: Record<string, string> = {
+  "bestiaire-v15-delanial-le-faux-septieme-fleau": "bestiaire-v15-delanial-pere-de-l-ombre",
   "pnj-loges-mages-mike-michabou-28": "pnj-loges-mages-mike-28",
   "personnages-verite-fantastiques-tharlal-rark": "personnages-verite-fantastiques-thor",
   "personnages-verite-especes-ascanius": "personnages-verite-especes-nathan-chappelle",
@@ -420,8 +422,8 @@ const PROTECTED_PNJ_PUBLIC_IDS: Record<string, string> = {
   "pnj-fleaux-dagon": "pnj-fleaux-aberration-z-19",
   "pnj-fleaux-telipinu": "pnj-fleaux-aberration-z-75"
 };
-const PROTECTED_PNJ_SOURCE_IDS = Object.fromEntries(
-  Object.entries(PROTECTED_PNJ_PUBLIC_IDS).map(([source, publicId]) => [publicId, source])
+const PROTECTED_ARTICLE_SOURCE_IDS = Object.fromEntries(
+  Object.entries(PROTECTED_ARTICLE_PUBLIC_IDS).map(([source, publicId]) => [publicId, source])
 );
 const RELIGION_ARCHIVE_ID_REMAP: Record<string, string> = {
   "pnj-059-bhima-shiravadakar": "pnj-religions-bhima-shiravadakar",
@@ -563,7 +565,7 @@ function articleForAudience(article: Article, includeMj: boolean): Article {
     }
   }
   else delete result.__searchText;
-  if (!includeMj && PROTECTED_PNJ_PUBLIC_IDS[article.id]) result.id = PROTECTED_PNJ_PUBLIC_IDS[article.id];
+  if (!includeMj && PROTECTED_ARTICLE_PUBLIC_IDS[article.id]) result.id = PROTECTED_ARTICLE_PUBLIC_IDS[article.id];
   return result;
 }
 
@@ -3791,6 +3793,7 @@ async function loadCorpus(): Promise<Corpus> {
 
   applyReviewedRuleTaxonomy(byId);
   repairReviewedAserynOverview(byId);
+  applyReviewedLoreTaxonomy(byId);
 
   const articles = [...byId.values()].sort(compareArticles);
   const publicArticles = articles.filter((article) => !isMjOnlyArticle(article)).map((article) => { const publicArticle=articleForAudience(article,false); publicArticle.__searchText=norm(flattenText(publicArticle)); return publicArticle; });
@@ -4112,8 +4115,8 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const includeMj = canReadMj(user?.role);
     const canonicalId = MERGED_PNJ_ALIAS_IDS[id] ?? id;
     const article = includeMj
-      ? corpus.byId.get(PROTECTED_PNJ_SOURCE_IDS[canonicalId] ?? canonicalId)
-      : corpus.publicById.get(PROTECTED_PNJ_PUBLIC_IDS[canonicalId] ?? canonicalId);
+      ? corpus.byId.get(PROTECTED_ARTICLE_SOURCE_IDS[canonicalId] ?? canonicalId)
+      : corpus.publicById.get(PROTECTED_ARTICLE_PUBLIC_IDS[canonicalId] ?? canonicalId);
     if (!article) return reply.code(404).send({ error: "compendium_article_not_found" });
 
     const sectionId = String(request.query.section ?? "").trim();
@@ -4878,8 +4881,8 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const includeMj = canReadMj(user?.role);
     const canonicalId = MERGED_PNJ_ALIAS_IDS[id] ?? id;
     const article = includeMj
-      ? corpus.byId.get(PROTECTED_PNJ_SOURCE_IDS[canonicalId] ?? canonicalId)
-      : corpus.publicById.get(PROTECTED_PNJ_PUBLIC_IDS[canonicalId] ?? canonicalId);
+      ? corpus.byId.get(PROTECTED_ARTICLE_SOURCE_IDS[canonicalId] ?? canonicalId)
+      : corpus.publicById.get(PROTECTED_ARTICLE_PUBLIC_IDS[canonicalId] ?? canonicalId);
     if (!article) {
       return reply.code(404).send({ error: "compendium_article_not_found" });
     }

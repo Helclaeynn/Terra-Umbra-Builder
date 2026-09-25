@@ -609,7 +609,11 @@ export function applyReviewedRuleTaxonomy(byId: Map<string, Article>): void {
     const article = byId.get(entry.articleId);
     if (article && JSON.stringify(article.tags) === JSON.stringify(entry.previousTags)) article.tags = [...entry.tags];
   }
-  for (const entry of REVIEWED_RULE_LINKS) {
+  applyContextualLinks(byId, REVIEWED_RULE_LINKS);
+}
+
+export function applyContextualLinks(byId: Map<string, Article>, entries: typeof REVIEWED_RULE_LINKS): void {
+  for (const entry of entries) {
     const article = byId.get(entry.articleId);
     const blocks = (article?.sections ?? [])
       .filter((section: { id?: string }) => section.id === entry.sectionId)
