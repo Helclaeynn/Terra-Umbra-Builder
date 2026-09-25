@@ -309,11 +309,7 @@ function ruleTalentById(id:string){
   return null;
 }
 
-const realitySearch=ref(''),realityFamily=ref(''),truthFamily=ref('');
-const searchableRealityGroups=computed(()=>{
-  const q=truthNorm(realitySearch.value);
-  return realityTalentGroups.value.filter(group=>group.label===realityFamily.value||!realityFamily.value&&Boolean(q)).map(group=>({...group,items:sortedNames(group.items).filter(talent=>!q||truthNorm(`${talent.name} ${talent.effect} ${props.talentLore?.[talent.id]??''}`).includes(q))})).filter(group=>group.items.length);
-});
+const truthFamily=ref('');
 const learnedRealityIds=computed(()=>[...state.value.realityTalents].sort((a,b)=>compareLabels(ruleTalentById(a)?.name??a,ruleTalentById(b)?.name??b)));
 const learnedTruthIds=computed(()=>[...state.value.truthTalents].sort((a,b)=>compareLabels(truthById.value.get(a)?.name??a,truthById.value.get(b)?.name??b)));
 const truthCandidates=computed(()=>{
@@ -633,28 +629,21 @@ function sellCampaignItem(){
           <button class="ghost danger compact" type="button" @click="removeRealityTalent(id)">Retirer</button>
         </div>
       </div>
-      <label class="truth-search">Catégorie de Talents de Réalité<select v-model="realityFamily"><option value="">— Choisir une catégorie —</option><option v-for="group in realityTalentGroups" :key="group.label" :value="group.label">{{ group.label }} · {{ group.items.length }}</option></select></label><label class="truth-search">Rechercher un Talent de Réalité<input v-model="realitySearch" type="search" placeholder="Nom, effet, lore…" /></label>
-      <p class="catalog-sort-hint">Par famille, puis par ordre alphabétique.</p>
-      <p v-if="!searchableRealityGroups.length" class="rule-note">{{ !realityFamily&&!realitySearch?'Choisis une catégorie pour voir ses Talents illustrés, ou cherche un Talent.':'Aucun Talent ne correspond à cette recherche.' }}</p>
-      <section v-for="group in searchableRealityGroups" :key="group.label" class="talent-group">
-        <div class="subsection-title"><div><h3>{{ group.label }}</h3><p>{{ group.help }}</p></div><span class="schema-badge">{{ group.items.length }}</span></div>
-        <div class="talent-list">
-          <article v-for="talent in group.items" :key="talent.id" :class="{locked:!realityTalentAllowed(talent).ok}">
-            <details class="talent-disclosure"><summary class="card-head">
-              <BuilderCatalogImage :article-id="talent.compendiumId" :name="talent.name" category="Règles" :image-src="`/images/talents/${talent.category}/${encodeURIComponent(talent.id)}.webp`" />
-              <div class="progress-card-title">
-                <strong>{{ talent.name }}</strong>
-              </div>
-              <span>10 XP</span>
-            </summary>
-            <details v-if="talentLore?.[talent.id]" class="talent-lore"><summary>Contexte et lore</summary><p>{{ talentLore[talent.id] }}</p></details>
+      <p class="catalog-sort-hint">Talents illustrés par famille, classés par ordre alphabétique.</p>
+      <p v-if="!realityTalentGroups.length" class="rule-note">Tous les Talents accessibles ont déjà été acquis.</p>
+      <details v-for="group in realityTalentGroups" :key="group.label" class="talent-group reality-talent-family" :open="group.label==='Talents communs'">
+        <summary class="reality-family-summary"><span><strong>{{ group.label }}</strong><small>{{ group.help }}</small></span><span class="schema-badge">{{ group.items.length }}</span></summary>
+        <div class="reality-talent-grid">
+          <article v-for="talent in sortedNames(group.items)" :key="talent.id" class="reality-talent-card" :class="{locked:!realityTalentAllowed(talent).ok}">
+            <BuilderCatalogImage :article-id="talent.compendiumId" :name="talent.name" category="Règles" :image-src="`/images/talents/${talent.category}/${encodeURIComponent(talent.id)}.webp`" />
+            <strong>{{ talent.name }}</strong>
             <p>{{ talent.effect || "—" }}</p>
+            <details v-if="talentLore?.[talent.id]" class="talent-lore"><summary>Contexte et lore</summary><p>{{ talentLore[talent.id] }}</p></details>
             <small v-if="!realityTalentAllowed(talent).ok">{{ realityTalentAllowed(talent).reason }}</small>
             <button class="primary compact" type="button" :disabled="!realityTalentAllowed(talent).ok||xpRemainingValue<10" @click="buyRealityTalent(talent)">Apprendre · 10 XP</button>
-          </details>
           </article>
         </div>
-      </section>
+      </details>
     </details>
 
     <details class="progress-panel" :open="state.truthTalents.length>0">
@@ -909,4 +898,20 @@ label{font-size:14px;line-height:1.5}
 .talent-disclosure>button{margin:0 16px 16px;min-height:44px}
 .talent-disclosure .progress-card-title{flex:1;display:grid;gap:4px}
 .talent-disclosure .card-head :deep(.catalog-art){width:100px;min-width:100px;height:72px}
+.reality-talent-family{margin-top:16px;border:1px solid #344b63;border-radius:8px;padding:0 14px 14px;background:#0c192a}
+.reality-family-summary{display:flex;align-items:center;gap:16px;min-height:64px;cursor:pointer;list-style:none;user-select:none}
+.reality-family-summary::-webkit-details-marker{display:none}
+.reality-family-summary>span:first-child{display:grid;gap:4px;flex:1;min-width:0}
+.reality-family-summary strong{color:#edf4ff;font-size:16px}
+.reality-family-summary small{color:#a7bdcf;font-size:13px;line-height:1.45}
+.reality-talent-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;padding-top:12px;border-top:1px solid #344b63}
+.reality-talent-card{box-sizing:border-box;flex:0 1 calc((100% - 20px)/3);min-width:0;display:grid;align-content:start;gap:10px;padding:12px;border:1px solid #36536b;border-radius:8px;background:#101e30}
+.reality-talent-card :deep(.catalog-art){height:132px}
+.reality-talent-card>strong{color:#edf4ff;font-size:15px;line-height:1.4}
+.reality-talent-card>p{margin:0;color:#b3c5d9;font-size:13px;line-height:1.5}
+.reality-talent-card>small{color:#f0bdc0;font-size:12px;line-height:1.45}
+.reality-talent-card>button{align-self:end;min-height:44px;margin-top:auto}
+.reality-talent-card.locked{border-style:dashed}
+@media(max-width:850px){.reality-talent-card{flex-basis:calc((100% - 10px)/2)}}
+@media(max-width:550px){.reality-talent-card{flex-basis:100%}}
 </style>
