@@ -65,7 +65,7 @@ function updateChoice(event:Event){
 
 <template>
   <section class="talent-selector">
-    <div v-for="group in available" :key="group.label" class="talent-group"><h3 v-if="available.length > 1">{{ group.label }}</h3><div class="talent-card-grid"><button v-for="talent in sortedNames(group.items)" :key="talent.id" type="button" class="talent-choice-card" :class="{chosen:talent.id===modelValue}" :aria-pressed="talent.id===modelValue" @click="emit('update:modelValue',talent.id)"><strong>{{ talent.name }}</strong><small>{{ talent.effect||talent.description||'Consulter la fiche pour les détails.' }}</small><span>{{ talent.id===modelValue?'✓ Sélectionné':'Choisir ce talent' }}</span></button></div></div>
+    <div v-for="group in available" :key="group.label" class="talent-group"><h3 v-if="available.length > 1">{{ group.label }}</h3><div class="talent-card-grid"><button v-for="talent in sortedNames(group.items)" :key="talent.id" type="button" class="talent-choice-card" :class="{chosen:talent.id===modelValue}" :aria-pressed="talent.id===modelValue" @click="emit('update:modelValue',talent.id)"><img v-if="talent.category==='common'" class="talent-art" :src="`/images/talents/common/${encodeURIComponent(talent.id)}.webp`" :alt="`Illustration du talent ${talent.name}`" loading="lazy" /><strong>{{ talent.name }}</strong><small>{{ talent.effect||talent.description||'Consulter la fiche pour les détails.' }}</small><span>{{ talent.id===modelValue?'✓ Sélectionné':'Choisir ce talent' }}</span></button></div></div>
     <p v-if="!available.length" class="catalog-guidance">{{ placeholder }}</p>
 
     <template v-if="selected">
@@ -104,6 +104,7 @@ function updateChoice(event:Event){
 <style scoped>
 .talent-selector{display:grid;gap:14px;margin:0 0 24px;max-width:none;color:#edf4ff;font-family:Inter,"Segoe UI",sans-serif}
 .talent-card-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}.talent-choice-card{box-sizing:border-box;flex:0 1 calc((100% - 16px)/3);min-width:0;display:grid;align-content:start;gap:5px;min-height:76px;padding:12px 14px;text-align:left;border:1px solid #36536b;border-radius:8px;background:#101e30;color:#edf4ff;cursor:pointer;font:inherit}.talent-choice-card.chosen{border-color:#77e3da;background:#16343e}.talent-choice-card small{color:#b3c5d9;line-height:1.5}.talent-choice-card span{color:#77e3da;font-size:12px}.catalog-guidance{color:#b3c5d9;margin:0}
+.talent-art{display:block;width:100%;height:132px;object-fit:contain;object-position:center;background:#0b1726;border-radius:4px;margin-bottom:5px}.talent-choice-card:focus-visible{outline:2px solid #77e3da;outline-offset:2px}
 .talent-group h3{font-size:14px;color:#b9d7e4}@media(max-width:850px){.talent-choice-card{flex-basis:calc((100% - 8px)/2)}}@media(max-width:550px){.talent-choice-card{flex-basis:100%}}.talent-selector>label,.talent-choice label{display:grid;gap:8px;color:#c3d2e4;font-size:14px;line-height:1.5}
 .talent-select-shell{min-width:0}
 .talent-select-shell select,.talent-choice :is(select,input){width:100%;min-width:0;min-height:44px;border-radius:6px;font:inherit}
