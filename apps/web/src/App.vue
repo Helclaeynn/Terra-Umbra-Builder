@@ -61,6 +61,8 @@ const health = ref("…");
 const setupRequired = ref(false);
 const user = ref<User | null>(null);
 const adminUsers = ref<User[]>([]);
+const adminQuery=ref('');
+const filteredAdminUsers=computed(()=>{const q=adminQuery.value.trim().toLocaleLowerCase('fr');return q?adminUsers.value.filter(account=>`${account.displayName} ${account.email} ${roleLabels[account.role]}`.toLocaleLowerCase('fr').includes(q)):adminUsers.value;});
 const auditEvents = ref<AuditEvent[]>([]);
 const busy = ref(false);
 const message = ref("");
@@ -778,21 +780,15 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
           </RouterLink>
         </section>
 
-        <AccountCampaigns :key="user.id" :user-id="user.id" />
+        <details class="dashboard-collapse" open><summary>Mes campagnes et invitations</summary><AccountCampaigns :key="user.id" :user-id="user.id" /></details>
 
-        <AccountLastReading :key="`${user.id}:${user.role}`" :user-id="user.id" />
+        <details class="dashboard-collapse"><summary>Reprendre ma dernière lecture</summary><AccountLastReading :key="`${user.id}:${user.role}`" :user-id="user.id" /></details>
 
         <section class="account-grid" aria-label="Personnages et préférences">
           <CharactersPanel :key="user.id" />
-          <SharedCharacterSheets v-if="['gm','editor','admin'].includes(user.role)" :key="`${user.id}:${user.role}`" />
+          <details v-if="['gm','editor','admin'].includes(user.role)" class="dashboard-collapse"><summary>Fiches partagées avec moi</summary><SharedCharacterSheets :key="`${user.id}:${user.role}`" /></details>
 
-          <article class="panel account-panel">
-            <div class="section-heading">
-              <div>
-                <p class="eyebrow">MON COMPTE</p>
-                <h2>Profil et sécurité</h2>
-              </div>
-            </div>
+          <details class="panel account-panel dashboard-collapse"><summary>Profil et sécurité</summary>
 
             <div class="account-settings-grid">
               <form :aria-busy="busy" @submit.prevent="saveProfile">
@@ -874,11 +870,11 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
                 </form>
               </template>
             </section>
-          </article>
+          </details>
         </section>
 
         <section v-if="isAdmin" class="admin-section">
-          <section id="gm-requests" class="panel gm-access-panel" aria-labelledby="gm-requests-title" :aria-busy="gmBusy || gmLoading">
+          <details id="gm-requests" class="panel gm-access-panel dashboard-collapse" :open="gmRequests.length>0" aria-labelledby="gm-requests-summary" :aria-busy="gmBusy || gmLoading"><summary id="gm-requests-summary">Demandes d’accès MJ · {{ gmRequests.length }} en attente</summary>
             <div class="section-heading">
               <div><p class="eyebrow">AUTORISATIONS</p><h2 id="gm-requests-title">Demandes d’accès MJ <span v-if="gmLoaded" class="role-badge">{{ gmRequests.length }}</span></h2></div>
               <button class="ghost compact" type="button" :disabled="gmBusy || gmLoading" @click="loadAdmin">Actualiser les demandes</button>
@@ -901,8 +897,8 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
                 <button class="ghost" type="button" :disabled="gmBusy || gmLoading" :aria-label="`Refuser la demande MJ de ${item.displayName}`" @click="decideGmRequest(item, 'rejected')">Refuser</button>
               </div>
             </article>
-          </section>
-          <div class="section-heading">
+          </details>
+          <details class="admin-management dashboard-collapse"><summary>Gestion des comptes · {{ adminUsers.length }} comptes</summary><div class="section-heading">
             <div>
               <p class="eyebrow">ADMINISTRATION</p>
               <h2>Gestion des comptes</h2>
@@ -918,6 +914,7 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
           </div>
 
           <p id="account-table-help" class="muted admin-table-help">Les rôles et accès se gèrent ici. Les rôles MJ, Éditeur et Administrateur ouvrent l’accès aux secrets de l’univers et aux outils MJ. La suppression d’un compte demande une confirmation.</p>
+          <label class="admin-filter">Rechercher un compte<input v-model="adminQuery" type="search" placeholder="Nom, e-mail ou rôle…" /></label><p v-if="adminQuery" class="muted">{{ filteredAdminUsers.length }} compte(s) affiché(s) sur {{ adminUsers.length }}.</p>
           <div class="panel table-wrap" role="region" aria-label="Comptes utilisateurs" aria-describedby="account-table-help" tabindex="0">
             <table>
               <caption class="visually-hidden">Comptes, rôles et accès des utilisateurs</caption>
@@ -931,7 +928,7 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="account in adminUsers" :key="account.id">
+                <tr v-for="account in filteredAdminUsers" :key="account.id">
                   <td>
                     <strong>{{ account.displayName }}</strong>
                     <span>{{ account.email }}</span>
@@ -983,8 +980,9 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
               </tbody>
             </table>
           </div>
+          </details>
 
-          <div class="section-heading audit-heading">
+          <details class="dashboard-collapse"><summary>Journal administrateur · {{ auditEvents.length }} événements</summary><div class="section-heading audit-heading">
             <div>
               <p class="eyebrow">TRAÇABILITÉ</p>
               <h2>Journal administrateur</h2>
@@ -1004,6 +1002,7 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
               <small>{{ formatDate(event.createdAt) }}</small>
             </article>
           </div>
+          </details>
         </section>
       </template>
 
@@ -1012,6 +1011,8 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
 </template>
 
 <style scoped>
+.admin-filter{display:grid;gap:6px;max-width:500px;color:#b8cadd;font-size:13px}.admin-filter input{box-sizing:border-box;width:100%;min-height:44px;padding:10px;border:1px solid #405875;border-radius:6px;background:#08131f;color:#edf4ff;font:inherit}.admin-filter input:focus-visible{outline:2px solid #a3eaff;outline-offset:3px}
+.dashboard-collapse{min-width:0;margin:16px 0}.dashboard-collapse>summary{cursor:pointer;min-height:44px;padding:10px 14px;list-style:none;border:1px solid #36536b;border-radius:6px;background:#101f2f;color:#eaf3ff;font:600 16px/1.5 Inter,"Segoe UI",sans-serif}.dashboard-collapse>summary::-webkit-details-marker{display:none}.dashboard-collapse>summary:after{content:'⌄';float:right;color:#64def5}.dashboard-collapse[open]>summary:after{transform:rotate(180deg)}.dashboard-collapse>summary:focus-visible{outline:2px solid #a3eaff;outline-offset:3px}.dashboard-collapse.panel>summary{margin-bottom:20px}
 .account-shell {
   color: #e8f0ff;
   background: #070e18;

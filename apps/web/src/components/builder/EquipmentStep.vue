@@ -2,6 +2,7 @@
 import { computed, ref } from "vue";
 import { cloneJson } from "../../lib/json";
 import BuilderWikiLink from "./BuilderWikiLink.vue";
+import BuilderCatalogImage from "./BuilderCatalogImage.vue";
 import {
   augmentationAccess,
   augmentationBaseKey,
@@ -210,10 +211,12 @@ const equipmentCategories=computed(()=>[...new Set(
   props.rules.equipment
     .filter(item=>item.recurring!=="monthly"&&item.recurring!=="annual")
     .map(item=>item.category)
-)].sort((a,b)=>a.localeCompare(b,"fr")));
+)].sort((a,b)=>catalogRank(a)-catalogRank(b)||a.localeCompare(b,"fr")));
 const augmentationCategories=computed(()=>[...new Set(
   props.rules.augmentations.filter(visibleAugmentation).map(item=>item.category)
-)].sort((a,b)=>a.localeCompare(b,"fr")));
+)].sort((a,b)=>catalogRank(a)-catalogRank(b)||a.localeCompare(b,"fr")));
+
+function catalogRank(label:string){const text=label.toLocaleLowerCase('fr');return /arme|pistolet|fusil|munition|grenade/.test(text)?1:/armure|protection/.test(text)?2:/neuro|holo|réseau/.test(text)?3:/augment|cyber|bio/.test(text)?4:/véhicule|transport|logement/.test(text)?5:/service|quotidien/.test(text)?6:7;}
 
 const recurringGroups=computed(()=>{
   const groups=new Map<string,RealityItem[]>();
@@ -235,6 +238,7 @@ function visibleAugmentation(item:RealityItem){
 const filteredEquipment=computed(()=>{
   const q=norm(equipmentQuery.value.trim());
   return props.rules.equipment.filter(item=>{
+    if(!equipmentCategory.value&&!q)return false;
     if(item.recurring==="monthly"||item.recurring==="annual")return false;
     if(equipmentCategory.value&&item.category!==equipmentCategory.value)return false;
     return !q||norm(`${item.name} ${item.category} ${item.effect} ${item.lore}`).includes(q);
@@ -244,6 +248,7 @@ const augmentationGroups=computed(()=>{
   const q=norm(augmentationQuery.value.trim());
   const map=new Map<string,RealityItem[]>();
   for(const item of props.rules.augmentations){
+    if(!augmentationCategory.value&&!q)continue;
     if(!visibleAugmentation(item))continue;
     if(augmentationCategory.value&&item.category!==augmentationCategory.value)continue;
     if(q&&!norm(`${item.name} ${item.category} ${item.effect} ${item.lore}`).includes(q))continue;
@@ -767,7 +772,7 @@ function setCorporateSupportItem(itemId:string){
 
           <div class="catalog-count" role="status">{{ augmentationGroups.length }} augmentation(s) correspondante(s)</div>
           <div v-if="!augmentationGroups.length" class="empty-line">
-            Aucune augmentation ne correspond à ces critères et aux accès de votre personnage.
+            {{ !augmentationCategory&&!augmentationQuery ? 'Choisis une famille pour voir les augmentations illustrées, ou saisis une recherche.' : 'Aucune augmentation ne correspond à ces critères et aux accès de votre personnage.' }}
             <button v-if="augmentationQuery || augmentationCategory" class="ghost compact" type="button" @click="augmentationQuery=''; augmentationCategory=''">Effacer les filtres</button>
           </div>
           <div class="catalog-category-stack">
@@ -778,6 +783,7 @@ function setCorporateSupportItem(itemId:string){
               </h4>
               <div class="catalog-grid">
                 <article v-for="group in family.items" :key="group.key" class="catalog-card">
+                  <BuilderCatalogImage :article-id="selectedVariant(group).compendiumId" :name="selectedVariant(group).name" category="Équipement & Objets" />
                   <div class="catalog-head">
                     <div>
                       <strong><BuilderWikiLink
@@ -881,7 +887,7 @@ function setCorporateSupportItem(itemId:string){
 
           <div class="catalog-count" role="status">{{ filteredEquipment.length }} entrée(s) correspondante(s)</div>
           <div v-if="!filteredEquipment.length" class="empty-line">
-            Aucun équipement ne correspond à ces critères.
+            {{ !equipmentCategory&&!equipmentQuery ? 'Choisis une famille dans la liste pour voir ses cartes illustrées, ou saisis une recherche.' : 'Aucun équipement ne correspond à ces critères.' }}
             <button v-if="equipmentQuery || equipmentCategory" class="ghost compact" type="button" @click="equipmentQuery=''; equipmentCategory=''">Effacer les filtres</button>
           </div>
           <div class="catalog-category-stack">
@@ -892,6 +898,7 @@ function setCorporateSupportItem(itemId:string){
               </h4>
               <div class="catalog-grid">
                 <article v-for="item in group.items" :key="item.id" class="catalog-card">
+                  <BuilderCatalogImage :article-id="item.compendiumId" :name="item.name" category="Équipement & Objets" />
                   <div class="catalog-head">
                     <div><strong><BuilderWikiLink
                         :label="item.name"

@@ -25,6 +25,19 @@ const TACTICS:Record<string,string[]>={
  civil:['Cherche à se protéger ou à fuir.','Alerte les personnes à proximité.'],combattant:['Cherche une ouverture avant de frapper.','Protège un allié proche.'],tireur:['Cherche un couvert avant de tirer.','Change d’angle après un tir.'],drone:['Suit son protocole tant qu’il reçoit des ordres.','Cible la menace la plus proche.'],
  predateur:['Isole une cible avant de l’attaquer.','Se replie si la chasse tourne mal.'],spectre:['Apparaît près d’une cible vulnérable.','Évite les lieux où sa présence est révélée.'],colosse:['Bloque le passage et tient sa position.','Bouscule les ennemis qui s’approchent.'],occultiste:['Reste à distance et choisit sa cible.','Cherche à rompre la ligne de vue après son attaque.']
 };
+// Suggestions de scène, sans supposer qu'une espèce possède un pouvoir canonique précis.
+const TRUTH_POWERS:Record<string,string[]>={
+ predateur:['Bond surnaturel : atteint une cible derrière un obstacle bas.','Sens de chasse : repère une proie isolée à travers le Voile.','Régénération limitée : referme une blessure si la créature peut se mettre à couvert.'],
+ spectre:['Intangibilité fugace : franchit un obstacle pendant son déplacement.','Voix d’outre-Voile : attire l’attention d’une cible hors de vue.','Étreinte spectrale : la cible touchée doit rompre le contact pour se dégager.'],
+ colosse:['Percée : ouvre une voie à travers un obstacle fragile.','Ancrage : tient sa position malgré une poussée ordinaire.','Onde de choc : force les cibles proches à se mettre à couvert.'],
+ occultiste:['Sceau d’entrave : ferme temporairement un accès visible.','Voile trompeur : dissimule brièvement sa position.','Contre-rituel : perturbe un effet occulte maintenu à proximité.']
+};
+const TRUTH_LIMITS:Record<string,string[]>={
+ predateur:['Sa chasse le rend prévisible lorsqu’une proie s’éloigne du groupe.','Une blessure reçue à découvert interrompt sa régénération.'],
+ spectre:['Une manifestation prolongée révèle sa position.','Un ancrage matériel l’empêche de quitter immédiatement les lieux.'],
+ colosse:['Les passages étroits limitent ses mouvements.','Après sa percée, il expose brièvement son flanc.'],
+ occultiste:['Une ligne de vue coupée interrompt ses effets dirigés.','Préparer un sceau l’oblige à rester sur place.']
+};
 function randomFrom(seed:string){let n=2166136261;for(const c of seed)n=Math.imul(n^c.charCodeAt(0),16777619);return ()=>{n+=0x6D2B79F5;let t=Math.imul(n^(n>>>15),1|n);t^=t+Math.imul(t^(t>>>7),61|t);return ((t^(t>>>14))>>>0)/4294967296;};}
 export function bestiaryRanges(difficultyId:string,archetypeId:string){const base=BASE[difficultyId],offset=OFFSETS[archetypeId];if(!base||!offset)return null;
  return Object.fromEntries(BESTIARY_STAT_KEYS.map(k=>{const value=Math.max(k==='armor'?0:1,base[k]+(offset[k]||0)),delta=SPREAD[k];return [k,{min:Math.max(k==='armor'?0:1,value-delta),max:value+delta}];})) as Record<BestiaryStat,{min:number;max:number}>;
@@ -39,7 +52,8 @@ export function generateBestiary(difficultyId:string,archetypeId:string,weaponGr
  const damage=Math.max(1,natural.damage+BESTIARY_DIFFICULTIES.findIndex(t=>t.id===difficultyId));
  const attacks=[weapon?weaponAttack(weapon,stats.attack):{...natural,damage,score:stats.attack,weaponId:''}];
  const tactic=TACTICS[archetype.id][Math.floor(random()*TACTICS[archetype.id].length)];
- return {name:`${archetype.name} · ${difficulty.name}`,realm:archetype.realm,difficultyId,archetypeId,description:'',role:archetype.name,hook:'',abilities:[tactic],weaknesses:[],equipment:weapon?.name||'',tags:[archetype.name],stats,attacks};
+ const power=TRUTH_POWERS[archetype.id],limits=TRUTH_LIMITS[archetype.id];
+ return {name:`${archetype.name} · ${difficulty.name}`,realm:archetype.realm,difficultyId,archetypeId,description:'',role:archetype.name,hook:'',abilities:power?[power[Math.floor(random()*power.length)],tactic]:[tactic],weaknesses:limits?[limits[Math.floor(random()*limits.length)]]:[],equipment:weapon?.name||'',tags:[archetype.name],stats,attacks,source:'generated',image:''};
 }
 export function generateBestiaryBatch(value:unknown):BestiaryData[]|null{
  if(!value||typeof value!=='object'||Array.isArray(value))return null;const b=value as Record<string,unknown>;

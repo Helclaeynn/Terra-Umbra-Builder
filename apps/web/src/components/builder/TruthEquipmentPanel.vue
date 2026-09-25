@@ -2,6 +2,7 @@
 import { computed, ref, watch } from "vue";
 import { cloneJson } from "../../lib/json";
 import BuilderWikiLink from "./BuilderWikiLink.vue";
+import BuilderCatalogImage from './BuilderCatalogImage.vue';
 import {
   truthEquipmentAccess,
   truthEquipmentVisible,
@@ -21,6 +22,7 @@ const emit=defineEmits<{
 
 const query=ref("");
 const chapter=ref("");
+const family=ref("");
 const catalogMode=ref("objects");
 
 const chapterLabels:Record<string,string>={
@@ -57,7 +59,9 @@ watch(chapters,(available)=>{
 const filtered=computed(()=>{
   const q=norm(query.value.trim());
   return modeCatalog.value.filter(item=>{
+    if(catalogMode.value!=='owned'&&!chapter.value&&!family.value&&!q)return false;
     if(chapter.value&&item.chapter!==chapter.value)return false;
+    if(family.value&&(item.section||chapterLabels[item.chapter]||'Autres')!==family.value)return false;
     if(!q)return true;
     const haystack=[
       item.name,item.section,item.status,item.sourceKind,item.lore,
@@ -67,6 +71,8 @@ const filtered=computed(()=>{
     return norm(haystack).includes(q);
   });
 });
+const families=computed(()=>[...new Set(modeCatalog.value.filter(item=>!chapter.value||item.chapter===chapter.value).map(item=>item.section||chapterLabels[item.chapter]||'Autres'))].sort((a,b)=>a.localeCompare(b,'fr')));
+watch(chapter,()=>{family.value='';});
 
 const groups=computed(()=>{
   const map=new Map<string,TruthEquipmentItem[]>();
@@ -173,7 +179,7 @@ function propertyPreview(item:TruthEquipmentItem){
       </summary>
 
       <div class="catalog-modes" role="group" aria-label="Afficher dans le catalogue">
-        <button v-for="mode in [{id:'objects',label:'Objets à acquérir'},{id:'owned',label:'Mes possessions'},{id:'references',label:'Règles et références'}]" :key="mode.id" type="button" :aria-pressed="catalogMode===mode.id" @click="catalogMode=mode.id;chapter=''">{{ mode.label }}</button>
+        <button v-for="mode in [{id:'objects',label:'Objets à acquérir'},{id:'owned',label:'Mes possessions'},{id:'references',label:'Règles et références'}]" :key="mode.id" type="button" :aria-pressed="catalogMode===mode.id" @click="catalogMode=mode.id;chapter='';family='';query=''">{{ mode.label }}</button>
       </div>
       <div class="truth-equipment-toolbar">
         <label>
@@ -189,6 +195,7 @@ function propertyPreview(item:TruthEquipmentItem){
             </option>
           </select>
         </label>
+        <label>Famille<select v-model="family"><option value="">— Choisir une famille —</option><option v-for="item in families" :key="item" :value="item">{{ item }}</option></select></label>
       </div>
 
       <details class="catalog-help"><summary>Accès exceptionnel et règles d’acquisition</summary>
@@ -223,8 +230,8 @@ function propertyPreview(item:TruthEquipmentItem){
         Aucun objet accessible avec les choix actuels du personnage. Les propriétés communes sont des règles à consulter dans « Règles et références ». Un accord MJ peut ouvrir un accès exceptionnel.
       </p>
       <p v-else-if="!groups.length" class="empty-line" role="status">
-        Aucun objet ne correspond à ces filtres. Essayez un autre nom, une autre vue ou réinitialisez les filtres.
-        <button type="button" @click="query='';chapter=''">Réinitialiser les filtres</button>
+        {{ !chapter&&!family&&!query ? 'Choisis un chapitre ou une famille pour voir ses objets illustrés, ou effectue une recherche.' : 'Aucun objet ne correspond à ces filtres. Essaie une autre famille ou réinitialise les filtres.' }}
+        <button v-if="query||chapter||family" type="button" @click="query='';chapter='';family=''">Réinitialiser les filtres</button>
       </p>
 
       <details v-for="group in groups" :key="group.label" class="truth-equipment-group">
@@ -234,6 +241,7 @@ function propertyPreview(item:TruthEquipmentItem){
         </summary>
         <div class="truth-equipment-grid">
           <article v-for="item in group.items" :key="item.id" class="truth-equipment-card">
+            <BuilderCatalogImage :article-id="item.compendiumId" :name="item.name" category="Équipement & Objets" />
             <div class="truth-equipment-card-head">
               <div>
                 <strong>

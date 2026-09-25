@@ -8,6 +8,7 @@ import TalentSelector, {
   type TalentChoiceSpec,
 } from "../components/builder/TalentSelector.vue";
 import BuilderWikiLink from "../components/builder/BuilderWikiLink.vue";
+import BuilderCatalogImage from "../components/builder/BuilderCatalogImage.vue";
 import TruthEquipmentPanel from "../components/builder/TruthEquipmentPanel.vue";
 import CorruptionPanel from "../components/builder/CorruptionPanel.vue";
 import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
@@ -87,6 +88,7 @@ const realityRules=shallowRef<RealityRulesPackage|null>(null);
 const disadvantageCategory=ref("common");
 const disadvantagePick=ref("");
 const truthSearch=ref("");
+const truthGroupChoice=ref("");
 const skillGroupOpen=ref<Record<string,boolean>>({});
 const loading=ref(true);
 const supplementalLoading=ref(false);
@@ -373,8 +375,9 @@ const truthPtvRemaining=computed(()=>
   (truthRules.value?.structure.ptvInitial??0)-truthPtvSpentValue.value
 );
 
+const truthGroupOptions=computed(()=>truthGroups(availableTruthTalents.value).map(group=>({...group,items:[...group.items].sort(compareTruthTalents)})).sort((a,b)=>compareLabels(a.name,b.name)));
 const visibleTruthGroups=computed(()=>{
-  const groups=truthGroups(availableTruthTalents.value).map(group=>({...group,items:[...group.items].sort(compareTruthTalents)})).sort((a,b)=>compareLabels(a.name,b.name));
+  const groups=truthGroupOptions.value.filter(group=>group.name===truthGroupChoice.value||!truthGroupChoice.value&&Boolean(truthSearch.value.trim()));
   const query=truthSearch.value.trim().toLocaleLowerCase("fr");
   if(!query)return groups;
   return groups
@@ -2403,6 +2406,10 @@ onBeforeUnmount(()=>{
 
                 <template v-else>
                   <label class="truth-search">
+                    Catégorie de talents
+                    <select v-model="truthGroupChoice"><option value="">— Choisir une catégorie —</option><option v-for="group in truthGroupOptions" :key="group.name" :value="group.name">{{ group.name }} · {{ group.items.length }}</option></select>
+                  </label>
+                  <label class="truth-search">
                     Rechercher dans les Talents accessibles
                     <input
                       v-model="truthSearch"
@@ -2412,7 +2419,7 @@ onBeforeUnmount(()=>{
                   </label>
 
                   <div v-if="!visibleTruthGroups.length" class="rule-note">
-                    Aucun Talent ne correspond aux choix actuels ou à la recherche.
+                    {{ !truthGroupChoice&&!truthSearch ? 'Choisis une catégorie pour voir les cartes de ses Talents, ou recherche un Talent par son nom.' : 'Aucun Talent ne correspond aux choix actuels ou à la recherche.' }}
                   </div>
 
                   <details
@@ -2441,6 +2448,7 @@ onBeforeUnmount(()=>{
                           :disabled="!truthTalentSelected(talent.id) && !truthTalentCanAdd(talent)"
                           @click="toggleTruthTalent(talent)"
                         >
+                          <BuilderCatalogImage :article-id="talent.compendiumId" :name="talent.name" category="Règles" />
                           <div class="truth-talent-head">
                             <strong>{{ talent.name }}</strong>
                             <span>{{ talent.cost }} PTV</span>
