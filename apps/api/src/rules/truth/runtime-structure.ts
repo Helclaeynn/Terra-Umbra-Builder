@@ -1693,85 +1693,85 @@ export const truthRuntimeStructure = {
               {
                 "id": "architetramancie",
                 "name": "Architétramancie",
-                "description": "Affinité native de Kaharal. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
+                "description": "L’Architétramancie manifeste et manipule des phénomènes élémentaires : feu, eau, air, terre, glace, foudre, vibrations et autres orientations cohérentes avec la tradition du Mage. À l’éveil, le Mage choisit au moins une orientation élémentaire qu’il connaît réellement ; élargir son répertoire demande entraînement, progression ou Technique. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
               },
               {
                 "id": "morphomancie",
                 "name": "Morphomancie",
-                "description": "Affinité native de Kaharal. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
+                "description": "La Morphomancie modifie la forme, la densité et l’organisation de la matière sans nécessairement changer sa substance. Elle excelle sur le corps vivant, mais toute modification hostile interne doit vaincre la Défense occulte et respecter le Principe de désignation. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
               },
               {
                 "id": "alchimie",
                 "name": "Alchimie",
-                "description": "Affinité native de Kaharal. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
+                "description": "L’Alchimie manipule composition, séparation et recombinaison de la matière. Elle devient d’autant plus redoutable que le Mage possède de vrais savoirs en chimie, matériaux, pharmacologie ou physique. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
               }
             ],
             "meldir": [
               {
                 "id": "photomancie",
                 "name": "Photomancie",
-                "description": "Affinité native de Meldir. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
+                "description": "La Photomancie contrôle la lumière comme phénomène réel et, aux niveaux élevés, comme principe surnaturel. Elle se distingue de l’illusion : un effet photomantique modifie réellement la lumière présente dans le monde. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
               },
               {
                 "id": "acratomancie",
                 "name": "Acratomancie",
-                "description": "Affinité native de Meldir. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
+                "description": "L’Acratomancie attache une règle magique à un support, un objet, un emplacement ou une condition. Elle récompense la préparation, la logique et l’anticipation. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
               },
               {
                 "id": "medeomancie",
                 "name": "Médéomancie",
-                "description": "Affinité native de Meldir. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
+                "description": "La Médéomancie restaure l’intégrité fonctionnelle d’un être vivant. Les connaissances médicales permettent des soins beaucoup plus précis ; la magie ne remplace pas automatiquement un diagnostic que le Mage ne sait pas faire. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
               }
             ],
             "elinaeth": [
               {
                 "id": "telekinesie",
                 "name": "Télékinésie",
-                "description": "Affinité native de Elinaeth. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
+                "description": "La Télékinésie applique forces, pressions et mouvements sans contact. Sa dangerosité dépend énormément de la précision du Mage et de sa compréhension des systèmes qu’il manipule. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
               },
               {
                 "id": "divination",
                 "name": "Divination",
-                "description": "Affinité native de Elinaeth. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
+                "description": "La Divination extrait des informations du présent, des traces, des relations et des futurs possibles. Elle ne transforme pas le Mage en narrateur omniscient et ne fournit pas automatiquement des connaissances qu’il ne sait pas formuler. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
               },
               {
                 "id": "chronomancie",
                 "name": "Chronomancie",
-                "description": "Affinité native de Elinaeth. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
+                "description": "La Chronomancie modifie l’écoulement local du temps. Les altérations du continuum sont dangereuses ; le voyage physique dans le passé ou le futur dépasse la magie générique des PJ. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
               }
             ],
             "mestherak": [
               {
                 "id": "spectromancie",
                 "name": "Spectromancie",
-                "description": "Affinité native de Mestherak. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
+                "description": "La Spectromancie agit sur les âmes désincarnées, spectres, empreintes spirituelles et formes incorporelles. Elle ne réanime pas la chair et ne remplace pas la Nécromancie. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
               },
               {
                 "id": "hematomancie",
                 "name": "Hématomancie",
-                "description": "Affinité native de Mestherak. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
+                "description": "L’Hématomancie manipule le sang comme matière, système biologique et support magique. Elle est très directe mais reste soumise à la désignation : le Mage peut viser une personne et sa circulation globale, pas sélectionner gratuitement une microstructure invisible qu’il ne sait pas localiser. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
               },
               {
                 "id": "necromancie",
                 "name": "Nécromancie",
-                "description": "Affinité native de Mestherak. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
+                "description": "La Nécromancie travaille sur les cadavres, l’état de mort et les structures mortes. Elle peut animer un corps sans lui rendre son âme. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
               }
             ],
             "discella": [
               {
                 "id": "skiamancie",
                 "name": "Skiamancie",
-                "description": "Affinité native de Discella. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
+                "description": "La Skiamancie contrôle l’Ombre comme substance et milieu surnaturel réel. Elle ne se confond ni avec l’absence de lumière ni avec une illusion. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
               },
               {
                 "id": "pseudomancie",
                 "name": "Pseudomancie",
-                "description": "Affinité native de Discella. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
+                "description": "La Pseudomancie manipule apparence et perception. Une illusion placée dans le monde et une hallucination imposée directement à un esprit ne se défendent pas de la même manière. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
               },
               {
                 "id": "pathomancie",
                 "name": "Pathomancie",
-                "description": "Affinité native de Discella. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
+                "description": "La Pathomancie attache à une cible une règle négative surnaturelle : faiblesse, contrainte, condition, interdiction ou dégradation. Plus la règle est durable et sophistiquée, plus Maîtrise et Amplitude montent. Commence gratuitement en Maîtrise Initiale / Amplitude Mineure."
               }
             ]
           }
