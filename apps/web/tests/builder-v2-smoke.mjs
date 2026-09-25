@@ -570,25 +570,28 @@ await page.getByRole("link",{name:"Builder"}).waitFor();
 if(await page.locator(".builder-nav").count()){
   throw new Error("La route Progression ne doit pas réafficher la navigation de création.");
 }
-// Both talent catalogues use full-width rows, retain local details and no article links.
+// Reality talents use the same centered card layout as creation; Truth keeps its own grouped list.
 for (const name of ['Apprendre un Talent de Réalité','Dépenser des PTV']) {
   const block = page.locator('details.progress-panel').filter({has:page.locator('summary>strong').filter({hasText:new RegExp('^'+name+'$')})});
   if ((await block.getAttribute('open'))===null) await block.locator(':scope>summary').click();
   if(name==='Dépenser des PTV'){
     if(await block.getByRole('switch').count())throw new Error('Accord MJ inutile pour les talents de sa Nature');
     await block.getByLabel('Catégorie de Talents de Vérité').selectOption('Groupe Smoke');
-  }else{
-    await block.getByLabel('Catégorie de Talents de Réalité').selectOption('Talents communs');
   }
-  const names = await (name==='Dépenser des PTV' ? block : block.locator('.talent-group').filter({has:page.getByRole('heading',{name:'Talents communs',exact:true})})).locator('.talent-list .progress-card-title>strong').allTextContents();
+  const realityGroup=block.locator('.reality-talent-family').filter({has:block.locator('.reality-family-summary strong').filter({hasText:/^Talents communs$/})});
+  const names = await (name==='Dépenser des PTV' ? block.locator('.talent-list .progress-card-title>strong') : realityGroup.locator('.reality-talent-card>strong')).allTextContents();
   const expected = name==='Dépenser des PTV' ? ['Aube occulte','Zèle occulte','Aube supérieure'] : ['Aube Smoke','Zèle Smoke'];
   if(JSON.stringify(names)!==JSON.stringify(expected))throw new Error('Tri des talents incorrect : '+JSON.stringify(names));
-  if (await block.locator('.talent-list a').count()) throw new Error('Lien Compendium résiduel dans les talents');
+  if (await block.locator('.talent-list a,.reality-talent-grid a').count()) throw new Error('Lien Compendium résiduel dans les talents');
   for (const width of [1440,390]) {
     await page.setViewportSize({width,height:1000});
     await assertBuilderReflow(`Liste ${name}, ${width}px`);
-    const rows=await block.locator('.talent-list>article').evaluateAll(nodes=>nodes.map(node=>({top:node.getBoundingClientRect().top,left:node.getBoundingClientRect().left})));
-    if(rows.some((row,i)=>i && (row.top<=rows[i-1].top || Math.abs(row.left-rows[i-1].left)>1)))throw new Error('Les talents doivent être en liste verticale');
+    const rows=await (name==='Dépenser des PTV' ? block.locator('.talent-list>article') : realityGroup.locator('.reality-talent-card')).evaluateAll(nodes=>nodes.map(node=>({top:node.getBoundingClientRect().top,left:node.getBoundingClientRect().left})));
+    if(name==='Dépenser des PTV'){
+      if(rows.some((row,i)=>i && (row.top<=rows[i-1].top || Math.abs(row.left-rows[i-1].left)>1)))throw new Error('Les talents de Vérité doivent être en liste verticale');
+    }else if(rows.length>1 && (width===1440 ? rows[0].top!==rows[1].top||rows[0].left>=rows[1].left : rows[0].top>=rows[1].top)){
+      throw new Error('Les talents de Réalité doivent suivre la grille 3/2, puis une colonne mobile');
+    }
   }
 }
 await page.setViewportSize({width:1440,height:1000});
