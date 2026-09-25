@@ -39,7 +39,9 @@ COPY compendium/source/rules-diagrams-v1.json ./compendium-media/source/rules-di
 COPY compendium/source/lore-illustrations-v1.json ./compendium-media/source/lore-illustrations-v1.json
 COPY compendium/source/corporation-branding-v1.json ./compendium-media/source/corporation-branding-v1.json
 COPY compendium/source/weapon-brand-links-v1.json ./compendium-media/source/weapon-brand-links-v1.json
-COPY compendium/source/portrait-only-lot2-v1.json ./compendium-media/source/portrait-only-lot2-v1.json\nCOPY compendium/source/wiki-taxonomy-arbitrage-v1.json.gz ./review-data/wiki-taxonomy-arbitrage-v1.json.gz\nENV COMPENDIUM_ARBITRAGE_FILE=/app/review-data/wiki-taxonomy-arbitrage-v1.json.gz
+COPY compendium/source/portrait-only-lot2-v1.json ./compendium-media/source/portrait-only-lot2-v1.json
+COPY compendium/source/wiki-taxonomy-arbitrage-v1.json.gz ./review-data/wiki-taxonomy-arbitrage-v1.json.gz
+ENV COMPENDIUM_ARBITRAGE_FILE=/app/review-data/wiki-taxonomy-arbitrage-v1.json.gz
 
 RUN mkdir -p /app/editor-media && chown -R node:node /app/editor-media
 
