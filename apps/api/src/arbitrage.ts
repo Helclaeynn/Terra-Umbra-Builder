@@ -100,12 +100,12 @@ function sectionContext(page: ReviewPage, sectionIds: string[]): Array<{ id: str
 
 function classify(value: string): TaxonomyKind {
   const lower = value.toLocaleLowerCase("fr");
-  if (/(mj|public|publique|publi[cq]|masqu|expos|visibil|aperçu|révéler l'identit|identit.{0,16}secret)/i.test(lower)) return "visibilite_public_mj";
+  if (/(mj|public|publique|publi[cq]|masqu|visibil|aperçu|révéler l'identit|identit.{0,16}secret|expos.{0,24}(?:joueur|public|mj|secret|identit))/i.test(lower)) return "visibilite_public_mj";
   if (/(contradiction|incoh|contre|alors que|tandis que|versus|diffère|diffèrent|varie|oppos|annonce.{0,24}(mais|versus)|conflit|incompatible)/i.test(lower)) return "contradiction";
   if (/(absence totale|absent|absence|vide|incomplet|incomplète|inachev|coup[ée]|presque uniquement|une seule phrase|une ligne|sans (expliquer|description|décrire|nom)|non décrit|peu décrit|fiche à rédiger|portrait seul|manque|lacune)/i.test(lower)) return "fiche_lacunaire";
   if (/(date|chronolog|succession|fondation|ancien|actuel|futur|203[0-9]|202[0-9]|201[0-9]|âge|age|avant|après|puis|retour)/i.test(lower)) return "chronologie";
   if (/(nombre|chiffre|total|liste de|sièges|sieges|membres|pourcentage|proportion|combien|effectif|quatre|cinq|six|treize|vingt|trente|cinquante)/i.test(lower)) return "quantification";
-  if (/(compétence|competence|profil|stat|mécanique|mecanique|règle|regle|armure|talent|don |d[oô]n |puissance|difficulté|difficulte|valeur|tir|pugilat|mêlée|melee)/i.test(lower)) return "regle_mecanique";
+  if (/(compétence|competence|profil|stat|mécanique|mecanique|règle|regle|armure|talent|don |d[oô]n |puissance|difficulté|difficulte|valeur|tir|pugilat|mêlée|melee|pa propre|points? d’action|points? action|proximité|proximite|entrée dans l’organisme|entree dans l.organisme|germe|exposition|infection|contamination)/i.test(lower)) return "regle_mecanique";
   if (/(orthograph|graphie|casse|accent|appellation|nom à harmoniser|nom a harmoniser|variante|faute|coquille|écriture|ecriture|sehdia|gonzález|gonzalez)/i.test(lower)) return "terme_orthographe";
   if (/(alias|identit|deux personnes|plusieurs ident|distinct|distinctes|distincts|ne pas assimiler|pas automatiquement|n'est pas|ne sont pas|synonyme|fusionner|même personne|meme personne|filiation)/i.test(lower)) return "identite_doublon";
   return "portee_contexte";
