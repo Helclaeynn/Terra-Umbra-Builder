@@ -1,70 +1,70 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1485 505" role="img" aria-label="Organigramme de bullmotors">
-<rect width="100%" height="100%" fill="#111e2d"/>
-<path d="M742 103 V128 H130 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M130 228 V252 H130 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M742 103 V128 H375 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M865 353 V378 H865 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M742 103 V128 H620 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M375 353 V378 H375 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M1110 353 V378 H1110 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M742 103 V128 H865 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M742 103 V128 H1110 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M742 103 V128 H1355 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M130 353 V378 H130 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M865 228 V252 H865 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M620 228 V252 H620 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M620 353 V378 H620 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M1110 228 V252 H1110 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M375 228 V252 H375 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<rect x="21" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="130" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Opal FISHMANN</text>
-<text x="130" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Speedplanes</text>
-<rect x="21" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="130" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Nattalia RIZKINA</text>
-<text x="130" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Sky&amp;Family</text>
-<rect x="21" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="130" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Jena LIIKANEN</text>
-<text x="130" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directrice</text>
-<rect x="266" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="375" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Jake SHEPERD</text>
-<text x="375" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Horntrucks</text>
-<rect x="266" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="375" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Riccardo SPADA</text>
-<text x="375" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Bull&#x27;engines</text>
-<rect x="266" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="375" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Emilie DIMONT</text>
-<text x="375" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directrice</text>
-<rect x="511" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="620" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Thomas LING</text>
-<text x="620" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Freedom Wheels</text>
-<rect x="511" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="620" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Daenia DElGOFF</text>
-<text x="620" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Moraptor</text>
-<rect x="511" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="620" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Robert CHAPMAN</text>
-<text x="620" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directeur</text>
-<rect x="756" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="865" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Arnold WEINBERG</text>
-<text x="865" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Boatllets</text>
-<rect x="756" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="865" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">David LEOPEZ</text>
-<text x="865" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Seabulls</text>
-<rect x="756" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="865" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Reina KUYAMA</text>
-<text x="865" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directrice</text>
-<rect x="1001" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="1110" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Hyoriko FUDA</text>
-<text x="1110" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Amerca bull&#x27;races</text>
-<rect x="1001" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="1110" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Qwena BARNS</text>
-<text x="1110" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Asia bull&#x27;races</text>
-<rect x="1001" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="1110" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Mickael MACE</text>
-<text x="1110" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directeur</text>
-<rect x="1246" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="1355" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Teekan KIRISHIMA</text>
-<text x="1355" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Vice-Président</text>
-<rect x="634" y="26" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="742" y="56" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Robert SYKES</text>
-<text x="742" y="94" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Président</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1485 630" role="img" aria-label="Organigramme de bullmotors">
+  <rect width="100%" height="100%" fill="#111e2d" />
+  <path d="M743 228 V252.5 H130 V277" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M130 353 V377.5 H130 V402" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M743 228 V252.5 H375 V277" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M865 478 V502.5 H865 V527" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M743 228 V252.5 H620 V277" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M375 478 V502.5 H375 V527" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M1110 478 V502.5 H1110 V527" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M743 228 V252.5 H865 V277" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M743 228 V252.5 H1110 V277" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M742 103 V127.5 H743 V152" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M130 478 V502.5 H130 V527" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M865 353 V377.5 H865 V402" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M620 353 V377.5 H620 V402" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M620 478 V502.5 H620 V527" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M1110 353 V377.5 H1110 V402" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M375 353 V377.5 H375 V402" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <rect x="21" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="130" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Opal FISHMANN</text>
+  <text x="130" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Speedplanes</text>
+  <rect x="21" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="130" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Nattalia RIZKINA</text>
+  <text x="130" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Sky&amp;Family</text>
+  <rect x="21" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="130" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Jena LIIKANEN</text>
+  <text x="130" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directrice</text>
+  <rect x="266" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="375" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Jake SHEPERD</text>
+  <text x="375" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Horntrucks</text>
+  <rect x="266" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="375" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Riccardo SPADA</text>
+  <text x="375" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Bull'engines</text>
+  <rect x="266" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="375" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Emilie DIMONT</text>
+  <text x="375" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directrice</text>
+  <rect x="511" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="620" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Thomas LING</text>
+  <text x="620" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Freedom Wheels</text>
+  <rect x="511" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="620" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Daenia DElGOFF</text>
+  <text x="620" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Moraptor</text>
+  <rect x="511" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="620" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Robert CHAPMAN</text>
+  <text x="620" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directeur</text>
+  <rect x="756" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="865" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Arnold WEINBERG</text>
+  <text x="865" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Boatllets</text>
+  <rect x="756" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="865" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">David LEOPEZ</text>
+  <text x="865" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Seabulls</text>
+  <rect x="756" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="865" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Reina KUYAMA</text>
+  <text x="865" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directrice</text>
+  <rect x="1001" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="1110" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Hyoriko FUDA</text>
+  <text x="1110" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Amerca bull'races</text>
+  <rect x="1001" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="1110" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Qwena BARNS</text>
+  <text x="1110" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Asia bull'races</text>
+  <rect x="1001" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="1110" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Mickael MACE</text>
+  <text x="1110" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directeur</text>
+  <rect x="634" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="743" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Teekan KIRISHIMA</text>
+  <text x="743" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Vice-Président</text>
+  <rect x="634" y="26" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="742" y="56" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Robert SYKES</text>
+  <text x="742" y="94" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Président</text>
 </svg>
