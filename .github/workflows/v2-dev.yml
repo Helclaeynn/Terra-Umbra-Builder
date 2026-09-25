@@ -83,6 +83,10 @@ jobs:
         working-directory: apps/api
         run: node scripts/check-portrait-lot2.mjs
 
+      - name: Check corporation logos on equipment pages
+        working-directory: apps/api
+        run: node scripts/check-corporation-branding.mjs
+
       - name: Check augmentation illustrations
         working-directory: apps/api
         run: node scripts/check-augmentation-illustrations.mjs
@@ -284,7 +288,7 @@ jobs:
           $SSH "$TUC_DEV_USER@$TUC_DEV_HOST" "mkdir -p /opt/terra-umbra/apps /opt/terra-umbra/infrastructure /opt/terra-umbra/compendium/source /opt/terra-umbra/compendium/data /opt/terra-umbra/compendium/images /opt/terra-umbra/compendium/assets /opt/terra-umbra/character-builder/rulesets/terra-umbra/reality /opt/terra-umbra/character-builder/rulesets/terra-umbra/truth"
           rsync -az --delete -e "$SSH" apps/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/apps/"
           rsync -az --delete --exclude='.env' -e "$SSH" infrastructure/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/infrastructure/"
-          rsync -az -e "$SSH" compendium/source/current-equipment-catalog-v1.json compendium/source/reality-lore-v3-*.json compendium/source/rules-diagrams-v1.json compendium/source/lore-illustrations-v1.json compendium/source/corporation-branding-v1.json compendium/source/weapon-brand-links-v1.json compendium/source/portrait-only-lot2-v1.json "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/compendium/source/"
+          rsync -az -e "$SSH" compendium/source/current-equipment-catalog-v1.json compendium/source/reality-lore-v3-*.json compendium/source/rules-diagrams-v1.json "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/compendium/source/"
           rsync -az -e "$SSH" compendium/source/verite-catalog-v6.json.gz.b64 compendium/source/truth-mechanics-v6-fixed.manifest.json compendium/source/truth-mechanics-v6-fixed.part*.b64 compendium/source/truth-lore-hunters-2026-09-v1-*.b64part "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/compendium/source/"
           rsync -az --delete -e "$SSH" compendium/data/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/compendium/data/"
           rsync -az --delete -e "$SSH" compendium/images/ "$TUC_DEV_USER@$TUC_DEV_HOST:/opt/terra-umbra/compendium/images/"
@@ -1151,7 +1155,7 @@ jobs:
             "verite-v7-homo-superior-adrak-profils-rares":"Homo Superior & Ad’rak — profils rares",
             "verite-v7-chasseurs-doctrine-association-traditions":"Chasseurs — savoir, survivre & transmettre",
             "verite-v7-six-fleaux-sources-rupture":"Les six Fléaux",
-            "verite-v7-delanial-pere-ombre":"Delanial — Père de l’Ombre"
+            "verite-v7-delanial-pere-ombre":"Delanial — le faux Septième"
           }
           rules={
             "regles-verite-v7-architecture-ptv-acces":"Architecture, PTV & accès",
