@@ -54,8 +54,7 @@ const equipmentCatalogOpen=ref(false);
 const augmentationCatalogOpen=ref(false);
 const priceDrafts=ref<Record<string,string>>({});
 const variantChoice=ref<Record<string,string>>({});
-const recurringId=ref("");
-const recurringDraft=ref("");
+const recurringDrafts=ref<Record<string,string>>({});
 const customChargeName=ref("");
 const customChargeMonthly=ref("");
 
@@ -295,23 +294,19 @@ const purchasedAugmentations=computed(()=>state.value.augmentations.map(p=>({pur
 const purchasedEquipment=computed(()=>state.value.equipment.map(p=>({purchase:p,item:purchaseItem(p.itemId)})));
 
 function defaultRecurringCost(item:RealityItem){return Math.round(recurringMonthlyCost(item));}
-function selectedRecurring(){return props.rules.recurring.find(item=>item.id===recurringId.value)??null}
-function onRecurringChanged(){
-  const item=selectedRecurring();
-  recurringDraft.value=item?String(defaultRecurringCost(item)):"";
+function recurringMonthly(item:RealityItem){
+  const draft=recurringDrafts.value[item.id];
+  return draft===undefined||draft===""?defaultRecurringCost(item):Math.max(0,Number(draft)||0);
 }
-function addRecurring(){
-  const item=selectedRecurring();
-  if(!item)return;
-  const monthly=Math.max(0,Number(recurringDraft.value)||0);
+function addRecurring(item:RealityItem){
+  const monthly=recurringMonthly(item);
   state.value.fixedChargeItems.push({
     uid:uniqueUid("fc"),
     name:item.name,
     monthly,
     sourceItemId:item.id
   });
-  recurringId.value="";
-  recurringDraft.value="";
+  delete recurringDrafts.value[item.id];
   notify();
 }
 function addCustomCharge(){
@@ -515,23 +510,25 @@ function setCorporateSupportItem(itemId:string){
           Déficit structurel : {{ money(pressure.deficit) }}/mois au-delà de Survie.
         </div>
 
-        <div class="charge-add-grid">
-          <label>
-            Ajouter depuis le catalogue
-            <select v-model="recurringId" @change="onRecurringChanged">
-              <option value="">— Choisir —</option>
-              <optgroup v-for="group in recurringGroups" :key="group.label" :label="group.label.toUpperCase()">
-                <option v-for="item in group.items" :key="item.id" :value="item.id">
-                  {{ item.name }} · {{ item.recurring === "annual" ? "annuel" : "mensuel" }}
-                </option>
-              </optgroup>
-            </select>
-          </label>
-          <label>
-            Reste payé / mois
-            <input v-model="recurringDraft" type="number" min="0" step="1" />
-          </label>
-          <button class="secondary compact" type="button" :disabled="!recurringId" @click="addRecurring">Ajouter</button>
+        <div class="recurring-catalog">
+          <section v-for="group in recurringGroups" :key="group.label" class="catalog-family">
+            <h4><span>{{ group.label }}</span><span class="family-count">{{ group.items.length }}</span></h4>
+            <div class="catalog-grid">
+              <article v-for="item in group.items" :key="item.id" class="catalog-card recurring-card">
+                <BuilderCatalogImage :article-id="item.compendiumId" :name="item.name" category="Équipement & Objets" />
+                <div class="catalog-head"><div>
+                  <strong><BuilderWikiLink :label="item.name" :article-id="item.compendiumId" category="Équipement & Objets" :detail="wikiDetail(item)" :badges="wikiBadges(item)" /></strong>
+                  <small>{{ item.category }} · {{ item.recurring === "annual" ? "facturation annuelle" : "facturation mensuelle" }}</small>
+                </div></div>
+                <p v-if="item.lore">{{ item.lore }}</p>
+                <p v-if="item.effect"><b>Service :</b> {{ item.effect }}</p>
+                <label class="recurring-price">Reste payé / mois
+                  <input v-model="recurringDrafts[item.id]" type="number" min="0" step="1" :placeholder="String(defaultRecurringCost(item))" />
+                </label>
+                <button class="secondary compact" type="button" @click="addRecurring(item)">Ajouter · {{ money(recurringMonthly(item)) }}/mois</button>
+              </article>
+            </div>
+          </section>
         </div>
 
         <div class="charge-add-grid custom">
@@ -1001,6 +998,7 @@ function setCorporateSupportItem(itemId:string){
 .corporate-support-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:20px}
 .charge-add-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(120px,1fr) auto;gap:14px;align-items:end;margin-top:16px}
 .charge-add-grid.custom{padding-top:18px;border-top:1px solid #293e52}
+.recurring-catalog{display:grid;gap:20px;margin-top:20px}.recurring-catalog .catalog-family{padding-top:0}.recurring-card .recurring-price{margin-top:auto}.recurring-card>button{align-self:flex-start}
 .picked-list{display:grid;gap:10px;margin-top:18px}
 .picked-row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px;border:1px solid #30465b;border-radius:7px;background:#0a1623}
 .picked-row>div{display:grid;gap:5px;min-width:0;overflow-wrap:anywhere}
