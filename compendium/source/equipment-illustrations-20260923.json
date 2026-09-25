@@ -598,12 +598,12 @@
     {
       "id": "equipement-160-recuperation-sans-abri",
       "src": "images/manual/equipement-160-recuperation-sans-abri.webp",
-      "sha256": "5f79c6fa1ed1f46bb6b87174e542a15d16e7f6da10fad39eb9bae19a24d86a4b"
+      "sha256": "71cc820ccfa547e0e4c0b9b6937310d35f79f93c2d634b6f0bd81bbdefe4867c"
     },
     {
       "id": "equipement-161-provocante-rue",
       "src": "images/manual/equipement-161-provocante-rue.webp",
-      "sha256": "c104160a18400f2605968209cb1355355ab7a301af912b904012fd04ac646e96"
+      "sha256": "4e6d41387c464b44b03e36cf1a93fea0860423558c937c3f2d1bfd5797f83a2b"
     },
     {
       "id": "equipement-162-neopunk",
@@ -613,7 +613,7 @@
     {
       "id": "equipement-163-citoyen",
       "src": "images/manual/equipement-163-citoyen.webp",
-      "sha256": "470475bde60e1d19da7520c9f3fd60b13349e2eddbf876a878b7d3ab9b038e21"
+      "sha256": "a77b00f297740531b9ca7ef9c045d58c10658c931764941598ec9f244d109de0"
     },
     {
       "id": "equipement-164-ouvrier",
@@ -993,7 +993,7 @@
     {
       "id": "equipement-239-bull-basic",
       "src": "images/manual/equipement-239-bull-basic.webp",
-      "sha256": "a65a23ddfc49323eb2b1d8f79a8d916b26a854f8c04d4e4087220bb7676ad710"
+      "sha256": "a5e291cc0881ffa487c4c7d0a4ce185e87c1ef7f061c710b56488394bb6ea1b6"
     },
     {
       "id": "equipement-240-bull-standard",
@@ -1008,7 +1008,7 @@
     {
       "id": "equipement-242-bull-executive",
       "src": "images/manual/equipement-242-bull-executive.webp",
-      "sha256": "8d5c0ab21c18d222ce832a2331207afa099c24775787499d5ed613d60b9b3c52"
+      "sha256": "22e82e1ac662fec9c29fb6f70e2431bdd98bdd84463d9ec5b9b04b5b33a6bb1e"
     },
     {
       "id": "equipement-319-soldier-armure-legere-nord-coreenne",
