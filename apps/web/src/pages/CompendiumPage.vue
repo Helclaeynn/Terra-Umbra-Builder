@@ -2142,6 +2142,11 @@ onBeforeUnmount(() => {
                         :alt="selected.brandLogo.alt || 'Logo de la corporation'"
                         loading="lazy"
                       />
+                      <span
+                        v-else-if="selected.manufacturer && (selected.dataset === 'equipement' || selected.dataset === 'verite-catalogue')"
+                        class="corporation-brand-fallback"
+                        :title="`Logo de ${selected.manufacturer} à intégrer`"
+                      >{{ selected.manufacturer }}</span>
                       <h1>{{ selected.title }}</h1>
                       <RouterLink
                         v-if="canEdit"
@@ -3121,6 +3126,7 @@ onBeforeUnmount(() => {
 }
 .corporation-brand-link { display: grid; place-items: center; }
 .corporation-brand-link img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.corporation-brand-fallback { display:grid;place-items:center;flex:0 0 90px;min-height:68px;max-width:110px;padding:6px;border:1px dashed rgba(216,189,133,.55);border-radius:8px;color:#f0dfbd;background:#172331;text-align:center;font-size:12px;font-weight:700;line-height:1.2;overflow-wrap:anywhere; }
 
 .wiki-edit-link {
   flex: 0 0 auto;
