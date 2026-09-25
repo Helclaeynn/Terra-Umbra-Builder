@@ -86,6 +86,29 @@ function norm(value:unknown=""){
 }
 function loose(value:unknown=""){return norm(value).replace(/\s+/g," ").trim();}
 function slug(value:string){return norm(value).replace(/\s+/g,"-")||"item";}
+const equipmentDisplayNames=new Map<string,string>([
+  ["apc leger","APC léger"],
+  ["biosun medicarmor","BioSun MedicArmor"],
+  ["chargeur etendu","Chargeur étendu"],
+  ["detective rue","Détective / rue"],
+  ["etanche","Étanche"],
+  ["exosquelette leger","Exosquelette léger"],
+  ["gundriver modifie","Gundriver modifié"],
+  ["kit medical","Kit médical"],
+  ["optique de precision","Optique de précision"],
+  ["pistolet leger pm owl","Pistolet léger / PM — Owl"],
+  ["pistolet leger pm phoenix","Pistolet léger / PM — Phoenix"],
+  ["pistolet leger pm raven","Pistolet léger / PM — Raven"],
+  ["precision owl","Précision — Owl"],
+  ["precision phoenix","Précision — Phoenix"],
+  ["precision raven","Précision — Raven"],
+  ["raven gallowglass ii legere","Raven Gallowglass II légère"],
+  ["recuperation sans abri","Récupération / sans-abri"],
+  ["reseau de planques premium","Réseau de planques premium"],
+  ["securite privee","Sécurité privée"],
+  ["vladic grand protege","Vladic grand/protégé"]
+]);
+function equipmentDisplayName(value:string){return equipmentDisplayNames.get(loose(value))??value;}
 function num(value:unknown){
   if(typeof value==="number")return Number.isFinite(value)?value:null;
   if(value===null||value===undefined)return null;
@@ -253,7 +276,7 @@ function recurringKind(item:{name:string;category:string;priceLabel:string;vehic
 }
 
 function normaliseCurrentEquipment(entry:AnyRecord,lore:Map<string,{text:string;priority:number}>):RealityItem{
-  const name=String(entry.name??"").trim(),sourceCategory=String(entry.category??"Équipement"),data=(entry.data&&typeof entry.data==="object"&&!Array.isArray(entry.data)?entry.data:{}) as AnyRecord;
+  const rawName=String(entry.name??"").trim(),name=equipmentDisplayName(rawName),sourceCategory=String(entry.category??"Équipement"),data=(entry.data&&typeof entry.data==="object"&&!Array.isArray(entry.data)?entry.data:{}) as AnyRecord;
   const priceMin=num(entry.priceMin),priceMax=num(entry.priceMax),exact=num(entry.price);
   const price=exact??priceMin;
   const category=equipmentCategory(name,sourceCategory,data);
@@ -276,13 +299,14 @@ function normaliseCurrentEquipment(entry:AnyRecord,lore:Map<string,{text:string;
 function normaliseLooseCatalog(raw:unknown,kind:"equipment"|"augmentation",lore:Map<string,{text:string;priority:number}>,force?:{vehicle?:boolean;neuro?:boolean;category?:string}){
   const seen=new Map<string,number>();
   return collect(raw).map((row,index)=>{
-    const name=String(field(row,["name","nom","augmentation","equipement","equipment","service","vehicule","vehicle","neuroprogramme","item","designation"])??`Entrée ${index+1}`).trim();
+    const rawName=String(field(row,["name","nom","augmentation","equipement","equipment","service","vehicule","vehicle","neuroprogramme","item","designation"])??`Entrée ${index+1}`).trim();
+    const name=kind==="equipment"?equipmentDisplayName(rawName):rawName;
     const sourceCategory=force?.category??String(field(row,["category","categorie","catégorie","section","family","famille","type","groupe"])??row._path??(kind==="augmentation"?"Augmentations":"Équipement")).trim();
     const generation=num(field(row,["generation","génération","gen"]));
     const price=num(field(row,["price","prix","cost","cout","coût"]));
     const charge=num(field(row,["charge"])),stress=num(field(row,["stress"])),slots=field(row,["slots","slot","emplacements","emplacement"]) as string|number|null;
     const effect=String(field(row,["effect","effet","fonction principale","fonction","usage","description","profil","speciaux","spéciaux"])??"").trim();
-    const base=String(field(row,["id"])??slug(`${kind}-${sourceCategory}-${name}-${generation??0}-${price??"x"}`));
+    const base=String(field(row,["id"])??slug(`${kind}-${sourceCategory}-${rawName}-${generation??0}-${price??"x"}`));
     const count=(seen.get(base)??0)+1;seen.set(base,count);
     const id=count===1?base:`${base}-${count}`;
     const vehicle=force?.vehicle??(kind==="equipment"&&norm(sourceCategory).includes("vehicul"));
