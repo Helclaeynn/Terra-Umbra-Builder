@@ -469,14 +469,14 @@ function setCorporateSupportItem(itemId:string){
         </div>
       </section>
 
-      <section class="reality-panel">
-        <div class="subsection-title">
+      <details class="reality-panel section-disclosure">
+        <summary class="section-summary"><div class="subsection-title">
           <div>
             <h3>Train de vie & Charges fixes</h3>
             <p>{{ rules.economy.lifestyle.lore[lifestyleBase] }}</p>
           </div>
           <span class="schema-badge">{{ pressure.base }} → {{ pressure.effective }}</span>
-        </div>
+        </div></summary>
         <div class="charge-summary">
           <span>Référence <strong>{{ money(pressure.reference) }}/mois</strong></span>
           <span>Charges <strong>{{ money(pressure.total) }}/mois</strong></span>
@@ -556,7 +556,7 @@ function setCorporateSupportItem(itemId:string){
             <button class="ghost danger compact" type="button" @click="removeCharge(charge.uid)">Retirer</button>
           </div>
         </div>
-      </section>
+      </details>
 
       <section v-if="sphereId === 'corporatiste'" class="reality-panel corporate-support-panel">
         <div class="subsection-title">
@@ -620,8 +620,8 @@ function setCorporateSupportItem(itemId:string){
         </div>
       </section>
 
-      <section class="reality-panel">
-        <div class="subsection-title">
+      <details class="reality-panel section-disclosure">
+        <summary class="section-summary"><div class="subsection-title">
           <div>
             <h3>Augmentations installées</h3>
             <p>
@@ -630,7 +630,7 @@ function setCorporateSupportItem(itemId:string){
             </p>
           </div>
           <span class="schema-badge">{{ purchasedAugmentations.length }}</span>
-        </div>
+        </div></summary>
         <div v-if="load.charge > integrity" class="rule-note bad">
           Charge augmentique permanente {{ load.charge }} &gt; Intégrité {{ integrity }}.
         </div>
@@ -804,16 +804,16 @@ function setCorporateSupportItem(itemId:string){
           </div>
         </div>
       </details>
-      </section>
+      </details>
 
-      <section class="reality-panel">
-        <div class="subsection-title">
+      <details class="reality-panel section-disclosure">
+        <summary class="section-summary"><div class="subsection-title">
           <div>
             <h3>Équipement & véhicules possédés</h3>
             <p>Les Neuroprogrammes possédés sont distincts des programmes actuellement chargés.</p>
           </div>
           <span class="schema-badge">{{ purchasedEquipment.length }}</span>
-        </div>
+        </div></summary>
         <div v-if="!purchasedEquipment.length" class="empty-line">Aucun achat.</div>
         <div class="picked-list">
           <div v-for="row in purchasedEquipment" :key="row.purchase.uid" class="picked-row rich">
@@ -935,7 +935,7 @@ function setCorporateSupportItem(itemId:string){
           </div>
         </div>
       </details>
-      </section>
+      </details>
 
 
 
@@ -987,6 +987,7 @@ function setCorporateSupportItem(itemId:string){
 .economy-grid strong{color:#b1edfb;font:600 clamp(20px,2vw,26px)/1.2 Inter,"Segoe UI",sans-serif;font-variant-numeric:tabular-nums}
 .economy-grid span{color:var(--equipment-muted);font-size:14px}
 .reality-panel{min-width:0;margin:0;padding:22px;border:1px solid var(--equipment-border);border-radius:9px;background:#0e1a28}
+.section-disclosure>.section-summary{cursor:pointer;list-style:none}.section-disclosure>.section-summary::-webkit-details-marker{display:none}.section-disclosure>.section-summary .subsection-title{margin:0}.section-disclosure>.section-summary::after{content:'⌄';float:right;color:#8dded9}.section-disclosure[open]>.section-summary::after{transform:rotate(180deg)}.section-disclosure[open]>.section-summary{margin-bottom:18px}
 .reality-panel h3{margin:0 0 8px;font-size:19px;line-height:1.3}
 .subsection-title p{margin:0;color:var(--equipment-muted);font-size:14px}
 .charge-summary{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}

@@ -2052,7 +2052,7 @@ onBeforeUnmount(()=>{
                   <strong>{{ attribute.name }}</strong>
                   <small>{{ rules.skills.filter((item)=>item.attribute===attribute.id).length }} Compétences</small>
                 </span>
-                <span class="schema-badge">{{ skillFreePointsForAttribute(attribute.id) }} pts libres</span>
+                <span class="schema-badge">{{ skillFreePointsForAttribute(attribute.id) }} point{{ skillFreePointsForAttribute(attribute.id) > 1 ? 's' : '' }} attribué{{ skillFreePointsForAttribute(attribute.id) > 1 ? 's' : '' }} ici</span>
               </summary>
               <div class="skill-grid">
                 <div
