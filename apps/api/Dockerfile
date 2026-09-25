@@ -41,7 +41,6 @@ COPY compendium/source/corporation-branding-v1.json ./compendium-media/source/co
 COPY compendium/source/weapon-brand-links-v1.json ./compendium-media/source/weapon-brand-links-v1.json
 COPY compendium/source/portrait-only-lot2-v1.json ./compendium-media/source/portrait-only-lot2-v1.json
 COPY compendium/source/wiki-taxonomy-arbitrage-v1.json.gz ./review-data/wiki-taxonomy-arbitrage-v1.json.gz
-COPY compendium/source/wiki-taxonomy-catalogue-v1.json ./review-data/wiki-taxonomy-catalogue-v1.json
 ENV COMPENDIUM_ARBITRAGE_FILE=/app/review-data/wiki-taxonomy-arbitrage-v1.json.gz
 
 RUN mkdir -p /app/editor-media && chown -R node:node /app/editor-media
