@@ -186,9 +186,11 @@ try {
     const invitationLink=page.locator('.account-campaigns').getByRole('link',{name:'Voir l’invitation →'});
     await invitationLink.waitFor();
     assert.equal(await invitationLink.getAttribute('href'),'/campaigns/campaign-invite');
+    await page.locator('details.dashboard-collapse').filter({has:page.locator('summary').filter({hasText:'Reprendre ma dernière lecture'})}).locator(':scope > summary').click();
     const readingLink = page.locator('.account-last-reading').getByRole('link', { name: 'Reprendre ma lecture →' });
     await readingLink.waitFor();
     assert.ok((await readingLink.getAttribute('href')).includes(`article=${articleId}`));
+    await page.getByText('Profil et sécurité',{exact:true}).click();
     const gmPanel = page.locator(".gm-access-panel");
     assert.ok(await page.evaluate(() => Boolean(document.querySelector('.account-settings-grid').compareDocumentPosition(document.querySelector('.account-gm-settings')) & Node.DOCUMENT_POSITION_FOLLOWING)), 'MJ request follows profile/password settings');
     await page.getByRole("button", { name: "Demander l’accès MJ", exact: true }).waitFor();
@@ -206,6 +208,8 @@ try {
 
     role = "admin";
     await page.reload({ waitUntil: "domcontentloaded" });
+    await page.locator('details.admin-management > summary').click();
+    await page.locator('details.dashboard-collapse > summary').filter({hasText:/^Journal administrateur/}).click();
     await page.getByRole("heading", { name: "Gestion des comptes", exact: true }).waitFor();
     await page.getByRole("heading", { name: "Journal administrateur", exact: true }).waitFor();
     await assertLayout(page, `Compte Administrateur ${width}`);
