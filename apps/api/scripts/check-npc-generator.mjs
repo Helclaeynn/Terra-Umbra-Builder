@@ -15,7 +15,7 @@ for(const p of NPC_PRESETS){
   const ranges=c.ranges[`${t.id}:${p.id}`];
   for(const [id,v] of Object.entries(n.attributes))assert.ok(v>=ranges.attributes[id].min&&v<=ranges.attributes[id].max);
   for(const [id,v] of Object.entries(n.skills))assert.ok(v>=ranges.skills[id].min&&v<=ranges.skills[id].max);
-  assert.equal(n.apexSkill,'');assert.equal(n.truthNotes,'');assert.equal(n.armor,0);
+  assert.equal(n.apexSkill,'');assert.equal(n.truthNotes,'');assert.equal(n.armor,0);assert.deepEqual(n.equipmentIds,[]);
   assert.ok(n.talentIds.every(id=>c.talents.some(t=>t.id===id)));
   assert.deepEqual(n,generateNpc(t.id,p.id,String(seed)));
  }
@@ -27,6 +27,9 @@ n.skills=Object.fromEntries(c.skills.map(s=>[s.id,0]));n.talentIds=[];n.skills.t
 assert.ok(validNpcData(n,c));assert.ok(!validNpcData({...n,apexReason:''},c));assert.ok(!validNpcData({...n,tierId:'elite'},c));
 assert.ok(!validNpcData({...n,skills:{...n.skills,melee:15}},c));
 assert.ok(!validNpcData({...n,armor:NaN},c));assert.ok(!validNpcData({...n,attributes:{...n.attributes,vigueur:-1}},c));
+assert.ok(c.equipment.length>100);assert.equal(c.equipment.find(item=>item.id==='armures-basiques-raven-black-feathers').armor,1);
+assert.equal(c.equipment.find(item=>item.id==='armures-combat-raven-gallowglass-ii-lourde').armor,9);
+assert.ok(!validNpcData({...n,equipmentIds:['equipement-inconnu']},c));
 for(const id of ['Enveloppe vide','toString','__proto__',null,{}])assert.ok(!validNpcData({...n,talentIds:[id]},c));
 const id='11111111-1111-4111-8111-111111111111',ref={npcId:id,articleId:'campaign-npc:'+id,title:'Contact',category:'PNJ de campagne',quantity:2,notes:''};
 const scenes=[{id:'scene',title:'Rencontre',notes:'',done:false,references:[ref]}];

@@ -4321,9 +4321,6 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
 
   app.get("/api/compendium/onboarding", async () => {
     const corpus = await getCorpus();
-
-  app.get("/api/compendium/onboarding", async () => {
-    const corpus = await getCorpus();
     const exists = (id?: string) => {
       if (!id) return false;
       const article = corpus.byId.get(id);
