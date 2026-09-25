@@ -578,7 +578,7 @@ for (const name of ['Apprendre un Talent de Réalité','Dépenser des PTV']) {
     if(await block.getByRole('switch').count())throw new Error('Accord MJ inutile pour les talents de sa Nature');
     await block.getByLabel('Catégorie de Talents de Vérité').selectOption('Groupe Smoke');
   }
-  const realityGroup=block.locator('.reality-talent-family').filter({has:block.locator('.reality-family-summary strong').filter({hasText:/^Talents communs$/})});
+  const realityGroup=block.locator('.reality-talent-family').filter({has:page.locator('.reality-family-summary strong').filter({hasText:/^Talents communs$/})});
   const names = await (name==='Dépenser des PTV' ? block.locator('.talent-list .progress-card-title>strong') : realityGroup.locator('.reality-talent-card>strong')).allTextContents();
   const expected = name==='Dépenser des PTV' ? ['Aube occulte','Zèle occulte','Aube supérieure'] : ['Aube Smoke','Zèle Smoke'];
   if(JSON.stringify(names)!==JSON.stringify(expected))throw new Error('Tri des talents incorrect : '+JSON.stringify(names));
