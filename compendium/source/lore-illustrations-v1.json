@@ -1,0 +1,1093 @@
+{
+  "version": 1,
+  "illustrations": [
+    {
+      "articleId": "realite-v9-crawlers-underlife",
+      "sectionId": "infrastructure-sociale",
+      "src": "images/lore/realite-crawlers-underlife.webp",
+      "alt": "Ateliers, cultures et commerces occupent un ancien réseau souterrain habité par les Crawlers.",
+      "caption": "L’Underlife construit ses propres réseaux de survie."
+    },
+    {
+      "articleId": "realite-v9-holonet-medias-culture-identite",
+      "sectionId": "journee-ordinaire",
+      "src": "images/lore/realite-holonet-quotidien.webp",
+      "alt": "Des voyageurs ordinaires traversent une gare de 2035 avec leurs services Holonet et leurs identités numériques.",
+      "caption": "Le spectaculaire est devenu un outil quotidien."
+    },
+    {
+      "articleId": "realite-v9-augmentations-corps-sante",
+      "sectionId": "emploi-corps",
+      "src": "images/lore/realite-augmentations-emploi.webp",
+      "alt": "Une employée fait entretenir sa prothèse de travail dans une clinique professionnelle.",
+      "caption": "L’augmentation peut être un avantage professionnel et une dette envers l’employeur."
+    },
+    {
+      "articleId": "realite-v9-technologies-infrastructures-mobilite",
+      "sectionId": "ville-verticale-trois-strates",
+      "src": "images/lore/realite-ville-trois-strates.webp",
+      "alt": "Vue en coupe d’une ville de 2035, des tours corporatives aux rues puis aux infrastructures souterraines.",
+      "caption": "Tours, rue et sous-sol composent trois strates de mobilité et d’accès."
+    },
+    {
+      "articleId": "realite-v9-laus-investigation",
+      "sectionId": "forensic",
+      "src": "images/lore/realite-laus-forensic.webp",
+      "alt": "Les spécialistes scientifiques du LAUS analysent des traces et soutiennent une enquête.",
+      "caption": "Le Forensic Bureau apporte les preuves scientifiques aux enquêteurs."
+    },
+    {
+      "articleId": "verite-extrals-talass-detail",
+      "sectionId": "description",
+      "src": "images/lore/verite-reference-talass.webp",
+      "alt": "Illustration de référence fournie par l’auteur : morphologie d’un Talass.",
+      "caption": "Talass · visuel canonique fourni par l’auteur.",
+      "style": "lore-reference"
+    },
+    {
+      "articleId": "verite-extrals-mosens-detail",
+      "sectionId": "description",
+      "src": "images/lore/verite-reference-mosens.webp",
+      "alt": "Illustration de référence fournie par l’auteur : morphologie d’un Mo’sen.",
+      "caption": "Mo’sen · visuel canonique fourni par l’auteur.",
+      "style": "lore-reference"
+    },
+    {
+      "articleId": "verite-extrals-thalsios-detail",
+      "sectionId": "description",
+      "src": "images/lore/verite-reference-thalsios.webp",
+      "alt": "Illustration de référence fournie par l’auteur : morphologie d’un Thalsios.",
+      "caption": "Thalsios · visuel canonique fourni par l’auteur.",
+      "style": "lore-reference"
+    },
+    {
+      "articleId": "realite-v9-crawlers-underlife",
+      "sectionId": "zones-mortes",
+      "src": "images/lore/realite-crawlers-zones-mortes.webp",
+      "alt": "Les habitants d’une zone laissée de côté réparent les machines, recyclent et entretiennent leur quartier.",
+      "caption": "L’abandon administratif oblige les habitants à organiser eux-mêmes maintenance et solidarité."
+    },
+    {
+      "articleId": "realite-v9-corporations-territoires",
+      "sectionId": "recherche-innovation",
+      "src": "images/lore/realite-corporations-recherche.webp",
+      "alt": "Un centre corporatif transforme la recherche médicale et les augmentations en produits de grande diffusion.",
+      "caption": "Les brevets deviennent produits, normes et dépendances techniques."
+    },
+    {
+      "articleId": "realite-v9-laus-surveillance",
+      "sectionId": "holonet",
+      "src": "images/lore/realite-laus-holonet.webp",
+      "alt": "Des agents du Holonet Bureau surveillent les flux et coordonnent les images de la ville.",
+      "caption": "Le Holonet Bureau surveille et maintient les communications du LAUS."
+    },
+    {
+      "articleId": "realite-v9-pegre-mafias-gangs",
+      "sectionId": "dette-reputation",
+      "src": "images/lore/realite-pegre-faveurs.webp",
+      "alt": "Une famille reçoit une aide médicale obtenue par une faveur dont la dette est consignée.",
+      "caption": "Une faveur crée une dette qui peut survivre à l’argent."
+    },
+    {
+      "articleId": "realite-v9-vivre-en-2035",
+      "sectionId": "abonnement-dette",
+      "src": "images/lore/realite-abonnements-dette.webp",
+      "alt": "Une famille examine les services domestiques suspendus après la perte de son accès professionnel.",
+      "caption": "Le travail et les abonnements conditionnent l’accès aux services."
+    },
+    {
+      "articleId": "realite-v9-alimentation-logement-quotidien-materiel",
+      "sectionId": "hierarchie-alimentaire",
+      "src": "images/lore/realite-rations-universelles.webp",
+      "alt": "Des habitants se procurent des rations nutritionnelles et des céréales dans un centre de distribution de quartier.",
+      "caption": "La ration universelle garantit les apports essentiels sans effacer les écarts de confort."
+    },
+    {
+      "articleId": "realite-v9-corporations-territoires",
+      "sectionId": "vivre-sous-contrat",
+      "src": "images/lore/realite-corporations-vivre-contrat.webp",
+      "alt": "Une famille accède aux services d’un quartier résidentiel corporatif sous contrat.",
+      "caption": "Logement, soins et transport peuvent relever d’un même contrat."
+    },
+    {
+      "articleId": "realite-v9-grande-californie-2035",
+      "sectionId": "lire-une-rue",
+      "src": "images/lore/realite-rue-2035.webp",
+      "alt": "Sur une rue municipale, une équipe entretient le réseau sous les caméras et les drones de la ville.",
+      "caption": "L’entretien et la surveillance racontent qui tient la rue."
+    },
+    {
+      "articleId": "realite-v9-services-publics",
+      "sectionId": "sante",
+      "src": "images/lore/realite-services-sante.webp",
+      "alt": "Des patients sont accueillis au guichet d’un hôpital public de Grande Californie.",
+      "caption": "L’hôpital public traite les citoyens et applique ses règles d’accès aux autres résidents."
+    },
+    {
+      "articleId": "realite-v9-congres-grande-californie",
+      "sectionId": "influences",
+      "src": "images/lore/realite-congres-influences.webp",
+      "alt": "La salle du Congrès réunit représentants citoyens, associatifs, religieux et corporatifs.",
+      "caption": "Quatre Influences se disputent les décisions du Congrès."
+    },
+    {
+      "articleId": "realite-v9-cour-supreme",
+      "sectionId": "competences",
+      "src": "images/lore/realite-cour-supreme.webp",
+      "alt": "Une audience constitutionnelle devant la Cour suprême de Grande Californie.",
+      "caption": "La Cour statue sur les lois et les conflits majeurs de l’État."
+    },
+    {
+      "articleId": "realite-v9-forces-defense",
+      "sectionId": "net-corps",
+      "src": "images/lore/realite-net-corps.webp",
+      "alt": "Des soldats du Net Corps coordonnent une mission à distance dans une salle d’opérations.",
+      "caption": "Le Net Corps agit comme une armée, à l’écran comme sur le terrain."
+    },
+    {
+      "articleId": "realite-v9-laus-formation",
+      "sectionId": "epreuve-physique",
+      "src": "images/lore/realite-laus-formation.webp",
+      "alt": "Des candidats au LAUS répètent des épreuves physiques sous la surveillance d’instructeurs.",
+      "caption": "Le concours mesure endurance, poursuite et maîtrise physique."
+    },
+    {
+      "articleId": "realite-v9-haute-commission-juristes",
+      "sectionId": "reforme-penale",
+      "src": "images/lore/realite-juristes-commission.webp",
+      "alt": "Une commission de juristes examine les dossiers et discute de la réforme pénale.",
+      "caption": "La Haute Commission travaille à l’équité et à l’évolution des sanctions."
+    },
+    {
+      "articleId": "realite-v9-cnad",
+      "sectionId": "quatre-cercles",
+      "src": "images/lore/realite-cnad-conseil.webp",
+      "alt": "Un conseil fermé de responsables d’agences tient une réunion en présence dans un bâtiment sécurisé.",
+      "caption": "Le CNAD répartit la décision et l’information entre plusieurs cercles."
+    },
+    {
+      "articleId": "realite-v9-mairies-pouvoirs-locaux",
+      "sectionId": "pouvoir-municipal",
+      "src": "images/lore/realite-mairies-locales.webp",
+      "alt": "Des habitants et des agents travaillent dans une mairie de Grande Californie.",
+      "caption": "La mairie coordonne les services et les décisions à l’échelle locale."
+    },
+    {
+      "articleId": "realite-v9-cabinet-secretariats",
+      "sectionId": "chambre-secretaires",
+      "src": "images/lore/realite-cabinet-secretaires.webp",
+      "alt": "Des membres du cabinet délibèrent autour d’une table dans une salle gouvernementale.",
+      "caption": "Les secrétaires coordonnent les grands domaines de l’action gouvernementale."
+    },
+    {
+      "articleId": "realite-v9-systeme-carceral",
+      "sectionId": "privatisation",
+      "src": "images/lore/realite-systeme-carceral.webp",
+      "alt": "Des agents surveillent les ailes d’une prison aux équipements inégaux.",
+      "caption": "La gestion privée marque les conditions de détention du système carcéral."
+    },
+    {
+      "articleId": "realite-v9-commission-legislative",
+      "sectionId": "controle",
+      "src": "images/lore/realite-commission-observatoires.webp",
+      "alt": "Quatre commissaires étudient des dossiers et des anomalies dans une salle de surveillance institutionnelle.",
+      "caption": "La Commission observe le travail législatif et signale les anomalies graves."
+    },
+    {
+      "articleId": "realite-v9-justice-californienne",
+      "sectionId": "independance",
+      "src": "images/lore/realite-justice-californienne.webp",
+      "alt": "Une juge préside une audience dans un tribunal californien en présence des avocats et du public.",
+      "caption": "La justice californienne exerce son autorité au sein d’institutions distinctes des États-Unis."
+    },
+    {
+      "articleId": "realite-v9-laus-commandement",
+      "sectionId": "organisation-sii",
+      "src": "images/lore/realite-laus-commandement.webp",
+      "alt": "Une salle de coordination du LAUS où travaillent ensemble agents de surveillance, enquêteurs et équipes d’intervention.",
+      "caption": "Le LAUS concentre ses missions autour de la surveillance, de l’investigation et de l’intervention."
+    },
+    {
+      "articleId": "realite-v9-cpp",
+      "sectionId": "infiltration",
+      "src": "images/lore/realite-cpp-infiltration.webp",
+      "alt": "Deux enquêteurs en civil observent discrètement le chargement d’un entrepôt depuis un véhicule stationné à distance.",
+      "caption": "Faute de moyens d’intervention, le CPP constitue ses dossiers par l’infiltration et la surveillance."
+    },
+    {
+      "articleId": "realite-v9-inata",
+      "sectionId": "affaires",
+      "src": "images/lore/realite-inata-mediation.webp",
+      "alt": "Des représentants de nations amérindiennes et une juriste étudient des dossiers autour d’une table de négociation.",
+      "caption": "L’INATA assure la médiation entre les nations et traite des différends juridiques et commerciaux."
+    },
+    {
+      "articleId": "realite-v9-cbac",
+      "sectionId": "corruption",
+      "src": "images/lore/realite-cbac-corruption.webp",
+      "alt": "Deux enquêteurs de la CBAC comparent des rapports de police et des dossiers financiers dans un petit bureau.",
+      "caption": "La CBAC recoupe les signalements et les flux financiers pour enquêter sur la corruption policière."
+    },
+    {
+      "articleId": "realite-v9-cchs",
+      "sectionId": "organisation",
+      "src": "images/lore/realite-cchs-surveillance.webp",
+      "alt": "Des professionnels de santé étudient des échantillons et des indicateurs sanitaires dans un laboratoire californien.",
+      "caption": "Le CCHS surveille les risques de santé publique avant de déployer ses équipes d’assainissement."
+    },
+    {
+      "articleId": "realite-v9-nrmd",
+      "sectionId": "organisation",
+      "src": "images/lore/realite-nrmd-ressources.webp",
+      "alt": "Une petite équipe analyse les ressources de Californie et les quotas d’exploitation sur des écrans de contrôle.",
+      "caption": "Le NRMD suit les ressources et leurs quotas avec des effectifs réduits et des outils automatisés."
+    },
+    {
+      "articleId": "realite-v9-eio",
+      "sectionId": "organisation",
+      "src": "images/lore/realite-eio-inspection.webp",
+      "alt": "Deux inspecteurs observent une activité de groupe dans une classe et examinent les évaluations avec une enseignante.",
+      "caption": "L’EIO évalue les établissements et les parcours des étudiants, du collectif à l’avenir individuel."
+    },
+    {
+      "articleId": "realite-v9-csc",
+      "sectionId": "controles",
+      "src": "images/lore/realite-csc-inspection.webp",
+      "alt": "Trois inspecteurs aux cravates noires rayées de rouge contrôlent une chaîne de fabrication corporative.",
+      "caption": "Le CSC procède à des contrôles inopinés des normes au sein des corporations."
+    },
+    {
+      "articleId": "realite-v9-stab",
+      "sectionId": "poles-sections",
+      "src": "images/lore/realite-stab-contre-mesures.webp",
+      "alt": "Des spécialistes de la STAB analysent un prototype d’augmentation mécanique dans un laboratoire sécurisé.",
+      "caption": "La STAB étudie les technologies dangereuses et met au point des contre-mesures avant les interventions."
+    },
+    {
+      "articleId": "realite-v9-cbii",
+      "sectionId": "fonctionnement",
+      "src": "images/lore/realite-cbii-coordination.webp",
+      "alt": "Des enquêteurs du CBII croisent des dossiers et coordonnent leurs informations autour d’une carte californienne.",
+      "caption": "Les branches du CBII et leurs agents de liaison partagent les données des enquêtes majeures."
+    },
+    {
+      "articleId": "realite-v9-cbii",
+      "sectionId": "outils",
+      "src": "images/lore/realite-cbii-agent-j.webp",
+      "alt": "Une agente infiltrée échange discrètement avec une source dans un café pendant qu’un collègue surveille les lieux.",
+      "caption": "Les agents sous couverture du CBII recueillent des renseignements au sein des milieux criminels."
+    },
+    {
+      "articleId": "realite-v9-comite-general-crime-californien",
+      "sectionId": "fondation",
+      "src": "images/lore/realite-comite-crime.webp",
+      "alt": "Les délégués du Comité général du Crime californien négocient autour d’une grande table sous surveillance.",
+      "caption": "Le Sommet de Los Angeles redistribue les activités et les zones d’influence de la pègre californienne."
+    },
+    {
+      "articleId": "realite-v9-corcoran-ushkoll",
+      "sectionId": "presentation",
+      "src": "images/lore/realite-corcoran-ushkoll.webp",
+      "alt": "Un groupe officiel entre dans le pénitencier de Corcoran, dont les murs anciens côtoient des structures de sécurité récentes.",
+      "caption": "Ushkoll Penitentiary est une ancienne prison californienne profondément restructurée."
+    },
+    {
+      "articleId": "realite-v9-grande-reserve-detail",
+      "sectionId": "statut",
+      "src": "images/lore/realite-grande-reserve-nations.webp",
+      "alt": "Des représentants de plusieurs nations amérindiennes discutent de l’administration et des lois de la Grande Réserve.",
+      "caption": "Les nations de la Grande Réserve disposent d’une large autonomie pour définir leurs institutions et leurs règles."
+    },
+    {
+      "articleId": "realite-v9-religions-communautes",
+      "sectionId": "retour-du-religieux",
+      "src": "images/lore/realite-religions-entraide.webp",
+      "alt": "Une communauté chrétienne distribue des repas, des couvertures et des soins dans un centre d’accueil.",
+      "caption": "En 2035, les communautés de foi assurent aussi des services concrets d’entraide et d’hébergement."
+    },
+    {
+      "articleId": "realite-v9-loisirs-modes-sociabilites",
+      "sectionId": "musique",
+      "src": "images/lore/realite-loisirs-neopunk.webp",
+      "alt": "Un groupe de musique underground se produit devant un public neopunk aux modes et augmentations variées.",
+      "caption": "Les scènes underground diffusent librement leurs musiques et nourrissent les contre-cultures californiennes."
+    },
+    {
+      "articleId": "realite-v9-loisirs-modes-sociabilites",
+      "sectionId": "sport",
+      "src": "images/lore/realite-loisirs-sport-augmente.webp",
+      "alt": "Des athlètes équipés d’augmentations autorisées courent dans une arène sous le regard d’un public connecté.",
+      "caption": "Les compétitions augmentées classent les athlètes selon leurs capacités et deviennent de grands spectacles immersifs."
+    },
+    {
+      "articleId": "realite-v9-corporation-yellow-food-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-yellow-food-cereales.webp",
+      "alt": "Des céréales arrivent dans une gigantesque usine automatisée de transformation alimentaire.",
+      "caption": "Yellow Food contrôle les matières premières céréalières qui alimentent son empire de restauration rapide."
+    },
+    {
+      "articleId": "realite-v9-corporation-asco-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-asco-viande-cellulaire.webp",
+      "alt": "Des techniciens contrôlent des bioréacteurs et une ligne de production de viande cellulaire.",
+      "caption": "Asco produit massivement des protéines cultivées en laboratoire pour remplacer l’élevage conventionnel."
+    },
+    {
+      "articleId": "realite-v9-corporation-dwarfood-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-dwarfood-ranch.webp",
+      "alt": "Un élevage isolé est protégé par des agents de sécurité tandis que des employés suivent les bovins et les transports réfrigérés.",
+      "caption": "Dwarfood élève de vrais animaux sur des terres isolées et défend étroitement ses productions."
+    },
+    {
+      "articleId": "realite-v9-corporation-ocean-master-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-ocean-master-algues.webp",
+      "alt": "Des techniciens récoltent des algues énergétiques sur une vaste plateforme flottante reliée à des modules industriels.",
+      "caption": "Ocean Master exploite les algues comme ressource énergétique majeure sur ses plateformes marines."
+    },
+    {
+      "articleId": "realite-v9-corporation-herbrews-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-herbrews-boissons.webp",
+      "alt": "Des responsables contrôlent la mise en bouteilles de boissons alcoolisées dans une vaste usine.",
+      "caption": "Herbrews domine l’industrie mondiale des boissons, notamment celle des alcools."
+    },
+    {
+      "articleId": "realite-v9-corporation-eversor-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-eversor-restauration.webp",
+      "alt": "Une équipe prépare des repas et du pain dans un restaurant Eversor installé dans un quartier en rénovation.",
+      "caption": "Eversor ouvre des activités de restauration et recrute des personnes hors des cadres habituels du Logifate."
+    },
+    {
+      "articleId": "realite-v9-corporation-wellspring-industries-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-wellspring-fusion.webp",
+      "alt": "Des ingénieurs contrôlent une installation de fusion nucléaire protégée par un périmètre de sécurité privé.",
+      "caption": "Wellspring produit et distribue l’énergie grâce à de nouvelles technologies, sous forte protection corporative."
+    },
+    {
+      "articleId": "realite-v9-corporation-seawares-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-seawares-fonds-marins.webp",
+      "alt": "Des scaphandriers inspectent une machine d’extraction minérale sur le fond de l’océan près d’une installation sous-marine.",
+      "caption": "Seawares exploite les ressources des fonds marins à l’aide d’équipements adaptés aux grandes profondeurs."
+    },
+    {
+      "articleId": "realite-v9-corporation-tuatha-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-tuatha-studio.webp",
+      "alt": "Une équipe de tournage réalise une fiction immersive sur un grand plateau de production doté de décors virtuels.",
+      "caption": "Tuatha bâtit une grande part de son influence sur les studios, les arts et les divertissements immersifs."
+    },
+    {
+      "articleId": "realite-v9-corporation-dreampoint-corporation",
+      "sectionId": "branches",
+      "src": "images/lore/realite-dreampoint-management.webp",
+      "alt": "Des gestionnaires évaluent les performances et les profils d’artistes adultes pendant une répétition dans un centre Dreampoint.",
+      "caption": "Dreampoint encadre étroitement le recrutement, la formation et l’apparence de ses talents."
+    },
+    {
+      "articleId": "realite-v9-corporation-nexstar-media-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-nexstar-redaction.webp",
+      "alt": "Des journalistes croisent documents imprimés et images du terrain dans une rédaction reliée à une imprimerie.",
+      "caption": "Nexstar a maintenu l’information par la presse imprimée pendant les crises, puis l’a portée sur l’Holonet."
+    },
+    {
+      "articleId": "realite-v9-corporation-omegacoustics-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-omegacoustics-echantillons.webp",
+      "alt": "Des musiciens enregistrent de courts passages pendant qu’un ingénieur les assemble sur une vaste console numérique.",
+      "caption": "Omegacoustics compose à partir de banques de sons et d’outils automatisés, puis calibre les productions pour le marché."
+    },
+    {
+      "articleId": "realite-v9-corporation-redwheels-corporation",
+      "sectionId": "branches",
+      "src": "images/lore/realite-redwheels-club.webp",
+      "alt": "Le personnel d’un club Redwheels prépare l’accueil du soir sous la surveillance d’une équipe de sécurité.",
+      "caption": "Les clubs de nuit et les services humains occupent une place majeure dans l’activité de Redwheels."
+    },
+    {
+      "articleId": "realite-v9-corporation-hound-record-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-hound-arene.webp",
+      "alt": "Deux groupes répètent dans les studios d’un label sous le regard de producteurs qui évaluent leurs audiences.",
+      "caption": "L’« Arène » de Hound met les artistes en concurrence et transforme les codes neopunks en produit corporatif."
+    },
+    {
+      "articleId": "realite-v9-corporation-raven-industries-corporation",
+      "sectionId": "branches",
+      "src": "images/lore/realite-raven-armements.webp",
+      "alt": "Des ingénieurs de Raven contrôlent des armes individuelles et des augmentations militaires dans un atelier de développement.",
+      "caption": "Raven développe des armements et des augmentations pour les armées et les corporations de sécurité."
+    },
+    {
+      "articleId": "realite-v9-corporation-phoenix-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-phoenix-convoi.webp",
+      "alt": "Des agents de sécurité privés préparent un convoi d’équipement militaire dans une installation hautement protégée.",
+      "caption": "Phoenix associe ses ventes d’armement à des effectifs formés et protège étroitement ses produits."
+    },
+    {
+      "articleId": "realite-v9-corporation-byron-industries-corporation",
+      "sectionId": "branches",
+      "src": "images/lore/realite-byron-manufacture.webp",
+      "alt": "Des ouvriers assemblent des appareils domestiques et des modules techniques dans une grande manufacture.",
+      "caption": "Byron conserve une base industrielle étendue, des équipements domestiques aux technologies urbaines."
+    },
+    {
+      "articleId": "realite-v9-corporation-bullmotors-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-bullmotors-abonnement.webp",
+      "alt": "Des habitants réservent des véhicules autonomes à la demande devant un point de prise en charge de quartier.",
+      "caption": "Bullmotors vend des abonnements de déplacement individuel plutôt que la seule possession d’une voiture."
+    },
+    {
+      "articleId": "realite-v9-corporation-space-force-union",
+      "sectionId": "activites",
+      "src": "images/lore/realite-sfu-lune.webp",
+      "alt": "Des résidents et des techniciens traversent un terminal lunaire donnant sur des installations d’exploitation sous le regard de la Terre.",
+      "caption": "La SFU administre l’installation humaine sur la Lune et exploite les ressources environnantes."
+    },
+    {
+      "articleId": "realite-v9-corporation-arcanetworks-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-arcanetworks-acces.webp",
+      "alt": "Une technicienne aide une personne âgée à découvrir l’Holonet avec des lunettes connectées.",
+      "caption": "Arcanetwork a misé sur des interfaces abordables et simples pour généraliser l’accès à l’Holonet."
+    },
+    {
+      "articleId": "realite-v9-corporation-monarch-systems-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-monarch-cybersecurite.webp",
+      "alt": "Des analystes surveillent la sécurité de réseaux Holonet tandis qu’une équipe traite des données d’usage.",
+      "caption": "Monarch vend à la fois une cybersécurité réputée et l’analyse des données collectées sur les utilisateurs."
+    },
+    {
+      "articleId": "realite-v9-corporation-aces-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-aces-materiel-holonet.webp",
+      "alt": "Des techniciens testent et emballent des holophones et des interfaces connectées sur une chaîne de production.",
+      "caption": "Aces a diffusé massivement du matériel électronique abordable au lancement de l’Holonet."
+    },
+    {
+      "articleId": "realite-v9-corporation-biosun-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-biosun-augmentations-biologiques.webp",
+      "alt": "Dans une clinique de biotechnologie, une soignante examine le bras d’un patient tandis que des cultures de tissus sont étudiées à proximité.",
+      "caption": "BioSun développe des soins, des recherches génétiques et des augmentations biologiques."
+    },
+    {
+      "articleId": "realite-v9-corporation-sunways-corporation",
+      "sectionId": "branches",
+      "src": "images/lore/realite-sunways-recherche-biomedicale.webp",
+      "alt": "Une équipe mène des analyses biomédicales dans un laboratoire indépendant aux espaces de travail strictement organisés.",
+      "caption": "Sunways répartit ses recherches et ses activités médicales entre compagnies spécialisées."
+    },
+    {
+      "articleId": "realite-v9-corporation-antelligence-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-antelligence-nanites-neurales.webp",
+      "alt": "Une équipe médicale examine les connexions neuronales d’un patient pendant une intervention assistée par nanites.",
+      "caption": "Les nanites Anty d’Antelligence servent d’interface entre cellules et systèmes non organiques."
+    },
+    {
+      "articleId": "realite-v9-corporation-ushkoll-security-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-ushkoll-entrainement.webp",
+      "alt": "Des mercenaires en équipement standardisé s’entraînent sur un parcours physique près de véhicules militaires.",
+      "caption": "Ushkoll entretient une force de sécurité et de mercenariat capable d’intervenir à toutes les échelles."
+    },
+    {
+      "articleId": "realite-v9-corporation-pixy-security-corporation",
+      "sectionId": "branches",
+      "src": "images/lore/realite-pixy-securite-diversifiee.webp",
+      "alt": "Des vétérans aux équipements variés préparent une mission autour d’une table dans un hangar de sécurité.",
+      "caption": "Pixy rassemble des sociétés de sécurité aux matériels et aux traditions différents selon les régions."
+    },
+    {
+      "articleId": "realite-v9-corporation-tortoise-security-corporation",
+      "sectionId": "branches",
+      "src": "images/lore/realite-tortoise-securite-residentielle.webp",
+      "alt": "Des agents et techniciens protègent une rue résidentielle avec un sas d’accès et des barrières modulaires.",
+      "caption": "Tortoise Security se spécialise dans la sécurisation des résidences et la défense urbaine."
+    },
+    {
+      "articleId": "realite-v9-corporation-tala-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-tala-complexe-casino.webp",
+      "alt": "Des visiteurs circulent entre le casino, l’hôtel et une salle de spectacle au sein d’un vaste complexe de loisirs.",
+      "caption": "Les complexes de Tala réunissent casino, hôtellerie et spectacle dans une ambiance thématique cohérente."
+    },
+    {
+      "articleId": "realite-v9-corporation-firstlawyer-incorporated-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-firstlawyers-cabinet.webp",
+      "alt": "Une équipe d’avocats étudie les dossiers d’un litige corporatif dans une salle de réunion surplombant la ville.",
+      "caption": "Firstlawyers réunit des cabinets d’avocats internationaux et défend les intérêts de clients puissants."
+    },
+    {
+      "articleId": "realite-v9-corporation-northstar-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-northstar-careforce.webp",
+      "alt": "Une équipe d’intervention médicale évacue un client blessé vers un véhicule de secours protégé.",
+      "caption": "La CareForce de NorthStar intervient rapidement pour protéger et secourir ses clients."
+    },
+    {
+      "articleId": "realite-v9-corporation-corebank-corporation",
+      "sectionId": "branches",
+      "src": "images/lore/realite-corebank-finance-immobilier.webp",
+      "alt": "Des analystes bancaires étudient des flux internationaux et des dossiers immobiliers dans une tour de bureaux.",
+      "caption": "Corebank associe services bancaires, crédits et investissements immobiliers à l’échelle mondiale."
+    },
+    {
+      "articleId": "realite-v9-corporation-laguna-bank-corporation",
+      "sectionId": "branches",
+      "src": "images/lore/realite-laguna-banque-terres-rares.webp",
+      "alt": "Une conseillère bancaire présente des placements numériques tandis que des échantillons de terres rares sont conservés sous verre.",
+      "caption": "Laguna Bank propose placements, assurances et crédits dans une économie presque sans monnaie physique."
+    },
+    {
+      "articleId": "realite-v9-corporation-liao-kashiwa-banking-corporation",
+      "sectionId": "activites",
+      "src": "images/lore/realite-liao-kashiwa-recouvrement.webp",
+      "alt": "Des agents de recouvrement présentent des documents de dette à des responsables dans un bureau bancaire.",
+      "caption": "La branche Moneycorp de Liao-Kashiwa assure le recouvrement et la sécurité de la banque."
+    },
+    {
+      "articleId": "realite-v9-agences-securite-enquete",
+      "sectionId": "cnad",
+      "src": "images/lore/realite-cnad-coordination.webp",
+      "alt": "Des responsables civils examinent les missions et les budgets des agences californiennes dans une salle de coordination.",
+      "caption": "Le CNAD supervise la reconstruction des agences publiques tout en leur laissant leur autonomie opérationnelle."
+    },
+    {
+      "articleId": "realite-v9-renseignement-mondial",
+      "sectionId": "cia",
+      "src": "images/lore/realite-cia-renseignement.webp",
+      "alt": "Des analystes d’un service américain consultent des dossiers et des sources internationales dans un bureau de renseignement.",
+      "caption": "La CIA demeure une agence publique influente, malgré la privatisation de nombreux autres services."
+    },
+    {
+      "articleId": "realite-v9-guerres-corporatives",
+      "sectionId": "congo",
+      "src": "images/lore/realite-guerre-corporative-congo.webp",
+      "alt": "Des techniciens installent une infrastructure numérique dans une ville congolaise tandis que des convois miniers circulent au loin.",
+      "caption": "Au Congo, le contrôle des ressources et la modernisation des villes deviennent deux fronts de la rivalité corporative."
+    },
+    {
+      "articleId": "realite-v9-guerres-corporatives",
+      "sectionId": "mexique",
+      "src": "images/lore/realite-guerre-corporative-mexique.webp",
+      "alt": "Des habitants attendent devant des commerces alimentaires fermés tandis que des camions restent bloqués sur la route.",
+      "caption": "Au Mexique, le blocus alimentaire a frappé la population prise dans une guerre entre intérêts corporatifs."
+    },
+    {
+      "articleId": "realite-v9-guerres-corporatives",
+      "sectionId": "israel",
+      "src": "images/lore/realite-guerre-corporative-israel.webp",
+      "alt": "Des secouristes et des habitants interviennent dans une ville endommagée pendant que des équipes préparent la reconstruction.",
+      "caption": "Après le conflit corporatif de 2030–2031, Israël demeure indépendant mais profondément meurtri."
+    },
+    {
+      "articleId": "realite-v9-islam-2035",
+      "sectionId": "mosquee",
+      "src": "images/lore/realite-islam-mosquee-holonet.webp",
+      "alt": "Des membres d’une mosquée californienne échangent autour de livres avec des correspondants reliés par l’Holonet.",
+      "caption": "En 2035, les mosquées gardent leur autonomie et mêlent enseignement, entraide et échanges sur l’Holonet."
+    },
+    {
+      "articleId": "realite-v9-hindouisme-grande-diaspora",
+      "sectionId": "brahmanes",
+      "src": "images/lore/realite-brahmanes-bibliotheque.webp",
+      "alt": "Une enseignante brahmane anime une discussion dans une bibliothèque numérique communautaire en Californie.",
+      "caption": "Dans la diaspora, les brahmanes deviennent aussi conseillers, enseignants et gardiens de savoirs partagés."
+    },
+    {
+      "articleId": "realite-v9-shientaoisme",
+      "sectionId": "pretres-moines",
+      "src": "images/lore/realite-shientaoisme-cybertag.webp",
+      "alt": "Un prêtre-artiste peint un mur urbain dont une passante voit les couches de réalité augmentée.",
+      "caption": "Les prêtres shientaoïstes inscrivent leurs récits et leurs prières dans les cybertags des mégacités."
+    },
+    {
+      "articleId": "realite-v9-eglise-cybernetique",
+      "sectionId": "cycenters",
+      "src": "images/lore/realite-cychurch-cycenter.webp",
+      "alt": "Une fidèle dotée d’un bras cybermécanique reçoit un conseil dans un Cycenter, près d’un atelier de maintenance.",
+      "caption": "Les Cycenters associent conseil, vie religieuse et entretien des augmentations cybermécaniques."
+    },
+    {
+      "articleId": "realite-v9-neopaganisme",
+      "sectionId": "signes-lieux",
+      "src": "images/lore/realite-neopaganisme-neodolmen.webp",
+      "alt": "Un portique de pierre sombre marque l’entrée d’un lieu où une néodruide échange avec des membres de la communauté.",
+      "caption": "Le néodolmen signale un lieu accueillant pour les communautés néopaïennes."
+    },
+    {
+      "articleId": "realite-v9-elyseisme-cyber-eternite",
+      "sectionId": "organisation",
+      "src": "images/lore/realite-elyseisme-immersion.webp",
+      "alt": "Une personne veille à la santé d’une adepte plongée dans une longue connexion immersive à l’Holonet.",
+      "caption": "Les immersions prolongées de certains quêteurs rendent leurs proches essentiels aux soins du corps."
+    },
+    {
+      "articleId": "realite-v9-judaisme-2035",
+      "sectionId": "entraide",
+      "src": "images/lore/realite-judaisme-entraide.webp",
+      "alt": "Dans un centre communautaire juif, des bénévoles distribuent des repas et accompagnent des familles auprès d’une bibliothèque.",
+      "caption": "Les réseaux d’entraide juifs soutiennent l’accès au logement, à la formation et aux soins en 2035."
+    },
+    {
+      "articleId": "realite-v9-sectes-cultes-marginaux",
+      "sectionId": "mouvements",
+      "src": "images/lore/realite-cultes-marginaux-fiction.webp",
+      "alt": "Un petit groupe discute de récits de science-fiction dans un local communautaire, entre culture populaire et ferveur.",
+      "caption": "Après les crises et l’essor de l’Holonet, des communautés font de récits populaires le centre de nouvelles croyances."
+    },
+    {
+      "articleId": "realite-v9-crawlers-fixers",
+      "sectionId": "fixweb",
+      "src": "images/lore/realite-fixweb-diner.webp",
+      "alt": "Une Fixer négocie en personne avec deux Crawlers dans un diner de Los Angeles, un dossier posé entre eux.",
+      "caption": "Le Fixweb relie commanditaires et Crawlers par la réputation et le bouche à oreille."
+    },
+    {
+      "articleId": "realite-v9-crawlers-deathrunners",
+      "sectionId": "organisation",
+      "src": "images/lore/realite-deathrunners-bbm.webp",
+      "alt": "Des mercenaires Crawlers examinent du matériel tactique et des holophones au marché noir installé dans un ancien métro.",
+      "caption": "Les DeathRunners fréquentent les BBM pour les missions, l’équipement et les identités de couverture."
+    },
+    {
+      "articleId": "realite-v9-crawlers-neurodivers",
+      "sectionId": "organisation",
+      "src": "images/lore/realite-neurodivers-cybercafe.webp",
+      "alt": "Des Neurodivers plongés en connexion directe à l’Holonet occupent les fauteuils d’un cybercafé.",
+      "caption": "Les cybercafés Neurodrive sont des lieux de connexion et d’échange discrets pour les hackers Crawlers."
+    },
+    {
+      "articleId": "realite-v9-crawlers-meditechs",
+      "sectionId": "organisation",
+      "src": "images/lore/realite-meditechs-black-clinic.webp",
+      "alt": "Une Méditech soigne la blessure d’un Crawler tandis qu’une collègue répare une augmentation mécanique.",
+      "caption": "Les Black Clinics réunissent soin et réparation pour les Crawlers et les personnes écartées des circuits corporatifs."
+    },
+    {
+      "articleId": "realite-v9-crawlers-gundrivers",
+      "sectionId": "organisation",
+      "src": "images/lore/realite-gundrivers-station-route.webp",
+      "alt": "Des Gundrivers entretiennent leurs motos et leur convoi autour d’une station-service isolée.",
+      "caption": "Les stations-service hors des villes forment des bases logistiques et des lieux d’échange pour les motards Gundrivers."
+    },
+    {
+      "articleId": "realite-v9-crawlers-neopunks",
+      "sectionId": "organisation",
+      "src": "images/lore/realite-neopunks-wild-stage.webp",
+      "alt": "Un groupe de musique contestataire joue devant des Crawlers réunis dans un hangar abandonné.",
+      "caption": "Les Wild Stages mêlent concerts, rencontres et circulation d’informations entre Neopunks."
+    },
+    {
+      "articleId": "realite-v9-crawlers-insurges",
+      "sectionId": "insurrection-mondiale",
+      "src": "images/lore/realite-insurges-raising-freedom-origines.webp",
+      "alt": "Des habitants manifestent devant un bâtiment public endommagé de Los Angeles après le Big One.",
+      "caption": "Raising Freedom naît dans les émeutes contre la mairie de Los Angeles après le Big One."
+    },
+    {
+      "articleId": "realite-v9-crawlers-insurges-raising-freedom",
+      "sectionId": "histoire-doctrine",
+      "src": "images/lore/realite-raising-freedom-atelier.webp",
+      "alt": "Des insurgés de Raising Freedom assemblent des protections et augmentations avec des pièces de récupération.",
+      "caption": "À Los Angeles, Raising Freedom détourne des pièces de véhicules et des augmentations disparates pour s’équiper."
+    },
+    {
+      "articleId": "realite-v9-crawlers-insurges-health-age",
+      "sectionId": "histoire-doctrine",
+      "src": "images/lore/realite-health-age-cellule.webp",
+      "alt": "Une cellule clandestine examine des dossiers sanitaires tandis qu’une communication publique est diffusée sur des écrans.",
+      "caption": "Health Age se présente en défenseur de la santé publique, tout en menant des opérations clandestines meurtrières."
+    },
+    {
+      "articleId": "realite-v9-crawlers-insurges-iron-revengers",
+      "sectionId": "histoire-doctrine",
+      "src": "images/lore/realite-iron-revengers-veterans.webp",
+      "alt": "Des vétérans éprouvés discutent d’un manifeste et de leurs droits dans un local collectif à San Francisco.",
+      "caption": "Les Iron Revengers rassemblent d’anciens militaires et détenus délaissés après la guerre."
+    },
+    {
+      "articleId": "realite-v9-crawlers-insurges-la-grande-revolution",
+      "sectionId": "histoire-doctrine",
+      "src": "images/lore/realite-grande-revolution-reseau.webp",
+      "alt": "Des militants examinent des cartes et des communications dans une réunion clandestine en France.",
+      "caption": "La Grande Révolution coordonne ses réseaux européens et mondiaux malgré la fragmentation politique."
+    },
+    {
+      "articleId": "realite-v9-crawlers-insurges-green-fairy-mother",
+      "sectionId": "histoire-doctrine",
+      "src": "images/lore/realite-green-fairy-mother-communaute.webp",
+      "alt": "Une communauté écologiste vit à l’écart des mégacités et observe les effets d’une installation industrielle lointaine.",
+      "caption": "La branche ender de Green Fairy Mother quitte les villes pour former des communautés écologistes."
+    },
+    {
+      "articleId": "realite-v9-crawlers-insurges-mermaid-soldiers",
+      "sectionId": "histoire-doctrine",
+      "src": "images/lore/realite-mermaid-soldiers-flotte.webp",
+      "alt": "Des navires réparés et des équipages humains forment une flotte indépendante face à une installation industrielle marine.",
+      "caption": "Les Mermaid Soldiers rassemblent des flottes régionales du Pacifique nées de navires abandonnés."
+    },
+    {
+      "articleId": "realite-v9-crawlers-insurges-seungli",
+      "sectionId": "histoire-doctrine",
+      "src": "images/lore/realite-seungli-veterans.webp",
+      "alt": "Des vétérans de la Seungli réparent des armes et des exosquelettes dans un atelier discret.",
+      "caption": "Les anciens soldats de la Seungli entretiennent eux-mêmes un équipement rapidement réparable."
+    },
+    {
+      "articleId": "realite-v9-crawlers-insurges-native-old-blood",
+      "sectionId": "histoire-doctrine",
+      "src": "images/lore/realite-native-old-blood-assemblee.webp",
+      "alt": "Des militants autochtones réunis autour de cartes et de dossiers dans une salle commune de la Grande Réserve.",
+      "caption": "Native Old Blood organise son action politique au sein de la Grande Réserve."
+    },
+    {
+      "articleId": "realite-v9-crawlers-insurges-insurgent-army-of-caspian-survivors",
+      "sectionId": "histoire-doctrine",
+      "src": "images/lore/realite-iacs-eau-caspienne.webp",
+      "alt": "Des réfugiés et anciens militaires réparent une conduite d’eau dans un camp près de la mer Caspienne.",
+      "caption": "Les survivants de la guerre de la Caspienne défendent l’accès à l’eau et aux ressources."
+    },
+    {
+      "articleId": "realite-v9-crawlers-insurges-your-debt-your-life",
+      "sectionId": "histoire-doctrine",
+      "src": "images/lore/realite-ydyl-holonet.webp",
+      "alt": "Trois jeunes adultes observent les évaluations d’une IA sur des écrans Holonet dans un appartement modeste.",
+      "caption": "YDYL transforme les jugements de l’Holonet en décisions collectives inquiétantes."
+    },
+    {
+      "articleId": "realite-v9-crawlers-insurges-black-star",
+      "sectionId": "histoire-doctrine",
+      "src": "images/lore/realite-black-star-corps.webp",
+      "alt": "Des combattants augmentés anonymes évacuent des corps couverts depuis un hangar nocturne.",
+      "caption": "La Black Star emporte systématiquement les corps après ses interventions."
+    },
+    {
+      "articleId": "realite-v9-crawlers-insurges-alhaqiqa",
+      "sectionId": "histoire-doctrine",
+      "src": "images/lore/realite-alhaqiqa-frontiere.webp",
+      "alt": "Des membres anonymes d’une faction insurgée franchissent un poste frontière abandonné de nuit.",
+      "caption": "Alhaqiqa rejette les frontières et l’autorité des gouvernements corporatistes."
+    },
+    {
+      "articleId": "realite-v9-crawlers-motards-hell-angels",
+      "sectionId": "reperes-fonctionnement",
+      "src": "images/lore/realite-hell-angels-cite-biker.webp",
+      "alt": "Une station-service fortifiée sert de cité à un groupe de motards en Grande Californie.",
+      "caption": "Les Hell Angels transforment de petites localités et stations-service en fortins bikers."
+    },
+    {
+      "articleId": "realite-v9-crawlers-motards-cruisers",
+      "sectionId": "reperes-fonctionnement",
+      "src": "images/lore/realite-cruisers-logistique.webp",
+      "alt": "Dans un garage, des motards préparent les motos, le carburant et les cartes d’un convoi.",
+      "caption": "La logistique et la planification ont permis aux Cruisers de rivaliser avec les clubs les plus puissants."
+    },
+    {
+      "articleId": "realite-v9-crawlers-motards-reapers-incorporated-power",
+      "sectionId": "reperes-fonctionnement",
+      "src": "images/lore/realite-reapers-chapitres.webp",
+      "alt": "Des équipes de motards se réunissent autour d’une carte dans un atelier de Los Angeles.",
+      "caption": "Les Reapers fédèrent plusieurs chapitres au sein d’une organisation de motards."
+    },
+    {
+      "articleId": "realite-v9-crawlers-motards-vagos",
+      "sectionId": "reperes-fonctionnement",
+      "src": "images/lore/realite-vagos-coyotes-exode.webp",
+      "alt": "Des motards escortent une camionnette transportant des familles sur une piste près de la frontière.",
+      "caption": "Certains Coyotes, avant leur soumission aux Vagos, aidaient des familles à fuir vers la Californie."
+    },
+    {
+      "articleId": "realite-v9-crawlers-motards-sons-of-silence",
+      "sectionId": "reperes-fonctionnement",
+      "src": "images/lore/realite-sons-silence-qg.webp",
+      "alt": "Des motardes gardent le portail d’un quartier général fortifié au Colorado.",
+      "caption": "Après la crise du club, des motardes obtiennent leur cuir et défendent le quartier général des Sons of Silence."
+    },
+    {
+      "articleId": "realite-v9-crawlers-motards-sons-of-legba",
+      "sectionId": "reperes-fonctionnement",
+      "src": "images/lore/realite-sons-legba-veterans.webp",
+      "alt": "Des vétérans blessés, hommes et femmes, organisent un club de motards dans un garage.",
+      "caption": "Les Children of Legba naissent du rassemblement de vétérans afro-américains écartés des grands clubs."
+    },
+    {
+      "articleId": "realite-v9-crawlers-motards-onikishi",
+      "sectionId": "reperes-fonctionnement",
+      "src": "images/lore/realite-onikishi-route.webp",
+      "alt": "Des vétérans japonais et coréens à moto font halte dans une station-service désertée.",
+      "caption": "Les futurs Onikishi parcourent la Grande Californie après la destruction de leurs anciens clans."
+    },
+    {
+      "articleId": "realite-v9-crawlers-motards-last-crows",
+      "sectionId": "reperes-fonctionnement",
+      "src": "images/lore/realite-last-crows-itinerance.webp",
+      "alt": "Un petit groupe de motards fait halte sur une route de montagne sous un ciel d’orage.",
+      "caption": "Sans territoire fixe, les Last Crows parcourent les routes de l’Amérique du Nord."
+    },
+    {
+      "articleId": "realite-v9-crawlers-enders",
+      "sectionId": "origine-philosophie",
+      "src": "images/lore/realite-enders-territoire.webp",
+      "alt": "Un village autonome boisé cultive des potagers et protège l’entrée de son territoire.",
+      "caption": "Les Enders vivent hors des villes, sur des terres aménagées dont ils revendiquent l’autonomie."
+    },
+    {
+      "articleId": "realite-v9-crawlers-enders-underwater-nation",
+      "sectionId": "communaute",
+      "src": "images/lore/realite-underwater-nation.webp",
+      "alt": "Des habitants entretiennent les systèmes vitaux et les cultures d’une cité sous-marine.",
+      "caption": "L’Underwater Nation revendique une autonomie sous la mer, loin des lois de la surface."
+    },
+    {
+      "articleId": "realite-v9-crawlers-enders-gold-cow-kingdom",
+      "sectionId": "communaute",
+      "src": "images/lore/realite-gold-cow-ferme.webp",
+      "alt": "Une communauté agricole charge du lait et des œufs dans une camionnette parmi ses élevages.",
+      "caption": "Gold Cow Kingdom entretient son autonomie grâce à sa production agricole et à ses ventes à Dwarfood."
+    },
+    {
+      "articleId": "realite-v9-crawlers-enders-green-fairy-daughters",
+      "sectionId": "communaute",
+      "src": "images/lore/realite-green-fairy-daughters-foret.webp",
+      "alt": "Des habitants d’un camp forestier examinent l’eau d’un ruisseau et parcourent les sentiers.",
+      "caption": "Les Green Fairy Daughters défendent la forêt en vivant à l’écart de la société californienne."
+    },
+    {
+      "articleId": "realite-v9-crawlers-enders-green-nomads",
+      "sectionId": "communaute",
+      "src": "images/lore/realite-green-nomads-convoi.webp",
+      "alt": "Un village mobile de caravanes et de familles est protégé par des véhicules blindés et des motos.",
+      "caption": "Le convoi des Green Nomads parcourt les États-Unis avec ses familles et sa propre défense."
+    },
+    {
+      "articleId": "realite-v9-crawlers-enders-fermes-mannan",
+      "sectionId": "communaute",
+      "src": "images/lore/realite-fermes-mannan.webp",
+      "alt": "Des proches cultivent un potager, s’occupent du bétail et réparent une clôture dans une ferme.",
+      "caption": "La ferme Mannan rassemble une petite communauté qui a choisi la vie rurale hors des corporations."
+    },
+    {
+      "articleId": "realite-v9-crawlers-enders-mola-mola",
+      "sectionId": "communaute",
+      "src": "images/lore/realite-mola-mola-ile.webp",
+      "alt": "Des membres d’une communauté insulaire réparent des filets, des bateaux et des planches de surf.",
+      "caption": "Mola Mola choisit l’autonomie maritime sur les îles et dans les stations de son réseau."
+    },
+    {
+      "articleId": "realite-v9-crawlers-enders-losttown",
+      "sectionId": "communaute",
+      "src": "images/lore/realite-losttown-eau.webp",
+      "alt": "Des habitants de la cité souterraine font la queue pour obtenir de l’eau sous surveillance.",
+      "caption": "Sous Los Angeles, l’autarcie de Losttown s’accompagne de pénuries et du contrôle des factions locales."
+    },
+    {
+      "articleId": "realite-v9-laus-intervention",
+      "sectionId": "heavy-fonctionnement",
+      "src": "images/lore/realite-laus-intervention-hob.webp",
+      "alt": "Les casques noirs du LAUS préparent leur matériel et un véhicule blindé dans un poste avancé.",
+      "caption": "Les postes avancés du LAUS abritent les moyens lourds et l’entraînement de ses divisions d’intervention."
+    },
+    {
+      "articleId": "realite-v9-laus-intervention",
+      "sectionId": "scd",
+      "src": "images/lore/realite-laus-intervention-scd.webp",
+      "alt": "Des agents du LAUS évacuent un immeuble et sécurisent une rue avec des barrières mobiles.",
+      "caption": "La Street Control Division établit des périmètres et organise les évacuations de bâtiments."
+    },
+    {
+      "articleId": "realite-v9-laus-intervention",
+      "sectionId": "data",
+      "src": "images/lore/realite-laus-intervention-dob.webp",
+      "alt": "Des agents du Data Operation Bureau isolent une zone numérique et déconstruisent des programmes hostiles.",
+      "caption": "Le DOB intervient directement dans l’Holonet une fois l’enquête du Cyber Bureau aboutie."
+    },
+    {
+      "articleId": "realite-v9-polices-grande-californie",
+      "sectionId": "san-jose",
+      "src": "images/lore/realite-polices-sanjuco.webp",
+      "alt": "Des agents augmentés travaillent dans un centre de cybercriminalité à San José.",
+      "caption": "À San José, le SJUCO corporatif concentre des moyens exceptionnels contre la cybercriminalité."
+    },
+    {
+      "articleId": "realite-v9-polices-grande-californie",
+      "sectionId": "san-diejuana",
+      "src": "images/lore/realite-polices-sdiejuana.webp",
+      "alt": "Des policiers nombreux se déploient dans une zone industrielle proche des chantiers navals de San Diejuana.",
+      "caption": "La SDUS a développé d’importants effectifs d’intervention face aux crises de San Diejuana."
+    },
+    {
+      "articleId": "realite-v9-polices-grande-californie",
+      "sectionId": "las-vegas",
+      "src": "images/lore/realite-polices-vegas-fichage.webp",
+      "alt": "Des agents d’un poste de Las Vegas enregistrent des interpellations dans un système de fichage numérique.",
+      "caption": "À Las Vegas, les résultats des postes de la VIIP favorisent les interpellations et la collecte de données."
+    },
+    {
+      "articleId": "realite-v9-oglaigh",
+      "sectionId": "histoire",
+      "src": "images/lore/realite-oglaigh-diaspora.webp",
+      "alt": "Des familles irlandaises nouvellement arrivées retrouvent leurs proches devant un centre communautaire à Los Angeles.",
+      "caption": "Les vagues d’émigration irlandaise et les liens des Travellers nourrissent les réseaux de l’Ogláigh."
+    },
+    {
+      "articleId": "realite-v9-new-yiddish-californian-connection",
+      "sectionId": "histoire-organisation",
+      "src": "images/lore/realite-nycc-courtage.webp",
+      "alt": "Des courtiers contrôlent le transit de caisses industrielles et les documents d’approvisionnement dans un entrepôt.",
+      "caption": "Le réseau NYCC sert d’intermédiaire pour les échanges de matières et de services entre corporations."
+    },
+    {
+      "articleId": "realite-v9-french-connection",
+      "sectionId": "histoire-organisation",
+      "src": "images/lore/realite-french-connection-faux-papiers.webp",
+      "alt": "Des faussaires préparent des documents d’identité et des dossiers professionnels dans un atelier discret.",
+      "caption": "La New French Connection s’est spécialisée dans la falsification documentaire et les transferts clandestins de diplômés."
+    },
+    {
+      "articleId": "realite-v9-cartel-diejuana",
+      "sectionId": "histoire-organisation",
+      "src": "images/lore/realite-diejuana-pieces.webp",
+      "alt": "Un réseau local charge des pièces mécaniques dans des camionnettes près des chantiers navals.",
+      "caption": "Recentré sur San Diejuana, le cartel diversifie ses trafics autour des chantiers de la ville."
+    },
+    {
+      "articleId": "realite-v9-gangs-underlife",
+      "sectionId": "crawlers-criminels",
+      "src": "images/lore/realite-gangs-underlife-mur.webp",
+      "alt": "Des habitants réparent une conduite d’eau dans un quartier Underlife barré par un mur et un poste du LAUS.",
+      "caption": "Les Crawlers sont issus des quartiers Underlife où les services manquent et les déplacements sont contrôlés."
+    },
+    {
+      "articleId": "realite-v9-gangs-underlife",
+      "sectionId": "sons-of-samoa-organisation",
+      "src": "images/lore/realite-sons-samoa-port.webp",
+      "alt": "Des dockers et des membres d’un réseau maritime préparent deux bateaux dans le port de Long Beach.",
+      "caption": "Les Sons of Samoa s’appuient sur leurs bateaux et leurs réseaux du Pacifique pour rester indépendants."
+    },
+    {
+      "articleId": "realite-v9-etat-institutions-grande-reserve",
+      "sectionId": "etat-et-contre-pouvoirs",
+      "src": "images/lore/realite-etat-inspection.webp",
+      "alt": "Des inspecteurs publics prélèvent des échantillons et examinent des documents dans une usine alimentaire.",
+      "caption": "La Californie fait appliquer ses normes aux installations corporatives par ses agences de contrôle."
+    },
+    {
+      "articleId": "realite-v9-etat-institutions-grande-reserve",
+      "sectionId": "grande-reserve",
+      "src": "images/lore/realite-grande-reserve-accords.webp",
+      "alt": "Des délégués de nations amérindiennes et des fonctionnaires examinent des cartes et des accords territoriaux.",
+      "caption": "La Grande Réserve négocie ses rapports avec l’État californien dans le cadre de sa large autonomie."
+    },
+    {
+      "articleId": "realite-v9-los-angeles-laus-securites",
+      "sectionId": "usc",
+      "src": "images/lore/realite-laus-usc.webp",
+      "alt": "Un centre sécuritaire urbain réunit accueil, refuge, poste médical, garages et coordination de drones.",
+      "caption": "Les USC servent à la fois de points d’accueil, de bastions opérationnels et de refuges civils."
+    },
+    {
+      "articleId": "realite-v9-los-angeles-laus-securites",
+      "sectionId": "securites-privees",
+      "src": "images/lore/realite-laus-securite-privee.webp",
+      "alt": "Une équipe de sécurité privée contrôle les accès, drones et véhicules à l’intérieur d’un complexe corporatif.",
+      "caption": "Les Armacorpos assurent la sécurité de leurs sites et employés dans le cadre de leurs contrats."
+    },
+    {
+      "articleId": "realite-v9-chretiente-reunifiee",
+      "sectionId": "eglise-remplace-etat",
+      "src": "images/lore/realite-chretiente-ministeres-aide.webp",
+      "alt": "Des membres du clergé et des soignants distribuent nourriture, eau et soins dans un quartier en reconstruction.",
+      "caption": "La Chrétienté réunifiée intervient d’abord par l’aide humanitaire et la santé avant de reconstruire d’autres services."
+    },
+    {
+      "articleId": "realite-v9-chretiente-reunifiee",
+      "sectionId": "clerge-regulier",
+      "src": "images/lore/realite-chretiente-clerge-garage.webp",
+      "alt": "Des membres du clergé régulier travaillent en bleu de travail dans un garage avec des mécaniciens laïcs.",
+      "caption": "Les religieux de 2035 peuvent exercer des métiers ordinaires, comme au garage Ashford."
+    },
+    {
+      "articleId": "realite-v9-vladivostokskaia",
+      "sectionId": "histoire",
+      "src": "images/lore/realite-vladivostokskaia-port.webp",
+      "alt": "Dans un hangar portuaire de Vladivostok, des manutentionnaires préparent des cargaisons pour le Pacifique.",
+      "caption": "La Vladivostokskaïa se développe d’abord autour des échanges entre Russie et Asie avant de s’étendre en Californie."
+    },
+    {
+      "articleId": "realite-v9-vladivostokskaia",
+      "sectionId": "activites",
+      "src": "images/lore/realite-vladivostokskaia-immobilier.webp",
+      "alt": "Des intermédiaires examinent des acquisitions foncières et des plans immobiliers devant un chantier californien.",
+      "caption": "L’immobilier légal et les jeux de pression sur les contrats comptent parmi les activités majeures de la Vladivostokskaïa."
+    },
+    {
+      "articleId": "realite-v9-la-famille",
+      "sectionId": "histoire",
+      "src": "images/lore/realite-famille-hollywood.webp",
+      "alt": "Un tournage hollywoodien est suivi par des techniciens et des intermédiaires financiers en coulisses.",
+      "caption": "La Famille conserve une emprise sur les techniciens et une part du financement du cinéma hollywoodien."
+    },
+    {
+      "articleId": "realite-v9-la-famille",
+      "sectionId": "activites",
+      "src": "images/lore/realite-famille-livraisons.webp",
+      "alt": "Des équipes approvisionnent des camionnettes de livraison alimentaire destinées aux diners et fast-foods.",
+      "caption": "La Famille a développé un réseau de restauration courante et de livraisons après avoir perdu du terrain dans le luxe."
+    },
+    {
+      "articleId": "realite-v9-vingt-deux-dragons",
+      "sectionId": "activites",
+      "src": "images/lore/realite-vingt-deux-dragons-minerais.webp",
+      "alt": "Des logisticiens transfèrent des minerais et terres rares du cargo aux camions dans un port californien.",
+      "caption": "Les Vingt Deux Dragons acheminent une part majeure des matières premières arrivant en Californie par le Pacifique."
+    },
+    {
+      "articleId": "realite-v9-vingt-deux-dragons",
+      "sectionId": "histoire",
+      "src": "images/lore/realite-vingt-deux-dragons-biochimie.webp",
+      "alt": "Des techniciens contrôlent et conditionnent des lots de substances biochimiques pour un réseau de distribution.",
+      "caption": "Avant de diriger les Vingt Deux Dragons, Xiao développe la transformation locale des matières premières en produits chimiques."
+    },
+    {
+      "articleId": "realite-v9-tenshi-yamaguchi-gumi",
+      "sectionId": "histoire",
+      "src": "images/lore/realite-tenshi-reconstruction.webp",
+      "alt": "Des équipes de construction renforcent un immeuble de Los Angeles avec des amortisseurs antisismiques après le Big One.",
+      "caption": "Les entreprises liées aux Tenshi Yamaguchi-gumi ont bâti leur position dans la reconstruction résistante aux séismes."
+    },
+    {
+      "articleId": "realite-v9-tenshi-yamaguchi-gumi",
+      "sectionId": "organisation",
+      "src": "images/lore/realite-tenshi-facade-entreprise.webp",
+      "alt": "Dans un hall d’entreprise californien, des dirigeants en costumes blancs et rouges présentent une maquette immobilière.",
+      "caption": "Les Tenshi Yamaguchi-gumi cultivent une façade légale et affichent leur présence au sein de leurs groupes immobiliers."
+    },
+    {
+      "articleId": "realite-v9-cartel-sinaloa",
+      "sectionId": "activites",
+      "src": "images/lore/realite-sinaloa-logistique.webp",
+      "alt": "Trains de marchandises, camions et fourgonnettes convergent vers une vaste plateforme logistique dans le sud-ouest.",
+      "caption": "Le contrôle des routes et de la distribution constitue la force centrale du cartel de Sinaloa."
+    },
+    {
+      "articleId": "realite-v9-cartel-sinaloa",
+      "sectionId": "complements",
+      "src": "images/lore/realite-sinaloa-table-blanche.webp",
+      "alt": "Des représentants de cartels rivaux sont réunis autour d’une table blanche dans une atmosphère tendue.",
+      "caption": "La « table blanche » impose aux autres cartels une participation et un tribut sous la domination du Sinaloa."
+    }
+  ]
+}

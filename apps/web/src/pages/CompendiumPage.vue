@@ -2254,7 +2254,7 @@ onBeforeUnmount(() => {
                             :class="['article-paragraph', String(block.style || '')]"
                             v-html="linkifyText(blockText(block), selected)"
                           ></p>
-                          <figure v-else-if="block.type === 'image' && block.src" class="article-rule-diagram">
+                          <figure v-else-if="block.type === 'image' && block.src" :class="block.style === 'lore-reference' ? 'article-lore-reference' : block.style === 'lore-illustration' ? 'article-lore-illustration' : 'article-rule-diagram'">
                             <picture><source v-if="block.mobileSrc" :srcset="mediaUrl(block.mobileSrc)" media="(max-width: 700px)" /><img :src="mediaUrl(block.src)" :alt="block.alt || ''" loading="lazy" decoding="async" /></picture>
                             <figcaption v-if="block.caption">{{ block.caption }}</figcaption>
                           </figure>
@@ -2306,7 +2306,7 @@ onBeforeUnmount(() => {
                           :class="['article-paragraph', String(block.style || '')]"
                           v-html="linkifyText(blockText(block), selected)"
                         ></p>
-                        <figure v-else-if="block.type === 'image' && block.src" class="article-rule-diagram">
+                        <figure v-else-if="block.type === 'image' && block.src" :class="block.style === 'lore-reference' ? 'article-lore-reference' : block.style === 'lore-illustration' ? 'article-lore-illustration' : 'article-rule-diagram'">
                           <picture><source v-if="block.mobileSrc" :srcset="mediaUrl(block.mobileSrc)" media="(max-width: 700px)" /><img :src="mediaUrl(block.src)" :alt="block.alt || ''" loading="lazy" decoding="async" /></picture>
                           <figcaption v-if="block.caption">{{ block.caption }}</figcaption>
                         </figure>
@@ -3386,6 +3386,12 @@ onBeforeUnmount(() => {
 }
 .article-rule-diagram img { display: block; width: 100%; height: auto; }
 .article-rule-diagram figcaption { margin: .35rem .65rem .2rem; color: #b9cbd0; font-size: .87rem; line-height: 1.45; }
+.article-lore-illustration { margin: 1.35rem 0 1.85rem; }
+.article-lore-illustration img { display: block; width: 100%; height: auto; border-radius: .65rem; }
+.article-lore-illustration figcaption { margin: .5rem .25rem; color: #b9cbd0; font-size: .88rem; line-height: 1.45; }
+.article-lore-reference { width: min(100%, 440px); margin: 1.35rem auto 1.85rem; }
+.article-lore-reference img { display: block; width: 100%; height: auto; border-radius: .65rem; }
+.article-lore-reference figcaption { margin: .5rem .25rem; color: #b9cbd0; font-size: .88rem; line-height: 1.45; }
 
 .article-table-wrap {
   overflow-x: auto;
