@@ -533,7 +533,7 @@ function articleForAudience(article: Article, includeMj: boolean): Article {
     if (Array.isArray(result.sections)) result.sections = result.sections.filter((section) => section?.audience !== "mj");
     if (result.pnj && typeof result.pnj === "object") {
       const pnj = result.pnj as JsonObject;
-      result.pnj = {...(pnj.portrait?{portrait:pnj.portrait}:{}),...(pnj.portrait_alt?{portrait_alt:pnj.portrait_alt}:{}),...(pnj.portrait_caption?{portrait_caption:pnj.portrait_caption}:{})};
+      result.pnj = {...(pnj.portrait && !isPrivatePortrait(pnj.portrait)?{portrait:pnj.portrait}:{}),...(pnj.portrait_alt?{portrait_alt:pnj.portrait_alt}:{}),...(pnj.portrait_caption?{portrait_caption:pnj.portrait_caption}:{})};
     }
     if (protectedIdentity) {
       delete result.dataset;
@@ -3450,6 +3450,34 @@ async function loadCorpus(): Promise<Corpus> {
   applyConfirmedPnjRealityAges(byId);
   applyCompendiumPnjTruthProfiles(byId);
 
+  const portraitOnlyLot2 = await readFile(resolve(COMPENDIUM_MEDIA_DIR, "source/portrait-only-lot2-v1.json"), "utf8")
+    .then((content) => JSON.parse(content) as { articles: Array<{ id: string; name: string; group: string; visibility: string; realm?: string }> });
+  for (const entry of portraitOnlyLot2.articles) {
+    if (byId.has(entry.id)) throw new Error(`Portrait transmis : fiche déjà existante ${entry.id}`);
+    const faction = entry.realm === "Vérité" ? "Personnages de Vérité" : entry.group === "corporations" ? "Corporations" : "Crawlers & Underlife";
+    byId.set(entry.id, {
+      id: entry.id, title: entry.name, dataset: "pnj-portraits-lot2",
+      category: "Personnages", sourceCategory: entry.realm ?? "Réalité", rebuildV2: true,
+      status: "portrait_only", source: `Portrait transmis · lot 2 · ${faction}`,
+      ...(entry.visibility === "mj" ? { audience: "mj" } : {}),
+      tags: [entry.realm ?? "Réalité", "PNJ", faction, "Portrait seul", "À compléter"],
+      pnj: { completeness: "portrait_only", real_name: entry.name,
+        nature: "", organisation: "", statut: "", age: "", origine: "" },
+      sections: [
+        { id: "profil-statistique", title: "Tableau statistique · à compléter", level: 2, blocks: [
+          { type: "table", rows: [["Champ", "Valeur"], ["Nom", entry.name],
+            ["Nature", "À renseigner"], ["Affiliation", "À renseigner"],
+            ["Âge", "À renseigner"], ["Statistiques", "À renseigner"]] }
+        ] },
+        { id: "dossier-mj", title: "Dossier MJ · à compléter", level: 2, audience: "mj", blocks: [
+          { type: "table", rows: [["Champ", "Valeur"], ["Nature", "À renseigner"],
+            ["Identité / secret", "À renseigner"], ["Rôle", "À renseigner"]] }
+        ] },
+        { id: "lore", title: "Lore · à compléter", level: 2, blocks: [] }
+      ]
+    } as Article);
+  }
+
   const navigation = new Map(
     [
       ...(navigationPayload.entries ?? []),
@@ -3550,7 +3578,12 @@ async function loadCorpus(): Promise<Corpus> {
         (entry) => pointsRencontrePnjResolvedIds.get(entry.id) === entry.id
       ),
       ...generatedTalentHubs.navigation,
-      ...generatedBuilderReferences.navigation
+      ...generatedBuilderReferences.navigation,
+      ...portraitOnlyLot2.articles.map((entry, index) => ({
+        id: entry.id, dataset: "pnj-portraits-lot2", category: "Personnages",
+        group: entry.realm === "Vérité" ? "Personnages de Vérité" : entry.group === "corporations" ? "Corporations" : "Crawlers & Underlife",
+        groupOrder: entry.realm === "Vérité" ? 45 : 6, subgroup: "Portraits à documenter", subgroupOrder: 98, pageOrder: index + 1
+      }))
     ]
       .filter((entry) => entry?.id && byId.has(String(entry.id)))
       .map((entry) => [entry.id, entry as NavigationEntry])
@@ -3619,10 +3652,22 @@ async function loadCorpus(): Promise<Corpus> {
           .replace(/^./, (value) => value.toUpperCase())
       }));
     if (gallery.length) article.gallery = [...(article.gallery ?? []), ...gallery];
-    for (const portrait of portraitsByArticle.get(article.id) ?? []) {
-      const media = { src: portrait.src, alt: article.title ?? article.id, caption: `Portrait original · ${portrait.lot === "lot1" ? "lot 1" : "lot 2"}` };
-      if (!article.illustration && !article.image && !article.pnj?.portrait) article.image = media;
-      else if (article.image?.src !== portrait.src && article.illustration?.src !== portrait.src) article.gallery = [...(article.gallery ?? []), media];
+    const portraits = portraitsByArticle.get(article.id) ?? [];
+    const replacement = [...portraits].reverse().find((portrait) => portrait.lot === "lot2");
+    const preferred = replacement && (replacement.visibility === "public" || article.audience === "mj")
+      ? replacement : portraits.find((portrait) => portrait.lot === "lot1") ?? portraits[0];
+    if (preferred) {
+      const media = { src: preferred.src, alt: article.title ?? article.id,
+        caption: preferred.lot === "lot2" ? "Portrait retravaillé · lot 2" : "Portrait original · lot 1" };
+      const currentImage = article.image?.src;
+      if (currentImage?.includes("images/portraits/lot-1/") || !article.image && !article.illustration && !article.pnj?.portrait) article.image = media;
+      if (article.pnj?.portrait?.includes("images/portraits/lot-1/") && preferred.lot === "lot2") article.pnj.portrait = preferred.src;
+    }
+    for (const portrait of portraits) {
+      if (portrait.src === article.image?.src || portrait.src === article.illustration?.src || portrait.src === article.pnj?.portrait) continue;
+      if ((article.gallery ?? []).some((media: JsonObject) => media.src === portrait.src)) continue;
+      article.gallery = [...(article.gallery ?? []), { src: portrait.src, alt: article.title ?? article.id,
+        caption: portrait.lot === "lot1" ? "Portrait original · lot 1" : "Portrait retravaillé · lot 2" }];
     }
 
     article.title = ARTICLE_TITLE_FIXES[article.id] ?? article.title;

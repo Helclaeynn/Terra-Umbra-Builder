@@ -87,6 +87,14 @@ function pnjHasStatsBlock(article: Article): boolean {
   });
 }
 
+function pnjNeedsEditorialCompletion(article: Article): boolean {
+  if (!pnjHasStatsBlock(article) || pnjHasTruthHint(article) && !pnjHasMjBlock(article)) return true;
+  const narrative = (article.sections ?? []).flatMap((section: JsonObject) => section.blocks ?? [])
+    .filter((block: JsonObject) => block?.type === "p")
+    .map((block: JsonObject) => String(block.text ?? "")).join(" ");
+  return narrative.trim().length < 250;
+}
+
 function explicitTargets(article: Article): string[] {
   const raw = JSON.stringify(article);
   const targets = new Set<string>();
@@ -221,6 +229,12 @@ function issueList(
       severity: "info",
       label: "Bloc de stats à compléter"
     });
+  }
+
+  if (pnj && article.pnj?.completeness === "portrait_only") {
+    issues.push({ code: "pnj_portrait_only", severity: "warning", label: "Portrait seul · fiche à rédiger" });
+  } else if (pnj && pnjNeedsEditorialCompletion(article)) {
+    issues.push({ code: "pnj_partial", severity: "warning", label: "Fiche PNJ partielle · à vérifier" });
   }
 
   if (!navigationIds.has(article.id) && article.dataset !== "custom") {
@@ -370,6 +384,8 @@ export async function registerQualityRoutes(app: FastifyInstance) {
         brokenMedia: countIssue("broken_media"),
         pnjMissingMj: countIssue("pnj_missing_mj"),
         pnjMissingStats: countIssue("pnj_missing_stats"),
+        pnjPortraitOnly: countIssue("pnj_portrait_only"),
+        pnjPartial: countIssue("pnj_partial"),
         orphanNavigation: countIssue("orphan_navigation"),
         brokenReferences: countIssue("broken_reference"),
         mjLeaks: countIssue("mj_leak"),
