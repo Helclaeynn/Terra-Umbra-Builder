@@ -510,6 +510,7 @@ await page.getByText(/Appartement Smoke.*pris en charge par la corporation/).wai
 
 await page.getByLabel("Type de prestation").selectOption("vehicle");
 await page.getByLabel("Véhicule fourni").selectOption("vehicle-smoke");
+await page.locator('summary.section-summary').filter({hasText:'Équipement & véhicules possédés'}).click();
 await page.getByText(/CityPod Smoke.*véhicule de fonction/).waitFor();
 
 for(const removedLabel of ["Réseaux","Statuts","Patrimoine","Dettes"]){
