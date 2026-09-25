@@ -1,3 +1,4 @@
+import { applyReviewedRuleTaxonomy, repairReviewedAserynOverview } from "./compendium-reviewed-rule-taxonomy.js";
 import {registerCanonicalNpcGenerator} from './canonical-npc-generator.js';
 import { createHash, randomBytes } from "node:crypto";
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
@@ -3787,6 +3788,9 @@ async function loadCorpus(): Promise<Corpus> {
       }
     }
   }
+
+  applyReviewedRuleTaxonomy(byId);
+  repairReviewedAserynOverview(byId);
 
   const articles = [...byId.values()].sort(compareArticles);
   const publicArticles = articles.filter((article) => !isMjOnlyArticle(article)).map((article) => { const publicArticle=articleForAudience(article,false); publicArticle.__searchText=norm(flattenText(publicArticle)); return publicArticle; });
