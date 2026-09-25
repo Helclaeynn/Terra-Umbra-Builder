@@ -42,7 +42,7 @@ const GENERIC_SINGLE=new Set([
   'identite','information','informations','securite','doctrine','tradition','traditions','equipement',
   'arme','armes','talent','talents','nature','natures','origine','origines','pouvoir','pouvoirs','groupe',
   'groupes','faction','factions','communaute','communautes','monde','lieu','lieux','regle','regles',
-  'terre','commission','gang','gangs','motard','motards','insurge','insurges'
+  'terre','commission','gang','gangs','motard','motards','insurge','insurges','famille','familles'
 ]);
 export const WIKI_GENERIC_SINGLE=GENERIC_SINGLE;
 const GENERIC_MULTI=new Set([
@@ -78,7 +78,11 @@ function reserveContext(raw='',matchedRaw='',current=null){
 }
 function generatedCandidateAllowed(candidate,raw,current,matchedRaw=''){
   const c=candidate?.article||{};
-  if(candidate?.id==='lore-pegre-la-famille'&&surfaceKeyCase(matchedRaw)!=='La Famille')return false;
+  if(['lore-pegre-la-famille','realite-v9-la-famille'].includes(candidate?.id)){
+    if(surfaceKeyCase(matchedRaw)!=='La Famille')return false;
+    const sentence=normalizeToken(raw);
+    if(current?.category==='Équipement & Objets'||/\b(armes?|calibres?|munitions?|fusils?|pistolets?|catalogue|equipement)\b/.test(sentence))return false;
+  }
   if(candidate?.id==='lore-gouvernement-grande-reserve'&&!reserveContext(raw,matchedRaw,current))return false;
   if(c.category==='Équipement & Objets'&&current?.category&&current.category!=='Équipement & Objets'){
     const exactNamed=surfaceKeyCase(candidate.alias)===surfaceKeyCase(matchedRaw)&&/^[A-ZÀ-ÖØ-Þ0-9]/u.test(String(matchedRaw||''));
@@ -124,7 +128,7 @@ function candidateScore(candidate,raw,current){
   return score;
 }
 
-export function createWikiLinker(articles,{explicitTargets={},strictSurfaceAliases=[],caseSensitiveAliases=[],searchFallbacks=[],hrefForId=id=>`#/article/${encodeURIComponent(id)}`,searchHref=alias=>`#/search?q=${encodeURIComponent(alias)}`}={}){
+export function createWikiLinker(articles,{explicitTargets={},strictSurfaceAliases=[],caseSensitiveAliases=[],searchFallbacks=[],hrefForId=id=>`#/article/${encodeURIComponent(id)}`,hrefForSection=(id,section)=>`${hrefForId(id)}@${encodeURIComponent(section)}`,searchHref=alias=>`#/search?q=${encodeURIComponent(alias)}`}={}){
   const strictSurfaces=new Set((strictSurfaceAliases||[]).map(surfaceKey));
   const caseSensitiveSurfaces=new Set((caseSensitiveAliases||[]).map(surfaceKeyCase));
   const articleById=new Map((articles||[]).map(article=>[article.id,article]));
@@ -145,9 +149,11 @@ export function createWikiLinker(articles,{explicitTargets={},strictSurfaceAlias
     const target={id:article.id,href:hrefForId(article.id),title:article.title,article};
     for(const alias of titleAliases(article.title))if(allowedGeneratedAlias(alias.value,article))offer(alias.value,target,alias.priority,{kind:alias.kind,strictSurface:strictSurfaces.has(surfaceKey(alias.value)),caseSensitive:caseSensitiveSurfaces.has(surfaceKeyCase(alias.value))});
   }
-  for(const [alias,id] of Object.entries(explicitTargets||{})){
+  for(const [alias,reference] of Object.entries(explicitTargets||{})){
+    const id=typeof reference==='string'?reference:reference?.id;
+    const section=typeof reference==='string'?'':reference?.section||'';
     const article=articleById.get(id);if(!article)continue;
-    offer(alias,{id,href:hrefForId(id),title:article.title,article},1000,{explicit:true,kind:'explicit',strictSurface:strictSurfaces.has(surfaceKey(alias)),caseSensitive:caseSensitiveSurfaces.has(surfaceKeyCase(alias))});
+    offer(alias,{id,section,href:section?hrefForSection(id,section):hrefForId(id),title:article.title,article},1000,{explicit:true,kind:'explicit',strictSurface:strictSurfaces.has(surfaceKey(alias)),caseSensitive:caseSensitiveSurfaces.has(surfaceKeyCase(alias))});
   }
   for(const alias of searchFallbacks||[])offer(alias,{href:searchHref(alias),title:`Rechercher : ${alias}`},20,{search:true,kind:'search'});
 
@@ -207,7 +213,7 @@ export function createWikiLinker(articles,{explicitTargets={},strictSurfaceAlias
       const start=tokens[index].start,end=tokens[index+found.size-1].end;
       html+=escapeHtml(source.slice(cursor,start));
       const data=found.candidate.id
-        ? ` data-wiki-id="${escapeAttr(found.candidate.id)}"`
+        ? ` data-wiki-id="${escapeAttr(found.candidate.id)}"${found.candidate.section?` data-wiki-section="${escapeAttr(found.candidate.section)}"`:''}`
         : found.candidate.search
           ? ` data-wiki-search="${escapeAttr(found.candidate.alias)}"`
           : '';

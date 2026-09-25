@@ -13,8 +13,9 @@ import {
 const truth = { id: "verite-v7-derriere-le-voile", title: "Vérité — derrière le Voile", category: "Vérité", dataset: "verite-v7" };
 const corruption = { id: "verite-v7-six-fleaux-sources-rupture", title: "Les six Fléaux — Sources & Rupture", category: "Vérité", dataset: "verite-v7" };
 const hunters = { id: "verite-v7-chasseurs-doctrine-association-traditions", title: "Chasseurs — doctrine, Association & traditions", category: "Vérité", dataset: "verite-v7" };
+const mafia = { id: "realite-v9-la-famille", title: "La Famille — mafia italo-américaine", category: "Réalité", dataset: "realite-v9" };
 
-const linker = createWikiLinker([truth, corruption, hunters], {
+const linker = createWikiLinker([truth, corruption, hunters, mafia], {
   explicitTargets: WIKI_EXPLICIT_TARGETS,
   strictSurfaceAliases: WIKI_STRICT_SURFACE_ALIASES,
   caseSensitiveAliases: WIKI_CASE_SENSITIVE_ALIASES,
@@ -26,6 +27,24 @@ function links(text, context) {
   return [...linker.linkify(text, context).matchAll(/<a[^>]+data-wiki-id="([^"]+)"[^>]*>(.*?)<\/a>/g)]
     .map(([, id, label]) => ({ id, label }));
 }
+
+test("an equipment family does not resolve to the mafia", () => {
+  const equipment = { id: "equipment-page", title: "Armes automatiques", category: "Équipement & Objets" };
+  assert.deepEqual(links("La Famille des fusils d'assaut partage ce calibre.", equipment), []);
+  assert.deepEqual(links("La Famille contrôle ce territoire.", { id: "city", category: "Réalité" }), [
+    { id: mafia.id, label: "La Famille" }
+  ]);
+});
+
+test("curated aliases may target a section without relying on a matching title", () => {
+  const sections = createWikiLinker([mafia], {
+    explicitTargets: { "hiérarchie des parrains": { id: mafia.id, section: "organisation" } },
+    hrefForId: id => `/compendium?article=${id}`,
+    hrefForSection: (id, section) => `/compendium?article=${id}#${section}`
+  });
+  assert.match(sections.linkify("La hiérarchie des parrains est stricte.", { id: "other", category: "Réalité" }),
+    /href="\/compendium\?article=realite-v9-la-famille#organisation" data-wiki-id="realite-v9-la-famille" data-wiki-section="organisation"/);
+});
 
 test("Corruption distinguishes political usage while occult aliases keep their active destination", () => {
   const civic = { id: "realite-v9-grande-californie-2035", title: "Grande Californie en 2035", category: "Réalité" };

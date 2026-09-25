@@ -268,6 +268,7 @@ const wikiPreview = ref({
   title: "",
   category: "",
   context: "",
+  sectionTitle: "",
   snippet: "",
   mediaSrc: "",
   left: 12,
@@ -276,7 +277,7 @@ const wikiPreview = ref({
 });
 let wikiLinker: any = null;
 const wikiById = new Map<string, WikiEntry>();
-const wikiPreviewCache = new Map<string, { snippet: string; media?: string | MediaRef | null }>();
+const wikiPreviewCache = new Map<string, { snippet: string; sectionTitle?: string; media?: string | MediaRef | null }>();
 let wikiPreviewTimer: number | undefined;
 let wikiBootstrapTimer: number | undefined;
 let wikiPreviewLink: HTMLAnchorElement | null = null;
@@ -844,6 +845,7 @@ async function loadWikiIndex() {
       caseSensitiveAliases: WIKI_CASE_SENSITIVE_ALIASES,
       searchFallbacks: WIKI_SEARCH_FALLBACKS,
       hrefForId: (id: string) => compendiumHref(id),
+      hrefForSection: (id: string, section: string) => compendiumHref(id, section),
       searchHref: (term: string) => `/compendium?q=${encodeURIComponent(term)}`
     });
     wikiReady.value = true;
@@ -1438,17 +1440,20 @@ async function showWikiPreview(link: HTMLAnchorElement) {
   if (!id) return;
   const entry = wikiById.get(id);
   if (!entry) return;
+  const section = compendiumLinkTarget(link.href, window.location.href)?.section || link.dataset.wikiSection || "";
+  const cacheKey = `${id}#${section}`;
 
   hideWikiPreview();
   wikiPreviewLink = link;
   link.setAttribute("aria-describedby", [link.getAttribute("aria-describedby"), WIKI_PREVIEW_ID].filter(Boolean).join(" "));
-  const cached = wikiPreviewCache.get(id);
+  const cached = wikiPreviewCache.get(cacheKey);
   wikiPreview.value = {
     visible: true,
     id,
     title: entry.title,
     category: entry.category || "Compendium",
     context: [entry.group, entry.subgroup].filter(Boolean).join(" · "),
+    sectionTitle: cached?.sectionTitle ?? "",
     snippet: cached?.snippet ?? "",
     mediaSrc: mediaUrl(cached?.media),
     left: wikiPreview.value.left,
@@ -1459,12 +1464,13 @@ async function showWikiPreview(link: HTMLAnchorElement) {
 
   if (cached) return;
   try {
-    const preview = await api<{ id: string; snippet: string; media?: string | MediaRef | null }>(
-      `/api/compendium/wiki-preview/${encodeURIComponent(id)}`
+    const preview = await api<{ id: string; snippet: string; sectionTitle?: string; media?: string | MediaRef | null }>(
+      `/api/compendium/wiki-preview/${encodeURIComponent(id)}${section ? `?section=${encodeURIComponent(section)}` : ""}`
     );
-    wikiPreviewCache.set(id, { snippet: preview.snippet, media: preview.media });
-    if (wikiPreview.value.visible && wikiPreview.value.id === id) {
+    wikiPreviewCache.set(cacheKey, { snippet: preview.snippet, sectionTitle: preview.sectionTitle, media: preview.media });
+    if (wikiPreview.value.visible && wikiPreviewLink === link) {
       wikiPreview.value.snippet = preview.snippet;
+      wikiPreview.value.sectionTitle = preview.sectionTitle ?? "";
       wikiPreview.value.mediaSrc = mediaUrl(preview.media);
       void positionWikiPreview(link);
     }
@@ -2619,6 +2625,7 @@ onBeforeUnmount(() => {
         />
         <div class="wiki-hover-kicker">{{ wikiPreview.category }}</div>
         <strong>{{ wikiPreview.title }}</strong>
+        <small v-if="wikiPreview.sectionTitle">§ {{ wikiPreview.sectionTitle }}</small>
         <small v-if="wikiPreview.context">{{ wikiPreview.context }}</small>
         <p>{{ wikiPreview.snippet }}</p>
         <span>Cliquer pour ouvrir l’article →</span>
