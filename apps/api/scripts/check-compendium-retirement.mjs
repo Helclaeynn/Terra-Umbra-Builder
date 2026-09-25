@@ -113,6 +113,12 @@ for (role of [null, "player", "gm", "editor", "admin"]) {
     }
   }
   assert.equal((await request(`/api/compendium/articles/${activeId}`)).statusCode, 200);
+  const firstSection = fresh.publicArticles.find(article => article.id === activeId)?.sections?.find(section => section.id && section.title);
+  assert.ok(firstSection, "a public section exists for anchor preview");
+  const sectionPreview = await request(`/api/compendium/wiki-preview/${activeId}?section=${encodeURIComponent(firstSection.id)}`);
+  assert.equal(sectionPreview.statusCode, 200);
+  assert.equal(sectionPreview.json().sectionTitle, firstSection.title);
+  assert.equal((await request(`/api/compendium/wiki-preview/${activeId}?section=unknown-section-anchor`)).statusCode, 404);
   if (role) {
     const library = (await request("/api/compendium/library")).json();
     assert.deepEqual(library.favorites, [activeId]);

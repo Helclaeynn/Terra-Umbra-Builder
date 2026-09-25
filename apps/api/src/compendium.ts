@@ -4022,6 +4022,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
 
   app.get<{
     Params: { id: string };
+    Querystring: { section?: string };
   }>("/api/compendium/wiki-preview/:id", async (request, reply) => {
     const id = request.params.id.trim();
     if (!id || id.length > 240) return bad(reply, "invalid_compendium_article_id");
@@ -4035,9 +4036,20 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       : corpus.publicById.get(PROTECTED_PNJ_PUBLIC_IDS[canonicalId] ?? canonicalId);
     if (!article) return reply.code(404).send({ error: "compendium_article_not_found" });
 
+    const sectionId = String(request.query.section ?? "").trim();
+    if (sectionId.length > 240) return bad(reply, "invalid_compendium_section_id");
+    const section = sectionId && (article.sections ?? []).find((item, index) =>
+      String(item?.id ?? "") === sectionId ||
+      `wiki-section-${String(item?.id ?? "").replace(/[^a-zA-Z0-9_-]+/g, "-") || index + 1}` === sectionId
+    );
+    if (sectionId && !section) return reply.code(404).send({ error: "compendium_section_not_found" });
+    const sectionArticle = section ? { ...article, sections: [section] } : article;
+
     return {
       id: article.id,
-      snippet: wikiPreviewText(article),
+      sectionId: section ? String(section.id ?? sectionId) : undefined,
+      sectionTitle: section ? String(section.title ?? "") : undefined,
+      snippet: section ? wikiPreviewText(sectionArticle) || String(section.title ?? "") : wikiPreviewText(article),
       media: article.illustration ?? article.image ?? null
     };
   });
