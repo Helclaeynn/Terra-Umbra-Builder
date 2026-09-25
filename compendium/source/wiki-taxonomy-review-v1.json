@@ -426,11 +426,51 @@
         "identite",
         "acces-et-limites"
       ],
-      "references": [
-        "regles-verite-v7-vampire-nature-predation-cours",
-        "regles-verite-v7-chasseurs-traditions"
+      "references": [],
+      "note": "Le texte réserve explicitement cette tradition aux Vampires : suppression du tag humain.",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "tagsBefore": [
+        "humain",
+        "Talents",
+        "principes",
+        "Builder"
       ],
-      "note": "Definite tag conflict: the page is tagged humain, but its text says the tradition belongs to Vampires and excludes non-Vampires. Correct during taxonomy pass."
+      "tagsAfter": [
+        "Vérité",
+        "Règles",
+        "Vampires",
+        "Chasse",
+        "Lavandières",
+        "Talents",
+        "principes",
+        "Builder"
+      ],
+      "linksAdded": [],
+      "stage": "contextual-edits-applied",
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "catalogue-canonique",
+          "title": "Un catalogue canonique de 4 Talents",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "identite",
+          "title": "Une tradition vampirique spécialisée",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 2,
+          "id": "acces-et-limites",
+          "title": "Accès et limites",
+          "blocks": 2,
+          "audience": "public"
+        }
+      ]
     },
     {
       "id": "regles-verite-v7-vampire-sangs-transformations",
@@ -862,6 +902,3155 @@
         "regles-verite-v7-corruption-integrite-bascule#bascule"
       ],
       "note": "Sombre Culte, Dagon, Telipinu et Horde Abyssale sont des foyers distincts. Horde Abyssale ne constitue pas un arbre PTV et les Grands Thuliens relèvent du Bestiaire."
+    },
+    {
+      "id": "regles-verite-v7-mage-roue-5-portes-15-ecoles",
+      "sectionsRead": [
+        "kaharal-matiere-forme-et-monde-physique",
+        "architetramancie-magie-des-elements",
+        "exemples-de-sorts-reperes-pas-une-liste-fermee",
+        "limites-et-garde-fous",
+        "morphomancie-magie-du-modelage",
+        "exemples-de-sorts-reperes-pas-une-liste-fermee",
+        "limites-et-garde-fous",
+        "alchimie-magie-des-atomes",
+        "exemples-de-sorts-reperes-pas-une-liste-fermee",
+        "limites-et-garde-fous",
+        "meldir-ordre-lumiere-et-restauration",
+        "photomancie-magie-de-la-lumiere",
+        "exemples-de-sorts-reperes-pas-une-liste-fermee",
+        "limites-et-garde-fous",
+        "acratomancie-magie-des-sceaux",
+        "exemples-de-sorts-reperes-pas-une-liste-fermee",
+        "limites-et-garde-fous",
+        "medeomancie-magie-de-guerison",
+        "exemples-de-sorts-reperes-pas-une-liste-fermee",
+        "limites-et-garde-fous",
+        "elinaeth-forces-information-et-continuum",
+        "telekinesie-magie-des-forces",
+        "exemples-de-sorts-reperes-pas-une-liste-fermee",
+        "limites-et-garde-fous",
+        "divination-magie-de-l-information-et-des-possibles",
+        "exemples-de-sorts-reperes-pas-une-liste-fermee",
+        "limites-et-garde-fous",
+        "chronomancie-magie-du-temps",
+        "exemples-de-sorts-reperes-pas-une-liste-fermee",
+        "limites-et-garde-fous",
+        "mestherak-ame-mort-et-essence-vitale",
+        "spectromancie-magie-spectrale",
+        "exemples-de-sorts-reperes-pas-une-liste-fermee",
+        "limites-et-garde-fous",
+        "hematomancie-magie-du-sang",
+        "exemples-de-sorts-reperes-pas-une-liste-fermee",
+        "limites-et-garde-fous",
+        "necromancie-magie-de-la-mort",
+        "exemples-de-sorts-reperes-pas-une-liste-fermee",
+        "limites-et-garde-fous",
+        "discella-ombre-mensonge-et-malediction",
+        "pseudomancie-magie-des-illusions",
+        "exemples-de-sorts-reperes-pas-une-liste-fermee",
+        "limites-et-garde-fous",
+        "pathomancie-magie-des-maledictions",
+        "exemples-de-sorts-reperes-pas-une-liste-fermee",
+        "limites-et-garde-fous",
+        "skiamancie-magie-des-ombres",
+        "exemples-de-sorts-reperes-pas-une-liste-fermee",
+        "limites-et-garde-fous"
+      ],
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "references": [
+        "regles-verite-v7-mage-maitrise-amplitude-lancement#wiki-section-principe-de-designation-et-role-des-savoirs",
+        "regles-verite-v7-mage-roue-5-portes-15-ecoles#wiki-section-medeomancie-magie-de-guerison",
+        "regles-verite-v7-mage-roue-5-portes-15-ecoles#wiki-section-morphomancie-magie-du-modelage",
+        "regles-verite-v7-mage-roue-5-portes-15-ecoles#wiki-section-necromancie-magie-de-la-mort",
+        "regles-verite-v7-mage-roue-5-portes-15-ecoles#wiki-section-photomancie-magie-de-la-lumiere",
+        "regles-verite-v7-mage-roue-5-portes-15-ecoles#wiki-section-pseudomancie-magie-des-illusions",
+        "regles-verite-v7-mage-tension-revers-echos-oeuvres#wiki-section-uvre-personnelle"
+      ],
+      "note": "Lecture des 5 portes, 15 écoles, 90 exemples et limites. Morphomancie ne soigne pas; Spectromancie ne réanime pas le cadavre; Photomancie, Pseudomancie et Skiamancie restent distinctes. Les occurrences de « famille » et « fléau » ici ne désignent pas des factions. Les identifiants répétés demandent une occurrence explicite.",
+      "tagsBefore": [
+        "Vérité",
+        "Mages",
+        "Roue magique",
+        "Kaharal",
+        "Meldir",
+        "Elinaeth",
+        "Mestherak",
+        "Discella",
+        "écoles"
+      ],
+      "tagsAfter": [
+        "Vérité",
+        "Règles",
+        "Mages",
+        "Roue magique",
+        "Kaharal",
+        "Meldir",
+        "Elinaeth",
+        "Mestherak",
+        "Discella",
+        "écoles",
+        "Maîtrise",
+        "Amplitude"
+      ],
+      "linksAdded": [
+        {
+          "articleId": "regles-verite-v7-mage-roue-5-portes-15-ecoles",
+          "sectionId": "morphomancie-magie-du-modelage",
+          "quote": "respecter le Principe de désignation",
+          "label": "Principe de désignation",
+          "targetId": "regles-verite-v7-mage-maitrise-amplitude-lancement",
+          "targetSection": "principe-de-designation-et-role-des-savoirs"
+        },
+        {
+          "articleId": "regles-verite-v7-mage-roue-5-portes-15-ecoles",
+          "sectionId": "limites-et-garde-fous",
+          "quote": "La Morphomancie ne remplace pas la Médéomancie",
+          "label": "Médéomancie",
+          "targetId": "regles-verite-v7-mage-roue-5-portes-15-ecoles",
+          "targetSection": "medeomancie-magie-de-guerison"
+        },
+        {
+          "articleId": "regles-verite-v7-mage-roue-5-portes-15-ecoles",
+          "sectionId": "limites-et-garde-fous",
+          "quote": "Médéomancie restaure ; elle ne remplace pas la Morphomancie",
+          "label": "Morphomancie",
+          "targetId": "regles-verite-v7-mage-roue-5-portes-15-ecoles",
+          "targetSection": "morphomancie-magie-du-modelage"
+        },
+        {
+          "articleId": "regles-verite-v7-mage-roue-5-portes-15-ecoles",
+          "sectionId": "spectromancie-magie-spectrale",
+          "quote": "Elle ne réanime pas la chair et ne remplace pas la Nécromancie",
+          "label": "Nécromancie",
+          "targetId": "regles-verite-v7-mage-roue-5-portes-15-ecoles",
+          "targetSection": "necromancie-magie-de-la-mort"
+        },
+        {
+          "articleId": "regles-verite-v7-mage-roue-5-portes-15-ecoles",
+          "sectionId": "limites-et-garde-fous",
+          "quote": "Photomancie = lumière réelle ; Pseudomancie = perception ; Skiamancie = Ombre surnaturelle",
+          "label": "Photomancie",
+          "targetId": "regles-verite-v7-mage-roue-5-portes-15-ecoles",
+          "targetSection": "photomancie-magie-de-la-lumiere"
+        },
+        {
+          "articleId": "regles-verite-v7-mage-roue-5-portes-15-ecoles",
+          "sectionId": "limites-et-garde-fous",
+          "quote": "Pseudomancie = perception ; Skiamancie = Ombre surnaturelle",
+          "label": "Pseudomancie",
+          "targetId": "regles-verite-v7-mage-roue-5-portes-15-ecoles",
+          "targetSection": "pseudomancie-magie-des-illusions"
+        },
+        {
+          "articleId": "regles-verite-v7-mage-roue-5-portes-15-ecoles",
+          "sectionId": "limites-et-garde-fous",
+          "quote": "Les formes extrêmes comme une magie sismique parfaitement contrôlée peuvent devenir des Œuvres personnelles/familiales",
+          "label": "Œuvres personnelles",
+          "targetId": "regles-verite-v7-mage-tension-revers-echos-oeuvres",
+          "targetSection": "uvre-personnelle"
+        }
+      ],
+      "stage": "contextual-edits-applied",
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "kaharal-matiere-forme-et-monde-physique",
+          "title": "Kaharal — matière, forme et monde physique",
+          "blocks": 0,
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "architetramancie-magie-des-elements",
+          "title": "Architétramancie — magie des éléments",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 2,
+          "id": "exemples-de-sorts-reperes-pas-une-liste-fermee",
+          "title": "Exemples de sorts (repères, pas une liste fermée)",
+          "blocks": 6,
+          "audience": "public"
+        },
+        {
+          "index": 3,
+          "id": "limites-et-garde-fous",
+          "title": "Limites et garde-fous",
+          "blocks": 3,
+          "audience": "public"
+        },
+        {
+          "index": 4,
+          "id": "morphomancie-magie-du-modelage",
+          "title": "Morphomancie — magie du Modelage",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 5,
+          "id": "exemples-de-sorts-reperes-pas-une-liste-fermee",
+          "title": "Exemples de sorts (repères, pas une liste fermée)",
+          "blocks": 6,
+          "audience": "public"
+        },
+        {
+          "index": 6,
+          "id": "limites-et-garde-fous",
+          "title": "Limites et garde-fous",
+          "blocks": 3,
+          "audience": "public"
+        },
+        {
+          "index": 7,
+          "id": "alchimie-magie-des-atomes",
+          "title": "Alchimie — magie des atomes",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 8,
+          "id": "exemples-de-sorts-reperes-pas-une-liste-fermee",
+          "title": "Exemples de sorts (repères, pas une liste fermée)",
+          "blocks": 6,
+          "audience": "public"
+        },
+        {
+          "index": 9,
+          "id": "limites-et-garde-fous",
+          "title": "Limites et garde-fous",
+          "blocks": 3,
+          "audience": "public"
+        },
+        {
+          "index": 10,
+          "id": "meldir-ordre-lumiere-et-restauration",
+          "title": "Meldir — ordre, lumière et restauration",
+          "blocks": 0,
+          "audience": "public"
+        },
+        {
+          "index": 11,
+          "id": "photomancie-magie-de-la-lumiere",
+          "title": "Photomancie — magie de la Lumière",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 12,
+          "id": "exemples-de-sorts-reperes-pas-une-liste-fermee",
+          "title": "Exemples de sorts (repères, pas une liste fermée)",
+          "blocks": 6,
+          "audience": "public"
+        },
+        {
+          "index": 13,
+          "id": "limites-et-garde-fous",
+          "title": "Limites et garde-fous",
+          "blocks": 3,
+          "audience": "public"
+        },
+        {
+          "index": 14,
+          "id": "acratomancie-magie-des-sceaux",
+          "title": "Acratomancie — magie des Sceaux",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 15,
+          "id": "exemples-de-sorts-reperes-pas-une-liste-fermee",
+          "title": "Exemples de sorts (repères, pas une liste fermée)",
+          "blocks": 6,
+          "audience": "public"
+        },
+        {
+          "index": 16,
+          "id": "limites-et-garde-fous",
+          "title": "Limites et garde-fous",
+          "blocks": 3,
+          "audience": "public"
+        },
+        {
+          "index": 17,
+          "id": "medeomancie-magie-de-guerison",
+          "title": "Médéomancie — magie de Guérison",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 18,
+          "id": "exemples-de-sorts-reperes-pas-une-liste-fermee",
+          "title": "Exemples de sorts (repères, pas une liste fermée)",
+          "blocks": 6,
+          "audience": "public"
+        },
+        {
+          "index": 19,
+          "id": "limites-et-garde-fous",
+          "title": "Limites et garde-fous",
+          "blocks": 3,
+          "audience": "public"
+        },
+        {
+          "index": 20,
+          "id": "elinaeth-forces-information-et-continuum",
+          "title": "Elinaeth — forces, information et continuum",
+          "blocks": 0,
+          "audience": "public"
+        },
+        {
+          "index": 21,
+          "id": "telekinesie-magie-des-forces",
+          "title": "Télékinésie — magie des forces",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 22,
+          "id": "exemples-de-sorts-reperes-pas-une-liste-fermee",
+          "title": "Exemples de sorts (repères, pas une liste fermée)",
+          "blocks": 6,
+          "audience": "public"
+        },
+        {
+          "index": 23,
+          "id": "limites-et-garde-fous",
+          "title": "Limites et garde-fous",
+          "blocks": 3,
+          "audience": "public"
+        },
+        {
+          "index": 24,
+          "id": "divination-magie-de-l-information-et-des-possibles",
+          "title": "Divination — magie de l’information et des possibles",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 25,
+          "id": "exemples-de-sorts-reperes-pas-une-liste-fermee",
+          "title": "Exemples de sorts (repères, pas une liste fermée)",
+          "blocks": 6,
+          "audience": "public"
+        },
+        {
+          "index": 26,
+          "id": "limites-et-garde-fous",
+          "title": "Limites et garde-fous",
+          "blocks": 3,
+          "audience": "public"
+        },
+        {
+          "index": 27,
+          "id": "chronomancie-magie-du-temps",
+          "title": "Chronomancie — magie du temps",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 28,
+          "id": "exemples-de-sorts-reperes-pas-une-liste-fermee",
+          "title": "Exemples de sorts (repères, pas une liste fermée)",
+          "blocks": 6,
+          "audience": "public"
+        },
+        {
+          "index": 29,
+          "id": "limites-et-garde-fous",
+          "title": "Limites et garde-fous",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 30,
+          "id": "mestherak-ame-mort-et-essence-vitale",
+          "title": "Mestherak — âme, mort et essence vitale",
+          "blocks": 0,
+          "audience": "public"
+        },
+        {
+          "index": 31,
+          "id": "spectromancie-magie-spectrale",
+          "title": "Spectromancie — magie spectrale",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 32,
+          "id": "exemples-de-sorts-reperes-pas-une-liste-fermee",
+          "title": "Exemples de sorts (repères, pas une liste fermée)",
+          "blocks": 6,
+          "audience": "public"
+        },
+        {
+          "index": 33,
+          "id": "limites-et-garde-fous",
+          "title": "Limites et garde-fous",
+          "blocks": 3,
+          "audience": "public"
+        },
+        {
+          "index": 34,
+          "id": "hematomancie-magie-du-sang",
+          "title": "Hématomancie — magie du Sang",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 35,
+          "id": "exemples-de-sorts-reperes-pas-une-liste-fermee",
+          "title": "Exemples de sorts (repères, pas une liste fermée)",
+          "blocks": 6,
+          "audience": "public"
+        },
+        {
+          "index": 36,
+          "id": "limites-et-garde-fous",
+          "title": "Limites et garde-fous",
+          "blocks": 3,
+          "audience": "public"
+        },
+        {
+          "index": 37,
+          "id": "necromancie-magie-de-la-mort",
+          "title": "Nécromancie — magie de la Mort",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 38,
+          "id": "exemples-de-sorts-reperes-pas-une-liste-fermee",
+          "title": "Exemples de sorts (repères, pas une liste fermée)",
+          "blocks": 6,
+          "audience": "public"
+        },
+        {
+          "index": 39,
+          "id": "limites-et-garde-fous",
+          "title": "Limites et garde-fous",
+          "blocks": 3,
+          "audience": "public"
+        },
+        {
+          "index": 40,
+          "id": "discella-ombre-mensonge-et-malediction",
+          "title": "Discella — ombre, mensonge et malédiction",
+          "blocks": 0,
+          "audience": "public"
+        },
+        {
+          "index": 41,
+          "id": "pseudomancie-magie-des-illusions",
+          "title": "Pseudomancie — magie des Illusions",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 42,
+          "id": "exemples-de-sorts-reperes-pas-une-liste-fermee",
+          "title": "Exemples de sorts (repères, pas une liste fermée)",
+          "blocks": 6,
+          "audience": "public"
+        },
+        {
+          "index": 43,
+          "id": "limites-et-garde-fous",
+          "title": "Limites et garde-fous",
+          "blocks": 3,
+          "audience": "public"
+        },
+        {
+          "index": 44,
+          "id": "pathomancie-magie-des-maledictions",
+          "title": "Pathomancie — magie des Malédictions",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 45,
+          "id": "exemples-de-sorts-reperes-pas-une-liste-fermee",
+          "title": "Exemples de sorts (repères, pas une liste fermée)",
+          "blocks": 6,
+          "audience": "public"
+        },
+        {
+          "index": 46,
+          "id": "limites-et-garde-fous",
+          "title": "Limites et garde-fous",
+          "blocks": 3,
+          "audience": "public"
+        },
+        {
+          "index": 47,
+          "id": "skiamancie-magie-des-ombres",
+          "title": "Skiamancie — magie des Ombres",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 48,
+          "id": "exemples-de-sorts-reperes-pas-une-liste-fermee",
+          "title": "Exemples de sorts (repères, pas une liste fermée)",
+          "blocks": 6,
+          "audience": "public"
+        },
+        {
+          "index": 49,
+          "id": "limites-et-garde-fous",
+          "title": "Limites et garde-fous",
+          "blocks": 3,
+          "audience": "public"
+        }
+      ]
+    },
+    {
+      "id": "regles-verite-v7-daemon-nature-fonctions-divinites-facettes",
+      "sectionsRead": [
+        "concept-et-architecture",
+        "origine-de-l-elu",
+        "espece-d-origine-et-souvenirs",
+        "reincarnation-mode-jouable",
+        "revelation-et-forme-exaltee",
+        "nature-daemoniaque-pouvoirs-communs",
+        "talents-communs-de-nature",
+        "regles-transversales-des-pouvoirs-divins",
+        "fonctions-daemoniaques",
+        "oracle-tentateur",
+        "chatiment-tourmenteur",
+        "chevalier-legionnaire",
+        "divinites-et-facettes",
+        "alabor-les-eaux-primordiales",
+        "facette-flots",
+        "facette-pression",
+        "facette-pluie-fecondite",
+        "astaroth-la-civilisation",
+        "facette-savoir",
+        "facette-ecriture",
+        "facette-arts-creation",
+        "belial-la-reine-des-dieux",
+        "facette-feu-royal",
+        "facette-domination",
+        "facette-destruction",
+        "diablo-la-nuit-qui-regarde",
+        "facette-nuit",
+        "facette-cauchemar",
+        "facette-devoration",
+        "lilith-desir-sexe-plaisir-et-attachement",
+        "facette-desir-plaisir",
+        "facette-fertilite-chair",
+        "facette-attachement-sentiments",
+        "mammon-l-ineluctable",
+        "facette-mort",
+        "facette-vieillesse",
+        "facette-destin-delivrance",
+        "mephisto-l-occulte-la-parole-et-le-hasard",
+        "facette-magie",
+        "facette-parole-chant",
+        "facette-fortune-illusion",
+        "satan-le-juge",
+        "facette-sentence",
+        "facette-ordre-paix",
+        "facette-vengeance",
+        "lucifer-le-soleil-dechu",
+        "facette-soleil",
+        "facette-cycle-vie",
+        "facette-courage",
+        "belzebuth-la-vie-sans-jugement-moral",
+        "facette-regeneration",
+        "facette-nature-evolution",
+        "facette-maladie",
+        "abigor-le-ciel-qui-frappe-d-en-haut",
+        "facette-vent-ciel",
+        "facette-orage",
+        "facette-tempete",
+        "baal-la-guerre-elle-meme",
+        "facette-armes",
+        "facette-force-violence",
+        "facette-strategie-victoire",
+        "morrighan-la-corneille-etrangere",
+        "facette-guerre-frenesie",
+        "facette-mort-presages",
+        "facette-royaute-magie"
+      ],
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "references": [
+        "regles-verite-v7-voile-continuite-objets-reseaux-interfaces#wiki-section-5-hologramme-voile-semi-revelation-et-revelation",
+        "regles-verite-v7-daemon-maisonnees-faveurs-patron#wiki-section-maisonnees-et-faveurs-de-patron",
+        "regles-verite-v7-mage-maitrise-amplitude-lancement#wiki-section-construire-et-lancer-un-sort",
+        "regles-verite-v7-voile-continuite-objets-reseaux-interfaces#wiki-section-mobilite-ailee-convention-pj",
+        "regles-verite-v7-pa-reactions-defense-puissance#wiki-section-4-defense-occulte-et-puissance-des-effets"
+      ],
+      "note": "Origine de l’âme, incarnation, Nature, Fonction, Divinité, Facettes et Maisonnée distinguées. Spectre de Mageius suit la construction des sorts mais exclut Tension/Revers. Divergence PV avec Aseryn consignée pour arbitrage mécanique.",
+      "tagsBefore": [
+        "Vérité",
+        "Daemons",
+        "Nature",
+        "Fonctions",
+        "Divinités",
+        "Facettes"
+      ],
+      "tagsAfter": [
+        "Vérité",
+        "Règles",
+        "Daemons",
+        "Nature",
+        "Fonctions",
+        "Divinités",
+        "Facettes"
+      ],
+      "linksAdded": [
+        {
+          "articleId": "regles-verite-v7-daemon-nature-fonctions-divinites-facettes",
+          "sectionId": "revelation-et-forme-exaltee",
+          "quote": "conformément aux règles générales du Voile",
+          "label": "règles générales du Voile",
+          "targetId": "regles-verite-v7-voile-continuite-objets-reseaux-interfaces",
+          "targetSection": "5-hologramme-voile-semi-revelation-et-revelation"
+        },
+        {
+          "articleId": "regles-verite-v7-daemon-nature-fonctions-divinites-facettes",
+          "sectionId": "regles-transversales-des-pouvoirs-divins",
+          "quote": "Une seule Faveur de Maisonnée est active à la fois",
+          "label": "Faveur de Maisonnée",
+          "targetId": "regles-verite-v7-daemon-maisonnees-faveurs-patron",
+          "targetSection": "maisonnees-et-faveurs-de-patron"
+        },
+        {
+          "articleId": "regles-verite-v7-daemon-nature-fonctions-divinites-facettes",
+          "sectionId": "mephisto-l-occulte-la-parole-et-le-hasard",
+          "quote": "en suivant les règles normales de construction d’un sort",
+          "label": "règles normales de construction d’un sort",
+          "targetId": "regles-verite-v7-mage-maitrise-amplitude-lancement",
+          "targetSection": "construire-et-lancer-un-sort"
+        },
+        {
+          "articleId": "regles-verite-v7-daemon-nature-fonctions-divinites-facettes",
+          "sectionId": "morrighan-la-corneille-etrangere",
+          "quote": "mobilité ailée d’un oiseau selon la règle commune",
+          "label": "mobilité ailée d’un oiseau selon la règle commune",
+          "targetId": "regles-verite-v7-voile-continuite-objets-reseaux-interfaces",
+          "targetSection": "mobilite-ailee-convention-pj"
+        },
+        {
+          "articleId": "regles-verite-v7-daemon-nature-fonctions-divinites-facettes",
+          "sectionId": "regles-transversales-des-pouvoirs-divins",
+          "quote": "une imposition directe à l’âme, l’esprit ou l’organisme affronte la Défense occulte",
+          "label": "Défense occulte",
+          "targetId": "regles-verite-v7-pa-reactions-defense-puissance",
+          "targetSection": "4-defense-occulte-et-puissance-des-effets"
+        }
+      ],
+      "stage": "contextual-edits-applied",
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "concept-et-architecture",
+          "title": "Concept et architecture",
+          "blocks": 3,
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "origine-de-l-elu",
+          "title": "Origine de l’Élu",
+          "blocks": 3,
+          "audience": "public"
+        },
+        {
+          "index": 2,
+          "id": "espece-d-origine-et-souvenirs",
+          "title": "Espèce d’origine et souvenirs",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 3,
+          "id": "reincarnation-mode-jouable",
+          "title": "Réincarnation — mode jouable",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 4,
+          "id": "revelation-et-forme-exaltee",
+          "title": "Révélation et forme exaltée",
+          "blocks": 3,
+          "audience": "public"
+        },
+        {
+          "index": 5,
+          "id": "nature-daemoniaque-pouvoirs-communs",
+          "title": "Nature daemoniaque — pouvoirs communs",
+          "blocks": 5,
+          "audience": "public"
+        },
+        {
+          "index": 6,
+          "id": "talents-communs-de-nature",
+          "title": "Talents communs de Nature",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 7,
+          "id": "regles-transversales-des-pouvoirs-divins",
+          "title": "Règles transversales des pouvoirs divins",
+          "blocks": 5,
+          "audience": "public"
+        },
+        {
+          "index": 8,
+          "id": "fonctions-daemoniaques",
+          "title": "Fonctions daemoniaques",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 9,
+          "id": "oracle-tentateur",
+          "title": "Oracle / Tentateur",
+          "blocks": 4,
+          "audience": "public"
+        },
+        {
+          "index": 10,
+          "id": "chatiment-tourmenteur",
+          "title": "Châtiment / Tourmenteur",
+          "blocks": 4,
+          "audience": "public"
+        },
+        {
+          "index": 11,
+          "id": "chevalier-legionnaire",
+          "title": "Chevalier / Légionnaire",
+          "blocks": 5,
+          "audience": "public"
+        },
+        {
+          "index": 12,
+          "id": "divinites-et-facettes",
+          "title": "Divinités et Facettes",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 13,
+          "id": "alabor-les-eaux-primordiales",
+          "title": "ALABOR — Les Eaux primordiales",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 14,
+          "id": "facette-flots",
+          "title": "Facette : Flots",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 15,
+          "id": "facette-pression",
+          "title": "Facette : Pression",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 16,
+          "id": "facette-pluie-fecondite",
+          "title": "Facette : Pluie & Fécondité",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 17,
+          "id": "astaroth-la-civilisation",
+          "title": "ASTAROTH — La Civilisation",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 18,
+          "id": "facette-savoir",
+          "title": "Facette : Savoir",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 19,
+          "id": "facette-ecriture",
+          "title": "Facette : Écriture",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 20,
+          "id": "facette-arts-creation",
+          "title": "Facette : Arts & Création",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 21,
+          "id": "belial-la-reine-des-dieux",
+          "title": "BELIAL — La Reine des Dieux",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 22,
+          "id": "facette-feu-royal",
+          "title": "Facette : Feu royal",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 23,
+          "id": "facette-domination",
+          "title": "Facette : Domination",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 24,
+          "id": "facette-destruction",
+          "title": "Facette : Destruction",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 25,
+          "id": "diablo-la-nuit-qui-regarde",
+          "title": "DIABLO — La Nuit qui regarde",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 26,
+          "id": "facette-nuit",
+          "title": "Facette : Nuit",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 27,
+          "id": "facette-cauchemar",
+          "title": "Facette : Cauchemar",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 28,
+          "id": "facette-devoration",
+          "title": "Facette : Dévoration",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 29,
+          "id": "lilith-desir-sexe-plaisir-et-attachement",
+          "title": "LILITH — Désir, Sexe, Plaisir et Attachement",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 30,
+          "id": "facette-desir-plaisir",
+          "title": "Facette : Désir & Plaisir",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 31,
+          "id": "facette-fertilite-chair",
+          "title": "Facette : Fertilité & Chair",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 32,
+          "id": "facette-attachement-sentiments",
+          "title": "Facette : Attachement & Sentiments",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 33,
+          "id": "mammon-l-ineluctable",
+          "title": "MAMMON — L’Inéluctable",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 34,
+          "id": "facette-mort",
+          "title": "Facette : Mort",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 35,
+          "id": "facette-vieillesse",
+          "title": "Facette : Vieillesse",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 36,
+          "id": "facette-destin-delivrance",
+          "title": "Facette : Destin & Délivrance",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 37,
+          "id": "mephisto-l-occulte-la-parole-et-le-hasard",
+          "title": "MÉPHISTO — L’Occulte, la Parole et le Hasard",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 38,
+          "id": "facette-magie",
+          "title": "Facette : Magie",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 39,
+          "id": "facette-parole-chant",
+          "title": "Facette : Parole & Chant",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 40,
+          "id": "facette-fortune-illusion",
+          "title": "Facette : Fortune & Illusion",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 41,
+          "id": "satan-le-juge",
+          "title": "SATAN — Le Juge",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 42,
+          "id": "facette-sentence",
+          "title": "Facette : Sentence",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 43,
+          "id": "facette-ordre-paix",
+          "title": "Facette : Ordre & Paix",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 44,
+          "id": "facette-vengeance",
+          "title": "Facette : Vengeance",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 45,
+          "id": "lucifer-le-soleil-dechu",
+          "title": "LUCIFER — Le Soleil déchu",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 46,
+          "id": "facette-soleil",
+          "title": "Facette : Soleil",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 47,
+          "id": "facette-cycle-vie",
+          "title": "Facette : Cycle & Vie",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 48,
+          "id": "facette-courage",
+          "title": "Facette : Courage",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 49,
+          "id": "belzebuth-la-vie-sans-jugement-moral",
+          "title": "BELZÉBUTH — La Vie sans jugement moral",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 50,
+          "id": "facette-regeneration",
+          "title": "Facette : Régénération",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 51,
+          "id": "facette-nature-evolution",
+          "title": "Facette : Nature & Évolution",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 52,
+          "id": "facette-maladie",
+          "title": "Facette : Maladie",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 53,
+          "id": "abigor-le-ciel-qui-frappe-d-en-haut",
+          "title": "ABIGOR — Le Ciel qui frappe d’en haut",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 54,
+          "id": "facette-vent-ciel",
+          "title": "Facette : Vent & Ciel",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 55,
+          "id": "facette-orage",
+          "title": "Facette : Orage",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 56,
+          "id": "facette-tempete",
+          "title": "Facette : Tempête",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 57,
+          "id": "baal-la-guerre-elle-meme",
+          "title": "BAAL — La Guerre elle-même",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 58,
+          "id": "facette-armes",
+          "title": "Facette : Armes",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 59,
+          "id": "facette-force-violence",
+          "title": "Facette : Force & Violence",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 60,
+          "id": "facette-strategie-victoire",
+          "title": "Facette : Stratégie & Victoire",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 61,
+          "id": "morrighan-la-corneille-etrangere",
+          "title": "MORRIGHAN — La Corneille étrangère",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 62,
+          "id": "facette-guerre-frenesie",
+          "title": "Facette : Guerre & Frénésie",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 63,
+          "id": "facette-mort-presages",
+          "title": "Facette : Mort & Présages",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 64,
+          "id": "facette-royaute-magie",
+          "title": "Facette : Royauté & Magie",
+          "blocks": 1,
+          "audience": "public"
+        }
+      ]
+    },
+    {
+      "id": "regles-verite-v7-angelus-sephiroth-archanges-seraphins",
+      "sectionsRead": [
+        "les-dix-sephiroth",
+        "les-dix-sephiroth",
+        "kether-la-couronne",
+        "facette-domination",
+        "facette-conscience",
+        "facette-unite",
+        "hokhma-la-sagesse",
+        "facette-sagesse",
+        "facette-purete",
+        "facette-magie",
+        "bina-la-comprehension",
+        "facette-intellect",
+        "facette-destin",
+        "facette-limitations",
+        "hesed-la-misericorde",
+        "facette-misericorde",
+        "facette-guerison",
+        "facette-creativite",
+        "gueburah-la-force",
+        "facette-force",
+        "facette-justice",
+        "facette-guerre",
+        "tiph-ereth-la-beaute",
+        "facette-foi",
+        "facette-devotion",
+        "facette-sacrifice",
+        "nesah-la-victoire",
+        "facette-succes",
+        "facette-amour",
+        "facette-sexualite",
+        "hod-la-gloire",
+        "facette-gloire",
+        "facette-science",
+        "facette-savoir",
+        "yessod-la-fondation",
+        "facette-reves",
+        "facette-illusion",
+        "facette-imagination",
+        "malkhouth-le-royaume",
+        "facette-mort",
+        "facette-monde-physique",
+        "facette-poids",
+        "archanges-en-fonction-dons-archangeliques",
+        "seraphins-patrons-maisonnees-actives",
+        "remiel-purim-jugement-dernier",
+        "remiel-ochotiel-pesanteur",
+        "gabrielle-belohim-volonte",
+        "gabrielle-arathim-loi",
+        "barachiel-assim-planification",
+        "barachiel-razael-sagesse",
+        "raphael-hazel-sel-larmes",
+        "raphael-sobronielle-creativite",
+        "michel-esdrael-sang",
+        "michel-graphiel-epee-de-dieu",
+        "zophielle-georah-passion",
+        "zophielle-thirielle-charme",
+        "azazel-nehemiel-haine",
+        "azazel-hassiel-defense",
+        "urielle-danael-flammes",
+        "urielle-agriel-lumiere-celeste",
+        "camaelle-jachim-orage",
+        "camaelle-sabbathiel-colere",
+        "azrael-barabbiel-ames",
+        "azrael-pithormim-cle-des-enfers",
+        "archanges-renegats",
+        "metatron-creation",
+        "manakielle-connaissance",
+        "razielle-secrets",
+        "tsadqiel-pardon",
+        "selaphielle-devoir",
+        "sachielle-charite",
+        "hanaelle-sexualite",
+        "sandalphon-grandeur",
+        "mebahel-verite",
+        "muriel-destruction",
+        "seraphins-des-archanges-renegats",
+        "metatron-aralim-construction",
+        "manakielle-siloelle-energie",
+        "razielle-jessim-mystique",
+        "tsadqiel-rubiel-purete",
+        "selaphielle-bethel-metal",
+        "sachielle-chiloel-resignation",
+        "hanaelle-phanaelle-prudence",
+        "sandalphon-pergamin-perseverance",
+        "mebahel-henael-avertissement",
+        "muriel-osael-colere"
+      ],
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "references": [
+        "regles-verite-v7-angelus-nature-revelation-transcendance#wiki-section-aura-aureole-et-arbre-de-vie",
+        "regles-sante-blessures-soins#wiki-section-stabiliser",
+        "regles-verite-v7-pa-reactions-defense-puissance#wiki-section-4-defense-occulte-et-puissance-des-effets"
+      ],
+      "note": "Les 10 Sephiroth, 10 Dons actifs, 20 Faveurs actives, 10 Archanges renégats et leurs 10 Faveurs ont été lus. Un Sephira, un Archange et un Patron distincts; Renégat n’implique pas traître. Le second titre Sephiroth contient la règle de profil R remplaçant SR. Saturation de l’Arbre demande une destination propre à vérifier.",
+      "tagsBefore": [
+        "Vérité",
+        "Angelus",
+        "Sephiroth",
+        "Archanges",
+        "Séraphins",
+        "Faveurs"
+      ],
+      "tagsAfter": [
+        "Vérité",
+        "Règles",
+        "Angelus",
+        "Sephiroth",
+        "Archanges",
+        "Séraphins",
+        "Faveurs"
+      ],
+      "linksAdded": [
+        {
+          "articleId": "regles-verite-v7-angelus-sephiroth-archanges-seraphins",
+          "sectionId": "archanges-en-fonction-dons-archangeliques",
+          "quote": "Les Dons actifs coûtent généralement 2 Aura",
+          "label": "Aura",
+          "targetId": "regles-verite-v7-angelus-nature-revelation-transcendance",
+          "targetSection": "aura-aureole-et-arbre-de-vie"
+        },
+        {
+          "articleId": "regles-verite-v7-angelus-sephiroth-archanges-seraphins",
+          "sectionId": "hesed-la-misericorde",
+          "quote": "stabiliser automatiquement une cible",
+          "label": "stabiliser",
+          "targetId": "regles-sante-blessures-soins",
+          "targetSection": "stabiliser"
+        },
+        {
+          "articleId": "regles-verite-v7-angelus-sephiroth-archanges-seraphins",
+          "sectionId": "archanges-en-fonction-dons-archangeliques",
+          "quote": "Charisme + Compétence sociale contextuelle contre Défense occulte",
+          "label": "Défense occulte",
+          "targetId": "regles-verite-v7-pa-reactions-defense-puissance",
+          "targetSection": "4-defense-occulte-et-puissance-des-effets"
+        }
+      ],
+      "stage": "contextual-edits-applied",
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "les-dix-sephiroth",
+          "title": "Les dix Sephiroth",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "les-dix-sephiroth",
+          "title": "Les dix Sephiroth",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 2,
+          "id": "kether-la-couronne",
+          "title": "Kether — La Couronne",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 3,
+          "id": "facette-domination",
+          "title": "Facette : Domination",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 4,
+          "id": "facette-conscience",
+          "title": "Facette : Conscience",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 5,
+          "id": "facette-unite",
+          "title": "Facette : Unité",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 6,
+          "id": "hokhma-la-sagesse",
+          "title": "Hokhma — La Sagesse",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 7,
+          "id": "facette-sagesse",
+          "title": "Facette : Sagesse",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 8,
+          "id": "facette-purete",
+          "title": "Facette : Pureté",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 9,
+          "id": "facette-magie",
+          "title": "Facette : Magie",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 10,
+          "id": "bina-la-comprehension",
+          "title": "Bina — La Compréhension",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 11,
+          "id": "facette-intellect",
+          "title": "Facette : Intellect",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 12,
+          "id": "facette-destin",
+          "title": "Facette : Destin",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 13,
+          "id": "facette-limitations",
+          "title": "Facette : Limitations",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 14,
+          "id": "hesed-la-misericorde",
+          "title": "Hesed — La Miséricorde",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 15,
+          "id": "facette-misericorde",
+          "title": "Facette : Miséricorde",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 16,
+          "id": "facette-guerison",
+          "title": "Facette : Guérison",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 17,
+          "id": "facette-creativite",
+          "title": "Facette : Créativité",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 18,
+          "id": "gueburah-la-force",
+          "title": "Gueburah — La Force",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 19,
+          "id": "facette-force",
+          "title": "Facette : Force",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 20,
+          "id": "facette-justice",
+          "title": "Facette : Justice",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 21,
+          "id": "facette-guerre",
+          "title": "Facette : Guerre",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 22,
+          "id": "tiph-ereth-la-beaute",
+          "title": "Tiph'Ereth — La Beauté",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 23,
+          "id": "facette-foi",
+          "title": "Facette : Foi",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 24,
+          "id": "facette-devotion",
+          "title": "Facette : Dévotion",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 25,
+          "id": "facette-sacrifice",
+          "title": "Facette : Sacrifice",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 26,
+          "id": "nesah-la-victoire",
+          "title": "Nesah — Là Victoire",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 27,
+          "id": "facette-succes",
+          "title": "Facette : Succès",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 28,
+          "id": "facette-amour",
+          "title": "Facette : Amour",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 29,
+          "id": "facette-sexualite",
+          "title": "Facette : Sexualité",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 30,
+          "id": "hod-la-gloire",
+          "title": "Hod — La Gloire",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 31,
+          "id": "facette-gloire",
+          "title": "Facette : Gloire",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 32,
+          "id": "facette-science",
+          "title": "Facette : Science",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 33,
+          "id": "facette-savoir",
+          "title": "Facette : Savoir",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 34,
+          "id": "yessod-la-fondation",
+          "title": "Yessod — La Fondation",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 35,
+          "id": "facette-reves",
+          "title": "Facette : Rêves",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 36,
+          "id": "facette-illusion",
+          "title": "Facette : Illusion",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 37,
+          "id": "facette-imagination",
+          "title": "Facette : Imagination",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 38,
+          "id": "malkhouth-le-royaume",
+          "title": "Malkhouth — Le Royaume",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 39,
+          "id": "facette-mort",
+          "title": "Facette : Mort",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 40,
+          "id": "facette-monde-physique",
+          "title": "Facette : Monde physique",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 41,
+          "id": "facette-poids",
+          "title": "Facette : Poids",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 42,
+          "id": "archanges-en-fonction-dons-archangeliques",
+          "title": "Archanges en fonction — Dons archangéliques",
+          "blocks": 12,
+          "audience": "public"
+        },
+        {
+          "index": 43,
+          "id": "seraphins-patrons-maisonnees-actives",
+          "title": "Séraphins patrons — Maisonnées actives",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 44,
+          "id": "remiel-purim-jugement-dernier",
+          "title": "Remiel — Purim, Jugement dernier",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 45,
+          "id": "remiel-ochotiel-pesanteur",
+          "title": "Remiel — Ochotiel, Pesanteur",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 46,
+          "id": "gabrielle-belohim-volonte",
+          "title": "Gabrielle — Belohim, Volonté",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 47,
+          "id": "gabrielle-arathim-loi",
+          "title": "Gabrielle — Arathim, Loi",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 48,
+          "id": "barachiel-assim-planification",
+          "title": "Barachiel — Assim, Planification",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 49,
+          "id": "barachiel-razael-sagesse",
+          "title": "Barachiel — Razael, Sagesse",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 50,
+          "id": "raphael-hazel-sel-larmes",
+          "title": "Raphael — Hazel, Sel/Larmes",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 51,
+          "id": "raphael-sobronielle-creativite",
+          "title": "Raphael — Sobronielle, Créativité",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 52,
+          "id": "michel-esdrael-sang",
+          "title": "Michel — Esdrael, Sang",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 53,
+          "id": "michel-graphiel-epee-de-dieu",
+          "title": "Michel — Graphiel, Épée de Dieu",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 54,
+          "id": "zophielle-georah-passion",
+          "title": "Zophielle — Georah, Passion",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 55,
+          "id": "zophielle-thirielle-charme",
+          "title": "Zophielle — Thirielle, Charme",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 56,
+          "id": "azazel-nehemiel-haine",
+          "title": "Azazel — Nehemiel, Haine",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 57,
+          "id": "azazel-hassiel-defense",
+          "title": "Azazel — Hassiel, Défense",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 58,
+          "id": "urielle-danael-flammes",
+          "title": "Urielle — Danael, Flammes",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 59,
+          "id": "urielle-agriel-lumiere-celeste",
+          "title": "Urielle — Agriel, Lumière céleste",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 60,
+          "id": "camaelle-jachim-orage",
+          "title": "Camaelle — Jachim, Orage",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 61,
+          "id": "camaelle-sabbathiel-colere",
+          "title": "Camaelle — Sabbathiel, Colère",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 62,
+          "id": "azrael-barabbiel-ames",
+          "title": "Azrael — Barabbiel, Âmes",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 63,
+          "id": "azrael-pithormim-cle-des-enfers",
+          "title": "Azrael — Pithormim, Clé des Enfers",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 64,
+          "id": "archanges-renegats",
+          "title": "Archanges renégats",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 65,
+          "id": "metatron-creation",
+          "title": "Metatron — Création",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 66,
+          "id": "manakielle-connaissance",
+          "title": "Manakielle — Connaissance",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 67,
+          "id": "razielle-secrets",
+          "title": "Razielle — Secrets",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 68,
+          "id": "tsadqiel-pardon",
+          "title": "Tsadqiel — Pardon",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 69,
+          "id": "selaphielle-devoir",
+          "title": "Selaphielle — Devoir",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 70,
+          "id": "sachielle-charite",
+          "title": "Sachielle — Charité",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 71,
+          "id": "hanaelle-sexualite",
+          "title": "Hanaelle — Sexualité",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 72,
+          "id": "sandalphon-grandeur",
+          "title": "Sandalphon — Grandeur",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 73,
+          "id": "mebahel-verite",
+          "title": "Mebahel — Vérité",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 74,
+          "id": "muriel-destruction",
+          "title": "Muriel — Destruction",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 75,
+          "id": "seraphins-des-archanges-renegats",
+          "title": "Séraphins des Archanges renégats",
+          "blocks": 0,
+          "audience": "public"
+        },
+        {
+          "index": 76,
+          "id": "metatron-aralim-construction",
+          "title": "Metatron — Aralim, Construction",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 77,
+          "id": "manakielle-siloelle-energie",
+          "title": "Manakielle — Siloelle, Énergie",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 78,
+          "id": "razielle-jessim-mystique",
+          "title": "Razielle — Jessim, Mystique",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 79,
+          "id": "tsadqiel-rubiel-purete",
+          "title": "Tsadqiel — Rubiel, Pureté",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 80,
+          "id": "selaphielle-bethel-metal",
+          "title": "Selaphielle — Bethel, Métal",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 81,
+          "id": "sachielle-chiloel-resignation",
+          "title": "Sachielle — Chiloel, Résignation",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 82,
+          "id": "hanaelle-phanaelle-prudence",
+          "title": "Hanaelle — Phanaelle, Prudence",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 83,
+          "id": "sandalphon-pergamin-perseverance",
+          "title": "Sandalphon — Pergamin, Persévérance",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 84,
+          "id": "mebahel-henael-avertissement",
+          "title": "Mebahel — Henael, Avertissement",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 85,
+          "id": "muriel-osael-colere",
+          "title": "Muriel — Osael, Colère",
+          "blocks": 1,
+          "audience": "public"
+        }
+      ]
+    },
+    {
+      "id": "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie",
+      "sectionsRead": [
+        "silcenters",
+        "croix",
+        "whurtens",
+        "ashylls",
+        "thulkars",
+        "azmenoriens",
+        "builder"
+      ],
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "references": [
+        "regles-verite-extral-protocoles-de-continuite#wiki-section-ecole-commune",
+        "regles-verite-v7-corruption-integrite-bascule#wiki-section-sources-concurrentes",
+        "regles-verite-v7-equipement-proprietes-acquisition#wiki-section-loi-commune"
+      ],
+      "note": "Formation, réseau et ressource ne confèrent pas de Talents ou matériel gratuits. Croix et Hordes ne sont pas des sous-espèces. Horde Abyssale ne donne aucune Corruption automatique; Horde Maudite sans arbre PJ.",
+      "tagsBefore": [
+        "Vérité",
+        "Règles",
+        "Exilés",
+        "Silcenters",
+        "HDS",
+        "Croix d’Emphyrra",
+        "Runes",
+        "Hordes",
+        "Technomagie"
+      ],
+      "tagsAfter": [
+        "Vérité",
+        "Règles",
+        "Exilés",
+        "Silcenters",
+        "HDS",
+        "Croix d’Emphyrra",
+        "Runes",
+        "Hordes",
+        "Technomagie"
+      ],
+      "linksAdded": [
+        {
+          "articleId": "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie",
+          "sectionId": "silcenters",
+          "quote": "Les Protocoles de Continuité apprennent à gérer V/SR/R",
+          "label": "Protocoles de Continuité",
+          "targetId": "regles-verite-extral-protocoles-de-continuite",
+          "targetSection": "ecole-commune"
+        },
+        {
+          "articleId": "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie",
+          "sectionId": "thulkars",
+          "quote": "un membre réellement thulien utilise les règles de Corruption",
+          "label": "règles de Corruption",
+          "targetId": "regles-verite-v7-corruption-integrite-bascule",
+          "targetSection": "sources-concurrentes"
+        },
+        {
+          "articleId": "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie",
+          "sectionId": "azmenoriens",
+          "quote": "chaque dispositif doit exister, être disponible et être utilisé avec les Compétences nécessaires",
+          "label": "chaque dispositif doit exister, être disponible",
+          "targetId": "regles-verite-v7-equipement-proprietes-acquisition",
+          "targetSection": "loi-commune"
+        }
+      ],
+      "stage": "contextual-edits-applied",
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "silcenters",
+          "title": "Silcenters, Continuité & HDS",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "croix",
+          "title": "Croix d’Emphyrra",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 2,
+          "id": "whurtens",
+          "title": "Runes, Atelier des Clans & Iron Law",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 3,
+          "id": "ashylls",
+          "title": "Réseaux ashylls & Syndicat de Jade",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 4,
+          "id": "thulkars",
+          "title": "Hordes thulkars",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 5,
+          "id": "azmenoriens",
+          "title": "Héritages azménoriens & technomagie",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 6,
+          "id": "builder",
+          "title": "Catalogue mécanique",
+          "blocks": 2,
+          "audience": "public"
+        }
+      ]
+    },
+    {
+      "id": "regles-verite-v7-extrals-profils-physiologies",
+      "sectionsRead": [
+        "profils",
+        "physiologie",
+        "continuite"
+      ],
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "references": [
+        "regles-verite-v7-voile-continuite-objets-reseaux-interfaces#wiki-section-armure-corporelle-et-reductions",
+        "regles-verite-extral-protocoles-de-continuite#wiki-section-ecole-commune",
+        "regles-initiative-pa-deplacement#wiki-section-initiative-et-pa"
+      ],
+      "note": "Cinq profils et conditions biologiques lus; quatre bras ne donnent pas de PA supplémentaires. Armure corporelle compatible avec protection portée; protocole de transition distinct de statut légal.",
+      "tagsBefore": [
+        "Vérité",
+        "Règles",
+        "Extrals",
+        "Talass",
+        "Mo’sen",
+        "Baséanh",
+        "Rocréen",
+        "Thalsios"
+      ],
+      "tagsAfter": [
+        "Vérité",
+        "Règles",
+        "Extrals",
+        "Talass",
+        "Mo’sen",
+        "Baséanh",
+        "Rocréen",
+        "Thalsios"
+      ],
+      "linksAdded": [
+        {
+          "articleId": "regles-verite-v7-extrals-profils-physiologies",
+          "sectionId": "physiologie",
+          "quote": "L’Armure corporelle mo’senne se cumule avec une armure portée",
+          "label": "Armure corporelle",
+          "targetId": "regles-verite-v7-voile-continuite-objets-reseaux-interfaces",
+          "targetSection": "armure-corporelle-et-reductions"
+        },
+        {
+          "articleId": "regles-verite-v7-extrals-profils-physiologies",
+          "sectionId": "continuite",
+          "quote": "Cette école commune d’adaptation au Voile",
+          "label": "école commune d’adaptation au Voile",
+          "targetId": "regles-verite-extral-protocoles-de-continuite",
+          "targetSection": "ecole-commune"
+        },
+        {
+          "articleId": "regles-verite-v7-extrals-profils-physiologies",
+          "sectionId": "physiologie",
+          "quote": "Une anatomie inhabituelle n’accorde aucun PA",
+          "label": "PA",
+          "targetId": "regles-initiative-pa-deplacement",
+          "targetSection": "initiative-et-pa"
+        }
+      ],
+      "stage": "contextual-edits-applied",
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "profils",
+          "title": "Cinq profils extrals",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "physiologie",
+          "title": "Physiologie n’est pas économie d’action",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 2,
+          "id": "continuite",
+          "title": "Protocoles de Continuité",
+          "blocks": 2,
+          "audience": "public"
+        }
+      ]
+    },
+    {
+      "id": "regles-verite-v7-aseryn-nature-accelyr-origines",
+      "sectionsRead": [
+        "nature-aseryne",
+        "voile-semi-revelation-et-revelation",
+        "variation-de-vigueur-et-points-de-vie",
+        "traits-communs-gratuits",
+        "accelyr",
+        "physiologie-aseryne",
+        "sens-electromagnetique",
+        "potentiel-foudroyant",
+        "routes-communes-aserynes",
+        "vivacite-aseryne",
+        "esprit-fulgurant",
+        "perception-electromagnetique",
+        "origines-jouables",
+        "aerilien-neo-atlante",
+        "empreinte-resonance-d-aer",
+        "mulien",
+        "empreinte-etincelle-psychique",
+        "hyperboreen",
+        "empreinte-corps-hyperboreen",
+        "lemurian",
+        "empreinte-heritage-nymphal",
+        "seratheen",
+        "empreinte-sang-mele",
+        "origines-exceptionnelles-non-proposees-normalement-aux-pj"
+      ],
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "references": [
+        "regles-initiative-pa-deplacement#wiki-section-initiative-et-pa",
+        "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre#wiki-section-dratyn-la-maitresse-de-la-foudre"
+      ],
+      "note": "Accelyr, sens EM, routes communes, cinq Origines et deux exceptions lus. Affinité foudroyante biologique ne vaut pas Affinité Mage. Traces ancestrales ne donnent pas leurs pouvoirs complets. Bloc récapitulatif des Origines mal segmenté consigné; PV divergents laissés inchangés.",
+      "tagsBefore": [
+        "Vérité",
+        "Aseryns",
+        "Nature",
+        "Accelyr",
+        "Origines",
+        "Résonance",
+        "Serathéens"
+      ],
+      "tagsAfter": [
+        "Vérité",
+        "Règles",
+        "Aseryns",
+        "Nature",
+        "Accelyr",
+        "Origines",
+        "Résonance",
+        "Serathéens"
+      ],
+      "linksAdded": [
+        {
+          "articleId": "regles-verite-v7-aseryn-nature-accelyr-origines",
+          "sectionId": "voile-semi-revelation-et-revelation",
+          "quote": "les PA restent déterminés par le jet d'Initiative normal",
+          "label": "jet d'Initiative normal",
+          "targetId": "regles-initiative-pa-deplacement",
+          "targetSection": "initiative-et-pa"
+        },
+        {
+          "articleId": "regles-verite-v7-aseryn-nature-accelyr-origines",
+          "sectionId": "potentiel-foudroyant",
+          "quote": "Tout Aseryn possède biologiquement le potentiel d'apprendre à maîtriser la Foudre",
+          "label": "apprendre à maîtriser la Foudre",
+          "targetId": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
+          "targetSection": "dratyn-la-maitresse-de-la-foudre"
+        }
+      ],
+      "stage": "contextual-edits-applied",
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "nature-aseryne",
+          "title": "Nature aseryne",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "voile-semi-revelation-et-revelation",
+          "title": "Voile, Semi-Révélation et Révélation",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 2,
+          "id": "variation-de-vigueur-et-points-de-vie",
+          "title": "Variation de Vigueur et Points de Vie",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 3,
+          "id": "traits-communs-gratuits",
+          "title": "Traits communs gratuits",
+          "blocks": 0,
+          "audience": "public"
+        },
+        {
+          "index": 4,
+          "id": "accelyr",
+          "title": "Accelyr",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 5,
+          "id": "physiologie-aseryne",
+          "title": "Physiologie aseryne",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 6,
+          "id": "sens-electromagnetique",
+          "title": "Sens électromagnétique",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 7,
+          "id": "potentiel-foudroyant",
+          "title": "Potentiel foudroyant",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 8,
+          "id": "routes-communes-aserynes",
+          "title": "Routes communes aserynes",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 9,
+          "id": "vivacite-aseryne",
+          "title": "Vivacité aseryne",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 10,
+          "id": "esprit-fulgurant",
+          "title": "Esprit fulgurant",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 11,
+          "id": "perception-electromagnetique",
+          "title": "Perception électromagnétique",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 12,
+          "id": "origines-jouables",
+          "title": "Origines jouables",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 13,
+          "id": "aerilien-neo-atlante",
+          "title": "Aérilien / Néo-Atlante",
+          "blocks": 6,
+          "audience": "public"
+        },
+        {
+          "index": 14,
+          "id": "empreinte-resonance-d-aer",
+          "title": "Empreinte — Résonance d’Aèr",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 15,
+          "id": "mulien",
+          "title": "Mûlien",
+          "blocks": 0,
+          "audience": "public"
+        },
+        {
+          "index": 16,
+          "id": "empreinte-etincelle-psychique",
+          "title": "Empreinte — Étincelle psychique",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 17,
+          "id": "hyperboreen",
+          "title": "Hyperboréen",
+          "blocks": 0,
+          "audience": "public"
+        },
+        {
+          "index": 18,
+          "id": "empreinte-corps-hyperboreen",
+          "title": "Empreinte — Corps hyperboréen",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 19,
+          "id": "lemurian",
+          "title": "Lémurian",
+          "blocks": 0,
+          "audience": "public"
+        },
+        {
+          "index": 20,
+          "id": "empreinte-heritage-nymphal",
+          "title": "Empreinte — Héritage nymphal",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 21,
+          "id": "seratheen",
+          "title": "Serathèen",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 22,
+          "id": "empreinte-sang-mele",
+          "title": "Empreinte — Sang mêlé",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 23,
+          "id": "origines-exceptionnelles-non-proposees-normalement-aux-pj",
+          "title": "Origines exceptionnelles non proposées normalement aux PJ",
+          "blocks": 1,
+          "audience": "public"
+        }
+      ],
+      "layoutChanges": [
+        {
+          "section": "origines-jouables",
+          "change": "Tableau cinq Origines restauré depuis récapitulatif aplati sous Aérilien; aucune modification de valeur."
+        }
+      ]
+    },
+    {
+      "id": "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak",
+      "sectionsRead": [
+        "gaac",
+        "organisations",
+        "homo-superior",
+        "adrak",
+        "aidh",
+        "builder"
+      ],
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "references": [
+        "regles-verite-v7-voile-continuite-objets-reseaux-interfaces#wiki-section-5-hologramme-voile-semi-revelation-et-revelation",
+        "regles-verite-v7-voile-continuite-objets-reseaux-interfaces#wiki-section-interfaces-etrangeres-et-neurodive",
+        "regles-verite-v7-equipement-proprietes-acquisition#wiki-section-aidh"
+      ],
+      "note": "GAAC sans arbre PTV; Homo Superior humain technobiologique, Ad’rak véritable Extral. Institution, doctrine et espèce restent distinctes. Nanites intégrées ne donnent pas une cible Neuro automatique.",
+      "tagsBefore": [
+        "Vérité",
+        "Règles",
+        "Extrals",
+        "GAAC",
+        "AIDH",
+        "Homo Superior",
+        "Ad’rak"
+      ],
+      "tagsAfter": [
+        "Vérité",
+        "Règles",
+        "Extrals",
+        "GAAC",
+        "AIDH",
+        "Homo Superior",
+        "Ad’rak"
+      ],
+      "linksAdded": [
+        {
+          "articleId": "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak",
+          "sectionId": "homo-superior",
+          "quote": "L’Homo Superior reste humain dans tous ses états",
+          "label": "tous ses états",
+          "targetId": "regles-verite-v7-voile-continuite-objets-reseaux-interfaces",
+          "targetSection": "5-hologramme-voile-semi-revelation-et-revelation"
+        },
+        {
+          "articleId": "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak",
+          "sectionId": "homo-superior",
+          "quote": "Essaim nanitique, homéostasie assistée, hémostase et organisme optimisé sont des traits intégrés",
+          "label": "Essaim nanitique",
+          "targetId": "regles-verite-v7-voile-continuite-objets-reseaux-interfaces",
+          "targetSection": "interfaces-etrangeres-et-neurodive"
+        },
+        {
+          "articleId": "regles-verite-v7-extrals-organisations-aidh-homo-superior-adrak",
+          "sectionId": "aidh",
+          "quote": "chaque appareil ou doctrine a une fonction définie",
+          "label": "chaque appareil ou doctrine a une fonction définie",
+          "targetId": "regles-verite-v7-equipement-proprietes-acquisition",
+          "targetSection": "aidh"
+        }
+      ],
+      "stage": "contextual-edits-applied",
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "gaac",
+          "title": "GAAC — représenter sans gouverner",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "organisations",
+          "title": "Organisations Extrals",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 2,
+          "id": "homo-superior",
+          "title": "Homo Superior — Humain AIDH",
+          "blocks": 3,
+          "audience": "public"
+        },
+        {
+          "index": 3,
+          "id": "adrak",
+          "title": "Ad’rak — origine restreinte",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 4,
+          "id": "aidh",
+          "title": "Doctrines AIDH",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 5,
+          "id": "builder",
+          "title": "Catalogue mécanique",
+          "blocks": 2,
+          "audience": "public"
+        }
+      ]
+    },
+    {
+      "id": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
+      "sectionsRead": [
+        "traditions-des-treize",
+        "athegos-le-seigneur",
+        "sundosia-l-aventuriere",
+        "caendis-le-protecteur",
+        "cairiah-l-architecte",
+        "eydreas-le-chercheur",
+        "seryn-l-artisane",
+        "natyel-le-nourricier",
+        "erith-la-sentinelle",
+        "lisirast-l-archiviste",
+        "lisithas-le-juge",
+        "selerias-l-aimante",
+        "theana-la-guerisseuse",
+        "dratyn-la-maitresse-de-la-foudre",
+        "regles-communes-de-foudre",
+        "talents-communs-de-dratyn",
+        "specialisation-de-foudre",
+        "createur-foudre-originelle",
+        "esprit-noire-foudre",
+        "erosion-foudre-vaporeuse",
+        "fin-foudre-du-silence",
+        "conseil-de-la-foudre",
+        "acces",
+        "technique-commune",
+        "voie-des-ancetres",
+        "voie-du-vaisseau",
+        "voie-du-gardien-de-la-grotte"
+      ],
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "references": [
+        "regles-verite-v7-aseryn-nature-accelyr-origines#wiki-section-potentiel-foudroyant",
+        "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre#wiki-section-dratyn-la-maitresse-de-la-foudre"
+      ],
+      "note": "Treize Traditions apprises, Kalirath exclu des Fondateurs. Theana est Fondatrice, Theanai Maison moderne. Dratyn enseigne Foudre; Conseil de la Foudre chamanique. Quatre spécialisations normalement exclusives. Table de Foudre ne suit pas les paliers de Tir.",
+      "tagsBefore": [
+        "Vérité",
+        "Aseryns",
+        "Treize",
+        "Dratyn",
+        "Foudre",
+        "Conseil de la Foudre"
+      ],
+      "tagsAfter": [
+        "Vérité",
+        "Règles",
+        "Aseryns",
+        "Treize",
+        "Dratyn",
+        "Foudre",
+        "Conseil de la Foudre"
+      ],
+      "linksAdded": [
+        {
+          "articleId": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
+          "sectionId": "dratyn-la-maitresse-de-la-foudre",
+          "quote": "Tout Aseryn possède le potentiel physiologique requis",
+          "label": "potentiel physiologique requis",
+          "targetId": "regles-verite-v7-aseryn-nature-accelyr-origines",
+          "targetSection": "potentiel-foudroyant"
+        },
+        {
+          "articleId": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
+          "sectionId": "conseil-de-la-foudre",
+          "quote": "les grands manieurs qui en sont issus utilisent Dratyn",
+          "label": "Dratyn",
+          "targetId": "regles-verite-v7-aseryn-treize-dratyn-conseil-foudre",
+          "targetSection": "dratyn-la-maitresse-de-la-foudre"
+        }
+      ],
+      "stage": "contextual-edits-applied",
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "traditions-des-treize",
+          "title": "Traditions des Treize",
+          "blocks": 4,
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "athegos-le-seigneur",
+          "title": "Athegos — le Seigneur",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 2,
+          "id": "sundosia-l-aventuriere",
+          "title": "Sundosia — l’Aventurière",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 3,
+          "id": "caendis-le-protecteur",
+          "title": "Caendis — le Protecteur",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 4,
+          "id": "cairiah-l-architecte",
+          "title": "Cairiah — l’Architecte",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 5,
+          "id": "eydreas-le-chercheur",
+          "title": "Eydreas — le Chercheur",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 6,
+          "id": "seryn-l-artisane",
+          "title": "Seryn — l’Artisane",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 7,
+          "id": "natyel-le-nourricier",
+          "title": "Natyel — le Nourricier",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 8,
+          "id": "erith-la-sentinelle",
+          "title": "Erith — la Sentinelle",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 9,
+          "id": "lisirast-l-archiviste",
+          "title": "Lisirast — l’Archiviste",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 10,
+          "id": "lisithas-le-juge",
+          "title": "Lisithas — le Juge",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 11,
+          "id": "selerias-l-aimante",
+          "title": "Selerias — l’Aimante",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 12,
+          "id": "theana-la-guerisseuse",
+          "title": "Theana — la Guérisseuse",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 13,
+          "id": "dratyn-la-maitresse-de-la-foudre",
+          "title": "Dratyn — la Maîtresse de la Foudre",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 14,
+          "id": "regles-communes-de-foudre",
+          "title": "Règles communes de Foudre",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 15,
+          "id": "talents-communs-de-dratyn",
+          "title": "Talents communs de Dratyn",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 16,
+          "id": "specialisation-de-foudre",
+          "title": "Spécialisation de Foudre",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 17,
+          "id": "createur-foudre-originelle",
+          "title": "Créateur — Foudre originelle",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 18,
+          "id": "esprit-noire-foudre",
+          "title": "Esprit — Noire-Foudre",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 19,
+          "id": "erosion-foudre-vaporeuse",
+          "title": "Érosion — Foudre vaporeuse",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 20,
+          "id": "fin-foudre-du-silence",
+          "title": "Fin — Foudre du Silence",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 21,
+          "id": "conseil-de-la-foudre",
+          "title": "Conseil de la Foudre",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 22,
+          "id": "acces",
+          "title": "Accès",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 23,
+          "id": "technique-commune",
+          "title": "Technique commune",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 24,
+          "id": "voie-des-ancetres",
+          "title": "Voie des Ancêtres",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 25,
+          "id": "voie-du-vaisseau",
+          "title": "Voie du Vaisseau",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 26,
+          "id": "voie-du-gardien-de-la-grotte",
+          "title": "Voie du Gardien de la Grotte",
+          "blocks": 1,
+          "audience": "public"
+        }
+      ]
+    },
+    {
+      "id": "regles-verite-extral-protocoles-de-continuite",
+      "sectionsRead": [
+        "catalogue-canonique",
+        "ecole-commune",
+        "portee"
+      ],
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "references": [
+        "regles-verite-v7-voile-continuite-objets-reseaux-interfaces#wiki-section-5-hologramme-voile-semi-revelation-et-revelation",
+        "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie#wiki-section-silcenters"
+      ],
+      "note": "Quatre Talents, 7 PTV; école de transition V/SR/R, aucun PA gratuit ni révélation forcée d’allié. Témoignages déjà observés non effacés. Liens vers cursus et règle du Voile.",
+      "tagsBefore": [
+        "extral",
+        "Talents",
+        "principes",
+        "Builder"
+      ],
+      "tagsAfter": [
+        "Règles",
+        "Talents",
+        "principes",
+        "Builder",
+        "Vérité",
+        "Extrals",
+        "Voile",
+        "Protocoles de Continuité"
+      ],
+      "linksAdded": [
+        {
+          "articleId": "regles-verite-extral-protocoles-de-continuite",
+          "sectionId": "portee",
+          "quote": "Il fluidifie les changements V/SR/R",
+          "label": "changements V/SR/R",
+          "targetId": "regles-verite-v7-voile-continuite-objets-reseaux-interfaces",
+          "targetSection": "5-hologramme-voile-semi-revelation-et-revelation"
+        },
+        {
+          "articleId": "regles-verite-extral-protocoles-de-continuite",
+          "sectionId": "ecole-commune",
+          "quote": "cette école est notamment transmise par les Silcenters",
+          "label": "Silcenters",
+          "targetId": "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie",
+          "targetSection": "silcenters"
+        }
+      ],
+      "stage": "contextual-edits-applied",
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "catalogue-canonique",
+          "title": "Un catalogue canonique de 4 Talents",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "ecole-commune",
+          "title": "Une école commune d’adaptation au Voile",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 2,
+          "id": "portee",
+          "title": "Portée des protocoles",
+          "blocks": 2,
+          "audience": "public"
+        }
+      ]
+    },
+    {
+      "id": "regles-verite-v7-corruption-integrite-bascule",
+      "sectionsRead": [
+        "humanite-integrite",
+        "profondeur",
+        "sources-concurrentes",
+        "exposition",
+        "don-rite-faveur",
+        "souillure",
+        "bascule",
+        "purification",
+        "fleaux-focus-corruption"
+      ],
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "references": [
+        "regles-realite-v9-charge-stress-frenesie#wiki-section-valeurs",
+        "regles-verite-v7-corruption-integrite-bascule#wiki-section-souillure",
+        "regles-verite-v7-corruption-integrite-bascule#wiki-section-humanite-integrite"
+      ],
+      "note": "Intégrité commune mais Charge et Corruption indépendantes. Une seule Source; préséance ne mesure pas puissance cosmique. Exposition, Souillure et Bascule sont trois tests distincts. DON/RITE/FAVEUR ont des conditions différentes après purification.",
+      "tagsBefore": [
+        "Vérité",
+        "Corruption",
+        "Humanité",
+        "Intégrité",
+        "Souillure",
+        "Bascule",
+        "DON",
+        "RITE",
+        "FAVEUR",
+        "Fléaux",
+        "Focus Fléaux 2026-09"
+      ],
+      "tagsAfter": [
+        "Vérité",
+        "Règles",
+        "Corruption",
+        "Humanité",
+        "Intégrité",
+        "Souillure",
+        "Bascule",
+        "DON",
+        "RITE",
+        "FAVEUR",
+        "Fléaux",
+        "Focus Fléaux 2026-09",
+        "Purification"
+      ],
+      "linksAdded": [
+        {
+          "articleId": "regles-verite-v7-corruption-integrite-bascule",
+          "sectionId": "humanite-integrite",
+          "quote": "Charge augmentique et Corruption utilisent la même limite d’Intégrité",
+          "label": "Charge augmentique",
+          "targetId": "regles-realite-v9-charge-stress-frenesie",
+          "targetSection": "valeurs"
+        },
+        {
+          "articleId": "regles-verite-v7-corruption-integrite-bascule",
+          "sectionId": "purification",
+          "quote": "Un objet corrompu indique sa Source, son vecteur, la difficulté et fréquence de Souillure",
+          "label": "Souillure",
+          "targetId": "regles-verite-v7-corruption-integrite-bascule",
+          "targetSection": "souillure"
+        },
+        {
+          "articleId": "regles-verite-v7-corruption-integrite-bascule",
+          "sectionId": "bascule",
+          "quote": "Lorsque Corruption = Intégrité",
+          "label": "Intégrité",
+          "targetId": "regles-verite-v7-corruption-integrite-bascule",
+          "targetSection": "humanite-integrite"
+        }
+      ],
+      "stage": "contextual-edits-applied",
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "humanite-integrite",
+          "title": "Humanité & Intégrité",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "profondeur",
+          "title": "Profondeur de l’emprise",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 2,
+          "id": "sources-concurrentes",
+          "title": "Une seule Source dominante",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 3,
+          "id": "exposition",
+          "title": "Exposition & gain de Corruption",
+          "blocks": 5,
+          "audience": "public"
+        },
+        {
+          "index": 4,
+          "id": "don-rite-faveur",
+          "title": "DON, RITE & FAVEUR",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 5,
+          "id": "souillure",
+          "title": "Souillure des Rites & Faveurs",
+          "blocks": 4,
+          "audience": "public"
+        },
+        {
+          "index": 6,
+          "id": "bascule",
+          "title": "Atteindre l’Intégrité — la Bascule",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 7,
+          "id": "purification",
+          "title": "Purification & objets souillés",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 8,
+          "id": "fleaux-focus-corruption",
+          "title": "Focus Fléaux — corruption des mortels et annihilation",
+          "blocks": 4,
+          "audience": "public"
+        }
+      ]
+    },
+    {
+      "id": "regles-pnj-talents-statistiques",
+      "sectionsRead": [
+        "portee",
+        "echelle",
+        "echelle-verite",
+        "exceptions-verite",
+        "talents-verite-pnj-generiques",
+        "talents-expertise",
+        "talents-combat",
+        "talents-ressources",
+        "talents-verite"
+      ],
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "references": [
+        "regles-resolution-des-tests#wiki-section-circonstances-opposition-cooperation"
+      ],
+      "note": "Paliers Réalité et Vérité indépendants. Toutes les tables de talents génériques et signatures nommées lues. Budgets éditoriaux ne constituent pas des faits historiques. Restrictions MJ conservées; pas de liens publics vers signatures individuelles non encore vérifiées.",
+      "tagsBefore": [
+        "MJ",
+        "PNJ",
+        "Talents",
+        "Statistiques"
+      ],
+      "tagsAfter": [
+        "MJ",
+        "Règles",
+        "PNJ",
+        "Talents",
+        "Statistiques"
+      ],
+      "linksAdded": [
+        {
+          "articleId": "regles-pnj-talents-statistiques",
+          "sectionId": "portee",
+          "quote": "Les bonus de circonstances similaires ne se cumulent pas avec une Assistance équivalente",
+          "label": "Assistance",
+          "targetId": "regles-resolution-des-tests",
+          "targetSection": "circonstances-opposition-cooperation"
+        }
+      ],
+      "stage": "contextual-edits-applied",
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "portee",
+          "title": "Périmètre",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "echelle",
+          "title": "Échelle de Réalité",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 2,
+          "id": "echelle-verite",
+          "title": "Échelle de Vérité",
+          "blocks": 4,
+          "audience": "mj"
+        },
+        {
+          "index": 3,
+          "id": "exceptions-verite",
+          "title": "Exceptions des figures singulières",
+          "blocks": 3,
+          "audience": "mj"
+        },
+        {
+          "index": 4,
+          "id": "talents-verite-pnj-generiques",
+          "title": "Talents de Vérité génériques des PNJ",
+          "blocks": 2,
+          "audience": "mj"
+        },
+        {
+          "index": 5,
+          "id": "talents-expertise",
+          "title": "Talents — Expertise",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 6,
+          "id": "talents-combat",
+          "title": "Talents — Combat",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 7,
+          "id": "talents-ressources",
+          "title": "Talents — Ressources",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 8,
+          "id": "talents-verite",
+          "title": "Talents — Vérité",
+          "blocks": 1,
+          "audience": "public"
+        }
+      ]
+    },
+    {
+      "id": "regles-verite-v7-equipement-proprietes-acquisition",
+      "sectionsRead": [
+        "loi-commune",
+        "proprietes",
+        "chasse",
+        "marche-exile",
+        "aidh",
+        "hors-catalogue"
+      ],
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "references": [
+        "regles-verite-v7-voile-continuite-objets-reseaux-interfaces#wiki-section-5-hologramme-voile-semi-revelation-et-revelation",
+        "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie#wiki-section-whurtens",
+        "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie#wiki-section-azmenoriens"
+      ],
+      "note": "Accès fictionnel, propriétés, diagnostic de confinement, marché Exilé et AIDH lus. Sacré, Solaire et EMP ne sont pas universels. Invariant résiste aux corrections sans voir au-delà du capteur. Pièces uniques restent hors catalogue.",
+      "tagsBefore": [
+        "Vérité",
+        "Équipement",
+        "Chasse",
+        "Raven",
+        "AIDH",
+        "Runes",
+        "Technomagie",
+        "Jade"
+      ],
+      "tagsAfter": [
+        "Vérité",
+        "Règles",
+        "Équipement",
+        "Chasse",
+        "Raven",
+        "AIDH",
+        "Runes",
+        "Technomagie",
+        "Jade"
+      ],
+      "linksAdded": [
+        {
+          "articleId": "regles-verite-v7-equipement-proprietes-acquisition",
+          "sectionId": "aidh",
+          "quote": "Un capteur générique ne voit jamais automatiquement la Vérité d’une cible Voilée",
+          "label": "la Vérité d’une cible Voilée",
+          "targetId": "regles-verite-v7-voile-continuite-objets-reseaux-interfaces",
+          "targetSection": "5-hologramme-voile-semi-revelation-et-revelation"
+        },
+        {
+          "articleId": "regles-verite-v7-equipement-proprietes-acquisition",
+          "sectionId": "marche-exile",
+          "quote": "les ateliers whurtens fournissent runes, supports et réparations",
+          "label": "ateliers whurtens",
+          "targetId": "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie",
+          "targetSection": "whurtens"
+        },
+        {
+          "articleId": "regles-verite-v7-equipement-proprietes-acquisition",
+          "sectionId": "marche-exile",
+          "quote": "les réseaux azménoriens produisent des prototypes technomagiques",
+          "label": "réseaux azménoriens",
+          "targetId": "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie",
+          "targetSection": "azmenoriens"
+        }
+      ],
+      "stage": "contextual-edits-applied",
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "loi-commune",
+          "title": "Objet réel, disponibilité réelle, acquisition fictionnelle",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "proprietes",
+          "title": "Propriétés communes",
+          "blocks": 1,
+          "audience": "public"
+        },
+        {
+          "index": 2,
+          "id": "chasse",
+          "title": "Équipement de Chasse",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 3,
+          "id": "marche-exile",
+          "title": "Marché de Vérité des Exilés",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 4,
+          "id": "aidh",
+          "title": "Technologie AIDH & Cohérence",
+          "blocks": 2,
+          "audience": "public"
+        },
+        {
+          "index": 5,
+          "id": "hors-catalogue",
+          "title": "Ce qui reste hors catalogue",
+          "blocks": 1,
+          "audience": "public"
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "inventoryCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+    "activePages": 2347,
+    "sections": 8779,
+    "rulesRead": 65,
+    "rulesTotal": 65,
+    "globalReviewComplete": false,
+    "note": "A read entry is not a completed taxonomy pass. Earlier entries still contain pending decisions. Talent transclusion markers were read as references; generated talent pages require their own review."
+  },
+  "openFindings": [
+    {
+      "id": "form-vigor-current-hp",
+      "pages": [
+        "regles-verite-v7-aseryn-nature-accelyr-origines",
+        "regles-verite-v7-daemon-nature-fonctions-divinites-facettes"
+      ],
+      "finding": "Aseryn: PV max et actuels varient de 2 × variation de Vigueur; Daemon: le bonus augmente le maximum sans soigner les PV actuels, puis plafonne au retour. Vérifier règle générale et exception de Nature avant harmonisation.",
+      "status": "mechanical-arbitration-pending"
+    },
+    {
+      "id": "aseryn-origins-layout",
+      "pages": [
+        "regles-verite-v7-aseryn-nature-accelyr-origines"
+      ],
+      "finding": "La section aérilienne contient un tableau récapitulatif aplati avec les autres Origines mêlées aux puces. Ne pas confondre ces entrées avec des sous-origines aériliennes.",
+      "status": "fixed",
+      "resolution": "Tableau de cinq Origines replacé sous Origines jouables. Valeurs et orientations conservées; ancres des Origines préservées."
+    },
+    {
+      "id": "angelus-saturation-target",
+      "pages": [
+        "regles-verite-v7-angelus-sephiroth-archanges-seraphins"
+      ],
+      "finding": "Hesed mentionne Saturation de l’Arbre; retrouver une règle dédiée avant lien précis.",
+      "status": "target-review-pending"
     }
   ]
 }
