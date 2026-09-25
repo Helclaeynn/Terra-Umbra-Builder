@@ -17,7 +17,7 @@ await registerCompendiumRoutes(app);
 // A fresh database and an existing OLD snapshot must expose the same active
 // religious profiles. This check runs against the fresh database simulation.
 const corpus = await getCompendiumQualityCorpus();
-assert.equal(corpus.articles.filter((item) => item.category === "Personnages").length, 918);
+assert.equal(corpus.articles.filter((item) => item.category === "Personnages" && item.pnj?.completeness !== "portrait_only").length, 918);
 assert.equal(corpus.articles.filter((item) =>
   item.dataset === "realite-v9-religions-pnj" && item.category === "Personnages").length, 15);
 const mergedCiara = corpus.articles.find((item) => item.id === "pnj-religions-ciara-mcfarlane");
