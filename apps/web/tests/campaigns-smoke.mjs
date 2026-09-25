@@ -51,8 +51,9 @@ try{
  await page.getByRole('button',{name:'Créer une campagne'}).click();
  await page.getByLabel('Nom de la campagne',{exact:true}).fill('Nouvelle table');
  await page.getByRole('button',{name:'Créer',exact:true}).click();
- await page.getByRole('heading',{name:'Le groupe',exact:true}).waitFor();
+ await page.locator('details.panel > summary').filter({hasText:/^Le groupe ·/}).waitFor();
  assert.equal(await page.locator('script').filter({hasText:'Campagne'}).count(),0);
+ await page.getByText('Inviter un joueur',{exact:true}).click();
  await page.getByRole('button',{name:'Parcourir les joueurs',exact:true}).click();
  await page.getByRole('button',{name:'Inviter Camille',exact:true}).waitFor();
  assert.equal(await page.getByLabel('Nom de compte',{exact:true}).inputValue(),'');
@@ -193,7 +194,7 @@ try{
  role='gm';await page.goto(base+'/campaigns/'+cid);await page.getByText('Gérer la campagne',{exact:true}).click();
  await page.getByRole('button',{name:'Archiver la campagne',exact:true}).click();
  await page.getByText('Campagne archivée.',{exact:true}).waitFor();
- assert.equal(await page.getByRole('heading',{name:'Inviter un joueur'}).count(),0);
+ assert.equal(await page.getByText('Inviter un joueur',{exact:true}).count(),0);
  assert.deepEqual(errors,[]);
  console.log('CAMPAIGNS UI OK — create, invite, player consent, sheet link, private notes, version conflict retains draft, admissions with requested changes and approval, guided search, favorites and reusable scenes, private scenes, NPC and bestiary references, money/corruption preview, stale effect protection, archive and 1440/390/320px reflow');
 }finally{await browser.close();}
