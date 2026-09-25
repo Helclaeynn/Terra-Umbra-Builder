@@ -3763,6 +3763,31 @@ async function loadCorpus(): Promise<Corpus> {
     navigation.delete(article.id);
   }
 
+  // Reviewed Fléau rules: link the procedure actually invoked by each paragraph.
+  // Keep the six Sources distinct; their similar wording does not make their
+  // impulse or Rupture rules interchangeable.
+  for (const source of ["vhodhal", "vaagor", "sharith", "vhadhi", "shaoggith", "thul"]) {
+    const article = byId.get(`regles-verite-v7-fleau-${source}`);
+    if (!article) continue;
+    for (const section of article.sections ?? []) {
+      if (section.id === "progression") {
+        const paragraph = section.blocks?.find((block: JsonObject) => block.type === "p" && String(block.text).startsWith("Les Dons suivent"));
+        if (paragraph && typeof paragraph.text === "string") {
+          paragraph.text = paragraph.text
+            .replace("la profondeur Marqué, Envahi puis Au bord", "[la profondeur Marqué, Envahi puis Au bord](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-profondeur)")
+            .replace("les règles communes de Souillure", "[les règles communes de Souillure](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-souillure)");
+        }
+      }
+      if (section.id === "rupture") {
+        const paragraph = section.blocks?.find((block: JsonObject) => block.type === "p" && typeof block.text === "string");
+        if (paragraph && typeof paragraph.text === "string") {
+          paragraph.text = paragraph.text.replace(/\bLa Bascule\b|\bLa Rupture\b/, (label: string) =>
+            `[${label}](/compendium?article=regles-verite-v7-corruption-integrite-bascule#wiki-section-bascule)`);
+        }
+      }
+    }
+  }
+
   const articles = [...byId.values()].sort(compareArticles);
   const publicArticles = articles.filter((article) => !isMjOnlyArticle(article)).map((article) => { const publicArticle=articleForAudience(article,false); publicArticle.__searchText=norm(flattenText(publicArticle)); return publicArticle; });
   const publicById = new Map(publicArticles.map((article) => [article.id, article]));
