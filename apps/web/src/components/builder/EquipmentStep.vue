@@ -292,6 +292,7 @@ function selectedVariant(group:{key:string;variants:RealityItem[]}){
 
 const purchasedAugmentations=computed(()=>state.value.augmentations.map(p=>({purchase:p,item:purchaseItem(p.itemId)})));
 const purchasedEquipment=computed(()=>state.value.equipment.map(p=>({purchase:p,item:purchaseItem(p.itemId)})));
+function ownedCount(id:string){return [...state.value.augmentations,...state.value.equipment].filter(p=>p.itemId===id).length;}
 
 function defaultRecurringCost(item:RealityItem){return Math.round(recurringMonthlyCost(item));}
 function recurringMonthly(item:RealityItem){
@@ -678,50 +679,6 @@ function setCorporateSupportItem(itemId:string){
             <button class="ghost danger compact" type="button" @click="removePurchase('augmentation',row.purchase.uid)">Retirer</button>
           </div>
         </div>
-      </section>
-
-      <section class="reality-panel">
-        <div class="subsection-title">
-          <div>
-            <h3>Équipement & véhicules possédés</h3>
-            <p>Les Neuroprogrammes possédés sont distincts des programmes actuellement chargés.</p>
-          </div>
-          <span class="schema-badge">{{ purchasedEquipment.length }}</span>
-        </div>
-        <div v-if="!purchasedEquipment.length" class="empty-line">Aucun achat.</div>
-        <div class="picked-list">
-          <div v-for="row in purchasedEquipment" :key="row.purchase.uid" class="picked-row rich">
-            <div v-if="row.item">
-              <strong><BuilderWikiLink
-                  :label="row.item.name"
-                  :article-id="row.item.compendiumId"
-                  category="Équipement & Objets"
-                  :detail="wikiDetail(row.item)"
-                  :badges="wikiBadges(row.item,row.purchase.selectedPrice)"
-                  compact
-                /></strong>
-              <span>
-                {{ row.item.category }} · {{ money(row.purchase.selectedPrice ?? row.item.price) }}
-                <template v-if="row.purchase.sphereSupport"> · véhicule de fonction</template>
-              </span>
-              <label v-if="row.item.neuro" class="neuro-toggle">
-                <input
-                  type="checkbox"
-                  role="switch"
-                  :aria-label="`Charger le Neuroprogramme ${row.item.name}`"
-                  :checked="!!row.purchase.loaded"
-                  :disabled="!row.purchase.loaded && loadedNeuroCount >= neuroCap"
-                  @change="toggleNeuro(row.purchase.uid)"
-                />
-                Chargé · {{ loadedNeuroCount }}/{{ neuroCap }} emplacement(s)
-              </label>
-            </div>
-            <div v-else><strong>Entrée legacy introuvable</strong><span>{{ row.purchase.itemId }}</span></div>
-            <button class="ghost danger compact" type="button" @click="removePurchase('equipment',row.purchase.uid)">Retirer</button>
-          </div>
-        </div>
-      </section>
-
       <details
         class="reality-panel catalog-panel catalog-disclosure"
         :open="augmentationCatalogOpen"
@@ -797,7 +754,7 @@ function setCorporateSupportItem(itemId:string){
                       type="button"
                       :disabled="!addStatus(selectedVariant(group)).ok"
                       @click="addPurchase(selectedVariant(group))"
-                    >Ajouter</button>
+                    >{{ ownedCount(selectedVariant(group).id) ? 'Ajouter encore' : 'Ajouter' }}</button>
                   </div>
 
                   <label v-if="group.variants.length > 1">
@@ -810,6 +767,7 @@ function setCorporateSupportItem(itemId:string){
                   </label>
 
                   <div class="pillbar">
+                    <span v-if="ownedCount(selectedVariant(group).id)" class="owned-indicator">✓ Installé · {{ ownedCount(selectedVariant(group).id) }}</span>
                     <span>{{ realityPriceSpec(selectedVariant(group)).label }}</span>
                     <span v-if="selectedVariant(group).generation">Gen {{ selectedVariant(group).generation }}</span>
                     <span v-if="selectedVariant(group).charge !== null">Charge {{ selectedVariant(group).charge }}</span>
@@ -846,7 +804,48 @@ function setCorporateSupportItem(itemId:string){
           </div>
         </div>
       </details>
+      </section>
 
+      <section class="reality-panel">
+        <div class="subsection-title">
+          <div>
+            <h3>Équipement & véhicules possédés</h3>
+            <p>Les Neuroprogrammes possédés sont distincts des programmes actuellement chargés.</p>
+          </div>
+          <span class="schema-badge">{{ purchasedEquipment.length }}</span>
+        </div>
+        <div v-if="!purchasedEquipment.length" class="empty-line">Aucun achat.</div>
+        <div class="picked-list">
+          <div v-for="row in purchasedEquipment" :key="row.purchase.uid" class="picked-row rich">
+            <div v-if="row.item">
+              <strong><BuilderWikiLink
+                  :label="row.item.name"
+                  :article-id="row.item.compendiumId"
+                  category="Équipement & Objets"
+                  :detail="wikiDetail(row.item)"
+                  :badges="wikiBadges(row.item,row.purchase.selectedPrice)"
+                  compact
+                /></strong>
+              <span>
+                {{ row.item.category }} · {{ money(row.purchase.selectedPrice ?? row.item.price) }}
+                <template v-if="row.purchase.sphereSupport"> · véhicule de fonction</template>
+              </span>
+              <label v-if="row.item.neuro" class="neuro-toggle">
+                <input
+                  type="checkbox"
+                  role="switch"
+                  :aria-label="`Charger le Neuroprogramme ${row.item.name}`"
+                  :checked="!!row.purchase.loaded"
+                  :disabled="!row.purchase.loaded && loadedNeuroCount >= neuroCap"
+                  @change="toggleNeuro(row.purchase.uid)"
+                />
+                Chargé · {{ loadedNeuroCount }}/{{ neuroCap }} emplacement(s)
+              </label>
+            </div>
+            <div v-else><strong>Entrée legacy introuvable</strong><span>{{ row.purchase.itemId }}</span></div>
+            <button class="ghost danger compact" type="button" @click="removePurchase('equipment',row.purchase.uid)">Retirer</button>
+          </div>
+        </div>
       <details
         class="reality-panel catalog-panel catalog-disclosure"
         :open="equipmentCatalogOpen"
@@ -907,9 +906,10 @@ function setCorporateSupportItem(itemId:string){
                         :detail="wikiDetail(item)"
                         :badges="wikiBadges(item,priceValue(item))"
                       /></strong><small>{{ item.category }}</small></div>
-                    <button class="primary compact" type="button" :disabled="!addStatus(item).ok" @click="addPurchase(item)">Ajouter</button>
+                    <button class="primary compact" type="button" :disabled="!addStatus(item).ok" @click="addPurchase(item)">{{ ownedCount(item.id) ? 'Ajouter encore' : 'Ajouter' }}</button>
                   </div>
                   <div class="pillbar">
+                    <span v-if="ownedCount(item.id)" class="owned-indicator">✓ Possédé · {{ ownedCount(item.id) }}</span>
                     <span>{{ realityPriceSpec(item).label }}</span>
                     <span v-if="item.vehicle">Véhicule</span>
                     <span v-if="item.neuro">Neuroprogramme</span>
@@ -935,6 +935,11 @@ function setCorporateSupportItem(itemId:string){
           </div>
         </div>
       </details>
+      </section>
+
+
+
+
 
       
     </template>
@@ -986,6 +991,7 @@ function setCorporateSupportItem(itemId:string){
 .subsection-title p{margin:0;color:var(--equipment-muted);font-size:14px}
 .charge-summary{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
 .charge-summary>span,.pillbar span,.statbar span{padding:5px 9px;border:1px solid #334c60;border-radius:5px;background:#0b1623;color:#bed0e0;font-size:13px}
+.pillbar .owned-indicator{border-color:#58bbae;background:#153b38;color:#d1fff6;font-weight:700}
 .charge-summary strong{color:#e4eff9;font-weight:600}
 .lifestyle-tier-box{display:grid;gap:14px;margin:16px 0 20px;padding:16px;border:1px solid #2c4255;border-radius:8px;background:#0a1522}
 .lifestyle-tier-box p{margin:0;color:var(--equipment-muted);font-size:14px}

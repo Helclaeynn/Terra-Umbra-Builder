@@ -326,7 +326,7 @@ export function isAugmentationSupport(item:RealityItem){
 }
 
 export function augmentationSupportAlternatives(item:RealityItem){
-  if(item.kind!=="augmentation"||isAugmentationSupport(item))return [] as string[][];
+  if(item.kind!=="augmentation"||isAugmentationSupport(item)||item.families.includes('bio'))return [] as string[][];
   const explicit=realityNorm(realityDeepField(item,["Support","Support requis","Support nécessaire","Support necessaire"])??"");
   const name=realityNorm(item.name),families=item.families,groups:string[][]=[];
   const add=(...values:(string|null)[])=>{
@@ -357,6 +357,7 @@ export function augmentationSupportAlternatives(item:RealityItem){
 }
 
 export function augmentationSupportLabel(item:RealityItem){
+  if(item.families.includes('bio'))return '';
   const explicit=String(realityDeepField(item,["Support","Support requis","Support nécessaire","Support necessaire"])??"").trim();
   if(explicit)return explicit;
   return augmentationSupportAlternatives(item)

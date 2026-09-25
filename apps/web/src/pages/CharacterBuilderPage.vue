@@ -2307,6 +2307,7 @@ onBeforeUnmount(()=>{
                     <em v-if="selectedTruthChoice(choice)?.description">
                       {{ selectedTruthChoice(choice)?.description }}
                     </em>
+                    <em v-if="choice.key === 'dominantAffinity'">L’Affinité dominante est le domaine magique que le Mage maîtrise en premier. Par exemple, la Photomancie agit sur la lumière.</em>
                     <em v-else-if="choice.dependsOn && !String(currentTruthState.choices[choice.dependsOn] || '')">
                       Choisissez d’abord {{ selectedTruthNature.choices.find(item=>item.key===choice.dependsOn)?.label || choice.dependsOn }}.
                     </em>
@@ -3008,6 +3009,7 @@ textarea:focus{border-color:#6cb5ff;box-shadow:0 0 0 2px rgba(108,181,255,.14)}
 .truth-picker{margin-top:1rem;padding-top:1.2rem;border-top:1px solid rgba(255,255,255,.07)}
 .truth-picker-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem;max-width:760px}
 .truth-picker-grid label{display:grid;gap:.4rem;color:#c5ddf3;font-size:.8125rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.truth-picker-grid label{align-content:start}.truth-picker-grid label>span{min-height:20px}
 .truth-nature-summary{display:grid;grid-template-columns:minmax(0,1fr) 118px;gap:1rem;align-items:center;margin-top:1rem;padding:1rem;border:1px solid rgba(100,222,245,.28);background:rgba(100,222,245,.035)}
 .truth-nature-summary-copy{display:grid;gap:.45rem}
 .truth-nature-summary-copy h3{margin:0;font:600 1.35rem/1.15 Inter,"Segoe UI",sans-serif}

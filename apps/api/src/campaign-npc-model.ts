@@ -8,7 +8,7 @@ export {NPC_TIERS};
 export {NPC_NATIONALITIES,NPC_TRUTH_NATURES,NPC_TRUTH_ARCHETYPES,NPC_TRUTH_TIERS,NPC_TRUTH_GENERIC_TALENTS};
 export const NPC_SEXES=[{id:'male',name:'Masculin'},{id:'female',name:'Féminin'},{id:'other',name:'Autre'},{id:'unspecified',name:'Non précisé'}] as const;
 export type NpcSex=typeof NPC_SEXES[number]['id'];
-export type NpcTruth={natureId:string;powerId:string;archetypeId:string;state:'voile'|'semi-revele'|'revele';attributes:Record<string,number>;skills:Record<string,number>;talentIds:string[];ptv:number;specialtySkill:string;secondSpecialtySkill?:string;notes:string;abilities:string};
+export type NpcTruth={natureId:string;powerId:string;archetypeId:string;archetypeLabel?:string;state:'voile'|'semi-revele'|'revele';attributes:Record<string,number>;skills:Record<string,number>;talentIds:string[];ptv:number;specialtySkill:string;secondSpecialtySkill?:string;notes:string;abilities:string};
 export type NpcData={sex?:NpcSex;name:string;firstName?:string;lastName?:string;nationality?:string;truth?:NpcTruth|null;tierId:string;presetId:string;role:string;faction:string;appearance:string;personality:string;motivation:string;secret:string;notes:string;equipment:string;truthNotes:string;tags:string[];attributes:Record<string,number>;skills:Record<string,number>;talentIds:string[];expertiseSkill:string;apexSkill:string;apexReason:string;armor:number;portrait:string};
 export type NpcSummary={id:string;name:string;tierId:string;role:string;faction:string;tags:string[];hasPortrait:boolean;version:number;archived:boolean};
 export type NpcRecord=NpcSummary&{data:NpcData};
@@ -18,6 +18,7 @@ export function npcTruthIssues(truth:NpcTruth,catalog:Pick<NpcCatalog,'attribute
  const issues:string[]=[];
  if(!truth||typeof truth!=='object'||Array.isArray(truth))return ['Profil de Vérité invalide.'];
  if(!NPC_TRUTH_NATURES.some(n=>n.id===truth.natureId)||!NPC_TRUTH_TIERS.some(t=>t.id===truth.powerId)||!NPC_TRUTH_ARCHETYPES.some(a=>a.id===truth.archetypeId)||!['voile','semi-revele','revele'].includes(truth.state))issues.push('Type, puissance, archétype ou état de Vérité inconnu.');
+ if(truth.archetypeLabel!==undefined&&(typeof truth.archetypeLabel!=='string'||truth.archetypeLabel.length>120))issues.push('Nom d’archétype personnalisé invalide.');
  const stats=(values:Record<string,number>,keys:{id:string}[],min:number,max:number)=>values&&typeof values==='object'&&!Array.isArray(values)&&Object.keys(values).length===keys.length&&keys.every(k=>Number.isSafeInteger(values[k.id])&&values[k.id]>=min&&values[k.id]<=max);
  if(!stats(truth.attributes,catalog.attributes,1,50)||!stats(truth.skills,catalog.skills,0,25))issues.push('Valeurs de Vérité incomplètes ou hors limites.');
  if(!Array.isArray(truth.talentIds)||new Set(truth.talentIds).size!==truth.talentIds.length||truth.talentIds.some(id=>!NPC_TRUTH_GENERIC_TALENTS.some(t=>t.name===id)))issues.push('Talent de Vérité inconnu ou en double.');
