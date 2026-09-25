@@ -571,7 +571,7 @@ const relatedArticles = computed(() => {
   return [...ids]
     .map((id) => wikiById.get(id))
     .filter((entry): entry is WikiEntry => Boolean(entry))
-    .filter((entry) => canReadMjSections.value || !(article.category === 'Personnages' && entry.category === 'Personnages'))
+    .filter((entry) => canReadMjSections.value || !(['Personnages','Vérité'].includes(article.category ?? '') && entry.category === 'Personnages'))
     .slice(0, 12);
 });
 
@@ -601,7 +601,7 @@ const dossierArticles = computed(() => {
   const explicitIds = new Set(relatedArticles.value.map((entry) => entry.id));
   return [...wikiById.values()]
     .filter((entry) => entry.id !== article.id && !explicitIds.has(entry.id))
-    .filter((entry) => canReadMjSections.value || !(article.category === 'Personnages' && entry.category === 'Personnages'))
+    .filter((entry) => canReadMjSections.value || !(['Personnages','Vérité'].includes(article.category ?? '') && entry.category === 'Personnages'))
     .filter((entry) => {
       if (context.mode === "manufacturer") {
         return Boolean(article.manufacturer) && entry.manufacturer === article.manufacturer;
