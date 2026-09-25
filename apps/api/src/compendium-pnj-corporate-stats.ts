@@ -96,6 +96,10 @@ export function applyCorporatePnjStats(byId:Map<string,Article>):void {
 
 export function applyNamedPnjStatProfile(article:Article,profile:StatProfile):void {
   const id=article.id;
+  // Internal mechanical metadata used by constrained Builder pickers. It is
+  // deliberately distinct from the prose profile so the UI never has to
+  // infer a tier from a translated heading.
+  article.__npcTier=profile.tier==="haute"?"haute-elite":profile.tier;
   const tier=TIERS[profile.tier];
   const attributes=ATTRIBUTES[profile.tier][profile.shape];
   if(attributes.reduce((sum,value)=>sum+value,0)!==tier.attributes||

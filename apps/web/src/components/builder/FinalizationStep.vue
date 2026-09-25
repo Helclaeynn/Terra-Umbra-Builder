@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import { cloneJson } from "../../lib/json";
 import CharacterSummary from "./CharacterSummary.vue";
+import NpcContactPicker, { type NpcContactChoice } from "./NpcContactPicker.vue";
 import type { CharacterSheet } from "../../lib/character-sheet";
 
 type StatusRow={id:string;label:string;ok:boolean;reason:string};
@@ -13,6 +14,7 @@ const props=defineProps<{
   valid:boolean;
   sheet:CharacterSheet|null;
   renownScore:number;
+  renownContactRequired:boolean;
 }>();
 
 const emit=defineEmits<{
@@ -34,6 +36,15 @@ const contactsText=computed(()=>Array.isArray(props.social.contacts)
 );
 const reputation=computed(()=>String(props.social.reputation??""));
 const renownMilieu=computed(()=>String(props.social.renownMilieu??""));
+function contactChoice(value:unknown):NpcContactChoice|null{
+  if(!value||typeof value!=="object"||Array.isArray(value))return null;
+  const row=value as Record<string,unknown>;
+  return typeof row.articleId==="string"&&typeof row.title==="string"&&
+    typeof row.tierId==="string"&&typeof row.tierLabel==="string"
+    ?row as NpcContactChoice:null;
+}
+const crawlerContact=computed(()=>contactChoice(props.social.crawlerContact));
+const renownContact=computed(()=>contactChoice(props.social.renownContact));
 
 function updateSocial(patch:Record<string,unknown>){
   emit("update:social",{...cloneJson(props.social),...patch});
@@ -146,15 +157,14 @@ function setContacts(value:string){
 
       <div class="final-relations-grid">
         <label>
-          Contacts · un par ligne
+          Autres contacts · un par ligne
           <small>Qui il est, ce qu’il peut faire ou savoir, et le lien qui l’unit au personnage.</small>
           <textarea
             :value="contactsText"
             rows="5"
-            placeholder="Nom — rôle — ce qu’il sait / peut faire — Fiable / de Renom si pertinent"
+            placeholder="Nom — rôle — ce qu’il sait ou peut faire"
             @input="setContacts(($event.target as HTMLTextAreaElement).value)"
           ></textarea>
-          <small v-if="sphereId==='crawler'">Un Crawler doit nommer au moins son Contact fiable de Sphère.</small>
         </label>
         <div v-if="sphereId==='corporatiste'" class="support-reminder">
           <strong>Appui Corporatiste</strong>
@@ -164,6 +174,25 @@ function setContacts(value:string){
           </span>
         </div>
       </div>
+
+      <NpcContactPicker
+        v-if="sphereId==='crawler'"
+        :model-value="crawlerContact"
+        label="Contact fiable de Sphère"
+        help="Choisis un PNJ existant de palier Élite maximum. La création ouvre le Builder PNJ dans un nouvel onglet ; le PNJ devra être publié avant de pouvoir être sélectionné ici."
+        max-tier="elite"
+        allow-create
+        @update:model-value="updateSocial({crawlerContact:$event})"
+      />
+
+      <NpcContactPicker
+        v-if="renownContactRequired"
+        :model-value="renownContact"
+        label="Contact de renom"
+        help="Ce talent impose un PNJ déjà existant dans le Compendium, jusqu’au palier Supérieur. Il n’est pas possible d’en créer un depuis ce choix."
+        max-tier="superieur"
+        @update:model-value="updateSocial({renownContact:$event})"
+      />
     </section>
 
     <CharacterSummary v-if="sheet" :sheet="sheet" class="final-panel final-sheet" />
