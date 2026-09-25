@@ -641,7 +641,7 @@ function sellCampaignItem(){
         <div class="talent-list">
           <article v-for="talent in group.items" :key="talent.id" :class="{locked:!realityTalentAllowed(talent).ok}">
             <details class="talent-disclosure"><summary class="card-head">
-              <BuilderCatalogImage :article-id="talent.compendiumId" :name="talent.name" category="Règles" />
+              <BuilderCatalogImage :article-id="talent.compendiumId" :name="talent.name" category="Règles" :image-src="`/images/talents/${talent.category}/${encodeURIComponent(talent.id)}.webp`" />
               <div class="progress-card-title">
                 <strong>{{ talent.name }}</strong>
               </div>
