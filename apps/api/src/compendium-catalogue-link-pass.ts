@@ -28,6 +28,10 @@ function linkUrl(targetId: string): string {
   return `/compendium?article=${encodeURIComponent(targetId)}`;
 }
 
+function containsReference(text: string, reference: string): boolean {
+  return text.toLocaleLowerCase().includes(reference.toLocaleLowerCase());
+}
+
 function catalogueLinks(byId: Map<string, Article>, pages: CataloguePage[]): CatalogueLink[] {
   const titleTargets = new Map<string, string[]>();
   for (const page of pages) {
@@ -54,9 +58,14 @@ function catalogueLinks(byId: Map<string, Article>, pages: CataloguePage[]): Cat
           (target?.sections?.length && target.sections.every((candidate) => candidate.audience === "mj"));
         if (targetIsMjOnly && sourceAudience !== "mj") continue;
         for (const block of section.blocks ?? []) {
-          if (block.type !== "p" || typeof block.text !== "string") continue;
-          if (!block.text.includes(label)) continue;
-          links.push({ articleId: source.id, sectionId: section.id, quote: label, label, targetId: targetIds[0] });
+          if (block.type === "p" && typeof block.text === "string" && containsReference(block.text, label)) {
+            links.push({ articleId: source.id, sectionId: section.id, quote: label, label, targetId: targetIds[0] });
+          }
+          if (block.type === "table" && Array.isArray(block.rows) && block.rows.some((row: unknown) =>
+            Array.isArray(row) && row.some((cell) => typeof cell === "string" && containsReference(cell, label))
+          )) {
+            links.push({ articleId: source.id, sectionId: section.id, quote: label, label, targetId: targetIds[0] });
+          }
         }
       }
     }
@@ -74,12 +83,26 @@ export function applyCatalogueContextualLinks(byId: Map<string, Article>, pages:
     seen.add(key);
     const article = byId.get(entry.articleId);
     const section = article?.sections?.find((candidate) => candidate.id === entry.sectionId);
-    const block = section?.blocks?.find((candidate: { type?: string; text?: string }) => candidate.type === "p" && typeof candidate.text === "string" && candidate.text.includes(entry.quote));
-    if (!block || block.type !== "p" || typeof block.text !== "string") { skipped += 1; continue; }
     const marker = `[${entry.label}](${linkUrl(entry.targetId)})`;
-    if (block.text.includes(marker)) { skipped += 1; continue; }
-    block.text = block.text.replace(entry.quote, marker);
-    applied += 1;
+    let changed = false;
+    for (const block of section?.blocks ?? []) {
+      if (block.type === "p" && typeof block.text === "string" && containsReference(block.text, entry.quote)) {
+        if (block.text.includes(marker)) continue;
+        const pattern = new RegExp(entry.quote.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+        block.text = block.text.replace(pattern, marker);
+        changed = true;
+      }
+      if (block.type === "table" && Array.isArray(block.rows)) {
+        block.rows = block.rows.map((row: unknown) => Array.isArray(row) ? row.map((cell: unknown) => {
+          if (typeof cell !== "string" || !containsReference(cell, entry.quote) || cell.includes(marker)) return cell;
+          const pattern = new RegExp(entry.quote.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+          changed = true;
+          return cell.replace(pattern, marker);
+        }) : row);
+      }
+    }
+    if (changed) applied += 1;
+    else skipped += 1;
   }
   return { applied, skipped };
 }
