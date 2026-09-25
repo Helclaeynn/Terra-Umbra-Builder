@@ -326,6 +326,11 @@ await page.route("**/api/**",async route=>{
       body:JSON.stringify({q,total:item?1:0,offset:0,limit:12,items:item?[item]:[]})
     });
   }
+  if(url.pathname.startsWith('/api/compendium/wiki-preview/')){
+    const id=decodeURIComponent(url.pathname.split('/').pop()||'');
+    const cover=Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><rect width="64" height="64" fill="#267eb1"/></svg>').toString('base64');
+    return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({media:['wiki-kit-smoke','wiki-brave'].includes(id)?`data:image/svg+xml;base64,${cover}`:null})});
+  }
   if(url.pathname==="/api/compendium/articles/wiki-kit-smoke"){
     return route.fulfill({
       status:200,contentType:"application/json",
@@ -480,6 +485,7 @@ await catalogDisclosure.locator('..').getByLabel('Famille').selectOption('Matér
 const kitWiki=page.getByRole("link",{name:/Kit Smoke/}).first();
 await kitWiki.waitFor({state:"visible",timeout:5000});
 await kitWiki.hover();
+await catalogDisclosure.locator('..').locator('.catalog-card').filter({hasText:'Kit Smoke'}).locator('.catalog-art img').waitFor({state:'visible'});
 await page.getByText("Équipement de référence du smoke Builder, centralisé dans le Compendium.",{exact:false}).waitFor({state:"visible",timeout:5000});
 const kitHref=await kitWiki.getAttribute("href");
 if(!kitHref?.includes("article=wiki-kit-smoke"))throw new Error("Équipement Kit Smoke non résolu vers le Compendium: "+kitHref);
