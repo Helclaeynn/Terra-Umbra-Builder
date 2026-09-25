@@ -35,6 +35,10 @@ for(const [id,entry] of Object.entries(branding)){
 for(const [id,slug] of Object.entries(brands)){
   const article=byId.get(id);assert.ok(article,id);
   assert.equal(article.brandCorporationId,slug==='space-force-union'?'realite-v9-corporation-space-force-union':`realite-v9-corporation-${slug}-corporation`,id);
+  const corporation=branding[article.brandCorporationId];
+  assert.equal(article.brandLogo?.src,corporation.logo,id);
+  const response=await app.inject({method:'GET',url:'/api/compendium/media/'+corporation.logo});
+  assert.equal(response.statusCode,200,`Logo missing from equipment page: ${id}`);
 }
 for(const item of restorations){
   const bytes=await readFile(resolve(mediaDir,'images/manual',item.asset));

@@ -35,6 +35,13 @@ for (const item of items) {
   const images = [article.image?.src, article.illustration?.src, article.pnj?.portrait,
     ...(article.gallery ?? []).map(media => media.src)];
   assert.ok(images.includes(item.src), `Portrait not attached: ${item.id}`);
+  const original = manifest.lot1.items.find(entry => entry.id === item.id);
+  if (original && article.image?.src === original.src) {
+    assert.fail(`Older portrait still selected as main image: ${item.id}`);
+  }
+  if (item.id === 'personnages-verite-angelus-shihoko-baisho') {
+    assert.equal(article.image?.src, item.src, 'Shihoko must show the new portrait');
+  }
   if (item.visibility === 'mj') {
     const exposed = publicById.get(item.id);
     if (exposed) assert.ok(!JSON.stringify(exposed).includes(item.src), `Private portrait leaked: ${item.id}`);

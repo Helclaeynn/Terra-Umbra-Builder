@@ -3657,8 +3657,7 @@ async function loadCorpus(): Promise<Corpus> {
     if (gallery.length) article.gallery = [...(article.gallery ?? []), ...gallery];
     const portraits = portraitsByArticle.get(article.id) ?? [];
     const replacement = [...portraits].reverse().find((portrait) => portrait.lot === "lot2");
-    const preferred = replacement && (replacement.visibility === "public" || article.audience === "mj")
-      ? replacement : portraits.find((portrait) => portrait.lot === "lot1") ?? portraits[0];
+    const preferred = replacement ?? portraits.find((portrait) => portrait.lot === "lot1") ?? portraits[0];
     if (preferred) {
       const media = { src: preferred.src, alt: article.title ?? article.id,
         caption: preferred.lot === "lot2" ? "Portrait retravaillé · lot 2" : "Portrait original · lot 1" };
