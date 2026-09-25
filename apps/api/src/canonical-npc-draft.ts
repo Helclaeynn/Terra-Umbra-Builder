@@ -11,7 +11,9 @@ export function canonicalNpcDraft(n:NpcData):NpcArticleDraft{
  const c=NPC_CATALOG,tier=c.tiers.find(t=>t.id===n.tierId)!;
  const derived=characterDerivedStats(id=>n.attributes[id]||0,id=>n.skills[id]||0,[]);
  const sex=NPC_SEXES.find(s=>s.id===(n.sex??'unspecified'))!.name;
- const privateFields=[['Faction ou groupe',n.faction],['Motivation',n.motivation],['Secret ou accroche',n.secret],['Équipement réellement porté',n.equipment],['Vérité et pouvoirs particuliers',n.truthNotes],['Notes',n.notes],['Tags de travail',n.tags.join(', ')]];
+ const equipmentNames=(n.equipmentIds??[]).map(id=>c.equipment.find(item=>item.id===id)?.name).filter(Boolean).join(', ');
+ const equipmentText=[equipmentNames,n.equipment].filter(Boolean).join(' · ');
+ const privateFields=[['Faction ou groupe',n.faction],['Motivation',n.motivation],['Secret ou accroche',n.secret],['Équipement réellement porté',equipmentText],['Vérité et pouvoirs particuliers',n.truthNotes],['Notes',n.notes],['Tags de travail',n.tags.join(', ')]];
  const truth=n.truth;
  const truthBlocks:NpcArticleBlock[]=truth?[
   paragraph(`Nature : ${c.truthNatures.find(x=>x.id===truth.natureId)?.name}. Puissance : ${c.truthPowers.find(x=>x.id===truth.powerId)?.name}. Archétype : ${truth.archetypeId==='custom'&&truth.archetypeLabel?.trim()?truth.archetypeLabel.trim():c.truthArchetypes.find(x=>x.id===truth.archetypeId)?.name}. État : ${truth.state}. PTV estimés dépensés : ${truth.ptv}. Les valeurs R ci-dessous sont finales.`),

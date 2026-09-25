@@ -6,6 +6,8 @@ import {generateNpcTruth,NPC_TRUTH_NATURES,NPC_TRUTH_ARCHETYPES,NPC_TRUTH_TIER_T
 import {NPC_TRUTH_TIERS} from './npc-truth-tiers.js';
 import {NPC_TRUTH_GENERIC_TALENTS} from './npc-truth-generic-talents.js';
 import {NPC_TIERS,NPC_SEXES,npcTalentEligible,type NpcSex,type NpcCatalog,type NpcData,type NpcRanges} from './campaign-npc-model.js';
+import {existsSync,readFileSync} from 'node:fs';
+import path from 'node:path';
 type Preset={id:string;name:string;description:string;attributes:string[];skills:string[];talents:string[]};
 export const NPC_PRESETS:Preset[]=[
  {id:'civil',name:'Civil / témoin',description:'Un intervenant ordinaire, attentif à ce qui l’entoure.',attributes:['charisme','esprit','volonte','agilite','vigueur'],skills:['perception','diplomatie','savoirs','langages_argot','commerce','investigation','force_mentale','constitution'],talents:['Lecture des failles','Expertise éprouvée','Dossier préparé']},
@@ -17,7 +19,24 @@ export const NPC_PRESETS:Preset[]=[
  {id:'technicien',name:'Technicien',description:'Réparation, analyse et connaissances techniques.',attributes:['esprit','agilite','volonte','charisme','vigueur'],skills:['mecanique','savoirs','investigation','perception','pilotage','langages_argot','force_mentale','esquive'],talents:['Expertise éprouvée','Dossier préparé','Lecture des failles','Plan de sortie']},
  {id:'soignant',name:'Soignant',description:'Soins, diagnostic et sang-froid.',attributes:['esprit','volonte','charisme','agilite','vigueur'],skills:['soin','savoirs','perception','investigation','force_mentale','diplomatie','constitution','langages_argot'],talents:['Expertise éprouvée','Lecture des failles','Dossier préparé']}
 ];
-export const NPC_CATALOG:NpcCatalog={tiers:NPC_TIERS,talents:NPC_TALENTS,attributes:[...rules.attributes],skills:[...rules.skills],nationalities:NPC_NATIONALITIES,truthNatures:NPC_TRUTH_NATURES,truthPowers:NPC_TRUTH_TIERS,truthArchetypes:NPC_TRUTH_ARCHETYPES,truthTalents:NPC_TRUTH_GENERIC_TALENTS,variety:{names:NPC_NATIONALITIES.reduce((sum,n)=>(sum+(n.male.length+n.female.length+n.neutral.length)*n.last.length),0),appearances:NPC_APPEARANCE.bearing.length*NPC_APPEARANCE.clothing.length*NPC_APPEARANCE.detail.length,personalities:NPC_PERSONALITY.attitude.length*NPC_PERSONALITY.habit.length,motivations:NPC_MOTIVATIONS.length,secrets:NPC_HOOKS.length},presets:NPC_PRESETS.map(({id,name,description})=>({id,name,description})),ranges:Object.fromEntries(NPC_TIERS.flatMap(t=>NPC_PRESETS.map(p=>[`${t.id}:${p.id}`,npcStatRanges(t.id,p.id)]))),truthRanges:Object.fromEntries(NPC_TRUTH_TIERS.flatMap(t=>NPC_TRUTH_ARCHETYPES.map(a=>[`${t.id}:${a.id}`,npcStatRanges(NPC_TRUTH_TIER_TEMPLATE[t.id],a.presetId)])))};
+function npcEquipment(){
+ const candidates=[
+  process.env.TUC_REALITY_RULES_ROOT&&path.join(process.env.TUC_REALITY_RULES_ROOT,'current-equipment-catalog-v1.json'),
+  '/app/rules-data/current-equipment-catalog-v1.json',
+  path.resolve(process.cwd(),'compendium/source/current-equipment-catalog-v1.json'),
+  path.resolve(process.cwd(),'../../compendium/source/current-equipment-catalog-v1.json')
+ ].filter((value):value is string=>!!value);
+ const source=candidates.find(existsSync);
+ if(!source)throw new Error('Catalogue d’équipement PNJ introuvable.');
+ const root=JSON.parse(readFileSync(source,'utf8')) as {catalog?:{entries?:Array<Record<string,unknown>>}};
+ return (root.catalog?.entries??[]).map(item=>{
+   const data=item.data&&typeof item.data==='object'&&!Array.isArray(item.data)?item.data as Record<string,unknown>:{};
+   const values=Object.entries(data).filter(([key])=>/^(?:Protection|Bal\.|Mel\.|Ant\.|Profil)$/i.test(key)).map(([,value])=>String(value));
+   const armorValues=values.flatMap(value=>[...value.matchAll(/(?:Balistique|M[eê]l[eé]e|Antichoc)\s*([0-9]+)/gi)].map(match=>Number(match[1])));
+   return {id:String(item.id??''),name:String(item.name??''),category:String(item.category??'Autres'),armor:armorValues.length?Math.max(...armorValues):null,armorProfile:values.join(" · ")};
+  }).filter(item=>item.id&&item.name);
+}
+export const NPC_CATALOG:NpcCatalog={tiers:NPC_TIERS,talents:NPC_TALENTS,attributes:[...rules.attributes],skills:[...rules.skills],nationalities:NPC_NATIONALITIES,truthNatures:NPC_TRUTH_NATURES,truthPowers:NPC_TRUTH_TIERS,truthArchetypes:NPC_TRUTH_ARCHETYPES,truthTalents:NPC_TRUTH_GENERIC_TALENTS,equipment:npcEquipment(),variety:{names:NPC_NATIONALITIES.reduce((sum,n)=>(sum+(n.male.length+n.female.length+n.neutral.length)*n.last.length),0),appearances:NPC_APPEARANCE.bearing.length*NPC_APPEARANCE.clothing.length*NPC_APPEARANCE.detail.length,personalities:NPC_PERSONALITY.attitude.length*NPC_PERSONALITY.habit.length,motivations:NPC_MOTIVATIONS.length,secrets:NPC_HOOKS.length},presets:NPC_PRESETS.map(({id,name,description})=>({id,name,description})),ranges:Object.fromEntries(NPC_TIERS.flatMap(t=>NPC_PRESETS.map(p=>[`${t.id}:${p.id}`,npcStatRanges(t.id,p.id)]))),truthRanges:Object.fromEntries(NPC_TRUTH_TIERS.flatMap(t=>NPC_TRUTH_ARCHETYPES.map(a=>[`${t.id}:${a.id}`,npcStatRanges(NPC_TRUTH_TIER_TEMPLATE[t.id],a.presetId)])))};
 function seeded(seed:string){let n=2166136261;for(const c of seed)n=Math.imul(n^c.charCodeAt(0),16777619);return ()=>{n+=0x6D2B79F5;let t=Math.imul(n^(n>>>15),1|n);t^=t+Math.imul(t^(t>>>7),61|t);return ((t^(t>>>14))>>>0)/4294967296;};}
 function allocate(ids:string[],budget:number,weights:Record<string,number>,cap:number,base=0){const values=Object.fromEntries(ids.map(id=>[id,base]));for(let left=budget-base*ids.length;left>0;left--){const available=ids.filter(id=>values[id]<cap).sort((a,b)=>(values[a]-base+1)/weights[a]-(values[b]-base+1)/weights[b]);if(!available.length)throw Error('npc_budget_unreachable');values[available[0]]++;}return values;}
 function baseStats(tierId:string,presetId:string){const tier=NPC_TIERS.find(t=>t.id===tierId)!,preset=NPC_PRESETS.find(p=>p.id===presetId)!;
@@ -51,7 +70,7 @@ export function generateNpc(tierId:string,presetId:string,seed:string,faction=''
  const base=baseStats(tierId,presetId),ranges=npcStatRanges(tierId,presetId);
  const attributes=vary(base.attributes,ranges.attributes,random,50),skills=vary(base.skills,ranges.skills,random,160);
  const talentIds=chooseTalents(preset,skills,tier.id==='superieur'?4:tier.recommended,random);
- return {name,firstName,lastName,nationality:nationality.id,truth:null,sex,tierId,presetId,role:preset.name,faction,appearance:[pick(NPC_APPEARANCE.bearing),pick(NPC_APPEARANCE.clothing),pick(NPC_APPEARANCE.detail)].join(' '),personality:[pick(NPC_PERSONALITY.attitude),pick(NPC_PERSONALITY.habit)].join(' '),motivation:pick(NPC_MOTIVATIONS),secret:pick(NPC_HOOKS),notes:'',equipment:'',truthNotes:'',tags:[preset.name,...(faction?[faction.slice(0,60)]:[])],attributes,skills,talentIds,expertiseSkill:talentIds.includes('Expertise éprouvée')?(preset.skills.find(id=>skills[id]>=7)||''):'',apexSkill:'',apexReason:'',armor:0,portrait:''};
+ return {name,firstName,lastName,nationality:nationality.id,truth:null,sex,tierId,presetId,role:preset.name,faction,appearance:[pick(NPC_APPEARANCE.bearing),pick(NPC_APPEARANCE.clothing),pick(NPC_APPEARANCE.detail)].join(' '),personality:[pick(NPC_PERSONALITY.attitude),pick(NPC_PERSONALITY.habit)].join(' '),motivation:pick(NPC_MOTIVATIONS),secret:pick(NPC_HOOKS),notes:'',equipment:'',equipmentIds:[],truthNotes:'',tags:[preset.name,...(faction?[faction.slice(0,60)]:[])],attributes,skills,talentIds,expertiseSkill:talentIds.includes('Expertise éprouvée')?(preset.skills.find(id=>skills[id]>=7)||''):'',apexSkill:'',apexReason:'',armor:0,portrait:''};
 }
 
 export function generateNpcBatch(value:unknown):NpcData[]|null{
