@@ -18,7 +18,7 @@ const descriptionFields=[{key:'appearance',label:'Apparence',max:1000},{key:'per
 function patch(value:Partial<NpcData>){emit('update:data',{...props.data,...value});}
 const value=(e:Event)=>(e.target as HTMLInputElement).value;
 function stat(group:'attributes'|'skills',id:string,e:Event){patch({[group]:{...props.data[group],[id]:Number(value(e))}});}
-function identity(key:'firstName'|'lastName',text:string){const first=(key==='firstName'?text:props.data.firstName||'').trim(),last=(key==='lastName'?text:props.data.lastName||'').trim();patch({[key]:text,name:([first,last].filter(Boolean).join(' ')||props.data.name)});}
+function identity(key:'firstName'|'lastName',text:string){const first=(key==='firstName'?text:props.data.firstName||'').trim(),last=(key==='lastName'?text:props.data.lastName||'').trim();const previous=[props.data.firstName,props.data.lastName].filter(Boolean).join(' ').trim();const next=[first,last].filter(Boolean).join(' ');patch({[key]:text,...(!props.data.name.trim()||props.data.name.trim()===previous?{name:next||props.data.name}:{})});}
 function truthPatch(value:Partial<NpcTruth>){if(props.data.truth)patch({truth:{...props.data.truth,...value}});}
 function truthStat(group:'attributes'|'skills',id:string,e:Event){if(props.data.truth)truthPatch({[group]:{...props.data.truth[group],[id]:Number(value(e))}});}
 function truthTalent(name:string,on:boolean){if(!props.data.truth)return;const ids=on?[...props.data.truth.talentIds,name]:props.data.truth.talentIds.filter(id=>id!==name);const cost=ids.reduce((sum,id)=>sum+(props.catalog.truthTalents.find(t=>t.name===id)?.cost||0),0);truthPatch({talentIds:ids,ptv:Math.max(props.data.truth.ptv,cost)});}

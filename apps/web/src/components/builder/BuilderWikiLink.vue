@@ -94,7 +94,7 @@ async function hydrate(item:SearchItem):Promise<SearchItem>{
       snippet:articleSnippet(article)||item.snippet,
       mediaSrc:mediaSrc(article.illustration??article.image)
     };
-  }catch{return item;}
+  }catch{throw new Error('Article introuvable');}
 }
 
 async function resolveArticle():Promise<SearchItem|null>{
@@ -141,7 +141,7 @@ async function togglePreview(){
 }
 
 const href=computed(()=>{
-  const id=props.articleId || resolved.value?.id;
+  const id=resolved.value?.id;
   if(id)return compendiumHref(id,props.sectionId);
   const params=new URLSearchParams({q:props.label});
   if(props.category)params.set("category",props.category);

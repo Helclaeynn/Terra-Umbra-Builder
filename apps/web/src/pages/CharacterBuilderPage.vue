@@ -1768,7 +1768,11 @@ onBeforeUnmount(()=>{
                 </label>
                 <label>
                   Sexe
-                  <input v-model="draft.identity.sex" />
+                  <select v-model="draft.identity.sex">
+                    <option value="">— Choisir —</option>
+                    <option>Femme</option><option>Homme</option><option>Non binaire</option><option>Autre</option>
+                    <option v-if="draft.identity.sex && !['Femme','Homme','Non binaire','Autre'].includes(draft.identity.sex)" :value="draft.identity.sex">{{ draft.identity.sex }}</option>
+                  </select>
                   <small class="field-help">Information descriptive sans conséquence mécanique.</small>
                 </label>
                 <label>
