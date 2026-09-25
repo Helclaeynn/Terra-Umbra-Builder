@@ -198,6 +198,7 @@ type Article = {
   image?: string | MediaRef;
   illustration?: string | MediaRef;
   brandLogo?: MediaRef;
+  brandMarks?: Array<MediaRef & { corporationId?: string }>;
   brandCorporationId?: string;
   gallery?: MediaRef[];
   __editorialOverride?: boolean;
@@ -2127,8 +2128,16 @@ onBeforeUnmount(() => {
                     </div>
 
                     <div class="wiki-title-line">
+                      <span v-if="selected.brandMarks?.length" class="corporation-brand-marks">
+                        <template v-for="mark in selected.brandMarks" :key="mark.src">
+                          <RouterLink v-if="mark.corporationId" class="corporation-brand-link" :to="`/compendium?article=${encodeURIComponent(mark.corporationId)}`" :title="mark.alt">
+                            <img :src="mediaUrl(mark)" :alt="mark.alt || 'Logo du cofabricant'" loading="lazy" />
+                          </RouterLink>
+                          <img v-else class="corporation-brand-logo" :src="mediaUrl(mark)" :alt="mark.alt || 'Logo du cofabricant'" loading="lazy" />
+                        </template>
+                      </span>
                       <RouterLink
-                        v-if="selected.brandLogo?.src && selected.brandCorporationId"
+                        v-else-if="selected.brandLogo?.src && selected.brandCorporationId"
                         class="corporation-brand-link"
                         :to="`/compendium?article=${encodeURIComponent(selected.brandCorporationId)}`"
                         :title="`Voir ${selected.manufacturer || 'la corporation'} dans le Compendium`"
@@ -3126,6 +3135,7 @@ onBeforeUnmount(() => {
 }
 .corporation-brand-link { display: grid; place-items: center; }
 .corporation-brand-link img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.corporation-brand-marks { display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;min-width:0; }
 .corporation-brand-fallback { display:grid;place-items:center;flex:0 0 90px;min-height:68px;max-width:110px;padding:6px;border:1px dashed rgba(216,189,133,.55);border-radius:8px;color:#f0dfbd;background:#172331;text-align:center;font-size:12px;font-weight:700;line-height:1.2;overflow-wrap:anywhere; }
 
 .wiki-edit-link {
