@@ -3121,6 +3121,24 @@ async function loadCorpus(): Promise<Corpus> {
     databaseEditApplied += 1;
   }
 
+  const corporationBranding = JSON.parse(await readFile(
+    resolve(COMPENDIUM_MEDIA_DIR, "source/corporation-branding-v1.json"), "utf8"
+  )) as { articles: Record<string, { name: string; logo?: string; charts?: Array<{ src: string }> }> };
+  const weaponBrandLinks = JSON.parse(await readFile(
+    resolve(COMPENDIUM_MEDIA_DIR, "source/weapon-brand-links-v1.json"), "utf8"
+  )) as { equipmentById: Record<string, string> };
+  const corporationIdFor = (slug: string) => slug === "space-force-union"
+    ? "realite-v9-corporation-space-force-union"
+    : `realite-v9-corporation-${slug}-corporation`;
+  const corporationByManufacturer: Record<string, string> = {
+    Raven: "raven-industries", Phoenix: "phoenix", Byron: "byron-industries",
+    Biosun: "biosun", Sunways: "sunways", SeaWares: "seawares",
+    Tala: "tala", Monarch: "monarch-systems", Tortoise: "tortoise-security",
+    "Ocean Master": "ocean-master", SFU: "space-force-union"
+  };
+  const manufacturerByCorporation = Object.fromEntries(
+    Object.entries(corporationByManufacturer).map(([manufacturer, slug]) => [slug, manufacturer])
+  ) as Record<string, string>;
   const manualMediaFiles = new Set(
     await readdir(resolve(COMPENDIUM_MEDIA_DIR, "images/manual")).catch(() => [] as string[])
   );
@@ -3620,6 +3638,35 @@ async function loadCorpus(): Promise<Corpus> {
     applyTargetedEditorialCorrections(article);
     applyLoreQualityCleanup(article);
     article.manufacturer = manufacturerFor(article);
+    const corporatePage = corporationBranding.articles[article.id];
+    if (corporatePage) {
+      if (corporatePage.logo) article.brandLogo = {
+        src: corporatePage.logo, alt: `Logo de ${article.title ?? corporatePage.name}`
+      };
+      const branches = article.sections?.find((section) => section.id === "branches");
+      for (const chart of corporatePage.charts ?? []) {
+        if (!branches || branches.blocks?.some((block: JsonObject) => block.src === chart.src)) continue;
+        branches.blocks ??= [];
+        branches.blocks.splice(Math.min(1, branches.blocks.length), 0, {
+          type: "image", style: "corporation-org-chart", src: chart.src,
+          alt: `Organigramme de ${article.title ?? corporatePage.name}`,
+          caption: `Organigramme de ${article.title ?? corporatePage.name} · d’après le document source`
+        });
+      }
+    }
+    if (article.dataset === "equipement") {
+      const explicitSlug = weaponBrandLinks.equipmentById[article.id];
+      const slug = explicitSlug ?? corporationByManufacturer[String(article.manufacturer ?? "")];
+      const corporationId = slug ? corporationIdFor(slug) : "";
+      const corporation = corporationBranding.articles[corporationId];
+      if (corporation && byId.has(corporationId)) {
+        if (!article.manufacturer && explicitSlug) article.manufacturer = manufacturerByCorporation[slug] ?? corporation.name;
+        article.brandCorporationId = corporationId;
+        if (corporation.logo) article.brandLogo = {
+          src: corporation.logo, alt: `Logo de ${corporation.name}`
+        };
+      }
+    }
     article.__searchText = norm(flattenText(article));
   }
 

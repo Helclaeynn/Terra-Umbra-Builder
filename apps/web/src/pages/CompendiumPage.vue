@@ -197,6 +197,8 @@ type Article = {
   pnj?: Record<string, unknown>;
   image?: string | MediaRef;
   illustration?: string | MediaRef;
+  brandLogo?: MediaRef;
+  brandCorporationId?: string;
   gallery?: MediaRef[];
   __editorialOverride?: boolean;
   __wikiPublishedEdit?: boolean;
@@ -2119,6 +2121,21 @@ onBeforeUnmount(() => {
                     </div>
 
                     <div class="wiki-title-line">
+                      <RouterLink
+                        v-if="selected.brandLogo?.src && selected.brandCorporationId"
+                        class="corporation-brand-link"
+                        :to="`/compendium?article=${encodeURIComponent(selected.brandCorporationId)}`"
+                        :title="`Voir ${selected.manufacturer || 'la corporation'} dans le Compendium`"
+                      >
+                        <img :src="mediaUrl(selected.brandLogo)" :alt="selected.brandLogo.alt || 'Logo du fabricant'" loading="lazy" />
+                      </RouterLink>
+                      <img
+                        v-else-if="selected.brandLogo?.src"
+                        class="corporation-brand-logo"
+                        :src="mediaUrl(selected.brandLogo)"
+                        :alt="selected.brandLogo.alt || 'Logo de la corporation'"
+                        loading="lazy"
+                      />
                       <h1>{{ selected.title }}</h1>
                       <RouterLink
                         v-if="canEdit"
@@ -3085,6 +3102,18 @@ onBeforeUnmount(() => {
 .wiki-title-line h1 {
   flex: 1;
 }
+.corporation-brand-link, .corporation-brand-logo {
+  flex: 0 0 68px;
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+  padding: 5px;
+  border: 1px solid rgba(216, 189, 133, .3);
+  border-radius: 8px;
+  background: rgba(238, 243, 248, .93);
+}
+.corporation-brand-link { display: grid; place-items: center; }
+.corporation-brand-link img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
 .wiki-edit-link {
   flex: 0 0 auto;
