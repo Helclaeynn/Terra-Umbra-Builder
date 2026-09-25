@@ -1,12 +1,18 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {readdir,readFile} from 'node:fs/promises';
+import {readdir,readFile,mkdtemp,copyFile,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const root=fileURLToPath(new URL('../../../',import.meta.url)).replace(/\/$/,'');
 process.env.DATABASE_URL ??= 'postgres://test:test@127.0.0.1:1/test';
 process.env.COMPENDIUM_DATA_DIR=root+'/compendium/data';
 process.env.COMPENDIUM_MEDIA_DIR=root+'/compendium';
+const rulesRoot=await mkdtemp(join(tmpdir(),'tuc-augmentation-rules-'));
+await copyFile(root+'/compendium/source/current-equipment-catalog-v1.json',join(rulesRoot,'current-equipment-catalog-v1.json'));
+await copyFile(root+'/character-builder/rulesets/terra-umbra/reality/augmentations.json.gz.b64',join(rulesRoot,'augmentations.json.gz.b64'));
+process.env.TUC_REALITY_RULES_ROOT=rulesRoot;
 process.chdir(root+'/apps/api');
 const {pool}=await import(root+'/apps/api/dist/db.js');
 pool.query=async(sql)=>{
@@ -18,6 +24,14 @@ const {default:Fastify}=await import(root+'/apps/api/node_modules/fastify/fastif
 const filenames=(await readdir(root+'/compendium/images/manual')).filter(name=>/^augmentation-\d{3}-[a-z0-9-]+(?:--g[12])?\.webp$/.test(name));
 const known=new Set(filenames);
 const manifest=JSON.parse(await readFile(root+'/compendium/source/augmentation-illustrations-20260924.json','utf8'));
+const {getRealityRules}=await import(root+'/apps/api/dist/rules/reality.js');
+const runtime=getRealityRules().augmentations;
+assert.equal(runtime.length,146,'Le Builder doit charger les 146 variantes, dont le correctif V1.');
+const {V9_MISSING_AUGMENTATIONS}=await import(root+'/apps/api/dist/rules/reality-v9-augmentations.js');
+for(const item of V9_MISSING_AUGMENTATIONS){
+  const found=runtime.find(row=>row.id===item.id);
+  assert.ok(found,`Augmentation V1 manquante dans le Builder : ${item.name}`);
+}
 assert.equal(manifest.items.length,146);
 assert.equal(new Set(manifest.items.map(item=>item.src)).size,146);
 assert.deepEqual(new Set(manifest.items.map(item=>item.src.slice('images/manual/'.length))),new Set(filenames));
@@ -58,4 +72,5 @@ for (const article of articles) {
 assert.equal(checked,146);
 assert.equal(known.size,0,'Unmatched files: '+[...known].join(', '));
 await app.close();await pool.end();
+await rm(rulesRoot,{recursive:true,force:true});
 console.log(`OK: ${checked} augmentation variants resolved in their sections and served as exact WebP bytes.`);
