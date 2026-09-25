@@ -59,6 +59,10 @@ jobs:
           npm ci
           npm run build
 
+      - name: Check API container manifests
+        working-directory: apps/api
+        run: node scripts/check-api-container-assets.mjs
+
       - name: Check reviewed Compendium links and privacy
         working-directory: apps/api
         run: node scripts/check-reviewed-rule-taxonomy.mjs

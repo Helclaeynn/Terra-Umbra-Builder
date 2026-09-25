@@ -36,6 +36,10 @@ COPY compendium/data/v3-*.b64part ./compendium-data/
 COPY compendium/images ./compendium-media/images
 COPY compendium/assets ./compendium-media/assets
 COPY compendium/source/rules-diagrams-v1.json ./compendium-media/source/rules-diagrams-v1.json
+COPY compendium/source/lore-illustrations-v1.json ./compendium-media/source/lore-illustrations-v1.json
+COPY compendium/source/corporation-branding-v1.json ./compendium-media/source/corporation-branding-v1.json
+COPY compendium/source/weapon-brand-links-v1.json ./compendium-media/source/weapon-brand-links-v1.json
+COPY compendium/source/portrait-only-lot2-v1.json ./compendium-media/source/portrait-only-lot2-v1.json
 
 RUN mkdir -p /app/editor-media && chown -R node:node /app/editor-media
 
