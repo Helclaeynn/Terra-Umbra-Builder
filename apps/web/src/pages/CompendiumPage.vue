@@ -248,6 +248,7 @@ const currentUser = ref<CurrentUser | null>(null);
 const searchOpen = ref(false);
 const libraryOpen = ref(false);
 const navigationOpen = ref(false);
+const navigationGroupOverrides = ref<Record<string, boolean>>({});
 const smallScreen = ref(false);
 const readerFontSize = ref(17);
 const readerFocus = ref(false);
@@ -411,9 +412,17 @@ function resultBreadcrumb(item: SearchItem | WikiEntry): string {
 }
 
 function navigationGroupOpen(groupName: string): boolean {
+  const override = navigationGroupOverrides.value[`${category.value}:${groupName}`];
+  if (override !== undefined) return override;
   if (selected.value?.navigation?.group === groupName) return true;
   if (category.value === "Règles" || category.value === "Réalité") return navigationGroups.value.length <= 5;
   return false;
+}
+function rememberNavigationGroup(groupName: string, event: Event) {
+  navigationGroupOverrides.value = {
+    ...navigationGroupOverrides.value,
+    [`${category.value}:${groupName}`]: (event.currentTarget as HTMLDetailsElement).open
+  };
 }
 
 const selectedIsFavorite = computed(() =>
@@ -1809,6 +1818,7 @@ onBeforeUnmount(() => {
             :key="group.name"
             class="navigation-group"
             :open="navigationGroupOpen(group.name)"
+            @toggle="rememberNavigationGroup(group.name, $event)"
           >
             <summary>
               <span>{{ group.name }}</span>
