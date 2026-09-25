@@ -837,8 +837,11 @@ function setCorporateSupportItem(itemId:string){
                   <div v-if="pureCosmeticAugmentation(selectedVariant(group))" class="support-line">
                     Esthétique sans effet mécanique : accessible à tous les Styles.
                   </div>
-                  <em v-if="selectedVariant(group).lore">{{ selectedVariant(group).lore }}</em>
-                  <p v-if="selectedVariant(group).effect"><b>Effet :</b> {{ selectedVariant(group).effect }}</p>
+                  <details v-if="selectedVariant(group).lore || selectedVariant(group).effect" class="catalog-card-details">
+                    <summary>Effet et description</summary>
+                    <p v-if="selectedVariant(group).effect"><b>Effet :</b> {{ selectedVariant(group).effect }}</p>
+                    <p v-if="selectedVariant(group).lore">{{ selectedVariant(group).lore }}</p>
+                  </details>
                   <small v-if="!addStatus(selectedVariant(group)).ok" class="bad-text">{{ addStatus(selectedVariant(group)).reason }}</small>
                 </article>
               </div>
@@ -1021,7 +1024,7 @@ function setCorporateSupportItem(itemId:string){
 .equipment-step input[type="checkbox"]:checked{background:#8adcf0;border-color:#a6edfc}
 .equipment-step input[type="checkbox"]:checked::after{background:#0e2735;transform:translateX(18px)}
 .equipment-step input[type="checkbox"]:disabled{opacity:.5;cursor:not-allowed}
-.catalog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:16px}
+.catalog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:16px}
 .catalog-disclosure{padding:0!important}
 .catalog-summary{cursor:pointer;display:flex;align-items:center;gap:16px;min-height:78px;padding:20px 22px;list-style:none}
 .catalog-summary::-webkit-details-marker{display:none}
@@ -1037,6 +1040,7 @@ function setCorporateSupportItem(itemId:string){
 .catalog-family>h4{display:flex;align-items:center;gap:10px;margin:0 0 14px;color:#d5e8f6;font:600 14px/1.4 Inter,"Segoe UI",sans-serif;letter-spacing:.05em;text-transform:uppercase}
 .family-count{display:inline-flex;align-items:center;justify-content:center;min-width:30px;min-height:24px;padding:2px 6px;border:1px solid #416276;border-radius:5px;color:#a1e5f5;font-size:12px}
 .catalog-card{display:flex;flex-direction:column;gap:14px;min-width:0;padding:18px;border:1px solid #344d63;border-radius:8px;background:#101f30;overflow-wrap:anywhere}
+.catalog-card-details{padding:10px 12px;border:1px solid #344d63;border-radius:6px}.catalog-card-details>summary{cursor:pointer;color:#a4edff;font-size:14px;font-weight:600}.catalog-card-details>p{margin:12px 0 0}.catalog-card-details:not([open]){margin-top:auto}
 .catalog-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
 .catalog-head>div{display:grid;gap:6px;min-width:0}
 .catalog-head>button{flex-shrink:0}

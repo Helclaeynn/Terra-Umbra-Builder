@@ -1091,6 +1091,7 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
 .account-grid { display: grid; gap: 28px; }
 .account-grid > * { min-width: 0; }
 .account-panel { padding: clamp(22px, 3vw, 36px); }
+.dashboard-collapse.panel{padding:0;border:0;background:transparent}.dashboard-collapse.panel>summary{margin-bottom:0}.dashboard-collapse.account-panel>.account-settings-grid,.dashboard-collapse.account-panel>.account-gm-settings{padding:clamp(20px,3vw,32px);border:1px solid #36536b;border-top:0;background:#101f30}.dashboard-collapse.account-panel>.account-gm-settings{margin:0;padding-top:20px}.dashboard-collapse.gm-access-panel>:not(summary){margin-left:clamp(20px,3vw,32px);margin-right:clamp(20px,3vw,32px)}.dashboard-collapse.gm-access-panel[open]{padding-bottom:20px;border:1px solid #36536b;border-top:0;background:#101f30}.dashboard-collapse.gm-access-panel[open]>summary{margin:-1px -1px 16px}
 .account-settings-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); }
 .account-settings-grid form { align-content: start; }
 .account-settings-grid h3 { margin: 0 0 2px; color: #d7e7f6; font-size: 17px; font-weight: 600; }

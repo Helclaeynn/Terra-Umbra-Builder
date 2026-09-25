@@ -1,6 +1,7 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { gunzipSync } from "node:zlib";
 import path from "node:path";
+import {V9_MISSING_AUGMENTATIONS} from "./reality-v9-augmentations.js";
 
 type AnyRecord=Record<string,unknown>;
 
@@ -320,6 +321,11 @@ function buildRealityRules(){
 
   const augmentationRaw=gunzipBase64(path.join(root,"augmentations.json.gz.b64"));
   const augmentations=normaliseLooseCatalog(augmentationRaw,"augmentation",lore);
+  const known=new Set(augmentations.map(item=>`${loose(item.name)}|${item.generation??'x'}`));
+  for(const item of normaliseLooseCatalog(V9_MISSING_AUGMENTATIONS,"augmentation",lore)){
+    const key=`${loose(item.name)}|${item.generation??'x'}`;
+    if(!known.has(key)){known.add(key);augmentations.push(item);}
+  }
 
   const uniqueEquipment=[...new Map(equipment.map(item=>[item.id,item])).values()];
   const recurring=uniqueEquipment.filter(item=>item.recurring==="monthly"||item.recurring==="annual");

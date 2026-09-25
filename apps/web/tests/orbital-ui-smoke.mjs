@@ -186,9 +186,9 @@ try {
     await page.getByRole("heading", { name: "Fiches sauvegardées", exact: true }).waitFor();
     const pin=page.locator('.character-list .character-pin');
     await pin.click();
-    assert.equal(await pin.getAttribute('aria-pressed'),'true');
+    await page.waitForFunction(() => document.querySelector('.character-list .character-pin')?.getAttribute('aria-pressed') === 'true');
     await page.reload({waitUntil:'domcontentloaded'});
-    assert.equal(await page.locator('.character-list .character-pin').getAttribute('aria-pressed'),'true','Le favori survit à une nouvelle lecture du compte.');
+    await page.waitForFunction(() => document.querySelector('.character-list .character-pin')?.getAttribute('aria-pressed') === 'true');
     await page.getByLabel("Nom du personnage", { exact: true }).waitFor();
     assert.equal(await page.getByRole("heading", { name: "Gestion des comptes", exact: true }).count(), 0,
       "Les outils administrateur ne doivent pas être proposés au Joueur.");

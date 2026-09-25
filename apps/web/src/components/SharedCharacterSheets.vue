@@ -18,8 +18,7 @@ onMounted(()=>{void load();window.addEventListener("focus",load);});
 onUnmounted(()=>{generation++;window.removeEventListener("focus",load);});
 </script>
 <template>
-  <section class="panel shared-character-sheets" aria-labelledby="shared-sheets-title" :aria-busy="loading">
-    <p class="eyebrow">OUTILS MJ · LECTURE SEULE</p><h2 id="shared-sheets-title">Fiches partagées avec moi</h2>
+  <section class="shared-character-sheets" aria-label="Fiches partagées avec moi" :aria-busy="loading">
     <p v-if="loading" role="status">Chargement des partages…</p>
     <div v-else-if="error" role="alert"><p>{{ error }}</p><button class="ghost" @click="load">Réessayer</button></div>
     <p v-else-if="!characters.length">Aucune fiche partagée pour le moment. Chaque joueur peut te donner accès depuis sa fiche actuelle, en recherchant ton nom de compte.</p>
@@ -27,5 +26,5 @@ onUnmounted(()=>{generation++;window.removeEventListener("focus",load);});
   </section>
 </template>
 <style scoped>
-ul{padding:0;list-style:none}li{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid #284255}small{display:block;color:#adc2d4;margin-top:4px}a{min-height:44px}@media(max-width:600px){li{align-items:start;flex-direction:column}}
+.shared-character-sheets{padding:18px 22px;border:1px solid #36536b;border-top:0;border-radius:0 0 6px 6px;background:#101f30}.shared-character-sheets>p{margin:0;line-height:1.6}ul{padding:0;margin:0;list-style:none}li{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid #284255}small{display:block;color:#adc2d4;margin-top:4px}a{min-height:44px}@media(max-width:600px){li{align-items:start;flex-direction:column}}
 </style>
