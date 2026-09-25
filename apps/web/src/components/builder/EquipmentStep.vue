@@ -737,7 +737,7 @@ function setCorporateSupportItem(itemId:string){
               </h4>
               <div class="catalog-grid">
                 <article v-for="group in family.items" :key="group.key" class="catalog-card">
-                  <BuilderCatalogImage :article-id="selectedVariant(group).compendiumId" :name="selectedVariant(group).name" category="Équipement & Objets" />
+                  <BuilderCatalogImage :article-id="selectedVariant(group).compendiumId" :name="selectedVariant(group).name" :generation="selectedVariant(group).generation" category="Équipement & Objets" />
                   <div class="catalog-head">
                     <div>
                       <strong><BuilderWikiLink
