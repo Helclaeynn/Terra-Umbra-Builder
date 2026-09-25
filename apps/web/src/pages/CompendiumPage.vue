@@ -1333,6 +1333,9 @@ async function loadArticle(id: string, section = "") {
     // Primary content becomes visible immediately. Builder context, dynamic
     // Talents and history enrich the already rendered article afterwards.
     selected.value = result.article;
+    // An article may be opened from another category (or directly from a link).
+    // Keep the sidebar in the category of the article currently on screen.
+    category.value = result.article.category ?? "";
 
     // Do not wait for optional Builder enrichment before showing the article.
     const usage = api<{ usage: BuilderUsage[]; sources: BuilderSourceRecord[] }>(

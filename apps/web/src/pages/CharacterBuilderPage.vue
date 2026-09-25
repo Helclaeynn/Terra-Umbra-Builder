@@ -2309,7 +2309,7 @@ onBeforeUnmount(()=>{
                     <em v-if="selectedTruthChoice(choice)?.description">
                       {{ selectedTruthChoice(choice)?.description }}
                     </em>
-                    <em v-if="choice.key === 'dominantAffinity'">L’Affinité dominante est le domaine magique que le Mage maîtrise en premier. Par exemple, la Photomancie agit sur la lumière.</em>
+                    <em v-if="choice.key === 'dominantAffinity'">Parmi les trois Affinités de votre Mageius, choisissez celle qui s’éveille en premier. Elle commence sans dépense en Maîtrise Initiale et Amplitude Mineure. Une fois par scène, sa Résonance dominante permet de relancer le d10e d’un test qui emploie directement cette Affinité ; le second résultat s’applique. Les deux autres Affinités ne sont pas acquises par ce choix.</em>
                     <em v-else-if="choice.dependsOn && !String(currentTruthState.choices[choice.dependsOn] || '')">
                       Choisissez d’abord {{ selectedTruthNature.choices.find(item=>item.key===choice.dependsOn)?.label || choice.dependsOn }}.
                     </em>
