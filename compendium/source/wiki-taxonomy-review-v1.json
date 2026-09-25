@@ -1,0 +1,720 @@
+{
+  "sourceCommit": "dbd241a66a5350b7bea7f991c8893fcb8afcb060",
+  "method": "Read complete page content, record section anchors and contextual references; defer edits until cross-corpus targets are checked.",
+  "reviewed": [
+    {
+      "id": "regles-moteur-de-jeu",
+      "sectionsRead": [
+        "role-du-moteur",
+        "acces-rapide",
+        "principe-de-specificite"
+      ],
+      "references": [
+        "regles-resolution-des-tests",
+        "regles-profil-valeurs-derivees-statut",
+        "regles-initiative-pa-deplacement",
+        "regles-combat-defenses",
+        "regles-tir-portee-tirs-particuliers",
+        "regles-sante-blessures-soins",
+        "regles-stress-etats-psychologiques"
+      ],
+      "note": "The quick access table refers to full rules pages. Check section anchors on its specific procedures after the complete rules review."
+    },
+    {
+      "id": "regles-resolution-des-tests",
+      "sectionsRead": [
+        "attributs-competences",
+        "test-standard",
+        "d10-explosif",
+        "marge-et-dr",
+        "circonstances-opposition-cooperation",
+        "exemple-resolution"
+      ],
+      "references": [
+        "regles-stress-etats-psychologiques"
+      ],
+      "note": "Tendu/Paniqué explicitly delegate to Stress; DR, assistance and natural failure are separate stable section targets."
+    },
+    {
+      "id": "regles-profil-valeurs-derivees-statut",
+      "sectionsRead": [
+        "valeurs-derivees",
+        "etat-actuel",
+        "edge",
+        "renommee",
+        "renommee-reputation"
+      ],
+      "references": [
+        "regles-stress-etats-psychologiques",
+        "regles-sante-blessures-soins"
+      ],
+      "note": "Do not merge Renommée with Réputation: the article explicitly distinguishes the two meanings."
+    },
+    {
+      "id": "regles-initiative-pa-deplacement",
+      "sectionsRead": [
+        "initiative-et-pa",
+        "ordre-des-passes",
+        "pa-gagne-en-cours-de-round",
+        "deplacement",
+        "encombrement"
+      ],
+      "references": [
+        "regles-combat-defenses"
+      ],
+      "note": "PA spent in active defence and future passes refer to a procedure, not to a generic combat page. Encombrant is an equipment property."
+    },
+    {
+      "id": "regles-combat-defenses",
+      "sectionsRead": [
+        "defenses",
+        "melee",
+        "pugilat",
+        "zones-effet",
+        "fiable"
+      ],
+      "references": [
+        "regles-tir-portee-tirs-particuliers",
+        "regles-realite-v9-equipement-proprietes-protections"
+      ],
+      "note": "A defence link should distinguish passive/active defence from armour reduction; Fiable is an equipment property with a narrow exception."
+    },
+    {
+      "id": "regles-tir-portee-tirs-particuliers",
+      "sectionsRead": [
+        "attaque-de-tir",
+        "alteration",
+        "viser",
+        "portee",
+        "couvert-et-melee",
+        "verrouillage",
+        "rafale",
+        "suppression"
+      ],
+      "references": [
+        "regles-combat-defenses",
+        "regles-realite-v9-equipement-proprietes-protections",
+        "regles-stress-etats-psychologiques"
+      ],
+      "note": "Viser, Verrouillage, Rafale and Suppression are distinct procedures and stable section targets. The words Portée and Altération need rules context."
+    },
+    {
+      "id": "regles-sante-blessures-soins",
+      "sectionsRead": [
+        "pv-et-seuils",
+        "agonisant",
+        "stabiliser",
+        "premiers-soins",
+        "repos-soins-prolonges",
+        "mort",
+        "sequelles"
+      ],
+      "references": [
+        "regles-stress-etats-psychologiques",
+        "regles-profil-valeurs-derivees-statut",
+        "regles-resolution-des-tests"
+      ],
+      "note": "PV thresholds impose minimum Stress. Agonisant and Stabilisé refer to separate steps; healing and recovery have different rules."
+    },
+    {
+      "id": "regles-stress-etats-psychologiques",
+      "sectionsRead": [
+        "test-de-stress",
+        "normal-tendu-panique",
+        "stress-impose-blessures",
+        "remontee-seuil",
+        "retour-au-calme",
+        "traumatisme-durable"
+      ],
+      "references": [
+        "regles-sante-blessures-soins",
+        "regles-resolution-des-tests"
+      ],
+      "note": "Natural failure ranges vary by state. Raison is explicitly not a generic gauge; avoid linking the word in ordinary contexts to a separate mechanic."
+    },
+    {
+      "id": "regles-realite-v9-reperes-sociaux",
+      "sectionsRead": [
+        "spheres-et-origine",
+        "langues",
+        "renommee-logifate-contacts-compte",
+        "statut-et-acces"
+      ],
+      "references": [
+        "regles-realite-v9-talents",
+        "regles-profil-valeurs-derivees-statut",
+        "regles-realite-v9-economie-compte-train-vie"
+      ],
+      "note": "A generic famille mafieuse is not the proper faction La Famille. Origine and current Sphère must remain distinct."
+    },
+    {
+      "id": "regles-realite-v9-talents",
+      "sectionsRead": [
+        "catalogue-canonique",
+        "principes-communs",
+        "origine",
+        "sphere",
+        "neurodriver-stabilite",
+        "progression"
+      ],
+      "references": [
+        "regles-realite-v9-reperes-sociaux",
+        "regles-realite-v9-neurodive-principes-rang"
+      ],
+      "note": "Neurodiver and Neurodriver are explicitly different. Mechanical talent definitions live in Builder, so avoid inventing per-talent wiki pages from the principles article."
+    },
+    {
+      "id": "regles-realite-v9-desavantages",
+      "sectionsRead": [
+        "principe",
+        "structure",
+        "echelle",
+        "cas-structurants"
+      ],
+      "references": [
+        "regles-profil-valeurs-derivees-statut",
+        "regles-realite-v9-neurodive-principes-rang",
+        "regles-tir-portee-tirs-particuliers"
+      ],
+      "note": "Unsinkable, Neurocompatibilité nulle and Mauvais tireur are described as examples; their effects point to distinct Neurodive, augmentation and firing rules."
+    },
+    {
+      "id": "regles-realite-v9-charge-stress-frenesie",
+      "sectionsRead": [
+        "valeurs",
+        "difficultes",
+        "frenesie",
+        "n-sta"
+      ],
+      "references": [
+        "regles-profil-valeurs-derivees-statut",
+        "regles-realite-v9-economie-compte-train-vie"
+      ],
+      "note": "Stress augmentique is a separate system from psychological Stress; N-Sta is an equipment item, not a general calm-down rule."
+    },
+    {
+      "id": "regles-realite-v9-supports-slots-compatibilites",
+      "sectionsRead": [
+        "support-et-module",
+        "neural",
+        "cyberoptique",
+        "ciblage-et-zoom",
+        "cyberaudio",
+        "implants-internes",
+        "dermique",
+        "membres",
+        "cyborg-lourd",
+        "biogenetique",
+        "esthetique-charisme",
+        "lecture-generations"
+      ],
+      "references": [
+        "regles-realite-v9-charge-stress-frenesie",
+        "regles-realite-v9-neurodive-principes-rang",
+        "regles-tir-portee-tirs-particuliers"
+      ],
+      "note": "Slots belong to individual supports. CyberŒil, CyberAudio, cyberlimb and Biogénétique require different section targets; the word famille refers to technology classes, not a criminal faction."
+    },
+    {
+      "id": "regles-realite-v9-neurodive-principes-rang",
+      "sectionsRead": [
+        "lexique",
+        "moteur-unique",
+        "pressure",
+        "modes-connexion",
+        "compatibilite",
+        "interfaces",
+        "rang",
+        "neurodriver",
+        "unsinkable"
+      ],
+      "references": [
+        "regles-realite-v9-neurodive-actions-intrusion",
+        "regles-realite-v9-neurocombat-integrite-logicielle",
+        "regles-realite-v9-talents",
+        "regles-realite-v9-desavantages"
+      ],
+      "note": "Explicit definitions distinguish Neurodive, Neurodiver, Neurodriver and Unsinkable. An ordinary Holonet application is not a Neuroprogramme."
+    },
+    {
+      "id": "regles-realite-v9-neurodive-actions-intrusion",
+      "sectionsRead": [
+        "chargement",
+        "actions",
+        "securite",
+        "intrusion-controle",
+        "echec",
+        "trace",
+        "deconnexion"
+      ],
+      "references": [
+        "regles-realite-v9-neurodive-principes-rang",
+        "regles-realite-v9-neurocombat-integrite-logicielle"
+      ],
+      "note": "Intrusion and Contrôle are separate actions, as are Trace and Déconnexion. Route each reference to its procedure."
+    },
+    {
+      "id": "regles-realite-v9-neurocombat-integrite-logicielle",
+      "sectionsRead": [
+        "debut",
+        "cible-vivante",
+        "ia-programmes",
+        "alteration-neuro",
+        "corruption",
+        "sacrifice",
+        "materiel",
+        "profils-ia",
+        "exemple",
+        "reference-rapide"
+      ],
+      "references": [
+        "regles-realite-v9-neurodive-actions-intrusion",
+        "regles-realite-v9-neurodive-principes-rang",
+        "regles-sante-blessures-soins"
+      ],
+      "note": "Corruption here is damage to a program, not the occult Corruption of Fléaux. The rules distinguish program corruption, sacrifice and destruction."
+    },
+    {
+      "id": "regles-realite-v9-economie-compte-train-vie",
+      "sectionsRead": [
+        "economie",
+        "echelle-prix",
+        "revenus",
+        "disponibilite",
+        "train-vie",
+        "charges-fixes",
+        "acces",
+        "compte-dotations",
+        "logements-securite",
+        "services-drogues",
+        "credit-crawler",
+        "frontiere-verite"
+      ],
+      "references": [
+        "regles-realite-v9-reperes-sociaux",
+        "regles-realite-v9-neurodive-actions-intrusion",
+        "regles-stress-etats-psychologiques"
+      ],
+      "note": "A price, the Compte, Train de vie and monthly Charges fixes are separate concepts. Corporate support is access rather than ownership. Dykal is not automatically converted to dollars."
+    },
+    {
+      "id": "regles-realite-v9-equipement-proprietes-protections",
+      "sectionsRead": [
+        "principes",
+        "proprietes-armes",
+        "portee-verrouillage",
+        "armure-reductions",
+        "ablatif",
+        "camo",
+        "holo-dfl",
+        "modules-armure"
+      ],
+      "references": [
+        "regles-tir-portee-tirs-particuliers",
+        "regles-combat-defenses",
+        "regles-initiative-pa-deplacement"
+      ],
+      "note": "Weapon property names should reach procedure anchors: Rafale, Suppression, Fiable, Zone. Armure and typed Réductions require distinct wording."
+    },
+    {
+      "id": "regles-realite-v9-vehicules-poursuites-reparations",
+      "sectionsRead": [
+        "moteur-vehicule",
+        "structure-blindage",
+        "defense-conduite",
+        "poursuites",
+        "tir-occupants",
+        "collisions",
+        "neurodive",
+        "reparation",
+        "longue-distance"
+      ],
+      "references": [
+        "regles-realite-v9-neurodive-actions-intrusion",
+        "regles-realite-v9-equipement-proprietes-protections",
+        "regles-tir-portee-tirs-particuliers"
+      ],
+      "note": "Neurodive control of a vehicle does not become Pilotage. Structure and Blindage apply to a vehicle, unlike PV and personal Armure."
+    },
+    {
+      "id": "regles-verite-v7-architecture-ptv-acces",
+      "sectionsRead": [
+        "1-architecture-de-la-verite",
+        "2-points-de-verite-acces-et-conception-des-talents",
+        "ptv-et-competences-profanes",
+        "doctrine-fonction-et-reseau-de-verite"
+      ],
+      "references": [
+        "regles-realite-v9-talents"
+      ],
+      "note": "The second section has no body: do not direct semantic links to it yet. PTV-funded abilities do not create equipment or network access by themselves."
+    },
+    {
+      "id": "regles-verite-v7-pa-reactions-defense-puissance",
+      "sectionsRead": [
+        "3-pa-reactions-durees-et-non-cumul",
+        "arbitrage-transversal-des-chevauchements",
+        "4-defense-occulte-et-puissance-des-effets"
+      ],
+      "references": [
+        "regles-initiative-pa-deplacement",
+        "regles-verite-v7-voile-continuite-objets-reseaux-interfaces"
+      ],
+      "note": "Defence occulte uses Volonté and Force Mentale against direct effects on the mind or soul; Voir sous le Voile does not Révéler."
+    },
+    {
+      "id": "regles-verite-v7-voile-continuite-objets-reseaux-interfaces",
+      "sectionsRead": [
+        "5-hologramme-voile-semi-revelation-et-revelation",
+        "dissimulation-surnaturelle-et-capteurs",
+        "6-continuite-corporelle-objets-et-mobilite-ailee",
+        "deplacement-multiplie",
+        "mobilite-ailee-convention-pj",
+        "objets-et-projectiles",
+        "7-humains-chasseurs-reconnus-humanite-et-integrite",
+        "8-compagnons-lies-et-reseaux-de-verite",
+        "reseaux-de-verite",
+        "9-equipement-de-verite-principe-commun",
+        "armure-corporelle-et-reductions",
+        "interfaces-etrangeres-et-neurodive"
+      ],
+      "references": [
+        "regles-realite-v9-neurodive-principes-rang",
+        "regles-realite-v9-equipement-proprietes-protections",
+        "regles-verite-v7-chasseurs-doctrine-association-gt-hunt"
+      ],
+      "note": "V/SR/R, companion actions, physical armour and alien interface compatibility are independent section targets. Section 9 has no body; avoid linking to that empty heading."
+    },
+    {
+      "id": "regles-verite-v7-chasseurs-doctrine-association-gt-hunt",
+      "sectionsRead": [
+        "doctrine",
+        "association",
+        "gt",
+        "hunt",
+        "builder"
+      ],
+      "references": [
+        "verite-v7-chasseurs-doctrine-association-traditions"
+      ],
+      "note": "GT authorisation, Hunt status and Association infrastructure do not grant equipment. Link each designation to its section rather than to the whole hunter doctrine."
+    },
+    {
+      "id": "regles-verite-v7-vampire-nature-predation-cours",
+      "sectionsRead": [
+        "architecture",
+        "etats",
+        "proprietes",
+        "talents-communs",
+        "empreintes",
+        "krovni-talents",
+        "alghul-talents",
+        "oru-talents",
+        "ihuito-talents",
+        "shi-talents"
+      ],
+      "references": [
+        "regles-verite-v7-voile-continuite-objets-reseaux-interfaces",
+        "regles-verite-v7-vampire-sangs-transformations"
+      ],
+      "note": "Nature, Cour d'origine, Sang noir and political allegiance are distinct. Five Court imprints have separate sections and free abilities."
+    },
+    {
+      "id": "regles-verite-chasseur-lavandieres",
+      "sectionsRead": [
+        "catalogue-canonique",
+        "identite",
+        "acces-et-limites"
+      ],
+      "references": [
+        "regles-verite-v7-vampire-nature-predation-cours",
+        "regles-verite-v7-chasseurs-traditions"
+      ],
+      "note": "Definite tag conflict: the page is tagged humain, but its text says the tradition belongs to Vampires and excludes non-Vampires. Correct during taxonomy pass."
+    },
+    {
+      "id": "regles-verite-v7-vampire-sangs-transformations",
+      "sectionsRead": [
+        "principe",
+        "sang-ecarlate",
+        "sang-primal",
+        "sang-hypocrite",
+        "sang-venimeux",
+        "sang-masque",
+        "sang-aveugle",
+        "sang-traqueur",
+        "sang-glacial",
+        "sang-ardent",
+        "sang-orageux",
+        "sang-revelateur",
+        "sang-condamne",
+        "exceptionnels",
+        "eveil"
+      ],
+      "references": [
+        "regles-verite-v7-vampire-nature-predation-cours"
+      ],
+      "note": "Each named Sang is a meaningful section target. The exceptional transformations are explicitly outside the ordinary 1–3 PTV catalogue."
+    },
+    {
+      "id": "regles-verite-v7-chasseurs-traditions",
+      "sectionsRead": [
+        "principe",
+        "traditions",
+        "limites"
+      ],
+      "references": [
+        "regles-verite-chasseur-lavandieres",
+        "regles-verite-chasseur-catholiques",
+        "regles-verite-chasseur-khalsa",
+        "regles-verite-chasseur-taoistes"
+      ],
+      "note": "The thirteen tradition pages contain 262 talents; with four common doctrine talents the total is 266. Tradition names should link to dedicated pages."
+    },
+    {
+      "id": "regles-verite-chasseur-catholiques",
+      "sectionsRead": [
+        "catalogue-canonique",
+        "socle-commun",
+        "institution-et-talents"
+      ],
+      "references": [
+        "regles-verite-v7-chasseurs-traditions"
+      ],
+      "note": "The three orders have distinct missions. Institutional resources are not Talents purchased with PTV."
+    },
+    {
+      "id": "regles-verite-chasseur-khalsa",
+      "sectionsRead": [
+        "catalogue-canonique",
+        "doctrine",
+        "perimetre"
+      ],
+      "references": [
+        "regles-verite-v7-chasseurs-traditions"
+      ],
+      "note": "The fictional Khālsā tradition addresses actual supernatural coercion, not all natural limitations or an ordinary use of the word liberty."
+    },
+    {
+      "id": "regles-verite-chasseur-taoistes",
+      "sectionsRead": [
+        "catalogue-canonique",
+        "ecoles-parentes",
+        "piste-de-qi"
+      ],
+      "references": [
+        "verite-qi-metaphysique",
+        "verite-clan-shi-taoisme-veritable",
+        "regles-verite-v7-chasseurs-traditions"
+      ],
+      "note": "The Gu/Shimazu Yin-Yang tradition and the Shi Art of the Void are related but have different aims; a Qi disturbance is not automatic species identification."
+    },
+    {
+      "id": "regles-verite-chasseur-kabbale",
+      "sectionsRead": [
+        "catalogue-canonique",
+        "arbre-de-vie",
+        "acces"
+      ],
+      "references": [],
+      "note": "Kabbale uses the Sephiroth as trained methods but does not turn hunters into Angelus or Sephirians."
+    },
+    {
+      "id": "regles-verite-chasseur-nizarites-asasiyun",
+      "sectionsRead": [
+        "catalogue-canonique",
+        "deux-blocs",
+        "acces-et-compagnon"
+      ],
+      "references": [],
+      "note": "The Djinn is a real companion; PTV buys the link, not the entity or an independent action pool."
+    },
+    {
+      "id": "regles-verite-chasseur-onmyoji",
+      "sectionsRead": [
+        "catalogue-canonique",
+        "quatre-voies",
+        "regle-des-sceaux"
+      ],
+      "references": [],
+      "note": "Shikigami, seals, exorcism and consensual pacts are separate practices; Koji’s lightning is not generic."
+    },
+    {
+      "id": "regles-verite-chasseur-neopaiens",
+      "sectionsRead": [
+        "catalogue-canonique",
+        "pratiques-et-mysteres",
+        "acces-pluriel"
+      ],
+      "references": [],
+      "note": "Mystères are culturally distinct, not an interchangeable unified religion; an offering cannot invent a weakness."
+    },
+    {
+      "id": "regles-verite-chasseur-chasse-fantastique",
+      "sectionsRead": [
+        "catalogue-canonique",
+        "armee-et-tradition",
+        "rangs-et-moyens"
+      ],
+      "references": [],
+      "note": "Ranks are narrative and a Talent does not create a mount or vehicle."
+    },
+    {
+      "id": "regles-verite-chasseur-lueurs-azmenor",
+      "sectionsRead": [
+        "catalogue-canonique",
+        "heritage-et-neant",
+        "menaces-et-acces"
+      ],
+      "references": [],
+      "note": "True visions do not imply correct interpretation or a moral detector."
+    },
+    {
+      "id": "regles-verite-chasseur-xenoshield",
+      "sectionsRead": [
+        "catalogue-canonique",
+        "doctrine-materielle",
+        "formation-et-loyaute"
+      ],
+      "references": [],
+      "note": "Xenoshield identifies material origins and incompatibilities, not alien guilt; an Extral can learn the doctrine."
+    },
+    {
+      "id": "regles-verite-chasseur-independants",
+      "sectionsRead": [
+        "catalogue-canonique",
+        "heritages",
+        "progression-modulaire"
+      ],
+      "references": [],
+      "note": "Independent hunters share no institutional network; Héritages need a lived or transmitted origin."
+    },
+    {
+      "id": "regles-verite-chasseur-table-ronde",
+      "sectionsRead": [
+        "catalogue-canonique",
+        "descendants-et-armes",
+        "devenir-chevalier"
+      ],
+      "references": [],
+      "note": "Members are descendants, not reincarnated knights; Merlin weapons are unique physical artifacts, unlike Excalibur."
+    },
+    {
+      "id": "regles-verite-v7-garou-nature-formes-frenesie-pelages",
+      "sectionsRead": [
+        "architecture",
+        "etats",
+        "dons",
+        "forme-humaine",
+        "forme-loup",
+        "forme-hybride",
+        "mue",
+        "frenesie",
+        "talents-communs",
+        "pelages",
+        "gris",
+        "noirs",
+        "blancs",
+        "roux",
+        "bruns",
+        "dores"
+      ],
+      "references": [],
+      "note": "Garou forms are distinct from V/SR/R; Pelage is cultural, Sang vif is a lineage, Mue is timed and costly; Frénésie is not ordinary Stress."
+    },
+    {
+      "id": "regles-verite-v7-garou-sangs-vifs",
+      "sectionsRead": [
+        "progression",
+        "vortigern",
+        "ohtana",
+        "ceallachan",
+        "keyna",
+        "svenn",
+        "verica",
+        "khuyildar",
+        "thorkel",
+        "tomoko",
+        "asulf",
+        "jayanti",
+        "astaphium",
+        "enchaîne"
+      ],
+      "references": [],
+      "note": "The twelve Sangs vifs are distinct section targets; Sang Enchaîné is a special case without hybrid form."
+    },
+    {
+      "id": "regles-verite-v7-khinae-moteur-lignees",
+      "sectionsRead": [
+        "nature",
+        "communs",
+        "variantes",
+        "canides",
+        "renards",
+        "grands-felins",
+        "chats",
+        "rapaces",
+        "requins",
+        "serpents",
+        "boudas",
+        "berserkirs",
+        "crocodiliens",
+        "acces"
+      ],
+      "references": [],
+      "note": "Other Khinae lineages share Mue but do not inherit Garou Meute or Pelage features. Animal variant and Sang vif are separate choices; many lineage sections deserve direct anchors."
+    },
+    {
+      "id": "regles-verite-v7-mage-maitrise-amplitude-lancement",
+      "sectionsRead": [
+        "architecture-du-mage",
+        "etats-de-revelation",
+        "mageius-et-roue-magique",
+        "progression-par-points-de-verite",
+        "affinite-dominante",
+        "maitrise",
+        "amplitude",
+        "affinites-supplementaires",
+        "construire-et-lancer-un-sort",
+        "essence",
+        "polarite",
+        "difficulte-pa-et-tension-par-amplitude",
+        "portee",
+        "principe-de-designation-et-role-des-savoirs",
+        "defenses-et-degats-magiques",
+        "defense-occulte",
+        "resolution-d-une-attaque-magique",
+        "canalisation-maintien-et-sorts-longs",
+        "canalisation-concentration",
+        "preparation-sur-plusieurs-rounds",
+        "maintien-et-permanence",
+        "une-fonction-principale"
+      ],
+      "references": [
+        "regles-verite-v7-mage-tension-revers-echos-oeuvres"
+      ],
+      "note": "Mage Affinité, Maîtrise and Amplitude name separate mechanics and need their own anchors. Empty parent headings are not meaningful hover targets."
+    },
+    {
+      "id": "regles-verite-v7-mage-tension-revers-echos-oeuvres",
+      "sectionsRead": [
+        "tension-revers-et-dormance",
+        "monter-et-reduire-la-tension",
+        "test-de-revers",
+        "consequences-du-revers",
+        "capacites-et-talents-communs",
+        "capacites-gratuites",
+        "volonte-superieure-capacite-innee",
+        "talents-communs",
+        "echos-uvres-personnelles-et-magies-familiales",
+        "echo-du-mageius",
+        "uvre-personnelle",
+        "magie-familiale"
+      ],
+      "references": [
+        "regles-verite-v7-mage-maitrise-amplitude-lancement"
+      ],
+      "note": "Tension at three triggers Revers; distinguish Echo, personal Work and family magic, and Dormancy from mundane Stress."
+    }
+  ]
+}

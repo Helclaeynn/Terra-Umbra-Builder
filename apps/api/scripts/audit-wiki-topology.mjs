@@ -33,15 +33,27 @@ const entries = articles.map(article => ({
 const broken = entries.flatMap(article => article.outbound.filter(link => !ids.has(link.id)).map(link => ({ source: article.id, ...link })));
 const byId = new Map(entries.map(article => [article.id, article]));
 const brokenSections = entries.flatMap(article => article.outbound.filter(link => link.section && byId.has(link.id) &&
-  !byId.get(link.id).sections.some(section => section.id === link.section ||
-    `wiki-section-${section.id.replace(/[^a-zA-Z0-9_-]+/g, '-')}` === link.section))
+  !byId.get(link.id).sections.some((section, index, sections) => {
+    const name = section.id.replace(/[^a-zA-Z0-9_-]+/g, '-');
+    const ordinal = sections.slice(0, index).filter(previous => previous.id.replace(/[^a-zA-Z0-9_-]+/g, '-') === name).length;
+    return section.id === link.section || `wiki-section-${name}${ordinal ? `--${ordinal + 1}` : ''}` === link.section;
+  }))
   .map(link => ({ source: article.id, ...link })));
+const duplicateSections = entries.flatMap(article => {
+  const seen = new Set();
+  return article.sections.flatMap(section => {
+    if (seen.has(section.id)) return [{ articleId: article.id, sectionId: section.id }];
+    seen.add(section.id);
+    return [];
+  });
+});
 const summary = {
   total: entries.length, public: publicArticles.length,
   sections: entries.reduce((sum, article) => sum + article.sections.length, 0),
   untagged: entries.filter(article => !article.tags.length).length,
-  brokenExistingTargets: broken.length, brokenExistingSections: brokenSections.length
+  brokenExistingTargets: broken.length, brokenExistingSections: brokenSections.length,
+  duplicateSourceSectionIds: duplicateSections.length
 };
 const output = process.argv[2];
-if (output) await writeFile(output, JSON.stringify({ summary, entries, broken, brokenSections }, null, 2));
+if (output) await writeFile(output, JSON.stringify({ summary, entries, broken, brokenSections, duplicateSections }, null, 2));
 console.log(JSON.stringify(summary));

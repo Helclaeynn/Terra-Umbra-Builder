@@ -447,7 +447,7 @@ const showLargeArticleMedia = computed(() =>
 const articleToc = computed(() =>
   articleSections.value
     .map(({ section, index }) => ({
-      id: sectionDomId(section, index),
+      id: sectionDomId(section, index, selected.value?.sections ?? []),
       title: String(section.title ?? "").trim(),
       level: Number(section.level ?? 2)
     }))
@@ -2236,7 +2236,7 @@ onBeforeUnmount(() => {
                   </div>
                   <section
                     v-for="{ section, index: sectionIndex } in articleSections"
-                    :id="sectionDomId(section, sectionIndex)"
+                    :id="sectionDomId(section, sectionIndex, selected.sections ?? [])"
                     :key="section.id || sectionIndex"
                     class="article-section"
                   >
