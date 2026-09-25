@@ -128,7 +128,7 @@ function opposedParts(value: string): string[] {
 function decisionModel(kind: TaxonomyKind, observation: string, title: string): { question: string; options: Array<{ key: string; label: string }>; impact: string } {
   const parts = opposedParts(observation);
   const pair = parts.length === 2 ? ` (« ${parts[0]} » ou « ${parts[1]} »)` : "";
-  if (/(profil|statistique).{0,80}(compétence|competence).{0,100}(zéro|zero|biographie|corps à corps|combat|tir|pugilat|mêlée|melee)/i.test(observation)) {
+  if (/(germe|pa propre|points? d’action|points? action|proximité|proximite|entrée dans l’organisme|entree dans l.organisme)/i.test(observation)) {\n    return {\n      question: `Quelle règle d’activation doit faire foi pour le germe de « ${title} » ?`,\n      options: [\n        { key: "A", label: "Entrée dans un organisme obligatoire ; aucun coût de PA propre n’est ajouté au germe." },\n        { key: "B", label: "Une action par proximité est possible ; préciser le coût de PA et la portée." },\n        { key: "C", label: "Conserver le texte descriptif et documenter la mécanique avant de la publier." }\n      ],\n      impact: "Fonctionnement de la créature, activation en scène, coût en PA et résolution des combats."\n    };\n  }\n  if (/(profil|statistique).{0,80}(compétence|competence).{0,100}(zéro|zero|biographie|corps à corps|combat|tir|pugilat|mêlée|melee)/i.test(observation)) {
     return {
       question: `Les compétences de combat de « ${title} » doivent-elles être corrigées pour correspondre à la biographie ?`,
       options: [
