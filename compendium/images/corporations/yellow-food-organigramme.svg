@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1485 630" role="img" aria-label="Organigramme de yellow-food">
+<rect width="100%" height="100%" fill="#111e2d"/>
+<path d="M375 478 V502 H375 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M620 478 V502 H620 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H130 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M130 228 V252 H130 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H375 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M865 353 V378 H865 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H620 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M375 353 V378 H375 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M1110 353 V378 H1110 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H865 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H1110 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M620 353 V378 H620 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H1355 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M130 353 V378 H130 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M865 228 V252 H865 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M620 228 V252 H620 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M865 478 V502 H865 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M1110 478 V502 H1110 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M130 478 V502 H130 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M1110 228 V252 H1110 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M375 228 V252 H375 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<rect x="21" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="130" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Winnie MORGENSEN</text>
+<text x="130" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Autre</text>
+<rect x="21" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="130" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Randall SZILARD</text>
+<text x="130" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Chimie</text>
+<rect x="21" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="130" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Sheena THOMSON</text>
+<text x="130" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Agricole</text>
+<rect x="21" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="130" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Alina SEMMENS</text>
+<text x="130" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directrice</text>
+<rect x="266" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="375" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Zuba N&#x27;KOLO</text>
+<text x="375" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Anheuser-Bush</text>
+<rect x="266" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="375" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Hiram SALOMON</text>
+<text x="375" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Orangina</text>
+<rect x="266" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="375" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Silence ERWIN</text>
+<text x="375" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Coca-cola</text>
+<rect x="266" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="375" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Levi SMUCKER</text>
+<text x="375" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directeur</text>
+<rect x="511" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="620" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Tony FOX</text>
+<text x="620" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Burger King</text>
+<rect x="511" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="620" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Jenna SINGLER</text>
+<text x="620" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">KFC</text>
+<rect x="511" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="620" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Kurt CAREN</text>
+<text x="620" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">McDonald</text>
+<rect x="511" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="620" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Myra EGER</text>
+<text x="620" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directrice</text>
+<rect x="756" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="865" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Endrigo MAZZANO</text>
+<text x="865" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Super 8</text>
+<rect x="756" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="865" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Kenn KOLAI</text>
+<text x="865" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Intercontinental</text>
+<rect x="756" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="865" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Jorgelina MELIGA</text>
+<text x="865" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Accor</text>
+<rect x="756" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="865" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Russell VINDERBECK</text>
+<text x="865" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directeur</text>
+<rect x="1001" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="1110" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Ghounam KAKOTTO</text>
+<text x="1110" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Afrique</text>
+<rect x="1001" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="1110" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Kaya KUROJITA</text>
+<text x="1110" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Asie</text>
+<rect x="1001" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="1110" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Eleonor BAKER</text>
+<text x="1110" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Etats-unis</text>
+<rect x="1001" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="1110" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Jaymor MILGAN</text>
+<text x="1110" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directeur</text>
+<rect x="1246" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="1355" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Joana KYONG</text>
+<text x="1355" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Vice-présidente</text>
+<rect x="634" y="26" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="742" y="56" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Stanley VANDENDRIESSCHE</text>
+<text x="742" y="94" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Président</text>
+</svg>

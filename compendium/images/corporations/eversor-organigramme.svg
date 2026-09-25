@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1485 630" role="img" aria-label="Organigramme de eversor">
+<rect width="100%" height="100%" fill="#111e2d"/>
+<path d="M375 478 V502 H375 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H130 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M130 228 V252 H130 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H375 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M865 353 V378 H865 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H620 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M375 353 V378 H375 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M1110 353 V378 H1110 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H865 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H1110 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H1355 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M130 353 V378 H130 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M865 228 V252 H865 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M620 228 V252 H620 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M865 478 V502 H865 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M1110 478 V502 H1110 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M130 478 V502 H130 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M1110 228 V252 H1110 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M375 228 V252 H375 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<rect x="21" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="130" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Kassandra XENAKI</text>
+<text x="130" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Ev. manufacture</text>
+<rect x="21" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="130" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Leah TOYOTOSHI</text>
+<text x="130" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Ev. mechanics</text>
+<rect x="21" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="130" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Phoebe EDGAR</text>
+<text x="130" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Ev. motors</text>
+<rect x="21" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="130" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Beatrix KRUGER</text>
+<text x="130" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Ev. industries</text>
+<rect x="266" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="375" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Victoria WARNER</text>
+<text x="375" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Ev. Energy</text>
+<rect x="266" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="375" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Rawee SUKBUNSUNG</text>
+<text x="375" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Ev. Raw</text>
+<rect x="266" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="375" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Kevin ECKER</text>
+<text x="375" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Ev. Sea</text>
+<rect x="266" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="375" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Opalia SANDERS</text>
+<text x="375" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Ev.SeaWeeds</text>
+<rect x="511" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="620" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Clay JACKSON</text>
+<text x="620" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Ev. building</text>
+<rect x="511" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="620" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Carolina CHESTERLAND</text>
+<text x="620" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Ev. design</text>
+<rect x="756" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="865" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Doushk MARGRIEVa</text>
+<text x="865" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Ev. cleaning</text>
+<rect x="756" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="865" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Frederic JACKELSTON</text>
+<text x="865" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Ev. transport</text>
+<rect x="756" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="865" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Alexa KINNEY</text>
+<text x="865" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Ev. Net</text>
+<rect x="756" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="865" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Mencia GARIA</text>
+<text x="865" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Ev. security</text>
+<rect x="1001" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="1110" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Bobby REMSIDE</text>
+<text x="1110" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Ev. brewery</text>
+<rect x="1001" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="1110" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Adrian FERLANDER</text>
+<text x="1110" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Ev. bars</text>
+<rect x="1001" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="1110" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Olla BERWICK</text>
+<text x="1110" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Ev. Restaurant</text>
+<rect x="1001" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="1110" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Cassie MURDOCK</text>
+<text x="1110" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Ev. food</text>
+<rect x="1246" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="1355" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Elianna KNOWLES</text>
+<text x="1355" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Vice-présidente</text>
+<rect x="634" y="26" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="742" y="56" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Saskia</text>
+<text x="742" y="94" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Présidente</text>
+</svg>

@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1485 630" role="img" aria-label="Organigramme de nexstar-media">
+<rect width="100%" height="100%" fill="#111e2d"/>
+<path d="M375 478 V502 H375 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H130 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M130 228 V252 H130 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H375 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M865 353 V378 H865 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H620 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M375 353 V378 H375 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M1110 353 V378 H1110 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H865 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H1110 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H1355 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M130 353 V378 H130 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M865 228 V252 H865 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M865 478 V502 H865 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M1110 478 V502 H1110 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M130 478 V502 H130 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M1110 228 V252 H1110 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M375 228 V252 H375 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<rect x="21" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="130" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Min-Soo CHIN</text>
+<text x="130" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Korean Broadcast.</text>
+<rect x="21" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="130" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Huayu HONG</text>
+<text x="130" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Shangai Media</text>
+<rect x="21" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="130" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Adam GAMBLE</text>
+<text x="130" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Altice</text>
+<rect x="21" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="130" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Sarah KELLINGTON</text>
+<text x="130" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directrice</text>
+<rect x="266" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="375" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Rafaelle LECLAIR</text>
+<text x="375" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">AFP</text>
+<rect x="266" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="375" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Keeara FOSTER</text>
+<text x="375" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Reuters</text>
+<rect x="266" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="375" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Denis BENSON</text>
+<text x="375" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Asociated Press</text>
+<rect x="266" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="375" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Dylan McKNIGHT</text>
+<text x="375" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directeur</text>
+<rect x="511" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="620" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Scarlett McBRIDE</text>
+<text x="620" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directrice</text>
+<rect x="756" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="865" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Allie OSBORN</text>
+<text x="865" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Qrate retail</text>
+<rect x="756" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="865" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Kun JIN</text>
+<text x="865" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Bytedance</text>
+<rect x="756" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="865" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Yazhu LEI</text>
+<text x="865" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Tencent</text>
+<rect x="756" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="865" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Willow O&#x27;DONNELL</text>
+<text x="865" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directrice</text>
+<rect x="1001" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="1110" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Leena WOLENSKI</text>
+<text x="1110" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">nexbuilding</text>
+<rect x="1001" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="1110" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Kyle VUNDERSHER</text>
+<text x="1110" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Nexcasting</text>
+<rect x="1001" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="1110" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Sullivan HERNANDEZ</text>
+<text x="1110" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Nexgames</text>
+<rect x="1001" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="1110" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Christan STANBJORN</text>
+<text x="1110" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directeur</text>
+<rect x="1246" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="1355" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Wei SHI</text>
+<text x="1355" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Vice-présidente</text>
+<rect x="634" y="26" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="742" y="56" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Gabriella AUSTIN</text>
+<text x="742" y="94" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Présidente</text>
+</svg>

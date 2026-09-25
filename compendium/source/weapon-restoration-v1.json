@@ -1,0 +1,2108 @@
+{
+  "version": 1,
+  "method": "WebP quality 90, original transparent margins trimmed, max dimension 1920 px; no upscaling",
+  "restored": [
+    {
+      "source": "Tala PW Tomahawk.png",
+      "asset": "equipement-014-tala-th-029-tomahawk.webp",
+      "originalSize": [
+        1463,
+        739
+      ],
+      "previousSize": [
+        890,
+        449
+      ],
+      "newSize": [
+        1081,
+        655
+      ],
+      "previousBytes": 30928,
+      "newBytes": 68904
+    },
+    {
+      "source": "Sunway P Charm.png",
+      "asset": "equipement-266-charm-prototype.webp",
+      "originalSize": [
+        768,
+        768
+      ],
+      "previousSize": [
+        120,
+        120
+      ],
+      "newSize": [
+        768,
+        768
+      ],
+      "previousBytes": 7810,
+      "newBytes": 158724
+    },
+    {
+      "source": "Sunway DGR 022 Savior.png",
+      "asset": "equipement-297-sunways-savior-dgr.webp",
+      "originalSize": [
+        5120,
+        1502
+      ],
+      "previousSize": [
+        280,
+        82
+      ],
+      "newSize": [
+        1920,
+        559
+      ],
+      "previousBytes": 6048,
+      "newBytes": 90750
+    },
+    {
+      "source": "Sunway BK Hornetouch.png",
+      "asset": "equipement-302-sunways-hornetouch.webp",
+      "originalSize": [
+        3501,
+        3142
+      ],
+      "previousSize": [
+        240,
+        215
+      ],
+      "newSize": [
+        1920,
+        1214
+      ],
+      "previousBytes": 7412,
+      "newBytes": 186608
+    },
+    {
+      "source": "SFU MG-02 Nebullar.png",
+      "asset": "equipement-305-sfu-nebullar.webp",
+      "originalSize": [
+        873,
+        525
+      ],
+      "previousSize": [
+        280,
+        168
+      ],
+      "newSize": [
+        810,
+        438
+      ],
+      "previousBytes": 6046,
+      "newBytes": 29624
+    },
+    {
+      "source": "Seungli PW Jagi.png",
+      "asset": "equipement-278-jagi.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        280,
+        280
+      ],
+      "newSize": [
+        713,
+        793
+      ],
+      "previousBytes": 6886,
+      "newBytes": 82858
+    },
+    {
+      "source": "Seungli pP-04 eolgul-e.png",
+      "asset": "equipement-313-eolgul-e.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        260,
+        260
+      ],
+      "newSize": [
+        918,
+        802
+      ],
+      "previousBytes": 7290,
+      "newBytes": 99528
+    },
+    {
+      "source": "Seungli MG-10 Bisbal.png",
+      "asset": "equipement-307-bibal.webp",
+      "originalSize": [
+        1440,
+        770
+      ],
+      "previousSize": [
+        280,
+        150
+      ],
+      "newSize": [
+        1261,
+        443
+      ],
+      "previousBytes": 4288,
+      "newBytes": 52554
+    },
+    {
+      "source": "Seungli LMG-06 Bi.png",
+      "asset": "equipement-304-bi.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        260,
+        260
+      ],
+      "newSize": [
+        994,
+        647
+      ],
+      "previousBytes": 7354,
+      "newBytes": 92694
+    },
+    {
+      "source": "Seungli HP-04 jotkka.png",
+      "asset": "equipement-311-jotkka.webp",
+      "originalSize": [
+        1095,
+        730
+      ],
+      "previousSize": [
+        280,
+        187
+      ],
+      "newSize": [
+        1044,
+        560
+      ],
+      "previousBytes": 5724,
+      "newBytes": 48694
+    },
+    {
+      "source": "Sehdia LP-x « Dracula».png",
+      "asset": "equipement-318-dracula-prototype.webp",
+      "originalSize": [
+        1550,
+        1114
+      ],
+      "previousSize": [
+        280,
+        201
+      ],
+      "newSize": [
+        1327,
+        1021
+      ],
+      "previousBytes": 6476,
+      "newBytes": 157250
+    },
+    {
+      "source": "Sehdia hP-x « Zeus».png",
+      "asset": "equipement-317-zeus-prototype.webp",
+      "originalSize": [
+        5475,
+        3650
+      ],
+      "previousSize": [
+        280,
+        187
+      ],
+      "newSize": [
+        1920,
+        797
+      ],
+      "previousBytes": 7346,
+      "newBytes": 282872
+    },
+    {
+      "source": "SeaWares WSG-02 « Poséidon ».png",
+      "asset": "equipement-012-seawares-hl-02-poseidon.webp",
+      "originalSize": [
+        5354,
+        2199
+      ],
+      "previousSize": [
+        1600,
+        697
+      ],
+      "newSize": [
+        1920,
+        569
+      ],
+      "previousBytes": 70788,
+      "newBytes": 103126
+    },
+    {
+      "source": "Raven-Sehdia HP-x « reminiscer».png",
+      "asset": "equipement-315-reminiscer-prototype.webp",
+      "originalSize": [
+        1024,
+        742
+      ],
+      "previousSize": [
+        280,
+        203
+      ],
+      "newSize": [
+        1002,
+        601
+      ],
+      "previousBytes": 7444,
+      "newBytes": 61000
+    },
+    {
+      "source": "Raven-Sehdia HP-x « Oblivion».png",
+      "asset": "equipement-316-oblivion-prototype.webp",
+      "originalSize": [
+        4180,
+        2430
+      ],
+      "previousSize": [
+        280,
+        163
+      ],
+      "newSize": [
+        1920,
+        1123
+      ],
+      "previousBytes": 6522,
+      "newBytes": 161986
+    },
+    {
+      "source": "Raven-Sehdia HP-00 « Pacificateur ».png",
+      "asset": "equipement-312-raven-sehdia-pacificateur-x.webp",
+      "originalSize": [
+        1143,
+        699
+      ],
+      "previousSize": [
+        280,
+        171
+      ],
+      "newSize": [
+        1134,
+        590
+      ],
+      "previousBytes": 5774,
+      "newBytes": 59824
+    },
+    {
+      "source": "Raven UCC « Black Dog ».png",
+      "asset": "equipement-087-raven-black-dog.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        220,
+        220
+      ],
+      "newSize": [
+        657,
+        1024
+      ],
+      "previousBytes": 7452,
+      "newBytes": 119758
+    },
+    {
+      "source": "Raven TM-028 « Riot force ».png",
+      "asset": "equipement-007-raven-tm-028-riot-control.webp",
+      "originalSize": [
+        13552,
+        4854
+      ],
+      "previousSize": [
+        280,
+        100
+      ],
+      "newSize": [
+        1920,
+        346
+      ],
+      "previousBytes": 2852,
+      "newBytes": 86308
+    },
+    {
+      "source": "Raven SP-016 « Raven Spear ».png",
+      "asset": "equipement-006-raven-sp-016-raven-spear.webp",
+      "originalSize": [
+        8944,
+        1785
+      ],
+      "previousSize": [
+        280,
+        56
+      ],
+      "newSize": [
+        1920,
+        311
+      ],
+      "previousBytes": 1834,
+      "newBytes": 36888
+    },
+    {
+      "source": "Raven SB-038 « Claymore ».png",
+      "asset": "equipement-005-raven-cl-038-claymore.webp",
+      "originalSize": [
+        8108,
+        2241
+      ],
+      "previousSize": [
+        280,
+        77
+      ],
+      "newSize": [
+        1920,
+        457
+      ],
+      "previousBytes": 2964,
+      "newBytes": 47562
+    },
+    {
+      "source": "Raven PW Shadow gift.png",
+      "asset": "equipement-279-shadow-gift.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        280,
+        280
+      ],
+      "newSize": [
+        1024,
+        1024
+      ],
+      "previousBytes": 3860,
+      "newBytes": 74254
+    },
+    {
+      "source": "Raven PW Ravenegg.png",
+      "asset": "equipement-270-raven-ravenegg.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        240,
+        240
+      ],
+      "newSize": [
+        773,
+        951
+      ],
+      "previousBytes": 7252,
+      "newBytes": 146642
+    },
+    {
+      "source": "Raven PP-012 « Defender ».png",
+      "asset": "equipement-019-raven-pp-012-defender.webp",
+      "originalSize": [
+        694,
+        548
+      ],
+      "previousSize": [
+        280,
+        221
+      ],
+      "newSize": [
+        508,
+        479
+      ],
+      "previousBytes": 6214,
+      "newBytes": 29448
+    },
+    {
+      "source": "Raven P Railway to hell.png",
+      "asset": "equipement-268-raven-sehdia-railway-to-hell-prototype.webp",
+      "originalSize": [
+        7965,
+        3152
+      ],
+      "previousSize": [
+        280,
+        111
+      ],
+      "newSize": [
+        1920,
+        689
+      ],
+      "previousBytes": 6564,
+      "newBytes": 123556
+    },
+    {
+      "source": "Raven P Hitman.png",
+      "asset": "equipement-010-raven-mc-025-hitman.webp",
+      "originalSize": [
+        1316,
+        1195
+      ],
+      "previousSize": [
+        140,
+        127
+      ],
+      "newSize": [
+        1316,
+        1195
+      ],
+      "previousBytes": 7162,
+      "newBytes": 407672
+    },
+    {
+      "source": "Raven MG-072 « Neo-Executionner ».png",
+      "asset": "equipement-034-raven-lmg-072-neo-executionner.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        280,
+        280
+      ],
+      "newSize": [
+        1024,
+        518
+      ],
+      "previousBytes": 6362,
+      "newBytes": 44866
+    },
+    {
+      "source": "Raven MG-027 « Executionner ».png",
+      "asset": "equipement-033-raven-lmg-027-executionner.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        280,
+        280
+      ],
+      "newSize": [
+        1024,
+        425
+      ],
+      "previousBytes": 5932,
+      "newBytes": 43050
+    },
+    {
+      "source": "Raven LP-004 « Sturdy ».png",
+      "asset": "equipement-021-raven-lp-004-sturdy.webp",
+      "originalSize": [
+        1198,
+        667
+      ],
+      "previousSize": [
+        280,
+        156
+      ],
+      "newSize": [
+        732,
+        533
+      ],
+      "previousBytes": 3868,
+      "newBytes": 39738
+    },
+    {
+      "source": "Raven LMG-072 « Military »_v1.png",
+      "asset": "equipement-029-raven-mgp-072-military.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        280,
+        280
+      ],
+      "newSize": [
+        853,
+        700
+      ],
+      "previousBytes": 7452,
+      "newBytes": 68648
+    },
+    {
+      "source": "Raven HP-067 « Gardien ».png",
+      "asset": "equipement-025-raven-hp-067-gardien.webp",
+      "originalSize": [
+        1198,
+        667
+      ],
+      "previousSize": [
+        280,
+        156
+      ],
+      "newSize": [
+        1093,
+        571
+      ],
+      "previousBytes": 5440,
+      "newBytes": 51216
+    },
+    {
+      "source": "Raven HP-014 « Pacificateur ».png",
+      "asset": "equipement-024-raven-hp-014-pacificateur.webp",
+      "originalSize": [
+        1015,
+        560
+      ],
+      "previousSize": [
+        280,
+        154
+      ],
+      "newSize": [
+        985,
+        469
+      ],
+      "previousBytes": 7480,
+      "newBytes": 50212
+    },
+    {
+      "source": "Raven GL Bomberman.png",
+      "asset": "equipement-280-raven-bomberman.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        280,
+        280
+      ],
+      "newSize": [
+        1024,
+        478
+      ],
+      "previousBytes": 7304,
+      "newBytes": 76378
+    },
+    {
+      "source": "Raven ESW 014 « Immobilisateur »..png",
+      "asset": "equipement-017-raven-ht-014-immobilisateur.webp",
+      "originalSize": [
+        4096,
+        4096
+      ],
+      "previousSize": [
+        760,
+        760
+      ],
+      "newSize": [
+        1920,
+        1342
+      ],
+      "previousBytes": 58944,
+      "newBytes": 489612
+    },
+    {
+      "source": "Raven DG 011 Painkiller.png",
+      "asset": "equipement-301-raven-painkiller.webp",
+      "originalSize": [
+        5120,
+        5120
+      ],
+      "previousSize": [
+        280,
+        280
+      ],
+      "newSize": [
+        1920,
+        737
+      ],
+      "previousBytes": 5372,
+      "newBytes": 173898
+    },
+    {
+      "source": "Raven BS 02 stretchy.png",
+      "asset": "equipement-287-stretchy.webp",
+      "originalSize": [
+        9380,
+        1050
+      ],
+      "previousSize": [
+        280,
+        31
+      ],
+      "newSize": [
+        1920,
+        146
+      ],
+      "previousBytes": 1022,
+      "newBytes": 37480
+    },
+    {
+      "source": "Raven BPV 09 «Black feathers».png",
+      "asset": "equipement-083-raven-black-feathers.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        240,
+        240
+      ],
+      "newSize": [
+        669,
+        1024
+      ],
+      "previousBytes": 7462,
+      "newBytes": 165020
+    },
+    {
+      "source": "Raven ACC « Gallowglass II».png",
+      "asset": "equipement-091-raven-gallowglass-ii-legere.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        180,
+        180
+      ],
+      "newSize": [
+        757,
+        1022
+      ],
+      "previousBytes": 7248,
+      "newBytes": 157634
+    },
+    {
+      "source": "Phoenix UCC « Silver knight ».png",
+      "asset": "equipement-088-phoenix-silver-knight.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        200,
+        200
+      ],
+      "newSize": [
+        673,
+        1018
+      ],
+      "previousBytes": 7322,
+      "newBytes": 166896
+    },
+    {
+      "source": "Phoenix PW Inferno.png",
+      "asset": "equipement-271-phoenix-inferno.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        280,
+        280
+      ],
+      "newSize": [
+        475,
+        997
+      ],
+      "previousBytes": 7496,
+      "newBytes": 71194
+    },
+    {
+      "source": "Phoenix PW Helios II.png",
+      "asset": "equipement-273-phoenix-helios-ii.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        240,
+        240
+      ],
+      "newSize": [
+        617,
+        975
+      ],
+      "previousBytes": 7350,
+      "newBytes": 119816
+    },
+    {
+      "source": "Phoenix PP-078 « Sunnyroshima».png",
+      "asset": "equipement-314-phoenix-sunnyroshima.webp",
+      "originalSize": [
+        855,
+        1024
+      ],
+      "previousSize": [
+        200,
+        240
+      ],
+      "newSize": [
+        775,
+        860
+      ],
+      "previousBytes": 7446,
+      "newBytes": 130104
+    },
+    {
+      "source": "Phoenix P Vampire killer.png",
+      "asset": "equipement-009-phoenix-pw-026-vampire-killer.webp",
+      "originalSize": [
+        5120,
+        3840
+      ],
+      "previousSize": [
+        220,
+        165
+      ],
+      "newSize": [
+        1920,
+        1341
+      ],
+      "previousBytes": 7476,
+      "newBytes": 210346
+    },
+    {
+      "source": "Phoenix P Vader.png",
+      "asset": "equipement-269-phoenix-vader-prototype.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        280,
+        280
+      ],
+      "newSize": [
+        904,
+        532
+      ],
+      "previousBytes": 5978,
+      "newBytes": 46588
+    },
+    {
+      "source": "Phoenix P Flak Cannon.png",
+      "asset": "equipement-264-flak-cannon-prototype.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        220,
+        220
+      ],
+      "newSize": [
+        1021,
+        671
+      ],
+      "previousBytes": 7272,
+      "newBytes": 150780
+    },
+    {
+      "source": "Phoenix MG-018 « Urban ».png",
+      "asset": "equipement-032-phoenix-lmg-018-urban.webp",
+      "originalSize": [
+        1113,
+        1024
+      ],
+      "previousSize": [
+        280,
+        258
+      ],
+      "newSize": [
+        1049,
+        577
+      ],
+      "previousBytes": 7200,
+      "newBytes": 72488
+    },
+    {
+      "source": "Phoenix LP-028 « Sun blast »_V2.png",
+      "asset": "equipement-022-phoenix-lp-028-sun-blast.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        260,
+        260
+      ],
+      "newSize": [
+        919,
+        788
+      ],
+      "previousBytes": 7458,
+      "newBytes": 103286
+    },
+    {
+      "source": "Phoenix LMG-042 « Equalizer »_V1.png",
+      "asset": "equipement-030-phoenix-mgp-042-equalizer.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        260,
+        260
+      ],
+      "newSize": [
+        887,
+        692
+      ],
+      "previousBytes": 7410,
+      "newBytes": 74224
+    },
+    {
+      "source": "Phoenix k «Feather».png",
+      "asset": "equipement-003-phoenix-pck-08-feather.webp",
+      "originalSize": [
+        4053,
+        1362
+      ],
+      "previousSize": [
+        280,
+        94
+      ],
+      "newSize": [
+        1920,
+        358
+      ],
+      "previousBytes": 4658,
+      "newBytes": 143494
+    },
+    {
+      "source": "Phoenix HP-092 « Depliant ».png",
+      "asset": "equipement-027-phoenix-hp-092-depliant.webp",
+      "originalSize": [
+        1218,
+        656
+      ],
+      "previousSize": [
+        280,
+        151
+      ],
+      "newSize": [
+        1065,
+        571
+      ],
+      "previousBytes": 5974,
+      "newBytes": 59976
+    },
+    {
+      "source": "Phoenix HP-028 « Violator ».png",
+      "asset": "equipement-026-phoenix-hp-028-violator.webp",
+      "originalSize": [
+        1218,
+        656
+      ],
+      "previousSize": [
+        280,
+        151
+      ],
+      "newSize": [
+        917,
+        537
+      ],
+      "previousBytes": 4684,
+      "newBytes": 60370
+    },
+    {
+      "source": "Phoenix GL Easte Bunny.png",
+      "asset": "equipement-281-phoenix-easter-bunny.webp",
+      "originalSize": [
+        1024,
+        505
+      ],
+      "previousSize": [
+        280,
+        138
+      ],
+      "newSize": [
+        935,
+        471
+      ],
+      "previousBytes": 7374,
+      "newBytes": 56032
+    },
+    {
+      "source": "Phoenix DG 007 RedCrush.png",
+      "asset": "equipement-300-phoenix-redcrush.webp",
+      "originalSize": [
+        5120,
+        2108
+      ],
+      "previousSize": [
+        280,
+        115
+      ],
+      "newSize": [
+        1920,
+        832
+      ],
+      "previousBytes": 6344,
+      "newBytes": 266554
+    },
+    {
+      "source": "Phoenix BPV  « Sun Shield ».png",
+      "asset": "equipement-085-phoenix-sun-shield.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        200,
+        200
+      ],
+      "newSize": [
+        720,
+        999
+      ],
+      "previousBytes": 7126,
+      "newBytes": 229628
+    },
+    {
+      "source": "Phoenix BK-02« King Fist ».png",
+      "asset": "equipement-282-phoenix-king-fist.webp",
+      "originalSize": [
+        4158,
+        2514
+      ],
+      "previousSize": [
+        200,
+        121
+      ],
+      "newSize": [
+        1920,
+        927
+      ],
+      "previousBytes": 7398,
+      "newBytes": 379606
+    },
+    {
+      "source": "Phoenix BA-037 « Sun Axe » V2.png",
+      "asset": "equipement-004-phoenix-ba-037-sun-axe.webp",
+      "originalSize": [
+        4812,
+        6295
+      ],
+      "previousSize": [
+        214,
+        280
+      ],
+      "newSize": [
+        1778,
+        1920
+      ],
+      "previousBytes": 6396,
+      "newBytes": 322040
+    },
+    {
+      "source": "Phoenix ACC « Sun king».png",
+      "asset": "equipement-095-phoenix-sun-king.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        180,
+        180
+      ],
+      "newSize": [
+        842,
+        1024
+      ],
+      "previousBytes": 7418,
+      "newBytes": 165724
+    },
+    {
+      "source": "Phoenix ACC « Skylord III».png",
+      "asset": "equipement-092-phoenix-skylord-iii.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        180,
+        180
+      ],
+      "newSize": [
+        874,
+        1015
+      ],
+      "previousBytes": 7240,
+      "newBytes": 244748
+    },
+    {
+      "source": "Owl UCC « New guard».png",
+      "asset": "equipement-089-owl-new-guard.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        180,
+        180
+      ],
+      "newSize": [
+        809,
+        1024
+      ],
+      "previousBytes": 7488,
+      "newBytes": 204988
+    },
+    {
+      "source": "Owl TS-009 « Sun Wukong ».png",
+      "asset": "equipement-008-owl-ts-009-sun-wukong.webp",
+      "originalSize": [
+        8944,
+        1785
+      ],
+      "previousSize": [
+        280,
+        56
+      ],
+      "newSize": [
+        1920,
+        149
+      ],
+      "previousBytes": 2466,
+      "newBytes": 55784
+    },
+    {
+      "source": "Owl PW Superchoc.png",
+      "asset": "equipement-274-owl-superchoc.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        280,
+        280
+      ],
+      "newSize": [
+        640,
+        890
+      ],
+      "previousBytes": 7136,
+      "newBytes": 102742
+    },
+    {
+      "source": "Owl PW Dripper.png",
+      "asset": "equipement-272-owl-dripper.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        280,
+        280
+      ],
+      "newSize": [
+        488,
+        1017
+      ],
+      "previousBytes": 7326,
+      "newBytes": 92348
+    },
+    {
+      "source": "Owl PP-014 « Old Colt ».png",
+      "asset": "equipement-018-owl-pp-014-old-colt.webp",
+      "originalSize": [
+        579,
+        456
+      ],
+      "previousSize": [
+        260,
+        205
+      ],
+      "newSize": [
+        563,
+        425
+      ],
+      "previousBytes": 7276,
+      "newBytes": 25692
+    },
+    {
+      "source": "Owl P Sheer Blue Shell Attack.png",
+      "asset": "equipement-265-sheer-blueshell-a-prototype.webp",
+      "originalSize": [
+        1455,
+        1379
+      ],
+      "previousSize": [
+        220,
+        209
+      ],
+      "newSize": [
+        1233,
+        995
+      ],
+      "previousBytes": 7386,
+      "newBytes": 236698
+    },
+    {
+      "source": "Owl MG-092 « Gladius ».png",
+      "asset": "equipement-031-owl-lmg-092-gladius.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        280,
+        280
+      ],
+      "newSize": [
+        1024,
+        419
+      ],
+      "previousBytes": 5460,
+      "newBytes": 32466
+    },
+    {
+      "source": "Owl LT-015 « Inabilitor».png",
+      "asset": "equipement-016-owl-lt-015-incapaciteur.webp",
+      "originalSize": [
+        4096,
+        4096
+      ],
+      "previousSize": [
+        666,
+        665
+      ],
+      "newSize": [
+        1920,
+        1686
+      ],
+      "previousBytes": 51566,
+      "newBytes": 365794
+    },
+    {
+      "source": "Owl LP-019 « Acceptable ».png",
+      "asset": "equipement-020-owl-lp-019-acceptable.webp",
+      "originalSize": [
+        1218,
+        656
+      ],
+      "previousSize": [
+        280,
+        151
+      ],
+      "newSize": [
+        742,
+        484
+      ],
+      "previousBytes": 3898,
+      "newBytes": 35808
+    },
+    {
+      "source": "Owl LMG-062 « Suppressor »_v1.png",
+      "asset": "equipement-028-owl-mgp-062-suppressor.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        280,
+        280
+      ],
+      "newSize": [
+        805,
+        603
+      ],
+      "previousBytes": 7424,
+      "newBytes": 61282
+    },
+    {
+      "source": "Owl KB-73 « Last Encounter ».png",
+      "asset": "equipement-002-owl-ka-73-last-encounter.webp",
+      "originalSize": [
+        7474,
+        1703
+      ],
+      "previousSize": [
+        280,
+        64
+      ],
+      "newSize": [
+        1920,
+        259
+      ],
+      "previousBytes": 3806,
+      "newBytes": 66668
+    },
+    {
+      "source": "Owl HP-104 « Deputy ».png",
+      "asset": "equipement-023-owl-hp-104-deputy.webp",
+      "originalSize": [
+        1067,
+        667
+      ],
+      "previousSize": [
+        280,
+        175
+      ],
+      "newSize": [
+        1026,
+        512
+      ],
+      "previousBytes": 5500,
+      "newBytes": 37702
+    },
+    {
+      "source": "Owl HP-081« Apex ».png",
+      "asset": "equipement-309-owl-apex.webp",
+      "originalSize": [
+        1199,
+        667
+      ],
+      "previousSize": [
+        280,
+        156
+      ],
+      "newSize": [
+        1148,
+        451
+      ],
+      "previousBytes": 5534,
+      "newBytes": 38366
+    },
+    {
+      "source": "Owl GL vending Machine.png",
+      "asset": "equipement-277-owl-vending-machine.webp",
+      "originalSize": [
+        1024,
+        420
+      ],
+      "previousSize": [
+        280,
+        115
+      ],
+      "newSize": [
+        968,
+        367
+      ],
+      "previousBytes": 5196,
+      "newBytes": 31096
+    },
+    {
+      "source": "Owl BPV 04 «Bullets fear ».png",
+      "asset": "equipement-084-owl-bullets-fear.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        240,
+        240
+      ],
+      "newSize": [
+        777,
+        939
+      ],
+      "previousBytes": 7178,
+      "newBytes": 156886
+    },
+    {
+      "source": "Owl ACC « Night guard».png",
+      "asset": "equipement-093-owl-night-guard.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        180,
+        180
+      ],
+      "newSize": [
+        891,
+        1024
+      ],
+      "previousBytes": 7234,
+      "newBytes": 248848
+    },
+    {
+      "source": "Owl ACC « Moon guard».png",
+      "asset": "equipement-096-owl-moon-guard.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        180,
+        180
+      ],
+      "newSize": [
+        813,
+        1008
+      ],
+      "previousBytes": 7434,
+      "newBytes": 144480
+    },
+    {
+      "source": "Ocean master  SBS 01 « free fly».png",
+      "asset": "equipement-098-ocean-master-free-fly.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        180,
+        180
+      ],
+      "newSize": [
+        781,
+        1024
+      ],
+      "previousBytes": 7358,
+      "newBytes": 163306
+    },
+    {
+      "source": "Monarch MG-01 « Surge ».png",
+      "asset": "equipement-306-monarch-surge.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        280,
+        280
+      ],
+      "newSize": [
+        1024,
+        388
+      ],
+      "previousBytes": 5332,
+      "newBytes": 29222
+    },
+    {
+      "source": "Icecorp  SBS 01 « Santa Clothes».png",
+      "asset": "equipement-099-icecorps-santa-clothes.webp",
+      "originalSize": [
+        639,
+        715
+      ],
+      "previousSize": [
+        197,
+        220
+      ],
+      "newSize": [
+        466,
+        709
+      ],
+      "previousBytes": 7488,
+      "newBytes": 94458
+    },
+    {
+      "source": "Byronn Wm Melinette.png",
+      "asset": "equipement-286-byron-melinette.webp",
+      "originalSize": [
+        9600,
+        6000
+      ],
+      "previousSize": [
+        280,
+        175
+      ],
+      "newSize": [
+        1920,
+        1270
+      ],
+      "previousBytes": 6424,
+      "newBytes": 191846
+    },
+    {
+      "source": "Byron WSG-09 « Thethyssette».png",
+      "asset": "equipement-263-byron-tethyssette.webp",
+      "originalSize": [
+        4597,
+        2339
+      ],
+      "previousSize": [
+        1600,
+        850
+      ],
+      "newSize": [
+        1920,
+        423
+      ],
+      "previousBytes": 61644,
+      "newBytes": 77886
+    },
+    {
+      "source": "Byron wh 02 pierrette.png",
+      "asset": "equipement-285-pierrette.webp",
+      "originalSize": [
+        9600,
+        9881
+      ],
+      "previousSize": [
+        253,
+        260
+      ],
+      "newSize": [
+        1827,
+        1920
+      ],
+      "previousBytes": 7376,
+      "newBytes": 224514
+    },
+    {
+      "source": "Byron UUC « king worker VII ».png",
+      "asset": "equipement-090-byron-king-worker-vii.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        120,
+        120
+      ],
+      "newSize": [
+        1024,
+        1018
+      ],
+      "previousBytes": 7308,
+      "newBytes": 290398
+    },
+    {
+      "source": "Byron UCC « Punk life».png",
+      "asset": "equipement-086-byron-punk-life.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        200,
+        200
+      ],
+      "newSize": [
+        700,
+        1004
+      ],
+      "previousBytes": 7260,
+      "newBytes": 174708
+    },
+    {
+      "source": "Byron PW Pokeball.png",
+      "asset": "equipement-276-byron-pokeball.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        240,
+        240
+      ],
+      "newSize": [
+        899,
+        886
+      ],
+      "previousBytes": 7422,
+      "newBytes": 215140
+    },
+    {
+      "source": "Byron P Armcannon.png",
+      "asset": "equipement-267-armcannon-prototype.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        280,
+        280
+      ],
+      "newSize": [
+        992,
+        550
+      ],
+      "previousBytes": 7482,
+      "newBytes": 93306
+    },
+    {
+      "source": "Byron LP-005 Amanda jeanette.png",
+      "asset": "equipement-310-byron-jeanette.webp",
+      "originalSize": [
+        5376,
+        3584
+      ],
+      "previousSize": [
+        280,
+        187
+      ],
+      "newSize": [
+        1920,
+        1414
+      ],
+      "previousBytes": 4914,
+      "newBytes": 231422
+    },
+    {
+      "source": "Byron  pince Antoinette.png",
+      "asset": "equipement-284-mary-antoinette.webp",
+      "originalSize": [
+        7317,
+        4000
+      ],
+      "previousSize": [
+        280,
+        153
+      ],
+      "newSize": [
+        1920,
+        973
+      ],
+      "previousBytes": 6376,
+      "newBytes": 171392
+    },
+    {
+      "source": "Bridgeeclectrics  SBS 01 « no Fire».png",
+      "asset": "equipement-097-bridgeelectrics-no-fire.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        200,
+        200
+      ],
+      "newSize": [
+        726,
+        1012
+      ],
+      "previousBytes": 7304,
+      "newBytes": 159722
+    },
+    {
+      "source": "Biosun SBS 01 « Medicarmor ».png",
+      "asset": "equipement-100-biosun-medicarmor.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        180,
+        180
+      ],
+      "newSize": [
+        806,
+        1024
+      ],
+      "previousBytes": 7386,
+      "newBytes": 152630
+    },
+    {
+      "source": "Biosun PW Frogegg.png",
+      "asset": "equipement-275-biosun-frog-egg.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        120,
+        120
+      ],
+      "newSize": [
+        1024,
+        1024
+      ],
+      "previousBytes": 7450,
+      "newBytes": 211544
+    },
+    {
+      "source": "biosun DGR 004 Pandemic.png",
+      "asset": "equipement-296-biosun-pandemic.webp",
+      "originalSize": [
+        5120,
+        1625
+      ],
+      "previousSize": [
+        280,
+        89
+      ],
+      "newSize": [
+        1920,
+        539
+      ],
+      "previousBytes": 4882,
+      "newBytes": 96334
+    },
+    {
+      "source": "biosun DG 007 Disease.png",
+      "asset": "equipement-298-disease.webp",
+      "originalSize": [
+        5120,
+        5120
+      ],
+      "previousSize": [
+        240,
+        240
+      ],
+      "newSize": [
+        1920,
+        1143
+      ],
+      "previousBytes": 7216,
+      "newBytes": 222178
+    },
+    {
+      "source": "Biosun AR Blastard.png",
+      "asset": "equipement-303-biosun-blastard-injector.webp",
+      "originalSize": [
+        4854,
+        3354
+      ],
+      "previousSize": [
+        280,
+        194
+      ],
+      "newSize": [
+        1920,
+        303
+      ],
+      "previousBytes": 3556,
+      "newBytes": 146378
+    },
+    {
+      "source": "Owl AR-071 « Howling ».png",
+      "asset": "equipement-037-owl-ar-071-howling.webp",
+      "originalSize": [
+        4160,
+        1807
+      ],
+      "previousSize": [
+        300,
+        130
+      ],
+      "newSize": [
+        1920,
+        812
+      ],
+      "previousBytes": 4452,
+      "newBytes": 199838
+    },
+    {
+      "source": "Phoenix AR-124 « Mutilator ».png",
+      "asset": "equipement-035-phoenix-ar-124-mutilator.webp",
+      "originalSize": [
+        4096,
+        2105
+      ],
+      "previousSize": [
+        300,
+        154
+      ],
+      "newSize": [
+        1920,
+        873
+      ],
+      "previousBytes": 6038,
+      "newBytes": 191154
+    },
+    {
+      "source": "Phoenix AR-124 « Sunlight ».png",
+      "asset": "equipement-038-phoenix-ar-124-sunlight.webp",
+      "originalSize": [
+        3895,
+        2053
+      ],
+      "previousSize": [
+        300,
+        158
+      ],
+      "newSize": [
+        1920,
+        791
+      ],
+      "previousBytes": 5708,
+      "newBytes": 250212
+    },
+    {
+      "source": "Raven AR-027 « Rampager »_.png",
+      "asset": "equipement-036-raven-ar-027-rampager.webp",
+      "originalSize": [
+        4096,
+        1899
+      ],
+      "previousSize": [
+        300,
+        139
+      ],
+      "newSize": [
+        1920,
+        823
+      ],
+      "previousBytes": 4852,
+      "newBytes": 190762
+    },
+    {
+      "source": "Seungli MG-19 Sal-in.png",
+      "asset": "equipement-288-sal-in.webp",
+      "originalSize": [
+        4096,
+        1867
+      ],
+      "previousSize": [
+        300,
+        137
+      ],
+      "newSize": [
+        1920,
+        865
+      ],
+      "previousBytes": 4854,
+      "newBytes": 212636
+    },
+    {
+      "source": "Biosun AR Newlifeform_Acidic teeth.png",
+      "asset": "equipement-290-biosun-aciditicteeth.webp",
+      "originalSize": [
+        1199,
+        667
+      ],
+      "previousSize": [
+        300,
+        167
+      ],
+      "newSize": [
+        1144,
+        469
+      ],
+      "previousBytes": 10160,
+      "newBytes": 138968
+    },
+    {
+      "source": "Byron AR-001 Danielle Morissette.png",
+      "asset": "equipement-289-morissette.webp",
+      "originalSize": [
+        4096,
+        1541
+      ],
+      "previousSize": [
+        300,
+        113
+      ],
+      "newSize": [
+        1920,
+        681
+      ],
+      "previousBytes": 4930,
+      "newBytes": 130096
+    },
+    {
+      "source": "Insurrection SR-000 kennedy.png",
+      "asset": "equipement-294-abraham-kennedy.webp",
+      "originalSize": [
+        4188,
+        1261
+      ],
+      "previousSize": [
+        300,
+        90
+      ],
+      "newSize": [
+        1920,
+        490
+      ],
+      "previousBytes": 4450,
+      "newBytes": 128504
+    },
+    {
+      "source": "Owl SR-017 « Big Game Hunter  ».png",
+      "asset": "equipement-039-owl-sr-017-big-game-hunter.webp",
+      "originalSize": [
+        2827,
+        1164
+      ],
+      "previousSize": [
+        300,
+        124
+      ],
+      "newSize": [
+        1920,
+        558
+      ],
+      "previousBytes": 3248,
+      "newBytes": 96340
+    },
+    {
+      "source": "Owl SR-029 « Hoot ».png",
+      "asset": "equipement-040-owl-sr-029-hoot.webp",
+      "originalSize": [
+        7136,
+        2540
+      ],
+      "previousSize": [
+        300,
+        107
+      ],
+      "newSize": [
+        1920,
+        503
+      ],
+      "previousBytes": 5398,
+      "newBytes": 120030
+    },
+    {
+      "source": "Phoenix SR-034 « Phantom ».png",
+      "asset": "equipement-042-phoenix-sr-034-phantom.webp",
+      "originalSize": [
+        2539,
+        717
+      ],
+      "previousSize": [
+        300,
+        85
+      ],
+      "newSize": [
+        1920,
+        357
+      ],
+      "previousBytes": 2738,
+      "newBytes": 64310
+    },
+    {
+      "source": "Raven SR-029 « Deathbringer ».png",
+      "asset": "equipement-041-raven-sr-029-deathbringer.webp",
+      "originalSize": [
+        3750,
+        1370
+      ],
+      "previousSize": [
+        300,
+        110
+      ],
+      "newSize": [
+        1920,
+        498
+      ],
+      "previousBytes": 3382,
+      "newBytes": 79954
+    },
+    {
+      "source": "Raven-Sehdia SR-00 «hellrails».png",
+      "asset": "equipement-295-raven-sehdia-hellrails.webp",
+      "originalSize": [
+        4858,
+        1669
+      ],
+      "previousSize": [
+        300,
+        103
+      ],
+      "newSize": [
+        1920,
+        472
+      ],
+      "previousBytes": 4898,
+      "newBytes": 91276
+    },
+    {
+      "source": "Seungli SR-09 song-gos.png",
+      "asset": "equipement-292-song-gos.webp",
+      "originalSize": [
+        2820,
+        654
+      ],
+      "previousSize": [
+        300,
+        70
+      ],
+      "newSize": [
+        1920,
+        442
+      ],
+      "previousBytes": 3102,
+      "newBytes": 70294
+    },
+    {
+      "source": "Byron SR-004 Leana Luzette.png",
+      "asset": "equipement-293-byron-luzette.webp",
+      "originalSize": [
+        2950,
+        907
+      ],
+      "previousSize": [
+        300,
+        92
+      ],
+      "newSize": [
+        1920,
+        518
+      ],
+      "previousBytes": 4174,
+      "newBytes": 82674
+    },
+    {
+      "source": "Raven PW Cuchulainn.png",
+      "asset": "equipement-013-raven-jl-014-cuchulainn.webp",
+      "originalSize": [
+        1024,
+        1024
+      ],
+      "previousSize": [
+        1238,
+        1239
+      ],
+      "newSize": [
+        775,
+        1024
+      ],
+      "previousBytes": 29980,
+      "newBytes": 29684
+    },
+    {
+      "source": "Raven CB-010 « Black Arrow».png",
+      "asset": "equipement-261-black-arrow.webp",
+      "originalSize": [
+        4096,
+        4096
+      ],
+      "previousSize": [
+        960,
+        960
+      ],
+      "newSize": [
+        1920,
+        1303
+      ],
+      "previousBytes": 67294,
+      "newBytes": 383558
+    },
+    {
+      "source": "Owl SG-016 « Boss ».png",
+      "asset": "equipement-045-owl-sg-016-boss.webp",
+      "originalSize": [
+        5742,
+        2668
+      ],
+      "previousSize": [
+        480,
+        113
+      ],
+      "newSize": [
+        1920,
+        494
+      ],
+      "previousBytes": 13446,
+      "newBytes": 95818
+    },
+    {
+      "source": "Phoenix SG-042 « Fire Rain ».png",
+      "asset": "equipement-046-phoenix-sg-042-fire-rain.webp",
+      "originalSize": [
+        4867,
+        2880
+      ],
+      "previousSize": [
+        480,
+        163
+      ],
+      "newSize": [
+        1920,
+        686
+      ],
+      "previousBytes": 13420,
+      "newBytes": 137698
+    },
+    {
+      "source": "Raven SG-025 « Riot Control ».png",
+      "asset": "equipement-043-raven-sg-025-riot-control.webp",
+      "originalSize": [
+        4096,
+        4096
+      ],
+      "previousSize": [
+        480,
+        117
+      ],
+      "newSize": [
+        1920,
+        523
+      ],
+      "previousBytes": 8122,
+      "newBytes": 74562
+    },
+    {
+      "source": "Raven SG-039 « Croaker ».png",
+      "asset": "equipement-044-raven-sg-039-croaker.webp",
+      "originalSize": [
+        4560,
+        2383
+      ],
+      "previousSize": [
+        480,
+        127
+      ],
+      "newSize": [
+        1920,
+        546
+      ],
+      "previousBytes": 10148,
+      "newBytes": 97032
+    },
+    {
+      "source": "Nextar B-00 Championship.png",
+      "asset": "equipement-262-nextar-championship.webp",
+      "originalSize": [
+        2772,
+        4578
+      ],
+      "previousSize": [
+        1600,
+        901
+      ],
+      "newSize": [
+        945,
+        1920
+      ],
+      "previousBytes": 147134,
+      "newBytes": 287554
+    },
+    {
+      "source": "Owl CB-014 « Chasseur ».png",
+      "asset": "equipement-011-owl-lc-014-chasseur.webp",
+      "originalSize": [
+        4096,
+        4096
+      ],
+      "previousSize": [
+        1200,
+        400
+      ],
+      "newSize": [
+        1920,
+        1413
+      ],
+      "previousBytes": 80814,
+      "newBytes": 423736
+    }
+  ],
+  "unmatchedOriginals": [
+    "Sunway DG 041 Healer.png",
+    "Seungli k-00 Golijagi.png",
+    "Seawares SBS 01 « Cthulhu killer».png",
+    "raven_2.png",
+    "Raven KB-08 karas.png",
+    "Raven HP-015 « Pacificateur ».png",
+    "Raven ACC « Gallowglass IV».png",
+    "Raven  K « Hellthorn».png",
+    "Raven  K « blaclaws».png",
+    "Phoenix SB-014 «cuttermaster ».png",
+    "Phoenix SB -029 Khopesh.png",
+    "Phoenix PW Steel feathers.png",
+    "Phoenix LP-028 « Sun blast ».png",
+    "Phoenix k «Sunbeak».png",
+    "Phoenix HP-092 « Depliant »_mode plié.png",
+    "Phoenix B-00 hunter.png",
+    "Phoenix  SBS 01 « Muad'Dib».png",
+    "Owl SB-011«nextcalibur ».png",
+    "Owl PW «superballs ».png",
+    "Owl k « Resonnancer».png",
+    "Owl k « Owlcaws».png",
+    "Owl BA-09 Circular.png",
+    "Insurrection SP-000 New partisan.png",
+    "byron BH 0018_ destructionner.png",
+    "biosun NK 001 injection .png",
+    "Phoenix SG-031 « Fire starter ».png",
+    "Seungli SG-02 Pal.png",
+    "Byron SG-001 Miranda Cosette.png",
+    "Owl SG-011 « Stooge ».png",
+    "Raven AR-029 « Blastard »_.png"
+  ]
+}

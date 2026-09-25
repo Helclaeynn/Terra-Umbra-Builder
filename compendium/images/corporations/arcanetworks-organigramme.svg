@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1485 630" role="img" aria-label="Organigramme de arcanetworks">
+<rect width="100%" height="100%" fill="#111e2d"/>
+<path d="M375 478 V502 H375 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H130 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M130 228 V252 H130 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H375 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M865 353 V378 H865 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H620 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M620 478 V502 H620 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M375 353 V378 H375 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M1110 353 V378 H1110 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H865 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H1110 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M742 103 V128 H1355 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M130 353 V378 H130 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M865 228 V252 H865 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M620 228 V252 H620 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M865 478 V502 H865 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M620 353 V378 H620 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M1110 478 V502 H1110 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M130 478 V502 H130 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M1110 228 V252 H1110 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<path d="M375 228 V252 H375 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
+<rect x="21" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="130" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Peter VARRIS</text>
+<text x="130" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">BrainClasher</text>
+<rect x="21" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="130" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Blair McGUY</text>
+<text x="130" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">winnerBrains</text>
+<rect x="21" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="130" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Zimra WENDHELTZ</text>
+<text x="130" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Backplug</text>
+<rect x="21" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="130" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Lucille HEWITT</text>
+<text x="130" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directrice</text>
+<rect x="266" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="375" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Lucy TRAEGER</text>
+<text x="375" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">AvatarLeader</text>
+<rect x="266" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="375" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Laurin BERGER</text>
+<text x="375" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">HoloWorld</text>
+<rect x="266" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="375" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Ismael ROSENTHAL</text>
+<text x="375" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">CyberYou</text>
+<rect x="266" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="375" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Aiden RIGGS</text>
+<text x="375" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directeur</text>
+<rect x="511" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="620" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Bryan MURPHY</text>
+<text x="620" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Holostation</text>
+<rect x="511" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="620" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Lucas KEITH</text>
+<text x="620" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Holophone first</text>
+<rect x="511" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="620" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Levana RABINOVICN</text>
+<text x="620" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">G&amp;W prod..</text>
+<rect x="511" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="620" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Keira COBBS</text>
+<text x="620" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directrice</text>
+<rect x="756" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="865" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Annagrazia FERRELI</text>
+<text x="865" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Myhologuard</text>
+<rect x="756" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="865" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Yoshikaku HAMAGAWA</text>
+<text x="865" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Assistance network</text>
+<rect x="756" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="865" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Yeshain HEINHORN</text>
+<text x="865" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Arcana love</text>
+<rect x="756" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="865" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Yuko YAHIRO</text>
+<text x="865" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directrice</text>
+<rect x="1001" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="1110" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Sa-bin HYUN</text>
+<text x="1110" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">SecretControl</text>
+<rect x="1001" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="1110" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Arthur McCHATAIN</text>
+<text x="1110" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">CyberWatch</text>
+<rect x="1001" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="1110" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Sharona DAVID</text>
+<text x="1110" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Holowalls ind.</text>
+<rect x="1001" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="1110" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Brody HOOVER</text>
+<text x="1110" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directeur</text>
+<rect x="1246" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="1355" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Kristia JACOBSEN</text>
+<text x="1355" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Vice-Présidente</text>
+<rect x="634" y="26" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
+<text x="742" y="56" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Zebediah JACOBSEN</text>
+<text x="742" y="94" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Président</text>
+</svg>
