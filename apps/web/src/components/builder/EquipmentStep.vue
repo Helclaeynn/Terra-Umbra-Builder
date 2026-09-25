@@ -59,6 +59,7 @@ const customChargeName=ref("");
 const customChargeMonthly=ref("");
 
 const state=computed(()=>props.modelValue as unknown as import("../../lib/reality").RealityState);
+function housingArtwork(item:RealityItem){return /^equipement-(?:219|22\d|23[0-4])-/.test(item.compendiumId||"")||/logement|studio|dortoir|résidence|appartement|penthouse|villa|squat|planque|cache improvisée/i.test(item.name);}
 const items=computed(()=>realityItemMap(props.rules));
 const economy=computed(()=>props.style
   ?realityEconomic(props.rules,state.value,props.style,props.edge)
@@ -516,7 +517,7 @@ function setCorporateSupportItem(itemId:string){
             <h4><span>{{ group.label }}</span><span class="family-count">{{ group.items.length }}</span></h4>
             <div class="catalog-grid">
               <article v-for="item in group.items" :key="item.id" class="catalog-card recurring-card">
-                <BuilderCatalogImage :article-id="item.compendiumId" :name="item.name" category="Équipement & Objets" />
+                <BuilderCatalogImage :article-id="item.compendiumId" :name="item.name" category="Équipement & Objets" :large="housingArtwork(item)" />
                 <div class="catalog-head"><div>
                   <strong><BuilderWikiLink :label="item.name" :article-id="item.compendiumId" category="Équipement & Objets" :detail="wikiDetail(item)" :badges="wikiBadges(item)" /></strong>
                   <small>{{ item.category }} · {{ item.recurring === "annual" ? "facturation annuelle" : "facturation mensuelle" }}</small>
@@ -897,7 +898,7 @@ function setCorporateSupportItem(itemId:string){
               </h4>
               <div class="catalog-grid">
                 <article v-for="item in group.items" :key="item.id" class="catalog-card">
-                  <BuilderCatalogImage :article-id="item.compendiumId" :name="item.name" category="Équipement & Objets" />
+                  <BuilderCatalogImage :article-id="item.compendiumId" :name="item.name" category="Équipement & Objets" :large="housingArtwork(item)" />
                   <div class="catalog-head">
                     <div><strong><BuilderWikiLink
                         :label="item.name"
