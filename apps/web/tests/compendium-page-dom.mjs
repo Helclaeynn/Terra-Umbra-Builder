@@ -287,6 +287,20 @@ for (const npc of additionalNpcs) {
   } finally { reader.close(); }
 }
 {
+  const reader=await mount({role:'admin',initialRoute:'/compendium?category=R%C3%A9alit%C3%A9&q=Page'});
+  try{
+    await waitFor(()=>reader.d.querySelector('.search-active-filters button[aria-label="Retirer la rubrique Réalité"]'),'The active category chip appears');
+    reader.d.querySelector('.search-active-filters button[aria-label="Retirer la rubrique Réalité"]').click();
+    await waitFor(()=>reader.page.route().includes('q=Page')&&!reader.page.route().includes('category='),'Clearing one filter keeps the search');
+    check('un filtre actif se retire sans perdre les autres critères',()=>{
+      assert(reader.d.querySelector('.search-active-filters button[aria-label="Retirer la recherche Page"]'));
+      assert.equal(reader.d.querySelector('.search-active-filters button[aria-label="Retirer la rubrique Réalité"]'),null);
+      assert.deepEqual(reader.errors,[]);
+    });
+  }finally{reader.close();}
+}
+
+{
   const reader = await mount({ role: "admin", initialRoute: "/compendium?category=OLD" });
   try {
     await waitFor(() => reader.authReady() && reader.d.querySelector(".main-result-card"), "Retired category recovers the active article list");
