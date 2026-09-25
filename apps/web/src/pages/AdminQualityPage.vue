@@ -306,7 +306,7 @@ onMounted(load);
       </RouterLink>
       <nav aria-label="Navigation de la recette">
         <RouterLink to="/account">Mon espace</RouterLink>
-        <RouterLink to="/compendium">Compendium</RouterLink>
+        <RouterLink to="/compendium">Compendium</RouterLink>\n        <RouterLink to="/admin/arbitrage">Recette 2 · Arbitrages</RouterLink>
         <RouterLink v-if="quality" to="/compendium/new?category=Personnages&amp;template=npc">Créer un PNJ canonique</RouterLink>
         <button type="button" :disabled="loading || Boolean(busyId)" @click="load">{{ loading ? "Actualisation…" : "Actualiser" }}</button>
       </nav>
