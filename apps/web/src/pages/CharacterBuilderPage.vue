@@ -3057,8 +3057,8 @@ textarea:focus{border-color:#6cb5ff;box-shadow:0 0 0 2px rgba(108,181,255,.14)}
 .truth-disclosure-summary small{color:#a1b5cc;font-size:.8125rem}
 .truth-disclosure-intro{margin:.1rem 0 1rem;color:#b3c5d9;font-size:.84rem;line-height:1.55}
 .truth-reveal-section,.truth-free-section{margin-top:1.5rem;padding:0 0 .25rem;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.05)}
-.truth-talent-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem;padding:.75rem;border-top:1px solid rgba(255,255,255,.06)}
-.truth-talent-entry{display:grid;position:relative}
+.truth-talent-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:.65rem;padding:.75rem;border-top:1px solid rgba(255,255,255,.06)}
+.truth-talent-entry{box-sizing:border-box;flex:0 1 calc((100% - 1.3rem)/3);min-width:0;display:grid;position:relative}
 .truth-talent-card{display:grid;gap:.55rem;width:100%;padding:.9rem;padding-bottom:2.05rem;border:1px solid #2b3b51;text-align:left;color:#edf4ff;background:rgba(255,255,255,.015)}
 .truth-talent-wiki{position:absolute;left:.9rem;bottom:.55rem;font-size:.8125rem;color:#6fb9d6}
 .truth-talent-card:hover:not(:disabled){border-color:rgba(100,222,245,.38)}
@@ -3229,5 +3229,7 @@ textarea:focus{border-color:#6cb5ff;box-shadow:0 0 0 2px rgba(108,181,255,.14)}
 }
 @media(prefers-reduced-motion:reduce){.builder-card{animation:none}.knowledge-drawer,.choice-card,.builder-progress-track span{transition:none}}
 
-.truth-talent-grid{display:grid;grid-template-columns:1fr!important;gap:10px}.truth-talent-entry{min-width:0}.truth-talent-card{text-align:left;width:100%;padding:16px 20px}.truth-talent-head{display:flex;justify-content:space-between;gap:20px}.truth-talent-head>span{white-space:nowrap;color:#a3ecfa}.knowledge-item>p{white-space:pre-line}
+.truth-talent-card{text-align:left;width:100%;padding:16px 20px}.truth-talent-head{display:flex;justify-content:space-between;gap:20px}.truth-talent-head>span{white-space:nowrap;color:#a3ecfa}.knowledge-item>p{white-space:pre-line}
+@media(max-width:850px){.truth-talent-entry{flex-basis:calc((100% - .65rem)/2)}}
+@media(max-width:550px){.truth-talent-entry{flex-basis:100%}}
 </style>
