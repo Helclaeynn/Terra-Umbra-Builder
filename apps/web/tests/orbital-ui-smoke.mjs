@@ -222,6 +222,8 @@ try {
     await assertLayout(page, `Validation MJ ${width}`);
     page.once("dialog", dialog => dialog.accept());
     await approve.click();
+    await page.locator('#gm-requests > summary').filter({hasText:'0 en attente'}).waitFor();
+    if(await page.locator('#gm-requests').getAttribute('open')===null)await page.locator('#gm-requests > summary').click();
     await page.getByText("Aucune demande en attente.", { exact: true }).waitFor();
     await page.getByRole("link", { name: "0 demande MJ en attente ↓", exact: true }).waitFor();
     // A client-side transition also exercises the shared stylesheet cascade.
