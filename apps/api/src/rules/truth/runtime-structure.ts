@@ -68,11 +68,6 @@ export const truthRuntimeStructure = {
               "description": "Des pratiques modernes et syncrétiques autour des morts, de la terre, des seuils, des présages et des serments."
             },
             {
-              "id": "chasse_fantastique",
-              "name": "Chasse Fantastique — Vénerie surnaturelle",
-              "description": "Ancienne armée punitive elfique de la Guerre de la Magie devenue Vénerie surnaturelle : poursuite, chevauchée, coordination et Tempête anti-magique."
-            },
-            {
               "id": "lueurs_azmenor",
               "name": "Lueurs d’Azménor",
               "description": "Une petite tradition issue d’un héritage azménorien : ses visions viennent réellement du Néant, mais leur interprétation peut être erronée."
