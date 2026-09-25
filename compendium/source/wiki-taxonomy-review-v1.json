@@ -826,7 +826,8 @@
         "regles-verite-v7-corruption-integrite-bascule#souillure",
         "regles-verite-v7-corruption-integrite-bascule#bascule"
       ],
-      "note": "Famine Blanche: Loge d’Écume transmet des Rites sans accorder automatiquement les Dons. La Rupture dépend de la Nature initiale; ses formes relèvent du Bestiaire."
+      "note": "Famine Blanche: Loge d’Écume transmet des Rites sans accorder automatiquement les Dons. La Rupture dépend de la Nature initiale; ses formes relèvent du Bestiaire.",
+      "stage": "links-applied-taxonomy-pending"
     },
     {
       "id": "regles-verite-v7-fleau-vaagor",
@@ -841,7 +842,8 @@
         "regles-verite-v7-corruption-integrite-bascule#souillure",
         "regles-verite-v7-corruption-integrite-bascule#bascule"
       ],
-      "note": "Deimonisme, Longinus, Faux, Fontaine et Œil Blanc sont des voies distinctes. Les Deimons ne fournissent ni serviteurs gratuits ni PA; leur corruption ne supprime pas leur Nature."
+      "note": "Deimonisme, Longinus, Faux, Fontaine et Œil Blanc sont des voies distinctes. Les Deimons ne fournissent ni serviteurs gratuits ni PA; leur corruption ne supprime pas leur Nature.",
+      "stage": "links-applied-taxonomy-pending"
     },
     {
       "id": "regles-verite-v7-fleau-sharith",
@@ -856,7 +858,8 @@
         "regles-verite-v7-corruption-integrite-bascule#souillure",
         "regles-verite-v7-corruption-integrite-bascule#bascule"
       ],
-      "note": "Division agit sur des propriétés existantes. Retour fissile de Nucléomancie ne remplace pas Souillure; Psycolors relèvent du Bestiaire."
+      "note": "Division agit sur des propriétés existantes. Retour fissile de Nucléomancie ne remplace pas Souillure; Psycolors relèvent du Bestiaire.",
+      "stage": "links-applied-taxonomy-pending"
     },
     {
       "id": "regles-verite-v7-fleau-vhadhi",
@@ -871,7 +874,8 @@
         "regles-verite-v7-corruption-integrite-bascule#souillure",
         "regles-verite-v7-corruption-integrite-bascule#bascule"
       ],
-      "note": "Éden Gris est une institution et ses grades ne sont pas des PTV. La Bascule fixe une Finalité dépendant de la trajectoire, sans progression PJ après Rupture."
+      "note": "Éden Gris est une institution et ses grades ne sont pas des PTV. La Bascule fixe une Finalité dépendant de la trajectoire, sans progression PJ après Rupture.",
+      "stage": "links-applied-taxonomy-pending"
     },
     {
       "id": "regles-verite-v7-fleau-shaoggith",
@@ -886,7 +890,8 @@
         "regles-verite-v7-corruption-integrite-bascule#souillure",
         "regles-verite-v7-corruption-integrite-bascule#bascule"
       ],
-      "note": "Anciennes mutations ne prouvent pas une Corruption héréditaire. Les Maîtres des Abominations sont un statut cultuel; les Cycles sont après Rupture."
+      "note": "Anciennes mutations ne prouvent pas une Corruption héréditaire. Les Maîtres des Abominations sont un statut cultuel; les Cycles sont après Rupture.",
+      "stage": "links-applied-taxonomy-pending"
     },
     {
       "id": "regles-verite-v7-fleau-thul",
@@ -901,7 +906,8 @@
         "regles-verite-v7-corruption-integrite-bascule#souillure",
         "regles-verite-v7-corruption-integrite-bascule#bascule"
       ],
-      "note": "Sombre Culte, Dagon, Telipinu et Horde Abyssale sont des foyers distincts. Horde Abyssale ne constitue pas un arbre PTV et les Grands Thuliens relèvent du Bestiaire."
+      "note": "Sombre Culte, Dagon, Telipinu et Horde Abyssale sont des foyers distincts. Horde Abyssale ne constitue pas un arbre PTV et les Grands Thuliens relèvent du Bestiaire.",
+      "stage": "links-applied-taxonomy-pending"
     },
     {
       "id": "regles-verite-v7-mage-roue-5-portes-15-ecoles",
@@ -5038,7 +5044,7 @@
     }
   ],
   "coverage": {
-    "inventoryCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+    "inventoryCommit": "c2c93cb2f0c973939935c75e0d2584e714d95f8e",
     "activePages": 2347,
     "sections": 8779,
     "rulesRead": 65,
@@ -5047,7 +5053,10 @@
     "note": "A read entry is not a completed taxonomy pass. Earlier entries still contain pending decisions. Talent transclusion markers were read as references; generated talent pages require their own review.",
     "pagesRead": 73,
     "lorePagesRead": 7,
-    "bestiaryPagesRead": 1
+    "bestiaryPagesRead": 1,
+    "scope": "Repository corpus only; custom database pages and live wiki edits are excluded by the quality-corpus database stub. Inventoried does not mean read.",
+    "catalogue": "compendium/source/wiki-taxonomy-catalogue-v1.json",
+    "pagesNotRead": 2274
   },
   "openFindings": [
     {
@@ -5076,5 +5085,21 @@
       "finding": "Hesed mentionne Saturation de l’Arbre; retrouver une règle dédiée avant lien précis.",
       "status": "target-review-pending"
     }
-  ]
+  ],
+  "publicationReconciliation": {
+    "checkedAt": "2026-09-25",
+    "editorialFleauxCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+    "remainingRulesCommit": "1644e198e8d462a75d0719006209b5bcfd9825bc",
+    "loreCommit": "c2c93cb2f0c973939935c75e0d2584e714d95f8e",
+    "illustrations": {
+      "checkout": "terra-umbra-bestiary",
+      "localCommitsAlreadyPublished": {
+        "e1ff39ac": "176b5d29",
+        "b43c69c0": "e46f3da3"
+      },
+      "indexedFilesIdenticalToRemote": 51,
+      "indexedFilesMissingFromRemote": 0,
+      "note": "Verified Git patch equivalence for commits and blob SHA equality for each indexed file. Checkout left intact."
+    }
+  }
 }
