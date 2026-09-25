@@ -24,9 +24,15 @@ const app=Fastify();await registerCompendiumRoutes(app);
 const equipment=[...byId.values()].filter(article=>article.dataset==='equipement'||article.dataset==='verite-catalogue');
 const owl=equipment.filter(article=>article.manufacturer==='Owl');
 assert.ok(owl.length>=32,'OWL equipment must retain its source manufacturer');
-for(const article of owl)assert.equal(article.brandLogo,undefined,`Do not invent an OWL logo: ${article.id}`);
+for(const article of owl)assert.equal(article.brandLogo?.src,'images/corporations/owl-logo.webp',article.id);
 const uncovered=equipment.filter(article=>article.manufacturer&&!article.brandLogo);
-assert.ok(uncovered.some(article=>article.manufacturer==='Owl'));
+assert.ok(!uncovered.some(article=>article.manufacturer==='Owl'));
+const korean=['equipement-313-eolgul-e','equipement-311-jotkka','equipement-304-bi','equipement-307-bibal','equipement-288-sal-in','equipement-292-song-gos','equipement-278-jagi','equipement-319-soldier-armure-legere-nord-coreenne','equipement-320-heavy-soldier-armure-lourde-nord-coreenne'];
+for(const id of korean){
+  const src=byId.get(id)?.brandLogo?.src;
+  assert.equal(src,'images/corporations/north-korean-armaments-logo.webp',id);
+  assert.equal((await app.inject({method:'GET',url:'/api/compendium/media/'+src})).statusCode,200,id);
+}
 for(const article of equipment.filter(article=>article.manufacturer&&article.brandLogo)){
   const response=await app.inject({method:'GET',url:'/api/compendium/media/'+article.brandLogo.src});
   assert.equal(response.statusCode,200,article.id);
@@ -57,4 +63,4 @@ for(const item of restorations){
   assert.equal(bytes.subarray(8,12).toString('ascii'),'WEBP',item.asset);
 }
 await app.close();await pool.end();
-console.log(`${restorations.length} quality WebPs, ${logos} logos, ${charts} organization charts, ${Object.keys(brands).length} linked equipment items; ${uncovered.length} sourced manufacturers awaiting a logo (including ${owl.length} OWL pages).`);
+console.log(`${restorations.length} quality WebPs, ${logos} corporation logos, ${charts} organization charts, ${Object.keys(brands).length} linked equipment items; ${owl.length} OWL pages and ${korean.length} North Korean pages covered, ${uncovered.length} identified manufacturers still awaiting a supplied logo.`);

@@ -465,6 +465,14 @@ const EQUIPMENT_MANUFACTURERS = [
   "Tortoise"
 ];
 
+// These nine Reality entries explicitly identify their equipment as North Korean.
+const NORTH_KOREAN_EQUIPMENT_IDS = new Set([
+  "equipement-313-eolgul-e", "equipement-311-jotkka", "equipement-304-bi",
+  "equipement-307-bibal", "equipement-288-sal-in", "equipement-292-song-gos",
+  "equipement-278-jagi", "equipement-319-soldier-armure-legere-nord-coreenne",
+  "equipement-320-heavy-soldier-armure-lourde-nord-coreenne"
+]);
+
 const ARTICLE_TITLE_FIXES: Record<string, string> = {
   "regles-verite-angelus-sephirah-nesah-la-victoire": "Nesah — La Victoire"
 };
@@ -3720,6 +3728,13 @@ async function loadCorpus(): Promise<Corpus> {
           src: corporation.logo, alt: `Logo de ${corporation.name}`
         };
       }
+      if (article.manufacturer === "Owl") article.brandLogo = {
+        src: "images/corporations/owl-logo.webp", alt: "Logo d’Owl Corporation"
+      };
+      if (NORTH_KOREAN_EQUIPMENT_IDS.has(article.id)) article.brandLogo = {
+        src: "images/corporations/north-korean-armaments-logo.webp",
+        alt: "Emblème des armes nord-coréennes"
+      };
     }
     article.__searchText = norm(flattenText(article));
   }
