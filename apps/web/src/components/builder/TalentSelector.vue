@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed,ref,watch } from "vue";
 import { sortedNames } from "../../lib/catalog-order";
-import BuilderCatalogImage from './BuilderCatalogImage.vue';
 
 export type TalentOption={
   id:string;
@@ -72,7 +71,7 @@ function updateChoice(event:Event){
     <label>{{ label }} · catégorie<select v-model="selectedGroup"><option value="">— Choisir une catégorie —</option><option v-for="group in available" :key="group.label" :value="group.label">{{ group.label }} · {{ group.items.length }}</option></select></label>
     <label v-if="selectedGroup">Chercher dans cette catégorie<input v-model="query" type="search" placeholder="Nom ou effet…" /></label>
     <p v-if="!selectedGroup" class="catalog-guidance">{{ placeholder }} : choisis d’abord une catégorie pour comparer les cartes.</p>
-    <div v-else class="talent-card-grid"><button v-for="talent in visible" :key="talent.id" type="button" class="talent-choice-card" :class="{chosen:talent.id===modelValue}" :aria-pressed="talent.id===modelValue" @click="emit('update:modelValue',talent.id)"><BuilderCatalogImage :article-id="talent.compendiumId" :name="talent.name" category="Règles" /><strong>{{ talent.name }}</strong><small>{{ talent.effect||talent.description||'Consulter la fiche pour les détails.' }}</small><span>{{ talent.id===modelValue?'✓ Sélectionné':'Choisir ce talent' }}</span></button><p v-if="!visible.length">Aucun Talent dans cette catégorie pour cette recherche.</p></div>
+    <div v-else class="talent-card-grid"><button v-for="talent in visible" :key="talent.id" type="button" class="talent-choice-card" :class="{chosen:talent.id===modelValue}" :aria-pressed="talent.id===modelValue" @click="emit('update:modelValue',talent.id)"><strong>{{ talent.name }}</strong><small>{{ talent.effect||talent.description||'Consulter la fiche pour les détails.' }}</small><span>{{ talent.id===modelValue?'✓ Sélectionné':'Choisir ce talent' }}</span></button><p v-if="!visible.length">Aucun Talent dans cette catégorie pour cette recherche.</p></div>
 
     <template v-if="selected">
       <div v-if="choiceSpec" class="talent-choice">
@@ -109,7 +108,7 @@ function updateChoice(event:Event){
 
 <style scoped>
 .talent-selector{display:grid;gap:14px;margin:0 0 24px;max-width:900px;color:#edf4ff;font-family:Inter,"Segoe UI",sans-serif}
-.talent-card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,210px),1fr));gap:12px}.talent-choice-card{display:grid;align-content:start;gap:8px;padding:10px;text-align:left;border:1px solid #36536b;border-radius:8px;background:#101e30;color:#edf4ff;cursor:pointer;font:inherit}.talent-choice-card.chosen{border-color:#77e3da;background:#16343e}.talent-choice-card small{color:#b3c5d9;line-height:1.5}.talent-choice-card span{color:#77e3da}.catalog-guidance{color:#b3c5d9;margin:0}
+.talent-card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:8px}.talent-choice-card{display:grid;align-content:start;gap:5px;min-height:76px;padding:12px 14px;text-align:left;border:1px solid #36536b;border-radius:8px;background:#101e30;color:#edf4ff;cursor:pointer;font:inherit}.talent-choice-card.chosen{border-color:#77e3da;background:#16343e}.talent-choice-card small{color:#b3c5d9;line-height:1.5}.talent-choice-card span{color:#77e3da;font-size:12px}.catalog-guidance{color:#b3c5d9;margin:0}
 .talent-selector>label,.talent-choice label{display:grid;gap:8px;color:#c3d2e4;font-size:14px;line-height:1.5}
 .talent-select-shell{min-width:0}
 .talent-select-shell select,.talent-choice :is(select,input){width:100%;min-width:0;min-height:44px;border-radius:6px;font:inherit}
