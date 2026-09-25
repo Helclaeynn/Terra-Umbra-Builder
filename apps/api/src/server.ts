@@ -25,7 +25,8 @@ import {
 import { databaseStatus, pool } from "./db.js";
 import { registerCharacterRoutes } from "./characters.js";
 import { preloadCompendium, registerCompendiumRoutes } from "./compendium.js";
-import { registerQualityRoutes } from "./quality.js";\nimport { registerArbitrageRoutes } from "./arbitrage.js";
+import { registerQualityRoutes } from "./quality.js";
+import { registerArbitrageRoutes } from "./arbitrage.js";
 import { approvePendingGmRequest, registerGmAccessRoutes } from "./gm-access.js";
 import { preloadBuilderRules, registerRulesRoutes } from "./rules/index.js";
 import { passwordResetMailAvailable, sendPasswordResetEmail } from "./mail.js";
@@ -935,7 +936,8 @@ app.get("/api/admin/audit", async (request, reply) => {
 await registerCharacterRoutes(app);
 await registerRulesRoutes(app);
 await registerCompendiumRoutes(app);
-await registerQualityRoutes(app);\nawait registerArbitrageRoutes(app);
+await registerQualityRoutes(app);
+await registerArbitrageRoutes(app);
 await registerGmAccessRoutes(app);
 
 // Build the Compendium once during service startup so the first visitor
