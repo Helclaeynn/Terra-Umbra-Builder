@@ -557,6 +557,7 @@ const relatedArticles = computed(() => {
   };
 
   for (const section of article.sections ?? []) {
+    if (section.audience === 'mj' && !canReadMjSections.value) continue;
     for (const block of section.blocks ?? []) {
       if (block?.type === "p") collect(block.text);
       if (block?.type === "table" && Array.isArray(block.rows)) {
@@ -570,6 +571,7 @@ const relatedArticles = computed(() => {
   return [...ids]
     .map((id) => wikiById.get(id))
     .filter((entry): entry is WikiEntry => Boolean(entry))
+    .filter((entry) => canReadMjSections.value || !(article.category === 'Personnages' && entry.category === 'Personnages'))
     .slice(0, 12);
 });
 
@@ -599,6 +601,7 @@ const dossierArticles = computed(() => {
   const explicitIds = new Set(relatedArticles.value.map((entry) => entry.id));
   return [...wikiById.values()]
     .filter((entry) => entry.id !== article.id && !explicitIds.has(entry.id))
+    .filter((entry) => canReadMjSections.value || !(article.category === 'Personnages' && entry.category === 'Personnages'))
     .filter((entry) => {
       if (context.mode === "manufacturer") {
         return Boolean(article.manufacturer) && entry.manufacturer === article.manufacturer;
@@ -1362,14 +1365,7 @@ async function loadArticle(id: string, section = "") {
 }
 
 async function chooseCategory(name: string) {
-  showOnboarding.value = false;
-  activeLibraryView.value = "";
-  selected.value = null;
-  query.value = "";
-  category.value = category.value === name ? "" : name;
-  searchFamily.value='';
-  if (category.value !== "Équipement & Objets") manufacturer.value = "";
-  await search();
+  await router.push({ path: '/compendium', query: name ? { category: name } : { view: 'all' } });
 }
 
 async function openNewcomer() {
@@ -2113,6 +2109,7 @@ onBeforeUnmount(() => {
                         <button type="button" aria-label="Réduire la taille du texte" :disabled="readerFontSize <= 15" @click="readerFontSize--">A−</button>
                         <button type="button" aria-label="Agrandir la taille du texte" :disabled="readerFontSize >= 21" @click="readerFontSize++">A+</button>
                         <button type="button" :aria-pressed="readerFocus" @click="readerFocus = !readerFocus">{{ readerFocus ? 'Vue complète' : 'Lecture' }}</button>
+                        <button v-if="currentUser" class="reader-favorite" type="button" :aria-pressed="selectedIsFavorite" :disabled="libraryBusy" @click="toggleFavorite(selected.id)">{{ selectedIsFavorite ? '★ Favori' : '☆ Ajouter aux favoris' }}</button>
                       </div>
                     </div>
                     <div class="article-breadcrumb">
@@ -2184,17 +2181,7 @@ onBeforeUnmount(() => {
                       <span v-if="canEdit && selected.__wikiPublishedEdit">Édition wiki publiée</span>
                     </div>
 
-                    <div v-if="currentUser" class="article-library-actions">
-                      <button
-                        class="favorite-button"
-                        :class="{ active: selectedIsFavorite }"
-                        type="button"
-                        :disabled="libraryBusy"
-                        @click="toggleFavorite(selected.id)"
-                      >
-                        {{ selectedIsFavorite ? "★ Retirer des favoris" : "☆ Ajouter aux favoris" }}
-                      </button>
-
+                    <div v-if="currentUser && collections.length" class="article-library-actions">
                       <button
                         v-for="collection in collections"
                         :key="collection.id"
@@ -3542,7 +3529,8 @@ onBeforeUnmount(() => {
 .wiki-hover-image {
   width: 100%;
   max-height: 150px;
-  object-fit: cover;
+  object-fit: contain;
+  background: #0b1726;
   margin-bottom: .25rem;
   border: 1px solid #344b62;
   border-radius: 4px;
@@ -4193,6 +4181,9 @@ kbd{margin-left:12px;color:#819bb5;font:10px/1.3 Consolas,monospace}
 .reader-tools{display:flex;gap:6px}
 .reader-tools button{min-height:36px;min-width:36px;padding:7px 10px;border:1px solid #344b64;border-radius:4px;background:#102032;color:#d0e1f4;font-size:12px;cursor:pointer}
 .reader-tools button[aria-pressed="true"]{border-color:var(--tu-accent);color:var(--tu-accent)}
+.reader-tools .reader-favorite{border-color:#8e794a;color:#f9d88d;background:#30291e;white-space:nowrap}
+.reader-tools .reader-favorite[aria-pressed="true"]{border-color:#f9d88d;color:#1c1710;background:#f9d88d}
+.navigation-group>summary,.category-card-heading{user-select:none}
 .reader-tools button:disabled{opacity:.45;cursor:default}
 .wiki-breadcrumbs{color:#91adc9;font-size:11px;line-height:1.7}
 .wiki-title-line{gap:14px;margin:14px 0}

@@ -1,5 +1,7 @@
 // Pools for fictional people. Nationality guides naming; it never grants a stat.
 export const NPC_NATIONALITIES=[
+ {id:'russe',name:'Russe',male:['Aleksandr','Dmitri','Ivan','Mikhaïl','Nikolai'],female:['Anastasia','Irina','Katia','Nadia','Svetlana'],neutral:['Sasha','Valia'],last:['Ivanov','Petrov','Sokolov','Morozov','Volkov']},
+ {id:'scandinave',name:'Scandinave',male:['Erik','Lars','Magnus','Nils','Soren'],female:['Astrid','Freya','Ingrid','Liv','Signe'],neutral:['Alex','Kim'],last:['Andersson','Lindberg','Nielsen','Hansen','Berg']},
  {id:'americaine',name:'Américaine',male:['Ethan','Marcus','James','Noah','Daniel'],female:['Maya','Grace','Olivia','Hannah','Avery'],neutral:['Alex','Jordan','Taylor'],last:['Walker','Brooks','Reed','Carter','Morgan']},
  {id:'mexicaine',name:'Mexicaine',male:['Diego','Emilio','Javier','Mateo','Rafael'],female:['Camila','Lucía','Sofía','Valeria','Elena'],neutral:['Alex','Noa'],last:['Reyes','Navarro','Castillo','Morales','Vega']},
  {id:'canadienne',name:'Canadienne',male:['Gabriel','Liam','Nathan','Owen','Simon'],female:['Alice','Camille','Florence','Jade','Sarah'],neutral:['Robin','Morgan'],last:['Bouchard','Tremblay','Mercer','Laurent','Roy']},

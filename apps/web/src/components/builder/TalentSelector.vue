@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed,ref,watch } from "vue";
+import { computed } from "vue";
 import { sortedNames } from "../../lib/catalog-order";
 
 export type TalentOption={
@@ -56,10 +56,7 @@ const emit=defineEmits<{
 const selected=computed(()=>
   props.groups.flatMap((group)=>group.items).find((talent)=>talent.id===props.modelValue)??null
 );
-const selectedGroup=ref(''),query=ref('');
 const available=computed(()=>props.groups.filter(group=>group.items.length));
-watch(available,groups=>{if(selectedGroup.value&&!groups.some(group=>group.label===selectedGroup.value))selectedGroup.value='';});
-const visible=computed(()=>{const group=available.value.find(row=>row.label===selectedGroup.value);const q=query.value.trim().toLocaleLowerCase('fr');return sortedNames(group?.items||[]).filter(row=>!q||`${row.name} ${row.effect||row.description||''}`.toLocaleLowerCase('fr').includes(q));});
 
 function updateChoice(event:Event){
   emit("update:choiceValue",(event.target as HTMLInputElement|HTMLSelectElement).value);
@@ -68,10 +65,8 @@ function updateChoice(event:Event){
 
 <template>
   <section class="talent-selector">
-    <label>{{ label }} · catégorie<select v-model="selectedGroup"><option value="">— Choisir une catégorie —</option><option v-for="group in available" :key="group.label" :value="group.label">{{ group.label }} · {{ group.items.length }}</option></select></label>
-    <label v-if="selectedGroup">Chercher dans cette catégorie<input v-model="query" type="search" placeholder="Nom ou effet…" /></label>
-    <p v-if="!selectedGroup" class="catalog-guidance">{{ placeholder }} : choisis d’abord une catégorie pour comparer les cartes.</p>
-    <div v-else class="talent-card-grid"><button v-for="talent in visible" :key="talent.id" type="button" class="talent-choice-card" :class="{chosen:talent.id===modelValue}" :aria-pressed="talent.id===modelValue" @click="emit('update:modelValue',talent.id)"><strong>{{ talent.name }}</strong><small>{{ talent.effect||talent.description||'Consulter la fiche pour les détails.' }}</small><span>{{ talent.id===modelValue?'✓ Sélectionné':'Choisir ce talent' }}</span></button><p v-if="!visible.length">Aucun Talent dans cette catégorie pour cette recherche.</p></div>
+    <div v-for="group in available" :key="group.label" class="talent-group"><h3 v-if="available.length > 1">{{ group.label }}</h3><div class="talent-card-grid"><button v-for="talent in sortedNames(group.items)" :key="talent.id" type="button" class="talent-choice-card" :class="{chosen:talent.id===modelValue}" :aria-pressed="talent.id===modelValue" @click="emit('update:modelValue',talent.id)"><strong>{{ talent.name }}</strong><small>{{ talent.effect||talent.description||'Consulter la fiche pour les détails.' }}</small><span>{{ talent.id===modelValue?'✓ Sélectionné':'Choisir ce talent' }}</span></button></div></div>
+    <p v-if="!available.length" class="catalog-guidance">{{ placeholder }}</p>
 
     <template v-if="selected">
       <div v-if="choiceSpec" class="talent-choice">
@@ -107,9 +102,9 @@ function updateChoice(event:Event){
 </template>
 
 <style scoped>
-.talent-selector{display:grid;gap:14px;margin:0 0 24px;max-width:900px;color:#edf4ff;font-family:Inter,"Segoe UI",sans-serif}
-.talent-card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:8px}.talent-choice-card{display:grid;align-content:start;gap:5px;min-height:76px;padding:12px 14px;text-align:left;border:1px solid #36536b;border-radius:8px;background:#101e30;color:#edf4ff;cursor:pointer;font:inherit}.talent-choice-card.chosen{border-color:#77e3da;background:#16343e}.talent-choice-card small{color:#b3c5d9;line-height:1.5}.talent-choice-card span{color:#77e3da;font-size:12px}.catalog-guidance{color:#b3c5d9;margin:0}
-.talent-selector>label,.talent-choice label{display:grid;gap:8px;color:#c3d2e4;font-size:14px;line-height:1.5}
+.talent-selector{display:grid;gap:14px;margin:0 0 24px;max-width:none;color:#edf4ff;font-family:Inter,"Segoe UI",sans-serif}
+.talent-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.talent-choice-card{display:grid;align-content:start;gap:5px;min-height:76px;padding:12px 14px;text-align:left;border:1px solid #36536b;border-radius:8px;background:#101e30;color:#edf4ff;cursor:pointer;font:inherit}.talent-choice-card.chosen{border-color:#77e3da;background:#16343e}.talent-choice-card small{color:#b3c5d9;line-height:1.5}.talent-choice-card span{color:#77e3da;font-size:12px}.catalog-guidance{color:#b3c5d9;margin:0}
+.talent-group h3{font-size:14px;color:#b9d7e4}@media(max-width:850px){.talent-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:550px){.talent-card-grid{grid-template-columns:1fr}}.talent-selector>label,.talent-choice label{display:grid;gap:8px;color:#c3d2e4;font-size:14px;line-height:1.5}
 .talent-select-shell{min-width:0}
 .talent-select-shell select,.talent-choice :is(select,input){width:100%;min-width:0;min-height:44px;border-radius:6px;font:inherit}
 .talent-selector>label>select,.talent-selector>label>input{width:100%;min-height:44px;padding:10px;border:1px solid #36536b;border-radius:6px;background:#08131f;color:#edf4ff;font:inherit}
