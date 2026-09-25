@@ -5,6 +5,7 @@ import { applyReviewedCatalogueBatch02 } from "./compendium-reviewed-catalogue-b
 import { applyReviewedCatalogueBatch03 } from "./compendium-reviewed-catalogue-batch-03.js";
 import { applyReviewedCatalogueBatch04 } from "./compendium-reviewed-catalogue-batch-04.js";
 import { applyReviewedCatalogueBatch05 } from "./compendium-reviewed-catalogue-batch-05.js";
+import { applyReviewedCatalogueBatch06 } from "./compendium-reviewed-catalogue-batch-06.js";
 import {registerCanonicalNpcGenerator} from './canonical-npc-generator.js';
 import { createHash, randomBytes } from "node:crypto";
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
@@ -3842,6 +3843,7 @@ async function loadCorpus(): Promise<Corpus> {
   applyReviewedCatalogueBatch03(byId);
   applyReviewedCatalogueBatch04(byId);
   applyReviewedCatalogueBatch05(byId);
+  applyReviewedCatalogueBatch06(byId);
 
   const articles = [...byId.values()].sort(compareArticles);
   const publicArticles = articles.filter((article) => !isMjOnlyArticle(article)).map((article) => { const publicArticle=articleForAudience(article,false); publicArticle.__searchText=norm(flattenText(publicArticle)); return publicArticle; });
