@@ -8,6 +8,8 @@ on:
       - "apps/**"
       - "infrastructure/**"
       - "compendium/source/current-equipment-catalog-v1.json"
+      - "compendium/source/equipment-illustrations-20260923.json"
+      - "compendium/source/portrait-only-lot2-v1.json"
       - "compendium/source/reality-lore-v3-*.json"
       - "compendium/source/verite-catalog-v6.json.gz.b64"
       - "compendium/source/truth-mechanics-v6-fixed.manifest.json"
@@ -68,6 +70,10 @@ jobs:
       - name: Check equipment illustrations
         working-directory: apps/api
         run: node scripts/check-equipment-illustrations.mjs
+
+      - name: Check second portrait lot
+        working-directory: apps/api
+        run: node scripts/check-portrait-lot2.mjs
 
       - name: Check augmentation illustrations
         working-directory: apps/api

@@ -70,7 +70,10 @@ for (const article of fresh.articles) {
   const targets = [...text.matchAll(/\/compendium\?article=([a-zA-Z0-9%_.~\-]+)/g)].map((match) => decodeURIComponent(match[1]));
   assert.ok(targets.every((target) => !snapshot.includes(target)), `${article.id}: no link to a retired article`);
 }
-assert.equal(fresh.articles.filter((article) => article.category === "Personnages").length, 918);
+const characters = fresh.articles.filter((article) => article.category === "Personnages");
+const portraitOnly = JSON.parse(await readFile("../../compendium/source/portrait-only-lot2-v1.json", "utf8")).articles;
+assert.equal(characters.length, 918 + portraitOnly.length);
+assert.equal(characters.filter((article) => article.pnj?.completeness !== "portrait_only").length, 918);
 assert.equal(fresh.articles.filter((article) => article.category === "Équipement & Objets").length, 697);
 assert.equal(fresh.articles.filter((article) => article.category === "Bestiaire").length, 263);
 

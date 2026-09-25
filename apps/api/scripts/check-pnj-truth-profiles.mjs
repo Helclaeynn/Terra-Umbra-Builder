@@ -15,7 +15,7 @@ const corpus=await(await import('../dist/compendium.js')).getCompendiumQualityCo
 const byId=new Map(corpus.articles.map(person=>[person.id,person]));
 const publicById=new Map(corpus.publicArticles.map(person=>[person.id,person]));
 assert.deepEqual(NPC_TRUTH_TIERS.map(t=>t.minPtv),[0,6,13,25,41]);
-assert.equal(corpus.articles.filter(article=>article.category==='Personnages').length,918);
+assert.equal(corpus.articles.filter(article=>article.category==='Personnages'&&article.pnj?.completeness!=='portrait_only').length,918);
 assert.equal(new Set(INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS).size,610);
 assert.equal(REVIEWED_TRUTH_BATCH_001_IDS.length,98);
 assert.equal(REVIEWED_TRUTH_BATCH_002_IDS.length,100);
