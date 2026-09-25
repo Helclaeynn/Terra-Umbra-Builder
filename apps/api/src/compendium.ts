@@ -1,6 +1,7 @@
 import { applyReviewedLoreTaxonomy } from "./compendium-reviewed-lore-taxonomy.js";
 import { applyReviewedRuleTaxonomy, repairReviewedAserynOverview } from "./compendium-reviewed-rule-taxonomy.js";
 import { applyReviewedCatalogueBatch01 } from "./compendium-reviewed-catalogue-batch-01.js";
+import { applyReviewedCatalogueBatch02 } from "./compendium-reviewed-catalogue-batch-02.js";
 import {registerCanonicalNpcGenerator} from './canonical-npc-generator.js';
 import { createHash, randomBytes } from "node:crypto";
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
@@ -3834,6 +3835,7 @@ async function loadCorpus(): Promise<Corpus> {
   repairReviewedAserynOverview(byId);
   applyReviewedLoreTaxonomy(byId);
   applyReviewedCatalogueBatch01(byId);
+  applyReviewedCatalogueBatch02(byId);
 
   const articles = [...byId.values()].sort(compareArticles);
   const publicArticles = articles.filter((article) => !isMjOnlyArticle(article)).map((article) => { const publicArticle=articleForAudience(article,false); publicArticle.__searchText=norm(flattenText(publicArticle)); return publicArticle; });
