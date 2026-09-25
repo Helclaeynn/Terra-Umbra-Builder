@@ -4,14 +4,20 @@ import {onBeforeRouteLeave} from 'vue-router';
 import {api} from '../lib/api';
 import {NPC_SEXES,validNpcData,type NpcCatalog,type NpcData,type NpcArticleDraft} from '../../../api/src/campaign-npc-model';
 import CampaignNpcSheet from './CampaignNpcSheet.vue';
-const props=defineProps<{disabled?:boolean}>();
+const props=defineProps<{disabled?:boolean;maxTier?:string}>();
 const emit=defineEmits<{(e:'apply',article:NpcArticleDraft):void}>();
 const catalog=ref<NpcCatalog|null>(null),draft=ref<NpcData|null>(null),tierId=ref('lambda'),presetId=ref('garde'),sex=ref('random'),nationality=ref('random'),truthEnabled=ref(false),natureId=ref('vampire'),truthPowerId=ref('recent'),truthArchetypeId=ref('veilleur'),faction=ref(''),busy=ref(false),imageBusy=ref(false),error=ref('');
 let live=true,applied=false;
 const endpoint='/api/compendium/editor/npc-generator';
 const locked=computed(()=>busy.value||props.disabled||imageBusy.value);
 const valid=computed(()=>!!draft.value&&!!catalog.value&&validNpcData(draft.value,catalog.value));
-async function load(){try{const c=await api<NpcCatalog>(endpoint+'/catalog');if(live)catalog.value=c;}catch{if(live)error.value='Le générateur canonique est réservé aux administrateurs. Impossible de le charger.';}}
+const tierOptions=computed(()=>{
+ const tiers=catalog.value?.tiers??[];
+ if(!props.maxTier)return tiers;
+ const maximum=tiers.findIndex(t=>t.id===props.maxTier);
+ return maximum<0?tiers:tiers.slice(0,maximum+1);
+});
+async function load(){try{const c=await api<NpcCatalog>(endpoint+'/catalog');if(live){catalog.value=c;if(!tierOptions.value.some(t=>t.id===tierId.value))tierId.value=tierOptions.value.at(-1)?.id??'lambda';}}catch{if(live)error.value='Le générateur canonique est réservé aux administrateurs. Impossible de le charger.';}}
 async function generate(){if(locked.value||draft.value&&!window.confirm('Remplacer cet aperçu et ses modifications ?'))return;busy.value=true;error.value='';try{const r=await api<{npcs:NpcData[]}>(endpoint+'/generate',{method:'POST',body:JSON.stringify({tierId:tierId.value,presetId:presetId.value,sex:sex.value,nationality:nationality.value,faction:faction.value,count:1,seed:crypto.randomUUID(),truth:truthEnabled.value?{natureId:natureId.value,powerId:truthPowerId.value,archetypeId:truthArchetypeId.value}:null})});if(live){draft.value=r.npcs[0];applied=false;}}catch{if(live)error.value='Impossible de générer ce PNJ. Réessaie.';}finally{busy.value=false;}}
 async function apply(){if(!valid.value||locked.value)return;busy.value=true;error.value='';try{const r=await api<{article:NpcArticleDraft}>(endpoint+'/preview',{method:'POST',body:JSON.stringify({npc:draft.value})});if(live){applied=true;emit('apply',r.article);}}catch{if(live)error.value='Impossible de préparer le brouillon. Tes modifications sont conservées ici.';}finally{busy.value=false;}}
 function beforeUnload(e:BeforeUnloadEvent){if(draft.value&&!applied){e.preventDefault();e.returnValue='';}}
@@ -27,7 +33,7 @@ onUnmounted(()=>{live=false;window.removeEventListener('beforeunload',beforeUnlo
   <p v-if="error" role="alert">{{ error }} <button v-if="!catalog" type="button" @click="load">Réessayer</button></p>
   <template v-if="catalog">
    <fieldset :disabled="locked"><div class="choices">
-    <label>Palier du PNJ<select v-model="tierId"><option v-for="t in catalog.tiers" :key="t.id" :value="t.id">{{ t.name }}</option></select></label>
+    <label>Palier du PNJ<select v-model="tierId"><option v-for="t in tierOptions" :key="t.id" :value="t.id">{{ t.name }}</option></select></label>
     <label>Prétiré<select v-model="presetId"><option v-for="p in catalog.presets" :key="p.id" :value="p.id">{{ p.name }}</option></select></label>
     <label>Sexe à la génération<select v-model="sex"><option value="random">Aléatoire</option><option v-for="s in NPC_SEXES" :key="s.id" :value="s.id">{{ s.name }}</option></select></label>
     <label>Nationalité d’origine<select v-model="nationality"><option value="random">Aléatoire</option><option v-for="n in catalog.nationalities" :key="n.id" :value="n.id">{{ n.name }}</option></select></label>

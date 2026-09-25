@@ -1116,7 +1116,7 @@ onMounted(load);
 
         <div v-if="isAdmin && !pageId" class="panel editor-card">
           <button type="button" :disabled="busy" @click="npcGeneratorOpen=true">Préparer un PNJ canonique</button>
-          <CanonicalNpcGenerator v-if="npcGeneratorOpen" :disabled="busy" @apply="applyNpcDraft" />
+          <CanonicalNpcGenerator v-if="npcGeneratorOpen" :disabled="busy" :max-tier="route.query.maxTier==='elite'?'elite':undefined" @apply="applyNpcDraft" />
         </div>
         <div class="wiki-editor-grid">
           <section class="editor-form-column">
