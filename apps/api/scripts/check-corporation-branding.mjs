@@ -25,6 +25,16 @@ const equipment=[...byId.values()].filter(article=>article.dataset==='equipement
 const owl=equipment.filter(article=>article.manufacturer==='Owl');
 assert.ok(owl.length>=32,'OWL equipment must retain its source manufacturer');
 for(const article of owl)assert.equal(article.brandLogo?.src,'images/corporations/owl-logo.webp',article.id);
+const sehdia=equipment.filter(article=>article.manufacturer==='Raven-Sehdia');
+assert.equal(sehdia.length,3);
+for(const article of sehdia){assert.deepEqual(article.brandMarks?.map(mark=>mark.src),['images/corporations/raven-industries-logo.webp','images/corporations/sehdia-logo.webp'],article.id)}
+const ravenSunways=equipment.filter(article=>article.manufacturer==='Raven-Sunways');
+assert.equal(ravenSunways.length,1);
+assert.deepEqual(ravenSunways[0].brandMarks?.map(mark=>mark.src),['images/corporations/raven-industries-logo.webp','images/corporations/sunways-logo.webp']);
+for(const article of [...sehdia,...ravenSunways])for(const mark of article.brandMarks){
+  assert.equal((await app.inject({method:'GET',url:'/api/compendium/media/'+mark.src})).statusCode,200,article.id);
+  if(mark.corporationId)assert.ok(byId.has(mark.corporationId),mark.corporationId);
+}
 const uncovered=equipment.filter(article=>article.manufacturer&&!article.brandLogo);
 assert.ok(!uncovered.some(article=>article.manufacturer==='Owl'));
 const korean=['equipement-313-eolgul-e','equipement-311-jotkka','equipement-304-bi','equipement-307-bibal','equipement-288-sal-in','equipement-292-song-gos','equipement-278-jagi','equipement-319-soldier-armure-legere-nord-coreenne','equipement-320-heavy-soldier-armure-lourde-nord-coreenne'];

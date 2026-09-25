@@ -3731,6 +3731,29 @@ async function loadCorpus(): Promise<Corpus> {
       if (article.manufacturer === "Owl") article.brandLogo = {
         src: "images/corporations/owl-logo.webp", alt: "Logo d’Owl Corporation"
       };
+      if (article.manufacturer === "Raven-Sehdia") {
+        article.brandLogo = {
+          src: "images/corporations/raven-industries-logo.webp",
+          alt: "Logo de Raven Industries, cofabricant Raven–Sehdia"
+        };
+        article.brandCorporationId = "realite-v9-corporation-raven-industries-corporation";
+        article.brandMarks = [
+          { ...article.brandLogo, corporationId: article.brandCorporationId },
+          { src: "images/corporations/sehdia-logo.webp", alt: "Logo de Sehdia, cofabricant Raven–Sehdia" }
+        ];
+      }
+      if (article.manufacturer === "Raven-Sunways") {
+        article.brandLogo = {
+          src: "images/corporations/raven-industries-logo.webp",
+          alt: "Logo de Raven Industries, cofabricant Raven–Sunways"
+        };
+        article.brandCorporationId = "realite-v9-corporation-raven-industries-corporation";
+        article.brandMarks = [
+          { ...article.brandLogo, corporationId: article.brandCorporationId },
+          { src: "images/corporations/sunways-logo.webp", alt: "Logo de Sunways, cofabricant Raven–Sunways",
+            corporationId: "realite-v9-corporation-sunways-corporation" }
+        ];
+      }
       if (NORTH_KOREAN_EQUIPMENT_IDS.has(article.id)) article.brandLogo = {
         src: "images/corporations/north-korean-armaments-logo.webp",
         alt: "Emblème des armes nord-coréennes"
