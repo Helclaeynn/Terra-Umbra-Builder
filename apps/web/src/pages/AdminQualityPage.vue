@@ -38,6 +38,8 @@ type QualityPayload = {
     brokenMedia: number;
     pnjMissingMj: number;
     pnjMissingStats: number;
+    pnjPortraitOnly: number;
+    pnjPartial: number;
     orphanNavigation: number;
     brokenReferences: number;
     mjLeaks: number;
@@ -78,6 +80,8 @@ const issueLabels: Record<string, string> = {
   broken_media: "Image cassée",
   pnj_missing_mj: "Bloc MJ",
   pnj_missing_stats: "Stats PNJ",
+  pnj_portrait_only: "Portrait seul · fiche à rédiger",
+  pnj_partial: "Fiche PNJ partielle",
   orphan_navigation: "Navigation",
   broken_reference: "Lien cassé",
   mj_leak: "Fuite MJ"
@@ -87,6 +91,12 @@ const categories = computed(() =>
   [...new Set((quality.value?.items ?? []).map((item) => item.category).filter(Boolean))]
     .sort((a, b) => a.localeCompare(b, "fr"))
 );
+const portraitLots = computed(() => [...new Set((quality.value?.items ?? []).flatMap((item) => item.portraits.map((portrait) => portrait.lot)))].sort());
+function lotLabel(lot: string): string {
+  if (lot === "lot1") return "Lot 1 · originaux";
+  if (lot === "lot2") return "Lot 2 · portraits retravaillés";
+  return lot.replace(/^lot(\d+)$/, "Lot $1");
+}
 const groups = computed(() => [...new Set((quality.value?.items ?? []).filter((item) => !category.value || item.category === category.value).map((item) => item.group).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr")));
 const subgroups = computed(() => [...new Set((quality.value?.items ?? []).filter((item) => (!category.value || item.category === category.value) && (!group.value || item.group === group.value)).map((item) => item.subgroup).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr")));
 
@@ -343,6 +353,8 @@ onMounted(load);
             <p class="eyebrow">PNJ</p><h2>Complétude</h2>
             <div class="metric-row"><span>Vérité sans bloc MJ</span><strong>{{ quality.summary.pnjMissingMj }}</strong></div>
             <div class="metric-row"><span>Stats à compléter</span><strong>{{ quality.summary.pnjMissingStats }}</strong></div>
+            <div class="metric-row"><span>Portrait seul · fiche à rédiger</span><strong>{{ quality.summary.pnjPortraitOnly ?? 0 }}</strong></div>
+            <div class="metric-row"><span>Fiche PNJ partielle</span><strong>{{ quality.summary.pnjPartial ?? 0 }}</strong></div>
             <div class="metric-row"><span>Hors navigation</span><strong>{{ quality.summary.orphanNavigation }}</strong></div>
             <div class="metric-row"><span>Liens cassés</span><strong>{{ quality.summary.brokenReferences }}</strong></div>
           </article>
@@ -380,7 +392,7 @@ onMounted(load);
             </select></label>
             <label>Groupe<select v-model="group" @change="filtersChanged"><option value="">Tous les groupes</option><option v-for="value in groups" :key="value" :value="value">{{ value }}</option></select></label>
             <label>Sous-groupe<select v-model="subgroup" @change="filtersChanged"><option value="">Tous les sous-groupes</option><option v-for="value in subgroups" :key="value" :value="value">{{ value }}</option></select></label>
-            <label>Lot de portraits<select v-model="portraitLot" @change="filtersChanged"><option value="">Tous les lots et sans portrait</option><option value="lot1">Lot 1 · originaux</option><option value="lot2">Lot 2 · à venir</option><option value="__none">Sans lot</option></select></label>
+            <label>Lot de portraits<select v-model="portraitLot" @change="filtersChanged"><option value="">Tous les lots et sans portrait</option><option v-for="lot in portraitLots" :key="lot" :value="lot">{{ lotLabel(lot) }}</option><option value="__none">Sans lot suivi</option></select></label>
             <label>État de recette<select v-model="review" @change="filtersChanged">
               <option value="">Tous les états</option><option value="pending">À recetter</option><option value="rework">À revoir</option><option value="approved">Validés</option>
             </select></label>
@@ -400,7 +412,7 @@ onMounted(load);
                 <tr v-for="item in visibleItems" :key="item.id">
                   <td class="entry-cell" data-label="Entrée">
                     <img v-if="mediaUrl(recipePortrait(item))" :src="mediaUrl(recipePortrait(item))" :alt="item.title" loading="lazy" />
-                    <div class="entry-copy"><strong>{{ item.title }}</strong><span>{{ item.category }} · {{ item.group || item.dataset || "—" }}<template v-if="item.subgroup"> · {{ item.subgroup }}</template></span><small v-for="portrait in item.portraits" :key="portrait.lot">{{ portrait.lot === 'lot1' ? 'Lot 1 · original' : 'Lot 2' }} · {{ portrait.visibility === 'mj' ? 'MJ' : 'public' }}</small><small>{{ item.id }}</small></div>
+                    <div class="entry-copy"><strong>{{ item.title }}</strong><span>{{ item.category }} · {{ item.group || item.dataset || "—" }}<template v-if="item.subgroup"> · {{ item.subgroup }}</template></span><small v-for="portrait in item.portraits" :key="portrait.media">{{ lotLabel(portrait.lot) }} · {{ portrait.visibility === 'mj' ? 'MJ' : 'public' }}</small><small>{{ item.id }}</small></div>
                   </td>
                   <td data-label="Contrôles">
                     <div v-if="item.issues.length" class="issue-list">
