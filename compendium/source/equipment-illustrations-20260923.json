@@ -978,17 +978,17 @@
     {
       "id": "equipement-236-pass-metro-tram",
       "src": "images/manual/equipement-236-pass-metro-tram.webp",
-      "sha256": "f1c819b52f25895733c835fe2f8130d1be2174865bf30eed076cd3433f940b91"
+      "sha256": "765fa1bef29706df2c14c5847189c796c70b9c540718f139551dea252f825f41"
     },
     {
       "id": "equipement-237-mas-court-trajet",
       "src": "images/manual/equipement-237-mas-court-trajet.webp",
-      "sha256": "ba83a01689b5e4292fb950501884dea09e2f3c00206336b4f804cc1f6460ebe8"
+      "sha256": "c6a139b42c75f42ea80e27ef0311b5f28176ee258db4b5cfe69ba6976e5c4195"
     },
     {
       "id": "equipement-238-mas-trajet-long-urbain",
       "src": "images/manual/equipement-238-mas-trajet-long-urbain.webp",
-      "sha256": "3e7f6500446a14e24c16da65988f9eca791967320f60c02c9f04d47f02b73a3c"
+      "sha256": "2a15f6ba40996c3788d51bb35530f8c153a5d2d97f53e32292db1f03a32527f5"
     },
     {
       "id": "equipement-239-bull-basic",
