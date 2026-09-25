@@ -1124,8 +1124,8 @@ onMounted(load);
               <p class="eyebrow">IDENTITÉ DE LA PAGE</p>
               <label>Titre<input v-model="article.title" maxlength="240" placeholder="Titre de la page" /></label>
               <div class="editor-two">
-                <label>Statut<select v-model="article.status"><option v-if="article.status&&!editorialStatuses.some(item=>item.id===article?.status)" :value="article.status">{{ article.status }} · statut existant</option><option v-for="item in editorialStatuses" :key="item.id" :value="item.id">{{ item.label }}</option></select></label>
-                <label>Rubrique<select v-model="article.category"><option v-if="article.category&&!categories.includes(article.category)" :value="article.category">{{ article.category }} · rubrique existante</option><option v-for="item in categories" :key="item" :value="item">{{ item }}</option></select></label>
+                <label>Statut<select v-model="article.status" aria-label="Statut"><option v-if="article.status&&!editorialStatuses.some(item=>item.id===article?.status)" :value="article.status">{{ article.status }} · statut existant</option><option v-for="item in editorialStatuses" :key="item.id" :value="item.id">{{ item.label }}</option></select></label>
+                <label>Rubrique<select v-model="article.category" aria-label="Rubrique"><option v-if="article.category&&!categories.includes(article.category)" :value="article.category">{{ article.category }} · rubrique existante</option><option v-for="item in categories" :key="item" :value="item">{{ item }}</option></select></label>
               </div>
               <label>Source<input v-model="article.source" /></label>
               <label>Tags<textarea v-model="tagsText" rows="2" placeholder="Vérité, Garous, Californie…" /></label>
