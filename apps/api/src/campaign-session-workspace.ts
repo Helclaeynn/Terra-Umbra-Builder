@@ -23,7 +23,7 @@ export async function registerCampaignWorkspaceRoutes(app:FastifyInstance){
   if(!uuid.test(req.params.id))return reply.code(404).send({error:'campaign_not_found'});
   const own=await pool.query(`SELECT c.id FROM campaigns c JOIN users u ON u.id=c.owner_id WHERE c.id=$1 AND c.owner_id=$2 AND ${eligible}`,[req.params.id,user.id]);
   if(!own.rows.length)return reply.code(404).send({error:'campaign_not_found'});
-  const references=await pool.query(`SELECT DISTINCT ON (r->>'articleId') r->>'articleId' AS id,r->>'title' AS title,r->>'category' AS category,r->>'npcId' AS "npcId",'' AS snippet FROM campaign_sessions s CROSS JOIN LATERAL jsonb_array_elements(s.scenes) scene CROSS JOIN LATERAL jsonb_array_elements(scene->'references') r WHERE s.campaign_id=$1 ORDER BY r->>'articleId',s.created_at DESC LIMIT 1000`,[req.params.id]);
+  const references=await pool.query(`SELECT DISTINCT ON (r->>'articleId') r->>'articleId' AS id,r->>'title' AS title,r->>'category' AS category,r->>'npcId' AS "npcId",r->>'creatureId' AS "creatureId",'' AS snippet FROM campaign_sessions s CROSS JOIN LATERAL jsonb_array_elements(s.scenes) scene CROSS JOIN LATERAL jsonb_array_elements(scene->'references') r WHERE s.campaign_id=$1 ORDER BY r->>'articleId',s.created_at DESC LIMIT 1000`,[req.params.id]);
   const previous=await pool.query(`SELECT id,title,scenes FROM campaign_sessions WHERE campaign_id=$1 AND EXISTS(SELECT 1 FROM jsonb_array_elements(scenes) scene WHERE scene->>'done'='false') ORDER BY created_at DESC,id LIMIT 30`,[req.params.id]);
   return {references:references.rows,previous:previous.rows};
  });
