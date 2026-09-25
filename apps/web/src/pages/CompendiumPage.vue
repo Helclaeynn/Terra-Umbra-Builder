@@ -3509,6 +3509,8 @@ onBeforeUnmount(() => {
   display: grid;
   gap: 9px;
   box-sizing: border-box;
+  max-height: calc(100dvh - 24px);
+  overflow: hidden;
   padding: 20px;
   border: 1px solid #36536b;
   border-top: 2px solid var(--preview-accent);
@@ -3530,9 +3532,11 @@ onBeforeUnmount(() => {
 }
 
 .wiki-hover-image {
+  display: block;
   width: 100%;
-  max-height: 150px;
+  height: min(180px, 27dvh);
   object-fit: contain;
+  object-position: center;
   background: #0b1726;
   margin-bottom: .25rem;
   border: 1px solid #344b62;

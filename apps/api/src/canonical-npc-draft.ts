@@ -9,6 +9,7 @@ const paragraph=(text:string):NpcArticleBlock=>({type:'p',text:prose(text)});
 const table=(rows:string[][]):NpcArticleBlock=>({type:'table',rows:rows.map(row=>row.map(cell))});
 export function canonicalNpcDraft(n:NpcData):NpcArticleDraft{
  const c=NPC_CATALOG,tier=c.tiers.find(t=>t.id===n.tierId)!;
+ const civilName=[n.firstName,n.lastName].filter(Boolean).join(' ').trim()||n.name.trim();
  const derived=characterDerivedStats(id=>n.attributes[id]||0,id=>n.skills[id]||0,[]);
  const sex=NPC_SEXES.find(s=>s.id===(n.sex??'unspecified'))!.name;
  const equipmentNames=(n.equipmentIds??[]).map(id=>c.equipment.find(item=>item.id===id)?.name).filter(Boolean).join(', ');
@@ -31,7 +32,7 @@ export function canonicalNpcDraft(n:NpcData):NpcArticleDraft{
   ...n.talentIds.map(id=>{const t=c.talents.find(t=>t.id===id)!;const expertise=id==='Expertise éprouvée'?` Compétence : ${c.skills.find(s=>s.id===n.expertiseSkill)?.name}.`:'';return paragraph(`${t.name} — ${t.prerequisite}.${expertise}\n${t.effect}`);}),
   ...(n.apexSkill?[paragraph(`Apex — ${c.skills.find(s=>s.id===n.apexSkill)?.name} : ${n.apexReason}`)]:[])
  ];
- return {id:'',title:n.name.trim(),category:'Personnages',source:'Création originale',status:'canon_recent',tags:[...new Set(['réalité/PNJ',`réalité/${c.presets.find(p=>p.id===n.presetId)?.name||'PNJ'}`,...n.tags])],pnj:{real_name:n.name.trim(),sexe:sex,origine:c.nationalities.find(x=>x.id===n.nationality)?.name||n.nationality||'',statut:n.role,tags:n.tags,protect_truth_metadata:true,...(n.portrait?{portrait:n.portrait,portrait_alt:n.name.trim()}:{}),generator_profile:{tierId:n.tierId,presetId:n.presetId}},sections:[
+ return {id:'',title:n.name.trim(),category:'Personnages',source:'Création originale',status:'canon_recent',tags:[...new Set(['réalité/PNJ',`réalité/${c.presets.find(p=>p.id===n.presetId)?.name||'PNJ'}`,...n.tags])],pnj:{real_name:civilName,sexe:sex,origine:c.nationalities.find(x=>x.id===n.nationality)?.name||n.nationality||'',statut:n.role,tags:n.tags,protect_truth_metadata:true,...(n.portrait?{portrait:n.portrait,portrait_alt:n.name.trim()}:{}),generator_profile:{tierId:n.tierId,presetId:n.presetId}},sections:[
   {id:'identite-apparente',title:'Identité apparente',level:2,blocks:[table([['Identité','Valeur'],['Nom',n.name],['Prénom',n.firstName||''],['Nom de famille',n.lastName||''],['Nationalité d’origine',c.nationalities.find(x=>x.id===n.nationality)?.name||n.nationality||''],['Rôle',n.role],['Sexe',sex]]),...(n.appearance?[paragraph(n.appearance)]:[]),...(n.personality?[paragraph(n.personality)]:[])]},
   {id:'dossier-mj',title:'Dossier MJ',level:2,audience:'mj',blocks:privateFields.filter(([,value])=>value.trim()).map(([label,value])=>paragraph(`${label} : ${value}`))},
   {id:'profil-statistique',title:'Profil statistique',level:2,audience:'mj',blocks:profile},
