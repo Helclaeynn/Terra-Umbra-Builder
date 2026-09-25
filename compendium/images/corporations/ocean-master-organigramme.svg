@@ -1,90 +1,90 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1485 630" role="img" aria-label="Organigramme de ocean-master">
-<rect width="100%" height="100%" fill="#111e2d"/>
-<path d="M375 478 V502 H375 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M620 478 V502 H620 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M742 103 V128 H130 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M130 228 V252 H130 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M742 103 V128 H375 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M865 353 V378 H865 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M742 103 V128 H620 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M375 353 V378 H375 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M1110 353 V378 H1110 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M742 103 V128 H865 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M742 103 V128 H1110 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M620 353 V378 H620 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M742 103 V128 H1355 V152" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M130 353 V378 H130 V402" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M865 228 V252 H865 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M620 228 V252 H620 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M865 478 V502 H865 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M1110 478 V502 H1110 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M130 478 V502 H130 V527" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M1110 228 V252 H1110 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<path d="M375 228 V252 H375 V277" fill="none" stroke="#77a4bf" stroke-width="2"/>
-<rect x="21" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="130" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Quashara CALDWELL</text>
-<text x="130" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">total energy</text>
-<rect x="21" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="130" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Jaden MURRAY</text>
-<text x="130" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">china petroleum</text>
-<rect x="21" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="130" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Jalal PATRICK</text>
-<text x="130" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">CATL</text>
-<rect x="21" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="130" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Renee-Rose FISHER</text>
-<text x="130" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directrice</text>
-<rect x="266" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="375" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Shikigaro NARASHI</text>
-<text x="375" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">&quot;polaire&quot;</text>
-<rect x="266" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="375" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Kuemon YOKOHARA</text>
-<text x="375" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">&quot;atlantique&quot;</text>
-<rect x="266" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="375" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Arvig WINDHALL</text>
-<text x="375" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">&quot;pacifique&quot;</text>
-<rect x="266" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="375" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Rendel TODDS</text>
-<text x="375" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directeur</text>
-<rect x="511" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="620" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Sander LUPULU</text>
-<text x="620" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Orano</text>
-<rect x="511" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="620" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Lepo FUIMATA</text>
-<text x="620" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">nordex</text>
-<rect x="511" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="620" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Lilee TUPAU</text>
-<text x="620" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">siemens</text>
-<rect x="511" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="620" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Kale WINDSTONE</text>
-<text x="620" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directeur</text>
-<rect x="756" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="865" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Ashaelyn LOVE</text>
-<text x="865" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">exxon mobile</text>
-<rect x="756" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="865" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Dyshelle FORD-MILLS</text>
-<text x="865" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Duke energy</text>
-<rect x="756" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="865" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Nikee MOORE</text>
-<text x="865" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">next era</text>
-<rect x="756" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="865" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Jeff LUKAS</text>
-<text x="865" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directeur</text>
-<rect x="1001" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="1110" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Nanako USHINARA</text>
-<text x="1110" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Aeon group</text>
-<rect x="1001" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="1110" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Hallgrim THORSEN</text>
-<text x="1110" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">minimega</text>
-<rect x="1001" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="1110" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Riita SANDVIG</text>
-<text x="1110" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Suzuki</text>
-<rect x="1001" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="1110" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Ellen macMahan</text>
-<text x="1110" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directrice</text>
-<rect x="1246" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="1355" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Shaylinn LUKAS</text>
-<text x="1355" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Vice-présidente</text>
-<rect x="634" y="26" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9"/>
-<text x="742" y="56" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Waren WALTON</text>
-<text x="742" y="94" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Président</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1485 755" role="img" aria-label="Organigramme de ocean-master">
+  <rect width="100%" height="100%" fill="#111e2d" />
+  <path d="M375 603 V627.5 H375 V652" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M620 603 V627.5 H620 V652" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M743 228 V252.5 H130 V277" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M130 353 V377.5 H130 V402" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M743 228 V252.5 H375 V277" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M865 478 V502.5 H865 V527" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M743 228 V252.5 H620 V277" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M375 478 V502.5 H375 V527" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M1110 478 V502.5 H1110 V527" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M743 228 V252.5 H865 V277" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M743 228 V252.5 H1110 V277" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M620 478 V502.5 H620 V527" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M742 103 V127.5 H743 V152" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M130 478 V502.5 H130 V527" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M865 353 V377.5 H865 V402" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M620 353 V377.5 H620 V402" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M865 603 V627.5 H865 V652" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M1110 603 V627.5 H1110 V652" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M130 603 V627.5 H130 V652" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M1110 353 V377.5 H1110 V402" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <path d="M375 353 V377.5 H375 V402" fill="none" stroke="#77a4bf" stroke-width="2" />
+  <rect x="21" y="651" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="130" y="681" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Quashara CALDWELL</text>
+  <text x="130" y="719" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">total energy</text>
+  <rect x="21" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="130" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Jaden MURRAY</text>
+  <text x="130" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">china petroleum</text>
+  <rect x="21" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="130" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Jalal PATRICK</text>
+  <text x="130" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">CATL</text>
+  <rect x="21" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="130" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Renee-Rose FISHER</text>
+  <text x="130" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directrice</text>
+  <rect x="266" y="651" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="375" y="681" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Shikigaro NARASHI</text>
+  <text x="375" y="719" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">"polaire"</text>
+  <rect x="266" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="375" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Kuemon YOKOHARA</text>
+  <text x="375" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">"atlantique"</text>
+  <rect x="266" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="375" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Arvig WINDHALL</text>
+  <text x="375" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">"pacifique"</text>
+  <rect x="266" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="375" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Rendel TODDS</text>
+  <text x="375" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directeur</text>
+  <rect x="511" y="651" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="620" y="681" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Sander LUPULU</text>
+  <text x="620" y="719" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Orano</text>
+  <rect x="511" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="620" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Lepo FUIMATA</text>
+  <text x="620" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">nordex</text>
+  <rect x="511" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="620" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Lilee TUPAU</text>
+  <text x="620" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">siemens</text>
+  <rect x="511" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="620" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Kale WINDSTONE</text>
+  <text x="620" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directeur</text>
+  <rect x="756" y="651" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="865" y="681" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Ashaelyn LOVE</text>
+  <text x="865" y="719" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">exxon mobile</text>
+  <rect x="756" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="865" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Dyshelle FORD-MILLS</text>
+  <text x="865" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Duke energy</text>
+  <rect x="756" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="865" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Nikee MOORE</text>
+  <text x="865" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">next era</text>
+  <rect x="756" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="865" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Jeff LUKAS</text>
+  <text x="865" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directeur</text>
+  <rect x="1001" y="651" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="1110" y="681" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Nanako USHINARA</text>
+  <text x="1110" y="719" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Aeon group</text>
+  <rect x="1001" y="526" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="1110" y="556" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Hallgrim THORSEN</text>
+  <text x="1110" y="594" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">minimega</text>
+  <rect x="1001" y="401" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="1110" y="431" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Riita SANDVIG</text>
+  <text x="1110" y="469" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Suzuki</text>
+  <rect x="1001" y="276" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="1110" y="306" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Ellen macMahan</text>
+  <text x="1110" y="344" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Directrice</text>
+  <rect x="634" y="151" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="743" y="181" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Shaylinn LUKAS</text>
+  <text x="743" y="219" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Vice-présidente</text>
+  <rect x="634" y="26" width="218" height="78" rx="9" fill="#234057" stroke="#6992a9" />
+  <text x="742" y="56" text-anchor="middle" fill="#f4f2eb" font-family="DejaVu Sans, sans-serif" font-size="15">Waren WALTON</text>
+  <text x="742" y="94" text-anchor="middle" fill="#a9c9dc" font-family="DejaVu Sans, sans-serif" font-size="12">Président</text>
 </svg>
