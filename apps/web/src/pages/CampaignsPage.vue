@@ -3,6 +3,7 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { onBeforeRouteLeave, RouterLink, useRoute, useRouter } from 'vue-router';
 import { api, ApiError } from '../lib/api';
 import CampaignNpcs from '../components/CampaignNpcs.vue';
+import CampaignBestiary from '../components/CampaignBestiary.vue';
 import CampaignAdmissions from '../components/CampaignAdmissions.vue';
 import CampaignSessions from '../components/CampaignSessions.vue';
 import TerraUmbraBrand from '../components/TerraUmbraBrand.vue';
@@ -15,8 +16,9 @@ const userId=ref(''),canCreate=ref(false),loading=ref(true),busy=ref(false),erro
 const showCreate=ref(false),createName=ref(''),createDescription=ref(''),query=ref(''),accounts=ref<Account[]>([]),searching=ref(false),searchError=ref('');
 const accountsOpen=ref(false),accountsMore=ref(false),moreSearching=ref(false);
 const chosenCharacter=ref(''),editing=ref(false),draft=ref({name:'',description:'',gmNotes:'',admissionRules:''}),baseline=ref(''),editVersion=ref(0);
-const admissionRefresh=ref(0),npcsOpen=ref(false),npcDirty=ref(false);
+const admissionRefresh=ref(0),npcsOpen=ref(false),npcDirty=ref(false),bestiaryOpen=ref(false),bestiaryDirty=ref(false);
 function toggleNpcs(e:Event){const el=e.target as HTMLDetailsElement;if(!el.open&&npcDirty.value&&!window.confirm('Abandonner les PNJ non enregistrés ?')){el.open=true;return;}npcsOpen.value=el.open;}
+function toggleBestiary(e:Event){const el=e.target as HTMLDetailsElement;if(!el.open&&bestiaryDirty.value&&!window.confirm('Abandonner les créatures non enregistrées ?')){el.open=true;return;}bestiaryOpen.value=el.open;}
 const dirty=computed(()=>editing.value&&JSON.stringify(draft.value)!==baseline.value);
 const me=computed(()=>members.value.find(m=>m.userId===userId.value));
 const invited=computed(()=>campaigns.value.filter(c=>c.membershipStatus==='invited'));
@@ -79,8 +81,8 @@ async function archive(){
   const c=campaign.value!;if(!window.confirm(c.archivedAt?'Réactiver cette campagne et ses partages de fiches ?':'Archiver cette campagne ? Les invitations et les accès aux fiches par cette campagne seront suspendus.'))return;
   await action(()=>api(`${endpoint}/${id}`,{method:'PATCH',body:JSON.stringify({name:c.name,description:c.description,gmNotes:c.gmNotes||'',version:c.version,archived:!c.archivedAt})}),c.archivedAt?'Campagne réactivée.':'Campagne archivée.');
 }
-function beforeUnload(e:BeforeUnloadEvent){if(dirty.value){e.preventDefault();e.returnValue='';}}
-onBeforeRouteLeave(()=>!dirty.value||window.confirm('Quitter sans enregistrer les notes de campagne ?'));
+function beforeUnload(e:BeforeUnloadEvent){if(dirty.value||npcDirty.value||bestiaryDirty.value){e.preventDefault();e.returnValue='';}}
+onBeforeRouteLeave(()=>!(dirty.value||npcDirty.value||bestiaryDirty.value)||window.confirm('Quitter avec des modifications non enregistrées ?'));
 function focus(){if(document.visibilityState!=='hidden'&&!dirty.value&&!busy.value&&!loading.value)void load();}
 function visible(){if(document.visibilityState!=='hidden')focus();}
 onMounted(()=>{void load();refreshTimer=setInterval(()=>{if(!id)focus();},30000);document.addEventListener('visibilitychange',visible);window.addEventListener('focus',focus);window.addEventListener('beforeunload',beforeUnload);});
@@ -112,6 +114,7 @@ onUnmounted(()=>{clearInterval(refreshTimer);document.removeEventListener('visib
         <template v-if="campaign.canManage||campaign.membershipStatus==='accepted'">
           <CampaignSessions :user-id="userId" :campaign-id="id" :can-manage="campaign.canManage" :archived="!!campaign.archivedAt" :members="members" />
           <details v-if="campaign.canManage" class="panel" @toggle="toggleNpcs"><summary>Mes PNJ de campagne · générateur et fiches</summary><CampaignNpcs v-if="npcsOpen" :campaign-id="id" :archived="!!campaign.archivedAt" @dirty="npcDirty=$event" /></details>
+          <details v-if="campaign.canManage" class="panel" @toggle="toggleBestiary"><summary>Mon bestiaire de campagne · créateur et générateur</summary><CampaignBestiary v-if="bestiaryOpen" :campaign-id="id" :archived="!!campaign.archivedAt" @dirty="bestiaryDirty=$event" /></details>
           <section class="panel"><div class="section-heading"><h2>Le groupe</h2><span>{{ members.filter(m=>m.status==='accepted').length }} joueur(s)</span></div><p v-if="!members.length" class="empty">Invite tes joueurs pour réunir leurs fiches ici.</p>
             <div v-for="m in members" :key="m.userId" class="member-row"><div><strong>{{ m.characterName||m.displayName }}</strong><p>{{ m.displayName }} <span v-if="m.status==='invited'">· Invitation en attente</span><span v-else-if="!m.characterId">· Personnage à choisir</span><span v-else>· {{ m.admissionStatus==='approved'?'Fiche acceptée':'Fiche à valider' }}</span></p><small v-if="m.updatedAt">Fiche mise à jour le {{ new Date(m.updatedAt).toLocaleDateString('fr-FR') }}</small></div><div class="actions"><RouterLink v-if="m.canReadSheet" class="primary sheet-link" :to="{path:`/characters/${m.characterId}/sheet`,query:{campaign:id}}">Ouvrir la fiche →</RouterLink><button v-if="campaign.canManage&&!campaign.archivedAt" :disabled="busy" :aria-label="`Retirer ${m.displayName}`" @click="remove(m)">{{ m.status==='invited'?'Annuler l’invitation':'Retirer' }}</button></div></div>
           </section>
