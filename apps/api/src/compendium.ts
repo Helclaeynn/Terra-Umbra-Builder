@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 50016)
-Total output lines: 4991
-
 import { applyReviewedLoreTaxonomy } from "./compendium-reviewed-lore-taxonomy.js";
 import { applyReviewedRuleTaxonomy, repairReviewedAserynOverview } from "./compendium-reviewed-rule-taxonomy.js";
 import {registerCanonicalNpcGenerator} from './canonical-npc-generator.js';
@@ -1519,7 +1516,1953 @@ function findMatchingActivePnj(byId: Map<string, Article>, source: Article): Art
       if (key) keys.add(key);
     };
     add(candidate.title);
-    const pnj …20016 tokens truncated…-v1.json"), "utf8")
+    const pnj = candidate.pnj ?? {};
+    for (const field of ["real_name", "nom_reel", "nom_realite", "nom_verite", "name", "alias"]) add(pnj[field]);
+    return keys;
+  };
+
+  // Prefer a single explicit title/PNJ-field match over identities recovered from tables.
+  // Some legacy sheets contain copied "Nom de la Réalité" rows from another character.
+  for (const key of [truthKey, realKey].filter(Boolean) as string[]) {
+    const direct = candidates.filter((candidate) => directIdentityKeys(candidate).has(key));
+    if (direct.length === 1) return direct[0];
+    if (direct.length > 1) {
+      const titleMatches = direct.filter(
+        (candidate) => usablePnjIdentity(candidate.title) === key
+      );
+      if (titleMatches.length === 1) return titleMatches[0];
+    }
+  }
+
+  const matches: Array<{ article: Article; score: number }> = [];
+  for (const candidate of candidates) {
+    const keys = articlePnjIdentityKeys(candidate);
+    let score = 0;
+    if (truthKey && keys.has(truthKey)) score = Math.max(score, 5);
+    if (realKey && keys.has(realKey)) score = Math.max(score, 4);
+    if (score > 0) matches.push({ article: candidate, score });
+  }
+
+  if (!matches.length) return null;
+  const bestScore = Math.max(...matches.map((match) => match.score));
+  const best = matches.filter((match) => match.score === bestScore);
+  if (best.length > 1) {
+    throw new Error(
+      `Identité PNJ ambiguë pour ${source.title ?? source.id}: ${best.map((match) => match.article.id).join(", ")}`
+    );
+  }
+  return best[0].article;
+}
+
+function canonicalize(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(canonicalize);
+  if (value && typeof value === "object") {
+    const output: JsonObject = {};
+    for (const key of Object.keys(value as JsonObject).sort()) {
+      if (key === "dataset") continue;
+      output[key] = canonicalize((value as JsonObject)[key]);
+    }
+    return output;
+  }
+  return value;
+}
+
+function stableStringify(value: unknown): string {
+  return JSON.stringify(canonicalize(value));
+}
+
+function articleHash(article: Article): string {
+  return createHash("sha256").update(stableStringify(article)).digest("hex");
+}
+
+function decodePointerToken(token: string): string {
+  return token.replace(/~1/g, "/").replace(/~0/g, "~");
+}
+
+function pointerParts(path: string): string[] {
+  if (!path.startsWith("/")) throw new Error(`Chemin JSON Pointer invalide: ${path}`);
+  if (path === "/") return [""];
+  return path.slice(1).split("/").map(decodePointerToken);
+}
+
+function resolveParent(root: JsonObject, path: string, create = false) {
+  const parts = pointerParts(path);
+  const key = parts.pop() ?? "";
+  let node: any = root;
+
+  for (const part of parts) {
+    if (Array.isArray(node)) {
+      const index = Number(part);
+      if (!Number.isInteger(index) || index < 0 || index >= node.length) {
+        throw new Error(`Index introuvable: ${part}`);
+      }
+      node = node[index];
+      continue;
+    }
+
+    if (!node || typeof node !== "object") {
+      throw new Error(`Parent non objet pour ${path}`);
+    }
+
+    if (!Object.prototype.hasOwnProperty.call(node, part)) {
+      if (!create) throw new Error(`Chemin introuvable: ${path}`);
+      node[part] = {};
+    }
+
+    node = node[part];
+  }
+
+  return { parent: node, key };
+}
+
+function arrayIndex(key: string, length: number, allowEnd = false): number {
+  if (key === "-" && allowEnd) return length;
+  const index = Number(key);
+  const max = allowEnd ? length : length - 1;
+  if (!Number.isInteger(index) || index < 0 || index > max) {
+    throw new Error(`Index de tableau invalide: ${key}`);
+  }
+  return index;
+}
+
+function applyOperation(target: JsonObject, operation: JsonObject): void {
+  const op = String(operation.op ?? "");
+  const path = String(operation.path ?? "");
+  if (!["add", "replace", "remove"].includes(op)) {
+    throw new Error(`Opération inconnue: ${op}`);
+  }
+
+  const { parent, key } = resolveParent(target, path, op === "add");
+
+  if (Array.isArray(parent)) {
+    if (op === "add") {
+      parent.splice(arrayIndex(key, parent.length, true), 0, deepClone(operation.value));
+    } else {
+      const index = arrayIndex(key, parent.length);
+      if (op === "replace") parent[index] = deepClone(operation.value);
+      else parent.splice(index, 1);
+    }
+    return;
+  }
+
+  if (!parent || typeof parent !== "object") {
+    throw new Error(`Parent non objet pour ${path}`);
+  }
+
+  if (op === "remove") {
+    if (!Object.prototype.hasOwnProperty.call(parent, key)) {
+      throw new Error(`Chemin introuvable: ${path}`);
+    }
+    delete parent[key];
+  } else if (op === "replace") {
+    if (!Object.prototype.hasOwnProperty.call(parent, key)) {
+      throw new Error(`Chemin introuvable: ${path}`);
+    }
+    parent[key] = deepClone(operation.value);
+  } else {
+    parent[key] = deepClone(operation.value);
+  }
+}
+
+function norm(value: unknown): string {
+  return String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function organisationRealm(article: Article): string {
+  const tags = (article.tags ?? []).map(norm);
+  if (tags.includes("verite")) return "Vérité";
+  if (tags.includes("realite")) return "Réalité";
+
+  const text = norm(`${article.title ?? ""} ${(article.tags ?? []).join(" ")} ${article.source ?? ""}`);
+  return /vampir|garou|loup garou|mage|daemon|angelus|aseryn|atlante|exile|extral|chasseur|fleau|occulte|khinae/.test(
+    text
+  )
+    ? "Vérité"
+    : "Réalité";
+}
+
+function displayCategory(article: Article): string {
+  const source = article.sourceCategory ?? article.category ?? "";
+  if (["Équipement", "Augmentations", "Catalogue Vérité"].includes(source)) {
+    return "Équipement & Objets";
+  }
+  if (source === "Organisations") return organisationRealm(article);
+  return source;
+}
+
+function manufacturerFromTitle(title: unknown): string {
+  const raw = String(title ?? "").trim();
+  const key = norm(raw);
+
+  for (const manufacturer of EQUIPMENT_MANUFACTURERS) {
+    const maker = norm(manufacturer);
+    if (key === maker || key.startsWith(`${maker} `)) return manufacturer;
+  }
+
+  const suffix = raw.split(/\s+[—–-]\s+/).at(-1);
+  const suffixKey = norm(suffix);
+  return EQUIPMENT_MANUFACTURERS.find((manufacturer) => norm(manufacturer) === suffixKey) ?? "";
+}
+
+function manufacturerFor(article: Article): string {
+  return article.dataset === "equipement" || article.dataset === "verite-catalogue"
+    ? manufacturerFromTitle(article.title) : "";
+}
+
+function applyNavigationTaxonomy(article: Article, entry?: NavigationEntry): void {
+  const subgroup = String(entry?.subgroup ?? "").trim();
+  if (article.dataset !== "equipement" || !/^Armement\s+—\s+/i.test(subgroup)) return;
+
+  if (Array.isArray(article.tags)) {
+    let replaced = false;
+    article.tags = article.tags.map((tag) => {
+      if (/^(?:Armes|Armement)\s+—\s+/i.test(String(tag ?? ""))) {
+        replaced = true;
+        return subgroup;
+      }
+      return tag;
+    });
+    if (!replaced) article.tags.push(subgroup);
+  }
+
+  for (const section of article.sections ?? []) {
+    for (const block of section.blocks ?? []) {
+      if (block?.type !== "table" || !Array.isArray(block.rows)) continue;
+      block.rows = block.rows.map((row: unknown) => {
+        if (!Array.isArray(row) || row.length < 2 || norm(row[0]) !== "categorie") return row;
+        if (!/^(?:Armes|Armement)\s+—\s+/i.test(String(row[1] ?? ""))) return row;
+        const copy = [...row];
+        copy[1] = subgroup;
+        return copy;
+      });
+    }
+  }
+}
+
+function applyTargetedEditorialCorrections(article: Article): void {
+  applyFinalEditorialCleanup(article);
+
+  if (article.id !== "equipement-045-owl-sg-016-boss") return;
+
+  for (const section of article.sections ?? []) {
+    for (const block of section.blocks ?? []) {
+      if (block?.type !== "p" || typeof block.text !== "string") continue;
+      block.text = block.text.replace(
+        /Sa grande réserve n[’']en fait pas une arme de moyenne portée\s*:\s*la philosophie du modèle reste celle d[’']un shotgun fiable, efficace tant qu[’']on accepte son domaine d[’']emploi très rapproché\.?/i,
+        "Sa capacité de munitions supérieure à la moyenne limite les rechargements, mais ne change pas son domaine d’emploi : le Boss reste un shotgun fiable, conçu pour le combat à très courte portée."
+      );
+    }
+  }
+}
+
+function publicSnippetText(value: unknown): string {
+  return String(value ?? "")
+    .replace(/\{\{Talents\|[^{}]*\}\}/gi, " ")
+    .replace(/\{\{(?:MJ|Lore|Encadré)\}\}/gi, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function flattenText(article: Article): string {
+  const bits: string[] = [
+    article.title ?? "",
+    article.source ?? "",
+    String(article.manufacturer ?? ""),
+    ...(article.tags ?? []),
+    ...(article.secretTags ?? [])
+  ];
+
+  const pnj = article.pnj as JsonObject | undefined;
+  if (pnj) {
+    bits.push(
+      String(pnj.nom_verite ?? ""),
+      String(pnj.race ?? ""),
+      String(pnj.age ?? ""),
+      String(pnj.origine ?? ""),
+      String(pnj.statut ?? ""),
+      String(pnj.statut_verite ?? ""),
+      ...(Array.isArray(pnj.relations) ? pnj.relations.map(String) : [])
+    );
+  }
+
+  for (const section of article.sections ?? []) {
+    bits.push(String(section.title ?? ""));
+    for (const block of section.blocks ?? []) {
+      if (block?.type === "p") {
+        const text = publicSnippetText(block.text);
+        if (text) bits.push(text);
+      }
+      if (block?.type === "table" && Array.isArray(block.rows)) {
+        for (const row of block.rows) {
+          if (Array.isArray(row)) {
+            bits.push(...row.map((cell) => publicSnippetText(cell)).filter(Boolean));
+          }
+        }
+      }
+    }
+  }
+
+  return bits.join(" ");
+}
+
+function articleSnippet(article: Article, query = "", limit = 260): string {
+  const text = flattenText(article).replace(/\s+/g, " ").trim();
+  if (!text) return "";
+
+  if (query) {
+    const normalizedText = norm(text);
+    const firstToken = norm(query).split(" ").find(Boolean);
+    if (firstToken) {
+      const index = normalizedText.indexOf(firstToken);
+      if (index > 80) {
+        const start = Math.max(0, index - 70);
+        const excerpt = text.slice(start, start + limit);
+        return `…${excerpt}${start + limit < text.length ? "…" : ""}`;
+      }
+    }
+  }
+
+  return text.slice(0, limit) + (text.length > limit ? "…" : "");
+}
+
+function wikiPreviewText(article: Article, limit = 360, includeMj = false): string {
+  const chunks: string[] = [];
+
+  for (const section of article.sections ?? []) {
+    if (section?.audience === "mj" && !includeMj) continue;
+
+    for (const block of section.blocks ?? []) {
+      if (block?.type === "p") {
+        const text = publicSnippetText(block.text);
+        if (text) chunks.push(text);
+      }
+      if (block?.type === "table" && Array.isArray(block.rows)) {
+        const text = block.rows.slice(0, 4).map((row: unknown) =>
+          Array.isArray(row) ? row.map(publicSnippetText).filter(Boolean).join(" · ") : ""
+        ).filter(Boolean).join(" ; ");
+        if (text) chunks.push(text);
+      }
+      if (chunks.join(" ").length >= limit * 1.4) break;
+    }
+
+    if (chunks.join(" ").length >= limit * 1.4) break;
+  }
+
+  const text = publicSnippetText(chunks.join(" ") || articleSnippet(article, "", limit));
+
+  if (text.length <= limit) return text;
+  return text.slice(0, limit).replace(/\s+\S*$/, "") + "…";
+}
+
+async function readJson<T>(filename: string): Promise<T> {
+  return JSON.parse(await readFile(resolve(COMPENDIUM_DATA_DIR, filename), "utf8")) as T;
+}
+
+async function loadDataset(spec: DatasetSpec): Promise<Article[]> {
+  const parts = await Promise.all(
+    Array.from({ length: spec.parts }, async (_, index) => {
+      const filename = `${spec.prefix}-${String(index).padStart(2, "0")}.b64part`;
+      return readFile(resolve(COMPENDIUM_DATA_DIR, filename), "utf8");
+    })
+  );
+
+  const compressed = Buffer.from(parts.join("").replace(/\s+/g, ""), "base64");
+  const parsed = JSON.parse(gunzipSync(compressed).toString("utf8")) as Article[];
+  if (!Array.isArray(parsed)) throw new Error(`${spec.id} · racine non tabulaire`);
+  return parsed;
+}
+
+async function applyCommittedOverrides(
+  articleMap: Map<string, Article>,
+  payload: JsonObject
+): Promise<{ applied: number; conflicts: number; missing: number }> {
+  const entries = Array.isArray(payload.entries) ? payload.entries : [];
+  const grouped = new Map<string, JsonObject[]>();
+
+  for (const entry of entries) {
+    if (!entry?.articleId) continue;
+    const id = String(entry.articleId);
+    const list = grouped.get(id) ?? [];
+    list.push(entry);
+    grouped.set(id, list);
+  }
+
+  let applied = 0;
+  let conflicts = 0;
+  let missing = 0;
+
+  for (const [articleId, articleEntries] of grouped) {
+    const base = articleMap.get(articleId);
+    if (!base) {
+      missing += 1;
+      continue;
+    }
+
+    const baseHash = articleHash(base);
+    let effective = deepClone(base);
+    let appliedHere = 0;
+    let mediaOverride = false;
+
+    for (const entry of articleEntries) {
+      if (entry.baseHash !== baseHash) {
+        conflicts += 1;
+        continue;
+      }
+
+      for (const operation of Array.isArray(entry.operations) ? entry.operations : []) {
+        applyOperation(effective, operation);
+        if (["/illustration", "/image"].includes(String(operation?.path ?? ""))) {
+          mediaOverride = true;
+        }
+      }
+
+      applied += 1;
+      appliedHere += 1;
+    }
+
+    if (appliedHere > 0) {
+      effective.dataset = effective.dataset ?? base.dataset;
+      effective.__editorialOverride = true;
+      effective.__editorialOverrideCount = appliedHere;
+      effective.__editorialMediaOverride = mediaOverride;
+      articleMap.set(articleId, effective);
+    }
+  }
+
+  return { applied, conflicts, missing };
+}
+
+async function loadCorpus(): Promise<Corpus> {
+  const manifest = await readJson<Manifest>("manifest-v3.json");
+  const navigationPayload = await readJson<{ entries?: NavigationEntry[] }>("navigation-v1.json");
+  const overridePayload = await readJson<JsonObject>("manual-overrides.json");
+
+  if (!Array.isArray(manifest.datasets)) throw new Error("Manifest Compendium V3 invalide");
+
+  const byId = new Map<string, Article>();
+  const extraterrestrialPnjResolvedIds = new Map<string, string>();
+  const extralsGroupsPnjResolvedIds = new Map<string, string>();
+  const humanGalacticPnjResolvedIds = new Map<string, string>();
+  const crawlerPnjResolvedIds = new Map<string, string>();
+  const corporationPnjResolvedIds = new Map<string, string>();
+  const hunterPnjResolvedIds = new Map<string, string>();
+  const fleauxPnjResolvedIds = new Map<string, string>();
+  const mageLogesPnjResolvedIds = new Map<string, string>();
+  const vampireCourtPnjResolvedIds = new Map<string, string>();
+  const pelagePnjResolvedIds = new Map<string, string>();
+  const angelusPnjResolvedIds = new Map<string, string>();
+  const templesDaemoniaquesPnjResolvedIds = new Map<string, string>();
+  const aserynTerresTemplesPnjResolvedIds = new Map<string, string>();
+  const grandsExilesPnjResolvedIds = new Map<string, string>();
+  const pointsRencontrePnjResolvedIds = new Map<string, string>();
+  const loaded = await Promise.all(
+    manifest.datasets.map(async (spec) => [spec.id, await loadDataset(spec)] as const)
+  );
+
+  for (const [dataset, rows] of loaded) {
+    for (const source of rows) {
+      if (!source?.id) continue;
+      const article = deepClone(source);
+      article.dataset = article.dataset ?? dataset;
+      byId.set(article.id, article);
+    }
+  }
+
+  for (const guide of COMPENDIUM_GUIDE_ARTICLES) {
+    if (!byId.has(guide.id)) byId.set(guide.id, deepClone(guide) as Article);
+  }
+
+  for (const article of COMPENDIUM_MOTEUR_V4_ARTICLES) {
+    // The rebuilt Moteur corpus deliberately supersedes any legacy page with the same ID.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_LORE_ARTICLES) {
+    // Reality V9 is the rebuilt canonical public lore corpus for this source.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  const corporationsHub = byId.get(COMPENDIUM_REALITE_V9_CORPORATIONS_HUB_ID);
+  if (corporationsHub) {
+    const existingIds = new Set((corporationsHub.sections ?? []).map((section) => String(section?.id ?? "")));
+    const additions = (COMPENDIUM_REALITE_V9_CORPORATIONS_EDITORIAL_HUB_ENRICHMENT.sections ?? [])
+      .filter((section: JsonObject) => !existingIds.has(String(section?.id ?? "")));
+    corporationsHub.sections = [...(corporationsHub.sections ?? []), ...(deepClone(additions) as JsonObject[])];
+    const sources = [corporationsHub.source, COMPENDIUM_REALITE_V9_CORPORATIONS_EDITORIAL_HUB_ENRICHMENT.source]
+      .flatMap((value) => String(value ?? "").split(" ; "))
+      .map((value) => value.trim())
+      .filter(Boolean);
+    corporationsHub.source = [...new Set(sources)].join(" ; ");
+    corporationsHub.tags = [...new Set([
+      ...(corporationsHub.tags ?? []),
+      ...(COMPENDIUM_REALITE_V9_CORPORATIONS_EDITORIAL_HUB_ENRICHMENT.tags ?? [])
+    ])];
+    corporationsHub.status = "canon_enrichi";
+    corporationsHub.rebuildV2 = true;
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_CORPORATIONS_EDITORIAL_ARTICLES) {
+    byId.set(String(article.id), deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_PEGRE_ARTICLES) {
+    // Detailed California underworld pass: overrides the Reality hub and adds one page per criminal organization.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_PEGRE_PNJ_ARTICLES) {
+    // Active underworld PNJs use dedicated IDs; archived PNJ pages remain audit material only.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  const lausHub = byId.get("realite-v9-los-angeles-laus-securites");
+  if (lausHub) {
+    // Preserve the consolidated Reality page and append the source-complete Police/LAUS detail pass.
+    lausHub.sections = [
+      ...(lausHub.sections ?? []),
+      ...(deepClone(COMPENDIUM_REALITE_V9_POLICE_HUB_SECTIONS) as JsonObject[])
+    ];
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_POLICE_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_POLICE_PNJ_ARTICLES) {
+    // Active Police/Most-Wanted profiles use dedicated IDs; matching OLD pages remain audit-only.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const enrichment of COMPENDIUM_REALITE_V9_POLICE_PNJ_ENRICHMENTS) {
+    const target = byId.get(enrichment.id);
+    if (!target) continue;
+    target.sections = [
+      ...(target.sections ?? []),
+      deepClone(enrichment.section) as JsonObject
+    ];
+  }
+
+  const governmentHub = byId.get("realite-v9-etat-institutions-grande-reserve");
+  if (governmentHub) {
+    governmentHub.sections = [
+      ...(governmentHub.sections ?? []),
+      ...(deepClone(COMPENDIUM_REALITE_V9_GOVERNMENT_HUB_SECTIONS) as JsonObject[])
+    ];
+    if (!String(governmentHub.source ?? "").includes("TUC_organisations_gouvernement(1).docx")) {
+      governmentHub.source = [governmentHub.source, "TUC_organisations_gouvernement(1).docx"].filter(Boolean).join(" ; ");
+    }
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_GOVERNMENT_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_GOVERNMENT_PNJ_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const enrichment of COMPENDIUM_REALITE_V9_GOVERNMENT_PNJ_ENRICHMENTS) {
+    const target = byId.get(enrichment.id);
+    if (!target) continue;
+    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
+    if (!existingIds.has(String(enrichment.section?.id ?? ""))) {
+      target.sections = [
+        ...(target.sections ?? []),
+        deepClone(enrichment.section) as JsonObject
+      ];
+    }
+    if (!String(target.source ?? "").includes("TUC_organisations_gouvernement(1).docx")) {
+      target.source = [target.source, "TUC_organisations_gouvernement(1).docx"].filter(Boolean).join(" ; ");
+    }
+    target.tags = Array.from(new Set([...(target.tags ?? []), "Gouvernement"]));
+  }
+
+  const agenciesHub = byId.get(COMPENDIUM_REALITE_V9_AGENCIES_HUB_ID);
+  if (agenciesHub) {
+    agenciesHub.title = String(COMPENDIUM_REALITE_V9_AGENCIES_HUB.title ?? agenciesHub.title);
+    agenciesHub.source = String(COMPENDIUM_REALITE_V9_AGENCIES_HUB.source ?? agenciesHub.source);
+    agenciesHub.tags = deepClone(COMPENDIUM_REALITE_V9_AGENCIES_HUB.tags ?? agenciesHub.tags ?? []);
+    agenciesHub.sections = deepClone(COMPENDIUM_REALITE_V9_AGENCIES_HUB.sections ?? []) as JsonObject[];
+    agenciesHub.status = "canon_enrichi";
+    agenciesHub.rebuildV2 = true;
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_AGENCIES_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_AGENCIES_PNJ_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_RELIGION_ARTICLES) {
+    // Religion consolidation overrides the Reality hub and adds one immersive page per major tradition.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const sourceArticle of COMPENDIUM_REALITE_V9_RELIGION_PNJ_ARTICLES) {
+    // Active religious profiles never reuse archived legacy IDs: archives remain independent audit material.
+    const article = deepClone(sourceArticle) as Article;
+    article.id = activeReligionPnjId(article.id);
+    // These source profiles were added after the original OLD snapshot. A new
+    // database must promote them too, rather than archiving them on first boot.
+    article.rebuildV2 = true;
+    byId.set(article.id, article);
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_CHRISTIANITY_ARTICLES) {
+    // Full Christianity pass: enriches the public Church page and adds active PNJs from the detailed source.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  // Final source-complete public Reality consolidation for the unified Christian Church.
+  byId.set(
+    COMPENDIUM_REALITE_V9_CHRISTIANITY_LORE_ARTICLE.id,
+    deepClone(COMPENDIUM_REALITE_V9_CHRISTIANITY_LORE_ARTICLE) as Article
+  );
+
+  for (const article of COMPENDIUM_REALITE_V9_RULE_ARTICLES) {
+    // Transversal rules hidden among catalog chapters are promoted here without duplicating catalog entries.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_VERITE_V7_LORE_ARTICLES) {
+    // Truth V7 is rebuilt source-first; it supersedes archived legacy pages without restoring the old corpus.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_VERITE_V7_RULE_ARTICLES) {
+    // Common Truth rules are promoted from the canonical V7 source and remain separate from product catalogs.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_VERITE_V7_KHINAE_LORE_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_VERITE_V7_KHINAE_RULE_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_VERITE_V7_MAGE_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_VERITE_V7_DAEMON_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_VERITE_V7_ANGELUS_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const enrichment of COMPENDIUM_VERITE_ANGELUS_ENRICHMENTS) {
+    const target = byId.get(String(enrichment.targetId ?? ""));
+    if (!target) {
+      throw new Error(`Cible d'enrichissement Angelus absente: ${String(enrichment.targetId ?? "")}`);
+    }
+
+    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
+    const sections = (deepClone(enrichment.sections ?? []) as JsonObject[]).filter(
+      (section) => !existingIds.has(String(section?.id ?? ""))
+    );
+    if (sections.length) target.sections = [...(target.sections ?? []), ...sections];
+
+    const sources = [target.source, enrichment.source]
+      .flatMap((value) => String(value ?? "").split(" ; "))
+      .map((value) => value.trim())
+      .filter(Boolean);
+    target.source = [...new Set(sources)].join(" ; ");
+    target.tags = [
+      ...new Set([
+        ...(target.tags ?? []),
+        ...(enrichment.tags ?? []),
+        ...(new Set(sources).size > 1 ? ["Multi-source"] : [])
+      ])
+    ];
+    target.status = "canon_enrichi";
+    target.rebuildV2 = true;
+  }
+
+  for (const article of COMPENDIUM_VERITE_ANGELUS_ARTICLES) {
+    byId.set(String(article.id), deepClone(article) as Article);
+  }
+
+  for (const sourceArticle of COMPENDIUM_VERITE_ANGELUS_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingAserynPnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeAngelusPnj(existing, article));
+      angelusPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+    byId.set(article.id, article);
+    angelusPnjResolvedIds.set(article.id, article.id);
+  }
+
+  for (const article of COMPENDIUM_VERITE_V7_ASERYN_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  const aserynHub = byId.get(COMPENDIUM_VERITE_ASERYN_HUB_ID);
+  if (!aserynHub) {
+    throw new Error(`Hub Aseryn absent pour l'intégration des terres et temples: ${COMPENDIUM_VERITE_ASERYN_HUB_ID}`);
+  }
+
+  const aserynHubSectionIds = new Set(
+    (aserynHub.sections ?? []).map((section) => String(section?.id ?? ""))
+  );
+  for (const section of COMPENDIUM_VERITE_ASERYN_HUB_SECTIONS) {
+    const id = String(section?.id ?? "");
+    if (!id || aserynHubSectionIds.has(id)) continue;
+    aserynHub.sections = [...(aserynHub.sections ?? []), deepClone(section) as JsonObject];
+    aserynHubSectionIds.add(id);
+  }
+
+  aserynHub.source = [
+    ...new Set(
+      [aserynHub.source, COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_SOURCE]
+        .flatMap((value) => String(value ?? "").split(" ; "))
+        .map((value) => value.trim())
+        .filter(Boolean)
+    )
+  ].join(" ; ");
+  aserynHub.tags = [
+    ...new Set([...(aserynHub.tags ?? []), "Terres aserynes", "Temples aseryns", "Multi-source"])
+  ];
+  aserynHub.status = "canon_enrichi";
+  aserynHub.rebuildV2 = true;
+
+  for (const article of COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_ARTICLES) {
+    byId.set(String(article.id), deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_VERITE_V7_PASS_B_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  const grandsExilesHub = byId.get(COMPENDIUM_VERITE_GRANDS_EXILES_HUB_ID);
+  if (!grandsExilesHub) {
+    throw new Error(`Hub Exilés absent pour l'intégration Grands Exilés: ${COMPENDIUM_VERITE_GRANDS_EXILES_HUB_ID}`);
+  }
+  const grandsExilesHubSectionIds = new Set(
+    (grandsExilesHub.sections ?? []).map((section) => String(section?.id ?? ""))
+  );
+  for (const section of COMPENDIUM_VERITE_GRANDS_EXILES_HUB_SECTIONS) {
+    const id = String(section?.id ?? "");
+    if (!id || grandsExilesHubSectionIds.has(id)) continue;
+    const repairedSection = COMPENDIUM_VERITE_GRANDS_EXILES_HUB_LORE_SECTIONS[id] ?? section;
+    grandsExilesHub.sections = [
+      ...(grandsExilesHub.sections ?? []),
+      deepClone(repairedSection) as JsonObject
+    ];
+    grandsExilesHubSectionIds.add(id);
+  }
+  grandsExilesHub.source = [
+    ...new Set(
+      [grandsExilesHub.source, COMPENDIUM_VERITE_GRANDS_EXILES_SOURCE]
+        .flatMap((value) => String(value ?? "").split(" ; "))
+        .map((value) => value.trim())
+        .filter(Boolean)
+    )
+  ].join(" ; ");
+  grandsExilesHub.tags = [
+    ...new Set([...(grandsExilesHub.tags ?? []), "Grands Exilés", "Factions exilées", "Multi-source"])
+  ];
+  grandsExilesHub.status = "canon_enrichi";
+  grandsExilesHub.rebuildV2 = true;
+
+  for (const article of COMPENDIUM_VERITE_GRANDS_EXILES_ARTICLES) {
+    const id = String(article.id);
+    const repairedSections = COMPENDIUM_VERITE_GRANDS_EXILES_ARTICLE_LORE_SECTIONS[id];
+    byId.set(
+      id,
+      deepClone(repairedSections ? { ...article, sections: repairedSections } : article) as Article
+    );
+  }
+
+  for (const article of COMPENDIUM_VERITE_HUNTERS_LORE_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_VERITE_V7_PASS_B_RULE_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_VERITE_SPECIES_EDITORIAL_ARTICLES) {
+    // Detailed terrestrial-creature source: adds families not already promoted by Truth V7.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const enrichment of COMPENDIUM_VERITE_SPECIES_EDITORIAL_ENRICHMENTS) {
+    const target = byId.get(enrichment.targetId);
+    if (!target) continue;
+    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
+    target.sections = [
+      ...(target.sections ?? []),
+      ...deepClone(enrichment.sections).filter((section: JsonObject) => !existingIds.has(String(section?.id ?? "")))
+    ];
+  }
+
+  for (const article of COMPENDIUM_VERITE_SPECIES_PNJ_ARTICLES) {
+    // These active PNJs are recreated from the detailed source and remain independent from OLD archives.
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const article of COMPENDIUM_VERITE_FANTASTIQUES_EDITORIAL_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const enrichment of COMPENDIUM_VERITE_FANTASTIQUES_EDITORIAL_ENRICHMENTS) {
+    const target = byId.get(enrichment.targetId);
+    if (!target) continue;
+    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
+    target.sections = [
+      ...(target.sections ?? []),
+      ...deepClone(enrichment.sections).filter((section: JsonObject) => !existingIds.has(String(section?.id ?? "")))
+    ];
+  }
+
+  for (const sourceArticle of COMPENDIUM_VERITE_FANTASTIQUES_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeFleauxPnj(existing, article));
+      continue;
+    }
+    byId.set(article.id, article);
+  }
+
+  for (const article of COMPENDIUM_VERITE_EXTRATERRESTRES_EDITORIAL_ARTICLES) {
+    byId.set(article.id, deepClone(article) as Article);
+  }
+
+  for (const enrichment of COMPENDIUM_VERITE_EXTRATERRESTRES_EDITORIAL_ENRICHMENTS) {
+    const target = byId.get(enrichment.targetId);
+    if (!target) continue;
+    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
+    target.sections = [
+      ...(target.sections ?? []),
+      ...deepClone(enrichment.sections).filter((section: JsonObject) => !existingIds.has(String(section?.id ?? "")))
+    ];
+  }
+
+  for (const sourceArticle of COMPENDIUM_VERITE_EXTRATERRESTRES_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeExtraterrestrialPnj(existing, article));
+      extraterrestrialPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+    byId.set(article.id, article);
+    extraterrestrialPnjResolvedIds.set(article.id, article.id);
+  }
+
+  for (const article of COMPENDIUM_VERITE_GALACTIC_LORE_ARTICLES) {
+    byId.set(String(article.id), deepClone(article) as Article);
+  }
+
+  for (const sourceArticle of COMPENDIUM_VERITE_EXTRALS_GROUPS_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeExtraterrestrialPnj(existing, article));
+      extralsGroupsPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+    byId.set(article.id, article);
+    extralsGroupsPnjResolvedIds.set(article.id, article.id);
+  }
+
+  for (const sourceArticle of COMPENDIUM_VERITE_HUMAN_GALACTIC_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeExtraterrestrialPnj(existing, article));
+      humanGalacticPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+    byId.set(article.id, article);
+    humanGalacticPnjResolvedIds.set(article.id, article.id);
+  }
+
+  for (const enrichment of COMPENDIUM_VERITE_HUNTERS_LORE_ENRICHMENTS) {
+    const target = byId.get(String(enrichment.id ?? ""));
+    if (!target) continue;
+
+    const replaceTitles = new Set(
+      (enrichment.replaceSections ?? []).map((title: unknown) => norm(title))
+    );
+    const incomingTitles = new Set(
+      (enrichment.sections ?? []).map((section: JsonObject) => norm(section?.title ?? ""))
+    );
+    target.sections = [
+      ...(target.sections ?? []).filter((section) => {
+        const title = norm(section?.title ?? "");
+        return !replaceTitles.has(title) && !incomingTitles.has(title);
+      }),
+      ...(deepClone(enrichment.sections ?? []) as JsonObject[])
+    ];
+
+    const sources = [target.source, COMPENDIUM_VERITE_HUNTERS_SOURCE]
+      .flatMap((value) => String(value ?? "").split(" ; "))
+      .map((value) => value.trim())
+      .filter(Boolean);
+    target.source = [...new Set(sources)].join(" ; ");
+
+    const isRealityLore =
+      target.category === "Réalité" ||
+      (target.category === "Organisations" &&
+        (target.tags ?? []).some((tag) => norm(tag) === "religions et neoreligions"));
+    target.tags = [
+      ...new Set([
+        ...(target.tags ?? []),
+        ...(isRealityLore ? ["Lore Chasseurs 2026-09"] : ["Vérité", "Chasseurs", "Lore Chasseurs 2026-09"])
+      ])
+    ];
+    target.status = "canon_enrichi";
+    // Do not promote a legacy archive merely because the Chasseurs source adds evidence to it.
+    // Rebuilt active pages remain rebuilt; archived V3 pages keep their OLD status at cut-over.
+  }
+
+  const grandsExilesHunterTarget = byId.get(
+    String(COMPENDIUM_VERITE_HUNTERS_CHASSE_FANTASTIQUE_HUB_ENRICHMENT.targetId ?? "")
+  );
+  if (!grandsExilesHunterTarget) {
+    throw new Error(
+      `Cible Chasse Fantastique absente: ${COMPENDIUM_VERITE_HUNTERS_CHASSE_FANTASTIQUE_HUB_ENRICHMENT.targetId}`
+    );
+  }
+  const grandsExilesHunterSectionIds = new Set(
+    (grandsExilesHunterTarget.sections ?? []).map((section) => String(section?.id ?? ""))
+  );
+  const grandsExilesHunterSections = deepClone(
+    COMPENDIUM_VERITE_HUNTERS_CHASSE_FANTASTIQUE_HUB_ENRICHMENT.sections ?? []
+  ).filter((section: JsonObject) => !grandsExilesHunterSectionIds.has(String(section?.id ?? "")));
+  if (grandsExilesHunterSections.length) {
+    grandsExilesHunterTarget.sections = [
+      ...(grandsExilesHunterTarget.sections ?? []),
+      ...grandsExilesHunterSections
+    ];
+  }
+  grandsExilesHunterTarget.source = [
+    ...new Set(
+      [grandsExilesHunterTarget.source, COMPENDIUM_VERITE_GRANDS_EXILES_SOURCE]
+        .flatMap((value) => String(value ?? "").split(" ; "))
+        .map((value) => value.trim())
+        .filter(Boolean)
+    )
+  ].join(" ; ");
+  grandsExilesHunterTarget.tags = [
+    ...new Set([
+      ...(grandsExilesHunterTarget.tags ?? []),
+      ...(COMPENDIUM_VERITE_HUNTERS_CHASSE_FANTASTIQUE_HUB_ENRICHMENT.tags ?? []),
+      "Multi-source"
+    ])
+  ];
+  grandsExilesHunterTarget.status = "canon_enrichi";
+  grandsExilesHunterTarget.rebuildV2 = true;
+
+  for (const enrichment of COMPENDIUM_REALITE_V9_GOVERNMENT_TRUTH_PNJ_ENRICHMENTS) {
+    const target = byId.get(enrichment.id);
+    if (!target) continue;
+    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
+    if (!existingIds.has(String(enrichment.section?.id ?? ""))) {
+      target.sections = [
+        ...(target.sections ?? []),
+        deepClone(enrichment.section) as JsonObject
+      ];
+    }
+    if (!String(target.source ?? "").includes("TUC_organisations_gouvernement(1).docx")) {
+      target.source = [target.source, "TUC_organisations_gouvernement(1).docx"].filter(Boolean).join(" ; ");
+    }
+    target.tags = Array.from(new Set([...(target.tags ?? []), "Gouvernement", "Réalité"]));
+  }
+
+  for (const enrichment of COMPENDIUM_REALITE_V9_AGENCIES_PNJ_ENRICHMENTS) {
+    const target = byId.get(enrichment.id);
+    if (!target) continue;
+    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
+    const sections = deepClone(enrichment.sections ?? []).filter(
+      (section: JsonObject) => !existingIds.has(String(section?.id ?? ""))
+    );
+    if (sections.length) {
+      target.sections = [...(target.sections ?? []), ...sections];
+    }
+    if (enrichment.pnjPatch) {
+      target.pnj = {
+        ...(target.pnj ?? {}),
+        ...deepClone(enrichment.pnjPatch)
+      };
+    }
+    if (!String(target.source ?? "").includes("TUC_organisations_agences(1).docx")) {
+      target.source = [target.source, "TUC_organisations_agences(1).docx"].filter(Boolean).join(" ; ");
+    }
+    target.tags = Array.from(new Set([...(target.tags ?? []), "Agences", "Réalité"]));
+  }
+
+  const crawlersHub = byId.get(COMPENDIUM_REALITE_V9_CRAWLERS_HUB_ID);
+  if (crawlersHub) {
+    const existingIds = new Set((crawlersHub.sections ?? []).map((section) => String(section?.id ?? "")));
+    const sections = deepClone(COMPENDIUM_REALITE_V9_CRAWLERS_HUB_SECTIONS).filter(
+      (section: JsonObject) => !existingIds.has(String(section?.id ?? ""))
+    );
+    if (sections.length) {
+      crawlersHub.sections = [...(crawlersHub.sections ?? []), ...sections];
+    }
+    const sources = [crawlersHub.source, COMPENDIUM_REALITE_V9_CRAWLERS_HUB_SOURCE]
+      .flatMap((value) => String(value ?? "").split(" ; "))
+      .map((value) => value.trim())
+      .filter(Boolean);
+    crawlersHub.source = [...new Set(sources)].join(" ; ");
+    crawlersHub.tags = [
+      ...new Set([...(crawlersHub.tags ?? []), ...COMPENDIUM_REALITE_V9_CRAWLERS_HUB_TAGS])
+    ];
+    crawlersHub.status = "canon_enrichi";
+    crawlersHub.rebuildV2 = true;
+  }
+
+  for (const enrichment of COMPENDIUM_REALITE_V9_CRAWLERS_ARTICLE_ENRICHMENTS) {
+    const target = byId.get(String(enrichment.targetId ?? ""));
+    if (!target) continue;
+
+    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
+    const sections = deepClone(enrichment.sections ?? []).filter(
+      (section: JsonObject) => !existingIds.has(String(section?.id ?? ""))
+    );
+    if (sections.length) {
+      target.sections = [...(target.sections ?? []), ...sections];
+    }
+
+    const sources = [target.source, enrichment.source]
+      .flatMap((value) => String(value ?? "").split(" ; "))
+      .map((value) => value.trim())
+      .filter(Boolean);
+    target.source = [...new Set(sources)].join(" ; ");
+    target.tags = [...new Set([...(target.tags ?? []), ...(enrichment.tags ?? [])])];
+    target.status = "canon_enrichi";
+    target.rebuildV2 = true;
+  }
+
+  for (const article of COMPENDIUM_REALITE_V9_CRAWLERS_ARTICLES) {
+    byId.set(String(article.id), deepClone(article) as Article);
+  }
+
+  for (const sourceArticle of COMPENDIUM_REALITE_V9_CRAWLERS_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeCrawlerPnj(existing, article));
+      crawlerPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+    byId.set(article.id, article);
+    crawlerPnjResolvedIds.set(article.id, article.id);
+  }
+
+  for (const sourceArticle of COMPENDIUM_REALITE_V9_CORPORATIONS_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeCorporationPnj(existing, article));
+      corporationPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+    byId.set(article.id, article);
+    corporationPnjResolvedIds.set(article.id, article.id);
+  }
+
+  for (const sourceArticle of COMPENDIUM_VERITE_HUNTERS_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeHunterPnj(existing, article));
+      hunterPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+    byId.set(article.id, article);
+    hunterPnjResolvedIds.set(article.id, article.id);
+  }
+
+  for (const article of COMPENDIUM_VERITE_FLEAUX_LORE_ARTICLES) {
+    byId.set(String(article.id), deepClone(article) as Article);
+  }
+
+  for (const enrichment of COMPENDIUM_VERITE_FLEAUX_LORE_ENRICHMENTS) {
+    const target = byId.get(String(enrichment.targetId ?? ""));
+    if (!target) {
+      throw new Error(`Cible d'enrichissement Fléaux absente: ${String(enrichment.targetId ?? "")}`);
+    }
+    const incoming = deepClone(enrichment.section) as JsonObject;
+    const incomingId = String(incoming?.id ?? "");
+    const incomingTitle = norm(incoming?.title ?? "");
+    const exists = (target.sections ?? []).some(
+      (section) =>
+        (incomingId && String(section?.id ?? "") === incomingId) ||
+        (incomingTitle && norm(section?.title ?? "") === incomingTitle)
+    );
+    if (!exists) target.sections = [...(target.sections ?? []), incoming];
+
+    const sources = [target.source, COMPENDIUM_VERITE_FLEAUX_SOURCE]
+      .flatMap((value) => String(value ?? "").split(" ; "))
+      .map((value) => value.trim())
+      .filter(Boolean);
+    target.source = [...new Set(sources)].join(" ; ");
+    target.tags = [...new Set([...(target.tags ?? []), "Fléaux", "Focus Fléaux 2026-09"])];
+    target.status = "canon_enrichi";
+    target.rebuildV2 = true;
+  }
+
+  for (const sourceArticle of COMPENDIUM_VERITE_FLEAUX_EXISTING_PNJ_SOURCES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeFleauxPnj(existing, article));
+      fleauxPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+
+    const legacyTargetId = String(article.legacyTargetId ?? "");
+    const legacy = legacyTargetId ? byId.get(legacyTargetId) : null;
+    if (legacy) {
+      const rebuilt = deepClone(legacy) as Article;
+      rebuilt.id = article.id;
+      rebuilt.dataset = article.dataset;
+      rebuilt.category = "Personnages";
+      rebuilt.sourceCategory = String(legacy.sourceCategory ?? "Vérité");
+      rebuilt.rebuildV2 = true;
+      delete rebuilt.__legacy;
+      delete rebuilt.legacyCategory;
+      byId.set(article.id, mergeFleauxPnj(rebuilt, article));
+    } else {
+      byId.set(article.id, article);
+    }
+    fleauxPnjResolvedIds.set(article.id, article.id);
+  }
+
+  for (const sourceArticle of COMPENDIUM_VERITE_FLEAUX_NEW_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeFleauxPnj(existing, article));
+      fleauxPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+    byId.set(article.id, article);
+    fleauxPnjResolvedIds.set(article.id, article.id);
+  }
+
+  const mageLogesHub = byId.get(COMPENDIUM_VERITE_LOGES_MAGES_HUB_ID);
+  if (!mageLogesHub) {
+    throw new Error(`Hub Mages absent pour l'intégration des Loges: ${COMPENDIUM_VERITE_LOGES_MAGES_HUB_ID}`);
+  }
+  const mageLogesSectionIds = new Set(
+    (mageLogesHub.sections ?? []).map((section) => String(section?.id ?? ""))
+  );
+  for (const section of COMPENDIUM_VERITE_LOGES_MAGES_HUB_SECTIONS) {
+    const id = String(section?.id ?? "");
+    if (!id || mageLogesSectionIds.has(id)) continue;
+    mageLogesHub.sections = [...(mageLogesHub.sections ?? []), deepClone(section) as JsonObject];
+    mageLogesSectionIds.add(id);
+  }
+  mageLogesHub.source = [
+    ...new Set(
+      [mageLogesHub.source, COMPENDIUM_VERITE_LOGES_MAGES_SOURCE]
+        .flatMap((value) => String(value ?? "").split(" ; "))
+        .map((value) => value.trim())
+        .filter(Boolean)
+    )
+  ].join(" ; ");
+  mageLogesHub.tags = [
+    ...new Set([...(mageLogesHub.tags ?? []), "Loges des Mages", "New-York", "Los Angeles", "San Diejuana", "Las Vegas", "Phoenix", "Grande Réserve"])
+  ];
+  mageLogesHub.status = "canon_enrichi";
+  mageLogesHub.rebuildV2 = true;
+
+  for (const sourceArticle of COMPENDIUM_VERITE_LOGES_MAGES_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeFleauxPnj(existing, article));
+      mageLogesPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+    byId.set(article.id, article);
+    mageLogesPnjResolvedIds.set(article.id, article.id);
+  }
+
+  const templesDaemoniaquesHub = byId.get(COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_HUB_ID);
+  if (!templesDaemoniaquesHub) {
+    throw new Error(`Hub Daemons absent pour l'intégration des Temples démoniaques: ${COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_HUB_ID}`);
+  }
+  const templesDaemoniaquesHubSectionIds = new Set(
+    (templesDaemoniaquesHub.sections ?? []).map((section) => String(section?.id ?? ""))
+  );
+  for (const section of COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_HUB_SECTIONS) {
+    const id = String(section?.id ?? "");
+    if (!id || templesDaemoniaquesHubSectionIds.has(id)) continue;
+    templesDaemoniaquesHub.sections = [
+      ...(templesDaemoniaquesHub.sections ?? []),
+      deepClone(section) as JsonObject
+    ];
+    templesDaemoniaquesHubSectionIds.add(id);
+  }
+  const templesDaemoniaquesHubSources = [
+    templesDaemoniaquesHub.source,
+    COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_SOURCE,
+    COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_ANGELUS_SOURCE
+  ]
+    .flatMap((value) => String(value ?? "").split(" ; "))
+    .map((value) => value.trim())
+    .filter(Boolean);
+  templesDaemoniaquesHub.source = [...new Set(templesDaemoniaquesHubSources)].join(" ; ");
+  templesDaemoniaquesHub.tags = [
+    ...new Set([
+      ...(templesDaemoniaquesHub.tags ?? []),
+      "Temples démoniaques",
+      "Temples fantômes",
+      "Multi-source"
+    ])
+  ];
+  templesDaemoniaquesHub.status = "canon_enrichi";
+  templesDaemoniaquesHub.rebuildV2 = true;
+
+  for (const sourceArticle of COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    // Public PNJ metadata must not reveal daemon nature, patron deity or Temple.
+    article.tags = (article.tags ?? []).filter((tag) => !/daemon|temple/i.test(String(tag)));
+
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing && String(existing.dataset ?? "").includes("angelus")) {
+      throw new Error(`Fusion Angelus/Daemon interdite pour ${article.title ?? article.id}: ${existing.id}`);
+    }
+
+    if (existing) {
+      const merged = mergeCrawlerPnj(existing, article);
+      const targetPnj = existing.pnj ?? {};
+      const sourcePnj = article.pnj ?? {};
+      merged.pnj = {
+        ...targetPnj,
+        ...sourcePnj,
+        relations: [
+          ...new Set([
+            ...((Array.isArray(targetPnj.relations) ? targetPnj.relations : []) as string[]),
+            ...((Array.isArray(sourcePnj.relations) ? sourcePnj.relations : []) as string[])
+          ])
+        ],
+        source_documents: [
+          ...new Set([
+            ...((Array.isArray(targetPnj.source_documents) ? targetPnj.source_documents : []) as string[]),
+            ...((Array.isArray(sourcePnj.source_documents) ? sourcePnj.source_documents : []) as string[]),
+            ...String(existing.source ?? "").split(" ; "),
+            ...String(article.source ?? "").split(" ; ")
+          ].map((value) => String(value ?? "").trim()).filter(Boolean))
+        ]
+      };
+      merged.pnj.identity_keys = [
+        ...new Set([
+          ...articlePnjIdentityKeys(existing),
+          ...articlePnjIdentityKeys(article),
+          ...articlePnjIdentityKeys(merged)
+        ])
+      ];
+      if (String(sourcePnj.real_name ?? "").trim() === "Nick Edison") {
+        merged.pnj.identity_keys = merged.pnj.identity_keys.filter(
+          (key: string) => !normalizedPnjIdentity(key).includes("balam")
+        );
+        merged.pnj.nom_verite = sourcePnj.nom_verite;
+        merged.pnj.nom_verite_source = sourcePnj.nom_verite_source;
+      }
+      byId.set(existing.id, merged);
+      templesDaemoniaquesPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+
+    if (String(article.pnj?.real_name ?? "").trim() === "Nick Edison") {
+      article.pnj.identity_keys = (article.pnj.identity_keys ?? []).filter(
+        (key: string) => !normalizedPnjIdentity(key).includes("balam")
+      );
+    }
+    byId.set(article.id, article);
+    templesDaemoniaquesPnjResolvedIds.set(article.id, article.id);
+  }
+
+  const leslieSourceId = String(COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_LESLIE_ENRICHMENT.targetId ?? "");
+  const leslieResolvedId = mageLogesPnjResolvedIds.get(leslieSourceId) ?? leslieSourceId;
+  const leslie = byId.get(leslieResolvedId);
+  if (!leslie) {
+    throw new Error(`Leslie Wright absente pour le lien Abrasax: ${leslieSourceId} -> ${leslieResolvedId}`);
+  }
+  const abrasaxSourceId = String(COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_LESLIE_ENRICHMENT.relationId ?? "");
+  const abrasaxResolvedId =
+    templesDaemoniaquesPnjResolvedIds.get(abrasaxSourceId) ??
+    abrasaxSourceId;
+  const abrasax = byId.get(abrasaxResolvedId);
+  if (!abrasax) {
+    throw new Error(`Abrasax absent pour le lien Leslie Wright: ${abrasaxSourceId} -> ${abrasaxResolvedId}`);
+  }
+
+  leslie.pnj = { ...(leslie.pnj ?? {}) };
+  leslie.pnj.relations = [
+    ...new Set([
+      ...((Array.isArray(leslie.pnj.relations) ? leslie.pnj.relations : []) as string[]),
+      abrasaxResolvedId
+    ].filter(Boolean))
+  ];
+  abrasax.pnj = { ...(abrasax.pnj ?? {}) };
+  abrasax.pnj.relations = [
+    ...new Set([
+      ...((Array.isArray(abrasax.pnj.relations) ? abrasax.pnj.relations : []) as string[])
+        .filter((id) => id !== leslieSourceId || leslieSourceId === leslieResolvedId),
+      leslieResolvedId
+    ].filter(Boolean))
+  ];
+  leslie.pnj.source_documents = [
+    ...new Set([
+      ...((Array.isArray(leslie.pnj.source_documents) ? leslie.pnj.source_documents : []) as string[]),
+      COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_SOURCE
+    ])
+  ];
+  const leslieSection = deepClone(COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_LESLIE_ENRICHMENT.section) as JsonObject;
+  if (!(leslie.sections ?? []).some((section) => String(section?.id ?? "") === String(leslieSection.id ?? ""))) {
+    leslie.sections = [...(leslie.sections ?? []), leslieSection];
+  }
+  leslie.tags = [...new Set([...(leslie.tags ?? []), "Multi-source"])];
+  leslie.status = "canon_enrichi";
+  leslie.rebuildV2 = true;
+
+  const addProtectedPnjRelation = (
+    article: Article,
+    relatedId: string,
+    note: string,
+    relationKey: string
+  ) => {
+    article.pnj = { ...(article.pnj ?? {}) };
+    article.pnj.relations = [
+      ...new Set([
+        ...((Array.isArray(article.pnj.relations) ? article.pnj.relations : []) as string[]),
+        relatedId
+      ].filter(Boolean))
+    ];
+    article.pnj.source_documents = [
+      ...new Set([
+        ...((Array.isArray(article.pnj.source_documents) ? article.pnj.source_documents : []) as string[]),
+        COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_SOURCE,
+        COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_ANGELUS_SOURCE
+      ])
+    ];
+    const sectionId = `temples-daemoniaques-relation-${relationKey.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`;
+    if (!(article.sections ?? []).some((section) => String(section?.id ?? "") === sectionId)) {
+      article.sections = [
+        ...(article.sections ?? []),
+        {
+          id: sectionId,
+          title: "Lien MJ · Angelus & Daemons",
+          level: 2,
+          audience: "mj",
+          blocks: [{ type: "p", style: "lore", text: note }]
+        }
+      ];
+    }
+    article.status = "canon_enrichi";
+    article.rebuildV2 = true;
+  };
+
+  for (const relation of COMPENDIUM_VERITE_TEMPLES_DAEMONIAQUES_ANGELUS_RELATIONS) {
+    const daemonId =
+      templesDaemoniaquesPnjResolvedIds.get(String(relation.daemonSourceId ?? "")) ??
+      String(relation.daemonSourceId ?? "");
+    const angelusId =
+      angelusPnjResolvedIds.get(String(relation.angelusId ?? "")) ??
+      String(relation.angelusId ?? "");
+    const daemon = byId.get(daemonId);
+    const angelus = byId.get(angelusId);
+    if (!daemon || !angelus) {
+      throw new Error(`Relation Angelus/Daemon introuvable: ${daemonId} ↔ ${angelusId}`);
+    }
+    const key = `${String(relation.daemonSourceId ?? "")}-${String(relation.angelusId ?? "")}`;
+    addProtectedPnjRelation(daemon, angelusId, String(relation.note ?? ""), key);
+    addProtectedPnjRelation(angelus, daemonId, String(relation.note ?? ""), key);
+  }
+
+  for (const article of COMPENDIUM_VERITE_VAMPIRE_COURTS_EDITORIAL_ARTICLES) byId.set(String(article.id), deepClone(article) as Article);
+  for (const enrichment of COMPENDIUM_VERITE_VAMPIRE_COURTS_ENRICHMENTS) {
+    const target=byId.get(String(enrichment.targetId??"")); if(!target) throw new Error(`Cible d'enrichissement Cours vampiriques absente: ${String(enrichment.targetId??"")}`);
+    const ids=new Set((target.sections??[]).map((section)=>String(section?.id??""))); const ss=deepClone(enrichment.sections??[]).filter((section:JsonObject)=>!ids.has(String(section?.id??""))); if(ss.length)target.sections=[...(target.sections??[]),...ss];
+    const sources=[target.source,COMPENDIUM_VERITE_VAMPIRE_COURTS_SOURCE].flatMap((v)=>String(v??"").split(" ; ")).map((v)=>v.trim()).filter(Boolean); target.source=[...new Set(sources)].join(" ; "); target.tags=[...new Set([...(target.tags??[]),"Vampires","Cours vampiriques",...(new Set(sources).size>1?["Multi-source"]:[])])]; target.status="canon_enrichi"; target.rebuildV2=true;
+  }
+  for (const sourceArticle of COMPENDIUM_VERITE_VAMPIRE_COURTS_PNJ_ARTICLES) {
+    const article=deepClone(sourceArticle) as Article; const existing=findMatchingActivePnj(byId,article);
+    if(existing){byId.set(existing.id,mergeVampireCourtPnj(existing,article));vampireCourtPnjResolvedIds.set(article.id,existing.id);continue;}
+    byId.set(article.id,article);vampireCourtPnjResolvedIds.set(article.id,article.id);
+  }
+  for (const article of COMPENDIUM_VERITE_PELAGES_EDITORIAL_ARTICLES) {
+    byId.set(String(article.id), deepClone(article) as Article);
+  }
+
+  for (const enrichment of COMPENDIUM_VERITE_PELAGES_EDITORIAL_ENRICHMENTS) {
+    const target = byId.get(String(enrichment.targetId ?? ""));
+    if (!target) {
+      throw new Error(`Cible d'enrichissement Pelages absente: ${String(enrichment.targetId ?? "")}`);
+    }
+
+    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
+    const sections = deepClone(enrichment.sections ?? []).filter(
+      (section: JsonObject) => !existingIds.has(String(section?.id ?? ""))
+    );
+    if (sections.length) target.sections = [...(target.sections ?? []), ...sections];
+
+    const sources = [target.source, enrichment.source]
+      .flatMap((value) => String(value ?? "").split(" ; "))
+      .map((value) => value.trim())
+      .filter(Boolean);
+    target.source = [...new Set(sources)].join(" ; ");
+    target.tags = [
+      ...new Set([
+        ...(target.tags ?? []),
+        ...(enrichment.tags ?? []),
+        ...(new Set(sources).size > 1 ? ["Multi-source"] : [])
+      ])
+    ];
+    target.status = "canon_enrichi";
+    target.rebuildV2 = true;
+  }
+
+  for (const sourceArticle of COMPENDIUM_VERITE_PELAGES_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingActivePnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergePelagePnj(existing, article));
+      pelagePnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+
+    byId.set(article.id, article);
+    pelagePnjResolvedIds.set(article.id, article.id);
+  }
+
+  for (const sourceArticle of COMPENDIUM_VERITE_ASERYN_TERRES_TEMPLES_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingAserynPnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeAserynPnj(existing, article));
+      aserynTerresTemplesPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+    byId.set(article.id, article);
+    aserynTerresTemplesPnjResolvedIds.set(article.id, article.id);
+  }
+
+  for (const sourceArticle of COMPENDIUM_VERITE_GRANDS_EXILES_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingAserynPnj(byId, article);
+    if (existing) {
+      const merged = mergeAserynPnj(existing, article);
+      const sources = [existing.source, article.source]
+        .flatMap((value) => String(value ?? "").split(" ; "))
+        .map((value) => value.trim())
+        .filter(Boolean);
+      merged.source = [...new Set(sources)].join(" ; ");
+      merged.tags = [
+        ...new Set([
+          ...(merged.tags ?? []),
+          "Exilés",
+          "Grands Exilés 2026-09",
+          ...(new Set(sources).size > 1 ? ["Multi-source"] : [])
+        ])
+      ];
+      merged.status = "canon_enrichi";
+      merged.rebuildV2 = true;
+      byId.set(existing.id, merged);
+      grandsExilesPnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+
+    byId.set(article.id, article);
+    grandsExilesPnjResolvedIds.set(article.id, article.id);
+  }
+
+  for (const article of COMPENDIUM_POINTS_RENCONTRE_EDITORIAL_ARTICLES) {
+    byId.set(String(article.id), deepClone(article) as Article);
+  }
+
+  for (const sourceArticle of COMPENDIUM_POINTS_RENCONTRE_PNJ_ARTICLES) {
+    const article = deepClone(sourceArticle) as Article;
+    const existing = findMatchingAserynPnj(byId, article);
+    if (existing) {
+      byId.set(existing.id, mergeAngelusPnj(existing, article));
+      pointsRencontrePnjResolvedIds.set(article.id, existing.id);
+      continue;
+    }
+    byId.set(article.id, article);
+    pointsRencontrePnjResolvedIds.set(article.id, article.id);
+  }
+
+  for (const article of COMPENDIUM_SHI_QI_EDITORIAL_ARTICLES) {
+    byId.set(String(article.id), deepClone(article) as Article);
+  }
+
+  const resolveShiQiTarget = (enrichment: JsonObject): Article | null => {
+    const direct = byId.get(String(enrichment.id ?? ""));
+    if (direct && direct.rebuildV2 !== false) return direct;
+    const wanted = new Set(
+      (enrichment.identityKeys ?? []).map((value: unknown) => normalizedPnjIdentity(value)).filter(Boolean)
+    );
+    if (!wanted.size) return null;
+    for (const candidate of byId.values()) {
+      if (candidate.rebuildV2 !== true || !candidate.pnj) continue;
+      const keys = [
+        candidate.title,
+        candidate.pnj.real_name,
+        candidate.pnj.nom_reel,
+        candidate.pnj.nom_realite,
+        candidate.pnj.nom_verite,
+        ...(Array.isArray(candidate.pnj.identity_keys) ? candidate.pnj.identity_keys : [])
+      ].map((value) => normalizedPnjIdentity(value)).filter(Boolean);
+      if (keys.some((key) => wanted.has(key))) return candidate;
+    }
+    return null;
+  };
+
+  for (const enrichment of COMPENDIUM_SHI_QI_ENRICHMENTS) {
+    const target = resolveShiQiTarget(enrichment);
+    if (!target) throw new Error(`Shi/Qi · cible absente: ${String(enrichment.id ?? "")}`);
+
+    const replacementId = String(enrichment.replaceSectionId ?? "");
+    const incoming = deepClone(enrichment.sections ?? []) as JsonObject[];
+    const incomingIds = new Set(incoming.map((section) => String(section?.id ?? "")).filter(Boolean));
+    target.sections = [
+      ...(target.sections ?? []).filter((section) => {
+        const id = String(section?.id ?? "");
+        if (replacementId && id === replacementId) return false;
+        return !incomingIds.has(id);
+      }),
+      ...incoming
+    ];
+
+    target.source = [...new Set(
+      [target.source, enrichment.source]
+        .flatMap((value) => String(value ?? "").split(" ; "))
+        .map((value) => value.trim())
+        .filter(Boolean)
+    )].join(" ; ");
+    target.tags = [...new Set([...(target.tags ?? []), ...(enrichment.tags ?? []), "Shi/Qi 2026-09"])];
+    target.status = "canon_enrichi";
+    target.rebuildV2 = true;
+
+    if (target.pnj) {
+      target.pnj = { ...target.pnj };
+      target.pnj.identity_keys = [...new Set([
+        ...(Array.isArray(target.pnj.identity_keys) ? target.pnj.identity_keys : []),
+        ...(enrichment.identityKeys ?? [])
+      ])];
+    }
+  }
+
+  const generatedTalentHubs = generatedTalentHubCorpus();
+  for (const hub of generatedTalentHubs.articles) {
+    if (!byId.has(hub.id)) byId.set(hub.id, deepClone(hub) as Article);
+  }
+
+  const generatedBuilderReferences = generatedBuilderReferenceCorpus();
+  for (const reference of generatedBuilderReferences.articles) {
+    if (!byId.has(String(reference.id))) {
+      byId.set(String(reference.id), deepClone(reference) as Article);
+    }
+  }
+
+  // Final lore-only closure. These idempotent passes run after source imports so
+  // concurrent PNJ consolidations and generated Builder mechanics stay untouched.
+  applyCompendiumVeriteLogesMagesLore(byId);
+  applyCompendiumVeriteClosureLore(byId);
+  applyCompendiumRealiteV9ClosureLore(byId);
+
+  const overrideSummary = await applyCommittedOverrides(byId, overridePayload);
+
+  const customArticles = await pool.query<{ articleId: string; baseDocument: Article }>(
+    `SELECT article_id AS "articleId", base_document AS "baseDocument"
+     FROM compendium_custom_articles
+     WHERE is_published = true`
+  );
+  const customArticleIds = new Set<string>();
+  for (const row of customArticles.rows) {
+    if (!row.baseDocument?.id || byId.has(row.articleId)) continue;
+    const article = deepClone(row.baseDocument);
+    article.dataset = "custom";
+    byId.set(row.articleId, article);
+    customArticleIds.add(row.articleId);
+  }
+
+  const editorBaseById = new Map<string, { hash: string; article: Article }>();
+  for (const [id, article] of byId) {
+    editorBaseById.set(id, { hash: articleHash(article), article: deepClone(article) });
+  }
+
+  for (const id of customArticleIds) {
+    const article = byId.get(id);
+    if (article) article.__customWikiPage = true;
+  }
+
+  let databaseEditApplied = 0;
+  let databaseEditConflicts = 0;
+  const publishedEdits = await pool.query<{
+    articleId: string;
+    baseHash: string;
+    published: JsonObject;
+  }>(
+    `SELECT
+       article_id AS "articleId",
+       base_hash AS "baseHash",
+       published
+     FROM compendium_article_edits
+     WHERE published IS NOT NULL`
+  );
+
+  for (const row of publishedEdits.rows) {
+    const base = editorBaseById.get(row.articleId);
+    const current = byId.get(row.articleId);
+    if (!base || !current || String(row.published.category ?? "").trim() === LEGACY_CATEGORY) continue;
+    if (row.baseHash !== base.hash) {
+      databaseEditConflicts += 1;
+      continue;
+    }
+
+    const effective = editableArticle(current, row.published);
+    effective.__wikiPublishedEdit = true;
+    byId.set(row.articleId, effective);
+    databaseEditApplied += 1;
+  }
+
+  const corporationBranding = JSON.parse(await readFile(
+    resolve(COMPENDIUM_MEDIA_DIR, "source/corporation-branding-v1.json"), "utf8"
+  )) as { articles: Record<string, { name: string; logo?: string; charts?: Array<{ src: string }> }> };
+  const weaponBrandLinks = JSON.parse(await readFile(
+    resolve(COMPENDIUM_MEDIA_DIR, "source/weapon-brand-links-v1.json"), "utf8"
+  )) as { equipmentById: Record<string, string> };
+  const corporationIdFor = (slug: string) => slug === "space-force-union"
+    ? "realite-v9-corporation-space-force-union"
+    : `realite-v9-corporation-${slug}-corporation`;
+  const corporationByManufacturer: Record<string, string> = {
+    Raven: "raven-industries", Phoenix: "phoenix", Byron: "byron-industries",
+    Biosun: "biosun", Sunways: "sunways", SeaWares: "seawares",
+    Tala: "tala", Monarch: "monarch-systems", Tortoise: "tortoise-security",
+    "Ocean Master": "ocean-master", SFU: "space-force-union"
+  };
+  const manufacturerByCorporation = Object.fromEntries(
+    Object.entries(corporationByManufacturer).map(([manufacturer, slug]) => [slug, manufacturer])
+  ) as Record<string, string>;
+  const manualMediaFiles = new Set(
+    await readdir(resolve(COMPENDIUM_MEDIA_DIR, "images/manual")).catch(() => [] as string[])
+  );
+  const ruleDiagrams = await readFile(resolve(COMPENDIUM_MEDIA_DIR, "source/rules-diagrams-v1.json"), "utf8")
+    .then((content) => JSON.parse(content) as { diagrams?: Array<{ articleId: string; sectionId: string; src: string; mobileSrc: string; title: string; alt: string; caption: string }> })
+    .then((data) => data.diagrams ?? [])
+    .catch(() => []);
+  const ruleDiagramsByArticle = new Map<string, typeof ruleDiagrams>();
+  for (const diagram of ruleDiagrams) {
+    if (!/^images\/rules\/regles-[a-z0-9-]+\.svg$/.test(diagram.src) ||
+        !/^images\/rules\/regles-[a-z0-9-]+-mobile\.svg$/.test(diagram.mobileSrc)) continue;
+    const entries = ruleDiagramsByArticle.get(diagram.articleId) ?? [];
+    entries.push(diagram);
+    ruleDiagramsByArticle.set(diagram.articleId, entries);
+  }
+  const loreIllustrations = await readFile(resolve(COMPENDIUM_MEDIA_DIR, "source/lore-illustrations-v1.json"), "utf8")
+    .then((content) => JSON.parse(content) as { illustrations?: Array<{ articleId: string; sectionId: string; src: string; alt: string; caption: string; style?: string }> })
+    .then((data) => data.illustrations ?? [])
+    .catch(() => []);
+  const loreIllustrationsByArticle = new Map<string, typeof loreIllustrations>();
+  for (const illustration of loreIllustrations) {
+    if (!/^images\/lore\/[a-z0-9-]+\.webp$/.test(illustration.src)) continue;
+    const entries = loreIllustrationsByArticle.get(illustration.articleId) ?? [];
+    entries.push(illustration);
+    loreIllustrationsByArticle.set(illustration.articleId, entries);
+  }
+  const portraitManifest = await readFile(resolve(COMPENDIUM_MEDIA_DIR, "images/portraits/manifest.json"), "utf8")
+    .then((content) => JSON.parse(content) as { lot1?: { items?: Array<{ id: string; src: string; visibility: string }> }; lot2?: { items?: Array<{ id: string; src: string; visibility: string }> } })
+    .catch(() => ({ lot1: { items: [] }, lot2: { items: [] } }));
+  const portraitsByArticle = new Map<string, Array<{ src: string; visibility: string; lot: string }>>();
+  for (const [lot, group] of Object.entries(portraitManifest)) {
+    for (const item of group?.items ?? []) {
+      if (!item.id || !/^images\/portraits\/lot-[12]\/(?:public|mj)\/[a-z0-9-]+\.webp$/.test(item.src)) continue;
+      const items = portraitsByArticle.get(item.id) ?? [];
+      items.push({ src: item.src, visibility: item.visibility, lot });
+      portraitsByArticle.set(item.id, items);
+    }
+  }
+  const manualGalleryByArticle = new Map<string, string[]>();
+  for (const filename of manualMediaFiles) {
+    if (!filename.endsWith(".webp")) continue;
+    const marker = filename.indexOf("--");
+    if (marker <= 0) continue;
+    const articleId = filename.slice(0, marker);
+    const gallery = manualGalleryByArticle.get(articleId) ?? [];
+    gallery.push(filename);
+    manualGalleryByArticle.set(articleId, gallery);
+  }
+  for (const gallery of manualGalleryByArticle.values()) gallery.sort();
+
+  const mergeTenSource = (target: Article, source: string, tags: string[]) => {
+    const sources = [target.source, source]
+      .flatMap((value) => String(value ?? "").split(" ; "))
+      .map((value) => value.trim())
+      .filter(Boolean);
+    target.source = [...new Set(sources)].join(" ; ");
+    target.tags = [...new Set([...(target.tags ?? []), ...tags, ...(new Set(sources).size > 1 ? ["Multi-source"] : [])])];
+    target.status = "canon_enrichi";
+    target.rebuildV2 = true;
+    target.pnj = { ...(target.pnj ?? {}) };
+    target.pnj.source_documents = [
+      ...new Set([
+        ...((Array.isArray(target.pnj.source_documents) ? target.pnj.source_documents : []) as string[]),
+        ...sources
+      ])
+    ];
+  };
+
+  const appendTenSections = (target: Article, sections: JsonObject[]) => {
+    const existingIds = new Set((target.sections ?? []).map((section) => String(section?.id ?? "")));
+    for (const sourceSection of sections) {
+      const id = String(sourceSection?.id ?? "");
+      if (!id || existingIds.has(id)) continue;
+      const copy = deepClone(sourceSection) as JsonObject;
+      if (copy.audience === "mj") {
+        target.sections = [...(target.sections ?? []), copy];
+      } else {
+        const current = [...(target.sections ?? [])];
+        const mjIndex = current.findIndex((section) => section?.audience === "mj");
+        if (mjIndex >= 0) current.splice(mjIndex, 0, copy);
+        else current.push(copy);
+        target.sections = current;
+      }
+      existingIds.add(id);
+    }
+  };
+
+  const mergeTenMjBlocks = (target: Article, sourceSection: JsonObject) => {
+    const current = [...(target.sections ?? [])];
+    let mjIndex = current.findIndex((section) => String(section?.id ?? "") === "dossier-mj");
+    if (mjIndex < 0) {
+      mjIndex = current.findIndex(
+        (section) => section?.audience === "mj" && String(section?.id ?? "") !== "profil-statistique"
+      );
+    }
+    const sourceBlocks = deepClone((sourceSection?.blocks ?? []) as JsonObject[]) as JsonObject[];
+    if (mjIndex >= 0) {
+      const existing = current[mjIndex] as JsonObject;
+      const existingBlocks = ((existing?.blocks ?? []) as JsonObject[]).map((block) => deepClone(block) as JsonObject);
+      const signatures = new Set(existingBlocks.map((block) => JSON.stringify(block)));
+      for (const block of sourceBlocks) {
+        const signature = JSON.stringify(block);
+        if (signatures.has(signature)) continue;
+        existingBlocks.push(block);
+        signatures.add(signature);
+      }
+      current[mjIndex] = { ...existing, audience: "mj", blocks: existingBlocks };
+    } else {
+      const copy = deepClone(sourceSection) as JsonObject;
+      copy.id = "dossier-mj";
+      copy.title = "Dossier MJ · Vérité & informations cachées";
+      copy.audience = "mj";
+      const statsIndex = current.findIndex((section) => String(section?.id ?? "") === "profil-statistique");
+      if (statsIndex >= 0) current.splice(statsIndex, 0, copy);
+      else current.push(copy);
+    }
+    target.sections = current;
+  };
+
+  const svetlanaCandidates = [...byId.values()].filter((article) => {
+    const names = [
+      String(article?.title ?? ""),
+      String(article?.pnj?.real_name ?? ""),
+      ...((Array.isArray(article?.pnj?.identity_keys) ? article.pnj.identity_keys : []) as string[])
+    ];
+    return names.some(
+      (name) => normalizedPnjIdentity(name) === normalizedPnjIdentity("Svetlana Konstantinovna")
+    );
+  });
+  if (svetlanaCandidates.length !== 1) {
+    throw new Error(`Ten · fiche Svetlana canonique ambiguë: ${svetlanaCandidates.map((article) => article.id).join(", ") || "aucune"}`);
+  }
+  const svetlana = svetlanaCandidates[0];
+
+  // The legacy active sheet mixed public Reality fields with Truth/Arkhangel secrets.
+  // The Ten pass replaces those mixed public sections with the clean Reality fiche below.
+  svetlana.sections = (svetlana.sections ?? []).filter((sourceSection) => {
+    if (sourceSection?.audience === "mj") return true;
+    const id = normalizedPnjIdentity(String(sourceSection?.id ?? ""));
+    const title = normalizedPnjIdentity(String(sourceSection?.title ?? ""));
+    const payload = normalizedPnjIdentity(JSON.stringify(sourceSection ?? {}));
+    const legacyProfile =
+      (id === "profil" || title === "profil") &&
+      (payload.includes("nom de la verite") ||
+        payload.includes("nature reelle") ||
+        payload.includes("mashia") ||
+        payload.includes("arkhangel"));
+    const legacyMixedReality =
+      (id.includes("info-realite") || id.includes("informations-realite") || title.includes("informations realite")) &&
+      payload.includes("arkhangel");
+    return !(legacyProfile || legacyMixedReality);
+  });
+
+  for (const section of (COMPENDIUM_TEN_SVETLANA_ARTICLE.sections ?? []) as JsonObject[]) {
+    const sectionId = String(section?.id ?? "");
+    if (sectionId === "profil-statistique") continue;
+    if (section?.audience === "mj") mergeTenMjBlocks(svetlana, section);
+    else appendTenSections(svetlana, [deepClone(section) as JsonObject]);
+  }
+  mergeTenSource(
+    svetlana,
+    String(COMPENDIUM_TEN_SVETLANA_ARTICLE.source ?? ""),
+    COMPENDIUM_TEN_SVETLANA_ARTICLE.tags ?? []
+  );
+  const svetlanaSourcePnj = deepClone(COMPENDIUM_TEN_SVETLANA_ARTICLE.pnj ?? {}) as JsonObject;
+  const svetlanaExistingPnj = deepClone(svetlana.pnj ?? {}) as JsonObject;
+  svetlana.pnj = { ...svetlanaSourcePnj, ...svetlanaExistingPnj };
+  svetlana.pnj.identity_keys = [
+    ...new Set([
+      ...((Array.isArray(svetlanaSourcePnj.identity_keys) ? svetlanaSourcePnj.identity_keys : []) as string[]),
+      ...((Array.isArray(svetlanaExistingPnj.identity_keys) ? svetlanaExistingPnj.identity_keys : []) as string[])
+    ])
+  ];
+
+  const resolveTenTargetId = (sourceId: string) =>
+    sourceId === String(COMPENDIUM_TEN_SVETLANA_ARTICLE.id)
+      ? svetlana.id
+      : crawlerPnjResolvedIds.get(sourceId) ??
+        corporationPnjResolvedIds.get(sourceId) ??
+        sourceId;
+
+  for (const enrichment of COMPENDIUM_TEN_BACKGROUND_ENRICHMENTS) {
+    const sourceTargetId = String(enrichment.targetId ?? "");
+    const targetId = resolveTenTargetId(sourceTargetId);
+    const target = byId.get(targetId);
+    if (!target) throw new Error(`Ten · cible BG absente: ${sourceTargetId} -> ${targetId}`);
+    appendTenSections(target, deepClone(enrichment.sections ?? []) as JsonObject[]);
+    mergeTenSource(target, String(enrichment.source ?? ""), enrichment.tags ?? []);
+  }
+
+  const arkhangel = byId.get(String(COMPENDIUM_TEN_ARKHANGEL_LINK.targetId ?? ""));
+  if (!arkhangel) throw new Error("Ten · lien Svetlana/Arkhangel impossible");
+  mergeTenMjBlocks(arkhangel, deepClone(COMPENDIUM_TEN_ARKHANGEL_LINK.section) as JsonObject);
+  mergeTenSource(arkhangel, String(COMPENDIUM_TEN_ARKHANGEL_LINK.source ?? ""), COMPENDIUM_TEN_ARKHANGEL_LINK.tags ?? []);
+  arkhangel.pnj = { ...(arkhangel.pnj ?? {}) };
+  svetlana.pnj = { ...(svetlana.pnj ?? {}) };
+  arkhangel.pnj.relations = [...new Set([...(arkhangel.pnj.relations ?? []), svetlana.id])];
+  svetlana.pnj.relations = [...new Set([...(svetlana.pnj.relations ?? []), arkhangel.id])];
+  // Deliberately keep the identities separate: the secret is a protected relation, never a merge key.
+  arkhangel.pnj.identity_keys = (arkhangel.pnj.identity_keys ?? []).filter((key: string) => normalizedPnjIdentity(key) !== normalizedPnjIdentity("Svetlana Konstantinovna"));
+  svetlana.pnj.identity_keys = (svetlana.pnj.identity_keys ?? []).filter((key: string) => normalizedPnjIdentity(key) !== normalizedPnjIdentity("Arkhangel"));
+
+  byId.set(COMPENDIUM_TEN_PAGE_ARTICLE.id, deepClone(COMPENDIUM_TEN_PAGE_ARTICLE) as Article);
+  for (const enrichment of COMPENDIUM_TEN_TRUTH_ENRICHMENTS) {
+    const sourceTargetId = String(enrichment.targetId ?? "");
+    const targetId = resolveTenTargetId(sourceTargetId);
+    const target = byId.get(targetId);
+    if (!target) throw new Error(`Ten · cible canonique absente: ${sourceTargetId} -> ${targetId}`);
+    mergeTenMjBlocks(target, deepClone(enrichment.section) as JsonObject);
+    target.tags = [...new Set([...(target.tags ?? []), "Ten", "Ancre de Vérité"])];
+    target.status = "canon_enrichi";
+    target.rebuildV2 = true;
+  }
+
+  byId.set(COMPENDIUM_VERITE_TEN_CHRONOLOGY_ARTICLE.id, deepClone(COMPENDIUM_VERITE_TEN_CHRONOLOGY_ARTICLE) as Article);
+  for (const enrichment of COMPENDIUM_VERITE_TEN_ENRICHMENTS) {
+    const sourceTargetId = String(enrichment.targetId ?? "");
+    const targetId = resolveTenTargetId(sourceTargetId);
+    const target = byId.get(targetId);
+    if (!target) throw new Error(`Ten · cible Catastrophes absente: ${sourceTargetId} -> ${targetId}`);
+    appendTenSections(target, deepClone(enrichment.sections ?? []) as JsonObject[]);
+    mergeTenSource(target, COMPENDIUM_VERITE_TEN_SOURCE, enrichment.tags ?? []);
+  }
+
+  const normalizeTenPresentation = (target: Article) => {
+    const publicSections: JsonObject[] = [];
+    const mjSections: JsonObject[] = [];
+    const statsSections: JsonObject[] = [];
+
+    for (const sourceSection of target.sections ?? []) {
+      const section = deepClone(sourceSection) as JsonObject;
+      const id = normalizedPnjIdentity(String(section?.id ?? ""));
+      const title = normalizedPnjIdentity(String(section?.title ?? ""));
+      if (id === "profil-statistique" || title === "profil statistique" || title === "statistiques") {
+        statsSections.push(section);
+      } else if (section?.audience === "mj") {
+        mjSections.push(section);
+      } else {
+        publicSections.push(section);
+      }
+    }
+
+    target.sections = [...publicSections, ...mjSections, ...statsSections];
+
+    let sawMj = false;
+    for (const section of target.sections) {
+      const id = normalizedPnjIdentity(String(section?.id ?? ""));
+      const title = normalizedPnjIdentity(String(section?.title ?? ""));
+      const isStats = id === "profil-statistique" || title === "profil statistique" || title === "statistiques";
+      if (section?.audience === "mj" || isStats) sawMj = true;
+      else if (sawMj) throw new Error(`Ten · section publique après le MJ: ${target.id} / ${String(section?.id ?? section?.title ?? "?")}`);
+    }
+    if (statsSections.length && target.sections[target.sections.length - 1] !== statsSections[statsSections.length - 1]) {
+      throw new Error(`Ten · statistiques non terminales: ${target.id}`);
+    }
+  };
+
+  const tenPresentationIds = new Set<string>([
+    svetlana.id,
+    arkhangel.id,
+    ...COMPENDIUM_TEN_BACKGROUND_ENRICHMENTS.map((entry) => resolveTenTargetId(String(entry.targetId ?? ""))),
+    ...COMPENDIUM_TEN_TRUTH_ENRICHMENTS.map((entry) => resolveTenTargetId(String(entry.targetId ?? ""))),
+    ...COMPENDIUM_VERITE_TEN_ENRICHMENTS.map((entry) => resolveTenTargetId(String(entry.targetId ?? "")))
+  ]);
+  for (const targetId of tenPresentationIds) {
+    const target = byId.get(targetId);
+    if (target) normalizeTenPresentation(target);
+  }
+
+  const svetlanaPublicSurface = normalizedPnjIdentity(
+    JSON.stringify((svetlana.sections ?? []).filter((section) => section?.audience !== "mj"))
+  );
+  if (
+    svetlanaPublicSurface.includes("arkhangel") ||
+    svetlanaPublicSurface.includes("mashia") ||
+    svetlanaPublicSurface.includes("nom de la verite") ||
+    svetlanaPublicSurface.includes("nature reelle")
+  ) {
+    throw new Error("Ten · fuite publique détectée sur la fiche Svetlana");
+  }
+
+  applyCompendiumPnjRepairs(byId);
+  consolidateActivePnjSections(byId);
+  applyCompendiumPnjStatProfiles(byId);
+  applyCorporatePnjStats(byId);
+  applyInstitutionPnjStats(byId);
+  applyCrawlerStatBatch01(byId);
+  applyCrawlerStatBatch02(byId);
+  applyMixedPnjStatBatch03(byId);
+  applyCivilPnjStatBatch04(byId);
+  applyPnjStatBatch05(byId);
+  applyPnjStatBatch06(byId);
+  applyPnjStatBatch07(byId);
+  applyPnjStatBatch08(byId);
+  applyPnjStatBatch09(byId);
+  applyPnjStatBatch10(byId);
+  applyPnjStatBatch11(byId);
+  applyPnjStatBatch12(byId);
+  applyPnjStatBatch13(byId);
+  applyPnjStatBatch14(byId);
+  applyPnjStatBatch15(byId);
+  applyPnjStatBatch16(byId);
+  applyConfirmedPnjRealityAges(byId);
+  applyCompendiumPnjTruthProfiles(byId);
+
+  const portraitOnlyLot2 = await readFile(resolve(COMPENDIUM_MEDIA_DIR, "source/portrait-only-lot2-v1.json"), "utf8")
     .then((content) => JSON.parse(content) as { articles: Array<{ id: string; name: string; group: string; visibility: string; realm?: string }> });
   for (const entry of portraitOnlyLot2.articles) {
     if (byId.has(entry.id)) throw new Error(`Portrait transmis : fiche déjà existante ${entry.id}`);
@@ -2318,6 +4261,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     };
   });
 
+
   app.get<{
     Querystring: { q?: string; maxTier?: string; limit?: string };
   }>("/api/compendium/contact-npcs", async (request, reply) => {
@@ -2374,6 +4318,9 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       }))
     };
   });
+
+  app.get("/api/compendium/onboarding", async () => {
+    const corpus = await getCorpus();
 
   app.get("/api/compendium/onboarding", async () => {
     const corpus = await getCorpus();
