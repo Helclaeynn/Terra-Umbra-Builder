@@ -715,6 +715,63 @@
         "regles-verite-v7-mage-maitrise-amplitude-lancement"
       ],
       "note": "Tension at three triggers Revers; distinguish Echo, personal Work and family magic, and Dormancy from mundane Stress."
+    },
+    {
+      "id": "regles-verite-v7-daemon-maisonnees-faveurs-patron",
+      "sectionsRead": [
+        "maisonnees-et-faveurs-de-patron",
+        "belial",
+        "lilith",
+        "alabor",
+        "mammon",
+        "diablo",
+        "astaroth",
+        "satan",
+        "mephisto",
+        "abigor",
+        "baal",
+        "belzebuth",
+        "lucifer",
+        "morrighan",
+        "relations-hierarchie-et-role-en-campagne"
+      ],
+      "references": [
+        "regles-verite-v7-daemon-nature-fonctions-divinites-facettes",
+        "regles-verite-v7-mage-maitrise-amplitude-lancement"
+      ],
+      "note": "One Maison and one active Faveur per Daemon; the Duke grants a patronal favor, not the Divinity imprint. Belial, Lucifer and Mephisto here are Divinity section headers, not independent Faveur mechanics. Abrasax refers narrowly to Spectre de Mageius."
+    },
+    {
+      "id": "regles-verite-v7-angelus-nature-revelation-transcendance",
+      "sectionsRead": [
+        "concept-et-architecture",
+        "reincarnation-eveil-et-revelation",
+        "detachement-celeste",
+        "aura-aureole-et-arbre-de-vie",
+        "nature-commune-pouvoirs-angeliques",
+        "talents-communs",
+        "progression-de-transcendance",
+        "nature-trone",
+        "nature-vertu",
+        "nature-domination"
+      ],
+      "references": [
+        "regles-verite-v7-angelus-sephiroth-archanges-seraphins",
+        "regles-verite-v7-corruption-integrite-bascule"
+      ],
+      "note": "Éveil differs from Révélation and from the V/SR/R transitions. Aura is an Angelus-specific reserve; Auréole recharges it, and Arbre de Vie governs the connection. Trône, Vertu and Domination are Natures, not hierarchical ranks; Séraphin is an exceptional rank."
+    },
+    {
+      "id": "regles-verite-v7-exiles-profils-cinq-peuples",
+      "sectionsRead": [
+        "etats",
+        "limites",
+        "builder"
+      ],
+      "references": [
+        "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie"
+      ],
+      "note": "The five SR/R profiles are Elyë, Whurten, Ashyll, Thulkar and Azménorien. Their free physiology and magic access do not grant extra attacks, free flight or spells; 53 talents remain in Builder. Cultures and networks belong to the companion Exilés page."
     }
   ]
 }
