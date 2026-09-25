@@ -365,8 +365,9 @@ function propertyPreview(item:TruthEquipmentItem){
 .catalog-modes button[aria-pressed=true]{border-color:#b79aff;color:#eee6ff;background:#28213b}
 .catalog-help>summary,.equipment-description>summary{min-height:44px;cursor:pointer;align-content:center;color:#cbb8ff;font-size:13px}
 .catalog-count{font-size:13px;color:#a1b5cc;margin:12px 0}
-.truth-equipment-grid{grid-template-columns:minmax(0,1fr);gap:8px}
-.truth-equipment-card{padding:12px 16px;gap:4px}
+.truth-equipment-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:16px}
+.truth-equipment-card{display:flex;flex-direction:column;padding:18px;gap:14px;border-color:#344d63;background:#101f30}
+.truth-equipment-card .equipment-description:not([open]){margin-top:auto}
 .equipment-description[open]>p{margin:8px 0 12px}
 .equipment-section-summary{cursor:pointer;min-height:56px;padding-bottom:12px}
 .equipment-section-summary::after{content:'＋';color:#b79aff;align-self:center}

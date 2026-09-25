@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref } from "vue";
+import { computed, nextTick, onMounted, ref, watch } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import { api, ApiError } from "../lib/api";
 import CanonicalNpcGenerator from '../components/CanonicalNpcGenerator.vue';
@@ -61,6 +61,7 @@ type TalentRegistryMeta = {
   natures: string[];
   groups: Array<{ groupId: string; natureId: string; label: string; count: number }>;
 };
+type TalentRegistryChoice={talentId:string;name:string;groupLabel:string;cost:number};
 
 const route = useRoute();
 const router = useRouter();
@@ -108,9 +109,12 @@ const coverageFamily = ref("");
 const coverageStatus = ref<"" | "missing" | "ambiguous" | "linked">("missing");
 const talentInsertOpen = ref(false);
 const talentMeta = ref<TalentRegistryMeta | null>(null);
-const talentInsertMode = ref<"nature" | "group">("nature");
+const talentInsertMode = ref<"ids" | "nature" | "group">("ids");
 const talentInsertNature = ref("vampire");
 const talentInsertGroup = ref("");
+const talentRows = ref<TalentRegistryChoice[]>([]);
+const talentInsertId = ref("");
+const talentInsertIds = ref<string[]>([]);
 const categories = ["Règles", "Réalité", "Vérité", "Personnages", "Équipement & Objets", "Bestiaire"];
 const editorialStatuses=[{id:'canon_enrichi',label:'Canon enrichi'},{id:'canon_source',label:'Canon issu de la source'},{id:'canon_recent',label:'Canon récent'}];
 
@@ -463,10 +467,27 @@ async function toggleTalentInsert() {
     if (!talentInsertGroup.value) {
       talentInsertGroup.value = talentMeta.value.groups[0]?.groupId ?? "";
     }
+    await loadTalentRows();
   } catch (cause) {
     error.value = humanError(cause);
   }
 }
+
+async function loadTalentRows(){
+  if(!talentInsertNature.value){talentRows.value=[];return;}
+  try{
+    const payload=await api<{items:TalentRegistryChoice[]}>(`/api/compendium/talents?natureId=${encodeURIComponent(talentInsertNature.value)}`);
+    talentRows.value=payload.items;
+    talentInsertIds.value=talentInsertIds.value.filter(id=>payload.items.some(item=>item.talentId===id));
+  }catch(cause){error.value=humanError(cause);}
+}
+
+function addTalentInsertId(){
+  if(talentInsertId.value&&!talentInsertIds.value.includes(talentInsertId.value))talentInsertIds.value.push(talentInsertId.value);
+  talentInsertId.value="";
+}
+
+watch(talentInsertNature,()=>{if(talentMeta.value)void loadTalentRows();});
 
 const talentInsertGroups = computed(() =>
   (talentMeta.value?.groups ?? []).filter(group =>
@@ -507,7 +528,9 @@ async function insertTalentBlock() {
   const element = sourceArea.value;
   if (!element) return;
   let directive = "";
-  if (talentInsertMode.value === "group" && talentInsertGroup.value) {
+  if (talentInsertMode.value === "ids" && talentInsertIds.value.length) {
+    directive = `{{Talents|ids=${talentInsertIds.value.join(",")}}}`;
+  } else if (talentInsertMode.value === "group" && talentInsertGroup.value) {
     directive = `{{Talents|group=${talentInsertGroup.value}}}`;
   } else if (talentInsertNature.value) {
     directive = `{{Talents|nature=${talentInsertNature.value}}}`;
@@ -1259,6 +1282,7 @@ onMounted(load);
                   <small>Le texte des Talents restera centralisé dans le registre canonique.</small>
                 </div>
                 <select v-model="talentInsertMode" aria-label="Type de bloc Talents">
+                  <option value="ids">Un ou plusieurs Talents précis</option>
                   <option value="nature">Toute une Nature</option>
                   <option value="group">Un groupe de Talents</option>
                 </select>
@@ -1274,6 +1298,18 @@ onMounted(load);
                     {{ group.label }} · {{ group.count }}
                   </option>
                 </select>
+                <template v-if="talentInsertMode === 'ids'">
+                  <div class="talent-id-picker">
+                    <select v-model="talentInsertId" aria-label="Talent précis">
+                      <option value="">Choisir un Talent</option>
+                      <option v-for="talent in talentRows.filter(item=>!talentInsertIds.includes(item.talentId))" :key="talent.talentId" :value="talent.talentId">{{ talent.name }} · {{ talent.groupLabel }} · {{ talent.cost }} PTV</option>
+                    </select>
+                    <button type="button" class="secondary compact" :disabled="!talentInsertId" @click="addTalentInsertId">Ajouter</button>
+                  </div>
+                  <div v-if="talentInsertIds.length" class="talent-id-selection">
+                    <button v-for="talentId in talentInsertIds" :key="talentId" type="button" class="ghost compact" @click="talentInsertIds=talentInsertIds.filter(id=>id!==talentId)">{{ talentRows.find(item=>item.talentId===talentId)?.name||talentId }} ×</button>
+                  </div>
+                </template>
                 <button class="secondary compact" type="button" @click="insertTalentBlock">Insérer</button>
                 <button class="ghost compact" type="button" @click="talentInsertOpen=false">Annuler</button>
               </div>
@@ -1438,6 +1474,7 @@ Encore du texte.
 .editor-hint { margin:.25rem 0; color:#718a95; font-size:.78rem; line-height:1.5; }
 .talent-insert-panel{display:grid;grid-template-columns:minmax(180px,1fr) auto auto auto auto;gap:.5rem;align-items:center;padding:.7rem .8rem;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);background:linear-gradient(90deg,rgba(43,146,255,.08),rgba(255,255,255,.012));position:relative;z-index:6;scroll-margin-block:96px}
 .talent-insert-panel>div{display:grid;gap:.15rem}.talent-insert-panel strong{color:#c5d4d9;font-size:.76rem}.talent-insert-panel small{color:#718a95;font-size:.63rem}.talent-insert-panel select{min-width:130px}.talent-insert-panel button{scroll-margin-block:112px}
+.talent-id-picker{display:flex!important;align-items:center;gap:.5rem}.talent-id-picker select{flex:1}.talent-id-selection{grid-column:1/-1;display:flex!important;flex-wrap:wrap;gap:.4rem}
 .wiki-toolbar button.active{border-color:#2b92ff;color:#c7eaf2;background:rgba(43,146,255,.1)}
 .preview-talent-embed{display:grid;gap:.28rem;margin:.75rem 0;padding:.8rem;border:1px solid rgba(88,220,197,.2);background:linear-gradient(145deg,rgba(43,146,255,.07),rgba(255,255,255,.012))}.preview-talent-embed span{color:#6fb9d6;font-size:.58rem;letter-spacing:.08em}.preview-talent-embed strong{color:#dce8ec;font-family:Inter,"Segoe UI",sans-serif}.preview-talent-embed small{color:#718a95}
 @media(max-width:900px){.talent-insert-panel{grid-template-columns:1fr 1fr}.talent-insert-panel>div{grid-column:1/-1}}
