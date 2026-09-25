@@ -59,6 +59,10 @@ jobs:
           npm ci
           npm run build
 
+      - name: Check reviewed Compendium links and privacy
+        working-directory: apps/api
+        run: node scripts/check-reviewed-rule-taxonomy.mjs
+
       - name: Check rule diagrams
         working-directory: apps/api
         run: node scripts/check-rule-diagrams.mjs
