@@ -3136,6 +3136,17 @@ async function loadCorpus(): Promise<Corpus> {
     entries.push(diagram);
     ruleDiagramsByArticle.set(diagram.articleId, entries);
   }
+  const loreIllustrations = await readFile(resolve(COMPENDIUM_MEDIA_DIR, "source/lore-illustrations-v1.json"), "utf8")
+    .then((content) => JSON.parse(content) as { illustrations?: Array<{ articleId: string; sectionId: string; src: string; alt: string; caption: string; style?: string }> })
+    .then((data) => data.illustrations ?? [])
+    .catch(() => []);
+  const loreIllustrationsByArticle = new Map<string, typeof loreIllustrations>();
+  for (const illustration of loreIllustrations) {
+    if (!/^images\/lore\/[a-z0-9-]+\.webp$/.test(illustration.src)) continue;
+    const entries = loreIllustrationsByArticle.get(illustration.articleId) ?? [];
+    entries.push(illustration);
+    loreIllustrationsByArticle.set(illustration.articleId, entries);
+  }
   const portraitManifest = await readFile(resolve(COMPENDIUM_MEDIA_DIR, "images/portraits/manifest.json"), "utf8")
     .then((content) => JSON.parse(content) as { lot1?: { items?: Array<{ id: string; src: string; visibility: string }> }; lot2?: { items?: Array<{ id: string; src: string; visibility: string }> } })
     .catch(() => ({ lot1: { items: [] }, lot2: { items: [] } }));
@@ -3522,6 +3533,16 @@ async function loadCorpus(): Promise<Corpus> {
   );
 
   for (const article of byId.values()) {
+    if (article.category === "Réalité" || article.category === "Vérité") {
+      for (const illustration of loreIllustrationsByArticle.get(article.id) ?? []) {
+        const section = (article.sections ?? []).find((entry: JsonObject) => entry.id === illustration.sectionId);
+        if (!section || !Array.isArray(section.blocks) || section.blocks.some((block: JsonObject) => block.src === illustration.src)) continue;
+        section.blocks.splice(Math.min(1, section.blocks.length), 0, {
+          type: "image", src: illustration.src, alt: illustration.alt,
+          caption: illustration.caption, style: illustration.style === "lore-reference" ? "lore-reference" : "lore-illustration"
+        });
+      }
+    }
     for (const diagram of ruleDiagramsByArticle.get(article.id) ?? []) {
       const section = (article.sections ?? []).find((entry: JsonObject) => entry.id === diagram.sectionId);
       if (!section || !Array.isArray(section.blocks) || section.blocks.some((block: JsonObject) => block.src === diagram.src)) continue;
