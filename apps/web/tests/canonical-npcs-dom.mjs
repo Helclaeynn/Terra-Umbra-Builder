@@ -45,27 +45,29 @@ for(const role of ['admin','editor']){
  function field(text){return [...w.document.querySelectorAll('.npc-sheet label')].find(l=>l.firstChild?.textContent.trim()===text)?.querySelector('input,select,textarea');}
  async function fill(el,value,event='input'){assert.ok(el);el.value=value;el.dispatchEvent(new w.Event(event,{bubbles:true}));await pause(0);}
  try{
-  w.eval(bundle.outputFiles[0].text);await w.test.ready;await until(()=>w.document.querySelector('.editor-actions'));
+  w.eval(bundle.outputFiles[0].text);await w.test.ready;await until(()=>w.document.querySelector('.canonical-generator')||w.document.querySelector('.editor-actions'));
   if(role==='editor'){assert.equal(w.document.querySelector('.canonical-generator'),null);assert.equal(calls.filter(c=>c.url.includes('npc-generator')).length,0);continue;}
   await until(()=>w.document.querySelector('.canonical-generator select'));
   await fill(w.document.querySelectorAll('.canonical-generator .choices select')[2],'female','change');await pause(0);button('Générer un aperçu').click();
   await until(()=>field('Nom affiché / alias'));
+  assert.equal(w.document.querySelector('.editor-actions'),null,'La préparation ne doit pas demander aussi de remplir le formulaire wiki.');
   assert.equal(w.document.querySelector('[aria-label="Sexe du PNJ"]').value,'female');
-  await fill(field('Nom affiché / alias'),'Alex Test');
+  const civilName=[field('Prénom').value,field('Nom de famille').value].join(' ');
+  await fill(field('Nom affiché / alias'),'Le Scorpion');
   await fill(field('Secret ou accroche MJ'),'SECRET\n== Heading injection ==\nHIDDEN TEXT\n{{MJ}}\nStill private');
   await fill(w.document.querySelector('[aria-label="Sexe du PNJ"]'),'other','change');await pause(0);
   assert.ok(!published);button('Créer le brouillon PNJ').click();
-  await until(()=>calls.some(c=>c.url.endsWith('/draft')));await until(()=>!button('Enregistrer le brouillon').disabled);
+  await until(()=>calls.some(c=>c.url.endsWith('/draft')));await until(()=>!button('Créer le brouillon PNJ').disabled);
   // A failed draft write preserves the content locally and does not change route.
-  assert.match(w.test.route(),/^\/compendium\/new/);assert.equal(saved,null);assert.ok(w.document.body.textContent.includes('test_retry'));
-  button('Enregistrer le brouillon').click();await until(()=>saved&&w.test.route()==='/compendium/edit/'+id);await until(()=>w.document.querySelector('.editor-actions'));
-  assert.equal(saved.title,'Alex Test');assert.equal(saved.category,'Personnages');assert.equal(saved.pnj.sexe,'Autre');assert.equal(saved.pnj.portrait,'/compendium/media/'+id+'.png');
+  assert.match(w.test.route(),/^\/compendium\/new/);assert.equal(saved,null);assert.ok(w.document.body.textContent.includes('réessaie ici'));
+  button('Créer le brouillon PNJ').click();await until(()=>saved&&w.test.route()==='/compendium/edit/'+id);await until(()=>w.document.querySelector('.editor-actions'));
+  assert.equal(saved.title,'Le Scorpion');assert.equal(saved.category,'Personnages');assert.equal(saved.pnj.sexe,'Autre');assert.equal(saved.pnj.real_name,civilName);assert.equal(saved.pnj.portrait,'/compendium/media/'+id+'.png');
   assert.ok(saved.pnj.generator_profile?.tierId,'Le profil mécanique PNJ doit être conservé.');
   assert.ok(Array.isArray(saved.pnj.tags),'Les tags de travail PNJ doivent être structurés.');
   const identity=saved.sections.find(s=>s.title==='Identité apparente');
   assert.ok(identity,'Le bloc Identité apparente doit être généré.');
   const identityText=JSON.stringify(identity);
-  for(const text of ['Alex Test','Nationalité d’origine','Rôle','Autre'])assert.ok(identityText.includes(text),`Identité générée incomplète : ${text}`);
+  for(const text of ['Le Scorpion','Nationalité d’origine','Rôle','Autre'])assert.ok(identityText.includes(text),`Identité générée incomplète : ${text}`);
   assert.ok(saved.sections.some(s=>s.title==='Dossier MJ'&&s.audience==='mj'),'Le dossier MJ doit être généré et rester privé.');
   assert.ok(saved.sections.some(s=>s.title==='Profil statistique'&&s.audience==='mj'),'Le tableau statistique doit être généré et rester privé.');
   assert.equal(calls.filter(c=>c.url.endsWith('/media')).length,1,'Retry must reuse uploaded image');

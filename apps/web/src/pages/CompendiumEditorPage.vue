@@ -867,14 +867,26 @@ function setTableEvent(block: ArticleBlock, event: Event) {
   if (target instanceof HTMLTextAreaElement) setTableText(block, target.value);
 }
 
-async function applyNpcDraft(value: NpcArticleDraft) {
-  if (busy.value || pageId.value || !isAdmin.value) return;
-  if ((article.value?.title?.trim() || wikiText.value.trim()) && !window.confirm('Remplacer le contenu de cette nouvelle page par le PNJ préparé ?')) return;
+let previousNpcPortrait = '';
+async function applyNpcDraft(value: NpcArticleDraft, finish: (saved: boolean) => void) {
+  if (busy.value || !isNew.value || !isAdmin.value) { finish(false); return; }
+  if (!pageId.value && (article.value?.title?.trim() || wikiText.value.trim()) && !window.confirm('Remplacer le contenu de cette nouvelle page par le PNJ préparé ?')) { finish(false); return; }
+  const portrait = typeof value.pnj?.portrait === 'string' ? value.pnj.portrait : '';
+  const savedPortrait = article.value?.pnj?.portrait;
+  if (pageId.value && portrait === previousNpcPortrait && typeof savedPortrait === 'string' && savedPortrait.startsWith('/')) {
+    value = clone(value);
+    value.pnj!.portrait = savedPortrait;
+  }
+  previousNpcPortrait = portrait;
   article.value = clone(value);
   fillForms(article.value);
-  if (await saveDraft(false)) {
+  if (await saveDraft(false, false)) {
+    finish(true);
     npcGeneratorOpen.value = false;
     notice.value = 'Brouillon PNJ enregistré. Relis la partie publique et les blocs MJ avant de publier.';
+    await router.replace('/compendium/edit/' + encodeURIComponent(pageId.value));
+  } else {
+    finish(false);
   }
 }
 
@@ -1144,11 +1156,11 @@ onMounted(load);
           Le corpus source a changé depuis ce brouillon. Recharge ou réenregistre le brouillon avant publication.
         </div>
 
-        <div v-if="isAdmin && !pageId" class="panel editor-card">
-          <button type="button" :disabled="busy" @click="npcGeneratorOpen=true">Préparer un PNJ canonique</button>
-          <CanonicalNpcGenerator v-if="npcGeneratorOpen" :disabled="busy" :max-tier="route.query.maxTier==='elite'?'elite':undefined" @apply="applyNpcDraft" />
+        <div v-if="isAdmin && isNew" class="panel editor-card">
+          <button v-if="!npcGeneratorOpen" type="button" :disabled="busy" @click="npcGeneratorOpen=true">Préparer un PNJ canonique</button>
+          <CanonicalNpcGenerator v-else :disabled="busy" :max-tier="route.query.maxTier==='elite'?'elite':undefined" @apply="applyNpcDraft" @close="npcGeneratorOpen=false" />
         </div>
-        <div class="wiki-editor-grid">
+        <div v-if="!npcGeneratorOpen" class="wiki-editor-grid">
           <section class="editor-form-column">
             <div class="panel editor-card">
               <p class="eyebrow">IDENTITÉ DE LA PAGE</p>
@@ -1383,7 +1395,7 @@ Encore du texte.
           </aside>
         </div>
 
-        <div class="editor-actions">
+        <div v-if="!npcGeneratorOpen" class="editor-actions">
           <button class="danger-button" type="button" :disabled="busy || !draftUpdatedAt" @click="discardDraft">
             Supprimer le brouillon
           </button>
