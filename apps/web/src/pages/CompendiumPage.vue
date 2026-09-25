@@ -208,6 +208,7 @@ const router = useRouter();
 const meta = ref<Meta | null>(null);
 const query = ref("");
 const category = ref("");
+const searchFamily=ref("");
 const manufacturer = ref("");
 const results = ref<SearchItem[]>([]);
 const total = ref(0);
@@ -311,21 +312,33 @@ const navigationEntries = computed(() => {
   const activeCategory = category.value || selected.value?.category || "";
   if (!activeCategory) return [] as WikiEntry[];
 
-  return [...wikiById.values()]
-    .filter((entry) => entry.category === activeCategory)
-    .sort((a, b) =>
-      (a.group || "Autres").localeCompare(b.group || "Autres", "fr", { sensitivity: "base" }) ||
-      (a.subgroup || "Pages").localeCompare(b.subgroup || "Pages", "fr", { sensitivity: "base" }) ||
-      a.title.localeCompare(b.title, "fr", { numeric: true, sensitivity: "base" })
-    );
+  return [...wikiById.values()].filter((entry) => entry.category === activeCategory);
 });
+
+const GROUP_PRIORITY: Record<string,string[]> = {
+  'Équipement & Objets':['Armement','Armures & protections','Munitions & consommables','Holonet & Neurodive','Habitat & mobilité','Vie quotidienne & services','Augmentations · Cybernétique','Augmentations · Biogénétique','Augmentations · Esthétique & fonctionnel','Équipement de Chasse','Marché des Exilés','Marché xéno','Arsenal AIDH','Corruption & Calamitechnologie'],
+  'Règles':['Moteur commun','Réalité — Création & progression','Réalité — Talents & désavantages','Réalité — Économie & équipement','Réalité — Augmentations','Réalité — Neurodive','Vérité — Règles communes','Vérité — Natures & capacités','Vérité — Corruption & Fléaux'],
+  'Réalité':['Grande Californie & société','Corporations & économie','Institutions & sécurité','Pègre, Crawlers & anti-systèmes','Religions & néoreligions'],
+  'Vérité':['Entrer dans la Vérité','Cosmologie & histoire cachée','Peuples & Natures','Natures, peuples & traditions','Chasseurs & traditions','Chasseurs','Factions de Vérité','Créatures & phénomènes','Corruption & Fléaux'],
+  'Bestiaire':['Faune de Vérité','Prédateurs monstrueux','Métamorphes','Fées & esprits naturels','Revenants','Ombres & entités de l’Ombremonde','Fléaux, Ruptures & Abominations','PNJ de Réalité','PNJ de Vérité','Dossiers majeurs de scénario']
+};
+function navigationLabels(entry:Pick<WikiEntry,'category'|'group'|'subgroup'>){
+  let group=entry.group||'Autres',subgroup=entry.subgroup||'Pages';
+  if(entry.category==='Équipement & Objets'){
+    const parts=subgroup.split(' — ');
+    if(group==='Équipement de Réalité'&&parts.length>1){group=parts[0];subgroup=parts[1]==='Neuroprogrammes'?'Neuroprogrammes':parts.slice(1).join(' — ');}
+    else if(group==='Objets de Vérité'&&parts.length>1){group=parts[0];subgroup=parts.slice(1).join(' — ');}
+    else if(group==='Augmentations'&&parts.length>1){group=`Augmentations · ${parts[0]}`;subgroup=parts.slice(1).join(' — ');}
+  }
+  return {group,subgroup};
+}
+function navigationOrder(categoryName:string,label:string){const n=GROUP_PRIORITY[categoryName]?.indexOf(label)??-1;return n<0?999:n;}
 
 const navigationGroups = computed(() => {
   const groups = new Map<string, Map<string, WikiEntry[]>>();
 
   for (const entry of navigationEntries.value) {
-    const groupName = entry.group || "Autres";
-    const subgroupName = entry.subgroup || "Pages";
+    const {group:groupName,subgroup:subgroupName}=navigationLabels(entry);
     if (!groups.has(groupName)) groups.set(groupName, new Map());
     const subgroups = groups.get(groupName)!;
     if (!subgroups.has(subgroupName)) subgroups.set(subgroupName, []);
@@ -337,15 +350,17 @@ const navigationGroups = computed(() => {
     count: [...subgroupMap.values()].reduce((sum, entries) => sum + entries.length, 0),
     subgroups: [...subgroupMap.entries()].map(([subgroup, entries]) => ({
       name: subgroup,
-      entries
-    }))
-  }));
+      entries:entries.sort((a,b)=>a.title.localeCompare(b.title,'fr',{numeric:true,sensitivity:'base'}))
+    })).sort((a,b)=>a.name.localeCompare(b.name,'fr',{numeric:true,sensitivity:'base'}))
+  })).sort((a,b)=>navigationOrder(category.value,a.name)-navigationOrder(category.value,b.name)||a.name.localeCompare(b.name,'fr',{sensitivity:'base'}));
 });
+const searchFamilies=computed(()=>category.value?navigationGroups.value.map(group=>group.name):[]);
 
 const hasResultSurface = computed(() =>
   !selected.value &&
   Boolean(
     query.value.trim() ||
+    searchFamily.value ||
     manufacturer.value ||
     activeLibraryView.value ||
     retiredCategoryRequested.value || route.query.view === "all"
@@ -356,6 +371,7 @@ const hasCategorySurface = computed(() =>
   !selected.value &&
   Boolean(category.value) &&
   !query.value.trim() &&
+  !searchFamily.value &&
   !manufacturer.value &&
   !activeLibraryView.value
 );
@@ -367,15 +383,17 @@ const resultSurfaceTitle = computed(() => {
     return collections.value.find((item) => item.id === activeLibraryView.value)?.name || "Ma collection";
   }
   if (query.value.trim()) return `Recherche · « ${query.value.trim()} »`;
+  if (searchFamily.value)return `Dossier · ${searchFamily.value}`;
   if (manufacturer.value) return `Fabricant · ${manufacturer.value}`;
   return "Tous les articles";
 });
 
 function resultBreadcrumb(item: SearchItem | WikiEntry): string {
+  const navigation=navigationLabels(item);
   return [
     item.category || "",
-    item.group || "",
-    item.subgroup || "",
+    navigation.group || "",
+    navigation.subgroup || "",
     item.manufacturer ? `Fabricant · ${item.manufacturer}` : ""
   ].filter(Boolean).join(" › ");
 }
@@ -705,8 +723,9 @@ async function positionArticle(section: string, request: number) {
   const headerHeight = document.querySelector(".compendium-topbar")?.getBoundingClientRect().height ?? 74;
   articlePanel.value.style.setProperty("--compendium-anchor-offset", `${headerHeight + 88}px`);
   readingArmed = false;
-  positionCompendiumArticle(articlePanel.value, selected.value.sections ?? [], section);
   const targetId = sectionTargetId(selected.value.sections || [], section);
+  if(targetId){const target=document.getElementById(targetId);target?.querySelector<HTMLDetailsElement>('details.article-disclosure')?.setAttribute('open','');}
+  positionCompendiumArticle(articlePanel.value, selected.value.sections ?? [], section);
   currentSectionId.value = articleToc.value.find(item => item.id === targetId)?.id || articleToc.value[0]?.id || "";
   if (section && targetId) saveReading(targetId);
   installReadingObserver();
@@ -1140,6 +1159,7 @@ async function loadSuggestions(value: string) {
   try {
     const params = new URLSearchParams({ q: value, limit: "8" });
     if (category.value) params.set("category", category.value);
+    if (searchFamily.value)params.set('group',searchFamily.value);
     if (manufacturer.value) params.set("manufacturer", manufacturer.value);
     const payload = await api<{ items: SearchItem[] }>(
       `/api/compendium/search?${params.toString()}`
@@ -1200,10 +1220,6 @@ function handleSearchBlur() {
 }
 
 function handleSearchInput() {
-  // This is a global search. An earlier navigation filter must not silently
-  // hide an identity from another category when the user enters a new term.
-  category.value = "";
-  manufacturer.value = "";
   scheduleSuggestions();
 }
 
@@ -1212,6 +1228,7 @@ async function search(syncRoute = true) {
     const destination: Record<string, string> = {};
     if (query.value.trim()) destination.q = query.value.trim();
     if (category.value) destination.category = category.value;
+    if (searchFamily.value)destination.group=searchFamily.value;
     if (manufacturer.value) destination.manufacturer = manufacturer.value;
     if (!Object.keys(destination).length) destination.view = "all";
     const failure = await router.push({ path: "/compendium", query: destination });
@@ -1231,6 +1248,7 @@ async function search(syncRoute = true) {
     const params = new URLSearchParams();
     if (query.value.trim()) params.set("q", query.value.trim());
     if (category.value) params.set("category", category.value);
+    if (searchFamily.value)params.set('group',searchFamily.value);
     if (manufacturer.value) params.set("manufacturer", manufacturer.value);
     params.set("limit", "60");
 
@@ -1336,6 +1354,7 @@ async function chooseCategory(name: string) {
   selected.value = null;
   query.value = "";
   category.value = category.value === name ? "" : name;
+  searchFamily.value='';
   if (category.value !== "Équipement & Objets") manufacturer.value = "";
   await search();
 }
@@ -1363,7 +1382,7 @@ async function chooseManufacturer(name: string) {
   selected.value = null;
   activeLibraryView.value = "";
   manufacturer.value = name;
-  if (name) category.value = "Équipement & Objets";
+  if (name){category.value = "Équipement & Objets";searchFamily.value='';}
   await search();
 }
 
@@ -1597,6 +1616,7 @@ function syncRouteView() {
   readingObserver?.disconnect();
   query.value = typeof route.query.q === "string" ? route.query.q : "";
   category.value = !retiredCategoryRequested.value && typeof route.query.category === "string" ? route.query.category : "";
+  searchFamily.value=category.value&&typeof route.query.group==='string'?route.query.group:'';
   manufacturer.value = typeof route.query.manufacturer === "string" ? route.query.manufacturer : "";
   activeLibraryView.value = "";
   if (route.query.view === "recent") { showRecent(false); return; }
@@ -1836,10 +1856,11 @@ onBeforeUnmount(() => {
       <template v-if="true">
         <section v-show="searchOpen || (!selected && !showOnboarding)" class="panel compendium-search">
           <form @submit.prevent="search()">
-            <label>
-              Recherche globale
+            <div class="search-form-control">
+              <label for="compendium-query">Recherche globale</label>
               <div class="search-line">
                 <input
+                  id="compendium-query"
                   v-model="query"
                   type="search"
                   placeholder="Nom, faction, règle, équipement, créature…"
@@ -1851,6 +1872,12 @@ onBeforeUnmount(() => {
                   @keydown="handleSearchKeydown"
                 />
                 <select
+                  v-model="category"
+                  aria-label="Rubrique de recherche"
+                  @change="searchFamily='';manufacturer=category==='Équipement & Objets'?manufacturer:''"
+                ><option value="">Toutes les rubriques</option><option v-for="item in meta?.categories||[]" :key="item.name" :value="item.name">{{ item.name }}</option></select>
+                <select v-if="category" v-model="searchFamily" aria-label="Dossier de recherche"><option value="">Tous les dossiers</option><option v-for="name in searchFamilies" :key="name" :value="name">{{ name }}</option></select>
+                <select v-if="category==='Équipement & Objets'"
                   v-model="manufacturer"
                   aria-label="Fabricant ou marque"
                   @change="chooseManufacturer(manufacturer)"
@@ -1896,7 +1923,7 @@ onBeforeUnmount(() => {
                   <em>{{ item.snippet }}</em>
                 </button>
               </div>
-            </label>
+            </div>
           </form>
 
           <div v-if="meta" class="category-strip" aria-label="Rubriques du Compendium">
@@ -2230,10 +2257,8 @@ onBeforeUnmount(() => {
                       </div>
                     </details>
 
-                    <template v-else>
-                      <component :is="sectionHeadingLevel(section)" v-if="section.title">
-                        {{ section.title }}
-                      </component>
+                    <component :is="section.title ? 'details' : 'div'" v-else class="article-disclosure" :open="section.title ? true : undefined">
+                      <summary v-if="section.title"><component :is="sectionHeadingLevel(section)">{{ section.title }}</component></summary>
 
                       <NpcStatProfile v-if="hasNpcStatProfile(section)" :blocks="section.blocks || []" :render-inline="text => linkifyText(text, selected)" />
                       <template v-for="(block, blockIndex) in section.blocks || []" v-else :key="blockIndex">
@@ -2281,7 +2306,7 @@ onBeforeUnmount(() => {
                           </table>
                         </div>
                       </template>
-                    </template>
+                    </component>
                   </section>
 
                   <section v-if="dossierArticles.length" class="wiki-see-also wiki-dossier">
@@ -2484,14 +2509,14 @@ onBeforeUnmount(() => {
               </header>
 
               <div v-if="navigationGroups.length" class="category-group-grid">
-                <section v-for="group in navigationGroups" :key="group.name" class="category-group-card">
-                  <header>
+                <details v-for="group in navigationGroups" :key="group.name" class="category-group-card">
+                  <summary class="category-card-heading">
                     <div>
                       <p class="eyebrow">DOSSIER</p>
                       <h2>{{ group.name }}</h2>
                     </div>
                     <span>{{ group.count }}</span>
-                  </header>
+                  </summary>
 
                   <div class="category-subgroup-list">
                     <section v-for="subgroup in group.subgroups" :key="subgroup.name">
@@ -2515,7 +2540,7 @@ onBeforeUnmount(() => {
                       </p>
                     </section>
                   </div>
-                </section>
+                </details>
               </div>
 
               <div v-else-if="wikiReady" class="main-empty-results">
@@ -2727,10 +2752,12 @@ onBeforeUnmount(() => {
 
 .search-line {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(190px, 260px) auto;
+  grid-template-columns: minmax(220px, 2fr) repeat(3,minmax(135px,1fr)) auto;
   gap: .7rem;
   align-items:stretch;
 }
+.search-line>select{min-width:0}
+@media(max-width:1100px){.search-line{grid-template-columns:repeat(2,minmax(0,1fr))}.search-line input[type="search"]{grid-column:1/-1}}
 .search-line input[type="search"]{min-height:50px;font-size:1rem;border-color:rgba(88,220,197,.2);background:rgba(8,8,7,.38)}
 .search-line input[type="search"]:focus{border-color:#2b92ff;box-shadow:0 0 0 2px rgba(43,146,255,.12),0 12px 30px rgba(0,0,0,.18)}
 .search-line .primary{min-height:50px}
@@ -3909,7 +3936,7 @@ onBeforeUnmount(() => {
   background: rgba(255,255,255,.012);
 }
 
-.category-group-card > header {
+.category-group-card > header,.category-card-heading {
   display: flex;
   align-items: end;
   justify-content: space-between;
@@ -3918,12 +3945,12 @@ onBeforeUnmount(() => {
   border-bottom: 1px solid rgba(255,255,255,.06);
 }
 
-.category-group-card > header h2 {
+.category-group-card > header h2,.category-card-heading h2 {
   margin: .1rem 0 0;
   font: 500 1.25rem/1.2 var(--tu-font);
 }
 
-.category-group-card > header > span {
+.category-group-card > header > span,.category-card-heading > span {
   color: #63e0ca;
   font-size: .74rem;
 }
@@ -4132,7 +4159,8 @@ kbd{margin-left:12px;color:#819bb5;font:10px/1.3 Consolas,monospace}
 .category-orbital-art{position:absolute;z-index:-1;right:-40px;top:-50px;width:72%;height:300px;object-fit:cover;opacity:.2;mask-image:linear-gradient(90deg,transparent,#000)}
 .main-result-card{padding:22px;border-color:#30465d;border-radius:6px;background:#101e2f}.main-result-card:hover{border-color:var(--tu-accent);background:#15263a}.main-result-card>strong{font:500 20px/1.3 Inter,"Segoe UI",sans-serif;color:#e5effa}.main-result-card>p{color:#abc0d5;font-size:14px;line-height:1.8}.result-path{color:var(--tu-accent);font-size:11px}
 .result-limit-note,.category-more{color:#91aac4;font-size:12px;line-height:1.7}
-.category-group-card{border-color:#2d445b;border-radius:6px;background:#101d2d}.category-group-card>header{padding:20px;border-color:#2d445b}.category-group-card>header h2{font:500 22px/1.3 Inter,"Segoe UI",sans-serif}.category-subgroup-list{padding:20px;gap:20px}.category-page-links button{min-height:46px;padding:12px;color:#bccde0;border-color:#2b4158;font-size:12px;line-height:1.6}.category-subgroup-title strong{color:#a7bdd5;font-size:11px}
+.category-group-card{border-color:#2d445b;border-radius:6px;background:#101d2d}.category-card-heading{padding:20px;border-color:#2d445b;cursor:pointer;list-style:none}.category-card-heading::-webkit-details-marker{display:none}.category-card-heading:after{content:'⌄';margin-left:12px;color:#7edfd7}.category-group-card[open]>.category-card-heading:after{transform:rotate(180deg)}.category-card-heading h2{font:500 22px/1.3 Inter,"Segoe UI",sans-serif}.category-subgroup-list{padding:20px;gap:20px}.category-page-links button{min-height:46px;padding:12px;color:#bccde0;border-color:#2b4158;font-size:12px;line-height:1.6}.category-subgroup-title strong{color:#a7bdd5;font-size:11px}
+.article-disclosure>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;border-bottom:1px solid #2d4057}.article-disclosure>summary::-webkit-details-marker{display:none}.article-disclosure>summary:after{content:'⌄';margin-left:auto;color:#69d7d6}.article-disclosure:not([open])>summary:after{transform:rotate(-90deg)}.article-disclosure>summary :is(h2,h3,h4){margin:18px 0!important}.article-disclosure>summary:focus-visible,.category-card-heading:focus-visible{outline:2px solid #a3eaff;outline-offset:3px}
 @media(max-width:1250px){.compendium-top-nav{display:none}.compendium-page{grid-template-columns:224px minmax(0,1fr)}.wiki-article-grid{grid-template-columns:minmax(0,1fr) 190px;gap:22px}.compendium-top-actions kbd{display:none}}
 @media(max-width:1100px){.wiki-article-grid{grid-template-columns:1fr}.wiki-infobox{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.wiki-infobox>*{margin:0}.wiki-toc{grid-column:1/-1}}
 @media(max-width:900px){.compendium-shell{--orbital-topbar:80px}.compendium-topbar{gap:12px;flex-wrap:wrap}.compendium-top-actions .wiki-create-link{display:none}.compendium-page{--compendium-gutter:20px;grid-template-columns:minmax(0,1fr);width:100%;padding:0}.compendium-navigation{position:static;height:auto;max-height:none;padding:0;border-right:0;border-bottom:1px solid #26394c;overflow:visible}.compendium-content>:is(.compendium-feedback,.compendium-search,.library-panel,.rules-onboarding,.compendium-workspace){margin-top:20px}.navigation-disclosure>summary{display:list-item;margin-left:20px;padding-left:0}.navigation-heading{display:none}.navigation-categories{grid-template-columns:repeat(2,minmax(0,1fr))}.navigation-tree{max-height:55vh;overflow:auto}.article-panel{padding:24px}.reader-focus .article-panel{padding:24px}}

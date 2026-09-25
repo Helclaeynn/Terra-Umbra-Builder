@@ -15,8 +15,10 @@ const creating = ref(false);
 const notice = ref("");
 const error = ref("");
 const importInput = ref<HTMLInputElement | null>(null);
+const characterQuery=ref('');
 
 const hasCharacters = computed(() => characters.value.length > 0);
+const visibleCharacters=computed(()=>{const q=characterQuery.value.trim().toLocaleLowerCase('fr');return q?characters.value.filter(character=>`${character.name} ${character.campaignName||''}`.toLocaleLowerCase('fr').includes(q)):characters.value;});
 
 function humanError(code: string): string {
   const labels: Record<string, string> = {
@@ -262,8 +264,10 @@ onMounted(loadCharacters);
 
     <div v-else class="characters-layout">
       <nav class="character-list" aria-label="Mes personnages">
+        <label class="character-filter">Retrouver une fiche<input v-model="characterQuery" type="search" placeholder="Nom ou campagne…" /></label>
+        <p v-if="!visibleCharacters.length" role="status">Aucune fiche pour cette recherche.</p>
         <button
-          v-for="character in characters"
+          v-for="character in visibleCharacters"
           :key="character.id"
           type="button"
           :class="{ active: selected?.id === character.id }"
@@ -276,7 +280,7 @@ onMounted(loadCharacters);
         </button>
       </nav>
 
-      <section v-if="selected" class="character-detail">
+      <section v-if="selected&&visibleCharacters.some(character=>character.id===selected?.id)" class="character-detail">
         <div class="character-detail-head">
           <div>
             <p class="eyebrow">FICHE #{{ selected.version }}</p>
@@ -354,6 +358,7 @@ onMounted(loadCharacters);
 </template>
 
 <style scoped>
+.character-filter{display:grid;gap:6px;padding:10px;color:#b8cadd;font-size:13px}.character-filter input{min-width:0;width:100%;box-sizing:border-box;min-height:44px;padding:10px;border:1px solid #405875;border-radius:6px;background:#08131f;color:#edf4ff;font:inherit}.character-filter input:focus-visible{outline:2px solid #a3eaff;outline-offset:3px}
 .characters-panel {
   min-width: 0;
   padding: clamp(22px, 3vw, 36px);

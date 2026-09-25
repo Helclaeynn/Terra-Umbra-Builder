@@ -3975,9 +3975,10 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
   });
 
   app.get<{
-    Querystring: {
+      Querystring: {
       q?: string;
       category?: string;
+      group?: string;
       dataset?: string;
       manufacturer?: string;
       limit?: string;
@@ -3994,6 +3995,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const tagTerms = [...query.matchAll(tagSyntax)].map((match) => norm(match[1] ?? match[2])).filter(Boolean);
     const normalizedQuery = norm(query.replace(tagSyntax, " "));
     const category = String(request.query.category ?? "").trim();
+    const group = String(request.query.group ?? "").trim();
     const dataset = String(request.query.dataset ?? "").trim();
     const manufacturer = String(request.query.manufacturer ?? "").trim();
     const limit = Math.min(100, Math.max(1, Number.parseInt(request.query.limit ?? "40", 10) || 40));
@@ -4002,6 +4004,16 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
 
     let rows = includeMj ? corpus.articles : corpus.publicArticles;
     if (category) rows = rows.filter((article) => article.category === category);
+    if (group) rows = rows.filter((article) => {
+      const nav=article.navigation as JsonObject|undefined;
+      let label=String(nav?.group??'Autres'),subgroup=String(nav?.subgroup??'');
+      if(article.category==='Équipement & Objets'){
+        const prefix=subgroup.split(' — ')[0];
+        if((label==='Équipement de Réalité'||label==='Objets de Vérité')&&subgroup.includes(' — '))label=prefix;
+        else if(label==='Augmentations'&&subgroup.includes(' — '))label=`Augmentations · ${prefix}`;
+      }
+      return label===group;
+    });
     if (dataset) rows = rows.filter((article) => article.dataset === dataset);
     if (manufacturer) {
       const normalizedManufacturer = norm(manufacturer);
@@ -4033,6 +4045,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     return {
       q: query,
       category,
+      group,
       dataset,
       manufacturer,
       total,

@@ -5,7 +5,7 @@ import {api,ApiError} from '../lib/api';
 import {validScenes,type CampaignScene} from '../../../api/src/campaign-preparation';
 import CampaignPreparation from './CampaignPreparation.vue';
 type Prep={id:string;title:string;preparation?:string;scenes?:CampaignScene[];version:number};
-const props=defineProps<{campaignId:string;session?:Prep;startPlaying?:boolean}>();
+const props=defineProps<{campaignId:string;session?:Prep;startPlaying?:boolean;groupSize?:number}>();
 const emit=defineEmits<{(e:'saved',v:Prep):void;(e:'close'):void;(e:'schedule',id:string):void}>();
 const npcDirty=ref(false);
 const currentId=ref(props.session?.id||''),version=ref(props.session?.version||1),playing=ref(!!props.startPlaying);
@@ -55,7 +55,7 @@ onUnmounted(()=>{live=false;clearTimeout(timer);window.removeEventListener('befo
   <p v-if="error" role="alert">{{ error }} <button v-if="blocked" type="button" :disabled="saving" @click="retry">Réessayer l’enregistrement</button></p>
   <template v-if="!playing"><label>Titre de la séance<input v-model="draft.title" maxlength="120" placeholder="Ex. : Une piste au port" /></label><label>Mes notes de séance<textarea v-model="draft.preparation" rows="9" maxlength="20000" placeholder="Une idée, quelques pistes, ce qui pourrait arriver…" @select="selection=($event.target as HTMLTextAreaElement).value.slice(($event.target as HTMLTextAreaElement).selectionStart,($event.target as HTMLTextAreaElement).selectionEnd)" /></label><small>Notes et scènes réservées au MJ. Le titre est visible par le groupe.</small><button v-if="selection.trim()" type="button" :disabled="draft.scenes.length>=30" @click="idea">Créer une scène avec le texte sélectionné</button></template>
   <template v-else><h2>{{ draft.title||'Séance sans titre' }}</h2><p class="prose">{{ draft.preparation||'Aucune note.' }}</p></template>
-  <CampaignPreparation :campaign-id="campaignId" @npc-dirty="npcDirty=$event" v-model="draft.scenes" :readonly="playing" :play="playing" :campaign-references="references" />
+  <CampaignPreparation :campaign-id="campaignId" :group-size="groupSize" @npc-dirty="npcDirty=$event" v-model="draft.scenes" :readonly="playing" :play="playing" :campaign-references="references" />
   <details v-if="!playing" class="reuse"><summary>Reprendre des scènes non jouées</summary><p v-if="libraryError" role="alert">{{ libraryError }} <button type="button" @click="library">Réessayer</button></p><p v-if="!previousOptions.length&&!libraryError">Aucune scène non jouée dans les séances précédentes.</p><template v-if="previousOptions.length"><label>Séance à reprendre<select v-model="fromSession"><option value="">Choisir une séance…</option><option v-for="s in previousOptions" :key="s.id" :value="s.id">{{ s.title }} · {{ s.scenes?.filter(s=>!s.done).length }} scène(s)</option></select></label><button type="button" :disabled="!fromSession" @click="carry">Copier les scènes non jouées</button><small>La séance d’origine est conservée.</small></template></details>
   <div class="toolbar"><button type="button" :disabled="saving||!draft.title.trim()" @click="finish(true)">Date, invitations et compte rendu</button><button type="button" :disabled="saving" @click="close">Fermer la préparation</button></div>
  </section>

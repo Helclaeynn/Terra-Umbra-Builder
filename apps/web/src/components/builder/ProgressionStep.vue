@@ -6,6 +6,7 @@ import CorruptionPanel from "./CorruptionPanel.vue";
 import TruthEquipmentPanel from "./TruthEquipmentPanel.vue";
 import { characterDerivedStats } from "../../lib/character-sheet";
 import BuilderWikiLink from "./BuilderWikiLink.vue";
+import BuilderCatalogImage from './BuilderCatalogImage.vue';
 import {
   currentSkillRaw as campaignSkillRaw,
   currentSkillFinal as campaignSkillFinal,
@@ -308,10 +309,10 @@ function ruleTalentById(id:string){
   return null;
 }
 
-const realitySearch=ref("");
+const realitySearch=ref(''),realityFamily=ref(''),truthFamily=ref('');
 const searchableRealityGroups=computed(()=>{
   const q=truthNorm(realitySearch.value);
-  return realityTalentGroups.value.map(group=>({...group,items:sortedNames(group.items).filter(talent=>!q||truthNorm(`${talent.name} ${talent.effect} ${props.talentLore?.[talent.id]??''}`).includes(q))})).filter(group=>group.items.length);
+  return realityTalentGroups.value.filter(group=>group.label===realityFamily.value||!realityFamily.value&&Boolean(q)).map(group=>({...group,items:sortedNames(group.items).filter(talent=>!q||truthNorm(`${talent.name} ${talent.effect} ${props.talentLore?.[talent.id]??''}`).includes(q))})).filter(group=>group.items.length);
 });
 const learnedRealityIds=computed(()=>[...state.value.realityTalents].sort((a,b)=>compareLabels(ruleTalentById(a)?.name??a,ruleTalentById(b)?.name??b)));
 const learnedTruthIds=computed(()=>[...state.value.truthTalents].sort((a,b)=>compareLabels(truthById.value.get(a)?.name??a,truthById.value.get(b)?.name??b)));
@@ -319,11 +320,13 @@ const truthCandidates=computed(()=>{
   const q=truthNorm(truthSearch.value);
   return truthAvailable.value
     .filter(talent=>!combinedTruthState.value.truthTalents.includes(talent.id))
+    .filter(talent=>(talent.group||'Vérité')===truthFamily.value||!truthFamily.value&&Boolean(q))
     .filter(talent=>!q||[
       talent.name,talent.group,talent.effect,talent.runtimeLore,talent.prerequisiteName
     ].some(value=>truthNorm(String(value||"")).includes(q)))
     .sort(compareTruthTalents);
 });
+const truthFamilies=computed(()=>[...new Set(truthAvailable.value.filter(talent=>!combinedTruthState.value.truthTalents.includes(talent.id)).map(talent=>talent.group||'Vérité'))].sort(compareLabels));
 function truthCanBuy(talent:TruthTalent){
   return truthPrerequisiteSatisfied(
     props.truthRules,
@@ -630,14 +633,15 @@ function sellCampaignItem(){
           <button class="ghost danger compact" type="button" @click="removeRealityTalent(id)">Retirer</button>
         </div>
       </div>
-      <label class="truth-search">Rechercher un Talent de Réalité<input v-model="realitySearch" type="search" placeholder="Nom, effet, lore…" /></label>
+      <label class="truth-search">Catégorie de Talents de Réalité<select v-model="realityFamily"><option value="">— Choisir une catégorie —</option><option v-for="group in realityTalentGroups" :key="group.label" :value="group.label">{{ group.label }} · {{ group.items.length }}</option></select></label><label class="truth-search">Rechercher un Talent de Réalité<input v-model="realitySearch" type="search" placeholder="Nom, effet, lore…" /></label>
       <p class="catalog-sort-hint">Par famille, puis par ordre alphabétique.</p>
-      <p v-if="!searchableRealityGroups.length" class="rule-note">Aucun Talent ne correspond à cette recherche.</p>
+      <p v-if="!searchableRealityGroups.length" class="rule-note">{{ !realityFamily&&!realitySearch?'Choisis une catégorie pour voir ses Talents illustrés, ou cherche un Talent.':'Aucun Talent ne correspond à cette recherche.' }}</p>
       <section v-for="group in searchableRealityGroups" :key="group.label" class="talent-group">
         <div class="subsection-title"><div><h3>{{ group.label }}</h3><p>{{ group.help }}</p></div><span class="schema-badge">{{ group.items.length }}</span></div>
         <div class="talent-list">
           <article v-for="talent in group.items" :key="talent.id" :class="{locked:!realityTalentAllowed(talent).ok}">
             <details class="talent-disclosure"><summary class="card-head">
+              <BuilderCatalogImage :article-id="talent.compendiumId" :name="talent.name" category="Règles" />
               <div class="progress-card-title">
                 <strong>{{ talent.name }}</strong>
               </div>
@@ -665,15 +669,16 @@ function sellCampaignItem(){
           <button class="ghost danger compact" type="button" @click="removeTruthTalent(id)">Retirer</button>
         </div>
       </div>
-      <label class="truth-search">
+      <label class="truth-search">Catégorie de Talents de Vérité<select v-model="truthFamily"><option value="">— Choisir une catégorie —</option><option v-for="name in truthFamilies" :key="name" :value="name">{{ name }}</option></select></label><label class="truth-search">
         Rechercher dans les Talents accessibles
         <input v-model="truthSearch" type="search" placeholder="Nom, branche, effet, prérequis…" />
       </label>
       <p class="catalog-sort-hint">Par famille, puis coût croissant et nom.</p>
-      <p v-if="!truthCandidates.length" class="rule-note">Aucun Talent ne correspond aux choix actuels ou à la recherche.</p>
+      <p v-if="!truthCandidates.length" class="rule-note">{{ !truthFamily&&!truthSearch?'Choisis une catégorie pour voir les Talents illustrés, ou cherche un Talent.':'Aucun Talent ne correspond aux choix actuels ou à la recherche.' }}</p>
       <div class="talent-list">
         <article v-for="talent in truthCandidates" :key="talent.id" :class="{locked:!truthCanBuy(talent)}">
           <details class="talent-disclosure"><summary class="card-head">
+            <BuilderCatalogImage :article-id="talent.compendiumId" :name="talent.name" category="Règles" />
             <div class="progress-card-title">
               <strong>{{ talent.name }}</strong>
               <small>{{ talent.group }}</small>
@@ -903,4 +908,5 @@ label{font-size:14px;line-height:1.5}
 .talent-disclosure>p,.talent-disclosure>small,.talent-disclosure>.talent-lore{display:block;margin:12px 16px;line-height:1.6}
 .talent-disclosure>button{margin:0 16px 16px;min-height:44px}
 .talent-disclosure .progress-card-title{flex:1;display:grid;gap:4px}
+.talent-disclosure .card-head :deep(.catalog-art){width:100px;min-width:100px;height:72px}
 </style>
