@@ -2,7 +2,7 @@
 import {onMounted,onUnmounted,ref,watch} from 'vue';
 import {api} from '../../lib/api';
 
-const props=defineProps<{articleId?:string;name:string;category?:string;generation?:number|null;imageSrc?:string}>();
+const props=defineProps<{articleId?:string;name:string;category?:string;generation?:number|null;imageSrc?:string;large?:boolean}>();
 const root=ref<HTMLElement|null>(null),src=ref('');
 const cache=new Map<string,Promise<string>>();
 let observer:IntersectionObserver|null=null,alive=true,request=0;
@@ -13,5 +13,5 @@ function observe(){observer?.disconnect();if(!root.value)return;if(typeof Inters
 async function fallback(){const n=++request;const image=await resolve(false);if(alive&&n===request)src.value=image&&image!==src.value?image:'';}
 onMounted(observe);onUnmounted(()=>{alive=false;request++;observer?.disconnect();});watch(()=>[props.articleId,props.name,props.category,props.generation,props.imageSrc],()=>{request++;src.value='';observe();});
 </script>
-<template><div ref="root" class="catalog-art"><img v-if="src" :src="src" :alt="`Illustration de ${name}${generation ? ` · génération ${generation}` : ''}`" loading="lazy" decoding="async" @error="fallback" /><span v-else aria-hidden="true">TU</span></div></template>
-<style scoped>.catalog-art{box-sizing:border-box;min-width:0;height:180px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#0a1929;border:1px solid #30475e;border-radius:6px}.catalog-art img{display:block;min-width:0;min-height:0;max-width:100%;max-height:100%;width:100%;height:100%;object-fit:contain;object-position:center}.catalog-art span{font:600 22px/1 Inter,sans-serif;letter-spacing:.18em;color:#608094}@media(max-width:600px){.catalog-art{height:150px}}</style>
+<template><div ref="root" class="catalog-art" :class="{large}"><img v-if="src" :src="src" :alt="`Illustration de ${name}${generation ? ` · génération ${generation}` : ''}`" loading="lazy" decoding="async" @error="fallback" /><span v-else aria-hidden="true">TU</span></div></template>
+<style scoped>.catalog-art{box-sizing:border-box;min-width:0;height:180px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#0a1929;border:1px solid #30475e;border-radius:6px}.catalog-art.large{height:260px}.catalog-art img{display:block;min-width:0;min-height:0;max-width:100%;max-height:100%;width:100%;height:100%;object-fit:contain;object-position:center}.catalog-art span{font:600 22px/1 Inter,sans-serif;letter-spacing:.18em;color:#608094}@media(max-width:600px){.catalog-art{height:150px}.catalog-art.large{height:220px}}</style>
