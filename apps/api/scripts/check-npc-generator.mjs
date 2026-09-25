@@ -41,7 +41,7 @@ assert.deepEqual(Object.values(NPC_FIRST_NAMES).map(a=>a.length),[64,64,32]);
 assert.equal(new Set(Object.values(NPC_FIRST_NAMES).flat()).size,160);
 assert.equal(NPC_LAST_NAMES.length,96);
 for(const list of [...Object.values(NPC_FIRST_NAMES),NPC_LAST_NAMES,...Object.values(NPC_APPEARANCE),...Object.values(NPC_PERSONALITY),NPC_MOTIVATIONS,NPC_HOOKS])assert.equal(new Set(list).size,list.length);
-assert.deepEqual(c.variety,{names:725,appearances:13824,personalities:576,motivations:32,secrets:32});
+assert.deepEqual(c.variety,{names:845,appearances:13824,personalities:576,motivations:32,secrets:32});
 const refNpc=generateNpc('elite','enqueteur','sex-independent');
 for(const sex of ['male','female','other','unspecified']){
  const n=generateNpc('elite','enqueteur','sex-independent','',sex);
