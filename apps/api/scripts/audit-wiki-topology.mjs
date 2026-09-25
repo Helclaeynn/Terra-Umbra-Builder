@@ -27,7 +27,7 @@ const entries = articles.map(article => ({
     audience: section.audience ?? 'public',
     blocks: section.blocks?.length ?? 0
   })),
-  outbound: [...new Set(JSON.stringify(article.sections ?? []).matchAll(/\/compendium\?article=([^&#"\s]+)(?:#([^"\s<>]+))?/g))]
+  outbound: [...new Set(JSON.stringify(article.sections ?? []).matchAll(/\/compendium\?article=([^&#"\s)]+)(?:#([^"\s<>),.]+))?/g))]
     .map(match => ({ id: decodeURIComponent(match[1]), section: decodeURIComponent(match[2] ?? '') }))
 }));
 const broken = entries.flatMap(article => article.outbound.filter(link => !ids.has(link.id)).map(link => ({ source: article.id, ...link })));

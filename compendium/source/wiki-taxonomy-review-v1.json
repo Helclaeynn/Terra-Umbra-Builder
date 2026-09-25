@@ -772,6 +772,96 @@
         "regles-verite-v7-exiles-silcenters-hds-croix-runes-reseaux-hordes-technomagie"
       ],
       "note": "The five SR/R profiles are Elyë, Whurten, Ashyll, Thulkar and Azménorien. Their free physiology and magic access do not grant extra attacks, free flight or spells; 53 talents remain in Builder. Cultures and networks belong to the companion Exilés page."
+    },
+    {
+      "id": "regles-verite-v7-fleau-vhodhal",
+      "sectionsRead": [
+        "source",
+        "impulsion",
+        "progression",
+        "rupture"
+      ],
+      "references": [
+        "regles-verite-v7-corruption-integrite-bascule#profondeur",
+        "regles-verite-v7-corruption-integrite-bascule#souillure",
+        "regles-verite-v7-corruption-integrite-bascule#bascule"
+      ],
+      "note": "Famine Blanche: Loge d’Écume transmet des Rites sans accorder automatiquement les Dons. La Rupture dépend de la Nature initiale; ses formes relèvent du Bestiaire."
+    },
+    {
+      "id": "regles-verite-v7-fleau-vaagor",
+      "sectionsRead": [
+        "source",
+        "impulsion",
+        "progression",
+        "rupture"
+      ],
+      "references": [
+        "regles-verite-v7-corruption-integrite-bascule#profondeur",
+        "regles-verite-v7-corruption-integrite-bascule#souillure",
+        "regles-verite-v7-corruption-integrite-bascule#bascule"
+      ],
+      "note": "Deimonisme, Longinus, Faux, Fontaine et Œil Blanc sont des voies distinctes. Les Deimons ne fournissent ni serviteurs gratuits ni PA; leur corruption ne supprime pas leur Nature."
+    },
+    {
+      "id": "regles-verite-v7-fleau-sharith",
+      "sectionsRead": [
+        "source",
+        "impulsion",
+        "progression",
+        "rupture"
+      ],
+      "references": [
+        "regles-verite-v7-corruption-integrite-bascule#profondeur",
+        "regles-verite-v7-corruption-integrite-bascule#souillure",
+        "regles-verite-v7-corruption-integrite-bascule#bascule"
+      ],
+      "note": "Division agit sur des propriétés existantes. Retour fissile de Nucléomancie ne remplace pas Souillure; Psycolors relèvent du Bestiaire."
+    },
+    {
+      "id": "regles-verite-v7-fleau-vhadhi",
+      "sectionsRead": [
+        "source",
+        "impulsion",
+        "progression",
+        "rupture"
+      ],
+      "references": [
+        "regles-verite-v7-corruption-integrite-bascule#profondeur",
+        "regles-verite-v7-corruption-integrite-bascule#souillure",
+        "regles-verite-v7-corruption-integrite-bascule#bascule"
+      ],
+      "note": "Éden Gris est une institution et ses grades ne sont pas des PTV. La Bascule fixe une Finalité dépendant de la trajectoire, sans progression PJ après Rupture."
+    },
+    {
+      "id": "regles-verite-v7-fleau-shaoggith",
+      "sectionsRead": [
+        "source",
+        "impulsion",
+        "progression",
+        "rupture"
+      ],
+      "references": [
+        "regles-verite-v7-corruption-integrite-bascule#profondeur",
+        "regles-verite-v7-corruption-integrite-bascule#souillure",
+        "regles-verite-v7-corruption-integrite-bascule#bascule"
+      ],
+      "note": "Anciennes mutations ne prouvent pas une Corruption héréditaire. Les Maîtres des Abominations sont un statut cultuel; les Cycles sont après Rupture."
+    },
+    {
+      "id": "regles-verite-v7-fleau-thul",
+      "sectionsRead": [
+        "source",
+        "impulsion",
+        "progression",
+        "rupture"
+      ],
+      "references": [
+        "regles-verite-v7-corruption-integrite-bascule#profondeur",
+        "regles-verite-v7-corruption-integrite-bascule#souillure",
+        "regles-verite-v7-corruption-integrite-bascule#bascule"
+      ],
+      "note": "Sombre Culte, Dagon, Telipinu et Horde Abyssale sont des foyers distincts. Horde Abyssale ne constitue pas un arbre PTV et les Grands Thuliens relèvent du Bestiaire."
     }
   ]
 }
