@@ -54204,6 +54204,2432 @@
         "Fonction vice-directeur CCHS dans pnj absente du tableau public et du parcours ; préparer harmonisation avec agence.",
         "Tag public Daemons révèle Nature ; introduction et profil source doublonnés."
       ]
+    },
+    {
+      "id": "bestiaire-v15-agent-cchs-de-confinement",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "77e6fc7b108097118ea3207f0c22358193f7b541902d4ef2987751b948471958",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Gouvernement et LAUS",
+        "RÉALITÉ",
+        "SUPPORT / CONTRÔLEUR",
+        "CCHS"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Archétype CCHS de soutien sanitaire : confinement, prélèvements et quarantaine, 2 PA, PV12, armure2, taser et pistolet. Protection limitée aux risques ordinaires et à une tenue intacte ; périmètre franchissable mais surveillé.",
+      "ambiguities": [
+        "Protection étanche n’est pas immunité à tous les agents ou risques surnaturels.",
+        "Quarantaine ne bloque pas magiquement le passage."
+      ],
+      "tagDecision": "Bestiaire/Réalité, CCHS, confinement ; remplacer numérotation de chapitre par taxonomie stable ; rôle tactique MJ.",
+      "candidateReferences": [
+        "CCHS — risques biologiques",
+        "Augmentations — risques",
+        "Règles — soins/quarantaine",
+        "Équipement — protection étanche et taser"
+      ],
+      "editorialFindings": [
+        "Médecine dans Tests utiles à rapprocher du nom canonique Soin, sans assimilation silencieuse.",
+        "Description publique et profil MJ séparés ; vérifier que bestiary.hook ne ressort pas dans aperçu public."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-agent-cpp-anti-contrebande",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "271d4f71b8c08a9c9103a607c5694cca799467f5d1b22a62b67fc88416b7f5bd",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Gouvernement et LAUS",
+        "RÉALITÉ",
+        "TIREUR / CONTRÔLEUR",
+        "CPP"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Archétype CPP de saisie et contrôle des produits prohibés, 2 PA, PV13, armure4, fusil compact et pistolet ; reconnaît le manifeste avec listes/scanner, bonus +2 limité à sécurisation et conservation des preuves dangereuses.",
+      "ambiguities": [
+        "Accès aux listes est requis ; produits inconnus et faux sophistiqués restent à enquêter.",
+        "Reconnaître une arme prohibée ne révèle pas tous ses secrets."
+      ],
+      "tagDecision": "CPP, contrebande, saisie et enquête ; tactique MJ, classement gouvernement stable.",
+      "candidateReferences": [
+        "CPP — armes/drogues/produits biologiques",
+        "Règles — Investigation et assistance",
+        "Équipement — armes compactes"
+      ],
+      "editorialFindings": [
+        "Le dossier CPP déjà lu a des sections décalées : réparer les frontières avant d’y lier drogues numériques ou armes.",
+        "Technologie est un libellé à aligner sur compétences canoniques."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-agent-d-asset-recovery-corporatif",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "fda59f08267478dfae802e80ec511ceec3b384b5cee030bbd8a0d1270a790984",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Corporations",
+        "RÉALITÉ",
+        "ÉCLAIREUR / CONTRÔLEUR",
+        "RÉCUPÉRATION D’ACTIFS"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Récupérateur corporatif visant actifs intacts, y compris implants financés et personnels sous contrat ; 3 PA, PV13, armure3, SMG fiable/taser. Reconnaît inventaire de son employeur et privilégie neutralisation via Altération de Tir disponible.",
+      "ambiguities": [
+        "Ne dispose pas de l’inventaire de toutes les corporations.",
+        "Neutralisation exige Altération de Tir disponible et fiction compatible, pas effet automatique."
+      ],
+      "tagDecision": "Corporations, récupération d’actifs et contrats ; ne pas lier famille économique à mafia.",
+      "candidateReferences": [
+        "Corporations — contrats et financements",
+        "Augmentations — financement",
+        "Tir — Altérations",
+        "Équipement — SMG/taser"
+      ],
+      "editorialFindings": [
+        "Conserver les conditions d’accès et d’altération dans l’aperçu de section MJ.",
+        "Technologie/Larcin à vérifier contre nomenclature des compétences."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-agent-de-securite-corporatif",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "94f04722cdb67079be37d27eb606576c17e7a7a57f79b9e6f5844438376b2c0b",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Corporations",
+        "RÉALITÉ",
+        "TIREUR / CONTRÔLEUR",
+        "SÉCURITÉ DE SITE"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Garde de site corporatif ordinaire, 2 PA, PV11, armure3 ; SMG et matraque EMP, connaît issues, alarmes et positions de son établissement. Efficacité liée au terrain préparé et aux capteurs.",
+      "ambiguities": [
+        "Connaissance de site ne vaut pas connaissance de toutes les installations de la corporation.",
+        "Ne pas confondre avec l’équipe ArmaCorpo d’assaut."
+      ],
+      "tagDecision": "Corporations, sécurité de site ; archétype Réalité distinct de l’élite d’intervention.",
+      "candidateReferences": [
+        "Corporations — sécurité interne",
+        "ArmaCorpo d’intervention — renfort spécialisé",
+        "Équipement — matraque Riot Control/EMP"
+      ],
+      "editorialFindings": [
+        "Contrôler destination d’équipement sans imposer une marque absente du texte."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-agent-operationnel-du-cbii",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "41e5e137d33b4cd14d733cdf04395baa3da6e1d8355259dec2f193a0d9b301d9",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Gouvernement et LAUS",
+        "RÉALITÉ",
+        "ÉLITE",
+        "ÉCLAIREUR / SUPPORT",
+        "CBII"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Enquêteur de terrain CBII, crime majeur/contre-espionnage/terrorisme, 2 PA, PV12, armure3 ; dossier transversal repère la bonne institution, chaîne d’enquête utilise Assistance normale sur une même scène ou suspect.",
+      "ambiguities": [
+        "Identifier où se trouve une information n’en donne pas l’accès : mandat, délai et coopération possibles.",
+        "Assistance normale n’est ni bonus permanent ni cumul gratuit."
+      ],
+      "tagDecision": "CBII, enquête et renseignement ; pas unité lourde d’intervention.",
+      "candidateReferences": [
+        "CBII — missions et coopération",
+        "Règles — Assistance",
+        "Rosalinda Maldonado — officier CBII, accès selon couverture"
+      ],
+      "editorialFindings": [
+        "Lien contextualisé vers agence à privilégier ; ne pas transformer l’archétype en biographie de Rosalinda.",
+        "Technologie à comparer au nom canonique de compétence."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-armacorpo-d-intervention",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "8c11977bd1700c336e5cae71b7f642cda2dff3ff2649b8d14fb1c0cce2be25f1",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Corporations",
+        "RÉALITÉ",
+        "ÉLITE",
+        "TIREUR / BRUTE"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Élite humaine corporative d’assaut augmentée, 3 PA, PV15, armure5 ; fusil militaire EMP fiable et pistolet. Combatware ignore une seule circonstance de faible lumière/fumée ordinaire/communication brouillée avec capteurs actifs.",
+      "ambiguities": [
+        "Capable d’affronter une menace de Vérité ne signifie ni Nature surnaturelle ni perception automatique du Voile.",
+        "Ignore première circonstance de la scène, pas toutes les pénalités ni fumées surnaturelles."
+      ],
+      "tagDecision": "Corporations, intervention, augmentations et Réalité ; rôle élite/tireur/brute à classer côté MJ.",
+      "candidateReferences": [
+        "Armacorpos — forces privées",
+        "Augmentations — combatware",
+        "Règles — circonstances",
+        "Équipement — EMP et fusil militaire"
+      ],
+      "editorialFindings": [
+        "La mention publique menaces de Vérité demande révision d’audience ou formulation côté Réalité.",
+        "L’aperçu de capacité doit conserver condition capteurs actifs et limite première circonstance."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-careforce-counter-death",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "9fa13a0119c393f69f03416f71d7bbaa5f7464ec7e1a9f2d160481cdff0b2cc1",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Corporations",
+        "RÉALITÉ",
+        "SUPPORT",
+        "NORTHSTAR CAREFORCE / COUNTER-DEATH"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Spécialiste Northstar Counter-Death du trauma vital, 2 PA, PV12, armure3, pistolet compact ; 1/scène, 2 PA avec matériel pour tenter stabilisation à +3, triage selon données médicales accessibles.",
+      "ambiguities": [
+        "Tenter stabilisation n’est pas réussite garantie ni résurrection.",
+        "Triage ne perçoit pas les causes cachées hors informations accessibles."
+      ],
+      "tagDecision": "Northstar/CareForce, urgence médicale ; rôle tactique MJ.",
+      "candidateReferences": [
+        "Northstar — CareForce/Counter-Death",
+        "Règles — Agonisant et stabilisation",
+        "CareForce opérateur d’extraction — rôle complémentaire"
+      ],
+      "editorialFindings": [
+        "Description publique parle de danger pour un scénario : déplacer commentaire de mise en scène côté MJ.",
+        "Médecine/Technologie médicale à harmoniser avec compétences canoniques."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-careforce-operateur-d-extraction",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "2192fca1a5f49a4746a7958096b772634a9fcf5766b66e3da5a15fd77b4a323e",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Corporations",
+        "RÉALITÉ",
+        "ÉLITE",
+        "SUPPORT / TIREUR",
+        "NORTHSTAR CAREFORCE"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Opérateur armé CareForce Northstar, 3 PA, PV14, armure4 ; évacue le client sous le feu, 1 PA pour accompagner allié adjacent/client volontaire au prochain déplacement ; soins sans pénalité due au seul stress des tirs.",
+      "ambiguities": [
+        "Aucune suppression du danger lié au manque de couverture.",
+        "Déplacement accompagné soumis à possibilité physique et volontariat du client.",
+        "Mission d’extraction contractuelle, pas conquête de territoire."
+      ],
+      "tagDecision": "Northstar/CareForce, extraction médicale, ancien mercenariat possible.",
+      "candidateReferences": [
+        "Northstar — CareForce",
+        "Counter-Death — stabilisation",
+        "Règles — Déplacement et soin sous pression"
+      ],
+      "editorialFindings": [
+        "Conserver limites de 1 PA et prochain Déplacement dans l’aperçu ; pas déplacement gratuit immédiat."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-charcudoc",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "ca722a2227090b6fb8c528a9950372fbc055b8366514e39c47a7f28d5ee5ef67",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Pègre",
+        "RÉALITÉ",
+        "SUPPORT",
+        "MÉDECINE CLANDESTINE"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Médecin clandestin de quartier, chirurgie et augmentations non déclarées, 2 PA, PV11 sans armure ; Soin11/Mécanique10, clinique improvisée avec matériel correct sans pénalité automatique de lieu.",
+      "ambiguities": [
+        "Tous ne sont ni cyniques ni affiliés à une mafia.",
+        "Clinique improvisée dispense de l’hôpital, pas du matériel correct."
+      ],
+      "tagDecision": "Médecine clandestine, Crawlers/Underlife selon taxonomie ; Pègre comme milieu ne prouve pas organisation.",
+      "candidateReferences": [
+        "CharcuDocs — métier Crawler",
+        "Règles — Soin",
+        "Augmentations — chirurgie/maintenance"
+      ],
+      "editorialFindings": [
+        "Cette fiche emploie Soin alors que les CareForce emploient Médecine : divergence de nomenclature concrète à résoudre."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-chef-de-bande",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "30f35b5a24da4e711833eeb4922794538c826325f09e2bb8bfadf9e974315bda",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Rue, civils et bandes",
+        "RÉALITÉ",
+        "CHEF / TIREUR",
+        "GANG STRUCTURÉ"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Chef d’un gang structuré, 2 PA, PV13, armure2 ; coordonne dettes/territoire et donne Assistance +2 à un seul allié l’entendant une fois par round.",
+      "ambiguities": [
+        "Chef générique n’est membre d’aucun gang nommé par défaut.",
+        "Assistance pour action cohérente, un bénéficiaire à la fois, pas bonus de zone."
+      ],
+      "tagDecision": "Rue/gangs/commandement, archétype Réalité.",
+      "candidateReferences": [
+        "Gangs — organisation et territoires",
+        "Règles — Assistance",
+        "Ganger — subordonné générique"
+      ],
+      "editorialFindings": [
+        "Préserver fréquence par round, distincte des nombreux effets par scène."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-civil-ordinaire",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "9c0d53acb95a72b1324dcc4cc6da18cf38a560c603a5677fcc01eca4886a1da0",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Rue, civils et bandes",
+        "RÉALITÉ",
+        "FIGURANT",
+        "NON-COMBATTANT"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Témoin/employé/passant non préparé au combat, 1 PA, PV8, aucune armure, attaque improvisée faible ; métier pertinent +6, fuite/cachette/appel à l’aide en danger.",
+      "ambiguities": [
+        "Non-combattant ne signifie pas incompétent dans son métier.",
+        "Réaction de panique plausible ne doit pas devenir contrôle mental automatique."
+      ],
+      "tagDecision": "Civils/non-combattants, archétype Réalité ; ne pas assigner faction.",
+      "candidateReferences": [
+        "Vie quotidienne — métiers et civils",
+        "Règles — stress/panique",
+        "Règles — savoirs et compétences"
+      ],
+      "editorialFindings": [
+        "Savoir ou métier pertinent est une indication générique, pas une nouvelle compétence à créer."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-courier-contrebandier-crawler",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "18b852e4bc8c1ef75f7e484644851777867c781b800a35ff49ffdc486fc6656a",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Crawlers",
+        "RÉALITÉ",
+        "ÉCLAIREUR / SUPPORT",
+        "COURSIER CRAWLER"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Coursier Crawler de personnes/données/biens sensibles, 2 PA, PV11, armure1, Pilotage12 ; propose itinéraire secondaire après préparation et privilégie fuite pour sauver la cargaison.",
+      "ambiguities": [
+        "Transport discret n’est pas nécessairement criminel.",
+        "Route plausible peut échouer contre contrôle ciblé ou fermeture récente ; pas passe-droit automatique."
+      ],
+      "tagDecision": "Crawlers/coursiers/logistique ; contrebande comme activité possible, pas affiliation mafieuse.",
+      "candidateReferences": [
+        "Couriers — métier Crawler",
+        "Règles — poursuites/Pilotage",
+        "Équipement — pistolet Sturdy"
+      ],
+      "editorialFindings": [
+        "Lien d’arme par modèle Sturdy à vérifier dans catalogue ; ne pas choisir n’importe quel pistolet fiable."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-cultiste-arme",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "5e1ddc69cf3459a2df9008e88e547983c39c27ced6a9a27825b46ed218f0ff9b",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Cultistes et fanatiques",
+        "RÉALITÉ",
+        "TIREUR",
+        "GROUPE CLANDESTIN"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Humain de groupe clandestin sans pouvoir par défaut, 2 PA/PV10/armure1, pistolet et couteau ; conviction face au surnaturel conforme à la doctrine, panique possible face à l’inattendu.",
+      "ambiguities": [
+        "Cultiste n’implique ni pouvoir ni immunité à la peur ni culte nommé."
+      ],
+      "tagDecision": "Cultistes/fanatiques, humain Réalité ; affiliation spécifique à déterminer en scénario.",
+      "candidateReferences": [
+        "Cultes — recrutement et auxiliaires (MJ selon culte)",
+        "Règles — stress/panique"
+      ],
+      "editorialFindings": [
+        "Description publique contient point de vue PJ et connaissance de ce qui est protégé ; séparer lore et conseils MJ."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-cybercorpo-de-securite",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "2db25064e29ca95e0e4e15245a952ffa98a3956d64df91b412960a0a63d49f60",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Corporations",
+        "RÉALITÉ",
+        "SUPPORT / CONTRÔLEUR",
+        "CYBERDÉFENSE"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Défenseur des réseaux/IA/implants, 2 PA/PV10/armure1 ; Neurodive12, neuroattaque dégâts égaux à Marge contre cible connectée, isolation de segment sur son infrastructure pour 1 PA.",
+      "ambiguities": [
+        "La neuroattaque exige cible connectée ; le verrouillage ne vaut pas prise de contrôle de réseaux étrangers."
+      ],
+      "tagDecision": "Corporations/cyberdéfense/Neurodive.",
+      "candidateReferences": [
+        "Neurodive — neuroattaque/verrous",
+        "Cybercorpos — infrastructures Neural"
+      ],
+      "editorialFindings": [
+        "Aperçu MJ doit conserver cible connectée et périmètre de l’infrastructure."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-deathrunner-merc",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "a1cccd1de089e933dcac1f29acce7e82f7c4580c8f55e2b62da9dffc8390062f",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Crawlers",
+        "RÉALITÉ",
+        "ÉCLAIREUR / BRUTE",
+        "MERCENAIRE CRAWLER"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Mercenaire Crawler, 2 PA/PV13/armure3, SMG fiable et mêlée perforante ; contrats d’escorte/récupération/combat, peut décrocher quand le coût dépasse le paiement.",
+      "ambiguities": [
+        "Retrait conditionnel, sauf fanatisme ou engagement personnel ; ni fuite automatique ni loyauté absolue."
+      ],
+      "tagDecision": "Crawlers/Deathrunners/mercenariat, sans corporation assignée.",
+      "candidateReferences": [
+        "Deathrunners — métier",
+        "Crawlers — contrats",
+        "Règles — Perforant"
+      ],
+      "editorialFindings": [
+        "Arme de mêlée générique ne doit pas être liée à un modèle choisi arbitrairement."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-defenseur-du-grand-architecte",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "925c7f77b8554107e5361e1f59ad887ecc8bca07ec9ee41bc1fa1aaf99d3e02d",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Autres réseaux religieux",
+        "RÉALITÉ",
+        "SUPPORT / TIREUR",
+        "GRAND ARCHITECTE"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Gardien technophile religieux, 2 PA/PV12/armure3, SMG Smartlink ; Neurodive et maintenance d’augmentations avec outils et compréhension, Assistance normale aux tests concernés.",
+      "ambiguities": [
+        "Foi technophile n’implique ni cyberpsychose, ni pouvoir mystique, ni loyauté corporative."
+      ],
+      "tagDecision": "Religion Grand Architecte/augmentations/sécurité, distinguer courant public et Chasseurs.",
+      "candidateReferences": [
+        "Grand Architecte — doctrine",
+        "Augmentations — maintenance",
+        "Règles — Assistance",
+        "Smartlink"
+      ],
+      "editorialFindings": [
+        "Technologie et Savoirs religieux à rattacher aux compétences canoniques sans créer de nouveaux rangs."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-enforcer-de-la-vladivostokskaia-bratva",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "caff75fdddac994e2edb57cd783bbb5a20529c4da1bef0862543bd7c286228a2",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Pègre",
+        "RÉALITÉ",
+        "BRUTE / CONTRÔLEUR",
+        "BRATVA"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Protecteur mafieux Bratva, 2 PA/PV16/armure4 ; Owl SG-016 Boss à dispersion, mêlée ; Assistance à défense active d’une personne proche contre menace perçue, intimidation sociale.",
+      "ambiguities": [
+        "Intimidation ne crée aucune peur surnaturelle ; assistance exige proximité et perception."
+      ],
+      "tagDecision": "Pègre/Vladivostokskaïa/Bratva/protection, pas La Famille par défaut.",
+      "candidateReferences": [
+        "Vladivostokskaïa — protection",
+        "Équipement — Owl SG-016 Boss",
+        "Règles — défense active/Assistance"
+      ],
+      "editorialFindings": [
+        "Le Boss doit renvoyer à un shotgun précis, pas à un titre de chef ou une famille mafieuse."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-enqueteur-laus-cbii-local",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "3e576a4baf73ecd7c1d7630af7d3693211d1c9c8ceb99b5d1cca75f6269845ef",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Gouvernement et LAUS",
+        "RÉALITÉ",
+        "ÉCLAIREUR / SUPPORT",
+        "ENQUÊTE"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Enquêteur local LAUS ou CBII, 2 PA/PV10/armure1 ; Investigation11, lecture initiale de scène après quelques minutes, suit traces et demande renfort au combat.",
+      "ambiguities": [
+        "LAUS et CBII sont options d’emploi de l’archétype, pas une institution unique.",
+        "Repérer l’évidence professionnelle ne résout pas l’enquête entière."
+      ],
+      "tagDecision": "Enquête/agences ; distinguer LAUS/CBII en contexte.",
+      "candidateReferences": [
+        "LAUS — enquêtes",
+        "CBII — missions",
+        "Règles — Investigation"
+      ],
+      "editorialFindings": [
+        "Description publique comporte conseil tactique aux dépens des PJ ; reformuler lore ou déplacer conseil MJ."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-equipe-de-confinement-biocorpo",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "2823ab66cb81b60a78435c68898f02043a3003b775467f8531cb57465a869845",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Corporations",
+        "RÉALITÉ",
+        "CONTRÔLEUR / SUPPORT",
+        "BIOCORPO"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Confinement industriel biologique, 2 PA/PV13/armure3 ; Raven SG-025 Riot Control et taser, tenue étanche ordinaire, +2 en contention d’un sujet identifié avec matériel prévu.",
+      "ambiguities": [
+        "Scellé rompu par perforation grave ou exposition hors spécifications ; pas immunité totale.",
+        "Titre équipe mais profil semble celui d’un opérateur : préciser unité de jeu."
+      ],
+      "tagDecision": "Biocorpos/confinement/sécurité biomédicale.",
+      "candidateReferences": [
+        "Biocorpos — laboratoires",
+        "Équipement — Raven SG-025 Riot Control",
+        "Règles — Soin/contention"
+      ],
+      "editorialFindings": [
+        "Médecine dans Tests utiles et Soin dans capacité sur la même fiche : nomenclature incohérente.",
+        "Riot Control est ici shotgun Raven, distinct de la matraque homonyme de sécurité corporative."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-fixer-crawler",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "5f93d1ebfeb9fc62f14acd15b8436138f6302345afde6424a844c18a837303a7",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Crawlers",
+        "RÉALITÉ",
+        "SUPPORT / CHEF",
+        "FIXER CRAWLER"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Intermédiaire Crawler, 2 PA/PV10/armure1, Commerce12 ; identifie contacts/services dans milieu connu avec temps, apporte Assistance si sa réputation est engagée.",
+      "ambiguities": [
+        "Carnet d’adresses ne garantit disponibilité, prix ni confiance.",
+        "Connaître un contact n’autorise pas tous les services partout."
+      ],
+      "tagDecision": "Crawlers/Fixers/intermédiation/réseaux.",
+      "candidateReferences": [
+        "Fixers — métier",
+        "Réseaux — contacts",
+        "Règles — négociation/Assistance"
+      ],
+      "editorialFindings": [
+        "Survie urbaine à traiter comme contexte de compétence selon règles, pas un nouveau nom autonome sans vérification."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-ganger-arme",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "79ba529ef5ea2bf61bbd5851853e5d88f72a97399d0f7bba90cc18c29fcb93e5",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Rue, civils et bandes",
+        "RÉALITÉ",
+        "TIREUR",
+        "BANDE DE RUE"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Membre armé de bande de rue, 2 PA/PV10/armure1, pistolet/couteau ; utilise quartier, surnombre, couvert et concentration des tirs sans être soldat.",
+      "ambiguities": [
+        "Archétype n’impose aucun gang précis ni formation militaire."
+      ],
+      "tagDecision": "Rue/gangs/tireur humain.",
+      "candidateReferences": [
+        "Gangs — bandes territoriales",
+        "Chef de bande",
+        "Règles — couvert et tir"
+      ],
+      "editorialFindings": [
+        "Survie urbaine à harmoniser avec compétence canonique et contexte."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-garde-cardinalice",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "9d43981e4746490286da3bdb927ad3288e5989563cbc5bcc199675e9d47cf00e",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Église armée et AUC",
+        "RÉALITÉ",
+        "ÉLITE",
+        "TIREUR / ÉCLAIREUR",
+        "GARDE CARDINALICE"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Vétéran d’élite d’un Primat, 3 PA/PV15/armure5 ; première pénalité de Maîtrise liée aux tirs/explosions ordinaires/perte de camarade ignorée ; doctrine locale permet substitution limitée d’arme ou test utile.",
+      "ambiguities": [
+        "Moyenne d’élite, pas équipement identique de toutes les gardes ; résistance bornée, pas immunité au stress."
+      ],
+      "tagDecision": "Église armée/gardes cardinalices/Primats, pas Chasseur surnaturel par défaut.",
+      "candidateReferences": [
+        "Chrétienté — Primats/gardes",
+        "Garde pontificale — modèle",
+        "Règles — Maîtrise et circonstances"
+      ],
+      "editorialFindings": [
+        "Doctrine locale est une instruction MJ, à garder protégée."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-garde-du-corps-corporatif-vip",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "21809e4716f72355a3577427623089b8c706f8c879d1c50533e3a0b249fa2ba2",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Corporations",
+        "RÉALITÉ",
+        "ÉLITE",
+        "SUPPORT / CONTRÔLEUR",
+        "PROTECTION RAPPROCHÉE"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Protection rapprochée VIP, 3 PA/PV14/armure4 ; 1 PA Assistance à défense active du client adjacent avec vraie trajectoire d’interposition ; privilégie extraction et repli préparé.",
+      "ambiguities": [
+        "Interposition ne transfère pas automatiquement les dégâts et n’aide pas un client distant.",
+        "Connaît les issues prévues, pas toute sortie inconnue."
+      ],
+      "tagDecision": "Corporations/protection rapprochée/VIP.",
+      "candidateReferences": [
+        "Corporations — sécurité",
+        "Règles — défense active/Assistance",
+        "CareForce — extraction, rôle différent"
+      ],
+      "editorialFindings": [
+        "Préserver coût 1 PA et condition de position dans l’aperçu."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-garde-ecossais-de-la-couronne-pontificale",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "e6c4a4a8f83c902f37b5e3b486ac17e0cb555a8c75720331533372a186475976",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Église armée et AUC",
+        "RÉALITÉ",
+        "ÉLITE",
+        "CONTRÔLEUR / TIREUR",
+        "GARDE ÉCOSSAISE"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Garde religieuse issue de la garde royale britannique, distincte des Suisses ; défense des cathédrales, 3 PA/PV15/armure5, fusil/shotgun. Connaît bâtiment préparé et limite tirs à travers civils.",
+      "ambiguities": [
+        "Couronne pontificale n’est pas couronne britannique actuelle.",
+        "Retenue au tir peut céder à ordre ou nécessité immédiate, pas interdiction absolue."
+      ],
+      "tagDecision": "Église armée/garde écossaise/défense de sites.",
+      "candidateReferences": [
+        "Chrétienté — garde écossaise",
+        "Garde suisse — distinction",
+        "Règles — couverture/tirs en foule"
+      ],
+      "editorialFindings": [
+        "Shotgun de défense générique : pas de marque à assigner sans texte."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-garde-fanatique",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "5bceb6a501f407b39d9e502d276f0357bd89d9ec1d2e97db4870e7aae481de67",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Cultistes et fanatiques",
+        "RÉALITÉ",
+        "BRUTE / CONTRÔLEUR",
+        "PROTECTION DE CULTE"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Gardien humain de culte, 2 PA/PV13/armure3, shotgun et arme rituelle ; tient tant que l’objectif derrière lui demeure accessible, sans céder à intimidation ordinaire.",
+      "ambiguities": [
+        "Arme rituelle ne signifie pas objet magique.",
+        "Tenir la porte n’est ni invulnérabilité ni résistance absolue à tout pouvoir."
+      ],
+      "tagDecision": "Cultistes/protection/fanatisme humain, aucune Nature déduite.",
+      "candidateReferences": [
+        "Cultes — gardiens (selon audience)",
+        "Cultiste armé — variante",
+        "Règles — intimidation/moral"
+      ],
+      "editorialFindings": [
+        "Respecter consigne de remplacer par profil Vérité si pouvoirs ajoutés, sans attribuer ces pouvoirs au profil courant."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-garde-suisse-pontifical",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "b5a5d5cc2accc6dc4a89bdf3b4977a60e45deb203a8eb89b0ebbd0cadff14a9c",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Église armée et AUC",
+        "RÉALITÉ",
+        "ÉLITE",
+        "TIREUR / CONTRÔLEUR",
+        "GARDE PONTIFICALE"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Garde pontificale moderne d’élite, 3 PA/PV16/armure6 ; interposition 1 PA, accès dans installations de l’Église nécessaires à mission. Officiers particuliers peuvent posséder Sehdiacraft sur mesure.",
+      "ambiguities": [
+        "Sehdiacraft des officiers ne fait pas partie de l’équipement de tous les gardes.",
+        "Accès institutionnel limité à mission, pas accès universel."
+      ],
+      "tagDecision": "Église armée/garde pontificale/protection.",
+      "candidateReferences": [
+        "Chrétienté — garde pontificale",
+        "Sehdia/Sehdiacraft — équipements d’officiers",
+        "Règles — défense active/Assistance"
+      ],
+      "editorialFindings": [
+        "Lien Sehdiacraft doit conserver la restriction certains officiers ; ne pas attribuer cet équipement au bloc de ligne."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-gundriver",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "7863bc09bd9d5986a4ba84eca82695b9ef0621cd635c23c2c5025a51a9dfb43b",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Crawlers",
+        "RÉALITÉ",
+        "ÉCLAIREUR / SUPPORT",
+        "CONDUCTEUR CRAWLER"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Conducteur et convoyeur Crawler, 2 PA/PV10/armure1, Pilotage11/Mécanique9 ; connaît les limites de son véhicule, poursuites selon règles normales.",
+      "ambiguities": [
+        "Son véhicule est distinct de son profil personnel ; aucune réussite automatique de poursuite.",
+        "Contrebandier seulement possible, pas obligatoire."
+      ],
+      "tagDecision": "Crawlers/Gundrivers/conduite/convoyage.",
+      "candidateReferences": [
+        "Gundrivers — métier",
+        "Règles — Pilotage/poursuites",
+        "Véhicules — profils distincts"
+      ],
+      "editorialFindings": [
+        "Ne pas associer un modèle de véhicule sans choix de scène."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-hacker-criminel",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "b587e58306daafd9c1bcaffcbec0480a7711942e8d80a989cb4d31f3e52805c1",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Pègre",
+        "RÉALITÉ",
+        "SUPPORT / CONTRÔLEUR",
+        "CYBERCRIME"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Cybercriminel peu armé, 2 PA/PV9/sans armure, Neurodive11 ; neuroattaque contre cible connectée, circonstance favorable +3 possible si réseau préparé directement utile.",
+      "ambiguities": [
+        "Réseau déjà compromis requis pour bonus ; ni contrôle distant universel ni cible déconnectée."
+      ],
+      "tagDecision": "Pègre/cybercrime/Neurodive ; aucune mafia particulière.",
+      "candidateReferences": [
+        "Neurodive — neuroattaque",
+        "Règles — circonstance favorable +3",
+        "Holonet — identités et infrastructures"
+      ],
+      "editorialFindings": [
+        "Distinguer circonstance +3 et Assistance +2 ; Larcin à vérifier dans nomenclature."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-homme-de-main-oglaigh",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "26263db81b62d415ffaaf82ce508cc6b28114f48c53fdf6bd915b3cdd052432b",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Pègre",
+        "RÉALITÉ",
+        "ÉCLAIREUR / TIREUR",
+        "OGLAIGH"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Homme de main communautaire, 2 PA/PV14/armure3 ; shotgun Riot Control et SMG. Prépare embuscade locale puis rejoint un point de chute connu.",
+      "ambiguities": [
+        "Point de chute connu ne signifie pas libre ou sûr ; embuscade n’accorde aucun bonus automatique."
+      ],
+      "tagDecision": "Oglaigh/pègre/réseaux locaux.",
+      "candidateReferences": [
+        "Oglaigh — organisation",
+        "Riot Control — shotgun, pas matraque",
+        "Règles — embuscade"
+      ],
+      "editorialFindings": [
+        "Conserver préparation de quelques minutes, couvert crédible et issue de repli."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-inspecteur-csco-de-terrain",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "c70195757e14307b117f599579bb21555b98f5ede8558ef51ab45ea20d08a5c2",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Gouvernement et LAUS",
+        "RÉALITÉ",
+        "SUPPORT / CONTRÔLEUR",
+        "CSCO"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Inspecteur des normes corporatives, 2 PA/PV10/armure1 ; Autorité12/Investigation11. Mandat limité aux accès réglementaires ; conserve la chaîne de preuve.",
+      "ambiguities": [
+        "Mandat n’est pas autorité universelle ; fraude possible mais laisse traces, preuves altérables ou juridiquement invalidables."
+      ],
+      "tagDecision": "CSCO/inspection/régulation.",
+      "candidateReferences": [
+        "CSCO",
+        "Sylvia Rose — rôle public",
+        "Règles — enquête et preuves"
+      ],
+      "editorialFindings": [
+        "Ne pas exposer la nature privée de la dirigeante via renvoi de fonction."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-inspecteur-du-cbac",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "49411d53bf81ae92022a88c5d69b07b19c0661308af34d0a112f6ed7f6ccf408",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Gouvernement et LAUS",
+        "RÉALITÉ",
+        "SUPPORT / CONTRÔLEUR",
+        "CBAC"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Enquêteur sur abus de pouvoir et corruption, 2 PA/PV10/armure1, Investigation13. Demande conservation des traces sous enquête légitime et repère après examen les fautes manifestes de protocole.",
+      "ambiguities": [
+        "Refus possible avec conséquences ; attribuer faute ou manipulation exige un test."
+      ],
+      "tagDecision": "CBAC/contrôle/enquête.",
+      "candidateReferences": [
+        "CBAC — distinct du CBII et CSCO",
+        "Règles — Investigation"
+      ],
+      "editorialFindings": [
+        "Préserver durée d’examen et distinction repérage évident/attribution."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-intervenant-stab",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "52e00940eb60b773b1c96085bf404702a78ad9c1bc53474bc00fe0f902456ed1",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Gouvernement et LAUS",
+        "RÉALITÉ",
+        "ÉLITE",
+        "CONTRÔLEUR / SUPPORT",
+        "STAB"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Intervenant en crise technologique, 2 PA/PV14/armure5, Technologie13 ; Manticore EMP et Sturdy. Confinement à 1 PA/contact impose -3 à une fonction isolable jusqu’à réparation ou reprise de contrôle.",
+      "ambiguities": [
+        "Matériel d’isolation nécessaire ; reconnaît dangers évidents d’une machine documentée, pas connaissance universelle."
+      ],
+      "tagDecision": "STAB/intervention/technologie.",
+      "candidateReferences": [
+        "STAB",
+        "Raven Manticore — arme, pas créature",
+        "Règles — EMP"
+      ],
+      "editorialFindings": [
+        "Distinguer intervention et observation ; préserver conditions matérielles du confinement."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-kobun-du-yamaguchi",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "d65752220c6b483a9efae326fa4a1b8b6f557c0c821d02d45a879ed24d6228b6",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Pègre",
+        "RÉALITÉ",
+        "ÉCLAIREUR / BRUTE",
+        "YAMAGUCHI"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Exécutant du Yamaguchi, 2 PA/PV13/armure2, pistolet lourd et lame. Ignore première pénalité de Maîtrise de provocation ordinaire si supérieur identifié tient la scène ; respecte limites de mission.",
+      "ambiguities": [
+        "Lame générique ne signifie pas katana ; discipline ne signifie pas immunité absolue."
+      ],
+      "tagDecision": "Yamaguchi/pègre/discipline collective.",
+      "candidateReferences": [
+        "Yamaguchi — organisation",
+        "Règles — Maîtrise"
+      ],
+      "editorialFindings": [
+        "Ne pas ajouter vendetta, samouraï ou affiliation occulte par stéréotype."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-meditech-crawler",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "54898df967ecc9c57d821033426a79401825c9cff7646953f505ef0392c2a2c7",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Crawlers",
+        "RÉALITÉ",
+        "SUPPORT",
+        "SOINS & AUGMENTIQUE"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Soignant de terrain Crawler, 2 PA/PV11/armure1, Soin11/Mécanique10. Triage reconnaît danger vital évident ; action médicale exige le test approprié.",
+      "ambiguities": [
+        "Réparation d’augmentations et soins ne sont pas guérison magique ; rôle distinct du CharcuDoc."
+      ],
+      "tagDecision": "Crawlers/Meditechs/soins.",
+      "candidateReferences": [
+        "Meditechs",
+        "Règles — Soin/stabilisation",
+        "Augmentations"
+      ],
+      "editorialFindings": [
+        "Conserver distinction diagnostic évident et réussite de l’intervention."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-myrophore-de-l-auc",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "8a667a4567caf7b50410b506ff469779f9bc3dbbbb3ace4221c3b6ea165786cb",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Église armée et AUC",
+        "RÉALITÉ",
+        "ÉLITE",
+        "BRUTE / SUPPORT",
+        "AUC / MYROPHORES"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Guerrière de l’ordre féminin Myrophore de l’AUC, héritage orthodoxe ; 3 PA/PV16/armure5. Protection sacrée +2 Perception/Maîtrise en protection active ; Assistance défensive à 1 PA avec interposition adjacente.",
+      "ambiguities": [
+        "Relique ou protection sacrée ne donne pas automatiquement de pouvoir ; ordre distinct des Néo-templiers."
+      ],
+      "tagDecision": "AUC/Myrophores/ordre militaire féminin humain.",
+      "candidateReferences": [
+        "AUC — Myrophores",
+        "Règles — Assistance/défense active"
+      ],
+      "editorialFindings": [
+        "Préserver cible confiée et protection active pour bonus, proximité pour interposition."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-neo-templier-de-l-auc",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "83adc79eae660d47a130d11e334f4364c89c7d19d929c40b12a22d1c240e3265",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Église armée et AUC",
+        "RÉALITÉ",
+        "ÉLITE",
+        "BRUTE / TIREUR",
+        "AUC / HÉRITAGE TEMPLIER"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Combattant humain moderne de l’AUC revendiquant héritage templier ; 3 PA/PV16/armure5. Assistance normale en formation effective, aucun miracle gratuit ; capacités d’un initié ajoutées séparément.",
+      "ambiguities": [
+        "Arme consacrable n’est pas déjà consacrée ; héritage historique distinct des ordres secrets de chasseurs."
+      ],
+      "tagDecision": "AUC/Néo-templiers/militaires humains.",
+      "candidateReferences": [
+        "AUC — Néo-templiers",
+        "Templiers — héritage historique",
+        "Règles — Assistance"
+      ],
+      "editorialFindings": [
+        "Description publique mentionne les trois ordres secrets de chasseurs : déplacer ou reformuler cette distinction selon audience sans exposer leur existence."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-neocroise-de-l-auc",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "83d30cb5a6809061cc7c50c89f50aad6a6ccbab724e23fd4de564ec2b122aa95",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Église armée et AUC",
+        "RÉALITÉ",
+        "TIREUR / SUPPORT",
+        "AUC / NÉOCROISÉ"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Volontaire réellement formé et intégré à l’AUC, 2 PA/PV13/armure3 ; cohésion +2 Maîtrise uniquement contre peur de l’infériorité numérique si chef ou deux camarades tiennent.",
+      "ambiguities": [
+        "Profil moyen de divisions hétérogènes, pas fidèle improvisé ni uniforme mondial."
+      ],
+      "tagDecision": "AUC/Néocroisés/troupe humaine.",
+      "candidateReferences": [
+        "AUC — Assemblée des Néocroisés",
+        "Règles — Maîtrise"
+      ],
+      "editorialFindings": [
+        "Description publique mentionne les trois ordres chasseurs secrets ; réexaminer audience de cette distinction."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-neurodiver-crawler",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "a9bb774613b1ecc37f656af93aab26337af89b6c235133007068168eb668a0d0",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Crawlers",
+        "RÉALITÉ",
+        "SUPPORT / CONTRÔLEUR",
+        "INTRUSION"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Intrusion Crawler, 2 PA/PV9/armure1 ; Neurodive12 et neuroattaque sur cible connectée, dégâts égaux à Marge. Outils usuels crédibles, logiciels rares ou destructeurs à acquérir spécifiquement.",
+      "ambiguities": [
+        "Ni contrôle universel du décor ni droit implicite aux logiciels rares."
+      ],
+      "tagDecision": "Crawlers/Neurodivers/intrusion.",
+      "candidateReferences": [
+        "Neurodivers",
+        "Neurodive — neuroattaques",
+        "Logiciels — équipement"
+      ],
+      "editorialFindings": [
+        "Conserver restriction cible connectée ; Force Mentale à vérifier dans nomenclature des tests."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-operateur-des-forces-speciales",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "c15c88af6cecdf7f64a46e3c30d40be8ddddb8ed136b9cec771c6b1142a87952",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Forces armées",
+        "RÉALITÉ",
+        "ÉLITE",
+        "ÉCLAIREUR / TIREUR"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Élite humaine, 3 PA/PV16/armure6 ; fusils avancé et de précision EMP, capteurs militaires limitant les pénalités de fumée, obscurité et bruit ordinaires.",
+      "ambiguities": [
+        "Contre-mesure adaptée peut rétablir la pénalité ; aucune immunité sensorielle absolue ni nature surnaturelle."
+      ],
+      "tagDecision": "Forces armées/forces spéciales/élite humaine.",
+      "candidateReferences": [
+        "Forces armées",
+        "Règles — circonstances/capteurs/EMP"
+      ],
+      "editorialFindings": [
+        "Armes génériques : ne pas attribuer de modèle précis sans texte."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-partisan-du-djyhad",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "64b4bd8b23b856ff7288dbf86f1d9d5a0244f8dbd27e11e2cda7a0fb2a0e5920",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Autres réseaux religieux",
+        "RÉALITÉ",
+        "TIREUR / SUPPORT",
+        "DJYHAD"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Combattant entraîné d’un courant armé fictif précis, 2 PA/PV13/armure3 ; Assistance normale à protection effective du même groupe, convoi ou lieu ; conviction sans pouvoir surnaturel.",
+      "ambiguities": [
+        "Organisation distincte de l’islam et des fidèles en général ; allié ou adversaire selon scène."
+      ],
+      "tagDecision": "Djyhad/faction armée humaine ; pas catégorie générale de religion.",
+      "candidateReferences": [
+        "Djyhad — organisation précise",
+        "Règles — Assistance"
+      ],
+      "editorialFindings": [
+        "Conserver clarification du périmètre de faction et absence de connaissance automatique de la Vérité."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-patrouilleur-laus",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "4ef92276f6e43f61a0c6c601e741a828e1a285dc3201658357ddba729dbf337d",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Gouvernement et LAUS",
+        "RÉALITÉ",
+        "CONTRÔLEUR / TIREUR",
+        "POLICE URBAINE"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Police quotidienne de Los Angeles, 2 PA/PV11/armure3 ; pistolet lourd, taser et matraque Riot Control EMP ; réponse institutionnelle aux affrontements ouverts sauf isolement exceptionnel.",
+      "ambiguities": [
+        "Renfort est conséquence narrative et organisationnelle, pas pouvoir automatique ni commando."
+      ],
+      "tagDecision": "LAUS/police urbaine/contrôle.",
+      "candidateReferences": [
+        "LAUS",
+        "Riot Control — matraque, pas shotgun",
+        "Règles — Électrique/EMP"
+      ],
+      "editorialFindings": [
+        "Distinguer effet Électrique du taser et EMP de la matraque."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-pompier-technicien-d-intervention",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "25b575d3179f3f4a6d59fd294950cb2a864f9b938e085534c30625c20912219d",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Rue, civils et bandes",
+        "RÉALITÉ",
+        "SUPPORT / BRUTE",
+        "INTERVENTION TECHNIQUE"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Secours technique, 2 PA/PV14/armure1 ; tenue No-Fire avec réduction3 Feu/Électricité déjà comptée. Ignore première circonstance défavorable environnementale ordinaire en procédure de secours.",
+      "ambiguities": [
+        "Tenue perforée ou hors spécifications peut perdre protection ; pas immunité au feu."
+      ],
+      "tagDecision": "Secours/intervention technique/civil.",
+      "candidateReferences": [
+        "No-Fire — tenue",
+        "Règles — protections environnementales",
+        "Soin — vérifier Médecine"
+      ],
+      "editorialFindings": [
+        "Ne pas recompter réduction No-Fire ; harmoniser Médecine/Technologie selon nomenclature canonique."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-ranger-du-nrmd",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "da6c507d14050490135c57a2e63d6aeb72966c11695faec755f5e7b050de2e07",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Gouvernement et LAUS",
+        "RÉALITÉ",
+        "ÉCLAIREUR / TIREUR",
+        "NRMD"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Surveillance des ressources et sites isolés, 2 PA/PV13/armure2 ; Survie/Perception12. Connaît secteur patrouillé et +2 Survie/Investigation sur traces d’activité en milieu naturel.",
+      "ambiguities": [
+        "Connaissance des sites déclarés, pas localisation automatique de tout site clandestin ; ranger n’est pas force spéciale."
+      ],
+      "tagDecision": "NRMD/ressources/pistage.",
+      "candidateReferences": [
+        "NRMD",
+        "Règles — Survie/Investigation"
+      ],
+      "editorialFindings": [
+        "Préserver limite milieu naturel et types de traces pour bonus."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-recuperateur-salvager",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "735278033f9787076ff99816df48f02c4ec51bdeb1f9e3c9f56391c17a47eac8",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Crawlers",
+        "RÉALITÉ",
+        "ÉCLAIREUR / SUPPORT",
+        "RÉCUPÉRATION CRAWLER"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Récupération Crawler, 2 PA/PV13/armure2 ; Mécanique12/Technologie11. Quelques minutes distinguent pièces manifestement utiles/dangereuses/propriétaires ; remise en marche provisoire simple avec outils et pièce plausible.",
+      "ambiguities": [
+        "Panne complexe requiert test et temps normaux ; reconnaître propriété ne transfère aucun droit."
+      ],
+      "tagDecision": "Crawlers/récupérateurs/Salvagers.",
+      "candidateReferences": [
+        "Récupération Crawler",
+        "Règles — Mécanique/réparation"
+      ],
+      "editorialFindings": [
+        "Shotgun générique de récupération sans marque ; préserver les exigences matérielles."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-secouriste-logisticien-confessionnel",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "0e5d684c63e64c427c4c5f5bfeacecf7f42dad2671fc602b94e7a36bf59b54c5",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Autres réseaux religieux",
+        "RÉALITÉ",
+        "SUPPORT / CHEF",
+        "RÉSEAU RELIGIEUX"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Coordinateur d’entraide civile religieuse, 2 PA/PV10/sans armure ; contacts pour nourriture, logement et soins avec temps et disponibilité ; Assistance en coordonnant plusieurs volontaires.",
+      "ambiguities": [
+        "Réseau ni ressources illimitées ni pouvoir surnaturel ; aucune confession précise imposée."
+      ],
+      "tagDecision": "Réseaux religieux/entraide/logistique civile.",
+      "candidateReferences": [
+        "Réseaux d’entraide religieux",
+        "Règles — Assistance/Soin"
+      ],
+      "editorialFindings": [
+        "Médecine à harmoniser avec Soin ; ne pas assigner automatiquement à l’AUC."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-secouriste-flashmergencies",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "eaeaef7e2800a88af79ad6ff234fb321375ff05fc3c698153134b4d40c0ded81",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Rue, civils et bandes",
+        "RÉALITÉ",
+        "SUPPORT / ÉCLAIREUR",
+        "URGENCES PUBLIQUES"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Urgences publiques civiles, 2 PA/PV11/armure1 ; stabilisation agonisant à 1 PA avec matériel et accès réel au soin ; +2 Athlétisme/Pilotage uniquement pour évacuer blessé du danger.",
+      "ambiguities": [
+        "Secouriste ni policier ni soldat ; stabilisation n’est pas récupération des PV."
+      ],
+      "tagDecision": "Flashmergencies/urgences publiques/secours.",
+      "candidateReferences": [
+        "Flashmergencies — distinct de CareForce",
+        "Règles — stabilisation/évacuation"
+      ],
+      "editorialFindings": [
+        "Médecine à rapprocher de Soin ; vérifier articulation de la capacité 1 PA avec règles canoniques sans la corriger arbitrairement."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-sicario-de-cartel",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "37bc6ba972ae132517ef27c7fc57cffaa51fb1c7da2c63c36928d0c50b72e2b8",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Pègre",
+        "RÉALITÉ",
+        "TIREUR / ÉCLAIREUR",
+        "CARTEL"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Professionnel mobile de cartel frontalier, 2 PA/PV13/armure3 ; repli préparé et +2 Investigation/Perception pour chercher cible, planque ou passage dans réseau réellement établi.",
+      "ambiguities": [
+        "Aucun cartel nommé imposé ; réseau limité au secteur couvert, repli doit être préparé."
+      ],
+      "tagDecision": "Cartels/pègre/tireur mobile.",
+      "candidateReferences": [
+        "Cartels — organisations",
+        "Règles — recherche/poursuites"
+      ],
+      "editorialFindings": [
+        "Survie urbaine à vérifier ; préserver professionalisme sans fanatisme présumé."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-soldat-californien",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "018727cbd5ceffa45934100c6f135b02f31f4cb4a31bb16cd2e24881da2bcef1",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Forces armées",
+        "RÉALITÉ",
+        "TIREUR",
+        "MILITAIRE PROFESSIONNEL"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Militaire professionnel standard, 2 PA/PV14/armure5 ; fusil/pistolet, discipline de couverture, Suppression et mouvement coordonné dans une unité soutenue.",
+      "ambiguities": [
+        "Doctrine d’emploi ne confère pas de PA ni bonus automatique supplémentaire."
+      ],
+      "tagDecision": "Armée californienne/militaires professionnels.",
+      "candidateReferences": [
+        "Forces armées californiennes",
+        "Règles — Suppression/couverture"
+      ],
+      "editorialFindings": [
+        "Description publique évoque bloc de caractéristiques : formulation méta à déplacer ou reformuler si lore immersif recherché."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-soldat-des-vingt-deux-dragons",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "9f9604aa5b06bc4f205560e57a6714545a4a9d68142a313f90d0688c4e140bb9",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Pègre",
+        "RÉALITÉ",
+        "TIREUR / SUPPORT",
+        "VINGT-DEUX DRAGONS"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Protection des flux commerciaux et clandestins des Vingt-deux Dragons, 2 PA/PV12/armure2 ; SMG fiable, logistique ordinaire connue dans son réseau, préfère discrétion aux fusillades.",
+      "ambiguities": [
+        "Dragons désigne organisation criminelle, pas créatures ; réseaux asiatiques ne désignent pas toutes les diasporas."
+      ],
+      "tagDecision": "Vingt-deux Dragons/pègre/logistique.",
+      "candidateReferences": [
+        "Vingt-deux Dragons — organisation",
+        "CBII",
+        "CPP"
+      ],
+      "editorialFindings": [
+        "Larcin à harmoniser avec nomenclature ; préserver limites réseau connu et intermédiaires ordinaires."
+      ]
+    },
+    {
+      "id": "bestiaire-v15-soldato",
+      "reviewedAt": "2026-09-25",
+      "readAtCommit": "80406588bcf1aff98b11f19b9721e71382bc6925",
+      "stage": "read-only-decisions-pending",
+      "sectionsRead": [
+        "description",
+        "dossier-mj"
+      ],
+      "sectionOccurrencesRead": [
+        {
+          "index": 0,
+          "id": "description",
+          "title": "Description",
+          "audience": "public"
+        },
+        {
+          "index": 1,
+          "id": "dossier-mj",
+          "title": "Dossier MJ · Profil, hook & informations",
+          "audience": "mj"
+        }
+      ],
+      "contentSha256": "d86fb8d39474d81a09e6887ba5a84b3de9c8907350460fed177e2e928291dc50",
+      "references": [],
+      "candidateReferenceStatus": "Unresolved semantic candidates; no link added or target asserted by this reading.",
+      "tagsBefore": [
+        "1.1 PNJ Réalité",
+        "Pègre",
+        "RÉALITÉ",
+        "BRUTE / TIREUR",
+        "HOMME DE MAIN MAFIEUX"
+      ],
+      "linksAdded": [],
+      "semanticSummary": "Professionnel mafieux, 2 PA/PV14/armure3 ; fusil/couteau, Assistance normale à un autre Soldato si actions réellement concentrées sur même objectif.",
+      "ambiguities": [
+        "Statut mafieux ne suffit pas à assigner sans source une famille précise ; Soldati pluriel du rôle."
+      ],
+      "tagDecision": "Pègre/Soldati/hommes de main mafieux.",
+      "candidateReferences": [
+        "Mafia — structure concernée à résoudre",
+        "Règles — Assistance"
+      ],
+      "editorialFindings": [
+        "Ne pas convertir la menace narrative de deux ou trois Soldati en capacité automatique de verrouillage de rue."
+      ]
     }
   ],
   "coverage": {
@@ -54214,12 +56640,12 @@
     "rulesTotal": 65,
     "globalReviewComplete": false,
     "note": "A read entry is not a completed taxonomy pass. Earlier entries still contain pending decisions. Talent transclusion markers were read as references; generated talent pages require their own review.",
-    "pagesRead": 750,
+    "pagesRead": 800,
     "lorePagesRead": 271,
-    "bestiaryPagesRead": 1,
+    "bestiaryPagesRead": 51,
     "scope": "Repository corpus only; custom database pages and live wiki edits are excluded by the quality-corpus database stub. Inventoried does not mean read.",
     "catalogue": "compendium/source/wiki-taxonomy-catalogue-v1.json",
-    "pagesNotRead": 1597
+    "pagesNotRead": 1547
   },
   "openFindings": [
     {
