@@ -11,7 +11,7 @@ export function validScenes(value:unknown):value is CampaignScene[]{
    if(!r||typeof r!=='object'||!text(r.articleId,200)||!r.articleId||refs.has(r.articleId)||!text(r.title,300)||!text(r.category,100)||!text(r.notes,2000)||!Number.isInteger(r.quantity)||r.quantity<1||r.quantity>999)return false;
    if(r.npcId!==undefined&&(typeof r.npcId!=='string'||!/^([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$/i.test(r.npcId)||r.articleId!=='campaign-npc:'+r.npcId))return false;
    if(r.creatureId!==undefined&&(typeof r.creatureId!=='string'||!/^([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$/i.test(r.creatureId)||r.articleId!=='campaign-creature:'+r.creatureId))return false;
-   if(r.difficultyId!==undefined&&(!r.creatureId||!['figurant','standard','dangereux','majeur','exceptionnel'].includes(r.difficultyId)))return false;
+   if(r.difficultyId!==undefined&&(!(r.creatureId||r.category==='Bestiaire')||!['figurant','standard','dangereux','majeur','exceptionnel'].includes(r.difficultyId)))return false;
    if(r.articleId.startsWith('campaign-npc:')&&!r.npcId)return false;
    if(r.articleId.startsWith('campaign-creature:')&&!r.creatureId)return false;
    refs.add(r.articleId);return true;

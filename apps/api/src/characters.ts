@@ -16,6 +16,7 @@ type CharacterRow = {
   name: string;
   data: Record<string, unknown>;
   version: number;
+  favorite: boolean;
   createdAt: string;
   updatedAt: string;
 };
@@ -57,6 +58,7 @@ async function insertCharacter(
          name,
          data,
          version,
+         favorite,
          created_at::text AS "createdAt",
          updated_at::text AS "updatedAt",
          campaign_id AS "campaignId",(SELECT name FROM campaigns WHERE id=characters.campaign_id) AS "campaignName"`,
@@ -95,17 +97,30 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
          name,
          ${request.query.summary === "1" ? "" : "data,"}
          version,
+         favorite,
          created_at::text AS "createdAt",
          updated_at::text AS "updatedAt",
          campaign_id AS "campaignId",(SELECT name FROM campaigns WHERE id=characters.campaign_id) AS "campaignName"
        FROM characters
        WHERE owner_id = $1
          AND archived_at IS NULL
-       ORDER BY updated_at DESC`,
+       ORDER BY favorite DESC, updated_at DESC`,
       [user.id]
     );
 
     return { characters: result.rows };
+  });
+
+  app.patch<{Params:{id:string};Body:{favorite?:boolean}}>("/api/characters/:id/favorite",async(request,reply)=>{
+    const user=await requireUser(request,reply);
+    if(!user)return;
+    if(!UUID_RE.test(request.params.id)||typeof request.body?.favorite!=="boolean")return bad(reply,"invalid_character_favorite");
+    const result=await pool.query<{id:string;favorite:boolean}>(
+      `UPDATE characters SET favorite=$3 WHERE id=$1 AND owner_id=$2 AND archived_at IS NULL RETURNING id,favorite`,
+      [request.params.id,user.id,request.body.favorite]
+    );
+    if(!result.rows[0])return reply.code(404).send({error:"character_not_found"});
+    return {character:result.rows[0]};
   });
 
   app.post<{

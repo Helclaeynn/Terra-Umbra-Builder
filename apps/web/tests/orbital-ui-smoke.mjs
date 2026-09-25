@@ -13,7 +13,7 @@ const articleId = "orbital-audit-article";
 const character = {
   id: characterId,
   name: "Alexandra des Archives de Grande Californie — enquêtes et exploration",
-  data: {}, version: 3, createdAt: timestamp, updatedAt: timestamp
+  data: {}, favorite: false, version: 3, createdAt: timestamp, updatedAt: timestamp
 };
 const article = {
   id: articleId, title: "Dossier de contrôle de la présentation", category: "Réalité",
@@ -93,6 +93,7 @@ async function assertKeyboardFocus(page, start) {
 
 try {
   for (const width of [1440, 390]) {
+    character.favorite=false;
     const page = await browser.newPage({ viewport: { width, height: 960 }, reducedMotion: "reduce" });
     page.setDefaultTimeout(12000);
     const errors = [];
@@ -137,6 +138,10 @@ try {
       if (path === "/api/campaigns") return send({userId:fixtureUser(role).id,campaigns:role==='player'?[{id:'campaign-invite',name:'La table de Morgan',gmName:'Morgan',membershipStatus:'invited'}]:[]});
       if (path === "/api/characters/shared") return send({characters:[]});
       if (path === "/api/characters") return send({ characters: [character] });
+      if (path === `/api/characters/${characterId}/favorite` && method === 'PATCH') {
+        character.favorite=request.postDataJSON().favorite;
+        return send({character:{id:characterId,favorite:character.favorite}});
+      }
       if (path === `/api/characters/${characterId}/revisions`) return send({ revisions: [
         { revision: 3, name: character.name, reason: "saved", createdAt: timestamp },
         { revision: 2, name: "Alexandra", reason: "created", createdAt: timestamp }
@@ -179,6 +184,11 @@ try {
     role = "player";
     await page.goto(baseUrl + "/account", { waitUntil: "domcontentloaded" });
     await page.getByRole("heading", { name: "Fiches sauvegardées", exact: true }).waitFor();
+    const pin=page.locator('.character-list .character-pin');
+    await pin.click();
+    assert.equal(await pin.getAttribute('aria-pressed'),'true');
+    await page.reload({waitUntil:'domcontentloaded'});
+    assert.equal(await page.locator('.character-list .character-pin').getAttribute('aria-pressed'),'true','Le favori survit à une nouvelle lecture du compte.');
     await page.getByLabel("Nom du personnage", { exact: true }).waitFor();
     assert.equal(await page.getByRole("heading", { name: "Gestion des comptes", exact: true }).count(), 0,
       "Les outils administrateur ne doivent pas être proposés au Joueur.");
@@ -255,6 +265,9 @@ try {
     role = "editor";
     await page.goto(baseUrl + "/compendium/new", { waitUntil: "domcontentloaded" });
     await page.getByLabel("Titre", { exact: true }).waitFor();
+    assert.equal(await page.getByLabel('Rubrique',{exact:true}).locator('option').count(),6);
+    await page.getByLabel('Rubrique',{exact:true}).selectOption('Bestiaire');
+    await page.getByLabel('Statut',{exact:true}).selectOption('canon_enrichi');
     await assertLayout(page, `Nouvelle page ${width}`, ".editor-heading h1");
     await page.getByLabel("Titre", { exact: true }).fill("Nouvelle page de contrôle");
     await page.locator("textarea.wiki-source").fill("== Repères ==\nUn aperçu lisible avant publication.");

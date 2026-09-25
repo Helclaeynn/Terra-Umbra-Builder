@@ -5,7 +5,7 @@ import { api } from "../lib/api";
 import type { Character, Revision } from "../types/character";
 
 const router = useRouter();
-type CharacterListItem=Omit<Character,"data">;
+type CharacterListItem=Omit<Character,"data">&{favorite?:boolean};
 const characters = ref<CharacterListItem[]>([]);
 const selected = ref<CharacterListItem | null>(null);
 const revisions = ref<Revision[]>([]);
@@ -16,9 +16,22 @@ const notice = ref("");
 const error = ref("");
 const importInput = ref<HTMLInputElement | null>(null);
 const characterQuery=ref('');
+const favoriteBusy=ref('');
 
 const hasCharacters = computed(() => characters.value.length > 0);
-const visibleCharacters=computed(()=>{const q=characterQuery.value.trim().toLocaleLowerCase('fr');return q?characters.value.filter(character=>`${character.name} ${character.campaignName||''}`.toLocaleLowerCase('fr').includes(q)):characters.value;});
+const visibleCharacters=computed(()=>{const q=characterQuery.value.trim().toLocaleLowerCase('fr');return characters.value.filter(character=>!q||`${character.name} ${character.campaignName||''}`.toLocaleLowerCase('fr').includes(q)).sort((a,b)=>Number(!!b.favorite)-Number(!!a.favorite));});
+
+async function toggleFavorite(character:CharacterListItem){
+  if(favoriteBusy.value)return;
+  favoriteBusy.value=character.id;
+  error.value='';
+  try{
+    const result=await api<{character:{id:string;favorite:boolean}}>(`/api/characters/${character.id}/favorite`,{method:'PATCH',body:JSON.stringify({favorite:!character.favorite})});
+    characters.value=characters.value.map(item=>item.id===result.character.id?{...item,favorite:result.character.favorite}:item);
+    if(selected.value?.id===result.character.id)selected.value={...selected.value,favorite:result.character.favorite};
+  }catch(cause){error.value=humanError((cause as Error).message);}
+  finally{favoriteBusy.value='';}
+}
 
 function humanError(code: string): string {
   const labels: Record<string, string> = {
@@ -31,6 +44,7 @@ function humanError(code: string): string {
     character_import_failed: "L’import du personnage a échoué.",
     character_update_failed: "La sauvegarde du personnage a échoué.",
     character_archive_failed: "L’archivage du personnage a échoué.",
+    invalid_character_favorite: "Ce favori ne peut pas être modifié.",
     revision_not_found: "Cette révision n’existe plus.",
     character_restore_failed: "La restauration a échoué."
   };
@@ -266,18 +280,13 @@ onMounted(loadCharacters);
       <nav class="character-list" aria-label="Mes personnages">
         <label class="character-filter">Retrouver une fiche<input v-model="characterQuery" type="search" placeholder="Nom ou campagne…" /></label>
         <p v-if="!visibleCharacters.length" role="status">Aucune fiche pour cette recherche.</p>
-        <button
-          v-for="character in visibleCharacters"
-          :key="character.id"
-          type="button"
-          :class="{ active: selected?.id === character.id }"
-          :aria-pressed="selected?.id === character.id"
-          :disabled="loading"
-          @click="setSelected(character)"
-        >
-          <strong>{{ character.name }}</strong><small>{{ character.campaignName?`Campagne · ${character.campaignName}`:'Fiche hors campagne' }}</small>
-          <small>v{{ character.version }} · {{ formatDate(character.updatedAt) }}</small>
-        </button>
+        <div v-for="character in visibleCharacters" :key="character.id" class="character-list-row">
+          <button type="button" class="character-select" :class="{ active: selected?.id === character.id }" :aria-pressed="selected?.id === character.id" :disabled="loading" @click="setSelected(character)">
+            <strong>{{ character.name }}</strong><small>{{ character.campaignName?`Campagne · ${character.campaignName}`:'Fiche hors campagne' }}</small>
+            <small>v{{ character.version }} · {{ formatDate(character.updatedAt) }}</small>
+          </button>
+          <button type="button" class="character-pin" :disabled="favoriteBusy===character.id" :aria-pressed="!!character.favorite" :aria-label="`${character.favorite?'Retirer des favoris':'Épingler'} ${character.name}`" @click="toggleFavorite(character)">{{ character.favorite?'★':'☆' }}</button>
+        </div>
       </nav>
 
       <section v-if="selected&&visibleCharacters.some(character=>character.id===selected?.id)" class="character-detail">
@@ -393,6 +402,10 @@ onMounted(loadCharacters);
 .character-list button { width: 100%; min-height: 70px; display: grid; gap: 7px; margin-bottom: 8px; padding: 15px; border: 1px solid transparent; border-radius: 6px; text-align: left; color: #c5d7ec; background: transparent; overflow-wrap: anywhere; }
 .character-list button:hover { border-color: #35536e; background: #102337; }
 .character-list button.active { border-color: #477895; background: #132b40; box-shadow: inset 3px 0 #85e6ff; }
+.character-list-row{position:relative;margin-bottom:8px;min-width:0}
+.character-list .character-list-row .character-select{margin:0;padding-right:54px}
+.character-list .character-list-row .character-pin{position:absolute;right:4px;top:4px;width:44px;min-height:44px;margin:0;padding:4px;display:grid;place-items:center;font-size:24px;color:#e9c377;text-align:center}
+.character-list .character-pin[aria-pressed=true]{color:#ffe392}
 .character-list strong { font-size: 16px; line-height: 1.5; }
 .character-list small { color: #a4b8cf; font-size: 12px; line-height: 1.5; }
 .character-detail { min-width: 0; padding: 24px 0 0; }
@@ -433,7 +446,7 @@ onMounted(loadCharacters);
   .characters-panel { padding: 22px; scroll-margin-top: 20px; }
   .characters-layout { grid-template-columns: 1fr; gap: 0; }
   .character-list { display: flex; gap: 10px; max-height: none; overflow-x: auto; padding: 16px 0; border-right: 0; border-bottom: 1px solid #293f55; }
-  .character-list button { flex: 0 0 210px; margin-bottom: 0; }
+  .character-list-row{flex:0 0 210px;margin-bottom:0}.character-list .character-list-row .character-select{height:100%}
   .character-detail { padding-top: 22px; }
   .character-detail h3 { font-size: 23px; }
   .character-detail-actions { width: 100%; }

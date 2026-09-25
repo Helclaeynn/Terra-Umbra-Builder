@@ -355,6 +355,14 @@ const navigationGroups = computed(() => {
   })).sort((a,b)=>navigationOrder(category.value,a.name)-navigationOrder(category.value,b.name)||a.name.localeCompare(b.name,'fr',{sensitivity:'base'}));
 });
 const searchFamilies=computed(()=>category.value?navigationGroups.value.map(group=>group.name):[]);
+async function removeSearchFilter(key:'query'|'category'|'group'|'manufacturer'){
+  if(key==='query')query.value='';
+  if(key==='category'){category.value='';searchFamily.value='';manufacturer.value='';}
+  if(key==='group')searchFamily.value='';
+  if(key==='manufacturer')manufacturer.value='';
+  clearSuggestions();
+  await search();
+}
 
 const hasResultSurface = computed(() =>
   !selected.value &&
@@ -1926,6 +1934,14 @@ onBeforeUnmount(() => {
             </div>
           </form>
 
+          <div v-if="query.trim()||category||searchFamily||manufacturer" class="search-active-filters" role="group" aria-label="Filtres actifs">
+            <span>Filtres actifs</span>
+            <button v-if="query.trim()" type="button" :aria-label="`Retirer la recherche ${query.trim()}`" @click="removeSearchFilter('query')">Recherche · {{ query.trim() }} <span aria-hidden="true">×</span></button>
+            <button v-if="category" type="button" :aria-label="`Retirer la rubrique ${category}`" @click="removeSearchFilter('category')">Rubrique · {{ category }} <span aria-hidden="true">×</span></button>
+            <button v-if="searchFamily" type="button" :aria-label="`Retirer le dossier ${searchFamily}`" @click="removeSearchFilter('group')">Dossier · {{ searchFamily }} <span aria-hidden="true">×</span></button>
+            <button v-if="manufacturer" type="button" :aria-label="`Retirer le fabricant ${manufacturer}`" @click="removeSearchFilter('manufacturer')">Fabricant · {{ manufacturer }} <span aria-hidden="true">×</span></button>
+          </div>
+
           <div v-if="meta" class="category-strip" aria-label="Rubriques du Compendium">
             <button
               v-for="item in meta.categories"
@@ -3293,6 +3309,9 @@ onBeforeUnmount(() => {
   font-size: .72rem;
 }
 
+.search-active-filters{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:12px 0 0;color:#bad1df;font-size:13px}
+.search-active-filters button{min-height:44px;padding:8px 12px;border:1px solid #4b7684;border-radius:22px;background:#152b38;color:#e6f4f7;cursor:pointer;font:inherit;overflow-wrap:anywhere}
+.search-active-filters button:hover,.search-active-filters button:focus-visible{border-color:#9be5f8;background:#204055}
 .manufacturer-badge {
   cursor: pointer;
   border-color: rgba(140, 120, 201, .42) !important;

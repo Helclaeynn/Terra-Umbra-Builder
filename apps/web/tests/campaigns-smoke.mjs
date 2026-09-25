@@ -111,6 +111,7 @@ try{
  await page.getByLabel('Rechercher une référence',{exact:true}).fill('Loup');
  await page.getByRole('button',{name:'Ajouter Loup sombre',exact:true}).click();
  await page.locator('.reference-options > summary').nth(1).click();
+ await page.getByLabel('Difficulté estimée pour Loup sombre').selectOption('dangereux');
  await page.getByLabel('Quantité',{exact:true}).nth(1).fill('3');
  await page.getByRole('button',{name:'Un PNJ',exact:true}).click();
  await page.getByLabel('Rechercher une référence',{exact:true}).fill('');
@@ -152,7 +153,7 @@ try{
  await page.getByRole('button',{name:'Confirmer l’attribution',exact:true}).click();
  await page.getByText('Récompenses ajoutées aux fiches et à leur historique.',{exact:true}).waitFor();
  assert.equal(session.rewards[0].xp,5);
- assert.equal(session.scenes[0].references.length,3);assert.equal(session.scenes[1].references[0].articleId,'pnj-favori');assert.equal(session.scenes[0].references[1].quantity,3);
+ assert.equal(session.scenes[0].references.length,3);assert.equal(session.scenes[1].references[0].articleId,'pnj-favori');assert.equal(session.scenes[0].references[1].quantity,3);assert.equal(session.scenes[0].references[1].difficultyId,'dangereux');
  await page.getByRole('button',{name:'Argent et corruption',exact:true}).click();
  await page.getByLabel('Personnage concerné',{exact:true}).selectOption(chid);
  await page.getByLabel('Argent à verser ($)',{exact:true}).fill('250');
