@@ -429,6 +429,7 @@ await page.getByRole("heading",{name:"Objets de Vérité"}).waitFor({state:"visi
 const truthCatalog=page.locator("summary.truth-disclosure-summary").filter({hasText:"Catalogue de Vérité"});
 await truthCatalog.click();
 await page.getByRole("button",{name:"Règles et références",exact:true}).click();
+await page.locator('.truth-equipment-toolbar').getByLabel('Chapitre').selectOption('22');
 await page.getByText("Propriété Smoke",{exact:true}).waitFor({state:"attached",timeout:5000});
 if(await page.getByText("Arme de Chasse Smoke",{exact:true}).count())throw new Error("Équipement de Chasse visible sans tradition de Chasse.");
 if(await page.getByText("Objet d’Aèr Smoke",{exact:true}).count())throw new Error("Objet d’Aèr visible pour un non-Exilé.");
@@ -449,7 +450,8 @@ await truthEquipmentMj.press("Space");
 if(!await truthEquipmentMj.isChecked())throw new Error("Autorisation Objets de Vérité inaccessible au clavier.");
 await page.getByRole("button",{name:"Objets à acquérir",exact:true}).click();
 if(await page.locator('.truth-equipment-toolbar select option[value="22"]').count())throw new Error('Propriétés communes proposées dans les achats');
-for(const label of ["Arme de Chasse Smoke","Objet d’Aèr Smoke","Relique corrompue Smoke"]){
+for(const [chapter,label] of [["23","Arme de Chasse Smoke"],["24","Objet d’Aèr Smoke"],["27","Relique corrompue Smoke"]]){
+  await page.locator('.truth-equipment-toolbar').getByLabel('Chapitre').selectOption(chapter);
   await page.getByText(label,{exact:true}).waitFor({state:"attached",timeout:5000});
 }
 await page.setViewportSize({width:390,height:1000});
@@ -474,6 +476,7 @@ await page.getByRole("heading",{name:"Réalité, équipement & augmentations"}).
 const catalogDisclosure=page.locator("summary.catalog-summary").filter({hasText:"Choisir équipement, services & véhicules"});
 await catalogDisclosure.waitFor({state:"visible",timeout:5000});
 await catalogDisclosure.click();
+await catalogDisclosure.locator('..').getByLabel('Famille').selectOption('Matériel');
 const kitWiki=page.getByRole("link",{name:/Kit Smoke/}).first();
 await kitWiki.waitFor({state:"visible",timeout:5000});
 await kitWiki.hover();
@@ -563,6 +566,9 @@ for (const name of ['Apprendre un Talent de Réalité','Dépenser des PTV']) {
   if ((await block.getAttribute('open'))===null) await block.locator(':scope>summary').click();
   if(name==='Dépenser des PTV'){
     if(await block.getByRole('switch').count())throw new Error('Accord MJ inutile pour les talents de sa Nature');
+    await block.getByLabel('Catégorie de Talents de Vérité').selectOption('Groupe Smoke');
+  }else{
+    await block.getByLabel('Catégorie de Talents de Réalité').selectOption('Talents communs');
   }
   const names = await (name==='Dépenser des PTV' ? block : block.locator('.talent-group').filter({has:page.getByRole('heading',{name:'Talents communs',exact:true})})).locator('.talent-list .progress-card-title>strong').allTextContents();
   const expected = name==='Dépenser des PTV' ? ['Aube occulte','Zèle occulte','Aube supérieure'] : ['Aube Smoke','Zèle Smoke'];
@@ -624,6 +630,7 @@ if(await campaignObjects.getByRole('switch',{includeHidden:true}).count()!==1)th
 await campaignObjects.locator('.truth-equipment-catalog>summary').click();
 await campaignObjects.locator('.catalog-help>summary').click();
 await campaignObjects.getByLabel(/Autorisation MJ d’accès exceptionnel aux objets de Vérité/).check();
+await campaignObjects.locator('.truth-equipment-toolbar').getByLabel('Chapitre').selectOption('27');
 await campaignObjects.locator('.truth-equipment-group>summary').filter({hasText:'Calamitechnologie'}).click();
 await campaignObjects.locator('.truth-equipment-card').filter({hasText:'Relique corrompue Smoke'}).getByRole('button',{name:'Ajouter',exact:true}).click();
 for(const width of [1440,390,320]){
