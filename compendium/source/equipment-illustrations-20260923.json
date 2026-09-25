@@ -608,7 +608,7 @@
     {
       "id": "equipement-162-neopunk",
       "src": "images/manual/equipement-162-neopunk.webp",
-      "sha256": "ae3a9fa82dc9483c318aa3e4a7880a57eb7bb4d2d99b535e7ebd8699f1bf7129"
+      "sha256": "422663ec8020420a799d66c1f41563c58e62670406f82cb46b30d55ff9638a95"
     },
     {
       "id": "equipement-163-citoyen",
@@ -973,7 +973,7 @@
     {
       "id": "equipement-235-metro-tram",
       "src": "images/manual/equipement-235-metro-tram.webp",
-      "sha256": "5985d474091b5b874a02b83140deba09012f36c49de8a65bbbd1cf3626e1b6bc"
+      "sha256": "ba89325a98623cbe348dcd58cb33267e8c76b35763cb774b1a69de6c613736f5"
     },
     {
       "id": "equipement-236-pass-metro-tram",
@@ -998,12 +998,12 @@
     {
       "id": "equipement-240-bull-standard",
       "src": "images/manual/equipement-240-bull-standard.webp",
-      "sha256": "0a140c8200ccc3afe80aa58b553d480098a7d07c0b6ec5157f9837eb7fb99438"
+      "sha256": "740bf23ad03d82f8fbc82aad7326af66c7ad6dc842f5957f20d440d7e51f4116"
     },
     {
       "id": "equipement-241-bull-premium",
       "src": "images/manual/equipement-241-bull-premium.webp",
-      "sha256": "ae421d736ad4731b79135a45118ea73a27a0cc1db0bbfc43cc85c71cdc9c8780"
+      "sha256": "60a83782bcacad3bce4b6310d4b86329e7fd37cefb3b6125c5b4ab3a423daf36"
     },
     {
       "id": "equipement-242-bull-executive",
