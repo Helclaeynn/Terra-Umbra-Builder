@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
+import { gunzipSync } from "node:zlib";
 import type { FastifyInstance } from "fastify";
 import { requireAdmin } from "./auth.js";
 
@@ -24,6 +25,10 @@ type ReviewPage = {
   dataset?: string;
   audience?: Audience;
   sections?: Array<{ id?: string; title?: string; anchor?: string; audience?: Audience }>;
+  semanticSummary?: string;
+  candidateReferences?: string[];
+  ambiguities?: string[];
+  editorialFindings?: string[];
   semanticReading?: {
     ambiguities?: string[];
     editorialFindings?: string[];
@@ -33,12 +38,9 @@ type ReviewPage = {
   };
 };
 
-const REVIEW_FILE =
-  process.env.COMPENDIUM_REVIEW_FILE ??
-  resolve(process.cwd(), "../../compendium/source/wiki-taxonomy-review-v1.json");
-const CATALOGUE_FILE =
-  process.env.COMPENDIUM_CATALOGUE_FILE ??
-  resolve(process.cwd(), "../../compendium/source/wiki-taxonomy-catalogue-v1.json");
+const ARBITRAGE_FILE =
+  process.env.COMPENDIUM_ARBITRAGE_FILE ??
+  resolve(process.cwd(), "../../compendium/source/wiki-taxonomy-arbitrage-v1.json.gz");
 
 const TAXONOMY: Record<TaxonomyKind, { label: string; explanation: string }> = {
   contradiction: {
@@ -161,18 +163,21 @@ function decisionModel(kind: TaxonomyKind, observation: string, title: string): 
 
 let payloadPromise: Promise<unknown> | null = null;
 
+async function readArbitrageSource(): Promise<JsonObject> {
+  const buffer = await readFile(ARBITRAGE_FILE);
+  const source = ARBITRAGE_FILE.endsWith(".gz") ? gunzipSync(buffer).toString("utf8") : buffer.toString("utf8");
+  return JSON.parse(source) as JsonObject;
+}
+
 export async function loadArbitragePayload() {
   if (!payloadPromise) {
-    payloadPromise = Promise.all([
-      readFile(REVIEW_FILE, "utf8").then((value) => JSON.parse(value) as JsonObject),
-      readFile(CATALOGUE_FILE, "utf8").then((value) => JSON.parse(value) as JsonObject)
-    ]).then(([review, catalogue]) => {
-      const catalogueById = new Map<string, ReviewPage>((catalogue.pages ?? []).map((page: ReviewPage) => [page.id, page]));
+    payloadPromise = readArbitrageSource().then((review) => {
       const items: JsonObject[] = [];
-      for (const reviewed of review.reviewed ?? []) {
-        const page = catalogueById.get(text(reviewed.id)) ?? { id: text(reviewed.id) };
-        const reading = page.semanticReading ?? reviewed;
-        const sections = sectionContext(page, reviewed.sectionsRead ?? []);
+      for (const page of (review.pages ?? []) as ReviewPage[]) {
+        const sections = (page.sections ?? []).map((section) => ({
+          id: text(section.id), title: text(section.title) || text(section.id), anchor: text(section.anchor) || `wiki-section-${text(section.id)}`, audience: section.audience ?? page.audience ?? "unknown"
+        }));
+        const reading = page;
         const sourceBase = {
           pageId: page.id,
           title: text(page.title) || page.id,
@@ -181,7 +186,7 @@ export async function loadArbitragePayload() {
           audience: audienceOf(page, sections),
           sections,
           summary: text(reading.semanticSummary),
-          references: Array.isArray(reading.candidateReferences) ? reading.candidateReferences.map(text).filter(Boolean) : (reviewed.candidateReferences ?? []).map(text).filter(Boolean)
+          references: Array.isArray(reading.candidateReferences) ? reading.candidateReferences.map(text).filter(Boolean) : []
         };
         for (const [sourceType, values] of [["ambiguity", reading.ambiguities ?? []], ["editorial", reading.editorialFindings ?? []]] as const) {
           (values as unknown[]).map(text).filter(Boolean).forEach((observation, index) => {
