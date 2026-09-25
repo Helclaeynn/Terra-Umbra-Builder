@@ -309,6 +309,16 @@ try{
   await talentButton.waitFor({state:"visible",timeout:10000});
   await talentButton.click();
   await page.getByText("Insérer des Talents dynamiques",{exact:true}).waitFor({state:"visible",timeout:10000});
+  const talentBlockType=page.getByLabel("Type de bloc Talents");
+  if(await talentBlockType.inputValue()!=="ids")throw new Error("L'éditeur doit proposer par défaut un Talent précis, pas tout le registre.");
+  const preciseTalent=page.getByLabel("Talent précis");
+  await preciseTalent.waitFor({state:"visible",timeout:10000});
+  await preciseTalent.locator("option").nth(1).waitFor({state:"attached",timeout:10000});
+  await preciseTalent.selectOption({index:1});
+  await page.getByRole("button",{name:"Ajouter",exact:true}).click();
+  await page.getByRole("button",{name:"Insérer",exact:true}).click();
+  if(!/\{\{Talents\|ids=[^}]+\}\}/.test(await page.locator(".wiki-source").inputValue()))throw new Error("Insertion ciblée d'un Talent absente de la source wiki.");
+  await talentButton.click();
   await page.getByRole("button",{name:"Annuler",exact:true}).click();
 
   const newTitle=page.locator('input[placeholder="Titre de la page"]');

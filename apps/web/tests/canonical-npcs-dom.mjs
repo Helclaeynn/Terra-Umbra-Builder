@@ -59,7 +59,15 @@ for(const role of ['admin','editor']){
   // A failed draft write preserves the content locally and does not change route.
   assert.match(w.test.route(),/^\/compendium\/new/);assert.equal(saved,null);assert.ok(w.document.body.textContent.includes('test_retry'));
   button('Enregistrer le brouillon').click();await until(()=>saved&&w.test.route()==='/compendium/edit/'+id);await until(()=>w.document.querySelector('.editor-actions'));
-  assert.equal(saved.title,'Alex Test');assert.equal(saved.pnj.sexe,'Autre');assert.equal(saved.pnj.portrait,'/compendium/media/'+id+'.png');
+  assert.equal(saved.title,'Alex Test');assert.equal(saved.category,'Personnages');assert.equal(saved.pnj.sexe,'Autre');assert.equal(saved.pnj.portrait,'/compendium/media/'+id+'.png');
+  assert.ok(saved.pnj.generator_profile?.tierId,'Le profil mécanique PNJ doit être conservé.');
+  assert.ok(Array.isArray(saved.pnj.tags),'Les tags de travail PNJ doivent être structurés.');
+  const identity=saved.sections.find(s=>s.title==='Identité apparente');
+  assert.ok(identity,'Le bloc Identité apparente doit être généré.');
+  const identityText=JSON.stringify(identity);
+  for(const text of ['Alex Test','Nationalité d’origine','Rôle','Autre'])assert.ok(identityText.includes(text),`Identité générée incomplète : ${text}`);
+  assert.ok(saved.sections.some(s=>s.title==='Dossier MJ'&&s.audience==='mj'),'Le dossier MJ doit être généré et rester privé.');
+  assert.ok(saved.sections.some(s=>s.title==='Profil statistique'&&s.audience==='mj'),'Le tableau statistique doit être généré et rester privé.');
   assert.equal(calls.filter(c=>c.url.endsWith('/media')).length,1,'Retry must reuse uploaded image');
   assert.equal(calls.filter(c=>c.url==='/api/compendium/editor/articles').length,1,'Retry must reuse created page');
   const pub=JSON.stringify(saved.sections.filter(s=>s.audience!=='mj')),mj=JSON.stringify(saved.sections.filter(s=>s.audience==='mj'));
