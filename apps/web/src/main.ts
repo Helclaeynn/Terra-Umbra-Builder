@@ -23,7 +23,8 @@ const router=createRouter({
     { path:"/compendium", component:()=>import("./pages/CompendiumPage.vue") },
     { path:"/compendium/new", component:()=>import("./pages/CompendiumEditorPage.vue") },
     { path:"/compendium/edit/:id", component:()=>import("./pages/CompendiumEditorPage.vue") },
-    { path:"/admin/quality", component:()=>import("./pages/AdminQualityPage.vue") },\n    { path:"/admin/arbitrage", component:()=>import("./pages/CompendiumArbitragePage.vue") },
+    { path:"/admin/quality", component:()=>import("./pages/AdminQualityPage.vue") },
+    { path:"/admin/arbitrage", component:()=>import("./pages/CompendiumArbitragePage.vue") },
     { path:"/:pathMatch(.*)*", redirect:"/" }
   ]
 });
