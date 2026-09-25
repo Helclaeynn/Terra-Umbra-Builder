@@ -265,7 +265,11 @@ try {
     role = "editor";
     await page.goto(baseUrl + "/compendium/new", { waitUntil: "domcontentloaded" });
     await page.getByLabel("Titre", { exact: true }).waitFor();
-    assert.equal(await page.getByLabel('Rubrique',{exact:true}).locator('option').count(),6);
+    // The editor loads asynchronously after navigation; wait for its options
+    // before asserting the complete set of available sections.
+    const categoryOptions = page.getByLabel('Rubrique',{exact:true}).locator('option');
+    await categoryOptions.nth(5).waitFor();
+    assert.equal(await categoryOptions.count(),6);
     await page.getByLabel('Rubrique',{exact:true}).selectOption('Bestiaire');
     await page.getByLabel('Statut',{exact:true}).selectOption('canon_enrichi');
     await assertLayout(page, `Nouvelle page ${width}`, ".editor-heading h1");
