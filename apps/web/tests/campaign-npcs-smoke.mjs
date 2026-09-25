@@ -48,6 +48,6 @@ try{
  await click('Fermer la préparation');await page.locator('.notebook').waitFor({state:'detached'});assert.equal(session.scenes[0].references[0].npcId,record.id);
  await page.reload();await page.locator('.session > summary').click();await page.locator('details.private > summary').click();await page.getByRole('button',{name:'Morgan · contact · Ouvrir la fiche',exact:true}).click();await page.locator('.reference .npc-sheet').waitFor();
  await page.getByText('Mes PNJ de campagne · générateur et fiches',{exact:true}).click();await click('Modifier Morgan · contact');await click('Retirer l’image');await click('Enregistrer les modifications');await page.getByRole('status').filter({hasText:'1 PNJ enregistré'}).waitFor();assert.equal(records.get(record.id).data.portrait,'');
- role='player';await page.reload();await page.getByRole('heading',{name:'Le groupe',exact:true}).waitFor();assert.equal(await page.getByText('Mes PNJ de campagne · générateur et fiches',{exact:true}).count(),0);
+ role='player';await page.reload();await page.locator('details.panel > summary').filter({hasText:/^Le groupe ·/}).waitFor();assert.equal(await page.getByText('Mes PNJ de campagne · générateur et fiches',{exact:true}).count(),0);
  assert.deepEqual(errors,[]);console.log('NPC BROWSER OK — tiers, custom editable sheet, image compression/persistence/removal, tags, scene selection and saved sheet, private manager, 1440/390/320px reflow');
 }finally{await browser.close();}
