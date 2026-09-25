@@ -251,11 +251,11 @@
         "priceLabel": "250 $",
         "effect": "",
         "data": {
-          "Classe": "Taser leger",
+          "Classe": "Taser léger",
           "DGT": "3",
           "Portee": "15 m",
           "Cap.": "10",
-          "Proprietes": "Electrique"
+          "Proprietes": "Électrique"
         }
       },
       {
@@ -271,7 +271,7 @@
           "DGT": "6",
           "Portee": "15 m",
           "Cap.": "5",
-          "Proprietes": "Electrique"
+          "Proprietes": "Électrique"
         }
       },
       {
@@ -315,7 +315,7 @@
         "priceLabel": "500 $",
         "effect": "",
         "data": {
-          "Classe": "Pistolet leger",
+          "Classe": "Pistolet léger",
           "DGT": "7",
           "Portee": "35 m",
           "Cap.": "10",
@@ -331,7 +331,7 @@
         "priceLabel": "800 $",
         "effect": "",
         "data": {
-          "Classe": "Pistolet leger",
+          "Classe": "Pistolet léger",
           "DGT": "8",
           "Portee": "35 m",
           "Cap.": "8",
@@ -347,7 +347,7 @@
         "priceLabel": "950 $",
         "effect": "",
         "data": {
-          "Classe": "Pistolet leger",
+          "Classe": "Pistolet léger",
           "DGT": "7",
           "Portee": "35 m",
           "Cap.": "10",
@@ -619,7 +619,7 @@
         "priceLabel": "950 $",
         "effect": "",
         "data": {
-          "Classe": "Precision",
+          "Classe": "Précision",
           "DGT": "12",
           "Portee": "120 m",
           "Cap.": "5",
@@ -635,7 +635,7 @@
         "priceLabel": "2 550 $",
         "effect": "",
         "data": {
-          "Classe": "Precision",
+          "Classe": "Précision",
           "DGT": "13",
           "Portee": "200 m",
           "Cap.": "6",
@@ -651,7 +651,7 @@
         "priceLabel": "4 550 $",
         "effect": "",
         "data": {
-          "Classe": "Precision",
+          "Classe": "Précision",
           "DGT": "14",
           "Portee": "300 m",
           "Cap.": "4",
@@ -667,7 +667,7 @@
         "priceLabel": "4 050 $",
         "effect": "",
         "data": {
-          "Classe": "Precision",
+          "Classe": "Précision",
           "DGT": "13",
           "Portee": "250 m",
           "Cap.": "5",
@@ -687,7 +687,7 @@
           "DGT": "12",
           "Portee": "15 m",
           "Cap.": "8",
-          "Proprietes": "Dispersion 3 ; electrique"
+          "Proprietes": "Dispersion 3 ; électrique"
         }
       },
       {
@@ -846,7 +846,7 @@
           "DGT": "16",
           "Portee": "200 m",
           "Cap.": "3",
-          "Role": "Anti-materiel / fortification",
+          "Role": "Anti-matériel / fortification",
           "Proprietes": "Perforant 3, Encombrant"
         }
       },
@@ -896,14 +896,14 @@
       },
       {
         "id": "accessoires-d-armes-optique-de-precision",
-        "name": "Optique de precision",
+        "name": "Optique de précision",
         "category": "Accessoires d'armes",
         "priceMode": "exact",
         "price": 400,
         "priceLabel": "400 $",
-        "effect": "En utilisant Viser, ignore le -3 de longue portee jusqu'a 2 x la portee nominale.",
+        "effect": "En utilisant Viser, ignore le -3 de longue portée jusqu'à 2 x la portée nominale.",
         "data": {
-          "Effet": "En utilisant Viser, ignore le -3 de longue portee jusqu'a 2 x la portee nominale."
+          "Effet": "En utilisant Viser, ignore le -3 de longue portée jusqu'à 2 x la portée nominale."
         }
       },
       {
@@ -913,9 +913,9 @@
         "priceMode": "exact",
         "price": 75,
         "priceLabel": "75 $",
-        "effect": "+50 % capacite, arrondi au superieur ; plus difficile a dissimuler.",
+        "effect": "+50 % capacité, arrondi au supérieur ; plus difficile à dissimuler.",
         "data": {
-          "Effet": "+50 % capacite, arrondi au superieur ; plus difficile a dissimuler."
+          "Effet": "+50 % capacité, arrondi au supérieur ; plus difficile à dissimuler."
         }
       },
       {
@@ -925,9 +925,9 @@
         "priceMode": "exact",
         "price": 150,
         "priceLabel": "150 $",
-        "effect": "Stationnaire et appuye : ignore les contraintes directement dues a Encombrant/poids pour le tir.",
+        "effect": "Stationnaire et appuyé : ignore les contraintes directement dues à Encombrant/poids pour le tir.",
         "data": {
-          "Effet": "Stationnaire et appuye : ignore les contraintes directement dues a Encombrant/poids pour le tir."
+          "Effet": "Stationnaire et appuyé : ignore les contraintes directement dues à Encombrant/poids pour le tir."
         }
       },
       {
@@ -949,9 +949,9 @@
         "priceMode": "exact",
         "price": 750,
         "priceLabel": "750 $",
-        "effect": "Projecteur porte. Seul : apparence de surface, vetements/visage ; avec Holo'Rmor : simulation corps complet.",
+        "effect": "Projecteur porté. Seul : apparence de surface, vêtements/visage ; avec Holo'Rmor : simulation corps complet.",
         "data": {
-          "Effet": "Projecteur porte. Seul : apparence de surface, vetements/visage ; avec Holo'Rmor : simulation corps complet."
+          "Effet": "Projecteur porté. Seul : apparence de surface, vêtements/visage ; avec Holo'Rmor : simulation corps complet."
         }
       },
       {
@@ -960,9 +960,9 @@
         "category": "Munitions spéciales",
         "priceMode": "multiplier",
         "priceLabel": "x2 le prix normal / 20",
-        "effect": "A l'Alteration, peut aveugler/eblouir une cible exposee pour son activation suivante si le vecteur visuel fonctionne.",
+        "effect": "À l'Altération, peut aveugler/éblouir une cible exposée pour son activation suivante si le vecteur visuel fonctionne.",
         "data": {
-          "Effet actuel": "A l'Alteration, peut aveugler/eblouir une cible exposee pour son activation suivante si le vecteur visuel fonctionne."
+          "Effet actuel": "À l'Altération, peut aveugler/éblouir une cible exposée pour son activation suivante si le vecteur visuel fonctionne."
         }
       },
       {
@@ -971,9 +971,9 @@
         "category": "Munitions spéciales",
         "priceMode": "multiplier",
         "priceLabel": "x3 / 10",
-        "effect": "Munition electrique ; a l'Alteration, peut provoquer immobilisation ou perte de passe future selon cible et fiction.",
+        "effect": "Munition électrique ; à l'Altération, peut provoquer immobilisation ou perte de passe future selon cible et fiction.",
         "data": {
-          "Effet actuel": "Munition electrique ; a l'Alteration, peut provoquer immobilisation ou perte de passe future selon cible et fiction."
+          "Effet actuel": "Munition électrique ; à l'Altération, peut provoquer immobilisation ou perte de passe future selon cible et fiction."
         }
       },
       {
@@ -993,9 +993,9 @@
         "category": "Munitions spéciales",
         "priceMode": "multiplier",
         "priceLabel": "x4 / 1",
-        "effect": "+5 degats apres le calcul normal des degats du tir ; ce +5 n'est jamais double. Tir unitaire uniquement ; incompatible Rafale/Suppression. Un echec narratif peut endommager ou desactiver severement l'arme.",
+        "effect": "+5 dégâts après le calcul normal des dégâts du tir ; ce +5 n'est jamais double. Tir unitaire uniquement ; incompatible Rafale/Suppression. Un échec narratif peut endommager ou désactiver sévèrement l'arme.",
         "data": {
-          "Effet actuel": "+5 degats apres le calcul normal des degats du tir ; ce +5 n'est jamais double. Tir unitaire uniquement ; incompatible Rafale/Suppression. Un echec narratif peut endommager ou desactiver severement l'arme."
+          "Effet actuel": "+5 dégâts après le calcul normal des dégâts du tir ; ce +5 n'est jamais double. Tir unitaire uniquement ; incompatible Rafale/Suppression. Un échec narratif peut endommager ou désactiver sévèrement l'arme."
         }
       },
       {
@@ -1004,9 +1004,9 @@
         "category": "Munitions spéciales",
         "priceMode": "multiplier",
         "priceLabel": "x2 / 20",
-        "effect": "Degats [Feu]. N'ajoute pas de DoT generique ; les consequences de feu passent par Alteration/environnement.",
+        "effect": "Dégâts [Feu]. N'ajoute pas de DoT générique ; les conséquences de feu passent par Altération/environnement.",
         "data": {
-          "Effet actuel": "Degats [Feu]. N'ajoute pas de DoT generique ; les consequences de feu passent par Alteration/environnement."
+          "Effet actuel": "Dégâts [Feu]. N'ajoute pas de DoT générique ; les conséquences de feu passent par Altération/environnement."
         }
       },
       {
@@ -1015,9 +1015,9 @@
         "category": "Munitions spéciales",
         "priceMode": "multiplier",
         "priceLabel": "x3 / 2",
-        "effect": "[Electricite]. A l'Alteration contre cible connectee/augmentee : -3 Defense Neuro jusqu'a la fin de sa prochaine activation.",
+        "effect": "[Électricité]. À l'Altération contre cible connectée/augmentée : -3 Défense Neuro jusqu'à la fin de sa prochaine activation.",
         "data": {
-          "Effet actuel": "[Electricite]. A l'Alteration contre cible connectee/augmentee : -3 Defense Neuro jusqu'a la fin de sa prochaine activation."
+          "Effet actuel": "[Électricité]. À l'Altération contre cible connectée/augmentée : -3 Défense Neuro jusqu'à la fin de sa prochaine activation."
         }
       },
       {
@@ -1026,9 +1026,9 @@
         "category": "Munitions spéciales",
         "priceMode": "multiplier",
         "priceLabel": "x3 / 2",
-        "effect": "Onde de choc ; a l'Alteration, projection/renversement significatif.",
+        "effect": "Onde de choc ; à l'Altération, projection/renversement significatif.",
         "data": {
-          "Effet actuel": "Onde de choc ; a l'Alteration, projection/renversement significatif."
+          "Effet actuel": "Onde de choc ; à l'Altération, projection/renversement significatif."
         }
       },
       {
@@ -1037,9 +1037,9 @@
         "category": "Munitions spéciales",
         "priceMode": "multiplier",
         "priceLabel": "x2 / 10",
-        "effect": "DGT -3. Si au moins un projectile de la meme action inflige 1 PV ou plus a une cible biologique : Vigueur + Constitution vs 15. Echec : +2 PV de poison ignorant l'Armure. Un seul test par action de tir.",
+        "effect": "DGT -3. Si au moins un projectile de la même action inflige 1 PV ou plus à une cible biologique : Vigueur + Constitution vs 15. Échec : +2 PV de poison ignorant l'Armure. Un seul test par action de tir.",
         "data": {
-          "Effet actuel": "DGT -3. Si au moins un projectile de la meme action inflige 1 PV ou plus a une cible biologique : Vigueur + Constitution vs 15. Echec : +2 PV de poison ignorant l'Armure. Un seul test par action de tir."
+          "Effet actuel": "DGT -3. Si au moins un projectile de la même action inflige 1 PV ou plus à une cible biologique : Vigueur + Constitution vs 15. Échec : +2 PV de poison ignorant l'Armure. Un seul test par action de tir."
         }
       },
       {
@@ -1048,9 +1048,9 @@
         "category": "Munitions spéciales",
         "priceMode": "multiplier",
         "priceLabel": "x4 / 2",
-        "effect": "Projectile se liquefiant dans la blessure ; peut creer une consequence localisee persistante exigeant extraction/soin adapte.",
+        "effect": "Projectile se liquéfiant dans la blessure ; peut créer une conséquence localisée persistante exigeant extraction/soin adapté.",
         "data": {
-          "Effet actuel": "Projectile se liquefiant dans la blessure ; peut creer une consequence localisee persistante exigeant extraction/soin adapte."
+          "Effet actuel": "Projectile se liquéfiant dans la blessure ; peut créer une conséquence localisée persistante exigeant extraction/soin adapté."
         }
       },
       {
@@ -1059,9 +1059,9 @@
         "category": "Munitions spéciales",
         "priceMode": "multiplier",
         "priceLabel": "x4 / 1",
-        "effect": "Munition electrique anti-cyber ; a l'Alteration, peut desactiver une fonction augmentique accessible jusqu'a maintenance/fin d'effet.",
+        "effect": "Munition électrique anti-cyber ; à l'Altération, peut désactiver une fonction augmentique accessible jusqu'à maintenance/fin d'effet.",
         "data": {
-          "Effet actuel": "Munition electrique anti-cyber ; a l'Alteration, peut desactiver une fonction augmentique accessible jusqu'a maintenance/fin d'effet."
+          "Effet actuel": "Munition électrique anti-cyber ; à l'Altération, peut désactiver une fonction augmentique accessible jusqu'à maintenance/fin d'effet."
         }
       },
       {
@@ -1136,10 +1136,10 @@
         "priceMode": "exact",
         "price": 150,
         "priceLabel": "150 $",
-        "effect": "DGT 3, Zone 5 m ; sur Alteration, -3 aux tests surtout visuels jusqu'a la fin de la prochaine activation.",
+        "effect": "DGT 3, Zone 5 m ; sur Altération, -3 aux tests surtout visuels jusqu'à la fin de la prochaine activation.",
         "data": {
           "Quantite": "1",
-          "Profil / effet": "DGT 3, Zone 5 m ; sur Alteration, -3 aux tests surtout visuels jusqu'a la fin de la prochaine activation."
+          "Profil / effet": "DGT 3, Zone 5 m ; sur Altération, -3 aux tests surtout visuels jusqu'à la fin de la prochaine activation."
         }
       },
       {
@@ -1149,10 +1149,10 @@
         "priceMode": "exact",
         "price": 100,
         "priceLabel": "100 $",
-        "effect": "Zone 5 m ; ecran opaque pour la vision ordinaire, sans couvert physique.",
+        "effect": "Zone 5 m ; écran opaque pour la vision ordinaire, sans couvert physique.",
         "data": {
           "Quantite": "1",
-          "Profil / effet": "Zone 5 m ; ecran opaque pour la vision ordinaire, sans couvert physique."
+          "Profil / effet": "Zone 5 m ; écran opaque pour la vision ordinaire, sans couvert physique."
         }
       },
       {
@@ -1253,10 +1253,10 @@
         "priceMode": "exact",
         "price": 500,
         "priceLabel": "500 $",
-        "effect": "Anti-tranchant leger.",
+        "effect": "Anti-tranchant léger.",
         "data": {
           "Protection": "Melee 1 (Ablatif 4)",
-          "Notes": "Anti-tranchant leger."
+          "Notes": "Anti-tranchant léger."
         }
       },
       {
@@ -1279,10 +1279,10 @@
         "priceMode": "exact",
         "price": 1000,
         "priceLabel": "1 000 $",
-        "effect": "Tenue de securite/police.",
+        "effect": "Tenue de sécurité/police.",
         "data": {
           "Protection": "Balistique 3, Melee 2, Antichoc 2",
-          "Notes": "Tenue de securite/police."
+          "Notes": "Tenue de sécurité/police."
         }
       },
       {
@@ -1292,10 +1292,10 @@
         "priceMode": "exact",
         "price": 1000,
         "priceLabel": "1 000 $",
-        "effect": "Tenue renforcee.",
+        "effect": "Tenue renforcée.",
         "data": {
           "Protection": "Balistique 2, Melee 3, Antichoc 2",
-          "Notes": "Tenue renforcee."
+          "Notes": "Tenue renforcée."
         }
       },
       {
@@ -1326,7 +1326,7 @@
       },
       {
         "id": "armures-combat-raven-gallowglass-ii-legere",
-        "name": "Raven Gallowglass II legere",
+        "name": "Raven Gallowglass II légère",
         "category": "Armures — Combat",
         "priceMode": "exact",
         "price": 1450,
@@ -1421,10 +1421,10 @@
         "priceMode": "exact",
         "price": 1000,
         "priceLabel": "1 000 $",
-        "effect": "Tenue pompier/technicien, chaleur et electricite.",
+        "effect": "Tenue pompier/technicien, chaleur et électricité.",
         "data": {
-          "Profil": "Bal.1 / Mel.1 / Ant.3 ; Reduction 3 [Feu/Electricite]",
-          "Fonction": "Tenue pompier/technicien, chaleur et electricite."
+          "Profil": "Bal.1 / Mel.1 / Ant.3 ; Réduction 3 [Feu/Électricité]",
+          "Fonction": "Tenue pompier/technicien, chaleur et électricité."
         }
       },
       {
@@ -1434,10 +1434,10 @@
         "priceMode": "exact",
         "price": 1500,
         "priceLabel": "1 500 $",
-        "effect": "Respirateur/compensateur G ; circonstances favorables (+3) contre desorientation, vent violent ou perte d'equilibre liee au vol.",
+        "effect": "Respirateur/compensateur G ; circonstances favorables (+3) contre désorientation, vent violent ou perte d'équilibre liée au vol.",
         "data": {
           "Profil": "Antichoc 1",
-          "Fonction": "Respirateur/compensateur G ; circonstances favorables (+3) contre desorientation, vent violent ou perte d'equilibre liee au vol."
+          "Fonction": "Respirateur/compensateur G ; circonstances favorables (+3) contre désorientation, vent violent ou perte d'équilibre liée au vol."
         }
       },
       {
@@ -1447,10 +1447,10 @@
         "priceMode": "exact",
         "price": 900,
         "priceLabel": "900 $",
-        "effect": "Tres epaisse ; peut etre defavorable pour actions demandant finesse/mobilite.",
+        "effect": "Très épaisse ; peut être défavorable pour actions demandant finesse/mobilité.",
         "data": {
-          "Profil": "Mel.2 / Ant.4 ; Reduction 3 [Froid]",
-          "Fonction": "Tres epaisse ; peut etre defavorable pour actions demandant finesse/mobilite."
+          "Profil": "Mel.2 / Ant.4 ; Réduction 3 [Froid]",
+          "Fonction": "Très épaisse ; peut être défavorable pour actions demandant finesse/mobilité."
         }
       },
       {
@@ -1460,10 +1460,10 @@
         "priceMode": "exact",
         "price": 1500,
         "priceLabel": "1 500 $",
-        "effect": "Permet de travailler dans environnement chimique/viral ordinaire ; une perforation grave peut rompre l'etancheite.",
+        "effect": "Permet de travailler dans environnement chimique/viral ordinaire ; une perforation grave peut rompre l'étanchéité.",
         "data": {
-          "Profil": "Etanche ; filtres ; protection contamination",
-          "Fonction": "Permet de travailler dans environnement chimique/viral ordinaire ; une perforation grave peut rompre l'etancheite."
+          "Profil": "Étanche ; filtres ; protection contamination",
+          "Fonction": "Permet de travailler dans environnement chimique/viral ordinaire ; une perforation grave peut rompre l'étanchéité."
         }
       },
       {
@@ -1475,7 +1475,7 @@
         "priceLabel": "2 500 $",
         "effect": "Recyclage fluides, charge solaire lente, signature thermique reduite, survie desertique.",
         "data": {
-          "Profil": "Mel.2 / Ant.2 ; Reduction 3 [Chaud/Froid]",
+          "Profil": "Mel.2 / Ant.2 ; Réduction 3 [Chaud/Froid]",
           "Fonction": "Recyclage fluides, charge solaire lente, signature thermique reduite, survie desertique."
         }
       },
@@ -1486,10 +1486,10 @@
         "priceMode": "exact",
         "price": 3500,
         "priceLabel": "3 500 $",
-        "effect": "Etanche, air, isolation ; tres encombrant et defavorable hors milieu adapte.",
+        "effect": "Étanche, air, isolation ; très encombrant et défavorable hors milieu adapté.",
         "data": {
           "Profil": "Bal.4 / Mel.4 / Ant.4 (6 sous l'eau)",
-          "Fonction": "Etanche, air, isolation ; tres encombrant et defavorable hors milieu adapte."
+          "Fonction": "Étanche, air, isolation ; très encombrant et défavorable hors milieu adapté."
         }
       },
       {
@@ -1525,10 +1525,10 @@
         "priceMode": "exact",
         "price": 4950,
         "priceLabel": "4 950 $",
-        "effect": "Reflexion visuelle active ; depend du contraste.",
+        "effect": "Réflexion visuelle active ; dépend du contraste.",
         "data": {
           "Profil": "Melee 1, Antichoc 1, Camo 2",
-          "Notes": "Reflexion visuelle active ; depend du contraste."
+          "Notes": "Réflexion visuelle active ; dépend du contraste."
         }
       },
       {
@@ -1551,10 +1551,10 @@
         "priceMode": "exact",
         "price": 3550,
         "priceLabel": "3 550 $",
-        "effect": "Brouillage electronique ; moins efficace contre capteurs biologiques directs.",
+        "effect": "Brouillage électronique ; moins efficace contre capteurs biologiques directs.",
         "data": {
           "Profil": "Camo 1, Electro-trompeur",
-          "Notes": "Brouillage electronique ; moins efficace contre capteurs biologiques directs."
+          "Notes": "Brouillage électronique ; moins efficace contre capteurs biologiques directs."
         }
       },
       {
@@ -1564,10 +1564,10 @@
         "priceMode": "exact",
         "price": 3550,
         "priceLabel": "3 550 $",
-        "effect": "Holo-tissage identitaire, pas de Camo generique.",
+        "effect": "Holo-tissage identitaire, pas de Camo générique.",
         "data": {
           "Profil": "Melee 1, Antichoc 2",
-          "Notes": "Holo-tissage identitaire, pas de Camo generique."
+          "Notes": "Holo-tissage identitaire, pas de Camo générique."
         }
       },
       {
@@ -1642,10 +1642,10 @@
         "priceMode": "exact",
         "price": 750,
         "priceLabel": "750 $",
-        "effect": "Protege l'electronique de l'armure contre EMP standard.",
+        "effect": "Protège l'électronique de l'armure contre EMP standard.",
         "data": {
           "Slots": "1",
-          "Effet": "Protege l'electronique de l'armure contre EMP standard."
+          "Effet": "Protège l'électronique de l'armure contre EMP standard."
         }
       },
       {
@@ -1655,23 +1655,23 @@
         "priceMode": "exact",
         "price": 1000,
         "priceLabel": "1 000 $",
-        "effect": "+3 Defense Neuro contre attaque directe de l'electronique de l'armure.",
+        "effect": "+3 Défense Neuro contre attaque directe de l'électronique de l'armure.",
         "data": {
           "Slots": "1",
-          "Effet": "+3 Defense Neuro contre attaque directe de l'electronique de l'armure."
+          "Effet": "+3 Défense Neuro contre attaque directe de l'électronique de l'armure."
         }
       },
       {
         "id": "modules-d-armure-etanche",
-        "name": "Etanche",
+        "name": "Étanche",
         "category": "Modules d'armure",
         "priceMode": "exact",
         "price": 500,
         "priceLabel": "500 $",
-        "effect": "Rend le profil etanche quand la structure le permet.",
+        "effect": "Rend le profil étanche quand la structure le permet.",
         "data": {
           "Slots": "1",
-          "Effet": "Rend le profil etanche quand la structure le permet."
+          "Effet": "Rend le profil étanche quand la structure le permet."
         }
       },
       {
@@ -1681,10 +1681,10 @@
         "priceMode": "exact",
         "price": 800,
         "priceLabel": "800 $",
-        "effect": "Environ 2 h d'air ; exige armure fermee.",
+        "effect": "Environ 2 h d'air ; exige armure fermée.",
         "data": {
           "Slots": "1",
-          "Effet": "Environ 2 h d'air ; exige armure fermee."
+          "Effet": "Environ 2 h d'air ; exige armure fermée."
         }
       },
       {
@@ -1694,23 +1694,23 @@
         "priceMode": "exact",
         "price": 750,
         "priceLabel": "750 $",
-        "effect": "Reduction 3 [Feu/Froid].",
+        "effect": "Réduction 3 [Feu/Froid].",
         "data": {
           "Slots": "1",
-          "Effet": "Reduction 3 [Feu/Froid]."
+          "Effet": "Réduction 3 [Feu/Froid]."
         }
       },
       {
         "id": "modules-d-armure-electrique",
-        "name": "Electrique",
+        "name": "Électrique",
         "category": "Modules d'armure",
         "priceMode": "exact",
         "price": 750,
         "priceLabel": "750 $",
-        "effect": "Reduction 3 [Electricite] ; ne vaut pas Anti-EMP.",
+        "effect": "Réduction 3 [Électricité] ; ne vaut pas Anti-EMP.",
         "data": {
           "Slots": "1",
-          "Effet": "Reduction 3 [Electricite] ; ne vaut pas Anti-EMP."
+          "Effet": "Réduction 3 [Électricité] ; ne vaut pas Anti-EMP."
         }
       },
       {
@@ -1741,28 +1741,28 @@
       },
       {
         "id": "modules-d-armure-exosquelette-leger",
-        "name": "Exosquelette leger",
+        "name": "Exosquelette léger",
         "category": "Modules d'armure",
         "priceMode": "exact",
         "price": 2500,
         "priceLabel": "2 500 $",
-        "effect": "Exo 1 : portage, effort, equipement lourd et prerequis de force explicitement concernes.",
+        "effect": "Exo 1 : portage, effort, équipement lourd et prérequis de force explicitement concernés.",
         "data": {
           "Slots": "2",
-          "Effet": "Exo 1 : portage, effort, equipement lourd et prerequis de force explicitement concernes."
+          "Effet": "Exo 1 : portage, effort, équipement lourd et prérequis de force explicitement concernés."
         }
       },
       {
         "id": "modules-d-armure-compensation-mobilite",
-        "name": "Compensation mobilite",
+        "name": "Compensation mobilité",
         "category": "Modules d'armure",
         "priceMode": "exact",
         "price": 1500,
         "priceLabel": "1 500 $",
-        "effect": "Annule les penalites de mobilite explicitement causees par l'armure.",
+        "effect": "Annule les pénalités de mobilité explicitement causées par l'armure.",
         "data": {
           "Slots": "1",
-          "Effet": "Annule les penalites de mobilite explicitement causees par l'armure."
+          "Effet": "Annule les pénalités de mobilité explicitement causées par l'armure."
         }
       },
       {
@@ -1772,10 +1772,10 @@
         "priceMode": "exact",
         "price": 2500,
         "priceLabel": "2 500 $",
-        "effect": "Camo 1 ; impossible si l'armure possede deja Camo.",
+        "effect": "Camo 1 ; impossible si l'armure possède déjà Camo.",
         "data": {
           "Slots": "2",
-          "Effet": "Camo 1 ; impossible si l'armure possede deja Camo."
+          "Effet": "Camo 1 ; impossible si l'armure possède déjà Camo."
         }
       },
       {
@@ -1834,9 +1834,9 @@
         "priceMode": "included",
         "price": 0,
         "priceLabel": "Gratuit",
-        "effect": "Reseau musical Neopunk.",
+        "effect": "Réseau musical Neopunk.",
         "data": {
-          "Fonction": "Reseau musical Neopunk."
+          "Fonction": "Réseau musical Neopunk."
         }
       },
       {
@@ -1870,9 +1870,9 @@
         "priceMode": "included",
         "price": 0,
         "priceLabel": "Gratuit",
-        "effect": "Reseau social/rencontre/services associes.",
+        "effect": "Réseau social/rencontre/services associes.",
         "data": {
-          "Fonction": "Reseau social/rencontre/services associes."
+          "Fonction": "Réseau social/rencontre/services associes."
         }
       },
       {
@@ -1906,9 +1906,9 @@
         "priceMode": "included",
         "price": 0,
         "priceLabel": "Gratuit",
-        "effect": "Reseau chretien.",
+        "effect": "Réseau chretien.",
         "data": {
-          "Fonction": "Reseau chretien."
+          "Fonction": "Réseau chretien."
         }
       },
       {
@@ -1918,9 +1918,9 @@
         "priceMode": "included",
         "price": 0,
         "priceLabel": "Gratuit",
-        "effect": "Reseau musulman.",
+        "effect": "Réseau musulman.",
         "data": {
-          "Fonction": "Reseau musulman."
+          "Fonction": "Réseau musulman."
         }
       },
       {
@@ -2026,9 +2026,9 @@
         "priceMode": "exact",
         "price": 600,
         "priceLabel": "600 $",
-        "effect": "Inspection, petites manipulations et maintenance de precision selon outils.",
+        "effect": "Inspection, petites manipulations et maintenance de précision selon outils.",
         "data": {
-          "Usage": "Inspection, petites manipulations et maintenance de precision selon outils."
+          "Usage": "Inspection, petites manipulations et maintenance de précision selon outils."
         }
       },
       {
@@ -2038,9 +2038,9 @@
         "priceMode": "exact",
         "price": 1000,
         "priceLabel": "1 000 $",
-        "effect": "Observation, transport leger ou assistance selon modele ; pas de PA gratuits.",
+        "effect": "Observation, transport léger ou assistance selon modèle ; pas de PA gratuits.",
         "data": {
-          "Usage": "Observation, transport leger ou assistance selon modele ; pas de PA gratuits."
+          "Usage": "Observation, transport léger ou assistance selon modèle ; pas de PA gratuits."
         }
       },
       {
@@ -2050,9 +2050,9 @@
         "priceMode": "exact",
         "price": 250,
         "priceLabel": "250 $",
-        "effect": "Controle d'acces connecte ; securite selon installation.",
+        "effect": "Contrôle d'accès connecté ; sécurité selon installation.",
         "data": {
-          "Usage": "Controle d'acces connecte ; securite selon installation."
+          "Usage": "Contrôle d'accès connecté ; sécurité selon installation."
         }
       },
       {
@@ -2062,9 +2062,9 @@
         "priceMode": "exact",
         "price": 750,
         "priceLabel": "750 $",
-        "effect": "Etend/etablit un acces local au reseau.",
+        "effect": "Etend/etablit un accès local au réseau.",
         "data": {
-          "Usage": "Etend/etablit un acces local au reseau."
+          "Usage": "Etend/etablit un accès local au réseau."
         }
       },
       {
@@ -2086,9 +2086,9 @@
         "priceMode": "exact",
         "price": 2500,
         "priceLabel": "2 500 $",
-        "effect": "Fabrication de pieces simples avec matiere/plan approprie.",
+        "effect": "Fabrication de pièces simples avec matière/plan approprié.",
         "data": {
-          "Usage": "Fabrication de pieces simples avec matiere/plan approprie."
+          "Usage": "Fabrication de pièces simples avec matière/plan approprié."
         }
       },
       {
@@ -2110,9 +2110,9 @@
         "priceMode": "exact",
         "price": 150,
         "priceLabel": "150 $",
-        "effect": "Materiel adapte pour Premiers soins et Stabilisation.",
+        "effect": "Matériel adapté pour Premiers soins et Stabilisation.",
         "data": {
-          "Usage": "Materiel adapte pour Premiers soins et Stabilisation."
+          "Usage": "Matériel adapté pour Premiers soins et Stabilisation."
         }
       },
       {
@@ -2122,9 +2122,9 @@
         "priceMode": "exact",
         "price": 250,
         "priceLabel": "250 $",
-        "effect": "Outils de maintenance/reparation courante.",
+        "effect": "Outils de maintenance/réparation courante.",
         "data": {
-          "Usage": "Outils de maintenance/reparation courante."
+          "Usage": "Outils de maintenance/réparation courante."
         }
       },
       {
@@ -2219,9 +2219,9 @@
         "priceMode": "exact",
         "price": 50,
         "priceLabel": "50 $",
-        "effect": "Code social specifique.",
+        "effect": "Code social spécifique.",
         "data": {
-          "Exemples d'usage": "Code social specifique."
+          "Exemples d'usage": "Code social spécifique."
         }
       },
       {
@@ -2243,9 +2243,9 @@
         "priceMode": "exact",
         "price": 150,
         "priceLabel": "150 $",
-        "effect": "Tenue courante connectee.",
+        "effect": "Tenue courante connectée.",
         "data": {
-          "Exemples d'usage": "Tenue courante connectee."
+          "Exemples d'usage": "Tenue courante connectée."
         }
       },
       {
@@ -2255,9 +2255,9 @@
         "priceMode": "exact",
         "price": 250,
         "priceLabel": "250 $",
-        "effect": "Travail et securite de base.",
+        "effect": "Travail et sécurité de base.",
         "data": {
-          "Exemples d'usage": "Travail et securite de base."
+          "Exemples d'usage": "Travail et sécurité de base."
         }
       },
       {
@@ -2291,9 +2291,9 @@
         "priceMode": "exact",
         "price": 350,
         "priceLabel": "350 $",
-        "effect": "Vetements connectes ; ne remplace pas Neuromaster.",
+        "effect": "Vêtements connectés ; ne remplace pas Neuromaster.",
         "data": {
-          "Exemples d'usage": "Vetements connectes ; ne remplace pas Neuromaster."
+          "Exemples d'usage": "Vêtements connectés ; ne remplace pas Neuromaster."
         }
       },
       {
@@ -2315,9 +2315,9 @@
         "priceMode": "exact",
         "price": 350,
         "priceLabel": "350 $",
-        "effect": "Materiel de soin/atelier leger.",
+        "effect": "Matériel de soin/atelier léger.",
         "data": {
-          "Exemples d'usage": "Materiel de soin/atelier leger."
+          "Exemples d'usage": "Matériel de soin/atelier léger."
         }
       },
       {
@@ -2351,9 +2351,9 @@
         "priceMode": "exact",
         "price": 600,
         "priceLabel": "600 $",
-        "effect": "Tenue technique connectee.",
+        "effect": "Tenue technique connectée.",
         "data": {
-          "Exemples d'usage": "Tenue technique connectee."
+          "Exemples d'usage": "Tenue technique connectée."
         }
       },
       {
@@ -2505,7 +2505,7 @@
         "category": "Boissons",
         "priceMode": "minimum",
         "priceMin": 20,
-        "priceLabel": "20 $ a plusieurs centaines",
+        "priceLabel": "20 $ à plusieurs centaines",
         "effect": "",
         "data": {}
       },
@@ -2564,10 +2564,10 @@
         "priceMin": 20,
         "priceMax": 40,
         "priceLabel": "20 - 40 $",
-        "effect": "Le Stress psychologique compte un cran plus bas pour explosif/echec narratif (Paniqué->Tendu, Tendu->Normal), sans masquer les etats dus aux blessures. -3 Initiative/Perception.",
+        "effect": "Le Stress psychologique compte un cran plus bas pour explosif/échec narratif (Paniqué->Tendu, Tendu->Normal), sans masquer les états dus aux blessures. -3 Initiative/Perception.",
         "data": {
           "Type": "Anxiolytique/recreatif",
-          "Profil": "Le Stress psychologique compte un cran plus bas pour explosif/echec narratif (Paniqué->Tendu, Tendu->Normal), sans masquer les etats dus aux blessures. -3 Initiative/Perception."
+          "Profil": "Le Stress psychologique compte un cran plus bas pour explosif/échec narratif (Paniqué->Tendu, Tendu->Normal), sans masquer les états dus aux blessures. -3 Initiative/Perception."
         }
       },
       {
@@ -2578,10 +2578,10 @@
         "priceMin": 50,
         "priceMax": 100,
         "priceLabel": "50 - 100 $",
-        "effect": "Alteration forte des sens/perceptions ; outils sociaux ou artistiques seulement si la scene le justifie ; echec peut devenir Stress/desorientation.",
+        "effect": "Altération forte des sens/perceptions ; outils sociaux ou artistiques seulement si la scene le justifie ; échec peut devenir Stress/désorientation.",
         "data": {
           "Type": "Hallucinogene sensoriel",
-          "Profil": "Alteration forte des sens/perceptions ; outils sociaux ou artistiques seulement si la scene le justifie ; echec peut devenir Stress/desorientation."
+          "Profil": "Altération forte des sens/perceptions ; outils sociaux ou artistiques seulement si la scene le justifie ; échec peut devenir Stress/désorientation."
         }
       },
       {
@@ -2606,10 +2606,10 @@
         "priceMin": 75,
         "priceMax": 150,
         "priceLabel": "75 - 150 $",
-        "effect": "Facilite chaleur sociale/intimite quand le contexte s'y prete ; expose a manipulation, dependance et perte de jugement.",
+        "effect": "Facilite chaleur sociale/intimite quand le contexte s'y prête ; expose à manipulation, dépendance et perte de jugement.",
         "data": {
           "Type": "Empathogene",
-          "Profil": "Facilite chaleur sociale/intimite quand le contexte s'y prete ; expose a manipulation, dependance et perte de jugement."
+          "Profil": "Facilite chaleur sociale/intimite quand le contexte s'y prête ; expose à manipulation, dépendance et perte de jugement."
         }
       },
       {
@@ -2634,10 +2634,10 @@
         "priceMin": 30,
         "priceMax": 75,
         "priceLabel": "30 - 75 $",
-        "effect": "En cas d'echec au test d'usage/retour : au minimum Tendu ou +1 cran ; echec narratif : Paniqué.",
+        "effect": "En cas d'échec au test d'usage/retour : au minimum Tendu ou +1 cran ; échec narratif : Paniqué.",
         "data": {
           "Type": "Virtuelle",
-          "Profil": "En cas d'echec au test d'usage/retour : au minimum Tendu ou +1 cran ; echec narratif : Paniqué."
+          "Profil": "En cas d'échec au test d'usage/retour : au minimum Tendu ou +1 cran ; échec narratif : Paniqué."
         }
       },
       {
@@ -2721,7 +2721,7 @@
         "category": "Services médicaux",
         "priceMode": "minimum",
         "priceMin": 500,
-        "priceLabel": "500 $ a plusieurs milliers",
+        "priceLabel": "500 $ à plusieurs milliers",
         "effect": "Selon gravite, technologie et assurance.",
         "data": {
           "Fonction": "Selon gravite, technologie et assurance."
@@ -2733,9 +2733,9 @@
         "category": "Services médicaux",
         "priceMode": "reference",
         "priceLabel": "Variable",
-        "effect": "Acces clandestin. Le prix depend surtout du risque, de la provenance des pieces et de l'anonymat.",
+        "effect": "Accès clandestin. Le prix dépend surtout du risque, de la provenance des pièces et de l'anonymat.",
         "data": {
-          "Fonction": "Acces clandestin. Le prix depend surtout du risque, de la provenance des pieces et de l'anonymat."
+          "Fonction": "Accès clandestin. Le prix dépend surtout du risque, de la provenance des pièces et de l'anonymat."
         }
       },
       {
@@ -2746,9 +2746,9 @@
         "priceMin": 100,
         "priceMax": 500,
         "priceLabel": "100 - 500 $",
-        "effect": "Mise a niveau, certification, module professionnel.",
+        "effect": "Mise à niveau, certification, module professionnel.",
         "data": {
-          "Usage": "Mise a niveau, certification, module professionnel."
+          "Usage": "Mise à niveau, certification, module professionnel."
         }
       },
       {
@@ -2766,28 +2766,28 @@
       },
       {
         "id": "services-professionnels-reparation-courante",
-        "name": "Reparation courante",
+        "name": "Réparation courante",
         "category": "Services professionnels",
         "priceMode": "range",
         "priceMin": 50,
         "priceMax": 250,
         "priceLabel": "50 - 250 $",
-        "effect": "Materiel standard hors pieces rares.",
+        "effect": "Matériel standard hors pièces rares.",
         "data": {
-          "Usage": "Materiel standard hors pieces rares."
+          "Usage": "Matériel standard hors pièces rares."
         }
       },
       {
         "id": "services-professionnels-reparation-lourde-augmentique",
-        "name": "Reparation lourde / augmentique",
+        "name": "Réparation lourde / augmentique",
         "category": "Services professionnels",
         "priceMode": "range",
         "priceMin": 250,
         "priceMax": 2000,
         "priceLabel": "250 - 2 000 $+",
-        "effect": "Atelier, calibration, chirurgie ou piece specifique.",
+        "effect": "Atelier, calibration, chirurgie ou piece spécifique.",
         "data": {
-          "Usage": "Atelier, calibration, chirurgie ou piece specifique."
+          "Usage": "Atelier, calibration, chirurgie ou piece spécifique."
         }
       },
       {
@@ -2798,9 +2798,9 @@
         "priceMin": 500,
         "priceMax": 5000,
         "priceLabel": "500 - 5 000 $+",
-        "effect": "Depend fortement du niveau de controle attendu et du reseau.",
+        "effect": "Dépend fortement du niveau de contrôle attendu et du réseau.",
         "data": {
-          "Usage": "Depend fortement du niveau de controle attendu et du reseau."
+          "Usage": "Dépend fortement du niveau de contrôle attendu et du réseau."
         }
       },
       {
@@ -2818,11 +2818,11 @@
       },
       {
         "id": "services-professionnels-securite-privee",
-        "name": "Securite privee",
+        "name": "Sécurité privée",
         "category": "Services professionnels",
         "priceMode": "minimum",
         "priceMin": 250,
-        "priceLabel": "250 $ / jour a plusieurs milliers",
+        "priceLabel": "250 $ / jour à plusieurs milliers",
         "effect": "Garde, escorte, evenement, intervention selon armement.",
         "data": {
           "Usage": "Garde, escorte, evenement, intervention selon armement."
@@ -2848,7 +2848,7 @@
         "priceMode": "range",
         "priceMin": 0,
         "priceMax": 20,
-        "priceLabel": "Gratuit a 20 $/mois",
+        "priceLabel": "Gratuit à 20 $/mois",
         "effect": "",
         "data": {}
       },
@@ -2952,10 +2952,10 @@
         "priceMin": 150,
         "priceMax": 250,
         "priceLabel": "150 - 250 $/mois",
-        "effect": "Bon marche ; forte dependance sociale/turf.",
+        "effect": "Bon marche ; forte dépendance sociale/turf.",
         "data": {
           "Securite typique": "15",
-          "Notes": "Bon marche ; forte dependance sociale/turf."
+          "Notes": "Bon marche ; forte dépendance sociale/turf."
         }
       },
       {
@@ -2966,10 +2966,10 @@
         "priceMin": 250,
         "priceMax": 400,
         "priceLabel": "250 - 400 $/mois",
-        "effect": "Reseau Vladic, suivi social implicite.",
+        "effect": "Réseau Vladic, suivi social implicite.",
         "data": {
           "Securite typique": "15",
-          "Notes": "Reseau Vladic, suivi social implicite."
+          "Notes": "Réseau Vladic, suivi social implicite."
         }
       },
       {
@@ -2980,10 +2980,10 @@
         "priceMin": 350,
         "priceMax": 600,
         "priceLabel": "350 - 600 $/mois",
-        "effect": "Ancien bati, securite connectee variable.",
+        "effect": "Ancien bâti, sécurité connectée variable.",
         "data": {
           "Securite typique": "15",
-          "Notes": "Ancien bati, securite connectee variable."
+          "Notes": "Ancien bâti, sécurité connectée variable."
         }
       },
       {
@@ -2994,15 +2994,15 @@
         "priceMin": 450,
         "priceMax": 700,
         "priceLabel": "450 - 700 $/mois",
-        "effect": "Familial/protege par le territoire.",
+        "effect": "Familial/protégé par le territoire.",
         "data": {
           "Securite typique": "15-18",
-          "Notes": "Familial/protege par le territoire."
+          "Notes": "Familial/protégé par le territoire."
         }
       },
       {
         "id": "logements-appartement-connecte",
-        "name": "Appartement connecte",
+        "name": "Appartement connecté",
         "category": "Logements",
         "priceMode": "range",
         "priceMin": 650,
@@ -3016,7 +3016,7 @@
       },
       {
         "id": "logements-vladic-grand-protege",
-        "name": "Vladic grand/protege",
+        "name": "Vladic grand/protégé",
         "category": "Logements",
         "priceMode": "range",
         "priceMin": 800,
@@ -3030,16 +3030,16 @@
       },
       {
         "id": "logements-residence-de-cadre-securisee",
-        "name": "Residence de cadre securisee",
+        "name": "Résidence de cadre sécurisée",
         "category": "Logements",
         "priceMode": "range",
         "priceMin": 2000,
         "priceMax": 5000,
         "priceLabel": "2 000 - 5 000 $/mois",
-        "effect": "Securite, services et quartier.",
+        "effect": "Sécurité, services et quartier.",
         "data": {
           "Securite typique": "18-21",
-          "Notes": "Securite, services et quartier."
+          "Notes": "Sécurité, services et quartier."
         }
       },
       {
@@ -3050,10 +3050,10 @@
         "priceMin": 5000,
         "priceMax": 20000,
         "priceLabel": "5 000 - 20 000 $+/mois",
-        "effect": "Standing, securite et services premium.",
+        "effect": "Standing, sécurité et services premium.",
         "data": {
           "Securite typique": "21+",
-          "Notes": "Standing, securite et services premium."
+          "Notes": "Standing, sécurité et services premium."
         }
       },
       {
@@ -3064,10 +3064,10 @@
         "priceMin": 0,
         "priceMax": 100,
         "priceLabel": "0 - 100 $/mois",
-        "effect": "Dissimulation par abandon/oubli ; peu de securite.",
+        "effect": "Dissimulation par abandon/oubli ; peu de sécurité.",
         "data": {
           "Securite": "12",
-          "Usage": "Dissimulation par abandon/oubli ; peu de securite."
+          "Usage": "Dissimulation par abandon/oubli ; peu de sécurité."
         }
       },
       {
@@ -3114,30 +3114,30 @@
       },
       {
         "id": "planques-planque-securisee",
-        "name": "Planque securisee",
+        "name": "Planque sécurisée",
         "category": "Planques",
         "priceMode": "range",
         "priceMin": 2000,
         "priceMax": 5000,
         "priceLabel": "2 000 - 5 000 $/mois",
-        "effect": "Anonymat, contre-surveillance, plusieurs acces.",
+        "effect": "Anonymat, contre-surveillance, plusieurs accès.",
         "data": {
           "Securite": "18-21",
-          "Usage": "Anonymat, contre-surveillance, plusieurs acces."
+          "Usage": "Anonymat, contre-surveillance, plusieurs accès."
         }
       },
       {
         "id": "planques-reseau-de-planques-premium",
-        "name": "Reseau de planques premium",
+        "name": "Réseau de planques premium",
         "category": "Planques",
         "priceMode": "range",
         "priceMin": 5000,
         "priceMax": 15000,
         "priceLabel": "5 000 - 15 000 $+/mois",
-        "effect": "Plusieurs sites, identites, logistique et securite.",
+        "effect": "Plusieurs sites, identités, logistique et sécurité.",
         "data": {
           "Securite": "21+",
-          "Usage": "Plusieurs sites, identites, logistique et securite."
+          "Usage": "Plusieurs sites, identités, logistique et sécurité."
         }
       },
       {
@@ -3226,40 +3226,40 @@
       },
       {
         "id": "munitions-standard-pistolet-leger-pm-raven",
-        "name": "Pistolet leger / PM — Raven",
+        "name": "Pistolet léger / PM — Raven",
         "category": "Munitions standard",
         "priceMode": "exact",
         "price": 50,
         "priceLabel": "50 $",
         "effect": "Prix du lot standard indiqué par fabricant/calibre.",
         "data": {
-          "Famille": "Pistolet leger / PM",
+          "Famille": "Pistolet léger / PM",
           "Fabricant": "Raven"
         }
       },
       {
         "id": "munitions-standard-pistolet-leger-pm-phoenix",
-        "name": "Pistolet leger / PM — Phoenix",
+        "name": "Pistolet léger / PM — Phoenix",
         "category": "Munitions standard",
         "priceMode": "exact",
         "price": 80,
         "priceLabel": "80 $",
         "effect": "Prix du lot standard indiqué par fabricant/calibre.",
         "data": {
-          "Famille": "Pistolet leger / PM",
+          "Famille": "Pistolet léger / PM",
           "Fabricant": "Phoenix"
         }
       },
       {
         "id": "munitions-standard-pistolet-leger-pm-owl",
-        "name": "Pistolet leger / PM — Owl",
+        "name": "Pistolet léger / PM — Owl",
         "category": "Munitions standard",
         "priceMode": "exact",
         "price": 30,
         "priceLabel": "30 $",
         "effect": "Prix du lot standard indiqué par fabricant/calibre.",
         "data": {
-          "Famille": "Pistolet leger / PM",
+          "Famille": "Pistolet léger / PM",
           "Fabricant": "Owl"
         }
       },
@@ -3382,40 +3382,40 @@
       },
       {
         "id": "munitions-standard-precision-raven",
-        "name": "Precision — Raven",
+        "name": "Précision — Raven",
         "category": "Munitions standard",
         "priceMode": "exact",
         "price": 90,
         "priceLabel": "90 $",
         "effect": "Prix du lot standard indiqué par fabricant/calibre.",
         "data": {
-          "Famille": "Precision",
+          "Famille": "Précision",
           "Fabricant": "Raven"
         }
       },
       {
         "id": "munitions-standard-precision-phoenix",
-        "name": "Precision — Phoenix",
+        "name": "Précision — Phoenix",
         "category": "Munitions standard",
         "priceMode": "exact",
         "price": 140,
         "priceLabel": "140 $",
         "effect": "Prix du lot standard indiqué par fabricant/calibre.",
         "data": {
-          "Famille": "Precision",
+          "Famille": "Précision",
           "Fabricant": "Phoenix"
         }
       },
       {
         "id": "munitions-standard-precision-owl",
-        "name": "Precision — Owl",
+        "name": "Précision — Owl",
         "category": "Munitions standard",
         "priceMode": "exact",
         "price": 60,
         "priceLabel": "60 $",
         "effect": "Prix du lot standard indiqué par fabricant/calibre.",
         "data": {
-          "Famille": "Precision",
+          "Famille": "Précision",
           "Fabricant": "Owl"
         }
       },
