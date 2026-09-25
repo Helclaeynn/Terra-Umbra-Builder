@@ -487,7 +487,12 @@ function addTalentInsertId(){
   talentInsertId.value="";
 }
 
-watch(talentInsertNature,()=>{if(talentMeta.value)void loadTalentRows();});
+watch(talentInsertNature,()=>{
+  if (!talentMeta.value) return;
+  const groups=talentMeta.value.groups.filter(group=>group.natureId===talentInsertNature.value);
+  if (!groups.some(group=>group.groupId===talentInsertGroup.value)) talentInsertGroup.value=groups[0]?.groupId??"";
+  void loadTalentRows();
+});
 
 const talentInsertGroups = computed(() =>
   (talentMeta.value?.groups ?? []).filter(group =>
@@ -528,9 +533,11 @@ async function insertTalentBlock() {
   const element = sourceArea.value;
   if (!element) return;
   let directive = "";
-  if (talentInsertMode.value === "ids" && talentInsertIds.value.length) {
+  if (talentInsertMode.value === "ids") {
+    if (!talentInsertIds.value.length) return;
     directive = `{{Talents|ids=${talentInsertIds.value.join(",")}}}`;
-  } else if (talentInsertMode.value === "group" && talentInsertGroup.value) {
+  } else if (talentInsertMode.value === "group") {
+    if (!talentInsertGroup.value || !talentInsertGroups.value.some(group=>group.groupId===talentInsertGroup.value)) return;
     directive = `{{Talents|group=${talentInsertGroup.value}}}`;
   } else if (talentInsertNature.value) {
     directive = `{{Talents|nature=${talentInsertNature.value}}}`;
@@ -1310,7 +1317,7 @@ onMounted(load);
                     <button v-for="talentId in talentInsertIds" :key="talentId" type="button" class="ghost compact" @click="talentInsertIds=talentInsertIds.filter(id=>id!==talentId)">{{ talentRows.find(item=>item.talentId===talentId)?.name||talentId }} ×</button>
                   </div>
                 </template>
-                <button class="secondary compact" type="button" @click="insertTalentBlock">Insérer</button>
+                <button class="secondary compact" type="button" :disabled="talentInsertMode==='ids'?!talentInsertIds.length:talentInsertMode==='group'?!talentInsertGroups.some(group=>group.groupId===talentInsertGroup):!talentInsertNature" @click="insertTalentBlock">Insérer</button>
                 <button class="ghost compact" type="button" @click="talentInsertOpen=false">Annuler</button>
               </div>
               <textarea
