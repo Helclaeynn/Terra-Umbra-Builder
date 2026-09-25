@@ -2844,7 +2844,7 @@
       {
         "id": "loisirs-media-holonet-reseaux",
         "name": "Media Holonet / reseaux",
-        "category": "Loisirs",
+        "category": "Applications Holonet",
         "priceMode": "range",
         "priceMin": 0,
         "priceMax": 20,
