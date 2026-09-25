@@ -5,10 +5,20 @@ import {
   compendiumLinkTarget,
   compendiumTarget,
   positionCompendiumArticle,
+  sectionDomId,
+  sectionTargetId,
   searchResultTarget
 } from "../src/lib/compendium-navigation.ts";
 
 const baseUrl = "https://terra.example/compendium?article=origine";
+
+test("duplicate source section IDs retain a stable first anchor and unique later anchors", () => {
+  const sections = [{ id: "exemples", title: "Premier domaine" }, { id: "exemples", title: "Second domaine" }];
+  assert.equal(sectionDomId(sections[0], 0, sections), "wiki-section-exemples");
+  assert.equal(sectionDomId(sections[1], 1, sections), "wiki-section-exemples--2");
+  assert.equal(sectionTargetId(sections, "exemples"), "wiki-section-exemples");
+  assert.equal(sectionTargetId(sections, "wiki-section-exemples--2"), "wiki-section-exemples--2");
+});
 
 // Minimal DOM surface: unlike a browser, focus and scroll record their effects
 // synchronously so a stale reading position cannot conceal a missing reset.

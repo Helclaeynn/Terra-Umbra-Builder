@@ -1818,15 +1818,21 @@ function articleSnippet(article: Article, query = "", limit = 260): string {
   return text.slice(0, limit) + (text.length > limit ? "…" : "");
 }
 
-function wikiPreviewText(article: Article, limit = 360): string {
+function wikiPreviewText(article: Article, limit = 360, includeMj = false): string {
   const chunks: string[] = [];
 
   for (const section of article.sections ?? []) {
-    if (section?.audience === "mj") continue;
+    if (section?.audience === "mj" && !includeMj) continue;
 
     for (const block of section.blocks ?? []) {
       if (block?.type === "p") {
         const text = publicSnippetText(block.text);
+        if (text) chunks.push(text);
+      }
+      if (block?.type === "table" && Array.isArray(block.rows)) {
+        const text = block.rows.slice(0, 4).map((row: unknown) =>
+          Array.isArray(row) ? row.map(publicSnippetText).filter(Boolean).join(" · ") : ""
+        ).filter(Boolean).join(" ; ");
         if (text) chunks.push(text);
       }
       if (chunks.join(" ").length >= limit * 1.4) break;
@@ -4038,10 +4044,15 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
 
     const sectionId = String(request.query.section ?? "").trim();
     if (sectionId.length > 240) return bad(reply, "invalid_compendium_section_id");
-    const section = sectionId && (article.sections ?? []).find((item, index) =>
-      String(item?.id ?? "") === sectionId ||
-      `wiki-section-${String(item?.id ?? "").replace(/[^a-zA-Z0-9_-]+/g, "-") || index + 1}` === sectionId
-    );
+    const sections = article.sections ?? [];
+    const section = sectionId && (sections.find((item) => String(item?.id ?? "") === sectionId) ||
+      sections.find((item, index) => {
+        const name = String(item?.id ?? "").replace(/[^a-zA-Z0-9_-]+/g, "-") || String(index + 1);
+        const previous = sections.slice(0, index).filter((earlier, earlierIndex) =>
+          (String(earlier?.id ?? "").replace(/[^a-zA-Z0-9_-]+/g, "-") || String(earlierIndex + 1)) === name
+        ).length;
+        return `wiki-section-${name}${previous ? `--${previous + 1}` : ""}` === sectionId;
+      }));
     if (sectionId && !section) return reply.code(404).send({ error: "compendium_section_not_found" });
     const sectionArticle = section ? { ...article, sections: [section] } : article;
 
@@ -4049,7 +4060,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       id: article.id,
       sectionId: section ? String(section.id ?? sectionId) : undefined,
       sectionTitle: section ? String(section.title ?? "") : undefined,
-      snippet: section ? wikiPreviewText(sectionArticle) || String(section.title ?? "") : wikiPreviewText(article),
+      snippet: section ? wikiPreviewText(sectionArticle, 360, includeMj) || String(section.title ?? "") : wikiPreviewText(article),
       media: article.illustration ?? article.image ?? null
     };
   });

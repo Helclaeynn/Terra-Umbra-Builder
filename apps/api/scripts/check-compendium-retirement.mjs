@@ -119,6 +119,21 @@ for (role of [null, "player", "gm", "editor", "admin"]) {
   assert.equal(sectionPreview.statusCode, 200);
   assert.equal(sectionPreview.json().sectionTitle, firstSection.title);
   assert.equal((await request(`/api/compendium/wiki-preview/${activeId}?section=unknown-section-anchor`)).statusCode, 404);
+  const repeatedId = "exemples-de-sorts-reperes-pas-une-liste-fermee";
+  const wheel = fresh.publicArticles.find(article => article.id === "regles-verite-v7-mage-roue-5-portes-15-ecoles");
+  const examples = wheel?.sections?.filter(section => section.id === repeatedId);
+  assert.ok(examples?.length > 1);
+  const secondExample = await request(`/api/compendium/wiki-preview/${wheel.id}?section=wiki-section-${repeatedId}--2`);
+  assert.equal(secondExample.statusCode, 200);
+  assert.notEqual(secondExample.json().snippet,
+    (await request(`/api/compendium/wiki-preview/${wheel.id}?section=${repeatedId}`)).json().snippet);
+  const privateSection = fresh.articles.find(article => article.id === "realite-v9-cnad")?.sections?.find(section => section.audience === "mj");
+  assert.ok(privateSection?.id);
+  const privatePreview = await request(`/api/compendium/wiki-preview/realite-v9-cnad?section=${encodeURIComponent(privateSection.id)}`);
+  if (role === "gm" || role === "editor" || role === "admin") {
+    assert.equal(privatePreview.statusCode, 200);
+    assert.equal(privatePreview.json().sectionTitle, privateSection.title);
+  } else assert.equal(privatePreview.statusCode, 404);
   if (role) {
     const library = (await request("/api/compendium/library")).json();
     assert.deepEqual(library.favorites, [activeId]);

@@ -10,9 +10,13 @@ function decode(value: string): string {
   try { return decodeURIComponent(value); } catch { return value; }
 }
 
-export function sectionDomId(section: Section, index: number): string {
+export function sectionDomId(section: Section, index: number, sections: Section[] = []): string {
   const raw = text(section.id);
-  return `wiki-section-${raw ? raw.replace(/[^a-zA-Z0-9_-]+/g, "-") : index + 1}`;
+  const name = raw ? raw.replace(/[^a-zA-Z0-9_-]+/g, "-") : String(index + 1);
+  const previous = sections.slice(0, index).filter((item, itemIndex) =>
+    (text(item.id) ? text(item.id).replace(/[^a-zA-Z0-9_-]+/g, "-") : String(itemIndex + 1)) === name
+  ).length;
+  return `wiki-section-${name}${previous ? `--${previous + 1}` : ""}`;
 }
 
 /** Query section IDs and native fragments both name a section, never a scroll offset. */
@@ -48,9 +52,9 @@ export function sectionTargetId(sections: Section[], target: string): string | n
   if (!target) return null;
   // Exact source IDs take precedence over their legacy DOM representation.
   const exact = sections.findIndex(section => text(section.id) === target);
-  if (exact >= 0) return sectionDomId(sections[exact], exact);
-  const index = sections.findIndex((section, index) => sectionDomId(section, index) === target);
-  return index >= 0 ? sectionDomId(sections[index], index) : null;
+  if (exact >= 0) return sectionDomId(sections[exact], exact, sections);
+  const index = sections.findIndex((section, index) => sectionDomId(section, index, sections) === target);
+  return index >= 0 ? sectionDomId(sections[index], index, sections) : null;
 }
 
 export function positionCompendiumArticle(panel: HTMLElement, sections: Section[], target: string): void {
