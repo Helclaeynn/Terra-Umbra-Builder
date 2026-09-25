@@ -478,6 +478,8 @@ await corruptionApproval.waitFor({state:"visible",timeout:5000});
 
 await page.locator(".builder-nav").getByRole("button",{name:/Équipement/}).click();
 await page.getByRole("heading",{name:"Réalité, équipement & augmentations"}).waitFor();
+await page.locator('summary.section-summary').filter({hasText:'Train de vie & Charges fixes'}).click();
+await page.locator('summary.section-summary').filter({hasText:'Équipement & véhicules possédés'}).click();
 const catalogDisclosure=page.locator("summary.catalog-summary").filter({hasText:"Choisir équipement, services & véhicules"});
 await catalogDisclosure.waitFor({state:"visible",timeout:5000});
 await catalogDisclosure.click();
@@ -492,13 +494,14 @@ if(!kitHref?.includes("article=wiki-kit-smoke"))throw new Error("Équipement Kit
 await page.getByText("Confortable → Confortable",{exact:true}).waitFor();
 await page.getByLabel("Charge personnalisée").fill("Loyer test");
 await page.getByLabel("Montant / mois").fill("1300");
-await page.getByRole("button",{name:"Ajouter"}).nth(1).click();
+await page.locator('.charge-add-grid.custom').getByRole("button",{name:"Ajouter"}).click();
 await page.getByText("Confortable → Standard",{exact:true}).waitFor();
 
 await page.locator(".builder-nav").getByRole("button",{name:/Sphère & Style/}).click();
 await page.getByRole("button",{name:/Corporatiste/}).click();
 await page.getByRole("button",{name:/Corpo Smoke/}).click();
 await page.locator(".builder-nav").getByRole("button",{name:/Équipement/}).click();
+await page.locator('summary.section-summary').filter({hasText:'Train de vie & Charges fixes'}).click();
 await page.getByRole("heading",{name:"Appui Corporatiste"}).waitFor();
 
 await page.getByLabel("Type de prestation").selectOption("housing");
