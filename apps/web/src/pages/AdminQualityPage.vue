@@ -79,6 +79,7 @@ const issueLabels: Record<string, string> = {
   missing_media: "Sans image",
   placeholder_media: "Placeholder",
   broken_media: "Image cassée",
+  missing_brand_logo: "Logo fabricant à intégrer",
   pnj_missing_mj: "Bloc MJ",
   pnj_missing_stats: "Stats PNJ",
   pnj_portrait_only: "Portrait seul · fiche à rédiger",

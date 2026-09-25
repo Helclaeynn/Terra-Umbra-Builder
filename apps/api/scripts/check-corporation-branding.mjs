@@ -21,6 +21,16 @@ const brands=JSON.parse(await readFile(resolve(mediaDir,'source/weapon-brand-lin
 const restorations=JSON.parse(await readFile(resolve(mediaDir,'source/weapon-restoration-v1.json'),'utf8')).restored;
 const byId=new Map((await getCompendiumQualityCorpus()).articles.map(article=>[article.id,article]));
 const app=Fastify();await registerCompendiumRoutes(app);
+const equipment=[...byId.values()].filter(article=>article.dataset==='equipement'||article.dataset==='verite-catalogue');
+const owl=equipment.filter(article=>article.manufacturer==='Owl');
+assert.ok(owl.length>=32,'OWL equipment must retain its source manufacturer');
+for(const article of owl)assert.equal(article.brandLogo,undefined,`Do not invent an OWL logo: ${article.id}`);
+const uncovered=equipment.filter(article=>article.manufacturer&&!article.brandLogo);
+assert.ok(uncovered.some(article=>article.manufacturer==='Owl'));
+for(const article of equipment.filter(article=>article.manufacturer&&article.brandLogo)){
+  const response=await app.inject({method:'GET',url:'/api/compendium/media/'+article.brandLogo.src});
+  assert.equal(response.statusCode,200,article.id);
+}
 let logos=0,charts=0;
 for(const [id,entry] of Object.entries(branding)){
   const article=byId.get(id);assert.ok(article,id);
@@ -47,4 +57,4 @@ for(const item of restorations){
   assert.equal(bytes.subarray(8,12).toString('ascii'),'WEBP',item.asset);
 }
 await app.close();await pool.end();
-console.log(`${restorations.length} quality WebPs, ${logos} logos, ${charts} organization charts, ${Object.keys(brands).length} linked equipment items verified.`);
+console.log(`${restorations.length} quality WebPs, ${logos} logos, ${charts} organization charts, ${Object.keys(brands).length} linked equipment items; ${uncovered.length} sourced manufacturers awaiting a logo (including ${owl.length} OWL pages).`);

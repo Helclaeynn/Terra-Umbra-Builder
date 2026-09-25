@@ -1702,7 +1702,8 @@ function manufacturerFromTitle(title: unknown): string {
 }
 
 function manufacturerFor(article: Article): string {
-  return article.dataset === "equipement" ? manufacturerFromTitle(article.title) : "";
+  return article.dataset === "equipement" || article.dataset === "verite-catalogue"
+    ? manufacturerFromTitle(article.title) : "";
 }
 
 function applyNavigationTaxonomy(article: Article, entry?: NavigationEntry): void {
@@ -3707,7 +3708,7 @@ async function loadCorpus(): Promise<Corpus> {
         });
       }
     }
-    if (article.dataset === "equipement") {
+    if (article.dataset === "equipement" || article.dataset === "verite-catalogue") {
       const explicitSlug = weaponBrandLinks.equipmentById[article.id];
       const slug = explicitSlug ?? corporationByManufacturer[String(article.manufacturer ?? "")];
       const corporationId = slug ? corporationIdFor(slug) : "";

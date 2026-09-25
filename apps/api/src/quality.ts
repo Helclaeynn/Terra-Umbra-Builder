@@ -318,6 +318,9 @@ export async function registerQualityRoutes(app: FastifyInstance) {
         publicById,
         brokenMedia.get(article.id) === true
       );
+      if ((article.dataset === "equipement" || article.dataset === "verite-catalogue") && article.manufacturer && !article.brandLogo) {
+        issues.push({ code: "missing_brand_logo", severity: "warning", label: `Logo fabricant à intégrer · ${article.manufacturer}` });
+      }
       return {
         id: article.id,
         title: article.title ?? article.id,
