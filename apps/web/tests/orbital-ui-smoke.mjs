@@ -268,7 +268,7 @@ try {
     // The editor loads asynchronously after navigation; wait for its options
     // before asserting the complete set of available sections.
     const categoryOptions = page.getByLabel('Rubrique',{exact:true}).locator('option');
-    await categoryOptions.nth(5).waitFor();
+    await categoryOptions.nth(5).waitFor({ state: 'attached' });
     assert.equal(await categoryOptions.count(),6);
     await page.getByLabel('Rubrique',{exact:true}).selectOption('Bestiaire');
     await page.getByLabel('Statut',{exact:true}).selectOption('canon_enrichi');
