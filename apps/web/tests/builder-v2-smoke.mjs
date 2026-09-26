@@ -755,6 +755,14 @@ if(!await page.locator('.sheet-resources').getByText('2',{exact:true}).count())t
 if(await page.locator('.builder-sidebar,.progression-step,input,textarea,select').filter({visible:true}).count())throw new Error('Outils de modification visibles sur la fiche autonome');
 await page.getByRole('link',{name:'Talents',exact:true}).click();
 if(!await page.locator('#sheet-reality').evaluate(node=>node.open))throw new Error('Le raccourci doit ouvrir les Talents');
+await page.getByRole('link',{name:'Possessions',exact:true}).click();
+if(!await page.locator('#sheet-equipment').evaluate(node=>node.open))throw new Error('Le raccourci Possessions doit ouvrir le bloc Équipement.');
+const journalFromSheet=page.getByRole('link',{name:'Journal d’aventure',exact:true});
+await journalFromSheet.waitFor();
+await journalFromSheet.click();
+await page.getByRole('heading',{name:'Journal d’aventure',exact:true}).waitFor();
+await page.getByRole('link',{name:'Fiche actuelle',exact:true}).click();
+await page.locator('.character-sheet[data-mode="campaign"]').waitFor();
 for(const width of [1440,390,320]){
   await page.setViewportSize({width,height:1000});
   await assertBuilderReflow(`Fiche autonome ${width}px`);
@@ -780,6 +788,7 @@ sheetOwner=false;
 await page.reload();
 await page.locator('.character-sheet').waitFor();
 if(await page.locator('.sheet-sharing,input,textarea,select').count())throw new Error('Le MJ ne doit voir aucun outil de modification ou partage');
+if(await page.getByRole('link',{name:'Journal d’aventure',exact:true}).count())throw new Error('Le journal privé ne doit pas être proposé au lecteur MJ.');
 if(JSON.stringify(savedPayload)!==savedBeforeSheet)throw new Error('La consultation a changé la sauvegarde');
 console.log('Standalone sheet browser OK — same campaign values, direct route, anchors, 320/390/1440px, owner sharing, MJ read-only and no mutation');
 

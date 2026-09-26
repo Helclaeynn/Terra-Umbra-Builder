@@ -285,6 +285,7 @@ onMounted(loadCharacters);
             <strong>{{ character.name }}</strong><small>{{ character.campaignName?`Campagne · ${character.campaignName}`:'Fiche hors campagne' }}</small>
             <small>v{{ character.version }} · {{ formatDate(character.updatedAt) }}</small>
           </button>
+          <RouterLink class="character-journal-shortcut" :to="`/characters/${character.id}/journal`" :aria-label="`Journal d’aventure de ${character.name}`">Journal</RouterLink>
           <button type="button" class="character-pin" :disabled="favoriteBusy===character.id" :aria-pressed="!!character.favorite" :aria-label="`${character.favorite?'Retirer des favoris':'Épingler'} ${character.name}`" @click="toggleFavorite(character)">{{ character.favorite?'★':'☆' }}</button>
         </div>
       </nav>
@@ -403,7 +404,9 @@ onMounted(loadCharacters);
 .character-list button:hover { border-color: #35536e; background: #102337; }
 .character-list button.active { border-color: #477895; background: #132b40; box-shadow: inset 3px 0 #85e6ff; }
 .character-list-row{position:relative;margin-bottom:8px;min-width:0}
-.character-list .character-list-row .character-select{margin:0;padding-right:54px}
+.character-list .character-list-row .character-select{margin:0;padding-right:66px;padding-bottom:44px}
+.character-list .character-list-row .character-journal-shortcut{position:absolute;left:15px;bottom:9px;z-index:1;min-height:30px;display:inline-flex;align-items:center;padding:2px 8px;border:1px solid #35536e;border-radius:5px;color:#9ce5f4;font-size:12px;text-decoration:none;background:#0d1d2c}
+.character-list .character-list-row .character-journal-shortcut:hover{border-color:#75d7ed;background:#132b40}
 .character-list .character-list-row .character-pin{position:absolute;right:4px;top:4px;width:44px;min-height:44px;margin:0;padding:4px;display:grid;place-items:center;font-size:24px;color:#e9c377;text-align:center}
 .character-list .character-pin[aria-pressed=true]{color:#ffe392}
 .character-list strong { font-size: 16px; line-height: 1.5; }

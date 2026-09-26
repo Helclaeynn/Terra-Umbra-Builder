@@ -132,13 +132,13 @@ onUnmounted(()=>{++generation;controller?.abort();resetSearch();window.removeEve
     <header class="sheet-topbar"><RouterLink to="/" aria-label="Terra Umbra — accueil"><TerraUmbraBrand /></RouterLink><RouterLink class="ghost" to="/account">Mon espace</RouterLink></header>
     <RouterLink v-if="campaignBack" class="campaign-back" :to="campaignBack">← Retour au groupe</RouterLink>
     <main id="sheet-main" class="standalone-sheet-main" tabindex="-1" :aria-busy="loading">
-      <div class="sheet-toolbar"><div><p class="eyebrow">CONSULTATION · LECTURE SEULE</p><h1>Fiche actuelle</h1></div><button class="ghost" :disabled="loading" @click="load">Actualiser</button></div>
+      <div class="sheet-toolbar"><div><p class="eyebrow">CONSULTATION · LECTURE SEULE</p><h1>Fiche actuelle</h1></div><div class="sheet-toolbar-actions"><RouterLink v-if="owner" class="primary" :to="`/characters/${id}/journal`">Journal d’aventure</RouterLink><button class="ghost" :disabled="loading" @click="load">Actualiser</button></div></div>
       <p v-if="loading" role="status">Chargement de la fiche actuelle…</p>
       <div v-else-if="error" class="panel" role="alert"><p>{{ error }}</p><RouterLink v-if="needsLogin" class="primary" :to="loginLink">Se connecter</RouterLink><button v-else class="ghost" @click="load">Réessayer</button></div>
       <template v-else-if="sheet">
         <p v-if="character?.campaignId" class="sheet-version">Version de campagne · <RouterLink :to="`/campaigns/${character.campaignId}`">{{ character.campaignName }}</RouterLink> · Progression indépendante</p>
         <p class="sheet-version">{{ owner ? 'Ta fiche sauvegardée' : `Partagée par ${ownerName}` }} · Mise à jour le {{ updated }} · v{{ character?.version }}</p>
-        <nav class="sheet-jumps" @click="jump" aria-label="Sections de la fiche"><a href="#sheet-main">Vue d’ensemble</a><a href="#sheet-skills">Compétences</a><a href="#sheet-reality">Talents</a><a href="#sheet-truth">Vérité</a><a href="#sheet-inventory">Équipement</a></nav>
+        <nav class="sheet-jumps" @click="jump" aria-label="Sections de la fiche"><a href="#sheet-main">Vue d’ensemble</a><a href="#sheet-skills">Compétences</a><a href="#sheet-reality">Talents</a><a href="#sheet-truth">Vérité</a><a href="#sheet-equipment">Possessions</a></nav>
         <CharacterSummary :sheet="sheet" />
         <details v-if="owner" class="sheet-sharing panel" @toggle="toggleShares">
           <summary>Partager cette fiche avec mon MJ</summary>

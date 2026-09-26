@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { COMPENDIUM_TEN_BACKGROUND_ENRICHMENTS, COMPENDIUM_TEN_SVETLANA_ARTICLE, COMPENDIUM_TEN_ARKHANGEL_LINK, COMPENDIUM_TEN_BACKGROUND_SOURCE_COUNT } from "../dist/compendium-ten-backgrounds.js";
 import { COMPENDIUM_VERITE_TEN_EVENTS, COMPENDIUM_VERITE_TEN_CHRONOLOGY_ARTICLE, COMPENDIUM_VERITE_TEN_ENRICHMENTS, COMPENDIUM_VERITE_TEN_EVENT_COUNT } from "../dist/compendium-verite-ten-catastrophes.js";
 import { COMPENDIUM_TEN_PAGE_ARTICLE, COMPENDIUM_TEN_TRUTH_ENRICHMENTS } from "../dist/compendium-ten-canon.js";
+import { COMPENDIUM_TEN_PROFILE_CALIBRATION } from "../dist/compendium-ten-profiles.js";
 assert.equal(COMPENDIUM_TEN_BACKGROUND_SOURCE_COUNT,10);
 assert.equal(COMPENDIUM_TEN_BACKGROUND_ENRICHMENTS.length,9,"9 Ten existants doivent recevoir leur BG");
 assert.equal(COMPENDIUM_TEN_SVETLANA_ARTICLE.title,"Svetlana Konstantinovna");
@@ -27,3 +28,25 @@ assert.equal(COMPENDIUM_TEN_TRUTH_ENRICHMENTS.length,10,"les dix Ten doivent avo
 
 assert.ok(JSON.stringify(COMPENDIUM_TEN_TRUTH_ENRICHMENTS).includes("Mashia’h"),"Svetlana doit conserver son nom de Vérité dans le canon MJ");
 assert.ok(JSON.stringify(COMPENDIUM_TEN_TRUTH_ENRICHMENTS).includes("Nephilim divin"),"Svetlana doit être décrite comme Nephilim divin");
+
+assert.equal(COMPENDIUM_TEN_PROFILE_CALIBRATION.length,10,"les dix Ten doivent avoir une calibration statistique");
+assert.equal(new Set(COMPENDIUM_TEN_PROFILE_CALIBRATION.map(profile=>profile.sourceId)).size,10,"les dix profils Ten doivent être uniques");
+for(const profile of COMPENDIUM_TEN_PROFILE_CALIBRATION){
+  const realityAttr=Object.values(profile.reality.attributes).reduce((sum,value)=>sum+Number(value),0);
+  const realitySkills=profile.reality.skills.reduce((sum,row)=>sum+Number(row[1]),0);
+  const semi=Object.values(profile.truth.semi).reduce((sum,value)=>sum+Number(value),0);
+  const revealed=Object.values(profile.truth.revealed).reduce((sum,value)=>sum+Number(value),0);
+  assert.equal(realityAttr,42,`${profile.name} doit rester sur le budget Légendaire de 42 Attributs`);
+  assert.equal(realitySkills,140,`${profile.name} doit rester sur le budget Légendaire de 140 Compétences`);
+  assert.ok(profile.reality.skills.every(row=>Number(row[1])<=14),`${profile.name} dépasse le plafond Légendaire`);
+  assert.ok(Number(profile.truth.ptv)>=41,`${profile.name} doit être Exceptionnelle en Vérité`);
+  assert.equal(semi,46,`${profile.name} doit conserver la même enveloppe Semi-Révélée`);
+  assert.equal(revealed,50,`${profile.name} doit conserver la même enveloppe Révélée`);
+}
+const taggedTen=[
+  ...COMPENDIUM_TEN_BACKGROUND_ENRICHMENTS.map(entry=>entry.tags??[]),
+  COMPENDIUM_TEN_SVETLANA_ARTICLE.tags??[]
+];
+assert.equal(taggedTen.length,10);
+assert.ok(taggedTen.every(tags=>tags.includes("Ten")),"chaque Ten doit porter le tag canonique Ten");
+console.log("TEN PROFILE OK — 10 × Légendaire Réalité · 10 × Exceptionnel Vérité · tag Ten");
