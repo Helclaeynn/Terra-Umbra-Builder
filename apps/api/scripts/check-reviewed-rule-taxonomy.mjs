@@ -6,7 +6,7 @@ process.env.COMPENDIUM_DATA_DIR = resolve(root, 'compendium/data');
 process.chdir(resolve(root, 'apps/api'));
 const { pool } = await import('../dist/db.js');
 pool.query = async sql => {
-  if (/FROM compendium_custom_articles|FROM compendium_article_edits|(?:FROM|INTO) compendium_legacy_articles/.test(String(sql))) return { rows: [] };
+  if (/FROM compendium_custom_articles|FROM compendium_article_edits|(?:FROM|INTO) compendium_legacy_articles|FROM compendium_deleted_articles/.test(String(sql))) return { rows: [] };
   throw new Error(`Unexpected database query: ${sql}`);
 };
 const { getCompendiumQualityCorpus } = await import('../dist/compendium.js');
