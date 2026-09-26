@@ -3211,6 +3211,127 @@
       "displayTitle": "Raven MC-025 Hitman"
     },
     {
+      "id": "equipement-358-owl-k-owlclaws",
+      "dataset": "equipement",
+      "category": "Équipement & Objets",
+      "group": "Équipement de Réalité",
+      "groupOrder": 10,
+      "subgroup": "Armement — Armes de mêlée",
+      "subgroupOrder": 10010,
+      "pageOrder": 358,
+      "displayTitle": "Owl K OwlClaws"
+    },
+    {
+      "id": "equipement-359-raven-k-blaclaws",
+      "dataset": "equipement",
+      "category": "Équipement & Objets",
+      "group": "Équipement de Réalité",
+      "groupOrder": 10,
+      "subgroup": "Armement — Armes de mêlée",
+      "subgroupOrder": 10010,
+      "pageOrder": 359,
+      "displayTitle": "Raven K Blaclaws"
+    },
+    {
+      "id": "equipement-360-owl-k-resonancer",
+      "dataset": "equipement",
+      "category": "Équipement & Objets",
+      "group": "Équipement de Réalité",
+      "groupOrder": 10,
+      "subgroup": "Armement — Armes de mêlée",
+      "subgroupOrder": 10010,
+      "pageOrder": 360,
+      "displayTitle": "Owl K Resonancer"
+    },
+    {
+      "id": "equipement-361-raven-k-hellthorn",
+      "dataset": "equipement",
+      "category": "Équipement & Objets",
+      "group": "Équipement de Réalité",
+      "groupOrder": 10,
+      "subgroup": "Armement — Armes de mêlée",
+      "subgroupOrder": 10010,
+      "pageOrder": 361,
+      "displayTitle": "Raven K Hellthorn"
+    },
+    {
+      "id": "equipement-362-phoenix-k-sunbeak",
+      "dataset": "equipement",
+      "category": "Équipement & Objets",
+      "group": "Équipement de Réalité",
+      "groupOrder": 10,
+      "subgroup": "Armement — Armes de mêlée",
+      "subgroupOrder": 10010,
+      "pageOrder": 362,
+      "displayTitle": "Phoenix K SunBeak"
+    },
+    {
+      "id": "equipement-363-raven-kb-karas",
+      "dataset": "equipement",
+      "category": "Équipement & Objets",
+      "group": "Équipement de Réalité",
+      "groupOrder": 10,
+      "subgroup": "Armement — Armes de mêlée",
+      "subgroupOrder": 10010,
+      "pageOrder": 363,
+      "displayTitle": "Raven KB Karas"
+    },
+    {
+      "id": "equipement-364-k-golijagi",
+      "dataset": "equipement",
+      "category": "Équipement & Objets",
+      "group": "Équipement de Réalité",
+      "groupOrder": 10,
+      "subgroup": "Armement — Armes de mêlée",
+      "subgroupOrder": 10010,
+      "pageOrder": 364,
+      "displayTitle": "K Golijagi"
+    },
+    {
+      "id": "equipement-365-owl-sb-nextcalibur",
+      "dataset": "equipement",
+      "category": "Équipement & Objets",
+      "group": "Équipement de Réalité",
+      "groupOrder": 10,
+      "subgroup": "Armement — Armes de mêlée",
+      "subgroupOrder": 10010,
+      "pageOrder": 365,
+      "displayTitle": "Owl SB Nextcalibur"
+    },
+    {
+      "id": "equipement-366-phoenix-sb-khopesh",
+      "dataset": "equipement",
+      "category": "Équipement & Objets",
+      "group": "Équipement de Réalité",
+      "groupOrder": 10,
+      "subgroup": "Armement — Armes de mêlée",
+      "subgroupOrder": 10010,
+      "pageOrder": 366,
+      "displayTitle": "Phoenix SB Khopesh"
+    },
+    {
+      "id": "equipement-367-hache-circulaire-owl",
+      "dataset": "equipement",
+      "category": "Équipement & Objets",
+      "group": "Équipement de Réalité",
+      "groupOrder": 10,
+      "subgroup": "Armement — Armes de mêlée",
+      "subgroupOrder": 10010,
+      "pageOrder": 367,
+      "displayTitle": "Hache circulaire Owl"
+    },
+    {
+      "id": "equipement-368-insurrection-sp-new-partisan",
+      "dataset": "equipement",
+      "category": "Équipement & Objets",
+      "group": "Équipement de Réalité",
+      "groupOrder": 10,
+      "subgroup": "Armement — Armes de mêlée",
+      "subgroupOrder": 10010,
+      "pageOrder": 368,
+      "displayTitle": "Insurrection SP New Partisan"
+    },
+    {
       "id": "equipement-282-phoenix-king-fist",
       "dataset": "equipement",
       "category": "Équipement & Objets",

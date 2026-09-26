@@ -1,0 +1,964 @@
+{
+  "version": 1,
+  "sourceFile": "armes_blanches _tranchantes(3).docx",
+  "sourceCount": 16,
+  "addedCount": 11,
+  "preservedCount": 5,
+  "decision": "Les cinq armes déjà présentes conservent leurs identifiants, titres, prix, statistiques, propriétés et lore actuels, conformément à l’arbitrage de l’utilisateur. Les valeurs du document sont conservées pour traçabilité et ne remplacent pas leurs valeurs actives.",
+  "extractionMethod": "OOXML mc:Choice original text and embedded media, checked against supplied page renders; raw source not modified",
+  "warnings": [
+    "Page6 superposes four cards in source render. OOXML keeps descriptions and original pictures distinct.",
+    "mc:Fallback duplicates not imported.",
+    "Property descriptions/rule bonuses not defined in this source; resolve against existing canonical trait rules, never infer new numerical bonuses."
+  ],
+  "entries": [
+    {
+      "key": "owlclaws",
+      "disposition": "add",
+      "articleId": "equipement-358-owl-k-owlclaws",
+      "catalogId": "armes-melee-owl-k-owlclaws",
+      "name": "Owl K OwlClaws",
+      "source": {
+        "name": "K OwlClaws",
+        "sourceTitle": "K OwlClaws",
+        "sourcePage": 1,
+        "sourceParagraph": 0,
+        "manufacturer": "Owl",
+        "family": "Couteaux",
+        "damage": 3,
+        "range": null,
+        "magazine": null,
+        "price": 125,
+        "priceLabel": "125 $",
+        "properties": [],
+        "loreOriginal": "Couteau de combat par Owl ! La simplicité américaine par excellence !",
+        "notes": [],
+        "illustration": {
+          "part": "word/media/image3.png",
+          "width": 2640,
+          "height": 1430,
+          "mode": "RGBA",
+          "sha256": "e0861e495626b8a6401b553c2f89361c4c5813cab5d6ba7ccf29adff8037701c"
+        }
+      },
+      "builder": {
+        "id": "armes-melee-owl-k-owlclaws",
+        "name": "Owl K OwlClaws",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 125,
+        "priceLabel": "125 $",
+        "effect": "Le K OwlClaws est le couteau de combat d’Owl. La marque le présente comme l’expression de la simplicité américaine.",
+        "data": {
+          "Type": "Couteaux",
+          "DGT": "3",
+          "Portee": "Contact",
+          "Proprietes": "—"
+        }
+      },
+      "paragraphs": [
+        "Le K OwlClaws est le couteau de combat d’Owl.",
+        "La marque le présente comme l’expression de la simplicité américaine."
+      ],
+      "illustration": {
+        "src": "images/manual/equipement-358-owl-k-owlclaws.webp",
+        "alt": "Owl K OwlClaws",
+        "sourcePart": "word/media/image3.png",
+        "sourceSha256": "e0861e495626b8a6401b553c2f89361c4c5813cab5d6ba7ccf29adff8037701c",
+        "sha256": "5be77267be7b347b6e331f9a8327e6f8e5f3560b4fb44d4949b79590bf6f9cd9"
+      }
+    },
+    {
+      "key": "blaclaws",
+      "disposition": "add",
+      "articleId": "equipement-359-raven-k-blaclaws",
+      "catalogId": "armes-melee-raven-k-blaclaws",
+      "name": "Raven K Blaclaws",
+      "source": {
+        "name": "K Blaclaws",
+        "sourceTitle": "K Blaclaws",
+        "sourcePage": 1,
+        "sourceParagraph": 0,
+        "manufacturer": "Raven",
+        "family": "Couteaux",
+        "damage": 4,
+        "range": null,
+        "magazine": null,
+        "price": 155,
+        "priceLabel": "155 $",
+        "properties": [],
+        "loreOriginal": "Couteau de combat de base de la Raven.",
+        "notes": [],
+        "illustration": {
+          "part": "word/media/image6.png",
+          "width": 2639,
+          "height": 802,
+          "mode": "RGBA",
+          "sha256": "50922d561990dacfa0d1ac0f9cac0940d303cfdfffaefdc1132b46ea373ae7e3"
+        }
+      },
+      "builder": {
+        "id": "armes-melee-raven-k-blaclaws",
+        "name": "Raven K Blaclaws",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 155,
+        "priceLabel": "155 $",
+        "effect": "Le K Blaclaws est le couteau de combat de base de Raven.",
+        "data": {
+          "Type": "Couteaux",
+          "DGT": "4",
+          "Portee": "Contact",
+          "Proprietes": "—"
+        }
+      },
+      "paragraphs": [
+        "Le K Blaclaws est le couteau de combat de base de Raven."
+      ],
+      "illustration": {
+        "src": "images/manual/equipement-359-raven-k-blaclaws.webp",
+        "alt": "Raven K Blaclaws",
+        "sourcePart": "word/media/image6.png",
+        "sourceSha256": "50922d561990dacfa0d1ac0f9cac0940d303cfdfffaefdc1132b46ea373ae7e3",
+        "sha256": "e0e5ca786b8de6e87f9ecc1ec0eaae4f6a3be53aad92100786363f054eb9cc87"
+      }
+    },
+    {
+      "key": "resonancer",
+      "disposition": "add",
+      "articleId": "equipement-360-owl-k-resonancer",
+      "catalogId": "armes-melee-owl-k-resonancer",
+      "name": "Owl K Resonancer",
+      "source": {
+        "name": "K Resonancer",
+        "sourceTitle": "k Resonancer",
+        "sourcePage": 2,
+        "sourceParagraph": 14,
+        "manufacturer": "Owl",
+        "family": "Couteaux",
+        "damage": 3,
+        "range": null,
+        "magazine": null,
+        "price": 250,
+        "priceLabel": "250 $",
+        "properties": [
+          "Vibratoire"
+        ],
+        "loreOriginal": "Couteau technologique. Les vibrations s’adaptent au fur et à mesure de la cible pour détériorer sa structure.",
+        "notes": [],
+        "illustration": {
+          "part": "word/media/image15.png",
+          "width": 2640,
+          "height": 1316,
+          "mode": "RGBA",
+          "sha256": "2df67f2aca68bd16a12c643717c9260a6cbf9db4a382c1cd41c63ae6ed8ecd72"
+        }
+      },
+      "builder": {
+        "id": "armes-melee-owl-k-resonancer",
+        "name": "Owl K Resonancer",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 250,
+        "priceLabel": "250 $",
+        "effect": "Le K Resonancer est un couteau technologique d’Owl équipé d’une lame vibrante. Ses vibrations s’adaptent progressivement à la cible pour détériorer sa structure.",
+        "data": {
+          "Type": "Couteaux",
+          "DGT": "3",
+          "Portee": "Contact",
+          "Proprietes": "Vibratoire"
+        }
+      },
+      "paragraphs": [
+        "Le K Resonancer est un couteau technologique d’Owl équipé d’une lame vibrante.",
+        "Ses vibrations s’adaptent progressivement à la cible pour détériorer sa structure."
+      ],
+      "illustration": {
+        "src": "images/manual/equipement-360-owl-k-resonancer.webp",
+        "alt": "Owl K Resonancer",
+        "sourcePart": "word/media/image15.png",
+        "sourceSha256": "2df67f2aca68bd16a12c643717c9260a6cbf9db4a382c1cd41c63ae6ed8ecd72",
+        "sha256": "bca004a0cd7da049c96b2a8cbf57341999f3755a0be21f7c8de6e800a6686244"
+      }
+    },
+    {
+      "key": "hellthorn",
+      "disposition": "add",
+      "articleId": "equipement-361-raven-k-hellthorn",
+      "catalogId": "armes-melee-raven-k-hellthorn",
+      "name": "Raven K Hellthorn",
+      "source": {
+        "name": "K Hellthorn",
+        "sourceTitle": "k Hellthorn",
+        "sourcePage": 2,
+        "sourceParagraph": 14,
+        "manufacturer": "Raven",
+        "family": "Couteaux",
+        "damage": 4,
+        "range": null,
+        "magazine": null,
+        "price": 350,
+        "priceLabel": "350 $",
+        "properties": [
+          "Photoedge"
+        ],
+        "loreOriginal": "Couteau de combat de la Raven. Possède un filament photonique similaire à un laser de haute intensité.",
+        "notes": [],
+        "illustration": {
+          "part": "word/media/image16.png",
+          "width": 2642,
+          "height": 1477,
+          "mode": "RGBA",
+          "sha256": "f4fc1e87cc391e8d96690810ff03305e356bb58ed30267f9add5a8095e352a55"
+        }
+      },
+      "builder": {
+        "id": "armes-melee-raven-k-hellthorn",
+        "name": "Raven K Hellthorn",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 350,
+        "priceLabel": "350 $",
+        "effect": "Le K Hellthorn est un couteau de combat de Raven à filament photonique. Ce filament fonctionne de manière comparable à un laser de haute intensité et caractérise son tranchant Photoedge.",
+        "data": {
+          "Type": "Couteaux",
+          "DGT": "4",
+          "Portee": "Contact",
+          "Proprietes": "Photoedge"
+        }
+      },
+      "paragraphs": [
+        "Le K Hellthorn est un couteau de combat de Raven à filament photonique.",
+        "Ce filament fonctionne de manière comparable à un laser de haute intensité et caractérise son tranchant Photoedge."
+      ],
+      "illustration": {
+        "src": "images/manual/equipement-361-raven-k-hellthorn.webp",
+        "alt": "Raven K Hellthorn",
+        "sourcePart": "word/media/image16.png",
+        "sourceSha256": "f4fc1e87cc391e8d96690810ff03305e356bb58ed30267f9add5a8095e352a55",
+        "sha256": "b38dc0c33f033d655b042d0ab23ec42e03e9255d40419f8debf8e1a928c4c095"
+      }
+    },
+    {
+      "key": "sunbeak",
+      "disposition": "add",
+      "articleId": "equipement-362-phoenix-k-sunbeak",
+      "catalogId": "armes-melee-phoenix-k-sunbeak",
+      "name": "Phoenix K SunBeak",
+      "source": {
+        "name": "K SunBeak",
+        "sourceTitle": "K SunBeak",
+        "sourcePage": 3,
+        "sourceParagraph": 15,
+        "manufacturer": "Phoenix",
+        "family": "Couteaux",
+        "damage": 3,
+        "range": null,
+        "magazine": null,
+        "price": 185,
+        "priceLabel": "185 $",
+        "properties": [
+          "Robuste"
+        ],
+        "loreOriginal": "Couteau très classique par Phoenix. Sa structure en « acier diamantin » est une des plus robuste au monde !",
+        "notes": [],
+        "illustration": {
+          "part": "word/media/image20.png",
+          "width": 2641,
+          "height": 1543,
+          "mode": "RGBA",
+          "sha256": "46098c0f579124f2ba78f821e515a1c13f34f5dee6ccde80211c84809825e9a7"
+        }
+      },
+      "builder": {
+        "id": "armes-melee-phoenix-k-sunbeak",
+        "name": "Phoenix K SunBeak",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 185,
+        "priceLabel": "185 $",
+        "effect": "Phoenix propose le K SunBeak comme un couteau classique de sa gamme. Sa structure en « acier diamantin » lui confère la robustesse qui fait sa particularité.",
+        "data": {
+          "Type": "Couteaux",
+          "DGT": "3",
+          "Portee": "Contact",
+          "Proprietes": "Robuste"
+        }
+      },
+      "paragraphs": [
+        "Phoenix propose le K SunBeak comme un couteau classique de sa gamme.",
+        "Sa structure en « acier diamantin » lui confère la robustesse qui fait sa particularité."
+      ],
+      "illustration": {
+        "src": "images/manual/equipement-362-phoenix-k-sunbeak.webp",
+        "alt": "Phoenix K SunBeak",
+        "sourcePart": "word/media/image20.png",
+        "sourceSha256": "46098c0f579124f2ba78f821e515a1c13f34f5dee6ccde80211c84809825e9a7",
+        "sha256": "59b1d41020cd244af02bea7becc1a8eeeb36789ea7ce0da27e5b9e97b2a0b997"
+      }
+    },
+    {
+      "key": "feather",
+      "disposition": "preserve",
+      "articleId": "equipement-003-phoenix-pck-08-feather",
+      "catalogId": "armes-melee-phoenix-pck-08-feather",
+      "name": "Phoenix PCK-08 Feather",
+      "source": {
+        "name": "K Feather",
+        "sourceTitle": "k Feather",
+        "sourcePage": 3,
+        "sourceParagraph": 15,
+        "manufacturer": "Phoenix",
+        "family": "Couteaux",
+        "damage": 3,
+        "range": null,
+        "magazine": null,
+        "price": 450,
+        "priceLabel": "450 $",
+        "properties": [
+          "Irradiant",
+          "Choc EMP"
+        ],
+        "loreOriginal": "Ce couteau haute technologie de Phoenix est doté d’un laser haute température qui fait irradier sa lame. Il est aussi équipé d’un système d’onde de choc EMP quand quelque chose coupe son laser central.",
+        "notes": [
+          "Correspondance visuelle exacte avec compendium/images/manual/equipement-003-phoenix-pck-08-feather.webp; employer fiche existante Feather, source de référence utilisateur prix450 dégâts3."
+        ],
+        "illustration": {
+          "part": "word/media/image21.png",
+          "width": 2641,
+          "height": 887,
+          "mode": "RGBA",
+          "sha256": "a789013afa103c1f9e547afb0a5288bddb85d36fb3f6568ee0b6a430e74c29c3"
+        }
+      },
+      "builder": {
+        "id": "armes-melee-phoenix-pck-08-feather",
+        "name": "Phoenix PCK-08 Feather",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": "",
+        "data": {
+          "Type": "Melee",
+          "DGT": "4",
+          "Portee": "Contact",
+          "Proprietes": "Perforant 1 ; cauterise"
+        }
+      },
+      "paragraphs": [
+        "Le PCK-08 Feather appartient à la face la plus technologique de Phoenix : une arme de contact compacte dont le tranchant assisté cherche à conserver une coupe nette malgré un format léger. La silhouette et le nom vendent la finesse, mais l’objet reste un véritable outil offensif qui demande entretien et alimentation adaptés.",
+        "Le Feather trouve sa place auprès d’utilisateurs qui veulent une lame moderne sans porter une arme longue ou ouvertement militaire. Sa technologie améliore le comportement du tranchant contre la matière et limite certaines conséquences physiques de la coupe, mais elle ne transforme ni le geste ni le porteur en combattant surnaturel."
+      ],
+      "illustration": {
+        "src": "images/manual/equipement-003-phoenix-pck-08-feather.webp",
+        "alt": "Phoenix PCK-08 Feather",
+        "sourcePart": "word/media/image21.png",
+        "sourceSha256": "a789013afa103c1f9e547afb0a5288bddb85d36fb3f6568ee0b6a430e74c29c3",
+        "sha256": "70eb1bede4fc9cf2a841c4fee6d07245fc0edb78ed072f9eb20e1b1d744a1f63"
+      }
+    },
+    {
+      "key": "last-encounter",
+      "disposition": "preserve",
+      "articleId": "equipement-002-owl-ka-73-last-encounter",
+      "catalogId": "armes-melee-owl-ka-73-last-encounter",
+      "name": "Owl KA-73 Last Encounter",
+      "source": {
+        "name": "KB Last Encounter",
+        "sourceTitle": "KB last Encounter",
+        "sourcePage": 4,
+        "sourceParagraph": 33,
+        "manufacturer": "Owl",
+        "family": "Katanas",
+        "damage": 7,
+        "range": null,
+        "magazine": null,
+        "price": 600,
+        "priceLabel": "600 $",
+        "properties": [
+          "Vibratoire"
+        ],
+        "loreOriginal": "Katana de Owl, très effilé, sa lame vibrante dégage une lueur bleutée quand elle s’active.",
+        "notes": [],
+        "illustration": {
+          "part": "word/media/image27.png",
+          "width": 2641,
+          "height": 603,
+          "mode": "RGBA",
+          "sha256": "13c9f9dc767f9da77e0b6a1a58fe5be2f05002ed59cd21a93b30bc810bb56ed2"
+        }
+      },
+      "builder": {
+        "id": "armes-melee-owl-ka-73-last-encounter",
+        "name": "Owl KA-73 Last Encounter",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 750,
+        "priceLabel": "750 $",
+        "effect": "",
+        "data": {
+          "Type": "Melee",
+          "DGT": "7",
+          "Portee": "Contact",
+          "Proprietes": "Fiable/Robuste en fiction"
+        }
+      },
+      "paragraphs": [
+        "Le KA-73 Last Encounter illustre le goût d’Owl pour les solutions de terrain sobres et endurantes. C’est une arme de contact conçue pour supporter les manipulations brutales, les chocs et le manque d’entretien mieux qu’un modèle plus sophistiqué dont l’électronique deviendrait son premier point faible.",
+        "Son nom de Last Encounter vise clairement le moment où la distance et les options ont disparu. On le retrouve donc naturellement auprès d’utilisateurs qui veulent une arme de secours crédible plutôt qu’un objet de prestige : sécurité privée, opérateurs isolés ou professionnels pour qui la continuité de service compte davantage que l’effet spectaculaire."
+      ],
+      "illustration": {
+        "src": "images/manual/equipement-002-owl-ka-73-last-encounter.webp",
+        "alt": "Owl KA-73 Last Encounter",
+        "sourcePart": "word/media/image27.png",
+        "sourceSha256": "13c9f9dc767f9da77e0b6a1a58fe5be2f05002ed59cd21a93b30bc810bb56ed2",
+        "sha256": "a6ef771201d7e35bb9c86530338f3da8448a13f6558dad810bbbd248a54fbbf9"
+      }
+    },
+    {
+      "key": "karas",
+      "disposition": "add",
+      "articleId": "equipement-363-raven-kb-karas",
+      "catalogId": "armes-melee-raven-kb-karas",
+      "name": "Raven KB Karas",
+      "source": {
+        "name": "KB Karas",
+        "sourceTitle": "KB Karas",
+        "sourcePage": 4,
+        "sourceParagraph": 33,
+        "manufacturer": "Raven",
+        "family": "Katanas",
+        "damage": 8,
+        "range": null,
+        "magazine": null,
+        "price": 650,
+        "priceLabel": "650 $",
+        "properties": [
+          "Précision fine",
+          "Visée Intégrée"
+        ],
+        "loreOriginal": "Katana de Ravencorp.  L’arme blanche la plus vendue. Solide et puissante, cette arme est si bien équilibrée qu’elle offre une précision fine dans son maniement.",
+        "notes": [
+          "Visée Intégrée existe comme forme texte dans le même canevas OOXML que Karas, position y=6942467 après Précision fine y=6312739; peut être une propriété de modèle restée dans la maquette. Ne pas lui inventer de bonus supplémentaire."
+        ],
+        "illustration": {
+          "part": "word/media/image29.png",
+          "width": 1343,
+          "height": 282,
+          "mode": "RGBA",
+          "sha256": "5a908e4f379dfeabdcabbb525e19d5c0a624216a8a4c14eebb22dfdfc4645811"
+        }
+      },
+      "builder": {
+        "id": "armes-melee-raven-kb-karas",
+        "name": "Raven KB Karas",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 650,
+        "priceLabel": "650 $",
+        "effect": "Le KB Karas est le katana de Raven, présenté comme l’arme blanche la plus vendue. Solide et puissant, il se distingue par son équilibre, qui permet une précision fine dans son maniement.",
+        "data": {
+          "Type": "Katanas",
+          "DGT": "8",
+          "Portee": "Contact",
+          "Proprietes": "Précision fine ; Visée Intégrée"
+        }
+      },
+      "paragraphs": [
+        "Le KB Karas est le katana de Raven, présenté comme l’arme blanche la plus vendue.",
+        "Solide et puissant, il se distingue par son équilibre, qui permet une précision fine dans son maniement."
+      ],
+      "illustration": {
+        "src": "images/manual/equipement-363-raven-kb-karas.webp",
+        "alt": "Raven KB Karas",
+        "sourcePart": "word/media/image29.png",
+        "sourceSha256": "5a908e4f379dfeabdcabbb525e19d5c0a624216a8a4c14eebb22dfdfc4645811",
+        "sha256": "dc2c9fbd55e8b510e4411edd2c05588dee04d9533624d5ace66c3add40eca34d"
+      }
+    },
+    {
+      "key": "golijagi",
+      "disposition": "add",
+      "articleId": "equipement-364-k-golijagi",
+      "catalogId": "armes-melee-k-golijagi",
+      "name": "K Golijagi",
+      "source": {
+        "name": "K Golijagi",
+        "sourceTitle": "K Golijagi",
+        "sourcePage": 5,
+        "sourceParagraph": 34,
+        "manufacturer": "Corée du Nord",
+        "family": "Couteaux",
+        "damage": 4,
+        "range": null,
+        "magazine": null,
+        "price": 300,
+        "priceLabel": "300 $",
+        "properties": [
+          "Biosteel"
+        ],
+        "loreOriginal": "Lame des soldats nord-coréens.  Faite en biosteel elle est indétectable par des détecteurs conventionnels.",
+        "notes": [
+          "Corée du Nord est une provenance du lore, pas un nom de fabricant établi. Image de logo image35.png."
+        ],
+        "illustration": {
+          "part": "word/media/image31.png",
+          "width": 2642,
+          "height": 730,
+          "mode": "RGBA",
+          "sha256": "acbbe1b5877e05f4c97e05822ae520e03104ad4da5a2b4b16a5122e2594b2530"
+        }
+      },
+      "builder": {
+        "id": "armes-melee-k-golijagi",
+        "name": "K Golijagi",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 300,
+        "priceLabel": "300 $",
+        "effect": "Le K Golijagi est la lame des soldats nord-coréens. Sa fabrication en Biosteel le rend indétectable par les détecteurs conventionnels.",
+        "data": {
+          "Type": "Couteaux",
+          "DGT": "4",
+          "Portee": "Contact",
+          "Proprietes": "Biosteel"
+        }
+      },
+      "paragraphs": [
+        "Le K Golijagi est la lame des soldats nord-coréens.",
+        "Sa fabrication en Biosteel le rend indétectable par les détecteurs conventionnels."
+      ],
+      "illustration": {
+        "src": "images/manual/equipement-364-k-golijagi.webp",
+        "alt": "K Golijagi",
+        "sourcePart": "word/media/image31.png",
+        "sourceSha256": "acbbe1b5877e05f4c97e05822ae520e03104ad4da5a2b4b16a5122e2594b2530",
+        "sha256": "f30227ebae19195cce73dafe763cf42f50724e6cbbbc229d29c0dbecf2dcc8bc"
+      }
+    },
+    {
+      "key": "claymore",
+      "disposition": "preserve",
+      "articleId": "equipement-005-raven-cl-038-claymore",
+      "catalogId": "armes-melee-raven-cl-038-claymore",
+      "name": "Raven CL-038 Claymore",
+      "source": {
+        "name": "SB Claymore",
+        "sourceTitle": "SB Claymore",
+        "sourcePage": 5,
+        "sourceParagraph": 34,
+        "manufacturer": "Raven",
+        "family": "Épées",
+        "damage": 8,
+        "range": null,
+        "magazine": null,
+        "price": 750,
+        "priceLabel": "750 $",
+        "properties": [
+          "Choc EMP",
+          "Précision fine"
+        ],
+        "loreOriginal": "Claymore moderne par Ravencorp. Solide et tranchante comme peu d’armes, elle délivre un courant désactivant les systèmes électriques.",
+        "notes": [],
+        "illustration": {
+          "part": "word/media/image32.png",
+          "width": 2642,
+          "height": 730,
+          "mode": "RGBA",
+          "sha256": "22f53a7918b80a001902690bffc7792fca2b7e7f0f5cac3f1aa9d1e1d4eb1b85"
+        }
+      },
+      "builder": {
+        "id": "armes-melee-raven-cl-038-claymore",
+        "name": "Raven CL-038 Claymore",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 750,
+        "priceLabel": "750 $",
+        "effect": "",
+        "data": {
+          "Type": "Melee",
+          "DGT": "8",
+          "Portee": "Contact",
+          "Proprietes": "EMP"
+        }
+      },
+      "paragraphs": [
+        "La CL-038 Claymore reprend la silhouette volontairement intimidante d’une grande lame et y ajoute la spécialité électronique que Raven décline sur une partie de son matériel d’intervention. Le résultat est une arme de contact pensée autant pour menacer un adversaire que pour rester pertinente face à de l’équipement moderne exposé.",
+        "Dans la gamme Raven, la Claymore évoque moins le duel élégant que l’outil de force destiné à une équipe lourde, un agent de sécurité ou un opérateur qui sait qu’il peut devoir combattre au milieu de drones, capteurs et interfaces. Son caractère EMP reste strictement technologique et ne vaut jamais comme propriété anti-magique."
+      ],
+      "illustration": {
+        "src": "images/manual/equipement-005-raven-cl-038-claymore.webp",
+        "alt": "Raven CL-038 Claymore",
+        "sourcePart": "word/media/image32.png",
+        "sourceSha256": "22f53a7918b80a001902690bffc7792fca2b7e7f0f5cac3f1aa9d1e1d4eb1b85",
+        "sha256": "06efb716e122bf496df06242002ec4756d46f050c5f29f9c95481374bf97fb63"
+      }
+    },
+    {
+      "key": "nextcalibur",
+      "disposition": "add",
+      "articleId": "equipement-365-owl-sb-nextcalibur",
+      "catalogId": "armes-melee-owl-sb-nextcalibur",
+      "name": "Owl SB Nextcalibur",
+      "source": {
+        "name": "SB Nextcalibur",
+        "sourceTitle": "SB Nextcalibur",
+        "sourcePage": 6,
+        "sourceParagraph": 35,
+        "manufacturer": "Owl",
+        "family": "Épées",
+        "damage": 7,
+        "range": null,
+        "magazine": null,
+        "price": 650,
+        "priceLabel": "650 $",
+        "properties": [
+          "Biosteel",
+          "Pliant"
+        ],
+        "loreOriginal": "Cette épée technologique vous permet de vous battre en mêlée avec style. L’épée peut changer de dureté et devenir flexible pour s’enrouler autour d’un bras ou dans un sac et son biosteel la rend indétectable.",
+        "notes": [
+          "Fabricant Owl identifié par le logo embarqué image40.png, la description ne le nomme pas."
+        ],
+        "illustration": {
+          "part": "word/media/image36.png",
+          "width": 2639,
+          "height": 585,
+          "mode": "RGBA",
+          "sha256": "d56c10d5f34d202eac358693e45f5dc4664c6cfa12a2fce8151e27b0f6816a1b"
+        }
+      },
+      "builder": {
+        "id": "armes-melee-owl-sb-nextcalibur",
+        "name": "Owl SB Nextcalibur",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 650,
+        "priceLabel": "650 $",
+        "effect": "La SB Nextcalibur est une épée technologique d’Owl dont la dureté peut changer. Sa lame peut devenir flexible pour s’enrouler autour d’un bras ou se ranger dans un sac. Son Biosteel la rend indétectable aux détecteurs conventionnels.",
+        "data": {
+          "Type": "Épées",
+          "DGT": "7",
+          "Portee": "Contact",
+          "Proprietes": "Biosteel ; Pliant"
+        }
+      },
+      "paragraphs": [
+        "La SB Nextcalibur est une épée technologique d’Owl dont la dureté peut changer.",
+        "Sa lame peut devenir flexible pour s’enrouler autour d’un bras ou se ranger dans un sac. Son Biosteel la rend indétectable aux détecteurs conventionnels."
+      ],
+      "illustration": {
+        "src": "images/manual/equipement-365-owl-sb-nextcalibur.webp",
+        "alt": "Owl SB Nextcalibur",
+        "sourcePart": "word/media/image36.png",
+        "sourceSha256": "d56c10d5f34d202eac358693e45f5dc4664c6cfa12a2fce8151e27b0f6816a1b",
+        "sha256": "cb74341965ab911da6223b938fae8c3f9ce49f213034596a2f6edcbe73565042"
+      }
+    },
+    {
+      "key": "khopesh",
+      "disposition": "add",
+      "articleId": "equipement-366-phoenix-sb-khopesh",
+      "catalogId": "armes-melee-phoenix-sb-khopesh",
+      "name": "Phoenix SB Khopesh",
+      "source": {
+        "name": "SB Khopesh",
+        "sourceTitle": "SB Khopesh",
+        "sourcePage": 6,
+        "sourceParagraph": 35,
+        "manufacturer": "Phoenix",
+        "family": "Épées",
+        "damage": 6,
+        "range": null,
+        "magazine": null,
+        "price": 715,
+        "priceLabel": "715 $",
+        "properties": [
+          "Irradiant",
+          "Photoedge"
+        ],
+        "loreOriginal": "Pourquoi ne pourrait-on pas se battre avec un Khépesh en 2035 ? Phoenixcorp vous propose la meilleure lame avec monofilament du marché !",
+        "notes": [],
+        "illustration": {
+          "part": "word/media/image37.png",
+          "width": 2640,
+          "height": 959,
+          "mode": "RGBA",
+          "sha256": "81349c5c82c8898ab5b0b00df77193d07e1d4bdf882764146b9d1dbcfcf34d95"
+        }
+      },
+      "builder": {
+        "id": "armes-melee-phoenix-sb-khopesh",
+        "name": "Phoenix SB Khopesh",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 715,
+        "priceLabel": "715 $",
+        "effect": "La SB Khopesh transpose chez Phoenix la silhouette du khépesh dans l’armement de 2035. Phoenix équipe cette lame irradiante d’un monofilament et la présente comme sa meilleure offre dans cette catégorie.",
+        "data": {
+          "Type": "Épées",
+          "DGT": "6",
+          "Portee": "Contact",
+          "Proprietes": "Irradiant ; Photoedge"
+        }
+      },
+      "paragraphs": [
+        "La SB Khopesh transpose chez Phoenix la silhouette du khépesh dans l’armement de 2035.",
+        "Phoenix équipe cette lame irradiante d’un monofilament et la présente comme sa meilleure offre dans cette catégorie."
+      ],
+      "illustration": {
+        "src": "images/manual/equipement-366-phoenix-sb-khopesh.webp",
+        "alt": "Phoenix SB Khopesh",
+        "sourcePart": "word/media/image37.png",
+        "sourceSha256": "81349c5c82c8898ab5b0b00df77193d07e1d4bdf882764146b9d1dbcfcf34d95",
+        "sha256": "098d916dc9a7686da05d09202dc8abf93305a1d305e9237e18afb90717bdfae2"
+      }
+    },
+    {
+      "key": "owl-circular",
+      "disposition": "add",
+      "articleId": "equipement-367-hache-circulaire-owl",
+      "catalogId": "armes-melee-hache-circulaire-owl",
+      "name": "Hache circulaire Owl",
+      "source": {
+        "name": "Hache circulaire Owl",
+        "sourceTitle": "SB Nextcalibur",
+        "sourcePage": 6,
+        "sourceParagraph": 36,
+        "manufacturer": "Owl",
+        "family": "Haches",
+        "damage": 4,
+        "range": null,
+        "magazine": 8,
+        "price": 850,
+        "priceLabel": "850 $",
+        "properties": [
+          "Dual mode (E)",
+          "Système rotatif"
+        ],
+        "loreOriginal": "Hache de combat par Owl. C’est une scie circulaire haute résistance aux chocs, elle peut s’utiliser bloquée comme une arme blanche ou en rotation.",
+        "notes": [
+          "La fiche porte le titre dupliqué SB Nextcalibur, incompatible avec sa description/image de hache. Le nom descriptif Hache circulaire Owl ne prétend pas être son nom canonique. Catalogue mentionne original Owl BA-09 Circular.png, mais fichier absent extraction et checkout, à rapprocher seulement après vérification visuelle."
+        ],
+        "illustration": {
+          "part": "word/media/image41.png",
+          "width": 2004,
+          "height": 3483,
+          "mode": "RGBA",
+          "sha256": "78aea439bb82a632bd34f16a2dc3ba354633cc5b8ef58686fbafd2186917d964"
+        }
+      },
+      "builder": {
+        "id": "armes-melee-hache-circulaire-owl",
+        "name": "Hache circulaire Owl",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 850,
+        "priceLabel": "850 $",
+        "effect": "Cette hache de combat d’Owl est construite autour d’une scie circulaire résistante aux chocs. Elle peut s’utiliser avec sa lame bloquée comme une arme blanche ou avec le système rotatif en fonctionnement.",
+        "data": {
+          "Type": "Haches",
+          "DGT": "4",
+          "Portee": "Contact",
+          "Proprietes": "Dual mode (E) ; Système rotatif",
+          "Cap.": "8"
+        }
+      },
+      "paragraphs": [
+        "Cette hache de combat d’Owl est construite autour d’une scie circulaire résistante aux chocs.",
+        "Elle peut s’utiliser avec sa lame bloquée comme une arme blanche ou avec le système rotatif en fonctionnement."
+      ],
+      "illustration": {
+        "src": "images/manual/equipement-367-hache-circulaire-owl.webp",
+        "alt": "Hache circulaire Owl",
+        "sourcePart": "word/media/image41.png",
+        "sourceSha256": "78aea439bb82a632bd34f16a2dc3ba354633cc5b8ef58686fbafd2186917d964",
+        "sha256": "7e5db42be471e99a3b4f2491d6b4a178dc0dfed948410f4c7244cc155659ca7f"
+      }
+    },
+    {
+      "key": "sun-axe",
+      "disposition": "preserve",
+      "articleId": "equipement-004-phoenix-ba-037-sun-axe",
+      "catalogId": "armes-melee-phoenix-ba-037-sun-axe",
+      "name": "Phoenix BA-037 Sun Axe",
+      "source": {
+        "name": "Phoenix BA-037 Sun Axe",
+        "sourceTitle": "SB Khopesh",
+        "sourcePage": 6,
+        "sourceParagraph": 36,
+        "manufacturer": "Phoenix",
+        "family": "Haches",
+        "damage": 7,
+        "range": null,
+        "magazine": null,
+        "price": 900,
+        "priceLabel": "900 $",
+        "properties": [
+          "Irradiant",
+          "Photoedge"
+        ],
+        "loreOriginal": "Hache de combat par Phoenix. Ce n’est pas la plus discrète des armes avec sa lame irradiante et brillante, ses couleurs sale et doré mais elle est diablement efficace !",
+        "notes": [
+          "La fiche porte le titre dupliqué SB Khopesh. Correspondance visuelle exacte avec compendium/images/manual/equipement-004-phoenix-ba-037-sun-axe.webp; employer fiche existante Sun Axe."
+        ],
+        "illustration": {
+          "part": "word/media/image42.png",
+          "width": 2641,
+          "height": 3454,
+          "mode": "RGBA",
+          "sha256": "4ccaa5478e75b6998d400d6cf9adb47bad63a1defcc4e9bc51c8a9e75b376984"
+        }
+      },
+      "builder": {
+        "id": "armes-melee-phoenix-ba-037-sun-axe",
+        "name": "Phoenix BA-037 Sun Axe",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 900,
+        "priceLabel": "900 $",
+        "effect": "",
+        "data": {
+          "Type": "Melee",
+          "DGT": "7",
+          "Portee": "Contact",
+          "Proprietes": "Perforant 1 ; cauterise"
+        }
+      },
+      "paragraphs": [
+        "La BA-037 Sun Axe transpose la philosophie Phoenix dans une arme plus lourde : une tête de hache assistée technologiquement, faite pour concentrer l’effort sur une zone de matière réduite. Là où le Feather mise sur la finesse, la Sun Axe assume une silhouette de brèche et une présence impossible à confondre avec un simple outil domestique.",
+        "Ce type d’arme attire autant les amateurs de matériel spectaculaire que les professionnels qui ont réellement besoin de frapper une protection, une porte ou un obstacle à courte distance. Son assistance énergétique reste toutefois une technologie matérielle : elle ne confère aucune propriété mystique au coup porté."
+      ],
+      "illustration": {
+        "src": "images/manual/equipement-004-phoenix-ba-037-sun-axe.webp",
+        "alt": "Phoenix BA-037 Sun Axe",
+        "sourcePart": "word/media/image42.png",
+        "sourceSha256": "4ccaa5478e75b6998d400d6cf9adb47bad63a1defcc4e9bc51c8a9e75b376984",
+        "sha256": "2d034b808db85be2fa01012ce7bc1d58d656b0be7adf2c0b603fcb2391dee500"
+      }
+    },
+    {
+      "key": "ravenspear",
+      "disposition": "preserve",
+      "articleId": "equipement-006-raven-sp-016-raven-spear",
+      "catalogId": "armes-melee-raven-sp-016-raven-spear",
+      "name": "Raven SP-016 Raven Spear",
+      "source": {
+        "name": "SP Ravenspear",
+        "sourceTitle": "SP Ravenspear",
+        "sourcePage": 7,
+        "sourceParagraph": 38,
+        "manufacturer": "Raven",
+        "family": "Lances",
+        "damage": 6,
+        "range": null,
+        "magazine": null,
+        "price": 1100,
+        "priceLabel": "1100 $",
+        "properties": [
+          "Choc EMP",
+          "Photoedge"
+        ],
+        "loreOriginal": "La Ravencorp. vous présente la ravenspear, loin d’être une lance classique, elle désactive l’électronique et tranche par sa lame monofilament !",
+        "notes": [],
+        "illustration": {
+          "part": "word/media/image45.png",
+          "width": 2641,
+          "height": 527,
+          "mode": "RGBA",
+          "sha256": "f66bfafdb0e4f847239ae17e75d902202fb9b3865933615ac15ab385751d69ed"
+        }
+      },
+      "builder": {
+        "id": "armes-melee-raven-sp-016-raven-spear",
+        "name": "Raven SP-016 Raven Spear",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 1100,
+        "priceLabel": "1 100 $",
+        "effect": "",
+        "data": {
+          "Type": "Melee",
+          "DGT": "6",
+          "Portee": "1,5 m",
+          "Proprietes": "EMP ; Perforant 1"
+        }
+      },
+      "paragraphs": [
+        "La SP-016 Raven Spear exploite l’allonge d’une arme d’hast tout en conservant la logique Raven de perturbation des équipements modernes. Son format tient l’adversaire à distance et donne à la tête de l’arme assez de masse et de structure pour travailler contre des protections ou des dispositifs accessibles.",
+        "C’est une pièce encombrante pour la vie civile mais cohérente dans une unité préparée, un périmètre de sécurité ou une opération où l’on peut assumer le port d’une arme longue. Sa combinaison de pénétration matérielle et d’effet EMP la rend spécialisée contre le monde technique, pas contre toutes les menaces indistinctement."
+      ],
+      "illustration": {
+        "src": "images/manual/equipement-006-raven-sp-016-raven-spear.webp",
+        "alt": "Raven SP-016 Raven Spear",
+        "sourcePart": "word/media/image45.png",
+        "sourceSha256": "f66bfafdb0e4f847239ae17e75d902202fb9b3865933615ac15ab385751d69ed",
+        "sha256": "68b2d2878d6c401a2e6b9fd2c5f0c1647dc247c4d2f0c62df3ee7b13eed28377"
+      }
+    },
+    {
+      "key": "new-partisan",
+      "disposition": "add",
+      "articleId": "equipement-368-insurrection-sp-new-partisan",
+      "catalogId": "armes-melee-insurrection-sp-new-partisan",
+      "name": "Insurrection SP New Partisan",
+      "source": {
+        "name": "SP New Partisan",
+        "sourceTitle": "SP New partisan",
+        "sourcePage": 7,
+        "sourceParagraph": 38,
+        "manufacturer": "Insurrection",
+        "family": "Armes d’hast",
+        "damage": 5,
+        "range": null,
+        "magazine": null,
+        "price": null,
+        "priceLabel": "Mission",
+        "properties": [
+          "Pliant"
+        ],
+        "loreOriginal": "Lance, épée, hache, la « new Partisan » est une arme de forme et de taille variable à imprimer par frittage par l’Insurrection, elle a généralement la même efficacité peu importe la forme choisie et peut se rétracter.",
+        "notes": [
+          "Prix non numérique Mission; ne pas convertir en achat gratuit."
+        ],
+        "illustration": {
+          "part": "word/media/image46.png",
+          "width": 2640,
+          "height": 483,
+          "mode": "RGBA",
+          "sha256": "d392644166adf8c3d631df23040cd6b2a8b44b459dab4e122d3fa483f8a6467c"
+        }
+      },
+      "builder": {
+        "id": "armes-melee-insurrection-sp-new-partisan",
+        "name": "Insurrection SP New Partisan",
+        "category": "Armes — Mêlée",
+        "priceMode": "reference",
+        "price": null,
+        "priceLabel": "Mission",
+        "effect": "La SP New Partisan est une arme de l’Insurrection produite par impression et frittage. Sa forme et sa taille peuvent varier : lance, épée ou hache conservent généralement la même efficacité. L’arme peut également se rétracter.",
+        "data": {
+          "Type": "Armes d’hast",
+          "DGT": "5",
+          "Portee": "Contact",
+          "Proprietes": "Pliant"
+        }
+      },
+      "paragraphs": [
+        "La SP New Partisan est une arme de l’Insurrection produite par impression et frittage.",
+        "Sa forme et sa taille peuvent varier : lance, épée ou hache conservent généralement la même efficacité. L’arme peut également se rétracter."
+      ],
+      "illustration": {
+        "src": "images/manual/equipement-368-insurrection-sp-new-partisan.webp",
+        "alt": "Insurrection SP New Partisan",
+        "sourcePart": "word/media/image46.png",
+        "sourceSha256": "d392644166adf8c3d631df23040cd6b2a8b44b459dab4e122d3fa483f8a6467c",
+        "sha256": "0e1cb06e528c36a69953f17c210f6b61f0ac8efaef7e005a1723fcef8b69e56e"
+      }
+    }
+  ],
+  "sourceFileSha256": "a9a51889dd44d61b805d3ec379fd3854d6848aec05cea64d5353239a1762eff2",
+  "illustrationMethod": "Original embedded PNG images transcoded losslessly to WebP at their original dimensions; transparency and visible pixels preserved; no generated or altered illustration."
+}

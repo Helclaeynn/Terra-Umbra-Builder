@@ -1,4 +1,15 @@
 export const MANUAL_ARTICLE_MEDIA={
+  'equipement-358-owl-k-owlclaws':{src:'images/manual/equipement-358-owl-k-owlclaws.webp',alt:"Owl K OwlClaws"},
+  'equipement-359-raven-k-blaclaws':{src:'images/manual/equipement-359-raven-k-blaclaws.webp',alt:"Raven K Blaclaws"},
+  'equipement-360-owl-k-resonancer':{src:'images/manual/equipement-360-owl-k-resonancer.webp',alt:"Owl K Resonancer"},
+  'equipement-361-raven-k-hellthorn':{src:'images/manual/equipement-361-raven-k-hellthorn.webp',alt:"Raven K Hellthorn"},
+  'equipement-362-phoenix-k-sunbeak':{src:'images/manual/equipement-362-phoenix-k-sunbeak.webp',alt:"Phoenix K SunBeak"},
+  'equipement-363-raven-kb-karas':{src:'images/manual/equipement-363-raven-kb-karas.webp',alt:"Raven KB Karas"},
+  'equipement-364-k-golijagi':{src:'images/manual/equipement-364-k-golijagi.webp',alt:"K Golijagi"},
+  'equipement-365-owl-sb-nextcalibur':{src:'images/manual/equipement-365-owl-sb-nextcalibur.webp',alt:"Owl SB Nextcalibur"},
+  'equipement-366-phoenix-sb-khopesh':{src:'images/manual/equipement-366-phoenix-sb-khopesh.webp',alt:"Phoenix SB Khopesh"},
+  'equipement-367-hache-circulaire-owl':{src:'images/manual/equipement-367-hache-circulaire-owl.webp',alt:"Hache circulaire Owl"},
+  'equipement-368-insurrection-sp-new-partisan':{src:'images/manual/equipement-368-insurrection-sp-new-partisan.webp',alt:"Insurrection SP New Partisan"},
   'guide-realite-nouveau-joueur':{
     src:'assets/gouvernement-preview/grande-californie.webp',
     alt:'Grande Californie',

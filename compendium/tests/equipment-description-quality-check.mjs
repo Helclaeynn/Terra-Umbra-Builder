@@ -90,7 +90,8 @@ for(const page of pages){
     if(texts.length!==expected.length||texts.some((text,index)=>text!==expected[index]))errors.push(`${page.title}: la description facts-only ne correspond pas exactement aux propriétés de source`);
   } else {
     sourceDriven++;
-    if(blocks.length<2)errors.push(`${page.title}: contenu source-driven incomplet (${blocks.length} paragraphes)`);
+    const minimum=page.catalog?.loreMethod==='source-document-extract'?1:2;
+    if(blocks.length<minimum)errors.push(`${page.title}: contenu source-driven incomplet (${blocks.length} paragraphes)`);
   }
 }
 if(errors.length)throw new Error(`Descriptions équipement invalides (${errors.length}) — ${errors.slice(0,80).join(' | ')}`);

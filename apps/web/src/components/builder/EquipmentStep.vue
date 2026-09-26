@@ -23,6 +23,7 @@ import {
   realityLifestyleBase,
   realityPriceSpec,
   recurringMonthlyCost,
+  specialRealityAcquisition,
   uniqueUid,
   type RealityItem,
   type RealityPurchase,
@@ -167,7 +168,7 @@ function pricedItem(item:RealityItem){
 function addStatus(item:RealityItem){
   if(!props.style)return {ok:false,reason:"Choisissez d’abord un Style"};
   if(item.neuro&&props.disadvantages.includes("unsinkable"))return {ok:false,reason:"Unsinkable interdit les Neuroprogrammes"};
-  if(!priceValid(item))return {ok:false,reason:"Prix à confirmer"};
+  if(!priceValid(item))return {ok:false,reason:specialRealityAcquisition(item)?"Prix à convenir avec le MJ":"Prix à confirmer"};
   return canAffordRealityPurchase(props.rules,state.value,props.style,props.edge,pricedItem(item));
 }
 function addPurchase(item:RealityItem){
@@ -926,7 +927,7 @@ function setCorporateSupportItem(itemId:string){
             <label class="permission-switch">
               <span>
                 <strong>Autorisation MJ — achats avancés</strong>
-                <small>Permet les achats au-delà de {{ money(rules.economy.advancedPurchaseThreshold) }}, avec l’accord du MJ. Ce réglage est commun aux deux catalogues.</small>
+                <small>Permet les achats au-delà de {{ money(rules.economy.advancedPurchaseThreshold) }} et les acquisitions « Mission » ou « Spécial », avec l’accord du MJ. Ce réglage est commun aux deux catalogues.</small>
               </span>
               <input v-model="state.mjAdvancedOverride" type="checkbox" role="switch" aria-label="Autorisation MJ pour les achats avancés" @change="notify" />
             </label>
@@ -962,8 +963,11 @@ function setCorporateSupportItem(itemId:string){
                     <span v-if="item.vehicle">Véhicule</span>
                     <span v-if="item.neuro">Neuroprogramme</span>
                   </div>
+                  <p v-if="specialRealityAcquisition(item)" class="rule-note">
+                    Acquisition « {{ item.priceLabel }} » : aucun prix public. Le prix et les conditions d’attribution sont à convenir avec le MJ. Renseignez le montant convenu et activez l’autorisation MJ pour les achats avancés.
+                  </p>
                   <label v-if="realityPriceSpec(item).configurable" class="price-config">
-                    Prix retenu
+                    {{ specialRealityAcquisition(item) ? 'Prix convenu avec le MJ' : 'Prix retenu' }}
                     <input
                       v-model="priceDrafts[item.id]"
                       type="number"
