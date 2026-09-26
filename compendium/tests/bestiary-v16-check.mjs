@@ -6,7 +6,7 @@ const DATA='compendium/data';
 const manifest=JSON.parse(fs.readFileSync(`${DATA}/manifest-v3.json`,'utf8'));
 const spec=manifest.datasets.find(x=>x.id==='bestiaire');
 if(!spec) throw new Error('Dataset bestiaire absent');
-if(spec.count!==263) throw new Error(`Bestiaire: ${spec.count} entrées, attendu 263`);
+if(spec.count!==281) throw new Error(`Bestiaire: ${spec.count} entrées, attendu 281`);
 
 let b64='';
 for(let i=0;i<spec.parts;i++){
@@ -18,12 +18,12 @@ const sha=crypto.createHash('sha256').update(b64).digest('hex');
 if(sha!==spec.sha256) throw new Error(`SHA bestiaire invalide ${sha} != ${spec.sha256}`);
 
 const rows=JSON.parse(zlib.gunzipSync(Buffer.from(b64,'base64')).toString('utf8'));
-if(rows.length!==263) throw new Error(`Bestiaire décodé: ${rows.length}, attendu 263`);
-if(new Set(rows.map(x=>x.id)).size!==263) throw new Error('IDs Bestiaire non uniques');
+if(rows.length!==281) throw new Error(`Bestiaire décodé: ${rows.length}, attendu 281`);
+if(new Set(rows.map(x=>x.id)).size!==281) throw new Error('IDs Bestiaire non uniques');
 
 const chapter1=rows.filter(x=>x.bestiary?.chapter?.startsWith('1.'));
 const chapter2=rows.filter(x=>x.bestiary?.chapter?.startsWith('2.'));
-if(chapter1.length!==131||chapter2.length!==132){
+if(chapter1.length!==131||chapter2.length!==150){
   throw new Error(`Répartition Bestiaire invalide: chapitre 1=${chapter1.length}, chapitre 2=${chapter2.length}`);
 }
 
@@ -76,4 +76,4 @@ if(wendigo.bestiary.chapter!=='2.10 Fléaux, Ruptures et Abominations') throw ne
 if(wendigo.bestiary.family!=='Vhodhal — la Famine Blanche') throw new Error('Wendigo: mauvaise famille');
 if(wendigo.tags.some(t=>/revenant/i.test(t))) throw new Error('Wendigo classé à tort parmi les Revenants');
 
-console.log(`Bestiaire V16 OK — ${rows.length} fiches · ${chapter1.length} Réalité · ${chapter2.length} Vérité · ${publicParagraphs} paragraphes publics Vérité · Dive présent · SHA ${sha.slice(0,12)}…`);
+console.log(`Bestiaire V17 OK — ${rows.length} fiches · ${chapter1.length} Réalité · ${chapter2.length} Vérité · ${publicParagraphs} paragraphes publics Vérité · Dive présent · SHA ${sha.slice(0,12)}…`);
