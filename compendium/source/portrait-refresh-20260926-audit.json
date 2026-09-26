@@ -1,0 +1,4473 @@
+{
+  "version": 1,
+  "archives": {
+    "TUC_ portraits pègre et mafia.zip": 122,
+    "TUC_portrait gouvernementaux.zip": 79,
+    "TUC_portraits religieux.zip": 46
+  },
+  "arbitrages": {
+    "Carla Arellano Fellix": "Même personnage que Clara Arellano-Felix : choix utilisateur.",
+    "Sherry MacLann": "Personnage distinct de Shanny MacLann : choix utilisateur.",
+    "Dumitra Vladimirescu": "Même personnage que Dumitra Mironescu : choix utilisateur."
+  },
+  "conversion": {
+    "format": "WebP",
+    "quality": 90,
+    "method": 6,
+    "resize": false,
+    "exifOrientationApplied": true,
+    "metadataRemoved": true
+  },
+  "items": [
+    {
+      "key": "01-001",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "faction pègre (mafia de la réserve)_ faction pègre (cartel  Sinaloa)_John Sandrock_faction loup garou (pelage roux) Kaashtay.png",
+      "group": "pegre",
+      "action": "replace",
+      "name": "John SANDROCK",
+      "targets": [
+        "pnj-147-john-sandrock"
+      ],
+      "visibility": "public",
+      "sha256Original": "7c02f3f88034a57f3656ba7eca8645820a151ca3879a1207e8cba15068d3b5fe",
+      "src": "images/portraits/lot-3/public/portrait-01-001-7c02f3f880.webp",
+      "width": 3060,
+      "height": 4572,
+      "webpBytes": 2118278,
+      "sha256Webp": "3a4fb06d0188a1d06a97f28ed11ab042a426b14db0ebc4b2200b550e203e5855"
+    },
+    {
+      "key": "01-002",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction corporation (Nextar)_Willow O'Donnel _faction pègre (Irlandais).jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Willow O'Donnel",
+      "targets": [
+        "pnj-portraits-corporations-willow-o-donnel"
+      ],
+      "visibility": "public",
+      "sha256Original": "7ff102139a356a785cbe0cecdb837d604eaf9394835f3ab607dc4af0e4ac8f3d",
+      "src": "images/portraits/lot-3/public/portrait-01-002-7ff102139a.webp",
+      "width": 712,
+      "height": 949,
+      "webpBytes": 93990,
+      "sha256Webp": "d0774cac09f0041b703ffbf4fc0e84b0eed2edd507bb5e33c33f5f530cb42e35"
+    },
+    {
+      "key": "01-003",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction corporation first lawyers inc)_faction pègre (clan arts martiaux_clan Ryong) Tokko Sung-Ryung.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Tokko Sung-Ryung",
+      "targets": [
+        "pnj-portraits-corporations-tokko-sung-ryung"
+      ],
+      "visibility": "public",
+      "sha256Original": "f58d0e78dacd0c15d66bdf3070c555e245f33573fa608d7f893dc539c9f06a87",
+      "src": "images/portraits/lot-3/public/portrait-01-003-f58d0e78da.webp",
+      "width": 956,
+      "height": 1173,
+      "webpBytes": 132086,
+      "sha256Webp": "4a5e14c1a60650cffe6e74af5a3d19c0805bf296fe288fea6ed7f42a91c1e288"
+    },
+    {
+      "key": "01-004",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction crawlers (cyppers)_ pègre (russes)_ Myderion Elletas_Myckael Hellinberg.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Myckael Hellinberg",
+      "targets": [
+        "pnj-aseryns-terres-temples-myckael-hellinberg-27"
+      ],
+      "visibility": "public",
+      "sha256Original": "4e14ca094a19cd16ab4be8c23f16b38e335200b744072a3d08dc34147ebf442a",
+      "src": "images/portraits/lot-3/public/portrait-01-004-4e14ca094a.webp",
+      "width": 2056,
+      "height": 2472,
+      "webpBytes": 333076,
+      "sha256Webp": "5c8407a7166e98787da0906b863f09fdc5790051979b5624056cdac4aaf16b01"
+    },
+    {
+      "key": "01-005",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction crawlers (fixer meditech ) faction pègre (théâtre)_faction mage (faust)_ Ryan Foster_ Faust.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Ryan Foster",
+      "targets": [
+        "pnj-157-ryan-foster"
+      ],
+      "visibility": "public",
+      "sha256Original": "1770671e4e495dcfe7c2483eb07fc4a99626f5259f86a938e36bbabc6be8b394",
+      "src": "images/portraits/lot-3/public/portrait-01-005-1770671e4e.webp",
+      "width": 768,
+      "height": 1152,
+      "webpBytes": 147826,
+      "sha256Webp": "ba0ba071564466da78e5347711654ba5868de2a84a56ba9396006d2d7fc5b6c1"
+    },
+    {
+      "key": "01-006",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction mafieuse (cartel) Ernesto Hidalgo_faction extral (shaediri)_Shurlgaar.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Ernesto Hidalgo",
+      "targets": [
+        "personnages-verite-extrals-groupes-ernesto-hidalgo"
+      ],
+      "visibility": "public",
+      "sha256Original": "6f564ec9ab97c65a141a58a9186c650e0240fe36d23418574f875cb41e6de609",
+      "src": "images/portraits/lot-3/public/portrait-01-006-6f564ec9ab.webp",
+      "width": 1180,
+      "height": 1586,
+      "webpBytes": 172518,
+      "sha256Webp": "242d7f292cc96057a3a020cd4eb33d905f1703500acd515563f6a9791ccb4e02"
+    },
+    {
+      "key": "01-007",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction mafieuse (chinoise) WEI Lin_ faction extral (shaediri)_Shurulgaar.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Wei Lin",
+      "targets": [
+        "personnages-verite-extrals-groupes-wei-lin"
+      ],
+      "visibility": "public",
+      "sha256Original": "365babef1ca6c29be7897dfa553f6fe9d2c4f6f4f1a05952c05513cd99494133",
+      "src": "images/portraits/lot-3/public/portrait-01-007-365babef1c.webp",
+      "width": 2316,
+      "height": 2888,
+      "webpBytes": 593888,
+      "sha256Webp": "e455d9dc4a85139785578c1e6e4bc989e5827a82efcf048e82171800b62d21ed"
+    },
+    {
+      "key": "01-008",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction mafieuse (french connection) Youssef hareef_ faction vampires (Alghul Almalakiu).jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Youssef Hareef",
+      "targets": [
+        "personnages-verite-vampires-p12-youssef-hareef"
+      ],
+      "visibility": "public",
+      "sha256Original": "8a5b97e4d52754278d37bf266e9d2794ba61e9c3565ed6cc2c01d267ea8220b1",
+      "src": "images/portraits/lot-3/public/portrait-01-008-8a5b97e4d5.webp",
+      "width": 1137,
+      "height": 1516,
+      "webpBytes": 315828,
+      "sha256Webp": "0604bd97943effc77fd75d17a9b6fa29c9b8035023eae177ea68ab9cc3a17c40"
+    },
+    {
+      "key": "01-009",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction mafieuse (russe) Ilvania Yevgenievna_faction extral (shaediri)_Ishvaarahla_.png",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Ivana Yevgenievna",
+      "targets": [
+        "personnages-verite-extraterrestres-ivanna-yevgenievna"
+      ],
+      "visibility": "public",
+      "sha256Original": "28becd61f34629f0507fb8d5e7608f945cbdb8be77b5879aefe19d20290d688c",
+      "src": "images/portraits/lot-3/public/portrait-01-009-28becd61f3.webp",
+      "width": 801,
+      "height": 992,
+      "webpBytes": 150406,
+      "sha256Webp": "998ae9fb533b84587e15493acb0d7026ea53d2db5543aa2b42171b3b013152a8"
+    },
+    {
+      "key": "01-010",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (blanchisserie)_ Kong Xiulan_ faction art martiaux (alliance).jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Kong Xiulan",
+      "targets": [
+        "pnj-portraits-pegre-kong-xiulan"
+      ],
+      "visibility": "public",
+      "sha256Original": "42a36249c76600842205c6d0691ae6d09963adaf5747ff12d0377ecbf1e59b79",
+      "src": "images/portraits/lot-3/public/portrait-01-010-42a36249c7.webp",
+      "width": 773,
+      "height": 1040,
+      "webpBytes": 150252,
+      "sha256Webp": "bd64a279916834cb8ca072088219f710ca9bc9b79b56352636efdeb8f2b00e14"
+    },
+    {
+      "key": "01-011",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (cartel San Diejuana)_Carla Arellano Fellix.png",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Clara ARELLANO",
+      "targets": [
+        "pnj-pegre-clara-arellano"
+      ],
+      "visibility": "public",
+      "sha256Original": "cbd3fd54247c64713091faa0691248a4cc96cd84bea939c13d013fcf28260eb4",
+      "src": "images/portraits/lot-3/public/portrait-01-011-cbd3fd5424.webp",
+      "width": 3018,
+      "height": 4023,
+      "webpBytes": 1761892,
+      "sha256Webp": "5213cdff2c82b64b458336f5b18f118fdcb1b74a230448f570a0f5cfff3ddb8b"
+    },
+    {
+      "key": "01-012",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (cartel Sinaloa)_Dante Guzman.png",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Dante GUZMAN",
+      "targets": [
+        "pnj-pegre-dante-guzman"
+      ],
+      "visibility": "public",
+      "sha256Original": "e5b59d635cef83552a3d9b2dabf0f001ac56f3463aa3c877b7edf2eeb682df70",
+      "src": "images/portraits/lot-3/public/portrait-01-012-e5b59d635c.webp",
+      "width": 3072,
+      "height": 4608,
+      "webpBytes": 1472322,
+      "sha256Webp": "503ee862e7ae58603be8539fe68a107ad41a78ac30b31042db13a1f1357449b7"
+    },
+    {
+      "key": "01-013",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (cartel Sinaloa)_Jaquina Morales _faction angelique (archange Camaelle)_Jachim.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Jaquina Morales",
+      "targets": [
+        "personnages-verite-angelus-jaquina-morales"
+      ],
+      "visibility": "public",
+      "sha256Original": "9f07db704fcb83efdd6b5186ec623a69c9676b5d018f404664e8b5e1987aaa03",
+      "src": "images/portraits/lot-3/public/portrait-01-013-9f07db704f.webp",
+      "width": 1337,
+      "height": 1798,
+      "webpBytes": 131678,
+      "sha256Webp": "610e45fed55417daba57ef0ad89a55117d0b0b6ae8150aabd1f978dda3bce12c"
+    },
+    {
+      "key": "01-014",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (cartel Sinaloa)_Shanana_ Faction vampire (Huitzi)_quetzalcoatl.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Quetzalcoatl",
+      "targets": [
+        "personnages-verite-especes-quetzalcoatl"
+      ],
+      "visibility": "mj",
+      "sha256Original": "1d2d1165aeadf59d8afb9bad043c7be09a2b28c8e7d7a7626d47db44eeb7edc2",
+      "src": "images/portraits/lot-3/mj/portrait-01-014-1d2d1165ae.webp",
+      "width": 742,
+      "height": 1112,
+      "webpBytes": 69590,
+      "sha256Webp": "f8f1696150a54ff00e9f6ccfa5293fa3b02487b58f88dfc6b58f8322fc19d59e"
+    },
+    {
+      "key": "01-015",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (clan arts martiaux_Alliance Martiale) Boontung Chatichai.png",
+      "group": "pegre",
+      "action": "create",
+      "name": "Boontung Chatichai",
+      "targets": [
+        "pnj-portraits-pegre-boontung-chatichai"
+      ],
+      "visibility": "public",
+      "sha256Original": "4d687264408e0d1f3e41b8ec20f4b482323a82c254a7c552aab1766fff873132",
+      "src": "images/portraits/lot-3/public/portrait-01-015-4d68726440.webp",
+      "width": 1384,
+      "height": 1844,
+      "webpBytes": 386156,
+      "sha256Webp": "27544fbe86f0a59a6141f9504ee5c45c839ee6dc2ff7a2d8b0a68c63f6846fa9"
+    },
+    {
+      "key": "01-016",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (clan arts martiaux_Alliance Martiale) Gao Xue.png",
+      "group": "pegre",
+      "action": "create",
+      "name": "Gao Xue",
+      "targets": [
+        "pnj-portraits-pegre-gao-xue"
+      ],
+      "visibility": "public",
+      "sha256Original": "aba303992a8963be29f15fdcbdb0d1bec907dcd5cdd648d17fb30c9ef98e98b1",
+      "src": "images/portraits/lot-3/public/portrait-01-016-aba303992a.webp",
+      "width": 1312,
+      "height": 1748,
+      "webpBytes": 499958,
+      "sha256Webp": "dbcd28c0f2d070d14c8d304a7d4f7ab5d2850ed579a591ba3babd17db81886a5"
+    },
+    {
+      "key": "01-017",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (clan arts martiaux_Alliance Martiale) Hishido Sora.png",
+      "group": "pegre",
+      "action": "create",
+      "name": "Hishido Sora",
+      "targets": [
+        "pnj-portraits-pegre-hishido-sora"
+      ],
+      "visibility": "public",
+      "sha256Original": "79abc937c0078d82a3382c592fb5b079c7d2dec8d8732217e6a46b5ccfd0d977",
+      "src": "images/portraits/lot-3/public/portrait-01-017-79abc937c0.webp",
+      "width": 1064,
+      "height": 1416,
+      "webpBytes": 182258,
+      "sha256Webp": "d4bd6c5f9f77b4c248e3f4e51e3fd3d4880ca6796622a5abc186bcb465837569"
+    },
+    {
+      "key": "01-018",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (clan arts martiaux_Alliance Martiale) Kong Daoxian.png",
+      "group": "pegre",
+      "action": "create",
+      "name": "Kong Daoxian",
+      "targets": [
+        "pnj-portraits-pegre-kong-daoxian"
+      ],
+      "visibility": "public",
+      "sha256Original": "db04002c627e6d0c9911f05db418385d45cb4c2cb798d5ff4f730bdb5757dfd7",
+      "src": "images/portraits/lot-3/public/portrait-01-018-db04002c62.webp",
+      "width": 265,
+      "height": 354,
+      "webpBytes": 21922,
+      "sha256Webp": "637b07efab98b03e5c9df3c2a9cc7a76cfc49a88aae5102eb2e9249aee006ef9"
+    },
+    {
+      "key": "01-019",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (clan arts martiaux_Alliance Martiale) Kwon Woo-jin.png",
+      "group": "pegre",
+      "action": "create",
+      "name": "Kwon Woo-jin",
+      "targets": [
+        "pnj-portraits-pegre-kwon-woo-jin"
+      ],
+      "visibility": "public",
+      "sha256Original": "477b9e1decae8298ffa72cbef46547b9ee260fd7c09b8245f38a86ccd3892fff",
+      "src": "images/portraits/lot-3/public/portrait-01-019-477b9e1dec.webp",
+      "width": 1064,
+      "height": 1416,
+      "webpBytes": 156844,
+      "sha256Webp": "2985cb01429528799057da22676a7c1ae054a0dc665739d1f6b2412320466c8f"
+    },
+    {
+      "key": "01-020",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (clan arts martiaux_Alliance Martiale) Nguyen Manh dung.png",
+      "group": "pegre",
+      "action": "create",
+      "name": "Nguyen Manh Dung",
+      "targets": [
+        "pnj-portraits-pegre-nguyen-manh-dung"
+      ],
+      "visibility": "public",
+      "sha256Original": "044ae087c380a8fe23753e725d34a21eaab5908b9d007b3ee3ea97df30633d1f",
+      "src": "images/portraits/lot-3/public/portrait-01-020-044ae087c3.webp",
+      "width": 1008,
+      "height": 1344,
+      "webpBytes": 137468,
+      "sha256Webp": "9d6f4fa09d1811d79bb679d2d8f623ae7ff64979208e44b2806a5b53310f4312"
+    },
+    {
+      "key": "01-021",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (clan arts martiaux_Alliance Martiale)_Yasunaga Seitaro.png",
+      "group": "pegre",
+      "action": "create",
+      "name": "Yasunaga Seitaro",
+      "targets": [
+        "pnj-portraits-pegre-yasunaga-seitaro"
+      ],
+      "visibility": "public",
+      "sha256Original": "17773b5f2f274421e988cec3db5df8742b9a3c177ffa5a0d6b45f9cc2f699abd",
+      "src": "images/portraits/lot-3/public/portrait-01-021-17773b5f2f.webp",
+      "width": 1180,
+      "height": 1572,
+      "webpBytes": 166874,
+      "sha256Webp": "98760fa91dd631f51eccf3ef63ff9795ff220b20548a06980dfd195cea2cb04f"
+    },
+    {
+      "key": "01-022",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (clan arts martiaux_Alliance Martiale_faction fléau (sharith)_Faction crawlers (deathrunner) Keleena Todo.png",
+      "group": "pegre",
+      "action": "create",
+      "name": "Keleena Todo",
+      "targets": [
+        "pnj-portraits-pegre-keleena-todo"
+      ],
+      "visibility": "public",
+      "sha256Original": "299c0a685fe8f598689fdbda92f53af380c1ca50ab12b6b58cc692e2035797e0",
+      "src": "images/portraits/lot-3/public/portrait-01-022-299c0a685f.webp",
+      "width": 1724,
+      "height": 1972,
+      "webpBytes": 403218,
+      "sha256Webp": "b8aede03d0b63fad462bda9aa1f8f7134b28a5d90afc13b957c79950dca83c15"
+    },
+    {
+      "key": "01-023",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (clan arts martiaux_clan Huan ) Huan Lingxin.png",
+      "group": "pegre",
+      "action": "create",
+      "name": "Huan Lingxin",
+      "targets": [
+        "pnj-portraits-pegre-huan-lingxin"
+      ],
+      "visibility": "public",
+      "sha256Original": "86590d22310de806c04a20e49028a1e182556bd3f7f6adae20f1fe4e2a6633a1",
+      "src": "images/portraits/lot-3/public/portrait-01-023-86590d2231.webp",
+      "width": 1008,
+      "height": 1344,
+      "webpBytes": 306388,
+      "sha256Webp": "ac71f5a3672afd0425da805b959ba6d5ab9f8ced38fa27bbcc1b7afb235360aa"
+    },
+    {
+      "key": "01-024",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (clan arts martiaux_clan Ryong) Hye-Bin Donnel-Ryong_faction underlives.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Hye-Bin Donnel-Ryong",
+      "targets": [
+        "pnj-portraits-crawlers-hye-bin-donnel-ryong"
+      ],
+      "visibility": "public",
+      "sha256Original": "b16d9c640f771ee4df9621f591fbcee21e7d1bcccca9cc55d27bc663c68703a1",
+      "src": "images/portraits/lot-3/public/portrait-01-024-b16d9c640f.webp",
+      "width": 746,
+      "height": 908,
+      "webpBytes": 126324,
+      "sha256Webp": "7419acdd2ff6d3e46682d3ed0a27e08644e8ae8db254e5763ef5065dcd20f452"
+    },
+    {
+      "key": "01-025",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (clan arts martiaux_clan Ryong) Ryong Hye-Sun.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Ryong Hye-Sun",
+      "targets": [
+        "pnj-portraits-pegre-ryong-hye-sun"
+      ],
+      "visibility": "public",
+      "sha256Original": "d403d6da1f7d5177d5b8c505e20ee4a6eb9f4e06cec1411ad71ff9599a3eebe8",
+      "src": "images/portraits/lot-3/public/portrait-01-025-d403d6da1f.webp",
+      "width": 1604,
+      "height": 1756,
+      "webpBytes": 253034,
+      "sha256Webp": "2f347ea0d4558cc41bda21976b892d55f643d4a43ac9b00aeab370c08d183ff2"
+    },
+    {
+      "key": "01-026",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (clan arts martiaux_Clan Ryong)_faction corporatiste (dreampoint)_Ryong Do-Hyung.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Ryong Do-Hyung",
+      "targets": [
+        "pnj-portraits-corporations-ryong-do-hyung"
+      ],
+      "visibility": "public",
+      "sha256Original": "2ada9d888e026d8b7df09e3fbfcf0ceec4bb40459e9515c622a1240eaf149028",
+      "src": "images/portraits/lot-3/public/portrait-01-026-2ada9d888e.webp",
+      "width": 908,
+      "height": 1362,
+      "webpBytes": 156790,
+      "sha256Webp": "74dbf64e465eb2df8af7601343434d73734fafadbe9f45a3cbbaa783470e81be"
+    },
+    {
+      "key": "01-027",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (clan arts martiaux_Clan Shi) Egawa Shinzo.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Egawa Shinzo",
+      "targets": [
+        "pnj-portraits-pegre-egawa-shinzo"
+      ],
+      "visibility": "public",
+      "sha256Original": "a9f76d73b6f6613cfabb337bd570496bdd31513dae0f494c1eef6aa83befeee1",
+      "src": "images/portraits/lot-3/public/portrait-01-027-a9f76d73b6.webp",
+      "width": 2008,
+      "height": 2120,
+      "webpBytes": 458282,
+      "sha256Webp": "4601eb19ce58776b42e61d03ab338f6436db80cd66b39fb8a1e89e536165f39f"
+    },
+    {
+      "key": "01-028",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (clan arts martiaux_Clan Shi) Shi Xuegang.png",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Xuegang SHI",
+      "targets": [
+        "personnages-verite-chasseurs-xuegang-shi"
+      ],
+      "visibility": "public",
+      "sha256Original": "bc913f6f2bf068673f87ef79cc0be946472981fe6165f8d57f00bd4b5ba9f45c",
+      "src": "images/portraits/lot-3/public/portrait-01-028-bc913f6f2b.webp",
+      "width": 1500,
+      "height": 1876,
+      "webpBytes": 610792,
+      "sha256Webp": "280478323ad1c5db2bae341557c82e393e6cb5dec963abf975358e95e527833d"
+    },
+    {
+      "key": "01-029",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (clan arts martiaux_Clan Shi) Shi-Gu Jin.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Shi-Gu Jin",
+      "targets": [
+        "pnj-portraits-pegre-shi-gu-jin"
+      ],
+      "visibility": "public",
+      "sha256Original": "79031a51383a9a779c13834fde7962255ece612f82296f907a0dcbddeaac1ba7",
+      "src": "images/portraits/lot-3/public/portrait-01-029-79031a5138.webp",
+      "width": 500,
+      "height": 672,
+      "webpBytes": 48126,
+      "sha256Webp": "e9d9fd06e50dfe0a46130ec96c7ad506098b2369c1f0a4e7b3d5e847c7de450e"
+    },
+    {
+      "key": "01-030",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (clan arts martiaux_Clan Shi) Shi-Laodong Zexi.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Shi-Laodong Zexi",
+      "targets": [
+        "pnj-portraits-pegre-shi-laodong-zexi"
+      ],
+      "visibility": "public",
+      "sha256Original": "519b555f0a9ff4df98a36a58e51e5a18e586bf489edacf421513947f0517c79a",
+      "src": "images/portraits/lot-3/public/portrait-01-030-519b555f0a.webp",
+      "width": 625,
+      "height": 763,
+      "webpBytes": 45316,
+      "sha256Webp": "7b0df866487bb1d2e51ffce6994e96b72a536df6f70c1ef74a0ce781c4e0def0"
+    },
+    {
+      "key": "01-031",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (clan arts martiaux_Clan Shi) shi-Xiong Chun.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Shi-Xiong Chun",
+      "targets": [
+        "pnj-portraits-pegre-shi-xiong-chun"
+      ],
+      "visibility": "public",
+      "sha256Original": "07116f3b3b6281bcd8c3235c51fcf4a867c0b27ca559861fc5b2ddb5e25db334",
+      "src": "images/portraits/lot-3/public/portrait-01-031-07116f3b3b.webp",
+      "width": 2620,
+      "height": 2792,
+      "webpBytes": 646968,
+      "sha256Webp": "b15b84f380bfea2eb58274db6019b6a311e2e076d506f2c4521aa593bdd8b74e"
+    },
+    {
+      "key": "01-032",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (clan arts martiaux_Clan Shi) Shi-Zhan Zheong Ju.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Shi-Zhan Zheong Ju",
+      "targets": [
+        "pnj-portraits-pegre-shi-zhan-zheong-ju"
+      ],
+      "visibility": "public",
+      "sha256Original": "26f6c23af6db55d0663c1a2b5b8ddf10aee2b2b1e4b8445a7f4f161d332a9464",
+      "src": "images/portraits/lot-3/public/portrait-01-032-26f6c23af6.webp",
+      "width": 1215,
+      "height": 1467,
+      "webpBytes": 151466,
+      "sha256Webp": "87d787ad7c615fdec0c89f1dc57c27d5a4fef366c6e775493fa731e1ab044235"
+    },
+    {
+      "key": "01-033",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (clan arts martiaux_Clan Shi) Shiung Lee-Jun.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Shiung Lee-Jun",
+      "targets": [
+        "pnj-portraits-pegre-shiung-lee-jun"
+      ],
+      "visibility": "public",
+      "sha256Original": "4070ae434d832310262d8e4a6cece0690c777f5d1b685fcf1359b52e377e039a",
+      "src": "images/portraits/lot-3/public/portrait-01-033-4070ae434d.webp",
+      "width": 2656,
+      "height": 2832,
+      "webpBytes": 578014,
+      "sha256Webp": "5ef619cbca34d682764753fc35679fb077f5e16dda69d7378a086a16ea947e50"
+    },
+    {
+      "key": "01-034",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (clan arts martiaux_Clan Shi)_faction chasseur (taoistes)_faction corporation (Nextar)  Shi Wei.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Wei SHI",
+      "targets": [
+        "pnj-corporations-wei-shi"
+      ],
+      "visibility": "public",
+      "sha256Original": "af71082cbfd8dcdd74dda315951b7a852d36fc8d16459d8b6d2b4c6be49657dd",
+      "src": "images/portraits/lot-3/public/portrait-01-034-af71082cbf.webp",
+      "width": 1608,
+      "height": 1812,
+      "webpBytes": 290278,
+      "sha256Webp": "4667bb57f659d41e258d0128afbd4b8bc969216e04863d11ec71dec03f7fb602"
+    },
+    {
+      "key": "01-035",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (Culte d'Echidna)_ faction exilés (culte d'Echidna)_ Kethyll.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Kathy Hill",
+      "targets": [
+        "pnj-grands-exiles-kathy-hill-54"
+      ],
+      "visibility": "public",
+      "sha256Original": "4a9d2d76c98be171e12f8399c7a9249b239af94d34e1f1c76e0075db54879b41",
+      "src": "images/portraits/lot-3/public/portrait-01-035-4a9d2d76c9.webp",
+      "width": 1564,
+      "height": 2086,
+      "webpBytes": 196892,
+      "sha256Webp": "3dc398c3a6a933c4616d4cdd5e7097675fff2539453a39132930c730d8272736"
+    },
+    {
+      "key": "01-036",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (irlandais) Finnian Ó Diomain.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Finnian Ó Diomain",
+      "targets": [
+        "pnj-portraits-pegre-finnian-o-diomain"
+      ],
+      "visibility": "public",
+      "sha256Original": "11d8b227125fdd2b95ac6ed2f5ce6321419fcf84215a8488d2ae6c7408682742",
+      "src": "images/portraits/lot-3/public/portrait-01-036-11d8b22712.webp",
+      "width": 1253,
+      "height": 1599,
+      "webpBytes": 281924,
+      "sha256Webp": "c7ae9772d38e905d4b691d93b7d158796dfc1a794abb177945d3bee9968a2b2d"
+    },
+    {
+      "key": "01-037",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (irlandais) Jonaethan O'Madagain.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Jonaethan O'Madagain",
+      "targets": [
+        "pnj-portraits-pegre-jonaethan-o-madagain"
+      ],
+      "visibility": "public",
+      "sha256Original": "4b04276da2a155ff2493693a5beac09455312a5bc702002d94f58db76b4f9717",
+      "src": "images/portraits/lot-3/public/portrait-01-037-4b04276da2.webp",
+      "width": 962,
+      "height": 1442,
+      "webpBytes": 261932,
+      "sha256Webp": "ed2c04760220a7ff42713182e1b6f29781056a3e5e2b7d9d385dd6a5e66cb942"
+    },
+    {
+      "key": "01-038",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (irlandais) Kyra Darnaby.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Kyra Darnaby",
+      "targets": [
+        "pnj-portraits-pegre-kyra-darnaby"
+      ],
+      "visibility": "public",
+      "sha256Original": "8a6ae035eacf04918bcbb4e449af502467d285e47c947fa3601c493cae3a73f5",
+      "src": "images/portraits/lot-3/public/portrait-01-038-8a6ae035ea.webp",
+      "width": 782,
+      "height": 1193,
+      "webpBytes": 126172,
+      "sha256Webp": "8e6e5c13970aae23abc2b1a168def9ac35cded38c30a4a0b39d80734a68ac3cb"
+    },
+    {
+      "key": "01-039",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (irlandais)_ Deaman MacEadhra.png",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Deaman Mac EADHA",
+      "targets": [
+        "pnj-pegre-deaman-mac-eadha"
+      ],
+      "visibility": "public",
+      "sha256Original": "c91fa9ed07d8019b3a74f63efcaa1a5fe4552c5c1ea8529f429bf730213ae322",
+      "src": "images/portraits/lot-3/public/portrait-01-039-c91fa9ed07.webp",
+      "width": 2192,
+      "height": 2560,
+      "webpBytes": 649882,
+      "sha256Webp": "ab57b518e58d3aff7cfaf5801b3fe32ba0a85f4a5fea5654b8c38bcecb47fae2"
+    },
+    {
+      "key": "01-040",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (italiens) Ancilla Bufalini.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Ancilla Bufalini",
+      "targets": [
+        "pnj-portraits-pegre-ancilla-bufalini"
+      ],
+      "visibility": "public",
+      "sha256Original": "e7f11750bc232c62724ba07a0e8c2a1df3eaf60ef6f3a3a3f5f024bc981a15ce",
+      "src": "images/portraits/lot-3/public/portrait-01-040-e7f11750bc.webp",
+      "width": 768,
+      "height": 1059,
+      "webpBytes": 130732,
+      "sha256Webp": "c882b6da65c585a20ebe7147810eacb4b866075d2db2278a6199477bc16cfb25"
+    },
+    {
+      "key": "01-041",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (mafia de la réserve)_ Muna_ faction mage (loge réserve)_Naste Estsan_ Jorogumo_Arachne.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Muna",
+      "targets": [
+        "pnj-loges-mages-muna-29"
+      ],
+      "visibility": "public",
+      "sha256Original": "9b49af9510243aeeba3e8546c50e9d715ff02abc9310260ae835468fd6f3f6f8",
+      "src": "images/portraits/lot-3/public/portrait-01-041-9b49af9510.webp",
+      "width": 822,
+      "height": 1233,
+      "webpBytes": 143050,
+      "sha256Webp": "b6f693c0c8cdba49a0b9073f99858c7ed5964ab4eeebe027fe612427d5f2bd91"
+    },
+    {
+      "key": "01-042",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (marché noir)_ faction mages (loge de Faust) Monikha Aldeberich.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Monikha Aldeberich",
+      "targets": [
+        "pnj-portraits-pegre-monikha-aldeberich"
+      ],
+      "visibility": "public",
+      "sha256Original": "bff19865e95043474a9394ff27b51f2a9b04fcbe34969d0bf204234f4eb4bd2b",
+      "src": "images/portraits/lot-3/public/portrait-01-042-bff19865e9.webp",
+      "width": 913,
+      "height": 1369,
+      "webpBytes": 184024,
+      "sha256Webp": "5dc0bd50016f0c48fd260dffd2da99b3e8742f085cc0d499d216e7ab5e24ec08"
+    },
+    {
+      "key": "01-043",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (marché noir)_ faction mages (loge de Faust) Rupert Sven andersen.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Rupert Sven Andersen",
+      "targets": [
+        "personnages-points-rencontre-rupert-sven-andersen"
+      ],
+      "visibility": "public",
+      "sha256Original": "c5d50055e7c68e52d3d03889e6dbc2f9d198ae35cb1f8aeb636c141c44e70a2f",
+      "src": "images/portraits/lot-3/public/portrait-01-043-c5d50055e7.webp",
+      "width": 470,
+      "height": 705,
+      "webpBytes": 65496,
+      "sha256Webp": "f665a2da253b793ab1250a603105f62b41da6536d5b39fa27a92c9ea7445c4c7"
+    },
+    {
+      "key": "01-044",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (marché noir)_ Richard Voggelstein.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Richard Voggelstein",
+      "targets": [
+        "pnj-portraits-pegre-richard-voggelstein"
+      ],
+      "visibility": "public",
+      "sha256Original": "b316916004f46b7fe097ae44f9810537e71cc6ac9f14cfd0d22581af5414721c",
+      "src": "images/portraits/lot-3/public/portrait-01-044-b316916004.webp",
+      "width": 625,
+      "height": 937,
+      "webpBytes": 142838,
+      "sha256Webp": "a254b7b13abcfdaf0860be26bebda81511fd775607b2d0deef4ad5140b34c152"
+    },
+    {
+      "key": "01-045",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (Sinaloa)_Rigobertho Arrabal_ faction exilés (cercle écarlate) Akharad.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Rigobertho Arrabal",
+      "targets": [
+        "pnj-grands-exiles-rigobertho-arrabal-50"
+      ],
+      "visibility": "public",
+      "sha256Original": "1eec6a8fced99c43ea018002728ed20257ac23200219b23b0e1eb2f11f2f9bfb",
+      "src": "images/portraits/lot-3/public/portrait-01-045-1eec6a8fce.webp",
+      "width": 803,
+      "height": 1117,
+      "webpBytes": 74538,
+      "sha256Webp": "4a989a386a476a8552c2ae16816ff2c39d04b324db459cd24aabda2307bd0f7c"
+    },
+    {
+      "key": "01-046",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (triades) jack Tang_ faction extral (alliance zaabor)_ Zeel'tan.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Jack Tang",
+      "targets": [
+        "personnages-verite-extraterrestres-zeelthan"
+      ],
+      "visibility": "public",
+      "sha256Original": "1aa02ed06a665bc44d6a7231a8364154439ec3fee11fff745a5722eedf0a9380",
+      "src": "images/portraits/lot-3/public/portrait-01-046-1aa02ed06a.webp",
+      "width": 915,
+      "height": 1221,
+      "webpBytes": 64890,
+      "sha256Webp": "92a4c9a130330ebda7abb615b8adc88977e1cc5f7c5b4619299f6c57e60fadf7"
+    },
+    {
+      "key": "01-047",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (triades) Xiao Zheng.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Zheng XIAO",
+      "targets": [
+        "pnj-pegre-zheng-xiao"
+      ],
+      "visibility": "public",
+      "sha256Original": "6f09e25104a0d1f1174defd01900a44bd03dab18db69047833b45a40e7010c8d",
+      "src": "images/portraits/lot-3/public/portrait-01-047-6f09e25104.webp",
+      "width": 809,
+      "height": 1213,
+      "webpBytes": 143890,
+      "sha256Webp": "70bccb4cd2534c42ed23494a47770e26522a3a8b7209471163140d4e8626ed71"
+    },
+    {
+      "key": "01-048",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (yakuza) Akanishi Michelle dite Higanbana_ faction loup garou (pelage brun).jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Michelle Akanishi",
+      "targets": [
+        "personnages-verite-pelages-michelle-akanishi"
+      ],
+      "visibility": "public",
+      "sha256Original": "36f485b5d736503e5d56389e0984dbe9e19835e884e73773af9b68d427aa68d7",
+      "src": "images/portraits/lot-3/public/portrait-01-048-36f485b5d7.webp",
+      "width": 633,
+      "height": 905,
+      "webpBytes": 139504,
+      "sha256Webp": "74b0b8ff38ea37506f26e2c60dd84fad8a1b59e3a9180405161c9c5f0e7fd4f4"
+    },
+    {
+      "key": "01-049",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (yakuza) Gustavo Shiba.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Gustavo Shiba",
+      "targets": [
+        "personnages-verite-humains-galactiques-gustavo-shiba"
+      ],
+      "visibility": "public",
+      "sha256Original": "c905d1d176a4c2a42d2276833012ab6378cc81a444c7460a5a12c740c7865981",
+      "src": "images/portraits/lot-3/public/portrait-01-049-c905d1d176.webp",
+      "width": 1504,
+      "height": 2004,
+      "webpBytes": 294370,
+      "sha256Webp": "2dfbf17068543313a2db453a94451f8360676d6ae132eff19aa7532e301c923a"
+    },
+    {
+      "key": "01-050",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (yakuza) Noya Kagami dite Mokuren_ faction extral (shaediri)_ Gwynnesgani.png",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Noya Kagami",
+      "targets": [
+        "personnages-verite-extrals-groupes-noya-kagami"
+      ],
+      "visibility": "public",
+      "sha256Original": "08b7e217f7f05a42289375968d1945480bb43af8024ef4d246e814d8960e0f7f",
+      "src": "images/portraits/lot-3/public/portrait-01-050-08b7e217f7.webp",
+      "width": 2170,
+      "height": 2898,
+      "webpBytes": 1284300,
+      "sha256Webp": "6e9ad34e54005d5f8715803473ea29681306e003810fc04877be86e5c3117d76"
+    },
+    {
+      "key": "01-051",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (yakuza) Oshiro Ishikawa.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Ishikawa OSHIRO",
+      "targets": [
+        "pnj-pegre-ishikawa-oshiro"
+      ],
+      "visibility": "public",
+      "sha256Original": "d63edc45127889c68ff0a9e71670fd5d997be12e05be8e326e86b2dd6cd4115b",
+      "src": "images/portraits/lot-3/public/portrait-01-051-d63edc4512.webp",
+      "width": 742,
+      "height": 998,
+      "webpBytes": 211460,
+      "sha256Webp": "ec83c5f7e5965fb0e219f314559cf396e26fa0b5a2e9962d25d0e291e6ccabc8"
+    },
+    {
+      "key": "01-052",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_ faction pègre (yakuza) Shinoda Daisuke.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Shinoda Daisuke",
+      "targets": [
+        "pnj-portraits-pegre-shinoda-daisuke"
+      ],
+      "visibility": "public",
+      "sha256Original": "95c4b8dd20489d4a1df68430f2ada3398ef47b9b8317ab979844333b1c34cd2f",
+      "src": "images/portraits/lot-3/public/portrait-01-052-95c4b8dd20.webp",
+      "width": 768,
+      "height": 937,
+      "webpBytes": 124966,
+      "sha256Webp": "2ee7a0f8a8bd40b094b6d7909c68731119bdaa5749bf7594e3360b9551a18b1b"
+    },
+    {
+      "key": "01-053",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction chasseurs (Table ronde Camelot) Hector_ faction pègre (yakuza)_Mizaki Hojo.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Mizaki Hojo",
+      "targets": [
+        "pnj-portraits-pegre-mizaki-hojo"
+      ],
+      "visibility": "public",
+      "sha256Original": "8ede89e957e933496f6b3bcf6440efa45918cd946e20a7de26e552aa73c2fed9",
+      "src": "images/portraits/lot-3/public/portrait-01-053-8ede89e957.webp",
+      "width": 1020,
+      "height": 1279,
+      "webpBytes": 168606,
+      "sha256Webp": "f5aad3222fdfd20a5f7e0d317b9a13eeba66ce53f2319b7e59979703c48bdadd"
+    },
+    {
+      "key": "01-054",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction corporation et mafia_ Estee Levitch.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Estée LEVITCH",
+      "targets": [
+        "pnj-pegre-estee-levitch"
+      ],
+      "visibility": "public",
+      "sha256Original": "6c459a47a7a36a7bccdbc3a1ce77ed10f46655f54c155dc09ff2c0666198238d",
+      "src": "images/portraits/lot-3/public/portrait-01-054-6c459a47a7.webp",
+      "width": 2536,
+      "height": 3380,
+      "webpBytes": 403348,
+      "sha256Webp": "f2c51adc050803770f1b2d5fe6dab12f64e199a48362957a9913bc4cd306e754"
+    },
+    {
+      "key": "01-055",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (blanchisserie ) Vadim Almeida_ faction chasseurs (Table ronde) Lancelot.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Vadim Almeida",
+      "targets": [
+        "pnj-portraits-pegre-vadim-almeida"
+      ],
+      "visibility": "public",
+      "sha256Original": "3c4e738b1d95e38b2a12c5ec12b6a7591ff187e376d7473e753023daed1a995f",
+      "src": "images/portraits/lot-3/public/portrait-01-055-3c4e738b1d.webp",
+      "width": 1081,
+      "height": 1401,
+      "webpBytes": 237932,
+      "sha256Webp": "8393a3ca770497393fc17bc15680a7e06769d6a06796e4690f600dab02a64ead"
+    },
+    {
+      "key": "01-056",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (Blanchisserie)  Barret Kelvin_ faction Angelus (Archange Barachiel) Barachiel_ faction chasseurs (Association).jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Barret KELVIN",
+      "targets": [
+        "pnj-139-barret-kelvin"
+      ],
+      "visibility": "public",
+      "sha256Original": "e60070b5c0c9d5bc60652365204e0b60ccf891b81b9d2e0d96e64d7e728d4f72",
+      "src": "images/portraits/lot-3/public/portrait-01-056-e60070b5c0.webp",
+      "width": 975,
+      "height": 1268,
+      "webpBytes": 244456,
+      "sha256Webp": "8118e6c69261be4a6f11952b9a663968652ca5b23d8fb067c20305d401d82f03"
+    },
+    {
+      "key": "01-057",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (Blanchisserie) Ariana Lenitz _ faction Angelus (Archange Raziel) Razielle.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Ariana Lenitz",
+      "targets": [
+        "personnages-verite-angelus-ariana-lenitz"
+      ],
+      "visibility": "public",
+      "sha256Original": "53fc2721b3cd2acef15b623c60be86ad6985c4ef666414677826aabfe8000d9a",
+      "src": "images/portraits/lot-3/public/portrait-01-057-53fc2721b3.webp",
+      "width": 929,
+      "height": 1303,
+      "webpBytes": 128972,
+      "sha256Webp": "8b40fa3902de02fc57aed8e2a92962d8a2a0b18c571bc0b5a1d0059fc2d92ffb"
+    },
+    {
+      "key": "01-058",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (bmafia russe- bar Pink sun) Bery Draghici_ faction vampires (Lavandières).png",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Beryx Draghici",
+      "targets": [
+        "personnages-verite-vampires-p47-beryx-draghici"
+      ],
+      "visibility": "public",
+      "sha256Original": "471b71b8887815f9b490b0233c0e862c35ba2b9a9817d7ca7d8cb371f103ec95",
+      "src": "images/portraits/lot-3/public/portrait-01-058-471b71b888.webp",
+      "width": 712,
+      "height": 928,
+      "webpBytes": 108988,
+      "sha256Webp": "91670ad5395c9a37ba5fe6f29b237af71e899be451bc53e08cfd392d6c05fe73"
+    },
+    {
+      "key": "01-059",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (français) Laure kella_ faction psycholor.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Evangeline Laure KELLA",
+      "targets": [
+        "pnj-pegre-evangeline-laure-kella"
+      ],
+      "visibility": "public",
+      "sha256Original": "e9f652c14042b93366132782f161b6d852eb9d3a460ba6ccf2629c38e103ae63",
+      "src": "images/portraits/lot-3/public/portrait-01-059-e9f652c140.webp",
+      "width": 992,
+      "height": 1301,
+      "webpBytes": 163838,
+      "sha256Webp": "bcf3f0bc75eb4bceb1c54772216fd841dc6915b1bd78b497920a3abf69f0b0b0"
+    },
+    {
+      "key": "01-060",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (mafia irlandaise) Scott Ruthven_ faction vampirique (Krovni Rytsari )_ Sgair  Ruadhainn  Lodainn_ faction chasseurs (Table ronde Avalon) Gauvain.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Scott Ruthven",
+      "targets": [
+        "personnages-verite-vampires-p08-scott-ruthven"
+      ],
+      "visibility": "public",
+      "sha256Original": "1988607ae708a9ec2c3b794c43a627b19f31cc122ac61eb4702a3428d0e28053",
+      "src": "images/portraits/lot-3/public/portrait-01-060-1988607ae7.webp",
+      "width": 895,
+      "height": 1193,
+      "webpBytes": 152990,
+      "sha256Webp": "2e3b32f580c1897a619e879982a17b1b861f09521cd2c8750ff527f68c8b8faf"
+    },
+    {
+      "key": "01-061",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (mafia juive) Dvorah Zoegell_ tata Zoe.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Dvorah ZOEGELL",
+      "targets": [
+        "pnj-pegre-dvorah-zoegell"
+      ],
+      "visibility": "public",
+      "sha256Original": "d01a74473c17f6aaf251c66fce56fd0459c39a61d9fa4f324c72ca8c8312e25a",
+      "src": "images/portraits/lot-3/public/portrait-01-061-d01a74473c.webp",
+      "width": 873,
+      "height": 1114,
+      "webpBytes": 136302,
+      "sha256Webp": "b6f4d5c63237eb04d5ee5638664b06a32dc565656668a73e4da13d2b4775f762"
+    },
+    {
+      "key": "01-062",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (mafia juive) Elishama Len Shadin_ oncle Len.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Elishama SHADIN",
+      "targets": [
+        "pnj-pegre-elishama-shadin"
+      ],
+      "visibility": "public",
+      "sha256Original": "f73cf5491c660e946aa9448a1b6ce194c505c53edae20a4f6b2241fe44c6f317",
+      "src": "images/portraits/lot-3/public/portrait-01-062-f73cf5491c.webp",
+      "width": 718,
+      "height": 967,
+      "webpBytes": 83464,
+      "sha256Webp": "a71d0159028f4e252dd5989e81b9803f992efdb51a78b7002393e66b70010e85"
+    },
+    {
+      "key": "01-063",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (mafia juive) Myong Da-Bin.png",
+      "group": "pegre",
+      "action": "create",
+      "name": "Myong Da-Bin",
+      "targets": [
+        "pnj-portraits-pegre-myong-da-bin"
+      ],
+      "visibility": "public",
+      "sha256Original": "a32f5bea75317d10ecaa46d87a75702444fbe046cbade4a3a42e50e693873227",
+      "src": "images/portraits/lot-3/public/portrait-01-063-a32f5bea75.webp",
+      "width": 916,
+      "height": 1088,
+      "webpBytes": 125328,
+      "sha256Webp": "5813e35bcf594298ec071d5e86d45e55c4a6cada26fa1352eb93d3e92b2af631"
+    },
+    {
+      "key": "01-064",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (mafia juive) Ogust Mitchell Rothenstein.png",
+      "group": "pegre",
+      "action": "create",
+      "name": "Ogust Mitchell Rothenstein",
+      "targets": [
+        "pnj-portraits-pegre-ogust-mitchell-rothenstein"
+      ],
+      "visibility": "public",
+      "sha256Original": "6df518d78446c2866bf6bdec56ee2d48a0fa599f4f61296020aba89cf435383d",
+      "src": "images/portraits/lot-3/public/portrait-01-064-6df518d784.webp",
+      "width": 964,
+      "height": 1156,
+      "webpBytes": 206592,
+      "sha256Webp": "2130cd74b40c53e7123a6085d08f4f60ad7ce396a7fcbbc2173067e661e8cb51"
+    },
+    {
+      "key": "01-065",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (mafia juive) Yaan Von Hastengar.png",
+      "group": "pegre",
+      "action": "create",
+      "name": "Yaan Von Hastengar",
+      "targets": [
+        "pnj-portraits-pegre-yaan-von-hastengar"
+      ],
+      "visibility": "public",
+      "sha256Original": "3f318d69356c2eb43c80d765c504d6845caf3ac0bb62b7123540bda57debe8b9",
+      "src": "images/portraits/lot-3/public/portrait-01-065-3f318d6935.webp",
+      "width": 952,
+      "height": 1164,
+      "webpBytes": 172456,
+      "sha256Webp": "b258a51e48128b39ca08f7838ce07b895479ea76b8444accfb5efc07ee77c306"
+    },
+    {
+      "key": "01-066",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (mafia juive) Yanasha Von Hastengar.png",
+      "group": "pegre",
+      "action": "create",
+      "name": "Yanasha Von Hastengar",
+      "targets": [
+        "pnj-portraits-pegre-yanasha-von-hastengar"
+      ],
+      "visibility": "public",
+      "sha256Original": "2238db1c56e931a007916c5f6ca4c6e13454b5519bf89849e3a015f5e5e4e75b",
+      "src": "images/portraits/lot-3/public/portrait-01-066-2238db1c56.webp",
+      "width": 1004,
+      "height": 1148,
+      "webpBytes": 182766,
+      "sha256Webp": "a66ccd95814ccecd9ec4316f482d6b4948895a92fe00391211410e3889b38320"
+    },
+    {
+      "key": "01-067",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (mafia russe_associés) Bernedikte Jahr_theriantropes ( ours).jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Bernedikte Jahr",
+      "targets": [
+        "pnj-portraits-pegre-bernedikte-jahr"
+      ],
+      "visibility": "public",
+      "sha256Original": "cff4dbf04daae2fb4ba523c50ae3fc59df3b6c5d9ac15306703bcefb49c93581",
+      "src": "images/portraits/lot-3/public/portrait-01-067-cff4dbf04d.webp",
+      "width": 964,
+      "height": 1149,
+      "webpBytes": 119166,
+      "sha256Webp": "1b96df8b84c9e4f1afad6c315fba73b9459a653b84467e4c5218cb8edff70efa"
+    },
+    {
+      "key": "01-068",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (Reaper inc)_Xicolas Morillo_ faction vampires (Ihuito Meztzi)_Xicatl.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Xicolas Morillo",
+      "targets": [
+        "personnages-verite-vampires-p21-xicolas-morillo"
+      ],
+      "visibility": "public",
+      "sha256Original": "3a9eb70393b0650029492059ec1615a5f25a47311af25b18b8108f9dad7bcb27",
+      "src": "images/portraits/lot-3/public/portrait-01-068-3a9eb70393.webp",
+      "width": 2161,
+      "height": 2884,
+      "webpBytes": 374422,
+      "sha256Webp": "a5d8e179df3a702a25cf8b46f3cafce9ef8974d55d7afdc149bec23181382f17"
+    },
+    {
+      "key": "01-069",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (Russes) Alexander Zazelov _ faction Angelus (Archange Azazel) Azazel.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Alexander ZAZELOV",
+      "targets": [
+        "pnj-135-alexander-zazelov"
+      ],
+      "visibility": "public",
+      "sha256Original": "a3c0f22bf52f60feed95fa3da7f119dc94ca3aef977f9751e392e08725a092c3",
+      "src": "images/portraits/lot-3/public/portrait-01-069-a3c0f22bf5.webp",
+      "width": 679,
+      "height": 899,
+      "webpBytes": 95340,
+      "sha256Webp": "807232f87631a8cbd69a0009dd0f1cac4273bab11128f03ec237a733235eab72"
+    },
+    {
+      "key": "01-070",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "tUC_faction pègre (russes) Drasko Vladic.png",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Drasko VLADIC",
+      "targets": [
+        "pnj-pegre-drasko-vladic"
+      ],
+      "visibility": "public",
+      "sha256Original": "05eb2c669c04cabd032c904d3e32a07e92c36dc1942505a34b33eae14a67627e",
+      "src": "images/portraits/lot-3/public/portrait-01-070-05eb2c669c.webp",
+      "width": 1711,
+      "height": 2047,
+      "webpBytes": 546164,
+      "sha256Webp": "1bd84f2517706d1b42b9245c4f3f2085e8ba0498187e28f1406a26948af047e2"
+    },
+    {
+      "key": "01-071",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (russes) Gniewko Zviaguintsev.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Gniewko Zviaguintsev",
+      "targets": [
+        "pnj-portraits-pegre-gniewko-zviaguintsev"
+      ],
+      "visibility": "public",
+      "sha256Original": "944984fc4e1bb9c676cdb4c8c506c56ce3256b1676d7f1341264e7479b4fc0d6",
+      "src": "images/portraits/lot-3/public/portrait-01-071-944984fc4e.webp",
+      "width": 619,
+      "height": 890,
+      "webpBytes": 112140,
+      "sha256Webp": "02aca875c03e03345674dfc86227cac98abaff7857c7fc2179db9af26e2609a5"
+    },
+    {
+      "key": "01-072",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (russes) Grigoria Ravinsky_Grimm_faction fléau (thul)_faction exilés (thulkar).jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "« Grim », Grigoria RAVINSKY",
+      "targets": [
+        "pnj-133-grim-grigoria-ravinsky"
+      ],
+      "visibility": "public",
+      "sha256Original": "0d67e925933fc6c48d5df662d5a52a2cced720d15f0e0b3c53157d0e38b621ad",
+      "src": "images/portraits/lot-3/public/portrait-01-072-0d67e92593.webp",
+      "width": 629,
+      "height": 846,
+      "webpBytes": 113518,
+      "sha256Webp": "c65b7acd98a71eeabc81bb868b1dfc7188644df34c73c82f786a1c11545ee3f4"
+    },
+    {
+      "key": "01-073",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (Russes) Irina  _ faction Ombres (Babayaga ) Drevniy Yaga.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Irina",
+      "targets": [
+        "pnj-portraits-pegre-irina"
+      ],
+      "visibility": "public",
+      "sha256Original": "bdc40a898a3a6edae3350f90d8f35ce738a9cc0c9736c2e30a369357c47e9f10",
+      "src": "images/portraits/lot-3/public/portrait-01-073-bdc40a898a.webp",
+      "width": 1832,
+      "height": 2352,
+      "webpBytes": 585838,
+      "sha256Webp": "09d165c263cd0c2fcafd670bac8a4413ebaaa57ed0246c3cec70259f4e534119"
+    },
+    {
+      "key": "01-074",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "tUC_faction pègre (russes) Lev Michailovich.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Lev MICHAILOVICH",
+      "targets": [
+        "pnj-pegre-lev-michailovich"
+      ],
+      "visibility": "public",
+      "sha256Original": "e895a2c26c1d35680b4f419df75390e252d9a3479ec738fe4057a6a2afd435e6",
+      "src": "images/portraits/lot-3/public/portrait-01-074-e895a2c26c.webp",
+      "width": 673,
+      "height": 890,
+      "webpBytes": 104024,
+      "sha256Webp": "4dcc3cc137a2ded6edb203aa32d7778410975e111d9ba52167e7518522575581"
+    },
+    {
+      "key": "01-075",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (russes) Luka Nikitovich.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Luka Nikitovich",
+      "targets": [
+        "pnj-portraits-pegre-luka-nikitovich"
+      ],
+      "visibility": "public",
+      "sha256Original": "89082a99c97c56f09993eca4f0392a2b282e2e24f2e5b3b7156234779a626dd1",
+      "src": "images/portraits/lot-3/public/portrait-01-075-89082a99c9.webp",
+      "width": 586,
+      "height": 801,
+      "webpBytes": 124534,
+      "sha256Webp": "a1f073ea9307cfc85749645848b84ea8cf176a01f68d2d89a1ab5648e5e81370"
+    },
+    {
+      "key": "01-076",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (russes) Mala Ellis_faction aseryne (atlante) Malaelith Nolegos.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Mala Ellis",
+      "targets": [
+        "pnj-aseryns-terres-temples-mala-ellis-54"
+      ],
+      "visibility": "public",
+      "sha256Original": "c5011f0ec79121e0bdc3fbc37c1c21948396e73cfad96e7ba9c05c85cb7c68fd",
+      "src": "images/portraits/lot-3/public/portrait-01-076-c5011f0ec7.webp",
+      "width": 1852,
+      "height": 2472,
+      "webpBytes": 653462,
+      "sha256Webp": "5c4c1d4499f64b6a0e3736339b2e276602d502be227079af3cdb8f2b9e37f03b"
+    },
+    {
+      "key": "01-077",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (russes) Sergei Yakovich.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Sergei Yakovich",
+      "targets": [
+        "pnj-portraits-pegre-sergei-yakovich"
+      ],
+      "visibility": "public",
+      "sha256Original": "1665175d851bc31cc2cbb9476ee6e0744d1334113ca7a3b6d56fae40965abc96",
+      "src": "images/portraits/lot-3/public/portrait-01-077-1665175d85.webp",
+      "width": 718,
+      "height": 938,
+      "webpBytes": 127256,
+      "sha256Webp": "46a5249a6475dae2c49d451d6e6e9feaae39c78ef03553ef383d58d4a3aa63cb"
+    },
+    {
+      "key": "01-078",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "tUC_faction pègre (russes) Sin Yong-Joon.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Sin Yong-Joon",
+      "targets": [
+        "pnj-portraits-pegre-sin-yong-joon"
+      ],
+      "visibility": "public",
+      "sha256Original": "8c0997c899d30902427e94d9a5792f91f6cc7bb581589260aad19b50963242f1",
+      "src": "images/portraits/lot-3/public/portrait-01-078-8c0997c899.webp",
+      "width": 692,
+      "height": 845,
+      "webpBytes": 75316,
+      "sha256Webp": "dd78b7f6ad1a3661033d34dc030edd6ae27bbe61d3c2c109f79e8f40ab65f7ac"
+    },
+    {
+      "key": "01-079",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (russes) Svetlana Konstantinovna_faction Angelus (Messie).jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Svetlana Konstantinovna",
+      "targets": [
+        "personnages-verite-especes-svetlana-konstantinovna"
+      ],
+      "visibility": "public",
+      "sha256Original": "1755376830efb4f7643abeb9fe2df3308d39b769ccffe85782d91ba28ea57f53",
+      "src": "images/portraits/lot-3/public/portrait-01-079-1755376830.webp",
+      "width": 1844,
+      "height": 2384,
+      "webpBytes": 760870,
+      "sha256Webp": "e81419e900941f64bfff3f2f223a13c2fa89a6b840e85680f96432105aedbc33"
+    },
+    {
+      "key": "01-080",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (russes) Tashka Grigorievna.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Tashka Grigorievna",
+      "targets": [
+        "pnj-portraits-pegre-tashka-grigorievna"
+      ],
+      "visibility": "public",
+      "sha256Original": "7d9a2f465de517613526276209a5dbd53797d8dfde74c86b9ec454f9da919016",
+      "src": "images/portraits/lot-3/public/portrait-01-080-7d9a2f465d.webp",
+      "width": 862,
+      "height": 1069,
+      "webpBytes": 181588,
+      "sha256Webp": "596bd44e79674a230deac055e07e93cf3d8cac57fe3e78d6d67388faa0639fb4"
+    },
+    {
+      "key": "01-081",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (russes)_ Galya Borisnovna.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Galya Borisnovna",
+      "targets": [
+        "pnj-portraits-pegre-galya-borisnovna"
+      ],
+      "visibility": "public",
+      "sha256Original": "6e2072dc7e52fed9c68bf2f556c4b821a2d25cfbcb907276a49723052731c3a0",
+      "src": "images/portraits/lot-3/public/portrait-01-081-6e2072dc7e.webp",
+      "width": 804,
+      "height": 940,
+      "webpBytes": 158328,
+      "sha256Webp": "8dd18ea67829df5f653094c47ff8a0091fd82fc7fdf46e00673a5cc80069f37a"
+    },
+    {
+      "key": "01-082",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (russes)_Angelika Ruslanovna.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Katerinochkina Angelika Ruslanovna",
+      "targets": [
+        "personnages-verite-angelus-katerinochkina-angelika-ruslanovna"
+      ],
+      "visibility": "public",
+      "sha256Original": "6f71ee2d62cada15452621842d859a98df129a082649459a891ddf9ce373a9eb",
+      "src": "images/portraits/lot-3/public/portrait-01-082-6f71ee2d62.webp",
+      "width": 847,
+      "height": 1129,
+      "webpBytes": 70366,
+      "sha256Webp": "248351e303ea84f0721f40728fd12fc9f806adbd493b7cda74b7cfda8133c780"
+    },
+    {
+      "key": "01-083",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (russes)_Dragomir Mikhaïlovich_ faction angélique (archange Michel) épée Graphiel.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Dragomir Mikhaïlovich",
+      "targets": [
+        "personnages-verite-angelus-dragomir-mikhailovich"
+      ],
+      "visibility": "public",
+      "sha256Original": "d1333650a6fe1935e42b03749a75e7a680da6fada108bd1441e45f8c87817c5f",
+      "src": "images/portraits/lot-3/public/portrait-01-083-d1333650a6.webp",
+      "width": 1216,
+      "height": 1449,
+      "webpBytes": 208562,
+      "sha256Webp": "cfb9b2997196f6b9da1084d2327fb467c5c5bd52a6d231766197b353f2c28dfa"
+    },
+    {
+      "key": "01-084",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (russes)_Dylania Alfanasievna_ faction exilés (conseil des anciens)_Dylania Malrion.png",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Dylania Alfanasievna",
+      "targets": [
+        "pnj-grands-exiles-dylania-alfanasievna-02"
+      ],
+      "visibility": "public",
+      "sha256Original": "ca51751e2e761c8521179f848280d8ca80aa589564a16cacf8090e7f864111f3",
+      "src": "images/portraits/lot-3/public/portrait-01-084-ca51751e2e.webp",
+      "width": 1086,
+      "height": 1448,
+      "webpBytes": 293482,
+      "sha256Webp": "41aa05419b0e0f2882859546b43895d1b2b297a9476fe31a8c6627cad5a97d08"
+    },
+    {
+      "key": "01-085",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (russes)_Milda Tarasknovna.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Milda TARASKNOVNA",
+      "targets": [
+        "pnj-pegre-milda-tarasknovna"
+      ],
+      "visibility": "public",
+      "sha256Original": "1b19418e052b3b9276091c7ac05f4fef67a330b7aa52cea98723315ba2032705",
+      "src": "images/portraits/lot-3/public/portrait-01-085-1b19418e05.webp",
+      "width": 1441,
+      "height": 1922,
+      "webpBytes": 206570,
+      "sha256Webp": "0e20d7f66d8aad3349a1f0904a4785b8ab6dfbe234dfdda2fe19720dd564d340"
+    },
+    {
+      "key": "01-086",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (sinaloa cartel)_Eduardo Pozo.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Eduardo Pozo",
+      "targets": [
+        "pnj-portraits-pegre-eduardo-pozo"
+      ],
+      "visibility": "public",
+      "sha256Original": "d660763400853d469d2fca610f13885494f7a26348d9d0dd636959608e4e1616",
+      "src": "images/portraits/lot-3/public/portrait-01-086-d660763400.webp",
+      "width": 1668,
+      "height": 2224,
+      "webpBytes": 224254,
+      "sha256Webp": "3876ab40c376eba97304569042649ce6388804fc777038654eac43f6454cb014"
+    },
+    {
+      "key": "01-087",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (sinaloa) Juan Martín Reyes_ faction loup garou (pelage noir).jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Juan Martín Reyes",
+      "targets": [
+        "personnages-verite-pelages-juan-martin-reyes"
+      ],
+      "visibility": "public",
+      "sha256Original": "535e4a48d55ee200a47268bcf119e8e1b3966ee75b3a9d30fab687c4cfe7daf8",
+      "src": "images/portraits/lot-3/public/portrait-01-087-535e4a48d5.webp",
+      "width": 1516,
+      "height": 1798,
+      "webpBytes": 173250,
+      "sha256Webp": "f3d092bd578c38986b4c8858279c1243ec220c1efaebabd7b30ba64739381e66"
+    },
+    {
+      "key": "01-088",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (Sinaloa)_ Savira Anacruz.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Savira ANACRUZ",
+      "targets": [
+        "pnj-pegre-savira-anacruz"
+      ],
+      "visibility": "public",
+      "sha256Original": "0a590aef463d2df5d476988b4347bc9efcae10d39eed7c1e62134c486c35db1e",
+      "src": "images/portraits/lot-3/public/portrait-01-088-0a590aef46.webp",
+      "width": 2168,
+      "height": 2892,
+      "webpBytes": 452140,
+      "sha256Webp": "d025a28ea3dc82095357550b3377e760a4ebec44986b9c111e12b0037dd98afe"
+    },
+    {
+      "key": "01-089",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (Yakuza) Goro Ishikawa _Murton Blade_ faction Angelus (Archange Muriel) Muriel.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Murton Blade",
+      "targets": [
+        "personnages-verite-angelus-murton-blade"
+      ],
+      "visibility": "public",
+      "sha256Original": "87459c60a5ad667742619c90236a161e025bc78328380badbc3f3e3053efbbb7",
+      "src": "images/portraits/lot-3/public/portrait-01-089-87459c60a5.webp",
+      "width": 588,
+      "height": 720,
+      "webpBytes": 86756,
+      "sha256Webp": "bbcf1c545b32ab6613153854f11e013fc337872988b9e4a7bdf60e82d3a666b7"
+    },
+    {
+      "key": "01-090",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (yakuza)_Kisaragi Yumi_dite Himawari.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Kisaragi Yumi",
+      "targets": [
+        "pnj-portraits-pegre-kisaragi-yumi"
+      ],
+      "visibility": "public",
+      "sha256Original": "cd27ba54f791c89a3e70c0030e348abeafafc0ca039257a7d14f2cf1b2f0f767",
+      "src": "images/portraits/lot-3/public/portrait-01-090-cd27ba54f7.webp",
+      "width": 1096,
+      "height": 1442,
+      "webpBytes": 214202,
+      "sha256Webp": "2ece9aa9b57fe016aba306ac407e380c344ca59d182c7071e0838c94f1431ee3"
+    },
+    {
+      "key": "01-091",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (yakuza)_Kurohana Aiko_Kuro-yuri.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Kurohana Aiko",
+      "targets": [
+        "pnj-portraits-pegre-kurohana-aiko"
+      ],
+      "visibility": "public",
+      "sha256Original": "2fd5a6463a6b1d5f1771907c90638188c56380eef192baba572d98be4daa60fc",
+      "src": "images/portraits/lot-3/public/portrait-01-091-2fd5a6463a.webp",
+      "width": 1048,
+      "height": 1375,
+      "webpBytes": 160436,
+      "sha256Webp": "5fdd2d39481967cf7912d15ebac0a73d566159306e4b0a54077e80cb5b3e75c6"
+    },
+    {
+      "key": "01-092",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (yakuza)_Midori Sae_dite Tsubaki.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Midori Sae",
+      "targets": [
+        "pnj-portraits-pegre-midori-sae"
+      ],
+      "visibility": "public",
+      "sha256Original": "a11e29a410ec5e7f6d067af271698f91059922aa583a63dbcaac003aab129d23",
+      "src": "images/portraits/lot-3/public/portrait-01-092-a11e29a410.webp",
+      "width": 1006,
+      "height": 1188,
+      "webpBytes": 208818,
+      "sha256Webp": "443b0842fdd2db63d63fb3140ed9bc000c823dfc677b7be06b22ee3cc2aadefb"
+    },
+    {
+      "key": "01-093",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (yakuza)_Shingen Inukawa_faction loup garou (pelage brun) Inugami.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Shingen Inukawa",
+      "targets": [
+        "personnages-verite-pelages-shingen-inukawa"
+      ],
+      "visibility": "public",
+      "sha256Original": "346bc1e8192eea1c183a10c199bf623ea11c2ac25b3bc57c4db696056ad1cc4d",
+      "src": "images/portraits/lot-3/public/portrait-01-093-346bc1e819.webp",
+      "width": 1236,
+      "height": 1620,
+      "webpBytes": 292242,
+      "sha256Webp": "65713fbad7f25ec900a8fe8e38913f566945d9e1f3b9a3a88d007d7f6171068e"
+    },
+    {
+      "key": "01-094",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (yakuza)_Shinoda Fuyumi.png",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Fuyumi SHINODA",
+      "targets": [
+        "pnj-pegre-fuyumi-shinoda"
+      ],
+      "visibility": "public",
+      "sha256Original": "cdec84a2da98a52c9cc9371d62b333c42c093d4662b99b5d5ac1dc740363f93f",
+      "src": "images/portraits/lot-3/public/portrait-01-094-cdec84a2da.webp",
+      "width": 1960,
+      "height": 2048,
+      "webpBytes": 548024,
+      "sha256Webp": "f0d48ea7696f0e78b5e9da898971dcb3ce6938b23468cc5bdc59354745bf5716"
+    },
+    {
+      "key": "01-095",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (yakuza)_Shirogane Rei_dite Sakura.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Shirogane Rei",
+      "targets": [
+        "pnj-portraits-pegre-shirogane-rei"
+      ],
+      "visibility": "public",
+      "sha256Original": "4be04fb54903cd27b2ee7ce49ee662658ab5586732f62d46d982a5ee74dad6a4",
+      "src": "images/portraits/lot-3/public/portrait-01-095-4be04fb549.webp",
+      "width": 987,
+      "height": 1300,
+      "webpBytes": 167392,
+      "sha256Webp": "ad941f6ab005e3eccadf353c8940fbdbf99a972560b560c1e73c3ec89f638a0f"
+    },
+    {
+      "key": "01-096",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre (yakuza)_Toshiyuki Yodokawa.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Toshiyuki YODOKAWA",
+      "targets": [
+        "pnj-pegre-toshiyuki-yodokawa"
+      ],
+      "visibility": "public",
+      "sha256Original": "9d47922cfb30d67ef951b50d1edfa0573bf2db161a5cfddf6eeafc57760de153",
+      "src": "images/portraits/lot-3/public/portrait-01-096-9d47922cfb.webp",
+      "width": 2168,
+      "height": 2892,
+      "webpBytes": 364522,
+      "sha256Webp": "cdb162038bf61623205eaaf4e3a14cd448e36ff182e225e6d27620ca0511fd04"
+    },
+    {
+      "key": "01-097",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre_Kaydence Ó Dalaigh_ Camaelle_2.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Kaydence Ó DALAIGH",
+      "targets": [
+        "pnj-151-kaydence-o-dalaigh"
+      ],
+      "visibility": "public",
+      "sha256Original": "99ca1411d2806a6fceda468c247e77be9ba1c70a2811b6952747a52792b6ef04",
+      "src": "images/portraits/lot-3/public/portrait-01-097-99ca1411d2.webp",
+      "width": 2404,
+      "height": 3208,
+      "webpBytes": 680392,
+      "sha256Webp": "4eae17023a339316f3d0a1e280e3cf256a978e4cdb21f65cd4ed66a0d01cd2be"
+    },
+    {
+      "key": "01-098",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre_Olisha Harmon.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Olisha Harmon",
+      "targets": [
+        "personnages-verite-extraterrestres-olishia-harmon"
+      ],
+      "visibility": "public",
+      "sha256Original": "8a0f7393659b2b6a5bf5b2ce434bb3d0007ee587d26509aab9cd126f40714b0b",
+      "src": "images/portraits/lot-3/public/portrait-01-098-8a0f739365.webp",
+      "width": 571,
+      "height": 762,
+      "webpBytes": 84646,
+      "sha256Webp": "0b99afc499c357502dcbc68d6bd2571ef515677a9d2a4a872b74493371cf4aef"
+    },
+    {
+      "key": "01-099",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_faction pègre_Sergei Makarovich_(Duc d'Alabor Forneus_ Ziusudra ).jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Sergei Makarovich",
+      "targets": [
+        "pnj-temples-daemoniaques-sergei-makarovich"
+      ],
+      "visibility": "public",
+      "sha256Original": "438005bcf94398585f83df3d55bf8f43386bf2e9962e6a7f46ab9401415c1e50",
+      "src": "images/portraits/lot-3/public/portrait-01-099-438005bcf9.webp",
+      "width": 588,
+      "height": 723,
+      "webpBytes": 73854,
+      "sha256Webp": "b32aeb757121a4c1ddc8e79b2d5ff1981d421580afe394f57ec11bf6c04a66ea"
+    },
+    {
+      "key": "01-100",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (italiens)_Adelbert De Donato.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Adelbert De Donato",
+      "targets": [
+        "pnj-portraits-pegre-adelbert-de-donato"
+      ],
+      "visibility": "public",
+      "sha256Original": "f2261c7715845c58943ff1b82cb0d22749d43f188569dad8db82747f276c5aee",
+      "src": "images/portraits/lot-3/public/portrait-01-100-f2261c7715.webp",
+      "width": 851,
+      "height": 1114,
+      "webpBytes": 167390,
+      "sha256Webp": "2ef8c43fea38634418ca2420e79cfc7ce9f1d97d20eb69c4405afa0278e20225"
+    },
+    {
+      "key": "01-101",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (italiens)_Alessandra Luciano.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Alessandra LUCIANO",
+      "targets": [
+        "pnj-pegre-alessandra-luciano"
+      ],
+      "visibility": "public",
+      "sha256Original": "c3e5aa2a337e772278da9f7402beab91e4b001df369fc016d67a03bb60e3fa42",
+      "src": "images/portraits/lot-3/public/portrait-01-101-c3e5aa2a33.webp",
+      "width": 846,
+      "height": 1082,
+      "webpBytes": 87522,
+      "sha256Webp": "0ab6223a5a0d156963dd7d9fadcd596f9ecb6afa6a898fb437fce68635bcb186"
+    },
+    {
+      "key": "01-102",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (italiens)_Angelo Benetto.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Angelo Benetto",
+      "targets": [
+        "pnj-portraits-pegre-angelo-benetto"
+      ],
+      "visibility": "public",
+      "sha256Original": "8875f6087351c134d9645c4ef1ee93b9f3df8d182d975a3e48482e7733ae698b",
+      "src": "images/portraits/lot-3/public/portrait-01-102-8875f60873.webp",
+      "width": 570,
+      "height": 698,
+      "webpBytes": 89074,
+      "sha256Webp": "25d23c15b0cd22940bc1089410faabec79cde0cc2e3638785bb703b5e2562502"
+    },
+    {
+      "key": "01-103",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (italiens)_Anthonio Cavaletti.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Anthonio Cavaletti",
+      "targets": [
+        "pnj-portraits-pegre-anthonio-cavaletti"
+      ],
+      "visibility": "public",
+      "sha256Original": "75f491a75b06a6a6852adbf6b8313e473c716992cc91a9b06d204754097cfa94",
+      "src": "images/portraits/lot-3/public/portrait-01-103-75f491a75b.webp",
+      "width": 821,
+      "height": 1232,
+      "webpBytes": 174424,
+      "sha256Webp": "7c2347ba9aecfbb40564043f6be16d77b0483ec93bf6efa58d8e29a8d70a40e7"
+    },
+    {
+      "key": "01-104",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (italiens)_Billy Brigitta Rago.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Billy Brigitta Rago",
+      "targets": [
+        "pnj-portraits-pegre-billy-brigitta-rago"
+      ],
+      "visibility": "public",
+      "sha256Original": "6665d2a0072df19f455c3fd14cfd50a31da6508703bdeef4a799687338eb8bab",
+      "src": "images/portraits/lot-3/public/portrait-01-104-6665d2a007.webp",
+      "width": 782,
+      "height": 1173,
+      "webpBytes": 110630,
+      "sha256Webp": "89fdbc7dac5bc68909b743883d19b642bb0b489bc20d73bd8748616c28516a95"
+    },
+    {
+      "key": "01-105",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (italiens)_corporation (first lawyers)_Grazia Campbell.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Grazia Campbell",
+      "targets": [
+        "pnj-portraits-corporations-grazia-campbell"
+      ],
+      "visibility": "public",
+      "sha256Original": "c847f03ab4d2dd56fa44fc2c770d08959ac06cada1141c1c6bd4139118f9954d",
+      "src": "images/portraits/lot-3/public/portrait-01-105-c847f03ab4.webp",
+      "width": 742,
+      "height": 1114,
+      "webpBytes": 122878,
+      "sha256Webp": "30741a61d4b19ad622cc31dc53daff06f5871634d8cd026e6d4aabd16e831be6"
+    },
+    {
+      "key": "01-106",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (italiens)_Corveo Luciano_Kevin Milano.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Corveo LUCIANO",
+      "targets": [
+        "pnj-pegre-corveo-luciano"
+      ],
+      "visibility": "public",
+      "sha256Original": "2d83d6196c2ba9af8ad3b65f12dd776458cd32e50d1ed9637ae8688261ffa6bf",
+      "src": "images/portraits/lot-3/public/portrait-01-106-2d83d6196c.webp",
+      "width": 726,
+      "height": 971,
+      "webpBytes": 100976,
+      "sha256Webp": "697c606194d95f7629579313533cb3d94eac82fcd577b3d641c587f4ed85e683"
+    },
+    {
+      "key": "01-107",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (italiens)_Dalmazio Cavaletti.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Dalmazio Cavaletti",
+      "targets": [
+        "pnj-portraits-pegre-dalmazio-cavaletti"
+      ],
+      "visibility": "public",
+      "sha256Original": "8639e005590b9b490401385121c4e49cc83bc361222c39128ce520d2b68c8319",
+      "src": "images/portraits/lot-3/public/portrait-01-107-8639e00559.webp",
+      "width": 796,
+      "height": 1057,
+      "webpBytes": 163734,
+      "sha256Webp": "a2010ea672456e85008889041492d070947d183b699955b687653a8b7451ad9b"
+    },
+    {
+      "key": "01-108",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (italiens)_Dona Di _ faction humain galactiques (g-corporations) Dokannia Rwal.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Dona di Canerra",
+      "targets": [
+        "personnages-verite-humains-galactiques-dona-di-canerra"
+      ],
+      "visibility": "public",
+      "sha256Original": "6d877eee44c92f7a9f2b2ca71c30abd31a2c16d1d0669788fffd39f9bcb635f9",
+      "src": "images/portraits/lot-3/public/portrait-01-108-6d877eee44.webp",
+      "width": 542,
+      "height": 723,
+      "webpBytes": 46746,
+      "sha256Webp": "6dae781f6d9b803f5a02f83d8b3e629b5a0b9a89f209eaee61aa0b646ce68498"
+    },
+    {
+      "key": "01-109",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (italiens)_Georgio Milano.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Georgio Milano",
+      "targets": [
+        "pnj-portraits-pegre-georgio-milano"
+      ],
+      "visibility": "public",
+      "sha256Original": "ec28fdd86676b8579d6692788efc065f94c1c772521d8752a2409dd269d0336d",
+      "src": "images/portraits/lot-3/public/portrait-01-109-ec28fdd866.webp",
+      "width": 683,
+      "height": 905,
+      "webpBytes": 108260,
+      "sha256Webp": "1b78c09a1d87703554a4c68e8058d85a595e2865ca5968c14835009c584fc8e1"
+    },
+    {
+      "key": "01-110",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (italiens)_Henry Gallucci.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Henry Gallucci",
+      "targets": [
+        "pnj-portraits-pegre-henry-gallucci"
+      ],
+      "visibility": "public",
+      "sha256Original": "82973e65cab1a73e4a5d4b5bf16e3c7d6ccc8ae01a2f0904da449d370d708e30",
+      "src": "images/portraits/lot-3/public/portrait-01-110-82973e65ca.webp",
+      "width": 1428,
+      "height": 1904,
+      "webpBytes": 214248,
+      "sha256Webp": "725694488b7ec629e2986ba97d1fab76396cbdcc2074f62ec5b7faeea429113c"
+    },
+    {
+      "key": "01-111",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (italiens)_Kailanni Magliocco.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Kailanni Magliocco",
+      "targets": [
+        "pnj-portraits-pegre-kailanni-magliocco"
+      ],
+      "visibility": "public",
+      "sha256Original": "96dd7bfc0b26b29acf43fdfdf3e8eda21c9cff5f111e5e5c367ea75ee1d1d739",
+      "src": "images/portraits/lot-3/public/portrait-01-111-96dd7bfc0b.webp",
+      "width": 995,
+      "height": 1234,
+      "webpBytes": 160430,
+      "sha256Webp": "c4fd47e11283dab362acc7a5946d81ab158bd0b42b9f9acb2cd7d7d6f6dcbe96"
+    },
+    {
+      "key": "01-112",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (italiens)_kristina di Rigano.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Kristina di Rigano",
+      "targets": [
+        "pnj-portraits-pegre-kristina-di-rigano"
+      ],
+      "visibility": "public",
+      "sha256Original": "dbe0909a31e8510dddb6cbacc6b3d31fd270f7fdf9c27accc5ef1c24607d21f2",
+      "src": "images/portraits/lot-3/public/portrait-01-112-dbe0909a31.webp",
+      "width": 971,
+      "height": 1300,
+      "webpBytes": 181648,
+      "sha256Webp": "7f7588930018c4c20e3cac8496004004788538e1ee6b0e3f180a2c23ebf66668"
+    },
+    {
+      "key": "01-113",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (italiens)_Mariana Santorelli.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Mariana Santorelli",
+      "targets": [
+        "pnj-portraits-pegre-mariana-santorelli"
+      ],
+      "visibility": "public",
+      "sha256Original": "f0330fa46fdcb20ad1278ef0f663550fb2aa32fb0c65c9e666158df677b2e1f6",
+      "src": "images/portraits/lot-3/public/portrait-01-113-f0330fa46f.webp",
+      "width": 1160,
+      "height": 1519,
+      "webpBytes": 191486,
+      "sha256Webp": "e354f0700fe3ae7389fc53eca84916046896f2d71f1ab7ba32b0bebb7901c53c"
+    },
+    {
+      "key": "01-114",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (italiens)_Massimo Cappelletti.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Massimo Cappelletti",
+      "targets": [
+        "pnj-portraits-pegre-massimo-cappelletti"
+      ],
+      "visibility": "public",
+      "sha256Original": "a7238b0b881f1145580ff96532e483fdfd9fe3665f1c28e0840f30698eb78269",
+      "src": "images/portraits/lot-3/public/portrait-01-114-a7238b0b88.webp",
+      "width": 882,
+      "height": 1114,
+      "webpBytes": 330596,
+      "sha256Webp": "f815cfb04be8d9f3ba7fdd32df825da9708e3e45007f609e85cb5f99c3db5791"
+    },
+    {
+      "key": "01-115",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (italiens)_Renato Bellina.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Renato Bellina",
+      "targets": [
+        "pnj-portraits-pegre-renato-bellina"
+      ],
+      "visibility": "public",
+      "sha256Original": "42fc6ce3d7a08741afe68ebe704331495bff5c78cb07ed01e29ec979b317b01f",
+      "src": "images/portraits/lot-3/public/portrait-01-115-42fc6ce3d7.webp",
+      "width": 2028,
+      "height": 2768,
+      "webpBytes": 689430,
+      "sha256Webp": "b8dc9d6ba958f9be1776ff351cd26b8407903e6b14390ebe2d0861d7e87b3a98"
+    },
+    {
+      "key": "01-116",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (italiens)_Rick Reneldini_mink.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Rick Reneldini",
+      "targets": [
+        "pnj-portraits-pegre-rick-reneldini"
+      ],
+      "visibility": "public",
+      "sha256Original": "8f52e61db28560ba9b4c250f248ba3dc46f3d131941f1ea65a97cc5ea886c93e",
+      "src": "images/portraits/lot-3/public/portrait-01-116-8f52e61db2.webp",
+      "width": 815,
+      "height": 1087,
+      "webpBytes": 85492,
+      "sha256Webp": "1b09a6ac6f2b3670ab724412f2c4ab7c6de24867745103ce75245cc84b3628a5"
+    },
+    {
+      "key": "01-117",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (italiens)_Ruggero Bottini_ faction vampires (indépendant).jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Ruggero Bottini",
+      "targets": [
+        "personnages-verite-vampires-p46-ruggero-bottini"
+      ],
+      "visibility": "public",
+      "sha256Original": "78b26d012bef7dea50fb861c83fff49173dbd0698824b75989a5f83edaa49763",
+      "src": "images/portraits/lot-3/public/portrait-01-117-78b26d012b.webp",
+      "width": 1746,
+      "height": 2190,
+      "webpBytes": 199508,
+      "sha256Webp": "7c25fa2ee0d658f518f00d0df293b9547d49682ef024fcb64e0a9072081a10e2"
+    },
+    {
+      "key": "01-118",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (italiens)_Rydia Scaramucci_ faction exilés (Syndacat de jade)_Ryyd’sha.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Rydia Scaramucci",
+      "targets": [
+        "pnj-grands-exiles-rydia-scaramucci-12"
+      ],
+      "visibility": "public",
+      "sha256Original": "5b56b55f6d378119af679f68e04d15b9fe166d459e14b6336294a8bcbae6ee70",
+      "src": "images/portraits/lot-3/public/portrait-01-118-5b56b55f6d.webp",
+      "width": 1337,
+      "height": 1783,
+      "webpBytes": 206496,
+      "sha256Webp": "be48fee44e400de1e07e10ec716aa424802d2feb9ea786bc4bb4587c278dc3b5"
+    },
+    {
+      "key": "01-119",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (italiens)_Silverio La Bianca.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Silverio La Bianca",
+      "targets": [
+        "pnj-portraits-pegre-silverio-la-bianca"
+      ],
+      "visibility": "public",
+      "sha256Original": "a1ef7e02633d705e6297fe34e1634414432d9e6e99ada10e40008921edee89a9",
+      "src": "images/portraits/lot-3/public/portrait-01-119-a1ef7e0263.webp",
+      "width": 825,
+      "height": 1114,
+      "webpBytes": 152982,
+      "sha256Webp": "1164985e5bf7fdac0957169e92f4c90f306810ed6b19a4d91f996acbcc33325a"
+    },
+    {
+      "key": "01-120",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (italiens)_Valente Ringalgio2.jpg",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Valente RINALGIO",
+      "targets": [
+        "pnj-pegre-valente-rinalgio"
+      ],
+      "visibility": "public",
+      "sha256Original": "4a73de60c5ebe9b9687d6bde08883bf17ada6ea2194ef4bdc5436b1e3a513ef6",
+      "src": "images/portraits/lot-3/public/portrait-01-120-4a73de60c5.webp",
+      "width": 912,
+      "height": 1235,
+      "webpBytes": 182150,
+      "sha256Webp": "2ba3949892816b3de33c8bb35f9acbab0b888eeda98347c26577eef0ce373cbc"
+    },
+    {
+      "key": "01-121",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (italiens)_Vincenzo Morreti.jpg",
+      "group": "pegre",
+      "action": "create",
+      "name": "Vincenzo Morreti",
+      "targets": [
+        "pnj-portraits-pegre-vincenzo-morreti"
+      ],
+      "visibility": "public",
+      "sha256Original": "dd84cc46c00bbf97674c4e4f6115bc81dcd2ae8ace4ec469bf9c27d8e2d83498",
+      "src": "images/portraits/lot-3/public/portrait-01-121-dd84cc46c0.webp",
+      "width": 1376,
+      "height": 1866,
+      "webpBytes": 329336,
+      "sha256Webp": "b2a4921adbeb3263e9ea27612963818238e731c24b723fb72e353db0176b375e"
+    },
+    {
+      "key": "01-122",
+      "zip": "TUC_ portraits pègre et mafia.zip",
+      "filename": "TUC_pègre_ (mlafia italienne)_Lorenzo Luciano.png",
+      "group": "pegre",
+      "action": "replace",
+      "name": "Lorenzo LUCIANO",
+      "targets": [
+        "pnj-pegre-lorenzo-luciano"
+      ],
+      "visibility": "public",
+      "sha256Original": "0ddd3f4a73cb0e84b81147ed6d2fdcb4ea17ec7237d9793733217a8901453bc9",
+      "src": "images/portraits/lot-3/public/portrait-01-122-0ddd3f4a73.webp",
+      "width": 1522,
+      "height": 1844,
+      "webpBytes": 393356,
+      "sha256Webp": "694797d2e144d3538d89cb18c05385893df9839a32a0e5562b6e5c4383e791fa"
+    },
+    {
+      "key": "02-001",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC faction gouvernement (militaire) Kimberley VASQUEZ_ faction exilés (thulkars) Kiarn’kay.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Kimberley VASQUEZ",
+      "targets": [
+        "personnages-verite-chasseurs-kimberley-vasquez"
+      ],
+      "visibility": "public",
+      "sha256Original": "2851d3f340e783fc110696679fb3b639f958a8827503415ed5038a18a2f64328",
+      "src": "images/portraits/lot-3/public/portrait-02-001-2851d3f340.webp",
+      "width": 1826,
+      "height": 2434,
+      "webpBytes": 355748,
+      "sha256Webp": "6f88196fad1954d96da297950c9b62bb662b7280d062e9088cf597497fafb226"
+    },
+    {
+      "key": "02-002",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC faction gouvernement (police)_Appolo GAINES_ faction extral (GAAC)_Ark’Inas.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Apollo Gaines",
+      "targets": [
+        "personnages-verite-extraterrestres-arkinas"
+      ],
+      "visibility": "public",
+      "sha256Original": "7291d1ba86d10a2bcb7bc20d39d58519e03df13c86f4e2dc4ca92c89fb9e04fe",
+      "src": "images/portraits/lot-3/public/portrait-02-002-7291d1ba86.webp",
+      "width": 440,
+      "height": 586,
+      "webpBytes": 28992,
+      "sha256Webp": "31f1d026fdeb3bccce91a94d4a51a77bb160b6c16442f060b44f2b1d1465482d"
+    },
+    {
+      "key": "02-003",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ corporatiste_Gouvernement (diplomate Kenya)_ Ibubesi Sibusiso_theriantropes (lion).jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Ibubesi Sibusiso",
+      "targets": [
+        "pnj-portraits-gouvernement-ibubesi-sibusiso"
+      ],
+      "visibility": "public",
+      "sha256Original": "c093c62d34b0f478e43211d1beb47464ec2ca93a3b074272dc40d0d4ab18c612",
+      "src": "images/portraits/lot-3/public/portrait-02-003-c093c62d34.webp",
+      "width": 635,
+      "height": 953,
+      "webpBytes": 112996,
+      "sha256Webp": "adf4377f867c60d3d58b3236c7074177a119c3da7bc086de6a07662778d77267"
+    },
+    {
+      "key": "02-004",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernement  (cabinet présidentiel) Carmen HODGES_ faction extral (sororité ga)_ Elexaranda-2.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Carmen Hodges",
+      "targets": [
+        "personnages-verite-extraterrestres-carmen-hodges"
+      ],
+      "visibility": "public",
+      "sha256Original": "1897406c8240341b438b3165112a601650c7380cf1e6514db90f9950af73734d",
+      "src": "images/portraits/lot-3/public/portrait-02-004-1897406c82.webp",
+      "width": 948,
+      "height": 1085,
+      "webpBytes": 108670,
+      "sha256Webp": "66323bc24cff8863ac26bc3a56d87a7f9e3d416e3cc0fe521b315d1a4ad559d5"
+    },
+    {
+      "key": "02-005",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernement  (éducation)_Yarabuki Saburo_ faction arts martiaux (alliance).jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Yarabuki Saburo",
+      "targets": [
+        "pnj-portraits-gouvernement-yarabuki-saburo"
+      ],
+      "visibility": "public",
+      "sha256Original": "1809a8281464e25b232fad5ce8e9894134e715dbbc87095a05c16995ef2395db",
+      "src": "images/portraits/lot-3/public/portrait-02-005-1809a82814.webp",
+      "width": 563,
+      "height": 845,
+      "webpBytes": 99380,
+      "sha256Webp": "32ce9687b657c705dd509ae685a0541988bc97f760755e9876503130fb13372f"
+    },
+    {
+      "key": "02-006",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernement (agence CBII) Maya binti Ishak_ faction vampirique (Shì hun zhe) Suriawati.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Maya binti Ishak",
+      "targets": [
+        "personnages-verite-vampires-p38-maya-binti-ishak"
+      ],
+      "visibility": "public",
+      "sha256Original": "661f3d40c6686122e517d9241c98fa797a827860af1e3a38569f8f4ab0c1b3cd",
+      "src": "images/portraits/lot-3/public/portrait-02-006-661f3d40c6.webp",
+      "width": 1270,
+      "height": 1693,
+      "webpBytes": 112236,
+      "sha256Webp": "0b74762d4d96941699874786c64acf2f3302a876005be619e6deb784fc23bec6"
+    },
+    {
+      "key": "02-007",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernement (cabinet présidentiel ) Katherine Warren.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Katherine Warren",
+      "targets": [
+        "pnj-gouvernement-katherine-warren"
+      ],
+      "visibility": "public",
+      "sha256Original": "30bd830d0597d0ca087631df474363187e772c8e5db38ac149567fd4517bf54d",
+      "src": "images/portraits/lot-3/public/portrait-02-007-30bd830d05.webp",
+      "width": 820,
+      "height": 1153,
+      "webpBytes": 125798,
+      "sha256Webp": "595e52b975a417416eec3e9d89f7ad02a2bd00ad31b016b070141add655923db"
+    },
+    {
+      "key": "02-008",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernement (coastguards) Sheylinn Williams_ faction extral (hydroguards)_ Sheymisha_2.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Sheylinn Williams",
+      "targets": [
+        "personnages-verite-extrals-groupes-sheylinn-williams"
+      ],
+      "visibility": "public",
+      "sha256Original": "d3dc718a15a08a96b0730524d3209024d3809e8a59187c265368bc5394d094e5",
+      "src": "images/portraits/lot-3/public/portrait-02-008-d3dc718a15.webp",
+      "width": 862,
+      "height": 1200,
+      "webpBytes": 108114,
+      "sha256Webp": "c40c3a796f794c99276c3bb5f76fd4b3312ad565cf0e943fe3d90bbbc03fca32"
+    },
+    {
+      "key": "02-009",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernement (Commission) Laureen Clayton_ faction vampirique (Oru ayeraye) Malefu.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Laureen Clayton",
+      "targets": [
+        "personnages-verite-vampires-p30-laureen-clayton"
+      ],
+      "visibility": "public",
+      "sha256Original": "aaa58bc1a2199f00047a1e25f6f57a8899a952c3fe5af4fc38c263b725e25dd4",
+      "src": "images/portraits/lot-3/public/portrait-02-009-aaa58bc1a2.webp",
+      "width": 1408,
+      "height": 1877,
+      "webpBytes": 145582,
+      "sha256Webp": "525fb05881a3d2c466c6cb8967f324f32c3109661a6cd57acb4639ad6d1c02ec"
+    },
+    {
+      "key": "02-010",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernement (juge)Arjun Malhotra_theriantropes (cobra).jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Arjun Malhotra",
+      "targets": [
+        "pnj-portraits-gouvernement-arjun-malhotra"
+      ],
+      "visibility": "public",
+      "sha256Original": "1837d0fac5d0aad48527255b89b0a9d4dcf9a136c1f6562cc5f10ed568f59765",
+      "src": "images/portraits/lot-3/public/portrait-02-010-1837d0fac5.webp",
+      "width": 772,
+      "height": 1058,
+      "webpBytes": 109892,
+      "sha256Webp": "8a67d67282b7d8276edcb9c5ecc765625e76e21f44c68c3cce631883a59e30a2"
+    },
+    {
+      "key": "02-011",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernement (Juges) Chettur Jagatap_ faction vampirique (Shì hun zhe) Vishnarupa.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Chettur Jagatap",
+      "targets": [
+        "personnages-verite-vampires-p40-chettur-jagatap"
+      ],
+      "visibility": "public",
+      "sha256Original": "59c0d4eee29af39c794b36c136f356f3088a687180112c329847dda45450eae2",
+      "src": "images/portraits/lot-3/public/portrait-02-011-59c0d4eee2.webp",
+      "width": 1237,
+      "height": 1487,
+      "webpBytes": 147988,
+      "sha256Webp": "08bdbcc9eaaa7cef716cdabcb22e3c987d10cb417626a9a8cd39c529709bdbe6"
+    },
+    {
+      "key": "02-012",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernement (militaire) Benedickt vilhelmsen_ faction loup garou (pelage blanc) Thorunn.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Benedicte vilhelmsen",
+      "targets": [
+        "pnj-140-benedicte-vilhelmsen"
+      ],
+      "visibility": "public",
+      "sha256Original": "b35fe02621c65d56725a63af8b2ae2f40ba2122c1b6061add6effe93eb04f060",
+      "src": "images/portraits/lot-3/public/portrait-02-012-b35fe02621.webp",
+      "width": 907,
+      "height": 1044,
+      "webpBytes": 79080,
+      "sha256Webp": "fc35bc3eb3d69d7049f35fd8faed3666bf4858c50aff68f56d9d29e6b3598064"
+    },
+    {
+      "key": "02-013",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernement (militaire) Clyde W. McShark _ faction loup garou (pelage blanc) Ulfried.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Clyde W. McShark",
+      "targets": [
+        "personnages-points-rencontre-clyde-w-mcshark"
+      ],
+      "visibility": "public",
+      "sha256Original": "07e6ba964089a0667be150e51c65aa4d5a7859524a48d174e4b2c07d9dbb9b3e",
+      "src": "images/portraits/lot-3/public/portrait-02-013-07e6ba9640.webp",
+      "width": 596,
+      "height": 632,
+      "webpBytes": 39164,
+      "sha256Webp": "ed4070743eaeabfc5ad433d4b74b88ddcb4e84a3281fb59b4337b534006449bc"
+    },
+    {
+      "key": "02-014",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernement (navy) Donald Griffin_ faction extral (hydroguards)_ Donald Griffin2.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Donald Griffin",
+      "targets": [
+        "personnages-verite-extraterrestres-donald-griffin"
+      ],
+      "visibility": "public",
+      "sha256Original": "6a76f786a1bb26f12419eb132bcda5b0e94a4e9b20145e08ba194277ef4feb93",
+      "src": "images/portraits/lot-3/public/portrait-02-014-6a76f786a1.webp",
+      "width": 1172,
+      "height": 1345,
+      "webpBytes": 293928,
+      "sha256Webp": "562d5bcc96c877f6669d17d8cc59f30c01a6fb3042eeae6e666c9a4187168c19"
+    },
+    {
+      "key": "02-015",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernement (patrimoine) Adriane de Fayolle.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Adriane de Fayolle",
+      "targets": [
+        "pnj-portraits-gouvernement-adriane-de-fayolle"
+      ],
+      "visibility": "public",
+      "sha256Original": "28430ee862860ea47cbe4d79e12b50a0da7e4df614033f9362a19979c4f5cf36",
+      "src": "images/portraits/lot-3/public/portrait-02-015-28430ee862.webp",
+      "width": 692,
+      "height": 1038,
+      "webpBytes": 129924,
+      "sha256Webp": "a53f0616c3a89657f9617673292a03fd38d778f6a544eb28183a958cb3e1b25c"
+    },
+    {
+      "key": "02-016",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernement (secrétariat ressources et culture) Aethelwin Cobbs.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Aethelwin Cobbs",
+      "targets": [
+        "pnj-portraits-gouvernement-aethelwin-cobbs"
+      ],
+      "visibility": "public",
+      "sha256Original": "28a83ca3b7261353435a8598d83bc9ec91e61e9f467bcb0916638bdc6648d266",
+      "src": "images/portraits/lot-3/public/portrait-02-016-28a83ca3b7.webp",
+      "width": 782,
+      "height": 1173,
+      "webpBytes": 174596,
+      "sha256Webp": "86004fb02f60ac340c09ef6bfbf4632f128a73e34a461ed3cb2156cc582130ef"
+    },
+    {
+      "key": "02-017",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernement (secrétariat ressources et culture) Cassandrea Spencer.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Cassandrea Spencer",
+      "targets": [
+        "pnj-portraits-gouvernement-cassandrea-spencer"
+      ],
+      "visibility": "public",
+      "sha256Original": "b22619bcc6140887a1bea52efbcad00f113bfcdafdca2e6031257982c587908e",
+      "src": "images/portraits/lot-3/public/portrait-02-017-b22619bcc6.webp",
+      "width": 823,
+      "height": 1235,
+      "webpBytes": 128956,
+      "sha256Webp": "ab518db6f2f53899269636c00f8fbcedeb7e940979934cebcf42631c42888eaa"
+    },
+    {
+      "key": "02-018",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernement (secrétariat ressources et culture) Dianne McClainm.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Dianne McClainm",
+      "targets": [
+        "pnj-portraits-gouvernement-dianne-mcclainm"
+      ],
+      "visibility": "public",
+      "sha256Original": "41ad70ceba57e4aec4d2567c0fb5a1b7fa5f955ffb0a960095e03794012414a4",
+      "src": "images/portraits/lot-3/public/portrait-02-018-41ad70ceba.webp",
+      "width": 1051,
+      "height": 1263,
+      "webpBytes": 235632,
+      "sha256Webp": "65747a0e1e78a24f02fc509c6b254afe9b46c3c90018286852522dc3d79d2a69"
+    },
+    {
+      "key": "02-019",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernement (secrétariat ressources et culture) Laura Margarita Ruiz.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Laura Margarita Ruiz",
+      "targets": [
+        "pnj-portraits-gouvernement-laura-margarita-ruiz"
+      ],
+      "visibility": "public",
+      "sha256Original": "95f17e19dd6400946fd18af8ee641410fd483941ab13d405f3f84599c84191f6",
+      "src": "images/portraits/lot-3/public/portrait-02-019-95f17e19dd.webp",
+      "width": 743,
+      "height": 1114,
+      "webpBytes": 93138,
+      "sha256Webp": "13d8659fe8031065a975d9e189a37641c66b77ba5df82bd8fab0e70c069afe99"
+    },
+    {
+      "key": "02-020",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernement (secrétariat trésors ) Eron FINNESTEIN.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Eron Finnestein",
+      "targets": [
+        "pnj-portraits-gouvernement-eron-finnestein"
+      ],
+      "visibility": "public",
+      "sha256Original": "c30c31d14c1b157b8b9d3115cf4b9e22b2837afbcdb8237013928540ecd80561",
+      "src": "images/portraits/lot-3/public/portrait-02-020-c30c31d14c.webp",
+      "width": 769,
+      "height": 1153,
+      "webpBytes": 127006,
+      "sha256Webp": "b80eacaca672461b3d9b7229b067c9704698de2ce2c8498a68ed59af85702da9"
+    },
+    {
+      "key": "02-021",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernement (secrétariat éducation ) Angelica Richards.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Angelica Richards",
+      "targets": [
+        "pnj-gouvernement-angelica-richards"
+      ],
+      "visibility": "public",
+      "sha256Original": "99a358bbf31af2fcabd4b794decdea193a590e553a6c0dd2cc230c3a3ed58db0",
+      "src": "images/portraits/lot-3/public/portrait-02-021-99a358bbf3.webp",
+      "width": 625,
+      "height": 937,
+      "webpBytes": 74076,
+      "sha256Webp": "f7e95e4e08ea5464f9588afc9ec2ebe235e78dbd95a46f212e3c69c391d37221"
+    },
+    {
+      "key": "02-022",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernement (secrétariat éducation ) Sarah Irving_ faction loup-garou ( pelage roux).jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Sarah Irving",
+      "targets": [
+        "personnages-verite-pelages-sarah-irving"
+      ],
+      "visibility": "public",
+      "sha256Original": "de0992859181146dec4b67d3ec1dae46431775cec7df1bbf653c3a2c5bf6fc90",
+      "src": "images/portraits/lot-3/public/portrait-02-022-de09928591.webp",
+      "width": 1726,
+      "height": 2301,
+      "webpBytes": 227538,
+      "sha256Webp": "79c2dbbd02f39379810062d951d713393d2756c644b56d619f6c38e46ff1612d"
+    },
+    {
+      "key": "02-023",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernement (Sénat) Evelyn Armitage.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Evelyn Armitage",
+      "targets": [
+        "pnj-portraits-gouvernement-evelyn-armitage"
+      ],
+      "visibility": "public",
+      "sha256Original": "90461b794489e8d50da9a3456d2c8117e7360532853b97c0cbfb09f2fa44bceb",
+      "src": "images/portraits/lot-3/public/portrait-02-023-90461b7944.webp",
+      "width": 780,
+      "height": 1067,
+      "webpBytes": 135164,
+      "sha256Webp": "b54da7b5db2faf45bdaec01bdfc4e8451efd2d10b9b086397bee08503783c487"
+    },
+    {
+      "key": "02-024",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernement (sénat) Homer Duke.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Homer Duke",
+      "targets": [
+        "pnj-gouvernement-homer-duke"
+      ],
+      "visibility": "public",
+      "sha256Original": "756ed922846364ba4d5fcafcf1fc714bd5cb7ec618ea3f9cb9d6662d2792caf1",
+      "src": "images/portraits/lot-3/public/portrait-02-024-756ed92284.webp",
+      "width": 444,
+      "height": 617,
+      "webpBytes": 47750,
+      "sha256Webp": "233bdfe2669f3da444158e857322febec877c79d1d68263f74c15090dcaeb990"
+    },
+    {
+      "key": "02-025",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernement (sénateur) Thomas Halliger.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Thomas Halliger",
+      "targets": [
+        "pnj-portraits-gouvernement-thomas-halliger"
+      ],
+      "visibility": "public",
+      "sha256Original": "32813e7602d1cd8a18609bfa023edcaca406f552acb66d9b24315c39697c9e9a",
+      "src": "images/portraits/lot-3/public/portrait-02-025-32813e7602.webp",
+      "width": 867,
+      "height": 1300,
+      "webpBytes": 143698,
+      "sha256Webp": "7171c36e6074f169fdb3ce7d79779c08c3703bfc854f11fe8ab814135e527d63"
+    },
+    {
+      "key": "02-026",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernementale (médical)_Alfredo Necahual_ faction vampirique (cour Ihuito Meztzi)_Yoalli.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Alfredo Necahual",
+      "targets": [
+        "personnages-verite-vampires-p22-alfredo-necahual"
+      ],
+      "visibility": "public",
+      "sha256Original": "a37acc7dadbacfdac9843d4d63dd6ab41dfc5c7b1d7433645b0b1f473527f6e4",
+      "src": "images/portraits/lot-3/public/portrait-02-026-a37acc7dad.webp",
+      "width": 1565,
+      "height": 2086,
+      "webpBytes": 260184,
+      "sha256Webp": "fa42dcb7494c3b8e2fc1d6888cc0db6b664bd4b02fb4651623447e2243de75bf"
+    },
+    {
+      "key": "02-027",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ faction gouvernementale (new lesothos)_Poloko thuto.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Poloko Thuto",
+      "targets": [
+        "pnj-portraits-gouvernement-poloko-thuto"
+      ],
+      "visibility": "public",
+      "sha256Original": "56974efd8f5fc3319fbd4050f4adf308f4015e5e4c80d69e78c3c094d88dba67",
+      "src": "images/portraits/lot-3/public/portrait-02-027-56974efd8f.webp",
+      "width": 601,
+      "height": 802,
+      "webpBytes": 51010,
+      "sha256Webp": "bc31babea912a922618e52217332b9ff68baaf3905b6ad672e9c8fe4e7a6bde4"
+    },
+    {
+      "key": "02-028",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ Gouvernement (agence )_ Ancien_Tom_version_normale_premier_kochtchei.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Ancien Tom",
+      "targets": [
+        "pnj-portraits-gouvernement-ancien-tom"
+      ],
+      "visibility": "public",
+      "sha256Original": "cf8d122000e79a734a50e87fa29e725c595ec304e9a8e269f4ccc2fcde98ae19",
+      "src": "images/portraits/lot-3/public/portrait-02-028-cf8d122000.webp",
+      "width": 1560,
+      "height": 2080,
+      "webpBytes": 182828,
+      "sha256Webp": "083e69bc8f063d932ef63b1995299f3b2c5e3c997d736e5cc9672c8b8995a6d4"
+    },
+    {
+      "key": "02-029",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ Gouvernement (agence du NRMD)_ Aroha Te Moana_theriantropes (Requin).jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Aroha Te Moana",
+      "targets": [
+        "pnj-portraits-gouvernement-aroha-te-moana"
+      ],
+      "visibility": "public",
+      "sha256Original": "a5c049c5999ca3f24fe4c4bfd14cfd9b20f933014c553cf18c7d5d87fb026124",
+      "src": "images/portraits/lot-3/public/portrait-02-029-a5c049c599.webp",
+      "width": 1014,
+      "height": 1517,
+      "webpBytes": 199346,
+      "sha256Webp": "81f6a1cc119d960f57cf7b39ca0c24b2d504a618856c40c1eb13dff5c337f8e4"
+    },
+    {
+      "key": "02-030",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ Gouvernement (Justice)_ David cheng.png",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "David Cheng",
+      "targets": [
+        "pnj-portraits-gouvernement-david-cheng"
+      ],
+      "visibility": "public",
+      "sha256Original": "be24bb6db0b6533de46f9cd0a3bee2c7672908e9815957cfbca7ea8e8276949a",
+      "src": "images/portraits/lot-3/public/portrait-02-030-be24bb6db0.webp",
+      "width": 1448,
+      "height": 2176,
+      "webpBytes": 457160,
+      "sha256Webp": "bbefd10cda2c28bacf3bc6056c75ec52727e1a55017307b55ba02bc5f2776fba"
+    },
+    {
+      "key": "02-031",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ Gouvernement (Police)  Ariel-Katherine Stheel_faction exilés (astharès) Rilka.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Ariel-Katherine Stheel",
+      "targets": [
+        "pnj-portraits-gouvernement-ariel-katherine-stheel"
+      ],
+      "visibility": "public",
+      "sha256Original": "cc6053ce8d274bc6c4c351de4d0c58844cae690793cd35a3f44a330f33f505af",
+      "src": "images/portraits/lot-3/public/portrait-02-031-cc6053ce8d.webp",
+      "width": 1440,
+      "height": 1976,
+      "webpBytes": 646416,
+      "sha256Webp": "1ea8a3fde460f427e31af873bcdf6a789bf79df7272480f4e8501eb97b9b9497"
+    },
+    {
+      "key": "02-032",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_ Gouvernement (présidence) Dina Page.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Dina Page",
+      "targets": [
+        "pnj-gouvernement-dina-page"
+      ],
+      "visibility": "public",
+      "sha256Original": "e83fd44464eaa7b64a860c45d71fb9e05e3847a3b9b8f1698a5ac7bfbe81204d",
+      "src": "images/portraits/lot-3/public/portrait-02-032-e83fd44464.webp",
+      "width": 1880,
+      "height": 2352,
+      "webpBytes": 516808,
+      "sha256Webp": "41625f125875198ad11414f0744502fccd397605f1c4d490765c91c13b3613d3"
+    },
+    {
+      "key": "02-033",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction corporation (Green Health)_ faction gouvernemental (US. Army) Gerald Ashorn_faction exilés (horde divine) Ashorn.png",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Gerald Ashorn",
+      "targets": [
+        "personnages-verite-fantastiques-ashorn"
+      ],
+      "visibility": "public",
+      "sha256Original": "132e0b8a15fba7cd1b0e63f1896cd6c4e9cdb7f48f5c5ef832eeabbe29faae9d",
+      "src": "images/portraits/lot-3/public/portrait-02-033-132e0b8a15.webp",
+      "width": 892,
+      "height": 1338,
+      "webpBytes": 169838,
+      "sha256Webp": "f575ed988d4b0e768a76a0fe71e7d17fa7cfdebbb7e21c3d4a99905b9c3ab2eb"
+    },
+    {
+      "key": "02-034",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction corporatiste (Tuatha) Siobhain Nic Sirideain.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Siobhain Nic SIRIDEAN",
+      "targets": [
+        "pnj-corporations-siobhain-nic-siridean"
+      ],
+      "visibility": "public",
+      "sha256Original": "875e84e33c9ab8c04e8e19c45356561327ceb626b53025423db1bf9ef0bdda2a",
+      "src": "images/portraits/lot-3/public/portrait-02-034-875e84e33c.webp",
+      "width": 1972,
+      "height": 2148,
+      "webpBytes": 632946,
+      "sha256Webp": "7f74ab66a426f4f51bc0790441b7175e356e6f3422ad185df23351190f2d83fe"
+    },
+    {
+      "key": "02-035",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement  (CSCO) Meghan Gordon _ faction chasseurs (Table ronde Avalon) Agravain.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Meghan Gordon",
+      "targets": [
+        "pnj-portraits-gouvernement-meghan-gordon"
+      ],
+      "visibility": "public",
+      "sha256Original": "ec9c914a702af6a9487c541278609498a5bab9a1894685d60b01cd1aa2a0a281",
+      "src": "images/portraits/lot-3/public/portrait-02-035-ec9c914a70.webp",
+      "width": 1048,
+      "height": 1397,
+      "webpBytes": 192280,
+      "sha256Webp": "d0af2c00eb4b4407b8d318053cd8d113e376ca02cad1849fc0fdd8d7d4e3e788"
+    },
+    {
+      "key": "02-036",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (agence CBII)_Ciaran Lainn_ faction Daemons (Morrighan) duc Cúchulainn.png",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Ciaran Lainn",
+      "targets": [
+        "pnj-temples-daemoniaques-ciaran-lainn"
+      ],
+      "visibility": "public",
+      "sha256Original": "d4dd0242873b13c62ddd6bfe2ceac1b60072ff05b88222c16a5fdc41823b0527",
+      "src": "images/portraits/lot-3/public/portrait-02-036-d4dd024287.webp",
+      "width": 463,
+      "height": 610,
+      "webpBytes": 70022,
+      "sha256Webp": "cf3ae8b9da0b905cdc6dcb3b22f56a5cd074c2e3333655ad9cea8d29ea8b021c"
+    },
+    {
+      "key": "02-037",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (agence CNAD)_Walter JEFFERSON__faction extrals (GAAC) _Wal-XV-C2_2.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Walter Jefferson",
+      "targets": [
+        "personnages-verite-extraterrestres-walter-jefferson"
+      ],
+      "visibility": "public",
+      "sha256Original": "aa49efe6e5b42a913cf986b093ee7e6efa4d3bf551be2b4ef0f8411a834a0e35",
+      "src": "images/portraits/lot-3/public/portrait-02-037-aa49efe6e5.webp",
+      "width": 1860,
+      "height": 2200,
+      "webpBytes": 279364,
+      "sha256Webp": "5a0b0d228eadca5f0a2d72b8bfc22dac3dc7c79f774060e98498656d7187e780"
+    },
+    {
+      "key": "02-038",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (agence NRMD)_Virginia Echis_ faction daemons (Duchesse d'Alabor)_ Vephar_ Scylla).jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Virginia Echis",
+      "targets": [
+        "pnj-temples-daemoniaques-virginia-echis"
+      ],
+      "visibility": "public",
+      "sha256Original": "1208c70b0a6c1d4b04c48922a69a59edec84c060b8178ffb26c39e31e75f4fd1",
+      "src": "images/portraits/lot-3/public/portrait-02-038-1208c70b0a.webp",
+      "width": 1928,
+      "height": 2792,
+      "webpBytes": 396838,
+      "sha256Webp": "569abf439768db57412d6b74db766bbe7b51309b03a9f2b64f60a2a59a0bf40e"
+    },
+    {
+      "key": "02-039",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (agence_ CBII) Makana Keahi.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Makana Keahi",
+      "targets": [
+        "pnj-agences-makana-keahi"
+      ],
+      "visibility": "public",
+      "sha256Original": "8e00a35ab72489310809d5c3cb9e26920b109b5bf9208abb9f5b5dfc9afcb7b5",
+      "src": "images/portraits/lot-3/public/portrait-02-039-8e00a35ab7.webp",
+      "width": 1856,
+      "height": 2008,
+      "webpBytes": 463912,
+      "sha256Webp": "9db3761e0d22c869cedf4007e979d6169be5896bc49cff737f719ad6fdb628d1"
+    },
+    {
+      "key": "02-040",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (agence_ CBII) Nina El'Khabir.png",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Nina El'Khabir",
+      "targets": [
+        "pnj-portraits-gouvernement-nina-el-khabir"
+      ],
+      "visibility": "public",
+      "sha256Original": "e7138a8aaa4bab02ad4a68c9fbb477cd6f4bae960be11afe4143e1b05b3902b0",
+      "src": "images/portraits/lot-3/public/portrait-02-040-e7138a8aaa.webp",
+      "width": 2404,
+      "height": 3208,
+      "webpBytes": 849806,
+      "sha256Webp": "9e4fb8150195c1d85475dc351e913ec1d7370d5bf2497e1b110057c71221ef3b"
+    },
+    {
+      "key": "02-041",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (agence_ STAB) Dana O’BRYAN_faction mage (loge New-York) Daghain.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Dana O’BRYAN",
+      "targets": [
+        "pnj-143-dana-obryan"
+      ],
+      "visibility": "public",
+      "sha256Original": "51a2cbc9534d913c65654755b91a2645028ceddf306d01bdd4db6654e0930224",
+      "src": "images/portraits/lot-3/public/portrait-02-041-51a2cbc953.webp",
+      "width": 688,
+      "height": 986,
+      "webpBytes": 82504,
+      "sha256Webp": "e19aef6366797f855fe6890e4517650feab4fcf3b0fd7c2295538f42548598a9"
+    },
+    {
+      "key": "02-042",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (bureau doré) Gawel Prowacjesky_faction exilés (Syndicat de jade)  Gaar’Kha_ (2).jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Gawel PROWACJESKY",
+      "targets": [
+        "pnj-041-gawel-prowacjesky"
+      ],
+      "visibility": "public",
+      "sha256Original": "b6373322c2602c8a03dc26e75908b67456d35bcbe272d422b6555406d888f78f",
+      "src": "images/portraits/lot-3/public/portrait-02-042-b6373322c2.webp",
+      "width": 1551,
+      "height": 2068,
+      "webpBytes": 206916,
+      "sha256Webp": "cd1b58f3a23a609ed4cb4a8af618acf7d750bbb0957c17ac9031a1d69f4dad44"
+    },
+    {
+      "key": "02-043",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (cabinet restreint_Chef adjoint du Cabinet) Dustin Montoya.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Dustin Montoya",
+      "targets": [
+        "pnj-portraits-gouvernement-dustin-montoya"
+      ],
+      "visibility": "public",
+      "sha256Original": "1bba6beb4604d4e858640f45a2e509652f53dc9fd825cd8877b0da28070a5f14",
+      "src": "images/portraits/lot-3/public/portrait-02-043-1bba6beb46.webp",
+      "width": 593,
+      "height": 890,
+      "webpBytes": 80476,
+      "sha256Webp": "18b929fd5bb6e7d17bef0f499f61220d278b26c8ca3ed9af1248772a04f1c387"
+    },
+    {
+      "key": "02-044",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (cabinet restreint_Chef Sécurité) Keegan Foster.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Keegan FOSTER",
+      "targets": [
+        "pnj-043-keegan-foster"
+      ],
+      "visibility": "public",
+      "sha256Original": "184573d12c27c2381f0ec02fb7d47f8221cfbf934b6496b019c6098afd976740",
+      "src": "images/portraits/lot-3/public/portrait-02-044-184573d12c.webp",
+      "width": 693,
+      "height": 1039,
+      "webpBytes": 111356,
+      "sha256Webp": "93ca81f1849e9f0af4a3a67e9d1469eb2ef7aa12c4684808dafc82969dba295d"
+    },
+    {
+      "key": "02-045",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (cabinet restreint_Conseillère juridique du Cabinet) Aiyana REDFEATHER.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Aiyana Redfeather",
+      "targets": [
+        "pnj-portraits-gouvernement-aiyana-redfeather"
+      ],
+      "visibility": "public",
+      "sha256Original": "8b4fae8cf8c686c70c93d723cb14f63d244f4bd7d6a8470ad86c5d06a2a066d0",
+      "src": "images/portraits/lot-3/public/portrait-02-045-8b4fae8cf8.webp",
+      "width": 769,
+      "height": 1153,
+      "webpBytes": 146556,
+      "sha256Webp": "0f6d704cf05b664b8d034db25203f79f7348e5d727b13630ee026572e061d887"
+    },
+    {
+      "key": "02-046",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (cabinet restreint_Directeur de la communication) Rylan HIRUNAKA.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Rylan Hirunaka",
+      "targets": [
+        "pnj-portraits-gouvernement-rylan-hirunaka"
+      ],
+      "visibility": "public",
+      "sha256Original": "4ae8626017f106ca791b70802bc7fab496532b91314ba3c770a924ba96cedf48",
+      "src": "images/portraits/lot-3/public/portrait-02-046-4ae8626017.webp",
+      "width": 809,
+      "height": 1214,
+      "webpBytes": 189918,
+      "sha256Webp": "d611971ae738e370c0f65607def9e47cc24305c8e9c1e35508b4d5427e6e0d3f"
+    },
+    {
+      "key": "02-047",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (cabinet restreint_Porte-parole du cabinet ) Laura XIUYING.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Laura Xiuying",
+      "targets": [
+        "pnj-portraits-gouvernement-laura-xiuying"
+      ],
+      "visibility": "public",
+      "sha256Original": "982196417d13b7c1f65e0461afef553ab3706ed84639ed09bac4879929451354",
+      "src": "images/portraits/lot-3/public/portrait-02-047-982196417d.webp",
+      "width": 783,
+      "height": 987,
+      "webpBytes": 106096,
+      "sha256Webp": "9efb2010410d38f1909b0903edacfc3eb1ef23bee25d532e33f0b98c0e2d1652"
+    },
+    {
+      "key": "02-048",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction Gouvernement (CBII)_Jason Collin_ faction Aseryn_Jesaen Seryn_.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Jason Collin",
+      "targets": [
+        "pnj-aseryns-terres-temples-jason-collin-08"
+      ],
+      "visibility": "public",
+      "sha256Original": "79659cf919e76f018e5b5f66a8382ca2554cb06bddeb5da164201c14c43607d6",
+      "src": "images/portraits/lot-3/public/portrait-02-048-79659cf919.webp",
+      "width": 511,
+      "height": 650,
+      "webpBytes": 29812,
+      "sha256Webp": "0df2927626759ce8e23bb3e2b0c20b48db0b0ebc939c7c7044f4e1fa63c005fe"
+    },
+    {
+      "key": "02-049",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (grand procureur)_Diego Lasa_faction loup garou (pelages roux).png",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Diego Alejandro Lasa",
+      "targets": [
+        "pnj-gouvernement-diego-alejandro-lasa"
+      ],
+      "visibility": "public",
+      "sha256Original": "3675dc90fbba19d82ccc8e05a29b3bdb9576b6908fd3c34e100102fdcd190bbe",
+      "src": "images/portraits/lot-3/public/portrait-02-049-3675dc90fb.webp",
+      "width": 1598,
+      "height": 1779,
+      "webpBytes": 570328,
+      "sha256Webp": "771062f4e2030b11e6ceb79f5677cc65fad5df0c6aea99d370dbd0e8c37f9f7e"
+    },
+    {
+      "key": "02-050",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (Grande commissaire de la transition) Gabrielle Power_ faction Angelus (Archange Gabriel) Gabrielle.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Gabrielle POWER",
+      "targets": [
+        "pnj-146-gabrielle-power"
+      ],
+      "visibility": "public",
+      "sha256Original": "e769f5cc4021116879fa2cf36e08e2a4d93c089154ddaf008777648ec7761197",
+      "src": "images/portraits/lot-3/public/portrait-02-050-e769f5cc40.webp",
+      "width": 871,
+      "height": 1308,
+      "webpBytes": 185954,
+      "sha256Webp": "20ec8cff01fab234505a8696de267470d6ec6c53482949c0893bdaa8c023d36d"
+    },
+    {
+      "key": "02-051",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (justice) Farah el Arshad.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Farah El Arshad",
+      "targets": [
+        "pnj-gouvernement-farah-el-arshad"
+      ],
+      "visibility": "public",
+      "sha256Original": "e91de0898b9bab740c803402ea52f203c571d0debb4d310235b8fd2df4a4d0f1",
+      "src": "images/portraits/lot-3/public/portrait-02-051-e91de0898b.webp",
+      "width": 1688,
+      "height": 1980,
+      "webpBytes": 447958,
+      "sha256Webp": "3fe80875380125721e2bcbd587645e8cc10100acc1511a25c1997dcf7d0763a8"
+    },
+    {
+      "key": "02-052",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (maire de phoenix)_Sagarion Nagilia_ Collin Perez.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Collin Perez",
+      "targets": [
+        "personnages-verite-especes-sagarion-nagilia"
+      ],
+      "visibility": "public",
+      "sha256Original": "60d538919e0e9bc5753fc9cf6cb78f23ae8c4407c62ada9007f5304c955d51c7",
+      "src": "images/portraits/lot-3/public/portrait-02-052-60d538919e.webp",
+      "width": 2056,
+      "height": 2740,
+      "webpBytes": 291980,
+      "sha256Webp": "ac6b98f44ccfb8e5df250b5e2451e6407febde17af61a702a66226538b7e1c7a"
+    },
+    {
+      "key": "02-053",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "Tuc_faction gouvernement (mairie Los Angeles)_ Jake Josef Jonson.png",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Jake Josef Jonson",
+      "targets": [
+        "pnj-portraits-gouvernement-jake-josef-jonson"
+      ],
+      "visibility": "public",
+      "sha256Original": "37c514a6a96086749f83cf11d810b9d12a7d87cb08b8ef9b780b7587cc8f7a79",
+      "src": "images/portraits/lot-3/public/portrait-02-053-37c514a6a9.webp",
+      "width": 633,
+      "height": 844,
+      "webpBytes": 62154,
+      "sha256Webp": "d9ae7308ddfeea7bcb1bb707ef3532a3499c9c542fe3245d78355fd9b9cfc89e"
+    },
+    {
+      "key": "02-054",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (mairie) Robert Hamilton.png",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Robert Hamilton",
+      "targets": [
+        "pnj-gouvernement-robert-hamilton"
+      ],
+      "visibility": "public",
+      "sha256Original": "d5c321ba8658ac26ca0cf9dd1203fee4092ca68385728c88626d61d20b7cbcc9",
+      "src": "images/portraits/lot-3/public/portrait-02-054-d5c321ba86.webp",
+      "width": 1664,
+      "height": 2060,
+      "webpBytes": 396434,
+      "sha256Webp": "ba3bcff39ce05563e918fb04c26bcfb06a17a3b3950b6b66ed4fae80bebfc45f"
+    },
+    {
+      "key": "02-055",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (Police) Catalina de la caza.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Catalina de la CAZA",
+      "targets": [
+        "pnj-police-catalina-de-la-caza"
+      ],
+      "visibility": "public",
+      "sha256Original": "894ddcc69dfd8db1f0647ba0195db56a15a09fbc2f7266b0e7e1a24c6c081002",
+      "src": "images/portraits/lot-3/public/portrait-02-055-894ddcc69d.webp",
+      "width": 1492,
+      "height": 1896,
+      "webpBytes": 553394,
+      "sha256Webp": "ee54caadbbd971b31bdbdca8c1654f794bab4a49513e7806d946825c733a752c"
+    },
+    {
+      "key": "02-056",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (police) Serena Covarrubias_ faction chasseurs (Table ronde Avalon) Segurant.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Serena Covarrubias",
+      "targets": [
+        "pnj-portraits-gouvernement-serena-covarrubias"
+      ],
+      "visibility": "public",
+      "sha256Original": "cc22c397ab4cc55165d25b32eb586249accb06c852dc17f0c94be042255d3d1c",
+      "src": "images/portraits/lot-3/public/portrait-02-056-cc22c397ab.webp",
+      "width": 801,
+      "height": 1203,
+      "webpBytes": 165068,
+      "sha256Webp": "c9c9cd4a3fd8430beac424f1d27489c460f6e31ddc903a52b9ecd178eebda835"
+    },
+    {
+      "key": "02-057",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (Police) Tsvetomir Nickolov_faction loup garou (pelage blanc).jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Tsvetomir Nickolov",
+      "targets": [
+        "personnages-verite-pelages-tsvetomir-nickolov"
+      ],
+      "visibility": "public",
+      "sha256Original": "cb24aba8f997374d0cd611774b15650a73588ae20618c9743b41dfd084da7eaa",
+      "src": "images/portraits/lot-3/public/portrait-02-057-cb24aba8f9.webp",
+      "width": 1231,
+      "height": 1641,
+      "webpBytes": 236846,
+      "sha256Webp": "daac51d5ff5e0efc980a6af82967012dac837d4b6f193f9169ea5977ddfd8bf8"
+    },
+    {
+      "key": "02-058",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (police)_Bethany Griffith_ faction Daemons (Morrighan) duchesse Rhiannon_Boadicée.png",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Bethany Griffith",
+      "targets": [
+        "pnj-temples-daemoniaques-bethany-griffith"
+      ],
+      "visibility": "public",
+      "sha256Original": "e0c61425879c4568dd324a89a4204f2b498ad631e4c63776fec5bbf1ffa1557d",
+      "src": "images/portraits/lot-3/public/portrait-02-058-e0c6142587.webp",
+      "width": 1003,
+      "height": 1346,
+      "webpBytes": 263980,
+      "sha256Webp": "2b58c0f6fffaaa651b86932928f5664086931d07ba26c9c314eac9a874f9bfa2"
+    },
+    {
+      "key": "02-059",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (pompiers) Daniel Melton _ faction angelus (archange Uriel) Danael _Darxa.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Daniel Melton",
+      "targets": [
+        "personnages-verite-angelus-daniel-melton"
+      ],
+      "visibility": "public",
+      "sha256Original": "55d22b5d1b90fed61aa2d16a4a4a7f0f39c7daafe4cea40062766c9399481d1f",
+      "src": "images/portraits/lot-3/public/portrait-02-059-55d22b5d1b.webp",
+      "width": 1008,
+      "height": 1314,
+      "webpBytes": 134692,
+      "sha256Webp": "e730921ed63de560b50b8a36c8315a0bc148f2d8c3345aef0aed7eddc23a3d61"
+    },
+    {
+      "key": "02-060",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (Santé)  Maya Rios.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Maya Rios",
+      "targets": [
+        "pnj-portraits-gouvernement-maya-rios"
+      ],
+      "visibility": "public",
+      "sha256Original": "6097ab931846ad4354fc44ef051e34834d0709abb6478d67d5d3f5ce755bad23",
+      "src": "images/portraits/lot-3/public/portrait-02-060-6097ab9318.webp",
+      "width": 593,
+      "height": 890,
+      "webpBytes": 103378,
+      "sha256Webp": "e1c51b529f70cd2ce41a7f0e71839b4eca28719b9d09a50f58b0f6e6147de929"
+    },
+    {
+      "key": "02-061",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (Santé) Anika Suresh.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Anika Suresh",
+      "targets": [
+        "pnj-portraits-gouvernement-anika-suresh"
+      ],
+      "visibility": "public",
+      "sha256Original": "5d670067bf03e0b47804a3742ec1b889cdf9662ae6b129572f72f94d5bd04b69",
+      "src": "images/portraits/lot-3/public/portrait-02-061-5d670067bf.webp",
+      "width": 769,
+      "height": 1153,
+      "webpBytes": 84636,
+      "sha256Webp": "9f2d847de9e5fd8d5f80bdfa7bd33f44113e28c1eea3df5b75d12a124d4e0bca"
+    },
+    {
+      "key": "02-062",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (Santé) Elena Morales.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Elena Morales",
+      "targets": [
+        "pnj-portraits-gouvernement-elena-morales"
+      ],
+      "visibility": "public",
+      "sha256Original": "96354dc95c31f5b2caa9f58aaf0b24a09bd53aa0101e13b0e3c692c4d0cfdddb",
+      "src": "images/portraits/lot-3/public/portrait-02-062-96354dc95c.webp",
+      "width": 682,
+      "height": 914,
+      "webpBytes": 78296,
+      "sha256Webp": "f0631825aecb5ee0a213a16f2a8dd82d60feea1cc84fe339daa5f051c57e8d38"
+    },
+    {
+      "key": "02-063",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (Santé) Kareen Doyle v2.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Kareen Doyle",
+      "targets": [
+        "pnj-portraits-gouvernement-kareen-doyle"
+      ],
+      "visibility": "public",
+      "sha256Original": "3c8f09ac638d6853487ba7f762cba5ce8d723726b6a9c73a34a5a17c64aaf742",
+      "src": "images/portraits/lot-3/public/portrait-02-063-3c8f09ac63.webp",
+      "width": 730,
+      "height": 1095,
+      "webpBytes": 143604,
+      "sha256Webp": "07dc9b014d987b2248f94bb5c0680614861d008556991c7a190c4463122ed5b1"
+    },
+    {
+      "key": "02-064",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (Santé) Nanako Yamura.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Nanako Yamura",
+      "targets": [
+        "pnj-portraits-gouvernement-nanako-yamura"
+      ],
+      "visibility": "public",
+      "sha256Original": "4d706fc4e45178729ce48756e55e9bc3c0e8867479b56ef18b35bcc43b71d13f",
+      "src": "images/portraits/lot-3/public/portrait-02-064-4d706fc4e4.webp",
+      "width": 809,
+      "height": 1024,
+      "webpBytes": 82196,
+      "sha256Webp": "cf0237ae80c85441061269547caa26ac345e3a5069984c358365e942310edc05"
+    },
+    {
+      "key": "02-065",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (secrétariat d'état_ l'immigration) Valeria ORTEGA.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Valeria Ortega",
+      "targets": [
+        "pnj-portraits-gouvernement-valeria-ortega"
+      ],
+      "visibility": "public",
+      "sha256Original": "dcc3f1598a46f9f4c44c5e61e9e03e1f048634560740e01817bbcfa6cfda12e1",
+      "src": "images/portraits/lot-3/public/portrait-02-065-dcc3f1598a.webp",
+      "width": 706,
+      "height": 987,
+      "webpBytes": 106544,
+      "sha256Webp": "1aa2d9605f4e440af34d05bf6b683fcff7e75977787c0f170cd0f8816256c9ff"
+    },
+    {
+      "key": "02-066",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (secrétariat d'état_ l'urbanisme) Shiyo Tanaka.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Shiyo Tanaka",
+      "targets": [
+        "pnj-portraits-gouvernement-shiyo-tanaka"
+      ],
+      "visibility": "public",
+      "sha256Original": "1c1d29c945a93bbb825b964b4442cabf71477f6bfe3b24d132c178d9f1bd67f6",
+      "src": "images/portraits/lot-3/public/portrait-02-066-1c1d29c945.webp",
+      "width": 825,
+      "height": 1095,
+      "webpBytes": 86384,
+      "sha256Webp": "890e0196c03a788c095ec382447899dab01f56dfbc599e6f974c384fce025a1f"
+    },
+    {
+      "key": "02-067",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (secrétariat d'état_ l'énergie) Drazan Simonov.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Drazan Simonov",
+      "targets": [
+        "pnj-portraits-gouvernement-drazan-simonov"
+      ],
+      "visibility": "public",
+      "sha256Original": "425c1f2a29f6d5e400c9569fed4ee69af781d01a09eb68e66db6b286ece3c664",
+      "src": "images/portraits/lot-3/public/portrait-02-067-425c1f2a29.webp",
+      "width": 686,
+      "height": 987,
+      "webpBytes": 137542,
+      "sha256Webp": "8ec728de552c0be5aa46bcc11045b8776cc7e175a4bbcc210f06415ef5213159"
+    },
+    {
+      "key": "02-068",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (secrétariat d'état_ la sécurité intérieure) Collin Hinton.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Collin HINTON",
+      "targets": [
+        "pnj-police-collin-hinton"
+      ],
+      "visibility": "public",
+      "sha256Original": "bf5d1ba4c38fb92d6aff555f72c6c053d62f3a2a7651b074ea267372c909b781",
+      "src": "images/portraits/lot-3/public/portrait-02-068-bf5d1ba4c3.webp",
+      "width": 768,
+      "height": 1153,
+      "webpBytes": 164450,
+      "sha256Webp": "0ead36d4ce8b39538e116cde00180eab0cd3df13beea38542e4ed289bb19f2b5"
+    },
+    {
+      "key": "02-069",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (secrétariat d'état_ la technologie) Ethan Gaines.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Ethan Gaines",
+      "targets": [
+        "pnj-portraits-gouvernement-ethan-gaines"
+      ],
+      "visibility": "public",
+      "sha256Original": "b241957c8746721a149e97dc93f613f15e6fc74ef7a8d0f418a40a3ed6469b1e",
+      "src": "images/portraits/lot-3/public/portrait-02-069-b241957c87.webp",
+      "width": 570,
+      "height": 752,
+      "webpBytes": 55298,
+      "sha256Webp": "4ae0a176b2cc5873d992c16cba23ef7850be6425e5a9f3b50dd5ceef9bf02850"
+    },
+    {
+      "key": "02-070",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (secrétariat d'état_ le travail) Zamari Mills.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Zamari Mills",
+      "targets": [
+        "pnj-portraits-gouvernement-zamari-mills"
+      ],
+      "visibility": "public",
+      "sha256Original": "7e8ffc26e1810ee8e6612b1adf8e0ef8506aa9cb280563acb5f3b1c3c16da3a4",
+      "src": "images/portraits/lot-3/public/portrait-02-070-7e8ffc26e1.webp",
+      "width": 658,
+      "height": 987,
+      "webpBytes": 150252,
+      "sha256Webp": "c1bd808558fd26ff0e94e664a6e03d34d7e7ac8d4fa672855c4031e20af8ba10"
+    },
+    {
+      "key": "02-071",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (secrétariat justice_) Nathan Prince_ faction Daemons (temple de Satan)_ Satan.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Nathan Prince",
+      "targets": [
+        "pnj-154-nathan-prince"
+      ],
+      "visibility": "public",
+      "sha256Original": "318d9868f7524cb4337b36f7c65fc58b61f94606706285f6611dc646d9ae36d1",
+      "src": "images/portraits/lot-3/public/portrait-02-071-318d9868f7.webp",
+      "width": 658,
+      "height": 987,
+      "webpBytes": 122624,
+      "sha256Webp": "e0774adff5b961babd859b4a4411f7a94389ea28ab6ce970727ae25a014ec4eb"
+    },
+    {
+      "key": "02-072",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (secrétariat Santé_) Zaheel Al'Bel_ faction Daemons (temple de Belzebuth)_ Belzebtuth.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Zabeel Al’BEL",
+      "targets": [
+        "pnj-161-zabeel-albel"
+      ],
+      "visibility": "public",
+      "sha256Original": "809968b804ea5489b1be611cbafdd8e77d5bafc5c98696d94294be5b4d03f1fe",
+      "src": "images/portraits/lot-3/public/portrait-02-072-809968b804.webp",
+      "width": 730,
+      "height": 1094,
+      "webpBytes": 177384,
+      "sha256Webp": "afe6735546a50db6c17737c56fb618f6e92e5c449bb6de5442255d098fec5873"
+    },
+    {
+      "key": "02-073",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (sénateur)_Loyd Brummer.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Loyd Brummer",
+      "targets": [
+        "pnj-portraits-gouvernement-loyd-brummer"
+      ],
+      "visibility": "public",
+      "sha256Original": "bfc49d22ee3d80b7aa5b3f3907dc29c2fc0cc8e463896faddd04743755c31b2a",
+      "src": "images/portraits/lot-3/public/portrait-02-073-bfc49d22ee.webp",
+      "width": 1041,
+      "height": 1561,
+      "webpBytes": 247914,
+      "sha256Webp": "1e144d385c299d71b44a255dbd95e19623b500e28dcb9e471c36ceec900b62a0"
+    },
+    {
+      "key": "02-074",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (sénatrice)_Cassia Seryn_Cassandra  Serkis.jpg",
+      "group": "gouvernement",
+      "action": "replace",
+      "name": "Cassandra Serkis",
+      "targets": [
+        "pnj-aseryns-terres-temples-cassandra-serkis-17"
+      ],
+      "visibility": "public",
+      "sha256Original": "24a6c7a660620e36e95aa713f7ad2cb79a3062ab096237d926430770d585ddc2",
+      "src": "images/portraits/lot-3/public/portrait-02-074-24a6c7a660.webp",
+      "width": 1268,
+      "height": 1690,
+      "webpBytes": 206458,
+      "sha256Webp": "e915049ffb379d75e93994da16d4f83ba98019f3975eff8d4fdc1ca245fd53be"
+    },
+    {
+      "key": "02-075",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement (éducation) Sherry MacLann_ faction fléau (Sharith).jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Sherry MacLann",
+      "targets": [
+        "pnj-portraits-gouvernement-sherry-maclann"
+      ],
+      "visibility": "public",
+      "sha256Original": "5aae7326952242e0538290ed46e39441b8f1172bcf1841c7ac86a8db1e33a2fd",
+      "src": "images/portraits/lot-3/public/portrait-02-075-5aae732695.webp",
+      "width": 1150,
+      "height": 1728,
+      "webpBytes": 242126,
+      "sha256Webp": "d882928c9bdebd73d2b3d7cb8f6e252be9438e34bab804b22e946c27f1c39e14"
+    },
+    {
+      "key": "02-076",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernementale (_) Lizzy Sheperd_ faction vampirique (Lavandière) Gashansunu.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Lizzy Sheperd",
+      "targets": [
+        "pnj-portraits-gouvernement-lizzy-sheperd"
+      ],
+      "visibility": "public",
+      "sha256Original": "943d1ae1e65051b5590b87ef6be46ac4f11d0e6d8ca21fd5b6e3e53e25ec95d7",
+      "src": "images/portraits/lot-3/public/portrait-02-076-943d1ae1e6.webp",
+      "width": 560,
+      "height": 729,
+      "webpBytes": 78240,
+      "sha256Webp": "070be89d24034d991108cc415416aeba52253b6bcd698e6bd9e39a08ec9396e0"
+    },
+    {
+      "key": "02-077",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_faction gouvernement_Rachana Kormasawat_Cormorant.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Rachana Kormasawat",
+      "targets": [
+        "pnj-portraits-gouvernement-rachana-kormasawat"
+      ],
+      "visibility": "public",
+      "sha256Original": "a14e71977a8daf61a2a51fe99dccd619a3fc40697c132b79bd835ff06d4c5148",
+      "src": "images/portraits/lot-3/public/portrait-02-077-a14e71977a.webp",
+      "width": 634,
+      "height": 845,
+      "webpBytes": 42146,
+      "sha256Webp": "b0f2c566755635235488ef939b354950e2a99282e7e8bd0b403d6969439fa5e9"
+    },
+    {
+      "key": "02-078",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "TUC_gouvernement (police)_Marcus Falcon88.jpg",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Marcus Falcon",
+      "targets": [
+        "pnj-portraits-gouvernement-marcus-falcon"
+      ],
+      "visibility": "public",
+      "sha256Original": "a465bb0561fdd9d7ba3c5daa11dff67dc3d1253c5d7f147e5eb4a3f8f211ee9e",
+      "src": "images/portraits/lot-3/public/portrait-02-078-a465bb0561.webp",
+      "width": 534,
+      "height": 801,
+      "webpBytes": 80854,
+      "sha256Webp": "7e0b4b7d4554fde4dbb8b8e5d8cbe3ab9159d1438643ae50145a42ee31606657"
+    },
+    {
+      "key": "02-079",
+      "zip": "TUC_portrait gouvernementaux.zip",
+      "filename": "UC_faction gouvernement (éducation) Tulip Rose steven_faction exilés (conseil des anciens_Elye) Taal'neïe Silven.png",
+      "group": "gouvernement",
+      "action": "create",
+      "name": "Tulip Rose Steven",
+      "targets": [
+        "pnj-portraits-gouvernement-tulip-rose-steven"
+      ],
+      "visibility": "public",
+      "sha256Original": "bb247d9462af474efcdef8d3803b088a93660bccf3dc84ed0e47035e59c76e50",
+      "src": "images/portraits/lot-3/public/portrait-02-079-bb247d9462.webp",
+      "width": 1440,
+      "height": 1728,
+      "webpBytes": 294684,
+      "sha256Webp": "af3581f4cdc4b7d185328bfdd3bd9bd003cd42d3c305ea4b6fd78346ef5a73e9"
+    },
+    {
+      "key": "03-001",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "montage_1424_(Ming Xinya)_TUC_ faction religieuse (Shintaoistes) _faction vampire (Shì hun zhe) Xinya Ming.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Ming Xinya",
+      "targets": [
+        "personnages-verite-especes-ming-xinya"
+      ],
+      "visibility": "public",
+      "sha256Original": "1952eb83a0df8b7dd47163e71077912c9a46f4ec27f75f07054e17e5c5183169",
+      "src": "images/portraits/lot-3/public/portrait-03-001-1952eb83a0.webp",
+      "width": 1824,
+      "height": 2432,
+      "webpBytes": 499336,
+      "sha256Webp": "e7f23c3a614971ef03eca00b33c16c95c26d9ac85261e10d91b68aca05396a5a"
+    },
+    {
+      "key": "03-002",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "TUC_ faction religieuse (chrétiens) Sasha Novogvna faction angelus (archange Sachiel) Sachielle.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Sasha Novogvna",
+      "targets": [
+        "personnages-verite-angelus-sasha-novogvna"
+      ],
+      "visibility": "public",
+      "sha256Original": "a71920ac6c85a3debe496f76d4109f6d48017438c28d34212c2ad02956652c8e",
+      "src": "images/portraits/lot-3/public/portrait-03-002-a71920ac6c.webp",
+      "width": 1353,
+      "height": 1640,
+      "webpBytes": 303700,
+      "sha256Webp": "70c9144e424ac497bc253d1e0c8f59472a61c2c01a9c8250a8c40b4a2e8310d2"
+    },
+    {
+      "key": "03-003",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "TUC_ faction religieuse _Melina Moya.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Melina Moya — Sénéchale de l’AUC",
+      "targets": [
+        "pnj-religions-chretiente-melina-moya"
+      ],
+      "visibility": "public",
+      "sha256Original": "abfd62606ba78c3860f80e696ac68f2d7d0ad819c45e64c0a045b2f512ab5070",
+      "src": "images/portraits/lot-3/public/portrait-03-003-abfd62606b.webp",
+      "width": 1142,
+      "height": 1522,
+      "webpBytes": 239132,
+      "sha256Webp": "f2c8431f2f2489056123980d8cbd9a8da2728b9144c0947d18edb6fefc18b16b"
+    },
+    {
+      "key": "03-004",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "TUC_ faction religieux  (Shientaoisme)_ Anaya Dharmapala_theriantropes (Vipère).jpg",
+      "group": "religions",
+      "action": "create",
+      "name": "Anaya Dharmapala",
+      "targets": [
+        "pnj-portraits-religions-anaya-dharmapala"
+      ],
+      "visibility": "public",
+      "sha256Original": "537db79ed7a30faad7aa7af7c13ac618bd7fb1202be0a299861d757543bafc5e",
+      "src": "images/portraits/lot-3/public/portrait-03-004-537db79ed7.webp",
+      "width": 1041,
+      "height": 1393,
+      "webpBytes": 186792,
+      "sha256Webp": "776b3ac3f39e53277359cc47b4ef5acf204cb3e07308c51ad6cbc8026418f0b7"
+    },
+    {
+      "key": "03-005",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "TUC_ faction religieux (chrétiens) Karen Nordhagen.jpg",
+      "group": "religions",
+      "action": "create",
+      "name": "Karen Nordhagen",
+      "targets": [
+        "pnj-portraits-religions-karen-nordhagen"
+      ],
+      "visibility": "public",
+      "sha256Original": "ec343e05cabb733e4b5dfdb86cc4a484683c9c5395b841544c66ed6d104b0f98",
+      "src": "images/portraits/lot-3/public/portrait-03-005-ec343e05ca.webp",
+      "width": 723,
+      "height": 828,
+      "webpBytes": 114824,
+      "sha256Webp": "412de8913f393405b6880c23a9bbd068712e163ad3cf6d1bffb43d1b24ec0768"
+    },
+    {
+      "key": "03-006",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "TUC_ faction religieux (CyChurch) Mordell Lee WILDLAKE.png",
+      "group": "religions",
+      "action": "replace",
+      "name": "Mordell Lee Wildlake — Le TechnoPape",
+      "targets": [
+        "pnj-religions-mordell-lee-wildlake"
+      ],
+      "visibility": "public",
+      "sha256Original": "fe563cb256847df852e1cec8d74e0b598572e9e3b19e99a482cd785a9194dc34",
+      "src": "images/portraits/lot-3/public/portrait-03-006-fe563cb256.webp",
+      "width": 2290,
+      "height": 2748,
+      "webpBytes": 1028414,
+      "sha256Webp": "ca583a2bf53fe23f37aa4c4b1280a6352df64e601c2b8d9a75ed511fd1be3324"
+    },
+    {
+      "key": "03-007",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "TUC_ faction religieux (Musulmans_ Calife) Haadir BENNANI.png",
+      "group": "religions",
+      "action": "replace",
+      "name": "Haadir Bennani — Le dernier Calife",
+      "targets": [
+        "pnj-religions-haadir-bennani"
+      ],
+      "visibility": "public",
+      "sha256Original": "34ac1fbb777054bf3647d5f502f68ae368ecc5f890172c5b70a4431d98372ca5",
+      "src": "images/portraits/lot-3/public/portrait-03-007-34ac1fbb77.webp",
+      "width": 1667,
+      "height": 2500,
+      "webpBytes": 888328,
+      "sha256Webp": "ddf55a9278a5f9ee8aacaa6bf8b2875bd11cb7500f4bf93662c4f37eb97a015d"
+    },
+    {
+      "key": "03-008",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(Abbesse) Aureliana Longo-Austin.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Aureliana Longo-Austin — Abbesse de Los Angeles",
+      "targets": [
+        "pnj-religions-chretiente-aureliana-longo-austin"
+      ],
+      "visibility": "public",
+      "sha256Original": "0ee33141f4e0445d4c0ef9c720d18001da70498c94fc299f38f735cc5d3ad220",
+      "src": "images/portraits/lot-3/public/portrait-03-008-0ee33141f4.webp",
+      "width": 926,
+      "height": 1234,
+      "webpBytes": 110974,
+      "sha256Webp": "40db5533db3c690eb780d95d0940f8449fa855ecfab371d0a1937e5552866f39"
+    },
+    {
+      "key": "03-009",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(archevêque) Josh Graff2.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Josh Evans Graff — Révérend de Los Angeles",
+      "targets": [
+        "pnj-religions-josh-graff"
+      ],
+      "visibility": "public",
+      "sha256Original": "2ae0fa43626978b95787d4706b4e6b0b5c55ba0041a4571166efd619e94144f8",
+      "src": "images/portraits/lot-3/public/portrait-03-009-2ae0fa4362.webp",
+      "width": 741,
+      "height": 1063,
+      "webpBytes": 75630,
+      "sha256Webp": "2a9b7c032e0e8dcc1c054c452ba114f824045fffb721cceba05702c725b0a841"
+    },
+    {
+      "key": "03-010",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(cardinal) Diego Rasgado.png",
+      "group": "religions",
+      "action": "replace",
+      "name": "Diego Rasgado — Cardinal d’Amérique du Sud",
+      "targets": [
+        "pnj-religions-chretiente-diego-rasgado",
+        "pnj-144-diego-rasgado"
+      ],
+      "visibility": "public",
+      "sha256Original": "bc1f25f216c3e1ce7110502a30776365ab69769eb4c036bd0a38956d0690b0a6",
+      "src": "images/portraits/lot-3/public/portrait-03-010-bc1f25f216.webp",
+      "width": 1394,
+      "height": 1655,
+      "webpBytes": 445722,
+      "sha256Webp": "bbcc5ee6d0c6601fe14e23503179fdc0b8776f8c2482bf223b55defe08f738e7"
+    },
+    {
+      "key": "03-011",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(cardinal) Handidjaja Tingzhe.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Handidjaja Tingzhe — Cardinal d’Océanie",
+      "targets": [
+        "pnj-religions-chretiente-handidjaja-tingzhe"
+      ],
+      "visibility": "public",
+      "sha256Original": "791d9f51a6fa3c67951a04f36a56cf4535bfef447ed4d22f66dc594234d50bb0",
+      "src": "images/portraits/lot-3/public/portrait-03-011-791d9f51a6.webp",
+      "width": 1084,
+      "height": 1446,
+      "webpBytes": 163594,
+      "sha256Webp": "e1265ca3f150a96e6a5d20ae541eec2c99cf9462e04e25a61a27c89842a54a2d"
+    },
+    {
+      "key": "03-012",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(cardinal) Paek Hyon-Ju.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Paek Hyon-Ju — Cardinale d’Asie",
+      "targets": [
+        "pnj-religions-chretiente-paek-hyon-ju"
+      ],
+      "visibility": "public",
+      "sha256Original": "a0375221012e78b5fbd2636887d7fca2ea5bd1f152aab42f4d6aee691cd6fd7e",
+      "src": "images/portraits/lot-3/public/portrait-03-012-a037522101.webp",
+      "width": 1852,
+      "height": 2472,
+      "webpBytes": 259946,
+      "sha256Webp": "6cab9123220a5d7444324aba774b1f3138cb7cb784bec19e8df4cc2a3265e13c"
+    },
+    {
+      "key": "03-013",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(cardinal) Quashara Whitfield.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Quashara Whitfield — Cardinale d’Antarctique",
+      "targets": [
+        "pnj-religions-chretiente-quashara-whitfield"
+      ],
+      "visibility": "public",
+      "sha256Original": "f46f8e813d33b65e4e217f11e685ac33511bddee078b0332b4bdb29e424e3249",
+      "src": "images/portraits/lot-3/public/portrait-03-013-f46f8e813d.webp",
+      "width": 1952,
+      "height": 2600,
+      "webpBytes": 677400,
+      "sha256Webp": "d0bac5e33b43cda49858a21d62e2e577fd61e99178937acb9a1b438edb96b763"
+    },
+    {
+      "key": "03-014",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(cardinal) Victor-Triomphe  Kembele.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Victor-Triomphe Kembélé — Cardinal d’Afrique",
+      "targets": [
+        "pnj-religions-chretiente-victor-triomphe-kembele"
+      ],
+      "visibility": "public",
+      "sha256Original": "3c128797e40522a64e6c35fb4da8bacf4613de66d2b7040e67917d62fca33da7",
+      "src": "images/portraits/lot-3/public/portrait-03-014-3c128797e4.webp",
+      "width": 2056,
+      "height": 2740,
+      "webpBytes": 273802,
+      "sha256Webp": "122d6f856829e05e9a343ed1a54003bf182562319232186245e1b45e486c0364"
+    },
+    {
+      "key": "03-015",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(cardinal) Zachary Woods.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Zachary Woods — Cardinal d’Amérique du Nord",
+      "targets": [
+        "pnj-religions-chretiente-zachary-woods"
+      ],
+      "visibility": "public",
+      "sha256Original": "9a2f44d24440fed5ffee25c873871317a73494764efb56151d27cb70204f154f",
+      "src": "images/portraits/lot-3/public/portrait-03-015-9a2f44d244.webp",
+      "width": 1956,
+      "height": 2604,
+      "webpBytes": 356004,
+      "sha256Webp": "1c15d1d3b3a235338368b2bb74ead19cb4da4b1cc01a092d0b7c54dc2d019ccb"
+    },
+    {
+      "key": "03-016",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(cardinal) Zoya Tarasovna.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Zora Tarasovna — Cardinale d’Europe",
+      "targets": [
+        "pnj-religions-chretiente-zora-tarasovna"
+      ],
+      "visibility": "public",
+      "sha256Original": "eda4802887e114eda6bfd90c6b04371c489e9a892a20b94f0336e4f9bc26caf0",
+      "src": "images/portraits/lot-3/public/portrait-03-016-eda4802887.webp",
+      "width": 1852,
+      "height": 2468,
+      "webpBytes": 245938,
+      "sha256Webp": "faa344e9219bf1f2e76c3e6d27e4e1c196ee83b3ed12c201dc9fd8f88c5f6b4e"
+    },
+    {
+      "key": "03-017",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(evêque) Arthur SAVAS (faction fléau (Vhaadi)_Aristaeus.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Arthur SAVAS",
+      "targets": [
+        "pnj-fleaux-focus-arthur-savas-085-arthur-savas"
+      ],
+      "visibility": "public",
+      "sha256Original": "88c05808fbf9a144ddb91f99cb8ad824b5bdec42f78a46637853933aff0ced0c",
+      "src": "images/portraits/lot-3/public/portrait-03-017-88c05808fb.webp",
+      "width": 1162,
+      "height": 1533,
+      "webpBytes": 389898,
+      "sha256Webp": "0cd731a5f13cca62ba3235a6d594551f482db4c07a64dd8a8e6494e1487231cd"
+    },
+    {
+      "key": "03-018",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "TUC_faction religieuse (chrétiens)_(Evêquesse) Laura  Sánchez_ faction garou (pelage roux).jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Laura Sanchez — Évêquesse de San Diejuana",
+      "targets": [
+        "pnj-religions-chretiente-laura-sanchez"
+      ],
+      "visibility": "public",
+      "sha256Original": "3c39ee4464ed8e3705707f4a2f96092e14841f1e9ce1f06bab006ee8afa43198",
+      "src": "images/portraits/lot-3/public/portrait-03-018-3c39ee4464.webp",
+      "width": 2664,
+      "height": 3552,
+      "webpBytes": 572004,
+      "sha256Webp": "a3b171f55813c8f348386df648e1e2e1851d0b05d02a11aed99941453625cedc"
+    },
+    {
+      "key": "03-019",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(maitre ordre des exorcistes) Radomir Pavelov HADJIEV.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Radomir Pavelov HADJIEV",
+      "targets": [
+        "personnages-verite-chasseurs-radomir-pavelov-hadjiev",
+        "pnj-religions-chretiente-radomir-hadjiev"
+      ],
+      "visibility": "public",
+      "sha256Original": "ff81377b7e287fecc81496c5d47a196cb0f25fb5aeb9e92d36bcb25c1c0c8e78",
+      "src": "images/portraits/lot-3/public/portrait-03-019-ff81377b7e.webp",
+      "width": 1404,
+      "height": 1808,
+      "webpBytes": 171364,
+      "sha256Webp": "75935fefd9315ffc5770b3a51a2c83192c0cacbe1dbef28d570571af17a40437"
+    },
+    {
+      "key": "03-020",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(maitre ordre des inquisiteurs) Juanna di Ferrantino.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Juanna di Ferrantino — Haute enquêtrice ecclésiastique",
+      "targets": [
+        "pnj-religions-chretiente-juanna-di-ferrantino",
+        "personnages-verite-chasseurs-juanna-di-ferrantino-albertini"
+      ],
+      "visibility": "public",
+      "sha256Original": "c02f517a81619de328281608526eb7dde749bce69ac4dd71b67c53e9c66ed4b2",
+      "src": "images/portraits/lot-3/public/portrait-03-020-c02f517a81.webp",
+      "width": 1780,
+      "height": 2224,
+      "webpBytes": 240424,
+      "sha256Webp": "90b7cfab895bca7acabd6186c85681971595d033be5c237affcae03bf4575ee7"
+    },
+    {
+      "key": "03-021",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(mère) Margreth Limon.jpg",
+      "group": "religions",
+      "action": "create",
+      "name": "Margreth Limon",
+      "targets": [
+        "pnj-portraits-religions-margreth-limon"
+      ],
+      "visibility": "public",
+      "sha256Original": "2b4a5297eb0ef954101fc3d916b3f3399d261acddd1180b85eabb9e3dde2c479",
+      "src": "images/portraits/lot-3/public/portrait-03-021-2b4a5297eb.webp",
+      "width": 1668,
+      "height": 2224,
+      "webpBytes": 172612,
+      "sha256Webp": "a0ff57eb87728f4454a720d5f595cdb3d340bd31b7eea6adfe3c84bdd96ba31d"
+    },
+    {
+      "key": "03-022",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(ordre arianwen) Brenda Sutton.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Brenda Sutton — Sœur Leena",
+      "targets": [
+        "pnj-religions-chretiente-brenda-sutton"
+      ],
+      "visibility": "public",
+      "sha256Original": "535c12b8a73f8dd7ac9194a4fa6bc47bbd6a0f972e62b929909f5e699fc6c747",
+      "src": "images/portraits/lot-3/public/portrait-03-022-535c12b8a7.webp",
+      "width": 1588,
+      "height": 2116,
+      "webpBytes": 244506,
+      "sha256Webp": "1027b0c07bcc63282128c7ef4b0dcacc04a8a827d409e4a3ad094273e93e82fc"
+    },
+    {
+      "key": "03-023",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(ordre arianwen) Luciana Saltarelli.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Luciana Saltarelli — Sœur Lucia",
+      "targets": [
+        "pnj-religions-chretiente-luciana-saltarelli"
+      ],
+      "visibility": "public",
+      "sha256Original": "ba5ff28d2239c2a92fe3d64e4fc6799eda1178ec8e47cb33bb53dd23ca7436cb",
+      "src": "images/portraits/lot-3/public/portrait-03-023-ba5ff28d22.webp",
+      "width": 2168,
+      "height": 2888,
+      "webpBytes": 420838,
+      "sha256Webp": "78e64dc9b5eea2bdb37678ffcd7d65ba0fdf19db2fb9a29040d3dc433568d180"
+    },
+    {
+      "key": "03-024",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(ordre arianwen) Okeenan Degath_Og.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Okeenan Degath — Abbé de terrain",
+      "targets": [
+        "pnj-religions-chretiente-okeenan-degath"
+      ],
+      "visibility": "public",
+      "sha256Original": "b3c8e4cbb2daa258e638e505007c6e40e0935784bd367699621e10f0421a9f30",
+      "src": "images/portraits/lot-3/public/portrait-03-024-b3c8e4cbb2.webp",
+      "width": 1504,
+      "height": 2008,
+      "webpBytes": 163734,
+      "sha256Webp": "be592ccf2e0b7680c1ba0bc406d5be1e0feb0f266b612c1d755e0029344caeac"
+    },
+    {
+      "key": "03-025",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(ordre Ephraïm) Rose de Manegond.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Rose de Manegond — Mère Rosie",
+      "targets": [
+        "pnj-religions-chretiente-rose-de-manegond"
+      ],
+      "visibility": "public",
+      "sha256Original": "09080aad3591e88a0e191f5c601ba2a019bdb3a9d2370e26100257cea4808e12",
+      "src": "images/portraits/lot-3/public/portrait-03-025-09080aad35.webp",
+      "width": 1356,
+      "height": 1808,
+      "webpBytes": 199510,
+      "sha256Webp": "ce21abe04274b8db7da92895f47b8f7c117bb3f5c4937185eb25d3a47329399b"
+    },
+    {
+      "key": "03-026",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(ordre Ephraïm) Thomas Harker.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Thomas Harker — Père Thomas",
+      "targets": [
+        "pnj-religions-chretiente-thomas-harker"
+      ],
+      "visibility": "public",
+      "sha256Original": "897690af327893fa617457e7008347d05f9378950f477fa8c1e492a3a9beb73c",
+      "src": "images/portraits/lot-3/public/portrait-03-026-897690af32.webp",
+      "width": 1428,
+      "height": 1904,
+      "webpBytes": 214098,
+      "sha256Webp": "f4f031bdd4cea1d723be75dbc4a8a3bc86d5984a66e98d483eee7dd4fdc89471"
+    },
+    {
+      "key": "03-027",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(ordre Magdalena) Nazarena Montenegro.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Nazarena Montenegro — Haute enquêtrice ecclésiastique",
+      "targets": [
+        "pnj-religions-chretiente-nazarena-montenegro"
+      ],
+      "visibility": "public",
+      "sha256Original": "cce49b82fb3aeb243582b73beaaad34803c195b51770ef0379e4b18d115770cc",
+      "src": "images/portraits/lot-3/public/portrait-03-027-cce49b82fb.webp",
+      "width": 1428,
+      "height": 1904,
+      "webpBytes": 148350,
+      "sha256Webp": "0534b2476babcd9440a9d48a187860579cc7669d750223ef8a44aea4aa9c0601"
+    },
+    {
+      "key": "03-028",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(ordre Magdalena) Sekino Shunsho.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Sekino Shunsho — Haut enquêteur ecclésiastique",
+      "targets": [
+        "pnj-religions-chretiente-sekino-shunsho"
+      ],
+      "visibility": "public",
+      "sha256Original": "52f168f390c3349156658c793f57ba6d27572201a8b47eed0a3a8d240f6bd8eb",
+      "src": "images/portraits/lot-3/public/portrait-03-028-52f168f390.webp",
+      "width": 1952,
+      "height": 2604,
+      "webpBytes": 302986,
+      "sha256Webp": "2c130e2c7d8d57ef5f6b2eaabba69c28729d2a177211f3167cce4690ded90012"
+    },
+    {
+      "key": "03-029",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(Patriarche) Stanley PRIDE2.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Stanley Pride — Patriarche de Las Vegas",
+      "targets": [
+        "pnj-religions-stanley-pride"
+      ],
+      "visibility": "public",
+      "sha256Original": "584f40b164b849f997cfa919ac7acc0970fdecbae7a85b2524eb7a3c8c766690",
+      "src": "images/portraits/lot-3/public/portrait-03-029-584f40b164.webp",
+      "width": 983,
+      "height": 1322,
+      "webpBytes": 145028,
+      "sha256Webp": "9cf25ee60b8283206844e75fe54525602c3bb136d3d77e93a186eff36031e43a"
+    },
+    {
+      "key": "03-030",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(Sénéchal de la garde) Liberta Wegmann.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Liberta Wegmann — Sénéchale de la garde pontificale",
+      "targets": [
+        "pnj-religions-chretiente-liberta-wegmann"
+      ],
+      "visibility": "public",
+      "sha256Original": "ac9e99a0fdfe93d0ef37c76556b328b812ef37fa9af46205f512d5df5c2f8825",
+      "src": "images/portraits/lot-3/public/portrait-03-030-ac9e99a0fd.webp",
+      "width": 1852,
+      "height": 2472,
+      "webpBytes": 260766,
+      "sha256Webp": "dbd3a723190dd7d379dfcc7ae824eea132ad91113bad8821443588684bb44828"
+    },
+    {
+      "key": "03-031",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(sénéchal) Kagiyama Kaho5.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Kagiyama Kaho — Sénéchale de l’AUC",
+      "targets": [
+        "pnj-religions-chretiente-kagiyama-kaho"
+      ],
+      "visibility": "public",
+      "sha256Original": "7a2f106db5136793f1e2d9edc0c5eb6f0a7e9c599dd43cf09bcd4a80ca7b8ce8",
+      "src": "images/portraits/lot-3/public/portrait-03-031-7a2f106db5.webp",
+      "width": 1225,
+      "height": 1515,
+      "webpBytes": 148644,
+      "sha256Webp": "36a537b33bb5b005fa344212ec03321f5ad48f2aa438a30e7cbaa44ef11dd089"
+    },
+    {
+      "key": "03-032",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(sénéchal) Leonard Collins.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Leonard Collins — Le Frozen Hero",
+      "targets": [
+        "pnj-religions-chretiente-leonard-collins"
+      ],
+      "visibility": "public",
+      "sha256Original": "b54a99391ff66f7dc7b04dc2c40b287f5c78273ffb7528c7f1ba4fdcd19de6d5",
+      "src": "images/portraits/lot-3/public/portrait-03-032-b54a99391f.webp",
+      "width": 1356,
+      "height": 1808,
+      "webpBytes": 223872,
+      "sha256Webp": "0f3bf78d625ab57d2c7436da6bdde46107c8828630c39496f94c3a82747dadf7"
+    },
+    {
+      "key": "03-033",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(sénéchal) Malcom Robinson.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Malcom Robinson — Cardinal-Sénéchal",
+      "targets": [
+        "pnj-religions-chretiente-malcom-robinson"
+      ],
+      "visibility": "public",
+      "sha256Original": "72d8cfd6ef56e9a81d8dc212dc49334c6a49bffc99b5626ce937ff9e812d9f04",
+      "src": "images/portraits/lot-3/public/portrait-03-033-72d8cfd6ef.webp",
+      "width": 1288,
+      "height": 1716,
+      "webpBytes": 152720,
+      "sha256Webp": "0c719b364add03182cd75be4d5b90a4aa7df2370d548e9ce2d694ae64c299b58"
+    },
+    {
+      "key": "03-034",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens)_(sénéchal) Zédarius Davenport8.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Zédarius Davenport — Sénéchal de l’AUC",
+      "targets": [
+        "pnj-religions-chretiente-zedarius-davenport"
+      ],
+      "visibility": "public",
+      "sha256Original": "92c7984774808b9bc2b0cc32b3c27de4d7f8f2eb7dfd8de12db1775ff539fc63",
+      "src": "images/portraits/lot-3/public/portrait-03-034-92c7984774.webp",
+      "width": 1140,
+      "height": 1431,
+      "webpBytes": 114128,
+      "sha256Webp": "675ce848edf1edc11184a53637a0ea5a56c5977bb60132cd0835967d31219fbd"
+    },
+    {
+      "key": "03-035",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "TUC_faction religieuse (chrétiens_ mèrer supérieure) Margareta Diaconescu_faction fléaux (Vhaadi)_faction daemon (Lucifer) princesse Héméra (2).png",
+      "group": "religions",
+      "action": "replace",
+      "name": "Margareta DIACONESCU",
+      "targets": [
+        "pnj-fleaux-focus-margareta-diaconescu-areta-diaconescu"
+      ],
+      "visibility": "public",
+      "sha256Original": "ec483eff9420491e0fbfb0c9f4cecee9f14a6a290fe0d0f53fd8142d21a241b5",
+      "src": "images/portraits/lot-3/public/portrait-03-035-ec483eff94.webp",
+      "width": 1864,
+      "height": 2090,
+      "webpBytes": 675866,
+      "sha256Webp": "590e9c7946ccfe4cea99a79793298878f78f57bc82d2ceb40e340b66a47e0b34"
+    },
+    {
+      "key": "03-036",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens_ papesse) _Paladia Di MELUCCI _Innocentia.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Paladia di Melucci — Innocentia XIV",
+      "targets": [
+        "pnj-religions-paladia-di-melucci"
+      ],
+      "visibility": "public",
+      "sha256Original": "25d8dfb2b99347fe899d0cd8997679fcff1a98bfefb01a233496e322ff14e3ac",
+      "src": "images/portraits/lot-3/public/portrait-03-036-25d8dfb2b9.webp",
+      "width": 1668,
+      "height": 1888,
+      "webpBytes": 446772,
+      "sha256Webp": "e304cd1c3f451750ac37d980f52159b16f32cb8c89769da166c87d1ab65cddc2"
+    },
+    {
+      "key": "03-037",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "Tuc_faction religieuse (chrétiens_haute sénéchal)_Farah Crawn_faction extrals (humains galactiques_ comissaires).jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Farah Crawn — Prélat des ordres militaires",
+      "targets": [
+        "pnj-religions-chretiente-farah-crawn"
+      ],
+      "visibility": "public",
+      "sha256Original": "4bcb67b3c0016cce04196f3f1842cb2184627cdb70adff231609acec97595b9b",
+      "src": "images/portraits/lot-3/public/portrait-03-037-4bcb67b3c0.webp",
+      "width": 1524,
+      "height": 1940,
+      "webpBytes": 274058,
+      "sha256Webp": "747638755ae2fcba1a4a26aa97c97281dae36abcbdcd0436ad3521c851ae2d8e"
+    },
+    {
+      "key": "03-038",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "TUC_faction religieuse_(mère) Azaliah Springer_(faction fléau_Zaalia’Gaer).png",
+      "group": "religions",
+      "action": "replace",
+      "name": "Azaliah SPRINGER",
+      "targets": [
+        "pnj-fleaux-focus-azaliah-springer-azaliah-springer"
+      ],
+      "visibility": "public",
+      "sha256Original": "971e423bfc099d3c6d2565ac4efecb277d11401f8846e1cb09efdfc404468e75",
+      "src": "images/portraits/lot-3/public/portrait-03-038-971e423bfc.webp",
+      "width": 1668,
+      "height": 2224,
+      "webpBytes": 385444,
+      "sha256Webp": "8a9f0f7ab7fe77fa8d871d0544bfce3ffe838092428c872c9d6028d38238e740"
+    },
+    {
+      "key": "03-039",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "TUC_faction religieuse_Din-VIII V1_  Diana Maellchire_02.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Diana Maellchire",
+      "targets": [
+        "personnages-verite-extraterrestres-diana-maellchire"
+      ],
+      "visibility": "public",
+      "sha256Original": "26946b9ec26aea7e89a61606342b4bcbdc1413794850624d2d759bfa9b30d464",
+      "src": "images/portraits/lot-3/public/portrait-03-039-26946b9ec2.webp",
+      "width": 1732,
+      "height": 2204,
+      "webpBytes": 213012,
+      "sha256Webp": "7289ea7b705062ac2eb5849c8f6bf5bb95239d7e6ae9dfe1ae3918e847567260"
+    },
+    {
+      "key": "03-040",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "TUC_faction religieux (chrétiens)  Mickael krieg _ faction Angelus (Archange Michel) Michel.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Mickael Krieg — Sénéchal de l’AUC",
+      "targets": [
+        "pnj-religions-chretiente-mickael-krieg",
+        "pnj-153-mickael-krieg"
+      ],
+      "visibility": "public",
+      "sha256Original": "d95b7d2881de00a73fecb4a606be953e8315dd1c5ee256a0cb1eea535163c4e7",
+      "src": "images/portraits/lot-3/public/portrait-03-040-d95b7d2881.webp",
+      "width": 1246,
+      "height": 1662,
+      "webpBytes": 411768,
+      "sha256Webp": "9a8fe8829a439ad14b6981254bb4508c61fe8b5156f12d4839d131943253a0d6"
+    },
+    {
+      "key": "03-041",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "TUC_faction religieux (chrétiens)  Mickael Lorn_ faction Angelus (Archange Metatron) Metatron.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Mickael Lorn",
+      "targets": [
+        "personnages-verite-angelus-mickael-lorn"
+      ],
+      "visibility": "public",
+      "sha256Original": "e257c02483fdf83553eb81cd30e5beb3efb129773f440e3568cb39ce7e3df46e",
+      "src": "images/portraits/lot-3/public/portrait-03-041-e257c02483.webp",
+      "width": 1890,
+      "height": 2524,
+      "webpBytes": 872526,
+      "sha256Webp": "0fef144d2f61914bac3caeaf8449b86eee632c170a84446d1b838dd885702bec"
+    },
+    {
+      "key": "03-042",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "TUC_faction religieux (Chrétiens) Sophie Lovecraft_ faction Angelus (Archange Zophiel) Zophielle.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Sophie LOVECRAFT",
+      "targets": [
+        "pnj-159-sophie-lovecraft"
+      ],
+      "visibility": "public",
+      "sha256Original": "d5d9b92b2d70f14542cd5b0fd40ebeeb295ae8230d5cfc7c8ffdf655b9861857",
+      "src": "images/portraits/lot-3/public/portrait-03-042-d5d9b92b2d.webp",
+      "width": 1674,
+      "height": 2174,
+      "webpBytes": 499220,
+      "sha256Webp": "836f93bffce59c9e94bdc689c78bc785e3c0957b3f5579c09ec827e215fb3945"
+    },
+    {
+      "key": "03-043",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "TUC_faction religieux (neopaiens)_Gurn Mundryas_ Gaetan Rahanitraniriana.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Gaétan Rahanitraniriana",
+      "targets": [
+        "pnj-aseryns-terres-temples-gaetan-rahanitraniriana-25"
+      ],
+      "visibility": "public",
+      "sha256Original": "973b67fc547043b48bf8af6b4bd585ba9e17ceebd58ebfb2ea8d73427aebf4de",
+      "src": "images/portraits/lot-3/public/portrait-03-043-973b67fc54.webp",
+      "width": 2004,
+      "height": 2744,
+      "webpBytes": 607822,
+      "sha256Webp": "bff6cba5806a3d794350f64a8f0910ade3dd440c90c62084a2af086b6cda68eb"
+    },
+    {
+      "key": "03-044",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "TUC_faction religieux (polythéistes) Dumitra Vladimirescu_ faction chasseurs (Table ronde Avalon) Lionel_ faction mage (sans loge).jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Dumitra Mironescu",
+      "targets": [
+        "pnj-portraits-crawlers-dumitra-mironescu"
+      ],
+      "visibility": "mj",
+      "sha256Original": "af37506b2caacbe69d2b44b7c87c9acf167ed7d566632006a5731722cc015dc9",
+      "src": "images/portraits/lot-3/mj/portrait-03-044-af37506b2c.webp",
+      "width": 1902,
+      "height": 2540,
+      "webpBytes": 693830,
+      "sha256Webp": "c1b782a606042ddee2b5c5f8d060911dff18743e377f9ed5f00f4d9aa2f7aceb"
+    },
+    {
+      "key": "03-045",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "TUC_faction religieux (saintes lagunes hérétiques)  Rolf de Vandrick _ faction chasseurs (Table ronde Avalon) Galahad.jpg",
+      "group": "religions",
+      "action": "replace",
+      "name": "Rolf de Vandrick",
+      "targets": [
+        "pnj-fleaux-rolf-de-vandrick"
+      ],
+      "visibility": "public",
+      "sha256Original": "1995a67e2c90151cf7c95341b74599b611143ba22ac037fa2ea229b230c04562",
+      "src": "images/portraits/lot-3/public/portrait-03-045-1995a67e2c.webp",
+      "width": 1402,
+      "height": 1862,
+      "webpBytes": 420450,
+      "sha256Webp": "eccc5cd86ea66cdb43024e3221ccbdfbe2bec1b1de3fa491e99d2deefe4b3440"
+    },
+    {
+      "key": "03-046",
+      "zip": "TUC_portraits religieux.zip",
+      "filename": "TUC_faction religieux_ Egilbert Kiefer.jpg",
+      "group": "religions",
+      "action": "create",
+      "name": "Egilbert Kiefer",
+      "targets": [
+        "pnj-portraits-religions-egilbert-kiefer"
+      ],
+      "visibility": "public",
+      "sha256Original": "9e168ee4dbe6d4cb5bc2d3265fb2b4b2234dd24b40a861e9a53cfea44750b3d4",
+      "src": "images/portraits/lot-3/public/portrait-03-046-9e168ee4db.webp",
+      "width": 1760,
+      "height": 2344,
+      "webpBytes": 318534,
+      "sha256Webp": "21736c6f21e964fb8ea7f99921bd6b53c3b584e5190f53f999ed235744e1cbad"
+    }
+  ]
+}

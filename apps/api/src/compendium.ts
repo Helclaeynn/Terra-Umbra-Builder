@@ -7,6 +7,7 @@ import { applyReviewedCatalogueBatch04, REVIEWED_CATALOGUE_BATCH_04_TAGS } from 
 import { applyReviewedCatalogueBatch05, REVIEWED_CATALOGUE_BATCH_05_TAGS } from "./compendium-reviewed-catalogue-batch-05.js";
 import { applyReviewedCatalogueBatch06, REVIEWED_CATALOGUE_BATCH_06_TAGS } from "./compendium-reviewed-catalogue-batch-06.js";
 import {registerCanonicalNpcGenerator} from './canonical-npc-generator.js';
+import { addPortraitRefreshArticles, applyRefreshedPortrait, portraitRefreshNavigation, type PortraitRefresh } from "./compendium-portrait-refresh.js";
 import { createHash, randomBytes } from "node:crypto";
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
@@ -3124,6 +3125,12 @@ async function loadCorpus(): Promise<Corpus> {
   applyCompendiumVeriteClosureLore(byId);
   applyCompendiumRealiteV9ClosureLore(byId);
 
+  const portraitRefresh = JSON.parse(await readFile(
+    resolve(COMPENDIUM_MEDIA_DIR, "source/portrait-refresh-20260926.json"), "utf8"
+  )) as PortraitRefresh;
+  addPortraitRefreshArticles(byId, portraitRefresh);
+  const refreshedPortraitsById = new Map(portraitRefresh.items.map((item) => [item.id, item]));
+
   const overrideSummary = await applyCommittedOverrides(byId, overridePayload);
 
   const customArticles = await pool.query<{ articleId: string; baseDocument: Article }>(
@@ -3644,6 +3651,7 @@ async function loadCorpus(): Promise<Corpus> {
       ),
       ...generatedTalentHubs.navigation,
       ...generatedBuilderReferences.navigation,
+      ...portraitRefreshNavigation(portraitRefresh),
       ...portraitOnlyLot2.articles.map((entry, index) => ({
         id: entry.id, dataset: "pnj-portraits-lot2", category: "Personnages",
         group: entry.realm === "Vérité" ? "Personnages de Vérité" : entry.group === "corporations" ? "Corporations" : "Crawlers & Underlife",
@@ -3834,6 +3842,8 @@ async function loadCorpus(): Promise<Corpus> {
         alt: "Emblème des armes nord-coréennes"
       };
     }
+    const refreshedPortrait = refreshedPortraitsById.get(article.id);
+    if (refreshedPortrait) applyRefreshedPortrait(article, refreshedPortrait);
     article.__searchText = norm(flattenText(article));
   }
 
