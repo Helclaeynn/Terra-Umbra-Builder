@@ -4700,15 +4700,40 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
   }>("/api/compendium/media/*", async (request, reply) => {
     const relative = safeMediaRelativePath(String(request.params["*"] ?? ""));
     if (!relative) return bad(reply, "invalid_compendium_media_path");
-    if (relative === "images/portraits/manifest.json" || /^images\/portraits\/lot-[^/]+\/mj\//.test(relative)) {
-      const user = await currentUser(request);
-      if (!canReadMj(user?.role)) return reply.code(403).send({ error: "mj_required" });
+    const isPortraitManifest = relative === "images/portraits/manifest.json";
+    const isMjPortrait = /^images\/portraits\/lot-[^/]+\/mj\//.test(relative);
+    const user = isPortraitManifest || isMjPortrait ? await currentUser(request) : null;
+
+    if (isMjPortrait && !canReadMj(user?.role)) {
+      return reply.code(403).send({ error: "mj_required" });
     }
 
     try {
+      if (isPortraitManifest && !canReadMj(user?.role)) {
+        const rawManifest = await readFile(resolve(COMPENDIUM_MEDIA_DIR, relative), "utf8");
+        const manifest = JSON.parse(rawManifest) as Record<string, JsonObject>;
+        const publicManifest = Object.fromEntries(
+          Object.entries(manifest).map(([lotId, lot]) => [
+            lotId,
+            {
+              ...lot,
+              items: Array.isArray(lot?.items)
+                ? lot.items.filter((item: JsonObject) =>
+                    item?.visibility === "public" &&
+                    !/(?:^|\/)images\/portraits\/lot-[^/]+\/mj\//.test(String(item?.src ?? ""))
+                  )
+                : []
+            }
+          ])
+        );
+        reply.header("Content-Type", "application/json; charset=utf-8");
+        reply.header("Cache-Control", "public, max-age=86400");
+        return reply.send(publicManifest);
+      }
+
       const body = await readFile(resolve(COMPENDIUM_MEDIA_DIR, relative));
       reply.header("Content-Type", mediaContentType(relative));
-      reply.header("Cache-Control", "private, max-age=86400");
+      reply.header("Cache-Control", canReadMj(user?.role) ? "private, max-age=86400" : "public, max-age=86400");
       return reply.send(body);
     } catch {
       return reply.code(404).send({ error: "compendium_media_not_found" });
