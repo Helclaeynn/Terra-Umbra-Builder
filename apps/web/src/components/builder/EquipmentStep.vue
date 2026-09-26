@@ -742,7 +742,7 @@ function setCorporateSupportItem(itemId:string){
             <button v-if="augmentationQuery || augmentationCategory" class="ghost compact" type="button" @click="augmentationQuery=''; augmentationCategory=''">Effacer les filtres</button>
           </div>
           <div class="catalog-category-stack">
-            <details v-for="family in augmentationCatalogGroups" :key="family.label" class="catalog-family catalog-family-disclosure">
+            <details v-for="family in augmentationCatalogGroups" :key="family.label" class="catalog-family catalog-family-disclosure" :open="Boolean(augmentationCategory || augmentationQuery)">
               <summary>
                 <span>{{ family.label }}</span>
                 <span class="family-count">{{ family.items.length }}</span>
@@ -902,7 +902,7 @@ function setCorporateSupportItem(itemId:string){
             <button v-if="equipmentQuery || equipmentCategory" class="ghost compact" type="button" @click="equipmentQuery=''; equipmentCategory=''">Effacer les filtres</button>
           </div>
           <div class="catalog-category-stack">
-            <details v-for="group in equipmentCatalogGroups" :key="group.label" class="catalog-family catalog-family-disclosure">
+            <details v-for="group in equipmentCatalogGroups" :key="group.label" class="catalog-family catalog-family-disclosure" :open="Boolean(equipmentCategory || equipmentQuery)">
               <summary>
                 <span>{{ group.label }}</span>
                 <span class="family-count">{{ group.items.length }}</span>
