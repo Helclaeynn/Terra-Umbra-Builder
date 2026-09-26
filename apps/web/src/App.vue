@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from "vue";
-import { RouterLink, useRouter } from "vue-router";
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
+import { RouterLink, useRoute, useRouter } from "vue-router";
 import CharactersPanel from "./components/CharactersPanel.vue";
 import AccountCampaigns from "./components/AccountCampaigns.vue";
 import AccountLastReading from "./components/AccountLastReading.vue";
@@ -9,6 +9,7 @@ import TerraUmbraBrand from "./components/TerraUmbraBrand.vue";
 import { api } from "./lib/api";
 import SharedCharacterSheets from "./components/SharedCharacterSheets.vue";
 const router=useRouter();
+const route=useRoute();
 const identifying=ref(true);
 let sessionGeneration=0;
 let refreshing=false;
@@ -60,6 +61,12 @@ const roleLabels: Record<Role, string> = {
 const health = ref("…");
 const setupRequired = ref(false);
 const user = ref<User | null>(null);
+watch([()=>route.hash,()=>user.value?.id],async()=>{
+  if(route.hash!=='#characters'||!user.value)return;
+  await nextTick();
+  const section=document.getElementById('characters') as HTMLDetailsElement|null;
+  if(section){section.open=true;requestAnimationFrame(()=>section.scrollIntoView({block:'start'}));}
+});
 const adminUsers = ref<User[]>([]);
 const adminQuery=ref('');
 const filteredAdminUsers=computed(()=>{const q=adminQuery.value.trim().toLocaleLowerCase('fr');return q?adminUsers.value.filter(account=>`${account.displayName} ${account.email} ${roleLabels[account.role]}`.toLocaleLowerCase('fr').includes(q)):adminUsers.value;});

@@ -543,14 +543,23 @@ function articleForAudience(article: Article, includeMj: boolean): Article {
   if (!includeMj) {
     const isPrivatePortrait = (media: unknown) =>
       /(?:^|\/)images\/portraits\/lot-[^/]+\/mj\//.test(String(typeof media === "string" ? media : (media as JsonObject | null)?.src ?? ""));
-    if (isPrivatePortrait(result.image)) delete result.image;
-    if (isPrivatePortrait(result.illustration)) delete result.illustration;
+    const publicPortrait = result.gallery?.find((media: JsonObject) =>
+      /(?:^|\/)images\/portraits\/lot-[^/]+\/public\//.test(String(media?.src ?? ""))) as JsonObject | undefined;
+    if (isPrivatePortrait(result.image)) {
+      if (publicPortrait) result.image = publicPortrait;
+      else delete result.image;
+    }
+    if (isPrivatePortrait(result.illustration)) {
+      if (publicPortrait) result.illustration = publicPortrait;
+      else delete result.illustration;
+    }
     if (Array.isArray(result.gallery)) result.gallery = result.gallery.filter((media) => !isPrivatePortrait(media));
     const protectedIdentity = hasProtectedPnjIdentity(article);
     if (Array.isArray(result.sections)) result.sections = result.sections.filter((section) => section?.audience !== "mj");
     if (result.pnj && typeof result.pnj === "object") {
       const pnj = result.pnj as JsonObject;
-      result.pnj = {...(pnj.portrait && !isPrivatePortrait(pnj.portrait)?{portrait:pnj.portrait}:{}),...(pnj.portrait_alt?{portrait_alt:pnj.portrait_alt}:{}),...(pnj.portrait_caption?{portrait_caption:pnj.portrait_caption}:{})};
+      const portrait = pnj.portrait && !isPrivatePortrait(pnj.portrait) ? pnj.portrait : String(publicPortrait?.src ?? "");
+      result.pnj = {...(portrait?{portrait}:{}),...(pnj.portrait_alt?{portrait_alt:pnj.portrait_alt}:{}),...(pnj.portrait_caption?{portrait_caption:pnj.portrait_caption}:{})};
     }
     if (protectedIdentity) {
       delete result.dataset;
