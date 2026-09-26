@@ -10,7 +10,7 @@ process.chdir(resolve(root,'apps/api'));
 const {pool}=await import(pathToFileURL(resolve(root,'apps/api/dist/db.js')).href);
 pool.query=async sql=>{
   if(/FROM sessions s/.test(String(sql)))return {rows:[{id:'00000000-0000-4000-8000-000000000001',email:'portrait-test@example.invalid',display_name:'Portrait test',role:'admin',is_active:true,created_at:new Date().toISOString(),last_login_at:null}]};
-  if(/UPDATE sessions|FROM compendium_custom_articles|FROM compendium_article_edits|(?:FROM|INTO) compendium_legacy_articles|FROM compendium_deleted_articles/.test(String(sql)))return {rows:[]};
+  if(/UPDATE sessions|FROM compendium_portrait_visibility|FROM compendium_custom_articles|FROM compendium_article_edits|(?:FROM|INTO) compendium_legacy_articles|FROM compendium_deleted_articles/.test(String(sql)))return {rows:[]};
   throw Error('Unexpected DB query: '+sql);
 };
 const {getCompendiumQualityCorpus,registerCompendiumRoutes}=await import(pathToFileURL(resolve(root,'apps/api/dist/compendium.js')).href);
