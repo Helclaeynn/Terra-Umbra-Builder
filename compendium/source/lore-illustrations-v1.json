@@ -1088,6 +1088,1392 @@
       "src": "images/lore/realite-sinaloa-table-blanche.webp",
       "alt": "Des représentants de cartels rivaux sont réunis autour d’une table blanche dans une atmosphère tendue.",
       "caption": "La « table blanche » impose aux autres cartels une participation et un tribut sous la domination du Sinaloa."
+    },
+    {
+      "articleId": "verite-v7-derriere-le-voile",
+      "sectionId": "aucune-capitale-du-monde-cache",
+      "src": "images/lore/verite-derriere-voile-negociation.webp",
+      "alt": "Dans un bar discret, un Ashyll et un enquêteur humain négocient autour d’un dossier.",
+      "caption": "Les accords personnels et les lieux neutres relient des communautés sans gouvernement commun. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-ten-eveils-2035",
+      "sectionId": "ten-chronologie-1",
+      "src": "images/lore/verite-ten-port.webp",
+      "alt": "Un micro-typhon se concentre sur un hangar du port marchand de Los Angeles.",
+      "caption": "19–20 février 2035 : le micro-typhon du port accompagne l’affaiblissement d’une chaîne de V’Aagor. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-ten-eveils-2035",
+      "sectionId": "ten-chronologie-8",
+      "src": "images/lore/verite-ten-nextar.webp",
+      "alt": "Des étages de la Nextar Tower sont enveloppés de gaz blanc pendant l’évacuation du quartier.",
+      "caption": "4 mars 2035 : l’attaque de la Nextar Tower provoque une évacuation dans le quartier corporatif. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-ten-eveils-2035",
+      "sectionId": "ten-chronologie-7",
+      "src": "images/lore/verite-ten-keahi.webp",
+      "alt": "Une île volcanique nouvelle émerge au large de Los Angeles sous un vaste panache de vapeur.",
+      "caption": "Trame non datée : l’apparition de l’île Keahi laisse un immense panache de vapeur au large de Los Angeles. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-v7-voile-hologramme",
+      "sectionId": "memoire-preuves-et-mensonges-sinceres",
+      "src": "images/lore/verite-voile-preuves.webp",
+      "alt": "Un analyste compare deux enregistrements divergents d’un même interlocuteur.",
+      "caption": "Une observation adaptée et un support invariant peuvent conserver ce que les appareils ordinaires ne montrent pas. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-voile-hologramme",
+      "sectionId": "ce-que-l-hologramme-ne-protege-pas",
+      "src": "images/lore/verite-voile-consequences.webp",
+      "alt": "Des enquêteurs examinent une voiture et une porte endommagées après un incident de Vérité.",
+      "caption": "Le Voile peut corriger une explication ; les dégâts matériels et leurs conséquences demeurent. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-v7-voile-hologramme",
+      "sectionId": "les-endroits-ou-le-monde-tient-moins-bien",
+      "src": "images/lore/verite-voile-fissure.webp",
+      "alt": "Une fissure instable s’ouvre dans une zone industrielle désertée à l’écart de la ville.",
+      "caption": "Les fissures locales peuvent se refermer ; elles ne constituent pas des routes sûres vers l’Ombremonde. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-habiter-la-verite",
+      "sectionId": "une-journee-derriere-le-monde-visible",
+      "src": "images/lore/verite-habiter-metro.webp",
+      "alt": "Une employée se rend au travail dans le métro de Los Angeles en 2035.",
+      "caption": "Une Elyë née sur Terre peut vivre une vie civile entière sous une apparence humaine cohérente. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-v7-habiter-la-verite",
+      "sectionId": "la-verite-et-les-lieux",
+      "src": "images/lore/verite-habiter-atelier.webp",
+      "alt": "Un atelier automobile abrite aussi un travail discret sur un dispositif de Vérité.",
+      "caption": "Un lieu de Vérité conserve souvent une fonction ordinaire : le même atelier peut servir deux activités. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-cycle-neant-ombremonde-histoire-cachee",
+      "sectionId": "l-ombremonde-le-reste-du-monde",
+      "src": "images/lore/verite-ombremonde-route.webp",
+      "alt": "Deux voyageurs suivent une route étroite dans l’immensité dangereuse de l’Ombremonde.",
+      "caption": "Dans l’Ombremonde, connaître une route peut compter davantage que posséder une arme. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-v7-garous-khinae-meutes-pelages",
+      "sectionId": "formes",
+      "src": "images/lore/verite-garous-mue.webp",
+      "alt": "Un Garou sous forme hybride reprend souffle après une Mue.",
+      "caption": "La Mue produit un corps de guerre, mais exige un effort réel. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-descendants-khinae",
+      "sectionId": "therianthropes-complement-felides",
+      "src": "images/lore/verite-khinae-felins.webp",
+      "alt": "Des descendants félins maintiennent le contact dans un refuge urbain discret.",
+      "caption": "Les lignées félines peuvent s’entraider sans partager l’Appel de la Meute lupine. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-descendants-khinae",
+      "sectionId": "milieux",
+      "src": "images/lore/verite-khinae-marin.webp",
+      "alt": "Un descendant marin de Khinae surveille les profondeurs autour d’une installation offshore.",
+      "caption": "Les lignées aquatiques organisent leur existence autour d’autres milieux et d’autres perceptions. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-pelages-blancs",
+      "sectionId": "dossier",
+      "src": "images/lore/verite-pelages-blancs.webp",
+      "alt": "Des Garous s’entraînent dans un refuge des régions septentrionales.",
+      "caption": "La discipline et la mémoire des Ulfhednars marquent l’héritage des Pelages blancs. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-pelages-dores",
+      "sectionId": "dossier",
+      "src": "images/lore/verite-pelages-dores.webp",
+      "alt": "Une chasse occulte se prépare dans un repaire des Pelages dorés.",
+      "caption": "Chez les Pelages dorés, certaines traditions cherchent à acquérir savoirs et puissance par la Dévoration. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-pelages-bruns",
+      "sectionId": "dossier",
+      "src": "images/lore/verite-pelages-bruns.webp",
+      "alt": "Un Garou entretient un lien discret avec les esprits.",
+      "caption": "Les Pelages bruns cultivent une proximité ancienne avec les Kami et les Keltas. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-pelages-roux",
+      "sectionId": "dossier",
+      "src": "images/lore/verite-pelages-roux.webp",
+      "alt": "Des représentants d’un clan négocient au sein d’une entreprise contemporaine.",
+      "caption": "Les Pelages roux s’insèrent aussi dans les corporations et les institutions humaines. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-v7-garous-khinae-meutes-pelages",
+      "sectionId": "appel-meute",
+      "src": "images/lore/verite-garous-meute.webp",
+      "alt": "Une Meute se retrouve dans son lieu de vie partagé.",
+      "caption": "L’Appel de la Meute nourrit l’appartenance et la protection sans effacer les personnes. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-pelages-noirs",
+      "sectionId": "dossier",
+      "src": "images/lore/verite-pelages-noirs.webp",
+      "alt": "Un clan moderne prépare ses déplacements dans un refuge urbain.",
+      "caption": "L’histoire des Pelages noirs se prolonge dans des clans aux parcours très différents. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-pelages-gris",
+      "sectionId": "dossier",
+      "src": "images/lore/verite-pelages-gris.webp",
+      "alt": "Des membres d’une Meute protègent un lieu de vie communautaire.",
+      "caption": "Les Pelages gris revendiquent la paix et la sécurité des Garous, malgré leurs divisions. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-pelages-autres",
+      "sectionId": "dossier",
+      "src": "images/lore/verite-pelages-galeux.webp",
+      "alt": "Un réseau de parias assure un soutien logistique entre communautés.",
+      "caption": "Les Galeux peuvent fournir un appui neutre aux autres factions. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-vampires-alghul-almalakiu",
+      "sectionId": "le-pouvoir-dans-le-sang",
+      "src": "images/lore/verite-alghul-fioles.webp",
+      "alt": "Des fioles de sang sont conservées dans une réserve protégée de l’Alghul.",
+      "caption": "L’Alghul conserve du sang pour préparer des rites de retour après la destruction du corps. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-vampires-ihuito-meztzi",
+      "sectionId": "seigneurs-et-hauts-pretres",
+      "src": "images/lore/verite-ihuito-sanctuaire.webp",
+      "alt": "Un sanctuaire souterrain abrite les activités d’une Maison religieuse de l’Ihuito.",
+      "caption": "Les Ah’kin Ajaw gouvernent des Maisons religieuses et des sanctuaires redoutés. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-vampires-oru-ayeraye",
+      "sectionId": "maisons-et-deimons",
+      "src": "images/lore/verite-oru-deimon.webp",
+      "alt": "Un Vampire de l’Oru négocie avec le Deimon lié à sa Maison.",
+      "caption": "Le lien entre une Maison et son Deimon peut être une alliance autant qu’une dépendance. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-vampires-shi-hun-zhe",
+      "sectionId": "trois-excellences-et-huit-ministres",
+      "src": "images/lore/verite-shi-hun-administration.webp",
+      "alt": "Des agents de la Cour des Anciens travaillent dans une administration de Vérité.",
+      "caption": "La Shì Hun Zhe conserve une structure impériale dans le monde de 2035. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-vampires-cours-secondaires",
+      "sectionId": "un-rapport-de-forces-ecrasant",
+      "src": "images/lore/verite-cours-secondaires-refuge.webp",
+      "alt": "Une petite Cour maintient ses liens dans un refuge discret.",
+      "caption": "Face aux grandes puissances vampiriques, les Cours secondaires dépendent de la discrétion. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-vampires-lavandieres",
+      "sectionId": "linge-sale",
+      "src": "images/lore/verite-lavandieres-traque.webp",
+      "alt": "Une Lavandière suit les traces d’un Vampire devenu compromettant.",
+      "caption": "Les Lavandières interviennent contre les Vampires dont les actes menacent le secret collectif. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-vampires-civilisation-cours-sangs",
+      "sectionId": "alghul",
+      "src": "images/lore/verite-vampires-archives.webp",
+      "alt": "Des archivistes vampiriques comparent manuscrits anciens et données préservées.",
+      "caption": "Pour l’Alghul, la mémoire et le savoir sont des sources de pouvoir. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-vampires-krovni-rytsari",
+      "sectionId": "noblesse-et-succession",
+      "src": "images/lore/verite-krovni-succession.webp",
+      "alt": "Des vassaux expriment ouvertement leur choix de succession.",
+      "caption": "Dans la Krovni, l’élection d’un successeur sans héritier désigné n’est pas anonyme. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-v7-vampires-civilisation-cours-sangs",
+      "sectionId": "civilisation-2035",
+      "src": "images/lore/verite-vampires-maison.webp",
+      "alt": "Une Maison vampirique réunit plusieurs générations dans un bureau nocturne.",
+      "caption": "Les Maisons transposent leurs anciens rapports de pouvoir dans les institutions de 2035. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-mages-mageius-roue-loges",
+      "sectionId": "comprendre-avant-d-imposer",
+      "src": "images/lore/verite-mages-laboratoire.webp",
+      "alt": "Une Mage alchimiste applique ses connaissances dans un laboratoire.",
+      "caption": "La Magie prolonge l’expertise du Mage : elle ne la remplace pas. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-mages-mageius-roue-loges",
+      "sectionId": "les-loges",
+      "src": "images/lore/verite-mages-loge.webp",
+      "alt": "Une Loge locale réunit ses membres autour d’une question commune.",
+      "caption": "Les Loges délibèrent localement dans une société magique décentralisée. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-v7-mages-mageius-roue-loges",
+      "sectionId": "uvres-echos-et-heritage",
+      "src": "images/lore/verite-mages-heritage.webp",
+      "alt": "Un Mage retrouve un geste transmis par un ancien porteur de son Mageius.",
+      "caption": "Les Échos conservent des techniques et des affinités plutôt qu’une personne enfermée. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-daemons-divinites-maisonnees-temples",
+      "sectionId": "temples-daemoniaques-dossier-belial",
+      "src": "images/lore/verite-daemons-faith.webp",
+      "alt": "Le cabinet Faith abrite l’ancrage terrestre de la Cour de Belial.",
+      "caption": "Un Temple peut se dissimuler dans une institution de la Réalité. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-v7-daemons-divinites-maisonnees-temples",
+      "sectionId": "temples-daemoniaques-dossier-lilith",
+      "src": "images/lore/verite-daemons-redwheels.webp",
+      "alt": "Les studios Redwheels abritent le Temple de Lilith.",
+      "caption": "Les Maisonnées de Lilith associent désir, attachement et solidarités choisies. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-v7-daemons-divinites-maisonnees-temples",
+      "sectionId": "temples-daemoniaques-dossier-alabor",
+      "src": "images/lore/verite-daemons-alabor.webp",
+      "alt": "Un serviteur d’Alabor manifeste une affinité avec les brumes.",
+      "caption": "Les Attributs d’Alabor se déclinent dans les eaux, les vagues, la pression et la pluie. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-daemons-divinites-maisonnees-temples",
+      "sectionId": "deux-vies-parfois-davantage",
+      "src": "images/lore/verite-daemons-memoires.webp",
+      "alt": "Une incarnation daemoniaque confronte sa vie actuelle aux traces d’une existence ancienne.",
+      "caption": "L’Éveil ajoute des souvenirs anciens à une véritable identité contemporaine. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "lore-hunters-association",
+      "sectionId": "fonctionnement-general",
+      "src": "images/lore/verite-association-bar.webp",
+      "alt": "Un Bar de l’Association accueille Chasseurs et renseignements.",
+      "caption": "Les Bars fournissent des lieux sûrs, de l’équipement et des informations. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "lore-hunters-association-gate-hunt",
+      "sectionId": "gate-of-truth",
+      "src": "images/lore/verite-association-gate.webp",
+      "alt": "Un Chasseur présente son badge Gate of Truth pour accéder à un espace réservé.",
+      "caption": "Le badge atteste une habilitation, sans conférer de puissance. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "lore-hunters-xenoshield",
+      "sectionId": "fonctionnement",
+      "src": "images/lore/verite-xenoshield-armure.webp",
+      "alt": "Des Sentinelles vérifient leur armure biotechnologique.",
+      "caption": "Le Xenoshield associe une enveloppe vivante à un exosquelette mécanique. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-angelus-elynea-arbre-vie",
+      "sectionId": "angelus-source-architecture-concrete",
+      "src": "images/lore/verite-angelus-revele.webp",
+      "alt": "Un Angelus déploie une paire d’ailes transcendées.",
+      "caption": "Les ailes et l’Auréole manifestent la Transcendance ; un simple Angelus possède une paire d’ailes. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-angelus-elynea-arbre-vie",
+      "sectionId": "incarnation-et-personne-mortelle",
+      "src": "images/lore/verite-angelus-incarnation.webp",
+      "alt": "Une Angelus conserve les attaches de son incarnation humaine.",
+      "caption": "L’Éveil n’efface pas la famille, les souvenirs ni la vie vécue sur Terre. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-v7-angelus-elynea-arbre-vie",
+      "sectionId": "les-religions-humaines-ne-sont-pas-leur-territoire",
+      "src": "images/lore/verite-angelus-eglise.webp",
+      "alt": "Un Angelus rencontre une autorité religieuse humaine qui conserve son indépendance.",
+      "caption": "Une apparence céleste ne suffit pas à obtenir l’obéissance des institutions humaines. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "lore-hunters-chretiens",
+      "sectionId": "l-ordre-d-ephraim",
+      "src": "images/lore/verite-chasseurs-ephraim.webp",
+      "alt": "Un exorciste d’Ephraïm examine une influence surnaturelle.",
+      "caption": "L’enquête et le repérage précèdent le Bannissement. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "lore-hunters-chretiens",
+      "sectionId": "l-ordre-d-arianwen",
+      "src": "images/lore/verite-chasseurs-arianwen.webp",
+      "alt": "Les ateliers d’Arianwen entretiennent les armes de la Chasse.",
+      "caption": "L’ordre assure aussi la logistique et la protection des armes-reliques. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "lore-hunters-chretiens",
+      "sectionId": "l-ordre-de-magdalena",
+      "src": "images/lore/verite-chasseurs-magdalena.webp",
+      "alt": "Une inquisitrice de Magdalena recoupe des traces administratives.",
+      "caption": "La convergence d’anomalies permet de sélectionner une cible. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "lore-hunters-musulmans",
+      "sectionId": "les-envouteurs",
+      "src": "images/lore/verite-chasseurs-envouteurs.webp",
+      "alt": "Un Envoûteur rappelle un pacte à une créature élémentaire.",
+      "caption": "Le chant soutient une diplomatie fondée sur des accords anciens. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "lore-hunters-musulmans",
+      "sectionId": "les-dualistes",
+      "src": "images/lore/verite-chasseurs-dualistes.webp",
+      "alt": "Un Dualiste emploie le Feu Lucide contre une influence d’Ombre.",
+      "caption": "Le Feu Lucide révèle et consume, au risque de la vue du Chasseur. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-angelus-sephira-kether",
+      "sectionId": "structure",
+      "src": "images/lore/verite-kether-conscience.webp",
+      "alt": "Un Angelus médite sur l’unité et la conscience.",
+      "caption": "Kether associe domination, conscience et unité. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-angelus-sephira-hokhma",
+      "sectionId": "structure",
+      "src": "images/lore/verite-hokhma-sagesse.webp",
+      "alt": "Une Angelus poursuit l’étude de la Sagesse.",
+      "caption": "Hokhma relie sagesse, pureté et magie. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-angelus-sephira-bina",
+      "sectionId": "structure",
+      "src": "images/lore/verite-bina-comprehension.webp",
+      "alt": "Un Angelus examine les liens entre choix et limites.",
+      "caption": "Bina associe intellect, destin et limitations. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-angelus-sephira-hesed",
+      "sectionId": "structure",
+      "src": "images/lore/verite-hesed-misericorde.webp",
+      "alt": "Une Angelus apporte du réconfort dans un lieu de soin.",
+      "caption": "Hesed associe miséricorde, guérison et créativité. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-angelus-sephira-gueburah",
+      "sectionId": "structure",
+      "src": "images/lore/verite-gueburah-force.webp",
+      "alt": "Un Angelus se tient prêt à défendre une position.",
+      "caption": "Gueburah relie force, justice et guerre. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-angelus-sephira-tiph-ereth",
+      "sectionId": "structure",
+      "src": "images/lore/verite-tiphereth-devotion.webp",
+      "alt": "Une Angelus veille dans un lieu de dévotion.",
+      "caption": "Tiph’Ereth réunit foi, dévotion et sacrifice. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-angelus-sephira-nesah",
+      "sectionId": "structure",
+      "src": "images/lore/verite-nesah-attachement.webp",
+      "alt": "Un Angelus manifeste un attachement au monde mortel.",
+      "caption": "Nesah associe succès, amour et sexualité. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-angelus-sephira-hod",
+      "sectionId": "structure",
+      "src": "images/lore/verite-hod-savoir.webp",
+      "alt": "Une Angelus explore les savoirs du monde contemporain.",
+      "caption": "Hod associe gloire, science et savoir. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-angelus-sephira-yessod",
+      "sectionId": "structure",
+      "src": "images/lore/verite-yessod-reves.webp",
+      "alt": "Un Angelus traverse un paysage onirique.",
+      "caption": "Yessod relie rêves, illusion et imagination. Représentation illustrative de Vérité : les principes et phénomènes montrés ne correspondent pas à la vision ordinaire d’un humain."
+    },
+    {
+      "articleId": "verite-angelus-sephira-malkhouth",
+      "sectionId": "structure",
+      "src": "images/lore/verite-malkhouth-seuil.webp",
+      "alt": "Une Angelus veille au seuil de la mort.",
+      "caption": "Malkhouth associe mort, monde physique et poids. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "lore-hunters-hindouistes",
+      "sectionId": "gourous-de-brahma-et-sarasvati",
+      "src": "images/lore/verite-gourou-brahma.webp",
+      "alt": "Un Gourou restaure un objet altéré par le temps.",
+      "caption": "Les traditions de Brahma et Sarasvati protègent le Cycle et la connaissance. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "lore-hunters-hindouistes",
+      "sectionId": "gourous-de-vishnou-et-lakshmi",
+      "src": "images/lore/verite-gourou-vishnou.webp",
+      "alt": "Un Gourou protège un passage fréquenté.",
+      "caption": "La tradition de Vishnou et Lakshmi défend les personnes et le présent. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "lore-hunters-shientaoistes",
+      "sectionId": "chasseurs-shintoistes",
+      "src": "images/lore/verite-shinto-sceaux.webp",
+      "alt": "Une Miko emploie des sceaux de papier.",
+      "caption": "Les traditions shintoïstes protègent les sanctuaires et traitent la Souillure. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "lore-hunters-shientaoistes",
+      "sectionId": "chasseurs-taoiste",
+      "src": "images/lore/verite-tao-talismans.webp",
+      "alt": "Un Chasseur taoïste travaille l’équilibre et la circulation du Qi.",
+      "caption": "La discipline du souffle accompagne l’usage des talismans de bois. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "lore-hunters-shientaoistes",
+      "sectionId": "chasseurs-confucianistes",
+      "src": "images/lore/verite-confucianiste-jugement.webp",
+      "alt": "Une Chasseuse confucianiste interroge une cible.",
+      "caption": "Le Jugement sonde l’écart entre la personne et les principes de l’Humain. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "lore-hunters-shientaoistes",
+      "sectionId": "chasseurs-bouddhistes",
+      "src": "images/lore/verite-bouddhiste-sutra.webp",
+      "alt": "Un Chasseur bouddhiste déploie son Sutra.",
+      "caption": "Les Sutras peuvent neutraliser l’action de l’Hologramme par leur présence. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "lore-hunters-confreries",
+      "sectionId": "l-influence-egyptienne",
+      "src": "images/lore/verite-confrerie-egyptienne.webp",
+      "alt": "Un Chasseur entretient un khopesh technologique.",
+      "caption": "Certaines confréries conservent des armes et des dons issus de traditions anciennes. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "lore-hunters-confreries",
+      "sectionId": "fonctionnement",
+      "src": "images/lore/verite-confrerie-transmission.webp",
+      "alt": "Une Chasseuse transmet une méthode à un nouveau membre.",
+      "caption": "Les confréries reposent souvent sur des savoirs limités transmis personnellement. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-v7-aseryns-serathe-atlantide-treize",
+      "sectionId": "les-aseryns-en-2035",
+      "src": "images/lore/verite-aseryns-ville.webp",
+      "alt": "Deux Aseryns échangent dans une ville moderne.",
+      "caption": "Des héritages anciens traversent les vies de 2035. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-v7-aseryns-serathe-atlantide-treize",
+      "sectionId": "les-paleo-atlantes-et-le-traumatisme-du-temps",
+      "src": "images/lore/verite-aseryns-stase.webp",
+      "alt": "Un Paléo-Atlante se réveille auprès d’un sarcophage de stase.",
+      "caption": "Le réveil ne supprime pas le traumatisme du temps perdu. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-aseryns-serathe-atlantide-treize",
+      "sectionId": "les-treize-comme-langage-commun",
+      "src": "images/lore/verite-aseryns-treize.webp",
+      "alt": "Des disciples étudient les traditions des Fondateurs.",
+      "caption": "Les Treize constituent un héritage appris, pas des castes de sang. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-aseryns-serathe-atlantide-treize",
+      "sectionId": "une-physiologie-faite-pour-l-orage",
+      "src": "images/lore/verite-aseryns-foudre.webp",
+      "alt": "Une maîtresse aseryne enseigne la maîtrise de la foudre.",
+      "caption": "La puissance bioélectrique se travaille et se transmet. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-aseryns-neo-atlantide-territoires",
+      "sectionId": "neo-atlantide-territoire",
+      "src": "images/lore/verite-neo-atlantide-rivage.webp",
+      "alt": "Un port de Néo-Atlantide entre mer, métal et végétation.",
+      "caption": "Une terre revenue dans l’Ombremonde, habitée et fragile. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-aseryns-neo-atlantide-territoires",
+      "sectionId": "neo-atlantide-politique",
+      "src": "images/lore/verite-neo-atlantide-passages.webp",
+      "alt": "Des voyageurs attendent au seuil d’un passage surveillé.",
+      "caption": "L’accueil des nouveaux venus divise le royaume. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-aseryns-mu-royaume",
+      "sectionId": "mu-moderne",
+      "src": "images/lore/verite-mu-port.webp",
+      "alt": "Une cité mûlienne sur les terres revenues.",
+      "caption": "Mû retrouve ses territoires sans effacer ses blessures. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-aseryns-mu-royaume",
+      "sectionId": "mu-retour",
+      "src": "images/lore/verite-mu-lac-interdit.webp",
+      "alt": "Le lac interdit s’étend autour d’un îlot inquiétant.",
+      "caption": "Le retour de Mû laisse subsister des lieux maudits. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-aseryns-lemurie-royaumes",
+      "sectionId": "lemurie-peuple",
+      "src": "images/lore/verite-lemurie-brumes.webp",
+      "alt": "Un jardin lémurian entre brume et canaux.",
+      "caption": "L’héritage nymphal imprègne les liens aux éléments. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-aseryns-lemurie-royaumes",
+      "sectionId": "lemurie-politique",
+      "src": "images/lore/verite-lemurie-election.webp",
+      "alt": "Des représentants lémurians délibèrent dans une salle ouverte.",
+      "caption": "Les familles élisent leurs dirigeants selon un long cycle politique. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-aseryns-hyperboree-royaume",
+      "sectionId": "hyperboree-royaume",
+      "src": "images/lore/verite-hyperboree-vallees.webp",
+      "alt": "Des vallées fertiles s’ouvrent derrière la côte glacée.",
+      "caption": "L’Hyperborée ne se réduit pas à une étendue de glace. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-aseryns-hyperboree-royaume",
+      "sectionId": "hyperboree-royaume",
+      "src": "images/lore/verite-hyperboree-hall.webp",
+      "alt": "Des Jarls votent à main levée au Hall.",
+      "caption": "Les décisions du royaume passent aussi par l’assemblée. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-aseryns-diasporas-conseil-foudre",
+      "sectionId": "diaspora-origines",
+      "src": "images/lore/verite-seratheens-diaspora.webp",
+      "alt": "Une famille serathéenne conserve des objets transmis.",
+      "caption": "Des héritages multiples se mêlent aux vies continentales. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-aseryns-diasporas-conseil-foudre",
+      "sectionId": "diaspora-conseil",
+      "src": "images/lore/verite-conseil-foudre.webp",
+      "alt": "Une assemblée écoute la parole des ancêtres dans la grotte.",
+      "caption": "Le Conseil de la Foudre relie des communautés nord-américaines. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-aseryns-ordre-sepulcral",
+      "sectionId": "sepulcral-histoire",
+      "src": "images/lore/verite-ordre-sepulcral.webp",
+      "alt": "Une gardienne de l’Ordre Sépulcral surveille le Mausolée.",
+      "caption": "L’Ordre protège le tombeau et l’image sacrée de Serathè. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-aseryns-temple-createur",
+      "sectionId": "createur-origines",
+      "src": "images/lore/verite-temple-createur.webp",
+      "alt": "Des gardiennes protègent les écrits du Temple du Créateur.",
+      "caption": "La prêtrise aseryne s’est constituée autour des Gardiennes. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-aseryns-temple-esprit",
+      "sectionId": "esprit-kaligoora",
+      "src": "images/lore/verite-temple-esprit.webp",
+      "alt": "Une prêtresse de la Dame accompagne une communion de l’Ombre-Songe.",
+      "caption": "Le culte survit dans les marges et partage ses savoirs. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-aseryns-temple-erosion",
+      "sectionId": "erosion-ordre",
+      "src": "images/lore/verite-temple-erosion.webp",
+      "alt": "Une Vieille voyage avec deux Chevaliers de la Ruine.",
+      "caption": "Les protecteurs partagent le fardeau de l’Érosion. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-aseryns-temple-fin",
+      "sectionId": "fin-origines",
+      "src": "images/lore/verite-temple-fin.webp",
+      "alt": "Une prêtresse emploie la Foudre du Silence pour une gravure précise.",
+      "caption": "La Fin peut se manifester dans un geste d’une extrême finesse. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-v7-exiles-peuples-silcenters-traditions",
+      "sectionId": "silcenters",
+      "src": "images/lore/verite-exiles-silcenter.webp",
+      "alt": "Un Silcenter accueille plusieurs peuples sous leur véritable apparence.",
+      "caption": "Les Silcenters sont des communautés vivantes. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-exiles-peuples-silcenters-traditions",
+      "sectionId": "atelier-iron-law",
+      "src": "images/lore/verite-exiles-atelier.webp",
+      "alt": "Une artisane whurtenne entretient une augmentation.",
+      "caption": "La réparation et la durée de vie guident l’Atelier des Clans. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-exiles-peuples-silcenters-traditions",
+      "sectionId": "technomagie-moderne",
+      "src": "images/lore/verite-exiles-azmenor.webp",
+      "alt": "Une Azménorienne examine un dispositif technomagique.",
+      "caption": "La reconstruction moderne avance par procédures limitées. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-exiles-peuples-silcenters-traditions",
+      "sectionId": "elye",
+      "src": "images/lore/verite-exiles-memoire.webp",
+      "alt": "Une Elyë transmet la mémoire d’Aèr à une adulte née sur Terre.",
+      "caption": "L’héritage ne suppose pas d’avoir connu le monde d’origine. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-exiles-conseil-anciens",
+      "sectionId": "conseil-silcenters",
+      "src": "images/lore/verite-conseil-silcenter.webp",
+      "alt": "Un accueil communautaire aide les nouveaux arrivants.",
+      "caption": "Les réseaux du Conseil accompagnent la vie terrestre. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-fantastiques-dragons-peuples-rares-aer",
+      "sectionId": "nareysvors",
+      "src": "images/lore/verite-dragon-revele.webp",
+      "alt": "Un Nareysvor sous sa forme véritable.",
+      "caption": "Quatre pattes et deux ailes caractérisent les Dragons d’Aèr. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-fantastiques-dragons-peuples-rares-aer",
+      "sectionId": "nareysvors-recurrences-2035",
+      "src": "images/lore/verite-dragon-vie-humaine.webp",
+      "alt": "Un Dragon vit sous une apparence humaine indécelable.",
+      "caption": "La longévité traverse plusieurs vies humaines. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-exiles-syndicat-jade",
+      "sectionId": "jade-origines",
+      "src": "images/lore/verite-jade-courtage.webp",
+      "alt": "Un courtier ashyll et une Thulkar surveillent une livraison clandestine.",
+      "caption": "Le Syndicat de Jade relie des réseaux de contrebande. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-exiles-croix-emphyrra",
+      "sectionId": "emphyrra-quatre-faces",
+      "src": "images/lore/verite-emphyrra-traditions.webp",
+      "alt": "Des Elyë de traditions différentes cherchent un accord.",
+      "caption": "Les quatre faces coopèrent sans se confondre. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-exiles-hordes-orques",
+      "sectionId": "hordes-branches",
+      "src": "images/lore/verite-horde-cendres.webp",
+      "alt": "Une équipe thulkar répare une infrastructure ferroviaire.",
+      "caption": "La Horde des Cendres fait de la logistique une doctrine. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-exiles-enfants-nidavellir",
+      "sectionId": "nidavellir-schisme",
+      "src": "images/lore/verite-nidavellir-heritage.webp",
+      "alt": "Des Whurtens débattent autour d’un ouvrage ancien.",
+      "caption": "Les courants whurtens se distinguent par leurs choix culturels. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-exiles-ligue-quatre-empereurs",
+      "sectionId": "ligue-origines",
+      "src": "images/lore/verite-ligue-influence.webp",
+      "alt": "Des agents ashylls préparent les conditions d’une négociation.",
+      "caption": "L’influence se construit avant la rencontre. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-exiles-cercle-ecarlate",
+      "sectionId": "cercle-survivants",
+      "src": "images/lore/verite-cercle-refuge.webp",
+      "alt": "Un refuge clandestin conserve les traces des survivants.",
+      "caption": "Le Cercle Écarlate poursuit d’abord la survie de son peuple. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-exiles-cercle-ecarlate",
+      "sectionId": "cercle-nordrar",
+      "src": "images/lore/verite-cercle-sceau.webp",
+      "alt": "Des archives évoquent un sceau et une porte anciens.",
+      "caption": "Le sceau infernal tient une place centrale dans l’histoire du Cercle. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-extrals-gaac-aidh-diasporas",
+      "sectionId": "arriver-sur-terre",
+      "src": "images/lore/verite-extrals-accueil.webp",
+      "alt": "Des Extrals accueillis dans un lieu adapté à leurs besoins.",
+      "caption": "Une arrivée demande des relais, des soins et un milieu habitable. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-extrals-talass-detail",
+      "sectionId": "recurrences",
+      "src": "images/lore/verite-talass-voiles.webp",
+      "alt": "Un ancien vaisseau talass déploie ses voiles.",
+      "caption": "Des bulles de soie et des voiles solaires portent une autre histoire spatiale. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-v7-extrals-gaac-aidh-diasporas",
+      "sectionId": "ctu",
+      "src": "images/lore/verite-extrals-ctu.webp",
+      "alt": "Une équipe transespèces vérifie un prototype.",
+      "caption": "La CTU rend les techniques transmissibles et reproductibles. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-extrals-talass-detail",
+      "sectionId": "capacites-inhumaines",
+      "src": "images/lore/verite-talass-fils.webp",
+      "alt": "Un Talass utilise ses fils conducteurs sur un dispositif.",
+      "caption": "Des fils très fins conduisent signaux et énergie. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-homo-superior-adrak-profils-rares",
+      "sectionId": "homo-superior",
+      "src": "images/lore/verite-homo-superior-evaluation.webp",
+      "alt": "Une humaine augmentée passe une évaluation encadrée.",
+      "caption": "Les Homo Superior restent des humains, transformés par des programmes spécifiques. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-extrals-mosens-detail",
+      "sectionId": "recurrences",
+      "src": "images/lore/verite-mosen-atelier.webp",
+      "alt": "Un Mosen travaille dans un atelier de transport.",
+      "caption": "La force et le goût de l’action se retrouvent aussi dans les métiers ordinaires. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-extrals-mosens-detail",
+      "sectionId": "organisation",
+      "src": "images/lore/verite-mosen-reptile-reunion.webp",
+      "alt": "Des représentants mosens négocient dans un salon privé.",
+      "caption": "L’influence de REPTILE passe aussi par les réseaux et les négociations. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-extrals-baseanhs-detail",
+      "sectionId": "capacites-inhumaines",
+      "src": "images/lore/verite-baseanh-medecine.webp",
+      "alt": "Un Baséanh prépare des cultures destinées aux soins.",
+      "caption": "Les Tardollas et des gestes précis servent une médecine spécialisée. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-extrals-baseanhs-detail",
+      "sectionId": "organisation",
+      "src": "images/lore/verite-baseanh-ligue.webp",
+      "alt": "La Ligue Baséanne distribue des ressources vitales.",
+      "caption": "Les besoins atmosphériques et biologiques demandent des approvisionnements adaptés. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-extrals-rocreens-detail",
+      "sectionId": "capacites-inhumaines",
+      "src": "images/lore/verite-rocreen-hydratation.webp",
+      "alt": "Un Rocréen se repose dans un milieu humide.",
+      "caption": "L’hydratation conditionne la régénération. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-extrals-thalsios-detail",
+      "sectionId": "recurrences",
+      "src": "images/lore/verite-thalsios-mecanique.webp",
+      "alt": "Un Thalsios règle un mécanisme de précision.",
+      "caption": "Des mains sensibles et une pratique patiente font des artisans recherchés. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-extrals-thalsios-detail",
+      "sectionId": "organisation",
+      "src": "images/lore/verite-thalsios-nuages.webp",
+      "alt": "Une installation de l’Hydroguard contribue à humidifier l’air.",
+      "caption": "La lutte pour un milieu viable passe aussi par des installations climatiques. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-homo-superior-adrak-profils-rares",
+      "sectionId": "adrak-refugies-source-extraterrestres",
+      "src": "images/lore/verite-adrak-refugie.webp",
+      "alt": "Un réfugié adrak quitte ses anciens équipements.",
+      "caption": "Les Ad’rak libres portent des trajectoires distinctes de l’Armée noire. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-extrals-peuples-rares-presences-clandestines",
+      "sectionId": "orpacyors",
+      "src": "images/lore/verite-orpacyor-symbiose.webp",
+      "alt": "Une Orpacyore dans un habitat biologique.",
+      "caption": "La symbiose des Orpas et des Cyorses structure les corps et la civilisation. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-extrals-peuples-rares-presences-clandestines",
+      "sectionId": "greys",
+      "src": "images/lore/verite-greys-cachette.webp",
+      "alt": "Un Grey survit à l’écart des voies officielles.",
+      "caption": "Les survivants terriens se cachent après l’extermination de leur peuple. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-extrals-eons-zarpheth-anomalies-galactiques",
+      "sectionId": "zarpheth",
+      "src": "images/lore/verite-zarpheth-corps.webp",
+      "alt": "Un corps mécanisé de la Voie Zarpheth.",
+      "caption": "L’universalité recherchée passe par l’abandon de la biologie. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-extrals-eons-zarpheth-anomalies-galactiques",
+      "sectionId": "eons",
+      "src": "images/lore/verite-eon-errance.webp",
+      "alt": "Un Éon dérive loin de son monde d’origine.",
+      "caption": "Les dieux errants dispersent parfois leur puissance au fil du voyage. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-extrals-rocreens-detail",
+      "sectionId": "recurrences",
+      "src": "images/lore/verite-rocreen-commerce.webp",
+      "alt": "Un commerçant rocréen accueille un client.",
+      "caption": "Les échanges et les réseaux structurent une part de la diaspora. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-galaxie-histoire-civilisations",
+      "sectionId": "thul-vers",
+      "src": "images/lore/verite-galaxie-vers.webp",
+      "alt": "Des vers cosmiques traversent une ceinture d’astéroïdes.",
+      "caption": "Les essaims anciens recherchaient chaleur stellaire et débris. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-galaxie-histoire-civilisations",
+      "sectionId": "chronologie-humaine",
+      "src": "images/lore/verite-ichei-reconstruction.webp",
+      "alt": "Des humains reconstruisent leur vie sur Ichéi Prime.",
+      "caption": "Après le départ des Azménoriens, les anciens captifs durent rebâtir. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-galaxie-histoire-civilisations",
+      "sectionId": "institutions-humaines",
+      "src": "images/lore/verite-neo-alexandrie-archives.webp",
+      "alt": "Une station conserve des connaissances à l’échelle galactique.",
+      "caption": "Néo-Alexandrie porte l’héritage des Archivistes. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-extrals-gaac",
+      "sectionId": "designation",
+      "src": "images/lore/verite-gaac-negociation.webp",
+      "alt": "Des agents négocient des besoins communautaires.",
+      "caption": "Le GAAC organise une coexistence faite de règles et de compromis. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-humanite-galactique",
+      "sectionId": "manasphere",
+      "src": "images/lore/verite-terre-manasphere.webp",
+      "alt": "La Terre observée depuis l’espace.",
+      "caption": "L’intérêt galactique porte aussi sur les particularités d’un monde magique. Représentation illustrative de Vérité : les principes et phénomènes montrés ne correspondent pas à la vision ordinaire d’un humain."
+    },
+    {
+      "articleId": "verite-humanite-galactique-aidh",
+      "sectionId": "dossier-aidh",
+      "src": "images/lore/verite-aidh-logistique.webp",
+      "alt": "Une plateforme de soutien de l’AIDH.",
+      "caption": "L’Armée 0 assure notamment la logistique et la maintenance. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-humanite-galactique-aidh",
+      "sectionId": "hologramme",
+      "src": "images/lore/verite-aidh-douanes.webp",
+      "alt": "Un contrôle de séjour à l’arrivée sur Terre.",
+      "caption": "L’AIDH encadre strictement les visites extraterrestres. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-humanite-galactique-aidh",
+      "sectionId": "soldats",
+      "src": "images/lore/verite-aidh-nanites.webp",
+      "alt": "Une armure AIDH se déploie autour d’une soldate.",
+      "caption": "Les nanites permettent un déploiement rapide de l’équipement. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-extrals-ctu",
+      "sectionId": "conseil",
+      "src": "images/lore/verite-ctu-transmission.webp",
+      "alt": "Une équipe de la CTU transmet une technique.",
+      "caption": "L’Œuvre s’appuie sur la recherche, la formation et le financement. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-extrals-emeraude-sanglante",
+      "sectionId": "terre",
+      "src": "images/lore/verite-emeraude-reconstruction.webp",
+      "alt": "L’Émeraude reconstruit son arsenal en secret.",
+      "caption": "Le refuge terrestre devient une base de revanche. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-humanite-galactique-g-corporations",
+      "sectionId": "terraformation",
+      "src": "images/lore/verite-gcorpo-terraformer.webp",
+      "alt": "Un chantier de terraformation accompagne une colonie.",
+      "caption": "Les G-Corporations transforment des mondes en lieux de vie et d’exploitation. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-humanite-galactique-inquisition",
+      "sectionId": "fonctionnement",
+      "src": "images/lore/verite-inquisition-enquete.webp",
+      "alt": "Une inquisitrice examine des pièces sous protection.",
+      "caption": "Des réseaux autonomes enquêtent sur les menaces occultes et infiltrées. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-extrals-reptile",
+      "sectionId": "saeniaforming",
+      "src": "images/lore/verite-reptile-aridification.webp",
+      "alt": "Des décideurs de la SA examinent un projet industriel.",
+      "caption": "L’aridification se prépare aussi par des choix politiques et économiques. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-humanite-galactique-g-corporations",
+      "sectionId": "standardisation",
+      "src": "images/lore/verite-gcorpo-standard.webp",
+      "alt": "Une même offre est proposée à des besoins biologiques différents.",
+      "caption": "La standardisation fait souvent porter le coût de l’adaptation aux clients. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-humanite-galactique-autres",
+      "sectionId": "paladines",
+      "src": "images/lore/verite-paladines-reliquaire.webp",
+      "alt": "Des paladines protègent un lieu de mémoire.",
+      "caption": "La sororité ichéienne demeure indépendante de l’AIDH. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-extrals-mafia-shaediri",
+      "sectionId": "dossier-shaediri",
+      "src": "images/lore/verite-shaediri-spatioport.webp",
+      "alt": "Un spatioport clandestin accueille une cargaison.",
+      "caption": "Les réseaux shaediri contrôlent des routes interdites. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-extrals-mafia-shaediri",
+      "sectionId": "shaekori",
+      "src": "images/lore/verite-shaediri-solidarite.webp",
+      "alt": "Des parias trouvent un relais dans le réseau shaediri.",
+      "caption": "L’entraide nourrit aussi la fédération des parias. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-extrals-smrc",
+      "sectionId": "controverses",
+      "src": "images/lore/verite-smrc-consultation.webp",
+      "alt": "Une consultation précède une transformation biologique.",
+      "caption": "La recherche de compatibilité s’accompagne de pressions sociales et de conséquences. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-extrals-hydroguard",
+      "sectionId": "militarisation",
+      "src": "images/lore/verite-hydroguard-profondeurs.webp",
+      "alt": "Des scaphandres de l’Hydroguard descendent vers les profondeurs.",
+      "caption": "La défense des eaux s’est dotée de moyens adaptés à la pression. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-extrals-autres-groupes",
+      "sectionId": "oesydra",
+      "src": "images/lore/verite-oesydra-refuge.webp",
+      "alt": "Une communauté protège un refuge orpacyorse.",
+      "caption": "Le clan Oesydra bénéficie de solidarités autour de ses soins. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-extrals-factions-terrestres",
+      "sectionId": "croix-verte",
+      "src": "images/lore/verite-biobar-coexistence.webp",
+      "alt": "Un Biobar adapte son accueil aux besoins des communautés extrales.",
+      "caption": "La Croix verte aménage des milieux de vie au sein de la société humaine. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-especes-creatures-ombres",
+      "sectionId": "projections",
+      "src": "images/lore/verite-ombres-projection.webp",
+      "alt": "Une projection prend forme auprès de son créateur.",
+      "caption": "Les Projections dépendent de l’esprit qui leur donne naissance. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-especes-creatures-revenants",
+      "sectionId": "fantomes",
+      "src": "images/lore/verite-revenant-fantome.webp",
+      "alt": "Une âme sans corps cherche à communiquer.",
+      "caption": "Les Fantômes disposent rarement d’une forte prise sur la matière. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-especes-creatures-fees",
+      "sectionId": "elementaires-djinns",
+      "src": "images/lore/verite-fees-sanctuaire.webp",
+      "alt": "Une présence veille sur un arbre ancien.",
+      "caption": "Les Élémentaires sont liés à leur environnement et à leur sanctuaire. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-especes-creatures-abominations",
+      "sectionId": "ouvrir-l-ombremonde",
+      "src": "images/lore/verite-abominations-portail.webp",
+      "alt": "Un culte se rassemble devant un passage scellé.",
+      "caption": "Les Abominations cherchent à ouvrir l’Ombremonde. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-points-rencontre",
+      "sectionId": "definition",
+      "src": "images/lore/verite-rencontres-reseaux.webp",
+      "alt": "Un établissement ordinaire abrite des échanges discrets.",
+      "caption": "Les réseaux de Vérité se rencontrent derrière des façades accessibles à tous. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "points-rencontre-tour-or",
+      "sectionId": "dossier-mages-1",
+      "src": "images/lore/verite-tour-or.webp",
+      "alt": "La façade dorée de la Tour d’or domine le quartier des affaires.",
+      "caption": "L’institut académique abrite la Loge de Los Angeles. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "points-rencontre-decharge-san-diejuana",
+      "sectionId": "dossier-mages-3",
+      "src": "images/lore/verite-decharge.webp",
+      "alt": "Un pigeon se pose parmi les préfabriqués de la Décharge.",
+      "caption": "La casse dissimule les abris et les itinéraires de la Loge. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "points-rencontre-magic-casino",
+      "sectionId": "dossier-mages-5",
+      "src": "images/lore/verite-magic-casino.webp",
+      "alt": "Le casino en forme de M marque une frontière de la Grande Réserve.",
+      "caption": "Tourisme, sécurité et négociations clandestines partagent le même lieu. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "points-rencontre-grand-theatre-milo",
+      "sectionId": "dossier-mages-7",
+      "src": "images/lore/verite-theatre-milo.webp",
+      "alt": "Une vente privée occupe le Grand Théâtre Milo.",
+      "caption": "Les familles de Mages s’y retrouvent pour des enchères secrètes. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "points-rencontre-sugar-eden",
+      "sectionId": "dossier-angelus-9",
+      "src": "images/lore/verite-sugar-eden.webp",
+      "alt": "Un vin d’apparence ordinaire est servi dans un décor ostentatoire.",
+      "caption": "Le Sugar Eden mêle luxe, contacts et grâce enivrante. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "points-rencontre-dancing-rabbit",
+      "sectionId": "dossier-angelus-11",
+      "src": "images/lore/verite-dancing-rabbit.webp",
+      "alt": "Le Dancing Rabbit accueille une foule sous des lumières de club.",
+      "caption": "La discrétion protège les rencontres angéliques. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "points-rencontre-angels-never-cry",
+      "sectionId": "dossier-angelus-13",
+      "src": "images/lore/verite-anc-souterrain.webp",
+      "alt": "Sous le club, une salle accueille les réseaux neopunks.",
+      "caption": "Les réserves souterraines permettent de négocier à l’écart de la foule. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "points-rencontre-garage-ashford",
+      "sectionId": "dossier-angelus-15",
+      "src": "images/lore/verite-garage-ashford.webp",
+      "alt": "Le Garage Ashford entretient les mécaniques abandonnées par les corporations.",
+      "caption": "Un savoir-faire artisanal soutient aussi les réseaux religieux. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "points-rencontre-purple-embers",
+      "sectionId": "dossier-daemons-17",
+      "src": "images/lore/verite-purple-embers.webp",
+      "alt": "Le Purple Embers accueille les échanges du réseau de Lilith.",
+      "caption": "Un service ou une information peut y valoir davantage que de l’argent. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "points-rencontre-first-flame",
+      "sectionId": "dossier-daemons-19",
+      "src": "images/lore/verite-first-flame.webp",
+      "alt": "Des conversations feutrées animent le First Flame.",
+      "caption": "Les alcôves offrent un cadre discret aux rencontres. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "points-rencontre-cabinet-faith",
+      "sectionId": "dossier-daemons-21",
+      "src": "images/lore/verite-cabinet-faith.webp",
+      "alt": "Le Cabinet Faith conjugue prestige juridique et hiérarchie daemoniaque.",
+      "caption": "Les bureaux abritent aussi des lieux de pouvoir symboliques. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "points-rencontre-night-feathers",
+      "sectionId": "dossier-daemons-23",
+      "src": "images/lore/verite-night-feathers.webp",
+      "alt": "Un bar souterrain sert de relais aux Chasseurs.",
+      "caption": "Des casiers discrets complètent le comptoir et les conversations basses. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "points-rencontre-raven-corporation-hq",
+      "sectionId": "dossier-daemons-25",
+      "src": "images/lore/verite-black-tower.webp",
+      "alt": "La Black Tower domine le siège de Raven Industries.",
+      "caption": "La puissance industrielle de Raven abrite le grand Temple de Morrighan. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "points-rencontre-runyon-canyon",
+      "sectionId": "dossier-loups-garous-27",
+      "src": "images/lore/verite-runyon-taniere.webp",
+      "alt": "Une tanière cachée offre soins et refuge sous le parc.",
+      "caption": "La solidarité locale relie des meutes pourtant rivales. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "points-rencontre-ivory-fangs",
+      "sectionId": "dossier-loups-garous-29",
+      "src": "images/lore/verite-ivory-fangs.webp",
+      "alt": "Une visite médicale sert aussi de point de contact discret.",
+      "caption": "Ivory Fangs intègre les réseaux des Pelages blancs aux forces spéciales. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "points-rencontre-wild-angel-wolf",
+      "sectionId": "dossier-loups-garous-31",
+      "src": "images/lore/verite-wild-angel-wolf.webp",
+      "alt": "Le bar d’Angeltown offre un autre accès aux Pelages blancs.",
+      "caption": "Les rencontres se déroulent au cœur d’un territoire de bikers. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "points-rencontre-dream-vladic-tower",
+      "sectionId": "dossier-orques-gobelins-41",
+      "src": "images/lore/verite-dream-vladic.webp",
+      "alt": "La tour condamnée demeure debout dans le quartier abandonné.",
+      "caption": "Ses usages clandestins ont remplacé le logement annoncé. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "points-rencontre-space-union-aidh",
+      "sectionId": "dossier-rocreens-aliens-45",
+      "src": "images/lore/verite-space-union.webp",
+      "alt": "L’accueil civil de Space Union masque une administration plus vaste.",
+      "caption": "Les visas lunaires permettent aussi de contrôler les mouvements extrals. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "points-rencontre-shaediri",
+      "sectionId": "dossier-rocreens-aliens-47",
+      "src": "images/lore/verite-shaediri-quartiers.webp",
+      "alt": "Un marché souterrain offre ressources et conseils aux nouveaux arrivants.",
+      "caption": "Les Shaediri font aussi du marché noir un réseau de survie. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "points-rencontre-feeshri",
+      "sectionId": "dossier-rocreens-aliens-49",
+      "src": "images/lore/verite-feeshri-quartiers.webp",
+      "alt": "Des équipements rares circulent dans un salon privé des Feeshri.",
+      "caption": "La richesse et la technologie entretiennent l’influence du clan. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "points-rencontre-green-health",
+      "sectionId": "dossier-orques-gobelins-37",
+      "src": "images/lore/verite-green-health.webp",
+      "alt": "Les installations sportives sont adaptées aux habitués orques.",
+      "caption": "Green Health mêle entraînement, récupération et encadrement d’anciens militaires. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "points-rencontre-military-next-academy",
+      "sectionId": "dossier-orques-gobelins-43",
+      "src": "images/lore/verite-military-next.webp",
+      "alt": "Un instructeur de la Horde divine forme de futurs officiers.",
+      "caption": "La Military Next Academy prépare aux armées et aux corporations. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "points-rencontre-jadecenter-palameta",
+      "sectionId": "dossier-orques-gobelins-35",
+      "src": "images/lore/verite-palameta.webp",
+      "alt": "La convivialité du Palameta masque une protection discrète.",
+      "caption": "Le café sert de relais au Syndicat de Jade. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "points-rencontre-fuckalifornia",
+      "sectionId": "dossier-orques-gobelins-39",
+      "src": "images/lore/verite-fuckalifornia.webp",
+      "alt": "Une petite scène anime les souterrains du quartier abandonné.",
+      "caption": "Le bar insurgé sert aussi de refuge aux habitants. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-exiles-hordes-orques",
+      "sectionId": "hordes-origines",
+      "src": "images/lore/verite-horde-formation.webp",
+      "alt": "Des Thulkars s’exercent à relever et protéger un allié.",
+      "caption": "La formation commune enseigne la coordination. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-qi-metaphysique",
+      "sectionId": "modele",
+      "src": "images/lore/verite-qi-ame.webp",
+      "alt": "Une méditation accompagne les mouvements de l’âme.",
+      "caption": "Le Qi naît ici d’une mécanique spirituelle propre à Terra Umbra. Représentation illustrative de Vérité : les principes et phénomènes montrés ne correspondent pas à la vision ordinaire d’un humain."
+    },
+    {
+      "articleId": "verite-qi-dantian-portes",
+      "sectionId": "centres",
+      "src": "images/lore/verite-qi-centres.webp",
+      "alt": "Un maître enseigne le repérage des trois centres.",
+      "caption": "Le modèle distingue l’estomac, le sternum et l’espace entre les sourcils. Représentation illustrative de Vérité : les principes et phénomènes montrés ne correspondent pas à la vision ordinaire d’un humain."
+    },
+    {
+      "articleId": "verite-clan-shi-taoisme-veritable",
+      "sectionId": "histoire",
+      "src": "images/lore/verite-shi-transmission.webp",
+      "alt": "Des archives et un entraînement entretiennent la transmission du clan.",
+      "caption": "Les familles Shi ont transmis leurs recherches au fil des générations. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-clan-shi-taoisme-veritable",
+      "sectionId": "histoire",
+      "src": "images/lore/verite-shi-guerres.webp",
+      "alt": "Une cour d’entraînement garde les traces d’un conflit interne.",
+      "caption": "Les querelles de succession ont brisé la puissance du clan. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-clan-shi-cinq-familles",
+      "sectionId": "familles",
+      "src": "images/lore/verite-shi-cinq-familles.webp",
+      "alt": "Cinq emblèmes expriment des héritages divergents.",
+      "caption": "Kirin, Dragon azur, Tigre blanc, Oiseau vermillon et Tortue noire. Représentation illustrative de Vérité : les principes et phénomènes montrés ne correspondent pas à la vision ordinaire d’un humain."
+    },
+    {
+      "articleId": "verite-clan-shi-cinq-familles",
+      "sectionId": "structure",
+      "src": "images/lore/verite-shi-traque.webp",
+      "alt": "Une chasseuse prépare une approche méthodique.",
+      "caption": "Certaines branches privilégient la perception, la traque et les pièges. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-qi-yin-yang-vide",
+      "sectionId": "taoisme",
+      "src": "images/lore/verite-qi-vide.webp",
+      "alt": "Une pratique exigeante met en jeu des essences opposées.",
+      "caption": "Le Vide consume les énergies sans devenir une réserve stable. Représentation illustrative de Vérité : les principes et phénomènes montrés ne correspondent pas à la vision ordinaire d’un humain."
+    },
+    {
+      "articleId": "verite-qi-ryong-energie-dragon",
+      "sectionId": "doctrine",
+      "src": "images/lore/verite-ryong-frappe.webp",
+      "alt": "Une frappe canalise la Force du Dragon dans la paume.",
+      "caption": "Les possessions renforcent le pratiquant au prix d’un effort croissant. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-qi-shinoda-pouvoir-oni",
+      "sectionId": "heritage",
+      "src": "images/lore/verite-shinoda-meditation.webp",
+      "alt": "Une longue méditation suit l’usage du Pouvoir de l’Oni.",
+      "caption": "Les transformations peuvent laisser des traces après le combat. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-chasseurs-doctrine-association-traditions",
+      "sectionId": "preparer",
+      "src": "images/lore/verite-chasseurs-preparer.webp",
+      "alt": "Une équipe confronte ses notes avant de partir.",
+      "caption": "Identifier la menace détermine le matériel et les méthodes. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-v7-chasseurs-doctrine-association-traditions",
+      "sectionId": "association",
+      "src": "images/lore/verite-chasseurs-transmission.webp",
+      "alt": "Un ancien conseille une nouvelle venue derrière un comptoir.",
+      "caption": "L’Association transmet aussi les erreurs qui ont coûté des vies. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "verite-v7-chasseurs-doctrine-association-traditions",
+      "sectionId": "chasser-pas-hair",
+      "src": "images/lore/verite-chasseurs-discernement.webp",
+      "alt": "Une rencontre suspend la traque et ouvre le dialogue.",
+      "caption": "La Nature d’un être ne suffit pas à justifier sa destruction. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-chasseurs-doctrine-association-traditions",
+      "sectionId": "grands-exiles-chasse-fantastique",
+      "src": "images/lore/verite-chasse-fantastique.webp",
+      "alt": "Une cavalerie surnaturelle traverse la tempête.",
+      "caption": "Les grandes mobilisations de la Chasse déchirent les défenses magiques. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "verite-v7-six-fleaux-sources-rupture",
+      "sectionId": "vaagor",
+      "src": "images/lore/verite-fleaux-unite.webp",
+      "alt": "Une matière sans anatomie stable absorbe les limites des choses.",
+      "caption": "V’Aagor impose une continuité où les identités se confondent. Représentation illustrative de Vérité : les principes et phénomènes montrés ne correspondent pas à la vision ordinaire d’un humain."
+    },
+    {
+      "articleId": "verite-v7-six-fleaux-sources-rupture",
+      "sectionId": "sharith",
+      "src": "images/lore/verite-fleaux-division.webp",
+      "alt": "Un faisceau révèle ses composantes à travers une structure brisée.",
+      "caption": "La Division sépare ce qui existait déjà. Représentation illustrative de Vérité : les principes et phénomènes montrés ne correspondent pas à la vision ordinaire d’un humain."
+    },
+    {
+      "articleId": "verite-v7-six-fleaux-sources-rupture",
+      "sectionId": "shaoggith",
+      "src": "images/lore/verite-fleaux-germination.webp",
+      "alt": "Des fragments minuscules amorcent de nouvelles proliférations.",
+      "caption": "La Germination multiplie les formes possibles de la vie. Représentation illustrative de Vérité : les principes et phénomènes montrés ne correspondent pas à la vision ordinaire d’un humain."
+    },
+    {
+      "articleId": "verite-v7-six-fleaux-sources-rupture",
+      "sectionId": "thul",
+      "src": "images/lore/verite-fleaux-fixation.webp",
+      "alt": "Une cité engloutie demeure enfermée dans un état immuable.",
+      "caption": "Thul reste captif sous Mû en 2035. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "verite-v7-delanial-pere-ombre",
+      "sectionId": "rumeur",
+      "src": "images/lore/verite-delanial-rumeur.webp",
+      "alt": "Une silhouette solitaire s’efface dans l’Ombre-Monde.",
+      "caption": "Les traces du Père de l’Ombre ont nourri un culte qu’il n’a pas voulu. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "lore-plagues-cultes-vaagor",
+      "sectionId": "cult-2-l'ordre-de-longinus-fonctionnement",
+      "src": "images/lore/verite-longinus-ombre.webp",
+      "alt": "Des structures religieuses ordinaires abritent l’ordre clandestin.",
+      "caption": "Longinus dissimule sa hiérarchie derrière une apparence familière. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "lore-plagues-cultes-vaagor",
+      "sectionId": "cult-5-la-secte-de-l'-il-blanc-fonctionnement",
+      "src": "images/lore/verite-oeil-blanc.webp",
+      "alt": "Une Sœur de l’Œil Blanc attend un messager.",
+      "caption": "Les véritables Sœurs se distinguent des sorciers recrutés par la secte. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "lore-plagues-cultes-vaagor",
+      "sectionId": "cult-14-le-gouffre-infini-fonctionnement",
+      "src": "images/lore/verite-gouffre-infini.webp",
+      "alt": "Des prêtres whurtens se réunissent au bord du Gouffre.",
+      "caption": "Deux Sources peuvent être confondues dans une même croyance. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "lore-plagues-cultes-uxsharith",
+      "sectionId": "cult-5-la-secte-de-bellatheis-fonctionnement",
+      "src": "images/lore/verite-bellatheis-orbe.webp",
+      "alt": "Une candidate se présente devant la Grande Orbe.",
+      "caption": "Le rite recherche une ascendance liée au Fléau ou aux Garous. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "lore-plagues-cultes-uxsharith",
+      "sectionId": "cult-8-le-culte-du-grand-savoir-fonctionnement",
+      "src": "images/lore/verite-grand-savoir.webp",
+      "alt": "Un regard archilogomancien décompose un mécanisme.",
+      "caption": "La connaissance cherche les structures derrière les apparences. Représentation illustrative de Vérité : les principes et phénomènes montrés ne correspondent pas à la vision ordinaire d’un humain."
+    },
+    {
+      "articleId": "lore-plagues-cultes-vhodhal",
+      "sectionId": "cult-1-la-loge-d'ecume-histoire",
+      "src": "images/lore/verite-ecume-mine.webp",
+      "alt": "Une ancienne mine a atteint un vestige de Vhodhal.",
+      "caption": "La dépouille demeure une menace sous les terres d’Alaska. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "lore-plagues-cultes-vhodhal",
+      "sectionId": "cult-5-le-sang-d'ivoire-fonctionnement",
+      "src": "images/lore/verite-sang-ivoire.webp",
+      "alt": "Des Blafards se retrouvent dans un refuge de parias.",
+      "caption": "Le Sang d’Ivoire reproduit une hiérarchie tout en luttant contre sa faim. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "lore-plagues-eden-gris",
+      "sectionId": "lore-plagues-eden-gris-fonctionnement",
+      "src": "images/lore/verite-eden-gris-espoir.webp",
+      "alt": "Une promesse de guérison ouvre les portes du culte.",
+      "caption": "L’Éden Gris attire par l’espoir d’un avenir meilleur. Scène d’apparence ordinaire : sa portée occulte est révélée ici au lecteur ; elle n’est pas évidente pour un humain ordinaire."
+    },
+    {
+      "articleId": "lore-plagues-eden-gris",
+      "sectionId": "lore-plagues-eden-gris-histoire",
+      "src": "images/lore/verite-eden-gris-alchimie.webp",
+      "alt": "Des billes de nacre noire accompagnent les recherches alchimiques.",
+      "caption": "Les pratiques anciennes ont précédé le langage de la génétique. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "lore-plagues-mere-primordiale",
+      "sectionId": "lore-plagues-mere-primordiale-histoire",
+      "src": "images/lore/verite-mere-astre.webp",
+      "alt": "Un astre vivant traverse le vide galactique.",
+      "caption": "Le culte relie sa mémoire biologique au passage de Shaoggith. Reconstitution de Vérité : ce lieu ou cette réalité est présenté au lecteur, sans supposer qu’un humain ordinaire y ait accès."
+    },
+    {
+      "articleId": "lore-plagues-mere-primordiale",
+      "sectionId": "lore-plagues-mere-primordiale-fonctionnement",
+      "src": "images/lore/verite-mere-elevage.webp",
+      "alt": "Des fidèles entretiennent des engeances dans un sanctuaire caché.",
+      "caption": "La prolifération occupe une place centrale dans les rites. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
+    },
+    {
+      "articleId": "lore-plagues-sombre-culte",
+      "sectionId": "lore-plagues-sombre-culte-fonctionnement",
+      "src": "images/lore/verite-sombre-attente.webp",
+      "alt": "Des fidèles attendent devant un sanctuaire des profondeurs.",
+      "caption": "Les foyers autonomes du Sombre Culte cherchent à ouvrir la prison de Thul. Vue de Vérité, au-delà de l’Hologramme : les éléments occultes sont montrés au lecteur tels qu’ils sont, et non tels qu’un humain ordinaire les perçoit."
     }
   ]
 }
