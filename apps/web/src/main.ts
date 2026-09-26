@@ -7,6 +7,8 @@ const router=createRouter({
   history:createWebHistory(),
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) return savedPosition;
+    // The account view scrolls to this section after its asynchronous user data renders.
+    if (to.hash === "#characters") return;
     // Compendium query navigation manages article sections and reading positions.
     if (to.path !== from.path) return { top: 0, left: 0 };
   },
