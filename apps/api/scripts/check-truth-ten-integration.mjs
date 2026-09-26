@@ -60,6 +60,17 @@ for(const profile of COMPENDIUM_TEN_PROFILE_CALIBRATION){
 const veronica=COMPENDIUM_TEN_PROFILE_CALIBRATION.find(profile=>profile.name==='Veronica Silver');
 assert.ok(veronica,'profil de Veronica manquant');
 assert.ok(Object.values(veronica.truth.revealed).reduce((sum,value)=>sum+Number(value),0)>=68,'Veronica ne doit plus être sous-calibrée');
+assert.ok(veronica.truth.revealed.agilite>=18 && veronica.truth.revealed.agilite>veronica.truth.revealed.volonte,
+  'Veronica est une reine combattante agile, pas un profil centré sur la Volonté');
+const leslie=COMPENDIUM_TEN_PROFILE_CALIBRATION.find(profile=>profile.name==='Leslie Wright');
+assert.ok(leslie.truth.revealed.vigueur>=14 && leslie.truth.skills.find(([name])=>name==='Mêlée')?.[1]>=27,
+  'Leslie réincarnée d’Ymir doit conserver sa puissance physique et son escrime');
+const wei=COMPENDIUM_TEN_PROFILE_CALIBRATION.find(profile=>profile.name==='Wei Shi');
+assert.ok(wei.truth.revealed.vigueur>=14 && wei.truth.skills.find(([name])=>name==='Pugilat')?.[1]>wei.truth.skills.find(([name])=>name==='Mêlée')?.[1],
+  'Wei Shi doit avoir une forte Vigueur et dominer le Pugilat');
+const siobhain=COMPENDIUM_TEN_PROFILE_CALIBRATION.find(profile=>profile.name==='Siobhain Nic Sirideain');
+assert.ok(siobhain.truth.revealed.vigueur>=15 && siobhain.truth.revealed.agilite>=15 && siobhain.truth.revealed.volonte<15,
+  'Siobhain doit manifester la guerre par son corps et son agilité');
 const dina=COMPENDIUM_TEN_PROFILE_CALIBRATION.find(profile=>profile.name==='Dina Page');
 assert.ok(dina,'profil de Dina manquant');
 assert.ok(Object.values(dina.truth.revealed).reduce((sum,value)=>sum+Number(value),0)>=64,'Dina ne doit jamais être abaissée sous sa Vérité antérieure');
