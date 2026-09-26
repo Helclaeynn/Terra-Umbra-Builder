@@ -3198,6 +3198,12 @@ async function loadCorpus(): Promise<Corpus> {
     entries.push(illustration);
     loreIllustrationsByArticle.set(illustration.articleId, entries);
   }
+  const bestiaryArt = await readFile(resolve(COMPENDIUM_MEDIA_DIR, "source/bestiary-art-direction-v2.json"), "utf8")
+    .then((content) => JSON.parse(content) as { items?: Array<{ id: string; src: string; alt: string; caption: string }> })
+    .then((data) => new Map((data.items ?? []).filter((item) =>
+      /^bestiaire-[a-z0-9-]+$/.test(item.id) && item.src === `images/manual/${item.id}.webp`
+    ).map((item) => [item.id, item])))
+    .catch(() => new Map<string, { id: string; src: string; alt: string; caption: string }>());
   const portraitManifest = await readFile(resolve(COMPENDIUM_MEDIA_DIR, "images/portraits/manifest.json"), "utf8")
     .then((content) => JSON.parse(content) as { lot1?: { items?: Array<{ id: string; src: string; visibility: string }> }; lot2?: { items?: Array<{ id: string; src: string; visibility: string }> } })
     .catch(() => ({ lot1: { items: [] }, lot2: { items: [] } }));
@@ -3667,6 +3673,13 @@ async function loadCorpus(): Promise<Corpus> {
       };
       if (Object.prototype.hasOwnProperty.call(article, "illustration")) article.illustration = media;
       else article.image = media;
+    }
+
+    const bestiaryCaption = bestiaryArt.get(article.id);
+    const resolvedMedia = article.illustration ?? article.image;
+    if (article.category === "Bestiaire" && bestiaryCaption && resolvedMedia?.src === bestiaryCaption.src) {
+      resolvedMedia.alt = bestiaryCaption.alt;
+      resolvedMedia.caption = bestiaryCaption.caption;
     }
 
     const gallery = (manualGalleryByArticle.get(article.id) ?? [])

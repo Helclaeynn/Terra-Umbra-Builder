@@ -78,10 +78,10 @@
     },
     {
       "id": "bestiaire",
-      "prefix": "v3-bestiaire-v16-enriched-263",
-      "parts": 30,
-      "count": 263,
-      "sha256": "3354fe59ebce7b4c3fa444a665be1ca0e5c79a1a0832b4378174ea6ddeff4cce"
+      "prefix": "v3-bestiaire-v17-classification-281",
+      "parts": 44,
+      "count": 281,
+      "sha256": "27c93b8d1e15b6be05b5f6ee6b09bcc6329bf979704e53f221d4b2ab08bb3a1a"
     },
     {
       "id": "lore",
