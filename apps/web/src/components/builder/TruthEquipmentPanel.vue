@@ -240,7 +240,7 @@ function propertyPreview(item:TruthEquipmentItem){
           <span class="schema-badge">{{ group.items.length }}</span>
         </summary>
         <div class="truth-equipment-grid">
-          <article v-for="item in group.items" :key="item.id" class="truth-equipment-card">
+          <article v-for="item in group.items" :key="item.id" class="truth-equipment-card" :class="{owned:owned.includes(item.id)}">
             <BuilderCatalogImage :article-id="item.compendiumId" :name="item.name" category="Équipement & Objets" />
             <div class="truth-equipment-card-head">
               <div>
@@ -367,6 +367,7 @@ function propertyPreview(item:TruthEquipmentItem){
 .catalog-count{font-size:13px;color:#a1b5cc;margin:12px 0}
 .truth-equipment-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:16px}
 .truth-equipment-card{display:flex;flex-direction:column;padding:18px;gap:14px;border-color:#344d63;background:#101f30}
+.truth-equipment-card:hover,.truth-equipment-card:focus-within{border-color:#a58bdd;background:#1b2340;box-shadow:0 8px 22px #0005}.truth-equipment-card.owned{border-color:#74d5c9}.truth-equipment-card.owned:before{content:'✓ Possédé';color:#9ceee0;font-size:13px;font-weight:700}
 .truth-equipment-card .equipment-description:not([open]){margin-top:auto}
 .equipment-description[open]>p{margin:8px 0 12px}
 .equipment-section-summary{cursor:pointer;min-height:56px;padding-bottom:12px}

@@ -86,7 +86,7 @@ onUnmounted(()=>{++generation;window.removeEventListener("beforeunload",beforeUn
 <template>
   <div class="journal-page">
     <a class="skip-link" href="#journal-main">Aller au journal</a>
-    <header class="journal-topbar"><RouterLink to="/" aria-label="Terra Umbra — accueil"><TerraUmbraBrand /></RouterLink><RouterLink class="ghost" to="/account">Mon espace</RouterLink></header>
+    <header class="journal-topbar"><RouterLink to="/" aria-label="Terra Umbra — accueil"><TerraUmbraBrand /></RouterLink><RouterLink class="ghost" to="/account#characters">Mes personnages</RouterLink></header>
     <main id="journal-main" tabindex="-1" :aria-busy="loading">
       <p class="eyebrow">SUIVI DU PERSONNAGE · PRIVÉ</p><h1>Journal d’aventure</h1>
       <p v-if="character" class="journal-name">{{ character.name }}</p>

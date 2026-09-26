@@ -4,7 +4,7 @@ import type { TalentChoiceSpec } from "../components/builder/TalentSelector.vue"
 import { characterDerivedStats, type CharacterSheet, type SheetEntry } from "./character-sheet";
 import { ensureProgression, currentAttribute, currentSkillRaw, currentSkillFinal, campaignCash, xpRemaining, ptvRemaining } from "./progression";
 import { ensureRealityState, realityEconomic, realityItemMap, realityLifestyleBase, lifestylePressure, type RealityRulesPackage } from "./reality";
-import { truthCorruptionTalentActive, truthAvailableTalents, truthPermanentAttributeBonus, truthPtvSpent, type TruthRulesPackage, type TruthState } from "./truth";
+import { truthCorruptionTalentActive, truthAvailableTalents, truthPermanentAttributeBonus, truthPtvSpent, truthRevelationProfile, type TruthRulesPackage, type TruthState } from "./truth";
 
 export type SheetCore = {
   rules:CreationRules; lore:CreationLore; talentChoiceSpecs:Record<string,TalentChoiceSpec>;
@@ -23,6 +23,7 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
     truthEquipmentMjOverride:Boolean(raw.truthEquipmentMjOverride), corruptionMjAuthorized:Boolean(raw.corruptionMjAuthorized),
     corruption:Math.max(0,Math.trunc(Number(raw.corruption)||0)), corruptionSource:typeof raw.corruptionSource==="string"?raw.corruptionSource:""
   };
+  const revelation=truth.revelation?truthRevelationProfile(truth,state):null;
   const progress=ensureProgression({...data.progression},creation.skills.map(item=>item.id),creation.attributes.map(item=>item.id));
   const realityState=ensureRealityState({...data.reality});
   const sphere=creation.spheres[data.creation.sphere];
@@ -99,7 +100,12 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
       })],
     disadvantages:selectedDisadvantages.map(item=>({id:item.id,name:item.name,detail:item.effect,compendiumId:item.compendiumId})),inventory,
     truthNature:truth.structure.natures[state.nature]?.name??state.nature,truthConsciousness:truth.structure.consciousness.find(item=>item.id===state.consciousness)?.name??state.consciousness,corruption:state.corruption,
+    truthStages:revelation?([['v','Voilé'],['sr','Semi-révélé'],['r','Révélé']] as const).map(([id,name])=>({id,name,description:revelation.body[id],stats:revelation.stats[id],traits:revelation.stages[id].traits.map(trait=>({name:trait.name,effect:trait.effect}))})):[],
     corruptionSource:truth.corruption.sources.find(item=>item.id===state.corruptionSource)?.name??state.corruptionSource,
-    languages:strings(data.social.languages),contacts:strings(data.social.contacts),reputation:String(data.social.reputation??""),renownMilieu:String(data.social.renownMilieu??"")
+    languages:strings(data.social.languages),contacts:[...strings(data.social.contacts),
+      ...Object.entries({Crawler:data.social.crawlerContact,'Contact de renom':data.social.renownContact,...(data.social.talentContacts&&typeof data.social.talentContacts==='object'?data.social.talentContacts as Record<string,unknown>:{})})
+        .filter(([,choice])=>choice&&typeof choice==='object'&&typeof (choice as Record<string,unknown>).title==='string')
+        .map(([origin,choice])=>`${origin.replaceAll('_',' ')} · ${(choice as {title:string}).title}`)
+    ],reputation:String(data.social.reputation??""),renownMilieu:String(data.social.renownMilieu??"")
   };
 }

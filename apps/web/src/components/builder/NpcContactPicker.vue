@@ -8,7 +8,8 @@ const props=withDefaults(defineProps<{
   modelValue?:NpcContactChoice|null;
   label:string;
   help:string;
-  maxTier:"elite"|"superieur";
+  maxTier:"entraine"|"elite"|"superieur";
+  minTier?:"haute-elite";
   allowCreate?:boolean;
 }>(),{modelValue:null,allowCreate:false});
 
@@ -28,6 +29,7 @@ async function search(){
   error.value="";
   try{
     const params=new URLSearchParams({q:query.value.trim(),maxTier:props.maxTier,limit:"24"});
+    if(props.minTier)params.set('minTier',props.minTier);
     const payload=await api<{items:NpcContactChoice[]}>(`/api/compendium/contact-npcs?${params}`);
     if(current===sequence)results.value=payload.items;
   }catch{
@@ -52,10 +54,10 @@ onBeforeUnmount(()=>{sequence++;if(timer)clearTimeout(timer);});
       <div><strong>{{ label }}</strong><small>{{ help }}</small></div>
       <a
         v-if="allowCreate"
-        href="/compendium/new?category=Personnages&amp;template=npc&amp;maxTier=elite"
+        :href="`/compendium/new?category=Personnages&template=npc&maxTier=${maxTier}`"
         target="_blank"
         rel="noopener"
-      >Créer un PNJ Élite maximum</a>
+      >Créer un PNJ ({{ maxTier==='entraine'?'Entraîné':'Élite' }} maximum)</a>
     </div>
 
     <div v-if="selected" class="selected-contact">

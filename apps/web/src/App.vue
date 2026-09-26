@@ -785,7 +785,7 @@ onUnmounted(() => {sessionGeneration++; window.removeEventListener("focus", refr
         <details class="dashboard-collapse"><summary>Reprendre ma dernière lecture</summary><AccountLastReading :key="`${user.id}:${user.role}`" :user-id="user.id" /></details>
 
         <section class="account-grid" aria-label="Personnages et préférences">
-          <CharactersPanel :key="user.id" />
+          <details id="characters" class="dashboard-collapse" open><summary>Mes personnages</summary><CharactersPanel :key="user.id" /></details>
           <details v-if="['gm','editor','admin'].includes(user.role)" class="dashboard-collapse"><summary>Fiches partagées avec moi</summary><SharedCharacterSheets :key="`${user.id}:${user.role}`" /></details>
 
           <details class="panel account-panel dashboard-collapse"><summary>Profil et sécurité</summary>

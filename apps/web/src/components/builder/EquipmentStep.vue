@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, nextTick, ref } from "vue";
 import { cloneJson } from "../../lib/json";
 import BuilderWikiLink from "./BuilderWikiLink.vue";
 import BuilderCatalogImage from "./BuilderCatalogImage.vue";
 import {
   augmentationAccess,
+  augmentationSupportAlternatives,
   augmentationBaseKey,
   augmentationCopyCount,
   augmentationLoad,
   augmentationMaxCopies,
   augmentationSupportLabel,
   augmentationSupportSatisfied,
+  isAugmentationSupport,
   canAffordRealityPurchase,
   equipmentStats,
   lifestylePressure,
@@ -290,6 +292,13 @@ function selectedVariant(group:{key:string;variants:RealityItem[]}){
   const id=variantChoice.value[group.key];
   return group.variants.find(item=>item.id===id)??group.variants[0];
 }
+async function showRequiredSupport(item:RealityItem){
+  const names=augmentationSupportAlternatives(item).flat();
+  const support=props.rules.augmentations.find(candidate=>isAugmentationSupport(candidate)&&names.some(name=>norm(candidate.name).includes(name)));
+  if(!support)return;
+  augmentationCategory.value='';augmentationQuery.value=support.name;augmentationCatalogOpen.value=true;
+  await nextTick();document.getElementById('augmentation-catalog')?.scrollIntoView({block:'start',behavior:'smooth'});
+}
 
 const purchasedAugmentations=computed(()=>state.value.augmentations.map(p=>({purchase:p,item:purchaseItem(p.itemId)})));
 const purchasedEquipment=computed(()=>state.value.equipment.map(p=>({purchase:p,item:purchaseItem(p.itemId)})));
@@ -518,6 +527,7 @@ function setCorporateSupportItem(itemId:string){
             <div class="catalog-grid">
               <article v-for="item in group.items" :key="item.id" class="catalog-card recurring-card">
                 <BuilderCatalogImage :article-id="item.compendiumId" :name="item.name" category="Équipement & Objets" :large="housingArtwork(item)" />
+                <span v-if="state.fixedChargeItems.some(charge=>charge.sourceItemId===item.id)" class="owned-indicator">✓ Sélectionné · {{ state.fixedChargeItems.filter(charge=>charge.sourceItemId===item.id).length }}</span>
                 <div class="catalog-head"><div>
                   <strong><BuilderWikiLink :label="item.name" :article-id="item.compendiumId" category="Équipement & Objets" :detail="wikiDetail(item)" :badges="wikiBadges(item)" /></strong>
                   <small>{{ item.category }} · {{ item.recurring === "annual" ? "facturation annuelle" : "facturation mensuelle" }}</small>
@@ -681,6 +691,7 @@ function setCorporateSupportItem(itemId:string){
           </div>
         </div>
       <details
+        id="augmentation-catalog"
         class="reality-panel catalog-panel catalog-disclosure"
         :open="augmentationCatalogOpen"
         @toggle="augmentationCatalogOpen=($event.currentTarget as HTMLDetailsElement).open"
@@ -788,7 +799,7 @@ function setCorporateSupportItem(itemId:string){
                   </label>
 
                   <div v-if="augmentationSupportLabel(selectedVariant(group))" class="support-line" :class="{ bad: !augmentationSupportSatisfied(rules,state,selectedVariant(group)) }">
-                    <strong>Support requis :</strong> {{ augmentationSupportLabel(selectedVariant(group)) }}
+                    <strong>Support requis :</strong> <button type="button" class="support-jump" @click="showRequiredSupport(selectedVariant(group))">{{ augmentationSupportLabel(selectedVariant(group)) }} → Voir le support</button>
                   </div>
                   <div v-if="pureCosmeticAugmentation(selectedVariant(group))" class="support-line">
                     Esthétique sans effet mécanique : accessible à tous les Styles.
@@ -993,7 +1004,8 @@ function setCorporateSupportItem(itemId:string){
 .subsection-title p{margin:0;color:var(--equipment-muted);font-size:14px}
 .charge-summary{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
 .charge-summary>span,.pillbar span,.statbar span{padding:5px 9px;border:1px solid #334c60;border-radius:5px;background:#0b1623;color:#bed0e0;font-size:13px}
-.pillbar .owned-indicator{border-color:#58bbae;background:#153b38;color:#d1fff6;font-weight:700}
+.owned-indicator{display:inline-flex;align-self:start;padding:6px 10px;border:1px solid #58bbae;border-radius:5px;background:#153b38;color:#d1fff6;font-size:13px;font-weight:700}.pillbar .owned-indicator{border-color:#58bbae;background:#153b38;color:#d1fff6;font-weight:700}
+.support-jump{padding:3px 5px;border:0;background:none;color:#a4edff;text-decoration:underline;cursor:pointer;font:inherit}
 .charge-summary strong{color:#e4eff9;font-weight:600}
 .lifestyle-tier-box{display:grid;gap:14px;margin:16px 0 20px;padding:16px;border:1px solid #2c4255;border-radius:8px;background:#0a1522}
 .lifestyle-tier-box p{margin:0;color:var(--equipment-muted);font-size:14px}

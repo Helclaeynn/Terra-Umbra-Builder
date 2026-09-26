@@ -15,6 +15,7 @@ const props=defineProps<{
   sheet:CharacterSheet|null;
   renownScore:number;
   renownContactRequired:boolean;
+  talentIds:string[];
 }>();
 
 const emit=defineEmits<{
@@ -45,6 +46,16 @@ function contactChoice(value:unknown):NpcContactChoice|null{
 }
 const crawlerContact=computed(()=>contactChoice(props.social.crawlerContact));
 const renownContact=computed(()=>contactChoice(props.social.renownContact));
+const minorContactTalents=[
+  {id:'reseau_scolaire',label:'Réseau scolaire'},
+  {id:'famille_de_fonctionnaires',label:'Famille de fonctionnaires'},
+  {id:'vieilles_frequentations',label:'Vieilles fréquentations'},
+  {id:'communaute_dorigine',label:'Communauté d’origine'},
+  {id:'on_connait_quelquun',label:'On connaît quelqu’un'}
+];
+const minorContacts=computed(()=>minorContactTalents.filter(talent=>props.talentIds.includes(talent.id)));
+function minorContact(id:string){return contactChoice((props.social.talentContacts as Record<string,unknown>|undefined)?.[id]);}
+function setMinorContact(id:string,value:NpcContactChoice|null){updateSocial({talentContacts:{...(props.social.talentContacts as Record<string,unknown>||{}),[id]:value}});}
 
 function updateSocial(patch:Record<string,unknown>){
   emit("update:social",{...cloneJson(props.social),...patch});
@@ -184,6 +195,14 @@ function setContacts(value:string){
         allow-create
         @update:model-value="updateSocial({crawlerContact:$event})"
       />
+      <NpcContactPicker
+        v-for="talent in minorContacts" :key="talent.id"
+        :model-value="minorContact(talent.id)"
+        :label="talent.label"
+        help="Choisis un PNJ existant jusqu’au palier Entraîné, ou crée une fiche PNJ de ce palier maximum."
+        max-tier="entraine" allow-create
+        @update:model-value="setMinorContact(talent.id,$event)"
+      />
 
       <NpcContactPicker
         v-if="renownContactRequired"
@@ -191,6 +210,7 @@ function setContacts(value:string){
         label="Contact de renom"
         help="Ce talent impose un PNJ déjà existant dans le Compendium, jusqu’au palier Supérieur. Il n’est pas possible d’en créer un depuis ce choix."
         max-tier="superieur"
+        min-tier="haute-elite"
         @update:model-value="updateSocial({renownContact:$event})"
       />
     </section>
