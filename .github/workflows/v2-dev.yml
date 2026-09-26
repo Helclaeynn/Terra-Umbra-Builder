@@ -199,12 +199,18 @@ jobs:
       - name: Build web
         working-directory: apps/web
         run: |
-          npm install
+          npm ci
           npm run build
 
       - name: Check V2 UI behavior
         working-directory: apps/web
         run: npm run test:ui
+
+      - name: Check fillable character dossiers and export actions
+        working-directory: apps/web
+        run: |
+          npm run test:pdf
+          node tests/homo-superior-phasing-check.mjs
 
       - name: Install V2 browser smoke driver
         working-directory: apps/web

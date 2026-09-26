@@ -5510,6 +5510,11 @@ export const truthRuntimeStructure = {
               "id": "free-extral-homo_superior-4",
               "name": "Métabolisme de campagne",
               "effect": "Peut fonctionner quelques jours avec sommeil réduit, repas irréguliers et effort prolongé sans pénalité notable."
+            },
+            {
+              "id": "free-extral-homo_superior-5",
+              "name": "Patchs tatoués AIDH",
+              "effect": "Intégrés à chaque soldat Homo Superior ; supports de liaison de son équipement. Leur présence n’accorde ni le Talent Phasage de l’équipement ni le matériel lié."
             }
           ]
         },

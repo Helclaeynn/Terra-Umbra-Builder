@@ -1,0 +1,8071 @@
+{
+  "mosen": {
+    "imageSize": [
+      1055,
+      1491
+    ],
+    "fields": [
+      {
+        "name": "truth.identity.name",
+        "label": "Nom / alias",
+        "type": "text",
+        "rect": [
+          146,
+          299,
+          374,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.mosen.origin",
+        "label": "Monde / origine",
+        "type": "text",
+        "rect": [
+          178,
+          329,
+          342,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.mosen.function",
+        "label": "Fonction / specialite",
+        "type": "text",
+        "rect": [
+          205,
+          359,
+          315,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.mosen.organization",
+        "label": "Organisation / reseau",
+        "type": "text",
+        "rect": [
+          214,
+          389,
+          306,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.mosen.status",
+        "label": "Statut / habilitation",
+        "type": "text",
+        "rect": [
+          204,
+          419,
+          316,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.mosen.training",
+        "label": "Formation / mentor",
+        "type": "text",
+        "rect": [
+          203,
+          449,
+          317,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.state.V",
+        "label": "Etat actuel : V",
+        "type": "checkbox",
+        "rect": [
+          590,
+          344,
+          17,
+          17
+        ]
+      },
+      {
+        "name": "truth.state.SR",
+        "label": "Etat actuel : SR",
+        "type": "checkbox",
+        "rect": [
+          719,
+          344,
+          17,
+          17
+        ]
+      },
+      {
+        "name": "truth.state.R",
+        "label": "Etat actuel : R",
+        "type": "checkbox",
+        "rect": [
+          898,
+          344,
+          17,
+          17
+        ]
+      },
+      {
+        "name": "truth.ptv.available",
+        "label": "PTV disponibles",
+        "type": "text",
+        "rect": [
+          694,
+          412,
+          60,
+          35
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.ptv.spent",
+        "label": "PTV depenses",
+        "type": "text",
+        "rect": [
+          933,
+          412,
+          77,
+          35
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.mosen.carapace",
+        "label": "Carapace et adaptations",
+        "type": "text",
+        "rect": [
+          45,
+          776,
+          302,
+          100
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.mosen.heritage",
+        "label": "Heritage choisi",
+        "type": "text",
+        "rect": [
+          390,
+          776,
+          277,
+          100
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.mosen.needs",
+        "label": "Adaptations, besoins ou notes personnelles",
+        "type": "text",
+        "rect": [
+          708,
+          776,
+          303,
+          100
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.01.name",
+        "label": "Talent 1 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          973,
+          213,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.source",
+        "label": "Talent 1 - Source / branche",
+        "type": "text",
+        "rect": [
+          287,
+          973,
+          208,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.ptv",
+        "label": "Talent 1 - PTV",
+        "type": "text",
+        "rect": [
+          501,
+          973,
+          62,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.activation",
+        "label": "Talent 1 - Etat / cout",
+        "type": "text",
+        "rect": [
+          569,
+          973,
+          128,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.effect",
+        "label": "Talent 1 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          973,
+          316,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.name",
+        "label": "Talent 2 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1000,
+          213,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.source",
+        "label": "Talent 2 - Source / branche",
+        "type": "text",
+        "rect": [
+          287,
+          1000,
+          208,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.ptv",
+        "label": "Talent 2 - PTV",
+        "type": "text",
+        "rect": [
+          501,
+          1000,
+          62,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.activation",
+        "label": "Talent 2 - Etat / cout",
+        "type": "text",
+        "rect": [
+          569,
+          1000,
+          128,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.effect",
+        "label": "Talent 2 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1000,
+          316,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.name",
+        "label": "Talent 3 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1028,
+          213,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.source",
+        "label": "Talent 3 - Source / branche",
+        "type": "text",
+        "rect": [
+          287,
+          1028,
+          208,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.ptv",
+        "label": "Talent 3 - PTV",
+        "type": "text",
+        "rect": [
+          501,
+          1028,
+          62,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.activation",
+        "label": "Talent 3 - Etat / cout",
+        "type": "text",
+        "rect": [
+          569,
+          1028,
+          128,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.effect",
+        "label": "Talent 3 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1028,
+          316,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.name",
+        "label": "Talent 4 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1055,
+          213,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.source",
+        "label": "Talent 4 - Source / branche",
+        "type": "text",
+        "rect": [
+          287,
+          1055,
+          208,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.ptv",
+        "label": "Talent 4 - PTV",
+        "type": "text",
+        "rect": [
+          501,
+          1055,
+          62,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.activation",
+        "label": "Talent 4 - Etat / cout",
+        "type": "text",
+        "rect": [
+          569,
+          1055,
+          128,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.effect",
+        "label": "Talent 4 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1055,
+          316,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.name",
+        "label": "Talent 5 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1081,
+          213,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.source",
+        "label": "Talent 5 - Source / branche",
+        "type": "text",
+        "rect": [
+          287,
+          1081,
+          208,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.ptv",
+        "label": "Talent 5 - PTV",
+        "type": "text",
+        "rect": [
+          501,
+          1081,
+          62,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.activation",
+        "label": "Talent 5 - Etat / cout",
+        "type": "text",
+        "rect": [
+          569,
+          1081,
+          128,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.effect",
+        "label": "Talent 5 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1081,
+          316,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.name",
+        "label": "Talent 6 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1108,
+          213,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.source",
+        "label": "Talent 6 - Source / branche",
+        "type": "text",
+        "rect": [
+          287,
+          1108,
+          208,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.ptv",
+        "label": "Talent 6 - PTV",
+        "type": "text",
+        "rect": [
+          501,
+          1108,
+          62,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.activation",
+        "label": "Talent 6 - Etat / cout",
+        "type": "text",
+        "rect": [
+          569,
+          1108,
+          128,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.effect",
+        "label": "Talent 6 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1108,
+          316,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.name",
+        "label": "Talent 7 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1135,
+          213,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.source",
+        "label": "Talent 7 - Source / branche",
+        "type": "text",
+        "rect": [
+          287,
+          1135,
+          208,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.ptv",
+        "label": "Talent 7 - PTV",
+        "type": "text",
+        "rect": [
+          501,
+          1135,
+          62,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.activation",
+        "label": "Talent 7 - Etat / cout",
+        "type": "text",
+        "rect": [
+          569,
+          1135,
+          128,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.effect",
+        "label": "Talent 7 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1135,
+          316,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.name",
+        "label": "Talent 8 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1161,
+          213,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.source",
+        "label": "Talent 8 - Source / branche",
+        "type": "text",
+        "rect": [
+          287,
+          1161,
+          208,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.ptv",
+        "label": "Talent 8 - PTV",
+        "type": "text",
+        "rect": [
+          501,
+          1161,
+          62,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.activation",
+        "label": "Talent 8 - Etat / cout",
+        "type": "text",
+        "rect": [
+          569,
+          1161,
+          128,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.effect",
+        "label": "Talent 8 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1161,
+          316,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.links",
+        "label": "Liens / allies / obligations / notes",
+        "type": "text",
+        "rect": [
+          46,
+          1280,
+          435,
+          132
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.corruption.current",
+        "label": "Corruption actuelle",
+        "type": "text",
+        "rect": [
+          698,
+          1257,
+          54,
+          24
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.integrity",
+        "label": "Integrite",
+        "type": "text",
+        "rect": [
+          937,
+          1257,
+          54,
+          24
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.corruption.source",
+        "label": "Source dominante",
+        "type": "text",
+        "rect": [
+          674,
+          1314,
+          335,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.veil.p3",
+        "label": "Relation au Voile : p3",
+        "type": "checkbox",
+        "rect": [
+          530,
+          1385,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.p2",
+        "label": "Relation au Voile : p2",
+        "type": "checkbox",
+        "rect": [
+          590,
+          1385,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.p1",
+        "label": "Relation au Voile : p1",
+        "type": "checkbox",
+        "rect": [
+          657,
+          1385,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.zero",
+        "label": "Relation au Voile : zero",
+        "type": "checkbox",
+        "rect": [
+          716,
+          1385,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m1",
+        "label": "Relation au Voile : m1",
+        "type": "checkbox",
+        "rect": [
+          781,
+          1385,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m2",
+        "label": "Relation au Voile : m2",
+        "type": "checkbox",
+        "rect": [
+          842,
+          1385,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m3",
+        "label": "Relation au Voile : m3",
+        "type": "checkbox",
+        "rect": [
+          901,
+          1385,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m4",
+        "label": "Relation au Voile : m4",
+        "type": "checkbox",
+        "rect": [
+          964,
+          1385,
+          12,
+          12
+        ]
+      }
+    ]
+  },
+  "baseanh": {
+    "imageSize": [
+      1055,
+      1491
+    ],
+    "fields": [
+      {
+        "name": "truth.identity.name",
+        "label": "Nom / alias",
+        "type": "text",
+        "rect": [
+          145,
+          300,
+          365,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.baseanh.origin",
+        "label": "Monde / origine",
+        "type": "text",
+        "rect": [
+          179,
+          330,
+          331,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.baseanh.function",
+        "label": "Fonction / specialite",
+        "type": "text",
+        "rect": [
+          205,
+          360,
+          305,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.baseanh.organization",
+        "label": "Organisation / reseau",
+        "type": "text",
+        "rect": [
+          214,
+          390,
+          296,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.baseanh.status",
+        "label": "Statut / habilitation",
+        "type": "text",
+        "rect": [
+          203,
+          420,
+          307,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.baseanh.training",
+        "label": "Formation / mentor",
+        "type": "text",
+        "rect": [
+          204,
+          450,
+          306,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.state.V",
+        "label": "Etat actuel : V",
+        "type": "checkbox",
+        "rect": [
+          570,
+          352,
+          17,
+          17
+        ]
+      },
+      {
+        "name": "truth.state.SR",
+        "label": "Etat actuel : SR",
+        "type": "checkbox",
+        "rect": [
+          708,
+          352,
+          17,
+          17
+        ]
+      },
+      {
+        "name": "truth.state.R",
+        "label": "Etat actuel : R",
+        "type": "checkbox",
+        "rect": [
+          898,
+          352,
+          17,
+          17
+        ]
+      },
+      {
+        "name": "truth.ptv.available",
+        "label": "PTV disponibles",
+        "type": "text",
+        "rect": [
+          686,
+          411,
+          66,
+          36
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.ptv.spent",
+        "label": "PTV depenses",
+        "type": "text",
+        "rect": [
+          930,
+          411,
+          79,
+          36
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.baseanh.tardolla.01",
+        "label": "Preparation de Tardolla 1",
+        "type": "text",
+        "rect": [
+          75,
+          776,
+          376,
+          19
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.baseanh.tardolla.02",
+        "label": "Preparation de Tardolla 2",
+        "type": "text",
+        "rect": [
+          75,
+          803,
+          376,
+          19
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.baseanh.needs",
+        "label": "Adaptations / besoins",
+        "type": "text",
+        "rect": [
+          47,
+          864,
+          404,
+          46
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.baseanh.description",
+        "label": "Description, heritage choisi, adaptations, besoins ou notes personnelles",
+        "type": "text",
+        "rect": [
+          493,
+          779,
+          516,
+          128
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.01.name",
+        "label": "Talent 1 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1012,
+          184,
+          18
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.source",
+        "label": "Talent 1 - Source / branche",
+        "type": "text",
+        "rect": [
+          258,
+          1012,
+          236,
+          18
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.ptv",
+        "label": "Talent 1 - PTV",
+        "type": "text",
+        "rect": [
+          500,
+          1012,
+          65,
+          18
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.activation",
+        "label": "Talent 1 - Etat / cout",
+        "type": "text",
+        "rect": [
+          571,
+          1012,
+          130,
+          18
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.effect",
+        "label": "Talent 1 - Effet / notes",
+        "type": "text",
+        "rect": [
+          707,
+          1012,
+          312,
+          18
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.name",
+        "label": "Talent 2 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1036,
+          184,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.source",
+        "label": "Talent 2 - Source / branche",
+        "type": "text",
+        "rect": [
+          258,
+          1036,
+          236,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.ptv",
+        "label": "Talent 2 - PTV",
+        "type": "text",
+        "rect": [
+          500,
+          1036,
+          65,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.activation",
+        "label": "Talent 2 - Etat / cout",
+        "type": "text",
+        "rect": [
+          571,
+          1036,
+          130,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.effect",
+        "label": "Talent 2 - Effet / notes",
+        "type": "text",
+        "rect": [
+          707,
+          1036,
+          312,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.name",
+        "label": "Talent 3 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1062,
+          184,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.source",
+        "label": "Talent 3 - Source / branche",
+        "type": "text",
+        "rect": [
+          258,
+          1062,
+          236,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.ptv",
+        "label": "Talent 3 - PTV",
+        "type": "text",
+        "rect": [
+          500,
+          1062,
+          65,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.activation",
+        "label": "Talent 3 - Etat / cout",
+        "type": "text",
+        "rect": [
+          571,
+          1062,
+          130,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.effect",
+        "label": "Talent 3 - Effet / notes",
+        "type": "text",
+        "rect": [
+          707,
+          1062,
+          312,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.name",
+        "label": "Talent 4 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1089,
+          184,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.source",
+        "label": "Talent 4 - Source / branche",
+        "type": "text",
+        "rect": [
+          258,
+          1089,
+          236,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.ptv",
+        "label": "Talent 4 - PTV",
+        "type": "text",
+        "rect": [
+          500,
+          1089,
+          65,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.activation",
+        "label": "Talent 4 - Etat / cout",
+        "type": "text",
+        "rect": [
+          571,
+          1089,
+          130,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.effect",
+        "label": "Talent 4 - Effet / notes",
+        "type": "text",
+        "rect": [
+          707,
+          1089,
+          312,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.name",
+        "label": "Talent 5 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1115,
+          184,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.source",
+        "label": "Talent 5 - Source / branche",
+        "type": "text",
+        "rect": [
+          258,
+          1115,
+          236,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.ptv",
+        "label": "Talent 5 - PTV",
+        "type": "text",
+        "rect": [
+          500,
+          1115,
+          65,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.activation",
+        "label": "Talent 5 - Etat / cout",
+        "type": "text",
+        "rect": [
+          571,
+          1115,
+          130,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.effect",
+        "label": "Talent 5 - Effet / notes",
+        "type": "text",
+        "rect": [
+          707,
+          1115,
+          312,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.name",
+        "label": "Talent 6 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1141,
+          184,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.source",
+        "label": "Talent 6 - Source / branche",
+        "type": "text",
+        "rect": [
+          258,
+          1141,
+          236,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.ptv",
+        "label": "Talent 6 - PTV",
+        "type": "text",
+        "rect": [
+          500,
+          1141,
+          65,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.activation",
+        "label": "Talent 6 - Etat / cout",
+        "type": "text",
+        "rect": [
+          571,
+          1141,
+          130,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.effect",
+        "label": "Talent 6 - Effet / notes",
+        "type": "text",
+        "rect": [
+          707,
+          1141,
+          312,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.name",
+        "label": "Talent 7 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1167,
+          184,
+          19
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.source",
+        "label": "Talent 7 - Source / branche",
+        "type": "text",
+        "rect": [
+          258,
+          1167,
+          236,
+          19
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.ptv",
+        "label": "Talent 7 - PTV",
+        "type": "text",
+        "rect": [
+          500,
+          1167,
+          65,
+          19
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.activation",
+        "label": "Talent 7 - Etat / cout",
+        "type": "text",
+        "rect": [
+          571,
+          1167,
+          130,
+          19
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.effect",
+        "label": "Talent 7 - Effet / notes",
+        "type": "text",
+        "rect": [
+          707,
+          1167,
+          312,
+          19
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.name",
+        "label": "Talent 8 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1192,
+          184,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.source",
+        "label": "Talent 8 - Source / branche",
+        "type": "text",
+        "rect": [
+          258,
+          1192,
+          236,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.ptv",
+        "label": "Talent 8 - PTV",
+        "type": "text",
+        "rect": [
+          500,
+          1192,
+          65,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.activation",
+        "label": "Talent 8 - Etat / cout",
+        "type": "text",
+        "rect": [
+          571,
+          1192,
+          130,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.effect",
+        "label": "Talent 8 - Effet / notes",
+        "type": "text",
+        "rect": [
+          707,
+          1192,
+          312,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.links",
+        "label": "Liens / allies / obligations / notes",
+        "type": "text",
+        "rect": [
+          47,
+          1300,
+          430,
+          127
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.corruption.current",
+        "label": "Corruption actuelle",
+        "type": "text",
+        "rect": [
+          686,
+          1280,
+          56,
+          21
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.integrity",
+        "label": "Integrite",
+        "type": "text",
+        "rect": [
+          933,
+          1280,
+          60,
+          21
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.corruption.source",
+        "label": "Source dominante",
+        "type": "text",
+        "rect": [
+          660,
+          1331,
+          347,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.veil.p3",
+        "label": "Relation au Voile : p3",
+        "type": "checkbox",
+        "rect": [
+          522,
+          1392,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.p2",
+        "label": "Relation au Voile : p2",
+        "type": "checkbox",
+        "rect": [
+          585,
+          1392,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.p1",
+        "label": "Relation au Voile : p1",
+        "type": "checkbox",
+        "rect": [
+          652,
+          1392,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.zero",
+        "label": "Relation au Voile : zero",
+        "type": "checkbox",
+        "rect": [
+          713,
+          1392,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m1",
+        "label": "Relation au Voile : m1",
+        "type": "checkbox",
+        "rect": [
+          782,
+          1392,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m2",
+        "label": "Relation au Voile : m2",
+        "type": "checkbox",
+        "rect": [
+          840,
+          1392,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m3",
+        "label": "Relation au Voile : m3",
+        "type": "checkbox",
+        "rect": [
+          901,
+          1392,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m4",
+        "label": "Relation au Voile : m4",
+        "type": "checkbox",
+        "rect": [
+          968,
+          1392,
+          12,
+          12
+        ]
+      }
+    ]
+  },
+  "elye": {
+    "imageSize": [
+      1055,
+      1491
+    ],
+    "fields": [
+      {
+        "name": "truth.identity.name",
+        "label": "Nom / alias",
+        "type": "text",
+        "rect": [
+          150,
+          278,
+          356,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.elye.origin",
+        "label": "Ligenee / origine",
+        "type": "text",
+        "rect": [
+          184,
+          306,
+          322,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.elye.tradition",
+        "label": "Tradition / branche",
+        "type": "text",
+        "rect": [
+          194,
+          334,
+          312,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.elye.organization",
+        "label": "Organisation / reseau",
+        "type": "text",
+        "rect": [
+          210,
+          362,
+          296,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.elye.status",
+        "label": "Role / statut",
+        "type": "text",
+        "rect": [
+          147,
+          390,
+          359,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.elye.training",
+        "label": "Mentor / transmission",
+        "type": "text",
+        "rect": [
+          211,
+          418,
+          295,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.state.V",
+        "label": "Etat actuel : V",
+        "type": "checkbox",
+        "rect": [
+          569,
+          313,
+          17,
+          17
+        ]
+      },
+      {
+        "name": "truth.state.SR",
+        "label": "Etat actuel : SR",
+        "type": "checkbox",
+        "rect": [
+          710,
+          313,
+          17,
+          17
+        ]
+      },
+      {
+        "name": "truth.state.R",
+        "label": "Etat actuel : R",
+        "type": "checkbox",
+        "rect": [
+          901,
+          313,
+          17,
+          17
+        ]
+      },
+      {
+        "name": "truth.ptv.available",
+        "label": "PTV disponibles",
+        "type": "text",
+        "rect": [
+          699,
+          372,
+          59,
+          35
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.ptv.spent",
+        "label": "PTV depenses",
+        "type": "text",
+        "rect": [
+          935,
+          372,
+          75,
+          35
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.elye.appearance",
+        "label": "Apparence revelee",
+        "type": "text",
+        "rect": [
+          42,
+          741,
+          303,
+          94
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.elye.heritage",
+        "label": "Heritage choisi",
+        "type": "text",
+        "rect": [
+          383,
+          741,
+          290,
+          94
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.elye.needs",
+        "label": "Particularites / besoins",
+        "type": "text",
+        "rect": [
+          712,
+          741,
+          302,
+          94
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.01.name",
+        "label": "Talent 1 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          935,
+          187,
+          28
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.01.source",
+        "label": "Talent 1 - Source / branche",
+        "type": "text",
+        "rect": [
+          261,
+          935,
+          210,
+          28
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.01.ptv",
+        "label": "Talent 1 - PTV",
+        "type": "text",
+        "rect": [
+          477,
+          935,
+          69,
+          28
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.01.activation",
+        "label": "Talent 1 - Etat / cout",
+        "type": "text",
+        "rect": [
+          552,
+          935,
+          145,
+          28
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.01.effect",
+        "label": "Talent 1 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          935,
+          316,
+          28
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.02.name",
+        "label": "Talent 2 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          969,
+          187,
+          29
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.02.source",
+        "label": "Talent 2 - Source / branche",
+        "type": "text",
+        "rect": [
+          261,
+          969,
+          210,
+          29
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.02.ptv",
+        "label": "Talent 2 - PTV",
+        "type": "text",
+        "rect": [
+          477,
+          969,
+          69,
+          29
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.02.activation",
+        "label": "Talent 2 - Etat / cout",
+        "type": "text",
+        "rect": [
+          552,
+          969,
+          145,
+          29
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.02.effect",
+        "label": "Talent 2 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          969,
+          316,
+          29
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.03.name",
+        "label": "Talent 3 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1004,
+          187,
+          28
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.03.source",
+        "label": "Talent 3 - Source / branche",
+        "type": "text",
+        "rect": [
+          261,
+          1004,
+          210,
+          28
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.03.ptv",
+        "label": "Talent 3 - PTV",
+        "type": "text",
+        "rect": [
+          477,
+          1004,
+          69,
+          28
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.03.activation",
+        "label": "Talent 3 - Etat / cout",
+        "type": "text",
+        "rect": [
+          552,
+          1004,
+          145,
+          28
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.03.effect",
+        "label": "Talent 3 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1004,
+          316,
+          28
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.04.name",
+        "label": "Talent 4 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1038,
+          187,
+          28
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.04.source",
+        "label": "Talent 4 - Source / branche",
+        "type": "text",
+        "rect": [
+          261,
+          1038,
+          210,
+          28
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.04.ptv",
+        "label": "Talent 4 - PTV",
+        "type": "text",
+        "rect": [
+          477,
+          1038,
+          69,
+          28
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.04.activation",
+        "label": "Talent 4 - Etat / cout",
+        "type": "text",
+        "rect": [
+          552,
+          1038,
+          145,
+          28
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.04.effect",
+        "label": "Talent 4 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1038,
+          316,
+          28
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.05.name",
+        "label": "Talent 5 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1072,
+          187,
+          28
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.05.source",
+        "label": "Talent 5 - Source / branche",
+        "type": "text",
+        "rect": [
+          261,
+          1072,
+          210,
+          28
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.05.ptv",
+        "label": "Talent 5 - PTV",
+        "type": "text",
+        "rect": [
+          477,
+          1072,
+          69,
+          28
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.05.activation",
+        "label": "Talent 5 - Etat / cout",
+        "type": "text",
+        "rect": [
+          552,
+          1072,
+          145,
+          28
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.05.effect",
+        "label": "Talent 5 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1072,
+          316,
+          28
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.06.name",
+        "label": "Talent 6 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1106,
+          187,
+          29
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.06.source",
+        "label": "Talent 6 - Source / branche",
+        "type": "text",
+        "rect": [
+          261,
+          1106,
+          210,
+          29
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.06.ptv",
+        "label": "Talent 6 - PTV",
+        "type": "text",
+        "rect": [
+          477,
+          1106,
+          69,
+          29
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.06.activation",
+        "label": "Talent 6 - Etat / cout",
+        "type": "text",
+        "rect": [
+          552,
+          1106,
+          145,
+          29
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.06.effect",
+        "label": "Talent 6 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1106,
+          316,
+          29
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.07.name",
+        "label": "Talent 7 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1141,
+          187,
+          27
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.source",
+        "label": "Talent 7 - Source / branche",
+        "type": "text",
+        "rect": [
+          261,
+          1141,
+          210,
+          27
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.ptv",
+        "label": "Talent 7 - PTV",
+        "type": "text",
+        "rect": [
+          477,
+          1141,
+          69,
+          27
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.activation",
+        "label": "Talent 7 - Etat / cout",
+        "type": "text",
+        "rect": [
+          552,
+          1141,
+          145,
+          27
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.effect",
+        "label": "Talent 7 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1141,
+          316,
+          27
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.name",
+        "label": "Talent 8 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1174,
+          187,
+          28
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.08.source",
+        "label": "Talent 8 - Source / branche",
+        "type": "text",
+        "rect": [
+          261,
+          1174,
+          210,
+          28
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.08.ptv",
+        "label": "Talent 8 - PTV",
+        "type": "text",
+        "rect": [
+          477,
+          1174,
+          69,
+          28
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.08.activation",
+        "label": "Talent 8 - Etat / cout",
+        "type": "text",
+        "rect": [
+          552,
+          1174,
+          145,
+          28
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.08.effect",
+        "label": "Talent 8 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1174,
+          316,
+          28
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.links",
+        "label": "Liens / allies / obligations / notes",
+        "type": "text",
+        "rect": [
+          44,
+          1295,
+          437,
+          117
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.corruption.current",
+        "label": "Corruption actuelle",
+        "type": "text",
+        "rect": [
+          705,
+          1278,
+          46,
+          18
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.integrity",
+        "label": "Integrite",
+        "type": "text",
+        "rect": [
+          942,
+          1278,
+          49,
+          18
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.corruption.source",
+        "label": "Source dominante",
+        "type": "text",
+        "rect": [
+          667,
+          1327,
+          344,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.veil.p3",
+        "label": "Relation au Voile : p3",
+        "type": "checkbox",
+        "rect": [
+          530,
+          1385,
+          11,
+          11
+        ]
+      },
+      {
+        "name": "truth.veil.p2",
+        "label": "Relation au Voile : p2",
+        "type": "checkbox",
+        "rect": [
+          591,
+          1385,
+          11,
+          11
+        ]
+      },
+      {
+        "name": "truth.veil.p1",
+        "label": "Relation au Voile : p1",
+        "type": "checkbox",
+        "rect": [
+          654,
+          1385,
+          11,
+          11
+        ]
+      },
+      {
+        "name": "truth.veil.zero",
+        "label": "Relation au Voile : zero",
+        "type": "checkbox",
+        "rect": [
+          718,
+          1385,
+          11,
+          11
+        ]
+      },
+      {
+        "name": "truth.veil.m1",
+        "label": "Relation au Voile : m1",
+        "type": "checkbox",
+        "rect": [
+          780,
+          1385,
+          11,
+          11
+        ]
+      },
+      {
+        "name": "truth.veil.m2",
+        "label": "Relation au Voile : m2",
+        "type": "checkbox",
+        "rect": [
+          841,
+          1385,
+          11,
+          11
+        ]
+      },
+      {
+        "name": "truth.veil.m3",
+        "label": "Relation au Voile : m3",
+        "type": "checkbox",
+        "rect": [
+          899,
+          1385,
+          11,
+          11
+        ]
+      },
+      {
+        "name": "truth.veil.m4",
+        "label": "Relation au Voile : m4",
+        "type": "checkbox",
+        "rect": [
+          964,
+          1385,
+          11,
+          11
+        ]
+      }
+    ]
+  },
+  "ashyll": {
+    "imageSize": [
+      1055,
+      1491
+    ],
+    "fields": [
+      {
+        "name": "truth.identity.name",
+        "label": "Nom / alias",
+        "type": "text",
+        "rect": [
+          144,
+          273,
+          365,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.ashyll.origin",
+        "label": "Communaute / origine",
+        "type": "text",
+        "rect": [
+          210,
+          301,
+          299,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.ashyll.organization",
+        "label": "Reseau / organisation",
+        "type": "text",
+        "rect": [
+          215,
+          329,
+          294,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.ashyll.tradition",
+        "label": "Tradition / specialite",
+        "type": "text",
+        "rect": [
+          210,
+          357,
+          299,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.ashyll.status",
+        "label": "Role / statut",
+        "type": "text",
+        "rect": [
+          143,
+          385,
+          366,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.ashyll.training",
+        "label": "Mentor / contact",
+        "type": "text",
+        "rect": [
+          180,
+          413,
+          329,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.state.V",
+        "label": "Etat actuel : V",
+        "type": "checkbox",
+        "rect": [
+          650,
+          300,
+          15,
+          15
+        ]
+      },
+      {
+        "name": "truth.state.SR",
+        "label": "Etat actuel : SR",
+        "type": "checkbox",
+        "rect": [
+          763,
+          300,
+          15,
+          15
+        ]
+      },
+      {
+        "name": "truth.state.R",
+        "label": "Etat actuel : R",
+        "type": "checkbox",
+        "rect": [
+          925,
+          300,
+          15,
+          15
+        ]
+      },
+      {
+        "name": "truth.ptv.available",
+        "label": "PTV disponibles",
+        "type": "text",
+        "rect": [
+          697,
+          357,
+          61,
+          34
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.ptv.spent",
+        "label": "PTV depenses",
+        "type": "text",
+        "rect": [
+          936,
+          357,
+          73,
+          34
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.ashyll.appearance",
+        "label": "Apparence revelee",
+        "type": "text",
+        "rect": [
+          44,
+          728,
+          301,
+          94
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.ashyll.heritage",
+        "label": "Heritage choisi",
+        "type": "text",
+        "rect": [
+          385,
+          728,
+          286,
+          94
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.ashyll.needs",
+        "label": "Particularites / besoins",
+        "type": "text",
+        "rect": [
+          711,
+          728,
+          300,
+          94
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.01.name",
+        "label": "Talent 1 - Talent",
+        "type": "text",
+        "rect": [
+          67,
+          919,
+          191,
+          30
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.01.source",
+        "label": "Talent 1 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          919,
+          231,
+          30
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.01.ptv",
+        "label": "Talent 1 - PTV",
+        "type": "text",
+        "rect": [
+          501,
+          919,
+          64,
+          30
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.01.activation",
+        "label": "Talent 1 - Etat / cout",
+        "type": "text",
+        "rect": [
+          571,
+          919,
+          126,
+          30
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.01.effect",
+        "label": "Talent 1 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          919,
+          317,
+          30
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.02.name",
+        "label": "Talent 2 - Talent",
+        "type": "text",
+        "rect": [
+          67,
+          955,
+          191,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.02.source",
+        "label": "Talent 2 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          955,
+          231,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.02.ptv",
+        "label": "Talent 2 - PTV",
+        "type": "text",
+        "rect": [
+          501,
+          955,
+          64,
+          33
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.02.activation",
+        "label": "Talent 2 - Etat / cout",
+        "type": "text",
+        "rect": [
+          571,
+          955,
+          126,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.02.effect",
+        "label": "Talent 2 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          955,
+          317,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.03.name",
+        "label": "Talent 3 - Talent",
+        "type": "text",
+        "rect": [
+          67,
+          994,
+          191,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.03.source",
+        "label": "Talent 3 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          994,
+          231,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.03.ptv",
+        "label": "Talent 3 - PTV",
+        "type": "text",
+        "rect": [
+          501,
+          994,
+          64,
+          33
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.03.activation",
+        "label": "Talent 3 - Etat / cout",
+        "type": "text",
+        "rect": [
+          571,
+          994,
+          126,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.03.effect",
+        "label": "Talent 3 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          994,
+          317,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.04.name",
+        "label": "Talent 4 - Talent",
+        "type": "text",
+        "rect": [
+          67,
+          1033,
+          191,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.04.source",
+        "label": "Talent 4 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          1033,
+          231,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.04.ptv",
+        "label": "Talent 4 - PTV",
+        "type": "text",
+        "rect": [
+          501,
+          1033,
+          64,
+          33
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.04.activation",
+        "label": "Talent 4 - Etat / cout",
+        "type": "text",
+        "rect": [
+          571,
+          1033,
+          126,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.04.effect",
+        "label": "Talent 4 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1033,
+          317,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.05.name",
+        "label": "Talent 5 - Talent",
+        "type": "text",
+        "rect": [
+          67,
+          1072,
+          191,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.05.source",
+        "label": "Talent 5 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          1072,
+          231,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.05.ptv",
+        "label": "Talent 5 - PTV",
+        "type": "text",
+        "rect": [
+          501,
+          1072,
+          64,
+          33
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.05.activation",
+        "label": "Talent 5 - Etat / cout",
+        "type": "text",
+        "rect": [
+          571,
+          1072,
+          126,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.05.effect",
+        "label": "Talent 5 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1072,
+          317,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.06.name",
+        "label": "Talent 6 - Talent",
+        "type": "text",
+        "rect": [
+          67,
+          1111,
+          191,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.06.source",
+        "label": "Talent 6 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          1111,
+          231,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.06.ptv",
+        "label": "Talent 6 - PTV",
+        "type": "text",
+        "rect": [
+          501,
+          1111,
+          64,
+          33
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.06.activation",
+        "label": "Talent 6 - Etat / cout",
+        "type": "text",
+        "rect": [
+          571,
+          1111,
+          126,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.06.effect",
+        "label": "Talent 6 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1111,
+          317,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.07.name",
+        "label": "Talent 7 - Talent",
+        "type": "text",
+        "rect": [
+          67,
+          1150,
+          191,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.07.source",
+        "label": "Talent 7 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          1150,
+          231,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.07.ptv",
+        "label": "Talent 7 - PTV",
+        "type": "text",
+        "rect": [
+          501,
+          1150,
+          64,
+          33
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.07.activation",
+        "label": "Talent 7 - Etat / cout",
+        "type": "text",
+        "rect": [
+          571,
+          1150,
+          126,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.07.effect",
+        "label": "Talent 7 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1150,
+          317,
+          33
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.08.name",
+        "label": "Talent 8 - Talent",
+        "type": "text",
+        "rect": [
+          67,
+          1189,
+          191,
+          31
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.08.source",
+        "label": "Talent 8 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          1189,
+          231,
+          31
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.08.ptv",
+        "label": "Talent 8 - PTV",
+        "type": "text",
+        "rect": [
+          501,
+          1189,
+          64,
+          31
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.08.activation",
+        "label": "Talent 8 - Etat / cout",
+        "type": "text",
+        "rect": [
+          571,
+          1189,
+          126,
+          31
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.08.effect",
+        "label": "Talent 8 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1189,
+          317,
+          31
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.links",
+        "label": "Liens / allies / obligations / notes",
+        "type": "text",
+        "rect": [
+          45,
+          1309,
+          437,
+          109
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.corruption.current",
+        "label": "Corruption actuelle",
+        "type": "text",
+        "rect": [
+          707,
+          1283,
+          55,
+          21
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.integrity",
+        "label": "Integrite",
+        "type": "text",
+        "rect": [
+          941,
+          1283,
+          58,
+          21
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.corruption.source",
+        "label": "Source dominante",
+        "type": "text",
+        "rect": [
+          674,
+          1333,
+          337,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.veil.p3",
+        "label": "Relation au Voile : p3",
+        "type": "checkbox",
+        "rect": [
+          533,
+          1391,
+          13,
+          13
+        ]
+      },
+      {
+        "name": "truth.veil.p2",
+        "label": "Relation au Voile : p2",
+        "type": "checkbox",
+        "rect": [
+          598,
+          1391,
+          13,
+          13
+        ]
+      },
+      {
+        "name": "truth.veil.p1",
+        "label": "Relation au Voile : p1",
+        "type": "checkbox",
+        "rect": [
+          663,
+          1391,
+          13,
+          13
+        ]
+      },
+      {
+        "name": "truth.veil.zero",
+        "label": "Relation au Voile : zero",
+        "type": "checkbox",
+        "rect": [
+          726,
+          1391,
+          13,
+          13
+        ]
+      },
+      {
+        "name": "truth.veil.m1",
+        "label": "Relation au Voile : m1",
+        "type": "checkbox",
+        "rect": [
+          790,
+          1391,
+          13,
+          13
+        ]
+      },
+      {
+        "name": "truth.veil.m2",
+        "label": "Relation au Voile : m2",
+        "type": "checkbox",
+        "rect": [
+          850,
+          1391,
+          13,
+          13
+        ]
+      },
+      {
+        "name": "truth.veil.m3",
+        "label": "Relation au Voile : m3",
+        "type": "checkbox",
+        "rect": [
+          909,
+          1391,
+          13,
+          13
+        ]
+      },
+      {
+        "name": "truth.veil.m4",
+        "label": "Relation au Voile : m4",
+        "type": "checkbox",
+        "rect": [
+          972,
+          1391,
+          13,
+          13
+        ]
+      }
+    ]
+  },
+  "azmenorien": {
+    "imageSize": [
+      1055,
+      1491
+    ],
+    "fields": [
+      {
+        "name": "truth.identity.name",
+        "label": "Nom / alias",
+        "type": "text",
+        "rect": [
+          145,
+          279,
+          362,
+          19
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.azmenorien.origin",
+        "label": "Origine / lignee",
+        "type": "text",
+        "rect": [
+          179,
+          303,
+          328,
+          19
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.azmenorien.tradition",
+        "label": "Heritage / tradition",
+        "type": "text",
+        "rect": [
+          197,
+          330,
+          310,
+          18
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.azmenorien.organization",
+        "label": "Organisation / atelier",
+        "type": "text",
+        "rect": [
+          213,
+          356,
+          294,
+          18
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.azmenorien.status",
+        "label": "Role / statut",
+        "type": "text",
+        "rect": [
+          147,
+          381,
+          360,
+          18
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.azmenorien.training",
+        "label": "Mentor / transmission",
+        "type": "text",
+        "rect": [
+          214,
+          407,
+          293,
+          18
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.state.V",
+        "label": "Etat actuel : V",
+        "type": "checkbox",
+        "rect": [
+          552,
+          394,
+          18,
+          18
+        ]
+      },
+      {
+        "name": "truth.state.SR",
+        "label": "Etat actuel : SR",
+        "type": "checkbox",
+        "rect": [
+          701,
+          394,
+          18,
+          18
+        ]
+      },
+      {
+        "name": "truth.state.R",
+        "label": "Etat actuel : R",
+        "type": "checkbox",
+        "rect": [
+          903,
+          394,
+          18,
+          18
+        ]
+      },
+      {
+        "name": "truth.ptv.available",
+        "label": "PTV disponibles",
+        "type": "text",
+        "rect": [
+          685,
+          289,
+          58,
+          34
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.ptv.spent",
+        "label": "PTV depenses",
+        "type": "text",
+        "rect": [
+          938,
+          289,
+          69,
+          34
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.azmenorien.appearance",
+        "label": "Apparence revelee",
+        "type": "text",
+        "rect": [
+          43,
+          723,
+          305,
+          70
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.azmenorien.heritage",
+        "label": "Heritage choisi",
+        "type": "text",
+        "rect": [
+          385,
+          723,
+          285,
+          70
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.azmenorien.needs",
+        "label": "Particularites / besoins",
+        "type": "text",
+        "rect": [
+          709,
+          723,
+          305,
+          70
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.01.name",
+        "label": "Talent 1 - Talent",
+        "type": "text",
+        "rect": [
+          66,
+          899,
+          183,
+          30
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.01.source",
+        "label": "Talent 1 - Source / branche",
+        "type": "text",
+        "rect": [
+          255,
+          899,
+          234,
+          30
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.01.ptv",
+        "label": "Talent 1 - PTV",
+        "type": "text",
+        "rect": [
+          495,
+          899,
+          66,
+          30
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.01.activation",
+        "label": "Talent 1 - Etat / cout",
+        "type": "text",
+        "rect": [
+          567,
+          899,
+          140,
+          30
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.01.effect",
+        "label": "Talent 1 - Effet / notes",
+        "type": "text",
+        "rect": [
+          713,
+          899,
+          307,
+          30
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.02.name",
+        "label": "Talent 2 - Talent",
+        "type": "text",
+        "rect": [
+          66,
+          935,
+          183,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.02.source",
+        "label": "Talent 2 - Source / branche",
+        "type": "text",
+        "rect": [
+          255,
+          935,
+          234,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.02.ptv",
+        "label": "Talent 2 - PTV",
+        "type": "text",
+        "rect": [
+          495,
+          935,
+          66,
+          32
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.02.activation",
+        "label": "Talent 2 - Etat / cout",
+        "type": "text",
+        "rect": [
+          567,
+          935,
+          140,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.02.effect",
+        "label": "Talent 2 - Effet / notes",
+        "type": "text",
+        "rect": [
+          713,
+          935,
+          307,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.03.name",
+        "label": "Talent 3 - Talent",
+        "type": "text",
+        "rect": [
+          66,
+          973,
+          183,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.03.source",
+        "label": "Talent 3 - Source / branche",
+        "type": "text",
+        "rect": [
+          255,
+          973,
+          234,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.03.ptv",
+        "label": "Talent 3 - PTV",
+        "type": "text",
+        "rect": [
+          495,
+          973,
+          66,
+          32
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.03.activation",
+        "label": "Talent 3 - Etat / cout",
+        "type": "text",
+        "rect": [
+          567,
+          973,
+          140,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.03.effect",
+        "label": "Talent 3 - Effet / notes",
+        "type": "text",
+        "rect": [
+          713,
+          973,
+          307,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.04.name",
+        "label": "Talent 4 - Talent",
+        "type": "text",
+        "rect": [
+          66,
+          1011,
+          183,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.04.source",
+        "label": "Talent 4 - Source / branche",
+        "type": "text",
+        "rect": [
+          255,
+          1011,
+          234,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.04.ptv",
+        "label": "Talent 4 - PTV",
+        "type": "text",
+        "rect": [
+          495,
+          1011,
+          66,
+          32
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.04.activation",
+        "label": "Talent 4 - Etat / cout",
+        "type": "text",
+        "rect": [
+          567,
+          1011,
+          140,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.04.effect",
+        "label": "Talent 4 - Effet / notes",
+        "type": "text",
+        "rect": [
+          713,
+          1011,
+          307,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.05.name",
+        "label": "Talent 5 - Talent",
+        "type": "text",
+        "rect": [
+          66,
+          1049,
+          183,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.05.source",
+        "label": "Talent 5 - Source / branche",
+        "type": "text",
+        "rect": [
+          255,
+          1049,
+          234,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.05.ptv",
+        "label": "Talent 5 - PTV",
+        "type": "text",
+        "rect": [
+          495,
+          1049,
+          66,
+          32
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.05.activation",
+        "label": "Talent 5 - Etat / cout",
+        "type": "text",
+        "rect": [
+          567,
+          1049,
+          140,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.05.effect",
+        "label": "Talent 5 - Effet / notes",
+        "type": "text",
+        "rect": [
+          713,
+          1049,
+          307,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.06.name",
+        "label": "Talent 6 - Talent",
+        "type": "text",
+        "rect": [
+          66,
+          1087,
+          183,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.06.source",
+        "label": "Talent 6 - Source / branche",
+        "type": "text",
+        "rect": [
+          255,
+          1087,
+          234,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.06.ptv",
+        "label": "Talent 6 - PTV",
+        "type": "text",
+        "rect": [
+          495,
+          1087,
+          66,
+          32
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.06.activation",
+        "label": "Talent 6 - Etat / cout",
+        "type": "text",
+        "rect": [
+          567,
+          1087,
+          140,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.06.effect",
+        "label": "Talent 6 - Effet / notes",
+        "type": "text",
+        "rect": [
+          713,
+          1087,
+          307,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.07.name",
+        "label": "Talent 7 - Talent",
+        "type": "text",
+        "rect": [
+          66,
+          1125,
+          183,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.07.source",
+        "label": "Talent 7 - Source / branche",
+        "type": "text",
+        "rect": [
+          255,
+          1125,
+          234,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.07.ptv",
+        "label": "Talent 7 - PTV",
+        "type": "text",
+        "rect": [
+          495,
+          1125,
+          66,
+          32
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.07.activation",
+        "label": "Talent 7 - Etat / cout",
+        "type": "text",
+        "rect": [
+          567,
+          1125,
+          140,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.07.effect",
+        "label": "Talent 7 - Effet / notes",
+        "type": "text",
+        "rect": [
+          713,
+          1125,
+          307,
+          32
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.08.name",
+        "label": "Talent 8 - Talent",
+        "type": "text",
+        "rect": [
+          66,
+          1163,
+          183,
+          31
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.08.source",
+        "label": "Talent 8 - Source / branche",
+        "type": "text",
+        "rect": [
+          255,
+          1163,
+          234,
+          31
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.08.ptv",
+        "label": "Talent 8 - PTV",
+        "type": "text",
+        "rect": [
+          495,
+          1163,
+          66,
+          31
+        ],
+        "fontSize": 7.5
+      },
+      {
+        "name": "truth.talents.08.activation",
+        "label": "Talent 8 - Etat / cout",
+        "type": "text",
+        "rect": [
+          567,
+          1163,
+          140,
+          31
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.08.effect",
+        "label": "Talent 8 - Effet / notes",
+        "type": "text",
+        "rect": [
+          713,
+          1163,
+          307,
+          31
+        ],
+        "fontSize": 7.5,
+        "multiline": true
+      },
+      {
+        "name": "truth.links",
+        "label": "Liens / allies / obligations / notes",
+        "type": "text",
+        "rect": [
+          46,
+          1287,
+          437,
+          132
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.corruption.current",
+        "label": "Corruption actuelle",
+        "type": "text",
+        "rect": [
+          702,
+          1266,
+          57,
+          17
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.integrity",
+        "label": "Integrite",
+        "type": "text",
+        "rect": [
+          930,
+          1266,
+          56,
+          17
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.corruption.source",
+        "label": "Source dominante",
+        "type": "text",
+        "rect": [
+          674,
+          1315,
+          337,
+          21
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.veil.p3",
+        "label": "Relation au Voile : p3",
+        "type": "checkbox",
+        "rect": [
+          530,
+          1376,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.p2",
+        "label": "Relation au Voile : p2",
+        "type": "checkbox",
+        "rect": [
+          590,
+          1376,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.p1",
+        "label": "Relation au Voile : p1",
+        "type": "checkbox",
+        "rect": [
+          654,
+          1376,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.zero",
+        "label": "Relation au Voile : zero",
+        "type": "checkbox",
+        "rect": [
+          710,
+          1376,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m1",
+        "label": "Relation au Voile : m1",
+        "type": "checkbox",
+        "rect": [
+          778,
+          1376,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m2",
+        "label": "Relation au Voile : m2",
+        "type": "checkbox",
+        "rect": [
+          838,
+          1376,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m3",
+        "label": "Relation au Voile : m3",
+        "type": "checkbox",
+        "rect": [
+          900,
+          1376,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m4",
+        "label": "Relation au Voile : m4",
+        "type": "checkbox",
+        "rect": [
+          966,
+          1376,
+          12,
+          12
+        ]
+      }
+    ]
+  },
+  "rocreen": {
+    "imageSize": [
+      1055,
+      1491
+    ],
+    "fields": [
+      {
+        "name": "truth.identity.name",
+        "label": "Nom / alias",
+        "type": "text",
+        "rect": [
+          140,
+          298,
+          368,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.rocreen.origin",
+        "label": "Monde / origine",
+        "type": "text",
+        "rect": [
+          178,
+          326,
+          330,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.rocreen.function",
+        "label": "Fonction / specialite",
+        "type": "text",
+        "rect": [
+          202,
+          354,
+          306,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.rocreen.organization",
+        "label": "Organisation / reseau",
+        "type": "text",
+        "rect": [
+          208,
+          382,
+          300,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.rocreen.status",
+        "label": "Statut / habilitation",
+        "type": "text",
+        "rect": [
+          201,
+          411,
+          307,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.rocreen.training",
+        "label": "Formation / mentor",
+        "type": "text",
+        "rect": [
+          198,
+          439,
+          310,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.state.V",
+        "label": "Etat actuel : V",
+        "type": "checkbox",
+        "rect": [
+          565,
+          414,
+          19,
+          19
+        ]
+      },
+      {
+        "name": "truth.state.SR",
+        "label": "Etat actuel : SR",
+        "type": "checkbox",
+        "rect": [
+          697,
+          414,
+          19,
+          19
+        ]
+      },
+      {
+        "name": "truth.state.R",
+        "label": "Etat actuel : R",
+        "type": "checkbox",
+        "rect": [
+          884,
+          414,
+          19,
+          19
+        ]
+      },
+      {
+        "name": "truth.ptv.available",
+        "label": "PTV disponibles",
+        "type": "text",
+        "rect": [
+          682,
+          310,
+          62,
+          33
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.ptv.spent",
+        "label": "PTV depenses",
+        "type": "text",
+        "rect": [
+          904,
+          310,
+          61,
+          33
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.rocreen.core.summary",
+        "label": "Noyau - description",
+        "type": "text",
+        "rect": [
+          147,
+          774,
+          193,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.rocreen.core.notes",
+        "label": "Noyau - notes",
+        "type": "text",
+        "rect": [
+          49,
+          799,
+          291,
+          68
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.rocreen.hydration.summary",
+        "label": "Hydratation et adaptations - description",
+        "type": "text",
+        "rect": [
+          486,
+          774,
+          183,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.rocreen.hydration.notes",
+        "label": "Hydratation et adaptations - notes",
+        "type": "text",
+        "rect": [
+          386,
+          799,
+          283,
+          68
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.rocreen.heritage.summary",
+        "label": "Heritage choisi - description",
+        "type": "text",
+        "rect": [
+          815,
+          774,
+          191,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.rocreen.heritage.notes",
+        "label": "Heritage choisi - notes",
+        "type": "text",
+        "rect": [
+          717,
+          799,
+          289,
+          68
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.01.name",
+        "label": "Talent 1 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          975,
+          195,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.source",
+        "label": "Talent 1 - Source / branche",
+        "type": "text",
+        "rect": [
+          269,
+          975,
+          218,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.ptv",
+        "label": "Talent 1 - PTV",
+        "type": "text",
+        "rect": [
+          493,
+          975,
+          75,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.activation",
+        "label": "Talent 1 - Etat / cout",
+        "type": "text",
+        "rect": [
+          574,
+          975,
+          135,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.effect",
+        "label": "Talent 1 - Effet / notes",
+        "type": "text",
+        "rect": [
+          715,
+          975,
+          304,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.name",
+        "label": "Talent 2 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1002,
+          195,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.source",
+        "label": "Talent 2 - Source / branche",
+        "type": "text",
+        "rect": [
+          269,
+          1002,
+          218,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.ptv",
+        "label": "Talent 2 - PTV",
+        "type": "text",
+        "rect": [
+          493,
+          1002,
+          75,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.activation",
+        "label": "Talent 2 - Etat / cout",
+        "type": "text",
+        "rect": [
+          574,
+          1002,
+          135,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.effect",
+        "label": "Talent 2 - Effet / notes",
+        "type": "text",
+        "rect": [
+          715,
+          1002,
+          304,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.name",
+        "label": "Talent 3 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1028,
+          195,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.source",
+        "label": "Talent 3 - Source / branche",
+        "type": "text",
+        "rect": [
+          269,
+          1028,
+          218,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.ptv",
+        "label": "Talent 3 - PTV",
+        "type": "text",
+        "rect": [
+          493,
+          1028,
+          75,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.activation",
+        "label": "Talent 3 - Etat / cout",
+        "type": "text",
+        "rect": [
+          574,
+          1028,
+          135,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.effect",
+        "label": "Talent 3 - Effet / notes",
+        "type": "text",
+        "rect": [
+          715,
+          1028,
+          304,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.name",
+        "label": "Talent 4 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1054,
+          195,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.source",
+        "label": "Talent 4 - Source / branche",
+        "type": "text",
+        "rect": [
+          269,
+          1054,
+          218,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.ptv",
+        "label": "Talent 4 - PTV",
+        "type": "text",
+        "rect": [
+          493,
+          1054,
+          75,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.activation",
+        "label": "Talent 4 - Etat / cout",
+        "type": "text",
+        "rect": [
+          574,
+          1054,
+          135,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.effect",
+        "label": "Talent 4 - Effet / notes",
+        "type": "text",
+        "rect": [
+          715,
+          1054,
+          304,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.name",
+        "label": "Talent 5 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1080,
+          195,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.source",
+        "label": "Talent 5 - Source / branche",
+        "type": "text",
+        "rect": [
+          269,
+          1080,
+          218,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.ptv",
+        "label": "Talent 5 - PTV",
+        "type": "text",
+        "rect": [
+          493,
+          1080,
+          75,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.activation",
+        "label": "Talent 5 - Etat / cout",
+        "type": "text",
+        "rect": [
+          574,
+          1080,
+          135,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.effect",
+        "label": "Talent 5 - Effet / notes",
+        "type": "text",
+        "rect": [
+          715,
+          1080,
+          304,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.name",
+        "label": "Talent 6 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1106,
+          195,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.source",
+        "label": "Talent 6 - Source / branche",
+        "type": "text",
+        "rect": [
+          269,
+          1106,
+          218,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.ptv",
+        "label": "Talent 6 - PTV",
+        "type": "text",
+        "rect": [
+          493,
+          1106,
+          75,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.activation",
+        "label": "Talent 6 - Etat / cout",
+        "type": "text",
+        "rect": [
+          574,
+          1106,
+          135,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.effect",
+        "label": "Talent 6 - Effet / notes",
+        "type": "text",
+        "rect": [
+          715,
+          1106,
+          304,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.name",
+        "label": "Talent 7 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1132,
+          195,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.source",
+        "label": "Talent 7 - Source / branche",
+        "type": "text",
+        "rect": [
+          269,
+          1132,
+          218,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.ptv",
+        "label": "Talent 7 - PTV",
+        "type": "text",
+        "rect": [
+          493,
+          1132,
+          75,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.activation",
+        "label": "Talent 7 - Etat / cout",
+        "type": "text",
+        "rect": [
+          574,
+          1132,
+          135,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.effect",
+        "label": "Talent 7 - Effet / notes",
+        "type": "text",
+        "rect": [
+          715,
+          1132,
+          304,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.name",
+        "label": "Talent 8 - Talent",
+        "type": "text",
+        "rect": [
+          68,
+          1159,
+          195,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.source",
+        "label": "Talent 8 - Source / branche",
+        "type": "text",
+        "rect": [
+          269,
+          1159,
+          218,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.ptv",
+        "label": "Talent 8 - PTV",
+        "type": "text",
+        "rect": [
+          493,
+          1159,
+          75,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.activation",
+        "label": "Talent 8 - Etat / cout",
+        "type": "text",
+        "rect": [
+          574,
+          1159,
+          135,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.effect",
+        "label": "Talent 8 - Effet / notes",
+        "type": "text",
+        "rect": [
+          715,
+          1159,
+          304,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.links",
+        "label": "Liens / allies / obligations / notes",
+        "type": "text",
+        "rect": [
+          49,
+          1280,
+          436,
+          129
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.corruption.current",
+        "label": "Corruption actuelle",
+        "type": "text",
+        "rect": [
+          698,
+          1260,
+          52,
+          19
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.integrity",
+        "label": "Integrite",
+        "type": "text",
+        "rect": [
+          935,
+          1260,
+          52,
+          19
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.corruption.source",
+        "label": "Source dominante",
+        "type": "text",
+        "rect": [
+          670,
+          1312,
+          336,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.veil.p3",
+        "label": "Relation au Voile : p3",
+        "type": "checkbox",
+        "rect": [
+          533,
+          1371,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.p2",
+        "label": "Relation au Voile : p2",
+        "type": "checkbox",
+        "rect": [
+          596,
+          1371,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.p1",
+        "label": "Relation au Voile : p1",
+        "type": "checkbox",
+        "rect": [
+          657,
+          1371,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.zero",
+        "label": "Relation au Voile : zero",
+        "type": "checkbox",
+        "rect": [
+          721,
+          1371,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m1",
+        "label": "Relation au Voile : m1",
+        "type": "checkbox",
+        "rect": [
+          780,
+          1371,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m2",
+        "label": "Relation au Voile : m2",
+        "type": "checkbox",
+        "rect": [
+          840,
+          1371,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m3",
+        "label": "Relation au Voile : m3",
+        "type": "checkbox",
+        "rect": [
+          901,
+          1371,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m4",
+        "label": "Relation au Voile : m4",
+        "type": "checkbox",
+        "rect": [
+          961,
+          1371,
+          12,
+          12
+        ]
+      }
+    ]
+  },
+  "thalsios": {
+    "imageSize": [
+      1055,
+      1491
+    ],
+    "fields": [
+      {
+        "name": "truth.identity.name",
+        "label": "Nom / alias",
+        "type": "text",
+        "rect": [
+          147,
+          294,
+          362,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.thalsios.origin",
+        "label": "Monde / origine",
+        "type": "text",
+        "rect": [
+          179,
+          323,
+          330,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.thalsios.function",
+        "label": "Fonction / specialite",
+        "type": "text",
+        "rect": [
+          208,
+          351,
+          301,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.thalsios.organization",
+        "label": "Organisation / reseau",
+        "type": "text",
+        "rect": [
+          213,
+          379,
+          296,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.thalsios.status",
+        "label": "Statut / habilitation",
+        "type": "text",
+        "rect": [
+          208,
+          407,
+          301,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.thalsios.training",
+        "label": "Formation / mentor",
+        "type": "text",
+        "rect": [
+          203,
+          434,
+          306,
+          22
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.state.V",
+        "label": "Etat actuel : V",
+        "type": "checkbox",
+        "rect": [
+          648,
+          403,
+          16,
+          16
+        ]
+      },
+      {
+        "name": "truth.state.SR",
+        "label": "Etat actuel : SR",
+        "type": "checkbox",
+        "rect": [
+          761,
+          403,
+          16,
+          16
+        ]
+      },
+      {
+        "name": "truth.state.R",
+        "label": "Etat actuel : R",
+        "type": "checkbox",
+        "rect": [
+          923,
+          403,
+          15,
+          15
+        ]
+      },
+      {
+        "name": "truth.ptv.available",
+        "label": "PTV disponibles",
+        "type": "text",
+        "rect": [
+          690,
+          317,
+          61,
+          31
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.ptv.spent",
+        "label": "PTV depenses",
+        "type": "text",
+        "rect": [
+          942,
+          317,
+          67,
+          31
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.thalsios.morphology",
+        "label": "Morphologie, acclimatation et adaptations",
+        "type": "text",
+        "rect": [
+          46,
+          762,
+          301,
+          96
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.thalsios.heritage",
+        "label": "Heritage choisi",
+        "type": "text",
+        "rect": [
+          389,
+          762,
+          281,
+          96
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.thalsios.needs",
+        "label": "Adaptations, besoins ou notes personnelles",
+        "type": "text",
+        "rect": [
+          709,
+          762,
+          301,
+          96
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.01.name",
+        "label": "Talent 1 - Talent",
+        "type": "text",
+        "rect": [
+          66,
+          957,
+          184,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.source",
+        "label": "Talent 1 - Source / branche",
+        "type": "text",
+        "rect": [
+          256,
+          957,
+          234,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.ptv",
+        "label": "Talent 1 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          957,
+          67,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.activation",
+        "label": "Talent 1 - Etat / cout",
+        "type": "text",
+        "rect": [
+          569,
+          957,
+          128,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.effect",
+        "label": "Talent 1 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          957,
+          316,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.name",
+        "label": "Talent 2 - Talent",
+        "type": "text",
+        "rect": [
+          66,
+          984,
+          184,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.source",
+        "label": "Talent 2 - Source / branche",
+        "type": "text",
+        "rect": [
+          256,
+          984,
+          234,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.ptv",
+        "label": "Talent 2 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          984,
+          67,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.activation",
+        "label": "Talent 2 - Etat / cout",
+        "type": "text",
+        "rect": [
+          569,
+          984,
+          128,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.effect",
+        "label": "Talent 2 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          984,
+          316,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.name",
+        "label": "Talent 3 - Talent",
+        "type": "text",
+        "rect": [
+          66,
+          1011,
+          184,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.source",
+        "label": "Talent 3 - Source / branche",
+        "type": "text",
+        "rect": [
+          256,
+          1011,
+          234,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.ptv",
+        "label": "Talent 3 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1011,
+          67,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.activation",
+        "label": "Talent 3 - Etat / cout",
+        "type": "text",
+        "rect": [
+          569,
+          1011,
+          128,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.effect",
+        "label": "Talent 3 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1011,
+          316,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.name",
+        "label": "Talent 4 - Talent",
+        "type": "text",
+        "rect": [
+          66,
+          1037,
+          184,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.source",
+        "label": "Talent 4 - Source / branche",
+        "type": "text",
+        "rect": [
+          256,
+          1037,
+          234,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.ptv",
+        "label": "Talent 4 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1037,
+          67,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.activation",
+        "label": "Talent 4 - Etat / cout",
+        "type": "text",
+        "rect": [
+          569,
+          1037,
+          128,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.effect",
+        "label": "Talent 4 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1037,
+          316,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.name",
+        "label": "Talent 5 - Talent",
+        "type": "text",
+        "rect": [
+          66,
+          1064,
+          184,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.source",
+        "label": "Talent 5 - Source / branche",
+        "type": "text",
+        "rect": [
+          256,
+          1064,
+          234,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.ptv",
+        "label": "Talent 5 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1064,
+          67,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.activation",
+        "label": "Talent 5 - Etat / cout",
+        "type": "text",
+        "rect": [
+          569,
+          1064,
+          128,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.effect",
+        "label": "Talent 5 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1064,
+          316,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.name",
+        "label": "Talent 6 - Talent",
+        "type": "text",
+        "rect": [
+          66,
+          1091,
+          184,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.source",
+        "label": "Talent 6 - Source / branche",
+        "type": "text",
+        "rect": [
+          256,
+          1091,
+          234,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.ptv",
+        "label": "Talent 6 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1091,
+          67,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.activation",
+        "label": "Talent 6 - Etat / cout",
+        "type": "text",
+        "rect": [
+          569,
+          1091,
+          128,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.effect",
+        "label": "Talent 6 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1091,
+          316,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.name",
+        "label": "Talent 7 - Talent",
+        "type": "text",
+        "rect": [
+          66,
+          1118,
+          184,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.source",
+        "label": "Talent 7 - Source / branche",
+        "type": "text",
+        "rect": [
+          256,
+          1118,
+          234,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.ptv",
+        "label": "Talent 7 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1118,
+          67,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.activation",
+        "label": "Talent 7 - Etat / cout",
+        "type": "text",
+        "rect": [
+          569,
+          1118,
+          128,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.effect",
+        "label": "Talent 7 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1118,
+          316,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.name",
+        "label": "Talent 8 - Talent",
+        "type": "text",
+        "rect": [
+          66,
+          1145,
+          184,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.source",
+        "label": "Talent 8 - Source / branche",
+        "type": "text",
+        "rect": [
+          256,
+          1145,
+          234,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.ptv",
+        "label": "Talent 8 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1145,
+          67,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.activation",
+        "label": "Talent 8 - Etat / cout",
+        "type": "text",
+        "rect": [
+          569,
+          1145,
+          128,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.effect",
+        "label": "Talent 8 - Effet / notes",
+        "type": "text",
+        "rect": [
+          703,
+          1145,
+          316,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.links",
+        "label": "Liens / allies / obligations / notes",
+        "type": "text",
+        "rect": [
+          47,
+          1270,
+          435,
+          139
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.corruption.current",
+        "label": "Corruption actuelle",
+        "type": "text",
+        "rect": [
+          700,
+          1243,
+          54,
+          21
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.integrity",
+        "label": "Integrite",
+        "type": "text",
+        "rect": [
+          935,
+          1243,
+          51,
+          21
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.corruption.source",
+        "label": "Source dominante",
+        "type": "text",
+        "rect": [
+          670,
+          1304,
+          339,
+          21
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.veil.p3",
+        "label": "Relation au Voile : p3",
+        "type": "checkbox",
+        "rect": [
+          530,
+          1371,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.p2",
+        "label": "Relation au Voile : p2",
+        "type": "checkbox",
+        "rect": [
+          592,
+          1371,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.p1",
+        "label": "Relation au Voile : p1",
+        "type": "checkbox",
+        "rect": [
+          663,
+          1371,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.zero",
+        "label": "Relation au Voile : zero",
+        "type": "checkbox",
+        "rect": [
+          725,
+          1371,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m1",
+        "label": "Relation au Voile : m1",
+        "type": "checkbox",
+        "rect": [
+          793,
+          1371,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m2",
+        "label": "Relation au Voile : m2",
+        "type": "checkbox",
+        "rect": [
+          853,
+          1371,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m3",
+        "label": "Relation au Voile : m3",
+        "type": "checkbox",
+        "rect": [
+          912,
+          1371,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m4",
+        "label": "Relation au Voile : m4",
+        "type": "checkbox",
+        "rect": [
+          972,
+          1371,
+          12,
+          12
+        ]
+      }
+    ]
+  },
+  "chasseur": {
+    "imageSize": [
+      1055,
+      1491
+    ],
+    "fields": [
+      {
+        "name": "truth.identity.name",
+        "label": "Nom / alias",
+        "type": "text",
+        "rect": [
+          147,
+          278,
+          361,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.chasseur.real_nature",
+        "label": "Nature reelle",
+        "type": "text",
+        "rect": [
+          153,
+          306,
+          355,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.chasseur.tradition",
+        "label": "Tradition / organisation",
+        "type": "text",
+        "rect": [
+          235,
+          334,
+          273,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.chasseur.branch",
+        "label": "Branche / ecole",
+        "type": "text",
+        "rect": [
+          183,
+          362,
+          325,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.chasseur.status",
+        "label": "Habilitation GT / statut",
+        "type": "text",
+        "rect": [
+          238,
+          390,
+          270,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.chasseur.training",
+        "label": "Mentor / transmission",
+        "type": "text",
+        "rect": [
+          228,
+          418,
+          280,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.state.V",
+        "label": "Etat actuel : V",
+        "type": "checkbox",
+        "rect": [
+          650,
+          307,
+          15,
+          15
+        ]
+      },
+      {
+        "name": "truth.state.SR",
+        "label": "Etat actuel : SR",
+        "type": "checkbox",
+        "rect": [
+          755,
+          307,
+          15,
+          15
+        ]
+      },
+      {
+        "name": "truth.state.R",
+        "label": "Etat actuel : R",
+        "type": "checkbox",
+        "rect": [
+          917,
+          307,
+          15,
+          15
+        ]
+      },
+      {
+        "name": "truth.ptv.available",
+        "label": "PTV disponibles",
+        "type": "text",
+        "rect": [
+          696,
+          367,
+          60,
+          33
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.ptv.spent",
+        "label": "PTV depenses",
+        "type": "text",
+        "rect": [
+          939,
+          367,
+          68,
+          33
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.chasseur.prey",
+        "label": "Proies / familles connues",
+        "type": "text",
+        "rect": [
+          46,
+          791,
+          297,
+          97
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.chasseur.neutralization",
+        "label": "Methodes de neutralisation",
+        "type": "text",
+        "rect": [
+          389,
+          791,
+          283,
+          97
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.chasseur.preparation",
+        "label": "Preparatifs / outils specifiques",
+        "type": "text",
+        "rect": [
+          715,
+          791,
+          295,
+          97
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.01.name",
+        "label": "Talent 1 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          987,
+          193,
+          23
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.source",
+        "label": "Talent 1 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          987,
+          226,
+          23
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.ptv",
+        "label": "Talent 1 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          987,
+          68,
+          23
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.activation",
+        "label": "Talent 1 - Etat / cout",
+        "type": "text",
+        "rect": [
+          570,
+          987,
+          131,
+          23
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.effect",
+        "label": "Talent 1 - Effet / notes",
+        "type": "text",
+        "rect": [
+          707,
+          987,
+          312,
+          23
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.name",
+        "label": "Talent 2 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          1016,
+          193,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.source",
+        "label": "Talent 2 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          1016,
+          226,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.ptv",
+        "label": "Talent 2 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1016,
+          68,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.activation",
+        "label": "Talent 2 - Etat / cout",
+        "type": "text",
+        "rect": [
+          570,
+          1016,
+          131,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.effect",
+        "label": "Talent 2 - Effet / notes",
+        "type": "text",
+        "rect": [
+          707,
+          1016,
+          312,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.name",
+        "label": "Talent 3 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          1043,
+          193,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.source",
+        "label": "Talent 3 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          1043,
+          226,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.ptv",
+        "label": "Talent 3 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1043,
+          68,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.activation",
+        "label": "Talent 3 - Etat / cout",
+        "type": "text",
+        "rect": [
+          570,
+          1043,
+          131,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.effect",
+        "label": "Talent 3 - Effet / notes",
+        "type": "text",
+        "rect": [
+          707,
+          1043,
+          312,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.name",
+        "label": "Talent 4 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          1070,
+          193,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.source",
+        "label": "Talent 4 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          1070,
+          226,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.ptv",
+        "label": "Talent 4 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1070,
+          68,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.activation",
+        "label": "Talent 4 - Etat / cout",
+        "type": "text",
+        "rect": [
+          570,
+          1070,
+          131,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.effect",
+        "label": "Talent 4 - Effet / notes",
+        "type": "text",
+        "rect": [
+          707,
+          1070,
+          312,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.name",
+        "label": "Talent 5 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          1097,
+          193,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.source",
+        "label": "Talent 5 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          1097,
+          226,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.ptv",
+        "label": "Talent 5 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1097,
+          68,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.activation",
+        "label": "Talent 5 - Etat / cout",
+        "type": "text",
+        "rect": [
+          570,
+          1097,
+          131,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.effect",
+        "label": "Talent 5 - Effet / notes",
+        "type": "text",
+        "rect": [
+          707,
+          1097,
+          312,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.name",
+        "label": "Talent 6 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          1124,
+          193,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.source",
+        "label": "Talent 6 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          1124,
+          226,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.ptv",
+        "label": "Talent 6 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1124,
+          68,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.activation",
+        "label": "Talent 6 - Etat / cout",
+        "type": "text",
+        "rect": [
+          570,
+          1124,
+          131,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.effect",
+        "label": "Talent 6 - Effet / notes",
+        "type": "text",
+        "rect": [
+          707,
+          1124,
+          312,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.name",
+        "label": "Talent 7 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          1150,
+          193,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.source",
+        "label": "Talent 7 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          1150,
+          226,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.ptv",
+        "label": "Talent 7 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1150,
+          68,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.activation",
+        "label": "Talent 7 - Etat / cout",
+        "type": "text",
+        "rect": [
+          570,
+          1150,
+          131,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.effect",
+        "label": "Talent 7 - Effet / notes",
+        "type": "text",
+        "rect": [
+          707,
+          1150,
+          312,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.name",
+        "label": "Talent 8 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          1177,
+          193,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.source",
+        "label": "Talent 8 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          1177,
+          226,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.ptv",
+        "label": "Talent 8 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1177,
+          68,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.activation",
+        "label": "Talent 8 - Etat / cout",
+        "type": "text",
+        "rect": [
+          570,
+          1177,
+          131,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.effect",
+        "label": "Talent 8 - Effet / notes",
+        "type": "text",
+        "rect": [
+          707,
+          1177,
+          312,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.links",
+        "label": "Liens / allies / obligations / notes",
+        "type": "text",
+        "rect": [
+          47,
+          1290,
+          435,
+          122
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.corruption.current",
+        "label": "Corruption actuelle",
+        "type": "text",
+        "rect": [
+          704,
+          1272,
+          51,
+          16
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.integrity",
+        "label": "Integrite",
+        "type": "text",
+        "rect": [
+          937,
+          1272,
+          52,
+          16
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.corruption.source",
+        "label": "Source dominante",
+        "type": "text",
+        "rect": [
+          671,
+          1322,
+          337,
+          21
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.veil.p3",
+        "label": "Relation au Voile : p3",
+        "type": "checkbox",
+        "rect": [
+          529,
+          1387,
+          11,
+          11
+        ]
+      },
+      {
+        "name": "truth.veil.p2",
+        "label": "Relation au Voile : p2",
+        "type": "checkbox",
+        "rect": [
+          590,
+          1387,
+          11,
+          11
+        ]
+      },
+      {
+        "name": "truth.veil.p1",
+        "label": "Relation au Voile : p1",
+        "type": "checkbox",
+        "rect": [
+          656,
+          1387,
+          11,
+          11
+        ]
+      },
+      {
+        "name": "truth.veil.zero",
+        "label": "Relation au Voile : zero",
+        "type": "checkbox",
+        "rect": [
+          717,
+          1387,
+          11,
+          11
+        ]
+      },
+      {
+        "name": "truth.veil.m1",
+        "label": "Relation au Voile : m1",
+        "type": "checkbox",
+        "rect": [
+          783,
+          1387,
+          11,
+          11
+        ]
+      },
+      {
+        "name": "truth.veil.m2",
+        "label": "Relation au Voile : m2",
+        "type": "checkbox",
+        "rect": [
+          844,
+          1387,
+          11,
+          11
+        ]
+      },
+      {
+        "name": "truth.veil.m3",
+        "label": "Relation au Voile : m3",
+        "type": "checkbox",
+        "rect": [
+          902,
+          1387,
+          11,
+          11
+        ]
+      },
+      {
+        "name": "truth.veil.m4",
+        "label": "Relation au Voile : m4",
+        "type": "checkbox",
+        "rect": [
+          966,
+          1387,
+          11,
+          11
+        ]
+      }
+    ]
+  },
+  "homo-superior": {
+    "imageSize": [
+      1055,
+      1491
+    ],
+    "fields": [
+      {
+        "name": "truth.identity.name",
+        "label": "Nom / alias",
+        "type": "text",
+        "rect": [
+          140,
+          279,
+          370,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.homo-superior.origin",
+        "label": "Origine / programme",
+        "type": "text",
+        "rect": [
+          205,
+          307,
+          305,
+          19
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.homo-superior.assignment",
+        "label": "Affectation / unite AIDH",
+        "type": "text",
+        "rect": [
+          226,
+          335,
+          284,
+          19
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.homo-superior.status",
+        "label": "Habilitation / statut",
+        "type": "text",
+        "rect": [
+          198,
+          363,
+          312,
+          19
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.homo-superior.specialty",
+        "label": "Specialite",
+        "type": "text",
+        "rect": [
+          125,
+          392,
+          385,
+          18
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.homo-superior.doctrine",
+        "label": "Doctrine / formation",
+        "type": "text",
+        "rect": [
+          204,
+          420,
+          306,
+          19
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.state.V",
+        "label": "Etat actuel : V",
+        "type": "checkbox",
+        "rect": [
+          645,
+          307,
+          14,
+          14
+        ]
+      },
+      {
+        "name": "truth.state.SR",
+        "label": "Etat actuel : SR",
+        "type": "checkbox",
+        "rect": [
+          754,
+          307,
+          14,
+          14
+        ]
+      },
+      {
+        "name": "truth.state.R",
+        "label": "Etat actuel : R",
+        "type": "checkbox",
+        "rect": [
+          917,
+          307,
+          14,
+          14
+        ]
+      },
+      {
+        "name": "truth.ptv.available",
+        "label": "PTV disponibles",
+        "type": "text",
+        "rect": [
+          695,
+          367,
+          61,
+          33
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.ptv.spent",
+        "label": "PTV depenses",
+        "type": "text",
+        "rect": [
+          938,
+          367,
+          69,
+          33
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.homo-superior.nanites",
+        "label": "Essaim nanitique / calibrations",
+        "type": "text",
+        "rect": [
+          46,
+          762,
+          298,
+          105
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.homo-superior.doctrines",
+        "label": "Doctrines apprises",
+        "type": "text",
+        "rect": [
+          388,
+          762,
+          282,
+          105
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.homo-superior.patches",
+        "label": "Patchs tatoues / equipement lie",
+        "type": "text",
+        "rect": [
+          714,
+          762,
+          295,
+          105
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.01.name",
+        "label": "Talent 1 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          970,
+          193,
+          25
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.source",
+        "label": "Talent 1 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          970,
+          226,
+          25
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.ptv",
+        "label": "Talent 1 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          970,
+          68,
+          25
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.activation",
+        "label": "Talent 1 - Etat / cout",
+        "type": "text",
+        "rect": [
+          570,
+          970,
+          130,
+          25
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.effect",
+        "label": "Talent 1 - Effet / notes",
+        "type": "text",
+        "rect": [
+          706,
+          970,
+          313,
+          25
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.name",
+        "label": "Talent 2 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          1001,
+          193,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.source",
+        "label": "Talent 2 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          1001,
+          226,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.ptv",
+        "label": "Talent 2 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1001,
+          68,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.activation",
+        "label": "Talent 2 - Etat / cout",
+        "type": "text",
+        "rect": [
+          570,
+          1001,
+          130,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.effect",
+        "label": "Talent 2 - Effet / notes",
+        "type": "text",
+        "rect": [
+          706,
+          1001,
+          313,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.name",
+        "label": "Talent 3 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          1029,
+          193,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.source",
+        "label": "Talent 3 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          1029,
+          226,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.ptv",
+        "label": "Talent 3 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1029,
+          68,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.activation",
+        "label": "Talent 3 - Etat / cout",
+        "type": "text",
+        "rect": [
+          570,
+          1029,
+          130,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.effect",
+        "label": "Talent 3 - Effet / notes",
+        "type": "text",
+        "rect": [
+          706,
+          1029,
+          313,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.name",
+        "label": "Talent 4 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          1057,
+          193,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.source",
+        "label": "Talent 4 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          1057,
+          226,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.ptv",
+        "label": "Talent 4 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1057,
+          68,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.activation",
+        "label": "Talent 4 - Etat / cout",
+        "type": "text",
+        "rect": [
+          570,
+          1057,
+          130,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.effect",
+        "label": "Talent 4 - Effet / notes",
+        "type": "text",
+        "rect": [
+          706,
+          1057,
+          313,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.name",
+        "label": "Talent 5 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          1085,
+          193,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.source",
+        "label": "Talent 5 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          1085,
+          226,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.ptv",
+        "label": "Talent 5 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1085,
+          68,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.activation",
+        "label": "Talent 5 - Etat / cout",
+        "type": "text",
+        "rect": [
+          570,
+          1085,
+          130,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.effect",
+        "label": "Talent 5 - Effet / notes",
+        "type": "text",
+        "rect": [
+          706,
+          1085,
+          313,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.name",
+        "label": "Talent 6 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          1113,
+          193,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.source",
+        "label": "Talent 6 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          1113,
+          226,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.ptv",
+        "label": "Talent 6 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1113,
+          68,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.activation",
+        "label": "Talent 6 - Etat / cout",
+        "type": "text",
+        "rect": [
+          570,
+          1113,
+          130,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.effect",
+        "label": "Talent 6 - Effet / notes",
+        "type": "text",
+        "rect": [
+          706,
+          1113,
+          313,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.name",
+        "label": "Talent 7 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          1141,
+          193,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.source",
+        "label": "Talent 7 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          1141,
+          226,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.ptv",
+        "label": "Talent 7 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1141,
+          68,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.activation",
+        "label": "Talent 7 - Etat / cout",
+        "type": "text",
+        "rect": [
+          570,
+          1141,
+          130,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.effect",
+        "label": "Talent 7 - Effet / notes",
+        "type": "text",
+        "rect": [
+          706,
+          1141,
+          313,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.name",
+        "label": "Talent 8 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          1169,
+          193,
+          19
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.source",
+        "label": "Talent 8 - Source / branche",
+        "type": "text",
+        "rect": [
+          264,
+          1169,
+          226,
+          19
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.ptv",
+        "label": "Talent 8 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1169,
+          68,
+          19
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.activation",
+        "label": "Talent 8 - Etat / cout",
+        "type": "text",
+        "rect": [
+          570,
+          1169,
+          130,
+          19
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.effect",
+        "label": "Talent 8 - Effet / notes",
+        "type": "text",
+        "rect": [
+          706,
+          1169,
+          313,
+          19
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.links",
+        "label": "Liens / allies / obligations / notes",
+        "type": "text",
+        "rect": [
+          46,
+          1287,
+          436,
+          120
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.corruption.current",
+        "label": "Corruption actuelle",
+        "type": "text",
+        "rect": [
+          702,
+          1267,
+          53,
+          16
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.integrity",
+        "label": "Integrite",
+        "type": "text",
+        "rect": [
+          937,
+          1267,
+          52,
+          16
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.corruption.source",
+        "label": "Source dominante",
+        "type": "text",
+        "rect": [
+          670,
+          1318,
+          338,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.veil.p3",
+        "label": "Relation au Voile : p3",
+        "type": "checkbox",
+        "rect": [
+          526,
+          1382,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.p2",
+        "label": "Relation au Voile : p2",
+        "type": "checkbox",
+        "rect": [
+          589,
+          1382,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.p1",
+        "label": "Relation au Voile : p1",
+        "type": "checkbox",
+        "rect": [
+          656,
+          1382,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.zero",
+        "label": "Relation au Voile : zero",
+        "type": "checkbox",
+        "rect": [
+          718,
+          1382,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m1",
+        "label": "Relation au Voile : m1",
+        "type": "checkbox",
+        "rect": [
+          780,
+          1382,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m2",
+        "label": "Relation au Voile : m2",
+        "type": "checkbox",
+        "rect": [
+          842,
+          1382,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m3",
+        "label": "Relation au Voile : m3",
+        "type": "checkbox",
+        "rect": [
+          901,
+          1382,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m4",
+        "label": "Relation au Voile : m4",
+        "type": "checkbox",
+        "rect": [
+          968,
+          1382,
+          12,
+          12
+        ]
+      }
+    ]
+  },
+  "adrak": {
+    "imageSize": [
+      1055,
+      1491
+    ],
+    "fields": [
+      {
+        "name": "truth.identity.name",
+        "label": "Nom / alias",
+        "type": "text",
+        "rect": [
+          144,
+          279,
+          365,
+          20
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.adrak.origin",
+        "label": "Communaute / origine",
+        "type": "text",
+        "rect": [
+          216,
+          307,
+          293,
+          19
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.adrak.exile",
+        "label": "Exil / parcours",
+        "type": "text",
+        "rect": [
+          165,
+          335,
+          344,
+          19
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.adrak.tradition",
+        "label": "Tradition / sanctuaire",
+        "type": "text",
+        "rect": [
+          215,
+          363,
+          294,
+          19
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.adrak.organization",
+        "label": "Organisation / role",
+        "type": "text",
+        "rect": [
+          198,
+          391,
+          311,
+          19
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.adrak.training",
+        "label": "Mentor / transmission",
+        "type": "text",
+        "rect": [
+          216,
+          419,
+          293,
+          19
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.state.V",
+        "label": "Etat actuel : V",
+        "type": "checkbox",
+        "rect": [
+          649,
+          306,
+          15,
+          15
+        ]
+      },
+      {
+        "name": "truth.state.SR",
+        "label": "Etat actuel : SR",
+        "type": "checkbox",
+        "rect": [
+          754,
+          306,
+          15,
+          15
+        ]
+      },
+      {
+        "name": "truth.state.R",
+        "label": "Etat actuel : R",
+        "type": "checkbox",
+        "rect": [
+          916,
+          306,
+          15,
+          15
+        ]
+      },
+      {
+        "name": "truth.ptv.available",
+        "label": "PTV disponibles",
+        "type": "text",
+        "rect": [
+          695,
+          368,
+          61,
+          33
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.ptv.spent",
+        "label": "PTV depenses",
+        "type": "text",
+        "rect": [
+          939,
+          368,
+          67,
+          33
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.adrak.morphology",
+        "label": "Gabarit / adaptations",
+        "type": "text",
+        "rect": [
+          46,
+          749,
+          297,
+          97
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.adrak.heritage",
+        "label": "Tradition / heritage",
+        "type": "text",
+        "rect": [
+          388,
+          749,
+          283,
+          97
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.adrak.needs",
+        "label": "Particularites / besoins",
+        "type": "text",
+        "rect": [
+          715,
+          749,
+          294,
+          97
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.talents.01.name",
+        "label": "Talent 1 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          954,
+          192,
+          24
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.source",
+        "label": "Talent 1 - Source / branche",
+        "type": "text",
+        "rect": [
+          263,
+          954,
+          227,
+          24
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.ptv",
+        "label": "Talent 1 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          954,
+          66,
+          24
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.activation",
+        "label": "Talent 1 - Etat / cout",
+        "type": "text",
+        "rect": [
+          568,
+          954,
+          132,
+          24
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.01.effect",
+        "label": "Talent 1 - Effet / notes",
+        "type": "text",
+        "rect": [
+          706,
+          954,
+          313,
+          24
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.name",
+        "label": "Talent 2 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          984,
+          192,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.source",
+        "label": "Talent 2 - Source / branche",
+        "type": "text",
+        "rect": [
+          263,
+          984,
+          227,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.ptv",
+        "label": "Talent 2 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          984,
+          66,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.activation",
+        "label": "Talent 2 - Etat / cout",
+        "type": "text",
+        "rect": [
+          568,
+          984,
+          132,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.02.effect",
+        "label": "Talent 2 - Effet / notes",
+        "type": "text",
+        "rect": [
+          706,
+          984,
+          313,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.name",
+        "label": "Talent 3 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          1011,
+          192,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.source",
+        "label": "Talent 3 - Source / branche",
+        "type": "text",
+        "rect": [
+          263,
+          1011,
+          227,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.ptv",
+        "label": "Talent 3 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1011,
+          66,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.activation",
+        "label": "Talent 3 - Etat / cout",
+        "type": "text",
+        "rect": [
+          568,
+          1011,
+          132,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.03.effect",
+        "label": "Talent 3 - Effet / notes",
+        "type": "text",
+        "rect": [
+          706,
+          1011,
+          313,
+          21
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.name",
+        "label": "Talent 4 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          1038,
+          192,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.source",
+        "label": "Talent 4 - Source / branche",
+        "type": "text",
+        "rect": [
+          263,
+          1038,
+          227,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.ptv",
+        "label": "Talent 4 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1038,
+          66,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.activation",
+        "label": "Talent 4 - Etat / cout",
+        "type": "text",
+        "rect": [
+          568,
+          1038,
+          132,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.04.effect",
+        "label": "Talent 4 - Effet / notes",
+        "type": "text",
+        "rect": [
+          706,
+          1038,
+          313,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.name",
+        "label": "Talent 5 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          1066,
+          192,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.source",
+        "label": "Talent 5 - Source / branche",
+        "type": "text",
+        "rect": [
+          263,
+          1066,
+          227,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.ptv",
+        "label": "Talent 5 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1066,
+          66,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.activation",
+        "label": "Talent 5 - Etat / cout",
+        "type": "text",
+        "rect": [
+          568,
+          1066,
+          132,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.05.effect",
+        "label": "Talent 5 - Effet / notes",
+        "type": "text",
+        "rect": [
+          706,
+          1066,
+          313,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.name",
+        "label": "Talent 6 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          1094,
+          192,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.source",
+        "label": "Talent 6 - Source / branche",
+        "type": "text",
+        "rect": [
+          263,
+          1094,
+          227,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.ptv",
+        "label": "Talent 6 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1094,
+          66,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.activation",
+        "label": "Talent 6 - Etat / cout",
+        "type": "text",
+        "rect": [
+          568,
+          1094,
+          132,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.06.effect",
+        "label": "Talent 6 - Effet / notes",
+        "type": "text",
+        "rect": [
+          706,
+          1094,
+          313,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.name",
+        "label": "Talent 7 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          1122,
+          192,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.source",
+        "label": "Talent 7 - Source / branche",
+        "type": "text",
+        "rect": [
+          263,
+          1122,
+          227,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.ptv",
+        "label": "Talent 7 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1122,
+          66,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.activation",
+        "label": "Talent 7 - Etat / cout",
+        "type": "text",
+        "rect": [
+          568,
+          1122,
+          132,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.07.effect",
+        "label": "Talent 7 - Effet / notes",
+        "type": "text",
+        "rect": [
+          706,
+          1122,
+          313,
+          22
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.name",
+        "label": "Talent 8 - Talent",
+        "type": "text",
+        "rect": [
+          65,
+          1150,
+          192,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.source",
+        "label": "Talent 8 - Source / branche",
+        "type": "text",
+        "rect": [
+          263,
+          1150,
+          227,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.ptv",
+        "label": "Talent 8 - PTV",
+        "type": "text",
+        "rect": [
+          496,
+          1150,
+          66,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.activation",
+        "label": "Talent 8 - Etat / cout",
+        "type": "text",
+        "rect": [
+          568,
+          1150,
+          132,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.talents.08.effect",
+        "label": "Talent 8 - Effet / notes",
+        "type": "text",
+        "rect": [
+          706,
+          1150,
+          313,
+          20
+        ],
+        "fontSize": 7
+      },
+      {
+        "name": "truth.links",
+        "label": "Liens / allies / obligations / notes",
+        "type": "text",
+        "rect": [
+          47,
+          1271,
+          433,
+          118
+        ],
+        "fontSize": 8,
+        "multiline": true
+      },
+      {
+        "name": "truth.corruption.current",
+        "label": "Corruption actuelle",
+        "type": "text",
+        "rect": [
+          703,
+          1252,
+          51,
+          20
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.integrity",
+        "label": "Integrite",
+        "type": "text",
+        "rect": [
+          935,
+          1252,
+          55,
+          20
+        ],
+        "fontSize": 10
+      },
+      {
+        "name": "truth.corruption.source",
+        "label": "Source dominante",
+        "type": "text",
+        "rect": [
+          671,
+          1300,
+          338,
+          23
+        ],
+        "fontSize": 8
+      },
+      {
+        "name": "truth.veil.p3",
+        "label": "Relation au Voile : p3",
+        "type": "checkbox",
+        "rect": [
+          528,
+          1368,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.p2",
+        "label": "Relation au Voile : p2",
+        "type": "checkbox",
+        "rect": [
+          590,
+          1368,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.p1",
+        "label": "Relation au Voile : p1",
+        "type": "checkbox",
+        "rect": [
+          656,
+          1368,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.zero",
+        "label": "Relation au Voile : zero",
+        "type": "checkbox",
+        "rect": [
+          718,
+          1368,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m1",
+        "label": "Relation au Voile : m1",
+        "type": "checkbox",
+        "rect": [
+          781,
+          1368,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m2",
+        "label": "Relation au Voile : m2",
+        "type": "checkbox",
+        "rect": [
+          841,
+          1368,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m3",
+        "label": "Relation au Voile : m3",
+        "type": "checkbox",
+        "rect": [
+          902,
+          1368,
+          12,
+          12
+        ]
+      },
+      {
+        "name": "truth.veil.m4",
+        "label": "Relation au Voile : m4",
+        "type": "checkbox",
+        "rect": [
+          968,
+          1368,
+          12,
+          12
+        ]
+      }
+    ]
+  }
+}

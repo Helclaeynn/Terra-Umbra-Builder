@@ -483,12 +483,23 @@ export function truthTraitsForStage(
     .filter(trait=>truthTraitStages(trait.access)[stage]);
 }
 
-function truthChoiceLabel(pkg:TruthRulesPackage,state:TruthState,key:string){
+export function truthChoiceLabel(pkg:TruthRulesPackage,state:TruthState,key:string){
   const nature=pkg.structure.natures[state.nature];
   const choice=nature?.choices.find(item=>item.key===key);
   if(!choice)return "";
   const selected=stringChoice(state.choices,key);
   return truthChoiceOptions(choice,state.choices).find(option=>option.id===selected)?.name??"";
+}
+
+/** Canon: compendium-verite-v7-angelus.ts, Aura / Progression de Transcendance.
+ * No standard talent grants Séraphin rank; never infer it from a seraph patron.
+ */
+export function truthAngelusCapacity(state:TruthState,permanentFortitude:number){
+  if(state.nature!=='angelus')return null;
+  const cherub=state.truthTalents.includes('progression_de_transcendance_transcendance_cherubique');
+  const reserve=state.truthTalents.includes('nature_commune_pouvoirs_angeliques_talents_communs_reserve_transcendee');
+  const bonus=cherub?2:0;
+  return {rank:cherub?'cherub':'angelus',maximum:Math.min(8+bonus,3+Math.max(0,permanentFortitude)+bonus+(reserve?2:0))};
 }
 
 export function truthPermanentAttributeBonus(
