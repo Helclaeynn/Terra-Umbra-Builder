@@ -522,8 +522,8 @@ function setCorporateSupportItem(itemId:string){
         </div>
 
         <div class="recurring-catalog">
-          <section v-for="group in recurringGroups" :key="group.label" class="catalog-family">
-            <h4><span>{{ group.label }}</span><span class="family-count">{{ group.items.length }}</span></h4>
+          <details v-for="group in recurringGroups" :key="group.label" class="catalog-family catalog-family-disclosure">
+            <summary><span>{{ group.label }}</span><span class="family-count">{{ group.items.length }}</span></summary>
             <div class="catalog-grid">
               <article v-for="item in group.items" :key="item.id" class="catalog-card recurring-card">
                 <BuilderCatalogImage :article-id="item.compendiumId" :name="item.name" category="Équipement & Objets" :large="housingArtwork(item)" />
@@ -540,7 +540,7 @@ function setCorporateSupportItem(itemId:string){
                 <button class="secondary compact" type="button" @click="addRecurring(item)">Ajouter · {{ money(recurringMonthly(item)) }}/mois</button>
               </article>
             </div>
-          </section>
+          </details>
         </div>
 
         <div class="charge-add-grid custom">
@@ -742,11 +742,11 @@ function setCorporateSupportItem(itemId:string){
             <button v-if="augmentationQuery || augmentationCategory" class="ghost compact" type="button" @click="augmentationQuery=''; augmentationCategory=''">Effacer les filtres</button>
           </div>
           <div class="catalog-category-stack">
-            <section v-for="family in augmentationCatalogGroups" :key="family.label" class="catalog-family">
-              <h4>
+            <details v-for="family in augmentationCatalogGroups" :key="family.label" class="catalog-family catalog-family-disclosure">
+              <summary>
                 <span>{{ family.label }}</span>
                 <span class="family-count">{{ family.items.length }}</span>
-              </h4>
+              </summary>
               <div class="catalog-grid">
                 <article v-for="group in family.items" :key="group.key" class="catalog-card">
                   <BuilderCatalogImage :article-id="selectedVariant(group).compendiumId" :name="selectedVariant(group).name" :generation="selectedVariant(group).generation" category="Équipement & Objets" />
@@ -812,7 +812,7 @@ function setCorporateSupportItem(itemId:string){
                   <small v-if="!addStatus(selectedVariant(group)).ok" class="bad-text">{{ addStatus(selectedVariant(group)).reason }}</small>
                 </article>
               </div>
-            </section>
+            </details>
           </div>
         </div>
       </details>
@@ -902,11 +902,11 @@ function setCorporateSupportItem(itemId:string){
             <button v-if="equipmentQuery || equipmentCategory" class="ghost compact" type="button" @click="equipmentQuery=''; equipmentCategory=''">Effacer les filtres</button>
           </div>
           <div class="catalog-category-stack">
-            <section v-for="group in equipmentCatalogGroups" :key="group.label" class="catalog-family">
-              <h4>
+            <details v-for="group in equipmentCatalogGroups" :key="group.label" class="catalog-family catalog-family-disclosure">
+              <summary>
                 <span>{{ group.label }}</span>
                 <span class="family-count">{{ group.items.length }}</span>
-              </h4>
+              </summary>
               <div class="catalog-grid">
                 <article v-for="item in group.items" :key="item.id" class="catalog-card">
                   <BuilderCatalogImage :article-id="item.compendiumId" :name="item.name" category="Équipement & Objets" :large="housingArtwork(item)" />
@@ -943,7 +943,7 @@ function setCorporateSupportItem(itemId:string){
                   <small v-if="!addStatus(item).ok" class="bad-text">{{ addStatus(item).reason }}</small>
                 </article>
               </div>
-            </section>
+            </details>
           </div>
         </div>
       </details>
@@ -1006,6 +1006,7 @@ function setCorporateSupportItem(itemId:string){
 .charge-summary>span,.pillbar span,.statbar span{padding:5px 9px;border:1px solid #334c60;border-radius:5px;background:#0b1623;color:#bed0e0;font-size:13px}
 .owned-indicator{display:inline-flex;align-self:start;padding:6px 10px;border:1px solid #58bbae;border-radius:5px;background:#153b38;color:#d1fff6;font-size:13px;font-weight:700}.pillbar .owned-indicator{border-color:#58bbae;background:#153b38;color:#d1fff6;font-weight:700}
 .support-jump{padding:3px 5px;border:0;background:none;color:#a4edff;text-decoration:underline;cursor:pointer;font:inherit}
+.catalog-family-disclosure{border:1px solid #304b62;border-radius:7px}.catalog-family-disclosure>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;padding:10px 14px;color:#e8f2ff;font-weight:650;cursor:pointer;list-style:none;user-select:none}.catalog-family-disclosure>summary::-webkit-details-marker{display:none}.catalog-family-disclosure>summary:before{content:'›';color:#89dce8;font-size:21px}.catalog-family-disclosure[open]>summary:before{transform:rotate(90deg)}.catalog-family-disclosure>.catalog-grid{padding:12px}.catalog-family-disclosure>summary:focus-visible{outline:2px solid #a3eaff}
 .charge-summary strong{color:#e4eff9;font-weight:600}
 .lifestyle-tier-box{display:grid;gap:14px;margin:16px 0 20px;padding:16px;border:1px solid #2c4255;border-radius:8px;background:#0a1522}
 .lifestyle-tier-box p{margin:0;color:var(--equipment-muted);font-size:14px}
