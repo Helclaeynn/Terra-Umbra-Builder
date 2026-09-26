@@ -3,6 +3,8 @@ import { applyContextualLinks } from "./compendium-reviewed-rule-taxonomy.js";
 
 // Décisions manuelles du lot 801–1200. Les dossiers de Vérité restent MJ.
 export const REVIEWED_CATALOGUE_BATCH_03_LINKS = [
+  {"articleId": "pnj-gouvernement-dina-page", "sectionId": "biographie", "quote": "Siobhain ou bien", "label": "Siobhain", "targetId": "pnj-corporations-siobhain-nic-siridean", "targetSection": "corporation-realite"},
+  {"articleId": "pnj-police-catalina-de-la-caza", "sectionId": "biographie", "quote": "Siobhain ou bien", "label": "Siobhain", "targetId": "pnj-corporations-siobhain-nic-siridean", "targetSection": "corporation-realite"},
   {"articleId": "equipement-327-datablast", "sectionId": "contexte", "quote": "ArcaNetwork", "label": "ArcaNetwork", "targetId": "realite-v9-corporation-arcanetworks-corporation", "targetSection": "activites"},
   {"articleId": "equipement-328-dark-holes", "sectionId": "contexte", "quote": "Monarch System", "label": "Monarch System", "targetId": "realite-v9-corporation-monarch-systems-corporation", "targetSection": "activites"},
   {"articleId": "equipement-329-darksword", "sectionId": "contexte", "quote": "Aces", "label": "Aces", "targetId": "realite-v9-corporation-aces-corporation", "targetSection": "activites"},
