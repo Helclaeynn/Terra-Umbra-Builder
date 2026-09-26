@@ -28,8 +28,8 @@ const attrRow=(label:string,value:Attrs)=>[label,String(value.vigueur),String(va
 export const COMPENDIUM_TEN_PROFILE_CALIBRATION=[
   {
     sourceId:"pnj-crawlers-docx-veronica-silver",name:"Veronica Silver",
-    reality:{attributes:attrs(7,8,10,9,8),skills:skills(["Investigation","Perception","Autorité","Tir","Furtivité","Diplomatie","Force Mentale","Survie","Esquive","Athlétisme","Savoirs","Constitution","Mêlée","Langages & Argot"])},
-    truth:{ptv:48,semi:attrs(9,10,15,16,14),revealed:attrs(10,11,16,17,14),skills:[["Investigation",24],["Autorité",22],["Force Mentale",23]] as Skill[],signature:"Grande reine Aseryn et Architecte : commandement, lecture des structures et souveraineté."}
+    reality:{attributes:attrs(9,11,8,7,7),skills:skills(["Esquive","Tir","Pugilat","Survie","Investigation","Autorité","Perception","Athlétisme","Mêlée","Force Mentale","Furtivité","Diplomatie","Savoirs","Constitution"])},
+    truth:{ptv:48,semi:attrs(11,16,12,12,11),revealed:attrs(13,18,12,13,12),skills:[["Esquive",24],["Tir",22],["Pugilat",22],["Autorité",18]] as Skill[],signature:"Grande reine Aseryn et ancienne combattante des forces spéciales : vitesse, combat et commandement ; l’Architecte reste une capacité distincte."}
   },
   {
     sourceId:"pnj-police-catalina-de-la-caza",name:"Catalina de la Caza",
@@ -48,8 +48,8 @@ export const COMPENDIUM_TEN_PROFILE_CALIBRATION=[
   },
   {
     sourceId:"pnj-crawlers-docx-leslie-wright",name:"Leslie Wright",
-    reality:{attributes:attrs(6,7,10,10,9),skills:skills(["Savoirs","Mécanique","Investigation","Neurodive","Force Mentale","Perception","Représentation","Pugilat","Mêlée","Diplomatie","Autorité","Athlétisme","Esquive","Constitution"])},
-    truth:{ptv:48,semi:attrs(6,7,19,17,12),revealed:attrs(7,8,20,18,12),skills:[["Savoirs",24],["Investigation",22],["Mécanique",21]] as Skill[],signature:"Attribut Divin du Génie et Mageius Merlin : savoir, invention et architecture magique."}
+    reality:{attributes:attrs(9,10,10,7,6),skills:skills(["Mêlée","Savoirs","Esquive","Investigation","Mécanique","Pugilat","Neurodive","Force Mentale","Perception","Représentation","Diplomatie","Autorité","Athlétisme","Constitution"])},
+    truth:{ptv:48,semi:attrs(12,13,15,12,10),revealed:attrs(14,15,16,12,10),skills:[["Mêlée",28],["Esquive",19],["Savoirs",20],["Mécanique",17]] as Skill[],signature:"Duelliste à l’épée et réincarnation d’Ymir, avec l’Attribut Divin du Génie et le Mageius Merlin : vigueur et escrime sans perdre son génie."}
   },
   {
     sourceId:"pnj-agences-makana-keahi",name:"Makana Keahi",
@@ -58,13 +58,13 @@ export const COMPENDIUM_TEN_PROFILE_CALIBRATION=[
   },
   {
     sourceId:"pnj-corporations-wei-shi",name:"Wei Shi",
-    reality:{attributes:attrs(8,9,9,9,7),skills:skills(["Investigation","Représentation","Autorité","Pugilat","Mêlée","Perception","Diplomatie","Furtivité","Force Mentale","Savoirs","Tir","Esquive","Athlétisme","Langages & Argot"])},
-    truth:{ptv:48,semi:attrs(9,11,17,16,12),revealed:attrs(10,12,18,17,12),skills:[["Force Mentale",25],["Mêlée",22],["Savoirs",20]] as Skill[],signature:"Clan Shi puis Légionnaire du Néant accidentelle : discipline, enquête et rupture du Néant."}
+    reality:{attributes:attrs(10,11,8,7,6),skills:skills(["Pugilat","Mêlée","Esquive","Investigation","Perception","Athlétisme","Représentation","Autorité","Diplomatie","Furtivité","Force Mentale","Savoirs","Tir","Langages & Argot"])},
+    truth:{ptv:48,semi:attrs(13,15,13,11,10),revealed:attrs(15,17,14,12,10),skills:[["Pugilat",28],["Mêlée",24],["Esquive",19]] as Skill[],signature:"Pratiquante accomplie des arts martiaux du clan Shi, puis Légionnaire du Néant accidentelle : corps, vitesse et combat rapproché."}
   },
   {
     sourceId:"pnj-corporations-siobhain-nic-siridean",name:"Siobhain Nic Sirideain",
-    reality:{attributes:attrs(8,9,8,9,8),skills:skills(["Représentation","Autorité","Diplomatie","Mêlée","Pugilat","Athlétisme","Esquive","Force Mentale","Perception","Savoirs","Investigation","Tir","Commerce","Langages & Argot"])},
-    truth:{ptv:48,semi:attrs(10,9,16,15,14),revealed:attrs(11,10,17,16,14),skills:[["Autorité",20],["Force Mentale",24],["Représentation",18]] as Skill[],signature:"Héritière de Morrighan et ancre du Sidh : présence, souveraineté et canalisation du Sidh."}
+    reality:{attributes:attrs(10,10,8,7,7),skills:skills(["Mêlée","Pugilat","Athlétisme","Esquive","Autorité","Représentation","Diplomatie","Perception","Force Mentale","Savoirs","Investigation","Tir","Commerce","Langages & Argot"])},
+    truth:{ptv:48,semi:attrs(14,14,12,11,11),revealed:attrs(16,16,13,12,11),skills:[["Mêlée",24],["Pugilat",22],["Athlétisme",21],["Autorité",17]] as Skill[],signature:"Héritière de Morrighan, demi-déesse guerrière et ancre du Sidh : vigueur, agilité et maîtrise martiale, avec le Sidh hors du budget générique."}
   },
   {
     sourceId:"pnj-corporations-tokala",name:"Tokala",
@@ -90,8 +90,6 @@ export function applyCompendiumTenProfiles(byId:Map<string,Article>,resolveTarge
       const expected=[profile.truth.revealed.vigueur,profile.truth.revealed.agilite,profile.truth.revealed.esprit,profile.truth.revealed.volonte,profile.truth.revealed.charisme];
       const actual=revealedRow.rows[1]?.slice(1).map(Number);
       if(JSON.stringify(actual)!==JSON.stringify(expected))throw new Error(`Ten · Vérité contradictoire entre les deux blocs: ${profile.name}`);
-    }else if(profile.name==="Tokala"){
-      if(!JSON.stringify(priorTruth.blocks).includes("19 / 15 / 9 / 13 / 10"))throw new Error("Ten · profil Khinae de Tokala désynchronisé");
     }else throw new Error(`Ten · chiffrage révélé introuvable: ${profile.name}`);
     article.tags=[...new Set([...(article.tags??[]),"Ten"])];
     article.status="canon_enrichi";

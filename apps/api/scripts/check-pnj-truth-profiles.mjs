@@ -65,6 +65,9 @@ for(const id of [...REVIEWED_TRUTH_BATCH_001_IDS,...REVIEWED_TRUTH_BATCH_002_IDS
 }
 const quetzal=byId.get('personnages-verite-especes-quetzalcoatl');
 assert.ok(byId.get('personnages-verite-especes-tokala')?.sections.some(section=>section.id==='profil-verite-tokala'&&section.audience==='mj'));
+const tokalaTruth=byId.get('personnages-verite-especes-tokala')?.sections.find(section=>section.id==='profil-verite-tokala');
+assert.ok(tokalaTruth?.blocks.some(block=>block.type==='table'&&block.rows[0]?.[0]==='Attribut révélé'&&block.rows[1]?.[1]==='19'));
+assert.ok(tokalaTruth?.blocks.some(block=>block.type==='table'&&block.rows[0]?.[0]==='Compétence de Vérité signature'&&block.rows[1]?.[0]==='Pugilat'));
 assert.ok(byId.get('personnages-verite-chasseurs-isabella-mironescu')?.sections.some(section=>section.id==='verite-indeterminee-isabella'&&section.audience==='mj'));
 assert.ok(!publicById.get('personnages-verite-especes-tokala')?.sections.some(section=>section.id==='profil-verite-tokala'));
 assert.ok(!publicById.get('personnages-verite-chasseurs-isabella-mironescu')?.sections.some(section=>section.id==='verite-indeterminee-isabella'));

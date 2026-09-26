@@ -234,7 +234,9 @@ export function applyCompendiumPnjTruthProfiles(byId:Map<string,Article>):void {
   tokala.sections.splice(tokala.sections.indexOf(tokalaReality),0,{
     id:'profil-verite-tokala',title:'Profil de Vérité · Tokala',level:2,audience:'mj',blocks:[
       p('Tokala est une Khinae et non une louve-garou. Le profil Légendaire de Réalité représente son état avant les éveils décrits dans les Catastrophes des Ten. Après son premier éveil Khinae, estimation MJ : Révélé Exceptionnel, Vigueur 19, Agilité 15, Esprit 9, Volonté 13, Charisme 10 ; Pugilat 24, Survie 22, Mêlée 21. Ces valeurs ne remplacent sa fiche actuelle qu’après cet événement de récit.'),
-      table([['État','Chiffrage','Condition'],['Avant les éveils','Profil de Réalité Légendaire','Situation initiale de la source'],['Khinae éveillée','19 / 15 / 9 / 13 / 10 ; Pugilat 24','Après son premier éveil'],['Nnyrss parfaite','Hors échelle numérique commune','Après mémoire de la Ssrynn, rétrovolution et purge des souillures']]),
+      table([['Attribut révélé','Vigueur','Agilité','Esprit','Volonté','Charisme'],['Valeur proposée','19','15','9','13','10']]),
+      table([['État','Vigueur','Agilité','Esprit','Volonté','Charisme','Condition'],['Voilé · Réalité','9','9','7','9','8','Avant les éveils'],['Semi-Révélé · Khinae','17','14','8','12','10','Après le premier éveil'],['Révélé · Khinae','19','15','9','13','10','Après le premier éveil'],['Nnyrss parfaite','—','—','—','—','—','État singulier après la mémoire de la Ssrynn et la purge des souillures']]),
+      table([['Compétence de Vérité signature','Rang'],['Pugilat','24'],['Survie','22'],['Mêlée','21']]),
       p('Talent signature : mémoire de la Ssrynn — après la rétrovolution documentée, elle peut accéder aux formes effectivement absorbées par sa lignée ; le MJ définit la forme et son coût avant usage. Les souillures de Vhadhi et V’aagor imposent un risque jusqu à leur purge. Nnyrss est un état terminal exceptionnel : aucun bonus de Nature garoue ni rang inventé ne s ajoute à ce profil de scène.')
     ]
   });
