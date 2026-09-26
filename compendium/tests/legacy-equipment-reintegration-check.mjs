@@ -22,14 +22,14 @@ const source=PARTS.flatMap(file=>JSON.parse(fs.readFileSync(file,'utf8')).entrie
 if(source.length!==60)throw new Error(`Sources legacy ${source.length}/60.`);
 if(new Set(source.map(x=>norm(x.name))).size!==60)throw new Error('Noms canoniques legacy non uniques.');
 const {manifest:builderManifest,catalog}=loadBuilder();
-if(builderManifest.entries!==321||catalog.entries.length!==321)throw new Error(`Builder équipement attendu 321, manifeste ${builderManifest.entries}, catalogue ${catalog.entries.length}.`);
+if(builderManifest.entries!==332||catalog.entries.length!==332)throw new Error(`Builder équipement attendu 332 après ajout des 11 armes tranchantes, manifeste ${builderManifest.entries}, catalogue ${catalog.entries.length}.`);
 for(const item of source){const hits=catalog.entries.filter(x=>norm(x.name)===norm(item.name));if(hits.length!==1)throw new Error(`${item.name}: ${hits.length} occurrence(s) dans le Builder.`);}
 for(const alias of ['Raven LMG-027 Executionner','Phoenix LP-028 Sun Blast','Raven Gallowglass II lourde']){const hits=catalog.entries.filter(x=>norm(x.name)===norm(alias));if(hits.length!==1)throw new Error(`${alias}: alias profond dupliqué ou absent (${hits.length}).`);}
 const result=JSON.parse(fs.readFileSync(RESULT,'utf8'));if(result.sourceCount!==60||result.finalCount!==321)throw new Error('Résultat intégration legacy incohérent.');
 const manifest=JSON.parse(fs.readFileSync(`${DATA}/manifest-v3.json`,'utf8'));
 const spec=manifest.datasets.find(x=>x.id==='equipement');if(!spec)throw new Error('Dataset Compendium equipement absent.');
 const pages=loadDataset(spec);
-if(spec.count!==357||pages.length!==357)throw new Error(`Compendium équipement attendu 357, manifeste ${spec.count}, pages ${pages.length}.`);
+if(spec.count!==368||pages.length!==368)throw new Error(`Compendium équipement attendu 368, manifeste ${spec.count}, pages ${pages.length}.`);
 if(manifest.expectedTotal!==manifest.datasets.reduce((total,dataset)=>total+dataset.count,0))throw new Error(`Total Compendium incohérent: ${manifest.expectedTotal}.`);
 for(const item of source){const hits=pages.filter(x=>norm(x.title)===norm(item.name));if(hits.length!==1)throw new Error(`${item.name}: ${hits.length} page(s) Compendium.`);const context=(hits[0].sections||[]).find(s=>s.id==='contexte');if(!context||context.blocks?.length!==2)throw new Error(`${item.name}: lore source-driven absent/incomplet.`);}
-console.log(`Réintégration legacy validée: 60 sources · Builder 321 · Compendium équipement 357 · total ${manifest.expectedTotal} · alias non dupliqués.`);
+console.log(`Réintégration legacy validée: 60 sources conservées · Builder ${catalog.entries.length} · Compendium équipement ${pages.length} · total ${manifest.expectedTotal} · alias non dupliqués.`);

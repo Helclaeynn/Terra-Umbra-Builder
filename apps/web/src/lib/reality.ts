@@ -476,14 +476,20 @@ export type RealityPriceSpec={
   defaultCost:number|null;
 };
 
+export function specialRealityAcquisition(item:RealityItem){
+  return item.kind==="equipment"&&/^(mission|special)$/.test(realityNorm(item.priceLabel));
+}
+
 export function realityPriceSpec(item:RealityItem):RealityPriceSpec{
   const raw=record(item.data);
   let mode=realityNorm(raw.priceMode??raw.price_mode??"");
   const label=String(item.priceLabel||raw.priceLabel||raw.price_label||"").trim()||
     (item.price!==null?item.price.toLocaleString("fr-FR")+" $":"Prix à définir");
-  let exact=Number.isFinite(Number(raw.price))?Number(raw.price):item.price;
-  let min=Number.isFinite(Number(raw.priceMin))?Number(raw.priceMin):item.priceMin;
-  let max=Number.isFinite(Number(raw.priceMax))?Number(raw.priceMax):item.priceMax;
+  const numeric=(value:unknown,fallback:number|null)=>value!==null&&value!==undefined&&value!==""&&Number.isFinite(Number(value))?Number(value):fallback;
+  let exact=numeric(raw.price,item.price);
+  let min=numeric(raw.priceMin,item.priceMin);
+  let max=numeric(raw.priceMax,item.priceMax);
+  if(specialRealityAcquisition(item)){mode="manual";exact=null;min=null;max=null;}
   if(!mode){
     const normalized=realityNorm(label);
     if(/\bx\s*\d/.test(normalized)||normalized.includes("prix normal"))mode="multiplier";
@@ -542,6 +548,10 @@ export function canAffordRealityPurchase(
 ){
   const price=item.price??item.priceMin;
   if(price===null)return {ok:false,reason:"Prix non exploitable"};
+  if(specialRealityAcquisition(item)){
+    if(!Number.isFinite(price)||price<=0)return {ok:false,reason:"Prix à convenir avec le MJ"};
+    if(!state.mjAdvancedOverride)return {ok:false,reason:`Accord MJ requis pour l’acquisition « ${item.priceLabel} »`};
+  }
   if(price>pkg.economy.advancedPurchaseThreshold&&!state.mjAdvancedOverride)return {ok:false,reason:"Accord MJ requis (> 20 000 $)"};
   if(item.kind==="augmentation"){
     if(augmentationCopyCount(pkg,state,item)>=augmentationMaxCopies(item)){

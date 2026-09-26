@@ -85,6 +85,28 @@ for(const id of ['augmentation-catalog','equipment-catalog']){
 }
 w.stop();await tick();
 
+const mission=item('New Partisan test',null,{priceLabel:'Mission',data:{priceMode:'reference',price:null}});
+assert.equal(w.reality.realityPriceSpec(mission).defaultCost,null,'A Mission price never becomes an implicit zero');
+assert.equal(w.reality.realityPriceSpec(mission).configurable,true);
+assert.equal(w.reality.canAffordRealityPurchase(rules,state,{account:10000,augmentationEnvelope:0,vehicleCapital:0,gen2SlotsBase:0},{},{...mission,price:0},true).ok,false);
+w.start('equipment',{modelValue:state,rules:{...rules,equipment:[mission],augmentations:[],recurring:[]},style:{id:'test',name:'Test',lifestyle:'Standard',account:10000,augmentationEnvelope:0,gen2SlotsBase:1,vehicleCapital:0},edge:{},talentIds:[],disadvantages:[],neurodiveRaw:0,sphereId:'',integrity:10,augmentStressMax:10,valid:true});
+await tick();
+const missionCatalog=Array.from(d.querySelectorAll('.catalog-disclosure')).find(node=>node.querySelector('summary')?.textContent.includes('Choisir équipement'));
+set(missionCatalog.querySelector('select'),'Services');await tick();
+const missionCard=missionCatalog.querySelector('.catalog-card'),priceInput=missionCard.querySelector('.price-config input');
+assert.match(missionCard.textContent,/aucun prix public/);
+assert.match(missionCard.textContent,/Prix convenu avec le MJ/);
+assert.equal(priceInput.value,'');assert.equal(missionCard.querySelector('.primary').disabled,true);
+const enterPrice=value=>{priceInput.value=value;priceInput.dispatchEvent(new w.Event('input',{bubbles:true}));};
+enterPrice('0');await tick();assert.equal(missionCard.querySelector('.primary').disabled,true);
+enterPrice('700');await tick();assert.equal(missionCard.querySelector('.primary').disabled,true,'A specified price alone does not confirm Mission acquisition');
+assert.match(missionCard.textContent,/Accord MJ requis/);
+missionCatalog.querySelector('.permission-switch input').click();await tick();
+assert.equal(missionCard.querySelector('.primary').disabled,false);
+missionCard.querySelector('.primary').click();await tick();
+assert.equal(w.state().equipment.at(-1).selectedPrice,700,'Only the expressly entered price is recorded');
+w.stop();await tick();
+
 // Preview must live outside a scrolling list and stay inside the viewport.
 w.start('wiki',{label:'Contact test',articleId:'contact-test',compact:true});
 await tick();
@@ -104,4 +126,4 @@ anchorTop=60;list.dispatchEvent(new w.Event('scroll'));await tick();
 assert.equal(tooltip.style.visibility,'hidden','A contact scrolled outside the list leaves no detached tooltip');
 ref.dispatchEvent(new w.MouseEvent('mouseleave'));await tick();assert.equal(d.querySelector('[role="tooltip"]'),null);
 w.stop();dom.window.close();assert.deepEqual(errors,[]);
-globalThis.console.log('EQUIPMENT / CONTACTS OK — Audiovox and SynthéDerm autonomous; optical modules protected; price/name sorting including monthly equivalents; preview follows scroll outside clipping container.');
+globalThis.console.log('EQUIPMENT / CONTACTS OK — autonomous implants; price/name sorting; Mission acquisition requires a positive agreed price and GM confirmation; preview follows scroll outside clipping container.');

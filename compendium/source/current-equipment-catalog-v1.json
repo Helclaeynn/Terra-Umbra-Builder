@@ -10,7 +10,7 @@
       "equipment.part05.b64",
       "equipment.part06.b64"
     ],
-    "entries": 261,
+    "entries": 330,
     "source": "TUC_Realite_Equipement_Services_V1_final_2026-09-08"
   },
   "catalog": {
@@ -3456,6 +3456,1087 @@
         "data": {
           "Famille": "Shotgun",
           "Fabricant": "Owl"
+        }
+      },
+      {
+        "id": "armes-melee-black-arrow",
+        "name": "Black Arrow",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 800,
+        "priceLabel": "800 $",
+        "effect": "arme de trait à un coup, fiable et capable de mieux travailler les protections qu’une arme de trait ordinaire",
+        "data": {
+          "Type": "Trait",
+          "DGT": "8",
+          "Portee": "45 m",
+          "Cap.": "1",
+          "Proprietes": "Perforant 1 ; Fiable ; 1 coup"
+        }
+      },
+      {
+        "id": "armes-melee-nextar-championship",
+        "name": "Nextar Championship",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": "grand arc pliant à un coup dont les dégâts restent liés à la Vigueur du tireur",
+        "data": {
+          "Type": "Trait",
+          "DGT": "V+2",
+          "Portee": "65 m",
+          "Cap.": "1",
+          "Proprietes": "Pliant ; Fiable ; 1 coup"
+        }
+      },
+      {
+        "id": "armes-melee-byron-tethyssette",
+        "name": "Byron Tethyssette",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 900,
+        "priceLabel": "900 $",
+        "effect": "arme aquatique de courte portée, spécialisée et moins efficace lorsque ses conditions d’emploi idéales ne sont pas réunies",
+        "data": {
+          "Type": "Trait",
+          "DGT": "6",
+          "Portee": "15 m",
+          "Cap.": "1",
+          "Proprietes": "Aquatique ; 1 coup ; Efficience minimale"
+        }
+      },
+      {
+        "id": "armes-lourdes-flak-cannon-prototype",
+        "name": "Flak Cannon — Prototype",
+        "category": "Armes — Lourdes",
+        "priceMode": "reference",
+        "priceLabel": "Spécial",
+        "effect": "arme lourde expérimentale à volume de feu élevé ; son statut de prototype impose une disponibilité spéciale plutôt qu’un prix de marché",
+        "data": {
+          "Role": "Quadri-canon portable",
+          "DGT": "14",
+          "Portee": "50 m",
+          "Cap.": "16",
+          "Proprietes": "Incendiaire ; munitions universelles ; prototype"
+        }
+      },
+      {
+        "id": "armes-lourdes-sheer-blueshell-a-prototype",
+        "name": "Sheer BlueShell A. — Prototype",
+        "category": "Armes — Lourdes",
+        "priceMode": "reference",
+        "priceLabel": "Spécial",
+        "effect": "engin d’assaut autonome à usage unique ou très limité ; il doit être programmé avant emploi et n’est pas une arme personnelle conventionnelle",
+        "data": {
+          "Role": "Drone/robot d’assaut autonome",
+          "DGT": "20",
+          "Portee": "Contact",
+          "Cap.": "1",
+          "Proprietes": "Programmable ; charge explosive ; prototype"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-charm-prototype",
+        "name": "Charm — Prototype",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "reference",
+        "priceLabel": "Spécial",
+        "effect": "dispositif chimique expérimental dont l’effet principal n’est pas balistique et dépend du composé diffusé",
+        "data": {
+          "Classe": "Dispositif chimique",
+          "DGT": "X",
+          "Portee": "20 m",
+          "Cap.": "12",
+          "Proprietes": "Phéromones ; gaz de combat ; prototype"
+        }
+      },
+      {
+        "id": "armes-lourdes-armcannon-prototype",
+        "name": "Armcannon — Prototype",
+        "category": "Armes — Lourdes",
+        "priceMode": "reference",
+        "priceLabel": "Spécial",
+        "effect": "arme énergétique de bras à faible autonomie, alimentée par cellules et pensée pour des tirs puissants plutôt que soutenus",
+        "data": {
+          "Role": "Canon de bras ionique",
+          "DGT": "10",
+          "Portee": "55 m",
+          "Cap.": "2",
+          "Proprietes": "EMP ; énergétique ; prototype"
+        }
+      },
+      {
+        "id": "armes-lourdes-raven-sehdia-railway-to-hell-prototype",
+        "name": "Raven-Sehdia Railway to Hell — Prototype",
+        "category": "Armes — Lourdes",
+        "priceMode": "reference",
+        "priceLabel": "Spécial",
+        "effect": "arme anti-matériel expérimentale à très longue portée, extrêmement perforante et limitée par son cycle de charge énergétique",
+        "data": {
+          "Role": "Railgun prototype",
+          "DGT": "19",
+          "Portee": "500 m",
+          "Cap.": "1",
+          "Proprietes": "Perforant 4 ; portée extrême ; énergétique ; prototype"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-phoenix-vader-prototype",
+        "name": "Phoenix Vader — Prototype",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "reference",
+        "priceLabel": "Spécial",
+        "effect": "arme laser expérimentale à trois tirs par cellule ; sa pénétration est matérielle et son comportement dépend de la dissipation du faisceau",
+        "data": {
+          "Classe": "Pistolet laser",
+          "DGT": "8",
+          "Portee": "Spéciale",
+          "Cap.": "3",
+          "Proprietes": "Laser ; Perforant 3 ; prototype"
+        }
+      },
+      {
+        "id": "armes-melee-raven-ravenegg",
+        "name": "Raven Ravenegg",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 1550,
+        "priceLabel": "1 550 $",
+        "effect": "grenade de zone qui mêle dégâts explosifs et perturbation EMP contre les systèmes électroniques",
+        "data": {
+          "Type": "Grenade",
+          "DGT": "10",
+          "Portee": "15 m",
+          "Cap.": "3",
+          "Proprietes": "Zone ; EMP"
+        }
+      },
+      {
+        "id": "armes-melee-phoenix-inferno",
+        "name": "Phoenix Inferno",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 1050,
+        "priceLabel": "1 050 $",
+        "effect": "grenade incendiaire de zone ; son intérêt vient de la chaleur et de l’embrasement plus que de la perforation",
+        "data": {
+          "Type": "Grenade",
+          "DGT": "8",
+          "Portee": "15 m",
+          "Cap.": "3",
+          "Proprietes": "Zone ; Feu"
+        }
+      },
+      {
+        "id": "armes-melee-owl-dripper",
+        "name": "Owl Dripper",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 1250,
+        "priceLabel": "1 250 $",
+        "effect": "grenade chimique de zone ; les protections étanches et adaptées aux agents corrosifs restent pertinentes",
+        "data": {
+          "Type": "Grenade",
+          "DGT": "8",
+          "Portee": "15 m",
+          "Cap.": "3",
+          "Proprietes": "Zone ; Chimique ; acide"
+        }
+      },
+      {
+        "id": "armes-melee-phoenix-helios-ii",
+        "name": "Phoenix Helios II",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 950,
+        "priceLabel": "950 $",
+        "effect": "grenade de désorientation et d’aveuglement plutôt que munition conçue pour infliger des dégâts lourds",
+        "data": {
+          "Type": "Grenade",
+          "DGT": "3",
+          "Portee": "15 m",
+          "Cap.": "3",
+          "Proprietes": "Zone ; aveuglant"
+        }
+      },
+      {
+        "id": "armes-melee-owl-superchoc",
+        "name": "Owl Superchoc",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 2250,
+        "priceLabel": "2 250 $",
+        "effect": "grenade de choc lourde visant à neutraliser par la violence de l’onde de pression autant que par les dégâts",
+        "data": {
+          "Type": "Grenade",
+          "DGT": "14",
+          "Portee": "15 m",
+          "Cap.": "3",
+          "Proprietes": "Zone ; super choc"
+        }
+      },
+      {
+        "id": "armes-melee-biosun-frog-egg",
+        "name": "Biosun Frog Egg",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 3000,
+        "priceLabel": "3 000 $",
+        "effect": "munition de contrôle de zone et d’immobilisation ; sa charge adhésive compte davantage que son pouvoir destructeur",
+        "data": {
+          "Type": "Grenade",
+          "DGT": "5",
+          "Portee": "15 m",
+          "Cap.": "6",
+          "Proprietes": "Zone ; adhésif ; thermosensible"
+        }
+      },
+      {
+        "id": "armes-melee-byron-pokeball",
+        "name": "Byron Pokeball",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 850,
+        "priceLabel": "850 $",
+        "effect": "grenade de neutralisation de zone dont la composante électrique vise surtout à interrompre l’action des personnes touchées",
+        "data": {
+          "Type": "Grenade",
+          "DGT": "3",
+          "Portee": "15 m",
+          "Cap.": "3",
+          "Proprietes": "Zone ; électrique ; paralysant"
+        }
+      },
+      {
+        "id": "armes-lourdes-owl-vending-machine",
+        "name": "Owl Vending Machine",
+        "category": "Armes — Lourdes",
+        "priceMode": "exact",
+        "price": 850,
+        "priceLabel": "850 $",
+        "effect": "lanceur à un coup privilégiant la compatibilité des munitions plutôt qu’un chargeur volumineux",
+        "data": {
+          "Role": "Lance-grenades universel",
+          "DGT": "3",
+          "Portee": "120 m",
+          "Cap.": "1",
+          "Proprietes": "Compatible grenades ; 1 coup"
+        }
+      },
+      {
+        "id": "armes-melee-jagi",
+        "name": "Jagi",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 450,
+        "priceLabel": "450 $",
+        "effect": "grenade de zone à fixation magnétique ; le faible coût s’accompagne d’une fiabilité inférieure aux modèles corporatistes",
+        "data": {
+          "Type": "Grenade",
+          "DGT": "6",
+          "Portee": "15 m",
+          "Cap.": "3",
+          "Proprietes": "Zone ; magnétique ; Défaillant"
+        }
+      },
+      {
+        "id": "armes-melee-shadow-gift",
+        "name": "Shadow Gift",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 3500,
+        "priceLabel": "3 500 $",
+        "effect": "munition programmable lourde dont le mode bombe sacrifie la simplicité d’emploi au profit d’un effet préparé plus important",
+        "data": {
+          "Type": "Grenade programmable",
+          "DGT": "15",
+          "Portee": "15 m",
+          "Cap.": "1",
+          "Proprietes": "Zone ; programmable ; Perforant 3"
+        }
+      },
+      {
+        "id": "armes-lourdes-raven-bomberman",
+        "name": "Raven Bomberman",
+        "category": "Armes — Lourdes",
+        "priceMode": "exact",
+        "price": 1050,
+        "priceLabel": "1 050 $",
+        "effect": "lanceur à trois coups plus puissant et plus spécialisé que les modèles universels",
+        "data": {
+          "Role": "Lance-grenades",
+          "DGT": "5",
+          "Portee": "100 m",
+          "Cap.": "3",
+          "Proprietes": "Compatible grenades Raven ; détonation à l’impact"
+        }
+      },
+      {
+        "id": "armes-lourdes-phoenix-easter-bunny",
+        "name": "Phoenix Easter Bunny",
+        "category": "Armes — Lourdes",
+        "priceMode": "exact",
+        "price": 950,
+        "priceLabel": "950 $",
+        "effect": "lanceur à trois coups simple, pensé comme plateforme de projection pour les grenades Phoenix",
+        "data": {
+          "Role": "Lance-grenades",
+          "DGT": "3",
+          "Portee": "100 m",
+          "Cap.": "3",
+          "Proprietes": "Compatible grenades Phoenix"
+        }
+      },
+      {
+        "id": "armes-melee-phoenix-king-fist",
+        "name": "Phoenix King Fist",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 80,
+        "priceLabel": "80 $",
+        "effect": "arme de pugilat sans alimentation ni projectile, conçue pour concentrer la force d’un coup",
+        "data": {
+          "Type": "Melee",
+          "DGT": "2",
+          "Portee": "Contact",
+          "Proprietes": "Choc"
+        }
+      },
+      {
+        "id": "armes-melee-byron-ginette",
+        "name": "Byron Ginette",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 1500,
+        "priceLabel": "1 500 $",
+        "effect": "arme de contact lourde combinant fort impact et capacité accrue contre les protections",
+        "data": {
+          "Type": "Melee",
+          "DGT": "7",
+          "Portee": "Contact",
+          "Proprietes": "Perforant 2 ; Choc"
+        }
+      },
+      {
+        "id": "armes-melee-mary-antoinette",
+        "name": "Mary-Antoinette",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 875,
+        "priceLabel": "875 $",
+        "effect": "outil industriel détournable en arme de contact, très destructeur mais lourd et dépendant de ses cellules",
+        "data": {
+          "Type": "Outil/arme hydraulique",
+          "DGT": "12",
+          "Portee": "Contact",
+          "Cap.": "12",
+          "Proprietes": "Hydraulique ; Lourd 1"
+        }
+      },
+      {
+        "id": "armes-melee-pierrette",
+        "name": "Pierrette",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 675,
+        "priceLabel": "675 $",
+        "effect": "outil industriel de contact à plusieurs modes ; il reste plus encombrant et spécialisé qu’une arme conventionnelle",
+        "data": {
+          "Type": "Outil/arme hydraulique",
+          "DGT": "5",
+          "Portee": "Contact",
+          "Cap.": "6",
+          "Proprietes": "Hydraulique ; mode marteau/piqueur"
+        }
+      },
+      {
+        "id": "armes-melee-byron-melinette",
+        "name": "Byron Melinette",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 675,
+        "priceLabel": "675 $",
+        "effect": "outil thermique utilisable au contact ; les décharges offensives consomment sa réserve beaucoup plus vite que le soudage normal",
+        "data": {
+          "Type": "Outil thermique",
+          "DGT": "5",
+          "Portee": "Contact",
+          "Cap.": "12",
+          "Proprietes": "Feu ; soudage"
+        }
+      },
+      {
+        "id": "armes-melee-stretchy",
+        "name": "Stretchy",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 700,
+        "priceLabel": "700 $",
+        "effect": "arme de contact modulable ; après épuisement de ses quatre décharges EMP elle reste utilisable mais perd sa capacité de repli électrique",
+        "data": {
+          "Type": "Melee",
+          "DGT": "6",
+          "Portee": "1,5 m à 2,75 m",
+          "Cap.": "4",
+          "Proprietes": "EMP ; pliant"
+        }
+      },
+      {
+        "id": "armes-automatiques-sal-in",
+        "name": "Sal-in",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 875,
+        "priceLabel": "875 $",
+        "effect": "fusil d’assaut automatique puissant mais peu fiable ; son prix bas ne supprime pas les risques de fonctionnement",
+        "data": {
+          "Classe": "Assaut",
+          "DGT": "12",
+          "Portee": "45 m",
+          "Cap.": "24",
+          "Proprietes": "Rafale, Automatique, Défaillant, Dangereux"
+        }
+      },
+      {
+        "id": "armes-automatiques-morissette",
+        "name": "Morissette",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 1000,
+        "priceLabel": "1 000 $",
+        "effect": "arme automatique de grande capacité, assistée au ciblage sans atteindre les performances des modèles plus lourds",
+        "data": {
+          "Classe": "Assaut",
+          "DGT": "10",
+          "Portee": "45 m",
+          "Cap.": "46",
+          "Proprietes": "Rafale, Automatique, Smartlink"
+        }
+      },
+      {
+        "id": "armes-automatiques-biosun-aciditicteeth",
+        "name": "Biosun Aciditicteeth",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 2550,
+        "priceLabel": "2 550 $",
+        "effect": "fusil d’assaut organique à munitions régénérées ; son caractère vivant et visqueux implique des contraintes biologiques absentes des armes mécaniques",
+        "data": {
+          "Classe": "Assaut bio-organique",
+          "DGT": "8",
+          "Portee": "30 m",
+          "Cap.": "8",
+          "Proprietes": "Rafale, Automatique, acide, régénératif, bio-objet"
+        }
+      },
+      {
+        "id": "armes-automatiques-tortoise-blastard",
+        "name": "Tortoise Blastard",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 5250,
+        "priceLabel": "5 250 $",
+        "effect": "arme automatique lourde à courte portée, spécialisée contre les cibles protégées et technogmentées",
+        "data": {
+          "Classe": "Assaut lourd",
+          "DGT": "12",
+          "Portee": "20 m",
+          "Cap.": "8",
+          "Proprietes": "Rafale, Automatique, EMP, Perforant 1, Choc"
+        }
+      },
+      {
+        "id": "armes-precision-song-gos",
+        "name": "Song-gos",
+        "category": "Armes — Précision",
+        "priceMode": "exact",
+        "price": 1550,
+        "priceLabel": "1 550 $",
+        "effect": "fusil de précision à deux coups privilégiant la pénétration au prix d’un fonctionnement moins sûr",
+        "data": {
+          "Classe": "Precision",
+          "DGT": "12",
+          "Portee": "250 m",
+          "Cap.": "2",
+          "Proprietes": "Perforant 2 ; Défaillant ; Dangereux"
+        }
+      },
+      {
+        "id": "armes-precision-byron-luzette",
+        "name": "Byron Luzette",
+        "category": "Armes — Précision",
+        "priceMode": "exact",
+        "price": 3500,
+        "priceLabel": "3 500 $",
+        "effect": "fusil de précision à deux coups qui concentre ses performances sur la puissance et l’assistance au tir",
+        "data": {
+          "Classe": "Precision",
+          "DGT": "14",
+          "Portee": "150 m",
+          "Cap.": "2",
+          "Proprietes": "Smartlink ; Perforant 1"
+        }
+      },
+      {
+        "id": "armes-precision-abraham-kennedy",
+        "name": "Abraham Kennedy",
+        "category": "Armes — Précision",
+        "priceMode": "reference",
+        "priceLabel": "Mission",
+        "effect": "arme de mission distribuée comme modèle reproductible plutôt que produit commercial standard ; la fabrication locale rend la qualité plus variable",
+        "data": {
+          "Classe": "Precision imprimable",
+          "DGT": "12",
+          "Portee": "120 m",
+          "Cap.": "4",
+          "Proprietes": "Imprimable ; Aléatoire ; précision fine"
+        }
+      },
+      {
+        "id": "armes-precision-raven-sehdia-hellrails",
+        "name": "Raven-Sehdia Hellrails",
+        "category": "Armes — Précision",
+        "priceMode": "exact",
+        "price": 45550,
+        "priceLabel": "45 550 $",
+        "effect": "railgun de précision à très longue portée, extrêmement perforant et dépendant d’une recharge énergétique",
+        "data": {
+          "Classe": "Railgun de précision",
+          "DGT": "15",
+          "Portee": "550 m",
+          "Cap.": "5",
+          "Proprietes": "Perforant 5 ; Infaillible ; énergétique"
+        }
+      },
+      {
+        "id": "armes-precision-biosun-pandemic",
+        "name": "Biosun Pandemic",
+        "category": "Armes — Précision",
+        "priceMode": "exact",
+        "price": 650,
+        "priceLabel": "650 $",
+        "effect": "arme hypodermique de précision ; le contenu de la seringue détermine l’essentiel de l’effet après impact",
+        "data": {
+          "Classe": "Hypodermique",
+          "DGT": "3",
+          "Portee": "50 m",
+          "Cap.": "25",
+          "Proprietes": "Hypodermique ; Smartlink ; précision fine"
+        }
+      },
+      {
+        "id": "armes-precision-sunways-savior-dgr",
+        "name": "Sunways Savior DGR",
+        "category": "Armes — Précision",
+        "priceMode": "exact",
+        "price": 550,
+        "priceLabel": "550 $",
+        "effect": "arme hypodermique à longue portée et petite réserve ; la munition injectée reste séparée du dommage mécanique de l’impact",
+        "data": {
+          "Classe": "Hypodermique",
+          "DGT": "3",
+          "Portee": "150 m",
+          "Cap.": "6",
+          "Proprietes": "Hypodermique ; précision fine"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-disease",
+        "name": "Disease",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 450,
+        "priceLabel": "450 $",
+        "effect": "pistolet hypodermique compact dont l’effet dépend de la substance chargée dans les seringues",
+        "data": {
+          "Classe": "Hypodermique",
+          "DGT": "2",
+          "Portee": "25 m",
+          "Cap.": "6",
+          "Proprietes": "Hypodermique"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-raven-sunways-savior-dg",
+        "name": "Raven-Sunways Savior DG",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 500,
+        "priceLabel": "500 $",
+        "effect": "pistolet hypodermique précis à faible capacité, pensé pour l’administration ciblée",
+        "data": {
+          "Classe": "Hypodermique",
+          "DGT": "2",
+          "Portee": "50 m",
+          "Cap.": "4",
+          "Proprietes": "Hypodermique ; précision fine"
+        }
+      },
+      {
+        "id": "armes-lourdes-phoenix-redcrush",
+        "name": "Phoenix RedCrush",
+        "category": "Armes — Lourdes",
+        "priceMode": "exact",
+        "price": 1050,
+        "priceLabel": "1 050 $",
+        "effect": "arme polyvalente de projection chimique ou hypodermique ; le type de charge conditionne son effet de zone ou d’injection",
+        "data": {
+          "Role": "Lanceur hypodermique/chimique",
+          "DGT": "5",
+          "Portee": "35 m",
+          "Cap.": "6",
+          "Proprietes": "Hypodermique ; chimique ; lance-grenades"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-raven-painkiller",
+        "name": "Raven Painkiller",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 650,
+        "priceLabel": "650 $",
+        "effect": "pistolet hypodermique fiable ; son intérêt médical dépend évidemment du produit injecté et du contexte de soin",
+        "data": {
+          "Classe": "Hypodermique",
+          "DGT": "2",
+          "Portee": "45 m",
+          "Cap.": "7",
+          "Proprietes": "Hypodermique ; Fiable ; Smartlink ; soin assisté"
+        }
+      },
+      {
+        "id": "armes-melee-sunways-hornetouch",
+        "name": "Sunways Hornetouch",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 100,
+        "priceLabel": "100 $",
+        "effect": "arme de contact hypodermique limitée par ses quatre injections ; le produit chargé détermine l’effet secondaire",
+        "data": {
+          "Type": "Melee hypodermique",
+          "DGT": "3",
+          "Portee": "Contact",
+          "Cap.": "4",
+          "Proprietes": "Hypodermique"
+        }
+      },
+      {
+        "id": "armes-melee-biosun-blastard-injector",
+        "name": "Biosun Blastard Injector",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 250,
+        "priceLabel": "250 $",
+        "effect": "arme de contact légère avec deux injections optionnelles ; elle reste utilisable comme lame une fois les seringues consommées",
+        "data": {
+          "Type": "Melee hypodermique",
+          "DGT": "3",
+          "Portee": "Contact",
+          "Cap.": "2",
+          "Proprietes": "Hypodermique ; lame titane"
+        }
+      },
+      {
+        "id": "armes-automatiques-bi",
+        "name": "Bi",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 600,
+        "priceLabel": "600 $",
+        "effect": "PM automatique économique dont la fiabilité est inférieure à celle des modèles corporatistes",
+        "data": {
+          "Classe": "PM",
+          "DGT": "7",
+          "Portee": "20 m",
+          "Cap.": "20",
+          "Proprietes": "Rafale, Automatique, Défaillant"
+        }
+      },
+      {
+        "id": "armes-automatiques-sfu-nebullar",
+        "name": "SFU Nebullar",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 2000,
+        "priceLabel": "2 000 $",
+        "effect": "PM automatique spécialisé dans la résistance environnementale plutôt que dans l’augmentation brute des dégâts",
+        "data": {
+          "Classe": "PM",
+          "DGT": "8",
+          "Portee": "25 m",
+          "Cap.": "25",
+          "Proprietes": "Rafale, Automatique, Inaltérable"
+        }
+      },
+      {
+        "id": "armes-automatiques-monarch-surge",
+        "name": "Monarch Surge",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 2000,
+        "priceLabel": "2 000 $",
+        "effect": "PM automatique doté d’un ciblage spécialisé ; son avantage concerne les signatures et interfaces connectées, pas toutes les formes de dissimulation",
+        "data": {
+          "Classe": "PM",
+          "DGT": "8",
+          "Portee": "25 m",
+          "Cap.": "25",
+          "Proprietes": "Rafale, Automatique, autociblage Connectés"
+        }
+      },
+      {
+        "id": "armes-automatiques-bibal",
+        "name": "Bibal",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 800,
+        "priceLabel": "800 $",
+        "effect": "SMG automatique abordable mais défaillant, adapté à ceux qui privilégient coût et volume de feu",
+        "data": {
+          "Classe": "SMG",
+          "DGT": "9",
+          "Portee": "25 m",
+          "Cap.": "25",
+          "Proprietes": "Rafale, Automatique, Défaillant"
+        }
+      },
+      {
+        "id": "armes-automatiques-byron-florette",
+        "name": "Byron Florette",
+        "category": "Armes — Automatiques",
+        "priceMode": "exact",
+        "price": 1950,
+        "priceLabel": "1 950 $",
+        "effect": "SMG automatique dont l’intérêt particulier est son matériau de construction, pas une invisibilité universelle aux contrôles",
+        "data": {
+          "Classe": "SMG",
+          "DGT": "9",
+          "Portee": "30 m",
+          "Cap.": "30",
+          "Proprietes": "Rafale, Automatique, Biosteel"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-owl-apex",
+        "name": "Owl Apex",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 1300,
+        "priceLabel": "1 300 $",
+        "effect": "pistolet lourd de longue portée pour sa catégorie, privilégiant la précision plutôt que les dégâts maximaux",
+        "data": {
+          "Classe": "Pistolet lourd",
+          "DGT": "9",
+          "Portee": "75 m",
+          "Cap.": "9",
+          "Proprietes": "précision fine ; recul réduit"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-byron-jeanette",
+        "name": "Byron Jeanette",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 750,
+        "priceLabel": "750 $",
+        "effect": "pistolet léger à faible capacité combinant tir double et dispositif d’alerte au ciblage",
+        "data": {
+          "Classe": "Pistolet leger",
+          "DGT": "5",
+          "Portee": "25 m",
+          "Cap.": "6",
+          "Proprietes": "Double balle ; détection de ciblage"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-jotkka",
+        "name": "Jotkka",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 900,
+        "priceLabel": "900 $",
+        "effect": "pistolet lourd économique dont le prix bas s’accompagne d’un risque de panne supérieur aux modèles industriels modernes",
+        "data": {
+          "Classe": "Pistolet lourd",
+          "DGT": "10",
+          "Portee": "35 m",
+          "Cap.": "10",
+          "Proprietes": "Défaillant"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-raven-sehdia-pacificateur-x",
+        "name": "Raven-Sehdia Pacificateur X",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 12050,
+        "priceLabel": "12 050 $",
+        "effect": "pistolet lourd d’exception, nettement au-dessus du Pacificateur standard en puissance et en coût",
+        "data": {
+          "Classe": "Pistolet lourd",
+          "DGT": "15",
+          "Portee": "50 m",
+          "Cap.": "7",
+          "Proprietes": "Infaillible ; EMP"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-eolgul-e",
+        "name": "Eolgul-e",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 250,
+        "priceLabel": "250 $",
+        "effect": "arme de poche à faible puissance et faible coût, dont la défaillance constitue le principal compromis",
+        "data": {
+          "Classe": "Poche",
+          "DGT": "4",
+          "Portee": "20 m",
+          "Cap.": "5",
+          "Proprietes": "Défaillant"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-phoenix-sunnyroshima",
+        "name": "Phoenix Sunnyroshima",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "exact",
+        "price": 600,
+        "priceLabel": "600 $",
+        "effect": "arme de poche à faible capacité et effet thermique de proximité, pensée pour les engagements très courts",
+        "data": {
+          "Classe": "Poche",
+          "DGT": "5",
+          "Portee": "20 m",
+          "Cap.": "4",
+          "Proprietes": "Feu ; nuage ardent à courte portée"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-reminiscer-prototype",
+        "name": "Reminiscer — Prototype",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "reference",
+        "priceLabel": "Mission",
+        "effect": "arme de mission expérimentale dont la munition spéciale exige une programmation et ne se comporte pas comme un projectile conventionnel",
+        "data": {
+          "Classe": "Pistolet lourd expérimental",
+          "DGT": "12",
+          "Portee": "50 m",
+          "Cap.": "5",
+          "Proprietes": "Munitions noires ; Fiable 2 ; Smartlink"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-oblivion-prototype",
+        "name": "Oblivion — Prototype",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "reference",
+        "priceLabel": "Mission",
+        "effect": "arme de mission spécialisée dans la surcharge neuro-sensorielle plutôt que dans la simple pénétration balistique",
+        "data": {
+          "Classe": "Pistolet lourd expérimental",
+          "DGT": "10",
+          "Portee": "25 m",
+          "Cap.": "10",
+          "Proprietes": "Neurochoc ; Fiable 2"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-zeus-prototype",
+        "name": "Zeus — Prototype",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "reference",
+        "priceLabel": "Mission",
+        "effect": "arme de mission modulaire ; la valeur indiquée représente son profil de référence et la reconfiguration ne doit pas cumuler tous les avantages",
+        "data": {
+          "Classe": "Pistolet ionique expérimental",
+          "DGT": "15",
+          "Portee": "20 m",
+          "Cap.": "5",
+          "Proprietes": "EMP ; modularité ; Fiable"
+        }
+      },
+      {
+        "id": "armes-poing-tasers-dracula-prototype",
+        "name": "Dracula — Prototype",
+        "category": "Armes — Poing & Tasers",
+        "priceMode": "reference",
+        "priceLabel": "Mission",
+        "effect": "arme de mission spécialisée dans les traumatismes internes ; son effet particulier dépend d’un impact pertinent sur l’anatomie de la cible",
+        "data": {
+          "Classe": "Pistolet leger expérimental",
+          "DGT": "8",
+          "Portee": "35 m",
+          "Cap.": "6",
+          "Proprietes": "Bloody shock ; Fiable"
+        }
+      },
+      {
+        "id": "armes-melee-owl-k-owlclaws",
+        "name": "Owl K OwlClaws",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 125,
+        "priceLabel": "125 $",
+        "effect": "Le K OwlClaws est le couteau de combat d’Owl. La marque le présente comme l’expression de la simplicité américaine.",
+        "data": {
+          "Type": "Couteaux",
+          "DGT": "3",
+          "Portee": "Contact",
+          "Proprietes": "—"
+        }
+      },
+      {
+        "id": "armes-melee-raven-k-blaclaws",
+        "name": "Raven K Blaclaws",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 155,
+        "priceLabel": "155 $",
+        "effect": "Le K Blaclaws est le couteau de combat de base de Raven.",
+        "data": {
+          "Type": "Couteaux",
+          "DGT": "4",
+          "Portee": "Contact",
+          "Proprietes": "—"
+        }
+      },
+      {
+        "id": "armes-melee-owl-k-resonancer",
+        "name": "Owl K Resonancer",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 250,
+        "priceLabel": "250 $",
+        "effect": "Le K Resonancer est un couteau technologique d’Owl équipé d’une lame vibrante. Ses vibrations s’adaptent progressivement à la cible pour détériorer sa structure.",
+        "data": {
+          "Type": "Couteaux",
+          "DGT": "3",
+          "Portee": "Contact",
+          "Proprietes": "Vibratoire"
+        }
+      },
+      {
+        "id": "armes-melee-raven-k-hellthorn",
+        "name": "Raven K Hellthorn",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 350,
+        "priceLabel": "350 $",
+        "effect": "Le K Hellthorn est un couteau de combat de Raven à filament photonique. Ce filament fonctionne de manière comparable à un laser de haute intensité et caractérise son tranchant Photoedge.",
+        "data": {
+          "Type": "Couteaux",
+          "DGT": "4",
+          "Portee": "Contact",
+          "Proprietes": "Photoedge"
+        }
+      },
+      {
+        "id": "armes-melee-phoenix-k-sunbeak",
+        "name": "Phoenix K SunBeak",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 185,
+        "priceLabel": "185 $",
+        "effect": "Phoenix propose le K SunBeak comme un couteau classique de sa gamme. Sa structure en « acier diamantin » lui confère la robustesse qui fait sa particularité.",
+        "data": {
+          "Type": "Couteaux",
+          "DGT": "3",
+          "Portee": "Contact",
+          "Proprietes": "Robuste"
+        }
+      },
+      {
+        "id": "armes-melee-raven-kb-karas",
+        "name": "Raven KB Karas",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 650,
+        "priceLabel": "650 $",
+        "effect": "Le KB Karas est le katana de Raven, présenté comme l’arme blanche la plus vendue. Solide et puissant, il se distingue par son équilibre, qui permet une précision fine dans son maniement.",
+        "data": {
+          "Type": "Katanas",
+          "DGT": "8",
+          "Portee": "Contact",
+          "Proprietes": "Précision fine ; Visée Intégrée"
+        }
+      },
+      {
+        "id": "armes-melee-k-golijagi",
+        "name": "K Golijagi",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 300,
+        "priceLabel": "300 $",
+        "effect": "Le K Golijagi est la lame des soldats nord-coréens. Sa fabrication en Biosteel le rend indétectable par les détecteurs conventionnels.",
+        "data": {
+          "Type": "Couteaux",
+          "DGT": "4",
+          "Portee": "Contact",
+          "Proprietes": "Biosteel"
+        }
+      },
+      {
+        "id": "armes-melee-owl-sb-nextcalibur",
+        "name": "Owl SB Nextcalibur",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 650,
+        "priceLabel": "650 $",
+        "effect": "La SB Nextcalibur est une épée technologique d’Owl dont la dureté peut changer. Sa lame peut devenir flexible pour s’enrouler autour d’un bras ou se ranger dans un sac. Son Biosteel la rend indétectable aux détecteurs conventionnels.",
+        "data": {
+          "Type": "Épées",
+          "DGT": "7",
+          "Portee": "Contact",
+          "Proprietes": "Biosteel ; Pliant"
+        }
+      },
+      {
+        "id": "armes-melee-phoenix-sb-khopesh",
+        "name": "Phoenix SB Khopesh",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 715,
+        "priceLabel": "715 $",
+        "effect": "La SB Khopesh transpose chez Phoenix la silhouette du khépesh dans l’armement de 2035. Phoenix équipe cette lame irradiante d’un monofilament et la présente comme sa meilleure offre dans cette catégorie.",
+        "data": {
+          "Type": "Épées",
+          "DGT": "6",
+          "Portee": "Contact",
+          "Proprietes": "Irradiant ; Photoedge"
+        }
+      },
+      {
+        "id": "armes-melee-hache-circulaire-owl",
+        "name": "Hache circulaire Owl",
+        "category": "Armes — Mêlée",
+        "priceMode": "exact",
+        "price": 850,
+        "priceLabel": "850 $",
+        "effect": "Cette hache de combat d’Owl est construite autour d’une scie circulaire résistante aux chocs. Elle peut s’utiliser avec sa lame bloquée comme une arme blanche ou avec le système rotatif en fonctionnement.",
+        "data": {
+          "Type": "Haches",
+          "DGT": "4",
+          "Portee": "Contact",
+          "Proprietes": "Dual mode (E) ; Système rotatif",
+          "Cap.": "8"
+        }
+      },
+      {
+        "id": "armes-melee-insurrection-sp-new-partisan",
+        "name": "Insurrection SP New Partisan",
+        "category": "Armes — Mêlée",
+        "priceMode": "reference",
+        "price": null,
+        "priceLabel": "Mission",
+        "effect": "La SP New Partisan est une arme de l’Insurrection produite par impression et frittage. Sa forme et sa taille peuvent varier : lance, épée ou hache conservent généralement la même efficacité. L’arme peut également se rétracter.",
+        "data": {
+          "Type": "Armes d’hast",
+          "DGT": "5",
+          "Portee": "Contact",
+          "Proprietes": "Pliant"
         }
       }
     ]

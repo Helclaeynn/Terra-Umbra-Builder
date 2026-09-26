@@ -86,6 +86,10 @@ jobs:
         working-directory: apps/api
         run: node scripts/check-equipment-illustrations.mjs
 
+      - name: Check complete weapon catalogue and Builder coverage
+        working-directory: apps/api
+        run: node scripts/check-weapon-catalog-coverage.mjs
+
       - name: Check second portrait lot
         working-directory: apps/api
         run: node scripts/check-portrait-lot2.mjs
@@ -438,6 +442,10 @@ jobs:
             sleep 5
           done
           exit 1
+
+      - name: Verify deployed weapon catalogue
+        if: steps.deployment.outputs.enabled == 'true'
+        run: node apps/api/scripts/check-weapons-live.mjs
 
       - name: Verify deployed rule diagrams
         if: steps.deployment.outputs.enabled == 'true'
