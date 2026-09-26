@@ -1,5 +1,6 @@
 import type { FastifyInstance, FastifyReply } from "fastify";
 import { requireUser } from "../auth.js";
+import { pool } from "../db.js";
 import { terraUmbraCreationRules } from "./terra-umbra-creation.js";
 import { terraUmbraCreationLore, terraUmbraTalentChoiceSpecs, terraUmbraRealitySkillTalentMap } from "./terra-umbra-creation-lore.js";
 import { terraUmbraDisadvantages, terraUmbraDisadvantageLore, terraUmbraEdgeRules } from "./terra-umbra-disadvantages-edge.js";
@@ -405,8 +406,11 @@ async function builderCatalogEntries():Promise<BuilderCatalogEntry[]>{
       category:"Équipement & Objets",step:"equipment"
     });
   }
-
-  return rows;
+  const links=await pool.query<{family:string;builderKey:string;articleId:string}>(
+    `SELECT family, builder_key AS "builderKey", article_id AS "articleId" FROM compendium_builder_links`
+  );
+  const byKey=new Map(links.rows.map(link=>[`${link.family}:${link.builderKey}`,link.articleId]));
+  return rows.map(row=>({...row,compendiumId:byKey.get(`${row.family}:${row.key}`)??row.compendiumId}));
 }
 
 async function builderCoverage(){
@@ -586,6 +590,25 @@ export async function registerRulesRoutes(app:FastifyInstance){
     if(!user)return;
     const id=String(request.params.id??"").trim();
     return {articleId:id,records:id?await builderSourceFor(id):[]};
+  });
+  app.get<{Querystring:{q?:string}}>("/api/compendium/editor/builder-catalog",async(request,reply)=>{
+    const user=await requireEditorUser(request,reply);
+    if(!user)return;
+    const query=String(request.query.q??"").trim().toLocaleLowerCase('fr');
+    const entries=await builderCatalogEntries();
+    return {items:entries.filter(entry=>!entry.compendiumId&&(!query||`${entry.label} ${entry.kind} ${entry.family}`.toLocaleLowerCase('fr').includes(query))).slice(0,80)};
+  });
+  app.put<{Params:{id:string};Body:{family?:string;key?:string}}>("/api/compendium/editor/builder-source/:id",async(request,reply)=>{
+    const user=await requireEditorUser(request,reply);
+    if(!user)return;
+    const articleId=String(request.params.id??'').trim();
+    const family=String(request.body?.family??'').trim(),key=String(request.body?.key??'').trim();
+    if(!articleId||!family||!key||family.length>80||key.length>200)return reply.code(400).send({error:'invalid_builder_link'});
+    const [article,entry]=await Promise.all([findActiveCompendiumArticleById(articleId),builderCatalogEntries().then(rows=>rows.find(row=>row.family===family&&row.key===key&&!row.compendiumId))]);
+    if(!article||!entry||article.category!==entry.category)return reply.code(400).send({error:'invalid_builder_link'});
+    await pool.query(`INSERT INTO compendium_builder_links (family,builder_key,article_id,linked_by)
+      VALUES ($1,$2,$3,$4) ON CONFLICT (family,builder_key) DO UPDATE SET article_id=EXCLUDED.article_id,linked_by=EXCLUDED.linked_by,linked_at=now()`,[family,key,articleId,user.id]);
+    return {articleId,record:{...entry,compendiumId:articleId}};
   });
 
   app.get<{Querystring:{natureId?:string;groupId?:string;ids?:string}}>("/api/compendium/talents", async (request)=>{

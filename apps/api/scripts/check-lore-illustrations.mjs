@@ -9,7 +9,7 @@ process.env.COMPENDIUM_MEDIA_DIR=root+'/compendium';
 process.chdir(root+'/apps/api');
 const {pool}=await import(pathToFileURL(root+'/apps/api/dist/db.js').href);
 pool.query=async sql=>{
-  if(/FROM compendium_custom_articles|FROM compendium_article_edits|(?:FROM|INTO) compendium_legacy_articles/.test(String(sql)))return {rows:[]};
+  if(/FROM compendium_custom_articles|FROM compendium_article_edits|(?:FROM|INTO) compendium_legacy_articles|FROM compendium_deleted_articles/.test(String(sql)))return {rows:[]};
   throw new Error('Unexpected DB query: '+sql);
 };
 const {getCompendiumQualityCorpus,registerCompendiumRoutes}=await import(pathToFileURL(root+'/apps/api/dist/compendium.js').href);
