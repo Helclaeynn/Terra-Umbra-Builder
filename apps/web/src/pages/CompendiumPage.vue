@@ -324,7 +324,7 @@ const GROUP_PRIORITY: Record<string,string[]> = {
   'Équipement & Objets':['Armement','Armures & protections','Munitions & consommables','Holonet & Neurodive','Habitat & mobilité','Vie quotidienne & services','Augmentations · Cybernétique','Augmentations · Biogénétique','Augmentations · Esthétique & fonctionnel','Équipement de Chasse','Marché des Exilés','Marché xéno','Arsenal AIDH','Corruption & Calamitechnologie'],
   'Règles':['Moteur de jeu','Moteur commun','Réalité — Création & progression','Réalité — Talents & désavantages','Réalité — Économie & équipement','Réalité — Augmentations','Réalité — Neurodive','Vérité — Règles communes','Vérité — Natures & capacités','Vérité — Corruption & Fléaux'],
   'Réalité':['Grande Californie & société','État & services publics','Sécurité & justice','Agences & renseignement','Corporations & économie','Pègre & criminalité','Crawlers & métiers','Insurgés','Clubs de motards','Enders','Pègre, Crawlers & anti-systèmes','Religions & néoreligions'],
-  'Vérité':['Entrer dans la Vérité','Cosmologie & histoire cachée','Peuples & Natures','Natures, peuples & traditions','Chasseurs & traditions','Chasseurs','Factions de Vérité','Créatures & phénomènes','Corruption & Fléaux'],
+  'Vérité':['Entrer dans la Vérité','Derrière le Voile','Cosmologie & histoire cachée','Angelus','Aseryns','Garous & Pelages','Vampires, Mages & créatures','Exilés','Extrals & factions','Humanité galactique','Chasseurs & traditions','Corruption & Fléaux'],
   'Bestiaire':['Faune de Vérité','Prédateurs monstrueux','Métamorphes','Fées & esprits naturels','Revenants','Ombres & entités de l’Ombremonde','Fléaux, Ruptures & Abominations','PNJ de Réalité','PNJ de Vérité','Dossiers majeurs de scénario']
 };
 function navigationLabels(entry:Pick<WikiEntry,'id'|'category'|'group'|'subgroup'>){
@@ -341,6 +341,18 @@ function navigationLabels(entry:Pick<WikiEntry,'id'|'category'|'group'|'subgroup
       else group='Crawlers & métiers';
     }
     if(group!=='Grande Californie & société')subgroup='Pages';
+  }
+  if(entry.category==='Vérité'){
+    if(group==='Chasse & organisations')group='Chasseurs & traditions';
+    if(group==='Peuples & Natures'){
+      if(subgroup==='Angelus')group='Angelus';
+      else if(subgroup.startsWith('Aseryns'))group='Aseryns';
+      else if(['Khinae','Pelages'].includes(subgroup))group='Garous & Pelages';
+      else if(['Vampires','Mages','Daemons','Autres Créatures'].includes(subgroup))group='Vampires, Mages & créatures';
+      else if(subgroup==='Exilés')group='Exilés';
+      else if(['Extrals','Factions extrales'].includes(subgroup))group='Extrals & factions';
+      else if(['Humanité galactique','Galaxie & Extrals'].includes(subgroup))group='Humanité galactique';
+    }
   }
   if(entry.category==='Équipement & Objets'){
     const parts=subgroup.split(' — ');
