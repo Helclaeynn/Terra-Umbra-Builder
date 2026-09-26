@@ -6,9 +6,8 @@ type Article = {id:string;title?:string;tags?:string[];sections?:Array<Record<st
 type Attrs = {vigueur:number;agilite:number;esprit:number;volonte:number;charisme:number};
 type Skill = [string,number];
 
-const realityTier=NPC_TIERS.find(tier=>tier.id==="legendaire");
-const truthTier=NPC_TRUTH_TIERS.find(tier=>tier.id==="exceptionnel");
-if(!realityTier||!truthTier)throw new Error("Ten · étalons PNJ Légendaire / Exceptionnel introuvables");
+const realityTier=NPC_TIERS.find(tier=>tier.id==="legendaire") ?? (()=>{throw new Error("Ten · étalon PNJ Légendaire introuvable");})();
+const truthTier=NPC_TRUTH_TIERS.find(tier=>tier.id==="exceptionnel") ?? (()=>{throw new Error("Ten · étalon Vérité Exceptionnel introuvable");})();
 
 const ranks=[14,13,12,12,11,11,10,10,10,9,8,7,7,6] as const;
 const skills=(names:string[]):Skill[]=>{
