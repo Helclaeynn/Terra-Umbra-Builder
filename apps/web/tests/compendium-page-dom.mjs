@@ -127,6 +127,10 @@ async function mount({ role = null, initialRoute = articleUrl(coleId), authDelay
       if (!role) throw new Error("not authenticated");
       return { user: { id: "test-user", displayName: "Test", role } };
     }
+    if (url.pathname.startsWith("/api/admin/compendium-quality/") && url.pathname.endsWith("/portraits")) {
+      assert.equal(role, "admin", "Only administrators load portrait controls");
+      return { portraits: [] };
+    }
     if (url.pathname.startsWith("/api/compendium/articles/")) {
       await pause(1);
       const id = decodeURIComponent(url.pathname.split("/").at(-1));
@@ -238,6 +242,18 @@ for (const role of ["gm", "editor", "admin"]) {
     await waitFor(() => reader.authReady() && reader.d.querySelector(".npc-stat-profile"), `${role}: NPC profile mounted after authentication`);
     await waitFor(() => reader.d.querySelector("#wiki-section-profil-statistique details.mj-section")?.open && reader.lastLanding() === reader.d.getElementById("wiki-section-profil-statistique"), `${role}: explicit MJ section opens after delayed authentication`);
     check(`${role} : profil canonique intégral en cartes, sans titre dupliqué`, () => verifyProfile(reader));
+    if (role === "admin") {
+      const settings = reader.d.querySelector(".portrait-settings");
+      assert(settings, "Admin sees per-article portrait settings");
+      check("admin : panneau fermé sans requête de portraits", () =>
+        assert(!reader.requests.some(request => request.path.endsWith("/portraits"))));
+      settings.open = true;
+      settings.dispatchEvent(new reader.w.Event("toggle"));
+      await waitFor(() => reader.d.querySelector(".portrait-upload") && reader.requests.some(request => request.path.endsWith("/portraits")), "Admin can open portrait settings");
+      check("admin : réglage sur la fiche et ajout de portrait", () =>
+        assert(reader.d.querySelector(".portrait-upload input[type=file]")));
+    } else check(`${role} : aucun réglage admin de portrait`, () =>
+      assert.equal(reader.d.querySelector(".portrait-settings"), null));
     check(`${role} : ancre initiale MJ ouverte et focalisée malgré authentification retardée`, () => {
       const section = reader.d.getElementById("wiki-section-profil-statistique");
       assert.equal(reader.lastLanding(), section);
