@@ -3201,7 +3201,7 @@ async function loadCorpus(): Promise<Corpus> {
   const bestiaryArt = await readFile(resolve(COMPENDIUM_MEDIA_DIR, "source/bestiary-art-direction-v2.json"), "utf8")
     .then((content) => JSON.parse(content) as { items?: Array<{ id: string; src: string; alt: string; caption: string }> })
     .then((data) => new Map((data.items ?? []).filter((item) =>
-      /^bestiaire-[a-z0-9-]+$/.test(item.id) && item.src === `images/manual/${item.id}.webp`
+      /^bestiaire-[a-z0-9-]+$/.test(item.id) && item.src === `images/manual/${PROTECTED_ARTICLE_PUBLIC_IDS[item.id] ?? item.id}.webp`
     ).map((item) => [item.id, item])))
     .catch(() => new Map<string, { id: string; src: string; alt: string; caption: string }>());
   const portraitManifest = await readFile(resolve(COMPENDIUM_MEDIA_DIR, "images/portraits/manifest.json"), "utf8")
@@ -3675,6 +3675,12 @@ async function loadCorpus(): Promise<Corpus> {
       else article.image = media;
     }
 
+    if (article.id === "bestiaire-v15-delanial-le-faux-septieme-fleau") {
+      const media = article.illustration ?? article.image;
+      if (media?.src === "images/manual/bestiaire-v15-delanial-le-faux-septieme-fleau.webp") {
+        media.src = "images/manual/bestiaire-v15-delanial-pere-de-l-ombre.webp";
+      }
+    }
     const bestiaryCaption = bestiaryArt.get(article.id);
     const resolvedMedia = article.illustration ?? article.image;
     if (article.category === "Bestiaire" && bestiaryCaption && resolvedMedia?.src === bestiaryCaption.src) {

@@ -11,7 +11,7 @@ if(manifest.version!==3) throw new Error(`Manifest: version ${manifest.version},
 // Ces datasets sont reconstruits par les passes de consolidation : leur taille exacte
 // est verrouillée par leurs tests sémantiques dédiés, pas par le manifest générique.
 const mutableMinimums={moteur:5,realite:1,verite:1,lore:1,pnj:1};
-const fixedCounts={bestiaire:263};
+const fixedCounts={bestiaire:281};
 const catalogIds=new Set(['equipement','augmentations','verite-catalogue']);
 const expectedIds=new Set([...Object.keys(mutableMinimums),...Object.keys(fixedCounts),...catalogIds]);
 if(!Array.isArray(manifest.datasets)||manifest.datasets.length!==expectedIds.size) throw new Error(`Manifest: ${expectedIds.size} datasets V3 attendus, trouvé ${manifest.datasets?.length??0}`);

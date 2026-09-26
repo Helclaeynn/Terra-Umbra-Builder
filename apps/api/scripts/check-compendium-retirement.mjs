@@ -76,7 +76,7 @@ const portraitOnly = JSON.parse(await readFile("../../compendium/source/portrait
 assert.equal(characters.length, 918 + portraitOnly.length);
 assert.equal(characters.filter((article) => article.pnj?.completeness !== "portrait_only").length, 918);
 assert.equal(fresh.articles.filter((article) => article.category === "Équipement & Objets").length, 697);
-assert.equal(fresh.articles.filter((article) => article.category === "Bestiaire").length, 263);
+assert.equal(fresh.articles.filter((article) => article.category === "Bestiaire").length, 281);
 
 if (process.env.COMPENDIUM_RETIREMENT_BASELINE) {
   const before = JSON.parse(await readFile(process.env.COMPENDIUM_RETIREMENT_BASELINE, "utf8"));

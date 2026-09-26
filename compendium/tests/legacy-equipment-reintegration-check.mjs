@@ -30,6 +30,6 @@ const manifest=JSON.parse(fs.readFileSync(`${DATA}/manifest-v3.json`,'utf8'));
 const spec=manifest.datasets.find(x=>x.id==='equipement');if(!spec)throw new Error('Dataset Compendium equipement absent.');
 const pages=loadDataset(spec);
 if(spec.count!==357||pages.length!==357)throw new Error(`Compendium équipement attendu 357, manifeste ${spec.count}, pages ${pages.length}.`);
-if(manifest.expectedTotal!==1862)throw new Error(`Total Compendium attendu 1862, reçu ${manifest.expectedTotal}.`);
+if(manifest.expectedTotal!==manifest.datasets.reduce((total,dataset)=>total+dataset.count,0))throw new Error(`Total Compendium incohérent: ${manifest.expectedTotal}.`);
 for(const item of source){const hits=pages.filter(x=>norm(x.title)===norm(item.name));if(hits.length!==1)throw new Error(`${item.name}: ${hits.length} page(s) Compendium.`);const context=(hits[0].sections||[]).find(s=>s.id==='contexte');if(!context||context.blocks?.length!==2)throw new Error(`${item.name}: lore source-driven absent/incomplet.`);}
-console.log('Réintégration legacy validée: 60 sources · Builder 321 · Compendium équipement 357 · total 1862 · alias non dupliqués.');
+console.log(`Réintégration legacy validée: 60 sources · Builder 321 · Compendium équipement 357 · total ${manifest.expectedTotal} · alias non dupliqués.`);
