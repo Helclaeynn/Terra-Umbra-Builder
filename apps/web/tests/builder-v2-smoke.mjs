@@ -242,6 +242,7 @@ const page=await browser.newPage();
 const browserErrors=[];
 const failedRequests=[];
 let journalEntries=[];
+let contactQueryHadLimit=false;
 page.on("pageerror",error=>browserErrors.push("pageerror: "+String(error)));
 page.on("console",message=>{
   if(message.type()==="error")browserErrors.push("console: "+message.text());
@@ -313,6 +314,24 @@ await page.route("**/api/**",async route=>{
   }
   if(url.pathname==="/api/rulesets/terra-umbra/reality"){
     return route.fulfill({status:200,contentType:"application/json",body:JSON.stringify(realityRules)});
+  }
+  if(url.pathname==="/api/compendium/contact-npcs"){
+    contactQueryHadLimit=url.searchParams.has("limit");
+    const items=Array.from({length:48},(_,index)=>({
+      articleId:`contact-smoke-${index+1}`,
+      title:`Contact Smoke ${String(index+1).padStart(2,"0")}`,
+      tierId:index%2?"entraine":"elite",
+      tierLabel:index%2?"Entraîné":"Élite",
+      snippet:`Profil de contact smoke numéro ${index+1}.`
+    }));
+    return route.fulfill({status:200,contentType:"application/json",body:JSON.stringify({total:items.length,items})});
+  }
+  if(url.pathname.startsWith("/api/compendium/articles/contact-smoke-")){
+    const id=url.pathname.split("/").pop();
+    return route.fulfill({status:200,contentType:"application/json",body:JSON.stringify({article:{
+      id,title:"Contact Smoke",category:"Personnages",
+      sections:[{id:"intro",title:"Présentation",level:2,blocks:[{type:"p",text:"PNJ de contact disponible dans le catalogue complet."}]}]
+    }})});
   }
   if(url.pathname==="/api/compendium/search"){
     const q=(url.searchParams.get("q")||"").trim();
@@ -497,6 +516,22 @@ await corruptionApproval.uncheck();
 await page.locator(".corruption-panel").waitFor({state:"detached",timeout:5000});
 await corruptionApproval.waitFor({state:"visible",timeout:5000});
 
+// Contacts: the complete eligible catalog must be reachable, scrollable and keep article IDs.
+await page.locator(".builder-nav").getByRole("button",{name:/Finalisation/}).click();
+const crawlerPicker=page.locator(".contact-picker").filter({hasText:"Contact fiable de Sphère"});
+await crawlerPicker.getByLabel("Rechercher dans les PNJ existants").focus();
+await crawlerPicker.getByText("48 profils compatibles · liste scrollable",{exact:true}).waitFor();
+if(contactQueryHadLimit)throw new Error("Le sélecteur de contacts envoie encore une limite arbitraire.");
+if(await crawlerPicker.locator(".contact-result").count()!==48)throw new Error("Tous les PNJ admissibles ne sont pas proposés.");
+const lastContact=crawlerPicker.locator(".contact-result").filter({hasText:"Contact Smoke 48"});
+const contactLink=lastContact.locator("a.builder-wiki-link");
+if(!(await contactLink.getAttribute("href"))?.includes("article=contact-smoke-48"))throw new Error("Le lien de contact ne conserve pas articleId.");
+await lastContact.getByRole("button",{name:"Choisir",exact:true}).click();
+await crawlerPicker.getByText("Contact Smoke 48",{exact:true}).waitFor();
+await page.locator(".character-sheet").getByText("Contact Smoke 48",{exact:true}).waitFor();
+const recapContact=page.locator(".character-sheet .sheet-contacts").getByText("Contact Smoke 48",{exact:true}).locator("..");
+if(!(await recapContact.locator("a").getAttribute("href"))?.includes("article=contact-smoke-48"))throw new Error("Le récapitulatif perd articleId du contact.");
+
 await page.locator(".builder-nav").getByRole("button",{name:/Équipement/}).click();
 await page.getByRole("heading",{name:"Réalité, équipement & augmentations"}).waitFor();
 await page.locator('summary.section-summary').filter({hasText:'Train de vie & Charges fixes'}).click();
@@ -553,6 +588,10 @@ await page.getByRole("heading",{name:"Contrôle final de la fiche"}).waitFor();
 await page.locator('.character-sheet[data-mode="creation"] [data-stat="pvMax"] strong').waitFor();
 const attributeRows = await page.locator('.sheet-attributes>div').evaluateAll(nodes=>nodes.map(node=>Math.round(node.getBoundingClientRect().top)));
 if (attributeRows.length!==5 || attributeRows[0]!==attributeRows[2] || attributeRows[3]!==attributeRows[4] || attributeRows[0]===attributeRows[3]) throw new Error('La fiche doit présenter les Attributs sur deux rangées 3 + 2');
+const truthStageCards=page.locator('.character-sheet[data-mode="creation"] .sheet-truth-stage');
+if(await truthStageCards.count()!==3)throw new Error('La fiche doit afficher simultanément Voilé, Semi-révélé et Révélé.');
+if(await page.locator('.character-sheet[data-mode="creation"] .sheet-truth-stages details').count())throw new Error('Les états de Vérité ne doivent plus être des accordéons.');
+for(const label of ['Voilé','Semi-révélé','Révélé'])await truthStageCards.getByText(label,{exact:true}).waitFor();
 const creationPv = Number(await page.locator('[data-stat="pvMax"] strong').innerText());
 for (const width of [1440,390]) {
   await page.setViewportSize({width,height:1000});

@@ -141,7 +141,7 @@ async function togglePreview(){
 }
 
 const href=computed(()=>{
-  const id=resolved.value?.id;
+  const id=resolved.value?.id||props.articleId;
   if(id)return compendiumHref(id,props.sectionId);
   const params=new URLSearchParams({q:props.label});
   if(props.category)params.set("category",props.category);

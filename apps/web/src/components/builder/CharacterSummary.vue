@@ -104,7 +104,14 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
     <section class="sheet-truth" aria-label="Vérité du personnage">
       <div><p class="sheet-eyebrow">VÉRITÉ</p><h3>{{ sheet.truthNature || 'Nature à choisir' }}</h3><p>{{ sheet.truthConsciousness || 'Conscience à préciser' }}</p></div>
       <div v-if="sheet.corruption"><strong>Corruption {{ sheet.corruption }} / {{ sheet.derived.integrity }}</strong><p>{{ sheet.corruptionSource }}</p></div>
-      <div class="sheet-truth-stages"><details v-for="stage in sheet.truthStages" :key="stage.id"><summary>{{ stage.name }}</summary><p>{{ stage.description }}</p><strong>{{ stage.stats }}</strong><ul v-if="stage.traits.length"><li v-for="trait in stage.traits" :key="trait.name"><b>{{ trait.name }}</b> · {{ trait.effect }}</li></ul></details></div>
+      <div class="sheet-truth-stages">
+        <article v-for="stage in sheet.truthStages" :key="stage.id" class="sheet-truth-stage" :data-truth-stage="stage.id">
+          <h4>{{ stage.name }}</h4>
+          <strong>{{ stage.stats }}</strong>
+          <p>{{ stage.description }}</p>
+          <ul v-if="stage.traits.length"><li v-for="trait in stage.traits" :key="trait.name"><b>{{ trait.name }}</b> · {{ trait.effect }}</li></ul>
+        </article>
+      </div>
     </section>
 
     <details v-for="list in lists" :id="`sheet-${list.id}`" :key="list.id" class="sheet-details" :data-list="list.id">
@@ -124,7 +131,7 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
       <section v-if="sheet.identity.concept"><h3>Concept</h3><p class="sheet-prose">{{ sheet.identity.concept }}</p></section>
       <section v-if="sheet.identity.objective"><h3>Objectif</h3><p class="sheet-prose">{{ sheet.identity.objective }}</p></section>
       <section><h3>Langues</h3><p>{{ sheet.languages.join(' · ') || 'À renseigner dans Finalisation' }}</p></section>
-      <section v-if="sheet.contacts.length"><h3>Contacts</h3><ul><li v-for="(contact,index) in sheet.contacts" :key="index">{{ contact }}</li></ul></section>
+      <section v-if="sheet.contacts.length"><h3>Contacts</h3><ul class="sheet-contacts"><li v-for="contact in sheet.contacts" :key="contact.id"><BuilderWikiLink v-if="contact.articleId" :label="contact.name" :article-id="contact.articleId" :detail="contact.detail || ''" :badges="contact.group ? [contact.group] : []" compact>{{ contact.name }}</BuilderWikiLink><strong v-else>{{ contact.name }}</strong><small v-if="contact.group || contact.detail">{{ [contact.group,contact.detail].filter(Boolean).join(' · ') }}</small></li></ul></section>
       <section v-if="sheet.reputation"><h3>Réputation</h3><p class="sheet-prose">{{ sheet.reputation }}</p></section>
       <section v-if="sheet.identity.notes"><h3>Notes</h3><p class="sheet-prose">{{ sheet.identity.notes }}</p></section>
     </details>
@@ -157,7 +164,7 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
 .sheet-details>section+section{margin-top:20px}.sheet-details>section h3{margin-bottom:8px}
 .sheet-skill-groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:18px}.sheet-skill-groups h3{color:#9ce5f4;font-size:14px}.sheet-skill-groups dt small{display:block;font-size:12px;color:#95aec4}.sheet-skill-groups dd{font-size:20px}
 .sheet-truth{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;border-left:3px solid #a38cdb;padding:18px 20px;background:#171d32}.sheet-truth h3{margin:6px 0}.sheet-truth p{color:#bfbedb}
-.sheet-truth-stages{flex-basis:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.sheet-truth-stages details{padding:12px;border:1px solid #655588;border-radius:6px;background:#201c36}.sheet-truth-stages summary{cursor:pointer;color:#e6d8ff;font-weight:600}.sheet-truth-stages p{margin:10px 0}.sheet-truth-stages ul{padding-left:18px}.sheet-truth-stages li{margin-top:8px;color:#d5c9e9}@media(max-width:760px){.sheet-truth-stages{grid-template-columns:1fr}}
+.sheet-truth-stages{flex-basis:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.sheet-truth-stage{padding:12px;border:1px solid #655588;border-radius:6px;background:#201c36}.sheet-truth-stage h4{margin:0 0 8px;color:#e6d8ff;font-size:15px}.sheet-truth-stage>strong{display:block;color:#f0eaff}.sheet-truth-stages p{margin:10px 0}.sheet-truth-stages ul{padding-left:18px}.sheet-truth-stages li{margin-top:8px;color:#d5c9e9}.sheet-contacts{display:grid;gap:.55rem;padding-left:1.2rem}.sheet-contacts li>small{display:block;color:#9bb4ca;font-size:12px}@media(max-width:760px){.sheet-truth-stages{grid-template-columns:1fr}}
 .sheet-entries{margin:0;padding:0;list-style:none}.sheet-entries li+li{border-top:1px solid #283f53;margin-top:16px;padding-top:16px}.sheet-entries small{display:block;color:#9bb4ca;font-size:12px}.sheet-entries p{margin:8px 0 0;color:#b8cada;white-space:pre-line;font-size:14px}.sheet-prose{white-space:pre-wrap;overflow-wrap:anywhere}
 .sheet-biography{display:flex;flex-wrap:wrap;gap:12px 24px;margin-bottom:20px!important}
 .character-sheet :is(summary,a):focus-visible{outline:2px solid #9ce5f4;outline-offset:4px}

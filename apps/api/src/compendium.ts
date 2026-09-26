@@ -4324,7 +4324,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
 
 
   app.get<{
-    Querystring: { q?: string; maxTier?: string; minTier?: string; limit?: string };
+    Querystring: { q?: string; maxTier?: string; minTier?: string };
   }>("/api/compendium/contact-npcs", async (request, reply) => {
     const user = await requireUser(request, reply);
     if (!user) return;
@@ -4344,7 +4344,6 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const minimum = String(request.query.minTier ?? "sbire");
     if (!(minimum in ranks) || ranks[minimum] > ranks[maximum]) return bad(reply, "invalid_npc_contact_tier");
     const query = norm(String(request.query.q ?? "").trim());
-    const limit = Math.min(40, Math.max(1, Number.parseInt(request.query.limit ?? "20", 10) || 20));
     const corpus = await getCorpus();
     const rows = corpus.publicArticles
       .filter((article) => article.category === "Personnages")
@@ -4359,8 +4358,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
         tierId in ranks && ranks[tierId] >= ranks[minimum] && ranks[tierId] <= ranks[maximum] &&
         (!query || String(article.__searchText ?? "").includes(query))
       )
-      .sort((left, right) => compareArticles(left.article, right.article))
-      .slice(0, limit);
+      .sort((left, right) => compareArticles(left.article, right.article));
 
     const labels: Record<string, string> = {
       sbire: "Sbire",
@@ -4373,11 +4371,13 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       superieur: "Supérieur"
     };
     return {
+      total: rows.length,
       items: rows.map(({ article, tierId }) => ({
         articleId: article.id,
         title: String(article.title ?? article.id),
         tierId,
-        tierLabel: labels[tierId]
+        tierLabel: labels[tierId],
+        snippet: String(searchItem(article, "").snippet ?? "")
       }))
     };
   });
