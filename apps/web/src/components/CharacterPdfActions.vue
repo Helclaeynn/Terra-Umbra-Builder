@@ -38,7 +38,7 @@ async function run(printing:boolean){
   busy.value=true;error.value='';notice.value='Préparation du dossier…';
   try{
     const snapshot=cloneJson(props.input);
-    const {generateCharacterPdf}=await import('../lib/character-pdf');
+    const {generateCharacterPdf}=await import('../lib/character-pdf-client');
     const result=await generateCharacterPdf(snapshot,printing);
     if(!mounted){popup?.close();return;}
     const url=URL.createObjectURL(new Blob([result.bytes as Uint8Array<ArrayBuffer>],{type:'application/pdf'}));objectUrls.add(url);

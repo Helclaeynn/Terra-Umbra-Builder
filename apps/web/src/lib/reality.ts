@@ -325,8 +325,17 @@ export function isAugmentationSupport(item:RealityItem){
     /cablage neuronal|cyberoeil|cyberaudio|cyberbras|cyberjambe|cybermain|cyberpied|support de membres|support multi/.test(name);
 }
 
+function independentAugmentation(item:RealityItem){
+  const name=realityNorm(item.name);
+  const support=realityNorm(realityDeepField(item,["Support","Support requis","Support nécessaire","Support necessaire"])??"");
+  // A voice implant and a dermal covering are autonomous, even when their
+  // description also gives them an audio/optical access family.
+  return item.families.includes("bio")||/\b(audiovox|synthederm)\b/.test(name)||
+    /^(aucun|sans support|autonome|independant)(\b|$)/.test(support);
+}
+
 export function augmentationSupportAlternatives(item:RealityItem){
-  if(item.kind!=="augmentation"||isAugmentationSupport(item)||item.families.includes('bio'))return [] as string[][];
+  if(item.kind!=="augmentation"||isAugmentationSupport(item)||independentAugmentation(item))return [] as string[][];
   const explicit=realityNorm(realityDeepField(item,["Support","Support requis","Support nécessaire","Support necessaire"])??"");
   const name=realityNorm(item.name),families=item.families,groups:string[][]=[];
   const add=(...values:(string|null)[])=>{
@@ -357,7 +366,7 @@ export function augmentationSupportAlternatives(item:RealityItem){
 }
 
 export function augmentationSupportLabel(item:RealityItem){
-  if(item.families.includes('bio'))return '';
+  if(independentAugmentation(item))return '';
   const explicit=String(realityDeepField(item,["Support","Support requis","Support nécessaire","Support necessaire"])??"").trim();
   if(explicit)return explicit;
   return augmentationSupportAlternatives(item)

@@ -106,8 +106,8 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
       </div>
     </details>
 
-    <section class="sheet-truth" aria-label="Vérité du personnage">
-      <div><p class="sheet-eyebrow">VÉRITÉ</p><h3>{{ sheet.truthNature || 'Nature à choisir' }}</h3><p>{{ sheet.truthConsciousness || 'Conscience à préciser' }}</p></div>
+    <details class="sheet-truth sheet-details" aria-label="Vérité du personnage" open>
+      <summary>Vérité · {{ sheet.truthNature || 'Nature à choisir' }} <span>{{ sheet.truthConsciousness || 'Conscience à préciser' }}</span></summary>
       <div v-if="sheet.corruption"><strong>Corruption {{ sheet.corruption }} / {{ sheet.derived.integrity }}</strong><p>{{ sheet.corruptionSource }}</p></div>
       <div class="sheet-truth-stages">
         <article v-for="stage in sheet.truthStages" :key="stage.id" class="sheet-truth-stage" :data-truth-stage="stage.id">
@@ -117,7 +117,7 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
           <ul v-if="stage.traits.length"><li v-for="trait in stage.traits" :key="trait.name"><b>{{ trait.name }}</b> · {{ trait.effect }}</li></ul>
         </article>
       </div>
-    </section>
+    </details>
 
     <div class="sheet-section-label"><p class="sheet-eyebrow">TALENTS & DÉSAVANTAGES</p><h3>Capacités du personnage</h3></div>
     <details v-for="list in talentLists" :id="`sheet-${list.id}`" :key="list.id" class="sheet-details" :data-list="list.id">
@@ -180,7 +180,7 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
 .sheet-details[open]{padding-bottom:20px}.sheet-details[open]>summary{margin-bottom:12px;border-bottom:1px solid #30485d}
 .sheet-details>section+section{margin-top:20px}.sheet-details>section h3{margin-bottom:8px}
 .sheet-skill-groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:18px}.sheet-skill-groups h3{color:#9ce5f4;font-size:14px}.sheet-skill-groups dt small{display:block;font-size:12px;color:#95aec4}.sheet-skill-groups dd{font-size:20px}
-.sheet-truth{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;border-left:3px solid #a38cdb;padding:18px 20px;background:#171d32}.sheet-truth h3{margin:6px 0}.sheet-truth p{color:#bfbedb}
+.sheet-truth{border-left:3px solid #a38cdb;background:#171d32}.sheet-truth>summary{color:#e6d8ff}.sheet-truth h3{margin:6px 0}.sheet-truth p{color:#bfbedb}
 .sheet-truth-stages{flex-basis:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.sheet-truth-stage{padding:12px;border:1px solid #655588;border-radius:6px;background:#201c36}.sheet-truth-stage h4{margin:0 0 8px;color:#e6d8ff;font-size:15px}.sheet-truth-stage>strong{display:block;color:#f0eaff}.sheet-truth-stages p{margin:10px 0}.sheet-truth-stages ul{padding-left:18px}.sheet-truth-stages li{margin-top:8px;color:#d5c9e9}.sheet-contacts{display:grid;gap:.55rem;padding-left:1.2rem}.sheet-contacts li>small{display:block;color:#9bb4ca;font-size:12px}@media(max-width:760px){.sheet-truth-stages{grid-template-columns:1fr}}
 .sheet-entries{margin:0;padding:0;list-style:none}.sheet-entries li+li{border-top:1px solid #283f53;margin-top:16px;padding-top:16px}.sheet-entries small{display:block;color:#9bb4ca;font-size:12px}.sheet-entries p{margin:8px 0 0;color:#b8cada;white-space:pre-line;font-size:14px}.sheet-prose{white-space:pre-wrap;overflow-wrap:anywhere}
 .sheet-biography{display:flex;flex-wrap:wrap;gap:12px 24px;margin-bottom:20px!important}.sheet-biography-top{margin:0!important;padding:12px 0 4px;border-bottom:1px solid #243b4e}.sheet-biography-top>div{min-width:120px;flex:1}.sheet-section-label{display:grid;gap:4px;margin-top:6px;padding-top:8px;border-top:1px solid #243b4e}.sheet-section-label h3{color:#edf4ff}.sheet-social{margin-top:4px}

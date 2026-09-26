@@ -54,5 +54,29 @@ try{
  await pool.query('UPDATE campaigns SET archived_at=now() WHERE id=$1',[cid]);
  await call(gm,'PUT',presence+p.id,{response:'present'},404);await call(gm,'PATCH',path+'/preparation',{...prep,version:2},404);
  await pool.query("UPDATE users SET role='player' WHERE id=$1",[gm.id]);await call(gm,'GET',base+'/preparation-library',undefined,404);
+ // Deleting a campaign is owner/admin-only, even when archived, and preserves player sheets.
+ await call(gm,'DELETE',base,{version:1},404);
+ await pool.query("UPDATE users SET role='gm' WHERE id=$1",[gm.id]);
+ await call(null,'DELETE',base,{version:1},401);
+ for(const who of [p,invitee,outsider])await call(who,'DELETE',base,{version:1},404);
+ await call(gm,'DELETE',base,{},400);
+ await call(gm,'DELETE',base,{version:2},409);
+ const data={progression:{xpEarned:15,ptvEarned:6}},character=(await pool.query("INSERT INTO characters(owner_id,name,data,campaign_id) VALUES($1,'Fiche conservée',$2,$3) RETURNING id",[p.id,data,cid])).rows[0].id;
+ await pool.query("INSERT INTO character_revisions(character_id,revision,name,data,created_by) VALUES($1,1,'Fiche conservée',$2,$3)",[character,data,p.id]);
+ await pool.query("INSERT INTO character_journal_entries(character_id,title,played_on,content) VALUES($1,'Journal conservé','2026-09-27','Mon aventure')",[character]);
+ await pool.query("UPDATE campaign_members SET character_id=$3 WHERE campaign_id=$1 AND user_id=$2",[cid,p.id,character]);
+ await pool.query("INSERT INTO campaign_session_rewards(session_id,character_id,character_name,xp,ptv) VALUES($1,$2,'Fiche conservée',3,2)",[sid,character]);
+ await pool.query("INSERT INTO campaign_session_effects(id,session_id,character_id,character_name,money,reason,before_state,after_state) VALUES($1,$2,$3,'Fiche conservée',10,'Gain',$4,$4)",[randomUUID(),sid,character,{}]);
+ await pool.query("INSERT INTO campaign_calendar_deliveries(session_id,user_id,version,status) VALUES($1,$2,1,'sent')",[sid,p.id]);
+ await pool.query("INSERT INTO campaign_admission_messages(campaign_id,user_id,kind,message) VALUES($1,$2,'approved','Acceptée')",[cid,p.id]);
+ for(const table of ['campaign_npcs','campaign_bestiary'])await pool.query(`INSERT INTO ${table}(id,campaign_id,data) VALUES($1,$2,'{}')`,[randomUUID(),cid]);
+ await call(gm,'DELETE',base,{version:1});
+ await call(gm,'GET',base,undefined,404);await call(gm,'DELETE',base,{version:1},404);
+ for(const table of ['campaign_members','campaign_sessions','campaign_admission_messages','campaign_npcs','campaign_bestiary'])assert.equal((await pool.query(`SELECT count(*)::int n FROM ${table} WHERE campaign_id=$1`,[cid])).rows[0].n,0,table+' removed');
+ for(const table of ['campaign_session_attendance','campaign_calendar_deliveries','campaign_session_rewards','campaign_session_effects'])assert.equal((await pool.query(`SELECT count(*)::int n FROM ${table} WHERE session_id=$1`,[sid])).rows[0].n,0,table+' removed');
+ const kept=(await pool.query('SELECT campaign_id,data FROM characters WHERE id=$1',[character])).rows[0];assert.equal(kept.campaign_id,null);assert.deepEqual(kept.data,data);
+ for(const table of ['character_revisions','character_journal_entries'])assert.equal((await pool.query(`SELECT count(*)::int n FROM ${table} WHERE character_id=$1`,[character])).rows[0].n,1,table+' preserved');
+ const admin=await account('admin','Workspace admin');await call(admin,'DELETE',`/api/campaigns/${otherCid}`,{version:1});
  console.log('CAMPAIGN WORKSPACE OK — idempotent creation, private autosave, stale conflict, unchanged scheduling/report, reusable scenes, self/GM attendance, archive/role/membership isolation, directory browsing and pagination');
+ console.log('CAMPAIGN DELETION OK — owner/admin permissions, stale version protection, cascaded campaign records, player sheets/progression/history/journal preserved');
 }finally{await app.close();if(ids.length)await pool.query("DELETE FROM users WHERE id=ANY($1::uuid[]) AND email LIKE 'ci-workspace-%@example.invalid'",[ids]);await pool.end();}

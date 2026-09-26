@@ -64,6 +64,17 @@ export async function registerCampaignRoutes(app:FastifyInstance){
     const own=await pool.query('SELECT id FROM campaigns WHERE id=$1 AND owner_id=$2',[req.params.id,user.id]);
     return reply.code(own.rows.length?409:404).send(own.rows.length?{error:'campaign_version_conflict'}:missing);
   });
+  app.delete<{Params:{id:string};Body:{version?:unknown}}>('/api/campaigns/:id',async(req,reply)=>{
+    const user=await requireUser(req,reply);if(!user)return;
+    if(!gm(user.role)||!uuid.test(req.params.id))return reply.code(404).send(missing);
+    if(!Number.isSafeInteger(req.body?.version)||Number(req.body.version)<1)return reply.code(400).send({error:'invalid_campaign'});
+    // One atomic delete uses the existing foreign keys: campaign-only records cascade,
+    // while characters keep their data/history and only lose their campaign attachment.
+    const result=await pool.query(`DELETE FROM campaigns WHERE id=$1 AND (owner_id=$2 OR $3) AND version=$4 RETURNING id`,[req.params.id,user.id,user.role==='admin',req.body.version]);
+    if(result.rows.length)return {ok:true};
+    const own=await pool.query('SELECT id FROM campaigns WHERE id=$1 AND (owner_id=$2 OR $3)',[req.params.id,user.id,user.role==='admin']);
+    return reply.code(own.rows.length?409:404).send(own.rows.length?{error:'campaign_delete_conflict'}:missing);
+  });
   app.get<{Params:{id:string};Querystring:{q?:string;offset?:string}}>('/api/campaigns/:id/accounts',async(req,reply)=>{
     const user=await requireUser(req,reply);if(!user)return;
     if(!gm(user.role)||!uuid.test(req.params.id))return reply.code(404).send(missing);

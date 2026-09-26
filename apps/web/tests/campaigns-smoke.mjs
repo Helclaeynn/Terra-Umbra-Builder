@@ -6,22 +6,23 @@ const fixtures=Function(fixtureSource.slice(fixtureSource.indexOf('const skillId
 const base=process.env.TUC_V2_SMOKE_BASE_URL||'http://127.0.0.1:4173';
 const browser=await chromium.launch({executablePath:process.env.CHROME_BIN,headless:true,args:['--no-sandbox']});
 const cid='11111111-1111-4111-8111-111111111111',gid='22222222-2222-4222-8222-222222222222',pid='33333333-3333-4333-8333-333333333333',chid='44444444-4444-4444-8444-444444444444';
-let role='gm',status='invited',attached=null,invited=false,version=1,notes='Notes secrètes du MJ',archived=false,conflict=false;
+let role='gm',status='invited',attached=null,invited=false,version=1,notes='Notes secrètes du MJ',archived=false,conflict=false,deleted=false,deleteCount=0,acceptDialogs=true;
 const name='<script>Campagne</script> · California';
 const campaign=()=>({id:cid,name,description:'Une campagne de test',gmName:'Morgan',ownerId:gid,canManage:role==='gm',membershipStatus:role==='gm'?null:status,memberCount:status==='accepted'?1:0,archivedAt:archived?'2026-09-23':null,version,...(role==='gm'?{gmNotes:notes}:{})});
 const members=()=>invited?[{userId:pid,displayName:'Camille',status,admissionStatus,characterId:attached,characterName:attached?'Alexandra':null,canReadSheet:!!attached,updatedAt:null}]:[];
 let attendanceResponse=null,sessionCount=0;
 let session=null,effectConflict=false,admissionStatus='pending',admissionVersion=1,admissionMessage='';
 const effectTarget={id:chid,name:'Alexandra',version:1,money:1000,corruption:0,integrity:4,source:''};
-const errors=[];const page=await browser.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
+const errors=[];const page=await browser.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>acceptDialogs?d.accept():d.dismiss());
 await page.route('**/api/**',async route=>{
  const req=route.request(),url=new URL(req.url()),path=url.pathname,method=req.method();let body={},code=200;
- if(path==='/api/campaigns'&&method==='GET')body={campaigns:[campaign()],canCreate:role==='gm',userId:role==='gm'?gid:pid};
+ if(path==='/api/campaigns'&&method==='GET')body={campaigns:deleted?[]:[campaign()],canCreate:role==='gm',userId:role==='gm'?gid:pid};
  else if(path==='/api/campaigns'&&method==='POST'){assert.equal(req.postDataJSON().name,'Nouvelle table');body={campaign:{id:cid}};code=201;}
  else if(path===`/api/campaigns/${cid}`&&method==='GET')body={campaign:campaign(),members:members(),userId:role==='gm'?gid:pid};
  else if(path===`/api/campaigns/${cid}`&&method==='PATCH'){
   if(conflict){code=409;body={error:'campaign_version_conflict'};}else{const b=req.postDataJSON();notes=b.gmNotes;archived=b.archived;version++;body={ok:true};}
  }
+ else if(path===`/api/campaigns/${cid}`&&method==='DELETE'){assert.equal(req.postDataJSON().version,version);deleteCount++;deleted=true;body={ok:true};}
  else if(path.endsWith('/admissions')&&method==='GET')body={canManage:role==='gm',rules:'Uniquement des Crawlers.',admissions:invited?[{userId:pid,displayName:'Camille',version:admissionVersion,status:attached?admissionStatus:'none',characterId:attached,name:attached?'Alexandra':null,characterVersion:1,data:fixtures.characterData,baseline:fixtures.characterData,sourceVersion:1,sourceName:'Alexandra',sourceCampaign:null,messages:admissionMessage?[{kind:admissionStatus,message:admissionMessage,at:'2026-09-23',author:'Morgan'}]:[]}]:[]};
  else if(path.includes('/admissions/')&&method==='PATCH'){admissionStatus=req.postDataJSON().status;admissionMessage=req.postDataJSON().message;admissionVersion++;body={ok:true};}
  else if(path==='/api/rulesets/terra-umbra/creation')body={rules:fixtures.rules,lore:fixtures.lore,edgeRules:fixtures.edgeRules,talentChoiceSpecs:{},skillTalentMap:{},disadvantages:{common:[],attribute:[],sphere:{}}};
@@ -176,12 +177,24 @@ try{
  assert.equal(await page.getByRole('button',{name:'Argent et corruption',exact:true}).count(),0);
  assert.equal(await page.getByText('BROUILLON DU PORT',{exact:true}).count(),0);
  assert.equal(await page.getByRole('button',{name:'Préparer une séance',exact:true}).count(),0);
+ assert.equal(await page.getByRole('button',{name:'Supprimer la campagne',exact:true}).count(),0);
  assert.equal(await page.getByRole('link',{name:'← Retour à Mon espace',exact:true}).count(),2);
  role='gm';await page.goto(base+'/campaigns/'+cid);await page.getByText('La piste du port',{exact:true}).waitFor();
  await page.getByText('Gérer la campagne',{exact:true}).click();
  await page.getByRole('button',{name:'Préparer une séance',exact:true}).click();
  await page.getByLabel('Titre de la séance',{exact:true}).fill('Rendez-vous calendrier');
  await page.getByRole('button',{name:'Date, invitations et compte rendu',exact:true}).click();
+ await page.getByLabel('Date prévue ou jouée',{exact:true}).fill('2026-09-30');
+ assert.equal(await page.getByLabel('Début de la séance',{exact:true}).inputValue(),'2026-09-30T20:00');
+ assert.equal(await page.getByLabel('Fin de la séance',{exact:true}).inputValue(),'2026-09-30T23:00');
+ await page.getByLabel('Fin de la séance',{exact:true}).fill('2026-10-01T01:30');
+ await page.getByLabel('Date prévue ou jouée',{exact:true}).fill('2026-10-24');
+ assert.equal(await page.getByLabel('Début de la séance',{exact:true}).inputValue(),'2026-10-24T20:00');
+ assert.equal(await page.getByLabel('Fin de la séance',{exact:true}).inputValue(),'2026-10-25T01:30');
+ await page.getByRole('button',{name:'Sans horaire · journée entière',exact:true}).click();
+ assert.equal(await page.getByLabel('Date prévue ou jouée',{exact:true}).inputValue(),'2026-10-24');
+ assert.equal(await page.getByLabel('Début de la séance',{exact:true}).inputValue(),'');
+ assert.equal(await page.getByLabel('Fin de la séance',{exact:true}).inputValue(),'');
  await page.getByLabel('Début de la séance',{exact:true}).fill('2026-10-01T18:00');
  await page.getByLabel('Fin de la séance',{exact:true}).fill('2026-10-01T22:00');
  await page.getByLabel('Lieu ou lien de visioconférence',{exact:true}).fill('Chez le MJ');
@@ -196,6 +209,9 @@ try{
  await page.getByRole('button',{name:'Archiver la campagne',exact:true}).click();
  await page.getByText('Campagne archivée.',{exact:true}).waitFor();
  assert.equal(await page.getByText('Inviter un joueur',{exact:true}).count(),0);
+ acceptDialogs=false;await page.getByRole('button',{name:'Supprimer la campagne',exact:true}).click();assert.equal(deleteCount,0);
+ acceptDialogs=true;await page.getByRole('button',{name:'Supprimer la campagne',exact:true}).click();
+ await page.waitForURL(base+'/campaigns');await page.getByRole('heading',{name:'Ta prochaine aventure commence ici',exact:true}).waitFor();assert.equal(deleteCount,1);
  assert.deepEqual(errors,[]);
  console.log('CAMPAIGNS UI OK — create, invite, player consent, sheet link, private notes, version conflict retains draft, admissions with requested changes and approval, guided search, favorites and reusable scenes, private scenes, NPC and bestiary references, money/corruption preview, stale effect protection, archive and 1440/390/320px reflow');
 }finally{await browser.close();}

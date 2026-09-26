@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, nextTick, onBeforeUnmount, ref, useId, watch } from "vue";
 import { api } from "../../lib/api";
 import { compendiumHref } from "../../lib/compendium-navigation";
 
@@ -38,6 +38,57 @@ const resolved=ref<SearchItem|null>(null);
 const loading=ref(false);
 const touched=ref(false);
 const previewOpen=ref(false);
+const hovered=ref(false);
+const focused=ref(false);
+const anchor=ref<HTMLElement|null>(null);
+const tooltip=ref<HTMLElement|null>(null);
+const tooltipId=useId();
+const previewVisible=computed(()=>previewOpen.value||hovered.value||focused.value);
+const previewPosition=ref({left:"0px",top:"0px",visibility:"hidden" as "hidden"|"visible"});
+
+function positionPreview(){
+  if(!previewVisible.value||!anchor.value||!tooltip.value)return;
+  const rect=anchor.value.getBoundingClientRect();
+  const margin=12,gap=9,width=window.innerWidth,height=window.innerHeight;
+  let visible=rect.bottom>0&&rect.top<height&&rect.right>0&&rect.left<width;
+  // A contact scrolled out of its own list must not leave a floating preview.
+  for(let parent=anchor.value.parentElement;parent&&visible;parent=parent.parentElement){
+    const style=window.getComputedStyle(parent);
+    if(/auto|scroll|hidden|clip/.test(`${style.overflowY} ${style.overflowX}`)){
+      const clip=parent.getBoundingClientRect();
+      visible=rect.bottom>clip.top&&rect.top<clip.bottom&&rect.right>clip.left&&rect.left<clip.right;
+    }
+  }
+  if(!visible){previewPosition.value.visibility="hidden";return;}
+  const box=tooltip.value.getBoundingClientRect();
+  const left=Math.max(margin,Math.min(rect.left,width-box.width-margin));
+  const above=rect.top-box.height-gap;
+  const top=above>=margin?above:Math.max(margin,Math.min(rect.bottom+gap,height-box.height-margin));
+  previewPosition.value={left:`${left}px`,top:`${top}px`,visibility:"visible"};
+}
+
+function stopPositionTracking(){
+  window.removeEventListener("scroll",positionPreview,true);
+  window.removeEventListener("resize",positionPreview);
+}
+watch(previewVisible,async visible=>{
+  stopPositionTracking();
+  if(!visible)return;
+  previewPosition.value.visibility="hidden";
+  window.addEventListener("scroll",positionPreview,true);
+  window.addEventListener("resize",positionPreview);
+  await nextTick();
+  positionPreview();
+});
+watch([resolved,loading],async()=>{await nextTick();positionPreview();});
+onBeforeUnmount(stopPositionTracking);
+
+function openHover(){hovered.value=true;void ensureResolved();}
+function openFocus(){focused.value=true;void ensureResolved();}
+function closeFocus(event:FocusEvent){
+  if(!anchor.value?.contains(event.relatedTarget as Node|null))focused.value=false;
+}
+function closePreview(){previewOpen.value=false;hovered.value=false;focused.value=false;}
 
 function norm(value:string){
   return String(value??"")
@@ -159,16 +210,21 @@ const preview=computed(()=>{
 
 <template>
   <span
+    ref="anchor"
     class="builder-wiki-ref"
     :class="{compact,'preview-open':previewOpen}"
-    @mouseenter="ensureResolved"
-    @focusin="ensureResolved"
+    @mouseenter="openHover"
+    @mouseleave="hovered=false"
+    @focusin="openFocus"
+    @focusout="closeFocus"
+    @keydown.esc="closePreview"
   >
     <a
       class="builder-wiki-link"
       :href="href"
       target="_blank"
       rel="noopener"
+      :aria-describedby="previewVisible ? tooltipId : undefined"
       :title="resolved ? undefined : `Chercher « ${label} » dans le Compendium`"
       @mouseenter="ensureResolved"
       @focus="ensureResolved"
@@ -184,8 +240,9 @@ const preview=computed(()=>{
       @click.stop="togglePreview"
     >i</button>
 
-    <span class="builder-wiki-hover" role="tooltip">
-      <img v-if="resolved?.mediaSrc" class="wiki-preview-media" :src="resolved.mediaSrc" alt="" loading="lazy" />
+    <Teleport to="body">
+    <span v-if="previewVisible" :id="tooltipId" ref="tooltip" class="builder-wiki-hover" :class="{compact}" :style="previewPosition" role="tooltip">
+      <img v-if="resolved?.mediaSrc" class="wiki-preview-media" :src="resolved.mediaSrc" alt="" loading="lazy" @load="positionPreview" />
       <small>{{ resolved?.category || category || "Compendium" }}</small>
       <strong>{{ resolved?.title || label }}</strong>
       <span v-if="badges.length" class="wiki-preview-badges">
@@ -195,6 +252,7 @@ const preview=computed(()=>{
       <p>{{ preview }}</p>
       <span>{{ resolved ? "Ouvrir l’article →" : "Ouvrir la recherche →" }}</span>
     </span>
+    </Teleport>
   </span>
 </template>
 
@@ -204,8 +262,7 @@ const preview=computed(()=>{
 .builder-wiki-link:hover,.builder-wiki-link:focus{color:#dcecf0;text-decoration-style:solid;outline:none}
 .wiki-mark{font-size:.68em;color:#6fcff1;opacity:.8}
 .wiki-info-button{display:none;width:1.15rem;height:1.15rem;margin-left:.15rem;padding:0;border:1px solid #36536b;border-radius:50%;background:transparent;color:#a5bbd3;font:700 .68rem/1 Inter,"Segoe UI",Arial,sans-serif}
-.builder-wiki-hover{position:absolute;left:0;bottom:calc(100% + 9px);z-index:120;display:none;box-sizing:border-box;width:min(360px,80vw);padding:18px 20px;border:1px solid #36536b;border-top:2px solid var(--tu-accent,#64def5);border-radius:8px;background:#101e2e;color:#dce8f5;box-shadow:0 16px 48px rgba(0,0,0,.45);pointer-events:none;text-align:left;font-family:Inter,"Segoe UI",Arial,sans-serif;overflow-wrap:anywhere}
-.builder-wiki-ref:hover .builder-wiki-hover,.builder-wiki-ref:focus-within .builder-wiki-hover,.builder-wiki-ref.preview-open .builder-wiki-hover{display:block}
+.builder-wiki-hover{position:fixed;z-index:1200;display:block;box-sizing:border-box;width:min(360px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;padding:18px 20px;border:1px solid #36536b;border-top:2px solid var(--tu-accent,#64def5);border-radius:8px;background:#101e2e;color:#dce8f5;box-shadow:0 16px 48px rgba(0,0,0,.45);pointer-events:none;text-align:left;font-family:Inter,"Segoe UI",Arial,sans-serif;overflow-wrap:anywhere}
 .wiki-preview-media{display:block;width:100%;max-height:170px;object-fit:contain;margin:0 0 .65rem;border-radius:4px;background:rgba(0,0,0,.25)}
 .builder-wiki-hover small{display:block;margin-bottom:8px;color:var(--tu-accent,#64def5);font-size:10px;font-weight:600;line-height:1.5;text-transform:uppercase;letter-spacing:.14em}
 .builder-wiki-hover strong{display:block;color:#eef5ff;font:600 17px/1.35 Inter,"Segoe UI",Arial,sans-serif}
@@ -214,6 +271,6 @@ const preview=computed(()=>{
 .wiki-preview-badges span{padding:.2rem .35rem;border:1px solid #36536b;border-radius:3px;color:#a5bbd3;font-size:11px}
 .wiki-preview-detail{padding:.45rem .55rem;border-left:2px solid var(--tu-accent,#64def5);background:#15283a;color:#c1d1e4!important}
 .builder-wiki-hover>span{color:var(--tu-accent,#64def5);font-size:12px;font-weight:500}
-.compact .builder-wiki-hover{width:min(320px,80vw)}
-@media(max-width:720px){.wiki-info-button{display:inline-grid;place-items:center}.builder-wiki-ref:hover .builder-wiki-hover{display:none}.builder-wiki-ref.preview-open .builder-wiki-hover,.builder-wiki-ref:focus-within .builder-wiki-hover{display:block}.builder-wiki-hover{position:fixed;left:1rem;right:1rem;bottom:1rem;width:auto;max-height:70vh;overflow:auto}}
+.builder-wiki-hover.compact{width:min(320px,calc(100vw - 24px))}
+@media(max-width:720px){.wiki-info-button{display:inline-grid;place-items:center}.builder-wiki-hover{max-height:70vh;pointer-events:auto}}
 </style>

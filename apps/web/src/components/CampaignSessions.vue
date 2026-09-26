@@ -22,6 +22,24 @@ const localTimezone=Intl.DateTimeFormat().resolvedOptions().timeZone;
 function localInput(value?:string|null){if(!value)return '';const d=new Date(value);return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16);}
 const blank=()=>({startsAt:'',endsAt:'',location:'',scenes:[] as CampaignScene[],title:'',playedOn:'',status:'planned' as 'planned'|'played',preparation:'',report:'',published:false,version:1});
 const draft=ref(blank()),dirty=computed(()=>editing.value!==null&&JSON.stringify(draft.value)!==baseline.value);
+function dateOffset(start:string,end:string){return start&&end?Math.max(0,Math.round((Date.parse(end.slice(0,10)+'T00:00:00Z')-Date.parse(start.slice(0,10)+'T00:00:00Z'))/86400000)):0;}
+function dateAfter(date:string,days:number){const d=new Date(date+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+days);return d.toISOString().slice(0,10);}
+function plannedDate(e:Event){
+ const date=(e.target as HTMLInputElement).value;
+ if(!date){draft.value.playedOn='';draft.value.startsAt='';draft.value.endsAt='';return;}
+ const startTime=draft.value.startsAt.slice(11)||'20:00',endTime=draft.value.endsAt.slice(11)||'23:00';
+ const days=dateOffset(draft.value.startsAt||draft.value.playedOn,draft.value.endsAt)||(endTime<=startTime?1:0);
+ draft.value.playedOn=date;draft.value.startsAt=date+'T'+startTime;draft.value.endsAt=dateAfter(date,days)+'T'+endTime;
+}
+function startDate(e:Event){
+ const value=(e.target as HTMLInputElement).value,previous=draft.value.startsAt;
+ if(value){
+  if(draft.value.endsAt){const endTime=draft.value.endsAt.slice(11),days=dateOffset(previous||draft.value.playedOn,draft.value.endsAt)||(endTime<=value.slice(11)?1:0);draft.value.endsAt=dateAfter(value.slice(0,10),days)+'T'+endTime;}
+  draft.value.playedOn=value.slice(0,10);
+ }
+ draft.value.startsAt=value;
+}
+function clearTimes(){draft.value.startsAt='';draft.value.endsAt='';}
 const awarding=ref<string|null>(null),selected=ref<string[]>([]),xp=ref(3),ptv=ref(0),amounts=ref<Record<string,{xp:number;ptv:number}>>({});
 const eligible=computed(()=>props.members.filter(m=>m.status==='accepted'&&m.admissionStatus==='approved'&&m.characterId&&!sessions.value.find(s=>s.id===awarding.value)?.rewards.some(r=>r.characterId===m.characterId)));
 function common(kind:'xp'|'ptv',value:number){if(kind==='xp')xp.value=value;else ptv.value=value;for(const row of Object.values(amounts.value))row[kind]=value;}
@@ -86,9 +104,10 @@ onUnmounted(()=>{generation++;window.removeEventListener('beforeunload',beforeUn
   <form v-if="editing!==null&&canManage&&!archived" class="editor" @submit.prevent="save">
    <h3>{{ editing==='new'?'Nouvelle séance':'Modifier la séance' }}</h3>
    <label>Titre de la séance<input v-model="draft.title" required maxlength="120" /></label>
-   <div class="fields"><label>Date prévue ou jouée<input v-model="draft.playedOn" type="date" :disabled="!!draft.startsAt" :required="notifyPlayers&&draft.status==='planned'&&!draft.startsAt" /></label><label>État de la séance<select v-model="draft.status" aria-label="État de la séance"><option value="planned">À jouer</option><option value="played">Jouée</option></select></label></div>
-   <div class="fields"><label>Début de la séance<input v-model="draft.startsAt" type="datetime-local" :required="!!draft.endsAt" @input="draft.playedOn=draft.startsAt.slice(0,10)" /></label><label>Fin de la séance<input v-model="draft.endsAt" type="datetime-local" :min="draft.startsAt" :required="!!draft.startsAt" /></label></div>
-   <small>Horaires dans ton fuseau : {{ localTimezone }}. Sans horaire, l’invitation occupe la journée indiquée.</small>
+   <div class="fields"><label>Date prévue ou jouée<input :value="draft.playedOn" type="date" :required="notifyPlayers&&draft.status==='planned'&&!draft.startsAt" @input="plannedDate" /></label><label>État de la séance<select v-model="draft.status" aria-label="État de la séance"><option value="planned">À jouer</option><option value="played">Jouée</option></select></label></div>
+   <div class="fields"><label>Début de la séance<input :value="draft.startsAt" type="datetime-local" :required="!!draft.endsAt" @input="startDate" /></label><label>Fin de la séance<input v-model="draft.endsAt" type="datetime-local" :min="draft.startsAt" :required="!!draft.startsAt" /></label></div>
+   <small>Horaires dans ton fuseau : {{ localTimezone }}. Le choix d’une date préremplit 20 h–23 h si aucun horaire n’est saisi. Un changement de date conserve les heures et une éventuelle fin le lendemain.</small>
+   <button v-if="draft.startsAt||draft.endsAt" type="button" @click="clearTimes">Sans horaire · journée entière</button><small v-else>Sans horaire, l’invitation occupe la journée indiquée.</small>
    <label>Lieu ou lien de visioconférence<input v-model="draft.location" maxlength="1000" /></label>
    <label v-if="draft.status==='planned'" class="check"><input v-model="notifyPlayers" type="checkbox" :disabled="!mailAvailable" />Envoyer une invitation calendrier aux joueurs en enregistrant</label><small v-if="draft.status==='planned'">{{ mailAvailable?'Envoi individuel aux joueurs ayant accepté la campagne. Une date est nécessaire. Les notes privées et les scènes restent dans ton espace MJ.':'L’envoi d’e-mails n’est pas configuré ; tu peux enregistrer la séance.' }}</small>
    <details class="report-editor"><summary>Compte rendu pour le groupe</summary><label>Compte rendu de la séance<textarea v-model="draft.report" rows="5" maxlength="20000" /></label>

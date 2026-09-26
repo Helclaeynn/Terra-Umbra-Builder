@@ -1,4 +1,4 @@
-import { PDFDocument, PDFTextField, PDFCheckBox, rgb, pushGraphicsState, popGraphicsState, rectangle, clip, endPath, type PDFFont } from 'pdf-lib';
+import { PDFDocument, PDFTextField, PDFCheckBox, ParseSpeeds, rgb, pushGraphicsState, popGraphicsState, rectangle, clip, endPath, type PDFFont } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
 import { dossierSlug, projectCharacterPdf, type PdfInput, type PdfProjection, type PdfSection } from './character-pdf-model';
 
@@ -66,7 +66,9 @@ function fitText(value:string,font:PDFFont,size:number,width:number,height:numbe
 }
 
 export async function fillDossierPdf(pdfBytes:Uint8Array,fontBytes:Uint8Array,projection:PdfProjection,expectedPages:number,specs:PdfFieldSpec[],printing=false):Promise<PdfResult>{
-  const doc=await PDFDocument.load(pdfBytes);
+  // Generation runs in a worker. pdf-lib's default setTimeout(0) pauses are
+  // throttled when the print popup puts the originating tab in the background.
+  const doc=await PDFDocument.load(pdfBytes,{parseSpeed:ParseSpeeds.Fastest});
   if(doc.getPageCount()!==expectedPages)throw new Error('Le dossier PDF ne correspond pas à la version attendue.');
   doc.registerFontkit(fontkit);
   // Full embedding keeps the editable export usable for characters added later.
@@ -160,7 +162,7 @@ export async function fillDossierPdf(pdfBytes:Uint8Array,fontBytes:Uint8Array,pr
   if(printing)form.flatten({updateFieldAppearances:false});
   if(missingGlyph)warnings.push('Certains caractères rares sont indiqués par leur code Unicode entre crochets dans le PDF.');
   doc.setTitle(`${projection.name} — Dossier ${projection.slug}`);doc.setAuthor('Terra Umbra California');doc.setSubject('Fiche de personnage');
-  const bytes=await doc.save({updateFieldAppearances:false});
+  const bytes=await doc.save({updateFieldAppearances:false,objectsPerTick:Infinity});
   const safeName=projection.name.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9_-]+/g,'-').replace(/^-|-$/g,'').slice(0,70)||'personnage';
   return {bytes,filename:`TUC-${safeName}-${projection.slug}${printing?'-impression':''}.pdf`,pages:pageCount,annexPages:pageCount-beforeAnnex,warnings};
 }
