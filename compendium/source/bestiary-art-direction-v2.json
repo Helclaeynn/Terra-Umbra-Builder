@@ -1745,12 +1745,12 @@
       "src": "images/manual/bestiaire-v15-porteur-de-nahfr.webp",
       "alt": "Porteur de Nahfr dans son environnement — illustration Terra Umbra",
       "caption": "Porteur de Nahfr — Vue de Vérité, au-delà de l’Hologramme : l’apparence occulte montrée ici n’est pas celle que perçoit un humain ordinaire.",
-      "sha256": "4adeefdb2d9a872e72f0f13abc8e1e5d08b5c5e1905df1c055f208184829cb83",
+      "sha256": "8895d94719565c773f5e486805166f6f8d9f28c7aabc328d537cb565cd9b4439",
       "width": 1024,
       "height": 1536,
-      "bytes": 226230,
-      "prompt": "Nonviolent fantasy character illustration, portrait 2:3 realistic cinematic. The reference shows the unique magical mantle Nahfr: copy its charcoal violet-gray folded iridescent organic material. Show an adult man calmly standing wearing this complete protective mantle over a fully covering modern dark outfit in a dim research room. Face, neck and hands completely normal healthy human anatomy. Mantle is a separate intact softly ridged living garment, no fusion, no wounds, no weapons, no aggressive action. Remove steel display stand. Do not include dragon heads, scales, multicolored panels or gold emblems. Emphasize realistic textile-like folds and softly shifting nacre material. No text.",
-      "sourceFile": "exec-f5a892aa-821c-4410-a884-9390312ac366.png",
+      "bytes": 332010,
+      "prompt": "Edit existing Porteur de Nahfr using supplied armure occulte Nahfr.png as authoritative reference. Replace pale coat with black and gold scaled draconic living armor, horned closed helmet, spikes, clawed gauntlets and tattered cape. Preserve full-body standing composition, industrial chamber and warm side light. No sword, text or watermark. Built-in image generation edit.",
+      "sourceFile": "exec-9319bb65-7b0c-455a-b7f3-54e4525ef113.png",
       "review": "checked"
     },
     {

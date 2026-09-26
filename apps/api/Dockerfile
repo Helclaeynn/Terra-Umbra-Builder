@@ -41,6 +41,7 @@ COPY compendium/source/corporation-branding-v1.json ./compendium-media/source/co
 COPY compendium/source/weapon-brand-links-v1.json ./compendium-media/source/weapon-brand-links-v1.json
 COPY compendium/source/portrait-only-lot2-v1.json ./compendium-media/source/portrait-only-lot2-v1.json
 COPY compendium/source/portrait-refresh-20260926.json ./compendium-media/source/portrait-refresh-20260926.json
+COPY compendium/source/portrait-refresh-chasseurs-20260926.json ./compendium-media/source/portrait-refresh-chasseurs-20260926.json
 COPY compendium/source/bestiary-art-direction-v2.json ./compendium-media/source/bestiary-art-direction-v2.json
 COPY compendium/source/wiki-taxonomy-arbitrage-v1.json.gz ./review-data/wiki-taxonomy-arbitrage-v1.json.gz
 ENV COMPENDIUM_ARBITRAGE_FILE=/app/review-data/wiki-taxonomy-arbitrage-v1.json.gz
