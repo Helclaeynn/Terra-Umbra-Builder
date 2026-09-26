@@ -588,6 +588,10 @@ await page.getByRole("heading",{name:"Contrôle final de la fiche"}).waitFor();
 await page.locator('.character-sheet[data-mode="creation"] [data-stat="pvMax"] strong').waitFor();
 const attributeRows = await page.locator('.sheet-attributes>div').evaluateAll(nodes=>nodes.map(node=>Math.round(node.getBoundingClientRect().top)));
 if (attributeRows.length!==5 || attributeRows[0]!==attributeRows[2] || attributeRows[3]!==attributeRows[4] || attributeRows[0]===attributeRows[3]) throw new Error('La fiche doit présenter les Attributs sur deux rangées 3 + 2');
+for(const title of ['Équipement possédé','Augmentations installées','Objets de Vérité','Social & repères personnels']){
+  await page.locator('.character-sheet[data-mode="creation"] summary').filter({hasText:title}).waitFor();
+}
+if(await page.locator('.character-sheet[data-mode="creation"] [data-list="inventory"]').count())throw new Error('Équipement et augmentations ne doivent plus être fusionnés.');
 const truthStageCards=page.locator('.character-sheet[data-mode="creation"] .sheet-truth-stage');
 if(await truthStageCards.count()!==3)throw new Error('La fiche doit afficher simultanément Voilé, Semi-révélé et Révélé.');
 if(await page.locator('.character-sheet[data-mode="creation"] .sheet-truth-stages details').count())throw new Error('Les états de Vérité ne doivent plus être des accordéons.');
@@ -653,6 +657,8 @@ for (const name of ['Apprendre un Talent de Réalité','Dépenser des PTV']) {
   const expected = name==='Dépenser des PTV' ? ['Aube occulte','Zèle occulte','Aube supérieure'] : ['Aube Smoke','Zèle Smoke'];
   if(JSON.stringify(names)!==JSON.stringify(expected))throw new Error('Tri des talents incorrect : '+JSON.stringify(names));
   if (await block.locator('.talent-list a,.reality-talent-grid a').count()) throw new Error('Lien Compendium résiduel dans les talents');
+  if(name==='Dépenser des PTV' && await block.locator('.truth-talent-list .catalog-art').count())throw new Error('Les Talents de Vérité ne doivent plus réserver de cadre d’illustration en progression.');
+  if(name==='Apprendre un Talent de Réalité' && !(await realityGroup.locator('.reality-talent-card .catalog-art').count()))throw new Error('Les illustrations des Talents de Réalité ont été supprimées par erreur.');
   for (const width of [1440,390]) {
     await page.setViewportSize({width,height:1000});
     await assertBuilderReflow(`Liste ${name}, ${width}px`);
