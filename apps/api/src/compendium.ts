@@ -5057,6 +5057,12 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
         [id]
       );
       await client.query("COMMIT");
+      corpusPromise = null;
+      // The committed draft is ready to return; rebuilding the entire corpus
+      // before responding made publication needlessly slow.
+      const result = deepClone(row.draft);
+      delete result.__searchText;
+      return { article: result, published: true };
     } catch (cause) {
       await client.query("ROLLBACK").catch(() => undefined);
       throw cause;
@@ -5064,13 +5070,6 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       client.release();
     }
 
-    corpusPromise = null;
-    const refreshed = await getCorpus();
-    const article = refreshed.byId.get(id);
-    if (!article) return reply.code(404).send({ error: "compendium_article_not_found" });
-    const result = deepClone(article);
-    delete result.__searchText;
-    return { article: result, published: true };
   });
 
   app.get<{

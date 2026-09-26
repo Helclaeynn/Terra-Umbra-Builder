@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {readFile} from 'node:fs/promises';
+import {readFile,access} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 const root=fileURLToPath(new URL('../../../', import.meta.url)).replace(/\/$/, '');
@@ -21,6 +21,22 @@ assert.equal(new Set(manifest.items.map(item=>item.id)).size,110,'Les fiches doi
 assert.equal(new Set(manifest.items.map(item=>item.src)).size,110,'Les images doivent être uniques');
 const corpus=await getCompendiumQualityCorpus();
 const app=Fastify();await registerCompendiumRoutes(app);
+const publicMedia=new Set();
+for(const article of corpus.publicArticles){
+ for(const field of ['illustration','image']){
+  const value=article[field];
+  const src=(typeof value==='string'?value:value?.src||'')
+    .replace(/^\/?api\/compendium\/media\//,'').replace(/^\/?compendium\//,'').replace(/^\//,'');
+  if(src.startsWith('images/')||src.startsWith('assets/'))publicMedia.add(src);
+ }
+}
+for(const src of publicMedia)await access(root+'/compendium/'+src);
+const publicBestiary=corpus.publicArticles.filter(article=>article.category==='Bestiaire');
+assert.equal(publicBestiary.length,281,'Le Bestiaire public complet doit être disponible');
+assert.ok(publicBestiary.every(article=>{
+ const media=article.illustration??article.image;
+ return media?.src&&!/placeholder/i.test(media.src);
+}),'Aucune fiche du Bestiaire public ne doit retomber sur un repli');
 const results=[];
 for(const item of manifest.items){
  const article=corpus.articles.find(x=>x.id===item.id);assert.ok(article,item.id);
@@ -33,4 +49,4 @@ for(const item of manifest.items){
 }
 assert.equal(corpus.articles.find(x=>x.id==='bestiaire-v15-afanc').illustration.src,'images/manual/bestiaire-v15-afanc.webp');
 await app.close();await pool.end();
-console.log('OK: 110 fiches résolues, 110 WebP servis en HTTP avec hashes exacts, légendes et Afanc préservés. Vérification sans éditions wiki en base.');
+console.log(`OK: 110 WebP vérifiés, ${publicMedia.size} médias publics présents et ${publicBestiary.length} fiches du Bestiaire sans repli.`);

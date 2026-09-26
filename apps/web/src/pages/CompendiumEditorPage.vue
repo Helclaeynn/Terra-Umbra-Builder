@@ -1,3 +1,9 @@
+<script lang="ts">
+// A newly published page already has a committed document. Carry it across
+// the /new → /edit route change instead of waiting for a full corpus reload.
+const publishedNavigation = new Map<string, unknown>();
+</script>
+
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, watch } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
@@ -796,6 +802,24 @@ async function load() {
       return;
     }
 
+    const published = route.query.published === "1"
+      ? publishedNavigation.get(id.value) as {article:EditableArticle;publishedAt:string}|undefined
+      : undefined;
+    if (published) {
+      const { user } = await api<{user:{role:string}}>("/api/auth/me");
+      if (!["editor", "admin"].includes(user.role)) throw new ApiError(403, "editor_required", {});
+      publishedNavigation.delete(id.value);
+      isAdmin.value = user.role === "admin";
+      pageId.value = id.value;
+      article.value = clone(published.article);
+      draftUpdatedAt.value = null;
+      publishedAt.value = published.publishedAt;
+      justPublished.value = true;
+      fillForms(article.value);
+      void loadBuilderSource(pageId.value);
+      return;
+    }
+
     const payload = await api<{
       article: EditableArticle;
       draft: EditableArticle | null;
@@ -809,6 +833,7 @@ async function load() {
     conflict.value = payload.conflict;
     draftUpdatedAt.value = payload.draftUpdatedAt;
     publishedAt.value = payload.publishedAt;
+    justPublished.value = route.query.published === "1" && Boolean(payload.publishedAt);
     fillForms(article.value);
     await loadBuilderSource(pageId.value);
   } catch (cause) {
@@ -1007,7 +1032,10 @@ async function publish() {
     justPublished.value = true;
     draftUpdatedAt.value = null;
     notice.value = "Modification publiée dans le wiki.";
-    if (isNew.value) await router.replace("/compendium/edit/" + encodeURIComponent(pageId.value));
+    if (isNew.value) {
+      publishedNavigation.set(pageId.value,{article:clone(payload.article),publishedAt:publishedAt.value});
+      await router.replace({path:"/compendium/edit/" + encodeURIComponent(pageId.value),query:{published:"1"}});
+    }
   } catch (cause) {
     error.value = humanError(cause);
   } finally {
