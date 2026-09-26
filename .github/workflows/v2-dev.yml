@@ -443,10 +443,6 @@ jobs:
           done
           exit 1
 
-      - name: Verify deployed weapon catalogue
-        if: steps.deployment.outputs.enabled == 'true'
-        run: node apps/api/scripts/check-weapons-live.mjs
-
       - name: Verify deployed rule diagrams
         if: steps.deployment.outputs.enabled == 'true'
         shell: bash
@@ -605,6 +601,8 @@ jobs:
           curl --fail --silent --show-error \
             -b "$COOKIE_JAR" \
             https://dev.terra-umbra.fr/api/rulesets/terra-umbra/reality > "$REALITY_RESPONSE"
+
+          TUC_WEAPON_REALITY_RESPONSE="$REALITY_RESPONSE" node apps/api/scripts/check-weapons-live.mjs
 
           python3 - "$TRUTH_RESPONSE" "$REALITY_RESPONSE" <<'PY'
           import json,sys

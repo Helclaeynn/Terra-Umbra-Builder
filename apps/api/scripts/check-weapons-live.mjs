@@ -14,7 +14,12 @@ const get=async path=>{
 };
 const source=await readJson('compendium/source/sharp-weapons-restoration-v1.json');
 const expected=(await readJson('compendium/source/current-equipment-catalog-v1.json')).catalog.entries.filter(item=>item.category.startsWith('Armes — '));
-const actual=(await (await get('/api/rulesets/terra-umbra/reality')).json()).equipment.filter(item=>item.sourceCategory.startsWith('Armes — '));
+// CI supplies the response fetched with its temporary player's session.
+// The public Compendium pages and images below are still checked anonymously.
+const reality=process.env.TUC_WEAPON_REALITY_RESPONSE
+  ? JSON.parse(await readFile(process.env.TUC_WEAPON_REALITY_RESPONSE,'utf8'))
+  : await (await get('/api/rulesets/terra-umbra/reality')).json();
+const actual=reality.equipment.filter(item=>item.sourceCategory.startsWith('Armes — '));
 assert.equal(actual.length,124,'Le site doit charger les 124 armes, sans données serveur périmées.');
 assert.deepEqual(actual.map(item=>item.id).sort(),expected.map(item=>item.id).sort());
 for(const item of expected){
