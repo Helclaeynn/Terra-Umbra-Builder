@@ -161,7 +161,11 @@ jobs:
 
       - name: Check Truth Ten integration
         working-directory: apps/api
-        run: node scripts/check-truth-ten-integration.mjs
+        env:
+          DATABASE_URL: postgres://tuc:ci-only-placeholder@127.0.0.1:5432/tuc_sheet_test
+        run: |
+          node scripts/check-truth-ten-integration.mjs
+          node scripts/check-pnj-truth-profiles.mjs
 
       - name: Check Points de rencontre integration
         working-directory: apps/api
