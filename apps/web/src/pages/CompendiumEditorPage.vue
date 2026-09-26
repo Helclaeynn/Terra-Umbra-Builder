@@ -473,13 +473,19 @@ async function toggleTalentInsert() {
   }
 }
 
+let talentRowsRequest=0;
 async function loadTalentRows(){
-  if(!talentInsertNature.value){talentRows.value=[];return;}
+  const request=++talentRowsRequest;
+  const nature=talentInsertNature.value;
+  talentRows.value=[];
+  talentInsertId.value='';
+  talentInsertIds.value=[];
+  if(!nature)return;
   try{
-    const payload=await api<{items:TalentRegistryChoice[]}>(`/api/compendium/talents?natureId=${encodeURIComponent(talentInsertNature.value)}`);
+    const payload=await api<{items:TalentRegistryChoice[]}>(`/api/compendium/talents?natureId=${encodeURIComponent(nature)}`);
+    if(request!==talentRowsRequest)return;
     talentRows.value=payload.items;
-    talentInsertIds.value=talentInsertIds.value.filter(id=>payload.items.some(item=>item.talentId===id));
-  }catch(cause){error.value=humanError(cause);}
+  }catch(cause){if(request===talentRowsRequest)error.value=humanError(cause);}
 }
 
 function addTalentInsertId(){
@@ -544,8 +550,9 @@ async function insertTalentBlock() {
   }
   if (!directive) return;
   const start = element.selectionStart;
+  const end = element.selectionEnd;
   const prefix = start > 0 && !wikiText.value.slice(0,start).endsWith("\n") ? "\n\n" : "";
-  wikiText.value = wikiText.value.slice(0,start) + prefix + directive + "\n\n" + wikiText.value.slice(start);
+  wikiText.value = wikiText.value.slice(0,start) + prefix + directive + "\n\n" + wikiText.value.slice(end);
   talentInsertOpen.value = false;
   await nextTick();
   element.focus();
