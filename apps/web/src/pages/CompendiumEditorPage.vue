@@ -6,6 +6,7 @@ import CanonicalNpcGenerator from '../components/CanonicalNpcGenerator.vue';
 import type {NpcArticleDraft} from '../../../api/src/campaign-npc-model';
 import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
 
+
 type MediaRef = { src: string; alt?: string; caption?: string };
 type ArticleBlock = {
   type: "p" | "table";
@@ -714,7 +715,8 @@ async function linkBuilderEntry() {
   builderLinkBusy.value = true;
   try {
     await api(`/api/compendium/editor/builder-source/${encodeURIComponent(pageId.value)}`,{method:'PUT',body:JSON.stringify({family:target.family,key:target.key})});
-    await loadBuilderSource(pageId.value);
+    // Builder links enrich the sidebar; they must not delay the editable page.
+    void loadBuilderSource(pageId.value);
     builderCatalog.value = builderCatalog.value.filter(item=>item!==target);
     builderLinkChoice.value = '';
     notice.value = `« ${target.label} » relié à la page.`;
@@ -946,7 +948,7 @@ async function ensureCreated(): Promise<boolean> {
     );
     pageId.value = payload.articleId;
     article.value.id = payload.articleId;
-    await loadBuilderSource(payload.articleId);
+    builderSources.value = [];
     return true;
   } catch (cause) {
     error.value = humanError(cause);

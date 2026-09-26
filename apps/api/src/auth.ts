@@ -25,6 +25,8 @@ export type PublicUser = {
 const SESSION_COOKIE = "__Host-tuc_session";
 const LEGACY_SESSION_COOKIE = "tuc_session";
 const SESSION_TTL_DAYS = Number(process.env.SESSION_TTL_DAYS ?? 30);
+const SESSION_TOUCH_INTERVAL_MS = 60_000;
+const recentlyTouchedSessions = new Map<string, number>();
 // Explicit work factors, independent of library defaults (memoryCost is KiB).
 const ARGON2_OPTIONS = {
   type: argon2.argon2id,
@@ -230,6 +232,7 @@ export async function currentUser(
 ): Promise<PublicUser | null> {
   const token = readSessionToken(request);
   if (!token) return null;
+  const tokenHash = hashSessionToken(token);
 
   const result = await pool.query<{
     id: string;
@@ -253,16 +256,24 @@ export async function currentUser(
      WHERE s.token_hash = $1
        AND s.expires_at > now()
        AND u.is_active = true`,
-    [hashSessionToken(token)]
+    [tokenHash]
   );
 
   const row = result.rows[0];
   if (!row) return null;
 
-  void pool.query(
-    "UPDATE sessions SET last_seen_at = now() WHERE token_hash = $1",
-    [hashSessionToken(token)]
-  );
+  const now = Date.now();
+  if (now - (recentlyTouchedSessions.get(tokenHash) ?? 0) >= SESSION_TOUCH_INTERVAL_MS) {
+    if (recentlyTouchedSessions.size >= 4096) {
+      for (const [hash, touchedAt] of recentlyTouchedSessions) {
+        if (now - touchedAt >= SESSION_TOUCH_INTERVAL_MS) recentlyTouchedSessions.delete(hash);
+      }
+      if (recentlyTouchedSessions.size >= 4096) recentlyTouchedSessions.delete(recentlyTouchedSessions.keys().next().value!);
+    }
+    recentlyTouchedSessions.set(tokenHash, now);
+    void pool.query("UPDATE sessions SET last_seen_at = now() WHERE token_hash = $1", [tokenHash])
+      .catch(() => { if (recentlyTouchedSessions.get(tokenHash) === now) recentlyTouchedSessions.delete(tokenHash); });
+  }
 
   return {
     id: row.id,

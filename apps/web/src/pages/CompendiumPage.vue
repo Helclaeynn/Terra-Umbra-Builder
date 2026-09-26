@@ -235,6 +235,7 @@ function cachedArticle(id: string): Promise<Article> {
   return request;
 }
 function prefetchArticle(id: string) { void cachedArticle(id).catch(() => {}); }
+function preloadEditor() { void import("./CompendiumEditorPage.vue").catch(() => {}); }
 let prefetchTimer: number | undefined;
 function schedulePrefetch(id: string) {
   window.clearTimeout(prefetchTimer);
@@ -1798,7 +1799,7 @@ onBeforeUnmount(() => {
         <button class="ghost compact-link" type="button" @click="openNewcomer">
           Bien commencer
         </button>
-        <RouterLink v-if="canEdit" class="ghost compact-link wiki-create-link" to="/compendium/new">
+        <RouterLink v-if="canEdit" class="ghost compact-link wiki-create-link" to="/compendium/new" @pointerenter="preloadEditor" @focus="preloadEditor">
           ＋ Nouvelle page
         </RouterLink>
         <a class="ghost compact-link" href="/account">
