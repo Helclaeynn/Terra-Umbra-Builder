@@ -74,7 +74,13 @@ for (const article of fresh.articles) {
 const characters = fresh.articles.filter((article) => article.category === "Personnages");
 const portraitOnly = JSON.parse(await readFile("../../compendium/source/portrait-only-lot2-v1.json", "utf8")).articles;
 const refreshedPortraits = JSON.parse(await readFile("../../compendium/source/portrait-refresh-20260926.json", "utf8")).articles;
-assert.equal(characters.length, 918 + portraitOnly.length + refreshedPortraits.length);
+const hunterPortraits = JSON.parse(await readFile("../../compendium/source/portrait-refresh-chasseurs-20260926.json", "utf8")).articles;
+const portraitPageIds = new Set([...portraitOnly, ...refreshedPortraits, ...hunterPortraits].map(article => article.id));
+for (const id of portraitPageIds) {
+  assert.ok(characters.some(article => article.id === id && article.pnj?.completeness === "portrait_only"),
+    `${id}: portrait-only character remains active`);
+}
+assert.equal(characters.length, 918 + portraitPageIds.size);
 assert.equal(characters.filter((article) => article.pnj?.completeness !== "portrait_only").length, 918);
 assert.equal(fresh.articles.filter((article) => article.category === "Équipement & Objets").length, 697);
 assert.equal(fresh.articles.filter((article) => article.category === "Bestiaire").length, 281);
