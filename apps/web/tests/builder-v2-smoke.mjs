@@ -484,6 +484,7 @@ const catalogDisclosure=page.locator("summary.catalog-summary").filter({hasText:
 await catalogDisclosure.waitFor({state:"visible",timeout:5000});
 await catalogDisclosure.click();
 await catalogDisclosure.locator('..').getByLabel('Famille').selectOption('Matériel');
+await catalogDisclosure.locator('..').locator('.catalog-family-disclosure > summary').filter({hasText:'Matériel'}).click();
 const kitWiki=page.getByRole("link",{name:/Kit Smoke/}).first();
 await kitWiki.waitFor({state:"visible",timeout:5000});
 await kitWiki.hover();
