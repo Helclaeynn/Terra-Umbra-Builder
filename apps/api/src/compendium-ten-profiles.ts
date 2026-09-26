@@ -33,7 +33,7 @@ export const COMPENDIUM_TEN_PROFILE_CALIBRATION=[
   },
   {
     sourceId:"pnj-gouvernement-dina-page",name:"Dina Page",
-    reality:{attributes:attrs(8,10,8,9,7),skills:skills(["Pilotage","Athlétisme","Pugilat","Autorité","Esquive","Force Mentale","Diplomatie","Perception","Tir","Constitution","Survie","Investigation","Savoirs","Langages & Argot"])},
+    reality:{attributes:attrs(8,10,8,9,7),skills:skills(["Pilotage","Athlétisme","Savoirs","Force Mentale","Pugilat","Autorité","Esquive","Diplomatie","Perception","Tir","Constitution","Survie","Investigation","Langages & Argot"])},
     truth:{ptv:48,semi:attrs(9,10,9,10,8),revealed:attrs(10,11,10,11,8),skills:[["Force Mentale",16],["Autorité",15],["Savoirs",14]] as Skill[],signature:"Manifestation de Helheim : esprits, mort et fonction psychopompe."}
   },
   {
@@ -48,7 +48,7 @@ export const COMPENDIUM_TEN_PROFILE_CALIBRATION=[
   },
   {
     sourceId:"pnj-agences-makana-keahi",name:"Makana Keahi",
-    reality:{attributes:attrs(9,10,7,9,7),skills:skills(["Pilotage","Perception","Pugilat","Survie","Athlétisme","Autorité","Tir","Esquive","Furtivité","Force Mentale","Investigation","Langages & Argot","Constitution","Diplomatie"])},
+    reality:{attributes:attrs(9,10,7,9,7),skills:skills(["Mêlée","Pilotage","Perception","Pugilat","Force Mentale","Survie","Athlétisme","Autorité","Tir","Esquive","Furtivité","Investigation","Langages & Argot","Constitution"])},
     truth:{ptv:48,semi:attrs(10,11,7,10,8),revealed:attrs(12,12,7,11,8),skills:[["Mêlée",16],["Force Mentale",15],["Survie",14]] as Skill[],signature:"Incarnation de Sumarbrander : feu, mer et puissance de l’épée de Surtr."}
   },
   {
