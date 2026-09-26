@@ -40,7 +40,7 @@ for(const id of REVIEWED_TRUTH_BATCH_007_IDS){
 const dina=byId.get('pnj-gouvernement-dina-page');
 const dinaTruth=dina?.sections?.find(section=>section.id==='profil-verite-pnj-gouvernement-dina-page');
 assert.equal(dinaTruth?.audience,'mj');
-assert.equal(dinaTruth?.blocks?.find(block=>block.type==='table'&&block.rows[0]?.[0]==='Attribut révélé')?.rows[1].slice(1).join('/'),'10/10/15/16/13');
+assert.equal(dinaTruth?.blocks?.find(block=>block.type==='table'&&block.rows[0]?.[0]==='Attribut révélé')?.rows[1].slice(1).join('/'),'10/10/16/17/13');
 assert.ok(!publicById.get(dina.id)?.sections.some(section=>section.id===dinaTruth.id));
 for(const id of INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS)assert.ok(byId.has(id),id);
 for(const id of [...REVIEWED_TRUTH_BATCH_001_IDS,...REVIEWED_TRUTH_BATCH_002_IDS,...REVIEWED_TRUTH_BATCH_003_IDS,...REVIEWED_TRUTH_BATCH_004_IDS,...REVIEWED_TRUTH_BATCH_005_IDS,...REVIEWED_TRUTH_BATCH_006_IDS,...REVIEWED_TRUTH_BATCH_007_IDS]){

@@ -298,7 +298,7 @@ function visibleNativeTalent(pkg:TruthRulesPackage,state:TruthState,talent:Truth
   const needles=pkg.visibility.needles;
   if(nature==="humain"){
     const tradition=stringChoice(state.choices,"hunterTradition")||"aucune";
-    if(tradition==="aucune"||tradition==="chasse_fantastique")return false;
+    if(tradition==="aucune")return false;
     return groupHas(group,needles.humain?.[tradition]);
   }
   if(nature==="vampire"){
