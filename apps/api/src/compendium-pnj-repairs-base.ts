@@ -5,7 +5,16 @@ type J = Record<string, any>;
 type A = J & { id:string; title?:string; dataset?:string; source?:string; tags?:string[]; pnj?:J; sections?:J[]; rebuildV2?:boolean };
 
 const cp=<T>(v:T):T=>JSON.parse(JSON.stringify(v));
-const n=(v:unknown)=>String(v??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
+const normalizedKeys=new Map<string,string>();
+const n=(v:unknown)=>{
+  const raw=String(v??"");
+  const cached=normalizedKeys.get(raw);
+  if(cached!==undefined)return cached;
+  const key=raw.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
+  if(normalizedKeys.size>=20_000)normalizedKeys.clear();
+  normalizedKeys.set(raw,key);
+  return key;
+};
 const stats=(s:J)=>["profil statistique","statistiques"].includes(n(s?.title))||n(s?.id)==="profil statistique";
 const blockKey=(b:J)=>n(b?.type==="p"?b.text:b?.type==="table"&&Array.isArray(b.rows)?b.rows.flat().join(" "):"");
 

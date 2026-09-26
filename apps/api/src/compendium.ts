@@ -946,14 +946,21 @@ function deepClone<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T;
 }
 
+const normalizedPnjIdentityCache = new Map<string, string>();
 function normalizedPnjIdentity(value: unknown): string {
-  return String(value ?? "")
+  const source = String(value ?? "");
+  const cached = normalizedPnjIdentityCache.get(source);
+  if (cached !== undefined) return cached;
+  const normalized = source
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
     .replace(/[’‘`]/g, "'")
     .replace(/[^a-z0-9']+/g, " ")
     .trim();
+  if (normalizedPnjIdentityCache.size >= 20_000) normalizedPnjIdentityCache.clear();
+  normalizedPnjIdentityCache.set(source, normalized);
+  return normalized;
 }
 
 function usablePnjIdentity(value: unknown): string | null {
