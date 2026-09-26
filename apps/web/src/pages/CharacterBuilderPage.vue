@@ -2419,7 +2419,7 @@ onBeforeUnmount(()=>{
                 </div>
 
                 <div
-                  v-else-if="!truthChoicesValid(truthRules,currentTruthState)"
+                  v-if="!truthChoicesValid(truthRules,currentTruthState)"
                   class="rule-note bad"
                 >
                   Complétez d’abord les choix structurels obligatoires de cette Nature.
@@ -2523,7 +2523,7 @@ onBeforeUnmount(()=>{
           </div>
 
           <p class="builder-intro">
-            Les Désavantages sont facultatifs, de 0 à 3. Chacun rapporte +1 Edge, mais doit
+            Les Désavantages sont facultatifs, de 0 à 3, avec un seul choix par famille. Chacun rapporte +1 Edge, mais doit
             représenter une faiblesse ou une complication qui peut réellement peser dans la fiction.
           </p>
 
