@@ -322,13 +322,16 @@ const navigationEntries = computed(() => {
 
 const GROUP_PRIORITY: Record<string,string[]> = {
   'Équipement & Objets':['Armement','Armures & protections','Munitions & consommables','Holonet & Neurodive','Habitat & mobilité','Vie quotidienne & services','Augmentations · Cybernétique','Augmentations · Biogénétique','Augmentations · Esthétique & fonctionnel','Équipement de Chasse','Marché des Exilés','Marché xéno','Arsenal AIDH','Corruption & Calamitechnologie'],
-  'Règles':['Moteur de jeu','Moteur commun','Réalité — Création & progression','Réalité — Talents & désavantages','Réalité — Économie & équipement','Réalité — Augmentations','Réalité — Neurodive','Vérité — Règles communes','Vérité — Natures & capacités','Vérité — Corruption & Fléaux'],
+  'Règles':['Moteur de jeu','Moteur commun','Réalité — Création & progression','Réalité — Talents & désavantages','Réalité — Économie & équipement','Réalité — Augmentations','Réalité — Neurodive','Vérité — Règles communes','Vérité — Humains & Chasseurs','Vérité — Peuples & pouvoirs','Vérité — Corruption & Fléaux'],
   'Réalité':['Grande Californie & société','État & services publics','Sécurité & justice','Agences & renseignement','Corporations & économie','Pègre & criminalité','Crawlers & métiers','Insurgés','Clubs de motards','Enders','Pègre, Crawlers & anti-systèmes','Religions & néoreligions'],
   'Vérité':['Entrer dans la Vérité','Derrière le Voile','Cosmologie & histoire cachée','Angelus','Aseryns','Garous & Pelages','Vampires, Mages & créatures','Exilés','Extrals & factions','Humanité galactique','Chasseurs & traditions','Corruption & Fléaux'],
   'Bestiaire':['Faune de Vérité','Prédateurs monstrueux','Métamorphes','Fées & esprits naturels','Revenants','Ombres & entités de l’Ombremonde','Fléaux, Ruptures & Abominations','PNJ de Réalité','PNJ de Vérité','Dossiers majeurs de scénario']
 };
 function navigationLabels(entry:Pick<WikiEntry,'id'|'category'|'group'|'subgroup'>){
   let group=entry.group||'Autres',subgroup=entry.subgroup||'Pages';
+  if(entry.category==='Règles'&&group==='Vérité — Natures & capacités'){
+    group=subgroup==='Humains & Chasseurs'?'Vérité — Humains & Chasseurs':'Vérité — Peuples & pouvoirs';
+  }
   if(entry.category==='Réalité'&&group==='Grande Californie & société'){
     if(subgroup==='État, institutions & services publics')group='État & services publics';
     else if(subgroup==='Sécurité, police & justice')group='Sécurité & justice';
