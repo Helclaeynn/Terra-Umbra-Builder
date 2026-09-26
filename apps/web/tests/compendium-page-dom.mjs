@@ -364,4 +364,29 @@ for (const npc of additionalNpcs) {
     });
   } finally { reader.close(); }
 }
+
+{
+  const reader = await mount({ initialRoute: articleUrl(publicArticle.id) });
+  try {
+    await waitFor(() => reader.d.querySelector('.article-header h1')?.textContent === publicArticle.title, 'First article renders');
+    await reader.page.go(articleUrl(coleId));
+    await waitFor(() => reader.d.querySelector('.article-header h1')?.textContent === cole.title, 'Second article renders');
+    await reader.page.go('/compendium?view=all');
+    await waitFor(() => reader.d.querySelector(`.main-result-card[href="${articleUrl(publicArticle.id)}"]`), 'Search results are ready');
+    const sidebarLink = reader.d.querySelector(`.main-result-card[href="${articleUrl(publicArticle.id)}"]`);
+    check('les articles des listes sont de vrais liens ouvrables dans un nouvel onglet', () => {
+      assert(sidebarLink instanceof reader.w.HTMLAnchorElement);
+      const middle = new reader.w.MouseEvent('click', { bubbles: true, cancelable: true, button: 1 });
+      sidebarLink.dispatchEvent(middle);
+      assert.equal(middle.defaultPrevented, false);
+      assert.equal(reader.page.route(), '/compendium?view=all');
+    });
+    sidebarLink.click();
+    await waitFor(() => reader.d.querySelector('.article-header h1')?.textContent === publicArticle.title, 'Revisited article renders');
+    check('une fiche déjà consultée se rouvre sans second appel API', () => {
+      assert.equal(reader.requests.filter(request => request.path === `/api/compendium/articles/${publicArticle.id}`).length, 1);
+      assert.deepEqual(reader.errors, []);
+    });
+  } finally { reader.close(); }
+}
 console.log(`${checks} integration checks passed using the actual CompendiumPage, router, and NPC profile. No browser layout claim.`);

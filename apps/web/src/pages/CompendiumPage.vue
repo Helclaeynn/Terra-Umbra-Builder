@@ -224,8 +224,24 @@ let suggestionRequest = 0;
 const selected = ref<Article | null>(null);
 const articlePanel = ref<HTMLElement | null>(null);
 let articleRequest = 0;
+const articleCache = new Map<string, Promise<Article>>();
+function cachedArticle(id: string): Promise<Article> {
+  const existing = articleCache.get(id);
+  if (existing) return existing;
+  const request = api<{ article: Article }>(`/api/compendium/articles/${encodeURIComponent(id)}`).then(payload => payload.article);
+  articleCache.set(id, request);
+  if (articleCache.size > 24) articleCache.delete(articleCache.keys().next().value!);
+  void request.catch(() => { if (articleCache.get(id) === request) articleCache.delete(id); });
+  return request;
+}
+function prefetchArticle(id: string) { void cachedArticle(id).catch(() => {}); }
+let prefetchTimer: number | undefined;
+function schedulePrefetch(id: string) {
+  window.clearTimeout(prefetchTimer);
+  prefetchTimer = window.setTimeout(() => prefetchArticle(id), 140);
+}
+function cancelPrefetch() { window.clearTimeout(prefetchTimer); }
 let pageMounted = false;
-const mountedPath = route.path;
 let previousScrollRestoration: ScrollRestoration = "auto";
 const builderUsage = ref<BuilderUsage[]>([]);
 const builderSources = ref<BuilderSourceRecord[]>([]);
@@ -1343,6 +1359,21 @@ async function openArticle(id: string, section = "") {
   }
 }
 
+function followArticleLink(event: MouseEvent, id: string, section = "") {
+  if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+  event.preventDefault();
+  void openArticle(id, section);
+}
+function resultHref(item: SearchItem) {
+  const target = searchResultTarget(item, window.location.href);
+  return compendiumHref(target.articleId, target.section);
+}
+function resultArticleId(item: SearchItem) { return searchResultTarget(item, window.location.href).articleId; }
+function followSearchLink(event: MouseEvent, item: SearchItem) {
+  const target = searchResultTarget(item, window.location.href);
+  followArticleLink(event, target.articleId, target.section);
+}
+
 async function loadArticle(id: string, section = "") {
   const request = ++articleRequest;
   loading.value = false;
@@ -1365,17 +1396,15 @@ async function loadArticle(id: string, section = "") {
   talentEmbeds.value = {};
 
   try {
-    const result = await api<{ article: Article }>(
-      `/api/compendium/articles/${encodeURIComponent(id)}`
-    );
+    const article = await cachedArticle(id);
     if (request !== articleRequest || !pageMounted) return;
 
     // Primary content becomes visible immediately. Builder context, dynamic
     // Talents and history enrich the already rendered article afterwards.
-    selected.value = result.article;
+    selected.value = article;
     // An article may be opened from another category (or directly from a link).
     // Keep the sidebar in the category of the article currently on screen.
-    category.value = result.article.category ?? "";
+    category.value = article.category ?? "";
 
     // Do not wait for optional Builder enrichment before showing the article.
     const usage = api<{ usage: BuilderUsage[]; sources: BuilderSourceRecord[] }>(
@@ -1393,7 +1422,7 @@ async function loadArticle(id: string, section = "") {
     // Dynamic Talent blocks can move a later section. Resolve them before the
     // section landing; an ordinary article link can land immediately at its top.
     if (!section) await positionArticle("", request);
-    await loadTalentEmbeds(result.article, request);
+    await loadTalentEmbeds(article, request);
     if (section) await positionArticle(section, request);
   } catch (cause) {
     if (request !== articleRequest || !pageMounted) return;
@@ -1687,7 +1716,7 @@ function syncRouteView() {
   if (!showOnboarding.value) void search(false);
 }
 
-watch(() => currentUser.value?.id, loadReadingPositions);
+watch(() => [currentUser.value?.id, currentUser.value?.role], () => { articleCache.clear(); loadReadingPositions(); });
 watch(canReadMjSections, async () => {
   textRenderCache.clear();
   await nextTick();
@@ -1698,7 +1727,7 @@ watch(canReadMjSections, async () => {
 watch(
   () => route.fullPath,
   () => {
-    if (!pageMounted || route.path !== mountedPath) return;
+    if (!pageMounted || (route.path !== "/" && route.path !== "/compendium")) return;
     syncRouteView();
   }
 );
@@ -1741,6 +1770,7 @@ onBeforeUnmount(() => {
   window.history.scrollRestoration = previousScrollRestoration;
   window.clearTimeout(suggestionTimer);
   window.clearTimeout(wikiBootstrapTimer);
+  cancelPrefetch();
   hideWikiPreview();
   readingObserver?.disconnect();
   window.removeEventListener("scroll", repositionWikiPreview);
@@ -1865,16 +1895,19 @@ onBeforeUnmount(() => {
                   <span>{{ subgroup.name }}</span>
                   <small>{{ subgroup.entries.length }}</small>
                 </header>
-                <button
+                <a
                   v-for="entry in subgroup.entries"
                   :key="entry.id"
-                  type="button"
+                  :href="compendiumHref(entry.id)"
                   class="navigation-page"
                   :class="{ active: selected?.id === entry.id }"
-                  @click="openArticle(entry.id)"
+                  @pointerenter="schedulePrefetch(entry.id)"
+                  @pointerleave="cancelPrefetch"
+                  @focus="prefetchArticle(entry.id)"
+                  @click="followArticleLink($event, entry.id)"
                 >
                   {{ entry.title }}
-                </button>
+                </a>
               </section>
             </div>
           </details>
@@ -1887,12 +1920,12 @@ onBeforeUnmount(() => {
         <section class="navigation-guide" aria-label="Premiers pas">
           <h3>PREMIERS PAS</h3>
           <p>Un monde.<br>Deux niveaux de lecture.</p>
-          <button type="button" @click="openArticle('realite-v9-grande-californie-2035')">Découvrir la Réalité <span aria-hidden="true">↗</span></button>
-          <button type="button" @click="openArticle('verite-v7-derriere-le-voile')">Franchir le Voile <span aria-hidden="true">↗</span></button>
+          <a :href="compendiumHref('realite-v9-grande-californie-2035')" @click="followArticleLink($event,'realite-v9-grande-californie-2035')">Découvrir la Réalité <span aria-hidden="true">↗</span></a>
+          <a :href="compendiumHref('verite-v7-derriere-le-voile')" @click="followArticleLink($event,'verite-v7-derriere-le-voile')">Franchir le Voile <span aria-hidden="true">↗</span></a>
         </section>
         <section v-if="recentItems.length" class="navigation-recent" aria-label="Dernières lectures">
           <h3>DERNIÈRES LECTURES</h3>
-          <button v-for="item in recentItems.slice(0, 3)" :key="item.id" type="button" :title="item.title" @click="openArticle(item.id)">{{ item.title }}</button>
+          <a v-for="item in recentItems.slice(0, 3)" :key="item.id" :href="compendiumHref(item.id)" :title="item.title" @click="followArticleLink($event,item.id)">{{ item.title }}</a>
         </section>
         </details>
       </aside>
@@ -1961,23 +1994,23 @@ onBeforeUnmount(() => {
                 <div v-if="suggestionLoading && !suggestions.length" class="search-suggestion-loading">
                   Recherche…
                 </div>
-                <button
+                <a
                   v-for="(item,index) in suggestions"
                   :key="item.id"
-                  type="button"
+                  :href="resultHref(item)"
                   role="option"
                   :aria-selected="index === suggestionIndex"
                   :class="{ active: index === suggestionIndex }"
-                  @mousedown.prevent
+                  @mousedown.left.prevent
                   @mouseenter="suggestionIndex=index"
-                  @click="chooseSuggestion(item)"
+                  @click="followSearchLink($event,item)"
                 >
                   <span>
                     <strong>{{ item.title }}</strong>
                     <small>{{ resultBreadcrumb(item) }}</small>
                   </span>
                   <em>{{ item.snippet }}</em>
-                </button>
+                </a>
               </div>
             </div>
           </form>
@@ -2260,7 +2293,7 @@ onBeforeUnmount(() => {
                         {{ tag }}
                       </button>
                     </div>
-                    <button v-if="selectedResume" class="reader-resume" type="button" @click="openArticle(selected.id, selectedResume.id)">Reprendre : {{ selectedResume.title }} <span aria-hidden="true">→</span></button>
+                    <a v-if="selectedResume" class="reader-resume" :href="compendiumHref(selected.id, selectedResume.id)" @click="followArticleLink($event,selected.id,selectedResume.id)">Reprendre : {{ selectedResume.title }} <span aria-hidden="true">→</span></a>
                     <p v-if="readingNotice" class="reader-notice" role="status">{{ readingNotice }}</p>
                   </header>
 
@@ -2397,16 +2430,18 @@ onBeforeUnmount(() => {
                     <h2>Dans ce dossier</h2>
                     <p class="wiki-dossier-context">{{ dossierContext.label }}</p>
                     <div class="wiki-related-grid">
-                      <button
+                      <a
                         v-for="entry in dossierArticles"
                         :key="entry.id"
-                        type="button"
-                        @click="openArticle(entry.id)"
+                        :href="compendiumHref(entry.id)"
+                        @pointerenter="schedulePrefetch(entry.id)"
+                        @pointerleave="cancelPrefetch"
+                        @click="followArticleLink($event,entry.id)"
                       >
                         <span>{{ entry.subgroup || entry.category }}</span>
                         <strong>{{ entry.title }}</strong>
                         <small v-if="entry.snippet">{{ entry.snippet }}</small>
-                      </button>
+                      </a>
                     </div>
                   </section>
 
@@ -2414,16 +2449,18 @@ onBeforeUnmount(() => {
                     <p class="eyebrow">LIENS DU WIKI</p>
                     <h2>Voir aussi</h2>
                     <div class="wiki-related-grid">
-                      <button
+                      <a
                         v-for="entry in relatedArticles"
                         :key="entry.id"
-                        type="button"
-                        @click="openArticle(entry.id)"
+                        :href="compendiumHref(entry.id)"
+                        @pointerenter="schedulePrefetch(entry.id)"
+                        @pointerleave="cancelPrefetch"
+                        @click="followArticleLink($event,entry.id)"
                       >
                         <span>{{ entry.category }}</span>
                         <strong>{{ entry.title }}</strong>
                         <small>{{ entry.snippet }}</small>
-                      </button>
+                      </a>
                     </div>
                   </section>
                 </div>
@@ -2548,12 +2585,15 @@ onBeforeUnmount(() => {
                     <strong>{{ group.name }}</strong>
                     <span>{{ group.items.length }}</span>
                   </header>
-                  <button
+                  <a
                     v-for="item in group.items"
                     :key="item.id"
                     class="result-card main-result-card"
-                    type="button"
-                    @click="openSearchResult(item)"
+                    :href="resultHref(item)"
+                    @pointerenter="schedulePrefetch(resultArticleId(item))"
+                    @pointerleave="cancelPrefetch"
+                    @focus="prefetchArticle(resultArticleId(item))"
+                    @click="followSearchLink($event,item)"
                   >
                     <span class="result-path">{{ resultBreadcrumb(item) }}</span>
                     <strong>{{ item.title }}</strong>
@@ -2562,7 +2602,7 @@ onBeforeUnmount(() => {
                       <small v-if="item.edited">Édition canonique appliquée</small>
                       <small v-if="favoriteIds.includes(item.id)">★ Favori</small>
                     </div>
-                  </button>
+                  </a>
                 </section>
                 <p v-if="total > results.length" class="result-limit-note">
                   {{ results.length }} premiers résultats affichés sur {{ total.toLocaleString("fr-FR") }}.
@@ -2608,15 +2648,17 @@ onBeforeUnmount(() => {
                         <span>{{ subgroup.entries.length }}</span>
                       </div>
                       <div class="category-page-links">
-                        <button
+                        <a
                           v-for="entry in subgroup.entries.slice(0, 12)"
                           :key="entry.id"
-                          type="button"
-                          @click="openArticle(entry.id)"
+                          :href="compendiumHref(entry.id)"
+                          @pointerenter="schedulePrefetch(entry.id)"
+                          @pointerleave="cancelPrefetch"
+                          @click="followArticleLink($event,entry.id)"
                         >
                           <span>{{ entry.title }}</span>
                           <small>Ouvrir →</small>
-                        </button>
+                        </a>
                       </div>
                       <p v-if="subgroup.entries.length > 12" class="category-more">
                         + {{ subgroup.entries.length - 12 }} autres pages dans l’arborescence de gauche.
@@ -2848,9 +2890,9 @@ onBeforeUnmount(() => {
 
 .compendium-search form{position:relative}
 .search-suggestions{position:absolute;left:0;right:0;top:calc(100% + .45rem);z-index:30;display:grid;max-height:min(520px,62vh);overflow:auto;border:1px solid rgba(88,220,197,.24);background:#081119;box-shadow:0 22px 60px rgba(0,0,0,.42)}
-.search-suggestions button{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:1rem;padding:.7rem .85rem;border:0;border-bottom:1px solid rgba(255,255,255,.055);text-align:left;color:#c5d4d9;background:transparent}
-.search-suggestions button:last-child{border-bottom:0}.search-suggestions button.active,.search-suggestions button:hover{background:rgba(43,146,255,.09)}
-.search-suggestions button>span{display:grid;gap:.2rem}.search-suggestions strong{color:#dce8ec;font-size:.84rem}.search-suggestions small{color:#6fb9d6;font-size:.65rem}.search-suggestions em{color:#718a95;font-size:.69rem;line-height:1.4;font-style:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.search-suggestions a{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:1rem;padding:.7rem .85rem;border:0;border-bottom:1px solid rgba(255,255,255,.055);text-align:left;color:#c5d4d9;background:transparent}
+.search-suggestions a:last-child{border-bottom:0}.search-suggestions a.active,.search-suggestions a:hover{background:rgba(43,146,255,.09)}
+.search-suggestions a>span{display:grid;gap:.2rem}.search-suggestions strong{color:#dce8ec;font-size:.84rem}.search-suggestions small{color:#6fb9d6;font-size:.65rem}.search-suggestions em{color:#718a95;font-size:.69rem;line-height:1.4;font-style:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .search-suggestion-loading{padding:.9rem;color:#718a95;font-size:.75rem}
 .category-strip {
   display: flex;
@@ -3059,6 +3101,7 @@ onBeforeUnmount(() => {
 .result-card {
   width: 100%;
   display: grid;
+  text-decoration: none;
   gap: .42rem;
   padding: .9rem 1rem;
   border: 1px solid transparent;
@@ -3323,7 +3366,7 @@ onBeforeUnmount(() => {
   gap: .6rem;
 }
 
-.wiki-related-grid button {
+.wiki-related-grid a {
   display: grid;
   gap: .28rem;
   padding: .8rem;
@@ -3331,9 +3374,10 @@ onBeforeUnmount(() => {
   background: rgba(255,255,255,.018);
   color: #afc1c8;
   text-align: left;
+  text-decoration: none;
 }
 
-.wiki-related-grid button:hover {
+.wiki-related-grid a:hover {
   border-color: rgba(216,189,133,.35);
   background: rgba(43,146,255,.08);
 }
@@ -3890,6 +3934,8 @@ onBeforeUnmount(() => {
 
 .navigation-page {
   width: 100%;
+  display: block;
+  text-decoration: none;
   padding: .42rem .5rem;
   border: 0;
   border-left: 2px solid transparent;
@@ -4099,7 +4145,7 @@ onBeforeUnmount(() => {
   gap: .38rem;
 }
 
-.category-page-links button {
+.category-page-links a {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -4109,15 +4155,16 @@ onBeforeUnmount(() => {
   color: #a9bec6;
   background: rgba(8,16,24,.35);
   text-align: left;
+  text-decoration: none;
 }
 
-.category-page-links button:hover {
+.category-page-links a:hover {
   border-color: rgba(88,220,197,.25);
   color: #d6edf1;
   background: rgba(43,146,255,.045);
 }
 
-.category-page-links button small {
+.category-page-links a small {
   color: #5f9eaf;
   white-space: nowrap;
 }
@@ -4208,12 +4255,12 @@ kbd{margin-left:12px;color:#819bb5;font:10px/1.3 Consolas,monospace}
 .navigation-divider{grid-column:1/-1;height:1px;margin:10px 12px;background:#243447}
 .navigation-guide,.navigation-recent{margin:26px 20px 0}
 .navigation-guide p{margin:12px 0 16px;color:#c8d8e8;font-size:15px;line-height:1.6}
-.navigation-guide button,.navigation-recent button{min-height:44px;width:100%;padding:10px 0;border:0;background:none;color:#a4bbd3;text-align:left;font-size:12px;line-height:1.6;cursor:pointer}
-.navigation-guide button{display:flex;justify-content:space-between;gap:12px}
-.navigation-guide button:last-child{color:#c0a6ef}
-.navigation-recent button{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.navigation-guide a,.navigation-recent a{min-height:44px;text-decoration:none;width:100%;padding:10px 0;border:0;background:none;color:#a4bbd3;text-align:left;font-size:12px;line-height:1.6;cursor:pointer}
+.navigation-guide a{display:flex;justify-content:space-between;gap:12px}
+.navigation-guide a:last-child{color:#c0a6ef}
+.navigation-recent a{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .navigation-recent h3{margin-bottom:8px}
-.navigation-guide button:hover,.navigation-recent button:hover{color:#edf4ff}
+.navigation-guide a:hover,.navigation-recent a:hover{color:#edf4ff}
 .navigation-page{min-height:40px;color:#adbed3;font-size:12px;line-height:1.6}
 .navigation-group>summary{min-height:42px;color:#c6d6e7;font-size:12px;line-height:1.6}
 .navigation-subgroup>strong,.navigation-tree-kicker,.navigation-hint,.navigation-empty{color:#93abc5;font-size:11px;line-height:1.7}
@@ -4238,7 +4285,7 @@ kbd{margin-left:12px;color:#819bb5;font:10px/1.3 Consolas,monospace}
 .article-meta{color:#9eb6d0;font-size:12px;line-height:1.7}
 .article-tags button,.article-library-actions button{min-height:34px;font-size:11px;color:#b9cbe0;border-color:#34495f;border-radius:4px;background:#101f2f}
 .article-tags{gap:6px;margin-top:16px}
-.reader-resume{display:flex;align-items:center;justify-content:space-between;gap:18px;max-width:100%;margin-top:22px;padding:12px 16px;border:1px solid #435575;border-radius:5px;background:#182740;color:var(--tu-accent);font-size:12px;text-align:left;cursor:pointer}
+.reader-resume{display:flex;text-decoration:none;align-items:center;justify-content:space-between;gap:18px;max-width:100%;margin-top:22px;padding:12px 16px;border:1px solid #435575;border-radius:5px;background:#182740;color:var(--tu-accent);font-size:12px;text-align:left;cursor:pointer}
 .reader-notice{color:#afc1d6;font-size:12px}
 .reader-progress-bar{position:sticky;top:calc(var(--orbital-topbar) - 1px);z-index:12;display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 -1px 32px;padding:14px 0;border-top:1px solid #294057;border-bottom:1px solid #294057;background:rgba(13,23,37,.98)}
 .reader-progress-bar>div{display:grid;gap:5px;min-width:0}
@@ -4274,7 +4321,7 @@ kbd{margin-left:12px;color:#819bb5;font:10px/1.3 Consolas,monospace}
 .category-orbital-art{position:absolute;z-index:-1;right:-40px;top:-50px;width:72%;height:300px;object-fit:cover;opacity:.2;mask-image:linear-gradient(90deg,transparent,#000)}
 .main-result-card{padding:22px;border-color:#30465d;border-radius:6px;background:#101e2f}.main-result-card:hover{border-color:var(--tu-accent);background:#15263a}.main-result-card>strong{font:500 20px/1.3 Inter,"Segoe UI",sans-serif;color:#e5effa}.main-result-card>p{color:#abc0d5;font-size:14px;line-height:1.8}.result-path{color:var(--tu-accent);font-size:11px}
 .result-limit-note,.category-more{color:#91aac4;font-size:12px;line-height:1.7}
-.category-group-card{border-color:#2d445b;border-radius:6px;background:#101d2d}.category-card-heading{padding:20px;border-color:#2d445b;cursor:pointer;list-style:none}.category-card-heading::-webkit-details-marker{display:none}.category-card-heading:after{content:'⌄';margin-left:12px;color:#7edfd7}.category-group-card[open]>.category-card-heading:after{transform:rotate(180deg)}.category-card-heading h2{font:500 22px/1.3 Inter,"Segoe UI",sans-serif}.category-subgroup-list{padding:20px;gap:20px}.category-page-links button{min-height:46px;padding:12px;color:#bccde0;border-color:#2b4158;font-size:12px;line-height:1.6}.category-subgroup-title strong{color:#a7bdd5;font-size:11px}
+.category-group-card{border-color:#2d445b;border-radius:6px;background:#101d2d}.category-card-heading{padding:20px;border-color:#2d445b;cursor:pointer;list-style:none}.category-card-heading::-webkit-details-marker{display:none}.category-card-heading:after{content:'⌄';margin-left:12px;color:#7edfd7}.category-group-card[open]>.category-card-heading:after{transform:rotate(180deg)}.category-card-heading h2{font:500 22px/1.3 Inter,"Segoe UI",sans-serif}.category-subgroup-list{padding:20px;gap:20px}.category-page-links a{min-height:46px;padding:12px;color:#bccde0;border-color:#2b4158;font-size:12px;line-height:1.6}.category-subgroup-title strong{color:#a7bdd5;font-size:11px}
 .article-disclosure>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;border-bottom:1px solid #2d4057}.article-disclosure>summary::-webkit-details-marker{display:none}.article-disclosure>summary:after{content:'⌄';margin-left:auto;color:#69d7d6}.article-disclosure:not([open])>summary:after{transform:rotate(-90deg)}.article-disclosure>summary :is(h2,h3,h4){margin:18px 0!important}.article-disclosure>summary:focus-visible,.category-card-heading:focus-visible{outline:2px solid #a3eaff;outline-offset:3px}
 @media(max-width:1250px){.compendium-top-nav{display:none}.compendium-page{grid-template-columns:224px minmax(0,1fr)}.wiki-article-grid{grid-template-columns:minmax(0,1fr) 190px;gap:22px}.compendium-top-actions kbd{display:none}}
 @media(max-width:1100px){.wiki-article-grid{grid-template-columns:1fr}.wiki-infobox{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.wiki-infobox>*{margin:0}.wiki-toc{grid-column:1/-1}}
