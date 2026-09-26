@@ -1,6 +1,6 @@
 import { randomBytes } from "node:crypto";
 import cors from "@fastify/cors";
-import Fastify, { type FastifyReply } from "fastify";
+import Fastify, { type FastifyReply, type FastifyRequest } from "fastify";
 import {
   ROLES,
   clearSessionCookie,
@@ -40,7 +40,14 @@ await app.register(cors, {
   origin: false
 });
 
+const requestStarted = new WeakMap<FastifyRequest, number>();
+app.addHook("onRequest", async (request) => {
+  if (request.url.startsWith("/api/compendium/")) requestStarted.set(request, performance.now());
+});
+
 app.addHook("onSend", async (request, reply, payload) => {
+  const started = requestStarted.get(request);
+  if (started !== undefined) reply.header("Server-Timing", `app;dur=${(performance.now() - started).toFixed(1)}`);
   if (reply.statusCode >= 400) {
     reply.header("Cache-Control", "no-store, private");
     return payload;
