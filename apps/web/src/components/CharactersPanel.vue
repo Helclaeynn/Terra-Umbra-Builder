@@ -160,7 +160,7 @@ async function saveName() {
 
 async function archiveCharacter() {
   if (!selected.value) return;
-  if (!confirm(`Archiver « ${selected.value.name} » ? La fiche disparaîtra de la liste active mais son historique restera conservé.`)) {
+  if (!confirm(`Supprimer définitivement « ${selected.value.name} » ? La fiche, son journal et ses révisions seront effacés.`)) {
     return;
   }
 
@@ -168,14 +168,14 @@ async function archiveCharacter() {
   notice.value = "";
   error.value = "";
   try {
-    await api(`/api/characters/${selected.value.id}`, {
+    await api(`/api/characters/${selected.value.id}?permanent=1`, {
       method: "DELETE",
       body: JSON.stringify({ version: selected.value.version })
     });
     selected.value = null;
     revisions.value = [];
     await loadCharacters();
-    notice.value = "Personnage archivé.";
+    notice.value = "Personnage supprimé.";
   } catch (cause) {
     error.value = humanError((cause as Error).message);
   } finally {
@@ -238,7 +238,7 @@ onMounted(loadCharacters);
 </script>
 
 <template>
-  <article id="characters" class="panel characters-panel" aria-labelledby="characters-title" :aria-busy="loading">
+  <article class="panel characters-panel" aria-labelledby="characters-title" :aria-busy="loading">
     <div class="section-heading">
       <div>
         <p class="eyebrow">MES PERSONNAGES</p>
@@ -306,7 +306,7 @@ onMounted(loadCharacters);
             <RouterLink class="ghost compact builder-link" :to="`/characters/${selected.id}/journal`">Journal d’aventure</RouterLink>
             <RouterLink class="ghost compact builder-link" :to="`/characters/${selected.id}/history`">Historique de progression</RouterLink>
             <button class="ghost compact danger" type="button" :disabled="loading" @click="archiveCharacter">
-              Archiver
+              Supprimer
             </button>
           </div>
         </div>

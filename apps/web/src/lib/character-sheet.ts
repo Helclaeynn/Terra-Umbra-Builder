@@ -14,5 +14,6 @@ export type CharacterSheet = {
   edge:number; xpRemaining:number; ptvRemaining:number; account:number; cash:number;
   realityTalents:SheetEntry[]; truthTalents:SheetEntry[]; disadvantages:SheetEntry[]; inventory:SheetEntry[];
   truthNature:string; truthConsciousness:string; corruption:number; corruptionSource:string;
+  truthStages:Array<{id:string;name:string;description:string;stats:string;traits:Array<{name:string;effect:string}>}>;
   languages:string[]; contacts:string[]; reputation:string; renownMilieu:string;
 };

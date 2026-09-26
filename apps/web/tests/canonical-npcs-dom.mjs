@@ -48,7 +48,7 @@ for(const role of ['admin','editor']){
   w.eval(bundle.outputFiles[0].text);await w.test.ready;await until(()=>w.document.querySelector('.canonical-generator')||w.document.querySelector('.editor-actions'));
   if(role==='editor'){assert.equal(w.document.querySelector('.canonical-generator'),null);assert.equal(calls.filter(c=>c.url.includes('npc-generator')).length,0);continue;}
   await until(()=>w.document.querySelector('.canonical-generator select'));
-  await fill(w.document.querySelectorAll('.canonical-generator .choices select')[2],'female','change');await pause(0);button('Générer un aperçu').click();
+  await fill(w.document.querySelectorAll('.canonical-generator .choices select')[1],'female','change');await pause(0);button('Générer un aperçu').click();
   await until(()=>field('Nom affiché / alias'));
   assert.equal(w.document.querySelector('.editor-actions'),null,'La préparation ne doit pas demander aussi de remplir le formulaire wiki.');
   assert.equal(w.document.querySelector('[aria-label="Sexe du PNJ"]').value,'female');

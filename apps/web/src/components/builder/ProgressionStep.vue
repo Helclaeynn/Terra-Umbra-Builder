@@ -663,11 +663,10 @@ function sellCampaignItem(){
         <input v-model="truthSearch" type="search" placeholder="Nom, branche, effet, prérequis…" />
       </label>
       <p class="catalog-sort-hint">Par famille, puis coût croissant et nom.</p>
-      <p v-if="!truthCandidates.length" class="rule-note">{{ !truthFamily&&!truthSearch?'Choisis une catégorie pour voir les Talents illustrés, ou cherche un Talent.':'Aucun Talent ne correspond aux choix actuels ou à la recherche.' }}</p>
+      <p v-if="!truthCandidates.length" class="rule-note">{{ !truthFamily&&!truthSearch?'Choisis une catégorie pour voir les Talents, ou cherche un Talent.':'Aucun Talent ne correspond aux choix actuels ou à la recherche.' }}</p>
       <div class="talent-list">
         <article v-for="talent in truthCandidates" :key="talent.id" :class="{locked:!truthCanBuy(talent)}">
           <details class="talent-disclosure"><summary class="card-head">
-            <BuilderCatalogImage :article-id="talent.compendiumId" :name="talent.name" category="Règles" />
             <div class="progress-card-title">
               <strong>{{ talent.name }}</strong>
               <small>{{ talent.group }}</small>
@@ -713,6 +712,7 @@ function sellCampaignItem(){
           <label>Jet de Commerce<select v-model.number="tradeDegree"><option v-for="degree in commerceDegrees" :key="degree.id" :value="degree.id">{{ degree.label }}</option></select></label>
         </div>
         <div v-if="tradeItem" class="trade-preview">
+          <BuilderCatalogImage :article-id="tradeItem.compendiumId" :name="tradeItem.name" :generation="tradeItem.generation" category="Équipement & Objets" />
           <span>Référence <strong>{{ money(tradePreview.list) }}</strong></span>
           <span>Commerce <strong>{{ tradePreview.degree.id===0 ? "sans jet" : tradePreview.degree.delta+" %" }}</strong></span>
           <span>À payer <strong>{{ money(tradePreview.total) }}</strong></span>

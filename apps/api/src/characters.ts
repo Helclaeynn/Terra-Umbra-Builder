@@ -321,6 +321,7 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
   app.delete<{
     Params: { id: string };
     Body: { version?: number };
+    Querystring: { permanent?: string };
   }>("/api/characters/:id", async (request, reply) => {
     const user = await requireUser(request, reply);
     if (!user) return;
@@ -364,6 +365,12 @@ export async function registerCharacterRoutes(app: FastifyInstance) {
           error: "character_version_conflict",
           currentVersion: current.version
         });
+      }
+
+      if (request.query.permanent === "1") {
+        await client.query(`DELETE FROM characters WHERE id = $1 AND owner_id = $2`, [current.id, user.id]);
+        await client.query("COMMIT");
+        return { ok: true, deleted: true };
       }
 
       const nextVersion = current.version + 1;

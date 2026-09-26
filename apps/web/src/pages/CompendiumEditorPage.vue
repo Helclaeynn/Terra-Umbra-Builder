@@ -1000,12 +1000,17 @@ async function discardDraft() {
     busy.value = false;
   }
 }
-
-async function backToArticle() {
-  if (pageId.value && publishedAt.value) {
-    await router.push({ path: "/compendium", query: { article: pageId.value } });
-  } else {
-    await router.push("/compendium");
+async function deletePage() {
+  if (!pageId.value || !window.confirm(`Supprimer « ${article.value?.title || pageId.value} » du Compendium ? Cette page et son brouillon ne seront plus accessibles.`)) return;
+  busy.value = true;
+  error.value = "";
+  try {
+    await api(`/api/compendium/editor/articles/${encodeURIComponent(pageId.value)}`, { method: "DELETE" });
+    await router.replace("/compendium");
+  } catch (cause) {
+    error.value = humanError(cause);
+  } finally {
+    busy.value = false;
   }
 }
 
@@ -1023,7 +1028,7 @@ onMounted(load);
           Couverture Builder
           <span v-if="coverage" class="coverage-mini">{{ coveragePercent }}%</span>
         </button>
-        <button class="ghost" type="button" @click="backToArticle">← Retour à l’article</button>
+        <a class="ghost" :href="pageId && publishedAt ? `/compendium?article=${encodeURIComponent(pageId)}` : '/compendium'">← {{ pageId && publishedAt ? 'Retour à l’article' : 'Retour au Compendium' }}</a>
       </div>
     </header>
 
@@ -1406,6 +1411,7 @@ Encore du texte.
           <button class="danger-button" type="button" :disabled="busy || !draftUpdatedAt" @click="discardDraft">
             Supprimer le brouillon
           </button>
+          <button v-if="pageId" class="danger-button" type="button" :disabled="busy" @click="deletePage">Supprimer la page</button>
           <span class="spacer"></span>
           <button class="secondary" type="button" :disabled="busy" @click="saveDraft()">
             {{ busy ? "Enregistrement…" : "Enregistrer le brouillon" }}

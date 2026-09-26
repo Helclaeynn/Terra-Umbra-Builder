@@ -97,6 +97,7 @@ const error=ref("");
 const notice=ref("");
 const baseline=ref("");
 const activeStep=ref<StepId>(progressionMode?"progression":"identity");
+const reviewedOptionalSteps=ref<StepId[]>([]);
 const sheetReturnStep=ref<StepId>(progressionMode?"progression":"identity");
 const knowledgeOpen=ref(false);
 const stepNavigationOpen=ref(false);
@@ -144,6 +145,7 @@ const nextBuilderStep=computed(()=>{
 function goToBuilderStep(id:StepId){
   if(id!=="sheet")sheetReturnStep.value=id;
   activeStep.value=id;
+  if(["truth","disadvantages","edge"].includes(id)&&!reviewedOptionalSteps.value.includes(id))reviewedOptionalSteps.value=[...reviewedOptionalSteps.value,id];
   stepNavigationOpen.value=false;
   requestAnimationFrame(()=>{
     const reduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -297,8 +299,10 @@ const visibleDisadvantages=computed(()=>{
 
 const availableDisadvantages=computed(()=>{
   const selected=new Set(draft.value?.disadvantages??[]);
-  return visibleDisadvantages.value.filter(item=>!selected.has(item.id));
+  const families=new Set([...selected].map(id=>disadvantageById(id)).filter((item):item is DisadvantageOption=>!!item).map(disadvantageFamily));
+  return visibleDisadvantages.value.filter(item=>!selected.has(item.id)&&!families.has(disadvantageFamily(item)));
 });
+function disadvantageFamily(item:DisadvantageOption){return item.category==='attribute'?`attribute:${item.attribute}`:item.category;}
 
 const disadvantagePreview=computed(()=>
   disadvantagePick.value ? disadvantageById(disadvantagePick.value) : null
@@ -377,6 +381,7 @@ const truthPtvRemaining=computed(()=>
 );
 
 const truthGroupOptions=computed(()=>truthGroups(availableTruthTalents.value).map(group=>({...group,items:[...group.items].sort(compareTruthTalents)})).sort((a,b)=>compareLabels(a.name,b.name)));
+const selectedTruthTalents=computed(()=>truthGroupOptions.value.flatMap(group=>group.items).filter(talent=>currentTruthState.value?.truthTalents.includes(talent.id)));
 const visibleTruthGroups=computed(()=>{
   const groups=truthGroupOptions.value.filter(group=>group.name===truthGroupChoice.value||!truthGroupChoice.value&&Boolean(truthSearch.value.trim()));
   const query=truthSearch.value.trim().toLocaleLowerCase("fr");
@@ -539,6 +544,8 @@ function disadvantageById(id:string):DisadvantageOption|null{
 function disadvantagesCompatible(){
   if(!draft.value)return true;
   const selected=new Set(draft.value.disadvantages);
+  const families=draft.value.disadvantages.map(disadvantageById).filter((item):item is DisadvantageOption=>!!item).map(disadvantageFamily);
+  if(new Set(families).size!==families.length)return false;
   if(selected.has("sensible_a_la_chaleur")&&selectedRealityTalentIds().includes("resistance_a_la_chaleur"))return false;
   if(selected.has("sensible_au_froid")&&selectedRealityTalentIds().includes("resistance_au_froid"))return false;
   if(selected.has("lache")&&selectedRealityTalentIds().includes("brave"))return false;
@@ -682,16 +689,18 @@ function selectedNpcContact(value:unknown){
     String((value as Record<string,unknown>).articleId).trim().length>0;
 }
 const socialValidation=computed(()=>{
-  if(!draft.value)return {languages:false,crawler:false,renownContact:false,corporatiste:false};
+  if(!draft.value)return {languages:false,crawler:false,renownContact:false,minorContacts:false,corporatiste:false};
   const languages=socialLanguages();
   const languageOk=languages.length===requiredLanguageCount.value&&languages.every(value=>value.trim().length>0);
   const crawler=draft.value.creation.sphere!=="crawler"||selectedNpcContact(draft.value.social.crawlerContact);
   const renownContact=!hasRenownContactTalent.value||selectedNpcContact(draft.value.social.renownContact);
+  const minorContactIds=['reseau_scolaire','famille_de_fonctionnaires','vieilles_frequentations','communaute_dorigine','on_connait_quelquun'];
+  const minorContacts=minorContactIds.every(id=>!selectedRealityTalentIds().includes(id)||selectedNpcContact((draft.value?.social.talentContacts as Record<string,unknown>|undefined)?.[id]));
   const supportType=String(draft.value.reality.sphereSupportType??"");
   const supportItem=String(draft.value.reality.sphereSupportItemId??"");
   const corporatiste=draft.value.creation.sphere!=="corporatiste"||
     (["housing","vehicle"].includes(supportType)&&supportItem.length>0);
-  return {languages:languageOk,crawler,renownContact,corporatiste};
+  return {languages:languageOk,crawler,renownContact,minorContacts,corporatiste};
 });
 
 const equipmentValidation=computed(()=>{
@@ -1022,11 +1031,12 @@ const builderProgress = computed(() => {
 
 function stepDone(id:StepId):boolean{
   if(id==="progression")return true;
+  if(["truth","disadvantages","edge"].includes(id)&&!reviewedOptionalSteps.value.includes(id))return false;
   if(id==="finish"){
-    return creationStepIds.every(step=>!!creationValidationMap.value[step])&&
+    return creationStepIds.every(step=>stepDone(step))&&
       socialValidation.value.languages&&
       socialValidation.value.crawler&&
-      socialValidation.value.renownContact&&
+      socialValidation.value.renownContact&&socialValidation.value.minorContacts&&
       socialValidation.value.corporatiste;
   }
   return !!creationValidationMap.value[id];
@@ -1400,7 +1410,7 @@ function toggleDisadvantage(id:string){
   const selected=draft.value.disadvantages.includes(id);
   if(selected){
     draft.value.disadvantages=draft.value.disadvantages.filter(item=>item!==id);
-  }else if(draft.value.disadvantages.length<3){
+  }else if(draft.value.disadvantages.length<3&&availableDisadvantages.value.some(item=>item.id===id)){
     draft.value.disadvantages.push(id);
   }
   if(id==="inconnu"&&draft.value.disadvantages.includes(id))draft.value.edge.renownPack=0;
@@ -1554,7 +1564,7 @@ onBeforeUnmount(()=>{
           {{ progressionMode ? "Builder" : "Progression" }}
         </RouterLink>
         <RouterLink v-if="character&&progressionMode" class="ghost compact back-link" :to="`/characters/${character.id}/history`">Historique</RouterLink>
-        <RouterLink class="ghost compact back-link" to="/account">Mes personnages</RouterLink>
+        <RouterLink class="ghost compact back-link" to="/account#characters">Mes personnages</RouterLink>
         <button class="primary compact" type="button" :disabled="saving || loading || !dirty" @click="saveCharacter">
           {{ saving ? "Enregistrement…" : dirty ? "Enregistrer" : "Enregistré" }}
         </button>
@@ -1615,7 +1625,7 @@ onBeforeUnmount(()=>{
     <main v-else-if="error && !draft" class="builder-loading error-state">
       <strong>Impossible d’ouvrir cette fiche.</strong>
       <span>{{ error }}</span>
-      <RouterLink class="secondary back-link" to="/account">Retour à Mes personnages</RouterLink>
+      <RouterLink class="secondary back-link" to="/account#characters">Retour à Mes personnages</RouterLink>
     </main>
 
     <main v-else-if="draft && character && rules && lore" class="builder-workspace">
@@ -2403,6 +2413,10 @@ onBeforeUnmount(()=>{
                   <strong>Profane :</strong> aucun Talent de Vérité n’est achetable. Les PTV restent disponibles
                   tant que le personnage n’est pas Initié.
                 </div>
+                <div v-if="selectedTruthTalents.length" class="truth-selected-recap" aria-label="Talents de Vérité sélectionnés">
+                  <strong>Talents sélectionnés · {{ selectedTruthTalents.length }}</strong>
+                  <div><button v-for="talent in selectedTruthTalents" :key="talent.id" type="button" :title="`Retirer ${talent.name}`" @click="toggleTruthTalent(talent)">{{ talent.name }} · {{ talent.cost }} PTV ×</button></div>
+                </div>
 
                 <div
                   v-else-if="!truthChoicesValid(truthRules,currentTruthState)"
@@ -2455,7 +2469,6 @@ onBeforeUnmount(()=>{
                           :disabled="!truthTalentSelected(talent.id) && !truthTalentCanAdd(talent)"
                           @click="toggleTruthTalent(talent)"
                         >
-                          <BuilderCatalogImage :article-id="talent.compendiumId" :name="talent.name" category="Règles" />
                           <div class="truth-talent-head">
                             <strong>{{ talent.name }}</strong>
                             <span>{{ talent.cost }} PTV</span>
@@ -2734,6 +2747,7 @@ onBeforeUnmount(()=>{
                 :label="`Talent Edge ${index + 1}`"
                 placeholder="— Choisir un Talent —"
                 :groups="edgeTalentGroupsFor(index)"
+                category-picker
                 :model-value="draft.talents.edge[index] || ''"
                 :selected-lore="talentNarrative(talentById(draft.talents.edge[index] || ''))"
                 :choice-spec="talentChoiceSpec(draft.talents.edge[index] || '')"
@@ -2793,6 +2807,7 @@ onBeforeUnmount(()=>{
           :sheet="characterSheet"
           :renown-score="renownScore"
           :renown-contact-required="hasRenownContactTalent"
+          :talent-ids="selectedRealityTalentIds()"
           @update:social="draft.social=$event"
           @navigate="navigateFromFinalization"
         />
@@ -3063,6 +3078,7 @@ textarea:focus{border-color:#6cb5ff;box-shadow:0 0 0 2px rgba(108,181,255,.14)}
 .truth-talent-wiki{position:absolute;left:.9rem;bottom:.55rem;font-size:.8125rem;color:#6fb9d6}
 .truth-talent-card:hover:not(:disabled){border-color:rgba(100,222,245,.38)}
 .truth-talent-card.selected{border-color:#6cb5ff;background:rgba(108,181,255,.1)}
+.truth-selected-recap{margin:14px 0;padding:14px;border:1px solid #8b75ba;border-radius:8px;background:#1b1b35}.truth-selected-recap>div{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.truth-selected-recap button{min-height:40px;padding:7px 11px;border:1px solid #a38ed0;border-radius:5px;background:#282341;color:#f0eaff;cursor:pointer}
 .truth-talent-card:disabled{opacity:.45}
 .truth-talent-head{display:flex;justify-content:space-between;gap:.75rem;align-items:flex-start}
 .truth-talent-head span{color:#64def5;font-size:.8125rem;white-space:nowrap}

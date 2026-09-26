@@ -322,13 +322,26 @@ const navigationEntries = computed(() => {
 
 const GROUP_PRIORITY: Record<string,string[]> = {
   'Équipement & Objets':['Armement','Armures & protections','Munitions & consommables','Holonet & Neurodive','Habitat & mobilité','Vie quotidienne & services','Augmentations · Cybernétique','Augmentations · Biogénétique','Augmentations · Esthétique & fonctionnel','Équipement de Chasse','Marché des Exilés','Marché xéno','Arsenal AIDH','Corruption & Calamitechnologie'],
-  'Règles':['Moteur commun','Réalité — Création & progression','Réalité — Talents & désavantages','Réalité — Économie & équipement','Réalité — Augmentations','Réalité — Neurodive','Vérité — Règles communes','Vérité — Natures & capacités','Vérité — Corruption & Fléaux'],
-  'Réalité':['Grande Californie & société','Corporations & économie','Institutions & sécurité','Pègre, Crawlers & anti-systèmes','Religions & néoreligions'],
+  'Règles':['Moteur de jeu','Moteur commun','Réalité — Création & progression','Réalité — Talents & désavantages','Réalité — Économie & équipement','Réalité — Augmentations','Réalité — Neurodive','Vérité — Règles communes','Vérité — Natures & capacités','Vérité — Corruption & Fléaux'],
+  'Réalité':['Grande Californie & société','État & services publics','Sécurité & justice','Agences & renseignement','Corporations & économie','Pègre & criminalité','Crawlers & métiers','Insurgés','Clubs de motards','Enders','Pègre, Crawlers & anti-systèmes','Religions & néoreligions'],
   'Vérité':['Entrer dans la Vérité','Cosmologie & histoire cachée','Peuples & Natures','Natures, peuples & traditions','Chasseurs & traditions','Chasseurs','Factions de Vérité','Créatures & phénomènes','Corruption & Fléaux'],
   'Bestiaire':['Faune de Vérité','Prédateurs monstrueux','Métamorphes','Fées & esprits naturels','Revenants','Ombres & entités de l’Ombremonde','Fléaux, Ruptures & Abominations','PNJ de Réalité','PNJ de Vérité','Dossiers majeurs de scénario']
 };
-function navigationLabels(entry:Pick<WikiEntry,'category'|'group'|'subgroup'>){
+function navigationLabels(entry:Pick<WikiEntry,'id'|'category'|'group'|'subgroup'>){
   let group=entry.group||'Autres',subgroup=entry.subgroup||'Pages';
+  if(entry.category==='Réalité'&&group==='Grande Californie & société'){
+    if(subgroup==='État, institutions & services publics')group='État & services publics';
+    else if(subgroup==='Sécurité, police & justice')group='Sécurité & justice';
+    else if(subgroup==='Agences & renseignement')group='Agences & renseignement';
+    else if(subgroup==='Pègre & criminalité')group='Pègre & criminalité';
+    else if(subgroup==='Crawlers & Underlife'){
+      if(/-insurges(?:-|$)/.test(entry.id))group='Insurgés';
+      else if(/-motards(?:-|$)/.test(entry.id))group='Clubs de motards';
+      else if(/-enders(?:-|$)/.test(entry.id))group='Enders';
+      else group='Crawlers & métiers';
+    }
+    if(group!=='Grande Californie & société')subgroup='Pages';
+  }
   if(entry.category==='Équipement & Objets'){
     const parts=subgroup.split(' — ');
     if(group==='Équipement de Réalité'&&parts.length>1){group=parts[0];subgroup=parts[1]==='Neuroprogrammes'?'Neuroprogrammes':parts.slice(1).join(' — ');}
@@ -423,6 +436,9 @@ function rememberNavigationGroup(groupName: string, event: Event) {
     ...navigationGroupOverrides.value,
     [`${category.value}:${groupName}`]: (event.currentTarget as HTMLDetailsElement).open
   };
+}
+function clearCategorySelection() {
+  window.getSelection()?.removeAllRanges();
 }
 
 const selectedIsFavorite = computed(() =>
@@ -1730,7 +1746,7 @@ onBeforeUnmount(() => {
 
       <nav class="compendium-top-nav" aria-label="Navigation principale">
         <button type="button" @click="closeNewcomer">Compendium</button>
-        <RouterLink to="/account">Builder <span aria-hidden="true">↗</span></RouterLink>
+        <a href="/account">Builder <span aria-hidden="true">↗</span></a>
       </nav>
       <div class="compendium-top-actions">
         <button class="ghost compact-link" type="button" aria-label="Ouvrir la recherche" @click="focusSearch">Rechercher <kbd>⌘/Ctrl K</kbd></button>
@@ -1740,10 +1756,9 @@ onBeforeUnmount(() => {
         <RouterLink v-if="canEdit" class="ghost compact-link wiki-create-link" to="/compendium/new">
           ＋ Nouvelle page
         </RouterLink>
-        <RouterLink v-if="currentUser?.role==='admin'" class="ghost compact-link" to="/compendium/new?category=Personnages&amp;template=npc">＋ PNJ canonique</RouterLink>
-        <RouterLink class="ghost compact-link" to="/account">
+        <a class="ghost compact-link" href="/account">
           {{ currentUser ? "Mon espace" : "Connexion" }}
-        </RouterLink>
+        </a>
       </div>
     </header>
 
@@ -1820,7 +1835,7 @@ onBeforeUnmount(() => {
             :open="navigationGroupOpen(group.name)"
             @toggle="rememberNavigationGroup(group.name, $event)"
           >
-            <summary>
+            <summary @click="clearCategorySelection">
               <span>{{ group.name }}</span>
               <small>{{ group.count }}</small>
             </summary>
@@ -2311,7 +2326,7 @@ onBeforeUnmount(() => {
                     </details>
 
                     <component :is="section.title ? 'details' : 'div'" v-else class="article-disclosure" :open="section.title ? true : undefined">
-                      <summary v-if="section.title"><component :is="sectionHeadingLevel(section)">{{ section.title }}</component></summary>
+                      <summary v-if="section.title" @click="clearCategorySelection"><component :is="sectionHeadingLevel(section)">{{ section.title }}</component></summary>
 
                       <NpcStatProfile v-if="hasNpcStatProfile(section)" :blocks="section.blocks || []" :render-inline="text => linkifyText(text, selected)" />
                       <template v-for="(block, blockIndex) in section.blocks || []" v-else :key="blockIndex">
@@ -2563,7 +2578,7 @@ onBeforeUnmount(() => {
 
               <div v-if="navigationGroups.length" class="category-group-grid">
                 <details v-for="group in navigationGroups" :key="group.name" class="category-group-card">
-                  <summary class="category-card-heading">
+                  <summary class="category-card-heading" @click="clearCategorySelection">
                     <div>
                       <p class="eyebrow">DOSSIER</p>
                       <h2>{{ group.name }}</h2>
@@ -4200,7 +4215,7 @@ kbd{margin-left:12px;color:#819bb5;font:10px/1.3 Consolas,monospace}
 .reader-tools button[aria-pressed="true"]{border-color:var(--tu-accent);color:var(--tu-accent)}
 .reader-tools .reader-favorite{border-color:#8e794a;color:#f9d88d;background:#30291e;white-space:nowrap}
 .reader-tools .reader-favorite[aria-pressed="true"]{border-color:#f9d88d;color:#1c1710;background:#f9d88d}
-.navigation-group>summary,.category-card-heading{user-select:none}
+.navigation-group>summary,.category-card-heading,.article-disclosure>summary{user-select:none;-webkit-user-select:none}
 .reader-tools button:disabled{opacity:.45;cursor:default}
 .wiki-breadcrumbs{color:#91adc9;font-size:11px;line-height:1.7}
 .wiki-title-line{gap:14px;margin:14px 0}

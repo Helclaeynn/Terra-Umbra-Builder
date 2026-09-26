@@ -3858,6 +3858,14 @@ async function loadCorpus(): Promise<Corpus> {
     if (removed.length) article.secretTags = [...new Set([...(article.secretTags ?? []), ...removed])];
   }
 
+  const deletedArticles = await pool.query<{ articleId: string }>(
+    `SELECT article_id AS "articleId" FROM compendium_deleted_articles`
+  );
+  for (const { articleId } of deletedArticles.rows) {
+    byId.delete(articleId);
+    navigation.delete(articleId);
+    retiredIds.add(articleId);
+  }
   const articles = [...byId.values()].sort(compareArticles);
   const publicArticles = articles.filter((article) => !isMjOnlyArticle(article)).map((article) => { const publicArticle=articleForAudience(article,false); publicArticle.__searchText=norm(flattenText(publicArticle)); return publicArticle; });
   const publicById = new Map(publicArticles.map((article) => [article.id, article]));
@@ -4288,7 +4296,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
 
 
   app.get<{
-    Querystring: { q?: string; maxTier?: string; limit?: string };
+    Querystring: { q?: string; maxTier?: string; minTier?: string; limit?: string };
   }>("/api/compendium/contact-npcs", async (request, reply) => {
     const user = await requireUser(request, reply);
     if (!user) return;
@@ -4305,6 +4313,8 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       superieur: 7
     };
     if (!(maximum in ranks)) return bad(reply, "invalid_npc_contact_tier");
+    const minimum = String(request.query.minTier ?? "sbire");
+    if (!(minimum in ranks) || ranks[minimum] > ranks[maximum]) return bad(reply, "invalid_npc_contact_tier");
     const query = norm(String(request.query.q ?? "").trim());
     const limit = Math.min(40, Math.max(1, Number.parseInt(request.query.limit ?? "20", 10) || 20));
     const corpus = await getCorpus();
@@ -4318,7 +4328,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
         return { article, tierId };
       })
       .filter(({ article, tierId }) =>
-        tierId in ranks && ranks[tierId] <= ranks[maximum] &&
+        tierId in ranks && ranks[tierId] >= ranks[minimum] && ranks[tierId] <= ranks[maximum] &&
         (!query || String(article.__searchText ?? "").includes(query))
       )
       .sort((left, right) => compareArticles(left.article, right.article))
@@ -4454,6 +4464,21 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     );
 
     return { articleId: id, favorite: true };
+  });
+
+  app.delete<{ Params: { id: string } }>("/api/compendium/editor/articles/:id", async (request, reply) => {
+    const user = await requireEditor(request, reply);
+    if (!user) return;
+    const id = request.params.id.trim();
+    if (!id || id.length > 240) return bad(reply, "invalid_compendium_article_id");
+    const corpus = await getCorpus();
+    if (!await editorBaseFor(id, corpus)) return reply.code(404).send({ error: "compendium_article_not_found" });
+    await pool.query(
+      `INSERT INTO compendium_deleted_articles (article_id, deleted_by) VALUES ($1, $2)
+       ON CONFLICT (article_id) DO NOTHING`, [id, user.id]
+    );
+    corpusPromise = null;
+    return { articleId: id, deleted: true };
   });
 
   app.delete<{
