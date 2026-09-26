@@ -381,8 +381,9 @@ jobs:
               psql -At -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
               -c "WITH deleted AS (
                     DELETE FROM admin_audit_log
-                    WHERE target_user_id IN (SELECT id FROM users WHERE email LIKE 'ci-%@example.invalid')
-                       OR COALESCE(before_state->>'email','') LIKE 'ci-%@example.invalid'
+                    WHERE target_user_id IN (SELECT id FROM users WHERE lower(email) LIKE '%@example.invalid')
+                       OR lower(COALESCE(before_state->>'email','')) LIKE '%@example.invalid'
+                       OR lower(COALESCE(after_state->>'email','')) LIKE '%@example.invalid'
                        OR (
                          action = 'account_update'
                          AND target_user_id IS NULL
@@ -393,8 +394,15 @@ jobs:
                   ) SELECT count(*) FROM deleted;")"
             DELETED="$(docker compose --env-file .env exec -T db \
               psql -At -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
-              -c "WITH deleted AS (DELETE FROM users WHERE email LIKE 'ci-%@example.invalid' RETURNING 1) SELECT count(*) FROM deleted;")"
-            echo "CI CLEANUP — $AUDIT_DELETED trace(s) audit + $DELETED compte(s) de test supprimé(s)"
+              -c "WITH deleted AS (DELETE FROM users WHERE lower(email) LIKE '%@example.invalid' RETURNING 1) SELECT count(*) FROM deleted;")"
+            REMAINING="$(docker compose --env-file .env exec -T db \
+              psql -At -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
+              -c "SELECT count(*) FROM users WHERE lower(email) LIKE '%@example.invalid';")"
+            if [ "$REMAINING" != "0" ]; then
+              echo "CI CLEANUP — échec : $REMAINING compte(s) @example.invalid encore présent(s)" >&2
+              exit 1
+            fi
+            echo "CI CLEANUP — $AUDIT_DELETED trace(s) audit + $DELETED compte(s) @example.invalid supprimé(s)"
           REMOTE
 
       - name: Smoke test
@@ -1789,8 +1797,9 @@ jobs:
               psql -At -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
               -c "WITH deleted AS (
                     DELETE FROM admin_audit_log
-                    WHERE target_user_id IN (SELECT id FROM users WHERE email LIKE 'ci-%@example.invalid')
-                       OR COALESCE(before_state->>'email','') LIKE 'ci-%@example.invalid'
+                    WHERE target_user_id IN (SELECT id FROM users WHERE lower(email) LIKE '%@example.invalid')
+                       OR lower(COALESCE(before_state->>'email','')) LIKE '%@example.invalid'
+                       OR lower(COALESCE(after_state->>'email','')) LIKE '%@example.invalid'
                        OR (
                          action = 'account_update'
                          AND target_user_id IS NULL
@@ -1801,6 +1810,13 @@ jobs:
                   ) SELECT count(*) FROM deleted;")"
             DELETED="$(docker compose --env-file .env exec -T db \
               psql -At -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
-              -c "WITH deleted AS (DELETE FROM users WHERE email LIKE 'ci-%@example.invalid' RETURNING 1) SELECT count(*) FROM deleted;")"
-            echo "CI CLEANUP FINAL — $AUDIT_DELETED trace(s) audit + $DELETED compte(s) résiduel(s) supprimé(s)"
+              -c "WITH deleted AS (DELETE FROM users WHERE lower(email) LIKE '%@example.invalid' RETURNING 1) SELECT count(*) FROM deleted;")"
+            REMAINING="$(docker compose --env-file .env exec -T db \
+              psql -At -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
+              -c "SELECT count(*) FROM users WHERE lower(email) LIKE '%@example.invalid';")"
+            if [ "$REMAINING" != "0" ]; then
+              echo "CI CLEANUP FINAL — échec : $REMAINING compte(s) @example.invalid encore présent(s)" >&2
+              exit 1
+            fi
+            echo "CI CLEANUP FINAL — $AUDIT_DELETED trace(s) audit + $DELETED compte(s) @example.invalid résiduel(s) supprimé(s)"
           REMOTE
