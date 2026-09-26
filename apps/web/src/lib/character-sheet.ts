@@ -4,6 +4,7 @@ import type { CharacterIdentity } from "../types/character";
 
 export type SheetValue = { id:string; name:string; value:number; raw?:number; bonus?:number; attribute?:string; base?:number };
 export type SheetEntry = { id:string; name:string; detail?:string; lore?:string; compendiumId?:string; group?:string };
+export type SheetContact = { id:string; name:string; articleId?:string; group?:string; detail?:string };
 export type DerivedStats = ReturnType<typeof characterDerivedStats>;
 
 
@@ -15,5 +16,5 @@ export type CharacterSheet = {
   realityTalents:SheetEntry[]; truthTalents:SheetEntry[]; disadvantages:SheetEntry[]; inventory:SheetEntry[];
   truthNature:string; truthConsciousness:string; corruption:number; corruptionSource:string;
   truthStages:Array<{id:string;name:string;description:string;stats:string;traits:Array<{name:string;effect:string}>}>;
-  languages:string[]; contacts:string[]; reputation:string; renownMilieu:string;
+  languages:string[]; contacts:SheetContact[]; reputation:string; renownMilieu:string;
 };

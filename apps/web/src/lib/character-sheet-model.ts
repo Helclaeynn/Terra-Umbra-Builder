@@ -81,6 +81,23 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
     inventory.push({id:`truth-${id}`,name:item?.name??id,detail:item?.lore,compendiumId:item?.compendiumId,group:"Objet de Vérité"});
   }
   const strings=(value:unknown)=>Array.isArray(value)?value.filter((item):item is string=>typeof item==="string"&&Boolean(item.trim())):[];
+  const structuredContacts=Object.entries({
+    Crawler:data.social.crawlerContact,
+    "Contact de renom":data.social.renownContact,
+    ...(data.social.talentContacts&&typeof data.social.talentContacts==="object"?data.social.talentContacts as Record<string,unknown>:{})
+  })
+    .filter(([,choice])=>choice&&typeof choice==="object"&&typeof (choice as Record<string,unknown>).title==="string")
+    .map(([origin,choice],index)=>{
+      const row=choice as Record<string,unknown>;
+      const articleId=typeof row.articleId==="string"&&row.articleId.trim()?row.articleId.trim():undefined;
+      return {
+        id:`contact-${origin.replaceAll("_","-")}-${articleId??index}`,
+        name:String(row.title),
+        articleId,
+        group:origin.replaceAll("_"," "),
+        detail:typeof row.tierLabel==="string"?row.tierLabel:undefined
+      };
+    });
   return {
     mode:campaign?"campaign":"creation",name:[data.identity.firstName.trim(),data.identity.name.trim()].filter(Boolean).join(" ")||fallbackName,identity:data.identity,
     origin:creation.origins[data.creation.origin]?.name??"",sphere:sphere?.name??"",style:style?.name??"",
@@ -102,10 +119,9 @@ export function buildCharacterSheet(data:CharacterDataV2, core:SheetCore, truth:
     truthNature:truth.structure.natures[state.nature]?.name??state.nature,truthConsciousness:truth.structure.consciousness.find(item=>item.id===state.consciousness)?.name??state.consciousness,corruption:state.corruption,
     truthStages:revelation?([['v','Voilé'],['sr','Semi-révélé'],['r','Révélé']] as const).map(([id,name])=>({id,name,description:revelation.body[id],stats:revelation.stats[id],traits:revelation.stages[id].traits.map(trait=>({name:trait.name,effect:trait.effect}))})):[],
     corruptionSource:truth.corruption.sources.find(item=>item.id===state.corruptionSource)?.name??state.corruptionSource,
-    languages:strings(data.social.languages),contacts:[...strings(data.social.contacts),
-      ...Object.entries({Crawler:data.social.crawlerContact,'Contact de renom':data.social.renownContact,...(data.social.talentContacts&&typeof data.social.talentContacts==='object'?data.social.talentContacts as Record<string,unknown>:{})})
-        .filter(([,choice])=>choice&&typeof choice==='object'&&typeof (choice as Record<string,unknown>).title==='string')
-        .map(([origin,choice])=>`${origin.replaceAll('_',' ')} · ${(choice as {title:string}).title}`)
+    languages:strings(data.social.languages),contacts:[
+      ...strings(data.social.contacts).map((name,index)=>({id:`free-contact-${index}`,name})),
+      ...structuredContacts
     ],reputation:String(data.social.reputation??""),renownMilieu:String(data.social.renownMilieu??"")
   };
 }

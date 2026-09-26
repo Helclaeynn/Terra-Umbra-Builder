@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { api } from "../../lib/api";
+import BuilderWikiLink from "./BuilderWikiLink.vue";
 
-export type NpcContactChoice={articleId:string;title:string;tierId:string;tierLabel:string};
+export type NpcContactChoice={articleId:string;title:string;tierId:string;tierLabel:string;snippet?:string};
 
 const props=withDefaults(defineProps<{
   modelValue?:NpcContactChoice|null;
@@ -28,9 +29,9 @@ async function search(){
   loading.value=true;
   error.value="";
   try{
-    const params=new URLSearchParams({q:query.value.trim(),maxTier:props.maxTier,limit:"24"});
+    const params=new URLSearchParams({q:query.value.trim(),maxTier:props.maxTier});
     if(props.minTier)params.set('minTier',props.minTier);
-    const payload=await api<{items:NpcContactChoice[]}>(`/api/compendium/contact-npcs?${params}`);
+    const payload=await api<{items:NpcContactChoice[];total:number}>(`/api/compendium/contact-npcs?${params}`);
     if(current===sequence)results.value=payload.items;
   }catch{
     if(current===sequence){results.value=[];error.value="Impossible de charger la liste des PNJ.";}
@@ -61,8 +62,16 @@ onBeforeUnmount(()=>{sequence++;if(timer)clearTimeout(timer);});
     </div>
 
     <div v-if="selected" class="selected-contact">
-      <span><strong>{{ selected.title }}</strong><small>{{ selected.tierLabel }}</small></span>
-      <a :href="`/compendium?article=${encodeURIComponent(selected.articleId)}`" target="_blank" rel="noopener">Voir la fiche</a>
+      <span>
+        <BuilderWikiLink
+          :label="selected.title"
+          :article-id="selected.articleId"
+          :detail="selected.snippet || ''"
+          :badges="[selected.tierLabel]"
+          compact
+        >{{ selected.title }}</BuilderWikiLink>
+        <small>{{ selected.tierLabel }}</small>
+      </span>
       <button type="button" @click="emit('update:modelValue',null)">Changer</button>
     </div>
 
@@ -79,17 +88,31 @@ onBeforeUnmount(()=>{sequence++;if(timer)clearTimeout(timer);});
       </label>
       <p v-if="loading" role="status">Chargement des PNJ compatibles…</p>
       <p v-else-if="error" role="alert">{{ error }} <button type="button" @click="search">Réessayer</button></p>
-      <div v-else-if="results.length" class="contact-results" role="listbox" :aria-label="label">
-        <button
-          v-for="npc in results"
-          :key="npc.articleId"
-          type="button"
-          role="option"
-          @click="emit('update:modelValue',npc)"
-        >
-          <strong>{{ npc.title }}</strong><small>{{ npc.tierLabel }}</small>
-        </button>
-      </div>
+      <template v-else-if="results.length">
+        <small class="contact-count">{{ results.length }} profil{{ results.length>1 ? 's' : '' }} compatible{{ results.length>1 ? 's' : '' }} · liste scrollable</small>
+        <div class="contact-results" role="listbox" :aria-label="label">
+          <article
+            v-for="npc in results"
+            :key="npc.articleId"
+            class="contact-result"
+            role="option"
+            :aria-label="`${npc.title}, ${npc.tierLabel}`"
+          >
+            <div>
+              <BuilderWikiLink
+                :label="npc.title"
+                :article-id="npc.articleId"
+                :detail="npc.snippet || ''"
+                :badges="[npc.tierLabel]"
+                compact
+              >{{ npc.title }}</BuilderWikiLink>
+              <small>{{ npc.tierLabel }}</small>
+              <p v-if="npc.snippet">{{ npc.snippet }}</p>
+            </div>
+            <button type="button" @click="emit('update:modelValue',npc)">Choisir</button>
+          </article>
+        </div>
+      </template>
       <small v-else-if="query.trim()">Aucun PNJ compatible trouvé.</small>
     </template>
   </section>
@@ -103,8 +126,12 @@ onBeforeUnmount(()=>{sequence++;if(timer)clearTimeout(timer);});
 .contact-picker a{color:#9eeaff}
 .contact-picker label{display:grid;gap:.4rem}
 .contact-picker input{box-sizing:border-box;width:100%;min-height:44px;padding:10px;border:1px solid #405875;border-radius:6px;background:#08131f;color:#edf4ff;font:inherit}
-.contact-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.5rem;max-height:320px;overflow:auto}
-.contact-results button{display:grid;gap:.15rem;text-align:left}
+.contact-count{display:block}
+.contact-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:.5rem;max-height:360px;padding-right:.2rem;overflow:auto;overscroll-behavior:contain}
+.contact-result{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:.65rem;padding:.7rem;border:1px solid #2c4358;border-radius:7px;background:#0d1c2b}
+.contact-result>div{display:grid;gap:.18rem}
+.contact-result p{display:-webkit-box;margin:.2rem 0 0;overflow:hidden;color:#9fb4c8;font-size:.78rem;line-height:1.45;-webkit-box-orient:vertical;-webkit-line-clamp:3}
+.contact-result>button{align-self:center}
 .selected-contact{padding:.7rem;border:1px solid rgba(100,222,245,.2);border-radius:7px;background:rgba(100,222,245,.035)}
 .contact-picker button{min-height:44px;padding:9px 12px;border:1px solid #405875;border-radius:6px;background:#13283b;color:#edf4ff;font:inherit;cursor:pointer}
 .contact-picker :focus-visible{outline:2px solid #a3eaff;outline-offset:3px}
