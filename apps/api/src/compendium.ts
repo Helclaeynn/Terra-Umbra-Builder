@@ -504,13 +504,23 @@ const COMPENDIUM_UPLOAD_DIR =
 
 let corpusPromise: Promise<Corpus> | null = null;
 let portraitVisibilityPromise: Promise<PortraitOverride[]> | null = null;
-export function invalidateCompendiumCorpus() { corpusPromise = null; portraitVisibilityPromise = null; }
+let portraitVisibilityBySrc = new Map<string, "mj" | "public">();
+export function invalidateCompendiumCorpus() {
+  corpusPromise = null;
+  portraitVisibilityPromise = null;
+  portraitVisibilityBySrc = new Map();
+}
 
 type PortraitOverride = { articleId: string; src: string; visibility: "mj" | "public"; uploaded: boolean };
 async function portraitOverrides(): Promise<PortraitOverride[]> {
   if (!portraitVisibilityPromise) portraitVisibilityPromise = pool.query<PortraitOverride>(
     `SELECT article_id AS "articleId", src, visibility, uploaded FROM compendium_portrait_visibility`
-  ).then((result) => result.rows).catch((cause) => { portraitVisibilityPromise = null; throw cause; });
+  ).then((result) => {
+    const decisions = new Map<string, "mj" | "public">();
+    for (const row of result.rows) if (decisions.get(row.src) !== "mj") decisions.set(row.src, row.visibility);
+    portraitVisibilityBySrc = decisions;
+    return result.rows;
+  }).catch((cause) => { portraitVisibilityPromise = null; throw cause; });
   return portraitVisibilityPromise;
 }
 
@@ -554,7 +564,9 @@ function articleForAudience(article: Article, includeMj: boolean): Article {
   if (!includeMj) {
     const isPrivatePortrait = (media: unknown) =>
       (media as JsonObject | null)?.portraitVisibility === "mj" ||
+      (portraitVisibilityBySrc.get(String(typeof media === "string" ? media : (media as JsonObject | null)?.src ?? "")) === "mj") ||
       ((media as JsonObject | null)?.portraitVisibility !== "public" &&
+       portraitVisibilityBySrc.get(String(typeof media === "string" ? media : (media as JsonObject | null)?.src ?? "")) !== "public" &&
        /(?:^|\/)images\/portraits\/lot-[^/]+\/mj\//.test(String(typeof media === "string" ? media : (media as JsonObject | null)?.src ?? "")));
     const publicPortrait = result.gallery?.find((media: JsonObject) =>
       media?.portraitVisibility === "public" ||
