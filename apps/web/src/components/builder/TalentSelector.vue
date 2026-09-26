@@ -70,7 +70,17 @@ function updateChoice(event:Event){
   <section class="talent-selector">
     <label v-if="categoryPicker">Catégorie de talents<select v-model="chosenCategory"><option value="">— Choisir une catégorie —</option><option v-for="group in allGroups" :key="group.label" :value="group.label">{{ group.label }} · {{ group.items.length }}</option></select></label>
     <p v-if="categoryPicker && modelValue && !available.length" class="catalog-guidance">Talent sélectionné : {{ allGroups.flatMap(group=>group.items).find(item=>item.id===modelValue)?.name || modelValue }}</p>
-    <component :is="categoryPicker?'details':'div'" v-for="group in available" :key="group.label" class="talent-group" :open="categoryPicker?true:undefined"><summary v-if="categoryPicker">{{ group.label }} · {{ group.items.length }} talent{{ group.items.length>1?'s':'' }}</summary><h3 v-else-if="available.length > 1">{{ group.label }}</h3><div class="talent-card-grid"><button v-for="talent in sortedNames(group.items)" :key="talent.id" type="button" class="talent-choice-card" :class="{chosen:talent.id===modelValue}" :aria-pressed="talent.id===modelValue" @click="emit('update:modelValue',talent.id)"><img v-if="['common','expertise','origin','sphere'].includes(talent.category||'')" class="talent-art" :src="`/images/talents/${talent.category}/${encodeURIComponent(talent.id)}.webp`" :alt="`Illustration du talent ${talent.name}`" loading="lazy" /><strong>{{ talent.name }}</strong><small>{{ talent.effect||talent.description||'Consulter la fiche pour les détails.' }}</small><span>{{ talent.id===modelValue?'✓ Sélectionné':'Choisir ce talent' }}</span></button></div></component>
+    <details v-for="group in available" :key="group.label" class="talent-group" :open="categoryPicker?true:undefined">
+      <summary>{{ group.label || label }} · {{ group.items.length }} talent{{ group.items.length>1?'s':'' }}</summary>
+      <div class="talent-card-grid">
+        <button v-for="talent in sortedNames(group.items)" :key="talent.id" type="button" class="talent-choice-card" :class="{chosen:talent.id===modelValue}" :aria-pressed="talent.id===modelValue" @click="emit('update:modelValue',talent.id)">
+          <img v-if="['common','expertise','origin','sphere'].includes(talent.category||'')" class="talent-art" :src="`/images/talents/${talent.category}/${encodeURIComponent(talent.id)}.webp`" :alt="`Illustration du talent ${talent.name}`" loading="lazy" />
+          <strong>{{ talent.name }}</strong>
+          <small>{{ talent.effect||talent.description||'Consulter la fiche pour les détails.' }}</small>
+          <span>{{ talent.id===modelValue?'✓ Sélectionné':'Choisir ce talent' }}</span>
+        </button>
+      </div>
+    </details>
     <p v-if="!available.length && (!categoryPicker || !modelValue)" class="catalog-guidance">{{ categoryPicker?'Choisis une catégorie pour afficher ses talents.':placeholder }}</p>
 
     <template v-if="selected">
