@@ -527,7 +527,9 @@ const lastContact=crawlerPicker.locator(".contact-result").filter({hasText:"Cont
 const contactLink=lastContact.locator("a.builder-wiki-link");
 if(!(await contactLink.getAttribute("href"))?.includes("article=contact-smoke-48"))throw new Error("Le lien de contact ne conserve pas articleId.");
 await lastContact.getByRole("button",{name:"Choisir",exact:true}).click();
-await crawlerPicker.getByText("Contact Smoke 48",{exact:true}).waitFor();
+const selectedContactLink=crawlerPicker.locator(".selected-contact a.builder-wiki-link");
+await selectedContactLink.waitFor();
+if(!(await selectedContactLink.getAttribute("href"))?.includes("article=contact-smoke-48"))throw new Error("Le contact sélectionné perd articleId.");
 await page.locator(".character-sheet").getByText("Contact Smoke 48",{exact:true}).waitFor();
 const recapContact=page.locator(".character-sheet .sheet-contacts").getByText("Contact Smoke 48",{exact:true}).locator("..");
 if(!(await recapContact.locator("a").getAttribute("href"))?.includes("article=contact-smoke-48"))throw new Error("Le récapitulatif perd articleId du contact.");
