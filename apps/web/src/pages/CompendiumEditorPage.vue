@@ -100,6 +100,7 @@ const notice = ref("");
 const conflict = ref(false);
 const draftUpdatedAt = ref<string | null>(null);
 const publishedAt = ref<string | null>(null);
+const justPublished = ref(false);
 const builderSources = ref<BuilderSourceRecord[]>([]);
 const builderCatalog = ref<BuilderSourceRecord[]>([]);
 const builderLinkSearch = ref("");
@@ -821,7 +822,7 @@ function syncForms() {
   if (!article.value) return;
 
   article.value.tags = tagsText.value
-    .split(",")
+    .split(/[,;\n]+/)
     .map((value) => value.trim())
     .filter(Boolean);
   article.value.sections = wikiToSections(wikiText.value);
@@ -959,6 +960,7 @@ async function ensureCreated(): Promise<boolean> {
 async function saveDraft(showNotice = true, navigate = true): Promise<boolean> {
   if (!article.value || busy.value) return false;
   busy.value = true;
+  justPublished.value = false;
   error.value = "";
   notice.value = "";
 
@@ -1002,6 +1004,7 @@ async function publish() {
     article.value = clone(payload.article);
     fillForms(article.value);
     publishedAt.value = new Date().toISOString();
+    justPublished.value = true;
     draftUpdatedAt.value = null;
     notice.value = "Modification publiée dans le wiki.";
     if (isNew.value) await router.replace("/compendium/edit/" + encodeURIComponent(pageId.value));
@@ -1209,7 +1212,7 @@ onMounted(load);
                 <label>Rubrique<select v-model="article.category" aria-label="Rubrique"><option v-if="article.category&&!categories.includes(article.category)" :value="article.category">{{ article.category }} · rubrique existante</option><option v-for="item in categories" :key="item" :value="item">{{ item }}</option></select></label>
               </div>
               <label>Source<input v-model="article.source" /></label>
-              <label>Tags<textarea v-model="tagsText" rows="2" placeholder="Vérité, Garous, Californie…" /></label>
+              <label>Tags<textarea v-model="tagsText" rows="2" placeholder="Sépare les tags par une virgule : Vérité, Garous, Californie" /></label>
             </div>
 
             <div v-if="!isNew" class="panel editor-card builder-source-card" :class="{ linked: builderSources.length }">
@@ -1450,7 +1453,8 @@ Encore du texte.
           <button class="secondary" type="button" :disabled="busy" @click="saveDraft()">
             {{ busy ? "Enregistrement…" : "Enregistrer le brouillon" }}
           </button>
-          <button class="primary" type="button" :disabled="busy || conflict || !article.title?.trim()" @click="publish">
+          <a v-if="justPublished && pageId" class="primary" :href="`/compendium?article=${encodeURIComponent(pageId)}`">Voir la page publiée</a>
+          <button v-else class="primary" type="button" :disabled="busy || conflict || !article.title?.trim()" @click="publish">
             Publier dans le wiki
           </button>
         </div>
