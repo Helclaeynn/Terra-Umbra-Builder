@@ -30,6 +30,8 @@ for(const role of ['admin','editor']){
   else if(url.endsWith('/npc-generator/preview'))result={article:canonicalNpcDraft(b.npc)};
   else if(url==='/api/compendium/editor/articles'&&method==='POST'){baseArticle={...b,id,sections:[]};result={articleId:id,article:baseArticle};}
   else if(url.includes('/builder-source/'))result={records:[]};
+  else if(url.startsWith('/api/compendium/search?'))result={items:[{id:'wiki-link-target',title:'Destination wiki',category:'Réalité'}]};
+  else if(url==='/api/compendium/articles/wiki-link-target')result={article:{id:'wiki-link-target',title:'Destination wiki',sections:[{id:'reperes',title:'Repères',blocks:[]}]}};
   else if(url.endsWith('/media')){assert.equal(b.data,portrait.split(',')[1]);assert.equal(b.slot,'portrait');result={src:'/compendium/media/'+id+'.png'};}
   else if(url.endsWith('/draft')&&method==='PUT'){
    if(failSave){failSave=false;return {ok:false,status:503,json:async()=>({error:'test_retry'})};}
@@ -76,7 +78,22 @@ for(const role of ['admin','editor']){
   for(const text of ['SECRET','Heading injection','HIDDEN TEXT','Still private']){assert.ok(!pub.includes(text));assert.ok(mj.includes(text));}
   assert.equal(saved.sections.length,3);assert.equal(saved.sections.filter(s=>s.audience==='mj').length,2);
   assert.equal(published,false);assert.equal(calls.filter(c=>c.url.endsWith('/publish')).length,0);
+  assert.ok(!w.document.body.textContent.includes('Aucune liaison Builder'));
+  const source=w.document.querySelector('.wiki-source');
+  const aliasStart=source.value.indexOf('Le Scorpion');
+  assert.ok(aliasStart>=0);source.focus();source.setSelectionRange(aliasStart,aliasStart+'Le Scorpion'.length);
+  button('Lien wiki').click();await pause(0);
+  assert.equal(w.document.querySelector('.wiki-link-panel input[placeholder^="Laisser vide"]').value,'Le Scorpion');
+  button('Rechercher une page').click();await until(()=>w.document.querySelector('.wiki-link-panel select'));
+  await fill(w.document.querySelector('.wiki-link-panel select'),'wiki-link-target','change');
+  await until(()=>w.document.querySelectorAll('.wiki-link-panel select')[1]?.options.length===2);
+  await fill(w.document.querySelectorAll('.wiki-link-panel select')[1],'wiki-section-reperes','change');
+  button('Insérer le lien').click();await pause(0);
+  assert.ok(source.value.includes('[Le Scorpion](/compendium?article=wiki-link-target#wiki-section-reperes)'));
+  assert.ok(w.document.querySelector('.editor-preview-column a[href="/compendium?article=wiki-link-target#wiki-section-reperes"]'));
+  assert.equal(w.document.querySelector('.wiki-link-panel'),null);
   button('Publier dans le wiki').click();await until(()=>published);await until(()=>!button('Enregistrer le brouillon').disabled);
+  assert.ok(JSON.stringify(saved.sections).includes('[Le Scorpion](/compendium?article=wiki-link-target#wiki-section-reperes)'));
   assert.equal(calls.filter(c=>c.url.endsWith('/publish')).length,1);
   assert.deepEqual(errors,[]);
  }finally{w.test?.unmount();dom.window.close();}

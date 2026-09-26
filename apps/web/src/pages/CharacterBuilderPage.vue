@@ -305,6 +305,11 @@ const availableDisadvantages=computed(()=>{
   return visibleDisadvantages.value.filter(item=>!selected.has(item.id)&&!families.has(disadvantageFamily(item)));
 });
 function disadvantageFamily(item:DisadvantageOption){return item.category==='attribute'?`attribute:${item.attribute}`:item.category;}
+const selectedDisadvantageInFamily=computed(()=>{
+  const family=visibleDisadvantages.value[0];
+  if(!family)return null;
+  return selectedDisadvantageItems().find(item=>disadvantageFamily(item)===disadvantageFamily(family))??null;
+});
 
 const disadvantagePreview=computed(()=>
   disadvantagePick.value ? disadvantageById(disadvantagePick.value) : null
@@ -390,7 +395,9 @@ const truthPtvRemaining=computed(()=>
 const truthGroupOptions=computed(()=>truthGroups(availableTruthTalents.value).map(group=>({...group,items:[...group.items].sort(compareTruthTalents)})).sort((a,b)=>compareLabels(a.name,b.name)));
 const selectedTruthTalents=computed(()=>truthGroupOptions.value.flatMap(group=>group.items).filter(talent=>currentTruthState.value?.truthTalents.includes(talent.id)));
 const visibleTruthGroups=computed(()=>{
-  const groups=truthGroupOptions.value.filter(group=>group.name===truthGroupChoice.value||!truthGroupChoice.value&&Boolean(truthSearch.value.trim()));
+  const groups=truthGroupOptions.value
+    .filter(group=>group.name===truthGroupChoice.value||!truthGroupChoice.value&&Boolean(truthSearch.value.trim()))
+    .map(group=>({...group,items:group.items.filter(talent=>!truthTalentSelected(talent.id))}));
   const query=truthSearch.value.trim().toLocaleLowerCase("fr");
   if(!query)return groups;
   return groups
@@ -1415,11 +1422,6 @@ function toggleTruthTalent(talent:TruthTalent){
   const next:TruthState={...currentTruthState.value,truthTalents};
   next.truthTalents=truthSanitizeTalents(truthRules.value,next);
   writeTruthState(next);
-  if(!selected){
-    // Keep the rest of the chosen family visible after a search result is picked.
-    truthSearch.value="";
-    truthGroupChoice.value=truthGroupOptions.value.find(group=>group.items.some(item=>item.id===talent.id))?.name??"";
-  }
 }
 
 function toggleDisadvantage(id:string){
@@ -2138,7 +2140,7 @@ onBeforeUnmount(()=>{
 
           <p class="builder-intro">
             Choisissez un Talent gratuit pour chacune des quatre provenances de création.
-            Les Talents d’Expertise proposés sont limités aux deux familles ouvertes par votre Style.
+            Pour l’Expertise, choisissez un seul Talent au total parmi les deux familles ouvertes par votre Style.
             Les précisions et choix secondaires sont enregistrés avec la fiche.
           </p>
 
@@ -2173,21 +2175,25 @@ onBeforeUnmount(()=>{
               @update:choice-value="setTalentChoice(draft.talents.sphere,$event)"
             />
 
-            <TalentSelector
-              label="Talent d’Expertise"
-              placeholder="— Choisir une Expertise —"
-              :groups="selectedStyle.expertiseFamilies.map((attribute)=>({
-                label: attributeName(attribute),
-                items: expertiseTalents.filter((talent)=>talent.attribute===attribute)
-              }))"
-              :model-value="draft.talents.expertise"
-              :selected-lore="talentNarrative(talentById(draft.talents.expertise))"
-              :choice-spec="talentChoiceSpec(draft.talents.expertise)"
-              :choice-value="talentChoiceValue(draft.talents.expertise)"
-              :choice-options="talentChoiceOptions(talentChoiceSpec(draft.talents.expertise))"
-              @update:model-value="setTalent('expertise',$event)"
-              @update:choice-value="setTalentChoice(draft.talents.expertise,$event)"
-            />
+            <section class="expertise-talent-section" aria-label="Talent d’Expertise">
+              <h3>Talent d’Expertise · 1 seul choix</h3>
+              <p>Choisissez un seul Talent parmi ces deux familles. Un nouveau choix remplace le précédent, même dans l’autre famille.</p>
+              <TalentSelector
+                label="Talent d’Expertise"
+                placeholder="— Choisir une Expertise —"
+                :groups="selectedStyle.expertiseFamilies.map((attribute)=>({
+                  label: attributeName(attribute),
+                  items: expertiseTalents.filter((talent)=>talent.attribute===attribute)
+                }))"
+                :model-value="draft.talents.expertise"
+                :selected-lore="talentNarrative(talentById(draft.talents.expertise))"
+                :choice-spec="talentChoiceSpec(draft.talents.expertise)"
+                :choice-value="talentChoiceValue(draft.talents.expertise)"
+                :choice-options="talentChoiceOptions(talentChoiceSpec(draft.talents.expertise))"
+                @update:model-value="setTalent('expertise',$event)"
+                @update:choice-value="setTalentChoice(draft.talents.expertise,$event)"
+              />
+            </section>
 
             <TalentSelector
               label="Talent Commun"
@@ -2433,8 +2439,14 @@ onBeforeUnmount(()=>{
                   tant que le personnage n’est pas Initié.
                 </div>
                 <div v-if="selectedTruthTalents.length" class="truth-selected-recap" aria-label="Talents de Vérité sélectionnés">
-                  <strong>Talents sélectionnés · {{ selectedTruthTalents.length }}</strong>
-                  <div><button v-for="talent in selectedTruthTalents" :key="talent.id" type="button" :title="`Retirer ${talent.name}`" @click="toggleTruthTalent(talent)">{{ talent.name }} · {{ talent.cost }} PTV ×</button></div>
+                  <h4>Talents acquis · {{ selectedTruthTalents.length }}</h4>
+                  <div class="truth-owned-list">
+                    <article v-for="talent in selectedTruthTalents" :key="talent.id" class="truth-owned-card">
+                      <div><strong>{{ talent.name }}</strong><span>{{ talent.cost }} PTV</span></div>
+                      <p>{{ talent.effect }}</p>
+                      <button type="button" :aria-label="`Retirer ${talent.name}`" @click="toggleTruthTalent(talent)">Retirer</button>
+                    </article>
+                  </div>
                 </div>
 
                 <div
@@ -2444,7 +2456,9 @@ onBeforeUnmount(()=>{
                   Complétez d’abord les choix structurels obligatoires de cette Nature.
                 </div>
 
-                <template v-else>
+                <section v-else class="truth-available-catalog" aria-label="Catalogue des Talents de Vérité">
+                  <h4>Ajouter des Talents</h4>
+                  <p>Dépensez vos PTV dans les Talents accessibles à votre personnage. Vos acquis sont regroupés au-dessus.</p>
                   <label class="truth-search">
                     Catégorie de talents
                     <select v-model="truthGroupChoice"><option value="">— Choisir une catégorie —</option><option v-for="group in truthGroupOptions" :key="group.name" :value="group.name">{{ group.name }} · {{ group.items.length }}</option></select>
@@ -2466,7 +2480,7 @@ onBeforeUnmount(()=>{
                     v-for="group in visibleTruthGroups"
                     :key="group.name"
                     class="truth-group"
-                    :open="group.items.some(talent=>truthTalentSelected(talent.id))"
+                    open
                   >
                     <summary>
                       <span>
@@ -2475,7 +2489,8 @@ onBeforeUnmount(()=>{
                       </span>
                     </summary>
 
-                    <div class="truth-talent-grid">
+                    <p v-if="!group.items.length" class="rule-note">Tous les Talents de cette catégorie sont déjà acquis. Choisissez une autre catégorie pour continuer.</p>
+                    <div v-else class="truth-talent-grid">
                       <div
                         v-for="talent in group.items"
                         :key="talent.id"
@@ -2501,11 +2516,13 @@ onBeforeUnmount(()=>{
                           </div>
                           <em v-if="talent.runtimeLore">{{ talent.runtimeLore }}</em>
                           <p><b>Effet :</b> {{ talent.effect }}</p>
+                          <small v-if="!truthTalentCanAdd(talent)">{{ !truthTalentPrereqOk(talent) ? 'Prérequis à remplir' : 'PTV disponibles insuffisants' }}</small>
+                          <span v-else>Ajouter ce Talent</span>
                         </button>
                       </div>
                     </div>
                   </details>
-                </template>
+                </section>
               </section>
 
               <TruthEquipmentPanel
@@ -2542,7 +2559,7 @@ onBeforeUnmount(()=>{
           </div>
 
           <p class="builder-intro">
-            Les Désavantages sont facultatifs, de 0 à 3, avec un seul choix par famille. Chacun rapporte +1 Edge, mais doit
+            Les Désavantages sont facultatifs, de 0 à 3, avec <strong>un seul Désavantage par famille</strong>. Chacun rapporte +1 Edge, mais doit
             représenter une faiblesse ou une complication qui peut réellement peser dans la fiction.
           </p>
 
@@ -2562,7 +2579,7 @@ onBeforeUnmount(()=>{
               <label>
                 <span>Désavantage</span>
                 <div class="v1-select-shell">
-                  <select v-model="disadvantagePick" :disabled="draft.disadvantages.length >= 3">
+                  <select v-model="disadvantagePick" :disabled="draft.disadvantages.length >= 3 || Boolean(selectedDisadvantageInFamily)" aria-describedby="disadvantage-family-help">
                     <option value="">— Choisir —</option>
                     <option
                       v-for="item in availableDisadvantages"
@@ -2585,6 +2602,14 @@ onBeforeUnmount(()=>{
                 Ajouter le Désavantage
               </button>
             </div>
+
+            <p id="disadvantage-family-help" class="rule-note" role="status">
+              <template v-if="selectedDisadvantageInFamily">
+                <strong>{{ selectedDisadvantageInFamily.name }}</strong> occupe déjà cette famille : un seul Désavantage par famille est autorisé.
+                Retirez-le pour choisir un autre Désavantage de cette famille, ou changez de famille.
+              </template>
+              <template v-else>Un seul Désavantage par famille est autorisé : Communs, Sphère, ou Faiblesse d’un même Attribut.</template>
+            </p>
 
             <article v-if="disadvantagePreview" class="choice-preview">
               <div>
@@ -3097,7 +3122,8 @@ textarea:focus{border-color:#6cb5ff;box-shadow:0 0 0 2px rgba(108,181,255,.14)}
 .truth-talent-wiki{position:absolute;left:.9rem;bottom:.55rem;font-size:.8125rem;color:#6fb9d6}
 .truth-talent-card:hover:not(:disabled){border-color:rgba(100,222,245,.38)}
 .truth-talent-card.selected{border-color:#6cb5ff;background:rgba(108,181,255,.1)}
-.truth-selected-recap{margin:14px 0;padding:14px;border:1px solid #8b75ba;border-radius:8px;background:#1b1b35}.truth-selected-recap>div{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.truth-selected-recap button{min-height:40px;padding:7px 11px;border:1px solid #a38ed0;border-radius:5px;background:#282341;color:#f0eaff;cursor:pointer}
+.expertise-talent-section{margin:0 0 24px;padding:18px;border:1px solid #36536b;border-radius:8px;background:#0e1b2d}.expertise-talent-section>h3{margin:0 0 8px}.expertise-talent-section>p{color:#b3c5d9;line-height:1.6}.expertise-talent-section :deep(.talent-group){border:1px solid #36536b;border-radius:6px;padding:0 10px}.expertise-talent-section :deep(.talent-selector){margin-bottom:0}
+.truth-selected-recap{margin:14px 0;padding:14px;border:1px solid #8b75ba;border-radius:8px;background:#1b1b35}.truth-selected-recap h4,.truth-available-catalog>h4{margin:0 0 10px;font-size:1rem}.truth-owned-list{display:grid;gap:8px}.truth-owned-card{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;column-gap:12px;padding:12px;border:1px solid #655588;border-radius:6px}.truth-owned-card>div{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}.truth-owned-card>div>span{color:#d2c2ff}.truth-owned-card>p{grid-column:1;margin:8px 0 0;color:#c3d2e4;line-height:1.5}.truth-owned-card>button{grid-column:2;grid-row:1/3;min-height:44px;padding:7px 11px;border:1px solid #a38ed0;border-radius:5px;background:#282341;color:#f0eaff;cursor:pointer}.truth-available-catalog{margin-top:20px}.truth-available-catalog>p{color:#b3c5d9;line-height:1.5}.truth-talent-card>span{color:#d2c2ff;font-weight:600}
 .truth-talent-card:disabled{opacity:.45}
 .truth-talent-head{display:flex;justify-content:space-between;gap:.75rem;align-items:flex-start}
 .truth-talent-head span{color:#64def5;font-size:.8125rem;white-space:nowrap}

@@ -100,7 +100,8 @@ const rules={
     common:[{id:"common_smoke",name:"Brave",compendiumId:"wiki-brave",effect:"Test commun",category:"common"},
       {id:"zulu_smoke",name:"Zèle Smoke",effect:"Effet Zèle",category:"common",compendiumId:"removed-zulu"},
       {id:"aube_smoke",name:"Aube Smoke",effect:"Effet Aube",category:"common",compendiumId:"removed-aube"}],
-    expertise:[{id:"expertise_smoke",name:"Athlète",effect:"+1 Athlétisme",category:"expertise",attribute:"vigueur"}]
+    expertise:[{id:"expertise_smoke",name:"Athlète",effect:"+1 Athlétisme",category:"expertise",attribute:"vigueur"},
+      {id:"expertise_agile_smoke",name:"Acrobate",effect:"Adresse smoke",category:"expertise",attribute:"agilite"}]
   }
 };
 
@@ -459,8 +460,35 @@ await page.locator(".builder-nav").getByRole("button",{name:/Talents/}).click();
 await page.locator('.talent-detail').filter({hasText:'Brave'}).waitFor();
 if (await page.locator('.talent-detail a').count()) throw new Error('Les talents ne doivent plus proposer de lien d’article');
 await page.locator('.talent-detail').filter({hasText:'Brave'}).getByText('Test commun',{exact:false}).waitFor();
+const expertise=page.locator('.expertise-talent-section');
+await expertise.getByRole('heading',{name:'Talent d’Expertise · 1 seul choix'}).waitFor();
+if(await expertise.locator('.talent-group').count()!==2)throw new Error('Les deux familles d’Expertise doivent partager un seul conteneur de choix.');
+for(const group of await expertise.locator('.talent-group').all())await group.locator('summary').click();
+await expertise.getByRole('button',{name:/Acrobate/}).click();
+await expertise.locator('.talent-detail').filter({hasText:'Acrobate'}).waitFor();
+if(await expertise.locator('.talent-choice-card[aria-pressed="true"]').count()!==1)throw new Error('Une seule Expertise doit être sélectionnée parmi les deux familles.');
+await expertise.getByRole('button',{name:/Athlète/}).click();
 
 await page.locator(".builder-nav").getByRole("button",{name:/Vérité/}).click();
+const truthTalents=page.locator('.truth-talents-section');
+await truthTalents.getByLabel('Catégorie de talents',{exact:true}).selectOption('Groupe Smoke');
+const truthCards=truthTalents.locator('.truth-available-catalog .truth-talent-card');
+await truthCards.filter({hasText:'Aube occulte'}).click();
+await truthTalents.getByRole('button',{name:'Retirer Aube occulte',exact:true}).waitFor();
+await truthCards.filter({hasText:'Zèle occulte'}).click();
+await truthTalents.getByRole('button',{name:'Retirer Zèle occulte',exact:true}).waitFor();
+if(await truthTalents.locator('.truth-owned-card').count()!==2)throw new Error('Choisir un premier Talent de Vérité doit permettre immédiatement un deuxième choix.');
+if(!await truthCards.filter({hasText:'Aube supérieure'}).isVisible())throw new Error('Le catalogue de Vérité doit rester visible sous les Talents acquis.');
+await truthTalents.getByRole('button',{name:'Retirer Aube occulte',exact:true}).click();
+await truthCards.filter({hasText:'Aube occulte'}).waitFor({state:'visible'});
+await truthTalents.getByRole('button',{name:'Retirer Zèle occulte',exact:true}).click();
+const truthSearch=truthTalents.getByRole('searchbox');
+await truthSearch.fill('Aube');
+await truthCards.filter({hasText:'Aube occulte'}).click();
+if(await truthSearch.inputValue()!=='Aube')throw new Error('Ajouter un Talent ne doit pas réinitialiser la recherche.');
+await truthCards.filter({hasText:'Aube supérieure'}).waitFor({state:'visible'});
+await truthTalents.getByRole('button',{name:'Retirer Aube occulte',exact:true}).click();
+await truthSearch.fill('');
 const revealDisclosure=page.locator("summary.truth-disclosure-summary").filter({hasText:"Voile & Révélation"});
 await revealDisclosure.waitFor({state:"visible",timeout:5000});
 await revealDisclosure.click();
@@ -598,6 +626,11 @@ if(await page.locator('.character-sheet[data-mode="creation"] [data-list="invent
 const truthStageCards=page.locator('.character-sheet[data-mode="creation"] .sheet-truth-stage');
 if(await truthStageCards.count()!==3)throw new Error('La fiche doit afficher simultanément Voilé, Semi-révélé et Révélé.');
 if(await page.locator('.character-sheet[data-mode="creation"] .sheet-truth-stages details').count())throw new Error('Les états de Vérité ne doivent plus être des accordéons.');
+for(const label of ['Voilé','Semi-révélé','Révélé'])await truthStageCards.getByText(label,{exact:true}).waitFor();
+const sheetTruth=page.locator('.character-sheet[data-mode="creation"] details.sheet-truth');
+await sheetTruth.locator(':scope > summary').click();
+await truthStageCards.first().waitFor({state:'hidden'});
+await sheetTruth.locator(':scope > summary').click();
 for(const label of ['Voilé','Semi-révélé','Révélé'])await truthStageCards.getByText(label,{exact:true}).waitFor();
 const creationPv = Number(await page.locator('[data-stat="pvMax"] strong').innerText());
 for (const width of [1440,390]) {

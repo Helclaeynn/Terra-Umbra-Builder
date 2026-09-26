@@ -14,7 +14,7 @@ const app=createApp({render:()=>h(Actions,props.value)});app.mount('#app');
 window.testActions={set:async next=>{props.value=next;await nextTick()},stop:()=>app.unmount(),tick:nextTick};
 `},bundle:true,write:false,format:'iife',platform:'browser',define:{'process.env.NODE_ENV':'"test"',__VUE_OPTIONS_API__:'true',__VUE_PROD_DEVTOOLS__:'false',__VUE_PROD_HYDRATION_MISMATCH_DETAILS__:'false'},
 plugins:[{name:'vue-and-pdf',setup(b){
-  b.onLoad({filter:/character-pdf\.ts$/},()=>({contents:'export const generateCharacterPdf=(input,printing)=>window.mockGenerate(input,printing);',loader:'js'}));
+  b.onLoad({filter:/character-pdf-client\.ts$/},()=>({contents:'export const generateCharacterPdf=(input,printing)=>window.mockGenerate(input,printing);',loader:'js'}));
   b.onLoad({filter:/\.vue$/},async({path:filename})=>{const {descriptor,errors}=parse(await readFile(filename,'utf8'),{filename});assert.equal(errors.length,0);return {contents:compileScript(descriptor,{id:'pdf-actions-test',inlineTemplate:true}).content,loader:'ts',resolveDir:path.dirname(filename)};});
 }}]});
 const errors=[],vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));

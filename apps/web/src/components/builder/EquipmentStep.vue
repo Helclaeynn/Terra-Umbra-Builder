@@ -59,6 +59,21 @@ const variantChoice=ref<Record<string,string>>({});
 const recurringDrafts=ref<Record<string,string>>({});
 const customChargeName=ref("");
 const customChargeMonthly=ref("");
+type CatalogSort="price-asc"|"price-desc"|"name";
+const equipmentSort=ref<CatalogSort>("price-asc");
+const augmentationSort=ref<CatalogSort>("price-asc");
+const recurringSort=ref<CatalogSort>("price-asc");
+
+function compareCatalogItems(a:RealityItem,b:RealityItem,sort:CatalogSort,monthly=false){
+  const byName=a.name.localeCompare(b.name,"fr",{numeric:true});
+  if(sort==="name")return byName;
+  const cost=(item:RealityItem)=>monthly?recurringMonthlyCost(item):realityPriceSpec(item).defaultCost??item.price??item.priceMin;
+  const aCost=cost(a),bCost=cost(b);
+  // Unpriced items stay at the end in either direction.
+  if(aCost===null||aCost===undefined)return bCost===null||bCost===undefined?byName:1;
+  if(bCost===null||bCost===undefined)return -1;
+  return (sort==="price-desc"?bCost-aCost:aCost-bCost)||byName;
+}
 
 const state=computed(()=>props.modelValue as unknown as import("../../lib/reality").RealityState);
 function housingArtwork(item:RealityItem){return /^equipement-(?:219|22\d|23[0-4])-/.test(item.compendiumId||"")||/logement|studio|dortoir|résidence|appartement|penthouse|villa|squat|planque|cache improvisée/i.test(item.name);}
@@ -228,7 +243,7 @@ const recurringGroups=computed(()=>{
     groups.get(label)!.push(item);
   }
   return [...groups.entries()]
-    .map(([label,items])=>({label,items:items.sort((a,b)=>a.name.localeCompare(b.name,"fr"))}))
+    .map(([label,items])=>({label,items:items.sort((a,b)=>compareCatalogItems(a,b,recurringSort.value,true))}))
     .sort((a,b)=>a.label.localeCompare(b.label,"fr"));
 });
 
@@ -263,7 +278,7 @@ const augmentationGroups=computed(()=>{
       key,
       variants:variants.sort((a,b)=>(a.generation??1)-(b.generation??1)||(a.price??1e15)-(b.price??1e15))
     }))
-    .sort((a,b)=>a.variants[0].name.localeCompare(b.variants[0].name,"fr"));
+    .sort((a,b)=>compareCatalogItems(selectedVariant(a),selectedVariant(b),augmentationSort.value));
 });
 
 const equipmentCatalogGroups=computed(()=>{
@@ -274,7 +289,7 @@ const equipmentCatalogGroups=computed(()=>{
     groups.get(label)!.push(item);
   }
   return [...groups.entries()]
-    .map(([label,items])=>({label,items:items.sort((a,b)=>a.name.localeCompare(b.name,"fr"))}))
+    .map(([label,items])=>({label,items:items.sort((a,b)=>compareCatalogItems(a,b,equipmentSort.value))}))
     .sort((a,b)=>a.label.localeCompare(b.label,"fr"));
 });
 const augmentationCatalogGroups=computed(()=>{
@@ -522,6 +537,13 @@ function setCorporateSupportItem(itemId:string){
         </div>
 
         <div class="recurring-catalog">
+          <label class="catalog-sort">Trier les services et charges
+            <select v-model="recurringSort">
+              <option value="price-asc">Coût mensuel croissant</option>
+              <option value="price-desc">Coût mensuel décroissant</option>
+              <option value="name">Nom (A à Z)</option>
+            </select>
+          </label>
           <details v-for="group in recurringGroups" :key="group.label" class="catalog-family catalog-family-disclosure">
             <summary><span>{{ group.label }}</span><span class="family-count">{{ group.items.length }}</span></summary>
             <div class="catalog-grid">
@@ -717,6 +739,13 @@ function setCorporateSupportItem(itemId:string){
               Recherche
               <input v-model="augmentationQuery" type="search" placeholder="Rechercher une augmentation…" />
             </label>
+            <label>Trier les augmentations
+              <select v-model="augmentationSort">
+                <option value="price-asc">Prix croissant</option>
+                <option value="price-desc">Prix décroissant</option>
+                <option value="name">Nom (A à Z)</option>
+              </select>
+            </label>
           </div>
 
           <div class="override-grid">
@@ -884,6 +913,13 @@ function setCorporateSupportItem(itemId:string){
               Recherche
               <input v-model="equipmentQuery" type="search" placeholder="Rechercher équipement, service ou véhicule…" />
             </label>
+            <label>Trier l’équipement
+              <select v-model="equipmentSort">
+                <option value="price-asc">Prix croissant</option>
+                <option value="price-desc">Prix décroissant</option>
+                <option value="name">Nom (A à Z)</option>
+              </select>
+            </label>
           </div>
 
           <div class="override-grid">
@@ -1028,7 +1064,8 @@ function setCorporateSupportItem(itemId:string){
 .picked-row.rich{align-items:flex-start}
 .equipment-step .inline-select,.equipment-step .neuro-toggle{display:flex;align-items:center;flex-wrap:wrap;gap:10px;min-height:44px;margin-top:8px;color:#b8cada;font-size:14px}
 .inline-select select{width:auto;max-width:100%}
-.catalog-tools{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:16px;margin:20px 0}
+.catalog-tools{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr) minmax(0,.8fr);gap:16px;margin:20px 0}
+.catalog-sort{max-width:320px}
 .catalog-count{margin:0 0 16px;color:var(--equipment-muted);font-size:14px}
 .override-grid{display:grid;gap:12px;margin-bottom:20px}
 .equipment-step .permission-switch{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:64px;padding:16px 18px;border:1px solid #365267;border-radius:8px;background:#102330;cursor:pointer}

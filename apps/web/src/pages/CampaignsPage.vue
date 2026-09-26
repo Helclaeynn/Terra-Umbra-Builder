@@ -28,6 +28,7 @@ let refreshTimer:ReturnType<typeof setInterval>|undefined;
 let generation=0,searchGeneration=0,timer:ReturnType<typeof setTimeout>|undefined;
 function failure(e:unknown){
   const messages:Record<string,string>={campaign_version_conflict:'La campagne a changé ailleurs. Ton texte est conservé : copie-le avant de recharger la dernière version.',invalid_campaign:'Vérifie le nom (120 caractères), la présentation (2 000) et les notes (20 000).',gm_required:'Le rôle MJ est nécessaire pour créer une campagne.',invitation_unavailable:'Ce compte est déjà invité ou la campagne n’est plus disponible.',membership_unavailable:'La campagne ou la fiche choisie n’est plus disponible.',campaign_not_found:'Cette campagne n’est pas accessible avec ton compte.',authentication_required:'Connecte-toi pour retrouver tes campagnes.'};
+  messages.campaign_delete_conflict='La campagne a changé depuis son affichage. Actualise-la avant de confirmer sa suppression.';
   error.value=messages[e instanceof Error?e.message:'']||'Impossible de terminer cette action. Réessaie.';
   if(e instanceof ApiError&&[401,403,404].includes(e.status)){
     campaign.value=null;campaigns.value=[];members.value=[];characters.value=[];accounts.value=[];canCreate.value=false;editing.value=false;draft.value={name:'',description:'',gmNotes:'',admissionRules:''};login.value=e.status===401;
@@ -81,6 +82,16 @@ async function archive(){
   const c=campaign.value!;if(!window.confirm(c.archivedAt?'Réactiver cette campagne et ses partages de fiches ?':'Archiver cette campagne ? Les invitations et les accès aux fiches par cette campagne seront suspendus.'))return;
   await action(()=>api(`${endpoint}/${id}`,{method:'PATCH',body:JSON.stringify({name:c.name,description:c.description,gmNotes:c.gmNotes||'',version:c.version,archived:!c.archivedAt})}),c.archivedAt?'Campagne réactivée.':'Campagne archivée.');
 }
+async function deleteCampaign(){
+  const c=campaign.value;if(!c||busy.value)return;
+  if(!window.confirm(`Supprimer définitivement « ${c.name} » ?\n\nLes séances, notes, invitations, PNJ et créatures de cette campagne seront supprimés. Les fiches des joueurs et leurs acquis seront conservés dans leurs personnages. Cette action est irréversible.`))return;
+  busy.value=true;error.value='';
+  try{
+    await api(`${endpoint}/${id}`,{method:'DELETE',body:JSON.stringify({version:c.version})});
+    editing.value=false;npcDirty.value=false;bestiaryDirty.value=false;campaign.value=null;
+    await router.push('/campaigns');
+  }catch(e){failure(e);}finally{busy.value=false;}
+}
 function beforeUnload(e:BeforeUnloadEvent){if(dirty.value||npcDirty.value||bestiaryDirty.value){e.preventDefault();e.returnValue='';}}
 onBeforeRouteLeave(()=>!(dirty.value||npcDirty.value||bestiaryDirty.value)||window.confirm('Quitter avec des modifications non enregistrées ?'));
 function focus(){if(document.visibilityState!=='hidden'&&!dirty.value&&!busy.value&&!loading.value)void load();}
@@ -123,7 +134,7 @@ onUnmounted(()=>{clearInterval(refreshTimer);document.removeEventListener('visib
           <CampaignAdmissions v-if="!campaign.archivedAt" :campaign-id="id" :can-manage="campaign.canManage" :refresh-key="admissionRefresh" @updated="load" />
 
           <details v-if="campaign.canManage&&!editing" class="panel"><summary>Mes notes privées</summary><p class="private-notes">{{ campaign.gmNotes||'Aucune note pour le moment.' }}</p><button @click="edit">Modifier mes notes</button></details>
-          <details v-if="campaign.canManage&&!editing" class="panel"><summary>Gérer la campagne</summary><p>L’archivage conserve le groupe et les notes, mais suspend les accès aux fiches accordés par cette campagne.</p><button :disabled="busy" @click="archive">{{ campaign.archivedAt?'Réactiver la campagne':'Archiver la campagne' }}</button></details>
+          <details v-if="campaign.canManage&&!editing" class="panel"><summary>Gérer la campagne</summary><p>L’archivage conserve le groupe et les notes, mais suspend les accès aux fiches accordés par cette campagne.</p><div class="actions"><button :disabled="busy" @click="archive">{{ campaign.archivedAt?'Réactiver la campagne':'Archiver la campagne' }}</button><button class="danger" :disabled="busy" @click="deleteCampaign">Supprimer la campagne</button></div><small>La suppression retire définitivement les séances, notes, PNJ et créatures de la campagne. Les personnages des joueurs et leurs acquis restent conservés.</small></details>
         </template>
       </template>
       <RouterLink v-if="id" class="campaign-return" to="/campaigns">← Retour à mes campagnes</RouterLink>
@@ -133,6 +144,7 @@ onUnmounted(()=>{clearInterval(refreshTimer);document.removeEventListener('visib
 </template>
 
 <style scoped>
+.campaign-page button.danger{border-color:#bf6874;color:#ffc0c8;background:#301c27}
 .account-picker{max-height:340px;overflow-y:auto;overscroll-behavior:contain;padding:0 12px;border:1px solid #405875;border-radius:6px}.campaign-page .campaign-return{display:inline-flex;align-items:center;min-height:44px;box-sizing:border-box;padding:10px 16px;margin:0 10px 24px 0;border:1px solid #405875;border-radius:6px;background:#101e30;color:#b6efff;font-weight:600}.campaign-page .campaign-return:hover{background:#18334a;border-color:#80dfea}
 
 .campaign-page{min-height:100vh;background:#080f19;color:#eaf2ff;font-family:Inter,'Segoe UI',sans-serif}.campaign-nav{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 32px;border-bottom:1px solid #2b4056}.campaign-nav>a{max-width:280px}.campaign-nav nav{display:flex;gap:20px}.campaign-page a{color:#a4e7f5;text-decoration:none}.campaign-page main{max-width:1280px;margin:auto;padding:36px 28px 80px}.page-heading,.section-heading{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:24px}h1{font-size:clamp(28px,4vw,42px);margin:8px 0}h2{font-size:20px;margin:0 0 12px}p{line-height:1.65;color:#b5c8dc}.eyebrow{font:600 11px/1.6 monospace;letter-spacing:.15em;color:#70dce9}.panel,.campaign-card{background:#0e1b2c;border:1px solid #2e455d;border-radius:10px;padding:22px;margin:20px 0}.campaign-card{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:0;min-width:0}.campaign-card:hover{border-color:#80dfea;background:#14263a}.campaign-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px}.campaign-card h2,.campaign-card strong{color:#eaf2ff}.campaign-card p{margin:6px 0}.invitations{margin:24px 0}.invitations .campaign-card{border-color:#716092;margin:10px 0}.form{display:grid;gap:16px}.form label{display:grid;gap:8px;font-size:14px}.form input,.form textarea,.form select{width:100%;min-width:0;box-sizing:border-box;min-height:44px;padding:12px;color:#edf4ff;background:#08131f;border:1px solid #405875;border-radius:6px;font:inherit}.form textarea{resize:vertical}.actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px}.campaign-page button,.campaign-page .sheet-link{min-height:44px;padding:10px 16px;border:1px solid #405875;border-radius:6px;background:#101e30;color:#eaf2ff;cursor:pointer;font:600 14px/1.5 inherit}.campaign-page .primary{background:#a3eaff;border-color:#a3eaff;color:#071725}.campaign-page button:disabled{opacity:.5;cursor:default}.member-row{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 0;border-bottom:1px solid #293d52}.member-row:last-child{border-bottom:0}.member-row p{margin:5px 0}.member-row small{display:block}.member-row>div{min-width:0}small{color:#a3b7cc;line-height:1.6}.description,.private-notes{white-space:pre-wrap;overflow-wrap:anywhere}.error,.notice{padding:16px;border-radius:6px;border:1px solid #78505c;background:#251925}.notice{background:#102c2c;border-color:#38716a}summary{cursor:pointer;min-height:44px;align-content:center;color:#b7d9ef}a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid #a3eaff;outline-offset:4px}strong,h1,h2{overflow-wrap:anywhere}.empty{padding-block:24px}@media(max-width:640px){.campaign-nav{padding:14px;flex-wrap:wrap}.campaign-page main{padding:24px 14px}.panel,.campaign-card{padding:16px}.page-heading,.member-row{align-items:stretch;flex-direction:column}.actions>*{flex:1;text-align:center}.campaign-list{grid-template-columns:1fr}}

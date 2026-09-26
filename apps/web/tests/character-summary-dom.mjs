@@ -68,6 +68,11 @@ assert.equal(w.document.querySelector('[data-skill="athletisme"] dd').textConten
 assert.equal(w.document.querySelector('.character-sheet script'),null);
 assert.equal(w.document.querySelectorAll('input,select,textarea').length,0,'Sheet is read-only');
 assert.equal(JSON.stringify(sheet),sheetBefore);
+const truthDisclosure=w.document.querySelector('details.sheet-truth');
+assert.equal(truthDisclosure.open,true,'The Truth overview starts expanded');
+assert.match(truthDisclosure.querySelector('summary').textContent,/Vérité.*Humain.*Profane/);
+truthDisclosure.querySelector('summary').click();
+await until(()=>!truthDisclosure.open);
 assert.equal(w.document.querySelector('[data-list="reality"] a'),null,'Talent details stay local even with a legacy compendium ID');
 assert.match(w.document.querySelector('[data-list="reality"]').textContent,/Une discipline quotidienne/);
 w.setProps({sheet:{...sheet,mode:'campaign',derived:campaign,attributes:sheet.attributes.map(a=>({...a,value:currentAttribute(a.id)})),skills:sheet.skills.map(s=>({...s,value:currentSkill(s.id)})),xpRemaining:42}});
@@ -75,6 +80,9 @@ await until(()=>w.document.querySelector('[data-stat="pvMax"] strong').textConte
 assert.equal(w.document.querySelector('[data-attribute="vigueur"] strong').textContent,'5');
 assert.equal(w.document.querySelector('[data-skill="athletisme"] dd').textContent,'4');
 assert.match(w.document.querySelector('.sheet-resources').textContent,/Solde de campagne75/);
+assert.equal(truthDisclosure.open,false,'Refreshing the sheet preserves manual Truth folding');
+truthDisclosure.querySelector('summary').click();
+await until(()=>truthDisclosure.open);
 env.close();
 
 const reading=environment(), rw=reading.w;

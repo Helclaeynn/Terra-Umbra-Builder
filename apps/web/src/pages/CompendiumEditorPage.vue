@@ -8,6 +8,7 @@ const publishedNavigation = new Map<string, unknown>();
 import { computed, nextTick, onMounted, ref, watch } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import { api, ApiError } from "../lib/api";
+import { compendiumHref, compendiumLinkTarget, sectionDomId } from "../lib/compendium-navigation";
 import CanonicalNpcGenerator from '../components/CanonicalNpcGenerator.vue';
 import type {NpcArticleDraft} from '../../../api/src/campaign-npc-model';
 import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
@@ -81,6 +82,17 @@ const pageId = ref("");
 const article = ref<EditableArticle | null>(null);
 const wikiText = ref("");
 const sourceArea = ref<HTMLTextAreaElement | null>(null);
+const wikiLinkOpen = ref(false);
+const wikiLinkQuery = ref("");
+const wikiLinkResults = ref<Array<{ id: string; title: string; category: string }>>([]);
+const wikiLinkTarget = ref("");
+const wikiLinkSection = ref("");
+const wikiLinkSections = ref<Array<{ id: string; title: string }>>([]);
+const wikiLinkAlias = ref("");
+const wikiLinkBusy = ref(false);
+const wikiLinkError = ref("");
+let wikiLinkRange = { start: 0, end: 0 };
+let wikiLinkRequest = 0;
 const tagsText = ref("");
 const mediaType = ref<"image" | "illustration">("image");
 const mediaSrc = ref("");
@@ -415,6 +427,70 @@ function wikiToSections(source: string): ArticleSection[] {
 
 const previewSections = computed(() => wikiToSections(wikiText.value));
 
+function openWikiLinkInsert() {
+  if (wikiLinkOpen.value) { wikiLinkOpen.value = false; return; }
+  const start = sourceArea.value?.selectionStart ?? wikiText.value.length;
+  const end = sourceArea.value?.selectionEnd ?? start;
+  wikiLinkRange = { start, end };
+  wikiLinkAlias.value = wikiText.value.slice(start, end);
+  wikiLinkQuery.value = wikiLinkAlias.value;
+  wikiLinkError.value = "";
+  wikiLinkOpen.value = true;
+}
+
+async function searchWikiLinks() {
+  const request = ++wikiLinkRequest;
+  wikiLinkBusy.value = true;
+  wikiLinkError.value = "";
+  wikiLinkTarget.value = "";
+  wikiLinkSections.value = [];
+  wikiLinkSection.value = "";
+  try {
+    const result = await api<{ items: Array<{ id: string; title: string; category: string }> }>(
+      `/api/compendium/search?q=${encodeURIComponent(wikiLinkQuery.value.trim())}&limit=30`
+    );
+    if (request !== wikiLinkRequest) return;
+    wikiLinkResults.value = result.items;
+    if (!result.items.length) wikiLinkError.value = "Aucune page trouvée. Essaie un autre nom.";
+  } catch (cause) {
+    if (request === wikiLinkRequest) wikiLinkError.value = humanError(cause);
+  } finally {
+    if (request === wikiLinkRequest) wikiLinkBusy.value = false;
+  }
+}
+
+async function chooseWikiLinkTarget() {
+  const id = wikiLinkTarget.value;
+  wikiLinkSection.value = "";
+  wikiLinkSections.value = [];
+  wikiLinkError.value = "";
+  if (!id) return;
+  try {
+    const result = await api<{ article: EditableArticle }>(`/api/compendium/articles/${encodeURIComponent(id)}`);
+    if (wikiLinkTarget.value !== id) return;
+    const sections = result.article.sections ?? [];
+    wikiLinkSections.value = sections.map((section, index) => ({
+      id: sectionDomId(section, index, sections), title: section.title || `Section ${index + 1}`
+    }));
+  } catch {
+    if (wikiLinkTarget.value === id) wikiLinkError.value = "Les sections ne sont pas disponibles. Tu peux insérer un lien vers la page entière.";
+  }
+}
+
+async function insertWikiLink() {
+  const target = wikiLinkResults.value.find((item) => item.id === wikiLinkTarget.value);
+  if (!target) return;
+  const alias = (wikiLinkAlias.value.trim() || target.title).replace(/[\[\]\r\n]/g, " ");
+  const markup = `[${alias}](${compendiumHref(target.id, wikiLinkSection.value)})`;
+  const start = Math.min(wikiLinkRange.start, wikiText.value.length);
+  const end = Math.min(wikiLinkRange.end, wikiText.value.length);
+  wikiText.value = wikiText.value.slice(0, start) + markup + wikiText.value.slice(end);
+  wikiLinkOpen.value = false;
+  await nextTick();
+  sourceArea.value?.focus();
+  sourceArea.value?.setSelectionRange(start + markup.length, start + markup.length);
+}
+
 function openImageInsert() {
   inlineInsertAt.value = sourceArea.value?.selectionStart ?? wikiText.value.length;
   imageInsertOpen.value = !imageInsertOpen.value;
@@ -615,13 +691,23 @@ async function insertTalentBlock() {
 }
 
 function previewInline(value: unknown): string {
-  const escaped = String(value ?? "")
+  const escape = (text: string) => text
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
-  return escaped
+  const text = String(value ?? "");
+  let html = "", offset = 0;
+  for (const match of text.matchAll(/\[([^\]\n]+)\]\(([^\s)]+)\)/g)) {
+    const target = compendiumLinkTarget(match[2], window.location.href);
+    if (!target) continue;
+    html += escape(text.slice(offset, match.index));
+    html += `<a href="${escape(compendiumHref(target.articleId, target.section))}" target="_blank" rel="noopener">${escape(match[1])}</a>`;
+    offset = match.index! + match[0].length;
+  }
+  html += escape(text.slice(offset));
+  return html
     .replace(/&#39;&#39;&#39;([^\n]+?)&#39;&#39;&#39;/g, "<strong>$1</strong>")
     .replace(/&#39;&#39;([^\n]+?)&#39;&#39;/g, "<em>$1</em>");
 }
@@ -1292,22 +1378,19 @@ onMounted(load);
               <label>Tags<textarea v-model="tagsText" rows="2" placeholder="Sépare les tags par une virgule : Vérité, Garous, Californie" /></label>
             </div>
 
-            <div v-if="!isNew" class="panel editor-card builder-source-card" :class="{ linked: builderSources.length }">
+            <div v-if="!isNew && builderSources.length" class="panel editor-card builder-source-card linked">
               <div class="editor-card-title">
                 <div>
                   <p class="eyebrow">SOURCE MÉCANIQUE</p>
-                  <h2>{{ builderSources.length ? "Relié au Builder" : "Aucune liaison Builder" }}</h2>
+                  <h2>Relié au Builder</h2>
                 </div>
                 <span class="builder-source-state" :class="{ ok: builderSources.length }">
-                  {{ builderSources.length ? "Données verrouillées" : "Lore uniquement" }}
+                  Données verrouillées
                 </span>
               </div>
               <p class="editor-hint">
                 <template v-if="builderSources.length">
                   Les valeurs ci-dessous proviennent du Builder et ne sont pas éditables ici. Le wiki reste responsable du lore, des illustrations et de la rédaction.
-                </template>
-                <template v-else>
-                  Cette page n’est reliée à aucun objet mécanique canonique. L’audit de couverture permet d’identifier les pages manquantes.
                 </template>
               </p>
               <div v-for="source in builderSources" :key="source.key" class="builder-source-record">
@@ -1325,6 +1408,10 @@ onMounted(load);
                   </template>
                 </dl>
               </div>
+            </div>
+
+            <details v-if="!isNew" class="panel editor-card builder-link-options">
+              <summary>Options de liaison au Builder</summary>
               <div class="builder-link-controls">
                 <label>Rechercher une donnée du Builder sans page liée<input v-model="builderLinkSearch" type="search" placeholder="Nom du talent, équipement, origine…" /></label>
                 <button type="button" class="secondary" :disabled="builderLinkBusy" @click="searchBuilderLinks">Rechercher</button>
@@ -1332,7 +1419,7 @@ onMounted(load);
                 <button v-if="builderCatalog.length" type="button" class="secondary" :disabled="builderLinkBusy||!builderLinkChoice" @click="linkBuilderEntry">Relier cette page</button>
                 <p v-else-if="builderLinkSearch && !builderLinkBusy">Aucun élément sans liaison pour cette rubrique.</p>
               </div>
-            </div>
+            </details>
 
             <div class="panel editor-card">
               <div class="editor-card-title">
@@ -1417,10 +1504,23 @@ onMounted(load);
                 <button type="button" title="Italique" aria-label="Italique" @click="insertItalic"><em>I</em></button>
                 <button type="button" title="Liste" @click="insertBullet">• Liste</button>
                 <button type="button" title="Tableau" @click="insertTable">▦ Tableau</button>
+                <button type="button" title="Insérer un lien wiki avec un alias" :class="{ active: wikiLinkOpen }" :aria-expanded="wikiLinkOpen" @click="openWikiLinkInsert">Lien wiki</button>
                 <button type="button" title="Insérer une illustration dans le texte" :class="{ active: imageInsertOpen }" @click="openImageInsert">Illustration</button>
                 <button type="button" title="Section MJ" @click="insertMjSection">MJ</button>
                 <button type="button" title="Encadré lore" @click="insertLore">Lore</button>
                 <button type="button" title="Bloc dynamique de Talents" :class="{ active: talentInsertOpen }" @click="toggleTalentInsert">Talents</button>
+              </div>
+              <div v-if="wikiLinkOpen" class="wiki-link-panel">
+                <p>Sélectionne un texte avant d’ouvrir cet outil pour le transformer en lien.</p>
+                <form @submit.prevent="searchWikiLinks">
+                  <label>Rechercher une page<input v-model="wikiLinkQuery" type="search" placeholder="Nom d’un personnage, d’un lieu, d’une règle…" /></label>
+                  <button type="submit" class="secondary" :disabled="wikiLinkBusy || !wikiLinkQuery.trim()">{{ wikiLinkBusy ? "Recherche…" : "Rechercher une page" }}</button>
+                </form>
+                <label v-if="wikiLinkResults.length">Page du lien<select v-model="wikiLinkTarget" @change="chooseWikiLinkTarget"><option value="">Choisir une page</option><option v-for="item in wikiLinkResults" :key="item.id" :value="item.id">{{ item.title }} · {{ item.category }}</option></select></label>
+                <label v-if="wikiLinkTarget">Section (facultative)<select v-model="wikiLinkSection"><option value="">Début de la page</option><option v-for="section in wikiLinkSections" :key="section.id" :value="section.id">{{ section.title }}</option></select></label>
+                <label>Texte du lien (alias)<input v-model="wikiLinkAlias" placeholder="Laisser vide pour reprendre le titre de la page" /></label>
+                <p v-if="wikiLinkError" role="status">{{ wikiLinkError }}</p>
+                <div class="wiki-link-actions"><button type="button" class="secondary" :disabled="!wikiLinkTarget || wikiLinkBusy" @click="insertWikiLink">Insérer le lien</button><button type="button" @click="wikiLinkOpen = false">Annuler le lien</button></div>
               </div>
               <div v-if="imageInsertOpen" class="inline-image-panel">
                 <label>Envoyer une image (JPEG, PNG, WebP ou GIF, 15 Mo maximum)
@@ -1492,7 +1592,8 @@ Encore du texte.
                 <span><code>'''gras'''</code> et <code>''italique''</code></span>
                 <span><code v-pre>{{Talents|…}}</code> cartes alimentées par le registre central.</span>
                 <span><code v-pre>{{Image|chemin|description|légende}}</code> illustration dans le texte.</span>
-                <span>Les liens vers les autres pages sont détectés automatiquement.</span>
+                <span><code>[alias](/compendium?article=id)</code> lien explicite ; l’outil « Lien wiki » aide à le créer.</span>
+                <span>Les autres références sont détectées automatiquement.</span>
               </div>
             </div>
           </section>
@@ -1527,7 +1628,7 @@ Encore du texte.
                 <table v-else-if="block.type === 'table'">
                   <tbody>
                     <tr v-for="(row, rowIndex) in block.rows || []" :key="rowIndex">
-                      <td v-for="(cell, cellIndex) in row" :key="cellIndex">{{ cell }}</td>
+                      <td v-for="(cell, cellIndex) in row" :key="cellIndex" v-html="previewInline(cell)"></td>
                     </tr>
                   </tbody>
                 </table>
@@ -1556,6 +1657,7 @@ Encore du texte.
 </template>
 
 <style scoped>
+.wiki-link-panel{display:grid;gap:12px;padding:18px;background:#132439;border-bottom:1px solid #34546e}.wiki-link-panel form{display:flex;align-items:end;gap:12px;flex-wrap:wrap}.wiki-link-panel label{display:grid;gap:7px;flex:1;min-width:180px}.wiki-link-panel p{margin:0;color:#b9cde0;line-height:1.6}.wiki-link-panel input,.wiki-link-panel select{width:100%;min-height:44px;padding:10px;background:#091828;color:#eef5ff;border:1px solid #45627c;border-radius:5px}.wiki-link-actions{display:flex;gap:10px;flex-wrap:wrap}.wiki-link-panel button{min-height:44px}.builder-link-options>summary{cursor:pointer;min-height:44px;align-content:center}
 .wiki-editor-shell { min-height: 100vh; background:radial-gradient(circle at 82% 8%,rgba(43,146,255,.1),transparent 30rem); }
 .editor-top-actions{display:flex;align-items:center;gap:.55rem}.coverage-mini{margin-left:.35rem;color:#b8dfea;font-size:.68rem}
 .coverage-drawer{position:fixed;top:0;right:0;z-index:45;width:min(560px,94vw);height:100vh;padding:1.2rem;overflow:auto;border-left:1px solid rgba(70,126,148,.16);background:linear-gradient(180deg,#101b25,#081119);box-shadow:-30px 0 80px rgba(0,0,0,.45);transform:translateX(104%);opacity:0;pointer-events:none;transition:transform .24s cubic-bezier(.2,.7,.2,1),opacity .18s ease}.coverage-drawer.open{transform:none;opacity:1;pointer-events:auto}

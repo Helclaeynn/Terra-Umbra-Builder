@@ -81,7 +81,14 @@ for(const slug of Object.keys(manifest.templates)){
   assert.ok(!form.getTextField('reality.pv_actuels').getText());
   await writeFile(new URL(slug+'-filled.pdf',cache),result.bytes);
   if(slug==='angelus'){
-    const print=await fillDossierPdf(new Uint8Array(await readFile(new URL('public/pdf/dossiers/'+template.print,root))),font,model,4,specs,true);
+    const printTemplate=new Uint8Array(await readFile(new URL('public/pdf/dossiers/'+template.print,root)));
+    // A newly opened print window backgrounds the source tab. Each pdf-lib
+    // yield would then be subject to background timer throttling in Chrome.
+    const originalTimeout=globalThis.setTimeout;let timerYields=0,print;
+    globalThis.setTimeout=(callback,delay,...args)=>{if(!delay)timerYields++;return originalTimeout(callback,delay,...args);};
+    try{print=await fillDossierPdf(printTemplate,font,model,4,specs,true);}
+    finally{globalThis.setTimeout=originalTimeout;}
+    assert.equal(timerYields,0,'Print generation must not wait on throttled background timers');
     assert.equal((await PDFDocument.load(print.bytes)).getForm().getFields().length,0,'Only print copy is flattened');
     await writeFile(new URL('angelus-print.pdf',cache),print.bytes);
   }

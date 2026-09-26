@@ -138,11 +138,13 @@ try {
   assert.equal(fallback.getForm().getFields().length, 0);
   console.log('PASS Popup blocked: explicit fallback link downloads the correct print PDF');
 
-  await sheet.route('**/pdf/dossiers/*.pdf', route => route.fulfill({ status: 404, contentType: 'text/plain', body: 'unavailable test asset' }));
+  // PDF assets are fetched from a dedicated worker, so interception belongs
+  // to the context rather than the sheet page.
+  await context.route('**/pdf/dossiers/*.pdf', route => route.fulfill({ status: 404, contentType: 'text/plain', body: 'unavailable test asset' }));
   await sheet.getByRole('button', { name: 'Exporter la fiche de personnage en PDF', exact: true }).click();
   await sheet.locator('.character-pdf-actions [role=alert]').getByText(/indisponible/).waitFor({ timeout: 30000 });
   assert.equal(await sheet.getByRole('button', { name: 'Exporter la fiche de personnage en PDF', exact: true }).isEnabled(), true);
-  await sheet.unroute('**/pdf/dossiers/*.pdf');
+  await context.unroute('**/pdf/dossiers/*.pdf');
   console.log('PASS Missing template: readable error and export buttons reenabled');
 
   for (const page of [builder, progression, sheet]) {
