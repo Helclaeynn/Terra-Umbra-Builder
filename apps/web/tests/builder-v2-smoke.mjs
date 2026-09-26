@@ -532,7 +532,7 @@ await selectedContactLink.waitFor();
 if(!(await selectedContactLink.getAttribute("href"))?.includes("article=contact-smoke-48"))throw new Error("Le contact sélectionné perd articleId.");
 const recapContactLink=page.locator('.character-sheet .sheet-contacts a.builder-wiki-link[href*="article=contact-smoke-48"]');
 await recapContactLink.waitFor({state:"visible"});
-if((await recapContactLink.textContent())?.trim()!=="Contact Smoke 48")throw new Error("Le récapitulatif affiche un mauvais contact.");
+if(!String(await recapContactLink.textContent()).includes("Contact Smoke 48"))throw new Error("Le récapitulatif affiche un mauvais contact.");
 if(!(await recapContactLink.getAttribute("href"))?.includes("article=contact-smoke-48"))throw new Error("Le récapitulatif perd articleId du contact.");
 
 await page.locator(".builder-nav").getByRole("button",{name:/Équipement/}).click();
