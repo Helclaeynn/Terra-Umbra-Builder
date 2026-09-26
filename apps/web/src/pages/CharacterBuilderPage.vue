@@ -15,6 +15,8 @@ import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
 import EquipmentStep from "../components/builder/EquipmentStep.vue";
 import FinalizationStep from "../components/builder/FinalizationStep.vue";
 import CharacterSummary from "../components/builder/CharacterSummary.vue";
+import CharacterPdfActions from "../components/CharacterPdfActions.vue";
+import type { PdfInput } from "../lib/character-pdf-model";
 import { characterDerivedStats, type CharacterSheet } from "../lib/character-sheet";
 import ProgressionStep from "../components/builder/ProgressionStep.vue";
 import {
@@ -897,6 +899,11 @@ const campaignCashValue=computed(()=>{
   return campaignCash(progression,Math.max(0,realityEconomyValue.value?.account||0));
 });
 
+const pdfInput=computed<PdfInput|null>(()=>{
+  if(!draft.value||!rules.value||!lore.value||!disadvantages.value||!edgeRules.value||!truthRules.value||!realityRules.value)return null;
+  return {data:draft.value,core:{rules:rules.value,lore:lore.value,talentChoiceSpecs:talentChoiceSpecs.value,skillTalentMap:skillTalentMap.value,
+    disadvantages:disadvantages.value,edgeRules:edgeRules.value},truth:truthRules.value,reality:realityRules.value,campaign:progressionMode,fallbackName:character.value?.name};
+});
 const characterSheet=computed<CharacterSheet|null>(()=>{
   if(!draft.value||!rules.value||!lore.value||!disadvantages.value||!edgeRules.value||!truthRules.value||!realityRules.value)return null;
   return buildCharacterSheet(draft.value,{
@@ -1580,6 +1587,8 @@ onBeforeUnmount(()=>{
         </button>
       </div>
     </header>
+
+    <CharacterPdfActions class="builder-pdf-actions" :input="pdfInput" :draft="dirty" />
 
     <button
       v-if="knowledgeOpen"

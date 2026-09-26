@@ -1079,6 +1079,20 @@ export const truthCatalogExtral = [
     "runtimeLore": "Une partie de l’architecture cognitive reste disponible pour une tâche simple d’interface ou de lecture pendant que le reste agit. Cette pensée parallèle ne devient jamais une seconde action complexe cachée dans le même instant."
   },
   {
+    "id": "extral-phasage-de-l-equipement",
+    "name": "Phasage de l’équipement",
+    "cost": 1,
+    "access": "V/SR/R",
+    "activation": "Actif — 1 ou 2 PA",
+    "prerequisiteName": "",
+    "effect": "Matérialiser ou déphaser l’équipement existant lié aux patchs tatoués AIDH : 1 PA pour un élément individuel ; 2 PA pour une tenue complète, une armure ou plusieurs éléments. Ces coûts s’appliquent dans les deux sens. Ne crée aucun matériel.",
+    "group": "Homo Superior — Humain AIDH › Patchs tatoués AIDH",
+    "when": {
+      "species": "homo_superior"
+    },
+    "runtimeLore": "Les patchs tatoués intégrés au soldat servent de supports de liaison à son équipement. Ce Talent maîtrise son phasage et son déphasage ; il ne fournit pas l’équipement lié."
+  },
+  {
     "id": "extral-ancrage-de-masse",
     "name": "Ancrage de masse",
     "cost": 1,

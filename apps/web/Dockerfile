@@ -1,7 +1,7 @@
 FROM node:24-alpine AS build
 WORKDIR /app/apps/web
-COPY apps/web/package.json ./
-RUN npm install
+COPY apps/web/package.json apps/web/package-lock.json ./
+RUN npm ci
 COPY apps/web/src ./src
 COPY apps/web/public ./public
 COPY apps/web/index.html apps/web/vite.config.ts apps/web/tsconfig*.json ./

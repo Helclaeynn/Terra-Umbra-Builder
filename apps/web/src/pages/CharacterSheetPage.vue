@@ -5,6 +5,7 @@ import { api, ApiError } from "../lib/api";
 import type { Character } from "../types/character";
 import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
 import CharacterSummary from "../components/builder/CharacterSummary.vue";
+import CharacterPdfActions from "../components/CharacterPdfActions.vue";
 import { buildCharacterSheet, type SheetCore } from "../lib/character-sheet-model";
 import { ensureTruthRulesPackage, type TruthRulesPackage } from "../lib/truth";
 import type { RealityRulesPackage } from "../lib/reality";
@@ -133,6 +134,7 @@ onUnmounted(()=>{++generation;controller?.abort();resetSearch();window.removeEve
     <RouterLink v-if="campaignBack" class="campaign-back" :to="campaignBack">← Retour au groupe</RouterLink>
     <main id="sheet-main" class="standalone-sheet-main" tabindex="-1" :aria-busy="loading">
       <div class="sheet-toolbar"><div><p class="eyebrow">CONSULTATION · LECTURE SEULE</p><h1>Fiche actuelle</h1></div><div class="sheet-toolbar-actions"><RouterLink v-if="owner" class="primary" :to="`/characters/${id}/journal`">Journal d’aventure</RouterLink><button class="ghost" :disabled="loading" @click="load">Actualiser</button></div></div>
+      <CharacterPdfActions :input="character&&core&&truth&&reality?{data:character.data,core,truth,reality,campaign:true,fallbackName:character.name}:null" />
       <p v-if="loading" role="status">Chargement de la fiche actuelle…</p>
       <div v-else-if="error" class="panel" role="alert"><p>{{ error }}</p><RouterLink v-if="needsLogin" class="primary" :to="loginLink">Se connecter</RouterLink><button v-else class="ghost" @click="load">Réessayer</button></div>
       <template v-else-if="sheet">
