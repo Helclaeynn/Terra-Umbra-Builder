@@ -506,10 +506,21 @@ const COMPENDIUM_UPLOAD_DIR =
 let corpusPromise: Promise<Corpus> | null = null;
 let portraitVisibilityPromise: Promise<PortraitOverride[]> | null = null;
 let portraitVisibilityBySrc = new Map<string, "mj" | "public">();
+let corpusGeneration = 0;
 export function invalidateCompendiumCorpus() {
+  const generation = ++corpusGeneration;
   corpusPromise = null;
   portraitVisibilityPromise = null;
   portraitVisibilityBySrc = new Map();
+  // The old snapshot must not be served after a publication, deletion or
+  // visibility change. Rebuild as soon as the write has committed instead of
+  // making the next reader initiate all the work on its critical path.
+  setImmediate(() => {
+    if (generation !== corpusGeneration) return;
+    void getCorpus().catch((cause) => {
+      console.error("Compendium background refresh failed:", cause);
+    });
+  });
 }
 
 type PortraitOverride = { articleId: string; src: string; visibility: "mj" | "public"; uploaded: boolean };
@@ -4034,7 +4045,13 @@ async function loadCorpus(): Promise<Corpus> {
 }
 
 function getCorpus(): Promise<Corpus> {
-  if (!corpusPromise) corpusPromise = loadCorpus();
+  if (!corpusPromise) {
+    const loading = loadCorpus().catch((cause) => {
+      if (corpusPromise === loading) corpusPromise = null;
+      throw cause;
+    });
+    corpusPromise = loading;
+  }
   return corpusPromise;
 }
 
@@ -4586,7 +4603,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       `INSERT INTO compendium_deleted_articles (article_id, deleted_by) VALUES ($1, $2)
        ON CONFLICT (article_id) DO NOTHING`, [id, user.id]
     );
-    corpusPromise = null;
+    invalidateCompendiumCorpus();
     return { articleId: id, deleted: true };
   });
 
@@ -5140,7 +5157,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
         [id]
       );
       await client.query("COMMIT");
-      corpusPromise = null;
+      invalidateCompendiumCorpus();
       // The committed draft is ready to return; rebuilding the entire corpus
       // before responding made publication needlessly slow.
       const result = deepClone(row.draft);
