@@ -1,0 +1,29 @@
+name: V2 recipe source snapshot
+
+on:
+  push:
+    branches: [feature/tuc-web-v2]
+    paths: [.github/workflows/v2-recipe-snapshot.yml]
+
+permissions:
+  contents: read
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Archive tracked V2 sources only
+        run: |
+          git archive --format=tar.gz HEAD apps character-builder compendium infrastructure docs .github > tuc-v2-recipe-source.tar.gz
+          printf '%s\n' "$(git rev-parse HEAD)" > source-commit.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tuc-v2-recipe-source
+          path: |
+            tuc-v2-recipe-source.tar.gz
+            source-commit.txt
+          retention-days: 1
+          compression-level: 0
