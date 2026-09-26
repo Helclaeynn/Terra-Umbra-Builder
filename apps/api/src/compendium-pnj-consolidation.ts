@@ -360,6 +360,8 @@ function addPnjTaxonomy(article: Article): void {
 /** Consolidate only promoted PNJ, leaving the OLD archive intact. */
 export function consolidateActivePnjSections(byId: Map<string, Article>): void {
   for (const article of byId.values()) {
+    // Portrait-only drafts intentionally keep their editable empty fields.
+    if (article.dataset === "pnj-portrait-refresh-20260926") continue;
     if (article.rebuildV2 !== true ||
         (article.category !== "Personnages" && !String(article.dataset ?? "").includes("pnj"))) continue;
 
