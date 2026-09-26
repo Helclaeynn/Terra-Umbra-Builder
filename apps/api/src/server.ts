@@ -120,9 +120,9 @@ function inputError(reply: FastifyReply, error: string) {
   return reply.code(400).send({ error });
 }
 
-function isCiSmokeEmail(value: string | null | undefined): boolean {
+function isTestAccountEmail(value: string | null | undefined): boolean {
   const normalized = String(value ?? "").trim().toLowerCase();
-  return normalized.startsWith("ci-") && normalized.endsWith("@example.invalid");
+  return normalized.endsWith("@example.invalid");
 }
 
 async function userCount(): Promise<number> {
@@ -776,7 +776,7 @@ app.patch<{
     if (!nextActive) {
       await client.query("DELETE FROM sessions WHERE user_id = $1", [targetId]);
     }
-    if (!isCiSmokeEmail(target.email)) {
+    if (!isTestAccountEmail(target.email)) {
       await client.query(
         `INSERT INTO admin_audit_log
           (actor_id, target_user_id, action, before_state, after_state)
@@ -870,7 +870,7 @@ app.delete<{
         return reply.code(409).send({ error: "last_admin_protected" });
       }
     }
-    if (!isCiSmokeEmail(target.email)) {
+    if (!isTestAccountEmail(target.email)) {
       await client.query(
         `INSERT INTO admin_audit_log
           (actor_id, target_user_id, action, before_state, after_state)
@@ -919,7 +919,7 @@ app.get("/api/admin/audit", async (request, reply) => {
      FROM admin_audit_log a
      LEFT JOIN users actor ON actor.id = a.actor_id
      LEFT JOIN users target ON target.id = a.target_user_id
-     WHERE COALESCE(target.email, a.before_state->>'email', '') NOT ILIKE 'ci-%@example.invalid'
+     WHERE COALESCE(target.email, a.before_state->>'email', '') NOT ILIKE '%@example.invalid'
        AND NOT (
          a.action = 'account_update'
          AND a.target_user_id IS NULL
