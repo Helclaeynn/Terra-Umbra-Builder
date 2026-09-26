@@ -60,14 +60,9 @@ export function applyRefreshedPortrait(article: Article, item: PortraitRefresh["
   if (article.__wikiPublishedEdit &&
       [article.image?.src, article.illustration?.src, article.pnj?.portrait]
         .some((src) => /(?:^|\/)uploads\//.test(String(src ?? "")))) return;
-  const oldMedia = [article.image, article.illustration,
-    ...(article.pnj?.portrait ? [{ src: article.pnj.portrait, alt: article.pnj.portrait_alt ?? article.title }] : [])];
-  const gallery = [...(article.gallery ?? [])];
-  for (const old of oldMedia) {
-    if (!old?.src || old.src === item.src || gallery.some((media) => media.src === old.src)) continue;
-    gallery.push({ ...old, caption: old.caption ?? "Portrait précédent" });
-  }
-  article.gallery = gallery.filter((media) => media.src !== item.src);
+  // Keep superseded files in the archive, but hide them from the article gallery.
+  article.gallery = (article.gallery ?? []).filter((media: { src: string }) =>
+    media.src !== item.src && !/^images\/portraits\/lot-[123]\//.test(media.src));
   const media = { src: item.src, alt: `Portrait de ${article.title ?? article.id}`, caption: "" };
   article.image = media;
   if (article.illustration) article.illustration = { ...media };

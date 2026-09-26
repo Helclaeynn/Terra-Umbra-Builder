@@ -880,9 +880,12 @@ function validEditableArticle(value: unknown): value is Article {
       if (!Array.isArray(section.blocks) || section.blocks.length > 300) return false;
       for (const block of section.blocks) {
         if (!block || typeof block !== "object") return false;
-        if (!["p", "table"].includes(String(block.type ?? ""))) return false;
+        if (!["p", "table", "image"].includes(String(block.type ?? ""))) return false;
         if (block.type === "p" && String(block.text ?? "").length > 120000) return false;
         if (block.type === "table" && !Array.isArray(block.rows)) return false;
+        if (block.type === "image" && (typeof block.src !== "string" ||
+          block.src.length > 2048 || !/^(?:images\/|assets\/|\/api\/compendium\/uploads\/)/.test(block.src) ||
+          String(block.alt ?? "").length > 500 || String(block.caption ?? "").length > 1000)) return false;
       }
     }
   }
@@ -3851,6 +3854,14 @@ async function loadCorpus(): Promise<Corpus> {
     }
     const refreshedPortrait = refreshedPortraitsById.get(article.id);
     if (refreshedPortrait) applyRefreshedPortrait(article, refreshedPortrait);
+    // Lot 2 replaces lot 1 even on articles without a lot 3 refresh.
+    const selectedLot = Number(String(article.image?.src ?? article.pnj?.portrait ?? "")
+      .match(/^images\/portraits\/lot-(\d+)\//)?.[1] ?? 0);
+    if (selectedLot > 1 && article.gallery?.length) article.gallery = article.gallery.filter(
+      (media: JsonObject) => {
+        const lot = Number(String(media.src ?? "").match(/^images\/portraits\/lot-(\d+)\//)?.[1] ?? 0);
+        return !lot || lot >= selectedLot;
+      });
     article.__searchText = norm(flattenText(article));
   }
 
