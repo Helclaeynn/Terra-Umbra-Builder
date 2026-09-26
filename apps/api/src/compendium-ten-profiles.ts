@@ -93,11 +93,11 @@ export function applyCompendiumTenProfiles(byId:Map<string,Article>,resolveTarge
     stat.blocks=[
       p(`Ten · Légendaire · Réalité · ${realityTier.attributes} points d’Attributs · ${realityTier.skills} points de Compétences · plafond ${realityTier.cap}. Ce socle commun rend les dix Ten comparables sans effacer leurs spécialités.`),
       table([
-        ["Attribut de Réalité","Vigueur","Agilité","Esprit","Volonté","Charisme","Total"],
+        ["Attribut","Vigueur","Agilité","Esprit","Volonté","Charisme","Total"],
         attrRow("Valeur",profile.reality.attributes)
       ]),
       table([
-        ["Compétence de Réalité","Rang"],
+        ["Compétence","Rang"],
         ...profile.reality.skills.map(([name,rank])=>[name,String(rank)]),
         ["Total des rangs retenus",String(profile.reality.skills.reduce((sum,[,rank])=>sum+rank,0))]
       ]),
