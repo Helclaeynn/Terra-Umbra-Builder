@@ -313,10 +313,15 @@ const edgeTotal=computed(()=>{
   return edgeRules.value.base+draft.value.disadvantages.length;
 });
 
+const edgePurchaseKeys=["attributePack","skillPacks","talentPacks","cashPacks","lifestylePack","augmentationPacks","renownPack"] as const;
+function edgePurchaseCost(_key:string){
+  // Toutes les options Edge canoniques coûtent actuellement 1 Edge.
+  // Garder le coût explicite évite les erreurs de frontière quand il reste exactement 1 point.
+  return 1;
+}
 const edgeSpent=computed(()=>{
   if(!draft.value)return 0;
-  return ["attributePack","skillPacks","talentPacks","cashPacks","lifestylePack","augmentationPacks","renownPack"]
-    .reduce((sum,key)=>sum+Number(draft.value?.edge[key]||0),0);
+  return edgePurchaseKeys.reduce((sum,key)=>sum+Number(draft.value?.edge[key]||0)*edgePurchaseCost(key),0);
 });
 
 const edgeRemaining=computed(()=>edgeTotal.value-edgeSpent.value);
@@ -573,7 +578,7 @@ function edgePurchasePlusDisabled(key:string){
   if(!draft.value||!edgeRules.value)return true;
   const current=Number(draft.value.edge[key]||0);
   const rule=edgeRules.value.options[key];
-  return !rule||current>=rule.max||edgeRemaining.value<=0||edgePurchaseDisabled(key);
+  return !rule||current>=rule.max||edgeRemaining.value<edgePurchaseCost(key)||edgePurchaseDisabled(key);
 }
 function edgePurchaseMinusDisabled(key:string){
   if(!draft.value||!edgeRules.value)return true;
@@ -1436,7 +1441,7 @@ function changeEdgePurchase(key:string,delta:number){
   const current=Number(draft.value.edge[key]||0);
   const next=current+delta;
   if(next<0||next>rule.max)return;
-  if(delta>0&&edgeRemaining.value<=0)return;
+  if(delta>0&&edgeRemaining.value<edgePurchaseCost(key))return;
   if(key==="renownPack"&&delta>0&&(hasUnknownDisadvantage.value||hasRenownedTalent.value))return;
 
   if(delta<0&&key==="attributePack"&&edgeAttributePointsUsed.value>Math.max(0,next)*Number(rule.points||0))return;

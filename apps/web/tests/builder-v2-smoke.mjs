@@ -415,6 +415,27 @@ for(const width of [1440,390]){
   }
 }
 await page.setViewportSize({width:1440,height:1000});
+
+// Regression: an option costing exactly the last remaining Edge must stay selectable.
+await page.locator(".builder-nav").getByRole("button",{name:/Edge/}).click();
+const edgeCard=(label)=>page.locator(".edge-card").filter({hasText:label});
+for(const label of ["+5 000 $ Compte","+1 Train de vie","+5 000 $ Aug. / Gen2","+1 Renommée"]){
+  await edgeCard(label).locator(".stepper button").last().click();
+}
+await page.getByText("1 restant / 5",{exact:true}).waitFor();
+for(const label of ["+2 Attributs","+4 Compétences","+1 Talent de Réalité"]){
+  if(await edgeCard(label).locator(".stepper button").last().isDisabled()){
+    throw new Error("Option Edge désactivée alors qu'il reste exactement 1 Edge : "+label);
+  }
+}
+await edgeCard("+1 Talent de Réalité").locator(".stepper button").last().click();
+await page.getByText("0 restant / 5",{exact:true}).waitFor();
+await edgeCard("+1 Talent de Réalité").locator(".stepper button").first().click();
+for(const label of ["+5 000 $ Compte","+1 Train de vie","+5 000 $ Aug. / Gen2","+1 Renommée"]){
+  await edgeCard(label).locator(".stepper button").first().click();
+}
+await page.getByText("5 restant / 5",{exact:true}).waitFor();
+
 await page.locator(".builder-nav").getByRole("button",{name:/Talents/}).click();
 await page.locator('.talent-detail').filter({hasText:'Brave'}).waitFor();
 if (await page.locator('.talent-detail a').count()) throw new Error('Les talents ne doivent plus proposer de lien d’article');
