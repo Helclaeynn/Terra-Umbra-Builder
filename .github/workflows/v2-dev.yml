@@ -88,6 +88,10 @@ jobs:
         working-directory: apps/api
         run: node scripts/check-portrait-lot2.mjs
 
+      - name: Check portrait visibility overrides
+        working-directory: apps/api
+        run: node scripts/check-portrait-visibility.mjs
+
       - name: Check corporation logos on equipment pages
         working-directory: apps/api
         run: node scripts/check-corporation-branding.mjs

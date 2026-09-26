@@ -503,6 +503,15 @@ const COMPENDIUM_UPLOAD_DIR =
     : resolve(process.cwd(), "../../.editor-media"));
 
 let corpusPromise: Promise<Corpus> | null = null;
+export function invalidateCompendiumCorpus() { corpusPromise = null; }
+
+type PortraitOverride = { articleId: string; src: string; visibility: "mj" | "public"; uploaded: boolean };
+async function portraitOverrides(): Promise<PortraitOverride[]> {
+  const result = await pool.query<PortraitOverride>(
+    `SELECT article_id AS "articleId", src, visibility, uploaded FROM compendium_portrait_visibility`
+  );
+  return result.rows;
+}
 
 const UUID_RE =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -543,9 +552,12 @@ function articleForAudience(article: Article, includeMj: boolean): Article {
   const result = deepClone(article);
   if (!includeMj) {
     const isPrivatePortrait = (media: unknown) =>
-      /(?:^|\/)images\/portraits\/lot-[^/]+\/mj\//.test(String(typeof media === "string" ? media : (media as JsonObject | null)?.src ?? ""));
+      (media as JsonObject | null)?.portraitVisibility === "mj" ||
+      ((media as JsonObject | null)?.portraitVisibility !== "public" &&
+       /(?:^|\/)images\/portraits\/lot-[^/]+\/mj\//.test(String(typeof media === "string" ? media : (media as JsonObject | null)?.src ?? "")));
     const publicPortrait = result.gallery?.find((media: JsonObject) =>
-      /(?:^|\/)images\/portraits\/lot-[^/]+\/public\//.test(String(media?.src ?? ""))) as JsonObject | undefined;
+      media?.portraitVisibility === "public" ||
+      (media?.portraitVisibility !== "mj" && /(?:^|\/)images\/portraits\/lot-[^/]+\/public\//.test(String(media?.src ?? "")))) as JsonObject | undefined;
     if (isPrivatePortrait(result.image)) {
       if (publicPortrait) result.image = publicPortrait;
       else delete result.image;
@@ -3208,6 +3220,9 @@ async function loadCorpus(): Promise<Corpus> {
   const portraitManifest = await readFile(resolve(COMPENDIUM_MEDIA_DIR, "images/portraits/manifest.json"), "utf8")
     .then((content) => JSON.parse(content) as { lot1?: { items?: Array<{ id: string; src: string; visibility: string }> }; lot2?: { items?: Array<{ id: string; src: string; visibility: string }> } })
     .catch(() => ({ lot1: { items: [] }, lot2: { items: [] } }));
+  const portraitRows = await portraitOverrides();
+  const overrideByArticle = new Map<string, PortraitOverride[]>();
+  for (const row of portraitRows) overrideByArticle.set(row.articleId, [...(overrideByArticle.get(row.articleId) ?? []), row]);
   const portraitsByArticle = new Map<string, Array<{ src: string; visibility: string; lot: string }>>();
   for (const [lot, group] of Object.entries(portraitManifest)) {
     for (const item of group?.items ?? []) {
@@ -3719,6 +3734,15 @@ async function loadCorpus(): Promise<Corpus> {
         caption: portrait.lot === "lot1" ? "Portrait original · lot 1" : "Portrait retravaillé · lot 2" }];
     }
 
+    for (const override of overrideByArticle.get(article.id) ?? []) {
+      const media = [article.image, article.illustration, ...(article.gallery ?? [])]
+        .find((candidate: JsonObject | undefined) => candidate?.src === override.src);
+      if (media) media.portraitVisibility = override.visibility;
+      else if (override.uploaded) article.gallery = [...(article.gallery ?? []), {
+        src: override.src, alt: article.title ?? article.id, portraitVisibility: override.visibility
+      }];
+    }
+
     article.title = ARTICLE_TITLE_FIXES[article.id] ?? article.title;
     article.sourceCategory = article.sourceCategory ?? article.category;
 
@@ -3897,6 +3921,18 @@ async function loadCorpus(): Promise<Corpus> {
     byId.delete(articleId);
     navigation.delete(articleId);
     retiredIds.add(articleId);
+  }
+  // Published wiki edits can replace article media after the initial manifest pass.
+  // Apply admin decisions again before deriving the public corpus.
+  for (const article of byId.values()) {
+    for (const override of overrideByArticle.get(article.id) ?? []) {
+      const media = [article.image, article.illustration, ...(article.gallery ?? [])]
+        .find((candidate: JsonObject | undefined) => candidate?.src === override.src);
+      if (media) media.portraitVisibility = override.visibility;
+      else if (override.uploaded) article.gallery = [...(article.gallery ?? []), {
+        src: override.src, alt: article.title ?? article.id, portraitVisibility: override.visibility
+      }];
+    }
   }
   const articles = [...byId.values()].sort(compareArticles);
   const publicArticles = articles.filter((article) => !isMjOnlyArticle(article)).map((article) => { const publicArticle=articleForAudience(article,false); publicArticle.__searchText=norm(flattenText(publicArticle)); return publicArticle; });
@@ -4702,9 +4738,12 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     if (!relative) return bad(reply, "invalid_compendium_media_path");
     const isPortraitManifest = relative === "images/portraits/manifest.json";
     const isMjPortrait = /^images\/portraits\/lot-[^/]+\/mj\//.test(relative);
-    const user = isPortraitManifest || isMjPortrait ? await currentUser(request) : null;
+    const overrides = isPortraitManifest || relative.startsWith("images/portraits/") ? await portraitOverrides() : [];
+    const matches = overrides.filter((row) => row.src === relative);
+    const isPrivate = matches.length ? matches.some((row) => row.visibility === "mj") : isMjPortrait;
+    const user = isPortraitManifest || isPrivate ? await currentUser(request) : null;
 
-    if (isMjPortrait && !canReadMj(user?.role)) {
+    if (isPrivate && !canReadMj(user?.role)) {
       return reply.code(403).send({ error: "mj_required" });
     }
 
@@ -4719,21 +4758,20 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
               ...lot,
               items: Array.isArray(lot?.items)
                 ? lot.items.filter((item: JsonObject) =>
-                    item?.visibility === "public" &&
-                    !/(?:^|\/)images\/portraits\/lot-[^/]+\/mj\//.test(String(item?.src ?? ""))
-                  )
+                    (overrides.find((row) => row.src === item?.src)?.visibility ?? item?.visibility) === "public"
+                  ).map((item: JsonObject) => ({ ...item, visibility: "public" }))
                 : []
             }
           ])
         );
         reply.header("Content-Type", "application/json; charset=utf-8");
-        reply.header("Cache-Control", "public, max-age=86400");
+        reply.header("Cache-Control", "public, max-age=300");
         return reply.send(publicManifest);
       }
 
       const body = await readFile(resolve(COMPENDIUM_MEDIA_DIR, relative));
       reply.header("Content-Type", mediaContentType(relative));
-      reply.header("Cache-Control", canReadMj(user?.role) ? "private, max-age=86400" : "public, max-age=86400");
+      reply.header("Cache-Control", isPrivate ? "private, no-store" : "public, max-age=300");
       return reply.send(body);
     } catch {
       return reply.code(404).send({ error: "compendium_media_not_found" });
@@ -4746,10 +4784,17 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const filename = safeUploadFilename(String(request.params["*"] ?? ""));
     if (!filename) return bad(reply, "invalid_compendium_upload_path");
 
+    const access = await pool.query<{ visibility: string }>(
+      `SELECT visibility FROM compendium_portrait_visibility WHERE src = $1 LIMIT 1`,
+      [`/api/compendium/uploads/${filename}`]
+    );
+    const isPrivate = access.rows[0]?.visibility === "mj";
+    if (isPrivate && !canReadMj((await currentUser(request))?.role)) return reply.code(403).send({ error: "mj_required" });
+
     try {
       const body = await readFile(resolve(COMPENDIUM_UPLOAD_DIR, filename));
       reply.header("Content-Type", mediaContentType(filename));
-      reply.header("Cache-Control", "public, max-age=31536000, immutable");
+      reply.header("Cache-Control", isPrivate ? "private, no-store" : "public, max-age=300");
       reply.header("X-Content-Type-Options", "nosniff");
       return reply.send(body);
     } catch {
@@ -5062,6 +5107,7 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
       // before responding made publication needlessly slow.
       const result = deepClone(row.draft);
       delete result.__searchText;
+      result.__wikiPublishedEdit = true;
       return { article: result, published: true };
     } catch (cause) {
       await client.query("ROLLBACK").catch(() => undefined);

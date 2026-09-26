@@ -21,7 +21,7 @@ const query = async (sql, values = []) => {
   if (sql.includes("FROM sessions s")) return result(role ? [{
     id: "audit", email: "audit@example.invalid", display_name: "Audit", role, is_active: true
   }] : []);
-  if (sql.includes("FROM compendium_deleted_articles")) return result();
+  if (sql.includes("FROM compendium_deleted_articles") || sql.includes("FROM compendium_portrait_visibility")) return result();
   if (sql.includes("FROM compendium_legacy_articles")) {
     return result(existingSnapshot ? snapshot.map((articleId) => ({ articleId })) : []);
   }
