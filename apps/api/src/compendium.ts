@@ -4055,6 +4055,44 @@ function getCorpus(): Promise<Corpus> {
   return corpusPromise;
 }
 
+// A newly published custom page has no static corpus transforms to rerun.
+// Install it in the live snapshot immediately: rebuilding thousands of source
+// pages on the event loop blocked every concurrent request for several seconds.
+function addPublishedCustomArticle(corpus: Corpus, base: Article, draft: Article): void {
+  const article = editableArticle(base, draft);
+  article.__customWikiPage = true;
+  article.__wikiPublishedEdit = true;
+  article.category = displayCategory(article);
+  article.manufacturer = manufacturerFor(article);
+  article.__searchText = norm(flattenText(article));
+  const publicArticle = isMjOnlyArticle(article) ? null : articleForAudience(article, false);
+  if (publicArticle) publicArticle.__searchText = norm(flattenText(publicArticle));
+
+  const articles = [...corpus.articles, article].sort(compareArticles);
+  const publicArticles = publicArticle
+    ? [...corpus.publicArticles, publicArticle].sort(compareArticles)
+    : corpus.publicArticles;
+  const byId = new Map(corpus.byId).set(article.id, article);
+  const publicById = new Map(corpus.publicById);
+  if (publicArticle) publicById.set(publicArticle.id, publicArticle);
+  const categories = corpus.categories.map((entry) => ({ ...entry }));
+  const category = categories.find((entry) => entry.name === article.category);
+  if (category) category.count += 1;
+  else categories.push({ name: article.category, count: 1 });
+  const wikiIndexCompact = [...corpus.wikiIndexCompact, {
+    id: article.id, title: article.title ?? article.id, category: article.category ?? "",
+    dataset: article.dataset ?? "", group: "", subgroup: "", manufacturer: article.manufacturer ?? ""
+  }];
+  corpusPromise = Promise.resolve({
+    ...corpus, articles, publicArticles, byId, publicById, categories,
+    wikiIndexCompact,
+    editorBaseById: new Map(corpus.editorBaseById).set(article.id, {
+      hash: articleHash(base), article: deepClone(base)
+    }),
+    databaseEditSummary: { ...corpus.databaseEditSummary, applied: corpus.databaseEditSummary.applied + 1 }
+  });
+}
+
 export async function getCompendiumQualityCorpus() {
   const corpus = await getCorpus();
   return {
@@ -5157,7 +5195,11 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
         [id]
       );
       await client.query("COMMIT");
-      invalidateCompendiumCorpus();
+      if (base.article.dataset === "custom" && !corpus.byId.has(id) && corpusPromise) {
+        addPublishedCustomArticle(await getCorpus(), base.article, row.draft);
+      } else {
+        invalidateCompendiumCorpus();
+      }
       // The committed draft is ready to return; rebuilding the entire corpus
       // before responding made publication needlessly slow.
       const result = deepClone(row.draft);
