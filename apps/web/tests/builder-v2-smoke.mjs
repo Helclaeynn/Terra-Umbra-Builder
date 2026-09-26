@@ -484,8 +484,17 @@ const catalogDisclosure=page.locator("summary.catalog-summary").filter({hasText:
 await catalogDisclosure.waitFor({state:"visible",timeout:5000});
 await catalogDisclosure.click();
 await catalogDisclosure.locator('..').getByLabel('Famille').selectOption('Matériel');
-await catalogDisclosure.locator('..').locator('.catalog-family-disclosure > summary').filter({hasText:'Matériel'}).click();
+const kitFamilySummary=catalogDisclosure.locator('..').locator('.catalog-family-disclosure > summary').filter({hasText:'Matériel'});
+const kitFamily=kitFamilySummary.locator('..');
+if(!await kitFamily.evaluate(node=>node.open))throw new Error('Choisir une famille doit déplier ses cartes automatiquement');
 const kitWiki=page.getByRole("link",{name:/Kit Smoke/}).first();
+await kitWiki.waitFor({state:"visible",timeout:5000});
+// Filtering opens the family; an extra opening click would actually close it.
+// Still verify that the player can close and reopen the filtered family manually.
+await kitFamilySummary.click();
+if(await kitFamily.evaluate(node=>node.open))throw new Error('Une famille filtrée doit rester repliable manuellement');
+await kitWiki.waitFor({state:"hidden",timeout:5000});
+await kitFamilySummary.click();
 await kitWiki.waitFor({state:"visible",timeout:5000});
 await kitWiki.hover();
 await catalogDisclosure.locator('..').locator('.catalog-card').filter({hasText:'Kit Smoke'}).locator('.catalog-art img').waitFor({state:'visible'});
