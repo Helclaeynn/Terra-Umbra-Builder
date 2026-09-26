@@ -28,5 +28,6 @@ prefix='v3-bestiaire-v17-classification-281';chunks=[packed[i:i+6000] for i in r
 for i,c in enumerate(chunks):(d/f'{prefix}-{i:02}.b64part').write_text(c+'\n',encoding='ascii')
 manifest=json.loads((d/'manifest-v3.json').read_text(encoding='utf8'))
 s=next(s for s in manifest['datasets'] if s['id']=='bestiaire');s.update(prefix=prefix,parts=len(chunks),count=len(rows),sha256=hashlib.sha256(packed.encode()).hexdigest())
+manifest['expectedTotal']=sum(dataset['count'] for dataset in manifest['datasets'])
 (d/'manifest-v3.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
 print(f'Bestiaire V17: {len(base)} preserved + {len(added)} additions = {len(rows)} entries, {len(chunks)} parts')
