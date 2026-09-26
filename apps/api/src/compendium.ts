@@ -503,14 +503,15 @@ const COMPENDIUM_UPLOAD_DIR =
     : resolve(process.cwd(), "../../.editor-media"));
 
 let corpusPromise: Promise<Corpus> | null = null;
-export function invalidateCompendiumCorpus() { corpusPromise = null; }
+let portraitVisibilityPromise: Promise<PortraitOverride[]> | null = null;
+export function invalidateCompendiumCorpus() { corpusPromise = null; portraitVisibilityPromise = null; }
 
 type PortraitOverride = { articleId: string; src: string; visibility: "mj" | "public"; uploaded: boolean };
 async function portraitOverrides(): Promise<PortraitOverride[]> {
-  const result = await pool.query<PortraitOverride>(
+  if (!portraitVisibilityPromise) portraitVisibilityPromise = pool.query<PortraitOverride>(
     `SELECT article_id AS "articleId", src, visibility, uploaded FROM compendium_portrait_visibility`
-  );
-  return result.rows;
+  ).then((result) => result.rows).catch((cause) => { portraitVisibilityPromise = null; throw cause; });
+  return portraitVisibilityPromise;
 }
 
 const UUID_RE =
@@ -4784,11 +4785,8 @@ export async function registerCompendiumRoutes(app: FastifyInstance) {
     const filename = safeUploadFilename(String(request.params["*"] ?? ""));
     if (!filename) return bad(reply, "invalid_compendium_upload_path");
 
-    const access = await pool.query<{ visibility: string }>(
-      `SELECT visibility FROM compendium_portrait_visibility WHERE src = $1 LIMIT 1`,
-      [`/api/compendium/uploads/${filename}`]
-    );
-    const isPrivate = access.rows[0]?.visibility === "mj";
+    const isPrivate = (await portraitOverrides()).some((row) =>
+      row.src === `/api/compendium/uploads/${filename}` && row.visibility === "mj");
     if (isPrivate && !canReadMj((await currentUser(request))?.role)) return reply.code(403).send({ error: "mj_required" });
 
     try {
