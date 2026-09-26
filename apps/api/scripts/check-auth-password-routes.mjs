@@ -353,6 +353,17 @@ try {
     assert.equal(state.users.get(user.id).is_active, false);
     assert.equal(state.sessions.size, 1);
   });
+  await check("session reads stay live without repeated last-seen writes", async () => {
+    const user = addUser(currentHash);
+    const token = "session-read-throttle-fixture";
+    state.sessions.set(hashSessionToken(token), { user_id: user.id });
+    const read = () => app.inject({ method: "GET", url: "/api/auth/me", headers: { cookie: `__Host-tuc_session=${token}` } });
+    for (let i = 0; i < 5; i++) assert.equal((await read()).statusCode, 200);
+    assert.equal(trace.filter(entry => entry.sql.startsWith("UPDATE sessions SET last_seen_at")).length, 1);
+    assert.equal(trace.filter(entry => entry.sql.startsWith("SELECT u.id, u.email")).length, 5);
+    user.role = "editor";
+    assert.equal((await read()).json().user.role, "editor", "a role change must be visible on the next request");
+  });
   await check("login throttling remains enforced", async () => {
     const user = addUser(currentHash);
     for (let i = 0; i < 8; i++) assert.equal((await login(user, "wrong-password")).statusCode, 401);
