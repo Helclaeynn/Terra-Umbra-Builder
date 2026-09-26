@@ -48,15 +48,21 @@ for(const profile of COMPENDIUM_TEN_PROFILE_CALIBRATION){
     truthRanks.set(name,Number(rank));
   }
   const truthSkillTotal=[...truthRanks.values()].reduce((sum,rank)=>sum+rank,0);
-  assert.ok(truthSkillTotal>=147&&truthSkillTotal<=151,`${profile.name} sort de l'étalon commun de compétences en Vérité : ${truthSkillTotal}`);
+  assert.ok(truthSkillTotal>=165&&truthSkillTotal<=177,`${profile.name} sort de l'étalon commun de compétences en Vérité : ${truthSkillTotal}`);
   assert.ok(Number(profile.truth.ptv)>=41,`${profile.name} doit être Exceptionnelle en Vérité`);
-  assert.equal(semi,46,`${profile.name} doit conserver la même enveloppe Semi-Révélée`);
-  assert.equal(revealed,50,`${profile.name} doit conserver la même enveloppe Révélée`);
+  assert.ok(semi>=61&&semi<=66,`${profile.name} sort de l'étalon Semi-Révélé : ${semi}`);
+  assert.ok(revealed>=65&&revealed<=70,`${profile.name} sort de l'étalon Révélé : ${revealed}`);
   for(const key of Object.keys(profile.reality.attributes)){
     assert.ok(Number(profile.truth.semi[key])>=Number(profile.reality.attributes[key]),`${profile.name} perd ${key} en Semi-Révélé`);
     assert.ok(Number(profile.truth.revealed[key])>=Number(profile.truth.semi[key]),`${profile.name} perd ${key} en Révélé`);
   }
 }
+const veronica=COMPENDIUM_TEN_PROFILE_CALIBRATION.find(profile=>profile.name==='Veronica Silver');
+assert.ok(veronica,'profil de Veronica manquant');
+assert.ok(Object.values(veronica.truth.revealed).reduce((sum,value)=>sum+Number(value),0)>=68,'Veronica ne doit plus être sous-calibrée');
+const dina=COMPENDIUM_TEN_PROFILE_CALIBRATION.find(profile=>profile.name==='Dina Page');
+assert.ok(dina,'profil de Dina manquant');
+assert.ok(Object.values(dina.truth.revealed).reduce((sum,value)=>sum+Number(value),0)>=64,'Dina ne doit jamais être abaissée sous sa Vérité antérieure');
 const taggedTen=[
   ...COMPENDIUM_TEN_BACKGROUND_ENRICHMENTS.map(entry=>entry.tags??[]),
   COMPENDIUM_TEN_SVETLANA_ARTICLE.tags??[]
