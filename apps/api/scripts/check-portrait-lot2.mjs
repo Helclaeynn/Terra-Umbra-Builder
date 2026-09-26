@@ -34,10 +34,18 @@ for (const item of items) {
   const article = byId.get(item.id);
   const images = [article.image?.src, article.illustration?.src, article.pnj?.portrait,
     ...(article.gallery ?? []).map(media => media.src)];
-  assert.ok(images.includes(item.src), `Portrait not attached: ${item.id}`);
+  if (article.image?.src?.startsWith('images/portraits/lot-3/')) {
+    assert.ok(!images.includes(item.src), `Superseded lot 2 portrait still visible: ${item.id}`);
+  } else {
+    assert.ok(images.includes(item.src), `Portrait not attached: ${item.id}`);
+  }
   const original = manifest.lot1.items.find(entry => entry.id === item.id);
   if (original && article.image?.src === original.src) {
     assert.fail(`Older portrait still selected as main image: ${item.id}`);
+  }
+  if (original && article.image?.src?.startsWith('images/portraits/lot-2/')) {
+    assert.ok(!(article.gallery ?? []).some(media => media.src === original.src),
+      `Superseded lot 1 portrait still in gallery: ${item.id}`);
   }
   if (item.id === 'personnages-verite-angelus-shihoko-baisho') {
     assert.equal(article.image?.src, item.src, 'Shihoko must show the new portrait');

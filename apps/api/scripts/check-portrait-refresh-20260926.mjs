@@ -29,6 +29,8 @@ for(const item of manifest.items){
  assert.equal(a.image?.src,item.src,item.id);
  assert.equal(a.pnj?.portrait,item.src,item.id);
  if(a.illustration)assert.equal(a.illustration.src,item.src,item.id);
+ assert.ok(!(a.gallery??[]).some(media=>/^images\/portraits\/lot-[123]\//.test(media.src)),
+   'Superseded portrait still visible in gallery: '+item.id);
  const bytes=await readFile(resolve(root,'compendium',item.src));
  assert.equal(bytes.subarray(0,4).toString(),'RIFF');assert.equal(bytes.subarray(8,12).toString(),'WEBP');
  if(item.visibility==='mj')assert.ok(!publicText.includes(item.src),'MJ image leaked: '+item.id);

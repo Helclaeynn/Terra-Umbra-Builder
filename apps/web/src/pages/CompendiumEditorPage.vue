@@ -15,10 +15,13 @@ import TerraUmbraBrand from "../components/TerraUmbraBrand.vue";
 
 type MediaRef = { src: string; alt?: string; caption?: string };
 type ArticleBlock = {
-  type: "p" | "table";
+  type: "p" | "table" | "image";
   text?: string;
   style?: string;
   rows?: string[][];
+  src?: string;
+  alt?: string;
+  caption?: string;
 };
 type ArticleSection = {
   id?: string;
@@ -85,6 +88,12 @@ const mediaAlt = ref("");
 const mediaCaption = ref("");
 const mediaUploading = ref(false);
 const portraitUploading = ref(false);
+const inlineUploading = ref(false);
+const imageInsertOpen = ref(false);
+const inlineImageSrc = ref("");
+const inlineImageAlt = ref("");
+const inlineImageCaption = ref("");
+const inlineInsertAt = ref<number | null>(null);
 const pnjForm = ref({
   age: "",
   origine: "",
@@ -270,6 +279,10 @@ function sectionsToWiki(sections: ArticleSection[] = []): string {
       out.push(mark + " " + section.title + " " + mark, "");
     }
     for (const block of section.blocks ?? []) {
+      if (block.type === "image" && block.src) {
+        out.push(`{{Image|${block.src}|${block.alt ?? ""}|${block.caption ?? ""}}}`, "");
+        continue;
+      }
       if (block.type === "table") {
         out.push('{| class="wikitable"');
         for (const row of block.rows ?? []) out.push("|-", "| " + row.join(" || "));
@@ -335,6 +348,12 @@ function wikiToSections(source: string): ArticleSection[] {
       pendingStyle = "callout";
       continue;
     }
+    const image = trim.match(/^\{\{Image\|([^|}]+)\|([^|}]*)\|([^|}]*)\}\}$/);
+    if (image) {
+      flush();
+      current.blocks.push({ type: "image", src: image[1].trim(), alt: image[2].trim(), caption: image[3].trim() });
+      continue;
+    }
 
     const heading = trim.match(/^(={2,4})\s*(.+?)\s*\1$/);
     if (heading) {
@@ -395,6 +414,31 @@ function wikiToSections(source: string): ArticleSection[] {
 }
 
 const previewSections = computed(() => wikiToSections(wikiText.value));
+
+function openImageInsert() {
+  inlineInsertAt.value = sourceArea.value?.selectionStart ?? wikiText.value.length;
+  imageInsertOpen.value = !imageInsertOpen.value;
+}
+
+async function insertInlineImage() {
+  const src = inlineImageSrc.value.trim();
+  if (!/^(?:images\/|assets\/|\/api\/compendium\/uploads\/)[^|{}\s]+$/.test(src)) {
+    error.value = "Choisis une image du Compendium ou envoie un fichier.";
+    return;
+  }
+  const alt = inlineImageAlt.value.trim().replace(/[|{}]/g, "");
+  const caption = inlineImageCaption.value.trim().replace(/[|{}]/g, "");
+  const at = Math.min(inlineInsertAt.value ?? wikiText.value.length, wikiText.value.length);
+  const markup = `\n\n{{Image|${src}|${alt}|${caption}}}\n\n`;
+  wikiText.value = wikiText.value.slice(0, at) + markup + wikiText.value.slice(at);
+  imageInsertOpen.value = false;
+  inlineImageSrc.value = "";
+  inlineImageAlt.value = "";
+  inlineImageCaption.value = "";
+  await nextTick();
+  sourceArea.value?.focus();
+  sourceArea.value?.setSelectionRange(at + markup.length, at + markup.length);
+}
 
 async function insertMarkup(before: string, after = "", placeholder = "Texte") {
   const element = sourceArea.value;
@@ -595,7 +639,7 @@ function fileAsBase64(file: File): Promise<string> {
   });
 }
 
-async function uploadLocalImage(event: Event, slot: "page" | "portrait") {
+async function uploadLocalImage(event: Event, slot: "page" | "portrait" | "inline") {
   const input = event.target;
   if (!(input instanceof HTMLInputElement)) return;
   const file = input.files?.[0];
@@ -622,6 +666,7 @@ async function uploadLocalImage(event: Event, slot: "page" | "portrait") {
   }
 
   if (slot === "portrait") portraitUploading.value = true;
+  else if (slot === "inline") inlineUploading.value = true;
   else mediaUploading.value = true;
 
   try {
@@ -636,7 +681,10 @@ async function uploadLocalImage(event: Event, slot: "page" | "portrait") {
       }
     );
 
-    if (slot === "portrait") {
+    if (slot === "inline") {
+      inlineImageSrc.value = payload.src;
+      if (!inlineImageAlt.value.trim()) inlineImageAlt.value = file.name.replace(/\.[^.]+$/, "");
+    } else if (slot === "portrait") {
       pnjForm.value.portrait = payload.src;
       if (!pnjForm.value.portraitAlt.trim()) {
         pnjForm.value.portraitAlt = article.value?.title ?? "";
@@ -647,13 +695,14 @@ async function uploadLocalImage(event: Event, slot: "page" | "portrait") {
     }
 
     notice.value =
-      slot === "portrait"
+      slot === "inline" ? "Image envoyée. Ajoute sa légende puis insère-la dans le texte." : slot === "portrait"
         ? "Portrait envoyé. Enregistre ou publie la page pour conserver la référence."
         : "Image envoyée. Enregistre ou publie la page pour conserver la référence.";
   } catch (cause) {
     error.value = humanError(cause);
   } finally {
     if (slot === "portrait") portraitUploading.value = false;
+    else if (slot === "inline") inlineUploading.value = false;
     else mediaUploading.value = false;
     input.value = "";
   }
@@ -1368,9 +1417,19 @@ onMounted(load);
                 <button type="button" title="Italique" aria-label="Italique" @click="insertItalic"><em>I</em></button>
                 <button type="button" title="Liste" @click="insertBullet">• Liste</button>
                 <button type="button" title="Tableau" @click="insertTable">▦ Tableau</button>
+                <button type="button" title="Insérer une illustration dans le texte" :class="{ active: imageInsertOpen }" @click="openImageInsert">Illustration</button>
                 <button type="button" title="Section MJ" @click="insertMjSection">MJ</button>
                 <button type="button" title="Encadré lore" @click="insertLore">Lore</button>
                 <button type="button" title="Bloc dynamique de Talents" :class="{ active: talentInsertOpen }" @click="toggleTalentInsert">Talents</button>
+              </div>
+              <div v-if="imageInsertOpen" class="inline-image-panel">
+                <label>Envoyer une image (JPEG, PNG, WebP ou GIF, 15 Mo maximum)
+                  <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" :disabled="inlineUploading" @change="uploadLocalImage($event, 'inline')" />
+                </label>
+                <label>Image du Compendium<input v-model="inlineImageSrc" placeholder="images/manual/mon-image.webp" /></label>
+                <label>Texte alternatif<input v-model="inlineImageAlt" placeholder="Description de l’illustration" /></label>
+                <label>Légende (facultative)<input v-model="inlineImageCaption" placeholder="Légende affichée sous l’image" /></label>
+                <button type="button" class="secondary compact" :disabled="inlineUploading || !inlineImageSrc.trim()" @click="insertInlineImage">Insérer à la position du curseur</button>
               </div>
               <div v-if="talentInsertOpen" class="talent-insert-panel">
                 <div>
@@ -1432,6 +1491,7 @@ Encore du texte.
                 <span><code>* élément</code> liste</span>
                 <span><code>'''gras'''</code> et <code>''italique''</code></span>
                 <span><code v-pre>{{Talents|…}}</code> cartes alimentées par le registre central.</span>
+                <span><code v-pre>{{Image|chemin|description|légende}}</code> illustration dans le texte.</span>
                 <span>Les liens vers les autres pages sont détectés automatiquement.</span>
               </div>
             </div>
@@ -1460,7 +1520,11 @@ Encore du texte.
                   <small>{{ talentDirectiveInfo(block.text)?.detail }}</small>
                 </div>
                 <p v-else-if="block.type === 'p'" :class="block.style" v-html="previewInline(block.text)"></p>
-                <table v-else>
+                <figure v-else-if="block.type === 'image' && block.src" class="preview-figure">
+                  <img :src="mediaUrl(block.src)" :alt="block.alt || ''" />
+                  <figcaption v-if="block.caption">{{ block.caption }}</figcaption>
+                </figure>
+                <table v-else-if="block.type === 'table'">
                   <tbody>
                     <tr v-for="(row, rowIndex) in block.rows || []" :key="rowIndex">
                       <td v-for="(cell, cellIndex) in row" :key="cellIndex">{{ cell }}</td>
@@ -1537,6 +1601,9 @@ Encore du texte.
 .editor-upload-field{padding:.75rem;border:1px dashed rgba(78,177,200,.24);background:rgba(43,146,255,.035)}
 .editor-upload-field input[type="file"]{margin-top:.45rem;padding:.5rem;background:rgba(0,0,0,.16);cursor:pointer}
 .editor-upload-field small{display:block;margin-top:.35rem;color:#66838e;font-size:.68rem}
+.inline-image-panel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem;padding:1rem;border-bottom:1px solid rgba(255,255,255,.08)}
+.inline-image-panel label{display:grid;gap:.35rem;color:#a6bac2;font-size:.8rem}.inline-image-panel input{min-width:0;padding:.5rem;background:#08121d;color:#e0edf0;border:1px solid #355065;border-radius:4px}.inline-image-panel button{justify-self:start}
+@media(max-width:700px){.inline-image-panel{grid-template-columns:1fr}}
 .editor-sections-head { margin-top:.3rem; }
 .editor-section-card { display:grid; gap:.8rem; }
 .editor-section-card > header { display:grid; grid-template-columns:minmax(0,1fr) 80px 100px auto; gap:.5rem; }
