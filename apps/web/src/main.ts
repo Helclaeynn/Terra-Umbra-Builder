@@ -41,6 +41,6 @@ router.afterEach(()=>{
 
 createApp({
   render:()=>h(RouterView,null,{
-    default:({Component,route}:any)=>h(Component,{key:route.path})
+    default:({Component,route}:any)=>h(Component,{key:route.path === '/' || route.path === '/compendium' ? '/compendium' : route.path})
   })
 }).use(router).mount("#app");
