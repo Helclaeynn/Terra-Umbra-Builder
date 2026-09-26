@@ -664,7 +664,7 @@ function sellCampaignItem(){
       </label>
       <p class="catalog-sort-hint">Par famille, puis coût croissant et nom.</p>
       <p v-if="!truthCandidates.length" class="rule-note">{{ !truthFamily&&!truthSearch?'Choisis une catégorie pour voir les Talents, ou cherche un Talent.':'Aucun Talent ne correspond aux choix actuels ou à la recherche.' }}</p>
-      <div class="talent-list">
+      <div class="talent-list truth-talent-list">
         <article v-for="talent in truthCandidates" :key="talent.id" :class="{locked:!truthCanBuy(talent)}">
           <details class="talent-disclosure"><summary class="card-head">
             <div class="progress-card-title">
@@ -897,7 +897,6 @@ label{font-size:14px;line-height:1.5}
 .talent-disclosure>p,.talent-disclosure>small,.talent-disclosure>.talent-lore{display:block;margin:12px 16px;line-height:1.6}
 .talent-disclosure>button{margin:0 16px 16px;min-height:44px}
 .talent-disclosure .progress-card-title{flex:1;display:grid;gap:4px}
-.talent-disclosure .card-head :deep(.catalog-art){width:100px;min-width:100px;height:72px}
 .reality-talent-family{margin-top:16px;border:1px solid #344b63;border-radius:8px;padding:0 14px 14px;background:#0c192a}
 .reality-family-summary{display:flex;align-items:center;gap:16px;min-height:64px;cursor:pointer;list-style:none;user-select:none}
 .reality-family-summary::-webkit-details-marker{display:none}

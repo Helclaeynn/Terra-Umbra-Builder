@@ -20,11 +20,15 @@ const rolls=computed(()=>[
 const skillGroups=computed(()=>props.sheet.attributes.map(attribute=>({
   ...attribute, skills:props.sheet.skills.filter(skill=>skill.attribute===attribute.id)
 })));
-const lists=computed<Array<{id:string;title:string;items:SheetEntry[]}>>(()=>[
+const talentLists=computed<Array<{id:string;title:string;items:SheetEntry[]}>>(()=>[
   {id:"reality",title:"Talents de Réalité",items:sortedNames(props.sheet.realityTalents)},
   {id:"truth",title:"Talents de Vérité et Fléaux",items:sortedNames(props.sheet.truthTalents)},
-  {id:"disadvantages",title:"Désavantages",items:props.sheet.disadvantages},
-  {id:"inventory",title:"Équipement et augmentations",items:props.sheet.inventory}
+  {id:"disadvantages",title:"Désavantages",items:props.sheet.disadvantages}
+]);
+const possessionLists=computed<Array<{id:string;title:string;items:SheetEntry[]}>>(()=>[
+  {id:"equipment",title:"Équipement possédé",items:props.sheet.inventory.filter(item=>!item.group?.startsWith("Augmentation")&&!item.group?.startsWith("Objet de Vérité"))},
+  {id:"augmentations",title:"Augmentations installées",items:props.sheet.inventory.filter(item=>item.group?.startsWith("Augmentation"))},
+  {id:"truth-equipment",title:"Objets de Vérité",items:props.sheet.inventory.filter(item=>item.group?.startsWith("Objet de Vérité"))}
 ]);
 const biography=computed(()=>[
   ["Âge",props.sheet.identity.age],["Sexe",props.sheet.identity.sex],
@@ -48,6 +52,7 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
       </div>
     </header>
     <p class="sheet-context">{{ sheet.mode==='campaign' ? 'Valeurs actuelles, avec les gains de progression.' : 'Valeurs de création, avant les gains de progression.' }} Bonus permanents inclus ; effets temporaires et de Révélation à appliquer selon leurs conditions.</p>
+    <dl v-if="biography.length" class="sheet-biography sheet-biography-top"><div v-for="[label,value] in biography" :key="label"><dt>{{ label }}</dt><dd>{{ value }}</dd></div></dl>
 
     <section aria-label="Valeurs essentielles" class="sheet-metrics">
       <div v-for="metric in metrics" :key="metric.id" :data-stat="metric.id">
@@ -114,25 +119,37 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
       </div>
     </section>
 
-    <details v-for="list in lists" :id="`sheet-${list.id}`" :key="list.id" class="sheet-details" :data-list="list.id">
+    <div class="sheet-section-label"><p class="sheet-eyebrow">TALENTS & DÉSAVANTAGES</p><h3>Capacités du personnage</h3></div>
+    <details v-for="list in talentLists" :id="`sheet-${list.id}`" :key="list.id" class="sheet-details" :data-list="list.id">
       <summary>{{ list.title }} <span>{{ list.items.length }}</span></summary>
       <p v-if="!list.items.length" class="sheet-hint">Aucun élément enregistré.</p>
       <ul v-else class="sheet-entries">
         <li v-for="item in list.items" :key="item.id">
-          <div><BuilderWikiLink v-if="item.compendiumId && list.id!=='reality' && list.id!=='truth'" :label="item.name" :article-id="item.compendiumId" compact>{{ item.name }}</BuilderWikiLink><strong v-else>{{ item.name }}</strong><small v-if="item.group">{{ item.group }}</small></div>
+          <div><strong>{{ item.name }}</strong><small v-if="item.group">{{ item.group }}</small></div>
           <p v-if="item.lore" class="sheet-entry-lore">{{ item.lore }}</p><p v-if="item.detail">{{ item.detail }}</p>
         </li>
       </ul>
     </details>
 
-    <details class="sheet-details" :open="Boolean(sheet.identity.concept)">
-      <summary>Identité et repères personnels</summary>
-      <dl class="sheet-biography"><div v-for="[label,value] in biography" :key="label"><dt>{{ label }}</dt><dd>{{ value }}</dd></div></dl>
-      <section v-if="sheet.identity.concept"><h3>Concept</h3><p class="sheet-prose">{{ sheet.identity.concept }}</p></section>
-      <section v-if="sheet.identity.objective"><h3>Objectif</h3><p class="sheet-prose">{{ sheet.identity.objective }}</p></section>
+    <div class="sheet-section-label"><p class="sheet-eyebrow">POSSESSIONS</p><h3>Inventaire du personnage</h3></div>
+    <details v-for="list in possessionLists" :id="`sheet-${list.id}`" :key="list.id" class="sheet-details" :data-list="list.id" open>
+      <summary>{{ list.title }} <span>{{ list.items.length }}</span></summary>
+      <p v-if="!list.items.length" class="sheet-hint">Aucun élément enregistré.</p>
+      <ul v-else class="sheet-entries">
+        <li v-for="item in list.items" :key="item.id">
+          <div><BuilderWikiLink v-if="item.compendiumId" :label="item.name" :article-id="item.compendiumId" compact>{{ item.name }}</BuilderWikiLink><strong v-else>{{ item.name }}</strong><small v-if="item.group">{{ item.group }}</small></div>
+          <p v-if="item.lore" class="sheet-entry-lore">{{ item.lore }}</p><p v-if="item.detail">{{ item.detail }}</p>
+        </li>
+      </ul>
+    </details>
+
+    <details class="sheet-details sheet-social" open>
+      <summary>Social & repères personnels</summary>
       <section><h3>Langues</h3><p>{{ sheet.languages.join(' · ') || 'À renseigner dans Finalisation' }}</p></section>
       <section v-if="sheet.contacts.length"><h3>Contacts</h3><ul class="sheet-contacts"><li v-for="contact in sheet.contacts" :key="contact.id"><BuilderWikiLink v-if="contact.articleId" :label="contact.name" :article-id="contact.articleId" :detail="contact.detail || ''" :badges="contact.group ? [contact.group] : []" compact>{{ contact.name }}</BuilderWikiLink><strong v-else>{{ contact.name }}</strong><small v-if="contact.group || contact.detail">{{ [contact.group,contact.detail].filter(Boolean).join(' · ') }}</small></li></ul></section>
       <section v-if="sheet.reputation"><h3>Réputation</h3><p class="sheet-prose">{{ sheet.reputation }}</p></section>
+      <section v-if="sheet.identity.concept"><h3>Concept</h3><p class="sheet-prose">{{ sheet.identity.concept }}</p></section>
+      <section v-if="sheet.identity.objective"><h3>Objectif</h3><p class="sheet-prose">{{ sheet.identity.objective }}</p></section>
       <section v-if="sheet.identity.notes"><h3>Notes</h3><p class="sheet-prose">{{ sheet.identity.notes }}</p></section>
     </details>
   </section>
@@ -166,7 +183,7 @@ const money=(value:number)=>`${value.toLocaleString("fr-FR")} $`;
 .sheet-truth{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;border-left:3px solid #a38cdb;padding:18px 20px;background:#171d32}.sheet-truth h3{margin:6px 0}.sheet-truth p{color:#bfbedb}
 .sheet-truth-stages{flex-basis:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.sheet-truth-stage{padding:12px;border:1px solid #655588;border-radius:6px;background:#201c36}.sheet-truth-stage h4{margin:0 0 8px;color:#e6d8ff;font-size:15px}.sheet-truth-stage>strong{display:block;color:#f0eaff}.sheet-truth-stages p{margin:10px 0}.sheet-truth-stages ul{padding-left:18px}.sheet-truth-stages li{margin-top:8px;color:#d5c9e9}.sheet-contacts{display:grid;gap:.55rem;padding-left:1.2rem}.sheet-contacts li>small{display:block;color:#9bb4ca;font-size:12px}@media(max-width:760px){.sheet-truth-stages{grid-template-columns:1fr}}
 .sheet-entries{margin:0;padding:0;list-style:none}.sheet-entries li+li{border-top:1px solid #283f53;margin-top:16px;padding-top:16px}.sheet-entries small{display:block;color:#9bb4ca;font-size:12px}.sheet-entries p{margin:8px 0 0;color:#b8cada;white-space:pre-line;font-size:14px}.sheet-prose{white-space:pre-wrap;overflow-wrap:anywhere}
-.sheet-biography{display:flex;flex-wrap:wrap;gap:12px 24px;margin-bottom:20px!important}
+.sheet-biography{display:flex;flex-wrap:wrap;gap:12px 24px;margin-bottom:20px!important}.sheet-biography-top{margin:0!important;padding:12px 0 4px;border-bottom:1px solid #243b4e}.sheet-biography-top>div{min-width:120px;flex:1}.sheet-section-label{display:grid;gap:4px;margin-top:6px;padding-top:8px;border-top:1px solid #243b4e}.sheet-section-label h3{color:#edf4ff}.sheet-social{margin-top:4px}
 .character-sheet :is(summary,a):focus-visible{outline:2px solid #9ce5f4;outline-offset:4px}
 @media(max-width:650px){.character-sheet{gap:20px}.sheet-header{gap:16px;align-items:flex-start}.sheet-portrait{width:72px;height:92px}.sheet-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.sheet-metrics>div{padding:12px}.sheet-attributes{grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}.sheet-skill-groups,.sheet-resources dl{grid-template-columns:1fr}.sheet-details{padding:0 14px}.sheet-identity h2{font-size:25px}.sheet-eyebrow{font-size:10px}.character-sheet dl>div{gap:12px}}
 
