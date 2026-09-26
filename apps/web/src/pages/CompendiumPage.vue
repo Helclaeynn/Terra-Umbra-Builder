@@ -485,6 +485,7 @@ const canSearchTruthTags = computed(() =>
   currentUser.value?.role === "gm" || currentUser.value?.role === "admin"
 );
 const canReadMjSections = computed(() => ["gm", "editor", "admin"].includes(currentUser.value?.role || ""));
+const portraitSettingsOpen = ref(false);
 async function refreshSelectedPortraits() {
   const id = selected.value?.id;
   if (!id) return;
@@ -2474,9 +2475,9 @@ onBeforeUnmount(() => {
                 </div>
 
                 <aside class="wiki-infobox">
-                  <details v-if="currentUser?.role === 'admin' && selected.category === 'Personnages'" class="portrait-settings">
+                  <details v-if="currentUser?.role === 'admin' && selected.category === 'Personnages'" class="portrait-settings" @toggle="portraitSettingsOpen = ($event.target as HTMLDetailsElement).open">
                     <summary>Régler les portraits · MJ only / All</summary>
-                    <PortraitAdmin :article-id="selected.id" @change="() => { void refreshSelectedPortraits() }" />
+                    <PortraitAdmin v-if="portraitSettingsOpen" :article-id="selected.id" @change="() => { void refreshSelectedPortraits() }" />
                   </details>
                   <figure v-if="selectedMedia" class="wiki-media">
                     <img

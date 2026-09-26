@@ -68,6 +68,12 @@ const subgroup = ref("");
 const portraitLot = ref("");
 const portraitStatus = ref("");
 const mjPortraitsOnly = ref(false);
+const openedPortraits = ref<string[]>([]);
+function togglePortraits(id: string, event: Event) {
+  openedPortraits.value = (event.target as HTMLDetailsElement).open
+    ? [...new Set([...openedPortraits.value, id])]
+    : openedPortraits.value.filter((current) => current !== id);
+}
 const page = ref(1);
 const pageSize = 50;
 const review = ref("");
@@ -455,7 +461,7 @@ onMounted(load);
                   <td class="action-cell" data-label="Actions">
                     <a :href="'/compendium?article=' + encodeURIComponent(item.id)" target="_blank" rel="noopener" :aria-label="`Voir ${item.title} (nouvel onglet)`">Voir ↗</a>
                     <a :href="'/compendium/edit/' + encodeURIComponent(item.id)" target="_blank" rel="noopener" :aria-label="`Éditer ${item.title} (nouvel onglet)`">Éditer ↗</a>
-                    <details v-if="item.category === 'Personnages'" class="portrait-details"><summary>Portraits · MJ only / All</summary><PortraitAdmin :article-id="item.id" @change="(portraits) => item.portraits = portraits" /></details>
+                    <details v-if="item.category === 'Personnages'" class="portrait-details" @toggle="togglePortraits(item.id, $event)"><summary>Portraits · MJ only / All</summary><PortraitAdmin v-if="openedPortraits.includes(item.id)" :article-id="item.id" @change="(portraits) => item.portraits = portraits" /></details>
                     <button type="button" :disabled="Boolean(busyId)" @click="setReview(item, 'approved')">Valider</button>
                     <button type="button" class="warn" :disabled="Boolean(busyId)" @click="setReview(item, 'rework')">À revoir</button>
                     <button v-if="item.reviewStatus !== 'pending'" type="button" class="ghost-action" :disabled="Boolean(busyId)" @click="setReview(item, 'pending')">Repasser en recette</button>
