@@ -8,6 +8,7 @@ import {REVIEWED_TRUTH_BATCH_003_IDS} from '../dist/compendium-pnj-truth-batch-0
 import {REVIEWED_TRUTH_BATCH_004_IDS} from '../dist/compendium-pnj-truth-batch-004.js';
 import {REVIEWED_TRUTH_BATCH_005_IDS} from '../dist/compendium-pnj-truth-batch-005.js';
 import {REVIEWED_TRUTH_BATCH_006_IDS} from '../dist/compendium-pnj-truth-batch-006.js';
+import {REVIEWED_TRUTH_BATCH_007_IDS} from '../dist/compendium-pnj-truth-batch-007.js';
 import {STANDALONE_TRUTH_SECONDARY_IDS} from '../dist/compendium-pnj-truth-standalone.js';
 import {terraUmbraCreationRules} from '../dist/rules/terra-umbra-creation.js';
 pg.Pool.prototype.query = async () => ({rows:[],rowCount:0});
@@ -16,20 +17,33 @@ const byId=new Map(corpus.articles.map(person=>[person.id,person]));
 const publicById=new Map(corpus.publicArticles.map(person=>[person.id,person]));
 assert.deepEqual(NPC_TRUTH_TIERS.map(t=>t.minPtv),[0,6,13,25,41]);
 assert.equal(corpus.articles.filter(article=>article.category==='Personnages'&&article.pnj?.completeness!=='portrait_only').length,918);
-assert.equal(new Set(INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS).size,611);
+assert.equal(new Set(INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS).size,654);
 assert.equal(REVIEWED_TRUTH_BATCH_001_IDS.length,98);
 assert.equal(REVIEWED_TRUTH_BATCH_002_IDS.length,100);
 assert.equal(REVIEWED_TRUTH_BATCH_003_IDS.length,100);
 assert.equal(REVIEWED_TRUTH_BATCH_004_IDS.length,100);
 assert.equal(REVIEWED_TRUTH_BATCH_005_IDS.length,100);
 assert.equal(REVIEWED_TRUTH_BATCH_006_IDS.length,105);
+assert.equal(REVIEWED_TRUTH_BATCH_007_IDS.length,43);
+for(const id of REVIEWED_TRUTH_BATCH_007_IDS){
+  const article=byId.get(id);
+  const reality=article?.sections.find(section=>section.id==='profil-statistique');
+  const truth=article?.sections.find(section=>section.id===`profil-verite-${id}`);
+  const realityAttrs=reality?.blocks.find(block=>block.type==='table'&&block.rows[0]?.[0]==='Attribut')?.rows[1].slice(1).map(Number);
+  const revealedAttrs=truth?.blocks.find(block=>block.type==='table'&&block.rows[0]?.[0]==='Attribut révélé')?.rows[1].slice(1).map(Number);
+  const ranks=truth?.blocks.find(block=>block.type==='table'&&block.rows[0]?.[0]==='Compétence de Vérité saillante')?.rows.slice(1);
+  assert.ok(realityAttrs&&revealedAttrs&&ranks,id);
+  assert.ok(revealedAttrs.every((value,index)=>value>=realityAttrs[index]),id);
+  assert.ok(ranks.every(([name,rank])=>terraUmbraCreationRules.skills.some(skill=>skill.name===name)&&Number.isInteger(Number(rank))),id);
+  assert.ok(truth.blocks.some(block=>block.type==='p'&&block.text.includes('estimation MJ')&&block.text.length>180),id);
+}
 const dina=byId.get('pnj-gouvernement-dina-page');
 const dinaTruth=dina?.sections?.find(section=>section.id==='profil-verite-pnj-gouvernement-dina-page');
 assert.equal(dinaTruth?.audience,'mj');
 assert.equal(dinaTruth?.blocks?.find(block=>block.type==='table'&&block.rows[0]?.[0]==='Attribut révélé')?.rows[1].slice(1).join('/'),'10/10/15/16/13');
 assert.ok(!publicById.get(dina.id)?.sections.some(section=>section.id===dinaTruth.id));
 for(const id of INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS)assert.ok(byId.has(id),id);
-for(const id of [...REVIEWED_TRUTH_BATCH_001_IDS,...REVIEWED_TRUTH_BATCH_002_IDS,...REVIEWED_TRUTH_BATCH_003_IDS,...REVIEWED_TRUTH_BATCH_004_IDS,...REVIEWED_TRUTH_BATCH_005_IDS,...REVIEWED_TRUTH_BATCH_006_IDS]){
+for(const id of [...REVIEWED_TRUTH_BATCH_001_IDS,...REVIEWED_TRUTH_BATCH_002_IDS,...REVIEWED_TRUTH_BATCH_003_IDS,...REVIEWED_TRUTH_BATCH_004_IDS,...REVIEWED_TRUTH_BATCH_005_IDS,...REVIEWED_TRUTH_BATCH_006_IDS,...REVIEWED_TRUTH_BATCH_007_IDS]){
   const person=byId.get(id),publicPerson=publicById.get(id);
   const section=person.sections.find(section=>section.id==='profil-statistique');
   assert.equal(section.audience,'mj',id);
@@ -44,7 +58,8 @@ for(const id of [...REVIEWED_TRUTH_BATCH_001_IDS,...REVIEWED_TRUTH_BATCH_002_IDS
   assert.ok(skills.rows.length>=4,id);
   assert.equal(truthSection.audience,'mj',id);
   if(section.blocks.some(block=>block.type==='table'&&block.rows[0]?.[0]==='Attribut'))
-    assert.ok(truthSection.blocks.some(block=>block.type==='table'&&block.rows[0]?.[0]==='Valeur dérivée'),id);
+    assert.ok(truthSection.blocks.some(block=>(block.type==='table'&&block.rows[0]?.[0]==='Valeur dérivée')
+      ||(block.type==='p'&&block.text.startsWith('Corps ou manifestation variable'))),id);
   assert.ok(!publicPerson?.sections?.some(section=>section.id==='profil-statistique'),id);
   assert.ok(!publicPerson?.sections?.some(section=>section.id===`profil-verite-${id}`),id);
 }

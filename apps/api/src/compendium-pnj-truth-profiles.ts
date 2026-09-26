@@ -5,6 +5,7 @@ import {applyPnjTruthBatch003, REVIEWED_TRUTH_BATCH_003_IDS} from './compendium-
 import {applyPnjTruthBatch004, REVIEWED_TRUTH_BATCH_004_IDS} from './compendium-pnj-truth-batch-004.js';
 import {applyPnjTruthBatch005, REVIEWED_TRUTH_BATCH_005_IDS} from './compendium-pnj-truth-batch-005.js';
 import {applyPnjTruthBatch006, REVIEWED_TRUTH_BATCH_006_IDS} from './compendium-pnj-truth-batch-006.js';
+import {applyPnjTruthBatch007, REVIEWED_TRUTH_BATCH_007_IDS} from './compendium-pnj-truth-batch-007.js';
 import {NPC_TRUTH_GENERIC_TALENTS,npcTruthTalentPack} from './npc-truth-generic-talents.js';
 type Article = {id:string;sections?:Array<{id?:string;title?:string;level?:number;audience?:string;blocks?:Block[]}>;[key:string]:any};
 const p=(text:string):Block=>({type:'p',text});
@@ -23,7 +24,8 @@ export const INDIVIDUALLY_REVIEWED_TRUTH_PNJ_IDS = [
   ...REVIEWED_TRUTH_BATCH_003_IDS,
   ...REVIEWED_TRUTH_BATCH_004_IDS,
   ...REVIEWED_TRUTH_BATCH_005_IDS,
-  ...REVIEWED_TRUTH_BATCH_006_IDS
+  ...REVIEWED_TRUTH_BATCH_006_IDS,
+  ...REVIEWED_TRUTH_BATCH_007_IDS
 ] as const;
 
 // Editorial, source-anchored Truth profiles are separate from Reality. NPC
@@ -198,6 +200,7 @@ export function applyCompendiumPnjTruthProfiles(byId:Map<string,Article>):void {
   applyPnjTruthBatch004(byId);
   applyPnjTruthBatch005(byId);
   applyPnjTruthBatch006(byId);
+  applyPnjTruthBatch007(byId);
   const karina=byId.get('personnages-verite-humains-galactiques-karina-kelack');
   const karinaTruth=karina?.sections?.find(section=>section.id==='profil-verite-personnages-verite-humains-galactiques-karina-kelack');
   if(!karinaTruth||karinaTruth.audience!=='mj')throw new Error('Profil Vérité : Karina Kelack introuvable');

@@ -132,7 +132,17 @@ export function applyPnjTruthDecisions(byId:Map<string,Article>, decisions:reado
       {type:'table',rows:[['Compétence de Vérité saillante','Rang proposé'],...allSkills.map(([name,rank])=>[name,String(rank)]),...(secondary?[['Autres compétences canoniques (14)','0']]:[])]},
       {type:'p',text:`${limit} ${hasRealityNumbers?'Les autres compétences conservent leurs rangs chiffrés de Réalité pour cet état, sauf différence établie sur cette fiche.':'Les compétences non spécialisées sont à 0 dans cette estimation de scène ; le dossier de Réalité ne fournit aucun rang civil.'} Les talents de Vérité achetés par ce PNJ et leur dépense PTV figurent dans le tableau de sa fiche. Les valeurs révélées sont déjà finales pour cet état : ne pas y ajouter une seconde fois les bonus de Nature.`}
     ];
-    if(hasRealityNumbers){
+    const variableRevelation=new Set([
+      'pnj-police-catalina-de-la-caza',
+      'pnj-agences-makana-keahi',
+      'pnj-corporations-siobhain-nic-siridean',
+      'pnj-corporations-wei-shi',
+      'pnj-truth-alexander-shorolth',
+      'pnj-truth-kerys',
+      'pnj-truth-kevin-eckker',
+      'pnj-truth-morgan-nic-brandubh'
+    ]).has(id);
+    if(hasRealityNumbers&&!variableRevelation){
       const civilSkills=reality.blocks?.find(block=>block.type==='table'&&/^(Compétence|Compétences)$/.test(block.rows[0]?.[0]??''));
       if(!civilSkills||civilSkills.type!=='table')throw new Error(`Compétences de Réalité non exploitables : ${id}`);
       const rank=(name:string):number=>{
@@ -148,6 +158,9 @@ export function applyPnjTruthDecisions(byId:Map<string,Article>, decisions:reado
         ['Défense physique passive / active',`${agi+esq} / ${agi+esq} + 1d10e`],
         ['Défense occulte passive / active',`${vol+fm} / ${vol+fm} + 1d10e`],
         ['Initiative / déplacement',`${agi+ath} + 1d10e / ${5+ath} m par PA`]]});
+    }
+    if(hasRealityNumbers&&variableRevelation){
+      blocks.push({type:'p',text:'Corps ou manifestation variable : PV, défenses et déplacement se calculent avec la forme effectivement présente dans la scène. Les valeurs proposées ci-dessus sont des repères MJ de puissance, sans attribuer une forme permanente.'});
     }
     if(secondary){
       const rank=(name:string)=>allSkills.find(([skill])=>skill===name)?.[1]??0;
